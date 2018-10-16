@@ -41,12 +41,12 @@ void IfcRepresentationMap::readStepArguments( const std::vector<std::wstring>& a
 	m_MappingOrigin = IfcAxis2Placement::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_MappedRepresentation, map );
 }
-void IfcRepresentationMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRepresentationMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "MappingOrigin", m_MappingOrigin ) );
 	vec_attributes.push_back( std::make_pair( "MappedRepresentation", m_MappedRepresentation ) );
 }
-void IfcRepresentationMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRepresentationMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	if( m_HasShapeAspects_inverse.size() > 0 )
 	{

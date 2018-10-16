@@ -53,13 +53,13 @@ void IfcMaterialProfileSetUsageTapering::readStepArguments( const std::vector<st
 	readEntityReference( args[3], m_ForProfileEndSet, map );
 	m_CardinalEndPoint = IfcCardinalPointReference::createObjectFromSTEP( args[4], map );
 }
-void IfcMaterialProfileSetUsageTapering::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMaterialProfileSetUsageTapering::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialProfileSetUsage::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ForProfileEndSet", m_ForProfileEndSet ) );
 	vec_attributes.push_back( std::make_pair( "CardinalEndPoint", m_CardinalEndPoint ) );
 }
-void IfcMaterialProfileSetUsageTapering::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMaterialProfileSetUsageTapering::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialProfileSetUsage::getAttributesInverse( vec_attributes_inverse );
 }

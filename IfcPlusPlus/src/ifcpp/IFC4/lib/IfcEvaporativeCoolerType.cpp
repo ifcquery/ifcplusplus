@@ -106,12 +106,12 @@ void IfcEvaporativeCoolerType::readStepArguments( const std::vector<std::wstring
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcEvaporativeCoolerTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcEvaporativeCoolerType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcEvaporativeCoolerType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcEnergyConversionDeviceType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcEvaporativeCoolerType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcEvaporativeCoolerType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcEnergyConversionDeviceType::getAttributesInverse( vec_attributes_inverse );
 }

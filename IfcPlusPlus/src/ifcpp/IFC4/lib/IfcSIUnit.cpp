@@ -49,13 +49,13 @@ void IfcSIUnit::readStepArguments( const std::vector<std::wstring>& args, const 
 	m_Prefix = IfcSIPrefix::createObjectFromSTEP( args[2], map );
 	m_Name = IfcSIUnitName::createObjectFromSTEP( args[3], map );
 }
-void IfcSIUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSIUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcNamedUnit::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Prefix", m_Prefix ) );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 }
-void IfcSIUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSIUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcNamedUnit::getAttributesInverse( vec_attributes_inverse );
 }

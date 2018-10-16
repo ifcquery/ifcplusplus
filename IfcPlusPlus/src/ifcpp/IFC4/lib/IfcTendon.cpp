@@ -137,7 +137,7 @@ void IfcTendon::readStepArguments( const std::vector<std::wstring>& args, const 
 	m_AnchorageSlip = IfcPositiveLengthMeasure::createObjectFromSTEP( args[15], map );
 	m_MinCurvatureRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[16], map );
 }
-void IfcTendon::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTendon::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcReinforcingElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
@@ -149,7 +149,7 @@ void IfcTendon::getAttributes( std::vector<std::pair<std::string, shared_ptr<Bui
 	vec_attributes.push_back( std::make_pair( "AnchorageSlip", m_AnchorageSlip ) );
 	vec_attributes.push_back( std::make_pair( "MinCurvatureRadius", m_MinCurvatureRadius ) );
 }
-void IfcTendon::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTendon::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcReinforcingElement::getAttributesInverse( vec_attributes_inverse );
 }

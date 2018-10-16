@@ -43,7 +43,7 @@ void IfcEdgeLoop::readStepArguments( const std::vector<std::wstring>& args, cons
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEdgeLoop, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_EdgeList, map );
 }
-void IfcEdgeLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcEdgeLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLoop::getAttributes( vec_attributes );
 	if( m_EdgeList.size() > 0 )
@@ -53,7 +53,7 @@ void IfcEdgeLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<B
 		vec_attributes.push_back( std::make_pair( "EdgeList", EdgeList_vec_object ) );
 	}
 }
-void IfcEdgeLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcEdgeLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcLoop::getAttributesInverse( vec_attributes_inverse );
 }

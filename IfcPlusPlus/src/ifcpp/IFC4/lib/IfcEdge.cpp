@@ -40,13 +40,13 @@ void IfcEdge::readStepArguments( const std::vector<std::wstring>& args, const st
 	readEntityReference( args[0], m_EdgeStart, map );
 	readEntityReference( args[1], m_EdgeEnd, map );
 }
-void IfcEdge::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcEdge::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "EdgeStart", m_EdgeStart ) );
 	vec_attributes.push_back( std::make_pair( "EdgeEnd", m_EdgeEnd ) );
 }
-void IfcEdge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcEdge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTopologicalRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

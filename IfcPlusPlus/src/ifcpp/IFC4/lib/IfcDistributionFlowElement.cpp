@@ -97,11 +97,11 @@ void IfcDistributionFlowElement::readStepArguments( const std::vector<std::wstri
 	readEntityReference( args[6], m_Representation, map );
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 }
-void IfcDistributionFlowElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDistributionFlowElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcDistributionElement::getAttributes( vec_attributes );
 }
-void IfcDistributionFlowElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDistributionFlowElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcDistributionElement::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasControlElements_inverse.size() > 0 )

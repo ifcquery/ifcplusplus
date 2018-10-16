@@ -91,7 +91,7 @@ void IfcLightSourceSpot::readStepArguments( const std::vector<std::wstring>& arg
 	m_SpreadAngle = IfcPositivePlaneAngleMeasure::createObjectFromSTEP( args[11], map );
 	m_BeamWidthAngle = IfcPositivePlaneAngleMeasure::createObjectFromSTEP( args[12], map );
 }
-void IfcLightSourceSpot::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcLightSourceSpot::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLightSourcePositional::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Orientation", m_Orientation ) );
@@ -99,7 +99,7 @@ void IfcLightSourceSpot::getAttributes( std::vector<std::pair<std::string, share
 	vec_attributes.push_back( std::make_pair( "SpreadAngle", m_SpreadAngle ) );
 	vec_attributes.push_back( std::make_pair( "BeamWidthAngle", m_BeamWidthAngle ) );
 }
-void IfcLightSourceSpot::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcLightSourceSpot::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcLightSourcePositional::getAttributesInverse( vec_attributes_inverse );
 }

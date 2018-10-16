@@ -47,14 +47,14 @@ void IfcSlippageConnectionCondition::readStepArguments( const std::vector<std::w
 	m_SlippageY = IfcLengthMeasure::createObjectFromSTEP( args[2], map );
 	m_SlippageZ = IfcLengthMeasure::createObjectFromSTEP( args[3], map );
 }
-void IfcSlippageConnectionCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSlippageConnectionCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralConnectionCondition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "SlippageX", m_SlippageX ) );
 	vec_attributes.push_back( std::make_pair( "SlippageY", m_SlippageY ) );
 	vec_attributes.push_back( std::make_pair( "SlippageZ", m_SlippageZ ) );
 }
-void IfcSlippageConnectionCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSlippageConnectionCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralConnectionCondition::getAttributesInverse( vec_attributes_inverse );
 }

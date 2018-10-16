@@ -106,12 +106,12 @@ void IfcStackTerminalType::readStepArguments( const std::vector<std::wstring>& a
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcStackTerminalTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcStackTerminalType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStackTerminalType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFlowTerminalType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcStackTerminalType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStackTerminalType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFlowTerminalType::getAttributesInverse( vec_attributes_inverse );
 }

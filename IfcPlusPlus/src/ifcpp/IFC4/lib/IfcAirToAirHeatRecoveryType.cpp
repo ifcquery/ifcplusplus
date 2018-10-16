@@ -106,12 +106,12 @@ void IfcAirToAirHeatRecoveryType::readStepArguments( const std::vector<std::wstr
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcAirToAirHeatRecoveryTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcAirToAirHeatRecoveryType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcAirToAirHeatRecoveryType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcEnergyConversionDeviceType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcAirToAirHeatRecoveryType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcAirToAirHeatRecoveryType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcEnergyConversionDeviceType::getAttributesInverse( vec_attributes_inverse );
 }

@@ -56,12 +56,12 @@ void IfcMaterialDefinitionRepresentation::readStepArguments( const std::vector<s
 	readEntityReferenceList( args[2], m_Representations, map );
 	readEntityReference( args[3], m_RepresentedMaterial, map );
 }
-void IfcMaterialDefinitionRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMaterialDefinitionRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProductRepresentation::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RepresentedMaterial", m_RepresentedMaterial ) );
 }
-void IfcMaterialDefinitionRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMaterialDefinitionRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProductRepresentation::getAttributesInverse( vec_attributes_inverse );
 }

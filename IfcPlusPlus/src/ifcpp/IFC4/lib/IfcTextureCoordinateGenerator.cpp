@@ -58,7 +58,7 @@ void IfcTextureCoordinateGenerator::readStepArguments( const std::vector<std::ws
 	m_Mode = IfcLabel::createObjectFromSTEP( args[1], map );
 	readTypeOfRealList( args[2], m_Parameter );
 }
-void IfcTextureCoordinateGenerator::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTextureCoordinateGenerator::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTextureCoordinate::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Mode", m_Mode ) );
@@ -69,7 +69,7 @@ void IfcTextureCoordinateGenerator::getAttributes( std::vector<std::pair<std::st
 		vec_attributes.push_back( std::make_pair( "Parameter", Parameter_vec_object ) );
 	}
 }
-void IfcTextureCoordinateGenerator::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTextureCoordinateGenerator::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTextureCoordinate::getAttributesInverse( vec_attributes_inverse );
 }

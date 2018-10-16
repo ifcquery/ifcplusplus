@@ -68,7 +68,7 @@ void IfcSurfaceStyle::readStepArguments( const std::vector<std::wstring>& args, 
 	m_Side = IfcSurfaceSide::createObjectFromSTEP( args[1], map );
 	readSelectList( args[2], m_Styles, map );
 }
-void IfcSurfaceStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSurfaceStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationStyle::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Side", m_Side ) );
@@ -79,7 +79,7 @@ void IfcSurfaceStyle::getAttributes( std::vector<std::pair<std::string, shared_p
 		vec_attributes.push_back( std::make_pair( "Styles", Styles_vec_object ) );
 	}
 }
-void IfcSurfaceStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSurfaceStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationStyle::getAttributesInverse( vec_attributes_inverse );
 }

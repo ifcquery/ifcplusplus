@@ -78,7 +78,7 @@ void IfcReinforcementDefinitionProperties::readStepArguments( const std::vector<
 	m_DefinitionType = IfcLabel::createObjectFromSTEP( args[4], map );
 	readEntityReferenceList( args[5], m_ReinforcementSectionDefinitions, map );
 }
-void IfcReinforcementDefinitionProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcReinforcementDefinitionProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedPropertySet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "DefinitionType", m_DefinitionType ) );
@@ -89,7 +89,7 @@ void IfcReinforcementDefinitionProperties::getAttributes( std::vector<std::pair<
 		vec_attributes.push_back( std::make_pair( "ReinforcementSectionDefinitions", ReinforcementSectionDefinitions_vec_object ) );
 	}
 }
-void IfcReinforcementDefinitionProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcReinforcementDefinitionProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPreDefinedPropertySet::getAttributesInverse( vec_attributes_inverse );
 }

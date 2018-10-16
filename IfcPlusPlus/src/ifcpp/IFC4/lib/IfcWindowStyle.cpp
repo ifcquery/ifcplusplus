@@ -116,7 +116,7 @@ void IfcWindowStyle::readStepArguments( const std::vector<std::wstring>& args, c
 	m_ParameterTakesPrecedence = IfcBoolean::createObjectFromSTEP( args[10], map );
 	m_Sizeable = IfcBoolean::createObjectFromSTEP( args[11], map );
 }
-void IfcWindowStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcWindowStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTypeProduct::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ConstructionType", m_ConstructionType ) );
@@ -124,7 +124,7 @@ void IfcWindowStyle::getAttributes( std::vector<std::pair<std::string, shared_pt
 	vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", m_ParameterTakesPrecedence ) );
 	vec_attributes.push_back( std::make_pair( "Sizeable", m_Sizeable ) );
 }
-void IfcWindowStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcWindowStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTypeProduct::getAttributesInverse( vec_attributes_inverse );
 }

@@ -75,7 +75,7 @@ void IfcPresentationLayerAssignment::readStepArguments( const std::vector<std::w
 	readSelectList( args[2], m_AssignedItems, map );
 	m_Identifier = IfcIdentifier::createObjectFromSTEP( args[3], map );
 }
-void IfcPresentationLayerAssignment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPresentationLayerAssignment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
@@ -87,7 +87,7 @@ void IfcPresentationLayerAssignment::getAttributes( std::vector<std::pair<std::s
 	}
 	vec_attributes.push_back( std::make_pair( "Identifier", m_Identifier ) );
 }
-void IfcPresentationLayerAssignment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPresentationLayerAssignment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcPresentationLayerAssignment::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

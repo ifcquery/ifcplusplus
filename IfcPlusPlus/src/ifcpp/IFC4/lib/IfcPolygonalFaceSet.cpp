@@ -84,7 +84,7 @@ void IfcPolygonalFaceSet::readStepArguments( const std::vector<std::wstring>& ar
 	readEntityReferenceList( args[2], m_Faces, map );
 	readTypeOfIntegerList( args[3], m_PnIndex );
 }
-void IfcPolygonalFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPolygonalFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTessellatedFaceSet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Closed", m_Closed ) );
@@ -101,7 +101,7 @@ void IfcPolygonalFaceSet::getAttributes( std::vector<std::pair<std::string, shar
 		vec_attributes.push_back( std::make_pair( "PnIndex", PnIndex_vec_object ) );
 	}
 }
-void IfcPolygonalFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPolygonalFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTessellatedFaceSet::getAttributesInverse( vec_attributes_inverse );
 }

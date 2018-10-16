@@ -59,7 +59,7 @@ void IfcMaterialProfileSet::readStepArguments( const std::vector<std::wstring>& 
 	readEntityReferenceList( args[2], m_MaterialProfiles, map );
 	readEntityReference( args[3], m_CompositeProfile, map );
 }
-void IfcMaterialProfileSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMaterialProfileSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
@@ -72,7 +72,7 @@ void IfcMaterialProfileSet::getAttributes( std::vector<std::pair<std::string, sh
 	}
 	vec_attributes.push_back( std::make_pair( "CompositeProfile", m_CompositeProfile ) );
 }
-void IfcMaterialProfileSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMaterialProfileSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
 }

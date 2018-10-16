@@ -53,11 +53,11 @@ void IfcProductDefinitionShape::readStepArguments( const std::vector<std::wstrin
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Representations, map );
 }
-void IfcProductDefinitionShape::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcProductDefinitionShape::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProductRepresentation::getAttributes( vec_attributes );
 }
-void IfcProductDefinitionShape::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcProductDefinitionShape::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProductRepresentation::getAttributesInverse( vec_attributes_inverse );
 	if( m_ShapeOfProduct_inverse.size() > 0 )

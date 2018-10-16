@@ -38,12 +38,12 @@ void IfcTessellatedFaceSet::readStepArguments( const std::vector<std::wstring>& 
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTessellatedFaceSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Coordinates, map );
 }
-void IfcTessellatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTessellatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTessellatedItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Coordinates", m_Coordinates ) );
 }
-void IfcTessellatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTessellatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTessellatedItem::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasColours_inverse.size() > 0 )

@@ -39,12 +39,12 @@ void IfcRepresentationContext::readStepArguments( const std::vector<std::wstring
 	m_ContextIdentifier = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_ContextType = IfcLabel::createObjectFromSTEP( args[1], map );
 }
-void IfcRepresentationContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRepresentationContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "ContextIdentifier", m_ContextIdentifier ) );
 	vec_attributes.push_back( std::make_pair( "ContextType", m_ContextType ) );
 }
-void IfcRepresentationContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRepresentationContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	if( m_RepresentationsInContext_inverse.size() > 0 )
 	{

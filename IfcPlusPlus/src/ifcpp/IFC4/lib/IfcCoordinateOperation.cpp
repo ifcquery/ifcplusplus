@@ -40,12 +40,12 @@ void IfcCoordinateOperation::readStepArguments( const std::vector<std::wstring>&
 	m_SourceCRS = IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_TargetCRS, map );
 }
-void IfcCoordinateOperation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCoordinateOperation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "SourceCRS", m_SourceCRS ) );
 	vec_attributes.push_back( std::make_pair( "TargetCRS", m_TargetCRS ) );
 }
-void IfcCoordinateOperation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCoordinateOperation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcCoordinateOperation::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

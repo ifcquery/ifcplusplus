@@ -87,7 +87,7 @@ void IfcRelConnectsStructuralMember::readStepArguments( const std::vector<std::w
 	m_SupportedLength = IfcLengthMeasure::createObjectFromSTEP( args[8], map );
 	readEntityReference( args[9], m_ConditionCoordinateSystem, map );
 }
-void IfcRelConnectsStructuralMember::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelConnectsStructuralMember::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingStructuralMember", m_RelatingStructuralMember ) );
@@ -97,7 +97,7 @@ void IfcRelConnectsStructuralMember::getAttributes( std::vector<std::pair<std::s
 	vec_attributes.push_back( std::make_pair( "SupportedLength", m_SupportedLength ) );
 	vec_attributes.push_back( std::make_pair( "ConditionCoordinateSystem", m_ConditionCoordinateSystem ) );
 }
-void IfcRelConnectsStructuralMember::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelConnectsStructuralMember::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }

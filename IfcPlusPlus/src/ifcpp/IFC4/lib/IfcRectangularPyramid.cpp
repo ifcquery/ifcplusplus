@@ -49,14 +49,14 @@ void IfcRectangularPyramid::readStepArguments( const std::vector<std::wstring>& 
 	m_YLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
 	m_Height = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map );
 }
-void IfcRectangularPyramid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRectangularPyramid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "XLength", m_XLength ) );
 	vec_attributes.push_back( std::make_pair( "YLength", m_YLength ) );
 	vec_attributes.push_back( std::make_pair( "Height", m_Height ) );
 }
-void IfcRectangularPyramid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRectangularPyramid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCsgPrimitive3D::getAttributesInverse( vec_attributes_inverse );
 }

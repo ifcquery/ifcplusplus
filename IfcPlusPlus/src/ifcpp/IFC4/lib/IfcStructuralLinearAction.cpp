@@ -106,11 +106,11 @@ void IfcStructuralLinearAction::readStepArguments( const std::vector<std::wstrin
 	m_ProjectedOrTrue = IfcProjectedOrTrueLengthEnum::createObjectFromSTEP( args[10], map );
 	m_PredefinedType = IfcStructuralCurveActivityTypeEnum::createObjectFromSTEP( args[11], map );
 }
-void IfcStructuralLinearAction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralLinearAction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralCurveAction::getAttributes( vec_attributes );
 }
-void IfcStructuralLinearAction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralLinearAction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralCurveAction::getAttributesInverse( vec_attributes_inverse );
 }

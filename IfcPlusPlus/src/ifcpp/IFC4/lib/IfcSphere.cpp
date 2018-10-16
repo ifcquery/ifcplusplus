@@ -41,12 +41,12 @@ void IfcSphere::readStepArguments( const std::vector<std::wstring>& args, const 
 	readEntityReference( args[0], m_Position, map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 }
-void IfcSphere::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSphere::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
 }
-void IfcSphere::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSphere::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCsgPrimitive3D::getAttributesInverse( vec_attributes_inverse );
 }

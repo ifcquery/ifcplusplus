@@ -45,13 +45,13 @@ void IfcEllipse::readStepArguments( const std::vector<std::wstring>& args, const
 	m_SemiAxis1 = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_SemiAxis2 = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
 }
-void IfcEllipse::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcEllipse::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConic::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "SemiAxis1", m_SemiAxis1 ) );
 	vec_attributes.push_back( std::make_pair( "SemiAxis2", m_SemiAxis2 ) );
 }
-void IfcEllipse::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcEllipse::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcConic::getAttributesInverse( vec_attributes_inverse );
 }

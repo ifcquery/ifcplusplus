@@ -41,12 +41,12 @@ void IfcCylindricalSurface::readStepArguments( const std::vector<std::wstring>& 
 	readEntityReference( args[0], m_Position, map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 }
-void IfcCylindricalSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCylindricalSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcElementarySurface::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
 }
-void IfcCylindricalSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCylindricalSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcElementarySurface::getAttributesInverse( vec_attributes_inverse );
 }

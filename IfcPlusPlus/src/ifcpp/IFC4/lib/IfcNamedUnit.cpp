@@ -39,12 +39,12 @@ void IfcNamedUnit::readStepArguments( const std::vector<std::wstring>& args, con
 	readEntityReference( args[0], m_Dimensions, map );
 	m_UnitType = IfcUnitEnum::createObjectFromSTEP( args[1], map );
 }
-void IfcNamedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcNamedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Dimensions", m_Dimensions ) );
 	vec_attributes.push_back( std::make_pair( "UnitType", m_UnitType ) );
 }
-void IfcNamedUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcNamedUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcNamedUnit::setInverseCounterparts( shared_ptr<BuildingEntity> )

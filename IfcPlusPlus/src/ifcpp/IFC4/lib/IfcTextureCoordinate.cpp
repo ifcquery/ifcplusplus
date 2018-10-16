@@ -41,7 +41,7 @@ void IfcTextureCoordinate::readStepArguments( const std::vector<std::wstring>& a
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureCoordinate, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Maps, map );
 }
-void IfcTextureCoordinate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTextureCoordinate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	if( m_Maps.size() > 0 )
@@ -51,7 +51,7 @@ void IfcTextureCoordinate::getAttributes( std::vector<std::pair<std::string, sha
 		vec_attributes.push_back( std::make_pair( "Maps", Maps_vec_object ) );
 	}
 }
-void IfcTextureCoordinate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTextureCoordinate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

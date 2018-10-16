@@ -92,12 +92,12 @@ void IfcRelConnectsWithEccentricity::readStepArguments( const std::vector<std::w
 	readEntityReference( args[9], m_ConditionCoordinateSystem, map );
 	readEntityReference( args[10], m_ConnectionConstraint, map );
 }
-void IfcRelConnectsWithEccentricity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelConnectsWithEccentricity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnectsStructuralMember::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ConnectionConstraint", m_ConnectionConstraint ) );
 }
-void IfcRelConnectsWithEccentricity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelConnectsWithEccentricity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelConnectsStructuralMember::getAttributesInverse( vec_attributes_inverse );
 }

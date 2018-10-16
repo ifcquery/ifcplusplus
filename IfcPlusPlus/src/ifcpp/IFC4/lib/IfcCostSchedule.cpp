@@ -93,7 +93,7 @@ void IfcCostSchedule::readStepArguments( const std::vector<std::wstring>& args, 
 	m_SubmittedOn = IfcDateTime::createObjectFromSTEP( args[8], map );
 	m_UpdateDate = IfcDateTime::createObjectFromSTEP( args[9], map );
 }
-void IfcCostSchedule::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCostSchedule::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcControl::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
@@ -101,7 +101,7 @@ void IfcCostSchedule::getAttributes( std::vector<std::pair<std::string, shared_p
 	vec_attributes.push_back( std::make_pair( "SubmittedOn", m_SubmittedOn ) );
 	vec_attributes.push_back( std::make_pair( "UpdateDate", m_UpdateDate ) );
 }
-void IfcCostSchedule::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCostSchedule::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcControl::getAttributesInverse( vec_attributes_inverse );
 }

@@ -81,7 +81,7 @@ void IfcComplexPropertyTemplate::readStepArguments( const std::vector<std::wstri
 	m_TemplateType = IfcComplexPropertyTemplateTypeEnum::createObjectFromSTEP( args[5], map );
 	readEntityReferenceList( args[6], m_HasPropertyTemplates, map );
 }
-void IfcComplexPropertyTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcComplexPropertyTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPropertyTemplate::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "UsageName", m_UsageName ) );
@@ -93,7 +93,7 @@ void IfcComplexPropertyTemplate::getAttributes( std::vector<std::pair<std::strin
 		vec_attributes.push_back( std::make_pair( "HasPropertyTemplates", HasPropertyTemplates_vec_object ) );
 	}
 }
-void IfcComplexPropertyTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcComplexPropertyTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPropertyTemplate::getAttributesInverse( vec_attributes_inverse );
 }

@@ -46,12 +46,12 @@ void IfcBoxedHalfSpace::readStepArguments( const std::vector<std::wstring>& args
 	m_AgreementFlag = IfcBoolean::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Enclosure, map );
 }
-void IfcBoxedHalfSpace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBoxedHalfSpace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcHalfSpaceSolid::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Enclosure", m_Enclosure ) );
 }
-void IfcBoxedHalfSpace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBoxedHalfSpace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcHalfSpaceSolid::getAttributesInverse( vec_attributes_inverse );
 }

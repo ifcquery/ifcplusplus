@@ -93,12 +93,12 @@ void IfcExternalSpatialElement::readStepArguments( const std::vector<std::wstrin
 	m_LongName = IfcLabel::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcExternalSpatialElementTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcExternalSpatialElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcExternalSpatialElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExternalSpatialStructureElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcExternalSpatialElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcExternalSpatialElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcExternalSpatialStructureElement::getAttributesInverse( vec_attributes_inverse );
 	if( m_BoundedBy_inverse.size() > 0 )

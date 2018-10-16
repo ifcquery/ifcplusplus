@@ -41,13 +41,13 @@ void IfcPcurve::readStepArguments( const std::vector<std::wstring>& args, const 
 	readEntityReference( args[0], m_BasisSurface, map );
 	readEntityReference( args[1], m_ReferenceCurve, map );
 }
-void IfcPcurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPcurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCurve::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
 	vec_attributes.push_back( std::make_pair( "ReferenceCurve", m_ReferenceCurve ) );
 }
-void IfcPcurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPcurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCurve::getAttributesInverse( vec_attributes_inverse );
 }

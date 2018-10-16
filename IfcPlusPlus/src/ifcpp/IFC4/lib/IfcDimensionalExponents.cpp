@@ -57,7 +57,7 @@ void IfcDimensionalExponents::readStepArguments( const std::vector<std::wstring>
 	readIntegerValue( args[5], m_AmountOfSubstanceExponent );
 	readIntegerValue( args[6], m_LuminousIntensityExponent );
 }
-void IfcDimensionalExponents::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDimensionalExponents::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "LengthExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_LengthExponent ) ) ) );
 	vec_attributes.push_back( std::make_pair( "MassExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_MassExponent ) ) ) );
@@ -67,7 +67,7 @@ void IfcDimensionalExponents::getAttributes( std::vector<std::pair<std::string, 
 	vec_attributes.push_back( std::make_pair( "AmountOfSubstanceExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_AmountOfSubstanceExponent ) ) ) );
 	vec_attributes.push_back( std::make_pair( "LuminousIntensityExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_LuminousIntensityExponent ) ) ) );
 }
-void IfcDimensionalExponents::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDimensionalExponents::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcDimensionalExponents::setInverseCounterparts( shared_ptr<BuildingEntity> )

@@ -87,13 +87,13 @@ void IfcBlobTexture::readStepArguments( const std::vector<std::wstring>& args, c
 	m_RasterFormat = IfcIdentifier::createObjectFromSTEP( args[5], map );
 	m_RasterCode = IfcBinary::createObjectFromSTEP( args[6], map );
 }
-void IfcBlobTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBlobTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSurfaceTexture::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RasterFormat", m_RasterFormat ) );
 	vec_attributes.push_back( std::make_pair( "RasterCode", m_RasterCode ) );
 }
-void IfcBlobTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBlobTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSurfaceTexture::getAttributesInverse( vec_attributes_inverse );
 }

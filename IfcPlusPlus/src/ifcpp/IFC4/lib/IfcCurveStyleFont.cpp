@@ -46,7 +46,7 @@ void IfcCurveStyleFont::readStepArguments( const std::vector<std::wstring>& args
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReferenceList( args[1], m_PatternList, map );
 }
-void IfcCurveStyleFont::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCurveStyleFont::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
@@ -57,7 +57,7 @@ void IfcCurveStyleFont::getAttributes( std::vector<std::pair<std::string, shared
 		vec_attributes.push_back( std::make_pair( "PatternList", PatternList_vec_object ) );
 	}
 }
-void IfcCurveStyleFont::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCurveStyleFont::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

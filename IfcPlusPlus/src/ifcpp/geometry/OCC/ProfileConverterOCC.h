@@ -142,6 +142,9 @@ public:
 				if( !curve_wire.Closed() )
 				{
 					std::cout << "!curve_wire.Closed()" << std::endl;
+#ifdef _DEBUG
+					GeomDebugDumpOCC::dumpShape(curve_wire, vec4(0.5, 0.5, 0.4, 1.0), true, true);
+#endif
 				}
 				TopoDS_Face face = BRepBuilderAPI_MakeFace( curve_wire );
 				if( !face.IsNull() )

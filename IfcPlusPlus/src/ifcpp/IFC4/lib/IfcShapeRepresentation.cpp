@@ -63,11 +63,11 @@ void IfcShapeRepresentation::readStepArguments( const std::vector<std::wstring>&
 	m_RepresentationType = IfcLabel::createObjectFromSTEP( args[2], map );
 	readEntityReferenceList( args[3], m_Items, map );
 }
-void IfcShapeRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcShapeRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcShapeModel::getAttributes( vec_attributes );
 }
-void IfcShapeRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcShapeRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcShapeModel::getAttributesInverse( vec_attributes_inverse );
 }

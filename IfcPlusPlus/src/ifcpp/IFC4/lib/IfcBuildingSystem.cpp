@@ -80,13 +80,13 @@ void IfcBuildingSystem::readStepArguments( const std::vector<std::wstring>& args
 	m_PredefinedType = IfcBuildingSystemTypeEnum::createObjectFromSTEP( args[5], map );
 	m_LongName = IfcLabel::createObjectFromSTEP( args[6], map );
 }
-void IfcBuildingSystem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBuildingSystem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSystem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "LongName", m_LongName ) );
 }
-void IfcBuildingSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBuildingSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSystem::getAttributesInverse( vec_attributes_inverse );
 }

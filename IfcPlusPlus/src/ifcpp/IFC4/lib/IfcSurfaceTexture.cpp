@@ -78,7 +78,7 @@ void IfcSurfaceTexture::readStepArguments( const std::vector<std::wstring>& args
 	readEntityReference( args[3], m_TextureTransform, map );
 	readTypeOfStringList( args[4], m_Parameter );
 }
-void IfcSurfaceTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSurfaceTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RepeatS", m_RepeatS ) );
@@ -92,7 +92,7 @@ void IfcSurfaceTexture::getAttributes( std::vector<std::pair<std::string, shared
 		vec_attributes.push_back( std::make_pair( "Parameter", Parameter_vec_object ) );
 	}
 }
-void IfcSurfaceTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSurfaceTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 	if( m_IsMappedBy_inverse.size() > 0 )

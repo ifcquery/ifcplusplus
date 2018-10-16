@@ -106,12 +106,12 @@ void IfcConstructionProductResource::readStepArguments( const std::vector<std::w
 	readEntityReference( args[9], m_BaseQuantity, map );
 	m_PredefinedType = IfcConstructionProductResourceTypeEnum::createObjectFromSTEP( args[10], map );
 }
-void IfcConstructionProductResource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcConstructionProductResource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConstructionResource::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcConstructionProductResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcConstructionProductResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcConstructionResource::getAttributesInverse( vec_attributes_inverse );
 }

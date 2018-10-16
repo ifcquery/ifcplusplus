@@ -51,14 +51,14 @@ void IfcConnectionPointEccentricity::readStepArguments( const std::vector<std::w
 	m_EccentricityInY = IfcLengthMeasure::createObjectFromSTEP( args[3], map );
 	m_EccentricityInZ = IfcLengthMeasure::createObjectFromSTEP( args[4], map );
 }
-void IfcConnectionPointEccentricity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcConnectionPointEccentricity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConnectionPointGeometry::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "EccentricityInX", m_EccentricityInX ) );
 	vec_attributes.push_back( std::make_pair( "EccentricityInY", m_EccentricityInY ) );
 	vec_attributes.push_back( std::make_pair( "EccentricityInZ", m_EccentricityInZ ) );
 }
-void IfcConnectionPointEccentricity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcConnectionPointEccentricity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcConnectionPointGeometry::getAttributesInverse( vec_attributes_inverse );
 }

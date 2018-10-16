@@ -69,7 +69,7 @@ void IfcPropertyEnumeration::readStepArguments( const std::vector<std::wstring>&
 	readSelectList( args[1], m_EnumerationValues, map );
 	m_Unit = IfcUnit::createObjectFromSTEP( args[2], map );
 }
-void IfcPropertyEnumeration::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPropertyEnumeration::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPropertyAbstraction::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
@@ -81,7 +81,7 @@ void IfcPropertyEnumeration::getAttributes( std::vector<std::pair<std::string, s
 	}
 	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
 }
-void IfcPropertyEnumeration::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPropertyEnumeration::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPropertyAbstraction::getAttributesInverse( vec_attributes_inverse );
 }

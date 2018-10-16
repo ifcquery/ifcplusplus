@@ -106,12 +106,12 @@ void IfcTendonAnchorType::readStepArguments( const std::vector<std::wstring>& ar
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcTendonAnchorTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcTendonAnchorType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTendonAnchorType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcReinforcingElementType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcTendonAnchorType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTendonAnchorType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcReinforcingElementType::getAttributesInverse( vec_attributes_inverse );
 }

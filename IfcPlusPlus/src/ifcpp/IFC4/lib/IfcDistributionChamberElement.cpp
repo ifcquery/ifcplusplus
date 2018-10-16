@@ -102,12 +102,12 @@ void IfcDistributionChamberElement::readStepArguments( const std::vector<std::ws
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcDistributionChamberElementTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcDistributionChamberElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDistributionChamberElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcDistributionFlowElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcDistributionChamberElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDistributionChamberElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcDistributionFlowElement::getAttributesInverse( vec_attributes_inverse );
 }

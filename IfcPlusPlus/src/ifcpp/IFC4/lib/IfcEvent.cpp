@@ -99,7 +99,7 @@ void IfcEvent::readStepArguments( const std::vector<std::wstring>& args, const s
 	m_UserDefinedEventTriggerType = IfcLabel::createObjectFromSTEP( args[9], map );
 	readEntityReference( args[10], m_EventOccurenceTime, map );
 }
-void IfcEvent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcEvent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProcess::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
@@ -107,7 +107,7 @@ void IfcEvent::getAttributes( std::vector<std::pair<std::string, shared_ptr<Buil
 	vec_attributes.push_back( std::make_pair( "UserDefinedEventTriggerType", m_UserDefinedEventTriggerType ) );
 	vec_attributes.push_back( std::make_pair( "EventOccurenceTime", m_EventOccurenceTime ) );
 }
-void IfcEvent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcEvent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProcess::getAttributesInverse( vec_attributes_inverse );
 }

@@ -54,7 +54,7 @@ void IfcTextStyle::readStepArguments( const std::vector<std::wstring>& args, con
 	m_TextFontStyle = IfcTextFontSelect::createObjectFromSTEP( args[3], map );
 	m_ModelOrDraughting = IfcBoolean::createObjectFromSTEP( args[4], map );
 }
-void IfcTextStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTextStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationStyle::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TextCharacterAppearance", m_TextCharacterAppearance ) );
@@ -62,7 +62,7 @@ void IfcTextStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	vec_attributes.push_back( std::make_pair( "TextFontStyle", m_TextFontStyle ) );
 	vec_attributes.push_back( std::make_pair( "ModelOrDraughting", m_ModelOrDraughting ) );
 }
-void IfcTextStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTextStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationStyle::getAttributesInverse( vec_attributes_inverse );
 }

@@ -61,14 +61,14 @@ void IfcLibraryReference::readStepArguments( const std::vector<std::wstring>& ar
 	m_Language = IfcLanguageId::createObjectFromSTEP( args[4], map );
 	readEntityReference( args[5], m_ReferencedLibrary, map );
 }
-void IfcLibraryReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcLibraryReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExternalReference::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 	vec_attributes.push_back( std::make_pair( "Language", m_Language ) );
 	vec_attributes.push_back( std::make_pair( "ReferencedLibrary", m_ReferencedLibrary ) );
 }
-void IfcLibraryReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcLibraryReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcExternalReference::getAttributesInverse( vec_attributes_inverse );
 	if( m_LibraryRefForObjects_inverse.size() > 0 )

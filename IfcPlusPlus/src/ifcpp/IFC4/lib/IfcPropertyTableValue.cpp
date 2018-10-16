@@ -120,7 +120,7 @@ void IfcPropertyTableValue::readStepArguments( const std::vector<std::wstring>& 
 	m_DefinedUnit = IfcUnit::createObjectFromSTEP( args[6], map );
 	m_CurveInterpolation = IfcCurveInterpolationEnum::createObjectFromSTEP( args[7], map );
 }
-void IfcPropertyTableValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPropertyTableValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
 	if( m_DefiningValues.size() > 0 )
@@ -140,7 +140,7 @@ void IfcPropertyTableValue::getAttributes( std::vector<std::pair<std::string, sh
 	vec_attributes.push_back( std::make_pair( "DefinedUnit", m_DefinedUnit ) );
 	vec_attributes.push_back( std::make_pair( "CurveInterpolation", m_CurveInterpolation ) );
 }
-void IfcPropertyTableValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPropertyTableValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSimpleProperty::getAttributesInverse( vec_attributes_inverse );
 }

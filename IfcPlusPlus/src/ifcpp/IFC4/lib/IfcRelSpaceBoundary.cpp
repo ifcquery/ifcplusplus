@@ -84,7 +84,7 @@ void IfcRelSpaceBoundary::readStepArguments( const std::vector<std::wstring>& ar
 	m_PhysicalOrVirtualBoundary = IfcPhysicalOrVirtualEnum::createObjectFromSTEP( args[7], map );
 	m_InternalOrExternalBoundary = IfcInternalOrExternalEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcRelSpaceBoundary::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelSpaceBoundary::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingSpace", m_RelatingSpace ) );
@@ -93,7 +93,7 @@ void IfcRelSpaceBoundary::getAttributes( std::vector<std::pair<std::string, shar
 	vec_attributes.push_back( std::make_pair( "PhysicalOrVirtualBoundary", m_PhysicalOrVirtualBoundary ) );
 	vec_attributes.push_back( std::make_pair( "InternalOrExternalBoundary", m_InternalOrExternalBoundary ) );
 }
-void IfcRelSpaceBoundary::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelSpaceBoundary::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }

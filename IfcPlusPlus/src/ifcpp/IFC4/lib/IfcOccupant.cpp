@@ -80,12 +80,12 @@ void IfcOccupant::readStepArguments( const std::vector<std::wstring>& args, cons
 	m_TheActor = IfcActorSelect::createObjectFromSTEP( args[5], map );
 	m_PredefinedType = IfcOccupantTypeEnum::createObjectFromSTEP( args[6], map );
 }
-void IfcOccupant::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcOccupant::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcActor::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcOccupant::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcOccupant::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcActor::getAttributesInverse( vec_attributes_inverse );
 }

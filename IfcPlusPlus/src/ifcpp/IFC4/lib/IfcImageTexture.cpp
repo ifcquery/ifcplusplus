@@ -83,12 +83,12 @@ void IfcImageTexture::readStepArguments( const std::vector<std::wstring>& args, 
 	readTypeOfStringList( args[4], m_Parameter );
 	m_URLReference = IfcURIReference::createObjectFromSTEP( args[5], map );
 }
-void IfcImageTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcImageTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSurfaceTexture::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "URLReference", m_URLReference ) );
 }
-void IfcImageTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcImageTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSurfaceTexture::getAttributesInverse( vec_attributes_inverse );
 }

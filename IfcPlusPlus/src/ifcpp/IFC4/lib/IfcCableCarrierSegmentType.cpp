@@ -106,12 +106,12 @@ void IfcCableCarrierSegmentType::readStepArguments( const std::vector<std::wstri
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcCableCarrierSegmentTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcCableCarrierSegmentType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCableCarrierSegmentType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFlowSegmentType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcCableCarrierSegmentType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCableCarrierSegmentType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFlowSegmentType::getAttributesInverse( vec_attributes_inverse );
 }

@@ -43,7 +43,7 @@ void IfcDirection::readStepArguments( const std::vector<std::wstring>& args, con
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDirection, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readTypeOfRealList( args[0], m_DirectionRatios );
 }
-void IfcDirection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDirection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	if( m_DirectionRatios.size() > 0 )
@@ -53,7 +53,7 @@ void IfcDirection::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 		vec_attributes.push_back( std::make_pair( "DirectionRatios", DirectionRatios_vec_object ) );
 	}
 }
-void IfcDirection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDirection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

@@ -64,7 +64,7 @@ void IfcTrapeziumProfileDef::readStepArguments( const std::vector<std::wstring>&
 	m_YDim = IfcPositiveLengthMeasure::createObjectFromSTEP( args[5], map );
 	m_TopXOffset = IfcLengthMeasure::createObjectFromSTEP( args[6], map );
 }
-void IfcTrapeziumProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTrapeziumProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BottomXDim", m_BottomXDim ) );
@@ -72,7 +72,7 @@ void IfcTrapeziumProfileDef::getAttributes( std::vector<std::pair<std::string, s
 	vec_attributes.push_back( std::make_pair( "YDim", m_YDim ) );
 	vec_attributes.push_back( std::make_pair( "TopXOffset", m_TopXOffset ) );
 }
-void IfcTrapeziumProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTrapeziumProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcParameterizedProfileDef::getAttributesInverse( vec_attributes_inverse );
 }

@@ -54,7 +54,7 @@ void IfcTableColumn::readStepArguments( const std::vector<std::wstring>& args, c
 	m_Unit = IfcUnit::createObjectFromSTEP( args[3], map );
 	readEntityReference( args[4], m_ReferencePath, map );
 }
-void IfcTableColumn::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTableColumn::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Identifier", m_Identifier ) );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
@@ -62,7 +62,7 @@ void IfcTableColumn::getAttributes( std::vector<std::pair<std::string, shared_pt
 	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
 	vec_attributes.push_back( std::make_pair( "ReferencePath", m_ReferencePath ) );
 }
-void IfcTableColumn::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTableColumn::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcTableColumn::setInverseCounterparts( shared_ptr<BuildingEntity> )

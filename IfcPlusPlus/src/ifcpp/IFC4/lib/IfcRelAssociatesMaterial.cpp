@@ -93,12 +93,12 @@ void IfcRelAssociatesMaterial::readStepArguments( const std::vector<std::wstring
 	readSelectList( args[4], m_RelatedObjects, map );
 	m_RelatingMaterial = IfcMaterialSelect::createObjectFromSTEP( args[5], map );
 }
-void IfcRelAssociatesMaterial::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelAssociatesMaterial::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssociates::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingMaterial", m_RelatingMaterial ) );
 }
-void IfcRelAssociatesMaterial::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelAssociatesMaterial::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelAssociates::getAttributesInverse( vec_attributes_inverse );
 }

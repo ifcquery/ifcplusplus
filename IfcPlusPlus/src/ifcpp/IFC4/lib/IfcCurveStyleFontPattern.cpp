@@ -39,13 +39,13 @@ void IfcCurveStyleFontPattern::readStepArguments( const std::vector<std::wstring
 	m_VisibleSegmentLength = IfcLengthMeasure::createObjectFromSTEP( args[0], map );
 	m_InvisibleSegmentLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 }
-void IfcCurveStyleFontPattern::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCurveStyleFontPattern::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "VisibleSegmentLength", m_VisibleSegmentLength ) );
 	vec_attributes.push_back( std::make_pair( "InvisibleSegmentLength", m_InvisibleSegmentLength ) );
 }
-void IfcCurveStyleFontPattern::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCurveStyleFontPattern::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

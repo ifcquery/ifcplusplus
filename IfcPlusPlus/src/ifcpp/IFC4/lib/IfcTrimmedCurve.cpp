@@ -103,7 +103,7 @@ void IfcTrimmedCurve::readStepArguments( const std::vector<std::wstring>& args, 
 	m_SenseAgreement = IfcBoolean::createObjectFromSTEP( args[3], map );
 	m_MasterRepresentation = IfcTrimmingPreference::createObjectFromSTEP( args[4], map );
 }
-void IfcTrimmedCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTrimmedCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
@@ -122,7 +122,7 @@ void IfcTrimmedCurve::getAttributes( std::vector<std::pair<std::string, shared_p
 	vec_attributes.push_back( std::make_pair( "SenseAgreement", m_SenseAgreement ) );
 	vec_attributes.push_back( std::make_pair( "MasterRepresentation", m_MasterRepresentation ) );
 }
-void IfcTrimmedCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTrimmedCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBoundedCurve::getAttributesInverse( vec_attributes_inverse );
 }

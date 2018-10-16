@@ -74,7 +74,7 @@ void IfcPropertySet::readStepArguments( const std::vector<std::wstring>& args, c
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
 	readEntityReferenceList( args[4], m_HasProperties, map );
 }
-void IfcPropertySet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPropertySet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPropertySetDefinition::getAttributes( vec_attributes );
 	if( m_HasProperties.size() > 0 )
@@ -84,7 +84,7 @@ void IfcPropertySet::getAttributes( std::vector<std::pair<std::string, shared_pt
 		vec_attributes.push_back( std::make_pair( "HasProperties", HasProperties_vec_object ) );
 	}
 }
-void IfcPropertySet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPropertySet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPropertySetDefinition::getAttributesInverse( vec_attributes_inverse );
 }

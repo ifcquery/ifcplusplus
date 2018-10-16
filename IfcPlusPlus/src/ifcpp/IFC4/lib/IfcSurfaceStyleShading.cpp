@@ -39,13 +39,13 @@ void IfcSurfaceStyleShading::readStepArguments( const std::vector<std::wstring>&
 	readEntityReference( args[0], m_SurfaceColour, map );
 	m_Transparency = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1], map );
 }
-void IfcSurfaceStyleShading::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSurfaceStyleShading::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "SurfaceColour", m_SurfaceColour ) );
 	vec_attributes.push_back( std::make_pair( "Transparency", m_Transparency ) );
 }
-void IfcSurfaceStyleShading::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSurfaceStyleShading::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

@@ -38,13 +38,13 @@ void IfcSurfaceStyleRefraction::readStepArguments( const std::vector<std::wstrin
 	m_RefractionIndex = IfcReal::createObjectFromSTEP( args[0], map );
 	m_DispersionFactor = IfcReal::createObjectFromSTEP( args[1], map );
 }
-void IfcSurfaceStyleRefraction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSurfaceStyleRefraction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RefractionIndex", m_RefractionIndex ) );
 	vec_attributes.push_back( std::make_pair( "DispersionFactor", m_DispersionFactor ) );
 }
-void IfcSurfaceStyleRefraction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSurfaceStyleRefraction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

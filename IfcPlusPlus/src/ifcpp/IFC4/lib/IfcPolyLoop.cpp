@@ -43,7 +43,7 @@ void IfcPolyLoop::readStepArguments( const std::vector<std::wstring>& args, cons
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolyLoop, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Polygon, map );
 }
-void IfcPolyLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPolyLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLoop::getAttributes( vec_attributes );
 	if( m_Polygon.size() > 0 )
@@ -53,7 +53,7 @@ void IfcPolyLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<B
 		vec_attributes.push_back( std::make_pair( "Polygon", Polygon_vec_object ) );
 	}
 }
-void IfcPolyLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPolyLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcLoop::getAttributesInverse( vec_attributes_inverse );
 }

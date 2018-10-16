@@ -62,7 +62,7 @@ void IfcBSplineCurve::readStepArguments( const std::vector<std::wstring>& args, 
 	m_ClosedCurve = IfcLogical::createObjectFromSTEP( args[3], map );
 	m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[4], map );
 }
-void IfcBSplineCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBSplineCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Degree", m_Degree ) );
@@ -76,7 +76,7 @@ void IfcBSplineCurve::getAttributes( std::vector<std::pair<std::string, shared_p
 	vec_attributes.push_back( std::make_pair( "ClosedCurve", m_ClosedCurve ) );
 	vec_attributes.push_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 }
-void IfcBSplineCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBSplineCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBoundedCurve::getAttributesInverse( vec_attributes_inverse );
 }

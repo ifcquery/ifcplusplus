@@ -54,7 +54,7 @@ void IfcCurveStyle::readStepArguments( const std::vector<std::wstring>& args, co
 	m_CurveColour = IfcColour::createObjectFromSTEP( args[3], map );
 	m_ModelOrDraughting = IfcBoolean::createObjectFromSTEP( args[4], map );
 }
-void IfcCurveStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCurveStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationStyle::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "CurveFont", m_CurveFont ) );
@@ -62,7 +62,7 @@ void IfcCurveStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr
 	vec_attributes.push_back( std::make_pair( "CurveColour", m_CurveColour ) );
 	vec_attributes.push_back( std::make_pair( "ModelOrDraughting", m_ModelOrDraughting ) );
 }
-void IfcCurveStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCurveStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationStyle::getAttributesInverse( vec_attributes_inverse );
 }

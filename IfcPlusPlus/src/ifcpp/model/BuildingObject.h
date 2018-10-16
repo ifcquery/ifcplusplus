@@ -21,7 +21,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <sstream>
 #include <vector>
 #include <map>
-//#include <boost/algorithm/string.hpp>
 #include "ifcpp/model/BasicTypes.h"
 
 enum BuildingEntityEnum {};
@@ -83,10 +82,10 @@ public:
 	virtual size_t getNumAttributes() = 0;
 
 	/** \brief Adds all attributes (including inherited attributes) with name and value to vec_attributes. Single attributes can be accessed directly, without this method.*/
-	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) = 0;
+	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const = 0;
 
 	/** \brief Same as getAttributes, but for inverse attributes.*/
-	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& map_attributes ) = 0;
+	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& map_attributes ) const = 0;
 
 	/** \brief If there is a reference from object a to object b, and b has an inverse reference to a, the inverse reference is established here.*/
 	virtual void setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self ) = 0;

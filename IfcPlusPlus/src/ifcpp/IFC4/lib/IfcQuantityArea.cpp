@@ -55,13 +55,13 @@ void IfcQuantityArea::readStepArguments( const std::vector<std::wstring>& args, 
 	m_AreaValue = IfcAreaMeasure::createObjectFromSTEP( args[3], map );
 	m_Formula = IfcLabel::createObjectFromSTEP( args[4], map );
 }
-void IfcQuantityArea::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcQuantityArea::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPhysicalSimpleQuantity::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "AreaValue", m_AreaValue ) );
 	vec_attributes.push_back( std::make_pair( "Formula", m_Formula ) );
 }
-void IfcQuantityArea::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcQuantityArea::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPhysicalSimpleQuantity::getAttributesInverse( vec_attributes_inverse );
 }

@@ -102,12 +102,12 @@ void IfcElectricFlowStorageDevice::readStepArguments( const std::vector<std::wst
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcElectricFlowStorageDeviceTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcElectricFlowStorageDevice::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcElectricFlowStorageDevice::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFlowStorageDevice::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcElectricFlowStorageDevice::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcElectricFlowStorageDevice::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFlowStorageDevice::getAttributesInverse( vec_attributes_inverse );
 }

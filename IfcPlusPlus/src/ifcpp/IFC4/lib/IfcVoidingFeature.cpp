@@ -100,12 +100,12 @@ void IfcVoidingFeature::readStepArguments( const std::vector<std::wstring>& args
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcVoidingFeatureTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcVoidingFeature::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcVoidingFeature::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFeatureElementSubtraction::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcVoidingFeature::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcVoidingFeature::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFeatureElementSubtraction::getAttributesInverse( vec_attributes_inverse );
 }

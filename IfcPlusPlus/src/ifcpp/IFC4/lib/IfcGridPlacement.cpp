@@ -41,13 +41,13 @@ void IfcGridPlacement::readStepArguments( const std::vector<std::wstring>& args,
 	readEntityReference( args[0], m_PlacementLocation, map );
 	m_PlacementRefDirection = IfcGridPlacementDirectionSelect::createObjectFromSTEP( args[1], map );
 }
-void IfcGridPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcGridPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcObjectPlacement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PlacementLocation", m_PlacementLocation ) );
 	vec_attributes.push_back( std::make_pair( "PlacementRefDirection", m_PlacementRefDirection ) );
 }
-void IfcGridPlacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcGridPlacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcObjectPlacement::getAttributesInverse( vec_attributes_inverse );
 }

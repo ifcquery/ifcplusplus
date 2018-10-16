@@ -81,12 +81,12 @@ void IfcRelAssignsToResource::readStepArguments( const std::vector<std::wstring>
 	m_RelatedObjectsType = IfcObjectTypeEnum::createObjectFromSTEP( args[5], map );
 	m_RelatingResource = IfcResourceSelect::createObjectFromSTEP( args[6], map );
 }
-void IfcRelAssignsToResource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelAssignsToResource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingResource", m_RelatingResource ) );
 }
-void IfcRelAssignsToResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelAssignsToResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelAssigns::getAttributesInverse( vec_attributes_inverse );
 }

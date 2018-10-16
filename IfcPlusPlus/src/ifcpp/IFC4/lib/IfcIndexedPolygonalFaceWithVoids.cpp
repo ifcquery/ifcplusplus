@@ -78,11 +78,11 @@ void IfcIndexedPolygonalFaceWithVoids::readStepArguments( const std::vector<std:
 	readTypeOfIntegerList( args[0], m_CoordIndex );
 	readTypeOfIntegerList2D( args[1], m_InnerCoordIndices );
 }
-void IfcIndexedPolygonalFaceWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcIndexedPolygonalFaceWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcIndexedPolygonalFace::getAttributes( vec_attributes );
 }
-void IfcIndexedPolygonalFaceWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcIndexedPolygonalFaceWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcIndexedPolygonalFace::getAttributesInverse( vec_attributes_inverse );
 }

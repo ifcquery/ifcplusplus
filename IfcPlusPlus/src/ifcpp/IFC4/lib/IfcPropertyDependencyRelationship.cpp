@@ -52,14 +52,14 @@ void IfcPropertyDependencyRelationship::readStepArguments( const std::vector<std
 	readEntityReference( args[3], m_DependantProperty, map );
 	m_Expression = IfcText::createObjectFromSTEP( args[4], map );
 }
-void IfcPropertyDependencyRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPropertyDependencyRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "DependingProperty", m_DependingProperty ) );
 	vec_attributes.push_back( std::make_pair( "DependantProperty", m_DependantProperty ) );
 	vec_attributes.push_back( std::make_pair( "Expression", m_Expression ) );
 }
-void IfcPropertyDependencyRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPropertyDependencyRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }

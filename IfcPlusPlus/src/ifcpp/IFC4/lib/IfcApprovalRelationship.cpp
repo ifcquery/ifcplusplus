@@ -55,7 +55,7 @@ void IfcApprovalRelationship::readStepArguments( const std::vector<std::wstring>
 	readEntityReference( args[2], m_RelatingApproval, map );
 	readEntityReferenceList( args[3], m_RelatedApprovals, map );
 }
-void IfcApprovalRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcApprovalRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingApproval", m_RelatingApproval ) );
@@ -66,7 +66,7 @@ void IfcApprovalRelationship::getAttributes( std::vector<std::pair<std::string, 
 		vec_attributes.push_back( std::make_pair( "RelatedApprovals", RelatedApprovals_vec_object ) );
 	}
 }
-void IfcApprovalRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcApprovalRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }

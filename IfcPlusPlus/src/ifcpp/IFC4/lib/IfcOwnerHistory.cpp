@@ -66,7 +66,7 @@ void IfcOwnerHistory::readStepArguments( const std::vector<std::wstring>& args, 
 	readEntityReference( args[6], m_LastModifyingApplication, map );
 	m_CreationDate = IfcTimeStamp::createObjectFromSTEP( args[7], map );
 }
-void IfcOwnerHistory::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcOwnerHistory::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "OwningUser", m_OwningUser ) );
 	vec_attributes.push_back( std::make_pair( "OwningApplication", m_OwningApplication ) );
@@ -77,7 +77,7 @@ void IfcOwnerHistory::getAttributes( std::vector<std::pair<std::string, shared_p
 	vec_attributes.push_back( std::make_pair( "LastModifyingApplication", m_LastModifyingApplication ) );
 	vec_attributes.push_back( std::make_pair( "CreationDate", m_CreationDate ) );
 }
-void IfcOwnerHistory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcOwnerHistory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcOwnerHistory::setInverseCounterparts( shared_ptr<BuildingEntity> )

@@ -96,11 +96,11 @@ void IfcStructuralPointAction::readStepArguments( const std::vector<std::wstring
 	m_GlobalOrLocal = IfcGlobalOrLocalEnum::createObjectFromSTEP( args[8], map );
 	m_DestabilizingLoad = IfcBoolean::createObjectFromSTEP( args[9], map );
 }
-void IfcStructuralPointAction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralPointAction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralAction::getAttributes( vec_attributes );
 }
-void IfcStructuralPointAction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralPointAction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralAction::getAttributesInverse( vec_attributes_inverse );
 }

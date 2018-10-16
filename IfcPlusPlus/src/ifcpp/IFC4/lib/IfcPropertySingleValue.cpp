@@ -55,13 +55,13 @@ void IfcPropertySingleValue::readStepArguments( const std::vector<std::wstring>&
 	m_NominalValue = IfcValue::createObjectFromSTEP( args[2], map );
 	m_Unit = IfcUnit::createObjectFromSTEP( args[3], map );
 }
-void IfcPropertySingleValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPropertySingleValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "NominalValue", m_NominalValue ) );
 	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
 }
-void IfcPropertySingleValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPropertySingleValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSimpleProperty::getAttributesInverse( vec_attributes_inverse );
 }

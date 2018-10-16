@@ -88,7 +88,7 @@ void IfcClassification::readStepArguments( const std::vector<std::wstring>& args
 	m_Location = IfcURIReference::createObjectFromSTEP( args[5], map );
 	readTypeOfStringList( args[6], m_ReferenceTokens );
 }
-void IfcClassification::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcClassification::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExternalInformation::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Source", m_Source ) );
@@ -104,7 +104,7 @@ void IfcClassification::getAttributes( std::vector<std::pair<std::string, shared
 		vec_attributes.push_back( std::make_pair( "ReferenceTokens", ReferenceTokens_vec_object ) );
 	}
 }
-void IfcClassification::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcClassification::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcExternalInformation::getAttributesInverse( vec_attributes_inverse );
 	if( m_ClassificationForObjects_inverse.size() > 0 )

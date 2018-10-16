@@ -50,11 +50,11 @@ void IfcLightSourceAmbient::readStepArguments( const std::vector<std::wstring>& 
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );
 	m_Intensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[3], map );
 }
-void IfcLightSourceAmbient::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcLightSourceAmbient::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLightSource::getAttributes( vec_attributes );
 }
-void IfcLightSourceAmbient::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcLightSourceAmbient::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcLightSource::getAttributesInverse( vec_attributes_inverse );
 }

@@ -60,7 +60,7 @@ void IfcReinforcementBarProperties::readStepArguments( const std::vector<std::ws
 	m_NominalBarDiameter = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4], map );
 	m_BarCount = IfcCountMeasure::createObjectFromSTEP( args[5], map );
 }
-void IfcReinforcementBarProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcReinforcementBarProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedProperties::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TotalCrossSectionArea", m_TotalCrossSectionArea ) );
@@ -70,7 +70,7 @@ void IfcReinforcementBarProperties::getAttributes( std::vector<std::pair<std::st
 	vec_attributes.push_back( std::make_pair( "NominalBarDiameter", m_NominalBarDiameter ) );
 	vec_attributes.push_back( std::make_pair( "BarCount", m_BarCount ) );
 }
-void IfcReinforcementBarProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcReinforcementBarProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPreDefinedProperties::getAttributesInverse( vec_attributes_inverse );
 }

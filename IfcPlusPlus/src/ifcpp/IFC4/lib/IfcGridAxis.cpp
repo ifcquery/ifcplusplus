@@ -46,13 +46,13 @@ void IfcGridAxis::readStepArguments( const std::vector<std::wstring>& args, cons
 	readEntityReference( args[1], m_AxisCurve, map );
 	m_SameSense = IfcBoolean::createObjectFromSTEP( args[2], map );
 }
-void IfcGridAxis::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcGridAxis::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "AxisTag", m_AxisTag ) );
 	vec_attributes.push_back( std::make_pair( "AxisCurve", m_AxisCurve ) );
 	vec_attributes.push_back( std::make_pair( "SameSense", m_SameSense ) );
 }
-void IfcGridAxis::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcGridAxis::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	if( m_PartOfW_inverse.size() > 0 )
 	{

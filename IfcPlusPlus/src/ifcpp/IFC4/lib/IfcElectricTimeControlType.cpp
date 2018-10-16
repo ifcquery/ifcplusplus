@@ -106,12 +106,12 @@ void IfcElectricTimeControlType::readStepArguments( const std::vector<std::wstri
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcElectricTimeControlTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcElectricTimeControlType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcElectricTimeControlType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFlowControllerType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcElectricTimeControlType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcElectricTimeControlType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFlowControllerType::getAttributesInverse( vec_attributes_inverse );
 }

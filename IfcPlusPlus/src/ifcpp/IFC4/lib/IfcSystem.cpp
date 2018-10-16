@@ -71,11 +71,11 @@ void IfcSystem::readStepArguments( const std::vector<std::wstring>& args, const 
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
 	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4], map );
 }
-void IfcSystem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSystem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGroup::getAttributes( vec_attributes );
 }
-void IfcSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGroup::getAttributesInverse( vec_attributes_inverse );
 	if( m_ServicesBuildings_inverse.size() > 0 )

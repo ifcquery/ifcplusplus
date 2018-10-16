@@ -46,7 +46,7 @@ void IfcSurfaceStyleLighting::readStepArguments( const std::vector<std::wstring>
 	readEntityReference( args[2], m_TransmissionColour, map );
 	readEntityReference( args[3], m_ReflectanceColour, map );
 }
-void IfcSurfaceStyleLighting::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSurfaceStyleLighting::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "DiffuseTransmissionColour", m_DiffuseTransmissionColour ) );
@@ -54,7 +54,7 @@ void IfcSurfaceStyleLighting::getAttributes( std::vector<std::pair<std::string, 
 	vec_attributes.push_back( std::make_pair( "TransmissionColour", m_TransmissionColour ) );
 	vec_attributes.push_back( std::make_pair( "ReflectanceColour", m_ReflectanceColour ) );
 }
-void IfcSurfaceStyleLighting::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSurfaceStyleLighting::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

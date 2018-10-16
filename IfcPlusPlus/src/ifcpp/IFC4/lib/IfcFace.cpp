@@ -44,7 +44,7 @@ void IfcFace::readStepArguments( const std::vector<std::wstring>& args, const st
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFace, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Bounds, map );
 }
-void IfcFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
 	if( m_Bounds.size() > 0 )
@@ -54,7 +54,7 @@ void IfcFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<Build
 		vec_attributes.push_back( std::make_pair( "Bounds", Bounds_vec_object ) );
 	}
 }
-void IfcFace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTopologicalRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasTextureMaps_inverse.size() > 0 )

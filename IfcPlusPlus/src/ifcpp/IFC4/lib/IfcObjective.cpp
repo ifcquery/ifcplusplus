@@ -90,7 +90,7 @@ void IfcObjective::readStepArguments( const std::vector<std::wstring>& args, con
 	m_ObjectiveQualifier = IfcObjectiveEnum::createObjectFromSTEP( args[9], map );
 	m_UserDefinedQualifier = IfcLabel::createObjectFromSTEP( args[10], map );
 }
-void IfcObjective::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcObjective::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConstraint::getAttributes( vec_attributes );
 	if( m_BenchmarkValues.size() > 0 )
@@ -103,7 +103,7 @@ void IfcObjective::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	vec_attributes.push_back( std::make_pair( "ObjectiveQualifier", m_ObjectiveQualifier ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedQualifier", m_UserDefinedQualifier ) );
 }
-void IfcObjective::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcObjective::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcConstraint::getAttributesInverse( vec_attributes_inverse );
 }

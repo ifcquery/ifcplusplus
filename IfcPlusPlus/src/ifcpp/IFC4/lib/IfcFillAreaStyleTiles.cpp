@@ -59,7 +59,7 @@ void IfcFillAreaStyleTiles::readStepArguments( const std::vector<std::wstring>& 
 	readEntityReferenceList( args[1], m_Tiles, map );
 	m_TilingScale = IfcPositiveRatioMeasure::createObjectFromSTEP( args[2], map );
 }
-void IfcFillAreaStyleTiles::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFillAreaStyleTiles::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	if( m_TilingPattern.size() > 0 )
@@ -76,7 +76,7 @@ void IfcFillAreaStyleTiles::getAttributes( std::vector<std::pair<std::string, sh
 	}
 	vec_attributes.push_back( std::make_pair( "TilingScale", m_TilingScale ) );
 }
-void IfcFillAreaStyleTiles::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFillAreaStyleTiles::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

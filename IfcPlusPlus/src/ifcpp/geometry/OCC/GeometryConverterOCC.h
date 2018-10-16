@@ -47,11 +47,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 class GeometryConverterOCC : public StatusCallback
 {
 protected:
-	shared_ptr<BuildingModel>							m_ifc_model;
+	shared_ptr<BuildingModel>						m_ifc_model;
 	shared_ptr<GeometrySettings>					m_geom_settings;
 	shared_ptr<RepresentationConverterOCC>			m_representation_converter;
 	std::map<int, shared_ptr<ProductShapeDataOCC> >	m_product_shape_data;
-	std::map<int, shared_ptr<BuildingObject> >			m_map_outside_spatial_structure;
+	std::map<int, shared_ptr<BuildingObject> >		m_map_outside_spatial_structure;
 	double											m_recent_progress;
 	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
 #ifdef ENABLE_OPENMP
@@ -61,7 +61,7 @@ protected:
 
 public:
 	// getters and setters
-	shared_ptr<BuildingModel>&							getBuildingModel() { return m_ifc_model; }
+	shared_ptr<BuildingModel>&						getBuildingModel() { return m_ifc_model; }
 	shared_ptr<RepresentationConverterOCC>&			getRepresentationConverter() { return m_representation_converter; }
 	std::map<int, shared_ptr<ProductShapeDataOCC> >& getShapeInputData() { return m_product_shape_data; }
 	shared_ptr<GeometrySettings>&					getGeomSettings() { return m_geom_settings; }

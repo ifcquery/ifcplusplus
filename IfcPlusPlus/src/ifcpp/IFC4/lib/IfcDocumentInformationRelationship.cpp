@@ -59,7 +59,7 @@ void IfcDocumentInformationRelationship::readStepArguments( const std::vector<st
 	readEntityReferenceList( args[3], m_RelatedDocuments, map );
 	m_RelationshipType = IfcLabel::createObjectFromSTEP( args[4], map );
 }
-void IfcDocumentInformationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDocumentInformationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingDocument", m_RelatingDocument ) );
@@ -71,7 +71,7 @@ void IfcDocumentInformationRelationship::getAttributes( std::vector<std::pair<st
 	}
 	vec_attributes.push_back( std::make_pair( "RelationshipType", m_RelationshipType ) );
 }
-void IfcDocumentInformationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDocumentInformationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }

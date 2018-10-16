@@ -57,7 +57,7 @@ void IfcLightDistributionData::readStepArguments( const std::vector<std::wstring
 	readTypeOfRealList( args[1], m_SecondaryPlaneAngle );
 	readTypeOfRealList( args[2], m_LuminousIntensity );
 }
-void IfcLightDistributionData::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcLightDistributionData::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "MainPlaneAngle", m_MainPlaneAngle ) );
 	if( m_SecondaryPlaneAngle.size() > 0 )
@@ -73,7 +73,7 @@ void IfcLightDistributionData::getAttributes( std::vector<std::pair<std::string,
 		vec_attributes.push_back( std::make_pair( "LuminousIntensity", LuminousIntensity_vec_object ) );
 	}
 }
-void IfcLightDistributionData::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcLightDistributionData::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcLightDistributionData::setInverseCounterparts( shared_ptr<BuildingEntity> )

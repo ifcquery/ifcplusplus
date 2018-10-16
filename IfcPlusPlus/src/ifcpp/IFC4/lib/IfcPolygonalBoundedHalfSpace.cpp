@@ -51,13 +51,13 @@ void IfcPolygonalBoundedHalfSpace::readStepArguments( const std::vector<std::wst
 	readEntityReference( args[2], m_Position, map );
 	readEntityReference( args[3], m_PolygonalBoundary, map );
 }
-void IfcPolygonalBoundedHalfSpace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPolygonalBoundedHalfSpace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcHalfSpaceSolid::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
 	vec_attributes.push_back( std::make_pair( "PolygonalBoundary", m_PolygonalBoundary ) );
 }
-void IfcPolygonalBoundedHalfSpace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPolygonalBoundedHalfSpace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcHalfSpaceSolid::getAttributesInverse( vec_attributes_inverse );
 }

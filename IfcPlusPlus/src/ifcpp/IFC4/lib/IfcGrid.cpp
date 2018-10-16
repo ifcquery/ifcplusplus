@@ -120,7 +120,7 @@ void IfcGrid::readStepArguments( const std::vector<std::wstring>& args, const st
 	readEntityReferenceList( args[9], m_WAxes, map );
 	m_PredefinedType = IfcGridTypeEnum::createObjectFromSTEP( args[10], map );
 }
-void IfcGrid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcGrid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProduct::getAttributes( vec_attributes );
 	if( m_UAxes.size() > 0 )
@@ -143,7 +143,7 @@ void IfcGrid::getAttributes( std::vector<std::pair<std::string, shared_ptr<Build
 	}
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcGrid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcGrid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProduct::getAttributesInverse( vec_attributes_inverse );
 	if( m_ContainedInStructure_inverse.size() > 0 )

@@ -45,14 +45,14 @@ void IfcPointOnSurface::readStepArguments( const std::vector<std::wstring>& args
 	m_PointParameterU = IfcParameterValue::createObjectFromSTEP( args[1], map );
 	m_PointParameterV = IfcParameterValue::createObjectFromSTEP( args[2], map );
 }
-void IfcPointOnSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPointOnSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPoint::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
 	vec_attributes.push_back( std::make_pair( "PointParameterU", m_PointParameterU ) );
 	vec_attributes.push_back( std::make_pair( "PointParameterV", m_PointParameterV ) );
 }
-void IfcPointOnSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPointOnSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPoint::getAttributesInverse( vec_attributes_inverse );
 }

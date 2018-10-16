@@ -83,7 +83,7 @@ void IfcAppliedValue::readStepArguments( const std::vector<std::wstring>& args, 
 	m_ArithmeticOperator = IfcArithmeticOperatorEnum::createObjectFromSTEP( args[8], map );
 	readEntityReferenceList( args[9], m_Components, map );
 }
-void IfcAppliedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcAppliedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
@@ -101,7 +101,7 @@ void IfcAppliedValue::getAttributes( std::vector<std::pair<std::string, shared_p
 		vec_attributes.push_back( std::make_pair( "Components", Components_vec_object ) );
 	}
 }
-void IfcAppliedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcAppliedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	if( m_HasExternalReference_inverse.size() > 0 )
 	{

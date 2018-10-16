@@ -72,7 +72,7 @@ void IfcZShapeProfileDef::readStepArguments( const std::vector<std::wstring>& ar
 	m_FilletRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[7], map );
 	m_EdgeRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[8], map );
 }
-void IfcZShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcZShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Depth", m_Depth ) );
@@ -82,7 +82,7 @@ void IfcZShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shar
 	vec_attributes.push_back( std::make_pair( "FilletRadius", m_FilletRadius ) );
 	vec_attributes.push_back( std::make_pair( "EdgeRadius", m_EdgeRadius ) );
 }
-void IfcZShapeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcZShapeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcParameterizedProfileDef::getAttributesInverse( vec_attributes_inverse );
 }

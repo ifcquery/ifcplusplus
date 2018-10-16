@@ -55,13 +55,13 @@ void IfcRectangleProfileDef::readStepArguments( const std::vector<std::wstring>&
 	m_XDim = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map );
 	m_YDim = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4], map );
 }
-void IfcRectangleProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRectangleProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "XDim", m_XDim ) );
 	vec_attributes.push_back( std::make_pair( "YDim", m_YDim ) );
 }
-void IfcRectangleProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRectangleProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcParameterizedProfileDef::getAttributesInverse( vec_attributes_inverse );
 }

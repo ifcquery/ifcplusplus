@@ -95,7 +95,7 @@ void IfcRecurrencePattern::readStepArguments( const std::vector<std::wstring>& a
 	m_Occurrences = IfcInteger::createObjectFromSTEP( args[6], map );
 	readEntityReferenceList( args[7], m_TimePeriods, map );
 }
-void IfcRecurrencePattern::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRecurrencePattern::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "RecurrenceType", m_RecurrenceType ) );
 	if( m_DayComponent.size() > 0 )
@@ -126,7 +126,7 @@ void IfcRecurrencePattern::getAttributes( std::vector<std::pair<std::string, sha
 		vec_attributes.push_back( std::make_pair( "TimePeriods", TimePeriods_vec_object ) );
 	}
 }
-void IfcRecurrencePattern::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRecurrencePattern::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcRecurrencePattern::setInverseCounterparts( shared_ptr<BuildingEntity> )

@@ -43,7 +43,7 @@ void IfcCartesianPoint::readStepArguments( const std::vector<std::wstring>& args
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianPoint, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readTypeOfRealList( args[0], m_Coordinates );
 }
-void IfcCartesianPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCartesianPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPoint::getAttributes( vec_attributes );
 	if( m_Coordinates.size() > 0 )
@@ -53,7 +53,7 @@ void IfcCartesianPoint::getAttributes( std::vector<std::pair<std::string, shared
 		vec_attributes.push_back( std::make_pair( "Coordinates", Coordinates_vec_object ) );
 	}
 }
-void IfcCartesianPoint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCartesianPoint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPoint::getAttributesInverse( vec_attributes_inverse );
 }

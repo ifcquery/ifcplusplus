@@ -45,13 +45,13 @@ void IfcExternalReference::readStepArguments( const std::vector<std::wstring>& a
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[1], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 }
-void IfcExternalReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcExternalReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Location", m_Location ) );
 	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 }
-void IfcExternalReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcExternalReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	if( m_ExternalReferenceForResources_inverse.size() > 0 )
 	{

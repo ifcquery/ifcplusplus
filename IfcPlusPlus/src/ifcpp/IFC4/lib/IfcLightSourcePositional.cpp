@@ -73,7 +73,7 @@ void IfcLightSourcePositional::readStepArguments( const std::vector<std::wstring
 	m_DistanceAttenuation = IfcReal::createObjectFromSTEP( args[7], map );
 	m_QuadricAttenuation = IfcReal::createObjectFromSTEP( args[8], map );
 }
-void IfcLightSourcePositional::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcLightSourcePositional::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLightSource::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
@@ -82,7 +82,7 @@ void IfcLightSourcePositional::getAttributes( std::vector<std::pair<std::string,
 	vec_attributes.push_back( std::make_pair( "DistanceAttenuation", m_DistanceAttenuation ) );
 	vec_attributes.push_back( std::make_pair( "QuadricAttenuation", m_QuadricAttenuation ) );
 }
-void IfcLightSourcePositional::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcLightSourcePositional::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcLightSource::getAttributesInverse( vec_attributes_inverse );
 }

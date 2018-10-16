@@ -92,12 +92,12 @@ void IfcStructuralCurveConnection::readStepArguments( const std::vector<std::wst
 	readEntityReference( args[7], m_AppliedCondition, map );
 	readEntityReference( args[8], m_Axis, map );
 }
-void IfcStructuralCurveConnection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralCurveConnection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralConnection::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Axis", m_Axis ) );
 }
-void IfcStructuralCurveConnection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralCurveConnection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralConnection::getAttributesInverse( vec_attributes_inverse );
 }

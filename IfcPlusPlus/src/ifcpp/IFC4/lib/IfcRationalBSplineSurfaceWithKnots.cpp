@@ -144,11 +144,11 @@ void IfcRationalBSplineSurfaceWithKnots::readStepArguments( const std::vector<st
 	m_KnotSpec = IfcKnotType::createObjectFromSTEP( args[11], map );
 	readTypeOfRealList2D( args[12], m_WeightsData );
 }
-void IfcRationalBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRationalBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBSplineSurfaceWithKnots::getAttributes( vec_attributes );
 }
-void IfcRationalBSplineSurfaceWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRationalBSplineSurfaceWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBSplineSurfaceWithKnots::getAttributesInverse( vec_attributes_inverse );
 }

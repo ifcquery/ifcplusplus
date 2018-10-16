@@ -106,12 +106,12 @@ void IfcDuctSilencerType::readStepArguments( const std::vector<std::wstring>& ar
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcDuctSilencerTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcDuctSilencerType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDuctSilencerType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFlowTreatmentDeviceType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcDuctSilencerType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDuctSilencerType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFlowTreatmentDeviceType::getAttributesInverse( vec_attributes_inverse );
 }

@@ -107,14 +107,14 @@ void IfcEventType::readStepArguments( const std::vector<std::wstring>& args, con
 	m_EventTriggerType = IfcEventTriggerTypeEnum::createObjectFromSTEP( args[10], map );
 	m_UserDefinedEventTriggerType = IfcLabel::createObjectFromSTEP( args[11], map );
 }
-void IfcEventType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcEventType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTypeProcess::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "EventTriggerType", m_EventTriggerType ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedEventTriggerType", m_UserDefinedEventTriggerType ) );
 }
-void IfcEventType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcEventType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTypeProcess::getAttributesInverse( vec_attributes_inverse );
 }

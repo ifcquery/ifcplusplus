@@ -83,7 +83,7 @@ void IfcMetric::readStepArguments( const std::vector<std::wstring>& args, const 
 	m_DataValue = IfcMetricValueSelect::createObjectFromSTEP( args[9], map );
 	readEntityReference( args[10], m_ReferencePath, map );
 }
-void IfcMetric::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMetric::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConstraint::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Benchmark", m_Benchmark ) );
@@ -91,7 +91,7 @@ void IfcMetric::getAttributes( std::vector<std::pair<std::string, shared_ptr<Bui
 	vec_attributes.push_back( std::make_pair( "DataValue", m_DataValue ) );
 	vec_attributes.push_back( std::make_pair( "ReferencePath", m_ReferencePath ) );
 }
-void IfcMetric::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMetric::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcConstraint::getAttributesInverse( vec_attributes_inverse );
 }

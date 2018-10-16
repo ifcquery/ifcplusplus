@@ -43,7 +43,7 @@ void IfcPolyline::readStepArguments( const std::vector<std::wstring>& args, cons
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolyline, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Points, map );
 }
-void IfcPolyline::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPolyline::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
 	if( m_Points.size() > 0 )
@@ -53,7 +53,7 @@ void IfcPolyline::getAttributes( std::vector<std::pair<std::string, shared_ptr<B
 		vec_attributes.push_back( std::make_pair( "Points", Points_vec_object ) );
 	}
 }
-void IfcPolyline::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPolyline::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBoundedCurve::getAttributesInverse( vec_attributes_inverse );
 }

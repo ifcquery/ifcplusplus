@@ -63,7 +63,7 @@ void IfcPropertyBoundedValue::readStepArguments( const std::vector<std::wstring>
 	m_Unit = IfcUnit::createObjectFromSTEP( args[4], map );
 	m_SetPointValue = IfcValue::createObjectFromSTEP( args[5], map );
 }
-void IfcPropertyBoundedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPropertyBoundedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "UpperBoundValue", m_UpperBoundValue ) );
@@ -71,7 +71,7 @@ void IfcPropertyBoundedValue::getAttributes( std::vector<std::pair<std::string, 
 	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
 	vec_attributes.push_back( std::make_pair( "SetPointValue", m_SetPointValue ) );
 }
-void IfcPropertyBoundedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPropertyBoundedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSimpleProperty::getAttributesInverse( vec_attributes_inverse );
 }

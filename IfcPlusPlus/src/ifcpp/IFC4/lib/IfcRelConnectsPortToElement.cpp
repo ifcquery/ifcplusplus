@@ -67,13 +67,13 @@ void IfcRelConnectsPortToElement::readStepArguments( const std::vector<std::wstr
 	readEntityReference( args[4], m_RelatingPort, map );
 	readEntityReference( args[5], m_RelatedElement, map );
 }
-void IfcRelConnectsPortToElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelConnectsPortToElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingPort", m_RelatingPort ) );
 	vec_attributes.push_back( std::make_pair( "RelatedElement", m_RelatedElement ) );
 }
-void IfcRelConnectsPortToElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelConnectsPortToElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }

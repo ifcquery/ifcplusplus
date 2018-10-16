@@ -74,7 +74,7 @@ void IfcRelDefinesByType::readStepArguments( const std::vector<std::wstring>& ar
 	readEntityReferenceList( args[4], m_RelatedObjects, map );
 	readEntityReference( args[5], m_RelatingType, map );
 }
-void IfcRelDefinesByType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelDefinesByType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelDefines::getAttributes( vec_attributes );
 	if( m_RelatedObjects.size() > 0 )
@@ -85,7 +85,7 @@ void IfcRelDefinesByType::getAttributes( std::vector<std::pair<std::string, shar
 	}
 	vec_attributes.push_back( std::make_pair( "RelatingType", m_RelatingType ) );
 }
-void IfcRelDefinesByType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelDefinesByType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelDefines::getAttributesInverse( vec_attributes_inverse );
 }

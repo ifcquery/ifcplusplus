@@ -41,13 +41,13 @@ void IfcMappedItem::readStepArguments( const std::vector<std::wstring>& args, co
 	readEntityReference( args[0], m_MappingSource, map );
 	readEntityReference( args[1], m_MappingTarget, map );
 }
-void IfcMappedItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMappedItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "MappingSource", m_MappingSource ) );
 	vec_attributes.push_back( std::make_pair( "MappingTarget", m_MappingTarget ) );
 }
-void IfcMappedItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMappedItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

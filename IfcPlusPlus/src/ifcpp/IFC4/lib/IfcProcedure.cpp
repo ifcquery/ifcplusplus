@@ -85,12 +85,12 @@ void IfcProcedure::readStepArguments( const std::vector<std::wstring>& args, con
 	m_LongDescription = IfcText::createObjectFromSTEP( args[6], map );
 	m_PredefinedType = IfcProcedureTypeEnum::createObjectFromSTEP( args[7], map );
 }
-void IfcProcedure::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcProcedure::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProcess::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcProcedure::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcProcedure::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProcess::getAttributesInverse( vec_attributes_inverse );
 }

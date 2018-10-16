@@ -84,7 +84,7 @@ void IfcRelInterferesElements::readStepArguments( const std::vector<std::wstring
 	else if( boost::iequals( args[8], L".T." ) ) { m_ImpliedOrder = LOGICAL_TRUE; }
 	else if( boost::iequals( args[8], L".U." ) ) { m_ImpliedOrder = LOGICAL_UNKNOWN; }
 }
-void IfcRelInterferesElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelInterferesElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingElement", m_RelatingElement ) );
@@ -93,7 +93,7 @@ void IfcRelInterferesElements::getAttributes( std::vector<std::pair<std::string,
 	vec_attributes.push_back( std::make_pair( "InterferenceType", m_InterferenceType ) );
 	vec_attributes.push_back( std::make_pair( "ImpliedOrder", shared_ptr<LogicalAttribute>( new LogicalAttribute( m_ImpliedOrder ) ) ) );
 }
-void IfcRelInterferesElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelInterferesElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }

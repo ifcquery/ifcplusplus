@@ -36,12 +36,12 @@ void IfcVertexPoint::readStepArguments( const std::vector<std::wstring>& args, c
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcVertexPoint, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_VertexGeometry, map );
 }
-void IfcVertexPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcVertexPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcVertex::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "VertexGeometry", m_VertexGeometry ) );
 }
-void IfcVertexPoint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcVertexPoint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcVertex::getAttributesInverse( vec_attributes_inverse );
 }

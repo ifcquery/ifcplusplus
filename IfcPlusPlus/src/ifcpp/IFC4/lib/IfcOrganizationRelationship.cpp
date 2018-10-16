@@ -55,7 +55,7 @@ void IfcOrganizationRelationship::readStepArguments( const std::vector<std::wstr
 	readEntityReference( args[2], m_RelatingOrganization, map );
 	readEntityReferenceList( args[3], m_RelatedOrganizations, map );
 }
-void IfcOrganizationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcOrganizationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingOrganization", m_RelatingOrganization ) );
@@ -66,7 +66,7 @@ void IfcOrganizationRelationship::getAttributes( std::vector<std::pair<std::stri
 		vec_attributes.push_back( std::make_pair( "RelatedOrganizations", RelatedOrganizations_vec_object ) );
 	}
 }
-void IfcOrganizationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcOrganizationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }

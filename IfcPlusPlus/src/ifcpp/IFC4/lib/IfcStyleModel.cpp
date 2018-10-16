@@ -62,11 +62,11 @@ void IfcStyleModel::readStepArguments( const std::vector<std::wstring>& args, co
 	m_RepresentationType = IfcLabel::createObjectFromSTEP( args[2], map );
 	readEntityReferenceList( args[3], m_Items, map );
 }
-void IfcStyleModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStyleModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRepresentation::getAttributes( vec_attributes );
 }
-void IfcStyleModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStyleModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRepresentation::getAttributesInverse( vec_attributes_inverse );
 }

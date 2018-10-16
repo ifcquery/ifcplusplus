@@ -41,13 +41,13 @@ void IfcVector::readStepArguments( const std::vector<std::wstring>& args, const 
 	readEntityReference( args[0], m_Orientation, map );
 	m_Magnitude = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 }
-void IfcVector::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcVector::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Orientation", m_Orientation ) );
 	vec_attributes.push_back( std::make_pair( "Magnitude", m_Magnitude ) );
 }
-void IfcVector::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcVector::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

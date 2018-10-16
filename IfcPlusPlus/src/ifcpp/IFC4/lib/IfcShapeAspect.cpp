@@ -63,7 +63,7 @@ void IfcShapeAspect::readStepArguments( const std::vector<std::wstring>& args, c
 	m_ProductDefinitional = IfcLogical::createObjectFromSTEP( args[3], map );
 	m_PartOfProductDefinitionShape = IfcProductRepresentationSelect::createObjectFromSTEP( args[4], map );
 }
-void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	if( m_ShapeRepresentations.size() > 0 )
 	{
@@ -76,7 +76,7 @@ void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_pt
 	vec_attributes.push_back( std::make_pair( "ProductDefinitional", m_ProductDefinitional ) );
 	vec_attributes.push_back( std::make_pair( "PartOfProductDefinitionShape", m_PartOfProductDefinitionShape ) );
 }
-void IfcShapeAspect::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcShapeAspect::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcShapeAspect::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

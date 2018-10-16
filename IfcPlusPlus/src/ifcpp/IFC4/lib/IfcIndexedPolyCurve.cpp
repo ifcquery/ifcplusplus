@@ -70,7 +70,7 @@ void IfcIndexedPolyCurve::readStepArguments( const std::vector<std::wstring>& ar
 	readSelectList( args[1], m_Segments, map );
 	m_SelfIntersect = IfcBoolean::createObjectFromSTEP( args[2], map );
 }
-void IfcIndexedPolyCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcIndexedPolyCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Points", m_Points ) );
@@ -82,7 +82,7 @@ void IfcIndexedPolyCurve::getAttributes( std::vector<std::pair<std::string, shar
 	}
 	vec_attributes.push_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 }
-void IfcIndexedPolyCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcIndexedPolyCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBoundedCurve::getAttributesInverse( vec_attributes_inverse );
 }

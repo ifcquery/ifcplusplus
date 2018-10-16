@@ -63,7 +63,7 @@ void IfcMaterialClassificationRelationship::readStepArguments( const std::vector
 	readSelectList( args[0], m_MaterialClassifications, map );
 	readEntityReference( args[1], m_ClassifiedMaterial, map );
 }
-void IfcMaterialClassificationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMaterialClassificationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	if( m_MaterialClassifications.size() > 0 )
 	{
@@ -73,7 +73,7 @@ void IfcMaterialClassificationRelationship::getAttributes( std::vector<std::pair
 	}
 	vec_attributes.push_back( std::make_pair( "ClassifiedMaterial", m_ClassifiedMaterial ) );
 }
-void IfcMaterialClassificationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMaterialClassificationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcMaterialClassificationRelationship::setInverseCounterparts( shared_ptr<BuildingEntity> )

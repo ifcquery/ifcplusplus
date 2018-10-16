@@ -102,12 +102,12 @@ void IfcProtectiveDeviceTrippingUnit::readStepArguments( const std::vector<std::
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcProtectiveDeviceTrippingUnitTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcProtectiveDeviceTrippingUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcProtectiveDeviceTrippingUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcDistributionControlElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcProtectiveDeviceTrippingUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcProtectiveDeviceTrippingUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcDistributionControlElement::getAttributesInverse( vec_attributes_inverse );
 }

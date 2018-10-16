@@ -77,7 +77,7 @@ void IfcRelContainedInSpatialStructure::readStepArguments( const std::vector<std
 	readEntityReferenceList( args[4], m_RelatedElements, map );
 	readEntityReference( args[5], m_RelatingStructure, map );
 }
-void IfcRelContainedInSpatialStructure::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelContainedInSpatialStructure::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	if( m_RelatedElements.size() > 0 )
@@ -88,7 +88,7 @@ void IfcRelContainedInSpatialStructure::getAttributes( std::vector<std::pair<std
 	}
 	vec_attributes.push_back( std::make_pair( "RelatingStructure", m_RelatingStructure ) );
 }
-void IfcRelContainedInSpatialStructure::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelContainedInSpatialStructure::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }

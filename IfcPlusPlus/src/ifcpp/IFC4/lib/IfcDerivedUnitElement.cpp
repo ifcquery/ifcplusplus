@@ -38,12 +38,12 @@ void IfcDerivedUnitElement::readStepArguments( const std::vector<std::wstring>& 
 	readEntityReference( args[0], m_Unit, map );
 	readIntegerValue( args[1], m_Exponent );
 }
-void IfcDerivedUnitElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDerivedUnitElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
 	vec_attributes.push_back( std::make_pair( "Exponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_Exponent ) ) ) );
 }
-void IfcDerivedUnitElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDerivedUnitElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcDerivedUnitElement::setInverseCounterparts( shared_ptr<BuildingEntity> )

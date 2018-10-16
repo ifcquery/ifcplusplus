@@ -106,12 +106,12 @@ void IfcSubContractResource::readStepArguments( const std::vector<std::wstring>&
 	readEntityReference( args[9], m_BaseQuantity, map );
 	m_PredefinedType = IfcSubContractResourceTypeEnum::createObjectFromSTEP( args[10], map );
 }
-void IfcSubContractResource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSubContractResource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConstructionResource::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcSubContractResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSubContractResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcConstructionResource::getAttributesInverse( vec_attributes_inverse );
 }

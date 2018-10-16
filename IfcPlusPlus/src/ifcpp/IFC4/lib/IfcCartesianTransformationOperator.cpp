@@ -50,7 +50,7 @@ void IfcCartesianTransformationOperator::readStepArguments( const std::vector<st
 	readEntityReference( args[2], m_LocalOrigin, map );
 	m_Scale = IfcReal::createObjectFromSTEP( args[3], map );
 }
-void IfcCartesianTransformationOperator::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCartesianTransformationOperator::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Axis1", m_Axis1 ) );
@@ -58,7 +58,7 @@ void IfcCartesianTransformationOperator::getAttributes( std::vector<std::pair<st
 	vec_attributes.push_back( std::make_pair( "LocalOrigin", m_LocalOrigin ) );
 	vec_attributes.push_back( std::make_pair( "Scale", m_Scale ) );
 }
-void IfcCartesianTransformationOperator::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCartesianTransformationOperator::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

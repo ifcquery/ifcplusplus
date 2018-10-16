@@ -89,13 +89,13 @@ void IfcProxy::readStepArguments( const std::vector<std::wstring>& args, const s
 	m_ProxyType = IfcObjectTypeEnum::createObjectFromSTEP( args[7], map );
 	m_Tag = IfcLabel::createObjectFromSTEP( args[8], map );
 }
-void IfcProxy::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcProxy::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProduct::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ProxyType", m_ProxyType ) );
 	vec_attributes.push_back( std::make_pair( "Tag", m_Tag ) );
 }
-void IfcProxy::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcProxy::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProduct::getAttributesInverse( vec_attributes_inverse );
 }

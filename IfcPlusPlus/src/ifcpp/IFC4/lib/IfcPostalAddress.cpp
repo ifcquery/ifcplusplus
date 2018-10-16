@@ -98,7 +98,7 @@ void IfcPostalAddress::readStepArguments( const std::vector<std::wstring>& args,
 	m_PostalCode = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_Country = IfcLabel::createObjectFromSTEP( args[9], map );
 }
-void IfcPostalAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPostalAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcAddress::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "InternalLocation", m_InternalLocation ) );
@@ -114,7 +114,7 @@ void IfcPostalAddress::getAttributes( std::vector<std::pair<std::string, shared_
 	vec_attributes.push_back( std::make_pair( "PostalCode", m_PostalCode ) );
 	vec_attributes.push_back( std::make_pair( "Country", m_Country ) );
 }
-void IfcPostalAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPostalAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcAddress::getAttributesInverse( vec_attributes_inverse );
 }

@@ -41,12 +41,12 @@ void IfcCircle::readStepArguments( const std::vector<std::wstring>& args, const 
 	m_Position = IfcAxis2Placement::createObjectFromSTEP( args[0], map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 }
-void IfcCircle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCircle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConic::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
 }
-void IfcCircle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCircle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcConic::getAttributesInverse( vec_attributes_inverse );
 }

@@ -118,7 +118,7 @@ void IfcStairFlight::readStepArguments( const std::vector<std::wstring>& args, c
 	m_TreadLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[11], map );
 	m_PredefinedType = IfcStairFlightTypeEnum::createObjectFromSTEP( args[12], map );
 }
-void IfcStairFlight::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStairFlight::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBuildingElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "NumberOfRisers", m_NumberOfRisers ) );
@@ -127,7 +127,7 @@ void IfcStairFlight::getAttributes( std::vector<std::pair<std::string, shared_pt
 	vec_attributes.push_back( std::make_pair( "TreadLength", m_TreadLength ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcStairFlight::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStairFlight::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBuildingElement::getAttributesInverse( vec_attributes_inverse );
 }

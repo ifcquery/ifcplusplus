@@ -51,7 +51,7 @@ void IfcPersonAndOrganization::readStepArguments( const std::vector<std::wstring
 	readEntityReference( args[1], m_TheOrganization, map );
 	readEntityReferenceList( args[2], m_Roles, map );
 }
-void IfcPersonAndOrganization::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPersonAndOrganization::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "ThePerson", m_ThePerson ) );
 	vec_attributes.push_back( std::make_pair( "TheOrganization", m_TheOrganization ) );
@@ -62,7 +62,7 @@ void IfcPersonAndOrganization::getAttributes( std::vector<std::pair<std::string,
 		vec_attributes.push_back( std::make_pair( "Roles", Roles_vec_object ) );
 	}
 }
-void IfcPersonAndOrganization::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPersonAndOrganization::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcPersonAndOrganization::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

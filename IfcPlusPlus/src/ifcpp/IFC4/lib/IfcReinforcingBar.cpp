@@ -123,7 +123,7 @@ void IfcReinforcingBar::readStepArguments( const std::vector<std::wstring>& args
 	m_PredefinedType = IfcReinforcingBarTypeEnum::createObjectFromSTEP( args[12], map );
 	m_BarSurface = IfcReinforcingBarSurfaceEnum::createObjectFromSTEP( args[13], map );
 }
-void IfcReinforcingBar::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcReinforcingBar::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcReinforcingElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "NominalDiameter", m_NominalDiameter ) );
@@ -132,7 +132,7 @@ void IfcReinforcingBar::getAttributes( std::vector<std::pair<std::string, shared
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "BarSurface", m_BarSurface ) );
 }
-void IfcReinforcingBar::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcReinforcingBar::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcReinforcingElement::getAttributesInverse( vec_attributes_inverse );
 }

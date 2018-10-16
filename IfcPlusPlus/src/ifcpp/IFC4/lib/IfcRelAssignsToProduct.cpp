@@ -81,12 +81,12 @@ void IfcRelAssignsToProduct::readStepArguments( const std::vector<std::wstring>&
 	m_RelatedObjectsType = IfcObjectTypeEnum::createObjectFromSTEP( args[5], map );
 	m_RelatingProduct = IfcProductSelect::createObjectFromSTEP( args[6], map );
 }
-void IfcRelAssignsToProduct::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelAssignsToProduct::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingProduct", m_RelatingProduct ) );
 }
-void IfcRelAssignsToProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelAssignsToProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelAssigns::getAttributesInverse( vec_attributes_inverse );
 }

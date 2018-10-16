@@ -90,7 +90,7 @@ void IfcBSplineCurveWithKnots::readStepArguments( const std::vector<std::wstring
 	readTypeOfRealList( args[6], m_Knots );
 	m_KnotSpec = IfcKnotType::createObjectFromSTEP( args[7], map );
 }
-void IfcBSplineCurveWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBSplineCurveWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBSplineCurve::getAttributes( vec_attributes );
 	if( m_KnotMultiplicities.size() > 0 )
@@ -107,7 +107,7 @@ void IfcBSplineCurveWithKnots::getAttributes( std::vector<std::pair<std::string,
 	}
 	vec_attributes.push_back( std::make_pair( "KnotSpec", m_KnotSpec ) );
 }
-void IfcBSplineCurveWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBSplineCurveWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBSplineCurve::getAttributesInverse( vec_attributes_inverse );
 }

@@ -49,7 +49,7 @@ void IfcBoundingBox::readStepArguments( const std::vector<std::wstring>& args, c
 	m_YDim = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
 	m_ZDim = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map );
 }
-void IfcBoundingBox::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBoundingBox::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Corner", m_Corner ) );
@@ -57,7 +57,7 @@ void IfcBoundingBox::getAttributes( std::vector<std::pair<std::string, shared_pt
 	vec_attributes.push_back( std::make_pair( "YDim", m_YDim ) );
 	vec_attributes.push_back( std::make_pair( "ZDim", m_ZDim ) );
 }
-void IfcBoundingBox::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBoundingBox::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

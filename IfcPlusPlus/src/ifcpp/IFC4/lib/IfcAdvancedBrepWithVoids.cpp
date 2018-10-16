@@ -47,7 +47,7 @@ void IfcAdvancedBrepWithVoids::readStepArguments( const std::vector<std::wstring
 	readEntityReference( args[0], m_Outer, map );
 	readEntityReferenceList( args[1], m_Voids, map );
 }
-void IfcAdvancedBrepWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcAdvancedBrepWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcAdvancedBrep::getAttributes( vec_attributes );
 	if( m_Voids.size() > 0 )
@@ -57,7 +57,7 @@ void IfcAdvancedBrepWithVoids::getAttributes( std::vector<std::pair<std::string,
 		vec_attributes.push_back( std::make_pair( "Voids", Voids_vec_object ) );
 	}
 }
-void IfcAdvancedBrepWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcAdvancedBrepWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcAdvancedBrep::getAttributesInverse( vec_attributes_inverse );
 }

@@ -45,11 +45,11 @@ void IfcBooleanClippingResult::readStepArguments( const std::vector<std::wstring
 	m_FirstOperand = IfcBooleanOperand::createObjectFromSTEP( args[1], map );
 	m_SecondOperand = IfcBooleanOperand::createObjectFromSTEP( args[2], map );
 }
-void IfcBooleanClippingResult::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBooleanClippingResult::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBooleanResult::getAttributes( vec_attributes );
 }
-void IfcBooleanClippingResult::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBooleanClippingResult::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBooleanResult::getAttributesInverse( vec_attributes_inverse );
 }

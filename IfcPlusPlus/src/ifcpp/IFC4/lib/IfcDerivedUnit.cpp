@@ -51,7 +51,7 @@ void IfcDerivedUnit::readStepArguments( const std::vector<std::wstring>& args, c
 	m_UnitType = IfcDerivedUnitEnum::createObjectFromSTEP( args[1], map );
 	m_UserDefinedType = IfcLabel::createObjectFromSTEP( args[2], map );
 }
-void IfcDerivedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDerivedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	if( m_Elements.size() > 0 )
 	{
@@ -62,7 +62,7 @@ void IfcDerivedUnit::getAttributes( std::vector<std::pair<std::string, shared_pt
 	vec_attributes.push_back( std::make_pair( "UnitType", m_UnitType ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedType", m_UserDefinedType ) );
 }
-void IfcDerivedUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDerivedUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcDerivedUnit::setInverseCounterparts( shared_ptr<BuildingEntity> )

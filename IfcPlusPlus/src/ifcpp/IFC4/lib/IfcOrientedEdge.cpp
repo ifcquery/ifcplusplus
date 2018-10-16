@@ -50,13 +50,13 @@ void IfcOrientedEdge::readStepArguments( const std::vector<std::wstring>& args, 
 	readEntityReference( args[2], m_EdgeElement, map );
 	m_Orientation = IfcBoolean::createObjectFromSTEP( args[3], map );
 }
-void IfcOrientedEdge::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcOrientedEdge::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcEdge::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "EdgeElement", m_EdgeElement ) );
 	vec_attributes.push_back( std::make_pair( "Orientation", m_Orientation ) );
 }
-void IfcOrientedEdge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcOrientedEdge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcEdge::getAttributesInverse( vec_attributes_inverse );
 }

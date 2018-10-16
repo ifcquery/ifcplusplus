@@ -79,7 +79,7 @@ void IfcPropertyListValue::readStepArguments( const std::vector<std::wstring>& a
 	readSelectList( args[2], m_ListValues, map );
 	m_Unit = IfcUnit::createObjectFromSTEP( args[3], map );
 }
-void IfcPropertyListValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPropertyListValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
 	if( m_ListValues.size() > 0 )
@@ -90,7 +90,7 @@ void IfcPropertyListValue::getAttributes( std::vector<std::pair<std::string, sha
 	}
 	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
 }
-void IfcPropertyListValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPropertyListValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSimpleProperty::getAttributesInverse( vec_attributes_inverse );
 }

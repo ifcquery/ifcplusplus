@@ -29,11 +29,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <BRepBuilderAPI_GTransform.hxx>
 #include <BRepBuilderAPI_Transform.hxx>
 #include <BRep_Tool.hxx>
+#include <BRepTools_WireExplorer.hxx>
 #include <GCPnts_AbscissaPoint.hxx>
 #include <GCPnts_UniformAbscissa.hxx>
 #include <Geom_Curve.hxx>
 #include <Geom_Line.hxx>
 #include <gp_Vec.hxx>
+#include <ShapeAnalysis_FreeBounds.hxx>
 #include <ShapeBuild_Edge.hxx>
 #include <ShapeFix_Wire.hxx>
 #include <ShapeFix_EdgeConnect.hxx>
@@ -50,12 +52,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #define GEOM_EPSILON_LENGTH 1.4901161193847656e-08
 #define GEOM_EPSILON_CSG_FUZZY 0.0001
 #define GEOM_EPSILON_PROFILE_SIZE 0.00000001
-
-//#ifndef VEC2_VEC3_DEFINED
-//#define VEC2_VEC3_DEFINED
-//typedef gp_Vec2d gp_Vec2d;
-//typedef gp_Vec gp_Vec;
-//#endif
 
 struct TangentialPoint2D
 {
@@ -300,11 +296,69 @@ namespace GeomUtilsOCC
 		}
 	}
 	
-	inline void appendAndFixWires( const TopoDS_Wire& wire_to_append, TopoDS_Wire& target_wire, bool fix_connected )
+	inline void appendAndFixWires2(const TopoDS_Wire& wire_to_append, TopoDS_Wire& target_wire, bool fix_connected)
 	{
-		//try
+		try
 		{
+
+			//Collect all the edges of the section. These are not returned in any particular order.
+			Handle(TopTools_HSequenceOfShape) Edges = new TopTools_HSequenceOfShape();
+			for( TopExp_Explorer Ex(wire_to_append, TopAbs_EDGE); Ex.More(); Ex.Next() )
+				Edges->Append(TopoDS::Edge(Ex.Current()));
+
+			for( TopExp_Explorer Ex(target_wire, TopAbs_EDGE); Ex.More(); Ex.Next() )
+				Edges->Append(TopoDS::Edge(Ex.Current()));
+
+			//Example Operation 1: Generate wires from the edges and determined the nature of the underlying curves.
+			Handle(TopTools_HSequenceOfShape) Wires = new TopTools_HSequenceOfShape(); //Will hold the wires found
+			double eps = Precision::Confusion()*100000;
+			ShapeAnalysis_FreeBounds::ConnectEdgesToWires(Edges, eps, Standard_True, Wires); //Wonderful tool
+			//TRACE("Original Edges\n");
+			int wLength = Wires->Length();
+			for( int w = 1; w < wLength; ++w )
+			{
+				const TopoDS_Shape& wireShape = Wires->Value(w);
+				TopoDS_Wire currentWire = TopoDS::Wire(wireShape);
+				target_wire = currentWire;
+				//For each wire
+				int e = 0;
+				BRepTools_WireExplorer aWireExp(currentWire);
+				for( ; aWireExp.More(); aWireExp.Next() )
+				{	//For each edge in wire. Note that BRepTools_WireExplorer returns edges in order!
+					TopoDS_Edge aEdge = TopoDS::Edge(aWireExp.Current());
+					//Analysis of Edge
+					Standard_Real First, Last;
+					Handle(Geom_Curve) curve = BRep_Tool::Curve(aEdge, First, Last); //Extract the curve from the edge
+					GeomAdaptor_Curve aAdaptedCurve(curve);
+					GeomAbs_CurveType curveType = aAdaptedCurve.GetType();
+					gp_Pnt pnt1, pnt2;
+					aAdaptedCurve.D0(First, pnt1);
+					aAdaptedCurve.D0(Last, pnt2);
+					int nPoles = 2;
+					if( curveType == GeomAbs_BezierCurve || curveType == GeomAbs_BSplineCurve )
+						nPoles = aAdaptedCurve.NbPoles();
+					//TRACE("%ld\t%ld\t%ld\t%ld\t%ld\t%f\t%f\t%f\t%f\t%f\t%f\n", w, e, curveType, aEdge.Orientation(), nPoles, pnt1.X(), pnt1.Y(), pnt1.Z(), pnt2.X(), pnt2.Y(), pnt2.Z());
+					e++;
+				}
+
+				break;
+			}
+		}
+		catch( Standard_Failure sf )
+		{
+			std::cout << __FUNC__ << " ShapeFix_Wire failed: " << sf.GetMessageString() << std::endl;
+			//GeomDebugDumpOCC::dumpShape( target_wire, vec4( 0.8, 0.9, 0.9, 1.0 ), true, true );
+			//GeomDebugDumpOCC::dumpShape( wire_to_append, vec4( 0.8, 0.9, 0.9, 1.0 ), true, false );
+		}
+	}
+
+	inline void appendAndFixWires(const TopoDS_Wire& wire_to_append, TopoDS_Wire& target_wire, bool fix_connected)
+	{
+		try
+		{
+			double eps = 0.001;
 			ShapeFix_Wire fix_wire;
+			fix_wire.SetPrecision(eps);
 			Handle_ShapeExtend_WireData wire_data = new ShapeExtend_WireData();
 
 			TopExp_Explorer explorer1( target_wire, TopAbs_EDGE );
@@ -325,19 +379,73 @@ namespace GeomUtilsOCC
 
 			if( fix_connected )
 			{
-				fix_wire.FixConnected();
+				fix_wire.FixConnected(eps);
 			}
-			//fix_wire.FixSelfIntersection();
-			fix_wire.Perform();
+			bool fixed = fix_wire.Perform();
 
 			target_wire = fix_wire.Wire();
 		}
-		//catch( Standard_Failure sf )
-		//{
-		//	std::cout << __FUNC__ << " ShapeFix_Wire failed: " << sf.GetMessageString() << std::endl;
-		//	GeomDebugUtils::dumpShape( target_wire, vec4( 0.8, 0.9, 0.9, 1.0 ), true, true );
-		//	GeomDebugUtils::dumpShape( wire_to_append, vec4( 0.8, 0.9, 0.9, 1.0 ), true, false );
-		//}
+		catch( Standard_Failure sf )
+		{
+			std::cout << __FUNC__ << " ShapeFix_Wire failed: " << sf.GetMessageString() << std::endl;
+			//GeomDebugDumpOCC::dumpShape( target_wire, vec4( 0.8, 0.9, 0.9, 1.0 ), true, true );
+			//GeomDebugDumpOCC::dumpShape( wire_to_append, vec4( 0.8, 0.9, 0.9, 1.0 ), true, false );
+
+
+							// check if there is a gap between the wires, try to fix it
+			TopoDS_Edge last_edge_target_wire;
+			TopExp_Explorer explorer(target_wire, TopAbs_EDGE);
+			for( ; explorer.More(); explorer.Next() )
+			{
+				last_edge_target_wire = TopoDS::Edge(explorer.Current());
+			}
+			TopoDS_Edge first_edge_wire_to_append;
+			TopExp_Explorer explorer2(wire_to_append, TopAbs_EDGE);
+			first_edge_wire_to_append = TopoDS::Edge(explorer2.Current());
+
+			try
+			{
+				BRepBuilderAPI_MakeWire mk_wire(target_wire);
+				if( !last_edge_target_wire.IsNull() && !first_edge_wire_to_append.IsNull() )
+				{
+					const TopoDS_Vertex& current_end_vertex = TopExp::LastVertex(last_edge_target_wire);
+					gp_Pnt current_point = BRep_Tool::Pnt(current_end_vertex);
+
+					const TopoDS_Vertex& next_vertex = TopExp::FirstVertex(first_edge_wire_to_append);
+					gp_Pnt next_point = BRep_Tool::Pnt(next_vertex);
+
+					if( current_point.SquareDistance(next_point) > 0.001 )
+					{
+						TopoDS_Edge closing_edge = BRepBuilderAPI_MakeEdge(current_end_vertex, next_vertex);
+						mk_wire.Add(closing_edge);
+
+					}
+					mk_wire.Add(wire_to_append);
+					mk_wire.Build();
+					if( mk_wire.IsDone() )
+					{
+						target_wire = mk_wire.Wire();
+					}
+					else
+					{
+						//BRepBuilderAPI_WireError err = mk_wire.Error();
+						//if( err == BRepBuilderAPI_DisconnectedWire )
+						{
+							// apply ShapeFix_Wire only when simple methods failed, because it does not preserve order and orientation of the edges
+							appendAndFixWires(wire_to_append, target_wire, true);
+						}
+					}
+				}
+			}
+			catch( Standard_Failure sf )
+			{
+				std::cout << __FUNC__ << " MakeWire failed: " << sf.GetMessageString() << std::endl;
+#ifdef _DEBUG
+				//GeomDebugUtils::dumpShape( target_wire, vec4( 0.8, 0.9, 0.9, 1.0 ), true, true );
+				//GeomDebugUtils::dumpShape( wire_to_append, vec4( 0.8, 0.9, 0.9, 1.0 ), true, false );
+#endif
+			}
+		}
 	}
 	inline void appendWireToWire( const TopoDS_Wire& wire_to_append, TopoDS_Wire& target_wire )
 	{
@@ -352,177 +460,133 @@ namespace GeomUtilsOCC
 		}
 		else
 		{
-
-			bool wire_successfully_appended = true;
-			try
-			{
-				appendAndFixWires( wire_to_append, target_wire, false );
-			}
-			catch( Standard_Failure sf )
-			{
-				wire_successfully_appended = false;
-			}
-
-			if( !wire_successfully_appended )
-			{
-				// check if there is a gap between the wires, try to fix it
-				TopoDS_Edge last_edge_target_wire;
-				TopExp_Explorer explorer( target_wire, TopAbs_EDGE );
-				for( ; explorer.More(); explorer.Next() )
-				{
-					last_edge_target_wire = TopoDS::Edge( explorer.Current() );
-				}
-				TopoDS_Edge first_edge_wire_to_append;
-				TopExp_Explorer explorer2( wire_to_append, TopAbs_EDGE );
-				first_edge_wire_to_append = TopoDS::Edge( explorer2.Current() );
-
-				try
-				{
-					BRepBuilderAPI_MakeWire mk_wire( target_wire );
-					if( !last_edge_target_wire.IsNull() && !first_edge_wire_to_append.IsNull() )
-					{
-						const TopoDS_Vertex& current_end_vertex = TopExp::LastVertex( last_edge_target_wire );
-						gp_Pnt current_point = BRep_Tool::Pnt( current_end_vertex );
-
-						const TopoDS_Vertex& next_vertex = TopExp::FirstVertex( first_edge_wire_to_append );
-						gp_Pnt next_point = BRep_Tool::Pnt( next_vertex );
-
-						if( current_point.SquareDistance( next_point ) > 0.001 )
-						{
-							TopoDS_Edge closing_edge = BRepBuilderAPI_MakeEdge( current_end_vertex, next_vertex );
-							mk_wire.Add( closing_edge );
-
-						}
-						mk_wire.Add( wire_to_append );
-						mk_wire.Build();
-						if( mk_wire.IsDone() )
-						{
-							target_wire = mk_wire.Wire();
-						}
-						else
-						{
-							//BRepBuilderAPI_WireError err = mk_wire.Error();
-							//if( err == BRepBuilderAPI_DisconnectedWire )
-							{
-								// apply ShapeFix_Wire only when simple methods failed, because it does not preserve order and orientation of the edges
-								appendAndFixWires( wire_to_append, target_wire, true );
-							}
-						}
-					}
-				}
-				catch( Standard_Failure sf )
-				{
-					std::cout << __FUNC__ << " MakeWire failed: " << sf.GetMessageString() << std::endl;
-#ifdef _DEBUG
-					//GeomDebugUtils::dumpShape( target_wire, vec4( 0.8, 0.9, 0.9, 1.0 ), true, true );
-					//GeomDebugUtils::dumpShape( wire_to_append, vec4( 0.8, 0.9, 0.9, 1.0 ), true, false );
-#endif
-				}
-			}
-
+			appendAndFixWires(wire_to_append, target_wire, true);
 		}
 	}
-	static void createWireFromPoints( const std::vector<gp_Vec>& coordinates, TopoDS_Wire& wire, bool close_wire_with_first_point )
+	static void createWireFromPoints(const std::vector<gp_Vec>& coordinates, TopoDS_Wire& wire, bool close_wire_with_first_point)
 	{
-		std::vector<TopoDS_Vertex> vertices;
-		for( size_t ii = 0; ii < coordinates.size(); ++ii )
+		try
 		{
-			const gp_Vec& vec = coordinates[ii];
-			vertices.push_back( BRepBuilderAPI_MakeVertex( gp_Pnt( vec.X(), vec.Y(), vec.Z() ) ) );
-		}
-
-		BRepBuilderAPI_MakeWire mk_wire;
-		for( size_t ii = 0; ii < vertices.size(); ii++ )
-		{
-			size_t idx_next = (ii + 1) % vertices.size();
-			TopoDS_Vertex& vertex_ii = vertices[ii];
-			TopoDS_Vertex& vertex_next = vertices[idx_next];
-
-			if( ii == vertices.size() - 1 )
-			{
-				if( !close_wire_with_first_point )
-				{
-					break;
-				}
-			}
-
-			if( coordinates.size() == vertices.size() )
+			std::vector<TopoDS_Vertex> vertices;
+			for( size_t ii = 0; ii < coordinates.size(); ++ii )
 			{
 				const gp_Vec& vec = coordinates[ii];
-				const gp_Vec& vec_next = coordinates[idx_next];
-				if( GeomUtilsOCC::equal( vec, vec_next ) )
+				vertices.push_back(BRepBuilderAPI_MakeVertex(gp_Pnt(vec.X(), vec.Y(), vec.Z())));
+			}
+
+			BRepBuilderAPI_MakeWire mk_wire;
+			for( size_t ii = 0; ii < vertices.size(); ii++ )
+			{
+				size_t idx_next = (ii + 1) % vertices.size();
+				TopoDS_Vertex& vertex_ii = vertices[ii];
+				TopoDS_Vertex& vertex_next = vertices[idx_next];
+
+				if( ii == vertices.size() - 1 )
 				{
-					// points are equal, length of edge would be zero
+					if( !close_wire_with_first_point )
+					{
+						break;
+					}
+				}
+
+				if( coordinates.size() == vertices.size() )
+				{
+					const gp_Vec& vec = coordinates[ii];
+					const gp_Vec& vec_next = coordinates[idx_next];
+					if( GeomUtilsOCC::equal(vec, vec_next) )
+					{
+						// points are equal, length of edge would be zero
+						continue;
+					}
+				}
+
+				if( vertex_ii.IsNull() )
+				{
 					continue;
 				}
-			}
 
-			if( vertex_ii.IsNull() )
-			{
-				continue;
-			}
+				if( vertex_next.IsNull() )
+				{
+					continue;
+				}
 
-			if( vertex_next.IsNull() )
-			{
-				continue;
+				BRepBuilderAPI_MakeEdge mk_edge(vertex_ii, vertex_next);
+				if( !mk_edge.IsDone() )
+				{
+					continue;
+				}
+				mk_wire.Add(mk_edge);
 			}
-
-			BRepBuilderAPI_MakeEdge mk_edge( vertex_ii, vertex_next );
-			if( !mk_edge.IsDone() )
-			{
-				continue;
-			}
-			mk_wire.Add( mk_edge );
+			wire = mk_wire.Wire();
 		}
-		wire = mk_wire.Wire();
+		catch( Standard_Failure sf )
+		{
+			std::cout << __FUNC__ << " MakeWire failed: " << sf.GetMessageString() << std::endl;
+#ifdef _DEBUG
+			//GeomDebugUtils::dumpShape( target_wire, vec4( 0.8, 0.9, 0.9, 1.0 ), true, true );
+			//GeomDebugUtils::dumpShape( wire_to_append, vec4( 0.8, 0.9, 0.9, 1.0 ), true, false );
+#endif
+		}
 	}
-	static void createFaceFromPoints( const std::vector<gp_Vec2d>& coordinates, TopoDS_Face& face )
+	static void createFaceFromPoints(const std::vector<gp_Vec2d>& coordinates, TopoDS_Face& face)
 	{
-		std::vector<TopoDS_Vertex> vertices;
-		for( size_t ii = 0; ii < coordinates.size(); ++ii )
+		try
 		{
-			const gp_Vec2d& vec = coordinates[ii];
-			vertices.push_back( BRepBuilderAPI_MakeVertex( gp_Pnt( vec.X(), vec.Y(), 0.0f ) ) );
-		}
-
-		BRepBuilderAPI_MakeWire mk_wire;
-		for( size_t ii = 0; ii < vertices.size(); ii++ )
-		{
-			size_t idx_next = (ii + 1) % vertices.size();
-			TopoDS_Vertex& vertex_ii = vertices[ii];
-			TopoDS_Vertex& vertex_next = vertices[idx_next];
-
-			if( coordinates.size() == vertices.size() )
+			std::vector<TopoDS_Vertex> vertices;
+			for( size_t ii = 0; ii < coordinates.size(); ++ii )
 			{
 				const gp_Vec2d& vec = coordinates[ii];
-				const gp_Vec2d& vec_next = coordinates[idx_next];
-				if( GeomUtilsOCC::equal( vec, vec_next ) )
+				vertices.push_back(BRepBuilderAPI_MakeVertex(gp_Pnt(vec.X(), vec.Y(), 0.0f)));
+			}
+
+			BRepBuilderAPI_MakeWire mk_wire;
+			for( size_t ii = 0; ii < vertices.size(); ii++ )
+			{
+				size_t idx_next = (ii + 1) % vertices.size();
+				TopoDS_Vertex& vertex_ii = vertices[ii];
+				TopoDS_Vertex& vertex_next = vertices[idx_next];
+
+				if( coordinates.size() == vertices.size() )
 				{
-					// points are equal, length of edge would be zero
+					const gp_Vec2d& vec = coordinates[ii];
+					const gp_Vec2d& vec_next = coordinates[idx_next];
+					if( GeomUtilsOCC::equal(vec, vec_next) )
+					{
+						// points are equal, length of edge would be zero
+						continue;
+					}
+				}
+
+				if( vertex_ii.IsNull() )
+				{
 					continue;
 				}
+				if( vertex_next.IsNull() )
+				{
+					continue;
+				}
+				BRepBuilderAPI_MakeEdge mk_edge(vertex_ii, vertex_next);
+				if( !mk_edge.IsDone() )
+				{
+					continue;
+				}
+				mk_wire.Add(mk_edge);
 			}
 
-			if( vertex_ii.IsNull() )
-			{
-				continue;
-			}
-			if( vertex_next.IsNull() )
-			{
-				continue;
-			}
-			BRepBuilderAPI_MakeEdge mk_edge( vertex_ii, vertex_next );
-			if( !mk_edge.IsDone() )
-			{
-				continue;
-			}
-			mk_wire.Add( mk_edge );
+			TopoDS_Wire wire = mk_wire.Wire();
+
+			BRepBuilderAPI_MakeFace mk_face(wire, false);
+			face = mk_face.Face();
+
 		}
-
-		TopoDS_Wire wire = mk_wire.Wire();
-
-		BRepBuilderAPI_MakeFace mk_face( wire, false );
-		face = mk_face.Face();
+		catch( Standard_Failure sf )
+		{
+			std::cout << __FUNC__ << " MakeFace failed: " << sf.GetMessageString() << std::endl;
+#ifdef _DEBUG
+			//GeomDebugUtils::dumpShape( target_wire, vec4( 0.8, 0.9, 0.9, 1.0 ), true, true );
+			//GeomDebugUtils::dumpShape( wire_to_append, vec4( 0.8, 0.9, 0.9, 1.0 ), true, false );
+#endif
+		}
 	}
 
 	static void createFaceFromPoints( const std::vector<TangentialPoint2D>& tangential_points, TopoDS_Face& face )

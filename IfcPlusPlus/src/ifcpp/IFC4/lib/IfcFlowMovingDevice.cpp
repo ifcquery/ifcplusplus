@@ -97,11 +97,11 @@ void IfcFlowMovingDevice::readStepArguments( const std::vector<std::wstring>& ar
 	readEntityReference( args[6], m_Representation, map );
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 }
-void IfcFlowMovingDevice::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFlowMovingDevice::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcDistributionFlowElement::getAttributes( vec_attributes );
 }
-void IfcFlowMovingDevice::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFlowMovingDevice::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcDistributionFlowElement::getAttributesInverse( vec_attributes_inverse );
 }

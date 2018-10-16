@@ -101,7 +101,7 @@ void IfcConstructionResource::readStepArguments( const std::vector<std::wstring>
 	readEntityReferenceList( args[8], m_BaseCosts, map );
 	readEntityReference( args[9], m_BaseQuantity, map );
 }
-void IfcConstructionResource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcConstructionResource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResource::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Usage", m_Usage ) );
@@ -113,7 +113,7 @@ void IfcConstructionResource::getAttributes( std::vector<std::pair<std::string, 
 	}
 	vec_attributes.push_back( std::make_pair( "BaseQuantity", m_BaseQuantity ) );
 }
-void IfcConstructionResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcConstructionResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcResource::getAttributesInverse( vec_attributes_inverse );
 }

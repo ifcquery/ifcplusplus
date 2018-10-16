@@ -47,14 +47,14 @@ void IfcColourRgb::readStepArguments( const std::vector<std::wstring>& args, con
 	m_Green = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );
 	m_Blue = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[3], map );
 }
-void IfcColourRgb::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcColourRgb::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcColourSpecification::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Red", m_Red ) );
 	vec_attributes.push_back( std::make_pair( "Green", m_Green ) );
 	vec_attributes.push_back( std::make_pair( "Blue", m_Blue ) );
 }
-void IfcColourRgb::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcColourRgb::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcColourSpecification::getAttributesInverse( vec_attributes_inverse );
 }

@@ -86,12 +86,12 @@ void IfcRelSpaceBoundary1stLevel::readStepArguments( const std::vector<std::wstr
 	m_InternalOrExternalBoundary = IfcInternalOrExternalEnum::createObjectFromSTEP( args[8], map );
 	readEntityReference( args[9], m_ParentBoundary, map );
 }
-void IfcRelSpaceBoundary1stLevel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelSpaceBoundary1stLevel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelSpaceBoundary::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ParentBoundary", m_ParentBoundary ) );
 }
-void IfcRelSpaceBoundary1stLevel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelSpaceBoundary1stLevel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelSpaceBoundary::getAttributesInverse( vec_attributes_inverse );
 	if( m_InnerBoundaries_inverse.size() > 0 )

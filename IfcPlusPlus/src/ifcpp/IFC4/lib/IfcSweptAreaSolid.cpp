@@ -45,13 +45,13 @@ void IfcSweptAreaSolid::readStepArguments( const std::vector<std::wstring>& args
 	readEntityReference( args[0], m_SweptArea, map );
 	readEntityReference( args[1], m_Position, map );
 }
-void IfcSweptAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSweptAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSolidModel::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "SweptArea", m_SweptArea ) );
 	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
 }
-void IfcSweptAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSweptAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSolidModel::getAttributesInverse( vec_attributes_inverse );
 }

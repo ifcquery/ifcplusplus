@@ -55,13 +55,13 @@ void IfcQuantityWeight::readStepArguments( const std::vector<std::wstring>& args
 	m_WeightValue = IfcMassMeasure::createObjectFromSTEP( args[3], map );
 	m_Formula = IfcLabel::createObjectFromSTEP( args[4], map );
 }
-void IfcQuantityWeight::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcQuantityWeight::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPhysicalSimpleQuantity::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "WeightValue", m_WeightValue ) );
 	vec_attributes.push_back( std::make_pair( "Formula", m_Formula ) );
 }
-void IfcQuantityWeight::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcQuantityWeight::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPhysicalSimpleQuantity::getAttributesInverse( vec_attributes_inverse );
 }

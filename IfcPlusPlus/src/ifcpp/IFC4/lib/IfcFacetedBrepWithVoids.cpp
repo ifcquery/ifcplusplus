@@ -47,7 +47,7 @@ void IfcFacetedBrepWithVoids::readStepArguments( const std::vector<std::wstring>
 	readEntityReference( args[0], m_Outer, map );
 	readEntityReferenceList( args[1], m_Voids, map );
 }
-void IfcFacetedBrepWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFacetedBrepWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFacetedBrep::getAttributes( vec_attributes );
 	if( m_Voids.size() > 0 )
@@ -57,7 +57,7 @@ void IfcFacetedBrepWithVoids::getAttributes( std::vector<std::pair<std::string, 
 		vec_attributes.push_back( std::make_pair( "Voids", Voids_vec_object ) );
 	}
 }
-void IfcFacetedBrepWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFacetedBrepWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFacetedBrep::getAttributesInverse( vec_attributes_inverse );
 }

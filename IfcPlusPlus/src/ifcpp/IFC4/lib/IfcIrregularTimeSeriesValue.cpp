@@ -63,7 +63,7 @@ void IfcIrregularTimeSeriesValue::readStepArguments( const std::vector<std::wstr
 	m_TimeStamp = IfcDateTime::createObjectFromSTEP( args[0], map );
 	readSelectList( args[1], m_ListValues, map );
 }
-void IfcIrregularTimeSeriesValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcIrregularTimeSeriesValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "TimeStamp", m_TimeStamp ) );
 	if( m_ListValues.size() > 0 )
@@ -73,7 +73,7 @@ void IfcIrregularTimeSeriesValue::getAttributes( std::vector<std::pair<std::stri
 		vec_attributes.push_back( std::make_pair( "ListValues", ListValues_vec_object ) );
 	}
 }
-void IfcIrregularTimeSeriesValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcIrregularTimeSeriesValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcIrregularTimeSeriesValue::setInverseCounterparts( shared_ptr<BuildingEntity> )

@@ -62,7 +62,7 @@ void IfcSurfaceReinforcementArea::readStepArguments( const std::vector<std::wstr
 	readTypeOfRealList( args[2], m_SurfaceReinforcement2 );
 	m_ShearReinforcement = IfcRatioMeasure::createObjectFromSTEP( args[3], map );
 }
-void IfcSurfaceReinforcementArea::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSurfaceReinforcementArea::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadOrResult::getAttributes( vec_attributes );
 	if( m_SurfaceReinforcement1.size() > 0 )
@@ -79,7 +79,7 @@ void IfcSurfaceReinforcementArea::getAttributes( std::vector<std::pair<std::stri
 	}
 	vec_attributes.push_back( std::make_pair( "ShearReinforcement", m_ShearReinforcement ) );
 }
-void IfcSurfaceReinforcementArea::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSurfaceReinforcementArea::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralLoadOrResult::getAttributesInverse( vec_attributes_inverse );
 }

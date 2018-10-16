@@ -167,7 +167,7 @@ void IfcTelecomAddress::readStepArguments( const std::vector<std::wstring>& args
 	m_WWWHomePageURL = IfcURIReference::createObjectFromSTEP( args[7], map );
 	readTypeOfStringList( args[8], m_MessagingIDs );
 }
-void IfcTelecomAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTelecomAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcAddress::getAttributes( vec_attributes );
 	if( m_TelephoneNumbers.size() > 0 )
@@ -197,7 +197,7 @@ void IfcTelecomAddress::getAttributes( std::vector<std::pair<std::string, shared
 		vec_attributes.push_back( std::make_pair( "MessagingIDs", MessagingIDs_vec_object ) );
 	}
 }
-void IfcTelecomAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTelecomAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcAddress::getAttributesInverse( vec_attributes_inverse );
 }

@@ -62,11 +62,11 @@ void IfcObjectDefinition::readStepArguments( const std::vector<std::wstring>& ar
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
 }
-void IfcObjectDefinition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcObjectDefinition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRoot::getAttributes( vec_attributes );
 }
-void IfcObjectDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcObjectDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRoot::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasAssignments_inverse.size() > 0 )

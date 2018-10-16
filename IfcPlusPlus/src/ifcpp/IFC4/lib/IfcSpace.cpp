@@ -104,13 +104,13 @@ void IfcSpace::readStepArguments( const std::vector<std::wstring>& args, const s
 	m_PredefinedType = IfcSpaceTypeEnum::createObjectFromSTEP( args[9], map );
 	m_ElevationWithFlooring = IfcLengthMeasure::createObjectFromSTEP( args[10], map );
 }
-void IfcSpace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSpace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSpatialStructureElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "ElevationWithFlooring", m_ElevationWithFlooring ) );
 }
-void IfcSpace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSpace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSpatialStructureElement::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasCoverings_inverse.size() > 0 )

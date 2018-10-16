@@ -79,7 +79,7 @@ void IfcLightSourceGoniometric::readStepArguments( const std::vector<std::wstrin
 	m_LightEmissionSource = IfcLightEmissionSourceEnum::createObjectFromSTEP( args[8], map );
 	m_LightDistributionDataSource = IfcLightDistributionDataSourceSelect::createObjectFromSTEP( args[9], map );
 }
-void IfcLightSourceGoniometric::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcLightSourceGoniometric::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLightSource::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
@@ -89,7 +89,7 @@ void IfcLightSourceGoniometric::getAttributes( std::vector<std::pair<std::string
 	vec_attributes.push_back( std::make_pair( "LightEmissionSource", m_LightEmissionSource ) );
 	vec_attributes.push_back( std::make_pair( "LightDistributionDataSource", m_LightDistributionDataSource ) );
 }
-void IfcLightSourceGoniometric::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcLightSourceGoniometric::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcLightSource::getAttributesInverse( vec_attributes_inverse );
 }

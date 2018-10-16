@@ -73,7 +73,7 @@ void IfcRelAggregates::readStepArguments( const std::vector<std::wstring>& args,
 	readEntityReference( args[4], m_RelatingObject, map );
 	readEntityReferenceList( args[5], m_RelatedObjects, map );
 }
-void IfcRelAggregates::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelAggregates::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelDecomposes::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingObject", m_RelatingObject ) );
@@ -84,7 +84,7 @@ void IfcRelAggregates::getAttributes( std::vector<std::pair<std::string, shared_
 		vec_attributes.push_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
 	}
 }
-void IfcRelAggregates::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelAggregates::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelDecomposes::getAttributesInverse( vec_attributes_inverse );
 }

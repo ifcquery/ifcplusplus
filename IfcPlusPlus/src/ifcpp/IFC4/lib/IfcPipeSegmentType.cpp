@@ -106,12 +106,12 @@ void IfcPipeSegmentType::readStepArguments( const std::vector<std::wstring>& arg
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcPipeSegmentTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcPipeSegmentType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPipeSegmentType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFlowSegmentType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcPipeSegmentType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPipeSegmentType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFlowSegmentType::getAttributesInverse( vec_attributes_inverse );
 }

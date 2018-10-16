@@ -43,7 +43,7 @@ void IfcConnectedFaceSet::readStepArguments( const std::vector<std::wstring>& ar
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectedFaceSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_CfsFaces, map );
 }
-void IfcConnectedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcConnectedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
 	if( m_CfsFaces.size() > 0 )
@@ -53,7 +53,7 @@ void IfcConnectedFaceSet::getAttributes( std::vector<std::pair<std::string, shar
 		vec_attributes.push_back( std::make_pair( "CfsFaces", CfsFaces_vec_object ) );
 	}
 }
-void IfcConnectedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcConnectedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTopologicalRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

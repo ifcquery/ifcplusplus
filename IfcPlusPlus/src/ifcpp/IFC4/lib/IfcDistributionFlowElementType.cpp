@@ -101,11 +101,11 @@ void IfcDistributionFlowElementType::readStepArguments( const std::vector<std::w
 	m_Tag = IfcLabel::createObjectFromSTEP( args[7], map );
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 }
-void IfcDistributionFlowElementType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDistributionFlowElementType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcDistributionElementType::getAttributes( vec_attributes );
 }
-void IfcDistributionFlowElementType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDistributionFlowElementType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcDistributionElementType::getAttributesInverse( vec_attributes_inverse );
 }

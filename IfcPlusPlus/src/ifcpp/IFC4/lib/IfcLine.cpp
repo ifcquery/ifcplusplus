@@ -41,13 +41,13 @@ void IfcLine::readStepArguments( const std::vector<std::wstring>& args, const st
 	readEntityReference( args[0], m_Pnt, map );
 	readEntityReference( args[1], m_Dir, map );
 }
-void IfcLine::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcLine::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCurve::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Pnt", m_Pnt ) );
 	vec_attributes.push_back( std::make_pair( "Dir", m_Dir ) );
 }
-void IfcLine::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcLine::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCurve::getAttributesInverse( vec_attributes_inverse );
 }

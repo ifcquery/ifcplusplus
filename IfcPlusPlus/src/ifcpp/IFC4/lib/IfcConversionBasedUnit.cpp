@@ -50,13 +50,13 @@ void IfcConversionBasedUnit::readStepArguments( const std::vector<std::wstring>&
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 	readEntityReference( args[3], m_ConversionFactor, map );
 }
-void IfcConversionBasedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcConversionBasedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcNamedUnit::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "ConversionFactor", m_ConversionFactor ) );
 }
-void IfcConversionBasedUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcConversionBasedUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcNamedUnit::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasExternalReference_inverse.size() > 0 )

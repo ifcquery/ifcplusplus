@@ -79,12 +79,12 @@ void IfcRelAssignsToControl::readStepArguments( const std::vector<std::wstring>&
 	m_RelatedObjectsType = IfcObjectTypeEnum::createObjectFromSTEP( args[5], map );
 	readEntityReference( args[6], m_RelatingControl, map );
 }
-void IfcRelAssignsToControl::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelAssignsToControl::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingControl", m_RelatingControl ) );
 }
-void IfcRelAssignsToControl::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelAssignsToControl::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelAssigns::getAttributesInverse( vec_attributes_inverse );
 }

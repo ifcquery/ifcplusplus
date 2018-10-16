@@ -45,13 +45,13 @@ void IfcAxis2Placement3D::readStepArguments( const std::vector<std::wstring>& ar
 	readEntityReference( args[1], m_Axis, map );
 	readEntityReference( args[2], m_RefDirection, map );
 }
-void IfcAxis2Placement3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcAxis2Placement3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPlacement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Axis", m_Axis ) );
 	vec_attributes.push_back( std::make_pair( "RefDirection", m_RefDirection ) );
 }
-void IfcAxis2Placement3D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcAxis2Placement3D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPlacement::getAttributesInverse( vec_attributes_inverse );
 }

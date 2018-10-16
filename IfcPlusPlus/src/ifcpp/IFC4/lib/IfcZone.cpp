@@ -75,12 +75,12 @@ void IfcZone::readStepArguments( const std::vector<std::wstring>& args, const st
 	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4], map );
 	m_LongName = IfcLabel::createObjectFromSTEP( args[5], map );
 }
-void IfcZone::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcZone::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSystem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "LongName", m_LongName ) );
 }
-void IfcZone::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcZone::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSystem::getAttributesInverse( vec_attributes_inverse );
 }

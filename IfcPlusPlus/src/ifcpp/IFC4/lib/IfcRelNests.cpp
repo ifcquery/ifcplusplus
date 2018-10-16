@@ -73,7 +73,7 @@ void IfcRelNests::readStepArguments( const std::vector<std::wstring>& args, cons
 	readEntityReference( args[4], m_RelatingObject, map );
 	readEntityReferenceList( args[5], m_RelatedObjects, map );
 }
-void IfcRelNests::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelNests::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelDecomposes::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingObject", m_RelatingObject ) );
@@ -84,7 +84,7 @@ void IfcRelNests::getAttributes( std::vector<std::pair<std::string, shared_ptr<B
 		vec_attributes.push_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
 	}
 }
-void IfcRelNests::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelNests::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelDecomposes::getAttributesInverse( vec_attributes_inverse );
 }

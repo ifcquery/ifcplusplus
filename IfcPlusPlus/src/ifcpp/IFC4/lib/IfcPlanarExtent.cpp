@@ -40,13 +40,13 @@ void IfcPlanarExtent::readStepArguments( const std::vector<std::wstring>& args, 
 	m_SizeInX = IfcLengthMeasure::createObjectFromSTEP( args[0], map );
 	m_SizeInY = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 }
-void IfcPlanarExtent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPlanarExtent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "SizeInX", m_SizeInX ) );
 	vec_attributes.push_back( std::make_pair( "SizeInY", m_SizeInY ) );
 }
-void IfcPlanarExtent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPlanarExtent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

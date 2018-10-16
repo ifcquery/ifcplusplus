@@ -60,7 +60,7 @@ void IfcLibraryInformation::readStepArguments( const std::vector<std::wstring>& 
 	m_Location = IfcURIReference::createObjectFromSTEP( args[4], map );
 	m_Description = IfcText::createObjectFromSTEP( args[5], map );
 }
-void IfcLibraryInformation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcLibraryInformation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExternalInformation::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
@@ -70,7 +70,7 @@ void IfcLibraryInformation::getAttributes( std::vector<std::pair<std::string, sh
 	vec_attributes.push_back( std::make_pair( "Location", m_Location ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 }
-void IfcLibraryInformation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcLibraryInformation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcExternalInformation::getAttributesInverse( vec_attributes_inverse );
 	if( m_LibraryInfoForObjects_inverse.size() > 0 )

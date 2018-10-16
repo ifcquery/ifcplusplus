@@ -86,7 +86,7 @@ void IfcRelConnectsWithRealizingElements::readStepArguments( const std::vector<s
 	readEntityReferenceList( args[7], m_RealizingElements, map );
 	m_ConnectionType = IfcLabel::createObjectFromSTEP( args[8], map );
 }
-void IfcRelConnectsWithRealizingElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelConnectsWithRealizingElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnectsElements::getAttributes( vec_attributes );
 	if( m_RealizingElements.size() > 0 )
@@ -97,7 +97,7 @@ void IfcRelConnectsWithRealizingElements::getAttributes( std::vector<std::pair<s
 	}
 	vec_attributes.push_back( std::make_pair( "ConnectionType", m_ConnectionType ) );
 }
-void IfcRelConnectsWithRealizingElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelConnectsWithRealizingElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelConnectsElements::getAttributesInverse( vec_attributes_inverse );
 }

@@ -54,12 +54,12 @@ void IfcCartesianTransformationOperator3D::readStepArguments( const std::vector<
 	m_Scale = IfcReal::createObjectFromSTEP( args[3], map );
 	readEntityReference( args[4], m_Axis3, map );
 }
-void IfcCartesianTransformationOperator3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCartesianTransformationOperator3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCartesianTransformationOperator::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Axis3", m_Axis3 ) );
 }
-void IfcCartesianTransformationOperator3D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCartesianTransformationOperator3D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCartesianTransformationOperator::getAttributesInverse( vec_attributes_inverse );
 }

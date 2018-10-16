@@ -99,12 +99,12 @@ void IfcReinforcingElement::readStepArguments( const std::vector<std::wstring>& 
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_SteelGrade = IfcLabel::createObjectFromSTEP( args[8], map );
 }
-void IfcReinforcingElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcReinforcingElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcElementComponent::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "SteelGrade", m_SteelGrade ) );
 }
-void IfcReinforcingElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcReinforcingElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcElementComponent::getAttributesInverse( vec_attributes_inverse );
 }

@@ -59,14 +59,14 @@ void IfcDerivedProfileDef::readStepArguments( const std::vector<std::wstring>& a
 	readEntityReference( args[3], m_Operator, map );
 	m_Label = IfcLabel::createObjectFromSTEP( args[4], map );
 }
-void IfcDerivedProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDerivedProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProfileDef::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ParentProfile", m_ParentProfile ) );
 	vec_attributes.push_back( std::make_pair( "Operator", m_Operator ) );
 	vec_attributes.push_back( std::make_pair( "Label", m_Label ) );
 }
-void IfcDerivedProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDerivedProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProfileDef::getAttributesInverse( vec_attributes_inverse );
 }

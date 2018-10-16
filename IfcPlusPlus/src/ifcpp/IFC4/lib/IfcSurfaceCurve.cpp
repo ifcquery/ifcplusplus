@@ -53,7 +53,7 @@ void IfcSurfaceCurve::readStepArguments( const std::vector<std::wstring>& args, 
 	readEntityReferenceList( args[1], m_AssociatedGeometry, map );
 	m_MasterRepresentation = IfcPreferredSurfaceCurveRepresentation::createObjectFromSTEP( args[2], map );
 }
-void IfcSurfaceCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSurfaceCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCurve::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Curve3D", m_Curve3D ) );
@@ -65,7 +65,7 @@ void IfcSurfaceCurve::getAttributes( std::vector<std::pair<std::string, shared_p
 	}
 	vec_attributes.push_back( std::make_pair( "MasterRepresentation", m_MasterRepresentation ) );
 }
-void IfcSurfaceCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSurfaceCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCurve::getAttributesInverse( vec_attributes_inverse );
 }

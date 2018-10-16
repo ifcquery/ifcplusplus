@@ -100,11 +100,11 @@ void IfcBeamStandardCase::readStepArguments( const std::vector<std::wstring>& ar
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcBeamTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcBeamStandardCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBeamStandardCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBeam::getAttributes( vec_attributes );
 }
-void IfcBeamStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBeamStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBeam::getAttributesInverse( vec_attributes_inverse );
 }

@@ -92,11 +92,11 @@ void IfcProjectLibrary::readStepArguments( const std::vector<std::wstring>& args
 	readEntityReferenceList( args[7], m_RepresentationContexts, map );
 	readEntityReference( args[8], m_UnitsInContext, map );
 }
-void IfcProjectLibrary::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcProjectLibrary::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcContext::getAttributes( vec_attributes );
 }
-void IfcProjectLibrary::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcProjectLibrary::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcContext::getAttributesInverse( vec_attributes_inverse );
 }

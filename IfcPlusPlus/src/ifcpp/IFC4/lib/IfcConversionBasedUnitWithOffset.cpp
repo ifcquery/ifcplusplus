@@ -55,12 +55,12 @@ void IfcConversionBasedUnitWithOffset::readStepArguments( const std::vector<std:
 	readEntityReference( args[3], m_ConversionFactor, map );
 	m_ConversionOffset = IfcReal::createObjectFromSTEP( args[4], map );
 }
-void IfcConversionBasedUnitWithOffset::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcConversionBasedUnitWithOffset::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConversionBasedUnit::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ConversionOffset", m_ConversionOffset ) );
 }
-void IfcConversionBasedUnitWithOffset::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcConversionBasedUnitWithOffset::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcConversionBasedUnit::getAttributesInverse( vec_attributes_inverse );
 }

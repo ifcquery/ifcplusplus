@@ -44,13 +44,13 @@ void IfcLocalPlacement::readStepArguments( const std::vector<std::wstring>& args
 	readEntityReference( args[0], m_PlacementRelTo, map );
 	m_RelativePlacement = IfcAxis2Placement::createObjectFromSTEP( args[1], map );
 }
-void IfcLocalPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcLocalPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcObjectPlacement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PlacementRelTo", m_PlacementRelTo ) );
 	vec_attributes.push_back( std::make_pair( "RelativePlacement", m_RelativePlacement ) );
 }
-void IfcLocalPlacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcLocalPlacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcObjectPlacement::getAttributesInverse( vec_attributes_inverse );
 }

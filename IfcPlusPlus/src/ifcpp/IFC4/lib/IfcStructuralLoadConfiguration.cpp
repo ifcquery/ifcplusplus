@@ -64,7 +64,7 @@ void IfcStructuralLoadConfiguration::readStepArguments( const std::vector<std::w
 	readEntityReferenceList( args[1], m_Values, map );
 	readTypeOfRealList2D( args[2], m_Locations );
 }
-void IfcStructuralLoadConfiguration::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralLoadConfiguration::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoad::getAttributes( vec_attributes );
 	if( m_Values.size() > 0 )
@@ -74,7 +74,7 @@ void IfcStructuralLoadConfiguration::getAttributes( std::vector<std::pair<std::s
 		vec_attributes.push_back( std::make_pair( "Values", Values_vec_object ) );
 	}
 }
-void IfcStructuralLoadConfiguration::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralLoadConfiguration::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralLoad::getAttributesInverse( vec_attributes_inverse );
 }

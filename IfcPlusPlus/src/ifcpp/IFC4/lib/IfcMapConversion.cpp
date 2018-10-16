@@ -65,7 +65,7 @@ void IfcMapConversion::readStepArguments( const std::vector<std::wstring>& args,
 	m_XAxisOrdinate = IfcReal::createObjectFromSTEP( args[6], map );
 	m_Scale = IfcReal::createObjectFromSTEP( args[7], map );
 }
-void IfcMapConversion::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMapConversion::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCoordinateOperation::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Eastings", m_Eastings ) );
@@ -75,7 +75,7 @@ void IfcMapConversion::getAttributes( std::vector<std::pair<std::string, shared_
 	vec_attributes.push_back( std::make_pair( "XAxisOrdinate", m_XAxisOrdinate ) );
 	vec_attributes.push_back( std::make_pair( "Scale", m_Scale ) );
 }
-void IfcMapConversion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMapConversion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCoordinateOperation::getAttributesInverse( vec_attributes_inverse );
 }

@@ -55,13 +55,13 @@ void IfcRevolvedAreaSolid::readStepArguments( const std::vector<std::wstring>& a
 	readEntityReference( args[2], m_Axis, map );
 	m_Angle = IfcPlaneAngleMeasure::createObjectFromSTEP( args[3], map );
 }
-void IfcRevolvedAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRevolvedAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSweptAreaSolid::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Axis", m_Axis ) );
 	vec_attributes.push_back( std::make_pair( "Angle", m_Angle ) );
 }
-void IfcRevolvedAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRevolvedAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSweptAreaSolid::getAttributesInverse( vec_attributes_inverse );
 }

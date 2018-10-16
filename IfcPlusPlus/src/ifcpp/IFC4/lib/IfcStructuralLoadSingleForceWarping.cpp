@@ -65,12 +65,12 @@ void IfcStructuralLoadSingleForceWarping::readStepArguments( const std::vector<s
 	m_MomentZ = IfcTorqueMeasure::createObjectFromSTEP( args[6], map );
 	m_WarpingMoment = IfcWarpingMomentMeasure::createObjectFromSTEP( args[7], map );
 }
-void IfcStructuralLoadSingleForceWarping::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralLoadSingleForceWarping::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadSingleForce::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "WarpingMoment", m_WarpingMoment ) );
 }
-void IfcStructuralLoadSingleForceWarping::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralLoadSingleForceWarping::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralLoadSingleForce::getAttributesInverse( vec_attributes_inverse );
 }

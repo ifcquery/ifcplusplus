@@ -100,11 +100,11 @@ void IfcOpeningStandardCase::readStepArguments( const std::vector<std::wstring>&
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcOpeningElementTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcOpeningStandardCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcOpeningStandardCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcOpeningElement::getAttributes( vec_attributes );
 }
-void IfcOpeningStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcOpeningStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcOpeningElement::getAttributesInverse( vec_attributes_inverse );
 }

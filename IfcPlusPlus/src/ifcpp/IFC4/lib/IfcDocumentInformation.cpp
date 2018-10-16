@@ -133,7 +133,7 @@ void IfcDocumentInformation::readStepArguments( const std::vector<std::wstring>&
 	m_Confidentiality = IfcDocumentConfidentialityEnum::createObjectFromSTEP( args[15], map );
 	m_Status = IfcDocumentStatusEnum::createObjectFromSTEP( args[16], map );
 }
-void IfcDocumentInformation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDocumentInformation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExternalInformation::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
@@ -159,7 +159,7 @@ void IfcDocumentInformation::getAttributes( std::vector<std::pair<std::string, s
 	vec_attributes.push_back( std::make_pair( "Confidentiality", m_Confidentiality ) );
 	vec_attributes.push_back( std::make_pair( "Status", m_Status ) );
 }
-void IfcDocumentInformation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDocumentInformation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcExternalInformation::getAttributesInverse( vec_attributes_inverse );
 	if( m_DocumentInfoForObjects_inverse.size() > 0 )

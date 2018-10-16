@@ -47,7 +47,7 @@ void IfcAnnotationFillArea::readStepArguments( const std::vector<std::wstring>& 
 	readEntityReference( args[0], m_OuterBoundary, map );
 	readEntityReferenceList( args[1], m_InnerBoundaries, map );
 }
-void IfcAnnotationFillArea::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcAnnotationFillArea::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "OuterBoundary", m_OuterBoundary ) );
@@ -58,7 +58,7 @@ void IfcAnnotationFillArea::getAttributes( std::vector<std::pair<std::string, sh
 		vec_attributes.push_back( std::make_pair( "InnerBoundaries", InnerBoundaries_vec_object ) );
 	}
 }
-void IfcAnnotationFillArea::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcAnnotationFillArea::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

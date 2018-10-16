@@ -107,7 +107,7 @@ void IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::wstring>&
 	readTypeOfIntegerList2D( args[3], m_CoordIndex );
 	readTypeOfIntegerList( args[4], m_PnIndex );
 }
-void IfcTriangulatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTriangulatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTessellatedFaceSet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Closed", m_Closed ) );
@@ -118,7 +118,7 @@ void IfcTriangulatedFaceSet::getAttributes( std::vector<std::pair<std::string, s
 		vec_attributes.push_back( std::make_pair( "PnIndex", PnIndex_vec_object ) );
 	}
 }
-void IfcTriangulatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTriangulatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTessellatedFaceSet::getAttributesInverse( vec_attributes_inverse );
 }

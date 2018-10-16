@@ -111,13 +111,13 @@ void IfcFurnitureType::readStepArguments( const std::vector<std::wstring>& args,
 	m_AssemblyPlace = IfcAssemblyPlaceEnum::createObjectFromSTEP( args[9], map );
 	m_PredefinedType = IfcFurnitureTypeEnum::createObjectFromSTEP( args[10], map );
 }
-void IfcFurnitureType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFurnitureType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFurnishingElementType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "AssemblyPlace", m_AssemblyPlace ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcFurnitureType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFurnitureType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFurnishingElementType::getAttributesInverse( vec_attributes_inverse );
 }

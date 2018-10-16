@@ -41,13 +41,13 @@ void IfcFaceBound::readStepArguments( const std::vector<std::wstring>& args, con
 	readEntityReference( args[0], m_Bound, map );
 	m_Orientation = IfcBoolean::createObjectFromSTEP( args[1], map );
 }
-void IfcFaceBound::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFaceBound::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Bound", m_Bound ) );
 	vec_attributes.push_back( std::make_pair( "Orientation", m_Orientation ) );
 }
-void IfcFaceBound::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFaceBound::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTopologicalRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

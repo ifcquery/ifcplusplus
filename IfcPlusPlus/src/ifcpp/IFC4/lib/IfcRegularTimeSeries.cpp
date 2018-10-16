@@ -85,7 +85,7 @@ void IfcRegularTimeSeries::readStepArguments( const std::vector<std::wstring>& a
 	m_TimeStep = IfcTimeMeasure::createObjectFromSTEP( args[8], map );
 	readEntityReferenceList( args[9], m_Values, map );
 }
-void IfcRegularTimeSeries::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRegularTimeSeries::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTimeSeries::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TimeStep", m_TimeStep ) );
@@ -96,7 +96,7 @@ void IfcRegularTimeSeries::getAttributes( std::vector<std::pair<std::string, sha
 		vec_attributes.push_back( std::make_pair( "Values", Values_vec_object ) );
 	}
 }
-void IfcRegularTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRegularTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTimeSeries::getAttributesInverse( vec_attributes_inverse );
 }

@@ -110,7 +110,7 @@ void IfcStructuralAnalysisModel::readStepArguments( const std::vector<std::wstri
 	readEntityReferenceList( args[8], m_HasResults, map );
 	readEntityReference( args[9], m_SharedPlacement, map );
 }
-void IfcStructuralAnalysisModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralAnalysisModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSystem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
@@ -129,7 +129,7 @@ void IfcStructuralAnalysisModel::getAttributes( std::vector<std::pair<std::strin
 	}
 	vec_attributes.push_back( std::make_pair( "SharedPlacement", m_SharedPlacement ) );
 }
-void IfcStructuralAnalysisModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralAnalysisModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSystem::getAttributesInverse( vec_attributes_inverse );
 }

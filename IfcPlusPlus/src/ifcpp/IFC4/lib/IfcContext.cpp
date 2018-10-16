@@ -92,7 +92,7 @@ void IfcContext::readStepArguments( const std::vector<std::wstring>& args, const
 	readEntityReferenceList( args[7], m_RepresentationContexts, map );
 	readEntityReference( args[8], m_UnitsInContext, map );
 }
-void IfcContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcObjectDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ObjectType", m_ObjectType ) );
@@ -106,7 +106,7 @@ void IfcContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<Bu
 	}
 	vec_attributes.push_back( std::make_pair( "UnitsInContext", m_UnitsInContext ) );
 }
-void IfcContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcObjectDefinition::getAttributesInverse( vec_attributes_inverse );
 	if( m_IsDefinedBy_inverse.size() > 0 )

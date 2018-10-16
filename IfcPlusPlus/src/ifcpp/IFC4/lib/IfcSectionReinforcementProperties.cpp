@@ -65,7 +65,7 @@ void IfcSectionReinforcementProperties::readStepArguments( const std::vector<std
 	readEntityReference( args[4], m_SectionDefinition, map );
 	readEntityReferenceList( args[5], m_CrossSectionReinforcementDefinitions, map );
 }
-void IfcSectionReinforcementProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSectionReinforcementProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedProperties::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "LongitudinalStartPosition", m_LongitudinalStartPosition ) );
@@ -80,7 +80,7 @@ void IfcSectionReinforcementProperties::getAttributes( std::vector<std::pair<std
 		vec_attributes.push_back( std::make_pair( "CrossSectionReinforcementDefinitions", CrossSectionReinforcementDefinitions_vec_object ) );
 	}
 }
-void IfcSectionReinforcementProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSectionReinforcementProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPreDefinedProperties::getAttributesInverse( vec_attributes_inverse );
 }

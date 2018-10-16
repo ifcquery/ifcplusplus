@@ -45,13 +45,13 @@ void IfcActorRole::readStepArguments( const std::vector<std::wstring>& args, con
 	m_UserDefinedRole = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_Description = IfcText::createObjectFromSTEP( args[2], map );
 }
-void IfcActorRole::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcActorRole::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Role", m_Role ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedRole", m_UserDefinedRole ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 }
-void IfcActorRole::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcActorRole::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	if( m_HasExternalReference_inverse.size() > 0 )
 	{

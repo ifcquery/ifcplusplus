@@ -61,12 +61,12 @@ void IfcProfileProperties::readStepArguments( const std::vector<std::wstring>& a
 	readEntityReferenceList( args[2], m_Properties, map );
 	readEntityReference( args[3], m_ProfileDefinition, map );
 }
-void IfcProfileProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcProfileProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExtendedProperties::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ProfileDefinition", m_ProfileDefinition ) );
 }
-void IfcProfileProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcProfileProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcExtendedProperties::getAttributesInverse( vec_attributes_inverse );
 }

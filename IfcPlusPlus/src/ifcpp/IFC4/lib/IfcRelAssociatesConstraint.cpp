@@ -95,13 +95,13 @@ void IfcRelAssociatesConstraint::readStepArguments( const std::vector<std::wstri
 	m_Intent = IfcLabel::createObjectFromSTEP( args[5], map );
 	readEntityReference( args[6], m_RelatingConstraint, map );
 }
-void IfcRelAssociatesConstraint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelAssociatesConstraint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssociates::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Intent", m_Intent ) );
 	vec_attributes.push_back( std::make_pair( "RelatingConstraint", m_RelatingConstraint ) );
 }
-void IfcRelAssociatesConstraint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelAssociatesConstraint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelAssociates::getAttributesInverse( vec_attributes_inverse );
 }

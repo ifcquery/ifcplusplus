@@ -87,7 +87,7 @@ void IfcDoorPanelProperties::readStepArguments( const std::vector<std::wstring>&
 	m_PanelPosition = IfcDoorPanelPositionEnum::createObjectFromSTEP( args[7], map );
 	readEntityReference( args[8], m_ShapeAspectStyle, map );
 }
-void IfcDoorPanelProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDoorPanelProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedPropertySet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PanelDepth", m_PanelDepth ) );
@@ -96,7 +96,7 @@ void IfcDoorPanelProperties::getAttributes( std::vector<std::pair<std::string, s
 	vec_attributes.push_back( std::make_pair( "PanelPosition", m_PanelPosition ) );
 	vec_attributes.push_back( std::make_pair( "ShapeAspectStyle", m_ShapeAspectStyle ) );
 }
-void IfcDoorPanelProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDoorPanelProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPreDefinedPropertySet::getAttributesInverse( vec_attributes_inverse );
 }

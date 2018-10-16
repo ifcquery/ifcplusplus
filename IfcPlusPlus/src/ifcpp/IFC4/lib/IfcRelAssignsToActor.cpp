@@ -84,13 +84,13 @@ void IfcRelAssignsToActor::readStepArguments( const std::vector<std::wstring>& a
 	readEntityReference( args[6], m_RelatingActor, map );
 	readEntityReference( args[7], m_ActingRole, map );
 }
-void IfcRelAssignsToActor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelAssignsToActor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingActor", m_RelatingActor ) );
 	vec_attributes.push_back( std::make_pair( "ActingRole", m_ActingRole ) );
 }
-void IfcRelAssignsToActor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelAssignsToActor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelAssigns::getAttributesInverse( vec_attributes_inverse );
 }

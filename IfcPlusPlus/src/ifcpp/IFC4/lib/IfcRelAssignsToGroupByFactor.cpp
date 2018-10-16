@@ -84,12 +84,12 @@ void IfcRelAssignsToGroupByFactor::readStepArguments( const std::vector<std::wst
 	readEntityReference( args[6], m_RelatingGroup, map );
 	m_Factor = IfcRatioMeasure::createObjectFromSTEP( args[7], map );
 }
-void IfcRelAssignsToGroupByFactor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelAssignsToGroupByFactor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssignsToGroup::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Factor", m_Factor ) );
 }
-void IfcRelAssignsToGroupByFactor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelAssignsToGroupByFactor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelAssignsToGroup::getAttributesInverse( vec_attributes_inverse );
 }

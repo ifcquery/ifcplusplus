@@ -62,14 +62,14 @@ void IfcProjectedCRS::readStepArguments( const std::vector<std::wstring>& args, 
 	m_MapZone = IfcIdentifier::createObjectFromSTEP( args[5], map );
 	readEntityReference( args[6], m_MapUnit, map );
 }
-void IfcProjectedCRS::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcProjectedCRS::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCoordinateReferenceSystem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "MapProjection", m_MapProjection ) );
 	vec_attributes.push_back( std::make_pair( "MapZone", m_MapZone ) );
 	vec_attributes.push_back( std::make_pair( "MapUnit", m_MapUnit ) );
 }
-void IfcProjectedCRS::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcProjectedCRS::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCoordinateReferenceSystem::getAttributesInverse( vec_attributes_inverse );
 }

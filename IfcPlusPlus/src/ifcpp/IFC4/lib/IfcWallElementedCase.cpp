@@ -100,11 +100,11 @@ void IfcWallElementedCase::readStepArguments( const std::vector<std::wstring>& a
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcWallTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcWallElementedCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcWallElementedCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcWall::getAttributes( vec_attributes );
 }
-void IfcWallElementedCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcWallElementedCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcWall::getAttributesInverse( vec_attributes_inverse );
 }

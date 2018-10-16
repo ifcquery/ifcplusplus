@@ -76,7 +76,7 @@ void IfcBSplineSurface::readStepArguments( const std::vector<std::wstring>& args
 	m_VClosed = IfcLogical::createObjectFromSTEP( args[5], map );
 	m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[6], map );
 }
-void IfcBSplineSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBSplineSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedSurface::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "UDegree", m_UDegree ) );
@@ -86,7 +86,7 @@ void IfcBSplineSurface::getAttributes( std::vector<std::pair<std::string, shared
 	vec_attributes.push_back( std::make_pair( "VClosed", m_VClosed ) );
 	vec_attributes.push_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 }
-void IfcBSplineSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBSplineSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBoundedSurface::getAttributesInverse( vec_attributes_inverse );
 }

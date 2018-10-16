@@ -93,7 +93,7 @@ void IfcRelDeclares::readStepArguments( const std::vector<std::wstring>& args, c
 	readEntityReference( args[4], m_RelatingContext, map );
 	readSelectList( args[5], m_RelatedDefinitions, map );
 }
-void IfcRelDeclares::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelDeclares::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingContext", m_RelatingContext ) );
@@ -104,7 +104,7 @@ void IfcRelDeclares::getAttributes( std::vector<std::pair<std::string, shared_pt
 		vec_attributes.push_back( std::make_pair( "RelatedDefinitions", RelatedDefinitions_vec_object ) );
 	}
 }
-void IfcRelDeclares::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelDeclares::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelationship::getAttributesInverse( vec_attributes_inverse );
 }

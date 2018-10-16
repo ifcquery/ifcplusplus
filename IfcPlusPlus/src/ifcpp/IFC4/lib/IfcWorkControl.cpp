@@ -113,7 +113,7 @@ void IfcWorkControl::readStepArguments( const std::vector<std::wstring>& args, c
 	m_StartTime = IfcDateTime::createObjectFromSTEP( args[11], map );
 	m_FinishTime = IfcDateTime::createObjectFromSTEP( args[12], map );
 }
-void IfcWorkControl::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcWorkControl::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcControl::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "CreationDate", m_CreationDate ) );
@@ -129,7 +129,7 @@ void IfcWorkControl::getAttributes( std::vector<std::pair<std::string, shared_pt
 	vec_attributes.push_back( std::make_pair( "StartTime", m_StartTime ) );
 	vec_attributes.push_back( std::make_pair( "FinishTime", m_FinishTime ) );
 }
-void IfcWorkControl::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcWorkControl::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcControl::getAttributesInverse( vec_attributes_inverse );
 }

@@ -87,12 +87,12 @@ void IfcSpatialElement::readStepArguments( const std::vector<std::wstring>& args
 	readEntityReference( args[6], m_Representation, map );
 	m_LongName = IfcLabel::createObjectFromSTEP( args[7], map );
 }
-void IfcSpatialElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSpatialElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProduct::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "LongName", m_LongName ) );
 }
-void IfcSpatialElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSpatialElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProduct::getAttributesInverse( vec_attributes_inverse );
 	if( m_ContainsElements_inverse.size() > 0 )

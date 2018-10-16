@@ -41,7 +41,7 @@ void IfcSurfaceStyleWithTextures::readStepArguments( const std::vector<std::wstr
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleWithTextures, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Textures, map );
 }
-void IfcSurfaceStyleWithTextures::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSurfaceStyleWithTextures::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	if( m_Textures.size() > 0 )
@@ -51,7 +51,7 @@ void IfcSurfaceStyleWithTextures::getAttributes( std::vector<std::pair<std::stri
 		vec_attributes.push_back( std::make_pair( "Textures", Textures_vec_object ) );
 	}
 }
-void IfcSurfaceStyleWithTextures::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSurfaceStyleWithTextures::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

@@ -96,12 +96,12 @@ void IfcStructuralCurveReaction::readStepArguments( const std::vector<std::wstri
 	m_GlobalOrLocal = IfcGlobalOrLocalEnum::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcStructuralCurveActivityTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcStructuralCurveReaction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralCurveReaction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralReaction::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcStructuralCurveReaction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralCurveReaction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralReaction::getAttributesInverse( vec_attributes_inverse );
 }

@@ -106,12 +106,12 @@ void IfcFireSuppressionTerminalType::readStepArguments( const std::vector<std::w
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcFireSuppressionTerminalTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcFireSuppressionTerminalType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFireSuppressionTerminalType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFlowTerminalType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcFireSuppressionTerminalType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFireSuppressionTerminalType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFlowTerminalType::getAttributesInverse( vec_attributes_inverse );
 }

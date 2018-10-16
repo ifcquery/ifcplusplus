@@ -48,14 +48,14 @@ void IfcMaterial::readStepArguments( const std::vector<std::wstring>& args, cons
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_Category = IfcLabel::createObjectFromSTEP( args[2], map );
 }
-void IfcMaterial::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMaterial::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 	vec_attributes.push_back( std::make_pair( "Category", m_Category ) );
 }
-void IfcMaterial::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMaterial::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasRepresentation_inverse.size() > 0 )

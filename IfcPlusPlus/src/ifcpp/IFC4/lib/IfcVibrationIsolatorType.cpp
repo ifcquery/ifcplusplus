@@ -106,12 +106,12 @@ void IfcVibrationIsolatorType::readStepArguments( const std::vector<std::wstring
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcVibrationIsolatorTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcVibrationIsolatorType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcVibrationIsolatorType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcElementComponentType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcVibrationIsolatorType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcVibrationIsolatorType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcElementComponentType::getAttributesInverse( vec_attributes_inverse );
 }

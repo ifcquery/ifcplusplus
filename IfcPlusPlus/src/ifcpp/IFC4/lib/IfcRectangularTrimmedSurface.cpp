@@ -62,7 +62,7 @@ void IfcRectangularTrimmedSurface::readStepArguments( const std::vector<std::wst
 	m_Usense = IfcBoolean::createObjectFromSTEP( args[5], map );
 	m_Vsense = IfcBoolean::createObjectFromSTEP( args[6], map );
 }
-void IfcRectangularTrimmedSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRectangularTrimmedSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedSurface::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
@@ -73,7 +73,7 @@ void IfcRectangularTrimmedSurface::getAttributes( std::vector<std::pair<std::str
 	vec_attributes.push_back( std::make_pair( "Usense", m_Usense ) );
 	vec_attributes.push_back( std::make_pair( "Vsense", m_Vsense ) );
 }
-void IfcRectangularTrimmedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRectangularTrimmedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBoundedSurface::getAttributesInverse( vec_attributes_inverse );
 }

@@ -70,7 +70,7 @@ void IfcSurfaceStyleRendering::readStepArguments( const std::vector<std::wstring
 	m_SpecularHighlight = IfcSpecularHighlightSelect::createObjectFromSTEP( args[7], map );
 	m_ReflectanceMethod = IfcReflectanceMethodEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcSurfaceStyleRendering::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSurfaceStyleRendering::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSurfaceStyleShading::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "DiffuseColour", m_DiffuseColour ) );
@@ -81,7 +81,7 @@ void IfcSurfaceStyleRendering::getAttributes( std::vector<std::pair<std::string,
 	vec_attributes.push_back( std::make_pair( "SpecularHighlight", m_SpecularHighlight ) );
 	vec_attributes.push_back( std::make_pair( "ReflectanceMethod", m_ReflectanceMethod ) );
 }
-void IfcSurfaceStyleRendering::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSurfaceStyleRendering::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSurfaceStyleShading::getAttributesInverse( vec_attributes_inverse );
 }

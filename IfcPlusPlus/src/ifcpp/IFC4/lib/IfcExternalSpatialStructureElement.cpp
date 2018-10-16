@@ -87,11 +87,11 @@ void IfcExternalSpatialStructureElement::readStepArguments( const std::vector<st
 	readEntityReference( args[6], m_Representation, map );
 	m_LongName = IfcLabel::createObjectFromSTEP( args[7], map );
 }
-void IfcExternalSpatialStructureElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcExternalSpatialStructureElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSpatialElement::getAttributes( vec_attributes );
 }
-void IfcExternalSpatialStructureElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcExternalSpatialStructureElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSpatialElement::getAttributesInverse( vec_attributes_inverse );
 }

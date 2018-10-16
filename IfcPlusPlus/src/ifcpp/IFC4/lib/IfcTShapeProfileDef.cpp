@@ -85,7 +85,7 @@ void IfcTShapeProfileDef::readStepArguments( const std::vector<std::wstring>& ar
 	m_WebSlope = IfcPlaneAngleMeasure::createObjectFromSTEP( args[10], map );
 	m_FlangeSlope = IfcPlaneAngleMeasure::createObjectFromSTEP( args[11], map );
 }
-void IfcTShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Depth", m_Depth ) );
@@ -98,7 +98,7 @@ void IfcTShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shar
 	vec_attributes.push_back( std::make_pair( "WebSlope", m_WebSlope ) );
 	vec_attributes.push_back( std::make_pair( "FlangeSlope", m_FlangeSlope ) );
 }
-void IfcTShapeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTShapeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcParameterizedProfileDef::getAttributesInverse( vec_attributes_inverse );
 }

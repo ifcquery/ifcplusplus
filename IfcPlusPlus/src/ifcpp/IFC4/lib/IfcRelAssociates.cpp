@@ -88,7 +88,7 @@ void IfcRelAssociates::readStepArguments( const std::vector<std::wstring>& args,
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
 	readSelectList( args[4], m_RelatedObjects, map );
 }
-void IfcRelAssociates::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelAssociates::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelationship::getAttributes( vec_attributes );
 	if( m_RelatedObjects.size() > 0 )
@@ -98,7 +98,7 @@ void IfcRelAssociates::getAttributes( std::vector<std::pair<std::string, shared_
 		vec_attributes.push_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
 	}
 }
-void IfcRelAssociates::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelAssociates::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelationship::getAttributesInverse( vec_attributes_inverse );
 }

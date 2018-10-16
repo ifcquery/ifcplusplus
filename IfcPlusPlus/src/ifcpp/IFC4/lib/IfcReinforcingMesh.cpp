@@ -138,7 +138,7 @@ void IfcReinforcingMesh::readStepArguments( const std::vector<std::wstring>& arg
 	m_TransverseBarSpacing = IfcPositiveLengthMeasure::createObjectFromSTEP( args[16], map );
 	m_PredefinedType = IfcReinforcingMeshTypeEnum::createObjectFromSTEP( args[17], map );
 }
-void IfcReinforcingMesh::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcReinforcingMesh::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcReinforcingElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "MeshLength", m_MeshLength ) );
@@ -151,7 +151,7 @@ void IfcReinforcingMesh::getAttributes( std::vector<std::pair<std::string, share
 	vec_attributes.push_back( std::make_pair( "TransverseBarSpacing", m_TransverseBarSpacing ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcReinforcingMesh::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcReinforcingMesh::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcReinforcingElement::getAttributesInverse( vec_attributes_inverse );
 }

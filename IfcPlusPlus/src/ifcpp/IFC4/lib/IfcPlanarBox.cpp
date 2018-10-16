@@ -45,12 +45,12 @@ void IfcPlanarBox::readStepArguments( const std::vector<std::wstring>& args, con
 	m_SizeInY = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_Placement = IfcAxis2Placement::createObjectFromSTEP( args[2], map );
 }
-void IfcPlanarBox::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPlanarBox::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPlanarExtent::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Placement", m_Placement ) );
 }
-void IfcPlanarBox::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPlanarBox::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPlanarExtent::getAttributesInverse( vec_attributes_inverse );
 }

@@ -50,13 +50,13 @@ void IfcEdgeCurve::readStepArguments( const std::vector<std::wstring>& args, con
 	readEntityReference( args[2], m_EdgeGeometry, map );
 	m_SameSense = IfcBoolean::createObjectFromSTEP( args[3], map );
 }
-void IfcEdgeCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcEdgeCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcEdge::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "EdgeGeometry", m_EdgeGeometry ) );
 	vec_attributes.push_back( std::make_pair( "SameSense", m_SameSense ) );
 }
-void IfcEdgeCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcEdgeCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcEdge::getAttributesInverse( vec_attributes_inverse );
 }

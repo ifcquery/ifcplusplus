@@ -106,7 +106,7 @@ void IfcInventory::readStepArguments( const std::vector<std::wstring>& args, con
 	readEntityReference( args[9], m_CurrentValue, map );
 	readEntityReference( args[10], m_OriginalValue, map );
 }
-void IfcInventory::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcInventory::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGroup::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
@@ -121,7 +121,7 @@ void IfcInventory::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	vec_attributes.push_back( std::make_pair( "CurrentValue", m_CurrentValue ) );
 	vec_attributes.push_back( std::make_pair( "OriginalValue", m_OriginalValue ) );
 }
-void IfcInventory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcInventory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGroup::getAttributesInverse( vec_attributes_inverse );
 }

@@ -86,13 +86,13 @@ void IfcRelAssignsToProcess::readStepArguments( const std::vector<std::wstring>&
 	m_RelatingProcess = IfcProcessSelect::createObjectFromSTEP( args[6], map );
 	readEntityReference( args[7], m_QuantityInProcess, map );
 }
-void IfcRelAssignsToProcess::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelAssignsToProcess::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingProcess", m_RelatingProcess ) );
 	vec_attributes.push_back( std::make_pair( "QuantityInProcess", m_QuantityInProcess ) );
 }
-void IfcRelAssignsToProcess::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelAssignsToProcess::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelAssigns::getAttributesInverse( vec_attributes_inverse );
 }

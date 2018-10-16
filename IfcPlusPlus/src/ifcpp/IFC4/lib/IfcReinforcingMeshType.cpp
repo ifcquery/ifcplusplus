@@ -173,7 +173,7 @@ void IfcReinforcingMeshType::readStepArguments( const std::vector<std::wstring>&
 	m_BendingShapeCode = IfcLabel::createObjectFromSTEP( args[18], map );
 	readSelectList( args[19], m_BendingParameters, map );
 }
-void IfcReinforcingMeshType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcReinforcingMeshType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcReinforcingElementType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
@@ -193,7 +193,7 @@ void IfcReinforcingMeshType::getAttributes( std::vector<std::pair<std::string, s
 		vec_attributes.push_back( std::make_pair( "BendingParameters", BendingParameters_vec_object ) );
 	}
 }
-void IfcReinforcingMeshType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcReinforcingMeshType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcReinforcingElementType::getAttributesInverse( vec_attributes_inverse );
 }

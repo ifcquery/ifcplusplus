@@ -106,13 +106,13 @@ void IfcStructuralSurfaceAction::readStepArguments( const std::vector<std::wstri
 	m_ProjectedOrTrue = IfcProjectedOrTrueLengthEnum::createObjectFromSTEP( args[10], map );
 	m_PredefinedType = IfcStructuralSurfaceActivityTypeEnum::createObjectFromSTEP( args[11], map );
 }
-void IfcStructuralSurfaceAction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralSurfaceAction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralAction::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ProjectedOrTrue", m_ProjectedOrTrue ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcStructuralSurfaceAction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralSurfaceAction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralAction::getAttributesInverse( vec_attributes_inverse );
 }

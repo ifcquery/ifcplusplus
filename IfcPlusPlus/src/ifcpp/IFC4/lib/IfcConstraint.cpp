@@ -64,7 +64,7 @@ void IfcConstraint::readStepArguments( const std::vector<std::wstring>& args, co
 	m_CreationTime = IfcDateTime::createObjectFromSTEP( args[5], map );
 	m_UserDefinedGrade = IfcLabel::createObjectFromSTEP( args[6], map );
 }
-void IfcConstraint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcConstraint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
@@ -74,7 +74,7 @@ void IfcConstraint::getAttributes( std::vector<std::pair<std::string, shared_ptr
 	vec_attributes.push_back( std::make_pair( "CreationTime", m_CreationTime ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedGrade", m_UserDefinedGrade ) );
 }
-void IfcConstraint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcConstraint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	if( m_HasExternalReferences_inverse.size() > 0 )
 	{

@@ -60,7 +60,7 @@ void IfcComplexProperty::readStepArguments( const std::vector<std::wstring>& arg
 	m_UsageName = IfcIdentifier::createObjectFromSTEP( args[2], map );
 	readEntityReferenceList( args[3], m_HasProperties, map );
 }
-void IfcComplexProperty::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcComplexProperty::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProperty::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "UsageName", m_UsageName ) );
@@ -71,7 +71,7 @@ void IfcComplexProperty::getAttributes( std::vector<std::pair<std::string, share
 		vec_attributes.push_back( std::make_pair( "HasProperties", HasProperties_vec_object ) );
 	}
 }
-void IfcComplexProperty::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcComplexProperty::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProperty::getAttributesInverse( vec_attributes_inverse );
 }

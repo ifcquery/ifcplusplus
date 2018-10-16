@@ -52,12 +52,12 @@ void IfcReparametrisedCompositeCurveSegment::readStepArguments( const std::vecto
 	readEntityReference( args[2], m_ParentCurve, map );
 	m_ParamLength = IfcParameterValue::createObjectFromSTEP( args[3], map );
 }
-void IfcReparametrisedCompositeCurveSegment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcReparametrisedCompositeCurveSegment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCompositeCurveSegment::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ParamLength", m_ParamLength ) );
 }
-void IfcReparametrisedCompositeCurveSegment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcReparametrisedCompositeCurveSegment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCompositeCurveSegment::getAttributesInverse( vec_attributes_inverse );
 }

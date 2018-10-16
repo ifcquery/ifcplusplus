@@ -74,7 +74,7 @@ void IfcRelServicesBuildings::readStepArguments( const std::vector<std::wstring>
 	readEntityReference( args[4], m_RelatingSystem, map );
 	readEntityReferenceList( args[5], m_RelatedBuildings, map );
 }
-void IfcRelServicesBuildings::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelServicesBuildings::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingSystem", m_RelatingSystem ) );
@@ -85,7 +85,7 @@ void IfcRelServicesBuildings::getAttributes( std::vector<std::pair<std::string, 
 		vec_attributes.push_back( std::make_pair( "RelatedBuildings", RelatedBuildings_vec_object ) );
 	}
 }
-void IfcRelServicesBuildings::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelServicesBuildings::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }

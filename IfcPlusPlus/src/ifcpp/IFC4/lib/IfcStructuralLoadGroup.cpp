@@ -96,7 +96,7 @@ void IfcStructuralLoadGroup::readStepArguments( const std::vector<std::wstring>&
 	m_Coefficient = IfcRatioMeasure::createObjectFromSTEP( args[8], map );
 	m_Purpose = IfcLabel::createObjectFromSTEP( args[9], map );
 }
-void IfcStructuralLoadGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralLoadGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGroup::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
@@ -105,7 +105,7 @@ void IfcStructuralLoadGroup::getAttributes( std::vector<std::pair<std::string, s
 	vec_attributes.push_back( std::make_pair( "Coefficient", m_Coefficient ) );
 	vec_attributes.push_back( std::make_pair( "Purpose", m_Purpose ) );
 }
-void IfcStructuralLoadGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralLoadGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGroup::getAttributesInverse( vec_attributes_inverse );
 	if( m_SourceOfResultGroup_inverse.size() > 0 )

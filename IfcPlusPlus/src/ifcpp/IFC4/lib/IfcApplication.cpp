@@ -48,14 +48,14 @@ void IfcApplication::readStepArguments( const std::vector<std::wstring>& args, c
 	m_ApplicationFullName = IfcLabel::createObjectFromSTEP( args[2], map );
 	m_ApplicationIdentifier = IfcIdentifier::createObjectFromSTEP( args[3], map );
 }
-void IfcApplication::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcApplication::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "ApplicationDeveloper", m_ApplicationDeveloper ) );
 	vec_attributes.push_back( std::make_pair( "Version", m_Version ) );
 	vec_attributes.push_back( std::make_pair( "ApplicationFullName", m_ApplicationFullName ) );
 	vec_attributes.push_back( std::make_pair( "ApplicationIdentifier", m_ApplicationIdentifier ) );
 }
-void IfcApplication::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcApplication::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcApplication::setInverseCounterparts( shared_ptr<BuildingEntity> )

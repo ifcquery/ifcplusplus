@@ -50,7 +50,7 @@ void IfcLightSource::readStepArguments( const std::vector<std::wstring>& args, c
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );
 	m_Intensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[3], map );
 }
-void IfcLightSource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcLightSource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
@@ -58,7 +58,7 @@ void IfcLightSource::getAttributes( std::vector<std::pair<std::string, shared_pt
 	vec_attributes.push_back( std::make_pair( "AmbientIntensity", m_AmbientIntensity ) );
 	vec_attributes.push_back( std::make_pair( "Intensity", m_Intensity ) );
 }
-void IfcLightSource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcLightSource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

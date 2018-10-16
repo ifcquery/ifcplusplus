@@ -102,13 +102,13 @@ void IfcTaskType::readStepArguments( const std::vector<std::wstring>& args, cons
 	m_PredefinedType = IfcTaskTypeEnum::createObjectFromSTEP( args[9], map );
 	m_WorkMethod = IfcLabel::createObjectFromSTEP( args[10], map );
 }
-void IfcTaskType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTaskType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTypeProcess::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "WorkMethod", m_WorkMethod ) );
 }
-void IfcTaskType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTaskType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTypeProcess::getAttributesInverse( vec_attributes_inverse );
 }

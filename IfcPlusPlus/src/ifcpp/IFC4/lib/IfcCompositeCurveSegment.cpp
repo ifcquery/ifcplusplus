@@ -47,14 +47,14 @@ void IfcCompositeCurveSegment::readStepArguments( const std::vector<std::wstring
 	m_SameSense = IfcBoolean::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_ParentCurve, map );
 }
-void IfcCompositeCurveSegment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCompositeCurveSegment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Transition", m_Transition ) );
 	vec_attributes.push_back( std::make_pair( "SameSense", m_SameSense ) );
 	vec_attributes.push_back( std::make_pair( "ParentCurve", m_ParentCurve ) );
 }
-void IfcCompositeCurveSegment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCompositeCurveSegment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 	if( m_UsingCurves_inverse.size() > 0 )

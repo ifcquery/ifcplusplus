@@ -55,7 +55,7 @@ void IfcMaterialLayerSetUsage::readStepArguments( const std::vector<std::wstring
 	m_OffsetFromReferenceLine = IfcLengthMeasure::createObjectFromSTEP( args[3], map );
 	m_ReferenceExtent = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4], map );
 }
-void IfcMaterialLayerSetUsage::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMaterialLayerSetUsage::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialUsageDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ForLayerSet", m_ForLayerSet ) );
@@ -64,7 +64,7 @@ void IfcMaterialLayerSetUsage::getAttributes( std::vector<std::pair<std::string,
 	vec_attributes.push_back( std::make_pair( "OffsetFromReferenceLine", m_OffsetFromReferenceLine ) );
 	vec_attributes.push_back( std::make_pair( "ReferenceExtent", m_ReferenceExtent ) );
 }
-void IfcMaterialLayerSetUsage::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMaterialLayerSetUsage::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialUsageDefinition::getAttributesInverse( vec_attributes_inverse );
 }

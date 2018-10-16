@@ -69,11 +69,11 @@ void IfcIndexedTriangleTextureMap::readStepArguments( const std::vector<std::wst
 	readEntityReference( args[2], m_TexCoords, map );
 	readTypeOfIntegerList2D( args[3], m_TexCoordIndex );
 }
-void IfcIndexedTriangleTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcIndexedTriangleTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcIndexedTextureMap::getAttributes( vec_attributes );
 }
-void IfcIndexedTriangleTextureMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcIndexedTriangleTextureMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcIndexedTextureMap::getAttributesInverse( vec_attributes_inverse );
 }

@@ -102,12 +102,12 @@ void IfcSolarDevice::readStepArguments( const std::vector<std::wstring>& args, c
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcSolarDeviceTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcSolarDevice::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSolarDevice::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcEnergyConversionDevice::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcSolarDevice::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSolarDevice::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcEnergyConversionDevice::getAttributesInverse( vec_attributes_inverse );
 }

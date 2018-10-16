@@ -53,7 +53,7 @@ void IfcCurveBoundedSurface::readStepArguments( const std::vector<std::wstring>&
 	readEntityReferenceList( args[1], m_Boundaries, map );
 	m_ImplicitOuter = IfcBoolean::createObjectFromSTEP( args[2], map );
 }
-void IfcCurveBoundedSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCurveBoundedSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedSurface::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
@@ -65,7 +65,7 @@ void IfcCurveBoundedSurface::getAttributes( std::vector<std::pair<std::string, s
 	}
 	vec_attributes.push_back( std::make_pair( "ImplicitOuter", m_ImplicitOuter ) );
 }
-void IfcCurveBoundedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCurveBoundedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBoundedSurface::getAttributesInverse( vec_attributes_inverse );
 }

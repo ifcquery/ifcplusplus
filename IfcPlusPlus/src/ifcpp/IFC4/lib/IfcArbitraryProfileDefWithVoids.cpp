@@ -57,7 +57,7 @@ void IfcArbitraryProfileDefWithVoids::readStepArguments( const std::vector<std::
 	readEntityReference( args[2], m_OuterCurve, map );
 	readEntityReferenceList( args[3], m_InnerCurves, map );
 }
-void IfcArbitraryProfileDefWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcArbitraryProfileDefWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcArbitraryClosedProfileDef::getAttributes( vec_attributes );
 	if( m_InnerCurves.size() > 0 )
@@ -67,7 +67,7 @@ void IfcArbitraryProfileDefWithVoids::getAttributes( std::vector<std::pair<std::
 		vec_attributes.push_back( std::make_pair( "InnerCurves", InnerCurves_vec_object ) );
 	}
 }
-void IfcArbitraryProfileDefWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcArbitraryProfileDefWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcArbitraryClosedProfileDef::getAttributesInverse( vec_attributes_inverse );
 }

@@ -60,7 +60,7 @@ void IfcStructuralLoadLinearForce::readStepArguments( const std::vector<std::wst
 	m_LinearMomentY = IfcLinearMomentMeasure::createObjectFromSTEP( args[5], map );
 	m_LinearMomentZ = IfcLinearMomentMeasure::createObjectFromSTEP( args[6], map );
 }
-void IfcStructuralLoadLinearForce::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralLoadLinearForce::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadStatic::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "LinearForceX", m_LinearForceX ) );
@@ -70,7 +70,7 @@ void IfcStructuralLoadLinearForce::getAttributes( std::vector<std::pair<std::str
 	vec_attributes.push_back( std::make_pair( "LinearMomentY", m_LinearMomentY ) );
 	vec_attributes.push_back( std::make_pair( "LinearMomentZ", m_LinearMomentZ ) );
 }
-void IfcStructuralLoadLinearForce::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralLoadLinearForce::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralLoadStatic::getAttributesInverse( vec_attributes_inverse );
 }

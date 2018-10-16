@@ -107,7 +107,7 @@ void IfcResourceTime::readStepArguments( const std::vector<std::wstring>& args, 
 	m_RemainingUsage = IfcPositiveRatioMeasure::createObjectFromSTEP( args[16], map );
 	m_Completion = IfcPositiveRatioMeasure::createObjectFromSTEP( args[17], map );
 }
-void IfcResourceTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcResourceTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSchedulingTime::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ScheduleWork", m_ScheduleWork ) );
@@ -126,7 +126,7 @@ void IfcResourceTime::getAttributes( std::vector<std::pair<std::string, shared_p
 	vec_attributes.push_back( std::make_pair( "RemainingUsage", m_RemainingUsage ) );
 	vec_attributes.push_back( std::make_pair( "Completion", m_Completion ) );
 }
-void IfcResourceTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcResourceTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSchedulingTime::getAttributesInverse( vec_attributes_inverse );
 }

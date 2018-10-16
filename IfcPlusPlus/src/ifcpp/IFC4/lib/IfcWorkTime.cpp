@@ -57,14 +57,14 @@ void IfcWorkTime::readStepArguments( const std::vector<std::wstring>& args, cons
 	m_Start = IfcDate::createObjectFromSTEP( args[4], map );
 	m_Finish = IfcDate::createObjectFromSTEP( args[5], map );
 }
-void IfcWorkTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcWorkTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSchedulingTime::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RecurrencePattern", m_RecurrencePattern ) );
 	vec_attributes.push_back( std::make_pair( "Start", m_Start ) );
 	vec_attributes.push_back( std::make_pair( "Finish", m_Finish ) );
 }
-void IfcWorkTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcWorkTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSchedulingTime::getAttributesInverse( vec_attributes_inverse );
 }

@@ -57,12 +57,12 @@ void IfcMaterialProperties::readStepArguments( const std::vector<std::wstring>& 
 	readEntityReferenceList( args[2], m_Properties, map );
 	readEntityReference( args[3], m_Material, map );
 }
-void IfcMaterialProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMaterialProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExtendedProperties::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Material", m_Material ) );
 }
-void IfcMaterialProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMaterialProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcExtendedProperties::getAttributesInverse( vec_attributes_inverse );
 }

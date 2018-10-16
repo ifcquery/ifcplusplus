@@ -86,14 +86,14 @@ void IfcStructuralResultGroup::readStepArguments( const std::vector<std::wstring
 	readEntityReference( args[6], m_ResultForLoadGroup, map );
 	m_IsLinear = IfcBoolean::createObjectFromSTEP( args[7], map );
 }
-void IfcStructuralResultGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralResultGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGroup::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TheoryType", m_TheoryType ) );
 	vec_attributes.push_back( std::make_pair( "ResultForLoadGroup", m_ResultForLoadGroup ) );
 	vec_attributes.push_back( std::make_pair( "IsLinear", m_IsLinear ) );
 }
-void IfcStructuralResultGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralResultGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGroup::getAttributesInverse( vec_attributes_inverse );
 	if( m_ResultGroupFor_inverse.size() > 0 )

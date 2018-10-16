@@ -92,12 +92,12 @@ void IfcSpatialStructureElement::readStepArguments( const std::vector<std::wstri
 	m_LongName = IfcLabel::createObjectFromSTEP( args[7], map );
 	m_CompositionType = IfcElementCompositionEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcSpatialStructureElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSpatialStructureElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSpatialElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "CompositionType", m_CompositionType ) );
 }
-void IfcSpatialStructureElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSpatialStructureElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSpatialElement::getAttributesInverse( vec_attributes_inverse );
 }

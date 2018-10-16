@@ -109,14 +109,14 @@ void IfcMechanicalFastener::readStepArguments( const std::vector<std::wstring>& 
 	m_NominalLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[9], map );
 	m_PredefinedType = IfcMechanicalFastenerTypeEnum::createObjectFromSTEP( args[10], map );
 }
-void IfcMechanicalFastener::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMechanicalFastener::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcElementComponent::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "NominalDiameter", m_NominalDiameter ) );
 	vec_attributes.push_back( std::make_pair( "NominalLength", m_NominalLength ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcMechanicalFastener::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMechanicalFastener::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcElementComponent::getAttributesInverse( vec_attributes_inverse );
 }

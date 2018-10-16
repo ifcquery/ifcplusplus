@@ -41,11 +41,11 @@ void IfcFaceOuterBound::readStepArguments( const std::vector<std::wstring>& args
 	readEntityReference( args[0], m_Bound, map );
 	m_Orientation = IfcBoolean::createObjectFromSTEP( args[1], map );
 }
-void IfcFaceOuterBound::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFaceOuterBound::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFaceBound::getAttributes( vec_attributes );
 }
-void IfcFaceOuterBound::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFaceOuterBound::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFaceBound::getAttributesInverse( vec_attributes_inverse );
 }

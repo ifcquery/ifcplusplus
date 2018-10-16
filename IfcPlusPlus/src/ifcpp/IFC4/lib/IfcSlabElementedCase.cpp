@@ -100,11 +100,11 @@ void IfcSlabElementedCase::readStepArguments( const std::vector<std::wstring>& a
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcSlabTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcSlabElementedCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSlabElementedCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSlab::getAttributes( vec_attributes );
 }
-void IfcSlabElementedCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSlabElementedCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSlab::getAttributesInverse( vec_attributes_inverse );
 }

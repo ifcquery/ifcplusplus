@@ -86,7 +86,7 @@ void IfcWindowPanelProperties::readStepArguments( const std::vector<std::wstring
 	m_FrameThickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[7], map );
 	readEntityReference( args[8], m_ShapeAspectStyle, map );
 }
-void IfcWindowPanelProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcWindowPanelProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedPropertySet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "OperationType", m_OperationType ) );
@@ -95,7 +95,7 @@ void IfcWindowPanelProperties::getAttributes( std::vector<std::pair<std::string,
 	vec_attributes.push_back( std::make_pair( "FrameThickness", m_FrameThickness ) );
 	vec_attributes.push_back( std::make_pair( "ShapeAspectStyle", m_ShapeAspectStyle ) );
 }
-void IfcWindowPanelProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcWindowPanelProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPreDefinedPropertySet::getAttributesInverse( vec_attributes_inverse );
 }

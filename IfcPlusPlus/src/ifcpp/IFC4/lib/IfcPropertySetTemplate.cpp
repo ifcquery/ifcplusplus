@@ -82,7 +82,7 @@ void IfcPropertySetTemplate::readStepArguments( const std::vector<std::wstring>&
 	m_ApplicableEntity = IfcIdentifier::createObjectFromSTEP( args[5], map );
 	readEntityReferenceList( args[6], m_HasPropertyTemplates, map );
 }
-void IfcPropertySetTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPropertySetTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPropertyTemplateDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TemplateType", m_TemplateType ) );
@@ -94,7 +94,7 @@ void IfcPropertySetTemplate::getAttributes( std::vector<std::pair<std::string, s
 		vec_attributes.push_back( std::make_pair( "HasPropertyTemplates", HasPropertyTemplates_vec_object ) );
 	}
 }
-void IfcPropertySetTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPropertySetTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPropertyTemplateDefinition::getAttributesInverse( vec_attributes_inverse );
 	if( m_Defines_inverse.size() > 0 )

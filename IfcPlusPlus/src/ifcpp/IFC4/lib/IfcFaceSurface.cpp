@@ -54,13 +54,13 @@ void IfcFaceSurface::readStepArguments( const std::vector<std::wstring>& args, c
 	readEntityReference( args[1], m_FaceSurface, map );
 	m_SameSense = IfcBoolean::createObjectFromSTEP( args[2], map );
 }
-void IfcFaceSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFaceSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFace::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "FaceSurface", m_FaceSurface ) );
 	vec_attributes.push_back( std::make_pair( "SameSense", m_SameSense ) );
 }
-void IfcFaceSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFaceSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFace::getAttributesInverse( vec_attributes_inverse );
 }

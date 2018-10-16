@@ -45,13 +45,13 @@ void IfcRightCircularCone::readStepArguments( const std::vector<std::wstring>& a
 	m_Height = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_BottomRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
 }
-void IfcRightCircularCone::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRightCircularCone::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Height", m_Height ) );
 	vec_attributes.push_back( std::make_pair( "BottomRadius", m_BottomRadius ) );
 }
-void IfcRightCircularCone::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRightCircularCone::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCsgPrimitive3D::getAttributesInverse( vec_attributes_inverse );
 }

@@ -60,7 +60,7 @@ void IfcBoundaryNodeCondition::readStepArguments( const std::vector<std::wstring
 	m_RotationalStiffnessY = IfcRotationalStiffnessSelect::createObjectFromSTEP( args[5], map );
 	m_RotationalStiffnessZ = IfcRotationalStiffnessSelect::createObjectFromSTEP( args[6], map );
 }
-void IfcBoundaryNodeCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBoundaryNodeCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundaryCondition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessX", m_TranslationalStiffnessX ) );
@@ -70,7 +70,7 @@ void IfcBoundaryNodeCondition::getAttributes( std::vector<std::pair<std::string,
 	vec_attributes.push_back( std::make_pair( "RotationalStiffnessY", m_RotationalStiffnessY ) );
 	vec_attributes.push_back( std::make_pair( "RotationalStiffnessZ", m_RotationalStiffnessZ ) );
 }
-void IfcBoundaryNodeCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBoundaryNodeCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBoundaryCondition::getAttributesInverse( vec_attributes_inverse );
 }

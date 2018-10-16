@@ -88,14 +88,14 @@ void IfcPermit::readStepArguments( const std::vector<std::wstring>& args, const 
 	m_Status = IfcLabel::createObjectFromSTEP( args[7], map );
 	m_LongDescription = IfcText::createObjectFromSTEP( args[8], map );
 }
-void IfcPermit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPermit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcControl::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "Status", m_Status ) );
 	vec_attributes.push_back( std::make_pair( "LongDescription", m_LongDescription ) );
 }
-void IfcPermit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPermit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcControl::getAttributesInverse( vec_attributes_inverse );
 }

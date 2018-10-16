@@ -121,12 +121,12 @@ void IfcTaskTimeRecurring::readStepArguments( const std::vector<std::wstring>& a
 	m_Completion = IfcPositiveRatioMeasure::createObjectFromSTEP( args[19], map );
 	readEntityReference( args[20], m_Recurrence, map );
 }
-void IfcTaskTimeRecurring::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTaskTimeRecurring::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTaskTime::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Recurrence", m_Recurrence ) );
 }
-void IfcTaskTimeRecurring::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTaskTimeRecurring::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTaskTime::getAttributesInverse( vec_attributes_inverse );
 }

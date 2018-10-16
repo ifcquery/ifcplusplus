@@ -97,7 +97,7 @@ void IfcAsymmetricIShapeProfileDef::readStepArguments( const std::vector<std::ws
 	m_TopFlangeEdgeRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[13], map );
 	m_TopFlangeSlope = IfcPlaneAngleMeasure::createObjectFromSTEP( args[14], map );
 }
-void IfcAsymmetricIShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcAsymmetricIShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BottomFlangeWidth", m_BottomFlangeWidth ) );
@@ -113,7 +113,7 @@ void IfcAsymmetricIShapeProfileDef::getAttributes( std::vector<std::pair<std::st
 	vec_attributes.push_back( std::make_pair( "TopFlangeEdgeRadius", m_TopFlangeEdgeRadius ) );
 	vec_attributes.push_back( std::make_pair( "TopFlangeSlope", m_TopFlangeSlope ) );
 }
-void IfcAsymmetricIShapeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcAsymmetricIShapeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcParameterizedProfileDef::getAttributesInverse( vec_attributes_inverse );
 }

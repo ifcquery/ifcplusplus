@@ -68,7 +68,7 @@ void IfcTimeSeries::readStepArguments( const std::vector<std::wstring>& args, co
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[6], map );
 	m_Unit = IfcUnit::createObjectFromSTEP( args[7], map );
 }
-void IfcTimeSeries::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTimeSeries::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
@@ -79,7 +79,7 @@ void IfcTimeSeries::getAttributes( std::vector<std::pair<std::string, shared_ptr
 	vec_attributes.push_back( std::make_pair( "UserDefinedDataOrigin", m_UserDefinedDataOrigin ) );
 	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
 }
-void IfcTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	if( m_HasExternalReference_inverse.size() > 0 )
 	{

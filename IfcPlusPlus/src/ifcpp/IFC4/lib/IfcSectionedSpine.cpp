@@ -60,7 +60,7 @@ void IfcSectionedSpine::readStepArguments( const std::vector<std::wstring>& args
 	readEntityReferenceList( args[1], m_CrossSections, map );
 	readEntityReferenceList( args[2], m_CrossSectionPositions, map );
 }
-void IfcSectionedSpine::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSectionedSpine::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "SpineCurve", m_SpineCurve ) );
@@ -77,7 +77,7 @@ void IfcSectionedSpine::getAttributes( std::vector<std::pair<std::string, shared
 		vec_attributes.push_back( std::make_pair( "CrossSectionPositions", CrossSectionPositions_vec_object ) );
 	}
 }
-void IfcSectionedSpine::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSectionedSpine::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

@@ -45,13 +45,13 @@ void IfcToroidalSurface::readStepArguments( const std::vector<std::wstring>& arg
 	m_MajorRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_MinorRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
 }
-void IfcToroidalSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcToroidalSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcElementarySurface::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "MajorRadius", m_MajorRadius ) );
 	vec_attributes.push_back( std::make_pair( "MinorRadius", m_MinorRadius ) );
 }
-void IfcToroidalSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcToroidalSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcElementarySurface::getAttributesInverse( vec_attributes_inverse );
 }

@@ -49,14 +49,14 @@ void IfcCoordinateReferenceSystem::readStepArguments( const std::vector<std::wst
 	m_GeodeticDatum = IfcIdentifier::createObjectFromSTEP( args[2], map );
 	m_VerticalDatum = IfcIdentifier::createObjectFromSTEP( args[3], map );
 }
-void IfcCoordinateReferenceSystem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCoordinateReferenceSystem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 	vec_attributes.push_back( std::make_pair( "GeodeticDatum", m_GeodeticDatum ) );
 	vec_attributes.push_back( std::make_pair( "VerticalDatum", m_VerticalDatum ) );
 }
-void IfcCoordinateReferenceSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCoordinateReferenceSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	if( m_HasCoordinateOperation_inverse.size() > 0 )
 	{

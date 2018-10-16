@@ -47,14 +47,14 @@ void IfcBoundaryFaceCondition::readStepArguments( const std::vector<std::wstring
 	m_TranslationalStiffnessByAreaY = IfcModulusOfSubgradeReactionSelect::createObjectFromSTEP( args[2], map );
 	m_TranslationalStiffnessByAreaZ = IfcModulusOfSubgradeReactionSelect::createObjectFromSTEP( args[3], map );
 }
-void IfcBoundaryFaceCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBoundaryFaceCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundaryCondition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessByAreaX", m_TranslationalStiffnessByAreaX ) );
 	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessByAreaY", m_TranslationalStiffnessByAreaY ) );
 	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessByAreaZ", m_TranslationalStiffnessByAreaZ ) );
 }
-void IfcBoundaryFaceCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBoundaryFaceCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBoundaryCondition::getAttributesInverse( vec_attributes_inverse );
 }

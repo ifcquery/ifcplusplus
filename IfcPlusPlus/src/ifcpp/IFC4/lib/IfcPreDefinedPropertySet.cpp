@@ -62,11 +62,11 @@ void IfcPreDefinedPropertySet::readStepArguments( const std::vector<std::wstring
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
 }
-void IfcPreDefinedPropertySet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPreDefinedPropertySet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPropertySetDefinition::getAttributes( vec_attributes );
 }
-void IfcPreDefinedPropertySet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPreDefinedPropertySet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPropertySetDefinition::getAttributesInverse( vec_attributes_inverse );
 }

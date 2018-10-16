@@ -64,7 +64,7 @@ void IfcPhysicalComplexQuantity::readStepArguments( const std::vector<std::wstri
 	m_Quality = IfcLabel::createObjectFromSTEP( args[4], map );
 	m_Usage = IfcLabel::createObjectFromSTEP( args[5], map );
 }
-void IfcPhysicalComplexQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPhysicalComplexQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPhysicalQuantity::getAttributes( vec_attributes );
 	if( m_HasQuantities.size() > 0 )
@@ -77,7 +77,7 @@ void IfcPhysicalComplexQuantity::getAttributes( std::vector<std::pair<std::strin
 	vec_attributes.push_back( std::make_pair( "Quality", m_Quality ) );
 	vec_attributes.push_back( std::make_pair( "Usage", m_Usage ) );
 }
-void IfcPhysicalComplexQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPhysicalComplexQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPhysicalQuantity::getAttributesInverse( vec_attributes_inverse );
 }

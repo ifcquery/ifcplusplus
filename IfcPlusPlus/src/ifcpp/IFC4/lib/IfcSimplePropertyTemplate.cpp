@@ -97,7 +97,7 @@ void IfcSimplePropertyTemplate::readStepArguments( const std::vector<std::wstrin
 	m_Expression = IfcLabel::createObjectFromSTEP( args[10], map );
 	m_AccessState = IfcStateEnum::createObjectFromSTEP( args[11], map );
 }
-void IfcSimplePropertyTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSimplePropertyTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPropertyTemplate::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TemplateType", m_TemplateType ) );
@@ -109,7 +109,7 @@ void IfcSimplePropertyTemplate::getAttributes( std::vector<std::pair<std::string
 	vec_attributes.push_back( std::make_pair( "Expression", m_Expression ) );
 	vec_attributes.push_back( std::make_pair( "AccessState", m_AccessState ) );
 }
-void IfcSimplePropertyTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSimplePropertyTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPropertyTemplate::getAttributesInverse( vec_attributes_inverse );
 }

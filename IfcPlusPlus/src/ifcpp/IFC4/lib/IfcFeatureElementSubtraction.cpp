@@ -95,11 +95,11 @@ void IfcFeatureElementSubtraction::readStepArguments( const std::vector<std::wst
 	readEntityReference( args[6], m_Representation, map );
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 }
-void IfcFeatureElementSubtraction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFeatureElementSubtraction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFeatureElement::getAttributes( vec_attributes );
 }
-void IfcFeatureElementSubtraction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFeatureElementSubtraction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFeatureElement::getAttributesInverse( vec_attributes_inverse );
 	vec_attributes_inverse.push_back( std::make_pair( "VoidsElements_inverse", shared_ptr<BuildingEntity>( m_VoidsElements_inverse ) ) );

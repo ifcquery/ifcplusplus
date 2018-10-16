@@ -22,6 +22,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <BRepBuilderAPI_MakeWire.hxx>
 #include <GC_MakeEllipse.hxx>
 #include <gp_Circ.hxx>
+#include <TopoDS_Shape.hxx>
+#include <TopoDS_TWire.hxx>
 
 #include <ifcpp/geometry/GeometryException.h>
 #include <ifcpp/geometry/GeometrySettings.h>
@@ -59,6 +61,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "GeomUtilsOCC.h"
 #include "GeomDebugDumpOCC.h"
 #include "PlacementConverterOCC.h"
+#include "PointConverterOCC.h"
 #include "SplineConverterOCC.h"
 
 //\brief class to convert different types of IFC curve representations into OCC input geometry
@@ -106,6 +109,12 @@ public:
 					if( !segment_wire.IsNull() )
 					{
 						GeomUtilsOCC::appendWireToWire( segment_wire, target_wire );
+
+#ifdef _DEBUG
+						//GeomDebugDumpOCC::dumpShape(segment_wire, vec4(0.8, 0.9, 0.9, 1.0), true, false);
+						//GeomDebugDumpOCC::dumpShape(segment_wire, vec4(0.8, 0.9, 0.9, 1.0), true, true);
+						//GeomDebugDumpOCC::dumpShape(target_wire, vec4(0.8, 0.9, 0.9, 1.0), true, false);
+#endif
 					}
 				}
 				return;
@@ -137,6 +146,11 @@ public:
 
 				convertIfcCurve( basis_curve, basis_curve_wire, curve_trim1_vec, curve_trim2_vec, trimmed_sense_agreement );
 				GeomUtilsOCC::appendWireToWire( basis_curve_wire, target_wire );
+
+#ifdef _DEBUG
+				//GeomDebugDumpOCC::dumpShape(basis_curve_wire, vec4(0.8, 0.9, 0.9, 1.0), true, true);
+				//GeomDebugDumpOCC::dumpShape(target_wire, vec4(0.8, 0.9, 0.9, 1.0), true, false);
+#endif
 				return;
 			}
 
@@ -169,7 +183,13 @@ public:
 				}
 			}
 
+			double circle_center_x = conic_position_matrix.TranslationPart().X();
+			double circle_center_y = conic_position_matrix.TranslationPart().Y();
+			gp_Pnt circle_center(circle_center_x, circle_center_y, 0);
+			conic_position_matrix.SetTranslation(gp_Vec(0, 0, 0));
+
 			double plane_angle_factor = m_unit_converter->getAngleInRadiantFactor();
+			UnitConverter::AngularUnit angular_unit = m_unit_converter->getAngularUnit();
 			std::vector<shared_ptr<IfcParameterValue> > trim_params;
 			std::vector<gp_Pnt> trim_points;
 
@@ -213,6 +233,85 @@ public:
 				}
 			}
 
+			bool trim = false;
+			double trim_angle1 = 0.0;
+			double trim_angle2 = M_PI*2.0;
+
+			// check for trimming begin
+			if( trim1_vec.size() > 0 )
+			{
+				if( GeomUtilsOCC::findFirstInVector(trim1_vec, trim_par1) )
+				{
+					if( angular_unit == UnitConverter::UNDEFINED )
+					{
+						// angular unit definition not found in model, default to radian
+						plane_angle_factor = 1.0;
+
+						if( trim_par1->m_value > M_PI )
+						{
+							// assume degree
+							plane_angle_factor = M_PI / 180.0;
+						}
+					}
+
+					trim_angle1 = trim_par1->m_value*plane_angle_factor;
+				}
+				else
+				{
+					shared_ptr<IfcCartesianPoint> trim_point1;
+					if( GeomUtilsOCC::findFirstInVector(trim1_vec, trim_point1) )
+					{
+						// get direction of trim_point to circle_center, then compute angle. This is more robust in case the trim_point is not exactly on the circle
+						gp_Vec trim_point_vec;
+						PointConverterOCC::convertIfcCartesianPoint(trim_point1, trim_point_vec, length_factor );
+						gp_Pnt trim_point(trim_point_vec.X(), trim_point_vec.Y(), trim_point_vec.Z() );
+						trim_angle1 = PointConverterOCC::getAngleOnCircle(circle_center, trim_point);
+					}
+				}
+			}
+
+			if( trim2_vec.size() > 0 )
+			{
+				trim = true;
+				// check for trimming end
+				shared_ptr<IfcParameterValue> trim_par2;
+				if( GeomUtilsOCC::findFirstInVector(trim2_vec, trim_par2) )
+				{
+					if( angular_unit == UnitConverter::UNDEFINED )
+					{
+						// angular unit definition not found in model, default to radian
+						plane_angle_factor = 1.0;
+
+						if( trim_par2->m_value > M_PI )
+						{
+							// assume degree
+							plane_angle_factor = M_PI / 180.0;
+						}
+					}
+					trim_angle2 = trim_par2->m_value*plane_angle_factor;
+				}
+				else
+				{
+					shared_ptr<IfcCartesianPoint> ifc_trim_point;
+					if( GeomUtilsOCC::findFirstInVector(trim2_vec, ifc_trim_point) )
+					{
+						// get direction of trim_point to circle_center, then compute angle. This is more robust in case the trim_point is not exactly on the circle
+						gp_Vec trim_point_vec;
+						PointConverterOCC::convertIfcCartesianPoint(ifc_trim_point, trim_point_vec, length_factor);
+						gp_Pnt trim_point(trim_point_vec.X(), trim_point_vec.Y(), trim_point_vec.Z());
+						trim_angle2 = PointConverterOCC::getAngleOnCircle(circle_center, trim_point);
+					}
+				}
+			}
+
+			double start_angle = trim_angle1;
+			double opening_angle = trim_angle2 - trim_angle1;
+
+			if( !sense_agreement )
+			{
+				std::swap(trim_angle1, trim_angle2);
+			}
+			
 			// ENTITY IfcConic ABSTRACT SUPERTYPE OF(ONEOF(IfcCircle, IfcEllipse))
 			shared_ptr<IfcCircle> ifc_circle = dynamic_pointer_cast<IfcCircle>(conic);
 			if( ifc_circle )
@@ -223,48 +322,36 @@ public:
 					circle_radius = ifc_circle->m_Radius->m_value*length_factor;
 				}
 
-				gp_Dir dir( 0, 0, 1 );
-				if( !sense_agreement )
-				{
-					dir = gp_Dir( 0, 0, -1 );
-				}
-				gp_Pnt circle_center( 0, 0, 0 );
-				gp_Circ circle( gp_Ax2( circle_center, dir ), circle_radius );
+				gp_Circ circle( gp_Ax2( circle_center, gp_Dir(0, 0, 1)), circle_radius );
+				double dx = cos(trim_angle1)*circle_radius;
+				double dy = sin(trim_angle1)*circle_radius;
+				gp_Pnt trimPoint1(circle_center_x +dx, circle_center_y + dy, 0);
+				dx = cos(trim_angle2)*circle_radius;
+				dy = sin(trim_angle2)*circle_radius;
+				gp_Pnt trimPoint2(circle_center_x +dx, circle_center_y + dy, 0);
 
-				for( size_t ii = 0; ii < trim_params.size(); ++ii )
+				try
 				{
-					shared_ptr<IfcParameterValue> param = trim_params[ii];
-					if( param )
+					if( trim )
 					{
-						double current_plane_angle_factor = plane_angle_factor;
-						if( m_unit_converter->getAngularUnit() == UnitConverter::UNDEFINED )
-						{
-							// angular unit definition not found in model, default to radiant
-							current_plane_angle_factor = 1.0;
-
-							if( param->m_value > M_PI )
-							{
-								// assume degree
-								current_plane_angle_factor = M_PI / 180.0;
-							}
-						}
-
-						double trim_angle = param->m_value*current_plane_angle_factor;
-						trim_points.push_back( gp_Pnt( circle_radius*cos( trim_angle ), circle_radius*sin( trim_angle ), 0 ) );
+						TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(circle, trimPoint1, trimPoint2);
+						GeomUtilsOCC::applyMatrixToShape(edge, conic_position_matrix);
+						GeomUtilsOCC::appendEdgeToWire(edge, target_wire);
 					}
-				}
+					else
+					{
+						TopoDS_Edge edge = BRepBuilderAPI_MakeEdge(circle);
+						GeomUtilsOCC::applyMatrixToShape(edge, conic_position_matrix);
+						GeomUtilsOCC::appendEdgeToWire(edge, target_wire);
+					}
 
-				if( trim_points.size() > 1 )
-				{
-					TopoDS_Edge edge = BRepBuilderAPI_MakeEdge( circle, trim_points[0], trim_points[1] );
-					GeomUtilsOCC::applyMatrixToShape( edge, conic_position_matrix );
-					GeomUtilsOCC::appendEdgeToWire( edge, target_wire );
+#ifdef _DEBUG
+					//GeomDebugDumpOCC::dumpShape(target_wire, vec4(0.5, 0.5, 0.4, 1.0), true, false);
+#endif
 				}
-				else
+				catch( Standard_Failure& sf )
 				{
-					TopoDS_Edge edge = BRepBuilderAPI_MakeEdge( circle );
-					GeomUtilsOCC::applyMatrixToShape( edge, conic_position_matrix );
-					GeomUtilsOCC::appendEdgeToWire( edge, target_wire );
+					std::cout << sf.GetMessageString() << std::endl;
 				}
 				return;
 			}
@@ -279,32 +366,37 @@ public:
 						double x_radius = ellipse->m_SemiAxis1->m_value*length_factor;
 						double y_radius = ellipse->m_SemiAxis2->m_value*length_factor;
 
-
-						gp_Dir dir( 0, 0, 1 );
-						if( !sense_agreement )
+						try
 						{
-							dir = gp_Dir( 0, 0, -1 );
+							gp_Dir dir(0, 0, 1);
+							if( !sense_agreement )
+							{
+								dir = gp_Dir(0, 0, -1);
+							}
+
+							gp_Ax2 ellipse_axis(gp_Pnt(0, 0, 0), dir);
+							GC_MakeEllipse mk_ellipse(ellipse_axis, x_radius, y_radius);
+
+							BRepBuilderAPI_MakeEdge mk_edge;
+							if( trim_points.size() > 1 )
+							{
+								mk_edge.Init(mk_ellipse.Value(), trim_points[0], trim_points[1]);
+							}
+							else if( trim_params.size() > 1 )
+							{
+								mk_edge.Init(mk_ellipse.Value(), trim_params[0]->m_value, trim_params[1]->m_value);
+							}
+							TopoDS_Edge edge = mk_edge.Edge();
+
+							// TODO: implement
+
+							GeomUtilsOCC::applyMatrixToShape(edge, conic_position_matrix);
+							GeomUtilsOCC::appendEdgeToWire(edge, target_wire);
 						}
-
-						gp_Ax2 ellipse_axis( gp_Pnt( 0, 0, 0 ), dir );
-						GC_MakeEllipse mk_ellipse( ellipse_axis, x_radius, y_radius );
-
-						BRepBuilderAPI_MakeEdge mk_edge;
-						if( trim_points.size() > 1 )
+						catch( Standard_Failure& sf )
 						{
-							mk_edge.Init( mk_ellipse.Value(), trim_points[0], trim_points[1] );
+							std::cout << sf.GetMessageString() << std::endl;
 						}
-						else if( trim_params.size() > 1 )
-						{
-							mk_edge.Init( mk_ellipse.Value(), trim_params[0]->m_value, trim_params[1]->m_value );
-						}
-						TopoDS_Edge edge = mk_edge.Edge();
-
-						// TODO: implement
-
-						GeomUtilsOCC::applyMatrixToShape( edge, conic_position_matrix );
-						GeomUtilsOCC::appendEdgeToWire( edge, target_wire );
-
 					}
 				}
 				return;
@@ -437,7 +529,7 @@ public:
 			PointConverterOCC::convertIfcCartesianPointVectorSkipDuplicates( ifc_points, target_wire, true, length_factor );
 			GeomUtilsOCC::closeWire( target_wire );
 
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 			if( !target_wire.Closed() )
 			{
 				GeomDebugDumpOCC::dumpShape( target_wire, vec4( 0.5, 0.5, 0.5, 1.0 ), true, true );

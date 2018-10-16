@@ -66,7 +66,7 @@ void IfcMaterialProfile::readStepArguments( const std::vector<std::wstring>& arg
 	m_Priority = IfcInteger::createObjectFromSTEP( args[4], map );
 	m_Category = IfcLabel::createObjectFromSTEP( args[5], map );
 }
-void IfcMaterialProfile::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMaterialProfile::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
@@ -76,7 +76,7 @@ void IfcMaterialProfile::getAttributes( std::vector<std::pair<std::string, share
 	vec_attributes.push_back( std::make_pair( "Priority", m_Priority ) );
 	vec_attributes.push_back( std::make_pair( "Category", m_Category ) );
 }
-void IfcMaterialProfile::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMaterialProfile::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
 	vec_attributes_inverse.push_back( std::make_pair( "ToMaterialProfileSet_inverse", shared_ptr<BuildingEntity>( m_ToMaterialProfileSet_inverse ) ) );

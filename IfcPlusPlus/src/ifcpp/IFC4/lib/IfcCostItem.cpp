@@ -104,7 +104,7 @@ void IfcCostItem::readStepArguments( const std::vector<std::wstring>& args, cons
 	readEntityReferenceList( args[7], m_CostValues, map );
 	readEntityReferenceList( args[8], m_CostQuantities, map );
 }
-void IfcCostItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCostItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcControl::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
@@ -121,7 +121,7 @@ void IfcCostItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<B
 		vec_attributes.push_back( std::make_pair( "CostQuantities", CostQuantities_vec_object ) );
 	}
 }
-void IfcCostItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCostItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcControl::getAttributesInverse( vec_attributes_inverse );
 }

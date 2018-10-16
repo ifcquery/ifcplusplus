@@ -106,14 +106,14 @@ void IfcBuilding::readStepArguments( const std::vector<std::wstring>& args, cons
 	m_ElevationOfTerrain = IfcLengthMeasure::createObjectFromSTEP( args[10], map );
 	readEntityReference( args[11], m_BuildingAddress, map );
 }
-void IfcBuilding::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBuilding::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSpatialStructureElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ElevationOfRefHeight", m_ElevationOfRefHeight ) );
 	vec_attributes.push_back( std::make_pair( "ElevationOfTerrain", m_ElevationOfTerrain ) );
 	vec_attributes.push_back( std::make_pair( "BuildingAddress", m_BuildingAddress ) );
 }
-void IfcBuilding::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBuilding::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSpatialStructureElement::getAttributesInverse( vec_attributes_inverse );
 }

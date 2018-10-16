@@ -91,11 +91,11 @@ void IfcStructuralReaction::readStepArguments( const std::vector<std::wstring>& 
 	readEntityReference( args[7], m_AppliedLoad, map );
 	m_GlobalOrLocal = IfcGlobalOrLocalEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcStructuralReaction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralReaction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralActivity::getAttributes( vec_attributes );
 }
-void IfcStructuralReaction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralReaction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralActivity::getAttributesInverse( vec_attributes_inverse );
 }

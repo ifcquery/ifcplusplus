@@ -49,14 +49,14 @@ void IfcBlock::readStepArguments( const std::vector<std::wstring>& args, const s
 	m_YLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
 	m_ZLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map );
 }
-void IfcBlock::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBlock::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "XLength", m_XLength ) );
 	vec_attributes.push_back( std::make_pair( "YLength", m_YLength ) );
 	vec_attributes.push_back( std::make_pair( "ZLength", m_ZLength ) );
 }
-void IfcBlock::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBlock::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCsgPrimitive3D::getAttributesInverse( vec_attributes_inverse );
 }

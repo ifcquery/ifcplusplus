@@ -86,7 +86,7 @@ void IfcPermeableCoveringProperties::readStepArguments( const std::vector<std::w
 	m_FrameThickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[7], map );
 	readEntityReference( args[8], m_ShapeAspectStyle, map );
 }
-void IfcPermeableCoveringProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPermeableCoveringProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedPropertySet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "OperationType", m_OperationType ) );
@@ -95,7 +95,7 @@ void IfcPermeableCoveringProperties::getAttributes( std::vector<std::pair<std::s
 	vec_attributes.push_back( std::make_pair( "FrameThickness", m_FrameThickness ) );
 	vec_attributes.push_back( std::make_pair( "ShapeAspectStyle", m_ShapeAspectStyle ) );
 }
-void IfcPermeableCoveringProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPermeableCoveringProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPreDefinedPropertySet::getAttributesInverse( vec_attributes_inverse );
 }

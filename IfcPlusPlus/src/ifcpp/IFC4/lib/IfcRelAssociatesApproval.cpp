@@ -91,12 +91,12 @@ void IfcRelAssociatesApproval::readStepArguments( const std::vector<std::wstring
 	readSelectList( args[4], m_RelatedObjects, map );
 	readEntityReference( args[5], m_RelatingApproval, map );
 }
-void IfcRelAssociatesApproval::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelAssociatesApproval::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssociates::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingApproval", m_RelatingApproval ) );
 }
-void IfcRelAssociatesApproval::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelAssociatesApproval::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelAssociates::getAttributesInverse( vec_attributes_inverse );
 }

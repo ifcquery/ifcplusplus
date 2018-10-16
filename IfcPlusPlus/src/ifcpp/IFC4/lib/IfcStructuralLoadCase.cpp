@@ -107,7 +107,7 @@ void IfcStructuralLoadCase::readStepArguments( const std::vector<std::wstring>& 
 	m_Purpose = IfcLabel::createObjectFromSTEP( args[9], map );
 	readTypeOfRealList( args[10], m_SelfWeightCoefficients );
 }
-void IfcStructuralLoadCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralLoadCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadGroup::getAttributes( vec_attributes );
 	if( m_SelfWeightCoefficients.size() > 0 )
@@ -117,7 +117,7 @@ void IfcStructuralLoadCase::getAttributes( std::vector<std::pair<std::string, sh
 		vec_attributes.push_back( std::make_pair( "SelfWeightCoefficients", SelfWeightCoefficients_vec_object ) );
 	}
 }
-void IfcStructuralLoadCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralLoadCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralLoadGroup::getAttributesInverse( vec_attributes_inverse );
 }

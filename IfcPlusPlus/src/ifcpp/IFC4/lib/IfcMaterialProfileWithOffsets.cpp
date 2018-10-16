@@ -78,7 +78,7 @@ void IfcMaterialProfileWithOffsets::readStepArguments( const std::vector<std::ws
 	m_Category = IfcLabel::createObjectFromSTEP( args[5], map );
 	readTypeOfRealList( args[6], m_OffsetValues );
 }
-void IfcMaterialProfileWithOffsets::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMaterialProfileWithOffsets::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialProfile::getAttributes( vec_attributes );
 	if( m_OffsetValues.size() > 0 )
@@ -88,7 +88,7 @@ void IfcMaterialProfileWithOffsets::getAttributes( std::vector<std::pair<std::st
 		vec_attributes.push_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
 	}
 }
-void IfcMaterialProfileWithOffsets::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMaterialProfileWithOffsets::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialProfile::getAttributesInverse( vec_attributes_inverse );
 }

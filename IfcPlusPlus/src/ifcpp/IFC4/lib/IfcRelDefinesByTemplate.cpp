@@ -74,7 +74,7 @@ void IfcRelDefinesByTemplate::readStepArguments( const std::vector<std::wstring>
 	readEntityReferenceList( args[4], m_RelatedPropertySets, map );
 	readEntityReference( args[5], m_RelatingTemplate, map );
 }
-void IfcRelDefinesByTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelDefinesByTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelDefines::getAttributes( vec_attributes );
 	if( m_RelatedPropertySets.size() > 0 )
@@ -85,7 +85,7 @@ void IfcRelDefinesByTemplate::getAttributes( std::vector<std::pair<std::string, 
 	}
 	vec_attributes.push_back( std::make_pair( "RelatingTemplate", m_RelatingTemplate ) );
 }
-void IfcRelDefinesByTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelDefinesByTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelDefines::getAttributesInverse( vec_attributes_inverse );
 }

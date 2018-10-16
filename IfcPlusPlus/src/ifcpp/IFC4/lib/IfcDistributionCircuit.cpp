@@ -80,11 +80,11 @@ void IfcDistributionCircuit::readStepArguments( const std::vector<std::wstring>&
 	m_LongName = IfcLabel::createObjectFromSTEP( args[5], map );
 	m_PredefinedType = IfcDistributionSystemEnum::createObjectFromSTEP( args[6], map );
 }
-void IfcDistributionCircuit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDistributionCircuit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcDistributionSystem::getAttributes( vec_attributes );
 }
-void IfcDistributionCircuit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDistributionCircuit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcDistributionSystem::getAttributesInverse( vec_attributes_inverse );
 }

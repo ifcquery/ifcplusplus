@@ -57,7 +57,7 @@ void IfcCompositeProfileDef::readStepArguments( const std::vector<std::wstring>&
 	readEntityReferenceList( args[2], m_Profiles, map );
 	m_Label = IfcLabel::createObjectFromSTEP( args[3], map );
 }
-void IfcCompositeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCompositeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProfileDef::getAttributes( vec_attributes );
 	if( m_Profiles.size() > 0 )
@@ -68,7 +68,7 @@ void IfcCompositeProfileDef::getAttributes( std::vector<std::pair<std::string, s
 	}
 	vec_attributes.push_back( std::make_pair( "Label", m_Label ) );
 }
-void IfcCompositeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCompositeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProfileDef::getAttributesInverse( vec_attributes_inverse );
 }

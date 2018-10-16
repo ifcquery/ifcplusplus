@@ -313,4 +313,44 @@ public:
 		}
 		return false;
 	}
+
+	//\brief: returns the corresponding angle (radian, 0 is to the right) if the given point lies on the circle. If the point does not lie on the circle, -1 is returned.
+	static double getAngleOnCircle(const gp_Pnt& circle_center, const gp_Pnt& trim_point)
+	{
+		double result_angle = -1.0;
+		double dx = trim_point.X() - circle_center.X();
+		double dy = trim_point.Y() - circle_center.Y();
+		double dz = trim_point.Z() - circle_center.Z();
+		gp_Vec center_trim_point(dx,dy,dz);
+		//if( std::abs(center_trim_point.Magnitude() - circle_radius) < 0.0001 )
+		{
+			gp_Vec center_trim_point_direction = center_trim_point;
+			center_trim_point_direction.Normalize();
+			double cos_angle = center_trim_point_direction.Dot(gp_Vec(1, 0, 0));
+			
+			if( std::abs(cos_angle) < 0.0001 )
+			{
+				if( center_trim_point.Y() > 0 )
+				{
+					result_angle = M_PI_2;
+				}
+				else if( center_trim_point.Y() < 0 )
+				{
+					result_angle = M_PI*1.5;
+				}
+			}
+			else
+			{
+				if( center_trim_point.Y() > 0 )
+				{
+					result_angle = acos(cos_angle);
+				}
+				else if( center_trim_point.Y() < 0 )
+				{
+					result_angle = 2.0*M_PI - acos(cos_angle);
+				}
+			}
+		}
+		return result_angle;
+	}
 };

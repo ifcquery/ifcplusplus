@@ -97,7 +97,7 @@ void IfcTypeProduct::readStepArguments( const std::vector<std::wstring>& args, c
 	readEntityReferenceList( args[6], m_RepresentationMaps, map );
 	m_Tag = IfcLabel::createObjectFromSTEP( args[7], map );
 }
-void IfcTypeProduct::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTypeProduct::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTypeObject::getAttributes( vec_attributes );
 	if( m_RepresentationMaps.size() > 0 )
@@ -108,7 +108,7 @@ void IfcTypeProduct::getAttributes( std::vector<std::pair<std::string, shared_pt
 	}
 	vec_attributes.push_back( std::make_pair( "Tag", m_Tag ) );
 }
-void IfcTypeProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTypeProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTypeObject::getAttributesInverse( vec_attributes_inverse );
 	if( m_ReferencedBy_inverse.size() > 0 )

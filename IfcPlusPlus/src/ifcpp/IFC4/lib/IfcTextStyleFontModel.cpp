@@ -83,7 +83,7 @@ void IfcTextStyleFontModel::readStepArguments( const std::vector<std::wstring>& 
 	m_FontWeight = IfcFontWeight::createObjectFromSTEP( args[4], map );
 	m_FontSize = IfcSizeSelect::createObjectFromSTEP( args[5], map );
 }
-void IfcTextStyleFontModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTextStyleFontModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedTextFont::getAttributes( vec_attributes );
 	if( m_FontFamily.size() > 0 )
@@ -97,7 +97,7 @@ void IfcTextStyleFontModel::getAttributes( std::vector<std::pair<std::string, sh
 	vec_attributes.push_back( std::make_pair( "FontWeight", m_FontWeight ) );
 	vec_attributes.push_back( std::make_pair( "FontSize", m_FontSize ) );
 }
-void IfcTextStyleFontModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTextStyleFontModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPreDefinedTextFont::getAttributesInverse( vec_attributes_inverse );
 }

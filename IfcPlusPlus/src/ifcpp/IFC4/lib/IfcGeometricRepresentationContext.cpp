@@ -61,7 +61,7 @@ void IfcGeometricRepresentationContext::readStepArguments( const std::vector<std
 	m_WorldCoordinateSystem = IfcAxis2Placement::createObjectFromSTEP( args[4], map );
 	readEntityReference( args[5], m_TrueNorth, map );
 }
-void IfcGeometricRepresentationContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcGeometricRepresentationContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRepresentationContext::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "CoordinateSpaceDimension", m_CoordinateSpaceDimension ) );
@@ -69,7 +69,7 @@ void IfcGeometricRepresentationContext::getAttributes( std::vector<std::pair<std
 	vec_attributes.push_back( std::make_pair( "WorldCoordinateSystem", m_WorldCoordinateSystem ) );
 	vec_attributes.push_back( std::make_pair( "TrueNorth", m_TrueNorth ) );
 }
-void IfcGeometricRepresentationContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcGeometricRepresentationContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRepresentationContext::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasSubContexts_inverse.size() > 0 )

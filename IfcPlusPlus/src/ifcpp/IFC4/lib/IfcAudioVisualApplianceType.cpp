@@ -106,12 +106,12 @@ void IfcAudioVisualApplianceType::readStepArguments( const std::vector<std::wstr
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcAudioVisualApplianceTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcAudioVisualApplianceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcAudioVisualApplianceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFlowTerminalType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcAudioVisualApplianceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcAudioVisualApplianceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFlowTerminalType::getAttributesInverse( vec_attributes_inverse );
 }

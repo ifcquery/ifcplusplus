@@ -36,11 +36,11 @@ void IfcPlane::readStepArguments( const std::vector<std::wstring>& args, const s
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlane, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 }
-void IfcPlane::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPlane::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcElementarySurface::getAttributes( vec_attributes );
 }
-void IfcPlane::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPlane::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcElementarySurface::getAttributesInverse( vec_attributes_inverse );
 }

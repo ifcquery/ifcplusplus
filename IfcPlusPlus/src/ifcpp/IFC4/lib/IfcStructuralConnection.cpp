@@ -87,12 +87,12 @@ void IfcStructuralConnection::readStepArguments( const std::vector<std::wstring>
 	readEntityReference( args[6], m_Representation, map );
 	readEntityReference( args[7], m_AppliedCondition, map );
 }
-void IfcStructuralConnection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralConnection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "AppliedCondition", m_AppliedCondition ) );
 }
-void IfcStructuralConnection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralConnection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralItem::getAttributesInverse( vec_attributes_inverse );
 	if( m_ConnectsStructuralMembers_inverse.size() > 0 )

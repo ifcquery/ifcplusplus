@@ -63,12 +63,12 @@ void IfcRevolvedAreaSolidTapered::readStepArguments( const std::vector<std::wstr
 	m_Angle = IfcPlaneAngleMeasure::createObjectFromSTEP( args[3], map );
 	readEntityReference( args[4], m_EndSweptArea, map );
 }
-void IfcRevolvedAreaSolidTapered::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRevolvedAreaSolidTapered::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRevolvedAreaSolid::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "EndSweptArea", m_EndSweptArea ) );
 }
-void IfcRevolvedAreaSolidTapered::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRevolvedAreaSolidTapered::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRevolvedAreaSolid::getAttributesInverse( vec_attributes_inverse );
 }

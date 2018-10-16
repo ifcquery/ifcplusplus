@@ -74,7 +74,7 @@ void IfcApproval::readStepArguments( const std::vector<std::wstring>& args, cons
 	m_RequestingApproval = IfcActorSelect::createObjectFromSTEP( args[7], map );
 	m_GivingApproval = IfcActorSelect::createObjectFromSTEP( args[8], map );
 }
-void IfcApproval::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcApproval::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Identifier", m_Identifier ) );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
@@ -86,7 +86,7 @@ void IfcApproval::getAttributes( std::vector<std::pair<std::string, shared_ptr<B
 	vec_attributes.push_back( std::make_pair( "RequestingApproval", m_RequestingApproval ) );
 	vec_attributes.push_back( std::make_pair( "GivingApproval", m_GivingApproval ) );
 }
-void IfcApproval::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcApproval::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	if( m_HasExternalReferences_inverse.size() > 0 )
 	{

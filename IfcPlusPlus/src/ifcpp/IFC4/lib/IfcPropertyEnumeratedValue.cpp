@@ -79,7 +79,7 @@ void IfcPropertyEnumeratedValue::readStepArguments( const std::vector<std::wstri
 	readSelectList( args[2], m_EnumerationValues, map );
 	readEntityReference( args[3], m_EnumerationReference, map );
 }
-void IfcPropertyEnumeratedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPropertyEnumeratedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
 	if( m_EnumerationValues.size() > 0 )
@@ -90,7 +90,7 @@ void IfcPropertyEnumeratedValue::getAttributes( std::vector<std::pair<std::strin
 	}
 	vec_attributes.push_back( std::make_pair( "EnumerationReference", m_EnumerationReference ) );
 }
-void IfcPropertyEnumeratedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPropertyEnumeratedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSimpleProperty::getAttributesInverse( vec_attributes_inverse );
 }

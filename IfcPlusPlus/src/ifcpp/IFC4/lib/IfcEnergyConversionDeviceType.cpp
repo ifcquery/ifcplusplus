@@ -101,11 +101,11 @@ void IfcEnergyConversionDeviceType::readStepArguments( const std::vector<std::ws
 	m_Tag = IfcLabel::createObjectFromSTEP( args[7], map );
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 }
-void IfcEnergyConversionDeviceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcEnergyConversionDeviceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcDistributionFlowElementType::getAttributes( vec_attributes );
 }
-void IfcEnergyConversionDeviceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcEnergyConversionDeviceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcDistributionFlowElementType::getAttributesInverse( vec_attributes_inverse );
 }

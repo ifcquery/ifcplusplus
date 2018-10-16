@@ -118,11 +118,11 @@ void IfcDoorStandardCase::readStepArguments( const std::vector<std::wstring>& ar
 	m_OperationType = IfcDoorTypeOperationEnum::createObjectFromSTEP( args[11], map );
 	m_UserDefinedOperationType = IfcLabel::createObjectFromSTEP( args[12], map );
 }
-void IfcDoorStandardCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDoorStandardCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcDoor::getAttributes( vec_attributes );
 }
-void IfcDoorStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDoorStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcDoor::getAttributesInverse( vec_attributes_inverse );
 }

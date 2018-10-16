@@ -93,12 +93,12 @@ void IfcRelAssociatesDocument::readStepArguments( const std::vector<std::wstring
 	readSelectList( args[4], m_RelatedObjects, map );
 	m_RelatingDocument = IfcDocumentSelect::createObjectFromSTEP( args[5], map );
 }
-void IfcRelAssociatesDocument::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelAssociatesDocument::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssociates::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingDocument", m_RelatingDocument ) );
 }
-void IfcRelAssociatesDocument::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelAssociatesDocument::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelAssociates::getAttributesInverse( vec_attributes_inverse );
 }

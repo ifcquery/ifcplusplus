@@ -152,7 +152,7 @@ void IfcPerson::readStepArguments( const std::vector<std::wstring>& args, const 
 	readEntityReferenceList( args[6], m_Roles, map );
 	readEntityReferenceList( args[7], m_Addresses, map );
 }
-void IfcPerson::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPerson::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
 	vec_attributes.push_back( std::make_pair( "FamilyName", m_FamilyName ) );
@@ -188,7 +188,7 @@ void IfcPerson::getAttributes( std::vector<std::pair<std::string, shared_ptr<Bui
 		vec_attributes.push_back( std::make_pair( "Addresses", Addresses_vec_object ) );
 	}
 }
-void IfcPerson::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPerson::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	if( m_EngagedIn_inverse.size() > 0 )
 	{

@@ -51,7 +51,7 @@ void IfcProductRepresentation::readStepArguments( const std::vector<std::wstring
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Representations, map );
 }
-void IfcProductRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcProductRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
@@ -62,7 +62,7 @@ void IfcProductRepresentation::getAttributes( std::vector<std::pair<std::string,
 		vec_attributes.push_back( std::make_pair( "Representations", Representations_vec_object ) );
 	}
 }
-void IfcProductRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcProductRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcProductRepresentation::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

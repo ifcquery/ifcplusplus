@@ -46,7 +46,7 @@ void IfcLightIntensityDistribution::readStepArguments( const std::vector<std::ws
 	m_LightDistributionCurve = IfcLightDistributionCurveEnum::createObjectFromSTEP( args[0], map );
 	readEntityReferenceList( args[1], m_DistributionData, map );
 }
-void IfcLightIntensityDistribution::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcLightIntensityDistribution::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "LightDistributionCurve", m_LightDistributionCurve ) );
 	if( m_DistributionData.size() > 0 )
@@ -56,7 +56,7 @@ void IfcLightIntensityDistribution::getAttributes( std::vector<std::pair<std::st
 		vec_attributes.push_back( std::make_pair( "DistributionData", DistributionData_vec_object ) );
 	}
 }
-void IfcLightIntensityDistribution::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcLightIntensityDistribution::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcLightIntensityDistribution::setInverseCounterparts( shared_ptr<BuildingEntity> )

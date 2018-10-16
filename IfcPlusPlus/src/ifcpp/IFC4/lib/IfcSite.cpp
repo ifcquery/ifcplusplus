@@ -115,7 +115,7 @@ void IfcSite::readStepArguments( const std::vector<std::wstring>& args, const st
 	m_LandTitleNumber = IfcLabel::createObjectFromSTEP( args[12], map );
 	readEntityReference( args[13], m_SiteAddress, map );
 }
-void IfcSite::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSite::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSpatialStructureElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RefLatitude", m_RefLatitude ) );
@@ -124,7 +124,7 @@ void IfcSite::getAttributes( std::vector<std::pair<std::string, shared_ptr<Build
 	vec_attributes.push_back( std::make_pair( "LandTitleNumber", m_LandTitleNumber ) );
 	vec_attributes.push_back( std::make_pair( "SiteAddress", m_SiteAddress ) );
 }
-void IfcSite::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSite::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSpatialStructureElement::getAttributesInverse( vec_attributes_inverse );
 }

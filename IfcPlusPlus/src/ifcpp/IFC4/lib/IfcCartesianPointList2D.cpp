@@ -49,11 +49,11 @@ void IfcCartesianPointList2D::readStepArguments( const std::vector<std::wstring>
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianPointList2D, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readTypeOfRealList2D( args[0], m_CoordList );
 }
-void IfcCartesianPointList2D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCartesianPointList2D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCartesianPointList::getAttributes( vec_attributes );
 }
-void IfcCartesianPointList2D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCartesianPointList2D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCartesianPointList::getAttributesInverse( vec_attributes_inverse );
 }

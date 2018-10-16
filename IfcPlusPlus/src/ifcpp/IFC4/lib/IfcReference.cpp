@@ -59,7 +59,7 @@ void IfcReference::readStepArguments( const std::vector<std::wstring>& args, con
 	readTypeOfIntegerList( args[3], m_ListPositions );
 	readEntityReference( args[4], m_InnerReference, map );
 }
-void IfcReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "TypeIdentifier", m_TypeIdentifier ) );
 	vec_attributes.push_back( std::make_pair( "AttributeIdentifier", m_AttributeIdentifier ) );
@@ -72,7 +72,7 @@ void IfcReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	}
 	vec_attributes.push_back( std::make_pair( "InnerReference", m_InnerReference ) );
 }
-void IfcReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcReference::setInverseCounterparts( shared_ptr<BuildingEntity> )

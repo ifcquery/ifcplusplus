@@ -92,13 +92,13 @@ void IfcStructuralSurfaceMember::readStepArguments( const std::vector<std::wstri
 	m_PredefinedType = IfcStructuralSurfaceMemberTypeEnum::createObjectFromSTEP( args[7], map );
 	m_Thickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[8], map );
 }
-void IfcStructuralSurfaceMember::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralSurfaceMember::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralMember::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "Thickness", m_Thickness ) );
 }
-void IfcStructuralSurfaceMember::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralSurfaceMember::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralMember::getAttributesInverse( vec_attributes_inverse );
 }

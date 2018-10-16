@@ -78,7 +78,7 @@ void IfcElementQuantity::readStepArguments( const std::vector<std::wstring>& arg
 	m_MethodOfMeasurement = IfcLabel::createObjectFromSTEP( args[4], map );
 	readEntityReferenceList( args[5], m_Quantities, map );
 }
-void IfcElementQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcElementQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcQuantitySet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "MethodOfMeasurement", m_MethodOfMeasurement ) );
@@ -89,7 +89,7 @@ void IfcElementQuantity::getAttributes( std::vector<std::pair<std::string, share
 		vec_attributes.push_back( std::make_pair( "Quantities", Quantities_vec_object ) );
 	}
 }
-void IfcElementQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcElementQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcQuantitySet::getAttributesInverse( vec_attributes_inverse );
 }

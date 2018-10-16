@@ -84,11 +84,11 @@ void IfcCostValue::readStepArguments( const std::vector<std::wstring>& args, con
 	m_ArithmeticOperator = IfcArithmeticOperatorEnum::createObjectFromSTEP( args[8], map );
 	readEntityReferenceList( args[9], m_Components, map );
 }
-void IfcCostValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCostValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcAppliedValue::getAttributes( vec_attributes );
 }
-void IfcCostValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCostValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcAppliedValue::getAttributesInverse( vec_attributes_inverse );
 }

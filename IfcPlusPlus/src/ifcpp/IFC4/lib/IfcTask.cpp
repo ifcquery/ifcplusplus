@@ -108,7 +108,7 @@ void IfcTask::readStepArguments( const std::vector<std::wstring>& args, const st
 	readEntityReference( args[11], m_TaskTime, map );
 	m_PredefinedType = IfcTaskTypeEnum::createObjectFromSTEP( args[12], map );
 }
-void IfcTask::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTask::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProcess::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Status", m_Status ) );
@@ -118,7 +118,7 @@ void IfcTask::getAttributes( std::vector<std::pair<std::string, shared_ptr<Build
 	vec_attributes.push_back( std::make_pair( "TaskTime", m_TaskTime ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcTask::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTask::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProcess::getAttributesInverse( vec_attributes_inverse );
 }

@@ -57,7 +57,7 @@ void IfcMaterialConstituent::readStepArguments( const std::vector<std::wstring>&
 	m_Fraction = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[3], map );
 	m_Category = IfcLabel::createObjectFromSTEP( args[4], map );
 }
-void IfcMaterialConstituent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMaterialConstituent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
@@ -66,7 +66,7 @@ void IfcMaterialConstituent::getAttributes( std::vector<std::pair<std::string, s
 	vec_attributes.push_back( std::make_pair( "Fraction", m_Fraction ) );
 	vec_attributes.push_back( std::make_pair( "Category", m_Category ) );
 }
-void IfcMaterialConstituent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMaterialConstituent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
 	vec_attributes_inverse.push_back( std::make_pair( "ToMaterialConstituentSet_inverse", shared_ptr<BuildingEntity>( m_ToMaterialConstituentSet_inverse ) ) );

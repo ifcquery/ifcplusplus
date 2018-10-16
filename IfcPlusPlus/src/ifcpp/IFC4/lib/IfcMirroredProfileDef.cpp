@@ -59,11 +59,11 @@ void IfcMirroredProfileDef::readStepArguments( const std::vector<std::wstring>& 
 	readEntityReference( args[3], m_Operator, map );
 	m_Label = IfcLabel::createObjectFromSTEP( args[4], map );
 }
-void IfcMirroredProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMirroredProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcDerivedProfileDef::getAttributes( vec_attributes );
 }
-void IfcMirroredProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMirroredProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcDerivedProfileDef::getAttributesInverse( vec_attributes_inverse );
 }

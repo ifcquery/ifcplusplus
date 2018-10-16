@@ -69,7 +69,7 @@ void IfcStyledItem::readStepArguments( const std::vector<std::wstring>& args, co
 	readSelectList( args[1], m_Styles, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 }
-void IfcStyledItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStyledItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Item", m_Item ) );
@@ -81,7 +81,7 @@ void IfcStyledItem::getAttributes( std::vector<std::pair<std::string, shared_ptr
 	}
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
 }
-void IfcStyledItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStyledItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

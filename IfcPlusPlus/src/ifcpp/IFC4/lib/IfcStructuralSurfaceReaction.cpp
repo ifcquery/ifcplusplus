@@ -96,12 +96,12 @@ void IfcStructuralSurfaceReaction::readStepArguments( const std::vector<std::wst
 	m_GlobalOrLocal = IfcGlobalOrLocalEnum::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcStructuralSurfaceActivityTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcStructuralSurfaceReaction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralSurfaceReaction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralReaction::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcStructuralSurfaceReaction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralSurfaceReaction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralReaction::getAttributesInverse( vec_attributes_inverse );
 }

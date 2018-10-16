@@ -45,12 +45,12 @@ void IfcSubedge::readStepArguments( const std::vector<std::wstring>& args, const
 	readEntityReference( args[1], m_EdgeEnd, map );
 	readEntityReference( args[2], m_ParentEdge, map );
 }
-void IfcSubedge::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSubedge::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcEdge::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ParentEdge", m_ParentEdge ) );
 }
-void IfcSubedge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSubedge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcEdge::getAttributesInverse( vec_attributes_inverse );
 }

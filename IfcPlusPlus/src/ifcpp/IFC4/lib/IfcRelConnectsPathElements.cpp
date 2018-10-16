@@ -103,7 +103,7 @@ void IfcRelConnectsPathElements::readStepArguments( const std::vector<std::wstri
 	m_RelatedConnectionType = IfcConnectionTypeEnum::createObjectFromSTEP( args[9], map );
 	m_RelatingConnectionType = IfcConnectionTypeEnum::createObjectFromSTEP( args[10], map );
 }
-void IfcRelConnectsPathElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelConnectsPathElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnectsElements::getAttributes( vec_attributes );
 	if( m_RelatingPriorities.size() > 0 )
@@ -121,7 +121,7 @@ void IfcRelConnectsPathElements::getAttributes( std::vector<std::pair<std::strin
 	vec_attributes.push_back( std::make_pair( "RelatedConnectionType", m_RelatedConnectionType ) );
 	vec_attributes.push_back( std::make_pair( "RelatingConnectionType", m_RelatingConnectionType ) );
 }
-void IfcRelConnectsPathElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelConnectsPathElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelConnectsElements::getAttributesInverse( vec_attributes_inverse );
 }

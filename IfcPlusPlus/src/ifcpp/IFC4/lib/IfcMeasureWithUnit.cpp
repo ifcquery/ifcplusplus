@@ -39,12 +39,12 @@ void IfcMeasureWithUnit::readStepArguments( const std::vector<std::wstring>& arg
 	m_ValueComponent = IfcValue::createObjectFromSTEP( args[0], map );
 	m_UnitComponent = IfcUnit::createObjectFromSTEP( args[1], map );
 }
-void IfcMeasureWithUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMeasureWithUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "ValueComponent", m_ValueComponent ) );
 	vec_attributes.push_back( std::make_pair( "UnitComponent", m_UnitComponent ) );
 }
-void IfcMeasureWithUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMeasureWithUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcMeasureWithUnit::setInverseCounterparts( shared_ptr<BuildingEntity> )

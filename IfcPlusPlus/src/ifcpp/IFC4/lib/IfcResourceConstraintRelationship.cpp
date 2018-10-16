@@ -74,7 +74,7 @@ void IfcResourceConstraintRelationship::readStepArguments( const std::vector<std
 	readEntityReference( args[2], m_RelatingConstraint, map );
 	readSelectList( args[3], m_RelatedResourceObjects, map );
 }
-void IfcResourceConstraintRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcResourceConstraintRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingConstraint", m_RelatingConstraint ) );
@@ -85,7 +85,7 @@ void IfcResourceConstraintRelationship::getAttributes( std::vector<std::pair<std
 		vec_attributes.push_back( std::make_pair( "RelatedResourceObjects", RelatedResourceObjects_vec_object ) );
 	}
 }
-void IfcResourceConstraintRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcResourceConstraintRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }

@@ -97,14 +97,14 @@ void IfcDistributionPort::readStepArguments( const std::vector<std::wstring>& ar
 	m_PredefinedType = IfcDistributionPortTypeEnum::createObjectFromSTEP( args[8], map );
 	m_SystemType = IfcDistributionSystemEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcDistributionPort::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDistributionPort::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPort::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "FlowDirection", m_FlowDirection ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "SystemType", m_SystemType ) );
 }
-void IfcDistributionPort::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDistributionPort::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPort::getAttributesInverse( vec_attributes_inverse );
 }

@@ -45,14 +45,14 @@ void IfcBooleanResult::readStepArguments( const std::vector<std::wstring>& args,
 	m_FirstOperand = IfcBooleanOperand::createObjectFromSTEP( args[1], map );
 	m_SecondOperand = IfcBooleanOperand::createObjectFromSTEP( args[2], map );
 }
-void IfcBooleanResult::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBooleanResult::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Operator", m_Operator ) );
 	vec_attributes.push_back( std::make_pair( "FirstOperand", m_FirstOperand ) );
 	vec_attributes.push_back( std::make_pair( "SecondOperand", m_SecondOperand ) );
 }
-void IfcBooleanResult::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBooleanResult::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

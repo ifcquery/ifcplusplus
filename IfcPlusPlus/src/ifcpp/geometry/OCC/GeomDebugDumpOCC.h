@@ -17,13 +17,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#ifdef GEOMETRY_DEBUG_CHECK
+//#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 
 #include <vector>
 
 #include <AIS_shape.hxx>
 #include <BRepBndLib.hxx>
 #include <BRep_Builder.hxx>
+#include <BRepBuilderAPI_Copy.hxx>
 #include <BRepMesh_IncrementalMesh.hxx>
 #include <BRepTools.hxx>
 #include <TopoDS_Compound.hxx>
@@ -121,7 +123,14 @@ namespace GeomDebugDumpOCC
 			}
 		}
 
-		TopoDS_Shape shape_transformed = shape;
+		//TopoDS_Shape shape_transformed = shape;
+
+		BRepBuilderAPI_Copy A;
+		A.Perform(shape);
+		TopoDS_Shape shape_transformed;
+		shape_transformed = A.Shape();
+
+
 		GeomUtilsOCC::applyTranslationToShape( shape_transformed, gp_Vec( 0, dump_y_pos_geom, 0 ) );
 
 		addShapeToDump( shape_transformed, color );
@@ -150,7 +159,11 @@ namespace GeomDebugDumpOCC
 			}
 		}
 
-		TopoDS_Shape shape_transformed = shape;
+		BRepBuilderAPI_Copy A;
+		A.Perform(shape);
+		TopoDS_Shape shape_transformed;
+		shape_transformed = A.Shape();
+		//TopoDS_Shape shape_transformed = shape;
 		GeomUtilsOCC::applyTranslationToShape( shape_transformed, gp_Vec( 0, dump_y_pos_geom, 0 ) );
 
 		//addShapeToDump( shape_transformed, color );

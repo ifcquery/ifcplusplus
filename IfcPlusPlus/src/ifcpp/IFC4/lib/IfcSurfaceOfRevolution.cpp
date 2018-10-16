@@ -50,12 +50,12 @@ void IfcSurfaceOfRevolution::readStepArguments( const std::vector<std::wstring>&
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_AxisPosition, map );
 }
-void IfcSurfaceOfRevolution::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSurfaceOfRevolution::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSweptSurface::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "AxisPosition", m_AxisPosition ) );
 }
-void IfcSurfaceOfRevolution::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSurfaceOfRevolution::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSweptSurface::getAttributesInverse( vec_attributes_inverse );
 }

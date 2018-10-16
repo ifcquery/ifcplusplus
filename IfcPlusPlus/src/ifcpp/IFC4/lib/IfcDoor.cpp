@@ -118,7 +118,7 @@ void IfcDoor::readStepArguments( const std::vector<std::wstring>& args, const st
 	m_OperationType = IfcDoorTypeOperationEnum::createObjectFromSTEP( args[11], map );
 	m_UserDefinedOperationType = IfcLabel::createObjectFromSTEP( args[12], map );
 }
-void IfcDoor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDoor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBuildingElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "OverallHeight", m_OverallHeight ) );
@@ -127,7 +127,7 @@ void IfcDoor::getAttributes( std::vector<std::pair<std::string, shared_ptr<Build
 	vec_attributes.push_back( std::make_pair( "OperationType", m_OperationType ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedOperationType", m_UserDefinedOperationType ) );
 }
-void IfcDoor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDoor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBuildingElement::getAttributesInverse( vec_attributes_inverse );
 }

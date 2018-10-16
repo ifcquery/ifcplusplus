@@ -80,13 +80,13 @@ void IfcProcess::readStepArguments( const std::vector<std::wstring>& args, const
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[5], map );
 	m_LongDescription = IfcText::createObjectFromSTEP( args[6], map );
 }
-void IfcProcess::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcProcess::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcObject::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
 	vec_attributes.push_back( std::make_pair( "LongDescription", m_LongDescription ) );
 }
-void IfcProcess::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcProcess::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcObject::getAttributesInverse( vec_attributes_inverse );
 	if( m_IsPredecessorTo_inverse.size() > 0 )

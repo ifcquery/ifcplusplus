@@ -104,12 +104,12 @@ void IfcTendonAnchor::readStepArguments( const std::vector<std::wstring>& args, 
 	m_SteelGrade = IfcLabel::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcTendonAnchorTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcTendonAnchor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTendonAnchor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcReinforcingElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcTendonAnchor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTendonAnchor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcReinforcingElement::getAttributesInverse( vec_attributes_inverse );
 }

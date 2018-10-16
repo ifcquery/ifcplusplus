@@ -60,7 +60,7 @@ void IfcGeometricSet::readStepArguments( const std::vector<std::wstring>& args, 
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGeometricSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readSelectList( args[0], m_Elements, map );
 }
-void IfcGeometricSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcGeometricSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	if( m_Elements.size() > 0 )
@@ -70,7 +70,7 @@ void IfcGeometricSet::getAttributes( std::vector<std::pair<std::string, shared_p
 		vec_attributes.push_back( std::make_pair( "Elements", Elements_vec_object ) );
 	}
 }
-void IfcGeometricSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcGeometricSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

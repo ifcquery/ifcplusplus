@@ -101,12 +101,12 @@ void IfcSpatialElementType::readStepArguments( const std::vector<std::wstring>& 
 	m_Tag = IfcLabel::createObjectFromSTEP( args[7], map );
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 }
-void IfcSpatialElementType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSpatialElementType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTypeProduct::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ElementType", m_ElementType ) );
 }
-void IfcSpatialElementType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSpatialElementType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTypeProduct::getAttributesInverse( vec_attributes_inverse );
 }

@@ -118,7 +118,7 @@ void IfcDoorLiningProperties::readStepArguments( const std::vector<std::wstring>
 	m_LiningToPanelOffsetX = IfcLengthMeasure::createObjectFromSTEP( args[15], map );
 	m_LiningToPanelOffsetY = IfcLengthMeasure::createObjectFromSTEP( args[16], map );
 }
-void IfcDoorLiningProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDoorLiningProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedPropertySet::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "LiningDepth", m_LiningDepth ) );
@@ -135,7 +135,7 @@ void IfcDoorLiningProperties::getAttributes( std::vector<std::pair<std::string, 
 	vec_attributes.push_back( std::make_pair( "LiningToPanelOffsetX", m_LiningToPanelOffsetX ) );
 	vec_attributes.push_back( std::make_pair( "LiningToPanelOffsetY", m_LiningToPanelOffsetY ) );
 }
-void IfcDoorLiningProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDoorLiningProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPreDefinedPropertySet::getAttributesInverse( vec_attributes_inverse );
 }

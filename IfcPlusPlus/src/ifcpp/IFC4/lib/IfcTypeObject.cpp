@@ -80,7 +80,7 @@ void IfcTypeObject::readStepArguments( const std::vector<std::wstring>& args, co
 	m_ApplicableOccurrence = IfcIdentifier::createObjectFromSTEP( args[4], map );
 	readEntityReferenceList( args[5], m_HasPropertySets, map );
 }
-void IfcTypeObject::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTypeObject::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcObjectDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ApplicableOccurrence", m_ApplicableOccurrence ) );
@@ -91,7 +91,7 @@ void IfcTypeObject::getAttributes( std::vector<std::pair<std::string, shared_ptr
 		vec_attributes.push_back( std::make_pair( "HasPropertySets", HasPropertySets_vec_object ) );
 	}
 }
-void IfcTypeObject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTypeObject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcObjectDefinition::getAttributesInverse( vec_attributes_inverse );
 	if( m_Types_inverse.size() > 0 )

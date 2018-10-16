@@ -105,13 +105,13 @@ void IfcPile::readStepArguments( const std::vector<std::wstring>& args, const st
 	m_PredefinedType = IfcPileTypeEnum::createObjectFromSTEP( args[8], map );
 	m_ConstructionType = IfcPileConstructionEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcPile::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPile::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBuildingElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "ConstructionType", m_ConstructionType ) );
 }
-void IfcPile::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPile::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBuildingElement::getAttributesInverse( vec_attributes_inverse );
 }

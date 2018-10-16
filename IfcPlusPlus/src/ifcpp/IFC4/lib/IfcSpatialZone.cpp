@@ -92,12 +92,12 @@ void IfcSpatialZone::readStepArguments( const std::vector<std::wstring>& args, c
 	m_LongName = IfcLabel::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcSpatialZoneTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcSpatialZone::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSpatialZone::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSpatialElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcSpatialZone::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSpatialZone::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSpatialElement::getAttributesInverse( vec_attributes_inverse );
 }

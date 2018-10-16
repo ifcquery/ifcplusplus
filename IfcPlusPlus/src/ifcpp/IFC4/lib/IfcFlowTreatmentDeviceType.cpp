@@ -101,11 +101,11 @@ void IfcFlowTreatmentDeviceType::readStepArguments( const std::vector<std::wstri
 	m_Tag = IfcLabel::createObjectFromSTEP( args[7], map );
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
 }
-void IfcFlowTreatmentDeviceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFlowTreatmentDeviceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcDistributionFlowElementType::getAttributes( vec_attributes );
 }
-void IfcFlowTreatmentDeviceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFlowTreatmentDeviceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcDistributionFlowElementType::getAttributesInverse( vec_attributes_inverse );
 }

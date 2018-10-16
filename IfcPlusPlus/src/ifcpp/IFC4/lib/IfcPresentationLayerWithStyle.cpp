@@ -98,7 +98,7 @@ void IfcPresentationLayerWithStyle::readStepArguments( const std::vector<std::ws
 	m_LayerBlocked = IfcLogical::createObjectFromSTEP( args[6], map );
 	readEntityReferenceList( args[7], m_LayerStyles, map );
 }
-void IfcPresentationLayerWithStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPresentationLayerWithStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationLayerAssignment::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "LayerOn", m_LayerOn ) );
@@ -111,7 +111,7 @@ void IfcPresentationLayerWithStyle::getAttributes( std::vector<std::pair<std::st
 		vec_attributes.push_back( std::make_pair( "LayerStyles", LayerStyles_vec_object ) );
 	}
 }
-void IfcPresentationLayerWithStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPresentationLayerWithStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationLayerAssignment::getAttributesInverse( vec_attributes_inverse );
 }

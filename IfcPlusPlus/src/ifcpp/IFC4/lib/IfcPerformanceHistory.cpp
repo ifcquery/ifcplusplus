@@ -84,13 +84,13 @@ void IfcPerformanceHistory::readStepArguments( const std::vector<std::wstring>& 
 	m_LifeCyclePhase = IfcLabel::createObjectFromSTEP( args[6], map );
 	m_PredefinedType = IfcPerformanceHistoryTypeEnum::createObjectFromSTEP( args[7], map );
 }
-void IfcPerformanceHistory::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPerformanceHistory::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcControl::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "LifeCyclePhase", m_LifeCyclePhase ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcPerformanceHistory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPerformanceHistory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcControl::getAttributesInverse( vec_attributes_inverse );
 }

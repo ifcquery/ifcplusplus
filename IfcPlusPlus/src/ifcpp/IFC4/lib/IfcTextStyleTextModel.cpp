@@ -61,7 +61,7 @@ void IfcTextStyleTextModel::readStepArguments( const std::vector<std::wstring>& 
 	m_TextTransform = IfcTextTransformation::createObjectFromSTEP( args[5], map );
 	m_LineHeight = IfcSizeSelect::createObjectFromSTEP( args[6], map );
 }
-void IfcTextStyleTextModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTextStyleTextModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TextIndent", m_TextIndent ) );
@@ -72,7 +72,7 @@ void IfcTextStyleTextModel::getAttributes( std::vector<std::pair<std::string, sh
 	vec_attributes.push_back( std::make_pair( "TextTransform", m_TextTransform ) );
 	vec_attributes.push_back( std::make_pair( "LineHeight", m_LineHeight ) );
 }
-void IfcTextStyleTextModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTextStyleTextModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

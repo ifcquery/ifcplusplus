@@ -110,13 +110,13 @@ void IfcSpaceType::readStepArguments( const std::vector<std::wstring>& args, con
 	m_PredefinedType = IfcSpaceTypeEnum::createObjectFromSTEP( args[9], map );
 	m_LongName = IfcLabel::createObjectFromSTEP( args[10], map );
 }
-void IfcSpaceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSpaceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSpatialStructureElementType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.push_back( std::make_pair( "LongName", m_LongName ) );
 }
-void IfcSpaceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSpaceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSpatialStructureElementType::getAttributesInverse( vec_attributes_inverse );
 }

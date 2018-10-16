@@ -100,11 +100,11 @@ void IfcPlateStandardCase::readStepArguments( const std::vector<std::wstring>& a
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcPlateTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcPlateStandardCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPlateStandardCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPlate::getAttributes( vec_attributes );
 }
-void IfcPlateStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPlateStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPlate::getAttributesInverse( vec_attributes_inverse );
 }

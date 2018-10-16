@@ -59,7 +59,7 @@ void IfcFailureConnectionCondition::readStepArguments( const std::vector<std::ws
 	m_CompressionFailureY = IfcForceMeasure::createObjectFromSTEP( args[5], map );
 	m_CompressionFailureZ = IfcForceMeasure::createObjectFromSTEP( args[6], map );
 }
-void IfcFailureConnectionCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFailureConnectionCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralConnectionCondition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TensionFailureX", m_TensionFailureX ) );
@@ -69,7 +69,7 @@ void IfcFailureConnectionCondition::getAttributes( std::vector<std::pair<std::st
 	vec_attributes.push_back( std::make_pair( "CompressionFailureY", m_CompressionFailureY ) );
 	vec_attributes.push_back( std::make_pair( "CompressionFailureZ", m_CompressionFailureZ ) );
 }
-void IfcFailureConnectionCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFailureConnectionCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralConnectionCondition::getAttributesInverse( vec_attributes_inverse );
 }

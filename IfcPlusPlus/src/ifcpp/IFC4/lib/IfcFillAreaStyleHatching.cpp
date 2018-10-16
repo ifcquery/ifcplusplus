@@ -55,7 +55,7 @@ void IfcFillAreaStyleHatching::readStepArguments( const std::vector<std::wstring
 	readEntityReference( args[3], m_PatternStart, map );
 	m_HatchLineAngle = IfcPlaneAngleMeasure::createObjectFromSTEP( args[4], map );
 }
-void IfcFillAreaStyleHatching::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFillAreaStyleHatching::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "HatchLineAppearance", m_HatchLineAppearance ) );
@@ -64,7 +64,7 @@ void IfcFillAreaStyleHatching::getAttributes( std::vector<std::pair<std::string,
 	vec_attributes.push_back( std::make_pair( "PatternStart", m_PatternStart ) );
 	vec_attributes.push_back( std::make_pair( "HatchLineAngle", m_HatchLineAngle ) );
 }
-void IfcFillAreaStyleHatching::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFillAreaStyleHatching::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

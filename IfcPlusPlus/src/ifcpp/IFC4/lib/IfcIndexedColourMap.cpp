@@ -73,7 +73,7 @@ void IfcIndexedColourMap::readStepArguments( const std::vector<std::wstring>& ar
 	readEntityReference( args[2], m_Colours, map );
 	readTypeOfIntegerList( args[3], m_ColourIndex );
 }
-void IfcIndexedColourMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcIndexedColourMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "MappedTo", m_MappedTo ) );
@@ -86,7 +86,7 @@ void IfcIndexedColourMap::getAttributes( std::vector<std::pair<std::string, shar
 		vec_attributes.push_back( std::make_pair( "ColourIndex", ColourIndex_vec_object ) );
 	}
 }
-void IfcIndexedColourMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcIndexedColourMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

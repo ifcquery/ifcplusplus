@@ -100,12 +100,12 @@ void IfcOpeningElement::readStepArguments( const std::vector<std::wstring>& args
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcOpeningElementTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcOpeningElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcOpeningElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFeatureElementSubtraction::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcOpeningElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcOpeningElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFeatureElementSubtraction::getAttributesInverse( vec_attributes_inverse );
 	if( m_HasFillings_inverse.size() > 0 )

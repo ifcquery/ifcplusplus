@@ -58,7 +58,7 @@ void IfcTextureMap::readStepArguments( const std::vector<std::wstring>& args, co
 	readEntityReferenceList( args[1], m_Vertices, map );
 	readEntityReference( args[2], m_MappedTo, map );
 }
-void IfcTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTextureCoordinate::getAttributes( vec_attributes );
 	if( m_Vertices.size() > 0 )
@@ -69,7 +69,7 @@ void IfcTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr
 	}
 	vec_attributes.push_back( std::make_pair( "MappedTo", m_MappedTo ) );
 }
-void IfcTextureMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTextureMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTextureCoordinate::getAttributesInverse( vec_attributes_inverse );
 }

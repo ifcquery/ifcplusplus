@@ -63,7 +63,7 @@ void IfcTableRow::readStepArguments( const std::vector<std::wstring>& args, cons
 	readSelectList( args[0], m_RowCells, map );
 	m_IsHeading = IfcBoolean::createObjectFromSTEP( args[1], map );
 }
-void IfcTableRow::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTableRow::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	if( m_RowCells.size() > 0 )
 	{
@@ -73,7 +73,7 @@ void IfcTableRow::getAttributes( std::vector<std::pair<std::string, shared_ptr<B
 	}
 	vec_attributes.push_back( std::make_pair( "IsHeading", m_IsHeading ) );
 }
-void IfcTableRow::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTableRow::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcTableRow::setInverseCounterparts( shared_ptr<BuildingEntity> )

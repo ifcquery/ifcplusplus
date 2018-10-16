@@ -105,13 +105,13 @@ void IfcElementAssembly::readStepArguments( const std::vector<std::wstring>& arg
 	m_AssemblyPlace = IfcAssemblyPlaceEnum::createObjectFromSTEP( args[8], map );
 	m_PredefinedType = IfcElementAssemblyTypeEnum::createObjectFromSTEP( args[9], map );
 }
-void IfcElementAssembly::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcElementAssembly::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "AssemblyPlace", m_AssemblyPlace ) );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcElementAssembly::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcElementAssembly::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcElement::getAttributesInverse( vec_attributes_inverse );
 }

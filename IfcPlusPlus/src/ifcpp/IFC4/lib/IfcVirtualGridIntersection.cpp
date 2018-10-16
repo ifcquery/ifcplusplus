@@ -53,7 +53,7 @@ void IfcVirtualGridIntersection::readStepArguments( const std::vector<std::wstri
 	readEntityReferenceList( args[0], m_IntersectingAxes, map );
 	readTypeOfRealList( args[1], m_OffsetDistances );
 }
-void IfcVirtualGridIntersection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcVirtualGridIntersection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	if( m_IntersectingAxes.size() > 0 )
 	{
@@ -68,7 +68,7 @@ void IfcVirtualGridIntersection::getAttributes( std::vector<std::pair<std::strin
 		vec_attributes.push_back( std::make_pair( "OffsetDistances", OffsetDistances_vec_object ) );
 	}
 }
-void IfcVirtualGridIntersection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcVirtualGridIntersection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcVirtualGridIntersection::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

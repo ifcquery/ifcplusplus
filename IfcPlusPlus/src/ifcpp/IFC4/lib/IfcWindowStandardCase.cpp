@@ -118,11 +118,11 @@ void IfcWindowStandardCase::readStepArguments( const std::vector<std::wstring>& 
 	m_PartitioningType = IfcWindowTypePartitioningEnum::createObjectFromSTEP( args[11], map );
 	m_UserDefinedPartitioningType = IfcLabel::createObjectFromSTEP( args[12], map );
 }
-void IfcWindowStandardCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcWindowStandardCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcWindow::getAttributes( vec_attributes );
 }
-void IfcWindowStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcWindowStandardCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcWindow::getAttributesInverse( vec_attributes_inverse );
 }

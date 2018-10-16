@@ -93,12 +93,12 @@ void IfcRelAssociatesClassification::readStepArguments( const std::vector<std::w
 	readSelectList( args[4], m_RelatedObjects, map );
 	m_RelatingClassification = IfcClassificationSelect::createObjectFromSTEP( args[5], map );
 }
-void IfcRelAssociatesClassification::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelAssociatesClassification::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssociates::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingClassification", m_RelatingClassification ) );
 }
-void IfcRelAssociatesClassification::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelAssociatesClassification::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelAssociates::getAttributesInverse( vec_attributes_inverse );
 }

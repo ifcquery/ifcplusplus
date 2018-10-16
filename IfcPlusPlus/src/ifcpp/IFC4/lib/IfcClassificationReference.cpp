@@ -61,14 +61,14 @@ void IfcClassificationReference::readStepArguments( const std::vector<std::wstri
 	m_Description = IfcText::createObjectFromSTEP( args[4], map );
 	m_Sort = IfcIdentifier::createObjectFromSTEP( args[5], map );
 }
-void IfcClassificationReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcClassificationReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExternalReference::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ReferencedSource", m_ReferencedSource ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 	vec_attributes.push_back( std::make_pair( "Sort", m_Sort ) );
 }
-void IfcClassificationReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcClassificationReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcExternalReference::getAttributesInverse( vec_attributes_inverse );
 	if( m_ClassificationRefForObjects_inverse.size() > 0 )

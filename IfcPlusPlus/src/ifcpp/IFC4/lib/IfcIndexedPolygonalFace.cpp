@@ -61,7 +61,7 @@ void IfcIndexedPolygonalFace::readStepArguments( const std::vector<std::wstring>
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedPolygonalFace, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readTypeOfIntegerList( args[0], m_CoordIndex );
 }
-void IfcIndexedPolygonalFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcIndexedPolygonalFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTessellatedItem::getAttributes( vec_attributes );
 	if( m_CoordIndex.size() > 0 )
@@ -71,7 +71,7 @@ void IfcIndexedPolygonalFace::getAttributes( std::vector<std::pair<std::string, 
 		vec_attributes.push_back( std::make_pair( "CoordIndex", CoordIndex_vec_object ) );
 	}
 }
-void IfcIndexedPolygonalFace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcIndexedPolygonalFace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTessellatedItem::getAttributesInverse( vec_attributes_inverse );
 	if( m_ToFaceSet_inverse.size() > 0 )

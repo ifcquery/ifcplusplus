@@ -97,12 +97,12 @@ void IfcBuildingStorey::readStepArguments( const std::vector<std::wstring>& args
 	m_CompositionType = IfcElementCompositionEnum::createObjectFromSTEP( args[8], map );
 	m_Elevation = IfcLengthMeasure::createObjectFromSTEP( args[9], map );
 }
-void IfcBuildingStorey::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBuildingStorey::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSpatialStructureElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Elevation", m_Elevation ) );
 }
-void IfcBuildingStorey::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBuildingStorey::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSpatialStructureElement::getAttributesInverse( vec_attributes_inverse );
 }

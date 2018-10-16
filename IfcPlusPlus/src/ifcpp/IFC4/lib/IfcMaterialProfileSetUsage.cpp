@@ -45,14 +45,14 @@ void IfcMaterialProfileSetUsage::readStepArguments( const std::vector<std::wstri
 	m_CardinalPoint = IfcCardinalPointReference::createObjectFromSTEP( args[1], map );
 	m_ReferenceExtent = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
 }
-void IfcMaterialProfileSetUsage::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMaterialProfileSetUsage::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialUsageDefinition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ForProfileSet", m_ForProfileSet ) );
 	vec_attributes.push_back( std::make_pair( "CardinalPoint", m_CardinalPoint ) );
 	vec_attributes.push_back( std::make_pair( "ReferenceExtent", m_ReferenceExtent ) );
 }
-void IfcMaterialProfileSetUsage::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMaterialProfileSetUsage::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialUsageDefinition::getAttributesInverse( vec_attributes_inverse );
 }

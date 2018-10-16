@@ -38,13 +38,13 @@ void IfcTextStyleForDefinedFont::readStepArguments( const std::vector<std::wstri
 	m_Colour = IfcColour::createObjectFromSTEP( args[0], map );
 	m_BackgroundColour = IfcColour::createObjectFromSTEP( args[1], map );
 }
-void IfcTextStyleForDefinedFont::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTextStyleForDefinedFont::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Colour", m_Colour ) );
 	vec_attributes.push_back( std::make_pair( "BackgroundColour", m_BackgroundColour ) );
 }
-void IfcTextStyleForDefinedFont::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTextStyleForDefinedFont::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
 }

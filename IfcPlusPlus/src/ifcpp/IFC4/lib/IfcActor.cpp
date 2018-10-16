@@ -75,12 +75,12 @@ void IfcActor::readStepArguments( const std::vector<std::wstring>& args, const s
 	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4], map );
 	m_TheActor = IfcActorSelect::createObjectFromSTEP( args[5], map );
 }
-void IfcActor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcActor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcObject::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TheActor", m_TheActor ) );
 }
-void IfcActor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcActor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcObject::getAttributesInverse( vec_attributes_inverse );
 	if( m_IsActingUpon_inverse.size() > 0 )

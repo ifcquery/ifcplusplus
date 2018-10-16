@@ -55,13 +55,13 @@ void IfcExtrudedAreaSolid::readStepArguments( const std::vector<std::wstring>& a
 	readEntityReference( args[2], m_ExtrudedDirection, map );
 	m_Depth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map );
 }
-void IfcExtrudedAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcExtrudedAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSweptAreaSolid::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ExtrudedDirection", m_ExtrudedDirection ) );
 	vec_attributes.push_back( std::make_pair( "Depth", m_Depth ) );
 }
-void IfcExtrudedAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcExtrudedAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSweptAreaSolid::getAttributesInverse( vec_attributes_inverse );
 }

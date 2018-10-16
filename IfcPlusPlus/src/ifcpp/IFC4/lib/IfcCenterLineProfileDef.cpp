@@ -51,12 +51,12 @@ void IfcCenterLineProfileDef::readStepArguments( const std::vector<std::wstring>
 	readEntityReference( args[2], m_Curve, map );
 	m_Thickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map );
 }
-void IfcCenterLineProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCenterLineProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcArbitraryOpenProfileDef::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Thickness", m_Thickness ) );
 }
-void IfcCenterLineProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCenterLineProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcArbitraryOpenProfileDef::getAttributesInverse( vec_attributes_inverse );
 }

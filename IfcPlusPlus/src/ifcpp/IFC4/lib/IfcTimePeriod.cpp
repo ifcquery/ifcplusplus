@@ -38,12 +38,12 @@ void IfcTimePeriod::readStepArguments( const std::vector<std::wstring>& args, co
 	m_StartTime = IfcTime::createObjectFromSTEP( args[0], map );
 	m_EndTime = IfcTime::createObjectFromSTEP( args[1], map );
 }
-void IfcTimePeriod::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTimePeriod::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "StartTime", m_StartTime ) );
 	vec_attributes.push_back( std::make_pair( "EndTime", m_EndTime ) );
 }
-void IfcTimePeriod::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTimePeriod::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcTimePeriod::setInverseCounterparts( shared_ptr<BuildingEntity> )

@@ -34,11 +34,11 @@ void IfcMonetaryUnit::readStepArguments( const std::vector<std::wstring>& args, 
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMonetaryUnit, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Currency = IfcLabel::createObjectFromSTEP( args[0], map );
 }
-void IfcMonetaryUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMonetaryUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Currency", m_Currency ) );
 }
-void IfcMonetaryUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMonetaryUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
 void IfcMonetaryUnit::setInverseCounterparts( shared_ptr<BuildingEntity> )

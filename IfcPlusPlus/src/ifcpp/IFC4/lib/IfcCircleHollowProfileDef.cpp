@@ -55,12 +55,12 @@ void IfcCircleHollowProfileDef::readStepArguments( const std::vector<std::wstrin
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map );
 	m_WallThickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4], map );
 }
-void IfcCircleHollowProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCircleHollowProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCircleProfileDef::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "WallThickness", m_WallThickness ) );
 }
-void IfcCircleHollowProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCircleHollowProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCircleProfileDef::getAttributesInverse( vec_attributes_inverse );
 }

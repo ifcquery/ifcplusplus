@@ -70,7 +70,7 @@ void IfcOrganization::readStepArguments( const std::vector<std::wstring>& args, 
 	readEntityReferenceList( args[3], m_Roles, map );
 	readEntityReferenceList( args[4], m_Addresses, map );
 }
-void IfcOrganization::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcOrganization::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
@@ -88,7 +88,7 @@ void IfcOrganization::getAttributes( std::vector<std::pair<std::string, shared_p
 		vec_attributes.push_back( std::make_pair( "Addresses", Addresses_vec_object ) );
 	}
 }
-void IfcOrganization::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcOrganization::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	if( m_IsRelatedBy_inverse.size() > 0 )
 	{

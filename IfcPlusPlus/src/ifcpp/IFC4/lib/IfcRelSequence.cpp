@@ -80,7 +80,7 @@ void IfcRelSequence::readStepArguments( const std::vector<std::wstring>& args, c
 	m_SequenceType = IfcSequenceEnum::createObjectFromSTEP( args[7], map );
 	m_UserDefinedSequenceType = IfcLabel::createObjectFromSTEP( args[8], map );
 }
-void IfcRelSequence::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelSequence::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingProcess", m_RelatingProcess ) );
@@ -89,7 +89,7 @@ void IfcRelSequence::getAttributes( std::vector<std::pair<std::string, shared_pt
 	vec_attributes.push_back( std::make_pair( "SequenceType", m_SequenceType ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedSequenceType", m_UserDefinedSequenceType ) );
 }
-void IfcRelSequence::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelSequence::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }

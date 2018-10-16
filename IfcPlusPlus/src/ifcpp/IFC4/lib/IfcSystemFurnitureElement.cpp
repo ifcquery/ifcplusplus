@@ -100,12 +100,12 @@ void IfcSystemFurnitureElement::readStepArguments( const std::vector<std::wstrin
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
 	m_PredefinedType = IfcSystemFurnitureElementTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcSystemFurnitureElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSystemFurnitureElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFurnishingElement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcSystemFurnitureElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSystemFurnitureElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFurnishingElement::getAttributesInverse( vec_attributes_inverse );
 }

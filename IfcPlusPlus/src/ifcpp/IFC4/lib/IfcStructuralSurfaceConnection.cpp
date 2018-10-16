@@ -87,11 +87,11 @@ void IfcStructuralSurfaceConnection::readStepArguments( const std::vector<std::w
 	readEntityReference( args[6], m_Representation, map );
 	readEntityReference( args[7], m_AppliedCondition, map );
 }
-void IfcStructuralSurfaceConnection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralSurfaceConnection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralConnection::getAttributes( vec_attributes );
 }
-void IfcStructuralSurfaceConnection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralSurfaceConnection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralConnection::getAttributesInverse( vec_attributes_inverse );
 }

@@ -84,7 +84,7 @@ void IfcMaterialLayerWithOffsets::readStepArguments( const std::vector<std::wstr
 	m_OffsetDirection = IfcLayerSetDirectionEnum::createObjectFromSTEP( args[7], map );
 	readTypeOfRealList( args[8], m_OffsetValues );
 }
-void IfcMaterialLayerWithOffsets::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMaterialLayerWithOffsets::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialLayer::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "OffsetDirection", m_OffsetDirection ) );
@@ -95,7 +95,7 @@ void IfcMaterialLayerWithOffsets::getAttributes( std::vector<std::pair<std::stri
 		vec_attributes.push_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
 	}
 }
-void IfcMaterialLayerWithOffsets::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMaterialLayerWithOffsets::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialLayer::getAttributesInverse( vec_attributes_inverse );
 }

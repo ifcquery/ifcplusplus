@@ -82,6 +82,9 @@ public:
 	}
 	virtual ~ScenegraphConverterOCC() {}
 
+	// after calling convertToOSG, the OSG Switches are in the map returned by this method
+	const std::map<int, osg::ref_ptr<osg::Switch> >& getMapIdSwitch() { return m_map_entity_id_to_switch; }
+
 	struct RenderOptions
 	{
 		RenderOptions(){}

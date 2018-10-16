@@ -54,7 +54,7 @@ void IfcSweptDiskSolid::readStepArguments( const std::vector<std::wstring>& args
 	m_StartParam = IfcParameterValue::createObjectFromSTEP( args[3], map );
 	m_EndParam = IfcParameterValue::createObjectFromSTEP( args[4], map );
 }
-void IfcSweptDiskSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSweptDiskSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSolidModel::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Directrix", m_Directrix ) );
@@ -63,7 +63,7 @@ void IfcSweptDiskSolid::getAttributes( std::vector<std::pair<std::string, shared
 	vec_attributes.push_back( std::make_pair( "StartParam", m_StartParam ) );
 	vec_attributes.push_back( std::make_pair( "EndParam", m_EndParam ) );
 }
-void IfcSweptDiskSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSweptDiskSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSolidModel::getAttributesInverse( vec_attributes_inverse );
 }

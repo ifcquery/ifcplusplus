@@ -103,7 +103,7 @@ void IfcWorkCalendar::readStepArguments( const std::vector<std::wstring>& args, 
 	readEntityReferenceList( args[7], m_ExceptionTimes, map );
 	m_PredefinedType = IfcWorkCalendarTypeEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcWorkCalendar::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcWorkCalendar::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcControl::getAttributes( vec_attributes );
 	if( m_WorkingTimes.size() > 0 )
@@ -120,7 +120,7 @@ void IfcWorkCalendar::getAttributes( std::vector<std::pair<std::string, shared_p
 	}
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
-void IfcWorkCalendar::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcWorkCalendar::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcControl::getAttributesInverse( vec_attributes_inverse );
 }

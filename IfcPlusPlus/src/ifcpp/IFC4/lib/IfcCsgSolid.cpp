@@ -36,12 +36,12 @@ void IfcCsgSolid::readStepArguments( const std::vector<std::wstring>& args, cons
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCsgSolid, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_TreeRootExpression = IfcCsgSelect::createObjectFromSTEP( args[0], map );
 }
-void IfcCsgSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCsgSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSolidModel::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TreeRootExpression", m_TreeRootExpression ) );
 }
-void IfcCsgSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCsgSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSolidModel::getAttributesInverse( vec_attributes_inverse );
 }

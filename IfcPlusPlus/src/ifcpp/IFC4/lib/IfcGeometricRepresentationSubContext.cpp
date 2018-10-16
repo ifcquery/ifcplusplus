@@ -79,7 +79,7 @@ void IfcGeometricRepresentationSubContext::readStepArguments( const std::vector<
 	m_TargetView = IfcGeometricProjectionEnum::createObjectFromSTEP( args[8], map );
 	m_UserDefinedTargetView = IfcLabel::createObjectFromSTEP( args[9], map );
 }
-void IfcGeometricRepresentationSubContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcGeometricRepresentationSubContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationContext::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "ParentContext", m_ParentContext ) );
@@ -87,7 +87,7 @@ void IfcGeometricRepresentationSubContext::getAttributes( std::vector<std::pair<
 	vec_attributes.push_back( std::make_pair( "TargetView", m_TargetView ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedTargetView", m_UserDefinedTargetView ) );
 }
-void IfcGeometricRepresentationSubContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcGeometricRepresentationSubContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationContext::getAttributesInverse( vec_attributes_inverse );
 }

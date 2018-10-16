@@ -92,11 +92,11 @@ void IfcStructuralCurveMemberVarying::readStepArguments( const std::vector<std::
 	m_PredefinedType = IfcStructuralCurveMemberTypeEnum::createObjectFromSTEP( args[7], map );
 	readEntityReference( args[8], m_Axis, map );
 }
-void IfcStructuralCurveMemberVarying::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralCurveMemberVarying::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralCurveMember::getAttributes( vec_attributes );
 }
-void IfcStructuralCurveMemberVarying::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralCurveMemberVarying::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralCurveMember::getAttributesInverse( vec_attributes_inverse );
 }

@@ -36,11 +36,11 @@ void IfcFacetedBrep::readStepArguments( const std::vector<std::wstring>& args, c
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFacetedBrep, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Outer, map );
 }
-void IfcFacetedBrep::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFacetedBrep::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcManifoldSolidBrep::getAttributes( vec_attributes );
 }
-void IfcFacetedBrep::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFacetedBrep::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcManifoldSolidBrep::getAttributesInverse( vec_attributes_inverse );
 }

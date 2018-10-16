@@ -52,7 +52,7 @@ void IfcExtendedProperties::readStepArguments( const std::vector<std::wstring>& 
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Properties, map );
 }
-void IfcExtendedProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcExtendedProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPropertyAbstraction::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
@@ -64,7 +64,7 @@ void IfcExtendedProperties::getAttributes( std::vector<std::pair<std::string, sh
 		vec_attributes.push_back( std::make_pair( "Properties", Properties_vec_object ) );
 	}
 }
-void IfcExtendedProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcExtendedProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPropertyAbstraction::getAttributesInverse( vec_attributes_inverse );
 }

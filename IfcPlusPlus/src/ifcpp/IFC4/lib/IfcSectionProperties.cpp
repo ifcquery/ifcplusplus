@@ -52,14 +52,14 @@ void IfcSectionProperties::readStepArguments( const std::vector<std::wstring>& a
 	readEntityReference( args[1], m_StartProfile, map );
 	readEntityReference( args[2], m_EndProfile, map );
 }
-void IfcSectionProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSectionProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedProperties::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "SectionType", m_SectionType ) );
 	vec_attributes.push_back( std::make_pair( "StartProfile", m_StartProfile ) );
 	vec_attributes.push_back( std::make_pair( "EndProfile", m_EndProfile ) );
 }
-void IfcSectionProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSectionProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPreDefinedProperties::getAttributesInverse( vec_attributes_inverse );
 }

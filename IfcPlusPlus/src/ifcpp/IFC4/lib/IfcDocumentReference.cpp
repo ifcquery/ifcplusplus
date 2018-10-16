@@ -56,13 +56,13 @@ void IfcDocumentReference::readStepArguments( const std::vector<std::wstring>& a
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
 	readEntityReference( args[4], m_ReferencedDocument, map );
 }
-void IfcDocumentReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDocumentReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExternalReference::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 	vec_attributes.push_back( std::make_pair( "ReferencedDocument", m_ReferencedDocument ) );
 }
-void IfcDocumentReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDocumentReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcExternalReference::getAttributesInverse( vec_attributes_inverse );
 	if( m_DocumentRefForObjects_inverse.size() > 0 )

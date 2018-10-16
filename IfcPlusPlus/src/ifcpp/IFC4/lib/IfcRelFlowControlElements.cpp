@@ -74,7 +74,7 @@ void IfcRelFlowControlElements::readStepArguments( const std::vector<std::wstrin
 	readEntityReferenceList( args[4], m_RelatedControlElements, map );
 	readEntityReference( args[5], m_RelatingFlowElement, map );
 }
-void IfcRelFlowControlElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelFlowControlElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	if( m_RelatedControlElements.size() > 0 )
@@ -85,7 +85,7 @@ void IfcRelFlowControlElements::getAttributes( std::vector<std::pair<std::string
 	}
 	vec_attributes.push_back( std::make_pair( "RelatingFlowElement", m_RelatingFlowElement ) );
 }
-void IfcRelFlowControlElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelFlowControlElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }

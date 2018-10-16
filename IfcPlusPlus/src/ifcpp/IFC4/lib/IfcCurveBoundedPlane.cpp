@@ -52,7 +52,7 @@ void IfcCurveBoundedPlane::readStepArguments( const std::vector<std::wstring>& a
 	readEntityReference( args[1], m_OuterBoundary, map );
 	readEntityReferenceList( args[2], m_InnerBoundaries, map );
 }
-void IfcCurveBoundedPlane::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCurveBoundedPlane::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedSurface::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
@@ -64,7 +64,7 @@ void IfcCurveBoundedPlane::getAttributes( std::vector<std::pair<std::string, sha
 		vec_attributes.push_back( std::make_pair( "InnerBoundaries", InnerBoundaries_vec_object ) );
 	}
 }
-void IfcCurveBoundedPlane::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCurveBoundedPlane::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBoundedSurface::getAttributesInverse( vec_attributes_inverse );
 }

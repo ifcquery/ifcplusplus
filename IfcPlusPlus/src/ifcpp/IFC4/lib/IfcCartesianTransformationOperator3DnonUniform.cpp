@@ -62,13 +62,13 @@ void IfcCartesianTransformationOperator3DnonUniform::readStepArguments( const st
 	m_Scale2 = IfcReal::createObjectFromSTEP( args[5], map );
 	m_Scale3 = IfcReal::createObjectFromSTEP( args[6], map );
 }
-void IfcCartesianTransformationOperator3DnonUniform::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCartesianTransformationOperator3DnonUniform::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCartesianTransformationOperator3D::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Scale2", m_Scale2 ) );
 	vec_attributes.push_back( std::make_pair( "Scale3", m_Scale3 ) );
 }
-void IfcCartesianTransformationOperator3DnonUniform::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCartesianTransformationOperator3DnonUniform::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCartesianTransformationOperator3D::getAttributesInverse( vec_attributes_inverse );
 }

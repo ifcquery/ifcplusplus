@@ -74,7 +74,7 @@ void IfcRelCoversSpaces::readStepArguments( const std::vector<std::wstring>& arg
 	readEntityReference( args[4], m_RelatingSpace, map );
 	readEntityReferenceList( args[5], m_RelatedCoverings, map );
 }
-void IfcRelCoversSpaces::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelCoversSpaces::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingSpace", m_RelatingSpace ) );
@@ -85,7 +85,7 @@ void IfcRelCoversSpaces::getAttributes( std::vector<std::pair<std::string, share
 		vec_attributes.push_back( std::make_pair( "RelatedCoverings", RelatedCoverings_vec_object ) );
 	}
 }
-void IfcRelCoversSpaces::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelCoversSpaces::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelConnects::getAttributesInverse( vec_attributes_inverse );
 }

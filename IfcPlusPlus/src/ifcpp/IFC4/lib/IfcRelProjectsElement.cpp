@@ -67,13 +67,13 @@ void IfcRelProjectsElement::readStepArguments( const std::vector<std::wstring>& 
 	readEntityReference( args[4], m_RelatingElement, map );
 	readEntityReference( args[5], m_RelatedFeatureElement, map );
 }
-void IfcRelProjectsElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelProjectsElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelDecomposes::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingElement", m_RelatingElement ) );
 	vec_attributes.push_back( std::make_pair( "RelatedFeatureElement", m_RelatedFeatureElement ) );
 }
-void IfcRelProjectsElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelProjectsElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelDecomposes::getAttributesInverse( vec_attributes_inverse );
 }

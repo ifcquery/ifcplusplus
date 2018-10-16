@@ -120,7 +120,7 @@ void IfcDoorType::readStepArguments( const std::vector<std::wstring>& args, cons
 	m_ParameterTakesPrecedence = IfcBoolean::createObjectFromSTEP( args[11], map );
 	m_UserDefinedOperationType = IfcLabel::createObjectFromSTEP( args[12], map );
 }
-void IfcDoorType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcDoorType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBuildingElementType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
@@ -128,7 +128,7 @@ void IfcDoorType::getAttributes( std::vector<std::pair<std::string, shared_ptr<B
 	vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", m_ParameterTakesPrecedence ) );
 	vec_attributes.push_back( std::make_pair( "UserDefinedOperationType", m_UserDefinedOperationType ) );
 }
-void IfcDoorType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcDoorType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBuildingElementType::getAttributesInverse( vec_attributes_inverse );
 }

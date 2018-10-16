@@ -91,13 +91,13 @@ void IfcStructuralActivity::readStepArguments( const std::vector<std::wstring>& 
 	readEntityReference( args[7], m_AppliedLoad, map );
 	m_GlobalOrLocal = IfcGlobalOrLocalEnum::createObjectFromSTEP( args[8], map );
 }
-void IfcStructuralActivity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralActivity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProduct::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "AppliedLoad", m_AppliedLoad ) );
 	vec_attributes.push_back( std::make_pair( "GlobalOrLocal", m_GlobalOrLocal ) );
 }
-void IfcStructuralActivity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralActivity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProduct::getAttributesInverse( vec_attributes_inverse );
 	if( m_AssignedToStructuralItem_inverse.size() > 0 )

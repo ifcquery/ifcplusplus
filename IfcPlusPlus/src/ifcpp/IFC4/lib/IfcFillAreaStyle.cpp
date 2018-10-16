@@ -68,7 +68,7 @@ void IfcFillAreaStyle::readStepArguments( const std::vector<std::wstring>& args,
 	readSelectList( args[1], m_FillStyles, map );
 	m_ModelorDraughting = IfcBoolean::createObjectFromSTEP( args[2], map );
 }
-void IfcFillAreaStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcFillAreaStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationStyle::getAttributes( vec_attributes );
 	if( m_FillStyles.size() > 0 )
@@ -79,7 +79,7 @@ void IfcFillAreaStyle::getAttributes( std::vector<std::pair<std::string, shared_
 	}
 	vec_attributes.push_back( std::make_pair( "ModelorDraughting", m_ModelorDraughting ) );
 }
-void IfcFillAreaStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcFillAreaStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationStyle::getAttributesInverse( vec_attributes_inverse );
 }

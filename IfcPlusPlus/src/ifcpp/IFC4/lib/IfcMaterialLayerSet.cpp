@@ -54,7 +54,7 @@ void IfcMaterialLayerSet::readStepArguments( const std::vector<std::wstring>& ar
 	m_LayerSetName = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_Description = IfcText::createObjectFromSTEP( args[2], map );
 }
-void IfcMaterialLayerSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcMaterialLayerSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
 	if( m_MaterialLayers.size() > 0 )
@@ -66,7 +66,7 @@ void IfcMaterialLayerSet::getAttributes( std::vector<std::pair<std::string, shar
 	vec_attributes.push_back( std::make_pair( "LayerSetName", m_LayerSetName ) );
 	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
 }
-void IfcMaterialLayerSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcMaterialLayerSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
 }

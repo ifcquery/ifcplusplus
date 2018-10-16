@@ -74,7 +74,7 @@ void IfcRelAssigns::readStepArguments( const std::vector<std::wstring>& args, co
 	readEntityReferenceList( args[4], m_RelatedObjects, map );
 	m_RelatedObjectsType = IfcObjectTypeEnum::createObjectFromSTEP( args[5], map );
 }
-void IfcRelAssigns::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelAssigns::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelationship::getAttributes( vec_attributes );
 	if( m_RelatedObjects.size() > 0 )
@@ -85,7 +85,7 @@ void IfcRelAssigns::getAttributes( std::vector<std::pair<std::string, shared_ptr
 	}
 	vec_attributes.push_back( std::make_pair( "RelatedObjectsType", m_RelatedObjectsType ) );
 }
-void IfcRelAssigns::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelAssigns::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelationship::getAttributesInverse( vec_attributes_inverse );
 }

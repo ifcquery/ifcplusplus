@@ -64,7 +64,7 @@ void IfcSurfaceCurveSweptAreaSolid::readStepArguments( const std::vector<std::ws
 	m_EndParam = IfcParameterValue::createObjectFromSTEP( args[4], map );
 	readEntityReference( args[5], m_ReferenceSurface, map );
 }
-void IfcSurfaceCurveSweptAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcSurfaceCurveSweptAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSweptAreaSolid::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Directrix", m_Directrix ) );
@@ -72,7 +72,7 @@ void IfcSurfaceCurveSweptAreaSolid::getAttributes( std::vector<std::pair<std::st
 	vec_attributes.push_back( std::make_pair( "EndParam", m_EndParam ) );
 	vec_attributes.push_back( std::make_pair( "ReferenceSurface", m_ReferenceSurface ) );
 }
-void IfcSurfaceCurveSweptAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcSurfaceCurveSweptAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSweptAreaSolid::getAttributesInverse( vec_attributes_inverse );
 }

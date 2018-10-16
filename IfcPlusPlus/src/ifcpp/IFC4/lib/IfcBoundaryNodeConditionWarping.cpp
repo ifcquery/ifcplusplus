@@ -65,12 +65,12 @@ void IfcBoundaryNodeConditionWarping::readStepArguments( const std::vector<std::
 	m_RotationalStiffnessZ = IfcRotationalStiffnessSelect::createObjectFromSTEP( args[6], map );
 	m_WarpingStiffness = IfcWarpingStiffnessSelect::createObjectFromSTEP( args[7], map );
 }
-void IfcBoundaryNodeConditionWarping::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcBoundaryNodeConditionWarping::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundaryNodeCondition::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "WarpingStiffness", m_WarpingStiffness ) );
 }
-void IfcBoundaryNodeConditionWarping::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcBoundaryNodeConditionWarping::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcBoundaryNodeCondition::getAttributesInverse( vec_attributes_inverse );
 }

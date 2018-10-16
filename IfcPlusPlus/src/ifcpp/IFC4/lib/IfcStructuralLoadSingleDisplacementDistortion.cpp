@@ -65,12 +65,12 @@ void IfcStructuralLoadSingleDisplacementDistortion::readStepArguments( const std
 	m_RotationalDisplacementRZ = IfcPlaneAngleMeasure::createObjectFromSTEP( args[6], map );
 	m_Distortion = IfcCurvatureMeasure::createObjectFromSTEP( args[7], map );
 }
-void IfcStructuralLoadSingleDisplacementDistortion::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralLoadSingleDisplacementDistortion::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadSingleDisplacement::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Distortion", m_Distortion ) );
 }
-void IfcStructuralLoadSingleDisplacementDistortion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralLoadSingleDisplacementDistortion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralLoadSingleDisplacement::getAttributesInverse( vec_attributes_inverse );
 }

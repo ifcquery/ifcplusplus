@@ -47,14 +47,14 @@ void IfcStructuralLoadTemperature::readStepArguments( const std::vector<std::wst
 	m_DeltaTY = IfcThermodynamicTemperatureMeasure::createObjectFromSTEP( args[2], map );
 	m_DeltaTZ = IfcThermodynamicTemperatureMeasure::createObjectFromSTEP( args[3], map );
 }
-void IfcStructuralLoadTemperature::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralLoadTemperature::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadStatic::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "DeltaTConstant", m_DeltaTConstant ) );
 	vec_attributes.push_back( std::make_pair( "DeltaTY", m_DeltaTY ) );
 	vec_attributes.push_back( std::make_pair( "DeltaTZ", m_DeltaTZ ) );
 }
-void IfcStructuralLoadTemperature::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralLoadTemperature::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralLoadStatic::getAttributesInverse( vec_attributes_inverse );
 }

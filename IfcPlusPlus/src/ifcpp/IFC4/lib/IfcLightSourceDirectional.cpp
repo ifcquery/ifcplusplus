@@ -55,12 +55,12 @@ void IfcLightSourceDirectional::readStepArguments( const std::vector<std::wstrin
 	m_Intensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[3], map );
 	readEntityReference( args[4], m_Orientation, map );
 }
-void IfcLightSourceDirectional::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcLightSourceDirectional::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLightSource::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Orientation", m_Orientation ) );
 }
-void IfcLightSourceDirectional::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcLightSourceDirectional::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcLightSource::getAttributesInverse( vec_attributes_inverse );
 }

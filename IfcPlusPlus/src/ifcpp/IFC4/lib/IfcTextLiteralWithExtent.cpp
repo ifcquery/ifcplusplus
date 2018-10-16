@@ -56,13 +56,13 @@ void IfcTextLiteralWithExtent::readStepArguments( const std::vector<std::wstring
 	readEntityReference( args[3], m_Extent, map );
 	m_BoxAlignment = IfcBoxAlignment::createObjectFromSTEP( args[4], map );
 }
-void IfcTextLiteralWithExtent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTextLiteralWithExtent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTextLiteral::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Extent", m_Extent ) );
 	vec_attributes.push_back( std::make_pair( "BoxAlignment", m_BoxAlignment ) );
 }
-void IfcTextLiteralWithExtent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTextLiteralWithExtent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTextLiteral::getAttributesInverse( vec_attributes_inverse );
 }

@@ -120,7 +120,7 @@ void IfcPixelTexture::readStepArguments( const std::vector<std::wstring>& args, 
 	m_ColourComponents = IfcInteger::createObjectFromSTEP( args[7], map );
 	readTypeOfStringList( args[8], m_Pixel );
 }
-void IfcPixelTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcPixelTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSurfaceTexture::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Width", m_Width ) );
@@ -133,7 +133,7 @@ void IfcPixelTexture::getAttributes( std::vector<std::pair<std::string, shared_p
 		vec_attributes.push_back( std::make_pair( "Pixel", Pixel_vec_object ) );
 	}
 }
-void IfcPixelTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcPixelTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSurfaceTexture::getAttributesInverse( vec_attributes_inverse );
 }

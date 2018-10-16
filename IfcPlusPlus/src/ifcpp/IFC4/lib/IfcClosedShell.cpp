@@ -43,11 +43,11 @@ void IfcClosedShell::readStepArguments( const std::vector<std::wstring>& args, c
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcClosedShell, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_CfsFaces, map );
 }
-void IfcClosedShell::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcClosedShell::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConnectedFaceSet::getAttributes( vec_attributes );
 }
-void IfcClosedShell::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcClosedShell::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcConnectedFaceSet::getAttributesInverse( vec_attributes_inverse );
 }

@@ -63,7 +63,7 @@ void IfcCurrencyRelationship::readStepArguments( const std::vector<std::wstring>
 	m_RateDateTime = IfcDateTime::createObjectFromSTEP( args[5], map );
 	readEntityReference( args[6], m_RateSource, map );
 }
-void IfcCurrencyRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcCurrencyRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RelatingMonetaryUnit", m_RelatingMonetaryUnit ) );
@@ -72,7 +72,7 @@ void IfcCurrencyRelationship::getAttributes( std::vector<std::pair<std::string, 
 	vec_attributes.push_back( std::make_pair( "RateDateTime", m_RateDateTime ) );
 	vec_attributes.push_back( std::make_pair( "RateSource", m_RateSource ) );
 }
-void IfcCurrencyRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcCurrencyRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcResourceLevelRelationship::getAttributesInverse( vec_attributes_inverse );
 }

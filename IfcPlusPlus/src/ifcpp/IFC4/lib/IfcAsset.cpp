@@ -111,7 +111,7 @@ void IfcAsset::readStepArguments( const std::vector<std::wstring>& args, const s
 	m_IncorporationDate = IfcDate::createObjectFromSTEP( args[12], map );
 	readEntityReference( args[13], m_DepreciatedValue, map );
 }
-void IfcAsset::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcAsset::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGroup::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
@@ -124,7 +124,7 @@ void IfcAsset::getAttributes( std::vector<std::pair<std::string, shared_ptr<Buil
 	vec_attributes.push_back( std::make_pair( "IncorporationDate", m_IncorporationDate ) );
 	vec_attributes.push_back( std::make_pair( "DepreciatedValue", m_DepreciatedValue ) );
 }
-void IfcAsset::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcAsset::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGroup::getAttributesInverse( vec_attributes_inverse );
 }

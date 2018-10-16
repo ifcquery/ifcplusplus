@@ -60,7 +60,7 @@ void IfcStructuralLoadSingleDisplacement::readStepArguments( const std::vector<s
 	m_RotationalDisplacementRY = IfcPlaneAngleMeasure::createObjectFromSTEP( args[5], map );
 	m_RotationalDisplacementRZ = IfcPlaneAngleMeasure::createObjectFromSTEP( args[6], map );
 }
-void IfcStructuralLoadSingleDisplacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcStructuralLoadSingleDisplacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadStatic::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "DisplacementX", m_DisplacementX ) );
@@ -70,7 +70,7 @@ void IfcStructuralLoadSingleDisplacement::getAttributes( std::vector<std::pair<s
 	vec_attributes.push_back( std::make_pair( "RotationalDisplacementRY", m_RotationalDisplacementRY ) );
 	vec_attributes.push_back( std::make_pair( "RotationalDisplacementRZ", m_RotationalDisplacementRZ ) );
 }
-void IfcStructuralLoadSingleDisplacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcStructuralLoadSingleDisplacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcStructuralLoadStatic::getAttributesInverse( vec_attributes_inverse );
 }

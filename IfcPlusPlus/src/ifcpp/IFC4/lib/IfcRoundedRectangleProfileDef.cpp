@@ -59,12 +59,12 @@ void IfcRoundedRectangleProfileDef::readStepArguments( const std::vector<std::ws
 	m_YDim = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4], map );
 	m_RoundingRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[5], map );
 }
-void IfcRoundedRectangleProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRoundedRectangleProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRectangleProfileDef::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "RoundingRadius", m_RoundingRadius ) );
 }
-void IfcRoundedRectangleProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRoundedRectangleProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRectangleProfileDef::getAttributesInverse( vec_attributes_inverse );
 }

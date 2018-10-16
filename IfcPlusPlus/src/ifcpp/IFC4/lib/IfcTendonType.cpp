@@ -120,7 +120,7 @@ void IfcTendonType::readStepArguments( const std::vector<std::wstring>& args, co
 	m_CrossSectionArea = IfcAreaMeasure::createObjectFromSTEP( args[11], map );
 	m_SheathDiameter = IfcPositiveLengthMeasure::createObjectFromSTEP( args[12], map );
 }
-void IfcTendonType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcTendonType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcReinforcingElementType::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
@@ -128,7 +128,7 @@ void IfcTendonType::getAttributes( std::vector<std::pair<std::string, shared_ptr
 	vec_attributes.push_back( std::make_pair( "CrossSectionArea", m_CrossSectionArea ) );
 	vec_attributes.push_back( std::make_pair( "SheathDiameter", m_SheathDiameter ) );
 }
-void IfcTendonType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcTendonType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcReinforcingElementType::getAttributesInverse( vec_attributes_inverse );
 }

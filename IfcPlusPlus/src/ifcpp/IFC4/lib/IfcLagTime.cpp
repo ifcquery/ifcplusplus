@@ -53,13 +53,13 @@ void IfcLagTime::readStepArguments( const std::vector<std::wstring>& args, const
 	m_LagValue = IfcTimeOrRatioSelect::createObjectFromSTEP( args[3], map );
 	m_DurationType = IfcTaskDurationEnum::createObjectFromSTEP( args[4], map );
 }
-void IfcLagTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcLagTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSchedulingTime::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "LagValue", m_LagValue ) );
 	vec_attributes.push_back( std::make_pair( "DurationType", m_DurationType ) );
 }
-void IfcLagTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcLagTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSchedulingTime::getAttributesInverse( vec_attributes_inverse );
 }

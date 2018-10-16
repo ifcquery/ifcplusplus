@@ -91,12 +91,12 @@ void IfcRelSpaceBoundary2ndLevel::readStepArguments( const std::vector<std::wstr
 	readEntityReference( args[9], m_ParentBoundary, map );
 	readEntityReference( args[10], m_CorrespondingBoundary, map );
 }
-void IfcRelSpaceBoundary2ndLevel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcRelSpaceBoundary2ndLevel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelSpaceBoundary1stLevel::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "CorrespondingBoundary", m_CorrespondingBoundary ) );
 }
-void IfcRelSpaceBoundary2ndLevel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcRelSpaceBoundary2ndLevel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelSpaceBoundary1stLevel::getAttributesInverse( vec_attributes_inverse );
 	if( m_Corresponds_inverse.size() > 0 )

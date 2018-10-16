@@ -55,13 +55,13 @@ void IfcQuantityTime::readStepArguments( const std::vector<std::wstring>& args, 
 	m_TimeValue = IfcTimeMeasure::createObjectFromSTEP( args[3], map );
 	m_Formula = IfcLabel::createObjectFromSTEP( args[4], map );
 }
-void IfcQuantityTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes )
+void IfcQuantityTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPhysicalSimpleQuantity::getAttributes( vec_attributes );
 	vec_attributes.push_back( std::make_pair( "TimeValue", m_TimeValue ) );
 	vec_attributes.push_back( std::make_pair( "Formula", m_Formula ) );
 }
-void IfcQuantityTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse )
+void IfcQuantityTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPhysicalSimpleQuantity::getAttributesInverse( vec_attributes_inverse );
 }
