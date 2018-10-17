@@ -321,19 +321,13 @@ public:
 					}
 				}
 
-				if( opening_angle > 0 )
+				while( opening_angle > 2.0*M_PI )
 				{
-					while( opening_angle > 2.0*M_PI )
-					{
-						opening_angle -= 2.0*M_PI;
-					}
+					opening_angle -= 2.0*M_PI;
 				}
-				else
+				while( opening_angle < -2.0*M_PI )
 				{
-					while( opening_angle < -2.0*M_PI )
-					{
-						opening_angle += 2.0*M_PI;
-					}
+					opening_angle += 2.0*M_PI;
 				}
 
 				int num_segments = m_geom_settings->getNumVerticesPerCircle()*( std::abs( opening_angle ) / ( 2.0*M_PI ) );
@@ -341,6 +335,7 @@ public:
 				const double circle_center_x = 0.0;
 				const double circle_center_y = 0.0;
 				std::vector<vec2> circle_points;
+				std::vector<vec3> circle_points3D;
 				if( circle_radius > 0.0 )
 				{
 					GeomUtils::addArcWithEndPoint( circle_points, circle_radius, start_angle, opening_angle, circle_center_x, circle_center_y, num_segments );
@@ -356,17 +351,18 @@ public:
 					for( size_t i = 0; i < circle_points.size(); ++i )
 					{
 						vec2&  point = circle_points[i];
-						vec3  point3d( carve::geom::VECTOR( point.x, point.y, 0 ) );
+						vec3  point3D( carve::geom::VECTOR( point.x, point.y, 0 ) );
 						if( conic_position_matrix )
 						{
-							point3d = conic_position_matrix->m_matrix * point3d;
+							point3D = conic_position_matrix->m_matrix * point3D;
 						}
-						point.x = point3d.x;
-						point.y = point3d.y;
+						point.x = point3D.x;
+						point.y = point3D.y;
+						circle_points3D.push_back(point3D);
 					}
 
-					GeomUtils::appendPointsToCurve( circle_points, target_vec );
-					segment_start_points.push_back( carve::geom::VECTOR( circle_points[0].x, circle_points[0].y, 0 ) );
+					GeomUtils::appendPointsToCurve(circle_points3D, target_vec );
+					segment_start_points.push_back(circle_points3D[0]);
 				}
 
 				return;
@@ -404,11 +400,8 @@ public:
 						}
 						GeomUtils::appendPointsToCurve( circle_points, target_vec );
 
-						//if( segment_start_points != nullptr )
-						{
-							vec3 pt0 = circle_points[0];
-							segment_start_points.push_back( pt0 );
-						}
+						vec3 pt0 = circle_points[0];
+						segment_start_points.push_back( pt0 );
 					}
 				}
 				return;
@@ -507,11 +500,7 @@ public:
 				points_vec.push_back( line_end );
 
 				GeomUtils::appendPointsToCurve( points_vec, target_vec );
-
-				//if( segment_start_points != nullptr )
-				{
-					segment_start_points.push_back( line_origin );
-				}
+				segment_start_points.push_back( line_origin );
 			}
 			return;
 		}

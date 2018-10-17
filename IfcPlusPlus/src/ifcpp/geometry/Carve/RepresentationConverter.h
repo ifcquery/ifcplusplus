@@ -324,8 +324,11 @@ public:
 					}
 				}
 
-				carve::math::Matrix mapped_pos( map_matrix_target->m_matrix*map_matrix_origin->m_matrix );
-				mapped_input_data->applyTransformToRepresentation( mapped_pos );
+				if( map_matrix_origin && map_matrix_target )
+				{
+					carve::math::Matrix mapped_pos(map_matrix_target->m_matrix*map_matrix_origin->m_matrix);
+					mapped_input_data->applyTransformToRepresentation(mapped_pos);
+				}
 				representation_data->appendRepresentationData( mapped_input_data, representation_data );
 				continue;
 			}

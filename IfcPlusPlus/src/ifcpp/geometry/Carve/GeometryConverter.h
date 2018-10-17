@@ -82,7 +82,7 @@ public:
 		progressTextCallback( L"Unloading model done" );
 		progressValueCallback( 0.0, "parse" );
 
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 		GeomDebugDump::clearMeshsetDump();
 #endif
 	}

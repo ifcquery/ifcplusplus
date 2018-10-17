@@ -251,7 +251,7 @@ public:
 		}
 		catch( BuildingException& exception )
 		{
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 			std::cout << exception.what() << std::endl;
 			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
 			carve::geom::vector<4> color = carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 );
@@ -353,28 +353,36 @@ public:
 		{
 			// sweeping curve is linear. assume any local z vector
 			vec3 sweep_dir = curve_point_second - curve_point_first;
-			sweep_dir.normalize();
-			local_z = cross( carve::geom::VECTOR( 0, 0, 1 ), sweep_dir );
-			if( local_z.length2() < 0.001 )
+			if( sweep_dir.length2() > 0.1 )
 			{
-				local_z = cross( carve::geom::VECTOR( 0, 1, 0 ), sweep_dir );
-				local_z.normalize();
-			}
-			else
-			{
-				local_z.normalize();
-			}
-			double dot_normal_local_z = dot( sweep_dir, local_z );
-			if( std::abs(dot_normal_local_z-1.0) < 0.0001 )
-			{
-				local_z = cross( carve::geom::VECTOR( 0, 1, 0 ), sweep_dir );
-				local_z.normalize();
+				sweep_dir.normalize();
 
-				dot_normal_local_z = dot( sweep_dir, local_z );
-				if( std::abs(dot_normal_local_z-1.0) < 0.0001 )
+				double dot_sweep_dir = dot(sweep_dir, carve::geom::VECTOR(0, 0, 1));
+				if( std::abs(dot_sweep_dir-1.0) > 0.0001 )
 				{
-					local_z = cross( carve::geom::VECTOR( 1, 0, 0 ), sweep_dir );
-					local_z.normalize();
+					local_z = cross(carve::geom::VECTOR(0, 0, 1), sweep_dir);
+					if( local_z.length2() < 0.001 )
+					{
+						local_z = cross(carve::geom::VECTOR(0, 1, 0), sweep_dir);
+						local_z.normalize();
+					}
+					else
+					{
+						local_z.normalize();
+					}
+					double dot_normal_local_z = dot(sweep_dir, local_z);
+					if( std::abs(dot_normal_local_z-1.0) < 0.0001 )
+					{
+						local_z = cross(carve::geom::VECTOR(0, 1, 0), sweep_dir);
+						local_z.normalize();
+
+						dot_normal_local_z = dot(sweep_dir, local_z);
+						if( std::abs(dot_normal_local_z-1.0) < 0.0001 )
+						{
+							local_z = cross(carve::geom::VECTOR(1, 0, 0), sweep_dir);
+							local_z.normalize();
+						}
+					}
 				}
 			}
 		}
@@ -638,7 +646,7 @@ public:
 		catch( BuildingException& exception )
 		{
 			messageCallback( exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity );  // calling function already in e.what()
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
 			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 			GeomDebugDump::dumpMeshset( meshset, color, true );
@@ -1107,7 +1115,7 @@ public:
 		catch( BuildingException& exception )
 		{
 			messageCallback( exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity );  // calling function already in e.what()
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
 			GeomDebugDump::dumpMeshset( meshset, color, true );

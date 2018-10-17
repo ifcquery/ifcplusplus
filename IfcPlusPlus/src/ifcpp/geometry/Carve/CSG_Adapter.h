@@ -272,7 +272,7 @@ namespace CSG_Adapter
 				{
 					if( !e->rev )
 					{
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 						std::vector<face_t*> vec_faces;
 						vec_faces.push_back( face );
 						GeomDebugDump::dumpFaces( meshset, vec_faces );
@@ -798,7 +798,7 @@ namespace CSG_Adapter
 		bool simplified_meshset_ok = checkMeshSetValidAndClosed( meshset, report_callback, entity );
 		if( !simplified_meshset_ok )
 		{
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 			std::cout << err_simplified.str().c_str() << std::endl;
 			GeomDebugDump::dumpMeshset( meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 #endif
@@ -817,7 +817,7 @@ namespace CSG_Adapter
 		bool retriangulated_meshset_ok = checkMeshSetValidAndClosed( meshset, report_callback, entity );
 		if( !retriangulated_meshset_ok )
 		{
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 			std::cout << err_retriangulated.str().c_str() << std::endl;
 
 			shared_ptr<meshset_t > meshset_pre_triang( meshset_copy->clone() );
@@ -866,7 +866,7 @@ namespace CSG_Adapter
 				{
 					result = op2;
 				}
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 				GeomDebugDump::dumpMeshset( op1, color, true );
 #endif
@@ -883,7 +883,7 @@ namespace CSG_Adapter
 				{
 					result = op1;
 				}
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 				GeomDebugDump::dumpMeshset( op2, color, true );
 #endif
@@ -948,7 +948,7 @@ namespace CSG_Adapter
 				{
 					result = op2;
 				}
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 				GeomDebugDump::dumpMeshset( op1, color, true );
 #endif
@@ -965,7 +965,7 @@ namespace CSG_Adapter
 				{
 					result = op1;
 				}
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 				GeomDebugDump::dumpMeshset( op2, color, true );
 #endif
@@ -1048,7 +1048,7 @@ namespace CSG_Adapter
 
 		if( strs_err.tellp() > 0 )
 		{
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 
 			shared_ptr<meshset_t > op1_copy( op1->clone() );
 			

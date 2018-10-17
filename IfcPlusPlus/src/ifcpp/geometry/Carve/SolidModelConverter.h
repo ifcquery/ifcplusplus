@@ -318,7 +318,17 @@ public:
 				throw OutOfMemoryException( __FUNC__ );
 			}
 
-			m_sweeper->sweepDisk( basis_curve_points, swept_disp_solid.get(), item_data_solid, nvc, radius, radius_inner );
+			int nvc_disk = nvc;
+			if( radius < 0.1 )
+			{
+				nvc_disk = std::min(12, nvc);
+				if( radius < 0.05 )
+				{
+					nvc_disk = std::min(8, nvc);
+				}
+			}
+			
+			m_sweeper->sweepDisk( basis_curve_points, swept_disp_solid.get(), item_data_solid, nvc_disk, radius, radius_inner );
 			item_data->addItemData( item_data_solid );
 
 			return;
@@ -704,7 +714,7 @@ public:
 			segment_offset += num_vertices_per_section;
 		}
 
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 		GeomDebugDump::dumpPolyline( path_merged, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, true );
 
 		shared_ptr<carve::mesh::MeshSet<3> > meshset( polyhedron_data->createMesh( carve::input::opts() ) );
@@ -845,13 +855,13 @@ public:
 				shared_ptr<carve::mesh::MeshSet<3> > result;
 				try
 				{
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 					GeomDebugDump::dumpMeshset( first_operand_meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, false );
 					GeomDebugDump::dumpMeshset( second_operand_meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 #endif
 					CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, result, this, bool_result.get() );
 
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 					GeomDebugDump::dumpMeshset( result, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 #endif
 				}

@@ -296,62 +296,6 @@ namespace GeomUtilsOCC
 		}
 	}
 	
-	inline void appendAndFixWires2(const TopoDS_Wire& wire_to_append, TopoDS_Wire& target_wire, bool fix_connected)
-	{
-		try
-		{
-
-			//Collect all the edges of the section. These are not returned in any particular order.
-			Handle(TopTools_HSequenceOfShape) Edges = new TopTools_HSequenceOfShape();
-			for( TopExp_Explorer Ex(wire_to_append, TopAbs_EDGE); Ex.More(); Ex.Next() )
-				Edges->Append(TopoDS::Edge(Ex.Current()));
-
-			for( TopExp_Explorer Ex(target_wire, TopAbs_EDGE); Ex.More(); Ex.Next() )
-				Edges->Append(TopoDS::Edge(Ex.Current()));
-
-			//Example Operation 1: Generate wires from the edges and determined the nature of the underlying curves.
-			Handle(TopTools_HSequenceOfShape) Wires = new TopTools_HSequenceOfShape(); //Will hold the wires found
-			double eps = Precision::Confusion()*100000;
-			ShapeAnalysis_FreeBounds::ConnectEdgesToWires(Edges, eps, Standard_True, Wires); //Wonderful tool
-			//TRACE("Original Edges\n");
-			int wLength = Wires->Length();
-			for( int w = 1; w < wLength; ++w )
-			{
-				const TopoDS_Shape& wireShape = Wires->Value(w);
-				TopoDS_Wire currentWire = TopoDS::Wire(wireShape);
-				target_wire = currentWire;
-				//For each wire
-				int e = 0;
-				BRepTools_WireExplorer aWireExp(currentWire);
-				for( ; aWireExp.More(); aWireExp.Next() )
-				{	//For each edge in wire. Note that BRepTools_WireExplorer returns edges in order!
-					TopoDS_Edge aEdge = TopoDS::Edge(aWireExp.Current());
-					//Analysis of Edge
-					Standard_Real First, Last;
-					Handle(Geom_Curve) curve = BRep_Tool::Curve(aEdge, First, Last); //Extract the curve from the edge
-					GeomAdaptor_Curve aAdaptedCurve(curve);
-					GeomAbs_CurveType curveType = aAdaptedCurve.GetType();
-					gp_Pnt pnt1, pnt2;
-					aAdaptedCurve.D0(First, pnt1);
-					aAdaptedCurve.D0(Last, pnt2);
-					int nPoles = 2;
-					if( curveType == GeomAbs_BezierCurve || curveType == GeomAbs_BSplineCurve )
-						nPoles = aAdaptedCurve.NbPoles();
-					//TRACE("%ld\t%ld\t%ld\t%ld\t%ld\t%f\t%f\t%f\t%f\t%f\t%f\n", w, e, curveType, aEdge.Orientation(), nPoles, pnt1.X(), pnt1.Y(), pnt1.Z(), pnt2.X(), pnt2.Y(), pnt2.Z());
-					e++;
-				}
-
-				break;
-			}
-		}
-		catch( Standard_Failure sf )
-		{
-			std::cout << __FUNC__ << " ShapeFix_Wire failed: " << sf.GetMessageString() << std::endl;
-			//GeomDebugDumpOCC::dumpShape( target_wire, vec4( 0.8, 0.9, 0.9, 1.0 ), true, true );
-			//GeomDebugDumpOCC::dumpShape( wire_to_append, vec4( 0.8, 0.9, 0.9, 1.0 ), true, false );
-		}
-	}
-
 	inline void appendAndFixWires(const TopoDS_Wire& wire_to_append, TopoDS_Wire& target_wire, bool fix_connected)
 	{
 		try
@@ -391,8 +335,7 @@ namespace GeomUtilsOCC
 			//GeomDebugDumpOCC::dumpShape( target_wire, vec4( 0.8, 0.9, 0.9, 1.0 ), true, true );
 			//GeomDebugDumpOCC::dumpShape( wire_to_append, vec4( 0.8, 0.9, 0.9, 1.0 ), true, false );
 
-
-							// check if there is a gap between the wires, try to fix it
+			// check if there is a gap between the wires, try to fix it
 			TopoDS_Edge last_edge_target_wire;
 			TopExp_Explorer explorer(target_wire, TopAbs_EDGE);
 			for( ; explorer.More(); explorer.Next() )
@@ -426,15 +369,6 @@ namespace GeomUtilsOCC
 					{
 						target_wire = mk_wire.Wire();
 					}
-					else
-					{
-						//BRepBuilderAPI_WireError err = mk_wire.Error();
-						//if( err == BRepBuilderAPI_DisconnectedWire )
-						{
-							// apply ShapeFix_Wire only when simple methods failed, because it does not preserve order and orientation of the edges
-							appendAndFixWires(wire_to_append, target_wire, true);
-						}
-					}
 				}
 			}
 			catch( Standard_Failure sf )
@@ -447,6 +381,7 @@ namespace GeomUtilsOCC
 			}
 		}
 	}
+
 	inline void appendWireToWire( const TopoDS_Wire& wire_to_append, TopoDS_Wire& target_wire )
 	{
 		if( wire_to_append.IsNull() )

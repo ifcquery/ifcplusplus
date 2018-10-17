@@ -389,7 +389,7 @@ public:
 				// not a fatal error, just mesh is not closed
 				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, "", report_entity );  // calling function already in e.what()
 
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 				shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_cache.m_poly_data->createMesh( carve::input::opts() ) );
 				GeomDebugDump::dumpMeshset( meshset, color, true );

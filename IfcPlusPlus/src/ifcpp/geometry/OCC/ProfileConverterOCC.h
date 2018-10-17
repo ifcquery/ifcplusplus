@@ -153,7 +153,7 @@ public:
 				}
 			}
 
-#ifdef GEOMETRY_DEBUG_CHECK
+#ifdef _DEBUG
 			Standard_Boolean closed = curve_wire.Closed();
 			if( !closed )
 			{
