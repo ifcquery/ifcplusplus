@@ -332,8 +332,10 @@ namespace GeomUtilsOCC
 		catch( Standard_Failure sf )
 		{
 			std::cout << __FUNC__ << " ShapeFix_Wire failed: " << sf.GetMessageString() << std::endl;
+#ifdef GEOMETRY_DEBUG_CHECK
 			//GeomDebugDumpOCC::dumpShape( target_wire, vec4( 0.8, 0.9, 0.9, 1.0 ), true, true );
 			//GeomDebugDumpOCC::dumpShape( wire_to_append, vec4( 0.8, 0.9, 0.9, 1.0 ), true, false );
+#endif
 
 			// check if there is a gap between the wires, try to fix it
 			TopoDS_Edge last_edge_target_wire;

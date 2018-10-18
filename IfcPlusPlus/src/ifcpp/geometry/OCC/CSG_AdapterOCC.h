@@ -107,7 +107,7 @@ namespace CSG_AdapterOCC
 				report_callback->messageCallback( strs_err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNCTION__, entity );
 			}
 
-#ifdef _DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 			GeomDebugDumpOCC::dumpShape( operand1, vec4( 0.7, 0.7, 0.7, 1.0 ), true, true );
 			GeomDebugDumpOCC::dumpShape( operand2, vec4( 0.6, 0.2, 0.2, 1.0 ), true, true );
 

@@ -109,12 +109,6 @@ public:
 					if( !segment_wire.IsNull() )
 					{
 						GeomUtilsOCC::appendWireToWire( segment_wire, target_wire );
-
-#ifdef _DEBUG
-						//GeomDebugDumpOCC::dumpShape(segment_wire, vec4(0.8, 0.9, 0.9, 1.0), true, false);
-						//GeomDebugDumpOCC::dumpShape(segment_wire, vec4(0.8, 0.9, 0.9, 1.0), true, true);
-						//GeomDebugDumpOCC::dumpShape(target_wire, vec4(0.8, 0.9, 0.9, 1.0), true, false);
-#endif
 					}
 				}
 				return;
@@ -146,11 +140,6 @@ public:
 
 				convertIfcCurve( basis_curve, basis_curve_wire, curve_trim1_vec, curve_trim2_vec, trimmed_sense_agreement );
 				GeomUtilsOCC::appendWireToWire( basis_curve_wire, target_wire );
-
-#ifdef _DEBUG
-				//GeomDebugDumpOCC::dumpShape(basis_curve_wire, vec4(0.8, 0.9, 0.9, 1.0), true, true);
-				//GeomDebugDumpOCC::dumpShape(target_wire, vec4(0.8, 0.9, 0.9, 1.0), true, false);
-#endif
 				return;
 			}
 
@@ -344,10 +333,6 @@ public:
 						GeomUtilsOCC::applyMatrixToShape(edge, conic_position_matrix);
 						GeomUtilsOCC::appendEdgeToWire(edge, target_wire);
 					}
-
-#ifdef _DEBUG
-					//GeomDebugDumpOCC::dumpShape(target_wire, vec4(0.5, 0.5, 0.4, 1.0), true, false);
-#endif
 				}
 				catch( Standard_Failure& sf )
 				{
@@ -529,7 +514,7 @@ public:
 			PointConverterOCC::convertIfcCartesianPointVectorSkipDuplicates( ifc_points, target_wire, true, length_factor );
 			GeomUtilsOCC::closeWire( target_wire );
 
-#ifdef _DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 			if( !target_wire.Closed() )
 			{
 				GeomDebugDumpOCC::dumpShape( target_wire, vec4( 0.5, 0.5, 0.5, 1.0 ), true, true );

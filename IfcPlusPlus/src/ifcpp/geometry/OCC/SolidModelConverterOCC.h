@@ -156,7 +156,7 @@ public:
 				TopoDS_Wire directrix_wire;
 				m_curve_converter->convertIfcCurve( ifc_directrix_curve, directrix_wire );
 
-#ifdef _DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 				GeomDebugDumpOCC::dumpShape( directrix_wire, vec4( 0.5, 0.5, 0.3, 1.0 ), true, true );
 #endif
 
@@ -264,7 +264,7 @@ public:
 				{
 					messageCallback( sf.GetMessageString(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, solid_model.get() );
 
-#ifdef _DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 					std::cout << sf.GetMessageString() << std::endl;
 					GeomDebugDumpOCC::dumpShape( directrix_wire, vec4( 0.5, 0.5, 0.3, 1.0 ), true, false );
 					GeomDebugDumpOCC::dumpShape( swept_area_face, vec4( 0.5, 0.5, 0.3, 1.0 ), true, false );
@@ -663,7 +663,7 @@ public:
 				}
 
 				TopoDS_Shape result;
-#ifdef _DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 				GeomDebugDumpOCC::dumpEdgesOfShape( first_operand_shape, vec4( 0.5, 0.5, 0.5, 1.0 ), true, true );
 				GeomDebugDumpOCC::dumpShape( second_operand_shape, vec4( 0.4, 0.5, 0.6, 1.0 ), true, false );
 #endif
@@ -970,7 +970,7 @@ public:
 				TopoDS_Face base_surface_face = BRepBuilderAPI_MakeFace( base_surface_plane, -extrusion_depth, extrusion_depth, -extrusion_depth, extrusion_depth );
 				TopoDS_Solid clipping_solid = TopoDS::Solid( BRepPrimAPI_MakePrism( base_surface_face, clipping_solid_extrusion_direction ) );
 
-#ifdef _DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 				GeomDebugDumpOCC::dumpEdgesOfShape( half_space_shape, vec4( 0.5, 0.6, 0.7, 1.0 ), true, false );
 				GeomDebugDumpOCC::dumpEdgesOfShape( clipping_solid, vec4( 0.7, 0.6, 0.7, 1.0 ), true, false );
 				GeomDebugDumpOCC::dumpShape( base_surface_face, vec4( 0.7, 0.6, 0.7, 0.5 ), true, false );
@@ -982,7 +982,7 @@ public:
 
 				if( !result.IsNull() )
 				{
-#ifdef _DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 					GeomDebugDumpOCC::dumpShape( result, vec4( 0.5, 0.6, 0.7, 1.0 ), true, false );
 #endif
 					half_space_shape = result;
@@ -1035,13 +1035,13 @@ public:
 				if( !extruded_half_space.IsNull() )
 				{
 					item_data->addShape( extruded_half_space );
-#ifdef _DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 					GeomDebugDumpOCC::dumpShape( extruded_half_space, vec4( 0.5, 0.57, 0.6, 1.0 ), true, true );
 #endif
 				}
 				else
 				{
-#ifdef _DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 					GeomDebugDumpOCC::dumpShape( base_face, vec4( 0.5, 0.57, 0.6, 1.0 ), true, true );
 					for( TopExp_Explorer exp( base_face, TopAbs_VERTEX ); exp.More(); exp.Next() )
 					{

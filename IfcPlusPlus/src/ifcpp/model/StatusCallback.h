@@ -58,7 +58,7 @@ public:
 		std::wstring m_message_text;		// Message text.
 		MessageType m_message_type;			// Type of message (warning, error etc.).
 		const char* m_reporting_function;	// Function name where the message is sent from. You can use the __FUNC__ macro from BuildingException.h.
-		BuildingEntity* m_entity;				// IFC entity in case the message applies to a certain entity.
+		BuildingEntity* m_entity;			// IFC entity in case the message applies to a certain entity.
 
 		double m_progress_value;			// Value of progress [0...1]. If negative value is given, the progress itself is ignored, for example when only the progress text is updated.
 		std::string m_progress_type;		// Type of progress, for example "parse", "geometry".
@@ -99,7 +99,7 @@ public:
 		}
 
 #ifdef _DEBUG
-		if( !m_func_call_on_message )
+		if( !m_func_call_on_message || !m_obj_call_on_message )
 		{
 			if( m )
 			{
@@ -110,18 +110,8 @@ public:
 					case MESSAGE_TYPE_MINOR_WARNING:
 					case MESSAGE_TYPE_WARNING:
 					case MESSAGE_TYPE_ERROR:
-						std::wcout << L"messageCallback: !m_func_call_on_message. Lost message: " << m->m_message_text.c_str() << std::endl;
+						std::wcout << L"messageCallback not set. Lost message: " << m->m_message_text.c_str() << std::endl;
 						break;
-					case MESSAGE_TYPE_PROGRESS_VALUE:
-						std::wcout << L"messageCallback: !m_func_call_on_message. Lost progress value: " << m->m_progress_value << std::endl;
-						break;
-					case MESSAGE_TYPE_PROGRESS_TEXT:
-						std::wcout << L"messageCallback: !m_func_call_on_message. Lost progress text: " << m->m_progress_text.c_str() << std::endl;
-						break;
-				}
-				if( !m_obj_call_on_message )
-				{
-					std::wcout << L"messageCallback: !m_obj_call_on_message. Lost message: " << m->m_message_text.c_str() << std::endl;
 				}
 			}
 		}

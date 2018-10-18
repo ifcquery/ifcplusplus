@@ -20,7 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #ifdef _DEBUG
 
 #include <vector>
-#include <osgDB/fstream>
+#include <fstream>
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/BuildingException.h>
 #include "IncludeCarveHeaders.h"
@@ -133,7 +133,7 @@ namespace GeomDebugDump
 		{
 			clearMeshsetDump();
 		}
-		osgDB::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
+		std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
 		dump_ofstream << strs_out.str().c_str();
 		dump_ofstream.close();
 	}

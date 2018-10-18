@@ -142,7 +142,7 @@ public:
 				if( !curve_wire.Closed() )
 				{
 					std::cout << "!curve_wire.Closed()" << std::endl;
-#ifdef _DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 					GeomDebugDumpOCC::dumpShape(curve_wire, vec4(0.5, 0.5, 0.4, 1.0), true, true);
 #endif
 				}
@@ -166,13 +166,20 @@ public:
 					gp_Pnt point1 = BRep_Tool::Pnt( result_vert );
 					loop_points.push_back( point1 );
 				}
+#ifdef GEOMETRY_DEBUG_CHECK
 				GeomDebugDumpOCC::dumpPolyline( loop_points, vec4( 0.5, 0.5, 0.4, 1.0 ), true, true );
 
 				gp_Trsf transform;
-				transform.SetTranslation( gp_Vec( 0, 0, 1 ) );
-				GeomUtilsOCC::applyMatrixToShape( curve_wire, transform );
+				transform.SetTranslation(gp_Vec(0, 0, 1));
+				BRepBuilderAPI_Copy A;
+				A.Perform(curve_wire);
+				TopoDS_Shape shape_transformed;
+				shape_transformed = A.Shape();
+				GeomUtilsOCC::applyMatrixToShape(shape_transformed, transform );
+
 				GeomDebugDumpOCC::dumpShape( curve_wire, vec4( 0.5, 0.5, 0.4, 1.0 ), true, true );
 				GeomDebugDumpOCC::dumpShape( target_face, vec4( 0.5, 0.5, 0.4, 1.0 ), true, true );
+#endif
 			}
 #endif
 		}

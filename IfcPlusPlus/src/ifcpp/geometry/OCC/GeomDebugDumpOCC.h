@@ -17,8 +17,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-//#ifdef _DEBUG
-#ifdef _DEBUG
+#ifdef GEOMETRY_DEBUG_CHECK
 
 #include <vector>
 
@@ -123,14 +122,10 @@ namespace GeomDebugDumpOCC
 			}
 		}
 
-		//TopoDS_Shape shape_transformed = shape;
-
 		BRepBuilderAPI_Copy A;
 		A.Perform(shape);
 		TopoDS_Shape shape_transformed;
 		shape_transformed = A.Shape();
-
-
 		GeomUtilsOCC::applyTranslationToShape( shape_transformed, gp_Vec( 0, dump_y_pos_geom, 0 ) );
 
 		addShapeToDump( shape_transformed, color );
