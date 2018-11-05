@@ -37,6 +37,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include "ReaderUtil.h"
 #include "ReaderSTEP.h"
+#include <windows.h>
+#include <stringapiset.h>
 
 ReaderSTEP::ReaderSTEP(){}
 ReaderSTEP::~ReaderSTEP(){}
@@ -70,7 +72,15 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 
 	// open file
-	std::string filePathStr(filePath.begin(), filePath.end());
+	//std::string filePathStr(filePath.begin(), filePath.end());
+	//std::string filePathStr = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(filePath);
+
+	int slength = (int)filePath.length() + 1;
+	int len = WideCharToMultiByte(CP_ACP, 0, filePath.c_str(), slength, 0, 0, 0, 0);
+	char* buf = new char[len];
+	WideCharToMultiByte(CP_ACP, 0, filePath.c_str(), slength, buf, len, 0, 0);
+	std::string filePathStr(buf);
+	delete[] buf;
 	std::ifstream infile(filePathStr.c_str(), std::ifstream::in);
 
 	if( !infile.is_open() )
