@@ -37,8 +37,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include "ReaderUtil.h"
 #include "ReaderSTEP.h"
-#include <windows.h>
-#include <stringapiset.h>
 
 ReaderSTEP::ReaderSTEP(){}
 ReaderSTEP::~ReaderSTEP(){}
@@ -72,22 +70,29 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 
 	// open file
-	//std::string filePathStr(filePath.begin(), filePath.end());
-	//std::string filePathStr = std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(filePath);
+	if (!setlocale(LC_ALL, "en_us.UTF-8"))
+	{
+		std::wstringstream strs;
+		strs << "setlocale failed" << std::endl;
+		messageCallback(strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
+		return;
+	}
 
 	int slength = (int)filePath.length() + 1;
-	int len = WideCharToMultiByte(CP_ACP, 0, filePath.c_str(), slength, 0, 0, 0, 0);
-	char* buf = new char[len];
-	WideCharToMultiByte(CP_ACP, 0, filePath.c_str(), slength, buf, len, 0, 0);
+	char* buf = nullptr;
+	size_t len = std::wcstombs(buf, filePath.c_str(), 0);
+	buf = new char[len + 1];
+
+	std::wcstombs(buf, filePath.c_str(), (len + 1) * 6);
 	std::string filePathStr(buf);
 	delete[] buf;
-	std::ifstream infile(filePathStr.c_str(), std::ifstream::in);
 
-	if( !infile.is_open() )
+	std::ifstream infile(filePathStr.c_str(), std::ifstream::in);
+	if (!infile.is_open())
 	{
 		std::wstringstream strs;
 		strs << "Could not open file: " << filePath.c_str();
-		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		messageCallback(strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
 		return;
 	}
 
