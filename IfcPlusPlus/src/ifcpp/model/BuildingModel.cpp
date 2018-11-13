@@ -471,7 +471,6 @@ void BuildingModel::initFileHeader( std::wstring file_name )
 	m_file_name = file_name;
 	std::string filename_escaped = encodeStepString( file_name );
 	std::wstringstream strs;
-	strs << "ISO-10303-21;" << std::endl;
 	strs << "HEADER;" << std::endl;
 	strs << "FILE_DESCRIPTION(('" << m_ifc_schema_version.m_IFC_FILE_SCHEMA << "'),'2;1');" << std::endl;
 	strs << "FILE_NAME('" << filename_escaped.c_str() << "','";
