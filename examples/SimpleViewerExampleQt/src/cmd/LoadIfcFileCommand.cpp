@@ -56,16 +56,16 @@ bool LoadIfcFileCommand::doCmd()
 
 	// reset the IFC model
 	shared_ptr<GeometryConverter> geometry_converter = m_system->getGeometryConverter();
+	geometry_converter->clearMessagesCallback();
 	geometry_converter->resetModel();
 	std::stringstream err;
-
 
 	try
 	{
 		// load file to IFC model
-		geometry_converter->clearMessagesCallback();
-		geometry_converter->resetModel();
 		m_system->getModelReader()->loadModelFromFile( m_file_path, geometry_converter->getBuildingModel() );
+
+		// convert IFC geometric representations into Carve geometry
 		geometry_converter->convertGeometry();
 
 		// convert Carve geometry to OSG

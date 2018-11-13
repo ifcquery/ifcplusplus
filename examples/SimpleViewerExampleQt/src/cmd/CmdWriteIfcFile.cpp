@@ -50,7 +50,6 @@ bool CmdWriteIfcFile::doCmd()
 	shared_ptr<BuildingModel>& model = geom_converter->getBuildingModel();
 	model->initFileHeader( m_file_path );
 	std::stringstream stream;
-
 	m_system->getModelWriter()->writeModelToStream( stream, model );
 
 	QFile file_out( QString::fromStdWString( m_file_path.c_str() ) );
