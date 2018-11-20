@@ -87,7 +87,7 @@ public:
 	{
 		m_styles_converter = shared_ptr<StylesConverter>( new StylesConverter() );
 		m_point_converter = shared_ptr<PointConverter>( new PointConverter( m_unit_converter ) );
-		m_spline_converter = shared_ptr<SplineConverter>( new SplineConverter( m_point_converter ) );
+		m_spline_converter = shared_ptr<SplineConverter>( new SplineConverter( m_geom_settings, m_point_converter ) );
 		m_sweeper = shared_ptr<Sweeper>( new Sweeper( m_geom_settings, m_unit_converter ) );
 		m_placement_converter = shared_ptr<PlacementConverter>( new PlacementConverter( m_unit_converter ) );
 		m_curve_converter = shared_ptr<CurveConverter>( new CurveConverter( m_geom_settings, m_placement_converter, m_point_converter, m_spline_converter ) );

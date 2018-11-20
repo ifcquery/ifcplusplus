@@ -17,6 +17,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
+#include <ifcpp/geometry/GeometrySettings.h>
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 
@@ -33,9 +34,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 class SplineConverter : public StatusCallback
 {
-public:
+protected:
+	shared_ptr<GeometrySettings> m_geom_settings;
 	shared_ptr<PointConverter> m_point_converter;
 
+public:
 	static void computeKnotVector( const size_t num_ctrl_points, const size_t order, std::vector<double>& knot_vec )
 	{
 		const size_t n_plus_order = num_ctrl_points + order;
@@ -203,9 +206,11 @@ public:
 		}
 	}
 
-	SplineConverter( shared_ptr<PointConverter>& pt_converter ) : m_point_converter( pt_converter )
+	SplineConverter( shared_ptr<GeometrySettings>& geom_settings, shared_ptr<PointConverter>& pt_converter )
+		: m_geom_settings( geom_settings ), m_point_converter( pt_converter )
 	{
 	}
+
 	virtual ~SplineConverter()
 	{
 	}
@@ -239,7 +244,7 @@ public:
 
 		const size_t num_control_pts = vec_control_points.size();
 		const size_t order = degree + 1; // the order of the curve is the degree of the resulting polynomial + s1
-		const size_t num_curve_pts = num_control_pts * 4;  // TODO: make this ajustable
+		const size_t num_curve_pts = num_control_pts * m_geom_settings->getNumVerticesPerControlPoint();
 		std::vector<double> knot_vec;
 
 		//	set weighting factors to 1.0 in case of homogenious curve
