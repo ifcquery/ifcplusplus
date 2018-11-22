@@ -60,11 +60,21 @@ public:
 	{
 		m_min_num_vertices_per_arc = 6;
 	}
-
 	void setMinNumVerticesPerArc( int num )
 	{
 		m_min_num_vertices_per_arc = num;
 	}
+
+	int getNumVerticesPerControlPoint() { return m_num_vertices_per_control_point; }
+	void setNumVerticesPerControlPoint( int num )
+	{
+		m_num_vertices_per_control_point = num;
+	}
+	void resetNumVerticesPerControlPoint()
+	{
+		m_num_vertices_per_control_point = m_num_vertices_per_control_point_default;
+	}
+
 	void setHandleLayerAssignments( bool handle ) { m_handle_layer_assignments = handle; }
 	bool handleLayerAssignments() { return m_handle_layer_assignments; }
 	
@@ -105,6 +115,8 @@ protected:
 	int	m_num_vertices_per_circle = 14;
 	int m_num_vertices_per_circle_default = 14;
 	int m_min_num_vertices_per_arc = 6;
+	int m_num_vertices_per_control_point = 4;
+	int m_num_vertices_per_control_point_default = 4;
 	bool m_show_text_literals = false;
 	bool m_ignore_profile_radius = false;
 	bool m_handle_styled_items = true;

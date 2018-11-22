@@ -80,7 +80,7 @@ public:
 		: m_geom_settings( geom_settings ), m_unit_converter( unit_converter )
 	{
 		m_styles_converter = shared_ptr<StylesConverter>( new StylesConverter() );
-		m_spline_converter = shared_ptr<SplineConverterOCC>( new SplineConverterOCC() );
+		m_spline_converter = shared_ptr<SplineConverterOCC>( new SplineConverterOCC( m_geom_settings ) );
 		m_curve_converter = shared_ptr<CurveConverterOCC>( new CurveConverterOCC( m_geom_settings, m_unit_converter, m_spline_converter ) );
 		m_profile_cache = shared_ptr<ProfileCacheOCC>( new ProfileCacheOCC( m_curve_converter, m_spline_converter ) );
 		m_face_converter = shared_ptr<FaceConverterOCC>( new FaceConverterOCC( m_geom_settings, m_unit_converter, m_curve_converter, m_spline_converter ) );
