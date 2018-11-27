@@ -67,7 +67,11 @@ IF(Boost_FOUND)
 ENDIF()
 
 set_target_properties(IfcPlusPlus PROPERTIES DEBUG_POSTFIX "d")
-set_target_properties(IfcPlusPlus PROPERTIES LINK_FLAGS_DEBUG "/debug /INCREMENTAL:NO")
+
+IF(WIN32)
+    set_target_properties(IfcPlusPlus PROPERTIES LINK_FLAGS_DEBUG "/debug /INCREMENTAL:NO")
+ENDIF()
+
 
 INSTALL(
     DIRECTORY   src/ifcpp
