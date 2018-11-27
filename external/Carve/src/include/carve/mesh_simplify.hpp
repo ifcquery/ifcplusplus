@@ -1432,7 +1432,7 @@ class MeshSimplifier {
     meshset->meshes.erase(
         std::remove_if(
             meshset->meshes.begin(), meshset->meshes.end(),
-            std::bind2nd(std::equal_to<mesh_t*>(), (mesh_t*)nullptr)),
+            std::bind(std::equal_to<mesh_t*>(), std::placeholders::_1, (mesh_t*)nullptr)),
         meshset->meshes.end());
     return n_removed;
   }
