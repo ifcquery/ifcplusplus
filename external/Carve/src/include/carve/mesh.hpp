@@ -731,10 +731,12 @@ class MeshSet {
 
  public:
   template <typename face_type>
-  struct FaceIter
-      : public std::iterator<std::random_access_iterator_tag, face_type> {
-    typedef std::iterator<std::random_access_iterator_tag, face_type> super;
-    typedef typename super::difference_type difference_type;
+  struct FaceIter {
+    typedef std::random_access_iterator_tag iterator_category;
+    typedef face_type value_type;
+    typedef std::ptrdiff_t difference_type;
+    typedef face_type* pointer;
+    typedef face_type& reference;
 
     const MeshSet<ndim>* obj;
     size_t mesh, face;
