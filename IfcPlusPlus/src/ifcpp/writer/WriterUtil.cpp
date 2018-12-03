@@ -46,6 +46,11 @@ std::string encodeStepString( const std::wstring& str )
 			// encode carriage return
 			result_str.append( "\\X\\0D" );
 		}
+		else if( append_char == 39 )
+		{
+			// encode apostrophe
+			result_str.append( "\\X\\27" );
+		}
 		else if( append_char == 92 )
 		{
 			// encode backslash
