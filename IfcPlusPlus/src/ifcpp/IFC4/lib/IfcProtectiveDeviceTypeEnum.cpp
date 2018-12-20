@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcProtectiveDeviceTypeEnum.h"
 
 // TYPE IfcProtectiveDeviceTypeEnum = ENUMERATION OF	(CIRCUITBREAKER	,EARTHLEAKAGECIRCUITBREAKER	,EARTHINGSWITCH	,FUSEDISCONNECTOR	,RESIDUALCURRENTCIRCUITBREAKER	,RESIDUALCURRENTSWITCH	,VARISTOR	,USERDEFINED	,NOTDEFINED);
-IfcProtectiveDeviceTypeEnum::IfcProtectiveDeviceTypeEnum() {}
-IfcProtectiveDeviceTypeEnum::~IfcProtectiveDeviceTypeEnum() {}
+IfcProtectiveDeviceTypeEnum::IfcProtectiveDeviceTypeEnum() = default;
+IfcProtectiveDeviceTypeEnum::~IfcProtectiveDeviceTypeEnum() = default;
 shared_ptr<BuildingObject> IfcProtectiveDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProtectiveDeviceTypeEnum> copy_self( new IfcProtectiveDeviceTypeEnum() );
@@ -54,7 +54,7 @@ const std::wstring IfcProtectiveDeviceTypeEnum::toString() const
 shared_ptr<IfcProtectiveDeviceTypeEnum> IfcProtectiveDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTypeEnum>(); }
 	shared_ptr<IfcProtectiveDeviceTypeEnum> type_object( new IfcProtectiveDeviceTypeEnum() );
 	if( boost::iequals( arg, L".CIRCUITBREAKER." ) )
 	{

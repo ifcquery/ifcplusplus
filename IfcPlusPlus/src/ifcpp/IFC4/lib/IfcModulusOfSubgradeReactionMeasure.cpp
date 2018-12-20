@@ -12,9 +12,9 @@
 #include "ifcpp/IFC4/include/IfcModulusOfSubgradeReactionMeasure.h"
 
 // TYPE IfcModulusOfSubgradeReactionMeasure = REAL;
-IfcModulusOfSubgradeReactionMeasure::IfcModulusOfSubgradeReactionMeasure() {}
+IfcModulusOfSubgradeReactionMeasure::IfcModulusOfSubgradeReactionMeasure() = default;
 IfcModulusOfSubgradeReactionMeasure::IfcModulusOfSubgradeReactionMeasure( double value ) { m_value = value; }
-IfcModulusOfSubgradeReactionMeasure::~IfcModulusOfSubgradeReactionMeasure() {}
+IfcModulusOfSubgradeReactionMeasure::~IfcModulusOfSubgradeReactionMeasure() = default;
 shared_ptr<BuildingObject> IfcModulusOfSubgradeReactionMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcModulusOfSubgradeReactionMeasure> copy_self( new IfcModulusOfSubgradeReactionMeasure() );
@@ -36,7 +36,7 @@ const std::wstring IfcModulusOfSubgradeReactionMeasure::toString() const
 shared_ptr<IfcModulusOfSubgradeReactionMeasure> IfcModulusOfSubgradeReactionMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcModulusOfSubgradeReactionMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcModulusOfSubgradeReactionMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcModulusOfSubgradeReactionMeasure>(); }
 	shared_ptr<IfcModulusOfSubgradeReactionMeasure> type_object( new IfcModulusOfSubgradeReactionMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

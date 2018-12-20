@@ -15,9 +15,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianTransformationOperator3D 
-IfcCartesianTransformationOperator3D::IfcCartesianTransformationOperator3D() {}
+IfcCartesianTransformationOperator3D::IfcCartesianTransformationOperator3D() = default;
 IfcCartesianTransformationOperator3D::IfcCartesianTransformationOperator3D( int id ) { m_entity_id = id; }
-IfcCartesianTransformationOperator3D::~IfcCartesianTransformationOperator3D() {}
+IfcCartesianTransformationOperator3D::~IfcCartesianTransformationOperator3D() = default;
 shared_ptr<BuildingObject> IfcCartesianTransformationOperator3D::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianTransformationOperator3D> copy_self( new IfcCartesianTransformationOperator3D() );
@@ -42,12 +42,12 @@ void IfcCartesianTransformationOperator3D::getStepLine( std::stringstream& strea
 	if( m_Axis3 ) { stream << "#" << m_Axis3->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCartesianTransformationOperator3D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCartesianTransformationOperator3D::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianTransformationOperator3D::toString() const { return L"IfcCartesianTransformationOperator3D"; }
 void IfcCartesianTransformationOperator3D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator3D, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator3D, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Axis1, map );
 	readEntityReference( args[1], m_Axis2, map );
 	readEntityReference( args[2], m_LocalOrigin, map );
@@ -57,7 +57,7 @@ void IfcCartesianTransformationOperator3D::readStepArguments( const std::vector<
 void IfcCartesianTransformationOperator3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCartesianTransformationOperator::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Axis3", m_Axis3 ) );
+	vec_attributes.emplace_back( "Axis3", m_Axis3 );
 }
 void IfcCartesianTransformationOperator3D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

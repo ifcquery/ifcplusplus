@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcDocumentConfidentialityEnum.h"
 
 // TYPE IfcDocumentConfidentialityEnum = ENUMERATION OF	(PUBLIC	,RESTRICTED	,CONFIDENTIAL	,PERSONAL	,USERDEFINED	,NOTDEFINED);
-IfcDocumentConfidentialityEnum::IfcDocumentConfidentialityEnum() {}
-IfcDocumentConfidentialityEnum::~IfcDocumentConfidentialityEnum() {}
+IfcDocumentConfidentialityEnum::IfcDocumentConfidentialityEnum() = default;
+IfcDocumentConfidentialityEnum::~IfcDocumentConfidentialityEnum() = default;
 shared_ptr<BuildingObject> IfcDocumentConfidentialityEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDocumentConfidentialityEnum> copy_self( new IfcDocumentConfidentialityEnum() );
@@ -48,7 +48,7 @@ const std::wstring IfcDocumentConfidentialityEnum::toString() const
 shared_ptr<IfcDocumentConfidentialityEnum> IfcDocumentConfidentialityEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDocumentConfidentialityEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDocumentConfidentialityEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDocumentConfidentialityEnum>(); }
 	shared_ptr<IfcDocumentConfidentialityEnum> type_object( new IfcDocumentConfidentialityEnum() );
 	if( boost::iequals( arg, L".PUBLIC." ) )
 	{

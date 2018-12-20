@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcTrimmingPreference.h"
 
 // TYPE IfcTrimmingPreference = ENUMERATION OF	(CARTESIAN	,PARAMETER	,UNSPECIFIED);
-IfcTrimmingPreference::IfcTrimmingPreference() {}
-IfcTrimmingPreference::~IfcTrimmingPreference() {}
+IfcTrimmingPreference::IfcTrimmingPreference() = default;
+IfcTrimmingPreference::~IfcTrimmingPreference() = default;
 shared_ptr<BuildingObject> IfcTrimmingPreference::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTrimmingPreference> copy_self( new IfcTrimmingPreference() );
@@ -42,7 +42,7 @@ const std::wstring IfcTrimmingPreference::toString() const
 shared_ptr<IfcTrimmingPreference> IfcTrimmingPreference::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTrimmingPreference>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTrimmingPreference>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTrimmingPreference>(); }
 	shared_ptr<IfcTrimmingPreference> type_object( new IfcTrimmingPreference() );
 	if( boost::iequals( arg, L".CARTESIAN." ) )
 	{

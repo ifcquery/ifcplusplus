@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcCurveInterpolationEnum.h"
 
 // TYPE IfcCurveInterpolationEnum = ENUMERATION OF	(LINEAR	,LOG_LINEAR	,LOG_LOG	,NOTDEFINED);
-IfcCurveInterpolationEnum::IfcCurveInterpolationEnum() {}
-IfcCurveInterpolationEnum::~IfcCurveInterpolationEnum() {}
+IfcCurveInterpolationEnum::IfcCurveInterpolationEnum() = default;
+IfcCurveInterpolationEnum::~IfcCurveInterpolationEnum() = default;
 shared_ptr<BuildingObject> IfcCurveInterpolationEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurveInterpolationEnum> copy_self( new IfcCurveInterpolationEnum() );
@@ -44,7 +44,7 @@ const std::wstring IfcCurveInterpolationEnum::toString() const
 shared_ptr<IfcCurveInterpolationEnum> IfcCurveInterpolationEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCurveInterpolationEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCurveInterpolationEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCurveInterpolationEnum>(); }
 	shared_ptr<IfcCurveInterpolationEnum> type_object( new IfcCurveInterpolationEnum() );
 	if( boost::iequals( arg, L".LINEAR." ) )
 	{

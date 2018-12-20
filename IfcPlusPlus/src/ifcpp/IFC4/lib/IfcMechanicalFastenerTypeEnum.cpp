@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcMechanicalFastenerTypeEnum.h"
 
 // TYPE IfcMechanicalFastenerTypeEnum = ENUMERATION OF	(ANCHORBOLT	,BOLT	,DOWEL	,NAIL	,NAILPLATE	,RIVET	,SCREW	,SHEARCONNECTOR	,STAPLE	,STUDSHEARCONNECTOR	,USERDEFINED	,NOTDEFINED);
-IfcMechanicalFastenerTypeEnum::IfcMechanicalFastenerTypeEnum() {}
-IfcMechanicalFastenerTypeEnum::~IfcMechanicalFastenerTypeEnum() {}
+IfcMechanicalFastenerTypeEnum::IfcMechanicalFastenerTypeEnum() = default;
+IfcMechanicalFastenerTypeEnum::~IfcMechanicalFastenerTypeEnum() = default;
 shared_ptr<BuildingObject> IfcMechanicalFastenerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMechanicalFastenerTypeEnum> copy_self( new IfcMechanicalFastenerTypeEnum() );
@@ -60,7 +60,7 @@ const std::wstring IfcMechanicalFastenerTypeEnum::toString() const
 shared_ptr<IfcMechanicalFastenerTypeEnum> IfcMechanicalFastenerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMechanicalFastenerTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMechanicalFastenerTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMechanicalFastenerTypeEnum>(); }
 	shared_ptr<IfcMechanicalFastenerTypeEnum> type_object( new IfcMechanicalFastenerTypeEnum() );
 	if( boost::iequals( arg, L".ANCHORBOLT." ) )
 	{

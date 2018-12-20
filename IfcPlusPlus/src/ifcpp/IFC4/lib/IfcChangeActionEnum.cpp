@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcChangeActionEnum.h"
 
 // TYPE IfcChangeActionEnum = ENUMERATION OF	(NOCHANGE	,MODIFIED	,ADDED	,DELETED	,NOTDEFINED);
-IfcChangeActionEnum::IfcChangeActionEnum() {}
-IfcChangeActionEnum::~IfcChangeActionEnum() {}
+IfcChangeActionEnum::IfcChangeActionEnum() = default;
+IfcChangeActionEnum::~IfcChangeActionEnum() = default;
 shared_ptr<BuildingObject> IfcChangeActionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcChangeActionEnum> copy_self( new IfcChangeActionEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcChangeActionEnum::toString() const
 shared_ptr<IfcChangeActionEnum> IfcChangeActionEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcChangeActionEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcChangeActionEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcChangeActionEnum>(); }
 	shared_ptr<IfcChangeActionEnum> type_object( new IfcChangeActionEnum() );
 	if( boost::iequals( arg, L".NOCHANGE." ) )
 	{

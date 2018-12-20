@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcPlateTypeEnum.h"
 
 // TYPE IfcPlateTypeEnum = ENUMERATION OF	(CURTAIN_PANEL	,SHEET	,USERDEFINED	,NOTDEFINED);
-IfcPlateTypeEnum::IfcPlateTypeEnum() {}
-IfcPlateTypeEnum::~IfcPlateTypeEnum() {}
+IfcPlateTypeEnum::IfcPlateTypeEnum() = default;
+IfcPlateTypeEnum::~IfcPlateTypeEnum() = default;
 shared_ptr<BuildingObject> IfcPlateTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPlateTypeEnum> copy_self( new IfcPlateTypeEnum() );
@@ -44,7 +44,7 @@ const std::wstring IfcPlateTypeEnum::toString() const
 shared_ptr<IfcPlateTypeEnum> IfcPlateTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPlateTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPlateTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPlateTypeEnum>(); }
 	shared_ptr<IfcPlateTypeEnum> type_object( new IfcPlateTypeEnum() );
 	if( boost::iequals( arg, L".CURTAIN_PANEL." ) )
 	{

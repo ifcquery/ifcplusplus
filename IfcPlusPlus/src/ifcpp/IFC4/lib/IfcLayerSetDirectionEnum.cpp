@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcLayerSetDirectionEnum.h"
 
 // TYPE IfcLayerSetDirectionEnum = ENUMERATION OF	(AXIS1	,AXIS2	,AXIS3);
-IfcLayerSetDirectionEnum::IfcLayerSetDirectionEnum() {}
-IfcLayerSetDirectionEnum::~IfcLayerSetDirectionEnum() {}
+IfcLayerSetDirectionEnum::IfcLayerSetDirectionEnum() = default;
+IfcLayerSetDirectionEnum::~IfcLayerSetDirectionEnum() = default;
 shared_ptr<BuildingObject> IfcLayerSetDirectionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLayerSetDirectionEnum> copy_self( new IfcLayerSetDirectionEnum() );
@@ -42,7 +42,7 @@ const std::wstring IfcLayerSetDirectionEnum::toString() const
 shared_ptr<IfcLayerSetDirectionEnum> IfcLayerSetDirectionEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLayerSetDirectionEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLayerSetDirectionEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLayerSetDirectionEnum>(); }
 	shared_ptr<IfcLayerSetDirectionEnum> type_object( new IfcLayerSetDirectionEnum() );
 	if( boost::iequals( arg, L".AXIS1." ) )
 	{

@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcWindowStyleConstructionEnum.h"
 
 // TYPE IfcWindowStyleConstructionEnum = ENUMERATION OF	(ALUMINIUM	,HIGH_GRADE_STEEL	,STEEL	,WOOD	,ALUMINIUM_WOOD	,PLASTIC	,OTHER_CONSTRUCTION	,NOTDEFINED);
-IfcWindowStyleConstructionEnum::IfcWindowStyleConstructionEnum() {}
-IfcWindowStyleConstructionEnum::~IfcWindowStyleConstructionEnum() {}
+IfcWindowStyleConstructionEnum::IfcWindowStyleConstructionEnum() = default;
+IfcWindowStyleConstructionEnum::~IfcWindowStyleConstructionEnum() = default;
 shared_ptr<BuildingObject> IfcWindowStyleConstructionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWindowStyleConstructionEnum> copy_self( new IfcWindowStyleConstructionEnum() );
@@ -52,7 +52,7 @@ const std::wstring IfcWindowStyleConstructionEnum::toString() const
 shared_ptr<IfcWindowStyleConstructionEnum> IfcWindowStyleConstructionEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowStyleConstructionEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowStyleConstructionEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowStyleConstructionEnum>(); }
 	shared_ptr<IfcWindowStyleConstructionEnum> type_object( new IfcWindowStyleConstructionEnum() );
 	if( boost::iequals( arg, L".ALUMINIUM." ) )
 	{

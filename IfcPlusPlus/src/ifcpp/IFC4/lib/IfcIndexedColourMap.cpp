@@ -14,19 +14,18 @@
 #include "ifcpp/IFC4/include/IfcTessellatedFaceSet.h"
 
 // ENTITY IfcIndexedColourMap 
-IfcIndexedColourMap::IfcIndexedColourMap() {}
+IfcIndexedColourMap::IfcIndexedColourMap() = default;
 IfcIndexedColourMap::IfcIndexedColourMap( int id ) { m_entity_id = id; }
-IfcIndexedColourMap::~IfcIndexedColourMap() {}
+IfcIndexedColourMap::~IfcIndexedColourMap() = default;
 shared_ptr<BuildingObject> IfcIndexedColourMap::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIndexedColourMap> copy_self( new IfcIndexedColourMap() );
 	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy(options) ); }
 	if( m_Opacity ) { copy_self->m_Opacity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Opacity->getDeepCopy(options) ); }
 	if( m_Colours ) { copy_self->m_Colours = dynamic_pointer_cast<IfcColourRgbList>( m_Colours->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_ColourIndex.size(); ++ii )
+	for(auto item_ii : m_ColourIndex)
 	{
-		auto item_ii = m_ColourIndex[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_ColourIndex.push_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
 		}
@@ -62,12 +61,12 @@ void IfcIndexedColourMap::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcIndexedColourMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcIndexedColourMap::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIndexedColourMap::toString() const { return L"IfcIndexedColourMap"; }
 void IfcIndexedColourMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedColourMap, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedColourMap, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_MappedTo, map );
 	m_Opacity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Colours, map );
@@ -76,14 +75,14 @@ void IfcIndexedColourMap::readStepArguments( const std::vector<std::wstring>& ar
 void IfcIndexedColourMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "MappedTo", m_MappedTo ) );
-	vec_attributes.push_back( std::make_pair( "Opacity", m_Opacity ) );
-	vec_attributes.push_back( std::make_pair( "Colours", m_Colours ) );
-	if( m_ColourIndex.size() > 0 )
+	vec_attributes.emplace_back( "MappedTo", m_MappedTo );
+	vec_attributes.emplace_back( "Opacity", m_Opacity );
+	vec_attributes.emplace_back( "Colours", m_Colours );
+	if( !m_ColourIndex.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ColourIndex_vec_object( new AttributeObjectVector() );
 		std::copy( m_ColourIndex.begin(), m_ColourIndex.end(), std::back_inserter( ColourIndex_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "ColourIndex", ColourIndex_vec_object ) );
+		vec_attributes.emplace_back( "ColourIndex", ColourIndex_vec_object );
 	}
 }
 void IfcIndexedColourMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

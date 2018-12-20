@@ -16,9 +16,9 @@
 #include "ifcpp/IFC4/include/IfcTextureCoordinate.h"
 
 // ENTITY IfcBlobTexture 
-IfcBlobTexture::IfcBlobTexture() {}
+IfcBlobTexture::IfcBlobTexture() = default;
 IfcBlobTexture::IfcBlobTexture( int id ) { m_entity_id = id; }
-IfcBlobTexture::~IfcBlobTexture() {}
+IfcBlobTexture::~IfcBlobTexture() = default;
 shared_ptr<BuildingObject> IfcBlobTexture::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBlobTexture> copy_self( new IfcBlobTexture() );
@@ -26,10 +26,9 @@ shared_ptr<BuildingObject> IfcBlobTexture::getDeepCopy( BuildingCopyOptions& opt
 	if( m_RepeatT ) { copy_self->m_RepeatT = dynamic_pointer_cast<IfcBoolean>( m_RepeatT->getDeepCopy(options) ); }
 	if( m_Mode ) { copy_self->m_Mode = dynamic_pointer_cast<IfcIdentifier>( m_Mode->getDeepCopy(options) ); }
 	if( m_TextureTransform ) { copy_self->m_TextureTransform = dynamic_pointer_cast<IfcCartesianTransformationOperator2D>( m_TextureTransform->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Parameter.size(); ++ii )
+	for(auto item_ii : m_Parameter)
 	{
-		auto item_ii = m_Parameter[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Parameter.push_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy(options) ) );
 		}
@@ -73,12 +72,12 @@ void IfcBlobTexture::getStepLine( std::stringstream& stream ) const
 	if( m_RasterCode ) { m_RasterCode->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBlobTexture::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBlobTexture::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBlobTexture::toString() const { return L"IfcBlobTexture"; }
 void IfcBlobTexture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBlobTexture, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBlobTexture, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_RepeatS = IfcBoolean::createObjectFromSTEP( args[0], map );
 	m_RepeatT = IfcBoolean::createObjectFromSTEP( args[1], map );
 	m_Mode = IfcIdentifier::createObjectFromSTEP( args[2], map );
@@ -90,8 +89,8 @@ void IfcBlobTexture::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcBlobTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSurfaceTexture::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RasterFormat", m_RasterFormat ) );
-	vec_attributes.push_back( std::make_pair( "RasterCode", m_RasterCode ) );
+	vec_attributes.emplace_back( "RasterFormat", m_RasterFormat );
+	vec_attributes.emplace_back( "RasterCode", m_RasterCode );
 }
 void IfcBlobTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

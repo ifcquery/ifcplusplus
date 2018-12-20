@@ -12,17 +12,16 @@
 #include "ifcpp/IFC4/include/IfcLightIntensityDistribution.h"
 
 // ENTITY IfcLightIntensityDistribution 
-IfcLightIntensityDistribution::IfcLightIntensityDistribution() {}
+IfcLightIntensityDistribution::IfcLightIntensityDistribution() = default;
 IfcLightIntensityDistribution::IfcLightIntensityDistribution( int id ) { m_entity_id = id; }
-IfcLightIntensityDistribution::~IfcLightIntensityDistribution() {}
+IfcLightIntensityDistribution::~IfcLightIntensityDistribution() = default;
 shared_ptr<BuildingObject> IfcLightIntensityDistribution::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightIntensityDistribution> copy_self( new IfcLightIntensityDistribution() );
 	if( m_LightDistributionCurve ) { copy_self->m_LightDistributionCurve = dynamic_pointer_cast<IfcLightDistributionCurveEnum>( m_LightDistributionCurve->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_DistributionData.size(); ++ii )
+	for(auto item_ii : m_DistributionData)
 	{
-		auto item_ii = m_DistributionData[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_DistributionData.push_back( dynamic_pointer_cast<IfcLightDistributionData>(item_ii->getDeepCopy(options) ) );
 		}
@@ -37,29 +36,29 @@ void IfcLightIntensityDistribution::getStepLine( std::stringstream& stream ) con
 	writeEntityList( stream, m_DistributionData );
 	stream << ");";
 }
-void IfcLightIntensityDistribution::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLightIntensityDistribution::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightIntensityDistribution::toString() const { return L"IfcLightIntensityDistribution"; }
 void IfcLightIntensityDistribution::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightIntensityDistribution, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightIntensityDistribution, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_LightDistributionCurve = IfcLightDistributionCurveEnum::createObjectFromSTEP( args[0], map );
 	readEntityReferenceList( args[1], m_DistributionData, map );
 }
 void IfcLightIntensityDistribution::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "LightDistributionCurve", m_LightDistributionCurve ) );
-	if( m_DistributionData.size() > 0 )
+	vec_attributes.emplace_back( "LightDistributionCurve", m_LightDistributionCurve );
+	if( !m_DistributionData.empty() )
 	{
 		shared_ptr<AttributeObjectVector> DistributionData_vec_object( new AttributeObjectVector() );
 		std::copy( m_DistributionData.begin(), m_DistributionData.end(), std::back_inserter( DistributionData_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "DistributionData", DistributionData_vec_object ) );
+		vec_attributes.emplace_back( "DistributionData", DistributionData_vec_object );
 	}
 }
 void IfcLightIntensityDistribution::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
-void IfcLightIntensityDistribution::setInverseCounterparts( shared_ptr<BuildingEntity> )
+void IfcLightIntensityDistribution::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
 {
 }
 void IfcLightIntensityDistribution::unlinkFromInverseCounterparts()

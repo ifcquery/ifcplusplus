@@ -12,8 +12,8 @@
 #include "ifcpp/IFC4/include/IfcPositiveRatioMeasure.h"
 
 // TYPE IfcPositiveRatioMeasure = IfcRatioMeasure;
-IfcPositiveRatioMeasure::IfcPositiveRatioMeasure() {}
-IfcPositiveRatioMeasure::~IfcPositiveRatioMeasure() {}
+IfcPositiveRatioMeasure::IfcPositiveRatioMeasure() = default;
+IfcPositiveRatioMeasure::~IfcPositiveRatioMeasure() = default;
 shared_ptr<BuildingObject> IfcPositiveRatioMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPositiveRatioMeasure> copy_self( new IfcPositiveRatioMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcPositiveRatioMeasure::toString() const
 shared_ptr<IfcPositiveRatioMeasure> IfcPositiveRatioMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPositiveRatioMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositiveRatioMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositiveRatioMeasure>(); }
 	shared_ptr<IfcPositiveRatioMeasure> type_object( new IfcPositiveRatioMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

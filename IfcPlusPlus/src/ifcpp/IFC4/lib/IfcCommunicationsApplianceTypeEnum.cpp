@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcCommunicationsApplianceTypeEnum.h"
 
 // TYPE IfcCommunicationsApplianceTypeEnum = ENUMERATION OF	(ANTENNA	,COMPUTER	,FAX	,GATEWAY	,MODEM	,NETWORKAPPLIANCE	,NETWORKBRIDGE	,NETWORKHUB	,PRINTER	,REPEATER	,ROUTER	,SCANNER	,USERDEFINED	,NOTDEFINED);
-IfcCommunicationsApplianceTypeEnum::IfcCommunicationsApplianceTypeEnum() {}
-IfcCommunicationsApplianceTypeEnum::~IfcCommunicationsApplianceTypeEnum() {}
+IfcCommunicationsApplianceTypeEnum::IfcCommunicationsApplianceTypeEnum() = default;
+IfcCommunicationsApplianceTypeEnum::~IfcCommunicationsApplianceTypeEnum() = default;
 shared_ptr<BuildingObject> IfcCommunicationsApplianceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCommunicationsApplianceTypeEnum> copy_self( new IfcCommunicationsApplianceTypeEnum() );
@@ -64,7 +64,7 @@ const std::wstring IfcCommunicationsApplianceTypeEnum::toString() const
 shared_ptr<IfcCommunicationsApplianceTypeEnum> IfcCommunicationsApplianceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCommunicationsApplianceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCommunicationsApplianceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCommunicationsApplianceTypeEnum>(); }
 	shared_ptr<IfcCommunicationsApplianceTypeEnum> type_object( new IfcCommunicationsApplianceTypeEnum() );
 	if( boost::iequals( arg, L".ANTENNA." ) )
 	{

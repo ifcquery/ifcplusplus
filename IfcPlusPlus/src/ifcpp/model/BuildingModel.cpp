@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/date_time/posix_time/posix_time_io.hpp>
+#include <memory>
 #include "ifcpp/IFC4/include/IfcLabel.h"
 #include "ifcpp/IFC4/include/IfcIdentifier.h"
 #include "ifcpp/IFC4/include/IfcUnitEnum.h"
@@ -67,12 +68,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 BuildingModel::BuildingModel()
 {
-	m_unit_converter = shared_ptr<UnitConverter>( new UnitConverter() );
+	m_unit_converter = std::make_shared<UnitConverter>( );
 	m_unit_converter->setMessageTarget( this );
 	initFileHeader( L"IfcPlusPlus-export.ifc" );
 }
 
-BuildingModel::~BuildingModel(){}
+BuildingModel::~BuildingModel()= default;
 
 void BuildingModel::initIfcModel()
 {
@@ -82,12 +83,12 @@ void BuildingModel::initIfcModel()
 	insertEntity(project);
 
 	shared_ptr<IfcPerson> person( new IfcPerson() );
-	person->m_FamilyName = shared_ptr<IfcLabel>( new IfcLabel( L"FamilyName" ) );
-	person->m_GivenName = shared_ptr<IfcLabel>( new IfcLabel( L"GivenName" ) );
+	person->m_FamilyName = std::make_shared<IfcLabel>( L"FamilyName" );
+	person->m_GivenName = std::make_shared<IfcLabel>( L"GivenName" );
 	insertEntity(person);
 	
 	shared_ptr<IfcOrganization> org( new IfcOrganization() );
-	org->m_Name = shared_ptr<IfcLabel>(new IfcLabel( L"OrganizationName" ));
+	org->m_Name = std::make_shared<IfcLabel>( L"OrganizationName" );
 	insertEntity(org);
 
 	shared_ptr<IfcPersonAndOrganization> person_org( new IfcPersonAndOrganization() );
@@ -97,15 +98,15 @@ void BuildingModel::initIfcModel()
 
 	shared_ptr<IfcApplication> app( new IfcApplication() );
 	app->m_ApplicationDeveloper = org;
-	app->m_Version = shared_ptr<IfcLabel>( new IfcLabel( L"1.0" ) );
-	app->m_ApplicationFullName = shared_ptr<IfcLabel>( new IfcLabel( L"IfcPlusPlus" ) );
-	app->m_ApplicationIdentifier = shared_ptr<IfcIdentifier>( new IfcIdentifier( L"IfcPlusPlus" ) );
+	app->m_Version = std::make_shared<IfcLabel>( L"1.0" );
+	app->m_ApplicationFullName = std::make_shared<IfcLabel>( L"IfcPlusPlus" );
+	app->m_ApplicationIdentifier = std::make_shared<IfcIdentifier>( L"IfcPlusPlus" );
 	insertEntity(app);
 
 	shared_ptr<IfcCartesianPoint> point( new IfcCartesianPoint() );
-	point->m_Coordinates.push_back( shared_ptr<IfcLengthMeasure>( new IfcLengthMeasure( 0.0 ) ) );
-	point->m_Coordinates.push_back( shared_ptr<IfcLengthMeasure>( new IfcLengthMeasure( 0.0 ) ) );
-	point->m_Coordinates.push_back( shared_ptr<IfcLengthMeasure>( new IfcLengthMeasure( 0.0 ) ) );
+	point->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>( 0.0 ) );
+	point->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>( 0.0 ) );
+	point->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>( 0.0 ) );
 	insertEntity(point);
 
 	shared_ptr<IfcAxis2Placement3D> axis_placement( new IfcAxis2Placement3D() );
@@ -115,7 +116,7 @@ void BuildingModel::initIfcModel()
 	shared_ptr<IfcOwnerHistory> owner_history ( new IfcOwnerHistory() );
 	owner_history->m_OwningUser = person_org;
 	owner_history->m_OwningApplication = app;
-	owner_history->m_ChangeAction = shared_ptr<IfcChangeActionEnum>( new IfcChangeActionEnum( IfcChangeActionEnum::ENUM_ADDED ) );
+	owner_history->m_ChangeAction = std::make_shared<IfcChangeActionEnum>( IfcChangeActionEnum::ENUM_ADDED );
 	insertEntity(owner_history);
 
 	shared_ptr<IfcDimensionalExponents> dim_exp( new IfcDimensionalExponents() );
@@ -130,14 +131,14 @@ void BuildingModel::initIfcModel()
 
 	// length unit [m]
 	shared_ptr<IfcSIUnit> si_unit( new IfcSIUnit() );
-	si_unit->m_UnitType = shared_ptr<IfcUnitEnum>( new IfcUnitEnum( IfcUnitEnum::ENUM_LENGTHUNIT ) );
-	si_unit->m_Name = shared_ptr<IfcSIUnitName>( new IfcSIUnitName( IfcSIUnitName::ENUM_METRE ) );
+	si_unit->m_UnitType = std::make_shared<IfcUnitEnum>( IfcUnitEnum::ENUM_LENGTHUNIT );
+	si_unit->m_Name = std::make_shared<IfcSIUnitName>( IfcSIUnitName::ENUM_METRE );
 	insertEntity(si_unit);
 
 	// plane unit [rad]
 	shared_ptr<IfcSIUnit> plane_angle_unit( new IfcSIUnit() );
-	plane_angle_unit->m_UnitType = shared_ptr<IfcUnitEnum>( new IfcUnitEnum( IfcUnitEnum::ENUM_PLANEANGLEUNIT ) );
-	plane_angle_unit->m_Name = shared_ptr<IfcSIUnitName>( new IfcSIUnitName( IfcSIUnitName::ENUM_RADIAN ) );
+	plane_angle_unit->m_UnitType = std::make_shared<IfcUnitEnum>( IfcUnitEnum::ENUM_PLANEANGLEUNIT );
+	plane_angle_unit->m_Name = std::make_shared<IfcSIUnitName>( IfcSIUnitName::ENUM_RADIAN );
 	insertEntity(plane_angle_unit);
 
 	// assign units
@@ -146,16 +147,16 @@ void BuildingModel::initIfcModel()
 	unit_assignment->m_Units.push_back( plane_angle_unit );
 	insertEntity(unit_assignment);
 
-	project->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) );
+	project->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>() );
 	project->m_OwnerHistory = owner_history;
-	project->m_Name = shared_ptr<IfcLabel>(new IfcLabel( L"IfcPlusPlus project" ) );
+	project->m_Name = std::make_shared<IfcLabel>( L"IfcPlusPlus project" );
 	project->m_UnitsInContext = unit_assignment;
 
 	// create default IfcSite
 	shared_ptr<IfcSite> site( new IfcSite() );
-	site->m_GlobalId = shared_ptr<IfcGloballyUniqueId>( new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) );
+	site->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>() );
 	site->m_OwnerHistory = owner_history;
-	site->m_Name = shared_ptr<IfcLabel>( new IfcLabel( L"Site" ) );
+	site->m_Name = std::make_shared<IfcLabel>( L"Site" );
 	insertEntity(site);
 
 	shared_ptr<IfcRelAggregates> rel_aggregates_site( new IfcRelAggregates() );
@@ -164,29 +165,29 @@ void BuildingModel::initIfcModel()
 
 	// create default Building
 	shared_ptr<IfcBuilding> building( new IfcBuilding() );
-	building->m_GlobalId = shared_ptr<IfcGloballyUniqueId>( new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) );
+	building->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>() );
 	building->m_OwnerHistory = owner_history;
-	building->m_Name = shared_ptr<IfcLabel>( new IfcLabel( L"Building" ) );
+	building->m_Name = std::make_shared<IfcLabel>( L"Building" );
 	insertEntity( building );
 	
 	// set up world coordinate system
 	shared_ptr<IfcDirection> axis( new IfcDirection() );
 	insertEntity(axis);
-	axis->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal(0.0) ) );
-	axis->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
-	axis->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
+	axis->m_DirectionRatios.push_back( std::make_shared<IfcReal>( 0.0 ) );
+	axis->m_DirectionRatios.push_back( std::make_shared<IfcReal>( 0.0 ) );
+	axis->m_DirectionRatios.push_back( std::make_shared<IfcReal>( 0.0 ) );
 
 	shared_ptr<IfcDirection> ref_direction( new IfcDirection() );
 	insertEntity(ref_direction);
-	ref_direction->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
-	ref_direction->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
-	ref_direction->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( 0.0 ) ) );
+	ref_direction->m_DirectionRatios.push_back( std::make_shared<IfcReal>( 0.0 ) );
+	ref_direction->m_DirectionRatios.push_back( std::make_shared<IfcReal>( 0.0 ) );
+	ref_direction->m_DirectionRatios.push_back( std::make_shared<IfcReal>( 0.0 ) );
 
 	shared_ptr<IfcCartesianPoint> location( new IfcCartesianPoint() );
 	insertEntity(location);
-	location->m_Coordinates.push_back( shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(0.0) ) );
-	location->m_Coordinates.push_back( shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(0.0) ) );
-	location->m_Coordinates.push_back( shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(0.0) ) );
+	location->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>(0.0 ) );
+	location->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>(0.0 ) );
+	location->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>(0.0 ) );
 
 	shared_ptr<IfcAxis2Placement3D> world_coordinate_system( new IfcAxis2Placement3D() );
 	insertEntity(world_coordinate_system);
@@ -197,7 +198,7 @@ void BuildingModel::initIfcModel()
 	// 3d representation context
 	shared_ptr<IfcGeometricRepresentationContext> geom_context( new IfcGeometricRepresentationContext() );
 	insertEntity(geom_context);
-	geom_context->m_CoordinateSpaceDimension = shared_ptr<IfcDimensionCount>(new IfcDimensionCount( 3 ) );
+	geom_context->m_CoordinateSpaceDimension = std::make_shared<IfcDimensionCount>( 3 );
 	geom_context->m_WorldCoordinateSystem = world_coordinate_system;
 
 	updateCache();
@@ -333,9 +334,9 @@ void BuildingModel::removeEntity( shared_ptr<BuildingEntity> e )
 		// find references to this entity and remove them
 		std::vector<std::pair<std::string, shared_ptr<BuildingObject> > > vec_attributes_inverse;
 		entity_found->getAttributesInverse( vec_attributes_inverse );
-		for( size_t ii = 0; ii < vec_attributes_inverse.size(); ++ii )
+		for(auto & ii : vec_attributes_inverse)
 		{
-			shared_ptr<BuildingObject>& attribute_inverse = vec_attributes_inverse[ii].second;
+			shared_ptr<BuildingObject>& attribute_inverse = ii.second;
 
 			shared_ptr<BuildingEntity> attribute_inverse_entity = dynamic_pointer_cast<BuildingEntity>( attribute_inverse );
 			if( attribute_inverse_entity )
@@ -372,7 +373,7 @@ void BuildingModel::removeEntity( int entity_id )
 
 int BuildingModel::getMaxUsedEntityId()
 {
-	if( m_map_entities.size() == 0 )
+	if( m_map_entities.empty() )
 	{
 		return 0;
 	}
@@ -409,7 +410,7 @@ void BuildingModel::removeUnreferencedEntities()
 							shared_ptr<AttributeObjectVector> attribute_vec = dynamic_pointer_cast<AttributeObjectVector>( attribute );
 							if( attribute_vec )
 							{
-								if( attribute_vec->m_vec.size() > 0 )
+								if( !attribute_vec->m_vec.empty() )
 								{
 									++num_relevant_attributes;
 								}
@@ -481,14 +482,14 @@ void BuildingModel::initFileHeader( std::wstring file_name )
 	wss.imbue( loc );
 	boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
 	wss << now;
-	std::wstring ts = wss.str().c_str();
+	std::wstring ts = wss.str();
 
 	strs << ts;
 	strs << "',(''),('',''),'','IfcPlusPlus','');" << std::endl;
 	strs << "FILE_SCHEMA(('" << m_ifc_schema_version.m_IFC_FILE_SCHEMA << "'));" << std::endl;
 	strs << "ENDSEC;" << std::endl;
 
-	m_file_header = strs.str().c_str();
+	m_file_header = strs.str();
 }
 
 void BuildingModel::setFileHeader( const std::wstring& header )
@@ -624,11 +625,10 @@ void BuildingModel::collectDependentEntities( shared_ptr<BuildingEntity> entity,
 	{
 		int assembly_id = ele_assembly->m_entity_id;
 		std::vector<weak_ptr<IfcRelAggregates> >& vec_is_decomposed_by = ele_assembly->m_IsDecomposedBy_inverse;
-		for( size_t ii = 0; ii < vec_is_decomposed_by.size(); ++ii )
+		for(const auto & is_decomposed_weak_ptr : vec_is_decomposed_by)
 		{
 			shared_ptr<IfcRelDecomposes> rel_dec;
-			const weak_ptr<IfcRelAggregates>& is_decomposed_weak_ptr = vec_is_decomposed_by[ii];
-			if( is_decomposed_weak_ptr.expired() )
+				if( is_decomposed_weak_ptr.expired() )
 			{
 				continue;
 			}
@@ -649,9 +649,9 @@ void BuildingModel::collectDependentEntities( shared_ptr<BuildingEntity> entity,
 		entity->getAttributesInverse( vec_attributes );
 	}
 
-	for( size_t ii = 0; ii < vec_attributes.size(); ++ii )
+	for(auto & vec_attribute : vec_attributes)
 	{
-		shared_ptr<BuildingObject>& attribute = vec_attributes[ii].second;
+		shared_ptr<BuildingObject>& attribute = vec_attribute.second;
 		if( !attribute )
 		{
 			// empty attribute
@@ -673,11 +673,9 @@ void BuildingModel::collectDependentEntities( shared_ptr<BuildingEntity> entity,
 		{
 			std::vector<shared_ptr<BuildingObject> >& vec_of_attributes = attribute_object_vector->m_vec;
 
-			for( size_t jj = 0; jj < vec_of_attributes.size(); ++jj )
+			for(auto & attribute_object : vec_of_attributes)
 			{
-				shared_ptr<BuildingObject>& attribute_object = vec_of_attributes[jj];
-
-				shared_ptr<BuildingEntity> attribute_entity = dynamic_pointer_cast<BuildingEntity>( attribute_object );
+					shared_ptr<BuildingEntity> attribute_entity = dynamic_pointer_cast<BuildingEntity>( attribute_object );
 				if( attribute_entity )
 				{
 					if( target_map.find( attribute_entity.get() ) == target_map.end() )

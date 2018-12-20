@@ -14,9 +14,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcRightCircularCylinder 
-IfcRightCircularCylinder::IfcRightCircularCylinder() {}
+IfcRightCircularCylinder::IfcRightCircularCylinder() = default;
 IfcRightCircularCylinder::IfcRightCircularCylinder( int id ) { m_entity_id = id; }
-IfcRightCircularCylinder::~IfcRightCircularCylinder() {}
+IfcRightCircularCylinder::~IfcRightCircularCylinder() = default;
 shared_ptr<BuildingObject> IfcRightCircularCylinder::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRightCircularCylinder> copy_self( new IfcRightCircularCylinder() );
@@ -35,12 +35,12 @@ void IfcRightCircularCylinder::getStepLine( std::stringstream& stream ) const
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRightCircularCylinder::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRightCircularCylinder::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRightCircularCylinder::toString() const { return L"IfcRightCircularCylinder"; }
 void IfcRightCircularCylinder::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRightCircularCylinder, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRightCircularCylinder, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_Height = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -48,8 +48,8 @@ void IfcRightCircularCylinder::readStepArguments( const std::vector<std::wstring
 void IfcRightCircularCylinder::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Height", m_Height ) );
-	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
+	vec_attributes.emplace_back( "Height", m_Height );
+	vec_attributes.emplace_back( "Radius", m_Radius );
 }
 void IfcRightCircularCylinder::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

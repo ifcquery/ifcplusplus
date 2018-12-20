@@ -14,9 +14,9 @@
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // ENTITY IfcExternallyDefinedHatchStyle 
-IfcExternallyDefinedHatchStyle::IfcExternallyDefinedHatchStyle() {}
+IfcExternallyDefinedHatchStyle::IfcExternallyDefinedHatchStyle() = default;
 IfcExternallyDefinedHatchStyle::IfcExternallyDefinedHatchStyle( int id ) { m_entity_id = id; }
-IfcExternallyDefinedHatchStyle::~IfcExternallyDefinedHatchStyle() {}
+IfcExternallyDefinedHatchStyle::~IfcExternallyDefinedHatchStyle() = default;
 shared_ptr<BuildingObject> IfcExternallyDefinedHatchStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExternallyDefinedHatchStyle> copy_self( new IfcExternallyDefinedHatchStyle() );
@@ -35,12 +35,12 @@ void IfcExternallyDefinedHatchStyle::getStepLine( std::stringstream& stream ) co
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcExternallyDefinedHatchStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcExternallyDefinedHatchStyle::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExternallyDefinedHatchStyle::toString() const { return L"IfcExternallyDefinedHatchStyle"; }
 void IfcExternallyDefinedHatchStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExternallyDefinedHatchStyle, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExternallyDefinedHatchStyle, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Location = IfcURIReference::createObjectFromSTEP( args[0], map );
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[1], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

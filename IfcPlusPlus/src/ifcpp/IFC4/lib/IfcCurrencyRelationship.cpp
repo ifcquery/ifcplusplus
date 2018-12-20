@@ -16,9 +16,9 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcCurrencyRelationship 
-IfcCurrencyRelationship::IfcCurrencyRelationship() {}
+IfcCurrencyRelationship::IfcCurrencyRelationship() = default;
 IfcCurrencyRelationship::IfcCurrencyRelationship( int id ) { m_entity_id = id; }
-IfcCurrencyRelationship::~IfcCurrencyRelationship() {}
+IfcCurrencyRelationship::~IfcCurrencyRelationship() = default;
 shared_ptr<BuildingObject> IfcCurrencyRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurrencyRelationship> copy_self( new IfcCurrencyRelationship() );
@@ -49,12 +49,12 @@ void IfcCurrencyRelationship::getStepLine( std::stringstream& stream ) const
 	if( m_RateSource ) { stream << "#" << m_RateSource->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCurrencyRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCurrencyRelationship::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCurrencyRelationship::toString() const { return L"IfcCurrencyRelationship"; }
 void IfcCurrencyRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurrencyRelationship, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurrencyRelationship, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_RelatingMonetaryUnit, map );
@@ -66,11 +66,11 @@ void IfcCurrencyRelationship::readStepArguments( const std::vector<std::wstring>
 void IfcCurrencyRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingMonetaryUnit", m_RelatingMonetaryUnit ) );
-	vec_attributes.push_back( std::make_pair( "RelatedMonetaryUnit", m_RelatedMonetaryUnit ) );
-	vec_attributes.push_back( std::make_pair( "ExchangeRate", m_ExchangeRate ) );
-	vec_attributes.push_back( std::make_pair( "RateDateTime", m_RateDateTime ) );
-	vec_attributes.push_back( std::make_pair( "RateSource", m_RateSource ) );
+	vec_attributes.emplace_back( "RelatingMonetaryUnit", m_RelatingMonetaryUnit );
+	vec_attributes.emplace_back( "RelatedMonetaryUnit", m_RelatedMonetaryUnit );
+	vec_attributes.emplace_back( "ExchangeRate", m_ExchangeRate );
+	vec_attributes.emplace_back( "RateDateTime", m_RateDateTime );
+	vec_attributes.emplace_back( "RateSource", m_RateSource );
 }
 void IfcCurrencyRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

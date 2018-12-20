@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcDate.h"
 
 // TYPE IfcDate = STRING;
-IfcDate::IfcDate() {}
+IfcDate::IfcDate() = default;
 IfcDate::IfcDate( std::wstring value ) { m_value = value; }
-IfcDate::~IfcDate() {}
+IfcDate::~IfcDate() = default;
 shared_ptr<BuildingObject> IfcDate::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDate> copy_self( new IfcDate() );
@@ -33,7 +33,7 @@ const std::wstring IfcDate::toString() const
 shared_ptr<IfcDate> IfcDate::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDate>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDate>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDate>(); }
 	shared_ptr<IfcDate> type_object( new IfcDate() );
 	readString( arg, type_object->m_value );
 	return type_object;

@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcTextPath.h"
 
 // TYPE IfcTextPath = ENUMERATION OF	(LEFT	,RIGHT	,UP	,DOWN);
-IfcTextPath::IfcTextPath() {}
-IfcTextPath::~IfcTextPath() {}
+IfcTextPath::IfcTextPath() = default;
+IfcTextPath::~IfcTextPath() = default;
 shared_ptr<BuildingObject> IfcTextPath::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextPath> copy_self( new IfcTextPath() );
@@ -44,7 +44,7 @@ const std::wstring IfcTextPath::toString() const
 shared_ptr<IfcTextPath> IfcTextPath::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTextPath>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextPath>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextPath>(); }
 	shared_ptr<IfcTextPath> type_object( new IfcTextPath() );
 	if( boost::iequals( arg, L".LEFT." ) )
 	{

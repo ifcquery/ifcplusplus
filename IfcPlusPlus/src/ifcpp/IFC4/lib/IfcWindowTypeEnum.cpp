@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcWindowTypeEnum.h"
 
 // TYPE IfcWindowTypeEnum = ENUMERATION OF	(WINDOW	,SKYLIGHT	,LIGHTDOME	,USERDEFINED	,NOTDEFINED);
-IfcWindowTypeEnum::IfcWindowTypeEnum() {}
-IfcWindowTypeEnum::~IfcWindowTypeEnum() {}
+IfcWindowTypeEnum::IfcWindowTypeEnum() = default;
+IfcWindowTypeEnum::~IfcWindowTypeEnum() = default;
 shared_ptr<BuildingObject> IfcWindowTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWindowTypeEnum> copy_self( new IfcWindowTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcWindowTypeEnum::toString() const
 shared_ptr<IfcWindowTypeEnum> IfcWindowTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowTypeEnum>(); }
 	shared_ptr<IfcWindowTypeEnum> type_object( new IfcWindowTypeEnum() );
 	if( boost::iequals( arg, L".WINDOW." ) )
 	{

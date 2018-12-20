@@ -10,7 +10,7 @@
 // TYPE IfcModulusOfRotationalSubgradeReactionSelect = SELECT	(IfcBoolean	,IfcModulusOfRotationalSubgradeReactionMeasure);
 shared_ptr<IfcModulusOfRotationalSubgradeReactionSelect> IfcModulusOfRotationalSubgradeReactionSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcModulusOfRotationalSubgradeReactionSelect>(); }
+	if( arg.empty() ){ return shared_ptr<IfcModulusOfRotationalSubgradeReactionSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcModulusOfRotationalSubgradeReactionSelect>();

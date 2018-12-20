@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcPermeableCoveringOperationEnum.h"
 
 // TYPE IfcPermeableCoveringOperationEnum = ENUMERATION OF	(GRILL	,LOUVER	,SCREEN	,USERDEFINED	,NOTDEFINED);
-IfcPermeableCoveringOperationEnum::IfcPermeableCoveringOperationEnum() {}
-IfcPermeableCoveringOperationEnum::~IfcPermeableCoveringOperationEnum() {}
+IfcPermeableCoveringOperationEnum::IfcPermeableCoveringOperationEnum() = default;
+IfcPermeableCoveringOperationEnum::~IfcPermeableCoveringOperationEnum() = default;
 shared_ptr<BuildingObject> IfcPermeableCoveringOperationEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPermeableCoveringOperationEnum> copy_self( new IfcPermeableCoveringOperationEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcPermeableCoveringOperationEnum::toString() const
 shared_ptr<IfcPermeableCoveringOperationEnum> IfcPermeableCoveringOperationEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPermeableCoveringOperationEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPermeableCoveringOperationEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPermeableCoveringOperationEnum>(); }
 	shared_ptr<IfcPermeableCoveringOperationEnum> type_object( new IfcPermeableCoveringOperationEnum() );
 	if( boost::iequals( arg, L".GRILL." ) )
 	{

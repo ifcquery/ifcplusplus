@@ -15,9 +15,9 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcAddress 
-IfcAddress::IfcAddress() {}
+IfcAddress::IfcAddress() = default;
 IfcAddress::IfcAddress( int id ) { m_entity_id = id; }
-IfcAddress::~IfcAddress() {}
+IfcAddress::~IfcAddress() = default;
 shared_ptr<BuildingObject> IfcAddress::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAddress> copy_self( new IfcAddress() );
@@ -36,50 +36,50 @@ void IfcAddress::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedPurpose ) { m_UserDefinedPurpose->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAddress::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAddress::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAddress::toString() const { return L"IfcAddress"; }
 void IfcAddress::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAddress, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAddress, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Purpose = IfcAddressTypeEnum::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_UserDefinedPurpose = IfcLabel::createObjectFromSTEP( args[2], map );
 }
 void IfcAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Purpose", m_Purpose ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedPurpose", m_UserDefinedPurpose ) );
+	vec_attributes.emplace_back( "Purpose", m_Purpose );
+	vec_attributes.emplace_back( "Description", m_Description );
+	vec_attributes.emplace_back( "UserDefinedPurpose", m_UserDefinedPurpose );
 }
 void IfcAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_OfPerson_inverse.size() > 0 )
+	if( !m_OfPerson_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> OfPerson_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_OfPerson_inverse.size(); ++i )
+		for(const auto & i : m_OfPerson_inverse)
 		{
-			if( !m_OfPerson_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				OfPerson_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPerson>( m_OfPerson_inverse[i] ) );
+				OfPerson_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPerson>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "OfPerson_inverse", OfPerson_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "OfPerson_inverse", OfPerson_inverse_vec_obj );
 	}
-	if( m_OfOrganization_inverse.size() > 0 )
+	if( !m_OfOrganization_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> OfOrganization_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_OfOrganization_inverse.size(); ++i )
+		for(const auto & i : m_OfOrganization_inverse)
 		{
-			if( !m_OfOrganization_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				OfOrganization_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcOrganization>( m_OfOrganization_inverse[i] ) );
+				OfOrganization_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcOrganization>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "OfOrganization_inverse", OfOrganization_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "OfOrganization_inverse", OfOrganization_inverse_vec_obj );
 	}
 }
-void IfcAddress::setInverseCounterparts( shared_ptr<BuildingEntity> )
+void IfcAddress::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
 {
 }
 void IfcAddress::unlinkFromInverseCounterparts()

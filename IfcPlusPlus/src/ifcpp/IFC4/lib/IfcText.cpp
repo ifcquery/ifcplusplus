@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // TYPE IfcText = STRING;
-IfcText::IfcText() {}
+IfcText::IfcText() = default;
 IfcText::IfcText( std::wstring value ) { m_value = value; }
-IfcText::~IfcText() {}
+IfcText::~IfcText() = default;
 shared_ptr<BuildingObject> IfcText::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcText> copy_self( new IfcText() );
@@ -33,7 +33,7 @@ const std::wstring IfcText::toString() const
 shared_ptr<IfcText> IfcText::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcText>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcText>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcText>(); }
 	shared_ptr<IfcText> type_object( new IfcText() );
 	readString( arg, type_object->m_value );
 	return type_object;

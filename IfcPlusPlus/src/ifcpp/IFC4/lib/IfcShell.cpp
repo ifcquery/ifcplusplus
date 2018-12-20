@@ -8,7 +8,7 @@
 // TYPE IfcShell = SELECT	(IfcClosedShell	,IfcOpenShell);
 shared_ptr<IfcShell> IfcShell::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcShell>(); }
+	if( arg.empty() ){ return shared_ptr<IfcShell>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcShell>();

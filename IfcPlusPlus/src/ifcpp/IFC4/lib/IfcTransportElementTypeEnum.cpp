@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcTransportElementTypeEnum.h"
 
 // TYPE IfcTransportElementTypeEnum = ENUMERATION OF	(ELEVATOR	,ESCALATOR	,MOVINGWALKWAY	,CRANEWAY	,LIFTINGGEAR	,USERDEFINED	,NOTDEFINED);
-IfcTransportElementTypeEnum::IfcTransportElementTypeEnum() {}
-IfcTransportElementTypeEnum::~IfcTransportElementTypeEnum() {}
+IfcTransportElementTypeEnum::IfcTransportElementTypeEnum() = default;
+IfcTransportElementTypeEnum::~IfcTransportElementTypeEnum() = default;
 shared_ptr<BuildingObject> IfcTransportElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTransportElementTypeEnum> copy_self( new IfcTransportElementTypeEnum() );
@@ -50,7 +50,7 @@ const std::wstring IfcTransportElementTypeEnum::toString() const
 shared_ptr<IfcTransportElementTypeEnum> IfcTransportElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTransportElementTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTransportElementTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTransportElementTypeEnum>(); }
 	shared_ptr<IfcTransportElementTypeEnum> type_object( new IfcTransportElementTypeEnum() );
 	if( boost::iequals( arg, L".ELEVATOR." ) )
 	{

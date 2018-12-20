@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcPropertyAbstraction.h"
 
 // ENTITY IfcPropertyAbstraction 
-IfcPropertyAbstraction::IfcPropertyAbstraction() {}
+IfcPropertyAbstraction::IfcPropertyAbstraction() = default;
 IfcPropertyAbstraction::IfcPropertyAbstraction( int id ) { m_entity_id = id; }
-IfcPropertyAbstraction::~IfcPropertyAbstraction() {}
+IfcPropertyAbstraction::~IfcPropertyAbstraction() = default;
 shared_ptr<BuildingObject> IfcPropertyAbstraction::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyAbstraction> copy_self( new IfcPropertyAbstraction() );
@@ -24,7 +24,7 @@ void IfcPropertyAbstraction::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCPROPERTYABSTRACTION" << "(";
 	stream << ");";
 }
-void IfcPropertyAbstraction::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPropertyAbstraction::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyAbstraction::toString() const { return L"IfcPropertyAbstraction"; }
 void IfcPropertyAbstraction::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
@@ -34,20 +34,20 @@ void IfcPropertyAbstraction::getAttributes( std::vector<std::pair<std::string, s
 }
 void IfcPropertyAbstraction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_HasExternalReferences_inverse.size() > 0 )
+	if( !m_HasExternalReferences_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasExternalReferences_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
+		for(const auto & i : m_HasExternalReferences_inverse)
 		{
-			if( !m_HasExternalReferences_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) );
+				HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj );
 	}
 }
-void IfcPropertyAbstraction::setInverseCounterparts( shared_ptr<BuildingEntity> )
+void IfcPropertyAbstraction::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
 {
 }
 void IfcPropertyAbstraction::unlinkFromInverseCounterparts()

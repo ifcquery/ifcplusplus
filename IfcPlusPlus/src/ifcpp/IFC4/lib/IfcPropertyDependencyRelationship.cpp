@@ -13,9 +13,9 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPropertyDependencyRelationship 
-IfcPropertyDependencyRelationship::IfcPropertyDependencyRelationship() {}
+IfcPropertyDependencyRelationship::IfcPropertyDependencyRelationship() = default;
 IfcPropertyDependencyRelationship::IfcPropertyDependencyRelationship( int id ) { m_entity_id = id; }
-IfcPropertyDependencyRelationship::~IfcPropertyDependencyRelationship() {}
+IfcPropertyDependencyRelationship::~IfcPropertyDependencyRelationship() = default;
 shared_ptr<BuildingObject> IfcPropertyDependencyRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyDependencyRelationship> copy_self( new IfcPropertyDependencyRelationship() );
@@ -40,12 +40,12 @@ void IfcPropertyDependencyRelationship::getStepLine( std::stringstream& stream )
 	if( m_Expression ) { m_Expression->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPropertyDependencyRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPropertyDependencyRelationship::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyDependencyRelationship::toString() const { return L"IfcPropertyDependencyRelationship"; }
 void IfcPropertyDependencyRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyDependencyRelationship, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyDependencyRelationship, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_DependingProperty, map );
@@ -55,9 +55,9 @@ void IfcPropertyDependencyRelationship::readStepArguments( const std::vector<std
 void IfcPropertyDependencyRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "DependingProperty", m_DependingProperty ) );
-	vec_attributes.push_back( std::make_pair( "DependantProperty", m_DependantProperty ) );
-	vec_attributes.push_back( std::make_pair( "Expression", m_Expression ) );
+	vec_attributes.emplace_back( "DependingProperty", m_DependingProperty );
+	vec_attributes.emplace_back( "DependantProperty", m_DependantProperty );
+	vec_attributes.emplace_back( "Expression", m_Expression );
 }
 void IfcPropertyDependencyRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

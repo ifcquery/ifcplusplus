@@ -9,7 +9,7 @@
 // TYPE IfcColourOrFactor = SELECT	(IfcColourRgb	,IfcNormalisedRatioMeasure);
 shared_ptr<IfcColourOrFactor> IfcColourOrFactor::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcColourOrFactor>(); }
+	if( arg.empty() ){ return shared_ptr<IfcColourOrFactor>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcColourOrFactor>();

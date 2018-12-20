@@ -8,7 +8,7 @@
 // TYPE IfcSpaceBoundarySelect = SELECT	(IfcExternalSpatialElement	,IfcSpace);
 shared_ptr<IfcSpaceBoundarySelect> IfcSpaceBoundarySelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcSpaceBoundarySelect>(); }
+	if( arg.empty() ){ return shared_ptr<IfcSpaceBoundarySelect>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcSpaceBoundarySelect>();

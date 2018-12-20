@@ -18,9 +18,9 @@
 #include "ifcpp/IFC4/include/IfcUnit.h"
 
 // ENTITY IfcIrregularTimeSeries 
-IfcIrregularTimeSeries::IfcIrregularTimeSeries() {}
+IfcIrregularTimeSeries::IfcIrregularTimeSeries() = default;
 IfcIrregularTimeSeries::IfcIrregularTimeSeries( int id ) { m_entity_id = id; }
-IfcIrregularTimeSeries::~IfcIrregularTimeSeries() {}
+IfcIrregularTimeSeries::~IfcIrregularTimeSeries() = default;
 shared_ptr<BuildingObject> IfcIrregularTimeSeries::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIrregularTimeSeries> copy_self( new IfcIrregularTimeSeries() );
@@ -32,10 +32,9 @@ shared_ptr<BuildingObject> IfcIrregularTimeSeries::getDeepCopy( BuildingCopyOpti
 	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy(options) ); }
 	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy(options) ); }
 	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Values.size(); ++ii )
+	for(auto item_ii : m_Values)
 	{
-		auto item_ii = m_Values[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Values.push_back( dynamic_pointer_cast<IfcIrregularTimeSeriesValue>(item_ii->getDeepCopy(options) ) );
 		}
@@ -64,12 +63,12 @@ void IfcIrregularTimeSeries::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Values );
 	stream << ");";
 }
-void IfcIrregularTimeSeries::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcIrregularTimeSeries::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIrregularTimeSeries::toString() const { return L"IfcIrregularTimeSeries"; }
 void IfcIrregularTimeSeries::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIrregularTimeSeries, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIrregularTimeSeries, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_StartTime = IfcDateTime::createObjectFromSTEP( args[2], map );
@@ -83,11 +82,11 @@ void IfcIrregularTimeSeries::readStepArguments( const std::vector<std::wstring>&
 void IfcIrregularTimeSeries::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTimeSeries::getAttributes( vec_attributes );
-	if( m_Values.size() > 0 )
+	if( !m_Values.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Values_vec_object( new AttributeObjectVector() );
 		std::copy( m_Values.begin(), m_Values.end(), std::back_inserter( Values_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Values", Values_vec_object ) );
+		vec_attributes.emplace_back( "Values", Values_vec_object );
 	}
 }
 void IfcIrregularTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

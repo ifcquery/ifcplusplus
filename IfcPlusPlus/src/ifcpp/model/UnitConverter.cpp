@@ -16,8 +16,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 */
 
 #define _USE_MATH_DEFINES
-#include <math.h>
-#include <string.h>
+#include <cmath>
+#include <cstring>
 #include <boost/algorithm/string.hpp>
 #include "ifcpp/IFC4/include/IfcConversionBasedUnit.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -57,7 +57,7 @@ UnitConverter::UnitConverter()
 	m_prefix_map[IfcSIPrefix::ENUM_ATTO]	= 1E-18;
 }
 
-UnitConverter::~UnitConverter(){}
+UnitConverter::~UnitConverter()= default;
 
 void UnitConverter::resetUnitFactors()
 {
@@ -96,10 +96,9 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 
 	shared_ptr<IfcUnitAssignment> unit_assignment = project->m_UnitsInContext;
 	std::vector<shared_ptr<IfcUnit> >& vec_units = unit_assignment->m_Units;
-	for( size_t ii = 0; ii < vec_units.size(); ++ii )
+	for(auto unit : vec_units)
 	{
-		shared_ptr<IfcUnit> unit = vec_units[ii];
-		if( !unit )
+			if( !unit )
 		{
 			continue;
 		}

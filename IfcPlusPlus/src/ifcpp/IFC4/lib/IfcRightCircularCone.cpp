@@ -14,9 +14,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcRightCircularCone 
-IfcRightCircularCone::IfcRightCircularCone() {}
+IfcRightCircularCone::IfcRightCircularCone() = default;
 IfcRightCircularCone::IfcRightCircularCone( int id ) { m_entity_id = id; }
-IfcRightCircularCone::~IfcRightCircularCone() {}
+IfcRightCircularCone::~IfcRightCircularCone() = default;
 shared_ptr<BuildingObject> IfcRightCircularCone::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRightCircularCone> copy_self( new IfcRightCircularCone() );
@@ -35,12 +35,12 @@ void IfcRightCircularCone::getStepLine( std::stringstream& stream ) const
 	if( m_BottomRadius ) { m_BottomRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRightCircularCone::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRightCircularCone::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRightCircularCone::toString() const { return L"IfcRightCircularCone"; }
 void IfcRightCircularCone::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRightCircularCone, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRightCircularCone, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_Height = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_BottomRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -48,8 +48,8 @@ void IfcRightCircularCone::readStepArguments( const std::vector<std::wstring>& a
 void IfcRightCircularCone::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Height", m_Height ) );
-	vec_attributes.push_back( std::make_pair( "BottomRadius", m_BottomRadius ) );
+	vec_attributes.emplace_back( "Height", m_Height );
+	vec_attributes.emplace_back( "BottomRadius", m_BottomRadius );
 }
 void IfcRightCircularCone::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

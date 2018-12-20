@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcProjectionElementTypeEnum.h"
 
 // TYPE IfcProjectionElementTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-IfcProjectionElementTypeEnum::IfcProjectionElementTypeEnum() {}
-IfcProjectionElementTypeEnum::~IfcProjectionElementTypeEnum() {}
+IfcProjectionElementTypeEnum::IfcProjectionElementTypeEnum() = default;
+IfcProjectionElementTypeEnum::~IfcProjectionElementTypeEnum() = default;
 shared_ptr<BuildingObject> IfcProjectionElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProjectionElementTypeEnum> copy_self( new IfcProjectionElementTypeEnum() );
@@ -40,7 +40,7 @@ const std::wstring IfcProjectionElementTypeEnum::toString() const
 shared_ptr<IfcProjectionElementTypeEnum> IfcProjectionElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProjectionElementTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProjectionElementTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProjectionElementTypeEnum>(); }
 	shared_ptr<IfcProjectionElementTypeEnum> type_object( new IfcProjectionElementTypeEnum() );
 	if( boost::iequals( arg, L".USERDEFINED." ) )
 	{

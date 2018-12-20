@@ -8,7 +8,7 @@
 // TYPE IfcAxis2Placement = SELECT	(IfcAxis2Placement2D	,IfcAxis2Placement3D);
 shared_ptr<IfcAxis2Placement> IfcAxis2Placement::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcAxis2Placement>(); }
+	if( arg.empty() ){ return shared_ptr<IfcAxis2Placement>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcAxis2Placement>();

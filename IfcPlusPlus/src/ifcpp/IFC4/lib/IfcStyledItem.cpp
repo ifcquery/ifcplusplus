@@ -14,17 +14,16 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcStyledItem 
-IfcStyledItem::IfcStyledItem() {}
+IfcStyledItem::IfcStyledItem() = default;
 IfcStyledItem::IfcStyledItem( int id ) { m_entity_id = id; }
-IfcStyledItem::~IfcStyledItem() {}
+IfcStyledItem::~IfcStyledItem() = default;
 shared_ptr<BuildingObject> IfcStyledItem::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStyledItem> copy_self( new IfcStyledItem() );
 	if( m_Item ) { copy_self->m_Item = dynamic_pointer_cast<IfcRepresentationItem>( m_Item->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Styles.size(); ++ii )
+	for(auto item_ii : m_Styles)
 	{
-		auto item_ii = m_Styles[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Styles.push_back( dynamic_pointer_cast<IfcStyleAssignmentSelect>(item_ii->getDeepCopy(options) ) );
 		}
@@ -59,12 +58,12 @@ void IfcStyledItem::getStepLine( std::stringstream& stream ) const
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStyledItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStyledItem::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStyledItem::toString() const { return L"IfcStyledItem"; }
 void IfcStyledItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStyledItem, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStyledItem, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Item, map );
 	readSelectList( args[1], m_Styles, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -72,14 +71,14 @@ void IfcStyledItem::readStepArguments( const std::vector<std::wstring>& args, co
 void IfcStyledItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Item", m_Item ) );
-	if( m_Styles.size() > 0 )
+	vec_attributes.emplace_back( "Item", m_Item );
+	if( !m_Styles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Styles_vec_object( new AttributeObjectVector() );
 		std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Styles", Styles_vec_object ) );
+		vec_attributes.emplace_back( "Styles", Styles_vec_object );
 	}
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( "Name", m_Name );
 }
 void IfcStyledItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

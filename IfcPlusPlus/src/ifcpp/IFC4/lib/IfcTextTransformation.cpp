@@ -10,9 +10,9 @@
 #include "ifcpp/IFC4/include/IfcTextTransformation.h"
 
 // TYPE IfcTextTransformation = STRING;
-IfcTextTransformation::IfcTextTransformation() {}
+IfcTextTransformation::IfcTextTransformation() = default;
 IfcTextTransformation::IfcTextTransformation( std::wstring value ) { m_value = value; }
-IfcTextTransformation::~IfcTextTransformation() {}
+IfcTextTransformation::~IfcTextTransformation() = default;
 shared_ptr<BuildingObject> IfcTextTransformation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextTransformation> copy_self( new IfcTextTransformation() );
@@ -32,7 +32,7 @@ const std::wstring IfcTextTransformation::toString() const
 shared_ptr<IfcTextTransformation> IfcTextTransformation::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTextTransformation>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextTransformation>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextTransformation>(); }
 	shared_ptr<IfcTextTransformation> type_object( new IfcTextTransformation() );
 	readString( arg, type_object->m_value );
 	return type_object;

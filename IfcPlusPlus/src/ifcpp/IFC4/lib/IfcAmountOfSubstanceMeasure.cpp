@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcAmountOfSubstanceMeasure.h"
 
 // TYPE IfcAmountOfSubstanceMeasure = REAL;
-IfcAmountOfSubstanceMeasure::IfcAmountOfSubstanceMeasure() {}
+IfcAmountOfSubstanceMeasure::IfcAmountOfSubstanceMeasure() = default;
 IfcAmountOfSubstanceMeasure::IfcAmountOfSubstanceMeasure( double value ) { m_value = value; }
-IfcAmountOfSubstanceMeasure::~IfcAmountOfSubstanceMeasure() {}
+IfcAmountOfSubstanceMeasure::~IfcAmountOfSubstanceMeasure() = default;
 shared_ptr<BuildingObject> IfcAmountOfSubstanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAmountOfSubstanceMeasure> copy_self( new IfcAmountOfSubstanceMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcAmountOfSubstanceMeasure::toString() const
 shared_ptr<IfcAmountOfSubstanceMeasure> IfcAmountOfSubstanceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAmountOfSubstanceMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAmountOfSubstanceMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAmountOfSubstanceMeasure>(); }
 	shared_ptr<IfcAmountOfSubstanceMeasure> type_object( new IfcAmountOfSubstanceMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

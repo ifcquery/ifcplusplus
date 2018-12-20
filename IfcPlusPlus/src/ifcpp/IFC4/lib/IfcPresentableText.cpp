@@ -10,9 +10,9 @@
 #include "ifcpp/IFC4/include/IfcPresentableText.h"
 
 // TYPE IfcPresentableText = STRING;
-IfcPresentableText::IfcPresentableText() {}
+IfcPresentableText::IfcPresentableText() = default;
 IfcPresentableText::IfcPresentableText( std::wstring value ) { m_value = value; }
-IfcPresentableText::~IfcPresentableText() {}
+IfcPresentableText::~IfcPresentableText() = default;
 shared_ptr<BuildingObject> IfcPresentableText::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPresentableText> copy_self( new IfcPresentableText() );
@@ -32,7 +32,7 @@ const std::wstring IfcPresentableText::toString() const
 shared_ptr<IfcPresentableText> IfcPresentableText::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPresentableText>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPresentableText>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPresentableText>(); }
 	shared_ptr<IfcPresentableText> type_object( new IfcPresentableText() );
 	readString( arg, type_object->m_value );
 	return type_object;

@@ -18,9 +18,9 @@
 #include "ifcpp/IFC4/include/IfcTriangulatedFaceSet.h"
 
 // ENTITY IfcTriangulatedFaceSet 
-IfcTriangulatedFaceSet::IfcTriangulatedFaceSet() {}
+IfcTriangulatedFaceSet::IfcTriangulatedFaceSet() = default;
 IfcTriangulatedFaceSet::IfcTriangulatedFaceSet( int id ) { m_entity_id = id; }
-IfcTriangulatedFaceSet::~IfcTriangulatedFaceSet() {}
+IfcTriangulatedFaceSet::~IfcTriangulatedFaceSet() = default;
 shared_ptr<BuildingObject> IfcTriangulatedFaceSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTriangulatedFaceSet> copy_self( new IfcTriangulatedFaceSet() );
@@ -30,10 +30,9 @@ shared_ptr<BuildingObject> IfcTriangulatedFaceSet::getDeepCopy( BuildingCopyOpti
 	{
 		std::vector<shared_ptr<IfcParameterValue> >& vec_ii = m_Normals[ii];
 		std::vector<shared_ptr<IfcParameterValue> >& vec_ii_target = copy_self->m_Normals[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
+		for(auto & item_jj : vec_ii)
 		{
-			shared_ptr<IfcParameterValue>& item_jj = vec_ii[jj];
-			if( item_jj )
+				if( item_jj )
 			{
 				vec_ii_target.push_back( dynamic_pointer_cast<IfcParameterValue>( item_jj->getDeepCopy(options) ) );
 			}
@@ -45,19 +44,17 @@ shared_ptr<BuildingObject> IfcTriangulatedFaceSet::getDeepCopy( BuildingCopyOpti
 	{
 		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_CoordIndex[ii];
 		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii_target = copy_self->m_CoordIndex[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
+		for(auto & item_jj : vec_ii)
 		{
-			shared_ptr<IfcPositiveInteger>& item_jj = vec_ii[jj];
-			if( item_jj )
+				if( item_jj )
 			{
 				vec_ii_target.push_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}
-	for( size_t ii=0; ii<m_PnIndex.size(); ++ii )
+	for(auto item_ii : m_PnIndex)
 	{
-		auto item_ii = m_PnIndex[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_PnIndex.push_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
 		}
@@ -95,12 +92,12 @@ void IfcTriangulatedFaceSet::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcTriangulatedFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTriangulatedFaceSet::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTriangulatedFaceSet::toString() const { return L"IfcTriangulatedFaceSet"; }
 void IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTriangulatedFaceSet, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTriangulatedFaceSet, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Coordinates, map );
 	readTypeOfRealList2D( args[1], m_Normals );
 	m_Closed = IfcBoolean::createObjectFromSTEP( args[2], map );
@@ -110,12 +107,12 @@ void IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::wstring>&
 void IfcTriangulatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTessellatedFaceSet::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Closed", m_Closed ) );
-	if( m_PnIndex.size() > 0 )
+	vec_attributes.emplace_back( "Closed", m_Closed );
+	if( !m_PnIndex.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PnIndex_vec_object( new AttributeObjectVector() );
 		std::copy( m_PnIndex.begin(), m_PnIndex.end(), std::back_inserter( PnIndex_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "PnIndex", PnIndex_vec_object ) );
+		vec_attributes.emplace_back( "PnIndex", PnIndex_vec_object );
 	}
 }
 void IfcTriangulatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

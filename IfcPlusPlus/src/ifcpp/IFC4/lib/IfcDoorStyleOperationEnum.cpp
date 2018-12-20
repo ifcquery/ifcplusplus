@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcDoorStyleOperationEnum.h"
 
 // TYPE IfcDoorStyleOperationEnum = ENUMERATION OF	(SINGLE_SWING_LEFT	,SINGLE_SWING_RIGHT	,DOUBLE_DOOR_SINGLE_SWING	,DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT	,DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT	,DOUBLE_SWING_LEFT	,DOUBLE_SWING_RIGHT	,DOUBLE_DOOR_DOUBLE_SWING	,SLIDING_TO_LEFT	,SLIDING_TO_RIGHT	,DOUBLE_DOOR_SLIDING	,FOLDING_TO_LEFT	,FOLDING_TO_RIGHT	,DOUBLE_DOOR_FOLDING	,REVOLVING	,ROLLINGUP	,USERDEFINED	,NOTDEFINED);
-IfcDoorStyleOperationEnum::IfcDoorStyleOperationEnum() {}
-IfcDoorStyleOperationEnum::~IfcDoorStyleOperationEnum() {}
+IfcDoorStyleOperationEnum::IfcDoorStyleOperationEnum() = default;
+IfcDoorStyleOperationEnum::~IfcDoorStyleOperationEnum() = default;
 shared_ptr<BuildingObject> IfcDoorStyleOperationEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoorStyleOperationEnum> copy_self( new IfcDoorStyleOperationEnum() );
@@ -72,7 +72,7 @@ const std::wstring IfcDoorStyleOperationEnum::toString() const
 shared_ptr<IfcDoorStyleOperationEnum> IfcDoorStyleOperationEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorStyleOperationEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorStyleOperationEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorStyleOperationEnum>(); }
 	shared_ptr<IfcDoorStyleOperationEnum> type_object( new IfcDoorStyleOperationEnum() );
 	if( boost::iequals( arg, L".SINGLE_SWING_LEFT." ) )
 	{

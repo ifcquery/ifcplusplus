@@ -11,8 +11,8 @@
 #include "ifcpp/IFC4/include/IfcArcIndex.h"
 
 // TYPE IfcArcIndex = LIST [3:3] OF IfcPositiveInteger;
-IfcArcIndex::IfcArcIndex() {}
-IfcArcIndex::~IfcArcIndex() {}
+IfcArcIndex::IfcArcIndex() = default;
+IfcArcIndex::~IfcArcIndex() = default;
 shared_ptr<BuildingObject> IfcArcIndex::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcArcIndex> copy_self( new IfcArcIndex() );
@@ -34,7 +34,7 @@ const std::wstring IfcArcIndex::toString() const
 shared_ptr<IfcArcIndex> IfcArcIndex::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcArcIndex>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcArcIndex>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcArcIndex>(); }
 	shared_ptr<IfcArcIndex> type_object( new IfcArcIndex() );
 	readInteger( arg, type_object->m_value );
 	return type_object;

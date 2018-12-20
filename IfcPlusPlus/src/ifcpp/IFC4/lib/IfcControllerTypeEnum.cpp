@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcControllerTypeEnum.h"
 
 // TYPE IfcControllerTypeEnum = ENUMERATION OF	(FLOATING	,PROGRAMMABLE	,PROPORTIONAL	,MULTIPOSITION	,TWOPOSITION	,USERDEFINED	,NOTDEFINED);
-IfcControllerTypeEnum::IfcControllerTypeEnum() {}
-IfcControllerTypeEnum::~IfcControllerTypeEnum() {}
+IfcControllerTypeEnum::IfcControllerTypeEnum() = default;
+IfcControllerTypeEnum::~IfcControllerTypeEnum() = default;
 shared_ptr<BuildingObject> IfcControllerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcControllerTypeEnum> copy_self( new IfcControllerTypeEnum() );
@@ -50,7 +50,7 @@ const std::wstring IfcControllerTypeEnum::toString() const
 shared_ptr<IfcControllerTypeEnum> IfcControllerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcControllerTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcControllerTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcControllerTypeEnum>(); }
 	shared_ptr<IfcControllerTypeEnum> type_object( new IfcControllerTypeEnum() );
 	if( boost::iequals( arg, L".FLOATING." ) )
 	{

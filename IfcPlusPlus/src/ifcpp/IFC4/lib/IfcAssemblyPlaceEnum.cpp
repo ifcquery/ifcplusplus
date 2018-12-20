@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcAssemblyPlaceEnum.h"
 
 // TYPE IfcAssemblyPlaceEnum = ENUMERATION OF	(SITE	,FACTORY	,NOTDEFINED);
-IfcAssemblyPlaceEnum::IfcAssemblyPlaceEnum() {}
-IfcAssemblyPlaceEnum::~IfcAssemblyPlaceEnum() {}
+IfcAssemblyPlaceEnum::IfcAssemblyPlaceEnum() = default;
+IfcAssemblyPlaceEnum::~IfcAssemblyPlaceEnum() = default;
 shared_ptr<BuildingObject> IfcAssemblyPlaceEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAssemblyPlaceEnum> copy_self( new IfcAssemblyPlaceEnum() );
@@ -42,7 +42,7 @@ const std::wstring IfcAssemblyPlaceEnum::toString() const
 shared_ptr<IfcAssemblyPlaceEnum> IfcAssemblyPlaceEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAssemblyPlaceEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAssemblyPlaceEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAssemblyPlaceEnum>(); }
 	shared_ptr<IfcAssemblyPlaceEnum> type_object( new IfcAssemblyPlaceEnum() );
 	if( boost::iequals( arg, L".SITE." ) )
 	{

@@ -19,9 +19,9 @@
 #include "ifcpp/IFC4/include/IfcUnit.h"
 
 // ENTITY IfcRegularTimeSeries 
-IfcRegularTimeSeries::IfcRegularTimeSeries() {}
+IfcRegularTimeSeries::IfcRegularTimeSeries() = default;
 IfcRegularTimeSeries::IfcRegularTimeSeries( int id ) { m_entity_id = id; }
-IfcRegularTimeSeries::~IfcRegularTimeSeries() {}
+IfcRegularTimeSeries::~IfcRegularTimeSeries() = default;
 shared_ptr<BuildingObject> IfcRegularTimeSeries::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRegularTimeSeries> copy_self( new IfcRegularTimeSeries() );
@@ -34,10 +34,9 @@ shared_ptr<BuildingObject> IfcRegularTimeSeries::getDeepCopy( BuildingCopyOption
 	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy(options) ); }
 	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy(options) ); }
 	if( m_TimeStep ) { copy_self->m_TimeStep = dynamic_pointer_cast<IfcTimeMeasure>( m_TimeStep->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Values.size(); ++ii )
+	for(auto item_ii : m_Values)
 	{
-		auto item_ii = m_Values[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Values.push_back( dynamic_pointer_cast<IfcTimeSeriesValue>(item_ii->getDeepCopy(options) ) );
 		}
@@ -68,12 +67,12 @@ void IfcRegularTimeSeries::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Values );
 	stream << ");";
 }
-void IfcRegularTimeSeries::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRegularTimeSeries::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRegularTimeSeries::toString() const { return L"IfcRegularTimeSeries"; }
 void IfcRegularTimeSeries::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRegularTimeSeries, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRegularTimeSeries, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_StartTime = IfcDateTime::createObjectFromSTEP( args[2], map );
@@ -88,12 +87,12 @@ void IfcRegularTimeSeries::readStepArguments( const std::vector<std::wstring>& a
 void IfcRegularTimeSeries::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTimeSeries::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TimeStep", m_TimeStep ) );
-	if( m_Values.size() > 0 )
+	vec_attributes.emplace_back( "TimeStep", m_TimeStep );
+	if( !m_Values.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Values_vec_object( new AttributeObjectVector() );
 		std::copy( m_Values.begin(), m_Values.end(), std::back_inserter( Values_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Values", Values_vec_object ) );
+		vec_attributes.emplace_back( "Values", Values_vec_object );
 	}
 }
 void IfcRegularTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

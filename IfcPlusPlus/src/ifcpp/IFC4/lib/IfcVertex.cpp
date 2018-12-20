@@ -12,9 +12,9 @@
 #include "ifcpp/IFC4/include/IfcVertex.h"
 
 // ENTITY IfcVertex 
-IfcVertex::IfcVertex() {}
+IfcVertex::IfcVertex() = default;
 IfcVertex::IfcVertex( int id ) { m_entity_id = id; }
-IfcVertex::~IfcVertex() {}
+IfcVertex::~IfcVertex() = default;
 shared_ptr<BuildingObject> IfcVertex::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVertex> copy_self( new IfcVertex() );
@@ -25,7 +25,7 @@ void IfcVertex::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCVERTEX" << "(";
 	stream << ");";
 }
-void IfcVertex::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcVertex::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcVertex::toString() const { return L"IfcVertex"; }
 void IfcVertex::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcSwitchingDeviceTypeEnum.h"
 
 // TYPE IfcSwitchingDeviceTypeEnum = ENUMERATION OF	(CONTACTOR	,DIMMERSWITCH	,EMERGENCYSTOP	,KEYPAD	,MOMENTARYSWITCH	,SELECTORSWITCH	,STARTER	,SWITCHDISCONNECTOR	,TOGGLESWITCH	,USERDEFINED	,NOTDEFINED);
-IfcSwitchingDeviceTypeEnum::IfcSwitchingDeviceTypeEnum() {}
-IfcSwitchingDeviceTypeEnum::~IfcSwitchingDeviceTypeEnum() {}
+IfcSwitchingDeviceTypeEnum::IfcSwitchingDeviceTypeEnum() = default;
+IfcSwitchingDeviceTypeEnum::~IfcSwitchingDeviceTypeEnum() = default;
 shared_ptr<BuildingObject> IfcSwitchingDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSwitchingDeviceTypeEnum> copy_self( new IfcSwitchingDeviceTypeEnum() );
@@ -58,7 +58,7 @@ const std::wstring IfcSwitchingDeviceTypeEnum::toString() const
 shared_ptr<IfcSwitchingDeviceTypeEnum> IfcSwitchingDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSwitchingDeviceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSwitchingDeviceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSwitchingDeviceTypeEnum>(); }
 	shared_ptr<IfcSwitchingDeviceTypeEnum> type_object( new IfcSwitchingDeviceTypeEnum() );
 	if( boost::iequals( arg, L".CONTACTOR." ) )
 	{

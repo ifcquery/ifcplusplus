@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcInventoryTypeEnum.h"
 
 // TYPE IfcInventoryTypeEnum = ENUMERATION OF	(ASSETINVENTORY	,SPACEINVENTORY	,FURNITUREINVENTORY	,USERDEFINED	,NOTDEFINED);
-IfcInventoryTypeEnum::IfcInventoryTypeEnum() {}
-IfcInventoryTypeEnum::~IfcInventoryTypeEnum() {}
+IfcInventoryTypeEnum::IfcInventoryTypeEnum() = default;
+IfcInventoryTypeEnum::~IfcInventoryTypeEnum() = default;
 shared_ptr<BuildingObject> IfcInventoryTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcInventoryTypeEnum> copy_self( new IfcInventoryTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcInventoryTypeEnum::toString() const
 shared_ptr<IfcInventoryTypeEnum> IfcInventoryTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInventoryTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInventoryTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInventoryTypeEnum>(); }
 	shared_ptr<IfcInventoryTypeEnum> type_object( new IfcInventoryTypeEnum() );
 	if( boost::iequals( arg, L".ASSETINVENTORY." ) )
 	{

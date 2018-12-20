@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcWasteTerminalTypeEnum.h"
 
 // TYPE IfcWasteTerminalTypeEnum = ENUMERATION OF	(FLOORTRAP	,FLOORWASTE	,GULLYSUMP	,GULLYTRAP	,ROOFDRAIN	,WASTEDISPOSALUNIT	,WASTETRAP	,USERDEFINED	,NOTDEFINED);
-IfcWasteTerminalTypeEnum::IfcWasteTerminalTypeEnum() {}
-IfcWasteTerminalTypeEnum::~IfcWasteTerminalTypeEnum() {}
+IfcWasteTerminalTypeEnum::IfcWasteTerminalTypeEnum() = default;
+IfcWasteTerminalTypeEnum::~IfcWasteTerminalTypeEnum() = default;
 shared_ptr<BuildingObject> IfcWasteTerminalTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWasteTerminalTypeEnum> copy_self( new IfcWasteTerminalTypeEnum() );
@@ -54,7 +54,7 @@ const std::wstring IfcWasteTerminalTypeEnum::toString() const
 shared_ptr<IfcWasteTerminalTypeEnum> IfcWasteTerminalTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWasteTerminalTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWasteTerminalTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWasteTerminalTypeEnum>(); }
 	shared_ptr<IfcWasteTerminalTypeEnum> type_object( new IfcWasteTerminalTypeEnum() );
 	if( boost::iequals( arg, L".FLOORTRAP." ) )
 	{

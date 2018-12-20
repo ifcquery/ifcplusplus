@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcPileTypeEnum.h"
 
 // TYPE IfcPileTypeEnum = ENUMERATION OF	(BORED	,DRIVEN	,JETGROUTING	,COHESION	,FRICTION	,SUPPORT	,USERDEFINED	,NOTDEFINED);
-IfcPileTypeEnum::IfcPileTypeEnum() {}
-IfcPileTypeEnum::~IfcPileTypeEnum() {}
+IfcPileTypeEnum::IfcPileTypeEnum() = default;
+IfcPileTypeEnum::~IfcPileTypeEnum() = default;
 shared_ptr<BuildingObject> IfcPileTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPileTypeEnum> copy_self( new IfcPileTypeEnum() );
@@ -52,7 +52,7 @@ const std::wstring IfcPileTypeEnum::toString() const
 shared_ptr<IfcPileTypeEnum> IfcPileTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPileTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPileTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPileTypeEnum>(); }
 	shared_ptr<IfcPileTypeEnum> type_object( new IfcPileTypeEnum() );
 	if( boost::iequals( arg, L".BORED." ) )
 	{

@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcPowerMeasure.h"
 
 // TYPE IfcPowerMeasure = REAL;
-IfcPowerMeasure::IfcPowerMeasure() {}
+IfcPowerMeasure::IfcPowerMeasure() = default;
 IfcPowerMeasure::IfcPowerMeasure( double value ) { m_value = value; }
-IfcPowerMeasure::~IfcPowerMeasure() {}
+IfcPowerMeasure::~IfcPowerMeasure() = default;
 shared_ptr<BuildingObject> IfcPowerMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPowerMeasure> copy_self( new IfcPowerMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcPowerMeasure::toString() const
 shared_ptr<IfcPowerMeasure> IfcPowerMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPowerMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPowerMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPowerMeasure>(); }
 	shared_ptr<IfcPowerMeasure> type_object( new IfcPowerMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

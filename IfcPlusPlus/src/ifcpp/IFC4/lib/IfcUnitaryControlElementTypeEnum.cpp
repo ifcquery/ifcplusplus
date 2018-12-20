@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcUnitaryControlElementTypeEnum.h"
 
 // TYPE IfcUnitaryControlElementTypeEnum = ENUMERATION OF	(ALARMPANEL	,CONTROLPANEL	,GASDETECTIONPANEL	,INDICATORPANEL	,MIMICPANEL	,HUMIDISTAT	,THERMOSTAT	,WEATHERSTATION	,USERDEFINED	,NOTDEFINED);
-IfcUnitaryControlElementTypeEnum::IfcUnitaryControlElementTypeEnum() {}
-IfcUnitaryControlElementTypeEnum::~IfcUnitaryControlElementTypeEnum() {}
+IfcUnitaryControlElementTypeEnum::IfcUnitaryControlElementTypeEnum() = default;
+IfcUnitaryControlElementTypeEnum::~IfcUnitaryControlElementTypeEnum() = default;
 shared_ptr<BuildingObject> IfcUnitaryControlElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcUnitaryControlElementTypeEnum> copy_self( new IfcUnitaryControlElementTypeEnum() );
@@ -56,7 +56,7 @@ const std::wstring IfcUnitaryControlElementTypeEnum::toString() const
 shared_ptr<IfcUnitaryControlElementTypeEnum> IfcUnitaryControlElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcUnitaryControlElementTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcUnitaryControlElementTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcUnitaryControlElementTypeEnum>(); }
 	shared_ptr<IfcUnitaryControlElementTypeEnum> type_object( new IfcUnitaryControlElementTypeEnum() );
 	if( boost::iequals( arg, L".ALARMPANEL." ) )
 	{

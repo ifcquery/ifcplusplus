@@ -38,13 +38,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ReaderUtil.h"
 #include "ReaderSTEP.h"
 
-ReaderSTEP::ReaderSTEP(){}
-ReaderSTEP::~ReaderSTEP(){}
+ReaderSTEP::ReaderSTEP()= default;
+ReaderSTEP::~ReaderSTEP()= default;
 
 void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<BuildingModel>& targetModel )
 {
 	// if file content needs to be loaded into a plain model, call resetModel() before loadModelFromFile
-	std::wstring ext = filePath.substr( filePath.find_last_of( L"." ) + 1 );
+	std::wstring ext = filePath.substr( filePath.find_last_of( L'.' ) + 1 );
 	
 	if( boost::iequals( ext, "ifc" ) )
 	{
@@ -65,7 +65,7 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	{
 		std::wstringstream strs;
 		strs << "Unsupported file type: " << ext;
-		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		messageCallback( strs.str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
 
@@ -77,7 +77,7 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	{
 		std::wstringstream strs;
 		strs << "Could not open file: " << filePath.c_str();
-		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		messageCallback( strs.str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
 
@@ -143,8 +143,8 @@ void ReaderSTEP::removeComments( std::string& buffer )
 	size_t length_without_comments = 0;
 
 	// sort out comments like /* ... */
-	char* read_pos = (char*)&buffer[0];
-	char* write_pos = (char*)&buffer[0];
+	char* read_pos = static_cast<char*>(&buffer[0]);
+	char* write_pos = static_cast<char*>(&buffer[0]);
 
 	while( *read_pos != '\0' )
 	{
@@ -204,7 +204,7 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 	decodeArgumentStrings( vec_header, vec_header_wstr );
 	
 	std::wstring file_header_wstr;
-	if( vec_header_wstr.size() > 0 )
+	if( !vec_header_wstr.empty() )
 	{
 		file_header_wstr = vec_header_wstr[0];
 	}
@@ -215,7 +215,7 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 	wchar_t* stream_pos = &file_header_wstr[0];
 	wchar_t* last_token = stream_pos;
 
-	if( stream_pos == NULL )
+	if( stream_pos == nullptr )
 	{
 		throw BuildingException("Invalid file content, couldn't find HEADER section", __FUNC__);
 	}
@@ -243,11 +243,9 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 		++stream_pos;
 	}
 
-	for( size_t i=0; i<vec_header_lines.size(); ++i )
+	for(auto header_line : vec_header_lines)
 	{
-		std::wstring header_line = vec_header_lines[i];
-
-		if( header_line.find(L"FILE_DESCRIPTION") != std::string::npos )
+			if( header_line.find(L"FILE_DESCRIPTION") != std::string::npos )
 		{
 			target_model->setFileDescription( header_line );
 			continue;
@@ -264,8 +262,8 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 			size_t file_schema_begin = header_line.find(L"FILE_SCHEMA") + 11;
 
 			std::wstring file_schema_args = header_line.substr( 11 );
-			size_t find_whitespace = file_schema_args.find(L" ");
-			while(find_whitespace != std::string::npos){ file_schema_args.erase(find_whitespace,1); find_whitespace = file_schema_args.find(L" "); }
+			size_t find_whitespace = file_schema_args.find(L' ');
+			while(find_whitespace != std::string::npos){ file_schema_args.erase(find_whitespace,1); find_whitespace = file_schema_args.find(L' '); }
 			
 			if( file_schema_args.at(0) =='(' && file_schema_args.at(file_schema_args.size()-1) ==')' )
 			{
@@ -322,14 +320,14 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 
 	// find beginning of data lines
 	const size_t length = read_in.length();
-	char* stream_pos = (char*)&read_in[0];
-	if( stream_pos == NULL )
+	char* stream_pos = const_cast<char*>(&read_in[0]);
+	if( stream_pos == nullptr )
 	{
 		throw BuildingException("Invalid file content", __FUNC__);
 	}
 
 	stream_pos = strstr(stream_pos, "DATA;");
-	if( stream_pos == NULL )
+	if( stream_pos == nullptr )
 	{
 		throw BuildingException("Invalid file content, couldn't find DATA section", __FUNC__);
 	}
@@ -351,7 +349,7 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 
 	// split into data lines: #1234=IFCOBJECTNAME(...,...,(...,...),...);
 	char* progress_anchor = stream_pos;
-	std::string single_step_line = "";
+	std::string single_step_line;
 
 	while( *stream_pos != '\0' )
 	{
@@ -412,10 +410,10 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 
 			if( target_vec.size() % 100 == 0 )
 			{
-				double progress_since_anchor = (double)( stream_pos - progress_anchor ) / double(length);
+				double progress_since_anchor = static_cast<double>( stream_pos - progress_anchor ) / double(length);
 				if( progress_since_anchor > 0.03 )
 				{
-					progress = 0.2*(double)( stream_pos - &read_in[0] ) / double(length);
+					progress = 0.2*static_cast<double>( stream_pos - &read_in[0] ) / double(length);
 					progressValueCallback(progress, "parse");
 					progress_anchor = stream_pos;
 				}
@@ -435,7 +433,7 @@ void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std:
 
 	double progress = 0.2;
 	double last_progress = 0.2;
-	const int num_lines = (int)step_lines.size();
+	const int num_lines = static_cast<int>(step_lines.size());
 	
 	target_entity_vec.resize( num_lines );
 	std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >* target_vec_ptr = &target_entity_vec;
@@ -524,11 +522,11 @@ void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std:
 
 void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::string, shared_ptr<BuildingEntity> >& target_read_object )
 {
-	if( line.size() < 1 )
+	if( line.empty() )
 	{
 		return;
 	}
-	char* stream_pos = (char*)line.c_str();
+	char* stream_pos = const_cast<char*>(line.c_str());
 	if( *stream_pos != '#' )
 	{
 		return;
@@ -597,15 +595,15 @@ void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::str
 		}
 	}
 
-	if( entity_name_upper.size() == 0 )
+	if( entity_name_upper.empty() )
 	{
 		std::stringstream strs;
 		strs << "Could not read STEP line: " << line.c_str();
-		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		messageCallback( strs.str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
 	
-	shared_ptr<BuildingEntity> obj( EntityFactory::createEntityObject( entity_name_upper.c_str() ) );
+	shared_ptr<BuildingEntity> obj( EntityFactory::createEntityObject( entity_name_upper ) );
 	if( obj )
 	{
 		obj->m_entity_id = entity_id;
@@ -625,7 +623,7 @@ void ReaderSTEP::readEntityArguments( const BuildingModel::SchemaVersion& ifc_ve
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
-	const int num_objects = (int)vec_entities.size();
+	const int num_objects = static_cast<int>(vec_entities.size());
 	std::stringstream err;
 
 	// set progress
@@ -666,7 +664,7 @@ void ReaderSTEP::readEntityArguments( const BuildingModel::SchemaVersion& ifc_ve
 				if( num_expected_arguments != arguments_w.size() )
 				{
 					while( arguments_w.size() > num_expected_arguments ) { arguments_w.pop_back(); }
-					while( arguments_w.size() < num_expected_arguments ) { arguments_w.push_back( L"$" ); }
+					while( arguments_w.size() < num_expected_arguments ) { arguments_w.emplace_back(L"$" ); }
 				}
 			}
 
@@ -723,7 +721,7 @@ void ReaderSTEP::readEntityArguments( const BuildingModel::SchemaVersion& ifc_ve
 	
 	if( err.tellp() > 0 )
 	{
-		messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		messageCallback( err.str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 	}
 }
 
@@ -749,7 +747,7 @@ void ReaderSTEP::readData(	std::string& read_in, const BuildingModel::SchemaVers
 		return;
 	}
 	
-	if( read_in.size() == 0 )
+	if( read_in.empty() )
 	{
 		return;
 	}
@@ -791,10 +789,9 @@ void ReaderSTEP::readData(	std::string& read_in, const BuildingModel::SchemaVers
 	step_lines.clear();
 
 	// copy entities into map so that they can be found during entity attribute initialization
-	for( size_t ii_entity = 0; ii_entity < vec_entities.size(); ++ii_entity )
+	for(auto & entity_read_object : vec_entities)
 	{
-		std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_object = vec_entities[ii_entity];
-		shared_ptr<BuildingEntity> entity = entity_read_object.second;
+			shared_ptr<BuildingEntity> entity = entity_read_object.second;
 
 		if( entity ) // skip aborted entities
 		{
@@ -826,6 +823,6 @@ void ReaderSTEP::readData(	std::string& read_in, const BuildingModel::SchemaVers
 	setlocale(LC_NUMERIC,current_numeric_locale.c_str());
 	if( err.tellp() > 0 )
 	{
-		messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		messageCallback( err.str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 	}
 }

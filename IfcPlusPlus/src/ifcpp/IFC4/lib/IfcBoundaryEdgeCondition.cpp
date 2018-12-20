@@ -13,9 +13,9 @@
 #include "ifcpp/IFC4/include/IfcModulusOfTranslationalSubgradeReactionSelect.h"
 
 // ENTITY IfcBoundaryEdgeCondition 
-IfcBoundaryEdgeCondition::IfcBoundaryEdgeCondition() {}
+IfcBoundaryEdgeCondition::IfcBoundaryEdgeCondition() = default;
 IfcBoundaryEdgeCondition::IfcBoundaryEdgeCondition( int id ) { m_entity_id = id; }
-IfcBoundaryEdgeCondition::~IfcBoundaryEdgeCondition() {}
+IfcBoundaryEdgeCondition::~IfcBoundaryEdgeCondition() = default;
 shared_ptr<BuildingObject> IfcBoundaryEdgeCondition::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoundaryEdgeCondition> copy_self( new IfcBoundaryEdgeCondition() );
@@ -46,12 +46,12 @@ void IfcBoundaryEdgeCondition::getStepLine( std::stringstream& stream ) const
 	if( m_RotationalStiffnessByLengthZ ) { m_RotationalStiffnessByLengthZ->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcBoundaryEdgeCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBoundaryEdgeCondition::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundaryEdgeCondition::toString() const { return L"IfcBoundaryEdgeCondition"; }
 void IfcBoundaryEdgeCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoundaryEdgeCondition, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoundaryEdgeCondition, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_TranslationalStiffnessByLengthX = IfcModulusOfTranslationalSubgradeReactionSelect::createObjectFromSTEP( args[1], map );
 	m_TranslationalStiffnessByLengthY = IfcModulusOfTranslationalSubgradeReactionSelect::createObjectFromSTEP( args[2], map );
@@ -63,12 +63,12 @@ void IfcBoundaryEdgeCondition::readStepArguments( const std::vector<std::wstring
 void IfcBoundaryEdgeCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundaryCondition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessByLengthX", m_TranslationalStiffnessByLengthX ) );
-	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessByLengthY", m_TranslationalStiffnessByLengthY ) );
-	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessByLengthZ", m_TranslationalStiffnessByLengthZ ) );
-	vec_attributes.push_back( std::make_pair( "RotationalStiffnessByLengthX", m_RotationalStiffnessByLengthX ) );
-	vec_attributes.push_back( std::make_pair( "RotationalStiffnessByLengthY", m_RotationalStiffnessByLengthY ) );
-	vec_attributes.push_back( std::make_pair( "RotationalStiffnessByLengthZ", m_RotationalStiffnessByLengthZ ) );
+	vec_attributes.emplace_back( "TranslationalStiffnessByLengthX", m_TranslationalStiffnessByLengthX );
+	vec_attributes.emplace_back( "TranslationalStiffnessByLengthY", m_TranslationalStiffnessByLengthY );
+	vec_attributes.emplace_back( "TranslationalStiffnessByLengthZ", m_TranslationalStiffnessByLengthZ );
+	vec_attributes.emplace_back( "RotationalStiffnessByLengthX", m_RotationalStiffnessByLengthX );
+	vec_attributes.emplace_back( "RotationalStiffnessByLengthY", m_RotationalStiffnessByLengthY );
+	vec_attributes.emplace_back( "RotationalStiffnessByLengthZ", m_RotationalStiffnessByLengthZ );
 }
 void IfcBoundaryEdgeCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

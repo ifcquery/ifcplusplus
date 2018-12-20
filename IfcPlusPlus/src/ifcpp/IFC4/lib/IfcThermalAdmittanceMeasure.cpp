@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcThermalAdmittanceMeasure.h"
 
 // TYPE IfcThermalAdmittanceMeasure = REAL;
-IfcThermalAdmittanceMeasure::IfcThermalAdmittanceMeasure() {}
+IfcThermalAdmittanceMeasure::IfcThermalAdmittanceMeasure() = default;
 IfcThermalAdmittanceMeasure::IfcThermalAdmittanceMeasure( double value ) { m_value = value; }
-IfcThermalAdmittanceMeasure::~IfcThermalAdmittanceMeasure() {}
+IfcThermalAdmittanceMeasure::~IfcThermalAdmittanceMeasure() = default;
 shared_ptr<BuildingObject> IfcThermalAdmittanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcThermalAdmittanceMeasure> copy_self( new IfcThermalAdmittanceMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcThermalAdmittanceMeasure::toString() const
 shared_ptr<IfcThermalAdmittanceMeasure> IfcThermalAdmittanceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcThermalAdmittanceMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcThermalAdmittanceMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcThermalAdmittanceMeasure>(); }
 	shared_ptr<IfcThermalAdmittanceMeasure> type_object( new IfcThermalAdmittanceMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

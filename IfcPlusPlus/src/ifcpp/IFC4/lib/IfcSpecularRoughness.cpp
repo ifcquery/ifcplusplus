@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcSpecularRoughness.h"
 
 // TYPE IfcSpecularRoughness = REAL;
-IfcSpecularRoughness::IfcSpecularRoughness() {}
+IfcSpecularRoughness::IfcSpecularRoughness() = default;
 IfcSpecularRoughness::IfcSpecularRoughness( double value ) { m_value = value; }
-IfcSpecularRoughness::~IfcSpecularRoughness() {}
+IfcSpecularRoughness::~IfcSpecularRoughness() = default;
 shared_ptr<BuildingObject> IfcSpecularRoughness::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpecularRoughness> copy_self( new IfcSpecularRoughness() );
@@ -35,7 +35,7 @@ const std::wstring IfcSpecularRoughness::toString() const
 shared_ptr<IfcSpecularRoughness> IfcSpecularRoughness::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpecularRoughness>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpecularRoughness>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpecularRoughness>(); }
 	shared_ptr<IfcSpecularRoughness> type_object( new IfcSpecularRoughness() );
 	readReal( arg, type_object->m_value );
 	return type_object;

@@ -13,16 +13,15 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPolyline 
-IfcPolyline::IfcPolyline() {}
+IfcPolyline::IfcPolyline() = default;
 IfcPolyline::IfcPolyline( int id ) { m_entity_id = id; }
-IfcPolyline::~IfcPolyline() {}
+IfcPolyline::~IfcPolyline() = default;
 shared_ptr<BuildingObject> IfcPolyline::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPolyline> copy_self( new IfcPolyline() );
-	for( size_t ii=0; ii<m_Points.size(); ++ii )
+	for(auto item_ii : m_Points)
 	{
-		auto item_ii = m_Points[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Points.push_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
 		}
@@ -35,22 +34,22 @@ void IfcPolyline::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Points );
 	stream << ");";
 }
-void IfcPolyline::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPolyline::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPolyline::toString() const { return L"IfcPolyline"; }
 void IfcPolyline::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolyline, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolyline, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReferenceList( args[0], m_Points, map );
 }
 void IfcPolyline::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
-	if( m_Points.size() > 0 )
+	if( !m_Points.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Points_vec_object( new AttributeObjectVector() );
 		std::copy( m_Points.begin(), m_Points.end(), std::back_inserter( Points_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Points", Points_vec_object ) );
+		vec_attributes.emplace_back( "Points", Points_vec_object );
 	}
 }
 void IfcPolyline::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

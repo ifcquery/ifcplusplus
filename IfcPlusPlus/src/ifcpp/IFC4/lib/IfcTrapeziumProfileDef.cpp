@@ -17,9 +17,9 @@
 #include "ifcpp/IFC4/include/IfcTrapeziumProfileDef.h"
 
 // ENTITY IfcTrapeziumProfileDef 
-IfcTrapeziumProfileDef::IfcTrapeziumProfileDef() {}
+IfcTrapeziumProfileDef::IfcTrapeziumProfileDef() = default;
 IfcTrapeziumProfileDef::IfcTrapeziumProfileDef( int id ) { m_entity_id = id; }
-IfcTrapeziumProfileDef::~IfcTrapeziumProfileDef() {}
+IfcTrapeziumProfileDef::~IfcTrapeziumProfileDef() = default;
 shared_ptr<BuildingObject> IfcTrapeziumProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTrapeziumProfileDef> copy_self( new IfcTrapeziumProfileDef() );
@@ -50,12 +50,12 @@ void IfcTrapeziumProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_TopXOffset ) { m_TopXOffset->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTrapeziumProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTrapeziumProfileDef::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTrapeziumProfileDef::toString() const { return L"IfcTrapeziumProfileDef"; }
 void IfcTrapeziumProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTrapeziumProfileDef, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTrapeziumProfileDef, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );
@@ -67,10 +67,10 @@ void IfcTrapeziumProfileDef::readStepArguments( const std::vector<std::wstring>&
 void IfcTrapeziumProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "BottomXDim", m_BottomXDim ) );
-	vec_attributes.push_back( std::make_pair( "TopXDim", m_TopXDim ) );
-	vec_attributes.push_back( std::make_pair( "YDim", m_YDim ) );
-	vec_attributes.push_back( std::make_pair( "TopXOffset", m_TopXOffset ) );
+	vec_attributes.emplace_back( "BottomXDim", m_BottomXDim );
+	vec_attributes.emplace_back( "TopXDim", m_TopXDim );
+	vec_attributes.emplace_back( "YDim", m_YDim );
+	vec_attributes.emplace_back( "TopXOffset", m_TopXOffset );
 }
 void IfcTrapeziumProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

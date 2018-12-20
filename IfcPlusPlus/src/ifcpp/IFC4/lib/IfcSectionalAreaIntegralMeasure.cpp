@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcSectionalAreaIntegralMeasure.h"
 
 // TYPE IfcSectionalAreaIntegralMeasure = REAL;
-IfcSectionalAreaIntegralMeasure::IfcSectionalAreaIntegralMeasure() {}
+IfcSectionalAreaIntegralMeasure::IfcSectionalAreaIntegralMeasure() = default;
 IfcSectionalAreaIntegralMeasure::IfcSectionalAreaIntegralMeasure( double value ) { m_value = value; }
-IfcSectionalAreaIntegralMeasure::~IfcSectionalAreaIntegralMeasure() {}
+IfcSectionalAreaIntegralMeasure::~IfcSectionalAreaIntegralMeasure() = default;
 shared_ptr<BuildingObject> IfcSectionalAreaIntegralMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSectionalAreaIntegralMeasure> copy_self( new IfcSectionalAreaIntegralMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcSectionalAreaIntegralMeasure::toString() const
 shared_ptr<IfcSectionalAreaIntegralMeasure> IfcSectionalAreaIntegralMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSectionalAreaIntegralMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSectionalAreaIntegralMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSectionalAreaIntegralMeasure>(); }
 	shared_ptr<IfcSectionalAreaIntegralMeasure> type_object( new IfcSectionalAreaIntegralMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

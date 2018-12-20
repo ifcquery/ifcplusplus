@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcSpaceTypeEnum.h"
 
 // TYPE IfcSpaceTypeEnum = ENUMERATION OF	(SPACE	,PARKING	,GFA	,INTERNAL	,EXTERNAL	,USERDEFINED	,NOTDEFINED);
-IfcSpaceTypeEnum::IfcSpaceTypeEnum() {}
-IfcSpaceTypeEnum::~IfcSpaceTypeEnum() {}
+IfcSpaceTypeEnum::IfcSpaceTypeEnum() = default;
+IfcSpaceTypeEnum::~IfcSpaceTypeEnum() = default;
 shared_ptr<BuildingObject> IfcSpaceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpaceTypeEnum> copy_self( new IfcSpaceTypeEnum() );
@@ -50,7 +50,7 @@ const std::wstring IfcSpaceTypeEnum::toString() const
 shared_ptr<IfcSpaceTypeEnum> IfcSpaceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpaceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpaceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpaceTypeEnum>(); }
 	shared_ptr<IfcSpaceTypeEnum> type_object( new IfcSpaceTypeEnum() );
 	if( boost::iequals( arg, L".SPACE." ) )
 	{

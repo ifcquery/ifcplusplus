@@ -21,26 +21,24 @@
 #include "ifcpp/IFC4/include/IfcValue.h"
 
 // ENTITY IfcPropertyTableValue 
-IfcPropertyTableValue::IfcPropertyTableValue() {}
+IfcPropertyTableValue::IfcPropertyTableValue() = default;
 IfcPropertyTableValue::IfcPropertyTableValue( int id ) { m_entity_id = id; }
-IfcPropertyTableValue::~IfcPropertyTableValue() {}
+IfcPropertyTableValue::~IfcPropertyTableValue() = default;
 shared_ptr<BuildingObject> IfcPropertyTableValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyTableValue> copy_self( new IfcPropertyTableValue() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_DefiningValues.size(); ++ii )
+	for(auto item_ii : m_DefiningValues)
 	{
-		auto item_ii = m_DefiningValues[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_DefiningValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	for( size_t ii=0; ii<m_DefinedValues.size(); ++ii )
+	for(auto item_ii : m_DefinedValues)
 	{
-		auto item_ii = m_DefinedValues[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_DefinedValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
@@ -105,12 +103,12 @@ void IfcPropertyTableValue::getStepLine( std::stringstream& stream ) const
 	if( m_CurveInterpolation ) { m_CurveInterpolation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPropertyTableValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPropertyTableValue::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyTableValue::toString() const { return L"IfcPropertyTableValue"; }
 void IfcPropertyTableValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyTableValue, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyTableValue, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readSelectList( args[2], m_DefiningValues, map );
@@ -123,22 +121,22 @@ void IfcPropertyTableValue::readStepArguments( const std::vector<std::wstring>& 
 void IfcPropertyTableValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
-	if( m_DefiningValues.size() > 0 )
+	if( !m_DefiningValues.empty() )
 	{
 		shared_ptr<AttributeObjectVector> DefiningValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_DefiningValues.begin(), m_DefiningValues.end(), std::back_inserter( DefiningValues_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "DefiningValues", DefiningValues_vec_object ) );
+		vec_attributes.emplace_back( "DefiningValues", DefiningValues_vec_object );
 	}
-	if( m_DefinedValues.size() > 0 )
+	if( !m_DefinedValues.empty() )
 	{
 		shared_ptr<AttributeObjectVector> DefinedValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_DefinedValues.begin(), m_DefinedValues.end(), std::back_inserter( DefinedValues_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "DefinedValues", DefinedValues_vec_object ) );
+		vec_attributes.emplace_back( "DefinedValues", DefinedValues_vec_object );
 	}
-	vec_attributes.push_back( std::make_pair( "Expression", m_Expression ) );
-	vec_attributes.push_back( std::make_pair( "DefiningUnit", m_DefiningUnit ) );
-	vec_attributes.push_back( std::make_pair( "DefinedUnit", m_DefinedUnit ) );
-	vec_attributes.push_back( std::make_pair( "CurveInterpolation", m_CurveInterpolation ) );
+	vec_attributes.emplace_back( "Expression", m_Expression );
+	vec_attributes.emplace_back( "DefiningUnit", m_DefiningUnit );
+	vec_attributes.emplace_back( "DefinedUnit", m_DefinedUnit );
+	vec_attributes.emplace_back( "CurveInterpolation", m_CurveInterpolation );
 }
 void IfcPropertyTableValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

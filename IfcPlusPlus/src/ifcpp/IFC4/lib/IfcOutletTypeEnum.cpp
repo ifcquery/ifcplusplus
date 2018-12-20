@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcOutletTypeEnum.h"
 
 // TYPE IfcOutletTypeEnum = ENUMERATION OF	(AUDIOVISUALOUTLET	,COMMUNICATIONSOUTLET	,POWEROUTLET	,DATAOUTLET	,TELEPHONEOUTLET	,USERDEFINED	,NOTDEFINED);
-IfcOutletTypeEnum::IfcOutletTypeEnum() {}
-IfcOutletTypeEnum::~IfcOutletTypeEnum() {}
+IfcOutletTypeEnum::IfcOutletTypeEnum() = default;
+IfcOutletTypeEnum::~IfcOutletTypeEnum() = default;
 shared_ptr<BuildingObject> IfcOutletTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOutletTypeEnum> copy_self( new IfcOutletTypeEnum() );
@@ -50,7 +50,7 @@ const std::wstring IfcOutletTypeEnum::toString() const
 shared_ptr<IfcOutletTypeEnum> IfcOutletTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcOutletTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcOutletTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcOutletTypeEnum>(); }
 	shared_ptr<IfcOutletTypeEnum> type_object( new IfcOutletTypeEnum() );
 	if( boost::iequals( arg, L".AUDIOVISUALOUTLET." ) )
 	{

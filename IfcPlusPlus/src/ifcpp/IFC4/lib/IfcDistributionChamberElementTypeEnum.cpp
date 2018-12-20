@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcDistributionChamberElementTypeEnum.h"
 
 // TYPE IfcDistributionChamberElementTypeEnum = ENUMERATION OF	(FORMEDDUCT	,INSPECTIONCHAMBER	,INSPECTIONPIT	,MANHOLE	,METERCHAMBER	,SUMP	,TRENCH	,VALVECHAMBER	,USERDEFINED	,NOTDEFINED);
-IfcDistributionChamberElementTypeEnum::IfcDistributionChamberElementTypeEnum() {}
-IfcDistributionChamberElementTypeEnum::~IfcDistributionChamberElementTypeEnum() {}
+IfcDistributionChamberElementTypeEnum::IfcDistributionChamberElementTypeEnum() = default;
+IfcDistributionChamberElementTypeEnum::~IfcDistributionChamberElementTypeEnum() = default;
 shared_ptr<BuildingObject> IfcDistributionChamberElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDistributionChamberElementTypeEnum> copy_self( new IfcDistributionChamberElementTypeEnum() );
@@ -56,7 +56,7 @@ const std::wstring IfcDistributionChamberElementTypeEnum::toString() const
 shared_ptr<IfcDistributionChamberElementTypeEnum> IfcDistributionChamberElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDistributionChamberElementTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDistributionChamberElementTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDistributionChamberElementTypeEnum>(); }
 	shared_ptr<IfcDistributionChamberElementTypeEnum> type_object( new IfcDistributionChamberElementTypeEnum() );
 	if( boost::iequals( arg, L".FORMEDDUCT." ) )
 	{

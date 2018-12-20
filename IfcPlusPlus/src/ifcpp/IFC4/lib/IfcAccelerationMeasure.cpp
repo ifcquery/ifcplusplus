@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcAccelerationMeasure.h"
 
 // TYPE IfcAccelerationMeasure = REAL;
-IfcAccelerationMeasure::IfcAccelerationMeasure() {}
+IfcAccelerationMeasure::IfcAccelerationMeasure() = default;
 IfcAccelerationMeasure::IfcAccelerationMeasure( double value ) { m_value = value; }
-IfcAccelerationMeasure::~IfcAccelerationMeasure() {}
+IfcAccelerationMeasure::~IfcAccelerationMeasure() = default;
 shared_ptr<BuildingObject> IfcAccelerationMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAccelerationMeasure> copy_self( new IfcAccelerationMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcAccelerationMeasure::toString() const
 shared_ptr<IfcAccelerationMeasure> IfcAccelerationMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAccelerationMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAccelerationMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAccelerationMeasure>(); }
 	shared_ptr<IfcAccelerationMeasure> type_object( new IfcAccelerationMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

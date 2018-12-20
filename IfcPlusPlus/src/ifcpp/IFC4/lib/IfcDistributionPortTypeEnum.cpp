@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcDistributionPortTypeEnum.h"
 
 // TYPE IfcDistributionPortTypeEnum = ENUMERATION OF	(CABLE	,CABLECARRIER	,DUCT	,PIPE	,USERDEFINED	,NOTDEFINED);
-IfcDistributionPortTypeEnum::IfcDistributionPortTypeEnum() {}
-IfcDistributionPortTypeEnum::~IfcDistributionPortTypeEnum() {}
+IfcDistributionPortTypeEnum::IfcDistributionPortTypeEnum() = default;
+IfcDistributionPortTypeEnum::~IfcDistributionPortTypeEnum() = default;
 shared_ptr<BuildingObject> IfcDistributionPortTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDistributionPortTypeEnum> copy_self( new IfcDistributionPortTypeEnum() );
@@ -48,7 +48,7 @@ const std::wstring IfcDistributionPortTypeEnum::toString() const
 shared_ptr<IfcDistributionPortTypeEnum> IfcDistributionPortTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDistributionPortTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDistributionPortTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDistributionPortTypeEnum>(); }
 	shared_ptr<IfcDistributionPortTypeEnum> type_object( new IfcDistributionPortTypeEnum() );
 	if( boost::iequals( arg, L".CABLE." ) )
 	{

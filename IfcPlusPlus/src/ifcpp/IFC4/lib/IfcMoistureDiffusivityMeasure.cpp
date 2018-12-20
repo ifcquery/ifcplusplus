@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcMoistureDiffusivityMeasure.h"
 
 // TYPE IfcMoistureDiffusivityMeasure = REAL;
-IfcMoistureDiffusivityMeasure::IfcMoistureDiffusivityMeasure() {}
+IfcMoistureDiffusivityMeasure::IfcMoistureDiffusivityMeasure() = default;
 IfcMoistureDiffusivityMeasure::IfcMoistureDiffusivityMeasure( double value ) { m_value = value; }
-IfcMoistureDiffusivityMeasure::~IfcMoistureDiffusivityMeasure() {}
+IfcMoistureDiffusivityMeasure::~IfcMoistureDiffusivityMeasure() = default;
 shared_ptr<BuildingObject> IfcMoistureDiffusivityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMoistureDiffusivityMeasure> copy_self( new IfcMoistureDiffusivityMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcMoistureDiffusivityMeasure::toString() const
 shared_ptr<IfcMoistureDiffusivityMeasure> IfcMoistureDiffusivityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMoistureDiffusivityMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMoistureDiffusivityMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMoistureDiffusivityMeasure>(); }
 	shared_ptr<IfcMoistureDiffusivityMeasure> type_object( new IfcMoistureDiffusivityMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

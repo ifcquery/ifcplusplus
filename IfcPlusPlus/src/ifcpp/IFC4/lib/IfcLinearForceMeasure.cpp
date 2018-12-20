@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcLinearForceMeasure.h"
 
 // TYPE IfcLinearForceMeasure = REAL;
-IfcLinearForceMeasure::IfcLinearForceMeasure() {}
+IfcLinearForceMeasure::IfcLinearForceMeasure() = default;
 IfcLinearForceMeasure::IfcLinearForceMeasure( double value ) { m_value = value; }
-IfcLinearForceMeasure::~IfcLinearForceMeasure() {}
+IfcLinearForceMeasure::~IfcLinearForceMeasure() = default;
 shared_ptr<BuildingObject> IfcLinearForceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLinearForceMeasure> copy_self( new IfcLinearForceMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcLinearForceMeasure::toString() const
 shared_ptr<IfcLinearForceMeasure> IfcLinearForceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLinearForceMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLinearForceMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLinearForceMeasure>(); }
 	shared_ptr<IfcLinearForceMeasure> type_object( new IfcLinearForceMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

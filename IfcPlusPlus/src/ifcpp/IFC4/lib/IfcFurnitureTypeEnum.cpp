@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcFurnitureTypeEnum.h"
 
 // TYPE IfcFurnitureTypeEnum = ENUMERATION OF	(CHAIR	,TABLE	,DESK	,BED	,FILECABINET	,SHELF	,SOFA	,USERDEFINED	,NOTDEFINED);
-IfcFurnitureTypeEnum::IfcFurnitureTypeEnum() {}
-IfcFurnitureTypeEnum::~IfcFurnitureTypeEnum() {}
+IfcFurnitureTypeEnum::IfcFurnitureTypeEnum() = default;
+IfcFurnitureTypeEnum::~IfcFurnitureTypeEnum() = default;
 shared_ptr<BuildingObject> IfcFurnitureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFurnitureTypeEnum> copy_self( new IfcFurnitureTypeEnum() );
@@ -54,7 +54,7 @@ const std::wstring IfcFurnitureTypeEnum::toString() const
 shared_ptr<IfcFurnitureTypeEnum> IfcFurnitureTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFurnitureTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFurnitureTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFurnitureTypeEnum>(); }
 	shared_ptr<IfcFurnitureTypeEnum> type_object( new IfcFurnitureTypeEnum() );
 	if( boost::iequals( arg, L".CHAIR." ) )
 	{

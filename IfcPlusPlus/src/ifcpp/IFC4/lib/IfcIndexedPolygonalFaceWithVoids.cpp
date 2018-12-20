@@ -14,16 +14,15 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcIndexedPolygonalFaceWithVoids 
-IfcIndexedPolygonalFaceWithVoids::IfcIndexedPolygonalFaceWithVoids() {}
+IfcIndexedPolygonalFaceWithVoids::IfcIndexedPolygonalFaceWithVoids() = default;
 IfcIndexedPolygonalFaceWithVoids::IfcIndexedPolygonalFaceWithVoids( int id ) { m_entity_id = id; }
-IfcIndexedPolygonalFaceWithVoids::~IfcIndexedPolygonalFaceWithVoids() {}
+IfcIndexedPolygonalFaceWithVoids::~IfcIndexedPolygonalFaceWithVoids() = default;
 shared_ptr<BuildingObject> IfcIndexedPolygonalFaceWithVoids::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIndexedPolygonalFaceWithVoids> copy_self( new IfcIndexedPolygonalFaceWithVoids() );
-	for( size_t ii=0; ii<m_CoordIndex.size(); ++ii )
+	for(auto item_ii : m_CoordIndex)
 	{
-		auto item_ii = m_CoordIndex[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_CoordIndex.push_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
 		}
@@ -33,10 +32,9 @@ shared_ptr<BuildingObject> IfcIndexedPolygonalFaceWithVoids::getDeepCopy( Buildi
 	{
 		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_InnerCoordIndices[ii];
 		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii_target = copy_self->m_InnerCoordIndices[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
+		for(auto & item_jj : vec_ii)
 		{
-			shared_ptr<IfcPositiveInteger>& item_jj = vec_ii[jj];
-			if( item_jj )
+				if( item_jj )
 			{
 				vec_ii_target.push_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
 			}
@@ -69,12 +67,12 @@ void IfcIndexedPolygonalFaceWithVoids::getStepLine( std::stringstream& stream ) 
 	writeNumericTypeList2D( stream, m_InnerCoordIndices );
 	stream << ");";
 }
-void IfcIndexedPolygonalFaceWithVoids::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcIndexedPolygonalFaceWithVoids::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIndexedPolygonalFaceWithVoids::toString() const { return L"IfcIndexedPolygonalFaceWithVoids"; }
 void IfcIndexedPolygonalFaceWithVoids::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedPolygonalFaceWithVoids, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedPolygonalFaceWithVoids, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readTypeOfIntegerList( args[0], m_CoordIndex );
 	readTypeOfIntegerList2D( args[1], m_InnerCoordIndices );
 }

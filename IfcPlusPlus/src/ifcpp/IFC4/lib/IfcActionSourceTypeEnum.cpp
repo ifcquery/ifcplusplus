@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcActionSourceTypeEnum.h"
 
 // TYPE IfcActionSourceTypeEnum = ENUMERATION OF	(DEAD_LOAD_G	,COMPLETION_G1	,LIVE_LOAD_Q	,SNOW_S	,WIND_W	,PRESTRESSING_P	,SETTLEMENT_U	,TEMPERATURE_T	,EARTHQUAKE_E	,FIRE	,IMPULSE	,IMPACT	,TRANSPORT	,ERECTION	,PROPPING	,SYSTEM_IMPERFECTION	,SHRINKAGE	,CREEP	,LACK_OF_FIT	,BUOYANCY	,ICE	,CURRENT	,WAVE	,RAIN	,BRAKES	,USERDEFINED	,NOTDEFINED);
-IfcActionSourceTypeEnum::IfcActionSourceTypeEnum() {}
-IfcActionSourceTypeEnum::~IfcActionSourceTypeEnum() {}
+IfcActionSourceTypeEnum::IfcActionSourceTypeEnum() = default;
+IfcActionSourceTypeEnum::~IfcActionSourceTypeEnum() = default;
 shared_ptr<BuildingObject> IfcActionSourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcActionSourceTypeEnum> copy_self( new IfcActionSourceTypeEnum() );
@@ -90,7 +90,7 @@ const std::wstring IfcActionSourceTypeEnum::toString() const
 shared_ptr<IfcActionSourceTypeEnum> IfcActionSourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActionSourceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActionSourceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActionSourceTypeEnum>(); }
 	shared_ptr<IfcActionSourceTypeEnum> type_object( new IfcActionSourceTypeEnum() );
 	if( boost::iequals( arg, L".DEAD_LOAD_G." ) )
 	{

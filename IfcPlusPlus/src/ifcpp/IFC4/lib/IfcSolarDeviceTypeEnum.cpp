@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcSolarDeviceTypeEnum.h"
 
 // TYPE IfcSolarDeviceTypeEnum = ENUMERATION OF	(SOLARCOLLECTOR	,SOLARPANEL	,USERDEFINED	,NOTDEFINED);
-IfcSolarDeviceTypeEnum::IfcSolarDeviceTypeEnum() {}
-IfcSolarDeviceTypeEnum::~IfcSolarDeviceTypeEnum() {}
+IfcSolarDeviceTypeEnum::IfcSolarDeviceTypeEnum() = default;
+IfcSolarDeviceTypeEnum::~IfcSolarDeviceTypeEnum() = default;
 shared_ptr<BuildingObject> IfcSolarDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSolarDeviceTypeEnum> copy_self( new IfcSolarDeviceTypeEnum() );
@@ -44,7 +44,7 @@ const std::wstring IfcSolarDeviceTypeEnum::toString() const
 shared_ptr<IfcSolarDeviceTypeEnum> IfcSolarDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSolarDeviceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSolarDeviceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSolarDeviceTypeEnum>(); }
 	shared_ptr<IfcSolarDeviceTypeEnum> type_object( new IfcSolarDeviceTypeEnum() );
 	if( boost::iequals( arg, L".SOLARCOLLECTOR." ) )
 	{

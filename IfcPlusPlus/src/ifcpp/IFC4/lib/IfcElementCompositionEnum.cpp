@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcElementCompositionEnum.h"
 
 // TYPE IfcElementCompositionEnum = ENUMERATION OF	(COMPLEX	,ELEMENT	,PARTIAL);
-IfcElementCompositionEnum::IfcElementCompositionEnum() {}
-IfcElementCompositionEnum::~IfcElementCompositionEnum() {}
+IfcElementCompositionEnum::IfcElementCompositionEnum() = default;
+IfcElementCompositionEnum::~IfcElementCompositionEnum() = default;
 shared_ptr<BuildingObject> IfcElementCompositionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElementCompositionEnum> copy_self( new IfcElementCompositionEnum() );
@@ -42,7 +42,7 @@ const std::wstring IfcElementCompositionEnum::toString() const
 shared_ptr<IfcElementCompositionEnum> IfcElementCompositionEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElementCompositionEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElementCompositionEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElementCompositionEnum>(); }
 	shared_ptr<IfcElementCompositionEnum> type_object( new IfcElementCompositionEnum() );
 	if( boost::iequals( arg, L".COMPLEX." ) )
 	{

@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcDiscreteAccessoryTypeEnum.h"
 
 // TYPE IfcDiscreteAccessoryTypeEnum = ENUMERATION OF	(ANCHORPLATE	,BRACKET	,SHOE	,USERDEFINED	,NOTDEFINED);
-IfcDiscreteAccessoryTypeEnum::IfcDiscreteAccessoryTypeEnum() {}
-IfcDiscreteAccessoryTypeEnum::~IfcDiscreteAccessoryTypeEnum() {}
+IfcDiscreteAccessoryTypeEnum::IfcDiscreteAccessoryTypeEnum() = default;
+IfcDiscreteAccessoryTypeEnum::~IfcDiscreteAccessoryTypeEnum() = default;
 shared_ptr<BuildingObject> IfcDiscreteAccessoryTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDiscreteAccessoryTypeEnum> copy_self( new IfcDiscreteAccessoryTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcDiscreteAccessoryTypeEnum::toString() const
 shared_ptr<IfcDiscreteAccessoryTypeEnum> IfcDiscreteAccessoryTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDiscreteAccessoryTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDiscreteAccessoryTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDiscreteAccessoryTypeEnum>(); }
 	shared_ptr<IfcDiscreteAccessoryTypeEnum> type_object( new IfcDiscreteAccessoryTypeEnum() );
 	if( boost::iequals( arg, L".ANCHORPLATE." ) )
 	{

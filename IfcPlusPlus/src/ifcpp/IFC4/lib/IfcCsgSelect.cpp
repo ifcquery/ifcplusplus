@@ -8,7 +8,7 @@
 // TYPE IfcCsgSelect = SELECT	(IfcBooleanResult	,IfcCsgPrimitive3D);
 shared_ptr<IfcCsgSelect> IfcCsgSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcCsgSelect>(); }
+	if( arg.empty() ){ return shared_ptr<IfcCsgSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcCsgSelect>();

@@ -15,9 +15,9 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPostalAddress 
-IfcPostalAddress::IfcPostalAddress() {}
+IfcPostalAddress::IfcPostalAddress() = default;
 IfcPostalAddress::IfcPostalAddress( int id ) { m_entity_id = id; }
-IfcPostalAddress::~IfcPostalAddress() {}
+IfcPostalAddress::~IfcPostalAddress() = default;
 shared_ptr<BuildingObject> IfcPostalAddress::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPostalAddress> copy_self( new IfcPostalAddress() );
@@ -25,10 +25,9 @@ shared_ptr<BuildingObject> IfcPostalAddress::getDeepCopy( BuildingCopyOptions& o
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	if( m_UserDefinedPurpose ) { copy_self->m_UserDefinedPurpose = dynamic_pointer_cast<IfcLabel>( m_UserDefinedPurpose->getDeepCopy(options) ); }
 	if( m_InternalLocation ) { copy_self->m_InternalLocation = dynamic_pointer_cast<IfcLabel>( m_InternalLocation->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_AddressLines.size(); ++ii )
+	for(auto item_ii : m_AddressLines)
 	{
-		auto item_ii = m_AddressLines[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_AddressLines.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
@@ -81,12 +80,12 @@ void IfcPostalAddress::getStepLine( std::stringstream& stream ) const
 	if( m_Country ) { m_Country->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPostalAddress::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPostalAddress::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPostalAddress::toString() const { return L"IfcPostalAddress"; }
 void IfcPostalAddress::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPostalAddress, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPostalAddress, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Purpose = IfcAddressTypeEnum::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_UserDefinedPurpose = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -101,18 +100,18 @@ void IfcPostalAddress::readStepArguments( const std::vector<std::wstring>& args,
 void IfcPostalAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcAddress::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "InternalLocation", m_InternalLocation ) );
-	if( m_AddressLines.size() > 0 )
+	vec_attributes.emplace_back( "InternalLocation", m_InternalLocation );
+	if( !m_AddressLines.empty() )
 	{
 		shared_ptr<AttributeObjectVector> AddressLines_vec_object( new AttributeObjectVector() );
 		std::copy( m_AddressLines.begin(), m_AddressLines.end(), std::back_inserter( AddressLines_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "AddressLines", AddressLines_vec_object ) );
+		vec_attributes.emplace_back( "AddressLines", AddressLines_vec_object );
 	}
-	vec_attributes.push_back( std::make_pair( "PostalBox", m_PostalBox ) );
-	vec_attributes.push_back( std::make_pair( "Town", m_Town ) );
-	vec_attributes.push_back( std::make_pair( "Region", m_Region ) );
-	vec_attributes.push_back( std::make_pair( "PostalCode", m_PostalCode ) );
-	vec_attributes.push_back( std::make_pair( "Country", m_Country ) );
+	vec_attributes.emplace_back( "PostalBox", m_PostalBox );
+	vec_attributes.emplace_back( "Town", m_Town );
+	vec_attributes.emplace_back( "Region", m_Region );
+	vec_attributes.emplace_back( "PostalCode", m_PostalCode );
+	vec_attributes.emplace_back( "Country", m_Country );
 }
 void IfcPostalAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

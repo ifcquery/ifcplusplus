@@ -12,9 +12,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcRepresentationItem 
-IfcRepresentationItem::IfcRepresentationItem() {}
+IfcRepresentationItem::IfcRepresentationItem() = default;
 IfcRepresentationItem::IfcRepresentationItem( int id ) { m_entity_id = id; }
-IfcRepresentationItem::~IfcRepresentationItem() {}
+IfcRepresentationItem::~IfcRepresentationItem() = default;
 shared_ptr<BuildingObject> IfcRepresentationItem::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRepresentationItem> copy_self( new IfcRepresentationItem() );
@@ -25,7 +25,7 @@ void IfcRepresentationItem::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCREPRESENTATIONITEM" << "(";
 	stream << ");";
 }
-void IfcRepresentationItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRepresentationItem::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRepresentationItem::toString() const { return L"IfcRepresentationItem"; }
 void IfcRepresentationItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
@@ -35,32 +35,32 @@ void IfcRepresentationItem::getAttributes( std::vector<std::pair<std::string, sh
 }
 void IfcRepresentationItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_LayerAssignment_inverse.size() > 0 )
+	if( !m_LayerAssignment_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> LayerAssignment_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_LayerAssignment_inverse.size(); ++i )
+		for(const auto & i : m_LayerAssignment_inverse)
 		{
-			if( !m_LayerAssignment_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				LayerAssignment_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPresentationLayerAssignment>( m_LayerAssignment_inverse[i] ) );
+				LayerAssignment_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPresentationLayerAssignment>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "LayerAssignment_inverse", LayerAssignment_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "LayerAssignment_inverse", LayerAssignment_inverse_vec_obj );
 	}
-	if( m_StyledByItem_inverse.size() > 0 )
+	if( !m_StyledByItem_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> StyledByItem_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_StyledByItem_inverse.size(); ++i )
+		for(const auto & i : m_StyledByItem_inverse)
 		{
-			if( !m_StyledByItem_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				StyledByItem_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcStyledItem>( m_StyledByItem_inverse[i] ) );
+				StyledByItem_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcStyledItem>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "StyledByItem_inverse", StyledByItem_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "StyledByItem_inverse", StyledByItem_inverse_vec_obj );
 	}
 }
-void IfcRepresentationItem::setInverseCounterparts( shared_ptr<BuildingEntity> )
+void IfcRepresentationItem::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
 {
 }
 void IfcRepresentationItem::unlinkFromInverseCounterparts()

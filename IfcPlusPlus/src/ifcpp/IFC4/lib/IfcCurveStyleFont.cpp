@@ -12,17 +12,16 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // ENTITY IfcCurveStyleFont 
-IfcCurveStyleFont::IfcCurveStyleFont() {}
+IfcCurveStyleFont::IfcCurveStyleFont() = default;
 IfcCurveStyleFont::IfcCurveStyleFont( int id ) { m_entity_id = id; }
-IfcCurveStyleFont::~IfcCurveStyleFont() {}
+IfcCurveStyleFont::~IfcCurveStyleFont() = default;
 shared_ptr<BuildingObject> IfcCurveStyleFont::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurveStyleFont> copy_self( new IfcCurveStyleFont() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_PatternList.size(); ++ii )
+	for(auto item_ii : m_PatternList)
 	{
-		auto item_ii = m_PatternList[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_PatternList.push_back( dynamic_pointer_cast<IfcCurveStyleFontPattern>(item_ii->getDeepCopy(options) ) );
 		}
@@ -37,24 +36,24 @@ void IfcCurveStyleFont::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_PatternList );
 	stream << ");";
 }
-void IfcCurveStyleFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCurveStyleFont::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCurveStyleFont::toString() const { return L"IfcCurveStyleFont"; }
 void IfcCurveStyleFont::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurveStyleFont, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurveStyleFont, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReferenceList( args[1], m_PatternList, map );
 }
 void IfcCurveStyleFont::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	if( m_PatternList.size() > 0 )
+	vec_attributes.emplace_back( "Name", m_Name );
+	if( !m_PatternList.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PatternList_vec_object( new AttributeObjectVector() );
 		std::copy( m_PatternList.begin(), m_PatternList.end(), std::back_inserter( PatternList_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "PatternList", PatternList_vec_object ) );
+		vec_attributes.emplace_back( "PatternList", PatternList_vec_object );
 	}
 }
 void IfcCurveStyleFont::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

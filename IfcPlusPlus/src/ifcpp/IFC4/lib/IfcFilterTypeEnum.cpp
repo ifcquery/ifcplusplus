@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcFilterTypeEnum.h"
 
 // TYPE IfcFilterTypeEnum = ENUMERATION OF	(AIRPARTICLEFILTER	,COMPRESSEDAIRFILTER	,ODORFILTER	,OILFILTER	,STRAINER	,WATERFILTER	,USERDEFINED	,NOTDEFINED);
-IfcFilterTypeEnum::IfcFilterTypeEnum() {}
-IfcFilterTypeEnum::~IfcFilterTypeEnum() {}
+IfcFilterTypeEnum::IfcFilterTypeEnum() = default;
+IfcFilterTypeEnum::~IfcFilterTypeEnum() = default;
 shared_ptr<BuildingObject> IfcFilterTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFilterTypeEnum> copy_self( new IfcFilterTypeEnum() );
@@ -52,7 +52,7 @@ const std::wstring IfcFilterTypeEnum::toString() const
 shared_ptr<IfcFilterTypeEnum> IfcFilterTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFilterTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFilterTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFilterTypeEnum>(); }
 	shared_ptr<IfcFilterTypeEnum> type_object( new IfcFilterTypeEnum() );
 	if( boost::iequals( arg, L".AIRPARTICLEFILTER." ) )
 	{

@@ -8,7 +8,7 @@
 // TYPE IfcVectorOrDirection = SELECT	(IfcDirection	,IfcVector);
 shared_ptr<IfcVectorOrDirection> IfcVectorOrDirection::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcVectorOrDirection>(); }
+	if( arg.empty() ){ return shared_ptr<IfcVectorOrDirection>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcVectorOrDirection>();

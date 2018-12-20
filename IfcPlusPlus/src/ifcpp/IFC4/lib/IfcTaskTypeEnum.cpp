@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcTaskTypeEnum.h"
 
 // TYPE IfcTaskTypeEnum = ENUMERATION OF	(ATTENDANCE	,CONSTRUCTION	,DEMOLITION	,DISMANTLE	,DISPOSAL	,INSTALLATION	,LOGISTIC	,MAINTENANCE	,MOVE	,OPERATION	,REMOVAL	,RENOVATION	,USERDEFINED	,NOTDEFINED);
-IfcTaskTypeEnum::IfcTaskTypeEnum() {}
-IfcTaskTypeEnum::~IfcTaskTypeEnum() {}
+IfcTaskTypeEnum::IfcTaskTypeEnum() = default;
+IfcTaskTypeEnum::~IfcTaskTypeEnum() = default;
 shared_ptr<BuildingObject> IfcTaskTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTaskTypeEnum> copy_self( new IfcTaskTypeEnum() );
@@ -64,7 +64,7 @@ const std::wstring IfcTaskTypeEnum::toString() const
 shared_ptr<IfcTaskTypeEnum> IfcTaskTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTaskTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTaskTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTaskTypeEnum>(); }
 	shared_ptr<IfcTaskTypeEnum> type_object( new IfcTaskTypeEnum() );
 	if( boost::iequals( arg, L".ATTENDANCE." ) )
 	{

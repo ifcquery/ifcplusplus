@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcTimeStamp.h"
 
 // TYPE IfcTimeStamp = INTEGER;
-IfcTimeStamp::IfcTimeStamp() {}
+IfcTimeStamp::IfcTimeStamp() = default;
 IfcTimeStamp::IfcTimeStamp( int value ) { m_value = value; }
-IfcTimeStamp::~IfcTimeStamp() {}
+IfcTimeStamp::~IfcTimeStamp() = default;
 shared_ptr<BuildingObject> IfcTimeStamp::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTimeStamp> copy_self( new IfcTimeStamp() );
@@ -35,7 +35,7 @@ const std::wstring IfcTimeStamp::toString() const
 shared_ptr<IfcTimeStamp> IfcTimeStamp::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTimeStamp>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTimeStamp>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTimeStamp>(); }
 	shared_ptr<IfcTimeStamp> type_object( new IfcTimeStamp() );
 	readInteger( arg, type_object->m_value );
 	return type_object;

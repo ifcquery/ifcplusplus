@@ -15,9 +15,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianTransformationOperator2DnonUniform 
-IfcCartesianTransformationOperator2DnonUniform::IfcCartesianTransformationOperator2DnonUniform() {}
+IfcCartesianTransformationOperator2DnonUniform::IfcCartesianTransformationOperator2DnonUniform() = default;
 IfcCartesianTransformationOperator2DnonUniform::IfcCartesianTransformationOperator2DnonUniform( int id ) { m_entity_id = id; }
-IfcCartesianTransformationOperator2DnonUniform::~IfcCartesianTransformationOperator2DnonUniform() {}
+IfcCartesianTransformationOperator2DnonUniform::~IfcCartesianTransformationOperator2DnonUniform() = default;
 shared_ptr<BuildingObject> IfcCartesianTransformationOperator2DnonUniform::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianTransformationOperator2DnonUniform> copy_self( new IfcCartesianTransformationOperator2DnonUniform() );
@@ -42,12 +42,12 @@ void IfcCartesianTransformationOperator2DnonUniform::getStepLine( std::stringstr
 	if( m_Scale2 ) { m_Scale2->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCartesianTransformationOperator2DnonUniform::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCartesianTransformationOperator2DnonUniform::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianTransformationOperator2DnonUniform::toString() const { return L"IfcCartesianTransformationOperator2DnonUniform"; }
 void IfcCartesianTransformationOperator2DnonUniform::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator2DnonUniform, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator2DnonUniform, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Axis1, map );
 	readEntityReference( args[1], m_Axis2, map );
 	readEntityReference( args[2], m_LocalOrigin, map );
@@ -57,7 +57,7 @@ void IfcCartesianTransformationOperator2DnonUniform::readStepArguments( const st
 void IfcCartesianTransformationOperator2DnonUniform::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCartesianTransformationOperator2D::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Scale2", m_Scale2 ) );
+	vec_attributes.emplace_back( "Scale2", m_Scale2 );
 }
 void IfcCartesianTransformationOperator2DnonUniform::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

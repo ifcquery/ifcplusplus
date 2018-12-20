@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcTransformerTypeEnum.h"
 
 // TYPE IfcTransformerTypeEnum = ENUMERATION OF	(CURRENT	,FREQUENCY	,INVERTER	,RECTIFIER	,VOLTAGE	,USERDEFINED	,NOTDEFINED);
-IfcTransformerTypeEnum::IfcTransformerTypeEnum() {}
-IfcTransformerTypeEnum::~IfcTransformerTypeEnum() {}
+IfcTransformerTypeEnum::IfcTransformerTypeEnum() = default;
+IfcTransformerTypeEnum::~IfcTransformerTypeEnum() = default;
 shared_ptr<BuildingObject> IfcTransformerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTransformerTypeEnum> copy_self( new IfcTransformerTypeEnum() );
@@ -50,7 +50,7 @@ const std::wstring IfcTransformerTypeEnum::toString() const
 shared_ptr<IfcTransformerTypeEnum> IfcTransformerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTransformerTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTransformerTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTransformerTypeEnum>(); }
 	shared_ptr<IfcTransformerTypeEnum> type_object( new IfcTransformerTypeEnum() );
 	if( boost::iequals( arg, L".CURRENT." ) )
 	{

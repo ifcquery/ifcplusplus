@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcObjectTypeEnum.h"
 
 // TYPE IfcObjectTypeEnum = ENUMERATION OF	(PRODUCT	,PROCESS	,CONTROL	,RESOURCE	,ACTOR	,GROUP	,PROJECT	,NOTDEFINED);
-IfcObjectTypeEnum::IfcObjectTypeEnum() {}
-IfcObjectTypeEnum::~IfcObjectTypeEnum() {}
+IfcObjectTypeEnum::IfcObjectTypeEnum() = default;
+IfcObjectTypeEnum::~IfcObjectTypeEnum() = default;
 shared_ptr<BuildingObject> IfcObjectTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcObjectTypeEnum> copy_self( new IfcObjectTypeEnum() );
@@ -52,7 +52,7 @@ const std::wstring IfcObjectTypeEnum::toString() const
 shared_ptr<IfcObjectTypeEnum> IfcObjectTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcObjectTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcObjectTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcObjectTypeEnum>(); }
 	shared_ptr<IfcObjectTypeEnum> type_object( new IfcObjectTypeEnum() );
 	if( boost::iequals( arg, L".PRODUCT." ) )
 	{

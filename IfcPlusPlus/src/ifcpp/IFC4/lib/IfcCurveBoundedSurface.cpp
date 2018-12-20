@@ -15,17 +15,16 @@
 #include "ifcpp/IFC4/include/IfcSurface.h"
 
 // ENTITY IfcCurveBoundedSurface 
-IfcCurveBoundedSurface::IfcCurveBoundedSurface() {}
+IfcCurveBoundedSurface::IfcCurveBoundedSurface() = default;
 IfcCurveBoundedSurface::IfcCurveBoundedSurface( int id ) { m_entity_id = id; }
-IfcCurveBoundedSurface::~IfcCurveBoundedSurface() {}
+IfcCurveBoundedSurface::~IfcCurveBoundedSurface() = default;
 shared_ptr<BuildingObject> IfcCurveBoundedSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurveBoundedSurface> copy_self( new IfcCurveBoundedSurface() );
 	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Boundaries.size(); ++ii )
+	for(auto item_ii : m_Boundaries)
 	{
-		auto item_ii = m_Boundaries[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Boundaries.push_back( dynamic_pointer_cast<IfcBoundaryCurve>(item_ii->getDeepCopy(options) ) );
 		}
@@ -43,12 +42,12 @@ void IfcCurveBoundedSurface::getStepLine( std::stringstream& stream ) const
 	if( m_ImplicitOuter ) { m_ImplicitOuter->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCurveBoundedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCurveBoundedSurface::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCurveBoundedSurface::toString() const { return L"IfcCurveBoundedSurface"; }
 void IfcCurveBoundedSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurveBoundedSurface, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurveBoundedSurface, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_BasisSurface, map );
 	readEntityReferenceList( args[1], m_Boundaries, map );
 	m_ImplicitOuter = IfcBoolean::createObjectFromSTEP( args[2], map );
@@ -56,14 +55,14 @@ void IfcCurveBoundedSurface::readStepArguments( const std::vector<std::wstring>&
 void IfcCurveBoundedSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedSurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
-	if( m_Boundaries.size() > 0 )
+	vec_attributes.emplace_back( "BasisSurface", m_BasisSurface );
+	if( !m_Boundaries.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Boundaries_vec_object( new AttributeObjectVector() );
 		std::copy( m_Boundaries.begin(), m_Boundaries.end(), std::back_inserter( Boundaries_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Boundaries", Boundaries_vec_object ) );
+		vec_attributes.emplace_back( "Boundaries", Boundaries_vec_object );
 	}
-	vec_attributes.push_back( std::make_pair( "ImplicitOuter", m_ImplicitOuter ) );
+	vec_attributes.emplace_back( "ImplicitOuter", m_ImplicitOuter );
 }
 void IfcCurveBoundedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcUnitaryEquipmentTypeEnum.h"
 
 // TYPE IfcUnitaryEquipmentTypeEnum = ENUMERATION OF	(AIRHANDLER	,AIRCONDITIONINGUNIT	,DEHUMIDIFIER	,SPLITSYSTEM	,ROOFTOPUNIT	,USERDEFINED	,NOTDEFINED);
-IfcUnitaryEquipmentTypeEnum::IfcUnitaryEquipmentTypeEnum() {}
-IfcUnitaryEquipmentTypeEnum::~IfcUnitaryEquipmentTypeEnum() {}
+IfcUnitaryEquipmentTypeEnum::IfcUnitaryEquipmentTypeEnum() = default;
+IfcUnitaryEquipmentTypeEnum::~IfcUnitaryEquipmentTypeEnum() = default;
 shared_ptr<BuildingObject> IfcUnitaryEquipmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcUnitaryEquipmentTypeEnum> copy_self( new IfcUnitaryEquipmentTypeEnum() );
@@ -50,7 +50,7 @@ const std::wstring IfcUnitaryEquipmentTypeEnum::toString() const
 shared_ptr<IfcUnitaryEquipmentTypeEnum> IfcUnitaryEquipmentTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcUnitaryEquipmentTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcUnitaryEquipmentTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcUnitaryEquipmentTypeEnum>(); }
 	shared_ptr<IfcUnitaryEquipmentTypeEnum> type_object( new IfcUnitaryEquipmentTypeEnum() );
 	if( boost::iequals( arg, L".AIRHANDLER." ) )
 	{

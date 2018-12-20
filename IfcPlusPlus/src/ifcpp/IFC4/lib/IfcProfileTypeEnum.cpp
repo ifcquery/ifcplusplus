@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // TYPE IfcProfileTypeEnum = ENUMERATION OF	(CURVE	,AREA);
-IfcProfileTypeEnum::IfcProfileTypeEnum() {}
-IfcProfileTypeEnum::~IfcProfileTypeEnum() {}
+IfcProfileTypeEnum::IfcProfileTypeEnum() = default;
+IfcProfileTypeEnum::~IfcProfileTypeEnum() = default;
 shared_ptr<BuildingObject> IfcProfileTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProfileTypeEnum> copy_self( new IfcProfileTypeEnum() );
@@ -40,7 +40,7 @@ const std::wstring IfcProfileTypeEnum::toString() const
 shared_ptr<IfcProfileTypeEnum> IfcProfileTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProfileTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProfileTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProfileTypeEnum>(); }
 	shared_ptr<IfcProfileTypeEnum> type_object( new IfcProfileTypeEnum() );
 	if( boost::iequals( arg, L".CURVE." ) )
 	{

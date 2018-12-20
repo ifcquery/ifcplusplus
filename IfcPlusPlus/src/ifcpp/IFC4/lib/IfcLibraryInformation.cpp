@@ -17,9 +17,9 @@
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // ENTITY IfcLibraryInformation 
-IfcLibraryInformation::IfcLibraryInformation() {}
+IfcLibraryInformation::IfcLibraryInformation() = default;
 IfcLibraryInformation::IfcLibraryInformation( int id ) { m_entity_id = id; }
-IfcLibraryInformation::~IfcLibraryInformation() {}
+IfcLibraryInformation::~IfcLibraryInformation() = default;
 shared_ptr<BuildingObject> IfcLibraryInformation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLibraryInformation> copy_self( new IfcLibraryInformation() );
@@ -47,12 +47,12 @@ void IfcLibraryInformation::getStepLine( std::stringstream& stream ) const
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLibraryInformation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLibraryInformation::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLibraryInformation::toString() const { return L"IfcLibraryInformation"; }
 void IfcLibraryInformation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLibraryInformation, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLibraryInformation, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Version = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_Publisher = IfcActorSelect::createObjectFromSTEP( args[2], map );
@@ -63,39 +63,39 @@ void IfcLibraryInformation::readStepArguments( const std::vector<std::wstring>& 
 void IfcLibraryInformation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExternalInformation::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Version", m_Version ) );
-	vec_attributes.push_back( std::make_pair( "Publisher", m_Publisher ) );
-	vec_attributes.push_back( std::make_pair( "VersionDate", m_VersionDate ) );
-	vec_attributes.push_back( std::make_pair( "Location", m_Location ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( "Name", m_Name );
+	vec_attributes.emplace_back( "Version", m_Version );
+	vec_attributes.emplace_back( "Publisher", m_Publisher );
+	vec_attributes.emplace_back( "VersionDate", m_VersionDate );
+	vec_attributes.emplace_back( "Location", m_Location );
+	vec_attributes.emplace_back( "Description", m_Description );
 }
 void IfcLibraryInformation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcExternalInformation::getAttributesInverse( vec_attributes_inverse );
-	if( m_LibraryInfoForObjects_inverse.size() > 0 )
+	if( !m_LibraryInfoForObjects_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> LibraryInfoForObjects_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_LibraryInfoForObjects_inverse.size(); ++i )
+		for(const auto & i : m_LibraryInfoForObjects_inverse)
 		{
-			if( !m_LibraryInfoForObjects_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				LibraryInfoForObjects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesLibrary>( m_LibraryInfoForObjects_inverse[i] ) );
+				LibraryInfoForObjects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesLibrary>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "LibraryInfoForObjects_inverse", LibraryInfoForObjects_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "LibraryInfoForObjects_inverse", LibraryInfoForObjects_inverse_vec_obj );
 	}
-	if( m_HasLibraryReferences_inverse.size() > 0 )
+	if( !m_HasLibraryReferences_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasLibraryReferences_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasLibraryReferences_inverse.size(); ++i )
+		for(const auto & i : m_HasLibraryReferences_inverse)
 		{
-			if( !m_HasLibraryReferences_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				HasLibraryReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcLibraryReference>( m_HasLibraryReferences_inverse[i] ) );
+				HasLibraryReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcLibraryReference>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasLibraryReferences_inverse", HasLibraryReferences_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "HasLibraryReferences_inverse", HasLibraryReferences_inverse_vec_obj );
 	}
 }
 void IfcLibraryInformation::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

@@ -14,9 +14,9 @@
 #include "ifcpp/IFC4/include/IfcStructuralLoadSingleDisplacementDistortion.h"
 
 // ENTITY IfcStructuralLoadSingleDisplacementDistortion 
-IfcStructuralLoadSingleDisplacementDistortion::IfcStructuralLoadSingleDisplacementDistortion() {}
+IfcStructuralLoadSingleDisplacementDistortion::IfcStructuralLoadSingleDisplacementDistortion() = default;
 IfcStructuralLoadSingleDisplacementDistortion::IfcStructuralLoadSingleDisplacementDistortion( int id ) { m_entity_id = id; }
-IfcStructuralLoadSingleDisplacementDistortion::~IfcStructuralLoadSingleDisplacementDistortion() {}
+IfcStructuralLoadSingleDisplacementDistortion::~IfcStructuralLoadSingleDisplacementDistortion() = default;
 shared_ptr<BuildingObject> IfcStructuralLoadSingleDisplacementDistortion::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadSingleDisplacementDistortion> copy_self( new IfcStructuralLoadSingleDisplacementDistortion() );
@@ -50,12 +50,12 @@ void IfcStructuralLoadSingleDisplacementDistortion::getStepLine( std::stringstre
 	if( m_Distortion ) { m_Distortion->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadSingleDisplacementDistortion::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralLoadSingleDisplacementDistortion::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadSingleDisplacementDistortion::toString() const { return L"IfcStructuralLoadSingleDisplacementDistortion"; }
 void IfcStructuralLoadSingleDisplacementDistortion::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleDisplacementDistortion, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleDisplacementDistortion, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DisplacementX = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_DisplacementY = IfcLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -68,7 +68,7 @@ void IfcStructuralLoadSingleDisplacementDistortion::readStepArguments( const std
 void IfcStructuralLoadSingleDisplacementDistortion::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadSingleDisplacement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Distortion", m_Distortion ) );
+	vec_attributes.emplace_back( "Distortion", m_Distortion );
 }
 void IfcStructuralLoadSingleDisplacementDistortion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

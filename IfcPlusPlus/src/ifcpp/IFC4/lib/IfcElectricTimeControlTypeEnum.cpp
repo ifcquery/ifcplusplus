@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcElectricTimeControlTypeEnum.h"
 
 // TYPE IfcElectricTimeControlTypeEnum = ENUMERATION OF	(TIMECLOCK	,TIMEDELAY	,RELAY	,USERDEFINED	,NOTDEFINED);
-IfcElectricTimeControlTypeEnum::IfcElectricTimeControlTypeEnum() {}
-IfcElectricTimeControlTypeEnum::~IfcElectricTimeControlTypeEnum() {}
+IfcElectricTimeControlTypeEnum::IfcElectricTimeControlTypeEnum() = default;
+IfcElectricTimeControlTypeEnum::~IfcElectricTimeControlTypeEnum() = default;
 shared_ptr<BuildingObject> IfcElectricTimeControlTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricTimeControlTypeEnum> copy_self( new IfcElectricTimeControlTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcElectricTimeControlTypeEnum::toString() const
 shared_ptr<IfcElectricTimeControlTypeEnum> IfcElectricTimeControlTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricTimeControlTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricTimeControlTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricTimeControlTypeEnum>(); }
 	shared_ptr<IfcElectricTimeControlTypeEnum> type_object( new IfcElectricTimeControlTypeEnum() );
 	if( boost::iequals( arg, L".TIMECLOCK." ) )
 	{

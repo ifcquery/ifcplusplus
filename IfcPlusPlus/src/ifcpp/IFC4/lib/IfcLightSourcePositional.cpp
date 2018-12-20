@@ -18,9 +18,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcLightSourcePositional 
-IfcLightSourcePositional::IfcLightSourcePositional() {}
+IfcLightSourcePositional::IfcLightSourcePositional() = default;
 IfcLightSourcePositional::IfcLightSourcePositional( int id ) { m_entity_id = id; }
-IfcLightSourcePositional::~IfcLightSourcePositional() {}
+IfcLightSourcePositional::~IfcLightSourcePositional() = default;
 shared_ptr<BuildingObject> IfcLightSourcePositional::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightSourcePositional> copy_self( new IfcLightSourcePositional() );
@@ -57,12 +57,12 @@ void IfcLightSourcePositional::getStepLine( std::stringstream& stream ) const
 	if( m_QuadricAttenuation ) { m_QuadricAttenuation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLightSourcePositional::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLightSourcePositional::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSourcePositional::toString() const { return L"IfcLightSourcePositional"; }
 void IfcLightSourcePositional::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourcePositional, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourcePositional, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_LightColour, map );
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );
@@ -76,11 +76,11 @@ void IfcLightSourcePositional::readStepArguments( const std::vector<std::wstring
 void IfcLightSourcePositional::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLightSource::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
-	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
-	vec_attributes.push_back( std::make_pair( "ConstantAttenuation", m_ConstantAttenuation ) );
-	vec_attributes.push_back( std::make_pair( "DistanceAttenuation", m_DistanceAttenuation ) );
-	vec_attributes.push_back( std::make_pair( "QuadricAttenuation", m_QuadricAttenuation ) );
+	vec_attributes.emplace_back( "Position", m_Position );
+	vec_attributes.emplace_back( "Radius", m_Radius );
+	vec_attributes.emplace_back( "ConstantAttenuation", m_ConstantAttenuation );
+	vec_attributes.emplace_back( "DistanceAttenuation", m_DistanceAttenuation );
+	vec_attributes.emplace_back( "QuadricAttenuation", m_QuadricAttenuation );
 }
 void IfcLightSourcePositional::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

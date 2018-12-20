@@ -13,9 +13,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPlacement 
-IfcPlacement::IfcPlacement() {}
+IfcPlacement::IfcPlacement() = default;
 IfcPlacement::IfcPlacement( int id ) { m_entity_id = id; }
-IfcPlacement::~IfcPlacement() {}
+IfcPlacement::~IfcPlacement() = default;
 shared_ptr<BuildingObject> IfcPlacement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPlacement> copy_self( new IfcPlacement() );
@@ -28,18 +28,18 @@ void IfcPlacement::getStepLine( std::stringstream& stream ) const
 	if( m_Location ) { stream << "#" << m_Location->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPlacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPlacement::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPlacement::toString() const { return L"IfcPlacement"; }
 void IfcPlacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlacement, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlacement, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Location, map );
 }
 void IfcPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Location", m_Location ) );
+	vec_attributes.emplace_back( "Location", m_Location );
 }
 void IfcPlacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

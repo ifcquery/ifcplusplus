@@ -13,9 +13,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCsgPrimitive3D 
-IfcCsgPrimitive3D::IfcCsgPrimitive3D() {}
+IfcCsgPrimitive3D::IfcCsgPrimitive3D() = default;
 IfcCsgPrimitive3D::IfcCsgPrimitive3D( int id ) { m_entity_id = id; }
-IfcCsgPrimitive3D::~IfcCsgPrimitive3D() {}
+IfcCsgPrimitive3D::~IfcCsgPrimitive3D() = default;
 shared_ptr<BuildingObject> IfcCsgPrimitive3D::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCsgPrimitive3D> copy_self( new IfcCsgPrimitive3D() );
@@ -28,18 +28,18 @@ void IfcCsgPrimitive3D::getStepLine( std::stringstream& stream ) const
 	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCsgPrimitive3D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCsgPrimitive3D::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCsgPrimitive3D::toString() const { return L"IfcCsgPrimitive3D"; }
 void IfcCsgPrimitive3D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCsgPrimitive3D, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCsgPrimitive3D, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Position, map );
 }
 void IfcCsgPrimitive3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
+	vec_attributes.emplace_back( "Position", m_Position );
 }
 void IfcCsgPrimitive3D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

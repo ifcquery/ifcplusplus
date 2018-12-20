@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcTendonTypeEnum.h"
 
 // TYPE IfcTendonTypeEnum = ENUMERATION OF	(BAR	,COATED	,STRAND	,WIRE	,USERDEFINED	,NOTDEFINED);
-IfcTendonTypeEnum::IfcTendonTypeEnum() {}
-IfcTendonTypeEnum::~IfcTendonTypeEnum() {}
+IfcTendonTypeEnum::IfcTendonTypeEnum() = default;
+IfcTendonTypeEnum::~IfcTendonTypeEnum() = default;
 shared_ptr<BuildingObject> IfcTendonTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTendonTypeEnum> copy_self( new IfcTendonTypeEnum() );
@@ -48,7 +48,7 @@ const std::wstring IfcTendonTypeEnum::toString() const
 shared_ptr<IfcTendonTypeEnum> IfcTendonTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTendonTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTendonTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTendonTypeEnum>(); }
 	shared_ptr<IfcTendonTypeEnum> type_object( new IfcTendonTypeEnum() );
 	if( boost::iequals( arg, L".BAR." ) )
 	{

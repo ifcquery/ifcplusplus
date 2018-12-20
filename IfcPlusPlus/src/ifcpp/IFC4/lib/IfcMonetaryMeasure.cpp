@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcMonetaryMeasure.h"
 
 // TYPE IfcMonetaryMeasure = REAL;
-IfcMonetaryMeasure::IfcMonetaryMeasure() {}
+IfcMonetaryMeasure::IfcMonetaryMeasure() = default;
 IfcMonetaryMeasure::IfcMonetaryMeasure( double value ) { m_value = value; }
-IfcMonetaryMeasure::~IfcMonetaryMeasure() {}
+IfcMonetaryMeasure::~IfcMonetaryMeasure() = default;
 shared_ptr<BuildingObject> IfcMonetaryMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMonetaryMeasure> copy_self( new IfcMonetaryMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcMonetaryMeasure::toString() const
 shared_ptr<IfcMonetaryMeasure> IfcMonetaryMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMonetaryMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMonetaryMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMonetaryMeasure>(); }
 	shared_ptr<IfcMonetaryMeasure> type_object( new IfcMonetaryMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

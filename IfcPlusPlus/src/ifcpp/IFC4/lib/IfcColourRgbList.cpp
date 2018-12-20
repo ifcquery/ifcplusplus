@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcNormalisedRatioMeasure.h"
 
 // ENTITY IfcColourRgbList 
-IfcColourRgbList::IfcColourRgbList() {}
+IfcColourRgbList::IfcColourRgbList() = default;
 IfcColourRgbList::IfcColourRgbList( int id ) { m_entity_id = id; }
-IfcColourRgbList::~IfcColourRgbList() {}
+IfcColourRgbList::~IfcColourRgbList() = default;
 shared_ptr<BuildingObject> IfcColourRgbList::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcColourRgbList> copy_self( new IfcColourRgbList() );
@@ -22,10 +22,9 @@ shared_ptr<BuildingObject> IfcColourRgbList::getDeepCopy( BuildingCopyOptions& o
 	{
 		std::vector<shared_ptr<IfcNormalisedRatioMeasure> >& vec_ii = m_ColourList[ii];
 		std::vector<shared_ptr<IfcNormalisedRatioMeasure> >& vec_ii_target = copy_self->m_ColourList[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
+		for(auto & item_jj : vec_ii)
 		{
-			shared_ptr<IfcNormalisedRatioMeasure>& item_jj = vec_ii[jj];
-			if( item_jj )
+				if( item_jj )
 			{
 				vec_ii_target.push_back( dynamic_pointer_cast<IfcNormalisedRatioMeasure>( item_jj->getDeepCopy(options) ) );
 			}
@@ -39,12 +38,12 @@ void IfcColourRgbList::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList2D( stream, m_ColourList );
 	stream << ");";
 }
-void IfcColourRgbList::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcColourRgbList::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcColourRgbList::toString() const { return L"IfcColourRgbList"; }
 void IfcColourRgbList::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcColourRgbList, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcColourRgbList, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readTypeOfRealList2D( args[0], m_ColourList );
 }
 void IfcColourRgbList::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

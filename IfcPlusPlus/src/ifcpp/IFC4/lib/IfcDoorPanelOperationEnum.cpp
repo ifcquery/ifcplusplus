@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcDoorPanelOperationEnum.h"
 
 // TYPE IfcDoorPanelOperationEnum = ENUMERATION OF	(SWINGING	,DOUBLE_ACTING	,SLIDING	,FOLDING	,REVOLVING	,ROLLINGUP	,FIXEDPANEL	,USERDEFINED	,NOTDEFINED);
-IfcDoorPanelOperationEnum::IfcDoorPanelOperationEnum() {}
-IfcDoorPanelOperationEnum::~IfcDoorPanelOperationEnum() {}
+IfcDoorPanelOperationEnum::IfcDoorPanelOperationEnum() = default;
+IfcDoorPanelOperationEnum::~IfcDoorPanelOperationEnum() = default;
 shared_ptr<BuildingObject> IfcDoorPanelOperationEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoorPanelOperationEnum> copy_self( new IfcDoorPanelOperationEnum() );
@@ -54,7 +54,7 @@ const std::wstring IfcDoorPanelOperationEnum::toString() const
 shared_ptr<IfcDoorPanelOperationEnum> IfcDoorPanelOperationEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorPanelOperationEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorPanelOperationEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorPanelOperationEnum>(); }
 	shared_ptr<IfcDoorPanelOperationEnum> type_object( new IfcDoorPanelOperationEnum() );
 	if( boost::iequals( arg, L".SWINGING." ) )
 	{

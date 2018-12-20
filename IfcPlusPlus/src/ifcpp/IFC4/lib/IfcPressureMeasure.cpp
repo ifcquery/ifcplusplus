@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcPressureMeasure.h"
 
 // TYPE IfcPressureMeasure = REAL;
-IfcPressureMeasure::IfcPressureMeasure() {}
+IfcPressureMeasure::IfcPressureMeasure() = default;
 IfcPressureMeasure::IfcPressureMeasure( double value ) { m_value = value; }
-IfcPressureMeasure::~IfcPressureMeasure() {}
+IfcPressureMeasure::~IfcPressureMeasure() = default;
 shared_ptr<BuildingObject> IfcPressureMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPressureMeasure> copy_self( new IfcPressureMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcPressureMeasure::toString() const
 shared_ptr<IfcPressureMeasure> IfcPressureMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPressureMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPressureMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPressureMeasure>(); }
 	shared_ptr<IfcPressureMeasure> type_object( new IfcPressureMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

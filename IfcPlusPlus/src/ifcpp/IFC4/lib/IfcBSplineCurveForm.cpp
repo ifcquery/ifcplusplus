@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcBSplineCurveForm.h"
 
 // TYPE IfcBSplineCurveForm = ENUMERATION OF	(POLYLINE_FORM	,CIRCULAR_ARC	,ELLIPTIC_ARC	,PARABOLIC_ARC	,HYPERBOLIC_ARC	,UNSPECIFIED);
-IfcBSplineCurveForm::IfcBSplineCurveForm() {}
-IfcBSplineCurveForm::~IfcBSplineCurveForm() {}
+IfcBSplineCurveForm::IfcBSplineCurveForm() = default;
+IfcBSplineCurveForm::~IfcBSplineCurveForm() = default;
 shared_ptr<BuildingObject> IfcBSplineCurveForm::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBSplineCurveForm> copy_self( new IfcBSplineCurveForm() );
@@ -48,7 +48,7 @@ const std::wstring IfcBSplineCurveForm::toString() const
 shared_ptr<IfcBSplineCurveForm> IfcBSplineCurveForm::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBSplineCurveForm>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBSplineCurveForm>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBSplineCurveForm>(); }
 	shared_ptr<IfcBSplineCurveForm> type_object( new IfcBSplineCurveForm() );
 	if( boost::iequals( arg, L".POLYLINE_FORM." ) )
 	{

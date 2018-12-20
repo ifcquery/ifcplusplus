@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcCableFittingTypeEnum.h"
 
 // TYPE IfcCableFittingTypeEnum = ENUMERATION OF	(CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
-IfcCableFittingTypeEnum::IfcCableFittingTypeEnum() {}
-IfcCableFittingTypeEnum::~IfcCableFittingTypeEnum() {}
+IfcCableFittingTypeEnum::IfcCableFittingTypeEnum() = default;
+IfcCableFittingTypeEnum::~IfcCableFittingTypeEnum() = default;
 shared_ptr<BuildingObject> IfcCableFittingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCableFittingTypeEnum> copy_self( new IfcCableFittingTypeEnum() );
@@ -50,7 +50,7 @@ const std::wstring IfcCableFittingTypeEnum::toString() const
 shared_ptr<IfcCableFittingTypeEnum> IfcCableFittingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCableFittingTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCableFittingTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCableFittingTypeEnum>(); }
 	shared_ptr<IfcCableFittingTypeEnum> type_object( new IfcCableFittingTypeEnum() );
 	if( boost::iequals( arg, L".CONNECTOR." ) )
 	{

@@ -18,26 +18,24 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPolygonalFaceSet 
-IfcPolygonalFaceSet::IfcPolygonalFaceSet() {}
+IfcPolygonalFaceSet::IfcPolygonalFaceSet() = default;
 IfcPolygonalFaceSet::IfcPolygonalFaceSet( int id ) { m_entity_id = id; }
-IfcPolygonalFaceSet::~IfcPolygonalFaceSet() {}
+IfcPolygonalFaceSet::~IfcPolygonalFaceSet() = default;
 shared_ptr<BuildingObject> IfcPolygonalFaceSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPolygonalFaceSet> copy_self( new IfcPolygonalFaceSet() );
 	if( m_Coordinates ) { copy_self->m_Coordinates = dynamic_pointer_cast<IfcCartesianPointList3D>( m_Coordinates->getDeepCopy(options) ); }
 	if( m_Closed ) { copy_self->m_Closed = dynamic_pointer_cast<IfcBoolean>( m_Closed->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Faces.size(); ++ii )
+	for(auto item_ii : m_Faces)
 	{
-		auto item_ii = m_Faces[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Faces.push_back( dynamic_pointer_cast<IfcIndexedPolygonalFace>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	for( size_t ii=0; ii<m_PnIndex.size(); ++ii )
+	for(auto item_ii : m_PnIndex)
 	{
-		auto item_ii = m_PnIndex[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_PnIndex.push_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
 		}
@@ -73,12 +71,12 @@ void IfcPolygonalFaceSet::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcPolygonalFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPolygonalFaceSet::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPolygonalFaceSet::toString() const { return L"IfcPolygonalFaceSet"; }
 void IfcPolygonalFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolygonalFaceSet, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolygonalFaceSet, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Coordinates, map );
 	m_Closed = IfcBoolean::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Faces, map );
@@ -87,18 +85,18 @@ void IfcPolygonalFaceSet::readStepArguments( const std::vector<std::wstring>& ar
 void IfcPolygonalFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTessellatedFaceSet::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Closed", m_Closed ) );
-	if( m_Faces.size() > 0 )
+	vec_attributes.emplace_back( "Closed", m_Closed );
+	if( !m_Faces.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Faces_vec_object( new AttributeObjectVector() );
 		std::copy( m_Faces.begin(), m_Faces.end(), std::back_inserter( Faces_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Faces", Faces_vec_object ) );
+		vec_attributes.emplace_back( "Faces", Faces_vec_object );
 	}
-	if( m_PnIndex.size() > 0 )
+	if( !m_PnIndex.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PnIndex_vec_object( new AttributeObjectVector() );
 		std::copy( m_PnIndex.begin(), m_PnIndex.end(), std::back_inserter( PnIndex_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "PnIndex", PnIndex_vec_object ) );
+		vec_attributes.emplace_back( "PnIndex", PnIndex_vec_object );
 	}
 }
 void IfcPolygonalFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -110,22 +108,22 @@ void IfcPolygonalFaceSet::setInverseCounterparts( shared_ptr<BuildingEntity> ptr
 	IfcTessellatedFaceSet::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcPolygonalFaceSet> ptr_self = dynamic_pointer_cast<IfcPolygonalFaceSet>( ptr_self_entity );
 	if( !ptr_self ) { throw BuildingException( "IfcPolygonalFaceSet::setInverseCounterparts: type mismatch" ); }
-	for( size_t i=0; i<m_Faces.size(); ++i )
+	for(auto & m_Face : m_Faces)
 	{
-		if( m_Faces[i] )
+		if( m_Face )
 		{
-			m_Faces[i]->m_ToFaceSet_inverse.push_back( ptr_self );
+			m_Face->m_ToFaceSet_inverse.push_back( ptr_self );
 		}
 	}
 }
 void IfcPolygonalFaceSet::unlinkFromInverseCounterparts()
 {
 	IfcTessellatedFaceSet::unlinkFromInverseCounterparts();
-	for( size_t i=0; i<m_Faces.size(); ++i )
+	for(auto & m_Face : m_Faces)
 	{
-		if( m_Faces[i] )
+		if( m_Face )
 		{
-			std::vector<weak_ptr<IfcPolygonalFaceSet> >& ToFaceSet_inverse = m_Faces[i]->m_ToFaceSet_inverse;
+			std::vector<weak_ptr<IfcPolygonalFaceSet> >& ToFaceSet_inverse = m_Face->m_ToFaceSet_inverse;
 			for( auto it_ToFaceSet_inverse = ToFaceSet_inverse.begin(); it_ToFaceSet_inverse != ToFaceSet_inverse.end(); )
 			{
 				weak_ptr<IfcPolygonalFaceSet> self_candidate_weak = *it_ToFaceSet_inverse;

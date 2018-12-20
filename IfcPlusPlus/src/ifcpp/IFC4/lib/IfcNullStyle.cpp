@@ -11,8 +11,8 @@
 #include "ifcpp/IFC4/include/IfcNullStyle.h"
 
 // TYPE IfcNullStyle = ENUMERATION OF	(NULL);
-IfcNullStyle::IfcNullStyle() {}
-IfcNullStyle::~IfcNullStyle() {}
+IfcNullStyle::IfcNullStyle() = default;
+IfcNullStyle::~IfcNullStyle() = default;
 shared_ptr<BuildingObject> IfcNullStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcNullStyle> copy_self( new IfcNullStyle() );
@@ -39,7 +39,7 @@ const std::wstring IfcNullStyle::toString() const
 shared_ptr<IfcNullStyle> IfcNullStyle::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcNullStyle>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNullStyle>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNullStyle>(); }
 	shared_ptr<IfcNullStyle> type_object( new IfcNullStyle() );
 	if( boost::iequals( arg, L".ENUM_NULL." ) )
 	{

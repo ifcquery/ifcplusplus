@@ -12,9 +12,9 @@
 #include "ifcpp/IFC4/include/IfcParameterValue.h"
 
 // TYPE IfcParameterValue = REAL;
-IfcParameterValue::IfcParameterValue() {}
+IfcParameterValue::IfcParameterValue() = default;
 IfcParameterValue::IfcParameterValue( double value ) { m_value = value; }
-IfcParameterValue::~IfcParameterValue() {}
+IfcParameterValue::~IfcParameterValue() = default;
 shared_ptr<BuildingObject> IfcParameterValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcParameterValue> copy_self( new IfcParameterValue() );
@@ -36,7 +36,7 @@ const std::wstring IfcParameterValue::toString() const
 shared_ptr<IfcParameterValue> IfcParameterValue::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcParameterValue>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcParameterValue>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcParameterValue>(); }
 	shared_ptr<IfcParameterValue> type_object( new IfcParameterValue() );
 	readReal( arg, type_object->m_value );
 	return type_object;

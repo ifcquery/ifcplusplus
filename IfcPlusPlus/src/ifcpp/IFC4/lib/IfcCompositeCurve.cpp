@@ -14,16 +14,15 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCompositeCurve 
-IfcCompositeCurve::IfcCompositeCurve() {}
+IfcCompositeCurve::IfcCompositeCurve() = default;
 IfcCompositeCurve::IfcCompositeCurve( int id ) { m_entity_id = id; }
-IfcCompositeCurve::~IfcCompositeCurve() {}
+IfcCompositeCurve::~IfcCompositeCurve() = default;
 shared_ptr<BuildingObject> IfcCompositeCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCompositeCurve> copy_self( new IfcCompositeCurve() );
-	for( size_t ii=0; ii<m_Segments.size(); ++ii )
+	for(auto item_ii : m_Segments)
 	{
-		auto item_ii = m_Segments[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Segments.push_back( dynamic_pointer_cast<IfcCompositeCurveSegment>(item_ii->getDeepCopy(options) ) );
 		}
@@ -39,25 +38,25 @@ void IfcCompositeCurve::getStepLine( std::stringstream& stream ) const
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCompositeCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCompositeCurve::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCompositeCurve::toString() const { return L"IfcCompositeCurve"; }
 void IfcCompositeCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeCurve, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeCurve, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReferenceList( args[0], m_Segments, map );
 	m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[1], map );
 }
 void IfcCompositeCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
-	if( m_Segments.size() > 0 )
+	if( !m_Segments.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Segments_vec_object( new AttributeObjectVector() );
 		std::copy( m_Segments.begin(), m_Segments.end(), std::back_inserter( Segments_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Segments", Segments_vec_object ) );
+		vec_attributes.emplace_back( "Segments", Segments_vec_object );
 	}
-	vec_attributes.push_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
+	vec_attributes.emplace_back( "SelfIntersect", m_SelfIntersect );
 }
 void IfcCompositeCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -68,22 +67,22 @@ void IfcCompositeCurve::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_s
 	IfcBoundedCurve::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcCompositeCurve> ptr_self = dynamic_pointer_cast<IfcCompositeCurve>( ptr_self_entity );
 	if( !ptr_self ) { throw BuildingException( "IfcCompositeCurve::setInverseCounterparts: type mismatch" ); }
-	for( size_t i=0; i<m_Segments.size(); ++i )
+	for(auto & m_Segment : m_Segments)
 	{
-		if( m_Segments[i] )
+		if( m_Segment )
 		{
-			m_Segments[i]->m_UsingCurves_inverse.push_back( ptr_self );
+			m_Segment->m_UsingCurves_inverse.push_back( ptr_self );
 		}
 	}
 }
 void IfcCompositeCurve::unlinkFromInverseCounterparts()
 {
 	IfcBoundedCurve::unlinkFromInverseCounterparts();
-	for( size_t i=0; i<m_Segments.size(); ++i )
+	for(auto & m_Segment : m_Segments)
 	{
-		if( m_Segments[i] )
+		if( m_Segment )
 		{
-			std::vector<weak_ptr<IfcCompositeCurve> >& UsingCurves_inverse = m_Segments[i]->m_UsingCurves_inverse;
+			std::vector<weak_ptr<IfcCompositeCurve> >& UsingCurves_inverse = m_Segment->m_UsingCurves_inverse;
 			for( auto it_UsingCurves_inverse = UsingCurves_inverse.begin(); it_UsingCurves_inverse != UsingCurves_inverse.end(); )
 			{
 				weak_ptr<IfcCompositeCurve> self_candidate_weak = *it_UsingCurves_inverse;

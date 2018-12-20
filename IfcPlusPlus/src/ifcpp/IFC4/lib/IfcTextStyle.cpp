@@ -15,9 +15,9 @@
 #include "ifcpp/IFC4/include/IfcTextStyleTextModel.h"
 
 // ENTITY IfcTextStyle 
-IfcTextStyle::IfcTextStyle() {}
+IfcTextStyle::IfcTextStyle() = default;
 IfcTextStyle::IfcTextStyle( int id ) { m_entity_id = id; }
-IfcTextStyle::~IfcTextStyle() {}
+IfcTextStyle::~IfcTextStyle() = default;
 shared_ptr<BuildingObject> IfcTextStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextStyle> copy_self( new IfcTextStyle() );
@@ -42,12 +42,12 @@ void IfcTextStyle::getStepLine( std::stringstream& stream ) const
 	if( m_ModelOrDraughting ) { m_ModelOrDraughting->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTextStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTextStyle::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextStyle::toString() const { return L"IfcTextStyle"; }
 void IfcTextStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextStyle, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextStyle, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_TextCharacterAppearance, map );
 	readEntityReference( args[2], m_TextStyle, map );
@@ -57,10 +57,10 @@ void IfcTextStyle::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcTextStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationStyle::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TextCharacterAppearance", m_TextCharacterAppearance ) );
-	vec_attributes.push_back( std::make_pair( "TextStyle", m_TextStyle ) );
-	vec_attributes.push_back( std::make_pair( "TextFontStyle", m_TextFontStyle ) );
-	vec_attributes.push_back( std::make_pair( "ModelOrDraughting", m_ModelOrDraughting ) );
+	vec_attributes.emplace_back( "TextCharacterAppearance", m_TextCharacterAppearance );
+	vec_attributes.emplace_back( "TextStyle", m_TextStyle );
+	vec_attributes.emplace_back( "TextFontStyle", m_TextFontStyle );
+	vec_attributes.emplace_back( "ModelOrDraughting", m_ModelOrDraughting );
 }
 void IfcTextStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

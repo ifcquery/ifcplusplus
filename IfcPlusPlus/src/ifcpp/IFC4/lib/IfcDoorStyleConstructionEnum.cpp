@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcDoorStyleConstructionEnum.h"
 
 // TYPE IfcDoorStyleConstructionEnum = ENUMERATION OF	(ALUMINIUM	,HIGH_GRADE_STEEL	,STEEL	,WOOD	,ALUMINIUM_WOOD	,ALUMINIUM_PLASTIC	,PLASTIC	,USERDEFINED	,NOTDEFINED);
-IfcDoorStyleConstructionEnum::IfcDoorStyleConstructionEnum() {}
-IfcDoorStyleConstructionEnum::~IfcDoorStyleConstructionEnum() {}
+IfcDoorStyleConstructionEnum::IfcDoorStyleConstructionEnum() = default;
+IfcDoorStyleConstructionEnum::~IfcDoorStyleConstructionEnum() = default;
 shared_ptr<BuildingObject> IfcDoorStyleConstructionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoorStyleConstructionEnum> copy_self( new IfcDoorStyleConstructionEnum() );
@@ -54,7 +54,7 @@ const std::wstring IfcDoorStyleConstructionEnum::toString() const
 shared_ptr<IfcDoorStyleConstructionEnum> IfcDoorStyleConstructionEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorStyleConstructionEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorStyleConstructionEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorStyleConstructionEnum>(); }
 	shared_ptr<IfcDoorStyleConstructionEnum> type_object( new IfcDoorStyleConstructionEnum() );
 	if( boost::iequals( arg, L".ALUMINIUM." ) )
 	{

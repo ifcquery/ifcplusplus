@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcLoadGroupTypeEnum.h"
 
 // TYPE IfcLoadGroupTypeEnum = ENUMERATION OF	(LOAD_GROUP	,LOAD_CASE	,LOAD_COMBINATION	,USERDEFINED	,NOTDEFINED);
-IfcLoadGroupTypeEnum::IfcLoadGroupTypeEnum() {}
-IfcLoadGroupTypeEnum::~IfcLoadGroupTypeEnum() {}
+IfcLoadGroupTypeEnum::IfcLoadGroupTypeEnum() = default;
+IfcLoadGroupTypeEnum::~IfcLoadGroupTypeEnum() = default;
 shared_ptr<BuildingObject> IfcLoadGroupTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLoadGroupTypeEnum> copy_self( new IfcLoadGroupTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcLoadGroupTypeEnum::toString() const
 shared_ptr<IfcLoadGroupTypeEnum> IfcLoadGroupTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLoadGroupTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLoadGroupTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLoadGroupTypeEnum>(); }
 	shared_ptr<IfcLoadGroupTypeEnum> type_object( new IfcLoadGroupTypeEnum() );
 	if( boost::iequals( arg, L".LOAD_GROUP." ) )
 	{

@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcElectricCapacitanceMeasure.h"
 
 // TYPE IfcElectricCapacitanceMeasure = REAL;
-IfcElectricCapacitanceMeasure::IfcElectricCapacitanceMeasure() {}
+IfcElectricCapacitanceMeasure::IfcElectricCapacitanceMeasure() = default;
 IfcElectricCapacitanceMeasure::IfcElectricCapacitanceMeasure( double value ) { m_value = value; }
-IfcElectricCapacitanceMeasure::~IfcElectricCapacitanceMeasure() {}
+IfcElectricCapacitanceMeasure::~IfcElectricCapacitanceMeasure() = default;
 shared_ptr<BuildingObject> IfcElectricCapacitanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricCapacitanceMeasure> copy_self( new IfcElectricCapacitanceMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcElectricCapacitanceMeasure::toString() const
 shared_ptr<IfcElectricCapacitanceMeasure> IfcElectricCapacitanceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricCapacitanceMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricCapacitanceMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricCapacitanceMeasure>(); }
 	shared_ptr<IfcElectricCapacitanceMeasure> type_object( new IfcElectricCapacitanceMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcCondenserTypeEnum.h"
 
 // TYPE IfcCondenserTypeEnum = ENUMERATION OF	(AIRCOOLED	,EVAPORATIVECOOLED	,WATERCOOLED	,WATERCOOLEDBRAZEDPLATE	,WATERCOOLEDSHELLCOIL	,WATERCOOLEDSHELLTUBE	,WATERCOOLEDTUBEINTUBE	,USERDEFINED	,NOTDEFINED);
-IfcCondenserTypeEnum::IfcCondenserTypeEnum() {}
-IfcCondenserTypeEnum::~IfcCondenserTypeEnum() {}
+IfcCondenserTypeEnum::IfcCondenserTypeEnum() = default;
+IfcCondenserTypeEnum::~IfcCondenserTypeEnum() = default;
 shared_ptr<BuildingObject> IfcCondenserTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCondenserTypeEnum> copy_self( new IfcCondenserTypeEnum() );
@@ -54,7 +54,7 @@ const std::wstring IfcCondenserTypeEnum::toString() const
 shared_ptr<IfcCondenserTypeEnum> IfcCondenserTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCondenserTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCondenserTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCondenserTypeEnum>(); }
 	shared_ptr<IfcCondenserTypeEnum> type_object( new IfcCondenserTypeEnum() );
 	if( boost::iequals( arg, L".AIRCOOLED." ) )
 	{

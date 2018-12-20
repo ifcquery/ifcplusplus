@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcCurtainWallTypeEnum.h"
 
 // TYPE IfcCurtainWallTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-IfcCurtainWallTypeEnum::IfcCurtainWallTypeEnum() {}
-IfcCurtainWallTypeEnum::~IfcCurtainWallTypeEnum() {}
+IfcCurtainWallTypeEnum::IfcCurtainWallTypeEnum() = default;
+IfcCurtainWallTypeEnum::~IfcCurtainWallTypeEnum() = default;
 shared_ptr<BuildingObject> IfcCurtainWallTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurtainWallTypeEnum> copy_self( new IfcCurtainWallTypeEnum() );
@@ -40,7 +40,7 @@ const std::wstring IfcCurtainWallTypeEnum::toString() const
 shared_ptr<IfcCurtainWallTypeEnum> IfcCurtainWallTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCurtainWallTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCurtainWallTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCurtainWallTypeEnum>(); }
 	shared_ptr<IfcCurtainWallTypeEnum> type_object( new IfcCurtainWallTypeEnum() );
 	if( boost::iequals( arg, L".USERDEFINED." ) )
 	{

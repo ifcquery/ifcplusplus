@@ -12,9 +12,9 @@
 #include "ifcpp/IFC4/include/IfcUnitEnum.h"
 
 // ENTITY IfcNamedUnit 
-IfcNamedUnit::IfcNamedUnit() {}
+IfcNamedUnit::IfcNamedUnit() = default;
 IfcNamedUnit::IfcNamedUnit( int id ) { m_entity_id = id; }
-IfcNamedUnit::~IfcNamedUnit() {}
+IfcNamedUnit::~IfcNamedUnit() = default;
 shared_ptr<BuildingObject> IfcNamedUnit::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcNamedUnit> copy_self( new IfcNamedUnit() );
@@ -30,24 +30,24 @@ void IfcNamedUnit::getStepLine( std::stringstream& stream ) const
 	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcNamedUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcNamedUnit::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcNamedUnit::toString() const { return L"IfcNamedUnit"; }
 void IfcNamedUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcNamedUnit, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcNamedUnit, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Dimensions, map );
 	m_UnitType = IfcUnitEnum::createObjectFromSTEP( args[1], map );
 }
 void IfcNamedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Dimensions", m_Dimensions ) );
-	vec_attributes.push_back( std::make_pair( "UnitType", m_UnitType ) );
+	vec_attributes.emplace_back( "Dimensions", m_Dimensions );
+	vec_attributes.emplace_back( "UnitType", m_UnitType );
 }
 void IfcNamedUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
-void IfcNamedUnit::setInverseCounterparts( shared_ptr<BuildingEntity> )
+void IfcNamedUnit::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
 {
 }
 void IfcNamedUnit::unlinkFromInverseCounterparts()

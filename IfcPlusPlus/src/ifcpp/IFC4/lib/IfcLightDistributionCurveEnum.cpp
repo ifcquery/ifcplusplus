@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcLightDistributionCurveEnum.h"
 
 // TYPE IfcLightDistributionCurveEnum = ENUMERATION OF	(TYPE_A	,TYPE_B	,TYPE_C	,NOTDEFINED);
-IfcLightDistributionCurveEnum::IfcLightDistributionCurveEnum() {}
-IfcLightDistributionCurveEnum::~IfcLightDistributionCurveEnum() {}
+IfcLightDistributionCurveEnum::IfcLightDistributionCurveEnum() = default;
+IfcLightDistributionCurveEnum::~IfcLightDistributionCurveEnum() = default;
 shared_ptr<BuildingObject> IfcLightDistributionCurveEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightDistributionCurveEnum> copy_self( new IfcLightDistributionCurveEnum() );
@@ -44,7 +44,7 @@ const std::wstring IfcLightDistributionCurveEnum::toString() const
 shared_ptr<IfcLightDistributionCurveEnum> IfcLightDistributionCurveEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLightDistributionCurveEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLightDistributionCurveEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLightDistributionCurveEnum>(); }
 	shared_ptr<IfcLightDistributionCurveEnum> type_object( new IfcLightDistributionCurveEnum() );
 	if( boost::iequals( arg, L".TYPE_A." ) )
 	{

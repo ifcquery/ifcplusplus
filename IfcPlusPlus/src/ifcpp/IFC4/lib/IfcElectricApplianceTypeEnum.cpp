@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcElectricApplianceTypeEnum.h"
 
 // TYPE IfcElectricApplianceTypeEnum = ENUMERATION OF	(DISHWASHER	,ELECTRICCOOKER	,FREESTANDINGELECTRICHEATER	,FREESTANDINGFAN	,FREESTANDINGWATERHEATER	,FREESTANDINGWATERCOOLER	,FREEZER	,FRIDGE_FREEZER	,HANDDRYER	,KITCHENMACHINE	,MICROWAVE	,PHOTOCOPIER	,REFRIGERATOR	,TUMBLEDRYER	,VENDINGMACHINE	,WASHINGMACHINE	,USERDEFINED	,NOTDEFINED);
-IfcElectricApplianceTypeEnum::IfcElectricApplianceTypeEnum() {}
-IfcElectricApplianceTypeEnum::~IfcElectricApplianceTypeEnum() {}
+IfcElectricApplianceTypeEnum::IfcElectricApplianceTypeEnum() = default;
+IfcElectricApplianceTypeEnum::~IfcElectricApplianceTypeEnum() = default;
 shared_ptr<BuildingObject> IfcElectricApplianceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricApplianceTypeEnum> copy_self( new IfcElectricApplianceTypeEnum() );
@@ -72,7 +72,7 @@ const std::wstring IfcElectricApplianceTypeEnum::toString() const
 shared_ptr<IfcElectricApplianceTypeEnum> IfcElectricApplianceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricApplianceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricApplianceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricApplianceTypeEnum>(); }
 	shared_ptr<IfcElectricApplianceTypeEnum> type_object( new IfcElectricApplianceTypeEnum() );
 	if( boost::iequals( arg, L".DISHWASHER." ) )
 	{

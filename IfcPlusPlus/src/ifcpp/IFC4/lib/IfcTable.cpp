@@ -13,25 +13,23 @@
 #include "ifcpp/IFC4/include/IfcTableRow.h"
 
 // ENTITY IfcTable 
-IfcTable::IfcTable() {}
+IfcTable::IfcTable() = default;
 IfcTable::IfcTable( int id ) { m_entity_id = id; }
-IfcTable::~IfcTable() {}
+IfcTable::~IfcTable() = default;
 shared_ptr<BuildingObject> IfcTable::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTable> copy_self( new IfcTable() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Rows.size(); ++ii )
+	for(auto item_ii : m_Rows)
 	{
-		auto item_ii = m_Rows[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Rows.push_back( dynamic_pointer_cast<IfcTableRow>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	for( size_t ii=0; ii<m_Columns.size(); ++ii )
+	for(auto item_ii : m_Columns)
 	{
-		auto item_ii = m_Columns[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Columns.push_back( dynamic_pointer_cast<IfcTableColumn>(item_ii->getDeepCopy(options) ) );
 		}
@@ -48,36 +46,36 @@ void IfcTable::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Columns );
 	stream << ");";
 }
-void IfcTable::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTable::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTable::toString() const { return L"IfcTable"; }
 void IfcTable::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTable, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTable, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReferenceList( args[1], m_Rows, map );
 	readEntityReferenceList( args[2], m_Columns, map );
 }
 void IfcTable::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	if( m_Rows.size() > 0 )
+	vec_attributes.emplace_back( "Name", m_Name );
+	if( !m_Rows.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Rows_vec_object( new AttributeObjectVector() );
 		std::copy( m_Rows.begin(), m_Rows.end(), std::back_inserter( Rows_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Rows", Rows_vec_object ) );
+		vec_attributes.emplace_back( "Rows", Rows_vec_object );
 	}
-	if( m_Columns.size() > 0 )
+	if( !m_Columns.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Columns_vec_object( new AttributeObjectVector() );
 		std::copy( m_Columns.begin(), m_Columns.end(), std::back_inserter( Columns_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Columns", Columns_vec_object ) );
+		vec_attributes.emplace_back( "Columns", Columns_vec_object );
 	}
 }
 void IfcTable::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
-void IfcTable::setInverseCounterparts( shared_ptr<BuildingEntity> )
+void IfcTable::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
 {
 }
 void IfcTable::unlinkFromInverseCounterparts()

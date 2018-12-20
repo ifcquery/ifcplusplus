@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcEvaporativeCoolerTypeEnum.h"
 
 // TYPE IfcEvaporativeCoolerTypeEnum = ENUMERATION OF	(DIRECTEVAPORATIVERANDOMMEDIAAIRCOOLER	,DIRECTEVAPORATIVERIGIDMEDIAAIRCOOLER	,DIRECTEVAPORATIVESLINGERSPACKAGEDAIRCOOLER	,DIRECTEVAPORATIVEPACKAGEDROTARYAIRCOOLER	,DIRECTEVAPORATIVEAIRWASHER	,INDIRECTEVAPORATIVEPACKAGEAIRCOOLER	,INDIRECTEVAPORATIVEWETCOIL	,INDIRECTEVAPORATIVECOOLINGTOWERORCOILCOOLER	,INDIRECTDIRECTCOMBINATION	,USERDEFINED	,NOTDEFINED);
-IfcEvaporativeCoolerTypeEnum::IfcEvaporativeCoolerTypeEnum() {}
-IfcEvaporativeCoolerTypeEnum::~IfcEvaporativeCoolerTypeEnum() {}
+IfcEvaporativeCoolerTypeEnum::IfcEvaporativeCoolerTypeEnum() = default;
+IfcEvaporativeCoolerTypeEnum::~IfcEvaporativeCoolerTypeEnum() = default;
 shared_ptr<BuildingObject> IfcEvaporativeCoolerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEvaporativeCoolerTypeEnum> copy_self( new IfcEvaporativeCoolerTypeEnum() );
@@ -58,7 +58,7 @@ const std::wstring IfcEvaporativeCoolerTypeEnum::toString() const
 shared_ptr<IfcEvaporativeCoolerTypeEnum> IfcEvaporativeCoolerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEvaporativeCoolerTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEvaporativeCoolerTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEvaporativeCoolerTypeEnum>(); }
 	shared_ptr<IfcEvaporativeCoolerTypeEnum> type_object( new IfcEvaporativeCoolerTypeEnum() );
 	if( boost::iequals( arg, L".DIRECTEVAPORATIVERANDOMMEDIAAIRCOOLER." ) )
 	{

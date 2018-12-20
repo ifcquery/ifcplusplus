@@ -16,9 +16,9 @@
 #include "ifcpp/IFC4/include/IfcVolumeMeasure.h"
 
 // ENTITY IfcQuantityVolume 
-IfcQuantityVolume::IfcQuantityVolume() {}
+IfcQuantityVolume::IfcQuantityVolume() = default;
 IfcQuantityVolume::IfcQuantityVolume( int id ) { m_entity_id = id; }
-IfcQuantityVolume::~IfcQuantityVolume() {}
+IfcQuantityVolume::~IfcQuantityVolume() = default;
 shared_ptr<BuildingObject> IfcQuantityVolume::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcQuantityVolume> copy_self( new IfcQuantityVolume() );
@@ -43,12 +43,12 @@ void IfcQuantityVolume::getStepLine( std::stringstream& stream ) const
 	if( m_Formula ) { m_Formula->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcQuantityVolume::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcQuantityVolume::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcQuantityVolume::toString() const { return L"IfcQuantityVolume"; }
 void IfcQuantityVolume::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcQuantityVolume, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcQuantityVolume, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Unit, map );
@@ -58,8 +58,8 @@ void IfcQuantityVolume::readStepArguments( const std::vector<std::wstring>& args
 void IfcQuantityVolume::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPhysicalSimpleQuantity::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "VolumeValue", m_VolumeValue ) );
-	vec_attributes.push_back( std::make_pair( "Formula", m_Formula ) );
+	vec_attributes.emplace_back( "VolumeValue", m_VolumeValue );
+	vec_attributes.emplace_back( "Formula", m_Formula );
 }
 void IfcQuantityVolume::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -15,9 +15,9 @@
 #include "ifcpp/IFC4/include/IfcSurface.h"
 
 // ENTITY IfcRectangularTrimmedSurface 
-IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface() {}
+IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface() = default;
 IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface( int id ) { m_entity_id = id; }
-IfcRectangularTrimmedSurface::~IfcRectangularTrimmedSurface() {}
+IfcRectangularTrimmedSurface::~IfcRectangularTrimmedSurface() = default;
 shared_ptr<BuildingObject> IfcRectangularTrimmedSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRectangularTrimmedSurface> copy_self( new IfcRectangularTrimmedSurface() );
@@ -48,12 +48,12 @@ void IfcRectangularTrimmedSurface::getStepLine( std::stringstream& stream ) cons
 	if( m_Vsense ) { m_Vsense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRectangularTrimmedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRectangularTrimmedSurface::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRectangularTrimmedSurface::toString() const { return L"IfcRectangularTrimmedSurface"; }
 void IfcRectangularTrimmedSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangularTrimmedSurface, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangularTrimmedSurface, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_BasisSurface, map );
 	m_U1 = IfcParameterValue::createObjectFromSTEP( args[1], map );
 	m_V1 = IfcParameterValue::createObjectFromSTEP( args[2], map );
@@ -65,13 +65,13 @@ void IfcRectangularTrimmedSurface::readStepArguments( const std::vector<std::wst
 void IfcRectangularTrimmedSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedSurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
-	vec_attributes.push_back( std::make_pair( "U1", m_U1 ) );
-	vec_attributes.push_back( std::make_pair( "V1", m_V1 ) );
-	vec_attributes.push_back( std::make_pair( "U2", m_U2 ) );
-	vec_attributes.push_back( std::make_pair( "V2", m_V2 ) );
-	vec_attributes.push_back( std::make_pair( "Usense", m_Usense ) );
-	vec_attributes.push_back( std::make_pair( "Vsense", m_Vsense ) );
+	vec_attributes.emplace_back( "BasisSurface", m_BasisSurface );
+	vec_attributes.emplace_back( "U1", m_U1 );
+	vec_attributes.emplace_back( "V1", m_V1 );
+	vec_attributes.emplace_back( "U2", m_U2 );
+	vec_attributes.emplace_back( "V2", m_V2 );
+	vec_attributes.emplace_back( "Usense", m_Usense );
+	vec_attributes.emplace_back( "Vsense", m_Vsense );
 }
 void IfcRectangularTrimmedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

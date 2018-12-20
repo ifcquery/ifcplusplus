@@ -14,18 +14,17 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcExtendedProperties 
-IfcExtendedProperties::IfcExtendedProperties() {}
+IfcExtendedProperties::IfcExtendedProperties() = default;
 IfcExtendedProperties::IfcExtendedProperties( int id ) { m_entity_id = id; }
-IfcExtendedProperties::~IfcExtendedProperties() {}
+IfcExtendedProperties::~IfcExtendedProperties() = default;
 shared_ptr<BuildingObject> IfcExtendedProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExtendedProperties> copy_self( new IfcExtendedProperties() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Properties.size(); ++ii )
+	for(auto item_ii : m_Properties)
 	{
-		auto item_ii = m_Properties[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Properties.push_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
 		}
@@ -42,12 +41,12 @@ void IfcExtendedProperties::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Properties );
 	stream << ");";
 }
-void IfcExtendedProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcExtendedProperties::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExtendedProperties::toString() const { return L"IfcExtendedProperties"; }
 void IfcExtendedProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExtendedProperties, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExtendedProperties, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Properties, map );
@@ -55,13 +54,13 @@ void IfcExtendedProperties::readStepArguments( const std::vector<std::wstring>& 
 void IfcExtendedProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPropertyAbstraction::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	if( m_Properties.size() > 0 )
+	vec_attributes.emplace_back( "Name", m_Name );
+	vec_attributes.emplace_back( "Description", m_Description );
+	if( !m_Properties.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Properties_vec_object( new AttributeObjectVector() );
 		std::copy( m_Properties.begin(), m_Properties.end(), std::back_inserter( Properties_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Properties", Properties_vec_object ) );
+		vec_attributes.emplace_back( "Properties", Properties_vec_object );
 	}
 }
 void IfcExtendedProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

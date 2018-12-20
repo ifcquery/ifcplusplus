@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcAddressTypeEnum.h"
 
 // TYPE IfcAddressTypeEnum = ENUMERATION OF	(OFFICE	,SITE	,HOME	,DISTRIBUTIONPOINT	,USERDEFINED);
-IfcAddressTypeEnum::IfcAddressTypeEnum() {}
-IfcAddressTypeEnum::~IfcAddressTypeEnum() {}
+IfcAddressTypeEnum::IfcAddressTypeEnum() = default;
+IfcAddressTypeEnum::~IfcAddressTypeEnum() = default;
 shared_ptr<BuildingObject> IfcAddressTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAddressTypeEnum> copy_self( new IfcAddressTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcAddressTypeEnum::toString() const
 shared_ptr<IfcAddressTypeEnum> IfcAddressTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAddressTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAddressTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAddressTypeEnum>(); }
 	shared_ptr<IfcAddressTypeEnum> type_object( new IfcAddressTypeEnum() );
 	if( boost::iequals( arg, L".OFFICE." ) )
 	{

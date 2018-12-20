@@ -17,9 +17,9 @@
 #include "ifcpp/IFC4/include/IfcUnit.h"
 
 // ENTITY IfcTimeSeries 
-IfcTimeSeries::IfcTimeSeries() {}
+IfcTimeSeries::IfcTimeSeries() = default;
 IfcTimeSeries::IfcTimeSeries( int id ) { m_entity_id = id; }
-IfcTimeSeries::~IfcTimeSeries() {}
+IfcTimeSeries::~IfcTimeSeries() = default;
 shared_ptr<BuildingObject> IfcTimeSeries::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTimeSeries> copy_self( new IfcTimeSeries() );
@@ -53,12 +53,12 @@ void IfcTimeSeries::getStepLine( std::stringstream& stream ) const
 	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcTimeSeries::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTimeSeries::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTimeSeries::toString() const { return L"IfcTimeSeries"; }
 void IfcTimeSeries::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTimeSeries, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTimeSeries, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_StartTime = IfcDateTime::createObjectFromSTEP( args[2], map );
@@ -70,31 +70,31 @@ void IfcTimeSeries::readStepArguments( const std::vector<std::wstring>& args, co
 }
 void IfcTimeSeries::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "StartTime", m_StartTime ) );
-	vec_attributes.push_back( std::make_pair( "EndTime", m_EndTime ) );
-	vec_attributes.push_back( std::make_pair( "TimeSeriesDataType", m_TimeSeriesDataType ) );
-	vec_attributes.push_back( std::make_pair( "DataOrigin", m_DataOrigin ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedDataOrigin", m_UserDefinedDataOrigin ) );
-	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
+	vec_attributes.emplace_back( "Name", m_Name );
+	vec_attributes.emplace_back( "Description", m_Description );
+	vec_attributes.emplace_back( "StartTime", m_StartTime );
+	vec_attributes.emplace_back( "EndTime", m_EndTime );
+	vec_attributes.emplace_back( "TimeSeriesDataType", m_TimeSeriesDataType );
+	vec_attributes.emplace_back( "DataOrigin", m_DataOrigin );
+	vec_attributes.emplace_back( "UserDefinedDataOrigin", m_UserDefinedDataOrigin );
+	vec_attributes.emplace_back( "Unit", m_Unit );
 }
 void IfcTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_HasExternalReference_inverse.size() > 0 )
+	if( !m_HasExternalReference_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasExternalReference_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasExternalReference_inverse.size(); ++i )
+		for(const auto & i : m_HasExternalReference_inverse)
 		{
-			if( !m_HasExternalReference_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				HasExternalReference_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
+				HasExternalReference_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj );
 	}
 }
-void IfcTimeSeries::setInverseCounterparts( shared_ptr<BuildingEntity> )
+void IfcTimeSeries::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
 {
 }
 void IfcTimeSeries::unlinkFromInverseCounterparts()

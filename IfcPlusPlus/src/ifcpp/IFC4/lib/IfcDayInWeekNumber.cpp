@@ -10,9 +10,9 @@
 #include "ifcpp/IFC4/include/IfcDayInWeekNumber.h"
 
 // TYPE IfcDayInWeekNumber = INTEGER;
-IfcDayInWeekNumber::IfcDayInWeekNumber() {}
+IfcDayInWeekNumber::IfcDayInWeekNumber() = default;
 IfcDayInWeekNumber::IfcDayInWeekNumber( int value ) { m_value = value; }
-IfcDayInWeekNumber::~IfcDayInWeekNumber() {}
+IfcDayInWeekNumber::~IfcDayInWeekNumber() = default;
 shared_ptr<BuildingObject> IfcDayInWeekNumber::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDayInWeekNumber> copy_self( new IfcDayInWeekNumber() );
@@ -34,7 +34,7 @@ const std::wstring IfcDayInWeekNumber::toString() const
 shared_ptr<IfcDayInWeekNumber> IfcDayInWeekNumber::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDayInWeekNumber>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDayInWeekNumber>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDayInWeekNumber>(); }
 	shared_ptr<IfcDayInWeekNumber> type_object( new IfcDayInWeekNumber() );
 	readInteger( arg, type_object->m_value );
 	return type_object;

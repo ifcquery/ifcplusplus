@@ -12,9 +12,9 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // ENTITY IfcFailureConnectionCondition 
-IfcFailureConnectionCondition::IfcFailureConnectionCondition() {}
+IfcFailureConnectionCondition::IfcFailureConnectionCondition() = default;
 IfcFailureConnectionCondition::IfcFailureConnectionCondition( int id ) { m_entity_id = id; }
-IfcFailureConnectionCondition::~IfcFailureConnectionCondition() {}
+IfcFailureConnectionCondition::~IfcFailureConnectionCondition() = default;
 shared_ptr<BuildingObject> IfcFailureConnectionCondition::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFailureConnectionCondition> copy_self( new IfcFailureConnectionCondition() );
@@ -45,12 +45,12 @@ void IfcFailureConnectionCondition::getStepLine( std::stringstream& stream ) con
 	if( m_CompressionFailureZ ) { m_CompressionFailureZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFailureConnectionCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFailureConnectionCondition::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFailureConnectionCondition::toString() const { return L"IfcFailureConnectionCondition"; }
 void IfcFailureConnectionCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFailureConnectionCondition, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFailureConnectionCondition, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_TensionFailureX = IfcForceMeasure::createObjectFromSTEP( args[1], map );
 	m_TensionFailureY = IfcForceMeasure::createObjectFromSTEP( args[2], map );
@@ -62,12 +62,12 @@ void IfcFailureConnectionCondition::readStepArguments( const std::vector<std::ws
 void IfcFailureConnectionCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralConnectionCondition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TensionFailureX", m_TensionFailureX ) );
-	vec_attributes.push_back( std::make_pair( "TensionFailureY", m_TensionFailureY ) );
-	vec_attributes.push_back( std::make_pair( "TensionFailureZ", m_TensionFailureZ ) );
-	vec_attributes.push_back( std::make_pair( "CompressionFailureX", m_CompressionFailureX ) );
-	vec_attributes.push_back( std::make_pair( "CompressionFailureY", m_CompressionFailureY ) );
-	vec_attributes.push_back( std::make_pair( "CompressionFailureZ", m_CompressionFailureZ ) );
+	vec_attributes.emplace_back( "TensionFailureX", m_TensionFailureX );
+	vec_attributes.emplace_back( "TensionFailureY", m_TensionFailureY );
+	vec_attributes.emplace_back( "TensionFailureZ", m_TensionFailureZ );
+	vec_attributes.emplace_back( "CompressionFailureX", m_CompressionFailureX );
+	vec_attributes.emplace_back( "CompressionFailureY", m_CompressionFailureY );
+	vec_attributes.emplace_back( "CompressionFailureZ", m_CompressionFailureZ );
 }
 void IfcFailureConnectionCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -14,9 +14,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcRectangularPyramid 
-IfcRectangularPyramid::IfcRectangularPyramid() {}
+IfcRectangularPyramid::IfcRectangularPyramid() = default;
 IfcRectangularPyramid::IfcRectangularPyramid( int id ) { m_entity_id = id; }
-IfcRectangularPyramid::~IfcRectangularPyramid() {}
+IfcRectangularPyramid::~IfcRectangularPyramid() = default;
 shared_ptr<BuildingObject> IfcRectangularPyramid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRectangularPyramid> copy_self( new IfcRectangularPyramid() );
@@ -38,12 +38,12 @@ void IfcRectangularPyramid::getStepLine( std::stringstream& stream ) const
 	if( m_Height ) { m_Height->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRectangularPyramid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRectangularPyramid::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRectangularPyramid::toString() const { return L"IfcRectangularPyramid"; }
 void IfcRectangularPyramid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangularPyramid, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangularPyramid, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_XLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_YLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -52,9 +52,9 @@ void IfcRectangularPyramid::readStepArguments( const std::vector<std::wstring>& 
 void IfcRectangularPyramid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "XLength", m_XLength ) );
-	vec_attributes.push_back( std::make_pair( "YLength", m_YLength ) );
-	vec_attributes.push_back( std::make_pair( "Height", m_Height ) );
+	vec_attributes.emplace_back( "XLength", m_XLength );
+	vec_attributes.emplace_back( "YLength", m_YLength );
+	vec_attributes.emplace_back( "Height", m_Height );
 }
 void IfcRectangularPyramid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

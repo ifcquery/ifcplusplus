@@ -12,9 +12,9 @@
 #include "ifcpp/IFC4/include/IfcValue.h"
 
 // ENTITY IfcMeasureWithUnit 
-IfcMeasureWithUnit::IfcMeasureWithUnit() {}
+IfcMeasureWithUnit::IfcMeasureWithUnit() = default;
 IfcMeasureWithUnit::IfcMeasureWithUnit( int id ) { m_entity_id = id; }
-IfcMeasureWithUnit::~IfcMeasureWithUnit() {}
+IfcMeasureWithUnit::~IfcMeasureWithUnit() = default;
 shared_ptr<BuildingObject> IfcMeasureWithUnit::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMeasureWithUnit> copy_self( new IfcMeasureWithUnit() );
@@ -30,24 +30,24 @@ void IfcMeasureWithUnit::getStepLine( std::stringstream& stream ) const
 	if( m_UnitComponent ) { m_UnitComponent->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcMeasureWithUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMeasureWithUnit::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMeasureWithUnit::toString() const { return L"IfcMeasureWithUnit"; }
 void IfcMeasureWithUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMeasureWithUnit, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMeasureWithUnit, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_ValueComponent = IfcValue::createObjectFromSTEP( args[0], map );
 	m_UnitComponent = IfcUnit::createObjectFromSTEP( args[1], map );
 }
 void IfcMeasureWithUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "ValueComponent", m_ValueComponent ) );
-	vec_attributes.push_back( std::make_pair( "UnitComponent", m_UnitComponent ) );
+	vec_attributes.emplace_back( "ValueComponent", m_ValueComponent );
+	vec_attributes.emplace_back( "UnitComponent", m_UnitComponent );
 }
 void IfcMeasureWithUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
-void IfcMeasureWithUnit::setInverseCounterparts( shared_ptr<BuildingEntity> )
+void IfcMeasureWithUnit::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
 {
 }
 void IfcMeasureWithUnit::unlinkFromInverseCounterparts()

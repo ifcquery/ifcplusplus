@@ -18,9 +18,9 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcCostValue 
-IfcCostValue::IfcCostValue() {}
+IfcCostValue::IfcCostValue() = default;
 IfcCostValue::IfcCostValue( int id ) { m_entity_id = id; }
-IfcCostValue::~IfcCostValue() {}
+IfcCostValue::~IfcCostValue() = default;
 shared_ptr<BuildingObject> IfcCostValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCostValue> copy_self( new IfcCostValue() );
@@ -33,10 +33,9 @@ shared_ptr<BuildingObject> IfcCostValue::getDeepCopy( BuildingCopyOptions& optio
 	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy(options) ); }
 	if( m_Condition ) { copy_self->m_Condition = dynamic_pointer_cast<IfcLabel>( m_Condition->getDeepCopy(options) ); }
 	if( m_ArithmeticOperator ) { copy_self->m_ArithmeticOperator = dynamic_pointer_cast<IfcArithmeticOperatorEnum>( m_ArithmeticOperator->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Components.size(); ++ii )
+	for(auto item_ii : m_Components)
 	{
-		auto item_ii = m_Components[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Components.push_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy(options) ) );
 		}
@@ -67,12 +66,12 @@ void IfcCostValue::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Components );
 	stream << ");";
 }
-void IfcCostValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCostValue::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCostValue::toString() const { return L"IfcCostValue"; }
 void IfcCostValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCostValue, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCostValue, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_AppliedValue = IfcAppliedValueSelect::createObjectFromSTEP( args[2], map );

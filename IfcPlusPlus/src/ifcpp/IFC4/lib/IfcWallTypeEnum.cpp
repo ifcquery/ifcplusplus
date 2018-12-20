@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcWallTypeEnum.h"
 
 // TYPE IfcWallTypeEnum = ENUMERATION OF	(MOVABLE	,PARAPET	,PARTITIONING	,PLUMBINGWALL	,SHEAR	,SOLIDWALL	,STANDARD	,POLYGONAL	,ELEMENTEDWALL	,USERDEFINED	,NOTDEFINED);
-IfcWallTypeEnum::IfcWallTypeEnum() {}
-IfcWallTypeEnum::~IfcWallTypeEnum() {}
+IfcWallTypeEnum::IfcWallTypeEnum() = default;
+IfcWallTypeEnum::~IfcWallTypeEnum() = default;
 shared_ptr<BuildingObject> IfcWallTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWallTypeEnum> copy_self( new IfcWallTypeEnum() );
@@ -58,7 +58,7 @@ const std::wstring IfcWallTypeEnum::toString() const
 shared_ptr<IfcWallTypeEnum> IfcWallTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWallTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWallTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWallTypeEnum>(); }
 	shared_ptr<IfcWallTypeEnum> type_object( new IfcWallTypeEnum() );
 	if( boost::iequals( arg, L".MOVABLE." ) )
 	{

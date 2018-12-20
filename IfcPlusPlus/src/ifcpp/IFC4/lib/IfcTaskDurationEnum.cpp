@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcTaskDurationEnum.h"
 
 // TYPE IfcTaskDurationEnum = ENUMERATION OF	(ELAPSEDTIME	,WORKTIME	,NOTDEFINED);
-IfcTaskDurationEnum::IfcTaskDurationEnum() {}
-IfcTaskDurationEnum::~IfcTaskDurationEnum() {}
+IfcTaskDurationEnum::IfcTaskDurationEnum() = default;
+IfcTaskDurationEnum::~IfcTaskDurationEnum() = default;
 shared_ptr<BuildingObject> IfcTaskDurationEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTaskDurationEnum> copy_self( new IfcTaskDurationEnum() );
@@ -42,7 +42,7 @@ const std::wstring IfcTaskDurationEnum::toString() const
 shared_ptr<IfcTaskDurationEnum> IfcTaskDurationEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTaskDurationEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTaskDurationEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTaskDurationEnum>(); }
 	shared_ptr<IfcTaskDurationEnum> type_object( new IfcTaskDurationEnum() );
 	if( boost::iequals( arg, L".ELAPSEDTIME." ) )
 	{

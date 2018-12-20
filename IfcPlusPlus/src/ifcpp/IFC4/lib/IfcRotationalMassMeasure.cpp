@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcRotationalMassMeasure.h"
 
 // TYPE IfcRotationalMassMeasure = REAL;
-IfcRotationalMassMeasure::IfcRotationalMassMeasure() {}
+IfcRotationalMassMeasure::IfcRotationalMassMeasure() = default;
 IfcRotationalMassMeasure::IfcRotationalMassMeasure( double value ) { m_value = value; }
-IfcRotationalMassMeasure::~IfcRotationalMassMeasure() {}
+IfcRotationalMassMeasure::~IfcRotationalMassMeasure() = default;
 shared_ptr<BuildingObject> IfcRotationalMassMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRotationalMassMeasure> copy_self( new IfcRotationalMassMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcRotationalMassMeasure::toString() const
 shared_ptr<IfcRotationalMassMeasure> IfcRotationalMassMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRotationalMassMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRotationalMassMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRotationalMassMeasure>(); }
 	shared_ptr<IfcRotationalMassMeasure> type_object( new IfcRotationalMassMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

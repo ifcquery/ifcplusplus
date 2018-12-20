@@ -12,9 +12,9 @@
 #include "ifcpp/IFC4/include/IfcSchedulingTime.h"
 
 // ENTITY IfcSchedulingTime 
-IfcSchedulingTime::IfcSchedulingTime() {}
+IfcSchedulingTime::IfcSchedulingTime() = default;
 IfcSchedulingTime::IfcSchedulingTime( int id ) { m_entity_id = id; }
-IfcSchedulingTime::~IfcSchedulingTime() {}
+IfcSchedulingTime::~IfcSchedulingTime() = default;
 shared_ptr<BuildingObject> IfcSchedulingTime::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSchedulingTime> copy_self( new IfcSchedulingTime() );
@@ -33,26 +33,26 @@ void IfcSchedulingTime::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSchedulingTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSchedulingTime::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSchedulingTime::toString() const { return L"IfcSchedulingTime"; }
 void IfcSchedulingTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSchedulingTime, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSchedulingTime, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1], map );
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2], map );
 }
 void IfcSchedulingTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "DataOrigin", m_DataOrigin ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedDataOrigin", m_UserDefinedDataOrigin ) );
+	vec_attributes.emplace_back( "Name", m_Name );
+	vec_attributes.emplace_back( "DataOrigin", m_DataOrigin );
+	vec_attributes.emplace_back( "UserDefinedDataOrigin", m_UserDefinedDataOrigin );
 }
 void IfcSchedulingTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
-void IfcSchedulingTime::setInverseCounterparts( shared_ptr<BuildingEntity> )
+void IfcSchedulingTime::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
 {
 }
 void IfcSchedulingTime::unlinkFromInverseCounterparts()

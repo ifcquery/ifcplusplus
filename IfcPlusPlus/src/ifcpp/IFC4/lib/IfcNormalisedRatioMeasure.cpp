@@ -13,8 +13,8 @@
 #include "ifcpp/IFC4/include/IfcNormalisedRatioMeasure.h"
 
 // TYPE IfcNormalisedRatioMeasure = IfcRatioMeasure;
-IfcNormalisedRatioMeasure::IfcNormalisedRatioMeasure() {}
-IfcNormalisedRatioMeasure::~IfcNormalisedRatioMeasure() {}
+IfcNormalisedRatioMeasure::IfcNormalisedRatioMeasure() = default;
+IfcNormalisedRatioMeasure::~IfcNormalisedRatioMeasure() = default;
 shared_ptr<BuildingObject> IfcNormalisedRatioMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcNormalisedRatioMeasure> copy_self( new IfcNormalisedRatioMeasure() );
@@ -36,7 +36,7 @@ const std::wstring IfcNormalisedRatioMeasure::toString() const
 shared_ptr<IfcNormalisedRatioMeasure> IfcNormalisedRatioMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcNormalisedRatioMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNormalisedRatioMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNormalisedRatioMeasure>(); }
 	shared_ptr<IfcNormalisedRatioMeasure> type_object( new IfcNormalisedRatioMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

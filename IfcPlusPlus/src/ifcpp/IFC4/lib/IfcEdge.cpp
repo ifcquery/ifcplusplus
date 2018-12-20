@@ -13,9 +13,9 @@
 #include "ifcpp/IFC4/include/IfcVertex.h"
 
 // ENTITY IfcEdge 
-IfcEdge::IfcEdge() {}
+IfcEdge::IfcEdge() = default;
 IfcEdge::IfcEdge( int id ) { m_entity_id = id; }
-IfcEdge::~IfcEdge() {}
+IfcEdge::~IfcEdge() = default;
 shared_ptr<BuildingObject> IfcEdge::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEdge> copy_self( new IfcEdge() );
@@ -31,20 +31,20 @@ void IfcEdge::getStepLine( std::stringstream& stream ) const
 	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcEdge::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcEdge::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcEdge::toString() const { return L"IfcEdge"; }
 void IfcEdge::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEdge, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcEdge, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_EdgeStart, map );
 	readEntityReference( args[1], m_EdgeEnd, map );
 }
 void IfcEdge::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "EdgeStart", m_EdgeStart ) );
-	vec_attributes.push_back( std::make_pair( "EdgeEnd", m_EdgeEnd ) );
+	vec_attributes.emplace_back( "EdgeStart", m_EdgeStart );
+	vec_attributes.emplace_back( "EdgeEnd", m_EdgeEnd );
 }
 void IfcEdge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

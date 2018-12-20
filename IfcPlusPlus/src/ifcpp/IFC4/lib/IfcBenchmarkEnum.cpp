@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcBenchmarkEnum.h"
 
 // TYPE IfcBenchmarkEnum = ENUMERATION OF	(GREATERTHAN	,GREATERTHANOREQUALTO	,LESSTHAN	,LESSTHANOREQUALTO	,EQUALTO	,NOTEQUALTO	,INCLUDES	,NOTINCLUDES	,INCLUDEDIN	,NOTINCLUDEDIN);
-IfcBenchmarkEnum::IfcBenchmarkEnum() {}
-IfcBenchmarkEnum::~IfcBenchmarkEnum() {}
+IfcBenchmarkEnum::IfcBenchmarkEnum() = default;
+IfcBenchmarkEnum::~IfcBenchmarkEnum() = default;
 shared_ptr<BuildingObject> IfcBenchmarkEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBenchmarkEnum> copy_self( new IfcBenchmarkEnum() );
@@ -56,7 +56,7 @@ const std::wstring IfcBenchmarkEnum::toString() const
 shared_ptr<IfcBenchmarkEnum> IfcBenchmarkEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBenchmarkEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBenchmarkEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBenchmarkEnum>(); }
 	shared_ptr<IfcBenchmarkEnum> type_object( new IfcBenchmarkEnum() );
 	if( boost::iequals( arg, L".GREATERTHAN." ) )
 	{

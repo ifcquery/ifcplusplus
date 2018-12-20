@@ -12,9 +12,9 @@
 #include "ifcpp/IFC4/include/IfcTopologicalRepresentationItem.h"
 
 // ENTITY IfcTopologicalRepresentationItem 
-IfcTopologicalRepresentationItem::IfcTopologicalRepresentationItem() {}
+IfcTopologicalRepresentationItem::IfcTopologicalRepresentationItem() = default;
 IfcTopologicalRepresentationItem::IfcTopologicalRepresentationItem( int id ) { m_entity_id = id; }
-IfcTopologicalRepresentationItem::~IfcTopologicalRepresentationItem() {}
+IfcTopologicalRepresentationItem::~IfcTopologicalRepresentationItem() = default;
 shared_ptr<BuildingObject> IfcTopologicalRepresentationItem::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTopologicalRepresentationItem> copy_self( new IfcTopologicalRepresentationItem() );
@@ -25,7 +25,7 @@ void IfcTopologicalRepresentationItem::getStepLine( std::stringstream& stream ) 
 	stream << "#" << m_entity_id << "= IFCTOPOLOGICALREPRESENTATIONITEM" << "(";
 	stream << ");";
 }
-void IfcTopologicalRepresentationItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTopologicalRepresentationItem::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTopologicalRepresentationItem::toString() const { return L"IfcTopologicalRepresentationItem"; }
 void IfcTopologicalRepresentationItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

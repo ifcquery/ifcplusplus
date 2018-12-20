@@ -11,8 +11,8 @@
 #include "ifcpp/IFC4/include/IfcNonNegativeLengthMeasure.h"
 
 // TYPE IfcNonNegativeLengthMeasure = IfcLengthMeasure;
-IfcNonNegativeLengthMeasure::IfcNonNegativeLengthMeasure() {}
-IfcNonNegativeLengthMeasure::~IfcNonNegativeLengthMeasure() {}
+IfcNonNegativeLengthMeasure::IfcNonNegativeLengthMeasure() = default;
+IfcNonNegativeLengthMeasure::~IfcNonNegativeLengthMeasure() = default;
 shared_ptr<BuildingObject> IfcNonNegativeLengthMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcNonNegativeLengthMeasure> copy_self( new IfcNonNegativeLengthMeasure() );
@@ -34,7 +34,7 @@ const std::wstring IfcNonNegativeLengthMeasure::toString() const
 shared_ptr<IfcNonNegativeLengthMeasure> IfcNonNegativeLengthMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcNonNegativeLengthMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNonNegativeLengthMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNonNegativeLengthMeasure>(); }
 	shared_ptr<IfcNonNegativeLengthMeasure> type_object( new IfcNonNegativeLengthMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

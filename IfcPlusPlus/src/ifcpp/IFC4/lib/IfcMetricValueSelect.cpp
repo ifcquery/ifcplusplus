@@ -120,7 +120,7 @@
 // TYPE IfcMetricValueSelect = SELECT	(IfcAppliedValue	,IfcMeasureWithUnit	,IfcReference	,IfcTable	,IfcTimeSeries	,IfcValue);
 shared_ptr<IfcMetricValueSelect> IfcMetricValueSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcMetricValueSelect>(); }
+	if( arg.empty() ){ return shared_ptr<IfcMetricValueSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcMetricValueSelect>();

@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcReal.h"
 
 // TYPE IfcReal = REAL;
-IfcReal::IfcReal() {}
+IfcReal::IfcReal() = default;
 IfcReal::IfcReal( double value ) { m_value = value; }
-IfcReal::~IfcReal() {}
+IfcReal::~IfcReal() = default;
 shared_ptr<BuildingObject> IfcReal::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReal> copy_self( new IfcReal() );
@@ -35,7 +35,7 @@ const std::wstring IfcReal::toString() const
 shared_ptr<IfcReal> IfcReal::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReal>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReal>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReal>(); }
 	shared_ptr<IfcReal> type_object( new IfcReal() );
 	readReal( arg, type_object->m_value );
 	return type_object;

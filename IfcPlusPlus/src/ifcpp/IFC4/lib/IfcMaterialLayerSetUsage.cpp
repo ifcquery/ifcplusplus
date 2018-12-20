@@ -16,9 +16,9 @@
 #include "ifcpp/IFC4/include/IfcRelAssociatesMaterial.h"
 
 // ENTITY IfcMaterialLayerSetUsage 
-IfcMaterialLayerSetUsage::IfcMaterialLayerSetUsage() {}
+IfcMaterialLayerSetUsage::IfcMaterialLayerSetUsage() = default;
 IfcMaterialLayerSetUsage::IfcMaterialLayerSetUsage( int id ) { m_entity_id = id; }
-IfcMaterialLayerSetUsage::~IfcMaterialLayerSetUsage() {}
+IfcMaterialLayerSetUsage::~IfcMaterialLayerSetUsage() = default;
 shared_ptr<BuildingObject> IfcMaterialLayerSetUsage::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialLayerSetUsage> copy_self( new IfcMaterialLayerSetUsage() );
@@ -43,12 +43,12 @@ void IfcMaterialLayerSetUsage::getStepLine( std::stringstream& stream ) const
 	if( m_ReferenceExtent ) { m_ReferenceExtent->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMaterialLayerSetUsage::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMaterialLayerSetUsage::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialLayerSetUsage::toString() const { return L"IfcMaterialLayerSetUsage"; }
 void IfcMaterialLayerSetUsage::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialLayerSetUsage, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialLayerSetUsage, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_ForLayerSet, map );
 	m_LayerSetDirection = IfcLayerSetDirectionEnum::createObjectFromSTEP( args[1], map );
 	m_DirectionSense = IfcDirectionSenseEnum::createObjectFromSTEP( args[2], map );
@@ -58,11 +58,11 @@ void IfcMaterialLayerSetUsage::readStepArguments( const std::vector<std::wstring
 void IfcMaterialLayerSetUsage::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialUsageDefinition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ForLayerSet", m_ForLayerSet ) );
-	vec_attributes.push_back( std::make_pair( "LayerSetDirection", m_LayerSetDirection ) );
-	vec_attributes.push_back( std::make_pair( "DirectionSense", m_DirectionSense ) );
-	vec_attributes.push_back( std::make_pair( "OffsetFromReferenceLine", m_OffsetFromReferenceLine ) );
-	vec_attributes.push_back( std::make_pair( "ReferenceExtent", m_ReferenceExtent ) );
+	vec_attributes.emplace_back( "ForLayerSet", m_ForLayerSet );
+	vec_attributes.emplace_back( "LayerSetDirection", m_LayerSetDirection );
+	vec_attributes.emplace_back( "DirectionSense", m_DirectionSense );
+	vec_attributes.emplace_back( "OffsetFromReferenceLine", m_OffsetFromReferenceLine );
+	vec_attributes.emplace_back( "ReferenceExtent", m_ReferenceExtent );
 }
 void IfcMaterialLayerSetUsage::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

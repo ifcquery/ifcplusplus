@@ -15,9 +15,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianTransformationOperator 
-IfcCartesianTransformationOperator::IfcCartesianTransformationOperator() {}
+IfcCartesianTransformationOperator::IfcCartesianTransformationOperator() = default;
 IfcCartesianTransformationOperator::IfcCartesianTransformationOperator( int id ) { m_entity_id = id; }
-IfcCartesianTransformationOperator::~IfcCartesianTransformationOperator() {}
+IfcCartesianTransformationOperator::~IfcCartesianTransformationOperator() = default;
 shared_ptr<BuildingObject> IfcCartesianTransformationOperator::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianTransformationOperator> copy_self( new IfcCartesianTransformationOperator() );
@@ -39,12 +39,12 @@ void IfcCartesianTransformationOperator::getStepLine( std::stringstream& stream 
 	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCartesianTransformationOperator::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCartesianTransformationOperator::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianTransformationOperator::toString() const { return L"IfcCartesianTransformationOperator"; }
 void IfcCartesianTransformationOperator::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Axis1, map );
 	readEntityReference( args[1], m_Axis2, map );
 	readEntityReference( args[2], m_LocalOrigin, map );
@@ -53,10 +53,10 @@ void IfcCartesianTransformationOperator::readStepArguments( const std::vector<st
 void IfcCartesianTransformationOperator::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Axis1", m_Axis1 ) );
-	vec_attributes.push_back( std::make_pair( "Axis2", m_Axis2 ) );
-	vec_attributes.push_back( std::make_pair( "LocalOrigin", m_LocalOrigin ) );
-	vec_attributes.push_back( std::make_pair( "Scale", m_Scale ) );
+	vec_attributes.emplace_back( "Axis1", m_Axis1 );
+	vec_attributes.emplace_back( "Axis2", m_Axis2 );
+	vec_attributes.emplace_back( "LocalOrigin", m_LocalOrigin );
+	vec_attributes.emplace_back( "Scale", m_Scale );
 }
 void IfcCartesianTransformationOperator::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

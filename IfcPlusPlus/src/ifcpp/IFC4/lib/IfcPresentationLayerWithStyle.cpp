@@ -16,18 +16,17 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPresentationLayerWithStyle 
-IfcPresentationLayerWithStyle::IfcPresentationLayerWithStyle() {}
+IfcPresentationLayerWithStyle::IfcPresentationLayerWithStyle() = default;
 IfcPresentationLayerWithStyle::IfcPresentationLayerWithStyle( int id ) { m_entity_id = id; }
-IfcPresentationLayerWithStyle::~IfcPresentationLayerWithStyle() {}
+IfcPresentationLayerWithStyle::~IfcPresentationLayerWithStyle() = default;
 shared_ptr<BuildingObject> IfcPresentationLayerWithStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPresentationLayerWithStyle> copy_self( new IfcPresentationLayerWithStyle() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_AssignedItems.size(); ++ii )
+	for(auto item_ii : m_AssignedItems)
 	{
-		auto item_ii = m_AssignedItems[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_AssignedItems.push_back( dynamic_pointer_cast<IfcLayeredItem>(item_ii->getDeepCopy(options) ) );
 		}
@@ -36,10 +35,9 @@ shared_ptr<BuildingObject> IfcPresentationLayerWithStyle::getDeepCopy( BuildingC
 	if( m_LayerOn ) { copy_self->m_LayerOn = dynamic_pointer_cast<IfcLogical>( m_LayerOn->getDeepCopy(options) ); }
 	if( m_LayerFrozen ) { copy_self->m_LayerFrozen = dynamic_pointer_cast<IfcLogical>( m_LayerFrozen->getDeepCopy(options) ); }
 	if( m_LayerBlocked ) { copy_self->m_LayerBlocked = dynamic_pointer_cast<IfcLogical>( m_LayerBlocked->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_LayerStyles.size(); ++ii )
+	for(auto item_ii : m_LayerStyles)
 	{
-		auto item_ii = m_LayerStyles[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_LayerStyles.push_back( dynamic_pointer_cast<IfcPresentationStyle>(item_ii->getDeepCopy(options) ) );
 		}
@@ -83,12 +81,12 @@ void IfcPresentationLayerWithStyle::getStepLine( std::stringstream& stream ) con
 	writeEntityList( stream, m_LayerStyles );
 	stream << ");";
 }
-void IfcPresentationLayerWithStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPresentationLayerWithStyle::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPresentationLayerWithStyle::toString() const { return L"IfcPresentationLayerWithStyle"; }
 void IfcPresentationLayerWithStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPresentationLayerWithStyle, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPresentationLayerWithStyle, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readSelectList( args[2], m_AssignedItems, map );
@@ -101,14 +99,14 @@ void IfcPresentationLayerWithStyle::readStepArguments( const std::vector<std::ws
 void IfcPresentationLayerWithStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationLayerAssignment::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "LayerOn", m_LayerOn ) );
-	vec_attributes.push_back( std::make_pair( "LayerFrozen", m_LayerFrozen ) );
-	vec_attributes.push_back( std::make_pair( "LayerBlocked", m_LayerBlocked ) );
-	if( m_LayerStyles.size() > 0 )
+	vec_attributes.emplace_back( "LayerOn", m_LayerOn );
+	vec_attributes.emplace_back( "LayerFrozen", m_LayerFrozen );
+	vec_attributes.emplace_back( "LayerBlocked", m_LayerBlocked );
+	if( !m_LayerStyles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> LayerStyles_vec_object( new AttributeObjectVector() );
 		std::copy( m_LayerStyles.begin(), m_LayerStyles.end(), std::back_inserter( LayerStyles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "LayerStyles", LayerStyles_vec_object ) );
+		vec_attributes.emplace_back( "LayerStyles", LayerStyles_vec_object );
 	}
 }
 void IfcPresentationLayerWithStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

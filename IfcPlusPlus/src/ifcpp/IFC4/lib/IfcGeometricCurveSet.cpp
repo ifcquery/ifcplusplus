@@ -13,16 +13,15 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcGeometricCurveSet 
-IfcGeometricCurveSet::IfcGeometricCurveSet() {}
+IfcGeometricCurveSet::IfcGeometricCurveSet() = default;
 IfcGeometricCurveSet::IfcGeometricCurveSet( int id ) { m_entity_id = id; }
-IfcGeometricCurveSet::~IfcGeometricCurveSet() {}
+IfcGeometricCurveSet::~IfcGeometricCurveSet() = default;
 shared_ptr<BuildingObject> IfcGeometricCurveSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGeometricCurveSet> copy_self( new IfcGeometricCurveSet() );
-	for( size_t ii=0; ii<m_Elements.size(); ++ii )
+	for(auto item_ii : m_Elements)
 	{
-		auto item_ii = m_Elements[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Elements.push_back( dynamic_pointer_cast<IfcGeometricSetSelect>(item_ii->getDeepCopy(options) ) );
 		}
@@ -52,12 +51,12 @@ void IfcGeometricCurveSet::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcGeometricCurveSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcGeometricCurveSet::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGeometricCurveSet::toString() const { return L"IfcGeometricCurveSet"; }
 void IfcGeometricCurveSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGeometricCurveSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGeometricCurveSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readSelectList( args[0], m_Elements, map );
 }
 void IfcGeometricCurveSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

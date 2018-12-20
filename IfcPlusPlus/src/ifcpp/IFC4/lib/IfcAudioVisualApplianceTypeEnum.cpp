@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcAudioVisualApplianceTypeEnum.h"
 
 // TYPE IfcAudioVisualApplianceTypeEnum = ENUMERATION OF	(AMPLIFIER	,CAMERA	,DISPLAY	,MICROPHONE	,PLAYER	,PROJECTOR	,RECEIVER	,SPEAKER	,SWITCHER	,TELEPHONE	,TUNER	,USERDEFINED	,NOTDEFINED);
-IfcAudioVisualApplianceTypeEnum::IfcAudioVisualApplianceTypeEnum() {}
-IfcAudioVisualApplianceTypeEnum::~IfcAudioVisualApplianceTypeEnum() {}
+IfcAudioVisualApplianceTypeEnum::IfcAudioVisualApplianceTypeEnum() = default;
+IfcAudioVisualApplianceTypeEnum::~IfcAudioVisualApplianceTypeEnum() = default;
 shared_ptr<BuildingObject> IfcAudioVisualApplianceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAudioVisualApplianceTypeEnum> copy_self( new IfcAudioVisualApplianceTypeEnum() );
@@ -62,7 +62,7 @@ const std::wstring IfcAudioVisualApplianceTypeEnum::toString() const
 shared_ptr<IfcAudioVisualApplianceTypeEnum> IfcAudioVisualApplianceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAudioVisualApplianceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAudioVisualApplianceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAudioVisualApplianceTypeEnum>(); }
 	shared_ptr<IfcAudioVisualApplianceTypeEnum> type_object( new IfcAudioVisualApplianceTypeEnum() );
 	if( boost::iequals( arg, L".AMPLIFIER." ) )
 	{

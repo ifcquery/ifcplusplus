@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcCooledBeamTypeEnum.h"
 
 // TYPE IfcCooledBeamTypeEnum = ENUMERATION OF	(ACTIVE	,PASSIVE	,USERDEFINED	,NOTDEFINED);
-IfcCooledBeamTypeEnum::IfcCooledBeamTypeEnum() {}
-IfcCooledBeamTypeEnum::~IfcCooledBeamTypeEnum() {}
+IfcCooledBeamTypeEnum::IfcCooledBeamTypeEnum() = default;
+IfcCooledBeamTypeEnum::~IfcCooledBeamTypeEnum() = default;
 shared_ptr<BuildingObject> IfcCooledBeamTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCooledBeamTypeEnum> copy_self( new IfcCooledBeamTypeEnum() );
@@ -44,7 +44,7 @@ const std::wstring IfcCooledBeamTypeEnum::toString() const
 shared_ptr<IfcCooledBeamTypeEnum> IfcCooledBeamTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCooledBeamTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCooledBeamTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCooledBeamTypeEnum>(); }
 	shared_ptr<IfcCooledBeamTypeEnum> type_object( new IfcCooledBeamTypeEnum() );
 	if( boost::iequals( arg, L".ACTIVE." ) )
 	{

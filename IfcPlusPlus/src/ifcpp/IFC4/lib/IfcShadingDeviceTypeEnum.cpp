@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcShadingDeviceTypeEnum.h"
 
 // TYPE IfcShadingDeviceTypeEnum = ENUMERATION OF	(JALOUSIE	,SHUTTER	,AWNING	,USERDEFINED	,NOTDEFINED);
-IfcShadingDeviceTypeEnum::IfcShadingDeviceTypeEnum() {}
-IfcShadingDeviceTypeEnum::~IfcShadingDeviceTypeEnum() {}
+IfcShadingDeviceTypeEnum::IfcShadingDeviceTypeEnum() = default;
+IfcShadingDeviceTypeEnum::~IfcShadingDeviceTypeEnum() = default;
 shared_ptr<BuildingObject> IfcShadingDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcShadingDeviceTypeEnum> copy_self( new IfcShadingDeviceTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcShadingDeviceTypeEnum::toString() const
 shared_ptr<IfcShadingDeviceTypeEnum> IfcShadingDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcShadingDeviceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcShadingDeviceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcShadingDeviceTypeEnum>(); }
 	shared_ptr<IfcShadingDeviceTypeEnum> type_object( new IfcShadingDeviceTypeEnum() );
 	if( boost::iequals( arg, L".JALOUSIE." ) )
 	{

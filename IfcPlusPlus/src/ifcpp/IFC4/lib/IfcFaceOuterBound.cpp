@@ -14,9 +14,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcFaceOuterBound 
-IfcFaceOuterBound::IfcFaceOuterBound() {}
+IfcFaceOuterBound::IfcFaceOuterBound() = default;
 IfcFaceOuterBound::IfcFaceOuterBound( int id ) { m_entity_id = id; }
-IfcFaceOuterBound::~IfcFaceOuterBound() {}
+IfcFaceOuterBound::~IfcFaceOuterBound() = default;
 shared_ptr<BuildingObject> IfcFaceOuterBound::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFaceOuterBound> copy_self( new IfcFaceOuterBound() );
@@ -32,12 +32,12 @@ void IfcFaceOuterBound::getStepLine( std::stringstream& stream ) const
 	if( m_Orientation ) { m_Orientation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFaceOuterBound::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFaceOuterBound::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFaceOuterBound::toString() const { return L"IfcFaceOuterBound"; }
 void IfcFaceOuterBound::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFaceOuterBound, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFaceOuterBound, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Bound, map );
 	m_Orientation = IfcBoolean::createObjectFromSTEP( args[1], map );
 }

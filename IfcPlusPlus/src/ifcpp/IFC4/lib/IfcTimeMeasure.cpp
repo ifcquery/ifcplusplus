@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcTimeMeasure.h"
 
 // TYPE IfcTimeMeasure = REAL;
-IfcTimeMeasure::IfcTimeMeasure() {}
+IfcTimeMeasure::IfcTimeMeasure() = default;
 IfcTimeMeasure::IfcTimeMeasure( double value ) { m_value = value; }
-IfcTimeMeasure::~IfcTimeMeasure() {}
+IfcTimeMeasure::~IfcTimeMeasure() = default;
 shared_ptr<BuildingObject> IfcTimeMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTimeMeasure> copy_self( new IfcTimeMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcTimeMeasure::toString() const
 shared_ptr<IfcTimeMeasure> IfcTimeMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTimeMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTimeMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTimeMeasure>(); }
 	shared_ptr<IfcTimeMeasure> type_object( new IfcTimeMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

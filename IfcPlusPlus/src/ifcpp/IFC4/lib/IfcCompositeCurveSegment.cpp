@@ -16,9 +16,9 @@
 #include "ifcpp/IFC4/include/IfcTransitionCode.h"
 
 // ENTITY IfcCompositeCurveSegment 
-IfcCompositeCurveSegment::IfcCompositeCurveSegment() {}
+IfcCompositeCurveSegment::IfcCompositeCurveSegment() = default;
 IfcCompositeCurveSegment::IfcCompositeCurveSegment( int id ) { m_entity_id = id; }
-IfcCompositeCurveSegment::~IfcCompositeCurveSegment() {}
+IfcCompositeCurveSegment::~IfcCompositeCurveSegment() = default;
 shared_ptr<BuildingObject> IfcCompositeCurveSegment::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCompositeCurveSegment> copy_self( new IfcCompositeCurveSegment() );
@@ -37,12 +37,12 @@ void IfcCompositeCurveSegment::getStepLine( std::stringstream& stream ) const
 	if( m_ParentCurve ) { stream << "#" << m_ParentCurve->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCompositeCurveSegment::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCompositeCurveSegment::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCompositeCurveSegment::toString() const { return L"IfcCompositeCurveSegment"; }
 void IfcCompositeCurveSegment::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeCurveSegment, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeCurveSegment, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Transition = IfcTransitionCode::createObjectFromSTEP( args[0], map );
 	m_SameSense = IfcBoolean::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_ParentCurve, map );
@@ -50,24 +50,24 @@ void IfcCompositeCurveSegment::readStepArguments( const std::vector<std::wstring
 void IfcCompositeCurveSegment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Transition", m_Transition ) );
-	vec_attributes.push_back( std::make_pair( "SameSense", m_SameSense ) );
-	vec_attributes.push_back( std::make_pair( "ParentCurve", m_ParentCurve ) );
+	vec_attributes.emplace_back( "Transition", m_Transition );
+	vec_attributes.emplace_back( "SameSense", m_SameSense );
+	vec_attributes.emplace_back( "ParentCurve", m_ParentCurve );
 }
 void IfcCompositeCurveSegment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
-	if( m_UsingCurves_inverse.size() > 0 )
+	if( !m_UsingCurves_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> UsingCurves_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_UsingCurves_inverse.size(); ++i )
+		for(const auto & i : m_UsingCurves_inverse)
 		{
-			if( !m_UsingCurves_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				UsingCurves_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcCompositeCurve>( m_UsingCurves_inverse[i] ) );
+				UsingCurves_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcCompositeCurve>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "UsingCurves_inverse", UsingCurves_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "UsingCurves_inverse", UsingCurves_inverse_vec_obj );
 	}
 }
 void IfcCompositeCurveSegment::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

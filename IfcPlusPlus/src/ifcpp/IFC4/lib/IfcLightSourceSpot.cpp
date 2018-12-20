@@ -20,9 +20,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcLightSourceSpot 
-IfcLightSourceSpot::IfcLightSourceSpot() {}
+IfcLightSourceSpot::IfcLightSourceSpot() = default;
 IfcLightSourceSpot::IfcLightSourceSpot( int id ) { m_entity_id = id; }
-IfcLightSourceSpot::~IfcLightSourceSpot() {}
+IfcLightSourceSpot::~IfcLightSourceSpot() = default;
 shared_ptr<BuildingObject> IfcLightSourceSpot::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightSourceSpot> copy_self( new IfcLightSourceSpot() );
@@ -71,12 +71,12 @@ void IfcLightSourceSpot::getStepLine( std::stringstream& stream ) const
 	if( m_BeamWidthAngle ) { m_BeamWidthAngle->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLightSourceSpot::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLightSourceSpot::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSourceSpot::toString() const { return L"IfcLightSourceSpot"; }
 void IfcLightSourceSpot::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceSpot, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceSpot, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_LightColour, map );
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );
@@ -94,10 +94,10 @@ void IfcLightSourceSpot::readStepArguments( const std::vector<std::wstring>& arg
 void IfcLightSourceSpot::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLightSourcePositional::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Orientation", m_Orientation ) );
-	vec_attributes.push_back( std::make_pair( "ConcentrationExponent", m_ConcentrationExponent ) );
-	vec_attributes.push_back( std::make_pair( "SpreadAngle", m_SpreadAngle ) );
-	vec_attributes.push_back( std::make_pair( "BeamWidthAngle", m_BeamWidthAngle ) );
+	vec_attributes.emplace_back( "Orientation", m_Orientation );
+	vec_attributes.emplace_back( "ConcentrationExponent", m_ConcentrationExponent );
+	vec_attributes.emplace_back( "SpreadAngle", m_SpreadAngle );
+	vec_attributes.emplace_back( "BeamWidthAngle", m_BeamWidthAngle );
 }
 void IfcLightSourceSpot::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

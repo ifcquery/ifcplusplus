@@ -10,9 +10,9 @@
 #include "ifcpp/IFC4/include/IfcFontStyle.h"
 
 // TYPE IfcFontStyle = STRING;
-IfcFontStyle::IfcFontStyle() {}
+IfcFontStyle::IfcFontStyle() = default;
 IfcFontStyle::IfcFontStyle( std::wstring value ) { m_value = value; }
-IfcFontStyle::~IfcFontStyle() {}
+IfcFontStyle::~IfcFontStyle() = default;
 shared_ptr<BuildingObject> IfcFontStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFontStyle> copy_self( new IfcFontStyle() );
@@ -32,7 +32,7 @@ const std::wstring IfcFontStyle::toString() const
 shared_ptr<IfcFontStyle> IfcFontStyle::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFontStyle>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFontStyle>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFontStyle>(); }
 	shared_ptr<IfcFontStyle> type_object( new IfcFontStyle() );
 	readString( arg, type_object->m_value );
 	return type_object;

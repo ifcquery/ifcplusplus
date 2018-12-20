@@ -16,18 +16,17 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPresentationLayerAssignment 
-IfcPresentationLayerAssignment::IfcPresentationLayerAssignment() {}
+IfcPresentationLayerAssignment::IfcPresentationLayerAssignment() = default;
 IfcPresentationLayerAssignment::IfcPresentationLayerAssignment( int id ) { m_entity_id = id; }
-IfcPresentationLayerAssignment::~IfcPresentationLayerAssignment() {}
+IfcPresentationLayerAssignment::~IfcPresentationLayerAssignment() = default;
 shared_ptr<BuildingObject> IfcPresentationLayerAssignment::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPresentationLayerAssignment> copy_self( new IfcPresentationLayerAssignment() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_AssignedItems.size(); ++ii )
+	for(auto item_ii : m_AssignedItems)
 	{
-		auto item_ii = m_AssignedItems[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_AssignedItems.push_back( dynamic_pointer_cast<IfcLayeredItem>(item_ii->getDeepCopy(options) ) );
 		}
@@ -64,12 +63,12 @@ void IfcPresentationLayerAssignment::getStepLine( std::stringstream& stream ) co
 	if( m_Identifier ) { m_Identifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPresentationLayerAssignment::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPresentationLayerAssignment::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPresentationLayerAssignment::toString() const { return L"IfcPresentationLayerAssignment"; }
 void IfcPresentationLayerAssignment::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPresentationLayerAssignment, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPresentationLayerAssignment, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readSelectList( args[2], m_AssignedItems, map );
@@ -77,15 +76,15 @@ void IfcPresentationLayerAssignment::readStepArguments( const std::vector<std::w
 }
 void IfcPresentationLayerAssignment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	if( m_AssignedItems.size() > 0 )
+	vec_attributes.emplace_back( "Name", m_Name );
+	vec_attributes.emplace_back( "Description", m_Description );
+	if( !m_AssignedItems.empty() )
 	{
 		shared_ptr<AttributeObjectVector> AssignedItems_vec_object( new AttributeObjectVector() );
 		std::copy( m_AssignedItems.begin(), m_AssignedItems.end(), std::back_inserter( AssignedItems_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "AssignedItems", AssignedItems_vec_object ) );
+		vec_attributes.emplace_back( "AssignedItems", AssignedItems_vec_object );
 	}
-	vec_attributes.push_back( std::make_pair( "Identifier", m_Identifier ) );
+	vec_attributes.emplace_back( "Identifier", m_Identifier );
 }
 void IfcPresentationLayerAssignment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -94,14 +93,14 @@ void IfcPresentationLayerAssignment::setInverseCounterparts( shared_ptr<Building
 {
 	shared_ptr<IfcPresentationLayerAssignment> ptr_self = dynamic_pointer_cast<IfcPresentationLayerAssignment>( ptr_self_entity );
 	if( !ptr_self ) { throw BuildingException( "IfcPresentationLayerAssignment::setInverseCounterparts: type mismatch" ); }
-	for( size_t i=0; i<m_AssignedItems.size(); ++i )
+	for(const auto & m_AssignedItem : m_AssignedItems)
 	{
-		shared_ptr<IfcRepresentation>  AssignedItems_IfcRepresentation = dynamic_pointer_cast<IfcRepresentation>( m_AssignedItems[i] );
+		shared_ptr<IfcRepresentation>  AssignedItems_IfcRepresentation = dynamic_pointer_cast<IfcRepresentation>( m_AssignedItem );
 		if( AssignedItems_IfcRepresentation )
 		{
 			AssignedItems_IfcRepresentation->m_LayerAssignments_inverse.push_back( ptr_self );
 		}
-		shared_ptr<IfcRepresentationItem>  AssignedItems_IfcRepresentationItem = dynamic_pointer_cast<IfcRepresentationItem>( m_AssignedItems[i] );
+		shared_ptr<IfcRepresentationItem>  AssignedItems_IfcRepresentationItem = dynamic_pointer_cast<IfcRepresentationItem>( m_AssignedItem );
 		if( AssignedItems_IfcRepresentationItem )
 		{
 			AssignedItems_IfcRepresentationItem->m_LayerAssignment_inverse.push_back( ptr_self );
@@ -110,9 +109,9 @@ void IfcPresentationLayerAssignment::setInverseCounterparts( shared_ptr<Building
 }
 void IfcPresentationLayerAssignment::unlinkFromInverseCounterparts()
 {
-	for( size_t i=0; i<m_AssignedItems.size(); ++i )
+	for(const auto & m_AssignedItem : m_AssignedItems)
 	{
-		shared_ptr<IfcRepresentation>  AssignedItems_IfcRepresentation = dynamic_pointer_cast<IfcRepresentation>( m_AssignedItems[i] );
+		shared_ptr<IfcRepresentation>  AssignedItems_IfcRepresentation = dynamic_pointer_cast<IfcRepresentation>( m_AssignedItem );
 		if( AssignedItems_IfcRepresentation )
 		{
 			std::vector<weak_ptr<IfcPresentationLayerAssignment> >& LayerAssignments_inverse = AssignedItems_IfcRepresentation->m_LayerAssignments_inverse;
@@ -135,7 +134,7 @@ void IfcPresentationLayerAssignment::unlinkFromInverseCounterparts()
 				}
 			}
 		}
-		shared_ptr<IfcRepresentationItem>  AssignedItems_IfcRepresentationItem = dynamic_pointer_cast<IfcRepresentationItem>( m_AssignedItems[i] );
+		shared_ptr<IfcRepresentationItem>  AssignedItems_IfcRepresentationItem = dynamic_pointer_cast<IfcRepresentationItem>( m_AssignedItem );
 		if( AssignedItems_IfcRepresentationItem )
 		{
 			std::vector<weak_ptr<IfcPresentationLayerAssignment> >& LayerAssignment_inverse = AssignedItems_IfcRepresentationItem->m_LayerAssignment_inverse;

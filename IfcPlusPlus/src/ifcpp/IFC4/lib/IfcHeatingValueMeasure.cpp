@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcHeatingValueMeasure.h"
 
 // TYPE IfcHeatingValueMeasure = REAL;
-IfcHeatingValueMeasure::IfcHeatingValueMeasure() {}
+IfcHeatingValueMeasure::IfcHeatingValueMeasure() = default;
 IfcHeatingValueMeasure::IfcHeatingValueMeasure( double value ) { m_value = value; }
-IfcHeatingValueMeasure::~IfcHeatingValueMeasure() {}
+IfcHeatingValueMeasure::~IfcHeatingValueMeasure() = default;
 shared_ptr<BuildingObject> IfcHeatingValueMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcHeatingValueMeasure> copy_self( new IfcHeatingValueMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcHeatingValueMeasure::toString() const
 shared_ptr<IfcHeatingValueMeasure> IfcHeatingValueMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcHeatingValueMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcHeatingValueMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcHeatingValueMeasure>(); }
 	shared_ptr<IfcHeatingValueMeasure> type_object( new IfcHeatingValueMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

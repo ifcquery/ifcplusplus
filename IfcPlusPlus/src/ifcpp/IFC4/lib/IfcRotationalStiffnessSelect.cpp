@@ -10,7 +10,7 @@
 // TYPE IfcRotationalStiffnessSelect = SELECT	(IfcBoolean	,IfcRotationalStiffnessMeasure);
 shared_ptr<IfcRotationalStiffnessSelect> IfcRotationalStiffnessSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcRotationalStiffnessSelect>(); }
+	if( arg.empty() ){ return shared_ptr<IfcRotationalStiffnessSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcRotationalStiffnessSelect>();

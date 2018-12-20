@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcWarpingConstantMeasure.h"
 
 // TYPE IfcWarpingConstantMeasure = REAL;
-IfcWarpingConstantMeasure::IfcWarpingConstantMeasure() {}
+IfcWarpingConstantMeasure::IfcWarpingConstantMeasure() = default;
 IfcWarpingConstantMeasure::IfcWarpingConstantMeasure( double value ) { m_value = value; }
-IfcWarpingConstantMeasure::~IfcWarpingConstantMeasure() {}
+IfcWarpingConstantMeasure::~IfcWarpingConstantMeasure() = default;
 shared_ptr<BuildingObject> IfcWarpingConstantMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWarpingConstantMeasure> copy_self( new IfcWarpingConstantMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcWarpingConstantMeasure::toString() const
 shared_ptr<IfcWarpingConstantMeasure> IfcWarpingConstantMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWarpingConstantMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWarpingConstantMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWarpingConstantMeasure>(); }
 	shared_ptr<IfcWarpingConstantMeasure> type_object( new IfcWarpingConstantMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

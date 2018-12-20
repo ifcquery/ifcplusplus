@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcDirectionSenseEnum.h"
 
 // TYPE IfcDirectionSenseEnum = ENUMERATION OF	(POSITIVE	,NEGATIVE);
-IfcDirectionSenseEnum::IfcDirectionSenseEnum() {}
-IfcDirectionSenseEnum::~IfcDirectionSenseEnum() {}
+IfcDirectionSenseEnum::IfcDirectionSenseEnum() = default;
+IfcDirectionSenseEnum::~IfcDirectionSenseEnum() = default;
 shared_ptr<BuildingObject> IfcDirectionSenseEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDirectionSenseEnum> copy_self( new IfcDirectionSenseEnum() );
@@ -40,7 +40,7 @@ const std::wstring IfcDirectionSenseEnum::toString() const
 shared_ptr<IfcDirectionSenseEnum> IfcDirectionSenseEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDirectionSenseEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDirectionSenseEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDirectionSenseEnum>(); }
 	shared_ptr<IfcDirectionSenseEnum> type_object( new IfcDirectionSenseEnum() );
 	if( boost::iequals( arg, L".POSITIVE." ) )
 	{

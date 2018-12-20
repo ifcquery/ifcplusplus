@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcBinary.h"
 
 // TYPE IfcBinary = BINARY;
-IfcBinary::IfcBinary() {}
+IfcBinary::IfcBinary() = default;
 IfcBinary::IfcBinary( std::wstring value ) { m_value = value; }
-IfcBinary::~IfcBinary() {}
+IfcBinary::~IfcBinary() = default;
 shared_ptr<BuildingObject> IfcBinary::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBinary> copy_self( new IfcBinary() );
@@ -33,7 +33,7 @@ const std::wstring IfcBinary::toString() const
 shared_ptr<IfcBinary> IfcBinary::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBinary>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBinary>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBinary>(); }
 	shared_ptr<IfcBinary> type_object( new IfcBinary() );
 	readBinaryString( arg, type_object->m_value );
 	return type_object;

@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcSectionModulusMeasure.h"
 
 // TYPE IfcSectionModulusMeasure = REAL;
-IfcSectionModulusMeasure::IfcSectionModulusMeasure() {}
+IfcSectionModulusMeasure::IfcSectionModulusMeasure() = default;
 IfcSectionModulusMeasure::IfcSectionModulusMeasure( double value ) { m_value = value; }
-IfcSectionModulusMeasure::~IfcSectionModulusMeasure() {}
+IfcSectionModulusMeasure::~IfcSectionModulusMeasure() = default;
 shared_ptr<BuildingObject> IfcSectionModulusMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSectionModulusMeasure> copy_self( new IfcSectionModulusMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcSectionModulusMeasure::toString() const
 shared_ptr<IfcSectionModulusMeasure> IfcSectionModulusMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSectionModulusMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSectionModulusMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSectionModulusMeasure>(); }
 	shared_ptr<IfcSectionModulusMeasure> type_object( new IfcSectionModulusMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

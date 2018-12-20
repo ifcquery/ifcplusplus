@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcAnalysisTheoryTypeEnum.h"
 
 // TYPE IfcAnalysisTheoryTypeEnum = ENUMERATION OF	(FIRST_ORDER_THEORY	,SECOND_ORDER_THEORY	,THIRD_ORDER_THEORY	,FULL_NONLINEAR_THEORY	,USERDEFINED	,NOTDEFINED);
-IfcAnalysisTheoryTypeEnum::IfcAnalysisTheoryTypeEnum() {}
-IfcAnalysisTheoryTypeEnum::~IfcAnalysisTheoryTypeEnum() {}
+IfcAnalysisTheoryTypeEnum::IfcAnalysisTheoryTypeEnum() = default;
+IfcAnalysisTheoryTypeEnum::~IfcAnalysisTheoryTypeEnum() = default;
 shared_ptr<BuildingObject> IfcAnalysisTheoryTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAnalysisTheoryTypeEnum> copy_self( new IfcAnalysisTheoryTypeEnum() );
@@ -48,7 +48,7 @@ const std::wstring IfcAnalysisTheoryTypeEnum::toString() const
 shared_ptr<IfcAnalysisTheoryTypeEnum> IfcAnalysisTheoryTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAnalysisTheoryTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAnalysisTheoryTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAnalysisTheoryTypeEnum>(); }
 	shared_ptr<IfcAnalysisTheoryTypeEnum> type_object( new IfcAnalysisTheoryTypeEnum() );
 	if( boost::iequals( arg, L".FIRST_ORDER_THEORY." ) )
 	{

@@ -13,9 +13,9 @@
 #include "ifcpp/IFC4/include/IfcLengthMeasure.h"
 
 // TYPE IfcLengthMeasure = REAL;
-IfcLengthMeasure::IfcLengthMeasure() {}
+IfcLengthMeasure::IfcLengthMeasure() = default;
 IfcLengthMeasure::IfcLengthMeasure( double value ) { m_value = value; }
-IfcLengthMeasure::~IfcLengthMeasure() {}
+IfcLengthMeasure::~IfcLengthMeasure() = default;
 shared_ptr<BuildingObject> IfcLengthMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLengthMeasure> copy_self( new IfcLengthMeasure() );
@@ -37,7 +37,7 @@ const std::wstring IfcLengthMeasure::toString() const
 shared_ptr<IfcLengthMeasure> IfcLengthMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLengthMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLengthMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLengthMeasure>(); }
 	shared_ptr<IfcLengthMeasure> type_object( new IfcLengthMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

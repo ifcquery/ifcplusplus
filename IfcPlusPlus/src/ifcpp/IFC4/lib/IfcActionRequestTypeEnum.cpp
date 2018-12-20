@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcActionRequestTypeEnum.h"
 
 // TYPE IfcActionRequestTypeEnum = ENUMERATION OF	(EMAIL	,FAX	,PHONE	,POST	,VERBAL	,USERDEFINED	,NOTDEFINED);
-IfcActionRequestTypeEnum::IfcActionRequestTypeEnum() {}
-IfcActionRequestTypeEnum::~IfcActionRequestTypeEnum() {}
+IfcActionRequestTypeEnum::IfcActionRequestTypeEnum() = default;
+IfcActionRequestTypeEnum::~IfcActionRequestTypeEnum() = default;
 shared_ptr<BuildingObject> IfcActionRequestTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcActionRequestTypeEnum> copy_self( new IfcActionRequestTypeEnum() );
@@ -50,7 +50,7 @@ const std::wstring IfcActionRequestTypeEnum::toString() const
 shared_ptr<IfcActionRequestTypeEnum> IfcActionRequestTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActionRequestTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActionRequestTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActionRequestTypeEnum>(); }
 	shared_ptr<IfcActionRequestTypeEnum> type_object( new IfcActionRequestTypeEnum() );
 	if( boost::iequals( arg, L".EMAIL." ) )
 	{

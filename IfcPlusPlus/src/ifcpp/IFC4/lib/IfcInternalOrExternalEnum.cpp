@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcInternalOrExternalEnum.h"
 
 // TYPE IfcInternalOrExternalEnum = ENUMERATION OF	(INTERNAL	,EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_WATER	,EXTERNAL_FIRE	,NOTDEFINED);
-IfcInternalOrExternalEnum::IfcInternalOrExternalEnum() {}
-IfcInternalOrExternalEnum::~IfcInternalOrExternalEnum() {}
+IfcInternalOrExternalEnum::IfcInternalOrExternalEnum() = default;
+IfcInternalOrExternalEnum::~IfcInternalOrExternalEnum() = default;
 shared_ptr<BuildingObject> IfcInternalOrExternalEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcInternalOrExternalEnum> copy_self( new IfcInternalOrExternalEnum() );
@@ -48,7 +48,7 @@ const std::wstring IfcInternalOrExternalEnum::toString() const
 shared_ptr<IfcInternalOrExternalEnum> IfcInternalOrExternalEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInternalOrExternalEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInternalOrExternalEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInternalOrExternalEnum>(); }
 	shared_ptr<IfcInternalOrExternalEnum> type_object( new IfcInternalOrExternalEnum() );
 	if( boost::iequals( arg, L".INTERNAL." ) )
 	{

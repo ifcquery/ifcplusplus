@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcIonConcentrationMeasure.h"
 
 // TYPE IfcIonConcentrationMeasure = REAL;
-IfcIonConcentrationMeasure::IfcIonConcentrationMeasure() {}
+IfcIonConcentrationMeasure::IfcIonConcentrationMeasure() = default;
 IfcIonConcentrationMeasure::IfcIonConcentrationMeasure( double value ) { m_value = value; }
-IfcIonConcentrationMeasure::~IfcIonConcentrationMeasure() {}
+IfcIonConcentrationMeasure::~IfcIonConcentrationMeasure() = default;
 shared_ptr<BuildingObject> IfcIonConcentrationMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIonConcentrationMeasure> copy_self( new IfcIonConcentrationMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcIonConcentrationMeasure::toString() const
 shared_ptr<IfcIonConcentrationMeasure> IfcIonConcentrationMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIonConcentrationMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIonConcentrationMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIonConcentrationMeasure>(); }
 	shared_ptr<IfcIonConcentrationMeasure> type_object( new IfcIonConcentrationMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

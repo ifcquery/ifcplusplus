@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcLogicalOperatorEnum.h"
 
 // TYPE IfcLogicalOperatorEnum = ENUMERATION OF	(LOGICALAND	,LOGICALOR	,LOGICALXOR	,LOGICALNOTAND	,LOGICALNOTOR);
-IfcLogicalOperatorEnum::IfcLogicalOperatorEnum() {}
-IfcLogicalOperatorEnum::~IfcLogicalOperatorEnum() {}
+IfcLogicalOperatorEnum::IfcLogicalOperatorEnum() = default;
+IfcLogicalOperatorEnum::~IfcLogicalOperatorEnum() = default;
 shared_ptr<BuildingObject> IfcLogicalOperatorEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLogicalOperatorEnum> copy_self( new IfcLogicalOperatorEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcLogicalOperatorEnum::toString() const
 shared_ptr<IfcLogicalOperatorEnum> IfcLogicalOperatorEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLogicalOperatorEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLogicalOperatorEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLogicalOperatorEnum>(); }
 	shared_ptr<IfcLogicalOperatorEnum> type_object( new IfcLogicalOperatorEnum() );
 	if( boost::iequals( arg, L".LOGICALAND." ) )
 	{

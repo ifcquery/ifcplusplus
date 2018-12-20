@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcHumidifierTypeEnum.h"
 
 // TYPE IfcHumidifierTypeEnum = ENUMERATION OF	(STEAMINJECTION	,ADIABATICAIRWASHER	,ADIABATICPAN	,ADIABATICWETTEDELEMENT	,ADIABATICATOMIZING	,ADIABATICULTRASONIC	,ADIABATICRIGIDMEDIA	,ADIABATICCOMPRESSEDAIRNOZZLE	,ASSISTEDELECTRIC	,ASSISTEDNATURALGAS	,ASSISTEDPROPANE	,ASSISTEDBUTANE	,ASSISTEDSTEAM	,USERDEFINED	,NOTDEFINED);
-IfcHumidifierTypeEnum::IfcHumidifierTypeEnum() {}
-IfcHumidifierTypeEnum::~IfcHumidifierTypeEnum() {}
+IfcHumidifierTypeEnum::IfcHumidifierTypeEnum() = default;
+IfcHumidifierTypeEnum::~IfcHumidifierTypeEnum() = default;
 shared_ptr<BuildingObject> IfcHumidifierTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcHumidifierTypeEnum> copy_self( new IfcHumidifierTypeEnum() );
@@ -66,7 +66,7 @@ const std::wstring IfcHumidifierTypeEnum::toString() const
 shared_ptr<IfcHumidifierTypeEnum> IfcHumidifierTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcHumidifierTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcHumidifierTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcHumidifierTypeEnum>(); }
 	shared_ptr<IfcHumidifierTypeEnum> type_object( new IfcHumidifierTypeEnum() );
 	if( boost::iequals( arg, L".STEAMINJECTION." ) )
 	{

@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcPropertySetTemplateTypeEnum.h"
 
 // TYPE IfcPropertySetTemplateTypeEnum = ENUMERATION OF	(PSET_TYPEDRIVENONLY	,PSET_TYPEDRIVENOVERRIDE	,PSET_OCCURRENCEDRIVEN	,PSET_PERFORMANCEDRIVEN	,QTO_TYPEDRIVENONLY	,QTO_TYPEDRIVENOVERRIDE	,QTO_OCCURRENCEDRIVEN	,NOTDEFINED);
-IfcPropertySetTemplateTypeEnum::IfcPropertySetTemplateTypeEnum() {}
-IfcPropertySetTemplateTypeEnum::~IfcPropertySetTemplateTypeEnum() {}
+IfcPropertySetTemplateTypeEnum::IfcPropertySetTemplateTypeEnum() = default;
+IfcPropertySetTemplateTypeEnum::~IfcPropertySetTemplateTypeEnum() = default;
 shared_ptr<BuildingObject> IfcPropertySetTemplateTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertySetTemplateTypeEnum> copy_self( new IfcPropertySetTemplateTypeEnum() );
@@ -52,7 +52,7 @@ const std::wstring IfcPropertySetTemplateTypeEnum::toString() const
 shared_ptr<IfcPropertySetTemplateTypeEnum> IfcPropertySetTemplateTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPropertySetTemplateTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPropertySetTemplateTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPropertySetTemplateTypeEnum>(); }
 	shared_ptr<IfcPropertySetTemplateTypeEnum> type_object( new IfcPropertySetTemplateTypeEnum() );
 	if( boost::iequals( arg, L".PSET_TYPEDRIVENONLY." ) )
 	{

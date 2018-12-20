@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcAngularVelocityMeasure.h"
 
 // TYPE IfcAngularVelocityMeasure = REAL;
-IfcAngularVelocityMeasure::IfcAngularVelocityMeasure() {}
+IfcAngularVelocityMeasure::IfcAngularVelocityMeasure() = default;
 IfcAngularVelocityMeasure::IfcAngularVelocityMeasure( double value ) { m_value = value; }
-IfcAngularVelocityMeasure::~IfcAngularVelocityMeasure() {}
+IfcAngularVelocityMeasure::~IfcAngularVelocityMeasure() = default;
 shared_ptr<BuildingObject> IfcAngularVelocityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAngularVelocityMeasure> copy_self( new IfcAngularVelocityMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcAngularVelocityMeasure::toString() const
 shared_ptr<IfcAngularVelocityMeasure> IfcAngularVelocityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAngularVelocityMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAngularVelocityMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAngularVelocityMeasure>(); }
 	shared_ptr<IfcAngularVelocityMeasure> type_object( new IfcAngularVelocityMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

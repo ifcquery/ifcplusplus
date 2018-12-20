@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcAirTerminalTypeEnum.h"
 
 // TYPE IfcAirTerminalTypeEnum = ENUMERATION OF	(DIFFUSER	,GRILLE	,LOUVRE	,REGISTER	,USERDEFINED	,NOTDEFINED);
-IfcAirTerminalTypeEnum::IfcAirTerminalTypeEnum() {}
-IfcAirTerminalTypeEnum::~IfcAirTerminalTypeEnum() {}
+IfcAirTerminalTypeEnum::IfcAirTerminalTypeEnum() = default;
+IfcAirTerminalTypeEnum::~IfcAirTerminalTypeEnum() = default;
 shared_ptr<BuildingObject> IfcAirTerminalTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAirTerminalTypeEnum> copy_self( new IfcAirTerminalTypeEnum() );
@@ -48,7 +48,7 @@ const std::wstring IfcAirTerminalTypeEnum::toString() const
 shared_ptr<IfcAirTerminalTypeEnum> IfcAirTerminalTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAirTerminalTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAirTerminalTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAirTerminalTypeEnum>(); }
 	shared_ptr<IfcAirTerminalTypeEnum> type_object( new IfcAirTerminalTypeEnum() );
 	if( boost::iequals( arg, L".DIFFUSER." ) )
 	{

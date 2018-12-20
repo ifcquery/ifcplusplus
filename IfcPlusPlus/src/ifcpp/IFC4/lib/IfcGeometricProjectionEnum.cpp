@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcGeometricProjectionEnum.h"
 
 // TYPE IfcGeometricProjectionEnum = ENUMERATION OF	(GRAPH_VIEW	,SKETCH_VIEW	,MODEL_VIEW	,PLAN_VIEW	,REFLECTED_PLAN_VIEW	,SECTION_VIEW	,ELEVATION_VIEW	,USERDEFINED	,NOTDEFINED);
-IfcGeometricProjectionEnum::IfcGeometricProjectionEnum() {}
-IfcGeometricProjectionEnum::~IfcGeometricProjectionEnum() {}
+IfcGeometricProjectionEnum::IfcGeometricProjectionEnum() = default;
+IfcGeometricProjectionEnum::~IfcGeometricProjectionEnum() = default;
 shared_ptr<BuildingObject> IfcGeometricProjectionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGeometricProjectionEnum> copy_self( new IfcGeometricProjectionEnum() );
@@ -54,7 +54,7 @@ const std::wstring IfcGeometricProjectionEnum::toString() const
 shared_ptr<IfcGeometricProjectionEnum> IfcGeometricProjectionEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGeometricProjectionEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGeometricProjectionEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGeometricProjectionEnum>(); }
 	shared_ptr<IfcGeometricProjectionEnum> type_object( new IfcGeometricProjectionEnum() );
 	if( boost::iequals( arg, L".GRAPH_VIEW." ) )
 	{

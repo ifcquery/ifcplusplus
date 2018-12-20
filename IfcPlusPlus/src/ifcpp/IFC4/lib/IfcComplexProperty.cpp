@@ -18,19 +18,18 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcComplexProperty 
-IfcComplexProperty::IfcComplexProperty() {}
+IfcComplexProperty::IfcComplexProperty() = default;
 IfcComplexProperty::IfcComplexProperty( int id ) { m_entity_id = id; }
-IfcComplexProperty::~IfcComplexProperty() {}
+IfcComplexProperty::~IfcComplexProperty() = default;
 shared_ptr<BuildingObject> IfcComplexProperty::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcComplexProperty> copy_self( new IfcComplexProperty() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	if( m_UsageName ) { copy_self->m_UsageName = dynamic_pointer_cast<IfcIdentifier>( m_UsageName->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_HasProperties.size(); ++ii )
+	for(auto item_ii : m_HasProperties)
 	{
-		auto item_ii = m_HasProperties[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_HasProperties.push_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
 		}
@@ -49,12 +48,12 @@ void IfcComplexProperty::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_HasProperties );
 	stream << ");";
 }
-void IfcComplexProperty::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcComplexProperty::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcComplexProperty::toString() const { return L"IfcComplexProperty"; }
 void IfcComplexProperty::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcComplexProperty, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcComplexProperty, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_UsageName = IfcIdentifier::createObjectFromSTEP( args[2], map );
@@ -63,12 +62,12 @@ void IfcComplexProperty::readStepArguments( const std::vector<std::wstring>& arg
 void IfcComplexProperty::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProperty::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "UsageName", m_UsageName ) );
-	if( m_HasProperties.size() > 0 )
+	vec_attributes.emplace_back( "UsageName", m_UsageName );
+	if( !m_HasProperties.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasProperties_vec_object( new AttributeObjectVector() );
 		std::copy( m_HasProperties.begin(), m_HasProperties.end(), std::back_inserter( HasProperties_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "HasProperties", HasProperties_vec_object ) );
+		vec_attributes.emplace_back( "HasProperties", HasProperties_vec_object );
 	}
 }
 void IfcComplexProperty::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -80,22 +79,22 @@ void IfcComplexProperty::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_
 	IfcProperty::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcComplexProperty> ptr_self = dynamic_pointer_cast<IfcComplexProperty>( ptr_self_entity );
 	if( !ptr_self ) { throw BuildingException( "IfcComplexProperty::setInverseCounterparts: type mismatch" ); }
-	for( size_t i=0; i<m_HasProperties.size(); ++i )
+	for(auto & m_HasPropertie : m_HasProperties)
 	{
-		if( m_HasProperties[i] )
+		if( m_HasPropertie )
 		{
-			m_HasProperties[i]->m_PartOfComplex_inverse.push_back( ptr_self );
+			m_HasPropertie->m_PartOfComplex_inverse.push_back( ptr_self );
 		}
 	}
 }
 void IfcComplexProperty::unlinkFromInverseCounterparts()
 {
 	IfcProperty::unlinkFromInverseCounterparts();
-	for( size_t i=0; i<m_HasProperties.size(); ++i )
+	for(auto & m_HasPropertie : m_HasProperties)
 	{
-		if( m_HasProperties[i] )
+		if( m_HasPropertie )
 		{
-			std::vector<weak_ptr<IfcComplexProperty> >& PartOfComplex_inverse = m_HasProperties[i]->m_PartOfComplex_inverse;
+			std::vector<weak_ptr<IfcComplexProperty> >& PartOfComplex_inverse = m_HasPropertie->m_PartOfComplex_inverse;
 			for( auto it_PartOfComplex_inverse = PartOfComplex_inverse.begin(); it_PartOfComplex_inverse != PartOfComplex_inverse.end(); )
 			{
 				weak_ptr<IfcComplexProperty> self_candidate_weak = *it_PartOfComplex_inverse;

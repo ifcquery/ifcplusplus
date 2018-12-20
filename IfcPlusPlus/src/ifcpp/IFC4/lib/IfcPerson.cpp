@@ -15,51 +15,46 @@
 #include "ifcpp/IFC4/include/IfcPersonAndOrganization.h"
 
 // ENTITY IfcPerson 
-IfcPerson::IfcPerson() {}
+IfcPerson::IfcPerson() = default;
 IfcPerson::IfcPerson( int id ) { m_entity_id = id; }
-IfcPerson::~IfcPerson() {}
+IfcPerson::~IfcPerson() = default;
 shared_ptr<BuildingObject> IfcPerson::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPerson> copy_self( new IfcPerson() );
 	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
 	if( m_FamilyName ) { copy_self->m_FamilyName = dynamic_pointer_cast<IfcLabel>( m_FamilyName->getDeepCopy(options) ); }
 	if( m_GivenName ) { copy_self->m_GivenName = dynamic_pointer_cast<IfcLabel>( m_GivenName->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_MiddleNames.size(); ++ii )
+	for(auto item_ii : m_MiddleNames)
 	{
-		auto item_ii = m_MiddleNames[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_MiddleNames.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	for( size_t ii=0; ii<m_PrefixTitles.size(); ++ii )
+	for(auto item_ii : m_PrefixTitles)
 	{
-		auto item_ii = m_PrefixTitles[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_PrefixTitles.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	for( size_t ii=0; ii<m_SuffixTitles.size(); ++ii )
+	for(auto item_ii : m_SuffixTitles)
 	{
-		auto item_ii = m_SuffixTitles[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_SuffixTitles.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	for( size_t ii=0; ii<m_Roles.size(); ++ii )
+	for(auto item_ii : m_Roles)
 	{
-		auto item_ii = m_Roles[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Roles.push_back( dynamic_pointer_cast<IfcActorRole>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	for( size_t ii=0; ii<m_Addresses.size(); ++ii )
+	for(auto item_ii : m_Addresses)
 	{
-		auto item_ii = m_Addresses[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Addresses.push_back( dynamic_pointer_cast<IfcAddress>(item_ii->getDeepCopy(options) ) );
 		}
@@ -137,12 +132,12 @@ void IfcPerson::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Addresses );
 	stream << ");";
 }
-void IfcPerson::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPerson::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPerson::toString() const { return L"IfcPerson"; }
 void IfcPerson::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPerson, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPerson, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_FamilyName = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_GivenName = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -154,74 +149,74 @@ void IfcPerson::readStepArguments( const std::vector<std::wstring>& args, const 
 }
 void IfcPerson::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
-	vec_attributes.push_back( std::make_pair( "FamilyName", m_FamilyName ) );
-	vec_attributes.push_back( std::make_pair( "GivenName", m_GivenName ) );
-	if( m_MiddleNames.size() > 0 )
+	vec_attributes.emplace_back( "Identification", m_Identification );
+	vec_attributes.emplace_back( "FamilyName", m_FamilyName );
+	vec_attributes.emplace_back( "GivenName", m_GivenName );
+	if( !m_MiddleNames.empty() )
 	{
 		shared_ptr<AttributeObjectVector> MiddleNames_vec_object( new AttributeObjectVector() );
 		std::copy( m_MiddleNames.begin(), m_MiddleNames.end(), std::back_inserter( MiddleNames_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "MiddleNames", MiddleNames_vec_object ) );
+		vec_attributes.emplace_back( "MiddleNames", MiddleNames_vec_object );
 	}
-	if( m_PrefixTitles.size() > 0 )
+	if( !m_PrefixTitles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PrefixTitles_vec_object( new AttributeObjectVector() );
 		std::copy( m_PrefixTitles.begin(), m_PrefixTitles.end(), std::back_inserter( PrefixTitles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "PrefixTitles", PrefixTitles_vec_object ) );
+		vec_attributes.emplace_back( "PrefixTitles", PrefixTitles_vec_object );
 	}
-	if( m_SuffixTitles.size() > 0 )
+	if( !m_SuffixTitles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> SuffixTitles_vec_object( new AttributeObjectVector() );
 		std::copy( m_SuffixTitles.begin(), m_SuffixTitles.end(), std::back_inserter( SuffixTitles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "SuffixTitles", SuffixTitles_vec_object ) );
+		vec_attributes.emplace_back( "SuffixTitles", SuffixTitles_vec_object );
 	}
-	if( m_Roles.size() > 0 )
+	if( !m_Roles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Roles_vec_object( new AttributeObjectVector() );
 		std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Roles", Roles_vec_object ) );
+		vec_attributes.emplace_back( "Roles", Roles_vec_object );
 	}
-	if( m_Addresses.size() > 0 )
+	if( !m_Addresses.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Addresses_vec_object( new AttributeObjectVector() );
 		std::copy( m_Addresses.begin(), m_Addresses.end(), std::back_inserter( Addresses_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Addresses", Addresses_vec_object ) );
+		vec_attributes.emplace_back( "Addresses", Addresses_vec_object );
 	}
 }
 void IfcPerson::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_EngagedIn_inverse.size() > 0 )
+	if( !m_EngagedIn_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> EngagedIn_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_EngagedIn_inverse.size(); ++i )
+		for(const auto & i : m_EngagedIn_inverse)
 		{
-			if( !m_EngagedIn_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				EngagedIn_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPersonAndOrganization>( m_EngagedIn_inverse[i] ) );
+				EngagedIn_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPersonAndOrganization>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "EngagedIn_inverse", EngagedIn_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "EngagedIn_inverse", EngagedIn_inverse_vec_obj );
 	}
 }
 void IfcPerson::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	shared_ptr<IfcPerson> ptr_self = dynamic_pointer_cast<IfcPerson>( ptr_self_entity );
 	if( !ptr_self ) { throw BuildingException( "IfcPerson::setInverseCounterparts: type mismatch" ); }
-	for( size_t i=0; i<m_Addresses.size(); ++i )
+	for(auto & m_Addresse : m_Addresses)
 	{
-		if( m_Addresses[i] )
+		if( m_Addresse )
 		{
-			m_Addresses[i]->m_OfPerson_inverse.push_back( ptr_self );
+			m_Addresse->m_OfPerson_inverse.push_back( ptr_self );
 		}
 	}
 }
 void IfcPerson::unlinkFromInverseCounterparts()
 {
-	for( size_t i=0; i<m_Addresses.size(); ++i )
+	for(auto & m_Addresse : m_Addresses)
 	{
-		if( m_Addresses[i] )
+		if( m_Addresse )
 		{
-			std::vector<weak_ptr<IfcPerson> >& OfPerson_inverse = m_Addresses[i]->m_OfPerson_inverse;
+			std::vector<weak_ptr<IfcPerson> >& OfPerson_inverse = m_Addresse->m_OfPerson_inverse;
 			for( auto it_OfPerson_inverse = OfPerson_inverse.begin(); it_OfPerson_inverse != OfPerson_inverse.end(); )
 			{
 				weak_ptr<IfcPerson> self_candidate_weak = *it_OfPerson_inverse;

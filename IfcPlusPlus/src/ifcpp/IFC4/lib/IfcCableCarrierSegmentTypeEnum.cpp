@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcCableCarrierSegmentTypeEnum.h"
 
 // TYPE IfcCableCarrierSegmentTypeEnum = ENUMERATION OF	(CABLELADDERSEGMENT	,CABLETRAYSEGMENT	,CABLETRUNKINGSEGMENT	,CONDUITSEGMENT	,USERDEFINED	,NOTDEFINED);
-IfcCableCarrierSegmentTypeEnum::IfcCableCarrierSegmentTypeEnum() {}
-IfcCableCarrierSegmentTypeEnum::~IfcCableCarrierSegmentTypeEnum() {}
+IfcCableCarrierSegmentTypeEnum::IfcCableCarrierSegmentTypeEnum() = default;
+IfcCableCarrierSegmentTypeEnum::~IfcCableCarrierSegmentTypeEnum() = default;
 shared_ptr<BuildingObject> IfcCableCarrierSegmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCableCarrierSegmentTypeEnum> copy_self( new IfcCableCarrierSegmentTypeEnum() );
@@ -48,7 +48,7 @@ const std::wstring IfcCableCarrierSegmentTypeEnum::toString() const
 shared_ptr<IfcCableCarrierSegmentTypeEnum> IfcCableCarrierSegmentTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCableCarrierSegmentTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCableCarrierSegmentTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCableCarrierSegmentTypeEnum>(); }
 	shared_ptr<IfcCableCarrierSegmentTypeEnum> type_object( new IfcCableCarrierSegmentTypeEnum() );
 	if( boost::iequals( arg, L".CABLELADDERSEGMENT." ) )
 	{

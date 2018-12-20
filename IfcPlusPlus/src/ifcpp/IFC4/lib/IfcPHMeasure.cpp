@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcPHMeasure.h"
 
 // TYPE IfcPHMeasure = REAL;
-IfcPHMeasure::IfcPHMeasure() {}
+IfcPHMeasure::IfcPHMeasure() = default;
 IfcPHMeasure::IfcPHMeasure( double value ) { m_value = value; }
-IfcPHMeasure::~IfcPHMeasure() {}
+IfcPHMeasure::~IfcPHMeasure() = default;
 shared_ptr<BuildingObject> IfcPHMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPHMeasure> copy_self( new IfcPHMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcPHMeasure::toString() const
 shared_ptr<IfcPHMeasure> IfcPHMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPHMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPHMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPHMeasure>(); }
 	shared_ptr<IfcPHMeasure> type_object( new IfcPHMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

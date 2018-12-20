@@ -15,9 +15,9 @@
 #include "ifcpp/IFC4/include/IfcSurfaceOfRevolution.h"
 
 // ENTITY IfcSurfaceOfRevolution 
-IfcSurfaceOfRevolution::IfcSurfaceOfRevolution() {}
+IfcSurfaceOfRevolution::IfcSurfaceOfRevolution() = default;
 IfcSurfaceOfRevolution::IfcSurfaceOfRevolution( int id ) { m_entity_id = id; }
-IfcSurfaceOfRevolution::~IfcSurfaceOfRevolution() {}
+IfcSurfaceOfRevolution::~IfcSurfaceOfRevolution() = default;
 shared_ptr<BuildingObject> IfcSurfaceOfRevolution::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceOfRevolution> copy_self( new IfcSurfaceOfRevolution() );
@@ -40,12 +40,12 @@ void IfcSurfaceOfRevolution::getStepLine( std::stringstream& stream ) const
 	if( m_AxisPosition ) { stream << "#" << m_AxisPosition->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceOfRevolution::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSurfaceOfRevolution::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceOfRevolution::toString() const { return L"IfcSurfaceOfRevolution"; }
 void IfcSurfaceOfRevolution::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceOfRevolution, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceOfRevolution, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_SweptCurve, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_AxisPosition, map );
@@ -53,7 +53,7 @@ void IfcSurfaceOfRevolution::readStepArguments( const std::vector<std::wstring>&
 void IfcSurfaceOfRevolution::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSweptSurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "AxisPosition", m_AxisPosition ) );
+	vec_attributes.emplace_back( "AxisPosition", m_AxisPosition );
 }
 void IfcSurfaceOfRevolution::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

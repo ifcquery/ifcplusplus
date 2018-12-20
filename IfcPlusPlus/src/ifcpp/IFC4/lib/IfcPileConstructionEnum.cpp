@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcPileConstructionEnum.h"
 
 // TYPE IfcPileConstructionEnum = ENUMERATION OF	(CAST_IN_PLACE	,COMPOSITE	,PRECAST_CONCRETE	,PREFAB_STEEL	,USERDEFINED	,NOTDEFINED);
-IfcPileConstructionEnum::IfcPileConstructionEnum() {}
-IfcPileConstructionEnum::~IfcPileConstructionEnum() {}
+IfcPileConstructionEnum::IfcPileConstructionEnum() = default;
+IfcPileConstructionEnum::~IfcPileConstructionEnum() = default;
 shared_ptr<BuildingObject> IfcPileConstructionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPileConstructionEnum> copy_self( new IfcPileConstructionEnum() );
@@ -48,7 +48,7 @@ const std::wstring IfcPileConstructionEnum::toString() const
 shared_ptr<IfcPileConstructionEnum> IfcPileConstructionEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPileConstructionEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPileConstructionEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPileConstructionEnum>(); }
 	shared_ptr<IfcPileConstructionEnum> type_object( new IfcPileConstructionEnum() );
 	if( boost::iequals( arg, L".CAST_IN_PLACE." ) )
 	{

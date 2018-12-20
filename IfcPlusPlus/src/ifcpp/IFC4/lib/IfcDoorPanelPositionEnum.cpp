@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcDoorPanelPositionEnum.h"
 
 // TYPE IfcDoorPanelPositionEnum = ENUMERATION OF	(LEFT	,MIDDLE	,RIGHT	,NOTDEFINED);
-IfcDoorPanelPositionEnum::IfcDoorPanelPositionEnum() {}
-IfcDoorPanelPositionEnum::~IfcDoorPanelPositionEnum() {}
+IfcDoorPanelPositionEnum::IfcDoorPanelPositionEnum() = default;
+IfcDoorPanelPositionEnum::~IfcDoorPanelPositionEnum() = default;
 shared_ptr<BuildingObject> IfcDoorPanelPositionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoorPanelPositionEnum> copy_self( new IfcDoorPanelPositionEnum() );
@@ -44,7 +44,7 @@ const std::wstring IfcDoorPanelPositionEnum::toString() const
 shared_ptr<IfcDoorPanelPositionEnum> IfcDoorPanelPositionEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorPanelPositionEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorPanelPositionEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorPanelPositionEnum>(); }
 	shared_ptr<IfcDoorPanelPositionEnum> type_object( new IfcDoorPanelPositionEnum() );
 	if( boost::iequals( arg, L".LEFT." ) )
 	{

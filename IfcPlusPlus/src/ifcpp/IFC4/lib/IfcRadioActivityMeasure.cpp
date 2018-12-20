@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcRadioActivityMeasure.h"
 
 // TYPE IfcRadioActivityMeasure = REAL;
-IfcRadioActivityMeasure::IfcRadioActivityMeasure() {}
+IfcRadioActivityMeasure::IfcRadioActivityMeasure() = default;
 IfcRadioActivityMeasure::IfcRadioActivityMeasure( double value ) { m_value = value; }
-IfcRadioActivityMeasure::~IfcRadioActivityMeasure() {}
+IfcRadioActivityMeasure::~IfcRadioActivityMeasure() = default;
 shared_ptr<BuildingObject> IfcRadioActivityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRadioActivityMeasure> copy_self( new IfcRadioActivityMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcRadioActivityMeasure::toString() const
 shared_ptr<IfcRadioActivityMeasure> IfcRadioActivityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRadioActivityMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRadioActivityMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRadioActivityMeasure>(); }
 	shared_ptr<IfcRadioActivityMeasure> type_object( new IfcRadioActivityMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcReflectanceMethodEnum.h"
 
 // TYPE IfcReflectanceMethodEnum = ENUMERATION OF	(BLINN	,FLAT	,GLASS	,MATT	,METAL	,MIRROR	,PHONG	,PLASTIC	,STRAUSS	,NOTDEFINED);
-IfcReflectanceMethodEnum::IfcReflectanceMethodEnum() {}
-IfcReflectanceMethodEnum::~IfcReflectanceMethodEnum() {}
+IfcReflectanceMethodEnum::IfcReflectanceMethodEnum() = default;
+IfcReflectanceMethodEnum::~IfcReflectanceMethodEnum() = default;
 shared_ptr<BuildingObject> IfcReflectanceMethodEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReflectanceMethodEnum> copy_self( new IfcReflectanceMethodEnum() );
@@ -56,7 +56,7 @@ const std::wstring IfcReflectanceMethodEnum::toString() const
 shared_ptr<IfcReflectanceMethodEnum> IfcReflectanceMethodEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReflectanceMethodEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReflectanceMethodEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReflectanceMethodEnum>(); }
 	shared_ptr<IfcReflectanceMethodEnum> type_object( new IfcReflectanceMethodEnum() );
 	if( boost::iequals( arg, L".BLINN." ) )
 	{

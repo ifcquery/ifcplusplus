@@ -15,9 +15,9 @@
 #include "ifcpp/IFC4/include/IfcTextPath.h"
 
 // ENTITY IfcTextLiteral 
-IfcTextLiteral::IfcTextLiteral() {}
+IfcTextLiteral::IfcTextLiteral() = default;
 IfcTextLiteral::IfcTextLiteral( int id ) { m_entity_id = id; }
-IfcTextLiteral::~IfcTextLiteral() {}
+IfcTextLiteral::~IfcTextLiteral() = default;
 shared_ptr<BuildingObject> IfcTextLiteral::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextLiteral> copy_self( new IfcTextLiteral() );
@@ -36,12 +36,12 @@ void IfcTextLiteral::getStepLine( std::stringstream& stream ) const
 	if( m_Path ) { m_Path->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTextLiteral::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTextLiteral::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextLiteral::toString() const { return L"IfcTextLiteral"; }
 void IfcTextLiteral::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextLiteral, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextLiteral, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Literal = IfcPresentableText::createObjectFromSTEP( args[0], map );
 	m_Placement = IfcAxis2Placement::createObjectFromSTEP( args[1], map );
 	m_Path = IfcTextPath::createObjectFromSTEP( args[2], map );
@@ -49,9 +49,9 @@ void IfcTextLiteral::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcTextLiteral::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Literal", m_Literal ) );
-	vec_attributes.push_back( std::make_pair( "Placement", m_Placement ) );
-	vec_attributes.push_back( std::make_pair( "Path", m_Path ) );
+	vec_attributes.emplace_back( "Literal", m_Literal );
+	vec_attributes.emplace_back( "Placement", m_Placement );
+	vec_attributes.emplace_back( "Path", m_Path );
 }
 void IfcTextLiteral::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

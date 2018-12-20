@@ -15,9 +15,9 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcArbitraryClosedProfileDef 
-IfcArbitraryClosedProfileDef::IfcArbitraryClosedProfileDef() {}
+IfcArbitraryClosedProfileDef::IfcArbitraryClosedProfileDef() = default;
 IfcArbitraryClosedProfileDef::IfcArbitraryClosedProfileDef( int id ) { m_entity_id = id; }
-IfcArbitraryClosedProfileDef::~IfcArbitraryClosedProfileDef() {}
+IfcArbitraryClosedProfileDef::~IfcArbitraryClosedProfileDef() = default;
 shared_ptr<BuildingObject> IfcArbitraryClosedProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcArbitraryClosedProfileDef> copy_self( new IfcArbitraryClosedProfileDef() );
@@ -36,12 +36,12 @@ void IfcArbitraryClosedProfileDef::getStepLine( std::stringstream& stream ) cons
 	if( m_OuterCurve ) { stream << "#" << m_OuterCurve->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcArbitraryClosedProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcArbitraryClosedProfileDef::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcArbitraryClosedProfileDef::toString() const { return L"IfcArbitraryClosedProfileDef"; }
 void IfcArbitraryClosedProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcArbitraryClosedProfileDef, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcArbitraryClosedProfileDef, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_OuterCurve, map );
@@ -49,7 +49,7 @@ void IfcArbitraryClosedProfileDef::readStepArguments( const std::vector<std::wst
 void IfcArbitraryClosedProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "OuterCurve", m_OuterCurve ) );
+	vec_attributes.emplace_back( "OuterCurve", m_OuterCurve );
 }
 void IfcArbitraryClosedProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

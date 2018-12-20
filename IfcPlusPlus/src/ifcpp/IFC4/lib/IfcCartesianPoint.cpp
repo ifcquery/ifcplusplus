@@ -13,16 +13,15 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianPoint 
-IfcCartesianPoint::IfcCartesianPoint() {}
+IfcCartesianPoint::IfcCartesianPoint() = default;
 IfcCartesianPoint::IfcCartesianPoint( int id ) { m_entity_id = id; }
-IfcCartesianPoint::~IfcCartesianPoint() {}
+IfcCartesianPoint::~IfcCartesianPoint() = default;
 shared_ptr<BuildingObject> IfcCartesianPoint::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianPoint> copy_self( new IfcCartesianPoint() );
-	for( size_t ii=0; ii<m_Coordinates.size(); ++ii )
+	for(auto item_ii : m_Coordinates)
 	{
-		auto item_ii = m_Coordinates[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Coordinates.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
 		}
@@ -35,22 +34,22 @@ void IfcCartesianPoint::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList( stream, m_Coordinates );
 	stream << ");";
 }
-void IfcCartesianPoint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCartesianPoint::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianPoint::toString() const { return L"IfcCartesianPoint"; }
 void IfcCartesianPoint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianPoint, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianPoint, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readTypeOfRealList( args[0], m_Coordinates );
 }
 void IfcCartesianPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPoint::getAttributes( vec_attributes );
-	if( m_Coordinates.size() > 0 )
+	if( !m_Coordinates.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Coordinates_vec_object( new AttributeObjectVector() );
 		std::copy( m_Coordinates.begin(), m_Coordinates.end(), std::back_inserter( Coordinates_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Coordinates", Coordinates_vec_object ) );
+		vec_attributes.emplace_back( "Coordinates", Coordinates_vec_object );
 	}
 }
 void IfcCartesianPoint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

@@ -23,5 +23,4 @@ AbstractReader::AbstractReader()
 }
 
 AbstractReader::~AbstractReader()
-{
-}
+= default;

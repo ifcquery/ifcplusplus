@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcSoundPressureMeasure.h"
 
 // TYPE IfcSoundPressureMeasure = REAL;
-IfcSoundPressureMeasure::IfcSoundPressureMeasure() {}
+IfcSoundPressureMeasure::IfcSoundPressureMeasure() = default;
 IfcSoundPressureMeasure::IfcSoundPressureMeasure( double value ) { m_value = value; }
-IfcSoundPressureMeasure::~IfcSoundPressureMeasure() {}
+IfcSoundPressureMeasure::~IfcSoundPressureMeasure() = default;
 shared_ptr<BuildingObject> IfcSoundPressureMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSoundPressureMeasure> copy_self( new IfcSoundPressureMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcSoundPressureMeasure::toString() const
 shared_ptr<IfcSoundPressureMeasure> IfcSoundPressureMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSoundPressureMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSoundPressureMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSoundPressureMeasure>(); }
 	shared_ptr<IfcSoundPressureMeasure> type_object( new IfcSoundPressureMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

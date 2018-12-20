@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcTendonAnchorTypeEnum.h"
 
 // TYPE IfcTendonAnchorTypeEnum = ENUMERATION OF	(COUPLER	,FIXED_END	,TENSIONING_END	,USERDEFINED	,NOTDEFINED);
-IfcTendonAnchorTypeEnum::IfcTendonAnchorTypeEnum() {}
-IfcTendonAnchorTypeEnum::~IfcTendonAnchorTypeEnum() {}
+IfcTendonAnchorTypeEnum::IfcTendonAnchorTypeEnum() = default;
+IfcTendonAnchorTypeEnum::~IfcTendonAnchorTypeEnum() = default;
 shared_ptr<BuildingObject> IfcTendonAnchorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTendonAnchorTypeEnum> copy_self( new IfcTendonAnchorTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcTendonAnchorTypeEnum::toString() const
 shared_ptr<IfcTendonAnchorTypeEnum> IfcTendonAnchorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTendonAnchorTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTendonAnchorTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTendonAnchorTypeEnum>(); }
 	shared_ptr<IfcTendonAnchorTypeEnum> type_object( new IfcTendonAnchorTypeEnum() );
 	if( boost::iequals( arg, L".COUPLER." ) )
 	{

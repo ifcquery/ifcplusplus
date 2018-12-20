@@ -15,9 +15,9 @@
 #include "ifcpp/IFC4/include/IfcSweptDiskSolid.h"
 
 // ENTITY IfcSweptDiskSolid 
-IfcSweptDiskSolid::IfcSweptDiskSolid() {}
+IfcSweptDiskSolid::IfcSweptDiskSolid() = default;
 IfcSweptDiskSolid::IfcSweptDiskSolid( int id ) { m_entity_id = id; }
-IfcSweptDiskSolid::~IfcSweptDiskSolid() {}
+IfcSweptDiskSolid::~IfcSweptDiskSolid() = default;
 shared_ptr<BuildingObject> IfcSweptDiskSolid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSweptDiskSolid> copy_self( new IfcSweptDiskSolid() );
@@ -42,12 +42,12 @@ void IfcSweptDiskSolid::getStepLine( std::stringstream& stream ) const
 	if( m_EndParam ) { m_EndParam->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSweptDiskSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSweptDiskSolid::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSweptDiskSolid::toString() const { return L"IfcSweptDiskSolid"; }
 void IfcSweptDiskSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSweptDiskSolid, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSweptDiskSolid, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Directrix, map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_InnerRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -57,11 +57,11 @@ void IfcSweptDiskSolid::readStepArguments( const std::vector<std::wstring>& args
 void IfcSweptDiskSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSolidModel::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Directrix", m_Directrix ) );
-	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
-	vec_attributes.push_back( std::make_pair( "InnerRadius", m_InnerRadius ) );
-	vec_attributes.push_back( std::make_pair( "StartParam", m_StartParam ) );
-	vec_attributes.push_back( std::make_pair( "EndParam", m_EndParam ) );
+	vec_attributes.emplace_back( "Directrix", m_Directrix );
+	vec_attributes.emplace_back( "Radius", m_Radius );
+	vec_attributes.emplace_back( "InnerRadius", m_InnerRadius );
+	vec_attributes.emplace_back( "StartParam", m_StartParam );
+	vec_attributes.emplace_back( "EndParam", m_EndParam );
 }
 void IfcSweptDiskSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

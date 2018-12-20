@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcWindowPanelOperationEnum.h"
 
 // TYPE IfcWindowPanelOperationEnum = ENUMERATION OF	(SIDEHUNGRIGHTHAND	,SIDEHUNGLEFTHAND	,TILTANDTURNRIGHTHAND	,TILTANDTURNLEFTHAND	,TOPHUNG	,BOTTOMHUNG	,PIVOTHORIZONTAL	,PIVOTVERTICAL	,SLIDINGHORIZONTAL	,SLIDINGVERTICAL	,REMOVABLECASEMENT	,FIXEDCASEMENT	,OTHEROPERATION	,NOTDEFINED);
-IfcWindowPanelOperationEnum::IfcWindowPanelOperationEnum() {}
-IfcWindowPanelOperationEnum::~IfcWindowPanelOperationEnum() {}
+IfcWindowPanelOperationEnum::IfcWindowPanelOperationEnum() = default;
+IfcWindowPanelOperationEnum::~IfcWindowPanelOperationEnum() = default;
 shared_ptr<BuildingObject> IfcWindowPanelOperationEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWindowPanelOperationEnum> copy_self( new IfcWindowPanelOperationEnum() );
@@ -64,7 +64,7 @@ const std::wstring IfcWindowPanelOperationEnum::toString() const
 shared_ptr<IfcWindowPanelOperationEnum> IfcWindowPanelOperationEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowPanelOperationEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowPanelOperationEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowPanelOperationEnum>(); }
 	shared_ptr<IfcWindowPanelOperationEnum> type_object( new IfcWindowPanelOperationEnum() );
 	if( boost::iequals( arg, L".SIDEHUNGRIGHTHAND." ) )
 	{

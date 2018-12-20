@@ -10,9 +10,9 @@
 #include "ifcpp/IFC4/include/IfcTextAlignment.h"
 
 // TYPE IfcTextAlignment = STRING;
-IfcTextAlignment::IfcTextAlignment() {}
+IfcTextAlignment::IfcTextAlignment() = default;
 IfcTextAlignment::IfcTextAlignment( std::wstring value ) { m_value = value; }
-IfcTextAlignment::~IfcTextAlignment() {}
+IfcTextAlignment::~IfcTextAlignment() = default;
 shared_ptr<BuildingObject> IfcTextAlignment::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextAlignment> copy_self( new IfcTextAlignment() );
@@ -32,7 +32,7 @@ const std::wstring IfcTextAlignment::toString() const
 shared_ptr<IfcTextAlignment> IfcTextAlignment::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTextAlignment>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextAlignment>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextAlignment>(); }
 	shared_ptr<IfcTextAlignment> type_object( new IfcTextAlignment() );
 	readString( arg, type_object->m_value );
 	return type_object;

@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcBoilerTypeEnum.h"
 
 // TYPE IfcBoilerTypeEnum = ENUMERATION OF	(WATER	,STEAM	,USERDEFINED	,NOTDEFINED);
-IfcBoilerTypeEnum::IfcBoilerTypeEnum() {}
-IfcBoilerTypeEnum::~IfcBoilerTypeEnum() {}
+IfcBoilerTypeEnum::IfcBoilerTypeEnum() = default;
+IfcBoilerTypeEnum::~IfcBoilerTypeEnum() = default;
 shared_ptr<BuildingObject> IfcBoilerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoilerTypeEnum> copy_self( new IfcBoilerTypeEnum() );
@@ -44,7 +44,7 @@ const std::wstring IfcBoilerTypeEnum::toString() const
 shared_ptr<IfcBoilerTypeEnum> IfcBoilerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBoilerTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBoilerTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBoilerTypeEnum>(); }
 	shared_ptr<IfcBoilerTypeEnum> type_object( new IfcBoilerTypeEnum() );
 	if( boost::iequals( arg, L".WATER." ) )
 	{

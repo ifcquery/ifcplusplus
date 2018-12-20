@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcWorkCalendarTypeEnum.h"
 
 // TYPE IfcWorkCalendarTypeEnum = ENUMERATION OF	(FIRSTSHIFT	,SECONDSHIFT	,THIRDSHIFT	,USERDEFINED	,NOTDEFINED);
-IfcWorkCalendarTypeEnum::IfcWorkCalendarTypeEnum() {}
-IfcWorkCalendarTypeEnum::~IfcWorkCalendarTypeEnum() {}
+IfcWorkCalendarTypeEnum::IfcWorkCalendarTypeEnum() = default;
+IfcWorkCalendarTypeEnum::~IfcWorkCalendarTypeEnum() = default;
 shared_ptr<BuildingObject> IfcWorkCalendarTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWorkCalendarTypeEnum> copy_self( new IfcWorkCalendarTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcWorkCalendarTypeEnum::toString() const
 shared_ptr<IfcWorkCalendarTypeEnum> IfcWorkCalendarTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWorkCalendarTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWorkCalendarTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWorkCalendarTypeEnum>(); }
 	shared_ptr<IfcWorkCalendarTypeEnum> type_object( new IfcWorkCalendarTypeEnum() );
 	if( boost::iequals( arg, L".FIRSTSHIFT." ) )
 	{

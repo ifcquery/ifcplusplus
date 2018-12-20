@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcStairFlightTypeEnum.h"
 
 // TYPE IfcStairFlightTypeEnum = ENUMERATION OF	(STRAIGHT	,WINDER	,SPIRAL	,CURVED	,FREEFORM	,USERDEFINED	,NOTDEFINED);
-IfcStairFlightTypeEnum::IfcStairFlightTypeEnum() {}
-IfcStairFlightTypeEnum::~IfcStairFlightTypeEnum() {}
+IfcStairFlightTypeEnum::IfcStairFlightTypeEnum() = default;
+IfcStairFlightTypeEnum::~IfcStairFlightTypeEnum() = default;
 shared_ptr<BuildingObject> IfcStairFlightTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStairFlightTypeEnum> copy_self( new IfcStairFlightTypeEnum() );
@@ -50,7 +50,7 @@ const std::wstring IfcStairFlightTypeEnum::toString() const
 shared_ptr<IfcStairFlightTypeEnum> IfcStairFlightTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStairFlightTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStairFlightTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStairFlightTypeEnum>(); }
 	shared_ptr<IfcStairFlightTypeEnum> type_object( new IfcStairFlightTypeEnum() );
 	if( boost::iequals( arg, L".STRAIGHT." ) )
 	{

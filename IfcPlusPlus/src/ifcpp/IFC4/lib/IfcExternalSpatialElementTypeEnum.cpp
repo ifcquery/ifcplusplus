@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcExternalSpatialElementTypeEnum.h"
 
 // TYPE IfcExternalSpatialElementTypeEnum = ENUMERATION OF	(EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_WATER	,EXTERNAL_FIRE	,USERDEFINED	,NOTDEFINED);
-IfcExternalSpatialElementTypeEnum::IfcExternalSpatialElementTypeEnum() {}
-IfcExternalSpatialElementTypeEnum::~IfcExternalSpatialElementTypeEnum() {}
+IfcExternalSpatialElementTypeEnum::IfcExternalSpatialElementTypeEnum() = default;
+IfcExternalSpatialElementTypeEnum::~IfcExternalSpatialElementTypeEnum() = default;
 shared_ptr<BuildingObject> IfcExternalSpatialElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExternalSpatialElementTypeEnum> copy_self( new IfcExternalSpatialElementTypeEnum() );
@@ -48,7 +48,7 @@ const std::wstring IfcExternalSpatialElementTypeEnum::toString() const
 shared_ptr<IfcExternalSpatialElementTypeEnum> IfcExternalSpatialElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcExternalSpatialElementTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcExternalSpatialElementTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcExternalSpatialElementTypeEnum>(); }
 	shared_ptr<IfcExternalSpatialElementTypeEnum> type_object( new IfcExternalSpatialElementTypeEnum() );
 	if( boost::iequals( arg, L".EXTERNAL." ) )
 	{

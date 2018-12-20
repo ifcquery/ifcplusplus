@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcRecurrenceTypeEnum.h"
 
 // TYPE IfcRecurrenceTypeEnum = ENUMERATION OF	(DAILY	,WEEKLY	,MONTHLY_BY_DAY_OF_MONTH	,MONTHLY_BY_POSITION	,BY_DAY_COUNT	,BY_WEEKDAY_COUNT	,YEARLY_BY_DAY_OF_MONTH	,YEARLY_BY_POSITION);
-IfcRecurrenceTypeEnum::IfcRecurrenceTypeEnum() {}
-IfcRecurrenceTypeEnum::~IfcRecurrenceTypeEnum() {}
+IfcRecurrenceTypeEnum::IfcRecurrenceTypeEnum() = default;
+IfcRecurrenceTypeEnum::~IfcRecurrenceTypeEnum() = default;
 shared_ptr<BuildingObject> IfcRecurrenceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRecurrenceTypeEnum> copy_self( new IfcRecurrenceTypeEnum() );
@@ -52,7 +52,7 @@ const std::wstring IfcRecurrenceTypeEnum::toString() const
 shared_ptr<IfcRecurrenceTypeEnum> IfcRecurrenceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRecurrenceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRecurrenceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRecurrenceTypeEnum>(); }
 	shared_ptr<IfcRecurrenceTypeEnum> type_object( new IfcRecurrenceTypeEnum() );
 	if( boost::iequals( arg, L".DAILY." ) )
 	{

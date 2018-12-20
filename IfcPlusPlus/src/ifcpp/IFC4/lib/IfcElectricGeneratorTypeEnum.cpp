@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcElectricGeneratorTypeEnum.h"
 
 // TYPE IfcElectricGeneratorTypeEnum = ENUMERATION OF	(CHP	,ENGINEGENERATOR	,STANDALONE	,USERDEFINED	,NOTDEFINED);
-IfcElectricGeneratorTypeEnum::IfcElectricGeneratorTypeEnum() {}
-IfcElectricGeneratorTypeEnum::~IfcElectricGeneratorTypeEnum() {}
+IfcElectricGeneratorTypeEnum::IfcElectricGeneratorTypeEnum() = default;
+IfcElectricGeneratorTypeEnum::~IfcElectricGeneratorTypeEnum() = default;
 shared_ptr<BuildingObject> IfcElectricGeneratorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricGeneratorTypeEnum> copy_self( new IfcElectricGeneratorTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcElectricGeneratorTypeEnum::toString() const
 shared_ptr<IfcElectricGeneratorTypeEnum> IfcElectricGeneratorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricGeneratorTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricGeneratorTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricGeneratorTypeEnum>(); }
 	shared_ptr<IfcElectricGeneratorTypeEnum> type_object( new IfcElectricGeneratorTypeEnum() );
 	if( boost::iequals( arg, L".CHP." ) )
 	{

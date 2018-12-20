@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcLightEmissionSourceEnum.h"
 
 // TYPE IfcLightEmissionSourceEnum = ENUMERATION OF	(COMPACTFLUORESCENT	,FLUORESCENT	,HIGHPRESSUREMERCURY	,HIGHPRESSURESODIUM	,LIGHTEMITTINGDIODE	,LOWPRESSURESODIUM	,LOWVOLTAGEHALOGEN	,MAINVOLTAGEHALOGEN	,METALHALIDE	,TUNGSTENFILAMENT	,NOTDEFINED);
-IfcLightEmissionSourceEnum::IfcLightEmissionSourceEnum() {}
-IfcLightEmissionSourceEnum::~IfcLightEmissionSourceEnum() {}
+IfcLightEmissionSourceEnum::IfcLightEmissionSourceEnum() = default;
+IfcLightEmissionSourceEnum::~IfcLightEmissionSourceEnum() = default;
 shared_ptr<BuildingObject> IfcLightEmissionSourceEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightEmissionSourceEnum> copy_self( new IfcLightEmissionSourceEnum() );
@@ -58,7 +58,7 @@ const std::wstring IfcLightEmissionSourceEnum::toString() const
 shared_ptr<IfcLightEmissionSourceEnum> IfcLightEmissionSourceEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLightEmissionSourceEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLightEmissionSourceEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLightEmissionSourceEnum>(); }
 	shared_ptr<IfcLightEmissionSourceEnum> type_object( new IfcLightEmissionSourceEnum() );
 	if( boost::iequals( arg, L".COMPACTFLUORESCENT." ) )
 	{

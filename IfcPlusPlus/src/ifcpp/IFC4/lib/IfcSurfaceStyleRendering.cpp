@@ -15,9 +15,9 @@
 #include "ifcpp/IFC4/include/IfcSurfaceStyleRendering.h"
 
 // ENTITY IfcSurfaceStyleRendering 
-IfcSurfaceStyleRendering::IfcSurfaceStyleRendering() {}
+IfcSurfaceStyleRendering::IfcSurfaceStyleRendering() = default;
 IfcSurfaceStyleRendering::IfcSurfaceStyleRendering( int id ) { m_entity_id = id; }
-IfcSurfaceStyleRendering::~IfcSurfaceStyleRendering() {}
+IfcSurfaceStyleRendering::~IfcSurfaceStyleRendering() = default;
 shared_ptr<BuildingObject> IfcSurfaceStyleRendering::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceStyleRendering> copy_self( new IfcSurfaceStyleRendering() );
@@ -54,12 +54,12 @@ void IfcSurfaceStyleRendering::getStepLine( std::stringstream& stream ) const
 	if( m_ReflectanceMethod ) { m_ReflectanceMethod->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceStyleRendering::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSurfaceStyleRendering::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceStyleRendering::toString() const { return L"IfcSurfaceStyleRendering"; }
 void IfcSurfaceStyleRendering::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleRendering, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleRendering, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_SurfaceColour, map );
 	m_Transparency = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1], map );
 	m_DiffuseColour = IfcColourOrFactor::createObjectFromSTEP( args[2], map );
@@ -73,13 +73,13 @@ void IfcSurfaceStyleRendering::readStepArguments( const std::vector<std::wstring
 void IfcSurfaceStyleRendering::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSurfaceStyleShading::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "DiffuseColour", m_DiffuseColour ) );
-	vec_attributes.push_back( std::make_pair( "TransmissionColour", m_TransmissionColour ) );
-	vec_attributes.push_back( std::make_pair( "DiffuseTransmissionColour", m_DiffuseTransmissionColour ) );
-	vec_attributes.push_back( std::make_pair( "ReflectionColour", m_ReflectionColour ) );
-	vec_attributes.push_back( std::make_pair( "SpecularColour", m_SpecularColour ) );
-	vec_attributes.push_back( std::make_pair( "SpecularHighlight", m_SpecularHighlight ) );
-	vec_attributes.push_back( std::make_pair( "ReflectanceMethod", m_ReflectanceMethod ) );
+	vec_attributes.emplace_back( "DiffuseColour", m_DiffuseColour );
+	vec_attributes.emplace_back( "TransmissionColour", m_TransmissionColour );
+	vec_attributes.emplace_back( "DiffuseTransmissionColour", m_DiffuseTransmissionColour );
+	vec_attributes.emplace_back( "ReflectionColour", m_ReflectionColour );
+	vec_attributes.emplace_back( "SpecularColour", m_SpecularColour );
+	vec_attributes.emplace_back( "SpecularHighlight", m_SpecularHighlight );
+	vec_attributes.emplace_back( "ReflectanceMethod", m_ReflectanceMethod );
 }
 void IfcSurfaceStyleRendering::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

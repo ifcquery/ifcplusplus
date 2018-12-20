@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcPipeSegmentTypeEnum.h"
 
 // TYPE IfcPipeSegmentTypeEnum = ENUMERATION OF	(CULVERT	,FLEXIBLESEGMENT	,RIGIDSEGMENT	,GUTTER	,SPOOL	,USERDEFINED	,NOTDEFINED);
-IfcPipeSegmentTypeEnum::IfcPipeSegmentTypeEnum() {}
-IfcPipeSegmentTypeEnum::~IfcPipeSegmentTypeEnum() {}
+IfcPipeSegmentTypeEnum::IfcPipeSegmentTypeEnum() = default;
+IfcPipeSegmentTypeEnum::~IfcPipeSegmentTypeEnum() = default;
 shared_ptr<BuildingObject> IfcPipeSegmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPipeSegmentTypeEnum> copy_self( new IfcPipeSegmentTypeEnum() );
@@ -50,7 +50,7 @@ const std::wstring IfcPipeSegmentTypeEnum::toString() const
 shared_ptr<IfcPipeSegmentTypeEnum> IfcPipeSegmentTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPipeSegmentTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPipeSegmentTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPipeSegmentTypeEnum>(); }
 	shared_ptr<IfcPipeSegmentTypeEnum> type_object( new IfcPipeSegmentTypeEnum() );
 	if( boost::iequals( arg, L".CULVERT." ) )
 	{

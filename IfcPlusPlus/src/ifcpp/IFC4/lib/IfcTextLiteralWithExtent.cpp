@@ -17,9 +17,9 @@
 #include "ifcpp/IFC4/include/IfcTextPath.h"
 
 // ENTITY IfcTextLiteralWithExtent 
-IfcTextLiteralWithExtent::IfcTextLiteralWithExtent() {}
+IfcTextLiteralWithExtent::IfcTextLiteralWithExtent() = default;
 IfcTextLiteralWithExtent::IfcTextLiteralWithExtent( int id ) { m_entity_id = id; }
-IfcTextLiteralWithExtent::~IfcTextLiteralWithExtent() {}
+IfcTextLiteralWithExtent::~IfcTextLiteralWithExtent() = default;
 shared_ptr<BuildingObject> IfcTextLiteralWithExtent::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextLiteralWithExtent> copy_self( new IfcTextLiteralWithExtent() );
@@ -44,12 +44,12 @@ void IfcTextLiteralWithExtent::getStepLine( std::stringstream& stream ) const
 	if( m_BoxAlignment ) { m_BoxAlignment->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTextLiteralWithExtent::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTextLiteralWithExtent::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextLiteralWithExtent::toString() const { return L"IfcTextLiteralWithExtent"; }
 void IfcTextLiteralWithExtent::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextLiteralWithExtent, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextLiteralWithExtent, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Literal = IfcPresentableText::createObjectFromSTEP( args[0], map );
 	m_Placement = IfcAxis2Placement::createObjectFromSTEP( args[1], map );
 	m_Path = IfcTextPath::createObjectFromSTEP( args[2], map );
@@ -59,8 +59,8 @@ void IfcTextLiteralWithExtent::readStepArguments( const std::vector<std::wstring
 void IfcTextLiteralWithExtent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTextLiteral::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Extent", m_Extent ) );
-	vec_attributes.push_back( std::make_pair( "BoxAlignment", m_BoxAlignment ) );
+	vec_attributes.emplace_back( "Extent", m_Extent );
+	vec_attributes.emplace_back( "BoxAlignment", m_BoxAlignment );
 }
 void IfcTextLiteralWithExtent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

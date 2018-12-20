@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcDoseEquivalentMeasure.h"
 
 // TYPE IfcDoseEquivalentMeasure = REAL;
-IfcDoseEquivalentMeasure::IfcDoseEquivalentMeasure() {}
+IfcDoseEquivalentMeasure::IfcDoseEquivalentMeasure() = default;
 IfcDoseEquivalentMeasure::IfcDoseEquivalentMeasure( double value ) { m_value = value; }
-IfcDoseEquivalentMeasure::~IfcDoseEquivalentMeasure() {}
+IfcDoseEquivalentMeasure::~IfcDoseEquivalentMeasure() = default;
 shared_ptr<BuildingObject> IfcDoseEquivalentMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoseEquivalentMeasure> copy_self( new IfcDoseEquivalentMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcDoseEquivalentMeasure::toString() const
 shared_ptr<IfcDoseEquivalentMeasure> IfcDoseEquivalentMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoseEquivalentMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoseEquivalentMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoseEquivalentMeasure>(); }
 	shared_ptr<IfcDoseEquivalentMeasure> type_object( new IfcDoseEquivalentMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

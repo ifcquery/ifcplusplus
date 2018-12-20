@@ -9,7 +9,7 @@
 // TYPE IfcHatchLineDistanceSelect = SELECT	(IfcPositiveLengthMeasure	,IfcVector);
 shared_ptr<IfcHatchLineDistanceSelect> IfcHatchLineDistanceSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcHatchLineDistanceSelect>(); }
+	if( arg.empty() ){ return shared_ptr<IfcHatchLineDistanceSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcHatchLineDistanceSelect>();

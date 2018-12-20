@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcSoundPowerLevelMeasure.h"
 
 // TYPE IfcSoundPowerLevelMeasure = REAL;
-IfcSoundPowerLevelMeasure::IfcSoundPowerLevelMeasure() {}
+IfcSoundPowerLevelMeasure::IfcSoundPowerLevelMeasure() = default;
 IfcSoundPowerLevelMeasure::IfcSoundPowerLevelMeasure( double value ) { m_value = value; }
-IfcSoundPowerLevelMeasure::~IfcSoundPowerLevelMeasure() {}
+IfcSoundPowerLevelMeasure::~IfcSoundPowerLevelMeasure() = default;
 shared_ptr<BuildingObject> IfcSoundPowerLevelMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSoundPowerLevelMeasure> copy_self( new IfcSoundPowerLevelMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcSoundPowerLevelMeasure::toString() const
 shared_ptr<IfcSoundPowerLevelMeasure> IfcSoundPowerLevelMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSoundPowerLevelMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSoundPowerLevelMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSoundPowerLevelMeasure>(); }
 	shared_ptr<IfcSoundPowerLevelMeasure> type_object( new IfcSoundPowerLevelMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

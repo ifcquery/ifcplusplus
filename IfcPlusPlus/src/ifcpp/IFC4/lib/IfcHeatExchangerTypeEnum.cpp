@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcHeatExchangerTypeEnum.h"
 
 // TYPE IfcHeatExchangerTypeEnum = ENUMERATION OF	(PLATE	,SHELLANDTUBE	,USERDEFINED	,NOTDEFINED);
-IfcHeatExchangerTypeEnum::IfcHeatExchangerTypeEnum() {}
-IfcHeatExchangerTypeEnum::~IfcHeatExchangerTypeEnum() {}
+IfcHeatExchangerTypeEnum::IfcHeatExchangerTypeEnum() = default;
+IfcHeatExchangerTypeEnum::~IfcHeatExchangerTypeEnum() = default;
 shared_ptr<BuildingObject> IfcHeatExchangerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcHeatExchangerTypeEnum> copy_self( new IfcHeatExchangerTypeEnum() );
@@ -44,7 +44,7 @@ const std::wstring IfcHeatExchangerTypeEnum::toString() const
 shared_ptr<IfcHeatExchangerTypeEnum> IfcHeatExchangerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcHeatExchangerTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcHeatExchangerTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcHeatExchangerTypeEnum>(); }
 	shared_ptr<IfcHeatExchangerTypeEnum> type_object( new IfcHeatExchangerTypeEnum() );
 	if( boost::iequals( arg, L".PLATE." ) )
 	{

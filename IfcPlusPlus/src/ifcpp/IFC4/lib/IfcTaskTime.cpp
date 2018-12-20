@@ -17,9 +17,9 @@
 #include "ifcpp/IFC4/include/IfcTaskTime.h"
 
 // ENTITY IfcTaskTime 
-IfcTaskTime::IfcTaskTime() {}
+IfcTaskTime::IfcTaskTime() = default;
 IfcTaskTime::IfcTaskTime( int id ) { m_entity_id = id; }
-IfcTaskTime::~IfcTaskTime() {}
+IfcTaskTime::~IfcTaskTime() = default;
 shared_ptr<BuildingObject> IfcTaskTime::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTaskTime> copy_self( new IfcTaskTime() );
@@ -89,12 +89,12 @@ void IfcTaskTime::getStepLine( std::stringstream& stream ) const
 	if( m_Completion ) { m_Completion->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTaskTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTaskTime::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTaskTime::toString() const { return L"IfcTaskTime"; }
 void IfcTaskTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 20 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTaskTime, expecting 20, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 20 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTaskTime, expecting 20, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1], map );
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -119,23 +119,23 @@ void IfcTaskTime::readStepArguments( const std::vector<std::wstring>& args, cons
 void IfcTaskTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSchedulingTime::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "DurationType", m_DurationType ) );
-	vec_attributes.push_back( std::make_pair( "ScheduleDuration", m_ScheduleDuration ) );
-	vec_attributes.push_back( std::make_pair( "ScheduleStart", m_ScheduleStart ) );
-	vec_attributes.push_back( std::make_pair( "ScheduleFinish", m_ScheduleFinish ) );
-	vec_attributes.push_back( std::make_pair( "EarlyStart", m_EarlyStart ) );
-	vec_attributes.push_back( std::make_pair( "EarlyFinish", m_EarlyFinish ) );
-	vec_attributes.push_back( std::make_pair( "LateStart", m_LateStart ) );
-	vec_attributes.push_back( std::make_pair( "LateFinish", m_LateFinish ) );
-	vec_attributes.push_back( std::make_pair( "FreeFloat", m_FreeFloat ) );
-	vec_attributes.push_back( std::make_pair( "TotalFloat", m_TotalFloat ) );
-	vec_attributes.push_back( std::make_pair( "IsCritical", m_IsCritical ) );
-	vec_attributes.push_back( std::make_pair( "StatusTime", m_StatusTime ) );
-	vec_attributes.push_back( std::make_pair( "ActualDuration", m_ActualDuration ) );
-	vec_attributes.push_back( std::make_pair( "ActualStart", m_ActualStart ) );
-	vec_attributes.push_back( std::make_pair( "ActualFinish", m_ActualFinish ) );
-	vec_attributes.push_back( std::make_pair( "RemainingTime", m_RemainingTime ) );
-	vec_attributes.push_back( std::make_pair( "Completion", m_Completion ) );
+	vec_attributes.emplace_back( "DurationType", m_DurationType );
+	vec_attributes.emplace_back( "ScheduleDuration", m_ScheduleDuration );
+	vec_attributes.emplace_back( "ScheduleStart", m_ScheduleStart );
+	vec_attributes.emplace_back( "ScheduleFinish", m_ScheduleFinish );
+	vec_attributes.emplace_back( "EarlyStart", m_EarlyStart );
+	vec_attributes.emplace_back( "EarlyFinish", m_EarlyFinish );
+	vec_attributes.emplace_back( "LateStart", m_LateStart );
+	vec_attributes.emplace_back( "LateFinish", m_LateFinish );
+	vec_attributes.emplace_back( "FreeFloat", m_FreeFloat );
+	vec_attributes.emplace_back( "TotalFloat", m_TotalFloat );
+	vec_attributes.emplace_back( "IsCritical", m_IsCritical );
+	vec_attributes.emplace_back( "StatusTime", m_StatusTime );
+	vec_attributes.emplace_back( "ActualDuration", m_ActualDuration );
+	vec_attributes.emplace_back( "ActualStart", m_ActualStart );
+	vec_attributes.emplace_back( "ActualFinish", m_ActualFinish );
+	vec_attributes.emplace_back( "RemainingTime", m_RemainingTime );
+	vec_attributes.emplace_back( "Completion", m_Completion );
 }
 void IfcTaskTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

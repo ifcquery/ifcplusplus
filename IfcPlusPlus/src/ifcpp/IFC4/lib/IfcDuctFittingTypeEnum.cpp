@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcDuctFittingTypeEnum.h"
 
 // TYPE IfcDuctFittingTypeEnum = ENUMERATION OF	(BEND	,CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,OBSTRUCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
-IfcDuctFittingTypeEnum::IfcDuctFittingTypeEnum() {}
-IfcDuctFittingTypeEnum::~IfcDuctFittingTypeEnum() {}
+IfcDuctFittingTypeEnum::IfcDuctFittingTypeEnum() = default;
+IfcDuctFittingTypeEnum::~IfcDuctFittingTypeEnum() = default;
 shared_ptr<BuildingObject> IfcDuctFittingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDuctFittingTypeEnum> copy_self( new IfcDuctFittingTypeEnum() );
@@ -54,7 +54,7 @@ const std::wstring IfcDuctFittingTypeEnum::toString() const
 shared_ptr<IfcDuctFittingTypeEnum> IfcDuctFittingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDuctFittingTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuctFittingTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuctFittingTypeEnum>(); }
 	shared_ptr<IfcDuctFittingTypeEnum> type_object( new IfcDuctFittingTypeEnum() );
 	if( boost::iequals( arg, L".BEND." ) )
 	{

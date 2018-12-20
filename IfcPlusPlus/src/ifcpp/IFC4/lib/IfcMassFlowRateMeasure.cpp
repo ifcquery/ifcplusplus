@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcMassFlowRateMeasure.h"
 
 // TYPE IfcMassFlowRateMeasure = REAL;
-IfcMassFlowRateMeasure::IfcMassFlowRateMeasure() {}
+IfcMassFlowRateMeasure::IfcMassFlowRateMeasure() = default;
 IfcMassFlowRateMeasure::IfcMassFlowRateMeasure( double value ) { m_value = value; }
-IfcMassFlowRateMeasure::~IfcMassFlowRateMeasure() {}
+IfcMassFlowRateMeasure::~IfcMassFlowRateMeasure() = default;
 shared_ptr<BuildingObject> IfcMassFlowRateMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMassFlowRateMeasure> copy_self( new IfcMassFlowRateMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcMassFlowRateMeasure::toString() const
 shared_ptr<IfcMassFlowRateMeasure> IfcMassFlowRateMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMassFlowRateMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMassFlowRateMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMassFlowRateMeasure>(); }
 	shared_ptr<IfcMassFlowRateMeasure> type_object( new IfcMassFlowRateMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

@@ -14,16 +14,15 @@
 #include "ifcpp/IFC4/include/IfcTextureVertexList.h"
 
 // ENTITY IfcIndexedTriangleTextureMap 
-IfcIndexedTriangleTextureMap::IfcIndexedTriangleTextureMap() {}
+IfcIndexedTriangleTextureMap::IfcIndexedTriangleTextureMap() = default;
 IfcIndexedTriangleTextureMap::IfcIndexedTriangleTextureMap( int id ) { m_entity_id = id; }
-IfcIndexedTriangleTextureMap::~IfcIndexedTriangleTextureMap() {}
+IfcIndexedTriangleTextureMap::~IfcIndexedTriangleTextureMap() = default;
 shared_ptr<BuildingObject> IfcIndexedTriangleTextureMap::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIndexedTriangleTextureMap> copy_self( new IfcIndexedTriangleTextureMap() );
-	for( size_t ii=0; ii<m_Maps.size(); ++ii )
+	for(auto item_ii : m_Maps)
 	{
-		auto item_ii = m_Maps[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
 		}
@@ -35,10 +34,9 @@ shared_ptr<BuildingObject> IfcIndexedTriangleTextureMap::getDeepCopy( BuildingCo
 	{
 		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_TexCoordIndex[ii];
 		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii_target = copy_self->m_TexCoordIndex[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
+		for(auto & item_jj : vec_ii)
 		{
-			shared_ptr<IfcPositiveInteger>& item_jj = vec_ii[jj];
-			if( item_jj )
+				if( item_jj )
 			{
 				vec_ii_target.push_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
 			}
@@ -58,12 +56,12 @@ void IfcIndexedTriangleTextureMap::getStepLine( std::stringstream& stream ) cons
 	writeNumericTypeList2D( stream, m_TexCoordIndex );
 	stream << ");";
 }
-void IfcIndexedTriangleTextureMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcIndexedTriangleTextureMap::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIndexedTriangleTextureMap::toString() const { return L"IfcIndexedTriangleTextureMap"; }
 void IfcIndexedTriangleTextureMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedTriangleTextureMap, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedTriangleTextureMap, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReferenceList( args[0], m_Maps, map );
 	readEntityReference( args[1], m_MappedTo, map );
 	readEntityReference( args[2], m_TexCoords, map );

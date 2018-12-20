@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcCostItemTypeEnum.h"
 
 // TYPE IfcCostItemTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-IfcCostItemTypeEnum::IfcCostItemTypeEnum() {}
-IfcCostItemTypeEnum::~IfcCostItemTypeEnum() {}
+IfcCostItemTypeEnum::IfcCostItemTypeEnum() = default;
+IfcCostItemTypeEnum::~IfcCostItemTypeEnum() = default;
 shared_ptr<BuildingObject> IfcCostItemTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCostItemTypeEnum> copy_self( new IfcCostItemTypeEnum() );
@@ -40,7 +40,7 @@ const std::wstring IfcCostItemTypeEnum::toString() const
 shared_ptr<IfcCostItemTypeEnum> IfcCostItemTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCostItemTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCostItemTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCostItemTypeEnum>(); }
 	shared_ptr<IfcCostItemTypeEnum> type_object( new IfcCostItemTypeEnum() );
 	if( boost::iequals( arg, L".USERDEFINED." ) )
 	{

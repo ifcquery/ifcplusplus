@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcPermitTypeEnum.h"
 
 // TYPE IfcPermitTypeEnum = ENUMERATION OF	(ACCESS	,BUILDING	,WORK	,USERDEFINED	,NOTDEFINED);
-IfcPermitTypeEnum::IfcPermitTypeEnum() {}
-IfcPermitTypeEnum::~IfcPermitTypeEnum() {}
+IfcPermitTypeEnum::IfcPermitTypeEnum() = default;
+IfcPermitTypeEnum::~IfcPermitTypeEnum() = default;
 shared_ptr<BuildingObject> IfcPermitTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPermitTypeEnum> copy_self( new IfcPermitTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcPermitTypeEnum::toString() const
 shared_ptr<IfcPermitTypeEnum> IfcPermitTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPermitTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPermitTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPermitTypeEnum>(); }
 	shared_ptr<IfcPermitTypeEnum> type_object( new IfcPermitTypeEnum() );
 	if( boost::iequals( arg, L".ACCESS." ) )
 	{

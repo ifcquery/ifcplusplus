@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcConnectionTypeEnum.h"
 
 // TYPE IfcConnectionTypeEnum = ENUMERATION OF	(ATPATH	,ATSTART	,ATEND	,NOTDEFINED);
-IfcConnectionTypeEnum::IfcConnectionTypeEnum() {}
-IfcConnectionTypeEnum::~IfcConnectionTypeEnum() {}
+IfcConnectionTypeEnum::IfcConnectionTypeEnum() = default;
+IfcConnectionTypeEnum::~IfcConnectionTypeEnum() = default;
 shared_ptr<BuildingObject> IfcConnectionTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConnectionTypeEnum> copy_self( new IfcConnectionTypeEnum() );
@@ -44,7 +44,7 @@ const std::wstring IfcConnectionTypeEnum::toString() const
 shared_ptr<IfcConnectionTypeEnum> IfcConnectionTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConnectionTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConnectionTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConnectionTypeEnum>(); }
 	shared_ptr<IfcConnectionTypeEnum> type_object( new IfcConnectionTypeEnum() );
 	if( boost::iequals( arg, L".ATPATH." ) )
 	{

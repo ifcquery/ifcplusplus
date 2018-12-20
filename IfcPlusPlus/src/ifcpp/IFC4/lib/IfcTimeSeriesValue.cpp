@@ -11,16 +11,15 @@
 #include "ifcpp/IFC4/include/IfcValue.h"
 
 // ENTITY IfcTimeSeriesValue 
-IfcTimeSeriesValue::IfcTimeSeriesValue() {}
+IfcTimeSeriesValue::IfcTimeSeriesValue() = default;
 IfcTimeSeriesValue::IfcTimeSeriesValue( int id ) { m_entity_id = id; }
-IfcTimeSeriesValue::~IfcTimeSeriesValue() {}
+IfcTimeSeriesValue::~IfcTimeSeriesValue() = default;
 shared_ptr<BuildingObject> IfcTimeSeriesValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTimeSeriesValue> copy_self( new IfcTimeSeriesValue() );
-	for( size_t ii=0; ii<m_ListValues.size(); ++ii )
+	for(auto item_ii : m_ListValues)
 	{
-		auto item_ii = m_ListValues[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_ListValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
@@ -50,27 +49,27 @@ void IfcTimeSeriesValue::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcTimeSeriesValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTimeSeriesValue::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTimeSeriesValue::toString() const { return L"IfcTimeSeriesValue"; }
 void IfcTimeSeriesValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTimeSeriesValue, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTimeSeriesValue, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readSelectList( args[0], m_ListValues, map );
 }
 void IfcTimeSeriesValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( m_ListValues.size() > 0 )
+	if( !m_ListValues.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ListValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_ListValues.begin(), m_ListValues.end(), std::back_inserter( ListValues_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "ListValues", ListValues_vec_object ) );
+		vec_attributes.emplace_back( "ListValues", ListValues_vec_object );
 	}
 }
 void IfcTimeSeriesValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
-void IfcTimeSeriesValue::setInverseCounterparts( shared_ptr<BuildingEntity> )
+void IfcTimeSeriesValue::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
 {
 }
 void IfcTimeSeriesValue::unlinkFromInverseCounterparts()

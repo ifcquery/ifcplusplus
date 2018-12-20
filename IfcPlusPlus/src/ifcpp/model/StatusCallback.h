@@ -69,7 +69,7 @@ public:
 	{
 		unsetMessageCallBack();
 	}
-	virtual ~StatusCallback(){}
+	virtual ~StatusCallback()= default;
 
 	//\brief error callback mechanism to show messages in gui
 	virtual void setMessageCallBack( void* obj_ptr, void (*func)(void*, shared_ptr<Message> t) )
@@ -147,7 +147,7 @@ public:
 	virtual void messageCallback( const std::wstring& message_text, MessageType type, const char* reporting_function, BuildingEntity* entity = nullptr )
 	{
 		shared_ptr<Message> message( new Message() );
-		message->m_message_text.assign( message_text.c_str() );
+		message->m_message_text.assign( message_text );
 		message->m_message_type = type;
 		message->m_reporting_function = reporting_function;
 		message->m_entity = entity;
@@ -158,7 +158,7 @@ public:
 		shared_ptr<Message> progress_message( new Message() );
 		progress_message->m_message_type = MessageType::MESSAGE_TYPE_PROGRESS_VALUE;
 		progress_message->m_progress_value = progress_value;
-		progress_message->m_progress_type.assign( progress_type.c_str() );
+		progress_message->m_progress_type.assign( progress_type );
 		messageCallback( progress_message );
 	}
 	virtual void progressTextCallback( const std::wstring& progress_text )
@@ -166,7 +166,7 @@ public:
 		shared_ptr<Message> progress_message( new Message() );
 		progress_message->m_message_type = MessageType::MESSAGE_TYPE_PROGRESS_TEXT;
 		progress_message->m_progress_value = -1;
-		progress_message->m_progress_text.assign( progress_text.c_str() );
+		progress_message->m_progress_text.assign( progress_text );
 		messageCallback( progress_message );
 	}
 	virtual void clearMessagesCallback()

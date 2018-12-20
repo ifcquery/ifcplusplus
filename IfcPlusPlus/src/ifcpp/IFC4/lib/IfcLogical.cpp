@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcLogical.h"
 
 // TYPE IfcLogical = LOGICAL;
-IfcLogical::IfcLogical() {}
+IfcLogical::IfcLogical() = default;
 IfcLogical::IfcLogical( LogicalEnum value ) { m_value = value; }
-IfcLogical::~IfcLogical() {}
+IfcLogical::~IfcLogical() = default;
 shared_ptr<BuildingObject> IfcLogical::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLogical> copy_self( new IfcLogical() );
@@ -43,7 +43,7 @@ const std::wstring IfcLogical::toString() const
 	{
 		return L"false";
 	}
-	else if( m_value == LOGICAL_TRUE )
+	if( m_value == LOGICAL_TRUE )
 	{
 		return L"true";
 	}
@@ -56,7 +56,7 @@ const std::wstring IfcLogical::toString() const
 shared_ptr<IfcLogical> IfcLogical::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLogical>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLogical>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLogical>(); }
 	shared_ptr<IfcLogical> type_object( new IfcLogical() );
 	readLogical( arg, type_object->m_value );
 	return type_object;

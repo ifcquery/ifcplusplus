@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcStructuralSurfaceActivityTypeEnum.h"
 
 // TYPE IfcStructuralSurfaceActivityTypeEnum = ENUMERATION OF	(CONST	,BILINEAR	,DISCRETE	,ISOCONTOUR	,USERDEFINED	,NOTDEFINED);
-IfcStructuralSurfaceActivityTypeEnum::IfcStructuralSurfaceActivityTypeEnum() {}
-IfcStructuralSurfaceActivityTypeEnum::~IfcStructuralSurfaceActivityTypeEnum() {}
+IfcStructuralSurfaceActivityTypeEnum::IfcStructuralSurfaceActivityTypeEnum() = default;
+IfcStructuralSurfaceActivityTypeEnum::~IfcStructuralSurfaceActivityTypeEnum() = default;
 shared_ptr<BuildingObject> IfcStructuralSurfaceActivityTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralSurfaceActivityTypeEnum> copy_self( new IfcStructuralSurfaceActivityTypeEnum() );
@@ -48,7 +48,7 @@ const std::wstring IfcStructuralSurfaceActivityTypeEnum::toString() const
 shared_ptr<IfcStructuralSurfaceActivityTypeEnum> IfcStructuralSurfaceActivityTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStructuralSurfaceActivityTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStructuralSurfaceActivityTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStructuralSurfaceActivityTypeEnum>(); }
 	shared_ptr<IfcStructuralSurfaceActivityTypeEnum> type_object( new IfcStructuralSurfaceActivityTypeEnum() );
 	if( boost::iequals( arg, L".CONST." ) )
 	{

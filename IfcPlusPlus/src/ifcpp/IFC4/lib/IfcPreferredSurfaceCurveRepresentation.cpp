@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcPreferredSurfaceCurveRepresentation.h"
 
 // TYPE IfcPreferredSurfaceCurveRepresentation = ENUMERATION OF	(CURVE3D	,PCURVE_S1	,PCURVE_S2);
-IfcPreferredSurfaceCurveRepresentation::IfcPreferredSurfaceCurveRepresentation() {}
-IfcPreferredSurfaceCurveRepresentation::~IfcPreferredSurfaceCurveRepresentation() {}
+IfcPreferredSurfaceCurveRepresentation::IfcPreferredSurfaceCurveRepresentation() = default;
+IfcPreferredSurfaceCurveRepresentation::~IfcPreferredSurfaceCurveRepresentation() = default;
 shared_ptr<BuildingObject> IfcPreferredSurfaceCurveRepresentation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPreferredSurfaceCurveRepresentation> copy_self( new IfcPreferredSurfaceCurveRepresentation() );
@@ -42,7 +42,7 @@ const std::wstring IfcPreferredSurfaceCurveRepresentation::toString() const
 shared_ptr<IfcPreferredSurfaceCurveRepresentation> IfcPreferredSurfaceCurveRepresentation::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPreferredSurfaceCurveRepresentation>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPreferredSurfaceCurveRepresentation>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPreferredSurfaceCurveRepresentation>(); }
 	shared_ptr<IfcPreferredSurfaceCurveRepresentation> type_object( new IfcPreferredSurfaceCurveRepresentation() );
 	if( boost::iequals( arg, L".CURVE3D." ) )
 	{

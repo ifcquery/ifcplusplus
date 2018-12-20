@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcSubContractResourceTypeEnum.h"
 
 // TYPE IfcSubContractResourceTypeEnum = ENUMERATION OF	(PURCHASE	,WORK	,USERDEFINED	,NOTDEFINED);
-IfcSubContractResourceTypeEnum::IfcSubContractResourceTypeEnum() {}
-IfcSubContractResourceTypeEnum::~IfcSubContractResourceTypeEnum() {}
+IfcSubContractResourceTypeEnum::IfcSubContractResourceTypeEnum() = default;
+IfcSubContractResourceTypeEnum::~IfcSubContractResourceTypeEnum() = default;
 shared_ptr<BuildingObject> IfcSubContractResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSubContractResourceTypeEnum> copy_self( new IfcSubContractResourceTypeEnum() );
@@ -44,7 +44,7 @@ const std::wstring IfcSubContractResourceTypeEnum::toString() const
 shared_ptr<IfcSubContractResourceTypeEnum> IfcSubContractResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSubContractResourceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSubContractResourceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSubContractResourceTypeEnum>(); }
 	shared_ptr<IfcSubContractResourceTypeEnum> type_object( new IfcSubContractResourceTypeEnum() );
 	if( boost::iequals( arg, L".PURCHASE." ) )
 	{

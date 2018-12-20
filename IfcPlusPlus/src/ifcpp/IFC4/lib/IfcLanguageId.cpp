@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcLanguageId.h"
 
 // TYPE IfcLanguageId = IfcIdentifier;
-IfcLanguageId::IfcLanguageId() {}
-IfcLanguageId::~IfcLanguageId() {}
+IfcLanguageId::IfcLanguageId() = default;
+IfcLanguageId::~IfcLanguageId() = default;
 shared_ptr<BuildingObject> IfcLanguageId::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLanguageId> copy_self( new IfcLanguageId() );
@@ -31,7 +31,7 @@ const std::wstring IfcLanguageId::toString() const
 shared_ptr<IfcLanguageId> IfcLanguageId::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLanguageId>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLanguageId>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLanguageId>(); }
 	shared_ptr<IfcLanguageId> type_object( new IfcLanguageId() );
 	readString( arg, type_object->m_value );
 	return type_object;

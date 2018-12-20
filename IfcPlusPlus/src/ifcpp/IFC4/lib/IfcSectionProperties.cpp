@@ -13,9 +13,9 @@
 #include "ifcpp/IFC4/include/IfcSectionTypeEnum.h"
 
 // ENTITY IfcSectionProperties 
-IfcSectionProperties::IfcSectionProperties() {}
+IfcSectionProperties::IfcSectionProperties() = default;
 IfcSectionProperties::IfcSectionProperties( int id ) { m_entity_id = id; }
-IfcSectionProperties::~IfcSectionProperties() {}
+IfcSectionProperties::~IfcSectionProperties() = default;
 shared_ptr<BuildingObject> IfcSectionProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSectionProperties> copy_self( new IfcSectionProperties() );
@@ -42,12 +42,12 @@ void IfcSectionProperties::getStepLine( std::stringstream& stream ) const
 	if( m_EndProfile ) { stream << "#" << m_EndProfile->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSectionProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSectionProperties::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSectionProperties::toString() const { return L"IfcSectionProperties"; }
 void IfcSectionProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSectionProperties, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSectionProperties, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_SectionType = IfcSectionTypeEnum::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_StartProfile, map );
 	readEntityReference( args[2], m_EndProfile, map );
@@ -55,9 +55,9 @@ void IfcSectionProperties::readStepArguments( const std::vector<std::wstring>& a
 void IfcSectionProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedProperties::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "SectionType", m_SectionType ) );
-	vec_attributes.push_back( std::make_pair( "StartProfile", m_StartProfile ) );
-	vec_attributes.push_back( std::make_pair( "EndProfile", m_EndProfile ) );
+	vec_attributes.emplace_back( "SectionType", m_SectionType );
+	vec_attributes.emplace_back( "StartProfile", m_StartProfile );
+	vec_attributes.emplace_back( "EndProfile", m_EndProfile );
 }
 void IfcSectionProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

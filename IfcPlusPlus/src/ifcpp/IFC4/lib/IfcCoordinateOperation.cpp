@@ -13,9 +13,9 @@
 #include "ifcpp/IFC4/include/IfcGeometricRepresentationContext.h"
 
 // ENTITY IfcCoordinateOperation 
-IfcCoordinateOperation::IfcCoordinateOperation() {}
+IfcCoordinateOperation::IfcCoordinateOperation() = default;
 IfcCoordinateOperation::IfcCoordinateOperation( int id ) { m_entity_id = id; }
-IfcCoordinateOperation::~IfcCoordinateOperation() {}
+IfcCoordinateOperation::~IfcCoordinateOperation() = default;
 shared_ptr<BuildingObject> IfcCoordinateOperation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCoordinateOperation> copy_self( new IfcCoordinateOperation() );
@@ -31,19 +31,19 @@ void IfcCoordinateOperation::getStepLine( std::stringstream& stream ) const
 	if( m_TargetCRS ) { stream << "#" << m_TargetCRS->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCoordinateOperation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCoordinateOperation::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCoordinateOperation::toString() const { return L"IfcCoordinateOperation"; }
 void IfcCoordinateOperation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCoordinateOperation, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCoordinateOperation, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_SourceCRS = IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_TargetCRS, map );
 }
 void IfcCoordinateOperation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "SourceCRS", m_SourceCRS ) );
-	vec_attributes.push_back( std::make_pair( "TargetCRS", m_TargetCRS ) );
+	vec_attributes.emplace_back( "SourceCRS", m_SourceCRS );
+	vec_attributes.emplace_back( "TargetCRS", m_TargetCRS );
 }
 void IfcCoordinateOperation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

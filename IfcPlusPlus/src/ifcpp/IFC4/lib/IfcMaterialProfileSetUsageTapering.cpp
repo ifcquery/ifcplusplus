@@ -14,9 +14,9 @@
 #include "ifcpp/IFC4/include/IfcRelAssociatesMaterial.h"
 
 // ENTITY IfcMaterialProfileSetUsageTapering 
-IfcMaterialProfileSetUsageTapering::IfcMaterialProfileSetUsageTapering() {}
+IfcMaterialProfileSetUsageTapering::IfcMaterialProfileSetUsageTapering() = default;
 IfcMaterialProfileSetUsageTapering::IfcMaterialProfileSetUsageTapering( int id ) { m_entity_id = id; }
-IfcMaterialProfileSetUsageTapering::~IfcMaterialProfileSetUsageTapering() {}
+IfcMaterialProfileSetUsageTapering::~IfcMaterialProfileSetUsageTapering() = default;
 shared_ptr<BuildingObject> IfcMaterialProfileSetUsageTapering::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialProfileSetUsageTapering> copy_self( new IfcMaterialProfileSetUsageTapering() );
@@ -41,12 +41,12 @@ void IfcMaterialProfileSetUsageTapering::getStepLine( std::stringstream& stream 
 	if( m_CardinalEndPoint ) { m_CardinalEndPoint->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMaterialProfileSetUsageTapering::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMaterialProfileSetUsageTapering::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialProfileSetUsageTapering::toString() const { return L"IfcMaterialProfileSetUsageTapering"; }
 void IfcMaterialProfileSetUsageTapering::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialProfileSetUsageTapering, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialProfileSetUsageTapering, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_ForProfileSet, map );
 	m_CardinalPoint = IfcCardinalPointReference::createObjectFromSTEP( args[1], map );
 	m_ReferenceExtent = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -56,8 +56,8 @@ void IfcMaterialProfileSetUsageTapering::readStepArguments( const std::vector<st
 void IfcMaterialProfileSetUsageTapering::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialProfileSetUsage::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ForProfileEndSet", m_ForProfileEndSet ) );
-	vec_attributes.push_back( std::make_pair( "CardinalEndPoint", m_CardinalEndPoint ) );
+	vec_attributes.emplace_back( "ForProfileEndSet", m_ForProfileEndSet );
+	vec_attributes.emplace_back( "CardinalEndPoint", m_CardinalEndPoint );
 }
 void IfcMaterialProfileSetUsageTapering::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -20,9 +20,9 @@
 #include "ifcpp/IFC4/include/IfcThermodynamicTemperatureMeasure.h"
 
 // ENTITY IfcLightSourceGoniometric 
-IfcLightSourceGoniometric::IfcLightSourceGoniometric() {}
+IfcLightSourceGoniometric::IfcLightSourceGoniometric() = default;
 IfcLightSourceGoniometric::IfcLightSourceGoniometric( int id ) { m_entity_id = id; }
-IfcLightSourceGoniometric::~IfcLightSourceGoniometric() {}
+IfcLightSourceGoniometric::~IfcLightSourceGoniometric() = default;
 shared_ptr<BuildingObject> IfcLightSourceGoniometric::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightSourceGoniometric> copy_self( new IfcLightSourceGoniometric() );
@@ -62,12 +62,12 @@ void IfcLightSourceGoniometric::getStepLine( std::stringstream& stream ) const
 	if( m_LightDistributionDataSource ) { m_LightDistributionDataSource->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcLightSourceGoniometric::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLightSourceGoniometric::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSourceGoniometric::toString() const { return L"IfcLightSourceGoniometric"; }
 void IfcLightSourceGoniometric::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceGoniometric, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceGoniometric, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_LightColour, map );
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );
@@ -82,12 +82,12 @@ void IfcLightSourceGoniometric::readStepArguments( const std::vector<std::wstrin
 void IfcLightSourceGoniometric::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLightSource::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
-	vec_attributes.push_back( std::make_pair( "ColourAppearance", m_ColourAppearance ) );
-	vec_attributes.push_back( std::make_pair( "ColourTemperature", m_ColourTemperature ) );
-	vec_attributes.push_back( std::make_pair( "LuminousFlux", m_LuminousFlux ) );
-	vec_attributes.push_back( std::make_pair( "LightEmissionSource", m_LightEmissionSource ) );
-	vec_attributes.push_back( std::make_pair( "LightDistributionDataSource", m_LightDistributionDataSource ) );
+	vec_attributes.emplace_back( "Position", m_Position );
+	vec_attributes.emplace_back( "ColourAppearance", m_ColourAppearance );
+	vec_attributes.emplace_back( "ColourTemperature", m_ColourTemperature );
+	vec_attributes.emplace_back( "LuminousFlux", m_LuminousFlux );
+	vec_attributes.emplace_back( "LightEmissionSource", m_LightEmissionSource );
+	vec_attributes.emplace_back( "LightDistributionDataSource", m_LightDistributionDataSource );
 }
 void IfcLightSourceGoniometric::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

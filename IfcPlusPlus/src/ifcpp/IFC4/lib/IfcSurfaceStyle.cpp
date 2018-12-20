@@ -13,18 +13,17 @@
 #include "ifcpp/IFC4/include/IfcSurfaceStyleElementSelect.h"
 
 // ENTITY IfcSurfaceStyle 
-IfcSurfaceStyle::IfcSurfaceStyle() {}
+IfcSurfaceStyle::IfcSurfaceStyle() = default;
 IfcSurfaceStyle::IfcSurfaceStyle( int id ) { m_entity_id = id; }
-IfcSurfaceStyle::~IfcSurfaceStyle() {}
+IfcSurfaceStyle::~IfcSurfaceStyle() = default;
 shared_ptr<BuildingObject> IfcSurfaceStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceStyle> copy_self( new IfcSurfaceStyle() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
 	if( m_Side ) { copy_self->m_Side = dynamic_pointer_cast<IfcSurfaceSide>( m_Side->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Styles.size(); ++ii )
+	for(auto item_ii : m_Styles)
 	{
-		auto item_ii = m_Styles[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Styles.push_back( dynamic_pointer_cast<IfcSurfaceStyleElementSelect>(item_ii->getDeepCopy(options) ) );
 		}
@@ -58,12 +57,12 @@ void IfcSurfaceStyle::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcSurfaceStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSurfaceStyle::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceStyle::toString() const { return L"IfcSurfaceStyle"; }
 void IfcSurfaceStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyle, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyle, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Side = IfcSurfaceSide::createObjectFromSTEP( args[1], map );
 	readSelectList( args[2], m_Styles, map );
@@ -71,12 +70,12 @@ void IfcSurfaceStyle::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcSurfaceStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationStyle::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Side", m_Side ) );
-	if( m_Styles.size() > 0 )
+	vec_attributes.emplace_back( "Side", m_Side );
+	if( !m_Styles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Styles_vec_object( new AttributeObjectVector() );
 		std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Styles", Styles_vec_object ) );
+		vec_attributes.emplace_back( "Styles", Styles_vec_object );
 	}
 }
 void IfcSurfaceStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

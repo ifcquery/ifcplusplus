@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcDamperTypeEnum.h"
 
 // TYPE IfcDamperTypeEnum = ENUMERATION OF	(BACKDRAFTDAMPER	,BALANCINGDAMPER	,BLASTDAMPER	,CONTROLDAMPER	,FIREDAMPER	,FIRESMOKEDAMPER	,FUMEHOODEXHAUST	,GRAVITYDAMPER	,GRAVITYRELIEFDAMPER	,RELIEFDAMPER	,SMOKEDAMPER	,USERDEFINED	,NOTDEFINED);
-IfcDamperTypeEnum::IfcDamperTypeEnum() {}
-IfcDamperTypeEnum::~IfcDamperTypeEnum() {}
+IfcDamperTypeEnum::IfcDamperTypeEnum() = default;
+IfcDamperTypeEnum::~IfcDamperTypeEnum() = default;
 shared_ptr<BuildingObject> IfcDamperTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDamperTypeEnum> copy_self( new IfcDamperTypeEnum() );
@@ -62,7 +62,7 @@ const std::wstring IfcDamperTypeEnum::toString() const
 shared_ptr<IfcDamperTypeEnum> IfcDamperTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDamperTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDamperTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDamperTypeEnum>(); }
 	shared_ptr<IfcDamperTypeEnum> type_object( new IfcDamperTypeEnum() );
 	if( boost::iequals( arg, L".BACKDRAFTDAMPER." ) )
 	{

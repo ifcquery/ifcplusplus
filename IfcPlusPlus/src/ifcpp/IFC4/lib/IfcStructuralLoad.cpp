@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcStructuralLoad.h"
 
 // ENTITY IfcStructuralLoad 
-IfcStructuralLoad::IfcStructuralLoad() {}
+IfcStructuralLoad::IfcStructuralLoad() = default;
 IfcStructuralLoad::IfcStructuralLoad( int id ) { m_entity_id = id; }
-IfcStructuralLoad::~IfcStructuralLoad() {}
+IfcStructuralLoad::~IfcStructuralLoad() = default;
 shared_ptr<BuildingObject> IfcStructuralLoad::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoad> copy_self( new IfcStructuralLoad() );
@@ -26,22 +26,22 @@ void IfcStructuralLoad::getStepLine( std::stringstream& stream ) const
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoad::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralLoad::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoad::toString() const { return L"IfcStructuralLoad"; }
 void IfcStructuralLoad::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoad, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoad, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 }
 void IfcStructuralLoad::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( "Name", m_Name );
 }
 void IfcStructuralLoad::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
-void IfcStructuralLoad::setInverseCounterparts( shared_ptr<BuildingEntity> )
+void IfcStructuralLoad::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
 {
 }
 void IfcStructuralLoad::unlinkFromInverseCounterparts()

@@ -13,18 +13,17 @@
 #include "ifcpp/IFC4/include/IfcPersonAndOrganization.h"
 
 // ENTITY IfcPersonAndOrganization 
-IfcPersonAndOrganization::IfcPersonAndOrganization() {}
+IfcPersonAndOrganization::IfcPersonAndOrganization() = default;
 IfcPersonAndOrganization::IfcPersonAndOrganization( int id ) { m_entity_id = id; }
-IfcPersonAndOrganization::~IfcPersonAndOrganization() {}
+IfcPersonAndOrganization::~IfcPersonAndOrganization() = default;
 shared_ptr<BuildingObject> IfcPersonAndOrganization::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPersonAndOrganization> copy_self( new IfcPersonAndOrganization() );
 	if( m_ThePerson ) { copy_self->m_ThePerson = dynamic_pointer_cast<IfcPerson>( m_ThePerson->getDeepCopy(options) ); }
 	if( m_TheOrganization ) { copy_self->m_TheOrganization = dynamic_pointer_cast<IfcOrganization>( m_TheOrganization->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Roles.size(); ++ii )
+	for(auto item_ii : m_Roles)
 	{
-		auto item_ii = m_Roles[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Roles.push_back( dynamic_pointer_cast<IfcActorRole>(item_ii->getDeepCopy(options) ) );
 		}
@@ -41,25 +40,25 @@ void IfcPersonAndOrganization::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Roles );
 	stream << ");";
 }
-void IfcPersonAndOrganization::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPersonAndOrganization::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPersonAndOrganization::toString() const { return L"IfcPersonAndOrganization"; }
 void IfcPersonAndOrganization::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPersonAndOrganization, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPersonAndOrganization, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_ThePerson, map );
 	readEntityReference( args[1], m_TheOrganization, map );
 	readEntityReferenceList( args[2], m_Roles, map );
 }
 void IfcPersonAndOrganization::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "ThePerson", m_ThePerson ) );
-	vec_attributes.push_back( std::make_pair( "TheOrganization", m_TheOrganization ) );
-	if( m_Roles.size() > 0 )
+	vec_attributes.emplace_back( "ThePerson", m_ThePerson );
+	vec_attributes.emplace_back( "TheOrganization", m_TheOrganization );
+	if( !m_Roles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Roles_vec_object( new AttributeObjectVector() );
 		std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Roles", Roles_vec_object ) );
+		vec_attributes.emplace_back( "Roles", Roles_vec_object );
 	}
 }
 void IfcPersonAndOrganization::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

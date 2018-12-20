@@ -14,9 +14,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCylindricalSurface 
-IfcCylindricalSurface::IfcCylindricalSurface() {}
+IfcCylindricalSurface::IfcCylindricalSurface() = default;
 IfcCylindricalSurface::IfcCylindricalSurface( int id ) { m_entity_id = id; }
-IfcCylindricalSurface::~IfcCylindricalSurface() {}
+IfcCylindricalSurface::~IfcCylindricalSurface() = default;
 shared_ptr<BuildingObject> IfcCylindricalSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCylindricalSurface> copy_self( new IfcCylindricalSurface() );
@@ -32,19 +32,19 @@ void IfcCylindricalSurface::getStepLine( std::stringstream& stream ) const
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCylindricalSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCylindricalSurface::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCylindricalSurface::toString() const { return L"IfcCylindricalSurface"; }
 void IfcCylindricalSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCylindricalSurface, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCylindricalSurface, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 }
 void IfcCylindricalSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcElementarySurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
+	vec_attributes.emplace_back( "Radius", m_Radius );
 }
 void IfcCylindricalSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

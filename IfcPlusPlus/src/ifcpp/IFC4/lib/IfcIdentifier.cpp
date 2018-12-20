@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcIdentifier.h"
 
 // TYPE IfcIdentifier = STRING(255);
-IfcIdentifier::IfcIdentifier() {}
+IfcIdentifier::IfcIdentifier() = default;
 IfcIdentifier::IfcIdentifier( std::wstring value ) { m_value = value; }
-IfcIdentifier::~IfcIdentifier() {}
+IfcIdentifier::~IfcIdentifier() = default;
 shared_ptr<BuildingObject> IfcIdentifier::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIdentifier> copy_self( new IfcIdentifier() );
@@ -33,7 +33,7 @@ const std::wstring IfcIdentifier::toString() const
 shared_ptr<IfcIdentifier> IfcIdentifier::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIdentifier>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIdentifier>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIdentifier>(); }
 	shared_ptr<IfcIdentifier> type_object( new IfcIdentifier() );
 	readString( arg, type_object->m_value );
 	return type_object;

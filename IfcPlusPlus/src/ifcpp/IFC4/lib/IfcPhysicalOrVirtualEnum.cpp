@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcPhysicalOrVirtualEnum.h"
 
 // TYPE IfcPhysicalOrVirtualEnum = ENUMERATION OF	(PHYSICAL	,VIRTUAL	,NOTDEFINED);
-IfcPhysicalOrVirtualEnum::IfcPhysicalOrVirtualEnum() {}
-IfcPhysicalOrVirtualEnum::~IfcPhysicalOrVirtualEnum() {}
+IfcPhysicalOrVirtualEnum::IfcPhysicalOrVirtualEnum() = default;
+IfcPhysicalOrVirtualEnum::~IfcPhysicalOrVirtualEnum() = default;
 shared_ptr<BuildingObject> IfcPhysicalOrVirtualEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPhysicalOrVirtualEnum> copy_self( new IfcPhysicalOrVirtualEnum() );
@@ -42,7 +42,7 @@ const std::wstring IfcPhysicalOrVirtualEnum::toString() const
 shared_ptr<IfcPhysicalOrVirtualEnum> IfcPhysicalOrVirtualEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPhysicalOrVirtualEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPhysicalOrVirtualEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPhysicalOrVirtualEnum>(); }
 	shared_ptr<IfcPhysicalOrVirtualEnum> type_object( new IfcPhysicalOrVirtualEnum() );
 	if( boost::iequals( arg, L".PHYSICAL." ) )
 	{

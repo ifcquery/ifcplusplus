@@ -10,9 +10,9 @@
 #include "ifcpp/IFC4/include/IfcDimensionCount.h"
 
 // TYPE IfcDimensionCount = INTEGER;
-IfcDimensionCount::IfcDimensionCount() {}
+IfcDimensionCount::IfcDimensionCount() = default;
 IfcDimensionCount::IfcDimensionCount( int value ) { m_value = value; }
-IfcDimensionCount::~IfcDimensionCount() {}
+IfcDimensionCount::~IfcDimensionCount() = default;
 shared_ptr<BuildingObject> IfcDimensionCount::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDimensionCount> copy_self( new IfcDimensionCount() );
@@ -34,7 +34,7 @@ const std::wstring IfcDimensionCount::toString() const
 shared_ptr<IfcDimensionCount> IfcDimensionCount::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDimensionCount>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDimensionCount>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDimensionCount>(); }
 	shared_ptr<IfcDimensionCount> type_object( new IfcDimensionCount() );
 	readInteger( arg, type_object->m_value );
 	return type_object;

@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcOpeningElementTypeEnum.h"
 
 // TYPE IfcOpeningElementTypeEnum = ENUMERATION OF	(OPENING	,RECESS	,USERDEFINED	,NOTDEFINED);
-IfcOpeningElementTypeEnum::IfcOpeningElementTypeEnum() {}
-IfcOpeningElementTypeEnum::~IfcOpeningElementTypeEnum() {}
+IfcOpeningElementTypeEnum::IfcOpeningElementTypeEnum() = default;
+IfcOpeningElementTypeEnum::~IfcOpeningElementTypeEnum() = default;
 shared_ptr<BuildingObject> IfcOpeningElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOpeningElementTypeEnum> copy_self( new IfcOpeningElementTypeEnum() );
@@ -44,7 +44,7 @@ const std::wstring IfcOpeningElementTypeEnum::toString() const
 shared_ptr<IfcOpeningElementTypeEnum> IfcOpeningElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcOpeningElementTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcOpeningElementTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcOpeningElementTypeEnum>(); }
 	shared_ptr<IfcOpeningElementTypeEnum> type_object( new IfcOpeningElementTypeEnum() );
 	if( boost::iequals( arg, L".OPENING." ) )
 	{

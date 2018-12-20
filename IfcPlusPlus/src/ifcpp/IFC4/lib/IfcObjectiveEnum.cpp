@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcObjectiveEnum.h"
 
 // TYPE IfcObjectiveEnum = ENUMERATION OF	(CODECOMPLIANCE	,CODEWAIVER	,DESIGNINTENT	,EXTERNAL	,HEALTHANDSAFETY	,MERGECONFLICT	,MODELVIEW	,PARAMETER	,REQUIREMENT	,SPECIFICATION	,TRIGGERCONDITION	,USERDEFINED	,NOTDEFINED);
-IfcObjectiveEnum::IfcObjectiveEnum() {}
-IfcObjectiveEnum::~IfcObjectiveEnum() {}
+IfcObjectiveEnum::IfcObjectiveEnum() = default;
+IfcObjectiveEnum::~IfcObjectiveEnum() = default;
 shared_ptr<BuildingObject> IfcObjectiveEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcObjectiveEnum> copy_self( new IfcObjectiveEnum() );
@@ -62,7 +62,7 @@ const std::wstring IfcObjectiveEnum::toString() const
 shared_ptr<IfcObjectiveEnum> IfcObjectiveEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcObjectiveEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcObjectiveEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcObjectiveEnum>(); }
 	shared_ptr<IfcObjectiveEnum> type_object( new IfcObjectiveEnum() );
 	if( boost::iequals( arg, L".CODECOMPLIANCE." ) )
 	{

@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcElectricVoltageMeasure.h"
 
 // TYPE IfcElectricVoltageMeasure = REAL;
-IfcElectricVoltageMeasure::IfcElectricVoltageMeasure() {}
+IfcElectricVoltageMeasure::IfcElectricVoltageMeasure() = default;
 IfcElectricVoltageMeasure::IfcElectricVoltageMeasure( double value ) { m_value = value; }
-IfcElectricVoltageMeasure::~IfcElectricVoltageMeasure() {}
+IfcElectricVoltageMeasure::~IfcElectricVoltageMeasure() = default;
 shared_ptr<BuildingObject> IfcElectricVoltageMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricVoltageMeasure> copy_self( new IfcElectricVoltageMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcElectricVoltageMeasure::toString() const
 shared_ptr<IfcElectricVoltageMeasure> IfcElectricVoltageMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricVoltageMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricVoltageMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricVoltageMeasure>(); }
 	shared_ptr<IfcElectricVoltageMeasure> type_object( new IfcElectricVoltageMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

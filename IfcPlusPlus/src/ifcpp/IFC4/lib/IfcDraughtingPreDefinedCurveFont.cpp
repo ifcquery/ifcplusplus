@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // ENTITY IfcDraughtingPreDefinedCurveFont 
-IfcDraughtingPreDefinedCurveFont::IfcDraughtingPreDefinedCurveFont() {}
+IfcDraughtingPreDefinedCurveFont::IfcDraughtingPreDefinedCurveFont() = default;
 IfcDraughtingPreDefinedCurveFont::IfcDraughtingPreDefinedCurveFont( int id ) { m_entity_id = id; }
-IfcDraughtingPreDefinedCurveFont::~IfcDraughtingPreDefinedCurveFont() {}
+IfcDraughtingPreDefinedCurveFont::~IfcDraughtingPreDefinedCurveFont() = default;
 shared_ptr<BuildingObject> IfcDraughtingPreDefinedCurveFont::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDraughtingPreDefinedCurveFont> copy_self( new IfcDraughtingPreDefinedCurveFont() );
@@ -26,12 +26,12 @@ void IfcDraughtingPreDefinedCurveFont::getStepLine( std::stringstream& stream ) 
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDraughtingPreDefinedCurveFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDraughtingPreDefinedCurveFont::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDraughtingPreDefinedCurveFont::toString() const { return L"IfcDraughtingPreDefinedCurveFont"; }
 void IfcDraughtingPreDefinedCurveFont::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDraughtingPreDefinedCurveFont, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDraughtingPreDefinedCurveFont, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 }
 void IfcDraughtingPreDefinedCurveFont::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

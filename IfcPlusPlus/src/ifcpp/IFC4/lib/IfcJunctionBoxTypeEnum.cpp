@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcJunctionBoxTypeEnum.h"
 
 // TYPE IfcJunctionBoxTypeEnum = ENUMERATION OF	(DATA	,POWER	,USERDEFINED	,NOTDEFINED);
-IfcJunctionBoxTypeEnum::IfcJunctionBoxTypeEnum() {}
-IfcJunctionBoxTypeEnum::~IfcJunctionBoxTypeEnum() {}
+IfcJunctionBoxTypeEnum::IfcJunctionBoxTypeEnum() = default;
+IfcJunctionBoxTypeEnum::~IfcJunctionBoxTypeEnum() = default;
 shared_ptr<BuildingObject> IfcJunctionBoxTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcJunctionBoxTypeEnum> copy_self( new IfcJunctionBoxTypeEnum() );
@@ -44,7 +44,7 @@ const std::wstring IfcJunctionBoxTypeEnum::toString() const
 shared_ptr<IfcJunctionBoxTypeEnum> IfcJunctionBoxTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcJunctionBoxTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcJunctionBoxTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcJunctionBoxTypeEnum>(); }
 	shared_ptr<IfcJunctionBoxTypeEnum> type_object( new IfcJunctionBoxTypeEnum() );
 	if( boost::iequals( arg, L".DATA." ) )
 	{

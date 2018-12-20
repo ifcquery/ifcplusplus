@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcTransitionCode.h"
 
 // TYPE IfcTransitionCode = ENUMERATION OF	(DISCONTINUOUS	,CONTINUOUS	,CONTSAMEGRADIENT	,CONTSAMEGRADIENTSAMECURVATURE);
-IfcTransitionCode::IfcTransitionCode() {}
-IfcTransitionCode::~IfcTransitionCode() {}
+IfcTransitionCode::IfcTransitionCode() = default;
+IfcTransitionCode::~IfcTransitionCode() = default;
 shared_ptr<BuildingObject> IfcTransitionCode::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTransitionCode> copy_self( new IfcTransitionCode() );
@@ -44,7 +44,7 @@ const std::wstring IfcTransitionCode::toString() const
 shared_ptr<IfcTransitionCode> IfcTransitionCode::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTransitionCode>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTransitionCode>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTransitionCode>(); }
 	shared_ptr<IfcTransitionCode> type_object( new IfcTransitionCode() );
 	if( boost::iequals( arg, L".DISCONTINUOUS." ) )
 	{

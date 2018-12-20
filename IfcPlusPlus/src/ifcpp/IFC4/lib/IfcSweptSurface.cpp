@@ -14,9 +14,9 @@
 #include "ifcpp/IFC4/include/IfcSweptSurface.h"
 
 // ENTITY IfcSweptSurface 
-IfcSweptSurface::IfcSweptSurface() {}
+IfcSweptSurface::IfcSweptSurface() = default;
 IfcSweptSurface::IfcSweptSurface( int id ) { m_entity_id = id; }
-IfcSweptSurface::~IfcSweptSurface() {}
+IfcSweptSurface::~IfcSweptSurface() = default;
 shared_ptr<BuildingObject> IfcSweptSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSweptSurface> copy_self( new IfcSweptSurface() );
@@ -36,20 +36,20 @@ void IfcSweptSurface::getStepLine( std::stringstream& stream ) const
 	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSweptSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSweptSurface::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSweptSurface::toString() const { return L"IfcSweptSurface"; }
 void IfcSweptSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSweptSurface, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSweptSurface, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_SweptCurve, map );
 	readEntityReference( args[1], m_Position, map );
 }
 void IfcSweptSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "SweptCurve", m_SweptCurve ) );
-	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
+	vec_attributes.emplace_back( "SweptCurve", m_SweptCurve );
+	vec_attributes.emplace_back( "Position", m_Position );
 }
 void IfcSweptSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

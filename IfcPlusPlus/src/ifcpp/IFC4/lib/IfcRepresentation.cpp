@@ -16,9 +16,9 @@
 #include "ifcpp/IFC4/include/IfcRepresentationMap.h"
 
 // ENTITY IfcRepresentation 
-IfcRepresentation::IfcRepresentation() {}
+IfcRepresentation::IfcRepresentation() = default;
 IfcRepresentation::IfcRepresentation( int id ) { m_entity_id = id; }
-IfcRepresentation::~IfcRepresentation() {}
+IfcRepresentation::~IfcRepresentation() = default;
 shared_ptr<BuildingObject> IfcRepresentation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRepresentation> copy_self( new IfcRepresentation() );
@@ -29,10 +29,9 @@ shared_ptr<BuildingObject> IfcRepresentation::getDeepCopy( BuildingCopyOptions& 
 	}
 	if( m_RepresentationIdentifier ) { copy_self->m_RepresentationIdentifier = dynamic_pointer_cast<IfcLabel>( m_RepresentationIdentifier->getDeepCopy(options) ); }
 	if( m_RepresentationType ) { copy_self->m_RepresentationType = dynamic_pointer_cast<IfcLabel>( m_RepresentationType->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Items.size(); ++ii )
+	for(auto item_ii : m_Items)
 	{
-		auto item_ii = m_Items[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Items.push_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy(options) ) );
 		}
@@ -51,12 +50,12 @@ void IfcRepresentation::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Items );
 	stream << ");";
 }
-void IfcRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRepresentation::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRepresentation::toString() const { return L"IfcRepresentation"; }
 void IfcRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_ContextOfItems, map );
 	m_RepresentationIdentifier = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_RepresentationType = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -64,53 +63,53 @@ void IfcRepresentation::readStepArguments( const std::vector<std::wstring>& args
 }
 void IfcRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "ContextOfItems", m_ContextOfItems ) );
-	vec_attributes.push_back( std::make_pair( "RepresentationIdentifier", m_RepresentationIdentifier ) );
-	vec_attributes.push_back( std::make_pair( "RepresentationType", m_RepresentationType ) );
-	if( m_Items.size() > 0 )
+	vec_attributes.emplace_back( "ContextOfItems", m_ContextOfItems );
+	vec_attributes.emplace_back( "RepresentationIdentifier", m_RepresentationIdentifier );
+	vec_attributes.emplace_back( "RepresentationType", m_RepresentationType );
+	if( !m_Items.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Items_vec_object( new AttributeObjectVector() );
 		std::copy( m_Items.begin(), m_Items.end(), std::back_inserter( Items_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Items", Items_vec_object ) );
+		vec_attributes.emplace_back( "Items", Items_vec_object );
 	}
 }
 void IfcRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_RepresentationMap_inverse.size() > 0 )
+	if( !m_RepresentationMap_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RepresentationMap_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_RepresentationMap_inverse.size(); ++i )
+		for(const auto & i : m_RepresentationMap_inverse)
 		{
-			if( !m_RepresentationMap_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				RepresentationMap_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRepresentationMap>( m_RepresentationMap_inverse[i] ) );
+				RepresentationMap_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRepresentationMap>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "RepresentationMap_inverse", RepresentationMap_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "RepresentationMap_inverse", RepresentationMap_inverse_vec_obj );
 	}
-	if( m_LayerAssignments_inverse.size() > 0 )
+	if( !m_LayerAssignments_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> LayerAssignments_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_LayerAssignments_inverse.size(); ++i )
+		for(const auto & i : m_LayerAssignments_inverse)
 		{
-			if( !m_LayerAssignments_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				LayerAssignments_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPresentationLayerAssignment>( m_LayerAssignments_inverse[i] ) );
+				LayerAssignments_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPresentationLayerAssignment>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "LayerAssignments_inverse", LayerAssignments_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "LayerAssignments_inverse", LayerAssignments_inverse_vec_obj );
 	}
-	if( m_OfProductRepresentation_inverse.size() > 0 )
+	if( !m_OfProductRepresentation_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> OfProductRepresentation_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_OfProductRepresentation_inverse.size(); ++i )
+		for(const auto & i : m_OfProductRepresentation_inverse)
 		{
-			if( !m_OfProductRepresentation_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				OfProductRepresentation_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcProductRepresentation>( m_OfProductRepresentation_inverse[i] ) );
+				OfProductRepresentation_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcProductRepresentation>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "OfProductRepresentation_inverse", OfProductRepresentation_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "OfProductRepresentation_inverse", OfProductRepresentation_inverse_vec_obj );
 	}
 }
 void IfcRepresentation::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

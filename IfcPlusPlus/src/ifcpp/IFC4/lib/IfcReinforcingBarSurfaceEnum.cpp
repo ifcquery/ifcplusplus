@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcReinforcingBarSurfaceEnum.h"
 
 // TYPE IfcReinforcingBarSurfaceEnum = ENUMERATION OF	(PLAIN	,TEXTURED);
-IfcReinforcingBarSurfaceEnum::IfcReinforcingBarSurfaceEnum() {}
-IfcReinforcingBarSurfaceEnum::~IfcReinforcingBarSurfaceEnum() {}
+IfcReinforcingBarSurfaceEnum::IfcReinforcingBarSurfaceEnum() = default;
+IfcReinforcingBarSurfaceEnum::~IfcReinforcingBarSurfaceEnum() = default;
 shared_ptr<BuildingObject> IfcReinforcingBarSurfaceEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingBarSurfaceEnum> copy_self( new IfcReinforcingBarSurfaceEnum() );
@@ -40,7 +40,7 @@ const std::wstring IfcReinforcingBarSurfaceEnum::toString() const
 shared_ptr<IfcReinforcingBarSurfaceEnum> IfcReinforcingBarSurfaceEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReinforcingBarSurfaceEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReinforcingBarSurfaceEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReinforcingBarSurfaceEnum>(); }
 	shared_ptr<IfcReinforcingBarSurfaceEnum> type_object( new IfcReinforcingBarSurfaceEnum() );
 	if( boost::iequals( arg, L".PLAIN." ) )
 	{

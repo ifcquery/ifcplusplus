@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcWorkPlanTypeEnum.h"
 
 // TYPE IfcWorkPlanTypeEnum = ENUMERATION OF	(ACTUAL	,BASELINE	,PLANNED	,USERDEFINED	,NOTDEFINED);
-IfcWorkPlanTypeEnum::IfcWorkPlanTypeEnum() {}
-IfcWorkPlanTypeEnum::~IfcWorkPlanTypeEnum() {}
+IfcWorkPlanTypeEnum::IfcWorkPlanTypeEnum() = default;
+IfcWorkPlanTypeEnum::~IfcWorkPlanTypeEnum() = default;
 shared_ptr<BuildingObject> IfcWorkPlanTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWorkPlanTypeEnum> copy_self( new IfcWorkPlanTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcWorkPlanTypeEnum::toString() const
 shared_ptr<IfcWorkPlanTypeEnum> IfcWorkPlanTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWorkPlanTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWorkPlanTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWorkPlanTypeEnum>(); }
 	shared_ptr<IfcWorkPlanTypeEnum> type_object( new IfcWorkPlanTypeEnum() );
 	if( boost::iequals( arg, L".ACTUAL." ) )
 	{

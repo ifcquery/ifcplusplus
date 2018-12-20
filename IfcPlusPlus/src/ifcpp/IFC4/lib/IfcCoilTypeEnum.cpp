@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcCoilTypeEnum.h"
 
 // TYPE IfcCoilTypeEnum = ENUMERATION OF	(DXCOOLINGCOIL	,ELECTRICHEATINGCOIL	,GASHEATINGCOIL	,HYDRONICCOIL	,STEAMHEATINGCOIL	,WATERCOOLINGCOIL	,WATERHEATINGCOIL	,USERDEFINED	,NOTDEFINED);
-IfcCoilTypeEnum::IfcCoilTypeEnum() {}
-IfcCoilTypeEnum::~IfcCoilTypeEnum() {}
+IfcCoilTypeEnum::IfcCoilTypeEnum() = default;
+IfcCoilTypeEnum::~IfcCoilTypeEnum() = default;
 shared_ptr<BuildingObject> IfcCoilTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCoilTypeEnum> copy_self( new IfcCoilTypeEnum() );
@@ -54,7 +54,7 @@ const std::wstring IfcCoilTypeEnum::toString() const
 shared_ptr<IfcCoilTypeEnum> IfcCoilTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCoilTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCoilTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCoilTypeEnum>(); }
 	shared_ptr<IfcCoilTypeEnum> type_object( new IfcCoilTypeEnum() );
 	if( boost::iequals( arg, L".DXCOOLINGCOIL." ) )
 	{

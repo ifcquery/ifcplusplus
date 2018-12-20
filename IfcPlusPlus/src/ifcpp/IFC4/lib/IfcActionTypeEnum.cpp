@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcActionTypeEnum.h"
 
 // TYPE IfcActionTypeEnum = ENUMERATION OF	(PERMANENT_G	,VARIABLE_Q	,EXTRAORDINARY_A	,USERDEFINED	,NOTDEFINED);
-IfcActionTypeEnum::IfcActionTypeEnum() {}
-IfcActionTypeEnum::~IfcActionTypeEnum() {}
+IfcActionTypeEnum::IfcActionTypeEnum() = default;
+IfcActionTypeEnum::~IfcActionTypeEnum() = default;
 shared_ptr<BuildingObject> IfcActionTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcActionTypeEnum> copy_self( new IfcActionTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcActionTypeEnum::toString() const
 shared_ptr<IfcActionTypeEnum> IfcActionTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActionTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActionTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActionTypeEnum>(); }
 	shared_ptr<IfcActionTypeEnum> type_object( new IfcActionTypeEnum() );
 	if( boost::iequals( arg, L".PERMANENT_G." ) )
 	{

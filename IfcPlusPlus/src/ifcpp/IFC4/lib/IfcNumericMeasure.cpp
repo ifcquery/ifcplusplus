@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcNumericMeasure.h"
 
 // TYPE IfcNumericMeasure = NUMBER;
-IfcNumericMeasure::IfcNumericMeasure() {}
+IfcNumericMeasure::IfcNumericMeasure() = default;
 IfcNumericMeasure::IfcNumericMeasure( int value ) { m_value = value; }
-IfcNumericMeasure::~IfcNumericMeasure() {}
+IfcNumericMeasure::~IfcNumericMeasure() = default;
 shared_ptr<BuildingObject> IfcNumericMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcNumericMeasure> copy_self( new IfcNumericMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcNumericMeasure::toString() const
 shared_ptr<IfcNumericMeasure> IfcNumericMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcNumericMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNumericMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNumericMeasure>(); }
 	shared_ptr<IfcNumericMeasure> type_object( new IfcNumericMeasure() );
 	readInteger( arg, type_object->m_value );
 	return type_object;

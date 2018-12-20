@@ -16,9 +16,9 @@
 #include "ifcpp/IFC4/include/IfcUnitEnum.h"
 
 // ENTITY IfcConversionBasedUnitWithOffset 
-IfcConversionBasedUnitWithOffset::IfcConversionBasedUnitWithOffset() {}
+IfcConversionBasedUnitWithOffset::IfcConversionBasedUnitWithOffset() = default;
 IfcConversionBasedUnitWithOffset::IfcConversionBasedUnitWithOffset( int id ) { m_entity_id = id; }
-IfcConversionBasedUnitWithOffset::~IfcConversionBasedUnitWithOffset() {}
+IfcConversionBasedUnitWithOffset::~IfcConversionBasedUnitWithOffset() = default;
 shared_ptr<BuildingObject> IfcConversionBasedUnitWithOffset::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConversionBasedUnitWithOffset> copy_self( new IfcConversionBasedUnitWithOffset() );
@@ -43,12 +43,12 @@ void IfcConversionBasedUnitWithOffset::getStepLine( std::stringstream& stream ) 
 	if( m_ConversionOffset ) { m_ConversionOffset->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcConversionBasedUnitWithOffset::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcConversionBasedUnitWithOffset::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConversionBasedUnitWithOffset::toString() const { return L"IfcConversionBasedUnitWithOffset"; }
 void IfcConversionBasedUnitWithOffset::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConversionBasedUnitWithOffset, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConversionBasedUnitWithOffset, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Dimensions, map );
 	m_UnitType = IfcUnitEnum::createObjectFromSTEP( args[1], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -58,7 +58,7 @@ void IfcConversionBasedUnitWithOffset::readStepArguments( const std::vector<std:
 void IfcConversionBasedUnitWithOffset::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConversionBasedUnit::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ConversionOffset", m_ConversionOffset ) );
+	vec_attributes.emplace_back( "ConversionOffset", m_ConversionOffset );
 }
 void IfcConversionBasedUnitWithOffset::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

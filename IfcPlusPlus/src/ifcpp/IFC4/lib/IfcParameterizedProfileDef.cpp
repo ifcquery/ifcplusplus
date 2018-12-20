@@ -15,9 +15,9 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcParameterizedProfileDef 
-IfcParameterizedProfileDef::IfcParameterizedProfileDef() {}
+IfcParameterizedProfileDef::IfcParameterizedProfileDef() = default;
 IfcParameterizedProfileDef::IfcParameterizedProfileDef( int id ) { m_entity_id = id; }
-IfcParameterizedProfileDef::~IfcParameterizedProfileDef() {}
+IfcParameterizedProfileDef::~IfcParameterizedProfileDef() = default;
 shared_ptr<BuildingObject> IfcParameterizedProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcParameterizedProfileDef> copy_self( new IfcParameterizedProfileDef() );
@@ -36,12 +36,12 @@ void IfcParameterizedProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcParameterizedProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcParameterizedProfileDef::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcParameterizedProfileDef::toString() const { return L"IfcParameterizedProfileDef"; }
 void IfcParameterizedProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcParameterizedProfileDef, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcParameterizedProfileDef, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );
@@ -49,7 +49,7 @@ void IfcParameterizedProfileDef::readStepArguments( const std::vector<std::wstri
 void IfcParameterizedProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
+	vec_attributes.emplace_back( "Position", m_Position );
 }
 void IfcParameterizedProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

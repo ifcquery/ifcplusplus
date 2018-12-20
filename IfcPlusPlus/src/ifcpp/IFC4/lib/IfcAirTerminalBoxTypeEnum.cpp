@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcAirTerminalBoxTypeEnum.h"
 
 // TYPE IfcAirTerminalBoxTypeEnum = ENUMERATION OF	(CONSTANTFLOW	,VARIABLEFLOWPRESSUREDEPENDANT	,VARIABLEFLOWPRESSUREINDEPENDANT	,USERDEFINED	,NOTDEFINED);
-IfcAirTerminalBoxTypeEnum::IfcAirTerminalBoxTypeEnum() {}
-IfcAirTerminalBoxTypeEnum::~IfcAirTerminalBoxTypeEnum() {}
+IfcAirTerminalBoxTypeEnum::IfcAirTerminalBoxTypeEnum() = default;
+IfcAirTerminalBoxTypeEnum::~IfcAirTerminalBoxTypeEnum() = default;
 shared_ptr<BuildingObject> IfcAirTerminalBoxTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAirTerminalBoxTypeEnum> copy_self( new IfcAirTerminalBoxTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcAirTerminalBoxTypeEnum::toString() const
 shared_ptr<IfcAirTerminalBoxTypeEnum> IfcAirTerminalBoxTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAirTerminalBoxTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAirTerminalBoxTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAirTerminalBoxTypeEnum>(); }
 	shared_ptr<IfcAirTerminalBoxTypeEnum> type_object( new IfcAirTerminalBoxTypeEnum() );
 	if( boost::iequals( arg, L".CONSTANTFLOW." ) )
 	{

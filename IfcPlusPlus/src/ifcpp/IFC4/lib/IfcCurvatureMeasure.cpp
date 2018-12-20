@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcCurvatureMeasure.h"
 
 // TYPE IfcCurvatureMeasure = REAL;
-IfcCurvatureMeasure::IfcCurvatureMeasure() {}
+IfcCurvatureMeasure::IfcCurvatureMeasure() = default;
 IfcCurvatureMeasure::IfcCurvatureMeasure( double value ) { m_value = value; }
-IfcCurvatureMeasure::~IfcCurvatureMeasure() {}
+IfcCurvatureMeasure::~IfcCurvatureMeasure() = default;
 shared_ptr<BuildingObject> IfcCurvatureMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurvatureMeasure> copy_self( new IfcCurvatureMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcCurvatureMeasure::toString() const
 shared_ptr<IfcCurvatureMeasure> IfcCurvatureMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCurvatureMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCurvatureMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCurvatureMeasure>(); }
 	shared_ptr<IfcCurvatureMeasure> type_object( new IfcCurvatureMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

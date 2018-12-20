@@ -10,9 +10,9 @@
 #include "ifcpp/IFC4/include/IfcTextDecoration.h"
 
 // TYPE IfcTextDecoration = STRING;
-IfcTextDecoration::IfcTextDecoration() {}
+IfcTextDecoration::IfcTextDecoration() = default;
 IfcTextDecoration::IfcTextDecoration( std::wstring value ) { m_value = value; }
-IfcTextDecoration::~IfcTextDecoration() {}
+IfcTextDecoration::~IfcTextDecoration() = default;
 shared_ptr<BuildingObject> IfcTextDecoration::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextDecoration> copy_self( new IfcTextDecoration() );
@@ -32,7 +32,7 @@ const std::wstring IfcTextDecoration::toString() const
 shared_ptr<IfcTextDecoration> IfcTextDecoration::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTextDecoration>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextDecoration>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextDecoration>(); }
 	shared_ptr<IfcTextDecoration> type_object( new IfcTextDecoration() );
 	readString( arg, type_object->m_value );
 	return type_object;

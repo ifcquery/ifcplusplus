@@ -17,16 +17,15 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcShapeAspect 
-IfcShapeAspect::IfcShapeAspect() {}
+IfcShapeAspect::IfcShapeAspect() = default;
 IfcShapeAspect::IfcShapeAspect( int id ) { m_entity_id = id; }
-IfcShapeAspect::~IfcShapeAspect() {}
+IfcShapeAspect::~IfcShapeAspect() = default;
 shared_ptr<BuildingObject> IfcShapeAspect::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcShapeAspect> copy_self( new IfcShapeAspect() );
-	for( size_t ii=0; ii<m_ShapeRepresentations.size(); ++ii )
+	for(auto item_ii : m_ShapeRepresentations)
 	{
-		auto item_ii = m_ShapeRepresentations[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_ShapeRepresentations.push_back( dynamic_pointer_cast<IfcShapeModel>(item_ii->getDeepCopy(options) ) );
 		}
@@ -51,12 +50,12 @@ void IfcShapeAspect::getStepLine( std::stringstream& stream ) const
 	if( m_PartOfProductDefinitionShape ) { m_PartOfProductDefinitionShape->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcShapeAspect::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcShapeAspect::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcShapeAspect::toString() const { return L"IfcShapeAspect"; }
 void IfcShapeAspect::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcShapeAspect, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcShapeAspect, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReferenceList( args[0], m_ShapeRepresentations, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_Description = IfcText::createObjectFromSTEP( args[2], map );
@@ -65,16 +64,16 @@ void IfcShapeAspect::readStepArguments( const std::vector<std::wstring>& args, c
 }
 void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( m_ShapeRepresentations.size() > 0 )
+	if( !m_ShapeRepresentations.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ShapeRepresentations_vec_object( new AttributeObjectVector() );
 		std::copy( m_ShapeRepresentations.begin(), m_ShapeRepresentations.end(), std::back_inserter( ShapeRepresentations_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "ShapeRepresentations", ShapeRepresentations_vec_object ) );
+		vec_attributes.emplace_back( "ShapeRepresentations", ShapeRepresentations_vec_object );
 	}
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "ProductDefinitional", m_ProductDefinitional ) );
-	vec_attributes.push_back( std::make_pair( "PartOfProductDefinitionShape", m_PartOfProductDefinitionShape ) );
+	vec_attributes.emplace_back( "Name", m_Name );
+	vec_attributes.emplace_back( "Description", m_Description );
+	vec_attributes.emplace_back( "ProductDefinitional", m_ProductDefinitional );
+	vec_attributes.emplace_back( "PartOfProductDefinitionShape", m_PartOfProductDefinitionShape );
 }
 void IfcShapeAspect::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -93,11 +92,11 @@ void IfcShapeAspect::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self
 	{
 		PartOfProductDefinitionShape_IfcRepresentationMap->m_HasShapeAspects_inverse.push_back( ptr_self );
 	}
-	for( size_t i=0; i<m_ShapeRepresentations.size(); ++i )
+	for(auto & m_ShapeRepresentation : m_ShapeRepresentations)
 	{
-		if( m_ShapeRepresentations[i] )
+		if( m_ShapeRepresentation )
 		{
-			m_ShapeRepresentations[i]->m_OfShapeAspect_inverse.push_back( ptr_self );
+			m_ShapeRepresentation->m_OfShapeAspect_inverse.push_back( ptr_self );
 		}
 	}
 }
@@ -149,11 +148,11 @@ void IfcShapeAspect::unlinkFromInverseCounterparts()
 			}
 		}
 	}
-	for( size_t i=0; i<m_ShapeRepresentations.size(); ++i )
+	for(auto & m_ShapeRepresentation : m_ShapeRepresentations)
 	{
-		if( m_ShapeRepresentations[i] )
+		if( m_ShapeRepresentation )
 		{
-			std::vector<weak_ptr<IfcShapeAspect> >& OfShapeAspect_inverse = m_ShapeRepresentations[i]->m_OfShapeAspect_inverse;
+			std::vector<weak_ptr<IfcShapeAspect> >& OfShapeAspect_inverse = m_ShapeRepresentation->m_OfShapeAspect_inverse;
 			for( auto it_OfShapeAspect_inverse = OfShapeAspect_inverse.begin(); it_OfShapeAspect_inverse != OfShapeAspect_inverse.end(); )
 			{
 				weak_ptr<IfcShapeAspect> self_candidate_weak = *it_OfShapeAspect_inverse;

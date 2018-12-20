@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcSIPrefix.h"
 
 // TYPE IfcSIPrefix = ENUMERATION OF	(EXA	,PETA	,TERA	,GIGA	,MEGA	,KILO	,HECTO	,DECA	,DECI	,CENTI	,MILLI	,MICRO	,NANO	,PICO	,FEMTO	,ATTO);
-IfcSIPrefix::IfcSIPrefix() {}
-IfcSIPrefix::~IfcSIPrefix() {}
+IfcSIPrefix::IfcSIPrefix() = default;
+IfcSIPrefix::~IfcSIPrefix() = default;
 shared_ptr<BuildingObject> IfcSIPrefix::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSIPrefix> copy_self( new IfcSIPrefix() );
@@ -68,7 +68,7 @@ const std::wstring IfcSIPrefix::toString() const
 shared_ptr<IfcSIPrefix> IfcSIPrefix::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSIPrefix>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSIPrefix>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSIPrefix>(); }
 	shared_ptr<IfcSIPrefix> type_object( new IfcSIPrefix() );
 	if( boost::iequals( arg, L".EXA." ) )
 	{

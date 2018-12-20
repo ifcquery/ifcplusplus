@@ -14,9 +14,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPlanarBox 
-IfcPlanarBox::IfcPlanarBox() {}
+IfcPlanarBox::IfcPlanarBox() = default;
 IfcPlanarBox::IfcPlanarBox( int id ) { m_entity_id = id; }
-IfcPlanarBox::~IfcPlanarBox() {}
+IfcPlanarBox::~IfcPlanarBox() = default;
 shared_ptr<BuildingObject> IfcPlanarBox::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPlanarBox> copy_self( new IfcPlanarBox() );
@@ -35,12 +35,12 @@ void IfcPlanarBox::getStepLine( std::stringstream& stream ) const
 	if( m_Placement ) { m_Placement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcPlanarBox::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPlanarBox::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPlanarBox::toString() const { return L"IfcPlanarBox"; }
 void IfcPlanarBox::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlanarBox, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlanarBox, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_SizeInX = IfcLengthMeasure::createObjectFromSTEP( args[0], map );
 	m_SizeInY = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_Placement = IfcAxis2Placement::createObjectFromSTEP( args[2], map );
@@ -48,7 +48,7 @@ void IfcPlanarBox::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcPlanarBox::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPlanarExtent::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Placement", m_Placement ) );
+	vec_attributes.emplace_back( "Placement", m_Placement );
 }
 void IfcPlanarBox::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

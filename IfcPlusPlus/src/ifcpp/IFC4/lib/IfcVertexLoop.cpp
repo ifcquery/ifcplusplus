@@ -13,9 +13,9 @@
 #include "ifcpp/IFC4/include/IfcVertexLoop.h"
 
 // ENTITY IfcVertexLoop 
-IfcVertexLoop::IfcVertexLoop() {}
+IfcVertexLoop::IfcVertexLoop() = default;
 IfcVertexLoop::IfcVertexLoop( int id ) { m_entity_id = id; }
-IfcVertexLoop::~IfcVertexLoop() {}
+IfcVertexLoop::~IfcVertexLoop() = default;
 shared_ptr<BuildingObject> IfcVertexLoop::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVertexLoop> copy_self( new IfcVertexLoop() );
@@ -28,18 +28,18 @@ void IfcVertexLoop::getStepLine( std::stringstream& stream ) const
 	if( m_LoopVertex ) { stream << "#" << m_LoopVertex->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcVertexLoop::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcVertexLoop::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcVertexLoop::toString() const { return L"IfcVertexLoop"; }
 void IfcVertexLoop::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcVertexLoop, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcVertexLoop, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_LoopVertex, map );
 }
 void IfcVertexLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLoop::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "LoopVertex", m_LoopVertex ) );
+	vec_attributes.emplace_back( "LoopVertex", m_LoopVertex );
 }
 void IfcVertexLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

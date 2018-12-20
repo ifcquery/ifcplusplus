@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcSurfaceStyleLighting.h"
 
 // ENTITY IfcSurfaceStyleLighting 
-IfcSurfaceStyleLighting::IfcSurfaceStyleLighting() {}
+IfcSurfaceStyleLighting::IfcSurfaceStyleLighting() = default;
 IfcSurfaceStyleLighting::IfcSurfaceStyleLighting( int id ) { m_entity_id = id; }
-IfcSurfaceStyleLighting::~IfcSurfaceStyleLighting() {}
+IfcSurfaceStyleLighting::~IfcSurfaceStyleLighting() = default;
 shared_ptr<BuildingObject> IfcSurfaceStyleLighting::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceStyleLighting> copy_self( new IfcSurfaceStyleLighting() );
@@ -35,12 +35,12 @@ void IfcSurfaceStyleLighting::getStepLine( std::stringstream& stream ) const
 	if( m_ReflectanceColour ) { stream << "#" << m_ReflectanceColour->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceStyleLighting::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSurfaceStyleLighting::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceStyleLighting::toString() const { return L"IfcSurfaceStyleLighting"; }
 void IfcSurfaceStyleLighting::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleLighting, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceStyleLighting, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_DiffuseTransmissionColour, map );
 	readEntityReference( args[1], m_DiffuseReflectionColour, map );
 	readEntityReference( args[2], m_TransmissionColour, map );
@@ -49,10 +49,10 @@ void IfcSurfaceStyleLighting::readStepArguments( const std::vector<std::wstring>
 void IfcSurfaceStyleLighting::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "DiffuseTransmissionColour", m_DiffuseTransmissionColour ) );
-	vec_attributes.push_back( std::make_pair( "DiffuseReflectionColour", m_DiffuseReflectionColour ) );
-	vec_attributes.push_back( std::make_pair( "TransmissionColour", m_TransmissionColour ) );
-	vec_attributes.push_back( std::make_pair( "ReflectanceColour", m_ReflectanceColour ) );
+	vec_attributes.emplace_back( "DiffuseTransmissionColour", m_DiffuseTransmissionColour );
+	vec_attributes.emplace_back( "DiffuseReflectionColour", m_DiffuseReflectionColour );
+	vec_attributes.emplace_back( "TransmissionColour", m_TransmissionColour );
+	vec_attributes.emplace_back( "ReflectanceColour", m_ReflectanceColour );
 }
 void IfcSurfaceStyleLighting::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

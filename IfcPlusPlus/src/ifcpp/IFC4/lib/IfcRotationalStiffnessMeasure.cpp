@@ -12,9 +12,9 @@
 #include "ifcpp/IFC4/include/IfcRotationalStiffnessMeasure.h"
 
 // TYPE IfcRotationalStiffnessMeasure = REAL;
-IfcRotationalStiffnessMeasure::IfcRotationalStiffnessMeasure() {}
+IfcRotationalStiffnessMeasure::IfcRotationalStiffnessMeasure() = default;
 IfcRotationalStiffnessMeasure::IfcRotationalStiffnessMeasure( double value ) { m_value = value; }
-IfcRotationalStiffnessMeasure::~IfcRotationalStiffnessMeasure() {}
+IfcRotationalStiffnessMeasure::~IfcRotationalStiffnessMeasure() = default;
 shared_ptr<BuildingObject> IfcRotationalStiffnessMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRotationalStiffnessMeasure> copy_self( new IfcRotationalStiffnessMeasure() );
@@ -36,7 +36,7 @@ const std::wstring IfcRotationalStiffnessMeasure::toString() const
 shared_ptr<IfcRotationalStiffnessMeasure> IfcRotationalStiffnessMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRotationalStiffnessMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRotationalStiffnessMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRotationalStiffnessMeasure>(); }
 	shared_ptr<IfcRotationalStiffnessMeasure> type_object( new IfcRotationalStiffnessMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

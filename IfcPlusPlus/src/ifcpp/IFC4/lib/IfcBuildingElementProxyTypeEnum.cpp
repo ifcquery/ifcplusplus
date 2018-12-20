@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcBuildingElementProxyTypeEnum.h"
 
 // TYPE IfcBuildingElementProxyTypeEnum = ENUMERATION OF	(COMPLEX	,ELEMENT	,PARTIAL	,PROVISIONFORVOID	,PROVISIONFORSPACE	,USERDEFINED	,NOTDEFINED);
-IfcBuildingElementProxyTypeEnum::IfcBuildingElementProxyTypeEnum() {}
-IfcBuildingElementProxyTypeEnum::~IfcBuildingElementProxyTypeEnum() {}
+IfcBuildingElementProxyTypeEnum::IfcBuildingElementProxyTypeEnum() = default;
+IfcBuildingElementProxyTypeEnum::~IfcBuildingElementProxyTypeEnum() = default;
 shared_ptr<BuildingObject> IfcBuildingElementProxyTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBuildingElementProxyTypeEnum> copy_self( new IfcBuildingElementProxyTypeEnum() );
@@ -50,7 +50,7 @@ const std::wstring IfcBuildingElementProxyTypeEnum::toString() const
 shared_ptr<IfcBuildingElementProxyTypeEnum> IfcBuildingElementProxyTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBuildingElementProxyTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBuildingElementProxyTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBuildingElementProxyTypeEnum>(); }
 	shared_ptr<IfcBuildingElementProxyTypeEnum> type_object( new IfcBuildingElementProxyTypeEnum() );
 	if( boost::iequals( arg, L".COMPLEX." ) )
 	{

@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcProjectedOrTrueLengthEnum.h"
 
 // TYPE IfcProjectedOrTrueLengthEnum = ENUMERATION OF	(PROJECTED_LENGTH	,TRUE_LENGTH);
-IfcProjectedOrTrueLengthEnum::IfcProjectedOrTrueLengthEnum() {}
-IfcProjectedOrTrueLengthEnum::~IfcProjectedOrTrueLengthEnum() {}
+IfcProjectedOrTrueLengthEnum::IfcProjectedOrTrueLengthEnum() = default;
+IfcProjectedOrTrueLengthEnum::~IfcProjectedOrTrueLengthEnum() = default;
 shared_ptr<BuildingObject> IfcProjectedOrTrueLengthEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProjectedOrTrueLengthEnum> copy_self( new IfcProjectedOrTrueLengthEnum() );
@@ -40,7 +40,7 @@ const std::wstring IfcProjectedOrTrueLengthEnum::toString() const
 shared_ptr<IfcProjectedOrTrueLengthEnum> IfcProjectedOrTrueLengthEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProjectedOrTrueLengthEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProjectedOrTrueLengthEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProjectedOrTrueLengthEnum>(); }
 	shared_ptr<IfcProjectedOrTrueLengthEnum> type_object( new IfcProjectedOrTrueLengthEnum() );
 	if( boost::iequals( arg, L".PROJECTED_LENGTH." ) )
 	{

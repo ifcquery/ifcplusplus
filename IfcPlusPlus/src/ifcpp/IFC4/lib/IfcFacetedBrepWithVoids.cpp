@@ -13,17 +13,16 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcFacetedBrepWithVoids 
-IfcFacetedBrepWithVoids::IfcFacetedBrepWithVoids() {}
+IfcFacetedBrepWithVoids::IfcFacetedBrepWithVoids() = default;
 IfcFacetedBrepWithVoids::IfcFacetedBrepWithVoids( int id ) { m_entity_id = id; }
-IfcFacetedBrepWithVoids::~IfcFacetedBrepWithVoids() {}
+IfcFacetedBrepWithVoids::~IfcFacetedBrepWithVoids() = default;
 shared_ptr<BuildingObject> IfcFacetedBrepWithVoids::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFacetedBrepWithVoids> copy_self( new IfcFacetedBrepWithVoids() );
 	if( m_Outer ) { copy_self->m_Outer = dynamic_pointer_cast<IfcClosedShell>( m_Outer->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Voids.size(); ++ii )
+	for(auto item_ii : m_Voids)
 	{
-		auto item_ii = m_Voids[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_Voids.push_back( dynamic_pointer_cast<IfcClosedShell>(item_ii->getDeepCopy(options) ) );
 		}
@@ -38,23 +37,23 @@ void IfcFacetedBrepWithVoids::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Voids );
 	stream << ");";
 }
-void IfcFacetedBrepWithVoids::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFacetedBrepWithVoids::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFacetedBrepWithVoids::toString() const { return L"IfcFacetedBrepWithVoids"; }
 void IfcFacetedBrepWithVoids::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFacetedBrepWithVoids, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFacetedBrepWithVoids, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	readEntityReference( args[0], m_Outer, map );
 	readEntityReferenceList( args[1], m_Voids, map );
 }
 void IfcFacetedBrepWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFacetedBrep::getAttributes( vec_attributes );
-	if( m_Voids.size() > 0 )
+	if( !m_Voids.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Voids_vec_object( new AttributeObjectVector() );
 		std::copy( m_Voids.begin(), m_Voids.end(), std::back_inserter( Voids_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Voids", Voids_vec_object ) );
+		vec_attributes.emplace_back( "Voids", Voids_vec_object );
 	}
 }
 void IfcFacetedBrepWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

@@ -19,9 +19,9 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcRationalBSplineSurfaceWithKnots 
-IfcRationalBSplineSurfaceWithKnots::IfcRationalBSplineSurfaceWithKnots() {}
+IfcRationalBSplineSurfaceWithKnots::IfcRationalBSplineSurfaceWithKnots() = default;
 IfcRationalBSplineSurfaceWithKnots::IfcRationalBSplineSurfaceWithKnots( int id ) { m_entity_id = id; }
-IfcRationalBSplineSurfaceWithKnots::~IfcRationalBSplineSurfaceWithKnots() {}
+IfcRationalBSplineSurfaceWithKnots::~IfcRationalBSplineSurfaceWithKnots() = default;
 shared_ptr<BuildingObject> IfcRationalBSplineSurfaceWithKnots::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRationalBSplineSurfaceWithKnots> copy_self( new IfcRationalBSplineSurfaceWithKnots() );
@@ -32,10 +32,9 @@ shared_ptr<BuildingObject> IfcRationalBSplineSurfaceWithKnots::getDeepCopy( Buil
 	{
 		std::vector<shared_ptr<IfcCartesianPoint> >& vec_ii = m_ControlPointsList[ii];
 		std::vector<shared_ptr<IfcCartesianPoint> >& vec_ii_target = copy_self->m_ControlPointsList[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
+		for(auto & item_jj : vec_ii)
 		{
-			shared_ptr<IfcCartesianPoint>& item_jj = vec_ii[jj];
-			if( item_jj )
+				if( item_jj )
 			{
 				vec_ii_target.push_back( dynamic_pointer_cast<IfcCartesianPoint>( item_jj->getDeepCopy(options) ) );
 			}
@@ -45,34 +44,30 @@ shared_ptr<BuildingObject> IfcRationalBSplineSurfaceWithKnots::getDeepCopy( Buil
 	if( m_UClosed ) { copy_self->m_UClosed = dynamic_pointer_cast<IfcLogical>( m_UClosed->getDeepCopy(options) ); }
 	if( m_VClosed ) { copy_self->m_VClosed = dynamic_pointer_cast<IfcLogical>( m_VClosed->getDeepCopy(options) ); }
 	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = dynamic_pointer_cast<IfcLogical>( m_SelfIntersect->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_UMultiplicities.size(); ++ii )
+	for(auto item_ii : m_UMultiplicities)
 	{
-		auto item_ii = m_UMultiplicities[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_UMultiplicities.push_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	for( size_t ii=0; ii<m_VMultiplicities.size(); ++ii )
+	for(auto item_ii : m_VMultiplicities)
 	{
-		auto item_ii = m_VMultiplicities[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_VMultiplicities.push_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	for( size_t ii=0; ii<m_UKnots.size(); ++ii )
+	for(auto item_ii : m_UKnots)
 	{
-		auto item_ii = m_UKnots[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_UKnots.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	for( size_t ii=0; ii<m_VKnots.size(); ++ii )
+	for(auto item_ii : m_VKnots)
 	{
-		auto item_ii = m_VKnots[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_VKnots.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
 		}
@@ -83,10 +78,9 @@ shared_ptr<BuildingObject> IfcRationalBSplineSurfaceWithKnots::getDeepCopy( Buil
 	{
 		std::vector<shared_ptr<IfcReal> >& vec_ii = m_WeightsData[ii];
 		std::vector<shared_ptr<IfcReal> >& vec_ii_target = copy_self->m_WeightsData[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
+		for(auto & item_jj : vec_ii)
 		{
-			shared_ptr<IfcReal>& item_jj = vec_ii[jj];
-			if( item_jj )
+				if( item_jj )
 			{
 				vec_ii_target.push_back( dynamic_pointer_cast<IfcReal>( item_jj->getDeepCopy(options) ) );
 			}
@@ -124,12 +118,12 @@ void IfcRationalBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream 
 	writeNumericTypeList2D( stream, m_WeightsData );
 	stream << ");";
 }
-void IfcRationalBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRationalBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRationalBSplineSurfaceWithKnots::toString() const { return L"IfcRationalBSplineSurfaceWithKnots"; }
 void IfcRationalBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRationalBSplineSurfaceWithKnots, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 13 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRationalBSplineSurfaceWithKnots, expecting 13, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_UDegree = IfcInteger::createObjectFromSTEP( args[0], map );
 	m_VDegree = IfcInteger::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList2D( args[2], m_ControlPointsList, map );

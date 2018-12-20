@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcStructuralCurveActivityTypeEnum.h"
 
 // TYPE IfcStructuralCurveActivityTypeEnum = ENUMERATION OF	(CONST	,LINEAR	,POLYGONAL	,EQUIDISTANT	,SINUS	,PARABOLA	,DISCRETE	,USERDEFINED	,NOTDEFINED);
-IfcStructuralCurveActivityTypeEnum::IfcStructuralCurveActivityTypeEnum() {}
-IfcStructuralCurveActivityTypeEnum::~IfcStructuralCurveActivityTypeEnum() {}
+IfcStructuralCurveActivityTypeEnum::IfcStructuralCurveActivityTypeEnum() = default;
+IfcStructuralCurveActivityTypeEnum::~IfcStructuralCurveActivityTypeEnum() = default;
 shared_ptr<BuildingObject> IfcStructuralCurveActivityTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralCurveActivityTypeEnum> copy_self( new IfcStructuralCurveActivityTypeEnum() );
@@ -54,7 +54,7 @@ const std::wstring IfcStructuralCurveActivityTypeEnum::toString() const
 shared_ptr<IfcStructuralCurveActivityTypeEnum> IfcStructuralCurveActivityTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStructuralCurveActivityTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStructuralCurveActivityTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStructuralCurveActivityTypeEnum>(); }
 	shared_ptr<IfcStructuralCurveActivityTypeEnum> type_object( new IfcStructuralCurveActivityTypeEnum() );
 	if( boost::iequals( arg, L".CONST." ) )
 	{

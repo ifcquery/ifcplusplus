@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcLuminousIntensityMeasure.h"
 
 // TYPE IfcLuminousIntensityMeasure = REAL;
-IfcLuminousIntensityMeasure::IfcLuminousIntensityMeasure() {}
+IfcLuminousIntensityMeasure::IfcLuminousIntensityMeasure() = default;
 IfcLuminousIntensityMeasure::IfcLuminousIntensityMeasure( double value ) { m_value = value; }
-IfcLuminousIntensityMeasure::~IfcLuminousIntensityMeasure() {}
+IfcLuminousIntensityMeasure::~IfcLuminousIntensityMeasure() = default;
 shared_ptr<BuildingObject> IfcLuminousIntensityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLuminousIntensityMeasure> copy_self( new IfcLuminousIntensityMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcLuminousIntensityMeasure::toString() const
 shared_ptr<IfcLuminousIntensityMeasure> IfcLuminousIntensityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLuminousIntensityMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLuminousIntensityMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLuminousIntensityMeasure>(); }
 	shared_ptr<IfcLuminousIntensityMeasure> type_object( new IfcLuminousIntensityMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

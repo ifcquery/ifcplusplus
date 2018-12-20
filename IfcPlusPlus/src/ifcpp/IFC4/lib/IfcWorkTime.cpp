@@ -14,9 +14,9 @@
 #include "ifcpp/IFC4/include/IfcWorkTime.h"
 
 // ENTITY IfcWorkTime 
-IfcWorkTime::IfcWorkTime() {}
+IfcWorkTime::IfcWorkTime() = default;
 IfcWorkTime::IfcWorkTime( int id ) { m_entity_id = id; }
-IfcWorkTime::~IfcWorkTime() {}
+IfcWorkTime::~IfcWorkTime() = default;
 shared_ptr<BuildingObject> IfcWorkTime::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWorkTime> copy_self( new IfcWorkTime() );
@@ -44,12 +44,12 @@ void IfcWorkTime::getStepLine( std::stringstream& stream ) const
 	if( m_Finish ) { m_Finish->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcWorkTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcWorkTime::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWorkTime::toString() const { return L"IfcWorkTime"; }
 void IfcWorkTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWorkTime, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcWorkTime, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1], map );
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -60,9 +60,9 @@ void IfcWorkTime::readStepArguments( const std::vector<std::wstring>& args, cons
 void IfcWorkTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSchedulingTime::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RecurrencePattern", m_RecurrencePattern ) );
-	vec_attributes.push_back( std::make_pair( "Start", m_Start ) );
-	vec_attributes.push_back( std::make_pair( "Finish", m_Finish ) );
+	vec_attributes.emplace_back( "RecurrencePattern", m_RecurrencePattern );
+	vec_attributes.emplace_back( "Start", m_Start );
+	vec_attributes.emplace_back( "Finish", m_Finish );
 }
 void IfcWorkTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -20,7 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <string>
 #include <sstream>
 #include <iomanip>
-#include <locale.h>
+#include <clocale>
 #include <boost/fusion/container/map.hpp>
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
@@ -32,11 +32,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ifcpp/reader/ReaderUtil.h"
 
 WriterSTEP::WriterSTEP()
-{
-}
+= default;
 WriterSTEP::~WriterSTEP()
-{
-}
+= default;
 
 void WriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<BuildingModel> model )
 {

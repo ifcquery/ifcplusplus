@@ -8,7 +8,7 @@
 // TYPE IfcSolidOrShell = SELECT	(IfcClosedShell	,IfcSolidModel);
 shared_ptr<IfcSolidOrShell> IfcSolidOrShell::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcSolidOrShell>(); }
+	if( arg.empty() ){ return shared_ptr<IfcSolidOrShell>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcSolidOrShell>();

@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcSpatialZoneTypeEnum.h"
 
 // TYPE IfcSpatialZoneTypeEnum = ENUMERATION OF	(CONSTRUCTION	,FIRESAFETY	,LIGHTING	,OCCUPANCY	,SECURITY	,THERMAL	,TRANSPORT	,VENTILATION	,USERDEFINED	,NOTDEFINED);
-IfcSpatialZoneTypeEnum::IfcSpatialZoneTypeEnum() {}
-IfcSpatialZoneTypeEnum::~IfcSpatialZoneTypeEnum() {}
+IfcSpatialZoneTypeEnum::IfcSpatialZoneTypeEnum() = default;
+IfcSpatialZoneTypeEnum::~IfcSpatialZoneTypeEnum() = default;
 shared_ptr<BuildingObject> IfcSpatialZoneTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpatialZoneTypeEnum> copy_self( new IfcSpatialZoneTypeEnum() );
@@ -56,7 +56,7 @@ const std::wstring IfcSpatialZoneTypeEnum::toString() const
 shared_ptr<IfcSpatialZoneTypeEnum> IfcSpatialZoneTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpatialZoneTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpatialZoneTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpatialZoneTypeEnum>(); }
 	shared_ptr<IfcSpatialZoneTypeEnum> type_object( new IfcSpatialZoneTypeEnum() );
 	if( boost::iequals( arg, L".CONSTRUCTION." ) )
 	{

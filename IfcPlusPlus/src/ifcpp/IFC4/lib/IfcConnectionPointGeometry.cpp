@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcPointOrVertexPoint.h"
 
 // ENTITY IfcConnectionPointGeometry 
-IfcConnectionPointGeometry::IfcConnectionPointGeometry() {}
+IfcConnectionPointGeometry::IfcConnectionPointGeometry() = default;
 IfcConnectionPointGeometry::IfcConnectionPointGeometry( int id ) { m_entity_id = id; }
-IfcConnectionPointGeometry::~IfcConnectionPointGeometry() {}
+IfcConnectionPointGeometry::~IfcConnectionPointGeometry() = default;
 shared_ptr<BuildingObject> IfcConnectionPointGeometry::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConnectionPointGeometry> copy_self( new IfcConnectionPointGeometry() );
@@ -29,20 +29,20 @@ void IfcConnectionPointGeometry::getStepLine( std::stringstream& stream ) const
 	if( m_PointOnRelatedElement ) { m_PointOnRelatedElement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcConnectionPointGeometry::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcConnectionPointGeometry::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConnectionPointGeometry::toString() const { return L"IfcConnectionPointGeometry"; }
 void IfcConnectionPointGeometry::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionPointGeometry, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionPointGeometry, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_PointOnRelatingElement = IfcPointOrVertexPoint::createObjectFromSTEP( args[0], map );
 	m_PointOnRelatedElement = IfcPointOrVertexPoint::createObjectFromSTEP( args[1], map );
 }
 void IfcConnectionPointGeometry::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConnectionGeometry::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PointOnRelatingElement", m_PointOnRelatingElement ) );
-	vec_attributes.push_back( std::make_pair( "PointOnRelatedElement", m_PointOnRelatedElement ) );
+	vec_attributes.emplace_back( "PointOnRelatingElement", m_PointOnRelatingElement );
+	vec_attributes.emplace_back( "PointOnRelatedElement", m_PointOnRelatedElement );
 }
 void IfcConnectionPointGeometry::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

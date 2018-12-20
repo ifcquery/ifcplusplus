@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcForceMeasure.h"
 
 // TYPE IfcForceMeasure = REAL;
-IfcForceMeasure::IfcForceMeasure() {}
+IfcForceMeasure::IfcForceMeasure() = default;
 IfcForceMeasure::IfcForceMeasure( double value ) { m_value = value; }
-IfcForceMeasure::~IfcForceMeasure() {}
+IfcForceMeasure::~IfcForceMeasure() = default;
 shared_ptr<BuildingObject> IfcForceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcForceMeasure> copy_self( new IfcForceMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcForceMeasure::toString() const
 shared_ptr<IfcForceMeasure> IfcForceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcForceMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcForceMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcForceMeasure>(); }
 	shared_ptr<IfcForceMeasure> type_object( new IfcForceMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

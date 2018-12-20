@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcChimneyTypeEnum.h"
 
 // TYPE IfcChimneyTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-IfcChimneyTypeEnum::IfcChimneyTypeEnum() {}
-IfcChimneyTypeEnum::~IfcChimneyTypeEnum() {}
+IfcChimneyTypeEnum::IfcChimneyTypeEnum() = default;
+IfcChimneyTypeEnum::~IfcChimneyTypeEnum() = default;
 shared_ptr<BuildingObject> IfcChimneyTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcChimneyTypeEnum> copy_self( new IfcChimneyTypeEnum() );
@@ -40,7 +40,7 @@ const std::wstring IfcChimneyTypeEnum::toString() const
 shared_ptr<IfcChimneyTypeEnum> IfcChimneyTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcChimneyTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcChimneyTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcChimneyTypeEnum>(); }
 	shared_ptr<IfcChimneyTypeEnum> type_object( new IfcChimneyTypeEnum() );
 	if( boost::iequals( arg, L".USERDEFINED." ) )
 	{

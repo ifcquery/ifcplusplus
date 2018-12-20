@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcSystemFurnitureElementTypeEnum.h"
 
 // TYPE IfcSystemFurnitureElementTypeEnum = ENUMERATION OF	(PANEL	,WORKSURFACE	,USERDEFINED	,NOTDEFINED);
-IfcSystemFurnitureElementTypeEnum::IfcSystemFurnitureElementTypeEnum() {}
-IfcSystemFurnitureElementTypeEnum::~IfcSystemFurnitureElementTypeEnum() {}
+IfcSystemFurnitureElementTypeEnum::IfcSystemFurnitureElementTypeEnum() = default;
+IfcSystemFurnitureElementTypeEnum::~IfcSystemFurnitureElementTypeEnum() = default;
 shared_ptr<BuildingObject> IfcSystemFurnitureElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSystemFurnitureElementTypeEnum> copy_self( new IfcSystemFurnitureElementTypeEnum() );
@@ -44,7 +44,7 @@ const std::wstring IfcSystemFurnitureElementTypeEnum::toString() const
 shared_ptr<IfcSystemFurnitureElementTypeEnum> IfcSystemFurnitureElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSystemFurnitureElementTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSystemFurnitureElementTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSystemFurnitureElementTypeEnum>(); }
 	shared_ptr<IfcSystemFurnitureElementTypeEnum> type_object( new IfcSystemFurnitureElementTypeEnum() );
 	if( boost::iequals( arg, L".PANEL." ) )
 	{

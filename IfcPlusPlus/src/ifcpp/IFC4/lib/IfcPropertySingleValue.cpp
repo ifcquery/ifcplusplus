@@ -20,9 +20,9 @@
 #include "ifcpp/IFC4/include/IfcValue.h"
 
 // ENTITY IfcPropertySingleValue 
-IfcPropertySingleValue::IfcPropertySingleValue() {}
+IfcPropertySingleValue::IfcPropertySingleValue() = default;
 IfcPropertySingleValue::IfcPropertySingleValue( int id ) { m_entity_id = id; }
-IfcPropertySingleValue::~IfcPropertySingleValue() {}
+IfcPropertySingleValue::~IfcPropertySingleValue() = default;
 shared_ptr<BuildingObject> IfcPropertySingleValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertySingleValue> copy_self( new IfcPropertySingleValue() );
@@ -44,12 +44,12 @@ void IfcPropertySingleValue::getStepLine( std::stringstream& stream ) const
 	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcPropertySingleValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPropertySingleValue::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertySingleValue::toString() const { return L"IfcPropertySingleValue"; }
 void IfcPropertySingleValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertySingleValue, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertySingleValue, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_NominalValue = IfcValue::createObjectFromSTEP( args[2], map );
@@ -58,8 +58,8 @@ void IfcPropertySingleValue::readStepArguments( const std::vector<std::wstring>&
 void IfcPropertySingleValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "NominalValue", m_NominalValue ) );
-	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
+	vec_attributes.emplace_back( "NominalValue", m_NominalValue );
+	vec_attributes.emplace_back( "Unit", m_Unit );
 }
 void IfcPropertySingleValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

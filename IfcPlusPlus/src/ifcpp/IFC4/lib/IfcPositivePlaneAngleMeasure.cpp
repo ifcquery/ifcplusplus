@@ -11,8 +11,8 @@
 #include "ifcpp/IFC4/include/IfcPositivePlaneAngleMeasure.h"
 
 // TYPE IfcPositivePlaneAngleMeasure = IfcPlaneAngleMeasure;
-IfcPositivePlaneAngleMeasure::IfcPositivePlaneAngleMeasure() {}
-IfcPositivePlaneAngleMeasure::~IfcPositivePlaneAngleMeasure() {}
+IfcPositivePlaneAngleMeasure::IfcPositivePlaneAngleMeasure() = default;
+IfcPositivePlaneAngleMeasure::~IfcPositivePlaneAngleMeasure() = default;
 shared_ptr<BuildingObject> IfcPositivePlaneAngleMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPositivePlaneAngleMeasure> copy_self( new IfcPositivePlaneAngleMeasure() );
@@ -34,7 +34,7 @@ const std::wstring IfcPositivePlaneAngleMeasure::toString() const
 shared_ptr<IfcPositivePlaneAngleMeasure> IfcPositivePlaneAngleMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPositivePlaneAngleMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositivePlaneAngleMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositivePlaneAngleMeasure>(); }
 	shared_ptr<IfcPositivePlaneAngleMeasure> type_object( new IfcPositivePlaneAngleMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

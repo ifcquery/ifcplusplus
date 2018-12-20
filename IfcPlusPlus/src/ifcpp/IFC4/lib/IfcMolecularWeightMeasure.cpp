@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcMolecularWeightMeasure.h"
 
 // TYPE IfcMolecularWeightMeasure = REAL;
-IfcMolecularWeightMeasure::IfcMolecularWeightMeasure() {}
+IfcMolecularWeightMeasure::IfcMolecularWeightMeasure() = default;
 IfcMolecularWeightMeasure::IfcMolecularWeightMeasure( double value ) { m_value = value; }
-IfcMolecularWeightMeasure::~IfcMolecularWeightMeasure() {}
+IfcMolecularWeightMeasure::~IfcMolecularWeightMeasure() = default;
 shared_ptr<BuildingObject> IfcMolecularWeightMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMolecularWeightMeasure> copy_self( new IfcMolecularWeightMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcMolecularWeightMeasure::toString() const
 shared_ptr<IfcMolecularWeightMeasure> IfcMolecularWeightMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMolecularWeightMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMolecularWeightMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMolecularWeightMeasure>(); }
 	shared_ptr<IfcMolecularWeightMeasure> type_object( new IfcMolecularWeightMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

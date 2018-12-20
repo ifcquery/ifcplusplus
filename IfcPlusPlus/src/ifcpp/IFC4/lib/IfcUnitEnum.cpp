@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcUnitEnum.h"
 
 // TYPE IfcUnitEnum = ENUMERATION OF	(ABSORBEDDOSEUNIT	,AMOUNTOFSUBSTANCEUNIT	,AREAUNIT	,DOSEEQUIVALENTUNIT	,ELECTRICCAPACITANCEUNIT	,ELECTRICCHARGEUNIT	,ELECTRICCONDUCTANCEUNIT	,ELECTRICCURRENTUNIT	,ELECTRICRESISTANCEUNIT	,ELECTRICVOLTAGEUNIT	,ENERGYUNIT	,FORCEUNIT	,FREQUENCYUNIT	,ILLUMINANCEUNIT	,INDUCTANCEUNIT	,LENGTHUNIT	,LUMINOUSFLUXUNIT	,LUMINOUSINTENSITYUNIT	,MAGNETICFLUXDENSITYUNIT	,MAGNETICFLUXUNIT	,MASSUNIT	,PLANEANGLEUNIT	,POWERUNIT	,PRESSUREUNIT	,RADIOACTIVITYUNIT	,SOLIDANGLEUNIT	,THERMODYNAMICTEMPERATUREUNIT	,TIMEUNIT	,VOLUMEUNIT	,USERDEFINED);
-IfcUnitEnum::IfcUnitEnum() {}
-IfcUnitEnum::~IfcUnitEnum() {}
+IfcUnitEnum::IfcUnitEnum() = default;
+IfcUnitEnum::~IfcUnitEnum() = default;
 shared_ptr<BuildingObject> IfcUnitEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcUnitEnum> copy_self( new IfcUnitEnum() );
@@ -96,7 +96,7 @@ const std::wstring IfcUnitEnum::toString() const
 shared_ptr<IfcUnitEnum> IfcUnitEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcUnitEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcUnitEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcUnitEnum>(); }
 	shared_ptr<IfcUnitEnum> type_object( new IfcUnitEnum() );
 	if( boost::iequals( arg, L".ABSORBEDDOSEUNIT." ) )
 	{

@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcSurfaceSide.h"
 
 // TYPE IfcSurfaceSide = ENUMERATION OF	(POSITIVE	,NEGATIVE	,BOTH);
-IfcSurfaceSide::IfcSurfaceSide() {}
-IfcSurfaceSide::~IfcSurfaceSide() {}
+IfcSurfaceSide::IfcSurfaceSide() = default;
+IfcSurfaceSide::~IfcSurfaceSide() = default;
 shared_ptr<BuildingObject> IfcSurfaceSide::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceSide> copy_self( new IfcSurfaceSide() );
@@ -42,7 +42,7 @@ const std::wstring IfcSurfaceSide::toString() const
 shared_ptr<IfcSurfaceSide> IfcSurfaceSide::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSurfaceSide>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSurfaceSide>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSurfaceSide>(); }
 	shared_ptr<IfcSurfaceSide> type_object( new IfcSurfaceSide() );
 	if( boost::iequals( arg, L".POSITIVE." ) )
 	{

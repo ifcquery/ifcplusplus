@@ -16,17 +16,16 @@
 #include "ifcpp/IFC4/include/IfcTextStyleFontModel.h"
 
 // ENTITY IfcTextStyleFontModel 
-IfcTextStyleFontModel::IfcTextStyleFontModel() {}
+IfcTextStyleFontModel::IfcTextStyleFontModel() = default;
 IfcTextStyleFontModel::IfcTextStyleFontModel( int id ) { m_entity_id = id; }
-IfcTextStyleFontModel::~IfcTextStyleFontModel() {}
+IfcTextStyleFontModel::~IfcTextStyleFontModel() = default;
 shared_ptr<BuildingObject> IfcTextStyleFontModel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextStyleFontModel> copy_self( new IfcTextStyleFontModel() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_FontFamily.size(); ++ii )
+	for(auto item_ii : m_FontFamily)
 	{
-		auto item_ii = m_FontFamily[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_FontFamily.push_back( dynamic_pointer_cast<IfcTextFontName>(item_ii->getDeepCopy(options) ) );
 		}
@@ -70,12 +69,12 @@ void IfcTextStyleFontModel::getStepLine( std::stringstream& stream ) const
 	if( m_FontSize ) { m_FontSize->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcTextStyleFontModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTextStyleFontModel::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextStyleFontModel::toString() const { return L"IfcTextStyleFontModel"; }
 void IfcTextStyleFontModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextStyleFontModel, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextStyleFontModel, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readTypeOfStringList( args[1], m_FontFamily );
 	m_FontStyle = IfcFontStyle::createObjectFromSTEP( args[2], map );
@@ -86,16 +85,16 @@ void IfcTextStyleFontModel::readStepArguments( const std::vector<std::wstring>& 
 void IfcTextStyleFontModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedTextFont::getAttributes( vec_attributes );
-	if( m_FontFamily.size() > 0 )
+	if( !m_FontFamily.empty() )
 	{
 		shared_ptr<AttributeObjectVector> FontFamily_vec_object( new AttributeObjectVector() );
 		std::copy( m_FontFamily.begin(), m_FontFamily.end(), std::back_inserter( FontFamily_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "FontFamily", FontFamily_vec_object ) );
+		vec_attributes.emplace_back( "FontFamily", FontFamily_vec_object );
 	}
-	vec_attributes.push_back( std::make_pair( "FontStyle", m_FontStyle ) );
-	vec_attributes.push_back( std::make_pair( "FontVariant", m_FontVariant ) );
-	vec_attributes.push_back( std::make_pair( "FontWeight", m_FontWeight ) );
-	vec_attributes.push_back( std::make_pair( "FontSize", m_FontSize ) );
+	vec_attributes.emplace_back( "FontStyle", m_FontStyle );
+	vec_attributes.emplace_back( "FontVariant", m_FontVariant );
+	vec_attributes.emplace_back( "FontWeight", m_FontWeight );
+	vec_attributes.emplace_back( "FontSize", m_FontSize );
 }
 void IfcTextStyleFontModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

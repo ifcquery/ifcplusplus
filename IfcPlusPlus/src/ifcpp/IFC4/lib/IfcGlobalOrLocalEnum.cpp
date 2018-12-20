@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcGlobalOrLocalEnum.h"
 
 // TYPE IfcGlobalOrLocalEnum = ENUMERATION OF	(GLOBAL_COORDS	,LOCAL_COORDS);
-IfcGlobalOrLocalEnum::IfcGlobalOrLocalEnum() {}
-IfcGlobalOrLocalEnum::~IfcGlobalOrLocalEnum() {}
+IfcGlobalOrLocalEnum::IfcGlobalOrLocalEnum() = default;
+IfcGlobalOrLocalEnum::~IfcGlobalOrLocalEnum() = default;
 shared_ptr<BuildingObject> IfcGlobalOrLocalEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGlobalOrLocalEnum> copy_self( new IfcGlobalOrLocalEnum() );
@@ -40,7 +40,7 @@ const std::wstring IfcGlobalOrLocalEnum::toString() const
 shared_ptr<IfcGlobalOrLocalEnum> IfcGlobalOrLocalEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGlobalOrLocalEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGlobalOrLocalEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGlobalOrLocalEnum>(); }
 	shared_ptr<IfcGlobalOrLocalEnum> type_object( new IfcGlobalOrLocalEnum() );
 	if( boost::iequals( arg, L".GLOBAL_COORDS." ) )
 	{

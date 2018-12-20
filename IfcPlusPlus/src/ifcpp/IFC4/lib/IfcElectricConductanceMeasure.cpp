@@ -11,9 +11,9 @@
 #include "ifcpp/IFC4/include/IfcElectricConductanceMeasure.h"
 
 // TYPE IfcElectricConductanceMeasure = REAL;
-IfcElectricConductanceMeasure::IfcElectricConductanceMeasure() {}
+IfcElectricConductanceMeasure::IfcElectricConductanceMeasure() = default;
 IfcElectricConductanceMeasure::IfcElectricConductanceMeasure( double value ) { m_value = value; }
-IfcElectricConductanceMeasure::~IfcElectricConductanceMeasure() {}
+IfcElectricConductanceMeasure::~IfcElectricConductanceMeasure() = default;
 shared_ptr<BuildingObject> IfcElectricConductanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricConductanceMeasure> copy_self( new IfcElectricConductanceMeasure() );
@@ -35,7 +35,7 @@ const std::wstring IfcElectricConductanceMeasure::toString() const
 shared_ptr<IfcElectricConductanceMeasure> IfcElectricConductanceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricConductanceMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricConductanceMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricConductanceMeasure>(); }
 	shared_ptr<IfcElectricConductanceMeasure> type_object( new IfcElectricConductanceMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

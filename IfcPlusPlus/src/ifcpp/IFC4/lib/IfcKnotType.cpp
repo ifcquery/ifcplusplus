@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcKnotType.h"
 
 // TYPE IfcKnotType = ENUMERATION OF	(UNIFORM_KNOTS	,QUASI_UNIFORM_KNOTS	,PIECEWISE_BEZIER_KNOTS	,UNSPECIFIED);
-IfcKnotType::IfcKnotType() {}
-IfcKnotType::~IfcKnotType() {}
+IfcKnotType::IfcKnotType() = default;
+IfcKnotType::~IfcKnotType() = default;
 shared_ptr<BuildingObject> IfcKnotType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcKnotType> copy_self( new IfcKnotType() );
@@ -44,7 +44,7 @@ const std::wstring IfcKnotType::toString() const
 shared_ptr<IfcKnotType> IfcKnotType::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcKnotType>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcKnotType>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcKnotType>(); }
 	shared_ptr<IfcKnotType> type_object( new IfcKnotType() );
 	if( boost::iequals( arg, L".UNIFORM_KNOTS." ) )
 	{

@@ -15,9 +15,9 @@
 #include "ifcpp/IFC4/include/IfcSizeSelect.h"
 
 // ENTITY IfcCurveStyle 
-IfcCurveStyle::IfcCurveStyle() {}
+IfcCurveStyle::IfcCurveStyle() = default;
 IfcCurveStyle::IfcCurveStyle( int id ) { m_entity_id = id; }
-IfcCurveStyle::~IfcCurveStyle() {}
+IfcCurveStyle::~IfcCurveStyle() = default;
 shared_ptr<BuildingObject> IfcCurveStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurveStyle> copy_self( new IfcCurveStyle() );
@@ -42,12 +42,12 @@ void IfcCurveStyle::getStepLine( std::stringstream& stream ) const
 	if( m_ModelOrDraughting ) { m_ModelOrDraughting->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCurveStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCurveStyle::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCurveStyle::toString() const { return L"IfcCurveStyle"; }
 void IfcCurveStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurveStyle, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurveStyle, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_CurveFont = IfcCurveFontOrScaledCurveFontSelect::createObjectFromSTEP( args[1], map );
 	m_CurveWidth = IfcSizeSelect::createObjectFromSTEP( args[2], map );
@@ -57,10 +57,10 @@ void IfcCurveStyle::readStepArguments( const std::vector<std::wstring>& args, co
 void IfcCurveStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationStyle::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "CurveFont", m_CurveFont ) );
-	vec_attributes.push_back( std::make_pair( "CurveWidth", m_CurveWidth ) );
-	vec_attributes.push_back( std::make_pair( "CurveColour", m_CurveColour ) );
-	vec_attributes.push_back( std::make_pair( "ModelOrDraughting", m_ModelOrDraughting ) );
+	vec_attributes.emplace_back( "CurveFont", m_CurveFont );
+	vec_attributes.emplace_back( "CurveWidth", m_CurveWidth );
+	vec_attributes.emplace_back( "CurveColour", m_CurveColour );
+	vec_attributes.emplace_back( "ModelOrDraughting", m_ModelOrDraughting );
 }
 void IfcCurveStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

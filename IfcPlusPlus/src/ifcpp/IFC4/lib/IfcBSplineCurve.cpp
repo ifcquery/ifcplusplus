@@ -16,17 +16,16 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBSplineCurve 
-IfcBSplineCurve::IfcBSplineCurve() {}
+IfcBSplineCurve::IfcBSplineCurve() = default;
 IfcBSplineCurve::IfcBSplineCurve( int id ) { m_entity_id = id; }
-IfcBSplineCurve::~IfcBSplineCurve() {}
+IfcBSplineCurve::~IfcBSplineCurve() = default;
 shared_ptr<BuildingObject> IfcBSplineCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBSplineCurve> copy_self( new IfcBSplineCurve() );
 	if( m_Degree ) { copy_self->m_Degree = dynamic_pointer_cast<IfcInteger>( m_Degree->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_ControlPointsList.size(); ++ii )
+	for(auto item_ii : m_ControlPointsList)
 	{
-		auto item_ii = m_ControlPointsList[ii];
-		if( item_ii )
+			if( item_ii )
 		{
 			copy_self->m_ControlPointsList.push_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
 		}
@@ -50,12 +49,12 @@ void IfcBSplineCurve::getStepLine( std::stringstream& stream ) const
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBSplineCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBSplineCurve::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBSplineCurve::toString() const { return L"IfcBSplineCurve"; }
 void IfcBSplineCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineCurve, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineCurve, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Degree = IfcInteger::createObjectFromSTEP( args[0], map );
 	readEntityReferenceList( args[1], m_ControlPointsList, map );
 	m_CurveForm = IfcBSplineCurveForm::createObjectFromSTEP( args[2], map );
@@ -65,16 +64,16 @@ void IfcBSplineCurve::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcBSplineCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Degree", m_Degree ) );
-	if( m_ControlPointsList.size() > 0 )
+	vec_attributes.emplace_back( "Degree", m_Degree );
+	if( !m_ControlPointsList.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ControlPointsList_vec_object( new AttributeObjectVector() );
 		std::copy( m_ControlPointsList.begin(), m_ControlPointsList.end(), std::back_inserter( ControlPointsList_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "ControlPointsList", ControlPointsList_vec_object ) );
+		vec_attributes.emplace_back( "ControlPointsList", ControlPointsList_vec_object );
 	}
-	vec_attributes.push_back( std::make_pair( "CurveForm", m_CurveForm ) );
-	vec_attributes.push_back( std::make_pair( "ClosedCurve", m_ClosedCurve ) );
-	vec_attributes.push_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
+	vec_attributes.emplace_back( "CurveForm", m_CurveForm );
+	vec_attributes.emplace_back( "ClosedCurve", m_ClosedCurve );
+	vec_attributes.emplace_back( "SelfIntersect", m_SelfIntersect );
 }
 void IfcBSplineCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

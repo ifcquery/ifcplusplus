@@ -17,9 +17,9 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcConstraint 
-IfcConstraint::IfcConstraint() {}
+IfcConstraint::IfcConstraint() = default;
 IfcConstraint::IfcConstraint( int id ) { m_entity_id = id; }
-IfcConstraint::~IfcConstraint() {}
+IfcConstraint::~IfcConstraint() = default;
 shared_ptr<BuildingObject> IfcConstraint::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConstraint> copy_self( new IfcConstraint() );
@@ -50,12 +50,12 @@ void IfcConstraint::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedGrade ) { m_UserDefinedGrade->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcConstraint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcConstraint::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConstraint::toString() const { return L"IfcConstraint"; }
 void IfcConstraint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConstraint, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConstraint, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_ConstraintGrade = IfcConstraintEnum::createObjectFromSTEP( args[2], map );
@@ -66,42 +66,42 @@ void IfcConstraint::readStepArguments( const std::vector<std::wstring>& args, co
 }
 void IfcConstraint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "ConstraintGrade", m_ConstraintGrade ) );
-	vec_attributes.push_back( std::make_pair( "ConstraintSource", m_ConstraintSource ) );
-	vec_attributes.push_back( std::make_pair( "CreatingActor", m_CreatingActor ) );
-	vec_attributes.push_back( std::make_pair( "CreationTime", m_CreationTime ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedGrade", m_UserDefinedGrade ) );
+	vec_attributes.emplace_back( "Name", m_Name );
+	vec_attributes.emplace_back( "Description", m_Description );
+	vec_attributes.emplace_back( "ConstraintGrade", m_ConstraintGrade );
+	vec_attributes.emplace_back( "ConstraintSource", m_ConstraintSource );
+	vec_attributes.emplace_back( "CreatingActor", m_CreatingActor );
+	vec_attributes.emplace_back( "CreationTime", m_CreationTime );
+	vec_attributes.emplace_back( "UserDefinedGrade", m_UserDefinedGrade );
 }
 void IfcConstraint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_HasExternalReferences_inverse.size() > 0 )
+	if( !m_HasExternalReferences_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasExternalReferences_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
+		for(const auto & i : m_HasExternalReferences_inverse)
 		{
-			if( !m_HasExternalReferences_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) );
+				HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj );
 	}
-	if( m_PropertiesForConstraint_inverse.size() > 0 )
+	if( !m_PropertiesForConstraint_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PropertiesForConstraint_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_PropertiesForConstraint_inverse.size(); ++i )
+		for(const auto & i : m_PropertiesForConstraint_inverse)
 		{
-			if( !m_PropertiesForConstraint_inverse[i].expired() )
+			if( !i.expired() )
 			{
-				PropertiesForConstraint_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcResourceConstraintRelationship>( m_PropertiesForConstraint_inverse[i] ) );
+				PropertiesForConstraint_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcResourceConstraintRelationship>( i ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "PropertiesForConstraint_inverse", PropertiesForConstraint_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( "PropertiesForConstraint_inverse", PropertiesForConstraint_inverse_vec_obj );
 	}
 }
-void IfcConstraint::setInverseCounterparts( shared_ptr<BuildingEntity> )
+void IfcConstraint::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
 {
 }
 void IfcConstraint::unlinkFromInverseCounterparts()

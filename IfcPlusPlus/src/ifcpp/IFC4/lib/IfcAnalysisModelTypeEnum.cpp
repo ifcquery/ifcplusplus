@@ -10,8 +10,8 @@
 #include "ifcpp/IFC4/include/IfcAnalysisModelTypeEnum.h"
 
 // TYPE IfcAnalysisModelTypeEnum = ENUMERATION OF	(IN_PLANE_LOADING_2D	,OUT_PLANE_LOADING_2D	,LOADING_3D	,USERDEFINED	,NOTDEFINED);
-IfcAnalysisModelTypeEnum::IfcAnalysisModelTypeEnum() {}
-IfcAnalysisModelTypeEnum::~IfcAnalysisModelTypeEnum() {}
+IfcAnalysisModelTypeEnum::IfcAnalysisModelTypeEnum() = default;
+IfcAnalysisModelTypeEnum::~IfcAnalysisModelTypeEnum() = default;
 shared_ptr<BuildingObject> IfcAnalysisModelTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAnalysisModelTypeEnum> copy_self( new IfcAnalysisModelTypeEnum() );
@@ -46,7 +46,7 @@ const std::wstring IfcAnalysisModelTypeEnum::toString() const
 shared_ptr<IfcAnalysisModelTypeEnum> IfcAnalysisModelTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAnalysisModelTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAnalysisModelTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAnalysisModelTypeEnum>(); }
 	shared_ptr<IfcAnalysisModelTypeEnum> type_object( new IfcAnalysisModelTypeEnum() );
 	if( boost::iequals( arg, L".IN_PLANE_LOADING_2D." ) )
 	{
