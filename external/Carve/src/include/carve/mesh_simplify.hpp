@@ -585,8 +585,10 @@ class MeshSimplifier {
       int n_int4 = countIntersections(v4, v3, v1, overlapping);
 
       if ((n_int3 + n_int4) - (n_int1 + n_int2) > 0) {
+#if defined(CARVE_DEBUG)
         std::cerr << "delta[ints] = " << (n_int3 + n_int4) - (n_int1 + n_int2)
                   << std::endl;
+#endif
         // avoid creating a self intersection.
         continue;
       }
@@ -780,16 +782,20 @@ class MeshSimplifier {
                                       affected_faces.end(), near_faces.begin(),
                                       near_faces.end(), v1, v2, merge);
       if (i2 != i1) {
+#if defined(CARVE_DEBUG)
         std::cerr << "near faces: " << near_faces.size()
                   << " affected faces: " << affected_faces.size() << std::endl;
         std::cerr << "merge delta[ints] = " << i2 - i1 << " pre: " << i1
                   << " post: " << i2 << std::endl;
+#endif
         if (i2 > i1) {
           continue;
         }
       }
 
+#if defined(CARVE_DEBUG)
       std::cerr << "collapse " << e << std::endl;
+#endif
 
       v2->v = merge;
       ++n_mods;
@@ -1026,7 +1032,9 @@ class MeshSimplifier {
       }
     }
 
+#if defined(CARVE_DEBUG)
     std::cerr << "normal = " << normal << std::endl;
+#endif
 
     std::vector<double> d_vec;
     d_vec.reserve(face->nVertices());
@@ -1360,7 +1368,9 @@ class MeshSimplifier {
 
     initEdgeInfo(meshset);
 
+#if defined(CARVE_DEBUG)
     std::cerr << "initial merge" << std::endl;
+#endif
     modifications = collapseEdges(meshset, EdgeMerger(0.0));
     removeRemnantFaces(meshset);
 
@@ -1371,25 +1381,39 @@ class MeshSimplifier {
       // std::cerr << " " << n << std::endl;
       // n_flip = n;
 
+#if defined(CARVE_DEBUG)
       std::cerr << "flip conservative";
+#endif
       n = flipEdges(meshset, FlippableConservative());
+#if defined(CARVE_DEBUG)
       std::cerr << " " << n << std::endl;
+#endif
       n_flip += n;
 
+#if defined(CARVE_DEBUG)
       std::cerr << "flip";
+#endif
       n = flipEdges(meshset,
                     Flippable(min_colinearity, min_delta_v, min_normal_angle));
+#if defined(CARVE_DEBUG)
       std::cerr << " " << n << std::endl;
+#endif
       n_flip += n;
 
+#if defined(CARVE_DEBUG)
       std::cerr << "merge";
+#endif
       n = collapseEdges(meshset, EdgeMerger(min_length));
       removeRemnantFaces(meshset);
+#if defined(CARVE_DEBUG)
       std::cerr << " " << n << std::endl;
+#endif
       n_merge = n;
 
       modifications += n_flip + n_merge;
+#if defined(CARVE_DEBUG)
       std::cerr << "stats:" << n_flip << " " << n_merge << std::endl;
+#endif
     } while (n_flip || n_merge);
 
     clearEdgeInfo();
@@ -1555,8 +1579,10 @@ class MeshSimplifier {
     while (vertex_qinfo.size()) {
       std::vector<vertex_t*> quantized;
 
+#if defined(CARVE_DEBUG)
       std::cerr << "vertex_qinfo.size() == " << vertex_qinfo.size()
                 << std::endl;
+#endif
 
       for (vfsmap_t::iterator i = vertex_qinfo.begin(); i != vertex_qinfo.end();
            ++i) {

@@ -374,11 +374,13 @@ void eigSolve(const Matrix3& m, double& l1, double& l2, double& l3) {
     // solve M.v = 0
   }
 
+#if defined(CARVE_DEBUG)
   std::cerr << "n_roots=" << roots.size() << std::endl;
   for (size_t i = 0; i < roots.size(); i++) {
     fprintf(stderr, "  %.24f(%d)", roots[i].root, roots[i].multiplicity);
   }
   std::cerr << std::endl;
+#endif
 }
 }  // namespace math
 }  // namespace carve
