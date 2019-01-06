@@ -416,6 +416,12 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 					progress = 0.2*static_cast<double>( stream_pos - &read_in[0] ) / double(length);
 					progressValueCallback(progress, "parse");
 					progress_anchor = stream_pos;
+
+					if ( isCanceled() )
+					{
+						canceledCallback();
+						return;
+					}
 				}
 			}
 			continue;
@@ -633,8 +639,10 @@ void ReaderSTEP::readEntityArguments( const BuildingModel::SchemaVersion& ifc_ve
 	const std::map<int,shared_ptr<BuildingEntity> >* map_entities_ptr = &map_entities;
 	const std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >* vec_entities_ptr = &vec_entities;
 
+	bool canceled = isCanceled();
+
 #ifdef ENABLE_OPENMP
-#pragma omp parallel firstprivate(num_objects) shared(map_entities_ptr,vec_entities_ptr)
+#pragma omp parallel firstprivate(num_objects,canceled) shared(map_entities_ptr,vec_entities_ptr)
 #endif
 	{
 		const std::map<int,shared_ptr<BuildingEntity> > &map_entities_ptr_local = *map_entities_ptr;
@@ -644,6 +652,11 @@ void ReaderSTEP::readEntityArguments( const BuildingModel::SchemaVersion& ifc_ve
 #endif
 		for( int i=0; i<num_objects; ++i )
 		{
+			if ( canceled )
+			{
+				continue;
+			}
+
 			const std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_object = (*vec_entities_ptr)[i];
 			const shared_ptr<BuildingEntity> entity = entity_read_object.second;
 			if( !entity )
@@ -713,6 +726,17 @@ void ReaderSTEP::readEntityArguments( const BuildingModel::SchemaVersion& ifc_ve
 					{
 						progressValueCallback( progress, "parse" );
 						last_progress = progress;
+
+						if ( isCanceled() )
+						{
+							canceledCallback();
+#ifdef ENABLE_OPENMP
+							canceled = true;
+#pragma omp flush(canceled)
+#else
+							break; // If we're not using OpenMP, we can safely break the loop
+#endif
+						}
 					}
 				}
 			}

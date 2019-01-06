@@ -38,7 +38,8 @@ public:
 		MESSAGE_TYPE_MINOR_WARNING,
 		MESSAGE_TYPE_WARNING,
 		MESSAGE_TYPE_ERROR,
-		MESSAGE_TYPE_CLEAR_MESSAGES
+		MESSAGE_TYPE_CLEAR_MESSAGES,
+		MESSAGE_TYPE_CANCELED
 	};
 	/*\class Message
 	  \brief Combines all information about a status message, being it a general message, a warning, error, or a notification about a progress (for example during reading of a file).
@@ -68,6 +69,7 @@ public:
 	StatusCallback()
 	{
 		unsetMessageCallBack();
+		unsetCancelCheck();
 	}
 	virtual ~StatusCallback()= default;
 
@@ -87,6 +89,18 @@ public:
 	{
 		m_obj_call_on_message = nullptr;
 		m_func_call_on_message = nullptr;
+	}
+
+	virtual void setCancelCheck( void* obj_ptr, bool (*func)(void*) )
+	{
+		m_obj_call_check_cancel = obj_ptr;
+		m_func_check_cancel = func;
+	}
+
+	virtual void unsetCancelCheck()
+	{
+		m_obj_call_check_cancel = nullptr;
+		m_func_check_cancel = nullptr;
 	}
 
 	//\brief trigger the callback to pass a message, warning, or error, for example to store in a logfile
@@ -135,6 +149,29 @@ public:
 		}
 	}
 
+	//\brief check if cancellation has been requested.
+	virtual bool isCanceled()
+	{
+		if( m_redirect_target )
+		{
+			return m_redirect_target->isCanceled();
+		}
+
+		if( m_func_check_cancel )
+		{
+			if( m_obj_call_check_cancel )
+			{
+#ifdef ENABLE_OPENMP
+				// Note: this lock protects accesses only for this instance. If several StatusCallback (or derived) objects are bound to the same callback function, a lock is necessary there.
+				ScopedLock lock( m_writelock );
+#endif
+				return m_func_check_cancel( m_obj_call_check_cancel );
+			}
+		}
+
+		return false;
+	}
+
 	virtual void messageCallback( const std::string& message_text, MessageType type, const char* reporting_function, BuildingEntity* entity = nullptr )
 	{
 		shared_ptr<Message> message( new Message() );
@@ -175,13 +212,26 @@ public:
 		progress_message->m_message_type = MessageType::MESSAGE_TYPE_CLEAR_MESSAGES;
 		messageCallback( progress_message );
 	}
+	virtual void canceledCallback()
+	{
+		shared_ptr<Message> canceled_message( new Message() );
+		canceled_message->m_message_type = MessageType::MESSAGE_TYPE_CANCELED;
+		messageCallback( canceled_message );
+	}
+
 
 protected:
 	//\brief Pointer to the object on which the message callback function is called.
 	void* m_obj_call_on_message;
 
+	//\brief Pointer to the object on which the cancel check function is called.
+	void* m_obj_call_check_cancel;
+
 	//\brief Pointer to the callback function for messages.
 	void (*m_func_call_on_message)(void*, shared_ptr<Message> t);
+
+	//\brief Pointer to the predicate that determines whether an operation should be canceled.
+	bool  (*m_func_check_cancel)(void*);
 
 	StatusCallback* m_redirect_target = nullptr;
 
