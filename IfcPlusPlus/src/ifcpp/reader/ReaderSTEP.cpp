@@ -45,8 +45,14 @@ ReaderSTEP::~ReaderSTEP(){}
 void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<BuildingModel>& targetModel )
 {
 	// if file content needs to be loaded into a plain model, call resetModel() before loadModelFromFile
-	std::wstring ext = filePath.substr( filePath.find_last_of( L"." ) + 1 );
-	
+	size_t posDot = filePath.find_last_of(L".");
+	if( filePath.size() < posDot + 3 || posDot > filePath.size() )
+	{
+		messageCallback("not an .ifc file", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
+		return;
+	}
+	std::wstring ext = filePath.substr(posDot + 1);
+
 	if( boost::iequals( ext, "ifc" ) )
 	{
 		// ok, nothing to do here

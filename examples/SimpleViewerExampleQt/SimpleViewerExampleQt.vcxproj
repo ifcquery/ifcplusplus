@@ -37,7 +37,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
@@ -127,6 +127,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Networkd.lib;Qt5OpenGLd.lib;Qt5Widgetsd.lib;Qt5PrintSupportd.lib;Qt5Xmld.lib;osgd.lib;OpenThreadsd.lib;osgAnimationd.lib;osgDBd.lib;osgFXd.lib;osgGAd.lib;osgTextd.lib;osgUtild.lib;osgViewerd.lib;freetype28d.lib;IfcPlusPlusd.lib;Carved.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(SolutionDir)..\..\IfcPlusPlus\bin\IfcPlusPlusd.dll" "$(OutDir)\IfcPlusPlusd.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -186,6 +189,9 @@
     <ProjectReference>
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
+    <PostBuildEvent>
+      <Command>copy /Y "$(SolutionDir)..\..\IfcPlusPlus\bin\IfcPlusPlus.dll" "$(OutDir)\IfcPlusPlus.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\Debug\moc_IfcPlusPlusSystem.cpp">
