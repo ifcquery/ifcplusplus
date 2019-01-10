@@ -44,7 +44,13 @@ ReaderSTEP::~ReaderSTEP()= default;
 void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<BuildingModel>& targetModel )
 {
 	// if file content needs to be loaded into a plain model, call resetModel() before loadModelFromFile
-	std::wstring ext = filePath.substr( filePath.find_last_of( L'.' ) + 1 );
+	size_t posDot = filePath.find_last_of(L".");
+	if( filePath.size() < posDot + 3 || posDot > filePath.size() )
+	{
+		messageCallback("not an .ifc file", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
+		return;
+	}
+	std::wstring ext = filePath.substr(posDot + 1);
 	
 	if( boost::iequals( ext, "ifc" ) )
 	{
@@ -349,7 +355,7 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 
 	// split into data lines: #1234=IFCOBJECTNAME(...,...,(...,...),...);
 	char* progress_anchor = stream_pos;
-	std::string single_step_line;
+	std::string single_step_line = "";
 
 	while( *stream_pos != '\0' )
 	{
@@ -410,10 +416,10 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 
 			if( target_vec.size() % 100 == 0 )
 			{
-				double progress_since_anchor = static_cast<double>( stream_pos - progress_anchor ) / double(length);
+				double progress_since_anchor = static_cast<double>( stream_pos - progress_anchor ) / static_cast<double>(length);
 				if( progress_since_anchor > 0.03 )
 				{
-					progress = 0.2*static_cast<double>( stream_pos - &read_in[0] ) / double(length);
+					progress = 0.2*static_cast<double>( stream_pos - &read_in[0] ) / static_cast<double>(length);
 					progressValueCallback(progress, "parse");
 					progress_anchor = stream_pos;
 

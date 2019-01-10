@@ -195,7 +195,8 @@
       <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
     </Lib>
     <PostBuildEvent>
-      <Command>copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)\examples\SimpleViewerExampleQt\bin\$(TargetName)$(TargetExt)"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -282,8 +283,8 @@
       <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
     </Lib>
     <PostBuildEvent>
-      <Command>copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)\examples\SimpleViewerExampleQt\bin\$(TargetName)$(TargetExt)"
-</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <ProjectReference>
       <UseLibraryDependencyInputs>
