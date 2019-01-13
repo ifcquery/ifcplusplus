@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcDayInWeekNumber : public BuildingObject
 {
 public:
-	IfcDayInWeekNumber();
+	IfcDayInWeekNumber() = default;
 	IfcDayInWeekNumber( int value );
 	~IfcDayInWeekNumber();
 	virtual const char* className() const { return "IfcDayInWeekNumber"; }

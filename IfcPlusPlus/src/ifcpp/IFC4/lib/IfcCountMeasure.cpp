@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcCountMeasure.h"
 
 // TYPE IfcCountMeasure = NUMBER;
-IfcCountMeasure::IfcCountMeasure() {}
 IfcCountMeasure::IfcCountMeasure( int value ) { m_value = value; }
 IfcCountMeasure::~IfcCountMeasure() {}
 shared_ptr<BuildingObject> IfcCountMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcCountMeasure::toString() const
 shared_ptr<IfcCountMeasure> IfcCountMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCountMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCountMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCountMeasure>(); }
 	shared_ptr<IfcCountMeasure> type_object( new IfcCountMeasure() );
 	readInteger( arg, type_object->m_value );
 	return type_object;

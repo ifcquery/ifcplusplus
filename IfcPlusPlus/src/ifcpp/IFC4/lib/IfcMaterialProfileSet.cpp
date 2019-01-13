@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMaterialProfileSet 
-IfcMaterialProfileSet::IfcMaterialProfileSet() {}
 IfcMaterialProfileSet::IfcMaterialProfileSet( int id ) { m_entity_id = id; }
 IfcMaterialProfileSet::~IfcMaterialProfileSet() {}
 shared_ptr<BuildingObject> IfcMaterialProfileSet::getDeepCopy( BuildingCopyOptions& options )
@@ -30,7 +29,7 @@ shared_ptr<BuildingObject> IfcMaterialProfileSet::getDeepCopy( BuildingCopyOptio
 		auto item_ii = m_MaterialProfiles[ii];
 		if( item_ii )
 		{
-			copy_self->m_MaterialProfiles.push_back( dynamic_pointer_cast<IfcMaterialProfile>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_MaterialProfiles.emplace_back( dynamic_pointer_cast<IfcMaterialProfile>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_CompositeProfile ) { copy_self->m_CompositeProfile = dynamic_pointer_cast<IfcCompositeProfileDef>( m_CompositeProfile->getDeepCopy(options) ); }
@@ -62,15 +61,15 @@ void IfcMaterialProfileSet::readStepArguments( const std::vector<std::wstring>& 
 void IfcMaterialProfileSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	if( m_MaterialProfiles.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	if( !m_MaterialProfiles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> MaterialProfiles_vec_object( new AttributeObjectVector() );
 		std::copy( m_MaterialProfiles.begin(), m_MaterialProfiles.end(), std::back_inserter( MaterialProfiles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "MaterialProfiles", MaterialProfiles_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "MaterialProfiles", MaterialProfiles_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "CompositeProfile", m_CompositeProfile ) );
+	vec_attributes.emplace_back( std::make_pair( "CompositeProfile", m_CompositeProfile ) );
 }
 void IfcMaterialProfileSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

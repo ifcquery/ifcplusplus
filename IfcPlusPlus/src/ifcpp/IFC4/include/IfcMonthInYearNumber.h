@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcMonthInYearNumber : public BuildingObject
 {
 public:
-	IfcMonthInYearNumber();
+	IfcMonthInYearNumber() = default;
 	IfcMonthInYearNumber( int value );
 	~IfcMonthInYearNumber();
 	virtual const char* className() const { return "IfcMonthInYearNumber"; }

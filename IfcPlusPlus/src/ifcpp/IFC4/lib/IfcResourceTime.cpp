@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcResourceTime.h"
 
 // ENTITY IfcResourceTime 
-IfcResourceTime::IfcResourceTime() {}
 IfcResourceTime::IfcResourceTime( int id ) { m_entity_id = id; }
 IfcResourceTime::~IfcResourceTime() {}
 shared_ptr<BuildingObject> IfcResourceTime::getDeepCopy( BuildingCopyOptions& options )
@@ -110,21 +109,21 @@ void IfcResourceTime::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcResourceTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSchedulingTime::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ScheduleWork", m_ScheduleWork ) );
-	vec_attributes.push_back( std::make_pair( "ScheduleUsage", m_ScheduleUsage ) );
-	vec_attributes.push_back( std::make_pair( "ScheduleStart", m_ScheduleStart ) );
-	vec_attributes.push_back( std::make_pair( "ScheduleFinish", m_ScheduleFinish ) );
-	vec_attributes.push_back( std::make_pair( "ScheduleContour", m_ScheduleContour ) );
-	vec_attributes.push_back( std::make_pair( "LevelingDelay", m_LevelingDelay ) );
-	vec_attributes.push_back( std::make_pair( "IsOverAllocated", m_IsOverAllocated ) );
-	vec_attributes.push_back( std::make_pair( "StatusTime", m_StatusTime ) );
-	vec_attributes.push_back( std::make_pair( "ActualWork", m_ActualWork ) );
-	vec_attributes.push_back( std::make_pair( "ActualUsage", m_ActualUsage ) );
-	vec_attributes.push_back( std::make_pair( "ActualStart", m_ActualStart ) );
-	vec_attributes.push_back( std::make_pair( "ActualFinish", m_ActualFinish ) );
-	vec_attributes.push_back( std::make_pair( "RemainingWork", m_RemainingWork ) );
-	vec_attributes.push_back( std::make_pair( "RemainingUsage", m_RemainingUsage ) );
-	vec_attributes.push_back( std::make_pair( "Completion", m_Completion ) );
+	vec_attributes.emplace_back( std::make_pair( "ScheduleWork", m_ScheduleWork ) );
+	vec_attributes.emplace_back( std::make_pair( "ScheduleUsage", m_ScheduleUsage ) );
+	vec_attributes.emplace_back( std::make_pair( "ScheduleStart", m_ScheduleStart ) );
+	vec_attributes.emplace_back( std::make_pair( "ScheduleFinish", m_ScheduleFinish ) );
+	vec_attributes.emplace_back( std::make_pair( "ScheduleContour", m_ScheduleContour ) );
+	vec_attributes.emplace_back( std::make_pair( "LevelingDelay", m_LevelingDelay ) );
+	vec_attributes.emplace_back( std::make_pair( "IsOverAllocated", m_IsOverAllocated ) );
+	vec_attributes.emplace_back( std::make_pair( "StatusTime", m_StatusTime ) );
+	vec_attributes.emplace_back( std::make_pair( "ActualWork", m_ActualWork ) );
+	vec_attributes.emplace_back( std::make_pair( "ActualUsage", m_ActualUsage ) );
+	vec_attributes.emplace_back( std::make_pair( "ActualStart", m_ActualStart ) );
+	vec_attributes.emplace_back( std::make_pair( "ActualFinish", m_ActualFinish ) );
+	vec_attributes.emplace_back( std::make_pair( "RemainingWork", m_RemainingWork ) );
+	vec_attributes.emplace_back( std::make_pair( "RemainingUsage", m_RemainingUsage ) );
+	vec_attributes.emplace_back( std::make_pair( "Completion", m_Completion ) );
 }
 void IfcResourceTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

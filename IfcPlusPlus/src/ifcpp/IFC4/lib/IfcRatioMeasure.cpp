@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcRatioMeasure.h"
 
 // TYPE IfcRatioMeasure = REAL;
-IfcRatioMeasure::IfcRatioMeasure() {}
 IfcRatioMeasure::IfcRatioMeasure( double value ) { m_value = value; }
 IfcRatioMeasure::~IfcRatioMeasure() {}
 shared_ptr<BuildingObject> IfcRatioMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -37,7 +36,7 @@ const std::wstring IfcRatioMeasure::toString() const
 shared_ptr<IfcRatioMeasure> IfcRatioMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRatioMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRatioMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRatioMeasure>(); }
 	shared_ptr<IfcRatioMeasure> type_object( new IfcRatioMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcStructuralSurfaceActivityTypeEnum;
 class IFCQUERY_EXPORT IfcStructuralSurfaceAction : public IfcStructuralAction
 { 
 public:
-	IfcStructuralSurfaceAction();
+	IfcStructuralSurfaceAction() = default;
 	IfcStructuralSurfaceAction( int id );
 	~IfcStructuralSurfaceAction();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

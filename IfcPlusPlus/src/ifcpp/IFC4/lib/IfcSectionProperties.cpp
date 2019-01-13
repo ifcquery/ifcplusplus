@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcSectionTypeEnum.h"
 
 // ENTITY IfcSectionProperties 
-IfcSectionProperties::IfcSectionProperties() {}
 IfcSectionProperties::IfcSectionProperties( int id ) { m_entity_id = id; }
 IfcSectionProperties::~IfcSectionProperties() {}
 shared_ptr<BuildingObject> IfcSectionProperties::getDeepCopy( BuildingCopyOptions& options )
@@ -55,9 +54,9 @@ void IfcSectionProperties::readStepArguments( const std::vector<std::wstring>& a
 void IfcSectionProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedProperties::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "SectionType", m_SectionType ) );
-	vec_attributes.push_back( std::make_pair( "StartProfile", m_StartProfile ) );
-	vec_attributes.push_back( std::make_pair( "EndProfile", m_EndProfile ) );
+	vec_attributes.emplace_back( std::make_pair( "SectionType", m_SectionType ) );
+	vec_attributes.emplace_back( std::make_pair( "StartProfile", m_StartProfile ) );
+	vec_attributes.emplace_back( std::make_pair( "EndProfile", m_EndProfile ) );
 }
 void IfcSectionProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

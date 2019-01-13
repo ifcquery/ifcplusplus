@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcOccupantTypeEnum;
 class IFCQUERY_EXPORT IfcOccupant : public IfcActor
 { 
 public:
-	IfcOccupant();
+	IfcOccupant() = default;
 	IfcOccupant( int id );
 	~IfcOccupant();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcStructuralCurveActivityTypeEnum;
 class IFCQUERY_EXPORT IfcStructuralCurveAction : public IfcStructuralAction
 { 
 public:
-	IfcStructuralCurveAction();
+	IfcStructuralCurveAction() = default;
 	IfcStructuralCurveAction( int id );
 	~IfcStructuralCurveAction();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

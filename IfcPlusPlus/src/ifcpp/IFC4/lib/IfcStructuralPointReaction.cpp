@@ -28,7 +28,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcStructuralPointReaction 
-IfcStructuralPointReaction::IfcStructuralPointReaction() {}
 IfcStructuralPointReaction::IfcStructuralPointReaction( int id ) { m_entity_id = id; }
 IfcStructuralPointReaction::~IfcStructuralPointReaction() {}
 shared_ptr<BuildingObject> IfcStructuralPointReaction::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ shared_ptr<BuildingObject> IfcStructuralPointReaction::getDeepCopy( BuildingCopy
 	shared_ptr<IfcStructuralPointReaction> copy_self( new IfcStructuralPointReaction() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )

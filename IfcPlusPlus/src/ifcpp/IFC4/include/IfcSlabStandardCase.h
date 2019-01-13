@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcSlabStandardCase : public IfcSlab
 { 
 public:
-	IfcSlabStandardCase();
+	IfcSlabStandardCase() = default;
 	IfcSlabStandardCase( int id );
 	~IfcSlabStandardCase();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

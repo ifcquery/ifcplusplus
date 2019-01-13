@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcTextureCoordinate.h"
 
 // ENTITY IfcSurfaceTexture 
-IfcSurfaceTexture::IfcSurfaceTexture() {}
 IfcSurfaceTexture::IfcSurfaceTexture( int id ) { m_entity_id = id; }
 IfcSurfaceTexture::~IfcSurfaceTexture() {}
 shared_ptr<BuildingObject> IfcSurfaceTexture::getDeepCopy( BuildingCopyOptions& options )
@@ -30,7 +29,7 @@ shared_ptr<BuildingObject> IfcSurfaceTexture::getDeepCopy( BuildingCopyOptions& 
 		auto item_ii = m_Parameter[ii];
 		if( item_ii )
 		{
-			copy_self->m_Parameter.push_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Parameter.emplace_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -81,43 +80,43 @@ void IfcSurfaceTexture::readStepArguments( const std::vector<std::wstring>& args
 void IfcSurfaceTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RepeatS", m_RepeatS ) );
-	vec_attributes.push_back( std::make_pair( "RepeatT", m_RepeatT ) );
-	vec_attributes.push_back( std::make_pair( "Mode", m_Mode ) );
-	vec_attributes.push_back( std::make_pair( "TextureTransform", m_TextureTransform ) );
-	if( m_Parameter.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "RepeatS", m_RepeatS ) );
+	vec_attributes.emplace_back( std::make_pair( "RepeatT", m_RepeatT ) );
+	vec_attributes.emplace_back( std::make_pair( "Mode", m_Mode ) );
+	vec_attributes.emplace_back( std::make_pair( "TextureTransform", m_TextureTransform ) );
+	if( !m_Parameter.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Parameter_vec_object( new AttributeObjectVector() );
 		std::copy( m_Parameter.begin(), m_Parameter.end(), std::back_inserter( Parameter_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Parameter", Parameter_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Parameter", Parameter_vec_object ) );
 	}
 }
 void IfcSurfaceTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
-	if( m_IsMappedBy_inverse.size() > 0 )
+	if( !m_IsMappedBy_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> IsMappedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsMappedBy_inverse.size(); ++i )
 		{
 			if( !m_IsMappedBy_inverse[i].expired() )
 			{
-				IsMappedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcTextureCoordinate>( m_IsMappedBy_inverse[i] ) );
+				IsMappedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcTextureCoordinate>( m_IsMappedBy_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "IsMappedBy_inverse", IsMappedBy_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "IsMappedBy_inverse", IsMappedBy_inverse_vec_obj ) );
 	}
-	if( m_UsedInStyles_inverse.size() > 0 )
+	if( !m_UsedInStyles_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> UsedInStyles_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_UsedInStyles_inverse.size(); ++i )
 		{
 			if( !m_UsedInStyles_inverse[i].expired() )
 			{
-				UsedInStyles_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcSurfaceStyleWithTextures>( m_UsedInStyles_inverse[i] ) );
+				UsedInStyles_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcSurfaceStyleWithTextures>( m_UsedInStyles_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "UsedInStyles_inverse", UsedInStyles_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "UsedInStyles_inverse", UsedInStyles_inverse_vec_obj ) );
 	}
 }
 void IfcSurfaceTexture::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

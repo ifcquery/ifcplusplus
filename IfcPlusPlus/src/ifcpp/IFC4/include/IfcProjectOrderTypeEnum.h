@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcProjectOrderTypeEnum();
+	IfcProjectOrderTypeEnum() = default;
 	IfcProjectOrderTypeEnum( IfcProjectOrderTypeEnumEnum e ) { m_enum = e; }
 	~IfcProjectOrderTypeEnum();
 	virtual const char* className() const { return "IfcProjectOrderTypeEnum"; }

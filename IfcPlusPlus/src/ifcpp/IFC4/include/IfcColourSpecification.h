@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcColourSpecification : virtual public IfcColour, public IfcPresentationItem
 { 
 public:
-	IfcColourSpecification();
+	IfcColourSpecification() = default;
 	IfcColourSpecification( int id );
 	~IfcColourSpecification();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

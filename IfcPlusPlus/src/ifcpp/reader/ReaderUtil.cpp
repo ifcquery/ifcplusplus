@@ -15,12 +15,12 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifdef WIN32
-#include <math.h>
-#include <windows.h>
-#else
+#define _USE_MATH_DEFINES
 #include <cmath>
+#ifdef WIN32
+#include <windows.h>
 #endif
+
 #include <limits>
 
 #include "ifcpp/model/BuildingException.h"

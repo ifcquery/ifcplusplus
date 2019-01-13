@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcRampFlightTypeEnum.h"
 
 // TYPE IfcRampFlightTypeEnum = ENUMERATION OF	(STRAIGHT	,SPIRAL	,USERDEFINED	,NOTDEFINED);
-IfcRampFlightTypeEnum::IfcRampFlightTypeEnum() {}
 IfcRampFlightTypeEnum::~IfcRampFlightTypeEnum() {}
 shared_ptr<BuildingObject> IfcRampFlightTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -44,7 +43,7 @@ const std::wstring IfcRampFlightTypeEnum::toString() const
 shared_ptr<IfcRampFlightTypeEnum> IfcRampFlightTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRampFlightTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRampFlightTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRampFlightTypeEnum>(); }
 	shared_ptr<IfcRampFlightTypeEnum> type_object( new IfcRampFlightTypeEnum() );
 	if( boost::iequals( arg, L".STRAIGHT." ) )
 	{

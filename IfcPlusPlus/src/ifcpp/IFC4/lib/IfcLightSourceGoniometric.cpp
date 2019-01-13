@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcThermodynamicTemperatureMeasure.h"
 
 // ENTITY IfcLightSourceGoniometric 
-IfcLightSourceGoniometric::IfcLightSourceGoniometric() {}
 IfcLightSourceGoniometric::IfcLightSourceGoniometric( int id ) { m_entity_id = id; }
 IfcLightSourceGoniometric::~IfcLightSourceGoniometric() {}
 shared_ptr<BuildingObject> IfcLightSourceGoniometric::getDeepCopy( BuildingCopyOptions& options )
@@ -82,12 +81,12 @@ void IfcLightSourceGoniometric::readStepArguments( const std::vector<std::wstrin
 void IfcLightSourceGoniometric::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLightSource::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
-	vec_attributes.push_back( std::make_pair( "ColourAppearance", m_ColourAppearance ) );
-	vec_attributes.push_back( std::make_pair( "ColourTemperature", m_ColourTemperature ) );
-	vec_attributes.push_back( std::make_pair( "LuminousFlux", m_LuminousFlux ) );
-	vec_attributes.push_back( std::make_pair( "LightEmissionSource", m_LightEmissionSource ) );
-	vec_attributes.push_back( std::make_pair( "LightDistributionDataSource", m_LightDistributionDataSource ) );
+	vec_attributes.emplace_back( std::make_pair( "Position", m_Position ) );
+	vec_attributes.emplace_back( std::make_pair( "ColourAppearance", m_ColourAppearance ) );
+	vec_attributes.emplace_back( std::make_pair( "ColourTemperature", m_ColourTemperature ) );
+	vec_attributes.emplace_back( std::make_pair( "LuminousFlux", m_LuminousFlux ) );
+	vec_attributes.emplace_back( std::make_pair( "LightEmissionSource", m_LightEmissionSource ) );
+	vec_attributes.emplace_back( std::make_pair( "LightDistributionDataSource", m_LightDistributionDataSource ) );
 }
 void IfcLightSourceGoniometric::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

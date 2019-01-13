@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcWorkPlanTypeEnum();
+	IfcWorkPlanTypeEnum() = default;
 	IfcWorkPlanTypeEnum( IfcWorkPlanTypeEnumEnum e ) { m_enum = e; }
 	~IfcWorkPlanTypeEnum();
 	virtual const char* className() const { return "IfcWorkPlanTypeEnum"; }

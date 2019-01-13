@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcIdentifier;
 class IFCQUERY_EXPORT IfcPresentationLayerAssignment : public BuildingEntity
 { 
 public:
-	IfcPresentationLayerAssignment();
+	IfcPresentationLayerAssignment() = default;
 	IfcPresentationLayerAssignment( int id );
 	~IfcPresentationLayerAssignment();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

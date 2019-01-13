@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcTypeObject.h"
 
 // ENTITY IfcPropertySet 
-IfcPropertySet::IfcPropertySet() {}
 IfcPropertySet::IfcPropertySet( int id ) { m_entity_id = id; }
 IfcPropertySet::~IfcPropertySet() {}
 shared_ptr<BuildingObject> IfcPropertySet::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcPropertySet::getDeepCopy( BuildingCopyOptions& opt
 	shared_ptr<IfcPropertySet> copy_self( new IfcPropertySet() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -43,7 +42,7 @@ shared_ptr<BuildingObject> IfcPropertySet::getDeepCopy( BuildingCopyOptions& opt
 		auto item_ii = m_HasProperties[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasProperties.push_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_HasProperties.emplace_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -77,11 +76,11 @@ void IfcPropertySet::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcPropertySet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPropertySetDefinition::getAttributes( vec_attributes );
-	if( m_HasProperties.size() > 0 )
+	if( !m_HasProperties.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasProperties_vec_object( new AttributeObjectVector() );
 		std::copy( m_HasProperties.begin(), m_HasProperties.end(), std::back_inserter( HasProperties_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "HasProperties", HasProperties_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "HasProperties", HasProperties_vec_object ) );
 	}
 }
 void IfcPropertySet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -97,7 +96,7 @@ void IfcPropertySet::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self
 	{
 		if( m_HasProperties[i] )
 		{
-			m_HasProperties[i]->m_PartOfPset_inverse.push_back( ptr_self );
+			m_HasProperties[i]->m_PartOfPset_inverse.emplace_back( ptr_self );
 		}
 	}
 }

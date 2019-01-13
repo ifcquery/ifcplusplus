@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStructuralLoadOrResult.h"
 
 // ENTITY IfcStructuralLoadConfiguration 
-IfcStructuralLoadConfiguration::IfcStructuralLoadConfiguration() {}
 IfcStructuralLoadConfiguration::IfcStructuralLoadConfiguration( int id ) { m_entity_id = id; }
 IfcStructuralLoadConfiguration::~IfcStructuralLoadConfiguration() {}
 shared_ptr<BuildingObject> IfcStructuralLoadConfiguration::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcStructuralLoadConfiguration::getDeepCopy( Building
 		auto item_ii = m_Values[ii];
 		if( item_ii )
 		{
-			copy_self->m_Values.push_back( dynamic_pointer_cast<IfcStructuralLoadOrResult>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Values.emplace_back( dynamic_pointer_cast<IfcStructuralLoadOrResult>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	copy_self->m_Locations.resize( m_Locations.size() );
@@ -38,7 +37,7 @@ shared_ptr<BuildingObject> IfcStructuralLoadConfiguration::getDeepCopy( Building
 			shared_ptr<IfcLengthMeasure>& item_jj = vec_ii[jj];
 			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcLengthMeasure>( item_jj->getDeepCopy(options) ) );
+				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}
@@ -67,11 +66,11 @@ void IfcStructuralLoadConfiguration::readStepArguments( const std::vector<std::w
 void IfcStructuralLoadConfiguration::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoad::getAttributes( vec_attributes );
-	if( m_Values.size() > 0 )
+	if( !m_Values.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Values_vec_object( new AttributeObjectVector() );
 		std::copy( m_Values.begin(), m_Values.end(), std::back_inserter( Values_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Values", Values_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Values", Values_vec_object ) );
 	}
 }
 void IfcStructuralLoadConfiguration::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

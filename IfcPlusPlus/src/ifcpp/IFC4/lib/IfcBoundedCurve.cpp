@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBoundedCurve 
-IfcBoundedCurve::IfcBoundedCurve() {}
 IfcBoundedCurve::IfcBoundedCurve( int id ) { m_entity_id = id; }
 IfcBoundedCurve::~IfcBoundedCurve() {}
 shared_ptr<BuildingObject> IfcBoundedCurve::getDeepCopy( BuildingCopyOptions& options )

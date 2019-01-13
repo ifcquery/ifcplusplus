@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcSpecificHeatCapacityMeasure.h"
 
 // TYPE IfcSpecificHeatCapacityMeasure = REAL;
-IfcSpecificHeatCapacityMeasure::IfcSpecificHeatCapacityMeasure() {}
 IfcSpecificHeatCapacityMeasure::IfcSpecificHeatCapacityMeasure( double value ) { m_value = value; }
 IfcSpecificHeatCapacityMeasure::~IfcSpecificHeatCapacityMeasure() {}
 shared_ptr<BuildingObject> IfcSpecificHeatCapacityMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcSpecificHeatCapacityMeasure::toString() const
 shared_ptr<IfcSpecificHeatCapacityMeasure> IfcSpecificHeatCapacityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpecificHeatCapacityMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpecificHeatCapacityMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpecificHeatCapacityMeasure>(); }
 	shared_ptr<IfcSpecificHeatCapacityMeasure> type_object( new IfcSpecificHeatCapacityMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

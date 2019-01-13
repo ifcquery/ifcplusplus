@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCableCarrierFittingTypeEnum;
 class IFCQUERY_EXPORT IfcCableCarrierFittingType : public IfcFlowFittingType
 { 
 public:
-	IfcCableCarrierFittingType();
+	IfcCableCarrierFittingType() = default;
 	IfcCableCarrierFittingType( int id );
 	~IfcCableCarrierFittingType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcVolumeMeasure.h"
 
 // TYPE IfcVolumeMeasure = REAL;
-IfcVolumeMeasure::IfcVolumeMeasure() {}
 IfcVolumeMeasure::IfcVolumeMeasure( double value ) { m_value = value; }
 IfcVolumeMeasure::~IfcVolumeMeasure() {}
 shared_ptr<BuildingObject> IfcVolumeMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcVolumeMeasure::toString() const
 shared_ptr<IfcVolumeMeasure> IfcVolumeMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVolumeMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVolumeMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVolumeMeasure>(); }
 	shared_ptr<IfcVolumeMeasure> type_object( new IfcVolumeMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

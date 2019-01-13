@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBooleanResult 
-IfcBooleanResult::IfcBooleanResult() {}
 IfcBooleanResult::IfcBooleanResult( int id ) { m_entity_id = id; }
 IfcBooleanResult::~IfcBooleanResult() {}
 shared_ptr<BuildingObject> IfcBooleanResult::getDeepCopy( BuildingCopyOptions& options )
@@ -48,9 +47,9 @@ void IfcBooleanResult::readStepArguments( const std::vector<std::wstring>& args,
 void IfcBooleanResult::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Operator", m_Operator ) );
-	vec_attributes.push_back( std::make_pair( "FirstOperand", m_FirstOperand ) );
-	vec_attributes.push_back( std::make_pair( "SecondOperand", m_SecondOperand ) );
+	vec_attributes.emplace_back( std::make_pair( "Operator", m_Operator ) );
+	vec_attributes.emplace_back( std::make_pair( "FirstOperand", m_FirstOperand ) );
+	vec_attributes.emplace_back( std::make_pair( "SecondOperand", m_SecondOperand ) );
 }
 void IfcBooleanResult::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

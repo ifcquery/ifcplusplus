@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcFastenerTypeEnum.h"
 
 // TYPE IfcFastenerTypeEnum = ENUMERATION OF	(GLUE	,MORTAR	,WELD	,USERDEFINED	,NOTDEFINED);
-IfcFastenerTypeEnum::IfcFastenerTypeEnum() {}
 IfcFastenerTypeEnum::~IfcFastenerTypeEnum() {}
 shared_ptr<BuildingObject> IfcFastenerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcFastenerTypeEnum::toString() const
 shared_ptr<IfcFastenerTypeEnum> IfcFastenerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFastenerTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFastenerTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFastenerTypeEnum>(); }
 	shared_ptr<IfcFastenerTypeEnum> type_object( new IfcFastenerTypeEnum() );
 	if( boost::iequals( arg, L".GLUE." ) )
 	{

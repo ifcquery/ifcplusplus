@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcTaskTypeEnum;
 class IFCQUERY_EXPORT IfcTask : public IfcProcess
 { 
 public:
-	IfcTask();
+	IfcTask() = default;
 	IfcTask( int id );
 	~IfcTask();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcSectionModulusMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcSectionModulusMeasure();
+	IfcSectionModulusMeasure() = default;
 	IfcSectionModulusMeasure( double value );
 	~IfcSectionModulusMeasure();
 	virtual const char* className() const { return "IfcSectionModulusMeasure"; }

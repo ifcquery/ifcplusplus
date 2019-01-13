@@ -19,7 +19,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcChimneyTypeEnum();
+	IfcChimneyTypeEnum() = default;
 	IfcChimneyTypeEnum( IfcChimneyTypeEnumEnum e ) { m_enum = e; }
 	~IfcChimneyTypeEnum();
 	virtual const char* className() const { return "IfcChimneyTypeEnum"; }

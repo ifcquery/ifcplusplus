@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcLightSourceDirectional 
-IfcLightSourceDirectional::IfcLightSourceDirectional() {}
 IfcLightSourceDirectional::IfcLightSourceDirectional( int id ) { m_entity_id = id; }
 IfcLightSourceDirectional::~IfcLightSourceDirectional() {}
 shared_ptr<BuildingObject> IfcLightSourceDirectional::getDeepCopy( BuildingCopyOptions& options )
@@ -58,7 +57,7 @@ void IfcLightSourceDirectional::readStepArguments( const std::vector<std::wstrin
 void IfcLightSourceDirectional::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLightSource::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Orientation", m_Orientation ) );
+	vec_attributes.emplace_back( std::make_pair( "Orientation", m_Orientation ) );
 }
 void IfcLightSourceDirectional::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

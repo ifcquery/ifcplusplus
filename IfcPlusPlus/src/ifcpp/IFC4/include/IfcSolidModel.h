@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcSolidModel : virtual public IfcBooleanOperand, virtual public IfcSolidOrShell, public IfcGeometricRepresentationItem
 { 
 public:
-	IfcSolidModel();
+	IfcSolidModel() = default;
 	IfcSolidModel( int id );
 	~IfcSolidModel();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

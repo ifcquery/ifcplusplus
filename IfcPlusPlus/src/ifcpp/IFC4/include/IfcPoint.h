@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcPoint : virtual public IfcGeometricSetSelect, virtual public IfcPointOrVertexPoint, public IfcGeometricRepresentationItem
 { 
 public:
-	IfcPoint();
+	IfcPoint() = default;
 	IfcPoint( int id );
 	~IfcPoint();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

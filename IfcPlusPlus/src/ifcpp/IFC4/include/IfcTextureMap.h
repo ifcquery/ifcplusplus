@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcFace;
 class IFCQUERY_EXPORT IfcTextureMap : public IfcTextureCoordinate
 { 
 public:
-	IfcTextureMap();
+	IfcTextureMap() = default;
 	IfcTextureMap( int id );
 	~IfcTextureMap();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

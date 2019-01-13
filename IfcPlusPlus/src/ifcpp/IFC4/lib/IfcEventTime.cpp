@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // ENTITY IfcEventTime 
-IfcEventTime::IfcEventTime() {}
 IfcEventTime::IfcEventTime( int id ) { m_entity_id = id; }
 IfcEventTime::~IfcEventTime() {}
 shared_ptr<BuildingObject> IfcEventTime::getDeepCopy( BuildingCopyOptions& options )
@@ -63,10 +62,10 @@ void IfcEventTime::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcEventTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSchedulingTime::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ActualDate", m_ActualDate ) );
-	vec_attributes.push_back( std::make_pair( "EarlyDate", m_EarlyDate ) );
-	vec_attributes.push_back( std::make_pair( "LateDate", m_LateDate ) );
-	vec_attributes.push_back( std::make_pair( "ScheduleDate", m_ScheduleDate ) );
+	vec_attributes.emplace_back( std::make_pair( "ActualDate", m_ActualDate ) );
+	vec_attributes.emplace_back( std::make_pair( "EarlyDate", m_EarlyDate ) );
+	vec_attributes.emplace_back( std::make_pair( "LateDate", m_LateDate ) );
+	vec_attributes.emplace_back( std::make_pair( "ScheduleDate", m_ScheduleDate ) );
 }
 void IfcEventTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

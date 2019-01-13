@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCoolingTowerTypeEnum.h"
 
 // TYPE IfcCoolingTowerTypeEnum = ENUMERATION OF	(NATURALDRAFT	,MECHANICALINDUCEDDRAFT	,MECHANICALFORCEDDRAFT	,USERDEFINED	,NOTDEFINED);
-IfcCoolingTowerTypeEnum::IfcCoolingTowerTypeEnum() {}
 IfcCoolingTowerTypeEnum::~IfcCoolingTowerTypeEnum() {}
 shared_ptr<BuildingObject> IfcCoolingTowerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcCoolingTowerTypeEnum::toString() const
 shared_ptr<IfcCoolingTowerTypeEnum> IfcCoolingTowerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCoolingTowerTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCoolingTowerTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCoolingTowerTypeEnum>(); }
 	shared_ptr<IfcCoolingTowerTypeEnum> type_object( new IfcCoolingTowerTypeEnum() );
 	if( boost::iequals( arg, L".NATURALDRAFT." ) )
 	{

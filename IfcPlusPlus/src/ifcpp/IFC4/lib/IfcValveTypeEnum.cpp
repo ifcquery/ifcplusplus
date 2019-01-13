@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcValveTypeEnum.h"
 
 // TYPE IfcValveTypeEnum = ENUMERATION OF	(AIRRELEASE	,ANTIVACUUM	,CHANGEOVER	,CHECK	,COMMISSIONING	,DIVERTING	,DRAWOFFCOCK	,DOUBLECHECK	,DOUBLEREGULATING	,FAUCET	,FLUSHING	,GASCOCK	,GASTAP	,ISOLATING	,MIXING	,PRESSUREREDUCING	,PRESSURERELIEF	,REGULATING	,SAFETYCUTOFF	,STEAMTRAP	,STOPCOCK	,USERDEFINED	,NOTDEFINED);
-IfcValveTypeEnum::IfcValveTypeEnum() {}
 IfcValveTypeEnum::~IfcValveTypeEnum() {}
 shared_ptr<BuildingObject> IfcValveTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -82,7 +81,7 @@ const std::wstring IfcValveTypeEnum::toString() const
 shared_ptr<IfcValveTypeEnum> IfcValveTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcValveTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcValveTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcValveTypeEnum>(); }
 	shared_ptr<IfcValveTypeEnum> type_object( new IfcValveTypeEnum() );
 	if( boost::iequals( arg, L".AIRRELEASE." ) )
 	{

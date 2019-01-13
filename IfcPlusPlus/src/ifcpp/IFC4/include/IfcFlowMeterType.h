@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcFlowMeterTypeEnum;
 class IFCQUERY_EXPORT IfcFlowMeterType : public IfcFlowControllerType
 { 
 public:
-	IfcFlowMeterType();
+	IfcFlowMeterType() = default;
 	IfcFlowMeterType( int id );
 	~IfcFlowMeterType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

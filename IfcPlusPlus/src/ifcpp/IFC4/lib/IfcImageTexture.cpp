@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // ENTITY IfcImageTexture 
-IfcImageTexture::IfcImageTexture() {}
 IfcImageTexture::IfcImageTexture( int id ) { m_entity_id = id; }
 IfcImageTexture::~IfcImageTexture() {}
 shared_ptr<BuildingObject> IfcImageTexture::getDeepCopy( BuildingCopyOptions& options )
@@ -31,7 +30,7 @@ shared_ptr<BuildingObject> IfcImageTexture::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_Parameter[ii];
 		if( item_ii )
 		{
-			copy_self->m_Parameter.push_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Parameter.emplace_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_URLReference ) { copy_self->m_URLReference = dynamic_pointer_cast<IfcURIReference>( m_URLReference->getDeepCopy(options) ); }
@@ -86,7 +85,7 @@ void IfcImageTexture::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcImageTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSurfaceTexture::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "URLReference", m_URLReference ) );
+	vec_attributes.emplace_back( std::make_pair( "URLReference", m_URLReference ) );
 }
 void IfcImageTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

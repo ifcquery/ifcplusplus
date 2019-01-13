@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPlanarBox 
-IfcPlanarBox::IfcPlanarBox() {}
 IfcPlanarBox::IfcPlanarBox( int id ) { m_entity_id = id; }
 IfcPlanarBox::~IfcPlanarBox() {}
 shared_ptr<BuildingObject> IfcPlanarBox::getDeepCopy( BuildingCopyOptions& options )
@@ -48,7 +47,7 @@ void IfcPlanarBox::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcPlanarBox::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPlanarExtent::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Placement", m_Placement ) );
+	vec_attributes.emplace_back( std::make_pair( "Placement", m_Placement ) );
 }
 void IfcPlanarBox::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

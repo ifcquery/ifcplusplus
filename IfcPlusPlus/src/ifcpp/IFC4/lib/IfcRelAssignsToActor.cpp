@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelAssignsToActor 
-IfcRelAssignsToActor::IfcRelAssignsToActor() {}
 IfcRelAssignsToActor::IfcRelAssignsToActor( int id ) { m_entity_id = id; }
 IfcRelAssignsToActor::~IfcRelAssignsToActor() {}
 shared_ptr<BuildingObject> IfcRelAssignsToActor::getDeepCopy( BuildingCopyOptions& options )
@@ -26,7 +25,7 @@ shared_ptr<BuildingObject> IfcRelAssignsToActor::getDeepCopy( BuildingCopyOption
 	shared_ptr<IfcRelAssignsToActor> copy_self( new IfcRelAssignsToActor() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -41,7 +40,7 @@ shared_ptr<BuildingObject> IfcRelAssignsToActor::getDeepCopy( BuildingCopyOption
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatedObjectsType ) { copy_self->m_RelatedObjectsType = dynamic_pointer_cast<IfcObjectTypeEnum>( m_RelatedObjectsType->getDeepCopy(options) ); }
@@ -87,8 +86,8 @@ void IfcRelAssignsToActor::readStepArguments( const std::vector<std::wstring>& a
 void IfcRelAssignsToActor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingActor", m_RelatingActor ) );
-	vec_attributes.push_back( std::make_pair( "ActingRole", m_ActingRole ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingActor", m_RelatingActor ) );
+	vec_attributes.emplace_back( std::make_pair( "ActingRole", m_ActingRole ) );
 }
 void IfcRelAssignsToActor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -101,7 +100,7 @@ void IfcRelAssignsToActor::setInverseCounterparts( shared_ptr<BuildingEntity> pt
 	if( !ptr_self ) { throw BuildingException( "IfcRelAssignsToActor::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatingActor )
 	{
-		m_RelatingActor->m_IsActingUpon_inverse.push_back( ptr_self );
+		m_RelatingActor->m_IsActingUpon_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelAssignsToActor::unlinkFromInverseCounterparts()

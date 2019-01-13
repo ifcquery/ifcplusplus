@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPhysicalSimpleQuantity 
-IfcPhysicalSimpleQuantity::IfcPhysicalSimpleQuantity() {}
 IfcPhysicalSimpleQuantity::IfcPhysicalSimpleQuantity( int id ) { m_entity_id = id; }
 IfcPhysicalSimpleQuantity::~IfcPhysicalSimpleQuantity() {}
 shared_ptr<BuildingObject> IfcPhysicalSimpleQuantity::getDeepCopy( BuildingCopyOptions& options )
@@ -49,7 +48,7 @@ void IfcPhysicalSimpleQuantity::readStepArguments( const std::vector<std::wstrin
 void IfcPhysicalSimpleQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPhysicalQuantity::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
+	vec_attributes.emplace_back( std::make_pair( "Unit", m_Unit ) );
 }
 void IfcPhysicalSimpleQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

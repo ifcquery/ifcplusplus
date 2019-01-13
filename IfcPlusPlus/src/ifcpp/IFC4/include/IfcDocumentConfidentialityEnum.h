@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcDocumentConfidentialityEnum();
+	IfcDocumentConfidentialityEnum() = default;
 	IfcDocumentConfidentialityEnum( IfcDocumentConfidentialityEnumEnum e ) { m_enum = e; }
 	~IfcDocumentConfidentialityEnum();
 	virtual const char* className() const { return "IfcDocumentConfidentialityEnum"; }

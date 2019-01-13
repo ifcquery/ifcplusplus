@@ -37,7 +37,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcSlabElementedCase 
-IfcSlabElementedCase::IfcSlabElementedCase() {}
 IfcSlabElementedCase::IfcSlabElementedCase( int id ) { m_entity_id = id; }
 IfcSlabElementedCase::~IfcSlabElementedCase() {}
 shared_ptr<BuildingObject> IfcSlabElementedCase::getDeepCopy( BuildingCopyOptions& options )
@@ -45,7 +44,7 @@ shared_ptr<BuildingObject> IfcSlabElementedCase::getDeepCopy( BuildingCopyOption
 	shared_ptr<IfcSlabElementedCase> copy_self( new IfcSlabElementedCase() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )

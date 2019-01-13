@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcPerformanceHistoryTypeEnum.h"
 
 // TYPE IfcPerformanceHistoryTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-IfcPerformanceHistoryTypeEnum::IfcPerformanceHistoryTypeEnum() {}
 IfcPerformanceHistoryTypeEnum::~IfcPerformanceHistoryTypeEnum() {}
 shared_ptr<BuildingObject> IfcPerformanceHistoryTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -40,7 +39,7 @@ const std::wstring IfcPerformanceHistoryTypeEnum::toString() const
 shared_ptr<IfcPerformanceHistoryTypeEnum> IfcPerformanceHistoryTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPerformanceHistoryTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPerformanceHistoryTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPerformanceHistoryTypeEnum>(); }
 	shared_ptr<IfcPerformanceHistoryTypeEnum> type_object( new IfcPerformanceHistoryTypeEnum() );
 	if( boost::iequals( arg, L".USERDEFINED." ) )
 	{

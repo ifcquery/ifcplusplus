@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcAdvancedBrep 
-IfcAdvancedBrep::IfcAdvancedBrep() {}
 IfcAdvancedBrep::IfcAdvancedBrep( int id ) { m_entity_id = id; }
 IfcAdvancedBrep::~IfcAdvancedBrep() {}
 shared_ptr<BuildingObject> IfcAdvancedBrep::getDeepCopy( BuildingCopyOptions& options )

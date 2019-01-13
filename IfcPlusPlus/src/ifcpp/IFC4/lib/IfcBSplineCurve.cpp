@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBSplineCurve 
-IfcBSplineCurve::IfcBSplineCurve() {}
 IfcBSplineCurve::IfcBSplineCurve( int id ) { m_entity_id = id; }
 IfcBSplineCurve::~IfcBSplineCurve() {}
 shared_ptr<BuildingObject> IfcBSplineCurve::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcBSplineCurve::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_ControlPointsList[ii];
 		if( item_ii )
 		{
-			copy_self->m_ControlPointsList.push_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_ControlPointsList.emplace_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_CurveForm ) { copy_self->m_CurveForm = dynamic_pointer_cast<IfcBSplineCurveForm>( m_CurveForm->getDeepCopy(options) ); }
@@ -65,16 +64,16 @@ void IfcBSplineCurve::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcBSplineCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Degree", m_Degree ) );
-	if( m_ControlPointsList.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Degree", m_Degree ) );
+	if( !m_ControlPointsList.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ControlPointsList_vec_object( new AttributeObjectVector() );
 		std::copy( m_ControlPointsList.begin(), m_ControlPointsList.end(), std::back_inserter( ControlPointsList_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "ControlPointsList", ControlPointsList_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "ControlPointsList", ControlPointsList_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "CurveForm", m_CurveForm ) );
-	vec_attributes.push_back( std::make_pair( "ClosedCurve", m_ClosedCurve ) );
-	vec_attributes.push_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
+	vec_attributes.emplace_back( std::make_pair( "CurveForm", m_CurveForm ) );
+	vec_attributes.emplace_back( std::make_pair( "ClosedCurve", m_ClosedCurve ) );
+	vec_attributes.emplace_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 }
 void IfcBSplineCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

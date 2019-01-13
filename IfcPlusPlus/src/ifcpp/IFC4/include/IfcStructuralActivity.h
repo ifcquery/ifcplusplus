@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcRelConnectsStructuralActivity;
 class IFCQUERY_EXPORT IfcStructuralActivity : public IfcProduct
 { 
 public:
-	IfcStructuralActivity();
+	IfcStructuralActivity() = default;
 	IfcStructuralActivity( int id );
 	~IfcStructuralActivity();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

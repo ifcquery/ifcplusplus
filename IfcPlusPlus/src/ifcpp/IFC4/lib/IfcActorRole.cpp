@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcActorRole 
-IfcActorRole::IfcActorRole() {}
 IfcActorRole::IfcActorRole( int id ) { m_entity_id = id; }
 IfcActorRole::~IfcActorRole() {}
 shared_ptr<BuildingObject> IfcActorRole::getDeepCopy( BuildingCopyOptions& options )
@@ -47,23 +46,23 @@ void IfcActorRole::readStepArguments( const std::vector<std::wstring>& args, con
 }
 void IfcActorRole::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Role", m_Role ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedRole", m_UserDefinedRole ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "Role", m_Role ) );
+	vec_attributes.emplace_back( std::make_pair( "UserDefinedRole", m_UserDefinedRole ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
 }
 void IfcActorRole::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_HasExternalReference_inverse.size() > 0 )
+	if( !m_HasExternalReference_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasExternalReference_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasExternalReference_inverse.size(); ++i )
 		{
 			if( !m_HasExternalReference_inverse[i].expired() )
 			{
-				HasExternalReference_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
+				HasExternalReference_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
 	}
 }
 void IfcActorRole::setInverseCounterparts( shared_ptr<BuildingEntity> )

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRelVoidsElement;
 class IFCQUERY_EXPORT IfcFeatureElementSubtraction : public IfcFeatureElement
 { 
 public:
-	IfcFeatureElementSubtraction();
+	IfcFeatureElementSubtraction() = default;
 	IfcFeatureElementSubtraction( int id );
 	~IfcFeatureElementSubtraction();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcOrganizationRelationship 
-IfcOrganizationRelationship::IfcOrganizationRelationship() {}
 IfcOrganizationRelationship::IfcOrganizationRelationship( int id ) { m_entity_id = id; }
 IfcOrganizationRelationship::~IfcOrganizationRelationship() {}
 shared_ptr<BuildingObject> IfcOrganizationRelationship::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcOrganizationRelationship::getDeepCopy( BuildingCop
 		auto item_ii = m_RelatedOrganizations[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedOrganizations.push_back( dynamic_pointer_cast<IfcOrganization>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedOrganizations.emplace_back( dynamic_pointer_cast<IfcOrganization>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -58,12 +57,12 @@ void IfcOrganizationRelationship::readStepArguments( const std::vector<std::wstr
 void IfcOrganizationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingOrganization", m_RelatingOrganization ) );
-	if( m_RelatedOrganizations.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "RelatingOrganization", m_RelatingOrganization ) );
+	if( !m_RelatedOrganizations.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedOrganizations_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedOrganizations.begin(), m_RelatedOrganizations.end(), std::back_inserter( RelatedOrganizations_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedOrganizations", RelatedOrganizations_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedOrganizations", RelatedOrganizations_vec_object ) );
 	}
 }
 void IfcOrganizationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -79,12 +78,12 @@ void IfcOrganizationRelationship::setInverseCounterparts( shared_ptr<BuildingEnt
 	{
 		if( m_RelatedOrganizations[i] )
 		{
-			m_RelatedOrganizations[i]->m_IsRelatedBy_inverse.push_back( ptr_self );
+			m_RelatedOrganizations[i]->m_IsRelatedBy_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingOrganization )
 	{
-		m_RelatingOrganization->m_Relates_inverse.push_back( ptr_self );
+		m_RelatingOrganization->m_Relates_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcOrganizationRelationship::unlinkFromInverseCounterparts()

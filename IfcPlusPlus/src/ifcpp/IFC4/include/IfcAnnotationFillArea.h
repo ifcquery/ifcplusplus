@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCurve;
 class IFCQUERY_EXPORT IfcAnnotationFillArea : public IfcGeometricRepresentationItem
 { 
 public:
-	IfcAnnotationFillArea();
+	IfcAnnotationFillArea() = default;
 	IfcAnnotationFillArea( int id );
 	~IfcAnnotationFillArea();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelCoversSpaces 
-IfcRelCoversSpaces::IfcRelCoversSpaces() {}
 IfcRelCoversSpaces::IfcRelCoversSpaces( int id ) { m_entity_id = id; }
 IfcRelCoversSpaces::~IfcRelCoversSpaces() {}
 shared_ptr<BuildingObject> IfcRelCoversSpaces::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelCoversSpaces::getDeepCopy( BuildingCopyOptions&
 	shared_ptr<IfcRelCoversSpaces> copy_self( new IfcRelCoversSpaces() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -40,7 +39,7 @@ shared_ptr<BuildingObject> IfcRelCoversSpaces::getDeepCopy( BuildingCopyOptions&
 		auto item_ii = m_RelatedCoverings[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedCoverings.push_back( dynamic_pointer_cast<IfcCovering>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedCoverings.emplace_back( dynamic_pointer_cast<IfcCovering>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -77,12 +76,12 @@ void IfcRelCoversSpaces::readStepArguments( const std::vector<std::wstring>& arg
 void IfcRelCoversSpaces::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingSpace", m_RelatingSpace ) );
-	if( m_RelatedCoverings.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "RelatingSpace", m_RelatingSpace ) );
+	if( !m_RelatedCoverings.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedCoverings_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedCoverings.begin(), m_RelatedCoverings.end(), std::back_inserter( RelatedCoverings_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedCoverings", RelatedCoverings_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedCoverings", RelatedCoverings_vec_object ) );
 	}
 }
 void IfcRelCoversSpaces::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -98,12 +97,12 @@ void IfcRelCoversSpaces::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_
 	{
 		if( m_RelatedCoverings[i] )
 		{
-			m_RelatedCoverings[i]->m_CoversSpaces_inverse.push_back( ptr_self );
+			m_RelatedCoverings[i]->m_CoversSpaces_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingSpace )
 	{
-		m_RelatingSpace->m_HasCoverings_inverse.push_back( ptr_self );
+		m_RelatingSpace->m_HasCoverings_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelCoversSpaces::unlinkFromInverseCounterparts()

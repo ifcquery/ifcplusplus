@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcActuatorTypeEnum;
 class IFCQUERY_EXPORT IfcActuatorType : public IfcDistributionControlElementType
 { 
 public:
-	IfcActuatorType();
+	IfcActuatorType() = default;
 	IfcActuatorType( int id );
 	~IfcActuatorType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

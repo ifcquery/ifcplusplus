@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcStructuralLoadPlanarForce.h"
 
 // ENTITY IfcStructuralLoadPlanarForce 
-IfcStructuralLoadPlanarForce::IfcStructuralLoadPlanarForce() {}
 IfcStructuralLoadPlanarForce::IfcStructuralLoadPlanarForce( int id ) { m_entity_id = id; }
 IfcStructuralLoadPlanarForce::~IfcStructuralLoadPlanarForce() {}
 shared_ptr<BuildingObject> IfcStructuralLoadPlanarForce::getDeepCopy( BuildingCopyOptions& options )
@@ -50,9 +49,9 @@ void IfcStructuralLoadPlanarForce::readStepArguments( const std::vector<std::wst
 void IfcStructuralLoadPlanarForce::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadStatic::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PlanarForceX", m_PlanarForceX ) );
-	vec_attributes.push_back( std::make_pair( "PlanarForceY", m_PlanarForceY ) );
-	vec_attributes.push_back( std::make_pair( "PlanarForceZ", m_PlanarForceZ ) );
+	vec_attributes.emplace_back( std::make_pair( "PlanarForceX", m_PlanarForceX ) );
+	vec_attributes.emplace_back( std::make_pair( "PlanarForceY", m_PlanarForceY ) );
+	vec_attributes.emplace_back( std::make_pair( "PlanarForceZ", m_PlanarForceZ ) );
 }
 void IfcStructuralLoadPlanarForce::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

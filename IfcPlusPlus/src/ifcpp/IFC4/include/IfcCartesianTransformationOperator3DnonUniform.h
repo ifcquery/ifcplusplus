@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcReal;
 class IFCQUERY_EXPORT IfcCartesianTransformationOperator3DnonUniform : public IfcCartesianTransformationOperator3D
 { 
 public:
-	IfcCartesianTransformationOperator3DnonUniform();
+	IfcCartesianTransformationOperator3DnonUniform() = default;
 	IfcCartesianTransformationOperator3DnonUniform( int id );
 	~IfcCartesianTransformationOperator3DnonUniform();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

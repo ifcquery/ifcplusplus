@@ -29,7 +29,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcStructuralAnalysisModel 
-IfcStructuralAnalysisModel::IfcStructuralAnalysisModel() {}
 IfcStructuralAnalysisModel::IfcStructuralAnalysisModel( int id ) { m_entity_id = id; }
 IfcStructuralAnalysisModel::~IfcStructuralAnalysisModel() {}
 shared_ptr<BuildingObject> IfcStructuralAnalysisModel::getDeepCopy( BuildingCopyOptions& options )
@@ -37,7 +36,7 @@ shared_ptr<BuildingObject> IfcStructuralAnalysisModel::getDeepCopy( BuildingCopy
 	shared_ptr<IfcStructuralAnalysisModel> copy_self( new IfcStructuralAnalysisModel() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -55,7 +54,7 @@ shared_ptr<BuildingObject> IfcStructuralAnalysisModel::getDeepCopy( BuildingCopy
 		auto item_ii = m_LoadedBy[ii];
 		if( item_ii )
 		{
-			copy_self->m_LoadedBy.push_back( dynamic_pointer_cast<IfcStructuralLoadGroup>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_LoadedBy.emplace_back( dynamic_pointer_cast<IfcStructuralLoadGroup>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_HasResults.size(); ++ii )
@@ -63,7 +62,7 @@ shared_ptr<BuildingObject> IfcStructuralAnalysisModel::getDeepCopy( BuildingCopy
 		auto item_ii = m_HasResults[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasResults.push_back( dynamic_pointer_cast<IfcStructuralResultGroup>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_HasResults.emplace_back( dynamic_pointer_cast<IfcStructuralResultGroup>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_SharedPlacement ) { copy_self->m_SharedPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_SharedPlacement->getDeepCopy(options) ); }
@@ -113,21 +112,21 @@ void IfcStructuralAnalysisModel::readStepArguments( const std::vector<std::wstri
 void IfcStructuralAnalysisModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSystem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
-	vec_attributes.push_back( std::make_pair( "OrientationOf2DPlane", m_OrientationOf2DPlane ) );
-	if( m_LoadedBy.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "OrientationOf2DPlane", m_OrientationOf2DPlane ) );
+	if( !m_LoadedBy.empty() )
 	{
 		shared_ptr<AttributeObjectVector> LoadedBy_vec_object( new AttributeObjectVector() );
 		std::copy( m_LoadedBy.begin(), m_LoadedBy.end(), std::back_inserter( LoadedBy_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "LoadedBy", LoadedBy_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "LoadedBy", LoadedBy_vec_object ) );
 	}
-	if( m_HasResults.size() > 0 )
+	if( !m_HasResults.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasResults_vec_object( new AttributeObjectVector() );
 		std::copy( m_HasResults.begin(), m_HasResults.end(), std::back_inserter( HasResults_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "HasResults", HasResults_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "HasResults", HasResults_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "SharedPlacement", m_SharedPlacement ) );
+	vec_attributes.emplace_back( std::make_pair( "SharedPlacement", m_SharedPlacement ) );
 }
 void IfcStructuralAnalysisModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -142,14 +141,14 @@ void IfcStructuralAnalysisModel::setInverseCounterparts( shared_ptr<BuildingEnti
 	{
 		if( m_HasResults[i] )
 		{
-			m_HasResults[i]->m_ResultGroupFor_inverse.push_back( ptr_self );
+			m_HasResults[i]->m_ResultGroupFor_inverse.emplace_back( ptr_self );
 		}
 	}
 	for( size_t i=0; i<m_LoadedBy.size(); ++i )
 	{
 		if( m_LoadedBy[i] )
 		{
-			m_LoadedBy[i]->m_LoadGroupFor_inverse.push_back( ptr_self );
+			m_LoadedBy[i]->m_LoadGroupFor_inverse.emplace_back( ptr_self );
 		}
 	}
 }

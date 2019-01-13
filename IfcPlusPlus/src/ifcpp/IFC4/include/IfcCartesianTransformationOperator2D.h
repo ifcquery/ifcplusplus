@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcCartesianTransformationOperator2D : public IfcCartesianTransformationOperator
 { 
 public:
-	IfcCartesianTransformationOperator2D();
+	IfcCartesianTransformationOperator2D() = default;
 	IfcCartesianTransformationOperator2D( int id );
 	~IfcCartesianTransformationOperator2D();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

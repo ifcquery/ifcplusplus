@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcFaceOuterBound : public IfcFaceBound
 { 
 public:
-	IfcFaceOuterBound();
+	IfcFaceOuterBound() = default;
 	IfcFaceOuterBound( int id );
 	~IfcFaceOuterBound();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

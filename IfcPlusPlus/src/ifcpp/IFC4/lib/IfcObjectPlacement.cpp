@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcProduct.h"
 
 // ENTITY IfcObjectPlacement 
-IfcObjectPlacement::IfcObjectPlacement() {}
 IfcObjectPlacement::IfcObjectPlacement( int id ) { m_entity_id = id; }
 IfcObjectPlacement::~IfcObjectPlacement() {}
 shared_ptr<BuildingObject> IfcObjectPlacement::getDeepCopy( BuildingCopyOptions& options )
@@ -35,29 +34,29 @@ void IfcObjectPlacement::getAttributes( std::vector<std::pair<std::string, share
 }
 void IfcObjectPlacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_PlacesObject_inverse.size() > 0 )
+	if( !m_PlacesObject_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PlacesObject_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PlacesObject_inverse.size(); ++i )
 		{
 			if( !m_PlacesObject_inverse[i].expired() )
 			{
-				PlacesObject_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcProduct>( m_PlacesObject_inverse[i] ) );
+				PlacesObject_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcProduct>( m_PlacesObject_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "PlacesObject_inverse", PlacesObject_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "PlacesObject_inverse", PlacesObject_inverse_vec_obj ) );
 	}
-	if( m_ReferencedByPlacements_inverse.size() > 0 )
+	if( !m_ReferencedByPlacements_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ReferencedByPlacements_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ReferencedByPlacements_inverse.size(); ++i )
 		{
 			if( !m_ReferencedByPlacements_inverse[i].expired() )
 			{
-				ReferencedByPlacements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcLocalPlacement>( m_ReferencedByPlacements_inverse[i] ) );
+				ReferencedByPlacements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcLocalPlacement>( m_ReferencedByPlacements_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ReferencedByPlacements_inverse", ReferencedByPlacements_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ReferencedByPlacements_inverse", ReferencedByPlacements_inverse_vec_obj ) );
 	}
 }
 void IfcObjectPlacement::setInverseCounterparts( shared_ptr<BuildingEntity> )

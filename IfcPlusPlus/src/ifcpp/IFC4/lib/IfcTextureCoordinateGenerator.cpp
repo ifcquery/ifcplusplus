@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcTextureCoordinateGenerator.h"
 
 // ENTITY IfcTextureCoordinateGenerator 
-IfcTextureCoordinateGenerator::IfcTextureCoordinateGenerator() {}
 IfcTextureCoordinateGenerator::IfcTextureCoordinateGenerator( int id ) { m_entity_id = id; }
 IfcTextureCoordinateGenerator::~IfcTextureCoordinateGenerator() {}
 shared_ptr<BuildingObject> IfcTextureCoordinateGenerator::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcTextureCoordinateGenerator::getDeepCopy( BuildingC
 		auto item_ii = m_Maps[ii];
 		if( item_ii )
 		{
-			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Maps.emplace_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Mode ) { copy_self->m_Mode = dynamic_pointer_cast<IfcLabel>( m_Mode->getDeepCopy(options) ); }
@@ -33,7 +32,7 @@ shared_ptr<BuildingObject> IfcTextureCoordinateGenerator::getDeepCopy( BuildingC
 		auto item_ii = m_Parameter[ii];
 		if( item_ii )
 		{
-			copy_self->m_Parameter.push_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Parameter.emplace_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -61,12 +60,12 @@ void IfcTextureCoordinateGenerator::readStepArguments( const std::vector<std::ws
 void IfcTextureCoordinateGenerator::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTextureCoordinate::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Mode", m_Mode ) );
-	if( m_Parameter.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Mode", m_Mode ) );
+	if( !m_Parameter.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Parameter_vec_object( new AttributeObjectVector() );
 		std::copy( m_Parameter.begin(), m_Parameter.end(), std::back_inserter( Parameter_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Parameter", Parameter_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Parameter", Parameter_vec_object ) );
 	}
 }
 void IfcTextureCoordinateGenerator::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

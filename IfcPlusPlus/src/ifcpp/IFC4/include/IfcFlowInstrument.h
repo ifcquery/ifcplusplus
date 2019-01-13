@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcFlowInstrumentTypeEnum;
 class IFCQUERY_EXPORT IfcFlowInstrument : public IfcDistributionControlElement
 { 
 public:
-	IfcFlowInstrument();
+	IfcFlowInstrument() = default;
 	IfcFlowInstrument( int id );
 	~IfcFlowInstrument();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

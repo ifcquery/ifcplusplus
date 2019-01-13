@@ -28,7 +28,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcLightEmissionSourceEnum();
+	IfcLightEmissionSourceEnum() = default;
 	IfcLightEmissionSourceEnum( IfcLightEmissionSourceEnumEnum e ) { m_enum = e; }
 	~IfcLightEmissionSourceEnum();
 	virtual const char* className() const { return "IfcLightEmissionSourceEnum"; }

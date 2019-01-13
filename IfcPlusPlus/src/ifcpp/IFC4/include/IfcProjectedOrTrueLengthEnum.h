@@ -19,7 +19,7 @@ public:
 		ENUM_TRUE_LENGTH
 	};
 
-	IfcProjectedOrTrueLengthEnum();
+	IfcProjectedOrTrueLengthEnum() = default;
 	IfcProjectedOrTrueLengthEnum( IfcProjectedOrTrueLengthEnumEnum e ) { m_enum = e; }
 	~IfcProjectedOrTrueLengthEnum();
 	virtual const char* className() const { return "IfcProjectedOrTrueLengthEnum"; }

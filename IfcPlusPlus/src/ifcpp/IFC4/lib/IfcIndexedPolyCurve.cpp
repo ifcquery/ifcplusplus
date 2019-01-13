@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcIndexedPolyCurve 
-IfcIndexedPolyCurve::IfcIndexedPolyCurve() {}
 IfcIndexedPolyCurve::IfcIndexedPolyCurve( int id ) { m_entity_id = id; }
 IfcIndexedPolyCurve::~IfcIndexedPolyCurve() {}
 shared_ptr<BuildingObject> IfcIndexedPolyCurve::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcIndexedPolyCurve::getDeepCopy( BuildingCopyOptions
 		auto item_ii = m_Segments[ii];
 		if( item_ii )
 		{
-			copy_self->m_Segments.push_back( dynamic_pointer_cast<IfcSegmentIndexSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Segments.emplace_back( dynamic_pointer_cast<IfcSegmentIndexSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = dynamic_pointer_cast<IfcBoolean>( m_SelfIntersect->getDeepCopy(options) ); }
@@ -73,14 +72,14 @@ void IfcIndexedPolyCurve::readStepArguments( const std::vector<std::wstring>& ar
 void IfcIndexedPolyCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Points", m_Points ) );
-	if( m_Segments.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Points", m_Points ) );
+	if( !m_Segments.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Segments_vec_object( new AttributeObjectVector() );
 		std::copy( m_Segments.begin(), m_Segments.end(), std::back_inserter( Segments_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Segments", Segments_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Segments", Segments_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
+	vec_attributes.emplace_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 }
 void IfcIndexedPolyCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

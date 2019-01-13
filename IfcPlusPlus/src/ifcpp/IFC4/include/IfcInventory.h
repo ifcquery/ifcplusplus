@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcCostValue;
 class IFCQUERY_EXPORT IfcInventory : public IfcGroup
 { 
 public:
-	IfcInventory();
+	IfcInventory() = default;
 	IfcInventory( int id );
 	~IfcInventory();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

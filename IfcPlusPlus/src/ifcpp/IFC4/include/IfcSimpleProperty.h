@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcSimpleProperty : public IfcProperty
 { 
 public:
-	IfcSimpleProperty();
+	IfcSimpleProperty() = default;
 	IfcSimpleProperty( int id );
 	~IfcSimpleProperty();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

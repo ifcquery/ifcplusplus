@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcArithmeticOperatorEnum.h"
 
 // TYPE IfcArithmeticOperatorEnum = ENUMERATION OF	(ADD	,DIVIDE	,MULTIPLY	,SUBTRACT);
-IfcArithmeticOperatorEnum::IfcArithmeticOperatorEnum() {}
 IfcArithmeticOperatorEnum::~IfcArithmeticOperatorEnum() {}
 shared_ptr<BuildingObject> IfcArithmeticOperatorEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -44,7 +43,7 @@ const std::wstring IfcArithmeticOperatorEnum::toString() const
 shared_ptr<IfcArithmeticOperatorEnum> IfcArithmeticOperatorEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcArithmeticOperatorEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcArithmeticOperatorEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcArithmeticOperatorEnum>(); }
 	shared_ptr<IfcArithmeticOperatorEnum> type_object( new IfcArithmeticOperatorEnum() );
 	if( boost::iequals( arg, L".ADD." ) )
 	{

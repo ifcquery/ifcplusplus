@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcArbitraryOpenProfileDef 
-IfcArbitraryOpenProfileDef::IfcArbitraryOpenProfileDef() {}
 IfcArbitraryOpenProfileDef::IfcArbitraryOpenProfileDef( int id ) { m_entity_id = id; }
 IfcArbitraryOpenProfileDef::~IfcArbitraryOpenProfileDef() {}
 shared_ptr<BuildingObject> IfcArbitraryOpenProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -49,7 +48,7 @@ void IfcArbitraryOpenProfileDef::readStepArguments( const std::vector<std::wstri
 void IfcArbitraryOpenProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Curve", m_Curve ) );
+	vec_attributes.emplace_back( std::make_pair( "Curve", m_Curve ) );
 }
 void IfcArbitraryOpenProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

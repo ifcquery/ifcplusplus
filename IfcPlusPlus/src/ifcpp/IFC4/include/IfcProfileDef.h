@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcProfileProperties;
 class IFCQUERY_EXPORT IfcProfileDef : virtual public IfcResourceObjectSelect, public BuildingEntity
 { 
 public:
-	IfcProfileDef();
+	IfcProfileDef() = default;
 	IfcProfileDef( int id );
 	~IfcProfileDef();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

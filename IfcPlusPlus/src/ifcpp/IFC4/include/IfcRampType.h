@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRampTypeEnum;
 class IFCQUERY_EXPORT IfcRampType : public IfcBuildingElementType
 { 
 public:
-	IfcRampType();
+	IfcRampType() = default;
 	IfcRampType( int id );
 	~IfcRampType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

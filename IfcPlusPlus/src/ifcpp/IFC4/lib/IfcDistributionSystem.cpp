@@ -25,7 +25,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcDistributionSystem 
-IfcDistributionSystem::IfcDistributionSystem() {}
 IfcDistributionSystem::IfcDistributionSystem( int id ) { m_entity_id = id; }
 IfcDistributionSystem::~IfcDistributionSystem() {}
 shared_ptr<BuildingObject> IfcDistributionSystem::getDeepCopy( BuildingCopyOptions& options )
@@ -33,7 +32,7 @@ shared_ptr<BuildingObject> IfcDistributionSystem::getDeepCopy( BuildingCopyOptio
 	shared_ptr<IfcDistributionSystem> copy_self( new IfcDistributionSystem() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -83,8 +82,8 @@ void IfcDistributionSystem::readStepArguments( const std::vector<std::wstring>& 
 void IfcDistributionSystem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSystem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "LongName", m_LongName ) );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "LongName", m_LongName ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcDistributionSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

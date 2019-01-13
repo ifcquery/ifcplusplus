@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcEngineTypeEnum;
 class IFCQUERY_EXPORT IfcEngine : public IfcEnergyConversionDevice
 { 
 public:
-	IfcEngine();
+	IfcEngine() = default;
 	IfcEngine( int id );
 	~IfcEngine();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

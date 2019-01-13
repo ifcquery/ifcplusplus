@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcFacetedBrep 
-IfcFacetedBrep::IfcFacetedBrep() {}
 IfcFacetedBrep::IfcFacetedBrep( int id ) { m_entity_id = id; }
 IfcFacetedBrep::~IfcFacetedBrep() {}
 shared_ptr<BuildingObject> IfcFacetedBrep::getDeepCopy( BuildingCopyOptions& options )

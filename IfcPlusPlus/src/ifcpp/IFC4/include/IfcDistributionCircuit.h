@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcDistributionCircuit : public IfcDistributionSystem
 { 
 public:
-	IfcDistributionCircuit();
+	IfcDistributionCircuit() = default;
 	IfcDistributionCircuit( int id );
 	~IfcDistributionCircuit();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

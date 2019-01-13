@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcTextStyleFontModel.h"
 
 // ENTITY IfcTextStyleFontModel 
-IfcTextStyleFontModel::IfcTextStyleFontModel() {}
 IfcTextStyleFontModel::IfcTextStyleFontModel( int id ) { m_entity_id = id; }
 IfcTextStyleFontModel::~IfcTextStyleFontModel() {}
 shared_ptr<BuildingObject> IfcTextStyleFontModel::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcTextStyleFontModel::getDeepCopy( BuildingCopyOptio
 		auto item_ii = m_FontFamily[ii];
 		if( item_ii )
 		{
-			copy_self->m_FontFamily.push_back( dynamic_pointer_cast<IfcTextFontName>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_FontFamily.emplace_back( dynamic_pointer_cast<IfcTextFontName>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_FontStyle ) { copy_self->m_FontStyle = dynamic_pointer_cast<IfcFontStyle>( m_FontStyle->getDeepCopy(options) ); }
@@ -86,16 +85,16 @@ void IfcTextStyleFontModel::readStepArguments( const std::vector<std::wstring>& 
 void IfcTextStyleFontModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedTextFont::getAttributes( vec_attributes );
-	if( m_FontFamily.size() > 0 )
+	if( !m_FontFamily.empty() )
 	{
 		shared_ptr<AttributeObjectVector> FontFamily_vec_object( new AttributeObjectVector() );
 		std::copy( m_FontFamily.begin(), m_FontFamily.end(), std::back_inserter( FontFamily_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "FontFamily", FontFamily_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "FontFamily", FontFamily_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "FontStyle", m_FontStyle ) );
-	vec_attributes.push_back( std::make_pair( "FontVariant", m_FontVariant ) );
-	vec_attributes.push_back( std::make_pair( "FontWeight", m_FontWeight ) );
-	vec_attributes.push_back( std::make_pair( "FontSize", m_FontSize ) );
+	vec_attributes.emplace_back( std::make_pair( "FontStyle", m_FontStyle ) );
+	vec_attributes.emplace_back( std::make_pair( "FontVariant", m_FontVariant ) );
+	vec_attributes.emplace_back( std::make_pair( "FontWeight", m_FontWeight ) );
+	vec_attributes.emplace_back( std::make_pair( "FontSize", m_FontSize ) );
 }
 void IfcTextStyleFontModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

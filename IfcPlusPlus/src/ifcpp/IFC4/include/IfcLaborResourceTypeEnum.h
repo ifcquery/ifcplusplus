@@ -38,7 +38,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcLaborResourceTypeEnum();
+	IfcLaborResourceTypeEnum() = default;
 	IfcLaborResourceTypeEnum( IfcLaborResourceTypeEnumEnum e ) { m_enum = e; }
 	~IfcLaborResourceTypeEnum();
 	virtual const char* className() const { return "IfcLaborResourceTypeEnum"; }

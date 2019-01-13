@@ -26,7 +26,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcCoilTypeEnum();
+	IfcCoilTypeEnum() = default;
 	IfcCoilTypeEnum( IfcCoilTypeEnumEnum e ) { m_enum = e; }
 	~IfcCoilTypeEnum();
 	virtual const char* className() const { return "IfcCoilTypeEnum"; }

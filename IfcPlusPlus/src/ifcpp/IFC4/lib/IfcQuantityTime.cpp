@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcTimeMeasure.h"
 
 // ENTITY IfcQuantityTime 
-IfcQuantityTime::IfcQuantityTime() {}
 IfcQuantityTime::IfcQuantityTime( int id ) { m_entity_id = id; }
 IfcQuantityTime::~IfcQuantityTime() {}
 shared_ptr<BuildingObject> IfcQuantityTime::getDeepCopy( BuildingCopyOptions& options )
@@ -58,8 +57,8 @@ void IfcQuantityTime::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcQuantityTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPhysicalSimpleQuantity::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TimeValue", m_TimeValue ) );
-	vec_attributes.push_back( std::make_pair( "Formula", m_Formula ) );
+	vec_attributes.emplace_back( std::make_pair( "TimeValue", m_TimeValue ) );
+	vec_attributes.emplace_back( std::make_pair( "Formula", m_Formula ) );
 }
 void IfcQuantityTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

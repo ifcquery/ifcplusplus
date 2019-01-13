@@ -20,7 +20,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcTaskDurationEnum();
+	IfcTaskDurationEnum() = default;
 	IfcTaskDurationEnum( IfcTaskDurationEnumEnum e ) { m_enum = e; }
 	~IfcTaskDurationEnum();
 	virtual const char* className() const { return "IfcTaskDurationEnum"; }

@@ -29,7 +29,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcStructuralPointConnection 
-IfcStructuralPointConnection::IfcStructuralPointConnection() {}
 IfcStructuralPointConnection::IfcStructuralPointConnection( int id ) { m_entity_id = id; }
 IfcStructuralPointConnection::~IfcStructuralPointConnection() {}
 shared_ptr<BuildingObject> IfcStructuralPointConnection::getDeepCopy( BuildingCopyOptions& options )
@@ -37,7 +36,7 @@ shared_ptr<BuildingObject> IfcStructuralPointConnection::getDeepCopy( BuildingCo
 	shared_ptr<IfcStructuralPointConnection> copy_self( new IfcStructuralPointConnection() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -95,7 +94,7 @@ void IfcStructuralPointConnection::readStepArguments( const std::vector<std::wst
 void IfcStructuralPointConnection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralConnection::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ConditionCoordinateSystem", m_ConditionCoordinateSystem ) );
+	vec_attributes.emplace_back( std::make_pair( "ConditionCoordinateSystem", m_ConditionCoordinateSystem ) );
 }
 void IfcStructuralPointConnection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

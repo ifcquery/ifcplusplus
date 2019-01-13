@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMaterialProfileWithOffsets 
-IfcMaterialProfileWithOffsets::IfcMaterialProfileWithOffsets() {}
 IfcMaterialProfileWithOffsets::IfcMaterialProfileWithOffsets( int id ) { m_entity_id = id; }
 IfcMaterialProfileWithOffsets::~IfcMaterialProfileWithOffsets() {}
 shared_ptr<BuildingObject> IfcMaterialProfileWithOffsets::getDeepCopy( BuildingCopyOptions& options )
@@ -41,7 +40,7 @@ shared_ptr<BuildingObject> IfcMaterialProfileWithOffsets::getDeepCopy( BuildingC
 		auto item_ii = m_OffsetValues[ii];
 		if( item_ii )
 		{
-			copy_self->m_OffsetValues.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_OffsetValues.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -81,11 +80,11 @@ void IfcMaterialProfileWithOffsets::readStepArguments( const std::vector<std::ws
 void IfcMaterialProfileWithOffsets::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialProfile::getAttributes( vec_attributes );
-	if( m_OffsetValues.size() > 0 )
+	if( !m_OffsetValues.empty() )
 	{
 		shared_ptr<AttributeObjectVector> OffsetValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_OffsetValues.begin(), m_OffsetValues.end(), std::back_inserter( OffsetValues_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
 	}
 }
 void IfcMaterialProfileWithOffsets::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

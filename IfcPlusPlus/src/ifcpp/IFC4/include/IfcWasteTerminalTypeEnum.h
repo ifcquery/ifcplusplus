@@ -26,7 +26,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcWasteTerminalTypeEnum();
+	IfcWasteTerminalTypeEnum() = default;
 	IfcWasteTerminalTypeEnum( IfcWasteTerminalTypeEnumEnum e ) { m_enum = e; }
 	~IfcWasteTerminalTypeEnum();
 	virtual const char* className() const { return "IfcWasteTerminalTypeEnum"; }

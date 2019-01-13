@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCurveOrEdgeCurve;
 class IFCQUERY_EXPORT IfcConnectionCurveGeometry : public IfcConnectionGeometry
 { 
 public:
-	IfcConnectionCurveGeometry();
+	IfcConnectionCurveGeometry() = default;
 	IfcConnectionCurveGeometry( int id );
 	~IfcConnectionCurveGeometry();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

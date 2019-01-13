@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcMaterial;
 class IFCQUERY_EXPORT IfcMaterialList : virtual public IfcMaterialSelect, public BuildingEntity
 { 
 public:
-	IfcMaterialList();
+	IfcMaterialList() = default;
 	IfcMaterialList( int id );
 	~IfcMaterialList();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

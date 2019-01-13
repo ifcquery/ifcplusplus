@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcTextPath.h"
 
 // ENTITY IfcTextLiteralWithExtent 
-IfcTextLiteralWithExtent::IfcTextLiteralWithExtent() {}
 IfcTextLiteralWithExtent::IfcTextLiteralWithExtent( int id ) { m_entity_id = id; }
 IfcTextLiteralWithExtent::~IfcTextLiteralWithExtent() {}
 shared_ptr<BuildingObject> IfcTextLiteralWithExtent::getDeepCopy( BuildingCopyOptions& options )
@@ -59,8 +58,8 @@ void IfcTextLiteralWithExtent::readStepArguments( const std::vector<std::wstring
 void IfcTextLiteralWithExtent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTextLiteral::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Extent", m_Extent ) );
-	vec_attributes.push_back( std::make_pair( "BoxAlignment", m_BoxAlignment ) );
+	vec_attributes.emplace_back( std::make_pair( "Extent", m_Extent ) );
+	vec_attributes.emplace_back( std::make_pair( "BoxAlignment", m_BoxAlignment ) );
 }
 void IfcTextLiteralWithExtent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

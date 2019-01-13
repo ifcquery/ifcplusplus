@@ -19,7 +19,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMaterialProfile 
-IfcMaterialProfile::IfcMaterialProfile() {}
 IfcMaterialProfile::IfcMaterialProfile( int id ) { m_entity_id = id; }
 IfcMaterialProfile::~IfcMaterialProfile() {}
 shared_ptr<BuildingObject> IfcMaterialProfile::getDeepCopy( BuildingCopyOptions& options )
@@ -69,17 +68,17 @@ void IfcMaterialProfile::readStepArguments( const std::vector<std::wstring>& arg
 void IfcMaterialProfile::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "Material", m_Material ) );
-	vec_attributes.push_back( std::make_pair( "Profile", m_Profile ) );
-	vec_attributes.push_back( std::make_pair( "Priority", m_Priority ) );
-	vec_attributes.push_back( std::make_pair( "Category", m_Category ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "Material", m_Material ) );
+	vec_attributes.emplace_back( std::make_pair( "Profile", m_Profile ) );
+	vec_attributes.emplace_back( std::make_pair( "Priority", m_Priority ) );
+	vec_attributes.emplace_back( std::make_pair( "Category", m_Category ) );
 }
 void IfcMaterialProfile::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
-	vec_attributes_inverse.push_back( std::make_pair( "ToMaterialProfileSet_inverse", shared_ptr<BuildingEntity>( m_ToMaterialProfileSet_inverse ) ) );
+	vec_attributes_inverse.emplace_back( std::make_pair( "ToMaterialProfileSet_inverse", shared_ptr<BuildingEntity>( m_ToMaterialProfileSet_inverse ) ) );
 }
 void IfcMaterialProfile::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcJunctionBoxTypeEnum();
+	IfcJunctionBoxTypeEnum() = default;
 	IfcJunctionBoxTypeEnum( IfcJunctionBoxTypeEnumEnum e ) { m_enum = e; }
 	~IfcJunctionBoxTypeEnum();
 	virtual const char* className() const { return "IfcJunctionBoxTypeEnum"; }

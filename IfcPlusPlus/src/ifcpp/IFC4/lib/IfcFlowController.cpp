@@ -38,7 +38,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcFlowController 
-IfcFlowController::IfcFlowController() {}
 IfcFlowController::IfcFlowController( int id ) { m_entity_id = id; }
 IfcFlowController::~IfcFlowController() {}
 shared_ptr<BuildingObject> IfcFlowController::getDeepCopy( BuildingCopyOptions& options )
@@ -46,7 +45,7 @@ shared_ptr<BuildingObject> IfcFlowController::getDeepCopy( BuildingCopyOptions& 
 	shared_ptr<IfcFlowController> copy_self( new IfcFlowController() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )

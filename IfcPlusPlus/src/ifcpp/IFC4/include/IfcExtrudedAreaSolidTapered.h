@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcProfileDef;
 class IFCQUERY_EXPORT IfcExtrudedAreaSolidTapered : public IfcExtrudedAreaSolid
 { 
 public:
-	IfcExtrudedAreaSolidTapered();
+	IfcExtrudedAreaSolidTapered() = default;
 	IfcExtrudedAreaSolidTapered( int id );
 	~IfcExtrudedAreaSolidTapered();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

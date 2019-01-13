@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcAxis2Placement3D;
 class IFCQUERY_EXPORT IfcStructuralPointConnection : public IfcStructuralConnection
 { 
 public:
-	IfcStructuralPointConnection();
+	IfcStructuralPointConnection() = default;
 	IfcStructuralPointConnection( int id );
 	~IfcStructuralPointConnection();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

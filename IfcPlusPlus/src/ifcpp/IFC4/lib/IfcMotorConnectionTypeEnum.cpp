@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcMotorConnectionTypeEnum.h"
 
 // TYPE IfcMotorConnectionTypeEnum = ENUMERATION OF	(BELTDRIVE	,COUPLING	,DIRECTDRIVE	,USERDEFINED	,NOTDEFINED);
-IfcMotorConnectionTypeEnum::IfcMotorConnectionTypeEnum() {}
 IfcMotorConnectionTypeEnum::~IfcMotorConnectionTypeEnum() {}
 shared_ptr<BuildingObject> IfcMotorConnectionTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcMotorConnectionTypeEnum::toString() const
 shared_ptr<IfcMotorConnectionTypeEnum> IfcMotorConnectionTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMotorConnectionTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMotorConnectionTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMotorConnectionTypeEnum>(); }
 	shared_ptr<IfcMotorConnectionTypeEnum> type_object( new IfcMotorConnectionTypeEnum() );
 	if( boost::iequals( arg, L".BELTDRIVE." ) )
 	{

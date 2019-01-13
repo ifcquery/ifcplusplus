@@ -36,7 +36,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcBuildingElement 
-IfcBuildingElement::IfcBuildingElement() {}
 IfcBuildingElement::IfcBuildingElement( int id ) { m_entity_id = id; }
 IfcBuildingElement::~IfcBuildingElement() {}
 shared_ptr<BuildingObject> IfcBuildingElement::getDeepCopy( BuildingCopyOptions& options )
@@ -44,7 +43,7 @@ shared_ptr<BuildingObject> IfcBuildingElement::getDeepCopy( BuildingCopyOptions&
 	shared_ptr<IfcBuildingElement> copy_self( new IfcBuildingElement() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )

@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcThermalConductivityMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcThermalConductivityMeasure();
+	IfcThermalConductivityMeasure() = default;
 	IfcThermalConductivityMeasure( double value );
 	~IfcThermalConductivityMeasure();
 	virtual const char* className() const { return "IfcThermalConductivityMeasure"; }

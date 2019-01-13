@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcDescriptiveMeasure.h"
 
 // TYPE IfcDescriptiveMeasure = STRING;
-IfcDescriptiveMeasure::IfcDescriptiveMeasure() {}
 IfcDescriptiveMeasure::IfcDescriptiveMeasure( std::wstring value ) { m_value = value; }
 IfcDescriptiveMeasure::~IfcDescriptiveMeasure() {}
 shared_ptr<BuildingObject> IfcDescriptiveMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -34,7 +33,7 @@ const std::wstring IfcDescriptiveMeasure::toString() const
 shared_ptr<IfcDescriptiveMeasure> IfcDescriptiveMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDescriptiveMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDescriptiveMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDescriptiveMeasure>(); }
 	shared_ptr<IfcDescriptiveMeasure> type_object( new IfcDescriptiveMeasure() );
 	readString( arg, type_object->m_value );
 	return type_object;

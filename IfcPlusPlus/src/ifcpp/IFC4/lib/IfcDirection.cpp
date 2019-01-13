@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcDirection 
-IfcDirection::IfcDirection() {}
 IfcDirection::IfcDirection( int id ) { m_entity_id = id; }
 IfcDirection::~IfcDirection() {}
 shared_ptr<BuildingObject> IfcDirection::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcDirection::getDeepCopy( BuildingCopyOptions& optio
 		auto item_ii = m_DirectionRatios[ii];
 		if( item_ii )
 		{
-			copy_self->m_DirectionRatios.push_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_DirectionRatios.emplace_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -46,11 +45,11 @@ void IfcDirection::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcDirection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	if( m_DirectionRatios.size() > 0 )
+	if( !m_DirectionRatios.empty() )
 	{
 		shared_ptr<AttributeObjectVector> DirectionRatios_vec_object( new AttributeObjectVector() );
 		std::copy( m_DirectionRatios.begin(), m_DirectionRatios.end(), std::back_inserter( DirectionRatios_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "DirectionRatios", DirectionRatios_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "DirectionRatios", DirectionRatios_vec_object ) );
 	}
 }
 void IfcDirection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

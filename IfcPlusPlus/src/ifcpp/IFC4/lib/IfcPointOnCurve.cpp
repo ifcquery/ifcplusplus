@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPointOnCurve 
-IfcPointOnCurve::IfcPointOnCurve() {}
 IfcPointOnCurve::IfcPointOnCurve( int id ) { m_entity_id = id; }
 IfcPointOnCurve::~IfcPointOnCurve() {}
 shared_ptr<BuildingObject> IfcPointOnCurve::getDeepCopy( BuildingCopyOptions& options )
@@ -44,8 +43,8 @@ void IfcPointOnCurve::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcPointOnCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPoint::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
-	vec_attributes.push_back( std::make_pair( "PointParameter", m_PointParameter ) );
+	vec_attributes.emplace_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
+	vec_attributes.emplace_back( std::make_pair( "PointParameter", m_PointParameter ) );
 }
 void IfcPointOnCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

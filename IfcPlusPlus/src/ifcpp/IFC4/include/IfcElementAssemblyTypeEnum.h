@@ -28,7 +28,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcElementAssemblyTypeEnum();
+	IfcElementAssemblyTypeEnum() = default;
 	IfcElementAssemblyTypeEnum( IfcElementAssemblyTypeEnumEnum e ) { m_enum = e; }
 	~IfcElementAssemblyTypeEnum();
 	virtual const char* className() const { return "IfcElementAssemblyTypeEnum"; }

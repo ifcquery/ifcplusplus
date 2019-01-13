@@ -28,7 +28,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcInventory 
-IfcInventory::IfcInventory() {}
 IfcInventory::IfcInventory( int id ) { m_entity_id = id; }
 IfcInventory::~IfcInventory() {}
 shared_ptr<BuildingObject> IfcInventory::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ shared_ptr<BuildingObject> IfcInventory::getDeepCopy( BuildingCopyOptions& optio
 	shared_ptr<IfcInventory> copy_self( new IfcInventory() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -54,7 +53,7 @@ shared_ptr<BuildingObject> IfcInventory::getDeepCopy( BuildingCopyOptions& optio
 		auto item_ii = m_ResponsiblePersons[ii];
 		if( item_ii )
 		{
-			copy_self->m_ResponsiblePersons.push_back( dynamic_pointer_cast<IfcPerson>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_ResponsiblePersons.emplace_back( dynamic_pointer_cast<IfcPerson>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_LastUpdateDate ) { copy_self->m_LastUpdateDate = dynamic_pointer_cast<IfcDate>( m_LastUpdateDate->getDeepCopy(options) ); }
@@ -109,17 +108,17 @@ void IfcInventory::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcInventory::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGroup::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
-	vec_attributes.push_back( std::make_pair( "Jurisdiction", m_Jurisdiction ) );
-	if( m_ResponsiblePersons.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "Jurisdiction", m_Jurisdiction ) );
+	if( !m_ResponsiblePersons.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ResponsiblePersons_vec_object( new AttributeObjectVector() );
 		std::copy( m_ResponsiblePersons.begin(), m_ResponsiblePersons.end(), std::back_inserter( ResponsiblePersons_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "ResponsiblePersons", ResponsiblePersons_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "ResponsiblePersons", ResponsiblePersons_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "LastUpdateDate", m_LastUpdateDate ) );
-	vec_attributes.push_back( std::make_pair( "CurrentValue", m_CurrentValue ) );
-	vec_attributes.push_back( std::make_pair( "OriginalValue", m_OriginalValue ) );
+	vec_attributes.emplace_back( std::make_pair( "LastUpdateDate", m_LastUpdateDate ) );
+	vec_attributes.emplace_back( std::make_pair( "CurrentValue", m_CurrentValue ) );
+	vec_attributes.emplace_back( std::make_pair( "OriginalValue", m_OriginalValue ) );
 }
 void IfcInventory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

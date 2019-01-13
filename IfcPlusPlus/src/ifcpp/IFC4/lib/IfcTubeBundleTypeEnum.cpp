@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcTubeBundleTypeEnum.h"
 
 // TYPE IfcTubeBundleTypeEnum = ENUMERATION OF	(FINNED	,USERDEFINED	,NOTDEFINED);
-IfcTubeBundleTypeEnum::IfcTubeBundleTypeEnum() {}
 IfcTubeBundleTypeEnum::~IfcTubeBundleTypeEnum() {}
 shared_ptr<BuildingObject> IfcTubeBundleTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -42,7 +41,7 @@ const std::wstring IfcTubeBundleTypeEnum::toString() const
 shared_ptr<IfcTubeBundleTypeEnum> IfcTubeBundleTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTubeBundleTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTubeBundleTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTubeBundleTypeEnum>(); }
 	shared_ptr<IfcTubeBundleTypeEnum> type_object( new IfcTubeBundleTypeEnum() );
 	if( boost::iequals( arg, L".FINNED." ) )
 	{

@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPropertySetTemplate 
-IfcPropertySetTemplate::IfcPropertySetTemplate() {}
 IfcPropertySetTemplate::IfcPropertySetTemplate( int id ) { m_entity_id = id; }
 IfcPropertySetTemplate::~IfcPropertySetTemplate() {}
 shared_ptr<BuildingObject> IfcPropertySetTemplate::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcPropertySetTemplate::getDeepCopy( BuildingCopyOpti
 	shared_ptr<IfcPropertySetTemplate> copy_self( new IfcPropertySetTemplate() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -45,7 +44,7 @@ shared_ptr<BuildingObject> IfcPropertySetTemplate::getDeepCopy( BuildingCopyOpti
 		auto item_ii = m_HasPropertyTemplates[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasPropertyTemplates.push_back( dynamic_pointer_cast<IfcPropertyTemplate>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_HasPropertyTemplates.emplace_back( dynamic_pointer_cast<IfcPropertyTemplate>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -85,29 +84,29 @@ void IfcPropertySetTemplate::readStepArguments( const std::vector<std::wstring>&
 void IfcPropertySetTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPropertyTemplateDefinition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TemplateType", m_TemplateType ) );
-	vec_attributes.push_back( std::make_pair( "ApplicableEntity", m_ApplicableEntity ) );
-	if( m_HasPropertyTemplates.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "TemplateType", m_TemplateType ) );
+	vec_attributes.emplace_back( std::make_pair( "ApplicableEntity", m_ApplicableEntity ) );
+	if( !m_HasPropertyTemplates.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasPropertyTemplates_vec_object( new AttributeObjectVector() );
 		std::copy( m_HasPropertyTemplates.begin(), m_HasPropertyTemplates.end(), std::back_inserter( HasPropertyTemplates_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "HasPropertyTemplates", HasPropertyTemplates_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "HasPropertyTemplates", HasPropertyTemplates_vec_object ) );
 	}
 }
 void IfcPropertySetTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcPropertyTemplateDefinition::getAttributesInverse( vec_attributes_inverse );
-	if( m_Defines_inverse.size() > 0 )
+	if( !m_Defines_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Defines_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_Defines_inverse.size(); ++i )
 		{
 			if( !m_Defines_inverse[i].expired() )
 			{
-				Defines_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByTemplate>( m_Defines_inverse[i] ) );
+				Defines_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByTemplate>( m_Defines_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "Defines_inverse", Defines_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "Defines_inverse", Defines_inverse_vec_obj ) );
 	}
 }
 void IfcPropertySetTemplate::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
@@ -119,7 +118,7 @@ void IfcPropertySetTemplate::setInverseCounterparts( shared_ptr<BuildingEntity> 
 	{
 		if( m_HasPropertyTemplates[i] )
 		{
-			m_HasPropertyTemplates[i]->m_PartOfPsetTemplate_inverse.push_back( ptr_self );
+			m_HasPropertyTemplates[i]->m_PartOfPsetTemplate_inverse.emplace_back( ptr_self );
 		}
 	}
 }

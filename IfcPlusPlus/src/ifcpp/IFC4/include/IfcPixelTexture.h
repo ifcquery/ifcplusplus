@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcBinary;
 class IFCQUERY_EXPORT IfcPixelTexture : public IfcSurfaceTexture
 { 
 public:
-	IfcPixelTexture();
+	IfcPixelTexture() = default;
 	IfcPixelTexture( int id );
 	~IfcPixelTexture();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

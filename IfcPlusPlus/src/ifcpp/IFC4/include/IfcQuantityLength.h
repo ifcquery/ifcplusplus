@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcQuantityLength : public IfcPhysicalSimpleQuantity
 { 
 public:
-	IfcQuantityLength();
+	IfcQuantityLength() = default;
 	IfcQuantityLength( int id );
 	~IfcQuantityLength();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcReal;
 class IFCQUERY_EXPORT IfcRationalBSplineCurveWithKnots : public IfcBSplineCurveWithKnots
 { 
 public:
-	IfcRationalBSplineCurveWithKnots();
+	IfcRationalBSplineCurveWithKnots() = default;
 	IfcRationalBSplineCurveWithKnots( int id );
 	~IfcRationalBSplineCurveWithKnots();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

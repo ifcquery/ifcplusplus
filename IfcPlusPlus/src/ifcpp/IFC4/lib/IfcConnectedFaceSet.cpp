@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcConnectedFaceSet 
-IfcConnectedFaceSet::IfcConnectedFaceSet() {}
 IfcConnectedFaceSet::IfcConnectedFaceSet( int id ) { m_entity_id = id; }
 IfcConnectedFaceSet::~IfcConnectedFaceSet() {}
 shared_ptr<BuildingObject> IfcConnectedFaceSet::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcConnectedFaceSet::getDeepCopy( BuildingCopyOptions
 		auto item_ii = m_CfsFaces[ii];
 		if( item_ii )
 		{
-			copy_self->m_CfsFaces.push_back( dynamic_pointer_cast<IfcFace>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_CfsFaces.emplace_back( dynamic_pointer_cast<IfcFace>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -46,11 +45,11 @@ void IfcConnectedFaceSet::readStepArguments( const std::vector<std::wstring>& ar
 void IfcConnectedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
-	if( m_CfsFaces.size() > 0 )
+	if( !m_CfsFaces.empty() )
 	{
 		shared_ptr<AttributeObjectVector> CfsFaces_vec_object( new AttributeObjectVector() );
 		std::copy( m_CfsFaces.begin(), m_CfsFaces.end(), std::back_inserter( CfsFaces_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "CfsFaces", CfsFaces_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "CfsFaces", CfsFaces_vec_object ) );
 	}
 }
 void IfcConnectedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

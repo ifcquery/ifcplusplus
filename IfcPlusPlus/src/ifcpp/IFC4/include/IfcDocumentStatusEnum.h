@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcDocumentStatusEnum();
+	IfcDocumentStatusEnum() = default;
 	IfcDocumentStatusEnum( IfcDocumentStatusEnumEnum e ) { m_enum = e; }
 	~IfcDocumentStatusEnum();
 	virtual const char* className() const { return "IfcDocumentStatusEnum"; }

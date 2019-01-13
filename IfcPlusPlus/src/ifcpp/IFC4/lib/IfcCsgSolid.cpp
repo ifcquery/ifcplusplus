@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCsgSolid 
-IfcCsgSolid::IfcCsgSolid() {}
 IfcCsgSolid::IfcCsgSolid( int id ) { m_entity_id = id; }
 IfcCsgSolid::~IfcCsgSolid() {}
 shared_ptr<BuildingObject> IfcCsgSolid::getDeepCopy( BuildingCopyOptions& options )
@@ -39,7 +38,7 @@ void IfcCsgSolid::readStepArguments( const std::vector<std::wstring>& args, cons
 void IfcCsgSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSolidModel::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TreeRootExpression", m_TreeRootExpression ) );
+	vec_attributes.emplace_back( std::make_pair( "TreeRootExpression", m_TreeRootExpression ) );
 }
 void IfcCsgSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

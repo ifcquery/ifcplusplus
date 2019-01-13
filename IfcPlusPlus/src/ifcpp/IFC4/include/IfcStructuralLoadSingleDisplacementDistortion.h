@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCurvatureMeasure;
 class IFCQUERY_EXPORT IfcStructuralLoadSingleDisplacementDistortion : public IfcStructuralLoadSingleDisplacement
 { 
 public:
-	IfcStructuralLoadSingleDisplacementDistortion();
+	IfcStructuralLoadSingleDisplacementDistortion() = default;
 	IfcStructuralLoadSingleDisplacementDistortion( int id );
 	~IfcStructuralLoadSingleDisplacementDistortion();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

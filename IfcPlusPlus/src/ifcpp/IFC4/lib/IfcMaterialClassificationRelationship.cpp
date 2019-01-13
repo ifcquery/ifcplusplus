@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcMaterialClassificationRelationship.h"
 
 // ENTITY IfcMaterialClassificationRelationship 
-IfcMaterialClassificationRelationship::IfcMaterialClassificationRelationship() {}
 IfcMaterialClassificationRelationship::IfcMaterialClassificationRelationship( int id ) { m_entity_id = id; }
 IfcMaterialClassificationRelationship::~IfcMaterialClassificationRelationship() {}
 shared_ptr<BuildingObject> IfcMaterialClassificationRelationship::getDeepCopy( BuildingCopyOptions& options )
@@ -23,7 +22,7 @@ shared_ptr<BuildingObject> IfcMaterialClassificationRelationship::getDeepCopy( B
 		auto item_ii = m_MaterialClassifications[ii];
 		if( item_ii )
 		{
-			copy_self->m_MaterialClassifications.push_back( dynamic_pointer_cast<IfcClassificationSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_MaterialClassifications.emplace_back( dynamic_pointer_cast<IfcClassificationSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_ClassifiedMaterial ) { copy_self->m_ClassifiedMaterial = dynamic_pointer_cast<IfcMaterial>( m_ClassifiedMaterial->getDeepCopy(options) ); }
@@ -65,13 +64,13 @@ void IfcMaterialClassificationRelationship::readStepArguments( const std::vector
 }
 void IfcMaterialClassificationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( m_MaterialClassifications.size() > 0 )
+	if( !m_MaterialClassifications.empty() )
 	{
 		shared_ptr<AttributeObjectVector> MaterialClassifications_vec_object( new AttributeObjectVector() );
 		std::copy( m_MaterialClassifications.begin(), m_MaterialClassifications.end(), std::back_inserter( MaterialClassifications_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "MaterialClassifications", MaterialClassifications_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "MaterialClassifications", MaterialClassifications_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "ClassifiedMaterial", m_ClassifiedMaterial ) );
+	vec_attributes.emplace_back( std::make_pair( "ClassifiedMaterial", m_ClassifiedMaterial ) );
 }
 void IfcMaterialClassificationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

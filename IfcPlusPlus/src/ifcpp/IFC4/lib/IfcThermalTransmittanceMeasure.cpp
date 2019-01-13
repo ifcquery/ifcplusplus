@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcThermalTransmittanceMeasure.h"
 
 // TYPE IfcThermalTransmittanceMeasure = REAL;
-IfcThermalTransmittanceMeasure::IfcThermalTransmittanceMeasure() {}
 IfcThermalTransmittanceMeasure::IfcThermalTransmittanceMeasure( double value ) { m_value = value; }
 IfcThermalTransmittanceMeasure::~IfcThermalTransmittanceMeasure() {}
 shared_ptr<BuildingObject> IfcThermalTransmittanceMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcThermalTransmittanceMeasure::toString() const
 shared_ptr<IfcThermalTransmittanceMeasure> IfcThermalTransmittanceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcThermalTransmittanceMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcThermalTransmittanceMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcThermalTransmittanceMeasure>(); }
 	shared_ptr<IfcThermalTransmittanceMeasure> type_object( new IfcThermalTransmittanceMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcComplexNumber.h"
 
 // TYPE IfcComplexNumber = ARRAY [1:2] OF REAL;
-IfcComplexNumber::IfcComplexNumber() {}
 IfcComplexNumber::~IfcComplexNumber() {}
 shared_ptr<BuildingObject> IfcComplexNumber::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -19,7 +18,7 @@ shared_ptr<BuildingObject> IfcComplexNumber::getDeepCopy( BuildingCopyOptions& o
 	for( size_t ii=0; ii<m_vec.size(); ++ii )
 	{
 		double item_ii = m_vec[ii];
-		copy_self->m_vec.push_back( item_ii );
+		copy_self->m_vec.emplace_back( item_ii );
 	}
 	return copy_self;
 }
@@ -37,7 +36,7 @@ const std::wstring IfcComplexNumber::toString() const
 shared_ptr<IfcComplexNumber> IfcComplexNumber::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcComplexNumber>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcComplexNumber>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcComplexNumber>(); }
 	shared_ptr<IfcComplexNumber> type_object( new IfcComplexNumber() );
 	readRealList( arg, type_object->m_vec );
 	return type_object;

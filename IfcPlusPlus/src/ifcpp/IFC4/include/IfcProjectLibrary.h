@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcProjectLibrary : public IfcContext
 { 
 public:
-	IfcProjectLibrary();
+	IfcProjectLibrary() = default;
 	IfcProjectLibrary( int id );
 	~IfcProjectLibrary();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

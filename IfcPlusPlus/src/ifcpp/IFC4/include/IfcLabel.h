@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcLabel : public IfcSimpleValue
 {
 public:
-	IfcLabel();
+	IfcLabel() = default;
 	IfcLabel( std::wstring value );
 	~IfcLabel();
 	virtual const char* className() const { return "IfcLabel"; }

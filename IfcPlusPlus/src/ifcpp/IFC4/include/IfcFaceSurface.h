@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcFaceSurface : virtual public IfcSurfaceOrFaceSurface, public IfcFace
 { 
 public:
-	IfcFaceSurface();
+	IfcFaceSurface() = default;
 	IfcFaceSurface( int id );
 	~IfcFaceSurface();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

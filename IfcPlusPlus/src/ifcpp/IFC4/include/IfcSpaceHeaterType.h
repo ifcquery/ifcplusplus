@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcSpaceHeaterTypeEnum;
 class IFCQUERY_EXPORT IfcSpaceHeaterType : public IfcFlowTerminalType
 { 
 public:
-	IfcSpaceHeaterType();
+	IfcSpaceHeaterType() = default;
 	IfcSpaceHeaterType( int id );
 	~IfcSpaceHeaterType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

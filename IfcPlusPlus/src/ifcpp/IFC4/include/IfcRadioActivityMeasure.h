@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcRadioActivityMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcRadioActivityMeasure();
+	IfcRadioActivityMeasure() = default;
 	IfcRadioActivityMeasure( double value );
 	~IfcRadioActivityMeasure();
 	virtual const char* className() const { return "IfcRadioActivityMeasure"; }

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcSpatialZoneType : public IfcSpatialElementType
 { 
 public:
-	IfcSpatialZoneType();
+	IfcSpatialZoneType() = default;
 	IfcSpatialZoneType( int id );
 	~IfcSpatialZoneType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

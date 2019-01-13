@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcRectangularPyramid 
-IfcRectangularPyramid::IfcRectangularPyramid() {}
 IfcRectangularPyramid::IfcRectangularPyramid( int id ) { m_entity_id = id; }
 IfcRectangularPyramid::~IfcRectangularPyramid() {}
 shared_ptr<BuildingObject> IfcRectangularPyramid::getDeepCopy( BuildingCopyOptions& options )
@@ -52,9 +51,9 @@ void IfcRectangularPyramid::readStepArguments( const std::vector<std::wstring>& 
 void IfcRectangularPyramid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "XLength", m_XLength ) );
-	vec_attributes.push_back( std::make_pair( "YLength", m_YLength ) );
-	vec_attributes.push_back( std::make_pair( "Height", m_Height ) );
+	vec_attributes.emplace_back( std::make_pair( "XLength", m_XLength ) );
+	vec_attributes.emplace_back( std::make_pair( "YLength", m_YLength ) );
+	vec_attributes.emplace_back( std::make_pair( "Height", m_Height ) );
 }
 void IfcRectangularPyramid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

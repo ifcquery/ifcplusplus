@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcRepresentationItem 
-IfcRepresentationItem::IfcRepresentationItem() {}
 IfcRepresentationItem::IfcRepresentationItem( int id ) { m_entity_id = id; }
 IfcRepresentationItem::~IfcRepresentationItem() {}
 shared_ptr<BuildingObject> IfcRepresentationItem::getDeepCopy( BuildingCopyOptions& options )
@@ -35,29 +34,29 @@ void IfcRepresentationItem::getAttributes( std::vector<std::pair<std::string, sh
 }
 void IfcRepresentationItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_LayerAssignment_inverse.size() > 0 )
+	if( !m_LayerAssignment_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> LayerAssignment_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_LayerAssignment_inverse.size(); ++i )
 		{
 			if( !m_LayerAssignment_inverse[i].expired() )
 			{
-				LayerAssignment_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPresentationLayerAssignment>( m_LayerAssignment_inverse[i] ) );
+				LayerAssignment_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPresentationLayerAssignment>( m_LayerAssignment_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "LayerAssignment_inverse", LayerAssignment_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "LayerAssignment_inverse", LayerAssignment_inverse_vec_obj ) );
 	}
-	if( m_StyledByItem_inverse.size() > 0 )
+	if( !m_StyledByItem_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> StyledByItem_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_StyledByItem_inverse.size(); ++i )
 		{
 			if( !m_StyledByItem_inverse[i].expired() )
 			{
-				StyledByItem_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcStyledItem>( m_StyledByItem_inverse[i] ) );
+				StyledByItem_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcStyledItem>( m_StyledByItem_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "StyledByItem_inverse", StyledByItem_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "StyledByItem_inverse", StyledByItem_inverse_vec_obj ) );
 	}
 }
 void IfcRepresentationItem::setInverseCounterparts( shared_ptr<BuildingEntity> )

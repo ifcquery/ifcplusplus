@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcTimeStamp.h"
 
 // ENTITY IfcOwnerHistory 
-IfcOwnerHistory::IfcOwnerHistory() {}
 IfcOwnerHistory::IfcOwnerHistory( int id ) { m_entity_id = id; }
 IfcOwnerHistory::~IfcOwnerHistory() {}
 shared_ptr<BuildingObject> IfcOwnerHistory::getDeepCopy( BuildingCopyOptions& options )
@@ -68,14 +67,14 @@ void IfcOwnerHistory::readStepArguments( const std::vector<std::wstring>& args, 
 }
 void IfcOwnerHistory::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "OwningUser", m_OwningUser ) );
-	vec_attributes.push_back( std::make_pair( "OwningApplication", m_OwningApplication ) );
-	vec_attributes.push_back( std::make_pair( "State", m_State ) );
-	vec_attributes.push_back( std::make_pair( "ChangeAction", m_ChangeAction ) );
-	vec_attributes.push_back( std::make_pair( "LastModifiedDate", m_LastModifiedDate ) );
-	vec_attributes.push_back( std::make_pair( "LastModifyingUser", m_LastModifyingUser ) );
-	vec_attributes.push_back( std::make_pair( "LastModifyingApplication", m_LastModifyingApplication ) );
-	vec_attributes.push_back( std::make_pair( "CreationDate", m_CreationDate ) );
+	vec_attributes.emplace_back( std::make_pair( "OwningUser", m_OwningUser ) );
+	vec_attributes.emplace_back( std::make_pair( "OwningApplication", m_OwningApplication ) );
+	vec_attributes.emplace_back( std::make_pair( "State", m_State ) );
+	vec_attributes.emplace_back( std::make_pair( "ChangeAction", m_ChangeAction ) );
+	vec_attributes.emplace_back( std::make_pair( "LastModifiedDate", m_LastModifiedDate ) );
+	vec_attributes.emplace_back( std::make_pair( "LastModifyingUser", m_LastModifyingUser ) );
+	vec_attributes.emplace_back( std::make_pair( "LastModifyingApplication", m_LastModifyingApplication ) );
+	vec_attributes.emplace_back( std::make_pair( "CreationDate", m_CreationDate ) );
 }
 void IfcOwnerHistory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

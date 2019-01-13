@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // ENTITY IfcDraughtingPreDefinedColour 
-IfcDraughtingPreDefinedColour::IfcDraughtingPreDefinedColour() {}
 IfcDraughtingPreDefinedColour::IfcDraughtingPreDefinedColour( int id ) { m_entity_id = id; }
 IfcDraughtingPreDefinedColour::~IfcDraughtingPreDefinedColour() {}
 shared_ptr<BuildingObject> IfcDraughtingPreDefinedColour::getDeepCopy( BuildingCopyOptions& options )

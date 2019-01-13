@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcExternalReferenceRelationship;
 class IFCQUERY_EXPORT IfcActorRole : virtual public IfcResourceObjectSelect, public BuildingEntity
 { 
 public:
-	IfcActorRole();
+	IfcActorRole() = default;
 	IfcActorRole( int id );
 	~IfcActorRole();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

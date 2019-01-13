@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcExtrudedAreaSolid : public IfcSweptAreaSolid
 { 
 public:
-	IfcExtrudedAreaSolid();
+	IfcExtrudedAreaSolid() = default;
 	IfcExtrudedAreaSolid( int id );
 	~IfcExtrudedAreaSolid();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

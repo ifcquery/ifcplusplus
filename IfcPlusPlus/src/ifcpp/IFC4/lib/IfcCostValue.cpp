@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcCostValue 
-IfcCostValue::IfcCostValue() {}
 IfcCostValue::IfcCostValue( int id ) { m_entity_id = id; }
 IfcCostValue::~IfcCostValue() {}
 shared_ptr<BuildingObject> IfcCostValue::getDeepCopy( BuildingCopyOptions& options )
@@ -38,7 +37,7 @@ shared_ptr<BuildingObject> IfcCostValue::getDeepCopy( BuildingCopyOptions& optio
 		auto item_ii = m_Components[ii];
 		if( item_ii )
 		{
-			copy_self->m_Components.push_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Components.emplace_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;

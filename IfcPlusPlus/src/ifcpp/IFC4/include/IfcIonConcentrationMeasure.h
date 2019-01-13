@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcIonConcentrationMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcIonConcentrationMeasure();
+	IfcIonConcentrationMeasure() = default;
 	IfcIonConcentrationMeasure( double value );
 	~IfcIonConcentrationMeasure();
 	virtual const char* className() const { return "IfcIonConcentrationMeasure"; }

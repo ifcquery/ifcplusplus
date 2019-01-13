@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMaterialLayerSet 
-IfcMaterialLayerSet::IfcMaterialLayerSet() {}
 IfcMaterialLayerSet::IfcMaterialLayerSet( int id ) { m_entity_id = id; }
 IfcMaterialLayerSet::~IfcMaterialLayerSet() {}
 shared_ptr<BuildingObject> IfcMaterialLayerSet::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcMaterialLayerSet::getDeepCopy( BuildingCopyOptions
 		auto item_ii = m_MaterialLayers[ii];
 		if( item_ii )
 		{
-			copy_self->m_MaterialLayers.push_back( dynamic_pointer_cast<IfcMaterialLayer>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_MaterialLayers.emplace_back( dynamic_pointer_cast<IfcMaterialLayer>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_LayerSetName ) { copy_self->m_LayerSetName = dynamic_pointer_cast<IfcLabel>( m_LayerSetName->getDeepCopy(options) ); }
@@ -57,14 +56,14 @@ void IfcMaterialLayerSet::readStepArguments( const std::vector<std::wstring>& ar
 void IfcMaterialLayerSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
-	if( m_MaterialLayers.size() > 0 )
+	if( !m_MaterialLayers.empty() )
 	{
 		shared_ptr<AttributeObjectVector> MaterialLayers_vec_object( new AttributeObjectVector() );
 		std::copy( m_MaterialLayers.begin(), m_MaterialLayers.end(), std::back_inserter( MaterialLayers_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "MaterialLayers", MaterialLayers_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "MaterialLayers", MaterialLayers_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "LayerSetName", m_LayerSetName ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "LayerSetName", m_LayerSetName ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
 }
 void IfcMaterialLayerSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

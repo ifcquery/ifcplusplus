@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcLinearVelocityMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcLinearVelocityMeasure();
+	IfcLinearVelocityMeasure() = default;
 	IfcLinearVelocityMeasure( double value );
 	~IfcLinearVelocityMeasure();
 	virtual const char* className() const { return "IfcLinearVelocityMeasure"; }

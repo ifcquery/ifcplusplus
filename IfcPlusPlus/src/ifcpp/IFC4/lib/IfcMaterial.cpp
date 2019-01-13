@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMaterial 
-IfcMaterial::IfcMaterial() {}
 IfcMaterial::IfcMaterial( int id ) { m_entity_id = id; }
 IfcMaterial::~IfcMaterial() {}
 shared_ptr<BuildingObject> IfcMaterial::getDeepCopy( BuildingCopyOptions& options )
@@ -51,48 +50,48 @@ void IfcMaterial::readStepArguments( const std::vector<std::wstring>& args, cons
 void IfcMaterial::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "Category", m_Category ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "Category", m_Category ) );
 }
 void IfcMaterial::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
-	if( m_HasRepresentation_inverse.size() > 0 )
+	if( !m_HasRepresentation_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasRepresentation_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasRepresentation_inverse.size(); ++i )
 		{
 			if( !m_HasRepresentation_inverse[i].expired() )
 			{
-				HasRepresentation_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcMaterialDefinitionRepresentation>( m_HasRepresentation_inverse[i] ) );
+				HasRepresentation_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcMaterialDefinitionRepresentation>( m_HasRepresentation_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasRepresentation_inverse", HasRepresentation_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasRepresentation_inverse", HasRepresentation_inverse_vec_obj ) );
 	}
-	if( m_IsRelatedWith_inverse.size() > 0 )
+	if( !m_IsRelatedWith_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> IsRelatedWith_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsRelatedWith_inverse.size(); ++i )
 		{
 			if( !m_IsRelatedWith_inverse[i].expired() )
 			{
-				IsRelatedWith_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcMaterialRelationship>( m_IsRelatedWith_inverse[i] ) );
+				IsRelatedWith_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcMaterialRelationship>( m_IsRelatedWith_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "IsRelatedWith_inverse", IsRelatedWith_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "IsRelatedWith_inverse", IsRelatedWith_inverse_vec_obj ) );
 	}
-	if( m_RelatesTo_inverse.size() > 0 )
+	if( !m_RelatesTo_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatesTo_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_RelatesTo_inverse.size(); ++i )
 		{
 			if( !m_RelatesTo_inverse[i].expired() )
 			{
-				RelatesTo_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcMaterialRelationship>( m_RelatesTo_inverse[i] ) );
+				RelatesTo_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcMaterialRelationship>( m_RelatesTo_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "RelatesTo_inverse", RelatesTo_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "RelatesTo_inverse", RelatesTo_inverse_vec_obj ) );
 	}
 }
 void IfcMaterial::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

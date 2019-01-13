@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcLightFixtureTypeEnum.h"
 
 // TYPE IfcLightFixtureTypeEnum = ENUMERATION OF	(POINTSOURCE	,DIRECTIONSOURCE	,SECURITYLIGHTING	,USERDEFINED	,NOTDEFINED);
-IfcLightFixtureTypeEnum::IfcLightFixtureTypeEnum() {}
 IfcLightFixtureTypeEnum::~IfcLightFixtureTypeEnum() {}
 shared_ptr<BuildingObject> IfcLightFixtureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcLightFixtureTypeEnum::toString() const
 shared_ptr<IfcLightFixtureTypeEnum> IfcLightFixtureTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLightFixtureTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLightFixtureTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLightFixtureTypeEnum>(); }
 	shared_ptr<IfcLightFixtureTypeEnum> type_object( new IfcLightFixtureTypeEnum() );
 	if( boost::iequals( arg, L".POINTSOURCE." ) )
 	{

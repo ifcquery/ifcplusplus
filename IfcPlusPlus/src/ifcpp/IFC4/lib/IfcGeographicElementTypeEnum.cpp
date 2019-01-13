@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcGeographicElementTypeEnum.h"
 
 // TYPE IfcGeographicElementTypeEnum = ENUMERATION OF	(TERRAIN	,USERDEFINED	,NOTDEFINED);
-IfcGeographicElementTypeEnum::IfcGeographicElementTypeEnum() {}
 IfcGeographicElementTypeEnum::~IfcGeographicElementTypeEnum() {}
 shared_ptr<BuildingObject> IfcGeographicElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -42,7 +41,7 @@ const std::wstring IfcGeographicElementTypeEnum::toString() const
 shared_ptr<IfcGeographicElementTypeEnum> IfcGeographicElementTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGeographicElementTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGeographicElementTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGeographicElementTypeEnum>(); }
 	shared_ptr<IfcGeographicElementTypeEnum> type_object( new IfcGeographicElementTypeEnum() );
 	if( boost::iequals( arg, L".TERRAIN." ) )
 	{

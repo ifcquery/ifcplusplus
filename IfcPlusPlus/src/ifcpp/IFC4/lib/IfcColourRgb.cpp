@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcNormalisedRatioMeasure.h"
 
 // ENTITY IfcColourRgb 
-IfcColourRgb::IfcColourRgb() {}
 IfcColourRgb::IfcColourRgb( int id ) { m_entity_id = id; }
 IfcColourRgb::~IfcColourRgb() {}
 shared_ptr<BuildingObject> IfcColourRgb::getDeepCopy( BuildingCopyOptions& options )
@@ -50,9 +49,9 @@ void IfcColourRgb::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcColourRgb::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcColourSpecification::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Red", m_Red ) );
-	vec_attributes.push_back( std::make_pair( "Green", m_Green ) );
-	vec_attributes.push_back( std::make_pair( "Blue", m_Blue ) );
+	vec_attributes.emplace_back( std::make_pair( "Red", m_Red ) );
+	vec_attributes.emplace_back( std::make_pair( "Green", m_Green ) );
+	vec_attributes.emplace_back( std::make_pair( "Blue", m_Blue ) );
 }
 void IfcColourRgb::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

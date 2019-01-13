@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcGloballyUniqueId : public BuildingObject
 {
 public:
-	IfcGloballyUniqueId();
+	IfcGloballyUniqueId() = default;
 	IfcGloballyUniqueId( std::wstring value );
 	~IfcGloballyUniqueId();
 	virtual const char* className() const { return "IfcGloballyUniqueId"; }

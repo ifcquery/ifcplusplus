@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // ENTITY IfcFillAreaStyle 
-IfcFillAreaStyle::IfcFillAreaStyle() {}
 IfcFillAreaStyle::IfcFillAreaStyle( int id ) { m_entity_id = id; }
 IfcFillAreaStyle::~IfcFillAreaStyle() {}
 shared_ptr<BuildingObject> IfcFillAreaStyle::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcFillAreaStyle::getDeepCopy( BuildingCopyOptions& o
 		auto item_ii = m_FillStyles[ii];
 		if( item_ii )
 		{
-			copy_self->m_FillStyles.push_back( dynamic_pointer_cast<IfcFillStyleSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_FillStyles.emplace_back( dynamic_pointer_cast<IfcFillStyleSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_ModelorDraughting ) { copy_self->m_ModelorDraughting = dynamic_pointer_cast<IfcBoolean>( m_ModelorDraughting->getDeepCopy(options) ); }
@@ -71,13 +70,13 @@ void IfcFillAreaStyle::readStepArguments( const std::vector<std::wstring>& args,
 void IfcFillAreaStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationStyle::getAttributes( vec_attributes );
-	if( m_FillStyles.size() > 0 )
+	if( !m_FillStyles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> FillStyles_vec_object( new AttributeObjectVector() );
 		std::copy( m_FillStyles.begin(), m_FillStyles.end(), std::back_inserter( FillStyles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "FillStyles", FillStyles_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "FillStyles", FillStyles_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "ModelorDraughting", m_ModelorDraughting ) );
+	vec_attributes.emplace_back( std::make_pair( "ModelorDraughting", m_ModelorDraughting ) );
 }
 void IfcFillAreaStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

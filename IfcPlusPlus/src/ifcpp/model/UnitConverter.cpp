@@ -16,7 +16,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 */
 
 #define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 #include <string.h>
 #include <boost/algorithm/string.hpp>
 #include "ifcpp/IFC4/include/IfcConversionBasedUnit.h"
@@ -55,6 +55,7 @@ UnitConverter::UnitConverter()
 	m_prefix_map[IfcSIPrefix::ENUM_PICO]	= 1E-12;
 	m_prefix_map[IfcSIPrefix::ENUM_FEMTO]	= 1E-15;
 	m_prefix_map[IfcSIPrefix::ENUM_ATTO]	= 1E-18;
+	m_plane_angle_factor = M_PI/180.0;
 }
 
 UnitConverter::~UnitConverter(){}
@@ -82,6 +83,27 @@ void UnitConverter::resetComplete()
 	m_angular_unit = UNDEFINED;
 	m_length_unit_found = false;
 	resetUnitFactors();
+}
+
+void UnitConverter::setAngleUnit(AngularUnit unit)
+{
+	m_angular_unit = unit;
+	if( m_angular_unit == RADIANT )
+	{
+		m_plane_angle_factor = 1.0; // radian
+	}
+	else if( m_angular_unit == DEGREE )
+	{
+		m_plane_angle_factor = M_PI / 180.0; // 360°
+	}
+	else if( m_angular_unit == GON )
+	{
+		m_plane_angle_factor = M_PI / 200.0; // 400 gon
+	}
+	else
+	{
+		messageCallback("Could not set angular unit", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__);
+	}
 }
 
 void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )

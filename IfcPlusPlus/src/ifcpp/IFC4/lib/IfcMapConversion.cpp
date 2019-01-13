@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcReal.h"
 
 // ENTITY IfcMapConversion 
-IfcMapConversion::IfcMapConversion() {}
 IfcMapConversion::IfcMapConversion( int id ) { m_entity_id = id; }
 IfcMapConversion::~IfcMapConversion() {}
 shared_ptr<BuildingObject> IfcMapConversion::getDeepCopy( BuildingCopyOptions& options )
@@ -68,12 +67,12 @@ void IfcMapConversion::readStepArguments( const std::vector<std::wstring>& args,
 void IfcMapConversion::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCoordinateOperation::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Eastings", m_Eastings ) );
-	vec_attributes.push_back( std::make_pair( "Northings", m_Northings ) );
-	vec_attributes.push_back( std::make_pair( "OrthogonalHeight", m_OrthogonalHeight ) );
-	vec_attributes.push_back( std::make_pair( "XAxisAbscissa", m_XAxisAbscissa ) );
-	vec_attributes.push_back( std::make_pair( "XAxisOrdinate", m_XAxisOrdinate ) );
-	vec_attributes.push_back( std::make_pair( "Scale", m_Scale ) );
+	vec_attributes.emplace_back( std::make_pair( "Eastings", m_Eastings ) );
+	vec_attributes.emplace_back( std::make_pair( "Northings", m_Northings ) );
+	vec_attributes.emplace_back( std::make_pair( "OrthogonalHeight", m_OrthogonalHeight ) );
+	vec_attributes.emplace_back( std::make_pair( "XAxisAbscissa", m_XAxisAbscissa ) );
+	vec_attributes.emplace_back( std::make_pair( "XAxisOrdinate", m_XAxisOrdinate ) );
+	vec_attributes.emplace_back( std::make_pair( "Scale", m_Scale ) );
 }
 void IfcMapConversion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

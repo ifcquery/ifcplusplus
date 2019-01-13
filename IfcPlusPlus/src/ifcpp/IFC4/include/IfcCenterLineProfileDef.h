@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcCenterLineProfileDef : public IfcArbitraryOpenProfileDef
 { 
 public:
-	IfcCenterLineProfileDef();
+	IfcCenterLineProfileDef() = default;
 	IfcCenterLineProfileDef( int id );
 	~IfcCenterLineProfileDef();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

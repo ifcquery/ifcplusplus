@@ -19,7 +19,6 @@
 #include "ifcpp/IFC4/include/IfcTypeProduct.h"
 
 // ENTITY IfcRelAssignsToProduct 
-IfcRelAssignsToProduct::IfcRelAssignsToProduct() {}
 IfcRelAssignsToProduct::IfcRelAssignsToProduct( int id ) { m_entity_id = id; }
 IfcRelAssignsToProduct::~IfcRelAssignsToProduct() {}
 shared_ptr<BuildingObject> IfcRelAssignsToProduct::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcRelAssignsToProduct::getDeepCopy( BuildingCopyOpti
 	shared_ptr<IfcRelAssignsToProduct> copy_self( new IfcRelAssignsToProduct() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -42,7 +41,7 @@ shared_ptr<BuildingObject> IfcRelAssignsToProduct::getDeepCopy( BuildingCopyOpti
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatedObjectsType ) { copy_self->m_RelatedObjectsType = dynamic_pointer_cast<IfcObjectTypeEnum>( m_RelatedObjectsType->getDeepCopy(options) ); }
@@ -84,7 +83,7 @@ void IfcRelAssignsToProduct::readStepArguments( const std::vector<std::wstring>&
 void IfcRelAssignsToProduct::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingProduct", m_RelatingProduct ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingProduct", m_RelatingProduct ) );
 }
 void IfcRelAssignsToProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -98,12 +97,12 @@ void IfcRelAssignsToProduct::setInverseCounterparts( shared_ptr<BuildingEntity> 
 	shared_ptr<IfcProduct>  RelatingProduct_IfcProduct = dynamic_pointer_cast<IfcProduct>( m_RelatingProduct );
 	if( RelatingProduct_IfcProduct )
 	{
-		RelatingProduct_IfcProduct->m_ReferencedBy_inverse.push_back( ptr_self );
+		RelatingProduct_IfcProduct->m_ReferencedBy_inverse.emplace_back( ptr_self );
 	}
 	shared_ptr<IfcTypeProduct>  RelatingProduct_IfcTypeProduct = dynamic_pointer_cast<IfcTypeProduct>( m_RelatingProduct );
 	if( RelatingProduct_IfcTypeProduct )
 	{
-		RelatingProduct_IfcTypeProduct->m_ReferencedBy_inverse.push_back( ptr_self );
+		RelatingProduct_IfcTypeProduct->m_ReferencedBy_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelAssignsToProduct::unlinkFromInverseCounterparts()

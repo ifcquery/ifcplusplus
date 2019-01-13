@@ -15,7 +15,7 @@
 class IFCQUERY_EXPORT IfcLineIndex : public IfcPositiveInteger, public IfcSegmentIndexSelect
 {
 public:
-	IfcLineIndex();
+	IfcLineIndex() = default;
 	~IfcLineIndex();
 	virtual const char* className() const { return "IfcLineIndex"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

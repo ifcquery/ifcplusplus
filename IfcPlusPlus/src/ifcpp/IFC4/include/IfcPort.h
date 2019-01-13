@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcRelConnectsPorts;
 class IFCQUERY_EXPORT IfcPort : public IfcProduct
 { 
 public:
-	IfcPort();
+	IfcPort() = default;
 	IfcPort( int id );
 	~IfcPort();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

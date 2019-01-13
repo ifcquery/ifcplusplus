@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcHeatFluxDensityMeasure.h"
 
 // TYPE IfcHeatFluxDensityMeasure = REAL;
-IfcHeatFluxDensityMeasure::IfcHeatFluxDensityMeasure() {}
 IfcHeatFluxDensityMeasure::IfcHeatFluxDensityMeasure( double value ) { m_value = value; }
 IfcHeatFluxDensityMeasure::~IfcHeatFluxDensityMeasure() {}
 shared_ptr<BuildingObject> IfcHeatFluxDensityMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcHeatFluxDensityMeasure::toString() const
 shared_ptr<IfcHeatFluxDensityMeasure> IfcHeatFluxDensityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcHeatFluxDensityMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcHeatFluxDensityMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcHeatFluxDensityMeasure>(); }
 	shared_ptr<IfcHeatFluxDensityMeasure> type_object( new IfcHeatFluxDensityMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

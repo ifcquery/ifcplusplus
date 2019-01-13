@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcProperty;
 class IFCQUERY_EXPORT IfcComplexProperty : public IfcProperty
 { 
 public:
-	IfcComplexProperty();
+	IfcComplexProperty() = default;
 	IfcComplexProperty( int id );
 	~IfcComplexProperty();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

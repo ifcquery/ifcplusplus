@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcVertex.h"
 
 // ENTITY IfcOrientedEdge 
-IfcOrientedEdge::IfcOrientedEdge() {}
 IfcOrientedEdge::IfcOrientedEdge( int id ) { m_entity_id = id; }
 IfcOrientedEdge::~IfcOrientedEdge() {}
 shared_ptr<BuildingObject> IfcOrientedEdge::getDeepCopy( BuildingCopyOptions& options )
@@ -30,9 +29,9 @@ shared_ptr<BuildingObject> IfcOrientedEdge::getDeepCopy( BuildingCopyOptions& op
 void IfcOrientedEdge::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCORIENTEDEDGE" << "(";
-	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_entity_id; } else { stream << "*"; }
+	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "*"; }
+	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_EdgeElement ) { stream << "#" << m_EdgeElement->m_entity_id; } else { stream << "$"; }
 	stream << ",";
@@ -53,8 +52,8 @@ void IfcOrientedEdge::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcOrientedEdge::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcEdge::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "EdgeElement", m_EdgeElement ) );
-	vec_attributes.push_back( std::make_pair( "Orientation", m_Orientation ) );
+	vec_attributes.emplace_back( std::make_pair( "EdgeElement", m_EdgeElement ) );
+	vec_attributes.emplace_back( std::make_pair( "Orientation", m_Orientation ) );
 }
 void IfcOrientedEdge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

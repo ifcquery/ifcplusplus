@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcEventTypeEnum.h"
 
 // TYPE IfcEventTypeEnum = ENUMERATION OF	(STARTEVENT	,ENDEVENT	,INTERMEDIATEEVENT	,USERDEFINED	,NOTDEFINED);
-IfcEventTypeEnum::IfcEventTypeEnum() {}
 IfcEventTypeEnum::~IfcEventTypeEnum() {}
 shared_ptr<BuildingObject> IfcEventTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcEventTypeEnum::toString() const
 shared_ptr<IfcEventTypeEnum> IfcEventTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEventTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEventTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEventTypeEnum>(); }
 	shared_ptr<IfcEventTypeEnum> type_object( new IfcEventTypeEnum() );
 	if( boost::iequals( arg, L".STARTEVENT." ) )
 	{

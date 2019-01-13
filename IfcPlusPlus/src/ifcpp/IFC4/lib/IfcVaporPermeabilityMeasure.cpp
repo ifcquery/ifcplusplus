@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcVaporPermeabilityMeasure.h"
 
 // TYPE IfcVaporPermeabilityMeasure = REAL;
-IfcVaporPermeabilityMeasure::IfcVaporPermeabilityMeasure() {}
 IfcVaporPermeabilityMeasure::IfcVaporPermeabilityMeasure( double value ) { m_value = value; }
 IfcVaporPermeabilityMeasure::~IfcVaporPermeabilityMeasure() {}
 shared_ptr<BuildingObject> IfcVaporPermeabilityMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcVaporPermeabilityMeasure::toString() const
 shared_ptr<IfcVaporPermeabilityMeasure> IfcVaporPermeabilityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVaporPermeabilityMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVaporPermeabilityMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVaporPermeabilityMeasure>(); }
 	shared_ptr<IfcVaporPermeabilityMeasure> type_object( new IfcVaporPermeabilityMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

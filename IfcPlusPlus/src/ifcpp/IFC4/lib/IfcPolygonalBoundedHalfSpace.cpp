@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcSurface.h"
 
 // ENTITY IfcPolygonalBoundedHalfSpace 
-IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace() {}
 IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace( int id ) { m_entity_id = id; }
 IfcPolygonalBoundedHalfSpace::~IfcPolygonalBoundedHalfSpace() {}
 shared_ptr<BuildingObject> IfcPolygonalBoundedHalfSpace::getDeepCopy( BuildingCopyOptions& options )
@@ -54,8 +53,8 @@ void IfcPolygonalBoundedHalfSpace::readStepArguments( const std::vector<std::wst
 void IfcPolygonalBoundedHalfSpace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcHalfSpaceSolid::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
-	vec_attributes.push_back( std::make_pair( "PolygonalBoundary", m_PolygonalBoundary ) );
+	vec_attributes.emplace_back( std::make_pair( "Position", m_Position ) );
+	vec_attributes.emplace_back( std::make_pair( "PolygonalBoundary", m_PolygonalBoundary ) );
 }
 void IfcPolygonalBoundedHalfSpace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

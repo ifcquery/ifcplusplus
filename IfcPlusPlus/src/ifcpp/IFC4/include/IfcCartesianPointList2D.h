@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcCartesianPointList2D : public IfcCartesianPointList
 { 
 public:
-	IfcCartesianPointList2D();
+	IfcCartesianPointList2D() = default;
 	IfcCartesianPointList2D( int id );
 	~IfcCartesianPointList2D();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

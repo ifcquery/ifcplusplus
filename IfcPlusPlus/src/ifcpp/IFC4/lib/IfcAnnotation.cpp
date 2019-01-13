@@ -26,7 +26,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcAnnotation 
-IfcAnnotation::IfcAnnotation() {}
 IfcAnnotation::IfcAnnotation( int id ) { m_entity_id = id; }
 IfcAnnotation::~IfcAnnotation() {}
 shared_ptr<BuildingObject> IfcAnnotation::getDeepCopy( BuildingCopyOptions& options )
@@ -34,7 +33,7 @@ shared_ptr<BuildingObject> IfcAnnotation::getDeepCopy( BuildingCopyOptions& opti
 	shared_ptr<IfcAnnotation> copy_self( new IfcAnnotation() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -88,17 +87,17 @@ void IfcAnnotation::getAttributes( std::vector<std::pair<std::string, shared_ptr
 void IfcAnnotation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProduct::getAttributesInverse( vec_attributes_inverse );
-	if( m_ContainedInStructure_inverse.size() > 0 )
+	if( !m_ContainedInStructure_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ContainedInStructure_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
 		{
 			if( !m_ContainedInStructure_inverse[i].expired() )
 			{
-				ContainedInStructure_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
+				ContainedInStructure_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
 	}
 }
 void IfcAnnotation::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

@@ -37,7 +37,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcDistributionElement 
-IfcDistributionElement::IfcDistributionElement() {}
 IfcDistributionElement::IfcDistributionElement( int id ) { m_entity_id = id; }
 IfcDistributionElement::~IfcDistributionElement() {}
 shared_ptr<BuildingObject> IfcDistributionElement::getDeepCopy( BuildingCopyOptions& options )
@@ -45,7 +44,7 @@ shared_ptr<BuildingObject> IfcDistributionElement::getDeepCopy( BuildingCopyOpti
 	shared_ptr<IfcDistributionElement> copy_self( new IfcDistributionElement() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -103,17 +102,17 @@ void IfcDistributionElement::getAttributes( std::vector<std::pair<std::string, s
 void IfcDistributionElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcElement::getAttributesInverse( vec_attributes_inverse );
-	if( m_HasPorts_inverse.size() > 0 )
+	if( !m_HasPorts_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasPorts_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasPorts_inverse.size(); ++i )
 		{
 			if( !m_HasPorts_inverse[i].expired() )
 			{
-				HasPorts_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsPortToElement>( m_HasPorts_inverse[i] ) );
+				HasPorts_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelConnectsPortToElement>( m_HasPorts_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasPorts_inverse", HasPorts_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasPorts_inverse", HasPorts_inverse_vec_obj ) );
 	}
 }
 void IfcDistributionElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMetric 
-IfcMetric::IfcMetric() {}
 IfcMetric::IfcMetric( int id ) { m_entity_id = id; }
 IfcMetric::~IfcMetric() {}
 shared_ptr<BuildingObject> IfcMetric::getDeepCopy( BuildingCopyOptions& options )
@@ -86,10 +85,10 @@ void IfcMetric::readStepArguments( const std::vector<std::wstring>& args, const 
 void IfcMetric::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConstraint::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Benchmark", m_Benchmark ) );
-	vec_attributes.push_back( std::make_pair( "ValueSource", m_ValueSource ) );
-	vec_attributes.push_back( std::make_pair( "DataValue", m_DataValue ) );
-	vec_attributes.push_back( std::make_pair( "ReferencePath", m_ReferencePath ) );
+	vec_attributes.emplace_back( std::make_pair( "Benchmark", m_Benchmark ) );
+	vec_attributes.emplace_back( std::make_pair( "ValueSource", m_ValueSource ) );
+	vec_attributes.emplace_back( std::make_pair( "DataValue", m_DataValue ) );
+	vec_attributes.emplace_back( std::make_pair( "ReferencePath", m_ReferencePath ) );
 }
 void IfcMetric::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcSIUnitName;
 class IFCQUERY_EXPORT IfcSIUnit : public IfcNamedUnit
 { 
 public:
-	IfcSIUnit();
+	IfcSIUnit() = default;
 	IfcSIUnit( int id );
 	~IfcSIUnit();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcFilterTypeEnum;
 class IFCQUERY_EXPORT IfcFilterType : public IfcFlowTreatmentDeviceType
 { 
 public:
-	IfcFilterType();
+	IfcFilterType() = default;
 	IfcFilterType( int id );
 	~IfcFilterType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

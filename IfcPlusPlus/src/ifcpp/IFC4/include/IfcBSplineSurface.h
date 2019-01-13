@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcLogical;
 class IFCQUERY_EXPORT IfcBSplineSurface : public IfcBoundedSurface
 { 
 public:
-	IfcBSplineSurface();
+	IfcBSplineSurface() = default;
 	IfcBSplineSurface( int id );
 	~IfcBSplineSurface();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

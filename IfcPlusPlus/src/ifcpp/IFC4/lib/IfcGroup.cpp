@@ -23,7 +23,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcGroup 
-IfcGroup::IfcGroup() {}
 IfcGroup::IfcGroup( int id ) { m_entity_id = id; }
 IfcGroup::~IfcGroup() {}
 shared_ptr<BuildingObject> IfcGroup::getDeepCopy( BuildingCopyOptions& options )
@@ -31,7 +30,7 @@ shared_ptr<BuildingObject> IfcGroup::getDeepCopy( BuildingCopyOptions& options )
 	shared_ptr<IfcGroup> copy_self( new IfcGroup() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -77,17 +76,17 @@ void IfcGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<Buil
 void IfcGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcObject::getAttributesInverse( vec_attributes_inverse );
-	if( m_IsGroupedBy_inverse.size() > 0 )
+	if( !m_IsGroupedBy_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> IsGroupedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsGroupedBy_inverse.size(); ++i )
 		{
 			if( !m_IsGroupedBy_inverse[i].expired() )
 			{
-				IsGroupedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToGroup>( m_IsGroupedBy_inverse[i] ) );
+				IsGroupedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssignsToGroup>( m_IsGroupedBy_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "IsGroupedBy_inverse", IsGroupedBy_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "IsGroupedBy_inverse", IsGroupedBy_inverse_vec_obj ) );
 	}
 }
 void IfcGroup::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

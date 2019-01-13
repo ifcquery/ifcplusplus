@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcStructuralCurveMemberTypeEnum.h"
 
 // TYPE IfcStructuralCurveMemberTypeEnum = ENUMERATION OF	(RIGID_JOINED_MEMBER	,PIN_JOINED_MEMBER	,CABLE	,TENSION_MEMBER	,COMPRESSION_MEMBER	,USERDEFINED	,NOTDEFINED);
-IfcStructuralCurveMemberTypeEnum::IfcStructuralCurveMemberTypeEnum() {}
 IfcStructuralCurveMemberTypeEnum::~IfcStructuralCurveMemberTypeEnum() {}
 shared_ptr<BuildingObject> IfcStructuralCurveMemberTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -50,7 +49,7 @@ const std::wstring IfcStructuralCurveMemberTypeEnum::toString() const
 shared_ptr<IfcStructuralCurveMemberTypeEnum> IfcStructuralCurveMemberTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStructuralCurveMemberTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStructuralCurveMemberTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStructuralCurveMemberTypeEnum>(); }
 	shared_ptr<IfcStructuralCurveMemberTypeEnum> type_object( new IfcStructuralCurveMemberTypeEnum() );
 	if( boost::iequals( arg, L".RIGID_JOINED_MEMBER." ) )
 	{

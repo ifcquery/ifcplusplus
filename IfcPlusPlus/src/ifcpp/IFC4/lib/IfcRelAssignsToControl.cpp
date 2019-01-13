@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelAssignsToControl 
-IfcRelAssignsToControl::IfcRelAssignsToControl() {}
 IfcRelAssignsToControl::IfcRelAssignsToControl( int id ) { m_entity_id = id; }
 IfcRelAssignsToControl::~IfcRelAssignsToControl() {}
 shared_ptr<BuildingObject> IfcRelAssignsToControl::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcRelAssignsToControl::getDeepCopy( BuildingCopyOpti
 	shared_ptr<IfcRelAssignsToControl> copy_self( new IfcRelAssignsToControl() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -40,7 +39,7 @@ shared_ptr<BuildingObject> IfcRelAssignsToControl::getDeepCopy( BuildingCopyOpti
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatedObjectsType ) { copy_self->m_RelatedObjectsType = dynamic_pointer_cast<IfcObjectTypeEnum>( m_RelatedObjectsType->getDeepCopy(options) ); }
@@ -82,7 +81,7 @@ void IfcRelAssignsToControl::readStepArguments( const std::vector<std::wstring>&
 void IfcRelAssignsToControl::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingControl", m_RelatingControl ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingControl", m_RelatingControl ) );
 }
 void IfcRelAssignsToControl::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -95,7 +94,7 @@ void IfcRelAssignsToControl::setInverseCounterparts( shared_ptr<BuildingEntity> 
 	if( !ptr_self ) { throw BuildingException( "IfcRelAssignsToControl::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatingControl )
 	{
-		m_RelatingControl->m_Controls_inverse.push_back( ptr_self );
+		m_RelatingControl->m_Controls_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelAssignsToControl::unlinkFromInverseCounterparts()

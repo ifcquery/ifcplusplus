@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPolygonalFaceSet 
-IfcPolygonalFaceSet::IfcPolygonalFaceSet() {}
 IfcPolygonalFaceSet::IfcPolygonalFaceSet( int id ) { m_entity_id = id; }
 IfcPolygonalFaceSet::~IfcPolygonalFaceSet() {}
 shared_ptr<BuildingObject> IfcPolygonalFaceSet::getDeepCopy( BuildingCopyOptions& options )
@@ -31,7 +30,7 @@ shared_ptr<BuildingObject> IfcPolygonalFaceSet::getDeepCopy( BuildingCopyOptions
 		auto item_ii = m_Faces[ii];
 		if( item_ii )
 		{
-			copy_self->m_Faces.push_back( dynamic_pointer_cast<IfcIndexedPolygonalFace>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Faces.emplace_back( dynamic_pointer_cast<IfcIndexedPolygonalFace>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_PnIndex.size(); ++ii )
@@ -39,7 +38,7 @@ shared_ptr<BuildingObject> IfcPolygonalFaceSet::getDeepCopy( BuildingCopyOptions
 		auto item_ii = m_PnIndex[ii];
 		if( item_ii )
 		{
-			copy_self->m_PnIndex.push_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_PnIndex.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -87,18 +86,18 @@ void IfcPolygonalFaceSet::readStepArguments( const std::vector<std::wstring>& ar
 void IfcPolygonalFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTessellatedFaceSet::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Closed", m_Closed ) );
-	if( m_Faces.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Closed", m_Closed ) );
+	if( !m_Faces.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Faces_vec_object( new AttributeObjectVector() );
 		std::copy( m_Faces.begin(), m_Faces.end(), std::back_inserter( Faces_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Faces", Faces_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Faces", Faces_vec_object ) );
 	}
-	if( m_PnIndex.size() > 0 )
+	if( !m_PnIndex.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PnIndex_vec_object( new AttributeObjectVector() );
 		std::copy( m_PnIndex.begin(), m_PnIndex.end(), std::back_inserter( PnIndex_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "PnIndex", PnIndex_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "PnIndex", PnIndex_vec_object ) );
 	}
 }
 void IfcPolygonalFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -114,7 +113,7 @@ void IfcPolygonalFaceSet::setInverseCounterparts( shared_ptr<BuildingEntity> ptr
 	{
 		if( m_Faces[i] )
 		{
-			m_Faces[i]->m_ToFaceSet_inverse.push_back( ptr_self );
+			m_Faces[i]->m_ToFaceSet_inverse.emplace_back( ptr_self );
 		}
 	}
 }

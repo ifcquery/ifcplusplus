@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcEdgeLoop 
-IfcEdgeLoop::IfcEdgeLoop() {}
 IfcEdgeLoop::IfcEdgeLoop( int id ) { m_entity_id = id; }
 IfcEdgeLoop::~IfcEdgeLoop() {}
 shared_ptr<BuildingObject> IfcEdgeLoop::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcEdgeLoop::getDeepCopy( BuildingCopyOptions& option
 		auto item_ii = m_EdgeList[ii];
 		if( item_ii )
 		{
-			copy_self->m_EdgeList.push_back( dynamic_pointer_cast<IfcOrientedEdge>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_EdgeList.emplace_back( dynamic_pointer_cast<IfcOrientedEdge>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -46,11 +45,11 @@ void IfcEdgeLoop::readStepArguments( const std::vector<std::wstring>& args, cons
 void IfcEdgeLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLoop::getAttributes( vec_attributes );
-	if( m_EdgeList.size() > 0 )
+	if( !m_EdgeList.empty() )
 	{
 		shared_ptr<AttributeObjectVector> EdgeList_vec_object( new AttributeObjectVector() );
 		std::copy( m_EdgeList.begin(), m_EdgeList.end(), std::back_inserter( EdgeList_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "EdgeList", EdgeList_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "EdgeList", EdgeList_vec_object ) );
 	}
 }
 void IfcEdgeLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcStackTerminalTypeEnum.h"
 
 // TYPE IfcStackTerminalTypeEnum = ENUMERATION OF	(BIRDCAGE	,COWL	,RAINWATERHOPPER	,USERDEFINED	,NOTDEFINED);
-IfcStackTerminalTypeEnum::IfcStackTerminalTypeEnum() {}
 IfcStackTerminalTypeEnum::~IfcStackTerminalTypeEnum() {}
 shared_ptr<BuildingObject> IfcStackTerminalTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcStackTerminalTypeEnum::toString() const
 shared_ptr<IfcStackTerminalTypeEnum> IfcStackTerminalTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStackTerminalTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStackTerminalTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStackTerminalTypeEnum>(); }
 	shared_ptr<IfcStackTerminalTypeEnum> type_object( new IfcStackTerminalTypeEnum() );
 	if( boost::iequals( arg, L".BIRDCAGE." ) )
 	{

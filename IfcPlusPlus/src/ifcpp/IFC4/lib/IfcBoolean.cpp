@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcBoolean.h"
 
 // TYPE IfcBoolean = BOOLEAN;
-IfcBoolean::IfcBoolean() {}
 IfcBoolean::IfcBoolean( bool value ) { m_value = value; }
 IfcBoolean::~IfcBoolean() {}
 shared_ptr<BuildingObject> IfcBoolean::getDeepCopy( BuildingCopyOptions& options )
@@ -54,7 +53,7 @@ const std::wstring IfcBoolean::toString() const
 shared_ptr<IfcBoolean> IfcBoolean::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBoolean>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBoolean>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBoolean>(); }
 	shared_ptr<IfcBoolean> type_object( new IfcBoolean() );
 	readBool( arg, type_object->m_value );
 	return type_object;

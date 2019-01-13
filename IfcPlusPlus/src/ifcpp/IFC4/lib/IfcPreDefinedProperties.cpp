@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcPreDefinedProperties.h"
 
 // ENTITY IfcPreDefinedProperties 
-IfcPreDefinedProperties::IfcPreDefinedProperties() {}
 IfcPreDefinedProperties::IfcPreDefinedProperties( int id ) { m_entity_id = id; }
 IfcPreDefinedProperties::~IfcPreDefinedProperties() {}
 shared_ptr<BuildingObject> IfcPreDefinedProperties::getDeepCopy( BuildingCopyOptions& options )

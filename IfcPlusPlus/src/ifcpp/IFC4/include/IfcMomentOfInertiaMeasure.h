@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcMomentOfInertiaMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcMomentOfInertiaMeasure();
+	IfcMomentOfInertiaMeasure() = default;
 	IfcMomentOfInertiaMeasure( double value );
 	~IfcMomentOfInertiaMeasure();
 	virtual const char* className() const { return "IfcMomentOfInertiaMeasure"; }

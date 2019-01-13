@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcSweptDiskSolidPolygonal.h"
 
 // ENTITY IfcSweptDiskSolidPolygonal 
-IfcSweptDiskSolidPolygonal::IfcSweptDiskSolidPolygonal() {}
 IfcSweptDiskSolidPolygonal::IfcSweptDiskSolidPolygonal( int id ) { m_entity_id = id; }
 IfcSweptDiskSolidPolygonal::~IfcSweptDiskSolidPolygonal() {}
 shared_ptr<BuildingObject> IfcSweptDiskSolidPolygonal::getDeepCopy( BuildingCopyOptions& options )
@@ -61,7 +60,7 @@ void IfcSweptDiskSolidPolygonal::readStepArguments( const std::vector<std::wstri
 void IfcSweptDiskSolidPolygonal::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSweptDiskSolid::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "FilletRadius", m_FilletRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "FilletRadius", m_FilletRadius ) );
 }
 void IfcSweptDiskSolidPolygonal::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

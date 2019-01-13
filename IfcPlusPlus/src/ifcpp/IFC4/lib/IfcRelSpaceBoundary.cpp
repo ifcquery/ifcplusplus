@@ -21,7 +21,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelSpaceBoundary 
-IfcRelSpaceBoundary::IfcRelSpaceBoundary() {}
 IfcRelSpaceBoundary::IfcRelSpaceBoundary( int id ) { m_entity_id = id; }
 IfcRelSpaceBoundary::~IfcRelSpaceBoundary() {}
 shared_ptr<BuildingObject> IfcRelSpaceBoundary::getDeepCopy( BuildingCopyOptions& options )
@@ -29,7 +28,7 @@ shared_ptr<BuildingObject> IfcRelSpaceBoundary::getDeepCopy( BuildingCopyOptions
 	shared_ptr<IfcRelSpaceBoundary> copy_self( new IfcRelSpaceBoundary() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -87,11 +86,11 @@ void IfcRelSpaceBoundary::readStepArguments( const std::vector<std::wstring>& ar
 void IfcRelSpaceBoundary::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingSpace", m_RelatingSpace ) );
-	vec_attributes.push_back( std::make_pair( "RelatedBuildingElement", m_RelatedBuildingElement ) );
-	vec_attributes.push_back( std::make_pair( "ConnectionGeometry", m_ConnectionGeometry ) );
-	vec_attributes.push_back( std::make_pair( "PhysicalOrVirtualBoundary", m_PhysicalOrVirtualBoundary ) );
-	vec_attributes.push_back( std::make_pair( "InternalOrExternalBoundary", m_InternalOrExternalBoundary ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingSpace", m_RelatingSpace ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedBuildingElement", m_RelatedBuildingElement ) );
+	vec_attributes.emplace_back( std::make_pair( "ConnectionGeometry", m_ConnectionGeometry ) );
+	vec_attributes.emplace_back( std::make_pair( "PhysicalOrVirtualBoundary", m_PhysicalOrVirtualBoundary ) );
+	vec_attributes.emplace_back( std::make_pair( "InternalOrExternalBoundary", m_InternalOrExternalBoundary ) );
 }
 void IfcRelSpaceBoundary::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -104,17 +103,17 @@ void IfcRelSpaceBoundary::setInverseCounterparts( shared_ptr<BuildingEntity> ptr
 	if( !ptr_self ) { throw BuildingException( "IfcRelSpaceBoundary::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatedBuildingElement )
 	{
-		m_RelatedBuildingElement->m_ProvidesBoundaries_inverse.push_back( ptr_self );
+		m_RelatedBuildingElement->m_ProvidesBoundaries_inverse.emplace_back( ptr_self );
 	}
 	shared_ptr<IfcExternalSpatialElement>  RelatingSpace_IfcExternalSpatialElement = dynamic_pointer_cast<IfcExternalSpatialElement>( m_RelatingSpace );
 	if( RelatingSpace_IfcExternalSpatialElement )
 	{
-		RelatingSpace_IfcExternalSpatialElement->m_BoundedBy_inverse.push_back( ptr_self );
+		RelatingSpace_IfcExternalSpatialElement->m_BoundedBy_inverse.emplace_back( ptr_self );
 	}
 	shared_ptr<IfcSpace>  RelatingSpace_IfcSpace = dynamic_pointer_cast<IfcSpace>( m_RelatingSpace );
 	if( RelatingSpace_IfcSpace )
 	{
-		RelatingSpace_IfcSpace->m_BoundedBy_inverse.push_back( ptr_self );
+		RelatingSpace_IfcSpace->m_BoundedBy_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelSpaceBoundary::unlinkFromInverseCounterparts()

@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBlock 
-IfcBlock::IfcBlock() {}
 IfcBlock::IfcBlock( int id ) { m_entity_id = id; }
 IfcBlock::~IfcBlock() {}
 shared_ptr<BuildingObject> IfcBlock::getDeepCopy( BuildingCopyOptions& options )
@@ -52,9 +51,9 @@ void IfcBlock::readStepArguments( const std::vector<std::wstring>& args, const s
 void IfcBlock::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "XLength", m_XLength ) );
-	vec_attributes.push_back( std::make_pair( "YLength", m_YLength ) );
-	vec_attributes.push_back( std::make_pair( "ZLength", m_ZLength ) );
+	vec_attributes.emplace_back( std::make_pair( "XLength", m_XLength ) );
+	vec_attributes.emplace_back( std::make_pair( "YLength", m_YLength ) );
+	vec_attributes.emplace_back( std::make_pair( "ZLength", m_ZLength ) );
 }
 void IfcBlock::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

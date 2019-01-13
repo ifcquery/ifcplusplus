@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcProfileDef 
-IfcProfileDef::IfcProfileDef() {}
 IfcProfileDef::IfcProfileDef( int id ) { m_entity_id = id; }
 IfcProfileDef::~IfcProfileDef() {}
 shared_ptr<BuildingObject> IfcProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -43,34 +42,34 @@ void IfcProfileDef::readStepArguments( const std::vector<std::wstring>& args, co
 }
 void IfcProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "ProfileType", m_ProfileType ) );
-	vec_attributes.push_back( std::make_pair( "ProfileName", m_ProfileName ) );
+	vec_attributes.emplace_back( std::make_pair( "ProfileType", m_ProfileType ) );
+	vec_attributes.emplace_back( std::make_pair( "ProfileName", m_ProfileName ) );
 }
 void IfcProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_HasExternalReference_inverse.size() > 0 )
+	if( !m_HasExternalReference_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasExternalReference_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasExternalReference_inverse.size(); ++i )
 		{
 			if( !m_HasExternalReference_inverse[i].expired() )
 			{
-				HasExternalReference_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
+				HasExternalReference_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
 	}
-	if( m_HasProperties_inverse.size() > 0 )
+	if( !m_HasProperties_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasProperties_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasProperties_inverse.size(); ++i )
 		{
 			if( !m_HasProperties_inverse[i].expired() )
 			{
-				HasProperties_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcProfileProperties>( m_HasProperties_inverse[i] ) );
+				HasProperties_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcProfileProperties>( m_HasProperties_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasProperties_inverse", HasProperties_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasProperties_inverse", HasProperties_inverse_vec_obj ) );
 	}
 }
 void IfcProfileDef::setInverseCounterparts( shared_ptr<BuildingEntity> )

@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcShapeAspect 
-IfcShapeAspect::IfcShapeAspect() {}
 IfcShapeAspect::IfcShapeAspect( int id ) { m_entity_id = id; }
 IfcShapeAspect::~IfcShapeAspect() {}
 shared_ptr<BuildingObject> IfcShapeAspect::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcShapeAspect::getDeepCopy( BuildingCopyOptions& opt
 		auto item_ii = m_ShapeRepresentations[ii];
 		if( item_ii )
 		{
-			copy_self->m_ShapeRepresentations.push_back( dynamic_pointer_cast<IfcShapeModel>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_ShapeRepresentations.emplace_back( dynamic_pointer_cast<IfcShapeModel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
@@ -65,16 +64,16 @@ void IfcShapeAspect::readStepArguments( const std::vector<std::wstring>& args, c
 }
 void IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( m_ShapeRepresentations.size() > 0 )
+	if( !m_ShapeRepresentations.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ShapeRepresentations_vec_object( new AttributeObjectVector() );
 		std::copy( m_ShapeRepresentations.begin(), m_ShapeRepresentations.end(), std::back_inserter( ShapeRepresentations_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "ShapeRepresentations", ShapeRepresentations_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "ShapeRepresentations", ShapeRepresentations_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "ProductDefinitional", m_ProductDefinitional ) );
-	vec_attributes.push_back( std::make_pair( "PartOfProductDefinitionShape", m_PartOfProductDefinitionShape ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "ProductDefinitional", m_ProductDefinitional ) );
+	vec_attributes.emplace_back( std::make_pair( "PartOfProductDefinitionShape", m_PartOfProductDefinitionShape ) );
 }
 void IfcShapeAspect::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -86,18 +85,18 @@ void IfcShapeAspect::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self
 	shared_ptr<IfcProductDefinitionShape>  PartOfProductDefinitionShape_IfcProductDefinitionShape = dynamic_pointer_cast<IfcProductDefinitionShape>( m_PartOfProductDefinitionShape );
 	if( PartOfProductDefinitionShape_IfcProductDefinitionShape )
 	{
-		PartOfProductDefinitionShape_IfcProductDefinitionShape->m_HasShapeAspects_inverse.push_back( ptr_self );
+		PartOfProductDefinitionShape_IfcProductDefinitionShape->m_HasShapeAspects_inverse.emplace_back( ptr_self );
 	}
 	shared_ptr<IfcRepresentationMap>  PartOfProductDefinitionShape_IfcRepresentationMap = dynamic_pointer_cast<IfcRepresentationMap>( m_PartOfProductDefinitionShape );
 	if( PartOfProductDefinitionShape_IfcRepresentationMap )
 	{
-		PartOfProductDefinitionShape_IfcRepresentationMap->m_HasShapeAspects_inverse.push_back( ptr_self );
+		PartOfProductDefinitionShape_IfcRepresentationMap->m_HasShapeAspects_inverse.emplace_back( ptr_self );
 	}
 	for( size_t i=0; i<m_ShapeRepresentations.size(); ++i )
 	{
 		if( m_ShapeRepresentations[i] )
 		{
-			m_ShapeRepresentations[i]->m_OfShapeAspect_inverse.push_back( ptr_self );
+			m_ShapeRepresentations[i]->m_OfShapeAspect_inverse.emplace_back( ptr_self );
 		}
 	}
 }

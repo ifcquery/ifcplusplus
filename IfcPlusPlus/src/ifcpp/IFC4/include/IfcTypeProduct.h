@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcRelAssignsToProduct;
 class IFCQUERY_EXPORT IfcTypeProduct : virtual public IfcProductSelect, public IfcTypeObject
 { 
 public:
-	IfcTypeProduct();
+	IfcTypeProduct() = default;
 	IfcTypeProduct( int id );
 	~IfcTypeProduct();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

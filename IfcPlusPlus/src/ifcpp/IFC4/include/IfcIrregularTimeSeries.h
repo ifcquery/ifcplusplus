@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcIrregularTimeSeriesValue;
 class IFCQUERY_EXPORT IfcIrregularTimeSeries : public IfcTimeSeries
 { 
 public:
-	IfcIrregularTimeSeries();
+	IfcIrregularTimeSeries() = default;
 	IfcIrregularTimeSeries( int id );
 	~IfcIrregularTimeSeries();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -32,7 +32,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcSite 
-IfcSite::IfcSite() {}
 IfcSite::IfcSite( int id ) { m_entity_id = id; }
 IfcSite::~IfcSite() {}
 shared_ptr<BuildingObject> IfcSite::getDeepCopy( BuildingCopyOptions& options )
@@ -40,7 +39,7 @@ shared_ptr<BuildingObject> IfcSite::getDeepCopy( BuildingCopyOptions& options )
 	shared_ptr<IfcSite> copy_self( new IfcSite() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -118,11 +117,11 @@ void IfcSite::readStepArguments( const std::vector<std::wstring>& args, const st
 void IfcSite::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSpatialStructureElement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RefLatitude", m_RefLatitude ) );
-	vec_attributes.push_back( std::make_pair( "RefLongitude", m_RefLongitude ) );
-	vec_attributes.push_back( std::make_pair( "RefElevation", m_RefElevation ) );
-	vec_attributes.push_back( std::make_pair( "LandTitleNumber", m_LandTitleNumber ) );
-	vec_attributes.push_back( std::make_pair( "SiteAddress", m_SiteAddress ) );
+	vec_attributes.emplace_back( std::make_pair( "RefLatitude", m_RefLatitude ) );
+	vec_attributes.emplace_back( std::make_pair( "RefLongitude", m_RefLongitude ) );
+	vec_attributes.emplace_back( std::make_pair( "RefElevation", m_RefElevation ) );
+	vec_attributes.emplace_back( std::make_pair( "LandTitleNumber", m_LandTitleNumber ) );
+	vec_attributes.emplace_back( std::make_pair( "SiteAddress", m_SiteAddress ) );
 }
 void IfcSite::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

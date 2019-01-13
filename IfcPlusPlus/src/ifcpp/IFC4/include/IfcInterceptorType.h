@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcInterceptorTypeEnum;
 class IFCQUERY_EXPORT IfcInterceptorType : public IfcFlowTreatmentDeviceType
 { 
 public:
-	IfcInterceptorType();
+	IfcInterceptorType() = default;
 	IfcInterceptorType( int id );
 	~IfcInterceptorType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

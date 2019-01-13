@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcSphericalSurface 
-IfcSphericalSurface::IfcSphericalSurface() {}
 IfcSphericalSurface::IfcSphericalSurface( int id ) { m_entity_id = id; }
 IfcSphericalSurface::~IfcSphericalSurface() {}
 shared_ptr<BuildingObject> IfcSphericalSurface::getDeepCopy( BuildingCopyOptions& options )
@@ -44,7 +43,7 @@ void IfcSphericalSurface::readStepArguments( const std::vector<std::wstring>& ar
 void IfcSphericalSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcElementarySurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
+	vec_attributes.emplace_back( std::make_pair( "Radius", m_Radius ) );
 }
 void IfcSphericalSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

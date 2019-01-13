@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcRelAssignsToActor;
 class IFCQUERY_EXPORT IfcActor : public IfcObject
 { 
 public:
-	IfcActor();
+	IfcActor() = default;
 	IfcActor( int id );
 	~IfcActor();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

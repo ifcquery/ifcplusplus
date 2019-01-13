@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPhysicalQuantity;
 class IFCQUERY_EXPORT IfcElementQuantity : public IfcQuantitySet
 { 
 public:
-	IfcElementQuantity();
+	IfcElementQuantity() = default;
 	IfcElementQuantity( int id );
 	~IfcElementQuantity();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

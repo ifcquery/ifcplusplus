@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianTransformationOperator3D 
-IfcCartesianTransformationOperator3D::IfcCartesianTransformationOperator3D() {}
 IfcCartesianTransformationOperator3D::IfcCartesianTransformationOperator3D( int id ) { m_entity_id = id; }
 IfcCartesianTransformationOperator3D::~IfcCartesianTransformationOperator3D() {}
 shared_ptr<BuildingObject> IfcCartesianTransformationOperator3D::getDeepCopy( BuildingCopyOptions& options )
@@ -31,7 +30,7 @@ shared_ptr<BuildingObject> IfcCartesianTransformationOperator3D::getDeepCopy( Bu
 void IfcCartesianTransformationOperator3D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCARTESIANTRANSFORMATIONOPERATOR3D" << "(";
-	if( m_Axis1 ) { stream << "#" << m_Axis1->m_entity_id; } else { stream << "*"; }
+	if( m_Axis1 ) { stream << "#" << m_Axis1->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Axis2 ) { stream << "#" << m_Axis2->m_entity_id; } else { stream << "$"; }
 	stream << ",";
@@ -57,7 +56,7 @@ void IfcCartesianTransformationOperator3D::readStepArguments( const std::vector<
 void IfcCartesianTransformationOperator3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCartesianTransformationOperator::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Axis3", m_Axis3 ) );
+	vec_attributes.emplace_back( std::make_pair( "Axis3", m_Axis3 ) );
 }
 void IfcCartesianTransformationOperator3D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

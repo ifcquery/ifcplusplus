@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcLinearStiffnessMeasure.h"
 
 // TYPE IfcLinearStiffnessMeasure = REAL;
-IfcLinearStiffnessMeasure::IfcLinearStiffnessMeasure() {}
 IfcLinearStiffnessMeasure::IfcLinearStiffnessMeasure( double value ) { m_value = value; }
 IfcLinearStiffnessMeasure::~IfcLinearStiffnessMeasure() {}
 shared_ptr<BuildingObject> IfcLinearStiffnessMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ const std::wstring IfcLinearStiffnessMeasure::toString() const
 shared_ptr<IfcLinearStiffnessMeasure> IfcLinearStiffnessMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLinearStiffnessMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLinearStiffnessMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLinearStiffnessMeasure>(); }
 	shared_ptr<IfcLinearStiffnessMeasure> type_object( new IfcLinearStiffnessMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

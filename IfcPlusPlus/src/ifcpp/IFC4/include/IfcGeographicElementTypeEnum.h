@@ -20,7 +20,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcGeographicElementTypeEnum();
+	IfcGeographicElementTypeEnum() = default;
 	IfcGeographicElementTypeEnum( IfcGeographicElementTypeEnumEnum e ) { m_enum = e; }
 	~IfcGeographicElementTypeEnum();
 	virtual const char* className() const { return "IfcGeographicElementTypeEnum"; }

@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcSurface.h"
 
 // ENTITY IfcBoxedHalfSpace 
-IfcBoxedHalfSpace::IfcBoxedHalfSpace() {}
 IfcBoxedHalfSpace::IfcBoxedHalfSpace( int id ) { m_entity_id = id; }
 IfcBoxedHalfSpace::~IfcBoxedHalfSpace() {}
 shared_ptr<BuildingObject> IfcBoxedHalfSpace::getDeepCopy( BuildingCopyOptions& options )
@@ -49,7 +48,7 @@ void IfcBoxedHalfSpace::readStepArguments( const std::vector<std::wstring>& args
 void IfcBoxedHalfSpace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcHalfSpaceSolid::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Enclosure", m_Enclosure ) );
+	vec_attributes.emplace_back( std::make_pair( "Enclosure", m_Enclosure ) );
 }
 void IfcBoxedHalfSpace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

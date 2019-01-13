@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcVibrationIsolatorTypeEnum.h"
 
 // TYPE IfcVibrationIsolatorTypeEnum = ENUMERATION OF	(COMPRESSION	,SPRING	,USERDEFINED	,NOTDEFINED);
-IfcVibrationIsolatorTypeEnum::IfcVibrationIsolatorTypeEnum() {}
 IfcVibrationIsolatorTypeEnum::~IfcVibrationIsolatorTypeEnum() {}
 shared_ptr<BuildingObject> IfcVibrationIsolatorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -44,7 +43,7 @@ const std::wstring IfcVibrationIsolatorTypeEnum::toString() const
 shared_ptr<IfcVibrationIsolatorTypeEnum> IfcVibrationIsolatorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVibrationIsolatorTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVibrationIsolatorTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVibrationIsolatorTypeEnum>(); }
 	shared_ptr<IfcVibrationIsolatorTypeEnum> type_object( new IfcVibrationIsolatorTypeEnum() );
 	if( boost::iequals( arg, L".COMPRESSION." ) )
 	{

@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcRoleEnum.h"
 
 // TYPE IfcRoleEnum = ENUMERATION OF	(SUPPLIER	,MANUFACTURER	,CONTRACTOR	,SUBCONTRACTOR	,ARCHITECT	,STRUCTURALENGINEER	,COSTENGINEER	,CLIENT	,BUILDINGOWNER	,BUILDINGOPERATOR	,MECHANICALENGINEER	,ELECTRICALENGINEER	,PROJECTMANAGER	,FACILITIESMANAGER	,CIVILENGINEER	,COMMISSIONINGENGINEER	,ENGINEER	,OWNER	,CONSULTANT	,CONSTRUCTIONMANAGER	,FIELDCONSTRUCTIONMANAGER	,RESELLER	,USERDEFINED);
-IfcRoleEnum::IfcRoleEnum() {}
 IfcRoleEnum::~IfcRoleEnum() {}
 shared_ptr<BuildingObject> IfcRoleEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -82,7 +81,7 @@ const std::wstring IfcRoleEnum::toString() const
 shared_ptr<IfcRoleEnum> IfcRoleEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRoleEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRoleEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRoleEnum>(); }
 	shared_ptr<IfcRoleEnum> type_object( new IfcRoleEnum() );
 	if( boost::iequals( arg, L".SUPPLIER." ) )
 	{

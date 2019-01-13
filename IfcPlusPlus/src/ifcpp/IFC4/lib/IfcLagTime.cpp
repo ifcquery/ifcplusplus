@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcTimeOrRatioSelect.h"
 
 // ENTITY IfcLagTime 
-IfcLagTime::IfcLagTime() {}
 IfcLagTime::IfcLagTime( int id ) { m_entity_id = id; }
 IfcLagTime::~IfcLagTime() {}
 shared_ptr<BuildingObject> IfcLagTime::getDeepCopy( BuildingCopyOptions& options )
@@ -56,8 +55,8 @@ void IfcLagTime::readStepArguments( const std::vector<std::wstring>& args, const
 void IfcLagTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSchedulingTime::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "LagValue", m_LagValue ) );
-	vec_attributes.push_back( std::make_pair( "DurationType", m_DurationType ) );
+	vec_attributes.emplace_back( std::make_pair( "LagValue", m_LagValue ) );
+	vec_attributes.emplace_back( std::make_pair( "DurationType", m_DurationType ) );
 }
 void IfcLagTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

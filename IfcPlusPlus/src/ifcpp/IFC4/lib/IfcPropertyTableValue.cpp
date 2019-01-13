@@ -21,7 +21,6 @@
 #include "ifcpp/IFC4/include/IfcValue.h"
 
 // ENTITY IfcPropertyTableValue 
-IfcPropertyTableValue::IfcPropertyTableValue() {}
 IfcPropertyTableValue::IfcPropertyTableValue( int id ) { m_entity_id = id; }
 IfcPropertyTableValue::~IfcPropertyTableValue() {}
 shared_ptr<BuildingObject> IfcPropertyTableValue::getDeepCopy( BuildingCopyOptions& options )
@@ -34,7 +33,7 @@ shared_ptr<BuildingObject> IfcPropertyTableValue::getDeepCopy( BuildingCopyOptio
 		auto item_ii = m_DefiningValues[ii];
 		if( item_ii )
 		{
-			copy_self->m_DefiningValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_DefiningValues.emplace_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_DefinedValues.size(); ++ii )
@@ -42,7 +41,7 @@ shared_ptr<BuildingObject> IfcPropertyTableValue::getDeepCopy( BuildingCopyOptio
 		auto item_ii = m_DefinedValues[ii];
 		if( item_ii )
 		{
-			copy_self->m_DefinedValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_DefinedValues.emplace_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Expression ) { copy_self->m_Expression = dynamic_pointer_cast<IfcText>( m_Expression->getDeepCopy(options) ); }
@@ -123,22 +122,22 @@ void IfcPropertyTableValue::readStepArguments( const std::vector<std::wstring>& 
 void IfcPropertyTableValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
-	if( m_DefiningValues.size() > 0 )
+	if( !m_DefiningValues.empty() )
 	{
 		shared_ptr<AttributeObjectVector> DefiningValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_DefiningValues.begin(), m_DefiningValues.end(), std::back_inserter( DefiningValues_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "DefiningValues", DefiningValues_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "DefiningValues", DefiningValues_vec_object ) );
 	}
-	if( m_DefinedValues.size() > 0 )
+	if( !m_DefinedValues.empty() )
 	{
 		shared_ptr<AttributeObjectVector> DefinedValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_DefinedValues.begin(), m_DefinedValues.end(), std::back_inserter( DefinedValues_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "DefinedValues", DefinedValues_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "DefinedValues", DefinedValues_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "Expression", m_Expression ) );
-	vec_attributes.push_back( std::make_pair( "DefiningUnit", m_DefiningUnit ) );
-	vec_attributes.push_back( std::make_pair( "DefinedUnit", m_DefinedUnit ) );
-	vec_attributes.push_back( std::make_pair( "CurveInterpolation", m_CurveInterpolation ) );
+	vec_attributes.emplace_back( std::make_pair( "Expression", m_Expression ) );
+	vec_attributes.emplace_back( std::make_pair( "DefiningUnit", m_DefiningUnit ) );
+	vec_attributes.emplace_back( std::make_pair( "DefinedUnit", m_DefinedUnit ) );
+	vec_attributes.emplace_back( std::make_pair( "CurveInterpolation", m_CurveInterpolation ) );
 }
 void IfcPropertyTableValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

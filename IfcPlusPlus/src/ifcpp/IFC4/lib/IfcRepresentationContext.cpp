@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcRepresentationContext.h"
 
 // ENTITY IfcRepresentationContext 
-IfcRepresentationContext::IfcRepresentationContext() {}
 IfcRepresentationContext::IfcRepresentationContext( int id ) { m_entity_id = id; }
 IfcRepresentationContext::~IfcRepresentationContext() {}
 shared_ptr<BuildingObject> IfcRepresentationContext::getDeepCopy( BuildingCopyOptions& options )
@@ -41,22 +40,22 @@ void IfcRepresentationContext::readStepArguments( const std::vector<std::wstring
 }
 void IfcRepresentationContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "ContextIdentifier", m_ContextIdentifier ) );
-	vec_attributes.push_back( std::make_pair( "ContextType", m_ContextType ) );
+	vec_attributes.emplace_back( std::make_pair( "ContextIdentifier", m_ContextIdentifier ) );
+	vec_attributes.emplace_back( std::make_pair( "ContextType", m_ContextType ) );
 }
 void IfcRepresentationContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_RepresentationsInContext_inverse.size() > 0 )
+	if( !m_RepresentationsInContext_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RepresentationsInContext_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_RepresentationsInContext_inverse.size(); ++i )
 		{
 			if( !m_RepresentationsInContext_inverse[i].expired() )
 			{
-				RepresentationsInContext_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRepresentation>( m_RepresentationsInContext_inverse[i] ) );
+				RepresentationsInContext_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRepresentation>( m_RepresentationsInContext_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "RepresentationsInContext_inverse", RepresentationsInContext_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "RepresentationsInContext_inverse", RepresentationsInContext_inverse_vec_obj ) );
 	}
 }
 void IfcRepresentationContext::setInverseCounterparts( shared_ptr<BuildingEntity> )

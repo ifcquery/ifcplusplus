@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcBuildingStorey : public IfcSpatialStructureElement
 { 
 public:
-	IfcBuildingStorey();
+	IfcBuildingStorey() = default;
 	IfcBuildingStorey( int id );
 	~IfcBuildingStorey();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

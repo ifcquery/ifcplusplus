@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPlacement 
-IfcPlacement::IfcPlacement() {}
 IfcPlacement::IfcPlacement( int id ) { m_entity_id = id; }
 IfcPlacement::~IfcPlacement() {}
 shared_ptr<BuildingObject> IfcPlacement::getDeepCopy( BuildingCopyOptions& options )
@@ -39,7 +38,7 @@ void IfcPlacement::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Location", m_Location ) );
+	vec_attributes.emplace_back( std::make_pair( "Location", m_Location ) );
 }
 void IfcPlacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

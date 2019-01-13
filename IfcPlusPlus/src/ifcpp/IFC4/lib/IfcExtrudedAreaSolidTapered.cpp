@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcExtrudedAreaSolidTapered 
-IfcExtrudedAreaSolidTapered::IfcExtrudedAreaSolidTapered() {}
 IfcExtrudedAreaSolidTapered::IfcExtrudedAreaSolidTapered( int id ) { m_entity_id = id; }
 IfcExtrudedAreaSolidTapered::~IfcExtrudedAreaSolidTapered() {}
 shared_ptr<BuildingObject> IfcExtrudedAreaSolidTapered::getDeepCopy( BuildingCopyOptions& options )
@@ -66,7 +65,7 @@ void IfcExtrudedAreaSolidTapered::readStepArguments( const std::vector<std::wstr
 void IfcExtrudedAreaSolidTapered::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExtrudedAreaSolid::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "EndSweptArea", m_EndSweptArea ) );
+	vec_attributes.emplace_back( std::make_pair( "EndSweptArea", m_EndSweptArea ) );
 }
 void IfcExtrudedAreaSolidTapered::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

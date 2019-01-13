@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcSeamCurve 
-IfcSeamCurve::IfcSeamCurve() {}
 IfcSeamCurve::IfcSeamCurve( int id ) { m_entity_id = id; }
 IfcSeamCurve::~IfcSeamCurve() {}
 shared_ptr<BuildingObject> IfcSeamCurve::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcSeamCurve::getDeepCopy( BuildingCopyOptions& optio
 		auto item_ii = m_AssociatedGeometry[ii];
 		if( item_ii )
 		{
-			copy_self->m_AssociatedGeometry.push_back( dynamic_pointer_cast<IfcPcurve>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_AssociatedGeometry.emplace_back( dynamic_pointer_cast<IfcPcurve>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_MasterRepresentation ) { copy_self->m_MasterRepresentation = dynamic_pointer_cast<IfcPreferredSurfaceCurveRepresentation>( m_MasterRepresentation->getDeepCopy(options) ); }

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcWallTypeEnum;
 class IFCQUERY_EXPORT IfcWallType : public IfcBuildingElementType
 { 
 public:
-	IfcWallType();
+	IfcWallType() = default;
 	IfcWallType( int id );
 	~IfcWallType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

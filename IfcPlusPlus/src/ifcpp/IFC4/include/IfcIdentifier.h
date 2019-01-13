@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcIdentifier : public IfcSimpleValue
 {
 public:
-	IfcIdentifier();
+	IfcIdentifier() = default;
 	IfcIdentifier( std::wstring value );
 	~IfcIdentifier();
 	virtual const char* className() const { return "IfcIdentifier"; }

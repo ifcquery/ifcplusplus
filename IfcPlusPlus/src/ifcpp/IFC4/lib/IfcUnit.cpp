@@ -8,7 +8,7 @@
 // TYPE IfcUnit = SELECT	(IfcDerivedUnit	,IfcMonetaryUnit	,IfcNamedUnit);
 shared_ptr<IfcUnit> IfcUnit::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcUnit>(); }
+	if( arg.empty() ){ return shared_ptr<IfcUnit>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcUnit>();

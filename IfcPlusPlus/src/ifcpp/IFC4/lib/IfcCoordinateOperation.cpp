@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcGeometricRepresentationContext.h"
 
 // ENTITY IfcCoordinateOperation 
-IfcCoordinateOperation::IfcCoordinateOperation() {}
 IfcCoordinateOperation::IfcCoordinateOperation( int id ) { m_entity_id = id; }
 IfcCoordinateOperation::~IfcCoordinateOperation() {}
 shared_ptr<BuildingObject> IfcCoordinateOperation::getDeepCopy( BuildingCopyOptions& options )
@@ -42,8 +41,8 @@ void IfcCoordinateOperation::readStepArguments( const std::vector<std::wstring>&
 }
 void IfcCoordinateOperation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "SourceCRS", m_SourceCRS ) );
-	vec_attributes.push_back( std::make_pair( "TargetCRS", m_TargetCRS ) );
+	vec_attributes.emplace_back( std::make_pair( "SourceCRS", m_SourceCRS ) );
+	vec_attributes.emplace_back( std::make_pair( "TargetCRS", m_TargetCRS ) );
 }
 void IfcCoordinateOperation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -55,12 +54,12 @@ void IfcCoordinateOperation::setInverseCounterparts( shared_ptr<BuildingEntity> 
 	shared_ptr<IfcCoordinateReferenceSystem>  SourceCRS_IfcCoordinateReferenceSystem = dynamic_pointer_cast<IfcCoordinateReferenceSystem>( m_SourceCRS );
 	if( SourceCRS_IfcCoordinateReferenceSystem )
 	{
-		SourceCRS_IfcCoordinateReferenceSystem->m_HasCoordinateOperation_inverse.push_back( ptr_self );
+		SourceCRS_IfcCoordinateReferenceSystem->m_HasCoordinateOperation_inverse.emplace_back( ptr_self );
 	}
 	shared_ptr<IfcGeometricRepresentationContext>  SourceCRS_IfcGeometricRepresentationContext = dynamic_pointer_cast<IfcGeometricRepresentationContext>( m_SourceCRS );
 	if( SourceCRS_IfcGeometricRepresentationContext )
 	{
-		SourceCRS_IfcGeometricRepresentationContext->m_HasCoordinateOperation_inverse.push_back( ptr_self );
+		SourceCRS_IfcGeometricRepresentationContext->m_HasCoordinateOperation_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcCoordinateOperation::unlinkFromInverseCounterparts()

@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcMassPerLengthMeasure.h"
 
 // TYPE IfcMassPerLengthMeasure = REAL;
-IfcMassPerLengthMeasure::IfcMassPerLengthMeasure() {}
 IfcMassPerLengthMeasure::IfcMassPerLengthMeasure( double value ) { m_value = value; }
 IfcMassPerLengthMeasure::~IfcMassPerLengthMeasure() {}
 shared_ptr<BuildingObject> IfcMassPerLengthMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcMassPerLengthMeasure::toString() const
 shared_ptr<IfcMassPerLengthMeasure> IfcMassPerLengthMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMassPerLengthMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMassPerLengthMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMassPerLengthMeasure>(); }
 	shared_ptr<IfcMassPerLengthMeasure> type_object( new IfcMassPerLengthMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

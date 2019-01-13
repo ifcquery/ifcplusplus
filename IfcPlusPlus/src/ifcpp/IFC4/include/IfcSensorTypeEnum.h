@@ -43,7 +43,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcSensorTypeEnum();
+	IfcSensorTypeEnum() = default;
 	IfcSensorTypeEnum( IfcSensorTypeEnumEnum e ) { m_enum = e; }
 	~IfcSensorTypeEnum();
 	virtual const char* className() const { return "IfcSensorTypeEnum"; }

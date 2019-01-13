@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCartesianPoint;
 class IFCQUERY_EXPORT IfcPolyLoop : public IfcLoop
 { 
 public:
-	IfcPolyLoop();
+	IfcPolyLoop() = default;
 	IfcPolyLoop( int id );
 	~IfcPolyLoop();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

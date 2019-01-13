@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcRelDecomposes : public IfcRelationship
 { 
 public:
-	IfcRelDecomposes();
+	IfcRelDecomposes() = default;
 	IfcRelDecomposes( int id );
 	~IfcRelDecomposes();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

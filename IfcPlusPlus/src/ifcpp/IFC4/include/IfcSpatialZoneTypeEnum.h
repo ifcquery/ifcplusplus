@@ -27,7 +27,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcSpatialZoneTypeEnum();
+	IfcSpatialZoneTypeEnum() = default;
 	IfcSpatialZoneTypeEnum( IfcSpatialZoneTypeEnumEnum e ) { m_enum = e; }
 	~IfcSpatialZoneTypeEnum();
 	virtual const char* className() const { return "IfcSpatialZoneTypeEnum"; }

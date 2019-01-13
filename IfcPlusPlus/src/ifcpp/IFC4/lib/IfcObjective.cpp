@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcObjective 
-IfcObjective::IfcObjective() {}
 IfcObjective::IfcObjective( int id ) { m_entity_id = id; }
 IfcObjective::~IfcObjective() {}
 shared_ptr<BuildingObject> IfcObjective::getDeepCopy( BuildingCopyOptions& options )
@@ -38,7 +37,7 @@ shared_ptr<BuildingObject> IfcObjective::getDeepCopy( BuildingCopyOptions& optio
 		auto item_ii = m_BenchmarkValues[ii];
 		if( item_ii )
 		{
-			copy_self->m_BenchmarkValues.push_back( dynamic_pointer_cast<IfcConstraint>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_BenchmarkValues.emplace_back( dynamic_pointer_cast<IfcConstraint>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_LogicalAggregator ) { copy_self->m_LogicalAggregator = dynamic_pointer_cast<IfcLogicalOperatorEnum>( m_LogicalAggregator->getDeepCopy(options) ); }
@@ -93,15 +92,15 @@ void IfcObjective::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcObjective::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConstraint::getAttributes( vec_attributes );
-	if( m_BenchmarkValues.size() > 0 )
+	if( !m_BenchmarkValues.empty() )
 	{
 		shared_ptr<AttributeObjectVector> BenchmarkValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_BenchmarkValues.begin(), m_BenchmarkValues.end(), std::back_inserter( BenchmarkValues_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "BenchmarkValues", BenchmarkValues_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "BenchmarkValues", BenchmarkValues_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "LogicalAggregator", m_LogicalAggregator ) );
-	vec_attributes.push_back( std::make_pair( "ObjectiveQualifier", m_ObjectiveQualifier ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedQualifier", m_UserDefinedQualifier ) );
+	vec_attributes.emplace_back( std::make_pair( "LogicalAggregator", m_LogicalAggregator ) );
+	vec_attributes.emplace_back( std::make_pair( "ObjectiveQualifier", m_ObjectiveQualifier ) );
+	vec_attributes.emplace_back( std::make_pair( "UserDefinedQualifier", m_UserDefinedQualifier ) );
 }
 void IfcObjective::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

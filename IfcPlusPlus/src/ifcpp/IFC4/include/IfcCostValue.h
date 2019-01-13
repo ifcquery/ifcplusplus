@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcCostValue : public IfcAppliedValue
 { 
 public:
-	IfcCostValue();
+	IfcCostValue() = default;
 	IfcCostValue( int id );
 	~IfcCostValue();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

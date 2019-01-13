@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcDocumentStatusEnum.h"
 
 // TYPE IfcDocumentStatusEnum = ENUMERATION OF	(DRAFT	,FINALDRAFT	,FINAL	,REVISION	,NOTDEFINED);
-IfcDocumentStatusEnum::IfcDocumentStatusEnum() {}
 IfcDocumentStatusEnum::~IfcDocumentStatusEnum() {}
 shared_ptr<BuildingObject> IfcDocumentStatusEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcDocumentStatusEnum::toString() const
 shared_ptr<IfcDocumentStatusEnum> IfcDocumentStatusEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDocumentStatusEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDocumentStatusEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDocumentStatusEnum>(); }
 	shared_ptr<IfcDocumentStatusEnum> type_object( new IfcDocumentStatusEnum() );
 	if( boost::iequals( arg, L".DRAFT." ) )
 	{

@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // ENTITY IfcExternalReference 
-IfcExternalReference::IfcExternalReference() {}
 IfcExternalReference::IfcExternalReference( int id ) { m_entity_id = id; }
 IfcExternalReference::~IfcExternalReference() {}
 shared_ptr<BuildingObject> IfcExternalReference::getDeepCopy( BuildingCopyOptions& options )
@@ -47,23 +46,23 @@ void IfcExternalReference::readStepArguments( const std::vector<std::wstring>& a
 }
 void IfcExternalReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Location", m_Location ) );
-	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Location", m_Location ) );
+	vec_attributes.emplace_back( std::make_pair( "Identification", m_Identification ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 }
 void IfcExternalReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_ExternalReferenceForResources_inverse.size() > 0 )
+	if( !m_ExternalReferenceForResources_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ExternalReferenceForResources_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ExternalReferenceForResources_inverse.size(); ++i )
 		{
 			if( !m_ExternalReferenceForResources_inverse[i].expired() )
 			{
-				ExternalReferenceForResources_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_ExternalReferenceForResources_inverse[i] ) );
+				ExternalReferenceForResources_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcExternalReferenceRelationship>( m_ExternalReferenceForResources_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ExternalReferenceForResources_inverse", ExternalReferenceForResources_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ExternalReferenceForResources_inverse", ExternalReferenceForResources_inverse_vec_obj ) );
 	}
 }
 void IfcExternalReference::setInverseCounterparts( shared_ptr<BuildingEntity> )

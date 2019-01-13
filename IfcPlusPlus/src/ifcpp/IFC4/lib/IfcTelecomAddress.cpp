@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // ENTITY IfcTelecomAddress 
-IfcTelecomAddress::IfcTelecomAddress() {}
 IfcTelecomAddress::IfcTelecomAddress( int id ) { m_entity_id = id; }
 IfcTelecomAddress::~IfcTelecomAddress() {}
 shared_ptr<BuildingObject> IfcTelecomAddress::getDeepCopy( BuildingCopyOptions& options )
@@ -30,7 +29,7 @@ shared_ptr<BuildingObject> IfcTelecomAddress::getDeepCopy( BuildingCopyOptions& 
 		auto item_ii = m_TelephoneNumbers[ii];
 		if( item_ii )
 		{
-			copy_self->m_TelephoneNumbers.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_TelephoneNumbers.emplace_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_FacsimileNumbers.size(); ++ii )
@@ -38,7 +37,7 @@ shared_ptr<BuildingObject> IfcTelecomAddress::getDeepCopy( BuildingCopyOptions& 
 		auto item_ii = m_FacsimileNumbers[ii];
 		if( item_ii )
 		{
-			copy_self->m_FacsimileNumbers.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_FacsimileNumbers.emplace_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_PagerNumber ) { copy_self->m_PagerNumber = dynamic_pointer_cast<IfcLabel>( m_PagerNumber->getDeepCopy(options) ); }
@@ -47,7 +46,7 @@ shared_ptr<BuildingObject> IfcTelecomAddress::getDeepCopy( BuildingCopyOptions& 
 		auto item_ii = m_ElectronicMailAddresses[ii];
 		if( item_ii )
 		{
-			copy_self->m_ElectronicMailAddresses.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_ElectronicMailAddresses.emplace_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_WWWHomePageURL ) { copy_self->m_WWWHomePageURL = dynamic_pointer_cast<IfcURIReference>( m_WWWHomePageURL->getDeepCopy(options) ); }
@@ -56,7 +55,7 @@ shared_ptr<BuildingObject> IfcTelecomAddress::getDeepCopy( BuildingCopyOptions& 
 		auto item_ii = m_MessagingIDs[ii];
 		if( item_ii )
 		{
-			copy_self->m_MessagingIDs.push_back( dynamic_pointer_cast<IfcURIReference>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_MessagingIDs.emplace_back( dynamic_pointer_cast<IfcURIReference>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -170,31 +169,31 @@ void IfcTelecomAddress::readStepArguments( const std::vector<std::wstring>& args
 void IfcTelecomAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcAddress::getAttributes( vec_attributes );
-	if( m_TelephoneNumbers.size() > 0 )
+	if( !m_TelephoneNumbers.empty() )
 	{
 		shared_ptr<AttributeObjectVector> TelephoneNumbers_vec_object( new AttributeObjectVector() );
 		std::copy( m_TelephoneNumbers.begin(), m_TelephoneNumbers.end(), std::back_inserter( TelephoneNumbers_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "TelephoneNumbers", TelephoneNumbers_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "TelephoneNumbers", TelephoneNumbers_vec_object ) );
 	}
-	if( m_FacsimileNumbers.size() > 0 )
+	if( !m_FacsimileNumbers.empty() )
 	{
 		shared_ptr<AttributeObjectVector> FacsimileNumbers_vec_object( new AttributeObjectVector() );
 		std::copy( m_FacsimileNumbers.begin(), m_FacsimileNumbers.end(), std::back_inserter( FacsimileNumbers_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "FacsimileNumbers", FacsimileNumbers_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "FacsimileNumbers", FacsimileNumbers_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "PagerNumber", m_PagerNumber ) );
-	if( m_ElectronicMailAddresses.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "PagerNumber", m_PagerNumber ) );
+	if( !m_ElectronicMailAddresses.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ElectronicMailAddresses_vec_object( new AttributeObjectVector() );
 		std::copy( m_ElectronicMailAddresses.begin(), m_ElectronicMailAddresses.end(), std::back_inserter( ElectronicMailAddresses_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "ElectronicMailAddresses", ElectronicMailAddresses_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "ElectronicMailAddresses", ElectronicMailAddresses_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "WWWHomePageURL", m_WWWHomePageURL ) );
-	if( m_MessagingIDs.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "WWWHomePageURL", m_WWWHomePageURL ) );
+	if( !m_MessagingIDs.empty() )
 	{
 		shared_ptr<AttributeObjectVector> MessagingIDs_vec_object( new AttributeObjectVector() );
 		std::copy( m_MessagingIDs.begin(), m_MessagingIDs.end(), std::back_inserter( MessagingIDs_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "MessagingIDs", MessagingIDs_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "MessagingIDs", MessagingIDs_vec_object ) );
 	}
 }
 void IfcTelecomAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

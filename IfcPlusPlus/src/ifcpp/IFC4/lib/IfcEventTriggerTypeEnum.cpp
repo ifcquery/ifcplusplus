@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcEventTriggerTypeEnum.h"
 
 // TYPE IfcEventTriggerTypeEnum = ENUMERATION OF	(EVENTRULE	,EVENTMESSAGE	,EVENTTIME	,EVENTCOMPLEX	,USERDEFINED	,NOTDEFINED);
-IfcEventTriggerTypeEnum::IfcEventTriggerTypeEnum() {}
 IfcEventTriggerTypeEnum::~IfcEventTriggerTypeEnum() {}
 shared_ptr<BuildingObject> IfcEventTriggerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -48,7 +47,7 @@ const std::wstring IfcEventTriggerTypeEnum::toString() const
 shared_ptr<IfcEventTriggerTypeEnum> IfcEventTriggerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEventTriggerTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEventTriggerTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEventTriggerTypeEnum>(); }
 	shared_ptr<IfcEventTriggerTypeEnum> type_object( new IfcEventTriggerTypeEnum() );
 	if( boost::iequals( arg, L".EVENTRULE." ) )
 	{

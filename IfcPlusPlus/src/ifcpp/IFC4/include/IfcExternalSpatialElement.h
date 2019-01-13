@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcRelSpaceBoundary;
 class IFCQUERY_EXPORT IfcExternalSpatialElement : virtual public IfcSpaceBoundarySelect, public IfcExternalSpatialStructureElement
 { 
 public:
-	IfcExternalSpatialElement();
+	IfcExternalSpatialElement() = default;
 	IfcExternalSpatialElement( int id );
 	~IfcExternalSpatialElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

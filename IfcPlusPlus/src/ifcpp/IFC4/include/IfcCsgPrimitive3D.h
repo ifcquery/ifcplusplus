@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcAxis2Placement3D;
 class IFCQUERY_EXPORT IfcCsgPrimitive3D : virtual public IfcBooleanOperand, virtual public IfcCsgSelect, public IfcGeometricRepresentationItem
 { 
 public:
-	IfcCsgPrimitive3D();
+	IfcCsgPrimitive3D() = default;
 	IfcCsgPrimitive3D( int id );
 	~IfcCsgPrimitive3D();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

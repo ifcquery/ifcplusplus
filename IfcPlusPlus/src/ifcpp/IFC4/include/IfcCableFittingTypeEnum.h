@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcCableFittingTypeEnum();
+	IfcCableFittingTypeEnum() = default;
 	IfcCableFittingTypeEnum( IfcCableFittingTypeEnumEnum e ) { m_enum = e; }
 	~IfcCableFittingTypeEnum();
 	virtual const char* className() const { return "IfcCableFittingTypeEnum"; }

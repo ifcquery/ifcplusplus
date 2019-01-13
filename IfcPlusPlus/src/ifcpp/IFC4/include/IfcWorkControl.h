@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcDuration;
 class IFCQUERY_EXPORT IfcWorkControl : public IfcControl
 { 
 public:
-	IfcWorkControl();
+	IfcWorkControl() = default;
 	IfcWorkControl( int id );
 	~IfcWorkControl();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -26,7 +26,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcProcedureTypeEnum();
+	IfcProcedureTypeEnum() = default;
 	IfcProcedureTypeEnum( IfcProcedureTypeEnumEnum e ) { m_enum = e; }
 	~IfcProcedureTypeEnum();
 	virtual const char* className() const { return "IfcProcedureTypeEnum"; }

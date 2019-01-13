@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPositiveInteger;
 class IFCQUERY_EXPORT IfcIndexedTriangleTextureMap : public IfcIndexedTextureMap
 { 
 public:
-	IfcIndexedTriangleTextureMap();
+	IfcIndexedTriangleTextureMap() = default;
 	IfcIndexedTriangleTextureMap( int id );
 	~IfcIndexedTriangleTextureMap();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

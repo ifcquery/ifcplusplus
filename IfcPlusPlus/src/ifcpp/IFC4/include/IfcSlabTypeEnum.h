@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcSlabTypeEnum();
+	IfcSlabTypeEnum() = default;
 	IfcSlabTypeEnum( IfcSlabTypeEnumEnum e ) { m_enum = e; }
 	~IfcSlabTypeEnum();
 	virtual const char* className() const { return "IfcSlabTypeEnum"; }

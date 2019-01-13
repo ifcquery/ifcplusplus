@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPileConstructionEnum;
 class IFCQUERY_EXPORT IfcPile : public IfcBuildingElement
 { 
 public:
-	IfcPile();
+	IfcPile() = default;
 	IfcPile( int id );
 	~IfcPile();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

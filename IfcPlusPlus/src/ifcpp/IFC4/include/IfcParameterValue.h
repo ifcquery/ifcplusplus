@@ -15,7 +15,7 @@
 class IFCQUERY_EXPORT IfcParameterValue : public IfcMeasureValue, public IfcTrimmingSelect
 {
 public:
-	IfcParameterValue();
+	IfcParameterValue() = default;
 	IfcParameterValue( double value );
 	~IfcParameterValue();
 	virtual const char* className() const { return "IfcParameterValue"; }

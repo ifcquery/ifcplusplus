@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCardinalPointReference.h"
 
 // TYPE IfcCardinalPointReference = INTEGER;
-IfcCardinalPointReference::IfcCardinalPointReference() {}
 IfcCardinalPointReference::IfcCardinalPointReference( int value ) { m_value = value; }
 IfcCardinalPointReference::~IfcCardinalPointReference() {}
 shared_ptr<BuildingObject> IfcCardinalPointReference::getDeepCopy( BuildingCopyOptions& options )
@@ -34,7 +33,7 @@ const std::wstring IfcCardinalPointReference::toString() const
 shared_ptr<IfcCardinalPointReference> IfcCardinalPointReference::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCardinalPointReference>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCardinalPointReference>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCardinalPointReference>(); }
 	shared_ptr<IfcCardinalPointReference> type_object( new IfcCardinalPointReference() );
 	readInteger( arg, type_object->m_value );
 	return type_object;

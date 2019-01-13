@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcTemperatureGradientMeasure.h"
 
 // TYPE IfcTemperatureGradientMeasure = REAL;
-IfcTemperatureGradientMeasure::IfcTemperatureGradientMeasure() {}
 IfcTemperatureGradientMeasure::IfcTemperatureGradientMeasure( double value ) { m_value = value; }
 IfcTemperatureGradientMeasure::~IfcTemperatureGradientMeasure() {}
 shared_ptr<BuildingObject> IfcTemperatureGradientMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcTemperatureGradientMeasure::toString() const
 shared_ptr<IfcTemperatureGradientMeasure> IfcTemperatureGradientMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTemperatureGradientMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTemperatureGradientMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTemperatureGradientMeasure>(); }
 	shared_ptr<IfcTemperatureGradientMeasure> type_object( new IfcTemperatureGradientMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

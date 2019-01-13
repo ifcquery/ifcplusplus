@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // ENTITY IfcLibraryReference 
-IfcLibraryReference::IfcLibraryReference() {}
 IfcLibraryReference::IfcLibraryReference( int id ) { m_entity_id = id; }
 IfcLibraryReference::~IfcLibraryReference() {}
 shared_ptr<BuildingObject> IfcLibraryReference::getDeepCopy( BuildingCopyOptions& options )
@@ -64,24 +63,24 @@ void IfcLibraryReference::readStepArguments( const std::vector<std::wstring>& ar
 void IfcLibraryReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExternalReference::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "Language", m_Language ) );
-	vec_attributes.push_back( std::make_pair( "ReferencedLibrary", m_ReferencedLibrary ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "Language", m_Language ) );
+	vec_attributes.emplace_back( std::make_pair( "ReferencedLibrary", m_ReferencedLibrary ) );
 }
 void IfcLibraryReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcExternalReference::getAttributesInverse( vec_attributes_inverse );
-	if( m_LibraryRefForObjects_inverse.size() > 0 )
+	if( !m_LibraryRefForObjects_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> LibraryRefForObjects_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_LibraryRefForObjects_inverse.size(); ++i )
 		{
 			if( !m_LibraryRefForObjects_inverse[i].expired() )
 			{
-				LibraryRefForObjects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesLibrary>( m_LibraryRefForObjects_inverse[i] ) );
+				LibraryRefForObjects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssociatesLibrary>( m_LibraryRefForObjects_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "LibraryRefForObjects_inverse", LibraryRefForObjects_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "LibraryRefForObjects_inverse", LibraryRefForObjects_inverse_vec_obj ) );
 	}
 }
 void IfcLibraryReference::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
@@ -91,7 +90,7 @@ void IfcLibraryReference::setInverseCounterparts( shared_ptr<BuildingEntity> ptr
 	if( !ptr_self ) { throw BuildingException( "IfcLibraryReference::setInverseCounterparts: type mismatch" ); }
 	if( m_ReferencedLibrary )
 	{
-		m_ReferencedLibrary->m_HasLibraryReferences_inverse.push_back( ptr_self );
+		m_ReferencedLibrary->m_HasLibraryReferences_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcLibraryReference::unlinkFromInverseCounterparts()

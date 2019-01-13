@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcPropertySetDefinitionSet.h"
 
 // TYPE IfcPropertySetDefinitionSet = SET [1:?] OF IfcPropertySetDefinition;
-IfcPropertySetDefinitionSet::IfcPropertySetDefinitionSet() {}
 IfcPropertySetDefinitionSet::~IfcPropertySetDefinitionSet() {}
 shared_ptr<BuildingObject> IfcPropertySetDefinitionSet::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -22,7 +21,7 @@ shared_ptr<BuildingObject> IfcPropertySetDefinitionSet::getDeepCopy( BuildingCop
 		auto item_ii = m_vec[ii];
 		if( item_ii )
 		{
-			copy_self->m_vec.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>( item_ii->getDeepCopy( options ) ) );
+			copy_self->m_vec.emplace_back( dynamic_pointer_cast<IfcPropertySetDefinition>( item_ii->getDeepCopy( options ) ) );
 		}
 	}
 	return copy_self;
@@ -52,7 +51,7 @@ const std::wstring IfcPropertySetDefinitionSet::toString() const
 shared_ptr<IfcPropertySetDefinitionSet> IfcPropertySetDefinitionSet::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPropertySetDefinitionSet>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPropertySetDefinitionSet>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPropertySetDefinitionSet>(); }
 	shared_ptr<IfcPropertySetDefinitionSet> type_object( new IfcPropertySetDefinitionSet() );
 	readEntityReferenceList(  arg, type_object->m_vec, map );
 	return type_object;

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcDirection;
 class IFCQUERY_EXPORT IfcStructuralCurveConnection : public IfcStructuralConnection
 { 
 public:
-	IfcStructuralCurveConnection();
+	IfcStructuralCurveConnection() = default;
 	IfcStructuralCurveConnection( int id );
 	~IfcStructuralCurveConnection();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

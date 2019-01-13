@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcModulusOfRotationalSubgradeReactionMeasure.h"
 
 // TYPE IfcModulusOfRotationalSubgradeReactionMeasure = REAL;
-IfcModulusOfRotationalSubgradeReactionMeasure::IfcModulusOfRotationalSubgradeReactionMeasure() {}
 IfcModulusOfRotationalSubgradeReactionMeasure::IfcModulusOfRotationalSubgradeReactionMeasure( double value ) { m_value = value; }
 IfcModulusOfRotationalSubgradeReactionMeasure::~IfcModulusOfRotationalSubgradeReactionMeasure() {}
 shared_ptr<BuildingObject> IfcModulusOfRotationalSubgradeReactionMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ const std::wstring IfcModulusOfRotationalSubgradeReactionMeasure::toString() con
 shared_ptr<IfcModulusOfRotationalSubgradeReactionMeasure> IfcModulusOfRotationalSubgradeReactionMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcModulusOfRotationalSubgradeReactionMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcModulusOfRotationalSubgradeReactionMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcModulusOfRotationalSubgradeReactionMeasure>(); }
 	shared_ptr<IfcModulusOfRotationalSubgradeReactionMeasure> type_object( new IfcModulusOfRotationalSubgradeReactionMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

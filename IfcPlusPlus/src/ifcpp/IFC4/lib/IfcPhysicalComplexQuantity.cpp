@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPhysicalComplexQuantity 
-IfcPhysicalComplexQuantity::IfcPhysicalComplexQuantity() {}
 IfcPhysicalComplexQuantity::IfcPhysicalComplexQuantity( int id ) { m_entity_id = id; }
 IfcPhysicalComplexQuantity::~IfcPhysicalComplexQuantity() {}
 shared_ptr<BuildingObject> IfcPhysicalComplexQuantity::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcPhysicalComplexQuantity::getDeepCopy( BuildingCopy
 		auto item_ii = m_HasQuantities[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasQuantities.push_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_HasQuantities.emplace_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Discrimination ) { copy_self->m_Discrimination = dynamic_pointer_cast<IfcLabel>( m_Discrimination->getDeepCopy(options) ); }
@@ -67,15 +66,15 @@ void IfcPhysicalComplexQuantity::readStepArguments( const std::vector<std::wstri
 void IfcPhysicalComplexQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPhysicalQuantity::getAttributes( vec_attributes );
-	if( m_HasQuantities.size() > 0 )
+	if( !m_HasQuantities.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasQuantities_vec_object( new AttributeObjectVector() );
 		std::copy( m_HasQuantities.begin(), m_HasQuantities.end(), std::back_inserter( HasQuantities_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "HasQuantities", HasQuantities_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "HasQuantities", HasQuantities_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "Discrimination", m_Discrimination ) );
-	vec_attributes.push_back( std::make_pair( "Quality", m_Quality ) );
-	vec_attributes.push_back( std::make_pair( "Usage", m_Usage ) );
+	vec_attributes.emplace_back( std::make_pair( "Discrimination", m_Discrimination ) );
+	vec_attributes.emplace_back( std::make_pair( "Quality", m_Quality ) );
+	vec_attributes.emplace_back( std::make_pair( "Usage", m_Usage ) );
 }
 void IfcPhysicalComplexQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -90,7 +89,7 @@ void IfcPhysicalComplexQuantity::setInverseCounterparts( shared_ptr<BuildingEnti
 	{
 		if( m_HasQuantities[i] )
 		{
-			m_HasQuantities[i]->m_PartOfComplex_inverse.push_back( ptr_self );
+			m_HasQuantities[i]->m_PartOfComplex_inverse.emplace_back( ptr_self );
 		}
 	}
 }

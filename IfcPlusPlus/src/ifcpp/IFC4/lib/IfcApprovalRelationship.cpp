@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcApprovalRelationship 
-IfcApprovalRelationship::IfcApprovalRelationship() {}
 IfcApprovalRelationship::IfcApprovalRelationship( int id ) { m_entity_id = id; }
 IfcApprovalRelationship::~IfcApprovalRelationship() {}
 shared_ptr<BuildingObject> IfcApprovalRelationship::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcApprovalRelationship::getDeepCopy( BuildingCopyOpt
 		auto item_ii = m_RelatedApprovals[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedApprovals.push_back( dynamic_pointer_cast<IfcApproval>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedApprovals.emplace_back( dynamic_pointer_cast<IfcApproval>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -58,12 +57,12 @@ void IfcApprovalRelationship::readStepArguments( const std::vector<std::wstring>
 void IfcApprovalRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingApproval", m_RelatingApproval ) );
-	if( m_RelatedApprovals.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "RelatingApproval", m_RelatingApproval ) );
+	if( !m_RelatedApprovals.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedApprovals_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedApprovals.begin(), m_RelatedApprovals.end(), std::back_inserter( RelatedApprovals_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedApprovals", RelatedApprovals_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedApprovals", RelatedApprovals_vec_object ) );
 	}
 }
 void IfcApprovalRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -79,12 +78,12 @@ void IfcApprovalRelationship::setInverseCounterparts( shared_ptr<BuildingEntity>
 	{
 		if( m_RelatedApprovals[i] )
 		{
-			m_RelatedApprovals[i]->m_IsRelatedWith_inverse.push_back( ptr_self );
+			m_RelatedApprovals[i]->m_IsRelatedWith_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingApproval )
 	{
-		m_RelatingApproval->m_Relates_inverse.push_back( ptr_self );
+		m_RelatingApproval->m_Relates_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcApprovalRelationship::unlinkFromInverseCounterparts()

@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMaterialConstituentSet 
-IfcMaterialConstituentSet::IfcMaterialConstituentSet() {}
 IfcMaterialConstituentSet::IfcMaterialConstituentSet( int id ) { m_entity_id = id; }
 IfcMaterialConstituentSet::~IfcMaterialConstituentSet() {}
 shared_ptr<BuildingObject> IfcMaterialConstituentSet::getDeepCopy( BuildingCopyOptions& options )
@@ -29,7 +28,7 @@ shared_ptr<BuildingObject> IfcMaterialConstituentSet::getDeepCopy( BuildingCopyO
 		auto item_ii = m_MaterialConstituents[ii];
 		if( item_ii )
 		{
-			copy_self->m_MaterialConstituents.push_back( dynamic_pointer_cast<IfcMaterialConstituent>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_MaterialConstituents.emplace_back( dynamic_pointer_cast<IfcMaterialConstituent>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -57,13 +56,13 @@ void IfcMaterialConstituentSet::readStepArguments( const std::vector<std::wstrin
 void IfcMaterialConstituentSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	if( m_MaterialConstituents.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	if( !m_MaterialConstituents.empty() )
 	{
 		shared_ptr<AttributeObjectVector> MaterialConstituents_vec_object( new AttributeObjectVector() );
 		std::copy( m_MaterialConstituents.begin(), m_MaterialConstituents.end(), std::back_inserter( MaterialConstituents_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "MaterialConstituents", MaterialConstituents_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "MaterialConstituents", MaterialConstituents_vec_object ) );
 	}
 }
 void IfcMaterialConstituentSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

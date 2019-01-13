@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcRoundedRectangleProfileDef.h"
 
 // ENTITY IfcRoundedRectangleProfileDef 
-IfcRoundedRectangleProfileDef::IfcRoundedRectangleProfileDef() {}
 IfcRoundedRectangleProfileDef::IfcRoundedRectangleProfileDef( int id ) { m_entity_id = id; }
 IfcRoundedRectangleProfileDef::~IfcRoundedRectangleProfileDef() {}
 shared_ptr<BuildingObject> IfcRoundedRectangleProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -62,7 +61,7 @@ void IfcRoundedRectangleProfileDef::readStepArguments( const std::vector<std::ws
 void IfcRoundedRectangleProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRectangleProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RoundingRadius", m_RoundingRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "RoundingRadius", m_RoundingRadius ) );
 }
 void IfcRoundedRectangleProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

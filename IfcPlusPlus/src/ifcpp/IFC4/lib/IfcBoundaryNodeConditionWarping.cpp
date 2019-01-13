@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcWarpingStiffnessSelect.h"
 
 // ENTITY IfcBoundaryNodeConditionWarping 
-IfcBoundaryNodeConditionWarping::IfcBoundaryNodeConditionWarping() {}
 IfcBoundaryNodeConditionWarping::IfcBoundaryNodeConditionWarping( int id ) { m_entity_id = id; }
 IfcBoundaryNodeConditionWarping::~IfcBoundaryNodeConditionWarping() {}
 shared_ptr<BuildingObject> IfcBoundaryNodeConditionWarping::getDeepCopy( BuildingCopyOptions& options )
@@ -68,7 +67,7 @@ void IfcBoundaryNodeConditionWarping::readStepArguments( const std::vector<std::
 void IfcBoundaryNodeConditionWarping::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundaryNodeCondition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "WarpingStiffness", m_WarpingStiffness ) );
+	vec_attributes.emplace_back( std::make_pair( "WarpingStiffness", m_WarpingStiffness ) );
 }
 void IfcBoundaryNodeConditionWarping::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

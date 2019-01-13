@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCoveringTypeEnum.h"
 
 // TYPE IfcCoveringTypeEnum = ENUMERATION OF	(CEILING	,FLOORING	,CLADDING	,ROOFING	,MOLDING	,SKIRTINGBOARD	,INSULATION	,MEMBRANE	,SLEEVING	,WRAPPING	,USERDEFINED	,NOTDEFINED);
-IfcCoveringTypeEnum::IfcCoveringTypeEnum() {}
 IfcCoveringTypeEnum::~IfcCoveringTypeEnum() {}
 shared_ptr<BuildingObject> IfcCoveringTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -60,7 +59,7 @@ const std::wstring IfcCoveringTypeEnum::toString() const
 shared_ptr<IfcCoveringTypeEnum> IfcCoveringTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCoveringTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCoveringTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCoveringTypeEnum>(); }
 	shared_ptr<IfcCoveringTypeEnum> type_object( new IfcCoveringTypeEnum() );
 	if( boost::iequals( arg, L".CEILING." ) )
 	{

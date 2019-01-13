@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelConnectsPathElements 
-IfcRelConnectsPathElements::IfcRelConnectsPathElements() {}
 IfcRelConnectsPathElements::IfcRelConnectsPathElements( int id ) { m_entity_id = id; }
 IfcRelConnectsPathElements::~IfcRelConnectsPathElements() {}
 shared_ptr<BuildingObject> IfcRelConnectsPathElements::getDeepCopy( BuildingCopyOptions& options )
@@ -26,7 +25,7 @@ shared_ptr<BuildingObject> IfcRelConnectsPathElements::getDeepCopy( BuildingCopy
 	shared_ptr<IfcRelConnectsPathElements> copy_self( new IfcRelConnectsPathElements() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -44,7 +43,7 @@ shared_ptr<BuildingObject> IfcRelConnectsPathElements::getDeepCopy( BuildingCopy
 		auto item_ii = m_RelatingPriorities[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatingPriorities.push_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatingPriorities.emplace_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_RelatedPriorities.size(); ++ii )
@@ -52,7 +51,7 @@ shared_ptr<BuildingObject> IfcRelConnectsPathElements::getDeepCopy( BuildingCopy
 		auto item_ii = m_RelatedPriorities[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedPriorities.push_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedPriorities.emplace_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatedConnectionType ) { copy_self->m_RelatedConnectionType = dynamic_pointer_cast<IfcConnectionTypeEnum>( m_RelatedConnectionType->getDeepCopy(options) ); }
@@ -106,20 +105,20 @@ void IfcRelConnectsPathElements::readStepArguments( const std::vector<std::wstri
 void IfcRelConnectsPathElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnectsElements::getAttributes( vec_attributes );
-	if( m_RelatingPriorities.size() > 0 )
+	if( !m_RelatingPriorities.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatingPriorities_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatingPriorities.begin(), m_RelatingPriorities.end(), std::back_inserter( RelatingPriorities_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatingPriorities", RelatingPriorities_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatingPriorities", RelatingPriorities_vec_object ) );
 	}
-	if( m_RelatedPriorities.size() > 0 )
+	if( !m_RelatedPriorities.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedPriorities_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedPriorities.begin(), m_RelatedPriorities.end(), std::back_inserter( RelatedPriorities_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedPriorities", RelatedPriorities_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedPriorities", RelatedPriorities_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "RelatedConnectionType", m_RelatedConnectionType ) );
-	vec_attributes.push_back( std::make_pair( "RelatingConnectionType", m_RelatingConnectionType ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedConnectionType", m_RelatedConnectionType ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingConnectionType", m_RelatingConnectionType ) );
 }
 void IfcRelConnectsPathElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

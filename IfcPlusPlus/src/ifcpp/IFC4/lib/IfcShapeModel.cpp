@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcShapeModel.h"
 
 // ENTITY IfcShapeModel 
-IfcShapeModel::IfcShapeModel() {}
 IfcShapeModel::IfcShapeModel( int id ) { m_entity_id = id; }
 IfcShapeModel::~IfcShapeModel() {}
 shared_ptr<BuildingObject> IfcShapeModel::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ shared_ptr<BuildingObject> IfcShapeModel::getDeepCopy( BuildingCopyOptions& opti
 		auto item_ii = m_Items[ii];
 		if( item_ii )
 		{
-			copy_self->m_Items.push_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Items.emplace_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -70,17 +69,17 @@ void IfcShapeModel::getAttributes( std::vector<std::pair<std::string, shared_ptr
 void IfcShapeModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRepresentation::getAttributesInverse( vec_attributes_inverse );
-	if( m_OfShapeAspect_inverse.size() > 0 )
+	if( !m_OfShapeAspect_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> OfShapeAspect_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_OfShapeAspect_inverse.size(); ++i )
 		{
 			if( !m_OfShapeAspect_inverse[i].expired() )
 			{
-				OfShapeAspect_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcShapeAspect>( m_OfShapeAspect_inverse[i] ) );
+				OfShapeAspect_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcShapeAspect>( m_OfShapeAspect_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "OfShapeAspect_inverse", OfShapeAspect_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "OfShapeAspect_inverse", OfShapeAspect_inverse_vec_obj ) );
 	}
 }
 void IfcShapeModel::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

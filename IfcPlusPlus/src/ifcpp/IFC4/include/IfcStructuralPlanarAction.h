@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcStructuralPlanarAction : public IfcStructuralSurfaceAction
 { 
 public:
-	IfcStructuralPlanarAction();
+	IfcStructuralPlanarAction() = default;
 	IfcStructuralPlanarAction( int id );
 	~IfcStructuralPlanarAction();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

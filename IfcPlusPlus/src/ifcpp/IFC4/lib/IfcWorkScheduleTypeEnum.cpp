@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcWorkScheduleTypeEnum.h"
 
 // TYPE IfcWorkScheduleTypeEnum = ENUMERATION OF	(ACTUAL	,BASELINE	,PLANNED	,USERDEFINED	,NOTDEFINED);
-IfcWorkScheduleTypeEnum::IfcWorkScheduleTypeEnum() {}
 IfcWorkScheduleTypeEnum::~IfcWorkScheduleTypeEnum() {}
 shared_ptr<BuildingObject> IfcWorkScheduleTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcWorkScheduleTypeEnum::toString() const
 shared_ptr<IfcWorkScheduleTypeEnum> IfcWorkScheduleTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWorkScheduleTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWorkScheduleTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWorkScheduleTypeEnum>(); }
 	shared_ptr<IfcWorkScheduleTypeEnum> type_object( new IfcWorkScheduleTypeEnum() );
 	if( boost::iequals( arg, L".ACTUAL." ) )
 	{

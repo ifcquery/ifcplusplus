@@ -34,7 +34,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcCompressorTypeEnum();
+	IfcCompressorTypeEnum() = default;
 	IfcCompressorTypeEnum( IfcCompressorTypeEnumEnum e ) { m_enum = e; }
 	~IfcCompressorTypeEnum();
 	virtual const char* className() const { return "IfcCompressorTypeEnum"; }

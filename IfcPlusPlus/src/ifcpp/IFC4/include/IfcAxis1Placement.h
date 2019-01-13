@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcDirection;
 class IFCQUERY_EXPORT IfcAxis1Placement : public IfcPlacement
 { 
 public:
-	IfcAxis1Placement();
+	IfcAxis1Placement() = default;
 	IfcAxis1Placement( int id );
 	~IfcAxis1Placement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcWorkPlanTypeEnum;
 class IFCQUERY_EXPORT IfcWorkPlan : public IfcWorkControl
 { 
 public:
-	IfcWorkPlan();
+	IfcWorkPlan() = default;
 	IfcWorkPlan( int id );
 	~IfcWorkPlan();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

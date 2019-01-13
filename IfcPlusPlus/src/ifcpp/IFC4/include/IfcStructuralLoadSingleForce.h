@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcTorqueMeasure;
 class IFCQUERY_EXPORT IfcStructuralLoadSingleForce : public IfcStructuralLoadStatic
 { 
 public:
-	IfcStructuralLoadSingleForce();
+	IfcStructuralLoadSingleForce() = default;
 	IfcStructuralLoadSingleForce( int id );
 	~IfcStructuralLoadSingleForce();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

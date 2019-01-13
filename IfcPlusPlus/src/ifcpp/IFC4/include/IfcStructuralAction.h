@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcStructuralAction : public IfcStructuralActivity
 { 
 public:
-	IfcStructuralAction();
+	IfcStructuralAction() = default;
 	IfcStructuralAction( int id );
 	~IfcStructuralAction();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

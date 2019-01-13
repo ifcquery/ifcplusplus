@@ -20,7 +20,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcAssemblyPlaceEnum();
+	IfcAssemblyPlaceEnum() = default;
 	IfcAssemblyPlaceEnum( IfcAssemblyPlaceEnumEnum e ) { m_enum = e; }
 	~IfcAssemblyPlaceEnum();
 	virtual const char* className() const { return "IfcAssemblyPlaceEnum"; }

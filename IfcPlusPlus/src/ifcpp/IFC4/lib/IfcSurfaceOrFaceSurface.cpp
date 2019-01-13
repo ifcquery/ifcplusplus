@@ -8,7 +8,7 @@
 // TYPE IfcSurfaceOrFaceSurface = SELECT	(IfcFaceBasedSurfaceModel	,IfcFaceSurface	,IfcSurface);
 shared_ptr<IfcSurfaceOrFaceSurface> IfcSurfaceOrFaceSurface::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcSurfaceOrFaceSurface>(); }
+	if( arg.empty() ){ return shared_ptr<IfcSurfaceOrFaceSurface>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcSurfaceOrFaceSurface>();

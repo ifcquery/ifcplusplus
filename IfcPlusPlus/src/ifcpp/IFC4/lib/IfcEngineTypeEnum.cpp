@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcEngineTypeEnum.h"
 
 // TYPE IfcEngineTypeEnum = ENUMERATION OF	(EXTERNALCOMBUSTION	,INTERNALCOMBUSTION	,USERDEFINED	,NOTDEFINED);
-IfcEngineTypeEnum::IfcEngineTypeEnum() {}
 IfcEngineTypeEnum::~IfcEngineTypeEnum() {}
 shared_ptr<BuildingObject> IfcEngineTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -44,7 +43,7 @@ const std::wstring IfcEngineTypeEnum::toString() const
 shared_ptr<IfcEngineTypeEnum> IfcEngineTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEngineTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEngineTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEngineTypeEnum>(); }
 	shared_ptr<IfcEngineTypeEnum> type_object( new IfcEngineTypeEnum() );
 	if( boost::iequals( arg, L".EXTERNALCOMBUSTION." ) )
 	{

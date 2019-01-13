@@ -8,7 +8,7 @@
 // TYPE IfcStyleAssignmentSelect = SELECT	(IfcPresentationStyle	,IfcPresentationStyleAssignment);
 shared_ptr<IfcStyleAssignmentSelect> IfcStyleAssignmentSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcStyleAssignmentSelect>(); }
+	if( arg.empty() ){ return shared_ptr<IfcStyleAssignmentSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcStyleAssignmentSelect>();

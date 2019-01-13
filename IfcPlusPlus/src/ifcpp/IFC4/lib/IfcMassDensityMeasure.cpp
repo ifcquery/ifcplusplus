@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcMassDensityMeasure.h"
 
 // TYPE IfcMassDensityMeasure = REAL;
-IfcMassDensityMeasure::IfcMassDensityMeasure() {}
 IfcMassDensityMeasure::IfcMassDensityMeasure( double value ) { m_value = value; }
 IfcMassDensityMeasure::~IfcMassDensityMeasure() {}
 shared_ptr<BuildingObject> IfcMassDensityMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcMassDensityMeasure::toString() const
 shared_ptr<IfcMassDensityMeasure> IfcMassDensityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMassDensityMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMassDensityMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMassDensityMeasure>(); }
 	shared_ptr<IfcMassDensityMeasure> type_object( new IfcMassDensityMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcValue.h"
 
 // ENTITY IfcMeasureWithUnit 
-IfcMeasureWithUnit::IfcMeasureWithUnit() {}
 IfcMeasureWithUnit::IfcMeasureWithUnit( int id ) { m_entity_id = id; }
 IfcMeasureWithUnit::~IfcMeasureWithUnit() {}
 shared_ptr<BuildingObject> IfcMeasureWithUnit::getDeepCopy( BuildingCopyOptions& options )
@@ -41,8 +40,8 @@ void IfcMeasureWithUnit::readStepArguments( const std::vector<std::wstring>& arg
 }
 void IfcMeasureWithUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "ValueComponent", m_ValueComponent ) );
-	vec_attributes.push_back( std::make_pair( "UnitComponent", m_UnitComponent ) );
+	vec_attributes.emplace_back( std::make_pair( "ValueComponent", m_ValueComponent ) );
+	vec_attributes.emplace_back( std::make_pair( "UnitComponent", m_UnitComponent ) );
 }
 void IfcMeasureWithUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

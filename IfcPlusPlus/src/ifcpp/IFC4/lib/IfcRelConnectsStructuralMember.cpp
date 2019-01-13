@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelConnectsStructuralMember 
-IfcRelConnectsStructuralMember::IfcRelConnectsStructuralMember() {}
 IfcRelConnectsStructuralMember::IfcRelConnectsStructuralMember( int id ) { m_entity_id = id; }
 IfcRelConnectsStructuralMember::~IfcRelConnectsStructuralMember() {}
 shared_ptr<BuildingObject> IfcRelConnectsStructuralMember::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcRelConnectsStructuralMember::getDeepCopy( Building
 	shared_ptr<IfcRelConnectsStructuralMember> copy_self( new IfcRelConnectsStructuralMember() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -90,12 +89,12 @@ void IfcRelConnectsStructuralMember::readStepArguments( const std::vector<std::w
 void IfcRelConnectsStructuralMember::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingStructuralMember", m_RelatingStructuralMember ) );
-	vec_attributes.push_back( std::make_pair( "RelatedStructuralConnection", m_RelatedStructuralConnection ) );
-	vec_attributes.push_back( std::make_pair( "AppliedCondition", m_AppliedCondition ) );
-	vec_attributes.push_back( std::make_pair( "AdditionalConditions", m_AdditionalConditions ) );
-	vec_attributes.push_back( std::make_pair( "SupportedLength", m_SupportedLength ) );
-	vec_attributes.push_back( std::make_pair( "ConditionCoordinateSystem", m_ConditionCoordinateSystem ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingStructuralMember", m_RelatingStructuralMember ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedStructuralConnection", m_RelatedStructuralConnection ) );
+	vec_attributes.emplace_back( std::make_pair( "AppliedCondition", m_AppliedCondition ) );
+	vec_attributes.emplace_back( std::make_pair( "AdditionalConditions", m_AdditionalConditions ) );
+	vec_attributes.emplace_back( std::make_pair( "SupportedLength", m_SupportedLength ) );
+	vec_attributes.emplace_back( std::make_pair( "ConditionCoordinateSystem", m_ConditionCoordinateSystem ) );
 }
 void IfcRelConnectsStructuralMember::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -108,11 +107,11 @@ void IfcRelConnectsStructuralMember::setInverseCounterparts( shared_ptr<Building
 	if( !ptr_self ) { throw BuildingException( "IfcRelConnectsStructuralMember::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatedStructuralConnection )
 	{
-		m_RelatedStructuralConnection->m_ConnectsStructuralMembers_inverse.push_back( ptr_self );
+		m_RelatedStructuralConnection->m_ConnectsStructuralMembers_inverse.emplace_back( ptr_self );
 	}
 	if( m_RelatingStructuralMember )
 	{
-		m_RelatingStructuralMember->m_ConnectedBy_inverse.push_back( ptr_self );
+		m_RelatingStructuralMember->m_ConnectedBy_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelConnectsStructuralMember::unlinkFromInverseCounterparts()

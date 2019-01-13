@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcTransformerTypeEnum;
 class IFCQUERY_EXPORT IfcTransformerType : public IfcEnergyConversionDeviceType
 { 
 public:
-	IfcTransformerType();
+	IfcTransformerType() = default;
 	IfcTransformerType( int id );
 	~IfcTransformerType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcConstraintEnum();
+	IfcConstraintEnum() = default;
 	IfcConstraintEnum( IfcConstraintEnumEnum e ) { m_enum = e; }
 	~IfcConstraintEnum();
 	virtual const char* className() const { return "IfcConstraintEnum"; }

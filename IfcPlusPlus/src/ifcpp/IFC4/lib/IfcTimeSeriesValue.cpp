@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcValue.h"
 
 // ENTITY IfcTimeSeriesValue 
-IfcTimeSeriesValue::IfcTimeSeriesValue() {}
 IfcTimeSeriesValue::IfcTimeSeriesValue( int id ) { m_entity_id = id; }
 IfcTimeSeriesValue::~IfcTimeSeriesValue() {}
 shared_ptr<BuildingObject> IfcTimeSeriesValue::getDeepCopy( BuildingCopyOptions& options )
@@ -22,7 +21,7 @@ shared_ptr<BuildingObject> IfcTimeSeriesValue::getDeepCopy( BuildingCopyOptions&
 		auto item_ii = m_ListValues[ii];
 		if( item_ii )
 		{
-			copy_self->m_ListValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_ListValues.emplace_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -60,11 +59,11 @@ void IfcTimeSeriesValue::readStepArguments( const std::vector<std::wstring>& arg
 }
 void IfcTimeSeriesValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( m_ListValues.size() > 0 )
+	if( !m_ListValues.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ListValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_ListValues.begin(), m_ListValues.end(), std::back_inserter( ListValues_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "ListValues", ListValues_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "ListValues", ListValues_vec_object ) );
 	}
 }
 void IfcTimeSeriesValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

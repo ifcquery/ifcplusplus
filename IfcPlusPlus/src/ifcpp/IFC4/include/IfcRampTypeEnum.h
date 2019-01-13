@@ -25,7 +25,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcRampTypeEnum();
+	IfcRampTypeEnum() = default;
 	IfcRampTypeEnum( IfcRampTypeEnumEnum e ) { m_enum = e; }
 	~IfcRampTypeEnum();
 	virtual const char* className() const { return "IfcRampTypeEnum"; }

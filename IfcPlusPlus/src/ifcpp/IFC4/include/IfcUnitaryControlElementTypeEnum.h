@@ -27,7 +27,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcUnitaryControlElementTypeEnum();
+	IfcUnitaryControlElementTypeEnum() = default;
 	IfcUnitaryControlElementTypeEnum( IfcUnitaryControlElementTypeEnumEnum e ) { m_enum = e; }
 	~IfcUnitaryControlElementTypeEnum();
 	virtual const char* className() const { return "IfcUnitaryControlElementTypeEnum"; }

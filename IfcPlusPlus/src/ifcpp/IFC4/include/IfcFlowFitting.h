@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcFlowFitting : public IfcDistributionFlowElement
 { 
 public:
-	IfcFlowFitting();
+	IfcFlowFitting() = default;
 	IfcFlowFitting( int id );
 	~IfcFlowFitting();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

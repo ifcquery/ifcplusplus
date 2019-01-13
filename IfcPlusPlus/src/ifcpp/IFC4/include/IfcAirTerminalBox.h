@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcAirTerminalBoxTypeEnum;
 class IFCQUERY_EXPORT IfcAirTerminalBox : public IfcFlowController
 { 
 public:
-	IfcAirTerminalBox();
+	IfcAirTerminalBox() = default;
 	IfcAirTerminalBox( int id );
 	~IfcAirTerminalBox();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

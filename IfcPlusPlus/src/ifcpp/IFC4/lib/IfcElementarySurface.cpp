@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcElementarySurface 
-IfcElementarySurface::IfcElementarySurface() {}
 IfcElementarySurface::IfcElementarySurface( int id ) { m_entity_id = id; }
 IfcElementarySurface::~IfcElementarySurface() {}
 shared_ptr<BuildingObject> IfcElementarySurface::getDeepCopy( BuildingCopyOptions& options )
@@ -39,7 +38,7 @@ void IfcElementarySurface::readStepArguments( const std::vector<std::wstring>& a
 void IfcElementarySurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
+	vec_attributes.emplace_back( std::make_pair( "Position", m_Position ) );
 }
 void IfcElementarySurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

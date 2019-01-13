@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcBuildingElementProxyTypeEnum();
+	IfcBuildingElementProxyTypeEnum() = default;
 	IfcBuildingElementProxyTypeEnum( IfcBuildingElementProxyTypeEnumEnum e ) { m_enum = e; }
 	~IfcBuildingElementProxyTypeEnum();
 	virtual const char* className() const { return "IfcBuildingElementProxyTypeEnum"; }

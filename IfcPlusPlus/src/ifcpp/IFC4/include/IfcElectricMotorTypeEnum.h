@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcElectricMotorTypeEnum();
+	IfcElectricMotorTypeEnum() = default;
 	IfcElectricMotorTypeEnum( IfcElectricMotorTypeEnumEnum e ) { m_enum = e; }
 	~IfcElectricMotorTypeEnum();
 	virtual const char* className() const { return "IfcElectricMotorTypeEnum"; }

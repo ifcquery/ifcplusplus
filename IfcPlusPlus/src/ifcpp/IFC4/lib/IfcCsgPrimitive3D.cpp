@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCsgPrimitive3D 
-IfcCsgPrimitive3D::IfcCsgPrimitive3D() {}
 IfcCsgPrimitive3D::IfcCsgPrimitive3D( int id ) { m_entity_id = id; }
 IfcCsgPrimitive3D::~IfcCsgPrimitive3D() {}
 shared_ptr<BuildingObject> IfcCsgPrimitive3D::getDeepCopy( BuildingCopyOptions& options )
@@ -39,7 +38,7 @@ void IfcCsgPrimitive3D::readStepArguments( const std::vector<std::wstring>& args
 void IfcCsgPrimitive3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
+	vec_attributes.emplace_back( std::make_pair( "Position", m_Position ) );
 }
 void IfcCsgPrimitive3D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

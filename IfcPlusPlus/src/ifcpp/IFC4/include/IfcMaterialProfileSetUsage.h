@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcMaterialProfileSetUsage : public IfcMaterialUsageDefinition
 { 
 public:
-	IfcMaterialProfileSetUsage();
+	IfcMaterialProfileSetUsage() = default;
 	IfcMaterialProfileSetUsage( int id );
 	~IfcMaterialProfileSetUsage();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

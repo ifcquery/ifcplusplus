@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcRevolvedAreaSolid 
-IfcRevolvedAreaSolid::IfcRevolvedAreaSolid() {}
 IfcRevolvedAreaSolid::IfcRevolvedAreaSolid( int id ) { m_entity_id = id; }
 IfcRevolvedAreaSolid::~IfcRevolvedAreaSolid() {}
 shared_ptr<BuildingObject> IfcRevolvedAreaSolid::getDeepCopy( BuildingCopyOptions& options )
@@ -58,8 +57,8 @@ void IfcRevolvedAreaSolid::readStepArguments( const std::vector<std::wstring>& a
 void IfcRevolvedAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSweptAreaSolid::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Axis", m_Axis ) );
-	vec_attributes.push_back( std::make_pair( "Angle", m_Angle ) );
+	vec_attributes.emplace_back( std::make_pair( "Axis", m_Axis ) );
+	vec_attributes.emplace_back( std::make_pair( "Angle", m_Angle ) );
 }
 void IfcRevolvedAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcLinearMomentMeasure.h"
 
 // TYPE IfcLinearMomentMeasure = REAL;
-IfcLinearMomentMeasure::IfcLinearMomentMeasure() {}
 IfcLinearMomentMeasure::IfcLinearMomentMeasure( double value ) { m_value = value; }
 IfcLinearMomentMeasure::~IfcLinearMomentMeasure() {}
 shared_ptr<BuildingObject> IfcLinearMomentMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcLinearMomentMeasure::toString() const
 shared_ptr<IfcLinearMomentMeasure> IfcLinearMomentMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLinearMomentMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLinearMomentMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLinearMomentMeasure>(); }
 	shared_ptr<IfcLinearMomentMeasure> type_object( new IfcLinearMomentMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

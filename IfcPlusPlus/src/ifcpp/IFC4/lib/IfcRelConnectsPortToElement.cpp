@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelConnectsPortToElement 
-IfcRelConnectsPortToElement::IfcRelConnectsPortToElement() {}
 IfcRelConnectsPortToElement::IfcRelConnectsPortToElement( int id ) { m_entity_id = id; }
 IfcRelConnectsPortToElement::~IfcRelConnectsPortToElement() {}
 shared_ptr<BuildingObject> IfcRelConnectsPortToElement::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelConnectsPortToElement::getDeepCopy( BuildingCop
 	shared_ptr<IfcRelConnectsPortToElement> copy_self( new IfcRelConnectsPortToElement() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -70,8 +69,8 @@ void IfcRelConnectsPortToElement::readStepArguments( const std::vector<std::wstr
 void IfcRelConnectsPortToElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingPort", m_RelatingPort ) );
-	vec_attributes.push_back( std::make_pair( "RelatedElement", m_RelatedElement ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingPort", m_RelatingPort ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedElement", m_RelatedElement ) );
 }
 void IfcRelConnectsPortToElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -84,11 +83,11 @@ void IfcRelConnectsPortToElement::setInverseCounterparts( shared_ptr<BuildingEnt
 	if( !ptr_self ) { throw BuildingException( "IfcRelConnectsPortToElement::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatedElement )
 	{
-		m_RelatedElement->m_HasPorts_inverse.push_back( ptr_self );
+		m_RelatedElement->m_HasPorts_inverse.emplace_back( ptr_self );
 	}
 	if( m_RelatingPort )
 	{
-		m_RelatingPort->m_ContainedIn_inverse.push_back( ptr_self );
+		m_RelatingPort->m_ContainedIn_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelConnectsPortToElement::unlinkFromInverseCounterparts()

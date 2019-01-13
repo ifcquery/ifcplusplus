@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcDataOriginEnum;
 class IFCQUERY_EXPORT IfcSchedulingTime : public BuildingEntity
 { 
 public:
-	IfcSchedulingTime();
+	IfcSchedulingTime() = default;
 	IfcSchedulingTime( int id );
 	~IfcSchedulingTime();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

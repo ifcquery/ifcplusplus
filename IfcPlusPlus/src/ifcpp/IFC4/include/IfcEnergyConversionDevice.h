@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcEnergyConversionDevice : public IfcDistributionFlowElement
 { 
 public:
-	IfcEnergyConversionDevice();
+	IfcEnergyConversionDevice() = default;
 	IfcEnergyConversionDevice( int id );
 	~IfcEnergyConversionDevice();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

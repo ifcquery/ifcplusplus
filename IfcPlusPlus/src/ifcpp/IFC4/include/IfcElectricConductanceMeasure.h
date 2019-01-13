@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcElectricConductanceMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcElectricConductanceMeasure();
+	IfcElectricConductanceMeasure() = default;
 	IfcElectricConductanceMeasure( double value );
 	~IfcElectricConductanceMeasure();
 	virtual const char* className() const { return "IfcElectricConductanceMeasure"; }

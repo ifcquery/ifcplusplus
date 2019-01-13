@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcUnitEnum.h"
 
 // ENTITY IfcSIUnit 
-IfcSIUnit::IfcSIUnit() {}
 IfcSIUnit::IfcSIUnit( int id ) { m_entity_id = id; }
 IfcSIUnit::~IfcSIUnit() {}
 shared_ptr<BuildingObject> IfcSIUnit::getDeepCopy( BuildingCopyOptions& options )
@@ -29,7 +28,7 @@ shared_ptr<BuildingObject> IfcSIUnit::getDeepCopy( BuildingCopyOptions& options 
 void IfcSIUnit::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSIUNIT" << "(";
-	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_entity_id; } else { stream << "*"; }
+	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -52,8 +51,8 @@ void IfcSIUnit::readStepArguments( const std::vector<std::wstring>& args, const 
 void IfcSIUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcNamedUnit::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Prefix", m_Prefix ) );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Prefix", m_Prefix ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 }
 void IfcSIUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

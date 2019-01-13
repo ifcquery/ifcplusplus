@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcSpecificHeatCapacityMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcSpecificHeatCapacityMeasure();
+	IfcSpecificHeatCapacityMeasure() = default;
 	IfcSpecificHeatCapacityMeasure( double value );
 	~IfcSpecificHeatCapacityMeasure();
 	virtual const char* className() const { return "IfcSpecificHeatCapacityMeasure"; }

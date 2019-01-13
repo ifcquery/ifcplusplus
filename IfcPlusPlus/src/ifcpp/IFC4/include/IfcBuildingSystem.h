@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcBuildingSystem : public IfcSystem
 { 
 public:
-	IfcBuildingSystem();
+	IfcBuildingSystem() = default;
 	IfcBuildingSystem( int id );
 	~IfcBuildingSystem();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

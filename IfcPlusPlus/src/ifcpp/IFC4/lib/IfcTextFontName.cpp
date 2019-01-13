@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcTextFontName.h"
 
 // TYPE IfcTextFontName = STRING;
-IfcTextFontName::IfcTextFontName() {}
 IfcTextFontName::IfcTextFontName( std::wstring value ) { m_value = value; }
 IfcTextFontName::~IfcTextFontName() {}
 shared_ptr<BuildingObject> IfcTextFontName::getDeepCopy( BuildingCopyOptions& options )
@@ -32,7 +31,7 @@ const std::wstring IfcTextFontName::toString() const
 shared_ptr<IfcTextFontName> IfcTextFontName::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTextFontName>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextFontName>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextFontName>(); }
 	shared_ptr<IfcTextFontName> type_object( new IfcTextFontName() );
 	readString( arg, type_object->m_value );
 	return type_object;

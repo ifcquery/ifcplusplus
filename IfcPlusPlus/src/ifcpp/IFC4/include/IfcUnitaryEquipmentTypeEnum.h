@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcUnitaryEquipmentTypeEnum();
+	IfcUnitaryEquipmentTypeEnum() = default;
 	IfcUnitaryEquipmentTypeEnum( IfcUnitaryEquipmentTypeEnumEnum e ) { m_enum = e; }
 	~IfcUnitaryEquipmentTypeEnum();
 	virtual const char* className() const { return "IfcUnitaryEquipmentTypeEnum"; }

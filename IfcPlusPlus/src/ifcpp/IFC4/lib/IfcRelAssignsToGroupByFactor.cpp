@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelAssignsToGroupByFactor 
-IfcRelAssignsToGroupByFactor::IfcRelAssignsToGroupByFactor() {}
 IfcRelAssignsToGroupByFactor::IfcRelAssignsToGroupByFactor( int id ) { m_entity_id = id; }
 IfcRelAssignsToGroupByFactor::~IfcRelAssignsToGroupByFactor() {}
 shared_ptr<BuildingObject> IfcRelAssignsToGroupByFactor::getDeepCopy( BuildingCopyOptions& options )
@@ -26,7 +25,7 @@ shared_ptr<BuildingObject> IfcRelAssignsToGroupByFactor::getDeepCopy( BuildingCo
 	shared_ptr<IfcRelAssignsToGroupByFactor> copy_self( new IfcRelAssignsToGroupByFactor() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -41,7 +40,7 @@ shared_ptr<BuildingObject> IfcRelAssignsToGroupByFactor::getDeepCopy( BuildingCo
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatedObjectsType ) { copy_self->m_RelatedObjectsType = dynamic_pointer_cast<IfcObjectTypeEnum>( m_RelatedObjectsType->getDeepCopy(options) ); }
@@ -87,7 +86,7 @@ void IfcRelAssignsToGroupByFactor::readStepArguments( const std::vector<std::wst
 void IfcRelAssignsToGroupByFactor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssignsToGroup::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Factor", m_Factor ) );
+	vec_attributes.emplace_back( std::make_pair( "Factor", m_Factor ) );
 }
 void IfcRelAssignsToGroupByFactor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

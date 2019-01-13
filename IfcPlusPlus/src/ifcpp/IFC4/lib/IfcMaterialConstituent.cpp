@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMaterialConstituent 
-IfcMaterialConstituent::IfcMaterialConstituent() {}
 IfcMaterialConstituent::IfcMaterialConstituent( int id ) { m_entity_id = id; }
 IfcMaterialConstituent::~IfcMaterialConstituent() {}
 shared_ptr<BuildingObject> IfcMaterialConstituent::getDeepCopy( BuildingCopyOptions& options )
@@ -60,16 +59,16 @@ void IfcMaterialConstituent::readStepArguments( const std::vector<std::wstring>&
 void IfcMaterialConstituent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "Material", m_Material ) );
-	vec_attributes.push_back( std::make_pair( "Fraction", m_Fraction ) );
-	vec_attributes.push_back( std::make_pair( "Category", m_Category ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "Material", m_Material ) );
+	vec_attributes.emplace_back( std::make_pair( "Fraction", m_Fraction ) );
+	vec_attributes.emplace_back( std::make_pair( "Category", m_Category ) );
 }
 void IfcMaterialConstituent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
-	vec_attributes_inverse.push_back( std::make_pair( "ToMaterialConstituentSet_inverse", shared_ptr<BuildingEntity>( m_ToMaterialConstituentSet_inverse ) ) );
+	vec_attributes_inverse.emplace_back( std::make_pair( "ToMaterialConstituentSet_inverse", shared_ptr<BuildingEntity>( m_ToMaterialConstituentSet_inverse ) ) );
 }
 void IfcMaterialConstituent::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

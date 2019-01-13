@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcIsothermalMoistureCapacityMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcIsothermalMoistureCapacityMeasure();
+	IfcIsothermalMoistureCapacityMeasure() = default;
 	IfcIsothermalMoistureCapacityMeasure( double value );
 	~IfcIsothermalMoistureCapacityMeasure();
 	virtual const char* className() const { return "IfcIsothermalMoistureCapacityMeasure"; }

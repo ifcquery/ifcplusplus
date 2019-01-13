@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcQuantitySet : public IfcPropertySetDefinition
 { 
 public:
-	IfcQuantitySet();
+	IfcQuantitySet() = default;
 	IfcQuantitySet( int id );
 	~IfcQuantitySet();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

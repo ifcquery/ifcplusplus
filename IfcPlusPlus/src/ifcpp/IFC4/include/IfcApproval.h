@@ -21,7 +21,7 @@ class IFCQUERY_EXPORT IfcApprovalRelationship;
 class IFCQUERY_EXPORT IfcApproval : virtual public IfcResourceObjectSelect, public BuildingEntity
 { 
 public:
-	IfcApproval();
+	IfcApproval() = default;
 	IfcApproval( int id );
 	~IfcApproval();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

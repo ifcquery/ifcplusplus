@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcTorqueMeasure.h"
 
 // TYPE IfcTorqueMeasure = REAL;
-IfcTorqueMeasure::IfcTorqueMeasure() {}
 IfcTorqueMeasure::IfcTorqueMeasure( double value ) { m_value = value; }
 IfcTorqueMeasure::~IfcTorqueMeasure() {}
 shared_ptr<BuildingObject> IfcTorqueMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcTorqueMeasure::toString() const
 shared_ptr<IfcTorqueMeasure> IfcTorqueMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTorqueMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTorqueMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTorqueMeasure>(); }
 	shared_ptr<IfcTorqueMeasure> type_object( new IfcTorqueMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

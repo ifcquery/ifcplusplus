@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcRelAssociatesDocument;
 class IFCQUERY_EXPORT IfcDocumentReference : virtual public IfcDocumentSelect, public IfcExternalReference
 { 
 public:
-	IfcDocumentReference();
+	IfcDocumentReference() = default;
 	IfcDocumentReference( int id );
 	~IfcDocumentReference();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

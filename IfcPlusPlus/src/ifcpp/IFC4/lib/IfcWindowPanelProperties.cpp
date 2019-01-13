@@ -23,7 +23,6 @@
 #include "ifcpp/IFC4/include/IfcWindowPanelProperties.h"
 
 // ENTITY IfcWindowPanelProperties 
-IfcWindowPanelProperties::IfcWindowPanelProperties() {}
 IfcWindowPanelProperties::IfcWindowPanelProperties( int id ) { m_entity_id = id; }
 IfcWindowPanelProperties::~IfcWindowPanelProperties() {}
 shared_ptr<BuildingObject> IfcWindowPanelProperties::getDeepCopy( BuildingCopyOptions& options )
@@ -31,7 +30,7 @@ shared_ptr<BuildingObject> IfcWindowPanelProperties::getDeepCopy( BuildingCopyOp
 	shared_ptr<IfcWindowPanelProperties> copy_self( new IfcWindowPanelProperties() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -89,11 +88,11 @@ void IfcWindowPanelProperties::readStepArguments( const std::vector<std::wstring
 void IfcWindowPanelProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedPropertySet::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "OperationType", m_OperationType ) );
-	vec_attributes.push_back( std::make_pair( "PanelPosition", m_PanelPosition ) );
-	vec_attributes.push_back( std::make_pair( "FrameDepth", m_FrameDepth ) );
-	vec_attributes.push_back( std::make_pair( "FrameThickness", m_FrameThickness ) );
-	vec_attributes.push_back( std::make_pair( "ShapeAspectStyle", m_ShapeAspectStyle ) );
+	vec_attributes.emplace_back( std::make_pair( "OperationType", m_OperationType ) );
+	vec_attributes.emplace_back( std::make_pair( "PanelPosition", m_PanelPosition ) );
+	vec_attributes.emplace_back( std::make_pair( "FrameDepth", m_FrameDepth ) );
+	vec_attributes.emplace_back( std::make_pair( "FrameThickness", m_FrameThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "ShapeAspectStyle", m_ShapeAspectStyle ) );
 }
 void IfcWindowPanelProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

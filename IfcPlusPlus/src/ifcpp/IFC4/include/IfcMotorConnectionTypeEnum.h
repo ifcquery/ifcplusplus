@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcMotorConnectionTypeEnum();
+	IfcMotorConnectionTypeEnum() = default;
 	IfcMotorConnectionTypeEnum( IfcMotorConnectionTypeEnumEnum e ) { m_enum = e; }
 	~IfcMotorConnectionTypeEnum();
 	virtual const char* className() const { return "IfcMotorConnectionTypeEnum"; }

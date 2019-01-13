@@ -19,7 +19,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcProjectionElementTypeEnum();
+	IfcProjectionElementTypeEnum() = default;
 	IfcProjectionElementTypeEnum( IfcProjectionElementTypeEnumEnum e ) { m_enum = e; }
 	~IfcProjectionElementTypeEnum();
 	virtual const char* className() const { return "IfcProjectionElementTypeEnum"; }

@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcSimpleProperty 
-IfcSimpleProperty::IfcSimpleProperty() {}
 IfcSimpleProperty::IfcSimpleProperty( int id ) { m_entity_id = id; }
 IfcSimpleProperty::~IfcSimpleProperty() {}
 shared_ptr<BuildingObject> IfcSimpleProperty::getDeepCopy( BuildingCopyOptions& options )

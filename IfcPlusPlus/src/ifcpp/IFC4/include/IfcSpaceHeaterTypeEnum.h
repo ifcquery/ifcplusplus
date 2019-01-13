@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcSpaceHeaterTypeEnum();
+	IfcSpaceHeaterTypeEnum() = default;
 	IfcSpaceHeaterTypeEnum( IfcSpaceHeaterTypeEnumEnum e ) { m_enum = e; }
 	~IfcSpaceHeaterTypeEnum();
 	virtual const char* className() const { return "IfcSpaceHeaterTypeEnum"; }

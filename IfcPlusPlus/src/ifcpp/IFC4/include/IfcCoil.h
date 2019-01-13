@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCoilTypeEnum;
 class IFCQUERY_EXPORT IfcCoil : public IfcEnergyConversionDevice
 { 
 public:
-	IfcCoil();
+	IfcCoil() = default;
 	IfcCoil( int id );
 	~IfcCoil();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcPersonAndOrganization.h"
 
 // ENTITY IfcPersonAndOrganization 
-IfcPersonAndOrganization::IfcPersonAndOrganization() {}
 IfcPersonAndOrganization::IfcPersonAndOrganization( int id ) { m_entity_id = id; }
 IfcPersonAndOrganization::~IfcPersonAndOrganization() {}
 shared_ptr<BuildingObject> IfcPersonAndOrganization::getDeepCopy( BuildingCopyOptions& options )
@@ -26,7 +25,7 @@ shared_ptr<BuildingObject> IfcPersonAndOrganization::getDeepCopy( BuildingCopyOp
 		auto item_ii = m_Roles[ii];
 		if( item_ii )
 		{
-			copy_self->m_Roles.push_back( dynamic_pointer_cast<IfcActorRole>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Roles.emplace_back( dynamic_pointer_cast<IfcActorRole>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -53,13 +52,13 @@ void IfcPersonAndOrganization::readStepArguments( const std::vector<std::wstring
 }
 void IfcPersonAndOrganization::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "ThePerson", m_ThePerson ) );
-	vec_attributes.push_back( std::make_pair( "TheOrganization", m_TheOrganization ) );
-	if( m_Roles.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "ThePerson", m_ThePerson ) );
+	vec_attributes.emplace_back( std::make_pair( "TheOrganization", m_TheOrganization ) );
+	if( !m_Roles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Roles_vec_object( new AttributeObjectVector() );
 		std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Roles", Roles_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Roles", Roles_vec_object ) );
 	}
 }
 void IfcPersonAndOrganization::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -71,11 +70,11 @@ void IfcPersonAndOrganization::setInverseCounterparts( shared_ptr<BuildingEntity
 	if( !ptr_self ) { throw BuildingException( "IfcPersonAndOrganization::setInverseCounterparts: type mismatch" ); }
 	if( m_TheOrganization )
 	{
-		m_TheOrganization->m_Engages_inverse.push_back( ptr_self );
+		m_TheOrganization->m_Engages_inverse.emplace_back( ptr_self );
 	}
 	if( m_ThePerson )
 	{
-		m_ThePerson->m_EngagedIn_inverse.push_back( ptr_self );
+		m_ThePerson->m_EngagedIn_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcPersonAndOrganization::unlinkFromInverseCounterparts()

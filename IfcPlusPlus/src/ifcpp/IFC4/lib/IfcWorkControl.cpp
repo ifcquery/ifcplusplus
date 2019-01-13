@@ -27,7 +27,6 @@
 #include "ifcpp/IFC4/include/IfcWorkControl.h"
 
 // ENTITY IfcWorkControl 
-IfcWorkControl::IfcWorkControl() {}
 IfcWorkControl::IfcWorkControl( int id ) { m_entity_id = id; }
 IfcWorkControl::~IfcWorkControl() {}
 shared_ptr<BuildingObject> IfcWorkControl::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ shared_ptr<BuildingObject> IfcWorkControl::getDeepCopy( BuildingCopyOptions& opt
 	shared_ptr<IfcWorkControl> copy_self( new IfcWorkControl() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -53,7 +52,7 @@ shared_ptr<BuildingObject> IfcWorkControl::getDeepCopy( BuildingCopyOptions& opt
 		auto item_ii = m_Creators[ii];
 		if( item_ii )
 		{
-			copy_self->m_Creators.push_back( dynamic_pointer_cast<IfcPerson>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Creators.emplace_back( dynamic_pointer_cast<IfcPerson>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcLabel>( m_Purpose->getDeepCopy(options) ); }
@@ -116,18 +115,18 @@ void IfcWorkControl::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcWorkControl::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcControl::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "CreationDate", m_CreationDate ) );
-	if( m_Creators.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "CreationDate", m_CreationDate ) );
+	if( !m_Creators.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Creators_vec_object( new AttributeObjectVector() );
 		std::copy( m_Creators.begin(), m_Creators.end(), std::back_inserter( Creators_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Creators", Creators_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Creators", Creators_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "Purpose", m_Purpose ) );
-	vec_attributes.push_back( std::make_pair( "Duration", m_Duration ) );
-	vec_attributes.push_back( std::make_pair( "TotalFloat", m_TotalFloat ) );
-	vec_attributes.push_back( std::make_pair( "StartTime", m_StartTime ) );
-	vec_attributes.push_back( std::make_pair( "FinishTime", m_FinishTime ) );
+	vec_attributes.emplace_back( std::make_pair( "Purpose", m_Purpose ) );
+	vec_attributes.emplace_back( std::make_pair( "Duration", m_Duration ) );
+	vec_attributes.emplace_back( std::make_pair( "TotalFloat", m_TotalFloat ) );
+	vec_attributes.emplace_back( std::make_pair( "StartTime", m_StartTime ) );
+	vec_attributes.emplace_back( std::make_pair( "FinishTime", m_FinishTime ) );
 }
 void IfcWorkControl::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelConnectsPorts 
-IfcRelConnectsPorts::IfcRelConnectsPorts() {}
 IfcRelConnectsPorts::IfcRelConnectsPorts( int id ) { m_entity_id = id; }
 IfcRelConnectsPorts::~IfcRelConnectsPorts() {}
 shared_ptr<BuildingObject> IfcRelConnectsPorts::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelConnectsPorts::getDeepCopy( BuildingCopyOptions
 	shared_ptr<IfcRelConnectsPorts> copy_self( new IfcRelConnectsPorts() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -74,9 +73,9 @@ void IfcRelConnectsPorts::readStepArguments( const std::vector<std::wstring>& ar
 void IfcRelConnectsPorts::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingPort", m_RelatingPort ) );
-	vec_attributes.push_back( std::make_pair( "RelatedPort", m_RelatedPort ) );
-	vec_attributes.push_back( std::make_pair( "RealizingElement", m_RealizingElement ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingPort", m_RelatingPort ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedPort", m_RelatedPort ) );
+	vec_attributes.emplace_back( std::make_pair( "RealizingElement", m_RealizingElement ) );
 }
 void IfcRelConnectsPorts::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -89,11 +88,11 @@ void IfcRelConnectsPorts::setInverseCounterparts( shared_ptr<BuildingEntity> ptr
 	if( !ptr_self ) { throw BuildingException( "IfcRelConnectsPorts::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatedPort )
 	{
-		m_RelatedPort->m_ConnectedFrom_inverse.push_back( ptr_self );
+		m_RelatedPort->m_ConnectedFrom_inverse.emplace_back( ptr_self );
 	}
 	if( m_RelatingPort )
 	{
-		m_RelatingPort->m_ConnectedTo_inverse.push_back( ptr_self );
+		m_RelatingPort->m_ConnectedTo_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelConnectsPorts::unlinkFromInverseCounterparts()

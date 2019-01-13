@@ -25,7 +25,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcProcess 
-IfcProcess::IfcProcess() {}
 IfcProcess::IfcProcess( int id ) { m_entity_id = id; }
 IfcProcess::~IfcProcess() {}
 shared_ptr<BuildingObject> IfcProcess::getDeepCopy( BuildingCopyOptions& options )
@@ -33,7 +32,7 @@ shared_ptr<BuildingObject> IfcProcess::getDeepCopy( BuildingCopyOptions& options
 	shared_ptr<IfcProcess> copy_self( new IfcProcess() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -83,47 +82,47 @@ void IfcProcess::readStepArguments( const std::vector<std::wstring>& args, const
 void IfcProcess::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcObject::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
-	vec_attributes.push_back( std::make_pair( "LongDescription", m_LongDescription ) );
+	vec_attributes.emplace_back( std::make_pair( "Identification", m_Identification ) );
+	vec_attributes.emplace_back( std::make_pair( "LongDescription", m_LongDescription ) );
 }
 void IfcProcess::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcObject::getAttributesInverse( vec_attributes_inverse );
-	if( m_IsPredecessorTo_inverse.size() > 0 )
+	if( !m_IsPredecessorTo_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> IsPredecessorTo_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsPredecessorTo_inverse.size(); ++i )
 		{
 			if( !m_IsPredecessorTo_inverse[i].expired() )
 			{
-				IsPredecessorTo_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSequence>( m_IsPredecessorTo_inverse[i] ) );
+				IsPredecessorTo_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSequence>( m_IsPredecessorTo_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "IsPredecessorTo_inverse", IsPredecessorTo_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "IsPredecessorTo_inverse", IsPredecessorTo_inverse_vec_obj ) );
 	}
-	if( m_IsSuccessorFrom_inverse.size() > 0 )
+	if( !m_IsSuccessorFrom_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> IsSuccessorFrom_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsSuccessorFrom_inverse.size(); ++i )
 		{
 			if( !m_IsSuccessorFrom_inverse[i].expired() )
 			{
-				IsSuccessorFrom_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSequence>( m_IsSuccessorFrom_inverse[i] ) );
+				IsSuccessorFrom_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSequence>( m_IsSuccessorFrom_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "IsSuccessorFrom_inverse", IsSuccessorFrom_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "IsSuccessorFrom_inverse", IsSuccessorFrom_inverse_vec_obj ) );
 	}
-	if( m_OperatesOn_inverse.size() > 0 )
+	if( !m_OperatesOn_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> OperatesOn_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_OperatesOn_inverse.size(); ++i )
 		{
 			if( !m_OperatesOn_inverse[i].expired() )
 			{
-				OperatesOn_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToProcess>( m_OperatesOn_inverse[i] ) );
+				OperatesOn_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssignsToProcess>( m_OperatesOn_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "OperatesOn_inverse", OperatesOn_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "OperatesOn_inverse", OperatesOn_inverse_vec_obj ) );
 	}
 }
 void IfcProcess::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcSurface.h"
 
 // ENTITY IfcHalfSpaceSolid 
-IfcHalfSpaceSolid::IfcHalfSpaceSolid() {}
 IfcHalfSpaceSolid::IfcHalfSpaceSolid( int id ) { m_entity_id = id; }
 IfcHalfSpaceSolid::~IfcHalfSpaceSolid() {}
 shared_ptr<BuildingObject> IfcHalfSpaceSolid::getDeepCopy( BuildingCopyOptions& options )
@@ -44,8 +43,8 @@ void IfcHalfSpaceSolid::readStepArguments( const std::vector<std::wstring>& args
 void IfcHalfSpaceSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "BaseSurface", m_BaseSurface ) );
-	vec_attributes.push_back( std::make_pair( "AgreementFlag", m_AgreementFlag ) );
+	vec_attributes.emplace_back( std::make_pair( "BaseSurface", m_BaseSurface ) );
+	vec_attributes.emplace_back( std::make_pair( "AgreementFlag", m_AgreementFlag ) );
 }
 void IfcHalfSpaceSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

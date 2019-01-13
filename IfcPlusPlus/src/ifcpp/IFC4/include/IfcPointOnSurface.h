@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcParameterValue;
 class IFCQUERY_EXPORT IfcPointOnSurface : public IfcPoint
 { 
 public:
-	IfcPointOnSurface();
+	IfcPointOnSurface() = default;
 	IfcPointOnSurface( int id );
 	~IfcPointOnSurface();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

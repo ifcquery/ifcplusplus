@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcSurfaceOfLinearExtrusion : public IfcSweptSurface
 { 
 public:
-	IfcSurfaceOfLinearExtrusion();
+	IfcSurfaceOfLinearExtrusion() = default;
 	IfcSurfaceOfLinearExtrusion( int id );
 	~IfcSurfaceOfLinearExtrusion();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

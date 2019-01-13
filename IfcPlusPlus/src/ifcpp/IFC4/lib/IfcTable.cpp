@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcTableRow.h"
 
 // ENTITY IfcTable 
-IfcTable::IfcTable() {}
 IfcTable::IfcTable( int id ) { m_entity_id = id; }
 IfcTable::~IfcTable() {}
 shared_ptr<BuildingObject> IfcTable::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcTable::getDeepCopy( BuildingCopyOptions& options )
 		auto item_ii = m_Rows[ii];
 		if( item_ii )
 		{
-			copy_self->m_Rows.push_back( dynamic_pointer_cast<IfcTableRow>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Rows.emplace_back( dynamic_pointer_cast<IfcTableRow>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_Columns.size(); ++ii )
@@ -33,7 +32,7 @@ shared_ptr<BuildingObject> IfcTable::getDeepCopy( BuildingCopyOptions& options )
 		auto item_ii = m_Columns[ii];
 		if( item_ii )
 		{
-			copy_self->m_Columns.push_back( dynamic_pointer_cast<IfcTableColumn>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Columns.emplace_back( dynamic_pointer_cast<IfcTableColumn>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -60,18 +59,18 @@ void IfcTable::readStepArguments( const std::vector<std::wstring>& args, const s
 }
 void IfcTable::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	if( m_Rows.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	if( !m_Rows.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Rows_vec_object( new AttributeObjectVector() );
 		std::copy( m_Rows.begin(), m_Rows.end(), std::back_inserter( Rows_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Rows", Rows_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Rows", Rows_vec_object ) );
 	}
-	if( m_Columns.size() > 0 )
+	if( !m_Columns.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Columns_vec_object( new AttributeObjectVector() );
 		std::copy( m_Columns.begin(), m_Columns.end(), std::back_inserter( Columns_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Columns", Columns_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Columns", Columns_vec_object ) );
 	}
 }
 void IfcTable::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

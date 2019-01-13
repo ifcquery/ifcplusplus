@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcStrippedOptional.h"
 
 // TYPE IfcStrippedOptional = BOOLEAN;
-IfcStrippedOptional::IfcStrippedOptional() {}
 IfcStrippedOptional::IfcStrippedOptional( bool value ) { m_value = value; }
 IfcStrippedOptional::~IfcStrippedOptional() {}
 shared_ptr<BuildingObject> IfcStrippedOptional::getDeepCopy( BuildingCopyOptions& options )
@@ -47,7 +46,7 @@ const std::wstring IfcStrippedOptional::toString() const
 shared_ptr<IfcStrippedOptional> IfcStrippedOptional::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStrippedOptional>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStrippedOptional>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStrippedOptional>(); }
 	shared_ptr<IfcStrippedOptional> type_object( new IfcStrippedOptional() );
 	readBool( arg, type_object->m_value );
 	return type_object;

@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcIndexedPolygonalFaceWithVoids 
-IfcIndexedPolygonalFaceWithVoids::IfcIndexedPolygonalFaceWithVoids() {}
 IfcIndexedPolygonalFaceWithVoids::IfcIndexedPolygonalFaceWithVoids( int id ) { m_entity_id = id; }
 IfcIndexedPolygonalFaceWithVoids::~IfcIndexedPolygonalFaceWithVoids() {}
 shared_ptr<BuildingObject> IfcIndexedPolygonalFaceWithVoids::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcIndexedPolygonalFaceWithVoids::getDeepCopy( Buildi
 		auto item_ii = m_CoordIndex[ii];
 		if( item_ii )
 		{
-			copy_self->m_CoordIndex.push_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_CoordIndex.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	copy_self->m_InnerCoordIndices.resize( m_InnerCoordIndices.size() );
@@ -38,7 +37,7 @@ shared_ptr<BuildingObject> IfcIndexedPolygonalFaceWithVoids::getDeepCopy( Buildi
 			shared_ptr<IfcPositiveInteger>& item_jj = vec_ii[jj];
 			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
+				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}

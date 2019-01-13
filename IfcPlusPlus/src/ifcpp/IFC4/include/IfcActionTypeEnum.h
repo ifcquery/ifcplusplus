@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcActionTypeEnum();
+	IfcActionTypeEnum() = default;
 	IfcActionTypeEnum( IfcActionTypeEnumEnum e ) { m_enum = e; }
 	~IfcActionTypeEnum();
 	virtual const char* className() const { return "IfcActionTypeEnum"; }

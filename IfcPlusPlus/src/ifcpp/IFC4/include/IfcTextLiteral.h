@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcTextPath;
 class IFCQUERY_EXPORT IfcTextLiteral : public IfcGeometricRepresentationItem
 { 
 public:
-	IfcTextLiteral();
+	IfcTextLiteral() = default;
 	IfcTextLiteral( int id );
 	~IfcTextLiteral();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

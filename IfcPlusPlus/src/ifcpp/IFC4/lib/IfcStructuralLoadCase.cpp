@@ -29,7 +29,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcStructuralLoadCase 
-IfcStructuralLoadCase::IfcStructuralLoadCase() {}
 IfcStructuralLoadCase::IfcStructuralLoadCase( int id ) { m_entity_id = id; }
 IfcStructuralLoadCase::~IfcStructuralLoadCase() {}
 shared_ptr<BuildingObject> IfcStructuralLoadCase::getDeepCopy( BuildingCopyOptions& options )
@@ -37,7 +36,7 @@ shared_ptr<BuildingObject> IfcStructuralLoadCase::getDeepCopy( BuildingCopyOptio
 	shared_ptr<IfcStructuralLoadCase> copy_self( new IfcStructuralLoadCase() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -58,7 +57,7 @@ shared_ptr<BuildingObject> IfcStructuralLoadCase::getDeepCopy( BuildingCopyOptio
 		auto item_ii = m_SelfWeightCoefficients[ii];
 		if( item_ii )
 		{
-			copy_self->m_SelfWeightCoefficients.push_back( dynamic_pointer_cast<IfcRatioMeasure>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_SelfWeightCoefficients.emplace_back( dynamic_pointer_cast<IfcRatioMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -110,11 +109,11 @@ void IfcStructuralLoadCase::readStepArguments( const std::vector<std::wstring>& 
 void IfcStructuralLoadCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadGroup::getAttributes( vec_attributes );
-	if( m_SelfWeightCoefficients.size() > 0 )
+	if( !m_SelfWeightCoefficients.empty() )
 	{
 		shared_ptr<AttributeObjectVector> SelfWeightCoefficients_vec_object( new AttributeObjectVector() );
 		std::copy( m_SelfWeightCoefficients.begin(), m_SelfWeightCoefficients.end(), std::back_inserter( SelfWeightCoefficients_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "SelfWeightCoefficients", SelfWeightCoefficients_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "SelfWeightCoefficients", SelfWeightCoefficients_vec_object ) );
 	}
 }
 void IfcStructuralLoadCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

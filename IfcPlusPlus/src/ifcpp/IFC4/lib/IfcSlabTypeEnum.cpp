@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSlabTypeEnum.h"
 
 // TYPE IfcSlabTypeEnum = ENUMERATION OF	(FLOOR	,ROOF	,LANDING	,BASESLAB	,USERDEFINED	,NOTDEFINED);
-IfcSlabTypeEnum::IfcSlabTypeEnum() {}
 IfcSlabTypeEnum::~IfcSlabTypeEnum() {}
 shared_ptr<BuildingObject> IfcSlabTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -48,7 +47,7 @@ const std::wstring IfcSlabTypeEnum::toString() const
 shared_ptr<IfcSlabTypeEnum> IfcSlabTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSlabTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSlabTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSlabTypeEnum>(); }
 	shared_ptr<IfcSlabTypeEnum> type_object( new IfcSlabTypeEnum() );
 	if( boost::iequals( arg, L".FLOOR." ) )
 	{

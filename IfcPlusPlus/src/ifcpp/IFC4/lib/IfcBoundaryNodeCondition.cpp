@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcTranslationalStiffnessSelect.h"
 
 // ENTITY IfcBoundaryNodeCondition 
-IfcBoundaryNodeCondition::IfcBoundaryNodeCondition() {}
 IfcBoundaryNodeCondition::IfcBoundaryNodeCondition( int id ) { m_entity_id = id; }
 IfcBoundaryNodeCondition::~IfcBoundaryNodeCondition() {}
 shared_ptr<BuildingObject> IfcBoundaryNodeCondition::getDeepCopy( BuildingCopyOptions& options )
@@ -63,12 +62,12 @@ void IfcBoundaryNodeCondition::readStepArguments( const std::vector<std::wstring
 void IfcBoundaryNodeCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundaryCondition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessX", m_TranslationalStiffnessX ) );
-	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessY", m_TranslationalStiffnessY ) );
-	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessZ", m_TranslationalStiffnessZ ) );
-	vec_attributes.push_back( std::make_pair( "RotationalStiffnessX", m_RotationalStiffnessX ) );
-	vec_attributes.push_back( std::make_pair( "RotationalStiffnessY", m_RotationalStiffnessY ) );
-	vec_attributes.push_back( std::make_pair( "RotationalStiffnessZ", m_RotationalStiffnessZ ) );
+	vec_attributes.emplace_back( std::make_pair( "TranslationalStiffnessX", m_TranslationalStiffnessX ) );
+	vec_attributes.emplace_back( std::make_pair( "TranslationalStiffnessY", m_TranslationalStiffnessY ) );
+	vec_attributes.emplace_back( std::make_pair( "TranslationalStiffnessZ", m_TranslationalStiffnessZ ) );
+	vec_attributes.emplace_back( std::make_pair( "RotationalStiffnessX", m_RotationalStiffnessX ) );
+	vec_attributes.emplace_back( std::make_pair( "RotationalStiffnessY", m_RotationalStiffnessY ) );
+	vec_attributes.emplace_back( std::make_pair( "RotationalStiffnessZ", m_RotationalStiffnessZ ) );
 }
 void IfcBoundaryNodeCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

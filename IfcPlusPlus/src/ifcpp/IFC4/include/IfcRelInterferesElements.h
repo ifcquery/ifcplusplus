@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcIdentifier;
 class IFCQUERY_EXPORT IfcRelInterferesElements : public IfcRelConnects
 { 
 public:
-	IfcRelInterferesElements();
+	IfcRelInterferesElements() = default;
 	IfcRelInterferesElements( int id );
 	~IfcRelInterferesElements();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

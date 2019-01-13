@@ -39,7 +39,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcReinforcingMesh 
-IfcReinforcingMesh::IfcReinforcingMesh() {}
 IfcReinforcingMesh::IfcReinforcingMesh( int id ) { m_entity_id = id; }
 IfcReinforcingMesh::~IfcReinforcingMesh() {}
 shared_ptr<BuildingObject> IfcReinforcingMesh::getDeepCopy( BuildingCopyOptions& options )
@@ -47,7 +46,7 @@ shared_ptr<BuildingObject> IfcReinforcingMesh::getDeepCopy( BuildingCopyOptions&
 	shared_ptr<IfcReinforcingMesh> copy_self( new IfcReinforcingMesh() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -141,15 +140,15 @@ void IfcReinforcingMesh::readStepArguments( const std::vector<std::wstring>& arg
 void IfcReinforcingMesh::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcReinforcingElement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "MeshLength", m_MeshLength ) );
-	vec_attributes.push_back( std::make_pair( "MeshWidth", m_MeshWidth ) );
-	vec_attributes.push_back( std::make_pair( "LongitudinalBarNominalDiameter", m_LongitudinalBarNominalDiameter ) );
-	vec_attributes.push_back( std::make_pair( "TransverseBarNominalDiameter", m_TransverseBarNominalDiameter ) );
-	vec_attributes.push_back( std::make_pair( "LongitudinalBarCrossSectionArea", m_LongitudinalBarCrossSectionArea ) );
-	vec_attributes.push_back( std::make_pair( "TransverseBarCrossSectionArea", m_TransverseBarCrossSectionArea ) );
-	vec_attributes.push_back( std::make_pair( "LongitudinalBarSpacing", m_LongitudinalBarSpacing ) );
-	vec_attributes.push_back( std::make_pair( "TransverseBarSpacing", m_TransverseBarSpacing ) );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "MeshLength", m_MeshLength ) );
+	vec_attributes.emplace_back( std::make_pair( "MeshWidth", m_MeshWidth ) );
+	vec_attributes.emplace_back( std::make_pair( "LongitudinalBarNominalDiameter", m_LongitudinalBarNominalDiameter ) );
+	vec_attributes.emplace_back( std::make_pair( "TransverseBarNominalDiameter", m_TransverseBarNominalDiameter ) );
+	vec_attributes.emplace_back( std::make_pair( "LongitudinalBarCrossSectionArea", m_LongitudinalBarCrossSectionArea ) );
+	vec_attributes.emplace_back( std::make_pair( "TransverseBarCrossSectionArea", m_TransverseBarCrossSectionArea ) );
+	vec_attributes.emplace_back( std::make_pair( "LongitudinalBarSpacing", m_LongitudinalBarSpacing ) );
+	vec_attributes.emplace_back( std::make_pair( "TransverseBarSpacing", m_TransverseBarSpacing ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcReinforcingMesh::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

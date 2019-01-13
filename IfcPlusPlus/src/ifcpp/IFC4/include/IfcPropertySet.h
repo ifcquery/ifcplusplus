@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcProperty;
 class IFCQUERY_EXPORT IfcPropertySet : public IfcPropertySetDefinition
 { 
 public:
-	IfcPropertySet();
+	IfcPropertySet() = default;
 	IfcPropertySet( int id );
 	~IfcPropertySet();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

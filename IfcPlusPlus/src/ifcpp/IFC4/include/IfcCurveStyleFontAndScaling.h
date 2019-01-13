@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcPositiveRatioMeasure;
 class IFCQUERY_EXPORT IfcCurveStyleFontAndScaling : virtual public IfcCurveFontOrScaledCurveFontSelect, public IfcPresentationItem
 { 
 public:
-	IfcCurveStyleFontAndScaling();
+	IfcCurveStyleFontAndScaling() = default;
 	IfcCurveStyleFontAndScaling( int id );
 	~IfcCurveStyleFontAndScaling();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

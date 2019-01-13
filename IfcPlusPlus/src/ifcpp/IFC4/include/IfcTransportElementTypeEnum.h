@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcTransportElementTypeEnum();
+	IfcTransportElementTypeEnum() = default;
 	IfcTransportElementTypeEnum( IfcTransportElementTypeEnumEnum e ) { m_enum = e; }
 	~IfcTransportElementTypeEnum();
 	virtual const char* className() const { return "IfcTransportElementTypeEnum"; }

@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcRampFlightTypeEnum();
+	IfcRampFlightTypeEnum() = default;
 	IfcRampFlightTypeEnum( IfcRampFlightTypeEnumEnum e ) { m_enum = e; }
 	~IfcRampFlightTypeEnum();
 	virtual const char* className() const { return "IfcRampFlightTypeEnum"; }

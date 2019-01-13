@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcVirtualElement : public IfcElement
 { 
 public:
-	IfcVirtualElement();
+	IfcVirtualElement() = default;
 	IfcVirtualElement( int id );
 	~IfcVirtualElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

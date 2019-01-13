@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcRatioMeasure;
 class IFCQUERY_EXPORT IfcSurfaceReinforcementArea : public IfcStructuralLoadOrResult
 { 
 public:
-	IfcSurfaceReinforcementArea();
+	IfcSurfaceReinforcementArea() = default;
 	IfcSurfaceReinforcementArea( int id );
 	~IfcSurfaceReinforcementArea();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

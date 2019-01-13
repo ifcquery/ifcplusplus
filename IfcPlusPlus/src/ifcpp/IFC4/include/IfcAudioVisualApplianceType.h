@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcAudioVisualApplianceTypeEnum;
 class IFCQUERY_EXPORT IfcAudioVisualApplianceType : public IfcFlowTerminalType
 { 
 public:
-	IfcAudioVisualApplianceType();
+	IfcAudioVisualApplianceType() = default;
 	IfcAudioVisualApplianceType( int id );
 	~IfcAudioVisualApplianceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcPositivePlaneAngleMeasure : public IfcPlaneAngleMeasure
 {
 public:
-	IfcPositivePlaneAngleMeasure();
+	IfcPositivePlaneAngleMeasure() = default;
 	IfcPositivePlaneAngleMeasure( double value ) { m_value = value; }
 	~IfcPositivePlaneAngleMeasure();
 	virtual const char* className() const { return "IfcPositivePlaneAngleMeasure"; }

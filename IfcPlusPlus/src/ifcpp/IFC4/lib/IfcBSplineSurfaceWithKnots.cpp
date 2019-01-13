@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBSplineSurfaceWithKnots 
-IfcBSplineSurfaceWithKnots::IfcBSplineSurfaceWithKnots() {}
 IfcBSplineSurfaceWithKnots::IfcBSplineSurfaceWithKnots( int id ) { m_entity_id = id; }
 IfcBSplineSurfaceWithKnots::~IfcBSplineSurfaceWithKnots() {}
 shared_ptr<BuildingObject> IfcBSplineSurfaceWithKnots::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ shared_ptr<BuildingObject> IfcBSplineSurfaceWithKnots::getDeepCopy( BuildingCopy
 			shared_ptr<IfcCartesianPoint>& item_jj = vec_ii[jj];
 			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcCartesianPoint>( item_jj->getDeepCopy(options) ) );
+				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcCartesianPoint>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}
@@ -49,7 +48,7 @@ shared_ptr<BuildingObject> IfcBSplineSurfaceWithKnots::getDeepCopy( BuildingCopy
 		auto item_ii = m_UMultiplicities[ii];
 		if( item_ii )
 		{
-			copy_self->m_UMultiplicities.push_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_UMultiplicities.emplace_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_VMultiplicities.size(); ++ii )
@@ -57,7 +56,7 @@ shared_ptr<BuildingObject> IfcBSplineSurfaceWithKnots::getDeepCopy( BuildingCopy
 		auto item_ii = m_VMultiplicities[ii];
 		if( item_ii )
 		{
-			copy_self->m_VMultiplicities.push_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_VMultiplicities.emplace_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_UKnots.size(); ++ii )
@@ -65,7 +64,7 @@ shared_ptr<BuildingObject> IfcBSplineSurfaceWithKnots::getDeepCopy( BuildingCopy
 		auto item_ii = m_UKnots[ii];
 		if( item_ii )
 		{
-			copy_self->m_UKnots.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_UKnots.emplace_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_VKnots.size(); ++ii )
@@ -73,7 +72,7 @@ shared_ptr<BuildingObject> IfcBSplineSurfaceWithKnots::getDeepCopy( BuildingCopy
 		auto item_ii = m_VKnots[ii];
 		if( item_ii )
 		{
-			copy_self->m_VKnots.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_VKnots.emplace_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_KnotSpec ) { copy_self->m_KnotSpec = dynamic_pointer_cast<IfcKnotType>( m_KnotSpec->getDeepCopy(options) ); }
@@ -129,31 +128,31 @@ void IfcBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstri
 void IfcBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBSplineSurface::getAttributes( vec_attributes );
-	if( m_UMultiplicities.size() > 0 )
+	if( !m_UMultiplicities.empty() )
 	{
 		shared_ptr<AttributeObjectVector> UMultiplicities_vec_object( new AttributeObjectVector() );
 		std::copy( m_UMultiplicities.begin(), m_UMultiplicities.end(), std::back_inserter( UMultiplicities_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "UMultiplicities", UMultiplicities_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "UMultiplicities", UMultiplicities_vec_object ) );
 	}
-	if( m_VMultiplicities.size() > 0 )
+	if( !m_VMultiplicities.empty() )
 	{
 		shared_ptr<AttributeObjectVector> VMultiplicities_vec_object( new AttributeObjectVector() );
 		std::copy( m_VMultiplicities.begin(), m_VMultiplicities.end(), std::back_inserter( VMultiplicities_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "VMultiplicities", VMultiplicities_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "VMultiplicities", VMultiplicities_vec_object ) );
 	}
-	if( m_UKnots.size() > 0 )
+	if( !m_UKnots.empty() )
 	{
 		shared_ptr<AttributeObjectVector> UKnots_vec_object( new AttributeObjectVector() );
 		std::copy( m_UKnots.begin(), m_UKnots.end(), std::back_inserter( UKnots_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "UKnots", UKnots_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "UKnots", UKnots_vec_object ) );
 	}
-	if( m_VKnots.size() > 0 )
+	if( !m_VKnots.empty() )
 	{
 		shared_ptr<AttributeObjectVector> VKnots_vec_object( new AttributeObjectVector() );
 		std::copy( m_VKnots.begin(), m_VKnots.end(), std::back_inserter( VKnots_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "VKnots", VKnots_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "VKnots", VKnots_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "KnotSpec", m_KnotSpec ) );
+	vec_attributes.emplace_back( std::make_pair( "KnotSpec", m_KnotSpec ) );
 }
 void IfcBSplineSurfaceWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

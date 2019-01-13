@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianTransformationOperator3DnonUniform 
-IfcCartesianTransformationOperator3DnonUniform::IfcCartesianTransformationOperator3DnonUniform() {}
 IfcCartesianTransformationOperator3DnonUniform::IfcCartesianTransformationOperator3DnonUniform( int id ) { m_entity_id = id; }
 IfcCartesianTransformationOperator3DnonUniform::~IfcCartesianTransformationOperator3DnonUniform() {}
 shared_ptr<BuildingObject> IfcCartesianTransformationOperator3DnonUniform::getDeepCopy( BuildingCopyOptions& options )
@@ -33,7 +32,7 @@ shared_ptr<BuildingObject> IfcCartesianTransformationOperator3DnonUniform::getDe
 void IfcCartesianTransformationOperator3DnonUniform::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCARTESIANTRANSFORMATIONOPERATOR3DNONUNIFORM" << "(";
-	if( m_Axis1 ) { stream << "#" << m_Axis1->m_entity_id; } else { stream << "*"; }
+	if( m_Axis1 ) { stream << "#" << m_Axis1->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Axis2 ) { stream << "#" << m_Axis2->m_entity_id; } else { stream << "$"; }
 	stream << ",";
@@ -65,8 +64,8 @@ void IfcCartesianTransformationOperator3DnonUniform::readStepArguments( const st
 void IfcCartesianTransformationOperator3DnonUniform::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCartesianTransformationOperator3D::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Scale2", m_Scale2 ) );
-	vec_attributes.push_back( std::make_pair( "Scale3", m_Scale3 ) );
+	vec_attributes.emplace_back( std::make_pair( "Scale2", m_Scale2 ) );
+	vec_attributes.emplace_back( std::make_pair( "Scale3", m_Scale3 ) );
 }
 void IfcCartesianTransformationOperator3DnonUniform::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

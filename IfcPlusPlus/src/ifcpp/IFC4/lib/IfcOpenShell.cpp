@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcOpenShell 
-IfcOpenShell::IfcOpenShell() {}
 IfcOpenShell::IfcOpenShell( int id ) { m_entity_id = id; }
 IfcOpenShell::~IfcOpenShell() {}
 shared_ptr<BuildingObject> IfcOpenShell::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcOpenShell::getDeepCopy( BuildingCopyOptions& optio
 		auto item_ii = m_CfsFaces[ii];
 		if( item_ii )
 		{
-			copy_self->m_CfsFaces.push_back( dynamic_pointer_cast<IfcFace>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_CfsFaces.emplace_back( dynamic_pointer_cast<IfcFace>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;

@@ -19,7 +19,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelSpaceBoundary1stLevel 
-IfcRelSpaceBoundary1stLevel::IfcRelSpaceBoundary1stLevel() {}
 IfcRelSpaceBoundary1stLevel::IfcRelSpaceBoundary1stLevel( int id ) { m_entity_id = id; }
 IfcRelSpaceBoundary1stLevel::~IfcRelSpaceBoundary1stLevel() {}
 shared_ptr<BuildingObject> IfcRelSpaceBoundary1stLevel::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcRelSpaceBoundary1stLevel::getDeepCopy( BuildingCop
 	shared_ptr<IfcRelSpaceBoundary1stLevel> copy_self( new IfcRelSpaceBoundary1stLevel() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -89,22 +88,22 @@ void IfcRelSpaceBoundary1stLevel::readStepArguments( const std::vector<std::wstr
 void IfcRelSpaceBoundary1stLevel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelSpaceBoundary::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ParentBoundary", m_ParentBoundary ) );
+	vec_attributes.emplace_back( std::make_pair( "ParentBoundary", m_ParentBoundary ) );
 }
 void IfcRelSpaceBoundary1stLevel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelSpaceBoundary::getAttributesInverse( vec_attributes_inverse );
-	if( m_InnerBoundaries_inverse.size() > 0 )
+	if( !m_InnerBoundaries_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> InnerBoundaries_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_InnerBoundaries_inverse.size(); ++i )
 		{
 			if( !m_InnerBoundaries_inverse[i].expired() )
 			{
-				InnerBoundaries_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSpaceBoundary1stLevel>( m_InnerBoundaries_inverse[i] ) );
+				InnerBoundaries_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSpaceBoundary1stLevel>( m_InnerBoundaries_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "InnerBoundaries_inverse", InnerBoundaries_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "InnerBoundaries_inverse", InnerBoundaries_inverse_vec_obj ) );
 	}
 }
 void IfcRelSpaceBoundary1stLevel::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
@@ -114,7 +113,7 @@ void IfcRelSpaceBoundary1stLevel::setInverseCounterparts( shared_ptr<BuildingEnt
 	if( !ptr_self ) { throw BuildingException( "IfcRelSpaceBoundary1stLevel::setInverseCounterparts: type mismatch" ); }
 	if( m_ParentBoundary )
 	{
-		m_ParentBoundary->m_InnerBoundaries_inverse.push_back( ptr_self );
+		m_ParentBoundary->m_InnerBoundaries_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelSpaceBoundary1stLevel::unlinkFromInverseCounterparts()

@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcPlaneAngleMeasure.h"
 
 // TYPE IfcPlaneAngleMeasure = REAL;
-IfcPlaneAngleMeasure::IfcPlaneAngleMeasure() {}
 IfcPlaneAngleMeasure::IfcPlaneAngleMeasure( double value ) { m_value = value; }
 IfcPlaneAngleMeasure::~IfcPlaneAngleMeasure() {}
 shared_ptr<BuildingObject> IfcPlaneAngleMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ const std::wstring IfcPlaneAngleMeasure::toString() const
 shared_ptr<IfcPlaneAngleMeasure> IfcPlaneAngleMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPlaneAngleMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPlaneAngleMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPlaneAngleMeasure>(); }
 	shared_ptr<IfcPlaneAngleMeasure> type_object( new IfcPlaneAngleMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

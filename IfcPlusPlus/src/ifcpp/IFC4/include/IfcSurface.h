@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcSurface : virtual public IfcGeometricSetSelect, virtual public IfcSurfaceOrFaceSurface, public IfcGeometricRepresentationItem
 { 
 public:
-	IfcSurface();
+	IfcSurface() = default;
 	IfcSurface( int id );
 	~IfcSurface();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

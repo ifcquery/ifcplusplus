@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcRelAssociatesMaterial.h"
 
 // ENTITY IfcMaterialProfileSetUsageTapering 
-IfcMaterialProfileSetUsageTapering::IfcMaterialProfileSetUsageTapering() {}
 IfcMaterialProfileSetUsageTapering::IfcMaterialProfileSetUsageTapering( int id ) { m_entity_id = id; }
 IfcMaterialProfileSetUsageTapering::~IfcMaterialProfileSetUsageTapering() {}
 shared_ptr<BuildingObject> IfcMaterialProfileSetUsageTapering::getDeepCopy( BuildingCopyOptions& options )
@@ -56,8 +55,8 @@ void IfcMaterialProfileSetUsageTapering::readStepArguments( const std::vector<st
 void IfcMaterialProfileSetUsageTapering::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialProfileSetUsage::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ForProfileEndSet", m_ForProfileEndSet ) );
-	vec_attributes.push_back( std::make_pair( "CardinalEndPoint", m_CardinalEndPoint ) );
+	vec_attributes.emplace_back( std::make_pair( "ForProfileEndSet", m_ForProfileEndSet ) );
+	vec_attributes.emplace_back( std::make_pair( "CardinalEndPoint", m_CardinalEndPoint ) );
 }
 void IfcMaterialProfileSetUsageTapering::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcFlowMeterTypeEnum();
+	IfcFlowMeterTypeEnum() = default;
 	IfcFlowMeterTypeEnum( IfcFlowMeterTypeEnumEnum e ) { m_enum = e; }
 	~IfcFlowMeterTypeEnum();
 	virtual const char* className() const { return "IfcFlowMeterTypeEnum"; }

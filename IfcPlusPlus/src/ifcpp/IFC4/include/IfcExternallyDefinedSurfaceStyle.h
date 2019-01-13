@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcExternallyDefinedSurfaceStyle : virtual public IfcSurfaceStyleElementSelect, public IfcExternalReference
 { 
 public:
-	IfcExternallyDefinedSurfaceStyle();
+	IfcExternallyDefinedSurfaceStyle() = default;
 	IfcExternallyDefinedSurfaceStyle( int id );
 	~IfcExternallyDefinedSurfaceStyle();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

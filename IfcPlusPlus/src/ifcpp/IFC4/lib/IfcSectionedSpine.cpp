@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcSectionedSpine 
-IfcSectionedSpine::IfcSectionedSpine() {}
 IfcSectionedSpine::IfcSectionedSpine( int id ) { m_entity_id = id; }
 IfcSectionedSpine::~IfcSectionedSpine() {}
 shared_ptr<BuildingObject> IfcSectionedSpine::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcSectionedSpine::getDeepCopy( BuildingCopyOptions& 
 		auto item_ii = m_CrossSections[ii];
 		if( item_ii )
 		{
-			copy_self->m_CrossSections.push_back( dynamic_pointer_cast<IfcProfileDef>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_CrossSections.emplace_back( dynamic_pointer_cast<IfcProfileDef>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_CrossSectionPositions.size(); ++ii )
@@ -35,7 +34,7 @@ shared_ptr<BuildingObject> IfcSectionedSpine::getDeepCopy( BuildingCopyOptions& 
 		auto item_ii = m_CrossSectionPositions[ii];
 		if( item_ii )
 		{
-			copy_self->m_CrossSectionPositions.push_back( dynamic_pointer_cast<IfcAxis2Placement3D>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_CrossSectionPositions.emplace_back( dynamic_pointer_cast<IfcAxis2Placement3D>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -63,18 +62,18 @@ void IfcSectionedSpine::readStepArguments( const std::vector<std::wstring>& args
 void IfcSectionedSpine::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "SpineCurve", m_SpineCurve ) );
-	if( m_CrossSections.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "SpineCurve", m_SpineCurve ) );
+	if( !m_CrossSections.empty() )
 	{
 		shared_ptr<AttributeObjectVector> CrossSections_vec_object( new AttributeObjectVector() );
 		std::copy( m_CrossSections.begin(), m_CrossSections.end(), std::back_inserter( CrossSections_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "CrossSections", CrossSections_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "CrossSections", CrossSections_vec_object ) );
 	}
-	if( m_CrossSectionPositions.size() > 0 )
+	if( !m_CrossSectionPositions.empty() )
 	{
 		shared_ptr<AttributeObjectVector> CrossSectionPositions_vec_object( new AttributeObjectVector() );
 		std::copy( m_CrossSectionPositions.begin(), m_CrossSectionPositions.end(), std::back_inserter( CrossSectionPositions_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "CrossSectionPositions", CrossSectionPositions_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "CrossSectionPositions", CrossSectionPositions_vec_object ) );
 	}
 }
 void IfcSectionedSpine::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // ENTITY IfcClassificationReference 
-IfcClassificationReference::IfcClassificationReference() {}
 IfcClassificationReference::IfcClassificationReference( int id ) { m_entity_id = id; }
 IfcClassificationReference::~IfcClassificationReference() {}
 shared_ptr<BuildingObject> IfcClassificationReference::getDeepCopy( BuildingCopyOptions& options )
@@ -64,36 +63,36 @@ void IfcClassificationReference::readStepArguments( const std::vector<std::wstri
 void IfcClassificationReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExternalReference::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ReferencedSource", m_ReferencedSource ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "Sort", m_Sort ) );
+	vec_attributes.emplace_back( std::make_pair( "ReferencedSource", m_ReferencedSource ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "Sort", m_Sort ) );
 }
 void IfcClassificationReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcExternalReference::getAttributesInverse( vec_attributes_inverse );
-	if( m_ClassificationRefForObjects_inverse.size() > 0 )
+	if( !m_ClassificationRefForObjects_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ClassificationRefForObjects_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ClassificationRefForObjects_inverse.size(); ++i )
 		{
 			if( !m_ClassificationRefForObjects_inverse[i].expired() )
 			{
-				ClassificationRefForObjects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesClassification>( m_ClassificationRefForObjects_inverse[i] ) );
+				ClassificationRefForObjects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssociatesClassification>( m_ClassificationRefForObjects_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ClassificationRefForObjects_inverse", ClassificationRefForObjects_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ClassificationRefForObjects_inverse", ClassificationRefForObjects_inverse_vec_obj ) );
 	}
-	if( m_HasReferences_inverse.size() > 0 )
+	if( !m_HasReferences_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasReferences_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasReferences_inverse.size(); ++i )
 		{
 			if( !m_HasReferences_inverse[i].expired() )
 			{
-				HasReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcClassificationReference>( m_HasReferences_inverse[i] ) );
+				HasReferences_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcClassificationReference>( m_HasReferences_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasReferences_inverse", HasReferences_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasReferences_inverse", HasReferences_inverse_vec_obj ) );
 	}
 }
 void IfcClassificationReference::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
@@ -104,12 +103,12 @@ void IfcClassificationReference::setInverseCounterparts( shared_ptr<BuildingEnti
 	shared_ptr<IfcClassification>  ReferencedSource_IfcClassification = dynamic_pointer_cast<IfcClassification>( m_ReferencedSource );
 	if( ReferencedSource_IfcClassification )
 	{
-		ReferencedSource_IfcClassification->m_HasReferences_inverse.push_back( ptr_self );
+		ReferencedSource_IfcClassification->m_HasReferences_inverse.emplace_back( ptr_self );
 	}
 	shared_ptr<IfcClassificationReference>  ReferencedSource_IfcClassificationReference = dynamic_pointer_cast<IfcClassificationReference>( m_ReferencedSource );
 	if( ReferencedSource_IfcClassificationReference )
 	{
-		ReferencedSource_IfcClassificationReference->m_HasReferences_inverse.push_back( ptr_self );
+		ReferencedSource_IfcClassificationReference->m_HasReferences_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcClassificationReference::unlinkFromInverseCounterparts()

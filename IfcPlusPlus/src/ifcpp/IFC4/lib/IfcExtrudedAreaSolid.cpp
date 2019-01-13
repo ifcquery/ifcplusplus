@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcExtrudedAreaSolid 
-IfcExtrudedAreaSolid::IfcExtrudedAreaSolid() {}
 IfcExtrudedAreaSolid::IfcExtrudedAreaSolid( int id ) { m_entity_id = id; }
 IfcExtrudedAreaSolid::~IfcExtrudedAreaSolid() {}
 shared_ptr<BuildingObject> IfcExtrudedAreaSolid::getDeepCopy( BuildingCopyOptions& options )
@@ -58,8 +57,8 @@ void IfcExtrudedAreaSolid::readStepArguments( const std::vector<std::wstring>& a
 void IfcExtrudedAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSweptAreaSolid::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ExtrudedDirection", m_ExtrudedDirection ) );
-	vec_attributes.push_back( std::make_pair( "Depth", m_Depth ) );
+	vec_attributes.emplace_back( std::make_pair( "ExtrudedDirection", m_ExtrudedDirection ) );
+	vec_attributes.emplace_back( std::make_pair( "Depth", m_Depth ) );
 }
 void IfcExtrudedAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

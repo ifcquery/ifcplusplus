@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcProjectedCRS 
-IfcProjectedCRS::IfcProjectedCRS() {}
 IfcProjectedCRS::IfcProjectedCRS( int id ) { m_entity_id = id; }
 IfcProjectedCRS::~IfcProjectedCRS() {}
 shared_ptr<BuildingObject> IfcProjectedCRS::getDeepCopy( BuildingCopyOptions& options )
@@ -65,9 +64,9 @@ void IfcProjectedCRS::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcProjectedCRS::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCoordinateReferenceSystem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "MapProjection", m_MapProjection ) );
-	vec_attributes.push_back( std::make_pair( "MapZone", m_MapZone ) );
-	vec_attributes.push_back( std::make_pair( "MapUnit", m_MapUnit ) );
+	vec_attributes.emplace_back( std::make_pair( "MapProjection", m_MapProjection ) );
+	vec_attributes.emplace_back( std::make_pair( "MapZone", m_MapZone ) );
+	vec_attributes.emplace_back( std::make_pair( "MapUnit", m_MapUnit ) );
 }
 void IfcProjectedCRS::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

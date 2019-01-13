@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcStructuralCurveMemberVarying : public IfcStructuralCurveMember
 { 
 public:
-	IfcStructuralCurveMemberVarying();
+	IfcStructuralCurveMemberVarying() = default;
 	IfcStructuralCurveMemberVarying( int id );
 	~IfcStructuralCurveMemberVarying();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

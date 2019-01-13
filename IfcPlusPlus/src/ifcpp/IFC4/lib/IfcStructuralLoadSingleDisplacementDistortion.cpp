@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStructuralLoadSingleDisplacementDistortion.h"
 
 // ENTITY IfcStructuralLoadSingleDisplacementDistortion 
-IfcStructuralLoadSingleDisplacementDistortion::IfcStructuralLoadSingleDisplacementDistortion() {}
 IfcStructuralLoadSingleDisplacementDistortion::IfcStructuralLoadSingleDisplacementDistortion( int id ) { m_entity_id = id; }
 IfcStructuralLoadSingleDisplacementDistortion::~IfcStructuralLoadSingleDisplacementDistortion() {}
 shared_ptr<BuildingObject> IfcStructuralLoadSingleDisplacementDistortion::getDeepCopy( BuildingCopyOptions& options )
@@ -68,7 +67,7 @@ void IfcStructuralLoadSingleDisplacementDistortion::readStepArguments( const std
 void IfcStructuralLoadSingleDisplacementDistortion::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadSingleDisplacement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Distortion", m_Distortion ) );
+	vec_attributes.emplace_back( std::make_pair( "Distortion", m_Distortion ) );
 }
 void IfcStructuralLoadSingleDisplacementDistortion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

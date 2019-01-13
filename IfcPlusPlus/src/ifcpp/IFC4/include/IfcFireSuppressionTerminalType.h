@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcFireSuppressionTerminalTypeEnum;
 class IFCQUERY_EXPORT IfcFireSuppressionTerminalType : public IfcFlowTerminalType
 { 
 public:
-	IfcFireSuppressionTerminalType();
+	IfcFireSuppressionTerminalType() = default;
 	IfcFireSuppressionTerminalType( int id );
 	~IfcFireSuppressionTerminalType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcValue.h"
 
 // ENTITY IfcTableRow 
-IfcTableRow::IfcTableRow() {}
 IfcTableRow::IfcTableRow( int id ) { m_entity_id = id; }
 IfcTableRow::~IfcTableRow() {}
 shared_ptr<BuildingObject> IfcTableRow::getDeepCopy( BuildingCopyOptions& options )
@@ -23,7 +22,7 @@ shared_ptr<BuildingObject> IfcTableRow::getDeepCopy( BuildingCopyOptions& option
 		auto item_ii = m_RowCells[ii];
 		if( item_ii )
 		{
-			copy_self->m_RowCells.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RowCells.emplace_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_IsHeading ) { copy_self->m_IsHeading = dynamic_pointer_cast<IfcBoolean>( m_IsHeading->getDeepCopy(options) ); }
@@ -65,13 +64,13 @@ void IfcTableRow::readStepArguments( const std::vector<std::wstring>& args, cons
 }
 void IfcTableRow::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( m_RowCells.size() > 0 )
+	if( !m_RowCells.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RowCells_vec_object( new AttributeObjectVector() );
 		std::copy( m_RowCells.begin(), m_RowCells.end(), std::back_inserter( RowCells_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RowCells", RowCells_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RowCells", RowCells_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "IsHeading", m_IsHeading ) );
+	vec_attributes.emplace_back( std::make_pair( "IsHeading", m_IsHeading ) );
 }
 void IfcTableRow::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

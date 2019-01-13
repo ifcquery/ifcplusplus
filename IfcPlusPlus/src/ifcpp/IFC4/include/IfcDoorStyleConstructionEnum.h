@@ -26,7 +26,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcDoorStyleConstructionEnum();
+	IfcDoorStyleConstructionEnum() = default;
 	IfcDoorStyleConstructionEnum( IfcDoorStyleConstructionEnumEnum e ) { m_enum = e; }
 	~IfcDoorStyleConstructionEnum();
 	virtual const char* className() const { return "IfcDoorStyleConstructionEnum"; }

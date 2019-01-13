@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcDuctSilencerTypeEnum();
+	IfcDuctSilencerTypeEnum() = default;
 	IfcDuctSilencerTypeEnum( IfcDuctSilencerTypeEnumEnum e ) { m_enum = e; }
 	~IfcDuctSilencerTypeEnum();
 	virtual const char* className() const { return "IfcDuctSilencerTypeEnum"; }

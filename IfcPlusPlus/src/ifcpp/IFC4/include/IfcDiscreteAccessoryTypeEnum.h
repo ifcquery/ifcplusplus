@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcDiscreteAccessoryTypeEnum();
+	IfcDiscreteAccessoryTypeEnum() = default;
 	IfcDiscreteAccessoryTypeEnum( IfcDiscreteAccessoryTypeEnumEnum e ) { m_enum = e; }
 	~IfcDiscreteAccessoryTypeEnum();
 	virtual const char* className() const { return "IfcDiscreteAccessoryTypeEnum"; }

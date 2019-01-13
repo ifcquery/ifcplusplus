@@ -28,7 +28,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcLampTypeEnum();
+	IfcLampTypeEnum() = default;
 	IfcLampTypeEnum( IfcLampTypeEnumEnum e ) { m_enum = e; }
 	~IfcLampTypeEnum();
 	virtual const char* className() const { return "IfcLampTypeEnum"; }

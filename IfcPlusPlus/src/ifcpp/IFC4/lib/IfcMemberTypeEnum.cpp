@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcMemberTypeEnum.h"
 
 // TYPE IfcMemberTypeEnum = ENUMERATION OF	(BRACE	,CHORD	,COLLAR	,MEMBER	,MULLION	,PLATE	,POST	,PURLIN	,RAFTER	,STRINGER	,STRUT	,STUD	,USERDEFINED	,NOTDEFINED);
-IfcMemberTypeEnum::IfcMemberTypeEnum() {}
 IfcMemberTypeEnum::~IfcMemberTypeEnum() {}
 shared_ptr<BuildingObject> IfcMemberTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -64,7 +63,7 @@ const std::wstring IfcMemberTypeEnum::toString() const
 shared_ptr<IfcMemberTypeEnum> IfcMemberTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMemberTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMemberTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMemberTypeEnum>(); }
 	shared_ptr<IfcMemberTypeEnum> type_object( new IfcMemberTypeEnum() );
 	if( boost::iequals( arg, L".BRACE." ) )
 	{

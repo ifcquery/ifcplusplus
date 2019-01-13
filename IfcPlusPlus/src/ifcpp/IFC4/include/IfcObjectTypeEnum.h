@@ -25,7 +25,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcObjectTypeEnum();
+	IfcObjectTypeEnum() = default;
 	IfcObjectTypeEnum( IfcObjectTypeEnumEnum e ) { m_enum = e; }
 	~IfcObjectTypeEnum();
 	virtual const char* className() const { return "IfcObjectTypeEnum"; }

@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelConnectsStructuralActivity 
-IfcRelConnectsStructuralActivity::IfcRelConnectsStructuralActivity() {}
 IfcRelConnectsStructuralActivity::IfcRelConnectsStructuralActivity( int id ) { m_entity_id = id; }
 IfcRelConnectsStructuralActivity::~IfcRelConnectsStructuralActivity() {}
 shared_ptr<BuildingObject> IfcRelConnectsStructuralActivity::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcRelConnectsStructuralActivity::getDeepCopy( Buildi
 	shared_ptr<IfcRelConnectsStructuralActivity> copy_self( new IfcRelConnectsStructuralActivity() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -71,8 +70,8 @@ void IfcRelConnectsStructuralActivity::readStepArguments( const std::vector<std:
 void IfcRelConnectsStructuralActivity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingElement", m_RelatingElement ) );
-	vec_attributes.push_back( std::make_pair( "RelatedStructuralActivity", m_RelatedStructuralActivity ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingElement", m_RelatingElement ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedStructuralActivity", m_RelatedStructuralActivity ) );
 }
 void IfcRelConnectsStructuralActivity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -85,12 +84,12 @@ void IfcRelConnectsStructuralActivity::setInverseCounterparts( shared_ptr<Buildi
 	if( !ptr_self ) { throw BuildingException( "IfcRelConnectsStructuralActivity::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatedStructuralActivity )
 	{
-		m_RelatedStructuralActivity->m_AssignedToStructuralItem_inverse.push_back( ptr_self );
+		m_RelatedStructuralActivity->m_AssignedToStructuralItem_inverse.emplace_back( ptr_self );
 	}
 	shared_ptr<IfcStructuralItem>  RelatingElement_IfcStructuralItem = dynamic_pointer_cast<IfcStructuralItem>( m_RelatingElement );
 	if( RelatingElement_IfcStructuralItem )
 	{
-		RelatingElement_IfcStructuralItem->m_AssignedStructuralActivity_inverse.push_back( ptr_self );
+		RelatingElement_IfcStructuralItem->m_AssignedStructuralActivity_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelConnectsStructuralActivity::unlinkFromInverseCounterparts()

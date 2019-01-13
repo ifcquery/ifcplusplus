@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcFeatureElementAddition;
 class IFCQUERY_EXPORT IfcRelProjectsElement : public IfcRelDecomposes
 { 
 public:
-	IfcRelProjectsElement();
+	IfcRelProjectsElement() = default;
 	IfcRelProjectsElement( int id );
 	~IfcRelProjectsElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

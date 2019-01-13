@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcGeometricCurveSet 
-IfcGeometricCurveSet::IfcGeometricCurveSet() {}
 IfcGeometricCurveSet::IfcGeometricCurveSet( int id ) { m_entity_id = id; }
 IfcGeometricCurveSet::~IfcGeometricCurveSet() {}
 shared_ptr<BuildingObject> IfcGeometricCurveSet::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcGeometricCurveSet::getDeepCopy( BuildingCopyOption
 		auto item_ii = m_Elements[ii];
 		if( item_ii )
 		{
-			copy_self->m_Elements.push_back( dynamic_pointer_cast<IfcGeometricSetSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Elements.emplace_back( dynamic_pointer_cast<IfcGeometricSetSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;

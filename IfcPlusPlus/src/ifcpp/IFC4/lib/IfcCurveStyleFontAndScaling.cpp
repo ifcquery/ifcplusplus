@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcPositiveRatioMeasure.h"
 
 // ENTITY IfcCurveStyleFontAndScaling 
-IfcCurveStyleFontAndScaling::IfcCurveStyleFontAndScaling() {}
 IfcCurveStyleFontAndScaling::IfcCurveStyleFontAndScaling( int id ) { m_entity_id = id; }
 IfcCurveStyleFontAndScaling::~IfcCurveStyleFontAndScaling() {}
 shared_ptr<BuildingObject> IfcCurveStyleFontAndScaling::getDeepCopy( BuildingCopyOptions& options )
@@ -47,9 +46,9 @@ void IfcCurveStyleFontAndScaling::readStepArguments( const std::vector<std::wstr
 void IfcCurveStyleFontAndScaling::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "CurveFont", m_CurveFont ) );
-	vec_attributes.push_back( std::make_pair( "CurveFontScaling", m_CurveFontScaling ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "CurveFont", m_CurveFont ) );
+	vec_attributes.emplace_back( std::make_pair( "CurveFontScaling", m_CurveFontScaling ) );
 }
 void IfcCurveStyleFontAndScaling::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

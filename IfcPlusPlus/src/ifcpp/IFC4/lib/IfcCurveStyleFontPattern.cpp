@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcPositiveLengthMeasure.h"
 
 // ENTITY IfcCurveStyleFontPattern 
-IfcCurveStyleFontPattern::IfcCurveStyleFontPattern() {}
 IfcCurveStyleFontPattern::IfcCurveStyleFontPattern( int id ) { m_entity_id = id; }
 IfcCurveStyleFontPattern::~IfcCurveStyleFontPattern() {}
 shared_ptr<BuildingObject> IfcCurveStyleFontPattern::getDeepCopy( BuildingCopyOptions& options )
@@ -42,8 +41,8 @@ void IfcCurveStyleFontPattern::readStepArguments( const std::vector<std::wstring
 void IfcCurveStyleFontPattern::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "VisibleSegmentLength", m_VisibleSegmentLength ) );
-	vec_attributes.push_back( std::make_pair( "InvisibleSegmentLength", m_InvisibleSegmentLength ) );
+	vec_attributes.emplace_back( std::make_pair( "VisibleSegmentLength", m_VisibleSegmentLength ) );
+	vec_attributes.emplace_back( std::make_pair( "InvisibleSegmentLength", m_InvisibleSegmentLength ) );
 }
 void IfcCurveStyleFontPattern::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

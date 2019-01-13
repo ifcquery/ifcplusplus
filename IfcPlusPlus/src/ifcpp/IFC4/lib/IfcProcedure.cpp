@@ -26,7 +26,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcProcedure 
-IfcProcedure::IfcProcedure() {}
 IfcProcedure::IfcProcedure( int id ) { m_entity_id = id; }
 IfcProcedure::~IfcProcedure() {}
 shared_ptr<BuildingObject> IfcProcedure::getDeepCopy( BuildingCopyOptions& options )
@@ -34,7 +33,7 @@ shared_ptr<BuildingObject> IfcProcedure::getDeepCopy( BuildingCopyOptions& optio
 	shared_ptr<IfcProcedure> copy_self( new IfcProcedure() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -88,7 +87,7 @@ void IfcProcedure::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcProcedure::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProcess::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcProcedure::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

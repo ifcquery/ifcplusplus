@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcSeamCurve : public IfcSurfaceCurve
 { 
 public:
-	IfcSeamCurve();
+	IfcSeamCurve() = default;
 	IfcSeamCurve( int id );
 	~IfcSeamCurve();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

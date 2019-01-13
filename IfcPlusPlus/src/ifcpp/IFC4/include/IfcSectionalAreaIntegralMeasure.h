@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcSectionalAreaIntegralMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcSectionalAreaIntegralMeasure();
+	IfcSectionalAreaIntegralMeasure() = default;
 	IfcSectionalAreaIntegralMeasure( double value );
 	~IfcSectionalAreaIntegralMeasure();
 	virtual const char* className() const { return "IfcSectionalAreaIntegralMeasure"; }

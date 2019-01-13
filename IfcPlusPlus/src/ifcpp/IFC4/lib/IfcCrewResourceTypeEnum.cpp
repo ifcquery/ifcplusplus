@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCrewResourceTypeEnum.h"
 
 // TYPE IfcCrewResourceTypeEnum = ENUMERATION OF	(OFFICE	,SITE	,USERDEFINED	,NOTDEFINED);
-IfcCrewResourceTypeEnum::IfcCrewResourceTypeEnum() {}
 IfcCrewResourceTypeEnum::~IfcCrewResourceTypeEnum() {}
 shared_ptr<BuildingObject> IfcCrewResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -44,7 +43,7 @@ const std::wstring IfcCrewResourceTypeEnum::toString() const
 shared_ptr<IfcCrewResourceTypeEnum> IfcCrewResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCrewResourceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCrewResourceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCrewResourceTypeEnum>(); }
 	shared_ptr<IfcCrewResourceTypeEnum> type_object( new IfcCrewResourceTypeEnum() );
 	if( boost::iequals( arg, L".OFFICE." ) )
 	{

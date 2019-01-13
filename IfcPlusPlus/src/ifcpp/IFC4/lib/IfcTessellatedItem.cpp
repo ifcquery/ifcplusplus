@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcTessellatedItem.h"
 
 // ENTITY IfcTessellatedItem 
-IfcTessellatedItem::IfcTessellatedItem() {}
 IfcTessellatedItem::IfcTessellatedItem( int id ) { m_entity_id = id; }
 IfcTessellatedItem::~IfcTessellatedItem() {}
 shared_ptr<BuildingObject> IfcTessellatedItem::getDeepCopy( BuildingCopyOptions& options )

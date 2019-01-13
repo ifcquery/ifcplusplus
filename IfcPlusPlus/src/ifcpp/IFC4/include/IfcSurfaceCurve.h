@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcPreferredSurfaceCurveRepresentation;
 class IFCQUERY_EXPORT IfcSurfaceCurve : virtual public IfcCurveOnSurface, public IfcCurve
 { 
 public:
-	IfcSurfaceCurve();
+	IfcSurfaceCurve() = default;
 	IfcSurfaceCurve( int id );
 	~IfcSurfaceCurve();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

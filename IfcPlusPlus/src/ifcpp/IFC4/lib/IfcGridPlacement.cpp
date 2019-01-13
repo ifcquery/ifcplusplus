@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcVirtualGridIntersection.h"
 
 // ENTITY IfcGridPlacement 
-IfcGridPlacement::IfcGridPlacement() {}
 IfcGridPlacement::IfcGridPlacement( int id ) { m_entity_id = id; }
 IfcGridPlacement::~IfcGridPlacement() {}
 shared_ptr<BuildingObject> IfcGridPlacement::getDeepCopy( BuildingCopyOptions& options )
@@ -44,8 +43,8 @@ void IfcGridPlacement::readStepArguments( const std::vector<std::wstring>& args,
 void IfcGridPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcObjectPlacement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PlacementLocation", m_PlacementLocation ) );
-	vec_attributes.push_back( std::make_pair( "PlacementRefDirection", m_PlacementRefDirection ) );
+	vec_attributes.emplace_back( std::make_pair( "PlacementLocation", m_PlacementLocation ) );
+	vec_attributes.emplace_back( std::make_pair( "PlacementRefDirection", m_PlacementRefDirection ) );
 }
 void IfcGridPlacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

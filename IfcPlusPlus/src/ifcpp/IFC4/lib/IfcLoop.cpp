@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcLoop 
-IfcLoop::IfcLoop() {}
 IfcLoop::IfcLoop( int id ) { m_entity_id = id; }
 IfcLoop::~IfcLoop() {}
 shared_ptr<BuildingObject> IfcLoop::getDeepCopy( BuildingCopyOptions& options )

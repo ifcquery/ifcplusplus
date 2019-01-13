@@ -16,7 +16,7 @@
 class IFCQUERY_EXPORT IfcLengthMeasure : public IfcBendingParameterSelect, public IfcMeasureValue, public IfcSizeSelect
 {
 public:
-	IfcLengthMeasure();
+	IfcLengthMeasure() = default;
 	IfcLengthMeasure( double value );
 	~IfcLengthMeasure();
 	virtual const char* className() const { return "IfcLengthMeasure"; }

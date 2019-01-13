@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcFaceBound 
-IfcFaceBound::IfcFaceBound() {}
 IfcFaceBound::IfcFaceBound( int id ) { m_entity_id = id; }
 IfcFaceBound::~IfcFaceBound() {}
 shared_ptr<BuildingObject> IfcFaceBound::getDeepCopy( BuildingCopyOptions& options )
@@ -44,8 +43,8 @@ void IfcFaceBound::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcFaceBound::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Bound", m_Bound ) );
-	vec_attributes.push_back( std::make_pair( "Orientation", m_Orientation ) );
+	vec_attributes.emplace_back( std::make_pair( "Bound", m_Bound ) );
+	vec_attributes.emplace_back( std::make_pair( "Orientation", m_Orientation ) );
 }
 void IfcFaceBound::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -19,7 +19,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcBurnerTypeEnum();
+	IfcBurnerTypeEnum() = default;
 	IfcBurnerTypeEnum( IfcBurnerTypeEnumEnum e ) { m_enum = e; }
 	~IfcBurnerTypeEnum();
 	virtual const char* className() const { return "IfcBurnerTypeEnum"; }

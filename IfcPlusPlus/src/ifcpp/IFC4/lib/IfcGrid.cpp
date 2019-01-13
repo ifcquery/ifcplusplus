@@ -28,7 +28,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcGrid 
-IfcGrid::IfcGrid() {}
 IfcGrid::IfcGrid( int id ) { m_entity_id = id; }
 IfcGrid::~IfcGrid() {}
 shared_ptr<BuildingObject> IfcGrid::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ shared_ptr<BuildingObject> IfcGrid::getDeepCopy( BuildingCopyOptions& options )
 	shared_ptr<IfcGrid> copy_self( new IfcGrid() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -54,7 +53,7 @@ shared_ptr<BuildingObject> IfcGrid::getDeepCopy( BuildingCopyOptions& options )
 		auto item_ii = m_UAxes[ii];
 		if( item_ii )
 		{
-			copy_self->m_UAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_UAxes.emplace_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_VAxes.size(); ++ii )
@@ -62,7 +61,7 @@ shared_ptr<BuildingObject> IfcGrid::getDeepCopy( BuildingCopyOptions& options )
 		auto item_ii = m_VAxes[ii];
 		if( item_ii )
 		{
-			copy_self->m_VAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_VAxes.emplace_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_WAxes.size(); ++ii )
@@ -70,7 +69,7 @@ shared_ptr<BuildingObject> IfcGrid::getDeepCopy( BuildingCopyOptions& options )
 		auto item_ii = m_WAxes[ii];
 		if( item_ii )
 		{
-			copy_self->m_WAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_WAxes.emplace_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcGridTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
@@ -123,40 +122,40 @@ void IfcGrid::readStepArguments( const std::vector<std::wstring>& args, const st
 void IfcGrid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProduct::getAttributes( vec_attributes );
-	if( m_UAxes.size() > 0 )
+	if( !m_UAxes.empty() )
 	{
 		shared_ptr<AttributeObjectVector> UAxes_vec_object( new AttributeObjectVector() );
 		std::copy( m_UAxes.begin(), m_UAxes.end(), std::back_inserter( UAxes_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "UAxes", UAxes_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "UAxes", UAxes_vec_object ) );
 	}
-	if( m_VAxes.size() > 0 )
+	if( !m_VAxes.empty() )
 	{
 		shared_ptr<AttributeObjectVector> VAxes_vec_object( new AttributeObjectVector() );
 		std::copy( m_VAxes.begin(), m_VAxes.end(), std::back_inserter( VAxes_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "VAxes", VAxes_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "VAxes", VAxes_vec_object ) );
 	}
-	if( m_WAxes.size() > 0 )
+	if( !m_WAxes.empty() )
 	{
 		shared_ptr<AttributeObjectVector> WAxes_vec_object( new AttributeObjectVector() );
 		std::copy( m_WAxes.begin(), m_WAxes.end(), std::back_inserter( WAxes_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "WAxes", WAxes_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "WAxes", WAxes_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcGrid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProduct::getAttributesInverse( vec_attributes_inverse );
-	if( m_ContainedInStructure_inverse.size() > 0 )
+	if( !m_ContainedInStructure_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ContainedInStructure_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
 		{
 			if( !m_ContainedInStructure_inverse[i].expired() )
 			{
-				ContainedInStructure_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
+				ContainedInStructure_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
 	}
 }
 void IfcGrid::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
@@ -168,21 +167,21 @@ void IfcGrid::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity
 	{
 		if( m_UAxes[i] )
 		{
-			m_UAxes[i]->m_PartOfU_inverse.push_back( ptr_self );
+			m_UAxes[i]->m_PartOfU_inverse.emplace_back( ptr_self );
 		}
 	}
 	for( size_t i=0; i<m_VAxes.size(); ++i )
 	{
 		if( m_VAxes[i] )
 		{
-			m_VAxes[i]->m_PartOfV_inverse.push_back( ptr_self );
+			m_VAxes[i]->m_PartOfV_inverse.emplace_back( ptr_self );
 		}
 	}
 	for( size_t i=0; i<m_WAxes.size(); ++i )
 	{
 		if( m_WAxes[i] )
 		{
-			m_WAxes[i]->m_PartOfW_inverse.push_back( ptr_self );
+			m_WAxes[i]->m_PartOfW_inverse.emplace_back( ptr_self );
 		}
 	}
 }

@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcSurfaceStyleElementSelect.h"
 
 // ENTITY IfcSurfaceStyle 
-IfcSurfaceStyle::IfcSurfaceStyle() {}
 IfcSurfaceStyle::IfcSurfaceStyle( int id ) { m_entity_id = id; }
 IfcSurfaceStyle::~IfcSurfaceStyle() {}
 shared_ptr<BuildingObject> IfcSurfaceStyle::getDeepCopy( BuildingCopyOptions& options )
@@ -26,7 +25,7 @@ shared_ptr<BuildingObject> IfcSurfaceStyle::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_Styles[ii];
 		if( item_ii )
 		{
-			copy_self->m_Styles.push_back( dynamic_pointer_cast<IfcSurfaceStyleElementSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Styles.emplace_back( dynamic_pointer_cast<IfcSurfaceStyleElementSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -71,12 +70,12 @@ void IfcSurfaceStyle::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcSurfaceStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationStyle::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Side", m_Side ) );
-	if( m_Styles.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Side", m_Side ) );
+	if( !m_Styles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Styles_vec_object( new AttributeObjectVector() );
 		std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Styles", Styles_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Styles", Styles_vec_object ) );
 	}
 }
 void IfcSurfaceStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

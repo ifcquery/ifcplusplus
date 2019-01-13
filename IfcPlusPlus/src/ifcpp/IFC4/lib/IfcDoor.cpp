@@ -39,7 +39,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcDoor 
-IfcDoor::IfcDoor() {}
 IfcDoor::IfcDoor( int id ) { m_entity_id = id; }
 IfcDoor::~IfcDoor() {}
 shared_ptr<BuildingObject> IfcDoor::getDeepCopy( BuildingCopyOptions& options )
@@ -47,7 +46,7 @@ shared_ptr<BuildingObject> IfcDoor::getDeepCopy( BuildingCopyOptions& options )
 	shared_ptr<IfcDoor> copy_self( new IfcDoor() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -121,11 +120,11 @@ void IfcDoor::readStepArguments( const std::vector<std::wstring>& args, const st
 void IfcDoor::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBuildingElement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "OverallHeight", m_OverallHeight ) );
-	vec_attributes.push_back( std::make_pair( "OverallWidth", m_OverallWidth ) );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
-	vec_attributes.push_back( std::make_pair( "OperationType", m_OperationType ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedOperationType", m_UserDefinedOperationType ) );
+	vec_attributes.emplace_back( std::make_pair( "OverallHeight", m_OverallHeight ) );
+	vec_attributes.emplace_back( std::make_pair( "OverallWidth", m_OverallWidth ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "OperationType", m_OperationType ) );
+	vec_attributes.emplace_back( std::make_pair( "UserDefinedOperationType", m_UserDefinedOperationType ) );
 }
 void IfcDoor::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcNormalisedRatioMeasure;
 class IFCQUERY_EXPORT IfcColourRgb : virtual public IfcColourOrFactor, public IfcColourSpecification
 { 
 public:
-	IfcColourRgb();
+	IfcColourRgb() = default;
 	IfcColourRgb( int id );
 	~IfcColourRgb();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

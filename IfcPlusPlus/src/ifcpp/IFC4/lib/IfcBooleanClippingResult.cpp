@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBooleanClippingResult 
-IfcBooleanClippingResult::IfcBooleanClippingResult() {}
 IfcBooleanClippingResult::IfcBooleanClippingResult( int id ) { m_entity_id = id; }
 IfcBooleanClippingResult::~IfcBooleanClippingResult() {}
 shared_ptr<BuildingObject> IfcBooleanClippingResult::getDeepCopy( BuildingCopyOptions& options )

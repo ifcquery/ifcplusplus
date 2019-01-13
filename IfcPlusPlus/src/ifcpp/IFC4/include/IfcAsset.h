@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcDate;
 class IFCQUERY_EXPORT IfcAsset : public IfcGroup
 { 
 public:
-	IfcAsset();
+	IfcAsset() = default;
 	IfcAsset( int id );
 	~IfcAsset();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

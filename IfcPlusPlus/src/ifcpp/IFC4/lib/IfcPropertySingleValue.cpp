@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcValue.h"
 
 // ENTITY IfcPropertySingleValue 
-IfcPropertySingleValue::IfcPropertySingleValue() {}
 IfcPropertySingleValue::IfcPropertySingleValue( int id ) { m_entity_id = id; }
 IfcPropertySingleValue::~IfcPropertySingleValue() {}
 shared_ptr<BuildingObject> IfcPropertySingleValue::getDeepCopy( BuildingCopyOptions& options )
@@ -58,8 +57,8 @@ void IfcPropertySingleValue::readStepArguments( const std::vector<std::wstring>&
 void IfcPropertySingleValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "NominalValue", m_NominalValue ) );
-	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
+	vec_attributes.emplace_back( std::make_pair( "NominalValue", m_NominalValue ) );
+	vec_attributes.emplace_back( std::make_pair( "Unit", m_Unit ) );
 }
 void IfcPropertySingleValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

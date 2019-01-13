@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcMaterialProfileWithOffsets : public IfcMaterialProfile
 { 
 public:
-	IfcMaterialProfileWithOffsets();
+	IfcMaterialProfileWithOffsets() = default;
 	IfcMaterialProfileWithOffsets( int id );
 	~IfcMaterialProfileWithOffsets();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

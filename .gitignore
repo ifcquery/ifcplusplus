@@ -6,3 +6,4 @@ bin32
 SimpleViewerExample/dump_mesh_debug.txt
 *.opensdf
 /build/
+/.vs/IfcPlusPlus/v15

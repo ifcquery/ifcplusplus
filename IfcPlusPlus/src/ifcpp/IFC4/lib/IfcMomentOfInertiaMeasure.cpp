@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcMomentOfInertiaMeasure.h"
 
 // TYPE IfcMomentOfInertiaMeasure = REAL;
-IfcMomentOfInertiaMeasure::IfcMomentOfInertiaMeasure() {}
 IfcMomentOfInertiaMeasure::IfcMomentOfInertiaMeasure( double value ) { m_value = value; }
 IfcMomentOfInertiaMeasure::~IfcMomentOfInertiaMeasure() {}
 shared_ptr<BuildingObject> IfcMomentOfInertiaMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcMomentOfInertiaMeasure::toString() const
 shared_ptr<IfcMomentOfInertiaMeasure> IfcMomentOfInertiaMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMomentOfInertiaMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMomentOfInertiaMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMomentOfInertiaMeasure>(); }
 	shared_ptr<IfcMomentOfInertiaMeasure> type_object( new IfcMomentOfInertiaMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

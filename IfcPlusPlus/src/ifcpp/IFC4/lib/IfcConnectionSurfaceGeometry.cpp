@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcSurfaceOrFaceSurface.h"
 
 // ENTITY IfcConnectionSurfaceGeometry 
-IfcConnectionSurfaceGeometry::IfcConnectionSurfaceGeometry() {}
 IfcConnectionSurfaceGeometry::IfcConnectionSurfaceGeometry( int id ) { m_entity_id = id; }
 IfcConnectionSurfaceGeometry::~IfcConnectionSurfaceGeometry() {}
 shared_ptr<BuildingObject> IfcConnectionSurfaceGeometry::getDeepCopy( BuildingCopyOptions& options )
@@ -41,8 +40,8 @@ void IfcConnectionSurfaceGeometry::readStepArguments( const std::vector<std::wst
 void IfcConnectionSurfaceGeometry::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConnectionGeometry::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "SurfaceOnRelatingElement", m_SurfaceOnRelatingElement ) );
-	vec_attributes.push_back( std::make_pair( "SurfaceOnRelatedElement", m_SurfaceOnRelatedElement ) );
+	vec_attributes.emplace_back( std::make_pair( "SurfaceOnRelatingElement", m_SurfaceOnRelatingElement ) );
+	vec_attributes.emplace_back( std::make_pair( "SurfaceOnRelatedElement", m_SurfaceOnRelatedElement ) );
 }
 void IfcConnectionSurfaceGeometry::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

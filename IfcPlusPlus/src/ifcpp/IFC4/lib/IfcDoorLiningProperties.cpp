@@ -23,7 +23,6 @@
 #include "ifcpp/IFC4/include/IfcTypeObject.h"
 
 // ENTITY IfcDoorLiningProperties 
-IfcDoorLiningProperties::IfcDoorLiningProperties() {}
 IfcDoorLiningProperties::IfcDoorLiningProperties( int id ) { m_entity_id = id; }
 IfcDoorLiningProperties::~IfcDoorLiningProperties() {}
 shared_ptr<BuildingObject> IfcDoorLiningProperties::getDeepCopy( BuildingCopyOptions& options )
@@ -31,7 +30,7 @@ shared_ptr<BuildingObject> IfcDoorLiningProperties::getDeepCopy( BuildingCopyOpt
 	shared_ptr<IfcDoorLiningProperties> copy_self( new IfcDoorLiningProperties() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -121,19 +120,19 @@ void IfcDoorLiningProperties::readStepArguments( const std::vector<std::wstring>
 void IfcDoorLiningProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedPropertySet::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "LiningDepth", m_LiningDepth ) );
-	vec_attributes.push_back( std::make_pair( "LiningThickness", m_LiningThickness ) );
-	vec_attributes.push_back( std::make_pair( "ThresholdDepth", m_ThresholdDepth ) );
-	vec_attributes.push_back( std::make_pair( "ThresholdThickness", m_ThresholdThickness ) );
-	vec_attributes.push_back( std::make_pair( "TransomThickness", m_TransomThickness ) );
-	vec_attributes.push_back( std::make_pair( "TransomOffset", m_TransomOffset ) );
-	vec_attributes.push_back( std::make_pair( "LiningOffset", m_LiningOffset ) );
-	vec_attributes.push_back( std::make_pair( "ThresholdOffset", m_ThresholdOffset ) );
-	vec_attributes.push_back( std::make_pair( "CasingThickness", m_CasingThickness ) );
-	vec_attributes.push_back( std::make_pair( "CasingDepth", m_CasingDepth ) );
-	vec_attributes.push_back( std::make_pair( "ShapeAspectStyle", m_ShapeAspectStyle ) );
-	vec_attributes.push_back( std::make_pair( "LiningToPanelOffsetX", m_LiningToPanelOffsetX ) );
-	vec_attributes.push_back( std::make_pair( "LiningToPanelOffsetY", m_LiningToPanelOffsetY ) );
+	vec_attributes.emplace_back( std::make_pair( "LiningDepth", m_LiningDepth ) );
+	vec_attributes.emplace_back( std::make_pair( "LiningThickness", m_LiningThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "ThresholdDepth", m_ThresholdDepth ) );
+	vec_attributes.emplace_back( std::make_pair( "ThresholdThickness", m_ThresholdThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "TransomThickness", m_TransomThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "TransomOffset", m_TransomOffset ) );
+	vec_attributes.emplace_back( std::make_pair( "LiningOffset", m_LiningOffset ) );
+	vec_attributes.emplace_back( std::make_pair( "ThresholdOffset", m_ThresholdOffset ) );
+	vec_attributes.emplace_back( std::make_pair( "CasingThickness", m_CasingThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "CasingDepth", m_CasingDepth ) );
+	vec_attributes.emplace_back( std::make_pair( "ShapeAspectStyle", m_ShapeAspectStyle ) );
+	vec_attributes.emplace_back( std::make_pair( "LiningToPanelOffsetX", m_LiningToPanelOffsetX ) );
+	vec_attributes.emplace_back( std::make_pair( "LiningToPanelOffsetY", m_LiningToPanelOffsetY ) );
 }
 void IfcDoorLiningProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcLoadGroupTypeEnum();
+	IfcLoadGroupTypeEnum() = default;
 	IfcLoadGroupTypeEnum( IfcLoadGroupTypeEnumEnum e ) { m_enum = e; }
 	~IfcLoadGroupTypeEnum();
 	virtual const char* className() const { return "IfcLoadGroupTypeEnum"; }

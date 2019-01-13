@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcEllipse : public IfcConic
 { 
 public:
-	IfcEllipse();
+	IfcEllipse() = default;
 	IfcEllipse( int id );
 	~IfcEllipse();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

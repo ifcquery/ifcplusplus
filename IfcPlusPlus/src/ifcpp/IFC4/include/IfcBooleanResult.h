@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcBooleanOperand;
 class IFCQUERY_EXPORT IfcBooleanResult : virtual public IfcBooleanOperand, virtual public IfcCsgSelect, public IfcGeometricRepresentationItem
 { 
 public:
-	IfcBooleanResult();
+	IfcBooleanResult() = default;
 	IfcBooleanResult( int id );
 	~IfcBooleanResult();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

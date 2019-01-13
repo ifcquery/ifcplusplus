@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcDataOriginEnum();
+	IfcDataOriginEnum() = default;
 	IfcDataOriginEnum( IfcDataOriginEnumEnum e ) { m_enum = e; }
 	~IfcDataOriginEnum();
 	virtual const char* className() const { return "IfcDataOriginEnum"; }

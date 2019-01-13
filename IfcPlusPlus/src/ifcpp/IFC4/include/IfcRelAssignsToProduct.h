@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcProductSelect;
 class IFCQUERY_EXPORT IfcRelAssignsToProduct : public IfcRelAssigns
 { 
 public:
-	IfcRelAssignsToProduct();
+	IfcRelAssignsToProduct() = default;
 	IfcRelAssignsToProduct( int id );
 	~IfcRelAssignsToProduct();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

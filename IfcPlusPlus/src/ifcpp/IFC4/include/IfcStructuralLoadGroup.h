@@ -19,7 +19,7 @@ class IFCQUERY_EXPORT IfcStructuralAnalysisModel;
 class IFCQUERY_EXPORT IfcStructuralLoadGroup : public IfcGroup
 { 
 public:
-	IfcStructuralLoadGroup();
+	IfcStructuralLoadGroup() = default;
 	IfcStructuralLoadGroup( int id );
 	~IfcStructuralLoadGroup();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

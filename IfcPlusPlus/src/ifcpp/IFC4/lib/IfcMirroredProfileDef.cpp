@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcMirroredProfileDef 
-IfcMirroredProfileDef::IfcMirroredProfileDef() {}
 IfcMirroredProfileDef::IfcMirroredProfileDef( int id ) { m_entity_id = id; }
 IfcMirroredProfileDef::~IfcMirroredProfileDef() {}
 shared_ptr<BuildingObject> IfcMirroredProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -42,7 +41,7 @@ void IfcMirroredProfileDef::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ParentProfile ) { stream << "#" << m_ParentProfile->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Operator ) { stream << "#" << m_Operator->m_entity_id; } else { stream << "*"; }
+	if( m_Operator ) { stream << "#" << m_Operator->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Label ) { m_Label->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

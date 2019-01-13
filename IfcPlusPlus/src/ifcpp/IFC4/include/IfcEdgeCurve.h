@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcEdgeCurve : virtual public IfcCurveOrEdgeCurve, public IfcEdge
 { 
 public:
-	IfcEdgeCurve();
+	IfcEdgeCurve() = default;
 	IfcEdgeCurve( int id );
 	~IfcEdgeCurve();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

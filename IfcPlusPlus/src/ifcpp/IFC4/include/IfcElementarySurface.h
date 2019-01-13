@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcAxis2Placement3D;
 class IFCQUERY_EXPORT IfcElementarySurface : public IfcSurface
 { 
 public:
-	IfcElementarySurface();
+	IfcElementarySurface() = default;
 	IfcElementarySurface( int id );
 	~IfcElementarySurface();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

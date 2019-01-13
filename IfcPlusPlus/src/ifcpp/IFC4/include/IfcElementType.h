@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcElementType : public IfcTypeProduct
 { 
 public:
-	IfcElementType();
+	IfcElementType() = default;
 	IfcElementType( int id );
 	~IfcElementType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

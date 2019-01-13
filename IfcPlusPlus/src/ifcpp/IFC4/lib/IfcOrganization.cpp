@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcOrganization 
-IfcOrganization::IfcOrganization() {}
 IfcOrganization::IfcOrganization( int id ) { m_entity_id = id; }
 IfcOrganization::~IfcOrganization() {}
 shared_ptr<BuildingObject> IfcOrganization::getDeepCopy( BuildingCopyOptions& options )
@@ -31,7 +30,7 @@ shared_ptr<BuildingObject> IfcOrganization::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_Roles[ii];
 		if( item_ii )
 		{
-			copy_self->m_Roles.push_back( dynamic_pointer_cast<IfcActorRole>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Roles.emplace_back( dynamic_pointer_cast<IfcActorRole>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_Addresses.size(); ++ii )
@@ -39,7 +38,7 @@ shared_ptr<BuildingObject> IfcOrganization::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_Addresses[ii];
 		if( item_ii )
 		{
-			copy_self->m_Addresses.push_back( dynamic_pointer_cast<IfcAddress>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Addresses.emplace_back( dynamic_pointer_cast<IfcAddress>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -72,59 +71,59 @@ void IfcOrganization::readStepArguments( const std::vector<std::wstring>& args, 
 }
 void IfcOrganization::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	if( m_Roles.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Identification", m_Identification ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	if( !m_Roles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Roles_vec_object( new AttributeObjectVector() );
 		std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Roles", Roles_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Roles", Roles_vec_object ) );
 	}
-	if( m_Addresses.size() > 0 )
+	if( !m_Addresses.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Addresses_vec_object( new AttributeObjectVector() );
 		std::copy( m_Addresses.begin(), m_Addresses.end(), std::back_inserter( Addresses_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Addresses", Addresses_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Addresses", Addresses_vec_object ) );
 	}
 }
 void IfcOrganization::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_IsRelatedBy_inverse.size() > 0 )
+	if( !m_IsRelatedBy_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> IsRelatedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsRelatedBy_inverse.size(); ++i )
 		{
 			if( !m_IsRelatedBy_inverse[i].expired() )
 			{
-				IsRelatedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcOrganizationRelationship>( m_IsRelatedBy_inverse[i] ) );
+				IsRelatedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcOrganizationRelationship>( m_IsRelatedBy_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "IsRelatedBy_inverse", IsRelatedBy_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "IsRelatedBy_inverse", IsRelatedBy_inverse_vec_obj ) );
 	}
-	if( m_Relates_inverse.size() > 0 )
+	if( !m_Relates_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Relates_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_Relates_inverse.size(); ++i )
 		{
 			if( !m_Relates_inverse[i].expired() )
 			{
-				Relates_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcOrganizationRelationship>( m_Relates_inverse[i] ) );
+				Relates_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcOrganizationRelationship>( m_Relates_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "Relates_inverse", Relates_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "Relates_inverse", Relates_inverse_vec_obj ) );
 	}
-	if( m_Engages_inverse.size() > 0 )
+	if( !m_Engages_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Engages_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_Engages_inverse.size(); ++i )
 		{
 			if( !m_Engages_inverse[i].expired() )
 			{
-				Engages_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPersonAndOrganization>( m_Engages_inverse[i] ) );
+				Engages_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPersonAndOrganization>( m_Engages_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "Engages_inverse", Engages_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "Engages_inverse", Engages_inverse_vec_obj ) );
 	}
 }
 void IfcOrganization::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
@@ -135,7 +134,7 @@ void IfcOrganization::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_sel
 	{
 		if( m_Addresses[i] )
 		{
-			m_Addresses[i]->m_OfOrganization_inverse.push_back( ptr_self );
+			m_Addresses[i]->m_OfOrganization_inverse.emplace_back( ptr_self );
 		}
 	}
 }

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcMechanicalFastenerTypeEnum;
 class IFCQUERY_EXPORT IfcMechanicalFastener : public IfcElementComponent
 { 
 public:
-	IfcMechanicalFastener();
+	IfcMechanicalFastener() = default;
 	IfcMechanicalFastener( int id );
 	~IfcMechanicalFastener();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcLightSourceSpot 
-IfcLightSourceSpot::IfcLightSourceSpot() {}
 IfcLightSourceSpot::IfcLightSourceSpot( int id ) { m_entity_id = id; }
 IfcLightSourceSpot::~IfcLightSourceSpot() {}
 shared_ptr<BuildingObject> IfcLightSourceSpot::getDeepCopy( BuildingCopyOptions& options )
@@ -94,10 +93,10 @@ void IfcLightSourceSpot::readStepArguments( const std::vector<std::wstring>& arg
 void IfcLightSourceSpot::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLightSourcePositional::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Orientation", m_Orientation ) );
-	vec_attributes.push_back( std::make_pair( "ConcentrationExponent", m_ConcentrationExponent ) );
-	vec_attributes.push_back( std::make_pair( "SpreadAngle", m_SpreadAngle ) );
-	vec_attributes.push_back( std::make_pair( "BeamWidthAngle", m_BeamWidthAngle ) );
+	vec_attributes.emplace_back( std::make_pair( "Orientation", m_Orientation ) );
+	vec_attributes.emplace_back( std::make_pair( "ConcentrationExponent", m_ConcentrationExponent ) );
+	vec_attributes.emplace_back( std::make_pair( "SpreadAngle", m_SpreadAngle ) );
+	vec_attributes.emplace_back( std::make_pair( "BeamWidthAngle", m_BeamWidthAngle ) );
 }
 void IfcLightSourceSpot::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

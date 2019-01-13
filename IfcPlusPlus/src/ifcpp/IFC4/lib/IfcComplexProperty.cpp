@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcComplexProperty 
-IfcComplexProperty::IfcComplexProperty() {}
 IfcComplexProperty::IfcComplexProperty( int id ) { m_entity_id = id; }
 IfcComplexProperty::~IfcComplexProperty() {}
 shared_ptr<BuildingObject> IfcComplexProperty::getDeepCopy( BuildingCopyOptions& options )
@@ -32,7 +31,7 @@ shared_ptr<BuildingObject> IfcComplexProperty::getDeepCopy( BuildingCopyOptions&
 		auto item_ii = m_HasProperties[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasProperties.push_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_HasProperties.emplace_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -63,12 +62,12 @@ void IfcComplexProperty::readStepArguments( const std::vector<std::wstring>& arg
 void IfcComplexProperty::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProperty::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "UsageName", m_UsageName ) );
-	if( m_HasProperties.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "UsageName", m_UsageName ) );
+	if( !m_HasProperties.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasProperties_vec_object( new AttributeObjectVector() );
 		std::copy( m_HasProperties.begin(), m_HasProperties.end(), std::back_inserter( HasProperties_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "HasProperties", HasProperties_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "HasProperties", HasProperties_vec_object ) );
 	}
 }
 void IfcComplexProperty::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -84,7 +83,7 @@ void IfcComplexProperty::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_
 	{
 		if( m_HasProperties[i] )
 		{
-			m_HasProperties[i]->m_PartOfComplex_inverse.push_back( ptr_self );
+			m_HasProperties[i]->m_PartOfComplex_inverse.emplace_back( ptr_self );
 		}
 	}
 }

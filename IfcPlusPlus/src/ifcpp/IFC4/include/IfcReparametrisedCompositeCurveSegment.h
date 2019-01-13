@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcParameterValue;
 class IFCQUERY_EXPORT IfcReparametrisedCompositeCurveSegment : public IfcCompositeCurveSegment
 { 
 public:
-	IfcReparametrisedCompositeCurveSegment();
+	IfcReparametrisedCompositeCurveSegment() = default;
 	IfcReparametrisedCompositeCurveSegment( int id );
 	~IfcReparametrisedCompositeCurveSegment();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcRelAssociatesMaterial.h"
 
 // ENTITY IfcMaterialProfileSetUsage 
-IfcMaterialProfileSetUsage::IfcMaterialProfileSetUsage() {}
 IfcMaterialProfileSetUsage::IfcMaterialProfileSetUsage( int id ) { m_entity_id = id; }
 IfcMaterialProfileSetUsage::~IfcMaterialProfileSetUsage() {}
 shared_ptr<BuildingObject> IfcMaterialProfileSetUsage::getDeepCopy( BuildingCopyOptions& options )
@@ -48,9 +47,9 @@ void IfcMaterialProfileSetUsage::readStepArguments( const std::vector<std::wstri
 void IfcMaterialProfileSetUsage::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialUsageDefinition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ForProfileSet", m_ForProfileSet ) );
-	vec_attributes.push_back( std::make_pair( "CardinalPoint", m_CardinalPoint ) );
-	vec_attributes.push_back( std::make_pair( "ReferenceExtent", m_ReferenceExtent ) );
+	vec_attributes.emplace_back( std::make_pair( "ForProfileSet", m_ForProfileSet ) );
+	vec_attributes.emplace_back( std::make_pair( "CardinalPoint", m_CardinalPoint ) );
+	vec_attributes.emplace_back( std::make_pair( "ReferenceExtent", m_ReferenceExtent ) );
 }
 void IfcMaterialProfileSetUsage::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

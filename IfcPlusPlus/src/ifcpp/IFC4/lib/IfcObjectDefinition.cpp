@@ -19,7 +19,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcObjectDefinition 
-IfcObjectDefinition::IfcObjectDefinition() {}
 IfcObjectDefinition::IfcObjectDefinition( int id ) { m_entity_id = id; }
 IfcObjectDefinition::~IfcObjectDefinition() {}
 shared_ptr<BuildingObject> IfcObjectDefinition::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcObjectDefinition::getDeepCopy( BuildingCopyOptions
 	shared_ptr<IfcObjectDefinition> copy_self( new IfcObjectDefinition() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -69,89 +68,89 @@ void IfcObjectDefinition::getAttributes( std::vector<std::pair<std::string, shar
 void IfcObjectDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRoot::getAttributesInverse( vec_attributes_inverse );
-	if( m_HasAssignments_inverse.size() > 0 )
+	if( !m_HasAssignments_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasAssignments_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasAssignments_inverse.size(); ++i )
 		{
 			if( !m_HasAssignments_inverse[i].expired() )
 			{
-				HasAssignments_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssigns>( m_HasAssignments_inverse[i] ) );
+				HasAssignments_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssigns>( m_HasAssignments_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasAssignments_inverse", HasAssignments_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasAssignments_inverse", HasAssignments_inverse_vec_obj ) );
 	}
-	if( m_Nests_inverse.size() > 0 )
+	if( !m_Nests_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Nests_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_Nests_inverse.size(); ++i )
 		{
 			if( !m_Nests_inverse[i].expired() )
 			{
-				Nests_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelNests>( m_Nests_inverse[i] ) );
+				Nests_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelNests>( m_Nests_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "Nests_inverse", Nests_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "Nests_inverse", Nests_inverse_vec_obj ) );
 	}
-	if( m_IsNestedBy_inverse.size() > 0 )
+	if( !m_IsNestedBy_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> IsNestedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsNestedBy_inverse.size(); ++i )
 		{
 			if( !m_IsNestedBy_inverse[i].expired() )
 			{
-				IsNestedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelNests>( m_IsNestedBy_inverse[i] ) );
+				IsNestedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelNests>( m_IsNestedBy_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "IsNestedBy_inverse", IsNestedBy_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "IsNestedBy_inverse", IsNestedBy_inverse_vec_obj ) );
 	}
-	if( m_HasContext_inverse.size() > 0 )
+	if( !m_HasContext_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasContext_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasContext_inverse.size(); ++i )
 		{
 			if( !m_HasContext_inverse[i].expired() )
 			{
-				HasContext_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDeclares>( m_HasContext_inverse[i] ) );
+				HasContext_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDeclares>( m_HasContext_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasContext_inverse", HasContext_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasContext_inverse", HasContext_inverse_vec_obj ) );
 	}
-	if( m_IsDecomposedBy_inverse.size() > 0 )
+	if( !m_IsDecomposedBy_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> IsDecomposedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsDecomposedBy_inverse.size(); ++i )
 		{
 			if( !m_IsDecomposedBy_inverse[i].expired() )
 			{
-				IsDecomposedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAggregates>( m_IsDecomposedBy_inverse[i] ) );
+				IsDecomposedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAggregates>( m_IsDecomposedBy_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "IsDecomposedBy_inverse", IsDecomposedBy_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "IsDecomposedBy_inverse", IsDecomposedBy_inverse_vec_obj ) );
 	}
-	if( m_Decomposes_inverse.size() > 0 )
+	if( !m_Decomposes_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Decomposes_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_Decomposes_inverse.size(); ++i )
 		{
 			if( !m_Decomposes_inverse[i].expired() )
 			{
-				Decomposes_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAggregates>( m_Decomposes_inverse[i] ) );
+				Decomposes_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAggregates>( m_Decomposes_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "Decomposes_inverse", Decomposes_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "Decomposes_inverse", Decomposes_inverse_vec_obj ) );
 	}
-	if( m_HasAssociations_inverse.size() > 0 )
+	if( !m_HasAssociations_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasAssociations_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasAssociations_inverse.size(); ++i )
 		{
 			if( !m_HasAssociations_inverse[i].expired() )
 			{
-				HasAssociations_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociates>( m_HasAssociations_inverse[i] ) );
+				HasAssociations_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssociates>( m_HasAssociations_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasAssociations_inverse", HasAssociations_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasAssociations_inverse", HasAssociations_inverse_vec_obj ) );
 	}
 }
 void IfcObjectDefinition::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

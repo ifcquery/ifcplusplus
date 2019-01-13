@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcObjectDefinition;
 class IFCQUERY_EXPORT IfcRelNests : public IfcRelDecomposes
 { 
 public:
-	IfcRelNests();
+	IfcRelNests() = default;
 	IfcRelNests( int id );
 	~IfcRelNests();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

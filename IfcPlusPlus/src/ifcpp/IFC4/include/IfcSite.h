@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcPostalAddress;
 class IFCQUERY_EXPORT IfcSite : public IfcSpatialStructureElement
 { 
 public:
-	IfcSite();
+	IfcSite() = default;
 	IfcSite( int id );
 	~IfcSite();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

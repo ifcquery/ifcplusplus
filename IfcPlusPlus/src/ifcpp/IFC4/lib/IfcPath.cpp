@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPath 
-IfcPath::IfcPath() {}
 IfcPath::IfcPath( int id ) { m_entity_id = id; }
 IfcPath::~IfcPath() {}
 shared_ptr<BuildingObject> IfcPath::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcPath::getDeepCopy( BuildingCopyOptions& options )
 		auto item_ii = m_EdgeList[ii];
 		if( item_ii )
 		{
-			copy_self->m_EdgeList.push_back( dynamic_pointer_cast<IfcOrientedEdge>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_EdgeList.emplace_back( dynamic_pointer_cast<IfcOrientedEdge>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -46,11 +45,11 @@ void IfcPath::readStepArguments( const std::vector<std::wstring>& args, const st
 void IfcPath::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
-	if( m_EdgeList.size() > 0 )
+	if( !m_EdgeList.empty() )
 	{
 		shared_ptr<AttributeObjectVector> EdgeList_vec_object( new AttributeObjectVector() );
 		std::copy( m_EdgeList.begin(), m_EdgeList.end(), std::back_inserter( EdgeList_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "EdgeList", EdgeList_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "EdgeList", EdgeList_vec_object ) );
 	}
 }
 void IfcPath::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

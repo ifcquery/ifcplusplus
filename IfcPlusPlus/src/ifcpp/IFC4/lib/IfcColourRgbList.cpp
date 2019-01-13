@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcNormalisedRatioMeasure.h"
 
 // ENTITY IfcColourRgbList 
-IfcColourRgbList::IfcColourRgbList() {}
 IfcColourRgbList::IfcColourRgbList( int id ) { m_entity_id = id; }
 IfcColourRgbList::~IfcColourRgbList() {}
 shared_ptr<BuildingObject> IfcColourRgbList::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcColourRgbList::getDeepCopy( BuildingCopyOptions& o
 			shared_ptr<IfcNormalisedRatioMeasure>& item_jj = vec_ii[jj];
 			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcNormalisedRatioMeasure>( item_jj->getDeepCopy(options) ) );
+				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcNormalisedRatioMeasure>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}

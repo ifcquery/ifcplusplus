@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcPositiveInteger;
 class IFCQUERY_EXPORT IfcIndexedColourMap : public IfcPresentationItem
 { 
 public:
-	IfcIndexedColourMap();
+	IfcIndexedColourMap() = default;
 	IfcIndexedColourMap( int id );
 	~IfcIndexedColourMap();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

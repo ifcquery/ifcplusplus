@@ -36,7 +36,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcFeatureElementAddition 
-IfcFeatureElementAddition::IfcFeatureElementAddition() {}
 IfcFeatureElementAddition::IfcFeatureElementAddition( int id ) { m_entity_id = id; }
 IfcFeatureElementAddition::~IfcFeatureElementAddition() {}
 shared_ptr<BuildingObject> IfcFeatureElementAddition::getDeepCopy( BuildingCopyOptions& options )
@@ -44,7 +43,7 @@ shared_ptr<BuildingObject> IfcFeatureElementAddition::getDeepCopy( BuildingCopyO
 	shared_ptr<IfcFeatureElementAddition> copy_self( new IfcFeatureElementAddition() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -102,7 +101,7 @@ void IfcFeatureElementAddition::getAttributes( std::vector<std::pair<std::string
 void IfcFeatureElementAddition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFeatureElement::getAttributesInverse( vec_attributes_inverse );
-	vec_attributes_inverse.push_back( std::make_pair( "ProjectsElements_inverse", shared_ptr<BuildingEntity>( m_ProjectsElements_inverse ) ) );
+	vec_attributes_inverse.emplace_back( std::make_pair( "ProjectsElements_inverse", shared_ptr<BuildingEntity>( m_ProjectsElements_inverse ) ) );
 }
 void IfcFeatureElementAddition::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

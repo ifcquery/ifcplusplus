@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcSpatialElement;
 class IFCQUERY_EXPORT IfcRelContainedInSpatialStructure : public IfcRelConnects
 { 
 public:
-	IfcRelContainedInSpatialStructure();
+	IfcRelContainedInSpatialStructure() = default;
 	IfcRelContainedInSpatialStructure( int id );
 	~IfcRelContainedInSpatialStructure();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcModulusOfSubgradeReactionSelect;
 class IFCQUERY_EXPORT IfcBoundaryFaceCondition : public IfcBoundaryCondition
 { 
 public:
-	IfcBoundaryFaceCondition();
+	IfcBoundaryFaceCondition() = default;
 	IfcBoundaryFaceCondition( int id );
 	~IfcBoundaryFaceCondition();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

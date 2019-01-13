@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcDistributionPortTypeEnum();
+	IfcDistributionPortTypeEnum() = default;
 	IfcDistributionPortTypeEnum( IfcDistributionPortTypeEnumEnum e ) { m_enum = e; }
 	~IfcDistributionPortTypeEnum();
 	virtual const char* className() const { return "IfcDistributionPortTypeEnum"; }

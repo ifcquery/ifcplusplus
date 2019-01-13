@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcVoidingFeatureTypeEnum.h"
 
 // TYPE IfcVoidingFeatureTypeEnum = ENUMERATION OF	(CUTOUT	,NOTCH	,HOLE	,MITER	,CHAMFER	,EDGE	,USERDEFINED	,NOTDEFINED);
-IfcVoidingFeatureTypeEnum::IfcVoidingFeatureTypeEnum() {}
 IfcVoidingFeatureTypeEnum::~IfcVoidingFeatureTypeEnum() {}
 shared_ptr<BuildingObject> IfcVoidingFeatureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -52,7 +51,7 @@ const std::wstring IfcVoidingFeatureTypeEnum::toString() const
 shared_ptr<IfcVoidingFeatureTypeEnum> IfcVoidingFeatureTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVoidingFeatureTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVoidingFeatureTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVoidingFeatureTypeEnum>(); }
 	shared_ptr<IfcVoidingFeatureTypeEnum> type_object( new IfcVoidingFeatureTypeEnum() );
 	if( boost::iequals( arg, L".CUTOUT." ) )
 	{

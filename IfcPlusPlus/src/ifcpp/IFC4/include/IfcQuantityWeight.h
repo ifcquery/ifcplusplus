@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcQuantityWeight : public IfcPhysicalSimpleQuantity
 { 
 public:
-	IfcQuantityWeight();
+	IfcQuantityWeight() = default;
 	IfcQuantityWeight( int id );
 	~IfcQuantityWeight();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

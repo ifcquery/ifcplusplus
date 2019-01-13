@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcShellBasedSurfaceModel 
-IfcShellBasedSurfaceModel::IfcShellBasedSurfaceModel() {}
 IfcShellBasedSurfaceModel::IfcShellBasedSurfaceModel( int id ) { m_entity_id = id; }
 IfcShellBasedSurfaceModel::~IfcShellBasedSurfaceModel() {}
 shared_ptr<BuildingObject> IfcShellBasedSurfaceModel::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcShellBasedSurfaceModel::getDeepCopy( BuildingCopyO
 		auto item_ii = m_SbsmBoundary[ii];
 		if( item_ii )
 		{
-			copy_self->m_SbsmBoundary.push_back( dynamic_pointer_cast<IfcShell>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_SbsmBoundary.emplace_back( dynamic_pointer_cast<IfcShell>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -63,11 +62,11 @@ void IfcShellBasedSurfaceModel::readStepArguments( const std::vector<std::wstrin
 void IfcShellBasedSurfaceModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	if( m_SbsmBoundary.size() > 0 )
+	if( !m_SbsmBoundary.empty() )
 	{
 		shared_ptr<AttributeObjectVector> SbsmBoundary_vec_object( new AttributeObjectVector() );
 		std::copy( m_SbsmBoundary.begin(), m_SbsmBoundary.end(), std::back_inserter( SbsmBoundary_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "SbsmBoundary", SbsmBoundary_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "SbsmBoundary", SbsmBoundary_vec_object ) );
 	}
 }
 void IfcShellBasedSurfaceModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

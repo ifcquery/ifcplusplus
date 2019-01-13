@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcText : public IfcSimpleValue
 {
 public:
-	IfcText();
+	IfcText() = default;
 	IfcText( std::wstring value );
 	~IfcText();
 	virtual const char* className() const { return "IfcText"; }

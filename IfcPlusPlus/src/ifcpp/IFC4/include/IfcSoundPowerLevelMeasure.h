@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcSoundPowerLevelMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcSoundPowerLevelMeasure();
+	IfcSoundPowerLevelMeasure() = default;
 	IfcSoundPowerLevelMeasure( double value );
 	~IfcSoundPowerLevelMeasure();
 	virtual const char* className() const { return "IfcSoundPowerLevelMeasure"; }

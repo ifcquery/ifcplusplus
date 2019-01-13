@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcInterceptorTypeEnum.h"
 
 // TYPE IfcInterceptorTypeEnum = ENUMERATION OF	(CYCLONIC	,GREASE	,OIL	,PETROL	,USERDEFINED	,NOTDEFINED);
-IfcInterceptorTypeEnum::IfcInterceptorTypeEnum() {}
 IfcInterceptorTypeEnum::~IfcInterceptorTypeEnum() {}
 shared_ptr<BuildingObject> IfcInterceptorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -48,7 +47,7 @@ const std::wstring IfcInterceptorTypeEnum::toString() const
 shared_ptr<IfcInterceptorTypeEnum> IfcInterceptorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInterceptorTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInterceptorTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInterceptorTypeEnum>(); }
 	shared_ptr<IfcInterceptorTypeEnum> type_object( new IfcInterceptorTypeEnum() );
 	if( boost::iequals( arg, L".CYCLONIC." ) )
 	{

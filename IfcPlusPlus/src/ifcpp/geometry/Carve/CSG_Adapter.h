@@ -216,6 +216,11 @@ namespace CSG_Adapter
 	inline bool checkMeshSetNonNegativeAndClosed( const shared_ptr<meshset_t> mesh_set )
 	{
 		bool meshes_closed = true;
+		if( !mesh_set->isClosed() )
+		{
+			//GeomUtils::closeMeshSet(mesh_set.get());
+		}
+
 		for( size_t i = 0; i < mesh_set->meshes.size(); ++i )
 		{
 			carve::mesh::Mesh<3>* mesh_i = mesh_set->meshes[i];

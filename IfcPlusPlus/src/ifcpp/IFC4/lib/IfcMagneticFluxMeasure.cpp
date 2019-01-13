@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcMagneticFluxMeasure.h"
 
 // TYPE IfcMagneticFluxMeasure = REAL;
-IfcMagneticFluxMeasure::IfcMagneticFluxMeasure() {}
 IfcMagneticFluxMeasure::IfcMagneticFluxMeasure( double value ) { m_value = value; }
 IfcMagneticFluxMeasure::~IfcMagneticFluxMeasure() {}
 shared_ptr<BuildingObject> IfcMagneticFluxMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcMagneticFluxMeasure::toString() const
 shared_ptr<IfcMagneticFluxMeasure> IfcMagneticFluxMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMagneticFluxMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMagneticFluxMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMagneticFluxMeasure>(); }
 	shared_ptr<IfcMagneticFluxMeasure> type_object( new IfcMagneticFluxMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

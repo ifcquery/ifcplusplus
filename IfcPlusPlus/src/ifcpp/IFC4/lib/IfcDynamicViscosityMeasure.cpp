@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcDynamicViscosityMeasure.h"
 
 // TYPE IfcDynamicViscosityMeasure = REAL;
-IfcDynamicViscosityMeasure::IfcDynamicViscosityMeasure() {}
 IfcDynamicViscosityMeasure::IfcDynamicViscosityMeasure( double value ) { m_value = value; }
 IfcDynamicViscosityMeasure::~IfcDynamicViscosityMeasure() {}
 shared_ptr<BuildingObject> IfcDynamicViscosityMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcDynamicViscosityMeasure::toString() const
 shared_ptr<IfcDynamicViscosityMeasure> IfcDynamicViscosityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDynamicViscosityMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDynamicViscosityMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDynamicViscosityMeasure>(); }
 	shared_ptr<IfcDynamicViscosityMeasure> type_object( new IfcDynamicViscosityMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

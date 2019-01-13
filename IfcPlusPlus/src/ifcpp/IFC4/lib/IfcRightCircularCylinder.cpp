@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcRightCircularCylinder 
-IfcRightCircularCylinder::IfcRightCircularCylinder() {}
 IfcRightCircularCylinder::IfcRightCircularCylinder( int id ) { m_entity_id = id; }
 IfcRightCircularCylinder::~IfcRightCircularCylinder() {}
 shared_ptr<BuildingObject> IfcRightCircularCylinder::getDeepCopy( BuildingCopyOptions& options )
@@ -48,8 +47,8 @@ void IfcRightCircularCylinder::readStepArguments( const std::vector<std::wstring
 void IfcRightCircularCylinder::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Height", m_Height ) );
-	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
+	vec_attributes.emplace_back( std::make_pair( "Height", m_Height ) );
+	vec_attributes.emplace_back( std::make_pair( "Radius", m_Radius ) );
 }
 void IfcRightCircularCylinder::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

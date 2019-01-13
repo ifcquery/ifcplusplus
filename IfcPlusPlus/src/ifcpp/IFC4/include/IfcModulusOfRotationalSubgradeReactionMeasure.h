@@ -15,7 +15,7 @@
 class IFCQUERY_EXPORT IfcModulusOfRotationalSubgradeReactionMeasure : public IfcDerivedMeasureValue, public IfcModulusOfRotationalSubgradeReactionSelect
 {
 public:
-	IfcModulusOfRotationalSubgradeReactionMeasure();
+	IfcModulusOfRotationalSubgradeReactionMeasure() = default;
 	IfcModulusOfRotationalSubgradeReactionMeasure( double value );
 	~IfcModulusOfRotationalSubgradeReactionMeasure();
 	virtual const char* className() const { return "IfcModulusOfRotationalSubgradeReactionMeasure"; }

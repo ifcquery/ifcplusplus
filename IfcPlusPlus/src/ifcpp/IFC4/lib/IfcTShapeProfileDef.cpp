@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcTShapeProfileDef.h"
 
 // ENTITY IfcTShapeProfileDef 
-IfcTShapeProfileDef::IfcTShapeProfileDef() {}
 IfcTShapeProfileDef::IfcTShapeProfileDef( int id ) { m_entity_id = id; }
 IfcTShapeProfileDef::~IfcTShapeProfileDef() {}
 shared_ptr<BuildingObject> IfcTShapeProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -88,15 +87,15 @@ void IfcTShapeProfileDef::readStepArguments( const std::vector<std::wstring>& ar
 void IfcTShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Depth", m_Depth ) );
-	vec_attributes.push_back( std::make_pair( "FlangeWidth", m_FlangeWidth ) );
-	vec_attributes.push_back( std::make_pair( "WebThickness", m_WebThickness ) );
-	vec_attributes.push_back( std::make_pair( "FlangeThickness", m_FlangeThickness ) );
-	vec_attributes.push_back( std::make_pair( "FilletRadius", m_FilletRadius ) );
-	vec_attributes.push_back( std::make_pair( "FlangeEdgeRadius", m_FlangeEdgeRadius ) );
-	vec_attributes.push_back( std::make_pair( "WebEdgeRadius", m_WebEdgeRadius ) );
-	vec_attributes.push_back( std::make_pair( "WebSlope", m_WebSlope ) );
-	vec_attributes.push_back( std::make_pair( "FlangeSlope", m_FlangeSlope ) );
+	vec_attributes.emplace_back( std::make_pair( "Depth", m_Depth ) );
+	vec_attributes.emplace_back( std::make_pair( "FlangeWidth", m_FlangeWidth ) );
+	vec_attributes.emplace_back( std::make_pair( "WebThickness", m_WebThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "FlangeThickness", m_FlangeThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "FilletRadius", m_FilletRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "FlangeEdgeRadius", m_FlangeEdgeRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "WebEdgeRadius", m_WebEdgeRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "WebSlope", m_WebSlope ) );
+	vec_attributes.emplace_back( std::make_pair( "FlangeSlope", m_FlangeSlope ) );
 }
 void IfcTShapeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

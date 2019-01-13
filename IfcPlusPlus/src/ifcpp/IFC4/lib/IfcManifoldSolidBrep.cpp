@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcManifoldSolidBrep 
-IfcManifoldSolidBrep::IfcManifoldSolidBrep() {}
 IfcManifoldSolidBrep::IfcManifoldSolidBrep( int id ) { m_entity_id = id; }
 IfcManifoldSolidBrep::~IfcManifoldSolidBrep() {}
 shared_ptr<BuildingObject> IfcManifoldSolidBrep::getDeepCopy( BuildingCopyOptions& options )
@@ -39,7 +38,7 @@ void IfcManifoldSolidBrep::readStepArguments( const std::vector<std::wstring>& a
 void IfcManifoldSolidBrep::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSolidModel::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Outer", m_Outer ) );
+	vec_attributes.emplace_back( std::make_pair( "Outer", m_Outer ) );
 }
 void IfcManifoldSolidBrep::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

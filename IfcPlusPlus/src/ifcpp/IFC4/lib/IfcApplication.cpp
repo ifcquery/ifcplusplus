@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcOrganization.h"
 
 // ENTITY IfcApplication 
-IfcApplication::IfcApplication() {}
 IfcApplication::IfcApplication( int id ) { m_entity_id = id; }
 IfcApplication::~IfcApplication() {}
 shared_ptr<BuildingObject> IfcApplication::getDeepCopy( BuildingCopyOptions& options )
@@ -50,10 +49,10 @@ void IfcApplication::readStepArguments( const std::vector<std::wstring>& args, c
 }
 void IfcApplication::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "ApplicationDeveloper", m_ApplicationDeveloper ) );
-	vec_attributes.push_back( std::make_pair( "Version", m_Version ) );
-	vec_attributes.push_back( std::make_pair( "ApplicationFullName", m_ApplicationFullName ) );
-	vec_attributes.push_back( std::make_pair( "ApplicationIdentifier", m_ApplicationIdentifier ) );
+	vec_attributes.emplace_back( std::make_pair( "ApplicationDeveloper", m_ApplicationDeveloper ) );
+	vec_attributes.emplace_back( std::make_pair( "Version", m_Version ) );
+	vec_attributes.emplace_back( std::make_pair( "ApplicationFullName", m_ApplicationFullName ) );
+	vec_attributes.emplace_back( std::make_pair( "ApplicationIdentifier", m_ApplicationIdentifier ) );
 }
 void IfcApplication::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

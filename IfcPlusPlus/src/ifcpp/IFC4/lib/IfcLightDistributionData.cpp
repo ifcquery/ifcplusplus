@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcPlaneAngleMeasure.h"
 
 // ENTITY IfcLightDistributionData 
-IfcLightDistributionData::IfcLightDistributionData() {}
 IfcLightDistributionData::IfcLightDistributionData( int id ) { m_entity_id = id; }
 IfcLightDistributionData::~IfcLightDistributionData() {}
 shared_ptr<BuildingObject> IfcLightDistributionData::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcLightDistributionData::getDeepCopy( BuildingCopyOp
 		auto item_ii = m_SecondaryPlaneAngle[ii];
 		if( item_ii )
 		{
-			copy_self->m_SecondaryPlaneAngle.push_back( dynamic_pointer_cast<IfcPlaneAngleMeasure>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_SecondaryPlaneAngle.emplace_back( dynamic_pointer_cast<IfcPlaneAngleMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_LuminousIntensity.size(); ++ii )
@@ -32,7 +31,7 @@ shared_ptr<BuildingObject> IfcLightDistributionData::getDeepCopy( BuildingCopyOp
 		auto item_ii = m_LuminousIntensity[ii];
 		if( item_ii )
 		{
-			copy_self->m_LuminousIntensity.push_back( dynamic_pointer_cast<IfcLuminousIntensityDistributionMeasure>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_LuminousIntensity.emplace_back( dynamic_pointer_cast<IfcLuminousIntensityDistributionMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -59,18 +58,18 @@ void IfcLightDistributionData::readStepArguments( const std::vector<std::wstring
 }
 void IfcLightDistributionData::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "MainPlaneAngle", m_MainPlaneAngle ) );
-	if( m_SecondaryPlaneAngle.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "MainPlaneAngle", m_MainPlaneAngle ) );
+	if( !m_SecondaryPlaneAngle.empty() )
 	{
 		shared_ptr<AttributeObjectVector> SecondaryPlaneAngle_vec_object( new AttributeObjectVector() );
 		std::copy( m_SecondaryPlaneAngle.begin(), m_SecondaryPlaneAngle.end(), std::back_inserter( SecondaryPlaneAngle_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "SecondaryPlaneAngle", SecondaryPlaneAngle_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "SecondaryPlaneAngle", SecondaryPlaneAngle_vec_object ) );
 	}
-	if( m_LuminousIntensity.size() > 0 )
+	if( !m_LuminousIntensity.empty() )
 	{
 		shared_ptr<AttributeObjectVector> LuminousIntensity_vec_object( new AttributeObjectVector() );
 		std::copy( m_LuminousIntensity.begin(), m_LuminousIntensity.end(), std::back_inserter( LuminousIntensity_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "LuminousIntensity", LuminousIntensity_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "LuminousIntensity", LuminousIntensity_vec_object ) );
 	}
 }
 void IfcLightDistributionData::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

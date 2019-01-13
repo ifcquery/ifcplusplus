@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcChillerTypeEnum.h"
 
 // TYPE IfcChillerTypeEnum = ENUMERATION OF	(AIRCOOLED	,WATERCOOLED	,HEATRECOVERY	,USERDEFINED	,NOTDEFINED);
-IfcChillerTypeEnum::IfcChillerTypeEnum() {}
 IfcChillerTypeEnum::~IfcChillerTypeEnum() {}
 shared_ptr<BuildingObject> IfcChillerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcChillerTypeEnum::toString() const
 shared_ptr<IfcChillerTypeEnum> IfcChillerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcChillerTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcChillerTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcChillerTypeEnum>(); }
 	shared_ptr<IfcChillerTypeEnum> type_object( new IfcChillerTypeEnum() );
 	if( boost::iequals( arg, L".AIRCOOLED." ) )
 	{

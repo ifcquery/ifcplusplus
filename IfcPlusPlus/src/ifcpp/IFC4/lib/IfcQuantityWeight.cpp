@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcQuantityWeight 
-IfcQuantityWeight::IfcQuantityWeight() {}
 IfcQuantityWeight::IfcQuantityWeight( int id ) { m_entity_id = id; }
 IfcQuantityWeight::~IfcQuantityWeight() {}
 shared_ptr<BuildingObject> IfcQuantityWeight::getDeepCopy( BuildingCopyOptions& options )
@@ -58,8 +57,8 @@ void IfcQuantityWeight::readStepArguments( const std::vector<std::wstring>& args
 void IfcQuantityWeight::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPhysicalSimpleQuantity::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "WeightValue", m_WeightValue ) );
-	vec_attributes.push_back( std::make_pair( "Formula", m_Formula ) );
+	vec_attributes.emplace_back( std::make_pair( "WeightValue", m_WeightValue ) );
+	vec_attributes.emplace_back( std::make_pair( "Formula", m_Formula ) );
 }
 void IfcQuantityWeight::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

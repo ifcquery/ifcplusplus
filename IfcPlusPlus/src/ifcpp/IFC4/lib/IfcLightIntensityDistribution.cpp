@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcLightIntensityDistribution.h"
 
 // ENTITY IfcLightIntensityDistribution 
-IfcLightIntensityDistribution::IfcLightIntensityDistribution() {}
 IfcLightIntensityDistribution::IfcLightIntensityDistribution( int id ) { m_entity_id = id; }
 IfcLightIntensityDistribution::~IfcLightIntensityDistribution() {}
 shared_ptr<BuildingObject> IfcLightIntensityDistribution::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcLightIntensityDistribution::getDeepCopy( BuildingC
 		auto item_ii = m_DistributionData[ii];
 		if( item_ii )
 		{
-			copy_self->m_DistributionData.push_back( dynamic_pointer_cast<IfcLightDistributionData>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_DistributionData.emplace_back( dynamic_pointer_cast<IfcLightDistributionData>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -48,12 +47,12 @@ void IfcLightIntensityDistribution::readStepArguments( const std::vector<std::ws
 }
 void IfcLightIntensityDistribution::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "LightDistributionCurve", m_LightDistributionCurve ) );
-	if( m_DistributionData.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "LightDistributionCurve", m_LightDistributionCurve ) );
+	if( !m_DistributionData.empty() )
 	{
 		shared_ptr<AttributeObjectVector> DistributionData_vec_object( new AttributeObjectVector() );
 		std::copy( m_DistributionData.begin(), m_DistributionData.end(), std::back_inserter( DistributionData_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "DistributionData", DistributionData_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "DistributionData", DistributionData_vec_object ) );
 	}
 }
 void IfcLightIntensityDistribution::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

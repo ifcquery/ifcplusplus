@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcKinematicViscosityMeasure.h"
 
 // TYPE IfcKinematicViscosityMeasure = REAL;
-IfcKinematicViscosityMeasure::IfcKinematicViscosityMeasure() {}
 IfcKinematicViscosityMeasure::IfcKinematicViscosityMeasure( double value ) { m_value = value; }
 IfcKinematicViscosityMeasure::~IfcKinematicViscosityMeasure() {}
 shared_ptr<BuildingObject> IfcKinematicViscosityMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcKinematicViscosityMeasure::toString() const
 shared_ptr<IfcKinematicViscosityMeasure> IfcKinematicViscosityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcKinematicViscosityMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcKinematicViscosityMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcKinematicViscosityMeasure>(); }
 	shared_ptr<IfcKinematicViscosityMeasure> type_object( new IfcKinematicViscosityMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

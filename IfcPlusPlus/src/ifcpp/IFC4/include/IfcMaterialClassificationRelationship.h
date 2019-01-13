@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcMaterial;
 class IFCQUERY_EXPORT IfcMaterialClassificationRelationship : public BuildingEntity
 { 
 public:
-	IfcMaterialClassificationRelationship();
+	IfcMaterialClassificationRelationship() = default;
 	IfcMaterialClassificationRelationship( int id );
 	~IfcMaterialClassificationRelationship();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

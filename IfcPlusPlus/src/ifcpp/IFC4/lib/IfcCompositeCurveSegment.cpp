@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcTransitionCode.h"
 
 // ENTITY IfcCompositeCurveSegment 
-IfcCompositeCurveSegment::IfcCompositeCurveSegment() {}
 IfcCompositeCurveSegment::IfcCompositeCurveSegment( int id ) { m_entity_id = id; }
 IfcCompositeCurveSegment::~IfcCompositeCurveSegment() {}
 shared_ptr<BuildingObject> IfcCompositeCurveSegment::getDeepCopy( BuildingCopyOptions& options )
@@ -50,24 +49,24 @@ void IfcCompositeCurveSegment::readStepArguments( const std::vector<std::wstring
 void IfcCompositeCurveSegment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Transition", m_Transition ) );
-	vec_attributes.push_back( std::make_pair( "SameSense", m_SameSense ) );
-	vec_attributes.push_back( std::make_pair( "ParentCurve", m_ParentCurve ) );
+	vec_attributes.emplace_back( std::make_pair( "Transition", m_Transition ) );
+	vec_attributes.emplace_back( std::make_pair( "SameSense", m_SameSense ) );
+	vec_attributes.emplace_back( std::make_pair( "ParentCurve", m_ParentCurve ) );
 }
 void IfcCompositeCurveSegment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGeometricRepresentationItem::getAttributesInverse( vec_attributes_inverse );
-	if( m_UsingCurves_inverse.size() > 0 )
+	if( !m_UsingCurves_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> UsingCurves_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_UsingCurves_inverse.size(); ++i )
 		{
 			if( !m_UsingCurves_inverse[i].expired() )
 			{
-				UsingCurves_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcCompositeCurve>( m_UsingCurves_inverse[i] ) );
+				UsingCurves_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcCompositeCurve>( m_UsingCurves_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "UsingCurves_inverse", UsingCurves_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "UsingCurves_inverse", UsingCurves_inverse_vec_obj ) );
 	}
 }
 void IfcCompositeCurveSegment::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

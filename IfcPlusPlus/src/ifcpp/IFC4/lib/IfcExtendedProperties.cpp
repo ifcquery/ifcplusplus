@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcExtendedProperties 
-IfcExtendedProperties::IfcExtendedProperties() {}
 IfcExtendedProperties::IfcExtendedProperties( int id ) { m_entity_id = id; }
 IfcExtendedProperties::~IfcExtendedProperties() {}
 shared_ptr<BuildingObject> IfcExtendedProperties::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcExtendedProperties::getDeepCopy( BuildingCopyOptio
 		auto item_ii = m_Properties[ii];
 		if( item_ii )
 		{
-			copy_self->m_Properties.push_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Properties.emplace_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -55,13 +54,13 @@ void IfcExtendedProperties::readStepArguments( const std::vector<std::wstring>& 
 void IfcExtendedProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPropertyAbstraction::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	if( m_Properties.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	if( !m_Properties.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Properties_vec_object( new AttributeObjectVector() );
 		std::copy( m_Properties.begin(), m_Properties.end(), std::back_inserter( Properties_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Properties", Properties_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Properties", Properties_vec_object ) );
 	}
 }
 void IfcExtendedProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

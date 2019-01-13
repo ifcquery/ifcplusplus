@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcMedicalDeviceTypeEnum.h"
 
 // TYPE IfcMedicalDeviceTypeEnum = ENUMERATION OF	(AIRSTATION	,FEEDAIRUNIT	,OXYGENGENERATOR	,OXYGENPLANT	,VACUUMSTATION	,USERDEFINED	,NOTDEFINED);
-IfcMedicalDeviceTypeEnum::IfcMedicalDeviceTypeEnum() {}
 IfcMedicalDeviceTypeEnum::~IfcMedicalDeviceTypeEnum() {}
 shared_ptr<BuildingObject> IfcMedicalDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -50,7 +49,7 @@ const std::wstring IfcMedicalDeviceTypeEnum::toString() const
 shared_ptr<IfcMedicalDeviceTypeEnum> IfcMedicalDeviceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMedicalDeviceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMedicalDeviceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMedicalDeviceTypeEnum>(); }
 	shared_ptr<IfcMedicalDeviceTypeEnum> type_object( new IfcMedicalDeviceTypeEnum() );
 	if( boost::iequals( arg, L".AIRSTATION." ) )
 	{

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcDirection;
 class IFCQUERY_EXPORT IfcLightSourceDirectional : public IfcLightSource
 { 
 public:
-	IfcLightSourceDirectional();
+	IfcLightSourceDirectional() = default;
 	IfcLightSourceDirectional( int id );
 	~IfcLightSourceDirectional();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

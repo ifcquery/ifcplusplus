@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcPipeSegmentTypeEnum();
+	IfcPipeSegmentTypeEnum() = default;
 	IfcPipeSegmentTypeEnum( IfcPipeSegmentTypeEnumEnum e ) { m_enum = e; }
 	~IfcPipeSegmentTypeEnum();
 	virtual const char* className() const { return "IfcPipeSegmentTypeEnum"; }

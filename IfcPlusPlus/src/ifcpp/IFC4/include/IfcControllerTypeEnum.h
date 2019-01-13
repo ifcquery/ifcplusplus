@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcControllerTypeEnum();
+	IfcControllerTypeEnum() = default;
 	IfcControllerTypeEnum( IfcControllerTypeEnumEnum e ) { m_enum = e; }
 	~IfcControllerTypeEnum();
 	virtual const char* className() const { return "IfcControllerTypeEnum"; }

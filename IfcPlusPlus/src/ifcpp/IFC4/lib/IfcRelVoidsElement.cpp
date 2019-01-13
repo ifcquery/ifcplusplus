@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelVoidsElement 
-IfcRelVoidsElement::IfcRelVoidsElement() {}
 IfcRelVoidsElement::IfcRelVoidsElement( int id ) { m_entity_id = id; }
 IfcRelVoidsElement::~IfcRelVoidsElement() {}
 shared_ptr<BuildingObject> IfcRelVoidsElement::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelVoidsElement::getDeepCopy( BuildingCopyOptions&
 	shared_ptr<IfcRelVoidsElement> copy_self( new IfcRelVoidsElement() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -70,8 +69,8 @@ void IfcRelVoidsElement::readStepArguments( const std::vector<std::wstring>& arg
 void IfcRelVoidsElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelDecomposes::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingBuildingElement", m_RelatingBuildingElement ) );
-	vec_attributes.push_back( std::make_pair( "RelatedOpeningElement", m_RelatedOpeningElement ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingBuildingElement", m_RelatingBuildingElement ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedOpeningElement", m_RelatedOpeningElement ) );
 }
 void IfcRelVoidsElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -88,7 +87,7 @@ void IfcRelVoidsElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_
 	}
 	if( m_RelatingBuildingElement )
 	{
-		m_RelatingBuildingElement->m_HasOpenings_inverse.push_back( ptr_self );
+		m_RelatingBuildingElement->m_HasOpenings_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelVoidsElement::unlinkFromInverseCounterparts()

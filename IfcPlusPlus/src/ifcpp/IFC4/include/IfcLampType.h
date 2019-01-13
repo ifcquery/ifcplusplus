@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLampTypeEnum;
 class IFCQUERY_EXPORT IfcLampType : public IfcFlowTerminalType
 { 
 public:
-	IfcLampType();
+	IfcLampType() = default;
 	IfcLampType( int id );
 	~IfcLampType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

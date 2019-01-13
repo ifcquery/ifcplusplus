@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
 
 // TYPE IfcGloballyUniqueId = STRING(22) FIXED;
-IfcGloballyUniqueId::IfcGloballyUniqueId() {}
 IfcGloballyUniqueId::IfcGloballyUniqueId( std::wstring value ) { m_value = value; }
 IfcGloballyUniqueId::~IfcGloballyUniqueId() {}
 shared_ptr<BuildingObject> IfcGloballyUniqueId::getDeepCopy( BuildingCopyOptions& options )
@@ -32,7 +31,7 @@ const std::wstring IfcGloballyUniqueId::toString() const
 shared_ptr<IfcGloballyUniqueId> IfcGloballyUniqueId::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGloballyUniqueId>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGloballyUniqueId>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGloballyUniqueId>(); }
 	shared_ptr<IfcGloballyUniqueId> type_object( new IfcGloballyUniqueId() );
 	readString( arg, type_object->m_value );
 	return type_object;

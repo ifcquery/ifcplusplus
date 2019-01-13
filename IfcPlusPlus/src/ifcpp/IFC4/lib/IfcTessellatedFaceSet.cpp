@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcTessellatedFaceSet.h"
 
 // ENTITY IfcTessellatedFaceSet 
-IfcTessellatedFaceSet::IfcTessellatedFaceSet() {}
 IfcTessellatedFaceSet::IfcTessellatedFaceSet( int id ) { m_entity_id = id; }
 IfcTessellatedFaceSet::~IfcTessellatedFaceSet() {}
 shared_ptr<BuildingObject> IfcTessellatedFaceSet::getDeepCopy( BuildingCopyOptions& options )
@@ -41,34 +40,34 @@ void IfcTessellatedFaceSet::readStepArguments( const std::vector<std::wstring>& 
 void IfcTessellatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTessellatedItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Coordinates", m_Coordinates ) );
+	vec_attributes.emplace_back( std::make_pair( "Coordinates", m_Coordinates ) );
 }
 void IfcTessellatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTessellatedItem::getAttributesInverse( vec_attributes_inverse );
-	if( m_HasColours_inverse.size() > 0 )
+	if( !m_HasColours_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasColours_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasColours_inverse.size(); ++i )
 		{
 			if( !m_HasColours_inverse[i].expired() )
 			{
-				HasColours_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcIndexedColourMap>( m_HasColours_inverse[i] ) );
+				HasColours_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcIndexedColourMap>( m_HasColours_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasColours_inverse", HasColours_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasColours_inverse", HasColours_inverse_vec_obj ) );
 	}
-	if( m_HasTextures_inverse.size() > 0 )
+	if( !m_HasTextures_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasTextures_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasTextures_inverse.size(); ++i )
 		{
 			if( !m_HasTextures_inverse[i].expired() )
 			{
-				HasTextures_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcIndexedTextureMap>( m_HasTextures_inverse[i] ) );
+				HasTextures_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcIndexedTextureMap>( m_HasTextures_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasTextures_inverse", HasTextures_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasTextures_inverse", HasTextures_inverse_vec_obj ) );
 	}
 }
 void IfcTessellatedFaceSet::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

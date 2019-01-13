@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcTessellatedItem : public IfcGeometricRepresentationItem
 { 
 public:
-	IfcTessellatedItem();
+	IfcTessellatedItem() = default;
 	IfcTessellatedItem( int id );
 	~IfcTessellatedItem();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

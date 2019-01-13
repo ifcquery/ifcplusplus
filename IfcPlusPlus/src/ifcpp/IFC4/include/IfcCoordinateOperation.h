@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCoordinateReferenceSystem;
 class IFCQUERY_EXPORT IfcCoordinateOperation : public BuildingEntity
 { 
 public:
-	IfcCoordinateOperation();
+	IfcCoordinateOperation() = default;
 	IfcCoordinateOperation( int id );
 	~IfcCoordinateOperation();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBoundaryCurve 
-IfcBoundaryCurve::IfcBoundaryCurve() {}
 IfcBoundaryCurve::IfcBoundaryCurve( int id ) { m_entity_id = id; }
 IfcBoundaryCurve::~IfcBoundaryCurve() {}
 shared_ptr<BuildingObject> IfcBoundaryCurve::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcBoundaryCurve::getDeepCopy( BuildingCopyOptions& o
 		auto item_ii = m_Segments[ii];
 		if( item_ii )
 		{
-			copy_self->m_Segments.push_back( dynamic_pointer_cast<IfcCompositeCurveSegment>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Segments.emplace_back( dynamic_pointer_cast<IfcCompositeCurveSegment>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = dynamic_pointer_cast<IfcLogical>( m_SelfIntersect->getDeepCopy(options) ); }

@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcCartesianPointList : public IfcGeometricRepresentationItem
 { 
 public:
-	IfcCartesianPointList();
+	IfcCartesianPointList() = default;
 	IfcCartesianPointList( int id );
 	~IfcCartesianPointList();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

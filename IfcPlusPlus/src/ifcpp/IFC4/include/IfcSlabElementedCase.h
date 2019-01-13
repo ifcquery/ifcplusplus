@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcSlabElementedCase : public IfcSlab
 { 
 public:
-	IfcSlabElementedCase();
+	IfcSlabElementedCase() = default;
 	IfcSlabElementedCase( int id );
 	~IfcSlabElementedCase();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

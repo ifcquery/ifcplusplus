@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcPreDefinedProperties : public IfcPropertyAbstraction
 { 
 public:
-	IfcPreDefinedProperties();
+	IfcPreDefinedProperties() = default;
 	IfcPreDefinedProperties( int id );
 	~IfcPreDefinedProperties();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

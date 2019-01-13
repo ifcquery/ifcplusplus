@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcRampTypeEnum.h"
 
 // TYPE IfcRampTypeEnum = ENUMERATION OF	(STRAIGHT_RUN_RAMP	,TWO_STRAIGHT_RUN_RAMP	,QUARTER_TURN_RAMP	,TWO_QUARTER_TURN_RAMP	,HALF_TURN_RAMP	,SPIRAL_RAMP	,USERDEFINED	,NOTDEFINED);
-IfcRampTypeEnum::IfcRampTypeEnum() {}
 IfcRampTypeEnum::~IfcRampTypeEnum() {}
 shared_ptr<BuildingObject> IfcRampTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -52,7 +51,7 @@ const std::wstring IfcRampTypeEnum::toString() const
 shared_ptr<IfcRampTypeEnum> IfcRampTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRampTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRampTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRampTypeEnum>(); }
 	shared_ptr<IfcRampTypeEnum> type_object( new IfcRampTypeEnum() );
 	if( boost::iequals( arg, L".STRAIGHT_RUN_RAMP." ) )
 	{

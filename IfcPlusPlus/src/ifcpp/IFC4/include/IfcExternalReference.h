@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcExternalReferenceRelationship;
 class IFCQUERY_EXPORT IfcExternalReference : virtual public IfcLightDistributionDataSourceSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public BuildingEntity
 { 
 public:
-	IfcExternalReference();
+	IfcExternalReference() = default;
 	IfcExternalReference( int id );
 	~IfcExternalReference();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

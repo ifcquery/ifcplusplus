@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcAxis2Placement2D 
-IfcAxis2Placement2D::IfcAxis2Placement2D() {}
 IfcAxis2Placement2D::IfcAxis2Placement2D( int id ) { m_entity_id = id; }
 IfcAxis2Placement2D::~IfcAxis2Placement2D() {}
 shared_ptr<BuildingObject> IfcAxis2Placement2D::getDeepCopy( BuildingCopyOptions& options )
@@ -44,7 +43,7 @@ void IfcAxis2Placement2D::readStepArguments( const std::vector<std::wstring>& ar
 void IfcAxis2Placement2D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPlacement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RefDirection", m_RefDirection ) );
+	vec_attributes.emplace_back( std::make_pair( "RefDirection", m_RefDirection ) );
 }
 void IfcAxis2Placement2D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

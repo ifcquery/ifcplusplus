@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcThermodynamicTemperatureMeasure.h"
 
 // TYPE IfcThermodynamicTemperatureMeasure = REAL;
-IfcThermodynamicTemperatureMeasure::IfcThermodynamicTemperatureMeasure() {}
 IfcThermodynamicTemperatureMeasure::IfcThermodynamicTemperatureMeasure( double value ) { m_value = value; }
 IfcThermodynamicTemperatureMeasure::~IfcThermodynamicTemperatureMeasure() {}
 shared_ptr<BuildingObject> IfcThermodynamicTemperatureMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcThermodynamicTemperatureMeasure::toString() const
 shared_ptr<IfcThermodynamicTemperatureMeasure> IfcThermodynamicTemperatureMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcThermodynamicTemperatureMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcThermodynamicTemperatureMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcThermodynamicTemperatureMeasure>(); }
 	shared_ptr<IfcThermodynamicTemperatureMeasure> type_object( new IfcThermodynamicTemperatureMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

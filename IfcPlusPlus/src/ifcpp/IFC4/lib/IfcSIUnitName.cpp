@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSIUnitName.h"
 
 // TYPE IfcSIUnitName = ENUMERATION OF	(AMPERE	,BECQUEREL	,CANDELA	,COULOMB	,CUBIC_METRE	,DEGREE_CELSIUS	,FARAD	,GRAM	,GRAY	,HENRY	,HERTZ	,JOULE	,KELVIN	,LUMEN	,LUX	,METRE	,MOLE	,NEWTON	,OHM	,PASCAL	,RADIAN	,SECOND	,SIEMENS	,SIEVERT	,SQUARE_METRE	,STERADIAN	,TESLA	,VOLT	,WATT	,WEBER);
-IfcSIUnitName::IfcSIUnitName() {}
 IfcSIUnitName::~IfcSIUnitName() {}
 shared_ptr<BuildingObject> IfcSIUnitName::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -96,7 +95,7 @@ const std::wstring IfcSIUnitName::toString() const
 shared_ptr<IfcSIUnitName> IfcSIUnitName::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSIUnitName>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSIUnitName>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSIUnitName>(); }
 	shared_ptr<IfcSIUnitName> type_object( new IfcSIUnitName() );
 	if( boost::iequals( arg, L".AMPERE." ) )
 	{

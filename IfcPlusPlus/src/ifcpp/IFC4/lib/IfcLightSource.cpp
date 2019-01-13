@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcLightSource 
-IfcLightSource::IfcLightSource() {}
 IfcLightSource::IfcLightSource( int id ) { m_entity_id = id; }
 IfcLightSource::~IfcLightSource() {}
 shared_ptr<BuildingObject> IfcLightSource::getDeepCopy( BuildingCopyOptions& options )
@@ -53,10 +52,10 @@ void IfcLightSource::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcLightSource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "LightColour", m_LightColour ) );
-	vec_attributes.push_back( std::make_pair( "AmbientIntensity", m_AmbientIntensity ) );
-	vec_attributes.push_back( std::make_pair( "Intensity", m_Intensity ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "LightColour", m_LightColour ) );
+	vec_attributes.emplace_back( std::make_pair( "AmbientIntensity", m_AmbientIntensity ) );
+	vec_attributes.emplace_back( std::make_pair( "Intensity", m_Intensity ) );
 }
 void IfcLightSource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -715,20 +715,20 @@ public:
 		}
 
 #ifdef _DEBUG
-		GeomDebugDump::dumpPolyline( path_merged, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, true );
+		//GeomDebugDump::dumpPolyline( path_merged, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, true );
 
-		shared_ptr<carve::mesh::MeshSet<3> > meshset( polyhedron_data->createMesh( carve::input::opts() ) );
-		if( meshset->meshes.size() != 1 )
-		{
-			messageCallback( "meshset->meshes.size() != 1", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
-			return;
-		}
-		bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, this, entity_of_origin );
+		//shared_ptr<carve::mesh::MeshSet<3> > meshset( polyhedron_data->createMesh( carve::input::opts() ) );
+		//if( meshset->meshes.size() != 1 )
+		//{
+		//	messageCallback( "meshset->meshes.size() != 1", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
+		//	return;
+		//}
+		//bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, this, entity_of_origin );
 
-		if( !meshset_ok )
-		{
-			GeomDebugDump::dumpPolyhedronInput( *(polyhedron_data.get()), carve::geom::VECTOR( 0.0, 0.0, 0.0 ), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
-		}
+		//if( !meshset_ok )
+		//{
+		//	GeomDebugDump::dumpPolyhedronInput( *(polyhedron_data.get()), carve::geom::VECTOR( 0.0, 0.0, 0.0 ), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
+		//}
 #endif
 
 		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
@@ -856,13 +856,13 @@ public:
 				try
 				{
 #ifdef _DEBUG
-					GeomDebugDump::dumpMeshset( first_operand_meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, false );
-					GeomDebugDump::dumpMeshset( second_operand_meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
+					//GeomDebugDump::dumpMeshset( first_operand_meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, false );
+					//GeomDebugDump::dumpMeshset( second_operand_meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 #endif
 					CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, result, this, bool_result.get() );
 
 #ifdef _DEBUG
-					GeomDebugDump::dumpMeshset( result, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
+					//GeomDebugDump::dumpMeshset( result, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
 #endif
 				}
 				catch( OutOfMemoryException& e )

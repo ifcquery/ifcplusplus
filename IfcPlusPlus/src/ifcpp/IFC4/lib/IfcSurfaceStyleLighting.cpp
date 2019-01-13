@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcSurfaceStyleLighting.h"
 
 // ENTITY IfcSurfaceStyleLighting 
-IfcSurfaceStyleLighting::IfcSurfaceStyleLighting() {}
 IfcSurfaceStyleLighting::IfcSurfaceStyleLighting( int id ) { m_entity_id = id; }
 IfcSurfaceStyleLighting::~IfcSurfaceStyleLighting() {}
 shared_ptr<BuildingObject> IfcSurfaceStyleLighting::getDeepCopy( BuildingCopyOptions& options )
@@ -49,10 +48,10 @@ void IfcSurfaceStyleLighting::readStepArguments( const std::vector<std::wstring>
 void IfcSurfaceStyleLighting::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "DiffuseTransmissionColour", m_DiffuseTransmissionColour ) );
-	vec_attributes.push_back( std::make_pair( "DiffuseReflectionColour", m_DiffuseReflectionColour ) );
-	vec_attributes.push_back( std::make_pair( "TransmissionColour", m_TransmissionColour ) );
-	vec_attributes.push_back( std::make_pair( "ReflectanceColour", m_ReflectanceColour ) );
+	vec_attributes.emplace_back( std::make_pair( "DiffuseTransmissionColour", m_DiffuseTransmissionColour ) );
+	vec_attributes.emplace_back( std::make_pair( "DiffuseReflectionColour", m_DiffuseReflectionColour ) );
+	vec_attributes.emplace_back( std::make_pair( "TransmissionColour", m_TransmissionColour ) );
+	vec_attributes.emplace_back( std::make_pair( "ReflectanceColour", m_ReflectanceColour ) );
 }
 void IfcSurfaceStyleLighting::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

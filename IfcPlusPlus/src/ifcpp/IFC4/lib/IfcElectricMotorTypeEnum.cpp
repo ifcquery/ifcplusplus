@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcElectricMotorTypeEnum.h"
 
 // TYPE IfcElectricMotorTypeEnum = ENUMERATION OF	(DC	,INDUCTION	,POLYPHASE	,RELUCTANCESYNCHRONOUS	,SYNCHRONOUS	,USERDEFINED	,NOTDEFINED);
-IfcElectricMotorTypeEnum::IfcElectricMotorTypeEnum() {}
 IfcElectricMotorTypeEnum::~IfcElectricMotorTypeEnum() {}
 shared_ptr<BuildingObject> IfcElectricMotorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -50,7 +49,7 @@ const std::wstring IfcElectricMotorTypeEnum::toString() const
 shared_ptr<IfcElectricMotorTypeEnum> IfcElectricMotorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricMotorTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricMotorTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricMotorTypeEnum>(); }
 	shared_ptr<IfcElectricMotorTypeEnum> type_object( new IfcElectricMotorTypeEnum() );
 	if( boost::iequals( arg, L".DC." ) )
 	{

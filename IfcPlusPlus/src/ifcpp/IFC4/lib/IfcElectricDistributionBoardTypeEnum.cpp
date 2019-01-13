@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcElectricDistributionBoardTypeEnum.h"
 
 // TYPE IfcElectricDistributionBoardTypeEnum = ENUMERATION OF	(CONSUMERUNIT	,DISTRIBUTIONBOARD	,MOTORCONTROLCENTRE	,SWITCHBOARD	,USERDEFINED	,NOTDEFINED);
-IfcElectricDistributionBoardTypeEnum::IfcElectricDistributionBoardTypeEnum() {}
 IfcElectricDistributionBoardTypeEnum::~IfcElectricDistributionBoardTypeEnum() {}
 shared_ptr<BuildingObject> IfcElectricDistributionBoardTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -48,7 +47,7 @@ const std::wstring IfcElectricDistributionBoardTypeEnum::toString() const
 shared_ptr<IfcElectricDistributionBoardTypeEnum> IfcElectricDistributionBoardTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricDistributionBoardTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricDistributionBoardTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricDistributionBoardTypeEnum>(); }
 	shared_ptr<IfcElectricDistributionBoardTypeEnum> type_object( new IfcElectricDistributionBoardTypeEnum() );
 	if( boost::iequals( arg, L".CONSUMERUNIT." ) )
 	{

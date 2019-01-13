@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // ENTITY IfcDerivedUnit 
-IfcDerivedUnit::IfcDerivedUnit() {}
 IfcDerivedUnit::IfcDerivedUnit( int id ) { m_entity_id = id; }
 IfcDerivedUnit::~IfcDerivedUnit() {}
 shared_ptr<BuildingObject> IfcDerivedUnit::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcDerivedUnit::getDeepCopy( BuildingCopyOptions& opt
 		auto item_ii = m_Elements[ii];
 		if( item_ii )
 		{
-			copy_self->m_Elements.push_back( dynamic_pointer_cast<IfcDerivedUnitElement>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Elements.emplace_back( dynamic_pointer_cast<IfcDerivedUnitElement>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcDerivedUnitEnum>( m_UnitType->getDeepCopy(options) ); }
@@ -53,14 +52,14 @@ void IfcDerivedUnit::readStepArguments( const std::vector<std::wstring>& args, c
 }
 void IfcDerivedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( m_Elements.size() > 0 )
+	if( !m_Elements.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Elements_vec_object( new AttributeObjectVector() );
 		std::copy( m_Elements.begin(), m_Elements.end(), std::back_inserter( Elements_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Elements", Elements_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Elements", Elements_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "UnitType", m_UnitType ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedType", m_UserDefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "UnitType", m_UnitType ) );
+	vec_attributes.emplace_back( std::make_pair( "UserDefinedType", m_UserDefinedType ) );
 }
 void IfcDerivedUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -38,7 +38,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcElementAssembly 
-IfcElementAssembly::IfcElementAssembly() {}
 IfcElementAssembly::IfcElementAssembly( int id ) { m_entity_id = id; }
 IfcElementAssembly::~IfcElementAssembly() {}
 shared_ptr<BuildingObject> IfcElementAssembly::getDeepCopy( BuildingCopyOptions& options )
@@ -46,7 +45,7 @@ shared_ptr<BuildingObject> IfcElementAssembly::getDeepCopy( BuildingCopyOptions&
 	shared_ptr<IfcElementAssembly> copy_self( new IfcElementAssembly() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -108,8 +107,8 @@ void IfcElementAssembly::readStepArguments( const std::vector<std::wstring>& arg
 void IfcElementAssembly::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcElement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "AssemblyPlace", m_AssemblyPlace ) );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "AssemblyPlace", m_AssemblyPlace ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcElementAssembly::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

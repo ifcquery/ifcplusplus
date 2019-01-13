@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcMemberTypeEnum;
 class IFCQUERY_EXPORT IfcMemberType : public IfcBuildingElementType
 { 
 public:
-	IfcMemberType();
+	IfcMemberType() = default;
 	IfcMemberType( int id );
 	~IfcMemberType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

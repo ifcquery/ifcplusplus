@@ -27,7 +27,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcConstructionEquipmentResourceTypeEnum();
+	IfcConstructionEquipmentResourceTypeEnum() = default;
 	IfcConstructionEquipmentResourceTypeEnum( IfcConstructionEquipmentResourceTypeEnumEnum e ) { m_enum = e; }
 	~IfcConstructionEquipmentResourceTypeEnum();
 	virtual const char* className() const { return "IfcConstructionEquipmentResourceTypeEnum"; }

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcNamedUnit;
 class IFCQUERY_EXPORT IfcProjectedCRS : public IfcCoordinateReferenceSystem
 { 
 public:
-	IfcProjectedCRS();
+	IfcProjectedCRS() = default;
 	IfcProjectedCRS( int id );
 	~IfcProjectedCRS();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

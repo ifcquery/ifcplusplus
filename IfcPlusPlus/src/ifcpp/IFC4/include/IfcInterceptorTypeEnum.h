@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcInterceptorTypeEnum();
+	IfcInterceptorTypeEnum() = default;
 	IfcInterceptorTypeEnum( IfcInterceptorTypeEnumEnum e ) { m_enum = e; }
 	~IfcInterceptorTypeEnum();
 	virtual const char* className() const { return "IfcInterceptorTypeEnum"; }

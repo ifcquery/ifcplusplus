@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcCartesianTransformationOperator;
 class IFCQUERY_EXPORT IfcMappedItem : public IfcRepresentationItem
 { 
 public:
-	IfcMappedItem();
+	IfcMappedItem() = default;
 	IfcMappedItem( int id );
 	~IfcMappedItem();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

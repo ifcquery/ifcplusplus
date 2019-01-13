@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcMonetaryUnit.h"
 
 // ENTITY IfcMonetaryUnit 
-IfcMonetaryUnit::IfcMonetaryUnit() {}
 IfcMonetaryUnit::IfcMonetaryUnit( int id ) { m_entity_id = id; }
 IfcMonetaryUnit::~IfcMonetaryUnit() {}
 shared_ptr<BuildingObject> IfcMonetaryUnit::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ void IfcMonetaryUnit::readStepArguments( const std::vector<std::wstring>& args, 
 }
 void IfcMonetaryUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Currency", m_Currency ) );
+	vec_attributes.emplace_back( std::make_pair( "Currency", m_Currency ) );
 }
 void IfcMonetaryUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

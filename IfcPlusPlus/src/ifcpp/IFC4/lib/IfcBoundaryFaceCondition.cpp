@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcModulusOfSubgradeReactionSelect.h"
 
 // ENTITY IfcBoundaryFaceCondition 
-IfcBoundaryFaceCondition::IfcBoundaryFaceCondition() {}
 IfcBoundaryFaceCondition::IfcBoundaryFaceCondition( int id ) { m_entity_id = id; }
 IfcBoundaryFaceCondition::~IfcBoundaryFaceCondition() {}
 shared_ptr<BuildingObject> IfcBoundaryFaceCondition::getDeepCopy( BuildingCopyOptions& options )
@@ -50,9 +49,9 @@ void IfcBoundaryFaceCondition::readStepArguments( const std::vector<std::wstring
 void IfcBoundaryFaceCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundaryCondition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessByAreaX", m_TranslationalStiffnessByAreaX ) );
-	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessByAreaY", m_TranslationalStiffnessByAreaY ) );
-	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessByAreaZ", m_TranslationalStiffnessByAreaZ ) );
+	vec_attributes.emplace_back( std::make_pair( "TranslationalStiffnessByAreaX", m_TranslationalStiffnessByAreaX ) );
+	vec_attributes.emplace_back( std::make_pair( "TranslationalStiffnessByAreaY", m_TranslationalStiffnessByAreaY ) );
+	vec_attributes.emplace_back( std::make_pair( "TranslationalStiffnessByAreaZ", m_TranslationalStiffnessByAreaZ ) );
 }
 void IfcBoundaryFaceCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

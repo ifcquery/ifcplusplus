@@ -29,7 +29,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcSanitaryTerminalTypeEnum();
+	IfcSanitaryTerminalTypeEnum() = default;
 	IfcSanitaryTerminalTypeEnum( IfcSanitaryTerminalTypeEnumEnum e ) { m_enum = e; }
 	~IfcSanitaryTerminalTypeEnum();
 	virtual const char* className() const { return "IfcSanitaryTerminalTypeEnum"; }

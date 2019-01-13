@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPlane 
-IfcPlane::IfcPlane() {}
 IfcPlane::IfcPlane( int id ) { m_entity_id = id; }
 IfcPlane::~IfcPlane() {}
 shared_ptr<BuildingObject> IfcPlane::getDeepCopy( BuildingCopyOptions& options )

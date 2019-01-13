@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCylindricalSurface 
-IfcCylindricalSurface::IfcCylindricalSurface() {}
 IfcCylindricalSurface::IfcCylindricalSurface( int id ) { m_entity_id = id; }
 IfcCylindricalSurface::~IfcCylindricalSurface() {}
 shared_ptr<BuildingObject> IfcCylindricalSurface::getDeepCopy( BuildingCopyOptions& options )
@@ -44,7 +43,7 @@ void IfcCylindricalSurface::readStepArguments( const std::vector<std::wstring>& 
 void IfcCylindricalSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcElementarySurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
+	vec_attributes.emplace_back( std::make_pair( "Radius", m_Radius ) );
 }
 void IfcCylindricalSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

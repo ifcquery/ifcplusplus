@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcUnitAssignment.h"
 
 // ENTITY IfcUnitAssignment 
-IfcUnitAssignment::IfcUnitAssignment() {}
 IfcUnitAssignment::IfcUnitAssignment( int id ) { m_entity_id = id; }
 IfcUnitAssignment::~IfcUnitAssignment() {}
 shared_ptr<BuildingObject> IfcUnitAssignment::getDeepCopy( BuildingCopyOptions& options )
@@ -22,7 +21,7 @@ shared_ptr<BuildingObject> IfcUnitAssignment::getDeepCopy( BuildingCopyOptions& 
 		auto item_ii = m_Units[ii];
 		if( item_ii )
 		{
-			copy_self->m_Units.push_back( dynamic_pointer_cast<IfcUnit>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Units.emplace_back( dynamic_pointer_cast<IfcUnit>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -60,11 +59,11 @@ void IfcUnitAssignment::readStepArguments( const std::vector<std::wstring>& args
 }
 void IfcUnitAssignment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( m_Units.size() > 0 )
+	if( !m_Units.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Units_vec_object( new AttributeObjectVector() );
 		std::copy( m_Units.begin(), m_Units.end(), std::back_inserter( Units_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Units", Units_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Units", Units_vec_object ) );
 	}
 }
 void IfcUnitAssignment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

@@ -15,7 +15,7 @@
 class IFCQUERY_EXPORT IfcLinearStiffnessMeasure : public IfcDerivedMeasureValue, public IfcTranslationalStiffnessSelect
 {
 public:
-	IfcLinearStiffnessMeasure();
+	IfcLinearStiffnessMeasure() = default;
 	IfcLinearStiffnessMeasure( double value );
 	~IfcLinearStiffnessMeasure();
 	virtual const char* className() const { return "IfcLinearStiffnessMeasure"; }

@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcMedicalDeviceTypeEnum();
+	IfcMedicalDeviceTypeEnum() = default;
 	IfcMedicalDeviceTypeEnum( IfcMedicalDeviceTypeEnumEnum e ) { m_enum = e; }
 	~IfcMedicalDeviceTypeEnum();
 	virtual const char* className() const { return "IfcMedicalDeviceTypeEnum"; }

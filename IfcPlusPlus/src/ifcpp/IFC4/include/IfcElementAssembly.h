@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcElementAssemblyTypeEnum;
 class IFCQUERY_EXPORT IfcElementAssembly : public IfcElement
 { 
 public:
-	IfcElementAssembly();
+	IfcElementAssembly() = default;
 	IfcElementAssembly( int id );
 	~IfcElementAssembly();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

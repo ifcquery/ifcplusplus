@@ -19,7 +19,6 @@
 #include "ifcpp/IFC4/include/IfcTypeResource.h"
 
 // ENTITY IfcRelAssignsToResource 
-IfcRelAssignsToResource::IfcRelAssignsToResource() {}
 IfcRelAssignsToResource::IfcRelAssignsToResource( int id ) { m_entity_id = id; }
 IfcRelAssignsToResource::~IfcRelAssignsToResource() {}
 shared_ptr<BuildingObject> IfcRelAssignsToResource::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcRelAssignsToResource::getDeepCopy( BuildingCopyOpt
 	shared_ptr<IfcRelAssignsToResource> copy_self( new IfcRelAssignsToResource() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -42,7 +41,7 @@ shared_ptr<BuildingObject> IfcRelAssignsToResource::getDeepCopy( BuildingCopyOpt
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatedObjectsType ) { copy_self->m_RelatedObjectsType = dynamic_pointer_cast<IfcObjectTypeEnum>( m_RelatedObjectsType->getDeepCopy(options) ); }
@@ -84,7 +83,7 @@ void IfcRelAssignsToResource::readStepArguments( const std::vector<std::wstring>
 void IfcRelAssignsToResource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingResource", m_RelatingResource ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingResource", m_RelatingResource ) );
 }
 void IfcRelAssignsToResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -98,12 +97,12 @@ void IfcRelAssignsToResource::setInverseCounterparts( shared_ptr<BuildingEntity>
 	shared_ptr<IfcResource>  RelatingResource_IfcResource = dynamic_pointer_cast<IfcResource>( m_RelatingResource );
 	if( RelatingResource_IfcResource )
 	{
-		RelatingResource_IfcResource->m_ResourceOf_inverse.push_back( ptr_self );
+		RelatingResource_IfcResource->m_ResourceOf_inverse.emplace_back( ptr_self );
 	}
 	shared_ptr<IfcTypeResource>  RelatingResource_IfcTypeResource = dynamic_pointer_cast<IfcTypeResource>( m_RelatingResource );
 	if( RelatingResource_IfcTypeResource )
 	{
-		RelatingResource_IfcTypeResource->m_ResourceOf_inverse.push_back( ptr_self );
+		RelatingResource_IfcTypeResource->m_ResourceOf_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelAssignsToResource::unlinkFromInverseCounterparts()

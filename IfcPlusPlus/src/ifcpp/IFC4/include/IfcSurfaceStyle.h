@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcSurfaceStyleElementSelect;
 class IFCQUERY_EXPORT IfcSurfaceStyle : virtual public IfcPresentationStyleSelect, public IfcPresentationStyle
 { 
 public:
-	IfcSurfaceStyle();
+	IfcSurfaceStyle() = default;
 	IfcSurfaceStyle( int id );
 	~IfcSurfaceStyle();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcSurface.h"
 
 // ENTITY IfcRectangularTrimmedSurface 
-IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface() {}
 IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface( int id ) { m_entity_id = id; }
 IfcRectangularTrimmedSurface::~IfcRectangularTrimmedSurface() {}
 shared_ptr<BuildingObject> IfcRectangularTrimmedSurface::getDeepCopy( BuildingCopyOptions& options )
@@ -65,13 +64,13 @@ void IfcRectangularTrimmedSurface::readStepArguments( const std::vector<std::wst
 void IfcRectangularTrimmedSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedSurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
-	vec_attributes.push_back( std::make_pair( "U1", m_U1 ) );
-	vec_attributes.push_back( std::make_pair( "V1", m_V1 ) );
-	vec_attributes.push_back( std::make_pair( "U2", m_U2 ) );
-	vec_attributes.push_back( std::make_pair( "V2", m_V2 ) );
-	vec_attributes.push_back( std::make_pair( "Usense", m_Usense ) );
-	vec_attributes.push_back( std::make_pair( "Vsense", m_Vsense ) );
+	vec_attributes.emplace_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
+	vec_attributes.emplace_back( std::make_pair( "U1", m_U1 ) );
+	vec_attributes.emplace_back( std::make_pair( "V1", m_V1 ) );
+	vec_attributes.emplace_back( std::make_pair( "U2", m_U2 ) );
+	vec_attributes.emplace_back( std::make_pair( "V2", m_V2 ) );
+	vec_attributes.emplace_back( std::make_pair( "Usense", m_Usense ) );
+	vec_attributes.emplace_back( std::make_pair( "Vsense", m_Vsense ) );
 }
 void IfcRectangularTrimmedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

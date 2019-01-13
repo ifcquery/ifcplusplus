@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcInteger : public IfcSimpleValue
 {
 public:
-	IfcInteger();
+	IfcInteger() = default;
 	IfcInteger( int value );
 	~IfcInteger();
 	virtual const char* className() const { return "IfcInteger"; }

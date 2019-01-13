@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcConnectionGeometry.h"
 
 // ENTITY IfcConnectionGeometry 
-IfcConnectionGeometry::IfcConnectionGeometry() {}
 IfcConnectionGeometry::IfcConnectionGeometry( int id ) { m_entity_id = id; }
 IfcConnectionGeometry::~IfcConnectionGeometry() {}
 shared_ptr<BuildingObject> IfcConnectionGeometry::getDeepCopy( BuildingCopyOptions& options )

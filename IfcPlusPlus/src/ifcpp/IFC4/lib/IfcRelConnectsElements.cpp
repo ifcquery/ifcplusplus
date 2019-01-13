@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelConnectsElements 
-IfcRelConnectsElements::IfcRelConnectsElements() {}
 IfcRelConnectsElements::IfcRelConnectsElements( int id ) { m_entity_id = id; }
 IfcRelConnectsElements::~IfcRelConnectsElements() {}
 shared_ptr<BuildingObject> IfcRelConnectsElements::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelConnectsElements::getDeepCopy( BuildingCopyOpti
 	shared_ptr<IfcRelConnectsElements> copy_self( new IfcRelConnectsElements() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -74,9 +73,9 @@ void IfcRelConnectsElements::readStepArguments( const std::vector<std::wstring>&
 void IfcRelConnectsElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ConnectionGeometry", m_ConnectionGeometry ) );
-	vec_attributes.push_back( std::make_pair( "RelatingElement", m_RelatingElement ) );
-	vec_attributes.push_back( std::make_pair( "RelatedElement", m_RelatedElement ) );
+	vec_attributes.emplace_back( std::make_pair( "ConnectionGeometry", m_ConnectionGeometry ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingElement", m_RelatingElement ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedElement", m_RelatedElement ) );
 }
 void IfcRelConnectsElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -89,11 +88,11 @@ void IfcRelConnectsElements::setInverseCounterparts( shared_ptr<BuildingEntity> 
 	if( !ptr_self ) { throw BuildingException( "IfcRelConnectsElements::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatedElement )
 	{
-		m_RelatedElement->m_ConnectedFrom_inverse.push_back( ptr_self );
+		m_RelatedElement->m_ConnectedFrom_inverse.emplace_back( ptr_self );
 	}
 	if( m_RelatingElement )
 	{
-		m_RelatingElement->m_ConnectedTo_inverse.push_back( ptr_self );
+		m_RelatingElement->m_ConnectedTo_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelConnectsElements::unlinkFromInverseCounterparts()

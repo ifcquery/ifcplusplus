@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcPhysicalComplexQuantity : public IfcPhysicalQuantity
 { 
 public:
-	IfcPhysicalComplexQuantity();
+	IfcPhysicalComplexQuantity() = default;
 	IfcPhysicalComplexQuantity( int id );
 	~IfcPhysicalComplexQuantity();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

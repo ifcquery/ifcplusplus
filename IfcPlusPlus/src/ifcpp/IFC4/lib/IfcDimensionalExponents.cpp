@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcDimensionalExponents.h"
 
 // ENTITY IfcDimensionalExponents 
-IfcDimensionalExponents::IfcDimensionalExponents() {}
 IfcDimensionalExponents::IfcDimensionalExponents( int id ) { m_entity_id = id; }
 IfcDimensionalExponents::~IfcDimensionalExponents() {}
 shared_ptr<BuildingObject> IfcDimensionalExponents::getDeepCopy( BuildingCopyOptions& options )
@@ -59,13 +58,13 @@ void IfcDimensionalExponents::readStepArguments( const std::vector<std::wstring>
 }
 void IfcDimensionalExponents::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "LengthExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_LengthExponent ) ) ) );
-	vec_attributes.push_back( std::make_pair( "MassExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_MassExponent ) ) ) );
-	vec_attributes.push_back( std::make_pair( "TimeExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_TimeExponent ) ) ) );
-	vec_attributes.push_back( std::make_pair( "ElectricCurrentExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_ElectricCurrentExponent ) ) ) );
-	vec_attributes.push_back( std::make_pair( "ThermodynamicTemperatureExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_ThermodynamicTemperatureExponent ) ) ) );
-	vec_attributes.push_back( std::make_pair( "AmountOfSubstanceExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_AmountOfSubstanceExponent ) ) ) );
-	vec_attributes.push_back( std::make_pair( "LuminousIntensityExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_LuminousIntensityExponent ) ) ) );
+	vec_attributes.emplace_back( std::make_pair( "LengthExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_LengthExponent ) ) ) );
+	vec_attributes.emplace_back( std::make_pair( "MassExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_MassExponent ) ) ) );
+	vec_attributes.emplace_back( std::make_pair( "TimeExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_TimeExponent ) ) ) );
+	vec_attributes.emplace_back( std::make_pair( "ElectricCurrentExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_ElectricCurrentExponent ) ) ) );
+	vec_attributes.emplace_back( std::make_pair( "ThermodynamicTemperatureExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_ThermodynamicTemperatureExponent ) ) ) );
+	vec_attributes.emplace_back( std::make_pair( "AmountOfSubstanceExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_AmountOfSubstanceExponent ) ) ) );
+	vec_attributes.emplace_back( std::make_pair( "LuminousIntensityExponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_LuminousIntensityExponent ) ) ) );
 }
 void IfcDimensionalExponents::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

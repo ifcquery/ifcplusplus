@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcSolidAngleMeasure.h"
 
 // TYPE IfcSolidAngleMeasure = REAL;
-IfcSolidAngleMeasure::IfcSolidAngleMeasure() {}
 IfcSolidAngleMeasure::IfcSolidAngleMeasure( double value ) { m_value = value; }
 IfcSolidAngleMeasure::~IfcSolidAngleMeasure() {}
 shared_ptr<BuildingObject> IfcSolidAngleMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcSolidAngleMeasure::toString() const
 shared_ptr<IfcSolidAngleMeasure> IfcSolidAngleMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSolidAngleMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSolidAngleMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSolidAngleMeasure>(); }
 	shared_ptr<IfcSolidAngleMeasure> type_object( new IfcSolidAngleMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

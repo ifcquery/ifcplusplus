@@ -21,7 +21,7 @@ class IFCQUERY_EXPORT IfcClassificationReference;
 class IFCQUERY_EXPORT IfcClassification : virtual public IfcClassificationReferenceSelect, virtual public IfcClassificationSelect, public IfcExternalInformation
 { 
 public:
-	IfcClassification();
+	IfcClassification() = default;
 	IfcClassification( int id );
 	~IfcClassification();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

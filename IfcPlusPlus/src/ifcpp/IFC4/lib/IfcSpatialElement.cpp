@@ -28,7 +28,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcSpatialElement 
-IfcSpatialElement::IfcSpatialElement() {}
 IfcSpatialElement::IfcSpatialElement( int id ) { m_entity_id = id; }
 IfcSpatialElement::~IfcSpatialElement() {}
 shared_ptr<BuildingObject> IfcSpatialElement::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ shared_ptr<BuildingObject> IfcSpatialElement::getDeepCopy( BuildingCopyOptions& 
 	shared_ptr<IfcSpatialElement> copy_self( new IfcSpatialElement() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -90,46 +89,46 @@ void IfcSpatialElement::readStepArguments( const std::vector<std::wstring>& args
 void IfcSpatialElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProduct::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "LongName", m_LongName ) );
+	vec_attributes.emplace_back( std::make_pair( "LongName", m_LongName ) );
 }
 void IfcSpatialElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProduct::getAttributesInverse( vec_attributes_inverse );
-	if( m_ContainsElements_inverse.size() > 0 )
+	if( !m_ContainsElements_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ContainsElements_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ContainsElements_inverse.size(); ++i )
 		{
 			if( !m_ContainsElements_inverse[i].expired() )
 			{
-				ContainsElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainsElements_inverse[i] ) );
+				ContainsElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainsElements_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ContainsElements_inverse", ContainsElements_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ContainsElements_inverse", ContainsElements_inverse_vec_obj ) );
 	}
-	if( m_ServicedBySystems_inverse.size() > 0 )
+	if( !m_ServicedBySystems_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ServicedBySystems_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ServicedBySystems_inverse.size(); ++i )
 		{
 			if( !m_ServicedBySystems_inverse[i].expired() )
 			{
-				ServicedBySystems_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelServicesBuildings>( m_ServicedBySystems_inverse[i] ) );
+				ServicedBySystems_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelServicesBuildings>( m_ServicedBySystems_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ServicedBySystems_inverse", ServicedBySystems_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ServicedBySystems_inverse", ServicedBySystems_inverse_vec_obj ) );
 	}
-	if( m_ReferencesElements_inverse.size() > 0 )
+	if( !m_ReferencesElements_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ReferencesElements_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ReferencesElements_inverse.size(); ++i )
 		{
 			if( !m_ReferencesElements_inverse[i].expired() )
 			{
-				ReferencesElements_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelReferencedInSpatialStructure>( m_ReferencesElements_inverse[i] ) );
+				ReferencesElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelReferencedInSpatialStructure>( m_ReferencesElements_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ReferencesElements_inverse", ReferencesElements_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ReferencesElements_inverse", ReferencesElements_inverse_vec_obj ) );
 	}
 }
 void IfcSpatialElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcGeometricRepresentationItem 
-IfcGeometricRepresentationItem::IfcGeometricRepresentationItem() {}
 IfcGeometricRepresentationItem::IfcGeometricRepresentationItem( int id ) { m_entity_id = id; }
 IfcGeometricRepresentationItem::~IfcGeometricRepresentationItem() {}
 shared_ptr<BuildingObject> IfcGeometricRepresentationItem::getDeepCopy( BuildingCopyOptions& options )

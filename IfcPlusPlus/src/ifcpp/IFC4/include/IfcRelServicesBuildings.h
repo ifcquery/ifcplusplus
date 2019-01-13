@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcSpatialElement;
 class IFCQUERY_EXPORT IfcRelServicesBuildings : public IfcRelConnects
 { 
 public:
-	IfcRelServicesBuildings();
+	IfcRelServicesBuildings() = default;
 	IfcRelServicesBuildings( int id );
 	~IfcRelServicesBuildings();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

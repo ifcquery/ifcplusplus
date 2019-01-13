@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcTimeStamp;
 class IFCQUERY_EXPORT IfcOwnerHistory : public BuildingEntity
 { 
 public:
-	IfcOwnerHistory();
+	IfcOwnerHistory() = default;
 	IfcOwnerHistory( int id );
 	~IfcOwnerHistory();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

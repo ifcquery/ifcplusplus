@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcWarpingStiffnessSelect;
 class IFCQUERY_EXPORT IfcBoundaryNodeConditionWarping : public IfcBoundaryNodeCondition
 { 
 public:
-	IfcBoundaryNodeConditionWarping();
+	IfcBoundaryNodeConditionWarping() = default;
 	IfcBoundaryNodeConditionWarping( int id );
 	~IfcBoundaryNodeConditionWarping();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

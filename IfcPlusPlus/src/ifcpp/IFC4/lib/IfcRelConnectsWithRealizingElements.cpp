@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelConnectsWithRealizingElements 
-IfcRelConnectsWithRealizingElements::IfcRelConnectsWithRealizingElements() {}
 IfcRelConnectsWithRealizingElements::IfcRelConnectsWithRealizingElements( int id ) { m_entity_id = id; }
 IfcRelConnectsWithRealizingElements::~IfcRelConnectsWithRealizingElements() {}
 shared_ptr<BuildingObject> IfcRelConnectsWithRealizingElements::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelConnectsWithRealizingElements::getDeepCopy( Bui
 	shared_ptr<IfcRelConnectsWithRealizingElements> copy_self( new IfcRelConnectsWithRealizingElements() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -42,7 +41,7 @@ shared_ptr<BuildingObject> IfcRelConnectsWithRealizingElements::getDeepCopy( Bui
 		auto item_ii = m_RealizingElements[ii];
 		if( item_ii )
 		{
-			copy_self->m_RealizingElements.push_back( dynamic_pointer_cast<IfcElement>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RealizingElements.emplace_back( dynamic_pointer_cast<IfcElement>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_ConnectionType ) { copy_self->m_ConnectionType = dynamic_pointer_cast<IfcLabel>( m_ConnectionType->getDeepCopy(options) ); }
@@ -89,13 +88,13 @@ void IfcRelConnectsWithRealizingElements::readStepArguments( const std::vector<s
 void IfcRelConnectsWithRealizingElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnectsElements::getAttributes( vec_attributes );
-	if( m_RealizingElements.size() > 0 )
+	if( !m_RealizingElements.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RealizingElements_vec_object( new AttributeObjectVector() );
 		std::copy( m_RealizingElements.begin(), m_RealizingElements.end(), std::back_inserter( RealizingElements_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RealizingElements", RealizingElements_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RealizingElements", RealizingElements_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "ConnectionType", m_ConnectionType ) );
+	vec_attributes.emplace_back( std::make_pair( "ConnectionType", m_ConnectionType ) );
 }
 void IfcRelConnectsWithRealizingElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -110,7 +109,7 @@ void IfcRelConnectsWithRealizingElements::setInverseCounterparts( shared_ptr<Bui
 	{
 		if( m_RealizingElements[i] )
 		{
-			m_RealizingElements[i]->m_IsConnectionRealization_inverse.push_back( ptr_self );
+			m_RealizingElements[i]->m_IsConnectionRealization_inverse.emplace_back( ptr_self );
 		}
 	}
 }

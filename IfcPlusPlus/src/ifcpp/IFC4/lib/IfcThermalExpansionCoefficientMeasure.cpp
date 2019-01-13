@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcThermalExpansionCoefficientMeasure.h"
 
 // TYPE IfcThermalExpansionCoefficientMeasure = REAL;
-IfcThermalExpansionCoefficientMeasure::IfcThermalExpansionCoefficientMeasure() {}
 IfcThermalExpansionCoefficientMeasure::IfcThermalExpansionCoefficientMeasure( double value ) { m_value = value; }
 IfcThermalExpansionCoefficientMeasure::~IfcThermalExpansionCoefficientMeasure() {}
 shared_ptr<BuildingObject> IfcThermalExpansionCoefficientMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcThermalExpansionCoefficientMeasure::toString() const
 shared_ptr<IfcThermalExpansionCoefficientMeasure> IfcThermalExpansionCoefficientMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcThermalExpansionCoefficientMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcThermalExpansionCoefficientMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcThermalExpansionCoefficientMeasure>(); }
 	shared_ptr<IfcThermalExpansionCoefficientMeasure> type_object( new IfcThermalExpansionCoefficientMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

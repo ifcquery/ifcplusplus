@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcUnitEnum.h"
 
 // ENTITY IfcConversionBasedUnitWithOffset 
-IfcConversionBasedUnitWithOffset::IfcConversionBasedUnitWithOffset() {}
 IfcConversionBasedUnitWithOffset::IfcConversionBasedUnitWithOffset( int id ) { m_entity_id = id; }
 IfcConversionBasedUnitWithOffset::~IfcConversionBasedUnitWithOffset() {}
 shared_ptr<BuildingObject> IfcConversionBasedUnitWithOffset::getDeepCopy( BuildingCopyOptions& options )
@@ -58,7 +57,7 @@ void IfcConversionBasedUnitWithOffset::readStepArguments( const std::vector<std:
 void IfcConversionBasedUnitWithOffset::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConversionBasedUnit::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ConversionOffset", m_ConversionOffset ) );
+	vec_attributes.emplace_back( std::make_pair( "ConversionOffset", m_ConversionOffset ) );
 }
 void IfcConversionBasedUnitWithOffset::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

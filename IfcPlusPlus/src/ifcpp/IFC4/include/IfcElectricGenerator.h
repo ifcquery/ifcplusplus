@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcElectricGeneratorTypeEnum;
 class IFCQUERY_EXPORT IfcElectricGenerator : public IfcEnergyConversionDevice
 { 
 public:
-	IfcElectricGenerator();
+	IfcElectricGenerator() = default;
 	IfcElectricGenerator( int id );
 	~IfcElectricGenerator();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

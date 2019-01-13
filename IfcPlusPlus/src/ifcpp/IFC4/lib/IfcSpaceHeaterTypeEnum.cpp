@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSpaceHeaterTypeEnum.h"
 
 // TYPE IfcSpaceHeaterTypeEnum = ENUMERATION OF	(CONVECTOR	,RADIATOR	,USERDEFINED	,NOTDEFINED);
-IfcSpaceHeaterTypeEnum::IfcSpaceHeaterTypeEnum() {}
 IfcSpaceHeaterTypeEnum::~IfcSpaceHeaterTypeEnum() {}
 shared_ptr<BuildingObject> IfcSpaceHeaterTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -44,7 +43,7 @@ const std::wstring IfcSpaceHeaterTypeEnum::toString() const
 shared_ptr<IfcSpaceHeaterTypeEnum> IfcSpaceHeaterTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpaceHeaterTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpaceHeaterTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpaceHeaterTypeEnum>(); }
 	shared_ptr<IfcSpaceHeaterTypeEnum> type_object( new IfcSpaceHeaterTypeEnum() );
 	if( boost::iequals( arg, L".CONVECTOR." ) )
 	{

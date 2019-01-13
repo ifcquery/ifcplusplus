@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcValue.h"
 
 // ENTITY IfcPropertyEnumeration 
-IfcPropertyEnumeration::IfcPropertyEnumeration() {}
 IfcPropertyEnumeration::IfcPropertyEnumeration( int id ) { m_entity_id = id; }
 IfcPropertyEnumeration::~IfcPropertyEnumeration() {}
 shared_ptr<BuildingObject> IfcPropertyEnumeration::getDeepCopy( BuildingCopyOptions& options )
@@ -26,7 +25,7 @@ shared_ptr<BuildingObject> IfcPropertyEnumeration::getDeepCopy( BuildingCopyOpti
 		auto item_ii = m_EnumerationValues[ii];
 		if( item_ii )
 		{
-			copy_self->m_EnumerationValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_EnumerationValues.emplace_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy(options) ); }
@@ -72,14 +71,14 @@ void IfcPropertyEnumeration::readStepArguments( const std::vector<std::wstring>&
 void IfcPropertyEnumeration::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPropertyAbstraction::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	if( m_EnumerationValues.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	if( !m_EnumerationValues.empty() )
 	{
 		shared_ptr<AttributeObjectVector> EnumerationValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_EnumerationValues.begin(), m_EnumerationValues.end(), std::back_inserter( EnumerationValues_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "EnumerationValues", EnumerationValues_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "EnumerationValues", EnumerationValues_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
+	vec_attributes.emplace_back( std::make_pair( "Unit", m_Unit ) );
 }
 void IfcPropertyEnumeration::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

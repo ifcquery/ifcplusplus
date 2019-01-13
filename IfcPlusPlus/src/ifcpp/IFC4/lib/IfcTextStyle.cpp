@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcTextStyleTextModel.h"
 
 // ENTITY IfcTextStyle 
-IfcTextStyle::IfcTextStyle() {}
 IfcTextStyle::IfcTextStyle( int id ) { m_entity_id = id; }
 IfcTextStyle::~IfcTextStyle() {}
 shared_ptr<BuildingObject> IfcTextStyle::getDeepCopy( BuildingCopyOptions& options )
@@ -57,10 +56,10 @@ void IfcTextStyle::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcTextStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationStyle::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TextCharacterAppearance", m_TextCharacterAppearance ) );
-	vec_attributes.push_back( std::make_pair( "TextStyle", m_TextStyle ) );
-	vec_attributes.push_back( std::make_pair( "TextFontStyle", m_TextFontStyle ) );
-	vec_attributes.push_back( std::make_pair( "ModelOrDraughting", m_ModelOrDraughting ) );
+	vec_attributes.emplace_back( std::make_pair( "TextCharacterAppearance", m_TextCharacterAppearance ) );
+	vec_attributes.emplace_back( std::make_pair( "TextStyle", m_TextStyle ) );
+	vec_attributes.emplace_back( std::make_pair( "TextFontStyle", m_TextFontStyle ) );
+	vec_attributes.emplace_back( std::make_pair( "ModelOrDraughting", m_ModelOrDraughting ) );
 }
 void IfcTextStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

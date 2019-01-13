@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcPlane : public IfcElementarySurface
 { 
 public:
-	IfcPlane();
+	IfcPlane() = default;
 	IfcPlane( int id );
 	~IfcPlane();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

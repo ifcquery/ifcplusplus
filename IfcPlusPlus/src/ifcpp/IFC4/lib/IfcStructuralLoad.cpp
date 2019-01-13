@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcStructuralLoad.h"
 
 // ENTITY IfcStructuralLoad 
-IfcStructuralLoad::IfcStructuralLoad() {}
 IfcStructuralLoad::IfcStructuralLoad( int id ) { m_entity_id = id; }
 IfcStructuralLoad::~IfcStructuralLoad() {}
 shared_ptr<BuildingObject> IfcStructuralLoad::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ void IfcStructuralLoad::readStepArguments( const std::vector<std::wstring>& args
 }
 void IfcStructuralLoad::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 }
 void IfcStructuralLoad::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

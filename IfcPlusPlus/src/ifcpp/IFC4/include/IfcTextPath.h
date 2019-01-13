@@ -21,7 +21,7 @@ public:
 		ENUM_DOWN
 	};
 
-	IfcTextPath();
+	IfcTextPath() = default;
 	IfcTextPath( IfcTextPathEnum e ) { m_enum = e; }
 	~IfcTextPath();
 	virtual const char* className() const { return "IfcTextPath"; }

@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcFlowDirectionEnum();
+	IfcFlowDirectionEnum() = default;
 	IfcFlowDirectionEnum( IfcFlowDirectionEnumEnum e ) { m_enum = e; }
 	~IfcFlowDirectionEnum();
 	virtual const char* className() const { return "IfcFlowDirectionEnum"; }

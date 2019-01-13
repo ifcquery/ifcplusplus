@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcFacetedBrepWithVoids 
-IfcFacetedBrepWithVoids::IfcFacetedBrepWithVoids() {}
 IfcFacetedBrepWithVoids::IfcFacetedBrepWithVoids( int id ) { m_entity_id = id; }
 IfcFacetedBrepWithVoids::~IfcFacetedBrepWithVoids() {}
 shared_ptr<BuildingObject> IfcFacetedBrepWithVoids::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcFacetedBrepWithVoids::getDeepCopy( BuildingCopyOpt
 		auto item_ii = m_Voids[ii];
 		if( item_ii )
 		{
-			copy_self->m_Voids.push_back( dynamic_pointer_cast<IfcClosedShell>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Voids.emplace_back( dynamic_pointer_cast<IfcClosedShell>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -50,11 +49,11 @@ void IfcFacetedBrepWithVoids::readStepArguments( const std::vector<std::wstring>
 void IfcFacetedBrepWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFacetedBrep::getAttributes( vec_attributes );
-	if( m_Voids.size() > 0 )
+	if( !m_Voids.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Voids_vec_object( new AttributeObjectVector() );
 		std::copy( m_Voids.begin(), m_Voids.end(), std::back_inserter( Voids_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Voids", Voids_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Voids", Voids_vec_object ) );
 	}
 }
 void IfcFacetedBrepWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

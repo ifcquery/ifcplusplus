@@ -33,7 +33,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcSpace 
-IfcSpace::IfcSpace() {}
 IfcSpace::IfcSpace( int id ) { m_entity_id = id; }
 IfcSpace::~IfcSpace() {}
 shared_ptr<BuildingObject> IfcSpace::getDeepCopy( BuildingCopyOptions& options )
@@ -41,7 +40,7 @@ shared_ptr<BuildingObject> IfcSpace::getDeepCopy( BuildingCopyOptions& options )
 	shared_ptr<IfcSpace> copy_self( new IfcSpace() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -107,35 +106,35 @@ void IfcSpace::readStepArguments( const std::vector<std::wstring>& args, const s
 void IfcSpace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSpatialStructureElement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
-	vec_attributes.push_back( std::make_pair( "ElevationWithFlooring", m_ElevationWithFlooring ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "ElevationWithFlooring", m_ElevationWithFlooring ) );
 }
 void IfcSpace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcSpatialStructureElement::getAttributesInverse( vec_attributes_inverse );
-	if( m_HasCoverings_inverse.size() > 0 )
+	if( !m_HasCoverings_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasCoverings_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasCoverings_inverse.size(); ++i )
 		{
 			if( !m_HasCoverings_inverse[i].expired() )
 			{
-				HasCoverings_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelCoversSpaces>( m_HasCoverings_inverse[i] ) );
+				HasCoverings_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelCoversSpaces>( m_HasCoverings_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasCoverings_inverse", HasCoverings_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasCoverings_inverse", HasCoverings_inverse_vec_obj ) );
 	}
-	if( m_BoundedBy_inverse.size() > 0 )
+	if( !m_BoundedBy_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> BoundedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_BoundedBy_inverse.size(); ++i )
 		{
 			if( !m_BoundedBy_inverse[i].expired() )
 			{
-				BoundedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSpaceBoundary>( m_BoundedBy_inverse[i] ) );
+				BoundedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSpaceBoundary>( m_BoundedBy_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "BoundedBy_inverse", BoundedBy_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "BoundedBy_inverse", BoundedBy_inverse_vec_obj ) );
 	}
 }
 void IfcSpace::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

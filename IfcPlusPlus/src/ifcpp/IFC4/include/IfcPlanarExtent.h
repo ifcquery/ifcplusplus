@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcPlanarExtent : public IfcGeometricRepresentationItem
 { 
 public:
-	IfcPlanarExtent();
+	IfcPlanarExtent() = default;
 	IfcPlanarExtent( int id );
 	~IfcPlanarExtent();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

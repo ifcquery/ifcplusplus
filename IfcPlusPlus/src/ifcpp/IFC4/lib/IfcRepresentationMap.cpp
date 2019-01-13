@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcShapeAspect.h"
 
 // ENTITY IfcRepresentationMap 
-IfcRepresentationMap::IfcRepresentationMap() {}
 IfcRepresentationMap::IfcRepresentationMap( int id ) { m_entity_id = id; }
 IfcRepresentationMap::~IfcRepresentationMap() {}
 shared_ptr<BuildingObject> IfcRepresentationMap::getDeepCopy( BuildingCopyOptions& options )
@@ -43,34 +42,34 @@ void IfcRepresentationMap::readStepArguments( const std::vector<std::wstring>& a
 }
 void IfcRepresentationMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "MappingOrigin", m_MappingOrigin ) );
-	vec_attributes.push_back( std::make_pair( "MappedRepresentation", m_MappedRepresentation ) );
+	vec_attributes.emplace_back( std::make_pair( "MappingOrigin", m_MappingOrigin ) );
+	vec_attributes.emplace_back( std::make_pair( "MappedRepresentation", m_MappedRepresentation ) );
 }
 void IfcRepresentationMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_HasShapeAspects_inverse.size() > 0 )
+	if( !m_HasShapeAspects_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasShapeAspects_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasShapeAspects_inverse.size(); ++i )
 		{
 			if( !m_HasShapeAspects_inverse[i].expired() )
 			{
-				HasShapeAspects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcShapeAspect>( m_HasShapeAspects_inverse[i] ) );
+				HasShapeAspects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcShapeAspect>( m_HasShapeAspects_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasShapeAspects_inverse", HasShapeAspects_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasShapeAspects_inverse", HasShapeAspects_inverse_vec_obj ) );
 	}
-	if( m_MapUsage_inverse.size() > 0 )
+	if( !m_MapUsage_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> MapUsage_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_MapUsage_inverse.size(); ++i )
 		{
 			if( !m_MapUsage_inverse[i].expired() )
 			{
-				MapUsage_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcMappedItem>( m_MapUsage_inverse[i] ) );
+				MapUsage_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcMappedItem>( m_MapUsage_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "MapUsage_inverse", MapUsage_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "MapUsage_inverse", MapUsage_inverse_vec_obj ) );
 	}
 }
 void IfcRepresentationMap::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
@@ -79,7 +78,7 @@ void IfcRepresentationMap::setInverseCounterparts( shared_ptr<BuildingEntity> pt
 	if( !ptr_self ) { throw BuildingException( "IfcRepresentationMap::setInverseCounterparts: type mismatch" ); }
 	if( m_MappedRepresentation )
 	{
-		m_MappedRepresentation->m_RepresentationMap_inverse.push_back( ptr_self );
+		m_MappedRepresentation->m_RepresentationMap_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRepresentationMap::unlinkFromInverseCounterparts()

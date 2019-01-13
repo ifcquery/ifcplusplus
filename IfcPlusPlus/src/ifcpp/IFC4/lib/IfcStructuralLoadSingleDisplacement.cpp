@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStructuralLoadSingleDisplacement.h"
 
 // ENTITY IfcStructuralLoadSingleDisplacement 
-IfcStructuralLoadSingleDisplacement::IfcStructuralLoadSingleDisplacement() {}
 IfcStructuralLoadSingleDisplacement::IfcStructuralLoadSingleDisplacement( int id ) { m_entity_id = id; }
 IfcStructuralLoadSingleDisplacement::~IfcStructuralLoadSingleDisplacement() {}
 shared_ptr<BuildingObject> IfcStructuralLoadSingleDisplacement::getDeepCopy( BuildingCopyOptions& options )
@@ -63,12 +62,12 @@ void IfcStructuralLoadSingleDisplacement::readStepArguments( const std::vector<s
 void IfcStructuralLoadSingleDisplacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadStatic::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "DisplacementX", m_DisplacementX ) );
-	vec_attributes.push_back( std::make_pair( "DisplacementY", m_DisplacementY ) );
-	vec_attributes.push_back( std::make_pair( "DisplacementZ", m_DisplacementZ ) );
-	vec_attributes.push_back( std::make_pair( "RotationalDisplacementRX", m_RotationalDisplacementRX ) );
-	vec_attributes.push_back( std::make_pair( "RotationalDisplacementRY", m_RotationalDisplacementRY ) );
-	vec_attributes.push_back( std::make_pair( "RotationalDisplacementRZ", m_RotationalDisplacementRZ ) );
+	vec_attributes.emplace_back( std::make_pair( "DisplacementX", m_DisplacementX ) );
+	vec_attributes.emplace_back( std::make_pair( "DisplacementY", m_DisplacementY ) );
+	vec_attributes.emplace_back( std::make_pair( "DisplacementZ", m_DisplacementZ ) );
+	vec_attributes.emplace_back( std::make_pair( "RotationalDisplacementRX", m_RotationalDisplacementRX ) );
+	vec_attributes.emplace_back( std::make_pair( "RotationalDisplacementRY", m_RotationalDisplacementRY ) );
+	vec_attributes.emplace_back( std::make_pair( "RotationalDisplacementRZ", m_RotationalDisplacementRZ ) );
 }
 void IfcStructuralLoadSingleDisplacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // ENTITY IfcDraughtingPreDefinedCurveFont 
-IfcDraughtingPreDefinedCurveFont::IfcDraughtingPreDefinedCurveFont() {}
 IfcDraughtingPreDefinedCurveFont::IfcDraughtingPreDefinedCurveFont( int id ) { m_entity_id = id; }
 IfcDraughtingPreDefinedCurveFont::~IfcDraughtingPreDefinedCurveFont() {}
 shared_ptr<BuildingObject> IfcDraughtingPreDefinedCurveFont::getDeepCopy( BuildingCopyOptions& options )

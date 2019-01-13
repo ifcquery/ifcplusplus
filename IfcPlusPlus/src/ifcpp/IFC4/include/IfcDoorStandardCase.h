@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcDoorStandardCase : public IfcDoor
 { 
 public:
-	IfcDoorStandardCase();
+	IfcDoorStandardCase() = default;
 	IfcDoorStandardCase( int id );
 	~IfcDoorStandardCase();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelFlowControlElements 
-IfcRelFlowControlElements::IfcRelFlowControlElements() {}
 IfcRelFlowControlElements::IfcRelFlowControlElements( int id ) { m_entity_id = id; }
 IfcRelFlowControlElements::~IfcRelFlowControlElements() {}
 shared_ptr<BuildingObject> IfcRelFlowControlElements::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelFlowControlElements::getDeepCopy( BuildingCopyO
 	shared_ptr<IfcRelFlowControlElements> copy_self( new IfcRelFlowControlElements() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -39,7 +38,7 @@ shared_ptr<BuildingObject> IfcRelFlowControlElements::getDeepCopy( BuildingCopyO
 		auto item_ii = m_RelatedControlElements[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedControlElements.push_back( dynamic_pointer_cast<IfcDistributionControlElement>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedControlElements.emplace_back( dynamic_pointer_cast<IfcDistributionControlElement>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatingFlowElement ) { copy_self->m_RelatingFlowElement = dynamic_pointer_cast<IfcDistributionFlowElement>( m_RelatingFlowElement->getDeepCopy(options) ); }
@@ -77,13 +76,13 @@ void IfcRelFlowControlElements::readStepArguments( const std::vector<std::wstrin
 void IfcRelFlowControlElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	if( m_RelatedControlElements.size() > 0 )
+	if( !m_RelatedControlElements.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedControlElements_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedControlElements.begin(), m_RelatedControlElements.end(), std::back_inserter( RelatedControlElements_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedControlElements", RelatedControlElements_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedControlElements", RelatedControlElements_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "RelatingFlowElement", m_RelatingFlowElement ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingFlowElement", m_RelatingFlowElement ) );
 }
 void IfcRelFlowControlElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -98,12 +97,12 @@ void IfcRelFlowControlElements::setInverseCounterparts( shared_ptr<BuildingEntit
 	{
 		if( m_RelatedControlElements[i] )
 		{
-			m_RelatedControlElements[i]->m_AssignedToFlowElement_inverse.push_back( ptr_self );
+			m_RelatedControlElements[i]->m_AssignedToFlowElement_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingFlowElement )
 	{
-		m_RelatingFlowElement->m_HasControlElements_inverse.push_back( ptr_self );
+		m_RelatingFlowElement->m_HasControlElements_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelFlowControlElements::unlinkFromInverseCounterparts()

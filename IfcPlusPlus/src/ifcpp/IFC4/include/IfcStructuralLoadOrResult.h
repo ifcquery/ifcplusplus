@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcStructuralLoadOrResult : public IfcStructuralLoad
 { 
 public:
-	IfcStructuralLoadOrResult();
+	IfcStructuralLoadOrResult() = default;
 	IfcStructuralLoadOrResult( int id );
 	~IfcStructuralLoadOrResult();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

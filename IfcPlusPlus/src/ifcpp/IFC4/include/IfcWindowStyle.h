@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcWindowStyle : public IfcTypeProduct
 { 
 public:
-	IfcWindowStyle();
+	IfcWindowStyle() = default;
 	IfcWindowStyle( int id );
 	~IfcWindowStyle();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

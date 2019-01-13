@@ -39,7 +39,6 @@
 #include "ifcpp/IFC4/include/IfcUnitaryControlElementTypeEnum.h"
 
 // ENTITY IfcUnitaryControlElement 
-IfcUnitaryControlElement::IfcUnitaryControlElement() {}
 IfcUnitaryControlElement::IfcUnitaryControlElement( int id ) { m_entity_id = id; }
 IfcUnitaryControlElement::~IfcUnitaryControlElement() {}
 shared_ptr<BuildingObject> IfcUnitaryControlElement::getDeepCopy( BuildingCopyOptions& options )
@@ -47,7 +46,7 @@ shared_ptr<BuildingObject> IfcUnitaryControlElement::getDeepCopy( BuildingCopyOp
 	shared_ptr<IfcUnitaryControlElement> copy_self( new IfcUnitaryControlElement() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -105,7 +104,7 @@ void IfcUnitaryControlElement::readStepArguments( const std::vector<std::wstring
 void IfcUnitaryControlElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcDistributionControlElement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcUnitaryControlElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

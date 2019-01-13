@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSequenceEnum.h"
 
 // TYPE IfcSequenceEnum = ENUMERATION OF	(START_START	,START_FINISH	,FINISH_START	,FINISH_FINISH	,USERDEFINED	,NOTDEFINED);
-IfcSequenceEnum::IfcSequenceEnum() {}
 IfcSequenceEnum::~IfcSequenceEnum() {}
 shared_ptr<BuildingObject> IfcSequenceEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -48,7 +47,7 @@ const std::wstring IfcSequenceEnum::toString() const
 shared_ptr<IfcSequenceEnum> IfcSequenceEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSequenceEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSequenceEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSequenceEnum>(); }
 	shared_ptr<IfcSequenceEnum> type_object( new IfcSequenceEnum() );
 	if( boost::iequals( arg, L".START_START." ) )
 	{

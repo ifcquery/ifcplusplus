@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcSweptAreaSolid.h"
 
 // ENTITY IfcSweptAreaSolid 
-IfcSweptAreaSolid::IfcSweptAreaSolid() {}
 IfcSweptAreaSolid::IfcSweptAreaSolid( int id ) { m_entity_id = id; }
 IfcSweptAreaSolid::~IfcSweptAreaSolid() {}
 shared_ptr<BuildingObject> IfcSweptAreaSolid::getDeepCopy( BuildingCopyOptions& options )
@@ -48,8 +47,8 @@ void IfcSweptAreaSolid::readStepArguments( const std::vector<std::wstring>& args
 void IfcSweptAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSolidModel::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "SweptArea", m_SweptArea ) );
-	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
+	vec_attributes.emplace_back( std::make_pair( "SweptArea", m_SweptArea ) );
+	vec_attributes.emplace_back( std::make_pair( "Position", m_Position ) );
 }
 void IfcSweptAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

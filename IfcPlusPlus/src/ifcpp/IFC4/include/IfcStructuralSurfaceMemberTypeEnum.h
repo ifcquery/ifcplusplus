@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcStructuralSurfaceMemberTypeEnum();
+	IfcStructuralSurfaceMemberTypeEnum() = default;
 	IfcStructuralSurfaceMemberTypeEnum( IfcStructuralSurfaceMemberTypeEnumEnum e ) { m_enum = e; }
 	~IfcStructuralSurfaceMemberTypeEnum();
 	virtual const char* className() const { return "IfcStructuralSurfaceMemberTypeEnum"; }

@@ -22,7 +22,6 @@
 #include "ifcpp/IFC4/include/IfcUnit.h"
 
 // ENTITY IfcSimplePropertyTemplate 
-IfcSimplePropertyTemplate::IfcSimplePropertyTemplate() {}
 IfcSimplePropertyTemplate::IfcSimplePropertyTemplate( int id ) { m_entity_id = id; }
 IfcSimplePropertyTemplate::~IfcSimplePropertyTemplate() {}
 shared_ptr<BuildingObject> IfcSimplePropertyTemplate::getDeepCopy( BuildingCopyOptions& options )
@@ -30,7 +29,7 @@ shared_ptr<BuildingObject> IfcSimplePropertyTemplate::getDeepCopy( BuildingCopyO
 	shared_ptr<IfcSimplePropertyTemplate> copy_self( new IfcSimplePropertyTemplate() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -100,14 +99,14 @@ void IfcSimplePropertyTemplate::readStepArguments( const std::vector<std::wstrin
 void IfcSimplePropertyTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPropertyTemplate::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TemplateType", m_TemplateType ) );
-	vec_attributes.push_back( std::make_pair( "PrimaryMeasureType", m_PrimaryMeasureType ) );
-	vec_attributes.push_back( std::make_pair( "SecondaryMeasureType", m_SecondaryMeasureType ) );
-	vec_attributes.push_back( std::make_pair( "Enumerators", m_Enumerators ) );
-	vec_attributes.push_back( std::make_pair( "PrimaryUnit", m_PrimaryUnit ) );
-	vec_attributes.push_back( std::make_pair( "SecondaryUnit", m_SecondaryUnit ) );
-	vec_attributes.push_back( std::make_pair( "Expression", m_Expression ) );
-	vec_attributes.push_back( std::make_pair( "AccessState", m_AccessState ) );
+	vec_attributes.emplace_back( std::make_pair( "TemplateType", m_TemplateType ) );
+	vec_attributes.emplace_back( std::make_pair( "PrimaryMeasureType", m_PrimaryMeasureType ) );
+	vec_attributes.emplace_back( std::make_pair( "SecondaryMeasureType", m_SecondaryMeasureType ) );
+	vec_attributes.emplace_back( std::make_pair( "Enumerators", m_Enumerators ) );
+	vec_attributes.emplace_back( std::make_pair( "PrimaryUnit", m_PrimaryUnit ) );
+	vec_attributes.emplace_back( std::make_pair( "SecondaryUnit", m_SecondaryUnit ) );
+	vec_attributes.emplace_back( std::make_pair( "Expression", m_Expression ) );
+	vec_attributes.emplace_back( std::make_pair( "AccessState", m_AccessState ) );
 }
 void IfcSimplePropertyTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

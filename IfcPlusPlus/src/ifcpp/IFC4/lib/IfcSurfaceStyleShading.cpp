@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcSurfaceStyleShading.h"
 
 // ENTITY IfcSurfaceStyleShading 
-IfcSurfaceStyleShading::IfcSurfaceStyleShading() {}
 IfcSurfaceStyleShading::IfcSurfaceStyleShading( int id ) { m_entity_id = id; }
 IfcSurfaceStyleShading::~IfcSurfaceStyleShading() {}
 shared_ptr<BuildingObject> IfcSurfaceStyleShading::getDeepCopy( BuildingCopyOptions& options )
@@ -42,8 +41,8 @@ void IfcSurfaceStyleShading::readStepArguments( const std::vector<std::wstring>&
 void IfcSurfaceStyleShading::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "SurfaceColour", m_SurfaceColour ) );
-	vec_attributes.push_back( std::make_pair( "Transparency", m_Transparency ) );
+	vec_attributes.emplace_back( std::make_pair( "SurfaceColour", m_SurfaceColour ) );
+	vec_attributes.emplace_back( std::make_pair( "Transparency", m_Transparency ) );
 }
 void IfcSurfaceStyleShading::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -15,7 +15,7 @@
 class IFCQUERY_EXPORT IfcModulusOfSubgradeReactionMeasure : public IfcDerivedMeasureValue, public IfcModulusOfSubgradeReactionSelect
 {
 public:
-	IfcModulusOfSubgradeReactionMeasure();
+	IfcModulusOfSubgradeReactionMeasure() = default;
 	IfcModulusOfSubgradeReactionMeasure( double value );
 	~IfcModulusOfSubgradeReactionMeasure();
 	virtual const char* className() const { return "IfcModulusOfSubgradeReactionMeasure"; }

@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcRailingTypeEnum.h"
 
 // TYPE IfcRailingTypeEnum = ENUMERATION OF	(HANDRAIL	,GUARDRAIL	,BALUSTRADE	,USERDEFINED	,NOTDEFINED);
-IfcRailingTypeEnum::IfcRailingTypeEnum() {}
 IfcRailingTypeEnum::~IfcRailingTypeEnum() {}
 shared_ptr<BuildingObject> IfcRailingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcRailingTypeEnum::toString() const
 shared_ptr<IfcRailingTypeEnum> IfcRailingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRailingTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRailingTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRailingTypeEnum>(); }
 	shared_ptr<IfcRailingTypeEnum> type_object( new IfcRailingTypeEnum() );
 	if( boost::iequals( arg, L".HANDRAIL." ) )
 	{

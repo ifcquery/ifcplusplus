@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcStairTypeEnum.h"
 
 // TYPE IfcStairTypeEnum = ENUMERATION OF	(STRAIGHT_RUN_STAIR	,TWO_STRAIGHT_RUN_STAIR	,QUARTER_WINDING_STAIR	,QUARTER_TURN_STAIR	,HALF_WINDING_STAIR	,HALF_TURN_STAIR	,TWO_QUARTER_WINDING_STAIR	,TWO_QUARTER_TURN_STAIR	,THREE_QUARTER_WINDING_STAIR	,THREE_QUARTER_TURN_STAIR	,SPIRAL_STAIR	,DOUBLE_RETURN_STAIR	,CURVED_RUN_STAIR	,TWO_CURVED_RUN_STAIR	,USERDEFINED	,NOTDEFINED);
-IfcStairTypeEnum::IfcStairTypeEnum() {}
 IfcStairTypeEnum::~IfcStairTypeEnum() {}
 shared_ptr<BuildingObject> IfcStairTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -68,7 +67,7 @@ const std::wstring IfcStairTypeEnum::toString() const
 shared_ptr<IfcStairTypeEnum> IfcStairTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStairTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStairTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStairTypeEnum>(); }
 	shared_ptr<IfcStairTypeEnum> type_object( new IfcStairTypeEnum() );
 	if( boost::iequals( arg, L".STRAIGHT_RUN_STAIR." ) )
 	{

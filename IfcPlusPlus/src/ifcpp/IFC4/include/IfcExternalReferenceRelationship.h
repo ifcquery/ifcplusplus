@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcResourceObjectSelect;
 class IFCQUERY_EXPORT IfcExternalReferenceRelationship : public IfcResourceLevelRelationship
 { 
 public:
-	IfcExternalReferenceRelationship();
+	IfcExternalReferenceRelationship() = default;
 	IfcExternalReferenceRelationship( int id );
 	~IfcExternalReferenceRelationship();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

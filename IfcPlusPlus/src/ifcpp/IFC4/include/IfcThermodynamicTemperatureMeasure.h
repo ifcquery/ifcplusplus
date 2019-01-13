@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcThermodynamicTemperatureMeasure : public IfcMeasureValue
 {
 public:
-	IfcThermodynamicTemperatureMeasure();
+	IfcThermodynamicTemperatureMeasure() = default;
 	IfcThermodynamicTemperatureMeasure( double value );
 	~IfcThermodynamicTemperatureMeasure();
 	virtual const char* className() const { return "IfcThermodynamicTemperatureMeasure"; }

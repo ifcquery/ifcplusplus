@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcIsothermalMoistureCapacityMeasure.h"
 
 // TYPE IfcIsothermalMoistureCapacityMeasure = REAL;
-IfcIsothermalMoistureCapacityMeasure::IfcIsothermalMoistureCapacityMeasure() {}
 IfcIsothermalMoistureCapacityMeasure::IfcIsothermalMoistureCapacityMeasure( double value ) { m_value = value; }
 IfcIsothermalMoistureCapacityMeasure::~IfcIsothermalMoistureCapacityMeasure() {}
 shared_ptr<BuildingObject> IfcIsothermalMoistureCapacityMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcIsothermalMoistureCapacityMeasure::toString() const
 shared_ptr<IfcIsothermalMoistureCapacityMeasure> IfcIsothermalMoistureCapacityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIsothermalMoistureCapacityMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIsothermalMoistureCapacityMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIsothermalMoistureCapacityMeasure>(); }
 	shared_ptr<IfcIsothermalMoistureCapacityMeasure> type_object( new IfcIsothermalMoistureCapacityMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

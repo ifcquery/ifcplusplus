@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcTaskTime.h"
 
 // ENTITY IfcTaskTime 
-IfcTaskTime::IfcTaskTime() {}
 IfcTaskTime::IfcTaskTime( int id ) { m_entity_id = id; }
 IfcTaskTime::~IfcTaskTime() {}
 shared_ptr<BuildingObject> IfcTaskTime::getDeepCopy( BuildingCopyOptions& options )
@@ -119,23 +118,23 @@ void IfcTaskTime::readStepArguments( const std::vector<std::wstring>& args, cons
 void IfcTaskTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSchedulingTime::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "DurationType", m_DurationType ) );
-	vec_attributes.push_back( std::make_pair( "ScheduleDuration", m_ScheduleDuration ) );
-	vec_attributes.push_back( std::make_pair( "ScheduleStart", m_ScheduleStart ) );
-	vec_attributes.push_back( std::make_pair( "ScheduleFinish", m_ScheduleFinish ) );
-	vec_attributes.push_back( std::make_pair( "EarlyStart", m_EarlyStart ) );
-	vec_attributes.push_back( std::make_pair( "EarlyFinish", m_EarlyFinish ) );
-	vec_attributes.push_back( std::make_pair( "LateStart", m_LateStart ) );
-	vec_attributes.push_back( std::make_pair( "LateFinish", m_LateFinish ) );
-	vec_attributes.push_back( std::make_pair( "FreeFloat", m_FreeFloat ) );
-	vec_attributes.push_back( std::make_pair( "TotalFloat", m_TotalFloat ) );
-	vec_attributes.push_back( std::make_pair( "IsCritical", m_IsCritical ) );
-	vec_attributes.push_back( std::make_pair( "StatusTime", m_StatusTime ) );
-	vec_attributes.push_back( std::make_pair( "ActualDuration", m_ActualDuration ) );
-	vec_attributes.push_back( std::make_pair( "ActualStart", m_ActualStart ) );
-	vec_attributes.push_back( std::make_pair( "ActualFinish", m_ActualFinish ) );
-	vec_attributes.push_back( std::make_pair( "RemainingTime", m_RemainingTime ) );
-	vec_attributes.push_back( std::make_pair( "Completion", m_Completion ) );
+	vec_attributes.emplace_back( std::make_pair( "DurationType", m_DurationType ) );
+	vec_attributes.emplace_back( std::make_pair( "ScheduleDuration", m_ScheduleDuration ) );
+	vec_attributes.emplace_back( std::make_pair( "ScheduleStart", m_ScheduleStart ) );
+	vec_attributes.emplace_back( std::make_pair( "ScheduleFinish", m_ScheduleFinish ) );
+	vec_attributes.emplace_back( std::make_pair( "EarlyStart", m_EarlyStart ) );
+	vec_attributes.emplace_back( std::make_pair( "EarlyFinish", m_EarlyFinish ) );
+	vec_attributes.emplace_back( std::make_pair( "LateStart", m_LateStart ) );
+	vec_attributes.emplace_back( std::make_pair( "LateFinish", m_LateFinish ) );
+	vec_attributes.emplace_back( std::make_pair( "FreeFloat", m_FreeFloat ) );
+	vec_attributes.emplace_back( std::make_pair( "TotalFloat", m_TotalFloat ) );
+	vec_attributes.emplace_back( std::make_pair( "IsCritical", m_IsCritical ) );
+	vec_attributes.emplace_back( std::make_pair( "StatusTime", m_StatusTime ) );
+	vec_attributes.emplace_back( std::make_pair( "ActualDuration", m_ActualDuration ) );
+	vec_attributes.emplace_back( std::make_pair( "ActualStart", m_ActualStart ) );
+	vec_attributes.emplace_back( std::make_pair( "ActualFinish", m_ActualFinish ) );
+	vec_attributes.emplace_back( std::make_pair( "RemainingTime", m_RemainingTime ) );
+	vec_attributes.emplace_back( std::make_pair( "Completion", m_Completion ) );
 }
 void IfcTaskTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

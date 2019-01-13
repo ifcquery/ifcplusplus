@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcPositiveRatioMeasure;
 class IFCQUERY_EXPORT IfcTaskTime : public IfcSchedulingTime
 { 
 public:
-	IfcTaskTime();
+	IfcTaskTime() = default;
 	IfcTaskTime( int id );
 	~IfcTaskTime();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

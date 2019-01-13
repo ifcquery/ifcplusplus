@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcPointOrVertexPoint.h"
 
 // ENTITY IfcConnectionPointEccentricity 
-IfcConnectionPointEccentricity::IfcConnectionPointEccentricity() {}
 IfcConnectionPointEccentricity::IfcConnectionPointEccentricity( int id ) { m_entity_id = id; }
 IfcConnectionPointEccentricity::~IfcConnectionPointEccentricity() {}
 shared_ptr<BuildingObject> IfcConnectionPointEccentricity::getDeepCopy( BuildingCopyOptions& options )
@@ -54,9 +53,9 @@ void IfcConnectionPointEccentricity::readStepArguments( const std::vector<std::w
 void IfcConnectionPointEccentricity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConnectionPointGeometry::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "EccentricityInX", m_EccentricityInX ) );
-	vec_attributes.push_back( std::make_pair( "EccentricityInY", m_EccentricityInY ) );
-	vec_attributes.push_back( std::make_pair( "EccentricityInZ", m_EccentricityInZ ) );
+	vec_attributes.emplace_back( std::make_pair( "EccentricityInX", m_EccentricityInX ) );
+	vec_attributes.emplace_back( std::make_pair( "EccentricityInY", m_EccentricityInY ) );
+	vec_attributes.emplace_back( std::make_pair( "EccentricityInZ", m_EccentricityInZ ) );
 }
 void IfcConnectionPointEccentricity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

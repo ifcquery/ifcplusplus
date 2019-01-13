@@ -19,7 +19,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcRationalBSplineCurveWithKnots 
-IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots() {}
 IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots( int id ) { m_entity_id = id; }
 IfcRationalBSplineCurveWithKnots::~IfcRationalBSplineCurveWithKnots() {}
 shared_ptr<BuildingObject> IfcRationalBSplineCurveWithKnots::getDeepCopy( BuildingCopyOptions& options )
@@ -31,7 +30,7 @@ shared_ptr<BuildingObject> IfcRationalBSplineCurveWithKnots::getDeepCopy( Buildi
 		auto item_ii = m_ControlPointsList[ii];
 		if( item_ii )
 		{
-			copy_self->m_ControlPointsList.push_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_ControlPointsList.emplace_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_CurveForm ) { copy_self->m_CurveForm = dynamic_pointer_cast<IfcBSplineCurveForm>( m_CurveForm->getDeepCopy(options) ); }
@@ -42,7 +41,7 @@ shared_ptr<BuildingObject> IfcRationalBSplineCurveWithKnots::getDeepCopy( Buildi
 		auto item_ii = m_KnotMultiplicities[ii];
 		if( item_ii )
 		{
-			copy_self->m_KnotMultiplicities.push_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_KnotMultiplicities.emplace_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_Knots.size(); ++ii )
@@ -50,7 +49,7 @@ shared_ptr<BuildingObject> IfcRationalBSplineCurveWithKnots::getDeepCopy( Buildi
 		auto item_ii = m_Knots[ii];
 		if( item_ii )
 		{
-			copy_self->m_Knots.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Knots.emplace_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_KnotSpec ) { copy_self->m_KnotSpec = dynamic_pointer_cast<IfcKnotType>( m_KnotSpec->getDeepCopy(options) ); }
@@ -59,7 +58,7 @@ shared_ptr<BuildingObject> IfcRationalBSplineCurveWithKnots::getDeepCopy( Buildi
 		auto item_ii = m_WeightsData[ii];
 		if( item_ii )
 		{
-			copy_self->m_WeightsData.push_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_WeightsData.emplace_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -105,11 +104,11 @@ void IfcRationalBSplineCurveWithKnots::readStepArguments( const std::vector<std:
 void IfcRationalBSplineCurveWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBSplineCurveWithKnots::getAttributes( vec_attributes );
-	if( m_WeightsData.size() > 0 )
+	if( !m_WeightsData.empty() )
 	{
 		shared_ptr<AttributeObjectVector> WeightsData_vec_object( new AttributeObjectVector() );
 		std::copy( m_WeightsData.begin(), m_WeightsData.end(), std::back_inserter( WeightsData_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "WeightsData", WeightsData_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "WeightsData", WeightsData_vec_object ) );
 	}
 }
 void IfcRationalBSplineCurveWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

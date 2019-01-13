@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcTemperatureGradientMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcTemperatureGradientMeasure();
+	IfcTemperatureGradientMeasure() = default;
 	IfcTemperatureGradientMeasure( double value );
 	~IfcTemperatureGradientMeasure();
 	virtual const char* className() const { return "IfcTemperatureGradientMeasure"; }

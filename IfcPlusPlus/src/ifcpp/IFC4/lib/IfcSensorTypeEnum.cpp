@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSensorTypeEnum.h"
 
 // TYPE IfcSensorTypeEnum = ENUMERATION OF	(COSENSOR	,CO2SENSOR	,CONDUCTANCESENSOR	,CONTACTSENSOR	,FIRESENSOR	,FLOWSENSOR	,FROSTSENSOR	,GASSENSOR	,HEATSENSOR	,HUMIDITYSENSOR	,IDENTIFIERSENSOR	,IONCONCENTRATIONSENSOR	,LEVELSENSOR	,LIGHTSENSOR	,MOISTURESENSOR	,MOVEMENTSENSOR	,PHSENSOR	,PRESSURESENSOR	,RADIATIONSENSOR	,RADIOACTIVITYSENSOR	,SMOKESENSOR	,SOUNDSENSOR	,TEMPERATURESENSOR	,WINDSENSOR	,USERDEFINED	,NOTDEFINED);
-IfcSensorTypeEnum::IfcSensorTypeEnum() {}
 IfcSensorTypeEnum::~IfcSensorTypeEnum() {}
 shared_ptr<BuildingObject> IfcSensorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -88,7 +87,7 @@ const std::wstring IfcSensorTypeEnum::toString() const
 shared_ptr<IfcSensorTypeEnum> IfcSensorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSensorTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSensorTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSensorTypeEnum>(); }
 	shared_ptr<IfcSensorTypeEnum> type_object( new IfcSensorTypeEnum() );
 	if( boost::iequals( arg, L".COSENSOR." ) )
 	{

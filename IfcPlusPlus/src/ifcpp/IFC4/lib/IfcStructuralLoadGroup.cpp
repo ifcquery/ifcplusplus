@@ -29,7 +29,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcStructuralLoadGroup 
-IfcStructuralLoadGroup::IfcStructuralLoadGroup() {}
 IfcStructuralLoadGroup::IfcStructuralLoadGroup( int id ) { m_entity_id = id; }
 IfcStructuralLoadGroup::~IfcStructuralLoadGroup() {}
 shared_ptr<BuildingObject> IfcStructuralLoadGroup::getDeepCopy( BuildingCopyOptions& options )
@@ -37,7 +36,7 @@ shared_ptr<BuildingObject> IfcStructuralLoadGroup::getDeepCopy( BuildingCopyOpti
 	shared_ptr<IfcStructuralLoadGroup> copy_self( new IfcStructuralLoadGroup() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -99,38 +98,38 @@ void IfcStructuralLoadGroup::readStepArguments( const std::vector<std::wstring>&
 void IfcStructuralLoadGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGroup::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
-	vec_attributes.push_back( std::make_pair( "ActionType", m_ActionType ) );
-	vec_attributes.push_back( std::make_pair( "ActionSource", m_ActionSource ) );
-	vec_attributes.push_back( std::make_pair( "Coefficient", m_Coefficient ) );
-	vec_attributes.push_back( std::make_pair( "Purpose", m_Purpose ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "ActionType", m_ActionType ) );
+	vec_attributes.emplace_back( std::make_pair( "ActionSource", m_ActionSource ) );
+	vec_attributes.emplace_back( std::make_pair( "Coefficient", m_Coefficient ) );
+	vec_attributes.emplace_back( std::make_pair( "Purpose", m_Purpose ) );
 }
 void IfcStructuralLoadGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGroup::getAttributesInverse( vec_attributes_inverse );
-	if( m_SourceOfResultGroup_inverse.size() > 0 )
+	if( !m_SourceOfResultGroup_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> SourceOfResultGroup_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_SourceOfResultGroup_inverse.size(); ++i )
 		{
 			if( !m_SourceOfResultGroup_inverse[i].expired() )
 			{
-				SourceOfResultGroup_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcStructuralResultGroup>( m_SourceOfResultGroup_inverse[i] ) );
+				SourceOfResultGroup_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcStructuralResultGroup>( m_SourceOfResultGroup_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "SourceOfResultGroup_inverse", SourceOfResultGroup_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "SourceOfResultGroup_inverse", SourceOfResultGroup_inverse_vec_obj ) );
 	}
-	if( m_LoadGroupFor_inverse.size() > 0 )
+	if( !m_LoadGroupFor_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> LoadGroupFor_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_LoadGroupFor_inverse.size(); ++i )
 		{
 			if( !m_LoadGroupFor_inverse[i].expired() )
 			{
-				LoadGroupFor_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcStructuralAnalysisModel>( m_LoadGroupFor_inverse[i] ) );
+				LoadGroupFor_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcStructuralAnalysisModel>( m_LoadGroupFor_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "LoadGroupFor_inverse", LoadGroupFor_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "LoadGroupFor_inverse", LoadGroupFor_inverse_vec_obj ) );
 	}
 }
 void IfcStructuralLoadGroup::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

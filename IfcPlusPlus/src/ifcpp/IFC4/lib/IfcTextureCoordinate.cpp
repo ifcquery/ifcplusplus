@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcTextureCoordinate.h"
 
 // ENTITY IfcTextureCoordinate 
-IfcTextureCoordinate::IfcTextureCoordinate() {}
 IfcTextureCoordinate::IfcTextureCoordinate( int id ) { m_entity_id = id; }
 IfcTextureCoordinate::~IfcTextureCoordinate() {}
 shared_ptr<BuildingObject> IfcTextureCoordinate::getDeepCopy( BuildingCopyOptions& options )
@@ -22,7 +21,7 @@ shared_ptr<BuildingObject> IfcTextureCoordinate::getDeepCopy( BuildingCopyOption
 		auto item_ii = m_Maps[ii];
 		if( item_ii )
 		{
-			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Maps.emplace_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -44,11 +43,11 @@ void IfcTextureCoordinate::readStepArguments( const std::vector<std::wstring>& a
 void IfcTextureCoordinate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	if( m_Maps.size() > 0 )
+	if( !m_Maps.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Maps_vec_object( new AttributeObjectVector() );
 		std::copy( m_Maps.begin(), m_Maps.end(), std::back_inserter( Maps_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Maps", Maps_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Maps", Maps_vec_object ) );
 	}
 }
 void IfcTextureCoordinate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -64,7 +63,7 @@ void IfcTextureCoordinate::setInverseCounterparts( shared_ptr<BuildingEntity> pt
 	{
 		if( m_Maps[i] )
 		{
-			m_Maps[i]->m_IsMappedBy_inverse.push_back( ptr_self );
+			m_Maps[i]->m_IsMappedBy_inverse.emplace_back( ptr_self );
 		}
 	}
 }

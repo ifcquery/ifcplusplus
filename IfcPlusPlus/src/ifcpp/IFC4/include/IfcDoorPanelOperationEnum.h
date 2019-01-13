@@ -26,7 +26,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcDoorPanelOperationEnum();
+	IfcDoorPanelOperationEnum() = default;
 	IfcDoorPanelOperationEnum( IfcDoorPanelOperationEnumEnum e ) { m_enum = e; }
 	~IfcDoorPanelOperationEnum();
 	virtual const char* className() const { return "IfcDoorPanelOperationEnum"; }

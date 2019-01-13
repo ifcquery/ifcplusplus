@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcVertex.h"
 
 // ENTITY IfcSubedge 
-IfcSubedge::IfcSubedge() {}
 IfcSubedge::IfcSubedge( int id ) { m_entity_id = id; }
 IfcSubedge::~IfcSubedge() {}
 shared_ptr<BuildingObject> IfcSubedge::getDeepCopy( BuildingCopyOptions& options )
@@ -28,9 +27,9 @@ shared_ptr<BuildingObject> IfcSubedge::getDeepCopy( BuildingCopyOptions& options
 void IfcSubedge::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSUBEDGE" << "(";
-	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_entity_id; } else { stream << "*"; }
+	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "*"; }
+	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_ParentEdge ) { stream << "#" << m_ParentEdge->m_entity_id; } else { stream << "$"; }
 	stream << ");";
@@ -48,7 +47,7 @@ void IfcSubedge::readStepArguments( const std::vector<std::wstring>& args, const
 void IfcSubedge::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcEdge::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ParentEdge", m_ParentEdge ) );
+	vec_attributes.emplace_back( std::make_pair( "ParentEdge", m_ParentEdge ) );
 }
 void IfcSubedge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

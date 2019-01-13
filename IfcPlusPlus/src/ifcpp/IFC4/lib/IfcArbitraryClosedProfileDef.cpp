@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcArbitraryClosedProfileDef 
-IfcArbitraryClosedProfileDef::IfcArbitraryClosedProfileDef() {}
 IfcArbitraryClosedProfileDef::IfcArbitraryClosedProfileDef( int id ) { m_entity_id = id; }
 IfcArbitraryClosedProfileDef::~IfcArbitraryClosedProfileDef() {}
 shared_ptr<BuildingObject> IfcArbitraryClosedProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -49,7 +48,7 @@ void IfcArbitraryClosedProfileDef::readStepArguments( const std::vector<std::wst
 void IfcArbitraryClosedProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "OuterCurve", m_OuterCurve ) );
+	vec_attributes.emplace_back( std::make_pair( "OuterCurve", m_OuterCurve ) );
 }
 void IfcArbitraryClosedProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

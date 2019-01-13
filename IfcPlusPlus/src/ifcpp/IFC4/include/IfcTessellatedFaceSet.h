@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcIndexedTextureMap;
 class IFCQUERY_EXPORT IfcTessellatedFaceSet : virtual public IfcBooleanOperand, public IfcTessellatedItem
 { 
 public:
-	IfcTessellatedFaceSet();
+	IfcTessellatedFaceSet() = default;
 	IfcTessellatedFaceSet( int id );
 	~IfcTessellatedFaceSet();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

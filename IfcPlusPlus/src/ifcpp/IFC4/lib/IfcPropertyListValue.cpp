@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcValue.h"
 
 // ENTITY IfcPropertyListValue 
-IfcPropertyListValue::IfcPropertyListValue() {}
 IfcPropertyListValue::IfcPropertyListValue( int id ) { m_entity_id = id; }
 IfcPropertyListValue::~IfcPropertyListValue() {}
 shared_ptr<BuildingObject> IfcPropertyListValue::getDeepCopy( BuildingCopyOptions& options )
@@ -33,7 +32,7 @@ shared_ptr<BuildingObject> IfcPropertyListValue::getDeepCopy( BuildingCopyOption
 		auto item_ii = m_ListValues[ii];
 		if( item_ii )
 		{
-			copy_self->m_ListValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_ListValues.emplace_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy(options) ); }
@@ -82,13 +81,13 @@ void IfcPropertyListValue::readStepArguments( const std::vector<std::wstring>& a
 void IfcPropertyListValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
-	if( m_ListValues.size() > 0 )
+	if( !m_ListValues.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ListValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_ListValues.begin(), m_ListValues.end(), std::back_inserter( ListValues_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "ListValues", ListValues_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "ListValues", ListValues_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
+	vec_attributes.emplace_back( std::make_pair( "Unit", m_Unit ) );
 }
 void IfcPropertyListValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

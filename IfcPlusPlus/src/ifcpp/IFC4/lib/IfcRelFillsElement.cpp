@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelFillsElement 
-IfcRelFillsElement::IfcRelFillsElement() {}
 IfcRelFillsElement::IfcRelFillsElement( int id ) { m_entity_id = id; }
 IfcRelFillsElement::~IfcRelFillsElement() {}
 shared_ptr<BuildingObject> IfcRelFillsElement::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelFillsElement::getDeepCopy( BuildingCopyOptions&
 	shared_ptr<IfcRelFillsElement> copy_self( new IfcRelFillsElement() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -70,8 +69,8 @@ void IfcRelFillsElement::readStepArguments( const std::vector<std::wstring>& arg
 void IfcRelFillsElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingOpeningElement", m_RelatingOpeningElement ) );
-	vec_attributes.push_back( std::make_pair( "RelatedBuildingElement", m_RelatedBuildingElement ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingOpeningElement", m_RelatingOpeningElement ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedBuildingElement", m_RelatedBuildingElement ) );
 }
 void IfcRelFillsElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -84,11 +83,11 @@ void IfcRelFillsElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_
 	if( !ptr_self ) { throw BuildingException( "IfcRelFillsElement::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatedBuildingElement )
 	{
-		m_RelatedBuildingElement->m_FillsVoids_inverse.push_back( ptr_self );
+		m_RelatedBuildingElement->m_FillsVoids_inverse.emplace_back( ptr_self );
 	}
 	if( m_RelatingOpeningElement )
 	{
-		m_RelatingOpeningElement->m_HasFillings_inverse.push_back( ptr_self );
+		m_RelatingOpeningElement->m_HasFillings_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelFillsElement::unlinkFromInverseCounterparts()

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcTransportElementTypeEnum;
 class IFCQUERY_EXPORT IfcTransportElement : public IfcElement
 { 
 public:
-	IfcTransportElement();
+	IfcTransportElement() = default;
 	IfcTransportElement( int id );
 	~IfcTransportElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

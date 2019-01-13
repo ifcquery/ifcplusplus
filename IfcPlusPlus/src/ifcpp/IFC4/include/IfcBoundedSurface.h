@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcBoundedSurface : public IfcSurface
 { 
 public:
-	IfcBoundedSurface();
+	IfcBoundedSurface() = default;
 	IfcBoundedSurface( int id );
 	~IfcBoundedSurface();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

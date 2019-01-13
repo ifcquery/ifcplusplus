@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcBinary;
 class IFCQUERY_EXPORT IfcBlobTexture : public IfcSurfaceTexture
 { 
 public:
-	IfcBlobTexture();
+	IfcBlobTexture() = default;
 	IfcBlobTexture( int id );
 	~IfcBlobTexture();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcEdge;
 class IFCQUERY_EXPORT IfcSubedge : public IfcEdge
 { 
 public:
-	IfcSubedge();
+	IfcSubedge() = default;
 	IfcSubedge( int id );
 	~IfcSubedge();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

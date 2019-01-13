@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcFlowMeterTypeEnum.h"
 
 // TYPE IfcFlowMeterTypeEnum = ENUMERATION OF	(ENERGYMETER	,GASMETER	,OILMETER	,WATERMETER	,USERDEFINED	,NOTDEFINED);
-IfcFlowMeterTypeEnum::IfcFlowMeterTypeEnum() {}
 IfcFlowMeterTypeEnum::~IfcFlowMeterTypeEnum() {}
 shared_ptr<BuildingObject> IfcFlowMeterTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -48,7 +47,7 @@ const std::wstring IfcFlowMeterTypeEnum::toString() const
 shared_ptr<IfcFlowMeterTypeEnum> IfcFlowMeterTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFlowMeterTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFlowMeterTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFlowMeterTypeEnum>(); }
 	shared_ptr<IfcFlowMeterTypeEnum> type_object( new IfcFlowMeterTypeEnum() );
 	if( boost::iequals( arg, L".ENERGYMETER." ) )
 	{

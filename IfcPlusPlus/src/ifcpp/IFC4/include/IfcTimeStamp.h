@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcTimeStamp : public IfcSimpleValue
 {
 public:
-	IfcTimeStamp();
+	IfcTimeStamp() = default;
 	IfcTimeStamp( int value );
 	~IfcTimeStamp();
 	virtual const char* className() const { return "IfcTimeStamp"; }

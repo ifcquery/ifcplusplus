@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcGridTypeEnum.h"
 
 // TYPE IfcGridTypeEnum = ENUMERATION OF	(RECTANGULAR	,RADIAL	,TRIANGULAR	,IRREGULAR	,USERDEFINED	,NOTDEFINED);
-IfcGridTypeEnum::IfcGridTypeEnum() {}
 IfcGridTypeEnum::~IfcGridTypeEnum() {}
 shared_ptr<BuildingObject> IfcGridTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -48,7 +47,7 @@ const std::wstring IfcGridTypeEnum::toString() const
 shared_ptr<IfcGridTypeEnum> IfcGridTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGridTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGridTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGridTypeEnum>(); }
 	shared_ptr<IfcGridTypeEnum> type_object( new IfcGridTypeEnum() );
 	if( boost::iequals( arg, L".RECTANGULAR." ) )
 	{

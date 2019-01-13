@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcDirection;
 class IFCQUERY_EXPORT IfcCartesianTransformationOperator3D : public IfcCartesianTransformationOperator
 { 
 public:
-	IfcCartesianTransformationOperator3D();
+	IfcCartesianTransformationOperator3D() = default;
 	IfcCartesianTransformationOperator3D( int id );
 	~IfcCartesianTransformationOperator3D();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcTendonAnchorTypeEnum;
 class IFCQUERY_EXPORT IfcTendonAnchor : public IfcReinforcingElement
 { 
 public:
-	IfcTendonAnchor();
+	IfcTendonAnchor() = default;
 	IfcTendonAnchor( int id );
 	~IfcTendonAnchor();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

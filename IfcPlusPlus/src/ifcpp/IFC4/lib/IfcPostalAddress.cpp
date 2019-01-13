@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPostalAddress 
-IfcPostalAddress::IfcPostalAddress() {}
 IfcPostalAddress::IfcPostalAddress( int id ) { m_entity_id = id; }
 IfcPostalAddress::~IfcPostalAddress() {}
 shared_ptr<BuildingObject> IfcPostalAddress::getDeepCopy( BuildingCopyOptions& options )
@@ -30,7 +29,7 @@ shared_ptr<BuildingObject> IfcPostalAddress::getDeepCopy( BuildingCopyOptions& o
 		auto item_ii = m_AddressLines[ii];
 		if( item_ii )
 		{
-			copy_self->m_AddressLines.push_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_AddressLines.emplace_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_PostalBox ) { copy_self->m_PostalBox = dynamic_pointer_cast<IfcLabel>( m_PostalBox->getDeepCopy(options) ); }
@@ -101,18 +100,18 @@ void IfcPostalAddress::readStepArguments( const std::vector<std::wstring>& args,
 void IfcPostalAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcAddress::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "InternalLocation", m_InternalLocation ) );
-	if( m_AddressLines.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "InternalLocation", m_InternalLocation ) );
+	if( !m_AddressLines.empty() )
 	{
 		shared_ptr<AttributeObjectVector> AddressLines_vec_object( new AttributeObjectVector() );
 		std::copy( m_AddressLines.begin(), m_AddressLines.end(), std::back_inserter( AddressLines_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "AddressLines", AddressLines_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "AddressLines", AddressLines_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "PostalBox", m_PostalBox ) );
-	vec_attributes.push_back( std::make_pair( "Town", m_Town ) );
-	vec_attributes.push_back( std::make_pair( "Region", m_Region ) );
-	vec_attributes.push_back( std::make_pair( "PostalCode", m_PostalCode ) );
-	vec_attributes.push_back( std::make_pair( "Country", m_Country ) );
+	vec_attributes.emplace_back( std::make_pair( "PostalBox", m_PostalBox ) );
+	vec_attributes.emplace_back( std::make_pair( "Town", m_Town ) );
+	vec_attributes.emplace_back( std::make_pair( "Region", m_Region ) );
+	vec_attributes.emplace_back( std::make_pair( "PostalCode", m_PostalCode ) );
+	vec_attributes.emplace_back( std::make_pair( "Country", m_Country ) );
 }
 void IfcPostalAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

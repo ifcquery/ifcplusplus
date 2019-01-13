@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcOutletTypeEnum;
 class IFCQUERY_EXPORT IfcOutletType : public IfcFlowTerminalType
 { 
 public:
-	IfcOutletType();
+	IfcOutletType() = default;
 	IfcOutletType( int id );
 	~IfcOutletType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

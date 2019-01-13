@@ -31,7 +31,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcCommunicationsApplianceTypeEnum();
+	IfcCommunicationsApplianceTypeEnum() = default;
 	IfcCommunicationsApplianceTypeEnum( IfcCommunicationsApplianceTypeEnumEnum e ) { m_enum = e; }
 	~IfcCommunicationsApplianceTypeEnum();
 	virtual const char* className() const { return "IfcCommunicationsApplianceTypeEnum"; }

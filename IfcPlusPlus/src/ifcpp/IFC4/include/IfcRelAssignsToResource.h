@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcResourceSelect;
 class IFCQUERY_EXPORT IfcRelAssignsToResource : public IfcRelAssigns
 { 
 public:
-	IfcRelAssignsToResource();
+	IfcRelAssignsToResource() = default;
 	IfcRelAssignsToResource( int id );
 	~IfcRelAssignsToResource();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

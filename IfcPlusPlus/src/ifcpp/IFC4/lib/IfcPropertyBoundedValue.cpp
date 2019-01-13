@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcValue.h"
 
 // ENTITY IfcPropertyBoundedValue 
-IfcPropertyBoundedValue::IfcPropertyBoundedValue() {}
 IfcPropertyBoundedValue::IfcPropertyBoundedValue( int id ) { m_entity_id = id; }
 IfcPropertyBoundedValue::~IfcPropertyBoundedValue() {}
 shared_ptr<BuildingObject> IfcPropertyBoundedValue::getDeepCopy( BuildingCopyOptions& options )
@@ -66,10 +65,10 @@ void IfcPropertyBoundedValue::readStepArguments( const std::vector<std::wstring>
 void IfcPropertyBoundedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "UpperBoundValue", m_UpperBoundValue ) );
-	vec_attributes.push_back( std::make_pair( "LowerBoundValue", m_LowerBoundValue ) );
-	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
-	vec_attributes.push_back( std::make_pair( "SetPointValue", m_SetPointValue ) );
+	vec_attributes.emplace_back( std::make_pair( "UpperBoundValue", m_UpperBoundValue ) );
+	vec_attributes.emplace_back( std::make_pair( "LowerBoundValue", m_LowerBoundValue ) );
+	vec_attributes.emplace_back( std::make_pair( "Unit", m_Unit ) );
+	vec_attributes.emplace_back( std::make_pair( "SetPointValue", m_SetPointValue ) );
 }
 void IfcPropertyBoundedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

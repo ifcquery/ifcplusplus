@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcFacetedBrep : public IfcManifoldSolidBrep
 { 
 public:
-	IfcFacetedBrep();
+	IfcFacetedBrep() = default;
 	IfcFacetedBrep( int id );
 	~IfcFacetedBrep();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

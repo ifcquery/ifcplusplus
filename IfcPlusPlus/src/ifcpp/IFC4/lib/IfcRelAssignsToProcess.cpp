@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcTypeProcess.h"
 
 // ENTITY IfcRelAssignsToProcess 
-IfcRelAssignsToProcess::IfcRelAssignsToProcess() {}
 IfcRelAssignsToProcess::IfcRelAssignsToProcess( int id ) { m_entity_id = id; }
 IfcRelAssignsToProcess::~IfcRelAssignsToProcess() {}
 shared_ptr<BuildingObject> IfcRelAssignsToProcess::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcRelAssignsToProcess::getDeepCopy( BuildingCopyOpti
 	shared_ptr<IfcRelAssignsToProcess> copy_self( new IfcRelAssignsToProcess() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -43,7 +42,7 @@ shared_ptr<BuildingObject> IfcRelAssignsToProcess::getDeepCopy( BuildingCopyOpti
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatedObjectsType ) { copy_self->m_RelatedObjectsType = dynamic_pointer_cast<IfcObjectTypeEnum>( m_RelatedObjectsType->getDeepCopy(options) ); }
@@ -89,8 +88,8 @@ void IfcRelAssignsToProcess::readStepArguments( const std::vector<std::wstring>&
 void IfcRelAssignsToProcess::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingProcess", m_RelatingProcess ) );
-	vec_attributes.push_back( std::make_pair( "QuantityInProcess", m_QuantityInProcess ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingProcess", m_RelatingProcess ) );
+	vec_attributes.emplace_back( std::make_pair( "QuantityInProcess", m_QuantityInProcess ) );
 }
 void IfcRelAssignsToProcess::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -104,12 +103,12 @@ void IfcRelAssignsToProcess::setInverseCounterparts( shared_ptr<BuildingEntity> 
 	shared_ptr<IfcProcess>  RelatingProcess_IfcProcess = dynamic_pointer_cast<IfcProcess>( m_RelatingProcess );
 	if( RelatingProcess_IfcProcess )
 	{
-		RelatingProcess_IfcProcess->m_OperatesOn_inverse.push_back( ptr_self );
+		RelatingProcess_IfcProcess->m_OperatesOn_inverse.emplace_back( ptr_self );
 	}
 	shared_ptr<IfcTypeProcess>  RelatingProcess_IfcTypeProcess = dynamic_pointer_cast<IfcTypeProcess>( m_RelatingProcess );
 	if( RelatingProcess_IfcTypeProcess )
 	{
-		RelatingProcess_IfcTypeProcess->m_OperatesOn_inverse.push_back( ptr_self );
+		RelatingProcess_IfcTypeProcess->m_OperatesOn_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelAssignsToProcess::unlinkFromInverseCounterparts()

@@ -16,7 +16,7 @@
 class IFCQUERY_EXPORT IfcRatioMeasure : public IfcMeasureValue, public IfcSizeSelect, public IfcTimeOrRatioSelect
 {
 public:
-	IfcRatioMeasure();
+	IfcRatioMeasure() = default;
 	IfcRatioMeasure( double value );
 	~IfcRatioMeasure();
 	virtual const char* className() const { return "IfcRatioMeasure"; }

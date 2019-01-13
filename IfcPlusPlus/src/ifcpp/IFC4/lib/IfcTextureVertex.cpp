@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcTextureVertex.h"
 
 // ENTITY IfcTextureVertex 
-IfcTextureVertex::IfcTextureVertex() {}
 IfcTextureVertex::IfcTextureVertex( int id ) { m_entity_id = id; }
 IfcTextureVertex::~IfcTextureVertex() {}
 shared_ptr<BuildingObject> IfcTextureVertex::getDeepCopy( BuildingCopyOptions& options )
@@ -22,7 +21,7 @@ shared_ptr<BuildingObject> IfcTextureVertex::getDeepCopy( BuildingCopyOptions& o
 		auto item_ii = m_Coordinates[ii];
 		if( item_ii )
 		{
-			copy_self->m_Coordinates.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Coordinates.emplace_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -44,11 +43,11 @@ void IfcTextureVertex::readStepArguments( const std::vector<std::wstring>& args,
 void IfcTextureVertex::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	if( m_Coordinates.size() > 0 )
+	if( !m_Coordinates.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Coordinates_vec_object( new AttributeObjectVector() );
 		std::copy( m_Coordinates.begin(), m_Coordinates.end(), std::back_inserter( Coordinates_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Coordinates", Coordinates_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Coordinates", Coordinates_vec_object ) );
 	}
 }
 void IfcTextureVertex::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

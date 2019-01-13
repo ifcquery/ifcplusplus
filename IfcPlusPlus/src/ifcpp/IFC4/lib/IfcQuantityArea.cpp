@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcQuantityArea 
-IfcQuantityArea::IfcQuantityArea() {}
 IfcQuantityArea::IfcQuantityArea( int id ) { m_entity_id = id; }
 IfcQuantityArea::~IfcQuantityArea() {}
 shared_ptr<BuildingObject> IfcQuantityArea::getDeepCopy( BuildingCopyOptions& options )
@@ -58,8 +57,8 @@ void IfcQuantityArea::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcQuantityArea::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPhysicalSimpleQuantity::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "AreaValue", m_AreaValue ) );
-	vec_attributes.push_back( std::make_pair( "Formula", m_Formula ) );
+	vec_attributes.emplace_back( std::make_pair( "AreaValue", m_AreaValue ) );
+	vec_attributes.emplace_back( std::make_pair( "Formula", m_Formula ) );
 }
 void IfcQuantityArea::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

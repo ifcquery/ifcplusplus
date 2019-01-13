@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcToroidalSurface.h"
 
 // ENTITY IfcToroidalSurface 
-IfcToroidalSurface::IfcToroidalSurface() {}
 IfcToroidalSurface::IfcToroidalSurface( int id ) { m_entity_id = id; }
 IfcToroidalSurface::~IfcToroidalSurface() {}
 shared_ptr<BuildingObject> IfcToroidalSurface::getDeepCopy( BuildingCopyOptions& options )
@@ -48,8 +47,8 @@ void IfcToroidalSurface::readStepArguments( const std::vector<std::wstring>& arg
 void IfcToroidalSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcElementarySurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "MajorRadius", m_MajorRadius ) );
-	vec_attributes.push_back( std::make_pair( "MinorRadius", m_MinorRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "MajorRadius", m_MajorRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "MinorRadius", m_MinorRadius ) );
 }
 void IfcToroidalSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

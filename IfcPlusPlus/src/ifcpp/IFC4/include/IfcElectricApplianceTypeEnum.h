@@ -35,7 +35,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcElectricApplianceTypeEnum();
+	IfcElectricApplianceTypeEnum() = default;
 	IfcElectricApplianceTypeEnum( IfcElectricApplianceTypeEnumEnum e ) { m_enum = e; }
 	~IfcElectricApplianceTypeEnum();
 	virtual const char* className() const { return "IfcElectricApplianceTypeEnum"; }

@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcUnitEnum.h"
 
 // ENTITY IfcConversionBasedUnit 
-IfcConversionBasedUnit::IfcConversionBasedUnit() {}
 IfcConversionBasedUnit::IfcConversionBasedUnit( int id ) { m_entity_id = id; }
 IfcConversionBasedUnit::~IfcConversionBasedUnit() {}
 shared_ptr<BuildingObject> IfcConversionBasedUnit::getDeepCopy( BuildingCopyOptions& options )
@@ -53,23 +52,23 @@ void IfcConversionBasedUnit::readStepArguments( const std::vector<std::wstring>&
 void IfcConversionBasedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcNamedUnit::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "ConversionFactor", m_ConversionFactor ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "ConversionFactor", m_ConversionFactor ) );
 }
 void IfcConversionBasedUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcNamedUnit::getAttributesInverse( vec_attributes_inverse );
-	if( m_HasExternalReference_inverse.size() > 0 )
+	if( !m_HasExternalReference_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasExternalReference_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasExternalReference_inverse.size(); ++i )
 		{
 			if( !m_HasExternalReference_inverse[i].expired() )
 			{
-				HasExternalReference_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
+				HasExternalReference_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
 	}
 }
 void IfcConversionBasedUnit::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

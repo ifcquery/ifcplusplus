@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcRotationalFrequencyMeasure.h"
 
 // TYPE IfcRotationalFrequencyMeasure = REAL;
-IfcRotationalFrequencyMeasure::IfcRotationalFrequencyMeasure() {}
 IfcRotationalFrequencyMeasure::IfcRotationalFrequencyMeasure( double value ) { m_value = value; }
 IfcRotationalFrequencyMeasure::~IfcRotationalFrequencyMeasure() {}
 shared_ptr<BuildingObject> IfcRotationalFrequencyMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcRotationalFrequencyMeasure::toString() const
 shared_ptr<IfcRotationalFrequencyMeasure> IfcRotationalFrequencyMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRotationalFrequencyMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRotationalFrequencyMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRotationalFrequencyMeasure>(); }
 	shared_ptr<IfcRotationalFrequencyMeasure> type_object( new IfcRotationalFrequencyMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

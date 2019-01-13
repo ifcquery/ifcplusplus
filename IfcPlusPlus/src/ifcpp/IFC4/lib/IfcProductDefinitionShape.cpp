@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcProductDefinitionShape 
-IfcProductDefinitionShape::IfcProductDefinitionShape() {}
 IfcProductDefinitionShape::IfcProductDefinitionShape( int id ) { m_entity_id = id; }
 IfcProductDefinitionShape::~IfcProductDefinitionShape() {}
 shared_ptr<BuildingObject> IfcProductDefinitionShape::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcProductDefinitionShape::getDeepCopy( BuildingCopyO
 		auto item_ii = m_Representations[ii];
 		if( item_ii )
 		{
-			copy_self->m_Representations.push_back( dynamic_pointer_cast<IfcRepresentation>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Representations.emplace_back( dynamic_pointer_cast<IfcRepresentation>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -60,29 +59,29 @@ void IfcProductDefinitionShape::getAttributes( std::vector<std::pair<std::string
 void IfcProductDefinitionShape::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProductRepresentation::getAttributesInverse( vec_attributes_inverse );
-	if( m_ShapeOfProduct_inverse.size() > 0 )
+	if( !m_ShapeOfProduct_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ShapeOfProduct_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ShapeOfProduct_inverse.size(); ++i )
 		{
 			if( !m_ShapeOfProduct_inverse[i].expired() )
 			{
-				ShapeOfProduct_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcProduct>( m_ShapeOfProduct_inverse[i] ) );
+				ShapeOfProduct_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcProduct>( m_ShapeOfProduct_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ShapeOfProduct_inverse", ShapeOfProduct_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ShapeOfProduct_inverse", ShapeOfProduct_inverse_vec_obj ) );
 	}
-	if( m_HasShapeAspects_inverse.size() > 0 )
+	if( !m_HasShapeAspects_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasShapeAspects_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasShapeAspects_inverse.size(); ++i )
 		{
 			if( !m_HasShapeAspects_inverse[i].expired() )
 			{
-				HasShapeAspects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcShapeAspect>( m_HasShapeAspects_inverse[i] ) );
+				HasShapeAspects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcShapeAspect>( m_HasShapeAspects_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasShapeAspects_inverse", HasShapeAspects_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasShapeAspects_inverse", HasShapeAspects_inverse_vec_obj ) );
 	}
 }
 void IfcProductDefinitionShape::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

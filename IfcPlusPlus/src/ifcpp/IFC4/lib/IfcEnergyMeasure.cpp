@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcEnergyMeasure.h"
 
 // TYPE IfcEnergyMeasure = REAL;
-IfcEnergyMeasure::IfcEnergyMeasure() {}
 IfcEnergyMeasure::IfcEnergyMeasure( double value ) { m_value = value; }
 IfcEnergyMeasure::~IfcEnergyMeasure() {}
 shared_ptr<BuildingObject> IfcEnergyMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcEnergyMeasure::toString() const
 shared_ptr<IfcEnergyMeasure> IfcEnergyMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEnergyMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEnergyMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEnergyMeasure>(); }
 	shared_ptr<IfcEnergyMeasure> type_object( new IfcEnergyMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

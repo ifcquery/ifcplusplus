@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcCurrencyRelationship 
-IfcCurrencyRelationship::IfcCurrencyRelationship() {}
 IfcCurrencyRelationship::IfcCurrencyRelationship( int id ) { m_entity_id = id; }
 IfcCurrencyRelationship::~IfcCurrencyRelationship() {}
 shared_ptr<BuildingObject> IfcCurrencyRelationship::getDeepCopy( BuildingCopyOptions& options )
@@ -66,11 +65,11 @@ void IfcCurrencyRelationship::readStepArguments( const std::vector<std::wstring>
 void IfcCurrencyRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingMonetaryUnit", m_RelatingMonetaryUnit ) );
-	vec_attributes.push_back( std::make_pair( "RelatedMonetaryUnit", m_RelatedMonetaryUnit ) );
-	vec_attributes.push_back( std::make_pair( "ExchangeRate", m_ExchangeRate ) );
-	vec_attributes.push_back( std::make_pair( "RateDateTime", m_RateDateTime ) );
-	vec_attributes.push_back( std::make_pair( "RateSource", m_RateSource ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingMonetaryUnit", m_RelatingMonetaryUnit ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedMonetaryUnit", m_RelatedMonetaryUnit ) );
+	vec_attributes.emplace_back( std::make_pair( "ExchangeRate", m_ExchangeRate ) );
+	vec_attributes.emplace_back( std::make_pair( "RateDateTime", m_RateDateTime ) );
+	vec_attributes.emplace_back( std::make_pair( "RateSource", m_RateSource ) );
 }
 void IfcCurrencyRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

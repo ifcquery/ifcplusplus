@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcEllipseProfileDef : public IfcParameterizedProfileDef
 { 
 public:
-	IfcEllipseProfileDef();
+	IfcEllipseProfileDef() = default;
 	IfcEllipseProfileDef( int id );
 	~IfcEllipseProfileDef();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

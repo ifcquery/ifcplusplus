@@ -24,7 +24,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcTaskType 
-IfcTaskType::IfcTaskType() {}
 IfcTaskType::IfcTaskType( int id ) { m_entity_id = id; }
 IfcTaskType::~IfcTaskType() {}
 shared_ptr<BuildingObject> IfcTaskType::getDeepCopy( BuildingCopyOptions& options )
@@ -32,7 +31,7 @@ shared_ptr<BuildingObject> IfcTaskType::getDeepCopy( BuildingCopyOptions& option
 	shared_ptr<IfcTaskType> copy_self( new IfcTaskType() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -48,7 +47,7 @@ shared_ptr<BuildingObject> IfcTaskType::getDeepCopy( BuildingCopyOptions& option
 		auto item_ii = m_HasPropertySets[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasPropertySets.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_HasPropertySets.emplace_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
@@ -105,8 +104,8 @@ void IfcTaskType::readStepArguments( const std::vector<std::wstring>& args, cons
 void IfcTaskType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTypeProcess::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
-	vec_attributes.push_back( std::make_pair( "WorkMethod", m_WorkMethod ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "WorkMethod", m_WorkMethod ) );
 }
 void IfcTaskType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

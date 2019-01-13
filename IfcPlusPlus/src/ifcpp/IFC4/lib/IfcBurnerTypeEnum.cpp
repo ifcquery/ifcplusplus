@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcBurnerTypeEnum.h"
 
 // TYPE IfcBurnerTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-IfcBurnerTypeEnum::IfcBurnerTypeEnum() {}
 IfcBurnerTypeEnum::~IfcBurnerTypeEnum() {}
 shared_ptr<BuildingObject> IfcBurnerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -40,7 +39,7 @@ const std::wstring IfcBurnerTypeEnum::toString() const
 shared_ptr<IfcBurnerTypeEnum> IfcBurnerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBurnerTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBurnerTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBurnerTypeEnum>(); }
 	shared_ptr<IfcBurnerTypeEnum> type_object( new IfcBurnerTypeEnum() );
 	if( boost::iequals( arg, L".USERDEFINED." ) )
 	{

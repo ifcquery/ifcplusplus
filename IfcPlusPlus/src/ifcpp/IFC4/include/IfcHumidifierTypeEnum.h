@@ -32,7 +32,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcHumidifierTypeEnum();
+	IfcHumidifierTypeEnum() = default;
 	IfcHumidifierTypeEnum( IfcHumidifierTypeEnumEnum e ) { m_enum = e; }
 	~IfcHumidifierTypeEnum();
 	virtual const char* className() const { return "IfcHumidifierTypeEnum"; }

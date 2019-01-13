@@ -77,9 +77,22 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 
 	// open file
-	std::string filePathStr(filePath.begin(), filePath.end());
-	std::ifstream infile(filePathStr.c_str(), std::ifstream::in);
+	if( !setlocale(LC_ALL, "en_us.UTF-8") )
+	{
+		std::wstringstream strs;
+		strs << L"setlocale failed" << std::endl;
+		messageCallback(strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
+		return;
+	}
 
+	char* buf = nullptr;
+	size_t len = std::wcstombs(buf, filePath.c_str(), 0);
+	buf = new char[len + 1];
+	std::wcstombs(buf, filePath.c_str(), (len + 1) * 6);
+	std::string filePathStr(buf);
+	delete[] buf;
+	std::ifstream infile(filePathStr.c_str(), std::ifstream::in);
+	
 	if( !infile.is_open() )
 	{
 		std::wstringstream strs;
@@ -207,7 +220,7 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 	std::string file_header = read_in.substr( file_header_start, file_header_end - file_header_start );
 	std::vector<std::string> vec_header;
 	std::vector<std::wstring> vec_header_wstr;
-	vec_header.push_back( file_header );
+	vec_header.emplace_back( file_header );
 	decodeArgumentStrings( vec_header, vec_header_wstr );
 	
 	std::wstring file_header_wstr;
@@ -239,7 +252,7 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 		{
 			wchar_t* begin_line = last_token;
 			std::wstring single_step_line( begin_line, stream_pos-last_token );
-			vec_header_lines.push_back( single_step_line );
+			vec_header_lines.emplace_back( single_step_line );
 
 			++stream_pos;
 			while(isspace(*stream_pos)){++stream_pos;}
@@ -410,7 +423,7 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 		{
 			if( single_step_line[0] == '#' )
 			{
-				target_vec.push_back(single_step_line);
+				target_vec.emplace_back(single_step_line);
 				single_step_line = "";
 			}
 
@@ -686,7 +699,7 @@ void ReaderSTEP::readEntityArguments( const BuildingModel::SchemaVersion& ifc_ve
 				if( num_expected_arguments != arguments_w.size() )
 				{
 					while( arguments_w.size() > num_expected_arguments ) { arguments_w.pop_back(); }
-					while( arguments_w.size() < num_expected_arguments ) { arguments_w.push_back( L"$" ); }
+					while( arguments_w.size() < num_expected_arguments ) { arguments_w.emplace_back( L"$" ); }
 				}
 			}
 

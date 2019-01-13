@@ -26,7 +26,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcCrewResourceType 
-IfcCrewResourceType::IfcCrewResourceType() {}
 IfcCrewResourceType::IfcCrewResourceType( int id ) { m_entity_id = id; }
 IfcCrewResourceType::~IfcCrewResourceType() {}
 shared_ptr<BuildingObject> IfcCrewResourceType::getDeepCopy( BuildingCopyOptions& options )
@@ -34,7 +33,7 @@ shared_ptr<BuildingObject> IfcCrewResourceType::getDeepCopy( BuildingCopyOptions
 	shared_ptr<IfcCrewResourceType> copy_self( new IfcCrewResourceType() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -50,7 +49,7 @@ shared_ptr<BuildingObject> IfcCrewResourceType::getDeepCopy( BuildingCopyOptions
 		auto item_ii = m_HasPropertySets[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasPropertySets.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_HasPropertySets.emplace_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
@@ -61,7 +60,7 @@ shared_ptr<BuildingObject> IfcCrewResourceType::getDeepCopy( BuildingCopyOptions
 		auto item_ii = m_BaseCosts[ii];
 		if( item_ii )
 		{
-			copy_self->m_BaseCosts.push_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_BaseCosts.emplace_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_BaseQuantity ) { copy_self->m_BaseQuantity = dynamic_pointer_cast<IfcPhysicalQuantity>( m_BaseQuantity->getDeepCopy(options) ); }
@@ -118,7 +117,7 @@ void IfcCrewResourceType::readStepArguments( const std::vector<std::wstring>& ar
 void IfcCrewResourceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConstructionResourceType::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcCrewResourceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

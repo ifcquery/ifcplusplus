@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcMechanicalFastenerType : public IfcElementComponentType
 { 
 public:
-	IfcMechanicalFastenerType();
+	IfcMechanicalFastenerType() = default;
 	IfcMechanicalFastenerType( int id );
 	~IfcMechanicalFastenerType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

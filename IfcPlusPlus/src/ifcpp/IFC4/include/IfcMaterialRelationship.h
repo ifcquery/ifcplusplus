@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcMaterialRelationship : public IfcResourceLevelRelationship
 { 
 public:
-	IfcMaterialRelationship();
+	IfcMaterialRelationship() = default;
 	IfcMaterialRelationship( int id );
 	~IfcMaterialRelationship();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

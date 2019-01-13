@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcSolidAngleMeasure : public IfcMeasureValue
 {
 public:
-	IfcSolidAngleMeasure();
+	IfcSolidAngleMeasure() = default;
 	IfcSolidAngleMeasure( double value );
 	~IfcSolidAngleMeasure();
 	virtual const char* className() const { return "IfcSolidAngleMeasure"; }

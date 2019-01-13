@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcSchedulingTime.h"
 
 // ENTITY IfcSchedulingTime 
-IfcSchedulingTime::IfcSchedulingTime() {}
 IfcSchedulingTime::IfcSchedulingTime( int id ) { m_entity_id = id; }
 IfcSchedulingTime::~IfcSchedulingTime() {}
 shared_ptr<BuildingObject> IfcSchedulingTime::getDeepCopy( BuildingCopyOptions& options )
@@ -45,9 +44,9 @@ void IfcSchedulingTime::readStepArguments( const std::vector<std::wstring>& args
 }
 void IfcSchedulingTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "DataOrigin", m_DataOrigin ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedDataOrigin", m_UserDefinedDataOrigin ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "DataOrigin", m_DataOrigin ) );
+	vec_attributes.emplace_back( std::make_pair( "UserDefinedDataOrigin", m_UserDefinedDataOrigin ) );
 }
 void IfcSchedulingTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

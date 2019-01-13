@@ -26,7 +26,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcPumpTypeEnum();
+	IfcPumpTypeEnum() = default;
 	IfcPumpTypeEnum( IfcPumpTypeEnumEnum e ) { m_enum = e; }
 	~IfcPumpTypeEnum();
 	virtual const char* className() const { return "IfcPumpTypeEnum"; }

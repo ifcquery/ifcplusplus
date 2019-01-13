@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcExternalReferenceRelationship;
 class IFCQUERY_EXPORT IfcPropertyAbstraction : virtual public IfcResourceObjectSelect, public BuildingEntity
 { 
 public:
-	IfcPropertyAbstraction();
+	IfcPropertyAbstraction() = default;
 	IfcPropertyAbstraction( int id );
 	~IfcPropertyAbstraction();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

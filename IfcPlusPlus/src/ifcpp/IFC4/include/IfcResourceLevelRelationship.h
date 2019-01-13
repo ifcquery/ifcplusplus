@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcText;
 class IFCQUERY_EXPORT IfcResourceLevelRelationship : public BuildingEntity
 { 
 public:
-	IfcResourceLevelRelationship();
+	IfcResourceLevelRelationship() = default;
 	IfcResourceLevelRelationship( int id );
 	~IfcResourceLevelRelationship();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -26,7 +26,6 @@
 #include "ifcpp/IFC4/include/IfcWorkTime.h"
 
 // ENTITY IfcWorkCalendar 
-IfcWorkCalendar::IfcWorkCalendar() {}
 IfcWorkCalendar::IfcWorkCalendar( int id ) { m_entity_id = id; }
 IfcWorkCalendar::~IfcWorkCalendar() {}
 shared_ptr<BuildingObject> IfcWorkCalendar::getDeepCopy( BuildingCopyOptions& options )
@@ -34,7 +33,7 @@ shared_ptr<BuildingObject> IfcWorkCalendar::getDeepCopy( BuildingCopyOptions& op
 	shared_ptr<IfcWorkCalendar> copy_self( new IfcWorkCalendar() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -51,7 +50,7 @@ shared_ptr<BuildingObject> IfcWorkCalendar::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_WorkingTimes[ii];
 		if( item_ii )
 		{
-			copy_self->m_WorkingTimes.push_back( dynamic_pointer_cast<IfcWorkTime>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_WorkingTimes.emplace_back( dynamic_pointer_cast<IfcWorkTime>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_ExceptionTimes.size(); ++ii )
@@ -59,7 +58,7 @@ shared_ptr<BuildingObject> IfcWorkCalendar::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_ExceptionTimes[ii];
 		if( item_ii )
 		{
-			copy_self->m_ExceptionTimes.push_back( dynamic_pointer_cast<IfcWorkTime>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_ExceptionTimes.emplace_back( dynamic_pointer_cast<IfcWorkTime>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcWorkCalendarTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
@@ -106,19 +105,19 @@ void IfcWorkCalendar::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcWorkCalendar::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcControl::getAttributes( vec_attributes );
-	if( m_WorkingTimes.size() > 0 )
+	if( !m_WorkingTimes.empty() )
 	{
 		shared_ptr<AttributeObjectVector> WorkingTimes_vec_object( new AttributeObjectVector() );
 		std::copy( m_WorkingTimes.begin(), m_WorkingTimes.end(), std::back_inserter( WorkingTimes_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "WorkingTimes", WorkingTimes_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "WorkingTimes", WorkingTimes_vec_object ) );
 	}
-	if( m_ExceptionTimes.size() > 0 )
+	if( !m_ExceptionTimes.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ExceptionTimes_vec_object( new AttributeObjectVector() );
 		std::copy( m_ExceptionTimes.begin(), m_ExceptionTimes.end(), std::back_inserter( ExceptionTimes_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "ExceptionTimes", ExceptionTimes_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "ExceptionTimes", ExceptionTimes_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcWorkCalendar::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

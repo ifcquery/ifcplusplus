@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcControllerTypeEnum;
 class IFCQUERY_EXPORT IfcController : public IfcDistributionControlElement
 { 
 public:
-	IfcController();
+	IfcController() = default;
 	IfcController( int id );
 	~IfcController();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

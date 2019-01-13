@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcLightSourcePositional 
-IfcLightSourcePositional::IfcLightSourcePositional() {}
 IfcLightSourcePositional::IfcLightSourcePositional( int id ) { m_entity_id = id; }
 IfcLightSourcePositional::~IfcLightSourcePositional() {}
 shared_ptr<BuildingObject> IfcLightSourcePositional::getDeepCopy( BuildingCopyOptions& options )
@@ -76,11 +75,11 @@ void IfcLightSourcePositional::readStepArguments( const std::vector<std::wstring
 void IfcLightSourcePositional::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLightSource::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
-	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
-	vec_attributes.push_back( std::make_pair( "ConstantAttenuation", m_ConstantAttenuation ) );
-	vec_attributes.push_back( std::make_pair( "DistanceAttenuation", m_DistanceAttenuation ) );
-	vec_attributes.push_back( std::make_pair( "QuadricAttenuation", m_QuadricAttenuation ) );
+	vec_attributes.emplace_back( std::make_pair( "Position", m_Position ) );
+	vec_attributes.emplace_back( std::make_pair( "Radius", m_Radius ) );
+	vec_attributes.emplace_back( std::make_pair( "ConstantAttenuation", m_ConstantAttenuation ) );
+	vec_attributes.emplace_back( std::make_pair( "DistanceAttenuation", m_DistanceAttenuation ) );
+	vec_attributes.emplace_back( std::make_pair( "QuadricAttenuation", m_QuadricAttenuation ) );
 }
 void IfcLightSourcePositional::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

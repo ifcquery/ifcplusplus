@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcLightSourceAmbient 
-IfcLightSourceAmbient::IfcLightSourceAmbient() {}
 IfcLightSourceAmbient::IfcLightSourceAmbient( int id ) { m_entity_id = id; }
 IfcLightSourceAmbient::~IfcLightSourceAmbient() {}
 shared_ptr<BuildingObject> IfcLightSourceAmbient::getDeepCopy( BuildingCopyOptions& options )

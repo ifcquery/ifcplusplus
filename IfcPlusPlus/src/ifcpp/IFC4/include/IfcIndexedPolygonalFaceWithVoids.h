@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPositiveInteger;
 class IFCQUERY_EXPORT IfcIndexedPolygonalFaceWithVoids : public IfcIndexedPolygonalFace
 { 
 public:
-	IfcIndexedPolygonalFaceWithVoids();
+	IfcIndexedPolygonalFaceWithVoids() = default;
 	IfcIndexedPolygonalFaceWithVoids( int id );
 	~IfcIndexedPolygonalFaceWithVoids();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

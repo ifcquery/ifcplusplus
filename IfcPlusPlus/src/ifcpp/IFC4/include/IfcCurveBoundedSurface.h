@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcCurveBoundedSurface : public IfcBoundedSurface
 { 
 public:
-	IfcCurveBoundedSurface();
+	IfcCurveBoundedSurface() = default;
 	IfcCurveBoundedSurface( int id );
 	~IfcCurveBoundedSurface();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

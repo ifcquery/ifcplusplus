@@ -47,7 +47,7 @@ public:
 		ENUM_WEBER
 	};
 
-	IfcSIUnitName();
+	IfcSIUnitName() = default;
 	IfcSIUnitName( IfcSIUnitNameEnum e ) { m_enum = e; }
 	~IfcSIUnitName();
 	virtual const char* className() const { return "IfcSIUnitName"; }

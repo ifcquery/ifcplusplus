@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcDuctSegmentTypeEnum();
+	IfcDuctSegmentTypeEnum() = default;
 	IfcDuctSegmentTypeEnum( IfcDuctSegmentTypeEnumEnum e ) { m_enum = e; }
 	~IfcDuctSegmentTypeEnum();
 	virtual const char* className() const { return "IfcDuctSegmentTypeEnum"; }

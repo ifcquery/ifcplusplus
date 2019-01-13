@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcBinary : public IfcSimpleValue
 {
 public:
-	IfcBinary();
+	IfcBinary() = default;
 	IfcBinary( std::wstring value );
 	~IfcBinary();
 	virtual const char* className() const { return "IfcBinary"; }

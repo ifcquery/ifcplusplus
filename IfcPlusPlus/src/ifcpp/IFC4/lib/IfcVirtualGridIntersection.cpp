@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcVirtualGridIntersection.h"
 
 // ENTITY IfcVirtualGridIntersection 
-IfcVirtualGridIntersection::IfcVirtualGridIntersection() {}
 IfcVirtualGridIntersection::IfcVirtualGridIntersection( int id ) { m_entity_id = id; }
 IfcVirtualGridIntersection::~IfcVirtualGridIntersection() {}
 shared_ptr<BuildingObject> IfcVirtualGridIntersection::getDeepCopy( BuildingCopyOptions& options )
@@ -23,7 +22,7 @@ shared_ptr<BuildingObject> IfcVirtualGridIntersection::getDeepCopy( BuildingCopy
 		auto item_ii = m_IntersectingAxes[ii];
 		if( item_ii )
 		{
-			copy_self->m_IntersectingAxes.push_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_IntersectingAxes.emplace_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_OffsetDistances.size(); ++ii )
@@ -31,7 +30,7 @@ shared_ptr<BuildingObject> IfcVirtualGridIntersection::getDeepCopy( BuildingCopy
 		auto item_ii = m_OffsetDistances[ii];
 		if( item_ii )
 		{
-			copy_self->m_OffsetDistances.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_OffsetDistances.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -55,17 +54,17 @@ void IfcVirtualGridIntersection::readStepArguments( const std::vector<std::wstri
 }
 void IfcVirtualGridIntersection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( m_IntersectingAxes.size() > 0 )
+	if( !m_IntersectingAxes.empty() )
 	{
 		shared_ptr<AttributeObjectVector> IntersectingAxes_vec_object( new AttributeObjectVector() );
 		std::copy( m_IntersectingAxes.begin(), m_IntersectingAxes.end(), std::back_inserter( IntersectingAxes_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "IntersectingAxes", IntersectingAxes_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "IntersectingAxes", IntersectingAxes_vec_object ) );
 	}
-	if( m_OffsetDistances.size() > 0 )
+	if( !m_OffsetDistances.empty() )
 	{
 		shared_ptr<AttributeObjectVector> OffsetDistances_vec_object( new AttributeObjectVector() );
 		std::copy( m_OffsetDistances.begin(), m_OffsetDistances.end(), std::back_inserter( OffsetDistances_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "OffsetDistances", OffsetDistances_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "OffsetDistances", OffsetDistances_vec_object ) );
 	}
 }
 void IfcVirtualGridIntersection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -79,7 +78,7 @@ void IfcVirtualGridIntersection::setInverseCounterparts( shared_ptr<BuildingEnti
 	{
 		if( m_IntersectingAxes[i] )
 		{
-			m_IntersectingAxes[i]->m_HasIntersections_inverse.push_back( ptr_self );
+			m_IntersectingAxes[i]->m_HasIntersections_inverse.emplace_back( ptr_self );
 		}
 	}
 }

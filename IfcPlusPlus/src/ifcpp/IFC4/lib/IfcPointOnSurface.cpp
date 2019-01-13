@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcSurface.h"
 
 // ENTITY IfcPointOnSurface 
-IfcPointOnSurface::IfcPointOnSurface() {}
 IfcPointOnSurface::IfcPointOnSurface( int id ) { m_entity_id = id; }
 IfcPointOnSurface::~IfcPointOnSurface() {}
 shared_ptr<BuildingObject> IfcPointOnSurface::getDeepCopy( BuildingCopyOptions& options )
@@ -48,9 +47,9 @@ void IfcPointOnSurface::readStepArguments( const std::vector<std::wstring>& args
 void IfcPointOnSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPoint::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
-	vec_attributes.push_back( std::make_pair( "PointParameterU", m_PointParameterU ) );
-	vec_attributes.push_back( std::make_pair( "PointParameterV", m_PointParameterV ) );
+	vec_attributes.emplace_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
+	vec_attributes.emplace_back( std::make_pair( "PointParameterU", m_PointParameterU ) );
+	vec_attributes.emplace_back( std::make_pair( "PointParameterV", m_PointParameterV ) );
 }
 void IfcPointOnSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

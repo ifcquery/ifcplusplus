@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPropertyDefinition 
-IfcPropertyDefinition::IfcPropertyDefinition() {}
 IfcPropertyDefinition::IfcPropertyDefinition( int id ) { m_entity_id = id; }
 IfcPropertyDefinition::~IfcPropertyDefinition() {}
 shared_ptr<BuildingObject> IfcPropertyDefinition::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcPropertyDefinition::getDeepCopy( BuildingCopyOptio
 	shared_ptr<IfcPropertyDefinition> copy_self( new IfcPropertyDefinition() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -66,29 +65,29 @@ void IfcPropertyDefinition::getAttributes( std::vector<std::pair<std::string, sh
 void IfcPropertyDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRoot::getAttributesInverse( vec_attributes_inverse );
-	if( m_HasContext_inverse.size() > 0 )
+	if( !m_HasContext_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasContext_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasContext_inverse.size(); ++i )
 		{
 			if( !m_HasContext_inverse[i].expired() )
 			{
-				HasContext_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDeclares>( m_HasContext_inverse[i] ) );
+				HasContext_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDeclares>( m_HasContext_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasContext_inverse", HasContext_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasContext_inverse", HasContext_inverse_vec_obj ) );
 	}
-	if( m_HasAssociations_inverse.size() > 0 )
+	if( !m_HasAssociations_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasAssociations_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasAssociations_inverse.size(); ++i )
 		{
 			if( !m_HasAssociations_inverse[i].expired() )
 			{
-				HasAssociations_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociates>( m_HasAssociations_inverse[i] ) );
+				HasAssociations_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssociates>( m_HasAssociations_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasAssociations_inverse", HasAssociations_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasAssociations_inverse", HasAssociations_inverse_vec_obj ) );
 	}
 }
 void IfcPropertyDefinition::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

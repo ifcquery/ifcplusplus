@@ -20,7 +20,7 @@ public:
 		ENUM_PCURVE_S2
 	};
 
-	IfcPreferredSurfaceCurveRepresentation();
+	IfcPreferredSurfaceCurveRepresentation() = default;
 	IfcPreferredSurfaceCurveRepresentation( IfcPreferredSurfaceCurveRepresentationEnum e ) { m_enum = e; }
 	~IfcPreferredSurfaceCurveRepresentation();
 	virtual const char* className() const { return "IfcPreferredSurfaceCurveRepresentation"; }

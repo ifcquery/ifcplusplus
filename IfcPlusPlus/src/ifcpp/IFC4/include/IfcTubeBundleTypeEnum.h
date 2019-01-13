@@ -20,7 +20,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcTubeBundleTypeEnum();
+	IfcTubeBundleTypeEnum() = default;
 	IfcTubeBundleTypeEnum( IfcTubeBundleTypeEnumEnum e ) { m_enum = e; }
 	~IfcTubeBundleTypeEnum();
 	virtual const char* className() const { return "IfcTubeBundleTypeEnum"; }

@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcComplexNumber : public IfcMeasureValue
 {
 public:
-	IfcComplexNumber();
+	IfcComplexNumber() = default;
 	~IfcComplexNumber();
 	virtual const char* className() const { return "IfcComplexNumber"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

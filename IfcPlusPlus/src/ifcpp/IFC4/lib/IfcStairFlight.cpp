@@ -39,7 +39,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcStairFlight 
-IfcStairFlight::IfcStairFlight() {}
 IfcStairFlight::IfcStairFlight( int id ) { m_entity_id = id; }
 IfcStairFlight::~IfcStairFlight() {}
 shared_ptr<BuildingObject> IfcStairFlight::getDeepCopy( BuildingCopyOptions& options )
@@ -47,7 +46,7 @@ shared_ptr<BuildingObject> IfcStairFlight::getDeepCopy( BuildingCopyOptions& opt
 	shared_ptr<IfcStairFlight> copy_self( new IfcStairFlight() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -121,11 +120,11 @@ void IfcStairFlight::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcStairFlight::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBuildingElement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "NumberOfRisers", m_NumberOfRisers ) );
-	vec_attributes.push_back( std::make_pair( "NumberOfTreads", m_NumberOfTreads ) );
-	vec_attributes.push_back( std::make_pair( "RiserHeight", m_RiserHeight ) );
-	vec_attributes.push_back( std::make_pair( "TreadLength", m_TreadLength ) );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "NumberOfRisers", m_NumberOfRisers ) );
+	vec_attributes.emplace_back( std::make_pair( "NumberOfTreads", m_NumberOfTreads ) );
+	vec_attributes.emplace_back( std::make_pair( "RiserHeight", m_RiserHeight ) );
+	vec_attributes.emplace_back( std::make_pair( "TreadLength", m_TreadLength ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcStairFlight::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

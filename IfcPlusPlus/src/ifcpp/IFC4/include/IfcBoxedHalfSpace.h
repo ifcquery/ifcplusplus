@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcBoundingBox;
 class IFCQUERY_EXPORT IfcBoxedHalfSpace : public IfcHalfSpaceSolid
 { 
 public:
-	IfcBoxedHalfSpace();
+	IfcBoxedHalfSpace() = default;
 	IfcBoxedHalfSpace( int id );
 	~IfcBoxedHalfSpace();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

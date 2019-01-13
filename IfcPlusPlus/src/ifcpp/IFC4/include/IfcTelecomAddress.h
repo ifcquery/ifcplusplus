@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcURIReference;
 class IFCQUERY_EXPORT IfcTelecomAddress : public IfcAddress
 { 
 public:
-	IfcTelecomAddress();
+	IfcTelecomAddress() = default;
 	IfcTelecomAddress( int id );
 	~IfcTelecomAddress();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

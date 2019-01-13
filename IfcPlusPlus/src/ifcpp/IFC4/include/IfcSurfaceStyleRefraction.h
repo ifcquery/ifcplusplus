@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcReal;
 class IFCQUERY_EXPORT IfcSurfaceStyleRefraction : virtual public IfcSurfaceStyleElementSelect, public IfcPresentationItem
 { 
 public:
-	IfcSurfaceStyleRefraction();
+	IfcSurfaceStyleRefraction() = default;
 	IfcSurfaceStyleRefraction( int id );
 	~IfcSurfaceStyleRefraction();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

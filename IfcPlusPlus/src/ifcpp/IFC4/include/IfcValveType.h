@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcValveTypeEnum;
 class IFCQUERY_EXPORT IfcValveType : public IfcFlowControllerType
 { 
 public:
-	IfcValveType();
+	IfcValveType() = default;
 	IfcValveType( int id );
 	~IfcValveType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

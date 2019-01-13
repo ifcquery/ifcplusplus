@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // TYPE IfcURIReference = STRING;
-IfcURIReference::IfcURIReference() {}
 IfcURIReference::IfcURIReference( std::wstring value ) { m_value = value; }
 IfcURIReference::~IfcURIReference() {}
 shared_ptr<BuildingObject> IfcURIReference::getDeepCopy( BuildingCopyOptions& options )
@@ -32,7 +31,7 @@ const std::wstring IfcURIReference::toString() const
 shared_ptr<IfcURIReference> IfcURIReference::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcURIReference>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcURIReference>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcURIReference>(); }
 	shared_ptr<IfcURIReference> type_object( new IfcURIReference() );
 	readString( arg, type_object->m_value );
 	return type_object;

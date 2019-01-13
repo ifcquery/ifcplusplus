@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcMaterialDefinition;
 class IFCQUERY_EXPORT IfcMaterialProperties : public IfcExtendedProperties
 { 
 public:
-	IfcMaterialProperties();
+	IfcMaterialProperties() = default;
 	IfcMaterialProperties( int id );
 	~IfcMaterialProperties();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcCoordinateReferenceSystem 
-IfcCoordinateReferenceSystem::IfcCoordinateReferenceSystem() {}
 IfcCoordinateReferenceSystem::IfcCoordinateReferenceSystem( int id ) { m_entity_id = id; }
 IfcCoordinateReferenceSystem::~IfcCoordinateReferenceSystem() {}
 shared_ptr<BuildingObject> IfcCoordinateReferenceSystem::getDeepCopy( BuildingCopyOptions& options )
@@ -51,24 +50,24 @@ void IfcCoordinateReferenceSystem::readStepArguments( const std::vector<std::wst
 }
 void IfcCoordinateReferenceSystem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "GeodeticDatum", m_GeodeticDatum ) );
-	vec_attributes.push_back( std::make_pair( "VerticalDatum", m_VerticalDatum ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "GeodeticDatum", m_GeodeticDatum ) );
+	vec_attributes.emplace_back( std::make_pair( "VerticalDatum", m_VerticalDatum ) );
 }
 void IfcCoordinateReferenceSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_HasCoordinateOperation_inverse.size() > 0 )
+	if( !m_HasCoordinateOperation_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasCoordinateOperation_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasCoordinateOperation_inverse.size(); ++i )
 		{
 			if( !m_HasCoordinateOperation_inverse[i].expired() )
 			{
-				HasCoordinateOperation_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcCoordinateOperation>( m_HasCoordinateOperation_inverse[i] ) );
+				HasCoordinateOperation_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcCoordinateOperation>( m_HasCoordinateOperation_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasCoordinateOperation_inverse", HasCoordinateOperation_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasCoordinateOperation_inverse", HasCoordinateOperation_inverse_vec_obj ) );
 	}
 }
 void IfcCoordinateReferenceSystem::setInverseCounterparts( shared_ptr<BuildingEntity> )

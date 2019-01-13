@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcProfileProperties 
-IfcProfileProperties::IfcProfileProperties() {}
 IfcProfileProperties::IfcProfileProperties( int id ) { m_entity_id = id; }
 IfcProfileProperties::~IfcProfileProperties() {}
 shared_ptr<BuildingObject> IfcProfileProperties::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcProfileProperties::getDeepCopy( BuildingCopyOption
 		auto item_ii = m_Properties[ii];
 		if( item_ii )
 		{
-			copy_self->m_Properties.push_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Properties.emplace_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_ProfileDefinition )
@@ -64,7 +63,7 @@ void IfcProfileProperties::readStepArguments( const std::vector<std::wstring>& a
 void IfcProfileProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExtendedProperties::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ProfileDefinition", m_ProfileDefinition ) );
+	vec_attributes.emplace_back( std::make_pair( "ProfileDefinition", m_ProfileDefinition ) );
 }
 void IfcProfileProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -77,7 +76,7 @@ void IfcProfileProperties::setInverseCounterparts( shared_ptr<BuildingEntity> pt
 	if( !ptr_self ) { throw BuildingException( "IfcProfileProperties::setInverseCounterparts: type mismatch" ); }
 	if( m_ProfileDefinition )
 	{
-		m_ProfileDefinition->m_HasProperties_inverse.push_back( ptr_self );
+		m_ProfileDefinition->m_HasProperties_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcProfileProperties::unlinkFromInverseCounterparts()

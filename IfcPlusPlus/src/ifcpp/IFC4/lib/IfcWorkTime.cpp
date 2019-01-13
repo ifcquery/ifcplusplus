@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcWorkTime.h"
 
 // ENTITY IfcWorkTime 
-IfcWorkTime::IfcWorkTime() {}
 IfcWorkTime::IfcWorkTime( int id ) { m_entity_id = id; }
 IfcWorkTime::~IfcWorkTime() {}
 shared_ptr<BuildingObject> IfcWorkTime::getDeepCopy( BuildingCopyOptions& options )
@@ -60,9 +59,9 @@ void IfcWorkTime::readStepArguments( const std::vector<std::wstring>& args, cons
 void IfcWorkTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSchedulingTime::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RecurrencePattern", m_RecurrencePattern ) );
-	vec_attributes.push_back( std::make_pair( "Start", m_Start ) );
-	vec_attributes.push_back( std::make_pair( "Finish", m_Finish ) );
+	vec_attributes.emplace_back( std::make_pair( "RecurrencePattern", m_RecurrencePattern ) );
+	vec_attributes.emplace_back( std::make_pair( "Start", m_Start ) );
+	vec_attributes.emplace_back( std::make_pair( "Finish", m_Finish ) );
 }
 void IfcWorkTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

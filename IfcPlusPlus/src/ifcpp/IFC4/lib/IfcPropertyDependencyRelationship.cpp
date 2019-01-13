@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPropertyDependencyRelationship 
-IfcPropertyDependencyRelationship::IfcPropertyDependencyRelationship() {}
 IfcPropertyDependencyRelationship::IfcPropertyDependencyRelationship( int id ) { m_entity_id = id; }
 IfcPropertyDependencyRelationship::~IfcPropertyDependencyRelationship() {}
 shared_ptr<BuildingObject> IfcPropertyDependencyRelationship::getDeepCopy( BuildingCopyOptions& options )
@@ -55,9 +54,9 @@ void IfcPropertyDependencyRelationship::readStepArguments( const std::vector<std
 void IfcPropertyDependencyRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "DependingProperty", m_DependingProperty ) );
-	vec_attributes.push_back( std::make_pair( "DependantProperty", m_DependantProperty ) );
-	vec_attributes.push_back( std::make_pair( "Expression", m_Expression ) );
+	vec_attributes.emplace_back( std::make_pair( "DependingProperty", m_DependingProperty ) );
+	vec_attributes.emplace_back( std::make_pair( "DependantProperty", m_DependantProperty ) );
+	vec_attributes.emplace_back( std::make_pair( "Expression", m_Expression ) );
 }
 void IfcPropertyDependencyRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -70,11 +69,11 @@ void IfcPropertyDependencyRelationship::setInverseCounterparts( shared_ptr<Build
 	if( !ptr_self ) { throw BuildingException( "IfcPropertyDependencyRelationship::setInverseCounterparts: type mismatch" ); }
 	if( m_DependantProperty )
 	{
-		m_DependantProperty->m_PropertyDependsOn_inverse.push_back( ptr_self );
+		m_DependantProperty->m_PropertyDependsOn_inverse.emplace_back( ptr_self );
 	}
 	if( m_DependingProperty )
 	{
-		m_DependingProperty->m_PropertyForDependance_inverse.push_back( ptr_self );
+		m_DependingProperty->m_PropertyForDependance_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcPropertyDependencyRelationship::unlinkFromInverseCounterparts()

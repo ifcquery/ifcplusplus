@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelAssociatesDocument 
-IfcRelAssociatesDocument::IfcRelAssociatesDocument() {}
 IfcRelAssociatesDocument::IfcRelAssociatesDocument( int id ) { m_entity_id = id; }
 IfcRelAssociatesDocument::~IfcRelAssociatesDocument() {}
 shared_ptr<BuildingObject> IfcRelAssociatesDocument::getDeepCopy( BuildingCopyOptions& options )
@@ -26,7 +25,7 @@ shared_ptr<BuildingObject> IfcRelAssociatesDocument::getDeepCopy( BuildingCopyOp
 	shared_ptr<IfcRelAssociatesDocument> copy_self( new IfcRelAssociatesDocument() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -41,7 +40,7 @@ shared_ptr<BuildingObject> IfcRelAssociatesDocument::getDeepCopy( BuildingCopyOp
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatingDocument ) { copy_self->m_RelatingDocument = dynamic_pointer_cast<IfcDocumentSelect>( m_RelatingDocument->getDeepCopy(options) ); }
@@ -96,7 +95,7 @@ void IfcRelAssociatesDocument::readStepArguments( const std::vector<std::wstring
 void IfcRelAssociatesDocument::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssociates::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingDocument", m_RelatingDocument ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingDocument", m_RelatingDocument ) );
 }
 void IfcRelAssociatesDocument::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -110,12 +109,12 @@ void IfcRelAssociatesDocument::setInverseCounterparts( shared_ptr<BuildingEntity
 	shared_ptr<IfcDocumentInformation>  RelatingDocument_IfcDocumentInformation = dynamic_pointer_cast<IfcDocumentInformation>( m_RelatingDocument );
 	if( RelatingDocument_IfcDocumentInformation )
 	{
-		RelatingDocument_IfcDocumentInformation->m_DocumentInfoForObjects_inverse.push_back( ptr_self );
+		RelatingDocument_IfcDocumentInformation->m_DocumentInfoForObjects_inverse.emplace_back( ptr_self );
 	}
 	shared_ptr<IfcDocumentReference>  RelatingDocument_IfcDocumentReference = dynamic_pointer_cast<IfcDocumentReference>( m_RelatingDocument );
 	if( RelatingDocument_IfcDocumentReference )
 	{
-		RelatingDocument_IfcDocumentReference->m_DocumentRefForObjects_inverse.push_back( ptr_self );
+		RelatingDocument_IfcDocumentReference->m_DocumentRefForObjects_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelAssociatesDocument::unlinkFromInverseCounterparts()

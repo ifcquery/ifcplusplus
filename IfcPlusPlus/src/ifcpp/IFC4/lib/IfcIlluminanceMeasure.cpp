@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcIlluminanceMeasure.h"
 
 // TYPE IfcIlluminanceMeasure = REAL;
-IfcIlluminanceMeasure::IfcIlluminanceMeasure() {}
 IfcIlluminanceMeasure::IfcIlluminanceMeasure( double value ) { m_value = value; }
 IfcIlluminanceMeasure::~IfcIlluminanceMeasure() {}
 shared_ptr<BuildingObject> IfcIlluminanceMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcIlluminanceMeasure::toString() const
 shared_ptr<IfcIlluminanceMeasure> IfcIlluminanceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcIlluminanceMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIlluminanceMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcIlluminanceMeasure>(); }
 	shared_ptr<IfcIlluminanceMeasure> type_object( new IfcIlluminanceMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

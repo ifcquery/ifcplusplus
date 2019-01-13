@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcAnalysisTheoryTypeEnum();
+	IfcAnalysisTheoryTypeEnum() = default;
 	IfcAnalysisTheoryTypeEnum( IfcAnalysisTheoryTypeEnumEnum e ) { m_enum = e; }
 	~IfcAnalysisTheoryTypeEnum();
 	virtual const char* className() const { return "IfcAnalysisTheoryTypeEnum"; }

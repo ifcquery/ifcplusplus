@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcDoorTypeEnum.h"
 
 // TYPE IfcDoorTypeEnum = ENUMERATION OF	(DOOR	,GATE	,TRAPDOOR	,USERDEFINED	,NOTDEFINED);
-IfcDoorTypeEnum::IfcDoorTypeEnum() {}
 IfcDoorTypeEnum::~IfcDoorTypeEnum() {}
 shared_ptr<BuildingObject> IfcDoorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcDoorTypeEnum::toString() const
 shared_ptr<IfcDoorTypeEnum> IfcDoorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorTypeEnum>(); }
 	shared_ptr<IfcDoorTypeEnum> type_object( new IfcDoorTypeEnum() );
 	if( boost::iequals( arg, L".DOOR." ) )
 	{

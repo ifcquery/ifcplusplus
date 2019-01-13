@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcZone : public IfcSystem
 { 
 public:
-	IfcZone();
+	IfcZone() = default;
 	IfcZone( int id );
 	~IfcZone();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

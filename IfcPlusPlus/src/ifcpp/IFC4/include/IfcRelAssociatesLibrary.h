@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLibrarySelect;
 class IFCQUERY_EXPORT IfcRelAssociatesLibrary : public IfcRelAssociates
 { 
 public:
-	IfcRelAssociatesLibrary();
+	IfcRelAssociatesLibrary() = default;
 	IfcRelAssociatesLibrary( int id );
 	~IfcRelAssociatesLibrary();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcTextureCoordinate.h"
 
 // ENTITY IfcPixelTexture 
-IfcPixelTexture::IfcPixelTexture() {}
 IfcPixelTexture::IfcPixelTexture( int id ) { m_entity_id = id; }
 IfcPixelTexture::~IfcPixelTexture() {}
 shared_ptr<BuildingObject> IfcPixelTexture::getDeepCopy( BuildingCopyOptions& options )
@@ -32,7 +31,7 @@ shared_ptr<BuildingObject> IfcPixelTexture::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_Parameter[ii];
 		if( item_ii )
 		{
-			copy_self->m_Parameter.push_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Parameter.emplace_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Width ) { copy_self->m_Width = dynamic_pointer_cast<IfcInteger>( m_Width->getDeepCopy(options) ); }
@@ -43,7 +42,7 @@ shared_ptr<BuildingObject> IfcPixelTexture::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_Pixel[ii];
 		if( item_ii )
 		{
-			copy_self->m_Pixel.push_back( dynamic_pointer_cast<IfcBinary>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Pixel.emplace_back( dynamic_pointer_cast<IfcBinary>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -123,14 +122,14 @@ void IfcPixelTexture::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcPixelTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSurfaceTexture::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Width", m_Width ) );
-	vec_attributes.push_back( std::make_pair( "Height", m_Height ) );
-	vec_attributes.push_back( std::make_pair( "ColourComponents", m_ColourComponents ) );
-	if( m_Pixel.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Width", m_Width ) );
+	vec_attributes.emplace_back( std::make_pair( "Height", m_Height ) );
+	vec_attributes.emplace_back( std::make_pair( "ColourComponents", m_ColourComponents ) );
+	if( !m_Pixel.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Pixel_vec_object( new AttributeObjectVector() );
 		std::copy( m_Pixel.begin(), m_Pixel.end(), std::back_inserter( Pixel_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Pixel", Pixel_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Pixel", Pixel_vec_object ) );
 	}
 }
 void IfcPixelTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

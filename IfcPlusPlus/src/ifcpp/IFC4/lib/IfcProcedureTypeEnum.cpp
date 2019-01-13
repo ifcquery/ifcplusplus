@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcProcedureTypeEnum.h"
 
 // TYPE IfcProcedureTypeEnum = ENUMERATION OF	(ADVICE_CAUTION	,ADVICE_NOTE	,ADVICE_WARNING	,CALIBRATION	,DIAGNOSTIC	,SHUTDOWN	,STARTUP	,USERDEFINED	,NOTDEFINED);
-IfcProcedureTypeEnum::IfcProcedureTypeEnum() {}
 IfcProcedureTypeEnum::~IfcProcedureTypeEnum() {}
 shared_ptr<BuildingObject> IfcProcedureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -54,7 +53,7 @@ const std::wstring IfcProcedureTypeEnum::toString() const
 shared_ptr<IfcProcedureTypeEnum> IfcProcedureTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProcedureTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProcedureTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProcedureTypeEnum>(); }
 	shared_ptr<IfcProcedureTypeEnum> type_object( new IfcProcedureTypeEnum() );
 	if( boost::iequals( arg, L".ADVICE_CAUTION." ) )
 	{

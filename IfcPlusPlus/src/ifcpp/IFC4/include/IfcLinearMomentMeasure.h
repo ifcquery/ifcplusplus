@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcLinearMomentMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcLinearMomentMeasure();
+	IfcLinearMomentMeasure() = default;
 	IfcLinearMomentMeasure( double value );
 	~IfcLinearMomentMeasure();
 	virtual const char* className() const { return "IfcLinearMomentMeasure"; }

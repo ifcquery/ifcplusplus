@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcDoseEquivalentMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcDoseEquivalentMeasure();
+	IfcDoseEquivalentMeasure() = default;
 	IfcDoseEquivalentMeasure( double value );
 	~IfcDoseEquivalentMeasure();
 	virtual const char* className() const { return "IfcDoseEquivalentMeasure"; }

@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcTextureVertexList.h"
 
 // ENTITY IfcIndexedTriangleTextureMap 
-IfcIndexedTriangleTextureMap::IfcIndexedTriangleTextureMap() {}
 IfcIndexedTriangleTextureMap::IfcIndexedTriangleTextureMap( int id ) { m_entity_id = id; }
 IfcIndexedTriangleTextureMap::~IfcIndexedTriangleTextureMap() {}
 shared_ptr<BuildingObject> IfcIndexedTriangleTextureMap::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcIndexedTriangleTextureMap::getDeepCopy( BuildingCo
 		auto item_ii = m_Maps[ii];
 		if( item_ii )
 		{
-			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Maps.emplace_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy(options) ); }
@@ -40,7 +39,7 @@ shared_ptr<BuildingObject> IfcIndexedTriangleTextureMap::getDeepCopy( BuildingCo
 			shared_ptr<IfcPositiveInteger>& item_jj = vec_ii[jj];
 			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
+				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}

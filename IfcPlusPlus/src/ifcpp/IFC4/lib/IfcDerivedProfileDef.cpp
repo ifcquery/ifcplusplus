@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcDerivedProfileDef 
-IfcDerivedProfileDef::IfcDerivedProfileDef() {}
 IfcDerivedProfileDef::IfcDerivedProfileDef( int id ) { m_entity_id = id; }
 IfcDerivedProfileDef::~IfcDerivedProfileDef() {}
 shared_ptr<BuildingObject> IfcDerivedProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -62,9 +61,9 @@ void IfcDerivedProfileDef::readStepArguments( const std::vector<std::wstring>& a
 void IfcDerivedProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ParentProfile", m_ParentProfile ) );
-	vec_attributes.push_back( std::make_pair( "Operator", m_Operator ) );
-	vec_attributes.push_back( std::make_pair( "Label", m_Label ) );
+	vec_attributes.emplace_back( std::make_pair( "ParentProfile", m_ParentProfile ) );
+	vec_attributes.emplace_back( std::make_pair( "Operator", m_Operator ) );
+	vec_attributes.emplace_back( std::make_pair( "Label", m_Label ) );
 }
 void IfcDerivedProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

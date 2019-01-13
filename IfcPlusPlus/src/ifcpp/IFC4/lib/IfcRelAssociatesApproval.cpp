@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelAssociatesApproval 
-IfcRelAssociatesApproval::IfcRelAssociatesApproval() {}
 IfcRelAssociatesApproval::IfcRelAssociatesApproval( int id ) { m_entity_id = id; }
 IfcRelAssociatesApproval::~IfcRelAssociatesApproval() {}
 shared_ptr<BuildingObject> IfcRelAssociatesApproval::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelAssociatesApproval::getDeepCopy( BuildingCopyOp
 	shared_ptr<IfcRelAssociatesApproval> copy_self( new IfcRelAssociatesApproval() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -39,7 +38,7 @@ shared_ptr<BuildingObject> IfcRelAssociatesApproval::getDeepCopy( BuildingCopyOp
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatingApproval ) { copy_self->m_RelatingApproval = dynamic_pointer_cast<IfcApproval>( m_RelatingApproval->getDeepCopy(options) ); }
@@ -94,7 +93,7 @@ void IfcRelAssociatesApproval::readStepArguments( const std::vector<std::wstring
 void IfcRelAssociatesApproval::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssociates::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingApproval", m_RelatingApproval ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingApproval", m_RelatingApproval ) );
 }
 void IfcRelAssociatesApproval::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -107,7 +106,7 @@ void IfcRelAssociatesApproval::setInverseCounterparts( shared_ptr<BuildingEntity
 	if( !ptr_self ) { throw BuildingException( "IfcRelAssociatesApproval::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatingApproval )
 	{
-		m_RelatingApproval->m_ApprovedObjects_inverse.push_back( ptr_self );
+		m_RelatingApproval->m_ApprovedObjects_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelAssociatesApproval::unlinkFromInverseCounterparts()

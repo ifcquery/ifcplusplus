@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcDistributionSystemEnum;
 class IFCQUERY_EXPORT IfcDistributionSystem : public IfcSystem
 { 
 public:
-	IfcDistributionSystem();
+	IfcDistributionSystem() = default;
 	IfcDistributionSystem( int id );
 	~IfcDistributionSystem();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

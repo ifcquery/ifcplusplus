@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcStructuralSurfaceActivityTypeEnum;
 class IFCQUERY_EXPORT IfcStructuralSurfaceReaction : public IfcStructuralReaction
 { 
 public:
-	IfcStructuralSurfaceReaction();
+	IfcStructuralSurfaceReaction() = default;
 	IfcStructuralSurfaceReaction( int id );
 	~IfcStructuralSurfaceReaction();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

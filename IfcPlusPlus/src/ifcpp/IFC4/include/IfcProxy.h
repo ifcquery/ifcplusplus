@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcProxy : public IfcProduct
 { 
 public:
-	IfcProxy();
+	IfcProxy() = default;
 	IfcProxy( int id );
 	~IfcProxy();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

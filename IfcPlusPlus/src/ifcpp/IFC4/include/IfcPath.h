@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcOrientedEdge;
 class IFCQUERY_EXPORT IfcPath : public IfcTopologicalRepresentationItem
 { 
 public:
-	IfcPath();
+	IfcPath() = default;
 	IfcPath( int id );
 	~IfcPath();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

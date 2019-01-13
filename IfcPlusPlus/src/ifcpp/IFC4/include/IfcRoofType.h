@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRoofTypeEnum;
 class IFCQUERY_EXPORT IfcRoofType : public IfcBuildingElementType
 { 
 public:
-	IfcRoofType();
+	IfcRoofType() = default;
 	IfcRoofType( int id );
 	~IfcRoofType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

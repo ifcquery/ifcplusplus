@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcApproval;
 class IFCQUERY_EXPORT IfcResourceApprovalRelationship : public IfcResourceLevelRelationship
 { 
 public:
-	IfcResourceApprovalRelationship();
+	IfcResourceApprovalRelationship() = default;
 	IfcResourceApprovalRelationship( int id );
 	~IfcResourceApprovalRelationship();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

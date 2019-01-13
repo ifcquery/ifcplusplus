@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCompressorTypeEnum;
 class IFCQUERY_EXPORT IfcCompressorType : public IfcFlowMovingDeviceType
 { 
 public:
-	IfcCompressorType();
+	IfcCompressorType() = default;
 	IfcCompressorType( int id );
 	~IfcCompressorType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

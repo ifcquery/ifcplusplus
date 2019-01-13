@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcPhysicalQuantity;
 class IFCQUERY_EXPORT IfcConstructionResource : public IfcResource
 { 
 public:
-	IfcConstructionResource();
+	IfcConstructionResource() = default;
 	IfcConstructionResource( int id );
 	~IfcConstructionResource();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

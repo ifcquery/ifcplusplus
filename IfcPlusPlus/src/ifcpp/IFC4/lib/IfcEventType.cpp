@@ -25,7 +25,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcEventType 
-IfcEventType::IfcEventType() {}
 IfcEventType::IfcEventType( int id ) { m_entity_id = id; }
 IfcEventType::~IfcEventType() {}
 shared_ptr<BuildingObject> IfcEventType::getDeepCopy( BuildingCopyOptions& options )
@@ -33,7 +32,7 @@ shared_ptr<BuildingObject> IfcEventType::getDeepCopy( BuildingCopyOptions& optio
 	shared_ptr<IfcEventType> copy_self( new IfcEventType() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -49,7 +48,7 @@ shared_ptr<BuildingObject> IfcEventType::getDeepCopy( BuildingCopyOptions& optio
 		auto item_ii = m_HasPropertySets[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasPropertySets.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_HasPropertySets.emplace_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
@@ -110,9 +109,9 @@ void IfcEventType::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcEventType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTypeProcess::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
-	vec_attributes.push_back( std::make_pair( "EventTriggerType", m_EventTriggerType ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedEventTriggerType", m_UserDefinedEventTriggerType ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "EventTriggerType", m_EventTriggerType ) );
+	vec_attributes.emplace_back( std::make_pair( "UserDefinedEventTriggerType", m_UserDefinedEventTriggerType ) );
 }
 void IfcEventType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

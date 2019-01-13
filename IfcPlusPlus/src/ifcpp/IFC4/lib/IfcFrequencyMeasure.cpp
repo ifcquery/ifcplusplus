@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcFrequencyMeasure.h"
 
 // TYPE IfcFrequencyMeasure = REAL;
-IfcFrequencyMeasure::IfcFrequencyMeasure() {}
 IfcFrequencyMeasure::IfcFrequencyMeasure( double value ) { m_value = value; }
 IfcFrequencyMeasure::~IfcFrequencyMeasure() {}
 shared_ptr<BuildingObject> IfcFrequencyMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcFrequencyMeasure::toString() const
 shared_ptr<IfcFrequencyMeasure> IfcFrequencyMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFrequencyMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFrequencyMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFrequencyMeasure>(); }
 	shared_ptr<IfcFrequencyMeasure> type_object( new IfcFrequencyMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

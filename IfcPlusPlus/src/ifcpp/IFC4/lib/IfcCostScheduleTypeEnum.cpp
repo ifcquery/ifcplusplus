@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCostScheduleTypeEnum.h"
 
 // TYPE IfcCostScheduleTypeEnum = ENUMERATION OF	(BUDGET	,COSTPLAN	,ESTIMATE	,TENDER	,PRICEDBILLOFQUANTITIES	,UNPRICEDBILLOFQUANTITIES	,SCHEDULEOFRATES	,USERDEFINED	,NOTDEFINED);
-IfcCostScheduleTypeEnum::IfcCostScheduleTypeEnum() {}
 IfcCostScheduleTypeEnum::~IfcCostScheduleTypeEnum() {}
 shared_ptr<BuildingObject> IfcCostScheduleTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -54,7 +53,7 @@ const std::wstring IfcCostScheduleTypeEnum::toString() const
 shared_ptr<IfcCostScheduleTypeEnum> IfcCostScheduleTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCostScheduleTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCostScheduleTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCostScheduleTypeEnum>(); }
 	shared_ptr<IfcCostScheduleTypeEnum> type_object( new IfcCostScheduleTypeEnum() );
 	if( boost::iequals( arg, L".BUDGET." ) )
 	{

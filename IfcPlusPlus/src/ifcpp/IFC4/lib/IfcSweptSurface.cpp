@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcSweptSurface.h"
 
 // ENTITY IfcSweptSurface 
-IfcSweptSurface::IfcSweptSurface() {}
 IfcSweptSurface::IfcSweptSurface( int id ) { m_entity_id = id; }
 IfcSweptSurface::~IfcSweptSurface() {}
 shared_ptr<BuildingObject> IfcSweptSurface::getDeepCopy( BuildingCopyOptions& options )
@@ -48,8 +47,8 @@ void IfcSweptSurface::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcSweptSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "SweptCurve", m_SweptCurve ) );
-	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
+	vec_attributes.emplace_back( std::make_pair( "SweptCurve", m_SweptCurve ) );
+	vec_attributes.emplace_back( std::make_pair( "Position", m_Position ) );
 }
 void IfcSweptSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

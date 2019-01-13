@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcVibrationIsolatorTypeEnum();
+	IfcVibrationIsolatorTypeEnum() = default;
 	IfcVibrationIsolatorTypeEnum( IfcVibrationIsolatorTypeEnumEnum e ) { m_enum = e; }
 	~IfcVibrationIsolatorTypeEnum();
 	virtual const char* className() const { return "IfcVibrationIsolatorTypeEnum"; }

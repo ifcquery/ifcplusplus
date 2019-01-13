@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcInternalOrExternalEnum();
+	IfcInternalOrExternalEnum() = default;
 	IfcInternalOrExternalEnum( IfcInternalOrExternalEnumEnum e ) { m_enum = e; }
 	~IfcInternalOrExternalEnum();
 	virtual const char* className() const { return "IfcInternalOrExternalEnum"; }

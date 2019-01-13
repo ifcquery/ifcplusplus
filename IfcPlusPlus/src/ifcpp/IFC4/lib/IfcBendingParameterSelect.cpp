@@ -10,7 +10,7 @@
 // TYPE IfcBendingParameterSelect = SELECT	(IfcLengthMeasure	,IfcPlaneAngleMeasure);
 shared_ptr<IfcBendingParameterSelect> IfcBendingParameterSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcBendingParameterSelect>(); }
+	if( arg.empty() ){ return shared_ptr<IfcBendingParameterSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcBendingParameterSelect>();

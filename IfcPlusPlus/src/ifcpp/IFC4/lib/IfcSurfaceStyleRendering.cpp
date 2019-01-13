@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcSurfaceStyleRendering.h"
 
 // ENTITY IfcSurfaceStyleRendering 
-IfcSurfaceStyleRendering::IfcSurfaceStyleRendering() {}
 IfcSurfaceStyleRendering::IfcSurfaceStyleRendering( int id ) { m_entity_id = id; }
 IfcSurfaceStyleRendering::~IfcSurfaceStyleRendering() {}
 shared_ptr<BuildingObject> IfcSurfaceStyleRendering::getDeepCopy( BuildingCopyOptions& options )
@@ -73,13 +72,13 @@ void IfcSurfaceStyleRendering::readStepArguments( const std::vector<std::wstring
 void IfcSurfaceStyleRendering::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSurfaceStyleShading::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "DiffuseColour", m_DiffuseColour ) );
-	vec_attributes.push_back( std::make_pair( "TransmissionColour", m_TransmissionColour ) );
-	vec_attributes.push_back( std::make_pair( "DiffuseTransmissionColour", m_DiffuseTransmissionColour ) );
-	vec_attributes.push_back( std::make_pair( "ReflectionColour", m_ReflectionColour ) );
-	vec_attributes.push_back( std::make_pair( "SpecularColour", m_SpecularColour ) );
-	vec_attributes.push_back( std::make_pair( "SpecularHighlight", m_SpecularHighlight ) );
-	vec_attributes.push_back( std::make_pair( "ReflectanceMethod", m_ReflectanceMethod ) );
+	vec_attributes.emplace_back( std::make_pair( "DiffuseColour", m_DiffuseColour ) );
+	vec_attributes.emplace_back( std::make_pair( "TransmissionColour", m_TransmissionColour ) );
+	vec_attributes.emplace_back( std::make_pair( "DiffuseTransmissionColour", m_DiffuseTransmissionColour ) );
+	vec_attributes.emplace_back( std::make_pair( "ReflectionColour", m_ReflectionColour ) );
+	vec_attributes.emplace_back( std::make_pair( "SpecularColour", m_SpecularColour ) );
+	vec_attributes.emplace_back( std::make_pair( "SpecularHighlight", m_SpecularHighlight ) );
+	vec_attributes.emplace_back( std::make_pair( "ReflectanceMethod", m_ReflectanceMethod ) );
 }
 void IfcSurfaceStyleRendering::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

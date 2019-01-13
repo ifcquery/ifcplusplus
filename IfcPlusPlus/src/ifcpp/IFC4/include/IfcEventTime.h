@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcDateTime;
 class IFCQUERY_EXPORT IfcEventTime : public IfcSchedulingTime
 { 
 public:
-	IfcEventTime();
+	IfcEventTime() = default;
 	IfcEventTime( int id );
 	~IfcEventTime();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

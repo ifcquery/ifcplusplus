@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcTextureMap.h"
 
 // ENTITY IfcAdvancedFace 
-IfcAdvancedFace::IfcAdvancedFace() {}
 IfcAdvancedFace::IfcAdvancedFace( int id ) { m_entity_id = id; }
 IfcAdvancedFace::~IfcAdvancedFace() {}
 shared_ptr<BuildingObject> IfcAdvancedFace::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcAdvancedFace::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_Bounds[ii];
 		if( item_ii )
 		{
-			copy_self->m_Bounds.push_back( dynamic_pointer_cast<IfcFaceBound>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Bounds.emplace_back( dynamic_pointer_cast<IfcFaceBound>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_FaceSurface ) { copy_self->m_FaceSurface = dynamic_pointer_cast<IfcSurface>( m_FaceSurface->getDeepCopy(options) ); }

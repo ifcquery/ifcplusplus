@@ -28,7 +28,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcReinforcingMeshType 
-IfcReinforcingMeshType::IfcReinforcingMeshType() {}
 IfcReinforcingMeshType::IfcReinforcingMeshType( int id ) { m_entity_id = id; }
 IfcReinforcingMeshType::~IfcReinforcingMeshType() {}
 shared_ptr<BuildingObject> IfcReinforcingMeshType::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ shared_ptr<BuildingObject> IfcReinforcingMeshType::getDeepCopy( BuildingCopyOpti
 	shared_ptr<IfcReinforcingMeshType> copy_self( new IfcReinforcingMeshType() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -52,7 +51,7 @@ shared_ptr<BuildingObject> IfcReinforcingMeshType::getDeepCopy( BuildingCopyOpti
 		auto item_ii = m_HasPropertySets[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasPropertySets.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_HasPropertySets.emplace_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_RepresentationMaps.size(); ++ii )
@@ -60,7 +59,7 @@ shared_ptr<BuildingObject> IfcReinforcingMeshType::getDeepCopy( BuildingCopyOpti
 		auto item_ii = m_RepresentationMaps[ii];
 		if( item_ii )
 		{
-			copy_self->m_RepresentationMaps.push_back( dynamic_pointer_cast<IfcRepresentationMap>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RepresentationMaps.emplace_back( dynamic_pointer_cast<IfcRepresentationMap>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcLabel>( m_Tag->getDeepCopy(options) ); }
@@ -80,7 +79,7 @@ shared_ptr<BuildingObject> IfcReinforcingMeshType::getDeepCopy( BuildingCopyOpti
 		auto item_ii = m_BendingParameters[ii];
 		if( item_ii )
 		{
-			copy_self->m_BendingParameters.push_back( dynamic_pointer_cast<IfcBendingParameterSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_BendingParameters.emplace_back( dynamic_pointer_cast<IfcBendingParameterSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -176,21 +175,21 @@ void IfcReinforcingMeshType::readStepArguments( const std::vector<std::wstring>&
 void IfcReinforcingMeshType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcReinforcingElementType::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
-	vec_attributes.push_back( std::make_pair( "MeshLength", m_MeshLength ) );
-	vec_attributes.push_back( std::make_pair( "MeshWidth", m_MeshWidth ) );
-	vec_attributes.push_back( std::make_pair( "LongitudinalBarNominalDiameter", m_LongitudinalBarNominalDiameter ) );
-	vec_attributes.push_back( std::make_pair( "TransverseBarNominalDiameter", m_TransverseBarNominalDiameter ) );
-	vec_attributes.push_back( std::make_pair( "LongitudinalBarCrossSectionArea", m_LongitudinalBarCrossSectionArea ) );
-	vec_attributes.push_back( std::make_pair( "TransverseBarCrossSectionArea", m_TransverseBarCrossSectionArea ) );
-	vec_attributes.push_back( std::make_pair( "LongitudinalBarSpacing", m_LongitudinalBarSpacing ) );
-	vec_attributes.push_back( std::make_pair( "TransverseBarSpacing", m_TransverseBarSpacing ) );
-	vec_attributes.push_back( std::make_pair( "BendingShapeCode", m_BendingShapeCode ) );
-	if( m_BendingParameters.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "MeshLength", m_MeshLength ) );
+	vec_attributes.emplace_back( std::make_pair( "MeshWidth", m_MeshWidth ) );
+	vec_attributes.emplace_back( std::make_pair( "LongitudinalBarNominalDiameter", m_LongitudinalBarNominalDiameter ) );
+	vec_attributes.emplace_back( std::make_pair( "TransverseBarNominalDiameter", m_TransverseBarNominalDiameter ) );
+	vec_attributes.emplace_back( std::make_pair( "LongitudinalBarCrossSectionArea", m_LongitudinalBarCrossSectionArea ) );
+	vec_attributes.emplace_back( std::make_pair( "TransverseBarCrossSectionArea", m_TransverseBarCrossSectionArea ) );
+	vec_attributes.emplace_back( std::make_pair( "LongitudinalBarSpacing", m_LongitudinalBarSpacing ) );
+	vec_attributes.emplace_back( std::make_pair( "TransverseBarSpacing", m_TransverseBarSpacing ) );
+	vec_attributes.emplace_back( std::make_pair( "BendingShapeCode", m_BendingShapeCode ) );
+	if( !m_BendingParameters.empty() )
 	{
 		shared_ptr<AttributeObjectVector> BendingParameters_vec_object( new AttributeObjectVector() );
 		std::copy( m_BendingParameters.begin(), m_BendingParameters.end(), std::back_inserter( BendingParameters_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "BendingParameters", BendingParameters_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "BendingParameters", BendingParameters_vec_object ) );
 	}
 }
 void IfcReinforcingMeshType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

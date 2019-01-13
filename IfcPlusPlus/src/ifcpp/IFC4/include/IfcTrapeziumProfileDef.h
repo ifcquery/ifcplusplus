@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcTrapeziumProfileDef : public IfcParameterizedProfileDef
 { 
 public:
-	IfcTrapeziumProfileDef();
+	IfcTrapeziumProfileDef() = default;
 	IfcTrapeziumProfileDef( int id );
 	~IfcTrapeziumProfileDef();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

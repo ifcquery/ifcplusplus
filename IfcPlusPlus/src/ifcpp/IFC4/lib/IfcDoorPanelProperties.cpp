@@ -24,7 +24,6 @@
 #include "ifcpp/IFC4/include/IfcTypeObject.h"
 
 // ENTITY IfcDoorPanelProperties 
-IfcDoorPanelProperties::IfcDoorPanelProperties() {}
 IfcDoorPanelProperties::IfcDoorPanelProperties( int id ) { m_entity_id = id; }
 IfcDoorPanelProperties::~IfcDoorPanelProperties() {}
 shared_ptr<BuildingObject> IfcDoorPanelProperties::getDeepCopy( BuildingCopyOptions& options )
@@ -32,7 +31,7 @@ shared_ptr<BuildingObject> IfcDoorPanelProperties::getDeepCopy( BuildingCopyOpti
 	shared_ptr<IfcDoorPanelProperties> copy_self( new IfcDoorPanelProperties() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -90,11 +89,11 @@ void IfcDoorPanelProperties::readStepArguments( const std::vector<std::wstring>&
 void IfcDoorPanelProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedPropertySet::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PanelDepth", m_PanelDepth ) );
-	vec_attributes.push_back( std::make_pair( "PanelOperation", m_PanelOperation ) );
-	vec_attributes.push_back( std::make_pair( "PanelWidth", m_PanelWidth ) );
-	vec_attributes.push_back( std::make_pair( "PanelPosition", m_PanelPosition ) );
-	vec_attributes.push_back( std::make_pair( "ShapeAspectStyle", m_ShapeAspectStyle ) );
+	vec_attributes.emplace_back( std::make_pair( "PanelDepth", m_PanelDepth ) );
+	vec_attributes.emplace_back( std::make_pair( "PanelOperation", m_PanelOperation ) );
+	vec_attributes.emplace_back( std::make_pair( "PanelWidth", m_PanelWidth ) );
+	vec_attributes.emplace_back( std::make_pair( "PanelPosition", m_PanelPosition ) );
+	vec_attributes.emplace_back( std::make_pair( "ShapeAspectStyle", m_ShapeAspectStyle ) );
 }
 void IfcDoorPanelProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcThermodynamicTemperatureMeasure.h"
 
 // ENTITY IfcStructuralLoadTemperature 
-IfcStructuralLoadTemperature::IfcStructuralLoadTemperature() {}
 IfcStructuralLoadTemperature::IfcStructuralLoadTemperature( int id ) { m_entity_id = id; }
 IfcStructuralLoadTemperature::~IfcStructuralLoadTemperature() {}
 shared_ptr<BuildingObject> IfcStructuralLoadTemperature::getDeepCopy( BuildingCopyOptions& options )
@@ -50,9 +49,9 @@ void IfcStructuralLoadTemperature::readStepArguments( const std::vector<std::wst
 void IfcStructuralLoadTemperature::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadStatic::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "DeltaTConstant", m_DeltaTConstant ) );
-	vec_attributes.push_back( std::make_pair( "DeltaTY", m_DeltaTY ) );
-	vec_attributes.push_back( std::make_pair( "DeltaTZ", m_DeltaTZ ) );
+	vec_attributes.emplace_back( std::make_pair( "DeltaTConstant", m_DeltaTConstant ) );
+	vec_attributes.emplace_back( std::make_pair( "DeltaTY", m_DeltaTY ) );
+	vec_attributes.emplace_back( std::make_pair( "DeltaTZ", m_DeltaTZ ) );
 }
 void IfcStructuralLoadTemperature::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

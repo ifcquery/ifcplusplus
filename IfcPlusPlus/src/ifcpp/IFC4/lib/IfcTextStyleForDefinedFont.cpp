@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcTextStyleForDefinedFont.h"
 
 // ENTITY IfcTextStyleForDefinedFont 
-IfcTextStyleForDefinedFont::IfcTextStyleForDefinedFont() {}
 IfcTextStyleForDefinedFont::IfcTextStyleForDefinedFont( int id ) { m_entity_id = id; }
 IfcTextStyleForDefinedFont::~IfcTextStyleForDefinedFont() {}
 shared_ptr<BuildingObject> IfcTextStyleForDefinedFont::getDeepCopy( BuildingCopyOptions& options )
@@ -41,8 +40,8 @@ void IfcTextStyleForDefinedFont::readStepArguments( const std::vector<std::wstri
 void IfcTextStyleForDefinedFont::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Colour", m_Colour ) );
-	vec_attributes.push_back( std::make_pair( "BackgroundColour", m_BackgroundColour ) );
+	vec_attributes.emplace_back( std::make_pair( "Colour", m_Colour ) );
+	vec_attributes.emplace_back( std::make_pair( "BackgroundColour", m_BackgroundColour ) );
 }
 void IfcTextStyleForDefinedFont::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

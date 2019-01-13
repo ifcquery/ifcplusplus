@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcLogical;
 class IFCQUERY_EXPORT IfcOffsetCurve2D : public IfcCurve
 { 
 public:
-	IfcOffsetCurve2D();
+	IfcOffsetCurve2D() = default;
 	IfcOffsetCurve2D( int id );
 	~IfcOffsetCurve2D();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRecurrencePattern;
 class IFCQUERY_EXPORT IfcTaskTimeRecurring : public IfcTaskTime
 { 
 public:
-	IfcTaskTimeRecurring();
+	IfcTaskTimeRecurring() = default;
 	IfcTaskTimeRecurring( int id );
 	~IfcTaskTimeRecurring();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcMassFlowRateMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcMassFlowRateMeasure();
+	IfcMassFlowRateMeasure() = default;
 	IfcMassFlowRateMeasure( double value );
 	~IfcMassFlowRateMeasure();
 	virtual const char* className() const { return "IfcMassFlowRateMeasure"; }

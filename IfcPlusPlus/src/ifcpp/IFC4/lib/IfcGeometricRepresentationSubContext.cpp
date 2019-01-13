@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcRepresentation.h"
 
 // ENTITY IfcGeometricRepresentationSubContext 
-IfcGeometricRepresentationSubContext::IfcGeometricRepresentationSubContext() {}
 IfcGeometricRepresentationSubContext::IfcGeometricRepresentationSubContext( int id ) { m_entity_id = id; }
 IfcGeometricRepresentationSubContext::~IfcGeometricRepresentationSubContext() {}
 shared_ptr<BuildingObject> IfcGeometricRepresentationSubContext::getDeepCopy( BuildingCopyOptions& options )
@@ -45,13 +44,13 @@ void IfcGeometricRepresentationSubContext::getStepLine( std::stringstream& strea
 	stream << ",";
 	if( m_ContextType ) { m_ContextType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_CoordinateSpaceDimension ) { m_CoordinateSpaceDimension->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_CoordinateSpaceDimension ) { m_CoordinateSpaceDimension->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Precision ) { m_Precision->getStepParameter( stream ); } else { stream << "*"; }
+	if( m_Precision ) { m_Precision->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_WorldCoordinateSystem ) { m_WorldCoordinateSystem->getStepParameter( stream, true ); } else { stream << "*" ; }
+	if( m_WorldCoordinateSystem ) { m_WorldCoordinateSystem->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_TrueNorth ) { stream << "#" << m_TrueNorth->m_entity_id; } else { stream << "*"; }
+	if( m_TrueNorth ) { stream << "#" << m_TrueNorth->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_ParentContext ) { stream << "#" << m_ParentContext->m_entity_id; } else { stream << "$"; }
 	stream << ",";
@@ -82,10 +81,10 @@ void IfcGeometricRepresentationSubContext::readStepArguments( const std::vector<
 void IfcGeometricRepresentationSubContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationContext::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ParentContext", m_ParentContext ) );
-	vec_attributes.push_back( std::make_pair( "TargetScale", m_TargetScale ) );
-	vec_attributes.push_back( std::make_pair( "TargetView", m_TargetView ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedTargetView", m_UserDefinedTargetView ) );
+	vec_attributes.emplace_back( std::make_pair( "ParentContext", m_ParentContext ) );
+	vec_attributes.emplace_back( std::make_pair( "TargetScale", m_TargetScale ) );
+	vec_attributes.emplace_back( std::make_pair( "TargetView", m_TargetView ) );
+	vec_attributes.emplace_back( std::make_pair( "UserDefinedTargetView", m_UserDefinedTargetView ) );
 }
 void IfcGeometricRepresentationSubContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -98,7 +97,7 @@ void IfcGeometricRepresentationSubContext::setInverseCounterparts( shared_ptr<Bu
 	if( !ptr_self ) { throw BuildingException( "IfcGeometricRepresentationSubContext::setInverseCounterparts: type mismatch" ); }
 	if( m_ParentContext )
 	{
-		m_ParentContext->m_HasSubContexts_inverse.push_back( ptr_self );
+		m_ParentContext->m_HasSubContexts_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcGeometricRepresentationSubContext::unlinkFromInverseCounterparts()

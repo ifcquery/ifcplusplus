@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcNumericMeasure : public IfcMeasureValue
 {
 public:
-	IfcNumericMeasure();
+	IfcNumericMeasure() = default;
 	IfcNumericMeasure( int value );
 	~IfcNumericMeasure();
 	virtual const char* className() const { return "IfcNumericMeasure"; }

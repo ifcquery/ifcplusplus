@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcFaceOuterBound 
-IfcFaceOuterBound::IfcFaceOuterBound() {}
 IfcFaceOuterBound::IfcFaceOuterBound( int id ) { m_entity_id = id; }
 IfcFaceOuterBound::~IfcFaceOuterBound() {}
 shared_ptr<BuildingObject> IfcFaceOuterBound::getDeepCopy( BuildingCopyOptions& options )

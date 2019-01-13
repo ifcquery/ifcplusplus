@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcSurfaceTexture;
 class IFCQUERY_EXPORT IfcSurfaceStyleWithTextures : virtual public IfcSurfaceStyleElementSelect, public IfcPresentationItem
 { 
 public:
-	IfcSurfaceStyleWithTextures();
+	IfcSurfaceStyleWithTextures() = default;
 	IfcSurfaceStyleWithTextures( int id );
 	~IfcSurfaceStyleWithTextures();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -61,7 +61,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcDistributionSystemEnum();
+	IfcDistributionSystemEnum() = default;
 	IfcDistributionSystemEnum( IfcDistributionSystemEnumEnum e ) { m_enum = e; }
 	~IfcDistributionSystemEnum();
 	virtual const char* className() const { return "IfcDistributionSystemEnum"; }

@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcDuration.h"
 
 // TYPE IfcDuration = STRING;
-IfcDuration::IfcDuration() {}
 IfcDuration::IfcDuration( std::wstring value ) { m_value = value; }
 IfcDuration::~IfcDuration() {}
 shared_ptr<BuildingObject> IfcDuration::getDeepCopy( BuildingCopyOptions& options )
@@ -34,7 +33,7 @@ const std::wstring IfcDuration::toString() const
 shared_ptr<IfcDuration> IfcDuration::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDuration>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuration>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuration>(); }
 	shared_ptr<IfcDuration> type_object( new IfcDuration() );
 	readString( arg, type_object->m_value );
 	return type_object;

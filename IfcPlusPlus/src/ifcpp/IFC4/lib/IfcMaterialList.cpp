@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcMaterialList.h"
 
 // ENTITY IfcMaterialList 
-IfcMaterialList::IfcMaterialList() {}
 IfcMaterialList::IfcMaterialList( int id ) { m_entity_id = id; }
 IfcMaterialList::~IfcMaterialList() {}
 shared_ptr<BuildingObject> IfcMaterialList::getDeepCopy( BuildingCopyOptions& options )
@@ -22,7 +21,7 @@ shared_ptr<BuildingObject> IfcMaterialList::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_Materials[ii];
 		if( item_ii )
 		{
-			copy_self->m_Materials.push_back( dynamic_pointer_cast<IfcMaterial>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Materials.emplace_back( dynamic_pointer_cast<IfcMaterial>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -43,11 +42,11 @@ void IfcMaterialList::readStepArguments( const std::vector<std::wstring>& args, 
 }
 void IfcMaterialList::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( m_Materials.size() > 0 )
+	if( !m_Materials.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Materials_vec_object( new AttributeObjectVector() );
 		std::copy( m_Materials.begin(), m_Materials.end(), std::back_inserter( Materials_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Materials", Materials_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Materials", Materials_vec_object ) );
 	}
 }
 void IfcMaterialList::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

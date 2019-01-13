@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcVector.h"
 
 // ENTITY IfcVector 
-IfcVector::IfcVector() {}
 IfcVector::IfcVector( int id ) { m_entity_id = id; }
 IfcVector::~IfcVector() {}
 shared_ptr<BuildingObject> IfcVector::getDeepCopy( BuildingCopyOptions& options )
@@ -44,8 +43,8 @@ void IfcVector::readStepArguments( const std::vector<std::wstring>& args, const 
 void IfcVector::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Orientation", m_Orientation ) );
-	vec_attributes.push_back( std::make_pair( "Magnitude", m_Magnitude ) );
+	vec_attributes.emplace_back( std::make_pair( "Orientation", m_Orientation ) );
+	vec_attributes.emplace_back( std::make_pair( "Magnitude", m_Magnitude ) );
 }
 void IfcVector::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

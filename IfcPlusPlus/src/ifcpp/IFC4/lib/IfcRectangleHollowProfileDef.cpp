@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcRectangleHollowProfileDef.h"
 
 // ENTITY IfcRectangleHollowProfileDef 
-IfcRectangleHollowProfileDef::IfcRectangleHollowProfileDef() {}
 IfcRectangleHollowProfileDef::IfcRectangleHollowProfileDef( int id ) { m_entity_id = id; }
 IfcRectangleHollowProfileDef::~IfcRectangleHollowProfileDef() {}
 shared_ptr<BuildingObject> IfcRectangleHollowProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -71,9 +70,9 @@ void IfcRectangleHollowProfileDef::readStepArguments( const std::vector<std::wst
 void IfcRectangleHollowProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRectangleProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "WallThickness", m_WallThickness ) );
-	vec_attributes.push_back( std::make_pair( "InnerFilletRadius", m_InnerFilletRadius ) );
-	vec_attributes.push_back( std::make_pair( "OuterFilletRadius", m_OuterFilletRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "WallThickness", m_WallThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "InnerFilletRadius", m_InnerFilletRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "OuterFilletRadius", m_OuterFilletRadius ) );
 }
 void IfcRectangleHollowProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

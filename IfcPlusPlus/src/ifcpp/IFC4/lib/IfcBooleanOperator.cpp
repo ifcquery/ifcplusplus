@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcBooleanOperator.h"
 
 // TYPE IfcBooleanOperator = ENUMERATION OF	(UNION	,INTERSECTION	,DIFFERENCE);
-IfcBooleanOperator::IfcBooleanOperator() {}
 IfcBooleanOperator::~IfcBooleanOperator() {}
 shared_ptr<BuildingObject> IfcBooleanOperator::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -42,7 +41,7 @@ const std::wstring IfcBooleanOperator::toString() const
 shared_ptr<IfcBooleanOperator> IfcBooleanOperator::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBooleanOperator>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBooleanOperator>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBooleanOperator>(); }
 	shared_ptr<IfcBooleanOperator> type_object( new IfcBooleanOperator() );
 	if( boost::iequals( arg, L".UNION." ) )
 	{

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcMaterialSelect;
 class IFCQUERY_EXPORT IfcRelAssociatesMaterial : public IfcRelAssociates
 { 
 public:
-	IfcRelAssociatesMaterial();
+	IfcRelAssociatesMaterial() = default;
 	IfcRelAssociatesMaterial( int id );
 	~IfcRelAssociatesMaterial();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -22,7 +22,6 @@
 #include "ifcpp/IFC4/include/IfcUnitAssignment.h"
 
 // ENTITY IfcContext 
-IfcContext::IfcContext() {}
 IfcContext::IfcContext( int id ) { m_entity_id = id; }
 IfcContext::~IfcContext() {}
 shared_ptr<BuildingObject> IfcContext::getDeepCopy( BuildingCopyOptions& options )
@@ -30,7 +29,7 @@ shared_ptr<BuildingObject> IfcContext::getDeepCopy( BuildingCopyOptions& options
 	shared_ptr<IfcContext> copy_self( new IfcContext() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -48,7 +47,7 @@ shared_ptr<BuildingObject> IfcContext::getDeepCopy( BuildingCopyOptions& options
 		auto item_ii = m_RepresentationContexts[ii];
 		if( item_ii )
 		{
-			copy_self->m_RepresentationContexts.push_back( dynamic_pointer_cast<IfcRepresentationContext>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RepresentationContexts.emplace_back( dynamic_pointer_cast<IfcRepresentationContext>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_UnitsInContext ) { copy_self->m_UnitsInContext = dynamic_pointer_cast<IfcUnitAssignment>( m_UnitsInContext->getDeepCopy(options) ); }
@@ -95,43 +94,43 @@ void IfcContext::readStepArguments( const std::vector<std::wstring>& args, const
 void IfcContext::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcObjectDefinition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ObjectType", m_ObjectType ) );
-	vec_attributes.push_back( std::make_pair( "LongName", m_LongName ) );
-	vec_attributes.push_back( std::make_pair( "Phase", m_Phase ) );
-	if( m_RepresentationContexts.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "ObjectType", m_ObjectType ) );
+	vec_attributes.emplace_back( std::make_pair( "LongName", m_LongName ) );
+	vec_attributes.emplace_back( std::make_pair( "Phase", m_Phase ) );
+	if( !m_RepresentationContexts.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RepresentationContexts_vec_object( new AttributeObjectVector() );
 		std::copy( m_RepresentationContexts.begin(), m_RepresentationContexts.end(), std::back_inserter( RepresentationContexts_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RepresentationContexts", RepresentationContexts_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RepresentationContexts", RepresentationContexts_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "UnitsInContext", m_UnitsInContext ) );
+	vec_attributes.emplace_back( std::make_pair( "UnitsInContext", m_UnitsInContext ) );
 }
 void IfcContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcObjectDefinition::getAttributesInverse( vec_attributes_inverse );
-	if( m_IsDefinedBy_inverse.size() > 0 )
+	if( !m_IsDefinedBy_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> IsDefinedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsDefinedBy_inverse.size(); ++i )
 		{
 			if( !m_IsDefinedBy_inverse[i].expired() )
 			{
-				IsDefinedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDefinesByProperties>( m_IsDefinedBy_inverse[i] ) );
+				IsDefinedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByProperties>( m_IsDefinedBy_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "IsDefinedBy_inverse", IsDefinedBy_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "IsDefinedBy_inverse", IsDefinedBy_inverse_vec_obj ) );
 	}
-	if( m_Declares_inverse.size() > 0 )
+	if( !m_Declares_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Declares_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_Declares_inverse.size(); ++i )
 		{
 			if( !m_Declares_inverse[i].expired() )
 			{
-				Declares_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelDeclares>( m_Declares_inverse[i] ) );
+				Declares_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDeclares>( m_Declares_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "Declares_inverse", Declares_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "Declares_inverse", Declares_inverse_vec_obj ) );
 	}
 }
 void IfcContext::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

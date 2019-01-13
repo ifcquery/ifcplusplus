@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcStyledRepresentation.h"
 
 // ENTITY IfcStyledRepresentation 
-IfcStyledRepresentation::IfcStyledRepresentation() {}
 IfcStyledRepresentation::IfcStyledRepresentation( int id ) { m_entity_id = id; }
 IfcStyledRepresentation::~IfcStyledRepresentation() {}
 shared_ptr<BuildingObject> IfcStyledRepresentation::getDeepCopy( BuildingCopyOptions& options )
@@ -34,7 +33,7 @@ shared_ptr<BuildingObject> IfcStyledRepresentation::getDeepCopy( BuildingCopyOpt
 		auto item_ii = m_Items[ii];
 		if( item_ii )
 		{
-			copy_self->m_Items.push_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Items.emplace_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;

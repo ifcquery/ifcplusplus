@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcRotationalStiffnessSelect;
 class IFCQUERY_EXPORT IfcBoundaryNodeCondition : public IfcBoundaryCondition
 { 
 public:
-	IfcBoundaryNodeCondition();
+	IfcBoundaryNodeCondition() = default;
 	IfcBoundaryNodeCondition( int id );
 	~IfcBoundaryNodeCondition();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcVertexLoop.h"
 
 // ENTITY IfcVertexLoop 
-IfcVertexLoop::IfcVertexLoop() {}
 IfcVertexLoop::IfcVertexLoop( int id ) { m_entity_id = id; }
 IfcVertexLoop::~IfcVertexLoop() {}
 shared_ptr<BuildingObject> IfcVertexLoop::getDeepCopy( BuildingCopyOptions& options )
@@ -39,7 +38,7 @@ void IfcVertexLoop::readStepArguments( const std::vector<std::wstring>& args, co
 void IfcVertexLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLoop::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "LoopVertex", m_LoopVertex ) );
+	vec_attributes.emplace_back( std::make_pair( "LoopVertex", m_LoopVertex ) );
 }
 void IfcVertexLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

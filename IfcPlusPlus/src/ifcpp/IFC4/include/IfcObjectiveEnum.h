@@ -30,7 +30,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcObjectiveEnum();
+	IfcObjectiveEnum() = default;
 	IfcObjectiveEnum( IfcObjectiveEnumEnum e ) { m_enum = e; }
 	~IfcObjectiveEnum();
 	virtual const char* className() const { return "IfcObjectiveEnum"; }

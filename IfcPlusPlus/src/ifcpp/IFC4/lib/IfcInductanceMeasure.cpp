@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcInductanceMeasure.h"
 
 // TYPE IfcInductanceMeasure = REAL;
-IfcInductanceMeasure::IfcInductanceMeasure() {}
 IfcInductanceMeasure::IfcInductanceMeasure( double value ) { m_value = value; }
 IfcInductanceMeasure::~IfcInductanceMeasure() {}
 shared_ptr<BuildingObject> IfcInductanceMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcInductanceMeasure::toString() const
 shared_ptr<IfcInductanceMeasure> IfcInductanceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInductanceMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInductanceMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInductanceMeasure>(); }
 	shared_ptr<IfcInductanceMeasure> type_object( new IfcInductanceMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

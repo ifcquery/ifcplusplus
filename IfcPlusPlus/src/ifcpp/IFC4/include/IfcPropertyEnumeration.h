@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcUnit;
 class IFCQUERY_EXPORT IfcPropertyEnumeration : public IfcPropertyAbstraction
 { 
 public:
-	IfcPropertyEnumeration();
+	IfcPropertyEnumeration() = default;
 	IfcPropertyEnumeration( int id );
 	~IfcPropertyEnumeration();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

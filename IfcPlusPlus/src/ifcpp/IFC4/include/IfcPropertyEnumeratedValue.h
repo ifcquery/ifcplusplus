@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPropertyEnumeration;
 class IFCQUERY_EXPORT IfcPropertyEnumeratedValue : public IfcSimpleProperty
 { 
 public:
-	IfcPropertyEnumeratedValue();
+	IfcPropertyEnumeratedValue() = default;
 	IfcPropertyEnumeratedValue( int id );
 	~IfcPropertyEnumeratedValue();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

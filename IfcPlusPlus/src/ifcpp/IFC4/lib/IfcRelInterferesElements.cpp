@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelInterferesElements 
-IfcRelInterferesElements::IfcRelInterferesElements() {}
 IfcRelInterferesElements::IfcRelInterferesElements( int id ) { m_entity_id = id; }
 IfcRelInterferesElements::~IfcRelInterferesElements() {}
 shared_ptr<BuildingObject> IfcRelInterferesElements::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcRelInterferesElements::getDeepCopy( BuildingCopyOp
 	shared_ptr<IfcRelInterferesElements> copy_self( new IfcRelInterferesElements() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -87,11 +86,11 @@ void IfcRelInterferesElements::readStepArguments( const std::vector<std::wstring
 void IfcRelInterferesElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingElement", m_RelatingElement ) );
-	vec_attributes.push_back( std::make_pair( "RelatedElement", m_RelatedElement ) );
-	vec_attributes.push_back( std::make_pair( "InterferenceGeometry", m_InterferenceGeometry ) );
-	vec_attributes.push_back( std::make_pair( "InterferenceType", m_InterferenceType ) );
-	vec_attributes.push_back( std::make_pair( "ImpliedOrder", shared_ptr<LogicalAttribute>( new LogicalAttribute( m_ImpliedOrder ) ) ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingElement", m_RelatingElement ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedElement", m_RelatedElement ) );
+	vec_attributes.emplace_back( std::make_pair( "InterferenceGeometry", m_InterferenceGeometry ) );
+	vec_attributes.emplace_back( std::make_pair( "InterferenceType", m_InterferenceType ) );
+	vec_attributes.emplace_back( std::make_pair( "ImpliedOrder", shared_ptr<LogicalAttribute>( new LogicalAttribute( m_ImpliedOrder ) ) ) );
 }
 void IfcRelInterferesElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -104,11 +103,11 @@ void IfcRelInterferesElements::setInverseCounterparts( shared_ptr<BuildingEntity
 	if( !ptr_self ) { throw BuildingException( "IfcRelInterferesElements::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatedElement )
 	{
-		m_RelatedElement->m_IsInterferedByElements_inverse.push_back( ptr_self );
+		m_RelatedElement->m_IsInterferedByElements_inverse.emplace_back( ptr_self );
 	}
 	if( m_RelatingElement )
 	{
-		m_RelatingElement->m_InterferesElements_inverse.push_back( ptr_self );
+		m_RelatingElement->m_InterferesElements_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelInterferesElements::unlinkFromInverseCounterparts()

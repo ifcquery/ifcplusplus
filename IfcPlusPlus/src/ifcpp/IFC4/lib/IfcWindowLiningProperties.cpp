@@ -24,7 +24,6 @@
 #include "ifcpp/IFC4/include/IfcWindowLiningProperties.h"
 
 // ENTITY IfcWindowLiningProperties 
-IfcWindowLiningProperties::IfcWindowLiningProperties() {}
 IfcWindowLiningProperties::IfcWindowLiningProperties( int id ) { m_entity_id = id; }
 IfcWindowLiningProperties::~IfcWindowLiningProperties() {}
 shared_ptr<BuildingObject> IfcWindowLiningProperties::getDeepCopy( BuildingCopyOptions& options )
@@ -32,7 +31,7 @@ shared_ptr<BuildingObject> IfcWindowLiningProperties::getDeepCopy( BuildingCopyO
 	shared_ptr<IfcWindowLiningProperties> copy_self( new IfcWindowLiningProperties() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -118,18 +117,18 @@ void IfcWindowLiningProperties::readStepArguments( const std::vector<std::wstrin
 void IfcWindowLiningProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedPropertySet::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "LiningDepth", m_LiningDepth ) );
-	vec_attributes.push_back( std::make_pair( "LiningThickness", m_LiningThickness ) );
-	vec_attributes.push_back( std::make_pair( "TransomThickness", m_TransomThickness ) );
-	vec_attributes.push_back( std::make_pair( "MullionThickness", m_MullionThickness ) );
-	vec_attributes.push_back( std::make_pair( "FirstTransomOffset", m_FirstTransomOffset ) );
-	vec_attributes.push_back( std::make_pair( "SecondTransomOffset", m_SecondTransomOffset ) );
-	vec_attributes.push_back( std::make_pair( "FirstMullionOffset", m_FirstMullionOffset ) );
-	vec_attributes.push_back( std::make_pair( "SecondMullionOffset", m_SecondMullionOffset ) );
-	vec_attributes.push_back( std::make_pair( "ShapeAspectStyle", m_ShapeAspectStyle ) );
-	vec_attributes.push_back( std::make_pair( "LiningOffset", m_LiningOffset ) );
-	vec_attributes.push_back( std::make_pair( "LiningToPanelOffsetX", m_LiningToPanelOffsetX ) );
-	vec_attributes.push_back( std::make_pair( "LiningToPanelOffsetY", m_LiningToPanelOffsetY ) );
+	vec_attributes.emplace_back( std::make_pair( "LiningDepth", m_LiningDepth ) );
+	vec_attributes.emplace_back( std::make_pair( "LiningThickness", m_LiningThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "TransomThickness", m_TransomThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "MullionThickness", m_MullionThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "FirstTransomOffset", m_FirstTransomOffset ) );
+	vec_attributes.emplace_back( std::make_pair( "SecondTransomOffset", m_SecondTransomOffset ) );
+	vec_attributes.emplace_back( std::make_pair( "FirstMullionOffset", m_FirstMullionOffset ) );
+	vec_attributes.emplace_back( std::make_pair( "SecondMullionOffset", m_SecondMullionOffset ) );
+	vec_attributes.emplace_back( std::make_pair( "ShapeAspectStyle", m_ShapeAspectStyle ) );
+	vec_attributes.emplace_back( std::make_pair( "LiningOffset", m_LiningOffset ) );
+	vec_attributes.emplace_back( std::make_pair( "LiningToPanelOffsetX", m_LiningToPanelOffsetX ) );
+	vec_attributes.emplace_back( std::make_pair( "LiningToPanelOffsetY", m_LiningToPanelOffsetY ) );
 }
 void IfcWindowLiningProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

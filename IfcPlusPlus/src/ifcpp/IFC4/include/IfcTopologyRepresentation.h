@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcTopologyRepresentation : public IfcShapeModel
 { 
 public:
-	IfcTopologyRepresentation();
+	IfcTopologyRepresentation() = default;
 	IfcTopologyRepresentation( int id );
 	~IfcTopologyRepresentation();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

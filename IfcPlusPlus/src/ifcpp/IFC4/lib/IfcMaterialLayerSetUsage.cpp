@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcRelAssociatesMaterial.h"
 
 // ENTITY IfcMaterialLayerSetUsage 
-IfcMaterialLayerSetUsage::IfcMaterialLayerSetUsage() {}
 IfcMaterialLayerSetUsage::IfcMaterialLayerSetUsage( int id ) { m_entity_id = id; }
 IfcMaterialLayerSetUsage::~IfcMaterialLayerSetUsage() {}
 shared_ptr<BuildingObject> IfcMaterialLayerSetUsage::getDeepCopy( BuildingCopyOptions& options )
@@ -58,11 +57,11 @@ void IfcMaterialLayerSetUsage::readStepArguments( const std::vector<std::wstring
 void IfcMaterialLayerSetUsage::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialUsageDefinition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ForLayerSet", m_ForLayerSet ) );
-	vec_attributes.push_back( std::make_pair( "LayerSetDirection", m_LayerSetDirection ) );
-	vec_attributes.push_back( std::make_pair( "DirectionSense", m_DirectionSense ) );
-	vec_attributes.push_back( std::make_pair( "OffsetFromReferenceLine", m_OffsetFromReferenceLine ) );
-	vec_attributes.push_back( std::make_pair( "ReferenceExtent", m_ReferenceExtent ) );
+	vec_attributes.emplace_back( std::make_pair( "ForLayerSet", m_ForLayerSet ) );
+	vec_attributes.emplace_back( std::make_pair( "LayerSetDirection", m_LayerSetDirection ) );
+	vec_attributes.emplace_back( std::make_pair( "DirectionSense", m_DirectionSense ) );
+	vec_attributes.emplace_back( std::make_pair( "OffsetFromReferenceLine", m_OffsetFromReferenceLine ) );
+	vec_attributes.emplace_back( std::make_pair( "ReferenceExtent", m_ReferenceExtent ) );
 }
 void IfcMaterialLayerSetUsage::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

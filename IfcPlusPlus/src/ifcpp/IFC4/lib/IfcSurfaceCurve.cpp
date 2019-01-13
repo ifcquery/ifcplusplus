@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcSurfaceCurve.h"
 
 // ENTITY IfcSurfaceCurve 
-IfcSurfaceCurve::IfcSurfaceCurve() {}
 IfcSurfaceCurve::IfcSurfaceCurve( int id ) { m_entity_id = id; }
 IfcSurfaceCurve::~IfcSurfaceCurve() {}
 shared_ptr<BuildingObject> IfcSurfaceCurve::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcSurfaceCurve::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_AssociatedGeometry[ii];
 		if( item_ii )
 		{
-			copy_self->m_AssociatedGeometry.push_back( dynamic_pointer_cast<IfcPcurve>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_AssociatedGeometry.emplace_back( dynamic_pointer_cast<IfcPcurve>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_MasterRepresentation ) { copy_self->m_MasterRepresentation = dynamic_pointer_cast<IfcPreferredSurfaceCurveRepresentation>( m_MasterRepresentation->getDeepCopy(options) ); }
@@ -56,14 +55,14 @@ void IfcSurfaceCurve::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcSurfaceCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCurve::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Curve3D", m_Curve3D ) );
-	if( m_AssociatedGeometry.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Curve3D", m_Curve3D ) );
+	if( !m_AssociatedGeometry.empty() )
 	{
 		shared_ptr<AttributeObjectVector> AssociatedGeometry_vec_object( new AttributeObjectVector() );
 		std::copy( m_AssociatedGeometry.begin(), m_AssociatedGeometry.end(), std::back_inserter( AssociatedGeometry_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "AssociatedGeometry", AssociatedGeometry_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "AssociatedGeometry", AssociatedGeometry_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "MasterRepresentation", m_MasterRepresentation ) );
+	vec_attributes.emplace_back( std::make_pair( "MasterRepresentation", m_MasterRepresentation ) );
 }
 void IfcSurfaceCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

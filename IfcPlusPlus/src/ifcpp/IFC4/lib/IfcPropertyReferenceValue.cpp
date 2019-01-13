@@ -19,7 +19,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPropertyReferenceValue 
-IfcPropertyReferenceValue::IfcPropertyReferenceValue() {}
 IfcPropertyReferenceValue::IfcPropertyReferenceValue( int id ) { m_entity_id = id; }
 IfcPropertyReferenceValue::~IfcPropertyReferenceValue() {}
 shared_ptr<BuildingObject> IfcPropertyReferenceValue::getDeepCopy( BuildingCopyOptions& options )
@@ -57,8 +56,8 @@ void IfcPropertyReferenceValue::readStepArguments( const std::vector<std::wstrin
 void IfcPropertyReferenceValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "UsageName", m_UsageName ) );
-	vec_attributes.push_back( std::make_pair( "PropertyReference", m_PropertyReference ) );
+	vec_attributes.emplace_back( std::make_pair( "UsageName", m_UsageName ) );
+	vec_attributes.emplace_back( std::make_pair( "PropertyReference", m_PropertyReference ) );
 }
 void IfcPropertyReferenceValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

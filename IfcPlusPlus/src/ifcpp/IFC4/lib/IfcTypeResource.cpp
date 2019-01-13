@@ -23,7 +23,6 @@
 #include "ifcpp/IFC4/include/IfcTypeResource.h"
 
 // ENTITY IfcTypeResource 
-IfcTypeResource::IfcTypeResource() {}
 IfcTypeResource::IfcTypeResource( int id ) { m_entity_id = id; }
 IfcTypeResource::~IfcTypeResource() {}
 shared_ptr<BuildingObject> IfcTypeResource::getDeepCopy( BuildingCopyOptions& options )
@@ -31,7 +30,7 @@ shared_ptr<BuildingObject> IfcTypeResource::getDeepCopy( BuildingCopyOptions& op
 	shared_ptr<IfcTypeResource> copy_self( new IfcTypeResource() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -47,7 +46,7 @@ shared_ptr<BuildingObject> IfcTypeResource::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_HasPropertySets[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasPropertySets.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_HasPropertySets.emplace_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
@@ -96,24 +95,24 @@ void IfcTypeResource::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcTypeResource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTypeObject::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
-	vec_attributes.push_back( std::make_pair( "LongDescription", m_LongDescription ) );
-	vec_attributes.push_back( std::make_pair( "ResourceType", m_ResourceType ) );
+	vec_attributes.emplace_back( std::make_pair( "Identification", m_Identification ) );
+	vec_attributes.emplace_back( std::make_pair( "LongDescription", m_LongDescription ) );
+	vec_attributes.emplace_back( std::make_pair( "ResourceType", m_ResourceType ) );
 }
 void IfcTypeResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTypeObject::getAttributesInverse( vec_attributes_inverse );
-	if( m_ResourceOf_inverse.size() > 0 )
+	if( !m_ResourceOf_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ResourceOf_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ResourceOf_inverse.size(); ++i )
 		{
 			if( !m_ResourceOf_inverse[i].expired() )
 			{
-				ResourceOf_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToResource>( m_ResourceOf_inverse[i] ) );
+				ResourceOf_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssignsToResource>( m_ResourceOf_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ResourceOf_inverse", ResourceOf_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ResourceOf_inverse", ResourceOf_inverse_vec_obj ) );
 	}
 }
 void IfcTypeResource::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

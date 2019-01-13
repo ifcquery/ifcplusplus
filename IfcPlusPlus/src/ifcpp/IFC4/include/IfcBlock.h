@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcBlock : public IfcCsgPrimitive3D
 { 
 public:
-	IfcBlock();
+	IfcBlock() = default;
 	IfcBlock( int id );
 	~IfcBlock();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

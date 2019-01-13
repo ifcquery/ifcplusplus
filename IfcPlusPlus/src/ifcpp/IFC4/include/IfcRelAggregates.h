@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcObjectDefinition;
 class IFCQUERY_EXPORT IfcRelAggregates : public IfcRelDecomposes
 { 
 public:
-	IfcRelAggregates();
+	IfcRelAggregates() = default;
 	IfcRelAggregates( int id );
 	~IfcRelAggregates();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

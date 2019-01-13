@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcVector.h"
 
 // ENTITY IfcFillAreaStyleTiles 
-IfcFillAreaStyleTiles::IfcFillAreaStyleTiles() {}
 IfcFillAreaStyleTiles::IfcFillAreaStyleTiles( int id ) { m_entity_id = id; }
 IfcFillAreaStyleTiles::~IfcFillAreaStyleTiles() {}
 shared_ptr<BuildingObject> IfcFillAreaStyleTiles::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcFillAreaStyleTiles::getDeepCopy( BuildingCopyOptio
 		auto item_ii = m_TilingPattern[ii];
 		if( item_ii )
 		{
-			copy_self->m_TilingPattern.push_back( dynamic_pointer_cast<IfcVector>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_TilingPattern.emplace_back( dynamic_pointer_cast<IfcVector>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_Tiles.size(); ++ii )
@@ -33,7 +32,7 @@ shared_ptr<BuildingObject> IfcFillAreaStyleTiles::getDeepCopy( BuildingCopyOptio
 		auto item_ii = m_Tiles[ii];
 		if( item_ii )
 		{
-			copy_self->m_Tiles.push_back( dynamic_pointer_cast<IfcStyledItem>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Tiles.emplace_back( dynamic_pointer_cast<IfcStyledItem>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_TilingScale ) { copy_self->m_TilingScale = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_TilingScale->getDeepCopy(options) ); }
@@ -62,19 +61,19 @@ void IfcFillAreaStyleTiles::readStepArguments( const std::vector<std::wstring>& 
 void IfcFillAreaStyleTiles::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	if( m_TilingPattern.size() > 0 )
+	if( !m_TilingPattern.empty() )
 	{
 		shared_ptr<AttributeObjectVector> TilingPattern_vec_object( new AttributeObjectVector() );
 		std::copy( m_TilingPattern.begin(), m_TilingPattern.end(), std::back_inserter( TilingPattern_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "TilingPattern", TilingPattern_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "TilingPattern", TilingPattern_vec_object ) );
 	}
-	if( m_Tiles.size() > 0 )
+	if( !m_Tiles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Tiles_vec_object( new AttributeObjectVector() );
 		std::copy( m_Tiles.begin(), m_Tiles.end(), std::back_inserter( Tiles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Tiles", Tiles_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Tiles", Tiles_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "TilingScale", m_TilingScale ) );
+	vec_attributes.emplace_back( std::make_pair( "TilingScale", m_TilingScale ) );
 }
 void IfcFillAreaStyleTiles::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

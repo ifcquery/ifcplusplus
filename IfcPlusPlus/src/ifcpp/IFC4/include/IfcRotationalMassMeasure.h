@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcRotationalMassMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcRotationalMassMeasure();
+	IfcRotationalMassMeasure() = default;
 	IfcRotationalMassMeasure( double value );
 	~IfcRotationalMassMeasure();
 	virtual const char* className() const { return "IfcRotationalMassMeasure"; }

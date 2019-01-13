@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcShapeAspect;
 class IFCQUERY_EXPORT IfcProductDefinitionShape : virtual public IfcProductRepresentationSelect, public IfcProductRepresentation
 { 
 public:
-	IfcProductDefinitionShape();
+	IfcProductDefinitionShape() = default;
 	IfcProductDefinitionShape( int id );
 	~IfcProductDefinitionShape();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

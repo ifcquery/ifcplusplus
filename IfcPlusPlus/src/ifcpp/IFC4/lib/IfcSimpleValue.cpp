@@ -23,7 +23,7 @@
 // TYPE IfcSimpleValue = SELECT	(IfcBinary	,IfcBoolean	,IfcDate	,IfcDateTime	,IfcDuration	,IfcIdentifier	,IfcInteger	,IfcLabel	,IfcLogical	,IfcPositiveInteger	,IfcReal	,IfcText	,IfcTime	,IfcTimeStamp);
 shared_ptr<IfcSimpleValue> IfcSimpleValue::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcSimpleValue>(); }
+	if( arg.empty() ){ return shared_ptr<IfcSimpleValue>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcSimpleValue>();

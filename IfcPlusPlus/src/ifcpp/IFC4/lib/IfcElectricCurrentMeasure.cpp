@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcElectricCurrentMeasure.h"
 
 // TYPE IfcElectricCurrentMeasure = REAL;
-IfcElectricCurrentMeasure::IfcElectricCurrentMeasure() {}
 IfcElectricCurrentMeasure::IfcElectricCurrentMeasure( double value ) { m_value = value; }
 IfcElectricCurrentMeasure::~IfcElectricCurrentMeasure() {}
 shared_ptr<BuildingObject> IfcElectricCurrentMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcElectricCurrentMeasure::toString() const
 shared_ptr<IfcElectricCurrentMeasure> IfcElectricCurrentMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricCurrentMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricCurrentMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricCurrentMeasure>(); }
 	shared_ptr<IfcElectricCurrentMeasure> type_object( new IfcElectricCurrentMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

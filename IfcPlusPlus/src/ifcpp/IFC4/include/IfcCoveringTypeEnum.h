@@ -29,7 +29,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcCoveringTypeEnum();
+	IfcCoveringTypeEnum() = default;
 	IfcCoveringTypeEnum( IfcCoveringTypeEnumEnum e ) { m_enum = e; }
 	~IfcCoveringTypeEnum();
 	virtual const char* className() const { return "IfcCoveringTypeEnum"; }

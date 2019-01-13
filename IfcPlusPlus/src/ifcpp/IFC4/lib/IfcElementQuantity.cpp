@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcTypeObject.h"
 
 // ENTITY IfcElementQuantity 
-IfcElementQuantity::IfcElementQuantity() {}
 IfcElementQuantity::IfcElementQuantity( int id ) { m_entity_id = id; }
 IfcElementQuantity::~IfcElementQuantity() {}
 shared_ptr<BuildingObject> IfcElementQuantity::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcElementQuantity::getDeepCopy( BuildingCopyOptions&
 	shared_ptr<IfcElementQuantity> copy_self( new IfcElementQuantity() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -44,7 +43,7 @@ shared_ptr<BuildingObject> IfcElementQuantity::getDeepCopy( BuildingCopyOptions&
 		auto item_ii = m_Quantities[ii];
 		if( item_ii )
 		{
-			copy_self->m_Quantities.push_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Quantities.emplace_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -81,12 +80,12 @@ void IfcElementQuantity::readStepArguments( const std::vector<std::wstring>& arg
 void IfcElementQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcQuantitySet::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "MethodOfMeasurement", m_MethodOfMeasurement ) );
-	if( m_Quantities.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "MethodOfMeasurement", m_MethodOfMeasurement ) );
+	if( !m_Quantities.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Quantities_vec_object( new AttributeObjectVector() );
 		std::copy( m_Quantities.begin(), m_Quantities.end(), std::back_inserter( Quantities_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Quantities", Quantities_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Quantities", Quantities_vec_object ) );
 	}
 }
 void IfcElementQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

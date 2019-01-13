@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcEventTime;
 class IFCQUERY_EXPORT IfcEvent : public IfcProcess
 { 
 public:
-	IfcEvent();
+	IfcEvent() = default;
 	IfcEvent( int id );
 	~IfcEvent();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

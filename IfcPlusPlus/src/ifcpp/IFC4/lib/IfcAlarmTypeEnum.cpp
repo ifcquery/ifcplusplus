@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcAlarmTypeEnum.h"
 
 // TYPE IfcAlarmTypeEnum = ENUMERATION OF	(BELL	,BREAKGLASSBUTTON	,LIGHT	,MANUALPULLBOX	,SIREN	,WHISTLE	,USERDEFINED	,NOTDEFINED);
-IfcAlarmTypeEnum::IfcAlarmTypeEnum() {}
 IfcAlarmTypeEnum::~IfcAlarmTypeEnum() {}
 shared_ptr<BuildingObject> IfcAlarmTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -52,7 +51,7 @@ const std::wstring IfcAlarmTypeEnum::toString() const
 shared_ptr<IfcAlarmTypeEnum> IfcAlarmTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAlarmTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAlarmTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAlarmTypeEnum>(); }
 	shared_ptr<IfcAlarmTypeEnum> type_object( new IfcAlarmTypeEnum() );
 	if( boost::iequals( arg, L".BELL." ) )
 	{

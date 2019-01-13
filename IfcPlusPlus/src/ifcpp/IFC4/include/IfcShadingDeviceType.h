@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcShadingDeviceTypeEnum;
 class IFCQUERY_EXPORT IfcShadingDeviceType : public IfcBuildingElementType
 { 
 public:
-	IfcShadingDeviceType();
+	IfcShadingDeviceType() = default;
 	IfcShadingDeviceType( int id );
 	~IfcShadingDeviceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

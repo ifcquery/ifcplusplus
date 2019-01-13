@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelAssignsToGroup 
-IfcRelAssignsToGroup::IfcRelAssignsToGroup() {}
 IfcRelAssignsToGroup::IfcRelAssignsToGroup( int id ) { m_entity_id = id; }
 IfcRelAssignsToGroup::~IfcRelAssignsToGroup() {}
 shared_ptr<BuildingObject> IfcRelAssignsToGroup::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcRelAssignsToGroup::getDeepCopy( BuildingCopyOption
 	shared_ptr<IfcRelAssignsToGroup> copy_self( new IfcRelAssignsToGroup() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -40,7 +39,7 @@ shared_ptr<BuildingObject> IfcRelAssignsToGroup::getDeepCopy( BuildingCopyOption
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatedObjectsType ) { copy_self->m_RelatedObjectsType = dynamic_pointer_cast<IfcObjectTypeEnum>( m_RelatedObjectsType->getDeepCopy(options) ); }
@@ -82,7 +81,7 @@ void IfcRelAssignsToGroup::readStepArguments( const std::vector<std::wstring>& a
 void IfcRelAssignsToGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssigns::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingGroup", m_RelatingGroup ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingGroup", m_RelatingGroup ) );
 }
 void IfcRelAssignsToGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -95,7 +94,7 @@ void IfcRelAssignsToGroup::setInverseCounterparts( shared_ptr<BuildingEntity> pt
 	if( !ptr_self ) { throw BuildingException( "IfcRelAssignsToGroup::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatingGroup )
 	{
-		m_RelatingGroup->m_IsGroupedBy_inverse.push_back( ptr_self );
+		m_RelatingGroup->m_IsGroupedBy_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelAssignsToGroup::unlinkFromInverseCounterparts()

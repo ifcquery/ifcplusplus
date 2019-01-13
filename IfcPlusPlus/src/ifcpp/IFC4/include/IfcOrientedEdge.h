@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcOrientedEdge : public IfcEdge
 { 
 public:
-	IfcOrientedEdge();
+	IfcOrientedEdge() = default;
 	IfcOrientedEdge( int id );
 	~IfcOrientedEdge();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

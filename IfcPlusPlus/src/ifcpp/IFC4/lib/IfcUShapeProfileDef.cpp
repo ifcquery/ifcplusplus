@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcUShapeProfileDef.h"
 
 // ENTITY IfcUShapeProfileDef 
-IfcUShapeProfileDef::IfcUShapeProfileDef() {}
 IfcUShapeProfileDef::IfcUShapeProfileDef( int id ) { m_entity_id = id; }
 IfcUShapeProfileDef::~IfcUShapeProfileDef() {}
 shared_ptr<BuildingObject> IfcUShapeProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -80,13 +79,13 @@ void IfcUShapeProfileDef::readStepArguments( const std::vector<std::wstring>& ar
 void IfcUShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Depth", m_Depth ) );
-	vec_attributes.push_back( std::make_pair( "FlangeWidth", m_FlangeWidth ) );
-	vec_attributes.push_back( std::make_pair( "WebThickness", m_WebThickness ) );
-	vec_attributes.push_back( std::make_pair( "FlangeThickness", m_FlangeThickness ) );
-	vec_attributes.push_back( std::make_pair( "FilletRadius", m_FilletRadius ) );
-	vec_attributes.push_back( std::make_pair( "EdgeRadius", m_EdgeRadius ) );
-	vec_attributes.push_back( std::make_pair( "FlangeSlope", m_FlangeSlope ) );
+	vec_attributes.emplace_back( std::make_pair( "Depth", m_Depth ) );
+	vec_attributes.emplace_back( std::make_pair( "FlangeWidth", m_FlangeWidth ) );
+	vec_attributes.emplace_back( std::make_pair( "WebThickness", m_WebThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "FlangeThickness", m_FlangeThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "FilletRadius", m_FilletRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "EdgeRadius", m_EdgeRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "FlangeSlope", m_FlangeSlope ) );
 }
 void IfcUShapeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

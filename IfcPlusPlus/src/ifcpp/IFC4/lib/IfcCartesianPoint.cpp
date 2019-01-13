@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianPoint 
-IfcCartesianPoint::IfcCartesianPoint() {}
 IfcCartesianPoint::IfcCartesianPoint( int id ) { m_entity_id = id; }
 IfcCartesianPoint::~IfcCartesianPoint() {}
 shared_ptr<BuildingObject> IfcCartesianPoint::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcCartesianPoint::getDeepCopy( BuildingCopyOptions& 
 		auto item_ii = m_Coordinates[ii];
 		if( item_ii )
 		{
-			copy_self->m_Coordinates.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Coordinates.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -46,11 +45,11 @@ void IfcCartesianPoint::readStepArguments( const std::vector<std::wstring>& args
 void IfcCartesianPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPoint::getAttributes( vec_attributes );
-	if( m_Coordinates.size() > 0 )
+	if( !m_Coordinates.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Coordinates_vec_object( new AttributeObjectVector() );
 		std::copy( m_Coordinates.begin(), m_Coordinates.end(), std::back_inserter( Coordinates_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Coordinates", Coordinates_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Coordinates", Coordinates_vec_object ) );
 	}
 }
 void IfcCartesianPoint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

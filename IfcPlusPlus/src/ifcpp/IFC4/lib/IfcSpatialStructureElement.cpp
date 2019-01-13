@@ -29,7 +29,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcSpatialStructureElement 
-IfcSpatialStructureElement::IfcSpatialStructureElement() {}
 IfcSpatialStructureElement::IfcSpatialStructureElement( int id ) { m_entity_id = id; }
 IfcSpatialStructureElement::~IfcSpatialStructureElement() {}
 shared_ptr<BuildingObject> IfcSpatialStructureElement::getDeepCopy( BuildingCopyOptions& options )
@@ -37,7 +36,7 @@ shared_ptr<BuildingObject> IfcSpatialStructureElement::getDeepCopy( BuildingCopy
 	shared_ptr<IfcSpatialStructureElement> copy_self( new IfcSpatialStructureElement() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -95,7 +94,7 @@ void IfcSpatialStructureElement::readStepArguments( const std::vector<std::wstri
 void IfcSpatialStructureElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSpatialElement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "CompositionType", m_CompositionType ) );
+	vec_attributes.emplace_back( std::make_pair( "CompositionType", m_CompositionType ) );
 }
 void IfcSpatialStructureElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

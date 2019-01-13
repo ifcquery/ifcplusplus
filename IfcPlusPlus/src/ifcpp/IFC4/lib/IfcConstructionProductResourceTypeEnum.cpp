@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcConstructionProductResourceTypeEnum.h"
 
 // TYPE IfcConstructionProductResourceTypeEnum = ENUMERATION OF	(ASSEMBLY	,FORMWORK	,USERDEFINED	,NOTDEFINED);
-IfcConstructionProductResourceTypeEnum::IfcConstructionProductResourceTypeEnum() {}
 IfcConstructionProductResourceTypeEnum::~IfcConstructionProductResourceTypeEnum() {}
 shared_ptr<BuildingObject> IfcConstructionProductResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -44,7 +43,7 @@ const std::wstring IfcConstructionProductResourceTypeEnum::toString() const
 shared_ptr<IfcConstructionProductResourceTypeEnum> IfcConstructionProductResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstructionProductResourceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConstructionProductResourceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConstructionProductResourceTypeEnum>(); }
 	shared_ptr<IfcConstructionProductResourceTypeEnum> type_object( new IfcConstructionProductResourceTypeEnum() );
 	if( boost::iequals( arg, L".ASSEMBLY." ) )
 	{

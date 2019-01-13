@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcTankTypeEnum.h"
 
 // TYPE IfcTankTypeEnum = ENUMERATION OF	(BASIN	,BREAKPRESSURE	,EXPANSION	,FEEDANDEXPANSION	,PRESSUREVESSEL	,STORAGE	,VESSEL	,USERDEFINED	,NOTDEFINED);
-IfcTankTypeEnum::IfcTankTypeEnum() {}
 IfcTankTypeEnum::~IfcTankTypeEnum() {}
 shared_ptr<BuildingObject> IfcTankTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -54,7 +53,7 @@ const std::wstring IfcTankTypeEnum::toString() const
 shared_ptr<IfcTankTypeEnum> IfcTankTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTankTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTankTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTankTypeEnum>(); }
 	shared_ptr<IfcTankTypeEnum> type_object( new IfcTankTypeEnum() );
 	if( boost::iequals( arg, L".BASIN." ) )
 	{

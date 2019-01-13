@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcRectangleProfileDef : public IfcParameterizedProfileDef
 { 
 public:
-	IfcRectangleProfileDef();
+	IfcRectangleProfileDef() = default;
 	IfcRectangleProfileDef( int id );
 	~IfcRectangleProfileDef();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

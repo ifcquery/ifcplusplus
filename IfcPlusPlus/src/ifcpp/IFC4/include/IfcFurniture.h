@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcFurnitureTypeEnum;
 class IFCQUERY_EXPORT IfcFurniture : public IfcFurnishingElement
 { 
 public:
-	IfcFurniture();
+	IfcFurniture() = default;
 	IfcFurniture( int id );
 	~IfcFurniture();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

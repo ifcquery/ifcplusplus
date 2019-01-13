@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcStairFlightTypeEnum;
 class IFCQUERY_EXPORT IfcStairFlight : public IfcBuildingElement
 { 
 public:
-	IfcStairFlight();
+	IfcStairFlight() = default;
 	IfcStairFlight( int id );
 	~IfcStairFlight();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

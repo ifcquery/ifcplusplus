@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcProduct.h"
 
 // ENTITY IfcLocalPlacement 
-IfcLocalPlacement::IfcLocalPlacement() {}
 IfcLocalPlacement::IfcLocalPlacement( int id ) { m_entity_id = id; }
 IfcLocalPlacement::~IfcLocalPlacement() {}
 shared_ptr<BuildingObject> IfcLocalPlacement::getDeepCopy( BuildingCopyOptions& options )
@@ -47,8 +46,8 @@ void IfcLocalPlacement::readStepArguments( const std::vector<std::wstring>& args
 void IfcLocalPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcObjectPlacement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PlacementRelTo", m_PlacementRelTo ) );
-	vec_attributes.push_back( std::make_pair( "RelativePlacement", m_RelativePlacement ) );
+	vec_attributes.emplace_back( std::make_pair( "PlacementRelTo", m_PlacementRelTo ) );
+	vec_attributes.emplace_back( std::make_pair( "RelativePlacement", m_RelativePlacement ) );
 }
 void IfcLocalPlacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -61,7 +60,7 @@ void IfcLocalPlacement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_s
 	if( !ptr_self ) { throw BuildingException( "IfcLocalPlacement::setInverseCounterparts: type mismatch" ); }
 	if( m_PlacementRelTo )
 	{
-		m_PlacementRelTo->m_ReferencedByPlacements_inverse.push_back( ptr_self );
+		m_PlacementRelTo->m_ReferencedByPlacements_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcLocalPlacement::unlinkFromInverseCounterparts()

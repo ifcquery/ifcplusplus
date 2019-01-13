@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcMagneticFluxMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcMagneticFluxMeasure();
+	IfcMagneticFluxMeasure() = default;
 	IfcMagneticFluxMeasure( double value );
 	~IfcMagneticFluxMeasure();
 	virtual const char* className() const { return "IfcMagneticFluxMeasure"; }

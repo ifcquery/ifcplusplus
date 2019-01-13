@@ -31,7 +31,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcStructuralSurfaceAction 
-IfcStructuralSurfaceAction::IfcStructuralSurfaceAction() {}
 IfcStructuralSurfaceAction::IfcStructuralSurfaceAction( int id ) { m_entity_id = id; }
 IfcStructuralSurfaceAction::~IfcStructuralSurfaceAction() {}
 shared_ptr<BuildingObject> IfcStructuralSurfaceAction::getDeepCopy( BuildingCopyOptions& options )
@@ -39,7 +38,7 @@ shared_ptr<BuildingObject> IfcStructuralSurfaceAction::getDeepCopy( BuildingCopy
 	shared_ptr<IfcStructuralSurfaceAction> copy_self( new IfcStructuralSurfaceAction() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -109,8 +108,8 @@ void IfcStructuralSurfaceAction::readStepArguments( const std::vector<std::wstri
 void IfcStructuralSurfaceAction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralAction::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ProjectedOrTrue", m_ProjectedOrTrue ) );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "ProjectedOrTrue", m_ProjectedOrTrue ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcStructuralSurfaceAction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

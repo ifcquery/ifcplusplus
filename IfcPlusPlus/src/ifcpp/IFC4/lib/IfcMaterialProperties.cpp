@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMaterialProperties 
-IfcMaterialProperties::IfcMaterialProperties() {}
 IfcMaterialProperties::IfcMaterialProperties( int id ) { m_entity_id = id; }
 IfcMaterialProperties::~IfcMaterialProperties() {}
 shared_ptr<BuildingObject> IfcMaterialProperties::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcMaterialProperties::getDeepCopy( BuildingCopyOptio
 		auto item_ii = m_Properties[ii];
 		if( item_ii )
 		{
-			copy_self->m_Properties.push_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Properties.emplace_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterialDefinition>( m_Material->getDeepCopy(options) ); }
@@ -60,7 +59,7 @@ void IfcMaterialProperties::readStepArguments( const std::vector<std::wstring>& 
 void IfcMaterialProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExtendedProperties::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Material", m_Material ) );
+	vec_attributes.emplace_back( std::make_pair( "Material", m_Material ) );
 }
 void IfcMaterialProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -73,7 +72,7 @@ void IfcMaterialProperties::setInverseCounterparts( shared_ptr<BuildingEntity> p
 	if( !ptr_self ) { throw BuildingException( "IfcMaterialProperties::setInverseCounterparts: type mismatch" ); }
 	if( m_Material )
 	{
-		m_Material->m_HasProperties_inverse.push_back( ptr_self );
+		m_Material->m_HasProperties_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcMaterialProperties::unlinkFromInverseCounterparts()

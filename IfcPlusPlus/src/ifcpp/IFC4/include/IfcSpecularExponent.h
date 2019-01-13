@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcSpecularExponent : public IfcSpecularHighlightSelect
 {
 public:
-	IfcSpecularExponent();
+	IfcSpecularExponent() = default;
 	IfcSpecularExponent( double value );
 	~IfcSpecularExponent();
 	virtual const char* className() const { return "IfcSpecularExponent"; }

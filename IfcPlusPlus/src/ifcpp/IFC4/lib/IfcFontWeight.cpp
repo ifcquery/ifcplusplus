@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcFontWeight.h"
 
 // TYPE IfcFontWeight = STRING;
-IfcFontWeight::IfcFontWeight() {}
 IfcFontWeight::IfcFontWeight( std::wstring value ) { m_value = value; }
 IfcFontWeight::~IfcFontWeight() {}
 shared_ptr<BuildingObject> IfcFontWeight::getDeepCopy( BuildingCopyOptions& options )
@@ -32,7 +31,7 @@ const std::wstring IfcFontWeight::toString() const
 shared_ptr<IfcFontWeight> IfcFontWeight::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFontWeight>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFontWeight>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFontWeight>(); }
 	shared_ptr<IfcFontWeight> type_object( new IfcFontWeight() );
 	readString( arg, type_object->m_value );
 	return type_object;

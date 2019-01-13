@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcTextureCoordinate.h"
 
 // ENTITY IfcBlobTexture 
-IfcBlobTexture::IfcBlobTexture() {}
 IfcBlobTexture::IfcBlobTexture( int id ) { m_entity_id = id; }
 IfcBlobTexture::~IfcBlobTexture() {}
 shared_ptr<BuildingObject> IfcBlobTexture::getDeepCopy( BuildingCopyOptions& options )
@@ -31,7 +30,7 @@ shared_ptr<BuildingObject> IfcBlobTexture::getDeepCopy( BuildingCopyOptions& opt
 		auto item_ii = m_Parameter[ii];
 		if( item_ii )
 		{
-			copy_self->m_Parameter.push_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Parameter.emplace_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RasterFormat ) { copy_self->m_RasterFormat = dynamic_pointer_cast<IfcIdentifier>( m_RasterFormat->getDeepCopy(options) ); }
@@ -90,8 +89,8 @@ void IfcBlobTexture::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcBlobTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSurfaceTexture::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RasterFormat", m_RasterFormat ) );
-	vec_attributes.push_back( std::make_pair( "RasterCode", m_RasterCode ) );
+	vec_attributes.emplace_back( std::make_pair( "RasterFormat", m_RasterFormat ) );
+	vec_attributes.emplace_back( std::make_pair( "RasterCode", m_RasterCode ) );
 }
 void IfcBlobTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

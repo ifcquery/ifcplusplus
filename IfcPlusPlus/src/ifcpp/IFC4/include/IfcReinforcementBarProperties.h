@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcCountMeasure;
 class IFCQUERY_EXPORT IfcReinforcementBarProperties : public IfcPreDefinedProperties
 { 
 public:
-	IfcReinforcementBarProperties();
+	IfcReinforcementBarProperties() = default;
 	IfcReinforcementBarProperties( int id );
 	~IfcReinforcementBarProperties();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

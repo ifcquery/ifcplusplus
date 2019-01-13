@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcPumpTypeEnum.h"
 
 // TYPE IfcPumpTypeEnum = ENUMERATION OF	(CIRCULATOR	,ENDSUCTION	,SPLITCASE	,SUBMERSIBLEPUMP	,SUMPPUMP	,VERTICALINLINE	,VERTICALTURBINE	,USERDEFINED	,NOTDEFINED);
-IfcPumpTypeEnum::IfcPumpTypeEnum() {}
 IfcPumpTypeEnum::~IfcPumpTypeEnum() {}
 shared_ptr<BuildingObject> IfcPumpTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -54,7 +53,7 @@ const std::wstring IfcPumpTypeEnum::toString() const
 shared_ptr<IfcPumpTypeEnum> IfcPumpTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPumpTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPumpTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPumpTypeEnum>(); }
 	shared_ptr<IfcPumpTypeEnum> type_object( new IfcPumpTypeEnum() );
 	if( boost::iequals( arg, L".CIRCULATOR." ) )
 	{

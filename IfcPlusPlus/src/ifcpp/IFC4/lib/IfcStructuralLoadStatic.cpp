@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcStructuralLoadStatic.h"
 
 // ENTITY IfcStructuralLoadStatic 
-IfcStructuralLoadStatic::IfcStructuralLoadStatic() {}
 IfcStructuralLoadStatic::IfcStructuralLoadStatic( int id ) { m_entity_id = id; }
 IfcStructuralLoadStatic::~IfcStructuralLoadStatic() {}
 shared_ptr<BuildingObject> IfcStructuralLoadStatic::getDeepCopy( BuildingCopyOptions& options )

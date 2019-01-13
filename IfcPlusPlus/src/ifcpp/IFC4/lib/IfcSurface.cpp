@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcSurface.h"
 
 // ENTITY IfcSurface 
-IfcSurface::IfcSurface() {}
 IfcSurface::IfcSurface( int id ) { m_entity_id = id; }
 IfcSurface::~IfcSurface() {}
 shared_ptr<BuildingObject> IfcSurface::getDeepCopy( BuildingCopyOptions& options )

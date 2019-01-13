@@ -15,7 +15,7 @@
 class IFCQUERY_EXPORT IfcDescriptiveMeasure : public IfcMeasureValue, public IfcSizeSelect
 {
 public:
-	IfcDescriptiveMeasure();
+	IfcDescriptiveMeasure() = default;
 	IfcDescriptiveMeasure( std::wstring value );
 	~IfcDescriptiveMeasure();
 	virtual const char* className() const { return "IfcDescriptiveMeasure"; }

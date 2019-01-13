@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcDoorTypeEnum();
+	IfcDoorTypeEnum() = default;
 	IfcDoorTypeEnum( IfcDoorTypeEnumEnum e ) { m_enum = e; }
 	~IfcDoorTypeEnum();
 	virtual const char* className() const { return "IfcDoorTypeEnum"; }

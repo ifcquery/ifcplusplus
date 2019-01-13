@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcModulusOfTranslationalSubgradeReactionSelect.h"
 
 // ENTITY IfcBoundaryEdgeCondition 
-IfcBoundaryEdgeCondition::IfcBoundaryEdgeCondition() {}
 IfcBoundaryEdgeCondition::IfcBoundaryEdgeCondition( int id ) { m_entity_id = id; }
 IfcBoundaryEdgeCondition::~IfcBoundaryEdgeCondition() {}
 shared_ptr<BuildingObject> IfcBoundaryEdgeCondition::getDeepCopy( BuildingCopyOptions& options )
@@ -63,12 +62,12 @@ void IfcBoundaryEdgeCondition::readStepArguments( const std::vector<std::wstring
 void IfcBoundaryEdgeCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundaryCondition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessByLengthX", m_TranslationalStiffnessByLengthX ) );
-	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessByLengthY", m_TranslationalStiffnessByLengthY ) );
-	vec_attributes.push_back( std::make_pair( "TranslationalStiffnessByLengthZ", m_TranslationalStiffnessByLengthZ ) );
-	vec_attributes.push_back( std::make_pair( "RotationalStiffnessByLengthX", m_RotationalStiffnessByLengthX ) );
-	vec_attributes.push_back( std::make_pair( "RotationalStiffnessByLengthY", m_RotationalStiffnessByLengthY ) );
-	vec_attributes.push_back( std::make_pair( "RotationalStiffnessByLengthZ", m_RotationalStiffnessByLengthZ ) );
+	vec_attributes.emplace_back( std::make_pair( "TranslationalStiffnessByLengthX", m_TranslationalStiffnessByLengthX ) );
+	vec_attributes.emplace_back( std::make_pair( "TranslationalStiffnessByLengthY", m_TranslationalStiffnessByLengthY ) );
+	vec_attributes.emplace_back( std::make_pair( "TranslationalStiffnessByLengthZ", m_TranslationalStiffnessByLengthZ ) );
+	vec_attributes.emplace_back( std::make_pair( "RotationalStiffnessByLengthX", m_RotationalStiffnessByLengthX ) );
+	vec_attributes.emplace_back( std::make_pair( "RotationalStiffnessByLengthY", m_RotationalStiffnessByLengthY ) );
+	vec_attributes.emplace_back( std::make_pair( "RotationalStiffnessByLengthZ", m_RotationalStiffnessByLengthZ ) );
 }
 void IfcBoundaryEdgeCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcTimePeriod.h"
 
 // ENTITY IfcTimePeriod 
-IfcTimePeriod::IfcTimePeriod() {}
 IfcTimePeriod::IfcTimePeriod( int id ) { m_entity_id = id; }
 IfcTimePeriod::~IfcTimePeriod() {}
 shared_ptr<BuildingObject> IfcTimePeriod::getDeepCopy( BuildingCopyOptions& options )
@@ -40,8 +39,8 @@ void IfcTimePeriod::readStepArguments( const std::vector<std::wstring>& args, co
 }
 void IfcTimePeriod::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "StartTime", m_StartTime ) );
-	vec_attributes.push_back( std::make_pair( "EndTime", m_EndTime ) );
+	vec_attributes.emplace_back( std::make_pair( "StartTime", m_StartTime ) );
+	vec_attributes.emplace_back( std::make_pair( "EndTime", m_EndTime ) );
 }
 void IfcTimePeriod::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

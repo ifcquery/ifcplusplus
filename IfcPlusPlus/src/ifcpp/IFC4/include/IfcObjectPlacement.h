@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLocalPlacement;
 class IFCQUERY_EXPORT IfcObjectPlacement : public BuildingEntity
 { 
 public:
-	IfcObjectPlacement();
+	IfcObjectPlacement() = default;
 	IfcObjectPlacement( int id );
 	~IfcObjectPlacement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

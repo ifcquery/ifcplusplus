@@ -19,7 +19,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelDefinesByProperties 
-IfcRelDefinesByProperties::IfcRelDefinesByProperties() {}
 IfcRelDefinesByProperties::IfcRelDefinesByProperties( int id ) { m_entity_id = id; }
 IfcRelDefinesByProperties::~IfcRelDefinesByProperties() {}
 shared_ptr<BuildingObject> IfcRelDefinesByProperties::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcRelDefinesByProperties::getDeepCopy( BuildingCopyO
 	shared_ptr<IfcRelDefinesByProperties> copy_self( new IfcRelDefinesByProperties() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -42,7 +41,7 @@ shared_ptr<BuildingObject> IfcRelDefinesByProperties::getDeepCopy( BuildingCopyO
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatingPropertyDefinition ) { copy_self->m_RelatingPropertyDefinition = dynamic_pointer_cast<IfcPropertySetDefinitionSelect>( m_RelatingPropertyDefinition->getDeepCopy(options) ); }
@@ -80,13 +79,13 @@ void IfcRelDefinesByProperties::readStepArguments( const std::vector<std::wstrin
 void IfcRelDefinesByProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelDefines::getAttributes( vec_attributes );
-	if( m_RelatedObjects.size() > 0 )
+	if( !m_RelatedObjects.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedObjects_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedObjects.begin(), m_RelatedObjects.end(), std::back_inserter( RelatedObjects_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "RelatingPropertyDefinition", m_RelatingPropertyDefinition ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingPropertyDefinition", m_RelatingPropertyDefinition ) );
 }
 void IfcRelDefinesByProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -102,18 +101,18 @@ void IfcRelDefinesByProperties::setInverseCounterparts( shared_ptr<BuildingEntit
 		shared_ptr<IfcContext>  RelatedObjects_IfcContext = dynamic_pointer_cast<IfcContext>( m_RelatedObjects[i] );
 		if( RelatedObjects_IfcContext )
 		{
-			RelatedObjects_IfcContext->m_IsDefinedBy_inverse.push_back( ptr_self );
+			RelatedObjects_IfcContext->m_IsDefinedBy_inverse.emplace_back( ptr_self );
 		}
 		shared_ptr<IfcObject>  RelatedObjects_IfcObject = dynamic_pointer_cast<IfcObject>( m_RelatedObjects[i] );
 		if( RelatedObjects_IfcObject )
 		{
-			RelatedObjects_IfcObject->m_IsDefinedBy_inverse.push_back( ptr_self );
+			RelatedObjects_IfcObject->m_IsDefinedBy_inverse.emplace_back( ptr_self );
 		}
 	}
 	shared_ptr<IfcPropertySetDefinition>  RelatingPropertyDefinition_IfcPropertySetDefinition = dynamic_pointer_cast<IfcPropertySetDefinition>( m_RelatingPropertyDefinition );
 	if( RelatingPropertyDefinition_IfcPropertySetDefinition )
 	{
-		RelatingPropertyDefinition_IfcPropertySetDefinition->m_DefinesOccurrence_inverse.push_back( ptr_self );
+		RelatingPropertyDefinition_IfcPropertySetDefinition->m_DefinesOccurrence_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelDefinesByProperties::unlinkFromInverseCounterparts()

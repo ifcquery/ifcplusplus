@@ -28,7 +28,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcStructuralActivity 
-IfcStructuralActivity::IfcStructuralActivity() {}
 IfcStructuralActivity::IfcStructuralActivity( int id ) { m_entity_id = id; }
 IfcStructuralActivity::~IfcStructuralActivity() {}
 shared_ptr<BuildingObject> IfcStructuralActivity::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ shared_ptr<BuildingObject> IfcStructuralActivity::getDeepCopy( BuildingCopyOptio
 	shared_ptr<IfcStructuralActivity> copy_self( new IfcStructuralActivity() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -94,23 +93,23 @@ void IfcStructuralActivity::readStepArguments( const std::vector<std::wstring>& 
 void IfcStructuralActivity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProduct::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "AppliedLoad", m_AppliedLoad ) );
-	vec_attributes.push_back( std::make_pair( "GlobalOrLocal", m_GlobalOrLocal ) );
+	vec_attributes.emplace_back( std::make_pair( "AppliedLoad", m_AppliedLoad ) );
+	vec_attributes.emplace_back( std::make_pair( "GlobalOrLocal", m_GlobalOrLocal ) );
 }
 void IfcStructuralActivity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcProduct::getAttributesInverse( vec_attributes_inverse );
-	if( m_AssignedToStructuralItem_inverse.size() > 0 )
+	if( !m_AssignedToStructuralItem_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> AssignedToStructuralItem_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_AssignedToStructuralItem_inverse.size(); ++i )
 		{
 			if( !m_AssignedToStructuralItem_inverse[i].expired() )
 			{
-				AssignedToStructuralItem_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelConnectsStructuralActivity>( m_AssignedToStructuralItem_inverse[i] ) );
+				AssignedToStructuralItem_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelConnectsStructuralActivity>( m_AssignedToStructuralItem_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "AssignedToStructuralItem_inverse", AssignedToStructuralItem_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "AssignedToStructuralItem_inverse", AssignedToStructuralItem_inverse_vec_obj ) );
 	}
 }
 void IfcStructuralActivity::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

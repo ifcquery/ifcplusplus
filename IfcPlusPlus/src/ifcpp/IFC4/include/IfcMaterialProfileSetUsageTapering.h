@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcCardinalPointReference;
 class IFCQUERY_EXPORT IfcMaterialProfileSetUsageTapering : public IfcMaterialProfileSetUsage
 { 
 public:
-	IfcMaterialProfileSetUsageTapering();
+	IfcMaterialProfileSetUsageTapering() = default;
 	IfcMaterialProfileSetUsageTapering( int id );
 	~IfcMaterialProfileSetUsageTapering();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

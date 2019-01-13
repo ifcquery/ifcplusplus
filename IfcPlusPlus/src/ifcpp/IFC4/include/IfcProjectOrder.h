@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcText;
 class IFCQUERY_EXPORT IfcProjectOrder : public IfcControl
 { 
 public:
-	IfcProjectOrder();
+	IfcProjectOrder() = default;
 	IfcProjectOrder( int id );
 	~IfcProjectOrder();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // ENTITY IfcExternallyDefinedSurfaceStyle 
-IfcExternallyDefinedSurfaceStyle::IfcExternallyDefinedSurfaceStyle() {}
 IfcExternallyDefinedSurfaceStyle::IfcExternallyDefinedSurfaceStyle( int id ) { m_entity_id = id; }
 IfcExternallyDefinedSurfaceStyle::~IfcExternallyDefinedSurfaceStyle() {}
 shared_ptr<BuildingObject> IfcExternallyDefinedSurfaceStyle::getDeepCopy( BuildingCopyOptions& options )

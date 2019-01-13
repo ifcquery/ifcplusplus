@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPolyline 
-IfcPolyline::IfcPolyline() {}
 IfcPolyline::IfcPolyline( int id ) { m_entity_id = id; }
 IfcPolyline::~IfcPolyline() {}
 shared_ptr<BuildingObject> IfcPolyline::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcPolyline::getDeepCopy( BuildingCopyOptions& option
 		auto item_ii = m_Points[ii];
 		if( item_ii )
 		{
-			copy_self->m_Points.push_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Points.emplace_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -46,11 +45,11 @@ void IfcPolyline::readStepArguments( const std::vector<std::wstring>& args, cons
 void IfcPolyline::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
-	if( m_Points.size() > 0 )
+	if( !m_Points.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Points_vec_object( new AttributeObjectVector() );
 		std::copy( m_Points.begin(), m_Points.end(), std::back_inserter( Points_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Points", Points_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Points", Points_vec_object ) );
 	}
 }
 void IfcPolyline::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

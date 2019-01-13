@@ -15,7 +15,7 @@
 class IFCQUERY_EXPORT IfcDuration : public IfcSimpleValue, public IfcTimeOrRatioSelect
 {
 public:
-	IfcDuration();
+	IfcDuration() = default;
 	IfcDuration( std::wstring value );
 	~IfcDuration();
 	virtual const char* className() const { return "IfcDuration"; }

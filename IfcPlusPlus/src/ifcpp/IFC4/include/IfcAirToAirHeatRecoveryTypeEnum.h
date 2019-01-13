@@ -28,7 +28,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcAirToAirHeatRecoveryTypeEnum();
+	IfcAirToAirHeatRecoveryTypeEnum() = default;
 	IfcAirToAirHeatRecoveryTypeEnum( IfcAirToAirHeatRecoveryTypeEnumEnum e ) { m_enum = e; }
 	~IfcAirToAirHeatRecoveryTypeEnum();
 	virtual const char* className() const { return "IfcAirToAirHeatRecoveryTypeEnum"; }

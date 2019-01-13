@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcElectricGeneratorTypeEnum();
+	IfcElectricGeneratorTypeEnum() = default;
 	IfcElectricGeneratorTypeEnum( IfcElectricGeneratorTypeEnumEnum e ) { m_enum = e; }
 	~IfcElectricGeneratorTypeEnum();
 	virtual const char* className() const { return "IfcElectricGeneratorTypeEnum"; }

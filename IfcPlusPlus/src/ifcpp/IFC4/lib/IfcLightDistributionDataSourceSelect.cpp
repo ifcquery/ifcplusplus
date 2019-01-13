@@ -8,7 +8,7 @@
 // TYPE IfcLightDistributionDataSourceSelect = SELECT	(IfcExternalReference	,IfcLightIntensityDistribution);
 shared_ptr<IfcLightDistributionDataSourceSelect> IfcLightDistributionDataSourceSelect::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
-	if( arg.size() == 0 ){ return shared_ptr<IfcLightDistributionDataSourceSelect>(); }
+	if( arg.empty() ){ return shared_ptr<IfcLightDistributionDataSourceSelect>(); }
 	if( arg.compare(L"$")==0 )
 	{
 		return shared_ptr<IfcLightDistributionDataSourceSelect>();

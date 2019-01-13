@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcPreDefinedTextFont.h"
 
 // ENTITY IfcPreDefinedTextFont 
-IfcPreDefinedTextFont::IfcPreDefinedTextFont() {}
 IfcPreDefinedTextFont::IfcPreDefinedTextFont( int id ) { m_entity_id = id; }
 IfcPreDefinedTextFont::~IfcPreDefinedTextFont() {}
 shared_ptr<BuildingObject> IfcPreDefinedTextFont::getDeepCopy( BuildingCopyOptions& options )

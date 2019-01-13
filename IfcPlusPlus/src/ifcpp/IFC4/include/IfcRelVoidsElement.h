@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcFeatureElementSubtraction;
 class IFCQUERY_EXPORT IfcRelVoidsElement : public IfcRelDecomposes
 { 
 public:
-	IfcRelVoidsElement();
+	IfcRelVoidsElement() = default;
 	IfcRelVoidsElement( int id );
 	~IfcRelVoidsElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

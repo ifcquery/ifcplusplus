@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcPositiveLengthMeasure.h"
 
 // TYPE IfcPositiveLengthMeasure = IfcLengthMeasure;
-IfcPositiveLengthMeasure::IfcPositiveLengthMeasure() {}
 IfcPositiveLengthMeasure::~IfcPositiveLengthMeasure() {}
 shared_ptr<BuildingObject> IfcPositiveLengthMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -36,7 +35,7 @@ const std::wstring IfcPositiveLengthMeasure::toString() const
 shared_ptr<IfcPositiveLengthMeasure> IfcPositiveLengthMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPositiveLengthMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositiveLengthMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositiveLengthMeasure>(); }
 	shared_ptr<IfcPositiveLengthMeasure> type_object( new IfcPositiveLengthMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

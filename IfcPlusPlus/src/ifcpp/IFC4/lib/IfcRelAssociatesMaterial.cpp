@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelAssociatesMaterial 
-IfcRelAssociatesMaterial::IfcRelAssociatesMaterial() {}
 IfcRelAssociatesMaterial::IfcRelAssociatesMaterial( int id ) { m_entity_id = id; }
 IfcRelAssociatesMaterial::~IfcRelAssociatesMaterial() {}
 shared_ptr<BuildingObject> IfcRelAssociatesMaterial::getDeepCopy( BuildingCopyOptions& options )
@@ -26,7 +25,7 @@ shared_ptr<BuildingObject> IfcRelAssociatesMaterial::getDeepCopy( BuildingCopyOp
 	shared_ptr<IfcRelAssociatesMaterial> copy_self( new IfcRelAssociatesMaterial() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -41,7 +40,7 @@ shared_ptr<BuildingObject> IfcRelAssociatesMaterial::getDeepCopy( BuildingCopyOp
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatingMaterial ) { copy_self->m_RelatingMaterial = dynamic_pointer_cast<IfcMaterialSelect>( m_RelatingMaterial->getDeepCopy(options) ); }
@@ -96,7 +95,7 @@ void IfcRelAssociatesMaterial::readStepArguments( const std::vector<std::wstring
 void IfcRelAssociatesMaterial::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssociates::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingMaterial", m_RelatingMaterial ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingMaterial", m_RelatingMaterial ) );
 }
 void IfcRelAssociatesMaterial::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -110,12 +109,12 @@ void IfcRelAssociatesMaterial::setInverseCounterparts( shared_ptr<BuildingEntity
 	shared_ptr<IfcMaterialDefinition>  RelatingMaterial_IfcMaterialDefinition = dynamic_pointer_cast<IfcMaterialDefinition>( m_RelatingMaterial );
 	if( RelatingMaterial_IfcMaterialDefinition )
 	{
-		RelatingMaterial_IfcMaterialDefinition->m_AssociatedTo_inverse.push_back( ptr_self );
+		RelatingMaterial_IfcMaterialDefinition->m_AssociatedTo_inverse.emplace_back( ptr_self );
 	}
 	shared_ptr<IfcMaterialUsageDefinition>  RelatingMaterial_IfcMaterialUsageDefinition = dynamic_pointer_cast<IfcMaterialUsageDefinition>( m_RelatingMaterial );
 	if( RelatingMaterial_IfcMaterialUsageDefinition )
 	{
-		RelatingMaterial_IfcMaterialUsageDefinition->m_AssociatedTo_inverse.push_back( ptr_self );
+		RelatingMaterial_IfcMaterialUsageDefinition->m_AssociatedTo_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelAssociatesMaterial::unlinkFromInverseCounterparts()

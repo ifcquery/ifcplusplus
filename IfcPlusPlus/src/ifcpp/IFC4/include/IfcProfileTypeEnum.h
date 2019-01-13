@@ -19,7 +19,7 @@ public:
 		ENUM_AREA
 	};
 
-	IfcProfileTypeEnum();
+	IfcProfileTypeEnum() = default;
 	IfcProfileTypeEnum( IfcProfileTypeEnumEnum e ) { m_enum = e; }
 	~IfcProfileTypeEnum();
 	virtual const char* className() const { return "IfcProfileTypeEnum"; }

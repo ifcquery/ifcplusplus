@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcPointOrVertexPoint.h"
 
 // ENTITY IfcConnectionPointGeometry 
-IfcConnectionPointGeometry::IfcConnectionPointGeometry() {}
 IfcConnectionPointGeometry::IfcConnectionPointGeometry( int id ) { m_entity_id = id; }
 IfcConnectionPointGeometry::~IfcConnectionPointGeometry() {}
 shared_ptr<BuildingObject> IfcConnectionPointGeometry::getDeepCopy( BuildingCopyOptions& options )
@@ -41,8 +40,8 @@ void IfcConnectionPointGeometry::readStepArguments( const std::vector<std::wstri
 void IfcConnectionPointGeometry::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConnectionGeometry::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PointOnRelatingElement", m_PointOnRelatingElement ) );
-	vec_attributes.push_back( std::make_pair( "PointOnRelatedElement", m_PointOnRelatedElement ) );
+	vec_attributes.emplace_back( std::make_pair( "PointOnRelatingElement", m_PointOnRelatingElement ) );
+	vec_attributes.emplace_back( std::make_pair( "PointOnRelatedElement", m_PointOnRelatedElement ) );
 }
 void IfcConnectionPointGeometry::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

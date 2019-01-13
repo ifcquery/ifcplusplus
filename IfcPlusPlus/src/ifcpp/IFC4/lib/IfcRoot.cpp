@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRoot 
-IfcRoot::IfcRoot() {}
 IfcRoot::IfcRoot( int id ) { m_entity_id = id; }
 IfcRoot::~IfcRoot() {}
 shared_ptr<BuildingObject> IfcRoot::getDeepCopy( BuildingCopyOptions& options )
@@ -22,7 +21,7 @@ shared_ptr<BuildingObject> IfcRoot::getDeepCopy( BuildingCopyOptions& options )
 	shared_ptr<IfcRoot> copy_self( new IfcRoot() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -59,10 +58,10 @@ void IfcRoot::readStepArguments( const std::vector<std::wstring>& args, const st
 }
 void IfcRoot::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "GlobalId", m_GlobalId ) );
-	vec_attributes.push_back( std::make_pair( "OwnerHistory", m_OwnerHistory ) );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "GlobalId", m_GlobalId ) );
+	vec_attributes.emplace_back( std::make_pair( "OwnerHistory", m_OwnerHistory ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
 }
 void IfcRoot::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

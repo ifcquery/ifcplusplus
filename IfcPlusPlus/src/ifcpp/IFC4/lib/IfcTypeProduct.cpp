@@ -24,7 +24,6 @@
 #include "ifcpp/IFC4/include/IfcTypeProduct.h"
 
 // ENTITY IfcTypeProduct 
-IfcTypeProduct::IfcTypeProduct() {}
 IfcTypeProduct::IfcTypeProduct( int id ) { m_entity_id = id; }
 IfcTypeProduct::~IfcTypeProduct() {}
 shared_ptr<BuildingObject> IfcTypeProduct::getDeepCopy( BuildingCopyOptions& options )
@@ -32,7 +31,7 @@ shared_ptr<BuildingObject> IfcTypeProduct::getDeepCopy( BuildingCopyOptions& opt
 	shared_ptr<IfcTypeProduct> copy_self( new IfcTypeProduct() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -48,7 +47,7 @@ shared_ptr<BuildingObject> IfcTypeProduct::getDeepCopy( BuildingCopyOptions& opt
 		auto item_ii = m_HasPropertySets[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasPropertySets.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_HasPropertySets.emplace_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_RepresentationMaps.size(); ++ii )
@@ -56,7 +55,7 @@ shared_ptr<BuildingObject> IfcTypeProduct::getDeepCopy( BuildingCopyOptions& opt
 		auto item_ii = m_RepresentationMaps[ii];
 		if( item_ii )
 		{
-			copy_self->m_RepresentationMaps.push_back( dynamic_pointer_cast<IfcRepresentationMap>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RepresentationMaps.emplace_back( dynamic_pointer_cast<IfcRepresentationMap>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcLabel>( m_Tag->getDeepCopy(options) ); }
@@ -100,28 +99,28 @@ void IfcTypeProduct::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcTypeProduct::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTypeObject::getAttributes( vec_attributes );
-	if( m_RepresentationMaps.size() > 0 )
+	if( !m_RepresentationMaps.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RepresentationMaps_vec_object( new AttributeObjectVector() );
 		std::copy( m_RepresentationMaps.begin(), m_RepresentationMaps.end(), std::back_inserter( RepresentationMaps_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RepresentationMaps", RepresentationMaps_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RepresentationMaps", RepresentationMaps_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "Tag", m_Tag ) );
+	vec_attributes.emplace_back( std::make_pair( "Tag", m_Tag ) );
 }
 void IfcTypeProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTypeObject::getAttributesInverse( vec_attributes_inverse );
-	if( m_ReferencedBy_inverse.size() > 0 )
+	if( !m_ReferencedBy_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ReferencedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ReferencedBy_inverse.size(); ++i )
 		{
 			if( !m_ReferencedBy_inverse[i].expired() )
 			{
-				ReferencedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToProduct>( m_ReferencedBy_inverse[i] ) );
+				ReferencedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssignsToProduct>( m_ReferencedBy_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ReferencedBy_inverse", ReferencedBy_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ReferencedBy_inverse", ReferencedBy_inverse_vec_obj ) );
 	}
 }
 void IfcTypeProduct::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

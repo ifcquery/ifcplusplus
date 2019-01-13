@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPolyLoop 
-IfcPolyLoop::IfcPolyLoop() {}
 IfcPolyLoop::IfcPolyLoop( int id ) { m_entity_id = id; }
 IfcPolyLoop::~IfcPolyLoop() {}
 shared_ptr<BuildingObject> IfcPolyLoop::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcPolyLoop::getDeepCopy( BuildingCopyOptions& option
 		auto item_ii = m_Polygon[ii];
 		if( item_ii )
 		{
-			copy_self->m_Polygon.push_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Polygon.emplace_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -46,11 +45,11 @@ void IfcPolyLoop::readStepArguments( const std::vector<std::wstring>& args, cons
 void IfcPolyLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLoop::getAttributes( vec_attributes );
-	if( m_Polygon.size() > 0 )
+	if( !m_Polygon.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Polygon_vec_object( new AttributeObjectVector() );
 		std::copy( m_Polygon.begin(), m_Polygon.end(), std::back_inserter( Polygon_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Polygon", Polygon_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Polygon", Polygon_vec_object ) );
 	}
 }
 void IfcPolyLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

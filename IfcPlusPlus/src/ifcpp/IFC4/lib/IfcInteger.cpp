@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcInteger.h"
 
 // TYPE IfcInteger = INTEGER;
-IfcInteger::IfcInteger() {}
 IfcInteger::IfcInteger( int value ) { m_value = value; }
 IfcInteger::~IfcInteger() {}
 shared_ptr<BuildingObject> IfcInteger::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcInteger::toString() const
 shared_ptr<IfcInteger> IfcInteger::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInteger>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInteger>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInteger>(); }
 	shared_ptr<IfcInteger> type_object( new IfcInteger() );
 	readInteger( arg, type_object->m_value );
 	return type_object;

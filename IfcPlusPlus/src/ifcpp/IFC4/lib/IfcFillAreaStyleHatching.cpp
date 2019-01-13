@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcFillAreaStyleHatching 
-IfcFillAreaStyleHatching::IfcFillAreaStyleHatching() {}
 IfcFillAreaStyleHatching::IfcFillAreaStyleHatching( int id ) { m_entity_id = id; }
 IfcFillAreaStyleHatching::~IfcFillAreaStyleHatching() {}
 shared_ptr<BuildingObject> IfcFillAreaStyleHatching::getDeepCopy( BuildingCopyOptions& options )
@@ -58,11 +57,11 @@ void IfcFillAreaStyleHatching::readStepArguments( const std::vector<std::wstring
 void IfcFillAreaStyleHatching::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "HatchLineAppearance", m_HatchLineAppearance ) );
-	vec_attributes.push_back( std::make_pair( "StartOfNextHatchLine", m_StartOfNextHatchLine ) );
-	vec_attributes.push_back( std::make_pair( "PointOfReferenceHatchLine", m_PointOfReferenceHatchLine ) );
-	vec_attributes.push_back( std::make_pair( "PatternStart", m_PatternStart ) );
-	vec_attributes.push_back( std::make_pair( "HatchLineAngle", m_HatchLineAngle ) );
+	vec_attributes.emplace_back( std::make_pair( "HatchLineAppearance", m_HatchLineAppearance ) );
+	vec_attributes.emplace_back( std::make_pair( "StartOfNextHatchLine", m_StartOfNextHatchLine ) );
+	vec_attributes.emplace_back( std::make_pair( "PointOfReferenceHatchLine", m_PointOfReferenceHatchLine ) );
+	vec_attributes.emplace_back( std::make_pair( "PatternStart", m_PatternStart ) );
+	vec_attributes.emplace_back( std::make_pair( "HatchLineAngle", m_HatchLineAngle ) );
 }
 void IfcFillAreaStyleHatching::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

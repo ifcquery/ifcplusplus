@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcTaskDurationEnum;
 class IFCQUERY_EXPORT IfcLagTime : public IfcSchedulingTime
 { 
 public:
-	IfcLagTime();
+	IfcLagTime() = default;
 	IfcLagTime( int id );
 	~IfcLagTime();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

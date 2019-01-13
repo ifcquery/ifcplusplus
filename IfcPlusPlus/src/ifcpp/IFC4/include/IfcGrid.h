@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcRelContainedInSpatialStructure;
 class IFCQUERY_EXPORT IfcGrid : public IfcProduct
 { 
 public:
-	IfcGrid();
+	IfcGrid() = default;
 	IfcGrid( int id );
 	~IfcGrid();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

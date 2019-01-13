@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // ENTITY IfcExternallyDefinedHatchStyle 
-IfcExternallyDefinedHatchStyle::IfcExternallyDefinedHatchStyle() {}
 IfcExternallyDefinedHatchStyle::IfcExternallyDefinedHatchStyle( int id ) { m_entity_id = id; }
 IfcExternallyDefinedHatchStyle::~IfcExternallyDefinedHatchStyle() {}
 shared_ptr<BuildingObject> IfcExternallyDefinedHatchStyle::getDeepCopy( BuildingCopyOptions& options )

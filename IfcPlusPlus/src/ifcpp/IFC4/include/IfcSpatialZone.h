@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcSpatialZoneTypeEnum;
 class IFCQUERY_EXPORT IfcSpatialZone : public IfcSpatialElement
 { 
 public:
-	IfcSpatialZone();
+	IfcSpatialZone() = default;
 	IfcSpatialZone( int id );
 	~IfcSpatialZone();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

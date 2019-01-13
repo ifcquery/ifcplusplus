@@ -28,7 +28,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcEvent 
-IfcEvent::IfcEvent() {}
 IfcEvent::IfcEvent( int id ) { m_entity_id = id; }
 IfcEvent::~IfcEvent() {}
 shared_ptr<BuildingObject> IfcEvent::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ shared_ptr<BuildingObject> IfcEvent::getDeepCopy( BuildingCopyOptions& options )
 	shared_ptr<IfcEvent> copy_self( new IfcEvent() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -102,10 +101,10 @@ void IfcEvent::readStepArguments( const std::vector<std::wstring>& args, const s
 void IfcEvent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProcess::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
-	vec_attributes.push_back( std::make_pair( "EventTriggerType", m_EventTriggerType ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedEventTriggerType", m_UserDefinedEventTriggerType ) );
-	vec_attributes.push_back( std::make_pair( "EventOccurenceTime", m_EventOccurenceTime ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "EventTriggerType", m_EventTriggerType ) );
+	vec_attributes.emplace_back( std::make_pair( "UserDefinedEventTriggerType", m_UserDefinedEventTriggerType ) );
+	vec_attributes.emplace_back( std::make_pair( "EventOccurenceTime", m_EventOccurenceTime ) );
 }
 void IfcEvent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

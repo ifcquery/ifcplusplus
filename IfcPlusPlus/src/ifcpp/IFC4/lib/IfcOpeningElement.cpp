@@ -37,7 +37,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcOpeningElement 
-IfcOpeningElement::IfcOpeningElement() {}
 IfcOpeningElement::IfcOpeningElement( int id ) { m_entity_id = id; }
 IfcOpeningElement::~IfcOpeningElement() {}
 shared_ptr<BuildingObject> IfcOpeningElement::getDeepCopy( BuildingCopyOptions& options )
@@ -45,7 +44,7 @@ shared_ptr<BuildingObject> IfcOpeningElement::getDeepCopy( BuildingCopyOptions& 
 	shared_ptr<IfcOpeningElement> copy_self( new IfcOpeningElement() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -103,22 +102,22 @@ void IfcOpeningElement::readStepArguments( const std::vector<std::wstring>& args
 void IfcOpeningElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcFeatureElementSubtraction::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcOpeningElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFeatureElementSubtraction::getAttributesInverse( vec_attributes_inverse );
-	if( m_HasFillings_inverse.size() > 0 )
+	if( !m_HasFillings_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasFillings_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasFillings_inverse.size(); ++i )
 		{
 			if( !m_HasFillings_inverse[i].expired() )
 			{
-				HasFillings_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelFillsElement>( m_HasFillings_inverse[i] ) );
+				HasFillings_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelFillsElement>( m_HasFillings_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasFillings_inverse", HasFillings_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasFillings_inverse", HasFillings_inverse_vec_obj ) );
 	}
 }
 void IfcOpeningElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcTrimmingPreference;
 class IFCQUERY_EXPORT IfcTrimmedCurve : public IfcBoundedCurve
 { 
 public:
-	IfcTrimmedCurve();
+	IfcTrimmedCurve() = default;
 	IfcTrimmedCurve( int id );
 	~IfcTrimmedCurve();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcTriangulatedFaceSet.h"
 
 // ENTITY IfcTriangulatedFaceSet 
-IfcTriangulatedFaceSet::IfcTriangulatedFaceSet() {}
 IfcTriangulatedFaceSet::IfcTriangulatedFaceSet( int id ) { m_entity_id = id; }
 IfcTriangulatedFaceSet::~IfcTriangulatedFaceSet() {}
 shared_ptr<BuildingObject> IfcTriangulatedFaceSet::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ shared_ptr<BuildingObject> IfcTriangulatedFaceSet::getDeepCopy( BuildingCopyOpti
 			shared_ptr<IfcParameterValue>& item_jj = vec_ii[jj];
 			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcParameterValue>( item_jj->getDeepCopy(options) ) );
+				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcParameterValue>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}
@@ -50,7 +49,7 @@ shared_ptr<BuildingObject> IfcTriangulatedFaceSet::getDeepCopy( BuildingCopyOpti
 			shared_ptr<IfcPositiveInteger>& item_jj = vec_ii[jj];
 			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
+				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}
@@ -59,7 +58,7 @@ shared_ptr<BuildingObject> IfcTriangulatedFaceSet::getDeepCopy( BuildingCopyOpti
 		auto item_ii = m_PnIndex[ii];
 		if( item_ii )
 		{
-			copy_self->m_PnIndex.push_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_PnIndex.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -110,12 +109,12 @@ void IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::wstring>&
 void IfcTriangulatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTessellatedFaceSet::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Closed", m_Closed ) );
-	if( m_PnIndex.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Closed", m_Closed ) );
+	if( !m_PnIndex.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PnIndex_vec_object( new AttributeObjectVector() );
 		std::copy( m_PnIndex.begin(), m_PnIndex.end(), std::back_inserter( PnIndex_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "PnIndex", PnIndex_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "PnIndex", PnIndex_vec_object ) );
 	}
 }
 void IfcTriangulatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

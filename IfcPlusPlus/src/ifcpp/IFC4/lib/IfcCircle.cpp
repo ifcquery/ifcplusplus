@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCircle 
-IfcCircle::IfcCircle() {}
 IfcCircle::IfcCircle( int id ) { m_entity_id = id; }
 IfcCircle::~IfcCircle() {}
 shared_ptr<BuildingObject> IfcCircle::getDeepCopy( BuildingCopyOptions& options )
@@ -44,7 +43,7 @@ void IfcCircle::readStepArguments( const std::vector<std::wstring>& args, const 
 void IfcCircle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConic::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
+	vec_attributes.emplace_back( std::make_pair( "Radius", m_Radius ) );
 }
 void IfcCircle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

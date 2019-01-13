@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcElectricDistributionBoardTypeEnum;
 class IFCQUERY_EXPORT IfcElectricDistributionBoard : public IfcFlowController
 { 
 public:
-	IfcElectricDistributionBoard();
+	IfcElectricDistributionBoard() = default;
 	IfcElectricDistributionBoard( int id );
 	~IfcElectricDistributionBoard();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

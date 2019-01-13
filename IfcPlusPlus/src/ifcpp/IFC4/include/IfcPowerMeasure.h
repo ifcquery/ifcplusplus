@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcPowerMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcPowerMeasure();
+	IfcPowerMeasure() = default;
 	IfcPowerMeasure( double value );
 	~IfcPowerMeasure();
 	virtual const char* className() const { return "IfcPowerMeasure"; }

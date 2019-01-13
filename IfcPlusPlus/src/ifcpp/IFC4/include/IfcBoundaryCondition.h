@@ -12,7 +12,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcBoundaryCondition : public BuildingEntity
 { 
 public:
-	IfcBoundaryCondition();
+	IfcBoundaryCondition() = default;
 	IfcBoundaryCondition( int id );
 	~IfcBoundaryCondition();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

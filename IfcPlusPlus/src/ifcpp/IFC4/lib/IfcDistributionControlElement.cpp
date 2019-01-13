@@ -38,7 +38,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcDistributionControlElement 
-IfcDistributionControlElement::IfcDistributionControlElement() {}
 IfcDistributionControlElement::IfcDistributionControlElement( int id ) { m_entity_id = id; }
 IfcDistributionControlElement::~IfcDistributionControlElement() {}
 shared_ptr<BuildingObject> IfcDistributionControlElement::getDeepCopy( BuildingCopyOptions& options )
@@ -46,7 +45,7 @@ shared_ptr<BuildingObject> IfcDistributionControlElement::getDeepCopy( BuildingC
 	shared_ptr<IfcDistributionControlElement> copy_self( new IfcDistributionControlElement() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -104,17 +103,17 @@ void IfcDistributionControlElement::getAttributes( std::vector<std::pair<std::st
 void IfcDistributionControlElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcDistributionElement::getAttributesInverse( vec_attributes_inverse );
-	if( m_AssignedToFlowElement_inverse.size() > 0 )
+	if( !m_AssignedToFlowElement_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> AssignedToFlowElement_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_AssignedToFlowElement_inverse.size(); ++i )
 		{
 			if( !m_AssignedToFlowElement_inverse[i].expired() )
 			{
-				AssignedToFlowElement_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelFlowControlElements>( m_AssignedToFlowElement_inverse[i] ) );
+				AssignedToFlowElement_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelFlowControlElements>( m_AssignedToFlowElement_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "AssignedToFlowElement_inverse", AssignedToFlowElement_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "AssignedToFlowElement_inverse", AssignedToFlowElement_inverse_vec_obj ) );
 	}
 }
 void IfcDistributionControlElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

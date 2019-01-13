@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcPipeFittingTypeEnum.h"
 
 // TYPE IfcPipeFittingTypeEnum = ENUMERATION OF	(BEND	,CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,OBSTRUCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
-IfcPipeFittingTypeEnum::IfcPipeFittingTypeEnum() {}
 IfcPipeFittingTypeEnum::~IfcPipeFittingTypeEnum() {}
 shared_ptr<BuildingObject> IfcPipeFittingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -54,7 +53,7 @@ const std::wstring IfcPipeFittingTypeEnum::toString() const
 shared_ptr<IfcPipeFittingTypeEnum> IfcPipeFittingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPipeFittingTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPipeFittingTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPipeFittingTypeEnum>(); }
 	shared_ptr<IfcPipeFittingTypeEnum> type_object( new IfcPipeFittingTypeEnum() );
 	if( boost::iequals( arg, L".BEND." ) )
 	{

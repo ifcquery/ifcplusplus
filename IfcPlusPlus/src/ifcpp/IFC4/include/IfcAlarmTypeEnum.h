@@ -25,7 +25,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcAlarmTypeEnum();
+	IfcAlarmTypeEnum() = default;
 	IfcAlarmTypeEnum( IfcAlarmTypeEnumEnum e ) { m_enum = e; }
 	~IfcAlarmTypeEnum();
 	virtual const char* className() const { return "IfcAlarmTypeEnum"; }

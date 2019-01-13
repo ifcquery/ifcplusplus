@@ -18,7 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #define _USE_MATH_DEFINES 
-#include <math.h>
+#include <cmath>
 #include <ifcpp/model/OpenMPIncludes.h>
 
 #define GEOM_TOLERANCE  0.0000001

@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcNamedUnit.h"
 
 // ENTITY IfcDerivedUnitElement 
-IfcDerivedUnitElement::IfcDerivedUnitElement() {}
 IfcDerivedUnitElement::IfcDerivedUnitElement( int id ) { m_entity_id = id; }
 IfcDerivedUnitElement::~IfcDerivedUnitElement() {}
 shared_ptr<BuildingObject> IfcDerivedUnitElement::getDeepCopy( BuildingCopyOptions& options )
@@ -40,8 +39,8 @@ void IfcDerivedUnitElement::readStepArguments( const std::vector<std::wstring>& 
 }
 void IfcDerivedUnitElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
-	vec_attributes.push_back( std::make_pair( "Exponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_Exponent ) ) ) );
+	vec_attributes.emplace_back( std::make_pair( "Unit", m_Unit ) );
+	vec_attributes.emplace_back( std::make_pair( "Exponent", shared_ptr<IntegerAttribute>( new IntegerAttribute( m_Exponent ) ) ) );
 }
 void IfcDerivedUnitElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

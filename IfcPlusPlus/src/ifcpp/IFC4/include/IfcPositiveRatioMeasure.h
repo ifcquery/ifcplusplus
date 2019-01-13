@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcPositiveRatioMeasure : public IfcRatioMeasure
 {
 public:
-	IfcPositiveRatioMeasure();
+	IfcPositiveRatioMeasure() = default;
 	IfcPositiveRatioMeasure( double value ) { m_value = value; }
 	~IfcPositiveRatioMeasure();
 	virtual const char* className() const { return "IfcPositiveRatioMeasure"; }

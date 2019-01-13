@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcSurfaceOfLinearExtrusion.h"
 
 // ENTITY IfcSurfaceOfLinearExtrusion 
-IfcSurfaceOfLinearExtrusion::IfcSurfaceOfLinearExtrusion() {}
 IfcSurfaceOfLinearExtrusion::IfcSurfaceOfLinearExtrusion( int id ) { m_entity_id = id; }
 IfcSurfaceOfLinearExtrusion::~IfcSurfaceOfLinearExtrusion() {}
 shared_ptr<BuildingObject> IfcSurfaceOfLinearExtrusion::getDeepCopy( BuildingCopyOptions& options )
@@ -58,8 +57,8 @@ void IfcSurfaceOfLinearExtrusion::readStepArguments( const std::vector<std::wstr
 void IfcSurfaceOfLinearExtrusion::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSweptSurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ExtrudedDirection", m_ExtrudedDirection ) );
-	vec_attributes.push_back( std::make_pair( "Depth", m_Depth ) );
+	vec_attributes.emplace_back( std::make_pair( "ExtrudedDirection", m_ExtrudedDirection ) );
+	vec_attributes.emplace_back( std::make_pair( "Depth", m_Depth ) );
 }
 void IfcSurfaceOfLinearExtrusion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

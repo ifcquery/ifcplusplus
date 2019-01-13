@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcTextDecoration : public BuildingObject
 {
 public:
-	IfcTextDecoration();
+	IfcTextDecoration() = default;
 	IfcTextDecoration( std::wstring value );
 	~IfcTextDecoration();
 	virtual const char* className() const { return "IfcTextDecoration"; }

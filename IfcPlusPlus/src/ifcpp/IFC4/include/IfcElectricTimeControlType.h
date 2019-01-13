@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcElectricTimeControlTypeEnum;
 class IFCQUERY_EXPORT IfcElectricTimeControlType : public IfcFlowControllerType
 { 
 public:
-	IfcElectricTimeControlType();
+	IfcElectricTimeControlType() = default;
 	IfcElectricTimeControlType( int id );
 	~IfcElectricTimeControlType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

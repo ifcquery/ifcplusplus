@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcFlowController : public IfcDistributionFlowElement
 { 
 public:
-	IfcFlowController();
+	IfcFlowController() = default;
 	IfcFlowController( int id );
 	~IfcFlowController();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcBoundedCurve;
 class IFCQUERY_EXPORT IfcPolygonalBoundedHalfSpace : public IfcHalfSpaceSolid
 { 
 public:
-	IfcPolygonalBoundedHalfSpace();
+	IfcPolygonalBoundedHalfSpace() = default;
 	IfcPolygonalBoundedHalfSpace( int id );
 	~IfcPolygonalBoundedHalfSpace();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

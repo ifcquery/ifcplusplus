@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcSolidOrShell.h"
 
 // ENTITY IfcConnectionVolumeGeometry 
-IfcConnectionVolumeGeometry::IfcConnectionVolumeGeometry() {}
 IfcConnectionVolumeGeometry::IfcConnectionVolumeGeometry( int id ) { m_entity_id = id; }
 IfcConnectionVolumeGeometry::~IfcConnectionVolumeGeometry() {}
 shared_ptr<BuildingObject> IfcConnectionVolumeGeometry::getDeepCopy( BuildingCopyOptions& options )
@@ -41,8 +40,8 @@ void IfcConnectionVolumeGeometry::readStepArguments( const std::vector<std::wstr
 void IfcConnectionVolumeGeometry::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConnectionGeometry::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "VolumeOnRelatingElement", m_VolumeOnRelatingElement ) );
-	vec_attributes.push_back( std::make_pair( "VolumeOnRelatedElement", m_VolumeOnRelatedElement ) );
+	vec_attributes.emplace_back( std::make_pair( "VolumeOnRelatingElement", m_VolumeOnRelatingElement ) );
+	vec_attributes.emplace_back( std::make_pair( "VolumeOnRelatedElement", m_VolumeOnRelatedElement ) );
 }
 void IfcConnectionVolumeGeometry::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

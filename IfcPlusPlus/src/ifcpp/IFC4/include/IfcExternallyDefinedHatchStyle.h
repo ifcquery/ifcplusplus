@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcExternallyDefinedHatchStyle : virtual public IfcFillStyleSelect, public IfcExternalReference
 { 
 public:
-	IfcExternallyDefinedHatchStyle();
+	IfcExternallyDefinedHatchStyle() = default;
 	IfcExternallyDefinedHatchStyle( int id );
 	~IfcExternallyDefinedHatchStyle();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

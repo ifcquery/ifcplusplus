@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcTextTransformation.h"
 
 // ENTITY IfcTextStyleTextModel 
-IfcTextStyleTextModel::IfcTextStyleTextModel() {}
 IfcTextStyleTextModel::IfcTextStyleTextModel( int id ) { m_entity_id = id; }
 IfcTextStyleTextModel::~IfcTextStyleTextModel() {}
 shared_ptr<BuildingObject> IfcTextStyleTextModel::getDeepCopy( BuildingCopyOptions& options )
@@ -64,13 +63,13 @@ void IfcTextStyleTextModel::readStepArguments( const std::vector<std::wstring>& 
 void IfcTextStyleTextModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TextIndent", m_TextIndent ) );
-	vec_attributes.push_back( std::make_pair( "TextAlign", m_TextAlign ) );
-	vec_attributes.push_back( std::make_pair( "TextDecoration", m_TextDecoration ) );
-	vec_attributes.push_back( std::make_pair( "LetterSpacing", m_LetterSpacing ) );
-	vec_attributes.push_back( std::make_pair( "WordSpacing", m_WordSpacing ) );
-	vec_attributes.push_back( std::make_pair( "TextTransform", m_TextTransform ) );
-	vec_attributes.push_back( std::make_pair( "LineHeight", m_LineHeight ) );
+	vec_attributes.emplace_back( std::make_pair( "TextIndent", m_TextIndent ) );
+	vec_attributes.emplace_back( std::make_pair( "TextAlign", m_TextAlign ) );
+	vec_attributes.emplace_back( std::make_pair( "TextDecoration", m_TextDecoration ) );
+	vec_attributes.emplace_back( std::make_pair( "LetterSpacing", m_LetterSpacing ) );
+	vec_attributes.emplace_back( std::make_pair( "WordSpacing", m_WordSpacing ) );
+	vec_attributes.emplace_back( std::make_pair( "TextTransform", m_TextTransform ) );
+	vec_attributes.emplace_back( std::make_pair( "LineHeight", m_LineHeight ) );
 }
 void IfcTextStyleTextModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

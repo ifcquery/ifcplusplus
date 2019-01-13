@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcReal;
 class IFCQUERY_EXPORT IfcMapConversion : public IfcCoordinateOperation
 { 
 public:
-	IfcMapConversion();
+	IfcMapConversion() = default;
 	IfcMapConversion( int id );
 	~IfcMapConversion();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

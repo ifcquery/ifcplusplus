@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcWorkScheduleTypeEnum;
 class IFCQUERY_EXPORT IfcWorkSchedule : public IfcWorkControl
 { 
 public:
-	IfcWorkSchedule();
+	IfcWorkSchedule() = default;
 	IfcWorkSchedule( int id );
 	~IfcWorkSchedule();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

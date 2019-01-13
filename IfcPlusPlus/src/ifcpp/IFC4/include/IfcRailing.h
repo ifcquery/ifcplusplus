@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRailingTypeEnum;
 class IFCQUERY_EXPORT IfcRailing : public IfcBuildingElement
 { 
 public:
-	IfcRailing();
+	IfcRailing() = default;
 	IfcRailing( int id );
 	~IfcRailing();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcParameterValue;
 class IFCQUERY_EXPORT IfcTextureVertexList : public IfcPresentationItem
 { 
 public:
-	IfcTextureVertexList();
+	IfcTextureVertexList() = default;
 	IfcTextureVertexList( int id );
 	~IfcTextureVertexList();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

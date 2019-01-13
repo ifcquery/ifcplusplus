@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcCableSegmentTypeEnum();
+	IfcCableSegmentTypeEnum() = default;
 	IfcCableSegmentTypeEnum( IfcCableSegmentTypeEnumEnum e ) { m_enum = e; }
 	~IfcCableSegmentTypeEnum();
 	virtual const char* className() const { return "IfcCableSegmentTypeEnum"; }

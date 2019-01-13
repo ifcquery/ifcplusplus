@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcThermalExpansionCoefficientMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcThermalExpansionCoefficientMeasure();
+	IfcThermalExpansionCoefficientMeasure() = default;
 	IfcThermalExpansionCoefficientMeasure( double value );
 	~IfcThermalExpansionCoefficientMeasure();
 	virtual const char* className() const { return "IfcThermalExpansionCoefficientMeasure"; }

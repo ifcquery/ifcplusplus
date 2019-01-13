@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcLaborResourceTypeEnum.h"
 
 // TYPE IfcLaborResourceTypeEnum = ENUMERATION OF	(ADMINISTRATION	,CARPENTRY	,CLEANING	,CONCRETE	,DRYWALL	,ELECTRIC	,FINISHING	,FLOORING	,GENERAL	,HVAC	,LANDSCAPING	,MASONRY	,PAINTING	,PAVING	,PLUMBING	,ROOFING	,SITEGRADING	,STEELWORK	,SURVEYING	,USERDEFINED	,NOTDEFINED);
-IfcLaborResourceTypeEnum::IfcLaborResourceTypeEnum() {}
 IfcLaborResourceTypeEnum::~IfcLaborResourceTypeEnum() {}
 shared_ptr<BuildingObject> IfcLaborResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -78,7 +77,7 @@ const std::wstring IfcLaborResourceTypeEnum::toString() const
 shared_ptr<IfcLaborResourceTypeEnum> IfcLaborResourceTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLaborResourceTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLaborResourceTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLaborResourceTypeEnum>(); }
 	shared_ptr<IfcLaborResourceTypeEnum> type_object( new IfcLaborResourceTypeEnum() );
 	if( boost::iequals( arg, L".ADMINISTRATION." ) )
 	{

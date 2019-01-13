@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcPileConstructionEnum();
+	IfcPileConstructionEnum() = default;
 	IfcPileConstructionEnum( IfcPileConstructionEnumEnum e ) { m_enum = e; }
 	~IfcPileConstructionEnum();
 	virtual const char* className() const { return "IfcPileConstructionEnum"; }

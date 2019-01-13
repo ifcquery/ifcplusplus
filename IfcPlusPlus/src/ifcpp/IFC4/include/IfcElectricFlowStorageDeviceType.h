@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcElectricFlowStorageDeviceTypeEnum;
 class IFCQUERY_EXPORT IfcElectricFlowStorageDeviceType : public IfcFlowStorageDeviceType
 { 
 public:
-	IfcElectricFlowStorageDeviceType();
+	IfcElectricFlowStorageDeviceType() = default;
 	IfcElectricFlowStorageDeviceType( int id );
 	~IfcElectricFlowStorageDeviceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

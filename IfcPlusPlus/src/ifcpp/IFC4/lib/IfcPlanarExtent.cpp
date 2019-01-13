@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPlanarExtent 
-IfcPlanarExtent::IfcPlanarExtent() {}
 IfcPlanarExtent::IfcPlanarExtent( int id ) { m_entity_id = id; }
 IfcPlanarExtent::~IfcPlanarExtent() {}
 shared_ptr<BuildingObject> IfcPlanarExtent::getDeepCopy( BuildingCopyOptions& options )
@@ -43,8 +42,8 @@ void IfcPlanarExtent::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcPlanarExtent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "SizeInX", m_SizeInX ) );
-	vec_attributes.push_back( std::make_pair( "SizeInY", m_SizeInY ) );
+	vec_attributes.emplace_back( std::make_pair( "SizeInX", m_SizeInX ) );
+	vec_attributes.emplace_back( std::make_pair( "SizeInY", m_SizeInY ) );
 }
 void IfcPlanarExtent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

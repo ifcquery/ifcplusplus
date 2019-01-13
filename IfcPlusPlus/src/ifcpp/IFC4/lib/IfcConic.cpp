@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcConic 
-IfcConic::IfcConic() {}
 IfcConic::IfcConic( int id ) { m_entity_id = id; }
 IfcConic::~IfcConic() {}
 shared_ptr<BuildingObject> IfcConic::getDeepCopy( BuildingCopyOptions& options )
@@ -39,7 +38,7 @@ void IfcConic::readStepArguments( const std::vector<std::wstring>& args, const s
 void IfcConic::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCurve::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
+	vec_attributes.emplace_back( std::make_pair( "Position", m_Position ) );
 }
 void IfcConic::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

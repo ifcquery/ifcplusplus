@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcStructuralConnectionCondition.h"
 
 // ENTITY IfcStructuralConnectionCondition 
-IfcStructuralConnectionCondition::IfcStructuralConnectionCondition() {}
 IfcStructuralConnectionCondition::IfcStructuralConnectionCondition( int id ) { m_entity_id = id; }
 IfcStructuralConnectionCondition::~IfcStructuralConnectionCondition() {}
 shared_ptr<BuildingObject> IfcStructuralConnectionCondition::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ void IfcStructuralConnectionCondition::readStepArguments( const std::vector<std:
 }
 void IfcStructuralConnectionCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 }
 void IfcStructuralConnectionCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

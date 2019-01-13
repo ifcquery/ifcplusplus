@@ -28,7 +28,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcWindowStyleOperationEnum();
+	IfcWindowStyleOperationEnum() = default;
 	IfcWindowStyleOperationEnum( IfcWindowStyleOperationEnumEnum e ) { m_enum = e; }
 	~IfcWindowStyleOperationEnum();
 	virtual const char* className() const { return "IfcWindowStyleOperationEnum"; }

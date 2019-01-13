@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelSequence 
-IfcRelSequence::IfcRelSequence() {}
 IfcRelSequence::IfcRelSequence( int id ) { m_entity_id = id; }
 IfcRelSequence::~IfcRelSequence() {}
 shared_ptr<BuildingObject> IfcRelSequence::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcRelSequence::getDeepCopy( BuildingCopyOptions& opt
 	shared_ptr<IfcRelSequence> copy_self( new IfcRelSequence() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -83,11 +82,11 @@ void IfcRelSequence::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcRelSequence::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingProcess", m_RelatingProcess ) );
-	vec_attributes.push_back( std::make_pair( "RelatedProcess", m_RelatedProcess ) );
-	vec_attributes.push_back( std::make_pair( "TimeLag", m_TimeLag ) );
-	vec_attributes.push_back( std::make_pair( "SequenceType", m_SequenceType ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedSequenceType", m_UserDefinedSequenceType ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingProcess", m_RelatingProcess ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedProcess", m_RelatedProcess ) );
+	vec_attributes.emplace_back( std::make_pair( "TimeLag", m_TimeLag ) );
+	vec_attributes.emplace_back( std::make_pair( "SequenceType", m_SequenceType ) );
+	vec_attributes.emplace_back( std::make_pair( "UserDefinedSequenceType", m_UserDefinedSequenceType ) );
 }
 void IfcRelSequence::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -100,11 +99,11 @@ void IfcRelSequence::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self
 	if( !ptr_self ) { throw BuildingException( "IfcRelSequence::setInverseCounterparts: type mismatch" ); }
 	if( m_RelatedProcess )
 	{
-		m_RelatedProcess->m_IsSuccessorFrom_inverse.push_back( ptr_self );
+		m_RelatedProcess->m_IsSuccessorFrom_inverse.emplace_back( ptr_self );
 	}
 	if( m_RelatingProcess )
 	{
-		m_RelatingProcess->m_IsPredecessorTo_inverse.push_back( ptr_self );
+		m_RelatingProcess->m_IsPredecessorTo_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelSequence::unlinkFromInverseCounterparts()

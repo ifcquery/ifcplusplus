@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcSolarDeviceTypeEnum;
 class IFCQUERY_EXPORT IfcSolarDeviceType : public IfcEnergyConversionDeviceType
 { 
 public:
-	IfcSolarDeviceType();
+	IfcSolarDeviceType() = default;
 	IfcSolarDeviceType( int id );
 	~IfcSolarDeviceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcVertex.h"
 
 // ENTITY IfcEdge 
-IfcEdge::IfcEdge() {}
 IfcEdge::IfcEdge( int id ) { m_entity_id = id; }
 IfcEdge::~IfcEdge() {}
 shared_ptr<BuildingObject> IfcEdge::getDeepCopy( BuildingCopyOptions& options )
@@ -43,8 +42,8 @@ void IfcEdge::readStepArguments( const std::vector<std::wstring>& args, const st
 void IfcEdge::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "EdgeStart", m_EdgeStart ) );
-	vec_attributes.push_back( std::make_pair( "EdgeEnd", m_EdgeEnd ) );
+	vec_attributes.emplace_back( std::make_pair( "EdgeStart", m_EdgeStart ) );
+	vec_attributes.emplace_back( std::make_pair( "EdgeEnd", m_EdgeEnd ) );
 }
 void IfcEdge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

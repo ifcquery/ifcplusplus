@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSurfaceFeatureTypeEnum.h"
 
 // TYPE IfcSurfaceFeatureTypeEnum = ENUMERATION OF	(MARK	,TAG	,TREATMENT	,USERDEFINED	,NOTDEFINED);
-IfcSurfaceFeatureTypeEnum::IfcSurfaceFeatureTypeEnum() {}
 IfcSurfaceFeatureTypeEnum::~IfcSurfaceFeatureTypeEnum() {}
 shared_ptr<BuildingObject> IfcSurfaceFeatureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcSurfaceFeatureTypeEnum::toString() const
 shared_ptr<IfcSurfaceFeatureTypeEnum> IfcSurfaceFeatureTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSurfaceFeatureTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSurfaceFeatureTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSurfaceFeatureTypeEnum>(); }
 	shared_ptr<IfcSurfaceFeatureTypeEnum> type_object( new IfcSurfaceFeatureTypeEnum() );
 	if( boost::iequals( arg, L".MARK." ) )
 	{

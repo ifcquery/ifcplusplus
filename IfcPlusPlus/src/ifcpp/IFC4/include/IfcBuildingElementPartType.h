@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcBuildingElementPartTypeEnum;
 class IFCQUERY_EXPORT IfcBuildingElementPartType : public IfcElementComponentType
 { 
 public:
-	IfcBuildingElementPartType();
+	IfcBuildingElementPartType() = default;
 	IfcBuildingElementPartType( int id );
 	~IfcBuildingElementPartType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

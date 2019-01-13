@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcCircleHollowProfileDef 
-IfcCircleHollowProfileDef::IfcCircleHollowProfileDef() {}
 IfcCircleHollowProfileDef::IfcCircleHollowProfileDef( int id ) { m_entity_id = id; }
 IfcCircleHollowProfileDef::~IfcCircleHollowProfileDef() {}
 shared_ptr<BuildingObject> IfcCircleHollowProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -58,7 +57,7 @@ void IfcCircleHollowProfileDef::readStepArguments( const std::vector<std::wstrin
 void IfcCircleHollowProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCircleProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "WallThickness", m_WallThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "WallThickness", m_WallThickness ) );
 }
 void IfcCircleHollowProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

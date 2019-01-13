@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcTextureMap;
 class IFCQUERY_EXPORT IfcFace : public IfcTopologicalRepresentationItem
 { 
 public:
-	IfcFace();
+	IfcFace() = default;
 	IfcFace( int id );
 	~IfcFace();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

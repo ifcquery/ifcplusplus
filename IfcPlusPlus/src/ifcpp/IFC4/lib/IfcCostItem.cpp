@@ -27,7 +27,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcCostItem 
-IfcCostItem::IfcCostItem() {}
 IfcCostItem::IfcCostItem( int id ) { m_entity_id = id; }
 IfcCostItem::~IfcCostItem() {}
 shared_ptr<BuildingObject> IfcCostItem::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ shared_ptr<BuildingObject> IfcCostItem::getDeepCopy( BuildingCopyOptions& option
 	shared_ptr<IfcCostItem> copy_self( new IfcCostItem() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -53,7 +52,7 @@ shared_ptr<BuildingObject> IfcCostItem::getDeepCopy( BuildingCopyOptions& option
 		auto item_ii = m_CostValues[ii];
 		if( item_ii )
 		{
-			copy_self->m_CostValues.push_back( dynamic_pointer_cast<IfcCostValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_CostValues.emplace_back( dynamic_pointer_cast<IfcCostValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_CostQuantities.size(); ++ii )
@@ -61,7 +60,7 @@ shared_ptr<BuildingObject> IfcCostItem::getDeepCopy( BuildingCopyOptions& option
 		auto item_ii = m_CostQuantities[ii];
 		if( item_ii )
 		{
-			copy_self->m_CostQuantities.push_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_CostQuantities.emplace_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -107,18 +106,18 @@ void IfcCostItem::readStepArguments( const std::vector<std::wstring>& args, cons
 void IfcCostItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcControl::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
-	if( m_CostValues.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	if( !m_CostValues.empty() )
 	{
 		shared_ptr<AttributeObjectVector> CostValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_CostValues.begin(), m_CostValues.end(), std::back_inserter( CostValues_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "CostValues", CostValues_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "CostValues", CostValues_vec_object ) );
 	}
-	if( m_CostQuantities.size() > 0 )
+	if( !m_CostQuantities.empty() )
 	{
 		shared_ptr<AttributeObjectVector> CostQuantities_vec_object( new AttributeObjectVector() );
 		std::copy( m_CostQuantities.begin(), m_CostQuantities.end(), std::back_inserter( CostQuantities_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "CostQuantities", CostQuantities_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "CostQuantities", CostQuantities_vec_object ) );
 	}
 }
 void IfcCostItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

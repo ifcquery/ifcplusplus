@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcOccupantTypeEnum.h"
 
 // TYPE IfcOccupantTypeEnum = ENUMERATION OF	(ASSIGNEE	,ASSIGNOR	,LESSEE	,LESSOR	,LETTINGAGENT	,OWNER	,TENANT	,USERDEFINED	,NOTDEFINED);
-IfcOccupantTypeEnum::IfcOccupantTypeEnum() {}
 IfcOccupantTypeEnum::~IfcOccupantTypeEnum() {}
 shared_ptr<BuildingObject> IfcOccupantTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -54,7 +53,7 @@ const std::wstring IfcOccupantTypeEnum::toString() const
 shared_ptr<IfcOccupantTypeEnum> IfcOccupantTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcOccupantTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcOccupantTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcOccupantTypeEnum>(); }
 	shared_ptr<IfcOccupantTypeEnum> type_object( new IfcOccupantTypeEnum() );
 	if( boost::iequals( arg, L".ASSIGNEE." ) )
 	{

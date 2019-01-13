@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcSolidModel 
-IfcSolidModel::IfcSolidModel() {}
 IfcSolidModel::IfcSolidModel( int id ) { m_entity_id = id; }
 IfcSolidModel::~IfcSolidModel() {}
 shared_ptr<BuildingObject> IfcSolidModel::getDeepCopy( BuildingCopyOptions& options )

@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcAddress 
-IfcAddress::IfcAddress() {}
 IfcAddress::IfcAddress( int id ) { m_entity_id = id; }
 IfcAddress::~IfcAddress() {}
 shared_ptr<BuildingObject> IfcAddress::getDeepCopy( BuildingCopyOptions& options )
@@ -48,35 +47,35 @@ void IfcAddress::readStepArguments( const std::vector<std::wstring>& args, const
 }
 void IfcAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Purpose", m_Purpose ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedPurpose", m_UserDefinedPurpose ) );
+	vec_attributes.emplace_back( std::make_pair( "Purpose", m_Purpose ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "UserDefinedPurpose", m_UserDefinedPurpose ) );
 }
 void IfcAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_OfPerson_inverse.size() > 0 )
+	if( !m_OfPerson_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> OfPerson_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_OfPerson_inverse.size(); ++i )
 		{
 			if( !m_OfPerson_inverse[i].expired() )
 			{
-				OfPerson_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPerson>( m_OfPerson_inverse[i] ) );
+				OfPerson_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPerson>( m_OfPerson_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "OfPerson_inverse", OfPerson_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "OfPerson_inverse", OfPerson_inverse_vec_obj ) );
 	}
-	if( m_OfOrganization_inverse.size() > 0 )
+	if( !m_OfOrganization_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> OfOrganization_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_OfOrganization_inverse.size(); ++i )
 		{
 			if( !m_OfOrganization_inverse[i].expired() )
 			{
-				OfOrganization_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcOrganization>( m_OfOrganization_inverse[i] ) );
+				OfOrganization_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcOrganization>( m_OfOrganization_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "OfOrganization_inverse", OfOrganization_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "OfOrganization_inverse", OfOrganization_inverse_vec_obj ) );
 	}
 }
 void IfcAddress::setInverseCounterparts( shared_ptr<BuildingEntity> )

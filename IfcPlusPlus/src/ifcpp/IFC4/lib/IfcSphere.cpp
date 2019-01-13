@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcSphere 
-IfcSphere::IfcSphere() {}
 IfcSphere::IfcSphere( int id ) { m_entity_id = id; }
 IfcSphere::~IfcSphere() {}
 shared_ptr<BuildingObject> IfcSphere::getDeepCopy( BuildingCopyOptions& options )
@@ -44,7 +43,7 @@ void IfcSphere::readStepArguments( const std::vector<std::wstring>& args, const 
 void IfcSphere::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
+	vec_attributes.emplace_back( std::make_pair( "Radius", m_Radius ) );
 }
 void IfcSphere::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCommunicationsApplianceTypeEnum;
 class IFCQUERY_EXPORT IfcCommunicationsApplianceType : public IfcFlowTerminalType
 { 
 public:
-	IfcCommunicationsApplianceType();
+	IfcCommunicationsApplianceType() = default;
 	IfcCommunicationsApplianceType( int id );
 	~IfcCommunicationsApplianceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

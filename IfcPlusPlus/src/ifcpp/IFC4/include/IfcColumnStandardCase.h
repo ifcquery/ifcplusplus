@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcColumnStandardCase : public IfcColumn
 { 
 public:
-	IfcColumnStandardCase();
+	IfcColumnStandardCase() = default;
 	IfcColumnStandardCase( int id );
 	~IfcColumnStandardCase();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

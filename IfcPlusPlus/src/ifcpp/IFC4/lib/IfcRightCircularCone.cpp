@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcRightCircularCone 
-IfcRightCircularCone::IfcRightCircularCone() {}
 IfcRightCircularCone::IfcRightCircularCone( int id ) { m_entity_id = id; }
 IfcRightCircularCone::~IfcRightCircularCone() {}
 shared_ptr<BuildingObject> IfcRightCircularCone::getDeepCopy( BuildingCopyOptions& options )
@@ -48,8 +47,8 @@ void IfcRightCircularCone::readStepArguments( const std::vector<std::wstring>& a
 void IfcRightCircularCone::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Height", m_Height ) );
-	vec_attributes.push_back( std::make_pair( "BottomRadius", m_BottomRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "Height", m_Height ) );
+	vec_attributes.emplace_back( std::make_pair( "BottomRadius", m_BottomRadius ) );
 }
 void IfcRightCircularCone::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

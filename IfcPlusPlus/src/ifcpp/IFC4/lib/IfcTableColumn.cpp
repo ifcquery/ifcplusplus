@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcUnit.h"
 
 // ENTITY IfcTableColumn 
-IfcTableColumn::IfcTableColumn() {}
 IfcTableColumn::IfcTableColumn( int id ) { m_entity_id = id; }
 IfcTableColumn::~IfcTableColumn() {}
 shared_ptr<BuildingObject> IfcTableColumn::getDeepCopy( BuildingCopyOptions& options )
@@ -56,11 +55,11 @@ void IfcTableColumn::readStepArguments( const std::vector<std::wstring>& args, c
 }
 void IfcTableColumn::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Identifier", m_Identifier ) );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "Unit", m_Unit ) );
-	vec_attributes.push_back( std::make_pair( "ReferencePath", m_ReferencePath ) );
+	vec_attributes.emplace_back( std::make_pair( "Identifier", m_Identifier ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "Unit", m_Unit ) );
+	vec_attributes.emplace_back( std::make_pair( "ReferencePath", m_ReferencePath ) );
 }
 void IfcTableColumn::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMaterialRelationship 
-IfcMaterialRelationship::IfcMaterialRelationship() {}
 IfcMaterialRelationship::IfcMaterialRelationship( int id ) { m_entity_id = id; }
 IfcMaterialRelationship::~IfcMaterialRelationship() {}
 shared_ptr<BuildingObject> IfcMaterialRelationship::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcMaterialRelationship::getDeepCopy( BuildingCopyOpt
 		auto item_ii = m_RelatedMaterials[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedMaterials.push_back( dynamic_pointer_cast<IfcMaterial>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedMaterials.emplace_back( dynamic_pointer_cast<IfcMaterial>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Expression ) { copy_self->m_Expression = dynamic_pointer_cast<IfcLabel>( m_Expression->getDeepCopy(options) ); }
@@ -62,14 +61,14 @@ void IfcMaterialRelationship::readStepArguments( const std::vector<std::wstring>
 void IfcMaterialRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingMaterial", m_RelatingMaterial ) );
-	if( m_RelatedMaterials.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "RelatingMaterial", m_RelatingMaterial ) );
+	if( !m_RelatedMaterials.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedMaterials_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedMaterials.begin(), m_RelatedMaterials.end(), std::back_inserter( RelatedMaterials_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedMaterials", RelatedMaterials_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedMaterials", RelatedMaterials_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "Expression", m_Expression ) );
+	vec_attributes.emplace_back( std::make_pair( "Expression", m_Expression ) );
 }
 void IfcMaterialRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -84,12 +83,12 @@ void IfcMaterialRelationship::setInverseCounterparts( shared_ptr<BuildingEntity>
 	{
 		if( m_RelatedMaterials[i] )
 		{
-			m_RelatedMaterials[i]->m_IsRelatedWith_inverse.push_back( ptr_self );
+			m_RelatedMaterials[i]->m_IsRelatedWith_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingMaterial )
 	{
-		m_RelatingMaterial->m_RelatesTo_inverse.push_back( ptr_self );
+		m_RelatingMaterial->m_RelatesTo_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcMaterialRelationship::unlinkFromInverseCounterparts()

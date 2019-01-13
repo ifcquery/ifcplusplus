@@ -30,9 +30,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4/include/IfcCurtainWall.h>
 #include <ifcpp/IFC4/include/IfcFeatureElementSubtraction.h>
 #include <ifcpp/IFC4/include/IfcProject.h>
+#include <ifcpp/IFC4/include/IfcPropertySetDefinitionSet.h>
+#include <ifcpp/IFC4/include/IfcRelAggregates.h>
 #include <ifcpp/IFC4/include/IfcSpace.h>
 #include <ifcpp/IFC4/include/IfcWindow.h>
-#include <ifcpp/IFC4/include/IfcPropertySetDefinitionSet.h>
 
 #include <ifcpp/geometry/GeometrySettings.h>
 #include <ifcpp/geometry/SceneGraphUtils.h>
@@ -914,7 +915,30 @@ public:
 				else if( dynamic_pointer_cast<IfcCurtainWall>(ifc_product) || dynamic_pointer_cast<IfcWindow>(ifc_product) )
 				{
 					representation_switch->setStateSet( m_glass_stateset );
-					SceneGraphUtils::setMaterialAlpha( representation_switch, 0.6f );
+					SceneGraphUtils::setMaterialAlpha( representation_switch, 0.6f, true );
+				}
+
+				// check if parent building element is window
+				if( ifc_product->m_Decomposes_inverse.size() > 0 )
+				{
+					for( size_t ii_decomposes = 0; ii_decomposes < ifc_product->m_Decomposes_inverse.size(); ++ii_decomposes )
+					{
+						const weak_ptr<IfcRelAggregates>& decomposes_weak = ifc_product->m_Decomposes_inverse[ii_decomposes];
+						if( decomposes_weak.expired() )
+						{
+							continue;
+						}
+						shared_ptr<IfcRelAggregates> decomposes_ptr(decomposes_weak);
+						shared_ptr<IfcObjectDefinition>& relating_object = decomposes_ptr->m_RelatingObject;
+						if( relating_object )
+						{
+							if( dynamic_pointer_cast<IfcCurtainWall>(relating_object) || dynamic_pointer_cast<IfcWindow>(relating_object) )
+							{
+								representation_switch->setStateSet(m_glass_stateset);
+								SceneGraphUtils::setMaterialAlpha(representation_switch, 0.6f, true);
+							}
+						}
+					}
 				}
 
 				map_representation_switches.insert( std::make_pair( representation_id, representation_switch ) );

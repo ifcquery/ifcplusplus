@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPhysicalQuantity 
-IfcPhysicalQuantity::IfcPhysicalQuantity() {}
 IfcPhysicalQuantity::IfcPhysicalQuantity( int id ) { m_entity_id = id; }
 IfcPhysicalQuantity::~IfcPhysicalQuantity() {}
 shared_ptr<BuildingObject> IfcPhysicalQuantity::getDeepCopy( BuildingCopyOptions& options )
@@ -43,34 +42,34 @@ void IfcPhysicalQuantity::readStepArguments( const std::vector<std::wstring>& ar
 }
 void IfcPhysicalQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
 }
 void IfcPhysicalQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_HasExternalReferences_inverse.size() > 0 )
+	if( !m_HasExternalReferences_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasExternalReferences_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
 		{
 			if( !m_HasExternalReferences_inverse[i].expired() )
 			{
-				HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) );
+				HasExternalReferences_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj ) );
 	}
-	if( m_PartOfComplex_inverse.size() > 0 )
+	if( !m_PartOfComplex_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PartOfComplex_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PartOfComplex_inverse.size(); ++i )
 		{
 			if( !m_PartOfComplex_inverse[i].expired() )
 			{
-				PartOfComplex_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPhysicalComplexQuantity>( m_PartOfComplex_inverse[i] ) );
+				PartOfComplex_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPhysicalComplexQuantity>( m_PartOfComplex_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "PartOfComplex_inverse", PartOfComplex_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "PartOfComplex_inverse", PartOfComplex_inverse_vec_obj ) );
 	}
 }
 void IfcPhysicalQuantity::setInverseCounterparts( shared_ptr<BuildingEntity> )

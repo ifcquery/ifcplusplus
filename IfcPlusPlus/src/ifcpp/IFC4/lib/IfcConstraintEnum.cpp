@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcConstraintEnum.h"
 
 // TYPE IfcConstraintEnum = ENUMERATION OF	(HARD	,SOFT	,ADVISORY	,USERDEFINED	,NOTDEFINED);
-IfcConstraintEnum::IfcConstraintEnum() {}
 IfcConstraintEnum::~IfcConstraintEnum() {}
 shared_ptr<BuildingObject> IfcConstraintEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcConstraintEnum::toString() const
 shared_ptr<IfcConstraintEnum> IfcConstraintEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstraintEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConstraintEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConstraintEnum>(); }
 	shared_ptr<IfcConstraintEnum> type_object( new IfcConstraintEnum() );
 	if( boost::iequals( arg, L".HARD." ) )
 	{

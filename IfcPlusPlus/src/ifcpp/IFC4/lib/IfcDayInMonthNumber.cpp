@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcDayInMonthNumber.h"
 
 // TYPE IfcDayInMonthNumber = INTEGER;
-IfcDayInMonthNumber::IfcDayInMonthNumber() {}
 IfcDayInMonthNumber::IfcDayInMonthNumber( int value ) { m_value = value; }
 IfcDayInMonthNumber::~IfcDayInMonthNumber() {}
 shared_ptr<BuildingObject> IfcDayInMonthNumber::getDeepCopy( BuildingCopyOptions& options )
@@ -34,7 +33,7 @@ const std::wstring IfcDayInMonthNumber::toString() const
 shared_ptr<IfcDayInMonthNumber> IfcDayInMonthNumber::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDayInMonthNumber>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDayInMonthNumber>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDayInMonthNumber>(); }
 	shared_ptr<IfcDayInMonthNumber> type_object( new IfcDayInMonthNumber() );
 	readInteger( arg, type_object->m_value );
 	return type_object;

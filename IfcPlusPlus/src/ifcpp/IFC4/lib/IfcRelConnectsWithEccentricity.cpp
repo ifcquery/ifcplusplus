@@ -21,7 +21,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelConnectsWithEccentricity 
-IfcRelConnectsWithEccentricity::IfcRelConnectsWithEccentricity() {}
 IfcRelConnectsWithEccentricity::IfcRelConnectsWithEccentricity( int id ) { m_entity_id = id; }
 IfcRelConnectsWithEccentricity::~IfcRelConnectsWithEccentricity() {}
 shared_ptr<BuildingObject> IfcRelConnectsWithEccentricity::getDeepCopy( BuildingCopyOptions& options )
@@ -29,7 +28,7 @@ shared_ptr<BuildingObject> IfcRelConnectsWithEccentricity::getDeepCopy( Building
 	shared_ptr<IfcRelConnectsWithEccentricity> copy_self( new IfcRelConnectsWithEccentricity() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -95,7 +94,7 @@ void IfcRelConnectsWithEccentricity::readStepArguments( const std::vector<std::w
 void IfcRelConnectsWithEccentricity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnectsStructuralMember::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ConnectionConstraint", m_ConnectionConstraint ) );
+	vec_attributes.emplace_back( std::make_pair( "ConnectionConstraint", m_ConnectionConstraint ) );
 }
 void IfcRelConnectsWithEccentricity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

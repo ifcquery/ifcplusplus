@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcProjectionElementTypeEnum;
 class IFCQUERY_EXPORT IfcProjectionElement : public IfcFeatureElementAddition
 { 
 public:
-	IfcProjectionElement();
+	IfcProjectionElement() = default;
 	IfcProjectionElement( int id );
 	~IfcProjectionElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

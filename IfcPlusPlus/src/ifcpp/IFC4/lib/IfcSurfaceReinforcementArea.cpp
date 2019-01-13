@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcSurfaceReinforcementArea.h"
 
 // ENTITY IfcSurfaceReinforcementArea 
-IfcSurfaceReinforcementArea::IfcSurfaceReinforcementArea() {}
 IfcSurfaceReinforcementArea::IfcSurfaceReinforcementArea( int id ) { m_entity_id = id; }
 IfcSurfaceReinforcementArea::~IfcSurfaceReinforcementArea() {}
 shared_ptr<BuildingObject> IfcSurfaceReinforcementArea::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcSurfaceReinforcementArea::getDeepCopy( BuildingCop
 		auto item_ii = m_SurfaceReinforcement1[ii];
 		if( item_ii )
 		{
-			copy_self->m_SurfaceReinforcement1.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_SurfaceReinforcement1.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_SurfaceReinforcement2.size(); ++ii )
@@ -33,7 +32,7 @@ shared_ptr<BuildingObject> IfcSurfaceReinforcementArea::getDeepCopy( BuildingCop
 		auto item_ii = m_SurfaceReinforcement2[ii];
 		if( item_ii )
 		{
-			copy_self->m_SurfaceReinforcement2.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_SurfaceReinforcement2.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_ShearReinforcement ) { copy_self->m_ShearReinforcement = dynamic_pointer_cast<IfcRatioMeasure>( m_ShearReinforcement->getDeepCopy(options) ); }
@@ -65,19 +64,19 @@ void IfcSurfaceReinforcementArea::readStepArguments( const std::vector<std::wstr
 void IfcSurfaceReinforcementArea::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadOrResult::getAttributes( vec_attributes );
-	if( m_SurfaceReinforcement1.size() > 0 )
+	if( !m_SurfaceReinforcement1.empty() )
 	{
 		shared_ptr<AttributeObjectVector> SurfaceReinforcement1_vec_object( new AttributeObjectVector() );
 		std::copy( m_SurfaceReinforcement1.begin(), m_SurfaceReinforcement1.end(), std::back_inserter( SurfaceReinforcement1_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "SurfaceReinforcement1", SurfaceReinforcement1_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "SurfaceReinforcement1", SurfaceReinforcement1_vec_object ) );
 	}
-	if( m_SurfaceReinforcement2.size() > 0 )
+	if( !m_SurfaceReinforcement2.empty() )
 	{
 		shared_ptr<AttributeObjectVector> SurfaceReinforcement2_vec_object( new AttributeObjectVector() );
 		std::copy( m_SurfaceReinforcement2.begin(), m_SurfaceReinforcement2.end(), std::back_inserter( SurfaceReinforcement2_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "SurfaceReinforcement2", SurfaceReinforcement2_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "SurfaceReinforcement2", SurfaceReinforcement2_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "ShearReinforcement", m_ShearReinforcement ) );
+	vec_attributes.emplace_back( std::make_pair( "ShearReinforcement", m_ShearReinforcement ) );
 }
 void IfcSurfaceReinforcementArea::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

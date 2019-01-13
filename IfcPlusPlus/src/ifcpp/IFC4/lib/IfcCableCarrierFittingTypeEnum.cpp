@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCableCarrierFittingTypeEnum.h"
 
 // TYPE IfcCableCarrierFittingTypeEnum = ENUMERATION OF	(BEND	,CROSS	,REDUCER	,TEE	,USERDEFINED	,NOTDEFINED);
-IfcCableCarrierFittingTypeEnum::IfcCableCarrierFittingTypeEnum() {}
 IfcCableCarrierFittingTypeEnum::~IfcCableCarrierFittingTypeEnum() {}
 shared_ptr<BuildingObject> IfcCableCarrierFittingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -48,7 +47,7 @@ const std::wstring IfcCableCarrierFittingTypeEnum::toString() const
 shared_ptr<IfcCableCarrierFittingTypeEnum> IfcCableCarrierFittingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCableCarrierFittingTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCableCarrierFittingTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCableCarrierFittingTypeEnum>(); }
 	shared_ptr<IfcCableCarrierFittingTypeEnum> type_object( new IfcCableCarrierFittingTypeEnum() );
 	if( boost::iequals( arg, L".BEND." ) )
 	{

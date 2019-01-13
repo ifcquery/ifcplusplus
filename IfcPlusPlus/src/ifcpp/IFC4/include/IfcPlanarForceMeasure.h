@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcPlanarForceMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcPlanarForceMeasure();
+	IfcPlanarForceMeasure() = default;
 	IfcPlanarForceMeasure( double value );
 	~IfcPlanarForceMeasure();
 	virtual const char* className() const { return "IfcPlanarForceMeasure"; }

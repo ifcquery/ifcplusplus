@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcEngineTypeEnum();
+	IfcEngineTypeEnum() = default;
 	IfcEngineTypeEnum( IfcEngineTypeEnumEnum e ) { m_enum = e; }
 	~IfcEngineTypeEnum();
 	virtual const char* className() const { return "IfcEngineTypeEnum"; }

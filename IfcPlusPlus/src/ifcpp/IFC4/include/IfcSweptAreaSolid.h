@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcAxis2Placement3D;
 class IFCQUERY_EXPORT IfcSweptAreaSolid : public IfcSolidModel
 { 
 public:
-	IfcSweptAreaSolid();
+	IfcSweptAreaSolid() = default;
 	IfcSweptAreaSolid( int id );
 	~IfcSweptAreaSolid();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

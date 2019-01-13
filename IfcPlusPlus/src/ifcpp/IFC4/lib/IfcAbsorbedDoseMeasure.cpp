@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcAbsorbedDoseMeasure.h"
 
 // TYPE IfcAbsorbedDoseMeasure = REAL;
-IfcAbsorbedDoseMeasure::IfcAbsorbedDoseMeasure() {}
 IfcAbsorbedDoseMeasure::IfcAbsorbedDoseMeasure( double value ) { m_value = value; }
 IfcAbsorbedDoseMeasure::~IfcAbsorbedDoseMeasure() {}
 shared_ptr<BuildingObject> IfcAbsorbedDoseMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcAbsorbedDoseMeasure::toString() const
 shared_ptr<IfcAbsorbedDoseMeasure> IfcAbsorbedDoseMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAbsorbedDoseMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAbsorbedDoseMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAbsorbedDoseMeasure>(); }
 	shared_ptr<IfcAbsorbedDoseMeasure> type_object( new IfcAbsorbedDoseMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

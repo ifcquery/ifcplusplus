@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcReinforcingBarTypeEnum.h"
 
 // TYPE IfcReinforcingBarTypeEnum = ENUMERATION OF	(ANCHORING	,EDGE	,LIGATURE	,MAIN	,PUNCHING	,RING	,SHEAR	,STUD	,USERDEFINED	,NOTDEFINED);
-IfcReinforcingBarTypeEnum::IfcReinforcingBarTypeEnum() {}
 IfcReinforcingBarTypeEnum::~IfcReinforcingBarTypeEnum() {}
 shared_ptr<BuildingObject> IfcReinforcingBarTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -56,7 +55,7 @@ const std::wstring IfcReinforcingBarTypeEnum::toString() const
 shared_ptr<IfcReinforcingBarTypeEnum> IfcReinforcingBarTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReinforcingBarTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReinforcingBarTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReinforcingBarTypeEnum>(); }
 	shared_ptr<IfcReinforcingBarTypeEnum> type_object( new IfcReinforcingBarTypeEnum() );
 	if( boost::iequals( arg, L".ANCHORING." ) )
 	{

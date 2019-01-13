@@ -21,7 +21,7 @@ class IFCQUERY_EXPORT IfcExternalReferenceRelationship;
 class IFCQUERY_EXPORT IfcTimeSeries : virtual public IfcMetricValueSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public BuildingEntity
 { 
 public:
-	IfcTimeSeries();
+	IfcTimeSeries() = default;
 	IfcTimeSeries( int id );
 	~IfcTimeSeries();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

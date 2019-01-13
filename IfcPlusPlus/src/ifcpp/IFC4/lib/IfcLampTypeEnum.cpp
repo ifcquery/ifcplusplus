@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcLampTypeEnum.h"
 
 // TYPE IfcLampTypeEnum = ENUMERATION OF	(COMPACTFLUORESCENT	,FLUORESCENT	,HALOGEN	,HIGHPRESSUREMERCURY	,HIGHPRESSURESODIUM	,LED	,METALHALIDE	,OLED	,TUNGSTENFILAMENT	,USERDEFINED	,NOTDEFINED);
-IfcLampTypeEnum::IfcLampTypeEnum() {}
 IfcLampTypeEnum::~IfcLampTypeEnum() {}
 shared_ptr<BuildingObject> IfcLampTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -58,7 +57,7 @@ const std::wstring IfcLampTypeEnum::toString() const
 shared_ptr<IfcLampTypeEnum> IfcLampTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLampTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLampTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLampTypeEnum>(); }
 	shared_ptr<IfcLampTypeEnum> type_object( new IfcLampTypeEnum() );
 	if( boost::iequals( arg, L".COMPACTFLUORESCENT." ) )
 	{

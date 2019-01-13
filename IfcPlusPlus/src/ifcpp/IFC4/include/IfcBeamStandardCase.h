@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcBeamStandardCase : public IfcBeam
 { 
 public:
-	IfcBeamStandardCase();
+	IfcBeamStandardCase() = default;
 	IfcBeamStandardCase( int id );
 	~IfcBeamStandardCase();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

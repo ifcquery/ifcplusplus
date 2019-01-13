@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcSurfaceStyleRefraction.h"
 
 // ENTITY IfcSurfaceStyleRefraction 
-IfcSurfaceStyleRefraction::IfcSurfaceStyleRefraction() {}
 IfcSurfaceStyleRefraction::IfcSurfaceStyleRefraction( int id ) { m_entity_id = id; }
 IfcSurfaceStyleRefraction::~IfcSurfaceStyleRefraction() {}
 shared_ptr<BuildingObject> IfcSurfaceStyleRefraction::getDeepCopy( BuildingCopyOptions& options )
@@ -41,8 +40,8 @@ void IfcSurfaceStyleRefraction::readStepArguments( const std::vector<std::wstrin
 void IfcSurfaceStyleRefraction::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RefractionIndex", m_RefractionIndex ) );
-	vec_attributes.push_back( std::make_pair( "DispersionFactor", m_DispersionFactor ) );
+	vec_attributes.emplace_back( std::make_pair( "RefractionIndex", m_RefractionIndex ) );
+	vec_attributes.emplace_back( std::make_pair( "DispersionFactor", m_DispersionFactor ) );
 }
 void IfcSurfaceStyleRefraction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

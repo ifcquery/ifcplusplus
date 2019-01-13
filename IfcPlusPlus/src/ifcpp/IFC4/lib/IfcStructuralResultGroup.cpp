@@ -27,7 +27,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcStructuralResultGroup 
-IfcStructuralResultGroup::IfcStructuralResultGroup() {}
 IfcStructuralResultGroup::IfcStructuralResultGroup( int id ) { m_entity_id = id; }
 IfcStructuralResultGroup::~IfcStructuralResultGroup() {}
 shared_ptr<BuildingObject> IfcStructuralResultGroup::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ shared_ptr<BuildingObject> IfcStructuralResultGroup::getDeepCopy( BuildingCopyOp
 	shared_ptr<IfcStructuralResultGroup> copy_self( new IfcStructuralResultGroup() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -89,24 +88,24 @@ void IfcStructuralResultGroup::readStepArguments( const std::vector<std::wstring
 void IfcStructuralResultGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGroup::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TheoryType", m_TheoryType ) );
-	vec_attributes.push_back( std::make_pair( "ResultForLoadGroup", m_ResultForLoadGroup ) );
-	vec_attributes.push_back( std::make_pair( "IsLinear", m_IsLinear ) );
+	vec_attributes.emplace_back( std::make_pair( "TheoryType", m_TheoryType ) );
+	vec_attributes.emplace_back( std::make_pair( "ResultForLoadGroup", m_ResultForLoadGroup ) );
+	vec_attributes.emplace_back( std::make_pair( "IsLinear", m_IsLinear ) );
 }
 void IfcStructuralResultGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcGroup::getAttributesInverse( vec_attributes_inverse );
-	if( m_ResultGroupFor_inverse.size() > 0 )
+	if( !m_ResultGroupFor_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ResultGroupFor_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ResultGroupFor_inverse.size(); ++i )
 		{
 			if( !m_ResultGroupFor_inverse[i].expired() )
 			{
-				ResultGroupFor_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcStructuralAnalysisModel>( m_ResultGroupFor_inverse[i] ) );
+				ResultGroupFor_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcStructuralAnalysisModel>( m_ResultGroupFor_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ResultGroupFor_inverse", ResultGroupFor_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ResultGroupFor_inverse", ResultGroupFor_inverse_vec_obj ) );
 	}
 }
 void IfcStructuralResultGroup::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
@@ -116,7 +115,7 @@ void IfcStructuralResultGroup::setInverseCounterparts( shared_ptr<BuildingEntity
 	if( !ptr_self ) { throw BuildingException( "IfcStructuralResultGroup::setInverseCounterparts: type mismatch" ); }
 	if( m_ResultForLoadGroup )
 	{
-		m_ResultForLoadGroup->m_SourceOfResultGroup_inverse.push_back( ptr_self );
+		m_ResultForLoadGroup->m_SourceOfResultGroup_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcStructuralResultGroup::unlinkFromInverseCounterparts()

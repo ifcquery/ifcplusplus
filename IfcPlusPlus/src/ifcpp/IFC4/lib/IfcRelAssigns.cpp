@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelAssigns 
-IfcRelAssigns::IfcRelAssigns() {}
 IfcRelAssigns::IfcRelAssigns( int id ) { m_entity_id = id; }
 IfcRelAssigns::~IfcRelAssigns() {}
 shared_ptr<BuildingObject> IfcRelAssigns::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelAssigns::getDeepCopy( BuildingCopyOptions& opti
 	shared_ptr<IfcRelAssigns> copy_self( new IfcRelAssigns() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -39,7 +38,7 @@ shared_ptr<BuildingObject> IfcRelAssigns::getDeepCopy( BuildingCopyOptions& opti
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatedObjectsType ) { copy_self->m_RelatedObjectsType = dynamic_pointer_cast<IfcObjectTypeEnum>( m_RelatedObjectsType->getDeepCopy(options) ); }
@@ -77,13 +76,13 @@ void IfcRelAssigns::readStepArguments( const std::vector<std::wstring>& args, co
 void IfcRelAssigns::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelationship::getAttributes( vec_attributes );
-	if( m_RelatedObjects.size() > 0 )
+	if( !m_RelatedObjects.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedObjects_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedObjects.begin(), m_RelatedObjects.end(), std::back_inserter( RelatedObjects_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "RelatedObjectsType", m_RelatedObjectsType ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedObjectsType", m_RelatedObjectsType ) );
 }
 void IfcRelAssigns::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -98,7 +97,7 @@ void IfcRelAssigns::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_
 	{
 		if( m_RelatedObjects[i] )
 		{
-			m_RelatedObjects[i]->m_HasAssignments_inverse.push_back( ptr_self );
+			m_RelatedObjects[i]->m_HasAssignments_inverse.emplace_back( ptr_self );
 		}
 	}
 }

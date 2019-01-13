@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRelContainedInSpatialStructure;
 class IFCQUERY_EXPORT IfcAnnotation : public IfcProduct
 { 
 public:
-	IfcAnnotation();
+	IfcAnnotation() = default;
 	IfcAnnotation( int id );
 	~IfcAnnotation();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -19,7 +19,7 @@ public:
 		ENUM_TEXTURED
 	};
 
-	IfcReinforcingBarSurfaceEnum();
+	IfcReinforcingBarSurfaceEnum() = default;
 	IfcReinforcingBarSurfaceEnum( IfcReinforcingBarSurfaceEnumEnum e ) { m_enum = e; }
 	~IfcReinforcingBarSurfaceEnum();
 	virtual const char* className() const { return "IfcReinforcingBarSurfaceEnum"; }

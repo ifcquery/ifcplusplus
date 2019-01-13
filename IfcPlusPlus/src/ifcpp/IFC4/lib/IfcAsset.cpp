@@ -28,7 +28,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcAsset 
-IfcAsset::IfcAsset() {}
 IfcAsset::IfcAsset( int id ) { m_entity_id = id; }
 IfcAsset::~IfcAsset() {}
 shared_ptr<BuildingObject> IfcAsset::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ shared_ptr<BuildingObject> IfcAsset::getDeepCopy( BuildingCopyOptions& options )
 	shared_ptr<IfcAsset> copy_self( new IfcAsset() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -114,15 +113,15 @@ void IfcAsset::readStepArguments( const std::vector<std::wstring>& args, const s
 void IfcAsset::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGroup::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Identification", m_Identification ) );
-	vec_attributes.push_back( std::make_pair( "OriginalValue", m_OriginalValue ) );
-	vec_attributes.push_back( std::make_pair( "CurrentValue", m_CurrentValue ) );
-	vec_attributes.push_back( std::make_pair( "TotalReplacementCost", m_TotalReplacementCost ) );
-	vec_attributes.push_back( std::make_pair( "Owner", m_Owner ) );
-	vec_attributes.push_back( std::make_pair( "User", m_User ) );
-	vec_attributes.push_back( std::make_pair( "ResponsiblePerson", m_ResponsiblePerson ) );
-	vec_attributes.push_back( std::make_pair( "IncorporationDate", m_IncorporationDate ) );
-	vec_attributes.push_back( std::make_pair( "DepreciatedValue", m_DepreciatedValue ) );
+	vec_attributes.emplace_back( std::make_pair( "Identification", m_Identification ) );
+	vec_attributes.emplace_back( std::make_pair( "OriginalValue", m_OriginalValue ) );
+	vec_attributes.emplace_back( std::make_pair( "CurrentValue", m_CurrentValue ) );
+	vec_attributes.emplace_back( std::make_pair( "TotalReplacementCost", m_TotalReplacementCost ) );
+	vec_attributes.emplace_back( std::make_pair( "Owner", m_Owner ) );
+	vec_attributes.emplace_back( std::make_pair( "User", m_User ) );
+	vec_attributes.emplace_back( std::make_pair( "ResponsiblePerson", m_ResponsiblePerson ) );
+	vec_attributes.emplace_back( std::make_pair( "IncorporationDate", m_IncorporationDate ) );
+	vec_attributes.emplace_back( std::make_pair( "DepreciatedValue", m_DepreciatedValue ) );
 }
 void IfcAsset::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

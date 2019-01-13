@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcResourceConstraintRelationship 
-IfcResourceConstraintRelationship::IfcResourceConstraintRelationship() {}
 IfcResourceConstraintRelationship::IfcResourceConstraintRelationship( int id ) { m_entity_id = id; }
 IfcResourceConstraintRelationship::~IfcResourceConstraintRelationship() {}
 shared_ptr<BuildingObject> IfcResourceConstraintRelationship::getDeepCopy( BuildingCopyOptions& options )
@@ -29,7 +28,7 @@ shared_ptr<BuildingObject> IfcResourceConstraintRelationship::getDeepCopy( Build
 		auto item_ii = m_RelatedResourceObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedResourceObjects.push_back( dynamic_pointer_cast<IfcResourceObjectSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedResourceObjects.emplace_back( dynamic_pointer_cast<IfcResourceObjectSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -77,12 +76,12 @@ void IfcResourceConstraintRelationship::readStepArguments( const std::vector<std
 void IfcResourceConstraintRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingConstraint", m_RelatingConstraint ) );
-	if( m_RelatedResourceObjects.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "RelatingConstraint", m_RelatingConstraint ) );
+	if( !m_RelatedResourceObjects.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedResourceObjects_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedResourceObjects.begin(), m_RelatedResourceObjects.end(), std::back_inserter( RelatedResourceObjects_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedResourceObjects", RelatedResourceObjects_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedResourceObjects", RelatedResourceObjects_vec_object ) );
 	}
 }
 void IfcResourceConstraintRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -99,12 +98,12 @@ void IfcResourceConstraintRelationship::setInverseCounterparts( shared_ptr<Build
 		shared_ptr<IfcProperty>  RelatedResourceObjects_IfcProperty = dynamic_pointer_cast<IfcProperty>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcProperty )
 		{
-			RelatedResourceObjects_IfcProperty->m_HasConstraints_inverse.push_back( ptr_self );
+			RelatedResourceObjects_IfcProperty->m_HasConstraints_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingConstraint )
 	{
-		m_RelatingConstraint->m_PropertiesForConstraint_inverse.push_back( ptr_self );
+		m_RelatingConstraint->m_PropertiesForConstraint_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcResourceConstraintRelationship::unlinkFromInverseCounterparts()

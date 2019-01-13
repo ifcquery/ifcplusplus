@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcDateTime;
 class IFCQUERY_EXPORT IfcCostSchedule : public IfcControl
 { 
 public:
-	IfcCostSchedule();
+	IfcCostSchedule() = default;
 	IfcCostSchedule( int id );
 	~IfcCostSchedule();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcVertex.h"
 
 // ENTITY IfcEdgeCurve 
-IfcEdgeCurve::IfcEdgeCurve() {}
 IfcEdgeCurve::IfcEdgeCurve( int id ) { m_entity_id = id; }
 IfcEdgeCurve::~IfcEdgeCurve() {}
 shared_ptr<BuildingObject> IfcEdgeCurve::getDeepCopy( BuildingCopyOptions& options )
@@ -53,8 +52,8 @@ void IfcEdgeCurve::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcEdgeCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcEdge::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "EdgeGeometry", m_EdgeGeometry ) );
-	vec_attributes.push_back( std::make_pair( "SameSense", m_SameSense ) );
+	vec_attributes.emplace_back( std::make_pair( "EdgeGeometry", m_EdgeGeometry ) );
+	vec_attributes.emplace_back( std::make_pair( "SameSense", m_SameSense ) );
 }
 void IfcEdgeCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

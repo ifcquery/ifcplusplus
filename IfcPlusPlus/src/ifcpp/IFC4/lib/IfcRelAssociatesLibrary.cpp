@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelAssociatesLibrary 
-IfcRelAssociatesLibrary::IfcRelAssociatesLibrary() {}
 IfcRelAssociatesLibrary::IfcRelAssociatesLibrary( int id ) { m_entity_id = id; }
 IfcRelAssociatesLibrary::~IfcRelAssociatesLibrary() {}
 shared_ptr<BuildingObject> IfcRelAssociatesLibrary::getDeepCopy( BuildingCopyOptions& options )
@@ -26,7 +25,7 @@ shared_ptr<BuildingObject> IfcRelAssociatesLibrary::getDeepCopy( BuildingCopyOpt
 	shared_ptr<IfcRelAssociatesLibrary> copy_self( new IfcRelAssociatesLibrary() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -41,7 +40,7 @@ shared_ptr<BuildingObject> IfcRelAssociatesLibrary::getDeepCopy( BuildingCopyOpt
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatingLibrary ) { copy_self->m_RelatingLibrary = dynamic_pointer_cast<IfcLibrarySelect>( m_RelatingLibrary->getDeepCopy(options) ); }
@@ -96,7 +95,7 @@ void IfcRelAssociatesLibrary::readStepArguments( const std::vector<std::wstring>
 void IfcRelAssociatesLibrary::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssociates::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingLibrary", m_RelatingLibrary ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingLibrary", m_RelatingLibrary ) );
 }
 void IfcRelAssociatesLibrary::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -110,12 +109,12 @@ void IfcRelAssociatesLibrary::setInverseCounterparts( shared_ptr<BuildingEntity>
 	shared_ptr<IfcLibraryInformation>  RelatingLibrary_IfcLibraryInformation = dynamic_pointer_cast<IfcLibraryInformation>( m_RelatingLibrary );
 	if( RelatingLibrary_IfcLibraryInformation )
 	{
-		RelatingLibrary_IfcLibraryInformation->m_LibraryInfoForObjects_inverse.push_back( ptr_self );
+		RelatingLibrary_IfcLibraryInformation->m_LibraryInfoForObjects_inverse.emplace_back( ptr_self );
 	}
 	shared_ptr<IfcLibraryReference>  RelatingLibrary_IfcLibraryReference = dynamic_pointer_cast<IfcLibraryReference>( m_RelatingLibrary );
 	if( RelatingLibrary_IfcLibraryReference )
 	{
-		RelatingLibrary_IfcLibraryReference->m_LibraryRefForObjects_inverse.push_back( ptr_self );
+		RelatingLibrary_IfcLibraryReference->m_LibraryRefForObjects_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelAssociatesLibrary::unlinkFromInverseCounterparts()

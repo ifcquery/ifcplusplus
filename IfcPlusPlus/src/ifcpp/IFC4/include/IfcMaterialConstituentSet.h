@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcMaterialConstituent;
 class IFCQUERY_EXPORT IfcMaterialConstituentSet : public IfcMaterialDefinition
 { 
 public:
-	IfcMaterialConstituentSet();
+	IfcMaterialConstituentSet() = default;
 	IfcMaterialConstituentSet( int id );
 	~IfcMaterialConstituentSet();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

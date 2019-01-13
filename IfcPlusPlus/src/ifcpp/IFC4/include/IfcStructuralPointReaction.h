@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcStructuralPointReaction : public IfcStructuralReaction
 { 
 public:
-	IfcStructuralPointReaction();
+	IfcStructuralPointReaction() = default;
 	IfcStructuralPointReaction( int id );
 	~IfcStructuralPointReaction();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

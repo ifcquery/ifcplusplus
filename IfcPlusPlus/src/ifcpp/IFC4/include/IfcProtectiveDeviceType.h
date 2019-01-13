@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcProtectiveDeviceTypeEnum;
 class IFCQUERY_EXPORT IfcProtectiveDeviceType : public IfcFlowControllerType
 { 
 public:
-	IfcProtectiveDeviceType();
+	IfcProtectiveDeviceType() = default;
 	IfcProtectiveDeviceType( int id );
 	~IfcProtectiveDeviceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

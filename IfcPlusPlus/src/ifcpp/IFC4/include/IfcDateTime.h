@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcDateTime : public IfcSimpleValue
 {
 public:
-	IfcDateTime();
+	IfcDateTime() = default;
 	IfcDateTime( std::wstring value );
 	~IfcDateTime();
 	virtual const char* className() const { return "IfcDateTime"; }

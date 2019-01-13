@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcShearModulusMeasure.h"
 
 // TYPE IfcShearModulusMeasure = REAL;
-IfcShearModulusMeasure::IfcShearModulusMeasure() {}
 IfcShearModulusMeasure::IfcShearModulusMeasure( double value ) { m_value = value; }
 IfcShearModulusMeasure::~IfcShearModulusMeasure() {}
 shared_ptr<BuildingObject> IfcShearModulusMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcShearModulusMeasure::toString() const
 shared_ptr<IfcShearModulusMeasure> IfcShearModulusMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcShearModulusMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcShearModulusMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcShearModulusMeasure>(); }
 	shared_ptr<IfcShearModulusMeasure> type_object( new IfcShearModulusMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

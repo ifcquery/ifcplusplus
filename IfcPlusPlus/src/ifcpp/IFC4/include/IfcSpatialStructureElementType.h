@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcSpatialStructureElementType : public IfcSpatialElementType
 { 
 public:
-	IfcSpatialStructureElementType();
+	IfcSpatialStructureElementType() = default;
 	IfcSpatialStructureElementType( int id );
 	~IfcSpatialStructureElementType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

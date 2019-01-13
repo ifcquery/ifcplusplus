@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcStateEnum.h"
 
 // TYPE IfcStateEnum = ENUMERATION OF	(READWRITE	,READONLY	,LOCKED	,READWRITELOCKED	,READONLYLOCKED);
-IfcStateEnum::IfcStateEnum() {}
 IfcStateEnum::~IfcStateEnum() {}
 shared_ptr<BuildingObject> IfcStateEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcStateEnum::toString() const
 shared_ptr<IfcStateEnum> IfcStateEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStateEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStateEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStateEnum>(); }
 	shared_ptr<IfcStateEnum> type_object( new IfcStateEnum() );
 	if( boost::iequals( arg, L".READWRITE." ) )
 	{

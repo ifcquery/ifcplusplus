@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcTessellatedFaceSet.h"
 
 // ENTITY IfcIndexedColourMap 
-IfcIndexedColourMap::IfcIndexedColourMap() {}
 IfcIndexedColourMap::IfcIndexedColourMap( int id ) { m_entity_id = id; }
 IfcIndexedColourMap::~IfcIndexedColourMap() {}
 shared_ptr<BuildingObject> IfcIndexedColourMap::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcIndexedColourMap::getDeepCopy( BuildingCopyOptions
 		auto item_ii = m_ColourIndex[ii];
 		if( item_ii )
 		{
-			copy_self->m_ColourIndex.push_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_ColourIndex.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -76,14 +75,14 @@ void IfcIndexedColourMap::readStepArguments( const std::vector<std::wstring>& ar
 void IfcIndexedColourMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "MappedTo", m_MappedTo ) );
-	vec_attributes.push_back( std::make_pair( "Opacity", m_Opacity ) );
-	vec_attributes.push_back( std::make_pair( "Colours", m_Colours ) );
-	if( m_ColourIndex.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "MappedTo", m_MappedTo ) );
+	vec_attributes.emplace_back( std::make_pair( "Opacity", m_Opacity ) );
+	vec_attributes.emplace_back( std::make_pair( "Colours", m_Colours ) );
+	if( !m_ColourIndex.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ColourIndex_vec_object( new AttributeObjectVector() );
 		std::copy( m_ColourIndex.begin(), m_ColourIndex.end(), std::back_inserter( ColourIndex_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "ColourIndex", ColourIndex_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "ColourIndex", ColourIndex_vec_object ) );
 	}
 }
 void IfcIndexedColourMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -97,7 +96,7 @@ void IfcIndexedColourMap::setInverseCounterparts( shared_ptr<BuildingEntity> ptr
 	if( !ptr_self ) { throw BuildingException( "IfcIndexedColourMap::setInverseCounterparts: type mismatch" ); }
 	if( m_MappedTo )
 	{
-		m_MappedTo->m_HasColours_inverse.push_back( ptr_self );
+		m_MappedTo->m_HasColours_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcIndexedColourMap::unlinkFromInverseCounterparts()

@@ -27,7 +27,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcDoorStyle 
-IfcDoorStyle::IfcDoorStyle() {}
 IfcDoorStyle::IfcDoorStyle( int id ) { m_entity_id = id; }
 IfcDoorStyle::~IfcDoorStyle() {}
 shared_ptr<BuildingObject> IfcDoorStyle::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ shared_ptr<BuildingObject> IfcDoorStyle::getDeepCopy( BuildingCopyOptions& optio
 	shared_ptr<IfcDoorStyle> copy_self( new IfcDoorStyle() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -51,7 +50,7 @@ shared_ptr<BuildingObject> IfcDoorStyle::getDeepCopy( BuildingCopyOptions& optio
 		auto item_ii = m_HasPropertySets[ii];
 		if( item_ii )
 		{
-			copy_self->m_HasPropertySets.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_HasPropertySets.emplace_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_RepresentationMaps.size(); ++ii )
@@ -59,7 +58,7 @@ shared_ptr<BuildingObject> IfcDoorStyle::getDeepCopy( BuildingCopyOptions& optio
 		auto item_ii = m_RepresentationMaps[ii];
 		if( item_ii )
 		{
-			copy_self->m_RepresentationMaps.push_back( dynamic_pointer_cast<IfcRepresentationMap>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RepresentationMaps.emplace_back( dynamic_pointer_cast<IfcRepresentationMap>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcLabel>( m_Tag->getDeepCopy(options) ); }
@@ -119,10 +118,10 @@ void IfcDoorStyle::readStepArguments( const std::vector<std::wstring>& args, con
 void IfcDoorStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTypeProduct::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "OperationType", m_OperationType ) );
-	vec_attributes.push_back( std::make_pair( "ConstructionType", m_ConstructionType ) );
-	vec_attributes.push_back( std::make_pair( "ParameterTakesPrecedence", m_ParameterTakesPrecedence ) );
-	vec_attributes.push_back( std::make_pair( "Sizeable", m_Sizeable ) );
+	vec_attributes.emplace_back( std::make_pair( "OperationType", m_OperationType ) );
+	vec_attributes.emplace_back( std::make_pair( "ConstructionType", m_ConstructionType ) );
+	vec_attributes.emplace_back( std::make_pair( "ParameterTakesPrecedence", m_ParameterTakesPrecedence ) );
+	vec_attributes.emplace_back( std::make_pair( "Sizeable", m_Sizeable ) );
 }
 void IfcDoorStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcIntersectionCurve : public IfcSurfaceCurve
 { 
 public:
-	IfcIntersectionCurve();
+	IfcIntersectionCurve() = default;
 	IfcIntersectionCurve( int id );
 	~IfcIntersectionCurve();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

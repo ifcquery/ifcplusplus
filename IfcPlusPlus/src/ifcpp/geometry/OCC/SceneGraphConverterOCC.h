@@ -690,7 +690,7 @@ public:
 				else if( dynamic_pointer_cast<IfcCurtainWall>(ifc_product) || dynamic_pointer_cast<IfcWindow>(ifc_product) )
 				{
 					representation_switch->setStateSet( m_glass_stateset );
-					SceneGraphUtils::setMaterialAlpha( representation_switch, 0.6f );
+					SceneGraphUtils::setMaterialAlpha( representation_switch, 0.6f, true );
 				}
 			}
 

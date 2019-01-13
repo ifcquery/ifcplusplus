@@ -40,7 +40,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcValveTypeEnum();
+	IfcValveTypeEnum() = default;
 	IfcValveTypeEnum( IfcValveTypeEnumEnum e ) { m_enum = e; }
 	~IfcValveTypeEnum();
 	virtual const char* className() const { return "IfcValveTypeEnum"; }

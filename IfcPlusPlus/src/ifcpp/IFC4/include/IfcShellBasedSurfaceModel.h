@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcShell;
 class IFCQUERY_EXPORT IfcShellBasedSurfaceModel : public IfcGeometricRepresentationItem
 { 
 public:
-	IfcShellBasedSurfaceModel();
+	IfcShellBasedSurfaceModel() = default;
 	IfcShellBasedSurfaceModel( int id );
 	~IfcShellBasedSurfaceModel();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

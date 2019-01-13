@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcTextureVertexList.h"
 
 // ENTITY IfcIndexedTextureMap 
-IfcIndexedTextureMap::IfcIndexedTextureMap() {}
 IfcIndexedTextureMap::IfcIndexedTextureMap( int id ) { m_entity_id = id; }
 IfcIndexedTextureMap::~IfcIndexedTextureMap() {}
 shared_ptr<BuildingObject> IfcIndexedTextureMap::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcIndexedTextureMap::getDeepCopy( BuildingCopyOption
 		auto item_ii = m_Maps[ii];
 		if( item_ii )
 		{
-			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Maps.emplace_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy(options) ); }
@@ -54,8 +53,8 @@ void IfcIndexedTextureMap::readStepArguments( const std::vector<std::wstring>& a
 void IfcIndexedTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTextureCoordinate::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "MappedTo", m_MappedTo ) );
-	vec_attributes.push_back( std::make_pair( "TexCoords", m_TexCoords ) );
+	vec_attributes.emplace_back( std::make_pair( "MappedTo", m_MappedTo ) );
+	vec_attributes.emplace_back( std::make_pair( "TexCoords", m_TexCoords ) );
 }
 void IfcIndexedTextureMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -68,7 +67,7 @@ void IfcIndexedTextureMap::setInverseCounterparts( shared_ptr<BuildingEntity> pt
 	if( !ptr_self ) { throw BuildingException( "IfcIndexedTextureMap::setInverseCounterparts: type mismatch" ); }
 	if( m_MappedTo )
 	{
-		m_MappedTo->m_HasTextures_inverse.push_back( ptr_self );
+		m_MappedTo->m_HasTextures_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcIndexedTextureMap::unlinkFromInverseCounterparts()

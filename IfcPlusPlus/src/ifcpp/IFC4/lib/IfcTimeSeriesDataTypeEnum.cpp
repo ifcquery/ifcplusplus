@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcTimeSeriesDataTypeEnum.h"
 
 // TYPE IfcTimeSeriesDataTypeEnum = ENUMERATION OF	(CONTINUOUS	,DISCRETE	,DISCRETEBINARY	,PIECEWISEBINARY	,PIECEWISECONSTANT	,PIECEWISECONTINUOUS	,NOTDEFINED);
-IfcTimeSeriesDataTypeEnum::IfcTimeSeriesDataTypeEnum() {}
 IfcTimeSeriesDataTypeEnum::~IfcTimeSeriesDataTypeEnum() {}
 shared_ptr<BuildingObject> IfcTimeSeriesDataTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -50,7 +49,7 @@ const std::wstring IfcTimeSeriesDataTypeEnum::toString() const
 shared_ptr<IfcTimeSeriesDataTypeEnum> IfcTimeSeriesDataTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTimeSeriesDataTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTimeSeriesDataTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTimeSeriesDataTypeEnum>(); }
 	shared_ptr<IfcTimeSeriesDataTypeEnum> type_object( new IfcTimeSeriesDataTypeEnum() );
 	if( boost::iequals( arg, L".CONTINUOUS." ) )
 	{

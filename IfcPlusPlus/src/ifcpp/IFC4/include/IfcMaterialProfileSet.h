@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcCompositeProfileDef;
 class IFCQUERY_EXPORT IfcMaterialProfileSet : public IfcMaterialDefinition
 { 
 public:
-	IfcMaterialProfileSet();
+	IfcMaterialProfileSet() = default;
 	IfcMaterialProfileSet( int id );
 	~IfcMaterialProfileSet();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

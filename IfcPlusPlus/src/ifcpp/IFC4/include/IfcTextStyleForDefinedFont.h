@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcColour;
 class IFCQUERY_EXPORT IfcTextStyleForDefinedFont : public IfcPresentationItem
 { 
 public:
-	IfcTextStyleForDefinedFont();
+	IfcTextStyleForDefinedFont() = default;
 	IfcTextStyleForDefinedFont( int id );
 	~IfcTextStyleForDefinedFont();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

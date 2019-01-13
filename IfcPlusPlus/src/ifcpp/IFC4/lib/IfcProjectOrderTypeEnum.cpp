@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcProjectOrderTypeEnum.h"
 
 // TYPE IfcProjectOrderTypeEnum = ENUMERATION OF	(CHANGEORDER	,MAINTENANCEWORKORDER	,MOVEORDER	,PURCHASEORDER	,WORKORDER	,USERDEFINED	,NOTDEFINED);
-IfcProjectOrderTypeEnum::IfcProjectOrderTypeEnum() {}
 IfcProjectOrderTypeEnum::~IfcProjectOrderTypeEnum() {}
 shared_ptr<BuildingObject> IfcProjectOrderTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -50,7 +49,7 @@ const std::wstring IfcProjectOrderTypeEnum::toString() const
 shared_ptr<IfcProjectOrderTypeEnum> IfcProjectOrderTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProjectOrderTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProjectOrderTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProjectOrderTypeEnum>(); }
 	shared_ptr<IfcProjectOrderTypeEnum> type_object( new IfcProjectOrderTypeEnum() );
 	if( boost::iequals( arg, L".CHANGEORDER." ) )
 	{

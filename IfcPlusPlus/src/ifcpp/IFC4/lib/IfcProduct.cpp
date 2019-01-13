@@ -26,7 +26,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcProduct 
-IfcProduct::IfcProduct() {}
 IfcProduct::IfcProduct( int id ) { m_entity_id = id; }
 IfcProduct::~IfcProduct() {}
 shared_ptr<BuildingObject> IfcProduct::getDeepCopy( BuildingCopyOptions& options )
@@ -34,7 +33,7 @@ shared_ptr<BuildingObject> IfcProduct::getDeepCopy( BuildingCopyOptions& options
 	shared_ptr<IfcProduct> copy_self( new IfcProduct() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -84,23 +83,23 @@ void IfcProduct::readStepArguments( const std::vector<std::wstring>& args, const
 void IfcProduct::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcObject::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ObjectPlacement", m_ObjectPlacement ) );
-	vec_attributes.push_back( std::make_pair( "Representation", m_Representation ) );
+	vec_attributes.emplace_back( std::make_pair( "ObjectPlacement", m_ObjectPlacement ) );
+	vec_attributes.emplace_back( std::make_pair( "Representation", m_Representation ) );
 }
 void IfcProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcObject::getAttributesInverse( vec_attributes_inverse );
-	if( m_ReferencedBy_inverse.size() > 0 )
+	if( !m_ReferencedBy_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ReferencedBy_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ReferencedBy_inverse.size(); ++i )
 		{
 			if( !m_ReferencedBy_inverse[i].expired() )
 			{
-				ReferencedBy_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssignsToProduct>( m_ReferencedBy_inverse[i] ) );
+				ReferencedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssignsToProduct>( m_ReferencedBy_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ReferencedBy_inverse", ReferencedBy_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ReferencedBy_inverse", ReferencedBy_inverse_vec_obj ) );
 	}
 }
 void IfcProduct::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
@@ -110,12 +109,12 @@ void IfcProduct::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_ent
 	if( !ptr_self ) { throw BuildingException( "IfcProduct::setInverseCounterparts: type mismatch" ); }
 	if( m_ObjectPlacement )
 	{
-		m_ObjectPlacement->m_PlacesObject_inverse.push_back( ptr_self );
+		m_ObjectPlacement->m_PlacesObject_inverse.emplace_back( ptr_self );
 	}
 	shared_ptr<IfcProductDefinitionShape>  Representation_IfcProductDefinitionShape = dynamic_pointer_cast<IfcProductDefinitionShape>( m_Representation );
 	if( Representation_IfcProductDefinitionShape )
 	{
-		Representation_IfcProductDefinitionShape->m_ShapeOfProduct_inverse.push_back( ptr_self );
+		Representation_IfcProductDefinitionShape->m_ShapeOfProduct_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcProduct::unlinkFromInverseCounterparts()

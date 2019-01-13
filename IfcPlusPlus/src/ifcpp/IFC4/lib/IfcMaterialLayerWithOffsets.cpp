@@ -22,7 +22,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMaterialLayerWithOffsets 
-IfcMaterialLayerWithOffsets::IfcMaterialLayerWithOffsets() {}
 IfcMaterialLayerWithOffsets::IfcMaterialLayerWithOffsets( int id ) { m_entity_id = id; }
 IfcMaterialLayerWithOffsets::~IfcMaterialLayerWithOffsets() {}
 shared_ptr<BuildingObject> IfcMaterialLayerWithOffsets::getDeepCopy( BuildingCopyOptions& options )
@@ -41,7 +40,7 @@ shared_ptr<BuildingObject> IfcMaterialLayerWithOffsets::getDeepCopy( BuildingCop
 		auto item_ii = m_OffsetValues[ii];
 		if( item_ii )
 		{
-			copy_self->m_OffsetValues.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_OffsetValues.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -87,12 +86,12 @@ void IfcMaterialLayerWithOffsets::readStepArguments( const std::vector<std::wstr
 void IfcMaterialLayerWithOffsets::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialLayer::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "OffsetDirection", m_OffsetDirection ) );
-	if( m_OffsetValues.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "OffsetDirection", m_OffsetDirection ) );
+	if( !m_OffsetValues.empty() )
 	{
 		shared_ptr<AttributeObjectVector> OffsetValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_OffsetValues.begin(), m_OffsetValues.end(), std::back_inserter( OffsetValues_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
 	}
 }
 void IfcMaterialLayerWithOffsets::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

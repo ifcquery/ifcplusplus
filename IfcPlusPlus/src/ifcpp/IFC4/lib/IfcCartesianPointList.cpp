@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianPointList 
-IfcCartesianPointList::IfcCartesianPointList() {}
 IfcCartesianPointList::IfcCartesianPointList( int id ) { m_entity_id = id; }
 IfcCartesianPointList::~IfcCartesianPointList() {}
 shared_ptr<BuildingObject> IfcCartesianPointList::getDeepCopy( BuildingCopyOptions& options )

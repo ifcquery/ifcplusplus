@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcFootingTypeEnum.h"
 
 // TYPE IfcFootingTypeEnum = ENUMERATION OF	(CAISSON_FOUNDATION	,FOOTING_BEAM	,PAD_FOOTING	,PILE_CAP	,STRIP_FOOTING	,USERDEFINED	,NOTDEFINED);
-IfcFootingTypeEnum::IfcFootingTypeEnum() {}
 IfcFootingTypeEnum::~IfcFootingTypeEnum() {}
 shared_ptr<BuildingObject> IfcFootingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -50,7 +49,7 @@ const std::wstring IfcFootingTypeEnum::toString() const
 shared_ptr<IfcFootingTypeEnum> IfcFootingTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFootingTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFootingTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFootingTypeEnum>(); }
 	shared_ptr<IfcFootingTypeEnum> type_object( new IfcFootingTypeEnum() );
 	if( boost::iequals( arg, L".CAISSON_FOUNDATION." ) )
 	{

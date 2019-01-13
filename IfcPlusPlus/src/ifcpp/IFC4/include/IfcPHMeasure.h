@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcPHMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcPHMeasure();
+	IfcPHMeasure() = default;
 	IfcPHMeasure( double value );
 	~IfcPHMeasure();
 	virtual const char* className() const { return "IfcPHMeasure"; }

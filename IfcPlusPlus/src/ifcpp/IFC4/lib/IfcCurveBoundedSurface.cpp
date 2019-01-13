@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcSurface.h"
 
 // ENTITY IfcCurveBoundedSurface 
-IfcCurveBoundedSurface::IfcCurveBoundedSurface() {}
 IfcCurveBoundedSurface::IfcCurveBoundedSurface( int id ) { m_entity_id = id; }
 IfcCurveBoundedSurface::~IfcCurveBoundedSurface() {}
 shared_ptr<BuildingObject> IfcCurveBoundedSurface::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcCurveBoundedSurface::getDeepCopy( BuildingCopyOpti
 		auto item_ii = m_Boundaries[ii];
 		if( item_ii )
 		{
-			copy_self->m_Boundaries.push_back( dynamic_pointer_cast<IfcBoundaryCurve>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Boundaries.emplace_back( dynamic_pointer_cast<IfcBoundaryCurve>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_ImplicitOuter ) { copy_self->m_ImplicitOuter = dynamic_pointer_cast<IfcBoolean>( m_ImplicitOuter->getDeepCopy(options) ); }
@@ -56,14 +55,14 @@ void IfcCurveBoundedSurface::readStepArguments( const std::vector<std::wstring>&
 void IfcCurveBoundedSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedSurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
-	if( m_Boundaries.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
+	if( !m_Boundaries.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Boundaries_vec_object( new AttributeObjectVector() );
 		std::copy( m_Boundaries.begin(), m_Boundaries.end(), std::back_inserter( Boundaries_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Boundaries", Boundaries_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Boundaries", Boundaries_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "ImplicitOuter", m_ImplicitOuter ) );
+	vec_attributes.emplace_back( std::make_pair( "ImplicitOuter", m_ImplicitOuter ) );
 }
 void IfcCurveBoundedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

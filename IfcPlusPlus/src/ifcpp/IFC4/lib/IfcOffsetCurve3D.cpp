@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcOffsetCurve3D 
-IfcOffsetCurve3D::IfcOffsetCurve3D() {}
 IfcOffsetCurve3D::IfcOffsetCurve3D( int id ) { m_entity_id = id; }
 IfcOffsetCurve3D::~IfcOffsetCurve3D() {}
 shared_ptr<BuildingObject> IfcOffsetCurve3D::getDeepCopy( BuildingCopyOptions& options )
@@ -54,10 +53,10 @@ void IfcOffsetCurve3D::readStepArguments( const std::vector<std::wstring>& args,
 void IfcOffsetCurve3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCurve::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
-	vec_attributes.push_back( std::make_pair( "Distance", m_Distance ) );
-	vec_attributes.push_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
-	vec_attributes.push_back( std::make_pair( "RefDirection", m_RefDirection ) );
+	vec_attributes.emplace_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
+	vec_attributes.emplace_back( std::make_pair( "Distance", m_Distance ) );
+	vec_attributes.emplace_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
+	vec_attributes.emplace_back( std::make_pair( "RefDirection", m_RefDirection ) );
 }
 void IfcOffsetCurve3D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

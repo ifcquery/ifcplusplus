@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcPermitTypeEnum();
+	IfcPermitTypeEnum() = default;
 	IfcPermitTypeEnum( IfcPermitTypeEnumEnum e ) { m_enum = e; }
 	~IfcPermitTypeEnum();
 	virtual const char* className() const { return "IfcPermitTypeEnum"; }

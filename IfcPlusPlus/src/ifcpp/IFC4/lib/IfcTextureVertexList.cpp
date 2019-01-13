@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcTextureVertexList.h"
 
 // ENTITY IfcTextureVertexList 
-IfcTextureVertexList::IfcTextureVertexList() {}
 IfcTextureVertexList::IfcTextureVertexList( int id ) { m_entity_id = id; }
 IfcTextureVertexList::~IfcTextureVertexList() {}
 shared_ptr<BuildingObject> IfcTextureVertexList::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcTextureVertexList::getDeepCopy( BuildingCopyOption
 			shared_ptr<IfcParameterValue>& item_jj = vec_ii[jj];
 			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcParameterValue>( item_jj->getDeepCopy(options) ) );
+				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcParameterValue>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}

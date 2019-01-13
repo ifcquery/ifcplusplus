@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcFlowInstrumentTypeEnum.h"
 
 // TYPE IfcFlowInstrumentTypeEnum = ENUMERATION OF	(PRESSUREGAUGE	,THERMOMETER	,AMMETER	,FREQUENCYMETER	,POWERFACTORMETER	,PHASEANGLEMETER	,VOLTMETER_PEAK	,VOLTMETER_RMS	,USERDEFINED	,NOTDEFINED);
-IfcFlowInstrumentTypeEnum::IfcFlowInstrumentTypeEnum() {}
 IfcFlowInstrumentTypeEnum::~IfcFlowInstrumentTypeEnum() {}
 shared_ptr<BuildingObject> IfcFlowInstrumentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -56,7 +55,7 @@ const std::wstring IfcFlowInstrumentTypeEnum::toString() const
 shared_ptr<IfcFlowInstrumentTypeEnum> IfcFlowInstrumentTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFlowInstrumentTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFlowInstrumentTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFlowInstrumentTypeEnum>(); }
 	shared_ptr<IfcFlowInstrumentTypeEnum> type_object( new IfcFlowInstrumentTypeEnum() );
 	if( boost::iequals( arg, L".PRESSUREGAUGE." ) )
 	{

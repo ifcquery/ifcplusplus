@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcPositiveInteger.h"
 
 // TYPE IfcPositiveInteger = IfcInteger;
-IfcPositiveInteger::IfcPositiveInteger() {}
 IfcPositiveInteger::~IfcPositiveInteger() {}
 shared_ptr<BuildingObject> IfcPositiveInteger::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -34,7 +33,7 @@ const std::wstring IfcPositiveInteger::toString() const
 shared_ptr<IfcPositiveInteger> IfcPositiveInteger::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPositiveInteger>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositiveInteger>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPositiveInteger>(); }
 	shared_ptr<IfcPositiveInteger> type_object( new IfcPositiveInteger() );
 	readInteger( arg, type_object->m_value );
 	return type_object;

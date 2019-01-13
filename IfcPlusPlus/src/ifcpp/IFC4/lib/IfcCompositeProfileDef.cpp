@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcCompositeProfileDef 
-IfcCompositeProfileDef::IfcCompositeProfileDef() {}
 IfcCompositeProfileDef::IfcCompositeProfileDef( int id ) { m_entity_id = id; }
 IfcCompositeProfileDef::~IfcCompositeProfileDef() {}
 shared_ptr<BuildingObject> IfcCompositeProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcCompositeProfileDef::getDeepCopy( BuildingCopyOpti
 		auto item_ii = m_Profiles[ii];
 		if( item_ii )
 		{
-			copy_self->m_Profiles.push_back( dynamic_pointer_cast<IfcProfileDef>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Profiles.emplace_back( dynamic_pointer_cast<IfcProfileDef>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Label ) { copy_self->m_Label = dynamic_pointer_cast<IfcLabel>( m_Label->getDeepCopy(options) ); }
@@ -60,13 +59,13 @@ void IfcCompositeProfileDef::readStepArguments( const std::vector<std::wstring>&
 void IfcCompositeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProfileDef::getAttributes( vec_attributes );
-	if( m_Profiles.size() > 0 )
+	if( !m_Profiles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Profiles_vec_object( new AttributeObjectVector() );
 		std::copy( m_Profiles.begin(), m_Profiles.end(), std::back_inserter( Profiles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Profiles", Profiles_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Profiles", Profiles_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "Label", m_Label ) );
+	vec_attributes.emplace_back( std::make_pair( "Label", m_Label ) );
 }
 void IfcCompositeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

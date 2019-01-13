@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcCoolingTowerTypeEnum();
+	IfcCoolingTowerTypeEnum() = default;
 	IfcCoolingTowerTypeEnum( IfcCoolingTowerTypeEnumEnum e ) { m_enum = e; }
 	~IfcCoolingTowerTypeEnum();
 	virtual const char* className() const { return "IfcCoolingTowerTypeEnum"; }

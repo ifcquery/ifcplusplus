@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcMassMeasure : public IfcMeasureValue
 {
 public:
-	IfcMassMeasure();
+	IfcMassMeasure() = default;
 	IfcMassMeasure( double value );
 	~IfcMassMeasure();
 	virtual const char* className() const { return "IfcMassMeasure"; }

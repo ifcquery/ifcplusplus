@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcDocumentInformationRelationship 
-IfcDocumentInformationRelationship::IfcDocumentInformationRelationship() {}
 IfcDocumentInformationRelationship::IfcDocumentInformationRelationship( int id ) { m_entity_id = id; }
 IfcDocumentInformationRelationship::~IfcDocumentInformationRelationship() {}
 shared_ptr<BuildingObject> IfcDocumentInformationRelationship::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcDocumentInformationRelationship::getDeepCopy( Buil
 		auto item_ii = m_RelatedDocuments[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedDocuments.push_back( dynamic_pointer_cast<IfcDocumentInformation>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedDocuments.emplace_back( dynamic_pointer_cast<IfcDocumentInformation>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelationshipType ) { copy_self->m_RelationshipType = dynamic_pointer_cast<IfcLabel>( m_RelationshipType->getDeepCopy(options) ); }
@@ -62,14 +61,14 @@ void IfcDocumentInformationRelationship::readStepArguments( const std::vector<st
 void IfcDocumentInformationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingDocument", m_RelatingDocument ) );
-	if( m_RelatedDocuments.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "RelatingDocument", m_RelatingDocument ) );
+	if( !m_RelatedDocuments.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedDocuments_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedDocuments.begin(), m_RelatedDocuments.end(), std::back_inserter( RelatedDocuments_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedDocuments", RelatedDocuments_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedDocuments", RelatedDocuments_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "RelationshipType", m_RelationshipType ) );
+	vec_attributes.emplace_back( std::make_pair( "RelationshipType", m_RelationshipType ) );
 }
 void IfcDocumentInformationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -84,12 +83,12 @@ void IfcDocumentInformationRelationship::setInverseCounterparts( shared_ptr<Buil
 	{
 		if( m_RelatedDocuments[i] )
 		{
-			m_RelatedDocuments[i]->m_IsPointedTo_inverse.push_back( ptr_self );
+			m_RelatedDocuments[i]->m_IsPointedTo_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingDocument )
 	{
-		m_RelatingDocument->m_IsPointer_inverse.push_back( ptr_self );
+		m_RelatingDocument->m_IsPointer_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcDocumentInformationRelationship::unlinkFromInverseCounterparts()

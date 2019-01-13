@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCondenserTypeEnum;
 class IFCQUERY_EXPORT IfcCondenserType : public IfcEnergyConversionDeviceType
 { 
 public:
-	IfcCondenserType();
+	IfcCondenserType() = default;
 	IfcCondenserType( int id );
 	~IfcCondenserType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

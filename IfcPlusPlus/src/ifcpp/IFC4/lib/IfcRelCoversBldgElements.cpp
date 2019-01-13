@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelCoversBldgElements 
-IfcRelCoversBldgElements::IfcRelCoversBldgElements() {}
 IfcRelCoversBldgElements::IfcRelCoversBldgElements( int id ) { m_entity_id = id; }
 IfcRelCoversBldgElements::~IfcRelCoversBldgElements() {}
 shared_ptr<BuildingObject> IfcRelCoversBldgElements::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelCoversBldgElements::getDeepCopy( BuildingCopyOp
 	shared_ptr<IfcRelCoversBldgElements> copy_self( new IfcRelCoversBldgElements() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -40,7 +39,7 @@ shared_ptr<BuildingObject> IfcRelCoversBldgElements::getDeepCopy( BuildingCopyOp
 		auto item_ii = m_RelatedCoverings[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedCoverings.push_back( dynamic_pointer_cast<IfcCovering>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedCoverings.emplace_back( dynamic_pointer_cast<IfcCovering>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -77,12 +76,12 @@ void IfcRelCoversBldgElements::readStepArguments( const std::vector<std::wstring
 void IfcRelCoversBldgElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingBuildingElement", m_RelatingBuildingElement ) );
-	if( m_RelatedCoverings.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "RelatingBuildingElement", m_RelatingBuildingElement ) );
+	if( !m_RelatedCoverings.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedCoverings_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedCoverings.begin(), m_RelatedCoverings.end(), std::back_inserter( RelatedCoverings_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedCoverings", RelatedCoverings_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedCoverings", RelatedCoverings_vec_object ) );
 	}
 }
 void IfcRelCoversBldgElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -98,12 +97,12 @@ void IfcRelCoversBldgElements::setInverseCounterparts( shared_ptr<BuildingEntity
 	{
 		if( m_RelatedCoverings[i] )
 		{
-			m_RelatedCoverings[i]->m_CoversElements_inverse.push_back( ptr_self );
+			m_RelatedCoverings[i]->m_CoversElements_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingBuildingElement )
 	{
-		m_RelatingBuildingElement->m_HasCoverings_inverse.push_back( ptr_self );
+		m_RelatingBuildingElement->m_HasCoverings_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelCoversBldgElements::unlinkFromInverseCounterparts()

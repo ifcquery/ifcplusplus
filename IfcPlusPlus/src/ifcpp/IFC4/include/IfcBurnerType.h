@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcBurnerTypeEnum;
 class IFCQUERY_EXPORT IfcBurnerType : public IfcEnergyConversionDeviceType
 { 
 public:
-	IfcBurnerType();
+	IfcBurnerType() = default;
 	IfcBurnerType( int id );
 	~IfcBurnerType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

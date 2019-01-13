@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcSurface.h"
 
 // ENTITY IfcPcurve 
-IfcPcurve::IfcPcurve() {}
 IfcPcurve::IfcPcurve( int id ) { m_entity_id = id; }
 IfcPcurve::~IfcPcurve() {}
 shared_ptr<BuildingObject> IfcPcurve::getDeepCopy( BuildingCopyOptions& options )
@@ -44,8 +43,8 @@ void IfcPcurve::readStepArguments( const std::vector<std::wstring>& args, const 
 void IfcPcurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCurve::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
-	vec_attributes.push_back( std::make_pair( "ReferenceCurve", m_ReferenceCurve ) );
+	vec_attributes.emplace_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
+	vec_attributes.emplace_back( std::make_pair( "ReferenceCurve", m_ReferenceCurve ) );
 }
 void IfcPcurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

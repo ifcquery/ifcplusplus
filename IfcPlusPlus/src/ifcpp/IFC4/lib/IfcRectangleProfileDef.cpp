@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcRectangleProfileDef.h"
 
 // ENTITY IfcRectangleProfileDef 
-IfcRectangleProfileDef::IfcRectangleProfileDef() {}
 IfcRectangleProfileDef::IfcRectangleProfileDef( int id ) { m_entity_id = id; }
 IfcRectangleProfileDef::~IfcRectangleProfileDef() {}
 shared_ptr<BuildingObject> IfcRectangleProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -58,8 +57,8 @@ void IfcRectangleProfileDef::readStepArguments( const std::vector<std::wstring>&
 void IfcRectangleProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "XDim", m_XDim ) );
-	vec_attributes.push_back( std::make_pair( "YDim", m_YDim ) );
+	vec_attributes.emplace_back( std::make_pair( "XDim", m_XDim ) );
+	vec_attributes.emplace_back( std::make_pair( "YDim", m_YDim ) );
 }
 void IfcRectangleProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

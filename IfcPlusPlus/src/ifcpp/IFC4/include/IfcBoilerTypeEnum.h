@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcBoilerTypeEnum();
+	IfcBoilerTypeEnum() = default;
 	IfcBoilerTypeEnum( IfcBoilerTypeEnumEnum e ) { m_enum = e; }
 	~IfcBoilerTypeEnum();
 	virtual const char* className() const { return "IfcBoilerTypeEnum"; }

@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcPreDefinedColour.h"
 
 // ENTITY IfcPreDefinedColour 
-IfcPreDefinedColour::IfcPreDefinedColour() {}
 IfcPreDefinedColour::IfcPreDefinedColour( int id ) { m_entity_id = id; }
 IfcPreDefinedColour::~IfcPreDefinedColour() {}
 shared_ptr<BuildingObject> IfcPreDefinedColour::getDeepCopy( BuildingCopyOptions& options )

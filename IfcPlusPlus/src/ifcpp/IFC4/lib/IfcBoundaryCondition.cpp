@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // ENTITY IfcBoundaryCondition 
-IfcBoundaryCondition::IfcBoundaryCondition() {}
 IfcBoundaryCondition::IfcBoundaryCondition( int id ) { m_entity_id = id; }
 IfcBoundaryCondition::~IfcBoundaryCondition() {}
 shared_ptr<BuildingObject> IfcBoundaryCondition::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ void IfcBoundaryCondition::readStepArguments( const std::vector<std::wstring>& a
 }
 void IfcBoundaryCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 }
 void IfcBoundaryCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

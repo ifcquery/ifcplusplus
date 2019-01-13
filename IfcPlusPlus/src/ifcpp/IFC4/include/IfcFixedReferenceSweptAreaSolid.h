@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcDirection;
 class IFCQUERY_EXPORT IfcFixedReferenceSweptAreaSolid : public IfcSweptAreaSolid
 { 
 public:
-	IfcFixedReferenceSweptAreaSolid();
+	IfcFixedReferenceSweptAreaSolid() = default;
 	IfcFixedReferenceSweptAreaSolid( int id );
 	~IfcFixedReferenceSweptAreaSolid();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcPresentationItem.h"
 
 // ENTITY IfcPresentationItem 
-IfcPresentationItem::IfcPresentationItem() {}
 IfcPresentationItem::IfcPresentationItem( int id ) { m_entity_id = id; }
 IfcPresentationItem::~IfcPresentationItem() {}
 shared_ptr<BuildingObject> IfcPresentationItem::getDeepCopy( BuildingCopyOptions& options )

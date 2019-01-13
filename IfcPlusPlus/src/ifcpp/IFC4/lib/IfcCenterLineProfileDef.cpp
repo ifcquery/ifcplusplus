@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcCenterLineProfileDef 
-IfcCenterLineProfileDef::IfcCenterLineProfileDef() {}
 IfcCenterLineProfileDef::IfcCenterLineProfileDef( int id ) { m_entity_id = id; }
 IfcCenterLineProfileDef::~IfcCenterLineProfileDef() {}
 shared_ptr<BuildingObject> IfcCenterLineProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -54,7 +53,7 @@ void IfcCenterLineProfileDef::readStepArguments( const std::vector<std::wstring>
 void IfcCenterLineProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcArbitraryOpenProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Thickness", m_Thickness ) );
+	vec_attributes.emplace_back( std::make_pair( "Thickness", m_Thickness ) );
 }
 void IfcCenterLineProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

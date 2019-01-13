@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcUnitEnum.h"
 
 // ENTITY IfcNamedUnit 
-IfcNamedUnit::IfcNamedUnit() {}
 IfcNamedUnit::IfcNamedUnit( int id ) { m_entity_id = id; }
 IfcNamedUnit::~IfcNamedUnit() {}
 shared_ptr<BuildingObject> IfcNamedUnit::getDeepCopy( BuildingCopyOptions& options )
@@ -41,8 +40,8 @@ void IfcNamedUnit::readStepArguments( const std::vector<std::wstring>& args, con
 }
 void IfcNamedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Dimensions", m_Dimensions ) );
-	vec_attributes.push_back( std::make_pair( "UnitType", m_UnitType ) );
+	vec_attributes.emplace_back( std::make_pair( "Dimensions", m_Dimensions ) );
+	vec_attributes.emplace_back( std::make_pair( "UnitType", m_UnitType ) );
 }
 void IfcNamedUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

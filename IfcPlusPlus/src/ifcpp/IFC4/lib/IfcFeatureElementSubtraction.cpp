@@ -36,7 +36,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcFeatureElementSubtraction 
-IfcFeatureElementSubtraction::IfcFeatureElementSubtraction() {}
 IfcFeatureElementSubtraction::IfcFeatureElementSubtraction( int id ) { m_entity_id = id; }
 IfcFeatureElementSubtraction::~IfcFeatureElementSubtraction() {}
 shared_ptr<BuildingObject> IfcFeatureElementSubtraction::getDeepCopy( BuildingCopyOptions& options )
@@ -44,7 +43,7 @@ shared_ptr<BuildingObject> IfcFeatureElementSubtraction::getDeepCopy( BuildingCo
 	shared_ptr<IfcFeatureElementSubtraction> copy_self( new IfcFeatureElementSubtraction() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -102,7 +101,7 @@ void IfcFeatureElementSubtraction::getAttributes( std::vector<std::pair<std::str
 void IfcFeatureElementSubtraction::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcFeatureElement::getAttributesInverse( vec_attributes_inverse );
-	vec_attributes_inverse.push_back( std::make_pair( "VoidsElements_inverse", shared_ptr<BuildingEntity>( m_VoidsElements_inverse ) ) );
+	vec_attributes_inverse.emplace_back( std::make_pair( "VoidsElements_inverse", shared_ptr<BuildingEntity>( m_VoidsElements_inverse ) ) );
 }
 void IfcFeatureElementSubtraction::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

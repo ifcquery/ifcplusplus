@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPresentationStyle;
 class IFCQUERY_EXPORT IfcPresentationLayerWithStyle : public IfcPresentationLayerAssignment
 { 
 public:
-	IfcPresentationLayerWithStyle();
+	IfcPresentationLayerWithStyle() = default;
 	IfcPresentationLayerWithStyle( int id );
 	~IfcPresentationLayerWithStyle();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

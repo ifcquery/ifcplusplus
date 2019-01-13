@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcSizeSelect.h"
 
 // ENTITY IfcCurveStyle 
-IfcCurveStyle::IfcCurveStyle() {}
 IfcCurveStyle::IfcCurveStyle( int id ) { m_entity_id = id; }
 IfcCurveStyle::~IfcCurveStyle() {}
 shared_ptr<BuildingObject> IfcCurveStyle::getDeepCopy( BuildingCopyOptions& options )
@@ -57,10 +56,10 @@ void IfcCurveStyle::readStepArguments( const std::vector<std::wstring>& args, co
 void IfcCurveStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationStyle::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "CurveFont", m_CurveFont ) );
-	vec_attributes.push_back( std::make_pair( "CurveWidth", m_CurveWidth ) );
-	vec_attributes.push_back( std::make_pair( "CurveColour", m_CurveColour ) );
-	vec_attributes.push_back( std::make_pair( "ModelOrDraughting", m_ModelOrDraughting ) );
+	vec_attributes.emplace_back( std::make_pair( "CurveFont", m_CurveFont ) );
+	vec_attributes.emplace_back( std::make_pair( "CurveWidth", m_CurveWidth ) );
+	vec_attributes.emplace_back( std::make_pair( "CurveColour", m_CurveColour ) );
+	vec_attributes.emplace_back( std::make_pair( "ModelOrDraughting", m_ModelOrDraughting ) );
 }
 void IfcCurveStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

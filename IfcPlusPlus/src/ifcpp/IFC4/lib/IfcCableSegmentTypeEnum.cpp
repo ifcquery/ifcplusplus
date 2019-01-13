@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCableSegmentTypeEnum.h"
 
 // TYPE IfcCableSegmentTypeEnum = ENUMERATION OF	(BUSBARSEGMENT	,CABLESEGMENT	,CONDUCTORSEGMENT	,CORESEGMENT	,USERDEFINED	,NOTDEFINED);
-IfcCableSegmentTypeEnum::IfcCableSegmentTypeEnum() {}
 IfcCableSegmentTypeEnum::~IfcCableSegmentTypeEnum() {}
 shared_ptr<BuildingObject> IfcCableSegmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -48,7 +47,7 @@ const std::wstring IfcCableSegmentTypeEnum::toString() const
 shared_ptr<IfcCableSegmentTypeEnum> IfcCableSegmentTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCableSegmentTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCableSegmentTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCableSegmentTypeEnum>(); }
 	shared_ptr<IfcCableSegmentTypeEnum> type_object( new IfcCableSegmentTypeEnum() );
 	if( boost::iequals( arg, L".BUSBARSEGMENT." ) )
 	{

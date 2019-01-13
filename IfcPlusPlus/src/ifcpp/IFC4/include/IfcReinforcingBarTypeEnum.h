@@ -27,7 +27,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcReinforcingBarTypeEnum();
+	IfcReinforcingBarTypeEnum() = default;
 	IfcReinforcingBarTypeEnum( IfcReinforcingBarTypeEnumEnum e ) { m_enum = e; }
 	~IfcReinforcingBarTypeEnum();
 	virtual const char* className() const { return "IfcReinforcingBarTypeEnum"; }

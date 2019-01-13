@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcAppliedValue 
-IfcAppliedValue::IfcAppliedValue() {}
 IfcAppliedValue::IfcAppliedValue( int id ) { m_entity_id = id; }
 IfcAppliedValue::~IfcAppliedValue() {}
 shared_ptr<BuildingObject> IfcAppliedValue::getDeepCopy( BuildingCopyOptions& options )
@@ -37,7 +36,7 @@ shared_ptr<BuildingObject> IfcAppliedValue::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_Components[ii];
 		if( item_ii )
 		{
-			copy_self->m_Components.push_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Components.emplace_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -85,35 +84,35 @@ void IfcAppliedValue::readStepArguments( const std::vector<std::wstring>& args, 
 }
 void IfcAppliedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "AppliedValue", m_AppliedValue ) );
-	vec_attributes.push_back( std::make_pair( "UnitBasis", m_UnitBasis ) );
-	vec_attributes.push_back( std::make_pair( "ApplicableDate", m_ApplicableDate ) );
-	vec_attributes.push_back( std::make_pair( "FixedUntilDate", m_FixedUntilDate ) );
-	vec_attributes.push_back( std::make_pair( "Category", m_Category ) );
-	vec_attributes.push_back( std::make_pair( "Condition", m_Condition ) );
-	vec_attributes.push_back( std::make_pair( "ArithmeticOperator", m_ArithmeticOperator ) );
-	if( m_Components.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "AppliedValue", m_AppliedValue ) );
+	vec_attributes.emplace_back( std::make_pair( "UnitBasis", m_UnitBasis ) );
+	vec_attributes.emplace_back( std::make_pair( "ApplicableDate", m_ApplicableDate ) );
+	vec_attributes.emplace_back( std::make_pair( "FixedUntilDate", m_FixedUntilDate ) );
+	vec_attributes.emplace_back( std::make_pair( "Category", m_Category ) );
+	vec_attributes.emplace_back( std::make_pair( "Condition", m_Condition ) );
+	vec_attributes.emplace_back( std::make_pair( "ArithmeticOperator", m_ArithmeticOperator ) );
+	if( !m_Components.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Components_vec_object( new AttributeObjectVector() );
 		std::copy( m_Components.begin(), m_Components.end(), std::back_inserter( Components_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Components", Components_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Components", Components_vec_object ) );
 	}
 }
 void IfcAppliedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_HasExternalReference_inverse.size() > 0 )
+	if( !m_HasExternalReference_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasExternalReference_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasExternalReference_inverse.size(); ++i )
 		{
 			if( !m_HasExternalReference_inverse[i].expired() )
 			{
-				HasExternalReference_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
+				HasExternalReference_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
 	}
 }
 void IfcAppliedValue::setInverseCounterparts( shared_ptr<BuildingEntity> )

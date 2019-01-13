@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcObjectPlacement;
 class IFCQUERY_EXPORT IfcStructuralAnalysisModel : public IfcSystem
 { 
 public:
-	IfcStructuralAnalysisModel();
+	IfcStructuralAnalysisModel() = default;
 	IfcStructuralAnalysisModel( int id );
 	~IfcStructuralAnalysisModel();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcFireSuppressionTerminalTypeEnum();
+	IfcFireSuppressionTerminalTypeEnum() = default;
 	IfcFireSuppressionTerminalTypeEnum( IfcFireSuppressionTerminalTypeEnumEnum e ) { m_enum = e; }
 	~IfcFireSuppressionTerminalTypeEnum();
 	virtual const char* className() const { return "IfcFireSuppressionTerminalTypeEnum"; }

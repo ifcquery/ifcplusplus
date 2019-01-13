@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // ENTITY IfcFailureConnectionCondition 
-IfcFailureConnectionCondition::IfcFailureConnectionCondition() {}
 IfcFailureConnectionCondition::IfcFailureConnectionCondition( int id ) { m_entity_id = id; }
 IfcFailureConnectionCondition::~IfcFailureConnectionCondition() {}
 shared_ptr<BuildingObject> IfcFailureConnectionCondition::getDeepCopy( BuildingCopyOptions& options )
@@ -62,12 +61,12 @@ void IfcFailureConnectionCondition::readStepArguments( const std::vector<std::ws
 void IfcFailureConnectionCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralConnectionCondition::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TensionFailureX", m_TensionFailureX ) );
-	vec_attributes.push_back( std::make_pair( "TensionFailureY", m_TensionFailureY ) );
-	vec_attributes.push_back( std::make_pair( "TensionFailureZ", m_TensionFailureZ ) );
-	vec_attributes.push_back( std::make_pair( "CompressionFailureX", m_CompressionFailureX ) );
-	vec_attributes.push_back( std::make_pair( "CompressionFailureY", m_CompressionFailureY ) );
-	vec_attributes.push_back( std::make_pair( "CompressionFailureZ", m_CompressionFailureZ ) );
+	vec_attributes.emplace_back( std::make_pair( "TensionFailureX", m_TensionFailureX ) );
+	vec_attributes.emplace_back( std::make_pair( "TensionFailureY", m_TensionFailureY ) );
+	vec_attributes.emplace_back( std::make_pair( "TensionFailureZ", m_TensionFailureZ ) );
+	vec_attributes.emplace_back( std::make_pair( "CompressionFailureX", m_CompressionFailureX ) );
+	vec_attributes.emplace_back( std::make_pair( "CompressionFailureY", m_CompressionFailureY ) );
+	vec_attributes.emplace_back( std::make_pair( "CompressionFailureZ", m_CompressionFailureZ ) );
 }
 void IfcFailureConnectionCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

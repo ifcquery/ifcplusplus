@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcVertex.h"
 
 // ENTITY IfcVertex 
-IfcVertex::IfcVertex() {}
 IfcVertex::IfcVertex( int id ) { m_entity_id = id; }
 IfcVertex::~IfcVertex() {}
 shared_ptr<BuildingObject> IfcVertex::getDeepCopy( BuildingCopyOptions& options )

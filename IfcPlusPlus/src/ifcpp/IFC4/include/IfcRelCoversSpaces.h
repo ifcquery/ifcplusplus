@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcCovering;
 class IFCQUERY_EXPORT IfcRelCoversSpaces : public IfcRelConnects
 { 
 public:
-	IfcRelCoversSpaces();
+	IfcRelCoversSpaces() = default;
 	IfcRelCoversSpaces( int id );
 	~IfcRelCoversSpaces();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

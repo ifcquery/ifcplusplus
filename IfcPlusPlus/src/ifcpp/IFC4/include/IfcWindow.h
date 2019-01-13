@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcWindow : public IfcBuildingElement
 { 
 public:
-	IfcWindow();
+	IfcWindow() = default;
 	IfcWindow( int id );
 	~IfcWindow();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRelAssignsToGroup;
 class IFCQUERY_EXPORT IfcGroup : public IfcObject
 { 
 public:
-	IfcGroup();
+	IfcGroup() = default;
 	IfcGroup( int id );
 	~IfcGroup();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

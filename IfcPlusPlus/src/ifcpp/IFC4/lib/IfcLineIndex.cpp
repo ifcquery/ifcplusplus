@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcLineIndex.h"
 
 // TYPE IfcLineIndex = LIST [2:?] OF IfcPositiveInteger;
-IfcLineIndex::IfcLineIndex() {}
 IfcLineIndex::~IfcLineIndex() {}
 shared_ptr<BuildingObject> IfcLineIndex::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -33,7 +32,7 @@ const std::wstring IfcLineIndex::toString() const
 shared_ptr<IfcLineIndex> IfcLineIndex::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLineIndex>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLineIndex>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLineIndex>(); }
 	shared_ptr<IfcLineIndex> type_object( new IfcLineIndex() );
 	readInteger( arg, type_object->m_value );
 	return type_object;

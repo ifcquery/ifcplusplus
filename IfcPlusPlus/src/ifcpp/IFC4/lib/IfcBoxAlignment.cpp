@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcBoxAlignment.h"
 
 // TYPE IfcBoxAlignment = IfcLabel;
-IfcBoxAlignment::IfcBoxAlignment() {}
 IfcBoxAlignment::~IfcBoxAlignment() {}
 shared_ptr<BuildingObject> IfcBoxAlignment::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -31,7 +30,7 @@ const std::wstring IfcBoxAlignment::toString() const
 shared_ptr<IfcBoxAlignment> IfcBoxAlignment::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBoxAlignment>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBoxAlignment>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBoxAlignment>(); }
 	shared_ptr<IfcBoxAlignment> type_object( new IfcBoxAlignment() );
 	readString( arg, type_object->m_value );
 	return type_object;

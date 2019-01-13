@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPipeSegmentTypeEnum;
 class IFCQUERY_EXPORT IfcPipeSegment : public IfcFlowSegment
 { 
 public:
-	IfcPipeSegment();
+	IfcPipeSegment() = default;
 	IfcPipeSegment( int id );
 	~IfcPipeSegment();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

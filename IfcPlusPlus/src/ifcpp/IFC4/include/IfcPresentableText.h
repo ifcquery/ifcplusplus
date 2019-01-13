@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcPresentableText : public BuildingObject
 {
 public:
-	IfcPresentableText();
+	IfcPresentableText() = default;
 	IfcPresentableText( std::wstring value );
 	~IfcPresentableText();
 	virtual const char* className() const { return "IfcPresentableText"; }

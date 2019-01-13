@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcMeasureWithUnit;
 class IFCQUERY_EXPORT IfcRelAssignsToProcess : public IfcRelAssigns
 { 
 public:
-	IfcRelAssignsToProcess();
+	IfcRelAssignsToProcess() = default;
 	IfcRelAssignsToProcess( int id );
 	~IfcRelAssignsToProcess();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

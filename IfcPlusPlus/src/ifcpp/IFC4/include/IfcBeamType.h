@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcBeamTypeEnum;
 class IFCQUERY_EXPORT IfcBeamType : public IfcBuildingElementType
 { 
 public:
-	IfcBeamType();
+	IfcBeamType() = default;
 	IfcBeamType( int id );
 	~IfcBeamType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

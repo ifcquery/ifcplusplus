@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcBoxAlignment : public IfcLabel
 {
 public:
-	IfcBoxAlignment();
+	IfcBoxAlignment() = default;
 	IfcBoxAlignment( std::wstring value ) { m_value = value; }
 	~IfcBoxAlignment();
 	virtual const char* className() const { return "IfcBoxAlignment"; }

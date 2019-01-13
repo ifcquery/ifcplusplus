@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcPresentationStyle.h"
 
 // ENTITY IfcPresentationStyle 
-IfcPresentationStyle::IfcPresentationStyle() {}
 IfcPresentationStyle::IfcPresentationStyle( int id ) { m_entity_id = id; }
 IfcPresentationStyle::~IfcPresentationStyle() {}
 shared_ptr<BuildingObject> IfcPresentationStyle::getDeepCopy( BuildingCopyOptions& options )
@@ -36,7 +35,7 @@ void IfcPresentationStyle::readStepArguments( const std::vector<std::wstring>& a
 }
 void IfcPresentationStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 }
 void IfcPresentationStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

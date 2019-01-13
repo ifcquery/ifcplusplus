@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcVector.h"
 
 // ENTITY IfcLine 
-IfcLine::IfcLine() {}
 IfcLine::IfcLine( int id ) { m_entity_id = id; }
 IfcLine::~IfcLine() {}
 shared_ptr<BuildingObject> IfcLine::getDeepCopy( BuildingCopyOptions& options )
@@ -44,8 +43,8 @@ void IfcLine::readStepArguments( const std::vector<std::wstring>& args, const st
 void IfcLine::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCurve::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Pnt", m_Pnt ) );
-	vec_attributes.push_back( std::make_pair( "Dir", m_Dir ) );
+	vec_attributes.emplace_back( std::make_pair( "Pnt", m_Pnt ) );
+	vec_attributes.emplace_back( std::make_pair( "Dir", m_Dir ) );
 }
 void IfcLine::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

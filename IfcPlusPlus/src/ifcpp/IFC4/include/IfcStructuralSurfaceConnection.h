@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcStructuralSurfaceConnection : public IfcStructuralConnection
 { 
 public:
-	IfcStructuralSurfaceConnection();
+	IfcStructuralSurfaceConnection() = default;
 	IfcStructuralSurfaceConnection( int id );
 	~IfcStructuralSurfaceConnection();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

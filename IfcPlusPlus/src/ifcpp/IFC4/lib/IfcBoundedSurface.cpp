@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBoundedSurface 
-IfcBoundedSurface::IfcBoundedSurface() {}
 IfcBoundedSurface::IfcBoundedSurface( int id ) { m_entity_id = id; }
 IfcBoundedSurface::~IfcBoundedSurface() {}
 shared_ptr<BuildingObject> IfcBoundedSurface::getDeepCopy( BuildingCopyOptions& options )

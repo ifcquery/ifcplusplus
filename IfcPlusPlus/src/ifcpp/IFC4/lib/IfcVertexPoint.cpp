@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcVertexPoint.h"
 
 // ENTITY IfcVertexPoint 
-IfcVertexPoint::IfcVertexPoint() {}
 IfcVertexPoint::IfcVertexPoint( int id ) { m_entity_id = id; }
 IfcVertexPoint::~IfcVertexPoint() {}
 shared_ptr<BuildingObject> IfcVertexPoint::getDeepCopy( BuildingCopyOptions& options )
@@ -39,7 +38,7 @@ void IfcVertexPoint::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcVertexPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcVertex::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "VertexGeometry", m_VertexGeometry ) );
+	vec_attributes.emplace_back( std::make_pair( "VertexGeometry", m_VertexGeometry ) );
 }
 void IfcVertexPoint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

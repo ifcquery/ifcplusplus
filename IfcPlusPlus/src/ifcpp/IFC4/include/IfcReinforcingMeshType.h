@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcBendingParameterSelect;
 class IFCQUERY_EXPORT IfcReinforcingMeshType : public IfcReinforcingElementType
 { 
 public:
-	IfcReinforcingMeshType();
+	IfcReinforcingMeshType() = default;
 	IfcReinforcingMeshType( int id );
 	~IfcReinforcingMeshType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

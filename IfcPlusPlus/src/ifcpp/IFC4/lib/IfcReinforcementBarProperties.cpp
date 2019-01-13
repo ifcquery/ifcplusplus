@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcReinforcingBarSurfaceEnum.h"
 
 // ENTITY IfcReinforcementBarProperties 
-IfcReinforcementBarProperties::IfcReinforcementBarProperties() {}
 IfcReinforcementBarProperties::IfcReinforcementBarProperties( int id ) { m_entity_id = id; }
 IfcReinforcementBarProperties::~IfcReinforcementBarProperties() {}
 shared_ptr<BuildingObject> IfcReinforcementBarProperties::getDeepCopy( BuildingCopyOptions& options )
@@ -63,12 +62,12 @@ void IfcReinforcementBarProperties::readStepArguments( const std::vector<std::ws
 void IfcReinforcementBarProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedProperties::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "TotalCrossSectionArea", m_TotalCrossSectionArea ) );
-	vec_attributes.push_back( std::make_pair( "SteelGrade", m_SteelGrade ) );
-	vec_attributes.push_back( std::make_pair( "BarSurface", m_BarSurface ) );
-	vec_attributes.push_back( std::make_pair( "EffectiveDepth", m_EffectiveDepth ) );
-	vec_attributes.push_back( std::make_pair( "NominalBarDiameter", m_NominalBarDiameter ) );
-	vec_attributes.push_back( std::make_pair( "BarCount", m_BarCount ) );
+	vec_attributes.emplace_back( std::make_pair( "TotalCrossSectionArea", m_TotalCrossSectionArea ) );
+	vec_attributes.emplace_back( std::make_pair( "SteelGrade", m_SteelGrade ) );
+	vec_attributes.emplace_back( std::make_pair( "BarSurface", m_BarSurface ) );
+	vec_attributes.emplace_back( std::make_pair( "EffectiveDepth", m_EffectiveDepth ) );
+	vec_attributes.emplace_back( std::make_pair( "NominalBarDiameter", m_NominalBarDiameter ) );
+	vec_attributes.emplace_back( std::make_pair( "BarCount", m_BarCount ) );
 }
 void IfcReinforcementBarProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

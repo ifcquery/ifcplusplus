@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcShadingDeviceTypeEnum();
+	IfcShadingDeviceTypeEnum() = default;
 	IfcShadingDeviceTypeEnum( IfcShadingDeviceTypeEnumEnum e ) { m_enum = e; }
 	~IfcShadingDeviceTypeEnum();
 	virtual const char* className() const { return "IfcShadingDeviceTypeEnum"; }

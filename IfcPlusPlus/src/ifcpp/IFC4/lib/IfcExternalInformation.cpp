@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcExternalInformation.h"
 
 // ENTITY IfcExternalInformation 
-IfcExternalInformation::IfcExternalInformation() {}
 IfcExternalInformation::IfcExternalInformation( int id ) { m_entity_id = id; }
 IfcExternalInformation::~IfcExternalInformation() {}
 shared_ptr<BuildingObject> IfcExternalInformation::getDeepCopy( BuildingCopyOptions& options )

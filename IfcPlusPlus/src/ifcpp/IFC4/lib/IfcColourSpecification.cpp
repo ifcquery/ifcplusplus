@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // ENTITY IfcColourSpecification 
-IfcColourSpecification::IfcColourSpecification() {}
 IfcColourSpecification::IfcColourSpecification( int id ) { m_entity_id = id; }
 IfcColourSpecification::~IfcColourSpecification() {}
 shared_ptr<BuildingObject> IfcColourSpecification::getDeepCopy( BuildingCopyOptions& options )
@@ -37,7 +36,7 @@ void IfcColourSpecification::readStepArguments( const std::vector<std::wstring>&
 void IfcColourSpecification::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 }
 void IfcColourSpecification::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

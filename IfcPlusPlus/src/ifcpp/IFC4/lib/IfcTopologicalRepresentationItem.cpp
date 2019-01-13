@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcTopologicalRepresentationItem.h"
 
 // ENTITY IfcTopologicalRepresentationItem 
-IfcTopologicalRepresentationItem::IfcTopologicalRepresentationItem() {}
 IfcTopologicalRepresentationItem::IfcTopologicalRepresentationItem( int id ) { m_entity_id = id; }
 IfcTopologicalRepresentationItem::~IfcTopologicalRepresentationItem() {}
 shared_ptr<BuildingObject> IfcTopologicalRepresentationItem::getDeepCopy( BuildingCopyOptions& options )

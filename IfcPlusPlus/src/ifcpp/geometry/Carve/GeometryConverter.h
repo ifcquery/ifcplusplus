@@ -388,6 +388,36 @@ public:
 		} // implicit barrier
 #endif
 
+		// subtract openings in related objects, such as IFCBUILDINGELEMENTPART connected to a window through IFCRELAGGREGATES
+		for( auto it = map_products_ptr->begin(); it != map_products_ptr->end(); ++it )
+		{
+			shared_ptr<ProductShapeData> product_geom_input_data = it->second;
+			try
+			{
+				subtractOpeningsInRelatedObjects(product_geom_input_data);
+			}
+			catch( OutOfMemoryException& e )
+			{
+				throw e;
+			}
+			catch( BuildingException& e )
+			{
+				messageCallback(e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "");
+			}
+			catch( carve::exception& e )
+			{
+				messageCallback(e.str(), StatusCallback::MESSAGE_TYPE_ERROR, "");
+			}
+			catch( std::exception& e )
+			{
+				messageCallback(e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "");
+			}
+			catch( ... )
+			{
+				messageCallback("undefined error", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
+			}
+		}
+
 		try
 		{
 			// now resolve spatial structure
@@ -517,7 +547,7 @@ public:
 		const shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>(ifc_product);
 		if( ifc_element )
 		{
-			m_representation_converter->subtractOpenings( ifc_element, product_shape );
+			m_representation_converter->subtractOpenings(ifc_element, product_shape);
 		}
 
 		// Fetch the IFCProduct relationships
@@ -560,6 +590,54 @@ public:
 							}
 						}
 						continue;
+					}
+				}
+			}
+		}
+	}
+
+	void subtractOpeningsInRelatedObjects(shared_ptr<ProductShapeData>& product_shape)
+	{
+		if( product_shape->m_ifc_object_definition.expired() )
+		{
+			return;
+		}
+		shared_ptr<IfcObjectDefinition> ifc_object_def(product_shape->m_ifc_object_definition);
+		shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>(ifc_object_def);
+		if( !ifc_element )
+		{
+			return;
+		}
+
+		if( ifc_element->m_HasOpenings_inverse.size() == 0 )
+		{
+			return;
+		}
+
+		// collect aggregated objects
+		const std::vector<weak_ptr<IfcRelAggregates> >& vec_decomposed_by = ifc_element->m_IsDecomposedBy_inverse;
+
+		for( auto& decomposed_by : vec_decomposed_by )
+		{
+			if( decomposed_by.expired() )
+			{
+				continue;
+			}
+			shared_ptr<IfcRelAggregates> decomposed_by_aggregates(decomposed_by);
+			std::vector<shared_ptr<IfcObjectDefinition> >& vec_related_objects = decomposed_by_aggregates->m_RelatedObjects;
+			for( auto& related_object : vec_related_objects )
+			{
+				if( !related_object )
+				{
+					continue;
+				}
+				if( related_object->m_entity_id >= 0 )
+				{
+					auto it_find_related_shape = m_product_shape_data.find(related_object->m_entity_id);
+					if( it_find_related_shape != m_product_shape_data.end() )
+					{
+						shared_ptr<ProductShapeData>& related_product_shape = it_find_related_shape->second;
+						m_representation_converter->subtractOpenings(ifc_element, related_product_shape);
 					}
 				}
 			}

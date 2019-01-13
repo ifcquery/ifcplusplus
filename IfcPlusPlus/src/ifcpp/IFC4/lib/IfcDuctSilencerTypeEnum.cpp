@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcDuctSilencerTypeEnum.h"
 
 // TYPE IfcDuctSilencerTypeEnum = ENUMERATION OF	(FLATOVAL	,RECTANGULAR	,ROUND	,USERDEFINED	,NOTDEFINED);
-IfcDuctSilencerTypeEnum::IfcDuctSilencerTypeEnum() {}
 IfcDuctSilencerTypeEnum::~IfcDuctSilencerTypeEnum() {}
 shared_ptr<BuildingObject> IfcDuctSilencerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcDuctSilencerTypeEnum::toString() const
 shared_ptr<IfcDuctSilencerTypeEnum> IfcDuctSilencerTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDuctSilencerTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuctSilencerTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuctSilencerTypeEnum>(); }
 	shared_ptr<IfcDuctSilencerTypeEnum> type_object( new IfcDuctSilencerTypeEnum() );
 	if( boost::iequals( arg, L".FLATOVAL." ) )
 	{

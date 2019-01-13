@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcRelSequence : public IfcRelConnects
 { 
 public:
-	IfcRelSequence();
+	IfcRelSequence() = default;
 	IfcRelSequence( int id );
 	~IfcRelSequence();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

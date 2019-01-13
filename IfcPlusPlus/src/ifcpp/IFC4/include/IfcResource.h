@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcRelAssignsToResource;
 class IFCQUERY_EXPORT IfcResource : virtual public IfcResourceSelect, public IfcObject
 { 
 public:
-	IfcResource();
+	IfcResource() = default;
 	IfcResource( int id );
 	~IfcResource();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

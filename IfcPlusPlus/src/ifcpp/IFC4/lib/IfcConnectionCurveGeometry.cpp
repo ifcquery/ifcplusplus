@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcCurveOrEdgeCurve.h"
 
 // ENTITY IfcConnectionCurveGeometry 
-IfcConnectionCurveGeometry::IfcConnectionCurveGeometry() {}
 IfcConnectionCurveGeometry::IfcConnectionCurveGeometry( int id ) { m_entity_id = id; }
 IfcConnectionCurveGeometry::~IfcConnectionCurveGeometry() {}
 shared_ptr<BuildingObject> IfcConnectionCurveGeometry::getDeepCopy( BuildingCopyOptions& options )
@@ -41,8 +40,8 @@ void IfcConnectionCurveGeometry::readStepArguments( const std::vector<std::wstri
 void IfcConnectionCurveGeometry::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConnectionGeometry::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "CurveOnRelatingElement", m_CurveOnRelatingElement ) );
-	vec_attributes.push_back( std::make_pair( "CurveOnRelatedElement", m_CurveOnRelatedElement ) );
+	vec_attributes.emplace_back( std::make_pair( "CurveOnRelatingElement", m_CurveOnRelatingElement ) );
+	vec_attributes.emplace_back( std::make_pair( "CurveOnRelatedElement", m_CurveOnRelatedElement ) );
 }
 void IfcConnectionCurveGeometry::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

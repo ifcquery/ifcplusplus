@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelProjectsElement 
-IfcRelProjectsElement::IfcRelProjectsElement() {}
 IfcRelProjectsElement::IfcRelProjectsElement( int id ) { m_entity_id = id; }
 IfcRelProjectsElement::~IfcRelProjectsElement() {}
 shared_ptr<BuildingObject> IfcRelProjectsElement::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelProjectsElement::getDeepCopy( BuildingCopyOptio
 	shared_ptr<IfcRelProjectsElement> copy_self( new IfcRelProjectsElement() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -70,8 +69,8 @@ void IfcRelProjectsElement::readStepArguments( const std::vector<std::wstring>& 
 void IfcRelProjectsElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelDecomposes::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingElement", m_RelatingElement ) );
-	vec_attributes.push_back( std::make_pair( "RelatedFeatureElement", m_RelatedFeatureElement ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingElement", m_RelatingElement ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedFeatureElement", m_RelatedFeatureElement ) );
 }
 void IfcRelProjectsElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -88,7 +87,7 @@ void IfcRelProjectsElement::setInverseCounterparts( shared_ptr<BuildingEntity> p
 	}
 	if( m_RelatingElement )
 	{
-		m_RelatingElement->m_HasProjections_inverse.push_back( ptr_self );
+		m_RelatingElement->m_HasProjections_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelProjectsElement::unlinkFromInverseCounterparts()

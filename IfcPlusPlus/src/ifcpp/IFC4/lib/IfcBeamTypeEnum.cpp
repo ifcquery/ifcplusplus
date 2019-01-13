@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcBeamTypeEnum.h"
 
 // TYPE IfcBeamTypeEnum = ENUMERATION OF	(BEAM	,JOIST	,HOLLOWCORE	,LINTEL	,SPANDREL	,T_BEAM	,USERDEFINED	,NOTDEFINED);
-IfcBeamTypeEnum::IfcBeamTypeEnum() {}
 IfcBeamTypeEnum::~IfcBeamTypeEnum() {}
 shared_ptr<BuildingObject> IfcBeamTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -52,7 +51,7 @@ const std::wstring IfcBeamTypeEnum::toString() const
 shared_ptr<IfcBeamTypeEnum> IfcBeamTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBeamTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBeamTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBeamTypeEnum>(); }
 	shared_ptr<IfcBeamTypeEnum> type_object( new IfcBeamTypeEnum() );
 	if( boost::iequals( arg, L".BEAM." ) )
 	{

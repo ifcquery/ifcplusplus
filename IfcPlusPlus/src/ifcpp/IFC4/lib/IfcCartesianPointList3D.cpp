@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianPointList3D 
-IfcCartesianPointList3D::IfcCartesianPointList3D() {}
 IfcCartesianPointList3D::IfcCartesianPointList3D( int id ) { m_entity_id = id; }
 IfcCartesianPointList3D::~IfcCartesianPointList3D() {}
 shared_ptr<BuildingObject> IfcCartesianPointList3D::getDeepCopy( BuildingCopyOptions& options )
@@ -29,7 +28,7 @@ shared_ptr<BuildingObject> IfcCartesianPointList3D::getDeepCopy( BuildingCopyOpt
 			shared_ptr<IfcLengthMeasure>& item_jj = vec_ii[jj];
 			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcLengthMeasure>( item_jj->getDeepCopy(options) ) );
+				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}

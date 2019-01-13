@@ -19,7 +19,7 @@ public:
 		ENUM_NEGATIVE
 	};
 
-	IfcDirectionSenseEnum();
+	IfcDirectionSenseEnum() = default;
 	IfcDirectionSenseEnum( IfcDirectionSenseEnumEnum e ) { m_enum = e; }
 	~IfcDirectionSenseEnum();
 	virtual const char* className() const { return "IfcDirectionSenseEnum"; }

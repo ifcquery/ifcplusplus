@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcModulusOfElasticityMeasure.h"
 
 // TYPE IfcModulusOfElasticityMeasure = REAL;
-IfcModulusOfElasticityMeasure::IfcModulusOfElasticityMeasure() {}
 IfcModulusOfElasticityMeasure::IfcModulusOfElasticityMeasure( double value ) { m_value = value; }
 IfcModulusOfElasticityMeasure::~IfcModulusOfElasticityMeasure() {}
 shared_ptr<BuildingObject> IfcModulusOfElasticityMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcModulusOfElasticityMeasure::toString() const
 shared_ptr<IfcModulusOfElasticityMeasure> IfcModulusOfElasticityMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcModulusOfElasticityMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcModulusOfElasticityMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcModulusOfElasticityMeasure>(); }
 	shared_ptr<IfcModulusOfElasticityMeasure> type_object( new IfcModulusOfElasticityMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

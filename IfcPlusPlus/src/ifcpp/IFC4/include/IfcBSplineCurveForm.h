@@ -23,7 +23,7 @@ public:
 		ENUM_UNSPECIFIED
 	};
 
-	IfcBSplineCurveForm();
+	IfcBSplineCurveForm() = default;
 	IfcBSplineCurveForm( IfcBSplineCurveFormEnum e ) { m_enum = e; }
 	~IfcBSplineCurveForm();
 	virtual const char* className() const { return "IfcBSplineCurveForm"; }

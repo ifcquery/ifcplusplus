@@ -39,7 +39,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcDistributionChamberElement 
-IfcDistributionChamberElement::IfcDistributionChamberElement() {}
 IfcDistributionChamberElement::IfcDistributionChamberElement( int id ) { m_entity_id = id; }
 IfcDistributionChamberElement::~IfcDistributionChamberElement() {}
 shared_ptr<BuildingObject> IfcDistributionChamberElement::getDeepCopy( BuildingCopyOptions& options )
@@ -47,7 +46,7 @@ shared_ptr<BuildingObject> IfcDistributionChamberElement::getDeepCopy( BuildingC
 	shared_ptr<IfcDistributionChamberElement> copy_self( new IfcDistributionChamberElement() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -105,7 +104,7 @@ void IfcDistributionChamberElement::readStepArguments( const std::vector<std::ws
 void IfcDistributionChamberElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcDistributionFlowElement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcDistributionChamberElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

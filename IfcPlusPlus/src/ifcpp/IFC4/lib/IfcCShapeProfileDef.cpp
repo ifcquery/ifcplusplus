@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcCShapeProfileDef 
-IfcCShapeProfileDef::IfcCShapeProfileDef() {}
 IfcCShapeProfileDef::IfcCShapeProfileDef( int id ) { m_entity_id = id; }
 IfcCShapeProfileDef::~IfcCShapeProfileDef() {}
 shared_ptr<BuildingObject> IfcCShapeProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -71,11 +70,11 @@ void IfcCShapeProfileDef::readStepArguments( const std::vector<std::wstring>& ar
 void IfcCShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Depth", m_Depth ) );
-	vec_attributes.push_back( std::make_pair( "Width", m_Width ) );
-	vec_attributes.push_back( std::make_pair( "WallThickness", m_WallThickness ) );
-	vec_attributes.push_back( std::make_pair( "Girth", m_Girth ) );
-	vec_attributes.push_back( std::make_pair( "InternalFilletRadius", m_InternalFilletRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "Depth", m_Depth ) );
+	vec_attributes.emplace_back( std::make_pair( "Width", m_Width ) );
+	vec_attributes.emplace_back( std::make_pair( "WallThickness", m_WallThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "Girth", m_Girth ) );
+	vec_attributes.emplace_back( std::make_pair( "InternalFilletRadius", m_InternalFilletRadius ) );
 }
 void IfcCShapeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

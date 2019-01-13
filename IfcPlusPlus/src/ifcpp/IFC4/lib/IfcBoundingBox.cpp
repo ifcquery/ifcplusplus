@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBoundingBox 
-IfcBoundingBox::IfcBoundingBox() {}
 IfcBoundingBox::IfcBoundingBox( int id ) { m_entity_id = id; }
 IfcBoundingBox::~IfcBoundingBox() {}
 shared_ptr<BuildingObject> IfcBoundingBox::getDeepCopy( BuildingCopyOptions& options )
@@ -52,10 +51,10 @@ void IfcBoundingBox::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcBoundingBox::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Corner", m_Corner ) );
-	vec_attributes.push_back( std::make_pair( "XDim", m_XDim ) );
-	vec_attributes.push_back( std::make_pair( "YDim", m_YDim ) );
-	vec_attributes.push_back( std::make_pair( "ZDim", m_ZDim ) );
+	vec_attributes.emplace_back( std::make_pair( "Corner", m_Corner ) );
+	vec_attributes.emplace_back( std::make_pair( "XDim", m_XDim ) );
+	vec_attributes.emplace_back( std::make_pair( "YDim", m_YDim ) );
+	vec_attributes.emplace_back( std::make_pair( "ZDim", m_ZDim ) );
 }
 void IfcBoundingBox::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

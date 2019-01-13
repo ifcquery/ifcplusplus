@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelDefinesByObject 
-IfcRelDefinesByObject::IfcRelDefinesByObject() {}
 IfcRelDefinesByObject::IfcRelDefinesByObject( int id ) { m_entity_id = id; }
 IfcRelDefinesByObject::~IfcRelDefinesByObject() {}
 shared_ptr<BuildingObject> IfcRelDefinesByObject::getDeepCopy( BuildingCopyOptions& options )
@@ -23,7 +22,7 @@ shared_ptr<BuildingObject> IfcRelDefinesByObject::getDeepCopy( BuildingCopyOptio
 	shared_ptr<IfcRelDefinesByObject> copy_self( new IfcRelDefinesByObject() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -38,7 +37,7 @@ shared_ptr<BuildingObject> IfcRelDefinesByObject::getDeepCopy( BuildingCopyOptio
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcObject>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcObject>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatingObject ) { copy_self->m_RelatingObject = dynamic_pointer_cast<IfcObject>( m_RelatingObject->getDeepCopy(options) ); }
@@ -76,13 +75,13 @@ void IfcRelDefinesByObject::readStepArguments( const std::vector<std::wstring>& 
 void IfcRelDefinesByObject::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelDefines::getAttributes( vec_attributes );
-	if( m_RelatedObjects.size() > 0 )
+	if( !m_RelatedObjects.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedObjects_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedObjects.begin(), m_RelatedObjects.end(), std::back_inserter( RelatedObjects_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "RelatingObject", m_RelatingObject ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingObject", m_RelatingObject ) );
 }
 void IfcRelDefinesByObject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -97,12 +96,12 @@ void IfcRelDefinesByObject::setInverseCounterparts( shared_ptr<BuildingEntity> p
 	{
 		if( m_RelatedObjects[i] )
 		{
-			m_RelatedObjects[i]->m_IsDeclaredBy_inverse.push_back( ptr_self );
+			m_RelatedObjects[i]->m_IsDeclaredBy_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingObject )
 	{
-		m_RelatingObject->m_Declares_inverse.push_back( ptr_self );
+		m_RelatingObject->m_Declares_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelDefinesByObject::unlinkFromInverseCounterparts()

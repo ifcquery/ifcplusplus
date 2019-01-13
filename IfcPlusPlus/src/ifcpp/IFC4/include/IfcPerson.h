@@ -19,7 +19,7 @@ class IFCQUERY_EXPORT IfcPersonAndOrganization;
 class IFCQUERY_EXPORT IfcPerson : virtual public IfcActorSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public BuildingEntity
 { 
 public:
-	IfcPerson();
+	IfcPerson() = default;
 	IfcPerson( int id );
 	~IfcPerson();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

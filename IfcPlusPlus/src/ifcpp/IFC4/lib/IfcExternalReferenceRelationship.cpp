@@ -25,7 +25,6 @@
 #include "ifcpp/IFC4/include/IfcTimeSeries.h"
 
 // ENTITY IfcExternalReferenceRelationship 
-IfcExternalReferenceRelationship::IfcExternalReferenceRelationship() {}
 IfcExternalReferenceRelationship::IfcExternalReferenceRelationship( int id ) { m_entity_id = id; }
 IfcExternalReferenceRelationship::~IfcExternalReferenceRelationship() {}
 shared_ptr<BuildingObject> IfcExternalReferenceRelationship::getDeepCopy( BuildingCopyOptions& options )
@@ -39,7 +38,7 @@ shared_ptr<BuildingObject> IfcExternalReferenceRelationship::getDeepCopy( Buildi
 		auto item_ii = m_RelatedResourceObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedResourceObjects.push_back( dynamic_pointer_cast<IfcResourceObjectSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedResourceObjects.emplace_back( dynamic_pointer_cast<IfcResourceObjectSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -87,12 +86,12 @@ void IfcExternalReferenceRelationship::readStepArguments( const std::vector<std:
 void IfcExternalReferenceRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingReference", m_RelatingReference ) );
-	if( m_RelatedResourceObjects.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "RelatingReference", m_RelatingReference ) );
+	if( !m_RelatedResourceObjects.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedResourceObjects_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedResourceObjects.begin(), m_RelatedResourceObjects.end(), std::back_inserter( RelatedResourceObjects_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedResourceObjects", RelatedResourceObjects_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedResourceObjects", RelatedResourceObjects_vec_object ) );
 	}
 }
 void IfcExternalReferenceRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -109,62 +108,62 @@ void IfcExternalReferenceRelationship::setInverseCounterparts( shared_ptr<Buildi
 		shared_ptr<IfcActorRole>  RelatedResourceObjects_IfcActorRole = dynamic_pointer_cast<IfcActorRole>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcActorRole )
 		{
-			RelatedResourceObjects_IfcActorRole->m_HasExternalReference_inverse.push_back( ptr_self );
+			RelatedResourceObjects_IfcActorRole->m_HasExternalReference_inverse.emplace_back( ptr_self );
 		}
 		shared_ptr<IfcAppliedValue>  RelatedResourceObjects_IfcAppliedValue = dynamic_pointer_cast<IfcAppliedValue>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcAppliedValue )
 		{
-			RelatedResourceObjects_IfcAppliedValue->m_HasExternalReference_inverse.push_back( ptr_self );
+			RelatedResourceObjects_IfcAppliedValue->m_HasExternalReference_inverse.emplace_back( ptr_self );
 		}
 		shared_ptr<IfcApproval>  RelatedResourceObjects_IfcApproval = dynamic_pointer_cast<IfcApproval>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcApproval )
 		{
-			RelatedResourceObjects_IfcApproval->m_HasExternalReferences_inverse.push_back( ptr_self );
+			RelatedResourceObjects_IfcApproval->m_HasExternalReferences_inverse.emplace_back( ptr_self );
 		}
 		shared_ptr<IfcConstraint>  RelatedResourceObjects_IfcConstraint = dynamic_pointer_cast<IfcConstraint>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcConstraint )
 		{
-			RelatedResourceObjects_IfcConstraint->m_HasExternalReferences_inverse.push_back( ptr_self );
+			RelatedResourceObjects_IfcConstraint->m_HasExternalReferences_inverse.emplace_back( ptr_self );
 		}
 		shared_ptr<IfcContextDependentUnit>  RelatedResourceObjects_IfcContextDependentUnit = dynamic_pointer_cast<IfcContextDependentUnit>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcContextDependentUnit )
 		{
-			RelatedResourceObjects_IfcContextDependentUnit->m_HasExternalReference_inverse.push_back( ptr_self );
+			RelatedResourceObjects_IfcContextDependentUnit->m_HasExternalReference_inverse.emplace_back( ptr_self );
 		}
 		shared_ptr<IfcConversionBasedUnit>  RelatedResourceObjects_IfcConversionBasedUnit = dynamic_pointer_cast<IfcConversionBasedUnit>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcConversionBasedUnit )
 		{
-			RelatedResourceObjects_IfcConversionBasedUnit->m_HasExternalReference_inverse.push_back( ptr_self );
+			RelatedResourceObjects_IfcConversionBasedUnit->m_HasExternalReference_inverse.emplace_back( ptr_self );
 		}
 		shared_ptr<IfcMaterialDefinition>  RelatedResourceObjects_IfcMaterialDefinition = dynamic_pointer_cast<IfcMaterialDefinition>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcMaterialDefinition )
 		{
-			RelatedResourceObjects_IfcMaterialDefinition->m_HasExternalReferences_inverse.push_back( ptr_self );
+			RelatedResourceObjects_IfcMaterialDefinition->m_HasExternalReferences_inverse.emplace_back( ptr_self );
 		}
 		shared_ptr<IfcPhysicalQuantity>  RelatedResourceObjects_IfcPhysicalQuantity = dynamic_pointer_cast<IfcPhysicalQuantity>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcPhysicalQuantity )
 		{
-			RelatedResourceObjects_IfcPhysicalQuantity->m_HasExternalReferences_inverse.push_back( ptr_self );
+			RelatedResourceObjects_IfcPhysicalQuantity->m_HasExternalReferences_inverse.emplace_back( ptr_self );
 		}
 		shared_ptr<IfcProfileDef>  RelatedResourceObjects_IfcProfileDef = dynamic_pointer_cast<IfcProfileDef>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcProfileDef )
 		{
-			RelatedResourceObjects_IfcProfileDef->m_HasExternalReference_inverse.push_back( ptr_self );
+			RelatedResourceObjects_IfcProfileDef->m_HasExternalReference_inverse.emplace_back( ptr_self );
 		}
 		shared_ptr<IfcPropertyAbstraction>  RelatedResourceObjects_IfcPropertyAbstraction = dynamic_pointer_cast<IfcPropertyAbstraction>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcPropertyAbstraction )
 		{
-			RelatedResourceObjects_IfcPropertyAbstraction->m_HasExternalReferences_inverse.push_back( ptr_self );
+			RelatedResourceObjects_IfcPropertyAbstraction->m_HasExternalReferences_inverse.emplace_back( ptr_self );
 		}
 		shared_ptr<IfcTimeSeries>  RelatedResourceObjects_IfcTimeSeries = dynamic_pointer_cast<IfcTimeSeries>( m_RelatedResourceObjects[i] );
 		if( RelatedResourceObjects_IfcTimeSeries )
 		{
-			RelatedResourceObjects_IfcTimeSeries->m_HasExternalReference_inverse.push_back( ptr_self );
+			RelatedResourceObjects_IfcTimeSeries->m_HasExternalReference_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingReference )
 	{
-		m_RelatingReference->m_ExternalReferenceForResources_inverse.push_back( ptr_self );
+		m_RelatingReference->m_ExternalReferenceForResources_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcExternalReferenceRelationship::unlinkFromInverseCounterparts()

@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPresentationLayerAssignment 
-IfcPresentationLayerAssignment::IfcPresentationLayerAssignment() {}
 IfcPresentationLayerAssignment::IfcPresentationLayerAssignment( int id ) { m_entity_id = id; }
 IfcPresentationLayerAssignment::~IfcPresentationLayerAssignment() {}
 shared_ptr<BuildingObject> IfcPresentationLayerAssignment::getDeepCopy( BuildingCopyOptions& options )
@@ -29,7 +28,7 @@ shared_ptr<BuildingObject> IfcPresentationLayerAssignment::getDeepCopy( Building
 		auto item_ii = m_AssignedItems[ii];
 		if( item_ii )
 		{
-			copy_self->m_AssignedItems.push_back( dynamic_pointer_cast<IfcLayeredItem>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_AssignedItems.emplace_back( dynamic_pointer_cast<IfcLayeredItem>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy(options) ); }
@@ -77,15 +76,15 @@ void IfcPresentationLayerAssignment::readStepArguments( const std::vector<std::w
 }
 void IfcPresentationLayerAssignment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	if( m_AssignedItems.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	if( !m_AssignedItems.empty() )
 	{
 		shared_ptr<AttributeObjectVector> AssignedItems_vec_object( new AttributeObjectVector() );
 		std::copy( m_AssignedItems.begin(), m_AssignedItems.end(), std::back_inserter( AssignedItems_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "AssignedItems", AssignedItems_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "AssignedItems", AssignedItems_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "Identifier", m_Identifier ) );
+	vec_attributes.emplace_back( std::make_pair( "Identifier", m_Identifier ) );
 }
 void IfcPresentationLayerAssignment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -99,12 +98,12 @@ void IfcPresentationLayerAssignment::setInverseCounterparts( shared_ptr<Building
 		shared_ptr<IfcRepresentation>  AssignedItems_IfcRepresentation = dynamic_pointer_cast<IfcRepresentation>( m_AssignedItems[i] );
 		if( AssignedItems_IfcRepresentation )
 		{
-			AssignedItems_IfcRepresentation->m_LayerAssignments_inverse.push_back( ptr_self );
+			AssignedItems_IfcRepresentation->m_LayerAssignments_inverse.emplace_back( ptr_self );
 		}
 		shared_ptr<IfcRepresentationItem>  AssignedItems_IfcRepresentationItem = dynamic_pointer_cast<IfcRepresentationItem>( m_AssignedItems[i] );
 		if( AssignedItems_IfcRepresentationItem )
 		{
-			AssignedItems_IfcRepresentationItem->m_LayerAssignment_inverse.push_back( ptr_self );
+			AssignedItems_IfcRepresentationItem->m_LayerAssignment_inverse.emplace_back( ptr_self );
 		}
 	}
 }

@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelAssociatesConstraint 
-IfcRelAssociatesConstraint::IfcRelAssociatesConstraint() {}
 IfcRelAssociatesConstraint::IfcRelAssociatesConstraint( int id ) { m_entity_id = id; }
 IfcRelAssociatesConstraint::~IfcRelAssociatesConstraint() {}
 shared_ptr<BuildingObject> IfcRelAssociatesConstraint::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelAssociatesConstraint::getDeepCopy( BuildingCopy
 	shared_ptr<IfcRelAssociatesConstraint> copy_self( new IfcRelAssociatesConstraint() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -39,7 +38,7 @@ shared_ptr<BuildingObject> IfcRelAssociatesConstraint::getDeepCopy( BuildingCopy
 		auto item_ii = m_RelatedObjects[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedObjects.push_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcDefinitionSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Intent ) { copy_self->m_Intent = dynamic_pointer_cast<IfcLabel>( m_Intent->getDeepCopy(options) ); }
@@ -98,8 +97,8 @@ void IfcRelAssociatesConstraint::readStepArguments( const std::vector<std::wstri
 void IfcRelAssociatesConstraint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelAssociates::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Intent", m_Intent ) );
-	vec_attributes.push_back( std::make_pair( "RelatingConstraint", m_RelatingConstraint ) );
+	vec_attributes.emplace_back( std::make_pair( "Intent", m_Intent ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingConstraint", m_RelatingConstraint ) );
 }
 void IfcRelAssociatesConstraint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcTypeObject.h"
 
 // ENTITY IfcReinforcementDefinitionProperties 
-IfcReinforcementDefinitionProperties::IfcReinforcementDefinitionProperties() {}
 IfcReinforcementDefinitionProperties::IfcReinforcementDefinitionProperties( int id ) { m_entity_id = id; }
 IfcReinforcementDefinitionProperties::~IfcReinforcementDefinitionProperties() {}
 shared_ptr<BuildingObject> IfcReinforcementDefinitionProperties::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcReinforcementDefinitionProperties::getDeepCopy( Bu
 	shared_ptr<IfcReinforcementDefinitionProperties> copy_self( new IfcReinforcementDefinitionProperties() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -44,7 +43,7 @@ shared_ptr<BuildingObject> IfcReinforcementDefinitionProperties::getDeepCopy( Bu
 		auto item_ii = m_ReinforcementSectionDefinitions[ii];
 		if( item_ii )
 		{
-			copy_self->m_ReinforcementSectionDefinitions.push_back( dynamic_pointer_cast<IfcSectionReinforcementProperties>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_ReinforcementSectionDefinitions.emplace_back( dynamic_pointer_cast<IfcSectionReinforcementProperties>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -81,12 +80,12 @@ void IfcReinforcementDefinitionProperties::readStepArguments( const std::vector<
 void IfcReinforcementDefinitionProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedPropertySet::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "DefinitionType", m_DefinitionType ) );
-	if( m_ReinforcementSectionDefinitions.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "DefinitionType", m_DefinitionType ) );
+	if( !m_ReinforcementSectionDefinitions.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ReinforcementSectionDefinitions_vec_object( new AttributeObjectVector() );
 		std::copy( m_ReinforcementSectionDefinitions.begin(), m_ReinforcementSectionDefinitions.end(), std::back_inserter( ReinforcementSectionDefinitions_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "ReinforcementSectionDefinitions", ReinforcementSectionDefinitions_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "ReinforcementSectionDefinitions", ReinforcementSectionDefinitions_vec_object ) );
 	}
 }
 void IfcReinforcementDefinitionProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

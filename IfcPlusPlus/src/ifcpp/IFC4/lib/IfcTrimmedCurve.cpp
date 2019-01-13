@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcTrimmingSelect.h"
 
 // ENTITY IfcTrimmedCurve 
-IfcTrimmedCurve::IfcTrimmedCurve() {}
 IfcTrimmedCurve::IfcTrimmedCurve( int id ) { m_entity_id = id; }
 IfcTrimmedCurve::~IfcTrimmedCurve() {}
 shared_ptr<BuildingObject> IfcTrimmedCurve::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcTrimmedCurve::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_Trim1[ii];
 		if( item_ii )
 		{
-			copy_self->m_Trim1.push_back( dynamic_pointer_cast<IfcTrimmingSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Trim1.emplace_back( dynamic_pointer_cast<IfcTrimmingSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	for( size_t ii=0; ii<m_Trim2.size(); ++ii )
@@ -36,7 +35,7 @@ shared_ptr<BuildingObject> IfcTrimmedCurve::getDeepCopy( BuildingCopyOptions& op
 		auto item_ii = m_Trim2[ii];
 		if( item_ii )
 		{
-			copy_self->m_Trim2.push_back( dynamic_pointer_cast<IfcTrimmingSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Trim2.emplace_back( dynamic_pointer_cast<IfcTrimmingSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_SenseAgreement ) { copy_self->m_SenseAgreement = dynamic_pointer_cast<IfcBoolean>( m_SenseAgreement->getDeepCopy(options) ); }
@@ -106,21 +105,21 @@ void IfcTrimmedCurve::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcTrimmedCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
-	if( m_Trim1.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
+	if( !m_Trim1.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Trim1_vec_object( new AttributeObjectVector() );
 		std::copy( m_Trim1.begin(), m_Trim1.end(), std::back_inserter( Trim1_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Trim1", Trim1_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Trim1", Trim1_vec_object ) );
 	}
-	if( m_Trim2.size() > 0 )
+	if( !m_Trim2.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Trim2_vec_object( new AttributeObjectVector() );
 		std::copy( m_Trim2.begin(), m_Trim2.end(), std::back_inserter( Trim2_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Trim2", Trim2_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Trim2", Trim2_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "SenseAgreement", m_SenseAgreement ) );
-	vec_attributes.push_back( std::make_pair( "MasterRepresentation", m_MasterRepresentation ) );
+	vec_attributes.emplace_back( std::make_pair( "SenseAgreement", m_SenseAgreement ) );
+	vec_attributes.emplace_back( std::make_pair( "MasterRepresentation", m_MasterRepresentation ) );
 }
 void IfcTrimmedCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

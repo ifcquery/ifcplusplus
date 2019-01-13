@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcFlowDirectionEnum.h"
 
 // TYPE IfcFlowDirectionEnum = ENUMERATION OF	(SOURCE	,SINK	,SOURCEANDSINK	,NOTDEFINED);
-IfcFlowDirectionEnum::IfcFlowDirectionEnum() {}
 IfcFlowDirectionEnum::~IfcFlowDirectionEnum() {}
 shared_ptr<BuildingObject> IfcFlowDirectionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -44,7 +43,7 @@ const std::wstring IfcFlowDirectionEnum::toString() const
 shared_ptr<IfcFlowDirectionEnum> IfcFlowDirectionEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFlowDirectionEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFlowDirectionEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFlowDirectionEnum>(); }
 	shared_ptr<IfcFlowDirectionEnum> type_object( new IfcFlowDirectionEnum() );
 	if( boost::iequals( arg, L".SOURCE." ) )
 	{

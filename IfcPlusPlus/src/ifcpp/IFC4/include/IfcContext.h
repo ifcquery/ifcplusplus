@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcRelDeclares;
 class IFCQUERY_EXPORT IfcContext : public IfcObjectDefinition
 { 
 public:
-	IfcContext();
+	IfcContext() = default;
 	IfcContext( int id );
 	~IfcContext();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

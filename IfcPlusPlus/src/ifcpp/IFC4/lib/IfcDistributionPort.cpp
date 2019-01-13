@@ -30,7 +30,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcDistributionPort 
-IfcDistributionPort::IfcDistributionPort() {}
 IfcDistributionPort::IfcDistributionPort( int id ) { m_entity_id = id; }
 IfcDistributionPort::~IfcDistributionPort() {}
 shared_ptr<BuildingObject> IfcDistributionPort::getDeepCopy( BuildingCopyOptions& options )
@@ -38,7 +37,7 @@ shared_ptr<BuildingObject> IfcDistributionPort::getDeepCopy( BuildingCopyOptions
 	shared_ptr<IfcDistributionPort> copy_self( new IfcDistributionPort() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -100,9 +99,9 @@ void IfcDistributionPort::readStepArguments( const std::vector<std::wstring>& ar
 void IfcDistributionPort::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPort::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "FlowDirection", m_FlowDirection ) );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
-	vec_attributes.push_back( std::make_pair( "SystemType", m_SystemType ) );
+	vec_attributes.emplace_back( std::make_pair( "FlowDirection", m_FlowDirection ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "SystemType", m_SystemType ) );
 }
 void IfcDistributionPort::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

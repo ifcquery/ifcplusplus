@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcExternallyDefinedTextFont : virtual public IfcTextFontSelect, public IfcExternalReference
 { 
 public:
-	IfcExternallyDefinedTextFont();
+	IfcExternallyDefinedTextFont() = default;
 	IfcExternallyDefinedTextFont( int id );
 	~IfcExternallyDefinedTextFont();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

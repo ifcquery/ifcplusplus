@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelServicesBuildings 
-IfcRelServicesBuildings::IfcRelServicesBuildings() {}
 IfcRelServicesBuildings::IfcRelServicesBuildings( int id ) { m_entity_id = id; }
 IfcRelServicesBuildings::~IfcRelServicesBuildings() {}
 shared_ptr<BuildingObject> IfcRelServicesBuildings::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelServicesBuildings::getDeepCopy( BuildingCopyOpt
 	shared_ptr<IfcRelServicesBuildings> copy_self( new IfcRelServicesBuildings() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -40,7 +39,7 @@ shared_ptr<BuildingObject> IfcRelServicesBuildings::getDeepCopy( BuildingCopyOpt
 		auto item_ii = m_RelatedBuildings[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedBuildings.push_back( dynamic_pointer_cast<IfcSpatialElement>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedBuildings.emplace_back( dynamic_pointer_cast<IfcSpatialElement>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -77,12 +76,12 @@ void IfcRelServicesBuildings::readStepArguments( const std::vector<std::wstring>
 void IfcRelServicesBuildings::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "RelatingSystem", m_RelatingSystem ) );
-	if( m_RelatedBuildings.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "RelatingSystem", m_RelatingSystem ) );
+	if( !m_RelatedBuildings.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedBuildings_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedBuildings.begin(), m_RelatedBuildings.end(), std::back_inserter( RelatedBuildings_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedBuildings", RelatedBuildings_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedBuildings", RelatedBuildings_vec_object ) );
 	}
 }
 void IfcRelServicesBuildings::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -98,12 +97,12 @@ void IfcRelServicesBuildings::setInverseCounterparts( shared_ptr<BuildingEntity>
 	{
 		if( m_RelatedBuildings[i] )
 		{
-			m_RelatedBuildings[i]->m_ServicedBySystems_inverse.push_back( ptr_self );
+			m_RelatedBuildings[i]->m_ServicedBySystems_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingSystem )
 	{
-		m_RelatingSystem->m_ServicesBuildings_inverse.push_back( ptr_self );
+		m_RelatingSystem->m_ServicesBuildings_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelServicesBuildings::unlinkFromInverseCounterparts()

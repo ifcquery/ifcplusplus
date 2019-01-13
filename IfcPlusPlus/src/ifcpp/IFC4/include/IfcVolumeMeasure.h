@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcVolumeMeasure : public IfcMeasureValue
 {
 public:
-	IfcVolumeMeasure();
+	IfcVolumeMeasure() = default;
 	IfcVolumeMeasure( double value );
 	~IfcVolumeMeasure();
 	virtual const char* className() const { return "IfcVolumeMeasure"; }

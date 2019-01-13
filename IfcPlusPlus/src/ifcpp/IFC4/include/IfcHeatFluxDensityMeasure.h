@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcHeatFluxDensityMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcHeatFluxDensityMeasure();
+	IfcHeatFluxDensityMeasure() = default;
 	IfcHeatFluxDensityMeasure( double value );
 	~IfcHeatFluxDensityMeasure();
 	virtual const char* className() const { return "IfcHeatFluxDensityMeasure"; }

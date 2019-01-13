@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcStyleModel.h"
 
 // ENTITY IfcStyleModel 
-IfcStyleModel::IfcStyleModel() {}
 IfcStyleModel::IfcStyleModel( int id ) { m_entity_id = id; }
 IfcStyleModel::~IfcStyleModel() {}
 shared_ptr<BuildingObject> IfcStyleModel::getDeepCopy( BuildingCopyOptions& options )
@@ -34,7 +33,7 @@ shared_ptr<BuildingObject> IfcStyleModel::getDeepCopy( BuildingCopyOptions& opti
 		auto item_ii = m_Items[ii];
 		if( item_ii )
 		{
-			copy_self->m_Items.push_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Items.emplace_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;

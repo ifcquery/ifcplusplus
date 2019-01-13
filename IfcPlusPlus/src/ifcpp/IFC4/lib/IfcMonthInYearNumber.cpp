@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcMonthInYearNumber.h"
 
 // TYPE IfcMonthInYearNumber = INTEGER;
-IfcMonthInYearNumber::IfcMonthInYearNumber() {}
 IfcMonthInYearNumber::IfcMonthInYearNumber( int value ) { m_value = value; }
 IfcMonthInYearNumber::~IfcMonthInYearNumber() {}
 shared_ptr<BuildingObject> IfcMonthInYearNumber::getDeepCopy( BuildingCopyOptions& options )
@@ -34,7 +33,7 @@ const std::wstring IfcMonthInYearNumber::toString() const
 shared_ptr<IfcMonthInYearNumber> IfcMonthInYearNumber::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMonthInYearNumber>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMonthInYearNumber>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMonthInYearNumber>(); }
 	shared_ptr<IfcMonthInYearNumber> type_object( new IfcMonthInYearNumber() );
 	readInteger( arg, type_object->m_value );
 	return type_object;

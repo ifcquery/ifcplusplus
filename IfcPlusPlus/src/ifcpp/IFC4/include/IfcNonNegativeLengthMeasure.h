@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcNonNegativeLengthMeasure : public IfcLengthMeasure
 {
 public:
-	IfcNonNegativeLengthMeasure();
+	IfcNonNegativeLengthMeasure() = default;
 	IfcNonNegativeLengthMeasure( double value ) { m_value = value; }
 	~IfcNonNegativeLengthMeasure();
 	virtual const char* className() const { return "IfcNonNegativeLengthMeasure"; }

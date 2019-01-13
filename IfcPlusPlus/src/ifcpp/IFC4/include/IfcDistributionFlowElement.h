@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRelFlowControlElements;
 class IFCQUERY_EXPORT IfcDistributionFlowElement : public IfcDistributionElement
 { 
 public:
-	IfcDistributionFlowElement();
+	IfcDistributionFlowElement() = default;
 	IfcDistributionFlowElement( int id );
 	~IfcDistributionFlowElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -42,7 +42,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcTendon 
-IfcTendon::IfcTendon() {}
 IfcTendon::IfcTendon( int id ) { m_entity_id = id; }
 IfcTendon::~IfcTendon() {}
 shared_ptr<BuildingObject> IfcTendon::getDeepCopy( BuildingCopyOptions& options )
@@ -50,7 +49,7 @@ shared_ptr<BuildingObject> IfcTendon::getDeepCopy( BuildingCopyOptions& options 
 	shared_ptr<IfcTendon> copy_self( new IfcTendon() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -140,14 +139,14 @@ void IfcTendon::readStepArguments( const std::vector<std::wstring>& args, const 
 void IfcTendon::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcReinforcingElement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
-	vec_attributes.push_back( std::make_pair( "NominalDiameter", m_NominalDiameter ) );
-	vec_attributes.push_back( std::make_pair( "CrossSectionArea", m_CrossSectionArea ) );
-	vec_attributes.push_back( std::make_pair( "TensionForce", m_TensionForce ) );
-	vec_attributes.push_back( std::make_pair( "PreStress", m_PreStress ) );
-	vec_attributes.push_back( std::make_pair( "FrictionCoefficient", m_FrictionCoefficient ) );
-	vec_attributes.push_back( std::make_pair( "AnchorageSlip", m_AnchorageSlip ) );
-	vec_attributes.push_back( std::make_pair( "MinCurvatureRadius", m_MinCurvatureRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "NominalDiameter", m_NominalDiameter ) );
+	vec_attributes.emplace_back( std::make_pair( "CrossSectionArea", m_CrossSectionArea ) );
+	vec_attributes.emplace_back( std::make_pair( "TensionForce", m_TensionForce ) );
+	vec_attributes.emplace_back( std::make_pair( "PreStress", m_PreStress ) );
+	vec_attributes.emplace_back( std::make_pair( "FrictionCoefficient", m_FrictionCoefficient ) );
+	vec_attributes.emplace_back( std::make_pair( "AnchorageSlip", m_AnchorageSlip ) );
+	vec_attributes.emplace_back( std::make_pair( "MinCurvatureRadius", m_MinCurvatureRadius ) );
 }
 void IfcTendon::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

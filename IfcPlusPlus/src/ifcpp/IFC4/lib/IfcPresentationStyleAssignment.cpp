@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcPresentationStyleSelect.h"
 
 // ENTITY IfcPresentationStyleAssignment 
-IfcPresentationStyleAssignment::IfcPresentationStyleAssignment() {}
 IfcPresentationStyleAssignment::IfcPresentationStyleAssignment( int id ) { m_entity_id = id; }
 IfcPresentationStyleAssignment::~IfcPresentationStyleAssignment() {}
 shared_ptr<BuildingObject> IfcPresentationStyleAssignment::getDeepCopy( BuildingCopyOptions& options )
@@ -22,7 +21,7 @@ shared_ptr<BuildingObject> IfcPresentationStyleAssignment::getDeepCopy( Building
 		auto item_ii = m_Styles[ii];
 		if( item_ii )
 		{
-			copy_self->m_Styles.push_back( dynamic_pointer_cast<IfcPresentationStyleSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Styles.emplace_back( dynamic_pointer_cast<IfcPresentationStyleSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -60,11 +59,11 @@ void IfcPresentationStyleAssignment::readStepArguments( const std::vector<std::w
 }
 void IfcPresentationStyleAssignment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( m_Styles.size() > 0 )
+	if( !m_Styles.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Styles_vec_object( new AttributeObjectVector() );
 		std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Styles", Styles_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Styles", Styles_vec_object ) );
 	}
 }
 void IfcPresentationStyleAssignment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

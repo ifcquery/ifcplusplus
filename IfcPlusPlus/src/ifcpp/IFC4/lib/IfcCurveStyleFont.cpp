@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // ENTITY IfcCurveStyleFont 
-IfcCurveStyleFont::IfcCurveStyleFont() {}
 IfcCurveStyleFont::IfcCurveStyleFont( int id ) { m_entity_id = id; }
 IfcCurveStyleFont::~IfcCurveStyleFont() {}
 shared_ptr<BuildingObject> IfcCurveStyleFont::getDeepCopy( BuildingCopyOptions& options )
@@ -24,7 +23,7 @@ shared_ptr<BuildingObject> IfcCurveStyleFont::getDeepCopy( BuildingCopyOptions& 
 		auto item_ii = m_PatternList[ii];
 		if( item_ii )
 		{
-			copy_self->m_PatternList.push_back( dynamic_pointer_cast<IfcCurveStyleFontPattern>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_PatternList.emplace_back( dynamic_pointer_cast<IfcCurveStyleFontPattern>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -49,12 +48,12 @@ void IfcCurveStyleFont::readStepArguments( const std::vector<std::wstring>& args
 void IfcCurveStyleFont::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	if( m_PatternList.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	if( !m_PatternList.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PatternList_vec_object( new AttributeObjectVector() );
 		std::copy( m_PatternList.begin(), m_PatternList.end(), std::back_inserter( PatternList_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "PatternList", PatternList_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "PatternList", PatternList_vec_object ) );
 	}
 }
 void IfcCurveStyleFont::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

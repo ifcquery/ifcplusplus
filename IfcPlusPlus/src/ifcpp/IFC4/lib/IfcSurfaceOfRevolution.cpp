@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcSurfaceOfRevolution.h"
 
 // ENTITY IfcSurfaceOfRevolution 
-IfcSurfaceOfRevolution::IfcSurfaceOfRevolution() {}
 IfcSurfaceOfRevolution::IfcSurfaceOfRevolution( int id ) { m_entity_id = id; }
 IfcSurfaceOfRevolution::~IfcSurfaceOfRevolution() {}
 shared_ptr<BuildingObject> IfcSurfaceOfRevolution::getDeepCopy( BuildingCopyOptions& options )
@@ -53,7 +52,7 @@ void IfcSurfaceOfRevolution::readStepArguments( const std::vector<std::wstring>&
 void IfcSurfaceOfRevolution::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSweptSurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "AxisPosition", m_AxisPosition ) );
+	vec_attributes.emplace_back( std::make_pair( "AxisPosition", m_AxisPosition ) );
 }
 void IfcSurfaceOfRevolution::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

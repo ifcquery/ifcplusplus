@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcElementAssemblyTypeEnum.h"
 
 // TYPE IfcElementAssemblyTypeEnum = ENUMERATION OF	(ACCESSORY_ASSEMBLY	,ARCH	,BEAM_GRID	,BRACED_FRAME	,GIRDER	,REINFORCEMENT_UNIT	,RIGID_FRAME	,SLAB_FIELD	,TRUSS	,USERDEFINED	,NOTDEFINED);
-IfcElementAssemblyTypeEnum::IfcElementAssemblyTypeEnum() {}
 IfcElementAssemblyTypeEnum::~IfcElementAssemblyTypeEnum() {}
 shared_ptr<BuildingObject> IfcElementAssemblyTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -58,7 +57,7 @@ const std::wstring IfcElementAssemblyTypeEnum::toString() const
 shared_ptr<IfcElementAssemblyTypeEnum> IfcElementAssemblyTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElementAssemblyTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElementAssemblyTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElementAssemblyTypeEnum>(); }
 	shared_ptr<IfcElementAssemblyTypeEnum> type_object( new IfcElementAssemblyTypeEnum() );
 	if( boost::iequals( arg, L".ACCESSORY_ASSEMBLY." ) )
 	{

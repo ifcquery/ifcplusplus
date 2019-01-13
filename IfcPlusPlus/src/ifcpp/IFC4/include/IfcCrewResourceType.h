@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCrewResourceTypeEnum;
 class IFCQUERY_EXPORT IfcCrewResourceType : public IfcConstructionResourceType
 { 
 public:
-	IfcCrewResourceType();
+	IfcCrewResourceType() = default;
 	IfcCrewResourceType( int id );
 	~IfcCrewResourceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcCircleProfileDef 
-IfcCircleProfileDef::IfcCircleProfileDef() {}
 IfcCircleProfileDef::IfcCircleProfileDef( int id ) { m_entity_id = id; }
 IfcCircleProfileDef::~IfcCircleProfileDef() {}
 shared_ptr<BuildingObject> IfcCircleProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -54,7 +53,7 @@ void IfcCircleProfileDef::readStepArguments( const std::vector<std::wstring>& ar
 void IfcCircleProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
+	vec_attributes.emplace_back( std::make_pair( "Radius", m_Radius ) );
 }
 void IfcCircleProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

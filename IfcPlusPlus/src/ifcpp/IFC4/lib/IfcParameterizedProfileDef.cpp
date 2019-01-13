@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcParameterizedProfileDef 
-IfcParameterizedProfileDef::IfcParameterizedProfileDef() {}
 IfcParameterizedProfileDef::IfcParameterizedProfileDef( int id ) { m_entity_id = id; }
 IfcParameterizedProfileDef::~IfcParameterizedProfileDef() {}
 shared_ptr<BuildingObject> IfcParameterizedProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -49,7 +48,7 @@ void IfcParameterizedProfileDef::readStepArguments( const std::vector<std::wstri
 void IfcParameterizedProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Position", m_Position ) );
+	vec_attributes.emplace_back( std::make_pair( "Position", m_Position ) );
 }
 void IfcParameterizedProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

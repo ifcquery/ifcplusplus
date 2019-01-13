@@ -30,7 +30,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcAudioVisualApplianceTypeEnum();
+	IfcAudioVisualApplianceTypeEnum() = default;
 	IfcAudioVisualApplianceTypeEnum( IfcAudioVisualApplianceTypeEnumEnum e ) { m_enum = e; }
 	~IfcAudioVisualApplianceTypeEnum();
 	virtual const char* className() const { return "IfcAudioVisualApplianceTypeEnum"; }

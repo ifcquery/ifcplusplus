@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcIlluminanceMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcIlluminanceMeasure();
+	IfcIlluminanceMeasure() = default;
 	IfcIlluminanceMeasure( double value );
 	~IfcIlluminanceMeasure();
 	virtual const char* className() const { return "IfcIlluminanceMeasure"; }

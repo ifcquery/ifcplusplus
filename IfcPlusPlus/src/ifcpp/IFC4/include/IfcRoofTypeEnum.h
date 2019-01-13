@@ -32,7 +32,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcRoofTypeEnum();
+	IfcRoofTypeEnum() = default;
 	IfcRoofTypeEnum( IfcRoofTypeEnumEnum e ) { m_enum = e; }
 	~IfcRoofTypeEnum();
 	virtual const char* className() const { return "IfcRoofTypeEnum"; }

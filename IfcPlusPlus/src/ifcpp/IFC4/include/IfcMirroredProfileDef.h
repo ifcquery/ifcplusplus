@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcMirroredProfileDef : public IfcDerivedProfileDef
 { 
 public:
-	IfcMirroredProfileDef();
+	IfcMirroredProfileDef() = default;
 	IfcMirroredProfileDef( int id );
 	~IfcMirroredProfileDef();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

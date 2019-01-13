@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcTextFontName : public BuildingObject
 {
 public:
-	IfcTextFontName();
+	IfcTextFontName() = default;
 	IfcTextFontName( std::wstring value );
 	~IfcTextFontName();
 	virtual const char* className() const { return "IfcTextFontName"; }

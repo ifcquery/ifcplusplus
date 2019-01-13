@@ -27,7 +27,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcConstructionResource 
-IfcConstructionResource::IfcConstructionResource() {}
 IfcConstructionResource::IfcConstructionResource( int id ) { m_entity_id = id; }
 IfcConstructionResource::~IfcConstructionResource() {}
 shared_ptr<BuildingObject> IfcConstructionResource::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ shared_ptr<BuildingObject> IfcConstructionResource::getDeepCopy( BuildingCopyOpt
 	shared_ptr<IfcConstructionResource> copy_self( new IfcConstructionResource() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -54,7 +53,7 @@ shared_ptr<BuildingObject> IfcConstructionResource::getDeepCopy( BuildingCopyOpt
 		auto item_ii = m_BaseCosts[ii];
 		if( item_ii )
 		{
-			copy_self->m_BaseCosts.push_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_BaseCosts.emplace_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_BaseQuantity ) { copy_self->m_BaseQuantity = dynamic_pointer_cast<IfcPhysicalQuantity>( m_BaseQuantity->getDeepCopy(options) ); }
@@ -104,14 +103,14 @@ void IfcConstructionResource::readStepArguments( const std::vector<std::wstring>
 void IfcConstructionResource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResource::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Usage", m_Usage ) );
-	if( m_BaseCosts.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Usage", m_Usage ) );
+	if( !m_BaseCosts.empty() )
 	{
 		shared_ptr<AttributeObjectVector> BaseCosts_vec_object( new AttributeObjectVector() );
 		std::copy( m_BaseCosts.begin(), m_BaseCosts.end(), std::back_inserter( BaseCosts_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "BaseCosts", BaseCosts_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "BaseCosts", BaseCosts_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "BaseQuantity", m_BaseQuantity ) );
+	vec_attributes.emplace_back( std::make_pair( "BaseQuantity", m_BaseQuantity ) );
 }
 void IfcConstructionResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

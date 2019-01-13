@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcPlaneAngleMeasure;
 class IFCQUERY_EXPORT IfcAsymmetricIShapeProfileDef : public IfcParameterizedProfileDef
 { 
 public:
-	IfcAsymmetricIShapeProfileDef();
+	IfcAsymmetricIShapeProfileDef() = default;
 	IfcAsymmetricIShapeProfileDef( int id );
 	~IfcAsymmetricIShapeProfileDef();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

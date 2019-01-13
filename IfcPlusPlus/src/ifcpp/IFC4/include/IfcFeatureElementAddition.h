@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRelProjectsElement;
 class IFCQUERY_EXPORT IfcFeatureElementAddition : public IfcFeatureElement
 { 
 public:
-	IfcFeatureElementAddition();
+	IfcFeatureElementAddition() = default;
 	IfcFeatureElementAddition( int id );
 	~IfcFeatureElementAddition();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

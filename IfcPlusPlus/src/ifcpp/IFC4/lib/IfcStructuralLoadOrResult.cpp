@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcStructuralLoadOrResult.h"
 
 // ENTITY IfcStructuralLoadOrResult 
-IfcStructuralLoadOrResult::IfcStructuralLoadOrResult() {}
 IfcStructuralLoadOrResult::IfcStructuralLoadOrResult( int id ) { m_entity_id = id; }
 IfcStructuralLoadOrResult::~IfcStructuralLoadOrResult() {}
 shared_ptr<BuildingObject> IfcStructuralLoadOrResult::getDeepCopy( BuildingCopyOptions& options )

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcSurfaceTexture;
 class IFCQUERY_EXPORT IfcTextureCoordinate : public IfcPresentationItem
 { 
 public:
-	IfcTextureCoordinate();
+	IfcTextureCoordinate() = default;
 	IfcTextureCoordinate( int id );
 	~IfcTextureCoordinate();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

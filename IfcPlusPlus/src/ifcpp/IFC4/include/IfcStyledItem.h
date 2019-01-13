@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcStyledItem : public IfcRepresentationItem
 { 
 public:
-	IfcStyledItem();
+	IfcStyledItem() = default;
 	IfcStyledItem( int id );
 	~IfcStyledItem();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcGeographicElementTypeEnum;
 class IFCQUERY_EXPORT IfcGeographicElement : public IfcElement
 { 
 public:
-	IfcGeographicElement();
+	IfcGeographicElement() = default;
 	IfcGeographicElement( int id );
 	~IfcGeographicElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

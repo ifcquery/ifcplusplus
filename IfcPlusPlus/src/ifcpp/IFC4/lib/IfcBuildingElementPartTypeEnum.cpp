@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcBuildingElementPartTypeEnum.h"
 
 // TYPE IfcBuildingElementPartTypeEnum = ENUMERATION OF	(INSULATION	,PRECASTPANEL	,USERDEFINED	,NOTDEFINED);
-IfcBuildingElementPartTypeEnum::IfcBuildingElementPartTypeEnum() {}
 IfcBuildingElementPartTypeEnum::~IfcBuildingElementPartTypeEnum() {}
 shared_ptr<BuildingObject> IfcBuildingElementPartTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -44,7 +43,7 @@ const std::wstring IfcBuildingElementPartTypeEnum::toString() const
 shared_ptr<IfcBuildingElementPartTypeEnum> IfcBuildingElementPartTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBuildingElementPartTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBuildingElementPartTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBuildingElementPartTypeEnum>(); }
 	shared_ptr<IfcBuildingElementPartTypeEnum> type_object( new IfcBuildingElementPartTypeEnum() );
 	if( boost::iequals( arg, L".INSULATION." ) )
 	{

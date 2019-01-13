@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcWasteTerminalTypeEnum;
 class IFCQUERY_EXPORT IfcWasteTerminalType : public IfcFlowTerminalType
 { 
 public:
-	IfcWasteTerminalType();
+	IfcWasteTerminalType() = default;
 	IfcWasteTerminalType( int id );
 	~IfcWasteTerminalType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

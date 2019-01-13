@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcPreDefinedCurveFont.h"
 
 // ENTITY IfcPreDefinedCurveFont 
-IfcPreDefinedCurveFont::IfcPreDefinedCurveFont() {}
 IfcPreDefinedCurveFont::IfcPreDefinedCurveFont( int id ) { m_entity_id = id; }
 IfcPreDefinedCurveFont::~IfcPreDefinedCurveFont() {}
 shared_ptr<BuildingObject> IfcPreDefinedCurveFont::getDeepCopy( BuildingCopyOptions& options )

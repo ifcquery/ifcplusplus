@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcSanitaryTerminalTypeEnum;
 class IFCQUERY_EXPORT IfcSanitaryTerminal : public IfcFlowTerminal
 { 
 public:
-	IfcSanitaryTerminal();
+	IfcSanitaryTerminal() = default;
 	IfcSanitaryTerminal( int id );
 	~IfcSanitaryTerminal();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

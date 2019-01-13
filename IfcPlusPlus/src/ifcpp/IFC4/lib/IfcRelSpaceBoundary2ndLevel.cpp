@@ -20,7 +20,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelSpaceBoundary2ndLevel 
-IfcRelSpaceBoundary2ndLevel::IfcRelSpaceBoundary2ndLevel() {}
 IfcRelSpaceBoundary2ndLevel::IfcRelSpaceBoundary2ndLevel( int id ) { m_entity_id = id; }
 IfcRelSpaceBoundary2ndLevel::~IfcRelSpaceBoundary2ndLevel() {}
 shared_ptr<BuildingObject> IfcRelSpaceBoundary2ndLevel::getDeepCopy( BuildingCopyOptions& options )
@@ -28,7 +27,7 @@ shared_ptr<BuildingObject> IfcRelSpaceBoundary2ndLevel::getDeepCopy( BuildingCop
 	shared_ptr<IfcRelSpaceBoundary2ndLevel> copy_self( new IfcRelSpaceBoundary2ndLevel() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -94,22 +93,22 @@ void IfcRelSpaceBoundary2ndLevel::readStepArguments( const std::vector<std::wstr
 void IfcRelSpaceBoundary2ndLevel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelSpaceBoundary1stLevel::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "CorrespondingBoundary", m_CorrespondingBoundary ) );
+	vec_attributes.emplace_back( std::make_pair( "CorrespondingBoundary", m_CorrespondingBoundary ) );
 }
 void IfcRelSpaceBoundary2ndLevel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcRelSpaceBoundary1stLevel::getAttributesInverse( vec_attributes_inverse );
-	if( m_Corresponds_inverse.size() > 0 )
+	if( !m_Corresponds_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Corresponds_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_Corresponds_inverse.size(); ++i )
 		{
 			if( !m_Corresponds_inverse[i].expired() )
 			{
-				Corresponds_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelSpaceBoundary2ndLevel>( m_Corresponds_inverse[i] ) );
+				Corresponds_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSpaceBoundary2ndLevel>( m_Corresponds_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "Corresponds_inverse", Corresponds_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "Corresponds_inverse", Corresponds_inverse_vec_obj ) );
 	}
 }
 void IfcRelSpaceBoundary2ndLevel::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
@@ -119,7 +118,7 @@ void IfcRelSpaceBoundary2ndLevel::setInverseCounterparts( shared_ptr<BuildingEnt
 	if( !ptr_self ) { throw BuildingException( "IfcRelSpaceBoundary2ndLevel::setInverseCounterparts: type mismatch" ); }
 	if( m_CorrespondingBoundary )
 	{
-		m_CorrespondingBoundary->m_Corresponds_inverse.push_back( ptr_self );
+		m_CorrespondingBoundary->m_Corresponds_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelSpaceBoundary2ndLevel::unlinkFromInverseCounterparts()

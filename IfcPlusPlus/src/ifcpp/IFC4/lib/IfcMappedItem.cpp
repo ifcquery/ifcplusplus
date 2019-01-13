@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcMappedItem 
-IfcMappedItem::IfcMappedItem() {}
 IfcMappedItem::IfcMappedItem( int id ) { m_entity_id = id; }
 IfcMappedItem::~IfcMappedItem() {}
 shared_ptr<BuildingObject> IfcMappedItem::getDeepCopy( BuildingCopyOptions& options )
@@ -44,8 +43,8 @@ void IfcMappedItem::readStepArguments( const std::vector<std::wstring>& args, co
 void IfcMappedItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "MappingSource", m_MappingSource ) );
-	vec_attributes.push_back( std::make_pair( "MappingTarget", m_MappingTarget ) );
+	vec_attributes.emplace_back( std::make_pair( "MappingSource", m_MappingSource ) );
+	vec_attributes.emplace_back( std::make_pair( "MappingTarget", m_MappingTarget ) );
 }
 void IfcMappedItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -58,7 +57,7 @@ void IfcMappedItem::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_
 	if( !ptr_self ) { throw BuildingException( "IfcMappedItem::setInverseCounterparts: type mismatch" ); }
 	if( m_MappingSource )
 	{
-		m_MappingSource->m_MapUsage_inverse.push_back( ptr_self );
+		m_MappingSource->m_MapUsage_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcMappedItem::unlinkFromInverseCounterparts()

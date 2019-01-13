@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcSectionReinforcementProperties.h"
 
 // ENTITY IfcSectionReinforcementProperties 
-IfcSectionReinforcementProperties::IfcSectionReinforcementProperties() {}
 IfcSectionReinforcementProperties::IfcSectionReinforcementProperties( int id ) { m_entity_id = id; }
 IfcSectionReinforcementProperties::~IfcSectionReinforcementProperties() {}
 shared_ptr<BuildingObject> IfcSectionReinforcementProperties::getDeepCopy( BuildingCopyOptions& options )
@@ -31,7 +30,7 @@ shared_ptr<BuildingObject> IfcSectionReinforcementProperties::getDeepCopy( Build
 		auto item_ii = m_CrossSectionReinforcementDefinitions[ii];
 		if( item_ii )
 		{
-			copy_self->m_CrossSectionReinforcementDefinitions.push_back( dynamic_pointer_cast<IfcReinforcementBarProperties>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_CrossSectionReinforcementDefinitions.emplace_back( dynamic_pointer_cast<IfcReinforcementBarProperties>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -68,16 +67,16 @@ void IfcSectionReinforcementProperties::readStepArguments( const std::vector<std
 void IfcSectionReinforcementProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedProperties::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "LongitudinalStartPosition", m_LongitudinalStartPosition ) );
-	vec_attributes.push_back( std::make_pair( "LongitudinalEndPosition", m_LongitudinalEndPosition ) );
-	vec_attributes.push_back( std::make_pair( "TransversePosition", m_TransversePosition ) );
-	vec_attributes.push_back( std::make_pair( "ReinforcementRole", m_ReinforcementRole ) );
-	vec_attributes.push_back( std::make_pair( "SectionDefinition", m_SectionDefinition ) );
-	if( m_CrossSectionReinforcementDefinitions.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "LongitudinalStartPosition", m_LongitudinalStartPosition ) );
+	vec_attributes.emplace_back( std::make_pair( "LongitudinalEndPosition", m_LongitudinalEndPosition ) );
+	vec_attributes.emplace_back( std::make_pair( "TransversePosition", m_TransversePosition ) );
+	vec_attributes.emplace_back( std::make_pair( "ReinforcementRole", m_ReinforcementRole ) );
+	vec_attributes.emplace_back( std::make_pair( "SectionDefinition", m_SectionDefinition ) );
+	if( !m_CrossSectionReinforcementDefinitions.empty() )
 	{
 		shared_ptr<AttributeObjectVector> CrossSectionReinforcementDefinitions_vec_object( new AttributeObjectVector() );
 		std::copy( m_CrossSectionReinforcementDefinitions.begin(), m_CrossSectionReinforcementDefinitions.end(), std::back_inserter( CrossSectionReinforcementDefinitions_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "CrossSectionReinforcementDefinitions", CrossSectionReinforcementDefinitions_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "CrossSectionReinforcementDefinitions", CrossSectionReinforcementDefinitions_vec_object ) );
 	}
 }
 void IfcSectionReinforcementProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

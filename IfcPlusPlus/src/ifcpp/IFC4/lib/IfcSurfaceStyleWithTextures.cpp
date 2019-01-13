@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcSurfaceTexture.h"
 
 // ENTITY IfcSurfaceStyleWithTextures 
-IfcSurfaceStyleWithTextures::IfcSurfaceStyleWithTextures() {}
 IfcSurfaceStyleWithTextures::IfcSurfaceStyleWithTextures( int id ) { m_entity_id = id; }
 IfcSurfaceStyleWithTextures::~IfcSurfaceStyleWithTextures() {}
 shared_ptr<BuildingObject> IfcSurfaceStyleWithTextures::getDeepCopy( BuildingCopyOptions& options )
@@ -22,7 +21,7 @@ shared_ptr<BuildingObject> IfcSurfaceStyleWithTextures::getDeepCopy( BuildingCop
 		auto item_ii = m_Textures[ii];
 		if( item_ii )
 		{
-			copy_self->m_Textures.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Textures.emplace_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -44,11 +43,11 @@ void IfcSurfaceStyleWithTextures::readStepArguments( const std::vector<std::wstr
 void IfcSurfaceStyleWithTextures::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	if( m_Textures.size() > 0 )
+	if( !m_Textures.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Textures_vec_object( new AttributeObjectVector() );
 		std::copy( m_Textures.begin(), m_Textures.end(), std::back_inserter( Textures_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Textures", Textures_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Textures", Textures_vec_object ) );
 	}
 }
 void IfcSurfaceStyleWithTextures::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -64,7 +63,7 @@ void IfcSurfaceStyleWithTextures::setInverseCounterparts( shared_ptr<BuildingEnt
 	{
 		if( m_Textures[i] )
 		{
-			m_Textures[i]->m_UsedInStyles_inverse.push_back( ptr_self );
+			m_Textures[i]->m_UsedInStyles_inverse.emplace_back( ptr_self );
 		}
 	}
 }

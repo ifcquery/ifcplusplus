@@ -19,7 +19,7 @@ public:
 		ENUM_ENUM_NULL
 	};
 
-	IfcNullStyle();
+	IfcNullStyle() = default;
 	IfcNullStyle( IfcNullStyleEnum e ) { m_enum = e; }
 	~IfcNullStyle();
 	virtual const char* className() const { return "IfcNullStyle"; }

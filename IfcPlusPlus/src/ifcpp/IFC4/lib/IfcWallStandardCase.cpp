@@ -37,7 +37,6 @@
 #include "ifcpp/IFC4/include/IfcWallTypeEnum.h"
 
 // ENTITY IfcWallStandardCase 
-IfcWallStandardCase::IfcWallStandardCase() {}
 IfcWallStandardCase::IfcWallStandardCase( int id ) { m_entity_id = id; }
 IfcWallStandardCase::~IfcWallStandardCase() {}
 shared_ptr<BuildingObject> IfcWallStandardCase::getDeepCopy( BuildingCopyOptions& options )
@@ -45,7 +44,7 @@ shared_ptr<BuildingObject> IfcWallStandardCase::getDeepCopy( BuildingCopyOptions
 	shared_ptr<IfcWallStandardCase> copy_self( new IfcWallStandardCase() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )

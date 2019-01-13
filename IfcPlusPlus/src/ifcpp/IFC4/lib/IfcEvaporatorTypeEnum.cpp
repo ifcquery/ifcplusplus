@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcEvaporatorTypeEnum.h"
 
 // TYPE IfcEvaporatorTypeEnum = ENUMERATION OF	(DIRECTEXPANSION	,DIRECTEXPANSIONSHELLANDTUBE	,DIRECTEXPANSIONTUBEINTUBE	,DIRECTEXPANSIONBRAZEDPLATE	,FLOODEDSHELLANDTUBE	,SHELLANDCOIL	,USERDEFINED	,NOTDEFINED);
-IfcEvaporatorTypeEnum::IfcEvaporatorTypeEnum() {}
 IfcEvaporatorTypeEnum::~IfcEvaporatorTypeEnum() {}
 shared_ptr<BuildingObject> IfcEvaporatorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -52,7 +51,7 @@ const std::wstring IfcEvaporatorTypeEnum::toString() const
 shared_ptr<IfcEvaporatorTypeEnum> IfcEvaporatorTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEvaporatorTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEvaporatorTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEvaporatorTypeEnum>(); }
 	shared_ptr<IfcEvaporatorTypeEnum> type_object( new IfcEvaporatorTypeEnum() );
 	if( boost::iequals( arg, L".DIRECTEXPANSION." ) )
 	{

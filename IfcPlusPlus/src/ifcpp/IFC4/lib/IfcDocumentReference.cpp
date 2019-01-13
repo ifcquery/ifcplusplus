@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // ENTITY IfcDocumentReference 
-IfcDocumentReference::IfcDocumentReference() {}
 IfcDocumentReference::IfcDocumentReference( int id ) { m_entity_id = id; }
 IfcDocumentReference::~IfcDocumentReference() {}
 shared_ptr<BuildingObject> IfcDocumentReference::getDeepCopy( BuildingCopyOptions& options )
@@ -59,23 +58,23 @@ void IfcDocumentReference::readStepArguments( const std::vector<std::wstring>& a
 void IfcDocumentReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcExternalReference::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "ReferencedDocument", m_ReferencedDocument ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "ReferencedDocument", m_ReferencedDocument ) );
 }
 void IfcDocumentReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcExternalReference::getAttributesInverse( vec_attributes_inverse );
-	if( m_DocumentRefForObjects_inverse.size() > 0 )
+	if( !m_DocumentRefForObjects_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> DocumentRefForObjects_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_DocumentRefForObjects_inverse.size(); ++i )
 		{
 			if( !m_DocumentRefForObjects_inverse[i].expired() )
 			{
-				DocumentRefForObjects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesDocument>( m_DocumentRefForObjects_inverse[i] ) );
+				DocumentRefForObjects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssociatesDocument>( m_DocumentRefForObjects_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "DocumentRefForObjects_inverse", DocumentRefForObjects_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "DocumentRefForObjects_inverse", DocumentRefForObjects_inverse_vec_obj ) );
 	}
 }
 void IfcDocumentReference::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
@@ -85,7 +84,7 @@ void IfcDocumentReference::setInverseCounterparts( shared_ptr<BuildingEntity> pt
 	if( !ptr_self ) { throw BuildingException( "IfcDocumentReference::setInverseCounterparts: type mismatch" ); }
 	if( m_ReferencedDocument )
 	{
-		m_ReferencedDocument->m_HasDocumentReferences_inverse.push_back( ptr_self );
+		m_ReferencedDocument->m_HasDocumentReferences_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcDocumentReference::unlinkFromInverseCounterparts()

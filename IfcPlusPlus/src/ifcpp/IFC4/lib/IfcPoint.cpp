@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPoint 
-IfcPoint::IfcPoint() {}
 IfcPoint::IfcPoint( int id ) { m_entity_id = id; }
 IfcPoint::~IfcPoint() {}
 shared_ptr<BuildingObject> IfcPoint::getDeepCopy( BuildingCopyOptions& options )

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcVirtualGridIntersection : virtual public IfcGridPlacementDirectionSelect, public BuildingEntity
 { 
 public:
-	IfcVirtualGridIntersection();
+	IfcVirtualGridIntersection() = default;
 	IfcVirtualGridIntersection( int id );
 	~IfcVirtualGridIntersection();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

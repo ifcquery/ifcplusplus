@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcColumnTypeEnum();
+	IfcColumnTypeEnum() = default;
 	IfcColumnTypeEnum( IfcColumnTypeEnumEnum e ) { m_enum = e; }
 	~IfcColumnTypeEnum();
 	virtual const char* className() const { return "IfcColumnTypeEnum"; }

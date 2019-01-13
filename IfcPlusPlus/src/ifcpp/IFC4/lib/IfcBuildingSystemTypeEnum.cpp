@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcBuildingSystemTypeEnum.h"
 
 // TYPE IfcBuildingSystemTypeEnum = ENUMERATION OF	(FENESTRATION	,FOUNDATION	,LOADBEARING	,OUTERSHELL	,SHADING	,TRANSPORT	,USERDEFINED	,NOTDEFINED);
-IfcBuildingSystemTypeEnum::IfcBuildingSystemTypeEnum() {}
 IfcBuildingSystemTypeEnum::~IfcBuildingSystemTypeEnum() {}
 shared_ptr<BuildingObject> IfcBuildingSystemTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -52,7 +51,7 @@ const std::wstring IfcBuildingSystemTypeEnum::toString() const
 shared_ptr<IfcBuildingSystemTypeEnum> IfcBuildingSystemTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBuildingSystemTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBuildingSystemTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBuildingSystemTypeEnum>(); }
 	shared_ptr<IfcBuildingSystemTypeEnum> type_object( new IfcBuildingSystemTypeEnum() );
 	if( boost::iequals( arg, L".FENESTRATION." ) )
 	{

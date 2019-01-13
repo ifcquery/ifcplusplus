@@ -11,7 +11,7 @@
 class IFCQUERY_EXPORT IfcConnectionGeometry : public BuildingEntity
 { 
 public:
-	IfcConnectionGeometry();
+	IfcConnectionGeometry() = default;
 	IfcConnectionGeometry( int id );
 	~IfcConnectionGeometry();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

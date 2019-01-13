@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcSurfaceFeatureTypeEnum;
 class IFCQUERY_EXPORT IfcSurfaceFeature : public IfcFeatureElement
 { 
 public:
-	IfcSurfaceFeature();
+	IfcSurfaceFeature() = default;
 	IfcSurfaceFeature( int id );
 	~IfcSurfaceFeature();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

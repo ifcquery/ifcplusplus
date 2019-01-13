@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcUnit.h"
 
 // ENTITY IfcIrregularTimeSeries 
-IfcIrregularTimeSeries::IfcIrregularTimeSeries() {}
 IfcIrregularTimeSeries::IfcIrregularTimeSeries( int id ) { m_entity_id = id; }
 IfcIrregularTimeSeries::~IfcIrregularTimeSeries() {}
 shared_ptr<BuildingObject> IfcIrregularTimeSeries::getDeepCopy( BuildingCopyOptions& options )
@@ -37,7 +36,7 @@ shared_ptr<BuildingObject> IfcIrregularTimeSeries::getDeepCopy( BuildingCopyOpti
 		auto item_ii = m_Values[ii];
 		if( item_ii )
 		{
-			copy_self->m_Values.push_back( dynamic_pointer_cast<IfcIrregularTimeSeriesValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Values.emplace_back( dynamic_pointer_cast<IfcIrregularTimeSeriesValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -83,11 +82,11 @@ void IfcIrregularTimeSeries::readStepArguments( const std::vector<std::wstring>&
 void IfcIrregularTimeSeries::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTimeSeries::getAttributes( vec_attributes );
-	if( m_Values.size() > 0 )
+	if( !m_Values.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Values_vec_object( new AttributeObjectVector() );
 		std::copy( m_Values.begin(), m_Values.end(), std::back_inserter( Values_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Values", Values_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Values", Values_vec_object ) );
 	}
 }
 void IfcIrregularTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

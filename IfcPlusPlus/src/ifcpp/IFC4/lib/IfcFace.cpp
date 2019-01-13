@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcTextureMap.h"
 
 // ENTITY IfcFace 
-IfcFace::IfcFace() {}
 IfcFace::IfcFace( int id ) { m_entity_id = id; }
 IfcFace::~IfcFace() {}
 shared_ptr<BuildingObject> IfcFace::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcFace::getDeepCopy( BuildingCopyOptions& options )
 		auto item_ii = m_Bounds[ii];
 		if( item_ii )
 		{
-			copy_self->m_Bounds.push_back( dynamic_pointer_cast<IfcFaceBound>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Bounds.emplace_back( dynamic_pointer_cast<IfcFaceBound>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -47,27 +46,27 @@ void IfcFace::readStepArguments( const std::vector<std::wstring>& args, const st
 void IfcFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
-	if( m_Bounds.size() > 0 )
+	if( !m_Bounds.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Bounds_vec_object( new AttributeObjectVector() );
 		std::copy( m_Bounds.begin(), m_Bounds.end(), std::back_inserter( Bounds_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Bounds", Bounds_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Bounds", Bounds_vec_object ) );
 	}
 }
 void IfcFace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcTopologicalRepresentationItem::getAttributesInverse( vec_attributes_inverse );
-	if( m_HasTextureMaps_inverse.size() > 0 )
+	if( !m_HasTextureMaps_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasTextureMaps_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasTextureMaps_inverse.size(); ++i )
 		{
 			if( !m_HasTextureMaps_inverse[i].expired() )
 			{
-				HasTextureMaps_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcTextureMap>( m_HasTextureMaps_inverse[i] ) );
+				HasTextureMaps_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcTextureMap>( m_HasTextureMaps_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasTextureMaps_inverse", HasTextureMaps_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasTextureMaps_inverse", HasTextureMaps_inverse_vec_obj ) );
 	}
 }
 void IfcFace::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

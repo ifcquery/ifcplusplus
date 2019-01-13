@@ -19,7 +19,6 @@
 #include "ifcpp/IFC4/include/IfcTypeObject.h"
 
 // ENTITY IfcQuantitySet 
-IfcQuantitySet::IfcQuantitySet() {}
 IfcQuantitySet::IfcQuantitySet( int id ) { m_entity_id = id; }
 IfcQuantitySet::~IfcQuantitySet() {}
 shared_ptr<BuildingObject> IfcQuantitySet::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcQuantitySet::getDeepCopy( BuildingCopyOptions& opt
 	shared_ptr<IfcQuantitySet> copy_self( new IfcQuantitySet() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )

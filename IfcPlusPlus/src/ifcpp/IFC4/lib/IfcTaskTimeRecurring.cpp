@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcTaskTimeRecurring.h"
 
 // ENTITY IfcTaskTimeRecurring 
-IfcTaskTimeRecurring::IfcTaskTimeRecurring() {}
 IfcTaskTimeRecurring::IfcTaskTimeRecurring( int id ) { m_entity_id = id; }
 IfcTaskTimeRecurring::~IfcTaskTimeRecurring() {}
 shared_ptr<BuildingObject> IfcTaskTimeRecurring::getDeepCopy( BuildingCopyOptions& options )
@@ -124,7 +123,7 @@ void IfcTaskTimeRecurring::readStepArguments( const std::vector<std::wstring>& a
 void IfcTaskTimeRecurring::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTaskTime::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Recurrence", m_Recurrence ) );
+	vec_attributes.emplace_back( std::make_pair( "Recurrence", m_Recurrence ) );
 }
 void IfcTaskTimeRecurring::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

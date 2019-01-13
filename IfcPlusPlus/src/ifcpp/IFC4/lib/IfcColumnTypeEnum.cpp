@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcColumnTypeEnum.h"
 
 // TYPE IfcColumnTypeEnum = ENUMERATION OF	(COLUMN	,PILASTER	,USERDEFINED	,NOTDEFINED);
-IfcColumnTypeEnum::IfcColumnTypeEnum() {}
 IfcColumnTypeEnum::~IfcColumnTypeEnum() {}
 shared_ptr<BuildingObject> IfcColumnTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -44,7 +43,7 @@ const std::wstring IfcColumnTypeEnum::toString() const
 shared_ptr<IfcColumnTypeEnum> IfcColumnTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcColumnTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcColumnTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcColumnTypeEnum>(); }
 	shared_ptr<IfcColumnTypeEnum> type_object( new IfcColumnTypeEnum() );
 	if( boost::iequals( arg, L".COLUMN." ) )
 	{

@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcAbsorbedDoseMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcAbsorbedDoseMeasure();
+	IfcAbsorbedDoseMeasure() = default;
 	IfcAbsorbedDoseMeasure( double value );
 	~IfcAbsorbedDoseMeasure();
 	virtual const char* className() const { return "IfcAbsorbedDoseMeasure"; }

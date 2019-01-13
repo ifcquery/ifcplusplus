@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcDataOriginEnum.h"
 
 // TYPE IfcDataOriginEnum = ENUMERATION OF	(MEASURED	,PREDICTED	,SIMULATED	,USERDEFINED	,NOTDEFINED);
-IfcDataOriginEnum::IfcDataOriginEnum() {}
 IfcDataOriginEnum::~IfcDataOriginEnum() {}
 shared_ptr<BuildingObject> IfcDataOriginEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -46,7 +45,7 @@ const std::wstring IfcDataOriginEnum::toString() const
 shared_ptr<IfcDataOriginEnum> IfcDataOriginEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDataOriginEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDataOriginEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDataOriginEnum>(); }
 	shared_ptr<IfcDataOriginEnum> type_object( new IfcDataOriginEnum() );
 	if( boost::iequals( arg, L".MEASURED." ) )
 	{

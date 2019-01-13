@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcDiscreteAccessoryTypeEnum;
 class IFCQUERY_EXPORT IfcDiscreteAccessoryType : public IfcElementComponentType
 { 
 public:
-	IfcDiscreteAccessoryType();
+	IfcDiscreteAccessoryType() = default;
 	IfcDiscreteAccessoryType( int id );
 	~IfcDiscreteAccessoryType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

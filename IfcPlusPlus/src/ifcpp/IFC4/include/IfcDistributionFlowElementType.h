@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcDistributionFlowElementType : public IfcDistributionElementType
 { 
 public:
-	IfcDistributionFlowElementType();
+	IfcDistributionFlowElementType() = default;
 	IfcDistributionFlowElementType( int id );
 	~IfcDistributionFlowElementType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

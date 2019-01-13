@@ -39,7 +39,6 @@
 #include "ifcpp/IFC4/include/IfcWindowTypePartitioningEnum.h"
 
 // ENTITY IfcWindow 
-IfcWindow::IfcWindow() {}
 IfcWindow::IfcWindow( int id ) { m_entity_id = id; }
 IfcWindow::~IfcWindow() {}
 shared_ptr<BuildingObject> IfcWindow::getDeepCopy( BuildingCopyOptions& options )
@@ -47,7 +46,7 @@ shared_ptr<BuildingObject> IfcWindow::getDeepCopy( BuildingCopyOptions& options 
 	shared_ptr<IfcWindow> copy_self( new IfcWindow() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -121,11 +120,11 @@ void IfcWindow::readStepArguments( const std::vector<std::wstring>& args, const 
 void IfcWindow::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBuildingElement::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "OverallHeight", m_OverallHeight ) );
-	vec_attributes.push_back( std::make_pair( "OverallWidth", m_OverallWidth ) );
-	vec_attributes.push_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
-	vec_attributes.push_back( std::make_pair( "PartitioningType", m_PartitioningType ) );
-	vec_attributes.push_back( std::make_pair( "UserDefinedPartitioningType", m_UserDefinedPartitioningType ) );
+	vec_attributes.emplace_back( std::make_pair( "OverallHeight", m_OverallHeight ) );
+	vec_attributes.emplace_back( std::make_pair( "OverallWidth", m_OverallWidth ) );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
+	vec_attributes.emplace_back( std::make_pair( "PartitioningType", m_PartitioningType ) );
+	vec_attributes.emplace_back( std::make_pair( "UserDefinedPartitioningType", m_UserDefinedPartitioningType ) );
 }
 void IfcWindow::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

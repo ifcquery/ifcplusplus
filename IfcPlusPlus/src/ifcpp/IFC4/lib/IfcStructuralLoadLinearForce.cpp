@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStructuralLoadLinearForce.h"
 
 // ENTITY IfcStructuralLoadLinearForce 
-IfcStructuralLoadLinearForce::IfcStructuralLoadLinearForce() {}
 IfcStructuralLoadLinearForce::IfcStructuralLoadLinearForce( int id ) { m_entity_id = id; }
 IfcStructuralLoadLinearForce::~IfcStructuralLoadLinearForce() {}
 shared_ptr<BuildingObject> IfcStructuralLoadLinearForce::getDeepCopy( BuildingCopyOptions& options )
@@ -63,12 +62,12 @@ void IfcStructuralLoadLinearForce::readStepArguments( const std::vector<std::wst
 void IfcStructuralLoadLinearForce::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadStatic::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "LinearForceX", m_LinearForceX ) );
-	vec_attributes.push_back( std::make_pair( "LinearForceY", m_LinearForceY ) );
-	vec_attributes.push_back( std::make_pair( "LinearForceZ", m_LinearForceZ ) );
-	vec_attributes.push_back( std::make_pair( "LinearMomentX", m_LinearMomentX ) );
-	vec_attributes.push_back( std::make_pair( "LinearMomentY", m_LinearMomentY ) );
-	vec_attributes.push_back( std::make_pair( "LinearMomentZ", m_LinearMomentZ ) );
+	vec_attributes.emplace_back( std::make_pair( "LinearForceX", m_LinearForceX ) );
+	vec_attributes.emplace_back( std::make_pair( "LinearForceY", m_LinearForceY ) );
+	vec_attributes.emplace_back( std::make_pair( "LinearForceZ", m_LinearForceZ ) );
+	vec_attributes.emplace_back( std::make_pair( "LinearMomentX", m_LinearMomentX ) );
+	vec_attributes.emplace_back( std::make_pair( "LinearMomentY", m_LinearMomentY ) );
+	vec_attributes.emplace_back( std::make_pair( "LinearMomentZ", m_LinearMomentZ ) );
 }
 void IfcStructuralLoadLinearForce::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

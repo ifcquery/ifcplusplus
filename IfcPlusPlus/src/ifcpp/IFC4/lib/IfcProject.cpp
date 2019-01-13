@@ -22,7 +22,6 @@
 #include "ifcpp/IFC4/include/IfcUnitAssignment.h"
 
 // ENTITY IfcProject 
-IfcProject::IfcProject() {}
 IfcProject::IfcProject( int id ) { m_entity_id = id; }
 IfcProject::~IfcProject() {}
 shared_ptr<BuildingObject> IfcProject::getDeepCopy( BuildingCopyOptions& options )
@@ -30,7 +29,7 @@ shared_ptr<BuildingObject> IfcProject::getDeepCopy( BuildingCopyOptions& options
 	shared_ptr<IfcProject> copy_self( new IfcProject() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -48,7 +47,7 @@ shared_ptr<BuildingObject> IfcProject::getDeepCopy( BuildingCopyOptions& options
 		auto item_ii = m_RepresentationContexts[ii];
 		if( item_ii )
 		{
-			copy_self->m_RepresentationContexts.push_back( dynamic_pointer_cast<IfcRepresentationContext>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RepresentationContexts.emplace_back( dynamic_pointer_cast<IfcRepresentationContext>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_UnitsInContext ) { copy_self->m_UnitsInContext = dynamic_pointer_cast<IfcUnitAssignment>( m_UnitsInContext->getDeepCopy(options) ); }

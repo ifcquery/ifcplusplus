@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBSplineSurface 
-IfcBSplineSurface::IfcBSplineSurface() {}
 IfcBSplineSurface::IfcBSplineSurface( int id ) { m_entity_id = id; }
 IfcBSplineSurface::~IfcBSplineSurface() {}
 shared_ptr<BuildingObject> IfcBSplineSurface::getDeepCopy( BuildingCopyOptions& options )
@@ -34,7 +33,7 @@ shared_ptr<BuildingObject> IfcBSplineSurface::getDeepCopy( BuildingCopyOptions& 
 			shared_ptr<IfcCartesianPoint>& item_jj = vec_ii[jj];
 			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcCartesianPoint>( item_jj->getDeepCopy(options) ) );
+				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcCartesianPoint>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}
@@ -79,12 +78,12 @@ void IfcBSplineSurface::readStepArguments( const std::vector<std::wstring>& args
 void IfcBSplineSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedSurface::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "UDegree", m_UDegree ) );
-	vec_attributes.push_back( std::make_pair( "VDegree", m_VDegree ) );
-	vec_attributes.push_back( std::make_pair( "SurfaceForm", m_SurfaceForm ) );
-	vec_attributes.push_back( std::make_pair( "UClosed", m_UClosed ) );
-	vec_attributes.push_back( std::make_pair( "VClosed", m_VClosed ) );
-	vec_attributes.push_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
+	vec_attributes.emplace_back( std::make_pair( "UDegree", m_UDegree ) );
+	vec_attributes.emplace_back( std::make_pair( "VDegree", m_VDegree ) );
+	vec_attributes.emplace_back( std::make_pair( "SurfaceForm", m_SurfaceForm ) );
+	vec_attributes.emplace_back( std::make_pair( "UClosed", m_UClosed ) );
+	vec_attributes.emplace_back( std::make_pair( "VClosed", m_VClosed ) );
+	vec_attributes.emplace_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 }
 void IfcBSplineSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

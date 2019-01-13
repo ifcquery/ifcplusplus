@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcFurnishingElement : public IfcElement
 { 
 public:
-	IfcFurnishingElement();
+	IfcFurnishingElement() = default;
 	IfcFurnishingElement( int id );
 	~IfcFurnishingElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

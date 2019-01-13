@@ -16,7 +16,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcQuantityLength 
-IfcQuantityLength::IfcQuantityLength() {}
 IfcQuantityLength::IfcQuantityLength( int id ) { m_entity_id = id; }
 IfcQuantityLength::~IfcQuantityLength() {}
 shared_ptr<BuildingObject> IfcQuantityLength::getDeepCopy( BuildingCopyOptions& options )
@@ -58,8 +57,8 @@ void IfcQuantityLength::readStepArguments( const std::vector<std::wstring>& args
 void IfcQuantityLength::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPhysicalSimpleQuantity::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "LengthValue", m_LengthValue ) );
-	vec_attributes.push_back( std::make_pair( "Formula", m_Formula ) );
+	vec_attributes.emplace_back( std::make_pair( "LengthValue", m_LengthValue ) );
+	vec_attributes.emplace_back( std::make_pair( "Formula", m_Formula ) );
 }
 void IfcQuantityLength::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

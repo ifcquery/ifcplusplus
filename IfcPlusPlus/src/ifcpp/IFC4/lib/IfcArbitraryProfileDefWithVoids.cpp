@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcArbitraryProfileDefWithVoids 
-IfcArbitraryProfileDefWithVoids::IfcArbitraryProfileDefWithVoids() {}
 IfcArbitraryProfileDefWithVoids::IfcArbitraryProfileDefWithVoids( int id ) { m_entity_id = id; }
 IfcArbitraryProfileDefWithVoids::~IfcArbitraryProfileDefWithVoids() {}
 shared_ptr<BuildingObject> IfcArbitraryProfileDefWithVoids::getDeepCopy( BuildingCopyOptions& options )
@@ -29,7 +28,7 @@ shared_ptr<BuildingObject> IfcArbitraryProfileDefWithVoids::getDeepCopy( Buildin
 		auto item_ii = m_InnerCurves[ii];
 		if( item_ii )
 		{
-			copy_self->m_InnerCurves.push_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_InnerCurves.emplace_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -60,11 +59,11 @@ void IfcArbitraryProfileDefWithVoids::readStepArguments( const std::vector<std::
 void IfcArbitraryProfileDefWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcArbitraryClosedProfileDef::getAttributes( vec_attributes );
-	if( m_InnerCurves.size() > 0 )
+	if( !m_InnerCurves.empty() )
 	{
 		shared_ptr<AttributeObjectVector> InnerCurves_vec_object( new AttributeObjectVector() );
 		std::copy( m_InnerCurves.begin(), m_InnerCurves.end(), std::back_inserter( InnerCurves_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "InnerCurves", InnerCurves_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "InnerCurves", InnerCurves_vec_object ) );
 	}
 }
 void IfcArbitraryProfileDefWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

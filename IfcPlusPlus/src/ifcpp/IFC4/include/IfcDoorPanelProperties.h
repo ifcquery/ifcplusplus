@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcShapeAspect;
 class IFCQUERY_EXPORT IfcDoorPanelProperties : public IfcPreDefinedPropertySet
 { 
 public:
-	IfcDoorPanelProperties();
+	IfcDoorPanelProperties() = default;
 	IfcDoorPanelProperties( int id );
 	~IfcDoorPanelProperties();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

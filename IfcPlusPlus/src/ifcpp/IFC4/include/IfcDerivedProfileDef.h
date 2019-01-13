@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcDerivedProfileDef : public IfcProfileDef
 { 
 public:
-	IfcDerivedProfileDef();
+	IfcDerivedProfileDef() = default;
 	IfcDerivedProfileDef( int id );
 	~IfcDerivedProfileDef();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

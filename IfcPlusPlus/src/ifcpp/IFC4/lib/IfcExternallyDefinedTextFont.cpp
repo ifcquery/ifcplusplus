@@ -14,7 +14,6 @@
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // ENTITY IfcExternallyDefinedTextFont 
-IfcExternallyDefinedTextFont::IfcExternallyDefinedTextFont() {}
 IfcExternallyDefinedTextFont::IfcExternallyDefinedTextFont( int id ) { m_entity_id = id; }
 IfcExternallyDefinedTextFont::~IfcExternallyDefinedTextFont() {}
 shared_ptr<BuildingObject> IfcExternallyDefinedTextFont::getDeepCopy( BuildingCopyOptions& options )

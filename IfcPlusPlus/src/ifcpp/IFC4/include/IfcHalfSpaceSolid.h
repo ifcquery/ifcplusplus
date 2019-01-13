@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcHalfSpaceSolid : virtual public IfcBooleanOperand, public IfcGeometricRepresentationItem
 { 
 public:
-	IfcHalfSpaceSolid();
+	IfcHalfSpaceSolid() = default;
 	IfcHalfSpaceSolid( int id );
 	~IfcHalfSpaceSolid();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

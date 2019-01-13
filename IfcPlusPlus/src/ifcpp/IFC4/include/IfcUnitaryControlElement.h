@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcUnitaryControlElementTypeEnum;
 class IFCQUERY_EXPORT IfcUnitaryControlElement : public IfcDistributionControlElement
 { 
 public:
-	IfcUnitaryControlElement();
+	IfcUnitaryControlElement() = default;
 	IfcUnitaryControlElement( int id );
 	~IfcUnitaryControlElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

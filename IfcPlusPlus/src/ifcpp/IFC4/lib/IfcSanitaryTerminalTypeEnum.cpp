@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSanitaryTerminalTypeEnum.h"
 
 // TYPE IfcSanitaryTerminalTypeEnum = ENUMERATION OF	(BATH	,BIDET	,CISTERN	,SHOWER	,SINK	,SANITARYFOUNTAIN	,TOILETPAN	,URINAL	,WASHHANDBASIN	,WCSEAT	,USERDEFINED	,NOTDEFINED);
-IfcSanitaryTerminalTypeEnum::IfcSanitaryTerminalTypeEnum() {}
 IfcSanitaryTerminalTypeEnum::~IfcSanitaryTerminalTypeEnum() {}
 shared_ptr<BuildingObject> IfcSanitaryTerminalTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -60,7 +59,7 @@ const std::wstring IfcSanitaryTerminalTypeEnum::toString() const
 shared_ptr<IfcSanitaryTerminalTypeEnum> IfcSanitaryTerminalTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSanitaryTerminalTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSanitaryTerminalTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSanitaryTerminalTypeEnum>(); }
 	shared_ptr<IfcSanitaryTerminalTypeEnum> type_object( new IfcSanitaryTerminalTypeEnum() );
 	if( boost::iequals( arg, L".BATH." ) )
 	{

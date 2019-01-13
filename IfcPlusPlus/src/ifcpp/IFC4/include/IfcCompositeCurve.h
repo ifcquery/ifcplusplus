@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLogical;
 class IFCQUERY_EXPORT IfcCompositeCurve : public IfcBoundedCurve
 { 
 public:
-	IfcCompositeCurve();
+	IfcCompositeCurve() = default;
 	IfcCompositeCurve( int id );
 	~IfcCompositeCurve();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcAnnotationFillArea 
-IfcAnnotationFillArea::IfcAnnotationFillArea() {}
 IfcAnnotationFillArea::IfcAnnotationFillArea( int id ) { m_entity_id = id; }
 IfcAnnotationFillArea::~IfcAnnotationFillArea() {}
 shared_ptr<BuildingObject> IfcAnnotationFillArea::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcAnnotationFillArea::getDeepCopy( BuildingCopyOptio
 		auto item_ii = m_InnerBoundaries[ii];
 		if( item_ii )
 		{
-			copy_self->m_InnerBoundaries.push_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_InnerBoundaries.emplace_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -50,12 +49,12 @@ void IfcAnnotationFillArea::readStepArguments( const std::vector<std::wstring>& 
 void IfcAnnotationFillArea::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "OuterBoundary", m_OuterBoundary ) );
-	if( m_InnerBoundaries.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "OuterBoundary", m_OuterBoundary ) );
+	if( !m_InnerBoundaries.empty() )
 	{
 		shared_ptr<AttributeObjectVector> InnerBoundaries_vec_object( new AttributeObjectVector() );
 		std::copy( m_InnerBoundaries.begin(), m_InnerBoundaries.end(), std::back_inserter( InnerBoundaries_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "InnerBoundaries", InnerBoundaries_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "InnerBoundaries", InnerBoundaries_vec_object ) );
 	}
 }
 void IfcAnnotationFillArea::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

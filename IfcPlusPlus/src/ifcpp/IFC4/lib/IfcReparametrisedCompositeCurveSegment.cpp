@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcTransitionCode.h"
 
 // ENTITY IfcReparametrisedCompositeCurveSegment 
-IfcReparametrisedCompositeCurveSegment::IfcReparametrisedCompositeCurveSegment() {}
 IfcReparametrisedCompositeCurveSegment::IfcReparametrisedCompositeCurveSegment( int id ) { m_entity_id = id; }
 IfcReparametrisedCompositeCurveSegment::~IfcReparametrisedCompositeCurveSegment() {}
 shared_ptr<BuildingObject> IfcReparametrisedCompositeCurveSegment::getDeepCopy( BuildingCopyOptions& options )
@@ -55,7 +54,7 @@ void IfcReparametrisedCompositeCurveSegment::readStepArguments( const std::vecto
 void IfcReparametrisedCompositeCurveSegment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCompositeCurveSegment::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "ParamLength", m_ParamLength ) );
+	vec_attributes.emplace_back( std::make_pair( "ParamLength", m_ParamLength ) );
 }
 void IfcReparametrisedCompositeCurveSegment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

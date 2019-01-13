@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcRelAssociatesMaterial.h"
 
 // ENTITY IfcMaterialUsageDefinition 
-IfcMaterialUsageDefinition::IfcMaterialUsageDefinition() {}
 IfcMaterialUsageDefinition::IfcMaterialUsageDefinition( int id ) { m_entity_id = id; }
 IfcMaterialUsageDefinition::~IfcMaterialUsageDefinition() {}
 shared_ptr<BuildingObject> IfcMaterialUsageDefinition::getDeepCopy( BuildingCopyOptions& options )
@@ -34,17 +33,17 @@ void IfcMaterialUsageDefinition::getAttributes( std::vector<std::pair<std::strin
 }
 void IfcMaterialUsageDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_AssociatedTo_inverse.size() > 0 )
+	if( !m_AssociatedTo_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> AssociatedTo_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_AssociatedTo_inverse.size(); ++i )
 		{
 			if( !m_AssociatedTo_inverse[i].expired() )
 			{
-				AssociatedTo_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesMaterial>( m_AssociatedTo_inverse[i] ) );
+				AssociatedTo_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssociatesMaterial>( m_AssociatedTo_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "AssociatedTo_inverse", AssociatedTo_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "AssociatedTo_inverse", AssociatedTo_inverse_vec_obj ) );
 	}
 }
 void IfcMaterialUsageDefinition::setInverseCounterparts( shared_ptr<BuildingEntity> )

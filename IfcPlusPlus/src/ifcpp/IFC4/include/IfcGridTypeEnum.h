@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcGridTypeEnum();
+	IfcGridTypeEnum() = default;
 	IfcGridTypeEnum( IfcGridTypeEnumEnum e ) { m_enum = e; }
 	~IfcGridTypeEnum();
 	virtual const char* className() const { return "IfcGridTypeEnum"; }

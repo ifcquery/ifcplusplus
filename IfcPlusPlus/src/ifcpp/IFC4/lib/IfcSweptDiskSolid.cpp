@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcSweptDiskSolid.h"
 
 // ENTITY IfcSweptDiskSolid 
-IfcSweptDiskSolid::IfcSweptDiskSolid() {}
 IfcSweptDiskSolid::IfcSweptDiskSolid( int id ) { m_entity_id = id; }
 IfcSweptDiskSolid::~IfcSweptDiskSolid() {}
 shared_ptr<BuildingObject> IfcSweptDiskSolid::getDeepCopy( BuildingCopyOptions& options )
@@ -57,11 +56,11 @@ void IfcSweptDiskSolid::readStepArguments( const std::vector<std::wstring>& args
 void IfcSweptDiskSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSolidModel::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "Directrix", m_Directrix ) );
-	vec_attributes.push_back( std::make_pair( "Radius", m_Radius ) );
-	vec_attributes.push_back( std::make_pair( "InnerRadius", m_InnerRadius ) );
-	vec_attributes.push_back( std::make_pair( "StartParam", m_StartParam ) );
-	vec_attributes.push_back( std::make_pair( "EndParam", m_EndParam ) );
+	vec_attributes.emplace_back( std::make_pair( "Directrix", m_Directrix ) );
+	vec_attributes.emplace_back( std::make_pair( "Radius", m_Radius ) );
+	vec_attributes.emplace_back( std::make_pair( "InnerRadius", m_InnerRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "StartParam", m_StartParam ) );
+	vec_attributes.emplace_back( std::make_pair( "EndParam", m_EndParam ) );
 }
 void IfcSweptDiskSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

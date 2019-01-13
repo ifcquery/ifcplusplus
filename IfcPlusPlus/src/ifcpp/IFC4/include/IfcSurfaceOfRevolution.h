@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcAxis1Placement;
 class IFCQUERY_EXPORT IfcSurfaceOfRevolution : public IfcSweptSurface
 { 
 public:
-	IfcSurfaceOfRevolution();
+	IfcSurfaceOfRevolution() = default;
 	IfcSurfaceOfRevolution( int id );
 	~IfcSurfaceOfRevolution();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

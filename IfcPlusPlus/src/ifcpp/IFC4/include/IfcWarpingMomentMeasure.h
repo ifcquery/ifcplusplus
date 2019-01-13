@@ -15,7 +15,7 @@
 class IFCQUERY_EXPORT IfcWarpingMomentMeasure : public IfcDerivedMeasureValue, public IfcWarpingStiffnessSelect
 {
 public:
-	IfcWarpingMomentMeasure();
+	IfcWarpingMomentMeasure() = default;
 	IfcWarpingMomentMeasure( double value );
 	~IfcWarpingMomentMeasure();
 	virtual const char* className() const { return "IfcWarpingMomentMeasure"; }

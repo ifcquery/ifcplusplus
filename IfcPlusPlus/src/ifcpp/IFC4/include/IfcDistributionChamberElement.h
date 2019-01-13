@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcDistributionChamberElementTypeEnum;
 class IFCQUERY_EXPORT IfcDistributionChamberElement : public IfcDistributionFlowElement
 { 
 public:
-	IfcDistributionChamberElement();
+	IfcDistributionChamberElement() = default;
 	IfcDistributionChamberElement( int id );
 	~IfcDistributionChamberElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

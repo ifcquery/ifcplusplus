@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // TYPE IfcLabel = STRING(255);
-IfcLabel::IfcLabel() {}
 IfcLabel::IfcLabel( std::wstring value ) { m_value = value; }
 IfcLabel::~IfcLabel() {}
 shared_ptr<BuildingObject> IfcLabel::getDeepCopy( BuildingCopyOptions& options )
@@ -33,7 +32,7 @@ const std::wstring IfcLabel::toString() const
 shared_ptr<IfcLabel> IfcLabel::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLabel>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLabel>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLabel>(); }
 	shared_ptr<IfcLabel> type_object( new IfcLabel() );
 	readString( arg, type_object->m_value );
 	return type_object;

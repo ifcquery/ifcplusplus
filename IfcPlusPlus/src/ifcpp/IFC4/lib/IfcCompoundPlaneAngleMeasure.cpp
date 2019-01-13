@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcCompoundPlaneAngleMeasure.h"
 
 // TYPE IfcCompoundPlaneAngleMeasure = LIST [3:4] OF INTEGER;
-IfcCompoundPlaneAngleMeasure::IfcCompoundPlaneAngleMeasure() {}
 IfcCompoundPlaneAngleMeasure::~IfcCompoundPlaneAngleMeasure() {}
 shared_ptr<BuildingObject> IfcCompoundPlaneAngleMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -19,7 +18,7 @@ shared_ptr<BuildingObject> IfcCompoundPlaneAngleMeasure::getDeepCopy( BuildingCo
 	for( size_t ii=0; ii<m_vec.size(); ++ii )
 	{
 		int item_ii = m_vec[ii];
-		copy_self->m_vec.push_back( item_ii );
+		copy_self->m_vec.emplace_back( item_ii );
 	}
 	return copy_self;
 }
@@ -37,7 +36,7 @@ const std::wstring IfcCompoundPlaneAngleMeasure::toString() const
 shared_ptr<IfcCompoundPlaneAngleMeasure> IfcCompoundPlaneAngleMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCompoundPlaneAngleMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCompoundPlaneAngleMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCompoundPlaneAngleMeasure>(); }
 	shared_ptr<IfcCompoundPlaneAngleMeasure> type_object( new IfcCompoundPlaneAngleMeasure() );
 	readIntegerList( arg, type_object->m_vec );
 	return type_object;

@@ -113,6 +113,190 @@ namespace GeomDebugDump
 		strs_out << std::endl << "}" << std::endl;  // faces
 		strs_out << std::endl << "}" << std::endl;  // Polyhedron
 	}
+	
+	inline int findVertexIndex(const std::vector<carve::mesh::Vertex<3> >& vec_vertices, const carve::mesh::Vertex<3>* v)
+	{
+		for( size_t iiv = 0; iiv < vec_vertices.size(); ++iiv )
+		{
+			const carve::mesh::Vertex<3>& vertex = vec_vertices[iiv];
+			if( v == &vertex )
+			{
+				return iiv;
+			}
+		}
+		return -1;
+	}
+	
+	inline void MeshSet2Stream(const carve::mesh::MeshSet<3>* meshset, const vec3& offset, const carve::geom::vector<4>& color, std::stringstream& strs_out)
+	{
+		strs_out << "Polyhedron{" << std::endl;
+		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
+
+
+
+
+		{
+
+			std::stringstream strs_vertices;
+			std::stringstream str_faces;
+			double scale_length_factor = 1.0;
+			if( meshset )
+			{
+				// vertices of the meshset:
+				size_t vertex_count = 0;
+				size_t face_count = 0;
+				const std::vector<carve::mesh::Vertex<3> >& vec_vertices = meshset->vertex_storage;
+
+				for( size_t iiv = 0; iiv < vec_vertices.size(); ++iiv )
+				{
+					const carve::mesh::Vertex<3>& vertex = vec_vertices[iiv];
+					if( vertex_count > 0 )
+					{
+						strs_vertices << ",   ";
+					}
+
+					strs_vertices << "{" << std::endl;
+					strs_vertices << vertex.v.x*scale_length_factor << "," << vertex.v.y*scale_length_factor << "," << vertex.v.z*scale_length_factor;
+					strs_vertices << "}" << std::endl;
+					++vertex_count;
+				}
+
+				const std::vector<carve::mesh::Mesh<3>* >& vec_meshes = meshset->meshes;
+				for( size_t i_mesh = 0; i_mesh < vec_meshes.size(); ++i_mesh )
+				{
+					const carve::mesh::Mesh<3>* mesh = vec_meshes[i_mesh];
+
+					if( mesh )
+					{
+						// faces:
+						const std::vector<carve::mesh::Face<3>* >& vec_faces = mesh->faces;
+						for( size_t i_face = 0; i_face < vec_faces.size(); ++i_face )
+						{
+							const carve::mesh::Face<3>* face = vec_faces[i_face];
+							if( face )
+							{
+								int number_of_edges = face->n_edges;
+
+								if( number_of_edges == 3 )
+								{
+									if( face_count > 0 )
+									{
+										str_faces << ",   ";
+									}
+									carve::mesh::Edge<3>* edge0 = face->edge;
+									carve::mesh::Edge<3>* edge1 = edge0->next;
+									carve::mesh::Edge<3>* edge2 = edge1->next;
+									carve::mesh::Vertex<3>* v0 = edge0->vert;
+									carve::mesh::Vertex<3>* v1 = edge1->vert;
+									carve::mesh::Vertex<3>* v2 = edge2->vert;
+									int v0index = findVertexIndex(vec_vertices, v0);
+									int v1index = findVertexIndex(vec_vertices, v1);
+									int v2index = findVertexIndex(vec_vertices, v2);
+
+									if( v0index < 0 || v1index < 0 || v2index < 0 )
+									{
+										std::cout << "vertex not found " << std::endl;
+										continue;
+									}
+									str_faces << "{" << std::endl;
+									str_faces << v0index << "," << v1index << "," << v2index;// << ", " << normal0 << "," << normal1 << "," << normal2;
+									str_faces << "}" << std::endl;
+									++face_count;
+								}
+								else
+								{
+									std::cout << "exporting only triangles " << std::endl;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			strs_out << "vertices{" << strs_vertices.str().c_str() << "}" << std::endl;
+			strs_out << "faces{" << str_faces.str().c_str() << "}" << std::endl;
+
+
+		}
+
+
+		/*
+		strs_out << "vertices{" << std::endl;
+		const size_t num_vertices = poly->vertex_storage.size();
+		for( size_t i = 0; i < num_vertices; ++i )
+		{
+			carve::mesh::Vertex<3> vertex = poly->vertex_storage[i];
+			if( i > 0 )
+			{
+				strs_out << ",";
+			}
+			strs_out << "{" << vertex.v.x + offset.x << ", " << vertex.v.y + offset.y << ", " << vertex.v.z + offset.z << "}";
+		}
+		strs_out << "}" << std::endl;
+
+		strs_out << "faces{" << std::endl;
+		for( size_t ii = 0; ii < poly->faces.size(); ++ii )
+		{
+			carve::poly::Face<3> f = poly->faces[ii];
+			if( ii > 0 )
+			{
+				strs_out << ",";
+			}
+			strs_out << "{";
+
+			std::vector<const carve::poly::Vertex<3> *>::const_iterator vertices_begin = f.vbegin();
+			std::vector<const carve::poly::Vertex<3> *>::const_iterator vertices_end = f.vend();
+			for( auto it_vert = vertices_begin; it_vert != vertices_end; ++it_vert )
+			{
+				const carve::poly::Vertex<3>* vert = *it_vert;
+
+				if( it_vert != vertices_begin )
+				{
+					strs_out << ", ";
+				}
+				ptrdiff_t ptr_diff = poly->vertexToIndex(vert);
+				strs_out << ptr_diff;
+
+#ifdef _DEBUG
+				int vert_index = -1;
+
+				for( size_t i_find_vert = 0; i_find_vert < num_vertices; ++i_find_vert )
+				{
+					const carve::poly::Vertex<3>& vertex_ref = (poly->vertices[i_find_vert]);
+					const carve::poly::Vertex<3>* vertex_ptr = &vertex_ref;
+					if( vertex_ptr == vert )
+					{
+						vert_index = i_find_vert;
+						break;
+					}
+				}
+
+				if( vert_index != ptr_diff )
+				{
+					std::cout << "vert_index != ptr_diff" << std::endl;
+				}
+#endif
+			}
+			////const_vertex_iter_t vbegin() const { return vertices.begin(); }
+			////const_vertex_iter_t vend() const { return vertices.end(); }
+
+			////f.getVertexLoop() vertices;
+			//for( size_t jj = 0; jj < f.nVertices(); ++jj )
+			//{
+			//	if( jj > 0 )
+			//	{
+			//		strs_out << ", ";
+			//	}
+			//	ptrdiff_t ptr_diff = poly->vertexToIndex( f.vertex( jj ) );
+			//	strs_out << ptr_diff;
+			//}
+			strs_out << "}" << std::endl;
+		}
+		strs_out << std::endl << "}" << std::endl;  // faces
+		*/
+
+		strs_out << std::endl << "}" << std::endl;  // Polyhedron
+	}
 
 	inline void dumpMeshsets( const std::vector<carve::mesh::MeshSet<3>* >& vec_meshsets, const vec3& offset, const std::vector<carve::geom::vector<4> >& vec_colors, bool append )
 	{
@@ -125,8 +309,9 @@ namespace GeomDebugDump
 			{
 				color = vec_colors[i];
 			}
-			shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset, -1 ) );
-			Polyhedron2Stream( poly.get(), offset, color, strs_out );
+			//shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset, -1 ) );
+			//Polyhedron2Stream( poly.get(), offset, color, strs_out );
+			MeshSet2Stream(meshset, offset, color, strs_out);
 		}
 
 		if( !append )
@@ -152,6 +337,20 @@ namespace GeomDebugDump
 		dump_ofstream << strs_out.str().c_str();
 		dump_ofstream.close();
 	}
+	inline void dumpMeshSet(const carve::mesh::MeshSet<3>* poly, const vec3& offset, const carve::geom::vector<4>& color, bool append)
+	{
+		std::stringstream strs_out;
+		MeshSet2Stream(poly, offset, color, strs_out);
+
+		if( !append )
+		{
+			clearMeshsetDump();
+		}
+
+		std::ofstream dump_ofstream("dump_mesh_debug.txt", std::ofstream::app);
+		dump_ofstream << strs_out.str().c_str();
+		dump_ofstream.close();
+	}
 	
 	inline void dumpPolyhedronInput( const carve::input::PolyhedronData& poly_input, const vec3& offset, const carve::geom::vector<4>& color, bool append )
 	{
@@ -171,8 +370,9 @@ namespace GeomDebugDump
 		//GeomUtils::applyTranslate( meshset, carve::geom::VECTOR( 0, dump_y_pos_geom, 0 ) );
 		vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
 
-		shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset.get(), -1 ) );
-		dumpPolyhedron( poly.get(), offset, color, append );
+		
+		//shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset.get(), -1 ) );
+		dumpMeshSet( meshset.get(), offset, color, append );
 
 		if( move_offset )
 		{

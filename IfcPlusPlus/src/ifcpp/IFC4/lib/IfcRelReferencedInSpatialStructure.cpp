@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelReferencedInSpatialStructure 
-IfcRelReferencedInSpatialStructure::IfcRelReferencedInSpatialStructure() {}
 IfcRelReferencedInSpatialStructure::IfcRelReferencedInSpatialStructure( int id ) { m_entity_id = id; }
 IfcRelReferencedInSpatialStructure::~IfcRelReferencedInSpatialStructure() {}
 shared_ptr<BuildingObject> IfcRelReferencedInSpatialStructure::getDeepCopy( BuildingCopyOptions& options )
@@ -25,7 +24,7 @@ shared_ptr<BuildingObject> IfcRelReferencedInSpatialStructure::getDeepCopy( Buil
 	shared_ptr<IfcRelReferencedInSpatialStructure> copy_self( new IfcRelReferencedInSpatialStructure() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -40,7 +39,7 @@ shared_ptr<BuildingObject> IfcRelReferencedInSpatialStructure::getDeepCopy( Buil
 		auto item_ii = m_RelatedElements[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedElements.push_back( dynamic_pointer_cast<IfcProduct>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedElements.emplace_back( dynamic_pointer_cast<IfcProduct>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatingStructure ) { copy_self->m_RelatingStructure = dynamic_pointer_cast<IfcSpatialElement>( m_RelatingStructure->getDeepCopy(options) ); }
@@ -78,13 +77,13 @@ void IfcRelReferencedInSpatialStructure::readStepArguments( const std::vector<st
 void IfcRelReferencedInSpatialStructure::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRelConnects::getAttributes( vec_attributes );
-	if( m_RelatedElements.size() > 0 )
+	if( !m_RelatedElements.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedElements_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedElements.begin(), m_RelatedElements.end(), std::back_inserter( RelatedElements_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "RelatedElements", RelatedElements_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "RelatedElements", RelatedElements_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "RelatingStructure", m_RelatingStructure ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingStructure", m_RelatingStructure ) );
 }
 void IfcRelReferencedInSpatialStructure::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -100,12 +99,12 @@ void IfcRelReferencedInSpatialStructure::setInverseCounterparts( shared_ptr<Buil
 		shared_ptr<IfcElement>  RelatedElements_IfcElement = dynamic_pointer_cast<IfcElement>( m_RelatedElements[i] );
 		if( RelatedElements_IfcElement )
 		{
-			RelatedElements_IfcElement->m_ReferencedInStructures_inverse.push_back( ptr_self );
+			RelatedElements_IfcElement->m_ReferencedInStructures_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingStructure )
 	{
-		m_RelatingStructure->m_ReferencesElements_inverse.push_back( ptr_self );
+		m_RelatingStructure->m_ReferencesElements_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelReferencedInSpatialStructure::unlinkFromInverseCounterparts()

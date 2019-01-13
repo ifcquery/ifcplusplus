@@ -19,7 +19,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcApproval 
-IfcApproval::IfcApproval() {}
 IfcApproval::IfcApproval( int id ) { m_entity_id = id; }
 IfcApproval::~IfcApproval() {}
 shared_ptr<BuildingObject> IfcApproval::getDeepCopy( BuildingCopyOptions& options )
@@ -76,77 +75,77 @@ void IfcApproval::readStepArguments( const std::vector<std::wstring>& args, cons
 }
 void IfcApproval::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Identifier", m_Identifier ) );
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	vec_attributes.push_back( std::make_pair( "TimeOfApproval", m_TimeOfApproval ) );
-	vec_attributes.push_back( std::make_pair( "Status", m_Status ) );
-	vec_attributes.push_back( std::make_pair( "Level", m_Level ) );
-	vec_attributes.push_back( std::make_pair( "Qualifier", m_Qualifier ) );
-	vec_attributes.push_back( std::make_pair( "RequestingApproval", m_RequestingApproval ) );
-	vec_attributes.push_back( std::make_pair( "GivingApproval", m_GivingApproval ) );
+	vec_attributes.emplace_back( std::make_pair( "Identifier", m_Identifier ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "TimeOfApproval", m_TimeOfApproval ) );
+	vec_attributes.emplace_back( std::make_pair( "Status", m_Status ) );
+	vec_attributes.emplace_back( std::make_pair( "Level", m_Level ) );
+	vec_attributes.emplace_back( std::make_pair( "Qualifier", m_Qualifier ) );
+	vec_attributes.emplace_back( std::make_pair( "RequestingApproval", m_RequestingApproval ) );
+	vec_attributes.emplace_back( std::make_pair( "GivingApproval", m_GivingApproval ) );
 }
 void IfcApproval::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_HasExternalReferences_inverse.size() > 0 )
+	if( !m_HasExternalReferences_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasExternalReferences_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
 		{
 			if( !m_HasExternalReferences_inverse[i].expired() )
 			{
-				HasExternalReferences_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) );
+				HasExternalReferences_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj ) );
 	}
-	if( m_ApprovedObjects_inverse.size() > 0 )
+	if( !m_ApprovedObjects_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ApprovedObjects_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ApprovedObjects_inverse.size(); ++i )
 		{
 			if( !m_ApprovedObjects_inverse[i].expired() )
 			{
-				ApprovedObjects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcRelAssociatesApproval>( m_ApprovedObjects_inverse[i] ) );
+				ApprovedObjects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssociatesApproval>( m_ApprovedObjects_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ApprovedObjects_inverse", ApprovedObjects_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ApprovedObjects_inverse", ApprovedObjects_inverse_vec_obj ) );
 	}
-	if( m_ApprovedResources_inverse.size() > 0 )
+	if( !m_ApprovedResources_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ApprovedResources_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_ApprovedResources_inverse.size(); ++i )
 		{
 			if( !m_ApprovedResources_inverse[i].expired() )
 			{
-				ApprovedResources_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcResourceApprovalRelationship>( m_ApprovedResources_inverse[i] ) );
+				ApprovedResources_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcResourceApprovalRelationship>( m_ApprovedResources_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "ApprovedResources_inverse", ApprovedResources_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "ApprovedResources_inverse", ApprovedResources_inverse_vec_obj ) );
 	}
-	if( m_IsRelatedWith_inverse.size() > 0 )
+	if( !m_IsRelatedWith_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> IsRelatedWith_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_IsRelatedWith_inverse.size(); ++i )
 		{
 			if( !m_IsRelatedWith_inverse[i].expired() )
 			{
-				IsRelatedWith_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcApprovalRelationship>( m_IsRelatedWith_inverse[i] ) );
+				IsRelatedWith_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcApprovalRelationship>( m_IsRelatedWith_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "IsRelatedWith_inverse", IsRelatedWith_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "IsRelatedWith_inverse", IsRelatedWith_inverse_vec_obj ) );
 	}
-	if( m_Relates_inverse.size() > 0 )
+	if( !m_Relates_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Relates_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_Relates_inverse.size(); ++i )
 		{
 			if( !m_Relates_inverse[i].expired() )
 			{
-				Relates_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcApprovalRelationship>( m_Relates_inverse[i] ) );
+				Relates_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcApprovalRelationship>( m_Relates_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "Relates_inverse", Relates_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "Relates_inverse", Relates_inverse_vec_obj ) );
 	}
 }
 void IfcApproval::setInverseCounterparts( shared_ptr<BuildingEntity> )

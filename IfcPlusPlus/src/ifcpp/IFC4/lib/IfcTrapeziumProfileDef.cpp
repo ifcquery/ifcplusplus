@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcTrapeziumProfileDef.h"
 
 // ENTITY IfcTrapeziumProfileDef 
-IfcTrapeziumProfileDef::IfcTrapeziumProfileDef() {}
 IfcTrapeziumProfileDef::IfcTrapeziumProfileDef( int id ) { m_entity_id = id; }
 IfcTrapeziumProfileDef::~IfcTrapeziumProfileDef() {}
 shared_ptr<BuildingObject> IfcTrapeziumProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -67,10 +66,10 @@ void IfcTrapeziumProfileDef::readStepArguments( const std::vector<std::wstring>&
 void IfcTrapeziumProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "BottomXDim", m_BottomXDim ) );
-	vec_attributes.push_back( std::make_pair( "TopXDim", m_TopXDim ) );
-	vec_attributes.push_back( std::make_pair( "YDim", m_YDim ) );
-	vec_attributes.push_back( std::make_pair( "TopXOffset", m_TopXOffset ) );
+	vec_attributes.emplace_back( std::make_pair( "BottomXDim", m_BottomXDim ) );
+	vec_attributes.emplace_back( std::make_pair( "TopXDim", m_TopXDim ) );
+	vec_attributes.emplace_back( std::make_pair( "YDim", m_YDim ) );
+	vec_attributes.emplace_back( std::make_pair( "TopXOffset", m_TopXOffset ) );
 }
 void IfcTrapeziumProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

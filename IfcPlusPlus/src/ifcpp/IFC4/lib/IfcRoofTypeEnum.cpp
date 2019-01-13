@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcRoofTypeEnum.h"
 
 // TYPE IfcRoofTypeEnum = ENUMERATION OF	(FLAT_ROOF	,SHED_ROOF	,GABLE_ROOF	,HIP_ROOF	,HIPPED_GABLE_ROOF	,GAMBREL_ROOF	,MANSARD_ROOF	,BARREL_ROOF	,RAINBOW_ROOF	,BUTTERFLY_ROOF	,PAVILION_ROOF	,DOME_ROOF	,FREEFORM	,USERDEFINED	,NOTDEFINED);
-IfcRoofTypeEnum::IfcRoofTypeEnum() {}
 IfcRoofTypeEnum::~IfcRoofTypeEnum() {}
 shared_ptr<BuildingObject> IfcRoofTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -66,7 +65,7 @@ const std::wstring IfcRoofTypeEnum::toString() const
 shared_ptr<IfcRoofTypeEnum> IfcRoofTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRoofTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRoofTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRoofTypeEnum>(); }
 	shared_ptr<IfcRoofTypeEnum> type_object( new IfcRoofTypeEnum() );
 	if( boost::iequals( arg, L".FLAT_ROOF." ) )
 	{

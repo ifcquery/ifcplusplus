@@ -19,7 +19,7 @@ public:
 		ENUM_TAPERED
 	};
 
-	IfcSectionTypeEnum();
+	IfcSectionTypeEnum() = default;
 	IfcSectionTypeEnum( IfcSectionTypeEnumEnum e ) { m_enum = e; }
 	~IfcSectionTypeEnum();
 	virtual const char* className() const { return "IfcSectionTypeEnum"; }

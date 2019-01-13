@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcProductRepresentation 
-IfcProductRepresentation::IfcProductRepresentation() {}
 IfcProductRepresentation::IfcProductRepresentation( int id ) { m_entity_id = id; }
 IfcProductRepresentation::~IfcProductRepresentation() {}
 shared_ptr<BuildingObject> IfcProductRepresentation::getDeepCopy( BuildingCopyOptions& options )
@@ -26,7 +25,7 @@ shared_ptr<BuildingObject> IfcProductRepresentation::getDeepCopy( BuildingCopyOp
 		auto item_ii = m_Representations[ii];
 		if( item_ii )
 		{
-			copy_self->m_Representations.push_back( dynamic_pointer_cast<IfcRepresentation>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Representations.emplace_back( dynamic_pointer_cast<IfcRepresentation>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -53,13 +52,13 @@ void IfcProductRepresentation::readStepArguments( const std::vector<std::wstring
 }
 void IfcProductRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
-	if( m_Representations.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	if( !m_Representations.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Representations_vec_object( new AttributeObjectVector() );
 		std::copy( m_Representations.begin(), m_Representations.end(), std::back_inserter( Representations_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "Representations", Representations_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "Representations", Representations_vec_object ) );
 	}
 }
 void IfcProductRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -73,7 +72,7 @@ void IfcProductRepresentation::setInverseCounterparts( shared_ptr<BuildingEntity
 	{
 		if( m_Representations[i] )
 		{
-			m_Representations[i]->m_OfProductRepresentation_inverse.push_back( ptr_self );
+			m_Representations[i]->m_OfProductRepresentation_inverse.emplace_back( ptr_self );
 		}
 	}
 }

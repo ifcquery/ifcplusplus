@@ -17,7 +17,6 @@
 #include "ifcpp/IFC4/include/IfcTopologyRepresentation.h"
 
 // ENTITY IfcTopologyRepresentation 
-IfcTopologyRepresentation::IfcTopologyRepresentation() {}
 IfcTopologyRepresentation::IfcTopologyRepresentation( int id ) { m_entity_id = id; }
 IfcTopologyRepresentation::~IfcTopologyRepresentation() {}
 shared_ptr<BuildingObject> IfcTopologyRepresentation::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ shared_ptr<BuildingObject> IfcTopologyRepresentation::getDeepCopy( BuildingCopyO
 		auto item_ii = m_Items[ii];
 		if( item_ii )
 		{
-			copy_self->m_Items.push_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Items.emplace_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;

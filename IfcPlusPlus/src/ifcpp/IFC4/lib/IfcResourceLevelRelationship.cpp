@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcResourceLevelRelationship 
-IfcResourceLevelRelationship::IfcResourceLevelRelationship() {}
 IfcResourceLevelRelationship::IfcResourceLevelRelationship( int id ) { m_entity_id = id; }
 IfcResourceLevelRelationship::~IfcResourceLevelRelationship() {}
 shared_ptr<BuildingObject> IfcResourceLevelRelationship::getDeepCopy( BuildingCopyOptions& options )
@@ -41,8 +40,8 @@ void IfcResourceLevelRelationship::readStepArguments( const std::vector<std::wst
 }
 void IfcResourceLevelRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "Name", m_Name ) );
-	vec_attributes.push_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
 }
 void IfcResourceLevelRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

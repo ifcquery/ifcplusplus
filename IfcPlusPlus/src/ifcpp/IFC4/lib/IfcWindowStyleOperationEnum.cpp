@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcWindowStyleOperationEnum.h"
 
 // TYPE IfcWindowStyleOperationEnum = ENUMERATION OF	(SINGLE_PANEL	,DOUBLE_PANEL_VERTICAL	,DOUBLE_PANEL_HORIZONTAL	,TRIPLE_PANEL_VERTICAL	,TRIPLE_PANEL_BOTTOM	,TRIPLE_PANEL_TOP	,TRIPLE_PANEL_LEFT	,TRIPLE_PANEL_RIGHT	,TRIPLE_PANEL_HORIZONTAL	,USERDEFINED	,NOTDEFINED);
-IfcWindowStyleOperationEnum::IfcWindowStyleOperationEnum() {}
 IfcWindowStyleOperationEnum::~IfcWindowStyleOperationEnum() {}
 shared_ptr<BuildingObject> IfcWindowStyleOperationEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -58,7 +57,7 @@ const std::wstring IfcWindowStyleOperationEnum::toString() const
 shared_ptr<IfcWindowStyleOperationEnum> IfcWindowStyleOperationEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowStyleOperationEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowStyleOperationEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowStyleOperationEnum>(); }
 	shared_ptr<IfcWindowStyleOperationEnum> type_object( new IfcWindowStyleOperationEnum() );
 	if( boost::iequals( arg, L".SINGLE_PANEL." ) )
 	{

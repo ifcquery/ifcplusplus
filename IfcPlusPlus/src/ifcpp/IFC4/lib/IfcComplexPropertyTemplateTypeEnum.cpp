@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcComplexPropertyTemplateTypeEnum.h"
 
 // TYPE IfcComplexPropertyTemplateTypeEnum = ENUMERATION OF	(P_COMPLEX	,Q_COMPLEX);
-IfcComplexPropertyTemplateTypeEnum::IfcComplexPropertyTemplateTypeEnum() {}
 IfcComplexPropertyTemplateTypeEnum::~IfcComplexPropertyTemplateTypeEnum() {}
 shared_ptr<BuildingObject> IfcComplexPropertyTemplateTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -40,7 +39,7 @@ const std::wstring IfcComplexPropertyTemplateTypeEnum::toString() const
 shared_ptr<IfcComplexPropertyTemplateTypeEnum> IfcComplexPropertyTemplateTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcComplexPropertyTemplateTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcComplexPropertyTemplateTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcComplexPropertyTemplateTypeEnum>(); }
 	shared_ptr<IfcComplexPropertyTemplateTypeEnum> type_object( new IfcComplexPropertyTemplateTypeEnum() );
 	if( boost::iequals( arg, L".P_COMPLEX." ) )
 	{

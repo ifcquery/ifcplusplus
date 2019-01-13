@@ -15,7 +15,6 @@
 #include "ifcpp/IFC4/include/IfcVirtualGridIntersection.h"
 
 // ENTITY IfcGridAxis 
-IfcGridAxis::IfcGridAxis() {}
 IfcGridAxis::IfcGridAxis( int id ) { m_entity_id = id; }
 IfcGridAxis::~IfcGridAxis() {}
 shared_ptr<BuildingObject> IfcGridAxis::getDeepCopy( BuildingCopyOptions& options )
@@ -48,59 +47,59 @@ void IfcGridAxis::readStepArguments( const std::vector<std::wstring>& args, cons
 }
 void IfcGridAxis::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "AxisTag", m_AxisTag ) );
-	vec_attributes.push_back( std::make_pair( "AxisCurve", m_AxisCurve ) );
-	vec_attributes.push_back( std::make_pair( "SameSense", m_SameSense ) );
+	vec_attributes.emplace_back( std::make_pair( "AxisTag", m_AxisTag ) );
+	vec_attributes.emplace_back( std::make_pair( "AxisCurve", m_AxisCurve ) );
+	vec_attributes.emplace_back( std::make_pair( "SameSense", m_SameSense ) );
 }
 void IfcGridAxis::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( m_PartOfW_inverse.size() > 0 )
+	if( !m_PartOfW_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PartOfW_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PartOfW_inverse.size(); ++i )
 		{
 			if( !m_PartOfW_inverse[i].expired() )
 			{
-				PartOfW_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcGrid>( m_PartOfW_inverse[i] ) );
+				PartOfW_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcGrid>( m_PartOfW_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "PartOfW_inverse", PartOfW_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "PartOfW_inverse", PartOfW_inverse_vec_obj ) );
 	}
-	if( m_PartOfV_inverse.size() > 0 )
+	if( !m_PartOfV_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PartOfV_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PartOfV_inverse.size(); ++i )
 		{
 			if( !m_PartOfV_inverse[i].expired() )
 			{
-				PartOfV_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcGrid>( m_PartOfV_inverse[i] ) );
+				PartOfV_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcGrid>( m_PartOfV_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "PartOfV_inverse", PartOfV_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "PartOfV_inverse", PartOfV_inverse_vec_obj ) );
 	}
-	if( m_PartOfU_inverse.size() > 0 )
+	if( !m_PartOfU_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PartOfU_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_PartOfU_inverse.size(); ++i )
 		{
 			if( !m_PartOfU_inverse[i].expired() )
 			{
-				PartOfU_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcGrid>( m_PartOfU_inverse[i] ) );
+				PartOfU_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcGrid>( m_PartOfU_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "PartOfU_inverse", PartOfU_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "PartOfU_inverse", PartOfU_inverse_vec_obj ) );
 	}
-	if( m_HasIntersections_inverse.size() > 0 )
+	if( !m_HasIntersections_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasIntersections_inverse_vec_obj( new AttributeObjectVector() );
 		for( size_t i=0; i<m_HasIntersections_inverse.size(); ++i )
 		{
 			if( !m_HasIntersections_inverse[i].expired() )
 			{
-				HasIntersections_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcVirtualGridIntersection>( m_HasIntersections_inverse[i] ) );
+				HasIntersections_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcVirtualGridIntersection>( m_HasIntersections_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.push_back( std::make_pair( "HasIntersections_inverse", HasIntersections_inverse_vec_obj ) );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasIntersections_inverse", HasIntersections_inverse_vec_obj ) );
 	}
 }
 void IfcGridAxis::setInverseCounterparts( shared_ptr<BuildingEntity> )

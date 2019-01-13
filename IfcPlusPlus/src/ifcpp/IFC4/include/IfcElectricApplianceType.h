@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcElectricApplianceTypeEnum;
 class IFCQUERY_EXPORT IfcElectricApplianceType : public IfcFlowTerminalType
 { 
 public:
-	IfcElectricApplianceType();
+	IfcElectricApplianceType() = default;
 	IfcElectricApplianceType( int id );
 	~IfcElectricApplianceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

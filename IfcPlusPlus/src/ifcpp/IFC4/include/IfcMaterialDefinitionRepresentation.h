@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcMaterial;
 class IFCQUERY_EXPORT IfcMaterialDefinitionRepresentation : public IfcProductRepresentation
 { 
 public:
-	IfcMaterialDefinitionRepresentation();
+	IfcMaterialDefinitionRepresentation() = default;
 	IfcMaterialDefinitionRepresentation( int id );
 	~IfcMaterialDefinitionRepresentation();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

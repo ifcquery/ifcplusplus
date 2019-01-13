@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcReinforcingMeshTypeEnum;
 class IFCQUERY_EXPORT IfcReinforcingMesh : public IfcReinforcingElement
 { 
 public:
-	IfcReinforcingMesh();
+	IfcReinforcingMesh() = default;
 	IfcReinforcingMesh( int id );
 	~IfcReinforcingMesh();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

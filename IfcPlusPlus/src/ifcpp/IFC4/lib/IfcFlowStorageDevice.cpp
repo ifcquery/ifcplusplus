@@ -38,7 +38,6 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcFlowStorageDevice 
-IfcFlowStorageDevice::IfcFlowStorageDevice() {}
 IfcFlowStorageDevice::IfcFlowStorageDevice( int id ) { m_entity_id = id; }
 IfcFlowStorageDevice::~IfcFlowStorageDevice() {}
 shared_ptr<BuildingObject> IfcFlowStorageDevice::getDeepCopy( BuildingCopyOptions& options )
@@ -46,7 +45,7 @@ shared_ptr<BuildingObject> IfcFlowStorageDevice::getDeepCopy( BuildingCopyOption
 	shared_ptr<IfcFlowStorageDevice> copy_self( new IfcFlowStorageDevice() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId( createBase64Uuid<wchar_t>().data() ) ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )

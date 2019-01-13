@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcReal;
 class IFCQUERY_EXPORT IfcDirection : virtual public IfcGridPlacementDirectionSelect, virtual public IfcVectorOrDirection, public IfcGeometricRepresentationItem
 { 
 public:
-	IfcDirection();
+	IfcDirection() = default;
 	IfcDirection( int id );
 	~IfcDirection();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

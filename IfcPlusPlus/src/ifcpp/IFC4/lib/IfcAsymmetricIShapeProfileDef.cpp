@@ -18,7 +18,6 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcAsymmetricIShapeProfileDef 
-IfcAsymmetricIShapeProfileDef::IfcAsymmetricIShapeProfileDef() {}
 IfcAsymmetricIShapeProfileDef::IfcAsymmetricIShapeProfileDef( int id ) { m_entity_id = id; }
 IfcAsymmetricIShapeProfileDef::~IfcAsymmetricIShapeProfileDef() {}
 shared_ptr<BuildingObject> IfcAsymmetricIShapeProfileDef::getDeepCopy( BuildingCopyOptions& options )
@@ -100,18 +99,18 @@ void IfcAsymmetricIShapeProfileDef::readStepArguments( const std::vector<std::ws
 void IfcAsymmetricIShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
-	vec_attributes.push_back( std::make_pair( "BottomFlangeWidth", m_BottomFlangeWidth ) );
-	vec_attributes.push_back( std::make_pair( "OverallDepth", m_OverallDepth ) );
-	vec_attributes.push_back( std::make_pair( "WebThickness", m_WebThickness ) );
-	vec_attributes.push_back( std::make_pair( "BottomFlangeThickness", m_BottomFlangeThickness ) );
-	vec_attributes.push_back( std::make_pair( "BottomFlangeFilletRadius", m_BottomFlangeFilletRadius ) );
-	vec_attributes.push_back( std::make_pair( "TopFlangeWidth", m_TopFlangeWidth ) );
-	vec_attributes.push_back( std::make_pair( "TopFlangeThickness", m_TopFlangeThickness ) );
-	vec_attributes.push_back( std::make_pair( "TopFlangeFilletRadius", m_TopFlangeFilletRadius ) );
-	vec_attributes.push_back( std::make_pair( "BottomFlangeEdgeRadius", m_BottomFlangeEdgeRadius ) );
-	vec_attributes.push_back( std::make_pair( "BottomFlangeSlope", m_BottomFlangeSlope ) );
-	vec_attributes.push_back( std::make_pair( "TopFlangeEdgeRadius", m_TopFlangeEdgeRadius ) );
-	vec_attributes.push_back( std::make_pair( "TopFlangeSlope", m_TopFlangeSlope ) );
+	vec_attributes.emplace_back( std::make_pair( "BottomFlangeWidth", m_BottomFlangeWidth ) );
+	vec_attributes.emplace_back( std::make_pair( "OverallDepth", m_OverallDepth ) );
+	vec_attributes.emplace_back( std::make_pair( "WebThickness", m_WebThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "BottomFlangeThickness", m_BottomFlangeThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "BottomFlangeFilletRadius", m_BottomFlangeFilletRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "TopFlangeWidth", m_TopFlangeWidth ) );
+	vec_attributes.emplace_back( std::make_pair( "TopFlangeThickness", m_TopFlangeThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "TopFlangeFilletRadius", m_TopFlangeFilletRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "BottomFlangeEdgeRadius", m_BottomFlangeEdgeRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "BottomFlangeSlope", m_BottomFlangeSlope ) );
+	vec_attributes.emplace_back( std::make_pair( "TopFlangeEdgeRadius", m_TopFlangeEdgeRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "TopFlangeSlope", m_TopFlangeSlope ) );
 }
 void IfcAsymmetricIShapeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

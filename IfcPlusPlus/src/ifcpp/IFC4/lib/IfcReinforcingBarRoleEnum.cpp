@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcReinforcingBarRoleEnum.h"
 
 // TYPE IfcReinforcingBarRoleEnum = ENUMERATION OF	(MAIN	,SHEAR	,LIGATURE	,STUD	,PUNCHING	,EDGE	,RING	,ANCHORING	,USERDEFINED	,NOTDEFINED);
-IfcReinforcingBarRoleEnum::IfcReinforcingBarRoleEnum() {}
 IfcReinforcingBarRoleEnum::~IfcReinforcingBarRoleEnum() {}
 shared_ptr<BuildingObject> IfcReinforcingBarRoleEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -56,7 +55,7 @@ const std::wstring IfcReinforcingBarRoleEnum::toString() const
 shared_ptr<IfcReinforcingBarRoleEnum> IfcReinforcingBarRoleEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReinforcingBarRoleEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReinforcingBarRoleEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReinforcingBarRoleEnum>(); }
 	shared_ptr<IfcReinforcingBarRoleEnum> type_object( new IfcReinforcingBarRoleEnum() );
 	if( boost::iequals( arg, L".MAIN." ) )
 	{

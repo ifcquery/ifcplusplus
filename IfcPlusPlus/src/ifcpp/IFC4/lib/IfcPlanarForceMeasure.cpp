@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcPlanarForceMeasure.h"
 
 // TYPE IfcPlanarForceMeasure = REAL;
-IfcPlanarForceMeasure::IfcPlanarForceMeasure() {}
 IfcPlanarForceMeasure::IfcPlanarForceMeasure( double value ) { m_value = value; }
 IfcPlanarForceMeasure::~IfcPlanarForceMeasure() {}
 shared_ptr<BuildingObject> IfcPlanarForceMeasure::getDeepCopy( BuildingCopyOptions& options )
@@ -35,7 +34,7 @@ const std::wstring IfcPlanarForceMeasure::toString() const
 shared_ptr<IfcPlanarForceMeasure> IfcPlanarForceMeasure::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPlanarForceMeasure>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPlanarForceMeasure>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPlanarForceMeasure>(); }
 	shared_ptr<IfcPlanarForceMeasure> type_object( new IfcPlanarForceMeasure() );
 	readReal( arg, type_object->m_value );
 	return type_object;

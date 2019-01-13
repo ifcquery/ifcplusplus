@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcElement;
 class IFCQUERY_EXPORT IfcRelConnectsElements : public IfcRelConnects
 { 
 public:
-	IfcRelConnectsElements();
+	IfcRelConnectsElements() = default;
 	IfcRelConnectsElements( int id );
 	~IfcRelConnectsElements();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

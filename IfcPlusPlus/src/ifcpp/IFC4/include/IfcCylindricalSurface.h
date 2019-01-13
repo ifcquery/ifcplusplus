@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcCylindricalSurface : public IfcElementarySurface
 { 
 public:
-	IfcCylindricalSurface();
+	IfcCylindricalSurface() = default;
 	IfcCylindricalSurface( int id );
 	~IfcCylindricalSurface();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

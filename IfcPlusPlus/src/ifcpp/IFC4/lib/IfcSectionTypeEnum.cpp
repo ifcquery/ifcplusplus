@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSectionTypeEnum.h"
 
 // TYPE IfcSectionTypeEnum = ENUMERATION OF	(UNIFORM	,TAPERED);
-IfcSectionTypeEnum::IfcSectionTypeEnum() {}
 IfcSectionTypeEnum::~IfcSectionTypeEnum() {}
 shared_ptr<BuildingObject> IfcSectionTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -40,7 +39,7 @@ const std::wstring IfcSectionTypeEnum::toString() const
 shared_ptr<IfcSectionTypeEnum> IfcSectionTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSectionTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSectionTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSectionTypeEnum>(); }
 	shared_ptr<IfcSectionTypeEnum> type_object( new IfcSectionTypeEnum() );
 	if( boost::iequals( arg, L".UNIFORM." ) )
 	{

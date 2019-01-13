@@ -13,7 +13,6 @@
 #include "ifcpp/IFC4/include/IfcReference.h"
 
 // ENTITY IfcReference 
-IfcReference::IfcReference() {}
 IfcReference::IfcReference( int id ) { m_entity_id = id; }
 IfcReference::~IfcReference() {}
 shared_ptr<BuildingObject> IfcReference::getDeepCopy( BuildingCopyOptions& options )
@@ -27,7 +26,7 @@ shared_ptr<BuildingObject> IfcReference::getDeepCopy( BuildingCopyOptions& optio
 		auto item_ii = m_ListPositions[ii];
 		if( item_ii )
 		{
-			copy_self->m_ListPositions.push_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_ListPositions.emplace_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_InnerReference ) { copy_self->m_InnerReference = dynamic_pointer_cast<IfcReference>( m_InnerReference->getDeepCopy(options) ); }
@@ -61,16 +60,16 @@ void IfcReference::readStepArguments( const std::vector<std::wstring>& args, con
 }
 void IfcReference::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.push_back( std::make_pair( "TypeIdentifier", m_TypeIdentifier ) );
-	vec_attributes.push_back( std::make_pair( "AttributeIdentifier", m_AttributeIdentifier ) );
-	vec_attributes.push_back( std::make_pair( "InstanceName", m_InstanceName ) );
-	if( m_ListPositions.size() > 0 )
+	vec_attributes.emplace_back( std::make_pair( "TypeIdentifier", m_TypeIdentifier ) );
+	vec_attributes.emplace_back( std::make_pair( "AttributeIdentifier", m_AttributeIdentifier ) );
+	vec_attributes.emplace_back( std::make_pair( "InstanceName", m_InstanceName ) );
+	if( !m_ListPositions.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ListPositions_vec_object( new AttributeObjectVector() );
 		std::copy( m_ListPositions.begin(), m_ListPositions.end(), std::back_inserter( ListPositions_vec_object->m_vec ) );
-		vec_attributes.push_back( std::make_pair( "ListPositions", ListPositions_vec_object ) );
+		vec_attributes.emplace_back( std::make_pair( "ListPositions", ListPositions_vec_object ) );
 	}
-	vec_attributes.push_back( std::make_pair( "InnerReference", m_InnerReference ) );
+	vec_attributes.emplace_back( std::make_pair( "InnerReference", m_InnerReference ) );
 }
 void IfcReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

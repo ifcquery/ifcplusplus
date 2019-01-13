@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcSlabTypeEnum;
 class IFCQUERY_EXPORT IfcSlab : public IfcBuildingElement
 { 
 public:
-	IfcSlab();
+	IfcSlab() = default;
 	IfcSlab( int id );
 	~IfcSlab();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

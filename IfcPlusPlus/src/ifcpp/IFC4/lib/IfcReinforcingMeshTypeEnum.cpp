@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcReinforcingMeshTypeEnum.h"
 
 // TYPE IfcReinforcingMeshTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-IfcReinforcingMeshTypeEnum::IfcReinforcingMeshTypeEnum() {}
 IfcReinforcingMeshTypeEnum::~IfcReinforcingMeshTypeEnum() {}
 shared_ptr<BuildingObject> IfcReinforcingMeshTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
@@ -40,7 +39,7 @@ const std::wstring IfcReinforcingMeshTypeEnum::toString() const
 shared_ptr<IfcReinforcingMeshTypeEnum> IfcReinforcingMeshTypeEnum::createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReinforcingMeshTypeEnum>(); }
-	else if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReinforcingMeshTypeEnum>(); }
+	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReinforcingMeshTypeEnum>(); }
 	shared_ptr<IfcReinforcingMeshTypeEnum> type_object( new IfcReinforcingMeshTypeEnum() );
 	if( boost::iequals( arg, L".USERDEFINED." ) )
 	{

@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcTendonAnchorTypeEnum();
+	IfcTendonAnchorTypeEnum() = default;
 	IfcTendonAnchorTypeEnum( IfcTendonAnchorTypeEnumEnum e ) { m_enum = e; }
 	~IfcTendonAnchorTypeEnum();
 	virtual const char* className() const { return "IfcTendonAnchorTypeEnum"; }

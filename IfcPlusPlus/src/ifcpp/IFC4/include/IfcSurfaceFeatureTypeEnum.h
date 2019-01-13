@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcSurfaceFeatureTypeEnum();
+	IfcSurfaceFeatureTypeEnum() = default;
 	IfcSurfaceFeatureTypeEnum( IfcSurfaceFeatureTypeEnumEnum e ) { m_enum = e; }
 	~IfcSurfaceFeatureTypeEnum();
 	virtual const char* className() const { return "IfcSurfaceFeatureTypeEnum"; }
