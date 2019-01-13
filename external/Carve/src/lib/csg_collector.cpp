@@ -119,8 +119,10 @@ class BaseCollector : public CSG::Collector {
     std::list<ClassificationInfo>& cinfo = (grp->classification);
 
     if (cinfo.size() == 0) {
+#if defined(CARVE_DEBUG)
       std::cerr << "WARNING! group " << grp << " has no classification info!"
                 << std::endl;
+#endif
       return;
     }
 
@@ -183,7 +185,9 @@ class BaseCollector : public CSG::Collector {
   out:
 
     if (fc == FACE_UNCLASSIFIED) {
+#if defined(CARVE_DEBUG) && defined(DEBUG_PRINT_RESULT_FACES)
       std::cerr << "group " << grp << " is unclassified!" << std::endl;
+#endif
 
 #if defined(CARVE_DEBUG_WRITE_PLY_DATA)
       static int uc_count = 0;
