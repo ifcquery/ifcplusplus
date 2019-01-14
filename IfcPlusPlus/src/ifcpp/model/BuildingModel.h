@@ -33,7 +33,7 @@ class IFCQUERY_EXPORT BuildingModel : public StatusCallback
 {
 public:
 	BuildingModel();
-	virtual ~BuildingModel();
+	~BuildingModel() override;
 	
 	enum QueryVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4 };
 	class SchemaVersion
@@ -45,19 +45,17 @@ public:
 				m_ifc_file_schema_enum = BuildingModel::IFC4;
 			}
 			SchemaVersion(std::wstring schema_str, QueryVersionEnum schema_enum)
-				: m_IFC_FILE_SCHEMA(schema_str.c_str()), m_ifc_file_schema_enum(schema_enum)
+				: m_IFC_FILE_SCHEMA(schema_str), m_ifc_file_schema_enum(schema_enum)
 			{
 			}
-			~SchemaVersion()
-			{
-			}
+			~SchemaVersion() = default;
 			std::wstring		m_IFC_FILE_SCHEMA;
 			QueryVersionEnum	m_ifc_file_schema_enum;
 	};
 	
 	const std::map<int, shared_ptr<BuildingEntity> >& getMapIfcEntities() const { return m_map_entities; }
 	void setMapIfcEntities( const std::map<int, shared_ptr<BuildingEntity> >& map );
-	void insertEntity( shared_ptr<BuildingEntity> e, bool overwrite_existing = false, bool warn_on_existing_objects = true );
+	void insertEntity( shared_ptr<BuildingEntity> e, bool overwrite_existing = false, bool warn_on_existing_entities = true );
 	void removeEntity( shared_ptr<BuildingEntity> e );
 	void removeEntity( int entity_id );
 	void removeUnreferencedEntities();

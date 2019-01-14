@@ -22,7 +22,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 class IFCQUERY_EXPORT WriterSTEP : public AbstractWriter
 {
 public:
-	WriterSTEP();
-	~WriterSTEP();
+	WriterSTEP() = default;
+	~WriterSTEP() = default;
 	virtual void writeModelToStream( std::stringstream& stream, shared_ptr<BuildingModel> model );
 };

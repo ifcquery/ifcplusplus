@@ -21,9 +21,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ifcpp/model/BuildingModel.h"
 #include "ReaderXML.h"
 
-ReaderXML::ReaderXML() {}
-ReaderXML::~ReaderXML(){}
-
 void ReaderXML::removeComments( std::string& buffer )
 {
 	// not implemented

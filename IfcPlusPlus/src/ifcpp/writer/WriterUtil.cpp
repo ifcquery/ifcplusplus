@@ -27,7 +27,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 std::string encodeStepString( const std::wstring& str )
 {
-	wchar_t* stream_pos = (wchar_t*)str.c_str();
+	wchar_t* stream_pos = const_cast<wchar_t*>(str.c_str());
 	std::string result_str;
 	std::string beginUnicodeTag = "\\X2\\";
 	std::string endUnicodeTag = "\\X0\\";
@@ -64,11 +64,11 @@ std::string encodeStepString( const std::wstring& str )
 				hasOpenedUnicodeTag = false;
 			}
 
-			result_str.push_back( (char)append_char );
+			result_str.push_back( static_cast<char>(append_char) );
 		}
 		else
 		{
-			int value = (int)(append_char);
+			int value = static_cast<int>(append_char);
 			wchar_t temporary[8];
 			swprintf( temporary, 5, L"%04X", value );
 

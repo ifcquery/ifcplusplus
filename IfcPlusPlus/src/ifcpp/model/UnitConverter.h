@@ -31,7 +31,7 @@ class UnitConverter : public StatusCallback
 public:
 	enum AngularUnit { UNDEFINED, RADIANT, DEGREE, GON, CONVERSION_BASED };
 	UnitConverter();
-	virtual ~UnitConverter();
+	~UnitConverter() override = default;
 	void setIfcProject( shared_ptr<IfcProject> project);
 	void setLengthInMeterFactor( double factor )
 	{

@@ -35,7 +35,7 @@ public:
 	BuildingException( std::string reason, const char* function_name )
 	{
 		m_reason_str.append(function_name);
-		if( reason.size() > 0 )
+		if( !reason.empty() )
 		{
 			m_reason_str.append( ": " );
 			m_reason_str.append( reason );
@@ -50,7 +50,7 @@ public:
 	BuildingException(std::wstring reason, const char* function_name)
 	{
 		m_reason_str.append(function_name);
-		if( reason.size() > 0 )
+		if( !reason.empty() )
 		{
 			m_reason_str.append( ": " );
 			std::string reason_str;
@@ -59,12 +59,9 @@ public:
 		}
 	}
 
-	~BuildingException() throw()
-	{
+	~BuildingException() noexcept override = default;
 
-	}
-
-	virtual const char* what() const throw()
+	const char* what() const noexcept override
 	{
 		return m_reason_str.c_str();
 	}
@@ -86,11 +83,9 @@ public:
 		m_reason_str.append( function_name );
 	}
 
-	~OutOfMemoryException() throw()
-	{
-	}
+	~OutOfMemoryException() noexcept override = default;
 
-	virtual const char* what() const throw()
+	const char* what() const noexcept override
 	{
 		return m_reason_str.c_str();
 	}

@@ -25,20 +25,20 @@ class IFCQUERY_EXPORT ReaderSTEP : public AbstractReader
 {
 public:
 	ReaderSTEP();
-	~ReaderSTEP();
-	virtual void removeComments( std::string& buffer );
-	virtual void readHeader(	const std::string& in, shared_ptr<BuildingModel>& target_model );
-	virtual void readData( std::string& in, const BuildingModel::SchemaVersion& ifc_version, std::map<int, shared_ptr<BuildingEntity> >& map );
-	virtual void readData( std::string& in, shared_ptr<BuildingModel>& model );
+	~ReaderSTEP() override;
+	void removeComments( std::string& buffer ) override;
+	void readHeader(	const std::string& in, shared_ptr<BuildingModel>& target_model ) override;
+	void readData( std::string& in, const BuildingModel::SchemaVersion& ifc_version, std::map<int, shared_ptr<BuildingEntity> >& map ) override;
+	void readData( std::string& in, shared_ptr<BuildingModel>& model ) override;
 	
 	/*\brief Opens the given file, reads the content, and puts the entities into target_model.
 	  \param[in] file_path Absolute path of the file to read.
 	**/
-	virtual void loadModelFromFile( const std::wstring& file_path, shared_ptr<BuildingModel>& target_model );
-	virtual void loadModelFromString( std::string& content, shared_ptr<BuildingModel>& target_model );
+	virtual void loadModelFromFile( const std::wstring& filePath, shared_ptr<BuildingModel>& targetModel );
+	virtual void loadModelFromString( std::string& content, shared_ptr<BuildingModel>& targetModel );
 
-	void splitIntoStepLines(	const std::string& read_in, std::vector<std::string>& step_lines );
+	void splitIntoStepLines(	const std::string& read_in, std::vector<std::string>& target_vec );
 	void readSingleStepLine(	const std::string& line, std::pair<std::string, shared_ptr<BuildingEntity> >& target_read_object );
-	void readStepLines(			const std::vector<std::string>& step_lines, std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_target_entity );
+	void readStepLines(			const std::vector<std::string>& step_lines, std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& target_entity_vec );
 	void readEntityArguments(	const BuildingModel::SchemaVersion& ifc_version, const std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities, const std::map<int, shared_ptr<BuildingEntity> >& map );
 };
