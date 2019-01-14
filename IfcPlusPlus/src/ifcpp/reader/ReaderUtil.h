@@ -56,7 +56,7 @@ void readStringList( const std::wstring& str, std::vector<std::wstring>& vec );
 
 IFCQUERY_EXPORT void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::string>& entity_arguments );
 IFCQUERY_EXPORT void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std::wstring>& entity_arguments );
-void tokenizeInlineArgument(const std::wstring input, std::wstring& keyword, std::wstring& inner_argument);
+void tokenizeInlineArgument(std::wstring arg, std::wstring& keyword, std::wstring& inline_arg);
 void tokenizeList( std::wstring& list_str, std::vector<std::wstring>& list_items );
 void tokenizeEntityList( std::wstring& list_str, std::vector<int>& list_items );
 void findLeadingTrailingParanthesis(wchar_t* ch, wchar_t*& pos_opening, wchar_t*& pos_closing);
@@ -88,7 +88,7 @@ inline void readIntegerValue( const std::wstring& str, int& int_value )
 	}
 	else
 	{
-		int_value = std::stoi( str.c_str() );
+		int_value = std::stoi( str );
 	}
 }
 inline void readIntegerValue( const std::wstring& str, boost::optional<int>& int_value )
@@ -103,7 +103,7 @@ inline void readIntegerValue( const std::wstring& str, boost::optional<int>& int
 	}
 	else
 	{
-		int_value = std::stoi( str.c_str() );
+		int_value = std::stoi( str );
 	}
 }
 inline void readRealValue( const std::wstring& str, double& real_value )
@@ -118,7 +118,7 @@ inline void readRealValue( const std::wstring& str, double& real_value )
 	}
 	else
 	{
-		real_value = std::stod( str.c_str() );
+		real_value = std::stod( str );
 	}
 }
 inline void readRealValue( const std::wstring& str, boost::optional<double>& real_value )
@@ -133,7 +133,7 @@ inline void readRealValue( const std::wstring& str, boost::optional<double>& rea
 	}
 	else
 	{
-		real_value = std::stod( str.c_str() );
+		real_value = std::stod( str );
 	}
 }
 
@@ -175,19 +175,19 @@ inline void readInteger( const std::wstring& attribute_value, int& target )
 
 inline void readReal( const std::wstring& attribute_value, double& target )
 {
-	target = std::stod( attribute_value.c_str() );
+	target = std::stod( attribute_value );
 }
 
 inline void readString( const std::wstring& attribute_value, std::wstring& target )
 {
 	if( attribute_value.size() < 2 )
 	{
-		target = attribute_value.c_str();
+		target = attribute_value;
 		return;
 	}
 	if( attribute_value[0] == '\'' && attribute_value[attribute_value.size()-1] == '\'' )
 	{
-		target = attribute_value.substr( 1, attribute_value.size()-2 ).c_str();
+		target = attribute_value.substr( 1, attribute_value.size()-2 );
 	}
 }
 

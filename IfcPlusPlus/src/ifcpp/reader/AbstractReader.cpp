@@ -21,7 +21,3 @@ AbstractReader::AbstractReader()
 {
 	unsetMessageCallBack();
 }
-
-AbstractReader::~AbstractReader()
-{
-}

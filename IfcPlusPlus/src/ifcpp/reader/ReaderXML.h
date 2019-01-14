@@ -24,9 +24,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 class IFCQUERY_EXPORT ReaderXML : public AbstractReader
 {
 public:
-	ReaderXML();
-	~ReaderXML();
-	virtual void removeComments( std::string& buffer );
+	ReaderXML() = default;
+	~ReaderXML() override = default;
+	void removeComments( std::string& buffer ) override;
 	virtual void readStreamHeader(	const std::string& in, shared_ptr<BuildingModel>& target_model );
 	virtual void readStreamData( std::string& in, const BuildingModel::SchemaVersion& ifc_version, std::map<int,shared_ptr<BuildingEntity> >& map );
 	virtual void readStreamData( std::string& in, shared_ptr<BuildingModel>& model );
