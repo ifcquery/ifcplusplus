@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcLightSourceAmbient : public IfcLightSource
 { 
 public:
-	IfcLightSourceAmbient();
+	IfcLightSourceAmbient() = default;
 	IfcLightSourceAmbient( int id );
 	~IfcLightSourceAmbient();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

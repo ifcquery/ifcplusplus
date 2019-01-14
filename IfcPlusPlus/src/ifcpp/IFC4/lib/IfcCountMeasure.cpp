@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcCountMeasure.h"
 
 // TYPE IfcCountMeasure = NUMBER;
-IfcCountMeasure::IfcCountMeasure() = default;
 IfcCountMeasure::IfcCountMeasure( int value ) { m_value = value; }
-IfcCountMeasure::~IfcCountMeasure() = default;
+IfcCountMeasure::~IfcCountMeasure() {}
 shared_ptr<BuildingObject> IfcCountMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCountMeasure> copy_self( new IfcCountMeasure() );

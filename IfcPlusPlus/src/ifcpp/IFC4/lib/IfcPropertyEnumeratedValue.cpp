@@ -20,19 +20,19 @@
 #include "ifcpp/IFC4/include/IfcValue.h"
 
 // ENTITY IfcPropertyEnumeratedValue 
-IfcPropertyEnumeratedValue::IfcPropertyEnumeratedValue() = default;
 IfcPropertyEnumeratedValue::IfcPropertyEnumeratedValue( int id ) { m_entity_id = id; }
-IfcPropertyEnumeratedValue::~IfcPropertyEnumeratedValue() = default;
+IfcPropertyEnumeratedValue::~IfcPropertyEnumeratedValue() {}
 shared_ptr<BuildingObject> IfcPropertyEnumeratedValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyEnumeratedValue> copy_self( new IfcPropertyEnumeratedValue() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for(auto item_ii : m_EnumerationValues)
+	for( size_t ii=0; ii<m_EnumerationValues.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_EnumerationValues[ii];
+		if( item_ii )
 		{
-			copy_self->m_EnumerationValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_EnumerationValues.emplace_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_EnumerationReference ) { copy_self->m_EnumerationReference = dynamic_pointer_cast<IfcPropertyEnumeration>( m_EnumerationReference->getDeepCopy(options) ); }
@@ -67,12 +67,12 @@ void IfcPropertyEnumeratedValue::getStepLine( std::stringstream& stream ) const
 	if( m_EnumerationReference ) { stream << "#" << m_EnumerationReference->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPropertyEnumeratedValue::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcPropertyEnumeratedValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyEnumeratedValue::toString() const { return L"IfcPropertyEnumeratedValue"; }
 void IfcPropertyEnumeratedValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyEnumeratedValue, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyEnumeratedValue, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readSelectList( args[2], m_EnumerationValues, map );
@@ -85,9 +85,9 @@ void IfcPropertyEnumeratedValue::getAttributes( std::vector<std::pair<std::strin
 	{
 		shared_ptr<AttributeObjectVector> EnumerationValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_EnumerationValues.begin(), m_EnumerationValues.end(), std::back_inserter( EnumerationValues_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "EnumerationValues", EnumerationValues_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "EnumerationValues", EnumerationValues_vec_object ) );
 	}
-	vec_attributes.emplace_back( "EnumerationReference", m_EnumerationReference );
+	vec_attributes.emplace_back( std::make_pair( "EnumerationReference", m_EnumerationReference ) );
 }
 void IfcPropertyEnumeratedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

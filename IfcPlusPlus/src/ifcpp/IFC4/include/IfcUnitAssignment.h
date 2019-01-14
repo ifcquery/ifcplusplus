@@ -12,7 +12,7 @@ class IFCQUERY_EXPORT IfcUnit;
 class IFCQUERY_EXPORT IfcUnitAssignment : public BuildingEntity
 { 
 public:
-	IfcUnitAssignment();
+	IfcUnitAssignment() = default;
 	IfcUnitAssignment( int id );
 	~IfcUnitAssignment();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

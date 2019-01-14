@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcElectricMotorTypeEnum.h"
 
 // TYPE IfcElectricMotorTypeEnum = ENUMERATION OF	(DC	,INDUCTION	,POLYPHASE	,RELUCTANCESYNCHRONOUS	,SYNCHRONOUS	,USERDEFINED	,NOTDEFINED);
-IfcElectricMotorTypeEnum::IfcElectricMotorTypeEnum() = default;
-IfcElectricMotorTypeEnum::~IfcElectricMotorTypeEnum() = default;
+IfcElectricMotorTypeEnum::~IfcElectricMotorTypeEnum() {}
 shared_ptr<BuildingObject> IfcElectricMotorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricMotorTypeEnum> copy_self( new IfcElectricMotorTypeEnum() );

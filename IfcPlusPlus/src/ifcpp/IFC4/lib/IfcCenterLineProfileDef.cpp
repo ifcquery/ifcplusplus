@@ -16,9 +16,8 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcCenterLineProfileDef 
-IfcCenterLineProfileDef::IfcCenterLineProfileDef() = default;
 IfcCenterLineProfileDef::IfcCenterLineProfileDef( int id ) { m_entity_id = id; }
-IfcCenterLineProfileDef::~IfcCenterLineProfileDef() = default;
+IfcCenterLineProfileDef::~IfcCenterLineProfileDef() {}
 shared_ptr<BuildingObject> IfcCenterLineProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCenterLineProfileDef> copy_self( new IfcCenterLineProfileDef() );
@@ -40,12 +39,12 @@ void IfcCenterLineProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_Thickness ) { m_Thickness->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCenterLineProfileDef::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcCenterLineProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCenterLineProfileDef::toString() const { return L"IfcCenterLineProfileDef"; }
 void IfcCenterLineProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCenterLineProfileDef, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCenterLineProfileDef, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Curve, map );
@@ -54,7 +53,7 @@ void IfcCenterLineProfileDef::readStepArguments( const std::vector<std::wstring>
 void IfcCenterLineProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcArbitraryOpenProfileDef::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Thickness", m_Thickness );
+	vec_attributes.emplace_back( std::make_pair( "Thickness", m_Thickness ) );
 }
 void IfcCenterLineProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

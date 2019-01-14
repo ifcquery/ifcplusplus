@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcCoordinateReferenceSystem 
-IfcCoordinateReferenceSystem::IfcCoordinateReferenceSystem() = default;
 IfcCoordinateReferenceSystem::IfcCoordinateReferenceSystem( int id ) { m_entity_id = id; }
-IfcCoordinateReferenceSystem::~IfcCoordinateReferenceSystem() = default;
+IfcCoordinateReferenceSystem::~IfcCoordinateReferenceSystem() {}
 shared_ptr<BuildingObject> IfcCoordinateReferenceSystem::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCoordinateReferenceSystem> copy_self( new IfcCoordinateReferenceSystem() );
@@ -38,12 +37,12 @@ void IfcCoordinateReferenceSystem::getStepLine( std::stringstream& stream ) cons
 	if( m_VerticalDatum ) { m_VerticalDatum->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCoordinateReferenceSystem::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcCoordinateReferenceSystem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCoordinateReferenceSystem::toString() const { return L"IfcCoordinateReferenceSystem"; }
 void IfcCoordinateReferenceSystem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCoordinateReferenceSystem, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCoordinateReferenceSystem, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_GeodeticDatum = IfcIdentifier::createObjectFromSTEP( args[2], map );
@@ -51,27 +50,27 @@ void IfcCoordinateReferenceSystem::readStepArguments( const std::vector<std::wst
 }
 void IfcCoordinateReferenceSystem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.emplace_back( "Name", m_Name );
-	vec_attributes.emplace_back( "Description", m_Description );
-	vec_attributes.emplace_back( "GeodeticDatum", m_GeodeticDatum );
-	vec_attributes.emplace_back( "VerticalDatum", m_VerticalDatum );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "GeodeticDatum", m_GeodeticDatum ) );
+	vec_attributes.emplace_back( std::make_pair( "VerticalDatum", m_VerticalDatum ) );
 }
 void IfcCoordinateReferenceSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	if( !m_HasCoordinateOperation_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasCoordinateOperation_inverse_vec_obj( new AttributeObjectVector() );
-		for(const auto & i : m_HasCoordinateOperation_inverse)
+		for( size_t i=0; i<m_HasCoordinateOperation_inverse.size(); ++i )
 		{
-			if( !i.expired() )
+			if( !m_HasCoordinateOperation_inverse[i].expired() )
 			{
-				HasCoordinateOperation_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcCoordinateOperation>( i ) );
+				HasCoordinateOperation_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcCoordinateOperation>( m_HasCoordinateOperation_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.emplace_back( "HasCoordinateOperation_inverse", HasCoordinateOperation_inverse_vec_obj );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasCoordinateOperation_inverse", HasCoordinateOperation_inverse_vec_obj ) );
 	}
 }
-void IfcCoordinateReferenceSystem::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
+void IfcCoordinateReferenceSystem::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcCoordinateReferenceSystem::unlinkFromInverseCounterparts()

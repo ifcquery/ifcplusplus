@@ -18,7 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 #include <iostream>
 #include <unordered_set>
 #include <osg/Array>
@@ -482,7 +482,7 @@ namespace SceneGraphUtils
 			}
 		}
 	}
-	inline void setMaterialAlpha( osg::Node* node, float alpha )
+	inline void setMaterialAlpha( osg::Node* node, float alpha, bool create_material_if_not_existing )
 	{
 		osg::StateSet* stateset = node->getStateSet();
 		if( stateset )
@@ -492,6 +492,16 @@ namespace SceneGraphUtils
 			{
 				mat->setAlpha( osg::Material::FRONT_AND_BACK, alpha );
 			}
+			else if( create_material_if_not_existing )
+			{
+				osg::ref_ptr<osg::Material> mat = new osg::Material();
+				mat->setAmbient(osg::Material::FRONT_AND_BACK, osg::Vec4f(0.8f, 0.83f, 0.84f, alpha));
+				mat->setDiffuse(osg::Material::FRONT_AND_BACK, osg::Vec4f(0.8f, 0.83f, 0.84f, alpha));
+				stateset->setAttribute(mat, osg::StateAttribute::ON);
+				stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
+				//stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+				stateset->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
+			}
 		}
 		osg::Group* group = dynamic_cast<osg::Group*>( node );
 		if( group )
@@ -499,7 +509,7 @@ namespace SceneGraphUtils
 			for( unsigned int ii = 0; ii < group->getNumChildren(); ++ii )
 			{
 				osg::Node* child_node = group->getChild( ii );
-				setMaterialAlpha( child_node, alpha );
+				setMaterialAlpha( child_node, alpha, false );
 			}
 		}
 	}

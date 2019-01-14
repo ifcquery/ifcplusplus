@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcTorqueMeasure.h"
 
 // TYPE IfcTorqueMeasure = REAL;
-IfcTorqueMeasure::IfcTorqueMeasure() = default;
 IfcTorqueMeasure::IfcTorqueMeasure( double value ) { m_value = value; }
-IfcTorqueMeasure::~IfcTorqueMeasure() = default;
+IfcTorqueMeasure::~IfcTorqueMeasure() {}
 shared_ptr<BuildingObject> IfcTorqueMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTorqueMeasure> copy_self( new IfcTorqueMeasure() );

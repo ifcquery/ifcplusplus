@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcLightDistributionCurveEnum.h"
 
 // TYPE IfcLightDistributionCurveEnum = ENUMERATION OF	(TYPE_A	,TYPE_B	,TYPE_C	,NOTDEFINED);
-IfcLightDistributionCurveEnum::IfcLightDistributionCurveEnum() = default;
-IfcLightDistributionCurveEnum::~IfcLightDistributionCurveEnum() = default;
+IfcLightDistributionCurveEnum::~IfcLightDistributionCurveEnum() {}
 shared_ptr<BuildingObject> IfcLightDistributionCurveEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightDistributionCurveEnum> copy_self( new IfcLightDistributionCurveEnum() );

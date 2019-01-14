@@ -26,7 +26,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcProtectiveDeviceTypeEnum();
+	IfcProtectiveDeviceTypeEnum() = default;
 	IfcProtectiveDeviceTypeEnum( IfcProtectiveDeviceTypeEnumEnum e ) { m_enum = e; }
 	~IfcProtectiveDeviceTypeEnum();
 	virtual const char* className() const { return "IfcProtectiveDeviceTypeEnum"; }

@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcRailingTypeEnum();
+	IfcRailingTypeEnum() = default;
 	IfcRailingTypeEnum( IfcRailingTypeEnumEnum e ) { m_enum = e; }
 	~IfcRailingTypeEnum();
 	virtual const char* className() const { return "IfcRailingTypeEnum"; }

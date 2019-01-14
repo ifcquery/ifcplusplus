@@ -15,9 +15,8 @@
 #include "ifcpp/IFC4/include/IfcTessellatedFaceSet.h"
 
 // ENTITY IfcTessellatedFaceSet 
-IfcTessellatedFaceSet::IfcTessellatedFaceSet() = default;
 IfcTessellatedFaceSet::IfcTessellatedFaceSet( int id ) { m_entity_id = id; }
-IfcTessellatedFaceSet::~IfcTessellatedFaceSet() = default;
+IfcTessellatedFaceSet::~IfcTessellatedFaceSet() {}
 shared_ptr<BuildingObject> IfcTessellatedFaceSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTessellatedFaceSet> copy_self( new IfcTessellatedFaceSet() );
@@ -30,18 +29,18 @@ void IfcTessellatedFaceSet::getStepLine( std::stringstream& stream ) const
 	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTessellatedFaceSet::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcTessellatedFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTessellatedFaceSet::toString() const { return L"IfcTessellatedFaceSet"; }
 void IfcTessellatedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTessellatedFaceSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTessellatedFaceSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Coordinates, map );
 }
 void IfcTessellatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTessellatedItem::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Coordinates", m_Coordinates );
+	vec_attributes.emplace_back( std::make_pair( "Coordinates", m_Coordinates ) );
 }
 void IfcTessellatedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -49,26 +48,26 @@ void IfcTessellatedFaceSet::getAttributesInverse( std::vector<std::pair<std::str
 	if( !m_HasColours_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasColours_inverse_vec_obj( new AttributeObjectVector() );
-		for(const auto & i : m_HasColours_inverse)
+		for( size_t i=0; i<m_HasColours_inverse.size(); ++i )
 		{
-			if( !i.expired() )
+			if( !m_HasColours_inverse[i].expired() )
 			{
-				HasColours_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcIndexedColourMap>( i ) );
+				HasColours_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcIndexedColourMap>( m_HasColours_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.emplace_back( "HasColours_inverse", HasColours_inverse_vec_obj );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasColours_inverse", HasColours_inverse_vec_obj ) );
 	}
 	if( !m_HasTextures_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasTextures_inverse_vec_obj( new AttributeObjectVector() );
-		for(const auto & i : m_HasTextures_inverse)
+		for( size_t i=0; i<m_HasTextures_inverse.size(); ++i )
 		{
-			if( !i.expired() )
+			if( !m_HasTextures_inverse[i].expired() )
 			{
-				HasTextures_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcIndexedTextureMap>( i ) );
+				HasTextures_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcIndexedTextureMap>( m_HasTextures_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.emplace_back( "HasTextures_inverse", HasTextures_inverse_vec_obj );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasTextures_inverse", HasTextures_inverse_vec_obj ) );
 	}
 }
 void IfcTessellatedFaceSet::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

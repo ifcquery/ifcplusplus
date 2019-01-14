@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcAnalysisModelTypeEnum.h"
 
 // TYPE IfcAnalysisModelTypeEnum = ENUMERATION OF	(IN_PLANE_LOADING_2D	,OUT_PLANE_LOADING_2D	,LOADING_3D	,USERDEFINED	,NOTDEFINED);
-IfcAnalysisModelTypeEnum::IfcAnalysisModelTypeEnum() = default;
-IfcAnalysisModelTypeEnum::~IfcAnalysisModelTypeEnum() = default;
+IfcAnalysisModelTypeEnum::~IfcAnalysisModelTypeEnum() {}
 shared_ptr<BuildingObject> IfcAnalysisModelTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAnalysisModelTypeEnum> copy_self( new IfcAnalysisModelTypeEnum() );

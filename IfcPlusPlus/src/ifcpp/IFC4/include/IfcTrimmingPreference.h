@@ -20,7 +20,7 @@ public:
 		ENUM_UNSPECIFIED
 	};
 
-	IfcTrimmingPreference();
+	IfcTrimmingPreference() = default;
 	IfcTrimmingPreference( IfcTrimmingPreferenceEnum e ) { m_enum = e; }
 	~IfcTrimmingPreference();
 	virtual const char* className() const { return "IfcTrimmingPreference"; }

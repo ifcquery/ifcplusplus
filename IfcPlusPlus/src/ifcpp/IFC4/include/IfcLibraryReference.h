@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcRelAssociatesLibrary;
 class IFCQUERY_EXPORT IfcLibraryReference : virtual public IfcLibrarySelect, public IfcExternalReference
 { 
 public:
-	IfcLibraryReference();
+	IfcLibraryReference() = default;
 	IfcLibraryReference( int id );
 	~IfcLibraryReference();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

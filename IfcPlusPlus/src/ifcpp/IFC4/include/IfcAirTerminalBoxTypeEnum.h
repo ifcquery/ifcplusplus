@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcAirTerminalBoxTypeEnum();
+	IfcAirTerminalBoxTypeEnum() = default;
 	IfcAirTerminalBoxTypeEnum( IfcAirTerminalBoxTypeEnumEnum e ) { m_enum = e; }
 	~IfcAirTerminalBoxTypeEnum();
 	virtual const char* className() const { return "IfcAirTerminalBoxTypeEnum"; }

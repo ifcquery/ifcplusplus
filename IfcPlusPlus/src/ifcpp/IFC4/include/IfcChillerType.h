@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcChillerTypeEnum;
 class IFCQUERY_EXPORT IfcChillerType : public IfcEnergyConversionDeviceType
 { 
 public:
-	IfcChillerType();
+	IfcChillerType() = default;
 	IfcChillerType( int id );
 	~IfcChillerType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

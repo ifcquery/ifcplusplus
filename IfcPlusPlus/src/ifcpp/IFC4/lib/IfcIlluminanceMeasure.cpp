@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcIlluminanceMeasure.h"
 
 // TYPE IfcIlluminanceMeasure = REAL;
-IfcIlluminanceMeasure::IfcIlluminanceMeasure() = default;
 IfcIlluminanceMeasure::IfcIlluminanceMeasure( double value ) { m_value = value; }
-IfcIlluminanceMeasure::~IfcIlluminanceMeasure() = default;
+IfcIlluminanceMeasure::~IfcIlluminanceMeasure() {}
 shared_ptr<BuildingObject> IfcIlluminanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIlluminanceMeasure> copy_self( new IfcIlluminanceMeasure() );

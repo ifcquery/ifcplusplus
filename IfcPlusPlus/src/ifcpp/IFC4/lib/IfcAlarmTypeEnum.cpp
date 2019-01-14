@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcAlarmTypeEnum.h"
 
 // TYPE IfcAlarmTypeEnum = ENUMERATION OF	(BELL	,BREAKGLASSBUTTON	,LIGHT	,MANUALPULLBOX	,SIREN	,WHISTLE	,USERDEFINED	,NOTDEFINED);
-IfcAlarmTypeEnum::IfcAlarmTypeEnum() = default;
-IfcAlarmTypeEnum::~IfcAlarmTypeEnum() = default;
+IfcAlarmTypeEnum::~IfcAlarmTypeEnum() {}
 shared_ptr<BuildingObject> IfcAlarmTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAlarmTypeEnum> copy_self( new IfcAlarmTypeEnum() );

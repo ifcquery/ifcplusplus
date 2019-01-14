@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCoolingTowerTypeEnum;
 class IFCQUERY_EXPORT IfcCoolingTower : public IfcEnergyConversionDevice
 { 
 public:
-	IfcCoolingTower();
+	IfcCoolingTower() = default;
 	IfcCoolingTower( int id );
 	~IfcCoolingTower();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

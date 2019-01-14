@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcDuration.h"
 
 // TYPE IfcDuration = STRING;
-IfcDuration::IfcDuration() = default;
 IfcDuration::IfcDuration( std::wstring value ) { m_value = value; }
-IfcDuration::~IfcDuration() = default;
+IfcDuration::~IfcDuration() {}
 shared_ptr<BuildingObject> IfcDuration::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDuration> copy_self( new IfcDuration() );

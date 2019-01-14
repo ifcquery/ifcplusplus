@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcFlowTerminal : public IfcDistributionFlowElement
 { 
 public:
-	IfcFlowTerminal();
+	IfcFlowTerminal() = default;
 	IfcFlowTerminal( int id );
 	~IfcFlowTerminal();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

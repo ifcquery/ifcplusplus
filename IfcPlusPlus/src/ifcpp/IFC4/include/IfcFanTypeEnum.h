@@ -26,7 +26,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcFanTypeEnum();
+	IfcFanTypeEnum() = default;
 	IfcFanTypeEnum( IfcFanTypeEnumEnum e ) { m_enum = e; }
 	~IfcFanTypeEnum();
 	virtual const char* className() const { return "IfcFanTypeEnum"; }

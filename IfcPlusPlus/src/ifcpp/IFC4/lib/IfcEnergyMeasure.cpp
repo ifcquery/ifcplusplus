@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcEnergyMeasure.h"
 
 // TYPE IfcEnergyMeasure = REAL;
-IfcEnergyMeasure::IfcEnergyMeasure() = default;
 IfcEnergyMeasure::IfcEnergyMeasure( double value ) { m_value = value; }
-IfcEnergyMeasure::~IfcEnergyMeasure() = default;
+IfcEnergyMeasure::~IfcEnergyMeasure() {}
 shared_ptr<BuildingObject> IfcEnergyMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEnergyMeasure> copy_self( new IfcEnergyMeasure() );

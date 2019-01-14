@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcArithmeticOperatorEnum.h"
 
 // TYPE IfcArithmeticOperatorEnum = ENUMERATION OF	(ADD	,DIVIDE	,MULTIPLY	,SUBTRACT);
-IfcArithmeticOperatorEnum::IfcArithmeticOperatorEnum() = default;
-IfcArithmeticOperatorEnum::~IfcArithmeticOperatorEnum() = default;
+IfcArithmeticOperatorEnum::~IfcArithmeticOperatorEnum() {}
 shared_ptr<BuildingObject> IfcArithmeticOperatorEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcArithmeticOperatorEnum> copy_self( new IfcArithmeticOperatorEnum() );

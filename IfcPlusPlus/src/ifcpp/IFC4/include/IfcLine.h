@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcVector;
 class IFCQUERY_EXPORT IfcLine : public IfcCurve
 { 
 public:
-	IfcLine();
+	IfcLine() = default;
 	IfcLine( int id );
 	~IfcLine();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

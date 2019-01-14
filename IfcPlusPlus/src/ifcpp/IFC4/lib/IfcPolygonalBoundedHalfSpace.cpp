@@ -16,9 +16,8 @@
 #include "ifcpp/IFC4/include/IfcSurface.h"
 
 // ENTITY IfcPolygonalBoundedHalfSpace 
-IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace() = default;
 IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace( int id ) { m_entity_id = id; }
-IfcPolygonalBoundedHalfSpace::~IfcPolygonalBoundedHalfSpace() = default;
+IfcPolygonalBoundedHalfSpace::~IfcPolygonalBoundedHalfSpace() {}
 shared_ptr<BuildingObject> IfcPolygonalBoundedHalfSpace::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPolygonalBoundedHalfSpace> copy_self( new IfcPolygonalBoundedHalfSpace() );
@@ -40,12 +39,12 @@ void IfcPolygonalBoundedHalfSpace::getStepLine( std::stringstream& stream ) cons
 	if( m_PolygonalBoundary ) { stream << "#" << m_PolygonalBoundary->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPolygonalBoundedHalfSpace::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcPolygonalBoundedHalfSpace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPolygonalBoundedHalfSpace::toString() const { return L"IfcPolygonalBoundedHalfSpace"; }
 void IfcPolygonalBoundedHalfSpace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolygonalBoundedHalfSpace, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolygonalBoundedHalfSpace, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BaseSurface, map );
 	m_AgreementFlag = IfcBoolean::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );
@@ -54,8 +53,8 @@ void IfcPolygonalBoundedHalfSpace::readStepArguments( const std::vector<std::wst
 void IfcPolygonalBoundedHalfSpace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcHalfSpaceSolid::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Position", m_Position );
-	vec_attributes.emplace_back( "PolygonalBoundary", m_PolygonalBoundary );
+	vec_attributes.emplace_back( std::make_pair( "Position", m_Position ) );
+	vec_attributes.emplace_back( std::make_pair( "PolygonalBoundary", m_PolygonalBoundary ) );
 }
 void IfcPolygonalBoundedHalfSpace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

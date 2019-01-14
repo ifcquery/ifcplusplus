@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcExternalInformation : virtual public IfcResourceObjectSelect, public BuildingEntity
 { 
 public:
-	IfcExternalInformation();
+	IfcExternalInformation() = default;
 	IfcExternalInformation( int id );
 	~IfcExternalInformation();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

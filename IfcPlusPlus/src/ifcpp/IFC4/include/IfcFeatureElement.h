@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcFeatureElement : public IfcElement
 { 
 public:
-	IfcFeatureElement();
+	IfcFeatureElement() = default;
 	IfcFeatureElement( int id );
 	~IfcFeatureElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

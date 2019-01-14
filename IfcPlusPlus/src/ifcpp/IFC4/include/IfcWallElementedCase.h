@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcWallElementedCase : public IfcWall
 { 
 public:
-	IfcWallElementedCase();
+	IfcWallElementedCase() = default;
 	IfcWallElementedCase( int id );
 	~IfcWallElementedCase();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

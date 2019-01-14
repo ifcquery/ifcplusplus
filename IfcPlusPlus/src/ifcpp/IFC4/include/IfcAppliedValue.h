@@ -22,7 +22,7 @@ class IFCQUERY_EXPORT IfcExternalReferenceRelationship;
 class IFCQUERY_EXPORT IfcAppliedValue : virtual public IfcMetricValueSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public BuildingEntity
 { 
 public:
-	IfcAppliedValue();
+	IfcAppliedValue() = default;
 	IfcAppliedValue( int id );
 	~IfcAppliedValue();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

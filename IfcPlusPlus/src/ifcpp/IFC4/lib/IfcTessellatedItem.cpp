@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcTessellatedItem.h"
 
 // ENTITY IfcTessellatedItem 
-IfcTessellatedItem::IfcTessellatedItem() = default;
 IfcTessellatedItem::IfcTessellatedItem( int id ) { m_entity_id = id; }
-IfcTessellatedItem::~IfcTessellatedItem() = default;
+IfcTessellatedItem::~IfcTessellatedItem() {}
 shared_ptr<BuildingObject> IfcTessellatedItem::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTessellatedItem> copy_self( new IfcTessellatedItem() );
@@ -25,7 +24,7 @@ void IfcTessellatedItem::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCTESSELLATEDITEM" << "(";
 	stream << ");";
 }
-void IfcTessellatedItem::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcTessellatedItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTessellatedItem::toString() const { return L"IfcTessellatedItem"; }
 void IfcTessellatedItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

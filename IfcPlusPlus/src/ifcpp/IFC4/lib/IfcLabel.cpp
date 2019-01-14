@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // TYPE IfcLabel = STRING(255);
-IfcLabel::IfcLabel() = default;
 IfcLabel::IfcLabel( std::wstring value ) { m_value = value; }
-IfcLabel::~IfcLabel() = default;
+IfcLabel::~IfcLabel() {}
 shared_ptr<BuildingObject> IfcLabel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLabel> copy_self( new IfcLabel() );

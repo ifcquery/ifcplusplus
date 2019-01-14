@@ -28,7 +28,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcSwitchingDeviceTypeEnum();
+	IfcSwitchingDeviceTypeEnum() = default;
 	IfcSwitchingDeviceTypeEnum( IfcSwitchingDeviceTypeEnumEnum e ) { m_enum = e; }
 	~IfcSwitchingDeviceTypeEnum();
 	virtual const char* className() const { return "IfcSwitchingDeviceTypeEnum"; }

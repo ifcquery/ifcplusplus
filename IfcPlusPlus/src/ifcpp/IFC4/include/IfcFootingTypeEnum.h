@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcFootingTypeEnum();
+	IfcFootingTypeEnum() = default;
 	IfcFootingTypeEnum( IfcFootingTypeEnumEnum e ) { m_enum = e; }
 	~IfcFootingTypeEnum();
 	virtual const char* className() const { return "IfcFootingTypeEnum"; }

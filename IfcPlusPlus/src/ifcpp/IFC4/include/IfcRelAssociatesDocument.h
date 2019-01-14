@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcDocumentSelect;
 class IFCQUERY_EXPORT IfcRelAssociatesDocument : public IfcRelAssociates
 { 
 public:
-	IfcRelAssociatesDocument();
+	IfcRelAssociatesDocument() = default;
 	IfcRelAssociatesDocument( int id );
 	~IfcRelAssociatesDocument();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

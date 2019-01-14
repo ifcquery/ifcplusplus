@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcThermodynamicTemperatureMeasure.h"
 
 // TYPE IfcThermodynamicTemperatureMeasure = REAL;
-IfcThermodynamicTemperatureMeasure::IfcThermodynamicTemperatureMeasure() = default;
 IfcThermodynamicTemperatureMeasure::IfcThermodynamicTemperatureMeasure( double value ) { m_value = value; }
-IfcThermodynamicTemperatureMeasure::~IfcThermodynamicTemperatureMeasure() = default;
+IfcThermodynamicTemperatureMeasure::~IfcThermodynamicTemperatureMeasure() {}
 shared_ptr<BuildingObject> IfcThermodynamicTemperatureMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcThermodynamicTemperatureMeasure> copy_self( new IfcThermodynamicTemperatureMeasure() );

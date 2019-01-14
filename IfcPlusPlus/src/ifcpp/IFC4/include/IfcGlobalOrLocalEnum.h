@@ -19,7 +19,7 @@ public:
 		ENUM_LOCAL_COORDS
 	};
 
-	IfcGlobalOrLocalEnum();
+	IfcGlobalOrLocalEnum() = default;
 	IfcGlobalOrLocalEnum( IfcGlobalOrLocalEnumEnum e ) { m_enum = e; }
 	~IfcGlobalOrLocalEnum();
 	virtual const char* className() const { return "IfcGlobalOrLocalEnum"; }

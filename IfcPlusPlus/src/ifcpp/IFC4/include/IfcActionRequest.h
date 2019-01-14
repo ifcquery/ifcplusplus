@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcText;
 class IFCQUERY_EXPORT IfcActionRequest : public IfcControl
 { 
 public:
-	IfcActionRequest();
+	IfcActionRequest() = default;
 	IfcActionRequest( int id );
 	~IfcActionRequest();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

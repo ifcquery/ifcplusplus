@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcTextTransformation.h"
 
 // ENTITY IfcTextStyleTextModel 
-IfcTextStyleTextModel::IfcTextStyleTextModel() = default;
 IfcTextStyleTextModel::IfcTextStyleTextModel( int id ) { m_entity_id = id; }
-IfcTextStyleTextModel::~IfcTextStyleTextModel() = default;
+IfcTextStyleTextModel::~IfcTextStyleTextModel() {}
 shared_ptr<BuildingObject> IfcTextStyleTextModel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextStyleTextModel> copy_self( new IfcTextStyleTextModel() );
@@ -47,12 +46,12 @@ void IfcTextStyleTextModel::getStepLine( std::stringstream& stream ) const
 	if( m_LineHeight ) { m_LineHeight->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcTextStyleTextModel::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcTextStyleTextModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextStyleTextModel::toString() const { return L"IfcTextStyleTextModel"; }
 void IfcTextStyleTextModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextStyleTextModel, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextStyleTextModel, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_TextIndent = IfcSizeSelect::createObjectFromSTEP( args[0], map );
 	m_TextAlign = IfcTextAlignment::createObjectFromSTEP( args[1], map );
 	m_TextDecoration = IfcTextDecoration::createObjectFromSTEP( args[2], map );
@@ -64,13 +63,13 @@ void IfcTextStyleTextModel::readStepArguments( const std::vector<std::wstring>& 
 void IfcTextStyleTextModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "TextIndent", m_TextIndent );
-	vec_attributes.emplace_back( "TextAlign", m_TextAlign );
-	vec_attributes.emplace_back( "TextDecoration", m_TextDecoration );
-	vec_attributes.emplace_back( "LetterSpacing", m_LetterSpacing );
-	vec_attributes.emplace_back( "WordSpacing", m_WordSpacing );
-	vec_attributes.emplace_back( "TextTransform", m_TextTransform );
-	vec_attributes.emplace_back( "LineHeight", m_LineHeight );
+	vec_attributes.emplace_back( std::make_pair( "TextIndent", m_TextIndent ) );
+	vec_attributes.emplace_back( std::make_pair( "TextAlign", m_TextAlign ) );
+	vec_attributes.emplace_back( std::make_pair( "TextDecoration", m_TextDecoration ) );
+	vec_attributes.emplace_back( std::make_pair( "LetterSpacing", m_LetterSpacing ) );
+	vec_attributes.emplace_back( std::make_pair( "WordSpacing", m_WordSpacing ) );
+	vec_attributes.emplace_back( std::make_pair( "TextTransform", m_TextTransform ) );
+	vec_attributes.emplace_back( std::make_pair( "LineHeight", m_LineHeight ) );
 }
 void IfcTextStyleTextModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

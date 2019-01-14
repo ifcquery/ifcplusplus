@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcCommunicationsApplianceTypeEnum.h"
 
 // TYPE IfcCommunicationsApplianceTypeEnum = ENUMERATION OF	(ANTENNA	,COMPUTER	,FAX	,GATEWAY	,MODEM	,NETWORKAPPLIANCE	,NETWORKBRIDGE	,NETWORKHUB	,PRINTER	,REPEATER	,ROUTER	,SCANNER	,USERDEFINED	,NOTDEFINED);
-IfcCommunicationsApplianceTypeEnum::IfcCommunicationsApplianceTypeEnum() = default;
-IfcCommunicationsApplianceTypeEnum::~IfcCommunicationsApplianceTypeEnum() = default;
+IfcCommunicationsApplianceTypeEnum::~IfcCommunicationsApplianceTypeEnum() {}
 shared_ptr<BuildingObject> IfcCommunicationsApplianceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCommunicationsApplianceTypeEnum> copy_self( new IfcCommunicationsApplianceTypeEnum() );

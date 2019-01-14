@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcSlippageConnectionCondition.h"
 
 // ENTITY IfcSlippageConnectionCondition 
-IfcSlippageConnectionCondition::IfcSlippageConnectionCondition() = default;
 IfcSlippageConnectionCondition::IfcSlippageConnectionCondition( int id ) { m_entity_id = id; }
-IfcSlippageConnectionCondition::~IfcSlippageConnectionCondition() = default;
+IfcSlippageConnectionCondition::~IfcSlippageConnectionCondition() {}
 shared_ptr<BuildingObject> IfcSlippageConnectionCondition::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSlippageConnectionCondition> copy_self( new IfcSlippageConnectionCondition() );
@@ -36,12 +35,12 @@ void IfcSlippageConnectionCondition::getStepLine( std::stringstream& stream ) co
 	if( m_SlippageZ ) { m_SlippageZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSlippageConnectionCondition::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcSlippageConnectionCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSlippageConnectionCondition::toString() const { return L"IfcSlippageConnectionCondition"; }
 void IfcSlippageConnectionCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSlippageConnectionCondition, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSlippageConnectionCondition, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_SlippageX = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_SlippageY = IfcLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -50,9 +49,9 @@ void IfcSlippageConnectionCondition::readStepArguments( const std::vector<std::w
 void IfcSlippageConnectionCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralConnectionCondition::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "SlippageX", m_SlippageX );
-	vec_attributes.emplace_back( "SlippageY", m_SlippageY );
-	vec_attributes.emplace_back( "SlippageZ", m_SlippageZ );
+	vec_attributes.emplace_back( std::make_pair( "SlippageX", m_SlippageX ) );
+	vec_attributes.emplace_back( std::make_pair( "SlippageY", m_SlippageY ) );
+	vec_attributes.emplace_back( std::make_pair( "SlippageZ", m_SlippageZ ) );
 }
 void IfcSlippageConnectionCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

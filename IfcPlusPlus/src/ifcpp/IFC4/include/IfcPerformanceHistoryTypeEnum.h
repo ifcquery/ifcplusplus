@@ -19,7 +19,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcPerformanceHistoryTypeEnum();
+	IfcPerformanceHistoryTypeEnum() = default;
 	IfcPerformanceHistoryTypeEnum( IfcPerformanceHistoryTypeEnumEnum e ) { m_enum = e; }
 	~IfcPerformanceHistoryTypeEnum();
 	virtual const char* className() const { return "IfcPerformanceHistoryTypeEnum"; }

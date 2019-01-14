@@ -10,9 +10,8 @@
 #include "ifcpp/IFC4/include/IfcDimensionCount.h"
 
 // TYPE IfcDimensionCount = INTEGER;
-IfcDimensionCount::IfcDimensionCount() = default;
 IfcDimensionCount::IfcDimensionCount( int value ) { m_value = value; }
-IfcDimensionCount::~IfcDimensionCount() = default;
+IfcDimensionCount::~IfcDimensionCount() {}
 shared_ptr<BuildingObject> IfcDimensionCount::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDimensionCount> copy_self( new IfcDimensionCount() );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcProfileDef;
 class IFCQUERY_EXPORT IfcProfileProperties : public IfcExtendedProperties
 { 
 public:
-	IfcProfileProperties();
+	IfcProfileProperties() = default;
 	IfcProfileProperties( int id );
 	~IfcProfileProperties();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

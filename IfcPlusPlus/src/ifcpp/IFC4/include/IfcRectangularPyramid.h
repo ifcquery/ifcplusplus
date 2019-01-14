@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcRectangularPyramid : public IfcCsgPrimitive3D
 { 
 public:
-	IfcRectangularPyramid();
+	IfcRectangularPyramid() = default;
 	IfcRectangularPyramid( int id );
 	~IfcRectangularPyramid();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

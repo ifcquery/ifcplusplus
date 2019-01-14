@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcReal;
 class IFCQUERY_EXPORT IfcTextureCoordinateGenerator : public IfcTextureCoordinate
 { 
 public:
-	IfcTextureCoordinateGenerator();
+	IfcTextureCoordinateGenerator() = default;
 	IfcTextureCoordinateGenerator( int id );
 	~IfcTextureCoordinateGenerator();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

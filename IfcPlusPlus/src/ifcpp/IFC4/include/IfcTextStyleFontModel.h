@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcSizeSelect;
 class IFCQUERY_EXPORT IfcTextStyleFontModel : public IfcPreDefinedTextFont
 { 
 public:
-	IfcTextStyleFontModel();
+	IfcTextStyleFontModel() = default;
 	IfcTextStyleFontModel( int id );
 	~IfcTextStyleFontModel();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

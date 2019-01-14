@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcWindowStandardCase : public IfcWindow
 { 
 public:
-	IfcWindowStandardCase();
+	IfcWindowStandardCase() = default;
 	IfcWindowStandardCase( int id );
 	~IfcWindowStandardCase();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

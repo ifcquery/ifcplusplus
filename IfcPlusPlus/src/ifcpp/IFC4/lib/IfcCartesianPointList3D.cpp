@@ -13,9 +13,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianPointList3D 
-IfcCartesianPointList3D::IfcCartesianPointList3D() = default;
 IfcCartesianPointList3D::IfcCartesianPointList3D( int id ) { m_entity_id = id; }
-IfcCartesianPointList3D::~IfcCartesianPointList3D() = default;
+IfcCartesianPointList3D::~IfcCartesianPointList3D() {}
 shared_ptr<BuildingObject> IfcCartesianPointList3D::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianPointList3D> copy_self( new IfcCartesianPointList3D() );
@@ -24,11 +23,12 @@ shared_ptr<BuildingObject> IfcCartesianPointList3D::getDeepCopy( BuildingCopyOpt
 	{
 		std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii = m_CoordList[ii];
 		std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii_target = copy_self->m_CoordList[ii];
-		for(auto & item_jj : vec_ii)
+		for( size_t jj=0; jj<vec_ii.size(); ++jj )
 		{
-				if( item_jj )
+			shared_ptr<IfcLengthMeasure>& item_jj = vec_ii[jj];
+			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcLengthMeasure>( item_jj->getDeepCopy(options) ) );
+				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}
@@ -40,12 +40,12 @@ void IfcCartesianPointList3D::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList2D( stream, m_CoordList );
 	stream << ");";
 }
-void IfcCartesianPointList3D::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcCartesianPointList3D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianPointList3D::toString() const { return L"IfcCartesianPointList3D"; }
 void IfcCartesianPointList3D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianPointList3D, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianPointList3D, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readTypeOfRealList2D( args[0], m_CoordList );
 }
 void IfcCartesianPointList3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

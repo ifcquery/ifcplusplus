@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcDate;
 class IFCQUERY_EXPORT IfcWorkTime : public IfcSchedulingTime
 { 
 public:
-	IfcWorkTime();
+	IfcWorkTime() = default;
 	IfcWorkTime( int id );
 	~IfcWorkTime();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

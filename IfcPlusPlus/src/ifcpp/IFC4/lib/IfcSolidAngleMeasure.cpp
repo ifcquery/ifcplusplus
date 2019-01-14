@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcSolidAngleMeasure.h"
 
 // TYPE IfcSolidAngleMeasure = REAL;
-IfcSolidAngleMeasure::IfcSolidAngleMeasure() = default;
 IfcSolidAngleMeasure::IfcSolidAngleMeasure( double value ) { m_value = value; }
-IfcSolidAngleMeasure::~IfcSolidAngleMeasure() = default;
+IfcSolidAngleMeasure::~IfcSolidAngleMeasure() {}
 shared_ptr<BuildingObject> IfcSolidAngleMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSolidAngleMeasure> copy_self( new IfcSolidAngleMeasure() );

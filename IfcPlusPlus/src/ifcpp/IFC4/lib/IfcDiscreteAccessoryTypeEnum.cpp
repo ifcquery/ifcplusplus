@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcDiscreteAccessoryTypeEnum.h"
 
 // TYPE IfcDiscreteAccessoryTypeEnum = ENUMERATION OF	(ANCHORPLATE	,BRACKET	,SHOE	,USERDEFINED	,NOTDEFINED);
-IfcDiscreteAccessoryTypeEnum::IfcDiscreteAccessoryTypeEnum() = default;
-IfcDiscreteAccessoryTypeEnum::~IfcDiscreteAccessoryTypeEnum() = default;
+IfcDiscreteAccessoryTypeEnum::~IfcDiscreteAccessoryTypeEnum() {}
 shared_ptr<BuildingObject> IfcDiscreteAccessoryTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDiscreteAccessoryTypeEnum> copy_self( new IfcDiscreteAccessoryTypeEnum() );

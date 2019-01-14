@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcVoidingFeatureTypeEnum;
 class IFCQUERY_EXPORT IfcVoidingFeature : public IfcFeatureElementSubtraction
 { 
 public:
-	IfcVoidingFeature();
+	IfcVoidingFeature() = default;
 	IfcVoidingFeature( int id );
 	~IfcVoidingFeature();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

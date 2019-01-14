@@ -16,9 +16,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBSplineSurface 
-IfcBSplineSurface::IfcBSplineSurface() = default;
 IfcBSplineSurface::IfcBSplineSurface( int id ) { m_entity_id = id; }
-IfcBSplineSurface::~IfcBSplineSurface() = default;
+IfcBSplineSurface::~IfcBSplineSurface() {}
 shared_ptr<BuildingObject> IfcBSplineSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBSplineSurface> copy_self( new IfcBSplineSurface() );
@@ -29,11 +28,12 @@ shared_ptr<BuildingObject> IfcBSplineSurface::getDeepCopy( BuildingCopyOptions& 
 	{
 		std::vector<shared_ptr<IfcCartesianPoint> >& vec_ii = m_ControlPointsList[ii];
 		std::vector<shared_ptr<IfcCartesianPoint> >& vec_ii_target = copy_self->m_ControlPointsList[ii];
-		for(auto & item_jj : vec_ii)
+		for( size_t jj=0; jj<vec_ii.size(); ++jj )
 		{
-				if( item_jj )
+			shared_ptr<IfcCartesianPoint>& item_jj = vec_ii[jj];
+			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcCartesianPoint>( item_jj->getDeepCopy(options) ) );
+				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcCartesianPoint>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}
@@ -61,12 +61,12 @@ void IfcBSplineSurface::getStepLine( std::stringstream& stream ) const
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBSplineSurface::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcBSplineSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBSplineSurface::toString() const { return L"IfcBSplineSurface"; }
 void IfcBSplineSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineSurface, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBSplineSurface, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_UDegree = IfcInteger::createObjectFromSTEP( args[0], map );
 	m_VDegree = IfcInteger::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList2D( args[2], m_ControlPointsList, map );
@@ -78,12 +78,12 @@ void IfcBSplineSurface::readStepArguments( const std::vector<std::wstring>& args
 void IfcBSplineSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedSurface::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "UDegree", m_UDegree );
-	vec_attributes.emplace_back( "VDegree", m_VDegree );
-	vec_attributes.emplace_back( "SurfaceForm", m_SurfaceForm );
-	vec_attributes.emplace_back( "UClosed", m_UClosed );
-	vec_attributes.emplace_back( "VClosed", m_VClosed );
-	vec_attributes.emplace_back( "SelfIntersect", m_SelfIntersect );
+	vec_attributes.emplace_back( std::make_pair( "UDegree", m_UDegree ) );
+	vec_attributes.emplace_back( std::make_pair( "VDegree", m_VDegree ) );
+	vec_attributes.emplace_back( std::make_pair( "SurfaceForm", m_SurfaceForm ) );
+	vec_attributes.emplace_back( std::make_pair( "UClosed", m_UClosed ) );
+	vec_attributes.emplace_back( std::make_pair( "VClosed", m_VClosed ) );
+	vec_attributes.emplace_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 }
 void IfcBSplineSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

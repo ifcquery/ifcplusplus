@@ -16,9 +16,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcLightSourceDirectional 
-IfcLightSourceDirectional::IfcLightSourceDirectional() = default;
 IfcLightSourceDirectional::IfcLightSourceDirectional( int id ) { m_entity_id = id; }
-IfcLightSourceDirectional::~IfcLightSourceDirectional() = default;
+IfcLightSourceDirectional::~IfcLightSourceDirectional() {}
 shared_ptr<BuildingObject> IfcLightSourceDirectional::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightSourceDirectional> copy_self( new IfcLightSourceDirectional() );
@@ -43,12 +42,12 @@ void IfcLightSourceDirectional::getStepLine( std::stringstream& stream ) const
 	if( m_Orientation ) { stream << "#" << m_Orientation->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLightSourceDirectional::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcLightSourceDirectional::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSourceDirectional::toString() const { return L"IfcLightSourceDirectional"; }
 void IfcLightSourceDirectional::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceDirectional, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceDirectional, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_LightColour, map );
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );
@@ -58,7 +57,7 @@ void IfcLightSourceDirectional::readStepArguments( const std::vector<std::wstrin
 void IfcLightSourceDirectional::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcLightSource::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Orientation", m_Orientation );
+	vec_attributes.emplace_back( std::make_pair( "Orientation", m_Orientation ) );
 }
 void IfcLightSourceDirectional::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

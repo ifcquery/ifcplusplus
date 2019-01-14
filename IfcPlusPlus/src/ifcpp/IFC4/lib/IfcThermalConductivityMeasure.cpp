@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcThermalConductivityMeasure.h"
 
 // TYPE IfcThermalConductivityMeasure = REAL;
-IfcThermalConductivityMeasure::IfcThermalConductivityMeasure() = default;
 IfcThermalConductivityMeasure::IfcThermalConductivityMeasure( double value ) { m_value = value; }
-IfcThermalConductivityMeasure::~IfcThermalConductivityMeasure() = default;
+IfcThermalConductivityMeasure::~IfcThermalConductivityMeasure() {}
 shared_ptr<BuildingObject> IfcThermalConductivityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcThermalConductivityMeasure> copy_self( new IfcThermalConductivityMeasure() );

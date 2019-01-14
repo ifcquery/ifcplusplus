@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcPlanarForceMeasure.h"
 
 // TYPE IfcPlanarForceMeasure = REAL;
-IfcPlanarForceMeasure::IfcPlanarForceMeasure() = default;
 IfcPlanarForceMeasure::IfcPlanarForceMeasure( double value ) { m_value = value; }
-IfcPlanarForceMeasure::~IfcPlanarForceMeasure() = default;
+IfcPlanarForceMeasure::~IfcPlanarForceMeasure() {}
 shared_ptr<BuildingObject> IfcPlanarForceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPlanarForceMeasure> copy_self( new IfcPlanarForceMeasure() );

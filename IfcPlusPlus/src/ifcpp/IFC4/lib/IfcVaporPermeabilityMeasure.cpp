@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcVaporPermeabilityMeasure.h"
 
 // TYPE IfcVaporPermeabilityMeasure = REAL;
-IfcVaporPermeabilityMeasure::IfcVaporPermeabilityMeasure() = default;
 IfcVaporPermeabilityMeasure::IfcVaporPermeabilityMeasure( double value ) { m_value = value; }
-IfcVaporPermeabilityMeasure::~IfcVaporPermeabilityMeasure() = default;
+IfcVaporPermeabilityMeasure::~IfcVaporPermeabilityMeasure() {}
 shared_ptr<BuildingObject> IfcVaporPermeabilityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVaporPermeabilityMeasure> copy_self( new IfcVaporPermeabilityMeasure() );

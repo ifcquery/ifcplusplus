@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcMoistureDiffusivityMeasure.h"
 
 // TYPE IfcMoistureDiffusivityMeasure = REAL;
-IfcMoistureDiffusivityMeasure::IfcMoistureDiffusivityMeasure() = default;
 IfcMoistureDiffusivityMeasure::IfcMoistureDiffusivityMeasure( double value ) { m_value = value; }
-IfcMoistureDiffusivityMeasure::~IfcMoistureDiffusivityMeasure() = default;
+IfcMoistureDiffusivityMeasure::~IfcMoistureDiffusivityMeasure() {}
 shared_ptr<BuildingObject> IfcMoistureDiffusivityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMoistureDiffusivityMeasure> copy_self( new IfcMoistureDiffusivityMeasure() );

@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcActionRequestTypeEnum();
+	IfcActionRequestTypeEnum() = default;
 	IfcActionRequestTypeEnum( IfcActionRequestTypeEnumEnum e ) { m_enum = e; }
 	~IfcActionRequestTypeEnum();
 	virtual const char* className() const { return "IfcActionRequestTypeEnum"; }

@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcStructuralPointAction : public IfcStructuralAction
 { 
 public:
-	IfcStructuralPointAction();
+	IfcStructuralPointAction() = default;
 	IfcStructuralPointAction( int id );
 	~IfcStructuralPointAction();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

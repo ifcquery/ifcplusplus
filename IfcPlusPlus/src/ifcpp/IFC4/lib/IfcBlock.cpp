@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBlock 
-IfcBlock::IfcBlock() = default;
 IfcBlock::IfcBlock( int id ) { m_entity_id = id; }
-IfcBlock::~IfcBlock() = default;
+IfcBlock::~IfcBlock() {}
 shared_ptr<BuildingObject> IfcBlock::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBlock> copy_self( new IfcBlock() );
@@ -38,12 +37,12 @@ void IfcBlock::getStepLine( std::stringstream& stream ) const
 	if( m_ZLength ) { m_ZLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBlock::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcBlock::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBlock::toString() const { return L"IfcBlock"; }
 void IfcBlock::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBlock, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBlock, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_XLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_YLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -52,9 +51,9 @@ void IfcBlock::readStepArguments( const std::vector<std::wstring>& args, const s
 void IfcBlock::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCsgPrimitive3D::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "XLength", m_XLength );
-	vec_attributes.emplace_back( "YLength", m_YLength );
-	vec_attributes.emplace_back( "ZLength", m_ZLength );
+	vec_attributes.emplace_back( std::make_pair( "XLength", m_XLength ) );
+	vec_attributes.emplace_back( std::make_pair( "YLength", m_YLength ) );
+	vec_attributes.emplace_back( std::make_pair( "ZLength", m_ZLength ) );
 }
 void IfcBlock::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

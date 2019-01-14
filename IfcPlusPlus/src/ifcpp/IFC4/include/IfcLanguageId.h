@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcLanguageId : public IfcIdentifier
 {
 public:
-	IfcLanguageId();
+	IfcLanguageId() = default;
 	IfcLanguageId( std::wstring value ) { m_value = value; }
 	~IfcLanguageId();
 	virtual const char* className() const { return "IfcLanguageId"; }

@@ -26,7 +26,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcStructuralCurveActivityTypeEnum();
+	IfcStructuralCurveActivityTypeEnum() = default;
 	IfcStructuralCurveActivityTypeEnum( IfcStructuralCurveActivityTypeEnumEnum e ) { m_enum = e; }
 	~IfcStructuralCurveActivityTypeEnum();
 	virtual const char* className() const { return "IfcStructuralCurveActivityTypeEnum"; }

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcRelConnectsWithRealizingElements : public IfcRelConnectsElements
 { 
 public:
-	IfcRelConnectsWithRealizingElements();
+	IfcRelConnectsWithRealizingElements() = default;
 	IfcRelConnectsWithRealizingElements( int id );
 	~IfcRelConnectsWithRealizingElements();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

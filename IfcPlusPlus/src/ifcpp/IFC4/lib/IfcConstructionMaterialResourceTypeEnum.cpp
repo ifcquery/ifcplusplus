@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcConstructionMaterialResourceTypeEnum.h"
 
 // TYPE IfcConstructionMaterialResourceTypeEnum = ENUMERATION OF	(AGGREGATES	,CONCRETE	,DRYWALL	,FUEL	,GYPSUM	,MASONRY	,METAL	,PLASTIC	,WOOD	,NOTDEFINED	,USERDEFINED);
-IfcConstructionMaterialResourceTypeEnum::IfcConstructionMaterialResourceTypeEnum() = default;
-IfcConstructionMaterialResourceTypeEnum::~IfcConstructionMaterialResourceTypeEnum() = default;
+IfcConstructionMaterialResourceTypeEnum::~IfcConstructionMaterialResourceTypeEnum() {}
 shared_ptr<BuildingObject> IfcConstructionMaterialResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConstructionMaterialResourceTypeEnum> copy_self( new IfcConstructionMaterialResourceTypeEnum() );

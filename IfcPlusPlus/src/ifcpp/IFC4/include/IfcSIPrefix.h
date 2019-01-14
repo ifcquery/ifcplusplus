@@ -33,7 +33,7 @@ public:
 		ENUM_ATTO
 	};
 
-	IfcSIPrefix();
+	IfcSIPrefix() = default;
 	IfcSIPrefix( IfcSIPrefixEnum e ) { m_enum = e; }
 	~IfcSIPrefix();
 	virtual const char* className() const { return "IfcSIPrefix"; }

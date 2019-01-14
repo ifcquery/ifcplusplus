@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcDoseEquivalentMeasure.h"
 
 // TYPE IfcDoseEquivalentMeasure = REAL;
-IfcDoseEquivalentMeasure::IfcDoseEquivalentMeasure() = default;
 IfcDoseEquivalentMeasure::IfcDoseEquivalentMeasure( double value ) { m_value = value; }
-IfcDoseEquivalentMeasure::~IfcDoseEquivalentMeasure() = default;
+IfcDoseEquivalentMeasure::~IfcDoseEquivalentMeasure() {}
 shared_ptr<BuildingObject> IfcDoseEquivalentMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoseEquivalentMeasure> copy_self( new IfcDoseEquivalentMeasure() );

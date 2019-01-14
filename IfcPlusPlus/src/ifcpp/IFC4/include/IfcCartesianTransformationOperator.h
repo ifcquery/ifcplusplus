@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcReal;
 class IFCQUERY_EXPORT IfcCartesianTransformationOperator : public IfcGeometricRepresentationItem
 { 
 public:
-	IfcCartesianTransformationOperator();
+	IfcCartesianTransformationOperator() = default;
 	IfcCartesianTransformationOperator( int id );
 	~IfcCartesianTransformationOperator();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -15,19 +15,19 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcCompositeProfileDef 
-IfcCompositeProfileDef::IfcCompositeProfileDef() = default;
 IfcCompositeProfileDef::IfcCompositeProfileDef( int id ) { m_entity_id = id; }
-IfcCompositeProfileDef::~IfcCompositeProfileDef() = default;
+IfcCompositeProfileDef::~IfcCompositeProfileDef() {}
 shared_ptr<BuildingObject> IfcCompositeProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCompositeProfileDef> copy_self( new IfcCompositeProfileDef() );
 	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
 	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
-	for(auto item_ii : m_Profiles)
+	for( size_t ii=0; ii<m_Profiles.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_Profiles[ii];
+		if( item_ii )
 		{
-			copy_self->m_Profiles.push_back( dynamic_pointer_cast<IfcProfileDef>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Profiles.emplace_back( dynamic_pointer_cast<IfcProfileDef>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Label ) { copy_self->m_Label = dynamic_pointer_cast<IfcLabel>( m_Label->getDeepCopy(options) ); }
@@ -45,12 +45,12 @@ void IfcCompositeProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_Label ) { m_Label->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCompositeProfileDef::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcCompositeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCompositeProfileDef::toString() const { return L"IfcCompositeProfileDef"; }
 void IfcCompositeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeProfileDef, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCompositeProfileDef, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Profiles, map );
@@ -63,9 +63,9 @@ void IfcCompositeProfileDef::getAttributes( std::vector<std::pair<std::string, s
 	{
 		shared_ptr<AttributeObjectVector> Profiles_vec_object( new AttributeObjectVector() );
 		std::copy( m_Profiles.begin(), m_Profiles.end(), std::back_inserter( Profiles_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "Profiles", Profiles_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "Profiles", Profiles_vec_object ) );
 	}
-	vec_attributes.emplace_back( "Label", m_Label );
+	vec_attributes.emplace_back( std::make_pair( "Label", m_Label ) );
 }
 void IfcCompositeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

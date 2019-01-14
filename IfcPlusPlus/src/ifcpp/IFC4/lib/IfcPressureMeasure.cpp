@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcPressureMeasure.h"
 
 // TYPE IfcPressureMeasure = REAL;
-IfcPressureMeasure::IfcPressureMeasure() = default;
 IfcPressureMeasure::IfcPressureMeasure( double value ) { m_value = value; }
-IfcPressureMeasure::~IfcPressureMeasure() = default;
+IfcPressureMeasure::~IfcPressureMeasure() {}
 shared_ptr<BuildingObject> IfcPressureMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPressureMeasure> copy_self( new IfcPressureMeasure() );

@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcLogical : public IfcSimpleValue
 {
 public:
-	IfcLogical();
+	IfcLogical() = default;
 	IfcLogical( LogicalEnum value );
 	~IfcLogical();
 	virtual const char* className() const { return "IfcLogical"; }

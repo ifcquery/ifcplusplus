@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcDynamicViscosityMeasure.h"
 
 // TYPE IfcDynamicViscosityMeasure = REAL;
-IfcDynamicViscosityMeasure::IfcDynamicViscosityMeasure() = default;
 IfcDynamicViscosityMeasure::IfcDynamicViscosityMeasure( double value ) { m_value = value; }
-IfcDynamicViscosityMeasure::~IfcDynamicViscosityMeasure() = default;
+IfcDynamicViscosityMeasure::~IfcDynamicViscosityMeasure() {}
 shared_ptr<BuildingObject> IfcDynamicViscosityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDynamicViscosityMeasure> copy_self( new IfcDynamicViscosityMeasure() );

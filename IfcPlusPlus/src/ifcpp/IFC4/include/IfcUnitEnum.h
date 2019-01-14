@@ -47,7 +47,7 @@ public:
 		ENUM_USERDEFINED
 	};
 
-	IfcUnitEnum();
+	IfcUnitEnum() = default;
 	IfcUnitEnum( IfcUnitEnumEnum e ) { m_enum = e; }
 	~IfcUnitEnum();
 	virtual const char* className() const { return "IfcUnitEnum"; }

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcReal;
 class IFCQUERY_EXPORT IfcConversionBasedUnitWithOffset : public IfcConversionBasedUnit
 { 
 public:
-	IfcConversionBasedUnitWithOffset();
+	IfcConversionBasedUnitWithOffset() = default;
 	IfcConversionBasedUnitWithOffset( int id );
 	~IfcConversionBasedUnitWithOffset();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

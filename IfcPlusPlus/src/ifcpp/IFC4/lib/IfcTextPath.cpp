@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcTextPath.h"
 
 // TYPE IfcTextPath = ENUMERATION OF	(LEFT	,RIGHT	,UP	,DOWN);
-IfcTextPath::IfcTextPath() = default;
-IfcTextPath::~IfcTextPath() = default;
+IfcTextPath::~IfcTextPath() {}
 shared_ptr<BuildingObject> IfcTextPath::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextPath> copy_self( new IfcTextPath() );

@@ -27,7 +27,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcFlowInstrumentTypeEnum();
+	IfcFlowInstrumentTypeEnum() = default;
 	IfcFlowInstrumentTypeEnum( IfcFlowInstrumentTypeEnumEnum e ) { m_enum = e; }
 	~IfcFlowInstrumentTypeEnum();
 	virtual const char* className() const { return "IfcFlowInstrumentTypeEnum"; }

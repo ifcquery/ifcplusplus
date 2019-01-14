@@ -15,18 +15,18 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcIntersectionCurve 
-IfcIntersectionCurve::IfcIntersectionCurve() = default;
 IfcIntersectionCurve::IfcIntersectionCurve( int id ) { m_entity_id = id; }
-IfcIntersectionCurve::~IfcIntersectionCurve() = default;
+IfcIntersectionCurve::~IfcIntersectionCurve() {}
 shared_ptr<BuildingObject> IfcIntersectionCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIntersectionCurve> copy_self( new IfcIntersectionCurve() );
 	if( m_Curve3D ) { copy_self->m_Curve3D = dynamic_pointer_cast<IfcCurve>( m_Curve3D->getDeepCopy(options) ); }
-	for(auto item_ii : m_AssociatedGeometry)
+	for( size_t ii=0; ii<m_AssociatedGeometry.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_AssociatedGeometry[ii];
+		if( item_ii )
 		{
-			copy_self->m_AssociatedGeometry.push_back( dynamic_pointer_cast<IfcPcurve>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_AssociatedGeometry.emplace_back( dynamic_pointer_cast<IfcPcurve>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_MasterRepresentation ) { copy_self->m_MasterRepresentation = dynamic_pointer_cast<IfcPreferredSurfaceCurveRepresentation>( m_MasterRepresentation->getDeepCopy(options) ); }
@@ -42,12 +42,12 @@ void IfcIntersectionCurve::getStepLine( std::stringstream& stream ) const
 	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcIntersectionCurve::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcIntersectionCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIntersectionCurve::toString() const { return L"IfcIntersectionCurve"; }
 void IfcIntersectionCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIntersectionCurve, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIntersectionCurve, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Curve3D, map );
 	readEntityReferenceList( args[1], m_AssociatedGeometry, map );
 	m_MasterRepresentation = IfcPreferredSurfaceCurveRepresentation::createObjectFromSTEP( args[2], map );

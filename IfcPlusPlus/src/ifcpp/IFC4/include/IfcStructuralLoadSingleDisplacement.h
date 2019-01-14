@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPlaneAngleMeasure;
 class IFCQUERY_EXPORT IfcStructuralLoadSingleDisplacement : public IfcStructuralLoadStatic
 { 
 public:
-	IfcStructuralLoadSingleDisplacement();
+	IfcStructuralLoadSingleDisplacement() = default;
 	IfcStructuralLoadSingleDisplacement( int id );
 	~IfcStructuralLoadSingleDisplacement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

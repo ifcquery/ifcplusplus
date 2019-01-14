@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcLightFixtureTypeEnum.h"
 
 // TYPE IfcLightFixtureTypeEnum = ENUMERATION OF	(POINTSOURCE	,DIRECTIONSOURCE	,SECURITYLIGHTING	,USERDEFINED	,NOTDEFINED);
-IfcLightFixtureTypeEnum::IfcLightFixtureTypeEnum() = default;
-IfcLightFixtureTypeEnum::~IfcLightFixtureTypeEnum() = default;
+IfcLightFixtureTypeEnum::~IfcLightFixtureTypeEnum() {}
 shared_ptr<BuildingObject> IfcLightFixtureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightFixtureTypeEnum> copy_self( new IfcLightFixtureTypeEnum() );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcConnectionGeometry;
 class IFCQUERY_EXPORT IfcRelConnectsWithEccentricity : public IfcRelConnectsStructuralMember
 { 
 public:
-	IfcRelConnectsWithEccentricity();
+	IfcRelConnectsWithEccentricity() = default;
 	IfcRelConnectsWithEccentricity( int id );
 	~IfcRelConnectsWithEccentricity();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

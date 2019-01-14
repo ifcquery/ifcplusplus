@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcSweptDiskSolidPolygonal : public IfcSweptDiskSolid
 { 
 public:
-	IfcSweptDiskSolidPolygonal();
+	IfcSweptDiskSolidPolygonal() = default;
 	IfcSweptDiskSolidPolygonal( int id );
 	~IfcSweptDiskSolidPolygonal();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

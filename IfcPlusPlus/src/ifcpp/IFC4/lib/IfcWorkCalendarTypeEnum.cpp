@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcWorkCalendarTypeEnum.h"
 
 // TYPE IfcWorkCalendarTypeEnum = ENUMERATION OF	(FIRSTSHIFT	,SECONDSHIFT	,THIRDSHIFT	,USERDEFINED	,NOTDEFINED);
-IfcWorkCalendarTypeEnum::IfcWorkCalendarTypeEnum() = default;
-IfcWorkCalendarTypeEnum::~IfcWorkCalendarTypeEnum() = default;
+IfcWorkCalendarTypeEnum::~IfcWorkCalendarTypeEnum() {}
 shared_ptr<BuildingObject> IfcWorkCalendarTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWorkCalendarTypeEnum> copy_self( new IfcWorkCalendarTypeEnum() );

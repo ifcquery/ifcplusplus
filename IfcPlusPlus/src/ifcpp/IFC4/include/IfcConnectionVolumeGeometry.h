@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcSolidOrShell;
 class IFCQUERY_EXPORT IfcConnectionVolumeGeometry : public IfcConnectionGeometry
 { 
 public:
-	IfcConnectionVolumeGeometry();
+	IfcConnectionVolumeGeometry() = default;
 	IfcConnectionVolumeGeometry( int id );
 	~IfcConnectionVolumeGeometry();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

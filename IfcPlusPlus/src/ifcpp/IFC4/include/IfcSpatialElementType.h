@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcSpatialElementType : public IfcTypeProduct
 { 
 public:
-	IfcSpatialElementType();
+	IfcSpatialElementType() = default;
 	IfcSpatialElementType( int id );
 	~IfcSpatialElementType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

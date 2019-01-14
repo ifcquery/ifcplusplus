@@ -19,7 +19,7 @@ class IFCQUERY_EXPORT IfcCoordinateOperation;
 class IFCQUERY_EXPORT IfcGeometricRepresentationContext : virtual public IfcCoordinateReferenceSystemSelect, public IfcRepresentationContext
 { 
 public:
-	IfcGeometricRepresentationContext();
+	IfcGeometricRepresentationContext() = default;
 	IfcGeometricRepresentationContext( int id );
 	~IfcGeometricRepresentationContext();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

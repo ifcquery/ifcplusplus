@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRelAssociatesMaterial;
 class IFCQUERY_EXPORT IfcMaterialUsageDefinition : virtual public IfcMaterialSelect, public BuildingEntity
 { 
 public:
-	IfcMaterialUsageDefinition();
+	IfcMaterialUsageDefinition() = default;
 	IfcMaterialUsageDefinition( int id );
 	~IfcMaterialUsageDefinition();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

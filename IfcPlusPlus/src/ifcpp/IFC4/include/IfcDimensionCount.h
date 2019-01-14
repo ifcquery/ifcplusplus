@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcDimensionCount : public BuildingObject
 {
 public:
-	IfcDimensionCount();
+	IfcDimensionCount() = default;
 	IfcDimensionCount( int value );
 	~IfcDimensionCount();
 	virtual const char* className() const { return "IfcDimensionCount"; }

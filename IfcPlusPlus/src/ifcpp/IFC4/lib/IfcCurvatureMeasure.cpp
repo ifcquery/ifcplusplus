@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcCurvatureMeasure.h"
 
 // TYPE IfcCurvatureMeasure = REAL;
-IfcCurvatureMeasure::IfcCurvatureMeasure() = default;
 IfcCurvatureMeasure::IfcCurvatureMeasure( double value ) { m_value = value; }
-IfcCurvatureMeasure::~IfcCurvatureMeasure() = default;
+IfcCurvatureMeasure::~IfcCurvatureMeasure() {}
 shared_ptr<BuildingObject> IfcCurvatureMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurvatureMeasure> copy_self( new IfcCurvatureMeasure() );

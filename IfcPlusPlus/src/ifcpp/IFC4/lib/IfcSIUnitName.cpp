@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcSIUnitName.h"
 
 // TYPE IfcSIUnitName = ENUMERATION OF	(AMPERE	,BECQUEREL	,CANDELA	,COULOMB	,CUBIC_METRE	,DEGREE_CELSIUS	,FARAD	,GRAM	,GRAY	,HENRY	,HERTZ	,JOULE	,KELVIN	,LUMEN	,LUX	,METRE	,MOLE	,NEWTON	,OHM	,PASCAL	,RADIAN	,SECOND	,SIEMENS	,SIEVERT	,SQUARE_METRE	,STERADIAN	,TESLA	,VOLT	,WATT	,WEBER);
-IfcSIUnitName::IfcSIUnitName() = default;
-IfcSIUnitName::~IfcSIUnitName() = default;
+IfcSIUnitName::~IfcSIUnitName() {}
 shared_ptr<BuildingObject> IfcSIUnitName::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSIUnitName> copy_self( new IfcSIUnitName() );

@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcBurnerTypeEnum.h"
 
 // TYPE IfcBurnerTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-IfcBurnerTypeEnum::IfcBurnerTypeEnum() = default;
-IfcBurnerTypeEnum::~IfcBurnerTypeEnum() = default;
+IfcBurnerTypeEnum::~IfcBurnerTypeEnum() {}
 shared_ptr<BuildingObject> IfcBurnerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBurnerTypeEnum> copy_self( new IfcBurnerTypeEnum() );

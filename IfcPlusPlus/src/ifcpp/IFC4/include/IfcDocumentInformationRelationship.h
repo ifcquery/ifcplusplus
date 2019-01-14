@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcDocumentInformationRelationship : public IfcResourceLevelRelationship
 { 
 public:
-	IfcDocumentInformationRelationship();
+	IfcDocumentInformationRelationship() = default;
 	IfcDocumentInformationRelationship( int id );
 	~IfcDocumentInformationRelationship();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcIdentifier.h"
 
 // TYPE IfcIdentifier = STRING(255);
-IfcIdentifier::IfcIdentifier() = default;
 IfcIdentifier::IfcIdentifier( std::wstring value ) { m_value = value; }
-IfcIdentifier::~IfcIdentifier() = default;
+IfcIdentifier::~IfcIdentifier() {}
 shared_ptr<BuildingObject> IfcIdentifier::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIdentifier> copy_self( new IfcIdentifier() );

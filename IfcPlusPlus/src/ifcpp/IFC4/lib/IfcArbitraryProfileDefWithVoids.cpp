@@ -15,20 +15,20 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcArbitraryProfileDefWithVoids 
-IfcArbitraryProfileDefWithVoids::IfcArbitraryProfileDefWithVoids() = default;
 IfcArbitraryProfileDefWithVoids::IfcArbitraryProfileDefWithVoids( int id ) { m_entity_id = id; }
-IfcArbitraryProfileDefWithVoids::~IfcArbitraryProfileDefWithVoids() = default;
+IfcArbitraryProfileDefWithVoids::~IfcArbitraryProfileDefWithVoids() {}
 shared_ptr<BuildingObject> IfcArbitraryProfileDefWithVoids::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcArbitraryProfileDefWithVoids> copy_self( new IfcArbitraryProfileDefWithVoids() );
 	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
 	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
 	if( m_OuterCurve ) { copy_self->m_OuterCurve = dynamic_pointer_cast<IfcCurve>( m_OuterCurve->getDeepCopy(options) ); }
-	for(auto item_ii : m_InnerCurves)
+	for( size_t ii=0; ii<m_InnerCurves.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_InnerCurves[ii];
+		if( item_ii )
 		{
-			copy_self->m_InnerCurves.push_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_InnerCurves.emplace_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -45,12 +45,12 @@ void IfcArbitraryProfileDefWithVoids::getStepLine( std::stringstream& stream ) c
 	writeEntityList( stream, m_InnerCurves );
 	stream << ");";
 }
-void IfcArbitraryProfileDefWithVoids::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcArbitraryProfileDefWithVoids::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcArbitraryProfileDefWithVoids::toString() const { return L"IfcArbitraryProfileDefWithVoids"; }
 void IfcArbitraryProfileDefWithVoids::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcArbitraryProfileDefWithVoids, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcArbitraryProfileDefWithVoids, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_OuterCurve, map );
@@ -63,7 +63,7 @@ void IfcArbitraryProfileDefWithVoids::getAttributes( std::vector<std::pair<std::
 	{
 		shared_ptr<AttributeObjectVector> InnerCurves_vec_object( new AttributeObjectVector() );
 		std::copy( m_InnerCurves.begin(), m_InnerCurves.end(), std::back_inserter( InnerCurves_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "InnerCurves", InnerCurves_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "InnerCurves", InnerCurves_vec_object ) );
 	}
 }
 void IfcArbitraryProfileDefWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

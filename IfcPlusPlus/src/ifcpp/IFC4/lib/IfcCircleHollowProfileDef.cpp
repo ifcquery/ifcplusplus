@@ -16,9 +16,8 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcCircleHollowProfileDef 
-IfcCircleHollowProfileDef::IfcCircleHollowProfileDef() = default;
 IfcCircleHollowProfileDef::IfcCircleHollowProfileDef( int id ) { m_entity_id = id; }
-IfcCircleHollowProfileDef::~IfcCircleHollowProfileDef() = default;
+IfcCircleHollowProfileDef::~IfcCircleHollowProfileDef() {}
 shared_ptr<BuildingObject> IfcCircleHollowProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCircleHollowProfileDef> copy_self( new IfcCircleHollowProfileDef() );
@@ -43,12 +42,12 @@ void IfcCircleHollowProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_WallThickness ) { m_WallThickness->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCircleHollowProfileDef::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcCircleHollowProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCircleHollowProfileDef::toString() const { return L"IfcCircleHollowProfileDef"; }
 void IfcCircleHollowProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCircleHollowProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCircleHollowProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );
@@ -58,7 +57,7 @@ void IfcCircleHollowProfileDef::readStepArguments( const std::vector<std::wstrin
 void IfcCircleHollowProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCircleProfileDef::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "WallThickness", m_WallThickness );
+	vec_attributes.emplace_back( std::make_pair( "WallThickness", m_WallThickness ) );
 }
 void IfcCircleHollowProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

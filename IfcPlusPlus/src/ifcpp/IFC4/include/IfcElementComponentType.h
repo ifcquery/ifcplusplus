@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcElementComponentType : public IfcElementType
 { 
 public:
-	IfcElementComponentType();
+	IfcElementComponentType() = default;
 	IfcElementComponentType( int id );
 	~IfcElementComponentType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

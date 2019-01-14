@@ -17,7 +17,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #define _USE_MATH_DEFINES
 #include <cmath>
-#include <cstring>
+#include <string.h>
 #include <boost/algorithm/string.hpp>
 #include "ifcpp/IFC4/include/IfcConversionBasedUnit.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -55,9 +55,10 @@ UnitConverter::UnitConverter()
 	m_prefix_map[IfcSIPrefix::ENUM_PICO]	= 1E-12;
 	m_prefix_map[IfcSIPrefix::ENUM_FEMTO]	= 1E-15;
 	m_prefix_map[IfcSIPrefix::ENUM_ATTO]	= 1E-18;
+	m_plane_angle_factor = M_PI/180.0;
 }
 
-UnitConverter::~UnitConverter()= default;
+UnitConverter::~UnitConverter(){}
 
 void UnitConverter::resetUnitFactors()
 {
@@ -84,6 +85,27 @@ void UnitConverter::resetComplete()
 	resetUnitFactors();
 }
 
+void UnitConverter::setAngleUnit(AngularUnit unit)
+{
+	m_angular_unit = unit;
+	if( m_angular_unit == RADIANT )
+	{
+		m_plane_angle_factor = 1.0; // radian
+	}
+	else if( m_angular_unit == DEGREE )
+	{
+		m_plane_angle_factor = M_PI / 180.0; // 360°
+	}
+	else if( m_angular_unit == GON )
+	{
+		m_plane_angle_factor = M_PI / 200.0; // 400 gon
+	}
+	else
+	{
+		messageCallback("Could not set angular unit", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__);
+	}
+}
+
 void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 {
 	resetComplete();
@@ -96,9 +118,10 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 
 	shared_ptr<IfcUnitAssignment> unit_assignment = project->m_UnitsInContext;
 	std::vector<shared_ptr<IfcUnit> >& vec_units = unit_assignment->m_Units;
-	for(auto unit : vec_units)
+	for( size_t ii = 0; ii < vec_units.size(); ++ii )
 	{
-			if( !unit )
+		shared_ptr<IfcUnit> unit = vec_units[ii];
+		if( !unit )
 		{
 			continue;
 		}

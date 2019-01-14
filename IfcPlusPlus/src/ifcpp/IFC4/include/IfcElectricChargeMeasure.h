@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcElectricChargeMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcElectricChargeMeasure();
+	IfcElectricChargeMeasure() = default;
 	IfcElectricChargeMeasure( double value );
 	~IfcElectricChargeMeasure();
 	virtual const char* className() const { return "IfcElectricChargeMeasure"; }

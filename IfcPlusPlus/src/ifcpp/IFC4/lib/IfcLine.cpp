@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcVector.h"
 
 // ENTITY IfcLine 
-IfcLine::IfcLine() = default;
 IfcLine::IfcLine( int id ) { m_entity_id = id; }
-IfcLine::~IfcLine() = default;
+IfcLine::~IfcLine() {}
 shared_ptr<BuildingObject> IfcLine::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLine> copy_self( new IfcLine() );
@@ -32,20 +31,20 @@ void IfcLine::getStepLine( std::stringstream& stream ) const
 	if( m_Dir ) { stream << "#" << m_Dir->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLine::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcLine::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLine::toString() const { return L"IfcLine"; }
 void IfcLine::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLine, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLine, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Pnt, map );
 	readEntityReference( args[1], m_Dir, map );
 }
 void IfcLine::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCurve::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Pnt", m_Pnt );
-	vec_attributes.emplace_back( "Dir", m_Dir );
+	vec_attributes.emplace_back( std::make_pair( "Pnt", m_Pnt ) );
+	vec_attributes.emplace_back( std::make_pair( "Dir", m_Dir ) );
 }
 void IfcLine::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

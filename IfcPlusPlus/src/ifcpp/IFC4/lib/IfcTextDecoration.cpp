@@ -10,9 +10,8 @@
 #include "ifcpp/IFC4/include/IfcTextDecoration.h"
 
 // TYPE IfcTextDecoration = STRING;
-IfcTextDecoration::IfcTextDecoration() = default;
 IfcTextDecoration::IfcTextDecoration( std::wstring value ) { m_value = value; }
-IfcTextDecoration::~IfcTextDecoration() = default;
+IfcTextDecoration::~IfcTextDecoration() {}
 shared_ptr<BuildingObject> IfcTextDecoration::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextDecoration> copy_self( new IfcTextDecoration() );

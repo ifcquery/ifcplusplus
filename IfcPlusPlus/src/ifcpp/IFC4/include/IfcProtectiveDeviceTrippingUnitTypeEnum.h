@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcProtectiveDeviceTrippingUnitTypeEnum();
+	IfcProtectiveDeviceTrippingUnitTypeEnum() = default;
 	IfcProtectiveDeviceTrippingUnitTypeEnum( IfcProtectiveDeviceTrippingUnitTypeEnumEnum e ) { m_enum = e; }
 	~IfcProtectiveDeviceTrippingUnitTypeEnum();
 	virtual const char* className() const { return "IfcProtectiveDeviceTrippingUnitTypeEnum"; }

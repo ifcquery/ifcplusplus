@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcOpeningElementTypeEnum.h"
 
 // TYPE IfcOpeningElementTypeEnum = ENUMERATION OF	(OPENING	,RECESS	,USERDEFINED	,NOTDEFINED);
-IfcOpeningElementTypeEnum::IfcOpeningElementTypeEnum() = default;
-IfcOpeningElementTypeEnum::~IfcOpeningElementTypeEnum() = default;
+IfcOpeningElementTypeEnum::~IfcOpeningElementTypeEnum() {}
 shared_ptr<BuildingObject> IfcOpeningElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOpeningElementTypeEnum> copy_self( new IfcOpeningElementTypeEnum() );

@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcWorkCalendarTypeEnum();
+	IfcWorkCalendarTypeEnum() = default;
 	IfcWorkCalendarTypeEnum( IfcWorkCalendarTypeEnumEnum e ) { m_enum = e; }
 	~IfcWorkCalendarTypeEnum();
 	virtual const char* className() const { return "IfcWorkCalendarTypeEnum"; }

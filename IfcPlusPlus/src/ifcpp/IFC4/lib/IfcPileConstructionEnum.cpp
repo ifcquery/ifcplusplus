@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcPileConstructionEnum.h"
 
 // TYPE IfcPileConstructionEnum = ENUMERATION OF	(CAST_IN_PLACE	,COMPOSITE	,PRECAST_CONCRETE	,PREFAB_STEEL	,USERDEFINED	,NOTDEFINED);
-IfcPileConstructionEnum::IfcPileConstructionEnum() = default;
-IfcPileConstructionEnum::~IfcPileConstructionEnum() = default;
+IfcPileConstructionEnum::~IfcPileConstructionEnum() {}
 shared_ptr<BuildingObject> IfcPileConstructionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPileConstructionEnum> copy_self( new IfcPileConstructionEnum() );

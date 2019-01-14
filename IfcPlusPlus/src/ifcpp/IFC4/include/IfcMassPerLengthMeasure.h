@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcMassPerLengthMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcMassPerLengthMeasure();
+	IfcMassPerLengthMeasure() = default;
 	IfcMassPerLengthMeasure( double value );
 	~IfcMassPerLengthMeasure();
 	virtual const char* className() const { return "IfcMassPerLengthMeasure"; }

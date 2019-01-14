@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcLightDistributionDataSourceSelect;
 class IFCQUERY_EXPORT IfcLightSourceGoniometric : public IfcLightSource
 { 
 public:
-	IfcLightSourceGoniometric();
+	IfcLightSourceGoniometric() = default;
 	IfcLightSourceGoniometric( int id );
 	~IfcLightSourceGoniometric();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

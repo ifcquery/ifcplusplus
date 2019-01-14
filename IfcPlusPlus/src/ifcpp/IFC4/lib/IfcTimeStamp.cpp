@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcTimeStamp.h"
 
 // TYPE IfcTimeStamp = INTEGER;
-IfcTimeStamp::IfcTimeStamp() = default;
 IfcTimeStamp::IfcTimeStamp( int value ) { m_value = value; }
-IfcTimeStamp::~IfcTimeStamp() = default;
+IfcTimeStamp::~IfcTimeStamp() {}
 shared_ptr<BuildingObject> IfcTimeStamp::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTimeStamp> copy_self( new IfcTimeStamp() );

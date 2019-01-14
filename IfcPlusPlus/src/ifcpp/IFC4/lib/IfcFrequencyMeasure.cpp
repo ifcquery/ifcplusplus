@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcFrequencyMeasure.h"
 
 // TYPE IfcFrequencyMeasure = REAL;
-IfcFrequencyMeasure::IfcFrequencyMeasure() = default;
 IfcFrequencyMeasure::IfcFrequencyMeasure( double value ) { m_value = value; }
-IfcFrequencyMeasure::~IfcFrequencyMeasure() = default;
+IfcFrequencyMeasure::~IfcFrequencyMeasure() {}
 shared_ptr<BuildingObject> IfcFrequencyMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFrequencyMeasure> copy_self( new IfcFrequencyMeasure() );

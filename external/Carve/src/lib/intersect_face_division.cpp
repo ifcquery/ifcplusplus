@@ -177,10 +177,12 @@ struct Graph {
     }
 
     if (c) {
+#if defined(CARVE_DEBUG)
       std::cerr
           << "warning: " << c
           << " edges should have already been removed at graph destruction time"
           << std::endl;
+#endif
     }
   }
 
@@ -298,9 +300,11 @@ static void splitFace(
   for (carve::csg::V2Set::const_iterator i = edges.begin(), e = edges.end();
        i != e; ++i) {
     carve::mesh::MeshSet<3>::vertex_t *v1 = ((*i).first), *v2 = ((*i).second);
+#if defined(CARVE_DEBUG)
     if (carve::geom::equal(v1->v, v2->v)) {
       std::cerr << "WARNING! " << v1->v << "==" << v2->v << std::endl;
     }
+#endif
     graph.addEdge(v1, v2);
   }
 
@@ -713,9 +717,11 @@ static void mergeFacesAndHoles(
                   << std::endl;
 #endif
       } else {
+#if defined(CARVE_DEBUG)
         std::cerr << "uncontained hole loop does not share vertices with any "
                      "face loop!"
                   << std::endl;
+#endif
       }
       unassigned--;
     }

@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcTextTransformation;
 class IFCQUERY_EXPORT IfcTextStyleTextModel : public IfcPresentationItem
 { 
 public:
-	IfcTextStyleTextModel();
+	IfcTextStyleTextModel() = default;
 	IfcTextStyleTextModel( int id );
 	~IfcTextStyleTextModel();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

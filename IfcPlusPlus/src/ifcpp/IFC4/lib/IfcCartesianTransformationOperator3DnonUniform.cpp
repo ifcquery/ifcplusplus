@@ -15,9 +15,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianTransformationOperator3DnonUniform 
-IfcCartesianTransformationOperator3DnonUniform::IfcCartesianTransformationOperator3DnonUniform() = default;
 IfcCartesianTransformationOperator3DnonUniform::IfcCartesianTransformationOperator3DnonUniform( int id ) { m_entity_id = id; }
-IfcCartesianTransformationOperator3DnonUniform::~IfcCartesianTransformationOperator3DnonUniform() = default;
+IfcCartesianTransformationOperator3DnonUniform::~IfcCartesianTransformationOperator3DnonUniform() {}
 shared_ptr<BuildingObject> IfcCartesianTransformationOperator3DnonUniform::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianTransformationOperator3DnonUniform> copy_self( new IfcCartesianTransformationOperator3DnonUniform() );
@@ -33,7 +32,7 @@ shared_ptr<BuildingObject> IfcCartesianTransformationOperator3DnonUniform::getDe
 void IfcCartesianTransformationOperator3DnonUniform::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCARTESIANTRANSFORMATIONOPERATOR3DNONUNIFORM" << "(";
-	if( m_Axis1 ) { stream << "#" << m_Axis1->m_entity_id; } else { stream << "*"; }
+	if( m_Axis1 ) { stream << "#" << m_Axis1->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Axis2 ) { stream << "#" << m_Axis2->m_entity_id; } else { stream << "$"; }
 	stream << ",";
@@ -48,12 +47,12 @@ void IfcCartesianTransformationOperator3DnonUniform::getStepLine( std::stringstr
 	if( m_Scale3 ) { m_Scale3->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCartesianTransformationOperator3DnonUniform::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcCartesianTransformationOperator3DnonUniform::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianTransformationOperator3DnonUniform::toString() const { return L"IfcCartesianTransformationOperator3DnonUniform"; }
 void IfcCartesianTransformationOperator3DnonUniform::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator3DnonUniform, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator3DnonUniform, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Axis1, map );
 	readEntityReference( args[1], m_Axis2, map );
 	readEntityReference( args[2], m_LocalOrigin, map );
@@ -65,8 +64,8 @@ void IfcCartesianTransformationOperator3DnonUniform::readStepArguments( const st
 void IfcCartesianTransformationOperator3DnonUniform::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCartesianTransformationOperator3D::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Scale2", m_Scale2 );
-	vec_attributes.emplace_back( "Scale3", m_Scale3 );
+	vec_attributes.emplace_back( std::make_pair( "Scale2", m_Scale2 ) );
+	vec_attributes.emplace_back( std::make_pair( "Scale3", m_Scale3 ) );
 }
 void IfcCartesianTransformationOperator3DnonUniform::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

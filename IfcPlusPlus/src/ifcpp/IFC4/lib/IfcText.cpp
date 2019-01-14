@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // TYPE IfcText = STRING;
-IfcText::IfcText() = default;
 IfcText::IfcText( std::wstring value ) { m_value = value; }
-IfcText::~IfcText() = default;
+IfcText::~IfcText() {}
 shared_ptr<BuildingObject> IfcText::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcText> copy_self( new IfcText() );

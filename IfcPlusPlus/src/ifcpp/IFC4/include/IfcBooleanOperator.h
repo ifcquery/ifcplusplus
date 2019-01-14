@@ -20,7 +20,7 @@ public:
 		ENUM_DIFFERENCE
 	};
 
-	IfcBooleanOperator();
+	IfcBooleanOperator() = default;
 	IfcBooleanOperator( IfcBooleanOperatorEnum e ) { m_enum = e; }
 	~IfcBooleanOperator();
 	virtual const char* className() const { return "IfcBooleanOperator"; }

@@ -13,24 +13,25 @@
 #include "ifcpp/IFC4/include/IfcTextureVertex.h"
 
 // ENTITY IfcTextureMap 
-IfcTextureMap::IfcTextureMap() = default;
 IfcTextureMap::IfcTextureMap( int id ) { m_entity_id = id; }
-IfcTextureMap::~IfcTextureMap() = default;
+IfcTextureMap::~IfcTextureMap() {}
 shared_ptr<BuildingObject> IfcTextureMap::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextureMap> copy_self( new IfcTextureMap() );
-	for(auto item_ii : m_Maps)
+	for( size_t ii=0; ii<m_Maps.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_Maps[ii];
+		if( item_ii )
 		{
-			copy_self->m_Maps.push_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Maps.emplace_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	for(auto item_ii : m_Vertices)
+	for( size_t ii=0; ii<m_Vertices.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_Vertices[ii];
+		if( item_ii )
 		{
-			copy_self->m_Vertices.push_back( dynamic_pointer_cast<IfcTextureVertex>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Vertices.emplace_back( dynamic_pointer_cast<IfcTextureVertex>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcFace>( m_MappedTo->getDeepCopy(options) ); }
@@ -46,12 +47,12 @@ void IfcTextureMap::getStepLine( std::stringstream& stream ) const
 	if( m_MappedTo ) { stream << "#" << m_MappedTo->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTextureMap::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcTextureMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextureMap::toString() const { return L"IfcTextureMap"; }
 void IfcTextureMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureMap, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureMap, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Maps, map );
 	readEntityReferenceList( args[1], m_Vertices, map );
 	readEntityReference( args[2], m_MappedTo, map );
@@ -63,9 +64,9 @@ void IfcTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr
 	{
 		shared_ptr<AttributeObjectVector> Vertices_vec_object( new AttributeObjectVector() );
 		std::copy( m_Vertices.begin(), m_Vertices.end(), std::back_inserter( Vertices_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "Vertices", Vertices_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "Vertices", Vertices_vec_object ) );
 	}
-	vec_attributes.emplace_back( "MappedTo", m_MappedTo );
+	vec_attributes.emplace_back( std::make_pair( "MappedTo", m_MappedTo ) );
 }
 void IfcTextureMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -78,7 +79,7 @@ void IfcTextureMap::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_
 	if( !ptr_self ) { throw BuildingException( "IfcTextureMap::setInverseCounterparts: type mismatch" ); }
 	if( m_MappedTo )
 	{
-		m_MappedTo->m_HasTextureMaps_inverse.push_back( ptr_self );
+		m_MappedTo->m_HasTextureMaps_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcTextureMap::unlinkFromInverseCounterparts()

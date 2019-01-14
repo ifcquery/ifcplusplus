@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcParameterValue;
 class IFCQUERY_EXPORT IfcSweptDiskSolid : public IfcSolidModel
 { 
 public:
-	IfcSweptDiskSolid();
+	IfcSweptDiskSolid() = default;
 	IfcSweptDiskSolid( int id );
 	~IfcSweptDiskSolid();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

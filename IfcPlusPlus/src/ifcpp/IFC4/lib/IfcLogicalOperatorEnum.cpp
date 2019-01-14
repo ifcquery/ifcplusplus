@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcLogicalOperatorEnum.h"
 
 // TYPE IfcLogicalOperatorEnum = ENUMERATION OF	(LOGICALAND	,LOGICALOR	,LOGICALXOR	,LOGICALNOTAND	,LOGICALNOTOR);
-IfcLogicalOperatorEnum::IfcLogicalOperatorEnum() = default;
-IfcLogicalOperatorEnum::~IfcLogicalOperatorEnum() = default;
+IfcLogicalOperatorEnum::~IfcLogicalOperatorEnum() {}
 shared_ptr<BuildingObject> IfcLogicalOperatorEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLogicalOperatorEnum> copy_self( new IfcLogicalOperatorEnum() );

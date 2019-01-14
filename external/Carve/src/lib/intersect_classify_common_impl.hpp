@@ -260,7 +260,9 @@ void performFaceLoopWork(
     FaceClass fc;
 
     if (classifier.faceLoopSanityChecker(*i)) {
+#if defined(CARVE_DEBUG)
       std::cerr << "UNEXPECTED face loop with size != 1." << std::endl;
+#endif
       ++i;
       continue;
     }

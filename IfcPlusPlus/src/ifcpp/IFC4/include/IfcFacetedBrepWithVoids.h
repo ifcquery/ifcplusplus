@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcClosedShell;
 class IFCQUERY_EXPORT IfcFacetedBrepWithVoids : public IfcFacetedBrep
 { 
 public:
-	IfcFacetedBrepWithVoids();
+	IfcFacetedBrepWithVoids() = default;
 	IfcFacetedBrepWithVoids( int id );
 	~IfcFacetedBrepWithVoids();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

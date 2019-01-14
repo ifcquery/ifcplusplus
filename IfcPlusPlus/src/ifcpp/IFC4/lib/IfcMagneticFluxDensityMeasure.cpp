@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcMagneticFluxDensityMeasure.h"
 
 // TYPE IfcMagneticFluxDensityMeasure = REAL;
-IfcMagneticFluxDensityMeasure::IfcMagneticFluxDensityMeasure() = default;
 IfcMagneticFluxDensityMeasure::IfcMagneticFluxDensityMeasure( double value ) { m_value = value; }
-IfcMagneticFluxDensityMeasure::~IfcMagneticFluxDensityMeasure() = default;
+IfcMagneticFluxDensityMeasure::~IfcMagneticFluxDensityMeasure() {}
 shared_ptr<BuildingObject> IfcMagneticFluxDensityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMagneticFluxDensityMeasure> copy_self( new IfcMagneticFluxDensityMeasure() );

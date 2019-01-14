@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcCurveStyleFontPattern;
 class IFCQUERY_EXPORT IfcCurveStyleFont : virtual public IfcCurveStyleFontSelect, public IfcPresentationItem
 { 
 public:
-	IfcCurveStyleFont();
+	IfcCurveStyleFont() = default;
 	IfcCurveStyleFont( int id );
 	~IfcCurveStyleFont();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

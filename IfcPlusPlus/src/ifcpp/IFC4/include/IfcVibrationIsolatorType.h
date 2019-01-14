@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcVibrationIsolatorTypeEnum;
 class IFCQUERY_EXPORT IfcVibrationIsolatorType : public IfcElementComponentType
 { 
 public:
-	IfcVibrationIsolatorType();
+	IfcVibrationIsolatorType() = default;
 	IfcVibrationIsolatorType( int id );
 	~IfcVibrationIsolatorType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

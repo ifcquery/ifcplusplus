@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcWindowLiningProperties : public IfcPreDefinedPropertySet
 { 
 public:
-	IfcWindowLiningProperties();
+	IfcWindowLiningProperties() = default;
 	IfcWindowLiningProperties( int id );
 	~IfcWindowLiningProperties();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

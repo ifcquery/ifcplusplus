@@ -33,7 +33,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcStairTypeEnum();
+	IfcStairTypeEnum() = default;
 	IfcStairTypeEnum( IfcStairTypeEnumEnum e ) { m_enum = e; }
 	~IfcStairTypeEnum();
 	virtual const char* className() const { return "IfcStairTypeEnum"; }

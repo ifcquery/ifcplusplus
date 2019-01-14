@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcCurveStyleFontPattern : public IfcPresentationItem
 { 
 public:
-	IfcCurveStyleFontPattern();
+	IfcCurveStyleFontPattern() = default;
 	IfcCurveStyleFontPattern( int id );
 	~IfcCurveStyleFontPattern();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

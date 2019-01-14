@@ -15,9 +15,8 @@
 #include "ifcpp/IFC4/include/IfcSurface.h"
 
 // ENTITY IfcBoxedHalfSpace 
-IfcBoxedHalfSpace::IfcBoxedHalfSpace() = default;
 IfcBoxedHalfSpace::IfcBoxedHalfSpace( int id ) { m_entity_id = id; }
-IfcBoxedHalfSpace::~IfcBoxedHalfSpace() = default;
+IfcBoxedHalfSpace::~IfcBoxedHalfSpace() {}
 shared_ptr<BuildingObject> IfcBoxedHalfSpace::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoxedHalfSpace> copy_self( new IfcBoxedHalfSpace() );
@@ -36,12 +35,12 @@ void IfcBoxedHalfSpace::getStepLine( std::stringstream& stream ) const
 	if( m_Enclosure ) { stream << "#" << m_Enclosure->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBoxedHalfSpace::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcBoxedHalfSpace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoxedHalfSpace::toString() const { return L"IfcBoxedHalfSpace"; }
 void IfcBoxedHalfSpace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoxedHalfSpace, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoxedHalfSpace, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BaseSurface, map );
 	m_AgreementFlag = IfcBoolean::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Enclosure, map );
@@ -49,7 +48,7 @@ void IfcBoxedHalfSpace::readStepArguments( const std::vector<std::wstring>& args
 void IfcBoxedHalfSpace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcHalfSpaceSolid::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Enclosure", m_Enclosure );
+	vec_attributes.emplace_back( std::make_pair( "Enclosure", m_Enclosure ) );
 }
 void IfcBoxedHalfSpace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

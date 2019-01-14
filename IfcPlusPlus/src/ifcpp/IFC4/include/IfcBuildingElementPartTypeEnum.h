@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcBuildingElementPartTypeEnum();
+	IfcBuildingElementPartTypeEnum() = default;
 	IfcBuildingElementPartTypeEnum( IfcBuildingElementPartTypeEnumEnum e ) { m_enum = e; }
 	~IfcBuildingElementPartTypeEnum();
 	virtual const char* className() const { return "IfcBuildingElementPartTypeEnum"; }

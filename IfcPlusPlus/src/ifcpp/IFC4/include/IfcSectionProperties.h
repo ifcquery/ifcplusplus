@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcProfileDef;
 class IFCQUERY_EXPORT IfcSectionProperties : public IfcPreDefinedProperties
 { 
 public:
-	IfcSectionProperties();
+	IfcSectionProperties() = default;
 	IfcSectionProperties( int id );
 	~IfcSectionProperties();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcPipeSegmentTypeEnum.h"
 
 // TYPE IfcPipeSegmentTypeEnum = ENUMERATION OF	(CULVERT	,FLEXIBLESEGMENT	,RIGIDSEGMENT	,GUTTER	,SPOOL	,USERDEFINED	,NOTDEFINED);
-IfcPipeSegmentTypeEnum::IfcPipeSegmentTypeEnum() = default;
-IfcPipeSegmentTypeEnum::~IfcPipeSegmentTypeEnum() = default;
+IfcPipeSegmentTypeEnum::~IfcPipeSegmentTypeEnum() {}
 shared_ptr<BuildingObject> IfcPipeSegmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPipeSegmentTypeEnum> copy_self( new IfcPipeSegmentTypeEnum() );

@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcReference;
 class IFCQUERY_EXPORT IfcTableColumn : public BuildingEntity
 { 
 public:
-	IfcTableColumn();
+	IfcTableColumn() = default;
 	IfcTableColumn( int id );
 	~IfcTableColumn();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcVibrationIsolatorTypeEnum.h"
 
 // TYPE IfcVibrationIsolatorTypeEnum = ENUMERATION OF	(COMPRESSION	,SPRING	,USERDEFINED	,NOTDEFINED);
-IfcVibrationIsolatorTypeEnum::IfcVibrationIsolatorTypeEnum() = default;
-IfcVibrationIsolatorTypeEnum::~IfcVibrationIsolatorTypeEnum() = default;
+IfcVibrationIsolatorTypeEnum::~IfcVibrationIsolatorTypeEnum() {}
 shared_ptr<BuildingObject> IfcVibrationIsolatorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVibrationIsolatorTypeEnum> copy_self( new IfcVibrationIsolatorTypeEnum() );

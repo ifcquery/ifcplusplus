@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcTableRow : public BuildingEntity
 { 
 public:
-	IfcTableRow();
+	IfcTableRow() = default;
 	IfcTableRow( int id );
 	~IfcTableRow();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

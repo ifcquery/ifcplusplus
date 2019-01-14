@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcNormalisedRatioMeasure;
 class IFCQUERY_EXPORT IfcSurfaceStyleShading : virtual public IfcSurfaceStyleElementSelect, public IfcPresentationItem
 { 
 public:
-	IfcSurfaceStyleShading();
+	IfcSurfaceStyleShading() = default;
 	IfcSurfaceStyleShading( int id );
 	~IfcSurfaceStyleShading();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

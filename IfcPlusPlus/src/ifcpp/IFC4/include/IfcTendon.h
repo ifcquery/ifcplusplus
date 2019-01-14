@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcNormalisedRatioMeasure;
 class IFCQUERY_EXPORT IfcTendon : public IfcReinforcingElement
 { 
 public:
-	IfcTendon();
+	IfcTendon() = default;
 	IfcTendon( int id );
 	~IfcTendon();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

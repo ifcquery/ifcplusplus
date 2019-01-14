@@ -28,7 +28,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcWindowTypePartitioningEnum();
+	IfcWindowTypePartitioningEnum() = default;
 	IfcWindowTypePartitioningEnum( IfcWindowTypePartitioningEnumEnum e ) { m_enum = e; }
 	~IfcWindowTypePartitioningEnum();
 	virtual const char* className() const { return "IfcWindowTypePartitioningEnum"; }

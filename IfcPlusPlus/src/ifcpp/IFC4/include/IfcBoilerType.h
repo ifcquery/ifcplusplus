@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcBoilerTypeEnum;
 class IFCQUERY_EXPORT IfcBoilerType : public IfcEnergyConversionDeviceType
 { 
 public:
-	IfcBoilerType();
+	IfcBoilerType() = default;
 	IfcBoilerType( int id );
 	~IfcBoilerType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

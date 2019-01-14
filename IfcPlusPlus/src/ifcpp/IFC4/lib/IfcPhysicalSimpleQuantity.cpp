@@ -15,9 +15,8 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPhysicalSimpleQuantity 
-IfcPhysicalSimpleQuantity::IfcPhysicalSimpleQuantity() = default;
 IfcPhysicalSimpleQuantity::IfcPhysicalSimpleQuantity( int id ) { m_entity_id = id; }
-IfcPhysicalSimpleQuantity::~IfcPhysicalSimpleQuantity() = default;
+IfcPhysicalSimpleQuantity::~IfcPhysicalSimpleQuantity() {}
 shared_ptr<BuildingObject> IfcPhysicalSimpleQuantity::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPhysicalSimpleQuantity> copy_self( new IfcPhysicalSimpleQuantity() );
@@ -36,12 +35,12 @@ void IfcPhysicalSimpleQuantity::getStepLine( std::stringstream& stream ) const
 	if( m_Unit ) { stream << "#" << m_Unit->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPhysicalSimpleQuantity::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcPhysicalSimpleQuantity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPhysicalSimpleQuantity::toString() const { return L"IfcPhysicalSimpleQuantity"; }
 void IfcPhysicalSimpleQuantity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPhysicalSimpleQuantity, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPhysicalSimpleQuantity, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Unit, map );
@@ -49,7 +48,7 @@ void IfcPhysicalSimpleQuantity::readStepArguments( const std::vector<std::wstrin
 void IfcPhysicalSimpleQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPhysicalQuantity::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Unit", m_Unit );
+	vec_attributes.emplace_back( std::make_pair( "Unit", m_Unit ) );
 }
 void IfcPhysicalSimpleQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

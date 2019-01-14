@@ -14,19 +14,19 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPhysicalComplexQuantity 
-IfcPhysicalComplexQuantity::IfcPhysicalComplexQuantity() = default;
 IfcPhysicalComplexQuantity::IfcPhysicalComplexQuantity( int id ) { m_entity_id = id; }
-IfcPhysicalComplexQuantity::~IfcPhysicalComplexQuantity() = default;
+IfcPhysicalComplexQuantity::~IfcPhysicalComplexQuantity() {}
 shared_ptr<BuildingObject> IfcPhysicalComplexQuantity::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPhysicalComplexQuantity> copy_self( new IfcPhysicalComplexQuantity() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for(auto item_ii : m_HasQuantities)
+	for( size_t ii=0; ii<m_HasQuantities.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_HasQuantities[ii];
+		if( item_ii )
 		{
-			copy_self->m_HasQuantities.push_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_HasQuantities.emplace_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Discrimination ) { copy_self->m_Discrimination = dynamic_pointer_cast<IfcLabel>( m_Discrimination->getDeepCopy(options) ); }
@@ -50,12 +50,12 @@ void IfcPhysicalComplexQuantity::getStepLine( std::stringstream& stream ) const
 	if( m_Usage ) { m_Usage->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPhysicalComplexQuantity::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcPhysicalComplexQuantity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPhysicalComplexQuantity::toString() const { return L"IfcPhysicalComplexQuantity"; }
 void IfcPhysicalComplexQuantity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPhysicalComplexQuantity, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPhysicalComplexQuantity, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_HasQuantities, map );
@@ -70,11 +70,11 @@ void IfcPhysicalComplexQuantity::getAttributes( std::vector<std::pair<std::strin
 	{
 		shared_ptr<AttributeObjectVector> HasQuantities_vec_object( new AttributeObjectVector() );
 		std::copy( m_HasQuantities.begin(), m_HasQuantities.end(), std::back_inserter( HasQuantities_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "HasQuantities", HasQuantities_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "HasQuantities", HasQuantities_vec_object ) );
 	}
-	vec_attributes.emplace_back( "Discrimination", m_Discrimination );
-	vec_attributes.emplace_back( "Quality", m_Quality );
-	vec_attributes.emplace_back( "Usage", m_Usage );
+	vec_attributes.emplace_back( std::make_pair( "Discrimination", m_Discrimination ) );
+	vec_attributes.emplace_back( std::make_pair( "Quality", m_Quality ) );
+	vec_attributes.emplace_back( std::make_pair( "Usage", m_Usage ) );
 }
 void IfcPhysicalComplexQuantity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -85,22 +85,22 @@ void IfcPhysicalComplexQuantity::setInverseCounterparts( shared_ptr<BuildingEnti
 	IfcPhysicalQuantity::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcPhysicalComplexQuantity> ptr_self = dynamic_pointer_cast<IfcPhysicalComplexQuantity>( ptr_self_entity );
 	if( !ptr_self ) { throw BuildingException( "IfcPhysicalComplexQuantity::setInverseCounterparts: type mismatch" ); }
-	for(auto & m_HasQuantitie : m_HasQuantities)
+	for( size_t i=0; i<m_HasQuantities.size(); ++i )
 	{
-		if( m_HasQuantitie )
+		if( m_HasQuantities[i] )
 		{
-			m_HasQuantitie->m_PartOfComplex_inverse.push_back( ptr_self );
+			m_HasQuantities[i]->m_PartOfComplex_inverse.emplace_back( ptr_self );
 		}
 	}
 }
 void IfcPhysicalComplexQuantity::unlinkFromInverseCounterparts()
 {
 	IfcPhysicalQuantity::unlinkFromInverseCounterparts();
-	for(auto & m_HasQuantitie : m_HasQuantities)
+	for( size_t i=0; i<m_HasQuantities.size(); ++i )
 	{
-		if( m_HasQuantitie )
+		if( m_HasQuantities[i] )
 		{
-			std::vector<weak_ptr<IfcPhysicalComplexQuantity> >& PartOfComplex_inverse = m_HasQuantitie->m_PartOfComplex_inverse;
+			std::vector<weak_ptr<IfcPhysicalComplexQuantity> >& PartOfComplex_inverse = m_HasQuantities[i]->m_PartOfComplex_inverse;
 			for( auto it_PartOfComplex_inverse = PartOfComplex_inverse.begin(); it_PartOfComplex_inverse != PartOfComplex_inverse.end(); )
 			{
 				weak_ptr<IfcPhysicalComplexQuantity> self_candidate_weak = *it_PartOfComplex_inverse;

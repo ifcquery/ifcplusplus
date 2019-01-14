@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLinearMomentMeasure;
 class IFCQUERY_EXPORT IfcStructuralLoadLinearForce : public IfcStructuralLoadStatic
 { 
 public:
-	IfcStructuralLoadLinearForce();
+	IfcStructuralLoadLinearForce() = default;
 	IfcStructuralLoadLinearForce( int id );
 	~IfcStructuralLoadLinearForce();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

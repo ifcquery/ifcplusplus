@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcTimeMeasure.h"
 
 // TYPE IfcTimeMeasure = REAL;
-IfcTimeMeasure::IfcTimeMeasure() = default;
 IfcTimeMeasure::IfcTimeMeasure( double value ) { m_value = value; }
-IfcTimeMeasure::~IfcTimeMeasure() = default;
+IfcTimeMeasure::~IfcTimeMeasure() {}
 shared_ptr<BuildingObject> IfcTimeMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTimeMeasure> copy_self( new IfcTimeMeasure() );

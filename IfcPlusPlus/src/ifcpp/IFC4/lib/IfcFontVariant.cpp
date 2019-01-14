@@ -10,9 +10,8 @@
 #include "ifcpp/IFC4/include/IfcFontVariant.h"
 
 // TYPE IfcFontVariant = STRING;
-IfcFontVariant::IfcFontVariant() = default;
 IfcFontVariant::IfcFontVariant( std::wstring value ) { m_value = value; }
-IfcFontVariant::~IfcFontVariant() = default;
+IfcFontVariant::~IfcFontVariant() {}
 shared_ptr<BuildingObject> IfcFontVariant::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFontVariant> copy_self( new IfcFontVariant() );

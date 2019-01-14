@@ -19,7 +19,7 @@ class IFCQUERY_EXPORT IfcResourceApprovalRelationship;
 class IFCQUERY_EXPORT IfcProperty : public IfcPropertyAbstraction
 { 
 public:
-	IfcProperty();
+	IfcProperty() = default;
 	IfcProperty( int id );
 	~IfcProperty();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcKnotType;
 class IFCQUERY_EXPORT IfcBSplineCurveWithKnots : public IfcBSplineCurve
 { 
 public:
-	IfcBSplineCurveWithKnots();
+	IfcBSplineCurveWithKnots() = default;
 	IfcBSplineCurveWithKnots( int id );
 	~IfcBSplineCurveWithKnots();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

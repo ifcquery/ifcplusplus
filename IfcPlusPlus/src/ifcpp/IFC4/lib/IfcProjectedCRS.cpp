@@ -15,9 +15,8 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcProjectedCRS 
-IfcProjectedCRS::IfcProjectedCRS() = default;
 IfcProjectedCRS::IfcProjectedCRS( int id ) { m_entity_id = id; }
-IfcProjectedCRS::~IfcProjectedCRS() = default;
+IfcProjectedCRS::~IfcProjectedCRS() {}
 shared_ptr<BuildingObject> IfcProjectedCRS::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProjectedCRS> copy_self( new IfcProjectedCRS() );
@@ -48,12 +47,12 @@ void IfcProjectedCRS::getStepLine( std::stringstream& stream ) const
 	if( m_MapUnit ) { stream << "#" << m_MapUnit->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcProjectedCRS::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcProjectedCRS::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProjectedCRS::toString() const { return L"IfcProjectedCRS"; }
 void IfcProjectedCRS::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProjectedCRS, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProjectedCRS, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_GeodeticDatum = IfcIdentifier::createObjectFromSTEP( args[2], map );
@@ -65,9 +64,9 @@ void IfcProjectedCRS::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcProjectedCRS::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCoordinateReferenceSystem::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "MapProjection", m_MapProjection );
-	vec_attributes.emplace_back( "MapZone", m_MapZone );
-	vec_attributes.emplace_back( "MapUnit", m_MapUnit );
+	vec_attributes.emplace_back( std::make_pair( "MapProjection", m_MapProjection ) );
+	vec_attributes.emplace_back( std::make_pair( "MapZone", m_MapZone ) );
+	vec_attributes.emplace_back( std::make_pair( "MapUnit", m_MapUnit ) );
 }
 void IfcProjectedCRS::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

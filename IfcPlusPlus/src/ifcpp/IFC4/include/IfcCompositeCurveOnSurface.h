@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcCompositeCurveOnSurface : virtual public IfcCurveOnSurface, public IfcCompositeCurve
 { 
 public:
-	IfcCompositeCurveOnSurface();
+	IfcCompositeCurveOnSurface() = default;
 	IfcCompositeCurveOnSurface( int id );
 	~IfcCompositeCurveOnSurface();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -25,7 +25,7 @@ public:
 		ENUM_YEARLY_BY_POSITION
 	};
 
-	IfcRecurrenceTypeEnum();
+	IfcRecurrenceTypeEnum() = default;
 	IfcRecurrenceTypeEnum( IfcRecurrenceTypeEnumEnum e ) { m_enum = e; }
 	~IfcRecurrenceTypeEnum();
 	virtual const char* className() const { return "IfcRecurrenceTypeEnum"; }

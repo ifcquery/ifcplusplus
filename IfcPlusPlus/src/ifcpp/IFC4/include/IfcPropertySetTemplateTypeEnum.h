@@ -25,7 +25,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcPropertySetTemplateTypeEnum();
+	IfcPropertySetTemplateTypeEnum() = default;
 	IfcPropertySetTemplateTypeEnum( IfcPropertySetTemplateTypeEnumEnum e ) { m_enum = e; }
 	~IfcPropertySetTemplateTypeEnum();
 	virtual const char* className() const { return "IfcPropertySetTemplateTypeEnum"; }

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcCartesianPointList3D : public IfcCartesianPointList
 { 
 public:
-	IfcCartesianPointList3D();
+	IfcCartesianPointList3D() = default;
 	IfcCartesianPointList3D( int id );
 	~IfcCartesianPointList3D();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,20 +13,20 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcDocumentInformationRelationship 
-IfcDocumentInformationRelationship::IfcDocumentInformationRelationship() = default;
 IfcDocumentInformationRelationship::IfcDocumentInformationRelationship( int id ) { m_entity_id = id; }
-IfcDocumentInformationRelationship::~IfcDocumentInformationRelationship() = default;
+IfcDocumentInformationRelationship::~IfcDocumentInformationRelationship() {}
 shared_ptr<BuildingObject> IfcDocumentInformationRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDocumentInformationRelationship> copy_self( new IfcDocumentInformationRelationship() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	if( m_RelatingDocument ) { copy_self->m_RelatingDocument = dynamic_pointer_cast<IfcDocumentInformation>( m_RelatingDocument->getDeepCopy(options) ); }
-	for(auto item_ii : m_RelatedDocuments)
+	for( size_t ii=0; ii<m_RelatedDocuments.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_RelatedDocuments[ii];
+		if( item_ii )
 		{
-			copy_self->m_RelatedDocuments.push_back( dynamic_pointer_cast<IfcDocumentInformation>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedDocuments.emplace_back( dynamic_pointer_cast<IfcDocumentInformation>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelationshipType ) { copy_self->m_RelationshipType = dynamic_pointer_cast<IfcLabel>( m_RelationshipType->getDeepCopy(options) ); }
@@ -46,12 +46,12 @@ void IfcDocumentInformationRelationship::getStepLine( std::stringstream& stream 
 	if( m_RelationshipType ) { m_RelationshipType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDocumentInformationRelationship::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcDocumentInformationRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDocumentInformationRelationship::toString() const { return L"IfcDocumentInformationRelationship"; }
 void IfcDocumentInformationRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDocumentInformationRelationship, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDocumentInformationRelationship, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_RelatingDocument, map );
@@ -61,14 +61,14 @@ void IfcDocumentInformationRelationship::readStepArguments( const std::vector<st
 void IfcDocumentInformationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "RelatingDocument", m_RelatingDocument );
+	vec_attributes.emplace_back( std::make_pair( "RelatingDocument", m_RelatingDocument ) );
 	if( !m_RelatedDocuments.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedDocuments_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedDocuments.begin(), m_RelatedDocuments.end(), std::back_inserter( RelatedDocuments_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "RelatedDocuments", RelatedDocuments_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "RelatedDocuments", RelatedDocuments_vec_object ) );
 	}
-	vec_attributes.emplace_back( "RelationshipType", m_RelationshipType );
+	vec_attributes.emplace_back( std::make_pair( "RelationshipType", m_RelationshipType ) );
 }
 void IfcDocumentInformationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -79,26 +79,26 @@ void IfcDocumentInformationRelationship::setInverseCounterparts( shared_ptr<Buil
 	IfcResourceLevelRelationship::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcDocumentInformationRelationship> ptr_self = dynamic_pointer_cast<IfcDocumentInformationRelationship>( ptr_self_entity );
 	if( !ptr_self ) { throw BuildingException( "IfcDocumentInformationRelationship::setInverseCounterparts: type mismatch" ); }
-	for(auto & m_RelatedDocument : m_RelatedDocuments)
+	for( size_t i=0; i<m_RelatedDocuments.size(); ++i )
 	{
-		if( m_RelatedDocument )
+		if( m_RelatedDocuments[i] )
 		{
-			m_RelatedDocument->m_IsPointedTo_inverse.push_back( ptr_self );
+			m_RelatedDocuments[i]->m_IsPointedTo_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingDocument )
 	{
-		m_RelatingDocument->m_IsPointer_inverse.push_back( ptr_self );
+		m_RelatingDocument->m_IsPointer_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcDocumentInformationRelationship::unlinkFromInverseCounterparts()
 {
 	IfcResourceLevelRelationship::unlinkFromInverseCounterparts();
-	for(auto & m_RelatedDocument : m_RelatedDocuments)
+	for( size_t i=0; i<m_RelatedDocuments.size(); ++i )
 	{
-		if( m_RelatedDocument )
+		if( m_RelatedDocuments[i] )
 		{
-			std::vector<weak_ptr<IfcDocumentInformationRelationship> >& IsPointedTo_inverse = m_RelatedDocument->m_IsPointedTo_inverse;
+			std::vector<weak_ptr<IfcDocumentInformationRelationship> >& IsPointedTo_inverse = m_RelatedDocuments[i]->m_IsPointedTo_inverse;
 			for( auto it_IsPointedTo_inverse = IsPointedTo_inverse.begin(); it_IsPointedTo_inverse != IsPointedTo_inverse.end(); )
 			{
 				weak_ptr<IfcDocumentInformationRelationship> self_candidate_weak = *it_IsPointedTo_inverse;

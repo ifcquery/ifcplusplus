@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcProjectionElementTypeEnum.h"
 
 // TYPE IfcProjectionElementTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-IfcProjectionElementTypeEnum::IfcProjectionElementTypeEnum() = default;
-IfcProjectionElementTypeEnum::~IfcProjectionElementTypeEnum() = default;
+IfcProjectionElementTypeEnum::~IfcProjectionElementTypeEnum() {}
 shared_ptr<BuildingObject> IfcProjectionElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProjectionElementTypeEnum> copy_self( new IfcProjectionElementTypeEnum() );

@@ -738,4 +738,142 @@ namespace GeomUtils
 		}
 		return true;
 	}
+
+	//\brief: collect connected edges and create face
+	static carve::mesh::MeshSet<3>::face_t* createFaceFromEdgeLoop(carve::mesh::MeshSet<3>::edge_t* start)
+	{
+		carve::mesh::MeshSet<3>::edge_t* e = start;
+		std::vector<carve::mesh::MeshSet<3>::edge_t*> loop_edges;
+		do {
+			if( e->rev != nullptr )
+			{
+				return nullptr;
+			}
+			loop_edges.push_back(e);
+			e = e->perimNext();
+		} while( e != start );
+
+		const size_t N = loop_edges.size();
+		for( size_t i = 0; i < N; ++i )
+		{
+			loop_edges[i]->rev = new carve::mesh::MeshSet<3>::edge_t(loop_edges[i]->v2(), nullptr);
+		}
+
+		for( size_t i = 0; i < N; ++i )
+		{
+			carve::mesh::MeshSet<3>::edge_t* openEdge = loop_edges[i];
+			carve::mesh::MeshSet<3>::edge_t* openEdgeNext = loop_edges[(i + 1) % N];
+			carve::mesh::MeshSet<3>::edge_t* e1 = openEdge->rev;
+			carve::mesh::MeshSet<3>::edge_t* e2 = openEdgeNext->rev;
+			e1->prev = e2;
+			e2->next = e1;
+
+			e1->rev = openEdge;
+			e2->rev = openEdgeNext;
+		}
+
+		carve::mesh::MeshSet<3>::face_t* f = new carve::mesh::MeshSet<3>::face_t(start->rev);
+
+		if( f->n_edges != N )
+		{
+			delete f;
+			return nullptr;
+		}
+
+		return f;
+	}
+
+	//\brief: finds the first occurrence of T in vector
+	static void closeMeshSet(carve::mesh::MeshSet<3>* meshset)
+	{
+		// try to fix open mesh
+		for( size_t i = 0; i < meshset->meshes.size(); ++i )
+		{
+			carve::mesh::MeshSet<3>::mesh_t *mesh = meshset->meshes[i];
+			const size_t numOpenEdgesInitial = mesh->open_edges.size();
+			if( numOpenEdgesInitial == 0 )
+			{
+				continue;
+			}
+			for( size_t kk = 0; kk < numOpenEdgesInitial; ++kk )
+			{
+				const size_t numOpenEdges = mesh->open_edges.size();
+				if( numOpenEdges == 0 )
+				{
+					break;
+				}
+
+				mesh->faces.reserve(numOpenEdges + 1);
+
+				carve::mesh::MeshSet<3>::edge_t *start = mesh->open_edges[0];
+
+				carve::mesh::MeshSet<3>::edge_t *openEdge1 = nullptr;
+				carve::mesh::MeshSet<3>::edge_t *openEdge2 = nullptr;
+				std::vector<carve::mesh::MeshSet<3>::edge_t *> edges_to_close;
+				edges_to_close.resize(numOpenEdges);
+				carve::mesh::MeshSet<3>::edge_t *edge = start;
+				size_t j = 0;
+				size_t numOpenEdgesCurrentLoop = 0;
+				do {
+					edges_to_close[j++] = edge;
+
+					carve::mesh::MeshSet<3>::edge_t *currentEdge = edge;
+					carve::mesh::MeshSet<3>::edge_t *nextEdge = currentEdge->perimNext();
+					++numOpenEdgesCurrentLoop;
+
+					if( openEdge1 == nullptr )
+					{
+						// check if nextEdge is also an open edge
+						for( size_t mm = 0; mm < mesh->open_edges.size(); ++mm )
+						{
+							carve::mesh::MeshSet<3>::edge_t* e = mesh->open_edges[mm];
+							if( e == nextEdge )
+							{
+								openEdge1 = currentEdge;
+								openEdge2 = nextEdge;
+								break;
+							}
+						}
+					}
+					edge = nextEdge;
+				} while( edge != start );
+
+				if( numOpenEdgesCurrentLoop == 3 )
+				{
+					if( openEdge1 != nullptr )
+					{
+						// close with triangle
+						carve::mesh::MeshSet<3>::face_t *closingTriangle = createFaceFromEdgeLoop(openEdge1);
+						if( closingTriangle != nullptr )
+						{
+							closingTriangle->mesh = mesh;
+							mesh->faces.push_back(closingTriangle);
+						}
+					}
+				}
+				else if( numOpenEdgesCurrentLoop > 3 )
+				{
+					if( openEdge1 != nullptr && openEdge2 != nullptr )
+					{
+						// add triangle with 2 open edges and a new edge
+						carve::mesh::MeshSet<3>::face_t *triangle = new carve::mesh::MeshSet<3>::face_t(openEdge1->v2(), openEdge1->v1(), openEdge2->v2());
+						triangle->mesh = mesh;
+						openEdge1->rev = triangle->edge;
+						triangle->edge->rev = openEdge1;
+						mesh->faces.push_back(triangle);
+
+						carve::mesh::MeshSet<3>::edge_t *e1 = openEdge1->rev;
+						carve::mesh::MeshSet<3>::edge_t *e2 = e1->prev;
+						openEdge2->rev = e2;
+						e2->rev = openEdge2;
+						//e1->validateLoop();
+					}
+				}
+
+				meshset->collectVertices();
+				mesh->cacheEdges();
+				mesh->calcOrientation();
+			}
+		}
+	}
 }

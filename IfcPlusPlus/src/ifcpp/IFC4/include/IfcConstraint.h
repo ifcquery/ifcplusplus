@@ -19,7 +19,7 @@ class IFCQUERY_EXPORT IfcResourceConstraintRelationship;
 class IFCQUERY_EXPORT IfcConstraint : virtual public IfcResourceObjectSelect, public BuildingEntity
 { 
 public:
-	IfcConstraint();
+	IfcConstraint() = default;
 	IfcConstraint( int id );
 	~IfcConstraint();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

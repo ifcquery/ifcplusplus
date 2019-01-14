@@ -11,7 +11,7 @@
 class IFCQUERY_EXPORT IfcDimensionalExponents : public BuildingEntity
 { 
 public:
-	IfcDimensionalExponents();
+	IfcDimensionalExponents() = default;
 	IfcDimensionalExponents( int id );
 	~IfcDimensionalExponents();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

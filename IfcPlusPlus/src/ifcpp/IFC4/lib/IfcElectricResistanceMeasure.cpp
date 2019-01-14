@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcElectricResistanceMeasure.h"
 
 // TYPE IfcElectricResistanceMeasure = REAL;
-IfcElectricResistanceMeasure::IfcElectricResistanceMeasure() = default;
 IfcElectricResistanceMeasure::IfcElectricResistanceMeasure( double value ) { m_value = value; }
-IfcElectricResistanceMeasure::~IfcElectricResistanceMeasure() = default;
+IfcElectricResistanceMeasure::~IfcElectricResistanceMeasure() {}
 shared_ptr<BuildingObject> IfcElectricResistanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricResistanceMeasure> copy_self( new IfcElectricResistanceMeasure() );

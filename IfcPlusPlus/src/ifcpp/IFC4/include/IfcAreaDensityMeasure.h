@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcAreaDensityMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcAreaDensityMeasure();
+	IfcAreaDensityMeasure() = default;
 	IfcAreaDensityMeasure( double value );
 	~IfcAreaDensityMeasure();
 	virtual const char* className() const { return "IfcAreaDensityMeasure"; }

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcBuildingElementProxyTypeEnum;
 class IFCQUERY_EXPORT IfcBuildingElementProxy : public IfcBuildingElement
 { 
 public:
-	IfcBuildingElementProxy();
+	IfcBuildingElementProxy() = default;
 	IfcBuildingElementProxy( int id );
 	~IfcBuildingElementProxy();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

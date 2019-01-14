@@ -13,9 +13,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPlanarExtent 
-IfcPlanarExtent::IfcPlanarExtent() = default;
 IfcPlanarExtent::IfcPlanarExtent( int id ) { m_entity_id = id; }
-IfcPlanarExtent::~IfcPlanarExtent() = default;
+IfcPlanarExtent::~IfcPlanarExtent() {}
 shared_ptr<BuildingObject> IfcPlanarExtent::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPlanarExtent> copy_self( new IfcPlanarExtent() );
@@ -31,20 +30,20 @@ void IfcPlanarExtent::getStepLine( std::stringstream& stream ) const
 	if( m_SizeInY ) { m_SizeInY->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPlanarExtent::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcPlanarExtent::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPlanarExtent::toString() const { return L"IfcPlanarExtent"; }
 void IfcPlanarExtent::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlanarExtent, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPlanarExtent, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_SizeInX = IfcLengthMeasure::createObjectFromSTEP( args[0], map );
 	m_SizeInY = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 }
 void IfcPlanarExtent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "SizeInX", m_SizeInX );
-	vec_attributes.emplace_back( "SizeInY", m_SizeInY );
+	vec_attributes.emplace_back( std::make_pair( "SizeInX", m_SizeInX ) );
+	vec_attributes.emplace_back( std::make_pair( "SizeInY", m_SizeInY ) );
 }
 void IfcPlanarExtent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

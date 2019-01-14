@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcMolecularWeightMeasure.h"
 
 // TYPE IfcMolecularWeightMeasure = REAL;
-IfcMolecularWeightMeasure::IfcMolecularWeightMeasure() = default;
 IfcMolecularWeightMeasure::IfcMolecularWeightMeasure( double value ) { m_value = value; }
-IfcMolecularWeightMeasure::~IfcMolecularWeightMeasure() = default;
+IfcMolecularWeightMeasure::~IfcMolecularWeightMeasure() {}
 shared_ptr<BuildingObject> IfcMolecularWeightMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMolecularWeightMeasure> copy_self( new IfcMolecularWeightMeasure() );

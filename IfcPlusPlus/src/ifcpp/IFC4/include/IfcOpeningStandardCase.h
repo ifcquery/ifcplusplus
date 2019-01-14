@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcOpeningStandardCase : public IfcOpeningElement
 { 
 public:
-	IfcOpeningStandardCase();
+	IfcOpeningStandardCase() = default;
 	IfcOpeningStandardCase( int id );
 	~IfcOpeningStandardCase();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

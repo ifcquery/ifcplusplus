@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcFace;
 class IFCQUERY_EXPORT IfcConnectedFaceSet : public IfcTopologicalRepresentationItem
 { 
 public:
-	IfcConnectedFaceSet();
+	IfcConnectedFaceSet() = default;
 	IfcConnectedFaceSet( int id );
 	~IfcConnectedFaceSet();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcModulusOfRotationalSubgradeReactionSelect;
 class IFCQUERY_EXPORT IfcBoundaryEdgeCondition : public IfcBoundaryCondition
 { 
 public:
-	IfcBoundaryEdgeCondition();
+	IfcBoundaryEdgeCondition() = default;
 	IfcBoundaryEdgeCondition( int id );
 	~IfcBoundaryEdgeCondition();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

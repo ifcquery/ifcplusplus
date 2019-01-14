@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcMagneticFluxMeasure.h"
 
 // TYPE IfcMagneticFluxMeasure = REAL;
-IfcMagneticFluxMeasure::IfcMagneticFluxMeasure() = default;
 IfcMagneticFluxMeasure::IfcMagneticFluxMeasure( double value ) { m_value = value; }
-IfcMagneticFluxMeasure::~IfcMagneticFluxMeasure() = default;
+IfcMagneticFluxMeasure::~IfcMagneticFluxMeasure() {}
 shared_ptr<BuildingObject> IfcMagneticFluxMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMagneticFluxMeasure> copy_self( new IfcMagneticFluxMeasure() );

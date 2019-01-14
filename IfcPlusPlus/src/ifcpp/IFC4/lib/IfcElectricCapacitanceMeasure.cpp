@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcElectricCapacitanceMeasure.h"
 
 // TYPE IfcElectricCapacitanceMeasure = REAL;
-IfcElectricCapacitanceMeasure::IfcElectricCapacitanceMeasure() = default;
 IfcElectricCapacitanceMeasure::IfcElectricCapacitanceMeasure( double value ) { m_value = value; }
-IfcElectricCapacitanceMeasure::~IfcElectricCapacitanceMeasure() = default;
+IfcElectricCapacitanceMeasure::~IfcElectricCapacitanceMeasure() {}
 shared_ptr<BuildingObject> IfcElectricCapacitanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricCapacitanceMeasure> copy_self( new IfcElectricCapacitanceMeasure() );

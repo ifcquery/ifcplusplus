@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcPHMeasure.h"
 
 // TYPE IfcPHMeasure = REAL;
-IfcPHMeasure::IfcPHMeasure() = default;
 IfcPHMeasure::IfcPHMeasure( double value ) { m_value = value; }
-IfcPHMeasure::~IfcPHMeasure() = default;
+IfcPHMeasure::~IfcPHMeasure() {}
 shared_ptr<BuildingObject> IfcPHMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPHMeasure> copy_self( new IfcPHMeasure() );

@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcThermalResistanceMeasure.h"
 
 // TYPE IfcThermalResistanceMeasure = REAL;
-IfcThermalResistanceMeasure::IfcThermalResistanceMeasure() = default;
 IfcThermalResistanceMeasure::IfcThermalResistanceMeasure( double value ) { m_value = value; }
-IfcThermalResistanceMeasure::~IfcThermalResistanceMeasure() = default;
+IfcThermalResistanceMeasure::~IfcThermalResistanceMeasure() {}
 shared_ptr<BuildingObject> IfcThermalResistanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcThermalResistanceMeasure> copy_self( new IfcThermalResistanceMeasure() );

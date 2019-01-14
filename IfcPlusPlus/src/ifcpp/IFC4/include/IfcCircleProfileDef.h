@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcCircleProfileDef : public IfcParameterizedProfileDef
 { 
 public:
-	IfcCircleProfileDef();
+	IfcCircleProfileDef() = default;
 	IfcCircleProfileDef( int id );
 	~IfcCircleProfileDef();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

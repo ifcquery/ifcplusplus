@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcDistributionChamberElementTypeEnum.h"
 
 // TYPE IfcDistributionChamberElementTypeEnum = ENUMERATION OF	(FORMEDDUCT	,INSPECTIONCHAMBER	,INSPECTIONPIT	,MANHOLE	,METERCHAMBER	,SUMP	,TRENCH	,VALVECHAMBER	,USERDEFINED	,NOTDEFINED);
-IfcDistributionChamberElementTypeEnum::IfcDistributionChamberElementTypeEnum() = default;
-IfcDistributionChamberElementTypeEnum::~IfcDistributionChamberElementTypeEnum() = default;
+IfcDistributionChamberElementTypeEnum::~IfcDistributionChamberElementTypeEnum() {}
 shared_ptr<BuildingObject> IfcDistributionChamberElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDistributionChamberElementTypeEnum> copy_self( new IfcDistributionChamberElementTypeEnum() );

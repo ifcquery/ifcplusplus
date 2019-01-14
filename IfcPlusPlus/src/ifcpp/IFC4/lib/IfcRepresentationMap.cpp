@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcShapeAspect.h"
 
 // ENTITY IfcRepresentationMap 
-IfcRepresentationMap::IfcRepresentationMap() = default;
 IfcRepresentationMap::IfcRepresentationMap( int id ) { m_entity_id = id; }
-IfcRepresentationMap::~IfcRepresentationMap() = default;
+IfcRepresentationMap::~IfcRepresentationMap() {}
 shared_ptr<BuildingObject> IfcRepresentationMap::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRepresentationMap> copy_self( new IfcRepresentationMap() );
@@ -32,45 +31,45 @@ void IfcRepresentationMap::getStepLine( std::stringstream& stream ) const
 	if( m_MappedRepresentation ) { stream << "#" << m_MappedRepresentation->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRepresentationMap::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcRepresentationMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRepresentationMap::toString() const { return L"IfcRepresentationMap"; }
 void IfcRepresentationMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRepresentationMap, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRepresentationMap, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_MappingOrigin = IfcAxis2Placement::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_MappedRepresentation, map );
 }
 void IfcRepresentationMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.emplace_back( "MappingOrigin", m_MappingOrigin );
-	vec_attributes.emplace_back( "MappedRepresentation", m_MappedRepresentation );
+	vec_attributes.emplace_back( std::make_pair( "MappingOrigin", m_MappingOrigin ) );
+	vec_attributes.emplace_back( std::make_pair( "MappedRepresentation", m_MappedRepresentation ) );
 }
 void IfcRepresentationMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	if( !m_HasShapeAspects_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasShapeAspects_inverse_vec_obj( new AttributeObjectVector() );
-		for(const auto & i : m_HasShapeAspects_inverse)
+		for( size_t i=0; i<m_HasShapeAspects_inverse.size(); ++i )
 		{
-			if( !i.expired() )
+			if( !m_HasShapeAspects_inverse[i].expired() )
 			{
-				HasShapeAspects_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcShapeAspect>( i ) );
+				HasShapeAspects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcShapeAspect>( m_HasShapeAspects_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.emplace_back( "HasShapeAspects_inverse", HasShapeAspects_inverse_vec_obj );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasShapeAspects_inverse", HasShapeAspects_inverse_vec_obj ) );
 	}
 	if( !m_MapUsage_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> MapUsage_inverse_vec_obj( new AttributeObjectVector() );
-		for(const auto & i : m_MapUsage_inverse)
+		for( size_t i=0; i<m_MapUsage_inverse.size(); ++i )
 		{
-			if( !i.expired() )
+			if( !m_MapUsage_inverse[i].expired() )
 			{
-				MapUsage_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcMappedItem>( i ) );
+				MapUsage_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcMappedItem>( m_MapUsage_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.emplace_back( "MapUsage_inverse", MapUsage_inverse_vec_obj );
+		vec_attributes_inverse.emplace_back( std::make_pair( "MapUsage_inverse", MapUsage_inverse_vec_obj ) );
 	}
 }
 void IfcRepresentationMap::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
@@ -79,7 +78,7 @@ void IfcRepresentationMap::setInverseCounterparts( shared_ptr<BuildingEntity> pt
 	if( !ptr_self ) { throw BuildingException( "IfcRepresentationMap::setInverseCounterparts: type mismatch" ); }
 	if( m_MappedRepresentation )
 	{
-		m_MappedRepresentation->m_RepresentationMap_inverse.push_back( ptr_self );
+		m_MappedRepresentation->m_RepresentationMap_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRepresentationMap::unlinkFromInverseCounterparts()

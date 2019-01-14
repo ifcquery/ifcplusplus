@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcCircle : public IfcConic
 { 
 public:
-	IfcCircle();
+	IfcCircle() = default;
 	IfcCircle( int id );
 	~IfcCircle();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

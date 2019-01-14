@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcSurface;
 class IFCQUERY_EXPORT IfcSurfaceCurveSweptAreaSolid : public IfcSweptAreaSolid
 { 
 public:
-	IfcSurfaceCurveSweptAreaSolid();
+	IfcSurfaceCurveSweptAreaSolid() = default;
 	IfcSurfaceCurveSweptAreaSolid( int id );
 	~IfcSurfaceCurveSweptAreaSolid();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

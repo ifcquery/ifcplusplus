@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcAbsorbedDoseMeasure.h"
 
 // TYPE IfcAbsorbedDoseMeasure = REAL;
-IfcAbsorbedDoseMeasure::IfcAbsorbedDoseMeasure() = default;
 IfcAbsorbedDoseMeasure::IfcAbsorbedDoseMeasure( double value ) { m_value = value; }
-IfcAbsorbedDoseMeasure::~IfcAbsorbedDoseMeasure() = default;
+IfcAbsorbedDoseMeasure::~IfcAbsorbedDoseMeasure() {}
 shared_ptr<BuildingObject> IfcAbsorbedDoseMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAbsorbedDoseMeasure> copy_self( new IfcAbsorbedDoseMeasure() );

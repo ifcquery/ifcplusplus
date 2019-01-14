@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcDynamicViscosityMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcDynamicViscosityMeasure();
+	IfcDynamicViscosityMeasure() = default;
 	IfcDynamicViscosityMeasure( double value );
 	~IfcDynamicViscosityMeasure();
 	virtual const char* className() const { return "IfcDynamicViscosityMeasure"; }

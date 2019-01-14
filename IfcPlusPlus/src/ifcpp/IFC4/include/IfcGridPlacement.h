@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcGridPlacementDirectionSelect;
 class IFCQUERY_EXPORT IfcGridPlacement : public IfcObjectPlacement
 { 
 public:
-	IfcGridPlacement();
+	IfcGridPlacement() = default;
 	IfcGridPlacement( int id );
 	~IfcGridPlacement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

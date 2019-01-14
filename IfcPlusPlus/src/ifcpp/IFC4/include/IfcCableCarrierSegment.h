@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCableCarrierSegmentTypeEnum;
 class IFCQUERY_EXPORT IfcCableCarrierSegment : public IfcFlowSegment
 { 
 public:
-	IfcCableCarrierSegment();
+	IfcCableCarrierSegment() = default;
 	IfcCableCarrierSegment( int id );
 	~IfcCableCarrierSegment();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

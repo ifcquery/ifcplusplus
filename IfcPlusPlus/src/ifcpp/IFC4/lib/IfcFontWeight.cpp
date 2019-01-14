@@ -10,9 +10,8 @@
 #include "ifcpp/IFC4/include/IfcFontWeight.h"
 
 // TYPE IfcFontWeight = STRING;
-IfcFontWeight::IfcFontWeight() = default;
 IfcFontWeight::IfcFontWeight( std::wstring value ) { m_value = value; }
-IfcFontWeight::~IfcFontWeight() = default;
+IfcFontWeight::~IfcFontWeight() {}
 shared_ptr<BuildingObject> IfcFontWeight::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFontWeight> copy_self( new IfcFontWeight() );

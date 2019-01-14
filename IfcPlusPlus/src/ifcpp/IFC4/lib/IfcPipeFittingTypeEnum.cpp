@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcPipeFittingTypeEnum.h"
 
 // TYPE IfcPipeFittingTypeEnum = ENUMERATION OF	(BEND	,CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,OBSTRUCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
-IfcPipeFittingTypeEnum::IfcPipeFittingTypeEnum() = default;
-IfcPipeFittingTypeEnum::~IfcPipeFittingTypeEnum() = default;
+IfcPipeFittingTypeEnum::~IfcPipeFittingTypeEnum() {}
 shared_ptr<BuildingObject> IfcPipeFittingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPipeFittingTypeEnum> copy_self( new IfcPipeFittingTypeEnum() );

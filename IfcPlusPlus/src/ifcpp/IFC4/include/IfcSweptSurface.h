@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcAxis2Placement3D;
 class IFCQUERY_EXPORT IfcSweptSurface : public IfcSurface
 { 
 public:
-	IfcSweptSurface();
+	IfcSweptSurface() = default;
 	IfcSweptSurface( int id );
 	~IfcSweptSurface();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

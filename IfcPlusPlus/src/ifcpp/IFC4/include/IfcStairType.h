@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcStairTypeEnum;
 class IFCQUERY_EXPORT IfcStairType : public IfcBuildingElementType
 { 
 public:
-	IfcStairType();
+	IfcStairType() = default;
 	IfcStairType( int id );
 	~IfcStairType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

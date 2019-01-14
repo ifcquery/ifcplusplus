@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcConstructionEquipmentResourceTypeEnum.h"
 
 // TYPE IfcConstructionEquipmentResourceTypeEnum = ENUMERATION OF	(DEMOLISHING	,EARTHMOVING	,ERECTING	,HEATING	,LIGHTING	,PAVING	,PUMPING	,TRANSPORTING	,USERDEFINED	,NOTDEFINED);
-IfcConstructionEquipmentResourceTypeEnum::IfcConstructionEquipmentResourceTypeEnum() = default;
-IfcConstructionEquipmentResourceTypeEnum::~IfcConstructionEquipmentResourceTypeEnum() = default;
+IfcConstructionEquipmentResourceTypeEnum::~IfcConstructionEquipmentResourceTypeEnum() {}
 shared_ptr<BuildingObject> IfcConstructionEquipmentResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConstructionEquipmentResourceTypeEnum> copy_self( new IfcConstructionEquipmentResourceTypeEnum() );

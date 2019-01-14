@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcConstructionProductResourceTypeEnum();
+	IfcConstructionProductResourceTypeEnum() = default;
 	IfcConstructionProductResourceTypeEnum( IfcConstructionProductResourceTypeEnumEnum e ) { m_enum = e; }
 	~IfcConstructionProductResourceTypeEnum();
 	virtual const char* className() const { return "IfcConstructionProductResourceTypeEnum"; }

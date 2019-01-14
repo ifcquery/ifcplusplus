@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcRotationalStiffnessMeasure.h"
 
 // TYPE IfcRotationalStiffnessMeasure = REAL;
-IfcRotationalStiffnessMeasure::IfcRotationalStiffnessMeasure() = default;
 IfcRotationalStiffnessMeasure::IfcRotationalStiffnessMeasure( double value ) { m_value = value; }
-IfcRotationalStiffnessMeasure::~IfcRotationalStiffnessMeasure() = default;
+IfcRotationalStiffnessMeasure::~IfcRotationalStiffnessMeasure() {}
 shared_ptr<BuildingObject> IfcRotationalStiffnessMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRotationalStiffnessMeasure> copy_self( new IfcRotationalStiffnessMeasure() );

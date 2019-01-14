@@ -17,9 +17,8 @@
 #include "ifcpp/IFC4/include/IfcShapeModel.h"
 
 // ENTITY IfcShapeModel 
-IfcShapeModel::IfcShapeModel() = default;
 IfcShapeModel::IfcShapeModel( int id ) { m_entity_id = id; }
-IfcShapeModel::~IfcShapeModel() = default;
+IfcShapeModel::~IfcShapeModel() {}
 shared_ptr<BuildingObject> IfcShapeModel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcShapeModel> copy_self( new IfcShapeModel() );
@@ -30,11 +29,12 @@ shared_ptr<BuildingObject> IfcShapeModel::getDeepCopy( BuildingCopyOptions& opti
 	}
 	if( m_RepresentationIdentifier ) { copy_self->m_RepresentationIdentifier = dynamic_pointer_cast<IfcLabel>( m_RepresentationIdentifier->getDeepCopy(options) ); }
 	if( m_RepresentationType ) { copy_self->m_RepresentationType = dynamic_pointer_cast<IfcLabel>( m_RepresentationType->getDeepCopy(options) ); }
-	for(auto item_ii : m_Items)
+	for( size_t ii=0; ii<m_Items.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_Items[ii];
+		if( item_ii )
 		{
-			copy_self->m_Items.push_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Items.emplace_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -51,12 +51,12 @@ void IfcShapeModel::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Items );
 	stream << ");";
 }
-void IfcShapeModel::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcShapeModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcShapeModel::toString() const { return L"IfcShapeModel"; }
 void IfcShapeModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcShapeModel, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcShapeModel, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_ContextOfItems, map );
 	m_RepresentationIdentifier = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_RepresentationType = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -72,14 +72,14 @@ void IfcShapeModel::getAttributesInverse( std::vector<std::pair<std::string, sha
 	if( !m_OfShapeAspect_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> OfShapeAspect_inverse_vec_obj( new AttributeObjectVector() );
-		for(const auto & i : m_OfShapeAspect_inverse)
+		for( size_t i=0; i<m_OfShapeAspect_inverse.size(); ++i )
 		{
-			if( !i.expired() )
+			if( !m_OfShapeAspect_inverse[i].expired() )
 			{
-				OfShapeAspect_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcShapeAspect>( i ) );
+				OfShapeAspect_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcShapeAspect>( m_OfShapeAspect_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.emplace_back( "OfShapeAspect_inverse", OfShapeAspect_inverse_vec_obj );
+		vec_attributes_inverse.emplace_back( std::make_pair( "OfShapeAspect_inverse", OfShapeAspect_inverse_vec_obj ) );
 	}
 }
 void IfcShapeModel::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

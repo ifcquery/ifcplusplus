@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcShapeAspect;
 class IFCQUERY_EXPORT IfcPermeableCoveringProperties : public IfcPreDefinedPropertySet
 { 
 public:
-	IfcPermeableCoveringProperties();
+	IfcPermeableCoveringProperties() = default;
 	IfcPermeableCoveringProperties( int id );
 	~IfcPermeableCoveringProperties();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

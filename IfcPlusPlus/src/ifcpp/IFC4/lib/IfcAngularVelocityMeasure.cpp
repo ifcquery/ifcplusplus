@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcAngularVelocityMeasure.h"
 
 // TYPE IfcAngularVelocityMeasure = REAL;
-IfcAngularVelocityMeasure::IfcAngularVelocityMeasure() = default;
 IfcAngularVelocityMeasure::IfcAngularVelocityMeasure( double value ) { m_value = value; }
-IfcAngularVelocityMeasure::~IfcAngularVelocityMeasure() = default;
+IfcAngularVelocityMeasure::~IfcAngularVelocityMeasure() {}
 shared_ptr<BuildingObject> IfcAngularVelocityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAngularVelocityMeasure> copy_self( new IfcAngularVelocityMeasure() );

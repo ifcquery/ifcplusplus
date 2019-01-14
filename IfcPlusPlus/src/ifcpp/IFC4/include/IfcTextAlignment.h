@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcTextAlignment : public BuildingObject
 {
 public:
-	IfcTextAlignment();
+	IfcTextAlignment() = default;
 	IfcTextAlignment( std::wstring value );
 	~IfcTextAlignment();
 	virtual const char* className() const { return "IfcTextAlignment"; }

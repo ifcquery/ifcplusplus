@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcRelAssociates;
 class IFCQUERY_EXPORT IfcObjectDefinition : virtual public IfcDefinitionSelect, public IfcRoot
 { 
 public:
-	IfcObjectDefinition();
+	IfcObjectDefinition() = default;
 	IfcObjectDefinition( int id );
 	~IfcObjectDefinition();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

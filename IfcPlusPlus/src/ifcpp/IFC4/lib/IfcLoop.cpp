@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcLoop 
-IfcLoop::IfcLoop() = default;
 IfcLoop::IfcLoop( int id ) { m_entity_id = id; }
-IfcLoop::~IfcLoop() = default;
+IfcLoop::~IfcLoop() {}
 shared_ptr<BuildingObject> IfcLoop::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLoop> copy_self( new IfcLoop() );
@@ -25,7 +24,7 @@ void IfcLoop::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCLOOP" << "(";
 	stream << ");";
 }
-void IfcLoop::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcLoop::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLoop::toString() const { return L"IfcLoop"; }
 void IfcLoop::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcPositiveInteger : public IfcInteger
 {
 public:
-	IfcPositiveInteger();
+	IfcPositiveInteger() = default;
 	IfcPositiveInteger( int value ) { m_value = value; }
 	~IfcPositiveInteger();
 	virtual const char* className() const { return "IfcPositiveInteger"; }

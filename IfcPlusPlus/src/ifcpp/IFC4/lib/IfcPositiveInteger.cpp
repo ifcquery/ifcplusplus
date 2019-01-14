@@ -11,8 +11,7 @@
 #include "ifcpp/IFC4/include/IfcPositiveInteger.h"
 
 // TYPE IfcPositiveInteger = IfcInteger;
-IfcPositiveInteger::IfcPositiveInteger() = default;
-IfcPositiveInteger::~IfcPositiveInteger() = default;
+IfcPositiveInteger::~IfcPositiveInteger() {}
 shared_ptr<BuildingObject> IfcPositiveInteger::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPositiveInteger> copy_self( new IfcPositiveInteger() );

@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcLaborResourceTypeEnum.h"
 
 // TYPE IfcLaborResourceTypeEnum = ENUMERATION OF	(ADMINISTRATION	,CARPENTRY	,CLEANING	,CONCRETE	,DRYWALL	,ELECTRIC	,FINISHING	,FLOORING	,GENERAL	,HVAC	,LANDSCAPING	,MASONRY	,PAINTING	,PAVING	,PLUMBING	,ROOFING	,SITEGRADING	,STEELWORK	,SURVEYING	,USERDEFINED	,NOTDEFINED);
-IfcLaborResourceTypeEnum::IfcLaborResourceTypeEnum() = default;
-IfcLaborResourceTypeEnum::~IfcLaborResourceTypeEnum() = default;
+IfcLaborResourceTypeEnum::~IfcLaborResourceTypeEnum() {}
 shared_ptr<BuildingObject> IfcLaborResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLaborResourceTypeEnum> copy_self( new IfcLaborResourceTypeEnum() );

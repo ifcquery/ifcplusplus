@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcChimneyTypeEnum;
 class IFCQUERY_EXPORT IfcChimneyType : public IfcBuildingElementType
 { 
 public:
-	IfcChimneyType();
+	IfcChimneyType() = default;
 	IfcChimneyType( int id );
 	~IfcChimneyType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

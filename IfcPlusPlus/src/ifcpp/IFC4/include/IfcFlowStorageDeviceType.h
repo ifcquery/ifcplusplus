@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcFlowStorageDeviceType : public IfcDistributionFlowElementType
 { 
 public:
-	IfcFlowStorageDeviceType();
+	IfcFlowStorageDeviceType() = default;
 	IfcFlowStorageDeviceType( int id );
 	~IfcFlowStorageDeviceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

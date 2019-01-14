@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcFanTypeEnum;
 class IFCQUERY_EXPORT IfcFanType : public IfcFlowMovingDeviceType
 { 
 public:
-	IfcFanType();
+	IfcFanType() = default;
 	IfcFanType( int id );
 	~IfcFanType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

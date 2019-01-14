@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcWarpingStiffnessSelect.h"
 
 // ENTITY IfcBoundaryNodeConditionWarping 
-IfcBoundaryNodeConditionWarping::IfcBoundaryNodeConditionWarping() = default;
 IfcBoundaryNodeConditionWarping::IfcBoundaryNodeConditionWarping( int id ) { m_entity_id = id; }
-IfcBoundaryNodeConditionWarping::~IfcBoundaryNodeConditionWarping() = default;
+IfcBoundaryNodeConditionWarping::~IfcBoundaryNodeConditionWarping() {}
 shared_ptr<BuildingObject> IfcBoundaryNodeConditionWarping::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoundaryNodeConditionWarping> copy_self( new IfcBoundaryNodeConditionWarping() );
@@ -50,12 +49,12 @@ void IfcBoundaryNodeConditionWarping::getStepLine( std::stringstream& stream ) c
 	if( m_WarpingStiffness ) { m_WarpingStiffness->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcBoundaryNodeConditionWarping::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcBoundaryNodeConditionWarping::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundaryNodeConditionWarping::toString() const { return L"IfcBoundaryNodeConditionWarping"; }
 void IfcBoundaryNodeConditionWarping::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoundaryNodeConditionWarping, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoundaryNodeConditionWarping, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_TranslationalStiffnessX = IfcTranslationalStiffnessSelect::createObjectFromSTEP( args[1], map );
 	m_TranslationalStiffnessY = IfcTranslationalStiffnessSelect::createObjectFromSTEP( args[2], map );
@@ -68,7 +67,7 @@ void IfcBoundaryNodeConditionWarping::readStepArguments( const std::vector<std::
 void IfcBoundaryNodeConditionWarping::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundaryNodeCondition::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "WarpingStiffness", m_WarpingStiffness );
+	vec_attributes.emplace_back( std::make_pair( "WarpingStiffness", m_WarpingStiffness ) );
 }
 void IfcBoundaryNodeConditionWarping::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

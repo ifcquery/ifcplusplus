@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcProcedureTypeEnum;
 class IFCQUERY_EXPORT IfcProcedure : public IfcProcess
 { 
 public:
-	IfcProcedure();
+	IfcProcedure() = default;
 	IfcProcedure( int id );
 	~IfcProcedure();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcAxis2Placement3D;
 class IFCQUERY_EXPORT IfcSectionedSpine : public IfcGeometricRepresentationItem
 { 
 public:
-	IfcSectionedSpine();
+	IfcSectionedSpine() = default;
 	IfcSectionedSpine( int id );
 	~IfcSectionedSpine();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

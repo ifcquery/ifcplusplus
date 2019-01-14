@@ -12,8 +12,7 @@
 #include "ifcpp/IFC4/include/IfcPositiveRatioMeasure.h"
 
 // TYPE IfcPositiveRatioMeasure = IfcRatioMeasure;
-IfcPositiveRatioMeasure::IfcPositiveRatioMeasure() = default;
-IfcPositiveRatioMeasure::~IfcPositiveRatioMeasure() = default;
+IfcPositiveRatioMeasure::~IfcPositiveRatioMeasure() {}
 shared_ptr<BuildingObject> IfcPositiveRatioMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPositiveRatioMeasure> copy_self( new IfcPositiveRatioMeasure() );

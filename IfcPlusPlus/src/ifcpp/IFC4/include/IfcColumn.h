@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcColumnTypeEnum;
 class IFCQUERY_EXPORT IfcColumn : public IfcBuildingElement
 { 
 public:
-	IfcColumn();
+	IfcColumn() = default;
 	IfcColumn( int id );
 	~IfcColumn();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

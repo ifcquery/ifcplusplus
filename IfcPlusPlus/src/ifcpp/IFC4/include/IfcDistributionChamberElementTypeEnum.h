@@ -27,7 +27,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcDistributionChamberElementTypeEnum();
+	IfcDistributionChamberElementTypeEnum() = default;
 	IfcDistributionChamberElementTypeEnum( IfcDistributionChamberElementTypeEnumEnum e ) { m_enum = e; }
 	~IfcDistributionChamberElementTypeEnum();
 	virtual const char* className() const { return "IfcDistributionChamberElementTypeEnum"; }

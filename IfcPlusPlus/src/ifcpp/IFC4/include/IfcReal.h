@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcReal : public IfcSimpleValue
 {
 public:
-	IfcReal();
+	IfcReal() = default;
 	IfcReal( double value );
 	~IfcReal();
 	virtual const char* className() const { return "IfcReal"; }

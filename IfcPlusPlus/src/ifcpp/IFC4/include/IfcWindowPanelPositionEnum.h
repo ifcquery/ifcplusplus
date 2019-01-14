@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcWindowPanelPositionEnum();
+	IfcWindowPanelPositionEnum() = default;
 	IfcWindowPanelPositionEnum( IfcWindowPanelPositionEnumEnum e ) { m_enum = e; }
 	~IfcWindowPanelPositionEnum();
 	virtual const char* className() const { return "IfcWindowPanelPositionEnum"; }

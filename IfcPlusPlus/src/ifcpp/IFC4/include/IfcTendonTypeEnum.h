@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcTendonTypeEnum();
+	IfcTendonTypeEnum() = default;
 	IfcTendonTypeEnum( IfcTendonTypeEnumEnum e ) { m_enum = e; }
 	~IfcTendonTypeEnum();
 	virtual const char* className() const { return "IfcTendonTypeEnum"; }

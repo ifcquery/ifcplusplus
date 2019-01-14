@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcWorkCalendarTypeEnum;
 class IFCQUERY_EXPORT IfcWorkCalendar : public IfcControl
 { 
 public:
-	IfcWorkCalendar();
+	IfcWorkCalendar() = default;
 	IfcWorkCalendar( int id );
 	~IfcWorkCalendar();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

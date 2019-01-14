@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcMassDensityMeasure.h"
 
 // TYPE IfcMassDensityMeasure = REAL;
-IfcMassDensityMeasure::IfcMassDensityMeasure() = default;
 IfcMassDensityMeasure::IfcMassDensityMeasure( double value ) { m_value = value; }
-IfcMassDensityMeasure::~IfcMassDensityMeasure() = default;
+IfcMassDensityMeasure::~IfcMassDensityMeasure() {}
 shared_ptr<BuildingObject> IfcMassDensityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMassDensityMeasure> copy_self( new IfcMassDensityMeasure() );

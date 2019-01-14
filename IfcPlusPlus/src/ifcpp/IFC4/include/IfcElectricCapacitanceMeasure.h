@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcElectricCapacitanceMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcElectricCapacitanceMeasure();
+	IfcElectricCapacitanceMeasure() = default;
 	IfcElectricCapacitanceMeasure( double value );
 	~IfcElectricCapacitanceMeasure();
 	virtual const char* className() const { return "IfcElectricCapacitanceMeasure"; }

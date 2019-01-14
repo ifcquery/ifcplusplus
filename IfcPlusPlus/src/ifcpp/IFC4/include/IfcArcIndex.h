@@ -15,7 +15,7 @@
 class IFCQUERY_EXPORT IfcArcIndex : public IfcPositiveInteger, public IfcSegmentIndexSelect
 {
 public:
-	IfcArcIndex();
+	IfcArcIndex() = default;
 	~IfcArcIndex();
 	virtual const char* className() const { return "IfcArcIndex"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcFlowMovingDeviceType : public IfcDistributionFlowElementType
 { 
 public:
-	IfcFlowMovingDeviceType();
+	IfcFlowMovingDeviceType() = default;
 	IfcFlowMovingDeviceType( int id );
 	~IfcFlowMovingDeviceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

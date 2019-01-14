@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRelServicesBuildings;
 class IFCQUERY_EXPORT IfcSystem : public IfcGroup
 { 
 public:
-	IfcSystem();
+	IfcSystem() = default;
 	IfcSystem( int id );
 	~IfcSystem();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

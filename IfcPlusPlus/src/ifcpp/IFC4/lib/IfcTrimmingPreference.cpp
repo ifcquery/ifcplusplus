@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcTrimmingPreference.h"
 
 // TYPE IfcTrimmingPreference = ENUMERATION OF	(CARTESIAN	,PARAMETER	,UNSPECIFIED);
-IfcTrimmingPreference::IfcTrimmingPreference() = default;
-IfcTrimmingPreference::~IfcTrimmingPreference() = default;
+IfcTrimmingPreference::~IfcTrimmingPreference() {}
 shared_ptr<BuildingObject> IfcTrimmingPreference::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTrimmingPreference> copy_self( new IfcTrimmingPreference() );

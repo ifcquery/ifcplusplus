@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcMonetaryMeasure.h"
 
 // TYPE IfcMonetaryMeasure = REAL;
-IfcMonetaryMeasure::IfcMonetaryMeasure() = default;
 IfcMonetaryMeasure::IfcMonetaryMeasure( double value ) { m_value = value; }
-IfcMonetaryMeasure::~IfcMonetaryMeasure() = default;
+IfcMonetaryMeasure::~IfcMonetaryMeasure() {}
 shared_ptr<BuildingObject> IfcMonetaryMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMonetaryMeasure> copy_self( new IfcMonetaryMeasure() );

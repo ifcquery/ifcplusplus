@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcShearModulusMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcShearModulusMeasure();
+	IfcShearModulusMeasure() = default;
 	IfcShearModulusMeasure( double value );
 	~IfcShearModulusMeasure();
 	virtual const char* className() const { return "IfcShearModulusMeasure"; }

@@ -20,7 +20,7 @@ public:
 		ENUM_PARTIAL
 	};
 
-	IfcElementCompositionEnum();
+	IfcElementCompositionEnum() = default;
 	IfcElementCompositionEnum( IfcElementCompositionEnumEnum e ) { m_enum = e; }
 	~IfcElementCompositionEnum();
 	virtual const char* className() const { return "IfcElementCompositionEnum"; }

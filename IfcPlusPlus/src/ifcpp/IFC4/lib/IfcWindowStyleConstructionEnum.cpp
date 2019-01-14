@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcWindowStyleConstructionEnum.h"
 
 // TYPE IfcWindowStyleConstructionEnum = ENUMERATION OF	(ALUMINIUM	,HIGH_GRADE_STEEL	,STEEL	,WOOD	,ALUMINIUM_WOOD	,PLASTIC	,OTHER_CONSTRUCTION	,NOTDEFINED);
-IfcWindowStyleConstructionEnum::IfcWindowStyleConstructionEnum() = default;
-IfcWindowStyleConstructionEnum::~IfcWindowStyleConstructionEnum() = default;
+IfcWindowStyleConstructionEnum::~IfcWindowStyleConstructionEnum() {}
 shared_ptr<BuildingObject> IfcWindowStyleConstructionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWindowStyleConstructionEnum> copy_self( new IfcWindowStyleConstructionEnum() );

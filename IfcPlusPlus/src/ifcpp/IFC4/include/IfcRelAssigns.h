@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcObjectTypeEnum;
 class IFCQUERY_EXPORT IfcRelAssigns : public IfcRelationship
 { 
 public:
-	IfcRelAssigns();
+	IfcRelAssigns() = default;
 	IfcRelAssigns( int id );
 	~IfcRelAssigns();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,9 +13,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcManifoldSolidBrep 
-IfcManifoldSolidBrep::IfcManifoldSolidBrep() = default;
 IfcManifoldSolidBrep::IfcManifoldSolidBrep( int id ) { m_entity_id = id; }
-IfcManifoldSolidBrep::~IfcManifoldSolidBrep() = default;
+IfcManifoldSolidBrep::~IfcManifoldSolidBrep() {}
 shared_ptr<BuildingObject> IfcManifoldSolidBrep::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcManifoldSolidBrep> copy_self( new IfcManifoldSolidBrep() );
@@ -28,18 +27,18 @@ void IfcManifoldSolidBrep::getStepLine( std::stringstream& stream ) const
 	if( m_Outer ) { stream << "#" << m_Outer->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcManifoldSolidBrep::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcManifoldSolidBrep::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcManifoldSolidBrep::toString() const { return L"IfcManifoldSolidBrep"; }
 void IfcManifoldSolidBrep::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcManifoldSolidBrep, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcManifoldSolidBrep, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Outer, map );
 }
 void IfcManifoldSolidBrep::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSolidModel::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Outer", m_Outer );
+	vec_attributes.emplace_back( std::make_pair( "Outer", m_Outer ) );
 }
 void IfcManifoldSolidBrep::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

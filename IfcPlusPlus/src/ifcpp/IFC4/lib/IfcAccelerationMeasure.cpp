@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcAccelerationMeasure.h"
 
 // TYPE IfcAccelerationMeasure = REAL;
-IfcAccelerationMeasure::IfcAccelerationMeasure() = default;
 IfcAccelerationMeasure::IfcAccelerationMeasure( double value ) { m_value = value; }
-IfcAccelerationMeasure::~IfcAccelerationMeasure() = default;
+IfcAccelerationMeasure::~IfcAccelerationMeasure() {}
 shared_ptr<BuildingObject> IfcAccelerationMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAccelerationMeasure> copy_self( new IfcAccelerationMeasure() );

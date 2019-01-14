@@ -29,7 +29,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcMechanicalFastenerTypeEnum();
+	IfcMechanicalFastenerTypeEnum() = default;
 	IfcMechanicalFastenerTypeEnum( IfcMechanicalFastenerTypeEnumEnum e ) { m_enum = e; }
 	~IfcMechanicalFastenerTypeEnum();
 	virtual const char* className() const { return "IfcMechanicalFastenerTypeEnum"; }

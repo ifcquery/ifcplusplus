@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcThermalAdmittanceMeasure.h"
 
 // TYPE IfcThermalAdmittanceMeasure = REAL;
-IfcThermalAdmittanceMeasure::IfcThermalAdmittanceMeasure() = default;
 IfcThermalAdmittanceMeasure::IfcThermalAdmittanceMeasure( double value ) { m_value = value; }
-IfcThermalAdmittanceMeasure::~IfcThermalAdmittanceMeasure() = default;
+IfcThermalAdmittanceMeasure::~IfcThermalAdmittanceMeasure() {}
 shared_ptr<BuildingObject> IfcThermalAdmittanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcThermalAdmittanceMeasure> copy_self( new IfcThermalAdmittanceMeasure() );

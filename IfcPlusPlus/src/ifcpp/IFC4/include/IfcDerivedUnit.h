@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcDerivedUnit : virtual public IfcUnit, public BuildingEntity
 { 
 public:
-	IfcDerivedUnit();
+	IfcDerivedUnit() = default;
 	IfcDerivedUnit( int id );
 	~IfcDerivedUnit();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

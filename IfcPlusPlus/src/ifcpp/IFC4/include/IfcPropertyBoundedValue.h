@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcUnit;
 class IFCQUERY_EXPORT IfcPropertyBoundedValue : public IfcSimpleProperty
 { 
 public:
-	IfcPropertyBoundedValue();
+	IfcPropertyBoundedValue() = default;
 	IfcPropertyBoundedValue( int id );
 	~IfcPropertyBoundedValue();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

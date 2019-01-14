@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcWarpingMomentMeasure;
 class IFCQUERY_EXPORT IfcStructuralLoadSingleForceWarping : public IfcStructuralLoadSingleForce
 { 
 public:
-	IfcStructuralLoadSingleForceWarping();
+	IfcStructuralLoadSingleForceWarping() = default;
 	IfcStructuralLoadSingleForceWarping( int id );
 	~IfcStructuralLoadSingleForceWarping();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

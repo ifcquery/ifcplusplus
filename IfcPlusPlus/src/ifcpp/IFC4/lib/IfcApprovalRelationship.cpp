@@ -13,20 +13,20 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcApprovalRelationship 
-IfcApprovalRelationship::IfcApprovalRelationship() = default;
 IfcApprovalRelationship::IfcApprovalRelationship( int id ) { m_entity_id = id; }
-IfcApprovalRelationship::~IfcApprovalRelationship() = default;
+IfcApprovalRelationship::~IfcApprovalRelationship() {}
 shared_ptr<BuildingObject> IfcApprovalRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcApprovalRelationship> copy_self( new IfcApprovalRelationship() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
 	if( m_RelatingApproval ) { copy_self->m_RelatingApproval = dynamic_pointer_cast<IfcApproval>( m_RelatingApproval->getDeepCopy(options) ); }
-	for(auto item_ii : m_RelatedApprovals)
+	for( size_t ii=0; ii<m_RelatedApprovals.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_RelatedApprovals[ii];
+		if( item_ii )
 		{
-			copy_self->m_RelatedApprovals.push_back( dynamic_pointer_cast<IfcApproval>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedApprovals.emplace_back( dynamic_pointer_cast<IfcApproval>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -43,12 +43,12 @@ void IfcApprovalRelationship::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_RelatedApprovals );
 	stream << ");";
 }
-void IfcApprovalRelationship::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcApprovalRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcApprovalRelationship::toString() const { return L"IfcApprovalRelationship"; }
 void IfcApprovalRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcApprovalRelationship, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcApprovalRelationship, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_RelatingApproval, map );
@@ -57,12 +57,12 @@ void IfcApprovalRelationship::readStepArguments( const std::vector<std::wstring>
 void IfcApprovalRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcResourceLevelRelationship::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "RelatingApproval", m_RelatingApproval );
+	vec_attributes.emplace_back( std::make_pair( "RelatingApproval", m_RelatingApproval ) );
 	if( !m_RelatedApprovals.empty() )
 	{
 		shared_ptr<AttributeObjectVector> RelatedApprovals_vec_object( new AttributeObjectVector() );
 		std::copy( m_RelatedApprovals.begin(), m_RelatedApprovals.end(), std::back_inserter( RelatedApprovals_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "RelatedApprovals", RelatedApprovals_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "RelatedApprovals", RelatedApprovals_vec_object ) );
 	}
 }
 void IfcApprovalRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -74,26 +74,26 @@ void IfcApprovalRelationship::setInverseCounterparts( shared_ptr<BuildingEntity>
 	IfcResourceLevelRelationship::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcApprovalRelationship> ptr_self = dynamic_pointer_cast<IfcApprovalRelationship>( ptr_self_entity );
 	if( !ptr_self ) { throw BuildingException( "IfcApprovalRelationship::setInverseCounterparts: type mismatch" ); }
-	for(auto & m_RelatedApproval : m_RelatedApprovals)
+	for( size_t i=0; i<m_RelatedApprovals.size(); ++i )
 	{
-		if( m_RelatedApproval )
+		if( m_RelatedApprovals[i] )
 		{
-			m_RelatedApproval->m_IsRelatedWith_inverse.push_back( ptr_self );
+			m_RelatedApprovals[i]->m_IsRelatedWith_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingApproval )
 	{
-		m_RelatingApproval->m_Relates_inverse.push_back( ptr_self );
+		m_RelatingApproval->m_Relates_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcApprovalRelationship::unlinkFromInverseCounterparts()
 {
 	IfcResourceLevelRelationship::unlinkFromInverseCounterparts();
-	for(auto & m_RelatedApproval : m_RelatedApprovals)
+	for( size_t i=0; i<m_RelatedApprovals.size(); ++i )
 	{
-		if( m_RelatedApproval )
+		if( m_RelatedApprovals[i] )
 		{
-			std::vector<weak_ptr<IfcApprovalRelationship> >& IsRelatedWith_inverse = m_RelatedApproval->m_IsRelatedWith_inverse;
+			std::vector<weak_ptr<IfcApprovalRelationship> >& IsRelatedWith_inverse = m_RelatedApprovals[i]->m_IsRelatedWith_inverse;
 			for( auto it_IsRelatedWith_inverse = IsRelatedWith_inverse.begin(); it_IsRelatedWith_inverse != IsRelatedWith_inverse.end(); )
 			{
 				weak_ptr<IfcApprovalRelationship> self_candidate_weak = *it_IsRelatedWith_inverse;

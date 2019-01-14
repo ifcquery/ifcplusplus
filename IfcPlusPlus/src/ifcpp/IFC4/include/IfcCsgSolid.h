@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCsgSelect;
 class IFCQUERY_EXPORT IfcCsgSolid : public IfcSolidModel
 { 
 public:
-	IfcCsgSolid();
+	IfcCsgSolid() = default;
 	IfcCsgSolid( int id );
 	~IfcCsgSolid();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -26,7 +26,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcCondenserTypeEnum();
+	IfcCondenserTypeEnum() = default;
 	IfcCondenserTypeEnum( IfcCondenserTypeEnumEnum e ) { m_enum = e; }
 	~IfcCondenserTypeEnum();
 	virtual const char* className() const { return "IfcCondenserTypeEnum"; }

@@ -15,7 +15,7 @@
 class IFCQUERY_EXPORT IfcNormalisedRatioMeasure : public IfcRatioMeasure, public IfcColourOrFactor
 {
 public:
-	IfcNormalisedRatioMeasure();
+	IfcNormalisedRatioMeasure() = default;
 	IfcNormalisedRatioMeasure( double value ) { m_value = value; }
 	~IfcNormalisedRatioMeasure();
 	virtual const char* className() const { return "IfcNormalisedRatioMeasure"; }

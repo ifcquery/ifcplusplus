@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPointOrVertexPoint;
 class IFCQUERY_EXPORT IfcConnectionPointGeometry : public IfcConnectionGeometry
 { 
 public:
-	IfcConnectionPointGeometry();
+	IfcConnectionPointGeometry() = default;
 	IfcConnectionPointGeometry( int id );
 	~IfcConnectionPointGeometry();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

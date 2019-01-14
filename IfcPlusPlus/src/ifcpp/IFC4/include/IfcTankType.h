@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcTankTypeEnum;
 class IFCQUERY_EXPORT IfcTankType : public IfcFlowStorageDeviceType
 { 
 public:
-	IfcTankType();
+	IfcTankType() = default;
 	IfcTankType( int id );
 	~IfcTankType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

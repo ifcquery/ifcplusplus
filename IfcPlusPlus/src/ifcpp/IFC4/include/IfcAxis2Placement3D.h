@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcDirection;
 class IFCQUERY_EXPORT IfcAxis2Placement3D : virtual public IfcAxis2Placement, public IfcPlacement
 { 
 public:
-	IfcAxis2Placement3D();
+	IfcAxis2Placement3D() = default;
 	IfcAxis2Placement3D( int id );
 	~IfcAxis2Placement3D();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

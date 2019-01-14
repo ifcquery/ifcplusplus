@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCooledBeamTypeEnum;
 class IFCQUERY_EXPORT IfcCooledBeamType : public IfcEnergyConversionDeviceType
 { 
 public:
-	IfcCooledBeamType();
+	IfcCooledBeamType() = default;
 	IfcCooledBeamType( int id );
 	~IfcCooledBeamType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

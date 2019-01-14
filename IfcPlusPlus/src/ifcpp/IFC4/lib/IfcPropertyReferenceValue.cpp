@@ -19,9 +19,8 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPropertyReferenceValue 
-IfcPropertyReferenceValue::IfcPropertyReferenceValue() = default;
 IfcPropertyReferenceValue::IfcPropertyReferenceValue( int id ) { m_entity_id = id; }
-IfcPropertyReferenceValue::~IfcPropertyReferenceValue() = default;
+IfcPropertyReferenceValue::~IfcPropertyReferenceValue() {}
 shared_ptr<BuildingObject> IfcPropertyReferenceValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyReferenceValue> copy_self( new IfcPropertyReferenceValue() );
@@ -43,12 +42,12 @@ void IfcPropertyReferenceValue::getStepLine( std::stringstream& stream ) const
 	if( m_PropertyReference ) { m_PropertyReference->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcPropertyReferenceValue::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcPropertyReferenceValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyReferenceValue::toString() const { return L"IfcPropertyReferenceValue"; }
 void IfcPropertyReferenceValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyReferenceValue, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPropertyReferenceValue, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_UsageName = IfcText::createObjectFromSTEP( args[2], map );
@@ -57,8 +56,8 @@ void IfcPropertyReferenceValue::readStepArguments( const std::vector<std::wstrin
 void IfcPropertyReferenceValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSimpleProperty::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "UsageName", m_UsageName );
-	vec_attributes.emplace_back( "PropertyReference", m_PropertyReference );
+	vec_attributes.emplace_back( std::make_pair( "UsageName", m_UsageName ) );
+	vec_attributes.emplace_back( std::make_pair( "PropertyReference", m_PropertyReference ) );
 }
 void IfcPropertyReferenceValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

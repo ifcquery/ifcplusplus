@@ -13,9 +13,8 @@
 #include "ifcpp/IFC4/include/IfcLengthMeasure.h"
 
 // TYPE IfcLengthMeasure = REAL;
-IfcLengthMeasure::IfcLengthMeasure() = default;
 IfcLengthMeasure::IfcLengthMeasure( double value ) { m_value = value; }
-IfcLengthMeasure::~IfcLengthMeasure() = default;
+IfcLengthMeasure::~IfcLengthMeasure() {}
 shared_ptr<BuildingObject> IfcLengthMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLengthMeasure> copy_self( new IfcLengthMeasure() );

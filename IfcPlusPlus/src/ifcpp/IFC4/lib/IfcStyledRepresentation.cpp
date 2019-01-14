@@ -16,9 +16,8 @@
 #include "ifcpp/IFC4/include/IfcStyledRepresentation.h"
 
 // ENTITY IfcStyledRepresentation 
-IfcStyledRepresentation::IfcStyledRepresentation() = default;
 IfcStyledRepresentation::IfcStyledRepresentation( int id ) { m_entity_id = id; }
-IfcStyledRepresentation::~IfcStyledRepresentation() = default;
+IfcStyledRepresentation::~IfcStyledRepresentation() {}
 shared_ptr<BuildingObject> IfcStyledRepresentation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStyledRepresentation> copy_self( new IfcStyledRepresentation() );
@@ -29,11 +28,12 @@ shared_ptr<BuildingObject> IfcStyledRepresentation::getDeepCopy( BuildingCopyOpt
 	}
 	if( m_RepresentationIdentifier ) { copy_self->m_RepresentationIdentifier = dynamic_pointer_cast<IfcLabel>( m_RepresentationIdentifier->getDeepCopy(options) ); }
 	if( m_RepresentationType ) { copy_self->m_RepresentationType = dynamic_pointer_cast<IfcLabel>( m_RepresentationType->getDeepCopy(options) ); }
-	for(auto item_ii : m_Items)
+	for( size_t ii=0; ii<m_Items.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_Items[ii];
+		if( item_ii )
 		{
-			copy_self->m_Items.push_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Items.emplace_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -50,12 +50,12 @@ void IfcStyledRepresentation::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Items );
 	stream << ");";
 }
-void IfcStyledRepresentation::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcStyledRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStyledRepresentation::toString() const { return L"IfcStyledRepresentation"; }
 void IfcStyledRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStyledRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStyledRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_ContextOfItems, map );
 	m_RepresentationIdentifier = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_RepresentationType = IfcLabel::createObjectFromSTEP( args[2], map );

@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcAdvancedFace : public IfcFaceSurface
 { 
 public:
-	IfcAdvancedFace();
+	IfcAdvancedFace() = default;
 	IfcAdvancedFace( int id );
 	~IfcAdvancedFace();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

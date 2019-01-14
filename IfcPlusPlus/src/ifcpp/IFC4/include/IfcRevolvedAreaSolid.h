@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPlaneAngleMeasure;
 class IFCQUERY_EXPORT IfcRevolvedAreaSolid : public IfcSweptAreaSolid
 { 
 public:
-	IfcRevolvedAreaSolid();
+	IfcRevolvedAreaSolid() = default;
 	IfcRevolvedAreaSolid( int id );
 	~IfcRevolvedAreaSolid();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

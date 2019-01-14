@@ -18,9 +18,8 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcProperty 
-IfcProperty::IfcProperty() = default;
 IfcProperty::IfcProperty( int id ) { m_entity_id = id; }
-IfcProperty::~IfcProperty() = default;
+IfcProperty::~IfcProperty() {}
 shared_ptr<BuildingObject> IfcProperty::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProperty> copy_self( new IfcProperty() );
@@ -36,20 +35,20 @@ void IfcProperty::getStepLine( std::stringstream& stream ) const
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcProperty::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcProperty::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProperty::toString() const { return L"IfcProperty"; }
 void IfcProperty::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProperty, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcProperty, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 }
 void IfcProperty::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPropertyAbstraction::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Name", m_Name );
-	vec_attributes.emplace_back( "Description", m_Description );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
 }
 void IfcProperty::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -57,74 +56,74 @@ void IfcProperty::getAttributesInverse( std::vector<std::pair<std::string, share
 	if( !m_PartOfPset_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PartOfPset_inverse_vec_obj( new AttributeObjectVector() );
-		for(const auto & i : m_PartOfPset_inverse)
+		for( size_t i=0; i<m_PartOfPset_inverse.size(); ++i )
 		{
-			if( !i.expired() )
+			if( !m_PartOfPset_inverse[i].expired() )
 			{
-				PartOfPset_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPropertySet>( i ) );
+				PartOfPset_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPropertySet>( m_PartOfPset_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.emplace_back( "PartOfPset_inverse", PartOfPset_inverse_vec_obj );
+		vec_attributes_inverse.emplace_back( std::make_pair( "PartOfPset_inverse", PartOfPset_inverse_vec_obj ) );
 	}
 	if( !m_PropertyForDependance_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PropertyForDependance_inverse_vec_obj( new AttributeObjectVector() );
-		for(const auto & i : m_PropertyForDependance_inverse)
+		for( size_t i=0; i<m_PropertyForDependance_inverse.size(); ++i )
 		{
-			if( !i.expired() )
+			if( !m_PropertyForDependance_inverse[i].expired() )
 			{
-				PropertyForDependance_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPropertyDependencyRelationship>( i ) );
+				PropertyForDependance_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPropertyDependencyRelationship>( m_PropertyForDependance_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.emplace_back( "PropertyForDependance_inverse", PropertyForDependance_inverse_vec_obj );
+		vec_attributes_inverse.emplace_back( std::make_pair( "PropertyForDependance_inverse", PropertyForDependance_inverse_vec_obj ) );
 	}
 	if( !m_PropertyDependsOn_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PropertyDependsOn_inverse_vec_obj( new AttributeObjectVector() );
-		for(const auto & i : m_PropertyDependsOn_inverse)
+		for( size_t i=0; i<m_PropertyDependsOn_inverse.size(); ++i )
 		{
-			if( !i.expired() )
+			if( !m_PropertyDependsOn_inverse[i].expired() )
 			{
-				PropertyDependsOn_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcPropertyDependencyRelationship>( i ) );
+				PropertyDependsOn_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPropertyDependencyRelationship>( m_PropertyDependsOn_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.emplace_back( "PropertyDependsOn_inverse", PropertyDependsOn_inverse_vec_obj );
+		vec_attributes_inverse.emplace_back( std::make_pair( "PropertyDependsOn_inverse", PropertyDependsOn_inverse_vec_obj ) );
 	}
 	if( !m_PartOfComplex_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PartOfComplex_inverse_vec_obj( new AttributeObjectVector() );
-		for(const auto & i : m_PartOfComplex_inverse)
+		for( size_t i=0; i<m_PartOfComplex_inverse.size(); ++i )
 		{
-			if( !i.expired() )
+			if( !m_PartOfComplex_inverse[i].expired() )
 			{
-				PartOfComplex_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcComplexProperty>( i ) );
+				PartOfComplex_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcComplexProperty>( m_PartOfComplex_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.emplace_back( "PartOfComplex_inverse", PartOfComplex_inverse_vec_obj );
+		vec_attributes_inverse.emplace_back( std::make_pair( "PartOfComplex_inverse", PartOfComplex_inverse_vec_obj ) );
 	}
 	if( !m_HasConstraints_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasConstraints_inverse_vec_obj( new AttributeObjectVector() );
-		for(const auto & i : m_HasConstraints_inverse)
+		for( size_t i=0; i<m_HasConstraints_inverse.size(); ++i )
 		{
-			if( !i.expired() )
+			if( !m_HasConstraints_inverse[i].expired() )
 			{
-				HasConstraints_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcResourceConstraintRelationship>( i ) );
+				HasConstraints_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcResourceConstraintRelationship>( m_HasConstraints_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.emplace_back( "HasConstraints_inverse", HasConstraints_inverse_vec_obj );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasConstraints_inverse", HasConstraints_inverse_vec_obj ) );
 	}
 	if( !m_HasApprovals_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasApprovals_inverse_vec_obj( new AttributeObjectVector() );
-		for(const auto & i : m_HasApprovals_inverse)
+		for( size_t i=0; i<m_HasApprovals_inverse.size(); ++i )
 		{
-			if( !i.expired() )
+			if( !m_HasApprovals_inverse[i].expired() )
 			{
-				HasApprovals_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcResourceApprovalRelationship>( i ) );
+				HasApprovals_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcResourceApprovalRelationship>( m_HasApprovals_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.emplace_back( "HasApprovals_inverse", HasApprovals_inverse_vec_obj );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasApprovals_inverse", HasApprovals_inverse_vec_obj ) );
 	}
 }
 void IfcProperty::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

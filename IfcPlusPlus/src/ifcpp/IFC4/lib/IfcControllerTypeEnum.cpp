@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcControllerTypeEnum.h"
 
 // TYPE IfcControllerTypeEnum = ENUMERATION OF	(FLOATING	,PROGRAMMABLE	,PROPORTIONAL	,MULTIPOSITION	,TWOPOSITION	,USERDEFINED	,NOTDEFINED);
-IfcControllerTypeEnum::IfcControllerTypeEnum() = default;
-IfcControllerTypeEnum::~IfcControllerTypeEnum() = default;
+IfcControllerTypeEnum::~IfcControllerTypeEnum() {}
 shared_ptr<BuildingObject> IfcControllerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcControllerTypeEnum> copy_self( new IfcControllerTypeEnum() );

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcConnectedFaceSet;
 class IFCQUERY_EXPORT IfcFaceBasedSurfaceModel : virtual public IfcSurfaceOrFaceSurface, public IfcGeometricRepresentationItem
 { 
 public:
-	IfcFaceBasedSurfaceModel();
+	IfcFaceBasedSurfaceModel() = default;
 	IfcFaceBasedSurfaceModel( int id );
 	~IfcFaceBasedSurfaceModel();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

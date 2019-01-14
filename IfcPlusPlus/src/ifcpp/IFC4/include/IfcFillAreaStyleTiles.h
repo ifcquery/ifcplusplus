@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcPositiveRatioMeasure;
 class IFCQUERY_EXPORT IfcFillAreaStyleTiles : virtual public IfcFillStyleSelect, public IfcGeometricRepresentationItem
 { 
 public:
-	IfcFillAreaStyleTiles();
+	IfcFillAreaStyleTiles() = default;
 	IfcFillAreaStyleTiles( int id );
 	~IfcFillAreaStyleTiles();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

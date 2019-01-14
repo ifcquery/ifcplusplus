@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcSpaceTypeEnum();
+	IfcSpaceTypeEnum() = default;
 	IfcSpaceTypeEnum( IfcSpaceTypeEnumEnum e ) { m_enum = e; }
 	~IfcSpaceTypeEnum();
 	virtual const char* className() const { return "IfcSpaceTypeEnum"; }

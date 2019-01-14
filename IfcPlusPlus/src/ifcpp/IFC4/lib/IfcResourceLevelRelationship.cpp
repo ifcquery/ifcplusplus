@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcResourceLevelRelationship 
-IfcResourceLevelRelationship::IfcResourceLevelRelationship() = default;
 IfcResourceLevelRelationship::IfcResourceLevelRelationship( int id ) { m_entity_id = id; }
-IfcResourceLevelRelationship::~IfcResourceLevelRelationship() = default;
+IfcResourceLevelRelationship::~IfcResourceLevelRelationship() {}
 shared_ptr<BuildingObject> IfcResourceLevelRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcResourceLevelRelationship> copy_self( new IfcResourceLevelRelationship() );
@@ -30,24 +29,24 @@ void IfcResourceLevelRelationship::getStepLine( std::stringstream& stream ) cons
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcResourceLevelRelationship::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcResourceLevelRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcResourceLevelRelationship::toString() const { return L"IfcResourceLevelRelationship"; }
 void IfcResourceLevelRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcResourceLevelRelationship, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcResourceLevelRelationship, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 }
 void IfcResourceLevelRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.emplace_back( "Name", m_Name );
-	vec_attributes.emplace_back( "Description", m_Description );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
 }
 void IfcResourceLevelRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
-void IfcResourceLevelRelationship::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
+void IfcResourceLevelRelationship::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcResourceLevelRelationship::unlinkFromInverseCounterparts()

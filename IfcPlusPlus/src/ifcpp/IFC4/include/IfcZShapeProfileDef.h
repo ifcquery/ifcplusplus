@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcNonNegativeLengthMeasure;
 class IFCQUERY_EXPORT IfcZShapeProfileDef : public IfcParameterizedProfileDef
 { 
 public:
-	IfcZShapeProfileDef();
+	IfcZShapeProfileDef() = default;
 	IfcZShapeProfileDef( int id );
 	~IfcZShapeProfileDef();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

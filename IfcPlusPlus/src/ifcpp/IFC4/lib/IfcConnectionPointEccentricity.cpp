@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcPointOrVertexPoint.h"
 
 // ENTITY IfcConnectionPointEccentricity 
-IfcConnectionPointEccentricity::IfcConnectionPointEccentricity() = default;
 IfcConnectionPointEccentricity::IfcConnectionPointEccentricity( int id ) { m_entity_id = id; }
-IfcConnectionPointEccentricity::~IfcConnectionPointEccentricity() = default;
+IfcConnectionPointEccentricity::~IfcConnectionPointEccentricity() {}
 shared_ptr<BuildingObject> IfcConnectionPointEccentricity::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConnectionPointEccentricity> copy_self( new IfcConnectionPointEccentricity() );
@@ -39,12 +38,12 @@ void IfcConnectionPointEccentricity::getStepLine( std::stringstream& stream ) co
 	if( m_EccentricityInZ ) { m_EccentricityInZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcConnectionPointEccentricity::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcConnectionPointEccentricity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConnectionPointEccentricity::toString() const { return L"IfcConnectionPointEccentricity"; }
 void IfcConnectionPointEccentricity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionPointEccentricity, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionPointEccentricity, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_PointOnRelatingElement = IfcPointOrVertexPoint::createObjectFromSTEP( args[0], map );
 	m_PointOnRelatedElement = IfcPointOrVertexPoint::createObjectFromSTEP( args[1], map );
 	m_EccentricityInX = IfcLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -54,9 +53,9 @@ void IfcConnectionPointEccentricity::readStepArguments( const std::vector<std::w
 void IfcConnectionPointEccentricity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConnectionPointGeometry::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "EccentricityInX", m_EccentricityInX );
-	vec_attributes.emplace_back( "EccentricityInY", m_EccentricityInY );
-	vec_attributes.emplace_back( "EccentricityInZ", m_EccentricityInZ );
+	vec_attributes.emplace_back( std::make_pair( "EccentricityInX", m_EccentricityInX ) );
+	vec_attributes.emplace_back( std::make_pair( "EccentricityInY", m_EccentricityInY ) );
+	vec_attributes.emplace_back( std::make_pair( "EccentricityInZ", m_EccentricityInZ ) );
 }
 void IfcConnectionPointEccentricity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

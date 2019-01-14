@@ -44,7 +44,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcActionSourceTypeEnum();
+	IfcActionSourceTypeEnum() = default;
 	IfcActionSourceTypeEnum( IfcActionSourceTypeEnumEnum e ) { m_enum = e; }
 	~IfcActionSourceTypeEnum();
 	virtual const char* className() const { return "IfcActionSourceTypeEnum"; }

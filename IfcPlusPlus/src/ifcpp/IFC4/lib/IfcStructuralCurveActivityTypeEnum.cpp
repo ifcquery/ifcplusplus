@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcStructuralCurveActivityTypeEnum.h"
 
 // TYPE IfcStructuralCurveActivityTypeEnum = ENUMERATION OF	(CONST	,LINEAR	,POLYGONAL	,EQUIDISTANT	,SINUS	,PARABOLA	,DISCRETE	,USERDEFINED	,NOTDEFINED);
-IfcStructuralCurveActivityTypeEnum::IfcStructuralCurveActivityTypeEnum() = default;
-IfcStructuralCurveActivityTypeEnum::~IfcStructuralCurveActivityTypeEnum() = default;
+IfcStructuralCurveActivityTypeEnum::~IfcStructuralCurveActivityTypeEnum() {}
 shared_ptr<BuildingObject> IfcStructuralCurveActivityTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralCurveActivityTypeEnum> copy_self( new IfcStructuralCurveActivityTypeEnum() );

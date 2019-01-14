@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcStackTerminalTypeEnum();
+	IfcStackTerminalTypeEnum() = default;
 	IfcStackTerminalTypeEnum( IfcStackTerminalTypeEnumEnum e ) { m_enum = e; }
 	~IfcStackTerminalTypeEnum();
 	virtual const char* className() const { return "IfcStackTerminalTypeEnum"; }

@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcTimePeriod;
 class IFCQUERY_EXPORT IfcRecurrencePattern : public BuildingEntity
 { 
 public:
-	IfcRecurrencePattern();
+	IfcRecurrencePattern() = default;
 	IfcRecurrencePattern( int id );
 	~IfcRecurrencePattern();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

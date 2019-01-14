@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcMonetaryUnit : virtual public IfcUnit, public BuildingEntity
 { 
 public:
-	IfcMonetaryUnit();
+	IfcMonetaryUnit() = default;
 	IfcMonetaryUnit( int id );
 	~IfcMonetaryUnit();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

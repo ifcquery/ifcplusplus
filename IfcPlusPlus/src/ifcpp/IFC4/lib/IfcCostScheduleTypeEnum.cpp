@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcCostScheduleTypeEnum.h"
 
 // TYPE IfcCostScheduleTypeEnum = ENUMERATION OF	(BUDGET	,COSTPLAN	,ESTIMATE	,TENDER	,PRICEDBILLOFQUANTITIES	,UNPRICEDBILLOFQUANTITIES	,SCHEDULEOFRATES	,USERDEFINED	,NOTDEFINED);
-IfcCostScheduleTypeEnum::IfcCostScheduleTypeEnum() = default;
-IfcCostScheduleTypeEnum::~IfcCostScheduleTypeEnum() = default;
+IfcCostScheduleTypeEnum::~IfcCostScheduleTypeEnum() {}
 shared_ptr<BuildingObject> IfcCostScheduleTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCostScheduleTypeEnum> copy_self( new IfcCostScheduleTypeEnum() );

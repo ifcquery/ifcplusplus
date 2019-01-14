@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCartesianPoint;
 class IFCQUERY_EXPORT IfcPlacement : public IfcGeometricRepresentationItem
 { 
 public:
-	IfcPlacement();
+	IfcPlacement() = default;
 	IfcPlacement( int id );
 	~IfcPlacement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

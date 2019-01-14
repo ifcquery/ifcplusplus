@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcElectricTimeControlTypeEnum();
+	IfcElectricTimeControlTypeEnum() = default;
 	IfcElectricTimeControlTypeEnum( IfcElectricTimeControlTypeEnumEnum e ) { m_enum = e; }
 	~IfcElectricTimeControlTypeEnum();
 	virtual const char* className() const { return "IfcElectricTimeControlTypeEnum"; }

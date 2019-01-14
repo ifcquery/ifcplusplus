@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcLightDistributionCurveEnum();
+	IfcLightDistributionCurveEnum() = default;
 	IfcLightDistributionCurveEnum( IfcLightDistributionCurveEnumEnum e ) { m_enum = e; }
 	~IfcLightDistributionCurveEnum();
 	virtual const char* className() const { return "IfcLightDistributionCurveEnum"; }

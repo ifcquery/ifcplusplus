@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcLuminousIntensityDistributionMeasure.h"
 
 // TYPE IfcLuminousIntensityDistributionMeasure = REAL;
-IfcLuminousIntensityDistributionMeasure::IfcLuminousIntensityDistributionMeasure() = default;
 IfcLuminousIntensityDistributionMeasure::IfcLuminousIntensityDistributionMeasure( double value ) { m_value = value; }
-IfcLuminousIntensityDistributionMeasure::~IfcLuminousIntensityDistributionMeasure() = default;
+IfcLuminousIntensityDistributionMeasure::~IfcLuminousIntensityDistributionMeasure() {}
 shared_ptr<BuildingObject> IfcLuminousIntensityDistributionMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLuminousIntensityDistributionMeasure> copy_self( new IfcLuminousIntensityDistributionMeasure() );

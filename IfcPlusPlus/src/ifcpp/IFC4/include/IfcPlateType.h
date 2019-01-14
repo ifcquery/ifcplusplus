@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPlateTypeEnum;
 class IFCQUERY_EXPORT IfcPlateType : public IfcBuildingElementType
 { 
 public:
-	IfcPlateType();
+	IfcPlateType() = default;
 	IfcPlateType( int id );
 	~IfcPlateType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

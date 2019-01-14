@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcUnitaryEquipmentTypeEnum;
 class IFCQUERY_EXPORT IfcUnitaryEquipmentType : public IfcEnergyConversionDeviceType
 { 
 public:
-	IfcUnitaryEquipmentType();
+	IfcUnitaryEquipmentType() = default;
 	IfcUnitaryEquipmentType( int id );
 	~IfcUnitaryEquipmentType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

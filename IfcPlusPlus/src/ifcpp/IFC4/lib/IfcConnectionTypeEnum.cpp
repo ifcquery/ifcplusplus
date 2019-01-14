@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcConnectionTypeEnum.h"
 
 // TYPE IfcConnectionTypeEnum = ENUMERATION OF	(ATPATH	,ATSTART	,ATEND	,NOTDEFINED);
-IfcConnectionTypeEnum::IfcConnectionTypeEnum() = default;
-IfcConnectionTypeEnum::~IfcConnectionTypeEnum() = default;
+IfcConnectionTypeEnum::~IfcConnectionTypeEnum() {}
 shared_ptr<BuildingObject> IfcConnectionTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConnectionTypeEnum> copy_self( new IfcConnectionTypeEnum() );

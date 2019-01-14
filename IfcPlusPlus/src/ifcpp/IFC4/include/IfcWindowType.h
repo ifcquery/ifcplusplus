@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcWindowType : public IfcBuildingElementType
 { 
 public:
-	IfcWindowType();
+	IfcWindowType() = default;
 	IfcWindowType( int id );
 	~IfcWindowType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

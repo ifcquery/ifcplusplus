@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcSanitaryTerminalTypeEnum.h"
 
 // TYPE IfcSanitaryTerminalTypeEnum = ENUMERATION OF	(BATH	,BIDET	,CISTERN	,SHOWER	,SINK	,SANITARYFOUNTAIN	,TOILETPAN	,URINAL	,WASHHANDBASIN	,WCSEAT	,USERDEFINED	,NOTDEFINED);
-IfcSanitaryTerminalTypeEnum::IfcSanitaryTerminalTypeEnum() = default;
-IfcSanitaryTerminalTypeEnum::~IfcSanitaryTerminalTypeEnum() = default;
+IfcSanitaryTerminalTypeEnum::~IfcSanitaryTerminalTypeEnum() {}
 shared_ptr<BuildingObject> IfcSanitaryTerminalTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSanitaryTerminalTypeEnum> copy_self( new IfcSanitaryTerminalTypeEnum() );

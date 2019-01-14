@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcThermodynamicTemperatureMeasure.h"
 
 // ENTITY IfcStructuralLoadTemperature 
-IfcStructuralLoadTemperature::IfcStructuralLoadTemperature() = default;
 IfcStructuralLoadTemperature::IfcStructuralLoadTemperature( int id ) { m_entity_id = id; }
-IfcStructuralLoadTemperature::~IfcStructuralLoadTemperature() = default;
+IfcStructuralLoadTemperature::~IfcStructuralLoadTemperature() {}
 shared_ptr<BuildingObject> IfcStructuralLoadTemperature::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadTemperature> copy_self( new IfcStructuralLoadTemperature() );
@@ -36,12 +35,12 @@ void IfcStructuralLoadTemperature::getStepLine( std::stringstream& stream ) cons
 	if( m_DeltaTZ ) { m_DeltaTZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadTemperature::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcStructuralLoadTemperature::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadTemperature::toString() const { return L"IfcStructuralLoadTemperature"; }
 void IfcStructuralLoadTemperature::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadTemperature, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadTemperature, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DeltaTConstant = IfcThermodynamicTemperatureMeasure::createObjectFromSTEP( args[1], map );
 	m_DeltaTY = IfcThermodynamicTemperatureMeasure::createObjectFromSTEP( args[2], map );
@@ -50,9 +49,9 @@ void IfcStructuralLoadTemperature::readStepArguments( const std::vector<std::wst
 void IfcStructuralLoadTemperature::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadStatic::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "DeltaTConstant", m_DeltaTConstant );
-	vec_attributes.emplace_back( "DeltaTY", m_DeltaTY );
-	vec_attributes.emplace_back( "DeltaTZ", m_DeltaTZ );
+	vec_attributes.emplace_back( std::make_pair( "DeltaTConstant", m_DeltaTConstant ) );
+	vec_attributes.emplace_back( std::make_pair( "DeltaTY", m_DeltaTY ) );
+	vec_attributes.emplace_back( std::make_pair( "DeltaTZ", m_DeltaTZ ) );
 }
 void IfcStructuralLoadTemperature::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcObjectTypeEnum.h"
 
 // TYPE IfcObjectTypeEnum = ENUMERATION OF	(PRODUCT	,PROCESS	,CONTROL	,RESOURCE	,ACTOR	,GROUP	,PROJECT	,NOTDEFINED);
-IfcObjectTypeEnum::IfcObjectTypeEnum() = default;
-IfcObjectTypeEnum::~IfcObjectTypeEnum() = default;
+IfcObjectTypeEnum::~IfcObjectTypeEnum() {}
 shared_ptr<BuildingObject> IfcObjectTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcObjectTypeEnum> copy_self( new IfcObjectTypeEnum() );

@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcAirTerminalTypeEnum.h"
 
 // TYPE IfcAirTerminalTypeEnum = ENUMERATION OF	(DIFFUSER	,GRILLE	,LOUVRE	,REGISTER	,USERDEFINED	,NOTDEFINED);
-IfcAirTerminalTypeEnum::IfcAirTerminalTypeEnum() = default;
-IfcAirTerminalTypeEnum::~IfcAirTerminalTypeEnum() = default;
+IfcAirTerminalTypeEnum::~IfcAirTerminalTypeEnum() {}
 shared_ptr<BuildingObject> IfcAirTerminalTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAirTerminalTypeEnum> copy_self( new IfcAirTerminalTypeEnum() );

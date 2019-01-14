@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcDirectionSenseEnum.h"
 
 // TYPE IfcDirectionSenseEnum = ENUMERATION OF	(POSITIVE	,NEGATIVE);
-IfcDirectionSenseEnum::IfcDirectionSenseEnum() = default;
-IfcDirectionSenseEnum::~IfcDirectionSenseEnum() = default;
+IfcDirectionSenseEnum::~IfcDirectionSenseEnum() {}
 shared_ptr<BuildingObject> IfcDirectionSenseEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDirectionSenseEnum> copy_self( new IfcDirectionSenseEnum() );

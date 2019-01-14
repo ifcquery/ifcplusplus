@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcVector : virtual public IfcHatchLineDistanceSelect, virtual public IfcVectorOrDirection, public IfcGeometricRepresentationItem
 { 
 public:
-	IfcVector();
+	IfcVector() = default;
 	IfcVector( int id );
 	~IfcVector();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

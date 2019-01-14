@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcConstraintEnum.h"
 
 // TYPE IfcConstraintEnum = ENUMERATION OF	(HARD	,SOFT	,ADVISORY	,USERDEFINED	,NOTDEFINED);
-IfcConstraintEnum::IfcConstraintEnum() = default;
-IfcConstraintEnum::~IfcConstraintEnum() = default;
+IfcConstraintEnum::~IfcConstraintEnum() {}
 shared_ptr<BuildingObject> IfcConstraintEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConstraintEnum> copy_self( new IfcConstraintEnum() );

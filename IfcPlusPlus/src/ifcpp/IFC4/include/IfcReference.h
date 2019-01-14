@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcReference;
 class IFCQUERY_EXPORT IfcReference : virtual public IfcAppliedValueSelect, virtual public IfcMetricValueSelect, public BuildingEntity
 { 
 public:
-	IfcReference();
+	IfcReference() = default;
 	IfcReference( int id );
 	~IfcReference();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcRotationalFrequencyMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcRotationalFrequencyMeasure();
+	IfcRotationalFrequencyMeasure() = default;
 	IfcRotationalFrequencyMeasure( double value );
 	~IfcRotationalFrequencyMeasure();
 	virtual const char* className() const { return "IfcRotationalFrequencyMeasure"; }

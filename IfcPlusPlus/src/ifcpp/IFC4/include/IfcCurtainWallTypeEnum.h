@@ -19,7 +19,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcCurtainWallTypeEnum();
+	IfcCurtainWallTypeEnum() = default;
 	IfcCurtainWallTypeEnum( IfcCurtainWallTypeEnumEnum e ) { m_enum = e; }
 	~IfcCurtainWallTypeEnum();
 	virtual const char* className() const { return "IfcCurtainWallTypeEnum"; }

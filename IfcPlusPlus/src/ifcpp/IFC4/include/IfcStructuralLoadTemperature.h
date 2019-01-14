@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcThermodynamicTemperatureMeasure;
 class IFCQUERY_EXPORT IfcStructuralLoadTemperature : public IfcStructuralLoadStatic
 { 
 public:
-	IfcStructuralLoadTemperature();
+	IfcStructuralLoadTemperature() = default;
 	IfcStructuralLoadTemperature( int id );
 	~IfcStructuralLoadTemperature();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

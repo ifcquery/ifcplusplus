@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcIdentifier;
 class IFCQUERY_EXPORT IfcApplication : public BuildingEntity
 { 
 public:
-	IfcApplication();
+	IfcApplication() = default;
 	IfcApplication( int id );
 	~IfcApplication();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

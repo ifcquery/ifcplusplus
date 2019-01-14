@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcHeatingValueMeasure.h"
 
 // TYPE IfcHeatingValueMeasure = REAL;
-IfcHeatingValueMeasure::IfcHeatingValueMeasure() = default;
 IfcHeatingValueMeasure::IfcHeatingValueMeasure( double value ) { m_value = value; }
-IfcHeatingValueMeasure::~IfcHeatingValueMeasure() = default;
+IfcHeatingValueMeasure::~IfcHeatingValueMeasure() {}
 shared_ptr<BuildingObject> IfcHeatingValueMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcHeatingValueMeasure> copy_self( new IfcHeatingValueMeasure() );

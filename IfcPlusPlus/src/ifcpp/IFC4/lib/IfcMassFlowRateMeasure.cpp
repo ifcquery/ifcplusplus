@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcMassFlowRateMeasure.h"
 
 // TYPE IfcMassFlowRateMeasure = REAL;
-IfcMassFlowRateMeasure::IfcMassFlowRateMeasure() = default;
 IfcMassFlowRateMeasure::IfcMassFlowRateMeasure( double value ) { m_value = value; }
-IfcMassFlowRateMeasure::~IfcMassFlowRateMeasure() = default;
+IfcMassFlowRateMeasure::~IfcMassFlowRateMeasure() {}
 shared_ptr<BuildingObject> IfcMassFlowRateMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMassFlowRateMeasure> copy_self( new IfcMassFlowRateMeasure() );

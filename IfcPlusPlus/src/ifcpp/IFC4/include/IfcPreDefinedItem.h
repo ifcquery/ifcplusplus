@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcPreDefinedItem : public IfcPresentationItem
 { 
 public:
-	IfcPreDefinedItem();
+	IfcPreDefinedItem() = default;
 	IfcPreDefinedItem( int id );
 	~IfcPreDefinedItem();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

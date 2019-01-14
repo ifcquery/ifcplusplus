@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcReal.h"
 
 // TYPE IfcReal = REAL;
-IfcReal::IfcReal() = default;
 IfcReal::IfcReal( double value ) { m_value = value; }
-IfcReal::~IfcReal() = default;
+IfcReal::~IfcReal() {}
 shared_ptr<BuildingObject> IfcReal::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReal> copy_self( new IfcReal() );

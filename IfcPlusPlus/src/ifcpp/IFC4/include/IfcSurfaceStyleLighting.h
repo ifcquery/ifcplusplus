@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcColourRgb;
 class IFCQUERY_EXPORT IfcSurfaceStyleLighting : virtual public IfcSurfaceStyleElementSelect, public IfcPresentationItem
 { 
 public:
-	IfcSurfaceStyleLighting();
+	IfcSurfaceStyleLighting() = default;
 	IfcSurfaceStyleLighting( int id );
 	~IfcSurfaceStyleLighting();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

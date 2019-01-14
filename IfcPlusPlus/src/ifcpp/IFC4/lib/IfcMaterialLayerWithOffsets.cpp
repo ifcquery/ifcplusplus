@@ -22,9 +22,8 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMaterialLayerWithOffsets 
-IfcMaterialLayerWithOffsets::IfcMaterialLayerWithOffsets() = default;
 IfcMaterialLayerWithOffsets::IfcMaterialLayerWithOffsets( int id ) { m_entity_id = id; }
-IfcMaterialLayerWithOffsets::~IfcMaterialLayerWithOffsets() = default;
+IfcMaterialLayerWithOffsets::~IfcMaterialLayerWithOffsets() {}
 shared_ptr<BuildingObject> IfcMaterialLayerWithOffsets::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialLayerWithOffsets> copy_self( new IfcMaterialLayerWithOffsets() );
@@ -36,11 +35,12 @@ shared_ptr<BuildingObject> IfcMaterialLayerWithOffsets::getDeepCopy( BuildingCop
 	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy(options) ); }
 	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcInteger>( m_Priority->getDeepCopy(options) ); }
 	if( m_OffsetDirection ) { copy_self->m_OffsetDirection = dynamic_pointer_cast<IfcLayerSetDirectionEnum>( m_OffsetDirection->getDeepCopy(options) ); }
-	for(auto item_ii : m_OffsetValues)
+	for( size_t ii=0; ii<m_OffsetValues.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_OffsetValues[ii];
+		if( item_ii )
 		{
-			copy_self->m_OffsetValues.push_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_OffsetValues.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -67,12 +67,12 @@ void IfcMaterialLayerWithOffsets::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList( stream, m_OffsetValues );
 	stream << ");";
 }
-void IfcMaterialLayerWithOffsets::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcMaterialLayerWithOffsets::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialLayerWithOffsets::toString() const { return L"IfcMaterialLayerWithOffsets"; }
 void IfcMaterialLayerWithOffsets::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialLayerWithOffsets, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 9 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialLayerWithOffsets, expecting 9, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Material, map );
 	m_LayerThickness = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_IsVentilated = IfcLogical::createObjectFromSTEP( args[2], map );
@@ -86,12 +86,12 @@ void IfcMaterialLayerWithOffsets::readStepArguments( const std::vector<std::wstr
 void IfcMaterialLayerWithOffsets::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialLayer::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "OffsetDirection", m_OffsetDirection );
+	vec_attributes.emplace_back( std::make_pair( "OffsetDirection", m_OffsetDirection ) );
 	if( !m_OffsetValues.empty() )
 	{
 		shared_ptr<AttributeObjectVector> OffsetValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_OffsetValues.begin(), m_OffsetValues.end(), std::back_inserter( OffsetValues_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "OffsetValues", OffsetValues_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
 	}
 }
 void IfcMaterialLayerWithOffsets::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

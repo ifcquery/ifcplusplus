@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcObjective : public IfcConstraint
 { 
 public:
-	IfcObjective();
+	IfcObjective() = default;
 	IfcObjective( int id );
 	~IfcObjective();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

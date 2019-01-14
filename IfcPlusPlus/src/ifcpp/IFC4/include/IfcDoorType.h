@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcDoorType : public IfcBuildingElementType
 { 
 public:
-	IfcDoorType();
+	IfcDoorType() = default;
 	IfcDoorType( int id );
 	~IfcDoorType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

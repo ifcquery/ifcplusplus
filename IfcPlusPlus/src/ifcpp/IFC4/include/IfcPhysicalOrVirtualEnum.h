@@ -20,7 +20,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcPhysicalOrVirtualEnum();
+	IfcPhysicalOrVirtualEnum() = default;
 	IfcPhysicalOrVirtualEnum( IfcPhysicalOrVirtualEnumEnum e ) { m_enum = e; }
 	~IfcPhysicalOrVirtualEnum();
 	virtual const char* className() const { return "IfcPhysicalOrVirtualEnum"; }

@@ -15,9 +15,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcLightSourceAmbient 
-IfcLightSourceAmbient::IfcLightSourceAmbient() = default;
 IfcLightSourceAmbient::IfcLightSourceAmbient( int id ) { m_entity_id = id; }
-IfcLightSourceAmbient::~IfcLightSourceAmbient() = default;
+IfcLightSourceAmbient::~IfcLightSourceAmbient() {}
 shared_ptr<BuildingObject> IfcLightSourceAmbient::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightSourceAmbient> copy_self( new IfcLightSourceAmbient() );
@@ -39,12 +38,12 @@ void IfcLightSourceAmbient::getStepLine( std::stringstream& stream ) const
 	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLightSourceAmbient::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcLightSourceAmbient::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSourceAmbient::toString() const { return L"IfcLightSourceAmbient"; }
 void IfcLightSourceAmbient::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceAmbient, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSourceAmbient, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_LightColour, map );
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );

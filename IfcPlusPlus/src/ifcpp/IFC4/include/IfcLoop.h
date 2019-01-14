@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcLoop : public IfcTopologicalRepresentationItem
 { 
 public:
-	IfcLoop();
+	IfcLoop() = default;
 	IfcLoop( int id );
 	~IfcLoop();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

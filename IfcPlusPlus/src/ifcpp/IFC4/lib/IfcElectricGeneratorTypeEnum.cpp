@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcElectricGeneratorTypeEnum.h"
 
 // TYPE IfcElectricGeneratorTypeEnum = ENUMERATION OF	(CHP	,ENGINEGENERATOR	,STANDALONE	,USERDEFINED	,NOTDEFINED);
-IfcElectricGeneratorTypeEnum::IfcElectricGeneratorTypeEnum() = default;
-IfcElectricGeneratorTypeEnum::~IfcElectricGeneratorTypeEnum() = default;
+IfcElectricGeneratorTypeEnum::~IfcElectricGeneratorTypeEnum() {}
 shared_ptr<BuildingObject> IfcElectricGeneratorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricGeneratorTypeEnum> copy_self( new IfcElectricGeneratorTypeEnum() );

@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcFlowTreatmentDevice : public IfcDistributionFlowElement
 { 
 public:
-	IfcFlowTreatmentDevice();
+	IfcFlowTreatmentDevice() = default;
 	IfcFlowTreatmentDevice( int id );
 	~IfcFlowTreatmentDevice();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

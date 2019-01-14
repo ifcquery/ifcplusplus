@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcHumidifierTypeEnum;
 class IFCQUERY_EXPORT IfcHumidifier : public IfcEnergyConversionDevice
 { 
 public:
-	IfcHumidifier();
+	IfcHumidifier() = default;
 	IfcHumidifier( int id );
 	~IfcHumidifier();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

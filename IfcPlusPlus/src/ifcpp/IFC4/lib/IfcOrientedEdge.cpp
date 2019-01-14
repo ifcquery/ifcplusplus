@@ -15,9 +15,8 @@
 #include "ifcpp/IFC4/include/IfcVertex.h"
 
 // ENTITY IfcOrientedEdge 
-IfcOrientedEdge::IfcOrientedEdge() = default;
 IfcOrientedEdge::IfcOrientedEdge( int id ) { m_entity_id = id; }
-IfcOrientedEdge::~IfcOrientedEdge() = default;
+IfcOrientedEdge::~IfcOrientedEdge() {}
 shared_ptr<BuildingObject> IfcOrientedEdge::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOrientedEdge> copy_self( new IfcOrientedEdge() );
@@ -30,21 +29,21 @@ shared_ptr<BuildingObject> IfcOrientedEdge::getDeepCopy( BuildingCopyOptions& op
 void IfcOrientedEdge::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCORIENTEDEDGE" << "(";
-	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_entity_id; } else { stream << "*"; }
+	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "*"; }
+	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_EdgeElement ) { stream << "#" << m_EdgeElement->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Orientation ) { m_Orientation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcOrientedEdge::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcOrientedEdge::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOrientedEdge::toString() const { return L"IfcOrientedEdge"; }
 void IfcOrientedEdge::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOrientedEdge, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOrientedEdge, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_EdgeStart, map );
 	readEntityReference( args[1], m_EdgeEnd, map );
 	readEntityReference( args[2], m_EdgeElement, map );
@@ -53,8 +52,8 @@ void IfcOrientedEdge::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcOrientedEdge::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcEdge::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "EdgeElement", m_EdgeElement );
-	vec_attributes.emplace_back( "Orientation", m_Orientation );
+	vec_attributes.emplace_back( std::make_pair( "EdgeElement", m_EdgeElement ) );
+	vec_attributes.emplace_back( std::make_pair( "Orientation", m_Orientation ) );
 }
 void IfcOrientedEdge::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

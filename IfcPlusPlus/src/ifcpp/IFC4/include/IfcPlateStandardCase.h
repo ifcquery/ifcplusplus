@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcPlateStandardCase : public IfcPlate
 { 
 public:
-	IfcPlateStandardCase();
+	IfcPlateStandardCase() = default;
 	IfcPlateStandardCase( int id );
 	~IfcPlateStandardCase();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

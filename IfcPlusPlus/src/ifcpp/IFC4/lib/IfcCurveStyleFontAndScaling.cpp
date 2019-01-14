@@ -13,9 +13,8 @@
 #include "ifcpp/IFC4/include/IfcPositiveRatioMeasure.h"
 
 // ENTITY IfcCurveStyleFontAndScaling 
-IfcCurveStyleFontAndScaling::IfcCurveStyleFontAndScaling() = default;
 IfcCurveStyleFontAndScaling::IfcCurveStyleFontAndScaling( int id ) { m_entity_id = id; }
-IfcCurveStyleFontAndScaling::~IfcCurveStyleFontAndScaling() = default;
+IfcCurveStyleFontAndScaling::~IfcCurveStyleFontAndScaling() {}
 shared_ptr<BuildingObject> IfcCurveStyleFontAndScaling::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurveStyleFontAndScaling> copy_self( new IfcCurveStyleFontAndScaling() );
@@ -34,12 +33,12 @@ void IfcCurveStyleFontAndScaling::getStepLine( std::stringstream& stream ) const
 	if( m_CurveFontScaling ) { m_CurveFontScaling->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCurveStyleFontAndScaling::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcCurveStyleFontAndScaling::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCurveStyleFontAndScaling::toString() const { return L"IfcCurveStyleFontAndScaling"; }
 void IfcCurveStyleFontAndScaling::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurveStyleFontAndScaling, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCurveStyleFontAndScaling, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_CurveFont = IfcCurveStyleFontSelect::createObjectFromSTEP( args[1], map );
 	m_CurveFontScaling = IfcPositiveRatioMeasure::createObjectFromSTEP( args[2], map );
@@ -47,9 +46,9 @@ void IfcCurveStyleFontAndScaling::readStepArguments( const std::vector<std::wstr
 void IfcCurveStyleFontAndScaling::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Name", m_Name );
-	vec_attributes.emplace_back( "CurveFont", m_CurveFont );
-	vec_attributes.emplace_back( "CurveFontScaling", m_CurveFontScaling );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "CurveFont", m_CurveFont ) );
+	vec_attributes.emplace_back( std::make_pair( "CurveFontScaling", m_CurveFontScaling ) );
 }
 void IfcCurveStyleFontAndScaling::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

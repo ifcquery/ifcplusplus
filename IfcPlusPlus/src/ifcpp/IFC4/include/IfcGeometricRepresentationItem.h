@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcGeometricRepresentationItem : public IfcRepresentationItem
 { 
 public:
-	IfcGeometricRepresentationItem();
+	IfcGeometricRepresentationItem() = default;
 	IfcGeometricRepresentationItem( int id );
 	~IfcGeometricRepresentationItem();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

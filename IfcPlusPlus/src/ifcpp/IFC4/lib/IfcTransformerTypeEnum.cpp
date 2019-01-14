@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcTransformerTypeEnum.h"
 
 // TYPE IfcTransformerTypeEnum = ENUMERATION OF	(CURRENT	,FREQUENCY	,INVERTER	,RECTIFIER	,VOLTAGE	,USERDEFINED	,NOTDEFINED);
-IfcTransformerTypeEnum::IfcTransformerTypeEnum() = default;
-IfcTransformerTypeEnum::~IfcTransformerTypeEnum() = default;
+IfcTransformerTypeEnum::~IfcTransformerTypeEnum() {}
 shared_ptr<BuildingObject> IfcTransformerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTransformerTypeEnum> copy_self( new IfcTransformerTypeEnum() );

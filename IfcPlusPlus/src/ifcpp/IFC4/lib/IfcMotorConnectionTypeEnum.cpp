@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcMotorConnectionTypeEnum.h"
 
 // TYPE IfcMotorConnectionTypeEnum = ENUMERATION OF	(BELTDRIVE	,COUPLING	,DIRECTDRIVE	,USERDEFINED	,NOTDEFINED);
-IfcMotorConnectionTypeEnum::IfcMotorConnectionTypeEnum() = default;
-IfcMotorConnectionTypeEnum::~IfcMotorConnectionTypeEnum() = default;
+IfcMotorConnectionTypeEnum::~IfcMotorConnectionTypeEnum() {}
 shared_ptr<BuildingObject> IfcMotorConnectionTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMotorConnectionTypeEnum> copy_self( new IfcMotorConnectionTypeEnum() );

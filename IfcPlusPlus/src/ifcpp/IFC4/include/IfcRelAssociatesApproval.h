@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcApproval;
 class IFCQUERY_EXPORT IfcRelAssociatesApproval : public IfcRelAssociates
 { 
 public:
-	IfcRelAssociatesApproval();
+	IfcRelAssociatesApproval() = default;
 	IfcRelAssociatesApproval( int id );
 	~IfcRelAssociatesApproval();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcUnitEnum;
 class IFCQUERY_EXPORT IfcNamedUnit : virtual public IfcUnit, public BuildingEntity
 { 
 public:
-	IfcNamedUnit();
+	IfcNamedUnit() = default;
 	IfcNamedUnit( int id );
 	~IfcNamedUnit();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

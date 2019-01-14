@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcDescriptiveMeasure.h"
 
 // TYPE IfcDescriptiveMeasure = STRING;
-IfcDescriptiveMeasure::IfcDescriptiveMeasure() = default;
 IfcDescriptiveMeasure::IfcDescriptiveMeasure( std::wstring value ) { m_value = value; }
-IfcDescriptiveMeasure::~IfcDescriptiveMeasure() = default;
+IfcDescriptiveMeasure::~IfcDescriptiveMeasure() {}
 shared_ptr<BuildingObject> IfcDescriptiveMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDescriptiveMeasure> copy_self( new IfcDescriptiveMeasure() );

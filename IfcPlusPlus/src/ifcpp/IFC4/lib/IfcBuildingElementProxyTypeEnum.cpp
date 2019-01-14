@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcBuildingElementProxyTypeEnum.h"
 
 // TYPE IfcBuildingElementProxyTypeEnum = ENUMERATION OF	(COMPLEX	,ELEMENT	,PARTIAL	,PROVISIONFORVOID	,PROVISIONFORSPACE	,USERDEFINED	,NOTDEFINED);
-IfcBuildingElementProxyTypeEnum::IfcBuildingElementProxyTypeEnum() = default;
-IfcBuildingElementProxyTypeEnum::~IfcBuildingElementProxyTypeEnum() = default;
+IfcBuildingElementProxyTypeEnum::~IfcBuildingElementProxyTypeEnum() {}
 shared_ptr<BuildingObject> IfcBuildingElementProxyTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBuildingElementProxyTypeEnum> copy_self( new IfcBuildingElementProxyTypeEnum() );

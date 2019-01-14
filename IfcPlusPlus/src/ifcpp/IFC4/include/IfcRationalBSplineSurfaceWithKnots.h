@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcReal;
 class IFCQUERY_EXPORT IfcRationalBSplineSurfaceWithKnots : public IfcBSplineSurfaceWithKnots
 { 
 public:
-	IfcRationalBSplineSurfaceWithKnots();
+	IfcRationalBSplineSurfaceWithKnots() = default;
 	IfcRationalBSplineSurfaceWithKnots( int id );
 	~IfcRationalBSplineSurfaceWithKnots();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

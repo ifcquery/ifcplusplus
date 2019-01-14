@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcMaterialProperties;
 class IFCQUERY_EXPORT IfcMaterialDefinition : virtual public IfcMaterialSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public BuildingEntity
 { 
 public:
-	IfcMaterialDefinition();
+	IfcMaterialDefinition() = default;
 	IfcMaterialDefinition( int id );
 	~IfcMaterialDefinition();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

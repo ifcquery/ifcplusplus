@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcModulusOfElasticityMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcModulusOfElasticityMeasure();
+	IfcModulusOfElasticityMeasure() = default;
 	IfcModulusOfElasticityMeasure( double value );
 	~IfcModulusOfElasticityMeasure();
 	virtual const char* className() const { return "IfcModulusOfElasticityMeasure"; }

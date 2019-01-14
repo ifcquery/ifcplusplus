@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcBinary.h"
 
 // TYPE IfcBinary = BINARY;
-IfcBinary::IfcBinary() = default;
 IfcBinary::IfcBinary( std::wstring value ) { m_value = value; }
-IfcBinary::~IfcBinary() = default;
+IfcBinary::~IfcBinary() {}
 shared_ptr<BuildingObject> IfcBinary::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBinary> copy_self( new IfcBinary() );

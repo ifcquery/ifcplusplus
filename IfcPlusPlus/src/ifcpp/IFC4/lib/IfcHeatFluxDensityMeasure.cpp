@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcHeatFluxDensityMeasure.h"
 
 // TYPE IfcHeatFluxDensityMeasure = REAL;
-IfcHeatFluxDensityMeasure::IfcHeatFluxDensityMeasure() = default;
 IfcHeatFluxDensityMeasure::IfcHeatFluxDensityMeasure( double value ) { m_value = value; }
-IfcHeatFluxDensityMeasure::~IfcHeatFluxDensityMeasure() = default;
+IfcHeatFluxDensityMeasure::~IfcHeatFluxDensityMeasure() {}
 shared_ptr<BuildingObject> IfcHeatFluxDensityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcHeatFluxDensityMeasure> copy_self( new IfcHeatFluxDensityMeasure() );

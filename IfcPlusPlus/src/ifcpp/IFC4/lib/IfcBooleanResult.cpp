@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBooleanResult 
-IfcBooleanResult::IfcBooleanResult() = default;
 IfcBooleanResult::IfcBooleanResult( int id ) { m_entity_id = id; }
-IfcBooleanResult::~IfcBooleanResult() = default;
+IfcBooleanResult::~IfcBooleanResult() {}
 shared_ptr<BuildingObject> IfcBooleanResult::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBooleanResult> copy_self( new IfcBooleanResult() );
@@ -35,12 +34,12 @@ void IfcBooleanResult::getStepLine( std::stringstream& stream ) const
 	if( m_SecondOperand ) { m_SecondOperand->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcBooleanResult::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcBooleanResult::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBooleanResult::toString() const { return L"IfcBooleanResult"; }
 void IfcBooleanResult::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBooleanResult, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBooleanResult, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Operator = IfcBooleanOperator::createObjectFromSTEP( args[0], map );
 	m_FirstOperand = IfcBooleanOperand::createObjectFromSTEP( args[1], map );
 	m_SecondOperand = IfcBooleanOperand::createObjectFromSTEP( args[2], map );
@@ -48,9 +47,9 @@ void IfcBooleanResult::readStepArguments( const std::vector<std::wstring>& args,
 void IfcBooleanResult::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Operator", m_Operator );
-	vec_attributes.emplace_back( "FirstOperand", m_FirstOperand );
-	vec_attributes.emplace_back( "SecondOperand", m_SecondOperand );
+	vec_attributes.emplace_back( std::make_pair( "Operator", m_Operator ) );
+	vec_attributes.emplace_back( std::make_pair( "FirstOperand", m_FirstOperand ) );
+	vec_attributes.emplace_back( std::make_pair( "SecondOperand", m_SecondOperand ) );
 }
 void IfcBooleanResult::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

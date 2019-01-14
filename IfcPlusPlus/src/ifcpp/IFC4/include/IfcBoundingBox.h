@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcBoundingBox : public IfcGeometricRepresentationItem
 { 
 public:
-	IfcBoundingBox();
+	IfcBoundingBox() = default;
 	IfcBoundingBox( int id );
 	~IfcBoundingBox();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcSpaceType : public IfcSpatialStructureElementType
 { 
 public:
-	IfcSpaceType();
+	IfcSpaceType() = default;
 	IfcSpaceType( int id );
 	~IfcSpaceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

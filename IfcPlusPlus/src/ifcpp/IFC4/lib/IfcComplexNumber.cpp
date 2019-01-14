@@ -11,14 +11,14 @@
 #include "ifcpp/IFC4/include/IfcComplexNumber.h"
 
 // TYPE IfcComplexNumber = ARRAY [1:2] OF REAL;
-IfcComplexNumber::IfcComplexNumber() = default;
-IfcComplexNumber::~IfcComplexNumber() = default;
+IfcComplexNumber::~IfcComplexNumber() {}
 shared_ptr<BuildingObject> IfcComplexNumber::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcComplexNumber> copy_self( new IfcComplexNumber() );
-	for(double item_ii : m_vec)
+	for( size_t ii=0; ii<m_vec.size(); ++ii )
 	{
-			copy_self->m_vec.push_back( item_ii );
+		double item_ii = m_vec[ii];
+		copy_self->m_vec.emplace_back( item_ii );
 	}
 	return copy_self;
 }

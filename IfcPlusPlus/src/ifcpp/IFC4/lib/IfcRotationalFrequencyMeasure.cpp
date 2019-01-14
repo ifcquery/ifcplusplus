@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcRotationalFrequencyMeasure.h"
 
 // TYPE IfcRotationalFrequencyMeasure = REAL;
-IfcRotationalFrequencyMeasure::IfcRotationalFrequencyMeasure() = default;
 IfcRotationalFrequencyMeasure::IfcRotationalFrequencyMeasure( double value ) { m_value = value; }
-IfcRotationalFrequencyMeasure::~IfcRotationalFrequencyMeasure() = default;
+IfcRotationalFrequencyMeasure::~IfcRotationalFrequencyMeasure() {}
 shared_ptr<BuildingObject> IfcRotationalFrequencyMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRotationalFrequencyMeasure> copy_self( new IfcRotationalFrequencyMeasure() );

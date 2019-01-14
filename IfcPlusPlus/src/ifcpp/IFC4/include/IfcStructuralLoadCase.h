@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRatioMeasure;
 class IFCQUERY_EXPORT IfcStructuralLoadCase : public IfcStructuralLoadGroup
 { 
 public:
-	IfcStructuralLoadCase();
+	IfcStructuralLoadCase() = default;
 	IfcStructuralLoadCase( int id );
 	~IfcStructuralLoadCase();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

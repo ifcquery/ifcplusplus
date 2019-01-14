@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcPositivePlaneAngleMeasure;
 class IFCQUERY_EXPORT IfcLightSourceSpot : public IfcLightSourcePositional
 { 
 public:
-	IfcLightSourceSpot();
+	IfcLightSourceSpot() = default;
 	IfcLightSourceSpot( int id );
 	~IfcLightSourceSpot();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

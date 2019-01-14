@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcObject;
 class IFCQUERY_EXPORT IfcRelDefinesByObject : public IfcRelDefines
 { 
 public:
-	IfcRelDefinesByObject();
+	IfcRelDefinesByObject() = default;
 	IfcRelDefinesByObject( int id );
 	~IfcRelDefinesByObject();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -545,7 +545,9 @@ struct TriangulationData {
 
     diag = findDiagonal(begin);
     if (diag == diag_t(nullptr, nullptr)) {
+#if defined(CARVE_DEBUG)
       std::cerr << "failed to find diagonal" << std::endl;
+#endif
       return false;
     }
 
@@ -738,6 +740,7 @@ struct TriangulationData {
           carve::geom::aabb<2> A(p, p + 4);
           A.expand(5);
 
+#if defined(CARVE_DEBUG)
           std::cerr << "\
 <?xml version=\"1.0\" encoding=\"utf-8\"?>\n\
 <!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n\
@@ -760,6 +763,7 @@ struct TriangulationData {
                     << c.x << "\" y1=\"" << c.y << "\" x2=\"" << d.x
                     << "\" y2=\"" << d.y << "\"/>\n\
 </svg>\n";
+#endif
           return true;
         }
         v2 = v2->next;
@@ -919,8 +923,10 @@ bool TriangulationData<ndim, proj_t>::doTriangulate(VertexInfo* begin,
     if (carve::geom2d::signedArea(temp) == 0) {
       // XXX: this test will fail in cases where the boundary is
       // twisted so that a negative area balances a positive area.
+#if defined(CARVE_DEBUG)
       std::cerr << "got to here" << std::endl;
       dumpPoly(begin->edge, nullptr, "interesting_case_");
+#endif
       goto done;
     }
   }

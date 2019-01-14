@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcWorkPlanTypeEnum.h"
 
 // TYPE IfcWorkPlanTypeEnum = ENUMERATION OF	(ACTUAL	,BASELINE	,PLANNED	,USERDEFINED	,NOTDEFINED);
-IfcWorkPlanTypeEnum::IfcWorkPlanTypeEnum() = default;
-IfcWorkPlanTypeEnum::~IfcWorkPlanTypeEnum() = default;
+IfcWorkPlanTypeEnum::~IfcWorkPlanTypeEnum() {}
 shared_ptr<BuildingObject> IfcWorkPlanTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWorkPlanTypeEnum> copy_self( new IfcWorkPlanTypeEnum() );

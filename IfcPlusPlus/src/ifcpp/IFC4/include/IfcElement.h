@@ -24,7 +24,7 @@ class IFCQUERY_EXPORT IfcRelCoversBldgElements;
 class IFCQUERY_EXPORT IfcElement : virtual public IfcStructuralActivityAssignmentSelect, public IfcProduct
 { 
 public:
-	IfcElement();
+	IfcElement() = default;
 	IfcElement( int id );
 	~IfcElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

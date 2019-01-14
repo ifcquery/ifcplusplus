@@ -20,7 +20,7 @@ public:
 		ENUM_AXIS3
 	};
 
-	IfcLayerSetDirectionEnum();
+	IfcLayerSetDirectionEnum() = default;
 	IfcLayerSetDirectionEnum( IfcLayerSetDirectionEnumEnum e ) { m_enum = e; }
 	~IfcLayerSetDirectionEnum();
 	virtual const char* className() const { return "IfcLayerSetDirectionEnum"; }

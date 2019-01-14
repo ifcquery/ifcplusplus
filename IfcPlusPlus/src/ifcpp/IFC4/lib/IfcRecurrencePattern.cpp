@@ -16,42 +16,45 @@
 #include "ifcpp/IFC4/include/IfcTimePeriod.h"
 
 // ENTITY IfcRecurrencePattern 
-IfcRecurrencePattern::IfcRecurrencePattern() = default;
 IfcRecurrencePattern::IfcRecurrencePattern( int id ) { m_entity_id = id; }
-IfcRecurrencePattern::~IfcRecurrencePattern() = default;
+IfcRecurrencePattern::~IfcRecurrencePattern() {}
 shared_ptr<BuildingObject> IfcRecurrencePattern::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRecurrencePattern> copy_self( new IfcRecurrencePattern() );
 	if( m_RecurrenceType ) { copy_self->m_RecurrenceType = dynamic_pointer_cast<IfcRecurrenceTypeEnum>( m_RecurrenceType->getDeepCopy(options) ); }
-	for(auto item_ii : m_DayComponent)
+	for( size_t ii=0; ii<m_DayComponent.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_DayComponent[ii];
+		if( item_ii )
 		{
-			copy_self->m_DayComponent.push_back( dynamic_pointer_cast<IfcDayInMonthNumber>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_DayComponent.emplace_back( dynamic_pointer_cast<IfcDayInMonthNumber>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	for(auto item_ii : m_WeekdayComponent)
+	for( size_t ii=0; ii<m_WeekdayComponent.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_WeekdayComponent[ii];
+		if( item_ii )
 		{
-			copy_self->m_WeekdayComponent.push_back( dynamic_pointer_cast<IfcDayInWeekNumber>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_WeekdayComponent.emplace_back( dynamic_pointer_cast<IfcDayInWeekNumber>(item_ii->getDeepCopy(options) ) );
 		}
 	}
-	for(auto item_ii : m_MonthComponent)
+	for( size_t ii=0; ii<m_MonthComponent.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_MonthComponent[ii];
+		if( item_ii )
 		{
-			copy_self->m_MonthComponent.push_back( dynamic_pointer_cast<IfcMonthInYearNumber>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_MonthComponent.emplace_back( dynamic_pointer_cast<IfcMonthInYearNumber>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcInteger>( m_Position->getDeepCopy(options) ); }
 	if( m_Interval ) { copy_self->m_Interval = dynamic_pointer_cast<IfcInteger>( m_Interval->getDeepCopy(options) ); }
 	if( m_Occurrences ) { copy_self->m_Occurrences = dynamic_pointer_cast<IfcInteger>( m_Occurrences->getDeepCopy(options) ); }
-	for(auto item_ii : m_TimePeriods)
+	for( size_t ii=0; ii<m_TimePeriods.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_TimePeriods[ii];
+		if( item_ii )
 		{
-			copy_self->m_TimePeriods.push_back( dynamic_pointer_cast<IfcTimePeriod>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_TimePeriods.emplace_back( dynamic_pointer_cast<IfcTimePeriod>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -76,12 +79,12 @@ void IfcRecurrencePattern::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_TimePeriods );
 	stream << ");";
 }
-void IfcRecurrencePattern::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcRecurrencePattern::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRecurrencePattern::toString() const { return L"IfcRecurrencePattern"; }
 void IfcRecurrencePattern::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRecurrencePattern, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRecurrencePattern, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_RecurrenceType = IfcRecurrenceTypeEnum::createObjectFromSTEP( args[0], map );
 	readTypeOfIntegerList( args[1], m_DayComponent );
 	readTypeOfIntegerList( args[2], m_WeekdayComponent );
@@ -93,39 +96,39 @@ void IfcRecurrencePattern::readStepArguments( const std::vector<std::wstring>& a
 }
 void IfcRecurrencePattern::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.emplace_back( "RecurrenceType", m_RecurrenceType );
+	vec_attributes.emplace_back( std::make_pair( "RecurrenceType", m_RecurrenceType ) );
 	if( !m_DayComponent.empty() )
 	{
 		shared_ptr<AttributeObjectVector> DayComponent_vec_object( new AttributeObjectVector() );
 		std::copy( m_DayComponent.begin(), m_DayComponent.end(), std::back_inserter( DayComponent_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "DayComponent", DayComponent_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "DayComponent", DayComponent_vec_object ) );
 	}
 	if( !m_WeekdayComponent.empty() )
 	{
 		shared_ptr<AttributeObjectVector> WeekdayComponent_vec_object( new AttributeObjectVector() );
 		std::copy( m_WeekdayComponent.begin(), m_WeekdayComponent.end(), std::back_inserter( WeekdayComponent_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "WeekdayComponent", WeekdayComponent_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "WeekdayComponent", WeekdayComponent_vec_object ) );
 	}
 	if( !m_MonthComponent.empty() )
 	{
 		shared_ptr<AttributeObjectVector> MonthComponent_vec_object( new AttributeObjectVector() );
 		std::copy( m_MonthComponent.begin(), m_MonthComponent.end(), std::back_inserter( MonthComponent_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "MonthComponent", MonthComponent_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "MonthComponent", MonthComponent_vec_object ) );
 	}
-	vec_attributes.emplace_back( "Position", m_Position );
-	vec_attributes.emplace_back( "Interval", m_Interval );
-	vec_attributes.emplace_back( "Occurrences", m_Occurrences );
+	vec_attributes.emplace_back( std::make_pair( "Position", m_Position ) );
+	vec_attributes.emplace_back( std::make_pair( "Interval", m_Interval ) );
+	vec_attributes.emplace_back( std::make_pair( "Occurrences", m_Occurrences ) );
 	if( !m_TimePeriods.empty() )
 	{
 		shared_ptr<AttributeObjectVector> TimePeriods_vec_object( new AttributeObjectVector() );
 		std::copy( m_TimePeriods.begin(), m_TimePeriods.end(), std::back_inserter( TimePeriods_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "TimePeriods", TimePeriods_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "TimePeriods", TimePeriods_vec_object ) );
 	}
 }
 void IfcRecurrencePattern::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
-void IfcRecurrencePattern::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
+void IfcRecurrencePattern::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcRecurrencePattern::unlinkFromInverseCounterparts()

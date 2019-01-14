@@ -15,9 +15,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcOffsetCurve2D 
-IfcOffsetCurve2D::IfcOffsetCurve2D() = default;
 IfcOffsetCurve2D::IfcOffsetCurve2D( int id ) { m_entity_id = id; }
-IfcOffsetCurve2D::~IfcOffsetCurve2D() = default;
+IfcOffsetCurve2D::~IfcOffsetCurve2D() {}
 shared_ptr<BuildingObject> IfcOffsetCurve2D::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOffsetCurve2D> copy_self( new IfcOffsetCurve2D() );
@@ -36,12 +35,12 @@ void IfcOffsetCurve2D::getStepLine( std::stringstream& stream ) const
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcOffsetCurve2D::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcOffsetCurve2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOffsetCurve2D::toString() const { return L"IfcOffsetCurve2D"; }
 void IfcOffsetCurve2D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOffsetCurve2D, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOffsetCurve2D, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BasisCurve, map );
 	m_Distance = IfcLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[2], map );
@@ -49,9 +48,9 @@ void IfcOffsetCurve2D::readStepArguments( const std::vector<std::wstring>& args,
 void IfcOffsetCurve2D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCurve::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "BasisCurve", m_BasisCurve );
-	vec_attributes.emplace_back( "Distance", m_Distance );
-	vec_attributes.emplace_back( "SelfIntersect", m_SelfIntersect );
+	vec_attributes.emplace_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
+	vec_attributes.emplace_back( std::make_pair( "Distance", m_Distance ) );
+	vec_attributes.emplace_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 }
 void IfcOffsetCurve2D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

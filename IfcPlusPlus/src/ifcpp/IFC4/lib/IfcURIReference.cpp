@@ -10,9 +10,8 @@
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // TYPE IfcURIReference = STRING;
-IfcURIReference::IfcURIReference() = default;
 IfcURIReference::IfcURIReference( std::wstring value ) { m_value = value; }
-IfcURIReference::~IfcURIReference() = default;
+IfcURIReference::~IfcURIReference() {}
 shared_ptr<BuildingObject> IfcURIReference::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcURIReference> copy_self( new IfcURIReference() );

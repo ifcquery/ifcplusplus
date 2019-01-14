@@ -13,17 +13,17 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcDirection 
-IfcDirection::IfcDirection() = default;
 IfcDirection::IfcDirection( int id ) { m_entity_id = id; }
-IfcDirection::~IfcDirection() = default;
+IfcDirection::~IfcDirection() {}
 shared_ptr<BuildingObject> IfcDirection::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDirection> copy_self( new IfcDirection() );
-	for(auto item_ii : m_DirectionRatios)
+	for( size_t ii=0; ii<m_DirectionRatios.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_DirectionRatios[ii];
+		if( item_ii )
 		{
-			copy_self->m_DirectionRatios.push_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_DirectionRatios.emplace_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -34,12 +34,12 @@ void IfcDirection::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList( stream, m_DirectionRatios );
 	stream << ");";
 }
-void IfcDirection::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcDirection::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDirection::toString() const { return L"IfcDirection"; }
 void IfcDirection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDirection, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcDirection, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readTypeOfRealList( args[0], m_DirectionRatios );
 }
 void IfcDirection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
@@ -49,7 +49,7 @@ void IfcDirection::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	{
 		shared_ptr<AttributeObjectVector> DirectionRatios_vec_object( new AttributeObjectVector() );
 		std::copy( m_DirectionRatios.begin(), m_DirectionRatios.end(), std::back_inserter( DirectionRatios_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "DirectionRatios", DirectionRatios_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "DirectionRatios", DirectionRatios_vec_object ) );
 	}
 }
 void IfcDirection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

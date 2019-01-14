@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcConnectionTypeEnum();
+	IfcConnectionTypeEnum() = default;
 	IfcConnectionTypeEnum( IfcConnectionTypeEnumEnum e ) { m_enum = e; }
 	~IfcConnectionTypeEnum();
 	virtual const char* className() const { return "IfcConnectionTypeEnum"; }

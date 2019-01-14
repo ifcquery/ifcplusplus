@@ -17,9 +17,8 @@
 #include "ifcpp/IFC4/include/IfcSurfaceCurveSweptAreaSolid.h"
 
 // ENTITY IfcSurfaceCurveSweptAreaSolid 
-IfcSurfaceCurveSweptAreaSolid::IfcSurfaceCurveSweptAreaSolid() = default;
 IfcSurfaceCurveSweptAreaSolid::IfcSurfaceCurveSweptAreaSolid( int id ) { m_entity_id = id; }
-IfcSurfaceCurveSweptAreaSolid::~IfcSurfaceCurveSweptAreaSolid() = default;
+IfcSurfaceCurveSweptAreaSolid::~IfcSurfaceCurveSweptAreaSolid() {}
 shared_ptr<BuildingObject> IfcSurfaceCurveSweptAreaSolid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceCurveSweptAreaSolid> copy_self( new IfcSurfaceCurveSweptAreaSolid() );
@@ -51,12 +50,12 @@ void IfcSurfaceCurveSweptAreaSolid::getStepLine( std::stringstream& stream ) con
 	if( m_ReferenceSurface ) { stream << "#" << m_ReferenceSurface->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceCurveSweptAreaSolid::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcSurfaceCurveSweptAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceCurveSweptAreaSolid::toString() const { return L"IfcSurfaceCurveSweptAreaSolid"; }
 void IfcSurfaceCurveSweptAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceCurveSweptAreaSolid, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceCurveSweptAreaSolid, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SweptArea, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_Directrix, map );
@@ -67,10 +66,10 @@ void IfcSurfaceCurveSweptAreaSolid::readStepArguments( const std::vector<std::ws
 void IfcSurfaceCurveSweptAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSweptAreaSolid::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Directrix", m_Directrix );
-	vec_attributes.emplace_back( "StartParam", m_StartParam );
-	vec_attributes.emplace_back( "EndParam", m_EndParam );
-	vec_attributes.emplace_back( "ReferenceSurface", m_ReferenceSurface );
+	vec_attributes.emplace_back( std::make_pair( "Directrix", m_Directrix ) );
+	vec_attributes.emplace_back( std::make_pair( "StartParam", m_StartParam ) );
+	vec_attributes.emplace_back( std::make_pair( "EndParam", m_EndParam ) );
+	vec_attributes.emplace_back( std::make_pair( "ReferenceSurface", m_ReferenceSurface ) );
 }
 void IfcSurfaceCurveSweptAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

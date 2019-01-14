@@ -17,9 +17,8 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcAppliedValue 
-IfcAppliedValue::IfcAppliedValue() = default;
 IfcAppliedValue::IfcAppliedValue( int id ) { m_entity_id = id; }
-IfcAppliedValue::~IfcAppliedValue() = default;
+IfcAppliedValue::~IfcAppliedValue() {}
 shared_ptr<BuildingObject> IfcAppliedValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAppliedValue> copy_self( new IfcAppliedValue() );
@@ -32,11 +31,12 @@ shared_ptr<BuildingObject> IfcAppliedValue::getDeepCopy( BuildingCopyOptions& op
 	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy(options) ); }
 	if( m_Condition ) { copy_self->m_Condition = dynamic_pointer_cast<IfcLabel>( m_Condition->getDeepCopy(options) ); }
 	if( m_ArithmeticOperator ) { copy_self->m_ArithmeticOperator = dynamic_pointer_cast<IfcArithmeticOperatorEnum>( m_ArithmeticOperator->getDeepCopy(options) ); }
-	for(auto item_ii : m_Components)
+	for( size_t ii=0; ii<m_Components.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_Components[ii];
+		if( item_ii )
 		{
-			copy_self->m_Components.push_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Components.emplace_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -65,12 +65,12 @@ void IfcAppliedValue::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Components );
 	stream << ");";
 }
-void IfcAppliedValue::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcAppliedValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAppliedValue::toString() const { return L"IfcAppliedValue"; }
 void IfcAppliedValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAppliedValue, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAppliedValue, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_AppliedValue = IfcAppliedValueSelect::createObjectFromSTEP( args[2], map );
@@ -84,20 +84,20 @@ void IfcAppliedValue::readStepArguments( const std::vector<std::wstring>& args, 
 }
 void IfcAppliedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.emplace_back( "Name", m_Name );
-	vec_attributes.emplace_back( "Description", m_Description );
-	vec_attributes.emplace_back( "AppliedValue", m_AppliedValue );
-	vec_attributes.emplace_back( "UnitBasis", m_UnitBasis );
-	vec_attributes.emplace_back( "ApplicableDate", m_ApplicableDate );
-	vec_attributes.emplace_back( "FixedUntilDate", m_FixedUntilDate );
-	vec_attributes.emplace_back( "Category", m_Category );
-	vec_attributes.emplace_back( "Condition", m_Condition );
-	vec_attributes.emplace_back( "ArithmeticOperator", m_ArithmeticOperator );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "AppliedValue", m_AppliedValue ) );
+	vec_attributes.emplace_back( std::make_pair( "UnitBasis", m_UnitBasis ) );
+	vec_attributes.emplace_back( std::make_pair( "ApplicableDate", m_ApplicableDate ) );
+	vec_attributes.emplace_back( std::make_pair( "FixedUntilDate", m_FixedUntilDate ) );
+	vec_attributes.emplace_back( std::make_pair( "Category", m_Category ) );
+	vec_attributes.emplace_back( std::make_pair( "Condition", m_Condition ) );
+	vec_attributes.emplace_back( std::make_pair( "ArithmeticOperator", m_ArithmeticOperator ) );
 	if( !m_Components.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Components_vec_object( new AttributeObjectVector() );
 		std::copy( m_Components.begin(), m_Components.end(), std::back_inserter( Components_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "Components", Components_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "Components", Components_vec_object ) );
 	}
 }
 void IfcAppliedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -105,17 +105,17 @@ void IfcAppliedValue::getAttributesInverse( std::vector<std::pair<std::string, s
 	if( !m_HasExternalReference_inverse.empty() )
 	{
 		shared_ptr<AttributeObjectVector> HasExternalReference_inverse_vec_obj( new AttributeObjectVector() );
-		for(const auto & i : m_HasExternalReference_inverse)
+		for( size_t i=0; i<m_HasExternalReference_inverse.size(); ++i )
 		{
-			if( !i.expired() )
+			if( !m_HasExternalReference_inverse[i].expired() )
 			{
-				HasExternalReference_inverse_vec_obj->m_vec.push_back( shared_ptr<IfcExternalReferenceRelationship>( i ) );
+				HasExternalReference_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
 			}
 		}
-		vec_attributes_inverse.emplace_back( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj );
+		vec_attributes_inverse.emplace_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
 	}
 }
-void IfcAppliedValue::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
+void IfcAppliedValue::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcAppliedValue::unlinkFromInverseCounterparts()

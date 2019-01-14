@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcRelDefines : public IfcRelationship
 { 
 public:
-	IfcRelDefines();
+	IfcRelDefines() = default;
 	IfcRelDefines( int id );
 	~IfcRelDefines();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

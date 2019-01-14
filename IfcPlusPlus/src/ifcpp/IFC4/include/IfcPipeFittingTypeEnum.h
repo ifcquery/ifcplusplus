@@ -26,7 +26,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcPipeFittingTypeEnum();
+	IfcPipeFittingTypeEnum() = default;
 	IfcPipeFittingTypeEnum( IfcPipeFittingTypeEnumEnum e ) { m_enum = e; }
 	~IfcPipeFittingTypeEnum();
 	virtual const char* className() const { return "IfcPipeFittingTypeEnum"; }

@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcFlowTerminalType : public IfcDistributionFlowElementType
 { 
 public:
-	IfcFlowTerminalType();
+	IfcFlowTerminalType() = default;
 	IfcFlowTerminalType( int id );
 	~IfcFlowTerminalType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

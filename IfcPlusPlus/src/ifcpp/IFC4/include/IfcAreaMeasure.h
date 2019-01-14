@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcAreaMeasure : public IfcMeasureValue
 {
 public:
-	IfcAreaMeasure();
+	IfcAreaMeasure() = default;
 	IfcAreaMeasure( double value );
 	~IfcAreaMeasure();
 	virtual const char* className() const { return "IfcAreaMeasure"; }

@@ -13,17 +13,17 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcPolyLoop 
-IfcPolyLoop::IfcPolyLoop() = default;
 IfcPolyLoop::IfcPolyLoop( int id ) { m_entity_id = id; }
-IfcPolyLoop::~IfcPolyLoop() = default;
+IfcPolyLoop::~IfcPolyLoop() {}
 shared_ptr<BuildingObject> IfcPolyLoop::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPolyLoop> copy_self( new IfcPolyLoop() );
-	for(auto item_ii : m_Polygon)
+	for( size_t ii=0; ii<m_Polygon.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_Polygon[ii];
+		if( item_ii )
 		{
-			copy_self->m_Polygon.push_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Polygon.emplace_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -34,12 +34,12 @@ void IfcPolyLoop::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Polygon );
 	stream << ");";
 }
-void IfcPolyLoop::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcPolyLoop::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPolyLoop::toString() const { return L"IfcPolyLoop"; }
 void IfcPolyLoop::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolyLoop, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPolyLoop, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_Polygon, map );
 }
 void IfcPolyLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
@@ -49,7 +49,7 @@ void IfcPolyLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<B
 	{
 		shared_ptr<AttributeObjectVector> Polygon_vec_object( new AttributeObjectVector() );
 		std::copy( m_Polygon.begin(), m_Polygon.end(), std::back_inserter( Polygon_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "Polygon", Polygon_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "Polygon", Polygon_vec_object ) );
 	}
 }
 void IfcPolyLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

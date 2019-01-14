@@ -15,12 +15,12 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#define _USE_MATH_DEFINES
+#include <cmath>
 #ifdef WIN32
-#include <cmath>
 #include <windows.h>
-#else
-#include <cmath>
 #endif
+
 #include <limits>
 
 #include "ifcpp/model/BuildingException.h"
@@ -36,15 +36,15 @@ static short convertToHex(unsigned char mc)
 
 	if( mc >= '0' && mc <= '9' )
 	{
-		returnValue = static_cast<short>(mc) - static_cast<short>('0');
+		returnValue = (short)mc - (short)'0';
 	}
 	else if( mc >= 'A' && mc <= 'F' )
 	{
-		returnValue = 10 + static_cast<short>(mc) - static_cast<short>('A');
+		returnValue = 10 + (short)mc - (short)'A';
 	}
 	else if( mc >= 'a' && mc <= 'f' )
 	{
-		returnValue = 10 + static_cast<short>(mc) - static_cast<short>('a');
+		returnValue = 10 + (short)mc - (short)'a';
 	}
 	else
 	{
@@ -86,7 +86,7 @@ void checkOpeningClosingParenthesis( const wchar_t* ch_check )
 	{
 		std::stringstream err;
 		err << "checkOpeningClosingParenthesis: num_opening != num_closing : " << ch_check << std::endl;
-		throw BuildingException( err.str(), __FUNC__ );
+		throw BuildingException( err.str().c_str(), __FUNC__ );
 	}
 }
 
@@ -133,11 +133,11 @@ void findLeadingTrailingParanthesis( wchar_t* ch, wchar_t*& pos_opening, wchar_t
 
 void tokenizeList( std::wstring& list_str, std::vector<std::wstring>& list_items )
 {
-	if( list_str.empty() )
+	if( list_str.size() == 0 )
 	{
 		return;
 	}
-	wchar_t* stream_pos = const_cast<wchar_t*>(list_str.c_str());
+	wchar_t* stream_pos = (wchar_t*)list_str.c_str();
 	wchar_t* last_token = stream_pos;
 	while( *stream_pos != '\0' )
 	{
@@ -186,11 +186,11 @@ void tokenizeList( std::wstring& list_str, std::vector<std::wstring>& list_items
 
 void tokenizeEntityList( std::wstring& list_str, std::vector<int>& list_items )
 {
-	if( list_str.empty() )
+	if( list_str.size() == 0 )
 	{
 		return;
 	}
-	wchar_t* stream_pos = const_cast<wchar_t*>(list_str.c_str());
+	wchar_t* stream_pos = (wchar_t*)list_str.c_str();
 	while( *stream_pos != '\0' )
 	{
 		// skip whitespace
@@ -215,7 +215,7 @@ void tokenizeEntityList( std::wstring& list_str, std::vector<int>& list_items )
 					break;
 				}
 			}
-			const int id = std::stoi( std::wstring( begin_id, stream_pos-begin_id ) );
+			const int id = std::stoi( std::wstring( begin_id, stream_pos-begin_id ).c_str() );
 			list_items.push_back( id );
 		}
 		else if( *stream_pos == '$' )
@@ -226,7 +226,7 @@ void tokenizeEntityList( std::wstring& list_str, std::vector<int>& list_items )
 		{
 			std::stringstream err;
 			err << "tokenizeEntityList: unexpected argument: " << list_str.c_str() << std::endl;
-			throw BuildingException( err.str(), __FUNC__ );
+			throw BuildingException( err.str().c_str(), __FUNC__ );
 		}
 
 		while( isspace( *stream_pos ) )
@@ -239,10 +239,10 @@ void tokenizeEntityList( std::wstring& list_str, std::vector<int>& list_items )
 			//last_token = stream_pos;
 			continue;
 		}
-		
-		
+		else
+		{
 			break;
-		
+		}
 	}
 }
 
@@ -274,7 +274,7 @@ void readIntegerList( const std::wstring& str, std::vector<int>& vec )
 			size_t str_length = i - last_token;
 			if( str_length > 0 )
 			{
-				vec.push_back(std::stoi(str.substr(last_token, i - last_token)));
+				vec.push_back(std::stoi(str.substr(last_token, i - last_token).c_str()));
 			}
 			last_token = i+1;
 		}
@@ -283,7 +283,7 @@ void readIntegerList( const std::wstring& str, std::vector<int>& vec )
 			size_t str_length = i - last_token;
 			if( str_length > 0 )
 			{
-				vec.push_back(std::stoi(str.substr(last_token, i - last_token)));
+				vec.push_back(std::stoi(str.substr(last_token, i - last_token).c_str()));
 			}
 			return;
 		}
@@ -359,12 +359,12 @@ void readRealList( const std::wstring& str, std::vector<double>& vec )
 	{
 		if( ch[i] == ',' )
 		{
-			vec.push_back( std::stod( str.substr( last_token, i-last_token ) ) );
+			vec.push_back( std::stod( str.substr( last_token, i-last_token ).c_str() ) );
 			last_token = i+1;
 		}
 		else if( ch[i] == ')' )
 		{
-			vec.push_back( std::stod( str.substr( last_token, i-last_token ) ) );
+			vec.push_back( std::stod( str.substr( last_token, i-last_token ).c_str() ) );
 			return;
 		}
 		++i;
@@ -640,9 +640,10 @@ void findEndOfWString( wchar_t*& stream_pos )
 
 void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::wstring>& args_out )
 {
-	for(auto & argument_str : entity_arguments)
+	for( size_t ii = 0; ii < entity_arguments.size(); ++ii )
 	{
-			const size_t arg_length = argument_str.length();
+		std::string& argument_str = entity_arguments[ii];
+		const size_t arg_length = argument_str.length();
 		if( arg_length == 0 )
 		{
 			continue;
@@ -651,7 +652,7 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vec
 		std::wstring arg_str_new;
 		arg_str_new.reserve(arg_length);
 
-		char* stream_pos = const_cast<char*>(argument_str.c_str());		// ascii characters from STEP file
+		char* stream_pos = (char*)argument_str.c_str();		// ascii characters from STEP file
 		while( *stream_pos != '\0' )
 		{
 			if( *stream_pos == '\\' )
@@ -719,7 +720,7 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vec
 						stream_pos += 5;
 						continue;
 					}
-					if( *(stream_pos+2) == '0' )
+					else if( *(stream_pos+2) == '0' )
 					{
 						if( *(stream_pos+3) == '\\' )
 						{
@@ -775,7 +776,7 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vec
 // caution: when using OpenMP, this method runs in parallel threads
 void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::string>& entity_arguments )
 {
-	char* stream_pos = const_cast<char*>(argument_str.c_str());
+	char* stream_pos = (char*)argument_str.c_str();
 	if( *stream_pos != '(' )
 	{
 		return;
@@ -814,7 +815,7 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 					++begin_arg; 
 				}
 				char* end_arg = stream_pos-1;
-				entity_arguments.emplace_back( begin_arg, end_arg-begin_arg+1 );
+				entity_arguments.push_back( std::string( begin_arg, end_arg-begin_arg+1 ) );
 				last_token = stream_pos;
 			}
 		}
@@ -836,11 +837,11 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 					++begin_arg; 
 				}
 
-				int remaining_size = static_cast<int>(stream_pos - begin_arg);
+				int remaining_size = (int)(stream_pos - begin_arg);
 				if( remaining_size > 0 )
 				{
 					char* end_arg = stream_pos-1;
-					entity_arguments.emplace_back( begin_arg, end_arg-begin_arg+1 );
+					entity_arguments.push_back( std::string( begin_arg, end_arg-begin_arg+1 ) );
 				}
 				break;
 			}
@@ -853,7 +854,7 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 // caution: when using OpenMP, this method runs in parallel threads
 void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std::wstring>& entity_arguments )
 {
-	wchar_t* stream_pos = const_cast<wchar_t*>(argument_str.c_str());
+	wchar_t* stream_pos = (wchar_t*)argument_str.c_str();
 	if( *stream_pos != '(' )
 	{
 		return;
@@ -892,7 +893,7 @@ void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std:
 					++begin_arg; 
 				}
 				wchar_t* end_arg = stream_pos-1;
-				entity_arguments.emplace_back( begin_arg, end_arg-begin_arg+1 );
+				entity_arguments.push_back( std::wstring( begin_arg, end_arg-begin_arg+1 ) );
 				last_token = stream_pos;
 			}
 		}
@@ -914,11 +915,11 @@ void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std:
 					++begin_arg; 
 				}
 
-				int remaining_size = static_cast<int>(stream_pos - begin_arg);
+				int remaining_size = (int)(stream_pos - begin_arg);
 				if( remaining_size > 0 )
 				{
 					wchar_t* end_arg = stream_pos-1;
-					entity_arguments.emplace_back( begin_arg, end_arg-begin_arg+1 );
+					entity_arguments.push_back( std::wstring( begin_arg, end_arg-begin_arg+1 ) );
 				}
 				break;
 			}
@@ -929,7 +930,7 @@ void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std:
 
 void tokenizeInlineArgument( std::wstring arg, std::wstring& keyword, std::wstring& inline_arg )
 {
-	if( arg.empty() )
+	if( arg.size() == 0 )
 	{
 		throw BuildingException( "arg.size() == 0", __FUNC__ );
 	}
@@ -946,7 +947,7 @@ void tokenizeInlineArgument( std::wstring arg, std::wstring& keyword, std::wstri
 		throw BuildingException( "tokenizeInlineArgument: argument begins with #, so it is not inline", __FUNC__ );
 	}
 
-	wchar_t* stream_pos = const_cast<wchar_t*>(arg.c_str());
+	wchar_t* stream_pos = (wchar_t*)arg.c_str();
 	while(isspace(*stream_pos)){ ++stream_pos; }
 
 	wchar_t* begin_keyword = stream_pos;
@@ -955,7 +956,7 @@ void tokenizeInlineArgument( std::wstring arg, std::wstring& keyword, std::wstri
 	// get type name
 	std::wstring key( begin_keyword, stream_pos-begin_keyword );
 	
-	if( key.empty() )
+	if( key.size() == 0 )
 	{
 		// single argument, for example .T.
 		inline_arg = arg;

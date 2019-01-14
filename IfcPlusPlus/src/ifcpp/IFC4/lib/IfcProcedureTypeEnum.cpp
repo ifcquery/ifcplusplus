@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcProcedureTypeEnum.h"
 
 // TYPE IfcProcedureTypeEnum = ENUMERATION OF	(ADVICE_CAUTION	,ADVICE_NOTE	,ADVICE_WARNING	,CALIBRATION	,DIAGNOSTIC	,SHUTDOWN	,STARTUP	,USERDEFINED	,NOTDEFINED);
-IfcProcedureTypeEnum::IfcProcedureTypeEnum() = default;
-IfcProcedureTypeEnum::~IfcProcedureTypeEnum() = default;
+IfcProcedureTypeEnum::~IfcProcedureTypeEnum() {}
 shared_ptr<BuildingObject> IfcProcedureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProcedureTypeEnum> copy_self( new IfcProcedureTypeEnum() );

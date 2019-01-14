@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLightDistributionData;
 class IFCQUERY_EXPORT IfcLightIntensityDistribution : virtual public IfcLightDistributionDataSourceSelect, public BuildingEntity
 { 
 public:
-	IfcLightIntensityDistribution();
+	IfcLightIntensityDistribution() = default;
 	IfcLightIntensityDistribution( int id );
 	~IfcLightIntensityDistribution();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

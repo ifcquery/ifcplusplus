@@ -16,9 +16,8 @@
 #include "ifcpp/IFC4/include/IfcRoundedRectangleProfileDef.h"
 
 // ENTITY IfcRoundedRectangleProfileDef 
-IfcRoundedRectangleProfileDef::IfcRoundedRectangleProfileDef() = default;
 IfcRoundedRectangleProfileDef::IfcRoundedRectangleProfileDef( int id ) { m_entity_id = id; }
-IfcRoundedRectangleProfileDef::~IfcRoundedRectangleProfileDef() = default;
+IfcRoundedRectangleProfileDef::~IfcRoundedRectangleProfileDef() {}
 shared_ptr<BuildingObject> IfcRoundedRectangleProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRoundedRectangleProfileDef> copy_self( new IfcRoundedRectangleProfileDef() );
@@ -46,12 +45,12 @@ void IfcRoundedRectangleProfileDef::getStepLine( std::stringstream& stream ) con
 	if( m_RoundingRadius ) { m_RoundingRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRoundedRectangleProfileDef::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcRoundedRectangleProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRoundedRectangleProfileDef::toString() const { return L"IfcRoundedRectangleProfileDef"; }
 void IfcRoundedRectangleProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRoundedRectangleProfileDef, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRoundedRectangleProfileDef, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );
@@ -62,7 +61,7 @@ void IfcRoundedRectangleProfileDef::readStepArguments( const std::vector<std::ws
 void IfcRoundedRectangleProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRectangleProfileDef::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "RoundingRadius", m_RoundingRadius );
+	vec_attributes.emplace_back( std::make_pair( "RoundingRadius", m_RoundingRadius ) );
 }
 void IfcRoundedRectangleProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcAreaDensityMeasure.h"
 
 // TYPE IfcAreaDensityMeasure = REAL;
-IfcAreaDensityMeasure::IfcAreaDensityMeasure() = default;
 IfcAreaDensityMeasure::IfcAreaDensityMeasure( double value ) { m_value = value; }
-IfcAreaDensityMeasure::~IfcAreaDensityMeasure() = default;
+IfcAreaDensityMeasure::~IfcAreaDensityMeasure() {}
 shared_ptr<BuildingObject> IfcAreaDensityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAreaDensityMeasure> copy_self( new IfcAreaDensityMeasure() );

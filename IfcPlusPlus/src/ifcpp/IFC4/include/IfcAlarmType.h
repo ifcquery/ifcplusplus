@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcAlarmTypeEnum;
 class IFCQUERY_EXPORT IfcAlarmType : public IfcDistributionControlElementType
 { 
 public:
-	IfcAlarmType();
+	IfcAlarmType() = default;
 	IfcAlarmType( int id );
 	~IfcAlarmType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

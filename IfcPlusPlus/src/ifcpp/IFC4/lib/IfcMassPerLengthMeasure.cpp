@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcMassPerLengthMeasure.h"
 
 // TYPE IfcMassPerLengthMeasure = REAL;
-IfcMassPerLengthMeasure::IfcMassPerLengthMeasure() = default;
 IfcMassPerLengthMeasure::IfcMassPerLengthMeasure( double value ) { m_value = value; }
-IfcMassPerLengthMeasure::~IfcMassPerLengthMeasure() = default;
+IfcMassPerLengthMeasure::~IfcMassPerLengthMeasure() {}
 shared_ptr<BuildingObject> IfcMassPerLengthMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMassPerLengthMeasure> copy_self( new IfcMassPerLengthMeasure() );

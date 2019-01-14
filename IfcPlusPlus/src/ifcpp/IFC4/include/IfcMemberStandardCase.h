@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcMemberStandardCase : public IfcMember
 { 
 public:
-	IfcMemberStandardCase();
+	IfcMemberStandardCase() = default;
 	IfcMemberStandardCase( int id );
 	~IfcMemberStandardCase();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

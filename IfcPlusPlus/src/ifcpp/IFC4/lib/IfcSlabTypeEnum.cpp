@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcSlabTypeEnum.h"
 
 // TYPE IfcSlabTypeEnum = ENUMERATION OF	(FLOOR	,ROOF	,LANDING	,BASESLAB	,USERDEFINED	,NOTDEFINED);
-IfcSlabTypeEnum::IfcSlabTypeEnum() = default;
-IfcSlabTypeEnum::~IfcSlabTypeEnum() = default;
+IfcSlabTypeEnum::~IfcSlabTypeEnum() {}
 shared_ptr<BuildingObject> IfcSlabTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSlabTypeEnum> copy_self( new IfcSlabTypeEnum() );

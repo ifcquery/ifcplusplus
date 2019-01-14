@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcURIReference : public BuildingObject
 {
 public:
-	IfcURIReference();
+	IfcURIReference() = default;
 	IfcURIReference( std::wstring value );
 	~IfcURIReference();
 	virtual const char* className() const { return "IfcURIReference"; }

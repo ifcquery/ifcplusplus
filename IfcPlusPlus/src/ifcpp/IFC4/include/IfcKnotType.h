@@ -21,7 +21,7 @@ public:
 		ENUM_UNSPECIFIED
 	};
 
-	IfcKnotType();
+	IfcKnotType() = default;
 	IfcKnotType( IfcKnotTypeEnum e ) { m_enum = e; }
 	~IfcKnotType();
 	virtual const char* className() const { return "IfcKnotType"; }

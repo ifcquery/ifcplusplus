@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcElectricChargeMeasure.h"
 
 // TYPE IfcElectricChargeMeasure = REAL;
-IfcElectricChargeMeasure::IfcElectricChargeMeasure() = default;
 IfcElectricChargeMeasure::IfcElectricChargeMeasure( double value ) { m_value = value; }
-IfcElectricChargeMeasure::~IfcElectricChargeMeasure() = default;
+IfcElectricChargeMeasure::~IfcElectricChargeMeasure() {}
 shared_ptr<BuildingObject> IfcElectricChargeMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricChargeMeasure> copy_self( new IfcElectricChargeMeasure() );

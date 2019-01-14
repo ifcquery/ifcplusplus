@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcElectricDistributionBoardTypeEnum();
+	IfcElectricDistributionBoardTypeEnum() = default;
 	IfcElectricDistributionBoardTypeEnum( IfcElectricDistributionBoardTypeEnumEnum e ) { m_enum = e; }
 	~IfcElectricDistributionBoardTypeEnum();
 	virtual const char* className() const { return "IfcElectricDistributionBoardTypeEnum"; }

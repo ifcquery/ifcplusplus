@@ -31,7 +31,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcTaskTypeEnum();
+	IfcTaskTypeEnum() = default;
 	IfcTaskTypeEnum( IfcTaskTypeEnumEnum e ) { m_enum = e; }
 	~IfcTaskTypeEnum();
 	virtual const char* className() const { return "IfcTaskTypeEnum"; }

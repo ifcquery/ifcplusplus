@@ -22,7 +22,7 @@ public:
 		ENUM_READONLYLOCKED
 	};
 
-	IfcStateEnum();
+	IfcStateEnum() = default;
 	IfcStateEnum( IfcStateEnumEnum e ) { m_enum = e; }
 	~IfcStateEnum();
 	virtual const char* className() const { return "IfcStateEnum"; }

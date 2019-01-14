@@ -15,9 +15,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcLightSource 
-IfcLightSource::IfcLightSource() = default;
 IfcLightSource::IfcLightSource( int id ) { m_entity_id = id; }
-IfcLightSource::~IfcLightSource() = default;
+IfcLightSource::~IfcLightSource() {}
 shared_ptr<BuildingObject> IfcLightSource::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightSource> copy_self( new IfcLightSource() );
@@ -39,12 +38,12 @@ void IfcLightSource::getStepLine( std::stringstream& stream ) const
 	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLightSource::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcLightSource::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSource::toString() const { return L"IfcLightSource"; }
 void IfcLightSource::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSource, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLightSource, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_LightColour, map );
 	m_AmbientIntensity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[2], map );
@@ -53,10 +52,10 @@ void IfcLightSource::readStepArguments( const std::vector<std::wstring>& args, c
 void IfcLightSource::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Name", m_Name );
-	vec_attributes.emplace_back( "LightColour", m_LightColour );
-	vec_attributes.emplace_back( "AmbientIntensity", m_AmbientIntensity );
-	vec_attributes.emplace_back( "Intensity", m_Intensity );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "LightColour", m_LightColour ) );
+	vec_attributes.emplace_back( std::make_pair( "AmbientIntensity", m_AmbientIntensity ) );
+	vec_attributes.emplace_back( std::make_pair( "Intensity", m_Intensity ) );
 }
 void IfcLightSource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

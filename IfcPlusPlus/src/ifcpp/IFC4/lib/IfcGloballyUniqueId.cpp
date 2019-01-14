@@ -10,9 +10,8 @@
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
 
 // TYPE IfcGloballyUniqueId = STRING(22) FIXED;
-IfcGloballyUniqueId::IfcGloballyUniqueId() = default;
 IfcGloballyUniqueId::IfcGloballyUniqueId( std::wstring value ) { m_value = value; }
-IfcGloballyUniqueId::~IfcGloballyUniqueId() = default;
+IfcGloballyUniqueId::~IfcGloballyUniqueId() {}
 shared_ptr<BuildingObject> IfcGloballyUniqueId::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGloballyUniqueId> copy_self( new IfcGloballyUniqueId() );

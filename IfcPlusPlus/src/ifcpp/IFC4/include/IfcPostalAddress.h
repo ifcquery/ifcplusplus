@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcPostalAddress : public IfcAddress
 { 
 public:
-	IfcPostalAddress();
+	IfcPostalAddress() = default;
 	IfcPostalAddress( int id );
 	~IfcPostalAddress();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

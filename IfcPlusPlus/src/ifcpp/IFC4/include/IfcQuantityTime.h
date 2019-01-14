@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcQuantityTime : public IfcPhysicalSimpleQuantity
 { 
 public:
-	IfcQuantityTime();
+	IfcQuantityTime() = default;
 	IfcQuantityTime( int id );
 	~IfcQuantityTime();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

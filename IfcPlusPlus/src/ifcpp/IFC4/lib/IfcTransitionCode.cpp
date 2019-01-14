@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcTransitionCode.h"
 
 // TYPE IfcTransitionCode = ENUMERATION OF	(DISCONTINUOUS	,CONTINUOUS	,CONTSAMEGRADIENT	,CONTSAMEGRADIENTSAMECURVATURE);
-IfcTransitionCode::IfcTransitionCode() = default;
-IfcTransitionCode::~IfcTransitionCode() = default;
+IfcTransitionCode::~IfcTransitionCode() {}
 shared_ptr<BuildingObject> IfcTransitionCode::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTransitionCode> copy_self( new IfcTransitionCode() );

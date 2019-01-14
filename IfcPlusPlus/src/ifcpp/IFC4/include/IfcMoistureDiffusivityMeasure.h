@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcMoistureDiffusivityMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcMoistureDiffusivityMeasure();
+	IfcMoistureDiffusivityMeasure() = default;
 	IfcMoistureDiffusivityMeasure( double value );
 	~IfcMoistureDiffusivityMeasure();
 	virtual const char* className() const { return "IfcMoistureDiffusivityMeasure"; }

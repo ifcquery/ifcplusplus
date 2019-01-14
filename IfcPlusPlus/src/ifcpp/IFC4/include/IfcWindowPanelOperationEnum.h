@@ -31,7 +31,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcWindowPanelOperationEnum();
+	IfcWindowPanelOperationEnum() = default;
 	IfcWindowPanelOperationEnum( IfcWindowPanelOperationEnumEnum e ) { m_enum = e; }
 	~IfcWindowPanelOperationEnum();
 	virtual const char* className() const { return "IfcWindowPanelOperationEnum"; }

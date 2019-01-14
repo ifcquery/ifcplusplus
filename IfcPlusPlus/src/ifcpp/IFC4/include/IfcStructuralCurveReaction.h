@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcStructuralCurveActivityTypeEnum;
 class IFCQUERY_EXPORT IfcStructuralCurveReaction : public IfcStructuralReaction
 { 
 public:
-	IfcStructuralCurveReaction();
+	IfcStructuralCurveReaction() = default;
 	IfcStructuralCurveReaction( int id );
 	~IfcStructuralCurveReaction();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

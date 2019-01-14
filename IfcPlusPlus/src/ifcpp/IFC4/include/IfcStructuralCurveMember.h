@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcDirection;
 class IFCQUERY_EXPORT IfcStructuralCurveMember : public IfcStructuralMember
 { 
 public:
-	IfcStructuralCurveMember();
+	IfcStructuralCurveMember() = default;
 	IfcStructuralCurveMember( int id );
 	~IfcStructuralCurveMember();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

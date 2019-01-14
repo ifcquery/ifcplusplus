@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLightFixtureTypeEnum;
 class IFCQUERY_EXPORT IfcLightFixtureType : public IfcFlowTerminalType
 { 
 public:
-	IfcLightFixtureType();
+	IfcLightFixtureType() = default;
 	IfcLightFixtureType( int id );
 	~IfcLightFixtureType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

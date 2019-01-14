@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcSystemFurnitureElementTypeEnum();
+	IfcSystemFurnitureElementTypeEnum() = default;
 	IfcSystemFurnitureElementTypeEnum( IfcSystemFurnitureElementTypeEnumEnum e ) { m_enum = e; }
 	~IfcSystemFurnitureElementTypeEnum();
 	virtual const char* className() const { return "IfcSystemFurnitureElementTypeEnum"; }

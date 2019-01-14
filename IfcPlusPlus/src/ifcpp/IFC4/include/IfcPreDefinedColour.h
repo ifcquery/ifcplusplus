@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcPreDefinedColour : virtual public IfcColour, public IfcPreDefinedItem
 { 
 public:
-	IfcPreDefinedColour();
+	IfcPreDefinedColour() = default;
 	IfcPreDefinedColour( int id );
 	~IfcPreDefinedColour();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

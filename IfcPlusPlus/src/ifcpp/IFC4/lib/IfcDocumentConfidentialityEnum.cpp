@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcDocumentConfidentialityEnum.h"
 
 // TYPE IfcDocumentConfidentialityEnum = ENUMERATION OF	(PUBLIC	,RESTRICTED	,CONFIDENTIAL	,PERSONAL	,USERDEFINED	,NOTDEFINED);
-IfcDocumentConfidentialityEnum::IfcDocumentConfidentialityEnum() = default;
-IfcDocumentConfidentialityEnum::~IfcDocumentConfidentialityEnum() = default;
+IfcDocumentConfidentialityEnum::~IfcDocumentConfidentialityEnum() {}
 shared_ptr<BuildingObject> IfcDocumentConfidentialityEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDocumentConfidentialityEnum> copy_self( new IfcDocumentConfidentialityEnum() );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcHeatExchangerTypeEnum;
 class IFCQUERY_EXPORT IfcHeatExchanger : public IfcEnergyConversionDevice
 { 
 public:
-	IfcHeatExchanger();
+	IfcHeatExchanger() = default;
 	IfcHeatExchanger( int id );
 	~IfcHeatExchanger();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

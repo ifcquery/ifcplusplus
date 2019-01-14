@@ -17,9 +17,8 @@
 #include "ifcpp/IFC4/include/IfcReinforcingBarSurfaceEnum.h"
 
 // ENTITY IfcReinforcementBarProperties 
-IfcReinforcementBarProperties::IfcReinforcementBarProperties() = default;
 IfcReinforcementBarProperties::IfcReinforcementBarProperties( int id ) { m_entity_id = id; }
-IfcReinforcementBarProperties::~IfcReinforcementBarProperties() = default;
+IfcReinforcementBarProperties::~IfcReinforcementBarProperties() {}
 shared_ptr<BuildingObject> IfcReinforcementBarProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReinforcementBarProperties> copy_self( new IfcReinforcementBarProperties() );
@@ -47,12 +46,12 @@ void IfcReinforcementBarProperties::getStepLine( std::stringstream& stream ) con
 	if( m_BarCount ) { m_BarCount->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcReinforcementBarProperties::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcReinforcementBarProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcReinforcementBarProperties::toString() const { return L"IfcReinforcementBarProperties"; }
 void IfcReinforcementBarProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcReinforcementBarProperties, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcReinforcementBarProperties, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_TotalCrossSectionArea = IfcAreaMeasure::createObjectFromSTEP( args[0], map );
 	m_SteelGrade = IfcLabel::createObjectFromSTEP( args[1], map );
 	m_BarSurface = IfcReinforcingBarSurfaceEnum::createObjectFromSTEP( args[2], map );
@@ -63,12 +62,12 @@ void IfcReinforcementBarProperties::readStepArguments( const std::vector<std::ws
 void IfcReinforcementBarProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPreDefinedProperties::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "TotalCrossSectionArea", m_TotalCrossSectionArea );
-	vec_attributes.emplace_back( "SteelGrade", m_SteelGrade );
-	vec_attributes.emplace_back( "BarSurface", m_BarSurface );
-	vec_attributes.emplace_back( "EffectiveDepth", m_EffectiveDepth );
-	vec_attributes.emplace_back( "NominalBarDiameter", m_NominalBarDiameter );
-	vec_attributes.emplace_back( "BarCount", m_BarCount );
+	vec_attributes.emplace_back( std::make_pair( "TotalCrossSectionArea", m_TotalCrossSectionArea ) );
+	vec_attributes.emplace_back( std::make_pair( "SteelGrade", m_SteelGrade ) );
+	vec_attributes.emplace_back( std::make_pair( "BarSurface", m_BarSurface ) );
+	vec_attributes.emplace_back( std::make_pair( "EffectiveDepth", m_EffectiveDepth ) );
+	vec_attributes.emplace_back( std::make_pair( "NominalBarDiameter", m_NominalBarDiameter ) );
+	vec_attributes.emplace_back( std::make_pair( "BarCount", m_BarCount ) );
 }
 void IfcReinforcementBarProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

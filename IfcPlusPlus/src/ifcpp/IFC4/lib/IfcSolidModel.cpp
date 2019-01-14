@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcSolidModel 
-IfcSolidModel::IfcSolidModel() = default;
 IfcSolidModel::IfcSolidModel( int id ) { m_entity_id = id; }
-IfcSolidModel::~IfcSolidModel() = default;
+IfcSolidModel::~IfcSolidModel() {}
 shared_ptr<BuildingObject> IfcSolidModel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSolidModel> copy_self( new IfcSolidModel() );
@@ -25,7 +24,7 @@ void IfcSolidModel::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCSOLIDMODEL" << "(";
 	stream << ");";
 }
-void IfcSolidModel::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcSolidModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSolidModel::toString() const { return L"IfcSolidModel"; }
 void IfcSolidModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

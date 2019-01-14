@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcColumnTypeEnum.h"
 
 // TYPE IfcColumnTypeEnum = ENUMERATION OF	(COLUMN	,PILASTER	,USERDEFINED	,NOTDEFINED);
-IfcColumnTypeEnum::IfcColumnTypeEnum() = default;
-IfcColumnTypeEnum::~IfcColumnTypeEnum() = default;
+IfcColumnTypeEnum::~IfcColumnTypeEnum() {}
 shared_ptr<BuildingObject> IfcColumnTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcColumnTypeEnum> copy_self( new IfcColumnTypeEnum() );

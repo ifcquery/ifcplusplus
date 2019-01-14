@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcAngularVelocityMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcAngularVelocityMeasure();
+	IfcAngularVelocityMeasure() = default;
 	IfcAngularVelocityMeasure( double value );
 	~IfcAngularVelocityMeasure();
 	virtual const char* className() const { return "IfcAngularVelocityMeasure"; }

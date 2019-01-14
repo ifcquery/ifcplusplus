@@ -13,17 +13,17 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcOpenShell 
-IfcOpenShell::IfcOpenShell() = default;
 IfcOpenShell::IfcOpenShell( int id ) { m_entity_id = id; }
-IfcOpenShell::~IfcOpenShell() = default;
+IfcOpenShell::~IfcOpenShell() {}
 shared_ptr<BuildingObject> IfcOpenShell::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOpenShell> copy_self( new IfcOpenShell() );
-	for(auto item_ii : m_CfsFaces)
+	for( size_t ii=0; ii<m_CfsFaces.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_CfsFaces[ii];
+		if( item_ii )
 		{
-			copy_self->m_CfsFaces.push_back( dynamic_pointer_cast<IfcFace>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_CfsFaces.emplace_back( dynamic_pointer_cast<IfcFace>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -34,12 +34,12 @@ void IfcOpenShell::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_CfsFaces );
 	stream << ");";
 }
-void IfcOpenShell::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcOpenShell::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOpenShell::toString() const { return L"IfcOpenShell"; }
 void IfcOpenShell::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOpenShell, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOpenShell, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_CfsFaces, map );
 }
 void IfcOpenShell::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

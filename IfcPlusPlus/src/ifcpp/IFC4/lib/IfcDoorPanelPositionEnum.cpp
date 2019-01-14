@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcDoorPanelPositionEnum.h"
 
 // TYPE IfcDoorPanelPositionEnum = ENUMERATION OF	(LEFT	,MIDDLE	,RIGHT	,NOTDEFINED);
-IfcDoorPanelPositionEnum::IfcDoorPanelPositionEnum() = default;
-IfcDoorPanelPositionEnum::~IfcDoorPanelPositionEnum() = default;
+IfcDoorPanelPositionEnum::~IfcDoorPanelPositionEnum() {}
 shared_ptr<BuildingObject> IfcDoorPanelPositionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoorPanelPositionEnum> copy_self( new IfcDoorPanelPositionEnum() );

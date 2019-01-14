@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcElementCompositionEnum;
 class IFCQUERY_EXPORT IfcSpatialStructureElement : public IfcSpatialElement
 { 
 public:
-	IfcSpatialStructureElement();
+	IfcSpatialStructureElement() = default;
 	IfcSpatialStructureElement( int id );
 	~IfcSpatialStructureElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

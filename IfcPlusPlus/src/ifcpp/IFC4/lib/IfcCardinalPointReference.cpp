@@ -10,9 +10,8 @@
 #include "ifcpp/IFC4/include/IfcCardinalPointReference.h"
 
 // TYPE IfcCardinalPointReference = INTEGER;
-IfcCardinalPointReference::IfcCardinalPointReference() = default;
 IfcCardinalPointReference::IfcCardinalPointReference( int value ) { m_value = value; }
-IfcCardinalPointReference::~IfcCardinalPointReference() = default;
+IfcCardinalPointReference::~IfcCardinalPointReference() {}
 shared_ptr<BuildingObject> IfcCardinalPointReference::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCardinalPointReference> copy_self( new IfcCardinalPointReference() );

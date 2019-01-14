@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcPlaneAngleMeasure;
 class IFCQUERY_EXPORT IfcFillAreaStyleHatching : virtual public IfcFillStyleSelect, public IfcGeometricRepresentationItem
 { 
 public:
-	IfcFillAreaStyleHatching();
+	IfcFillAreaStyleHatching() = default;
 	IfcFillAreaStyleHatching( int id );
 	~IfcFillAreaStyleHatching();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

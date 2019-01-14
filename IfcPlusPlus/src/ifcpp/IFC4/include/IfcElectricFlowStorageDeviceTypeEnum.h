@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcElectricFlowStorageDeviceTypeEnum();
+	IfcElectricFlowStorageDeviceTypeEnum() = default;
 	IfcElectricFlowStorageDeviceTypeEnum( IfcElectricFlowStorageDeviceTypeEnumEnum e ) { m_enum = e; }
 	~IfcElectricFlowStorageDeviceTypeEnum();
 	virtual const char* className() const { return "IfcElectricFlowStorageDeviceTypeEnum"; }

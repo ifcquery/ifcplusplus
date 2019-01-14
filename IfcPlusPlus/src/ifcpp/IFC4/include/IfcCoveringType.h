@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCoveringTypeEnum;
 class IFCQUERY_EXPORT IfcCoveringType : public IfcBuildingElementType
 { 
 public:
-	IfcCoveringType();
+	IfcCoveringType() = default;
 	IfcCoveringType( int id );
 	~IfcCoveringType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

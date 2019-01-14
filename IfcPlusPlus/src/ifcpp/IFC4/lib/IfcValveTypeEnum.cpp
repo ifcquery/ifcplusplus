@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcValveTypeEnum.h"
 
 // TYPE IfcValveTypeEnum = ENUMERATION OF	(AIRRELEASE	,ANTIVACUUM	,CHANGEOVER	,CHECK	,COMMISSIONING	,DIVERTING	,DRAWOFFCOCK	,DOUBLECHECK	,DOUBLEREGULATING	,FAUCET	,FLUSHING	,GASCOCK	,GASTAP	,ISOLATING	,MIXING	,PRESSUREREDUCING	,PRESSURERELIEF	,REGULATING	,SAFETYCUTOFF	,STEAMTRAP	,STOPCOCK	,USERDEFINED	,NOTDEFINED);
-IfcValveTypeEnum::IfcValveTypeEnum() = default;
-IfcValveTypeEnum::~IfcValveTypeEnum() = default;
+IfcValveTypeEnum::~IfcValveTypeEnum() {}
 shared_ptr<BuildingObject> IfcValveTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcValveTypeEnum> copy_self( new IfcValveTypeEnum() );

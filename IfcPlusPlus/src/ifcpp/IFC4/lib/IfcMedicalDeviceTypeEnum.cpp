@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcMedicalDeviceTypeEnum.h"
 
 // TYPE IfcMedicalDeviceTypeEnum = ENUMERATION OF	(AIRSTATION	,FEEDAIRUNIT	,OXYGENGENERATOR	,OXYGENPLANT	,VACUUMSTATION	,USERDEFINED	,NOTDEFINED);
-IfcMedicalDeviceTypeEnum::IfcMedicalDeviceTypeEnum() = default;
-IfcMedicalDeviceTypeEnum::~IfcMedicalDeviceTypeEnum() = default;
+IfcMedicalDeviceTypeEnum::~IfcMedicalDeviceTypeEnum() {}
 shared_ptr<BuildingObject> IfcMedicalDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMedicalDeviceTypeEnum> copy_self( new IfcMedicalDeviceTypeEnum() );

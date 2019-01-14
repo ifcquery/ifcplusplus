@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcTextureVertexList.h"
 
 // ENTITY IfcTextureVertexList 
-IfcTextureVertexList::IfcTextureVertexList() = default;
 IfcTextureVertexList::IfcTextureVertexList( int id ) { m_entity_id = id; }
-IfcTextureVertexList::~IfcTextureVertexList() = default;
+IfcTextureVertexList::~IfcTextureVertexList() {}
 shared_ptr<BuildingObject> IfcTextureVertexList::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextureVertexList> copy_self( new IfcTextureVertexList() );
@@ -22,11 +21,12 @@ shared_ptr<BuildingObject> IfcTextureVertexList::getDeepCopy( BuildingCopyOption
 	{
 		std::vector<shared_ptr<IfcParameterValue> >& vec_ii = m_TexCoordsList[ii];
 		std::vector<shared_ptr<IfcParameterValue> >& vec_ii_target = copy_self->m_TexCoordsList[ii];
-		for(auto & item_jj : vec_ii)
+		for( size_t jj=0; jj<vec_ii.size(); ++jj )
 		{
-				if( item_jj )
+			shared_ptr<IfcParameterValue>& item_jj = vec_ii[jj];
+			if( item_jj )
 			{
-				vec_ii_target.push_back( dynamic_pointer_cast<IfcParameterValue>( item_jj->getDeepCopy(options) ) );
+				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcParameterValue>( item_jj->getDeepCopy(options) ) );
 			}
 		}
 	}
@@ -38,12 +38,12 @@ void IfcTextureVertexList::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList2D( stream, m_TexCoordsList );
 	stream << ");";
 }
-void IfcTextureVertexList::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcTextureVertexList::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextureVertexList::toString() const { return L"IfcTextureVertexList"; }
 void IfcTextureVertexList::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureVertexList, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureVertexList, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readTypeOfRealList2D( args[0], m_TexCoordsList );
 }
 void IfcTextureVertexList::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

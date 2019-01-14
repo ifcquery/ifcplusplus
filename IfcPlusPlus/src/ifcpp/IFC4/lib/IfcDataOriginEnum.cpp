@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcDataOriginEnum.h"
 
 // TYPE IfcDataOriginEnum = ENUMERATION OF	(MEASURED	,PREDICTED	,SIMULATED	,USERDEFINED	,NOTDEFINED);
-IfcDataOriginEnum::IfcDataOriginEnum() = default;
-IfcDataOriginEnum::~IfcDataOriginEnum() = default;
+IfcDataOriginEnum::~IfcDataOriginEnum() {}
 shared_ptr<BuildingObject> IfcDataOriginEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDataOriginEnum> copy_self( new IfcDataOriginEnum() );

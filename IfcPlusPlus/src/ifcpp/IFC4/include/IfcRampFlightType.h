@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRampFlightTypeEnum;
 class IFCQUERY_EXPORT IfcRampFlightType : public IfcBuildingElementType
 { 
 public:
-	IfcRampFlightType();
+	IfcRampFlightType() = default;
 	IfcRampFlightType( int id );
 	~IfcRampFlightType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

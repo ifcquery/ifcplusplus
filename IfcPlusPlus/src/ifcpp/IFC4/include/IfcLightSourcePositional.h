@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcReal;
 class IFCQUERY_EXPORT IfcLightSourcePositional : public IfcLightSource
 { 
 public:
-	IfcLightSourcePositional();
+	IfcLightSourcePositional() = default;
 	IfcLightSourcePositional( int id );
 	~IfcLightSourcePositional();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

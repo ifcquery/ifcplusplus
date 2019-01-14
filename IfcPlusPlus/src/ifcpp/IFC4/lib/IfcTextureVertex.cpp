@@ -11,17 +11,17 @@
 #include "ifcpp/IFC4/include/IfcTextureVertex.h"
 
 // ENTITY IfcTextureVertex 
-IfcTextureVertex::IfcTextureVertex() = default;
 IfcTextureVertex::IfcTextureVertex( int id ) { m_entity_id = id; }
-IfcTextureVertex::~IfcTextureVertex() = default;
+IfcTextureVertex::~IfcTextureVertex() {}
 shared_ptr<BuildingObject> IfcTextureVertex::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextureVertex> copy_self( new IfcTextureVertex() );
-	for(auto item_ii : m_Coordinates)
+	for( size_t ii=0; ii<m_Coordinates.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_Coordinates[ii];
+		if( item_ii )
 		{
-			copy_self->m_Coordinates.push_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Coordinates.emplace_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -32,12 +32,12 @@ void IfcTextureVertex::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList( stream, m_Coordinates );
 	stream << ");";
 }
-void IfcTextureVertex::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcTextureVertex::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextureVertex::toString() const { return L"IfcTextureVertex"; }
 void IfcTextureVertex::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureVertex, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTextureVertex, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readTypeOfRealList( args[0], m_Coordinates );
 }
 void IfcTextureVertex::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
@@ -47,7 +47,7 @@ void IfcTextureVertex::getAttributes( std::vector<std::pair<std::string, shared_
 	{
 		shared_ptr<AttributeObjectVector> Coordinates_vec_object( new AttributeObjectVector() );
 		std::copy( m_Coordinates.begin(), m_Coordinates.end(), std::back_inserter( Coordinates_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "Coordinates", Coordinates_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "Coordinates", Coordinates_vec_object ) );
 	}
 }
 void IfcTextureVertex::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

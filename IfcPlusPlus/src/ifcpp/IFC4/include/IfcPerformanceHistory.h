@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPerformanceHistoryTypeEnum;
 class IFCQUERY_EXPORT IfcPerformanceHistory : public IfcControl
 { 
 public:
-	IfcPerformanceHistory();
+	IfcPerformanceHistory() = default;
 	IfcPerformanceHistory( int id );
 	~IfcPerformanceHistory();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

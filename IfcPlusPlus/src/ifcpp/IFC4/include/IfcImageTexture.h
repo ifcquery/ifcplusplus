@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcURIReference;
 class IFCQUERY_EXPORT IfcImageTexture : public IfcSurfaceTexture
 { 
 public:
-	IfcImageTexture();
+	IfcImageTexture() = default;
 	IfcImageTexture( int id );
 	~IfcImageTexture();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

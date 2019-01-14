@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcRelDefinesByType;
 class IFCQUERY_EXPORT IfcTypeObject : public IfcObjectDefinition
 { 
 public:
-	IfcTypeObject();
+	IfcTypeObject() = default;
 	IfcTypeObject( int id );
 	~IfcTypeObject();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

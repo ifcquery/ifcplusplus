@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcRadioActivityMeasure.h"
 
 // TYPE IfcRadioActivityMeasure = REAL;
-IfcRadioActivityMeasure::IfcRadioActivityMeasure() = default;
 IfcRadioActivityMeasure::IfcRadioActivityMeasure( double value ) { m_value = value; }
-IfcRadioActivityMeasure::~IfcRadioActivityMeasure() = default;
+IfcRadioActivityMeasure::~IfcRadioActivityMeasure() {}
 shared_ptr<BuildingObject> IfcRadioActivityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRadioActivityMeasure> copy_self( new IfcRadioActivityMeasure() );

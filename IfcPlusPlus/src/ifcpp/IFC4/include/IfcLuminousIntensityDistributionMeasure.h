@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcLuminousIntensityDistributionMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcLuminousIntensityDistributionMeasure();
+	IfcLuminousIntensityDistributionMeasure() = default;
 	IfcLuminousIntensityDistributionMeasure( double value );
 	~IfcLuminousIntensityDistributionMeasure();
 	virtual const char* className() const { return "IfcLuminousIntensityDistributionMeasure"; }

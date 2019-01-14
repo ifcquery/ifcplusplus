@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcProtectiveDeviceTrippingUnitTypeEnum.h"
 
 // TYPE IfcProtectiveDeviceTrippingUnitTypeEnum = ENUMERATION OF	(ELECTRONIC	,ELECTROMAGNETIC	,RESIDUALCURRENT	,THERMAL	,USERDEFINED	,NOTDEFINED);
-IfcProtectiveDeviceTrippingUnitTypeEnum::IfcProtectiveDeviceTrippingUnitTypeEnum() = default;
-IfcProtectiveDeviceTrippingUnitTypeEnum::~IfcProtectiveDeviceTrippingUnitTypeEnum() = default;
+IfcProtectiveDeviceTrippingUnitTypeEnum::~IfcProtectiveDeviceTrippingUnitTypeEnum() {}
 shared_ptr<BuildingObject> IfcProtectiveDeviceTrippingUnitTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum> copy_self( new IfcProtectiveDeviceTrippingUnitTypeEnum() );

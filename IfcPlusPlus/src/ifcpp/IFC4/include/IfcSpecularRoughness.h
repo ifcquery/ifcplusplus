@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcSpecularRoughness : public IfcSpecularHighlightSelect
 {
 public:
-	IfcSpecularRoughness();
+	IfcSpecularRoughness() = default;
 	IfcSpecularRoughness( double value );
 	~IfcSpecularRoughness();
 	virtual const char* className() const { return "IfcSpecularRoughness"; }

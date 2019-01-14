@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcStructuralSurfaceActivityTypeEnum.h"
 
 // TYPE IfcStructuralSurfaceActivityTypeEnum = ENUMERATION OF	(CONST	,BILINEAR	,DISCRETE	,ISOCONTOUR	,USERDEFINED	,NOTDEFINED);
-IfcStructuralSurfaceActivityTypeEnum::IfcStructuralSurfaceActivityTypeEnum() = default;
-IfcStructuralSurfaceActivityTypeEnum::~IfcStructuralSurfaceActivityTypeEnum() = default;
+IfcStructuralSurfaceActivityTypeEnum::~IfcStructuralSurfaceActivityTypeEnum() {}
 shared_ptr<BuildingObject> IfcStructuralSurfaceActivityTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralSurfaceActivityTypeEnum> copy_self( new IfcStructuralSurfaceActivityTypeEnum() );

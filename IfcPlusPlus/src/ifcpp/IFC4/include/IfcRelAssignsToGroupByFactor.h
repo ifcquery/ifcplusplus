@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRatioMeasure;
 class IFCQUERY_EXPORT IfcRelAssignsToGroupByFactor : public IfcRelAssignsToGroup
 { 
 public:
-	IfcRelAssignsToGroupByFactor();
+	IfcRelAssignsToGroupByFactor() = default;
 	IfcRelAssignsToGroupByFactor( int id );
 	~IfcRelAssignsToGroupByFactor();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

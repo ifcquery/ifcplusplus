@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcNonNegativeLengthMeasure;
 class IFCQUERY_EXPORT IfcRectangleHollowProfileDef : public IfcRectangleProfileDef
 { 
 public:
-	IfcRectangleHollowProfileDef();
+	IfcRectangleHollowProfileDef() = default;
 	IfcRectangleHollowProfileDef( int id );
 	~IfcRectangleHollowProfileDef();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

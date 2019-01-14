@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcSubContractResourceTypeEnum;
 class IFCQUERY_EXPORT IfcSubContractResourceType : public IfcConstructionResourceType
 { 
 public:
-	IfcSubContractResourceType();
+	IfcSubContractResourceType() = default;
 	IfcSubContractResourceType( int id );
 	~IfcSubContractResourceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

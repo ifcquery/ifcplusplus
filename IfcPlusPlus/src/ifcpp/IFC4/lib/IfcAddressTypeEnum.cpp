@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcAddressTypeEnum.h"
 
 // TYPE IfcAddressTypeEnum = ENUMERATION OF	(OFFICE	,SITE	,HOME	,DISTRIBUTIONPOINT	,USERDEFINED);
-IfcAddressTypeEnum::IfcAddressTypeEnum() = default;
-IfcAddressTypeEnum::~IfcAddressTypeEnum() = default;
+IfcAddressTypeEnum::~IfcAddressTypeEnum() {}
 shared_ptr<BuildingObject> IfcAddressTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAddressTypeEnum> copy_self( new IfcAddressTypeEnum() );

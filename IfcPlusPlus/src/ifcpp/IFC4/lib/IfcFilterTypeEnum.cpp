@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcFilterTypeEnum.h"
 
 // TYPE IfcFilterTypeEnum = ENUMERATION OF	(AIRPARTICLEFILTER	,COMPRESSEDAIRFILTER	,ODORFILTER	,OILFILTER	,STRAINER	,WATERFILTER	,USERDEFINED	,NOTDEFINED);
-IfcFilterTypeEnum::IfcFilterTypeEnum() = default;
-IfcFilterTypeEnum::~IfcFilterTypeEnum() = default;
+IfcFilterTypeEnum::~IfcFilterTypeEnum() {}
 shared_ptr<BuildingObject> IfcFilterTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFilterTypeEnum> copy_self( new IfcFilterTypeEnum() );

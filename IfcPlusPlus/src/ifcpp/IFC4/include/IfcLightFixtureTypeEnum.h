@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcLightFixtureTypeEnum();
+	IfcLightFixtureTypeEnum() = default;
 	IfcLightFixtureTypeEnum( IfcLightFixtureTypeEnumEnum e ) { m_enum = e; }
 	~IfcLightFixtureTypeEnum();
 	virtual const char* className() const { return "IfcLightFixtureTypeEnum"; }

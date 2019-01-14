@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCableFittingTypeEnum;
 class IFCQUERY_EXPORT IfcCableFitting : public IfcFlowFitting
 { 
 public:
-	IfcCableFitting();
+	IfcCableFitting() = default;
 	IfcCableFitting( int id );
 	~IfcCableFitting();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

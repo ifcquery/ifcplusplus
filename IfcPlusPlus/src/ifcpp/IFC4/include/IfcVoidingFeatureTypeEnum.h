@@ -25,7 +25,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcVoidingFeatureTypeEnum();
+	IfcVoidingFeatureTypeEnum() = default;
 	IfcVoidingFeatureTypeEnum( IfcVoidingFeatureTypeEnumEnum e ) { m_enum = e; }
 	~IfcVoidingFeatureTypeEnum();
 	virtual const char* className() const { return "IfcVoidingFeatureTypeEnum"; }

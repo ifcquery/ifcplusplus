@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcBoxAlignment;
 class IFCQUERY_EXPORT IfcTextLiteralWithExtent : public IfcTextLiteral
 { 
 public:
-	IfcTextLiteralWithExtent();
+	IfcTextLiteralWithExtent() = default;
 	IfcTextLiteralWithExtent( int id );
 	~IfcTextLiteralWithExtent();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcElectricVoltageMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcElectricVoltageMeasure();
+	IfcElectricVoltageMeasure() = default;
 	IfcElectricVoltageMeasure( double value );
 	~IfcElectricVoltageMeasure();
 	virtual const char* className() const { return "IfcElectricVoltageMeasure"; }

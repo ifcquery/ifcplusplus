@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcRelConnectsStructuralActivity;
 class IFCQUERY_EXPORT IfcStructuralItem : virtual public IfcStructuralActivityAssignmentSelect, public IfcProduct
 { 
 public:
-	IfcStructuralItem();
+	IfcStructuralItem() = default;
 	IfcStructuralItem( int id );
 	~IfcStructuralItem();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

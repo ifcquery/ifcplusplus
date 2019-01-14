@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcDuctFittingTypeEnum;
 class IFCQUERY_EXPORT IfcDuctFitting : public IfcFlowFitting
 { 
 public:
-	IfcDuctFitting();
+	IfcDuctFitting() = default;
 	IfcDuctFitting( int id );
 	~IfcDuctFitting();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

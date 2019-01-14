@@ -18,9 +18,8 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMaterialConstituent 
-IfcMaterialConstituent::IfcMaterialConstituent() = default;
 IfcMaterialConstituent::IfcMaterialConstituent( int id ) { m_entity_id = id; }
-IfcMaterialConstituent::~IfcMaterialConstituent() = default;
+IfcMaterialConstituent::~IfcMaterialConstituent() {}
 shared_ptr<BuildingObject> IfcMaterialConstituent::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialConstituent> copy_self( new IfcMaterialConstituent() );
@@ -45,12 +44,12 @@ void IfcMaterialConstituent::getStepLine( std::stringstream& stream ) const
 	if( m_Category ) { m_Category->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMaterialConstituent::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcMaterialConstituent::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialConstituent::toString() const { return L"IfcMaterialConstituent"; }
 void IfcMaterialConstituent::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialConstituent, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialConstituent, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Material, map );
@@ -60,16 +59,16 @@ void IfcMaterialConstituent::readStepArguments( const std::vector<std::wstring>&
 void IfcMaterialConstituent::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Name", m_Name );
-	vec_attributes.emplace_back( "Description", m_Description );
-	vec_attributes.emplace_back( "Material", m_Material );
-	vec_attributes.emplace_back( "Fraction", m_Fraction );
-	vec_attributes.emplace_back( "Category", m_Category );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "Material", m_Material ) );
+	vec_attributes.emplace_back( std::make_pair( "Fraction", m_Fraction ) );
+	vec_attributes.emplace_back( std::make_pair( "Category", m_Category ) );
 }
 void IfcMaterialConstituent::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
-	vec_attributes_inverse.emplace_back( "ToMaterialConstituentSet_inverse", shared_ptr<BuildingEntity>( m_ToMaterialConstituentSet_inverse ) );
+	vec_attributes_inverse.emplace_back( std::make_pair( "ToMaterialConstituentSet_inverse", shared_ptr<BuildingEntity>( m_ToMaterialConstituentSet_inverse ) ) );
 }
 void IfcMaterialConstituent::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

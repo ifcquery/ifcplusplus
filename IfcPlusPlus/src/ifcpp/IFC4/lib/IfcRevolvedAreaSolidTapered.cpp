@@ -16,9 +16,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcRevolvedAreaSolidTapered 
-IfcRevolvedAreaSolidTapered::IfcRevolvedAreaSolidTapered() = default;
 IfcRevolvedAreaSolidTapered::IfcRevolvedAreaSolidTapered( int id ) { m_entity_id = id; }
-IfcRevolvedAreaSolidTapered::~IfcRevolvedAreaSolidTapered() = default;
+IfcRevolvedAreaSolidTapered::~IfcRevolvedAreaSolidTapered() {}
 shared_ptr<BuildingObject> IfcRevolvedAreaSolidTapered::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRevolvedAreaSolidTapered> copy_self( new IfcRevolvedAreaSolidTapered() );
@@ -51,12 +50,12 @@ void IfcRevolvedAreaSolidTapered::getStepLine( std::stringstream& stream ) const
 	if( m_EndSweptArea ) { stream << "#" << m_EndSweptArea->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRevolvedAreaSolidTapered::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcRevolvedAreaSolidTapered::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRevolvedAreaSolidTapered::toString() const { return L"IfcRevolvedAreaSolidTapered"; }
 void IfcRevolvedAreaSolidTapered::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRevolvedAreaSolidTapered, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRevolvedAreaSolidTapered, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SweptArea, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_Axis, map );
@@ -66,7 +65,7 @@ void IfcRevolvedAreaSolidTapered::readStepArguments( const std::vector<std::wstr
 void IfcRevolvedAreaSolidTapered::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcRevolvedAreaSolid::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "EndSweptArea", m_EndSweptArea );
+	vec_attributes.emplace_back( std::make_pair( "EndSweptArea", m_EndSweptArea ) );
 }
 void IfcRevolvedAreaSolidTapered::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

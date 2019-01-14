@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcDefinitionSelect;
 class IFCQUERY_EXPORT IfcRelDeclares : public IfcRelationship
 { 
 public:
-	IfcRelDeclares();
+	IfcRelDeclares() = default;
 	IfcRelDeclares( int id );
 	~IfcRelDeclares();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

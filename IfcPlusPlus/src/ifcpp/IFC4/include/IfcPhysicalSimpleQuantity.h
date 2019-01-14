@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcNamedUnit;
 class IFCQUERY_EXPORT IfcPhysicalSimpleQuantity : public IfcPhysicalQuantity
 { 
 public:
-	IfcPhysicalSimpleQuantity();
+	IfcPhysicalSimpleQuantity() = default;
 	IfcPhysicalSimpleQuantity( int id );
 	~IfcPhysicalSimpleQuantity();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

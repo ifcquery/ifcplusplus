@@ -10,9 +10,8 @@
 #include "ifcpp/IFC4/include/IfcDayInWeekNumber.h"
 
 // TYPE IfcDayInWeekNumber = INTEGER;
-IfcDayInWeekNumber::IfcDayInWeekNumber() = default;
 IfcDayInWeekNumber::IfcDayInWeekNumber( int value ) { m_value = value; }
-IfcDayInWeekNumber::~IfcDayInWeekNumber() = default;
+IfcDayInWeekNumber::~IfcDayInWeekNumber() {}
 shared_ptr<BuildingObject> IfcDayInWeekNumber::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDayInWeekNumber> copy_self( new IfcDayInWeekNumber() );

@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcUnitEnum.h"
 
 // ENTITY IfcSIUnit 
-IfcSIUnit::IfcSIUnit() = default;
 IfcSIUnit::IfcSIUnit( int id ) { m_entity_id = id; }
-IfcSIUnit::~IfcSIUnit() = default;
+IfcSIUnit::~IfcSIUnit() {}
 shared_ptr<BuildingObject> IfcSIUnit::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSIUnit> copy_self( new IfcSIUnit() );
@@ -29,7 +28,7 @@ shared_ptr<BuildingObject> IfcSIUnit::getDeepCopy( BuildingCopyOptions& options 
 void IfcSIUnit::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSIUNIT" << "(";
-	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_entity_id; } else { stream << "*"; }
+	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
@@ -38,12 +37,12 @@ void IfcSIUnit::getStepLine( std::stringstream& stream ) const
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSIUnit::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcSIUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSIUnit::toString() const { return L"IfcSIUnit"; }
 void IfcSIUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSIUnit, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSIUnit, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Dimensions, map );
 	m_UnitType = IfcUnitEnum::createObjectFromSTEP( args[1], map );
 	m_Prefix = IfcSIPrefix::createObjectFromSTEP( args[2], map );
@@ -52,8 +51,8 @@ void IfcSIUnit::readStepArguments( const std::vector<std::wstring>& args, const 
 void IfcSIUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcNamedUnit::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Prefix", m_Prefix );
-	vec_attributes.emplace_back( "Name", m_Name );
+	vec_attributes.emplace_back( std::make_pair( "Prefix", m_Prefix ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 }
 void IfcSIUnit::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

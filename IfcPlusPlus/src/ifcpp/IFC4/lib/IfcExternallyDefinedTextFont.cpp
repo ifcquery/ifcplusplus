@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcURIReference.h"
 
 // ENTITY IfcExternallyDefinedTextFont 
-IfcExternallyDefinedTextFont::IfcExternallyDefinedTextFont() = default;
 IfcExternallyDefinedTextFont::IfcExternallyDefinedTextFont( int id ) { m_entity_id = id; }
-IfcExternallyDefinedTextFont::~IfcExternallyDefinedTextFont() = default;
+IfcExternallyDefinedTextFont::~IfcExternallyDefinedTextFont() {}
 shared_ptr<BuildingObject> IfcExternallyDefinedTextFont::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExternallyDefinedTextFont> copy_self( new IfcExternallyDefinedTextFont() );
@@ -35,12 +34,12 @@ void IfcExternallyDefinedTextFont::getStepLine( std::stringstream& stream ) cons
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcExternallyDefinedTextFont::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcExternallyDefinedTextFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExternallyDefinedTextFont::toString() const { return L"IfcExternallyDefinedTextFont"; }
 void IfcExternallyDefinedTextFont::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExternallyDefinedTextFont, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExternallyDefinedTextFont, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Location = IfcURIReference::createObjectFromSTEP( args[0], map );
 	m_Identification = IfcIdentifier::createObjectFromSTEP( args[1], map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );

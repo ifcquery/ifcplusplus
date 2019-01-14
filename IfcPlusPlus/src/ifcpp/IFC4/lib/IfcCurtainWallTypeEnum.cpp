@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcCurtainWallTypeEnum.h"
 
 // TYPE IfcCurtainWallTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-IfcCurtainWallTypeEnum::IfcCurtainWallTypeEnum() = default;
-IfcCurtainWallTypeEnum::~IfcCurtainWallTypeEnum() = default;
+IfcCurtainWallTypeEnum::~IfcCurtainWallTypeEnum() {}
 shared_ptr<BuildingObject> IfcCurtainWallTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurtainWallTypeEnum> copy_self( new IfcCurtainWallTypeEnum() );

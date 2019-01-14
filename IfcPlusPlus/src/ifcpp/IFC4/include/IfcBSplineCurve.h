@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcLogical;
 class IFCQUERY_EXPORT IfcBSplineCurve : public IfcBoundedCurve
 { 
 public:
-	IfcBSplineCurve();
+	IfcBSplineCurve() = default;
 	IfcBSplineCurve( int id );
 	~IfcBSplineCurve();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

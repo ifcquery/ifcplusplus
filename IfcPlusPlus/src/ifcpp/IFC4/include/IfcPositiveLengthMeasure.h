@@ -15,7 +15,7 @@
 class IFCQUERY_EXPORT IfcPositiveLengthMeasure : public IfcLengthMeasure, public IfcHatchLineDistanceSelect
 {
 public:
-	IfcPositiveLengthMeasure();
+	IfcPositiveLengthMeasure() = default;
 	IfcPositiveLengthMeasure( double value ) { m_value = value; }
 	~IfcPositiveLengthMeasure();
 	virtual const char* className() const { return "IfcPositiveLengthMeasure"; }

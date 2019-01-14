@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcSoundPressureMeasure.h"
 
 // TYPE IfcSoundPressureMeasure = REAL;
-IfcSoundPressureMeasure::IfcSoundPressureMeasure() = default;
 IfcSoundPressureMeasure::IfcSoundPressureMeasure( double value ) { m_value = value; }
-IfcSoundPressureMeasure::~IfcSoundPressureMeasure() = default;
+IfcSoundPressureMeasure::~IfcSoundPressureMeasure() {}
 shared_ptr<BuildingObject> IfcSoundPressureMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSoundPressureMeasure> copy_self( new IfcSoundPressureMeasure() );

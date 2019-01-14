@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcDraughtingPreDefinedColour : public IfcPreDefinedColour
 { 
 public:
-	IfcDraughtingPreDefinedColour();
+	IfcDraughtingPreDefinedColour() = default;
 	IfcDraughtingPreDefinedColour( int id );
 	~IfcDraughtingPreDefinedColour();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

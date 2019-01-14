@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcIntegerCountRateMeasure.h"
 
 // TYPE IfcIntegerCountRateMeasure = INTEGER;
-IfcIntegerCountRateMeasure::IfcIntegerCountRateMeasure() = default;
 IfcIntegerCountRateMeasure::IfcIntegerCountRateMeasure( int value ) { m_value = value; }
-IfcIntegerCountRateMeasure::~IfcIntegerCountRateMeasure() = default;
+IfcIntegerCountRateMeasure::~IfcIntegerCountRateMeasure() {}
 shared_ptr<BuildingObject> IfcIntegerCountRateMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIntegerCountRateMeasure> copy_self( new IfcIntegerCountRateMeasure() );

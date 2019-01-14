@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcAxis1Placement 
-IfcAxis1Placement::IfcAxis1Placement() = default;
 IfcAxis1Placement::IfcAxis1Placement( int id ) { m_entity_id = id; }
-IfcAxis1Placement::~IfcAxis1Placement() = default;
+IfcAxis1Placement::~IfcAxis1Placement() {}
 shared_ptr<BuildingObject> IfcAxis1Placement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAxis1Placement> copy_self( new IfcAxis1Placement() );
@@ -32,19 +31,19 @@ void IfcAxis1Placement::getStepLine( std::stringstream& stream ) const
 	if( m_Axis ) { stream << "#" << m_Axis->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAxis1Placement::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcAxis1Placement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAxis1Placement::toString() const { return L"IfcAxis1Placement"; }
 void IfcAxis1Placement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAxis1Placement, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAxis1Placement, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Location, map );
 	readEntityReference( args[1], m_Axis, map );
 }
 void IfcAxis1Placement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPlacement::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Axis", m_Axis );
+	vec_attributes.emplace_back( std::make_pair( "Axis", m_Axis ) );
 }
 void IfcAxis1Placement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

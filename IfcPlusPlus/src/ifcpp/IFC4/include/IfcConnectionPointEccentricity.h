@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcConnectionPointEccentricity : public IfcConnectionPointGeometry
 { 
 public:
-	IfcConnectionPointEccentricity();
+	IfcConnectionPointEccentricity() = default;
 	IfcConnectionPointEccentricity( int id );
 	~IfcConnectionPointEccentricity();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

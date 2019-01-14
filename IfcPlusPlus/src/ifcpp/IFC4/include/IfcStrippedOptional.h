@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcStrippedOptional : public BuildingObject
 {
 public:
-	IfcStrippedOptional();
+	IfcStrippedOptional() = default;
 	IfcStrippedOptional( bool value );
 	~IfcStrippedOptional();
 	virtual const char* className() const { return "IfcStrippedOptional"; }

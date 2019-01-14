@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcObjectiveEnum.h"
 
 // TYPE IfcObjectiveEnum = ENUMERATION OF	(CODECOMPLIANCE	,CODEWAIVER	,DESIGNINTENT	,EXTERNAL	,HEALTHANDSAFETY	,MERGECONFLICT	,MODELVIEW	,PARAMETER	,REQUIREMENT	,SPECIFICATION	,TRIGGERCONDITION	,USERDEFINED	,NOTDEFINED);
-IfcObjectiveEnum::IfcObjectiveEnum() = default;
-IfcObjectiveEnum::~IfcObjectiveEnum() = default;
+IfcObjectiveEnum::~IfcObjectiveEnum() {}
 shared_ptr<BuildingObject> IfcObjectiveEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcObjectiveEnum> copy_self( new IfcObjectiveEnum() );

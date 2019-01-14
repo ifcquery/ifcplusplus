@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcHeatExchangerTypeEnum();
+	IfcHeatExchangerTypeEnum() = default;
 	IfcHeatExchangerTypeEnum( IfcHeatExchangerTypeEnumEnum e ) { m_enum = e; }
 	~IfcHeatExchangerTypeEnum();
 	virtual const char* className() const { return "IfcHeatExchangerTypeEnum"; }

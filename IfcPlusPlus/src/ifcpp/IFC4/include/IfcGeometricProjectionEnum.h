@@ -26,7 +26,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcGeometricProjectionEnum();
+	IfcGeometricProjectionEnum() = default;
 	IfcGeometricProjectionEnum( IfcGeometricProjectionEnumEnum e ) { m_enum = e; }
 	~IfcGeometricProjectionEnum();
 	virtual const char* className() const { return "IfcGeometricProjectionEnum"; }

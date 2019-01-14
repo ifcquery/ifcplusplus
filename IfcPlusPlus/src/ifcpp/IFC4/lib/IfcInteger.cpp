@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcInteger.h"
 
 // TYPE IfcInteger = INTEGER;
-IfcInteger::IfcInteger() = default;
 IfcInteger::IfcInteger( int value ) { m_value = value; }
-IfcInteger::~IfcInteger() = default;
+IfcInteger::~IfcInteger() {}
 shared_ptr<BuildingObject> IfcInteger::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcInteger> copy_self( new IfcInteger() );

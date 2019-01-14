@@ -28,7 +28,7 @@ public:
 		ENUM_UNSPECIFIED
 	};
 
-	IfcBSplineSurfaceForm();
+	IfcBSplineSurfaceForm() = default;
 	IfcBSplineSurfaceForm( IfcBSplineSurfaceFormEnum e ) { m_enum = e; }
 	~IfcBSplineSurfaceForm();
 	virtual const char* className() const { return "IfcBSplineSurfaceForm"; }

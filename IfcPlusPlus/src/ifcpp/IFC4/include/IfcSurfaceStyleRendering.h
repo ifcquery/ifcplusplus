@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcReflectanceMethodEnum;
 class IFCQUERY_EXPORT IfcSurfaceStyleRendering : public IfcSurfaceStyleShading
 { 
 public:
-	IfcSurfaceStyleRendering();
+	IfcSurfaceStyleRendering() = default;
 	IfcSurfaceStyleRendering( int id );
 	~IfcSurfaceStyleRendering();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

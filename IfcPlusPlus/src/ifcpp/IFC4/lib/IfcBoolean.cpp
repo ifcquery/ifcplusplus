@@ -17,9 +17,8 @@
 #include "ifcpp/IFC4/include/IfcBoolean.h"
 
 // TYPE IfcBoolean = BOOLEAN;
-IfcBoolean::IfcBoolean() = default;
 IfcBoolean::IfcBoolean( bool value ) { m_value = value; }
-IfcBoolean::~IfcBoolean() = default;
+IfcBoolean::~IfcBoolean() {}
 shared_ptr<BuildingObject> IfcBoolean::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoolean> copy_self( new IfcBoolean() );
@@ -29,11 +28,11 @@ shared_ptr<BuildingObject> IfcBoolean::getDeepCopy( BuildingCopyOptions& options
 void IfcBoolean::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBOOLEAN("; }
-	if( !m_value )
+	if( m_value == false )
 	{
 		stream << ".F.";
 	}
-	else if( m_value )
+	else if( m_value == true )
 	{
 		stream << ".T.";
 	}
@@ -41,11 +40,11 @@ void IfcBoolean::getStepParameter( std::stringstream& stream, bool is_select_typ
 }
 const std::wstring IfcBoolean::toString() const
 {
-	if( !m_value )
+	if( m_value == false )
 	{
 		return L"false";
 	}
-	if( m_value )
+	else if( m_value == true )
 	{
 		return L"true";
 	}

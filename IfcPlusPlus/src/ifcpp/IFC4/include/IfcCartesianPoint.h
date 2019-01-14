@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcCartesianPoint : virtual public IfcTrimmingSelect, public IfcPoint
 { 
 public:
-	IfcCartesianPoint();
+	IfcCartesianPoint() = default;
 	IfcCartesianPoint( int id );
 	~IfcCartesianPoint();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

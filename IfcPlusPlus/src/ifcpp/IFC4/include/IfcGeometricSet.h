@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcGeometricSetSelect;
 class IFCQUERY_EXPORT IfcGeometricSet : public IfcGeometricRepresentationItem
 { 
 public:
-	IfcGeometricSet();
+	IfcGeometricSet() = default;
 	IfcGeometricSet( int id );
 	~IfcGeometricSet();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

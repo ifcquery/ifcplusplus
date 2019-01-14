@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcModulusOfElasticityMeasure.h"
 
 // TYPE IfcModulusOfElasticityMeasure = REAL;
-IfcModulusOfElasticityMeasure::IfcModulusOfElasticityMeasure() = default;
 IfcModulusOfElasticityMeasure::IfcModulusOfElasticityMeasure( double value ) { m_value = value; }
-IfcModulusOfElasticityMeasure::~IfcModulusOfElasticityMeasure() = default;
+IfcModulusOfElasticityMeasure::~IfcModulusOfElasticityMeasure() {}
 shared_ptr<BuildingObject> IfcModulusOfElasticityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcModulusOfElasticityMeasure> copy_self( new IfcModulusOfElasticityMeasure() );

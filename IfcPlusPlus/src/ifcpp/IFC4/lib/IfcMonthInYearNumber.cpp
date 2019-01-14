@@ -10,9 +10,8 @@
 #include "ifcpp/IFC4/include/IfcMonthInYearNumber.h"
 
 // TYPE IfcMonthInYearNumber = INTEGER;
-IfcMonthInYearNumber::IfcMonthInYearNumber() = default;
 IfcMonthInYearNumber::IfcMonthInYearNumber( int value ) { m_value = value; }
-IfcMonthInYearNumber::~IfcMonthInYearNumber() = default;
+IfcMonthInYearNumber::~IfcMonthInYearNumber() {}
 shared_ptr<BuildingObject> IfcMonthInYearNumber::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMonthInYearNumber> copy_self( new IfcMonthInYearNumber() );

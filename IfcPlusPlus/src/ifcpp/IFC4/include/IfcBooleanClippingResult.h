@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcBooleanClippingResult : public IfcBooleanResult
 { 
 public:
-	IfcBooleanClippingResult();
+	IfcBooleanClippingResult() = default;
 	IfcBooleanClippingResult( int id );
 	~IfcBooleanClippingResult();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

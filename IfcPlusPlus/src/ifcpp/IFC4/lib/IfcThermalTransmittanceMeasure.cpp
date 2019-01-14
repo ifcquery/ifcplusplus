@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcThermalTransmittanceMeasure.h"
 
 // TYPE IfcThermalTransmittanceMeasure = REAL;
-IfcThermalTransmittanceMeasure::IfcThermalTransmittanceMeasure() = default;
 IfcThermalTransmittanceMeasure::IfcThermalTransmittanceMeasure( double value ) { m_value = value; }
-IfcThermalTransmittanceMeasure::~IfcThermalTransmittanceMeasure() = default;
+IfcThermalTransmittanceMeasure::~IfcThermalTransmittanceMeasure() {}
 shared_ptr<BuildingObject> IfcThermalTransmittanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcThermalTransmittanceMeasure> copy_self( new IfcThermalTransmittanceMeasure() );

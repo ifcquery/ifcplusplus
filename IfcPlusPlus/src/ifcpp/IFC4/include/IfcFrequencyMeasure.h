@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcFrequencyMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcFrequencyMeasure();
+	IfcFrequencyMeasure() = default;
 	IfcFrequencyMeasure( double value );
 	~IfcFrequencyMeasure();
 	virtual const char* className() const { return "IfcFrequencyMeasure"; }

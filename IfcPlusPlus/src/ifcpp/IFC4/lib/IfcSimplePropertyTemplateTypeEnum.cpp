@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcSimplePropertyTemplateTypeEnum.h"
 
 // TYPE IfcSimplePropertyTemplateTypeEnum = ENUMERATION OF	(P_SINGLEVALUE	,P_ENUMERATEDVALUE	,P_BOUNDEDVALUE	,P_LISTVALUE	,P_TABLEVALUE	,P_REFERENCEVALUE	,Q_LENGTH	,Q_AREA	,Q_VOLUME	,Q_COUNT	,Q_WEIGHT	,Q_TIME);
-IfcSimplePropertyTemplateTypeEnum::IfcSimplePropertyTemplateTypeEnum() = default;
-IfcSimplePropertyTemplateTypeEnum::~IfcSimplePropertyTemplateTypeEnum() = default;
+IfcSimplePropertyTemplateTypeEnum::~IfcSimplePropertyTemplateTypeEnum() {}
 shared_ptr<BuildingObject> IfcSimplePropertyTemplateTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSimplePropertyTemplateTypeEnum> copy_self( new IfcSimplePropertyTemplateTypeEnum() );

@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcMonetaryMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcMonetaryMeasure();
+	IfcMonetaryMeasure() = default;
 	IfcMonetaryMeasure( double value );
 	~IfcMonetaryMeasure();
 	virtual const char* className() const { return "IfcMonetaryMeasure"; }

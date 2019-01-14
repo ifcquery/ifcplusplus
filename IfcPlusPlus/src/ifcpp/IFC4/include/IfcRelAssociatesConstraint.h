@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcConstraint;
 class IFCQUERY_EXPORT IfcRelAssociatesConstraint : public IfcRelAssociates
 { 
 public:
-	IfcRelAssociatesConstraint();
+	IfcRelAssociatesConstraint() = default;
 	IfcRelAssociatesConstraint( int id );
 	~IfcRelAssociatesConstraint();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcBendingParameterSelect;
 class IFCQUERY_EXPORT IfcReinforcingBarType : public IfcReinforcingElementType
 { 
 public:
-	IfcReinforcingBarType();
+	IfcReinforcingBarType() = default;
 	IfcReinforcingBarType( int id );
 	~IfcReinforcingBarType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

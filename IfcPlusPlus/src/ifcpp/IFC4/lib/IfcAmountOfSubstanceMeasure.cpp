@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcAmountOfSubstanceMeasure.h"
 
 // TYPE IfcAmountOfSubstanceMeasure = REAL;
-IfcAmountOfSubstanceMeasure::IfcAmountOfSubstanceMeasure() = default;
 IfcAmountOfSubstanceMeasure::IfcAmountOfSubstanceMeasure( double value ) { m_value = value; }
-IfcAmountOfSubstanceMeasure::~IfcAmountOfSubstanceMeasure() = default;
+IfcAmountOfSubstanceMeasure::~IfcAmountOfSubstanceMeasure() {}
 shared_ptr<BuildingObject> IfcAmountOfSubstanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAmountOfSubstanceMeasure> copy_self( new IfcAmountOfSubstanceMeasure() );

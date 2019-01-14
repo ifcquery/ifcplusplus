@@ -13,9 +13,8 @@
 #include "ifcpp/IFC4/include/IfcTorqueMeasure.h"
 
 // ENTITY IfcStructuralLoadSingleForce 
-IfcStructuralLoadSingleForce::IfcStructuralLoadSingleForce() = default;
 IfcStructuralLoadSingleForce::IfcStructuralLoadSingleForce( int id ) { m_entity_id = id; }
-IfcStructuralLoadSingleForce::~IfcStructuralLoadSingleForce() = default;
+IfcStructuralLoadSingleForce::~IfcStructuralLoadSingleForce() {}
 shared_ptr<BuildingObject> IfcStructuralLoadSingleForce::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadSingleForce> copy_self( new IfcStructuralLoadSingleForce() );
@@ -46,12 +45,12 @@ void IfcStructuralLoadSingleForce::getStepLine( std::stringstream& stream ) cons
 	if( m_MomentZ ) { m_MomentZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadSingleForce::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcStructuralLoadSingleForce::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadSingleForce::toString() const { return L"IfcStructuralLoadSingleForce"; }
 void IfcStructuralLoadSingleForce::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleForce, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcStructuralLoadSingleForce, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_ForceX = IfcForceMeasure::createObjectFromSTEP( args[1], map );
 	m_ForceY = IfcForceMeasure::createObjectFromSTEP( args[2], map );
@@ -63,12 +62,12 @@ void IfcStructuralLoadSingleForce::readStepArguments( const std::vector<std::wst
 void IfcStructuralLoadSingleForce::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcStructuralLoadStatic::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "ForceX", m_ForceX );
-	vec_attributes.emplace_back( "ForceY", m_ForceY );
-	vec_attributes.emplace_back( "ForceZ", m_ForceZ );
-	vec_attributes.emplace_back( "MomentX", m_MomentX );
-	vec_attributes.emplace_back( "MomentY", m_MomentY );
-	vec_attributes.emplace_back( "MomentZ", m_MomentZ );
+	vec_attributes.emplace_back( std::make_pair( "ForceX", m_ForceX ) );
+	vec_attributes.emplace_back( std::make_pair( "ForceY", m_ForceY ) );
+	vec_attributes.emplace_back( std::make_pair( "ForceZ", m_ForceZ ) );
+	vec_attributes.emplace_back( std::make_pair( "MomentX", m_MomentX ) );
+	vec_attributes.emplace_back( std::make_pair( "MomentY", m_MomentY ) );
+	vec_attributes.emplace_back( std::make_pair( "MomentZ", m_MomentZ ) );
 }
 void IfcStructuralLoadSingleForce::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

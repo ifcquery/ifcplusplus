@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcAnalysisModelTypeEnum();
+	IfcAnalysisModelTypeEnum() = default;
 	IfcAnalysisModelTypeEnum( IfcAnalysisModelTypeEnumEnum e ) { m_enum = e; }
 	~IfcAnalysisModelTypeEnum();
 	virtual const char* className() const { return "IfcAnalysisModelTypeEnum"; }

@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcEventTypeEnum.h"
 
 // TYPE IfcEventTypeEnum = ENUMERATION OF	(STARTEVENT	,ENDEVENT	,INTERMEDIATEEVENT	,USERDEFINED	,NOTDEFINED);
-IfcEventTypeEnum::IfcEventTypeEnum() = default;
-IfcEventTypeEnum::~IfcEventTypeEnum() = default;
+IfcEventTypeEnum::~IfcEventTypeEnum() {}
 shared_ptr<BuildingObject> IfcEventTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEventTypeEnum> copy_self( new IfcEventTypeEnum() );

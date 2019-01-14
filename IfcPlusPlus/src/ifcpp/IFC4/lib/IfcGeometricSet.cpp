@@ -13,17 +13,17 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcGeometricSet 
-IfcGeometricSet::IfcGeometricSet() = default;
 IfcGeometricSet::IfcGeometricSet( int id ) { m_entity_id = id; }
-IfcGeometricSet::~IfcGeometricSet() = default;
+IfcGeometricSet::~IfcGeometricSet() {}
 shared_ptr<BuildingObject> IfcGeometricSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGeometricSet> copy_self( new IfcGeometricSet() );
-	for(auto item_ii : m_Elements)
+	for( size_t ii=0; ii<m_Elements.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_Elements[ii];
+		if( item_ii )
 		{
-			copy_self->m_Elements.push_back( dynamic_pointer_cast<IfcGeometricSetSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Elements.emplace_back( dynamic_pointer_cast<IfcGeometricSetSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -51,12 +51,12 @@ void IfcGeometricSet::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcGeometricSet::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcGeometricSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGeometricSet::toString() const { return L"IfcGeometricSet"; }
 void IfcGeometricSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGeometricSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGeometricSet, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readSelectList( args[0], m_Elements, map );
 }
 void IfcGeometricSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
@@ -66,7 +66,7 @@ void IfcGeometricSet::getAttributes( std::vector<std::pair<std::string, shared_p
 	{
 		shared_ptr<AttributeObjectVector> Elements_vec_object( new AttributeObjectVector() );
 		std::copy( m_Elements.begin(), m_Elements.end(), std::back_inserter( Elements_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "Elements", Elements_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "Elements", Elements_vec_object ) );
 	}
 }
 void IfcGeometricSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

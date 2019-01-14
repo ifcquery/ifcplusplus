@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcUnitaryEquipmentTypeEnum.h"
 
 // TYPE IfcUnitaryEquipmentTypeEnum = ENUMERATION OF	(AIRHANDLER	,AIRCONDITIONINGUNIT	,DEHUMIDIFIER	,SPLITSYSTEM	,ROOFTOPUNIT	,USERDEFINED	,NOTDEFINED);
-IfcUnitaryEquipmentTypeEnum::IfcUnitaryEquipmentTypeEnum() = default;
-IfcUnitaryEquipmentTypeEnum::~IfcUnitaryEquipmentTypeEnum() = default;
+IfcUnitaryEquipmentTypeEnum::~IfcUnitaryEquipmentTypeEnum() {}
 shared_ptr<BuildingObject> IfcUnitaryEquipmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcUnitaryEquipmentTypeEnum> copy_self( new IfcUnitaryEquipmentTypeEnum() );

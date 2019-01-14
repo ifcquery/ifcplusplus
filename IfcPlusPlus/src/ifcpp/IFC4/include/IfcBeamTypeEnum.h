@@ -25,7 +25,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcBeamTypeEnum();
+	IfcBeamTypeEnum() = default;
 	IfcBeamTypeEnum( IfcBeamTypeEnumEnum e ) { m_enum = e; }
 	~IfcBeamTypeEnum();
 	virtual const char* className() const { return "IfcBeamTypeEnum"; }

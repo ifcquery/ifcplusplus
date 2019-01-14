@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcIntegerCountRateMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcIntegerCountRateMeasure();
+	IfcIntegerCountRateMeasure() = default;
 	IfcIntegerCountRateMeasure( int value );
 	~IfcIntegerCountRateMeasure();
 	virtual const char* className() const { return "IfcIntegerCountRateMeasure"; }

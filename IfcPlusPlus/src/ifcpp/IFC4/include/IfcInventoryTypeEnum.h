@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcInventoryTypeEnum();
+	IfcInventoryTypeEnum() = default;
 	IfcInventoryTypeEnum( IfcInventoryTypeEnumEnum e ) { m_enum = e; }
 	~IfcInventoryTypeEnum();
 	virtual const char* className() const { return "IfcInventoryTypeEnum"; }

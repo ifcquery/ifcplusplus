@@ -25,7 +25,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcFilterTypeEnum();
+	IfcFilterTypeEnum() = default;
 	IfcFilterTypeEnum( IfcFilterTypeEnumEnum e ) { m_enum = e; }
 	~IfcFilterTypeEnum();
 	virtual const char* className() const { return "IfcFilterTypeEnum"; }

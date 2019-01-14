@@ -15,7 +15,7 @@
 class IFCQUERY_EXPORT IfcPlaneAngleMeasure : public IfcBendingParameterSelect, public IfcMeasureValue
 {
 public:
-	IfcPlaneAngleMeasure();
+	IfcPlaneAngleMeasure() = default;
 	IfcPlaneAngleMeasure( double value );
 	~IfcPlaneAngleMeasure();
 	virtual const char* className() const { return "IfcPlaneAngleMeasure"; }

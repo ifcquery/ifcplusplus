@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcAxis2Placement2D;
 class IFCQUERY_EXPORT IfcParameterizedProfileDef : public IfcProfileDef
 { 
 public:
-	IfcParameterizedProfileDef();
+	IfcParameterizedProfileDef() = default;
 	IfcParameterizedProfileDef( int id );
 	~IfcParameterizedProfileDef();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

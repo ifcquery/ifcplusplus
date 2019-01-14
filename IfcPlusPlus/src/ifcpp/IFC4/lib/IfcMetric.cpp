@@ -20,9 +20,8 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMetric 
-IfcMetric::IfcMetric() = default;
 IfcMetric::IfcMetric( int id ) { m_entity_id = id; }
-IfcMetric::~IfcMetric() = default;
+IfcMetric::~IfcMetric() {}
 shared_ptr<BuildingObject> IfcMetric::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMetric> copy_self( new IfcMetric() );
@@ -65,12 +64,12 @@ void IfcMetric::getStepLine( std::stringstream& stream ) const
 	if( m_ReferencePath ) { stream << "#" << m_ReferencePath->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMetric::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcMetric::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMetric::toString() const { return L"IfcMetric"; }
 void IfcMetric::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMetric, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMetric, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_ConstraintGrade = IfcConstraintEnum::createObjectFromSTEP( args[2], map );
@@ -86,10 +85,10 @@ void IfcMetric::readStepArguments( const std::vector<std::wstring>& args, const 
 void IfcMetric::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConstraint::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Benchmark", m_Benchmark );
-	vec_attributes.emplace_back( "ValueSource", m_ValueSource );
-	vec_attributes.emplace_back( "DataValue", m_DataValue );
-	vec_attributes.emplace_back( "ReferencePath", m_ReferencePath );
+	vec_attributes.emplace_back( std::make_pair( "Benchmark", m_Benchmark ) );
+	vec_attributes.emplace_back( std::make_pair( "ValueSource", m_ValueSource ) );
+	vec_attributes.emplace_back( std::make_pair( "DataValue", m_DataValue ) );
+	vec_attributes.emplace_back( std::make_pair( "ReferencePath", m_ReferencePath ) );
 }
 void IfcMetric::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

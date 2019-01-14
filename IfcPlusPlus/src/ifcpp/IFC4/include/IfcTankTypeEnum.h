@@ -26,7 +26,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcTankTypeEnum();
+	IfcTankTypeEnum() = default;
 	IfcTankTypeEnum( IfcTankTypeEnumEnum e ) { m_enum = e; }
 	~IfcTankTypeEnum();
 	virtual const char* className() const { return "IfcTankTypeEnum"; }

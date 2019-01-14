@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcChangeActionEnum.h"
 
 // TYPE IfcChangeActionEnum = ENUMERATION OF	(NOCHANGE	,MODIFIED	,ADDED	,DELETED	,NOTDEFINED);
-IfcChangeActionEnum::IfcChangeActionEnum() = default;
-IfcChangeActionEnum::~IfcChangeActionEnum() = default;
+IfcChangeActionEnum::~IfcChangeActionEnum() {}
 shared_ptr<BuildingObject> IfcChangeActionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcChangeActionEnum> copy_self( new IfcChangeActionEnum() );

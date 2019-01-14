@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcAxis2Placement;
 class IFCQUERY_EXPORT IfcLocalPlacement : public IfcObjectPlacement
 { 
 public:
-	IfcLocalPlacement();
+	IfcLocalPlacement() = default;
 	IfcLocalPlacement( int id );
 	~IfcLocalPlacement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

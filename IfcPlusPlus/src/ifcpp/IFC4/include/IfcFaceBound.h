@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcFaceBound : public IfcTopologicalRepresentationItem
 { 
 public:
-	IfcFaceBound();
+	IfcFaceBound() = default;
 	IfcFaceBound( int id );
 	~IfcFaceBound();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

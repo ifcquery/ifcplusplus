@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcFaceBound 
-IfcFaceBound::IfcFaceBound() = default;
 IfcFaceBound::IfcFaceBound( int id ) { m_entity_id = id; }
-IfcFaceBound::~IfcFaceBound() = default;
+IfcFaceBound::~IfcFaceBound() {}
 shared_ptr<BuildingObject> IfcFaceBound::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFaceBound> copy_self( new IfcFaceBound() );
@@ -32,20 +31,20 @@ void IfcFaceBound::getStepLine( std::stringstream& stream ) const
 	if( m_Orientation ) { m_Orientation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFaceBound::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcFaceBound::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFaceBound::toString() const { return L"IfcFaceBound"; }
 void IfcFaceBound::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFaceBound, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFaceBound, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Bound, map );
 	m_Orientation = IfcBoolean::createObjectFromSTEP( args[1], map );
 }
 void IfcFaceBound::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Bound", m_Bound );
-	vec_attributes.emplace_back( "Orientation", m_Orientation );
+	vec_attributes.emplace_back( std::make_pair( "Bound", m_Bound ) );
+	vec_attributes.emplace_back( std::make_pair( "Orientation", m_Orientation ) );
 }
 void IfcFaceBound::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

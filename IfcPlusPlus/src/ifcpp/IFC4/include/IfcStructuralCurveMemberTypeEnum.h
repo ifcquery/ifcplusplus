@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcStructuralCurveMemberTypeEnum();
+	IfcStructuralCurveMemberTypeEnum() = default;
 	IfcStructuralCurveMemberTypeEnum( IfcStructuralCurveMemberTypeEnumEnum e ) { m_enum = e; }
 	~IfcStructuralCurveMemberTypeEnum();
 	virtual const char* className() const { return "IfcStructuralCurveMemberTypeEnum"; }

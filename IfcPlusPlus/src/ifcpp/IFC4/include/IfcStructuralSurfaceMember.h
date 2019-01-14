@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcStructuralSurfaceMember : public IfcStructuralMember
 { 
 public:
-	IfcStructuralSurfaceMember();
+	IfcStructuralSurfaceMember() = default;
 	IfcStructuralSurfaceMember( int id );
 	~IfcStructuralSurfaceMember();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

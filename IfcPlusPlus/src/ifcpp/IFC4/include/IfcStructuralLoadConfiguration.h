@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcStructuralLoadConfiguration : public IfcStructuralLoad
 { 
 public:
-	IfcStructuralLoadConfiguration();
+	IfcStructuralLoadConfiguration() = default;
 	IfcStructuralLoadConfiguration( int id );
 	~IfcStructuralLoadConfiguration();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

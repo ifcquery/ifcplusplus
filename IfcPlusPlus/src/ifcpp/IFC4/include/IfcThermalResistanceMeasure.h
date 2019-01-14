@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcThermalResistanceMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcThermalResistanceMeasure();
+	IfcThermalResistanceMeasure() = default;
 	IfcThermalResistanceMeasure( double value );
 	~IfcThermalResistanceMeasure();
 	virtual const char* className() const { return "IfcThermalResistanceMeasure"; }

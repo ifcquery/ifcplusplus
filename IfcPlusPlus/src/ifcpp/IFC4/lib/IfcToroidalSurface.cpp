@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcToroidalSurface.h"
 
 // ENTITY IfcToroidalSurface 
-IfcToroidalSurface::IfcToroidalSurface() = default;
 IfcToroidalSurface::IfcToroidalSurface( int id ) { m_entity_id = id; }
-IfcToroidalSurface::~IfcToroidalSurface() = default;
+IfcToroidalSurface::~IfcToroidalSurface() {}
 shared_ptr<BuildingObject> IfcToroidalSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcToroidalSurface> copy_self( new IfcToroidalSurface() );
@@ -35,12 +34,12 @@ void IfcToroidalSurface::getStepLine( std::stringstream& stream ) const
 	if( m_MinorRadius ) { m_MinorRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcToroidalSurface::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcToroidalSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcToroidalSurface::toString() const { return L"IfcToroidalSurface"; }
 void IfcToroidalSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcToroidalSurface, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcToroidalSurface, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Position, map );
 	m_MajorRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_MinorRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -48,8 +47,8 @@ void IfcToroidalSurface::readStepArguments( const std::vector<std::wstring>& arg
 void IfcToroidalSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcElementarySurface::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "MajorRadius", m_MajorRadius );
-	vec_attributes.emplace_back( "MinorRadius", m_MinorRadius );
+	vec_attributes.emplace_back( std::make_pair( "MajorRadius", m_MajorRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "MinorRadius", m_MinorRadius ) );
 }
 void IfcToroidalSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

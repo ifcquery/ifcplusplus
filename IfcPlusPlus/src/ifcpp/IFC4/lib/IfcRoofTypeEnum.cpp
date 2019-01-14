@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcRoofTypeEnum.h"
 
 // TYPE IfcRoofTypeEnum = ENUMERATION OF	(FLAT_ROOF	,SHED_ROOF	,GABLE_ROOF	,HIP_ROOF	,HIPPED_GABLE_ROOF	,GAMBREL_ROOF	,MANSARD_ROOF	,BARREL_ROOF	,RAINBOW_ROOF	,BUTTERFLY_ROOF	,PAVILION_ROOF	,DOME_ROOF	,FREEFORM	,USERDEFINED	,NOTDEFINED);
-IfcRoofTypeEnum::IfcRoofTypeEnum() = default;
-IfcRoofTypeEnum::~IfcRoofTypeEnum() = default;
+IfcRoofTypeEnum::~IfcRoofTypeEnum() {}
 shared_ptr<BuildingObject> IfcRoofTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRoofTypeEnum> copy_self( new IfcRoofTypeEnum() );

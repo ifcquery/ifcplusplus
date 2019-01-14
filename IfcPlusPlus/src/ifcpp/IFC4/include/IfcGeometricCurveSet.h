@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcGeometricCurveSet : public IfcGeometricSet
 { 
 public:
-	IfcGeometricCurveSet();
+	IfcGeometricCurveSet() = default;
 	IfcGeometricCurveSet( int id );
 	~IfcGeometricCurveSet();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

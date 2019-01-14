@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPumpTypeEnum;
 class IFCQUERY_EXPORT IfcPump : public IfcFlowMovingDevice
 { 
 public:
-	IfcPump();
+	IfcPump() = default;
 	IfcPump( int id );
 	~IfcPump();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

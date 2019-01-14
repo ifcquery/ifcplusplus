@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcMolecularWeightMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcMolecularWeightMeasure();
+	IfcMolecularWeightMeasure() = default;
 	IfcMolecularWeightMeasure( double value );
 	~IfcMolecularWeightMeasure();
 	virtual const char* className() const { return "IfcMolecularWeightMeasure"; }

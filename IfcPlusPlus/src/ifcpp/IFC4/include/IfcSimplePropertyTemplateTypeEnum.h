@@ -29,7 +29,7 @@ public:
 		ENUM_Q_TIME
 	};
 
-	IfcSimplePropertyTemplateTypeEnum();
+	IfcSimplePropertyTemplateTypeEnum() = default;
 	IfcSimplePropertyTemplateTypeEnum( IfcSimplePropertyTemplateTypeEnumEnum e ) { m_enum = e; }
 	~IfcSimplePropertyTemplateTypeEnum();
 	virtual const char* className() const { return "IfcSimplePropertyTemplateTypeEnum"; }

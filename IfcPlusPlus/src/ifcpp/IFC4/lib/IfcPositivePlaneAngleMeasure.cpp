@@ -11,8 +11,7 @@
 #include "ifcpp/IFC4/include/IfcPositivePlaneAngleMeasure.h"
 
 // TYPE IfcPositivePlaneAngleMeasure = IfcPlaneAngleMeasure;
-IfcPositivePlaneAngleMeasure::IfcPositivePlaneAngleMeasure() = default;
-IfcPositivePlaneAngleMeasure::~IfcPositivePlaneAngleMeasure() = default;
+IfcPositivePlaneAngleMeasure::~IfcPositivePlaneAngleMeasure() {}
 shared_ptr<BuildingObject> IfcPositivePlaneAngleMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPositivePlaneAngleMeasure> copy_self( new IfcPositivePlaneAngleMeasure() );

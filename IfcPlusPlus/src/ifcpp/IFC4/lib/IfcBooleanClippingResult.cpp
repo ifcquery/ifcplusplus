@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBooleanClippingResult 
-IfcBooleanClippingResult::IfcBooleanClippingResult() = default;
 IfcBooleanClippingResult::IfcBooleanClippingResult( int id ) { m_entity_id = id; }
-IfcBooleanClippingResult::~IfcBooleanClippingResult() = default;
+IfcBooleanClippingResult::~IfcBooleanClippingResult() {}
 shared_ptr<BuildingObject> IfcBooleanClippingResult::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBooleanClippingResult> copy_self( new IfcBooleanClippingResult() );
@@ -35,12 +34,12 @@ void IfcBooleanClippingResult::getStepLine( std::stringstream& stream ) const
 	if( m_SecondOperand ) { m_SecondOperand->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcBooleanClippingResult::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcBooleanClippingResult::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBooleanClippingResult::toString() const { return L"IfcBooleanClippingResult"; }
 void IfcBooleanClippingResult::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBooleanClippingResult, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBooleanClippingResult, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Operator = IfcBooleanOperator::createObjectFromSTEP( args[0], map );
 	m_FirstOperand = IfcBooleanOperand::createObjectFromSTEP( args[1], map );
 	m_SecondOperand = IfcBooleanOperand::createObjectFromSTEP( args[2], map );

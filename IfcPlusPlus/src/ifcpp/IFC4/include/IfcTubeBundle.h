@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcTubeBundleTypeEnum;
 class IFCQUERY_EXPORT IfcTubeBundle : public IfcEnergyConversionDevice
 { 
 public:
-	IfcTubeBundle();
+	IfcTubeBundle() = default;
 	IfcTubeBundle( int id );
 	~IfcTubeBundle();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

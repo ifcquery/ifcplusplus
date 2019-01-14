@@ -10,9 +10,8 @@
 #include "ifcpp/IFC4/include/IfcStrippedOptional.h"
 
 // TYPE IfcStrippedOptional = BOOLEAN;
-IfcStrippedOptional::IfcStrippedOptional() = default;
 IfcStrippedOptional::IfcStrippedOptional( bool value ) { m_value = value; }
-IfcStrippedOptional::~IfcStrippedOptional() = default;
+IfcStrippedOptional::~IfcStrippedOptional() {}
 shared_ptr<BuildingObject> IfcStrippedOptional::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStrippedOptional> copy_self( new IfcStrippedOptional() );
@@ -22,11 +21,11 @@ shared_ptr<BuildingObject> IfcStrippedOptional::getDeepCopy( BuildingCopyOptions
 void IfcStrippedOptional::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTRIPPEDOPTIONAL("; }
-	if( !m_value )
+	if( m_value == false )
 	{
 		stream << ".F.";
 	}
-	else if( m_value )
+	else if( m_value == true )
 	{
 		stream << ".T.";
 	}
@@ -34,11 +33,11 @@ void IfcStrippedOptional::getStepParameter( std::stringstream& stream, bool is_s
 }
 const std::wstring IfcStrippedOptional::toString() const
 {
-	if( !m_value )
+	if( m_value == false )
 	{
 		return L"false";
 	}
-	if( m_value )
+	else if( m_value == true )
 	{
 		return L"true";
 	}

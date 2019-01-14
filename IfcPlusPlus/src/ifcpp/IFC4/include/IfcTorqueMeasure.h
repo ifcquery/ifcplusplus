@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcTorqueMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcTorqueMeasure();
+	IfcTorqueMeasure() = default;
 	IfcTorqueMeasure( double value );
 	~IfcTorqueMeasure();
 	virtual const char* className() const { return "IfcTorqueMeasure"; }

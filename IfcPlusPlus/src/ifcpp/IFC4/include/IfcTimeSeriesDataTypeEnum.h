@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcTimeSeriesDataTypeEnum();
+	IfcTimeSeriesDataTypeEnum() = default;
 	IfcTimeSeriesDataTypeEnum( IfcTimeSeriesDataTypeEnumEnum e ) { m_enum = e; }
 	~IfcTimeSeriesDataTypeEnum();
 	virtual const char* className() const { return "IfcTimeSeriesDataTypeEnum"; }

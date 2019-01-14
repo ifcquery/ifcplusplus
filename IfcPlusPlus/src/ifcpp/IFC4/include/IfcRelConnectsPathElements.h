@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcConnectionTypeEnum;
 class IFCQUERY_EXPORT IfcRelConnectsPathElements : public IfcRelConnectsElements
 { 
 public:
-	IfcRelConnectsPathElements();
+	IfcRelConnectsPathElements() = default;
 	IfcRelConnectsPathElements( int id );
 	~IfcRelConnectsPathElements();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

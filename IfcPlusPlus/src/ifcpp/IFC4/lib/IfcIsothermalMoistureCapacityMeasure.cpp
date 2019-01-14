@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcIsothermalMoistureCapacityMeasure.h"
 
 // TYPE IfcIsothermalMoistureCapacityMeasure = REAL;
-IfcIsothermalMoistureCapacityMeasure::IfcIsothermalMoistureCapacityMeasure() = default;
 IfcIsothermalMoistureCapacityMeasure::IfcIsothermalMoistureCapacityMeasure( double value ) { m_value = value; }
-IfcIsothermalMoistureCapacityMeasure::~IfcIsothermalMoistureCapacityMeasure() = default;
+IfcIsothermalMoistureCapacityMeasure::~IfcIsothermalMoistureCapacityMeasure() {}
 shared_ptr<BuildingObject> IfcIsothermalMoistureCapacityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIsothermalMoistureCapacityMeasure> copy_self( new IfcIsothermalMoistureCapacityMeasure() );

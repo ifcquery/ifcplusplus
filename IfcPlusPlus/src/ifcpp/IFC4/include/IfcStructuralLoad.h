@@ -12,7 +12,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcStructuralLoad : public BuildingEntity
 { 
 public:
-	IfcStructuralLoad();
+	IfcStructuralLoad() = default;
 	IfcStructuralLoad( int id );
 	~IfcStructuralLoad();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

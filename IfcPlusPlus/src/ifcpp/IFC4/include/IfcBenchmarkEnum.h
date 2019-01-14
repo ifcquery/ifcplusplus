@@ -27,7 +27,7 @@ public:
 		ENUM_NOTINCLUDEDIN
 	};
 
-	IfcBenchmarkEnum();
+	IfcBenchmarkEnum() = default;
 	IfcBenchmarkEnum( IfcBenchmarkEnumEnum e ) { m_enum = e; }
 	~IfcBenchmarkEnum();
 	virtual const char* className() const { return "IfcBenchmarkEnum"; }

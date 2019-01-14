@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcKinematicViscosityMeasure.h"
 
 // TYPE IfcKinematicViscosityMeasure = REAL;
-IfcKinematicViscosityMeasure::IfcKinematicViscosityMeasure() = default;
 IfcKinematicViscosityMeasure::IfcKinematicViscosityMeasure( double value ) { m_value = value; }
-IfcKinematicViscosityMeasure::~IfcKinematicViscosityMeasure() = default;
+IfcKinematicViscosityMeasure::~IfcKinematicViscosityMeasure() {}
 shared_ptr<BuildingObject> IfcKinematicViscosityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcKinematicViscosityMeasure> copy_self( new IfcKinematicViscosityMeasure() );

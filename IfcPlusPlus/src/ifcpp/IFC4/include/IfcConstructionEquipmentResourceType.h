@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcConstructionEquipmentResourceTypeEnum;
 class IFCQUERY_EXPORT IfcConstructionEquipmentResourceType : public IfcConstructionResourceType
 { 
 public:
-	IfcConstructionEquipmentResourceType();
+	IfcConstructionEquipmentResourceType() = default;
 	IfcConstructionEquipmentResourceType( int id );
 	~IfcConstructionEquipmentResourceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

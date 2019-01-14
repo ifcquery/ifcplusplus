@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcFanTypeEnum.h"
 
 // TYPE IfcFanTypeEnum = ENUMERATION OF	(CENTRIFUGALFORWARDCURVED	,CENTRIFUGALRADIAL	,CENTRIFUGALBACKWARDINCLINEDCURVED	,CENTRIFUGALAIRFOIL	,TUBEAXIAL	,VANEAXIAL	,PROPELLORAXIAL	,USERDEFINED	,NOTDEFINED);
-IfcFanTypeEnum::IfcFanTypeEnum() = default;
-IfcFanTypeEnum::~IfcFanTypeEnum() = default;
+IfcFanTypeEnum::~IfcFanTypeEnum() {}
 shared_ptr<BuildingObject> IfcFanTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFanTypeEnum> copy_self( new IfcFanTypeEnum() );

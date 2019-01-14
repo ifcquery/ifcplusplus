@@ -20,9 +20,8 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMaterialLayer 
-IfcMaterialLayer::IfcMaterialLayer() = default;
 IfcMaterialLayer::IfcMaterialLayer( int id ) { m_entity_id = id; }
-IfcMaterialLayer::~IfcMaterialLayer() = default;
+IfcMaterialLayer::~IfcMaterialLayer() {}
 shared_ptr<BuildingObject> IfcMaterialLayer::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialLayer> copy_self( new IfcMaterialLayer() );
@@ -53,12 +52,12 @@ void IfcMaterialLayer::getStepLine( std::stringstream& stream ) const
 	if( m_Priority ) { m_Priority->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMaterialLayer::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcMaterialLayer::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialLayer::toString() const { return L"IfcMaterialLayer"; }
 void IfcMaterialLayer::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialLayer, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialLayer, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Material, map );
 	m_LayerThickness = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_IsVentilated = IfcLogical::createObjectFromSTEP( args[2], map );
@@ -70,18 +69,18 @@ void IfcMaterialLayer::readStepArguments( const std::vector<std::wstring>& args,
 void IfcMaterialLayer::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcMaterialDefinition::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Material", m_Material );
-	vec_attributes.emplace_back( "LayerThickness", m_LayerThickness );
-	vec_attributes.emplace_back( "IsVentilated", m_IsVentilated );
-	vec_attributes.emplace_back( "Name", m_Name );
-	vec_attributes.emplace_back( "Description", m_Description );
-	vec_attributes.emplace_back( "Category", m_Category );
-	vec_attributes.emplace_back( "Priority", m_Priority );
+	vec_attributes.emplace_back( std::make_pair( "Material", m_Material ) );
+	vec_attributes.emplace_back( std::make_pair( "LayerThickness", m_LayerThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "IsVentilated", m_IsVentilated ) );
+	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
+	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
+	vec_attributes.emplace_back( std::make_pair( "Category", m_Category ) );
+	vec_attributes.emplace_back( std::make_pair( "Priority", m_Priority ) );
 }
 void IfcMaterialLayer::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
-	vec_attributes_inverse.emplace_back( "ToMaterialLayerSet_inverse", shared_ptr<BuildingEntity>( m_ToMaterialLayerSet_inverse ) );
+	vec_attributes_inverse.emplace_back( std::make_pair( "ToMaterialLayerSet_inverse", shared_ptr<BuildingEntity>( m_ToMaterialLayerSet_inverse ) ) );
 }
 void IfcMaterialLayer::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPoint;
 class IFCQUERY_EXPORT IfcVertexPoint : virtual public IfcPointOrVertexPoint, public IfcVertex
 { 
 public:
-	IfcVertexPoint();
+	IfcVertexPoint() = default;
 	IfcVertexPoint( int id );
 	~IfcVertexPoint();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

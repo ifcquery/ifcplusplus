@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcRotationalMassMeasure.h"
 
 // TYPE IfcRotationalMassMeasure = REAL;
-IfcRotationalMassMeasure::IfcRotationalMassMeasure() = default;
 IfcRotationalMassMeasure::IfcRotationalMassMeasure( double value ) { m_value = value; }
-IfcRotationalMassMeasure::~IfcRotationalMassMeasure() = default;
+IfcRotationalMassMeasure::~IfcRotationalMassMeasure() {}
 shared_ptr<BuildingObject> IfcRotationalMassMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRotationalMassMeasure> copy_self( new IfcRotationalMassMeasure() );

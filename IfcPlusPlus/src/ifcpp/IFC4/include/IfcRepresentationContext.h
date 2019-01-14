@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRepresentation;
 class IFCQUERY_EXPORT IfcRepresentationContext : public BuildingEntity
 { 
 public:
-	IfcRepresentationContext();
+	IfcRepresentationContext() = default;
 	IfcRepresentationContext( int id );
 	~IfcRepresentationContext();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

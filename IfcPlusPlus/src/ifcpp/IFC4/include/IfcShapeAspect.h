@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcProductRepresentationSelect;
 class IFCQUERY_EXPORT IfcShapeAspect : public BuildingEntity
 { 
 public:
-	IfcShapeAspect();
+	IfcShapeAspect() = default;
 	IfcShapeAspect( int id );
 	~IfcShapeAspect();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

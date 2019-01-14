@@ -25,7 +25,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcBuildingSystemTypeEnum();
+	IfcBuildingSystemTypeEnum() = default;
 	IfcBuildingSystemTypeEnum( IfcBuildingSystemTypeEnumEnum e ) { m_enum = e; }
 	~IfcBuildingSystemTypeEnum();
 	virtual const char* className() const { return "IfcBuildingSystemTypeEnum"; }

@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcVertex : public IfcTopologicalRepresentationItem
 { 
 public:
-	IfcVertex();
+	IfcVertex() = default;
 	IfcVertex( int id );
 	~IfcVertex();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcEventTypeEnum();
+	IfcEventTypeEnum() = default;
 	IfcEventTypeEnum( IfcEventTypeEnumEnum e ) { m_enum = e; }
 	~IfcEventTypeEnum();
 	virtual const char* className() const { return "IfcEventTypeEnum"; }

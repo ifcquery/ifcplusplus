@@ -13,17 +13,17 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcFaceBasedSurfaceModel 
-IfcFaceBasedSurfaceModel::IfcFaceBasedSurfaceModel() = default;
 IfcFaceBasedSurfaceModel::IfcFaceBasedSurfaceModel( int id ) { m_entity_id = id; }
-IfcFaceBasedSurfaceModel::~IfcFaceBasedSurfaceModel() = default;
+IfcFaceBasedSurfaceModel::~IfcFaceBasedSurfaceModel() {}
 shared_ptr<BuildingObject> IfcFaceBasedSurfaceModel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFaceBasedSurfaceModel> copy_self( new IfcFaceBasedSurfaceModel() );
-	for(auto item_ii : m_FbsmFaces)
+	for( size_t ii=0; ii<m_FbsmFaces.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_FbsmFaces[ii];
+		if( item_ii )
 		{
-			copy_self->m_FbsmFaces.push_back( dynamic_pointer_cast<IfcConnectedFaceSet>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_FbsmFaces.emplace_back( dynamic_pointer_cast<IfcConnectedFaceSet>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -34,12 +34,12 @@ void IfcFaceBasedSurfaceModel::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_FbsmFaces );
 	stream << ");";
 }
-void IfcFaceBasedSurfaceModel::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcFaceBasedSurfaceModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFaceBasedSurfaceModel::toString() const { return L"IfcFaceBasedSurfaceModel"; }
 void IfcFaceBasedSurfaceModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFaceBasedSurfaceModel, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFaceBasedSurfaceModel, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReferenceList( args[0], m_FbsmFaces, map );
 }
 void IfcFaceBasedSurfaceModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
@@ -49,7 +49,7 @@ void IfcFaceBasedSurfaceModel::getAttributes( std::vector<std::pair<std::string,
 	{
 		shared_ptr<AttributeObjectVector> FbsmFaces_vec_object( new AttributeObjectVector() );
 		std::copy( m_FbsmFaces.begin(), m_FbsmFaces.end(), std::back_inserter( FbsmFaces_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "FbsmFaces", FbsmFaces_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "FbsmFaces", FbsmFaces_vec_object ) );
 	}
 }
 void IfcFaceBasedSurfaceModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

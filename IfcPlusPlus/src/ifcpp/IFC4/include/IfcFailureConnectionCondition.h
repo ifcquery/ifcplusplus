@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcForceMeasure;
 class IFCQUERY_EXPORT IfcFailureConnectionCondition : public IfcStructuralConnectionCondition
 { 
 public:
-	IfcFailureConnectionCondition();
+	IfcFailureConnectionCondition() = default;
 	IfcFailureConnectionCondition( int id );
 	~IfcFailureConnectionCondition();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

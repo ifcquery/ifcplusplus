@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcUnit;
 class IFCQUERY_EXPORT IfcPropertySingleValue : public IfcSimpleProperty
 { 
 public:
-	IfcPropertySingleValue();
+	IfcPropertySingleValue() = default;
 	IfcPropertySingleValue( int id );
 	~IfcPropertySingleValue();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

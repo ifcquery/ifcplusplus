@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcStyledRepresentation : public IfcStyleModel
 { 
 public:
-	IfcStyledRepresentation();
+	IfcStyledRepresentation() = default;
 	IfcStyledRepresentation( int id );
 	~IfcStyledRepresentation();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

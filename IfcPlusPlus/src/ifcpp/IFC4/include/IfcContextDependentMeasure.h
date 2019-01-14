@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcContextDependentMeasure : public IfcMeasureValue
 {
 public:
-	IfcContextDependentMeasure();
+	IfcContextDependentMeasure() = default;
 	IfcContextDependentMeasure( double value );
 	~IfcContextDependentMeasure();
 	virtual const char* className() const { return "IfcContextDependentMeasure"; }

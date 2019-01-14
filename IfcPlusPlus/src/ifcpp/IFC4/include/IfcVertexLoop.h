@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcVertex;
 class IFCQUERY_EXPORT IfcVertexLoop : public IfcLoop
 { 
 public:
-	IfcVertexLoop();
+	IfcVertexLoop() = default;
 	IfcVertexLoop( int id );
 	~IfcVertexLoop();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

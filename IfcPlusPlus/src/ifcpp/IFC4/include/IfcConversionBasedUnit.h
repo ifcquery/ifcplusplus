@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcExternalReferenceRelationship;
 class IFCQUERY_EXPORT IfcConversionBasedUnit : virtual public IfcResourceObjectSelect, public IfcNamedUnit
 { 
 public:
-	IfcConversionBasedUnit();
+	IfcConversionBasedUnit() = default;
 	IfcConversionBasedUnit( int id );
 	~IfcConversionBasedUnit();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

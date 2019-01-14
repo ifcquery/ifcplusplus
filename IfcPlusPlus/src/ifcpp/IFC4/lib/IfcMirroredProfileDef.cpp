@@ -16,9 +16,8 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcMirroredProfileDef 
-IfcMirroredProfileDef::IfcMirroredProfileDef() = default;
 IfcMirroredProfileDef::IfcMirroredProfileDef( int id ) { m_entity_id = id; }
-IfcMirroredProfileDef::~IfcMirroredProfileDef() = default;
+IfcMirroredProfileDef::~IfcMirroredProfileDef() {}
 shared_ptr<BuildingObject> IfcMirroredProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMirroredProfileDef> copy_self( new IfcMirroredProfileDef() );
@@ -42,17 +41,17 @@ void IfcMirroredProfileDef::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ParentProfile ) { stream << "#" << m_ParentProfile->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	if( m_Operator ) { stream << "#" << m_Operator->m_entity_id; } else { stream << "*"; }
+	if( m_Operator ) { stream << "#" << m_Operator->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Label ) { m_Label->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMirroredProfileDef::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcMirroredProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMirroredProfileDef::toString() const { return L"IfcMirroredProfileDef"; }
 void IfcMirroredProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMirroredProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMirroredProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_ParentProfile, map );

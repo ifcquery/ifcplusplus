@@ -19,7 +19,7 @@ class IFCQUERY_EXPORT IfcMaterialLayerSet;
 class IFCQUERY_EXPORT IfcMaterialLayer : public IfcMaterialDefinition
 { 
 public:
-	IfcMaterialLayer();
+	IfcMaterialLayer() = default;
 	IfcMaterialLayer( int id );
 	~IfcMaterialLayer();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

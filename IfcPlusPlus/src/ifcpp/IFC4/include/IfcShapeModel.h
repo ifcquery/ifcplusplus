@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcShapeAspect;
 class IFCQUERY_EXPORT IfcShapeModel : public IfcRepresentation
 { 
 public:
-	IfcShapeModel();
+	IfcShapeModel() = default;
 	IfcShapeModel( int id );
 	~IfcShapeModel();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcVolumetricFlowRateMeasure.h"
 
 // TYPE IfcVolumetricFlowRateMeasure = REAL;
-IfcVolumetricFlowRateMeasure::IfcVolumetricFlowRateMeasure() = default;
 IfcVolumetricFlowRateMeasure::IfcVolumetricFlowRateMeasure( double value ) { m_value = value; }
-IfcVolumetricFlowRateMeasure::~IfcVolumetricFlowRateMeasure() = default;
+IfcVolumetricFlowRateMeasure::~IfcVolumetricFlowRateMeasure() {}
 shared_ptr<BuildingObject> IfcVolumetricFlowRateMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVolumetricFlowRateMeasure> copy_self( new IfcVolumetricFlowRateMeasure() );

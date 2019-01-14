@@ -31,7 +31,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcMemberTypeEnum();
+	IfcMemberTypeEnum() = default;
 	IfcMemberTypeEnum( IfcMemberTypeEnumEnum e ) { m_enum = e; }
 	~IfcMemberTypeEnum();
 	virtual const char* className() const { return "IfcMemberTypeEnum"; }

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcAxis2Placement;
 class IFCQUERY_EXPORT IfcPlanarBox : public IfcPlanarExtent
 { 
 public:
-	IfcPlanarBox();
+	IfcPlanarBox() = default;
 	IfcPlanarBox( int id );
 	~IfcPlanarBox();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

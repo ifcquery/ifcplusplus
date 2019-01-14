@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcTransformerTypeEnum();
+	IfcTransformerTypeEnum() = default;
 	IfcTransformerTypeEnum( IfcTransformerTypeEnumEnum e ) { m_enum = e; }
 	~IfcTransformerTypeEnum();
 	virtual const char* className() const { return "IfcTransformerTypeEnum"; }

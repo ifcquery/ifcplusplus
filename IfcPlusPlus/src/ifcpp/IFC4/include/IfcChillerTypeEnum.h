@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcChillerTypeEnum();
+	IfcChillerTypeEnum() = default;
 	IfcChillerTypeEnum( IfcChillerTypeEnumEnum e ) { m_enum = e; }
 	~IfcChillerTypeEnum();
 	virtual const char* className() const { return "IfcChillerTypeEnum"; }

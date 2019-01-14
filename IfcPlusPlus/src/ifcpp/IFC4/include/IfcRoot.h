@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcText;
 class IFCQUERY_EXPORT IfcRoot : public BuildingEntity
 { 
 public:
-	IfcRoot();
+	IfcRoot() = default;
 	IfcRoot( int id );
 	~IfcRoot();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

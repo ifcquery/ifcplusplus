@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcIonConcentrationMeasure.h"
 
 // TYPE IfcIonConcentrationMeasure = REAL;
-IfcIonConcentrationMeasure::IfcIonConcentrationMeasure() = default;
 IfcIonConcentrationMeasure::IfcIonConcentrationMeasure( double value ) { m_value = value; }
-IfcIonConcentrationMeasure::~IfcIonConcentrationMeasure() = default;
+IfcIonConcentrationMeasure::~IfcIonConcentrationMeasure() {}
 shared_ptr<BuildingObject> IfcIonConcentrationMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIonConcentrationMeasure> copy_self( new IfcIonConcentrationMeasure() );

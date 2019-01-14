@@ -15,9 +15,8 @@
 #include "ifcpp/IFC4/include/IfcSweptDiskSolidPolygonal.h"
 
 // ENTITY IfcSweptDiskSolidPolygonal 
-IfcSweptDiskSolidPolygonal::IfcSweptDiskSolidPolygonal() = default;
 IfcSweptDiskSolidPolygonal::IfcSweptDiskSolidPolygonal( int id ) { m_entity_id = id; }
-IfcSweptDiskSolidPolygonal::~IfcSweptDiskSolidPolygonal() = default;
+IfcSweptDiskSolidPolygonal::~IfcSweptDiskSolidPolygonal() {}
 shared_ptr<BuildingObject> IfcSweptDiskSolidPolygonal::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSweptDiskSolidPolygonal> copy_self( new IfcSweptDiskSolidPolygonal() );
@@ -45,12 +44,12 @@ void IfcSweptDiskSolidPolygonal::getStepLine( std::stringstream& stream ) const
 	if( m_FilletRadius ) { m_FilletRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSweptDiskSolidPolygonal::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcSweptDiskSolidPolygonal::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSweptDiskSolidPolygonal::toString() const { return L"IfcSweptDiskSolidPolygonal"; }
 void IfcSweptDiskSolidPolygonal::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSweptDiskSolidPolygonal, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 6 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSweptDiskSolidPolygonal, expecting 6, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Directrix, map );
 	m_Radius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map );
 	m_InnerRadius = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -61,7 +60,7 @@ void IfcSweptDiskSolidPolygonal::readStepArguments( const std::vector<std::wstri
 void IfcSweptDiskSolidPolygonal::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSweptDiskSolid::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "FilletRadius", m_FilletRadius );
+	vec_attributes.emplace_back( std::make_pair( "FilletRadius", m_FilletRadius ) );
 }
 void IfcSweptDiskSolidPolygonal::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

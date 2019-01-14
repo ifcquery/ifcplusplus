@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcMotorConnectionTypeEnum;
 class IFCQUERY_EXPORT IfcMotorConnectionType : public IfcEnergyConversionDeviceType
 { 
 public:
-	IfcMotorConnectionType();
+	IfcMotorConnectionType() = default;
 	IfcMotorConnectionType( int id );
 	~IfcMotorConnectionType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

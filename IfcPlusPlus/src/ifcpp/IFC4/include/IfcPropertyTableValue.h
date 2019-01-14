@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcCurveInterpolationEnum;
 class IFCQUERY_EXPORT IfcPropertyTableValue : public IfcSimpleProperty
 { 
 public:
-	IfcPropertyTableValue();
+	IfcPropertyTableValue() = default;
 	IfcPropertyTableValue( int id );
 	~IfcPropertyTableValue();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

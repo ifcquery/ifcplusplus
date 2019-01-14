@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcSurfaceOrFaceSurface;
 class IFCQUERY_EXPORT IfcConnectionSurfaceGeometry : public IfcConnectionGeometry
 { 
 public:
-	IfcConnectionSurfaceGeometry();
+	IfcConnectionSurfaceGeometry() = default;
 	IfcConnectionSurfaceGeometry( int id );
 	~IfcConnectionSurfaceGeometry();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

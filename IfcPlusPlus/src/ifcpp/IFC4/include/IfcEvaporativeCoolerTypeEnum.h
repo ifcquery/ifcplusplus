@@ -28,7 +28,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcEvaporativeCoolerTypeEnum();
+	IfcEvaporativeCoolerTypeEnum() = default;
 	IfcEvaporativeCoolerTypeEnum( IfcEvaporativeCoolerTypeEnumEnum e ) { m_enum = e; }
 	~IfcEvaporativeCoolerTypeEnum();
 	virtual const char* className() const { return "IfcEvaporativeCoolerTypeEnum"; }

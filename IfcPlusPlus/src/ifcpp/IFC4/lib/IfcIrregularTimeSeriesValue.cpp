@@ -12,18 +12,18 @@
 #include "ifcpp/IFC4/include/IfcValue.h"
 
 // ENTITY IfcIrregularTimeSeriesValue 
-IfcIrregularTimeSeriesValue::IfcIrregularTimeSeriesValue() = default;
 IfcIrregularTimeSeriesValue::IfcIrregularTimeSeriesValue( int id ) { m_entity_id = id; }
-IfcIrregularTimeSeriesValue::~IfcIrregularTimeSeriesValue() = default;
+IfcIrregularTimeSeriesValue::~IfcIrregularTimeSeriesValue() {}
 shared_ptr<BuildingObject> IfcIrregularTimeSeriesValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIrregularTimeSeriesValue> copy_self( new IfcIrregularTimeSeriesValue() );
 	if( m_TimeStamp ) { copy_self->m_TimeStamp = dynamic_pointer_cast<IfcDateTime>( m_TimeStamp->getDeepCopy(options) ); }
-	for(auto item_ii : m_ListValues)
+	for( size_t ii=0; ii<m_ListValues.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_ListValues[ii];
+		if( item_ii )
 		{
-			copy_self->m_ListValues.push_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_ListValues.emplace_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -53,29 +53,29 @@ void IfcIrregularTimeSeriesValue::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcIrregularTimeSeriesValue::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcIrregularTimeSeriesValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIrregularTimeSeriesValue::toString() const { return L"IfcIrregularTimeSeriesValue"; }
 void IfcIrregularTimeSeriesValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIrregularTimeSeriesValue, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIrregularTimeSeriesValue, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_TimeStamp = IfcDateTime::createObjectFromSTEP( args[0], map );
 	readSelectList( args[1], m_ListValues, map );
 }
 void IfcIrregularTimeSeriesValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.emplace_back( "TimeStamp", m_TimeStamp );
+	vec_attributes.emplace_back( std::make_pair( "TimeStamp", m_TimeStamp ) );
 	if( !m_ListValues.empty() )
 	{
 		shared_ptr<AttributeObjectVector> ListValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_ListValues.begin(), m_ListValues.end(), std::back_inserter( ListValues_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "ListValues", ListValues_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "ListValues", ListValues_vec_object ) );
 	}
 }
 void IfcIrregularTimeSeriesValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
-void IfcIrregularTimeSeriesValue::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
+void IfcIrregularTimeSeriesValue::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcIrregularTimeSeriesValue::unlinkFromInverseCounterparts()

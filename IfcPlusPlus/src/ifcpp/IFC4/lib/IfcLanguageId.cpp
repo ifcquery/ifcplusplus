@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcLanguageId.h"
 
 // TYPE IfcLanguageId = IfcIdentifier;
-IfcLanguageId::IfcLanguageId() = default;
-IfcLanguageId::~IfcLanguageId() = default;
+IfcLanguageId::~IfcLanguageId() {}
 shared_ptr<BuildingObject> IfcLanguageId::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLanguageId> copy_self( new IfcLanguageId() );

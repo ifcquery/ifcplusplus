@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcRightCircularCone : public IfcCsgPrimitive3D
 { 
 public:
-	IfcRightCircularCone();
+	IfcRightCircularCone() = default;
 	IfcRightCircularCone( int id );
 	~IfcRightCircularCone();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

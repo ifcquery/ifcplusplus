@@ -27,7 +27,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcReflectanceMethodEnum();
+	IfcReflectanceMethodEnum() = default;
 	IfcReflectanceMethodEnum( IfcReflectanceMethodEnumEnum e ) { m_enum = e; }
 	~IfcReflectanceMethodEnum();
 	virtual const char* className() const { return "IfcReflectanceMethodEnum"; }

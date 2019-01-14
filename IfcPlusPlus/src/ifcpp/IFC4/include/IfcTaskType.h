@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcTaskType : public IfcTypeProcess
 { 
 public:
-	IfcTaskType();
+	IfcTaskType() = default;
 	IfcTaskType( int id );
 	~IfcTaskType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

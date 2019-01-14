@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcPumpTypeEnum.h"
 
 // TYPE IfcPumpTypeEnum = ENUMERATION OF	(CIRCULATOR	,ENDSUCTION	,SPLITCASE	,SUBMERSIBLEPUMP	,SUMPPUMP	,VERTICALINLINE	,VERTICALTURBINE	,USERDEFINED	,NOTDEFINED);
-IfcPumpTypeEnum::IfcPumpTypeEnum() = default;
-IfcPumpTypeEnum::~IfcPumpTypeEnum() = default;
+IfcPumpTypeEnum::~IfcPumpTypeEnum() {}
 shared_ptr<BuildingObject> IfcPumpTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPumpTypeEnum> copy_self( new IfcPumpTypeEnum() );

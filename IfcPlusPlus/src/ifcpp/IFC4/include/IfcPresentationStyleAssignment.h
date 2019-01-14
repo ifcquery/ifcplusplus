@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPresentationStyleSelect;
 class IFCQUERY_EXPORT IfcPresentationStyleAssignment : virtual public IfcStyleAssignmentSelect, public BuildingEntity
 { 
 public:
-	IfcPresentationStyleAssignment();
+	IfcPresentationStyleAssignment() = default;
 	IfcPresentationStyleAssignment( int id );
 	~IfcPresentationStyleAssignment();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

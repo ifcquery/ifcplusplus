@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcClosedShell;
 class IFCQUERY_EXPORT IfcManifoldSolidBrep : public IfcSolidModel
 { 
 public:
-	IfcManifoldSolidBrep();
+	IfcManifoldSolidBrep() = default;
 	IfcManifoldSolidBrep( int id );
 	~IfcManifoldSolidBrep();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcEvaporatorTypeEnum;
 class IFCQUERY_EXPORT IfcEvaporatorType : public IfcEnergyConversionDeviceType
 { 
 public:
-	IfcEvaporatorType();
+	IfcEvaporatorType() = default;
 	IfcEvaporatorType( int id );
 	~IfcEvaporatorType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

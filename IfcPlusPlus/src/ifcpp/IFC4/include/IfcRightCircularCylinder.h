@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 class IFCQUERY_EXPORT IfcRightCircularCylinder : public IfcCsgPrimitive3D
 { 
 public:
-	IfcRightCircularCylinder();
+	IfcRightCircularCylinder() = default;
 	IfcRightCircularCylinder( int id );
 	~IfcRightCircularCylinder();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

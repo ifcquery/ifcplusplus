@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcAxis2Placement3D;
 class IFCQUERY_EXPORT IfcRelConnectsStructuralMember : public IfcRelConnects
 { 
 public:
-	IfcRelConnectsStructuralMember();
+	IfcRelConnectsStructuralMember() = default;
 	IfcRelConnectsStructuralMember( int id );
 	~IfcRelConnectsStructuralMember();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

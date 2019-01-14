@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcEngineTypeEnum.h"
 
 // TYPE IfcEngineTypeEnum = ENUMERATION OF	(EXTERNALCOMBUSTION	,INTERNALCOMBUSTION	,USERDEFINED	,NOTDEFINED);
-IfcEngineTypeEnum::IfcEngineTypeEnum() = default;
-IfcEngineTypeEnum::~IfcEngineTypeEnum() = default;
+IfcEngineTypeEnum::~IfcEngineTypeEnum() {}
 shared_ptr<BuildingObject> IfcEngineTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEngineTypeEnum> copy_self( new IfcEngineTypeEnum() );

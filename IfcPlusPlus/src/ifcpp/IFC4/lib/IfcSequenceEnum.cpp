@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcSequenceEnum.h"
 
 // TYPE IfcSequenceEnum = ENUMERATION OF	(START_START	,START_FINISH	,FINISH_START	,FINISH_FINISH	,USERDEFINED	,NOTDEFINED);
-IfcSequenceEnum::IfcSequenceEnum() = default;
-IfcSequenceEnum::~IfcSequenceEnum() = default;
+IfcSequenceEnum::~IfcSequenceEnum() {}
 shared_ptr<BuildingObject> IfcSequenceEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSequenceEnum> copy_self( new IfcSequenceEnum() );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcReinforcingElement : public IfcElementComponent
 { 
 public:
-	IfcReinforcingElement();
+	IfcReinforcingElement() = default;
 	IfcReinforcingElement( int id );
 	~IfcReinforcingElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

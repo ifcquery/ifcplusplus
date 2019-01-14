@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcStructuralLoadStatic : public IfcStructuralLoadOrResult
 { 
 public:
-	IfcStructuralLoadStatic();
+	IfcStructuralLoadStatic() = default;
 	IfcStructuralLoadStatic( int id );
 	~IfcStructuralLoadStatic();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

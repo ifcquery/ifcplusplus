@@ -20,7 +20,7 @@
 class IFCQUERY_EXPORT IfcBoolean : public IfcModulusOfRotationalSubgradeReactionSelect, public IfcModulusOfSubgradeReactionSelect, public IfcModulusOfTranslationalSubgradeReactionSelect, public IfcRotationalStiffnessSelect, public IfcSimpleValue, public IfcTranslationalStiffnessSelect, public IfcWarpingStiffnessSelect
 {
 public:
-	IfcBoolean();
+	IfcBoolean() = default;
 	IfcBoolean( bool value );
 	~IfcBoolean();
 	virtual const char* className() const { return "IfcBoolean"; }

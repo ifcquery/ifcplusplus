@@ -25,7 +25,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcPileTypeEnum();
+	IfcPileTypeEnum() = default;
 	IfcPileTypeEnum( IfcPileTypeEnumEnum e ) { m_enum = e; }
 	~IfcPileTypeEnum();
 	virtual const char* className() const { return "IfcPileTypeEnum"; }

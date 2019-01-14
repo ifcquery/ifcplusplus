@@ -11,8 +11,7 @@
 #include "ifcpp/IFC4/include/IfcArcIndex.h"
 
 // TYPE IfcArcIndex = LIST [3:3] OF IfcPositiveInteger;
-IfcArcIndex::IfcArcIndex() = default;
-IfcArcIndex::~IfcArcIndex() = default;
+IfcArcIndex::~IfcArcIndex() {}
 shared_ptr<BuildingObject> IfcArcIndex::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcArcIndex> copy_self( new IfcArcIndex() );

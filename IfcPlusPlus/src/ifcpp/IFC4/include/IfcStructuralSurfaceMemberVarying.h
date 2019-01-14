@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcStructuralSurfaceMemberVarying : public IfcStructuralSurfaceMember
 { 
 public:
-	IfcStructuralSurfaceMemberVarying();
+	IfcStructuralSurfaceMemberVarying() = default;
 	IfcStructuralSurfaceMemberVarying( int id );
 	~IfcStructuralSurfaceMemberVarying();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcGlobalOrLocalEnum.h"
 
 // TYPE IfcGlobalOrLocalEnum = ENUMERATION OF	(GLOBAL_COORDS	,LOCAL_COORDS);
-IfcGlobalOrLocalEnum::IfcGlobalOrLocalEnum() = default;
-IfcGlobalOrLocalEnum::~IfcGlobalOrLocalEnum() = default;
+IfcGlobalOrLocalEnum::~IfcGlobalOrLocalEnum() {}
 shared_ptr<BuildingObject> IfcGlobalOrLocalEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGlobalOrLocalEnum> copy_self( new IfcGlobalOrLocalEnum() );

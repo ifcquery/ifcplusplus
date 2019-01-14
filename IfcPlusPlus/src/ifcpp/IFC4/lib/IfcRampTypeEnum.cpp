@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcRampTypeEnum.h"
 
 // TYPE IfcRampTypeEnum = ENUMERATION OF	(STRAIGHT_RUN_RAMP	,TWO_STRAIGHT_RUN_RAMP	,QUARTER_TURN_RAMP	,TWO_QUARTER_TURN_RAMP	,HALF_TURN_RAMP	,SPIRAL_RAMP	,USERDEFINED	,NOTDEFINED);
-IfcRampTypeEnum::IfcRampTypeEnum() = default;
-IfcRampTypeEnum::~IfcRampTypeEnum() = default;
+IfcRampTypeEnum::~IfcRampTypeEnum() {}
 shared_ptr<BuildingObject> IfcRampTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRampTypeEnum> copy_self( new IfcRampTypeEnum() );

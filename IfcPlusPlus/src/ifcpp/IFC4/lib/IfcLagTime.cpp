@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcTimeOrRatioSelect.h"
 
 // ENTITY IfcLagTime 
-IfcLagTime::IfcLagTime() = default;
 IfcLagTime::IfcLagTime( int id ) { m_entity_id = id; }
-IfcLagTime::~IfcLagTime() = default;
+IfcLagTime::~IfcLagTime() {}
 shared_ptr<BuildingObject> IfcLagTime::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLagTime> copy_self( new IfcLagTime() );
@@ -41,12 +40,12 @@ void IfcLagTime::getStepLine( std::stringstream& stream ) const
 	if( m_DurationType ) { m_DurationType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLagTime::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcLagTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLagTime::toString() const { return L"IfcLagTime"; }
 void IfcLagTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLagTime, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLagTime, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1], map );
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -56,8 +55,8 @@ void IfcLagTime::readStepArguments( const std::vector<std::wstring>& args, const
 void IfcLagTime::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSchedulingTime::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "LagValue", m_LagValue );
-	vec_attributes.emplace_back( "DurationType", m_DurationType );
+	vec_attributes.emplace_back( std::make_pair( "LagValue", m_LagValue ) );
+	vec_attributes.emplace_back( std::make_pair( "DurationType", m_DurationType ) );
 }
 void IfcLagTime::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

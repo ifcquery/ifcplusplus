@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLaborResourceTypeEnum;
 class IFCQUERY_EXPORT IfcLaborResourceType : public IfcConstructionResourceType
 { 
 public:
-	IfcLaborResourceType();
+	IfcLaborResourceType() = default;
 	IfcLaborResourceType( int id );
 	~IfcLaborResourceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

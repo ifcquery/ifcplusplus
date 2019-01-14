@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcSurface.h"
 
 // ENTITY IfcPcurve 
-IfcPcurve::IfcPcurve() = default;
 IfcPcurve::IfcPcurve( int id ) { m_entity_id = id; }
-IfcPcurve::~IfcPcurve() = default;
+IfcPcurve::~IfcPcurve() {}
 shared_ptr<BuildingObject> IfcPcurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPcurve> copy_self( new IfcPcurve() );
@@ -32,20 +31,20 @@ void IfcPcurve::getStepLine( std::stringstream& stream ) const
 	if( m_ReferenceCurve ) { stream << "#" << m_ReferenceCurve->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPcurve::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcPcurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPcurve::toString() const { return L"IfcPcurve"; }
 void IfcPcurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPcurve, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcPcurve, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_BasisSurface, map );
 	readEntityReference( args[1], m_ReferenceCurve, map );
 }
 void IfcPcurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCurve::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "BasisSurface", m_BasisSurface );
-	vec_attributes.emplace_back( "ReferenceCurve", m_ReferenceCurve );
+	vec_attributes.emplace_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
+	vec_attributes.emplace_back( std::make_pair( "ReferenceCurve", m_ReferenceCurve ) );
 }
 void IfcPcurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

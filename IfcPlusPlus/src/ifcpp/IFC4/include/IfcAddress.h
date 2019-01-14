@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcOrganization;
 class IFCQUERY_EXPORT IfcAddress : virtual public IfcObjectReferenceSelect, public BuildingEntity
 { 
 public:
-	IfcAddress();
+	IfcAddress() = default;
 	IfcAddress( int id );
 	~IfcAddress();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -16,9 +16,8 @@
 #include "ifcpp/IFC4/include/IfcRectangleProfileDef.h"
 
 // ENTITY IfcRectangleProfileDef 
-IfcRectangleProfileDef::IfcRectangleProfileDef() = default;
 IfcRectangleProfileDef::IfcRectangleProfileDef( int id ) { m_entity_id = id; }
-IfcRectangleProfileDef::~IfcRectangleProfileDef() = default;
+IfcRectangleProfileDef::~IfcRectangleProfileDef() {}
 shared_ptr<BuildingObject> IfcRectangleProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRectangleProfileDef> copy_self( new IfcRectangleProfileDef() );
@@ -43,12 +42,12 @@ void IfcRectangleProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_YDim ) { m_YDim->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRectangleProfileDef::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcRectangleProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRectangleProfileDef::toString() const { return L"IfcRectangleProfileDef"; }
 void IfcRectangleProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangleProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRectangleProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );
@@ -58,8 +57,8 @@ void IfcRectangleProfileDef::readStepArguments( const std::vector<std::wstring>&
 void IfcRectangleProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "XDim", m_XDim );
-	vec_attributes.emplace_back( "YDim", m_YDim );
+	vec_attributes.emplace_back( std::make_pair( "XDim", m_XDim ) );
+	vec_attributes.emplace_back( std::make_pair( "YDim", m_YDim ) );
 }
 void IfcRectangleProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

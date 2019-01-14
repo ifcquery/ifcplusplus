@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcCurvatureMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcCurvatureMeasure();
+	IfcCurvatureMeasure() = default;
 	IfcCurvatureMeasure( double value );
 	~IfcCurvatureMeasure();
 	virtual const char* className() const { return "IfcCurvatureMeasure"; }

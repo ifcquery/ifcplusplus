@@ -15,18 +15,18 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcIndexedPolyCurve 
-IfcIndexedPolyCurve::IfcIndexedPolyCurve() = default;
 IfcIndexedPolyCurve::IfcIndexedPolyCurve( int id ) { m_entity_id = id; }
-IfcIndexedPolyCurve::~IfcIndexedPolyCurve() = default;
+IfcIndexedPolyCurve::~IfcIndexedPolyCurve() {}
 shared_ptr<BuildingObject> IfcIndexedPolyCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIndexedPolyCurve> copy_self( new IfcIndexedPolyCurve() );
 	if( m_Points ) { copy_self->m_Points = dynamic_pointer_cast<IfcCartesianPointList>( m_Points->getDeepCopy(options) ); }
-	for(auto item_ii : m_Segments)
+	for( size_t ii=0; ii<m_Segments.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_Segments[ii];
+		if( item_ii )
 		{
-			copy_self->m_Segments.push_back( dynamic_pointer_cast<IfcSegmentIndexSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Segments.emplace_back( dynamic_pointer_cast<IfcSegmentIndexSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = dynamic_pointer_cast<IfcBoolean>( m_SelfIntersect->getDeepCopy(options) ); }
@@ -59,12 +59,12 @@ void IfcIndexedPolyCurve::getStepLine( std::stringstream& stream ) const
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcIndexedPolyCurve::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcIndexedPolyCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIndexedPolyCurve::toString() const { return L"IfcIndexedPolyCurve"; }
 void IfcIndexedPolyCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedPolyCurve, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIndexedPolyCurve, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Points, map );
 	readSelectList( args[1], m_Segments, map );
 	m_SelfIntersect = IfcBoolean::createObjectFromSTEP( args[2], map );
@@ -72,14 +72,14 @@ void IfcIndexedPolyCurve::readStepArguments( const std::vector<std::wstring>& ar
 void IfcIndexedPolyCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundedCurve::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Points", m_Points );
+	vec_attributes.emplace_back( std::make_pair( "Points", m_Points ) );
 	if( !m_Segments.empty() )
 	{
 		shared_ptr<AttributeObjectVector> Segments_vec_object( new AttributeObjectVector() );
 		std::copy( m_Segments.begin(), m_Segments.end(), std::back_inserter( Segments_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "Segments", Segments_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "Segments", Segments_vec_object ) );
 	}
-	vec_attributes.emplace_back( "SelfIntersect", m_SelfIntersect );
+	vec_attributes.emplace_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 }
 void IfcIndexedPolyCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

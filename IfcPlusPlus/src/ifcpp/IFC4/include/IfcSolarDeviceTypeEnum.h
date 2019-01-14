@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcSolarDeviceTypeEnum();
+	IfcSolarDeviceTypeEnum() = default;
 	IfcSolarDeviceTypeEnum( IfcSolarDeviceTypeEnumEnum e ) { m_enum = e; }
 	~IfcSolarDeviceTypeEnum();
 	virtual const char* className() const { return "IfcSolarDeviceTypeEnum"; }

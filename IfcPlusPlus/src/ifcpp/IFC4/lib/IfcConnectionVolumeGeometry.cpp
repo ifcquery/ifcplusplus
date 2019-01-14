@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcSolidOrShell.h"
 
 // ENTITY IfcConnectionVolumeGeometry 
-IfcConnectionVolumeGeometry::IfcConnectionVolumeGeometry() = default;
 IfcConnectionVolumeGeometry::IfcConnectionVolumeGeometry( int id ) { m_entity_id = id; }
-IfcConnectionVolumeGeometry::~IfcConnectionVolumeGeometry() = default;
+IfcConnectionVolumeGeometry::~IfcConnectionVolumeGeometry() {}
 shared_ptr<BuildingObject> IfcConnectionVolumeGeometry::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConnectionVolumeGeometry> copy_self( new IfcConnectionVolumeGeometry() );
@@ -29,20 +28,20 @@ void IfcConnectionVolumeGeometry::getStepLine( std::stringstream& stream ) const
 	if( m_VolumeOnRelatedElement ) { m_VolumeOnRelatedElement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcConnectionVolumeGeometry::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcConnectionVolumeGeometry::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConnectionVolumeGeometry::toString() const { return L"IfcConnectionVolumeGeometry"; }
 void IfcConnectionVolumeGeometry::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionVolumeGeometry, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcConnectionVolumeGeometry, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_VolumeOnRelatingElement = IfcSolidOrShell::createObjectFromSTEP( args[0], map );
 	m_VolumeOnRelatedElement = IfcSolidOrShell::createObjectFromSTEP( args[1], map );
 }
 void IfcConnectionVolumeGeometry::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcConnectionGeometry::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "VolumeOnRelatingElement", m_VolumeOnRelatingElement );
-	vec_attributes.emplace_back( "VolumeOnRelatedElement", m_VolumeOnRelatedElement );
+	vec_attributes.emplace_back( std::make_pair( "VolumeOnRelatingElement", m_VolumeOnRelatingElement ) );
+	vec_attributes.emplace_back( std::make_pair( "VolumeOnRelatedElement", m_VolumeOnRelatedElement ) );
 }
 void IfcConnectionVolumeGeometry::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

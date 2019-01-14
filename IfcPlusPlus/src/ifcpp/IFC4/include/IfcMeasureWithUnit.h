@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcUnit;
 class IFCQUERY_EXPORT IfcMeasureWithUnit : virtual public IfcAppliedValueSelect, virtual public IfcMetricValueSelect, public BuildingEntity
 { 
 public:
-	IfcMeasureWithUnit();
+	IfcMeasureWithUnit() = default;
 	IfcMeasureWithUnit( int id );
 	~IfcMeasureWithUnit();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

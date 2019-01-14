@@ -21,7 +21,7 @@ public:
 		ENUM_SUBTRACT
 	};
 
-	IfcArithmeticOperatorEnum();
+	IfcArithmeticOperatorEnum() = default;
 	IfcArithmeticOperatorEnum( IfcArithmeticOperatorEnumEnum e ) { m_enum = e; }
 	~IfcArithmeticOperatorEnum();
 	virtual const char* className() const { return "IfcArithmeticOperatorEnum"; }

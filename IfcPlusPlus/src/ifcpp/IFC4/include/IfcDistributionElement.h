@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRelConnectsPortToElement;
 class IFCQUERY_EXPORT IfcDistributionElement : public IfcElement
 { 
 public:
-	IfcDistributionElement();
+	IfcDistributionElement() = default;
 	IfcDistributionElement( int id );
 	~IfcDistributionElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

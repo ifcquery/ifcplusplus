@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcShearModulusMeasure.h"
 
 // TYPE IfcShearModulusMeasure = REAL;
-IfcShearModulusMeasure::IfcShearModulusMeasure() = default;
 IfcShearModulusMeasure::IfcShearModulusMeasure( double value ) { m_value = value; }
-IfcShearModulusMeasure::~IfcShearModulusMeasure() = default;
+IfcShearModulusMeasure::~IfcShearModulusMeasure() {}
 shared_ptr<BuildingObject> IfcShearModulusMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcShearModulusMeasure> copy_self( new IfcShearModulusMeasure() );

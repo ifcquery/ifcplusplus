@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcBoundedCurve;
 class IFCQUERY_EXPORT IfcArbitraryOpenProfileDef : public IfcProfileDef
 { 
 public:
-	IfcArbitraryOpenProfileDef();
+	IfcArbitraryOpenProfileDef() = default;
 	IfcArbitraryOpenProfileDef( int id );
 	~IfcArbitraryOpenProfileDef();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

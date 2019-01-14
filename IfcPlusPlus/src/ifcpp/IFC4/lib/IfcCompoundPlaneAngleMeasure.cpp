@@ -11,14 +11,14 @@
 #include "ifcpp/IFC4/include/IfcCompoundPlaneAngleMeasure.h"
 
 // TYPE IfcCompoundPlaneAngleMeasure = LIST [3:4] OF INTEGER;
-IfcCompoundPlaneAngleMeasure::IfcCompoundPlaneAngleMeasure() = default;
-IfcCompoundPlaneAngleMeasure::~IfcCompoundPlaneAngleMeasure() = default;
+IfcCompoundPlaneAngleMeasure::~IfcCompoundPlaneAngleMeasure() {}
 shared_ptr<BuildingObject> IfcCompoundPlaneAngleMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCompoundPlaneAngleMeasure> copy_self( new IfcCompoundPlaneAngleMeasure() );
-	for(int item_ii : m_vec)
+	for( size_t ii=0; ii<m_vec.size(); ++ii )
 	{
-			copy_self->m_vec.push_back( item_ii );
+		int item_ii = m_vec[ii];
+		copy_self->m_vec.emplace_back( item_ii );
 	}
 	return copy_self;
 }

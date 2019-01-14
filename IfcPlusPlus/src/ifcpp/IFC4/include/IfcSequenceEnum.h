@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcSequenceEnum();
+	IfcSequenceEnum() = default;
 	IfcSequenceEnum( IfcSequenceEnumEnum e ) { m_enum = e; }
 	~IfcSequenceEnum();
 	virtual const char* className() const { return "IfcSequenceEnum"; }

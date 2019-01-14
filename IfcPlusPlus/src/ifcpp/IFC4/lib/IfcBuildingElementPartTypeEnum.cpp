@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcBuildingElementPartTypeEnum.h"
 
 // TYPE IfcBuildingElementPartTypeEnum = ENUMERATION OF	(INSULATION	,PRECASTPANEL	,USERDEFINED	,NOTDEFINED);
-IfcBuildingElementPartTypeEnum::IfcBuildingElementPartTypeEnum() = default;
-IfcBuildingElementPartTypeEnum::~IfcBuildingElementPartTypeEnum() = default;
+IfcBuildingElementPartTypeEnum::~IfcBuildingElementPartTypeEnum() {}
 shared_ptr<BuildingObject> IfcBuildingElementPartTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBuildingElementPartTypeEnum> copy_self( new IfcBuildingElementPartTypeEnum() );

@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcActionRequestTypeEnum.h"
 
 // TYPE IfcActionRequestTypeEnum = ENUMERATION OF	(EMAIL	,FAX	,PHONE	,POST	,VERBAL	,USERDEFINED	,NOTDEFINED);
-IfcActionRequestTypeEnum::IfcActionRequestTypeEnum() = default;
-IfcActionRequestTypeEnum::~IfcActionRequestTypeEnum() = default;
+IfcActionRequestTypeEnum::~IfcActionRequestTypeEnum() {}
 shared_ptr<BuildingObject> IfcActionRequestTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcActionRequestTypeEnum> copy_self( new IfcActionRequestTypeEnum() );

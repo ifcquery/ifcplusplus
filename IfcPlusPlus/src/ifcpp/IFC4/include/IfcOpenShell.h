@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcOpenShell : virtual public IfcShell, public IfcConnectedFaceSet
 { 
 public:
-	IfcOpenShell();
+	IfcOpenShell() = default;
 	IfcOpenShell( int id );
 	~IfcOpenShell();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

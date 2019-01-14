@@ -22,7 +22,7 @@ public:
 		ENUM_LOGICALNOTOR
 	};
 
-	IfcLogicalOperatorEnum();
+	IfcLogicalOperatorEnum() = default;
 	IfcLogicalOperatorEnum( IfcLogicalOperatorEnumEnum e ) { m_enum = e; }
 	~IfcLogicalOperatorEnum();
 	virtual const char* className() const { return "IfcLogicalOperatorEnum"; }

@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianPointList 
-IfcCartesianPointList::IfcCartesianPointList() = default;
 IfcCartesianPointList::IfcCartesianPointList( int id ) { m_entity_id = id; }
-IfcCartesianPointList::~IfcCartesianPointList() = default;
+IfcCartesianPointList::~IfcCartesianPointList() {}
 shared_ptr<BuildingObject> IfcCartesianPointList::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianPointList> copy_self( new IfcCartesianPointList() );
@@ -25,7 +24,7 @@ void IfcCartesianPointList::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCCARTESIANPOINTLIST" << "(";
 	stream << ");";
 }
-void IfcCartesianPointList::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcCartesianPointList::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianPointList::toString() const { return L"IfcCartesianPointList"; }
 void IfcCartesianPointList::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

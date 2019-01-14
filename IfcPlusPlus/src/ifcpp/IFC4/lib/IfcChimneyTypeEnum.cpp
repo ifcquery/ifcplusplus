@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcChimneyTypeEnum.h"
 
 // TYPE IfcChimneyTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-IfcChimneyTypeEnum::IfcChimneyTypeEnum() = default;
-IfcChimneyTypeEnum::~IfcChimneyTypeEnum() = default;
+IfcChimneyTypeEnum::~IfcChimneyTypeEnum() {}
 shared_ptr<BuildingObject> IfcChimneyTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcChimneyTypeEnum> copy_self( new IfcChimneyTypeEnum() );

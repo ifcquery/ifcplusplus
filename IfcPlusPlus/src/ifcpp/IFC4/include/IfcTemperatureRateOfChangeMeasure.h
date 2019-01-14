@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcTemperatureRateOfChangeMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcTemperatureRateOfChangeMeasure();
+	IfcTemperatureRateOfChangeMeasure() = default;
 	IfcTemperatureRateOfChangeMeasure( double value );
 	~IfcTemperatureRateOfChangeMeasure();
 	virtual const char* className() const { return "IfcTemperatureRateOfChangeMeasure"; }

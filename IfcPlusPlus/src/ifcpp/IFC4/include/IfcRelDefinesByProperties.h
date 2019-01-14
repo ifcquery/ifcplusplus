@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPropertySetDefinitionSelect;
 class IFCQUERY_EXPORT IfcRelDefinesByProperties : public IfcRelDefines
 { 
 public:
-	IfcRelDefinesByProperties();
+	IfcRelDefinesByProperties() = default;
 	IfcRelDefinesByProperties( int id );
 	~IfcRelDefinesByProperties();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

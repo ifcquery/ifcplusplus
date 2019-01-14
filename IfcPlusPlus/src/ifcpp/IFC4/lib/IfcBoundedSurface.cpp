@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcBoundedSurface 
-IfcBoundedSurface::IfcBoundedSurface() = default;
 IfcBoundedSurface::IfcBoundedSurface( int id ) { m_entity_id = id; }
-IfcBoundedSurface::~IfcBoundedSurface() = default;
+IfcBoundedSurface::~IfcBoundedSurface() {}
 shared_ptr<BuildingObject> IfcBoundedSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoundedSurface> copy_self( new IfcBoundedSurface() );
@@ -25,7 +24,7 @@ void IfcBoundedSurface::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCBOUNDEDSURFACE" << "(";
 	stream << ");";
 }
-void IfcBoundedSurface::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcBoundedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundedSurface::toString() const { return L"IfcBoundedSurface"; }
 void IfcBoundedSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

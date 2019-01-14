@@ -10,9 +10,8 @@
 #include "ifcpp/IFC4/include/IfcPresentableText.h"
 
 // TYPE IfcPresentableText = STRING;
-IfcPresentableText::IfcPresentableText() = default;
 IfcPresentableText::IfcPresentableText( std::wstring value ) { m_value = value; }
-IfcPresentableText::~IfcPresentableText() = default;
+IfcPresentableText::~IfcPresentableText() {}
 shared_ptr<BuildingObject> IfcPresentableText::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPresentableText> copy_self( new IfcPresentableText() );

@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcAnalysisTheoryTypeEnum.h"
 
 // TYPE IfcAnalysisTheoryTypeEnum = ENUMERATION OF	(FIRST_ORDER_THEORY	,SECOND_ORDER_THEORY	,THIRD_ORDER_THEORY	,FULL_NONLINEAR_THEORY	,USERDEFINED	,NOTDEFINED);
-IfcAnalysisTheoryTypeEnum::IfcAnalysisTheoryTypeEnum() = default;
-IfcAnalysisTheoryTypeEnum::~IfcAnalysisTheoryTypeEnum() = default;
+IfcAnalysisTheoryTypeEnum::~IfcAnalysisTheoryTypeEnum() {}
 shared_ptr<BuildingObject> IfcAnalysisTheoryTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAnalysisTheoryTypeEnum> copy_self( new IfcAnalysisTheoryTypeEnum() );

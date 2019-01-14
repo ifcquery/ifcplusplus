@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcReinforcingElementType : public IfcElementComponentType
 { 
 public:
-	IfcReinforcingElementType();
+	IfcReinforcingElementType() = default;
 	IfcReinforcingElementType( int id );
 	~IfcReinforcingElementType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

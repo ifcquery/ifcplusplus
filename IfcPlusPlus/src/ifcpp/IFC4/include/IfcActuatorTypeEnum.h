@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcActuatorTypeEnum();
+	IfcActuatorTypeEnum() = default;
 	IfcActuatorTypeEnum( IfcActuatorTypeEnumEnum e ) { m_enum = e; }
 	~IfcActuatorTypeEnum();
 	virtual const char* className() const { return "IfcActuatorTypeEnum"; }

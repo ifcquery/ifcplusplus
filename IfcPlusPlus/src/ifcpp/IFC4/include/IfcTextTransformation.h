@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcTextTransformation : public BuildingObject
 {
 public:
-	IfcTextTransformation();
+	IfcTextTransformation() = default;
 	IfcTextTransformation( std::wstring value );
 	~IfcTextTransformation();
 	virtual const char* className() const { return "IfcTextTransformation"; }

@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcTemperatureRateOfChangeMeasure.h"
 
 // TYPE IfcTemperatureRateOfChangeMeasure = REAL;
-IfcTemperatureRateOfChangeMeasure::IfcTemperatureRateOfChangeMeasure() = default;
 IfcTemperatureRateOfChangeMeasure::IfcTemperatureRateOfChangeMeasure( double value ) { m_value = value; }
-IfcTemperatureRateOfChangeMeasure::~IfcTemperatureRateOfChangeMeasure() = default;
+IfcTemperatureRateOfChangeMeasure::~IfcTemperatureRateOfChangeMeasure() {}
 shared_ptr<BuildingObject> IfcTemperatureRateOfChangeMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTemperatureRateOfChangeMeasure> copy_self( new IfcTemperatureRateOfChangeMeasure() );

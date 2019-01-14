@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcDate.h"
 
 // TYPE IfcDate = STRING;
-IfcDate::IfcDate() = default;
 IfcDate::IfcDate( std::wstring value ) { m_value = value; }
-IfcDate::~IfcDate() = default;
+IfcDate::~IfcDate() {}
 shared_ptr<BuildingObject> IfcDate::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDate> copy_self( new IfcDate() );

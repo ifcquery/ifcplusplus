@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcVirtualGridIntersection;
 class IFCQUERY_EXPORT IfcGridAxis : public BuildingEntity
 { 
 public:
-	IfcGridAxis();
+	IfcGridAxis() = default;
 	IfcGridAxis( int id );
 	~IfcGridAxis();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

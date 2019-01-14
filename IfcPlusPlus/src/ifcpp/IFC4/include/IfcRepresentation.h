@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcProductRepresentation;
 class IFCQUERY_EXPORT IfcRepresentation : virtual public IfcLayeredItem, public BuildingEntity
 { 
 public:
-	IfcRepresentation();
+	IfcRepresentation() = default;
 	IfcRepresentation( int id );
 	~IfcRepresentation();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

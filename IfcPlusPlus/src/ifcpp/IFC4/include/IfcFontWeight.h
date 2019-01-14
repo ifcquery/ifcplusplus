@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcFontWeight : public BuildingObject
 {
 public:
-	IfcFontWeight();
+	IfcFontWeight() = default;
 	IfcFontWeight( std::wstring value );
 	~IfcFontWeight();
 	virtual const char* className() const { return "IfcFontWeight"; }

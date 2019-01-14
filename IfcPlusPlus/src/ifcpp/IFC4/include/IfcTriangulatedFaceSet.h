@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcPositiveInteger;
 class IFCQUERY_EXPORT IfcTriangulatedFaceSet : public IfcTessellatedFaceSet
 { 
 public:
-	IfcTriangulatedFaceSet();
+	IfcTriangulatedFaceSet() = default;
 	IfcTriangulatedFaceSet( int id );
 	~IfcTriangulatedFaceSet();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

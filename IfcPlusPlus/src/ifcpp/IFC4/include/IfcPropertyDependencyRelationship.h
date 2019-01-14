@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcText;
 class IFCQUERY_EXPORT IfcPropertyDependencyRelationship : public IfcResourceLevelRelationship
 { 
 public:
-	IfcPropertyDependencyRelationship();
+	IfcPropertyDependencyRelationship() = default;
 	IfcPropertyDependencyRelationship( int id );
 	~IfcPropertyDependencyRelationship();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

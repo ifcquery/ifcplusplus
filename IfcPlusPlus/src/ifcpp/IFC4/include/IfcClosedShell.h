@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcClosedShell : virtual public IfcShell, virtual public IfcSolidOrShell, public IfcConnectedFaceSet
 { 
 public:
-	IfcClosedShell();
+	IfcClosedShell() = default;
 	IfcClosedShell( int id );
 	~IfcClosedShell();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

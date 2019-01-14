@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcMechanicalFastenerTypeEnum.h"
 
 // TYPE IfcMechanicalFastenerTypeEnum = ENUMERATION OF	(ANCHORBOLT	,BOLT	,DOWEL	,NAIL	,NAILPLATE	,RIVET	,SCREW	,SHEARCONNECTOR	,STAPLE	,STUDSHEARCONNECTOR	,USERDEFINED	,NOTDEFINED);
-IfcMechanicalFastenerTypeEnum::IfcMechanicalFastenerTypeEnum() = default;
-IfcMechanicalFastenerTypeEnum::~IfcMechanicalFastenerTypeEnum() = default;
+IfcMechanicalFastenerTypeEnum::~IfcMechanicalFastenerTypeEnum() {}
 shared_ptr<BuildingObject> IfcMechanicalFastenerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMechanicalFastenerTypeEnum> copy_self( new IfcMechanicalFastenerTypeEnum() );

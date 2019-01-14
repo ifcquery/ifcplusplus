@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcAccelerationMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcAccelerationMeasure();
+	IfcAccelerationMeasure() = default;
 	IfcAccelerationMeasure( double value );
 	~IfcAccelerationMeasure();
 	virtual const char* className() const { return "IfcAccelerationMeasure"; }

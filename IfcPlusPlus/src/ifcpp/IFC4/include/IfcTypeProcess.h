@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcRelAssignsToProcess;
 class IFCQUERY_EXPORT IfcTypeProcess : virtual public IfcProcessSelect, public IfcTypeObject
 { 
 public:
-	IfcTypeProcess();
+	IfcTypeProcess() = default;
 	IfcTypeProcess( int id );
 	~IfcTypeProcess();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

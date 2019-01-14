@@ -19,7 +19,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcReinforcingMeshTypeEnum();
+	IfcReinforcingMeshTypeEnum() = default;
 	IfcReinforcingMeshTypeEnum( IfcReinforcingMeshTypeEnumEnum e ) { m_enum = e; }
 	~IfcReinforcingMeshTypeEnum();
 	virtual const char* className() const { return "IfcReinforcingMeshTypeEnum"; }

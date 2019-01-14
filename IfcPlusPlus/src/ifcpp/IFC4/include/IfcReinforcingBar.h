@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcReinforcingBarSurfaceEnum;
 class IFCQUERY_EXPORT IfcReinforcingBar : public IfcReinforcingElement
 { 
 public:
-	IfcReinforcingBar();
+	IfcReinforcingBar() = default;
 	IfcReinforcingBar( int id );
 	~IfcReinforcingBar();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcRectangularTrimmedSurface : public IfcBoundedSurface
 { 
 public:
-	IfcRectangularTrimmedSurface();
+	IfcRectangularTrimmedSurface() = default;
 	IfcRectangularTrimmedSurface( int id );
 	~IfcRectangularTrimmedSurface();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

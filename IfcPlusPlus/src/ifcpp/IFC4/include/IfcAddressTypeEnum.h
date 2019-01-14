@@ -22,7 +22,7 @@ public:
 		ENUM_USERDEFINED
 	};
 
-	IfcAddressTypeEnum();
+	IfcAddressTypeEnum() = default;
 	IfcAddressTypeEnum( IfcAddressTypeEnumEnum e ) { m_enum = e; }
 	~IfcAddressTypeEnum();
 	virtual const char* className() const { return "IfcAddressTypeEnum"; }

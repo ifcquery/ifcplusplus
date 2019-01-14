@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcVaporPermeabilityMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcVaporPermeabilityMeasure();
+	IfcVaporPermeabilityMeasure() = default;
 	IfcVaporPermeabilityMeasure( double value );
 	~IfcVaporPermeabilityMeasure();
 	virtual const char* className() const { return "IfcVaporPermeabilityMeasure"; }

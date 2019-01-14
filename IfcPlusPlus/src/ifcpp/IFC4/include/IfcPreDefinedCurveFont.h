@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcPreDefinedCurveFont : virtual public IfcCurveStyleFontSelect, public IfcPreDefinedItem
 { 
 public:
-	IfcPreDefinedCurveFont();
+	IfcPreDefinedCurveFont() = default;
 	IfcPreDefinedCurveFont( int id );
 	~IfcPreDefinedCurveFont();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

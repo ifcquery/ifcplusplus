@@ -16,9 +16,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcExtrudedAreaSolid 
-IfcExtrudedAreaSolid::IfcExtrudedAreaSolid() = default;
 IfcExtrudedAreaSolid::IfcExtrudedAreaSolid( int id ) { m_entity_id = id; }
-IfcExtrudedAreaSolid::~IfcExtrudedAreaSolid() = default;
+IfcExtrudedAreaSolid::~IfcExtrudedAreaSolid() {}
 shared_ptr<BuildingObject> IfcExtrudedAreaSolid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExtrudedAreaSolid> copy_self( new IfcExtrudedAreaSolid() );
@@ -44,12 +43,12 @@ void IfcExtrudedAreaSolid::getStepLine( std::stringstream& stream ) const
 	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcExtrudedAreaSolid::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcExtrudedAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExtrudedAreaSolid::toString() const { return L"IfcExtrudedAreaSolid"; }
 void IfcExtrudedAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExtrudedAreaSolid, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcExtrudedAreaSolid, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SweptArea, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_ExtrudedDirection, map );
@@ -58,8 +57,8 @@ void IfcExtrudedAreaSolid::readStepArguments( const std::vector<std::wstring>& a
 void IfcExtrudedAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSweptAreaSolid::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "ExtrudedDirection", m_ExtrudedDirection );
-	vec_attributes.emplace_back( "Depth", m_Depth );
+	vec_attributes.emplace_back( std::make_pair( "ExtrudedDirection", m_ExtrudedDirection ) );
+	vec_attributes.emplace_back( std::make_pair( "Depth", m_Depth ) );
 }
 void IfcExtrudedAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

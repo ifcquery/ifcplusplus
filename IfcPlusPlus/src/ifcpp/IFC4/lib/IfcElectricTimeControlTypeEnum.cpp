@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcElectricTimeControlTypeEnum.h"
 
 // TYPE IfcElectricTimeControlTypeEnum = ENUMERATION OF	(TIMECLOCK	,TIMEDELAY	,RELAY	,USERDEFINED	,NOTDEFINED);
-IfcElectricTimeControlTypeEnum::IfcElectricTimeControlTypeEnum() = default;
-IfcElectricTimeControlTypeEnum::~IfcElectricTimeControlTypeEnum() = default;
+IfcElectricTimeControlTypeEnum::~IfcElectricTimeControlTypeEnum() {}
 shared_ptr<BuildingObject> IfcElectricTimeControlTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricTimeControlTypeEnum> copy_self( new IfcElectricTimeControlTypeEnum() );

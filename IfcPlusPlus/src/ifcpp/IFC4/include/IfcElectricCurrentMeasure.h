@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcElectricCurrentMeasure : public IfcMeasureValue
 {
 public:
-	IfcElectricCurrentMeasure();
+	IfcElectricCurrentMeasure() = default;
 	IfcElectricCurrentMeasure( double value );
 	~IfcElectricCurrentMeasure();
 	virtual const char* className() const { return "IfcElectricCurrentMeasure"; }

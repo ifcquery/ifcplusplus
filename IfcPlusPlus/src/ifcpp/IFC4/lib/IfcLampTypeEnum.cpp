@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcLampTypeEnum.h"
 
 // TYPE IfcLampTypeEnum = ENUMERATION OF	(COMPACTFLUORESCENT	,FLUORESCENT	,HALOGEN	,HIGHPRESSUREMERCURY	,HIGHPRESSURESODIUM	,LED	,METALHALIDE	,OLED	,TUNGSTENFILAMENT	,USERDEFINED	,NOTDEFINED);
-IfcLampTypeEnum::IfcLampTypeEnum() = default;
-IfcLampTypeEnum::~IfcLampTypeEnum() = default;
+IfcLampTypeEnum::~IfcLampTypeEnum() {}
 shared_ptr<BuildingObject> IfcLampTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLampTypeEnum> copy_self( new IfcLampTypeEnum() );

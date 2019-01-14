@@ -15,18 +15,18 @@
 #include "ifcpp/IFC4/include/IfcSurfaceCurve.h"
 
 // ENTITY IfcSurfaceCurve 
-IfcSurfaceCurve::IfcSurfaceCurve() = default;
 IfcSurfaceCurve::IfcSurfaceCurve( int id ) { m_entity_id = id; }
-IfcSurfaceCurve::~IfcSurfaceCurve() = default;
+IfcSurfaceCurve::~IfcSurfaceCurve() {}
 shared_ptr<BuildingObject> IfcSurfaceCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceCurve> copy_self( new IfcSurfaceCurve() );
 	if( m_Curve3D ) { copy_self->m_Curve3D = dynamic_pointer_cast<IfcCurve>( m_Curve3D->getDeepCopy(options) ); }
-	for(auto item_ii : m_AssociatedGeometry)
+	for( size_t ii=0; ii<m_AssociatedGeometry.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_AssociatedGeometry[ii];
+		if( item_ii )
 		{
-			copy_self->m_AssociatedGeometry.push_back( dynamic_pointer_cast<IfcPcurve>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_AssociatedGeometry.emplace_back( dynamic_pointer_cast<IfcPcurve>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_MasterRepresentation ) { copy_self->m_MasterRepresentation = dynamic_pointer_cast<IfcPreferredSurfaceCurveRepresentation>( m_MasterRepresentation->getDeepCopy(options) ); }
@@ -42,12 +42,12 @@ void IfcSurfaceCurve::getStepLine( std::stringstream& stream ) const
 	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceCurve::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcSurfaceCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceCurve::toString() const { return L"IfcSurfaceCurve"; }
 void IfcSurfaceCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceCurve, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcSurfaceCurve, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Curve3D, map );
 	readEntityReferenceList( args[1], m_AssociatedGeometry, map );
 	m_MasterRepresentation = IfcPreferredSurfaceCurveRepresentation::createObjectFromSTEP( args[2], map );
@@ -55,14 +55,14 @@ void IfcSurfaceCurve::readStepArguments( const std::vector<std::wstring>& args, 
 void IfcSurfaceCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCurve::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Curve3D", m_Curve3D );
+	vec_attributes.emplace_back( std::make_pair( "Curve3D", m_Curve3D ) );
 	if( !m_AssociatedGeometry.empty() )
 	{
 		shared_ptr<AttributeObjectVector> AssociatedGeometry_vec_object( new AttributeObjectVector() );
 		std::copy( m_AssociatedGeometry.begin(), m_AssociatedGeometry.end(), std::back_inserter( AssociatedGeometry_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "AssociatedGeometry", AssociatedGeometry_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "AssociatedGeometry", AssociatedGeometry_vec_object ) );
 	}
-	vec_attributes.emplace_back( "MasterRepresentation", m_MasterRepresentation );
+	vec_attributes.emplace_back( std::make_pair( "MasterRepresentation", m_MasterRepresentation ) );
 }
 void IfcSurfaceCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

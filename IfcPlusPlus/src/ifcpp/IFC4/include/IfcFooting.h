@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcFootingTypeEnum;
 class IFCQUERY_EXPORT IfcFooting : public IfcBuildingElement
 { 
 public:
-	IfcFooting();
+	IfcFooting() = default;
 	IfcFooting( int id );
 	~IfcFooting();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

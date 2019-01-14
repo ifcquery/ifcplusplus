@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcCardinalPointReference : public BuildingObject
 {
 public:
-	IfcCardinalPointReference();
+	IfcCardinalPointReference() = default;
 	IfcCardinalPointReference( int value );
 	~IfcCardinalPointReference();
 	virtual const char* className() const { return "IfcCardinalPointReference"; }

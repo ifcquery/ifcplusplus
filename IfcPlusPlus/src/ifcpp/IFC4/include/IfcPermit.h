@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcText;
 class IFCQUERY_EXPORT IfcPermit : public IfcControl
 { 
 public:
-	IfcPermit();
+	IfcPermit() = default;
 	IfcPermit( int id );
 	~IfcPermit();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

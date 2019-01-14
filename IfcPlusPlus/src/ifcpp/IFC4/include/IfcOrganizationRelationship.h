@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcOrganization;
 class IFCQUERY_EXPORT IfcOrganizationRelationship : public IfcResourceLevelRelationship
 { 
 public:
-	IfcOrganizationRelationship();
+	IfcOrganizationRelationship() = default;
 	IfcOrganizationRelationship( int id );
 	~IfcOrganizationRelationship();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

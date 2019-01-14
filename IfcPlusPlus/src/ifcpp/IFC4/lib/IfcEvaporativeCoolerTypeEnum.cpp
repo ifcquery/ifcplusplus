@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcEvaporativeCoolerTypeEnum.h"
 
 // TYPE IfcEvaporativeCoolerTypeEnum = ENUMERATION OF	(DIRECTEVAPORATIVERANDOMMEDIAAIRCOOLER	,DIRECTEVAPORATIVERIGIDMEDIAAIRCOOLER	,DIRECTEVAPORATIVESLINGERSPACKAGEDAIRCOOLER	,DIRECTEVAPORATIVEPACKAGEDROTARYAIRCOOLER	,DIRECTEVAPORATIVEAIRWASHER	,INDIRECTEVAPORATIVEPACKAGEAIRCOOLER	,INDIRECTEVAPORATIVEWETCOIL	,INDIRECTEVAPORATIVECOOLINGTOWERORCOILCOOLER	,INDIRECTDIRECTCOMBINATION	,USERDEFINED	,NOTDEFINED);
-IfcEvaporativeCoolerTypeEnum::IfcEvaporativeCoolerTypeEnum() = default;
-IfcEvaporativeCoolerTypeEnum::~IfcEvaporativeCoolerTypeEnum() = default;
+IfcEvaporativeCoolerTypeEnum::~IfcEvaporativeCoolerTypeEnum() {}
 shared_ptr<BuildingObject> IfcEvaporativeCoolerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEvaporativeCoolerTypeEnum> copy_self( new IfcEvaporativeCoolerTypeEnum() );

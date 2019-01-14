@@ -15,7 +15,7 @@
 class IFCQUERY_EXPORT IfcRotationalStiffnessMeasure : public IfcDerivedMeasureValue, public IfcRotationalStiffnessSelect
 {
 public:
-	IfcRotationalStiffnessMeasure();
+	IfcRotationalStiffnessMeasure() = default;
 	IfcRotationalStiffnessMeasure( double value );
 	~IfcRotationalStiffnessMeasure();
 	virtual const char* className() const { return "IfcRotationalStiffnessMeasure"; }

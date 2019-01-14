@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcGeometricRepresentationItem 
-IfcGeometricRepresentationItem::IfcGeometricRepresentationItem() = default;
 IfcGeometricRepresentationItem::IfcGeometricRepresentationItem( int id ) { m_entity_id = id; }
-IfcGeometricRepresentationItem::~IfcGeometricRepresentationItem() = default;
+IfcGeometricRepresentationItem::~IfcGeometricRepresentationItem() {}
 shared_ptr<BuildingObject> IfcGeometricRepresentationItem::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGeometricRepresentationItem> copy_self( new IfcGeometricRepresentationItem() );
@@ -25,7 +24,7 @@ void IfcGeometricRepresentationItem::getStepLine( std::stringstream& stream ) co
 	stream << "#" << m_entity_id << "= IFCGEOMETRICREPRESENTATIONITEM" << "(";
 	stream << ");";
 }
-void IfcGeometricRepresentationItem::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcGeometricRepresentationItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGeometricRepresentationItem::toString() const { return L"IfcGeometricRepresentationItem"; }
 void IfcGeometricRepresentationItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -18,9 +18,8 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // ENTITY IfcIShapeProfileDef 
-IfcIShapeProfileDef::IfcIShapeProfileDef() = default;
 IfcIShapeProfileDef::IfcIShapeProfileDef( int id ) { m_entity_id = id; }
-IfcIShapeProfileDef::~IfcIShapeProfileDef() = default;
+IfcIShapeProfileDef::~IfcIShapeProfileDef() {}
 shared_ptr<BuildingObject> IfcIShapeProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIShapeProfileDef> copy_self( new IfcIShapeProfileDef() );
@@ -60,12 +59,12 @@ void IfcIShapeProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_FlangeSlope ) { m_FlangeSlope->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcIShapeProfileDef::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcIShapeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIShapeProfileDef::toString() const { return L"IfcIShapeProfileDef"; }
 void IfcIShapeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIShapeProfileDef, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 10 ){ std::stringstream err; err << "Wrong parameter count for entity IfcIShapeProfileDef, expecting 10, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map );
 	m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map );
 	readEntityReference( args[2], m_Position, map );
@@ -80,13 +79,13 @@ void IfcIShapeProfileDef::readStepArguments( const std::vector<std::wstring>& ar
 void IfcIShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcParameterizedProfileDef::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "OverallWidth", m_OverallWidth );
-	vec_attributes.emplace_back( "OverallDepth", m_OverallDepth );
-	vec_attributes.emplace_back( "WebThickness", m_WebThickness );
-	vec_attributes.emplace_back( "FlangeThickness", m_FlangeThickness );
-	vec_attributes.emplace_back( "FilletRadius", m_FilletRadius );
-	vec_attributes.emplace_back( "FlangeEdgeRadius", m_FlangeEdgeRadius );
-	vec_attributes.emplace_back( "FlangeSlope", m_FlangeSlope );
+	vec_attributes.emplace_back( std::make_pair( "OverallWidth", m_OverallWidth ) );
+	vec_attributes.emplace_back( std::make_pair( "OverallDepth", m_OverallDepth ) );
+	vec_attributes.emplace_back( std::make_pair( "WebThickness", m_WebThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "FlangeThickness", m_FlangeThickness ) );
+	vec_attributes.emplace_back( std::make_pair( "FilletRadius", m_FilletRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "FlangeEdgeRadius", m_FlangeEdgeRadius ) );
+	vec_attributes.emplace_back( std::make_pair( "FlangeSlope", m_FlangeSlope ) );
 }
 void IfcIShapeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcBoundedCurve : virtual public IfcCurveOrEdgeCurve, public IfcCurve
 { 
 public:
-	IfcBoundedCurve();
+	IfcBoundedCurve() = default;
 	IfcBoundedCurve( int id );
 	~IfcBoundedCurve();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

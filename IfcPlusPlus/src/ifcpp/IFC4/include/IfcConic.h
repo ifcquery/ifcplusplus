@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcAxis2Placement;
 class IFCQUERY_EXPORT IfcConic : public IfcCurve
 { 
 public:
-	IfcConic();
+	IfcConic() = default;
 	IfcConic( int id );
 	~IfcConic();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

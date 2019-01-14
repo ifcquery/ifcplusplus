@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcPropertySetTemplateTypeEnum.h"
 
 // TYPE IfcPropertySetTemplateTypeEnum = ENUMERATION OF	(PSET_TYPEDRIVENONLY	,PSET_TYPEDRIVENOVERRIDE	,PSET_OCCURRENCEDRIVEN	,PSET_PERFORMANCEDRIVEN	,QTO_TYPEDRIVENONLY	,QTO_TYPEDRIVENOVERRIDE	,QTO_OCCURRENCEDRIVEN	,NOTDEFINED);
-IfcPropertySetTemplateTypeEnum::IfcPropertySetTemplateTypeEnum() = default;
-IfcPropertySetTemplateTypeEnum::~IfcPropertySetTemplateTypeEnum() = default;
+IfcPropertySetTemplateTypeEnum::~IfcPropertySetTemplateTypeEnum() {}
 shared_ptr<BuildingObject> IfcPropertySetTemplateTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertySetTemplateTypeEnum> copy_self( new IfcPropertySetTemplateTypeEnum() );

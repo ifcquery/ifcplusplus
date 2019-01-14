@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcWarpingConstantMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcWarpingConstantMeasure();
+	IfcWarpingConstantMeasure() = default;
 	IfcWarpingConstantMeasure( double value );
 	~IfcWarpingConstantMeasure();
 	virtual const char* className() const { return "IfcWarpingConstantMeasure"; }

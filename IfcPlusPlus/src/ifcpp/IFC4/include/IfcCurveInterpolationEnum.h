@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcCurveInterpolationEnum();
+	IfcCurveInterpolationEnum() = default;
 	IfcCurveInterpolationEnum( IfcCurveInterpolationEnumEnum e ) { m_enum = e; }
 	~IfcCurveInterpolationEnum();
 	virtual const char* className() const { return "IfcCurveInterpolationEnum"; }

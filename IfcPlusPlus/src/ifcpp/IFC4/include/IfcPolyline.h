@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcCartesianPoint;
 class IFCQUERY_EXPORT IfcPolyline : public IfcBoundedCurve
 { 
 public:
-	IfcPolyline();
+	IfcPolyline() = default;
 	IfcPolyline( int id );
 	~IfcPolyline();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

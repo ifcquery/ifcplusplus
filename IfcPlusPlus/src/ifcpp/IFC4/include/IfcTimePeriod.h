@@ -12,7 +12,7 @@ class IFCQUERY_EXPORT IfcTime;
 class IFCQUERY_EXPORT IfcTimePeriod : public BuildingEntity
 { 
 public:
-	IfcTimePeriod();
+	IfcTimePeriod() = default;
 	IfcTimePeriod( int id );
 	~IfcTimePeriod();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcFlowFittingType : public IfcDistributionFlowElementType
 { 
 public:
-	IfcFlowFittingType();
+	IfcFlowFittingType() = default;
 	IfcFlowFittingType( int id );
 	~IfcFlowFittingType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

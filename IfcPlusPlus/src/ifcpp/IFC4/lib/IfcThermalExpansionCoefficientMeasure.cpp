@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcThermalExpansionCoefficientMeasure.h"
 
 // TYPE IfcThermalExpansionCoefficientMeasure = REAL;
-IfcThermalExpansionCoefficientMeasure::IfcThermalExpansionCoefficientMeasure() = default;
 IfcThermalExpansionCoefficientMeasure::IfcThermalExpansionCoefficientMeasure( double value ) { m_value = value; }
-IfcThermalExpansionCoefficientMeasure::~IfcThermalExpansionCoefficientMeasure() = default;
+IfcThermalExpansionCoefficientMeasure::~IfcThermalExpansionCoefficientMeasure() {}
 shared_ptr<BuildingObject> IfcThermalExpansionCoefficientMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcThermalExpansionCoefficientMeasure> copy_self( new IfcThermalExpansionCoefficientMeasure() );

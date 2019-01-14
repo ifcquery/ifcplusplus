@@ -12,7 +12,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcStructuralConnectionCondition : public BuildingEntity
 { 
 public:
-	IfcStructuralConnectionCondition();
+	IfcStructuralConnectionCondition() = default;
 	IfcStructuralConnectionCondition( int id );
 	~IfcStructuralConnectionCondition();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

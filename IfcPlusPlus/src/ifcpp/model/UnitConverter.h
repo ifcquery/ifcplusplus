@@ -17,8 +17,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#define _USE_MATH_DEFINES
-#include <math.h>
 #include <map>
 #include "BasicTypes.h"
 #include "StatusCallback.h"
@@ -59,26 +57,7 @@ public:
 		m_custom_length_factor = custom_factor;
 	}
 
-	void setAngleUnit( AngularUnit unit )
-	{
-		m_angular_unit = unit;
-		if( m_angular_unit == RADIANT )
-		{
-			m_plane_angle_factor = 1.0; // radian
-		}
-		else if( m_angular_unit == DEGREE )
-		{
-			m_plane_angle_factor = M_PI / 180.0; // 360°
-		}
-		else if( m_angular_unit == GON )
-		{
-			m_plane_angle_factor = M_PI / 200.0; // 400 gon
-		}
-		else
-		{
-			messageCallback( "Could not set angular unit", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__ );
-		}
-	}
+	void setAngleUnit(AngularUnit unit);
 	double getAngleInRadiantFactor()
 	{
 		if( m_angular_unit == UNDEFINED )
@@ -99,6 +78,6 @@ protected:
 	double m_length_unit_factor = 1.0;
 	double m_custom_length_factor = 1.0;
 	bool m_length_unit_found = false;
-	double m_plane_angle_factor = M_PI/180.0;
+	double m_plane_angle_factor = 1.0;
 	AngularUnit	m_angular_unit;
 };

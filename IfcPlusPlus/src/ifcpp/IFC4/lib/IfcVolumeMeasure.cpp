@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcVolumeMeasure.h"
 
 // TYPE IfcVolumeMeasure = REAL;
-IfcVolumeMeasure::IfcVolumeMeasure() = default;
 IfcVolumeMeasure::IfcVolumeMeasure( double value ) { m_value = value; }
-IfcVolumeMeasure::~IfcVolumeMeasure() = default;
+IfcVolumeMeasure::~IfcVolumeMeasure() {}
 shared_ptr<BuildingObject> IfcVolumeMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVolumeMeasure> copy_self( new IfcVolumeMeasure() );

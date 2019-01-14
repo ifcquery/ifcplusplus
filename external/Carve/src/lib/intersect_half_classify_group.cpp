@@ -60,8 +60,10 @@ struct GroupPoly : public CSG::Collector {
 
     std::list<ClassificationInfo>& cinfo = (grp->classification);
     if (cinfo.size() == 0) {
+#if defined(CARVE_DEBUG)
       std::cerr << "WARNING! group " << grp << " has no classification info!"
                 << std::endl;
+#endif
       return;
     }
     // XXX: check all the cinfo elements for consistency.

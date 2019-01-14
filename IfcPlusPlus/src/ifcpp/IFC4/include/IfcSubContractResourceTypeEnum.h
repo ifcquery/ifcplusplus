@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcSubContractResourceTypeEnum();
+	IfcSubContractResourceTypeEnum() = default;
 	IfcSubContractResourceTypeEnum( IfcSubContractResourceTypeEnumEnum e ) { m_enum = e; }
 	~IfcSubContractResourceTypeEnum();
 	virtual const char* className() const { return "IfcSubContractResourceTypeEnum"; }

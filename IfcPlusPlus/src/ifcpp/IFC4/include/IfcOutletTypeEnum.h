@@ -24,7 +24,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcOutletTypeEnum();
+	IfcOutletTypeEnum() = default;
 	IfcOutletTypeEnum( IfcOutletTypeEnumEnum e ) { m_enum = e; }
 	~IfcOutletTypeEnum();
 	virtual const char* className() const { return "IfcOutletTypeEnum"; }

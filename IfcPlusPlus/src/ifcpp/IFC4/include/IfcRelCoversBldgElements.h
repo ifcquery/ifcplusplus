@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcCovering;
 class IFCQUERY_EXPORT IfcRelCoversBldgElements : public IfcRelConnects
 { 
 public:
-	IfcRelCoversBldgElements();
+	IfcRelCoversBldgElements() = default;
 	IfcRelCoversBldgElements( int id );
 	~IfcRelCoversBldgElements();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

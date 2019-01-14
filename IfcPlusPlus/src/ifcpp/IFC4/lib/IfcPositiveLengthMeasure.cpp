@@ -13,8 +13,7 @@
 #include "ifcpp/IFC4/include/IfcPositiveLengthMeasure.h"
 
 // TYPE IfcPositiveLengthMeasure = IfcLengthMeasure;
-IfcPositiveLengthMeasure::IfcPositiveLengthMeasure() = default;
-IfcPositiveLengthMeasure::~IfcPositiveLengthMeasure() = default;
+IfcPositiveLengthMeasure::~IfcPositiveLengthMeasure() {}
 shared_ptr<BuildingObject> IfcPositiveLengthMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPositiveLengthMeasure> copy_self( new IfcPositiveLengthMeasure() );

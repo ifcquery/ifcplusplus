@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcTubeBundleTypeEnum.h"
 
 // TYPE IfcTubeBundleTypeEnum = ENUMERATION OF	(FINNED	,USERDEFINED	,NOTDEFINED);
-IfcTubeBundleTypeEnum::IfcTubeBundleTypeEnum() = default;
-IfcTubeBundleTypeEnum::~IfcTubeBundleTypeEnum() = default;
+IfcTubeBundleTypeEnum::~IfcTubeBundleTypeEnum() {}
 shared_ptr<BuildingObject> IfcTubeBundleTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTubeBundleTypeEnum> copy_self( new IfcTubeBundleTypeEnum() );

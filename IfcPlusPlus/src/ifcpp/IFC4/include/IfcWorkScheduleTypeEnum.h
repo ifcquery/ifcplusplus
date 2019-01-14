@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcWorkScheduleTypeEnum();
+	IfcWorkScheduleTypeEnum() = default;
 	IfcWorkScheduleTypeEnum( IfcWorkScheduleTypeEnumEnum e ) { m_enum = e; }
 	~IfcWorkScheduleTypeEnum();
 	virtual const char* className() const { return "IfcWorkScheduleTypeEnum"; }

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcRelFillsElement;
 class IFCQUERY_EXPORT IfcOpeningElement : public IfcFeatureElementSubtraction
 { 
 public:
-	IfcOpeningElement();
+	IfcOpeningElement() = default;
 	IfcOpeningElement( int id );
 	~IfcOpeningElement();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

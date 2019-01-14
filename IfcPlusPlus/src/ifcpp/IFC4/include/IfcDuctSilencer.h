@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcDuctSilencerTypeEnum;
 class IFCQUERY_EXPORT IfcDuctSilencer : public IfcFlowTreatmentDevice
 { 
 public:
-	IfcDuctSilencer();
+	IfcDuctSilencer() = default;
 	IfcDuctSilencer( int id );
 	~IfcDuctSilencer();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

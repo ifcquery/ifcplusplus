@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcWindowTypeEnum();
+	IfcWindowTypeEnum() = default;
 	IfcWindowTypeEnum( IfcWindowTypeEnumEnum e ) { m_enum = e; }
 	~IfcWindowTypeEnum();
 	virtual const char* className() const { return "IfcWindowTypeEnum"; }

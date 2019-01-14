@@ -19,7 +19,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcCostItemTypeEnum();
+	IfcCostItemTypeEnum() = default;
 	IfcCostItemTypeEnum( IfcCostItemTypeEnumEnum e ) { m_enum = e; }
 	~IfcCostItemTypeEnum();
 	virtual const char* className() const { return "IfcCostItemTypeEnum"; }

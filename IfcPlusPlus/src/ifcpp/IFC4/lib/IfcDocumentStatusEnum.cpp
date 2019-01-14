@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcDocumentStatusEnum.h"
 
 // TYPE IfcDocumentStatusEnum = ENUMERATION OF	(DRAFT	,FINALDRAFT	,FINAL	,REVISION	,NOTDEFINED);
-IfcDocumentStatusEnum::IfcDocumentStatusEnum() = default;
-IfcDocumentStatusEnum::~IfcDocumentStatusEnum() = default;
+IfcDocumentStatusEnum::~IfcDocumentStatusEnum() {}
 shared_ptr<BuildingObject> IfcDocumentStatusEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDocumentStatusEnum> copy_self( new IfcDocumentStatusEnum() );

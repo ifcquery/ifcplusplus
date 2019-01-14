@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcRelAssignsToControl;
 class IFCQUERY_EXPORT IfcControl : public IfcObject
 { 
 public:
-	IfcControl();
+	IfcControl() = default;
 	IfcControl( int id );
 	~IfcControl();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

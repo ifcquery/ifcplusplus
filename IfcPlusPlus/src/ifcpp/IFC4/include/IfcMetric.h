@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcReference;
 class IFCQUERY_EXPORT IfcMetric : public IfcConstraint
 { 
 public:
-	IfcMetric();
+	IfcMetric() = default;
 	IfcMetric( int id );
 	~IfcMetric();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcPlateTypeEnum();
+	IfcPlateTypeEnum() = default;
 	IfcPlateTypeEnum( IfcPlateTypeEnumEnum e ) { m_enum = e; }
 	~IfcPlateTypeEnum();
 	virtual const char* className() const { return "IfcPlateTypeEnum"; }

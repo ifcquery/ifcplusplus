@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcInternalOrExternalEnum;
 class IFCQUERY_EXPORT IfcRelSpaceBoundary : public IfcRelConnects
 { 
 public:
-	IfcRelSpaceBoundary();
+	IfcRelSpaceBoundary() = default;
 	IfcRelSpaceBoundary( int id );
 	~IfcRelSpaceBoundary();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

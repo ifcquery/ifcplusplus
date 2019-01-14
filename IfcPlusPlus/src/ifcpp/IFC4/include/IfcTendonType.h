@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcAreaMeasure;
 class IFCQUERY_EXPORT IfcTendonType : public IfcReinforcingElementType
 { 
 public:
-	IfcTendonType();
+	IfcTendonType() = default;
 	IfcTendonType( int id );
 	~IfcTendonType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

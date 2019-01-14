@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcFastenerTypeEnum;
 class IFCQUERY_EXPORT IfcFastenerType : public IfcElementComponentType
 { 
 public:
-	IfcFastenerType();
+	IfcFastenerType() = default;
 	IfcFastenerType( int id );
 	~IfcFastenerType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

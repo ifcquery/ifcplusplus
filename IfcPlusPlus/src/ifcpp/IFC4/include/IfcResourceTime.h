@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcResourceTime : public IfcSchedulingTime
 { 
 public:
-	IfcResourceTime();
+	IfcResourceTime() = default;
 	IfcResourceTime( int id );
 	~IfcResourceTime();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

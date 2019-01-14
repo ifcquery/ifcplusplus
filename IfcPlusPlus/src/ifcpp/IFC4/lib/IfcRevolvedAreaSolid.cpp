@@ -16,9 +16,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcRevolvedAreaSolid 
-IfcRevolvedAreaSolid::IfcRevolvedAreaSolid() = default;
 IfcRevolvedAreaSolid::IfcRevolvedAreaSolid( int id ) { m_entity_id = id; }
-IfcRevolvedAreaSolid::~IfcRevolvedAreaSolid() = default;
+IfcRevolvedAreaSolid::~IfcRevolvedAreaSolid() {}
 shared_ptr<BuildingObject> IfcRevolvedAreaSolid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRevolvedAreaSolid> copy_self( new IfcRevolvedAreaSolid() );
@@ -44,12 +43,12 @@ void IfcRevolvedAreaSolid::getStepLine( std::stringstream& stream ) const
 	if( m_Angle ) { m_Angle->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRevolvedAreaSolid::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcRevolvedAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRevolvedAreaSolid::toString() const { return L"IfcRevolvedAreaSolid"; }
 void IfcRevolvedAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRevolvedAreaSolid, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcRevolvedAreaSolid, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_SweptArea, map );
 	readEntityReference( args[1], m_Position, map );
 	readEntityReference( args[2], m_Axis, map );
@@ -58,8 +57,8 @@ void IfcRevolvedAreaSolid::readStepArguments( const std::vector<std::wstring>& a
 void IfcRevolvedAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcSweptAreaSolid::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Axis", m_Axis );
-	vec_attributes.emplace_back( "Angle", m_Angle );
+	vec_attributes.emplace_back( std::make_pair( "Axis", m_Axis ) );
+	vec_attributes.emplace_back( std::make_pair( "Angle", m_Angle ) );
 }
 void IfcRevolvedAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

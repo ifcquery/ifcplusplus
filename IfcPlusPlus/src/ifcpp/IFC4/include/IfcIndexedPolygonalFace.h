@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcPolygonalFaceSet;
 class IFCQUERY_EXPORT IfcIndexedPolygonalFace : public IfcTessellatedItem
 { 
 public:
-	IfcIndexedPolygonalFace();
+	IfcIndexedPolygonalFace() = default;
 	IfcIndexedPolygonalFace( int id );
 	~IfcIndexedPolygonalFace();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

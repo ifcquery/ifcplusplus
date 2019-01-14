@@ -19,7 +19,7 @@ public:
 		ENUM_Q_COMPLEX
 	};
 
-	IfcComplexPropertyTemplateTypeEnum();
+	IfcComplexPropertyTemplateTypeEnum() = default;
 	IfcComplexPropertyTemplateTypeEnum( IfcComplexPropertyTemplateTypeEnumEnum e ) { m_enum = e; }
 	~IfcComplexPropertyTemplateTypeEnum();
 	virtual const char* className() const { return "IfcComplexPropertyTemplateTypeEnum"; }

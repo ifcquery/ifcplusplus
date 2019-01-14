@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcAmountOfSubstanceMeasure : public IfcMeasureValue
 {
 public:
-	IfcAmountOfSubstanceMeasure();
+	IfcAmountOfSubstanceMeasure() = default;
 	IfcAmountOfSubstanceMeasure( double value );
 	~IfcAmountOfSubstanceMeasure();
 	virtual const char* className() const { return "IfcAmountOfSubstanceMeasure"; }

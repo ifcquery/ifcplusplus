@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcInductanceMeasure.h"
 
 // TYPE IfcInductanceMeasure = REAL;
-IfcInductanceMeasure::IfcInductanceMeasure() = default;
 IfcInductanceMeasure::IfcInductanceMeasure( double value ) { m_value = value; }
-IfcInductanceMeasure::~IfcInductanceMeasure() = default;
+IfcInductanceMeasure::~IfcInductanceMeasure() {}
 shared_ptr<BuildingObject> IfcInductanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcInductanceMeasure> copy_self( new IfcInductanceMeasure() );

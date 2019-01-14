@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcFireSuppressionTerminalTypeEnum.h"
 
 // TYPE IfcFireSuppressionTerminalTypeEnum = ENUMERATION OF	(BREECHINGINLET	,FIREHYDRANT	,HOSEREEL	,SPRINKLER	,SPRINKLERDEFLECTOR	,USERDEFINED	,NOTDEFINED);
-IfcFireSuppressionTerminalTypeEnum::IfcFireSuppressionTerminalTypeEnum() = default;
-IfcFireSuppressionTerminalTypeEnum::~IfcFireSuppressionTerminalTypeEnum() = default;
+IfcFireSuppressionTerminalTypeEnum::~IfcFireSuppressionTerminalTypeEnum() {}
 shared_ptr<BuildingObject> IfcFireSuppressionTerminalTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFireSuppressionTerminalTypeEnum> copy_self( new IfcFireSuppressionTerminalTypeEnum() );

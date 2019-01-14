@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcElectricConductanceMeasure.h"
 
 // TYPE IfcElectricConductanceMeasure = REAL;
-IfcElectricConductanceMeasure::IfcElectricConductanceMeasure() = default;
 IfcElectricConductanceMeasure::IfcElectricConductanceMeasure( double value ) { m_value = value; }
-IfcElectricConductanceMeasure::~IfcElectricConductanceMeasure() = default;
+IfcElectricConductanceMeasure::~IfcElectricConductanceMeasure() {}
 shared_ptr<BuildingObject> IfcElectricConductanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricConductanceMeasure> copy_self( new IfcElectricConductanceMeasure() );

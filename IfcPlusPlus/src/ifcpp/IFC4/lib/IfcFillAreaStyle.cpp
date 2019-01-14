@@ -13,18 +13,18 @@
 #include "ifcpp/IFC4/include/IfcLabel.h"
 
 // ENTITY IfcFillAreaStyle 
-IfcFillAreaStyle::IfcFillAreaStyle() = default;
 IfcFillAreaStyle::IfcFillAreaStyle( int id ) { m_entity_id = id; }
-IfcFillAreaStyle::~IfcFillAreaStyle() = default;
+IfcFillAreaStyle::~IfcFillAreaStyle() {}
 shared_ptr<BuildingObject> IfcFillAreaStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFillAreaStyle> copy_self( new IfcFillAreaStyle() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	for(auto item_ii : m_FillStyles)
+	for( size_t ii=0; ii<m_FillStyles.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_FillStyles[ii];
+		if( item_ii )
 		{
-			copy_self->m_FillStyles.push_back( dynamic_pointer_cast<IfcFillStyleSelect>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_FillStyles.emplace_back( dynamic_pointer_cast<IfcFillStyleSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_ModelorDraughting ) { copy_self->m_ModelorDraughting = dynamic_pointer_cast<IfcBoolean>( m_ModelorDraughting->getDeepCopy(options) ); }
@@ -57,12 +57,12 @@ void IfcFillAreaStyle::getStepLine( std::stringstream& stream ) const
 	if( m_ModelorDraughting ) { m_ModelorDraughting->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFillAreaStyle::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcFillAreaStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFillAreaStyle::toString() const { return L"IfcFillAreaStyle"; }
 void IfcFillAreaStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFillAreaStyle, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcFillAreaStyle, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	readSelectList( args[1], m_FillStyles, map );
 	m_ModelorDraughting = IfcBoolean::createObjectFromSTEP( args[2], map );
@@ -74,9 +74,9 @@ void IfcFillAreaStyle::getAttributes( std::vector<std::pair<std::string, shared_
 	{
 		shared_ptr<AttributeObjectVector> FillStyles_vec_object( new AttributeObjectVector() );
 		std::copy( m_FillStyles.begin(), m_FillStyles.end(), std::back_inserter( FillStyles_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "FillStyles", FillStyles_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "FillStyles", FillStyles_vec_object ) );
 	}
-	vec_attributes.emplace_back( "ModelorDraughting", m_ModelorDraughting );
+	vec_attributes.emplace_back( std::make_pair( "ModelorDraughting", m_ModelorDraughting ) );
 }
 void IfcFillAreaStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

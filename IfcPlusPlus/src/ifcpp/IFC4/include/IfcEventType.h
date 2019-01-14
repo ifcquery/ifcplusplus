@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcEventType : public IfcTypeProcess
 { 
 public:
-	IfcEventType();
+	IfcEventType() = default;
 	IfcEventType( int id );
 	~IfcEventType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

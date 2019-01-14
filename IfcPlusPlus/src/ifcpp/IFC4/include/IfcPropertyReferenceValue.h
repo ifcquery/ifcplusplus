@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcObjectReferenceSelect;
 class IFCQUERY_EXPORT IfcPropertyReferenceValue : public IfcSimpleProperty
 { 
 public:
-	IfcPropertyReferenceValue();
+	IfcPropertyReferenceValue() = default;
 	IfcPropertyReferenceValue( int id );
 	~IfcPropertyReferenceValue();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

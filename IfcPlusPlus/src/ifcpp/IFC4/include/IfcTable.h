@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcTableColumn;
 class IFCQUERY_EXPORT IfcTable : virtual public IfcMetricValueSelect, virtual public IfcObjectReferenceSelect, public BuildingEntity
 { 
 public:
-	IfcTable();
+	IfcTable() = default;
 	IfcTable( int id );
 	~IfcTable();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

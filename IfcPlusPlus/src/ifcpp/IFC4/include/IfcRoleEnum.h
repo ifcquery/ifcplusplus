@@ -40,7 +40,7 @@ public:
 		ENUM_USERDEFINED
 	};
 
-	IfcRoleEnum();
+	IfcRoleEnum() = default;
 	IfcRoleEnum( IfcRoleEnumEnum e ) { m_enum = e; }
 	~IfcRoleEnum();
 	virtual const char* className() const { return "IfcRoleEnum"; }

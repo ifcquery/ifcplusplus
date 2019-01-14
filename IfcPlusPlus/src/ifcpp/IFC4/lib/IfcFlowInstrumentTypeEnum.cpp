@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcFlowInstrumentTypeEnum.h"
 
 // TYPE IfcFlowInstrumentTypeEnum = ENUMERATION OF	(PRESSUREGAUGE	,THERMOMETER	,AMMETER	,FREQUENCYMETER	,POWERFACTORMETER	,PHASEANGLEMETER	,VOLTMETER_PEAK	,VOLTMETER_RMS	,USERDEFINED	,NOTDEFINED);
-IfcFlowInstrumentTypeEnum::IfcFlowInstrumentTypeEnum() = default;
-IfcFlowInstrumentTypeEnum::~IfcFlowInstrumentTypeEnum() = default;
+IfcFlowInstrumentTypeEnum::~IfcFlowInstrumentTypeEnum() {}
 shared_ptr<BuildingObject> IfcFlowInstrumentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFlowInstrumentTypeEnum> copy_self( new IfcFlowInstrumentTypeEnum() );

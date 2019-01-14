@@ -11,8 +11,7 @@
 #include "ifcpp/IFC4/include/IfcLineIndex.h"
 
 // TYPE IfcLineIndex = LIST [2:?] OF IfcPositiveInteger;
-IfcLineIndex::IfcLineIndex() = default;
-IfcLineIndex::~IfcLineIndex() = default;
+IfcLineIndex::~IfcLineIndex() {}
 shared_ptr<BuildingObject> IfcLineIndex::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLineIndex> copy_self( new IfcLineIndex() );

@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcBooleanOperator.h"
 
 // TYPE IfcBooleanOperator = ENUMERATION OF	(UNION	,INTERSECTION	,DIFFERENCE);
-IfcBooleanOperator::IfcBooleanOperator() = default;
-IfcBooleanOperator::~IfcBooleanOperator() = default;
+IfcBooleanOperator::~IfcBooleanOperator() {}
 shared_ptr<BuildingObject> IfcBooleanOperator::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBooleanOperator> copy_self( new IfcBooleanOperator() );

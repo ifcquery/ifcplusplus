@@ -10,9 +10,8 @@
 #include "ifcpp/IFC4/include/IfcTextAlignment.h"
 
 // TYPE IfcTextAlignment = STRING;
-IfcTextAlignment::IfcTextAlignment() = default;
 IfcTextAlignment::IfcTextAlignment( std::wstring value ) { m_value = value; }
-IfcTextAlignment::~IfcTextAlignment() = default;
+IfcTextAlignment::~IfcTextAlignment() {}
 shared_ptr<BuildingObject> IfcTextAlignment::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextAlignment> copy_self( new IfcTextAlignment() );

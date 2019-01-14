@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcRelSpaceBoundary1stLevel;
 class IFCQUERY_EXPORT IfcRelSpaceBoundary1stLevel : public IfcRelSpaceBoundary
 { 
 public:
-	IfcRelSpaceBoundary1stLevel();
+	IfcRelSpaceBoundary1stLevel() = default;
 	IfcRelSpaceBoundary1stLevel( int id );
 	~IfcRelSpaceBoundary1stLevel();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

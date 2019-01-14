@@ -15,9 +15,8 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianTransformationOperator2D 
-IfcCartesianTransformationOperator2D::IfcCartesianTransformationOperator2D() = default;
 IfcCartesianTransformationOperator2D::IfcCartesianTransformationOperator2D( int id ) { m_entity_id = id; }
-IfcCartesianTransformationOperator2D::~IfcCartesianTransformationOperator2D() = default;
+IfcCartesianTransformationOperator2D::~IfcCartesianTransformationOperator2D() {}
 shared_ptr<BuildingObject> IfcCartesianTransformationOperator2D::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianTransformationOperator2D> copy_self( new IfcCartesianTransformationOperator2D() );
@@ -30,7 +29,7 @@ shared_ptr<BuildingObject> IfcCartesianTransformationOperator2D::getDeepCopy( Bu
 void IfcCartesianTransformationOperator2D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCARTESIANTRANSFORMATIONOPERATOR2D" << "(";
-	if( m_Axis1 ) { stream << "#" << m_Axis1->m_entity_id; } else { stream << "*"; }
+	if( m_Axis1 ) { stream << "#" << m_Axis1->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Axis2 ) { stream << "#" << m_Axis2->m_entity_id; } else { stream << "$"; }
 	stream << ",";
@@ -39,12 +38,12 @@ void IfcCartesianTransformationOperator2D::getStepLine( std::stringstream& strea
 	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCartesianTransformationOperator2D::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcCartesianTransformationOperator2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianTransformationOperator2D::toString() const { return L"IfcCartesianTransformationOperator2D"; }
 void IfcCartesianTransformationOperator2D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator2D, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianTransformationOperator2D, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_Axis1, map );
 	readEntityReference( args[1], m_Axis2, map );
 	readEntityReference( args[2], m_LocalOrigin, map );

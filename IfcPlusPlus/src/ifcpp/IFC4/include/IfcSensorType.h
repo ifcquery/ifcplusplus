@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcSensorTypeEnum;
 class IFCQUERY_EXPORT IfcSensorType : public IfcDistributionControlElementType
 { 
 public:
-	IfcSensorType();
+	IfcSensorType() = default;
 	IfcSensorType( int id );
 	~IfcSensorType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -10,9 +10,8 @@
 #include "ifcpp/IFC4/include/IfcTextTransformation.h"
 
 // TYPE IfcTextTransformation = STRING;
-IfcTextTransformation::IfcTextTransformation() = default;
 IfcTextTransformation::IfcTextTransformation( std::wstring value ) { m_value = value; }
-IfcTextTransformation::~IfcTextTransformation() = default;
+IfcTextTransformation::~IfcTextTransformation() {}
 shared_ptr<BuildingObject> IfcTextTransformation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextTransformation> copy_self( new IfcTextTransformation() );

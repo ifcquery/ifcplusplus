@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcTime.h"
 
 // TYPE IfcTime = STRING;
-IfcTime::IfcTime() = default;
 IfcTime::IfcTime( std::wstring value ) { m_value = value; }
-IfcTime::~IfcTime() = default;
+IfcTime::~IfcTime() {}
 shared_ptr<BuildingObject> IfcTime::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTime> copy_self( new IfcTime() );

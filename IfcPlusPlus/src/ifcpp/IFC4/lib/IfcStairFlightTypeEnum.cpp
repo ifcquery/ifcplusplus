@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcStairFlightTypeEnum.h"
 
 // TYPE IfcStairFlightTypeEnum = ENUMERATION OF	(STRAIGHT	,WINDER	,SPIRAL	,CURVED	,FREEFORM	,USERDEFINED	,NOTDEFINED);
-IfcStairFlightTypeEnum::IfcStairFlightTypeEnum() = default;
-IfcStairFlightTypeEnum::~IfcStairFlightTypeEnum() = default;
+IfcStairFlightTypeEnum::~IfcStairFlightTypeEnum() {}
 shared_ptr<BuildingObject> IfcStairFlightTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStairFlightTypeEnum> copy_self( new IfcStairFlightTypeEnum() );

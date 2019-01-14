@@ -26,7 +26,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcCostScheduleTypeEnum();
+	IfcCostScheduleTypeEnum() = default;
 	IfcCostScheduleTypeEnum( IfcCostScheduleTypeEnumEnum e ) { m_enum = e; }
 	~IfcCostScheduleTypeEnum();
 	virtual const char* className() const { return "IfcCostScheduleTypeEnum"; }

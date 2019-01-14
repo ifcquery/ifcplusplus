@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcOrientedEdge;
 class IFCQUERY_EXPORT IfcEdgeLoop : public IfcLoop
 { 
 public:
-	IfcEdgeLoop();
+	IfcEdgeLoop() = default;
 	IfcEdgeLoop( int id );
 	~IfcEdgeLoop();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

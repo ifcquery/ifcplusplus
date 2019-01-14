@@ -157,6 +157,8 @@ public:
 		m_meshsets_open.push_back( meshset );
 	}
 
+	
+
 	void addClosedPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data )
 	{
 		if( poly_data->getVertexCount() < 3 )
@@ -173,8 +175,8 @@ public:
 		}
 		else
 		{
-			m_meshsets_open.push_back( meshset ); // still may be useful as open mesh
-			throw BuildingException( "Meshset is not closed", __FUNC__ );
+			m_meshsets_open.push_back(meshset); // still may be useful as open mesh
+			throw BuildingException("Meshset is not closed", __FUNC__);
 		}
 	}
 

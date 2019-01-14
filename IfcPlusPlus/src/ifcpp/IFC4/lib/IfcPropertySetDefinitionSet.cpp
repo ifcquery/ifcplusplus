@@ -12,16 +12,16 @@
 #include "ifcpp/IFC4/include/IfcPropertySetDefinitionSet.h"
 
 // TYPE IfcPropertySetDefinitionSet = SET [1:?] OF IfcPropertySetDefinition;
-IfcPropertySetDefinitionSet::IfcPropertySetDefinitionSet() = default;
-IfcPropertySetDefinitionSet::~IfcPropertySetDefinitionSet() = default;
+IfcPropertySetDefinitionSet::~IfcPropertySetDefinitionSet() {}
 shared_ptr<BuildingObject> IfcPropertySetDefinitionSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertySetDefinitionSet> copy_self( new IfcPropertySetDefinitionSet() );
-	for(auto item_ii : m_vec)
+	for( size_t ii=0; ii<m_vec.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_vec[ii];
+		if( item_ii )
 		{
-			copy_self->m_vec.push_back( dynamic_pointer_cast<IfcPropertySetDefinition>( item_ii->getDeepCopy( options ) ) );
+			copy_self->m_vec.emplace_back( dynamic_pointer_cast<IfcPropertySetDefinition>( item_ii->getDeepCopy( options ) ) );
 		}
 	}
 	return copy_self;

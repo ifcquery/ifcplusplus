@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcPropertyTemplateDefinition : public IfcPropertyDefinition
 { 
 public:
-	IfcPropertyTemplateDefinition();
+	IfcPropertyTemplateDefinition() = default;
 	IfcPropertyTemplateDefinition( int id );
 	~IfcPropertyTemplateDefinition();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

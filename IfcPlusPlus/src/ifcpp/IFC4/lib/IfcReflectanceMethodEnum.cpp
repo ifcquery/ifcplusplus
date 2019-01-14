@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcReflectanceMethodEnum.h"
 
 // TYPE IfcReflectanceMethodEnum = ENUMERATION OF	(BLINN	,FLAT	,GLASS	,MATT	,METAL	,MIRROR	,PHONG	,PLASTIC	,STRAUSS	,NOTDEFINED);
-IfcReflectanceMethodEnum::IfcReflectanceMethodEnum() = default;
-IfcReflectanceMethodEnum::~IfcReflectanceMethodEnum() = default;
+IfcReflectanceMethodEnum::~IfcReflectanceMethodEnum() {}
 shared_ptr<BuildingObject> IfcReflectanceMethodEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReflectanceMethodEnum> copy_self( new IfcReflectanceMethodEnum() );

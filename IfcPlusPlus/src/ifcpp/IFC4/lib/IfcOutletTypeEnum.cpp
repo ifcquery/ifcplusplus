@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcOutletTypeEnum.h"
 
 // TYPE IfcOutletTypeEnum = ENUMERATION OF	(AUDIOVISUALOUTLET	,COMMUNICATIONSOUTLET	,POWEROUTLET	,DATAOUTLET	,TELEPHONEOUTLET	,USERDEFINED	,NOTDEFINED);
-IfcOutletTypeEnum::IfcOutletTypeEnum() = default;
-IfcOutletTypeEnum::~IfcOutletTypeEnum() = default;
+IfcOutletTypeEnum::~IfcOutletTypeEnum() {}
 shared_ptr<BuildingObject> IfcOutletTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOutletTypeEnum> copy_self( new IfcOutletTypeEnum() );

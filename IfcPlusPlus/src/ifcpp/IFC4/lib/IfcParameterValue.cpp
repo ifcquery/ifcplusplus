@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcParameterValue.h"
 
 // TYPE IfcParameterValue = REAL;
-IfcParameterValue::IfcParameterValue() = default;
 IfcParameterValue::IfcParameterValue( double value ) { m_value = value; }
-IfcParameterValue::~IfcParameterValue() = default;
+IfcParameterValue::~IfcParameterValue() {}
 shared_ptr<BuildingObject> IfcParameterValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcParameterValue> copy_self( new IfcParameterValue() );

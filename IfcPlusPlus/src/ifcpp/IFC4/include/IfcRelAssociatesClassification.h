@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcClassificationSelect;
 class IFCQUERY_EXPORT IfcRelAssociatesClassification : public IfcRelAssociates
 { 
 public:
-	IfcRelAssociatesClassification();
+	IfcRelAssociatesClassification() = default;
 	IfcRelAssociatesClassification( int id );
 	~IfcRelAssociatesClassification();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

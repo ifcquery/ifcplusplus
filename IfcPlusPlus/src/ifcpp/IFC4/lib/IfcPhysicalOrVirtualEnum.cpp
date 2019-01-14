@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcPhysicalOrVirtualEnum.h"
 
 // TYPE IfcPhysicalOrVirtualEnum = ENUMERATION OF	(PHYSICAL	,VIRTUAL	,NOTDEFINED);
-IfcPhysicalOrVirtualEnum::IfcPhysicalOrVirtualEnum() = default;
-IfcPhysicalOrVirtualEnum::~IfcPhysicalOrVirtualEnum() = default;
+IfcPhysicalOrVirtualEnum::~IfcPhysicalOrVirtualEnum() {}
 shared_ptr<BuildingObject> IfcPhysicalOrVirtualEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPhysicalOrVirtualEnum> copy_self( new IfcPhysicalOrVirtualEnum() );

@@ -14,19 +14,19 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcMaterialDefinitionRepresentation 
-IfcMaterialDefinitionRepresentation::IfcMaterialDefinitionRepresentation() = default;
 IfcMaterialDefinitionRepresentation::IfcMaterialDefinitionRepresentation( int id ) { m_entity_id = id; }
-IfcMaterialDefinitionRepresentation::~IfcMaterialDefinitionRepresentation() = default;
+IfcMaterialDefinitionRepresentation::~IfcMaterialDefinitionRepresentation() {}
 shared_ptr<BuildingObject> IfcMaterialDefinitionRepresentation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialDefinitionRepresentation> copy_self( new IfcMaterialDefinitionRepresentation() );
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for(auto item_ii : m_Representations)
+	for( size_t ii=0; ii<m_Representations.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_Representations[ii];
+		if( item_ii )
 		{
-			copy_self->m_Representations.push_back( dynamic_pointer_cast<IfcRepresentation>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_Representations.emplace_back( dynamic_pointer_cast<IfcRepresentation>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RepresentedMaterial ) { copy_self->m_RepresentedMaterial = dynamic_pointer_cast<IfcMaterial>( m_RepresentedMaterial->getDeepCopy(options) ); }
@@ -44,12 +44,12 @@ void IfcMaterialDefinitionRepresentation::getStepLine( std::stringstream& stream
 	if( m_RepresentedMaterial ) { stream << "#" << m_RepresentedMaterial->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMaterialDefinitionRepresentation::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcMaterialDefinitionRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialDefinitionRepresentation::toString() const { return L"IfcMaterialDefinitionRepresentation"; }
 void IfcMaterialDefinitionRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialDefinitionRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMaterialDefinitionRepresentation, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	readEntityReferenceList( args[2], m_Representations, map );
@@ -58,7 +58,7 @@ void IfcMaterialDefinitionRepresentation::readStepArguments( const std::vector<s
 void IfcMaterialDefinitionRepresentation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProductRepresentation::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "RepresentedMaterial", m_RepresentedMaterial );
+	vec_attributes.emplace_back( std::make_pair( "RepresentedMaterial", m_RepresentedMaterial ) );
 }
 void IfcMaterialDefinitionRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -71,7 +71,7 @@ void IfcMaterialDefinitionRepresentation::setInverseCounterparts( shared_ptr<Bui
 	if( !ptr_self ) { throw BuildingException( "IfcMaterialDefinitionRepresentation::setInverseCounterparts: type mismatch" ); }
 	if( m_RepresentedMaterial )
 	{
-		m_RepresentedMaterial->m_HasRepresentation_inverse.push_back( ptr_self );
+		m_RepresentedMaterial->m_HasRepresentation_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcMaterialDefinitionRepresentation::unlinkFromInverseCounterparts()

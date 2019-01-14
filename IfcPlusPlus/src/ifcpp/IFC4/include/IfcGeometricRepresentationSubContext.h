@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcGeometricRepresentationSubContext : public IfcGeometricRepresentationContext
 { 
 public:
-	IfcGeometricRepresentationSubContext();
+	IfcGeometricRepresentationSubContext() = default;
 	IfcGeometricRepresentationSubContext( int id );
 	~IfcGeometricRepresentationSubContext();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

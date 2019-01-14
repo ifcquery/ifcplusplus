@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcAirToAirHeatRecoveryTypeEnum;
 class IFCQUERY_EXPORT IfcAirToAirHeatRecoveryType : public IfcEnergyConversionDeviceType
 { 
 public:
-	IfcAirToAirHeatRecoveryType();
+	IfcAirToAirHeatRecoveryType() = default;
 	IfcAirToAirHeatRecoveryType( int id );
 	~IfcAirToAirHeatRecoveryType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

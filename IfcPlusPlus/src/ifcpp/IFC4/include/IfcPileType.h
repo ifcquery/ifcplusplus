@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPileTypeEnum;
 class IFCQUERY_EXPORT IfcPileType : public IfcBuildingElementType
 { 
 public:
-	IfcPileType();
+	IfcPileType() = default;
 	IfcPileType( int id );
 	~IfcPileType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

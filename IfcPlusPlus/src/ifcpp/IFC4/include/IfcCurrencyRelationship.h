@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcLibraryInformation;
 class IFCQUERY_EXPORT IfcCurrencyRelationship : public IfcResourceLevelRelationship
 { 
 public:
-	IfcCurrencyRelationship();
+	IfcCurrencyRelationship() = default;
 	IfcCurrencyRelationship( int id );
 	~IfcCurrencyRelationship();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcReinforcementBarProperties;
 class IFCQUERY_EXPORT IfcSectionReinforcementProperties : public IfcPreDefinedProperties
 { 
 public:
-	IfcSectionReinforcementProperties();
+	IfcSectionReinforcementProperties() = default;
 	IfcSectionReinforcementProperties( int id );
 	~IfcSectionReinforcementProperties();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

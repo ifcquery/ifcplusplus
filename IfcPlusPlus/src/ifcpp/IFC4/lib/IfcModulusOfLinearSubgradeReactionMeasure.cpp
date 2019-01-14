@@ -12,9 +12,8 @@
 #include "ifcpp/IFC4/include/IfcModulusOfLinearSubgradeReactionMeasure.h"
 
 // TYPE IfcModulusOfLinearSubgradeReactionMeasure = REAL;
-IfcModulusOfLinearSubgradeReactionMeasure::IfcModulusOfLinearSubgradeReactionMeasure() = default;
 IfcModulusOfLinearSubgradeReactionMeasure::IfcModulusOfLinearSubgradeReactionMeasure( double value ) { m_value = value; }
-IfcModulusOfLinearSubgradeReactionMeasure::~IfcModulusOfLinearSubgradeReactionMeasure() = default;
+IfcModulusOfLinearSubgradeReactionMeasure::~IfcModulusOfLinearSubgradeReactionMeasure() {}
 shared_ptr<BuildingObject> IfcModulusOfLinearSubgradeReactionMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure> copy_self( new IfcModulusOfLinearSubgradeReactionMeasure() );

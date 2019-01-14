@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcCompositeCurve;
 class IFCQUERY_EXPORT IfcCompositeCurveSegment : public IfcGeometricRepresentationItem
 { 
 public:
-	IfcCompositeCurveSegment();
+	IfcCompositeCurveSegment() = default;
 	IfcCompositeCurveSegment( int id );
 	~IfcCompositeCurveSegment();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

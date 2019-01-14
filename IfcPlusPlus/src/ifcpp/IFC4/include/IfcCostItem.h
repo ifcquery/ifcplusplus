@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcPhysicalQuantity;
 class IFCQUERY_EXPORT IfcCostItem : public IfcControl
 { 
 public:
-	IfcCostItem();
+	IfcCostItem() = default;
 	IfcCostItem( int id );
 	~IfcCostItem();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

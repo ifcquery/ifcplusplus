@@ -18,9 +18,8 @@
 #include "ifcpp/IFC4/include/IfcTaskTimeRecurring.h"
 
 // ENTITY IfcTaskTimeRecurring 
-IfcTaskTimeRecurring::IfcTaskTimeRecurring() = default;
 IfcTaskTimeRecurring::IfcTaskTimeRecurring( int id ) { m_entity_id = id; }
-IfcTaskTimeRecurring::~IfcTaskTimeRecurring() = default;
+IfcTaskTimeRecurring::~IfcTaskTimeRecurring() {}
 shared_ptr<BuildingObject> IfcTaskTimeRecurring::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTaskTimeRecurring> copy_self( new IfcTaskTimeRecurring() );
@@ -93,12 +92,12 @@ void IfcTaskTimeRecurring::getStepLine( std::stringstream& stream ) const
 	if( m_Recurrence ) { stream << "#" << m_Recurrence->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTaskTimeRecurring::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcTaskTimeRecurring::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTaskTimeRecurring::toString() const { return L"IfcTaskTimeRecurring"; }
 void IfcTaskTimeRecurring::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 21 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTaskTimeRecurring, expecting 21, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 21 ){ std::stringstream err; err << "Wrong parameter count for entity IfcTaskTimeRecurring, expecting 21, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[1], map );
 	m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -124,7 +123,7 @@ void IfcTaskTimeRecurring::readStepArguments( const std::vector<std::wstring>& a
 void IfcTaskTimeRecurring::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTaskTime::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Recurrence", m_Recurrence );
+	vec_attributes.emplace_back( std::make_pair( "Recurrence", m_Recurrence ) );
 }
 void IfcTaskTimeRecurring::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

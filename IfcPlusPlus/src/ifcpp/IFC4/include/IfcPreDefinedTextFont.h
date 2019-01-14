@@ -13,7 +13,7 @@
 class IFCQUERY_EXPORT IfcPreDefinedTextFont : virtual public IfcTextFontSelect, public IfcPreDefinedItem
 { 
 public:
-	IfcPreDefinedTextFont();
+	IfcPreDefinedTextFont() = default;
 	IfcPreDefinedTextFont( int id );
 	~IfcPreDefinedTextFont();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

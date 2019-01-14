@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcTimeMeasure : public IfcMeasureValue
 {
 public:
-	IfcTimeMeasure();
+	IfcTimeMeasure() = default;
 	IfcTimeMeasure( double value );
 	~IfcTimeMeasure();
 	virtual const char* className() const { return "IfcTimeMeasure"; }

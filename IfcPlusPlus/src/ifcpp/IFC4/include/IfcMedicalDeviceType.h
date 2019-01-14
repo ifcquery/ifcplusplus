@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcMedicalDeviceTypeEnum;
 class IFCQUERY_EXPORT IfcMedicalDeviceType : public IfcFlowTerminalType
 { 
 public:
-	IfcMedicalDeviceType();
+	IfcMedicalDeviceType() = default;
 	IfcMedicalDeviceType( int id );
 	~IfcMedicalDeviceType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,9 +13,8 @@
 #include "ifcpp/IFC4/include/IfcTranslationalStiffnessSelect.h"
 
 // ENTITY IfcBoundaryNodeCondition 
-IfcBoundaryNodeCondition::IfcBoundaryNodeCondition() = default;
 IfcBoundaryNodeCondition::IfcBoundaryNodeCondition( int id ) { m_entity_id = id; }
-IfcBoundaryNodeCondition::~IfcBoundaryNodeCondition() = default;
+IfcBoundaryNodeCondition::~IfcBoundaryNodeCondition() {}
 shared_ptr<BuildingObject> IfcBoundaryNodeCondition::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoundaryNodeCondition> copy_self( new IfcBoundaryNodeCondition() );
@@ -46,12 +45,12 @@ void IfcBoundaryNodeCondition::getStepLine( std::stringstream& stream ) const
 	if( m_RotationalStiffnessZ ) { m_RotationalStiffnessZ->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcBoundaryNodeCondition::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcBoundaryNodeCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundaryNodeCondition::toString() const { return L"IfcBoundaryNodeCondition"; }
 void IfcBoundaryNodeCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoundaryNodeCondition, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcBoundaryNodeCondition, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_TranslationalStiffnessX = IfcTranslationalStiffnessSelect::createObjectFromSTEP( args[1], map );
 	m_TranslationalStiffnessY = IfcTranslationalStiffnessSelect::createObjectFromSTEP( args[2], map );
@@ -63,12 +62,12 @@ void IfcBoundaryNodeCondition::readStepArguments( const std::vector<std::wstring
 void IfcBoundaryNodeCondition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcBoundaryCondition::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "TranslationalStiffnessX", m_TranslationalStiffnessX );
-	vec_attributes.emplace_back( "TranslationalStiffnessY", m_TranslationalStiffnessY );
-	vec_attributes.emplace_back( "TranslationalStiffnessZ", m_TranslationalStiffnessZ );
-	vec_attributes.emplace_back( "RotationalStiffnessX", m_RotationalStiffnessX );
-	vec_attributes.emplace_back( "RotationalStiffnessY", m_RotationalStiffnessY );
-	vec_attributes.emplace_back( "RotationalStiffnessZ", m_RotationalStiffnessZ );
+	vec_attributes.emplace_back( std::make_pair( "TranslationalStiffnessX", m_TranslationalStiffnessX ) );
+	vec_attributes.emplace_back( std::make_pair( "TranslationalStiffnessY", m_TranslationalStiffnessY ) );
+	vec_attributes.emplace_back( std::make_pair( "TranslationalStiffnessZ", m_TranslationalStiffnessZ ) );
+	vec_attributes.emplace_back( std::make_pair( "RotationalStiffnessX", m_RotationalStiffnessX ) );
+	vec_attributes.emplace_back( std::make_pair( "RotationalStiffnessY", m_RotationalStiffnessY ) );
+	vec_attributes.emplace_back( std::make_pair( "RotationalStiffnessZ", m_RotationalStiffnessZ ) );
 }
 void IfcBoundaryNodeCondition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

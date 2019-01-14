@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcJunctionBoxTypeEnum;
 class IFCQUERY_EXPORT IfcJunctionBox : public IfcFlowFitting
 { 
 public:
-	IfcJunctionBox();
+	IfcJunctionBox() = default;
 	IfcJunctionBox( int id );
 	~IfcJunctionBox();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

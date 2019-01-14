@@ -10,9 +10,8 @@
 #include "ifcpp/IFC4/include/IfcTextFontName.h"
 
 // TYPE IfcTextFontName = STRING;
-IfcTextFontName::IfcTextFontName() = default;
 IfcTextFontName::IfcTextFontName( std::wstring value ) { m_value = value; }
-IfcTextFontName::~IfcTextFontName() = default;
+IfcTextFontName::~IfcTextFontName() {}
 shared_ptr<BuildingObject> IfcTextFontName::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextFontName> copy_self( new IfcTextFontName() );

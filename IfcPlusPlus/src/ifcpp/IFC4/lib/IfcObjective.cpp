@@ -20,9 +20,8 @@
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcObjective 
-IfcObjective::IfcObjective() = default;
 IfcObjective::IfcObjective( int id ) { m_entity_id = id; }
-IfcObjective::~IfcObjective() = default;
+IfcObjective::~IfcObjective() {}
 shared_ptr<BuildingObject> IfcObjective::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcObjective> copy_self( new IfcObjective() );
@@ -33,11 +32,12 @@ shared_ptr<BuildingObject> IfcObjective::getDeepCopy( BuildingCopyOptions& optio
 	if( m_CreatingActor ) { copy_self->m_CreatingActor = dynamic_pointer_cast<IfcActorSelect>( m_CreatingActor->getDeepCopy(options) ); }
 	if( m_CreationTime ) { copy_self->m_CreationTime = dynamic_pointer_cast<IfcDateTime>( m_CreationTime->getDeepCopy(options) ); }
 	if( m_UserDefinedGrade ) { copy_self->m_UserDefinedGrade = dynamic_pointer_cast<IfcLabel>( m_UserDefinedGrade->getDeepCopy(options) ); }
-	for(auto item_ii : m_BenchmarkValues)
+	for( size_t ii=0; ii<m_BenchmarkValues.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_BenchmarkValues[ii];
+		if( item_ii )
 		{
-			copy_self->m_BenchmarkValues.push_back( dynamic_pointer_cast<IfcConstraint>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_BenchmarkValues.emplace_back( dynamic_pointer_cast<IfcConstraint>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_LogicalAggregator ) { copy_self->m_LogicalAggregator = dynamic_pointer_cast<IfcLogicalOperatorEnum>( m_LogicalAggregator->getDeepCopy(options) ); }
@@ -71,12 +71,12 @@ void IfcObjective::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedQualifier ) { m_UserDefinedQualifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcObjective::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcObjective::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcObjective::toString() const { return L"IfcObjective"; }
 void IfcObjective::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcObjective, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 11 ){ std::stringstream err; err << "Wrong parameter count for entity IfcObjective, expecting 11, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_Name = IfcLabel::createObjectFromSTEP( args[0], map );
 	m_Description = IfcText::createObjectFromSTEP( args[1], map );
 	m_ConstraintGrade = IfcConstraintEnum::createObjectFromSTEP( args[2], map );
@@ -96,11 +96,11 @@ void IfcObjective::getAttributes( std::vector<std::pair<std::string, shared_ptr<
 	{
 		shared_ptr<AttributeObjectVector> BenchmarkValues_vec_object( new AttributeObjectVector() );
 		std::copy( m_BenchmarkValues.begin(), m_BenchmarkValues.end(), std::back_inserter( BenchmarkValues_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "BenchmarkValues", BenchmarkValues_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "BenchmarkValues", BenchmarkValues_vec_object ) );
 	}
-	vec_attributes.emplace_back( "LogicalAggregator", m_LogicalAggregator );
-	vec_attributes.emplace_back( "ObjectiveQualifier", m_ObjectiveQualifier );
-	vec_attributes.emplace_back( "UserDefinedQualifier", m_UserDefinedQualifier );
+	vec_attributes.emplace_back( std::make_pair( "LogicalAggregator", m_LogicalAggregator ) );
+	vec_attributes.emplace_back( std::make_pair( "ObjectiveQualifier", m_ObjectiveQualifier ) );
+	vec_attributes.emplace_back( std::make_pair( "UserDefinedQualifier", m_UserDefinedQualifier ) );
 }
 void IfcObjective::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

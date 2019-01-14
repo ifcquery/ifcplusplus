@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcElectricCurrentMeasure.h"
 
 // TYPE IfcElectricCurrentMeasure = REAL;
-IfcElectricCurrentMeasure::IfcElectricCurrentMeasure() = default;
 IfcElectricCurrentMeasure::IfcElectricCurrentMeasure( double value ) { m_value = value; }
-IfcElectricCurrentMeasure::~IfcElectricCurrentMeasure() = default;
+IfcElectricCurrentMeasure::~IfcElectricCurrentMeasure() {}
 shared_ptr<BuildingObject> IfcElectricCurrentMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricCurrentMeasure> copy_self( new IfcElectricCurrentMeasure() );

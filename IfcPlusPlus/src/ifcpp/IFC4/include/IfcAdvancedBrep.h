@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcAdvancedBrep : public IfcManifoldSolidBrep
 { 
 public:
-	IfcAdvancedBrep();
+	IfcAdvancedBrep() = default;
 	IfcAdvancedBrep( int id );
 	~IfcAdvancedBrep();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

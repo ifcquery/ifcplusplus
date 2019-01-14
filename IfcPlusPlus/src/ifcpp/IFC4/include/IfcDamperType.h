@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcDamperTypeEnum;
 class IFCQUERY_EXPORT IfcDamperType : public IfcFlowControllerType
 { 
 public:
-	IfcDamperType();
+	IfcDamperType() = default;
 	IfcDamperType( int id );
 	~IfcDamperType();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

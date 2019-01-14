@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcOuterBoundaryCurve : public IfcBoundaryCurve
 { 
 public:
-	IfcOuterBoundaryCurve();
+	IfcOuterBoundaryCurve() = default;
 	IfcOuterBoundaryCurve( int id );
 	~IfcOuterBoundaryCurve();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

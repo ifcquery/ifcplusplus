@@ -20,7 +20,7 @@ public:
 		ENUM_BOTH
 	};
 
-	IfcSurfaceSide();
+	IfcSurfaceSide() = default;
 	IfcSurfaceSide( IfcSurfaceSideEnum e ) { m_enum = e; }
 	~IfcSurfaceSide();
 	virtual const char* className() const { return "IfcSurfaceSide"; }

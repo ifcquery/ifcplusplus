@@ -13,18 +13,18 @@
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
 // ENTITY IfcAnnotationFillArea 
-IfcAnnotationFillArea::IfcAnnotationFillArea() = default;
 IfcAnnotationFillArea::IfcAnnotationFillArea( int id ) { m_entity_id = id; }
-IfcAnnotationFillArea::~IfcAnnotationFillArea() = default;
+IfcAnnotationFillArea::~IfcAnnotationFillArea() {}
 shared_ptr<BuildingObject> IfcAnnotationFillArea::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAnnotationFillArea> copy_self( new IfcAnnotationFillArea() );
 	if( m_OuterBoundary ) { copy_self->m_OuterBoundary = dynamic_pointer_cast<IfcCurve>( m_OuterBoundary->getDeepCopy(options) ); }
-	for(auto item_ii : m_InnerBoundaries)
+	for( size_t ii=0; ii<m_InnerBoundaries.size(); ++ii )
 	{
-			if( item_ii )
+		auto item_ii = m_InnerBoundaries[ii];
+		if( item_ii )
 		{
-			copy_self->m_InnerBoundaries.push_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_InnerBoundaries.emplace_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	return copy_self;
@@ -37,24 +37,24 @@ void IfcAnnotationFillArea::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_InnerBoundaries );
 	stream << ");";
 }
-void IfcAnnotationFillArea::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcAnnotationFillArea::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAnnotationFillArea::toString() const { return L"IfcAnnotationFillArea"; }
 void IfcAnnotationFillArea::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAnnotationFillArea, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAnnotationFillArea, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_OuterBoundary, map );
 	readEntityReferenceList( args[1], m_InnerBoundaries, map );
 }
 void IfcAnnotationFillArea::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "OuterBoundary", m_OuterBoundary );
+	vec_attributes.emplace_back( std::make_pair( "OuterBoundary", m_OuterBoundary ) );
 	if( !m_InnerBoundaries.empty() )
 	{
 		shared_ptr<AttributeObjectVector> InnerBoundaries_vec_object( new AttributeObjectVector() );
 		std::copy( m_InnerBoundaries.begin(), m_InnerBoundaries.end(), std::back_inserter( InnerBoundaries_vec_object->m_vec ) );
-		vec_attributes.emplace_back( "InnerBoundaries", InnerBoundaries_vec_object );
+		vec_attributes.emplace_back( std::make_pair( "InnerBoundaries", InnerBoundaries_vec_object ) );
 	}
 }
 void IfcAnnotationFillArea::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

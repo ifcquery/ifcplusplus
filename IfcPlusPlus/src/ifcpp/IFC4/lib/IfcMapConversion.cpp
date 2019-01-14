@@ -14,9 +14,8 @@
 #include "ifcpp/IFC4/include/IfcReal.h"
 
 // ENTITY IfcMapConversion 
-IfcMapConversion::IfcMapConversion() = default;
 IfcMapConversion::IfcMapConversion( int id ) { m_entity_id = id; }
-IfcMapConversion::~IfcMapConversion() = default;
+IfcMapConversion::~IfcMapConversion() {}
 shared_ptr<BuildingObject> IfcMapConversion::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMapConversion> copy_self( new IfcMapConversion() );
@@ -50,12 +49,12 @@ void IfcMapConversion::getStepLine( std::stringstream& stream ) const
 	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMapConversion::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcMapConversion::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMapConversion::toString() const { return L"IfcMapConversion"; }
 void IfcMapConversion::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMapConversion, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcMapConversion, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_SourceCRS = IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_TargetCRS, map );
 	m_Eastings = IfcLengthMeasure::createObjectFromSTEP( args[2], map );
@@ -68,12 +67,12 @@ void IfcMapConversion::readStepArguments( const std::vector<std::wstring>& args,
 void IfcMapConversion::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCoordinateOperation::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( "Eastings", m_Eastings );
-	vec_attributes.emplace_back( "Northings", m_Northings );
-	vec_attributes.emplace_back( "OrthogonalHeight", m_OrthogonalHeight );
-	vec_attributes.emplace_back( "XAxisAbscissa", m_XAxisAbscissa );
-	vec_attributes.emplace_back( "XAxisOrdinate", m_XAxisOrdinate );
-	vec_attributes.emplace_back( "Scale", m_Scale );
+	vec_attributes.emplace_back( std::make_pair( "Eastings", m_Eastings ) );
+	vec_attributes.emplace_back( std::make_pair( "Northings", m_Northings ) );
+	vec_attributes.emplace_back( std::make_pair( "OrthogonalHeight", m_OrthogonalHeight ) );
+	vec_attributes.emplace_back( std::make_pair( "XAxisAbscissa", m_XAxisAbscissa ) );
+	vec_attributes.emplace_back( std::make_pair( "XAxisOrdinate", m_XAxisOrdinate ) );
+	vec_attributes.emplace_back( std::make_pair( "Scale", m_Scale ) );
 }
 void IfcMapConversion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

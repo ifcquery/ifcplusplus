@@ -30,7 +30,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcDamperTypeEnum();
+	IfcDamperTypeEnum() = default;
 	IfcDamperTypeEnum( IfcDamperTypeEnumEnum e ) { m_enum = e; }
 	~IfcDamperTypeEnum();
 	virtual const char* className() const { return "IfcDamperTypeEnum"; }

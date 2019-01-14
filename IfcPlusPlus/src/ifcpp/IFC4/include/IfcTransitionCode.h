@@ -21,7 +21,7 @@ public:
 		ENUM_CONTSAMEGRADIENTSAMECURVATURE
 	};
 
-	IfcTransitionCode();
+	IfcTransitionCode() = default;
 	IfcTransitionCode( IfcTransitionCodeEnum e ) { m_enum = e; }
 	~IfcTransitionCode();
 	virtual const char* className() const { return "IfcTransitionCode"; }

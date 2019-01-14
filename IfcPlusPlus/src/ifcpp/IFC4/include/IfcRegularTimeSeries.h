@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcTimeSeriesValue;
 class IFCQUERY_EXPORT IfcRegularTimeSeries : public IfcTimeSeries
 { 
 public:
-	IfcRegularTimeSeries();
+	IfcRegularTimeSeries() = default;
 	IfcRegularTimeSeries( int id );
 	~IfcRegularTimeSeries();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

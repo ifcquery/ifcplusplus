@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcCurveStyle : virtual public IfcPresentationStyleSelect, public IfcPresentationStyle
 { 
 public:
-	IfcCurveStyle();
+	IfcCurveStyle() = default;
 	IfcCurveStyle( int id );
 	~IfcCurveStyle();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

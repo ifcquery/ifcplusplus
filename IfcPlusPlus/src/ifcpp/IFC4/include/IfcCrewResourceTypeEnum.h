@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcCrewResourceTypeEnum();
+	IfcCrewResourceTypeEnum() = default;
 	IfcCrewResourceTypeEnum( IfcCrewResourceTypeEnumEnum e ) { m_enum = e; }
 	~IfcCrewResourceTypeEnum();
 	virtual const char* className() const { return "IfcCrewResourceTypeEnum"; }

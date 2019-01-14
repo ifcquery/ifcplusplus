@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcNormalisedRatioMeasure;
 class IFCQUERY_EXPORT IfcLightSource : public IfcGeometricRepresentationItem
 { 
 public:
-	IfcLightSource();
+	IfcLightSource() = default;
 	IfcLightSource( int id );
 	~IfcLightSource();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

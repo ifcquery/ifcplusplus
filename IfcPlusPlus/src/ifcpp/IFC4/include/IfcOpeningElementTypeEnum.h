@@ -21,7 +21,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcOpeningElementTypeEnum();
+	IfcOpeningElementTypeEnum() = default;
 	IfcOpeningElementTypeEnum( IfcOpeningElementTypeEnumEnum e ) { m_enum = e; }
 	~IfcOpeningElementTypeEnum();
 	virtual const char* className() const { return "IfcOpeningElementTypeEnum"; }

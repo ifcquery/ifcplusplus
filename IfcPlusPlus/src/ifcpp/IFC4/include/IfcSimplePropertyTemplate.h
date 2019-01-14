@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcStateEnum;
 class IFCQUERY_EXPORT IfcSimplePropertyTemplate : public IfcPropertyTemplate
 { 
 public:
-	IfcSimplePropertyTemplate();
+	IfcSimplePropertyTemplate() = default;
 	IfcSimplePropertyTemplate( int id );
 	~IfcSimplePropertyTemplate();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

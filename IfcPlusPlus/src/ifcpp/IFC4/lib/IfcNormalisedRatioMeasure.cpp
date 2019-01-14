@@ -13,8 +13,7 @@
 #include "ifcpp/IFC4/include/IfcNormalisedRatioMeasure.h"
 
 // TYPE IfcNormalisedRatioMeasure = IfcRatioMeasure;
-IfcNormalisedRatioMeasure::IfcNormalisedRatioMeasure() = default;
-IfcNormalisedRatioMeasure::~IfcNormalisedRatioMeasure() = default;
+IfcNormalisedRatioMeasure::~IfcNormalisedRatioMeasure() {}
 shared_ptr<BuildingObject> IfcNormalisedRatioMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcNormalisedRatioMeasure> copy_self( new IfcNormalisedRatioMeasure() );

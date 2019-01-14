@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcPlanarForceMeasure;
 class IFCQUERY_EXPORT IfcStructuralLoadPlanarForce : public IfcStructuralLoadStatic
 { 
 public:
-	IfcStructuralLoadPlanarForce();
+	IfcStructuralLoadPlanarForce() = default;
 	IfcStructuralLoadPlanarForce( int id );
 	~IfcStructuralLoadPlanarForce();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

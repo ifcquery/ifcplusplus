@@ -14,7 +14,7 @@
 class IFCQUERY_EXPORT IfcEnergyMeasure : public IfcDerivedMeasureValue
 {
 public:
-	IfcEnergyMeasure();
+	IfcEnergyMeasure() = default;
 	IfcEnergyMeasure( double value );
 	~IfcEnergyMeasure();
 	virtual const char* className() const { return "IfcEnergyMeasure"; }

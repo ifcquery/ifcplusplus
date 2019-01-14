@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcElectricVoltageMeasure.h"
 
 // TYPE IfcElectricVoltageMeasure = REAL;
-IfcElectricVoltageMeasure::IfcElectricVoltageMeasure() = default;
 IfcElectricVoltageMeasure::IfcElectricVoltageMeasure( double value ) { m_value = value; }
-IfcElectricVoltageMeasure::~IfcElectricVoltageMeasure() = default;
+IfcElectricVoltageMeasure::~IfcElectricVoltageMeasure() {}
 shared_ptr<BuildingObject> IfcElectricVoltageMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricVoltageMeasure> copy_self( new IfcElectricVoltageMeasure() );

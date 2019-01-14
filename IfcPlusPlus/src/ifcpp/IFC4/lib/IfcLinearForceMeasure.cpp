@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcLinearForceMeasure.h"
 
 // TYPE IfcLinearForceMeasure = REAL;
-IfcLinearForceMeasure::IfcLinearForceMeasure() = default;
 IfcLinearForceMeasure::IfcLinearForceMeasure( double value ) { m_value = value; }
-IfcLinearForceMeasure::~IfcLinearForceMeasure() = default;
+IfcLinearForceMeasure::~IfcLinearForceMeasure() {}
 shared_ptr<BuildingObject> IfcLinearForceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLinearForceMeasure> copy_self( new IfcLinearForceMeasure() );

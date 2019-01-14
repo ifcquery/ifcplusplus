@@ -11,7 +11,7 @@
 class IFCQUERY_EXPORT IfcPresentationItem : public BuildingEntity
 { 
 public:
-	IfcPresentationItem();
+	IfcPresentationItem() = default;
 	IfcPresentationItem( int id );
 	~IfcPresentationItem();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcSwitchingDeviceTypeEnum;
 class IFCQUERY_EXPORT IfcSwitchingDevice : public IfcFlowController
 { 
 public:
-	IfcSwitchingDevice();
+	IfcSwitchingDevice() = default;
 	IfcSwitchingDevice( int id );
 	~IfcSwitchingDevice();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

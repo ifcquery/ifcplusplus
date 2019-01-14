@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcSlippageConnectionCondition : public IfcStructuralConnectionCondition
 { 
 public:
-	IfcSlippageConnectionCondition();
+	IfcSlippageConnectionCondition() = default;
 	IfcSlippageConnectionCondition( int id );
 	~IfcSlippageConnectionCondition();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

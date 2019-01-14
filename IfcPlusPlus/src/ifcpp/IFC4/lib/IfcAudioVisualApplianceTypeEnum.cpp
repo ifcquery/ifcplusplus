@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcAudioVisualApplianceTypeEnum.h"
 
 // TYPE IfcAudioVisualApplianceTypeEnum = ENUMERATION OF	(AMPLIFIER	,CAMERA	,DISPLAY	,MICROPHONE	,PLAYER	,PROJECTOR	,RECEIVER	,SPEAKER	,SWITCHER	,TELEPHONE	,TUNER	,USERDEFINED	,NOTDEFINED);
-IfcAudioVisualApplianceTypeEnum::IfcAudioVisualApplianceTypeEnum() = default;
-IfcAudioVisualApplianceTypeEnum::~IfcAudioVisualApplianceTypeEnum() = default;
+IfcAudioVisualApplianceTypeEnum::~IfcAudioVisualApplianceTypeEnum() {}
 shared_ptr<BuildingObject> IfcAudioVisualApplianceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAudioVisualApplianceTypeEnum> copy_self( new IfcAudioVisualApplianceTypeEnum() );

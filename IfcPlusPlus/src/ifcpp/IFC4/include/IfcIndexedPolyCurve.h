@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcIndexedPolyCurve : public IfcBoundedCurve
 { 
 public:
-	IfcIndexedPolyCurve();
+	IfcIndexedPolyCurve() = default;
 	IfcIndexedPolyCurve( int id );
 	~IfcIndexedPolyCurve();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

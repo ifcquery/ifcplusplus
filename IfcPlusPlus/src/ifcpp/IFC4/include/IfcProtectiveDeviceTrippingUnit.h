@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcProtectiveDeviceTrippingUnitTypeEnum;
 class IFCQUERY_EXPORT IfcProtectiveDeviceTrippingUnit : public IfcDistributionControlElement
 { 
 public:
-	IfcProtectiveDeviceTrippingUnit();
+	IfcProtectiveDeviceTrippingUnit() = default;
 	IfcProtectiveDeviceTrippingUnit( int id );
 	~IfcProtectiveDeviceTrippingUnit();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

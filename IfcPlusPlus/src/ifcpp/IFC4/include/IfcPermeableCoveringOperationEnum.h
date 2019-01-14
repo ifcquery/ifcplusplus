@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcPermeableCoveringOperationEnum();
+	IfcPermeableCoveringOperationEnum() = default;
 	IfcPermeableCoveringOperationEnum( IfcPermeableCoveringOperationEnumEnum e ) { m_enum = e; }
 	~IfcPermeableCoveringOperationEnum();
 	virtual const char* className() const { return "IfcPermeableCoveringOperationEnum"; }

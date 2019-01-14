@@ -23,7 +23,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcExternalSpatialElementTypeEnum();
+	IfcExternalSpatialElementTypeEnum() = default;
 	IfcExternalSpatialElementTypeEnum( IfcExternalSpatialElementTypeEnumEnum e ) { m_enum = e; }
 	~IfcExternalSpatialElementTypeEnum();
 	virtual const char* className() const { return "IfcExternalSpatialElementTypeEnum"; }

@@ -11,9 +11,8 @@
 #include "ifcpp/IFC4/include/IfcMomentOfInertiaMeasure.h"
 
 // TYPE IfcMomentOfInertiaMeasure = REAL;
-IfcMomentOfInertiaMeasure::IfcMomentOfInertiaMeasure() = default;
 IfcMomentOfInertiaMeasure::IfcMomentOfInertiaMeasure( double value ) { m_value = value; }
-IfcMomentOfInertiaMeasure::~IfcMomentOfInertiaMeasure() = default;
+IfcMomentOfInertiaMeasure::~IfcMomentOfInertiaMeasure() {}
 shared_ptr<BuildingObject> IfcMomentOfInertiaMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMomentOfInertiaMeasure> copy_self( new IfcMomentOfInertiaMeasure() );

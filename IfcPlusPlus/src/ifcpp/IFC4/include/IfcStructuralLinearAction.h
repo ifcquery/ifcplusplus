@@ -12,7 +12,7 @@
 class IFCQUERY_EXPORT IfcStructuralLinearAction : public IfcStructuralCurveAction
 { 
 public:
-	IfcStructuralLinearAction();
+	IfcStructuralLinearAction() = default;
 	IfcStructuralLinearAction( int id );
 	~IfcStructuralLinearAction();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

@@ -25,7 +25,7 @@ class IFCQUERY_EXPORT IfcDocumentInformationRelationship;
 class IFCQUERY_EXPORT IfcDocumentInformation : virtual public IfcDocumentSelect, public IfcExternalInformation
 { 
 public:
-	IfcDocumentInformation();
+	IfcDocumentInformation() = default;
 	IfcDocumentInformation( int id );
 	~IfcDocumentInformation();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

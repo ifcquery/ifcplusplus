@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcMemberTypeEnum.h"
 
 // TYPE IfcMemberTypeEnum = ENUMERATION OF	(BRACE	,CHORD	,COLLAR	,MEMBER	,MULLION	,PLATE	,POST	,PURLIN	,RAFTER	,STRINGER	,STRUT	,STUD	,USERDEFINED	,NOTDEFINED);
-IfcMemberTypeEnum::IfcMemberTypeEnum() = default;
-IfcMemberTypeEnum::~IfcMemberTypeEnum() = default;
+IfcMemberTypeEnum::~IfcMemberTypeEnum() {}
 shared_ptr<BuildingObject> IfcMemberTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMemberTypeEnum> copy_self( new IfcMemberTypeEnum() );

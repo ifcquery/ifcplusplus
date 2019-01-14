@@ -13,9 +13,8 @@
 #include "ifcpp/IFC4/include/IfcRatioMeasure.h"
 
 // TYPE IfcRatioMeasure = REAL;
-IfcRatioMeasure::IfcRatioMeasure() = default;
 IfcRatioMeasure::IfcRatioMeasure( double value ) { m_value = value; }
-IfcRatioMeasure::~IfcRatioMeasure() = default;
+IfcRatioMeasure::~IfcRatioMeasure() {}
 shared_ptr<BuildingObject> IfcRatioMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRatioMeasure> copy_self( new IfcRatioMeasure() );

@@ -13,7 +13,7 @@ class IFCQUERY_EXPORT IfcProfileDef;
 class IFCQUERY_EXPORT IfcRevolvedAreaSolidTapered : public IfcRevolvedAreaSolid
 { 
 public:
-	IfcRevolvedAreaSolidTapered();
+	IfcRevolvedAreaSolidTapered() = default;
 	IfcRevolvedAreaSolidTapered( int id );
 	~IfcRevolvedAreaSolidTapered();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

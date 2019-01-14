@@ -22,7 +22,7 @@ public:
 		ENUM_NOTDEFINED
 	};
 
-	IfcFastenerTypeEnum();
+	IfcFastenerTypeEnum() = default;
 	IfcFastenerTypeEnum( IfcFastenerTypeEnumEnum e ) { m_enum = e; }
 	~IfcFastenerTypeEnum();
 	virtual const char* className() const { return "IfcFastenerTypeEnum"; }

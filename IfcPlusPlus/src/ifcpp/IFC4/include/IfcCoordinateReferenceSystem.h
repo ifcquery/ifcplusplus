@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcCoordinateOperation;
 class IFCQUERY_EXPORT IfcCoordinateReferenceSystem : virtual public IfcCoordinateReferenceSystemSelect, public BuildingEntity
 { 
 public:
-	IfcCoordinateReferenceSystem();
+	IfcCoordinateReferenceSystem() = default;
 	IfcCoordinateReferenceSystem( int id );
 	~IfcCoordinateReferenceSystem();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

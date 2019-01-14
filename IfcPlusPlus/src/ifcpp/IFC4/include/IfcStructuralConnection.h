@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcRelConnectsStructuralMember;
 class IFCQUERY_EXPORT IfcStructuralConnection : public IfcStructuralItem
 { 
 public:
-	IfcStructuralConnection();
+	IfcStructuralConnection() = default;
 	IfcStructuralConnection( int id );
 	~IfcStructuralConnection();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

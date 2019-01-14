@@ -28,7 +28,7 @@ public:
 		ENUM_USERDEFINED
 	};
 
-	IfcConstructionMaterialResourceTypeEnum();
+	IfcConstructionMaterialResourceTypeEnum() = default;
 	IfcConstructionMaterialResourceTypeEnum( IfcConstructionMaterialResourceTypeEnumEnum e ) { m_enum = e; }
 	~IfcConstructionMaterialResourceTypeEnum();
 	virtual const char* className() const { return "IfcConstructionMaterialResourceTypeEnum"; }

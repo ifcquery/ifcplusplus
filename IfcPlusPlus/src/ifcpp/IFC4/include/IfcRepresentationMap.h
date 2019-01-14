@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcMappedItem;
 class IFCQUERY_EXPORT IfcRepresentationMap : virtual public IfcProductRepresentationSelect, public BuildingEntity
 { 
 public:
-	IfcRepresentationMap();
+	IfcRepresentationMap() = default;
 	IfcRepresentationMap( int id );
 	~IfcRepresentationMap();
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );

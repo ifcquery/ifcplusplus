@@ -10,8 +10,7 @@
 #include "ifcpp/IFC4/include/IfcWindowPanelOperationEnum.h"
 
 // TYPE IfcWindowPanelOperationEnum = ENUMERATION OF	(SIDEHUNGRIGHTHAND	,SIDEHUNGLEFTHAND	,TILTANDTURNRIGHTHAND	,TILTANDTURNLEFTHAND	,TOPHUNG	,BOTTOMHUNG	,PIVOTHORIZONTAL	,PIVOTVERTICAL	,SLIDINGHORIZONTAL	,SLIDINGVERTICAL	,REMOVABLECASEMENT	,FIXEDCASEMENT	,OTHEROPERATION	,NOTDEFINED);
-IfcWindowPanelOperationEnum::IfcWindowPanelOperationEnum() = default;
-IfcWindowPanelOperationEnum::~IfcWindowPanelOperationEnum() = default;
+IfcWindowPanelOperationEnum::~IfcWindowPanelOperationEnum() {}
 shared_ptr<BuildingObject> IfcWindowPanelOperationEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWindowPanelOperationEnum> copy_self( new IfcWindowPanelOperationEnum() );

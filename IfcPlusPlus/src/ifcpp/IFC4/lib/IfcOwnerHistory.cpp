@@ -15,9 +15,8 @@
 #include "ifcpp/IFC4/include/IfcTimeStamp.h"
 
 // ENTITY IfcOwnerHistory 
-IfcOwnerHistory::IfcOwnerHistory() = default;
 IfcOwnerHistory::IfcOwnerHistory( int id ) { m_entity_id = id; }
-IfcOwnerHistory::~IfcOwnerHistory() = default;
+IfcOwnerHistory::~IfcOwnerHistory() {}
 shared_ptr<BuildingObject> IfcOwnerHistory::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOwnerHistory> copy_self( new IfcOwnerHistory() );
@@ -51,12 +50,12 @@ void IfcOwnerHistory::getStepLine( std::stringstream& stream ) const
 	if( m_CreationDate ) { m_CreationDate->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcOwnerHistory::getStepParameter( std::stringstream& stream, bool  /*is_select_type*/) const { stream << "#" << m_entity_id; }
+void IfcOwnerHistory::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOwnerHistory::toString() const { return L"IfcOwnerHistory"; }
 void IfcOwnerHistory::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOwnerHistory, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcOwnerHistory, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_OwningUser, map );
 	readEntityReference( args[1], m_OwningApplication, map );
 	m_State = IfcStateEnum::createObjectFromSTEP( args[2], map );
@@ -68,19 +67,19 @@ void IfcOwnerHistory::readStepArguments( const std::vector<std::wstring>& args, 
 }
 void IfcOwnerHistory::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	vec_attributes.emplace_back( "OwningUser", m_OwningUser );
-	vec_attributes.emplace_back( "OwningApplication", m_OwningApplication );
-	vec_attributes.emplace_back( "State", m_State );
-	vec_attributes.emplace_back( "ChangeAction", m_ChangeAction );
-	vec_attributes.emplace_back( "LastModifiedDate", m_LastModifiedDate );
-	vec_attributes.emplace_back( "LastModifyingUser", m_LastModifyingUser );
-	vec_attributes.emplace_back( "LastModifyingApplication", m_LastModifyingApplication );
-	vec_attributes.emplace_back( "CreationDate", m_CreationDate );
+	vec_attributes.emplace_back( std::make_pair( "OwningUser", m_OwningUser ) );
+	vec_attributes.emplace_back( std::make_pair( "OwningApplication", m_OwningApplication ) );
+	vec_attributes.emplace_back( std::make_pair( "State", m_State ) );
+	vec_attributes.emplace_back( std::make_pair( "ChangeAction", m_ChangeAction ) );
+	vec_attributes.emplace_back( std::make_pair( "LastModifiedDate", m_LastModifiedDate ) );
+	vec_attributes.emplace_back( std::make_pair( "LastModifyingUser", m_LastModifyingUser ) );
+	vec_attributes.emplace_back( std::make_pair( "LastModifyingApplication", m_LastModifyingApplication ) );
+	vec_attributes.emplace_back( std::make_pair( "CreationDate", m_CreationDate ) );
 }
 void IfcOwnerHistory::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 }
-void IfcOwnerHistory::setInverseCounterparts( shared_ptr<BuildingEntity>  /*ptr_self*/)
+void IfcOwnerHistory::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {
 }
 void IfcOwnerHistory::unlinkFromInverseCounterparts()
