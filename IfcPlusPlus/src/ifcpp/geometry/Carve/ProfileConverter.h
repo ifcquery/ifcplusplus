@@ -543,7 +543,7 @@ public:
 				{
 					return;
 				}
-				int num_segments = gs->getNumVerticesPerCircle(); // TODO: adapt to model size and complexity
+				int num_segments = gs->getNumVerticesPerCircleWithRadius(radius);
 				double angle = 0;
 				for( int i = 0; i < num_segments; ++i )
 				{
@@ -560,7 +560,7 @@ public:
 					angle = 0;
 					radius -= hollow->m_WallThickness->m_value*length_factor;
 
-					int num_segments2 = gs->getNumVerticesPerCircle(); // TODO: adapt to model size and complexity
+					int num_segments2 = gs->getNumVerticesPerCircleWithRadius(radius);
 					for( int i = 0; i < num_segments2; ++i )
 					{
 						inner_loop.push_back( carve::geom::VECTOR( ( radius * cos( angle ) ), ( radius * sin( angle ) ) ) );
@@ -582,7 +582,7 @@ public:
 				{
 					double x_radius = ellipse_profile_def->m_SemiAxis1->m_value*length_factor;
 					double y_radius = ellipse_profile_def->m_SemiAxis2->m_value*length_factor;
-					int num_segments = gs->getNumVerticesPerCircle(); // TODO: adapt to model size and complexity
+					int num_segments = gs->getNumVerticesPerCircleWithRadius(std::max(x_radius, y_radius));
 					double angle = 0;
 					for( int i = 0; i < num_segments; ++i )
 					{
