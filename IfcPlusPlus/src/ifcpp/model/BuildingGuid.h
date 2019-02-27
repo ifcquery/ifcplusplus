@@ -104,7 +104,7 @@ inline boost::uuids::uuid decodeBase64Uuid(std::basic_string<T> const& input)
 		return 0;
 	};
 	//4 input characters will be decoded to 3 output byte
-	for (size_t i = 0, j = 0; i < in_stop, j < out_stop; ++i)
+	for (size_t i = 0, j = 0; i < in_stop && j < out_stop; ++i)
 	{
 		uuid.data[j] = index_of(input[i]) << 2;
 		if(in_stop <= ++i) break;
