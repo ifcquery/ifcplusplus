@@ -66,11 +66,7 @@ public:
 		std::wstring m_progress_text;		// A text that describes the current actions. It can be used for example to set a text on the progress bar.
 	};
 
-	StatusCallback()
-	{
-		unsetMessageCallBack();
-		unsetCancelCheck();
-	}
+	StatusCallback() = default;
 	virtual ~StatusCallback()= default;
 
 	//\brief error callback mechanism to show messages in gui
@@ -221,16 +217,16 @@ public:
 
 protected:
 	//\brief Pointer to the object on which the message callback function is called.
-	void* m_obj_call_on_message;
+	void* m_obj_call_on_message = nullptr;
 
 	//\brief Pointer to the object on which the cancel check function is called.
-	void* m_obj_call_check_cancel;
+	void* m_obj_call_check_cancel = nullptr;
 
 	//\brief Pointer to the callback function for messages.
-	void (*m_func_call_on_message)(void*, shared_ptr<Message> t);
+	void (*m_func_call_on_message)(void*, shared_ptr<Message> t) = nullptr;
 
 	//\brief Pointer to the predicate that determines whether an operation should be canceled.
-	bool  (*m_func_check_cancel)(void*);
+	bool  (*m_func_check_cancel)(void*) = nullptr;
 
 	StatusCallback* m_redirect_target = nullptr;
 
