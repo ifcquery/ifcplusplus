@@ -76,7 +76,7 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 
 	// open file
-	if( !setlocale(LC_ALL, "en_us.UTF-8") )
+	if( !(setlocale(LC_ALL, "en_us.UTF-8") ||  setlocale(LC_ALL, "en_US.utf8")))
 	{
 		std::wstringstream strs;
 		strs << L"setlocale failed" << std::endl;
