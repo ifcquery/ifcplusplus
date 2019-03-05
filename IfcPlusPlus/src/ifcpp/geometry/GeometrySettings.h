@@ -21,6 +21,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <cmath>
 #include <ifcpp/model/OpenMPIncludes.h>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
+#ifndef M_PI_2
+#define M_PI_2 1.57079632679489661923
+#endif
+
 #define GEOM_TOLERANCE  0.0000001
 #ifdef _DEBUG
 	#define HALF_SPACE_BOX_SIZE 100

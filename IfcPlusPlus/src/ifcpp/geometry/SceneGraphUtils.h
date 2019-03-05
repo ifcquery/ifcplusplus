@@ -37,6 +37,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/BuildingException.h>
 
+#ifndef M_PI_2
+#define M_PI_2 1.57079632679489661923
+#endif
+
 namespace SceneGraphUtils
 {
 	inline bool inParentList( const int entity_id, const osg::Group* group )

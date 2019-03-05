@@ -7,3 +7,8 @@ SimpleViewerExample/dump_mesh_debug.txt
 *.opensdf
 /build/
 /.vs/IfcPlusPlus/v15
+/examples/SimpleViewerExampleQt/.vs/SimpleViewerExampleQt/v15/*.db
+/examples/SimpleViewerExampleQt/.vs/SimpleViewerExampleQt/v15/*.suo
+/examples/SimpleViewerExampleQt/.vs/SimpleViewerExampleQt/v15/ipch/AutoPCH/1cdd5b11e3c0dce9/*.ipch
+/examples/SimpleViewerExampleQt/.vs/SimpleViewerExampleQt/v15/*.opendb
+*.ipch
