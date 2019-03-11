@@ -491,7 +491,7 @@ public:
 		std::copy( other->m_vec_representation_appearances.begin(), other->m_vec_representation_appearances.end(), std::back_inserter( m_vec_representation_appearances ) );
 	}
 
-	void addAppearance( shared_ptr<AppearanceData>& appearance )
+	void addAppearance( shared_ptr<AppearanceData> const& appearance )
 	{
 		if( !appearance )
 		{

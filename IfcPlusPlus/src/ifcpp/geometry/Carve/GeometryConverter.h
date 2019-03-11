@@ -238,15 +238,14 @@ public:
 				continue;
 			}
 
-			shared_ptr<IfcComplexProperty> complex_property = dynamic_pointer_cast<IfcComplexProperty>(ifc_property);
+			auto const complex_property = dynamic_pointer_cast<IfcComplexProperty>(ifc_property);
 			if( complex_property )
 			{
 				if( !complex_property->m_UsageName ) continue;
 				if( complex_property->m_UsageName->m_value.compare( L"Color" ) == 0 )
 				{
-					vec4 vec_color;
-					m_representation_converter->getStylesConverter()->convertIfcComplexPropertyColor( complex_property, vec_color );
-					shared_ptr<AppearanceData> appearance_data( new AppearanceData( -1 ) );
+					auto const vec_color = m_representation_converter->getStylesConverter()->convertIfcComplexPropertyColor( complex_property );
+					auto appearance_data = std::make_shared<AppearanceData>( -1 );
 					if( !appearance_data )
 					{
 						throw OutOfMemoryException( __FUNC__ );
