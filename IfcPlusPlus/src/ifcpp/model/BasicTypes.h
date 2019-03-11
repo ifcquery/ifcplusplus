@@ -32,6 +32,13 @@ using std::dynamic_pointer_cast;
 using std::make_shared;
 #endif
 
+#elif defined __clang__
+#include <memory>
+using std::shared_ptr;
+using std::weak_ptr;
+using std::dynamic_pointer_cast;
+using std::make_shared;
+
 #elif defined __GNUC__ && !defined(__FreeBSD__)
 #if __GNUC__ < 5
 #include <tr1/memory>
