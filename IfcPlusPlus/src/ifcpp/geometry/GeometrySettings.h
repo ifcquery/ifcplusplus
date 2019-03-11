@@ -20,6 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #define _USE_MATH_DEFINES 
 #include <cmath>
 #include <ifcpp/model/OpenMPIncludes.h>
+#include <functional>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -52,6 +53,7 @@ public:
 	}
 
 	// Number of discretization points per circle
+	int getNumVerticesPerCircleWithRadius(double radius) { return m_num_vertices_per_circle_given_radius(radius); }
 	int getNumVerticesPerCircle() { return m_num_vertices_per_circle; }
 	void setNumVerticesPerCircle( int num )
 	{
@@ -61,6 +63,9 @@ public:
 	{
 		m_num_vertices_per_circle = m_num_vertices_per_circle_default;
 	}
+    void setNumVerticesPerCircleGivenRadius(std::function<int(double)> f) {
+        m_num_vertices_per_circle_given_radius = f;
+    }
 
 	// Minimum number of discretization points per arc
 	int getMinNumVerticesPerArc() { return m_min_num_vertices_per_arc; }
@@ -133,4 +138,5 @@ protected:
 	bool m_render_bounding_box = false;
 	double m_crease_edges_max_delta_angle = M_PI*0.05;
 	double m_colinear_faces_max_delta_angle = M_PI*0.02;
+	std::function<int(double)> m_num_vertices_per_circle_given_radius = [&](double radius) {return m_num_vertices_per_circle;};
 };

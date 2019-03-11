@@ -330,7 +330,7 @@ public:
 					opening_angle += 2.0*M_PI;
 				}
 
-				int num_segments = m_geom_settings->getNumVerticesPerCircle()*( std::abs( opening_angle ) / ( 2.0*M_PI ) );
+				int num_segments = m_geom_settings->getNumVerticesPerCircleWithRadius(circle_radius)*( std::abs( opening_angle ) / ( 2.0*M_PI ) );
 				if( num_segments < m_geom_settings->getMinNumVerticesPerArc() ) num_segments = m_geom_settings->getMinNumVerticesPerArc();
 				const double circle_center_x = 0.0;
 				const double circle_center_y = 0.0;
@@ -377,7 +377,8 @@ public:
 					{
 						double x_radius = ellipse->m_SemiAxis1->m_value*length_factor;
 						double y_radius = ellipse->m_SemiAxis2->m_value*length_factor;
-						int num_segments = m_geom_settings->getNumVerticesPerCircle();	// TODO: adapt to model size and complexity
+						int num_segments = m_geom_settings->getNumVerticesPerCircleWithRadius(
+                                std::max(x_radius, y_radius));
 
 						// todo: implement clipping
 
