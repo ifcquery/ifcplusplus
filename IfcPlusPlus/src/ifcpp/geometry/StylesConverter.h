@@ -175,6 +175,11 @@ public:
 			return;
 		}
 		const int style_id = surface_style->m_entity_id;
+
+#ifdef IFCPP_OPENMP
+		{
+			ScopedLock lock(m_writelock_styles_converter);
+#endif
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
 		{
@@ -192,11 +197,13 @@ public:
 				appearance_data = shared_ptr<AppearanceData>( new AppearanceData( style_id ) );
 			}
 
-#ifdef ENABLE_OPENMP
-			ScopedLock lock( m_writelock_styles_converter );
-#endif
 			m_map_ifc_styles[style_id] = appearance_data;
 		}
+
+#ifdef IFCPP_OPENMP
+		}
+#endif
+
 		appearance_data->m_apply_to_geometry_type = AppearanceData::GEOM_TYPE_SURFACE;
 
 		std::vector<shared_ptr<IfcSurfaceStyleElementSelect> >& vec_styles = surface_style->m_Styles;
@@ -341,12 +348,20 @@ public:
 		shared_ptr<IfcStyledItem> styled_item( styled_item_weak );
 		const int style_id = styled_item->m_entity_id;
 
+#ifdef IFCPP_OPENMP
+		{
+			ScopedLock lock(m_writelock_styles_converter);
+#endif
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
 		{
 			vec_appearance_data.push_back( it_find_existing_style->second );
 			return;
 		}
+
+#ifdef IFCPP_OPENMP
+	}
+#endif
 
 		std::vector<shared_ptr<IfcStyleAssignmentSelect> >& vec_style_assigns = styled_item->m_Styles;
 		for( size_t i_style_assign = 0; i_style_assign < vec_style_assigns.size(); ++i_style_assign )
@@ -504,6 +519,10 @@ public:
 	void convertIfcPresentationStyle( shared_ptr<IfcPresentationStyle> presentation_style, shared_ptr<AppearanceData>& appearance_data )
 	{
 		int style_id = presentation_style->m_entity_id;
+#ifdef IFCPP_OPENMP
+		{
+			ScopedLock lock(m_writelock_styles_converter);
+#endif
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
 		{
@@ -520,11 +539,12 @@ public:
 			{
 				appearance_data = shared_ptr<AppearanceData>( new AppearanceData( style_id ) );
 			}
-#ifdef ENABLE_OPENMP
-			ScopedLock lock( m_writelock_styles_converter );
-#endif
+
 			m_map_ifc_styles[style_id] = appearance_data;
 		}
+#ifdef IFCPP_OPENMP
+	}
+#endif
 
 		// ENTITY IfcPresentationStyle	ABSTRACT SUPERTYPE OF(ONEOF(IfcCurveStyle, IfcFillAreaStyle, IfcSurfaceStyle, IfcSymbolStyle, IfcTextStyle));
 		shared_ptr<IfcCurveStyle> curve_style = dynamic_pointer_cast<IfcCurveStyle>( presentation_style );
@@ -568,6 +588,10 @@ public:
 			return;
 		}
 		int style_id = curve_style->m_entity_id;
+#ifdef IFCPP_OPENMP
+		{
+			ScopedLock lock(m_writelock_styles_converter);
+#endif
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
 		{
@@ -583,11 +607,12 @@ public:
 			{
 				appearance_data = shared_ptr<AppearanceData>( new AppearanceData( style_id ) );
 			}
-#ifdef ENABLE_OPENMP
-			ScopedLock lock( m_writelock_styles_converter );
-#endif
+
 			m_map_ifc_styles[style_id] = appearance_data;
 		}
+#ifdef IFCPP_OPENMP
+	}
+#endif
 		appearance_data->m_apply_to_geometry_type = AppearanceData::GEOM_TYPE_CURVE;
 
 		//CurveFont		: OPTIONAL IfcCurveFontOrScaledCurveFontSelect;
