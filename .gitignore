@@ -12,3 +12,5 @@ SimpleViewerExample/dump_mesh_debug.txt
 /examples/SimpleViewerExampleQt/.vs/SimpleViewerExampleQt/v15/ipch/AutoPCH/1cdd5b11e3c0dce9/*.ipch
 /examples/SimpleViewerExampleQt/.vs/SimpleViewerExampleQt/v15/*.opendb
 *.ipch
+external/Carve/.vs/Carve/v15/.suo
+external/Carve/.vs/Carve/v15/Browse.VC.db

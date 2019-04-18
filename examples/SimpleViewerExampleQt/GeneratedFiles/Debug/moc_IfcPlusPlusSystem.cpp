@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'IfcPlusPlusSystem.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.10.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.12.3)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'IfcPlusPlusSystem.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.10.1. It"
+#error "This file was generated using the moc from 5.12.3. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -53,7 +53,7 @@ QT_MOC_LITERAL(8, 163, 22) // "signalModelLoadingDone"
 static const uint qt_meta_data_IfcPlusPlusSystem[] = {
 
  // content:
-       7,       // revision
+       8,       // revision
        0,       // classname
        0,    0, // classinfo
        5,   14, // methods
@@ -83,7 +83,7 @@ static const uint qt_meta_data_IfcPlusPlusSystem[] = {
 void IfcPlusPlusSystem::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        IfcPlusPlusSystem *_t = static_cast<IfcPlusPlusSystem *>(_o);
+        auto *_t = static_cast<IfcPlusPlusSystem *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->signalObjectsSelected((*reinterpret_cast< std::map<int,shared_ptr<BuildingEntity> >(*)>(_a[1]))); break;
@@ -96,35 +96,35 @@ void IfcPlusPlusSystem::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            typedef void (IfcPlusPlusSystem::*_t)(std::map<int,shared_ptr<BuildingEntity> > & );
+            using _t = void (IfcPlusPlusSystem::*)(std::map<int,shared_ptr<BuildingEntity> > & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&IfcPlusPlusSystem::signalObjectsSelected)) {
                 *result = 0;
                 return;
             }
         }
         {
-            typedef void (IfcPlusPlusSystem::*_t)(std::map<int,shared_ptr<BuildingEntity> > & );
+            using _t = void (IfcPlusPlusSystem::*)(std::map<int,shared_ptr<BuildingEntity> > & );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&IfcPlusPlusSystem::signalObjectsUnselected)) {
                 *result = 1;
                 return;
             }
         }
         {
-            typedef void (IfcPlusPlusSystem::*_t)();
+            using _t = void (IfcPlusPlusSystem::*)();
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&IfcPlusPlusSystem::signalModelCleared)) {
                 *result = 2;
                 return;
             }
         }
         {
-            typedef void (IfcPlusPlusSystem::*_t)();
+            using _t = void (IfcPlusPlusSystem::*)();
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&IfcPlusPlusSystem::signalModelLoadingStart)) {
                 *result = 3;
                 return;
             }
         }
         {
-            typedef void (IfcPlusPlusSystem::*_t)();
+            using _t = void (IfcPlusPlusSystem::*)();
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&IfcPlusPlusSystem::signalModelLoadingDone)) {
                 *result = 4;
                 return;
@@ -133,10 +133,14 @@ void IfcPlusPlusSystem::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
     }
 }
 
-QT_INIT_METAOBJECT const QMetaObject IfcPlusPlusSystem::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_IfcPlusPlusSystem.data,
-      qt_meta_data_IfcPlusPlusSystem,  qt_static_metacall, nullptr, nullptr}
-};
+QT_INIT_METAOBJECT const QMetaObject IfcPlusPlusSystem::staticMetaObject = { {
+    &QObject::staticMetaObject,
+    qt_meta_stringdata_IfcPlusPlusSystem.data,
+    qt_meta_data_IfcPlusPlusSystem,
+    qt_static_metacall,
+    nullptr,
+    nullptr
+} };
 
 
 const QMetaObject *IfcPlusPlusSystem::metaObject() const
