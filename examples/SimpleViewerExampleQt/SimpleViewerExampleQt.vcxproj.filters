@@ -71,9 +71,6 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_ViewerWidget.cpp">
       <Filter>Generierte Dateien\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ViewerWidget.cpp">
-      <Filter>Generierte Dateien\Release</Filter>
-    </ClCompile>
     <ClCompile Include="src\cmd\CmdRemoveSelectedObjects.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
@@ -107,13 +104,19 @@
     <ClCompile Include="src\viewer\OrbitCameraManipulator.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\viewer\ViewerWidget.cpp">
-      <Filter>Source Dateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\IfcPlusPlusSystem.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Debug\moc_ViewerWidget.cpp">
+      <Filter>Generierte Dateien\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\GeneratedFiles\Release\moc_ViewerWidget.cpp">
+      <Filter>Generierte Dateien\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\viewer\ViewerWidget.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -133,10 +136,10 @@
     <CustomBuild Include="src\gui\TabView.h">
       <Filter>Header Dateien</Filter>
     </CustomBuild>
-    <CustomBuild Include="src\viewer\ViewerWidget.h">
+    <CustomBuild Include="src\IfcPlusPlusSystem.h">
       <Filter>Header Dateien</Filter>
     </CustomBuild>
-    <CustomBuild Include="src\IfcPlusPlusSystem.h">
+    <CustomBuild Include="src\viewer\ViewerWidget.h">
       <Filter>Header Dateien</Filter>
     </CustomBuild>
   </ItemGroup>
