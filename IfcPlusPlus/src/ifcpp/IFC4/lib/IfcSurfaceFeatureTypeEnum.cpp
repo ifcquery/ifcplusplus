@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSurfaceFeatureTypeEnum.h"
 
 // TYPE IfcSurfaceFeatureTypeEnum = ENUMERATION OF	(MARK	,TAG	,TREATMENT	,USERDEFINED	,NOTDEFINED);
-IfcSurfaceFeatureTypeEnum::~IfcSurfaceFeatureTypeEnum() {}
 shared_ptr<BuildingObject> IfcSurfaceFeatureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceFeatureTypeEnum> copy_self( new IfcSurfaceFeatureTypeEnum() );

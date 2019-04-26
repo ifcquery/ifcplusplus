@@ -26,7 +26,6 @@
 
 // ENTITY IfcFastenerType 
 IfcFastenerType::IfcFastenerType( int id ) { m_entity_id = id; }
-IfcFastenerType::~IfcFastenerType() {}
 shared_ptr<BuildingObject> IfcFastenerType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFastenerType> copy_self( new IfcFastenerType() );
@@ -88,7 +87,7 @@ void IfcFastenerType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFastenerType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFastenerType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFastenerType::toString() const { return L"IfcFastenerType"; }
 void IfcFastenerType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

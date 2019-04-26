@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcReinforcingElement : public IfcElementComponent
 public:
 	IfcReinforcingElement() = default;
 	IfcReinforcingElement( int id );
-	~IfcReinforcingElement();
+	~IfcReinforcingElement() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

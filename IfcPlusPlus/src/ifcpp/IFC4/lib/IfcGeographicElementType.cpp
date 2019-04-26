@@ -26,7 +26,6 @@
 
 // ENTITY IfcGeographicElementType 
 IfcGeographicElementType::IfcGeographicElementType( int id ) { m_entity_id = id; }
-IfcGeographicElementType::~IfcGeographicElementType() {}
 shared_ptr<BuildingObject> IfcGeographicElementType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGeographicElementType> copy_self( new IfcGeographicElementType() );
@@ -88,7 +87,7 @@ void IfcGeographicElementType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcGeographicElementType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcGeographicElementType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGeographicElementType::toString() const { return L"IfcGeographicElementType"; }
 void IfcGeographicElementType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

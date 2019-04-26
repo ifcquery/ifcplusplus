@@ -11,7 +11,6 @@
 
 // TYPE IfcPresentableText = STRING;
 IfcPresentableText::IfcPresentableText( std::wstring value ) { m_value = value; }
-IfcPresentableText::~IfcPresentableText() {}
 shared_ptr<BuildingObject> IfcPresentableText::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPresentableText> copy_self( new IfcPresentableText() );

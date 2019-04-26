@@ -27,7 +27,7 @@ public:
 
 	IfcAlarmTypeEnum() = default;
 	IfcAlarmTypeEnum( IfcAlarmTypeEnumEnum e ) { m_enum = e; }
-	~IfcAlarmTypeEnum();
+	~IfcAlarmTypeEnum() = default;
 	virtual const char* className() const { return "IfcAlarmTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

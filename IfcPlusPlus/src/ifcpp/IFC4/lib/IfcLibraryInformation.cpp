@@ -18,7 +18,6 @@
 
 // ENTITY IfcLibraryInformation 
 IfcLibraryInformation::IfcLibraryInformation( int id ) { m_entity_id = id; }
-IfcLibraryInformation::~IfcLibraryInformation() {}
 shared_ptr<BuildingObject> IfcLibraryInformation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLibraryInformation> copy_self( new IfcLibraryInformation() );
@@ -46,7 +45,7 @@ void IfcLibraryInformation::getStepLine( std::stringstream& stream ) const
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLibraryInformation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLibraryInformation::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLibraryInformation::toString() const { return L"IfcLibraryInformation"; }
 void IfcLibraryInformation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

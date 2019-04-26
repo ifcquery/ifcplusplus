@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcStructuralLoadSingleDisplacement : public IfcStructural
 public:
 	IfcStructuralLoadSingleDisplacement() = default;
 	IfcStructuralLoadSingleDisplacement( int id );
-	~IfcStructuralLoadSingleDisplacement();
+	~IfcStructuralLoadSingleDisplacement() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

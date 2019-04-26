@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcDoorPanelOperationEnum.h"
 
 // TYPE IfcDoorPanelOperationEnum = ENUMERATION OF	(SWINGING	,DOUBLE_ACTING	,SLIDING	,FOLDING	,REVOLVING	,ROLLINGUP	,FIXEDPANEL	,USERDEFINED	,NOTDEFINED);
-IfcDoorPanelOperationEnum::~IfcDoorPanelOperationEnum() {}
 shared_ptr<BuildingObject> IfcDoorPanelOperationEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoorPanelOperationEnum> copy_self( new IfcDoorPanelOperationEnum() );

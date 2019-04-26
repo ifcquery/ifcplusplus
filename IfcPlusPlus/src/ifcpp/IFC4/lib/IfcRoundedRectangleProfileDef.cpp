@@ -17,7 +17,6 @@
 
 // ENTITY IfcRoundedRectangleProfileDef 
 IfcRoundedRectangleProfileDef::IfcRoundedRectangleProfileDef( int id ) { m_entity_id = id; }
-IfcRoundedRectangleProfileDef::~IfcRoundedRectangleProfileDef() {}
 shared_ptr<BuildingObject> IfcRoundedRectangleProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRoundedRectangleProfileDef> copy_self( new IfcRoundedRectangleProfileDef() );
@@ -45,7 +44,7 @@ void IfcRoundedRectangleProfileDef::getStepLine( std::stringstream& stream ) con
 	if( m_RoundingRadius ) { m_RoundingRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRoundedRectangleProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRoundedRectangleProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRoundedRectangleProfileDef::toString() const { return L"IfcRoundedRectangleProfileDef"; }
 void IfcRoundedRectangleProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

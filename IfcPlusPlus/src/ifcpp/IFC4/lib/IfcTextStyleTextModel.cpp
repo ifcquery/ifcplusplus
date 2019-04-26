@@ -15,7 +15,6 @@
 
 // ENTITY IfcTextStyleTextModel 
 IfcTextStyleTextModel::IfcTextStyleTextModel( int id ) { m_entity_id = id; }
-IfcTextStyleTextModel::~IfcTextStyleTextModel() {}
 shared_ptr<BuildingObject> IfcTextStyleTextModel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextStyleTextModel> copy_self( new IfcTextStyleTextModel() );
@@ -46,7 +45,7 @@ void IfcTextStyleTextModel::getStepLine( std::stringstream& stream ) const
 	if( m_LineHeight ) { m_LineHeight->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcTextStyleTextModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTextStyleTextModel::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextStyleTextModel::toString() const { return L"IfcTextStyleTextModel"; }
 void IfcTextStyleTextModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcBenchmarkEnum.h"
 
 // TYPE IfcBenchmarkEnum = ENUMERATION OF	(GREATERTHAN	,GREATERTHANOREQUALTO	,LESSTHAN	,LESSTHANOREQUALTO	,EQUALTO	,NOTEQUALTO	,INCLUDES	,NOTINCLUDES	,INCLUDEDIN	,NOTINCLUDEDIN);
-IfcBenchmarkEnum::~IfcBenchmarkEnum() {}
 shared_ptr<BuildingObject> IfcBenchmarkEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBenchmarkEnum> copy_self( new IfcBenchmarkEnum() );

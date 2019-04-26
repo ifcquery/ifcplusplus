@@ -14,7 +14,6 @@
 
 // ENTITY IfcVertexPoint 
 IfcVertexPoint::IfcVertexPoint( int id ) { m_entity_id = id; }
-IfcVertexPoint::~IfcVertexPoint() {}
 shared_ptr<BuildingObject> IfcVertexPoint::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVertexPoint> copy_self( new IfcVertexPoint() );
@@ -27,7 +26,7 @@ void IfcVertexPoint::getStepLine( std::stringstream& stream ) const
 	if( m_VertexGeometry ) { stream << "#" << m_VertexGeometry->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcVertexPoint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcVertexPoint::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcVertexPoint::toString() const { return L"IfcVertexPoint"; }
 void IfcVertexPoint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

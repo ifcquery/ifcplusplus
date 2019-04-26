@@ -12,7 +12,6 @@
 
 // TYPE IfcFrequencyMeasure = REAL;
 IfcFrequencyMeasure::IfcFrequencyMeasure( double value ) { m_value = value; }
-IfcFrequencyMeasure::~IfcFrequencyMeasure() {}
 shared_ptr<BuildingObject> IfcFrequencyMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFrequencyMeasure> copy_self( new IfcFrequencyMeasure() );

@@ -12,7 +12,6 @@
 
 // TYPE IfcText = STRING;
 IfcText::IfcText( std::wstring value ) { m_value = value; }
-IfcText::~IfcText() {}
 shared_ptr<BuildingObject> IfcText::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcText> copy_self( new IfcText() );

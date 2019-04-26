@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcElementCompositionEnum.h"
 
 // TYPE IfcElementCompositionEnum = ENUMERATION OF	(COMPLEX	,ELEMENT	,PARTIAL);
-IfcElementCompositionEnum::~IfcElementCompositionEnum() {}
 shared_ptr<BuildingObject> IfcElementCompositionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElementCompositionEnum> copy_self( new IfcElementCompositionEnum() );

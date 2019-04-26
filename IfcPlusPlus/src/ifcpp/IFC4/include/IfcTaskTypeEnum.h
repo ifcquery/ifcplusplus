@@ -33,7 +33,7 @@ public:
 
 	IfcTaskTypeEnum() = default;
 	IfcTaskTypeEnum( IfcTaskTypeEnumEnum e ) { m_enum = e; }
-	~IfcTaskTypeEnum();
+	~IfcTaskTypeEnum() = default;
 	virtual const char* className() const { return "IfcTaskTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

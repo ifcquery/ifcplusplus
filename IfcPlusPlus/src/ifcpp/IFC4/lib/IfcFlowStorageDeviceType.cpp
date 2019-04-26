@@ -25,7 +25,6 @@
 
 // ENTITY IfcFlowStorageDeviceType 
 IfcFlowStorageDeviceType::IfcFlowStorageDeviceType( int id ) { m_entity_id = id; }
-IfcFlowStorageDeviceType::~IfcFlowStorageDeviceType() {}
 shared_ptr<BuildingObject> IfcFlowStorageDeviceType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFlowStorageDeviceType> copy_self( new IfcFlowStorageDeviceType() );
@@ -84,7 +83,7 @@ void IfcFlowStorageDeviceType::getStepLine( std::stringstream& stream ) const
 	if( m_ElementType ) { m_ElementType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFlowStorageDeviceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFlowStorageDeviceType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFlowStorageDeviceType::toString() const { return L"IfcFlowStorageDeviceType"; }
 void IfcFlowStorageDeviceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

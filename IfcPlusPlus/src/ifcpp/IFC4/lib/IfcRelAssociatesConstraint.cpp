@@ -17,7 +17,6 @@
 
 // ENTITY IfcRelAssociatesConstraint 
 IfcRelAssociatesConstraint::IfcRelAssociatesConstraint( int id ) { m_entity_id = id; }
-IfcRelAssociatesConstraint::~IfcRelAssociatesConstraint() {}
 shared_ptr<BuildingObject> IfcRelAssociatesConstraint::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssociatesConstraint> copy_self( new IfcRelAssociatesConstraint() );
@@ -80,7 +79,7 @@ void IfcRelAssociatesConstraint::getStepLine( std::stringstream& stream ) const
 	if( m_RelatingConstraint ) { stream << "#" << m_RelatingConstraint->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelAssociatesConstraint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelAssociatesConstraint::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssociatesConstraint::toString() const { return L"IfcRelAssociatesConstraint"; }
 void IfcRelAssociatesConstraint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

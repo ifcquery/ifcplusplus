@@ -17,7 +17,6 @@
 
 // ENTITY IfcRevolvedAreaSolid 
 IfcRevolvedAreaSolid::IfcRevolvedAreaSolid( int id ) { m_entity_id = id; }
-IfcRevolvedAreaSolid::~IfcRevolvedAreaSolid() {}
 shared_ptr<BuildingObject> IfcRevolvedAreaSolid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRevolvedAreaSolid> copy_self( new IfcRevolvedAreaSolid() );
@@ -43,7 +42,7 @@ void IfcRevolvedAreaSolid::getStepLine( std::stringstream& stream ) const
 	if( m_Angle ) { m_Angle->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRevolvedAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRevolvedAreaSolid::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRevolvedAreaSolid::toString() const { return L"IfcRevolvedAreaSolid"; }
 void IfcRevolvedAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -26,7 +26,6 @@
 
 // ENTITY IfcBuildingElementPartType 
 IfcBuildingElementPartType::IfcBuildingElementPartType( int id ) { m_entity_id = id; }
-IfcBuildingElementPartType::~IfcBuildingElementPartType() {}
 shared_ptr<BuildingObject> IfcBuildingElementPartType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBuildingElementPartType> copy_self( new IfcBuildingElementPartType() );
@@ -88,7 +87,7 @@ void IfcBuildingElementPartType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBuildingElementPartType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBuildingElementPartType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBuildingElementPartType::toString() const { return L"IfcBuildingElementPartType"; }
 void IfcBuildingElementPartType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

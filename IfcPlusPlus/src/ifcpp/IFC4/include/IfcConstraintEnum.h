@@ -24,7 +24,7 @@ public:
 
 	IfcConstraintEnum() = default;
 	IfcConstraintEnum( IfcConstraintEnumEnum e ) { m_enum = e; }
-	~IfcConstraintEnum();
+	~IfcConstraintEnum() = default;
 	virtual const char* className() const { return "IfcConstraintEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

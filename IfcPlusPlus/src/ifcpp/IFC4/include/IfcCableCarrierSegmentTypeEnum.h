@@ -25,7 +25,7 @@ public:
 
 	IfcCableCarrierSegmentTypeEnum() = default;
 	IfcCableCarrierSegmentTypeEnum( IfcCableCarrierSegmentTypeEnumEnum e ) { m_enum = e; }
-	~IfcCableCarrierSegmentTypeEnum();
+	~IfcCableCarrierSegmentTypeEnum() = default;
 	virtual const char* className() const { return "IfcCableCarrierSegmentTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -12,7 +12,6 @@
 
 // TYPE IfcAccelerationMeasure = REAL;
 IfcAccelerationMeasure::IfcAccelerationMeasure( double value ) { m_value = value; }
-IfcAccelerationMeasure::~IfcAccelerationMeasure() {}
 shared_ptr<BuildingObject> IfcAccelerationMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAccelerationMeasure> copy_self( new IfcAccelerationMeasure() );

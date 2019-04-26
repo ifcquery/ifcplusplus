@@ -17,7 +17,6 @@
 
 // ENTITY IfcBlobTexture 
 IfcBlobTexture::IfcBlobTexture( int id ) { m_entity_id = id; }
-IfcBlobTexture::~IfcBlobTexture() {}
 shared_ptr<BuildingObject> IfcBlobTexture::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBlobTexture> copy_self( new IfcBlobTexture() );
@@ -72,7 +71,7 @@ void IfcBlobTexture::getStepLine( std::stringstream& stream ) const
 	if( m_RasterCode ) { m_RasterCode->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBlobTexture::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBlobTexture::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBlobTexture::toString() const { return L"IfcBlobTexture"; }
 void IfcBlobTexture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcGeographicElementTypeEnum.h"
 
 // TYPE IfcGeographicElementTypeEnum = ENUMERATION OF	(TERRAIN	,USERDEFINED	,NOTDEFINED);
-IfcGeographicElementTypeEnum::~IfcGeographicElementTypeEnum() {}
 shared_ptr<BuildingObject> IfcGeographicElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGeographicElementTypeEnum> copy_self( new IfcGeographicElementTypeEnum() );

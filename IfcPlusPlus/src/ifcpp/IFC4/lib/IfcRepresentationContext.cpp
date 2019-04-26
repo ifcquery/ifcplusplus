@@ -13,7 +13,6 @@
 
 // ENTITY IfcRepresentationContext 
 IfcRepresentationContext::IfcRepresentationContext( int id ) { m_entity_id = id; }
-IfcRepresentationContext::~IfcRepresentationContext() {}
 shared_ptr<BuildingObject> IfcRepresentationContext::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRepresentationContext> copy_self( new IfcRepresentationContext() );
@@ -29,7 +28,7 @@ void IfcRepresentationContext::getStepLine( std::stringstream& stream ) const
 	if( m_ContextType ) { m_ContextType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRepresentationContext::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRepresentationContext::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRepresentationContext::toString() const { return L"IfcRepresentationContext"; }
 void IfcRepresentationContext::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

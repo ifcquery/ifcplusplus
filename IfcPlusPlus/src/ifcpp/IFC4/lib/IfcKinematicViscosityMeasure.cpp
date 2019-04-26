@@ -12,7 +12,6 @@
 
 // TYPE IfcKinematicViscosityMeasure = REAL;
 IfcKinematicViscosityMeasure::IfcKinematicViscosityMeasure( double value ) { m_value = value; }
-IfcKinematicViscosityMeasure::~IfcKinematicViscosityMeasure() {}
 shared_ptr<BuildingObject> IfcKinematicViscosityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcKinematicViscosityMeasure> copy_self( new IfcKinematicViscosityMeasure() );

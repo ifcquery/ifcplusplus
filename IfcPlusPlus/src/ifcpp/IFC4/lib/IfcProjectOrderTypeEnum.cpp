@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcProjectOrderTypeEnum.h"
 
 // TYPE IfcProjectOrderTypeEnum = ENUMERATION OF	(CHANGEORDER	,MAINTENANCEWORKORDER	,MOVEORDER	,PURCHASEORDER	,WORKORDER	,USERDEFINED	,NOTDEFINED);
-IfcProjectOrderTypeEnum::~IfcProjectOrderTypeEnum() {}
 shared_ptr<BuildingObject> IfcProjectOrderTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProjectOrderTypeEnum> copy_self( new IfcProjectOrderTypeEnum() );

@@ -40,7 +40,6 @@
 
 // ENTITY IfcInterceptor 
 IfcInterceptor::IfcInterceptor( int id ) { m_entity_id = id; }
-IfcInterceptor::~IfcInterceptor() {}
 shared_ptr<BuildingObject> IfcInterceptor::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcInterceptor> copy_self( new IfcInterceptor() );
@@ -85,7 +84,7 @@ void IfcInterceptor::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcInterceptor::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcInterceptor::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcInterceptor::toString() const { return L"IfcInterceptor"; }
 void IfcInterceptor::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

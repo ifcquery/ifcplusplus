@@ -15,7 +15,6 @@
 
 // ENTITY IfcCurveBoundedPlane 
 IfcCurveBoundedPlane::IfcCurveBoundedPlane( int id ) { m_entity_id = id; }
-IfcCurveBoundedPlane::~IfcCurveBoundedPlane() {}
 shared_ptr<BuildingObject> IfcCurveBoundedPlane::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurveBoundedPlane> copy_self( new IfcCurveBoundedPlane() );
@@ -41,7 +40,7 @@ void IfcCurveBoundedPlane::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_InnerBoundaries );
 	stream << ");";
 }
-void IfcCurveBoundedPlane::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCurveBoundedPlane::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCurveBoundedPlane::toString() const { return L"IfcCurveBoundedPlane"; }
 void IfcCurveBoundedPlane::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

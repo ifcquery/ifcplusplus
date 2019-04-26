@@ -12,7 +12,6 @@
 
 // TYPE IfcContextDependentMeasure = REAL;
 IfcContextDependentMeasure::IfcContextDependentMeasure( double value ) { m_value = value; }
-IfcContextDependentMeasure::~IfcContextDependentMeasure() {}
 shared_ptr<BuildingObject> IfcContextDependentMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcContextDependentMeasure> copy_self( new IfcContextDependentMeasure() );

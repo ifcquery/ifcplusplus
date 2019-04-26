@@ -20,7 +20,6 @@
 
 // ENTITY IfcPropertyReferenceValue 
 IfcPropertyReferenceValue::IfcPropertyReferenceValue( int id ) { m_entity_id = id; }
-IfcPropertyReferenceValue::~IfcPropertyReferenceValue() {}
 shared_ptr<BuildingObject> IfcPropertyReferenceValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyReferenceValue> copy_self( new IfcPropertyReferenceValue() );
@@ -42,7 +41,7 @@ void IfcPropertyReferenceValue::getStepLine( std::stringstream& stream ) const
 	if( m_PropertyReference ) { m_PropertyReference->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcPropertyReferenceValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPropertyReferenceValue::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyReferenceValue::toString() const { return L"IfcPropertyReferenceValue"; }
 void IfcPropertyReferenceValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

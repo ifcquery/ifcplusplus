@@ -24,7 +24,7 @@ public:
 
 	IfcDuctSilencerTypeEnum() = default;
 	IfcDuctSilencerTypeEnum( IfcDuctSilencerTypeEnumEnum e ) { m_enum = e; }
-	~IfcDuctSilencerTypeEnum();
+	~IfcDuctSilencerTypeEnum() = default;
 	virtual const char* className() const { return "IfcDuctSilencerTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

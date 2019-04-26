@@ -16,7 +16,6 @@
 
 // ENTITY IfcOrientedEdge 
 IfcOrientedEdge::IfcOrientedEdge( int id ) { m_entity_id = id; }
-IfcOrientedEdge::~IfcOrientedEdge() {}
 shared_ptr<BuildingObject> IfcOrientedEdge::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOrientedEdge> copy_self( new IfcOrientedEdge() );
@@ -38,7 +37,7 @@ void IfcOrientedEdge::getStepLine( std::stringstream& stream ) const
 	if( m_Orientation ) { m_Orientation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcOrientedEdge::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcOrientedEdge::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOrientedEdge::toString() const { return L"IfcOrientedEdge"; }
 void IfcOrientedEdge::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

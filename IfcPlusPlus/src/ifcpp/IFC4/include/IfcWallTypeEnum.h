@@ -30,7 +30,7 @@ public:
 
 	IfcWallTypeEnum() = default;
 	IfcWallTypeEnum( IfcWallTypeEnumEnum e ) { m_enum = e; }
-	~IfcWallTypeEnum();
+	~IfcWallTypeEnum() = default;
 	virtual const char* className() const { return "IfcWallTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

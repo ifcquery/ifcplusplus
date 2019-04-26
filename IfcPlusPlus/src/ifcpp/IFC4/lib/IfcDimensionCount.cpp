@@ -11,7 +11,6 @@
 
 // TYPE IfcDimensionCount = INTEGER;
 IfcDimensionCount::IfcDimensionCount( int value ) { m_value = value; }
-IfcDimensionCount::~IfcDimensionCount() {}
 shared_ptr<BuildingObject> IfcDimensionCount::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDimensionCount> copy_self( new IfcDimensionCount() );

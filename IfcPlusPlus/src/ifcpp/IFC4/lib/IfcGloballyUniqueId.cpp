@@ -11,7 +11,6 @@
 
 // TYPE IfcGloballyUniqueId = STRING(22) FIXED;
 IfcGloballyUniqueId::IfcGloballyUniqueId( std::wstring value ) { m_value = value; }
-IfcGloballyUniqueId::~IfcGloballyUniqueId() {}
 shared_ptr<BuildingObject> IfcGloballyUniqueId::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGloballyUniqueId> copy_self( new IfcGloballyUniqueId() );

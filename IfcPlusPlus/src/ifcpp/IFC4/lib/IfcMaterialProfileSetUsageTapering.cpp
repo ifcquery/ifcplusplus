@@ -15,7 +15,6 @@
 
 // ENTITY IfcMaterialProfileSetUsageTapering 
 IfcMaterialProfileSetUsageTapering::IfcMaterialProfileSetUsageTapering( int id ) { m_entity_id = id; }
-IfcMaterialProfileSetUsageTapering::~IfcMaterialProfileSetUsageTapering() {}
 shared_ptr<BuildingObject> IfcMaterialProfileSetUsageTapering::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialProfileSetUsageTapering> copy_self( new IfcMaterialProfileSetUsageTapering() );
@@ -40,7 +39,7 @@ void IfcMaterialProfileSetUsageTapering::getStepLine( std::stringstream& stream 
 	if( m_CardinalEndPoint ) { m_CardinalEndPoint->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMaterialProfileSetUsageTapering::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMaterialProfileSetUsageTapering::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialProfileSetUsageTapering::toString() const { return L"IfcMaterialProfileSetUsageTapering"; }
 void IfcMaterialProfileSetUsageTapering::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

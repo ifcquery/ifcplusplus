@@ -24,7 +24,6 @@
 
 // ENTITY IfcDoorLiningProperties 
 IfcDoorLiningProperties::IfcDoorLiningProperties( int id ) { m_entity_id = id; }
-IfcDoorLiningProperties::~IfcDoorLiningProperties() {}
 shared_ptr<BuildingObject> IfcDoorLiningProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoorLiningProperties> copy_self( new IfcDoorLiningProperties() );
@@ -93,7 +92,7 @@ void IfcDoorLiningProperties::getStepLine( std::stringstream& stream ) const
 	if( m_LiningToPanelOffsetY ) { m_LiningToPanelOffsetY->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDoorLiningProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDoorLiningProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDoorLiningProperties::toString() const { return L"IfcDoorLiningProperties"; }
 void IfcDoorLiningProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

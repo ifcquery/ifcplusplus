@@ -12,7 +12,6 @@
 
 // TYPE IfcNumericMeasure = NUMBER;
 IfcNumericMeasure::IfcNumericMeasure( int value ) { m_value = value; }
-IfcNumericMeasure::~IfcNumericMeasure() {}
 shared_ptr<BuildingObject> IfcNumericMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcNumericMeasure> copy_self( new IfcNumericMeasure() );

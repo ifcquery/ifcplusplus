@@ -21,7 +21,7 @@ public:
 
 	IfcReinforcingMeshTypeEnum() = default;
 	IfcReinforcingMeshTypeEnum( IfcReinforcingMeshTypeEnumEnum e ) { m_enum = e; }
-	~IfcReinforcingMeshTypeEnum();
+	~IfcReinforcingMeshTypeEnum() = default;
 	virtual const char* className() const { return "IfcReinforcingMeshTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

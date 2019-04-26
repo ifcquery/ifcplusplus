@@ -12,7 +12,6 @@
 #include "ifcpp/IFC4/include/IfcPropertySetDefinitionSet.h"
 
 // TYPE IfcPropertySetDefinitionSet = SET [1:?] OF IfcPropertySetDefinition;
-IfcPropertySetDefinitionSet::~IfcPropertySetDefinitionSet() {}
 shared_ptr<BuildingObject> IfcPropertySetDefinitionSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertySetDefinitionSet> copy_self( new IfcPropertySetDefinitionSet() );

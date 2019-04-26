@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcWallTypeEnum.h"
 
 // TYPE IfcWallTypeEnum = ENUMERATION OF	(MOVABLE	,PARAPET	,PARTITIONING	,PLUMBINGWALL	,SHEAR	,SOLIDWALL	,STANDARD	,POLYGONAL	,ELEMENTEDWALL	,USERDEFINED	,NOTDEFINED);
-IfcWallTypeEnum::~IfcWallTypeEnum() {}
 shared_ptr<BuildingObject> IfcWallTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWallTypeEnum> copy_self( new IfcWallTypeEnum() );

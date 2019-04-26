@@ -12,7 +12,6 @@
 
 // TYPE IfcMagneticFluxDensityMeasure = REAL;
 IfcMagneticFluxDensityMeasure::IfcMagneticFluxDensityMeasure( double value ) { m_value = value; }
-IfcMagneticFluxDensityMeasure::~IfcMagneticFluxDensityMeasure() {}
 shared_ptr<BuildingObject> IfcMagneticFluxDensityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMagneticFluxDensityMeasure> copy_self( new IfcMagneticFluxDensityMeasure() );

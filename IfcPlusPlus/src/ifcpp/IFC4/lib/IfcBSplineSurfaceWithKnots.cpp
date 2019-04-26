@@ -19,7 +19,6 @@
 
 // ENTITY IfcBSplineSurfaceWithKnots 
 IfcBSplineSurfaceWithKnots::IfcBSplineSurfaceWithKnots( int id ) { m_entity_id = id; }
-IfcBSplineSurfaceWithKnots::~IfcBSplineSurfaceWithKnots() {}
 shared_ptr<BuildingObject> IfcBSplineSurfaceWithKnots::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBSplineSurfaceWithKnots> copy_self( new IfcBSplineSurfaceWithKnots() );
@@ -106,7 +105,7 @@ void IfcBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream ) const
 	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBSplineSurfaceWithKnots::toString() const { return L"IfcBSplineSurfaceWithKnots"; }
 void IfcBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

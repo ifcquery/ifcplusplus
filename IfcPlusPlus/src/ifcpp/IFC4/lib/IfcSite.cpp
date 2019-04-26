@@ -33,7 +33,6 @@
 
 // ENTITY IfcSite 
 IfcSite::IfcSite( int id ) { m_entity_id = id; }
-IfcSite::~IfcSite() {}
 shared_ptr<BuildingObject> IfcSite::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSite> copy_self( new IfcSite() );
@@ -93,7 +92,7 @@ void IfcSite::getStepLine( std::stringstream& stream ) const
 	if( m_SiteAddress ) { stream << "#" << m_SiteAddress->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSite::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSite::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSite::toString() const { return L"IfcSite"; }
 void IfcSite::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

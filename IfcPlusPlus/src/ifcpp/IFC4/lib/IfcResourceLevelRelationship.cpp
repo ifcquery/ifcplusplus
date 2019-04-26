@@ -13,7 +13,6 @@
 
 // ENTITY IfcResourceLevelRelationship 
 IfcResourceLevelRelationship::IfcResourceLevelRelationship( int id ) { m_entity_id = id; }
-IfcResourceLevelRelationship::~IfcResourceLevelRelationship() {}
 shared_ptr<BuildingObject> IfcResourceLevelRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcResourceLevelRelationship> copy_self( new IfcResourceLevelRelationship() );
@@ -29,7 +28,7 @@ void IfcResourceLevelRelationship::getStepLine( std::stringstream& stream ) cons
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcResourceLevelRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcResourceLevelRelationship::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcResourceLevelRelationship::toString() const { return L"IfcResourceLevelRelationship"; }
 void IfcResourceLevelRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

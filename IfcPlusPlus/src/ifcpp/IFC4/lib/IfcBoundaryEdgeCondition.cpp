@@ -14,7 +14,6 @@
 
 // ENTITY IfcBoundaryEdgeCondition 
 IfcBoundaryEdgeCondition::IfcBoundaryEdgeCondition( int id ) { m_entity_id = id; }
-IfcBoundaryEdgeCondition::~IfcBoundaryEdgeCondition() {}
 shared_ptr<BuildingObject> IfcBoundaryEdgeCondition::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoundaryEdgeCondition> copy_self( new IfcBoundaryEdgeCondition() );
@@ -45,7 +44,7 @@ void IfcBoundaryEdgeCondition::getStepLine( std::stringstream& stream ) const
 	if( m_RotationalStiffnessByLengthZ ) { m_RotationalStiffnessByLengthZ->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcBoundaryEdgeCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBoundaryEdgeCondition::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundaryEdgeCondition::toString() const { return L"IfcBoundaryEdgeCondition"; }
 void IfcBoundaryEdgeCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

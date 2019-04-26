@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcPermitTypeEnum.h"
 
 // TYPE IfcPermitTypeEnum = ENUMERATION OF	(ACCESS	,BUILDING	,WORK	,USERDEFINED	,NOTDEFINED);
-IfcPermitTypeEnum::~IfcPermitTypeEnum() {}
 shared_ptr<BuildingObject> IfcPermitTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPermitTypeEnum> copy_self( new IfcPermitTypeEnum() );

@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcBSplineCurveForm.h"
 
 // TYPE IfcBSplineCurveForm = ENUMERATION OF	(POLYLINE_FORM	,CIRCULAR_ARC	,ELLIPTIC_ARC	,PARABOLIC_ARC	,HYPERBOLIC_ARC	,UNSPECIFIED);
-IfcBSplineCurveForm::~IfcBSplineCurveForm() {}
 shared_ptr<BuildingObject> IfcBSplineCurveForm::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBSplineCurveForm> copy_self( new IfcBSplineCurveForm() );

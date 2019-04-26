@@ -28,7 +28,6 @@
 
 // ENTITY IfcPort 
 IfcPort::IfcPort( int id ) { m_entity_id = id; }
-IfcPort::~IfcPort() {}
 shared_ptr<BuildingObject> IfcPort::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPort> copy_self( new IfcPort() );
@@ -67,7 +66,7 @@ void IfcPort::getStepLine( std::stringstream& stream ) const
 	if( m_Representation ) { stream << "#" << m_Representation->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPort::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPort::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPort::toString() const { return L"IfcPort"; }
 void IfcPort::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

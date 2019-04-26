@@ -15,7 +15,6 @@
 
 // ENTITY IfcBoundaryCurve 
 IfcBoundaryCurve::IfcBoundaryCurve( int id ) { m_entity_id = id; }
-IfcBoundaryCurve::~IfcBoundaryCurve() {}
 shared_ptr<BuildingObject> IfcBoundaryCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoundaryCurve> copy_self( new IfcBoundaryCurve() );
@@ -38,7 +37,7 @@ void IfcBoundaryCurve::getStepLine( std::stringstream& stream ) const
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBoundaryCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBoundaryCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundaryCurve::toString() const { return L"IfcBoundaryCurve"; }
 void IfcBoundaryCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcUnitaryControlElementTypeEnum.h"
 
 // TYPE IfcUnitaryControlElementTypeEnum = ENUMERATION OF	(ALARMPANEL	,CONTROLPANEL	,GASDETECTIONPANEL	,INDICATORPANEL	,MIMICPANEL	,HUMIDISTAT	,THERMOSTAT	,WEATHERSTATION	,USERDEFINED	,NOTDEFINED);
-IfcUnitaryControlElementTypeEnum::~IfcUnitaryControlElementTypeEnum() {}
 shared_ptr<BuildingObject> IfcUnitaryControlElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcUnitaryControlElementTypeEnum> copy_self( new IfcUnitaryControlElementTypeEnum() );

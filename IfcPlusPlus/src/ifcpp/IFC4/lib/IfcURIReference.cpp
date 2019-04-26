@@ -11,7 +11,6 @@
 
 // TYPE IfcURIReference = STRING;
 IfcURIReference::IfcURIReference( std::wstring value ) { m_value = value; }
-IfcURIReference::~IfcURIReference() {}
 shared_ptr<BuildingObject> IfcURIReference::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcURIReference> copy_self( new IfcURIReference() );

@@ -23,7 +23,6 @@
 
 // ENTITY IfcSimplePropertyTemplate 
 IfcSimplePropertyTemplate::IfcSimplePropertyTemplate( int id ) { m_entity_id = id; }
-IfcSimplePropertyTemplate::~IfcSimplePropertyTemplate() {}
 shared_ptr<BuildingObject> IfcSimplePropertyTemplate::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSimplePropertyTemplate> copy_self( new IfcSimplePropertyTemplate() );
@@ -77,7 +76,7 @@ void IfcSimplePropertyTemplate::getStepLine( std::stringstream& stream ) const
 	if( m_AccessState ) { m_AccessState->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSimplePropertyTemplate::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSimplePropertyTemplate::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSimplePropertyTemplate::toString() const { return L"IfcSimplePropertyTemplate"; }
 void IfcSimplePropertyTemplate::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

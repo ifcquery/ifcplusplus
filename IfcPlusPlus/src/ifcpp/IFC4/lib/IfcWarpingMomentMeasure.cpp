@@ -13,7 +13,6 @@
 
 // TYPE IfcWarpingMomentMeasure = REAL;
 IfcWarpingMomentMeasure::IfcWarpingMomentMeasure( double value ) { m_value = value; }
-IfcWarpingMomentMeasure::~IfcWarpingMomentMeasure() {}
 shared_ptr<BuildingObject> IfcWarpingMomentMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWarpingMomentMeasure> copy_self( new IfcWarpingMomentMeasure() );

@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcIntegerCountRateMeasure : public IfcDerivedMeasureValue
 public:
 	IfcIntegerCountRateMeasure() = default;
 	IfcIntegerCountRateMeasure( int value );
-	~IfcIntegerCountRateMeasure();
+	~IfcIntegerCountRateMeasure() = default;
 	virtual const char* className() const { return "IfcIntegerCountRateMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

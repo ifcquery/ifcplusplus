@@ -27,7 +27,6 @@
 
 // ENTITY IfcCostSchedule 
 IfcCostSchedule::IfcCostSchedule( int id ) { m_entity_id = id; }
-IfcCostSchedule::~IfcCostSchedule() {}
 shared_ptr<BuildingObject> IfcCostSchedule::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCostSchedule> copy_self( new IfcCostSchedule() );
@@ -75,7 +74,7 @@ void IfcCostSchedule::getStepLine( std::stringstream& stream ) const
 	if( m_UpdateDate ) { m_UpdateDate->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCostSchedule::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCostSchedule::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCostSchedule::toString() const { return L"IfcCostSchedule"; }
 void IfcCostSchedule::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

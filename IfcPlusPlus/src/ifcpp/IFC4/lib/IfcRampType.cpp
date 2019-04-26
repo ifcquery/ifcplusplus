@@ -26,7 +26,6 @@
 
 // ENTITY IfcRampType 
 IfcRampType::IfcRampType( int id ) { m_entity_id = id; }
-IfcRampType::~IfcRampType() {}
 shared_ptr<BuildingObject> IfcRampType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRampType> copy_self( new IfcRampType() );
@@ -88,7 +87,7 @@ void IfcRampType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRampType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRampType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRampType::toString() const { return L"IfcRampType"; }
 void IfcRampType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

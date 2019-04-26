@@ -12,7 +12,6 @@
 
 // ENTITY IfcTextStyleForDefinedFont 
 IfcTextStyleForDefinedFont::IfcTextStyleForDefinedFont( int id ) { m_entity_id = id; }
-IfcTextStyleForDefinedFont::~IfcTextStyleForDefinedFont() {}
 shared_ptr<BuildingObject> IfcTextStyleForDefinedFont::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextStyleForDefinedFont> copy_self( new IfcTextStyleForDefinedFont() );
@@ -28,7 +27,7 @@ void IfcTextStyleForDefinedFont::getStepLine( std::stringstream& stream ) const
 	if( m_BackgroundColour ) { m_BackgroundColour->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcTextStyleForDefinedFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTextStyleForDefinedFont::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextStyleForDefinedFont::toString() const { return L"IfcTextStyleForDefinedFont"; }
 void IfcTextStyleForDefinedFont::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

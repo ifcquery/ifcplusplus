@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcStructuralLinearAction : public IfcStructuralCurveActio
 public:
 	IfcStructuralLinearAction() = default;
 	IfcStructuralLinearAction( int id );
-	~IfcStructuralLinearAction();
+	~IfcStructuralLinearAction() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

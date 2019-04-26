@@ -25,7 +25,6 @@
 
 // ENTITY IfcFlowTreatmentDeviceType 
 IfcFlowTreatmentDeviceType::IfcFlowTreatmentDeviceType( int id ) { m_entity_id = id; }
-IfcFlowTreatmentDeviceType::~IfcFlowTreatmentDeviceType() {}
 shared_ptr<BuildingObject> IfcFlowTreatmentDeviceType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFlowTreatmentDeviceType> copy_self( new IfcFlowTreatmentDeviceType() );
@@ -84,7 +83,7 @@ void IfcFlowTreatmentDeviceType::getStepLine( std::stringstream& stream ) const
 	if( m_ElementType ) { m_ElementType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFlowTreatmentDeviceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFlowTreatmentDeviceType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFlowTreatmentDeviceType::toString() const { return L"IfcFlowTreatmentDeviceType"; }
 void IfcFlowTreatmentDeviceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

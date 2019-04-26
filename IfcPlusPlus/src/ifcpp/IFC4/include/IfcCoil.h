@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcCoil : public IfcEnergyConversionDevice
 public:
 	IfcCoil() = default;
 	IfcCoil( int id );
-	~IfcCoil();
+	~IfcCoil() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

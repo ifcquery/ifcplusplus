@@ -17,7 +17,6 @@
 
 // ENTITY IfcCurrencyRelationship 
 IfcCurrencyRelationship::IfcCurrencyRelationship( int id ) { m_entity_id = id; }
-IfcCurrencyRelationship::~IfcCurrencyRelationship() {}
 shared_ptr<BuildingObject> IfcCurrencyRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurrencyRelationship> copy_self( new IfcCurrencyRelationship() );
@@ -48,7 +47,7 @@ void IfcCurrencyRelationship::getStepLine( std::stringstream& stream ) const
 	if( m_RateSource ) { stream << "#" << m_RateSource->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCurrencyRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCurrencyRelationship::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCurrencyRelationship::toString() const { return L"IfcCurrencyRelationship"; }
 void IfcCurrencyRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

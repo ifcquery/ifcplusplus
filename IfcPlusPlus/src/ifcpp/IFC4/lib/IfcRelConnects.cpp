@@ -15,7 +15,6 @@
 
 // ENTITY IfcRelConnects 
 IfcRelConnects::IfcRelConnects( int id ) { m_entity_id = id; }
-IfcRelConnects::~IfcRelConnects() {}
 shared_ptr<BuildingObject> IfcRelConnects::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelConnects> copy_self( new IfcRelConnects() );
@@ -45,7 +44,7 @@ void IfcRelConnects::getStepLine( std::stringstream& stream ) const
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelConnects::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelConnects::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelConnects::toString() const { return L"IfcRelConnects"; }
 void IfcRelConnects::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

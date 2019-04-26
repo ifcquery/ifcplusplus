@@ -26,7 +26,6 @@
 
 // ENTITY IfcDamperType 
 IfcDamperType::IfcDamperType( int id ) { m_entity_id = id; }
-IfcDamperType::~IfcDamperType() {}
 shared_ptr<BuildingObject> IfcDamperType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDamperType> copy_self( new IfcDamperType() );
@@ -88,7 +87,7 @@ void IfcDamperType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDamperType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDamperType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDamperType::toString() const { return L"IfcDamperType"; }
 void IfcDamperType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -20,7 +20,6 @@
 
 // ENTITY IfcRelDefinesByProperties 
 IfcRelDefinesByProperties::IfcRelDefinesByProperties( int id ) { m_entity_id = id; }
-IfcRelDefinesByProperties::~IfcRelDefinesByProperties() {}
 shared_ptr<BuildingObject> IfcRelDefinesByProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelDefinesByProperties> copy_self( new IfcRelDefinesByProperties() );
@@ -63,7 +62,7 @@ void IfcRelDefinesByProperties::getStepLine( std::stringstream& stream ) const
 	if( m_RelatingPropertyDefinition ) { m_RelatingPropertyDefinition->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcRelDefinesByProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelDefinesByProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelDefinesByProperties::toString() const { return L"IfcRelDefinesByProperties"; }
 void IfcRelDefinesByProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

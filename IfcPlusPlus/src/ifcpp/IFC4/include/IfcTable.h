@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcTable : virtual public IfcMetricValueSelect, virtual pu
 public:
 	IfcTable() = default;
 	IfcTable( int id );
-	~IfcTable();
+	~IfcTable() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -26,7 +26,7 @@ public:
 
 	IfcTransportElementTypeEnum() = default;
 	IfcTransportElementTypeEnum( IfcTransportElementTypeEnumEnum e ) { m_enum = e; }
-	~IfcTransportElementTypeEnum();
+	~IfcTransportElementTypeEnum() = default;
 	virtual const char* className() const { return "IfcTransportElementTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

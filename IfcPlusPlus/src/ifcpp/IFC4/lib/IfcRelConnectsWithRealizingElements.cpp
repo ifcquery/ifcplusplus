@@ -17,7 +17,6 @@
 
 // ENTITY IfcRelConnectsWithRealizingElements 
 IfcRelConnectsWithRealizingElements::IfcRelConnectsWithRealizingElements( int id ) { m_entity_id = id; }
-IfcRelConnectsWithRealizingElements::~IfcRelConnectsWithRealizingElements() {}
 shared_ptr<BuildingObject> IfcRelConnectsWithRealizingElements::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelConnectsWithRealizingElements> copy_self( new IfcRelConnectsWithRealizingElements() );
@@ -69,7 +68,7 @@ void IfcRelConnectsWithRealizingElements::getStepLine( std::stringstream& stream
 	if( m_ConnectionType ) { m_ConnectionType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelConnectsWithRealizingElements::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelConnectsWithRealizingElements::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelConnectsWithRealizingElements::toString() const { return L"IfcRelConnectsWithRealizingElements"; }
 void IfcRelConnectsWithRealizingElements::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

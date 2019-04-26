@@ -12,7 +12,6 @@
 
 // TYPE IfcVolumetricFlowRateMeasure = REAL;
 IfcVolumetricFlowRateMeasure::IfcVolumetricFlowRateMeasure( double value ) { m_value = value; }
-IfcVolumetricFlowRateMeasure::~IfcVolumetricFlowRateMeasure() {}
 shared_ptr<BuildingObject> IfcVolumetricFlowRateMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVolumetricFlowRateMeasure> copy_self( new IfcVolumetricFlowRateMeasure() );

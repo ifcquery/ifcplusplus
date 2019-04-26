@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcIndexedPolygonalFace : public IfcTessellatedItem
 public:
 	IfcIndexedPolygonalFace() = default;
 	IfcIndexedPolygonalFace( int id );
-	~IfcIndexedPolygonalFace();
+	~IfcIndexedPolygonalFace() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

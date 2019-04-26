@@ -29,7 +29,6 @@
 
 // ENTITY IfcAsset 
 IfcAsset::IfcAsset( int id ) { m_entity_id = id; }
-IfcAsset::~IfcAsset() {}
 shared_ptr<BuildingObject> IfcAsset::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAsset> copy_self( new IfcAsset() );
@@ -89,7 +88,7 @@ void IfcAsset::getStepLine( std::stringstream& stream ) const
 	if( m_DepreciatedValue ) { stream << "#" << m_DepreciatedValue->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAsset::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAsset::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAsset::toString() const { return L"IfcAsset"; }
 void IfcAsset::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

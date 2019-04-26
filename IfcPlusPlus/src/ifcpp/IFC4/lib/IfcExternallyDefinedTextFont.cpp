@@ -15,7 +15,6 @@
 
 // ENTITY IfcExternallyDefinedTextFont 
 IfcExternallyDefinedTextFont::IfcExternallyDefinedTextFont( int id ) { m_entity_id = id; }
-IfcExternallyDefinedTextFont::~IfcExternallyDefinedTextFont() {}
 shared_ptr<BuildingObject> IfcExternallyDefinedTextFont::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExternallyDefinedTextFont> copy_self( new IfcExternallyDefinedTextFont() );
@@ -34,7 +33,7 @@ void IfcExternallyDefinedTextFont::getStepLine( std::stringstream& stream ) cons
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcExternallyDefinedTextFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcExternallyDefinedTextFont::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExternallyDefinedTextFont::toString() const { return L"IfcExternallyDefinedTextFont"; }
 void IfcExternallyDefinedTextFont::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

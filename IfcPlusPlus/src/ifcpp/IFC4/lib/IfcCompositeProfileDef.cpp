@@ -16,7 +16,6 @@
 
 // ENTITY IfcCompositeProfileDef 
 IfcCompositeProfileDef::IfcCompositeProfileDef( int id ) { m_entity_id = id; }
-IfcCompositeProfileDef::~IfcCompositeProfileDef() {}
 shared_ptr<BuildingObject> IfcCompositeProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCompositeProfileDef> copy_self( new IfcCompositeProfileDef() );
@@ -45,7 +44,7 @@ void IfcCompositeProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_Label ) { m_Label->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCompositeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCompositeProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCompositeProfileDef::toString() const { return L"IfcCompositeProfileDef"; }
 void IfcCompositeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

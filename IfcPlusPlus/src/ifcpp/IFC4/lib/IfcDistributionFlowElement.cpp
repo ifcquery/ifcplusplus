@@ -39,7 +39,6 @@
 
 // ENTITY IfcDistributionFlowElement 
 IfcDistributionFlowElement::IfcDistributionFlowElement( int id ) { m_entity_id = id; }
-IfcDistributionFlowElement::~IfcDistributionFlowElement() {}
 shared_ptr<BuildingObject> IfcDistributionFlowElement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDistributionFlowElement> copy_self( new IfcDistributionFlowElement() );
@@ -81,7 +80,7 @@ void IfcDistributionFlowElement::getStepLine( std::stringstream& stream ) const
 	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDistributionFlowElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDistributionFlowElement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDistributionFlowElement::toString() const { return L"IfcDistributionFlowElement"; }
 void IfcDistributionFlowElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -13,7 +13,6 @@
 
 // TYPE IfcLinearStiffnessMeasure = REAL;
 IfcLinearStiffnessMeasure::IfcLinearStiffnessMeasure( double value ) { m_value = value; }
-IfcLinearStiffnessMeasure::~IfcLinearStiffnessMeasure() {}
 shared_ptr<BuildingObject> IfcLinearStiffnessMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLinearStiffnessMeasure> copy_self( new IfcLinearStiffnessMeasure() );

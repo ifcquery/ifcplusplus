@@ -17,7 +17,6 @@
 
 // ENTITY IfcRelConnectsPortToElement 
 IfcRelConnectsPortToElement::IfcRelConnectsPortToElement( int id ) { m_entity_id = id; }
-IfcRelConnectsPortToElement::~IfcRelConnectsPortToElement() {}
 shared_ptr<BuildingObject> IfcRelConnectsPortToElement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelConnectsPortToElement> copy_self( new IfcRelConnectsPortToElement() );
@@ -53,7 +52,7 @@ void IfcRelConnectsPortToElement::getStepLine( std::stringstream& stream ) const
 	if( m_RelatedElement ) { stream << "#" << m_RelatedElement->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelConnectsPortToElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelConnectsPortToElement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelConnectsPortToElement::toString() const { return L"IfcRelConnectsPortToElement"; }
 void IfcRelConnectsPortToElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

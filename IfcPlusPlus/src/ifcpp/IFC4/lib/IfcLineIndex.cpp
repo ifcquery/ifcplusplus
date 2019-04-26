@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcLineIndex.h"
 
 // TYPE IfcLineIndex = LIST [2:?] OF IfcPositiveInteger;
-IfcLineIndex::~IfcLineIndex() {}
 shared_ptr<BuildingObject> IfcLineIndex::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLineIndex> copy_self( new IfcLineIndex() );
@@ -21,6 +20,7 @@ shared_ptr<BuildingObject> IfcLineIndex::getDeepCopy( BuildingCopyOptions& optio
 void IfcLineIndex::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLINEINDEX("; }
+	writeNumericTypeList( stream, m_vec );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcLineIndex::toString() const
@@ -34,6 +34,6 @@ shared_ptr<IfcLineIndex> IfcLineIndex::createObjectFromSTEP( const std::wstring&
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLineIndex>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLineIndex>(); }
 	shared_ptr<IfcLineIndex> type_object( new IfcLineIndex() );
-	readInteger( arg, type_object->m_value );
+	readTypeOfIntegerList( arg, type_object->m_vec );
 	return type_object;
 }

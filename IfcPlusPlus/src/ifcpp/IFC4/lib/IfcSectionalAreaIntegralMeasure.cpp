@@ -12,7 +12,6 @@
 
 // TYPE IfcSectionalAreaIntegralMeasure = REAL;
 IfcSectionalAreaIntegralMeasure::IfcSectionalAreaIntegralMeasure( double value ) { m_value = value; }
-IfcSectionalAreaIntegralMeasure::~IfcSectionalAreaIntegralMeasure() {}
 shared_ptr<BuildingObject> IfcSectionalAreaIntegralMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSectionalAreaIntegralMeasure> copy_self( new IfcSectionalAreaIntegralMeasure() );

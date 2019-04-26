@@ -13,7 +13,6 @@
 
 // TYPE IfcPlaneAngleMeasure = REAL;
 IfcPlaneAngleMeasure::IfcPlaneAngleMeasure( double value ) { m_value = value; }
-IfcPlaneAngleMeasure::~IfcPlaneAngleMeasure() {}
 shared_ptr<BuildingObject> IfcPlaneAngleMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPlaneAngleMeasure> copy_self( new IfcPlaneAngleMeasure() );

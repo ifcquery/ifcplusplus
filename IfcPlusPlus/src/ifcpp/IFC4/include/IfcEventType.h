@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcEventType : public IfcTypeProcess
 public:
 	IfcEventType() = default;
 	IfcEventType( int id );
-	~IfcEventType();
+	~IfcEventType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

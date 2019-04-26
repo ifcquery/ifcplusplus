@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcRampFlightTypeEnum.h"
 
 // TYPE IfcRampFlightTypeEnum = ENUMERATION OF	(STRAIGHT	,SPIRAL	,USERDEFINED	,NOTDEFINED);
-IfcRampFlightTypeEnum::~IfcRampFlightTypeEnum() {}
 shared_ptr<BuildingObject> IfcRampFlightTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRampFlightTypeEnum> copy_self( new IfcRampFlightTypeEnum() );

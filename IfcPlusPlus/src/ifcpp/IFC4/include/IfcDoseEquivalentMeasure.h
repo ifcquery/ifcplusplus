@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcDoseEquivalentMeasure : public IfcDerivedMeasureValue
 public:
 	IfcDoseEquivalentMeasure() = default;
 	IfcDoseEquivalentMeasure( double value );
-	~IfcDoseEquivalentMeasure();
+	~IfcDoseEquivalentMeasure() = default;
 	virtual const char* className() const { return "IfcDoseEquivalentMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

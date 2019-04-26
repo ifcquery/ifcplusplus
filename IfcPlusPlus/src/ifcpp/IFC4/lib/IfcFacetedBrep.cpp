@@ -14,7 +14,6 @@
 
 // ENTITY IfcFacetedBrep 
 IfcFacetedBrep::IfcFacetedBrep( int id ) { m_entity_id = id; }
-IfcFacetedBrep::~IfcFacetedBrep() {}
 shared_ptr<BuildingObject> IfcFacetedBrep::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFacetedBrep> copy_self( new IfcFacetedBrep() );
@@ -27,7 +26,7 @@ void IfcFacetedBrep::getStepLine( std::stringstream& stream ) const
 	if( m_Outer ) { stream << "#" << m_Outer->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFacetedBrep::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFacetedBrep::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFacetedBrep::toString() const { return L"IfcFacetedBrep"; }
 void IfcFacetedBrep::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcMechanicalFastener : public IfcElementComponent
 public:
 	IfcMechanicalFastener() = default;
 	IfcMechanicalFastener( int id );
-	~IfcMechanicalFastener();
+	~IfcMechanicalFastener() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

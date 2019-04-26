@@ -16,7 +16,6 @@
 
 // ENTITY IfcRelDefinesByObject 
 IfcRelDefinesByObject::IfcRelDefinesByObject( int id ) { m_entity_id = id; }
-IfcRelDefinesByObject::~IfcRelDefinesByObject() {}
 shared_ptr<BuildingObject> IfcRelDefinesByObject::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelDefinesByObject> copy_self( new IfcRelDefinesByObject() );
@@ -59,7 +58,7 @@ void IfcRelDefinesByObject::getStepLine( std::stringstream& stream ) const
 	if( m_RelatingObject ) { stream << "#" << m_RelatingObject->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelDefinesByObject::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelDefinesByObject::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelDefinesByObject::toString() const { return L"IfcRelDefinesByObject"; }
 void IfcRelDefinesByObject::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

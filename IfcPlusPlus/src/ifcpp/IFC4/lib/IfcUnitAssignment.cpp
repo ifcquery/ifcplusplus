@@ -12,7 +12,6 @@
 
 // ENTITY IfcUnitAssignment 
 IfcUnitAssignment::IfcUnitAssignment( int id ) { m_entity_id = id; }
-IfcUnitAssignment::~IfcUnitAssignment() {}
 shared_ptr<BuildingObject> IfcUnitAssignment::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcUnitAssignment> copy_self( new IfcUnitAssignment() );
@@ -49,7 +48,7 @@ void IfcUnitAssignment::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcUnitAssignment::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcUnitAssignment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcUnitAssignment::toString() const { return L"IfcUnitAssignment"; }
 void IfcUnitAssignment::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

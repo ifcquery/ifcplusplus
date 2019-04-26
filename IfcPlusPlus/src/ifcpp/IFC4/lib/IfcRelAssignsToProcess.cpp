@@ -21,7 +21,6 @@
 
 // ENTITY IfcRelAssignsToProcess 
 IfcRelAssignsToProcess::IfcRelAssignsToProcess( int id ) { m_entity_id = id; }
-IfcRelAssignsToProcess::~IfcRelAssignsToProcess() {}
 shared_ptr<BuildingObject> IfcRelAssignsToProcess::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssignsToProcess> copy_self( new IfcRelAssignsToProcess() );
@@ -70,7 +69,7 @@ void IfcRelAssignsToProcess::getStepLine( std::stringstream& stream ) const
 	if( m_QuantityInProcess ) { stream << "#" << m_QuantityInProcess->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelAssignsToProcess::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelAssignsToProcess::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssignsToProcess::toString() const { return L"IfcRelAssignsToProcess"; }
 void IfcRelAssignsToProcess::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

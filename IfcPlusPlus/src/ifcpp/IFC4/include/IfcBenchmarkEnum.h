@@ -29,7 +29,7 @@ public:
 
 	IfcBenchmarkEnum() = default;
 	IfcBenchmarkEnum( IfcBenchmarkEnumEnum e ) { m_enum = e; }
-	~IfcBenchmarkEnum();
+	~IfcBenchmarkEnum() = default;
 	virtual const char* className() const { return "IfcBenchmarkEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

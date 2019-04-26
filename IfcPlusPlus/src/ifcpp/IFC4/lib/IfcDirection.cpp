@@ -14,7 +14,6 @@
 
 // ENTITY IfcDirection 
 IfcDirection::IfcDirection( int id ) { m_entity_id = id; }
-IfcDirection::~IfcDirection() {}
 shared_ptr<BuildingObject> IfcDirection::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDirection> copy_self( new IfcDirection() );
@@ -34,7 +33,7 @@ void IfcDirection::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList( stream, m_DirectionRatios );
 	stream << ");";
 }
-void IfcDirection::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDirection::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDirection::toString() const { return L"IfcDirection"; }
 void IfcDirection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

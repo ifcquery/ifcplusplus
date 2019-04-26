@@ -14,7 +14,6 @@
 
 // ENTITY IfcPolyLoop 
 IfcPolyLoop::IfcPolyLoop( int id ) { m_entity_id = id; }
-IfcPolyLoop::~IfcPolyLoop() {}
 shared_ptr<BuildingObject> IfcPolyLoop::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPolyLoop> copy_self( new IfcPolyLoop() );
@@ -34,7 +33,7 @@ void IfcPolyLoop::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Polygon );
 	stream << ");";
 }
-void IfcPolyLoop::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPolyLoop::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPolyLoop::toString() const { return L"IfcPolyLoop"; }
 void IfcPolyLoop::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

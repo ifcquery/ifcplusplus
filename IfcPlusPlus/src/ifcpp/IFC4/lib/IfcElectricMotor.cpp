@@ -40,7 +40,6 @@
 
 // ENTITY IfcElectricMotor 
 IfcElectricMotor::IfcElectricMotor( int id ) { m_entity_id = id; }
-IfcElectricMotor::~IfcElectricMotor() {}
 shared_ptr<BuildingObject> IfcElectricMotor::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricMotor> copy_self( new IfcElectricMotor() );
@@ -85,7 +84,7 @@ void IfcElectricMotor::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcElectricMotor::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcElectricMotor::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcElectricMotor::toString() const { return L"IfcElectricMotor"; }
 void IfcElectricMotor::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

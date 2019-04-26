@@ -1557,7 +1557,7 @@
 { "IFCWORKSCHEDULE", []()->BuildingEntity* { return new IfcWorkSchedule(); } },
 { "IFCWORKTIME", []()->BuildingEntity* { return new IfcWorkTime(); } },
 { "IFCZSHAPEPROFILEDEF", []()->BuildingEntity* { return new IfcZShapeProfileDef(); } },
-{ "IFCZONE", []()->BuildingEntity* { return new IfcZone(); } }
+	{ "IFCZONE", []()->BuildingEntity* { return new IfcZone(); } }
 };
 
 BuildingEntity* EntityFactory::createEntityObject( const std::string& class_name_upper )

@@ -17,7 +17,6 @@
 
 // ENTITY IfcRelServicesBuildings 
 IfcRelServicesBuildings::IfcRelServicesBuildings( int id ) { m_entity_id = id; }
-IfcRelServicesBuildings::~IfcRelServicesBuildings() {}
 shared_ptr<BuildingObject> IfcRelServicesBuildings::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelServicesBuildings> copy_self( new IfcRelServicesBuildings() );
@@ -60,7 +59,7 @@ void IfcRelServicesBuildings::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_RelatedBuildings );
 	stream << ");";
 }
-void IfcRelServicesBuildings::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelServicesBuildings::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelServicesBuildings::toString() const { return L"IfcRelServicesBuildings"; }
 void IfcRelServicesBuildings::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

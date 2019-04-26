@@ -22,7 +22,6 @@
 
 // ENTITY IfcPropertyTableValue 
 IfcPropertyTableValue::IfcPropertyTableValue( int id ) { m_entity_id = id; }
-IfcPropertyTableValue::~IfcPropertyTableValue() {}
 shared_ptr<BuildingObject> IfcPropertyTableValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyTableValue> copy_self( new IfcPropertyTableValue() );
@@ -104,7 +103,7 @@ void IfcPropertyTableValue::getStepLine( std::stringstream& stream ) const
 	if( m_CurveInterpolation ) { m_CurveInterpolation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPropertyTableValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPropertyTableValue::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyTableValue::toString() const { return L"IfcPropertyTableValue"; }
 void IfcPropertyTableValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

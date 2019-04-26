@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcInventoryTypeEnum.h"
 
 // TYPE IfcInventoryTypeEnum = ENUMERATION OF	(ASSETINVENTORY	,SPACEINVENTORY	,FURNITUREINVENTORY	,USERDEFINED	,NOTDEFINED);
-IfcInventoryTypeEnum::~IfcInventoryTypeEnum() {}
 shared_ptr<BuildingObject> IfcInventoryTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcInventoryTypeEnum> copy_self( new IfcInventoryTypeEnum() );

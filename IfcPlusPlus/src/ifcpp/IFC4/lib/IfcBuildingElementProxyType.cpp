@@ -26,7 +26,6 @@
 
 // ENTITY IfcBuildingElementProxyType 
 IfcBuildingElementProxyType::IfcBuildingElementProxyType( int id ) { m_entity_id = id; }
-IfcBuildingElementProxyType::~IfcBuildingElementProxyType() {}
 shared_ptr<BuildingObject> IfcBuildingElementProxyType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBuildingElementProxyType> copy_self( new IfcBuildingElementProxyType() );
@@ -88,7 +87,7 @@ void IfcBuildingElementProxyType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBuildingElementProxyType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBuildingElementProxyType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBuildingElementProxyType::toString() const { return L"IfcBuildingElementProxyType"; }
 void IfcBuildingElementProxyType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

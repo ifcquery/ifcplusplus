@@ -12,7 +12,6 @@
 
 // TYPE IfcElectricCurrentMeasure = REAL;
 IfcElectricCurrentMeasure::IfcElectricCurrentMeasure( double value ) { m_value = value; }
-IfcElectricCurrentMeasure::~IfcElectricCurrentMeasure() {}
 shared_ptr<BuildingObject> IfcElectricCurrentMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricCurrentMeasure> copy_self( new IfcElectricCurrentMeasure() );

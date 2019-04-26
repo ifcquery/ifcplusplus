@@ -26,7 +26,6 @@
 
 // ENTITY IfcTransportElementType 
 IfcTransportElementType::IfcTransportElementType( int id ) { m_entity_id = id; }
-IfcTransportElementType::~IfcTransportElementType() {}
 shared_ptr<BuildingObject> IfcTransportElementType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTransportElementType> copy_self( new IfcTransportElementType() );
@@ -88,7 +87,7 @@ void IfcTransportElementType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTransportElementType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTransportElementType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTransportElementType::toString() const { return L"IfcTransportElementType"; }
 void IfcTransportElementType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

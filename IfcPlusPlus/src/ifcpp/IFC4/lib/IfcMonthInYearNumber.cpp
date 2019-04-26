@@ -11,7 +11,6 @@
 
 // TYPE IfcMonthInYearNumber = INTEGER;
 IfcMonthInYearNumber::IfcMonthInYearNumber( int value ) { m_value = value; }
-IfcMonthInYearNumber::~IfcMonthInYearNumber() {}
 shared_ptr<BuildingObject> IfcMonthInYearNumber::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMonthInYearNumber> copy_self( new IfcMonthInYearNumber() );

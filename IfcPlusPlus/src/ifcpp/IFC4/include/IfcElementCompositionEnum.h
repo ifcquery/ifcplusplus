@@ -22,7 +22,7 @@ public:
 
 	IfcElementCompositionEnum() = default;
 	IfcElementCompositionEnum( IfcElementCompositionEnumEnum e ) { m_enum = e; }
-	~IfcElementCompositionEnum();
+	~IfcElementCompositionEnum() = default;
 	virtual const char* className() const { return "IfcElementCompositionEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -23,7 +23,7 @@ public:
 
 	IfcSolarDeviceTypeEnum() = default;
 	IfcSolarDeviceTypeEnum( IfcSolarDeviceTypeEnumEnum e ) { m_enum = e; }
-	~IfcSolarDeviceTypeEnum();
+	~IfcSolarDeviceTypeEnum() = default;
 	virtual const char* className() const { return "IfcSolarDeviceTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

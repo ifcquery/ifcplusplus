@@ -29,7 +29,6 @@
 
 // ENTITY IfcStructuralActivity 
 IfcStructuralActivity::IfcStructuralActivity( int id ) { m_entity_id = id; }
-IfcStructuralActivity::~IfcStructuralActivity() {}
 shared_ptr<BuildingObject> IfcStructuralActivity::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralActivity> copy_self( new IfcStructuralActivity() );
@@ -74,7 +73,7 @@ void IfcStructuralActivity::getStepLine( std::stringstream& stream ) const
 	if( m_GlobalOrLocal ) { m_GlobalOrLocal->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralActivity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralActivity::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralActivity::toString() const { return L"IfcStructuralActivity"; }
 void IfcStructuralActivity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

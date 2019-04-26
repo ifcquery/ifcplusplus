@@ -12,7 +12,6 @@
 
 // TYPE IfcHeatingValueMeasure = REAL;
 IfcHeatingValueMeasure::IfcHeatingValueMeasure( double value ) { m_value = value; }
-IfcHeatingValueMeasure::~IfcHeatingValueMeasure() {}
 shared_ptr<BuildingObject> IfcHeatingValueMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcHeatingValueMeasure> copy_self( new IfcHeatingValueMeasure() );

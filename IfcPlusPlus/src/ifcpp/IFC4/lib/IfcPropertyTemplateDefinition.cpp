@@ -17,7 +17,6 @@
 
 // ENTITY IfcPropertyTemplateDefinition 
 IfcPropertyTemplateDefinition::IfcPropertyTemplateDefinition( int id ) { m_entity_id = id; }
-IfcPropertyTemplateDefinition::~IfcPropertyTemplateDefinition() {}
 shared_ptr<BuildingObject> IfcPropertyTemplateDefinition::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyTemplateDefinition> copy_self( new IfcPropertyTemplateDefinition() );
@@ -47,7 +46,7 @@ void IfcPropertyTemplateDefinition::getStepLine( std::stringstream& stream ) con
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPropertyTemplateDefinition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPropertyTemplateDefinition::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyTemplateDefinition::toString() const { return L"IfcPropertyTemplateDefinition"; }
 void IfcPropertyTemplateDefinition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

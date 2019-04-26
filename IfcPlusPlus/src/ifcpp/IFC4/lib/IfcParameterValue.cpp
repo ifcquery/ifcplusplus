@@ -13,7 +13,6 @@
 
 // TYPE IfcParameterValue = REAL;
 IfcParameterValue::IfcParameterValue( double value ) { m_value = value; }
-IfcParameterValue::~IfcParameterValue() {}
 shared_ptr<BuildingObject> IfcParameterValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcParameterValue> copy_self( new IfcParameterValue() );

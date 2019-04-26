@@ -14,7 +14,6 @@
 
 // ENTITY IfcAdvancedBrepWithVoids 
 IfcAdvancedBrepWithVoids::IfcAdvancedBrepWithVoids( int id ) { m_entity_id = id; }
-IfcAdvancedBrepWithVoids::~IfcAdvancedBrepWithVoids() {}
 shared_ptr<BuildingObject> IfcAdvancedBrepWithVoids::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAdvancedBrepWithVoids> copy_self( new IfcAdvancedBrepWithVoids() );
@@ -37,7 +36,7 @@ void IfcAdvancedBrepWithVoids::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Voids );
 	stream << ");";
 }
-void IfcAdvancedBrepWithVoids::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAdvancedBrepWithVoids::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAdvancedBrepWithVoids::toString() const { return L"IfcAdvancedBrepWithVoids"; }
 void IfcAdvancedBrepWithVoids::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

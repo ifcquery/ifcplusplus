@@ -15,7 +15,6 @@
 
 // ENTITY IfcRectangularPyramid 
 IfcRectangularPyramid::IfcRectangularPyramid( int id ) { m_entity_id = id; }
-IfcRectangularPyramid::~IfcRectangularPyramid() {}
 shared_ptr<BuildingObject> IfcRectangularPyramid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRectangularPyramid> copy_self( new IfcRectangularPyramid() );
@@ -37,7 +36,7 @@ void IfcRectangularPyramid::getStepLine( std::stringstream& stream ) const
 	if( m_Height ) { m_Height->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRectangularPyramid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRectangularPyramid::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRectangularPyramid::toString() const { return L"IfcRectangularPyramid"; }
 void IfcRectangularPyramid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcLanguageId : public IfcIdentifier
 public:
 	IfcLanguageId() = default;
 	IfcLanguageId( std::wstring value ) { m_value = value; }
-	~IfcLanguageId();
+	~IfcLanguageId() = default;
 	virtual const char* className() const { return "IfcLanguageId"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

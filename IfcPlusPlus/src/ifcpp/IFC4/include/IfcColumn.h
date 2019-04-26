@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcColumn : public IfcBuildingElement
 public:
 	IfcColumn() = default;
 	IfcColumn( int id );
-	~IfcColumn();
+	~IfcColumn() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

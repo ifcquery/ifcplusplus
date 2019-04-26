@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcAirTerminalBoxTypeEnum.h"
 
 // TYPE IfcAirTerminalBoxTypeEnum = ENUMERATION OF	(CONSTANTFLOW	,VARIABLEFLOWPRESSUREDEPENDANT	,VARIABLEFLOWPRESSUREINDEPENDANT	,USERDEFINED	,NOTDEFINED);
-IfcAirTerminalBoxTypeEnum::~IfcAirTerminalBoxTypeEnum() {}
 shared_ptr<BuildingObject> IfcAirTerminalBoxTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAirTerminalBoxTypeEnum> copy_self( new IfcAirTerminalBoxTypeEnum() );

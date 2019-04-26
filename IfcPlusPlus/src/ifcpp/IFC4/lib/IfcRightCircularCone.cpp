@@ -15,7 +15,6 @@
 
 // ENTITY IfcRightCircularCone 
 IfcRightCircularCone::IfcRightCircularCone( int id ) { m_entity_id = id; }
-IfcRightCircularCone::~IfcRightCircularCone() {}
 shared_ptr<BuildingObject> IfcRightCircularCone::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRightCircularCone> copy_self( new IfcRightCircularCone() );
@@ -34,7 +33,7 @@ void IfcRightCircularCone::getStepLine( std::stringstream& stream ) const
 	if( m_BottomRadius ) { m_BottomRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRightCircularCone::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRightCircularCone::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRightCircularCone::toString() const { return L"IfcRightCircularCone"; }
 void IfcRightCircularCone::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

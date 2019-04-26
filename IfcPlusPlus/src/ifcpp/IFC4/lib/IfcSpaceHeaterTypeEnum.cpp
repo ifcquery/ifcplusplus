@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSpaceHeaterTypeEnum.h"
 
 // TYPE IfcSpaceHeaterTypeEnum = ENUMERATION OF	(CONVECTOR	,RADIATOR	,USERDEFINED	,NOTDEFINED);
-IfcSpaceHeaterTypeEnum::~IfcSpaceHeaterTypeEnum() {}
 shared_ptr<BuildingObject> IfcSpaceHeaterTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpaceHeaterTypeEnum> copy_self( new IfcSpaceHeaterTypeEnum() );

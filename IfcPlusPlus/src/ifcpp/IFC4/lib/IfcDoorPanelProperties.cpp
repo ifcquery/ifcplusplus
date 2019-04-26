@@ -25,7 +25,6 @@
 
 // ENTITY IfcDoorPanelProperties 
 IfcDoorPanelProperties::IfcDoorPanelProperties( int id ) { m_entity_id = id; }
-IfcDoorPanelProperties::~IfcDoorPanelProperties() {}
 shared_ptr<BuildingObject> IfcDoorPanelProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoorPanelProperties> copy_self( new IfcDoorPanelProperties() );
@@ -70,7 +69,7 @@ void IfcDoorPanelProperties::getStepLine( std::stringstream& stream ) const
 	if( m_ShapeAspectStyle ) { stream << "#" << m_ShapeAspectStyle->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDoorPanelProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDoorPanelProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDoorPanelProperties::toString() const { return L"IfcDoorPanelProperties"; }
 void IfcDoorPanelProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

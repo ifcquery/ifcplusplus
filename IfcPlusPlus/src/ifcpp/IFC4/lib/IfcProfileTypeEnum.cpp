@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcProfileTypeEnum.h"
 
 // TYPE IfcProfileTypeEnum = ENUMERATION OF	(CURVE	,AREA);
-IfcProfileTypeEnum::~IfcProfileTypeEnum() {}
 shared_ptr<BuildingObject> IfcProfileTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProfileTypeEnum> copy_self( new IfcProfileTypeEnum() );

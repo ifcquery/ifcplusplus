@@ -26,7 +26,6 @@
 
 // ENTITY IfcLampType 
 IfcLampType::IfcLampType( int id ) { m_entity_id = id; }
-IfcLampType::~IfcLampType() {}
 shared_ptr<BuildingObject> IfcLampType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLampType> copy_self( new IfcLampType() );
@@ -88,7 +87,7 @@ void IfcLampType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLampType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLampType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLampType::toString() const { return L"IfcLampType"; }
 void IfcLampType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

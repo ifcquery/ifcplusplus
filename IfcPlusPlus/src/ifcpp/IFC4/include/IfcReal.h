@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcReal : public IfcSimpleValue
 public:
 	IfcReal() = default;
 	IfcReal( double value );
-	~IfcReal();
+	~IfcReal() = default;
 	virtual const char* className() const { return "IfcReal"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

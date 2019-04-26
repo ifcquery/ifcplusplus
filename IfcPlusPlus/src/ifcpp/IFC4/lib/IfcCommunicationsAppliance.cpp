@@ -40,7 +40,6 @@
 
 // ENTITY IfcCommunicationsAppliance 
 IfcCommunicationsAppliance::IfcCommunicationsAppliance( int id ) { m_entity_id = id; }
-IfcCommunicationsAppliance::~IfcCommunicationsAppliance() {}
 shared_ptr<BuildingObject> IfcCommunicationsAppliance::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCommunicationsAppliance> copy_self( new IfcCommunicationsAppliance() );
@@ -85,7 +84,7 @@ void IfcCommunicationsAppliance::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCommunicationsAppliance::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCommunicationsAppliance::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCommunicationsAppliance::toString() const { return L"IfcCommunicationsAppliance"; }
 void IfcCommunicationsAppliance::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

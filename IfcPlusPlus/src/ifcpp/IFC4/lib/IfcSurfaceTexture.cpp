@@ -16,7 +16,6 @@
 
 // ENTITY IfcSurfaceTexture 
 IfcSurfaceTexture::IfcSurfaceTexture( int id ) { m_entity_id = id; }
-IfcSurfaceTexture::~IfcSurfaceTexture() {}
 shared_ptr<BuildingObject> IfcSurfaceTexture::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceTexture> copy_self( new IfcSurfaceTexture() );
@@ -65,7 +64,7 @@ void IfcSurfaceTexture::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcSurfaceTexture::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSurfaceTexture::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceTexture::toString() const { return L"IfcSurfaceTexture"; }
 void IfcSurfaceTexture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

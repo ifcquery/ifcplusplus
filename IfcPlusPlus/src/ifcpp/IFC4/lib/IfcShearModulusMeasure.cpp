@@ -12,7 +12,6 @@
 
 // TYPE IfcShearModulusMeasure = REAL;
 IfcShearModulusMeasure::IfcShearModulusMeasure( double value ) { m_value = value; }
-IfcShearModulusMeasure::~IfcShearModulusMeasure() {}
 shared_ptr<BuildingObject> IfcShearModulusMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcShearModulusMeasure> copy_self( new IfcShearModulusMeasure() );

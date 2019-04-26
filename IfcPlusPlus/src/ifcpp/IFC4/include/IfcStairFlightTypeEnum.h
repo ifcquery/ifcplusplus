@@ -26,7 +26,7 @@ public:
 
 	IfcStairFlightTypeEnum() = default;
 	IfcStairFlightTypeEnum( IfcStairFlightTypeEnumEnum e ) { m_enum = e; }
-	~IfcStairFlightTypeEnum();
+	~IfcStairFlightTypeEnum() = default;
 	virtual const char* className() const { return "IfcStairFlightTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

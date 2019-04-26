@@ -27,7 +27,7 @@ public:
 
 	IfcRampTypeEnum() = default;
 	IfcRampTypeEnum( IfcRampTypeEnumEnum e ) { m_enum = e; }
-	~IfcRampTypeEnum();
+	~IfcRampTypeEnum() = default;
 	virtual const char* className() const { return "IfcRampTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

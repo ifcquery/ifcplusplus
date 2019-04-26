@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcRoundedRectangleProfileDef : public IfcRectangleProfile
 public:
 	IfcRoundedRectangleProfileDef() = default;
 	IfcRoundedRectangleProfileDef( int id );
-	~IfcRoundedRectangleProfileDef();
+	~IfcRoundedRectangleProfileDef() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -22,7 +22,7 @@ class IFCQUERY_EXPORT IfcBoolean : public IfcModulusOfRotationalSubgradeReaction
 public:
 	IfcBoolean() = default;
 	IfcBoolean( bool value );
-	~IfcBoolean();
+	~IfcBoolean() = default;
 	virtual const char* className() const { return "IfcBoolean"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

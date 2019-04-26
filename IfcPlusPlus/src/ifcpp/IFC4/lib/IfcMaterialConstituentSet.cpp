@@ -17,7 +17,6 @@
 
 // ENTITY IfcMaterialConstituentSet 
 IfcMaterialConstituentSet::IfcMaterialConstituentSet( int id ) { m_entity_id = id; }
-IfcMaterialConstituentSet::~IfcMaterialConstituentSet() {}
 shared_ptr<BuildingObject> IfcMaterialConstituentSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialConstituentSet> copy_self( new IfcMaterialConstituentSet() );
@@ -43,7 +42,7 @@ void IfcMaterialConstituentSet::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_MaterialConstituents );
 	stream << ");";
 }
-void IfcMaterialConstituentSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMaterialConstituentSet::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialConstituentSet::toString() const { return L"IfcMaterialConstituentSet"; }
 void IfcMaterialConstituentSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

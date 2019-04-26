@@ -16,7 +16,6 @@
 
 // ENTITY IfcIndexedPolyCurve 
 IfcIndexedPolyCurve::IfcIndexedPolyCurve( int id ) { m_entity_id = id; }
-IfcIndexedPolyCurve::~IfcIndexedPolyCurve() {}
 shared_ptr<BuildingObject> IfcIndexedPolyCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIndexedPolyCurve> copy_self( new IfcIndexedPolyCurve() );
@@ -59,7 +58,7 @@ void IfcIndexedPolyCurve::getStepLine( std::stringstream& stream ) const
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcIndexedPolyCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcIndexedPolyCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIndexedPolyCurve::toString() const { return L"IfcIndexedPolyCurve"; }
 void IfcIndexedPolyCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

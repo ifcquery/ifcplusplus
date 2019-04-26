@@ -15,7 +15,6 @@
 
 // ENTITY IfcSphere 
 IfcSphere::IfcSphere( int id ) { m_entity_id = id; }
-IfcSphere::~IfcSphere() {}
 shared_ptr<BuildingObject> IfcSphere::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSphere> copy_self( new IfcSphere() );
@@ -31,7 +30,7 @@ void IfcSphere::getStepLine( std::stringstream& stream ) const
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSphere::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSphere::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSphere::toString() const { return L"IfcSphere"; }
 void IfcSphere::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcSpecularRoughness : public IfcSpecularHighlightSelect
 public:
 	IfcSpecularRoughness() = default;
 	IfcSpecularRoughness( double value );
-	~IfcSpecularRoughness();
+	~IfcSpecularRoughness() = default;
 	virtual const char* className() const { return "IfcSpecularRoughness"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

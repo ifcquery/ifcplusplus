@@ -12,7 +12,6 @@
 
 // TYPE IfcMassMeasure = REAL;
 IfcMassMeasure::IfcMassMeasure( double value ) { m_value = value; }
-IfcMassMeasure::~IfcMassMeasure() {}
 shared_ptr<BuildingObject> IfcMassMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMassMeasure> copy_self( new IfcMassMeasure() );

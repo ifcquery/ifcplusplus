@@ -12,7 +12,6 @@
 
 // ENTITY IfcPresentationStyle 
 IfcPresentationStyle::IfcPresentationStyle( int id ) { m_entity_id = id; }
-IfcPresentationStyle::~IfcPresentationStyle() {}
 shared_ptr<BuildingObject> IfcPresentationStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPresentationStyle> copy_self( new IfcPresentationStyle() );
@@ -25,7 +24,7 @@ void IfcPresentationStyle::getStepLine( std::stringstream& stream ) const
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPresentationStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPresentationStyle::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPresentationStyle::toString() const { return L"IfcPresentationStyle"; }
 void IfcPresentationStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -11,7 +11,6 @@
 
 // TYPE IfcTextAlignment = STRING;
 IfcTextAlignment::IfcTextAlignment( std::wstring value ) { m_value = value; }
-IfcTextAlignment::~IfcTextAlignment() {}
 shared_ptr<BuildingObject> IfcTextAlignment::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextAlignment> copy_self( new IfcTextAlignment() );

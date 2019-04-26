@@ -23,7 +23,6 @@
 
 // ENTITY IfcContext 
 IfcContext::IfcContext( int id ) { m_entity_id = id; }
-IfcContext::~IfcContext() {}
 shared_ptr<BuildingObject> IfcContext::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcContext> copy_self( new IfcContext() );
@@ -75,7 +74,7 @@ void IfcContext::getStepLine( std::stringstream& stream ) const
 	if( m_UnitsInContext ) { stream << "#" << m_UnitsInContext->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcContext::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcContext::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcContext::toString() const { return L"IfcContext"; }
 void IfcContext::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

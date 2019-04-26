@@ -19,7 +19,6 @@
 
 // ENTITY IfcRelAssignsToGroupByFactor 
 IfcRelAssignsToGroupByFactor::IfcRelAssignsToGroupByFactor( int id ) { m_entity_id = id; }
-IfcRelAssignsToGroupByFactor::~IfcRelAssignsToGroupByFactor() {}
 shared_ptr<BuildingObject> IfcRelAssignsToGroupByFactor::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssignsToGroupByFactor> copy_self( new IfcRelAssignsToGroupByFactor() );
@@ -68,7 +67,7 @@ void IfcRelAssignsToGroupByFactor::getStepLine( std::stringstream& stream ) cons
 	if( m_Factor ) { m_Factor->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelAssignsToGroupByFactor::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelAssignsToGroupByFactor::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssignsToGroupByFactor::toString() const { return L"IfcRelAssignsToGroupByFactor"; }
 void IfcRelAssignsToGroupByFactor::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcAbsorbedDoseMeasure : public IfcDerivedMeasureValue
 public:
 	IfcAbsorbedDoseMeasure() = default;
 	IfcAbsorbedDoseMeasure( double value );
-	~IfcAbsorbedDoseMeasure();
+	~IfcAbsorbedDoseMeasure() = default;
 	virtual const char* className() const { return "IfcAbsorbedDoseMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

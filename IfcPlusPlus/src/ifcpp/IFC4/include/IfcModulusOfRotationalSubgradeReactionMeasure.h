@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcModulusOfRotationalSubgradeReactionMeasure : public Ifc
 public:
 	IfcModulusOfRotationalSubgradeReactionMeasure() = default;
 	IfcModulusOfRotationalSubgradeReactionMeasure( double value );
-	~IfcModulusOfRotationalSubgradeReactionMeasure();
+	~IfcModulusOfRotationalSubgradeReactionMeasure() = default;
 	virtual const char* className() const { return "IfcModulusOfRotationalSubgradeReactionMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

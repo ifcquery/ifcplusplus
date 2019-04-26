@@ -19,7 +19,6 @@
 
 // ENTITY IfcCostValue 
 IfcCostValue::IfcCostValue( int id ) { m_entity_id = id; }
-IfcCostValue::~IfcCostValue() {}
 shared_ptr<BuildingObject> IfcCostValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCostValue> copy_self( new IfcCostValue() );
@@ -66,7 +65,7 @@ void IfcCostValue::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Components );
 	stream << ");";
 }
-void IfcCostValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCostValue::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCostValue::toString() const { return L"IfcCostValue"; }
 void IfcCostValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

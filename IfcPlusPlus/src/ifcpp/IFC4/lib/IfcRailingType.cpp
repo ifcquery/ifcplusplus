@@ -26,7 +26,6 @@
 
 // ENTITY IfcRailingType 
 IfcRailingType::IfcRailingType( int id ) { m_entity_id = id; }
-IfcRailingType::~IfcRailingType() {}
 shared_ptr<BuildingObject> IfcRailingType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRailingType> copy_self( new IfcRailingType() );
@@ -88,7 +87,7 @@ void IfcRailingType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRailingType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRailingType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRailingType::toString() const { return L"IfcRailingType"; }
 void IfcRailingType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

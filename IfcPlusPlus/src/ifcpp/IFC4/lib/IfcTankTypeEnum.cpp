@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcTankTypeEnum.h"
 
 // TYPE IfcTankTypeEnum = ENUMERATION OF	(BASIN	,BREAKPRESSURE	,EXPANSION	,FEEDANDEXPANSION	,PRESSUREVESSEL	,STORAGE	,VESSEL	,USERDEFINED	,NOTDEFINED);
-IfcTankTypeEnum::~IfcTankTypeEnum() {}
 shared_ptr<BuildingObject> IfcTankTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTankTypeEnum> copy_self( new IfcTankTypeEnum() );

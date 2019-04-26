@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcSite : public IfcSpatialStructureElement
 public:
 	IfcSite() = default;
 	IfcSite( int id );
-	~IfcSite();
+	~IfcSite() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

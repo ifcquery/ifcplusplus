@@ -40,7 +40,6 @@
 
 // ENTITY IfcElectricGenerator 
 IfcElectricGenerator::IfcElectricGenerator( int id ) { m_entity_id = id; }
-IfcElectricGenerator::~IfcElectricGenerator() {}
 shared_ptr<BuildingObject> IfcElectricGenerator::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricGenerator> copy_self( new IfcElectricGenerator() );
@@ -85,7 +84,7 @@ void IfcElectricGenerator::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcElectricGenerator::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcElectricGenerator::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcElectricGenerator::toString() const { return L"IfcElectricGenerator"; }
 void IfcElectricGenerator::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

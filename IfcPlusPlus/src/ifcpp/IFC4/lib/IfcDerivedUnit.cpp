@@ -14,7 +14,6 @@
 
 // ENTITY IfcDerivedUnit 
 IfcDerivedUnit::IfcDerivedUnit( int id ) { m_entity_id = id; }
-IfcDerivedUnit::~IfcDerivedUnit() {}
 shared_ptr<BuildingObject> IfcDerivedUnit::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDerivedUnit> copy_self( new IfcDerivedUnit() );
@@ -40,7 +39,7 @@ void IfcDerivedUnit::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedType ) { m_UserDefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDerivedUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDerivedUnit::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDerivedUnit::toString() const { return L"IfcDerivedUnit"; }
 void IfcDerivedUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -15,7 +15,6 @@
 
 // ENTITY IfcHalfSpaceSolid 
 IfcHalfSpaceSolid::IfcHalfSpaceSolid( int id ) { m_entity_id = id; }
-IfcHalfSpaceSolid::~IfcHalfSpaceSolid() {}
 shared_ptr<BuildingObject> IfcHalfSpaceSolid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcHalfSpaceSolid> copy_self( new IfcHalfSpaceSolid() );
@@ -31,7 +30,7 @@ void IfcHalfSpaceSolid::getStepLine( std::stringstream& stream ) const
 	if( m_AgreementFlag ) { m_AgreementFlag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcHalfSpaceSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcHalfSpaceSolid::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcHalfSpaceSolid::toString() const { return L"IfcHalfSpaceSolid"; }
 void IfcHalfSpaceSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

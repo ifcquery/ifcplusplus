@@ -40,7 +40,6 @@
 
 // ENTITY IfcElectricDistributionBoard 
 IfcElectricDistributionBoard::IfcElectricDistributionBoard( int id ) { m_entity_id = id; }
-IfcElectricDistributionBoard::~IfcElectricDistributionBoard() {}
 shared_ptr<BuildingObject> IfcElectricDistributionBoard::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricDistributionBoard> copy_self( new IfcElectricDistributionBoard() );
@@ -85,7 +84,7 @@ void IfcElectricDistributionBoard::getStepLine( std::stringstream& stream ) cons
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcElectricDistributionBoard::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcElectricDistributionBoard::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcElectricDistributionBoard::toString() const { return L"IfcElectricDistributionBoard"; }
 void IfcElectricDistributionBoard::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -26,7 +26,6 @@
 
 // ENTITY IfcElectricApplianceType 
 IfcElectricApplianceType::IfcElectricApplianceType( int id ) { m_entity_id = id; }
-IfcElectricApplianceType::~IfcElectricApplianceType() {}
 shared_ptr<BuildingObject> IfcElectricApplianceType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricApplianceType> copy_self( new IfcElectricApplianceType() );
@@ -88,7 +87,7 @@ void IfcElectricApplianceType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcElectricApplianceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcElectricApplianceType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcElectricApplianceType::toString() const { return L"IfcElectricApplianceType"; }
 void IfcElectricApplianceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

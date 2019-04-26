@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcReinforcingBarSurfaceEnum.h"
 
 // TYPE IfcReinforcingBarSurfaceEnum = ENUMERATION OF	(PLAIN	,TEXTURED);
-IfcReinforcingBarSurfaceEnum::~IfcReinforcingBarSurfaceEnum() {}
 shared_ptr<BuildingObject> IfcReinforcingBarSurfaceEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingBarSurfaceEnum> copy_self( new IfcReinforcingBarSurfaceEnum() );

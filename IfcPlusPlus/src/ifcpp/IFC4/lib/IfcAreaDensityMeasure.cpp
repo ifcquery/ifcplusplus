@@ -12,7 +12,6 @@
 
 // TYPE IfcAreaDensityMeasure = REAL;
 IfcAreaDensityMeasure::IfcAreaDensityMeasure( double value ) { m_value = value; }
-IfcAreaDensityMeasure::~IfcAreaDensityMeasure() {}
 shared_ptr<BuildingObject> IfcAreaDensityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAreaDensityMeasure> copy_self( new IfcAreaDensityMeasure() );

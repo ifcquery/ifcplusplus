@@ -38,7 +38,6 @@
 
 // ENTITY IfcSlab 
 IfcSlab::IfcSlab( int id ) { m_entity_id = id; }
-IfcSlab::~IfcSlab() {}
 shared_ptr<BuildingObject> IfcSlab::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSlab> copy_self( new IfcSlab() );
@@ -83,7 +82,7 @@ void IfcSlab::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSlab::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSlab::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSlab::toString() const { return L"IfcSlab"; }
 void IfcSlab::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -14,7 +14,6 @@
 
 // ENTITY IfcFillAreaStyle 
 IfcFillAreaStyle::IfcFillAreaStyle( int id ) { m_entity_id = id; }
-IfcFillAreaStyle::~IfcFillAreaStyle() {}
 shared_ptr<BuildingObject> IfcFillAreaStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFillAreaStyle> copy_self( new IfcFillAreaStyle() );
@@ -57,7 +56,7 @@ void IfcFillAreaStyle::getStepLine( std::stringstream& stream ) const
 	if( m_ModelorDraughting ) { m_ModelorDraughting->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFillAreaStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFillAreaStyle::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFillAreaStyle::toString() const { return L"IfcFillAreaStyle"; }
 void IfcFillAreaStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

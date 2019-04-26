@@ -12,7 +12,6 @@
 
 // ENTITY IfcConnectionCurveGeometry 
 IfcConnectionCurveGeometry::IfcConnectionCurveGeometry( int id ) { m_entity_id = id; }
-IfcConnectionCurveGeometry::~IfcConnectionCurveGeometry() {}
 shared_ptr<BuildingObject> IfcConnectionCurveGeometry::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConnectionCurveGeometry> copy_self( new IfcConnectionCurveGeometry() );
@@ -28,7 +27,7 @@ void IfcConnectionCurveGeometry::getStepLine( std::stringstream& stream ) const
 	if( m_CurveOnRelatedElement ) { m_CurveOnRelatedElement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcConnectionCurveGeometry::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcConnectionCurveGeometry::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConnectionCurveGeometry::toString() const { return L"IfcConnectionCurveGeometry"; }
 void IfcConnectionCurveGeometry::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

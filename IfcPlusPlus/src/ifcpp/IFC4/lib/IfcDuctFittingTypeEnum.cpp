@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcDuctFittingTypeEnum.h"
 
 // TYPE IfcDuctFittingTypeEnum = ENUMERATION OF	(BEND	,CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,OBSTRUCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
-IfcDuctFittingTypeEnum::~IfcDuctFittingTypeEnum() {}
 shared_ptr<BuildingObject> IfcDuctFittingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDuctFittingTypeEnum> copy_self( new IfcDuctFittingTypeEnum() );

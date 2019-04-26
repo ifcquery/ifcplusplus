@@ -16,7 +16,6 @@
 
 // ENTITY IfcCartesianTransformationOperator3D 
 IfcCartesianTransformationOperator3D::IfcCartesianTransformationOperator3D( int id ) { m_entity_id = id; }
-IfcCartesianTransformationOperator3D::~IfcCartesianTransformationOperator3D() {}
 shared_ptr<BuildingObject> IfcCartesianTransformationOperator3D::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianTransformationOperator3D> copy_self( new IfcCartesianTransformationOperator3D() );
@@ -41,7 +40,7 @@ void IfcCartesianTransformationOperator3D::getStepLine( std::stringstream& strea
 	if( m_Axis3 ) { stream << "#" << m_Axis3->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCartesianTransformationOperator3D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCartesianTransformationOperator3D::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianTransformationOperator3D::toString() const { return L"IfcCartesianTransformationOperator3D"; }
 void IfcCartesianTransformationOperator3D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

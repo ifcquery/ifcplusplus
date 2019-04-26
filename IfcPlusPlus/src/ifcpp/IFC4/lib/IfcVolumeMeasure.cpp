@@ -12,7 +12,6 @@
 
 // TYPE IfcVolumeMeasure = REAL;
 IfcVolumeMeasure::IfcVolumeMeasure( double value ) { m_value = value; }
-IfcVolumeMeasure::~IfcVolumeMeasure() {}
 shared_ptr<BuildingObject> IfcVolumeMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVolumeMeasure> copy_self( new IfcVolumeMeasure() );

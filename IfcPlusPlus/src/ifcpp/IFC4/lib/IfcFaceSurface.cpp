@@ -17,7 +17,6 @@
 
 // ENTITY IfcFaceSurface 
 IfcFaceSurface::IfcFaceSurface( int id ) { m_entity_id = id; }
-IfcFaceSurface::~IfcFaceSurface() {}
 shared_ptr<BuildingObject> IfcFaceSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFaceSurface> copy_self( new IfcFaceSurface() );
@@ -43,7 +42,7 @@ void IfcFaceSurface::getStepLine( std::stringstream& stream ) const
 	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFaceSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFaceSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFaceSurface::toString() const { return L"IfcFaceSurface"; }
 void IfcFaceSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

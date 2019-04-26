@@ -17,7 +17,6 @@
 
 // ENTITY IfcMaterialLayerSetUsage 
 IfcMaterialLayerSetUsage::IfcMaterialLayerSetUsage( int id ) { m_entity_id = id; }
-IfcMaterialLayerSetUsage::~IfcMaterialLayerSetUsage() {}
 shared_ptr<BuildingObject> IfcMaterialLayerSetUsage::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialLayerSetUsage> copy_self( new IfcMaterialLayerSetUsage() );
@@ -42,7 +41,7 @@ void IfcMaterialLayerSetUsage::getStepLine( std::stringstream& stream ) const
 	if( m_ReferenceExtent ) { m_ReferenceExtent->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMaterialLayerSetUsage::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMaterialLayerSetUsage::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialLayerSetUsage::toString() const { return L"IfcMaterialLayerSetUsage"; }
 void IfcMaterialLayerSetUsage::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

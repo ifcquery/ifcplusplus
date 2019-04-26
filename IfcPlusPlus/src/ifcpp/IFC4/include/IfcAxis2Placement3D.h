@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcAxis2Placement3D : virtual public IfcAxis2Placement, pu
 public:
 	IfcAxis2Placement3D() = default;
 	IfcAxis2Placement3D( int id );
-	~IfcAxis2Placement3D();
+	~IfcAxis2Placement3D() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

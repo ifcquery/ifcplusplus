@@ -13,7 +13,6 @@
 
 // ENTITY IfcSchedulingTime 
 IfcSchedulingTime::IfcSchedulingTime( int id ) { m_entity_id = id; }
-IfcSchedulingTime::~IfcSchedulingTime() {}
 shared_ptr<BuildingObject> IfcSchedulingTime::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSchedulingTime> copy_self( new IfcSchedulingTime() );
@@ -32,7 +31,7 @@ void IfcSchedulingTime::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSchedulingTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSchedulingTime::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSchedulingTime::toString() const { return L"IfcSchedulingTime"; }
 void IfcSchedulingTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

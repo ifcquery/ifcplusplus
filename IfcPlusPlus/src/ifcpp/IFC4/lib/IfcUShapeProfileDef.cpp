@@ -19,7 +19,6 @@
 
 // ENTITY IfcUShapeProfileDef 
 IfcUShapeProfileDef::IfcUShapeProfileDef( int id ) { m_entity_id = id; }
-IfcUShapeProfileDef::~IfcUShapeProfileDef() {}
 shared_ptr<BuildingObject> IfcUShapeProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcUShapeProfileDef> copy_self( new IfcUShapeProfileDef() );
@@ -59,7 +58,7 @@ void IfcUShapeProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_FlangeSlope ) { m_FlangeSlope->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcUShapeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcUShapeProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcUShapeProfileDef::toString() const { return L"IfcUShapeProfileDef"; }
 void IfcUShapeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

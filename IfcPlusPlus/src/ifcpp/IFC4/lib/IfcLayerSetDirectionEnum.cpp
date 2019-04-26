@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcLayerSetDirectionEnum.h"
 
 // TYPE IfcLayerSetDirectionEnum = ENUMERATION OF	(AXIS1	,AXIS2	,AXIS3);
-IfcLayerSetDirectionEnum::~IfcLayerSetDirectionEnum() {}
 shared_ptr<BuildingObject> IfcLayerSetDirectionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLayerSetDirectionEnum> copy_self( new IfcLayerSetDirectionEnum() );

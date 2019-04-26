@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcPositiveInteger : public IfcInteger
 public:
 	IfcPositiveInteger() = default;
 	IfcPositiveInteger( int value ) { m_value = value; }
-	~IfcPositiveInteger();
+	~IfcPositiveInteger() = default;
 	virtual const char* className() const { return "IfcPositiveInteger"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

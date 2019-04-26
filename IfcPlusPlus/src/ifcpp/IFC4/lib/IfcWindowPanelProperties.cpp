@@ -24,7 +24,6 @@
 
 // ENTITY IfcWindowPanelProperties 
 IfcWindowPanelProperties::IfcWindowPanelProperties( int id ) { m_entity_id = id; }
-IfcWindowPanelProperties::~IfcWindowPanelProperties() {}
 shared_ptr<BuildingObject> IfcWindowPanelProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWindowPanelProperties> copy_self( new IfcWindowPanelProperties() );
@@ -69,7 +68,7 @@ void IfcWindowPanelProperties::getStepLine( std::stringstream& stream ) const
 	if( m_ShapeAspectStyle ) { stream << "#" << m_ShapeAspectStyle->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcWindowPanelProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcWindowPanelProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWindowPanelProperties::toString() const { return L"IfcWindowPanelProperties"; }
 void IfcWindowPanelProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

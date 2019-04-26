@@ -16,7 +16,6 @@
 
 // ENTITY IfcCartesianTransformationOperator2DnonUniform 
 IfcCartesianTransformationOperator2DnonUniform::IfcCartesianTransformationOperator2DnonUniform( int id ) { m_entity_id = id; }
-IfcCartesianTransformationOperator2DnonUniform::~IfcCartesianTransformationOperator2DnonUniform() {}
 shared_ptr<BuildingObject> IfcCartesianTransformationOperator2DnonUniform::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianTransformationOperator2DnonUniform> copy_self( new IfcCartesianTransformationOperator2DnonUniform() );
@@ -41,7 +40,7 @@ void IfcCartesianTransformationOperator2DnonUniform::getStepLine( std::stringstr
 	if( m_Scale2 ) { m_Scale2->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCartesianTransformationOperator2DnonUniform::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCartesianTransformationOperator2DnonUniform::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianTransformationOperator2DnonUniform::toString() const { return L"IfcCartesianTransformationOperator2DnonUniform"; }
 void IfcCartesianTransformationOperator2DnonUniform::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

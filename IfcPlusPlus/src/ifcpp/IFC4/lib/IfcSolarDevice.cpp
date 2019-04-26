@@ -40,7 +40,6 @@
 
 // ENTITY IfcSolarDevice 
 IfcSolarDevice::IfcSolarDevice( int id ) { m_entity_id = id; }
-IfcSolarDevice::~IfcSolarDevice() {}
 shared_ptr<BuildingObject> IfcSolarDevice::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSolarDevice> copy_self( new IfcSolarDevice() );
@@ -85,7 +84,7 @@ void IfcSolarDevice::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSolarDevice::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSolarDevice::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSolarDevice::toString() const { return L"IfcSolarDevice"; }
 void IfcSolarDevice::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

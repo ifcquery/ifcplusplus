@@ -21,7 +21,7 @@ public:
 
 	IfcProfileTypeEnum() = default;
 	IfcProfileTypeEnum( IfcProfileTypeEnumEnum e ) { m_enum = e; }
-	~IfcProfileTypeEnum();
+	~IfcProfileTypeEnum() = default;
 	virtual const char* className() const { return "IfcProfileTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

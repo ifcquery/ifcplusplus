@@ -40,7 +40,6 @@
 
 // ENTITY IfcAlarm 
 IfcAlarm::IfcAlarm( int id ) { m_entity_id = id; }
-IfcAlarm::~IfcAlarm() {}
 shared_ptr<BuildingObject> IfcAlarm::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAlarm> copy_self( new IfcAlarm() );
@@ -85,7 +84,7 @@ void IfcAlarm::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAlarm::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAlarm::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAlarm::toString() const { return L"IfcAlarm"; }
 void IfcAlarm::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

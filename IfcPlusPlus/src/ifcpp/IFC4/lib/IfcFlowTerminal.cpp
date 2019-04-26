@@ -39,7 +39,6 @@
 
 // ENTITY IfcFlowTerminal 
 IfcFlowTerminal::IfcFlowTerminal( int id ) { m_entity_id = id; }
-IfcFlowTerminal::~IfcFlowTerminal() {}
 shared_ptr<BuildingObject> IfcFlowTerminal::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFlowTerminal> copy_self( new IfcFlowTerminal() );
@@ -81,7 +80,7 @@ void IfcFlowTerminal::getStepLine( std::stringstream& stream ) const
 	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFlowTerminal::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFlowTerminal::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFlowTerminal::toString() const { return L"IfcFlowTerminal"; }
 void IfcFlowTerminal::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -37,7 +37,6 @@
 
 // ENTITY IfcFeatureElementSubtraction 
 IfcFeatureElementSubtraction::IfcFeatureElementSubtraction( int id ) { m_entity_id = id; }
-IfcFeatureElementSubtraction::~IfcFeatureElementSubtraction() {}
 shared_ptr<BuildingObject> IfcFeatureElementSubtraction::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFeatureElementSubtraction> copy_self( new IfcFeatureElementSubtraction() );
@@ -79,7 +78,7 @@ void IfcFeatureElementSubtraction::getStepLine( std::stringstream& stream ) cons
 	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFeatureElementSubtraction::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFeatureElementSubtraction::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFeatureElementSubtraction::toString() const { return L"IfcFeatureElementSubtraction"; }
 void IfcFeatureElementSubtraction::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

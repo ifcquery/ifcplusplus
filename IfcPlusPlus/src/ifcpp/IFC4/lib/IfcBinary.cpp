@@ -12,7 +12,6 @@
 
 // TYPE IfcBinary = BINARY;
 IfcBinary::IfcBinary( std::wstring value ) { m_value = value; }
-IfcBinary::~IfcBinary() {}
 shared_ptr<BuildingObject> IfcBinary::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBinary> copy_self( new IfcBinary() );

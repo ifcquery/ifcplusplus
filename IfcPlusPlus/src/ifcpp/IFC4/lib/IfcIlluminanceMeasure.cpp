@@ -12,7 +12,6 @@
 
 // TYPE IfcIlluminanceMeasure = REAL;
 IfcIlluminanceMeasure::IfcIlluminanceMeasure( double value ) { m_value = value; }
-IfcIlluminanceMeasure::~IfcIlluminanceMeasure() {}
 shared_ptr<BuildingObject> IfcIlluminanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIlluminanceMeasure> copy_self( new IfcIlluminanceMeasure() );

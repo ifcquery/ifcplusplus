@@ -26,7 +26,6 @@
 
 // ENTITY IfcRoofType 
 IfcRoofType::IfcRoofType( int id ) { m_entity_id = id; }
-IfcRoofType::~IfcRoofType() {}
 shared_ptr<BuildingObject> IfcRoofType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRoofType> copy_self( new IfcRoofType() );
@@ -88,7 +87,7 @@ void IfcRoofType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRoofType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRoofType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRoofType::toString() const { return L"IfcRoofType"; }
 void IfcRoofType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

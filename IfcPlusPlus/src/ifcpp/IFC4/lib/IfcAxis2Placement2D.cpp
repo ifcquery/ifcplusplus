@@ -15,7 +15,6 @@
 
 // ENTITY IfcAxis2Placement2D 
 IfcAxis2Placement2D::IfcAxis2Placement2D( int id ) { m_entity_id = id; }
-IfcAxis2Placement2D::~IfcAxis2Placement2D() {}
 shared_ptr<BuildingObject> IfcAxis2Placement2D::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAxis2Placement2D> copy_self( new IfcAxis2Placement2D() );
@@ -31,7 +30,7 @@ void IfcAxis2Placement2D::getStepLine( std::stringstream& stream ) const
 	if( m_RefDirection ) { stream << "#" << m_RefDirection->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAxis2Placement2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAxis2Placement2D::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAxis2Placement2D::toString() const { return L"IfcAxis2Placement2D"; }
 void IfcAxis2Placement2D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -13,7 +13,6 @@
 
 // ENTITY IfcPoint 
 IfcPoint::IfcPoint( int id ) { m_entity_id = id; }
-IfcPoint::~IfcPoint() {}
 shared_ptr<BuildingObject> IfcPoint::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPoint> copy_self( new IfcPoint() );
@@ -24,7 +23,7 @@ void IfcPoint::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCPOINT" << "(";
 	stream << ");";
 }
-void IfcPoint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPoint::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPoint::toString() const { return L"IfcPoint"; }
 void IfcPoint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

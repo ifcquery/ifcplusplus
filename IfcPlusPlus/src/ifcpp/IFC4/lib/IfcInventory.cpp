@@ -29,7 +29,6 @@
 
 // ENTITY IfcInventory 
 IfcInventory::IfcInventory( int id ) { m_entity_id = id; }
-IfcInventory::~IfcInventory() {}
 shared_ptr<BuildingObject> IfcInventory::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcInventory> copy_self( new IfcInventory() );
@@ -87,7 +86,7 @@ void IfcInventory::getStepLine( std::stringstream& stream ) const
 	if( m_OriginalValue ) { stream << "#" << m_OriginalValue->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcInventory::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcInventory::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcInventory::toString() const { return L"IfcInventory"; }
 void IfcInventory::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

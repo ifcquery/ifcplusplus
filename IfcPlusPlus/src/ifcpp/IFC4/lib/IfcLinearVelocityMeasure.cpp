@@ -12,7 +12,6 @@
 
 // TYPE IfcLinearVelocityMeasure = REAL;
 IfcLinearVelocityMeasure::IfcLinearVelocityMeasure( double value ) { m_value = value; }
-IfcLinearVelocityMeasure::~IfcLinearVelocityMeasure() {}
 shared_ptr<BuildingObject> IfcLinearVelocityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLinearVelocityMeasure> copy_self( new IfcLinearVelocityMeasure() );

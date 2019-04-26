@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcActuatorTypeEnum.h"
 
 // TYPE IfcActuatorTypeEnum = ENUMERATION OF	(ELECTRICACTUATOR	,HANDOPERATEDACTUATOR	,HYDRAULICACTUATOR	,PNEUMATICACTUATOR	,THERMOSTATICACTUATOR	,USERDEFINED	,NOTDEFINED);
-IfcActuatorTypeEnum::~IfcActuatorTypeEnum() {}
 shared_ptr<BuildingObject> IfcActuatorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcActuatorTypeEnum> copy_self( new IfcActuatorTypeEnum() );

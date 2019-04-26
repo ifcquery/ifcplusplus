@@ -42,7 +42,7 @@ public:
 
 	IfcRoleEnum() = default;
 	IfcRoleEnum( IfcRoleEnumEnum e ) { m_enum = e; }
-	~IfcRoleEnum();
+	~IfcRoleEnum() = default;
 	virtual const char* className() const { return "IfcRoleEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

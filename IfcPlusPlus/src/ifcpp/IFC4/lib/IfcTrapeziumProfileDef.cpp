@@ -18,7 +18,6 @@
 
 // ENTITY IfcTrapeziumProfileDef 
 IfcTrapeziumProfileDef::IfcTrapeziumProfileDef( int id ) { m_entity_id = id; }
-IfcTrapeziumProfileDef::~IfcTrapeziumProfileDef() {}
 shared_ptr<BuildingObject> IfcTrapeziumProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTrapeziumProfileDef> copy_self( new IfcTrapeziumProfileDef() );
@@ -49,7 +48,7 @@ void IfcTrapeziumProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_TopXOffset ) { m_TopXOffset->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTrapeziumProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTrapeziumProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTrapeziumProfileDef::toString() const { return L"IfcTrapeziumProfileDef"; }
 void IfcTrapeziumProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

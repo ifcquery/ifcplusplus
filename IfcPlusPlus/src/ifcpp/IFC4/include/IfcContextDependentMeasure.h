@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcContextDependentMeasure : public IfcMeasureValue
 public:
 	IfcContextDependentMeasure() = default;
 	IfcContextDependentMeasure( double value );
-	~IfcContextDependentMeasure();
+	~IfcContextDependentMeasure() = default;
 	virtual const char* className() const { return "IfcContextDependentMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

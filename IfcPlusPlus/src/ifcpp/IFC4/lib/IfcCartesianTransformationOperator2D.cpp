@@ -16,7 +16,6 @@
 
 // ENTITY IfcCartesianTransformationOperator2D 
 IfcCartesianTransformationOperator2D::IfcCartesianTransformationOperator2D( int id ) { m_entity_id = id; }
-IfcCartesianTransformationOperator2D::~IfcCartesianTransformationOperator2D() {}
 shared_ptr<BuildingObject> IfcCartesianTransformationOperator2D::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianTransformationOperator2D> copy_self( new IfcCartesianTransformationOperator2D() );
@@ -38,7 +37,7 @@ void IfcCartesianTransformationOperator2D::getStepLine( std::stringstream& strea
 	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCartesianTransformationOperator2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCartesianTransformationOperator2D::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianTransformationOperator2D::toString() const { return L"IfcCartesianTransformationOperator2D"; }
 void IfcCartesianTransformationOperator2D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

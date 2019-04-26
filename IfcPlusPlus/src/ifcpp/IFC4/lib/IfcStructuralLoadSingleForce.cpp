@@ -14,7 +14,6 @@
 
 // ENTITY IfcStructuralLoadSingleForce 
 IfcStructuralLoadSingleForce::IfcStructuralLoadSingleForce( int id ) { m_entity_id = id; }
-IfcStructuralLoadSingleForce::~IfcStructuralLoadSingleForce() {}
 shared_ptr<BuildingObject> IfcStructuralLoadSingleForce::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadSingleForce> copy_self( new IfcStructuralLoadSingleForce() );
@@ -45,7 +44,7 @@ void IfcStructuralLoadSingleForce::getStepLine( std::stringstream& stream ) cons
 	if( m_MomentZ ) { m_MomentZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadSingleForce::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralLoadSingleForce::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadSingleForce::toString() const { return L"IfcStructuralLoadSingleForce"; }
 void IfcStructuralLoadSingleForce::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

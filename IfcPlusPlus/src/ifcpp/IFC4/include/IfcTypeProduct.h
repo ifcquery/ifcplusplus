@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcTypeProduct : virtual public IfcProductSelect, public I
 public:
 	IfcTypeProduct() = default;
 	IfcTypeProduct( int id );
-	~IfcTypeProduct();
+	~IfcTypeProduct() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

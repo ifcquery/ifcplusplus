@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcProtectiveDeviceTypeEnum.h"
 
 // TYPE IfcProtectiveDeviceTypeEnum = ENUMERATION OF	(CIRCUITBREAKER	,EARTHLEAKAGECIRCUITBREAKER	,EARTHINGSWITCH	,FUSEDISCONNECTOR	,RESIDUALCURRENTCIRCUITBREAKER	,RESIDUALCURRENTSWITCH	,VARISTOR	,USERDEFINED	,NOTDEFINED);
-IfcProtectiveDeviceTypeEnum::~IfcProtectiveDeviceTypeEnum() {}
 shared_ptr<BuildingObject> IfcProtectiveDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProtectiveDeviceTypeEnum> copy_self( new IfcProtectiveDeviceTypeEnum() );

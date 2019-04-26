@@ -22,7 +22,7 @@ public:
 
 	IfcPhysicalOrVirtualEnum() = default;
 	IfcPhysicalOrVirtualEnum( IfcPhysicalOrVirtualEnumEnum e ) { m_enum = e; }
-	~IfcPhysicalOrVirtualEnum();
+	~IfcPhysicalOrVirtualEnum() = default;
 	virtual const char* className() const { return "IfcPhysicalOrVirtualEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

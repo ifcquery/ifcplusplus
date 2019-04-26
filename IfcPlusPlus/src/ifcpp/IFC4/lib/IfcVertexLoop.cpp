@@ -14,7 +14,6 @@
 
 // ENTITY IfcVertexLoop 
 IfcVertexLoop::IfcVertexLoop( int id ) { m_entity_id = id; }
-IfcVertexLoop::~IfcVertexLoop() {}
 shared_ptr<BuildingObject> IfcVertexLoop::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVertexLoop> copy_self( new IfcVertexLoop() );
@@ -27,7 +26,7 @@ void IfcVertexLoop::getStepLine( std::stringstream& stream ) const
 	if( m_LoopVertex ) { stream << "#" << m_LoopVertex->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcVertexLoop::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcVertexLoop::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcVertexLoop::toString() const { return L"IfcVertexLoop"; }
 void IfcVertexLoop::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

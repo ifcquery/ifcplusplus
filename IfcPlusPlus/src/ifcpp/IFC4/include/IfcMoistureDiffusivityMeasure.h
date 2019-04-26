@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcMoistureDiffusivityMeasure : public IfcDerivedMeasureVa
 public:
 	IfcMoistureDiffusivityMeasure() = default;
 	IfcMoistureDiffusivityMeasure( double value );
-	~IfcMoistureDiffusivityMeasure();
+	~IfcMoistureDiffusivityMeasure() = default;
 	virtual const char* className() const { return "IfcMoistureDiffusivityMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

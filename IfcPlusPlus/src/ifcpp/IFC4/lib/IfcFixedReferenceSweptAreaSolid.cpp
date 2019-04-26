@@ -18,7 +18,6 @@
 
 // ENTITY IfcFixedReferenceSweptAreaSolid 
 IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid( int id ) { m_entity_id = id; }
-IfcFixedReferenceSweptAreaSolid::~IfcFixedReferenceSweptAreaSolid() {}
 shared_ptr<BuildingObject> IfcFixedReferenceSweptAreaSolid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFixedReferenceSweptAreaSolid> copy_self( new IfcFixedReferenceSweptAreaSolid() );
@@ -50,7 +49,7 @@ void IfcFixedReferenceSweptAreaSolid::getStepLine( std::stringstream& stream ) c
 	if( m_FixedReference ) { stream << "#" << m_FixedReference->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFixedReferenceSweptAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFixedReferenceSweptAreaSolid::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFixedReferenceSweptAreaSolid::toString() const { return L"IfcFixedReferenceSweptAreaSolid"; }
 void IfcFixedReferenceSweptAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

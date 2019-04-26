@@ -14,7 +14,6 @@
 
 // ENTITY IfcConic 
 IfcConic::IfcConic( int id ) { m_entity_id = id; }
-IfcConic::~IfcConic() {}
 shared_ptr<BuildingObject> IfcConic::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConic> copy_self( new IfcConic() );
@@ -27,7 +26,7 @@ void IfcConic::getStepLine( std::stringstream& stream ) const
 	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcConic::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcConic::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConic::toString() const { return L"IfcConic"; }
 void IfcConic::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

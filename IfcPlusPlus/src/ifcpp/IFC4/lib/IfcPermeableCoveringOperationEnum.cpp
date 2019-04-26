@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcPermeableCoveringOperationEnum.h"
 
 // TYPE IfcPermeableCoveringOperationEnum = ENUMERATION OF	(GRILL	,LOUVER	,SCREEN	,USERDEFINED	,NOTDEFINED);
-IfcPermeableCoveringOperationEnum::~IfcPermeableCoveringOperationEnum() {}
 shared_ptr<BuildingObject> IfcPermeableCoveringOperationEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPermeableCoveringOperationEnum> copy_self( new IfcPermeableCoveringOperationEnum() );

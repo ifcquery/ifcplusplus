@@ -19,7 +19,6 @@
 
 // ENTITY IfcGeometricRepresentationContext 
 IfcGeometricRepresentationContext::IfcGeometricRepresentationContext( int id ) { m_entity_id = id; }
-IfcGeometricRepresentationContext::~IfcGeometricRepresentationContext() {}
 shared_ptr<BuildingObject> IfcGeometricRepresentationContext::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGeometricRepresentationContext> copy_self( new IfcGeometricRepresentationContext() );
@@ -47,7 +46,7 @@ void IfcGeometricRepresentationContext::getStepLine( std::stringstream& stream )
 	if( m_TrueNorth ) { stream << "#" << m_TrueNorth->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcGeometricRepresentationContext::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcGeometricRepresentationContext::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGeometricRepresentationContext::toString() const { return L"IfcGeometricRepresentationContext"; }
 void IfcGeometricRepresentationContext::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

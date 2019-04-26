@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcFlowDirectionEnum.h"
 
 // TYPE IfcFlowDirectionEnum = ENUMERATION OF	(SOURCE	,SINK	,SOURCEANDSINK	,NOTDEFINED);
-IfcFlowDirectionEnum::~IfcFlowDirectionEnum() {}
 shared_ptr<BuildingObject> IfcFlowDirectionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFlowDirectionEnum> copy_self( new IfcFlowDirectionEnum() );

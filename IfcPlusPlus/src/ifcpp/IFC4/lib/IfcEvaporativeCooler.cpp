@@ -40,7 +40,6 @@
 
 // ENTITY IfcEvaporativeCooler 
 IfcEvaporativeCooler::IfcEvaporativeCooler( int id ) { m_entity_id = id; }
-IfcEvaporativeCooler::~IfcEvaporativeCooler() {}
 shared_ptr<BuildingObject> IfcEvaporativeCooler::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEvaporativeCooler> copy_self( new IfcEvaporativeCooler() );
@@ -85,7 +84,7 @@ void IfcEvaporativeCooler::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcEvaporativeCooler::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcEvaporativeCooler::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcEvaporativeCooler::toString() const { return L"IfcEvaporativeCooler"; }
 void IfcEvaporativeCooler::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

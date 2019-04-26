@@ -20,7 +20,6 @@
 
 // ENTITY IfcRelAssignsToProduct 
 IfcRelAssignsToProduct::IfcRelAssignsToProduct( int id ) { m_entity_id = id; }
-IfcRelAssignsToProduct::~IfcRelAssignsToProduct() {}
 shared_ptr<BuildingObject> IfcRelAssignsToProduct::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssignsToProduct> copy_self( new IfcRelAssignsToProduct() );
@@ -66,7 +65,7 @@ void IfcRelAssignsToProduct::getStepLine( std::stringstream& stream ) const
 	if( m_RelatingProduct ) { m_RelatingProduct->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcRelAssignsToProduct::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelAssignsToProduct::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssignsToProduct::toString() const { return L"IfcRelAssignsToProduct"; }
 void IfcRelAssignsToProduct::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -15,7 +15,6 @@
 
 // ENTITY IfcPcurve 
 IfcPcurve::IfcPcurve( int id ) { m_entity_id = id; }
-IfcPcurve::~IfcPcurve() {}
 shared_ptr<BuildingObject> IfcPcurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPcurve> copy_self( new IfcPcurve() );
@@ -31,7 +30,7 @@ void IfcPcurve::getStepLine( std::stringstream& stream ) const
 	if( m_ReferenceCurve ) { stream << "#" << m_ReferenceCurve->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPcurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPcurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPcurve::toString() const { return L"IfcPcurve"; }
 void IfcPcurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

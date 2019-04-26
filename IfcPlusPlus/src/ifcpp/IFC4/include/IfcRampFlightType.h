@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcRampFlightType : public IfcBuildingElementType
 public:
 	IfcRampFlightType() = default;
 	IfcRampFlightType( int id );
-	~IfcRampFlightType();
+	~IfcRampFlightType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -14,7 +14,6 @@
 
 // ENTITY IfcElementarySurface 
 IfcElementarySurface::IfcElementarySurface( int id ) { m_entity_id = id; }
-IfcElementarySurface::~IfcElementarySurface() {}
 shared_ptr<BuildingObject> IfcElementarySurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElementarySurface> copy_self( new IfcElementarySurface() );
@@ -27,7 +26,7 @@ void IfcElementarySurface::getStepLine( std::stringstream& stream ) const
 	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcElementarySurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcElementarySurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcElementarySurface::toString() const { return L"IfcElementarySurface"; }
 void IfcElementarySurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

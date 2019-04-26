@@ -17,7 +17,6 @@
 
 // ENTITY IfcRelCoversBldgElements 
 IfcRelCoversBldgElements::IfcRelCoversBldgElements( int id ) { m_entity_id = id; }
-IfcRelCoversBldgElements::~IfcRelCoversBldgElements() {}
 shared_ptr<BuildingObject> IfcRelCoversBldgElements::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelCoversBldgElements> copy_self( new IfcRelCoversBldgElements() );
@@ -60,7 +59,7 @@ void IfcRelCoversBldgElements::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_RelatedCoverings );
 	stream << ");";
 }
-void IfcRelCoversBldgElements::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelCoversBldgElements::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelCoversBldgElements::toString() const { return L"IfcRelCoversBldgElements"; }
 void IfcRelCoversBldgElements::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

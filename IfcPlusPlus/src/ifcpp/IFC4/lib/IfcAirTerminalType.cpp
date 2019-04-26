@@ -26,7 +26,6 @@
 
 // ENTITY IfcAirTerminalType 
 IfcAirTerminalType::IfcAirTerminalType( int id ) { m_entity_id = id; }
-IfcAirTerminalType::~IfcAirTerminalType() {}
 shared_ptr<BuildingObject> IfcAirTerminalType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAirTerminalType> copy_self( new IfcAirTerminalType() );
@@ -88,7 +87,7 @@ void IfcAirTerminalType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAirTerminalType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAirTerminalType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAirTerminalType::toString() const { return L"IfcAirTerminalType"; }
 void IfcAirTerminalType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

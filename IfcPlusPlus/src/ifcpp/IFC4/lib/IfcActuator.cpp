@@ -40,7 +40,6 @@
 
 // ENTITY IfcActuator 
 IfcActuator::IfcActuator( int id ) { m_entity_id = id; }
-IfcActuator::~IfcActuator() {}
 shared_ptr<BuildingObject> IfcActuator::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcActuator> copy_self( new IfcActuator() );
@@ -85,7 +84,7 @@ void IfcActuator::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcActuator::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcActuator::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcActuator::toString() const { return L"IfcActuator"; }
 void IfcActuator::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

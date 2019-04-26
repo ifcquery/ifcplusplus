@@ -12,7 +12,6 @@
 
 // TYPE IfcDoseEquivalentMeasure = REAL;
 IfcDoseEquivalentMeasure::IfcDoseEquivalentMeasure( double value ) { m_value = value; }
-IfcDoseEquivalentMeasure::~IfcDoseEquivalentMeasure() {}
 shared_ptr<BuildingObject> IfcDoseEquivalentMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoseEquivalentMeasure> copy_self( new IfcDoseEquivalentMeasure() );

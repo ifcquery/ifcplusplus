@@ -30,7 +30,6 @@
 
 // ENTITY IfcStructuralAnalysisModel 
 IfcStructuralAnalysisModel::IfcStructuralAnalysisModel( int id ) { m_entity_id = id; }
-IfcStructuralAnalysisModel::~IfcStructuralAnalysisModel() {}
 shared_ptr<BuildingObject> IfcStructuralAnalysisModel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralAnalysisModel> copy_self( new IfcStructuralAnalysisModel() );
@@ -92,7 +91,7 @@ void IfcStructuralAnalysisModel::getStepLine( std::stringstream& stream ) const
 	if( m_SharedPlacement ) { stream << "#" << m_SharedPlacement->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralAnalysisModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralAnalysisModel::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralAnalysisModel::toString() const { return L"IfcStructuralAnalysisModel"; }
 void IfcStructuralAnalysisModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

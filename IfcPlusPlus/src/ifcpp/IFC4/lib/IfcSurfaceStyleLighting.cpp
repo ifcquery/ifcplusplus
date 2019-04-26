@@ -12,7 +12,6 @@
 
 // ENTITY IfcSurfaceStyleLighting 
 IfcSurfaceStyleLighting::IfcSurfaceStyleLighting( int id ) { m_entity_id = id; }
-IfcSurfaceStyleLighting::~IfcSurfaceStyleLighting() {}
 shared_ptr<BuildingObject> IfcSurfaceStyleLighting::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceStyleLighting> copy_self( new IfcSurfaceStyleLighting() );
@@ -34,7 +33,7 @@ void IfcSurfaceStyleLighting::getStepLine( std::stringstream& stream ) const
 	if( m_ReflectanceColour ) { stream << "#" << m_ReflectanceColour->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceStyleLighting::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSurfaceStyleLighting::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceStyleLighting::toString() const { return L"IfcSurfaceStyleLighting"; }
 void IfcSurfaceStyleLighting::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

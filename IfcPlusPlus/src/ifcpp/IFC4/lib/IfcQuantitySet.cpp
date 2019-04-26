@@ -20,7 +20,6 @@
 
 // ENTITY IfcQuantitySet 
 IfcQuantitySet::IfcQuantitySet( int id ) { m_entity_id = id; }
-IfcQuantitySet::~IfcQuantitySet() {}
 shared_ptr<BuildingObject> IfcQuantitySet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcQuantitySet> copy_self( new IfcQuantitySet() );
@@ -50,7 +49,7 @@ void IfcQuantitySet::getStepLine( std::stringstream& stream ) const
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcQuantitySet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcQuantitySet::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcQuantitySet::toString() const { return L"IfcQuantitySet"; }
 void IfcQuantitySet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

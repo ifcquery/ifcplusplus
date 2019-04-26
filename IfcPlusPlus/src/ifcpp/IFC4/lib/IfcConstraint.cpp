@@ -18,7 +18,6 @@
 
 // ENTITY IfcConstraint 
 IfcConstraint::IfcConstraint( int id ) { m_entity_id = id; }
-IfcConstraint::~IfcConstraint() {}
 shared_ptr<BuildingObject> IfcConstraint::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConstraint> copy_self( new IfcConstraint() );
@@ -49,7 +48,7 @@ void IfcConstraint::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedGrade ) { m_UserDefinedGrade->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcConstraint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcConstraint::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConstraint::toString() const { return L"IfcConstraint"; }
 void IfcConstraint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

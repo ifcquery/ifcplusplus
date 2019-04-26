@@ -18,7 +18,6 @@
 
 // ENTITY IfcAppliedValue 
 IfcAppliedValue::IfcAppliedValue( int id ) { m_entity_id = id; }
-IfcAppliedValue::~IfcAppliedValue() {}
 shared_ptr<BuildingObject> IfcAppliedValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAppliedValue> copy_self( new IfcAppliedValue() );
@@ -65,7 +64,7 @@ void IfcAppliedValue::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Components );
 	stream << ");";
 }
-void IfcAppliedValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAppliedValue::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAppliedValue::toString() const { return L"IfcAppliedValue"; }
 void IfcAppliedValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

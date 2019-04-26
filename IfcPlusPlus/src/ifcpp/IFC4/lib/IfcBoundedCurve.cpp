@@ -13,7 +13,6 @@
 
 // ENTITY IfcBoundedCurve 
 IfcBoundedCurve::IfcBoundedCurve( int id ) { m_entity_id = id; }
-IfcBoundedCurve::~IfcBoundedCurve() {}
 shared_ptr<BuildingObject> IfcBoundedCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoundedCurve> copy_self( new IfcBoundedCurve() );
@@ -24,7 +23,7 @@ void IfcBoundedCurve::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCBOUNDEDCURVE" << "(";
 	stream << ");";
 }
-void IfcBoundedCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBoundedCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundedCurve::toString() const { return L"IfcBoundedCurve"; }
 void IfcBoundedCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

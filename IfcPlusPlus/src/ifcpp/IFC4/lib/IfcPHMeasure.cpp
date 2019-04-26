@@ -12,7 +12,6 @@
 
 // TYPE IfcPHMeasure = REAL;
 IfcPHMeasure::IfcPHMeasure( double value ) { m_value = value; }
-IfcPHMeasure::~IfcPHMeasure() {}
 shared_ptr<BuildingObject> IfcPHMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPHMeasure> copy_self( new IfcPHMeasure() );

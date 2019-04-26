@@ -23,7 +23,7 @@ public:
 
 	IfcTextPath() = default;
 	IfcTextPath( IfcTextPathEnum e ) { m_enum = e; }
-	~IfcTextPath();
+	~IfcTextPath() = default;
 	virtual const char* className() const { return "IfcTextPath"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

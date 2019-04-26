@@ -139,9 +139,22 @@ void tokenizeList( std::wstring& list_str, std::vector<std::wstring>& list_items
 	}
 	wchar_t* stream_pos = const_cast<wchar_t*>(list_str.c_str());
 	wchar_t* last_token = stream_pos;
+	int numNestedLists = 0;
 	while( *stream_pos != '\0' )
 	{
-		if( *stream_pos == '\'' )
+		if (*stream_pos == '(')
+		{
+			++stream_pos;
+			++numNestedLists;
+			continue;
+		}
+		else if (*stream_pos == ')')
+		{
+			++stream_pos;
+			--numNestedLists;
+			continue;
+		}
+		else if( *stream_pos == '\'' )
 		{
 			++stream_pos;
 			// beginning of string, continue to end
@@ -156,8 +169,8 @@ void tokenizeList( std::wstring& list_str, std::vector<std::wstring>& list_items
 			++stream_pos;
 			continue;
 		}
-
-		if( *stream_pos == ',' )
+		
+		if( *stream_pos == ',' && numNestedLists == 0)
 		{
 			std::wstring item( last_token, stream_pos-last_token );
 			list_items.push_back( item );
@@ -963,9 +976,11 @@ void tokenizeInlineArgument( std::wstring arg, std::wstring& keyword, std::wstri
 	}
 
 	// proceed to '('
+	int numOpenBraces = 0;
 	if( *stream_pos == '(' )
 	{
 		++stream_pos;
+		++numOpenBraces;
 	}
 	else
 	{
@@ -974,6 +989,7 @@ void tokenizeInlineArgument( std::wstring arg, std::wstring& keyword, std::wstri
 			if( *stream_pos == '(' )
 			{
 				++stream_pos;
+				++numOpenBraces;
 				break;
 			}
 			++stream_pos;
@@ -1019,17 +1035,27 @@ void tokenizeInlineArgument( std::wstring arg, std::wstring& keyword, std::wstri
 			}
 		}
 
+		if (*stream_pos == '(')
+		{
+			++numOpenBraces;
+			++stream_pos;
+			continue;
+		}
+
 		if( *stream_pos == ')' )
 		{
+			--numOpenBraces;
 			// skip whitespace
 			while( isspace( *inline_argument_begin ) ) 
 			{
 				++inline_argument_begin;
 			}
-			wchar_t* end_arg = stream_pos-1;
-			inline_argument = std::wstring( inline_argument_begin, end_arg-inline_argument_begin+1 );
-			
-			break;
+			if (numOpenBraces == 0)
+			{
+				wchar_t* end_arg = stream_pos - 1;
+				inline_argument = std::wstring(inline_argument_begin, end_arg - inline_argument_begin + 1);
+				break;
+			}
 		}
 		++stream_pos;
 	}

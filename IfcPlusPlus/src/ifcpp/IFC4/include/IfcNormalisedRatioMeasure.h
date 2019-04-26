@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcNormalisedRatioMeasure : public IfcRatioMeasure, public
 public:
 	IfcNormalisedRatioMeasure() = default;
 	IfcNormalisedRatioMeasure( double value ) { m_value = value; }
-	~IfcNormalisedRatioMeasure();
+	~IfcNormalisedRatioMeasure() = default;
 	virtual const char* className() const { return "IfcNormalisedRatioMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

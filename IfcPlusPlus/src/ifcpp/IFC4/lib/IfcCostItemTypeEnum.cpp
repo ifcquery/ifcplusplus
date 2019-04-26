@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCostItemTypeEnum.h"
 
 // TYPE IfcCostItemTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-IfcCostItemTypeEnum::~IfcCostItemTypeEnum() {}
 shared_ptr<BuildingObject> IfcCostItemTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCostItemTypeEnum> copy_self( new IfcCostItemTypeEnum() );

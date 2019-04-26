@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSIPrefix.h"
 
 // TYPE IfcSIPrefix = ENUMERATION OF	(EXA	,PETA	,TERA	,GIGA	,MEGA	,KILO	,HECTO	,DECA	,DECI	,CENTI	,MILLI	,MICRO	,NANO	,PICO	,FEMTO	,ATTO);
-IfcSIPrefix::~IfcSIPrefix() {}
 shared_ptr<BuildingObject> IfcSIPrefix::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSIPrefix> copy_self( new IfcSIPrefix() );

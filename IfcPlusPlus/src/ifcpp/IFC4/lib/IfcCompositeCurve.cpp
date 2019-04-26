@@ -15,7 +15,6 @@
 
 // ENTITY IfcCompositeCurve 
 IfcCompositeCurve::IfcCompositeCurve( int id ) { m_entity_id = id; }
-IfcCompositeCurve::~IfcCompositeCurve() {}
 shared_ptr<BuildingObject> IfcCompositeCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCompositeCurve> copy_self( new IfcCompositeCurve() );
@@ -38,7 +37,7 @@ void IfcCompositeCurve::getStepLine( std::stringstream& stream ) const
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCompositeCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCompositeCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCompositeCurve::toString() const { return L"IfcCompositeCurve"; }
 void IfcCompositeCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

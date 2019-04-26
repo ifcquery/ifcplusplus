@@ -11,7 +11,6 @@
 
 // TYPE IfcTextTransformation = STRING;
 IfcTextTransformation::IfcTextTransformation( std::wstring value ) { m_value = value; }
-IfcTextTransformation::~IfcTextTransformation() {}
 shared_ptr<BuildingObject> IfcTextTransformation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextTransformation> copy_self( new IfcTextTransformation() );

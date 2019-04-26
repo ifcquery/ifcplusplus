@@ -26,7 +26,7 @@ class IFCQUERY_EXPORT IfcElement : virtual public IfcStructuralActivityAssignmen
 public:
 	IfcElement() = default;
 	IfcElement( int id );
-	~IfcElement();
+	~IfcElement() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

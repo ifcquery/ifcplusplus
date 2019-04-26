@@ -15,7 +15,6 @@
 
 // ENTITY IfcSubedge 
 IfcSubedge::IfcSubedge( int id ) { m_entity_id = id; }
-IfcSubedge::~IfcSubedge() {}
 shared_ptr<BuildingObject> IfcSubedge::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSubedge> copy_self( new IfcSubedge() );
@@ -34,7 +33,7 @@ void IfcSubedge::getStepLine( std::stringstream& stream ) const
 	if( m_ParentEdge ) { stream << "#" << m_ParentEdge->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSubedge::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSubedge::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSubedge::toString() const { return L"IfcSubedge"; }
 void IfcSubedge::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

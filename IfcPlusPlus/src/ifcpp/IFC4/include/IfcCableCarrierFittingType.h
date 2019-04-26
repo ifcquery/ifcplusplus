@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcCableCarrierFittingType : public IfcFlowFittingType
 public:
 	IfcCableCarrierFittingType() = default;
 	IfcCableCarrierFittingType( int id );
-	~IfcCableCarrierFittingType();
+	~IfcCableCarrierFittingType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -40,7 +40,6 @@
 
 // ENTITY IfcCooledBeam 
 IfcCooledBeam::IfcCooledBeam( int id ) { m_entity_id = id; }
-IfcCooledBeam::~IfcCooledBeam() {}
 shared_ptr<BuildingObject> IfcCooledBeam::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCooledBeam> copy_self( new IfcCooledBeam() );
@@ -85,7 +84,7 @@ void IfcCooledBeam::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCooledBeam::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCooledBeam::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCooledBeam::toString() const { return L"IfcCooledBeam"; }
 void IfcCooledBeam::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

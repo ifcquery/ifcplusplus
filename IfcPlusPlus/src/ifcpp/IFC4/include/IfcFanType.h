@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcFanType : public IfcFlowMovingDeviceType
 public:
 	IfcFanType() = default;
 	IfcFanType( int id );
-	~IfcFanType();
+	~IfcFanType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

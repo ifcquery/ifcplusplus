@@ -18,7 +18,6 @@
 
 // ENTITY IfcRelConnectsStructuralActivity 
 IfcRelConnectsStructuralActivity::IfcRelConnectsStructuralActivity( int id ) { m_entity_id = id; }
-IfcRelConnectsStructuralActivity::~IfcRelConnectsStructuralActivity() {}
 shared_ptr<BuildingObject> IfcRelConnectsStructuralActivity::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelConnectsStructuralActivity> copy_self( new IfcRelConnectsStructuralActivity() );
@@ -54,7 +53,7 @@ void IfcRelConnectsStructuralActivity::getStepLine( std::stringstream& stream ) 
 	if( m_RelatedStructuralActivity ) { stream << "#" << m_RelatedStructuralActivity->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelConnectsStructuralActivity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelConnectsStructuralActivity::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelConnectsStructuralActivity::toString() const { return L"IfcRelConnectsStructuralActivity"; }
 void IfcRelConnectsStructuralActivity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

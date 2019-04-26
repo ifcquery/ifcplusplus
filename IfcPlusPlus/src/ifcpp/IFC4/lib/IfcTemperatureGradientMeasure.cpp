@@ -12,7 +12,6 @@
 
 // TYPE IfcTemperatureGradientMeasure = REAL;
 IfcTemperatureGradientMeasure::IfcTemperatureGradientMeasure( double value ) { m_value = value; }
-IfcTemperatureGradientMeasure::~IfcTemperatureGradientMeasure() {}
 shared_ptr<BuildingObject> IfcTemperatureGradientMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTemperatureGradientMeasure> copy_self( new IfcTemperatureGradientMeasure() );

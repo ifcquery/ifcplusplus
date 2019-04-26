@@ -20,7 +20,6 @@
 
 // ENTITY IfcMaterialProfile 
 IfcMaterialProfile::IfcMaterialProfile( int id ) { m_entity_id = id; }
-IfcMaterialProfile::~IfcMaterialProfile() {}
 shared_ptr<BuildingObject> IfcMaterialProfile::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialProfile> copy_self( new IfcMaterialProfile() );
@@ -52,7 +51,7 @@ void IfcMaterialProfile::getStepLine( std::stringstream& stream ) const
 	if( m_Category ) { m_Category->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMaterialProfile::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMaterialProfile::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialProfile::toString() const { return L"IfcMaterialProfile"; }
 void IfcMaterialProfile::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

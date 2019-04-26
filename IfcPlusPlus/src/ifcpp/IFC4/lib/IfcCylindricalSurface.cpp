@@ -15,7 +15,6 @@
 
 // ENTITY IfcCylindricalSurface 
 IfcCylindricalSurface::IfcCylindricalSurface( int id ) { m_entity_id = id; }
-IfcCylindricalSurface::~IfcCylindricalSurface() {}
 shared_ptr<BuildingObject> IfcCylindricalSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCylindricalSurface> copy_self( new IfcCylindricalSurface() );
@@ -31,7 +30,7 @@ void IfcCylindricalSurface::getStepLine( std::stringstream& stream ) const
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCylindricalSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCylindricalSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCylindricalSurface::toString() const { return L"IfcCylindricalSurface"; }
 void IfcCylindricalSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

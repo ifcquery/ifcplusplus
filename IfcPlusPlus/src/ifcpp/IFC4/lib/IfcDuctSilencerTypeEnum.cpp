@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcDuctSilencerTypeEnum.h"
 
 // TYPE IfcDuctSilencerTypeEnum = ENUMERATION OF	(FLATOVAL	,RECTANGULAR	,ROUND	,USERDEFINED	,NOTDEFINED);
-IfcDuctSilencerTypeEnum::~IfcDuctSilencerTypeEnum() {}
 shared_ptr<BuildingObject> IfcDuctSilencerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDuctSilencerTypeEnum> copy_self( new IfcDuctSilencerTypeEnum() );

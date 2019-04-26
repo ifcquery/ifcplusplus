@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcRepresentationItem : virtual public IfcLayeredItem, pub
 public:
 	IfcRepresentationItem() = default;
 	IfcRepresentationItem( int id );
-	~IfcRepresentationItem();
+	~IfcRepresentationItem() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

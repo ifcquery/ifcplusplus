@@ -30,7 +30,6 @@
 
 // ENTITY IfcStructuralSurfaceMember 
 IfcStructuralSurfaceMember::IfcStructuralSurfaceMember( int id ) { m_entity_id = id; }
-IfcStructuralSurfaceMember::~IfcStructuralSurfaceMember() {}
 shared_ptr<BuildingObject> IfcStructuralSurfaceMember::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralSurfaceMember> copy_self( new IfcStructuralSurfaceMember() );
@@ -75,7 +74,7 @@ void IfcStructuralSurfaceMember::getStepLine( std::stringstream& stream ) const
 	if( m_Thickness ) { m_Thickness->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralSurfaceMember::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralSurfaceMember::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralSurfaceMember::toString() const { return L"IfcStructuralSurfaceMember"; }
 void IfcStructuralSurfaceMember::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

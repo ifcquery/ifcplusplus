@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcHeatFluxDensityMeasure : public IfcDerivedMeasureValue
 public:
 	IfcHeatFluxDensityMeasure() = default;
 	IfcHeatFluxDensityMeasure( double value );
-	~IfcHeatFluxDensityMeasure();
+	~IfcHeatFluxDensityMeasure() = default;
 	virtual const char* className() const { return "IfcHeatFluxDensityMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

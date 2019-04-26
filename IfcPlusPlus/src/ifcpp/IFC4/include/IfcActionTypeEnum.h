@@ -24,7 +24,7 @@ public:
 
 	IfcActionTypeEnum() = default;
 	IfcActionTypeEnum( IfcActionTypeEnumEnum e ) { m_enum = e; }
-	~IfcActionTypeEnum();
+	~IfcActionTypeEnum() = default;
 	virtual const char* className() const { return "IfcActionTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

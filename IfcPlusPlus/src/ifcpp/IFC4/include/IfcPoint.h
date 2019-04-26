@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcPoint : virtual public IfcGeometricSetSelect, virtual p
 public:
 	IfcPoint() = default;
 	IfcPoint( int id );
-	~IfcPoint();
+	~IfcPoint() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

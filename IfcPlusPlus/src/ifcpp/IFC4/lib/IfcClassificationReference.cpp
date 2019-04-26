@@ -19,7 +19,6 @@
 
 // ENTITY IfcClassificationReference 
 IfcClassificationReference::IfcClassificationReference( int id ) { m_entity_id = id; }
-IfcClassificationReference::~IfcClassificationReference() {}
 shared_ptr<BuildingObject> IfcClassificationReference::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcClassificationReference> copy_self( new IfcClassificationReference() );
@@ -47,7 +46,7 @@ void IfcClassificationReference::getStepLine( std::stringstream& stream ) const
 	if( m_Sort ) { m_Sort->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcClassificationReference::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcClassificationReference::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcClassificationReference::toString() const { return L"IfcClassificationReference"; }
 void IfcClassificationReference::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

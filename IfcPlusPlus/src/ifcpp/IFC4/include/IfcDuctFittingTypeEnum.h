@@ -28,7 +28,7 @@ public:
 
 	IfcDuctFittingTypeEnum() = default;
 	IfcDuctFittingTypeEnum( IfcDuctFittingTypeEnumEnum e ) { m_enum = e; }
-	~IfcDuctFittingTypeEnum();
+	~IfcDuctFittingTypeEnum() = default;
 	virtual const char* className() const { return "IfcDuctFittingTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

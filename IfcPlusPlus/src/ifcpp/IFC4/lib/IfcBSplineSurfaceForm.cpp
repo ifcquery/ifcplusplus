@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcBSplineSurfaceForm.h"
 
 // TYPE IfcBSplineSurfaceForm = ENUMERATION OF	(PLANE_SURF	,CYLINDRICAL_SURF	,CONICAL_SURF	,SPHERICAL_SURF	,TOROIDAL_SURF	,SURF_OF_REVOLUTION	,RULED_SURF	,GENERALISED_CONE	,QUADRIC_SURF	,SURF_OF_LINEAR_EXTRUSION	,UNSPECIFIED);
-IfcBSplineSurfaceForm::~IfcBSplineSurfaceForm() {}
 shared_ptr<BuildingObject> IfcBSplineSurfaceForm::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBSplineSurfaceForm> copy_self( new IfcBSplineSurfaceForm() );

@@ -17,7 +17,6 @@
 
 // ENTITY IfcRevolvedAreaSolidTapered 
 IfcRevolvedAreaSolidTapered::IfcRevolvedAreaSolidTapered( int id ) { m_entity_id = id; }
-IfcRevolvedAreaSolidTapered::~IfcRevolvedAreaSolidTapered() {}
 shared_ptr<BuildingObject> IfcRevolvedAreaSolidTapered::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRevolvedAreaSolidTapered> copy_self( new IfcRevolvedAreaSolidTapered() );
@@ -50,7 +49,7 @@ void IfcRevolvedAreaSolidTapered::getStepLine( std::stringstream& stream ) const
 	if( m_EndSweptArea ) { stream << "#" << m_EndSweptArea->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRevolvedAreaSolidTapered::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRevolvedAreaSolidTapered::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRevolvedAreaSolidTapered::toString() const { return L"IfcRevolvedAreaSolidTapered"; }
 void IfcRevolvedAreaSolidTapered::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -12,7 +12,6 @@
 
 // TYPE IfcThermodynamicTemperatureMeasure = REAL;
 IfcThermodynamicTemperatureMeasure::IfcThermodynamicTemperatureMeasure( double value ) { m_value = value; }
-IfcThermodynamicTemperatureMeasure::~IfcThermodynamicTemperatureMeasure() {}
 shared_ptr<BuildingObject> IfcThermodynamicTemperatureMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcThermodynamicTemperatureMeasure> copy_self( new IfcThermodynamicTemperatureMeasure() );

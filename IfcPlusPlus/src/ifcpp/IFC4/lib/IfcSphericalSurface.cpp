@@ -15,7 +15,6 @@
 
 // ENTITY IfcSphericalSurface 
 IfcSphericalSurface::IfcSphericalSurface( int id ) { m_entity_id = id; }
-IfcSphericalSurface::~IfcSphericalSurface() {}
 shared_ptr<BuildingObject> IfcSphericalSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSphericalSurface> copy_self( new IfcSphericalSurface() );
@@ -31,7 +30,7 @@ void IfcSphericalSurface::getStepLine( std::stringstream& stream ) const
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSphericalSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSphericalSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSphericalSurface::toString() const { return L"IfcSphericalSurface"; }
 void IfcSphericalSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

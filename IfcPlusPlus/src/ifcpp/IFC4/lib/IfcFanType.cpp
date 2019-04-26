@@ -26,7 +26,6 @@
 
 // ENTITY IfcFanType 
 IfcFanType::IfcFanType( int id ) { m_entity_id = id; }
-IfcFanType::~IfcFanType() {}
 shared_ptr<BuildingObject> IfcFanType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFanType> copy_self( new IfcFanType() );
@@ -88,7 +87,7 @@ void IfcFanType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFanType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFanType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFanType::toString() const { return L"IfcFanType"; }
 void IfcFanType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

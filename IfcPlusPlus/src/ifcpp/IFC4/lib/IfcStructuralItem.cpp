@@ -27,7 +27,6 @@
 
 // ENTITY IfcStructuralItem 
 IfcStructuralItem::IfcStructuralItem( int id ) { m_entity_id = id; }
-IfcStructuralItem::~IfcStructuralItem() {}
 shared_ptr<BuildingObject> IfcStructuralItem::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralItem> copy_self( new IfcStructuralItem() );
@@ -66,7 +65,7 @@ void IfcStructuralItem::getStepLine( std::stringstream& stream ) const
 	if( m_Representation ) { stream << "#" << m_Representation->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralItem::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralItem::toString() const { return L"IfcStructuralItem"; }
 void IfcStructuralItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -29,7 +29,6 @@
 
 // ENTITY IfcWorkSchedule 
 IfcWorkSchedule::IfcWorkSchedule( int id ) { m_entity_id = id; }
-IfcWorkSchedule::~IfcWorkSchedule() {}
 shared_ptr<BuildingObject> IfcWorkSchedule::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWorkSchedule> copy_self( new IfcWorkSchedule() );
@@ -96,7 +95,7 @@ void IfcWorkSchedule::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcWorkSchedule::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcWorkSchedule::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWorkSchedule::toString() const { return L"IfcWorkSchedule"; }
 void IfcWorkSchedule::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

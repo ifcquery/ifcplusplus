@@ -28,7 +28,7 @@ public:
 
 	IfcWasteTerminalTypeEnum() = default;
 	IfcWasteTerminalTypeEnum( IfcWasteTerminalTypeEnumEnum e ) { m_enum = e; }
-	~IfcWasteTerminalTypeEnum();
+	~IfcWasteTerminalTypeEnum() = default;
 	virtual const char* className() const { return "IfcWasteTerminalTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

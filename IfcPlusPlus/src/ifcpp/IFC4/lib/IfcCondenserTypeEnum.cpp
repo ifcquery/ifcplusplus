@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCondenserTypeEnum.h"
 
 // TYPE IfcCondenserTypeEnum = ENUMERATION OF	(AIRCOOLED	,EVAPORATIVECOOLED	,WATERCOOLED	,WATERCOOLEDBRAZEDPLATE	,WATERCOOLEDSHELLCOIL	,WATERCOOLEDSHELLTUBE	,WATERCOOLEDTUBEINTUBE	,USERDEFINED	,NOTDEFINED);
-IfcCondenserTypeEnum::~IfcCondenserTypeEnum() {}
 shared_ptr<BuildingObject> IfcCondenserTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCondenserTypeEnum> copy_self( new IfcCondenserTypeEnum() );

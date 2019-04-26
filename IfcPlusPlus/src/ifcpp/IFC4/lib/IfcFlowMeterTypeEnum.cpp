@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcFlowMeterTypeEnum.h"
 
 // TYPE IfcFlowMeterTypeEnum = ENUMERATION OF	(ENERGYMETER	,GASMETER	,OILMETER	,WATERMETER	,USERDEFINED	,NOTDEFINED);
-IfcFlowMeterTypeEnum::~IfcFlowMeterTypeEnum() {}
 shared_ptr<BuildingObject> IfcFlowMeterTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFlowMeterTypeEnum> copy_self( new IfcFlowMeterTypeEnum() );

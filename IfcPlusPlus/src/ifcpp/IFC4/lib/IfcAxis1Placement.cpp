@@ -15,7 +15,6 @@
 
 // ENTITY IfcAxis1Placement 
 IfcAxis1Placement::IfcAxis1Placement( int id ) { m_entity_id = id; }
-IfcAxis1Placement::~IfcAxis1Placement() {}
 shared_ptr<BuildingObject> IfcAxis1Placement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAxis1Placement> copy_self( new IfcAxis1Placement() );
@@ -31,7 +30,7 @@ void IfcAxis1Placement::getStepLine( std::stringstream& stream ) const
 	if( m_Axis ) { stream << "#" << m_Axis->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAxis1Placement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAxis1Placement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAxis1Placement::toString() const { return L"IfcAxis1Placement"; }
 void IfcAxis1Placement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

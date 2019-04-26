@@ -16,7 +16,6 @@
 
 // ENTITY IfcSweptDiskSolidPolygonal 
 IfcSweptDiskSolidPolygonal::IfcSweptDiskSolidPolygonal( int id ) { m_entity_id = id; }
-IfcSweptDiskSolidPolygonal::~IfcSweptDiskSolidPolygonal() {}
 shared_ptr<BuildingObject> IfcSweptDiskSolidPolygonal::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSweptDiskSolidPolygonal> copy_self( new IfcSweptDiskSolidPolygonal() );
@@ -44,7 +43,7 @@ void IfcSweptDiskSolidPolygonal::getStepLine( std::stringstream& stream ) const
 	if( m_FilletRadius ) { m_FilletRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSweptDiskSolidPolygonal::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSweptDiskSolidPolygonal::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSweptDiskSolidPolygonal::toString() const { return L"IfcSweptDiskSolidPolygonal"; }
 void IfcSweptDiskSolidPolygonal::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

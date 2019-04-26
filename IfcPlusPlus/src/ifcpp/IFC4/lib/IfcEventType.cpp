@@ -26,7 +26,6 @@
 
 // ENTITY IfcEventType 
 IfcEventType::IfcEventType( int id ) { m_entity_id = id; }
-IfcEventType::~IfcEventType() {}
 shared_ptr<BuildingObject> IfcEventType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEventType> copy_self( new IfcEventType() );
@@ -87,7 +86,7 @@ void IfcEventType::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedEventTriggerType ) { m_UserDefinedEventTriggerType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcEventType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcEventType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcEventType::toString() const { return L"IfcEventType"; }
 void IfcEventType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

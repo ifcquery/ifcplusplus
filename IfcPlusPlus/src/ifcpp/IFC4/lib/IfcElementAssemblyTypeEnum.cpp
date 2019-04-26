@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcElementAssemblyTypeEnum.h"
 
 // TYPE IfcElementAssemblyTypeEnum = ENUMERATION OF	(ACCESSORY_ASSEMBLY	,ARCH	,BEAM_GRID	,BRACED_FRAME	,GIRDER	,REINFORCEMENT_UNIT	,RIGID_FRAME	,SLAB_FIELD	,TRUSS	,USERDEFINED	,NOTDEFINED);
-IfcElementAssemblyTypeEnum::~IfcElementAssemblyTypeEnum() {}
 shared_ptr<BuildingObject> IfcElementAssemblyTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElementAssemblyTypeEnum> copy_self( new IfcElementAssemblyTypeEnum() );

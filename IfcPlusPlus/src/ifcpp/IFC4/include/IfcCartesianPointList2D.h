@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcCartesianPointList2D : public IfcCartesianPointList
 public:
 	IfcCartesianPointList2D() = default;
 	IfcCartesianPointList2D( int id );
-	~IfcCartesianPointList2D();
+	~IfcCartesianPointList2D() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

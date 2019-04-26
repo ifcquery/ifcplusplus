@@ -13,7 +13,6 @@
 
 // ENTITY IfcBoundaryFaceCondition 
 IfcBoundaryFaceCondition::IfcBoundaryFaceCondition( int id ) { m_entity_id = id; }
-IfcBoundaryFaceCondition::~IfcBoundaryFaceCondition() {}
 shared_ptr<BuildingObject> IfcBoundaryFaceCondition::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoundaryFaceCondition> copy_self( new IfcBoundaryFaceCondition() );
@@ -35,7 +34,7 @@ void IfcBoundaryFaceCondition::getStepLine( std::stringstream& stream ) const
 	if( m_TranslationalStiffnessByAreaZ ) { m_TranslationalStiffnessByAreaZ->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcBoundaryFaceCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBoundaryFaceCondition::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundaryFaceCondition::toString() const { return L"IfcBoundaryFaceCondition"; }
 void IfcBoundaryFaceCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

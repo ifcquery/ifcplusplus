@@ -24,7 +24,6 @@
 
 // ENTITY IfcGroup 
 IfcGroup::IfcGroup( int id ) { m_entity_id = id; }
-IfcGroup::~IfcGroup() {}
 shared_ptr<BuildingObject> IfcGroup::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGroup> copy_self( new IfcGroup() );
@@ -57,7 +56,7 @@ void IfcGroup::getStepLine( std::stringstream& stream ) const
 	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcGroup::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcGroup::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGroup::toString() const { return L"IfcGroup"; }
 void IfcGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

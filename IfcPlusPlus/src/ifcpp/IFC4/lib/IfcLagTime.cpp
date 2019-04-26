@@ -15,7 +15,6 @@
 
 // ENTITY IfcLagTime 
 IfcLagTime::IfcLagTime( int id ) { m_entity_id = id; }
-IfcLagTime::~IfcLagTime() {}
 shared_ptr<BuildingObject> IfcLagTime::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLagTime> copy_self( new IfcLagTime() );
@@ -40,7 +39,7 @@ void IfcLagTime::getStepLine( std::stringstream& stream ) const
 	if( m_DurationType ) { m_DurationType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLagTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLagTime::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLagTime::toString() const { return L"IfcLagTime"; }
 void IfcLagTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -26,7 +26,6 @@
 
 // ENTITY IfcCompressorType 
 IfcCompressorType::IfcCompressorType( int id ) { m_entity_id = id; }
-IfcCompressorType::~IfcCompressorType() {}
 shared_ptr<BuildingObject> IfcCompressorType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCompressorType> copy_self( new IfcCompressorType() );
@@ -88,7 +87,7 @@ void IfcCompressorType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCompressorType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCompressorType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCompressorType::toString() const { return L"IfcCompressorType"; }
 void IfcCompressorType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

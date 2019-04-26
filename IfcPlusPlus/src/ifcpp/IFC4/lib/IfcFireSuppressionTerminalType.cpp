@@ -26,7 +26,6 @@
 
 // ENTITY IfcFireSuppressionTerminalType 
 IfcFireSuppressionTerminalType::IfcFireSuppressionTerminalType( int id ) { m_entity_id = id; }
-IfcFireSuppressionTerminalType::~IfcFireSuppressionTerminalType() {}
 shared_ptr<BuildingObject> IfcFireSuppressionTerminalType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFireSuppressionTerminalType> copy_self( new IfcFireSuppressionTerminalType() );
@@ -88,7 +87,7 @@ void IfcFireSuppressionTerminalType::getStepLine( std::stringstream& stream ) co
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFireSuppressionTerminalType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFireSuppressionTerminalType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFireSuppressionTerminalType::toString() const { return L"IfcFireSuppressionTerminalType"; }
 void IfcFireSuppressionTerminalType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

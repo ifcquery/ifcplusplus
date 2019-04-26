@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcSpatialElementType : public IfcTypeProduct
 public:
 	IfcSpatialElementType() = default;
 	IfcSpatialElementType( int id );
-	~IfcSpatialElementType();
+	~IfcSpatialElementType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

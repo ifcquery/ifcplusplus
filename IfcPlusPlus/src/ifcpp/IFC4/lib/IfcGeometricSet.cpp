@@ -14,7 +14,6 @@
 
 // ENTITY IfcGeometricSet 
 IfcGeometricSet::IfcGeometricSet( int id ) { m_entity_id = id; }
-IfcGeometricSet::~IfcGeometricSet() {}
 shared_ptr<BuildingObject> IfcGeometricSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGeometricSet> copy_self( new IfcGeometricSet() );
@@ -51,7 +50,7 @@ void IfcGeometricSet::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcGeometricSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcGeometricSet::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGeometricSet::toString() const { return L"IfcGeometricSet"; }
 void IfcGeometricSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

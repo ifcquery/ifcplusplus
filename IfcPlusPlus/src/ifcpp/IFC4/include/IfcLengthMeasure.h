@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcLengthMeasure : public IfcBendingParameterSelect, publi
 public:
 	IfcLengthMeasure() = default;
 	IfcLengthMeasure( double value );
-	~IfcLengthMeasure();
+	~IfcLengthMeasure() = default;
 	virtual const char* className() const { return "IfcLengthMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

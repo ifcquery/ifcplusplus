@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcDuctSilencer : public IfcFlowTreatmentDevice
 public:
 	IfcDuctSilencer() = default;
 	IfcDuctSilencer( int id );
-	~IfcDuctSilencer();
+	~IfcDuctSilencer() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

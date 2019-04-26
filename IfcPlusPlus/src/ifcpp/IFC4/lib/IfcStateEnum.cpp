@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcStateEnum.h"
 
 // TYPE IfcStateEnum = ENUMERATION OF	(READWRITE	,READONLY	,LOCKED	,READWRITELOCKED	,READONLYLOCKED);
-IfcStateEnum::~IfcStateEnum() {}
 shared_ptr<BuildingObject> IfcStateEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStateEnum> copy_self( new IfcStateEnum() );

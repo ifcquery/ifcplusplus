@@ -26,7 +26,6 @@
 
 // ENTITY IfcColumnType 
 IfcColumnType::IfcColumnType( int id ) { m_entity_id = id; }
-IfcColumnType::~IfcColumnType() {}
 shared_ptr<BuildingObject> IfcColumnType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcColumnType> copy_self( new IfcColumnType() );
@@ -88,7 +87,7 @@ void IfcColumnType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcColumnType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcColumnType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcColumnType::toString() const { return L"IfcColumnType"; }
 void IfcColumnType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

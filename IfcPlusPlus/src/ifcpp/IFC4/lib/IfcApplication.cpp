@@ -14,7 +14,6 @@
 
 // ENTITY IfcApplication 
 IfcApplication::IfcApplication( int id ) { m_entity_id = id; }
-IfcApplication::~IfcApplication() {}
 shared_ptr<BuildingObject> IfcApplication::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcApplication> copy_self( new IfcApplication() );
@@ -36,7 +35,7 @@ void IfcApplication::getStepLine( std::stringstream& stream ) const
 	if( m_ApplicationIdentifier ) { m_ApplicationIdentifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcApplication::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcApplication::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcApplication::toString() const { return L"IfcApplication"; }
 void IfcApplication::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -19,7 +19,6 @@
 
 // ENTITY IfcRelAssociatesLibrary 
 IfcRelAssociatesLibrary::IfcRelAssociatesLibrary( int id ) { m_entity_id = id; }
-IfcRelAssociatesLibrary::~IfcRelAssociatesLibrary() {}
 shared_ptr<BuildingObject> IfcRelAssociatesLibrary::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssociatesLibrary> copy_self( new IfcRelAssociatesLibrary() );
@@ -79,7 +78,7 @@ void IfcRelAssociatesLibrary::getStepLine( std::stringstream& stream ) const
 	if( m_RelatingLibrary ) { m_RelatingLibrary->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcRelAssociatesLibrary::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelAssociatesLibrary::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssociatesLibrary::toString() const { return L"IfcRelAssociatesLibrary"; }
 void IfcRelAssociatesLibrary::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

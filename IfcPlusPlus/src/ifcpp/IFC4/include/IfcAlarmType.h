@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcAlarmType : public IfcDistributionControlElementType
 public:
 	IfcAlarmType() = default;
 	IfcAlarmType( int id );
-	~IfcAlarmType();
+	~IfcAlarmType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

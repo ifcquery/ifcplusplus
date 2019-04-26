@@ -17,7 +17,6 @@
 
 // ENTITY IfcTrimmedCurve 
 IfcTrimmedCurve::IfcTrimmedCurve( int id ) { m_entity_id = id; }
-IfcTrimmedCurve::~IfcTrimmedCurve() {}
 shared_ptr<BuildingObject> IfcTrimmedCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTrimmedCurve> copy_self( new IfcTrimmedCurve() );
@@ -90,7 +89,7 @@ void IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
 	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTrimmedCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTrimmedCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTrimmedCurve::toString() const { return L"IfcTrimmedCurve"; }
 void IfcTrimmedCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

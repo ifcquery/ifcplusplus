@@ -15,7 +15,6 @@
 
 // ENTITY IfcBoundingBox 
 IfcBoundingBox::IfcBoundingBox( int id ) { m_entity_id = id; }
-IfcBoundingBox::~IfcBoundingBox() {}
 shared_ptr<BuildingObject> IfcBoundingBox::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoundingBox> copy_self( new IfcBoundingBox() );
@@ -37,7 +36,7 @@ void IfcBoundingBox::getStepLine( std::stringstream& stream ) const
 	if( m_ZDim ) { m_ZDim->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBoundingBox::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBoundingBox::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundingBox::toString() const { return L"IfcBoundingBox"; }
 void IfcBoundingBox::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

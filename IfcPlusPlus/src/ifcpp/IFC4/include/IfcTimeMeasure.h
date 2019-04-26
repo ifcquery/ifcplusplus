@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcTimeMeasure : public IfcMeasureValue
 public:
 	IfcTimeMeasure() = default;
 	IfcTimeMeasure( double value );
-	~IfcTimeMeasure();
+	~IfcTimeMeasure() = default;
 	virtual const char* className() const { return "IfcTimeMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

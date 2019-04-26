@@ -30,7 +30,6 @@
 
 // ENTITY IfcStructuralPointAction 
 IfcStructuralPointAction::IfcStructuralPointAction( int id ) { m_entity_id = id; }
-IfcStructuralPointAction::~IfcStructuralPointAction() {}
 shared_ptr<BuildingObject> IfcStructuralPointAction::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralPointAction> copy_self( new IfcStructuralPointAction() );
@@ -78,7 +77,7 @@ void IfcStructuralPointAction::getStepLine( std::stringstream& stream ) const
 	if( m_DestabilizingLoad ) { m_DestabilizingLoad->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralPointAction::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralPointAction::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralPointAction::toString() const { return L"IfcStructuralPointAction"; }
 void IfcStructuralPointAction::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

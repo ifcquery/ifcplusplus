@@ -25,7 +25,6 @@
 
 // ENTITY IfcWindowLiningProperties 
 IfcWindowLiningProperties::IfcWindowLiningProperties( int id ) { m_entity_id = id; }
-IfcWindowLiningProperties::~IfcWindowLiningProperties() {}
 shared_ptr<BuildingObject> IfcWindowLiningProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWindowLiningProperties> copy_self( new IfcWindowLiningProperties() );
@@ -91,7 +90,7 @@ void IfcWindowLiningProperties::getStepLine( std::stringstream& stream ) const
 	if( m_LiningToPanelOffsetY ) { m_LiningToPanelOffsetY->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcWindowLiningProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcWindowLiningProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWindowLiningProperties::toString() const { return L"IfcWindowLiningProperties"; }
 void IfcWindowLiningProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcInternalOrExternalEnum.h"
 
 // TYPE IfcInternalOrExternalEnum = ENUMERATION OF	(INTERNAL	,EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_WATER	,EXTERNAL_FIRE	,NOTDEFINED);
-IfcInternalOrExternalEnum::~IfcInternalOrExternalEnum() {}
 shared_ptr<BuildingObject> IfcInternalOrExternalEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcInternalOrExternalEnum> copy_self( new IfcInternalOrExternalEnum() );

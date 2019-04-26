@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCurveInterpolationEnum.h"
 
 // TYPE IfcCurveInterpolationEnum = ENUMERATION OF	(LINEAR	,LOG_LINEAR	,LOG_LOG	,NOTDEFINED);
-IfcCurveInterpolationEnum::~IfcCurveInterpolationEnum() {}
 shared_ptr<BuildingObject> IfcCurveInterpolationEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurveInterpolationEnum> copy_self( new IfcCurveInterpolationEnum() );

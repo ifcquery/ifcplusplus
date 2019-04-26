@@ -21,7 +21,7 @@ class IFCQUERY_EXPORT IfcClassificationReference : virtual public IfcClassificat
 public:
 	IfcClassificationReference() = default;
 	IfcClassificationReference( int id );
-	~IfcClassificationReference();
+	~IfcClassificationReference() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

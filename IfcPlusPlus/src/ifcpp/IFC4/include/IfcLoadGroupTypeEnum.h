@@ -24,7 +24,7 @@ public:
 
 	IfcLoadGroupTypeEnum() = default;
 	IfcLoadGroupTypeEnum( IfcLoadGroupTypeEnumEnum e ) { m_enum = e; }
-	~IfcLoadGroupTypeEnum();
+	~IfcLoadGroupTypeEnum() = default;
 	virtual const char* className() const { return "IfcLoadGroupTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

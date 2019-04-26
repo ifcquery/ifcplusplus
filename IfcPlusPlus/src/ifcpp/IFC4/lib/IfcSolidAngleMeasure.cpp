@@ -12,7 +12,6 @@
 
 // TYPE IfcSolidAngleMeasure = REAL;
 IfcSolidAngleMeasure::IfcSolidAngleMeasure( double value ) { m_value = value; }
-IfcSolidAngleMeasure::~IfcSolidAngleMeasure() {}
 shared_ptr<BuildingObject> IfcSolidAngleMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSolidAngleMeasure> copy_self( new IfcSolidAngleMeasure() );

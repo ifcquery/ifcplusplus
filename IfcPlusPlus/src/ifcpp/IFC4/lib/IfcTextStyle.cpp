@@ -16,7 +16,6 @@
 
 // ENTITY IfcTextStyle 
 IfcTextStyle::IfcTextStyle( int id ) { m_entity_id = id; }
-IfcTextStyle::~IfcTextStyle() {}
 shared_ptr<BuildingObject> IfcTextStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextStyle> copy_self( new IfcTextStyle() );
@@ -41,7 +40,7 @@ void IfcTextStyle::getStepLine( std::stringstream& stream ) const
 	if( m_ModelOrDraughting ) { m_ModelOrDraughting->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTextStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTextStyle::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextStyle::toString() const { return L"IfcTextStyle"; }
 void IfcTextStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

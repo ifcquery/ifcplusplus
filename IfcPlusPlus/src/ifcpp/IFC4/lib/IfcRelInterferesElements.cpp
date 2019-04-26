@@ -18,7 +18,6 @@
 
 // ENTITY IfcRelInterferesElements 
 IfcRelInterferesElements::IfcRelInterferesElements( int id ) { m_entity_id = id; }
-IfcRelInterferesElements::~IfcRelInterferesElements() {}
 shared_ptr<BuildingObject> IfcRelInterferesElements::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelInterferesElements> copy_self( new IfcRelInterferesElements() );
@@ -65,7 +64,7 @@ void IfcRelInterferesElements::getStepLine( std::stringstream& stream ) const
 	else { stream << ".U."; } // LOGICAL_UNKNOWN
 	stream << ");";
 }
-void IfcRelInterferesElements::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelInterferesElements::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelInterferesElements::toString() const { return L"IfcRelInterferesElements"; }
 void IfcRelInterferesElements::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -18,7 +18,6 @@
 
 // ENTITY IfcReparametrisedCompositeCurveSegment 
 IfcReparametrisedCompositeCurveSegment::IfcReparametrisedCompositeCurveSegment( int id ) { m_entity_id = id; }
-IfcReparametrisedCompositeCurveSegment::~IfcReparametrisedCompositeCurveSegment() {}
 shared_ptr<BuildingObject> IfcReparametrisedCompositeCurveSegment::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReparametrisedCompositeCurveSegment> copy_self( new IfcReparametrisedCompositeCurveSegment() );
@@ -40,7 +39,7 @@ void IfcReparametrisedCompositeCurveSegment::getStepLine( std::stringstream& str
 	if( m_ParamLength ) { m_ParamLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcReparametrisedCompositeCurveSegment::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcReparametrisedCompositeCurveSegment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcReparametrisedCompositeCurveSegment::toString() const { return L"IfcReparametrisedCompositeCurveSegment"; }
 void IfcReparametrisedCompositeCurveSegment::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

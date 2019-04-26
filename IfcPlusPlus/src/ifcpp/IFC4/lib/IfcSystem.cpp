@@ -25,7 +25,6 @@
 
 // ENTITY IfcSystem 
 IfcSystem::IfcSystem( int id ) { m_entity_id = id; }
-IfcSystem::~IfcSystem() {}
 shared_ptr<BuildingObject> IfcSystem::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSystem> copy_self( new IfcSystem() );
@@ -58,7 +57,7 @@ void IfcSystem::getStepLine( std::stringstream& stream ) const
 	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSystem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSystem::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSystem::toString() const { return L"IfcSystem"; }
 void IfcSystem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

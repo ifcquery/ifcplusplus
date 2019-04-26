@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcFlowControllerType : public IfcDistributionFlowElementT
 public:
 	IfcFlowControllerType() = default;
 	IfcFlowControllerType( int id );
-	~IfcFlowControllerType();
+	~IfcFlowControllerType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

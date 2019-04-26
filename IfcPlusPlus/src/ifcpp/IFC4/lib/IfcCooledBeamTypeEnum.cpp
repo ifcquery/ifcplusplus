@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCooledBeamTypeEnum.h"
 
 // TYPE IfcCooledBeamTypeEnum = ENUMERATION OF	(ACTIVE	,PASSIVE	,USERDEFINED	,NOTDEFINED);
-IfcCooledBeamTypeEnum::~IfcCooledBeamTypeEnum() {}
 shared_ptr<BuildingObject> IfcCooledBeamTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCooledBeamTypeEnum> copy_self( new IfcCooledBeamTypeEnum() );

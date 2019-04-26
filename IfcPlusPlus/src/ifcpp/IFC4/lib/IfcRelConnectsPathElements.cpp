@@ -19,7 +19,6 @@
 
 // ENTITY IfcRelConnectsPathElements 
 IfcRelConnectsPathElements::IfcRelConnectsPathElements( int id ) { m_entity_id = id; }
-IfcRelConnectsPathElements::~IfcRelConnectsPathElements() {}
 shared_ptr<BuildingObject> IfcRelConnectsPathElements::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelConnectsPathElements> copy_self( new IfcRelConnectsPathElements() );
@@ -84,7 +83,7 @@ void IfcRelConnectsPathElements::getStepLine( std::stringstream& stream ) const
 	if( m_RelatingConnectionType ) { m_RelatingConnectionType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelConnectsPathElements::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelConnectsPathElements::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelConnectsPathElements::toString() const { return L"IfcRelConnectsPathElements"; }
 void IfcRelConnectsPathElements::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

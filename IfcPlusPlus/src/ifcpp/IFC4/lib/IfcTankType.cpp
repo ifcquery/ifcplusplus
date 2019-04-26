@@ -26,7 +26,6 @@
 
 // ENTITY IfcTankType 
 IfcTankType::IfcTankType( int id ) { m_entity_id = id; }
-IfcTankType::~IfcTankType() {}
 shared_ptr<BuildingObject> IfcTankType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTankType> copy_self( new IfcTankType() );
@@ -88,7 +87,7 @@ void IfcTankType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTankType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTankType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTankType::toString() const { return L"IfcTankType"; }
 void IfcTankType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

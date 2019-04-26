@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcUnitaryEquipmentType : public IfcEnergyConversionDevice
 public:
 	IfcUnitaryEquipmentType() = default;
 	IfcUnitaryEquipmentType( int id );
-	~IfcUnitaryEquipmentType();
+	~IfcUnitaryEquipmentType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

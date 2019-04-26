@@ -15,7 +15,6 @@
 
 // ENTITY IfcBoundaryNodeConditionWarping 
 IfcBoundaryNodeConditionWarping::IfcBoundaryNodeConditionWarping( int id ) { m_entity_id = id; }
-IfcBoundaryNodeConditionWarping::~IfcBoundaryNodeConditionWarping() {}
 shared_ptr<BuildingObject> IfcBoundaryNodeConditionWarping::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoundaryNodeConditionWarping> copy_self( new IfcBoundaryNodeConditionWarping() );
@@ -49,7 +48,7 @@ void IfcBoundaryNodeConditionWarping::getStepLine( std::stringstream& stream ) c
 	if( m_WarpingStiffness ) { m_WarpingStiffness->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcBoundaryNodeConditionWarping::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBoundaryNodeConditionWarping::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundaryNodeConditionWarping::toString() const { return L"IfcBoundaryNodeConditionWarping"; }
 void IfcBoundaryNodeConditionWarping::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

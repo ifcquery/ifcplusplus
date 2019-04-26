@@ -26,7 +26,6 @@
 
 // ENTITY IfcMedicalDeviceType 
 IfcMedicalDeviceType::IfcMedicalDeviceType( int id ) { m_entity_id = id; }
-IfcMedicalDeviceType::~IfcMedicalDeviceType() {}
 shared_ptr<BuildingObject> IfcMedicalDeviceType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMedicalDeviceType> copy_self( new IfcMedicalDeviceType() );
@@ -88,7 +87,7 @@ void IfcMedicalDeviceType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMedicalDeviceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMedicalDeviceType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMedicalDeviceType::toString() const { return L"IfcMedicalDeviceType"; }
 void IfcMedicalDeviceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

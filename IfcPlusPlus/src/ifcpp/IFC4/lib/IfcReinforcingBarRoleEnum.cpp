@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcReinforcingBarRoleEnum.h"
 
 // TYPE IfcReinforcingBarRoleEnum = ENUMERATION OF	(MAIN	,SHEAR	,LIGATURE	,STUD	,PUNCHING	,EDGE	,RING	,ANCHORING	,USERDEFINED	,NOTDEFINED);
-IfcReinforcingBarRoleEnum::~IfcReinforcingBarRoleEnum() {}
 shared_ptr<BuildingObject> IfcReinforcingBarRoleEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingBarRoleEnum> copy_self( new IfcReinforcingBarRoleEnum() );

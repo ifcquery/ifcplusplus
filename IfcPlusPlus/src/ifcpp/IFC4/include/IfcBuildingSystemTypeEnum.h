@@ -27,7 +27,7 @@ public:
 
 	IfcBuildingSystemTypeEnum() = default;
 	IfcBuildingSystemTypeEnum( IfcBuildingSystemTypeEnumEnum e ) { m_enum = e; }
-	~IfcBuildingSystemTypeEnum();
+	~IfcBuildingSystemTypeEnum() = default;
 	virtual const char* className() const { return "IfcBuildingSystemTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

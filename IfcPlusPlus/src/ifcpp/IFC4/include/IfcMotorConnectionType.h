@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcMotorConnectionType : public IfcEnergyConversionDeviceT
 public:
 	IfcMotorConnectionType() = default;
 	IfcMotorConnectionType( int id );
-	~IfcMotorConnectionType();
+	~IfcMotorConnectionType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

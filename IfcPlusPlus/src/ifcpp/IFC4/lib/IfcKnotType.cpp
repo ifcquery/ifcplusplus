@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcKnotType.h"
 
 // TYPE IfcKnotType = ENUMERATION OF	(UNIFORM_KNOTS	,QUASI_UNIFORM_KNOTS	,PIECEWISE_BEZIER_KNOTS	,UNSPECIFIED);
-IfcKnotType::~IfcKnotType() {}
 shared_ptr<BuildingObject> IfcKnotType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcKnotType> copy_self( new IfcKnotType() );

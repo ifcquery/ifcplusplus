@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSurfaceSide.h"
 
 // TYPE IfcSurfaceSide = ENUMERATION OF	(POSITIVE	,NEGATIVE	,BOTH);
-IfcSurfaceSide::~IfcSurfaceSide() {}
 shared_ptr<BuildingObject> IfcSurfaceSide::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceSide> copy_self( new IfcSurfaceSide() );

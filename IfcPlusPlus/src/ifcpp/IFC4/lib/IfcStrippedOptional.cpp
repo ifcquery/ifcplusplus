@@ -11,7 +11,6 @@
 
 // TYPE IfcStrippedOptional = BOOLEAN;
 IfcStrippedOptional::IfcStrippedOptional( bool value ) { m_value = value; }
-IfcStrippedOptional::~IfcStrippedOptional() {}
 shared_ptr<BuildingObject> IfcStrippedOptional::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStrippedOptional> copy_self( new IfcStrippedOptional() );

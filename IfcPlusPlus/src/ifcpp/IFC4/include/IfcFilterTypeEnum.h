@@ -27,7 +27,7 @@ public:
 
 	IfcFilterTypeEnum() = default;
 	IfcFilterTypeEnum( IfcFilterTypeEnumEnum e ) { m_enum = e; }
-	~IfcFilterTypeEnum();
+	~IfcFilterTypeEnum() = default;
 	virtual const char* className() const { return "IfcFilterTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

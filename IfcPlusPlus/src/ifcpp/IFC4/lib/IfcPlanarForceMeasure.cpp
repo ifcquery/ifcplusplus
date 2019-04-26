@@ -12,7 +12,6 @@
 
 // TYPE IfcPlanarForceMeasure = REAL;
 IfcPlanarForceMeasure::IfcPlanarForceMeasure( double value ) { m_value = value; }
-IfcPlanarForceMeasure::~IfcPlanarForceMeasure() {}
 shared_ptr<BuildingObject> IfcPlanarForceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPlanarForceMeasure> copy_self( new IfcPlanarForceMeasure() );

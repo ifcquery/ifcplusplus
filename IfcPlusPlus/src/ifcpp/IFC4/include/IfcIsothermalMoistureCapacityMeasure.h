@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcIsothermalMoistureCapacityMeasure : public IfcDerivedMe
 public:
 	IfcIsothermalMoistureCapacityMeasure() = default;
 	IfcIsothermalMoistureCapacityMeasure( double value );
-	~IfcIsothermalMoistureCapacityMeasure();
+	~IfcIsothermalMoistureCapacityMeasure() = default;
 	virtual const char* className() const { return "IfcIsothermalMoistureCapacityMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

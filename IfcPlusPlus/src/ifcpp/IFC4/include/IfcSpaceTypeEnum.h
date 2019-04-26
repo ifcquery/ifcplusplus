@@ -26,7 +26,7 @@ public:
 
 	IfcSpaceTypeEnum() = default;
 	IfcSpaceTypeEnum( IfcSpaceTypeEnumEnum e ) { m_enum = e; }
-	~IfcSpaceTypeEnum();
+	~IfcSpaceTypeEnum() = default;
 	virtual const char* className() const { return "IfcSpaceTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

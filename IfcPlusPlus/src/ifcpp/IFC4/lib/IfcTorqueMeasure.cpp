@@ -12,7 +12,6 @@
 
 // TYPE IfcTorqueMeasure = REAL;
 IfcTorqueMeasure::IfcTorqueMeasure( double value ) { m_value = value; }
-IfcTorqueMeasure::~IfcTorqueMeasure() {}
 shared_ptr<BuildingObject> IfcTorqueMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTorqueMeasure> copy_self( new IfcTorqueMeasure() );

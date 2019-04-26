@@ -23,7 +23,7 @@ public:
 
 	IfcSystemFurnitureElementTypeEnum() = default;
 	IfcSystemFurnitureElementTypeEnum( IfcSystemFurnitureElementTypeEnumEnum e ) { m_enum = e; }
-	~IfcSystemFurnitureElementTypeEnum();
+	~IfcSystemFurnitureElementTypeEnum() = default;
 	virtual const char* className() const { return "IfcSystemFurnitureElementTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

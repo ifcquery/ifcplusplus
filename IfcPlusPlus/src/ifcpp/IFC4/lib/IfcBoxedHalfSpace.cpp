@@ -16,7 +16,6 @@
 
 // ENTITY IfcBoxedHalfSpace 
 IfcBoxedHalfSpace::IfcBoxedHalfSpace( int id ) { m_entity_id = id; }
-IfcBoxedHalfSpace::~IfcBoxedHalfSpace() {}
 shared_ptr<BuildingObject> IfcBoxedHalfSpace::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoxedHalfSpace> copy_self( new IfcBoxedHalfSpace() );
@@ -35,7 +34,7 @@ void IfcBoxedHalfSpace::getStepLine( std::stringstream& stream ) const
 	if( m_Enclosure ) { stream << "#" << m_Enclosure->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBoxedHalfSpace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBoxedHalfSpace::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoxedHalfSpace::toString() const { return L"IfcBoxedHalfSpace"; }
 void IfcBoxedHalfSpace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

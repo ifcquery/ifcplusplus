@@ -40,7 +40,6 @@
 
 // ENTITY IfcElectricTimeControl 
 IfcElectricTimeControl::IfcElectricTimeControl( int id ) { m_entity_id = id; }
-IfcElectricTimeControl::~IfcElectricTimeControl() {}
 shared_ptr<BuildingObject> IfcElectricTimeControl::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricTimeControl> copy_self( new IfcElectricTimeControl() );
@@ -85,7 +84,7 @@ void IfcElectricTimeControl::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcElectricTimeControl::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcElectricTimeControl::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcElectricTimeControl::toString() const { return L"IfcElectricTimeControl"; }
 void IfcElectricTimeControl::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

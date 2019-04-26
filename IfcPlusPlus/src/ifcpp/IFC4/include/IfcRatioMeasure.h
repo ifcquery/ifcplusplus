@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcRatioMeasure : public IfcMeasureValue, public IfcSizeSe
 public:
 	IfcRatioMeasure() = default;
 	IfcRatioMeasure( double value );
-	~IfcRatioMeasure();
+	~IfcRatioMeasure() = default;
 	virtual const char* className() const { return "IfcRatioMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

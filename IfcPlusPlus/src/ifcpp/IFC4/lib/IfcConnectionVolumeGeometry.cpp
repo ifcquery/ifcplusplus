@@ -12,7 +12,6 @@
 
 // ENTITY IfcConnectionVolumeGeometry 
 IfcConnectionVolumeGeometry::IfcConnectionVolumeGeometry( int id ) { m_entity_id = id; }
-IfcConnectionVolumeGeometry::~IfcConnectionVolumeGeometry() {}
 shared_ptr<BuildingObject> IfcConnectionVolumeGeometry::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConnectionVolumeGeometry> copy_self( new IfcConnectionVolumeGeometry() );
@@ -28,7 +27,7 @@ void IfcConnectionVolumeGeometry::getStepLine( std::stringstream& stream ) const
 	if( m_VolumeOnRelatedElement ) { m_VolumeOnRelatedElement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcConnectionVolumeGeometry::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcConnectionVolumeGeometry::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConnectionVolumeGeometry::toString() const { return L"IfcConnectionVolumeGeometry"; }
 void IfcConnectionVolumeGeometry::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

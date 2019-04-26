@@ -24,7 +24,7 @@ public:
 
 	IfcStructuralSurfaceMemberTypeEnum() = default;
 	IfcStructuralSurfaceMemberTypeEnum( IfcStructuralSurfaceMemberTypeEnumEnum e ) { m_enum = e; }
-	~IfcStructuralSurfaceMemberTypeEnum();
+	~IfcStructuralSurfaceMemberTypeEnum() = default;
 	virtual const char* className() const { return "IfcStructuralSurfaceMemberTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

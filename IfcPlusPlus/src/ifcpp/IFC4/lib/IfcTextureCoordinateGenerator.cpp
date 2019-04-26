@@ -14,7 +14,6 @@
 
 // ENTITY IfcTextureCoordinateGenerator 
 IfcTextureCoordinateGenerator::IfcTextureCoordinateGenerator( int id ) { m_entity_id = id; }
-IfcTextureCoordinateGenerator::~IfcTextureCoordinateGenerator() {}
 shared_ptr<BuildingObject> IfcTextureCoordinateGenerator::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextureCoordinateGenerator> copy_self( new IfcTextureCoordinateGenerator() );
@@ -47,7 +46,7 @@ void IfcTextureCoordinateGenerator::getStepLine( std::stringstream& stream ) con
 	writeNumericTypeList( stream, m_Parameter );
 	stream << ");";
 }
-void IfcTextureCoordinateGenerator::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTextureCoordinateGenerator::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextureCoordinateGenerator::toString() const { return L"IfcTextureCoordinateGenerator"; }
 void IfcTextureCoordinateGenerator::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

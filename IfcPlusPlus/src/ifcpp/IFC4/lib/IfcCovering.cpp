@@ -39,7 +39,6 @@
 
 // ENTITY IfcCovering 
 IfcCovering::IfcCovering( int id ) { m_entity_id = id; }
-IfcCovering::~IfcCovering() {}
 shared_ptr<BuildingObject> IfcCovering::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCovering> copy_self( new IfcCovering() );
@@ -84,7 +83,7 @@ void IfcCovering::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCovering::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCovering::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCovering::toString() const { return L"IfcCovering"; }
 void IfcCovering::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

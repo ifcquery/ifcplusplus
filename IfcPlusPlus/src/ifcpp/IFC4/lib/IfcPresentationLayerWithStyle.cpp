@@ -17,7 +17,6 @@
 
 // ENTITY IfcPresentationLayerWithStyle 
 IfcPresentationLayerWithStyle::IfcPresentationLayerWithStyle( int id ) { m_entity_id = id; }
-IfcPresentationLayerWithStyle::~IfcPresentationLayerWithStyle() {}
 shared_ptr<BuildingObject> IfcPresentationLayerWithStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPresentationLayerWithStyle> copy_self( new IfcPresentationLayerWithStyle() );
@@ -82,7 +81,7 @@ void IfcPresentationLayerWithStyle::getStepLine( std::stringstream& stream ) con
 	writeEntityList( stream, m_LayerStyles );
 	stream << ");";
 }
-void IfcPresentationLayerWithStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPresentationLayerWithStyle::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPresentationLayerWithStyle::toString() const { return L"IfcPresentationLayerWithStyle"; }
 void IfcPresentationLayerWithStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

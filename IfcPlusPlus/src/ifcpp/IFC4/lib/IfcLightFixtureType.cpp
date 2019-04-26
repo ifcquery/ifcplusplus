@@ -26,7 +26,6 @@
 
 // ENTITY IfcLightFixtureType 
 IfcLightFixtureType::IfcLightFixtureType( int id ) { m_entity_id = id; }
-IfcLightFixtureType::~IfcLightFixtureType() {}
 shared_ptr<BuildingObject> IfcLightFixtureType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightFixtureType> copy_self( new IfcLightFixtureType() );
@@ -88,7 +87,7 @@ void IfcLightFixtureType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLightFixtureType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLightFixtureType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightFixtureType::toString() const { return L"IfcLightFixtureType"; }
 void IfcLightFixtureType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

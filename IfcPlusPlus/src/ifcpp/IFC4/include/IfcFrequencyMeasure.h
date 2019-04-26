@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcFrequencyMeasure : public IfcDerivedMeasureValue
 public:
 	IfcFrequencyMeasure() = default;
 	IfcFrequencyMeasure( double value );
-	~IfcFrequencyMeasure();
+	~IfcFrequencyMeasure() = default;
 	virtual const char* className() const { return "IfcFrequencyMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -38,7 +38,6 @@
 
 // ENTITY IfcProjectionElement 
 IfcProjectionElement::IfcProjectionElement( int id ) { m_entity_id = id; }
-IfcProjectionElement::~IfcProjectionElement() {}
 shared_ptr<BuildingObject> IfcProjectionElement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProjectionElement> copy_self( new IfcProjectionElement() );
@@ -83,7 +82,7 @@ void IfcProjectionElement::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcProjectionElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcProjectionElement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProjectionElement::toString() const { return L"IfcProjectionElement"; }
 void IfcProjectionElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

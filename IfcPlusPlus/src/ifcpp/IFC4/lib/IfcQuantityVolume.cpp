@@ -17,7 +17,6 @@
 
 // ENTITY IfcQuantityVolume 
 IfcQuantityVolume::IfcQuantityVolume( int id ) { m_entity_id = id; }
-IfcQuantityVolume::~IfcQuantityVolume() {}
 shared_ptr<BuildingObject> IfcQuantityVolume::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcQuantityVolume> copy_self( new IfcQuantityVolume() );
@@ -42,7 +41,7 @@ void IfcQuantityVolume::getStepLine( std::stringstream& stream ) const
 	if( m_Formula ) { m_Formula->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcQuantityVolume::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcQuantityVolume::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcQuantityVolume::toString() const { return L"IfcQuantityVolume"; }
 void IfcQuantityVolume::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

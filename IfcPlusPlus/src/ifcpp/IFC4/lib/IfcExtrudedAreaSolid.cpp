@@ -17,7 +17,6 @@
 
 // ENTITY IfcExtrudedAreaSolid 
 IfcExtrudedAreaSolid::IfcExtrudedAreaSolid( int id ) { m_entity_id = id; }
-IfcExtrudedAreaSolid::~IfcExtrudedAreaSolid() {}
 shared_ptr<BuildingObject> IfcExtrudedAreaSolid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExtrudedAreaSolid> copy_self( new IfcExtrudedAreaSolid() );
@@ -43,7 +42,7 @@ void IfcExtrudedAreaSolid::getStepLine( std::stringstream& stream ) const
 	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcExtrudedAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcExtrudedAreaSolid::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExtrudedAreaSolid::toString() const { return L"IfcExtrudedAreaSolid"; }
 void IfcExtrudedAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

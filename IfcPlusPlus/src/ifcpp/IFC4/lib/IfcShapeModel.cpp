@@ -18,7 +18,6 @@
 
 // ENTITY IfcShapeModel 
 IfcShapeModel::IfcShapeModel( int id ) { m_entity_id = id; }
-IfcShapeModel::~IfcShapeModel() {}
 shared_ptr<BuildingObject> IfcShapeModel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcShapeModel> copy_self( new IfcShapeModel() );
@@ -51,7 +50,7 @@ void IfcShapeModel::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Items );
 	stream << ");";
 }
-void IfcShapeModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcShapeModel::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcShapeModel::toString() const { return L"IfcShapeModel"; }
 void IfcShapeModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

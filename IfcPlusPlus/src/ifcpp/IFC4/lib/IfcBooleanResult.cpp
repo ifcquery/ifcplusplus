@@ -15,7 +15,6 @@
 
 // ENTITY IfcBooleanResult 
 IfcBooleanResult::IfcBooleanResult( int id ) { m_entity_id = id; }
-IfcBooleanResult::~IfcBooleanResult() {}
 shared_ptr<BuildingObject> IfcBooleanResult::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBooleanResult> copy_self( new IfcBooleanResult() );
@@ -34,7 +33,7 @@ void IfcBooleanResult::getStepLine( std::stringstream& stream ) const
 	if( m_SecondOperand ) { m_SecondOperand->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcBooleanResult::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBooleanResult::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBooleanResult::toString() const { return L"IfcBooleanResult"; }
 void IfcBooleanResult::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

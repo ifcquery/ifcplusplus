@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcConstructionProductResourceTypeEnum.h"
 
 // TYPE IfcConstructionProductResourceTypeEnum = ENUMERATION OF	(ASSEMBLY	,FORMWORK	,USERDEFINED	,NOTDEFINED);
-IfcConstructionProductResourceTypeEnum::~IfcConstructionProductResourceTypeEnum() {}
 shared_ptr<BuildingObject> IfcConstructionProductResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConstructionProductResourceTypeEnum> copy_self( new IfcConstructionProductResourceTypeEnum() );

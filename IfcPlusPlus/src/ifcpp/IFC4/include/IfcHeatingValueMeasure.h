@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcHeatingValueMeasure : public IfcDerivedMeasureValue
 public:
 	IfcHeatingValueMeasure() = default;
 	IfcHeatingValueMeasure( double value );
-	~IfcHeatingValueMeasure();
+	~IfcHeatingValueMeasure() = default;
 	virtual const char* className() const { return "IfcHeatingValueMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

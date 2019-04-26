@@ -14,7 +14,6 @@
 
 // ENTITY IfcSurfaceReinforcementArea 
 IfcSurfaceReinforcementArea::IfcSurfaceReinforcementArea( int id ) { m_entity_id = id; }
-IfcSurfaceReinforcementArea::~IfcSurfaceReinforcementArea() {}
 shared_ptr<BuildingObject> IfcSurfaceReinforcementArea::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceReinforcementArea> copy_self( new IfcSurfaceReinforcementArea() );
@@ -50,7 +49,7 @@ void IfcSurfaceReinforcementArea::getStepLine( std::stringstream& stream ) const
 	if( m_ShearReinforcement ) { m_ShearReinforcement->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceReinforcementArea::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSurfaceReinforcementArea::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceReinforcementArea::toString() const { return L"IfcSurfaceReinforcementArea"; }
 void IfcSurfaceReinforcementArea::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

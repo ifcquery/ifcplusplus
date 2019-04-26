@@ -14,7 +14,6 @@
 
 // ENTITY IfcStructuralLoadLinearForce 
 IfcStructuralLoadLinearForce::IfcStructuralLoadLinearForce( int id ) { m_entity_id = id; }
-IfcStructuralLoadLinearForce::~IfcStructuralLoadLinearForce() {}
 shared_ptr<BuildingObject> IfcStructuralLoadLinearForce::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadLinearForce> copy_self( new IfcStructuralLoadLinearForce() );
@@ -45,7 +44,7 @@ void IfcStructuralLoadLinearForce::getStepLine( std::stringstream& stream ) cons
 	if( m_LinearMomentZ ) { m_LinearMomentZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadLinearForce::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralLoadLinearForce::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadLinearForce::toString() const { return L"IfcStructuralLoadLinearForce"; }
 void IfcStructuralLoadLinearForce::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

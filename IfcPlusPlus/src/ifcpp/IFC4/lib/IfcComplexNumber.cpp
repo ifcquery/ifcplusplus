@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcComplexNumber.h"
 
 // TYPE IfcComplexNumber = ARRAY [1:2] OF REAL;
-IfcComplexNumber::~IfcComplexNumber() {}
 shared_ptr<BuildingObject> IfcComplexNumber::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcComplexNumber> copy_self( new IfcComplexNumber() );

@@ -16,7 +16,6 @@
 
 // ENTITY IfcSurfaceOfRevolution 
 IfcSurfaceOfRevolution::IfcSurfaceOfRevolution( int id ) { m_entity_id = id; }
-IfcSurfaceOfRevolution::~IfcSurfaceOfRevolution() {}
 shared_ptr<BuildingObject> IfcSurfaceOfRevolution::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceOfRevolution> copy_self( new IfcSurfaceOfRevolution() );
@@ -39,7 +38,7 @@ void IfcSurfaceOfRevolution::getStepLine( std::stringstream& stream ) const
 	if( m_AxisPosition ) { stream << "#" << m_AxisPosition->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceOfRevolution::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSurfaceOfRevolution::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceOfRevolution::toString() const { return L"IfcSurfaceOfRevolution"; }
 void IfcSurfaceOfRevolution::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

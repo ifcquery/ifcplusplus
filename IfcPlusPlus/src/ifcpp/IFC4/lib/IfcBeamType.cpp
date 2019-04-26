@@ -26,7 +26,6 @@
 
 // ENTITY IfcBeamType 
 IfcBeamType::IfcBeamType( int id ) { m_entity_id = id; }
-IfcBeamType::~IfcBeamType() {}
 shared_ptr<BuildingObject> IfcBeamType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBeamType> copy_self( new IfcBeamType() );
@@ -88,7 +87,7 @@ void IfcBeamType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBeamType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBeamType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBeamType::toString() const { return L"IfcBeamType"; }
 void IfcBeamType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcBoxAlignment.h"
 
 // TYPE IfcBoxAlignment = IfcLabel;
-IfcBoxAlignment::~IfcBoxAlignment() {}
 shared_ptr<BuildingObject> IfcBoxAlignment::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoxAlignment> copy_self( new IfcBoxAlignment() );

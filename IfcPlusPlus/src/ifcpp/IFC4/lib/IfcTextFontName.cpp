@@ -11,7 +11,6 @@
 
 // TYPE IfcTextFontName = STRING;
 IfcTextFontName::IfcTextFontName( std::wstring value ) { m_value = value; }
-IfcTextFontName::~IfcTextFontName() {}
 shared_ptr<BuildingObject> IfcTextFontName::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextFontName> copy_self( new IfcTextFontName() );

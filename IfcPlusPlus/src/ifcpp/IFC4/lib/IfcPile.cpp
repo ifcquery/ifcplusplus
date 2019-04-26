@@ -39,7 +39,6 @@
 
 // ENTITY IfcPile 
 IfcPile::IfcPile( int id ) { m_entity_id = id; }
-IfcPile::~IfcPile() {}
 shared_ptr<BuildingObject> IfcPile::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPile> copy_self( new IfcPile() );
@@ -87,7 +86,7 @@ void IfcPile::getStepLine( std::stringstream& stream ) const
 	if( m_ConstructionType ) { m_ConstructionType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPile::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPile::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPile::toString() const { return L"IfcPile"; }
 void IfcPile::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -26,7 +26,6 @@
 
 // ENTITY IfcShadingDeviceType 
 IfcShadingDeviceType::IfcShadingDeviceType( int id ) { m_entity_id = id; }
-IfcShadingDeviceType::~IfcShadingDeviceType() {}
 shared_ptr<BuildingObject> IfcShadingDeviceType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcShadingDeviceType> copy_self( new IfcShadingDeviceType() );
@@ -88,7 +87,7 @@ void IfcShadingDeviceType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcShadingDeviceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcShadingDeviceType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcShadingDeviceType::toString() const { return L"IfcShadingDeviceType"; }
 void IfcShadingDeviceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

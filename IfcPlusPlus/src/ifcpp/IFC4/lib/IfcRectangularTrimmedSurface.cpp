@@ -16,7 +16,6 @@
 
 // ENTITY IfcRectangularTrimmedSurface 
 IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface( int id ) { m_entity_id = id; }
-IfcRectangularTrimmedSurface::~IfcRectangularTrimmedSurface() {}
 shared_ptr<BuildingObject> IfcRectangularTrimmedSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRectangularTrimmedSurface> copy_self( new IfcRectangularTrimmedSurface() );
@@ -47,7 +46,7 @@ void IfcRectangularTrimmedSurface::getStepLine( std::stringstream& stream ) cons
 	if( m_Vsense ) { m_Vsense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRectangularTrimmedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRectangularTrimmedSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRectangularTrimmedSurface::toString() const { return L"IfcRectangularTrimmedSurface"; }
 void IfcRectangularTrimmedSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

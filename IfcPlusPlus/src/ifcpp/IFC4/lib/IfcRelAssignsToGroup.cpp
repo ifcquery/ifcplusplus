@@ -18,7 +18,6 @@
 
 // ENTITY IfcRelAssignsToGroup 
 IfcRelAssignsToGroup::IfcRelAssignsToGroup( int id ) { m_entity_id = id; }
-IfcRelAssignsToGroup::~IfcRelAssignsToGroup() {}
 shared_ptr<BuildingObject> IfcRelAssignsToGroup::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssignsToGroup> copy_self( new IfcRelAssignsToGroup() );
@@ -64,7 +63,7 @@ void IfcRelAssignsToGroup::getStepLine( std::stringstream& stream ) const
 	if( m_RelatingGroup ) { stream << "#" << m_RelatingGroup->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelAssignsToGroup::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelAssignsToGroup::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssignsToGroup::toString() const { return L"IfcRelAssignsToGroup"; }
 void IfcRelAssignsToGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

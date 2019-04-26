@@ -15,7 +15,6 @@
 
 // ENTITY IfcSweptAreaSolid 
 IfcSweptAreaSolid::IfcSweptAreaSolid( int id ) { m_entity_id = id; }
-IfcSweptAreaSolid::~IfcSweptAreaSolid() {}
 shared_ptr<BuildingObject> IfcSweptAreaSolid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSweptAreaSolid> copy_self( new IfcSweptAreaSolid() );
@@ -35,7 +34,7 @@ void IfcSweptAreaSolid::getStepLine( std::stringstream& stream ) const
 	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSweptAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSweptAreaSolid::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSweptAreaSolid::toString() const { return L"IfcSweptAreaSolid"; }
 void IfcSweptAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

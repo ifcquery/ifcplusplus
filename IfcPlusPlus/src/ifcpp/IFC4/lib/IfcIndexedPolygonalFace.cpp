@@ -15,7 +15,6 @@
 
 // ENTITY IfcIndexedPolygonalFace 
 IfcIndexedPolygonalFace::IfcIndexedPolygonalFace( int id ) { m_entity_id = id; }
-IfcIndexedPolygonalFace::~IfcIndexedPolygonalFace() {}
 shared_ptr<BuildingObject> IfcIndexedPolygonalFace::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIndexedPolygonalFace> copy_self( new IfcIndexedPolygonalFace() );
@@ -52,7 +51,7 @@ void IfcIndexedPolygonalFace::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcIndexedPolygonalFace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcIndexedPolygonalFace::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIndexedPolygonalFace::toString() const { return L"IfcIndexedPolygonalFace"; }
 void IfcIndexedPolygonalFace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

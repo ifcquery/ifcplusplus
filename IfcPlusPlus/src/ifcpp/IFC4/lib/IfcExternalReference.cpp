@@ -15,7 +15,6 @@
 
 // ENTITY IfcExternalReference 
 IfcExternalReference::IfcExternalReference( int id ) { m_entity_id = id; }
-IfcExternalReference::~IfcExternalReference() {}
 shared_ptr<BuildingObject> IfcExternalReference::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExternalReference> copy_self( new IfcExternalReference() );
@@ -34,7 +33,7 @@ void IfcExternalReference::getStepLine( std::stringstream& stream ) const
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcExternalReference::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcExternalReference::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExternalReference::toString() const { return L"IfcExternalReference"; }
 void IfcExternalReference::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -40,7 +40,6 @@
 
 // ENTITY IfcHumidifier 
 IfcHumidifier::IfcHumidifier( int id ) { m_entity_id = id; }
-IfcHumidifier::~IfcHumidifier() {}
 shared_ptr<BuildingObject> IfcHumidifier::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcHumidifier> copy_self( new IfcHumidifier() );
@@ -85,7 +84,7 @@ void IfcHumidifier::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcHumidifier::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcHumidifier::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcHumidifier::toString() const { return L"IfcHumidifier"; }
 void IfcHumidifier::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

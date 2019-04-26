@@ -17,7 +17,6 @@
 
 // ENTITY IfcRelFlowControlElements 
 IfcRelFlowControlElements::IfcRelFlowControlElements( int id ) { m_entity_id = id; }
-IfcRelFlowControlElements::~IfcRelFlowControlElements() {}
 shared_ptr<BuildingObject> IfcRelFlowControlElements::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelFlowControlElements> copy_self( new IfcRelFlowControlElements() );
@@ -60,7 +59,7 @@ void IfcRelFlowControlElements::getStepLine( std::stringstream& stream ) const
 	if( m_RelatingFlowElement ) { stream << "#" << m_RelatingFlowElement->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelFlowControlElements::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelFlowControlElements::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelFlowControlElements::toString() const { return L"IfcRelFlowControlElements"; }
 void IfcRelFlowControlElements::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -25,7 +25,7 @@ public:
 
 	IfcEventTriggerTypeEnum() = default;
 	IfcEventTriggerTypeEnum( IfcEventTriggerTypeEnumEnum e ) { m_enum = e; }
-	~IfcEventTriggerTypeEnum();
+	~IfcEventTriggerTypeEnum() = default;
 	virtual const char* className() const { return "IfcEventTriggerTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

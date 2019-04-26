@@ -27,7 +27,6 @@
 
 // ENTITY IfcSubContractResourceType 
 IfcSubContractResourceType::IfcSubContractResourceType( int id ) { m_entity_id = id; }
-IfcSubContractResourceType::~IfcSubContractResourceType() {}
 shared_ptr<BuildingObject> IfcSubContractResourceType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSubContractResourceType> copy_self( new IfcSubContractResourceType() );
@@ -95,7 +94,7 @@ void IfcSubContractResourceType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSubContractResourceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSubContractResourceType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSubContractResourceType::toString() const { return L"IfcSubContractResourceType"; }
 void IfcSubContractResourceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

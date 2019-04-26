@@ -43,7 +43,6 @@
 
 // ENTITY IfcTendon 
 IfcTendon::IfcTendon( int id ) { m_entity_id = id; }
-IfcTendon::~IfcTendon() {}
 shared_ptr<BuildingObject> IfcTendon::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTendon> copy_self( new IfcTendon() );
@@ -112,7 +111,7 @@ void IfcTendon::getStepLine( std::stringstream& stream ) const
 	if( m_MinCurvatureRadius ) { m_MinCurvatureRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTendon::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTendon::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTendon::toString() const { return L"IfcTendon"; }
 void IfcTendon::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

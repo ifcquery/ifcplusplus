@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcDimensionCount : public BuildingObject
 public:
 	IfcDimensionCount() = default;
 	IfcDimensionCount( int value );
-	~IfcDimensionCount();
+	~IfcDimensionCount() = default;
 	virtual const char* className() const { return "IfcDimensionCount"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

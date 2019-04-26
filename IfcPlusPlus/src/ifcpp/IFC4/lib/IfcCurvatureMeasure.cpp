@@ -12,7 +12,6 @@
 
 // TYPE IfcCurvatureMeasure = REAL;
 IfcCurvatureMeasure::IfcCurvatureMeasure( double value ) { m_value = value; }
-IfcCurvatureMeasure::~IfcCurvatureMeasure() {}
 shared_ptr<BuildingObject> IfcCurvatureMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurvatureMeasure> copy_self( new IfcCurvatureMeasure() );

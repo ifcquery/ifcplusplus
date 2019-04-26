@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcAxis1Placement : public IfcPlacement
 public:
 	IfcAxis1Placement() = default;
 	IfcAxis1Placement( int id );
-	~IfcAxis1Placement();
+	~IfcAxis1Placement() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

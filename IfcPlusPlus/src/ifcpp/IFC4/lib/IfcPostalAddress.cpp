@@ -16,7 +16,6 @@
 
 // ENTITY IfcPostalAddress 
 IfcPostalAddress::IfcPostalAddress( int id ) { m_entity_id = id; }
-IfcPostalAddress::~IfcPostalAddress() {}
 shared_ptr<BuildingObject> IfcPostalAddress::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPostalAddress> copy_self( new IfcPostalAddress() );
@@ -80,7 +79,7 @@ void IfcPostalAddress::getStepLine( std::stringstream& stream ) const
 	if( m_Country ) { m_Country->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPostalAddress::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPostalAddress::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPostalAddress::toString() const { return L"IfcPostalAddress"; }
 void IfcPostalAddress::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

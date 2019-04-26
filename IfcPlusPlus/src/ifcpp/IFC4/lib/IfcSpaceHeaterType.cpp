@@ -26,7 +26,6 @@
 
 // ENTITY IfcSpaceHeaterType 
 IfcSpaceHeaterType::IfcSpaceHeaterType( int id ) { m_entity_id = id; }
-IfcSpaceHeaterType::~IfcSpaceHeaterType() {}
 shared_ptr<BuildingObject> IfcSpaceHeaterType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpaceHeaterType> copy_self( new IfcSpaceHeaterType() );
@@ -88,7 +87,7 @@ void IfcSpaceHeaterType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSpaceHeaterType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSpaceHeaterType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSpaceHeaterType::toString() const { return L"IfcSpaceHeaterType"; }
 void IfcSpaceHeaterType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

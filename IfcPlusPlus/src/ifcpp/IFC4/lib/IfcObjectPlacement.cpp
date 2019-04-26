@@ -13,7 +13,6 @@
 
 // ENTITY IfcObjectPlacement 
 IfcObjectPlacement::IfcObjectPlacement( int id ) { m_entity_id = id; }
-IfcObjectPlacement::~IfcObjectPlacement() {}
 shared_ptr<BuildingObject> IfcObjectPlacement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcObjectPlacement> copy_self( new IfcObjectPlacement() );
@@ -24,7 +23,7 @@ void IfcObjectPlacement::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCOBJECTPLACEMENT" << "(";
 	stream << ");";
 }
-void IfcObjectPlacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcObjectPlacement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcObjectPlacement::toString() const { return L"IfcObjectPlacement"; }
 void IfcObjectPlacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

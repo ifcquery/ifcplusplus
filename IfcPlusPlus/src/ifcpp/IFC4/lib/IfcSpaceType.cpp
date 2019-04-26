@@ -26,7 +26,6 @@
 
 // ENTITY IfcSpaceType 
 IfcSpaceType::IfcSpaceType( int id ) { m_entity_id = id; }
-IfcSpaceType::~IfcSpaceType() {}
 shared_ptr<BuildingObject> IfcSpaceType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpaceType> copy_self( new IfcSpaceType() );
@@ -91,7 +90,7 @@ void IfcSpaceType::getStepLine( std::stringstream& stream ) const
 	if( m_LongName ) { m_LongName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSpaceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSpaceType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSpaceType::toString() const { return L"IfcSpaceType"; }
 void IfcSpaceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

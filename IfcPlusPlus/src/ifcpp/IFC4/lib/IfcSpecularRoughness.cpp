@@ -12,7 +12,6 @@
 
 // TYPE IfcSpecularRoughness = REAL;
 IfcSpecularRoughness::IfcSpecularRoughness( double value ) { m_value = value; }
-IfcSpecularRoughness::~IfcSpecularRoughness() {}
 shared_ptr<BuildingObject> IfcSpecularRoughness::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpecularRoughness> copy_self( new IfcSpecularRoughness() );

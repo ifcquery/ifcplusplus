@@ -20,7 +20,6 @@
 
 // ENTITY IfcPreDefinedPropertySet 
 IfcPreDefinedPropertySet::IfcPreDefinedPropertySet( int id ) { m_entity_id = id; }
-IfcPreDefinedPropertySet::~IfcPreDefinedPropertySet() {}
 shared_ptr<BuildingObject> IfcPreDefinedPropertySet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPreDefinedPropertySet> copy_self( new IfcPreDefinedPropertySet() );
@@ -50,7 +49,7 @@ void IfcPreDefinedPropertySet::getStepLine( std::stringstream& stream ) const
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPreDefinedPropertySet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPreDefinedPropertySet::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPreDefinedPropertySet::toString() const { return L"IfcPreDefinedPropertySet"; }
 void IfcPreDefinedPropertySet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -30,7 +30,7 @@ public:
 
 	IfcWindowTypePartitioningEnum() = default;
 	IfcWindowTypePartitioningEnum( IfcWindowTypePartitioningEnumEnum e ) { m_enum = e; }
-	~IfcWindowTypePartitioningEnum();
+	~IfcWindowTypePartitioningEnum() = default;
 	virtual const char* className() const { return "IfcWindowTypePartitioningEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -17,7 +17,6 @@
 
 // ENTITY IfcBSplineSurface 
 IfcBSplineSurface::IfcBSplineSurface( int id ) { m_entity_id = id; }
-IfcBSplineSurface::~IfcBSplineSurface() {}
 shared_ptr<BuildingObject> IfcBSplineSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBSplineSurface> copy_self( new IfcBSplineSurface() );
@@ -61,7 +60,7 @@ void IfcBSplineSurface::getStepLine( std::stringstream& stream ) const
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBSplineSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBSplineSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBSplineSurface::toString() const { return L"IfcBSplineSurface"; }
 void IfcBSplineSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

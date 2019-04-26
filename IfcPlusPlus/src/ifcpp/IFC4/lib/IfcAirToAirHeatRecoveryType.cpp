@@ -26,7 +26,6 @@
 
 // ENTITY IfcAirToAirHeatRecoveryType 
 IfcAirToAirHeatRecoveryType::IfcAirToAirHeatRecoveryType( int id ) { m_entity_id = id; }
-IfcAirToAirHeatRecoveryType::~IfcAirToAirHeatRecoveryType() {}
 shared_ptr<BuildingObject> IfcAirToAirHeatRecoveryType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAirToAirHeatRecoveryType> copy_self( new IfcAirToAirHeatRecoveryType() );
@@ -88,7 +87,7 @@ void IfcAirToAirHeatRecoveryType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAirToAirHeatRecoveryType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAirToAirHeatRecoveryType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAirToAirHeatRecoveryType::toString() const { return L"IfcAirToAirHeatRecoveryType"; }
 void IfcAirToAirHeatRecoveryType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

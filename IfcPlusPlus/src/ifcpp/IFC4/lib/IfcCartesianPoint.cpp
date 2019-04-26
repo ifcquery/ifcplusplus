@@ -14,7 +14,6 @@
 
 // ENTITY IfcCartesianPoint 
 IfcCartesianPoint::IfcCartesianPoint( int id ) { m_entity_id = id; }
-IfcCartesianPoint::~IfcCartesianPoint() {}
 shared_ptr<BuildingObject> IfcCartesianPoint::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianPoint> copy_self( new IfcCartesianPoint() );
@@ -34,7 +33,7 @@ void IfcCartesianPoint::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList( stream, m_Coordinates );
 	stream << ");";
 }
-void IfcCartesianPoint::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCartesianPoint::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianPoint::toString() const { return L"IfcCartesianPoint"; }
 void IfcCartesianPoint::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

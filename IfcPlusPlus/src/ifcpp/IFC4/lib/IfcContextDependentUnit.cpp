@@ -15,7 +15,6 @@
 
 // ENTITY IfcContextDependentUnit 
 IfcContextDependentUnit::IfcContextDependentUnit( int id ) { m_entity_id = id; }
-IfcContextDependentUnit::~IfcContextDependentUnit() {}
 shared_ptr<BuildingObject> IfcContextDependentUnit::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcContextDependentUnit> copy_self( new IfcContextDependentUnit() );
@@ -34,7 +33,7 @@ void IfcContextDependentUnit::getStepLine( std::stringstream& stream ) const
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcContextDependentUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcContextDependentUnit::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcContextDependentUnit::toString() const { return L"IfcContextDependentUnit"; }
 void IfcContextDependentUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -22,7 +22,6 @@
 
 // ENTITY IfcRelConnectsWithEccentricity 
 IfcRelConnectsWithEccentricity::IfcRelConnectsWithEccentricity( int id ) { m_entity_id = id; }
-IfcRelConnectsWithEccentricity::~IfcRelConnectsWithEccentricity() {}
 shared_ptr<BuildingObject> IfcRelConnectsWithEccentricity::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelConnectsWithEccentricity> copy_self( new IfcRelConnectsWithEccentricity() );
@@ -73,7 +72,7 @@ void IfcRelConnectsWithEccentricity::getStepLine( std::stringstream& stream ) co
 	if( m_ConnectionConstraint ) { stream << "#" << m_ConnectionConstraint->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelConnectsWithEccentricity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelConnectsWithEccentricity::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelConnectsWithEccentricity::toString() const { return L"IfcRelConnectsWithEccentricity"; }
 void IfcRelConnectsWithEccentricity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -13,7 +13,6 @@
 
 // ENTITY IfcVirtualGridIntersection 
 IfcVirtualGridIntersection::IfcVirtualGridIntersection( int id ) { m_entity_id = id; }
-IfcVirtualGridIntersection::~IfcVirtualGridIntersection() {}
 shared_ptr<BuildingObject> IfcVirtualGridIntersection::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVirtualGridIntersection> copy_self( new IfcVirtualGridIntersection() );
@@ -43,7 +42,7 @@ void IfcVirtualGridIntersection::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList( stream, m_OffsetDistances );
 	stream << ");";
 }
-void IfcVirtualGridIntersection::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcVirtualGridIntersection::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcVirtualGridIntersection::toString() const { return L"IfcVirtualGridIntersection"; }
 void IfcVirtualGridIntersection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

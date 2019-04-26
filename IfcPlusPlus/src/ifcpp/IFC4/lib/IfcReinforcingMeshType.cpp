@@ -29,7 +29,6 @@
 
 // ENTITY IfcReinforcingMeshType 
 IfcReinforcingMeshType::IfcReinforcingMeshType( int id ) { m_entity_id = id; }
-IfcReinforcingMeshType::~IfcReinforcingMeshType() {}
 shared_ptr<BuildingObject> IfcReinforcingMeshType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingMeshType> copy_self( new IfcReinforcingMeshType() );
@@ -145,7 +144,7 @@ void IfcReinforcingMeshType::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcReinforcingMeshType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcReinforcingMeshType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcReinforcingMeshType::toString() const { return L"IfcReinforcingMeshType"; }
 void IfcReinforcingMeshType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

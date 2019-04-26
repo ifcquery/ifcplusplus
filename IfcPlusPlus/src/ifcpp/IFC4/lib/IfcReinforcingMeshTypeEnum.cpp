@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcReinforcingMeshTypeEnum.h"
 
 // TYPE IfcReinforcingMeshTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-IfcReinforcingMeshTypeEnum::~IfcReinforcingMeshTypeEnum() {}
 shared_ptr<BuildingObject> IfcReinforcingMeshTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingMeshTypeEnum> copy_self( new IfcReinforcingMeshTypeEnum() );

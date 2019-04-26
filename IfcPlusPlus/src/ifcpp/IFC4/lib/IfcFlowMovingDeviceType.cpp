@@ -25,7 +25,6 @@
 
 // ENTITY IfcFlowMovingDeviceType 
 IfcFlowMovingDeviceType::IfcFlowMovingDeviceType( int id ) { m_entity_id = id; }
-IfcFlowMovingDeviceType::~IfcFlowMovingDeviceType() {}
 shared_ptr<BuildingObject> IfcFlowMovingDeviceType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFlowMovingDeviceType> copy_self( new IfcFlowMovingDeviceType() );
@@ -84,7 +83,7 @@ void IfcFlowMovingDeviceType::getStepLine( std::stringstream& stream ) const
 	if( m_ElementType ) { m_ElementType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFlowMovingDeviceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFlowMovingDeviceType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFlowMovingDeviceType::toString() const { return L"IfcFlowMovingDeviceType"; }
 void IfcFlowMovingDeviceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

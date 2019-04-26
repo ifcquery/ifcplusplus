@@ -16,7 +16,6 @@
 
 // ENTITY IfcProjectedCRS 
 IfcProjectedCRS::IfcProjectedCRS( int id ) { m_entity_id = id; }
-IfcProjectedCRS::~IfcProjectedCRS() {}
 shared_ptr<BuildingObject> IfcProjectedCRS::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProjectedCRS> copy_self( new IfcProjectedCRS() );
@@ -47,7 +46,7 @@ void IfcProjectedCRS::getStepLine( std::stringstream& stream ) const
 	if( m_MapUnit ) { stream << "#" << m_MapUnit->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcProjectedCRS::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcProjectedCRS::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProjectedCRS::toString() const { return L"IfcProjectedCRS"; }
 void IfcProjectedCRS::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

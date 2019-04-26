@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcShadingDeviceTypeEnum.h"
 
 // TYPE IfcShadingDeviceTypeEnum = ENUMERATION OF	(JALOUSIE	,SHUTTER	,AWNING	,USERDEFINED	,NOTDEFINED);
-IfcShadingDeviceTypeEnum::~IfcShadingDeviceTypeEnum() {}
 shared_ptr<BuildingObject> IfcShadingDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcShadingDeviceTypeEnum> copy_self( new IfcShadingDeviceTypeEnum() );

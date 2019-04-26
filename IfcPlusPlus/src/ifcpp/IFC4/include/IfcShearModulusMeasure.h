@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcShearModulusMeasure : public IfcDerivedMeasureValue
 public:
 	IfcShearModulusMeasure() = default;
 	IfcShearModulusMeasure( double value );
-	~IfcShearModulusMeasure();
+	~IfcShearModulusMeasure() = default;
 	virtual const char* className() const { return "IfcShearModulusMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

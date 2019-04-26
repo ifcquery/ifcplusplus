@@ -40,7 +40,6 @@
 
 // ENTITY IfcDoor 
 IfcDoor::IfcDoor( int id ) { m_entity_id = id; }
-IfcDoor::~IfcDoor() {}
 shared_ptr<BuildingObject> IfcDoor::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoor> copy_self( new IfcDoor() );
@@ -97,7 +96,7 @@ void IfcDoor::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedOperationType ) { m_UserDefinedOperationType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDoor::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDoor::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDoor::toString() const { return L"IfcDoor"; }
 void IfcDoor::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

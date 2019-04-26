@@ -11,7 +11,6 @@
 
 // ENTITY IfcDimensionalExponents 
 IfcDimensionalExponents::IfcDimensionalExponents( int id ) { m_entity_id = id; }
-IfcDimensionalExponents::~IfcDimensionalExponents() {}
 shared_ptr<BuildingObject> IfcDimensionalExponents::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDimensionalExponents> copy_self( new IfcDimensionalExponents() );
@@ -42,7 +41,7 @@ void IfcDimensionalExponents::getStepLine( std::stringstream& stream ) const
 	stream << m_LuminousIntensityExponent;
 	stream << ");";
 }
-void IfcDimensionalExponents::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDimensionalExponents::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDimensionalExponents::toString() const { return L"IfcDimensionalExponents"; }
 void IfcDimensionalExponents::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

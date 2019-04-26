@@ -14,7 +14,6 @@
 
 // ENTITY IfcStructuralLoadSingleDisplacement 
 IfcStructuralLoadSingleDisplacement::IfcStructuralLoadSingleDisplacement( int id ) { m_entity_id = id; }
-IfcStructuralLoadSingleDisplacement::~IfcStructuralLoadSingleDisplacement() {}
 shared_ptr<BuildingObject> IfcStructuralLoadSingleDisplacement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadSingleDisplacement> copy_self( new IfcStructuralLoadSingleDisplacement() );
@@ -45,7 +44,7 @@ void IfcStructuralLoadSingleDisplacement::getStepLine( std::stringstream& stream
 	if( m_RotationalDisplacementRZ ) { m_RotationalDisplacementRZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadSingleDisplacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralLoadSingleDisplacement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadSingleDisplacement::toString() const { return L"IfcStructuralLoadSingleDisplacement"; }
 void IfcStructuralLoadSingleDisplacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

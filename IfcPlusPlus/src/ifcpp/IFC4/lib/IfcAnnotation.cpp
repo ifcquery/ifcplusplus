@@ -27,7 +27,6 @@
 
 // ENTITY IfcAnnotation 
 IfcAnnotation::IfcAnnotation( int id ) { m_entity_id = id; }
-IfcAnnotation::~IfcAnnotation() {}
 shared_ptr<BuildingObject> IfcAnnotation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAnnotation> copy_self( new IfcAnnotation() );
@@ -66,7 +65,7 @@ void IfcAnnotation::getStepLine( std::stringstream& stream ) const
 	if( m_Representation ) { stream << "#" << m_Representation->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAnnotation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAnnotation::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAnnotation::toString() const { return L"IfcAnnotation"; }
 void IfcAnnotation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

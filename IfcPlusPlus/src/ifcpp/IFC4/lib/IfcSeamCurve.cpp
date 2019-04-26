@@ -16,7 +16,6 @@
 
 // ENTITY IfcSeamCurve 
 IfcSeamCurve::IfcSeamCurve( int id ) { m_entity_id = id; }
-IfcSeamCurve::~IfcSeamCurve() {}
 shared_ptr<BuildingObject> IfcSeamCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSeamCurve> copy_self( new IfcSeamCurve() );
@@ -42,7 +41,7 @@ void IfcSeamCurve::getStepLine( std::stringstream& stream ) const
 	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSeamCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSeamCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSeamCurve::toString() const { return L"IfcSeamCurve"; }
 void IfcSeamCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -14,7 +14,6 @@
 
 // ENTITY IfcPersonAndOrganization 
 IfcPersonAndOrganization::IfcPersonAndOrganization( int id ) { m_entity_id = id; }
-IfcPersonAndOrganization::~IfcPersonAndOrganization() {}
 shared_ptr<BuildingObject> IfcPersonAndOrganization::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPersonAndOrganization> copy_self( new IfcPersonAndOrganization() );
@@ -40,7 +39,7 @@ void IfcPersonAndOrganization::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Roles );
 	stream << ");";
 }
-void IfcPersonAndOrganization::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPersonAndOrganization::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPersonAndOrganization::toString() const { return L"IfcPersonAndOrganization"; }
 void IfcPersonAndOrganization::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

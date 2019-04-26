@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcWindowStyle : public IfcTypeProduct
 public:
 	IfcWindowStyle() = default;
 	IfcWindowStyle( int id );
-	~IfcWindowStyle();
+	~IfcWindowStyle() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

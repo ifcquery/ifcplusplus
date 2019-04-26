@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcFillAreaStyle : virtual public IfcPresentationStyleSele
 public:
 	IfcFillAreaStyle() = default;
 	IfcFillAreaStyle( int id );
-	~IfcFillAreaStyle();
+	~IfcFillAreaStyle() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

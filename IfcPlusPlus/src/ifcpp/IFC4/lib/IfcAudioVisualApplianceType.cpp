@@ -26,7 +26,6 @@
 
 // ENTITY IfcAudioVisualApplianceType 
 IfcAudioVisualApplianceType::IfcAudioVisualApplianceType( int id ) { m_entity_id = id; }
-IfcAudioVisualApplianceType::~IfcAudioVisualApplianceType() {}
 shared_ptr<BuildingObject> IfcAudioVisualApplianceType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAudioVisualApplianceType> copy_self( new IfcAudioVisualApplianceType() );
@@ -88,7 +87,7 @@ void IfcAudioVisualApplianceType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAudioVisualApplianceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAudioVisualApplianceType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAudioVisualApplianceType::toString() const { return L"IfcAudioVisualApplianceType"; }
 void IfcAudioVisualApplianceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

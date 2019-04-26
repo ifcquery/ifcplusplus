@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcFastenerTypeEnum.h"
 
 // TYPE IfcFastenerTypeEnum = ENUMERATION OF	(GLUE	,MORTAR	,WELD	,USERDEFINED	,NOTDEFINED);
-IfcFastenerTypeEnum::~IfcFastenerTypeEnum() {}
 shared_ptr<BuildingObject> IfcFastenerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFastenerTypeEnum> copy_self( new IfcFastenerTypeEnum() );

@@ -26,7 +26,6 @@
 
 // ENTITY IfcCoilType 
 IfcCoilType::IfcCoilType( int id ) { m_entity_id = id; }
-IfcCoilType::~IfcCoilType() {}
 shared_ptr<BuildingObject> IfcCoilType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCoilType> copy_self( new IfcCoilType() );
@@ -88,7 +87,7 @@ void IfcCoilType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCoilType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCoilType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCoilType::toString() const { return L"IfcCoilType"; }
 void IfcCoilType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

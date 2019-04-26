@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcRelAssociatesLibrary : public IfcRelAssociates
 public:
 	IfcRelAssociatesLibrary() = default;
 	IfcRelAssociatesLibrary( int id );
-	~IfcRelAssociatesLibrary();
+	~IfcRelAssociatesLibrary() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

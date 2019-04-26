@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcJunctionBoxTypeEnum.h"
 
 // TYPE IfcJunctionBoxTypeEnum = ENUMERATION OF	(DATA	,POWER	,USERDEFINED	,NOTDEFINED);
-IfcJunctionBoxTypeEnum::~IfcJunctionBoxTypeEnum() {}
 shared_ptr<BuildingObject> IfcJunctionBoxTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcJunctionBoxTypeEnum> copy_self( new IfcJunctionBoxTypeEnum() );

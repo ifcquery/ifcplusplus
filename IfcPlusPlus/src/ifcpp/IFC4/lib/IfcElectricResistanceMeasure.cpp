@@ -12,7 +12,6 @@
 
 // TYPE IfcElectricResistanceMeasure = REAL;
 IfcElectricResistanceMeasure::IfcElectricResistanceMeasure( double value ) { m_value = value; }
-IfcElectricResistanceMeasure::~IfcElectricResistanceMeasure() {}
 shared_ptr<BuildingObject> IfcElectricResistanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricResistanceMeasure> copy_self( new IfcElectricResistanceMeasure() );

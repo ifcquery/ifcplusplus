@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcProtectiveDeviceTrippingUnit : public IfcDistributionCo
 public:
 	IfcProtectiveDeviceTrippingUnit() = default;
 	IfcProtectiveDeviceTrippingUnit( int id );
-	~IfcProtectiveDeviceTrippingUnit();
+	~IfcProtectiveDeviceTrippingUnit() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

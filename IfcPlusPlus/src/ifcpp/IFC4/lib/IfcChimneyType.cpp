@@ -26,7 +26,6 @@
 
 // ENTITY IfcChimneyType 
 IfcChimneyType::IfcChimneyType( int id ) { m_entity_id = id; }
-IfcChimneyType::~IfcChimneyType() {}
 shared_ptr<BuildingObject> IfcChimneyType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcChimneyType> copy_self( new IfcChimneyType() );
@@ -88,7 +87,7 @@ void IfcChimneyType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcChimneyType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcChimneyType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcChimneyType::toString() const { return L"IfcChimneyType"; }
 void IfcChimneyType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

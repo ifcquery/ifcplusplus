@@ -16,7 +16,6 @@
 
 // ENTITY IfcEdgeCurve 
 IfcEdgeCurve::IfcEdgeCurve( int id ) { m_entity_id = id; }
-IfcEdgeCurve::~IfcEdgeCurve() {}
 shared_ptr<BuildingObject> IfcEdgeCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEdgeCurve> copy_self( new IfcEdgeCurve() );
@@ -38,7 +37,7 @@ void IfcEdgeCurve::getStepLine( std::stringstream& stream ) const
 	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcEdgeCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcEdgeCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcEdgeCurve::toString() const { return L"IfcEdgeCurve"; }
 void IfcEdgeCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

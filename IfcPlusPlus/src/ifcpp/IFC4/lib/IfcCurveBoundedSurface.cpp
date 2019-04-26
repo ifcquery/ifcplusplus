@@ -16,7 +16,6 @@
 
 // ENTITY IfcCurveBoundedSurface 
 IfcCurveBoundedSurface::IfcCurveBoundedSurface( int id ) { m_entity_id = id; }
-IfcCurveBoundedSurface::~IfcCurveBoundedSurface() {}
 shared_ptr<BuildingObject> IfcCurveBoundedSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurveBoundedSurface> copy_self( new IfcCurveBoundedSurface() );
@@ -42,7 +41,7 @@ void IfcCurveBoundedSurface::getStepLine( std::stringstream& stream ) const
 	if( m_ImplicitOuter ) { m_ImplicitOuter->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCurveBoundedSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCurveBoundedSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCurveBoundedSurface::toString() const { return L"IfcCurveBoundedSurface"; }
 void IfcCurveBoundedSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -14,7 +14,6 @@
 
 // ENTITY IfcCurveStyleFontAndScaling 
 IfcCurveStyleFontAndScaling::IfcCurveStyleFontAndScaling( int id ) { m_entity_id = id; }
-IfcCurveStyleFontAndScaling::~IfcCurveStyleFontAndScaling() {}
 shared_ptr<BuildingObject> IfcCurveStyleFontAndScaling::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurveStyleFontAndScaling> copy_self( new IfcCurveStyleFontAndScaling() );
@@ -33,7 +32,7 @@ void IfcCurveStyleFontAndScaling::getStepLine( std::stringstream& stream ) const
 	if( m_CurveFontScaling ) { m_CurveFontScaling->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCurveStyleFontAndScaling::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCurveStyleFontAndScaling::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCurveStyleFontAndScaling::toString() const { return L"IfcCurveStyleFontAndScaling"; }
 void IfcCurveStyleFontAndScaling::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

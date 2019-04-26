@@ -26,7 +26,6 @@
 
 // ENTITY IfcPlateType 
 IfcPlateType::IfcPlateType( int id ) { m_entity_id = id; }
-IfcPlateType::~IfcPlateType() {}
 shared_ptr<BuildingObject> IfcPlateType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPlateType> copy_self( new IfcPlateType() );
@@ -88,7 +87,7 @@ void IfcPlateType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPlateType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPlateType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPlateType::toString() const { return L"IfcPlateType"; }
 void IfcPlateType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

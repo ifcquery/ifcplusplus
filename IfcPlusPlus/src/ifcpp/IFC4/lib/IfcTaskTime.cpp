@@ -18,7 +18,6 @@
 
 // ENTITY IfcTaskTime 
 IfcTaskTime::IfcTaskTime( int id ) { m_entity_id = id; }
-IfcTaskTime::~IfcTaskTime() {}
 shared_ptr<BuildingObject> IfcTaskTime::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTaskTime> copy_self( new IfcTaskTime() );
@@ -88,7 +87,7 @@ void IfcTaskTime::getStepLine( std::stringstream& stream ) const
 	if( m_Completion ) { m_Completion->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTaskTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTaskTime::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTaskTime::toString() const { return L"IfcTaskTime"; }
 void IfcTaskTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

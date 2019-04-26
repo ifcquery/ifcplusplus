@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcSubContractResourceType : public IfcConstructionResourc
 public:
 	IfcSubContractResourceType() = default;
 	IfcSubContractResourceType( int id );
-	~IfcSubContractResourceType();
+	~IfcSubContractResourceType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

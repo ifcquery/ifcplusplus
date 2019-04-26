@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcAreaMeasure : public IfcMeasureValue
 public:
 	IfcAreaMeasure() = default;
 	IfcAreaMeasure( double value );
-	~IfcAreaMeasure();
+	~IfcAreaMeasure() = default;
 	virtual const char* className() const { return "IfcAreaMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

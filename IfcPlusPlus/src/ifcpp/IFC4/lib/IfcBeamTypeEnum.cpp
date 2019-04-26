@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcBeamTypeEnum.h"
 
 // TYPE IfcBeamTypeEnum = ENUMERATION OF	(BEAM	,JOIST	,HOLLOWCORE	,LINTEL	,SPANDREL	,T_BEAM	,USERDEFINED	,NOTDEFINED);
-IfcBeamTypeEnum::~IfcBeamTypeEnum() {}
 shared_ptr<BuildingObject> IfcBeamTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBeamTypeEnum> copy_self( new IfcBeamTypeEnum() );

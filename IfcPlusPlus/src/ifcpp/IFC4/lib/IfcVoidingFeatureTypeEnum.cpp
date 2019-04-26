@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcVoidingFeatureTypeEnum.h"
 
 // TYPE IfcVoidingFeatureTypeEnum = ENUMERATION OF	(CUTOUT	,NOTCH	,HOLE	,MITER	,CHAMFER	,EDGE	,USERDEFINED	,NOTDEFINED);
-IfcVoidingFeatureTypeEnum::~IfcVoidingFeatureTypeEnum() {}
 shared_ptr<BuildingObject> IfcVoidingFeatureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVoidingFeatureTypeEnum> copy_self( new IfcVoidingFeatureTypeEnum() );

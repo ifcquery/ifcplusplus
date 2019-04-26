@@ -12,7 +12,6 @@
 
 // TYPE IfcAreaMeasure = REAL;
 IfcAreaMeasure::IfcAreaMeasure( double value ) { m_value = value; }
-IfcAreaMeasure::~IfcAreaMeasure() {}
 shared_ptr<BuildingObject> IfcAreaMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAreaMeasure> copy_self( new IfcAreaMeasure() );

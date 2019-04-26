@@ -17,7 +17,6 @@
 
 // ENTITY IfcLightSourceDirectional 
 IfcLightSourceDirectional::IfcLightSourceDirectional( int id ) { m_entity_id = id; }
-IfcLightSourceDirectional::~IfcLightSourceDirectional() {}
 shared_ptr<BuildingObject> IfcLightSourceDirectional::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightSourceDirectional> copy_self( new IfcLightSourceDirectional() );
@@ -42,7 +41,7 @@ void IfcLightSourceDirectional::getStepLine( std::stringstream& stream ) const
 	if( m_Orientation ) { stream << "#" << m_Orientation->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLightSourceDirectional::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLightSourceDirectional::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSourceDirectional::toString() const { return L"IfcLightSourceDirectional"; }
 void IfcLightSourceDirectional::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

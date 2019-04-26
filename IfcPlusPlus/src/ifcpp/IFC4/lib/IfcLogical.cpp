@@ -12,7 +12,6 @@
 
 // TYPE IfcLogical = LOGICAL;
 IfcLogical::IfcLogical( LogicalEnum value ) { m_value = value; }
-IfcLogical::~IfcLogical() {}
 shared_ptr<BuildingObject> IfcLogical::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLogical> copy_self( new IfcLogical() );

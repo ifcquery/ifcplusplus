@@ -14,7 +14,6 @@
 
 // ENTITY IfcCartesianPointList2D 
 IfcCartesianPointList2D::IfcCartesianPointList2D( int id ) { m_entity_id = id; }
-IfcCartesianPointList2D::~IfcCartesianPointList2D() {}
 shared_ptr<BuildingObject> IfcCartesianPointList2D::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCartesianPointList2D> copy_self( new IfcCartesianPointList2D() );
@@ -40,7 +39,7 @@ void IfcCartesianPointList2D::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList2D( stream, m_CoordList );
 	stream << ");";
 }
-void IfcCartesianPointList2D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCartesianPointList2D::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCartesianPointList2D::toString() const { return L"IfcCartesianPointList2D"; }
 void IfcCartesianPointList2D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

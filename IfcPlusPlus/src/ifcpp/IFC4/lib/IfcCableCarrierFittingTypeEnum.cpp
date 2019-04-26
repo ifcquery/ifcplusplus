@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCableCarrierFittingTypeEnum.h"
 
 // TYPE IfcCableCarrierFittingTypeEnum = ENUMERATION OF	(BEND	,CROSS	,REDUCER	,TEE	,USERDEFINED	,NOTDEFINED);
-IfcCableCarrierFittingTypeEnum::~IfcCableCarrierFittingTypeEnum() {}
 shared_ptr<BuildingObject> IfcCableCarrierFittingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCableCarrierFittingTypeEnum> copy_self( new IfcCableCarrierFittingTypeEnum() );

@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcPreferredSurfaceCurveRepresentation.h"
 
 // TYPE IfcPreferredSurfaceCurveRepresentation = ENUMERATION OF	(CURVE3D	,PCURVE_S1	,PCURVE_S2);
-IfcPreferredSurfaceCurveRepresentation::~IfcPreferredSurfaceCurveRepresentation() {}
 shared_ptr<BuildingObject> IfcPreferredSurfaceCurveRepresentation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPreferredSurfaceCurveRepresentation> copy_self( new IfcPreferredSurfaceCurveRepresentation() );

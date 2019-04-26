@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcTendonTypeEnum.h"
 
 // TYPE IfcTendonTypeEnum = ENUMERATION OF	(BAR	,COATED	,STRAND	,WIRE	,USERDEFINED	,NOTDEFINED);
-IfcTendonTypeEnum::~IfcTendonTypeEnum() {}
 shared_ptr<BuildingObject> IfcTendonTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTendonTypeEnum> copy_self( new IfcTendonTypeEnum() );

@@ -16,7 +16,6 @@
 
 // ENTITY IfcArbitraryProfileDefWithVoids 
 IfcArbitraryProfileDefWithVoids::IfcArbitraryProfileDefWithVoids( int id ) { m_entity_id = id; }
-IfcArbitraryProfileDefWithVoids::~IfcArbitraryProfileDefWithVoids() {}
 shared_ptr<BuildingObject> IfcArbitraryProfileDefWithVoids::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcArbitraryProfileDefWithVoids> copy_self( new IfcArbitraryProfileDefWithVoids() );
@@ -45,7 +44,7 @@ void IfcArbitraryProfileDefWithVoids::getStepLine( std::stringstream& stream ) c
 	writeEntityList( stream, m_InnerCurves );
 	stream << ");";
 }
-void IfcArbitraryProfileDefWithVoids::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcArbitraryProfileDefWithVoids::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcArbitraryProfileDefWithVoids::toString() const { return L"IfcArbitraryProfileDefWithVoids"; }
 void IfcArbitraryProfileDefWithVoids::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

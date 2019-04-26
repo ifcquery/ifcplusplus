@@ -29,7 +29,6 @@
 
 // ENTITY IfcStructuralSurfaceConnection 
 IfcStructuralSurfaceConnection::IfcStructuralSurfaceConnection( int id ) { m_entity_id = id; }
-IfcStructuralSurfaceConnection::~IfcStructuralSurfaceConnection() {}
 shared_ptr<BuildingObject> IfcStructuralSurfaceConnection::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralSurfaceConnection> copy_self( new IfcStructuralSurfaceConnection() );
@@ -71,7 +70,7 @@ void IfcStructuralSurfaceConnection::getStepLine( std::stringstream& stream ) co
 	if( m_AppliedCondition ) { stream << "#" << m_AppliedCondition->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralSurfaceConnection::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralSurfaceConnection::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralSurfaceConnection::toString() const { return L"IfcStructuralSurfaceConnection"; }
 void IfcStructuralSurfaceConnection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

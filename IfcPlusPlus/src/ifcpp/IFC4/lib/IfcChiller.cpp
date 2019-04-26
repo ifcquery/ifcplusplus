@@ -40,7 +40,6 @@
 
 // ENTITY IfcChiller 
 IfcChiller::IfcChiller( int id ) { m_entity_id = id; }
-IfcChiller::~IfcChiller() {}
 shared_ptr<BuildingObject> IfcChiller::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcChiller> copy_self( new IfcChiller() );
@@ -85,7 +84,7 @@ void IfcChiller::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcChiller::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcChiller::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcChiller::toString() const { return L"IfcChiller"; }
 void IfcChiller::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

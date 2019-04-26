@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCableCarrierSegmentTypeEnum.h"
 
 // TYPE IfcCableCarrierSegmentTypeEnum = ENUMERATION OF	(CABLELADDERSEGMENT	,CABLETRAYSEGMENT	,CABLETRUNKINGSEGMENT	,CONDUITSEGMENT	,USERDEFINED	,NOTDEFINED);
-IfcCableCarrierSegmentTypeEnum::~IfcCableCarrierSegmentTypeEnum() {}
 shared_ptr<BuildingObject> IfcCableCarrierSegmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCableCarrierSegmentTypeEnum> copy_self( new IfcCableCarrierSegmentTypeEnum() );

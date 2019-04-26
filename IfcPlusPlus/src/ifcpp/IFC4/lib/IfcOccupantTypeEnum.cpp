@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcOccupantTypeEnum.h"
 
 // TYPE IfcOccupantTypeEnum = ENUMERATION OF	(ASSIGNEE	,ASSIGNOR	,LESSEE	,LESSOR	,LETTINGAGENT	,OWNER	,TENANT	,USERDEFINED	,NOTDEFINED);
-IfcOccupantTypeEnum::~IfcOccupantTypeEnum() {}
 shared_ptr<BuildingObject> IfcOccupantTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOccupantTypeEnum> copy_self( new IfcOccupantTypeEnum() );

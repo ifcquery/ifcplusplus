@@ -24,7 +24,7 @@ public:
 
 	IfcInventoryTypeEnum() = default;
 	IfcInventoryTypeEnum( IfcInventoryTypeEnumEnum e ) { m_enum = e; }
-	~IfcInventoryTypeEnum();
+	~IfcInventoryTypeEnum() = default;
 	virtual const char* className() const { return "IfcInventoryTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

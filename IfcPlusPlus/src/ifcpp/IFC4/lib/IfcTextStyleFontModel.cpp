@@ -17,7 +17,6 @@
 
 // ENTITY IfcTextStyleFontModel 
 IfcTextStyleFontModel::IfcTextStyleFontModel( int id ) { m_entity_id = id; }
-IfcTextStyleFontModel::~IfcTextStyleFontModel() {}
 shared_ptr<BuildingObject> IfcTextStyleFontModel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextStyleFontModel> copy_self( new IfcTextStyleFontModel() );
@@ -69,7 +68,7 @@ void IfcTextStyleFontModel::getStepLine( std::stringstream& stream ) const
 	if( m_FontSize ) { m_FontSize->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcTextStyleFontModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTextStyleFontModel::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextStyleFontModel::toString() const { return L"IfcTextStyleFontModel"; }
 void IfcTextStyleFontModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

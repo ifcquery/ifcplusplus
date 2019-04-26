@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcExternalSpatialElementTypeEnum.h"
 
 // TYPE IfcExternalSpatialElementTypeEnum = ENUMERATION OF	(EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_WATER	,EXTERNAL_FIRE	,USERDEFINED	,NOTDEFINED);
-IfcExternalSpatialElementTypeEnum::~IfcExternalSpatialElementTypeEnum() {}
 shared_ptr<BuildingObject> IfcExternalSpatialElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExternalSpatialElementTypeEnum> copy_self( new IfcExternalSpatialElementTypeEnum() );

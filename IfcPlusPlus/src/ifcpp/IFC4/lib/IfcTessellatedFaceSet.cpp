@@ -16,7 +16,6 @@
 
 // ENTITY IfcTessellatedFaceSet 
 IfcTessellatedFaceSet::IfcTessellatedFaceSet( int id ) { m_entity_id = id; }
-IfcTessellatedFaceSet::~IfcTessellatedFaceSet() {}
 shared_ptr<BuildingObject> IfcTessellatedFaceSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTessellatedFaceSet> copy_self( new IfcTessellatedFaceSet() );
@@ -29,7 +28,7 @@ void IfcTessellatedFaceSet::getStepLine( std::stringstream& stream ) const
 	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTessellatedFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTessellatedFaceSet::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTessellatedFaceSet::toString() const { return L"IfcTessellatedFaceSet"; }
 void IfcTessellatedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

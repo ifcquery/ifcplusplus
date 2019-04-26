@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcRotationalMassMeasure : public IfcDerivedMeasureValue
 public:
 	IfcRotationalMassMeasure() = default;
 	IfcRotationalMassMeasure( double value );
-	~IfcRotationalMassMeasure();
+	~IfcRotationalMassMeasure() = default;
 	virtual const char* className() const { return "IfcRotationalMassMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

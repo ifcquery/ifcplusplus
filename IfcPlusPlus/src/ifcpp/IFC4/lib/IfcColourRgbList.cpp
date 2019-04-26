@@ -12,7 +12,6 @@
 
 // ENTITY IfcColourRgbList 
 IfcColourRgbList::IfcColourRgbList( int id ) { m_entity_id = id; }
-IfcColourRgbList::~IfcColourRgbList() {}
 shared_ptr<BuildingObject> IfcColourRgbList::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcColourRgbList> copy_self( new IfcColourRgbList() );
@@ -38,7 +37,7 @@ void IfcColourRgbList::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList2D( stream, m_ColourList );
 	stream << ");";
 }
-void IfcColourRgbList::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcColourRgbList::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcColourRgbList::toString() const { return L"IfcColourRgbList"; }
 void IfcColourRgbList::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -30,7 +30,6 @@
 
 // ENTITY IfcStructuralCurveMember 
 IfcStructuralCurveMember::IfcStructuralCurveMember( int id ) { m_entity_id = id; }
-IfcStructuralCurveMember::~IfcStructuralCurveMember() {}
 shared_ptr<BuildingObject> IfcStructuralCurveMember::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralCurveMember> copy_self( new IfcStructuralCurveMember() );
@@ -75,7 +74,7 @@ void IfcStructuralCurveMember::getStepLine( std::stringstream& stream ) const
 	if( m_Axis ) { stream << "#" << m_Axis->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralCurveMember::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralCurveMember::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralCurveMember::toString() const { return L"IfcStructuralCurveMember"; }
 void IfcStructuralCurveMember::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -31,7 +31,6 @@
 
 // ENTITY IfcDistributionPort 
 IfcDistributionPort::IfcDistributionPort( int id ) { m_entity_id = id; }
-IfcDistributionPort::~IfcDistributionPort() {}
 shared_ptr<BuildingObject> IfcDistributionPort::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDistributionPort> copy_self( new IfcDistributionPort() );
@@ -79,7 +78,7 @@ void IfcDistributionPort::getStepLine( std::stringstream& stream ) const
 	if( m_SystemType ) { m_SystemType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDistributionPort::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDistributionPort::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDistributionPort::toString() const { return L"IfcDistributionPort"; }
 void IfcDistributionPort::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

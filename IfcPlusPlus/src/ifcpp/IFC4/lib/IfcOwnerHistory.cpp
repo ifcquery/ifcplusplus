@@ -16,7 +16,6 @@
 
 // ENTITY IfcOwnerHistory 
 IfcOwnerHistory::IfcOwnerHistory( int id ) { m_entity_id = id; }
-IfcOwnerHistory::~IfcOwnerHistory() {}
 shared_ptr<BuildingObject> IfcOwnerHistory::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOwnerHistory> copy_self( new IfcOwnerHistory() );
@@ -50,7 +49,7 @@ void IfcOwnerHistory::getStepLine( std::stringstream& stream ) const
 	if( m_CreationDate ) { m_CreationDate->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcOwnerHistory::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcOwnerHistory::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOwnerHistory::toString() const { return L"IfcOwnerHistory"; }
 void IfcOwnerHistory::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

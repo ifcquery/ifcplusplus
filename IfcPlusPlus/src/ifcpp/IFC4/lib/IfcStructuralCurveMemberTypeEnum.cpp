@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcStructuralCurveMemberTypeEnum.h"
 
 // TYPE IfcStructuralCurveMemberTypeEnum = ENUMERATION OF	(RIGID_JOINED_MEMBER	,PIN_JOINED_MEMBER	,CABLE	,TENSION_MEMBER	,COMPRESSION_MEMBER	,USERDEFINED	,NOTDEFINED);
-IfcStructuralCurveMemberTypeEnum::~IfcStructuralCurveMemberTypeEnum() {}
 shared_ptr<BuildingObject> IfcStructuralCurveMemberTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralCurveMemberTypeEnum> copy_self( new IfcStructuralCurveMemberTypeEnum() );

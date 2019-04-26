@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSubContractResourceTypeEnum.h"
 
 // TYPE IfcSubContractResourceTypeEnum = ENUMERATION OF	(PURCHASE	,WORK	,USERDEFINED	,NOTDEFINED);
-IfcSubContractResourceTypeEnum::~IfcSubContractResourceTypeEnum() {}
 shared_ptr<BuildingObject> IfcSubContractResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSubContractResourceTypeEnum> copy_self( new IfcSubContractResourceTypeEnum() );

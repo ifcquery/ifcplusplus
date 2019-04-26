@@ -13,7 +13,6 @@
 
 // ENTITY IfcTableRow 
 IfcTableRow::IfcTableRow( int id ) { m_entity_id = id; }
-IfcTableRow::~IfcTableRow() {}
 shared_ptr<BuildingObject> IfcTableRow::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTableRow> copy_self( new IfcTableRow() );
@@ -53,7 +52,7 @@ void IfcTableRow::getStepLine( std::stringstream& stream ) const
 	if( m_IsHeading ) { m_IsHeading->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTableRow::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTableRow::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTableRow::toString() const { return L"IfcTableRow"; }
 void IfcTableRow::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -12,7 +12,6 @@
 
 // TYPE IfcSpecularExponent = REAL;
 IfcSpecularExponent::IfcSpecularExponent( double value ) { m_value = value; }
-IfcSpecularExponent::~IfcSpecularExponent() {}
 shared_ptr<BuildingObject> IfcSpecularExponent::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpecularExponent> copy_self( new IfcSpecularExponent() );

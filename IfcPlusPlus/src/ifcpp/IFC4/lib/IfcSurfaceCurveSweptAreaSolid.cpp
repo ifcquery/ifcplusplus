@@ -18,7 +18,6 @@
 
 // ENTITY IfcSurfaceCurveSweptAreaSolid 
 IfcSurfaceCurveSweptAreaSolid::IfcSurfaceCurveSweptAreaSolid( int id ) { m_entity_id = id; }
-IfcSurfaceCurveSweptAreaSolid::~IfcSurfaceCurveSweptAreaSolid() {}
 shared_ptr<BuildingObject> IfcSurfaceCurveSweptAreaSolid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceCurveSweptAreaSolid> copy_self( new IfcSurfaceCurveSweptAreaSolid() );
@@ -50,7 +49,7 @@ void IfcSurfaceCurveSweptAreaSolid::getStepLine( std::stringstream& stream ) con
 	if( m_ReferenceSurface ) { stream << "#" << m_ReferenceSurface->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceCurveSweptAreaSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSurfaceCurveSweptAreaSolid::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceCurveSweptAreaSolid::toString() const { return L"IfcSurfaceCurveSweptAreaSolid"; }
 void IfcSurfaceCurveSweptAreaSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

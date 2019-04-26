@@ -40,7 +40,6 @@
 
 // ENTITY IfcSanitaryTerminal 
 IfcSanitaryTerminal::IfcSanitaryTerminal( int id ) { m_entity_id = id; }
-IfcSanitaryTerminal::~IfcSanitaryTerminal() {}
 shared_ptr<BuildingObject> IfcSanitaryTerminal::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSanitaryTerminal> copy_self( new IfcSanitaryTerminal() );
@@ -85,7 +84,7 @@ void IfcSanitaryTerminal::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSanitaryTerminal::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSanitaryTerminal::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSanitaryTerminal::toString() const { return L"IfcSanitaryTerminal"; }
 void IfcSanitaryTerminal::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

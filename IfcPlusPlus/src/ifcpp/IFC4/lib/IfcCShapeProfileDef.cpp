@@ -18,7 +18,6 @@
 
 // ENTITY IfcCShapeProfileDef 
 IfcCShapeProfileDef::IfcCShapeProfileDef( int id ) { m_entity_id = id; }
-IfcCShapeProfileDef::~IfcCShapeProfileDef() {}
 shared_ptr<BuildingObject> IfcCShapeProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCShapeProfileDef> copy_self( new IfcCShapeProfileDef() );
@@ -52,7 +51,7 @@ void IfcCShapeProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_InternalFilletRadius ) { m_InternalFilletRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCShapeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCShapeProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCShapeProfileDef::toString() const { return L"IfcCShapeProfileDef"; }
 void IfcCShapeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcWasteTerminalTypeEnum.h"
 
 // TYPE IfcWasteTerminalTypeEnum = ENUMERATION OF	(FLOORTRAP	,FLOORWASTE	,GULLYSUMP	,GULLYTRAP	,ROOFDRAIN	,WASTEDISPOSALUNIT	,WASTETRAP	,USERDEFINED	,NOTDEFINED);
-IfcWasteTerminalTypeEnum::~IfcWasteTerminalTypeEnum() {}
 shared_ptr<BuildingObject> IfcWasteTerminalTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWasteTerminalTypeEnum> copy_self( new IfcWasteTerminalTypeEnum() );

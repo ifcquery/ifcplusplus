@@ -17,7 +17,6 @@
 
 // ENTITY IfcQuantityTime 
 IfcQuantityTime::IfcQuantityTime( int id ) { m_entity_id = id; }
-IfcQuantityTime::~IfcQuantityTime() {}
 shared_ptr<BuildingObject> IfcQuantityTime::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcQuantityTime> copy_self( new IfcQuantityTime() );
@@ -42,7 +41,7 @@ void IfcQuantityTime::getStepLine( std::stringstream& stream ) const
 	if( m_Formula ) { m_Formula->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcQuantityTime::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcQuantityTime::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcQuantityTime::toString() const { return L"IfcQuantityTime"; }
 void IfcQuantityTime::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

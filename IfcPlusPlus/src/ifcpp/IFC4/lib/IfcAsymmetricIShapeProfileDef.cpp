@@ -19,7 +19,6 @@
 
 // ENTITY IfcAsymmetricIShapeProfileDef 
 IfcAsymmetricIShapeProfileDef::IfcAsymmetricIShapeProfileDef( int id ) { m_entity_id = id; }
-IfcAsymmetricIShapeProfileDef::~IfcAsymmetricIShapeProfileDef() {}
 shared_ptr<BuildingObject> IfcAsymmetricIShapeProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAsymmetricIShapeProfileDef> copy_self( new IfcAsymmetricIShapeProfileDef() );
@@ -74,7 +73,7 @@ void IfcAsymmetricIShapeProfileDef::getStepLine( std::stringstream& stream ) con
 	if( m_TopFlangeSlope ) { m_TopFlangeSlope->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAsymmetricIShapeProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAsymmetricIShapeProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAsymmetricIShapeProfileDef::toString() const { return L"IfcAsymmetricIShapeProfileDef"; }
 void IfcAsymmetricIShapeProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

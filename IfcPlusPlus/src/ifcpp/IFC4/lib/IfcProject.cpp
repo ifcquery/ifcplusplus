@@ -23,7 +23,6 @@
 
 // ENTITY IfcProject 
 IfcProject::IfcProject( int id ) { m_entity_id = id; }
-IfcProject::~IfcProject() {}
 shared_ptr<BuildingObject> IfcProject::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProject> copy_self( new IfcProject() );
@@ -75,7 +74,7 @@ void IfcProject::getStepLine( std::stringstream& stream ) const
 	if( m_UnitsInContext ) { stream << "#" << m_UnitsInContext->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcProject::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcProject::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProject::toString() const { return L"IfcProject"; }
 void IfcProject::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

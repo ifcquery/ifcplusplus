@@ -18,7 +18,6 @@
 
 // TYPE IfcBoolean = BOOLEAN;
 IfcBoolean::IfcBoolean( bool value ) { m_value = value; }
-IfcBoolean::~IfcBoolean() {}
 shared_ptr<BuildingObject> IfcBoolean::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoolean> copy_self( new IfcBoolean() );

@@ -28,7 +28,6 @@
 
 // ENTITY IfcTendonType 
 IfcTendonType::IfcTendonType( int id ) { m_entity_id = id; }
-IfcTendonType::~IfcTendonType() {}
 shared_ptr<BuildingObject> IfcTendonType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTendonType> copy_self( new IfcTendonType() );
@@ -99,7 +98,7 @@ void IfcTendonType::getStepLine( std::stringstream& stream ) const
 	if( m_SheathDiameter ) { m_SheathDiameter->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTendonType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTendonType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTendonType::toString() const { return L"IfcTendonType"; }
 void IfcTendonType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

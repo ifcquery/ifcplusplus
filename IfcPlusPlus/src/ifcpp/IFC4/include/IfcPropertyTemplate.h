@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcPropertyTemplate : public IfcPropertyTemplateDefinition
 public:
 	IfcPropertyTemplate() = default;
 	IfcPropertyTemplate( int id );
-	~IfcPropertyTemplate();
+	~IfcPropertyTemplate() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

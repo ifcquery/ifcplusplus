@@ -12,7 +12,6 @@
 
 // ENTITY IfcStructuralLoadOrResult 
 IfcStructuralLoadOrResult::IfcStructuralLoadOrResult( int id ) { m_entity_id = id; }
-IfcStructuralLoadOrResult::~IfcStructuralLoadOrResult() {}
 shared_ptr<BuildingObject> IfcStructuralLoadOrResult::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadOrResult> copy_self( new IfcStructuralLoadOrResult() );
@@ -25,7 +24,7 @@ void IfcStructuralLoadOrResult::getStepLine( std::stringstream& stream ) const
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadOrResult::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralLoadOrResult::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadOrResult::toString() const { return L"IfcStructuralLoadOrResult"; }
 void IfcStructuralLoadOrResult::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

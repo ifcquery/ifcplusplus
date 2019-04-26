@@ -23,7 +23,6 @@
 
 // ENTITY IfcMaterialLayerWithOffsets 
 IfcMaterialLayerWithOffsets::IfcMaterialLayerWithOffsets( int id ) { m_entity_id = id; }
-IfcMaterialLayerWithOffsets::~IfcMaterialLayerWithOffsets() {}
 shared_ptr<BuildingObject> IfcMaterialLayerWithOffsets::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialLayerWithOffsets> copy_self( new IfcMaterialLayerWithOffsets() );
@@ -67,7 +66,7 @@ void IfcMaterialLayerWithOffsets::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList( stream, m_OffsetValues );
 	stream << ");";
 }
-void IfcMaterialLayerWithOffsets::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMaterialLayerWithOffsets::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialLayerWithOffsets::toString() const { return L"IfcMaterialLayerWithOffsets"; }
 void IfcMaterialLayerWithOffsets::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

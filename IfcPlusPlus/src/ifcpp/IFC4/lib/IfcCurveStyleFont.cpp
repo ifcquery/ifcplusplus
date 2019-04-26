@@ -13,7 +13,6 @@
 
 // ENTITY IfcCurveStyleFont 
 IfcCurveStyleFont::IfcCurveStyleFont( int id ) { m_entity_id = id; }
-IfcCurveStyleFont::~IfcCurveStyleFont() {}
 shared_ptr<BuildingObject> IfcCurveStyleFont::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurveStyleFont> copy_self( new IfcCurveStyleFont() );
@@ -36,7 +35,7 @@ void IfcCurveStyleFont::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_PatternList );
 	stream << ");";
 }
-void IfcCurveStyleFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCurveStyleFont::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCurveStyleFont::toString() const { return L"IfcCurveStyleFont"; }
 void IfcCurveStyleFont::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

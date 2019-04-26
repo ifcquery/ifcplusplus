@@ -16,7 +16,6 @@
 
 // ENTITY IfcAddress 
 IfcAddress::IfcAddress( int id ) { m_entity_id = id; }
-IfcAddress::~IfcAddress() {}
 shared_ptr<BuildingObject> IfcAddress::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAddress> copy_self( new IfcAddress() );
@@ -35,7 +34,7 @@ void IfcAddress::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedPurpose ) { m_UserDefinedPurpose->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAddress::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAddress::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAddress::toString() const { return L"IfcAddress"; }
 void IfcAddress::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

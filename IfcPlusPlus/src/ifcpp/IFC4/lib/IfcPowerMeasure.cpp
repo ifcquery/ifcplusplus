@@ -12,7 +12,6 @@
 
 // TYPE IfcPowerMeasure = REAL;
 IfcPowerMeasure::IfcPowerMeasure( double value ) { m_value = value; }
-IfcPowerMeasure::~IfcPowerMeasure() {}
 shared_ptr<BuildingObject> IfcPowerMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPowerMeasure> copy_self( new IfcPowerMeasure() );

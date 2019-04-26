@@ -21,7 +21,6 @@
 
 // ENTITY IfcMetric 
 IfcMetric::IfcMetric( int id ) { m_entity_id = id; }
-IfcMetric::~IfcMetric() {}
 shared_ptr<BuildingObject> IfcMetric::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMetric> copy_self( new IfcMetric() );
@@ -64,7 +63,7 @@ void IfcMetric::getStepLine( std::stringstream& stream ) const
 	if( m_ReferencePath ) { stream << "#" << m_ReferencePath->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMetric::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMetric::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMetric::toString() const { return L"IfcMetric"; }
 void IfcMetric::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

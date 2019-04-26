@@ -16,7 +16,6 @@
 
 // ENTITY IfcRelNests 
 IfcRelNests::IfcRelNests( int id ) { m_entity_id = id; }
-IfcRelNests::~IfcRelNests() {}
 shared_ptr<BuildingObject> IfcRelNests::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelNests> copy_self( new IfcRelNests() );
@@ -59,7 +58,7 @@ void IfcRelNests::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_RelatedObjects );
 	stream << ");";
 }
-void IfcRelNests::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelNests::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelNests::toString() const { return L"IfcRelNests"; }
 void IfcRelNests::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

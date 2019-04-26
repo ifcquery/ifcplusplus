@@ -26,7 +26,6 @@
 
 // ENTITY IfcActionRequest 
 IfcActionRequest::IfcActionRequest( int id ) { m_entity_id = id; }
-IfcActionRequest::~IfcActionRequest() {}
 shared_ptr<BuildingObject> IfcActionRequest::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcActionRequest> copy_self( new IfcActionRequest() );
@@ -71,7 +70,7 @@ void IfcActionRequest::getStepLine( std::stringstream& stream ) const
 	if( m_LongDescription ) { m_LongDescription->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcActionRequest::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcActionRequest::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcActionRequest::toString() const { return L"IfcActionRequest"; }
 void IfcActionRequest::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

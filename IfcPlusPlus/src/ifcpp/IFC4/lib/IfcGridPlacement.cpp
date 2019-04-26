@@ -15,7 +15,6 @@
 
 // ENTITY IfcGridPlacement 
 IfcGridPlacement::IfcGridPlacement( int id ) { m_entity_id = id; }
-IfcGridPlacement::~IfcGridPlacement() {}
 shared_ptr<BuildingObject> IfcGridPlacement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGridPlacement> copy_self( new IfcGridPlacement() );
@@ -31,7 +30,7 @@ void IfcGridPlacement::getStepLine( std::stringstream& stream ) const
 	if( m_PlacementRefDirection ) { m_PlacementRefDirection->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcGridPlacement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcGridPlacement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGridPlacement::toString() const { return L"IfcGridPlacement"; }
 void IfcGridPlacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

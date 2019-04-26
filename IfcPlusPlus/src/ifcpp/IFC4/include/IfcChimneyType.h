@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcChimneyType : public IfcBuildingElementType
 public:
 	IfcChimneyType() = default;
 	IfcChimneyType( int id );
-	~IfcChimneyType();
+	~IfcChimneyType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

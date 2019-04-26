@@ -15,7 +15,6 @@
 
 // ENTITY IfcEllipse 
 IfcEllipse::IfcEllipse( int id ) { m_entity_id = id; }
-IfcEllipse::~IfcEllipse() {}
 shared_ptr<BuildingObject> IfcEllipse::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEllipse> copy_self( new IfcEllipse() );
@@ -34,7 +33,7 @@ void IfcEllipse::getStepLine( std::stringstream& stream ) const
 	if( m_SemiAxis2 ) { m_SemiAxis2->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcEllipse::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcEllipse::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcEllipse::toString() const { return L"IfcEllipse"; }
 void IfcEllipse::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

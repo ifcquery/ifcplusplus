@@ -12,7 +12,6 @@
 
 // TYPE IfcForceMeasure = REAL;
 IfcForceMeasure::IfcForceMeasure( double value ) { m_value = value; }
-IfcForceMeasure::~IfcForceMeasure() {}
 shared_ptr<BuildingObject> IfcForceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcForceMeasure> copy_self( new IfcForceMeasure() );

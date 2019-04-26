@@ -16,7 +16,6 @@
 
 // ENTITY IfcLightSource 
 IfcLightSource::IfcLightSource( int id ) { m_entity_id = id; }
-IfcLightSource::~IfcLightSource() {}
 shared_ptr<BuildingObject> IfcLightSource::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightSource> copy_self( new IfcLightSource() );
@@ -38,7 +37,7 @@ void IfcLightSource::getStepLine( std::stringstream& stream ) const
 	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLightSource::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLightSource::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSource::toString() const { return L"IfcLightSource"; }
 void IfcLightSource::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

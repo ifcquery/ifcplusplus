@@ -17,7 +17,6 @@
 
 // ENTITY IfcMirroredProfileDef 
 IfcMirroredProfileDef::IfcMirroredProfileDef( int id ) { m_entity_id = id; }
-IfcMirroredProfileDef::~IfcMirroredProfileDef() {}
 shared_ptr<BuildingObject> IfcMirroredProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMirroredProfileDef> copy_self( new IfcMirroredProfileDef() );
@@ -46,7 +45,7 @@ void IfcMirroredProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_Label ) { m_Label->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMirroredProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMirroredProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMirroredProfileDef::toString() const { return L"IfcMirroredProfileDef"; }
 void IfcMirroredProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

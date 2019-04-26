@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcTaskDurationEnum.h"
 
 // TYPE IfcTaskDurationEnum = ENUMERATION OF	(ELAPSEDTIME	,WORKTIME	,NOTDEFINED);
-IfcTaskDurationEnum::~IfcTaskDurationEnum() {}
 shared_ptr<BuildingObject> IfcTaskDurationEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTaskDurationEnum> copy_self( new IfcTaskDurationEnum() );

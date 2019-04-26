@@ -26,7 +26,6 @@
 
 // ENTITY IfcCableCarrierSegmentType 
 IfcCableCarrierSegmentType::IfcCableCarrierSegmentType( int id ) { m_entity_id = id; }
-IfcCableCarrierSegmentType::~IfcCableCarrierSegmentType() {}
 shared_ptr<BuildingObject> IfcCableCarrierSegmentType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCableCarrierSegmentType> copy_self( new IfcCableCarrierSegmentType() );
@@ -88,7 +87,7 @@ void IfcCableCarrierSegmentType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCableCarrierSegmentType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCableCarrierSegmentType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCableCarrierSegmentType::toString() const { return L"IfcCableCarrierSegmentType"; }
 void IfcCableCarrierSegmentType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

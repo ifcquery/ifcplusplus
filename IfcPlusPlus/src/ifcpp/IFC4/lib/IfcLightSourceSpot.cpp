@@ -21,7 +21,6 @@
 
 // ENTITY IfcLightSourceSpot 
 IfcLightSourceSpot::IfcLightSourceSpot( int id ) { m_entity_id = id; }
-IfcLightSourceSpot::~IfcLightSourceSpot() {}
 shared_ptr<BuildingObject> IfcLightSourceSpot::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightSourceSpot> copy_self( new IfcLightSourceSpot() );
@@ -70,7 +69,7 @@ void IfcLightSourceSpot::getStepLine( std::stringstream& stream ) const
 	if( m_BeamWidthAngle ) { m_BeamWidthAngle->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLightSourceSpot::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLightSourceSpot::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSourceSpot::toString() const { return L"IfcLightSourceSpot"; }
 void IfcLightSourceSpot::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

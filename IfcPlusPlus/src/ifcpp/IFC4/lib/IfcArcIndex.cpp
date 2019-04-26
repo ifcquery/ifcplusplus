@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcArcIndex.h"
 
 // TYPE IfcArcIndex = LIST [3:3] OF IfcPositiveInteger;
-IfcArcIndex::~IfcArcIndex() {}
 shared_ptr<BuildingObject> IfcArcIndex::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcArcIndex> copy_self( new IfcArcIndex() );
@@ -21,7 +20,7 @@ shared_ptr<BuildingObject> IfcArcIndex::getDeepCopy( BuildingCopyOptions& option
 void IfcArcIndex::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCARCINDEX("; }
-	for( size_t ii = 0; ii < m_vec.size(); ++ii ){if( ii > 0 ){stream << ", ";}stream << m_vec[ii].m_value;}
+	writeNumericTypeList( stream, m_vec );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcArcIndex::toString() const
@@ -35,6 +34,6 @@ shared_ptr<IfcArcIndex> IfcArcIndex::createObjectFromSTEP( const std::wstring& a
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcArcIndex>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcArcIndex>(); }
 	shared_ptr<IfcArcIndex> type_object( new IfcArcIndex() );
-	readInteger( arg, type_object->m_value );
+	readTypeOfIntegerList( arg, type_object->m_vec );
 	return type_object;
 }

@@ -16,12 +16,12 @@ class IFCQUERY_EXPORT IfcArcIndex : public IfcPositiveInteger, public IfcSegment
 {
 public:
 	IfcArcIndex() = default;
-	~IfcArcIndex();
+	~IfcArcIndex() = default;
 	virtual const char* className() const { return "IfcArcIndex"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual const std::wstring toString() const;
 	static shared_ptr<IfcArcIndex> createObjectFromSTEP( const std::wstring& arg, const std::map<int,shared_ptr<BuildingEntity> >& map );
-	std::vector<IfcPositiveInteger> m_vec;
+	std::vector<shared_ptr<IfcPositiveInteger> > m_vec;
 };
 

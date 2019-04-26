@@ -33,7 +33,7 @@ public:
 
 	IfcWindowPanelOperationEnum() = default;
 	IfcWindowPanelOperationEnum( IfcWindowPanelOperationEnumEnum e ) { m_enum = e; }
-	~IfcWindowPanelOperationEnum();
+	~IfcWindowPanelOperationEnum() = default;
 	virtual const char* className() const { return "IfcWindowPanelOperationEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -12,7 +12,6 @@
 
 // TYPE IfcEnergyMeasure = REAL;
 IfcEnergyMeasure::IfcEnergyMeasure( double value ) { m_value = value; }
-IfcEnergyMeasure::~IfcEnergyMeasure() {}
 shared_ptr<BuildingObject> IfcEnergyMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEnergyMeasure> copy_self( new IfcEnergyMeasure() );

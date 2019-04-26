@@ -16,7 +16,6 @@
 
 // ENTITY IfcResourceConstraintRelationship 
 IfcResourceConstraintRelationship::IfcResourceConstraintRelationship( int id ) { m_entity_id = id; }
-IfcResourceConstraintRelationship::~IfcResourceConstraintRelationship() {}
 shared_ptr<BuildingObject> IfcResourceConstraintRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcResourceConstraintRelationship> copy_self( new IfcResourceConstraintRelationship() );
@@ -62,7 +61,7 @@ void IfcResourceConstraintRelationship::getStepLine( std::stringstream& stream )
 	stream << ")";
 	stream << ");";
 }
-void IfcResourceConstraintRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcResourceConstraintRelationship::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcResourceConstraintRelationship::toString() const { return L"IfcResourceConstraintRelationship"; }
 void IfcResourceConstraintRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

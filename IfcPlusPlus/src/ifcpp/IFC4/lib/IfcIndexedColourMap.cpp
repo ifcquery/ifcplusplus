@@ -15,7 +15,6 @@
 
 // ENTITY IfcIndexedColourMap 
 IfcIndexedColourMap::IfcIndexedColourMap( int id ) { m_entity_id = id; }
-IfcIndexedColourMap::~IfcIndexedColourMap() {}
 shared_ptr<BuildingObject> IfcIndexedColourMap::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIndexedColourMap> copy_self( new IfcIndexedColourMap() );
@@ -61,7 +60,7 @@ void IfcIndexedColourMap::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcIndexedColourMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcIndexedColourMap::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcIndexedColourMap::toString() const { return L"IfcIndexedColourMap"; }
 void IfcIndexedColourMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

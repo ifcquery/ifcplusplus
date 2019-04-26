@@ -17,7 +17,6 @@
 
 // ENTITY IfcOffsetCurve3D 
 IfcOffsetCurve3D::IfcOffsetCurve3D( int id ) { m_entity_id = id; }
-IfcOffsetCurve3D::~IfcOffsetCurve3D() {}
 shared_ptr<BuildingObject> IfcOffsetCurve3D::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOffsetCurve3D> copy_self( new IfcOffsetCurve3D() );
@@ -39,7 +38,7 @@ void IfcOffsetCurve3D::getStepLine( std::stringstream& stream ) const
 	if( m_RefDirection ) { stream << "#" << m_RefDirection->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcOffsetCurve3D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcOffsetCurve3D::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOffsetCurve3D::toString() const { return L"IfcOffsetCurve3D"; }
 void IfcOffsetCurve3D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

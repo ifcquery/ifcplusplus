@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcWindowPanelPositionEnum.h"
 
 // TYPE IfcWindowPanelPositionEnum = ENUMERATION OF	(LEFT	,MIDDLE	,RIGHT	,BOTTOM	,TOP	,NOTDEFINED);
-IfcWindowPanelPositionEnum::~IfcWindowPanelPositionEnum() {}
 shared_ptr<BuildingObject> IfcWindowPanelPositionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWindowPanelPositionEnum> copy_self( new IfcWindowPanelPositionEnum() );

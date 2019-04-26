@@ -19,7 +19,6 @@
 
 // ENTITY IfcRelAssociatesClassification 
 IfcRelAssociatesClassification::IfcRelAssociatesClassification( int id ) { m_entity_id = id; }
-IfcRelAssociatesClassification::~IfcRelAssociatesClassification() {}
 shared_ptr<BuildingObject> IfcRelAssociatesClassification::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssociatesClassification> copy_self( new IfcRelAssociatesClassification() );
@@ -79,7 +78,7 @@ void IfcRelAssociatesClassification::getStepLine( std::stringstream& stream ) co
 	if( m_RelatingClassification ) { m_RelatingClassification->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcRelAssociatesClassification::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelAssociatesClassification::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssociatesClassification::toString() const { return L"IfcRelAssociatesClassification"; }
 void IfcRelAssociatesClassification::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

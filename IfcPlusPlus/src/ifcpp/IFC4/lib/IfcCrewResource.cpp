@@ -29,7 +29,6 @@
 
 // ENTITY IfcCrewResource 
 IfcCrewResource::IfcCrewResource( int id ) { m_entity_id = id; }
-IfcCrewResource::~IfcCrewResource() {}
 shared_ptr<BuildingObject> IfcCrewResource::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCrewResource> copy_self( new IfcCrewResource() );
@@ -87,7 +86,7 @@ void IfcCrewResource::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCrewResource::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCrewResource::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCrewResource::toString() const { return L"IfcCrewResource"; }
 void IfcCrewResource::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

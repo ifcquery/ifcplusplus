@@ -37,7 +37,6 @@
 
 // ENTITY IfcReinforcingElement 
 IfcReinforcingElement::IfcReinforcingElement( int id ) { m_entity_id = id; }
-IfcReinforcingElement::~IfcReinforcingElement() {}
 shared_ptr<BuildingObject> IfcReinforcingElement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingElement> copy_self( new IfcReinforcingElement() );
@@ -82,7 +81,7 @@ void IfcReinforcingElement::getStepLine( std::stringstream& stream ) const
 	if( m_SteelGrade ) { m_SteelGrade->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcReinforcingElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcReinforcingElement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcReinforcingElement::toString() const { return L"IfcReinforcingElement"; }
 void IfcReinforcingElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

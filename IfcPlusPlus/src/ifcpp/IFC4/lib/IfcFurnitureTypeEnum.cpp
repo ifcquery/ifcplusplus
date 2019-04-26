@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcFurnitureTypeEnum.h"
 
 // TYPE IfcFurnitureTypeEnum = ENUMERATION OF	(CHAIR	,TABLE	,DESK	,BED	,FILECABINET	,SHELF	,SOFA	,USERDEFINED	,NOTDEFINED);
-IfcFurnitureTypeEnum::~IfcFurnitureTypeEnum() {}
 shared_ptr<BuildingObject> IfcFurnitureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFurnitureTypeEnum> copy_self( new IfcFurnitureTypeEnum() );

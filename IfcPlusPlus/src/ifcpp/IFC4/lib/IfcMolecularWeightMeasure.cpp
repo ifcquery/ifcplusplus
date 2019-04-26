@@ -12,7 +12,6 @@
 
 // TYPE IfcMolecularWeightMeasure = REAL;
 IfcMolecularWeightMeasure::IfcMolecularWeightMeasure( double value ) { m_value = value; }
-IfcMolecularWeightMeasure::~IfcMolecularWeightMeasure() {}
 shared_ptr<BuildingObject> IfcMolecularWeightMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMolecularWeightMeasure> copy_self( new IfcMolecularWeightMeasure() );

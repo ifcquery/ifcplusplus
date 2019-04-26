@@ -20,7 +20,6 @@
 
 // ENTITY IfcApproval 
 IfcApproval::IfcApproval( int id ) { m_entity_id = id; }
-IfcApproval::~IfcApproval() {}
 shared_ptr<BuildingObject> IfcApproval::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcApproval> copy_self( new IfcApproval() );
@@ -57,7 +56,7 @@ void IfcApproval::getStepLine( std::stringstream& stream ) const
 	if( m_GivingApproval ) { m_GivingApproval->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcApproval::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcApproval::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcApproval::toString() const { return L"IfcApproval"; }
 void IfcApproval::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

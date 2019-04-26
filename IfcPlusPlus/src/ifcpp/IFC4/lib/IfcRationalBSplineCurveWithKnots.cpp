@@ -20,7 +20,6 @@
 
 // ENTITY IfcRationalBSplineCurveWithKnots 
 IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots( int id ) { m_entity_id = id; }
-IfcRationalBSplineCurveWithKnots::~IfcRationalBSplineCurveWithKnots() {}
 shared_ptr<BuildingObject> IfcRationalBSplineCurveWithKnots::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRationalBSplineCurveWithKnots> copy_self( new IfcRationalBSplineCurveWithKnots() );
@@ -85,7 +84,7 @@ void IfcRationalBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) 
 	writeNumericTypeList( stream, m_WeightsData );
 	stream << ");";
 }
-void IfcRationalBSplineCurveWithKnots::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRationalBSplineCurveWithKnots::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRationalBSplineCurveWithKnots::toString() const { return L"IfcRationalBSplineCurveWithKnots"; }
 void IfcRationalBSplineCurveWithKnots::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

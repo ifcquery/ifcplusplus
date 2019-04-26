@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcWorkScheduleTypeEnum.h"
 
 // TYPE IfcWorkScheduleTypeEnum = ENUMERATION OF	(ACTUAL	,BASELINE	,PLANNED	,USERDEFINED	,NOTDEFINED);
-IfcWorkScheduleTypeEnum::~IfcWorkScheduleTypeEnum() {}
 shared_ptr<BuildingObject> IfcWorkScheduleTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWorkScheduleTypeEnum> copy_self( new IfcWorkScheduleTypeEnum() );

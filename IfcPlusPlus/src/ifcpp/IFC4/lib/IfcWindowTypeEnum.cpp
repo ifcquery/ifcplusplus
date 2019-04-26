@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcWindowTypeEnum.h"
 
 // TYPE IfcWindowTypeEnum = ENUMERATION OF	(WINDOW	,SKYLIGHT	,LIGHTDOME	,USERDEFINED	,NOTDEFINED);
-IfcWindowTypeEnum::~IfcWindowTypeEnum() {}
 shared_ptr<BuildingObject> IfcWindowTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWindowTypeEnum> copy_self( new IfcWindowTypeEnum() );

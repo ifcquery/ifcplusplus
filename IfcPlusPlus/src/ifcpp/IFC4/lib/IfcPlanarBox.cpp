@@ -15,7 +15,6 @@
 
 // ENTITY IfcPlanarBox 
 IfcPlanarBox::IfcPlanarBox( int id ) { m_entity_id = id; }
-IfcPlanarBox::~IfcPlanarBox() {}
 shared_ptr<BuildingObject> IfcPlanarBox::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPlanarBox> copy_self( new IfcPlanarBox() );
@@ -34,7 +33,7 @@ void IfcPlanarBox::getStepLine( std::stringstream& stream ) const
 	if( m_Placement ) { m_Placement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcPlanarBox::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPlanarBox::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPlanarBox::toString() const { return L"IfcPlanarBox"; }
 void IfcPlanarBox::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

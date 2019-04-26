@@ -15,7 +15,6 @@
 
 // ENTITY IfcCoordinateReferenceSystem 
 IfcCoordinateReferenceSystem::IfcCoordinateReferenceSystem( int id ) { m_entity_id = id; }
-IfcCoordinateReferenceSystem::~IfcCoordinateReferenceSystem() {}
 shared_ptr<BuildingObject> IfcCoordinateReferenceSystem::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCoordinateReferenceSystem> copy_self( new IfcCoordinateReferenceSystem() );
@@ -37,7 +36,7 @@ void IfcCoordinateReferenceSystem::getStepLine( std::stringstream& stream ) cons
 	if( m_VerticalDatum ) { m_VerticalDatum->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCoordinateReferenceSystem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCoordinateReferenceSystem::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCoordinateReferenceSystem::toString() const { return L"IfcCoordinateReferenceSystem"; }
 void IfcCoordinateReferenceSystem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

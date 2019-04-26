@@ -12,7 +12,6 @@
 
 // TYPE IfcInductanceMeasure = REAL;
 IfcInductanceMeasure::IfcInductanceMeasure( double value ) { m_value = value; }
-IfcInductanceMeasure::~IfcInductanceMeasure() {}
 shared_ptr<BuildingObject> IfcInductanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcInductanceMeasure> copy_self( new IfcInductanceMeasure() );

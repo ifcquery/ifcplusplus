@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcActionTypeEnum.h"
 
 // TYPE IfcActionTypeEnum = ENUMERATION OF	(PERMANENT_G	,VARIABLE_Q	,EXTRAORDINARY_A	,USERDEFINED	,NOTDEFINED);
-IfcActionTypeEnum::~IfcActionTypeEnum() {}
 shared_ptr<BuildingObject> IfcActionTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcActionTypeEnum> copy_self( new IfcActionTypeEnum() );

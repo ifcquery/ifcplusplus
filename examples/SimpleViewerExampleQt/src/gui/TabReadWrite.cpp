@@ -86,7 +86,7 @@ TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidge
 
 	m_txt_out->setText( uuid_strs.str().c_str() );
 #endif
-
+	
 	m_progress_bar = new QProgressBar();
 	m_progress_bar->setRange( 0, 1000 );
 

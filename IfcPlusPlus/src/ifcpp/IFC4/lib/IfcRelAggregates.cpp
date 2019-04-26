@@ -16,7 +16,6 @@
 
 // ENTITY IfcRelAggregates 
 IfcRelAggregates::IfcRelAggregates( int id ) { m_entity_id = id; }
-IfcRelAggregates::~IfcRelAggregates() {}
 shared_ptr<BuildingObject> IfcRelAggregates::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAggregates> copy_self( new IfcRelAggregates() );
@@ -59,7 +58,7 @@ void IfcRelAggregates::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_RelatedObjects );
 	stream << ");";
 }
-void IfcRelAggregates::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelAggregates::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAggregates::toString() const { return L"IfcRelAggregates"; }
 void IfcRelAggregates::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

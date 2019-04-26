@@ -28,7 +28,6 @@
 
 // ENTITY IfcStructuralResultGroup 
 IfcStructuralResultGroup::IfcStructuralResultGroup( int id ) { m_entity_id = id; }
-IfcStructuralResultGroup::~IfcStructuralResultGroup() {}
 shared_ptr<BuildingObject> IfcStructuralResultGroup::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralResultGroup> copy_self( new IfcStructuralResultGroup() );
@@ -70,7 +69,7 @@ void IfcStructuralResultGroup::getStepLine( std::stringstream& stream ) const
 	if( m_IsLinear ) { m_IsLinear->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralResultGroup::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralResultGroup::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralResultGroup::toString() const { return L"IfcStructuralResultGroup"; }
 void IfcStructuralResultGroup::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

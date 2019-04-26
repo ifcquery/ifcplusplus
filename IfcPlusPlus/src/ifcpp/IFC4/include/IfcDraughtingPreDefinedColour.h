@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcDraughtingPreDefinedColour : public IfcPreDefinedColour
 public:
 	IfcDraughtingPreDefinedColour() = default;
 	IfcDraughtingPreDefinedColour( int id );
-	~IfcDraughtingPreDefinedColour();
+	~IfcDraughtingPreDefinedColour() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

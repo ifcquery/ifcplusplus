@@ -12,7 +12,6 @@
 
 // ENTITY IfcTimePeriod 
 IfcTimePeriod::IfcTimePeriod( int id ) { m_entity_id = id; }
-IfcTimePeriod::~IfcTimePeriod() {}
 shared_ptr<BuildingObject> IfcTimePeriod::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTimePeriod> copy_self( new IfcTimePeriod() );
@@ -28,7 +27,7 @@ void IfcTimePeriod::getStepLine( std::stringstream& stream ) const
 	if( m_EndTime ) { m_EndTime->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTimePeriod::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTimePeriod::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTimePeriod::toString() const { return L"IfcTimePeriod"; }
 void IfcTimePeriod::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

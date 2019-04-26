@@ -15,7 +15,6 @@
 
 // ENTITY IfcStructuralLoadSingleForceWarping 
 IfcStructuralLoadSingleForceWarping::IfcStructuralLoadSingleForceWarping( int id ) { m_entity_id = id; }
-IfcStructuralLoadSingleForceWarping::~IfcStructuralLoadSingleForceWarping() {}
 shared_ptr<BuildingObject> IfcStructuralLoadSingleForceWarping::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadSingleForceWarping> copy_self( new IfcStructuralLoadSingleForceWarping() );
@@ -49,7 +48,7 @@ void IfcStructuralLoadSingleForceWarping::getStepLine( std::stringstream& stream
 	if( m_WarpingMoment ) { m_WarpingMoment->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadSingleForceWarping::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralLoadSingleForceWarping::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadSingleForceWarping::toString() const { return L"IfcStructuralLoadSingleForceWarping"; }
 void IfcStructuralLoadSingleForceWarping::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

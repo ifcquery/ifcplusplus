@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcTimeSeriesDataTypeEnum.h"
 
 // TYPE IfcTimeSeriesDataTypeEnum = ENUMERATION OF	(CONTINUOUS	,DISCRETE	,DISCRETEBINARY	,PIECEWISEBINARY	,PIECEWISECONSTANT	,PIECEWISECONTINUOUS	,NOTDEFINED);
-IfcTimeSeriesDataTypeEnum::~IfcTimeSeriesDataTypeEnum() {}
 shared_ptr<BuildingObject> IfcTimeSeriesDataTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTimeSeriesDataTypeEnum> copy_self( new IfcTimeSeriesDataTypeEnum() );

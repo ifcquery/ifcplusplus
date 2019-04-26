@@ -11,7 +11,6 @@
 
 // TYPE IfcCardinalPointReference = INTEGER;
 IfcCardinalPointReference::IfcCardinalPointReference( int value ) { m_value = value; }
-IfcCardinalPointReference::~IfcCardinalPointReference() {}
 shared_ptr<BuildingObject> IfcCardinalPointReference::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCardinalPointReference> copy_self( new IfcCardinalPointReference() );

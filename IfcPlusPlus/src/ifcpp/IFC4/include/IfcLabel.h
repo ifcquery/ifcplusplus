@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcLabel : public IfcSimpleValue
 public:
 	IfcLabel() = default;
 	IfcLabel( std::wstring value );
-	~IfcLabel();
+	~IfcLabel() = default;
 	virtual const char* className() const { return "IfcLabel"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

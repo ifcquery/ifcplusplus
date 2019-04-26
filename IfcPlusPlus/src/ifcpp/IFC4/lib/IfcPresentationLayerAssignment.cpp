@@ -17,7 +17,6 @@
 
 // ENTITY IfcPresentationLayerAssignment 
 IfcPresentationLayerAssignment::IfcPresentationLayerAssignment( int id ) { m_entity_id = id; }
-IfcPresentationLayerAssignment::~IfcPresentationLayerAssignment() {}
 shared_ptr<BuildingObject> IfcPresentationLayerAssignment::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPresentationLayerAssignment> copy_self( new IfcPresentationLayerAssignment() );
@@ -63,7 +62,7 @@ void IfcPresentationLayerAssignment::getStepLine( std::stringstream& stream ) co
 	if( m_Identifier ) { m_Identifier->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPresentationLayerAssignment::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPresentationLayerAssignment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPresentationLayerAssignment::toString() const { return L"IfcPresentationLayerAssignment"; }
 void IfcPresentationLayerAssignment::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

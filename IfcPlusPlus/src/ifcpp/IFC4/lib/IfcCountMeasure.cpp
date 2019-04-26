@@ -12,7 +12,6 @@
 
 // TYPE IfcCountMeasure = NUMBER;
 IfcCountMeasure::IfcCountMeasure( int value ) { m_value = value; }
-IfcCountMeasure::~IfcCountMeasure() {}
 shared_ptr<BuildingObject> IfcCountMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCountMeasure> copy_self( new IfcCountMeasure() );

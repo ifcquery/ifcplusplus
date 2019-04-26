@@ -12,7 +12,6 @@
 
 // TYPE IfcSoundPowerLevelMeasure = REAL;
 IfcSoundPowerLevelMeasure::IfcSoundPowerLevelMeasure( double value ) { m_value = value; }
-IfcSoundPowerLevelMeasure::~IfcSoundPowerLevelMeasure() {}
 shared_ptr<BuildingObject> IfcSoundPowerLevelMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSoundPowerLevelMeasure> copy_self( new IfcSoundPowerLevelMeasure() );

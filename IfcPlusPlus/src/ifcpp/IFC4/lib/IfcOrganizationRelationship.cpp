@@ -14,7 +14,6 @@
 
 // ENTITY IfcOrganizationRelationship 
 IfcOrganizationRelationship::IfcOrganizationRelationship( int id ) { m_entity_id = id; }
-IfcOrganizationRelationship::~IfcOrganizationRelationship() {}
 shared_ptr<BuildingObject> IfcOrganizationRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOrganizationRelationship> copy_self( new IfcOrganizationRelationship() );
@@ -43,7 +42,7 @@ void IfcOrganizationRelationship::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_RelatedOrganizations );
 	stream << ");";
 }
-void IfcOrganizationRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcOrganizationRelationship::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOrganizationRelationship::toString() const { return L"IfcOrganizationRelationship"; }
 void IfcOrganizationRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

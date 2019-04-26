@@ -40,7 +40,6 @@
 
 // ENTITY IfcBoiler 
 IfcBoiler::IfcBoiler( int id ) { m_entity_id = id; }
-IfcBoiler::~IfcBoiler() {}
 shared_ptr<BuildingObject> IfcBoiler::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoiler> copy_self( new IfcBoiler() );
@@ -85,7 +84,7 @@ void IfcBoiler::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBoiler::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBoiler::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoiler::toString() const { return L"IfcBoiler"; }
 void IfcBoiler::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

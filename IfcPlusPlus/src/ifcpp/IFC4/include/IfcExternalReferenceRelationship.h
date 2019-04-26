@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcExternalReferenceRelationship : public IfcResourceLevel
 public:
 	IfcExternalReferenceRelationship() = default;
 	IfcExternalReferenceRelationship( int id );
-	~IfcExternalReferenceRelationship();
+	~IfcExternalReferenceRelationship() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -12,7 +12,6 @@
 
 // TYPE IfcInteger = INTEGER;
 IfcInteger::IfcInteger( int value ) { m_value = value; }
-IfcInteger::~IfcInteger() {}
 shared_ptr<BuildingObject> IfcInteger::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcInteger> copy_self( new IfcInteger() );

@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcDuctFitting : public IfcFlowFitting
 public:
 	IfcDuctFitting() = default;
 	IfcDuctFitting( int id );
-	~IfcDuctFitting();
+	~IfcDuctFitting() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

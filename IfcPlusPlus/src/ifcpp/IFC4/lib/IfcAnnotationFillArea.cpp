@@ -14,7 +14,6 @@
 
 // ENTITY IfcAnnotationFillArea 
 IfcAnnotationFillArea::IfcAnnotationFillArea( int id ) { m_entity_id = id; }
-IfcAnnotationFillArea::~IfcAnnotationFillArea() {}
 shared_ptr<BuildingObject> IfcAnnotationFillArea::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAnnotationFillArea> copy_self( new IfcAnnotationFillArea() );
@@ -37,7 +36,7 @@ void IfcAnnotationFillArea::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_InnerBoundaries );
 	stream << ");";
 }
-void IfcAnnotationFillArea::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAnnotationFillArea::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAnnotationFillArea::toString() const { return L"IfcAnnotationFillArea"; }
 void IfcAnnotationFillArea::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

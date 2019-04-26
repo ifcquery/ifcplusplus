@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcStackTerminalTypeEnum.h"
 
 // TYPE IfcStackTerminalTypeEnum = ENUMERATION OF	(BIRDCAGE	,COWL	,RAINWATERHOPPER	,USERDEFINED	,NOTDEFINED);
-IfcStackTerminalTypeEnum::~IfcStackTerminalTypeEnum() {}
 shared_ptr<BuildingObject> IfcStackTerminalTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStackTerminalTypeEnum> copy_self( new IfcStackTerminalTypeEnum() );

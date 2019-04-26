@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcCsgSolid : public IfcSolidModel
 public:
 	IfcCsgSolid() = default;
 	IfcCsgSolid( int id );
-	~IfcCsgSolid();
+	~IfcCsgSolid() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

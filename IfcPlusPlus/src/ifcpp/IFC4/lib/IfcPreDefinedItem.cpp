@@ -12,7 +12,6 @@
 
 // ENTITY IfcPreDefinedItem 
 IfcPreDefinedItem::IfcPreDefinedItem( int id ) { m_entity_id = id; }
-IfcPreDefinedItem::~IfcPreDefinedItem() {}
 shared_ptr<BuildingObject> IfcPreDefinedItem::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPreDefinedItem> copy_self( new IfcPreDefinedItem() );
@@ -25,7 +24,7 @@ void IfcPreDefinedItem::getStepLine( std::stringstream& stream ) const
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPreDefinedItem::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPreDefinedItem::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPreDefinedItem::toString() const { return L"IfcPreDefinedItem"; }
 void IfcPreDefinedItem::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -19,7 +19,6 @@
 
 // ENTITY IfcRelAssignsToActor 
 IfcRelAssignsToActor::IfcRelAssignsToActor( int id ) { m_entity_id = id; }
-IfcRelAssignsToActor::~IfcRelAssignsToActor() {}
 shared_ptr<BuildingObject> IfcRelAssignsToActor::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssignsToActor> copy_self( new IfcRelAssignsToActor() );
@@ -68,7 +67,7 @@ void IfcRelAssignsToActor::getStepLine( std::stringstream& stream ) const
 	if( m_ActingRole ) { stream << "#" << m_ActingRole->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelAssignsToActor::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelAssignsToActor::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssignsToActor::toString() const { return L"IfcRelAssignsToActor"; }
 void IfcRelAssignsToActor::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

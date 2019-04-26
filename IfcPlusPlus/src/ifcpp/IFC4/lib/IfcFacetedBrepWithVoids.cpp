@@ -14,7 +14,6 @@
 
 // ENTITY IfcFacetedBrepWithVoids 
 IfcFacetedBrepWithVoids::IfcFacetedBrepWithVoids( int id ) { m_entity_id = id; }
-IfcFacetedBrepWithVoids::~IfcFacetedBrepWithVoids() {}
 shared_ptr<BuildingObject> IfcFacetedBrepWithVoids::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFacetedBrepWithVoids> copy_self( new IfcFacetedBrepWithVoids() );
@@ -37,7 +36,7 @@ void IfcFacetedBrepWithVoids::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Voids );
 	stream << ");";
 }
-void IfcFacetedBrepWithVoids::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFacetedBrepWithVoids::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFacetedBrepWithVoids::toString() const { return L"IfcFacetedBrepWithVoids"; }
 void IfcFacetedBrepWithVoids::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

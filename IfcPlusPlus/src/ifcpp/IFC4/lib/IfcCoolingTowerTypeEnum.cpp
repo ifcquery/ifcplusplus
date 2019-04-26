@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCoolingTowerTypeEnum.h"
 
 // TYPE IfcCoolingTowerTypeEnum = ENUMERATION OF	(NATURALDRAFT	,MECHANICALINDUCEDDRAFT	,MECHANICALFORCEDDRAFT	,USERDEFINED	,NOTDEFINED);
-IfcCoolingTowerTypeEnum::~IfcCoolingTowerTypeEnum() {}
 shared_ptr<BuildingObject> IfcCoolingTowerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCoolingTowerTypeEnum> copy_self( new IfcCoolingTowerTypeEnum() );

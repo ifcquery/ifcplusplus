@@ -18,7 +18,6 @@
 
 // ENTITY IfcRectangleHollowProfileDef 
 IfcRectangleHollowProfileDef::IfcRectangleHollowProfileDef( int id ) { m_entity_id = id; }
-IfcRectangleHollowProfileDef::~IfcRectangleHollowProfileDef() {}
 shared_ptr<BuildingObject> IfcRectangleHollowProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRectangleHollowProfileDef> copy_self( new IfcRectangleHollowProfileDef() );
@@ -52,7 +51,7 @@ void IfcRectangleHollowProfileDef::getStepLine( std::stringstream& stream ) cons
 	if( m_OuterFilletRadius ) { m_OuterFilletRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRectangleHollowProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRectangleHollowProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRectangleHollowProfileDef::toString() const { return L"IfcRectangleHollowProfileDef"; }
 void IfcRectangleHollowProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

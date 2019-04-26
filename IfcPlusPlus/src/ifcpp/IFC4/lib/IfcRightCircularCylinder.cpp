@@ -15,7 +15,6 @@
 
 // ENTITY IfcRightCircularCylinder 
 IfcRightCircularCylinder::IfcRightCircularCylinder( int id ) { m_entity_id = id; }
-IfcRightCircularCylinder::~IfcRightCircularCylinder() {}
 shared_ptr<BuildingObject> IfcRightCircularCylinder::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRightCircularCylinder> copy_self( new IfcRightCircularCylinder() );
@@ -34,7 +33,7 @@ void IfcRightCircularCylinder::getStepLine( std::stringstream& stream ) const
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRightCircularCylinder::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRightCircularCylinder::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRightCircularCylinder::toString() const { return L"IfcRightCircularCylinder"; }
 void IfcRightCircularCylinder::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

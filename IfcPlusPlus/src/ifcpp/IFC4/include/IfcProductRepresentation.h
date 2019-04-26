@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcProductRepresentation : public BuildingEntity
 public:
 	IfcProductRepresentation() = default;
 	IfcProductRepresentation( int id );
-	~IfcProductRepresentation();
+	~IfcProductRepresentation() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

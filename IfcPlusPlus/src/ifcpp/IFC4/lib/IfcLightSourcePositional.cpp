@@ -19,7 +19,6 @@
 
 // ENTITY IfcLightSourcePositional 
 IfcLightSourcePositional::IfcLightSourcePositional( int id ) { m_entity_id = id; }
-IfcLightSourcePositional::~IfcLightSourcePositional() {}
 shared_ptr<BuildingObject> IfcLightSourcePositional::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightSourcePositional> copy_self( new IfcLightSourcePositional() );
@@ -56,7 +55,7 @@ void IfcLightSourcePositional::getStepLine( std::stringstream& stream ) const
 	if( m_QuadricAttenuation ) { m_QuadricAttenuation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLightSourcePositional::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLightSourcePositional::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSourcePositional::toString() const { return L"IfcLightSourcePositional"; }
 void IfcLightSourcePositional::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

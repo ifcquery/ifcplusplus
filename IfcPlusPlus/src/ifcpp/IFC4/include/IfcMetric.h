@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcMetric : public IfcConstraint
 public:
 	IfcMetric() = default;
 	IfcMetric( int id );
-	~IfcMetric();
+	~IfcMetric() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

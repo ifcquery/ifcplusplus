@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSwitchingDeviceTypeEnum.h"
 
 // TYPE IfcSwitchingDeviceTypeEnum = ENUMERATION OF	(CONTACTOR	,DIMMERSWITCH	,EMERGENCYSTOP	,KEYPAD	,MOMENTARYSWITCH	,SELECTORSWITCH	,STARTER	,SWITCHDISCONNECTOR	,TOGGLESWITCH	,USERDEFINED	,NOTDEFINED);
-IfcSwitchingDeviceTypeEnum::~IfcSwitchingDeviceTypeEnum() {}
 shared_ptr<BuildingObject> IfcSwitchingDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSwitchingDeviceTypeEnum> copy_self( new IfcSwitchingDeviceTypeEnum() );

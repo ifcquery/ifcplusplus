@@ -15,7 +15,6 @@
 
 // ENTITY IfcToroidalSurface 
 IfcToroidalSurface::IfcToroidalSurface( int id ) { m_entity_id = id; }
-IfcToroidalSurface::~IfcToroidalSurface() {}
 shared_ptr<BuildingObject> IfcToroidalSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcToroidalSurface> copy_self( new IfcToroidalSurface() );
@@ -34,7 +33,7 @@ void IfcToroidalSurface::getStepLine( std::stringstream& stream ) const
 	if( m_MinorRadius ) { m_MinorRadius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcToroidalSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcToroidalSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcToroidalSurface::toString() const { return L"IfcToroidalSurface"; }
 void IfcToroidalSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

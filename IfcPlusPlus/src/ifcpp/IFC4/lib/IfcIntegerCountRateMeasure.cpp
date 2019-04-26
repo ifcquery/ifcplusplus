@@ -12,7 +12,6 @@
 
 // TYPE IfcIntegerCountRateMeasure = INTEGER;
 IfcIntegerCountRateMeasure::IfcIntegerCountRateMeasure( int value ) { m_value = value; }
-IfcIntegerCountRateMeasure::~IfcIntegerCountRateMeasure() {}
 shared_ptr<BuildingObject> IfcIntegerCountRateMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIntegerCountRateMeasure> copy_self( new IfcIntegerCountRateMeasure() );

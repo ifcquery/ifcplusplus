@@ -26,7 +26,6 @@
 
 // ENTITY IfcDuctSegmentType 
 IfcDuctSegmentType::IfcDuctSegmentType( int id ) { m_entity_id = id; }
-IfcDuctSegmentType::~IfcDuctSegmentType() {}
 shared_ptr<BuildingObject> IfcDuctSegmentType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDuctSegmentType> copy_self( new IfcDuctSegmentType() );
@@ -88,7 +87,7 @@ void IfcDuctSegmentType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDuctSegmentType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDuctSegmentType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDuctSegmentType::toString() const { return L"IfcDuctSegmentType"; }
 void IfcDuctSegmentType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

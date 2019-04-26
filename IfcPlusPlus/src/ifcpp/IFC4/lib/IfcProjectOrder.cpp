@@ -26,7 +26,6 @@
 
 // ENTITY IfcProjectOrder 
 IfcProjectOrder::IfcProjectOrder( int id ) { m_entity_id = id; }
-IfcProjectOrder::~IfcProjectOrder() {}
 shared_ptr<BuildingObject> IfcProjectOrder::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProjectOrder> copy_self( new IfcProjectOrder() );
@@ -71,7 +70,7 @@ void IfcProjectOrder::getStepLine( std::stringstream& stream ) const
 	if( m_LongDescription ) { m_LongDescription->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcProjectOrder::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcProjectOrder::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProjectOrder::toString() const { return L"IfcProjectOrder"; }
 void IfcProjectOrder::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

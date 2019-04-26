@@ -12,7 +12,6 @@
 
 // ENTITY IfcMonetaryUnit 
 IfcMonetaryUnit::IfcMonetaryUnit( int id ) { m_entity_id = id; }
-IfcMonetaryUnit::~IfcMonetaryUnit() {}
 shared_ptr<BuildingObject> IfcMonetaryUnit::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMonetaryUnit> copy_self( new IfcMonetaryUnit() );
@@ -25,7 +24,7 @@ void IfcMonetaryUnit::getStepLine( std::stringstream& stream ) const
 	if( m_Currency ) { m_Currency->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMonetaryUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMonetaryUnit::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMonetaryUnit::toString() const { return L"IfcMonetaryUnit"; }
 void IfcMonetaryUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

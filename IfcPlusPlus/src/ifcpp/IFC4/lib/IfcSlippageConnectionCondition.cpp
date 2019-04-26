@@ -13,7 +13,6 @@
 
 // ENTITY IfcSlippageConnectionCondition 
 IfcSlippageConnectionCondition::IfcSlippageConnectionCondition( int id ) { m_entity_id = id; }
-IfcSlippageConnectionCondition::~IfcSlippageConnectionCondition() {}
 shared_ptr<BuildingObject> IfcSlippageConnectionCondition::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSlippageConnectionCondition> copy_self( new IfcSlippageConnectionCondition() );
@@ -35,7 +34,7 @@ void IfcSlippageConnectionCondition::getStepLine( std::stringstream& stream ) co
 	if( m_SlippageZ ) { m_SlippageZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSlippageConnectionCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSlippageConnectionCondition::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSlippageConnectionCondition::toString() const { return L"IfcSlippageConnectionCondition"; }
 void IfcSlippageConnectionCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

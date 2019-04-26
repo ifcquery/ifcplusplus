@@ -21,7 +21,6 @@
 
 // ENTITY IfcReinforcementDefinitionProperties 
 IfcReinforcementDefinitionProperties::IfcReinforcementDefinitionProperties( int id ) { m_entity_id = id; }
-IfcReinforcementDefinitionProperties::~IfcReinforcementDefinitionProperties() {}
 shared_ptr<BuildingObject> IfcReinforcementDefinitionProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReinforcementDefinitionProperties> copy_self( new IfcReinforcementDefinitionProperties() );
@@ -64,7 +63,7 @@ void IfcReinforcementDefinitionProperties::getStepLine( std::stringstream& strea
 	writeEntityList( stream, m_ReinforcementSectionDefinitions );
 	stream << ");";
 }
-void IfcReinforcementDefinitionProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcReinforcementDefinitionProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcReinforcementDefinitionProperties::toString() const { return L"IfcReinforcementDefinitionProperties"; }
 void IfcReinforcementDefinitionProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

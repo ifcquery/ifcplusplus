@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcRationalBSplineSurfaceWithKnots : public IfcBSplineSurf
 public:
 	IfcRationalBSplineSurfaceWithKnots() = default;
 	IfcRationalBSplineSurfaceWithKnots( int id );
-	~IfcRationalBSplineSurfaceWithKnots();
+	~IfcRationalBSplineSurfaceWithKnots() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

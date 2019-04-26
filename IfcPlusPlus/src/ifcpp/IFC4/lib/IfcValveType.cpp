@@ -26,7 +26,6 @@
 
 // ENTITY IfcValveType 
 IfcValveType::IfcValveType( int id ) { m_entity_id = id; }
-IfcValveType::~IfcValveType() {}
 shared_ptr<BuildingObject> IfcValveType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcValveType> copy_self( new IfcValveType() );
@@ -88,7 +87,7 @@ void IfcValveType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcValveType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcValveType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcValveType::toString() const { return L"IfcValveType"; }
 void IfcValveType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

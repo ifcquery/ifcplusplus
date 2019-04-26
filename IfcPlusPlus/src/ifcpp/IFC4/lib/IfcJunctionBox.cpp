@@ -40,7 +40,6 @@
 
 // ENTITY IfcJunctionBox 
 IfcJunctionBox::IfcJunctionBox( int id ) { m_entity_id = id; }
-IfcJunctionBox::~IfcJunctionBox() {}
 shared_ptr<BuildingObject> IfcJunctionBox::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcJunctionBox> copy_self( new IfcJunctionBox() );
@@ -85,7 +84,7 @@ void IfcJunctionBox::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcJunctionBox::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcJunctionBox::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcJunctionBox::toString() const { return L"IfcJunctionBox"; }
 void IfcJunctionBox::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

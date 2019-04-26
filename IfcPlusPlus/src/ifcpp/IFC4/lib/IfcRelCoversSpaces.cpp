@@ -17,7 +17,6 @@
 
 // ENTITY IfcRelCoversSpaces 
 IfcRelCoversSpaces::IfcRelCoversSpaces( int id ) { m_entity_id = id; }
-IfcRelCoversSpaces::~IfcRelCoversSpaces() {}
 shared_ptr<BuildingObject> IfcRelCoversSpaces::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelCoversSpaces> copy_self( new IfcRelCoversSpaces() );
@@ -60,7 +59,7 @@ void IfcRelCoversSpaces::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_RelatedCoverings );
 	stream << ");";
 }
-void IfcRelCoversSpaces::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelCoversSpaces::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelCoversSpaces::toString() const { return L"IfcRelCoversSpaces"; }
 void IfcRelCoversSpaces::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

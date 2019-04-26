@@ -26,7 +26,7 @@ public:
 
 	IfcPipeSegmentTypeEnum() = default;
 	IfcPipeSegmentTypeEnum( IfcPipeSegmentTypeEnumEnum e ) { m_enum = e; }
-	~IfcPipeSegmentTypeEnum();
+	~IfcPipeSegmentTypeEnum() = default;
 	virtual const char* className() const { return "IfcPipeSegmentTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

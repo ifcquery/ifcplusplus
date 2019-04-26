@@ -40,7 +40,6 @@
 
 // ENTITY IfcMotorConnection 
 IfcMotorConnection::IfcMotorConnection( int id ) { m_entity_id = id; }
-IfcMotorConnection::~IfcMotorConnection() {}
 shared_ptr<BuildingObject> IfcMotorConnection::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMotorConnection> copy_self( new IfcMotorConnection() );
@@ -85,7 +84,7 @@ void IfcMotorConnection::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMotorConnection::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMotorConnection::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMotorConnection::toString() const { return L"IfcMotorConnection"; }
 void IfcMotorConnection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

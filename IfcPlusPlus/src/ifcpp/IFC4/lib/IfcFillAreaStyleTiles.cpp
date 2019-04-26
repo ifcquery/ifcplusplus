@@ -15,7 +15,6 @@
 
 // ENTITY IfcFillAreaStyleTiles 
 IfcFillAreaStyleTiles::IfcFillAreaStyleTiles( int id ) { m_entity_id = id; }
-IfcFillAreaStyleTiles::~IfcFillAreaStyleTiles() {}
 shared_ptr<BuildingObject> IfcFillAreaStyleTiles::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFillAreaStyleTiles> copy_self( new IfcFillAreaStyleTiles() );
@@ -48,7 +47,7 @@ void IfcFillAreaStyleTiles::getStepLine( std::stringstream& stream ) const
 	if( m_TilingScale ) { m_TilingScale->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFillAreaStyleTiles::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFillAreaStyleTiles::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFillAreaStyleTiles::toString() const { return L"IfcFillAreaStyleTiles"; }
 void IfcFillAreaStyleTiles::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

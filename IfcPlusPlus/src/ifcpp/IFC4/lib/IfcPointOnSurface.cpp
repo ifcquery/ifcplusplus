@@ -15,7 +15,6 @@
 
 // ENTITY IfcPointOnSurface 
 IfcPointOnSurface::IfcPointOnSurface( int id ) { m_entity_id = id; }
-IfcPointOnSurface::~IfcPointOnSurface() {}
 shared_ptr<BuildingObject> IfcPointOnSurface::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPointOnSurface> copy_self( new IfcPointOnSurface() );
@@ -34,7 +33,7 @@ void IfcPointOnSurface::getStepLine( std::stringstream& stream ) const
 	if( m_PointParameterV ) { m_PointParameterV->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPointOnSurface::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPointOnSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPointOnSurface::toString() const { return L"IfcPointOnSurface"; }
 void IfcPointOnSurface::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

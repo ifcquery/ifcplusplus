@@ -15,7 +15,6 @@
 
 // ENTITY IfcSIUnit 
 IfcSIUnit::IfcSIUnit( int id ) { m_entity_id = id; }
-IfcSIUnit::~IfcSIUnit() {}
 shared_ptr<BuildingObject> IfcSIUnit::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSIUnit> copy_self( new IfcSIUnit() );
@@ -37,7 +36,7 @@ void IfcSIUnit::getStepLine( std::stringstream& stream ) const
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSIUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSIUnit::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSIUnit::toString() const { return L"IfcSIUnit"; }
 void IfcSIUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

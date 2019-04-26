@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcBoilerTypeEnum.h"
 
 // TYPE IfcBoilerTypeEnum = ENUMERATION OF	(WATER	,STEAM	,USERDEFINED	,NOTDEFINED);
-IfcBoilerTypeEnum::~IfcBoilerTypeEnum() {}
 shared_ptr<BuildingObject> IfcBoilerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoilerTypeEnum> copy_self( new IfcBoilerTypeEnum() );

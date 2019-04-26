@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcWindow : public IfcBuildingElement
 public:
 	IfcWindow() = default;
 	IfcWindow( int id );
-	~IfcWindow();
+	~IfcWindow() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

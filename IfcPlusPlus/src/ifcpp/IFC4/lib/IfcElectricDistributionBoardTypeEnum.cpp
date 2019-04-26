@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcElectricDistributionBoardTypeEnum.h"
 
 // TYPE IfcElectricDistributionBoardTypeEnum = ENUMERATION OF	(CONSUMERUNIT	,DISTRIBUTIONBOARD	,MOTORCONTROLCENTRE	,SWITCHBOARD	,USERDEFINED	,NOTDEFINED);
-IfcElectricDistributionBoardTypeEnum::~IfcElectricDistributionBoardTypeEnum() {}
 shared_ptr<BuildingObject> IfcElectricDistributionBoardTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricDistributionBoardTypeEnum> copy_self( new IfcElectricDistributionBoardTypeEnum() );

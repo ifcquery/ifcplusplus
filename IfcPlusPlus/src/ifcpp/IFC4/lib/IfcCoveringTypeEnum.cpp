@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCoveringTypeEnum.h"
 
 // TYPE IfcCoveringTypeEnum = ENUMERATION OF	(CEILING	,FLOORING	,CLADDING	,ROOFING	,MOLDING	,SKIRTINGBOARD	,INSULATION	,MEMBRANE	,SLEEVING	,WRAPPING	,USERDEFINED	,NOTDEFINED);
-IfcCoveringTypeEnum::~IfcCoveringTypeEnum() {}
 shared_ptr<BuildingObject> IfcCoveringTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCoveringTypeEnum> copy_self( new IfcCoveringTypeEnum() );

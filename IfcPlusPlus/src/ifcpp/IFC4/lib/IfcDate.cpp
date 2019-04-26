@@ -12,7 +12,6 @@
 
 // TYPE IfcDate = STRING;
 IfcDate::IfcDate( std::wstring value ) { m_value = value; }
-IfcDate::~IfcDate() {}
 shared_ptr<BuildingObject> IfcDate::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDate> copy_self( new IfcDate() );

@@ -20,7 +20,6 @@
 
 // ENTITY IfcRelContainedInSpatialStructure 
 IfcRelContainedInSpatialStructure::IfcRelContainedInSpatialStructure( int id ) { m_entity_id = id; }
-IfcRelContainedInSpatialStructure::~IfcRelContainedInSpatialStructure() {}
 shared_ptr<BuildingObject> IfcRelContainedInSpatialStructure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelContainedInSpatialStructure> copy_self( new IfcRelContainedInSpatialStructure() );
@@ -63,7 +62,7 @@ void IfcRelContainedInSpatialStructure::getStepLine( std::stringstream& stream )
 	if( m_RelatingStructure ) { stream << "#" << m_RelatingStructure->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelContainedInSpatialStructure::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelContainedInSpatialStructure::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelContainedInSpatialStructure::toString() const { return L"IfcRelContainedInSpatialStructure"; }
 void IfcRelContainedInSpatialStructure::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

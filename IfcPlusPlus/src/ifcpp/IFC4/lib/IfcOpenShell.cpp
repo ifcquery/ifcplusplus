@@ -14,7 +14,6 @@
 
 // ENTITY IfcOpenShell 
 IfcOpenShell::IfcOpenShell( int id ) { m_entity_id = id; }
-IfcOpenShell::~IfcOpenShell() {}
 shared_ptr<BuildingObject> IfcOpenShell::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOpenShell> copy_self( new IfcOpenShell() );
@@ -34,7 +33,7 @@ void IfcOpenShell::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_CfsFaces );
 	stream << ");";
 }
-void IfcOpenShell::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcOpenShell::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOpenShell::toString() const { return L"IfcOpenShell"; }
 void IfcOpenShell::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

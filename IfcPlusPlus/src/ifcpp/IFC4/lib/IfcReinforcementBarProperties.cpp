@@ -18,7 +18,6 @@
 
 // ENTITY IfcReinforcementBarProperties 
 IfcReinforcementBarProperties::IfcReinforcementBarProperties( int id ) { m_entity_id = id; }
-IfcReinforcementBarProperties::~IfcReinforcementBarProperties() {}
 shared_ptr<BuildingObject> IfcReinforcementBarProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReinforcementBarProperties> copy_self( new IfcReinforcementBarProperties() );
@@ -46,7 +45,7 @@ void IfcReinforcementBarProperties::getStepLine( std::stringstream& stream ) con
 	if( m_BarCount ) { m_BarCount->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcReinforcementBarProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcReinforcementBarProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcReinforcementBarProperties::toString() const { return L"IfcReinforcementBarProperties"; }
 void IfcReinforcementBarProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

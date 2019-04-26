@@ -17,7 +17,6 @@
 
 // ENTITY IfcTelecomAddress 
 IfcTelecomAddress::IfcTelecomAddress( int id ) { m_entity_id = id; }
-IfcTelecomAddress::~IfcTelecomAddress() {}
 shared_ptr<BuildingObject> IfcTelecomAddress::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTelecomAddress> copy_self( new IfcTelecomAddress() );
@@ -150,7 +149,7 @@ void IfcTelecomAddress::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcTelecomAddress::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTelecomAddress::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTelecomAddress::toString() const { return L"IfcTelecomAddress"; }
 void IfcTelecomAddress::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -18,7 +18,6 @@
 
 // ENTITY IfcShapeRepresentation 
 IfcShapeRepresentation::IfcShapeRepresentation( int id ) { m_entity_id = id; }
-IfcShapeRepresentation::~IfcShapeRepresentation() {}
 shared_ptr<BuildingObject> IfcShapeRepresentation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcShapeRepresentation> copy_self( new IfcShapeRepresentation() );
@@ -51,7 +50,7 @@ void IfcShapeRepresentation::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Items );
 	stream << ");";
 }
-void IfcShapeRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcShapeRepresentation::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcShapeRepresentation::toString() const { return L"IfcShapeRepresentation"; }
 void IfcShapeRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

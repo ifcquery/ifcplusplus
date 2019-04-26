@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcProductDefinitionShape : virtual public IfcProductRepre
 public:
 	IfcProductDefinitionShape() = default;
 	IfcProductDefinitionShape( int id );
-	~IfcProductDefinitionShape();
+	~IfcProductDefinitionShape() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

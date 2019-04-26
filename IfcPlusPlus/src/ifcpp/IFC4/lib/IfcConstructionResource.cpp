@@ -28,7 +28,6 @@
 
 // ENTITY IfcConstructionResource 
 IfcConstructionResource::IfcConstructionResource( int id ) { m_entity_id = id; }
-IfcConstructionResource::~IfcConstructionResource() {}
 shared_ptr<BuildingObject> IfcConstructionResource::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConstructionResource> copy_self( new IfcConstructionResource() );
@@ -83,7 +82,7 @@ void IfcConstructionResource::getStepLine( std::stringstream& stream ) const
 	if( m_BaseQuantity ) { stream << "#" << m_BaseQuantity->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcConstructionResource::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcConstructionResource::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConstructionResource::toString() const { return L"IfcConstructionResource"; }
 void IfcConstructionResource::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

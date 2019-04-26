@@ -29,7 +29,6 @@
 
 // ENTITY IfcStructuralConnection 
 IfcStructuralConnection::IfcStructuralConnection( int id ) { m_entity_id = id; }
-IfcStructuralConnection::~IfcStructuralConnection() {}
 shared_ptr<BuildingObject> IfcStructuralConnection::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralConnection> copy_self( new IfcStructuralConnection() );
@@ -71,7 +70,7 @@ void IfcStructuralConnection::getStepLine( std::stringstream& stream ) const
 	if( m_AppliedCondition ) { stream << "#" << m_AppliedCondition->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralConnection::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralConnection::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralConnection::toString() const { return L"IfcStructuralConnection"; }
 void IfcStructuralConnection::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

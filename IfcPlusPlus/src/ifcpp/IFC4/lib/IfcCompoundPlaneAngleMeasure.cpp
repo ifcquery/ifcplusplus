@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcCompoundPlaneAngleMeasure.h"
 
 // TYPE IfcCompoundPlaneAngleMeasure = LIST [3:4] OF INTEGER;
-IfcCompoundPlaneAngleMeasure::~IfcCompoundPlaneAngleMeasure() {}
 shared_ptr<BuildingObject> IfcCompoundPlaneAngleMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCompoundPlaneAngleMeasure> copy_self( new IfcCompoundPlaneAngleMeasure() );

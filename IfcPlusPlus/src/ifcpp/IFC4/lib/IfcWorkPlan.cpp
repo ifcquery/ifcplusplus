@@ -29,7 +29,6 @@
 
 // ENTITY IfcWorkPlan 
 IfcWorkPlan::IfcWorkPlan( int id ) { m_entity_id = id; }
-IfcWorkPlan::~IfcWorkPlan() {}
 shared_ptr<BuildingObject> IfcWorkPlan::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWorkPlan> copy_self( new IfcWorkPlan() );
@@ -96,7 +95,7 @@ void IfcWorkPlan::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcWorkPlan::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcWorkPlan::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWorkPlan::toString() const { return L"IfcWorkPlan"; }
 void IfcWorkPlan::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

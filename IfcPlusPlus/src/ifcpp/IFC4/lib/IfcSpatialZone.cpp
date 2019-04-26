@@ -30,7 +30,6 @@
 
 // ENTITY IfcSpatialZone 
 IfcSpatialZone::IfcSpatialZone( int id ) { m_entity_id = id; }
-IfcSpatialZone::~IfcSpatialZone() {}
 shared_ptr<BuildingObject> IfcSpatialZone::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpatialZone> copy_self( new IfcSpatialZone() );
@@ -75,7 +74,7 @@ void IfcSpatialZone::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSpatialZone::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSpatialZone::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSpatialZone::toString() const { return L"IfcSpatialZone"; }
 void IfcSpatialZone::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

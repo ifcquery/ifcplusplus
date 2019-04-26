@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSystemFurnitureElementTypeEnum.h"
 
 // TYPE IfcSystemFurnitureElementTypeEnum = ENUMERATION OF	(PANEL	,WORKSURFACE	,USERDEFINED	,NOTDEFINED);
-IfcSystemFurnitureElementTypeEnum::~IfcSystemFurnitureElementTypeEnum() {}
 shared_ptr<BuildingObject> IfcSystemFurnitureElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSystemFurnitureElementTypeEnum> copy_self( new IfcSystemFurnitureElementTypeEnum() );

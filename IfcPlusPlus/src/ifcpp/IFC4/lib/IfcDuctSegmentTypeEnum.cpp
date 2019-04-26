@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcDuctSegmentTypeEnum.h"
 
 // TYPE IfcDuctSegmentTypeEnum = ENUMERATION OF	(RIGIDSEGMENT	,FLEXIBLESEGMENT	,USERDEFINED	,NOTDEFINED);
-IfcDuctSegmentTypeEnum::~IfcDuctSegmentTypeEnum() {}
 shared_ptr<BuildingObject> IfcDuctSegmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDuctSegmentTypeEnum> copy_self( new IfcDuctSegmentTypeEnum() );

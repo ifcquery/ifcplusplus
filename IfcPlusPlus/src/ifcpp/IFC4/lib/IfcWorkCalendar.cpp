@@ -27,7 +27,6 @@
 
 // ENTITY IfcWorkCalendar 
 IfcWorkCalendar::IfcWorkCalendar( int id ) { m_entity_id = id; }
-IfcWorkCalendar::~IfcWorkCalendar() {}
 shared_ptr<BuildingObject> IfcWorkCalendar::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWorkCalendar> copy_self( new IfcWorkCalendar() );
@@ -86,7 +85,7 @@ void IfcWorkCalendar::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcWorkCalendar::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcWorkCalendar::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWorkCalendar::toString() const { return L"IfcWorkCalendar"; }
 void IfcWorkCalendar::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

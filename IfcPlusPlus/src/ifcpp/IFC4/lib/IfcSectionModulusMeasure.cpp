@@ -12,7 +12,6 @@
 
 // TYPE IfcSectionModulusMeasure = REAL;
 IfcSectionModulusMeasure::IfcSectionModulusMeasure( double value ) { m_value = value; }
-IfcSectionModulusMeasure::~IfcSectionModulusMeasure() {}
 shared_ptr<BuildingObject> IfcSectionModulusMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSectionModulusMeasure> copy_self( new IfcSectionModulusMeasure() );

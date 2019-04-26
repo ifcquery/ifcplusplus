@@ -16,7 +16,6 @@
 
 // ENTITY IfcTextLiteral 
 IfcTextLiteral::IfcTextLiteral( int id ) { m_entity_id = id; }
-IfcTextLiteral::~IfcTextLiteral() {}
 shared_ptr<BuildingObject> IfcTextLiteral::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextLiteral> copy_self( new IfcTextLiteral() );
@@ -35,7 +34,7 @@ void IfcTextLiteral::getStepLine( std::stringstream& stream ) const
 	if( m_Path ) { m_Path->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTextLiteral::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTextLiteral::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextLiteral::toString() const { return L"IfcTextLiteral"; }
 void IfcTextLiteral::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

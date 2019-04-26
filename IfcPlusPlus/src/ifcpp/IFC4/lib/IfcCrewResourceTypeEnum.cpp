@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCrewResourceTypeEnum.h"
 
 // TYPE IfcCrewResourceTypeEnum = ENUMERATION OF	(OFFICE	,SITE	,USERDEFINED	,NOTDEFINED);
-IfcCrewResourceTypeEnum::~IfcCrewResourceTypeEnum() {}
 shared_ptr<BuildingObject> IfcCrewResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCrewResourceTypeEnum> copy_self( new IfcCrewResourceTypeEnum() );

@@ -40,7 +40,6 @@
 
 // ENTITY IfcHeatExchanger 
 IfcHeatExchanger::IfcHeatExchanger( int id ) { m_entity_id = id; }
-IfcHeatExchanger::~IfcHeatExchanger() {}
 shared_ptr<BuildingObject> IfcHeatExchanger::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcHeatExchanger> copy_self( new IfcHeatExchanger() );
@@ -85,7 +84,7 @@ void IfcHeatExchanger::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcHeatExchanger::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcHeatExchanger::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcHeatExchanger::toString() const { return L"IfcHeatExchanger"; }
 void IfcHeatExchanger::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

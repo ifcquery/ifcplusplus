@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcFailureConnectionCondition : public IfcStructuralConnec
 public:
 	IfcFailureConnectionCondition() = default;
 	IfcFailureConnectionCondition( int id );
-	~IfcFailureConnectionCondition();
+	~IfcFailureConnectionCondition() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

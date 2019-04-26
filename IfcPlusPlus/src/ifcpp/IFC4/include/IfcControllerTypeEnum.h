@@ -26,7 +26,7 @@ public:
 
 	IfcControllerTypeEnum() = default;
 	IfcControllerTypeEnum( IfcControllerTypeEnumEnum e ) { m_enum = e; }
-	~IfcControllerTypeEnum();
+	~IfcControllerTypeEnum() = default;
 	virtual const char* className() const { return "IfcControllerTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

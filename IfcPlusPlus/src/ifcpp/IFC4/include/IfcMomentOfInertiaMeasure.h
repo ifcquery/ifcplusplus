@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcMomentOfInertiaMeasure : public IfcDerivedMeasureValue
 public:
 	IfcMomentOfInertiaMeasure() = default;
 	IfcMomentOfInertiaMeasure( double value );
-	~IfcMomentOfInertiaMeasure();
+	~IfcMomentOfInertiaMeasure() = default;
 	virtual const char* className() const { return "IfcMomentOfInertiaMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -24,7 +24,6 @@
 
 // ENTITY IfcPermeableCoveringProperties 
 IfcPermeableCoveringProperties::IfcPermeableCoveringProperties( int id ) { m_entity_id = id; }
-IfcPermeableCoveringProperties::~IfcPermeableCoveringProperties() {}
 shared_ptr<BuildingObject> IfcPermeableCoveringProperties::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPermeableCoveringProperties> copy_self( new IfcPermeableCoveringProperties() );
@@ -69,7 +68,7 @@ void IfcPermeableCoveringProperties::getStepLine( std::stringstream& stream ) co
 	if( m_ShapeAspectStyle ) { stream << "#" << m_ShapeAspectStyle->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPermeableCoveringProperties::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPermeableCoveringProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPermeableCoveringProperties::toString() const { return L"IfcPermeableCoveringProperties"; }
 void IfcPermeableCoveringProperties::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

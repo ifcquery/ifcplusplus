@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCoilTypeEnum.h"
 
 // TYPE IfcCoilTypeEnum = ENUMERATION OF	(DXCOOLINGCOIL	,ELECTRICHEATINGCOIL	,GASHEATINGCOIL	,HYDRONICCOIL	,STEAMHEATINGCOIL	,WATERCOOLINGCOIL	,WATERHEATINGCOIL	,USERDEFINED	,NOTDEFINED);
-IfcCoilTypeEnum::~IfcCoilTypeEnum() {}
 shared_ptr<BuildingObject> IfcCoilTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCoilTypeEnum> copy_self( new IfcCoilTypeEnum() );

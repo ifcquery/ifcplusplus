@@ -26,7 +26,7 @@ public:
 
 	IfcStructuralCurveMemberTypeEnum() = default;
 	IfcStructuralCurveMemberTypeEnum( IfcStructuralCurveMemberTypeEnumEnum e ) { m_enum = e; }
-	~IfcStructuralCurveMemberTypeEnum();
+	~IfcStructuralCurveMemberTypeEnum() = default;
 	virtual const char* className() const { return "IfcStructuralCurveMemberTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

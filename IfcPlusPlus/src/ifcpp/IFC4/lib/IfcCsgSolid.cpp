@@ -14,7 +14,6 @@
 
 // ENTITY IfcCsgSolid 
 IfcCsgSolid::IfcCsgSolid( int id ) { m_entity_id = id; }
-IfcCsgSolid::~IfcCsgSolid() {}
 shared_ptr<BuildingObject> IfcCsgSolid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCsgSolid> copy_self( new IfcCsgSolid() );
@@ -27,7 +26,7 @@ void IfcCsgSolid::getStepLine( std::stringstream& stream ) const
 	if( m_TreeRootExpression ) { m_TreeRootExpression->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcCsgSolid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCsgSolid::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCsgSolid::toString() const { return L"IfcCsgSolid"; }
 void IfcCsgSolid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

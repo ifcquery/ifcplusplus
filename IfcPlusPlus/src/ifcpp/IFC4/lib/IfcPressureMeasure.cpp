@@ -12,7 +12,6 @@
 
 // TYPE IfcPressureMeasure = REAL;
 IfcPressureMeasure::IfcPressureMeasure( double value ) { m_value = value; }
-IfcPressureMeasure::~IfcPressureMeasure() {}
 shared_ptr<BuildingObject> IfcPressureMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPressureMeasure> copy_self( new IfcPressureMeasure() );

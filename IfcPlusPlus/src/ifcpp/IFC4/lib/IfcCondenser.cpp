@@ -40,7 +40,6 @@
 
 // ENTITY IfcCondenser 
 IfcCondenser::IfcCondenser( int id ) { m_entity_id = id; }
-IfcCondenser::~IfcCondenser() {}
 shared_ptr<BuildingObject> IfcCondenser::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCondenser> copy_self( new IfcCondenser() );
@@ -85,7 +84,7 @@ void IfcCondenser::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCondenser::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCondenser::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCondenser::toString() const { return L"IfcCondenser"; }
 void IfcCondenser::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

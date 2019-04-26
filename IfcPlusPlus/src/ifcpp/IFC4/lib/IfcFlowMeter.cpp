@@ -40,7 +40,6 @@
 
 // ENTITY IfcFlowMeter 
 IfcFlowMeter::IfcFlowMeter( int id ) { m_entity_id = id; }
-IfcFlowMeter::~IfcFlowMeter() {}
 shared_ptr<BuildingObject> IfcFlowMeter::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFlowMeter> copy_self( new IfcFlowMeter() );
@@ -85,7 +84,7 @@ void IfcFlowMeter::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFlowMeter::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFlowMeter::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFlowMeter::toString() const { return L"IfcFlowMeter"; }
 void IfcFlowMeter::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

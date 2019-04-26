@@ -25,7 +25,7 @@ public:
 
 	IfcInternalOrExternalEnum() = default;
 	IfcInternalOrExternalEnum( IfcInternalOrExternalEnumEnum e ) { m_enum = e; }
-	~IfcInternalOrExternalEnum();
+	~IfcInternalOrExternalEnum() = default;
 	virtual const char* className() const { return "IfcInternalOrExternalEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -18,7 +18,6 @@
 
 // ENTITY IfcShapeAspect 
 IfcShapeAspect::IfcShapeAspect( int id ) { m_entity_id = id; }
-IfcShapeAspect::~IfcShapeAspect() {}
 shared_ptr<BuildingObject> IfcShapeAspect::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcShapeAspect> copy_self( new IfcShapeAspect() );
@@ -50,7 +49,7 @@ void IfcShapeAspect::getStepLine( std::stringstream& stream ) const
 	if( m_PartOfProductDefinitionShape ) { m_PartOfProductDefinitionShape->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcShapeAspect::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcShapeAspect::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcShapeAspect::toString() const { return L"IfcShapeAspect"; }
 void IfcShapeAspect::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

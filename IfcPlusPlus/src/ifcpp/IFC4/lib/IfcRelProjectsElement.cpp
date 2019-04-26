@@ -17,7 +17,6 @@
 
 // ENTITY IfcRelProjectsElement 
 IfcRelProjectsElement::IfcRelProjectsElement( int id ) { m_entity_id = id; }
-IfcRelProjectsElement::~IfcRelProjectsElement() {}
 shared_ptr<BuildingObject> IfcRelProjectsElement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelProjectsElement> copy_self( new IfcRelProjectsElement() );
@@ -53,7 +52,7 @@ void IfcRelProjectsElement::getStepLine( std::stringstream& stream ) const
 	if( m_RelatedFeatureElement ) { stream << "#" << m_RelatedFeatureElement->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelProjectsElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelProjectsElement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelProjectsElement::toString() const { return L"IfcRelProjectsElement"; }
 void IfcRelProjectsElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

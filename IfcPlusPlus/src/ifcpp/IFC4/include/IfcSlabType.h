@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcSlabType : public IfcBuildingElementType
 public:
 	IfcSlabType() = default;
 	IfcSlabType( int id );
-	~IfcSlabType();
+	~IfcSlabType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

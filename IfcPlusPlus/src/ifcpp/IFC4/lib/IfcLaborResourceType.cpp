@@ -27,7 +27,6 @@
 
 // ENTITY IfcLaborResourceType 
 IfcLaborResourceType::IfcLaborResourceType( int id ) { m_entity_id = id; }
-IfcLaborResourceType::~IfcLaborResourceType() {}
 shared_ptr<BuildingObject> IfcLaborResourceType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLaborResourceType> copy_self( new IfcLaborResourceType() );
@@ -95,7 +94,7 @@ void IfcLaborResourceType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcLaborResourceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLaborResourceType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLaborResourceType::toString() const { return L"IfcLaborResourceType"; }
 void IfcLaborResourceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcNullStyle.h"
 
 // TYPE IfcNullStyle = ENUMERATION OF	(NULL);
-IfcNullStyle::~IfcNullStyle() {}
 shared_ptr<BuildingObject> IfcNullStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcNullStyle> copy_self( new IfcNullStyle() );

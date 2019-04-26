@@ -13,7 +13,6 @@
 
 // ENTITY IfcStructuralLoadTemperature 
 IfcStructuralLoadTemperature::IfcStructuralLoadTemperature( int id ) { m_entity_id = id; }
-IfcStructuralLoadTemperature::~IfcStructuralLoadTemperature() {}
 shared_ptr<BuildingObject> IfcStructuralLoadTemperature::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadTemperature> copy_self( new IfcStructuralLoadTemperature() );
@@ -35,7 +34,7 @@ void IfcStructuralLoadTemperature::getStepLine( std::stringstream& stream ) cons
 	if( m_DeltaTZ ) { m_DeltaTZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadTemperature::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralLoadTemperature::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadTemperature::toString() const { return L"IfcStructuralLoadTemperature"; }
 void IfcStructuralLoadTemperature::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

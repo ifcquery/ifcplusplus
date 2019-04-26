@@ -26,7 +26,6 @@
 
 // ENTITY IfcPermit 
 IfcPermit::IfcPermit( int id ) { m_entity_id = id; }
-IfcPermit::~IfcPermit() {}
 shared_ptr<BuildingObject> IfcPermit::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPermit> copy_self( new IfcPermit() );
@@ -71,7 +70,7 @@ void IfcPermit::getStepLine( std::stringstream& stream ) const
 	if( m_LongDescription ) { m_LongDescription->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPermit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPermit::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPermit::toString() const { return L"IfcPermit"; }
 void IfcPermit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

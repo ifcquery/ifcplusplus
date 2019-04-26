@@ -17,7 +17,6 @@
 
 // ENTITY IfcRelAssociatesApproval 
 IfcRelAssociatesApproval::IfcRelAssociatesApproval( int id ) { m_entity_id = id; }
-IfcRelAssociatesApproval::~IfcRelAssociatesApproval() {}
 shared_ptr<BuildingObject> IfcRelAssociatesApproval::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssociatesApproval> copy_self( new IfcRelAssociatesApproval() );
@@ -77,7 +76,7 @@ void IfcRelAssociatesApproval::getStepLine( std::stringstream& stream ) const
 	if( m_RelatingApproval ) { stream << "#" << m_RelatingApproval->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelAssociatesApproval::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelAssociatesApproval::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssociatesApproval::toString() const { return L"IfcRelAssociatesApproval"; }
 void IfcRelAssociatesApproval::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

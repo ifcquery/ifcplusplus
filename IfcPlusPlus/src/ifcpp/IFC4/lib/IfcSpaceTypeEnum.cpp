@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSpaceTypeEnum.h"
 
 // TYPE IfcSpaceTypeEnum = ENUMERATION OF	(SPACE	,PARKING	,GFA	,INTERNAL	,EXTERNAL	,USERDEFINED	,NOTDEFINED);
-IfcSpaceTypeEnum::~IfcSpaceTypeEnum() {}
 shared_ptr<BuildingObject> IfcSpaceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpaceTypeEnum> copy_self( new IfcSpaceTypeEnum() );

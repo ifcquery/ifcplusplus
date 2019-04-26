@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcMagneticFluxDensityMeasure : public IfcDerivedMeasureVa
 public:
 	IfcMagneticFluxDensityMeasure() = default;
 	IfcMagneticFluxDensityMeasure( double value );
-	~IfcMagneticFluxDensityMeasure();
+	~IfcMagneticFluxDensityMeasure() = default;
 	virtual const char* className() const { return "IfcMagneticFluxDensityMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcVolumeMeasure : public IfcMeasureValue
 public:
 	IfcVolumeMeasure() = default;
 	IfcVolumeMeasure( double value );
-	~IfcVolumeMeasure();
+	~IfcVolumeMeasure() = default;
 	virtual const char* className() const { return "IfcVolumeMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

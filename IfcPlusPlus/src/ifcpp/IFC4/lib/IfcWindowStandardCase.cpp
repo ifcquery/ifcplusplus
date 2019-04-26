@@ -40,7 +40,6 @@
 
 // ENTITY IfcWindowStandardCase 
 IfcWindowStandardCase::IfcWindowStandardCase( int id ) { m_entity_id = id; }
-IfcWindowStandardCase::~IfcWindowStandardCase() {}
 shared_ptr<BuildingObject> IfcWindowStandardCase::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWindowStandardCase> copy_self( new IfcWindowStandardCase() );
@@ -97,7 +96,7 @@ void IfcWindowStandardCase::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedPartitioningType ) { m_UserDefinedPartitioningType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcWindowStandardCase::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcWindowStandardCase::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWindowStandardCase::toString() const { return L"IfcWindowStandardCase"; }
 void IfcWindowStandardCase::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcChillerTypeEnum.h"
 
 // TYPE IfcChillerTypeEnum = ENUMERATION OF	(AIRCOOLED	,WATERCOOLED	,HEATRECOVERY	,USERDEFINED	,NOTDEFINED);
-IfcChillerTypeEnum::~IfcChillerTypeEnum() {}
 shared_ptr<BuildingObject> IfcChillerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcChillerTypeEnum> copy_self( new IfcChillerTypeEnum() );

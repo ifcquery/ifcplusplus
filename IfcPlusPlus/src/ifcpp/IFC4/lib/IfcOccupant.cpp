@@ -26,7 +26,6 @@
 
 // ENTITY IfcOccupant 
 IfcOccupant::IfcOccupant( int id ) { m_entity_id = id; }
-IfcOccupant::~IfcOccupant() {}
 shared_ptr<BuildingObject> IfcOccupant::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOccupant> copy_self( new IfcOccupant() );
@@ -65,7 +64,7 @@ void IfcOccupant::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcOccupant::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcOccupant::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOccupant::toString() const { return L"IfcOccupant"; }
 void IfcOccupant::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

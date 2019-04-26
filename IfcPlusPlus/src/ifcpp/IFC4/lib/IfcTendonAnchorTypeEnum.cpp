@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcTendonAnchorTypeEnum.h"
 
 // TYPE IfcTendonAnchorTypeEnum = ENUMERATION OF	(COUPLER	,FIXED_END	,TENSIONING_END	,USERDEFINED	,NOTDEFINED);
-IfcTendonAnchorTypeEnum::~IfcTendonAnchorTypeEnum() {}
 shared_ptr<BuildingObject> IfcTendonAnchorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTendonAnchorTypeEnum> copy_self( new IfcTendonAnchorTypeEnum() );

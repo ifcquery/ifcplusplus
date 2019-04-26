@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcProjectedOrTrueLengthEnum.h"
 
 // TYPE IfcProjectedOrTrueLengthEnum = ENUMERATION OF	(PROJECTED_LENGTH	,TRUE_LENGTH);
-IfcProjectedOrTrueLengthEnum::~IfcProjectedOrTrueLengthEnum() {}
 shared_ptr<BuildingObject> IfcProjectedOrTrueLengthEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProjectedOrTrueLengthEnum> copy_self( new IfcProjectedOrTrueLengthEnum() );

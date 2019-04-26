@@ -40,7 +40,6 @@
 
 // ENTITY IfcStairFlight 
 IfcStairFlight::IfcStairFlight( int id ) { m_entity_id = id; }
-IfcStairFlight::~IfcStairFlight() {}
 shared_ptr<BuildingObject> IfcStairFlight::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStairFlight> copy_self( new IfcStairFlight() );
@@ -97,7 +96,7 @@ void IfcStairFlight::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStairFlight::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStairFlight::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStairFlight::toString() const { return L"IfcStairFlight"; }
 void IfcStairFlight::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

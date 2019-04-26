@@ -16,7 +16,6 @@
 
 // ENTITY IfcSurfaceStyleRendering 
 IfcSurfaceStyleRendering::IfcSurfaceStyleRendering( int id ) { m_entity_id = id; }
-IfcSurfaceStyleRendering::~IfcSurfaceStyleRendering() {}
 shared_ptr<BuildingObject> IfcSurfaceStyleRendering::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceStyleRendering> copy_self( new IfcSurfaceStyleRendering() );
@@ -53,7 +52,7 @@ void IfcSurfaceStyleRendering::getStepLine( std::stringstream& stream ) const
 	if( m_ReflectanceMethod ) { m_ReflectanceMethod->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceStyleRendering::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSurfaceStyleRendering::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceStyleRendering::toString() const { return L"IfcSurfaceStyleRendering"; }
 void IfcSurfaceStyleRendering::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -17,7 +17,6 @@
 
 // ENTITY IfcAdvancedFace 
 IfcAdvancedFace::IfcAdvancedFace( int id ) { m_entity_id = id; }
-IfcAdvancedFace::~IfcAdvancedFace() {}
 shared_ptr<BuildingObject> IfcAdvancedFace::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAdvancedFace> copy_self( new IfcAdvancedFace() );
@@ -43,7 +42,7 @@ void IfcAdvancedFace::getStepLine( std::stringstream& stream ) const
 	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcAdvancedFace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcAdvancedFace::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcAdvancedFace::toString() const { return L"IfcAdvancedFace"; }
 void IfcAdvancedFace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

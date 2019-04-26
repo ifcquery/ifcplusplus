@@ -26,7 +26,6 @@
 
 // ENTITY IfcUnitaryControlElementType 
 IfcUnitaryControlElementType::IfcUnitaryControlElementType( int id ) { m_entity_id = id; }
-IfcUnitaryControlElementType::~IfcUnitaryControlElementType() {}
 shared_ptr<BuildingObject> IfcUnitaryControlElementType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcUnitaryControlElementType> copy_self( new IfcUnitaryControlElementType() );
@@ -88,7 +87,7 @@ void IfcUnitaryControlElementType::getStepLine( std::stringstream& stream ) cons
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcUnitaryControlElementType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcUnitaryControlElementType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcUnitaryControlElementType::toString() const { return L"IfcUnitaryControlElementType"; }
 void IfcUnitaryControlElementType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

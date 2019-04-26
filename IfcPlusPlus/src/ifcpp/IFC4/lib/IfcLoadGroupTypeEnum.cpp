@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcLoadGroupTypeEnum.h"
 
 // TYPE IfcLoadGroupTypeEnum = ENUMERATION OF	(LOAD_GROUP	,LOAD_CASE	,LOAD_COMBINATION	,USERDEFINED	,NOTDEFINED);
-IfcLoadGroupTypeEnum::~IfcLoadGroupTypeEnum() {}
 shared_ptr<BuildingObject> IfcLoadGroupTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLoadGroupTypeEnum> copy_self( new IfcLoadGroupTypeEnum() );

@@ -22,7 +22,7 @@ public:
 
 	IfcAssemblyPlaceEnum() = default;
 	IfcAssemblyPlaceEnum( IfcAssemblyPlaceEnumEnum e ) { m_enum = e; }
-	~IfcAssemblyPlaceEnum();
+	~IfcAssemblyPlaceEnum() = default;
 	virtual const char* className() const { return "IfcAssemblyPlaceEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

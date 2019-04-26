@@ -17,7 +17,6 @@
 
 // ENTITY IfcCircleHollowProfileDef 
 IfcCircleHollowProfileDef::IfcCircleHollowProfileDef( int id ) { m_entity_id = id; }
-IfcCircleHollowProfileDef::~IfcCircleHollowProfileDef() {}
 shared_ptr<BuildingObject> IfcCircleHollowProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCircleHollowProfileDef> copy_self( new IfcCircleHollowProfileDef() );
@@ -42,7 +41,7 @@ void IfcCircleHollowProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_WallThickness ) { m_WallThickness->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCircleHollowProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCircleHollowProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCircleHollowProfileDef::toString() const { return L"IfcCircleHollowProfileDef"; }
 void IfcCircleHollowProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

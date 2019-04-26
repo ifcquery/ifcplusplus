@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcTransportElementTypeEnum.h"
 
 // TYPE IfcTransportElementTypeEnum = ENUMERATION OF	(ELEVATOR	,ESCALATOR	,MOVINGWALKWAY	,CRANEWAY	,LIFTINGGEAR	,USERDEFINED	,NOTDEFINED);
-IfcTransportElementTypeEnum::~IfcTransportElementTypeEnum() {}
 shared_ptr<BuildingObject> IfcTransportElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTransportElementTypeEnum> copy_self( new IfcTransportElementTypeEnum() );

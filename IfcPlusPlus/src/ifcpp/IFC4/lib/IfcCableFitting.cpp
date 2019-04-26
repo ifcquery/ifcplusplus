@@ -40,7 +40,6 @@
 
 // ENTITY IfcCableFitting 
 IfcCableFitting::IfcCableFitting( int id ) { m_entity_id = id; }
-IfcCableFitting::~IfcCableFitting() {}
 shared_ptr<BuildingObject> IfcCableFitting::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCableFitting> copy_self( new IfcCableFitting() );
@@ -85,7 +84,7 @@ void IfcCableFitting::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCableFitting::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCableFitting::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCableFitting::toString() const { return L"IfcCableFitting"; }
 void IfcCableFitting::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

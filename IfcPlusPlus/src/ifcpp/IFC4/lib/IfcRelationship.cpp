@@ -15,7 +15,6 @@
 
 // ENTITY IfcRelationship 
 IfcRelationship::IfcRelationship( int id ) { m_entity_id = id; }
-IfcRelationship::~IfcRelationship() {}
 shared_ptr<BuildingObject> IfcRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelationship> copy_self( new IfcRelationship() );
@@ -45,7 +44,7 @@ void IfcRelationship::getStepLine( std::stringstream& stream ) const
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelationship::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelationship::toString() const { return L"IfcRelationship"; }
 void IfcRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

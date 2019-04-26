@@ -14,7 +14,6 @@
 
 // ENTITY IfcPlane 
 IfcPlane::IfcPlane( int id ) { m_entity_id = id; }
-IfcPlane::~IfcPlane() {}
 shared_ptr<BuildingObject> IfcPlane::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPlane> copy_self( new IfcPlane() );
@@ -27,7 +26,7 @@ void IfcPlane::getStepLine( std::stringstream& stream ) const
 	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPlane::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPlane::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPlane::toString() const { return L"IfcPlane"; }
 void IfcPlane::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -40,7 +40,6 @@
 
 // ENTITY IfcElectricFlowStorageDevice 
 IfcElectricFlowStorageDevice::IfcElectricFlowStorageDevice( int id ) { m_entity_id = id; }
-IfcElectricFlowStorageDevice::~IfcElectricFlowStorageDevice() {}
 shared_ptr<BuildingObject> IfcElectricFlowStorageDevice::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricFlowStorageDevice> copy_self( new IfcElectricFlowStorageDevice() );
@@ -85,7 +84,7 @@ void IfcElectricFlowStorageDevice::getStepLine( std::stringstream& stream ) cons
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcElectricFlowStorageDevice::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcElectricFlowStorageDevice::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcElectricFlowStorageDevice::toString() const { return L"IfcElectricFlowStorageDevice"; }
 void IfcElectricFlowStorageDevice::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

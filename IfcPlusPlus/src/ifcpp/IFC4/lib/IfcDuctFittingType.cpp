@@ -26,7 +26,6 @@
 
 // ENTITY IfcDuctFittingType 
 IfcDuctFittingType::IfcDuctFittingType( int id ) { m_entity_id = id; }
-IfcDuctFittingType::~IfcDuctFittingType() {}
 shared_ptr<BuildingObject> IfcDuctFittingType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDuctFittingType> copy_self( new IfcDuctFittingType() );
@@ -88,7 +87,7 @@ void IfcDuctFittingType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDuctFittingType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDuctFittingType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDuctFittingType::toString() const { return L"IfcDuctFittingType"; }
 void IfcDuctFittingType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

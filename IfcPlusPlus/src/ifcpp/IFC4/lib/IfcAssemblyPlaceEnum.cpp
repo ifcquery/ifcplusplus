@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcAssemblyPlaceEnum.h"
 
 // TYPE IfcAssemblyPlaceEnum = ENUMERATION OF	(SITE	,FACTORY	,NOTDEFINED);
-IfcAssemblyPlaceEnum::~IfcAssemblyPlaceEnum() {}
 shared_ptr<BuildingObject> IfcAssemblyPlaceEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAssemblyPlaceEnum> copy_self( new IfcAssemblyPlaceEnum() );

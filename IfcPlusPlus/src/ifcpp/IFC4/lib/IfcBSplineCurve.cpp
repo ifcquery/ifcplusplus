@@ -17,7 +17,6 @@
 
 // ENTITY IfcBSplineCurve 
 IfcBSplineCurve::IfcBSplineCurve( int id ) { m_entity_id = id; }
-IfcBSplineCurve::~IfcBSplineCurve() {}
 shared_ptr<BuildingObject> IfcBSplineCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBSplineCurve> copy_self( new IfcBSplineCurve() );
@@ -49,7 +48,7 @@ void IfcBSplineCurve::getStepLine( std::stringstream& stream ) const
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBSplineCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBSplineCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBSplineCurve::toString() const { return L"IfcBSplineCurve"; }
 void IfcBSplineCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

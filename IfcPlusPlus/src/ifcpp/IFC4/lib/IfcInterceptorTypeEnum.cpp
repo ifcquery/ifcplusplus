@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcInterceptorTypeEnum.h"
 
 // TYPE IfcInterceptorTypeEnum = ENUMERATION OF	(CYCLONIC	,GREASE	,OIL	,PETROL	,USERDEFINED	,NOTDEFINED);
-IfcInterceptorTypeEnum::~IfcInterceptorTypeEnum() {}
 shared_ptr<BuildingObject> IfcInterceptorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcInterceptorTypeEnum> copy_self( new IfcInterceptorTypeEnum() );

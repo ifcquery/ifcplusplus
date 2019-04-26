@@ -12,7 +12,6 @@
 
 // TYPE IfcRotationalFrequencyMeasure = REAL;
 IfcRotationalFrequencyMeasure::IfcRotationalFrequencyMeasure( double value ) { m_value = value; }
-IfcRotationalFrequencyMeasure::~IfcRotationalFrequencyMeasure() {}
 shared_ptr<BuildingObject> IfcRotationalFrequencyMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRotationalFrequencyMeasure> copy_self( new IfcRotationalFrequencyMeasure() );

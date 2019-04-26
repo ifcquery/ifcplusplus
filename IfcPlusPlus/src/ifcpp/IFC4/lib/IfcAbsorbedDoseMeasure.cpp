@@ -12,7 +12,6 @@
 
 // TYPE IfcAbsorbedDoseMeasure = REAL;
 IfcAbsorbedDoseMeasure::IfcAbsorbedDoseMeasure( double value ) { m_value = value; }
-IfcAbsorbedDoseMeasure::~IfcAbsorbedDoseMeasure() {}
 shared_ptr<BuildingObject> IfcAbsorbedDoseMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAbsorbedDoseMeasure> copy_self( new IfcAbsorbedDoseMeasure() );

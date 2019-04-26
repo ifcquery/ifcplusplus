@@ -26,7 +26,6 @@
 
 // ENTITY IfcProtectiveDeviceType 
 IfcProtectiveDeviceType::IfcProtectiveDeviceType( int id ) { m_entity_id = id; }
-IfcProtectiveDeviceType::~IfcProtectiveDeviceType() {}
 shared_ptr<BuildingObject> IfcProtectiveDeviceType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProtectiveDeviceType> copy_self( new IfcProtectiveDeviceType() );
@@ -88,7 +87,7 @@ void IfcProtectiveDeviceType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcProtectiveDeviceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcProtectiveDeviceType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProtectiveDeviceType::toString() const { return L"IfcProtectiveDeviceType"; }
 void IfcProtectiveDeviceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

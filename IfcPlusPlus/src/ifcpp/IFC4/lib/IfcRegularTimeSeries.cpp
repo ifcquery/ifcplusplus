@@ -20,7 +20,6 @@
 
 // ENTITY IfcRegularTimeSeries 
 IfcRegularTimeSeries::IfcRegularTimeSeries( int id ) { m_entity_id = id; }
-IfcRegularTimeSeries::~IfcRegularTimeSeries() {}
 shared_ptr<BuildingObject> IfcRegularTimeSeries::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRegularTimeSeries> copy_self( new IfcRegularTimeSeries() );
@@ -67,7 +66,7 @@ void IfcRegularTimeSeries::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Values );
 	stream << ");";
 }
-void IfcRegularTimeSeries::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRegularTimeSeries::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRegularTimeSeries::toString() const { return L"IfcRegularTimeSeries"; }
 void IfcRegularTimeSeries::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

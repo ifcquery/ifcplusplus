@@ -19,7 +19,6 @@
 
 // ENTITY IfcRelAssociatesMaterial 
 IfcRelAssociatesMaterial::IfcRelAssociatesMaterial( int id ) { m_entity_id = id; }
-IfcRelAssociatesMaterial::~IfcRelAssociatesMaterial() {}
 shared_ptr<BuildingObject> IfcRelAssociatesMaterial::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssociatesMaterial> copy_self( new IfcRelAssociatesMaterial() );
@@ -79,7 +78,7 @@ void IfcRelAssociatesMaterial::getStepLine( std::stringstream& stream ) const
 	if( m_RelatingMaterial ) { m_RelatingMaterial->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcRelAssociatesMaterial::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelAssociatesMaterial::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssociatesMaterial::toString() const { return L"IfcRelAssociatesMaterial"; }
 void IfcRelAssociatesMaterial::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

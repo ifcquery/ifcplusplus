@@ -12,7 +12,6 @@
 
 // ENTITY IfcSurfaceStyleRefraction 
 IfcSurfaceStyleRefraction::IfcSurfaceStyleRefraction( int id ) { m_entity_id = id; }
-IfcSurfaceStyleRefraction::~IfcSurfaceStyleRefraction() {}
 shared_ptr<BuildingObject> IfcSurfaceStyleRefraction::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceStyleRefraction> copy_self( new IfcSurfaceStyleRefraction() );
@@ -28,7 +27,7 @@ void IfcSurfaceStyleRefraction::getStepLine( std::stringstream& stream ) const
 	if( m_DispersionFactor ) { m_DispersionFactor->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceStyleRefraction::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSurfaceStyleRefraction::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceStyleRefraction::toString() const { return L"IfcSurfaceStyleRefraction"; }
 void IfcSurfaceStyleRefraction::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

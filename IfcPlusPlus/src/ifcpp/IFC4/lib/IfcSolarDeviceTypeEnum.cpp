@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSolarDeviceTypeEnum.h"
 
 // TYPE IfcSolarDeviceTypeEnum = ENUMERATION OF	(SOLARCOLLECTOR	,SOLARPANEL	,USERDEFINED	,NOTDEFINED);
-IfcSolarDeviceTypeEnum::~IfcSolarDeviceTypeEnum() {}
 shared_ptr<BuildingObject> IfcSolarDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSolarDeviceTypeEnum> copy_self( new IfcSolarDeviceTypeEnum() );

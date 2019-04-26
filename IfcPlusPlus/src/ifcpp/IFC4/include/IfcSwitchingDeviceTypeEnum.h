@@ -30,7 +30,7 @@ public:
 
 	IfcSwitchingDeviceTypeEnum() = default;
 	IfcSwitchingDeviceTypeEnum( IfcSwitchingDeviceTypeEnumEnum e ) { m_enum = e; }
-	~IfcSwitchingDeviceTypeEnum();
+	~IfcSwitchingDeviceTypeEnum() = default;
 	virtual const char* className() const { return "IfcSwitchingDeviceTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

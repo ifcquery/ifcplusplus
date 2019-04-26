@@ -16,7 +16,6 @@
 
 // ENTITY IfcParameterizedProfileDef 
 IfcParameterizedProfileDef::IfcParameterizedProfileDef( int id ) { m_entity_id = id; }
-IfcParameterizedProfileDef::~IfcParameterizedProfileDef() {}
 shared_ptr<BuildingObject> IfcParameterizedProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcParameterizedProfileDef> copy_self( new IfcParameterizedProfileDef() );
@@ -35,7 +34,7 @@ void IfcParameterizedProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcParameterizedProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcParameterizedProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcParameterizedProfileDef::toString() const { return L"IfcParameterizedProfileDef"; }
 void IfcParameterizedProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

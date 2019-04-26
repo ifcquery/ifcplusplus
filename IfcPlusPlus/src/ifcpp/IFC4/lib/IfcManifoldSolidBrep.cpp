@@ -14,7 +14,6 @@
 
 // ENTITY IfcManifoldSolidBrep 
 IfcManifoldSolidBrep::IfcManifoldSolidBrep( int id ) { m_entity_id = id; }
-IfcManifoldSolidBrep::~IfcManifoldSolidBrep() {}
 shared_ptr<BuildingObject> IfcManifoldSolidBrep::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcManifoldSolidBrep> copy_self( new IfcManifoldSolidBrep() );
@@ -27,7 +26,7 @@ void IfcManifoldSolidBrep::getStepLine( std::stringstream& stream ) const
 	if( m_Outer ) { stream << "#" << m_Outer->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcManifoldSolidBrep::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcManifoldSolidBrep::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcManifoldSolidBrep::toString() const { return L"IfcManifoldSolidBrep"; }
 void IfcManifoldSolidBrep::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

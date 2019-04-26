@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcDynamicViscosityMeasure : public IfcDerivedMeasureValue
 public:
 	IfcDynamicViscosityMeasure() = default;
 	IfcDynamicViscosityMeasure( double value );
-	~IfcDynamicViscosityMeasure();
+	~IfcDynamicViscosityMeasure() = default;
 	virtual const char* className() const { return "IfcDynamicViscosityMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -17,7 +17,6 @@
 
 // ENTITY IfcImageTexture 
 IfcImageTexture::IfcImageTexture( int id ) { m_entity_id = id; }
-IfcImageTexture::~IfcImageTexture() {}
 shared_ptr<BuildingObject> IfcImageTexture::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcImageTexture> copy_self( new IfcImageTexture() );
@@ -69,7 +68,7 @@ void IfcImageTexture::getStepLine( std::stringstream& stream ) const
 	if( m_URLReference ) { m_URLReference->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcImageTexture::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcImageTexture::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcImageTexture::toString() const { return L"IfcImageTexture"; }
 void IfcImageTexture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

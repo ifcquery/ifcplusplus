@@ -17,7 +17,6 @@
 
 // ENTITY IfcQuantityLength 
 IfcQuantityLength::IfcQuantityLength( int id ) { m_entity_id = id; }
-IfcQuantityLength::~IfcQuantityLength() {}
 shared_ptr<BuildingObject> IfcQuantityLength::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcQuantityLength> copy_self( new IfcQuantityLength() );
@@ -42,7 +41,7 @@ void IfcQuantityLength::getStepLine( std::stringstream& stream ) const
 	if( m_Formula ) { m_Formula->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcQuantityLength::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcQuantityLength::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcQuantityLength::toString() const { return L"IfcQuantityLength"; }
 void IfcQuantityLength::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcDistributionPortTypeEnum.h"
 
 // TYPE IfcDistributionPortTypeEnum = ENUMERATION OF	(CABLE	,CABLECARRIER	,DUCT	,PIPE	,USERDEFINED	,NOTDEFINED);
-IfcDistributionPortTypeEnum::~IfcDistributionPortTypeEnum() {}
 shared_ptr<BuildingObject> IfcDistributionPortTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDistributionPortTypeEnum> copy_self( new IfcDistributionPortTypeEnum() );

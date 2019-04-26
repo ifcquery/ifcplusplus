@@ -30,7 +30,6 @@
 
 // ENTITY IfcSpatialStructureElement 
 IfcSpatialStructureElement::IfcSpatialStructureElement( int id ) { m_entity_id = id; }
-IfcSpatialStructureElement::~IfcSpatialStructureElement() {}
 shared_ptr<BuildingObject> IfcSpatialStructureElement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpatialStructureElement> copy_self( new IfcSpatialStructureElement() );
@@ -75,7 +74,7 @@ void IfcSpatialStructureElement::getStepLine( std::stringstream& stream ) const
 	if( m_CompositionType ) { m_CompositionType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSpatialStructureElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSpatialStructureElement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSpatialStructureElement::toString() const { return L"IfcSpatialStructureElement"; }
 void IfcSpatialStructureElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

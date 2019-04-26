@@ -29,7 +29,6 @@
 
 // ENTITY IfcGrid 
 IfcGrid::IfcGrid( int id ) { m_entity_id = id; }
-IfcGrid::~IfcGrid() {}
 shared_ptr<BuildingObject> IfcGrid::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGrid> copy_self( new IfcGrid() );
@@ -101,7 +100,7 @@ void IfcGrid::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcGrid::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcGrid::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGrid::toString() const { return L"IfcGrid"; }
 void IfcGrid::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

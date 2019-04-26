@@ -38,7 +38,6 @@
 
 // ENTITY IfcFurniture 
 IfcFurniture::IfcFurniture( int id ) { m_entity_id = id; }
-IfcFurniture::~IfcFurniture() {}
 shared_ptr<BuildingObject> IfcFurniture::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFurniture> copy_self( new IfcFurniture() );
@@ -83,7 +82,7 @@ void IfcFurniture::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFurniture::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFurniture::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFurniture::toString() const { return L"IfcFurniture"; }
 void IfcFurniture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

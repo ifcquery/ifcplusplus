@@ -11,7 +11,6 @@
 #include "ifcpp/IFC4/include/IfcNonNegativeLengthMeasure.h"
 
 // TYPE IfcNonNegativeLengthMeasure = IfcLengthMeasure;
-IfcNonNegativeLengthMeasure::~IfcNonNegativeLengthMeasure() {}
 shared_ptr<BuildingObject> IfcNonNegativeLengthMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcNonNegativeLengthMeasure> copy_self( new IfcNonNegativeLengthMeasure() );

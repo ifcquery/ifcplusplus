@@ -27,7 +27,6 @@
 
 // ENTITY IfcMechanicalFastenerType 
 IfcMechanicalFastenerType::IfcMechanicalFastenerType( int id ) { m_entity_id = id; }
-IfcMechanicalFastenerType::~IfcMechanicalFastenerType() {}
 shared_ptr<BuildingObject> IfcMechanicalFastenerType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMechanicalFastenerType> copy_self( new IfcMechanicalFastenerType() );
@@ -95,7 +94,7 @@ void IfcMechanicalFastenerType::getStepLine( std::stringstream& stream ) const
 	if( m_NominalLength ) { m_NominalLength->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMechanicalFastenerType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMechanicalFastenerType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMechanicalFastenerType::toString() const { return L"IfcMechanicalFastenerType"; }
 void IfcMechanicalFastenerType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

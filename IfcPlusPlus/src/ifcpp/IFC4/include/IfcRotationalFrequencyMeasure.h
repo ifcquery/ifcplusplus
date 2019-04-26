@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcRotationalFrequencyMeasure : public IfcDerivedMeasureVa
 public:
 	IfcRotationalFrequencyMeasure() = default;
 	IfcRotationalFrequencyMeasure( double value );
-	~IfcRotationalFrequencyMeasure();
+	~IfcRotationalFrequencyMeasure() = default;
 	virtual const char* className() const { return "IfcRotationalFrequencyMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

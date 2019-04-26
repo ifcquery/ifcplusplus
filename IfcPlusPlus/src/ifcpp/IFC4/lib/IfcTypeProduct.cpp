@@ -25,7 +25,6 @@
 
 // ENTITY IfcTypeProduct 
 IfcTypeProduct::IfcTypeProduct( int id ) { m_entity_id = id; }
-IfcTypeProduct::~IfcTypeProduct() {}
 shared_ptr<BuildingObject> IfcTypeProduct::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTypeProduct> copy_self( new IfcTypeProduct() );
@@ -81,7 +80,7 @@ void IfcTypeProduct::getStepLine( std::stringstream& stream ) const
 	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTypeProduct::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTypeProduct::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTypeProduct::toString() const { return L"IfcTypeProduct"; }
 void IfcTypeProduct::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

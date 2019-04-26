@@ -13,7 +13,6 @@
 
 // ENTITY IfcStructuralLoadPlanarForce 
 IfcStructuralLoadPlanarForce::IfcStructuralLoadPlanarForce( int id ) { m_entity_id = id; }
-IfcStructuralLoadPlanarForce::~IfcStructuralLoadPlanarForce() {}
 shared_ptr<BuildingObject> IfcStructuralLoadPlanarForce::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadPlanarForce> copy_self( new IfcStructuralLoadPlanarForce() );
@@ -35,7 +34,7 @@ void IfcStructuralLoadPlanarForce::getStepLine( std::stringstream& stream ) cons
 	if( m_PlanarForceZ ) { m_PlanarForceZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcStructuralLoadPlanarForce::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralLoadPlanarForce::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadPlanarForce::toString() const { return L"IfcStructuralLoadPlanarForce"; }
 void IfcStructuralLoadPlanarForce::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

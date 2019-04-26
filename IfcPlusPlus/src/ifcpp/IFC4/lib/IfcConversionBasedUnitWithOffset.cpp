@@ -17,7 +17,6 @@
 
 // ENTITY IfcConversionBasedUnitWithOffset 
 IfcConversionBasedUnitWithOffset::IfcConversionBasedUnitWithOffset( int id ) { m_entity_id = id; }
-IfcConversionBasedUnitWithOffset::~IfcConversionBasedUnitWithOffset() {}
 shared_ptr<BuildingObject> IfcConversionBasedUnitWithOffset::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConversionBasedUnitWithOffset> copy_self( new IfcConversionBasedUnitWithOffset() );
@@ -42,7 +41,7 @@ void IfcConversionBasedUnitWithOffset::getStepLine( std::stringstream& stream ) 
 	if( m_ConversionOffset ) { m_ConversionOffset->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcConversionBasedUnitWithOffset::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcConversionBasedUnitWithOffset::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConversionBasedUnitWithOffset::toString() const { return L"IfcConversionBasedUnitWithOffset"; }
 void IfcConversionBasedUnitWithOffset::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

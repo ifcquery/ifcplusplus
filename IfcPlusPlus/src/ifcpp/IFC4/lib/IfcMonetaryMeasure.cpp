@@ -12,7 +12,6 @@
 
 // TYPE IfcMonetaryMeasure = REAL;
 IfcMonetaryMeasure::IfcMonetaryMeasure( double value ) { m_value = value; }
-IfcMonetaryMeasure::~IfcMonetaryMeasure() {}
 shared_ptr<BuildingObject> IfcMonetaryMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMonetaryMeasure> copy_self( new IfcMonetaryMeasure() );

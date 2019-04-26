@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcEventTriggerTypeEnum.h"
 
 // TYPE IfcEventTriggerTypeEnum = ENUMERATION OF	(EVENTRULE	,EVENTMESSAGE	,EVENTTIME	,EVENTCOMPLEX	,USERDEFINED	,NOTDEFINED);
-IfcEventTriggerTypeEnum::~IfcEventTriggerTypeEnum() {}
 shared_ptr<BuildingObject> IfcEventTriggerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEventTriggerTypeEnum> copy_self( new IfcEventTriggerTypeEnum() );

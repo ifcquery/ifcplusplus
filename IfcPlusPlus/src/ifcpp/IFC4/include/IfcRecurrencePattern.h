@@ -19,7 +19,7 @@ class IFCQUERY_EXPORT IfcRecurrencePattern : public BuildingEntity
 public:
 	IfcRecurrencePattern() = default;
 	IfcRecurrencePattern( int id );
-	~IfcRecurrencePattern();
+	~IfcRecurrencePattern() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

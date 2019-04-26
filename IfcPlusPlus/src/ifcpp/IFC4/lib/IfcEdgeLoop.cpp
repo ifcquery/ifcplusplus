@@ -14,7 +14,6 @@
 
 // ENTITY IfcEdgeLoop 
 IfcEdgeLoop::IfcEdgeLoop( int id ) { m_entity_id = id; }
-IfcEdgeLoop::~IfcEdgeLoop() {}
 shared_ptr<BuildingObject> IfcEdgeLoop::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEdgeLoop> copy_self( new IfcEdgeLoop() );
@@ -34,7 +33,7 @@ void IfcEdgeLoop::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_EdgeList );
 	stream << ");";
 }
-void IfcEdgeLoop::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcEdgeLoop::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcEdgeLoop::toString() const { return L"IfcEdgeLoop"; }
 void IfcEdgeLoop::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -18,7 +18,6 @@
 
 // ENTITY IfcRelAssignsToControl 
 IfcRelAssignsToControl::IfcRelAssignsToControl( int id ) { m_entity_id = id; }
-IfcRelAssignsToControl::~IfcRelAssignsToControl() {}
 shared_ptr<BuildingObject> IfcRelAssignsToControl::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelAssignsToControl> copy_self( new IfcRelAssignsToControl() );
@@ -64,7 +63,7 @@ void IfcRelAssignsToControl::getStepLine( std::stringstream& stream ) const
 	if( m_RelatingControl ) { stream << "#" << m_RelatingControl->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelAssignsToControl::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelAssignsToControl::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelAssignsToControl::toString() const { return L"IfcRelAssignsToControl"; }
 void IfcRelAssignsToControl::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

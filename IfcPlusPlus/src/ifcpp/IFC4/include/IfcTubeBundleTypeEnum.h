@@ -22,7 +22,7 @@ public:
 
 	IfcTubeBundleTypeEnum() = default;
 	IfcTubeBundleTypeEnum( IfcTubeBundleTypeEnumEnum e ) { m_enum = e; }
-	~IfcTubeBundleTypeEnum();
+	~IfcTubeBundleTypeEnum() = default;
 	virtual const char* className() const { return "IfcTubeBundleTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

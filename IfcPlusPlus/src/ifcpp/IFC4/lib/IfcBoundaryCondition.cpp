@@ -12,7 +12,6 @@
 
 // ENTITY IfcBoundaryCondition 
 IfcBoundaryCondition::IfcBoundaryCondition( int id ) { m_entity_id = id; }
-IfcBoundaryCondition::~IfcBoundaryCondition() {}
 shared_ptr<BuildingObject> IfcBoundaryCondition::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBoundaryCondition> copy_self( new IfcBoundaryCondition() );
@@ -25,7 +24,7 @@ void IfcBoundaryCondition::getStepLine( std::stringstream& stream ) const
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBoundaryCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBoundaryCondition::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBoundaryCondition::toString() const { return L"IfcBoundaryCondition"; }
 void IfcBoundaryCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

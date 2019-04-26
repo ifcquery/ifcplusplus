@@ -38,7 +38,6 @@
 
 // ENTITY IfcVibrationIsolator 
 IfcVibrationIsolator::IfcVibrationIsolator( int id ) { m_entity_id = id; }
-IfcVibrationIsolator::~IfcVibrationIsolator() {}
 shared_ptr<BuildingObject> IfcVibrationIsolator::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVibrationIsolator> copy_self( new IfcVibrationIsolator() );
@@ -83,7 +82,7 @@ void IfcVibrationIsolator::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcVibrationIsolator::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcVibrationIsolator::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcVibrationIsolator::toString() const { return L"IfcVibrationIsolator"; }
 void IfcVibrationIsolator::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

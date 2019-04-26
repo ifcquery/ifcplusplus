@@ -15,7 +15,6 @@
 
 // ENTITY IfcExternallyDefinedHatchStyle 
 IfcExternallyDefinedHatchStyle::IfcExternallyDefinedHatchStyle( int id ) { m_entity_id = id; }
-IfcExternallyDefinedHatchStyle::~IfcExternallyDefinedHatchStyle() {}
 shared_ptr<BuildingObject> IfcExternallyDefinedHatchStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcExternallyDefinedHatchStyle> copy_self( new IfcExternallyDefinedHatchStyle() );
@@ -34,7 +33,7 @@ void IfcExternallyDefinedHatchStyle::getStepLine( std::stringstream& stream ) co
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcExternallyDefinedHatchStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcExternallyDefinedHatchStyle::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcExternallyDefinedHatchStyle::toString() const { return L"IfcExternallyDefinedHatchStyle"; }
 void IfcExternallyDefinedHatchStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

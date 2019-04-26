@@ -38,7 +38,6 @@
 
 // ENTITY IfcSlabStandardCase 
 IfcSlabStandardCase::IfcSlabStandardCase( int id ) { m_entity_id = id; }
-IfcSlabStandardCase::~IfcSlabStandardCase() {}
 shared_ptr<BuildingObject> IfcSlabStandardCase::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSlabStandardCase> copy_self( new IfcSlabStandardCase() );
@@ -83,7 +82,7 @@ void IfcSlabStandardCase::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSlabStandardCase::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSlabStandardCase::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSlabStandardCase::toString() const { return L"IfcSlabStandardCase"; }
 void IfcSlabStandardCase::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

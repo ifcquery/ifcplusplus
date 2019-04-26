@@ -17,7 +17,6 @@
 
 // ENTITY IfcSurfaceOfLinearExtrusion 
 IfcSurfaceOfLinearExtrusion::IfcSurfaceOfLinearExtrusion( int id ) { m_entity_id = id; }
-IfcSurfaceOfLinearExtrusion::~IfcSurfaceOfLinearExtrusion() {}
 shared_ptr<BuildingObject> IfcSurfaceOfLinearExtrusion::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceOfLinearExtrusion> copy_self( new IfcSurfaceOfLinearExtrusion() );
@@ -43,7 +42,7 @@ void IfcSurfaceOfLinearExtrusion::getStepLine( std::stringstream& stream ) const
 	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceOfLinearExtrusion::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSurfaceOfLinearExtrusion::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceOfLinearExtrusion::toString() const { return L"IfcSurfaceOfLinearExtrusion"; }
 void IfcSurfaceOfLinearExtrusion::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

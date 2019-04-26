@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcLightEmissionSourceEnum.h"
 
 // TYPE IfcLightEmissionSourceEnum = ENUMERATION OF	(COMPACTFLUORESCENT	,FLUORESCENT	,HIGHPRESSUREMERCURY	,HIGHPRESSURESODIUM	,LIGHTEMITTINGDIODE	,LOWPRESSURESODIUM	,LOWVOLTAGEHALOGEN	,MAINVOLTAGEHALOGEN	,METALHALIDE	,TUNGSTENFILAMENT	,NOTDEFINED);
-IfcLightEmissionSourceEnum::~IfcLightEmissionSourceEnum() {}
 shared_ptr<BuildingObject> IfcLightEmissionSourceEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightEmissionSourceEnum> copy_self( new IfcLightEmissionSourceEnum() );

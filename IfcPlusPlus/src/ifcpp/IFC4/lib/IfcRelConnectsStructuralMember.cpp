@@ -21,7 +21,6 @@
 
 // ENTITY IfcRelConnectsStructuralMember 
 IfcRelConnectsStructuralMember::IfcRelConnectsStructuralMember( int id ) { m_entity_id = id; }
-IfcRelConnectsStructuralMember::~IfcRelConnectsStructuralMember() {}
 shared_ptr<BuildingObject> IfcRelConnectsStructuralMember::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelConnectsStructuralMember> copy_self( new IfcRelConnectsStructuralMember() );
@@ -69,7 +68,7 @@ void IfcRelConnectsStructuralMember::getStepLine( std::stringstream& stream ) co
 	if( m_ConditionCoordinateSystem ) { stream << "#" << m_ConditionCoordinateSystem->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelConnectsStructuralMember::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelConnectsStructuralMember::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelConnectsStructuralMember::toString() const { return L"IfcRelConnectsStructuralMember"; }
 void IfcRelConnectsStructuralMember::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

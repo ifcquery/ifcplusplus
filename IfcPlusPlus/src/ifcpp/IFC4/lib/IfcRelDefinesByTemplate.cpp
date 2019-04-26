@@ -17,7 +17,6 @@
 
 // ENTITY IfcRelDefinesByTemplate 
 IfcRelDefinesByTemplate::IfcRelDefinesByTemplate( int id ) { m_entity_id = id; }
-IfcRelDefinesByTemplate::~IfcRelDefinesByTemplate() {}
 shared_ptr<BuildingObject> IfcRelDefinesByTemplate::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelDefinesByTemplate> copy_self( new IfcRelDefinesByTemplate() );
@@ -60,7 +59,7 @@ void IfcRelDefinesByTemplate::getStepLine( std::stringstream& stream ) const
 	if( m_RelatingTemplate ) { stream << "#" << m_RelatingTemplate->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelDefinesByTemplate::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelDefinesByTemplate::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelDefinesByTemplate::toString() const { return L"IfcRelDefinesByTemplate"; }
 void IfcRelDefinesByTemplate::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

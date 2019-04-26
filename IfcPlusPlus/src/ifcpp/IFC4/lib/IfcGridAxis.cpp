@@ -16,7 +16,6 @@
 
 // ENTITY IfcGridAxis 
 IfcGridAxis::IfcGridAxis( int id ) { m_entity_id = id; }
-IfcGridAxis::~IfcGridAxis() {}
 shared_ptr<BuildingObject> IfcGridAxis::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGridAxis> copy_self( new IfcGridAxis() );
@@ -35,7 +34,7 @@ void IfcGridAxis::getStepLine( std::stringstream& stream ) const
 	if( m_SameSense ) { m_SameSense->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcGridAxis::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcGridAxis::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcGridAxis::toString() const { return L"IfcGridAxis"; }
 void IfcGridAxis::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

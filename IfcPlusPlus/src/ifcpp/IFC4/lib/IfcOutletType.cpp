@@ -26,7 +26,6 @@
 
 // ENTITY IfcOutletType 
 IfcOutletType::IfcOutletType( int id ) { m_entity_id = id; }
-IfcOutletType::~IfcOutletType() {}
 shared_ptr<BuildingObject> IfcOutletType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOutletType> copy_self( new IfcOutletType() );
@@ -88,7 +87,7 @@ void IfcOutletType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcOutletType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcOutletType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOutletType::toString() const { return L"IfcOutletType"; }
 void IfcOutletType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

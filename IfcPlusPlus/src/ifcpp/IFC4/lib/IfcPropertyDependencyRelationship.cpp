@@ -14,7 +14,6 @@
 
 // ENTITY IfcPropertyDependencyRelationship 
 IfcPropertyDependencyRelationship::IfcPropertyDependencyRelationship( int id ) { m_entity_id = id; }
-IfcPropertyDependencyRelationship::~IfcPropertyDependencyRelationship() {}
 shared_ptr<BuildingObject> IfcPropertyDependencyRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyDependencyRelationship> copy_self( new IfcPropertyDependencyRelationship() );
@@ -39,7 +38,7 @@ void IfcPropertyDependencyRelationship::getStepLine( std::stringstream& stream )
 	if( m_Expression ) { m_Expression->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPropertyDependencyRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPropertyDependencyRelationship::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyDependencyRelationship::toString() const { return L"IfcPropertyDependencyRelationship"; }
 void IfcPropertyDependencyRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

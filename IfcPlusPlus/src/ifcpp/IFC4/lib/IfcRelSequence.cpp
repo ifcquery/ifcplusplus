@@ -18,7 +18,6 @@
 
 // ENTITY IfcRelSequence 
 IfcRelSequence::IfcRelSequence( int id ) { m_entity_id = id; }
-IfcRelSequence::~IfcRelSequence() {}
 shared_ptr<BuildingObject> IfcRelSequence::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelSequence> copy_self( new IfcRelSequence() );
@@ -63,7 +62,7 @@ void IfcRelSequence::getStepLine( std::stringstream& stream ) const
 	if( m_UserDefinedSequenceType ) { m_UserDefinedSequenceType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelSequence::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelSequence::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelSequence::toString() const { return L"IfcRelSequence"; }
 void IfcRelSequence::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

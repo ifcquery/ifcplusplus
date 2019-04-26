@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcGeometricProjectionEnum.h"
 
 // TYPE IfcGeometricProjectionEnum = ENUMERATION OF	(GRAPH_VIEW	,SKETCH_VIEW	,MODEL_VIEW	,PLAN_VIEW	,REFLECTED_PLAN_VIEW	,SECTION_VIEW	,ELEVATION_VIEW	,USERDEFINED	,NOTDEFINED);
-IfcGeometricProjectionEnum::~IfcGeometricProjectionEnum() {}
 shared_ptr<BuildingObject> IfcGeometricProjectionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGeometricProjectionEnum> copy_self( new IfcGeometricProjectionEnum() );

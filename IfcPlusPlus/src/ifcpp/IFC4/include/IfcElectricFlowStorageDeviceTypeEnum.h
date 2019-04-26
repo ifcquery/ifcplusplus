@@ -26,7 +26,7 @@ public:
 
 	IfcElectricFlowStorageDeviceTypeEnum() = default;
 	IfcElectricFlowStorageDeviceTypeEnum( IfcElectricFlowStorageDeviceTypeEnumEnum e ) { m_enum = e; }
-	~IfcElectricFlowStorageDeviceTypeEnum();
+	~IfcElectricFlowStorageDeviceTypeEnum() = default;
 	virtual const char* className() const { return "IfcElectricFlowStorageDeviceTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

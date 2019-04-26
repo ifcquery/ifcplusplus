@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcPropertyListValue : public IfcSimpleProperty
 public:
 	IfcPropertyListValue() = default;
 	IfcPropertyListValue( int id );
-	~IfcPropertyListValue();
+	~IfcPropertyListValue() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

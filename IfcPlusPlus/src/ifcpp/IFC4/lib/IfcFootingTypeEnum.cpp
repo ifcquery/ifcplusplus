@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcFootingTypeEnum.h"
 
 // TYPE IfcFootingTypeEnum = ENUMERATION OF	(CAISSON_FOUNDATION	,FOOTING_BEAM	,PAD_FOOTING	,PILE_CAP	,STRIP_FOOTING	,USERDEFINED	,NOTDEFINED);
-IfcFootingTypeEnum::~IfcFootingTypeEnum() {}
 shared_ptr<BuildingObject> IfcFootingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFootingTypeEnum> copy_self( new IfcFootingTypeEnum() );

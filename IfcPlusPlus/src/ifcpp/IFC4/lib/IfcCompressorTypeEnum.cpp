@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCompressorTypeEnum.h"
 
 // TYPE IfcCompressorTypeEnum = ENUMERATION OF	(DYNAMIC	,RECIPROCATING	,ROTARY	,SCROLL	,TROCHOIDAL	,SINGLESTAGE	,BOOSTER	,OPENTYPE	,HERMETIC	,SEMIHERMETIC	,WELDEDSHELLHERMETIC	,ROLLINGPISTON	,ROTARYVANE	,SINGLESCREW	,TWINSCREW	,USERDEFINED	,NOTDEFINED);
-IfcCompressorTypeEnum::~IfcCompressorTypeEnum() {}
 shared_ptr<BuildingObject> IfcCompressorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCompressorTypeEnum> copy_self( new IfcCompressorTypeEnum() );

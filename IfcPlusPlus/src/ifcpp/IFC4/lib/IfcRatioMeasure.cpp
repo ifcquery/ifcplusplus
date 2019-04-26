@@ -14,7 +14,6 @@
 
 // TYPE IfcRatioMeasure = REAL;
 IfcRatioMeasure::IfcRatioMeasure( double value ) { m_value = value; }
-IfcRatioMeasure::~IfcRatioMeasure() {}
 shared_ptr<BuildingObject> IfcRatioMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRatioMeasure> copy_self( new IfcRatioMeasure() );

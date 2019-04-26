@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSpatialZoneTypeEnum.h"
 
 // TYPE IfcSpatialZoneTypeEnum = ENUMERATION OF	(CONSTRUCTION	,FIRESAFETY	,LIGHTING	,OCCUPANCY	,SECURITY	,THERMAL	,TRANSPORT	,VENTILATION	,USERDEFINED	,NOTDEFINED);
-IfcSpatialZoneTypeEnum::~IfcSpatialZoneTypeEnum() {}
 shared_ptr<BuildingObject> IfcSpatialZoneTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpatialZoneTypeEnum> copy_self( new IfcSpatialZoneTypeEnum() );

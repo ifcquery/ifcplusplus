@@ -12,7 +12,6 @@
 
 // TYPE IfcTime = STRING;
 IfcTime::IfcTime( std::wstring value ) { m_value = value; }
-IfcTime::~IfcTime() {}
 shared_ptr<BuildingObject> IfcTime::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTime> copy_self( new IfcTime() );

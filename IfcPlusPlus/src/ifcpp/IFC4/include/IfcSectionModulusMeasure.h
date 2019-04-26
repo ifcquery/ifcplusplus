@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcSectionModulusMeasure : public IfcDerivedMeasureValue
 public:
 	IfcSectionModulusMeasure() = default;
 	IfcSectionModulusMeasure( double value );
-	~IfcSectionModulusMeasure();
+	~IfcSectionModulusMeasure() = default;
 	virtual const char* className() const { return "IfcSectionModulusMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcFlowTerminalType : public IfcDistributionFlowElementTyp
 public:
 	IfcFlowTerminalType() = default;
 	IfcFlowTerminalType( int id );
-	~IfcFlowTerminalType();
+	~IfcFlowTerminalType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

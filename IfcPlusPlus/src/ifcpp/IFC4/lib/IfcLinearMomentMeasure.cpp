@@ -12,7 +12,6 @@
 
 // TYPE IfcLinearMomentMeasure = REAL;
 IfcLinearMomentMeasure::IfcLinearMomentMeasure( double value ) { m_value = value; }
-IfcLinearMomentMeasure::~IfcLinearMomentMeasure() {}
 shared_ptr<BuildingObject> IfcLinearMomentMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLinearMomentMeasure> copy_self( new IfcLinearMomentMeasure() );

@@ -40,7 +40,6 @@
 
 // ENTITY IfcBurner 
 IfcBurner::IfcBurner( int id ) { m_entity_id = id; }
-IfcBurner::~IfcBurner() {}
 shared_ptr<BuildingObject> IfcBurner::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBurner> copy_self( new IfcBurner() );
@@ -85,7 +84,7 @@ void IfcBurner::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcBurner::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcBurner::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcBurner::toString() const { return L"IfcBurner"; }
 void IfcBurner::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -21,7 +21,6 @@
 
 // ENTITY IfcPropertyBoundedValue 
 IfcPropertyBoundedValue::IfcPropertyBoundedValue( int id ) { m_entity_id = id; }
-IfcPropertyBoundedValue::~IfcPropertyBoundedValue() {}
 shared_ptr<BuildingObject> IfcPropertyBoundedValue::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPropertyBoundedValue> copy_self( new IfcPropertyBoundedValue() );
@@ -49,7 +48,7 @@ void IfcPropertyBoundedValue::getStepLine( std::stringstream& stream ) const
 	if( m_SetPointValue ) { m_SetPointValue->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcPropertyBoundedValue::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPropertyBoundedValue::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPropertyBoundedValue::toString() const { return L"IfcPropertyBoundedValue"; }
 void IfcPropertyBoundedValue::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

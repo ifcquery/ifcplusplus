@@ -18,7 +18,6 @@
 
 // ENTITY IfcPixelTexture 
 IfcPixelTexture::IfcPixelTexture( int id ) { m_entity_id = id; }
-IfcPixelTexture::~IfcPixelTexture() {}
 shared_ptr<BuildingObject> IfcPixelTexture::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPixelTexture> copy_self( new IfcPixelTexture() );
@@ -103,7 +102,7 @@ void IfcPixelTexture::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcPixelTexture::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPixelTexture::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPixelTexture::toString() const { return L"IfcPixelTexture"; }
 void IfcPixelTexture::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -40,7 +40,6 @@
 
 // ENTITY IfcFilter 
 IfcFilter::IfcFilter( int id ) { m_entity_id = id; }
-IfcFilter::~IfcFilter() {}
 shared_ptr<BuildingObject> IfcFilter::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFilter> copy_self( new IfcFilter() );
@@ -85,7 +84,7 @@ void IfcFilter::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFilter::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFilter::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFilter::toString() const { return L"IfcFilter"; }
 void IfcFilter::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

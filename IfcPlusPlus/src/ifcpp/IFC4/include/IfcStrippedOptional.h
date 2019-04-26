@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcStrippedOptional : public BuildingObject
 public:
 	IfcStrippedOptional() = default;
 	IfcStrippedOptional( bool value );
-	~IfcStrippedOptional();
+	~IfcStrippedOptional() = default;
 	virtual const char* className() const { return "IfcStrippedOptional"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

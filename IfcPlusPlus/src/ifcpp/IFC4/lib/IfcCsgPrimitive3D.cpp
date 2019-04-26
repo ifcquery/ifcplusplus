@@ -14,7 +14,6 @@
 
 // ENTITY IfcCsgPrimitive3D 
 IfcCsgPrimitive3D::IfcCsgPrimitive3D( int id ) { m_entity_id = id; }
-IfcCsgPrimitive3D::~IfcCsgPrimitive3D() {}
 shared_ptr<BuildingObject> IfcCsgPrimitive3D::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCsgPrimitive3D> copy_self( new IfcCsgPrimitive3D() );
@@ -27,7 +26,7 @@ void IfcCsgPrimitive3D::getStepLine( std::stringstream& stream ) const
 	if( m_Position ) { stream << "#" << m_Position->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCsgPrimitive3D::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCsgPrimitive3D::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCsgPrimitive3D::toString() const { return L"IfcCsgPrimitive3D"; }
 void IfcCsgPrimitive3D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -14,7 +14,6 @@
 
 // ENTITY IfcShellBasedSurfaceModel 
 IfcShellBasedSurfaceModel::IfcShellBasedSurfaceModel( int id ) { m_entity_id = id; }
-IfcShellBasedSurfaceModel::~IfcShellBasedSurfaceModel() {}
 shared_ptr<BuildingObject> IfcShellBasedSurfaceModel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcShellBasedSurfaceModel> copy_self( new IfcShellBasedSurfaceModel() );
@@ -51,7 +50,7 @@ void IfcShellBasedSurfaceModel::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcShellBasedSurfaceModel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcShellBasedSurfaceModel::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcShellBasedSurfaceModel::toString() const { return L"IfcShellBasedSurfaceModel"; }
 void IfcShellBasedSurfaceModel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

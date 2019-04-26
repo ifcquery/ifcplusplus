@@ -19,7 +19,7 @@ class IFCQUERY_EXPORT IfcWindowLiningProperties : public IfcPreDefinedPropertySe
 public:
 	IfcWindowLiningProperties() = default;
 	IfcWindowLiningProperties( int id );
-	~IfcWindowLiningProperties();
+	~IfcWindowLiningProperties() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

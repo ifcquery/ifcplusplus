@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcWarpingMomentMeasure : public IfcDerivedMeasureValue, p
 public:
 	IfcWarpingMomentMeasure() = default;
 	IfcWarpingMomentMeasure( double value );
-	~IfcWarpingMomentMeasure();
+	~IfcWarpingMomentMeasure() = default;
 	virtual const char* className() const { return "IfcWarpingMomentMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

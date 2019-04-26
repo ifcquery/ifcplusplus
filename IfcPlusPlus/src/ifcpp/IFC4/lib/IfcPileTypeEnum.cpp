@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcPileTypeEnum.h"
 
 // TYPE IfcPileTypeEnum = ENUMERATION OF	(BORED	,DRIVEN	,JETGROUTING	,COHESION	,FRICTION	,SUPPORT	,USERDEFINED	,NOTDEFINED);
-IfcPileTypeEnum::~IfcPileTypeEnum() {}
 shared_ptr<BuildingObject> IfcPileTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPileTypeEnum> copy_self( new IfcPileTypeEnum() );

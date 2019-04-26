@@ -27,7 +27,6 @@
 
 // ENTITY IfcProxy 
 IfcProxy::IfcProxy( int id ) { m_entity_id = id; }
-IfcProxy::~IfcProxy() {}
 shared_ptr<BuildingObject> IfcProxy::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProxy> copy_self( new IfcProxy() );
@@ -72,7 +71,7 @@ void IfcProxy::getStepLine( std::stringstream& stream ) const
 	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcProxy::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcProxy::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProxy::toString() const { return L"IfcProxy"; }
 void IfcProxy::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

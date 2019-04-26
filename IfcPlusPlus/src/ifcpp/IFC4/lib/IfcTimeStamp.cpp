@@ -12,7 +12,6 @@
 
 // TYPE IfcTimeStamp = INTEGER;
 IfcTimeStamp::IfcTimeStamp( int value ) { m_value = value; }
-IfcTimeStamp::~IfcTimeStamp() {}
 shared_ptr<BuildingObject> IfcTimeStamp::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTimeStamp> copy_self( new IfcTimeStamp() );

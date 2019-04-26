@@ -18,7 +18,6 @@
 
 // ENTITY IfcTopologyRepresentation 
 IfcTopologyRepresentation::IfcTopologyRepresentation( int id ) { m_entity_id = id; }
-IfcTopologyRepresentation::~IfcTopologyRepresentation() {}
 shared_ptr<BuildingObject> IfcTopologyRepresentation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTopologyRepresentation> copy_self( new IfcTopologyRepresentation() );
@@ -51,7 +50,7 @@ void IfcTopologyRepresentation::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Items );
 	stream << ");";
 }
-void IfcTopologyRepresentation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTopologyRepresentation::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTopologyRepresentation::toString() const { return L"IfcTopologyRepresentation"; }
 void IfcTopologyRepresentation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

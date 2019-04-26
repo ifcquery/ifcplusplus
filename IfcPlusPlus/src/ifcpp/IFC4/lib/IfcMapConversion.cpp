@@ -15,7 +15,6 @@
 
 // ENTITY IfcMapConversion 
 IfcMapConversion::IfcMapConversion( int id ) { m_entity_id = id; }
-IfcMapConversion::~IfcMapConversion() {}
 shared_ptr<BuildingObject> IfcMapConversion::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMapConversion> copy_self( new IfcMapConversion() );
@@ -49,7 +48,7 @@ void IfcMapConversion::getStepLine( std::stringstream& stream ) const
 	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMapConversion::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMapConversion::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMapConversion::toString() const { return L"IfcMapConversion"; }
 void IfcMapConversion::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

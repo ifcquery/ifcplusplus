@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcSectionTypeEnum.h"
 
 // TYPE IfcSectionTypeEnum = ENUMERATION OF	(UNIFORM	,TAPERED);
-IfcSectionTypeEnum::~IfcSectionTypeEnum() {}
 shared_ptr<BuildingObject> IfcSectionTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSectionTypeEnum> copy_self( new IfcSectionTypeEnum() );

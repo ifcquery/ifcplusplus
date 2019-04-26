@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcPerformanceHistoryTypeEnum.h"
 
 // TYPE IfcPerformanceHistoryTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-IfcPerformanceHistoryTypeEnum::~IfcPerformanceHistoryTypeEnum() {}
 shared_ptr<BuildingObject> IfcPerformanceHistoryTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPerformanceHistoryTypeEnum> copy_self( new IfcPerformanceHistoryTypeEnum() );

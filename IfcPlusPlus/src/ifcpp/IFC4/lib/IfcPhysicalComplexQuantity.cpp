@@ -15,7 +15,6 @@
 
 // ENTITY IfcPhysicalComplexQuantity 
 IfcPhysicalComplexQuantity::IfcPhysicalComplexQuantity( int id ) { m_entity_id = id; }
-IfcPhysicalComplexQuantity::~IfcPhysicalComplexQuantity() {}
 shared_ptr<BuildingObject> IfcPhysicalComplexQuantity::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPhysicalComplexQuantity> copy_self( new IfcPhysicalComplexQuantity() );
@@ -50,7 +49,7 @@ void IfcPhysicalComplexQuantity::getStepLine( std::stringstream& stream ) const
 	if( m_Usage ) { m_Usage->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPhysicalComplexQuantity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPhysicalComplexQuantity::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPhysicalComplexQuantity::toString() const { return L"IfcPhysicalComplexQuantity"; }
 void IfcPhysicalComplexQuantity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

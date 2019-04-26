@@ -15,7 +15,6 @@
 
 // ENTITY IfcFace 
 IfcFace::IfcFace( int id ) { m_entity_id = id; }
-IfcFace::~IfcFace() {}
 shared_ptr<BuildingObject> IfcFace::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFace> copy_self( new IfcFace() );
@@ -35,7 +34,7 @@ void IfcFace::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Bounds );
 	stream << ");";
 }
-void IfcFace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFace::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFace::toString() const { return L"IfcFace"; }
 void IfcFace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

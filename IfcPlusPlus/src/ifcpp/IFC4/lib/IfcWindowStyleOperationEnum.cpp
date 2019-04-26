@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcWindowStyleOperationEnum.h"
 
 // TYPE IfcWindowStyleOperationEnum = ENUMERATION OF	(SINGLE_PANEL	,DOUBLE_PANEL_VERTICAL	,DOUBLE_PANEL_HORIZONTAL	,TRIPLE_PANEL_VERTICAL	,TRIPLE_PANEL_BOTTOM	,TRIPLE_PANEL_TOP	,TRIPLE_PANEL_LEFT	,TRIPLE_PANEL_RIGHT	,TRIPLE_PANEL_HORIZONTAL	,USERDEFINED	,NOTDEFINED);
-IfcWindowStyleOperationEnum::~IfcWindowStyleOperationEnum() {}
 shared_ptr<BuildingObject> IfcWindowStyleOperationEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWindowStyleOperationEnum> copy_self( new IfcWindowStyleOperationEnum() );

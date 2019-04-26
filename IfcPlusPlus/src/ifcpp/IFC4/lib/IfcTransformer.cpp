@@ -40,7 +40,6 @@
 
 // ENTITY IfcTransformer 
 IfcTransformer::IfcTransformer( int id ) { m_entity_id = id; }
-IfcTransformer::~IfcTransformer() {}
 shared_ptr<BuildingObject> IfcTransformer::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTransformer> copy_self( new IfcTransformer() );
@@ -85,7 +84,7 @@ void IfcTransformer::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTransformer::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTransformer::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTransformer::toString() const { return L"IfcTransformer"; }
 void IfcTransformer::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

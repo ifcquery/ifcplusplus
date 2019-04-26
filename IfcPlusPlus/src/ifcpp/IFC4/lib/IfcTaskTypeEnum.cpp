@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcTaskTypeEnum.h"
 
 // TYPE IfcTaskTypeEnum = ENUMERATION OF	(ATTENDANCE	,CONSTRUCTION	,DEMOLITION	,DISMANTLE	,DISPOSAL	,INSTALLATION	,LOGISTIC	,MAINTENANCE	,MOVE	,OPERATION	,REMOVAL	,RENOVATION	,USERDEFINED	,NOTDEFINED);
-IfcTaskTypeEnum::~IfcTaskTypeEnum() {}
 shared_ptr<BuildingObject> IfcTaskTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTaskTypeEnum> copy_self( new IfcTaskTypeEnum() );

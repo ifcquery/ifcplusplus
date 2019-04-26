@@ -23,7 +23,7 @@ class IFCQUERY_EXPORT IfcTimeSeries : virtual public IfcMetricValueSelect, virtu
 public:
 	IfcTimeSeries() = default;
 	IfcTimeSeries( int id );
-	~IfcTimeSeries();
+	~IfcTimeSeries() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

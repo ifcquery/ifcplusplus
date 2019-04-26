@@ -12,7 +12,6 @@
 
 // TYPE IfcIonConcentrationMeasure = REAL;
 IfcIonConcentrationMeasure::IfcIonConcentrationMeasure( double value ) { m_value = value; }
-IfcIonConcentrationMeasure::~IfcIonConcentrationMeasure() {}
 shared_ptr<BuildingObject> IfcIonConcentrationMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcIonConcentrationMeasure> copy_self( new IfcIonConcentrationMeasure() );

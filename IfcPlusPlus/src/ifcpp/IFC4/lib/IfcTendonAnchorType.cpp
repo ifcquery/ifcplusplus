@@ -26,7 +26,6 @@
 
 // ENTITY IfcTendonAnchorType 
 IfcTendonAnchorType::IfcTendonAnchorType( int id ) { m_entity_id = id; }
-IfcTendonAnchorType::~IfcTendonAnchorType() {}
 shared_ptr<BuildingObject> IfcTendonAnchorType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTendonAnchorType> copy_self( new IfcTendonAnchorType() );
@@ -88,7 +87,7 @@ void IfcTendonAnchorType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTendonAnchorType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTendonAnchorType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTendonAnchorType::toString() const { return L"IfcTendonAnchorType"; }
 void IfcTendonAnchorType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

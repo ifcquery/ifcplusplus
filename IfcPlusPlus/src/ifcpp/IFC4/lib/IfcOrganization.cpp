@@ -18,7 +18,6 @@
 
 // ENTITY IfcOrganization 
 IfcOrganization::IfcOrganization( int id ) { m_entity_id = id; }
-IfcOrganization::~IfcOrganization() {}
 shared_ptr<BuildingObject> IfcOrganization::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcOrganization> copy_self( new IfcOrganization() );
@@ -57,7 +56,7 @@ void IfcOrganization::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Addresses );
 	stream << ");";
 }
-void IfcOrganization::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcOrganization::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcOrganization::toString() const { return L"IfcOrganization"; }
 void IfcOrganization::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

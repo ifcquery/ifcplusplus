@@ -13,7 +13,6 @@
 
 // ENTITY IfcLightIntensityDistribution 
 IfcLightIntensityDistribution::IfcLightIntensityDistribution( int id ) { m_entity_id = id; }
-IfcLightIntensityDistribution::~IfcLightIntensityDistribution() {}
 shared_ptr<BuildingObject> IfcLightIntensityDistribution::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightIntensityDistribution> copy_self( new IfcLightIntensityDistribution() );
@@ -36,7 +35,7 @@ void IfcLightIntensityDistribution::getStepLine( std::stringstream& stream ) con
 	writeEntityList( stream, m_DistributionData );
 	stream << ");";
 }
-void IfcLightIntensityDistribution::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLightIntensityDistribution::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightIntensityDistribution::toString() const { return L"IfcLightIntensityDistribution"; }
 void IfcLightIntensityDistribution::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

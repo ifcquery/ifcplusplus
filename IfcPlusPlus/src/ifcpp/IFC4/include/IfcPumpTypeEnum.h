@@ -28,7 +28,7 @@ public:
 
 	IfcPumpTypeEnum() = default;
 	IfcPumpTypeEnum( IfcPumpTypeEnumEnum e ) { m_enum = e; }
-	~IfcPumpTypeEnum();
+	~IfcPumpTypeEnum() = default;
 	virtual const char* className() const { return "IfcPumpTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

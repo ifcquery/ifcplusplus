@@ -20,7 +20,6 @@
 
 // ENTITY IfcRelSpaceBoundary1stLevel 
 IfcRelSpaceBoundary1stLevel::IfcRelSpaceBoundary1stLevel( int id ) { m_entity_id = id; }
-IfcRelSpaceBoundary1stLevel::~IfcRelSpaceBoundary1stLevel() {}
 shared_ptr<BuildingObject> IfcRelSpaceBoundary1stLevel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelSpaceBoundary1stLevel> copy_self( new IfcRelSpaceBoundary1stLevel() );
@@ -68,7 +67,7 @@ void IfcRelSpaceBoundary1stLevel::getStepLine( std::stringstream& stream ) const
 	if( m_ParentBoundary ) { stream << "#" << m_ParentBoundary->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelSpaceBoundary1stLevel::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelSpaceBoundary1stLevel::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelSpaceBoundary1stLevel::toString() const { return L"IfcRelSpaceBoundary1stLevel"; }
 void IfcRelSpaceBoundary1stLevel::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

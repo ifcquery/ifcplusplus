@@ -14,7 +14,6 @@
 
 // ENTITY IfcStructuralLoadConfiguration 
 IfcStructuralLoadConfiguration::IfcStructuralLoadConfiguration( int id ) { m_entity_id = id; }
-IfcStructuralLoadConfiguration::~IfcStructuralLoadConfiguration() {}
 shared_ptr<BuildingObject> IfcStructuralLoadConfiguration::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadConfiguration> copy_self( new IfcStructuralLoadConfiguration() );
@@ -53,7 +52,7 @@ void IfcStructuralLoadConfiguration::getStepLine( std::stringstream& stream ) co
 	writeNumericTypeList2D( stream, m_Locations );
 	stream << ");";
 }
-void IfcStructuralLoadConfiguration::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralLoadConfiguration::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadConfiguration::toString() const { return L"IfcStructuralLoadConfiguration"; }
 void IfcStructuralLoadConfiguration::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

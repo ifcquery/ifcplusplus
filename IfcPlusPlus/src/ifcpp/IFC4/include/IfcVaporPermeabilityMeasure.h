@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcVaporPermeabilityMeasure : public IfcDerivedMeasureValu
 public:
 	IfcVaporPermeabilityMeasure() = default;
 	IfcVaporPermeabilityMeasure( double value );
-	~IfcVaporPermeabilityMeasure();
+	~IfcVaporPermeabilityMeasure() = default;
 	virtual const char* className() const { return "IfcVaporPermeabilityMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

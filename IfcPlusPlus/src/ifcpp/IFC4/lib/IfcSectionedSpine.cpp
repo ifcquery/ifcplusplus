@@ -16,7 +16,6 @@
 
 // ENTITY IfcSectionedSpine 
 IfcSectionedSpine::IfcSectionedSpine( int id ) { m_entity_id = id; }
-IfcSectionedSpine::~IfcSectionedSpine() {}
 shared_ptr<BuildingObject> IfcSectionedSpine::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSectionedSpine> copy_self( new IfcSectionedSpine() );
@@ -49,7 +48,7 @@ void IfcSectionedSpine::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_CrossSectionPositions );
 	stream << ");";
 }
-void IfcSectionedSpine::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSectionedSpine::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSectionedSpine::toString() const { return L"IfcSectionedSpine"; }
 void IfcSectionedSpine::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

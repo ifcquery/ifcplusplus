@@ -15,7 +15,6 @@
 
 // ENTITY IfcCircle 
 IfcCircle::IfcCircle( int id ) { m_entity_id = id; }
-IfcCircle::~IfcCircle() {}
 shared_ptr<BuildingObject> IfcCircle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCircle> copy_self( new IfcCircle() );
@@ -31,7 +30,7 @@ void IfcCircle::getStepLine( std::stringstream& stream ) const
 	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCircle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCircle::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCircle::toString() const { return L"IfcCircle"; }
 void IfcCircle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

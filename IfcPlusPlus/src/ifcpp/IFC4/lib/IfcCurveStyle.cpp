@@ -16,7 +16,6 @@
 
 // ENTITY IfcCurveStyle 
 IfcCurveStyle::IfcCurveStyle( int id ) { m_entity_id = id; }
-IfcCurveStyle::~IfcCurveStyle() {}
 shared_ptr<BuildingObject> IfcCurveStyle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCurveStyle> copy_self( new IfcCurveStyle() );
@@ -41,7 +40,7 @@ void IfcCurveStyle::getStepLine( std::stringstream& stream ) const
 	if( m_ModelOrDraughting ) { m_ModelOrDraughting->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCurveStyle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCurveStyle::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCurveStyle::toString() const { return L"IfcCurveStyle"; }
 void IfcCurveStyle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

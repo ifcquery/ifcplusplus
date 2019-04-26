@@ -38,7 +38,6 @@
 
 // ENTITY IfcRailing 
 IfcRailing::IfcRailing( int id ) { m_entity_id = id; }
-IfcRailing::~IfcRailing() {}
 shared_ptr<BuildingObject> IfcRailing::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRailing> copy_self( new IfcRailing() );
@@ -83,7 +82,7 @@ void IfcRailing::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRailing::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRailing::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRailing::toString() const { return L"IfcRailing"; }
 void IfcRailing::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -12,7 +12,6 @@
 
 // TYPE IfcHeatFluxDensityMeasure = REAL;
 IfcHeatFluxDensityMeasure::IfcHeatFluxDensityMeasure( double value ) { m_value = value; }
-IfcHeatFluxDensityMeasure::~IfcHeatFluxDensityMeasure() {}
 shared_ptr<BuildingObject> IfcHeatFluxDensityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcHeatFluxDensityMeasure> copy_self( new IfcHeatFluxDensityMeasure() );

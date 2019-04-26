@@ -12,7 +12,6 @@
 
 // ENTITY IfcDraughtingPreDefinedColour 
 IfcDraughtingPreDefinedColour::IfcDraughtingPreDefinedColour( int id ) { m_entity_id = id; }
-IfcDraughtingPreDefinedColour::~IfcDraughtingPreDefinedColour() {}
 shared_ptr<BuildingObject> IfcDraughtingPreDefinedColour::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDraughtingPreDefinedColour> copy_self( new IfcDraughtingPreDefinedColour() );
@@ -25,7 +24,7 @@ void IfcDraughtingPreDefinedColour::getStepLine( std::stringstream& stream ) con
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDraughtingPreDefinedColour::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDraughtingPreDefinedColour::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDraughtingPreDefinedColour::toString() const { return L"IfcDraughtingPreDefinedColour"; }
 void IfcDraughtingPreDefinedColour::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

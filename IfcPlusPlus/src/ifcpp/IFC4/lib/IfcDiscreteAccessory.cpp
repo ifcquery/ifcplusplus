@@ -38,7 +38,6 @@
 
 // ENTITY IfcDiscreteAccessory 
 IfcDiscreteAccessory::IfcDiscreteAccessory( int id ) { m_entity_id = id; }
-IfcDiscreteAccessory::~IfcDiscreteAccessory() {}
 shared_ptr<BuildingObject> IfcDiscreteAccessory::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDiscreteAccessory> copy_self( new IfcDiscreteAccessory() );
@@ -83,7 +82,7 @@ void IfcDiscreteAccessory::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDiscreteAccessory::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDiscreteAccessory::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDiscreteAccessory::toString() const { return L"IfcDiscreteAccessory"; }
 void IfcDiscreteAccessory::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

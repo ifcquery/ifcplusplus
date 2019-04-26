@@ -13,7 +13,6 @@
 
 // ENTITY IfcMaterialClassificationRelationship 
 IfcMaterialClassificationRelationship::IfcMaterialClassificationRelationship( int id ) { m_entity_id = id; }
-IfcMaterialClassificationRelationship::~IfcMaterialClassificationRelationship() {}
 shared_ptr<BuildingObject> IfcMaterialClassificationRelationship::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMaterialClassificationRelationship> copy_self( new IfcMaterialClassificationRelationship() );
@@ -53,7 +52,7 @@ void IfcMaterialClassificationRelationship::getStepLine( std::stringstream& stre
 	if( m_ClassifiedMaterial ) { stream << "#" << m_ClassifiedMaterial->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcMaterialClassificationRelationship::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMaterialClassificationRelationship::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMaterialClassificationRelationship::toString() const { return L"IfcMaterialClassificationRelationship"; }
 void IfcMaterialClassificationRelationship::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

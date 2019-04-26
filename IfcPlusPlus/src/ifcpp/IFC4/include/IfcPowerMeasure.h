@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcPowerMeasure : public IfcDerivedMeasureValue
 public:
 	IfcPowerMeasure() = default;
 	IfcPowerMeasure( double value );
-	~IfcPowerMeasure();
+	~IfcPowerMeasure() = default;
 	virtual const char* className() const { return "IfcPowerMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

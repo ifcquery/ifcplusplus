@@ -12,7 +12,6 @@
 
 // TYPE IfcRadioActivityMeasure = REAL;
 IfcRadioActivityMeasure::IfcRadioActivityMeasure( double value ) { m_value = value; }
-IfcRadioActivityMeasure::~IfcRadioActivityMeasure() {}
 shared_ptr<BuildingObject> IfcRadioActivityMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRadioActivityMeasure> copy_self( new IfcRadioActivityMeasure() );

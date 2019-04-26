@@ -21,7 +21,6 @@
 
 // ENTITY IfcLightSourceGoniometric 
 IfcLightSourceGoniometric::IfcLightSourceGoniometric( int id ) { m_entity_id = id; }
-IfcLightSourceGoniometric::~IfcLightSourceGoniometric() {}
 shared_ptr<BuildingObject> IfcLightSourceGoniometric::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightSourceGoniometric> copy_self( new IfcLightSourceGoniometric() );
@@ -61,7 +60,7 @@ void IfcLightSourceGoniometric::getStepLine( std::stringstream& stream ) const
 	if( m_LightDistributionDataSource ) { m_LightDistributionDataSource->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcLightSourceGoniometric::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLightSourceGoniometric::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightSourceGoniometric::toString() const { return L"IfcLightSourceGoniometric"; }
 void IfcLightSourceGoniometric::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

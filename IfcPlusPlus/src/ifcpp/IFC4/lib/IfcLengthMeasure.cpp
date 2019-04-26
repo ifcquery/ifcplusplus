@@ -14,7 +14,6 @@
 
 // TYPE IfcLengthMeasure = REAL;
 IfcLengthMeasure::IfcLengthMeasure( double value ) { m_value = value; }
-IfcLengthMeasure::~IfcLengthMeasure() {}
 shared_ptr<BuildingObject> IfcLengthMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLengthMeasure> copy_self( new IfcLengthMeasure() );

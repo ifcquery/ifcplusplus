@@ -26,7 +26,6 @@
 
 // ENTITY IfcProtectiveDeviceTrippingUnitType 
 IfcProtectiveDeviceTrippingUnitType::IfcProtectiveDeviceTrippingUnitType( int id ) { m_entity_id = id; }
-IfcProtectiveDeviceTrippingUnitType::~IfcProtectiveDeviceTrippingUnitType() {}
 shared_ptr<BuildingObject> IfcProtectiveDeviceTrippingUnitType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProtectiveDeviceTrippingUnitType> copy_self( new IfcProtectiveDeviceTrippingUnitType() );
@@ -88,7 +87,7 @@ void IfcProtectiveDeviceTrippingUnitType::getStepLine( std::stringstream& stream
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcProtectiveDeviceTrippingUnitType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcProtectiveDeviceTrippingUnitType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProtectiveDeviceTrippingUnitType::toString() const { return L"IfcProtectiveDeviceTrippingUnitType"; }
 void IfcProtectiveDeviceTrippingUnitType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

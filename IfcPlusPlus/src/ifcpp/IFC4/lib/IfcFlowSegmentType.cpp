@@ -25,7 +25,6 @@
 
 // ENTITY IfcFlowSegmentType 
 IfcFlowSegmentType::IfcFlowSegmentType( int id ) { m_entity_id = id; }
-IfcFlowSegmentType::~IfcFlowSegmentType() {}
 shared_ptr<BuildingObject> IfcFlowSegmentType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFlowSegmentType> copy_self( new IfcFlowSegmentType() );
@@ -84,7 +83,7 @@ void IfcFlowSegmentType::getStepLine( std::stringstream& stream ) const
 	if( m_ElementType ) { m_ElementType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFlowSegmentType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFlowSegmentType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFlowSegmentType::toString() const { return L"IfcFlowSegmentType"; }
 void IfcFlowSegmentType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

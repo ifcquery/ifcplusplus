@@ -12,7 +12,6 @@
 
 // ENTITY IfcTextureVertex 
 IfcTextureVertex::IfcTextureVertex( int id ) { m_entity_id = id; }
-IfcTextureVertex::~IfcTextureVertex() {}
 shared_ptr<BuildingObject> IfcTextureVertex::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextureVertex> copy_self( new IfcTextureVertex() );
@@ -32,7 +31,7 @@ void IfcTextureVertex::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList( stream, m_Coordinates );
 	stream << ");";
 }
-void IfcTextureVertex::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTextureVertex::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextureVertex::toString() const { return L"IfcTextureVertex"; }
 void IfcTextureVertex::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

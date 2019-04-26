@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcReinforcingBarTypeEnum.h"
 
 // TYPE IfcReinforcingBarTypeEnum = ENUMERATION OF	(ANCHORING	,EDGE	,LIGATURE	,MAIN	,PUNCHING	,RING	,SHEAR	,STUD	,USERDEFINED	,NOTDEFINED);
-IfcReinforcingBarTypeEnum::~IfcReinforcingBarTypeEnum() {}
 shared_ptr<BuildingObject> IfcReinforcingBarTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingBarTypeEnum> copy_self( new IfcReinforcingBarTypeEnum() );

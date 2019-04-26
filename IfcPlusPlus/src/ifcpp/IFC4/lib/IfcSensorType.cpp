@@ -26,7 +26,6 @@
 
 // ENTITY IfcSensorType 
 IfcSensorType::IfcSensorType( int id ) { m_entity_id = id; }
-IfcSensorType::~IfcSensorType() {}
 shared_ptr<BuildingObject> IfcSensorType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSensorType> copy_self( new IfcSensorType() );
@@ -88,7 +87,7 @@ void IfcSensorType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSensorType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSensorType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSensorType::toString() const { return L"IfcSensorType"; }
 void IfcSensorType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

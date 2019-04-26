@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcRailingTypeEnum.h"
 
 // TYPE IfcRailingTypeEnum = ENUMERATION OF	(HANDRAIL	,GUARDRAIL	,BALUSTRADE	,USERDEFINED	,NOTDEFINED);
-IfcRailingTypeEnum::~IfcRailingTypeEnum() {}
 shared_ptr<BuildingObject> IfcRailingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRailingTypeEnum> copy_self( new IfcRailingTypeEnum() );

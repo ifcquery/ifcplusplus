@@ -25,7 +25,6 @@
 
 // ENTITY IfcReinforcingElementType 
 IfcReinforcingElementType::IfcReinforcingElementType( int id ) { m_entity_id = id; }
-IfcReinforcingElementType::~IfcReinforcingElementType() {}
 shared_ptr<BuildingObject> IfcReinforcingElementType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingElementType> copy_self( new IfcReinforcingElementType() );
@@ -84,7 +83,7 @@ void IfcReinforcingElementType::getStepLine( std::stringstream& stream ) const
 	if( m_ElementType ) { m_ElementType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcReinforcingElementType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcReinforcingElementType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcReinforcingElementType::toString() const { return L"IfcReinforcingElementType"; }
 void IfcReinforcingElementType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

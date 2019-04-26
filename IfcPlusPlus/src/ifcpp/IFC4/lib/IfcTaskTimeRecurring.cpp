@@ -19,7 +19,6 @@
 
 // ENTITY IfcTaskTimeRecurring 
 IfcTaskTimeRecurring::IfcTaskTimeRecurring( int id ) { m_entity_id = id; }
-IfcTaskTimeRecurring::~IfcTaskTimeRecurring() {}
 shared_ptr<BuildingObject> IfcTaskTimeRecurring::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTaskTimeRecurring> copy_self( new IfcTaskTimeRecurring() );
@@ -92,7 +91,7 @@ void IfcTaskTimeRecurring::getStepLine( std::stringstream& stream ) const
 	if( m_Recurrence ) { stream << "#" << m_Recurrence->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTaskTimeRecurring::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTaskTimeRecurring::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTaskTimeRecurring::toString() const { return L"IfcTaskTimeRecurring"; }
 void IfcTaskTimeRecurring::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

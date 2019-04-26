@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcPressureMeasure : public IfcDerivedMeasureValue
 public:
 	IfcPressureMeasure() = default;
 	IfcPressureMeasure( double value );
-	~IfcPressureMeasure();
+	~IfcPressureMeasure() = default;
 	virtual const char* className() const { return "IfcPressureMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

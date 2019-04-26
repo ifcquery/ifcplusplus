@@ -38,7 +38,6 @@
 
 // ENTITY IfcFooting 
 IfcFooting::IfcFooting( int id ) { m_entity_id = id; }
-IfcFooting::~IfcFooting() {}
 shared_ptr<BuildingObject> IfcFooting::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFooting> copy_self( new IfcFooting() );
@@ -83,7 +82,7 @@ void IfcFooting::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFooting::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFooting::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFooting::toString() const { return L"IfcFooting"; }
 void IfcFooting::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

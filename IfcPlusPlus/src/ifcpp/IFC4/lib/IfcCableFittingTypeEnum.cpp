@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcCableFittingTypeEnum.h"
 
 // TYPE IfcCableFittingTypeEnum = ENUMERATION OF	(CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
-IfcCableFittingTypeEnum::~IfcCableFittingTypeEnum() {}
 shared_ptr<BuildingObject> IfcCableFittingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCableFittingTypeEnum> copy_self( new IfcCableFittingTypeEnum() );

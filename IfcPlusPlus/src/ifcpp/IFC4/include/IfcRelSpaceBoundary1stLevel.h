@@ -15,7 +15,7 @@ class IFCQUERY_EXPORT IfcRelSpaceBoundary1stLevel : public IfcRelSpaceBoundary
 public:
 	IfcRelSpaceBoundary1stLevel() = default;
 	IfcRelSpaceBoundary1stLevel( int id );
-	~IfcRelSpaceBoundary1stLevel();
+	~IfcRelSpaceBoundary1stLevel() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcDescriptiveMeasure : public IfcMeasureValue, public Ifc
 public:
 	IfcDescriptiveMeasure() = default;
 	IfcDescriptiveMeasure( std::wstring value );
-	~IfcDescriptiveMeasure();
+	~IfcDescriptiveMeasure() = default;
 	virtual const char* className() const { return "IfcDescriptiveMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

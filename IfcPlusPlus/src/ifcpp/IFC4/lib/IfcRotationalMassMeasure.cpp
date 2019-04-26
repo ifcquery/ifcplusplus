@@ -12,7 +12,6 @@
 
 // TYPE IfcRotationalMassMeasure = REAL;
 IfcRotationalMassMeasure::IfcRotationalMassMeasure( double value ) { m_value = value; }
-IfcRotationalMassMeasure::~IfcRotationalMassMeasure() {}
 shared_ptr<BuildingObject> IfcRotationalMassMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRotationalMassMeasure> copy_self( new IfcRotationalMassMeasure() );

@@ -27,7 +27,6 @@
 
 // ENTITY IfcConstructionEquipmentResourceType 
 IfcConstructionEquipmentResourceType::IfcConstructionEquipmentResourceType( int id ) { m_entity_id = id; }
-IfcConstructionEquipmentResourceType::~IfcConstructionEquipmentResourceType() {}
 shared_ptr<BuildingObject> IfcConstructionEquipmentResourceType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConstructionEquipmentResourceType> copy_self( new IfcConstructionEquipmentResourceType() );
@@ -95,7 +94,7 @@ void IfcConstructionEquipmentResourceType::getStepLine( std::stringstream& strea
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcConstructionEquipmentResourceType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcConstructionEquipmentResourceType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConstructionEquipmentResourceType::toString() const { return L"IfcConstructionEquipmentResourceType"; }
 void IfcConstructionEquipmentResourceType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

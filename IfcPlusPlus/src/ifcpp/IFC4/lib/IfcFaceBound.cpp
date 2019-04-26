@@ -15,7 +15,6 @@
 
 // ENTITY IfcFaceBound 
 IfcFaceBound::IfcFaceBound( int id ) { m_entity_id = id; }
-IfcFaceBound::~IfcFaceBound() {}
 shared_ptr<BuildingObject> IfcFaceBound::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFaceBound> copy_self( new IfcFaceBound() );
@@ -31,7 +30,7 @@ void IfcFaceBound::getStepLine( std::stringstream& stream ) const
 	if( m_Orientation ) { m_Orientation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFaceBound::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFaceBound::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFaceBound::toString() const { return L"IfcFaceBound"; }
 void IfcFaceBound::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

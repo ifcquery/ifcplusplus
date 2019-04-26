@@ -34,7 +34,6 @@
 
 // ENTITY IfcSpace 
 IfcSpace::IfcSpace( int id ) { m_entity_id = id; }
-IfcSpace::~IfcSpace() {}
 shared_ptr<BuildingObject> IfcSpace::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpace> copy_self( new IfcSpace() );
@@ -85,7 +84,7 @@ void IfcSpace::getStepLine( std::stringstream& stream ) const
 	if( m_ElevationWithFlooring ) { m_ElevationWithFlooring->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSpace::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSpace::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSpace::toString() const { return L"IfcSpace"; }
 void IfcSpace::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

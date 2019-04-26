@@ -16,7 +16,6 @@
 
 // ENTITY IfcPerson 
 IfcPerson::IfcPerson( int id ) { m_entity_id = id; }
-IfcPerson::~IfcPerson() {}
 shared_ptr<BuildingObject> IfcPerson::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPerson> copy_self( new IfcPerson() );
@@ -136,7 +135,7 @@ void IfcPerson::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Addresses );
 	stream << ");";
 }
-void IfcPerson::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPerson::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPerson::toString() const { return L"IfcPerson"; }
 void IfcPerson::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

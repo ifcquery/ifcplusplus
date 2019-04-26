@@ -17,7 +17,6 @@
 
 // ENTITY IfcCenterLineProfileDef 
 IfcCenterLineProfileDef::IfcCenterLineProfileDef( int id ) { m_entity_id = id; }
-IfcCenterLineProfileDef::~IfcCenterLineProfileDef() {}
 shared_ptr<BuildingObject> IfcCenterLineProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCenterLineProfileDef> copy_self( new IfcCenterLineProfileDef() );
@@ -39,7 +38,7 @@ void IfcCenterLineProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_Thickness ) { m_Thickness->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCenterLineProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCenterLineProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCenterLineProfileDef::toString() const { return L"IfcCenterLineProfileDef"; }
 void IfcCenterLineProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

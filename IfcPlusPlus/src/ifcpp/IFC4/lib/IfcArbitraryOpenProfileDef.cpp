@@ -16,7 +16,6 @@
 
 // ENTITY IfcArbitraryOpenProfileDef 
 IfcArbitraryOpenProfileDef::IfcArbitraryOpenProfileDef( int id ) { m_entity_id = id; }
-IfcArbitraryOpenProfileDef::~IfcArbitraryOpenProfileDef() {}
 shared_ptr<BuildingObject> IfcArbitraryOpenProfileDef::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcArbitraryOpenProfileDef> copy_self( new IfcArbitraryOpenProfileDef() );
@@ -35,7 +34,7 @@ void IfcArbitraryOpenProfileDef::getStepLine( std::stringstream& stream ) const
 	if( m_Curve ) { stream << "#" << m_Curve->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcArbitraryOpenProfileDef::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcArbitraryOpenProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcArbitraryOpenProfileDef::toString() const { return L"IfcArbitraryOpenProfileDef"; }
 void IfcArbitraryOpenProfileDef::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

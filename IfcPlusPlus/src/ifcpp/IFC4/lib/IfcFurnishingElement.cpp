@@ -37,7 +37,6 @@
 
 // ENTITY IfcFurnishingElement 
 IfcFurnishingElement::IfcFurnishingElement( int id ) { m_entity_id = id; }
-IfcFurnishingElement::~IfcFurnishingElement() {}
 shared_ptr<BuildingObject> IfcFurnishingElement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFurnishingElement> copy_self( new IfcFurnishingElement() );
@@ -79,7 +78,7 @@ void IfcFurnishingElement::getStepLine( std::stringstream& stream ) const
 	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFurnishingElement::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFurnishingElement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFurnishingElement::toString() const { return L"IfcFurnishingElement"; }
 void IfcFurnishingElement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

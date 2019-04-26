@@ -17,7 +17,6 @@
 
 // ENTITY IfcFillAreaStyleHatching 
 IfcFillAreaStyleHatching::IfcFillAreaStyleHatching( int id ) { m_entity_id = id; }
-IfcFillAreaStyleHatching::~IfcFillAreaStyleHatching() {}
 shared_ptr<BuildingObject> IfcFillAreaStyleHatching::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFillAreaStyleHatching> copy_self( new IfcFillAreaStyleHatching() );
@@ -42,7 +41,7 @@ void IfcFillAreaStyleHatching::getStepLine( std::stringstream& stream ) const
 	if( m_HatchLineAngle ) { m_HatchLineAngle->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFillAreaStyleHatching::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFillAreaStyleHatching::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFillAreaStyleHatching::toString() const { return L"IfcFillAreaStyleHatching"; }
 void IfcFillAreaStyleHatching::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

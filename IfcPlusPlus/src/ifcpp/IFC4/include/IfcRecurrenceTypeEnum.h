@@ -27,7 +27,7 @@ public:
 
 	IfcRecurrenceTypeEnum() = default;
 	IfcRecurrenceTypeEnum( IfcRecurrenceTypeEnumEnum e ) { m_enum = e; }
-	~IfcRecurrenceTypeEnum();
+	~IfcRecurrenceTypeEnum() = default;
 	virtual const char* className() const { return "IfcRecurrenceTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

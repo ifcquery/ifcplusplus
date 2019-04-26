@@ -39,7 +39,6 @@
 
 // ENTITY IfcEnergyConversionDevice 
 IfcEnergyConversionDevice::IfcEnergyConversionDevice( int id ) { m_entity_id = id; }
-IfcEnergyConversionDevice::~IfcEnergyConversionDevice() {}
 shared_ptr<BuildingObject> IfcEnergyConversionDevice::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcEnergyConversionDevice> copy_self( new IfcEnergyConversionDevice() );
@@ -81,7 +80,7 @@ void IfcEnergyConversionDevice::getStepLine( std::stringstream& stream ) const
 	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcEnergyConversionDevice::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcEnergyConversionDevice::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcEnergyConversionDevice::toString() const { return L"IfcEnergyConversionDevice"; }
 void IfcEnergyConversionDevice::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -25,7 +25,6 @@
 
 // ENTITY IfcProcedureType 
 IfcProcedureType::IfcProcedureType( int id ) { m_entity_id = id; }
-IfcProcedureType::~IfcProcedureType() {}
 shared_ptr<BuildingObject> IfcProcedureType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProcedureType> copy_self( new IfcProcedureType() );
@@ -80,7 +79,7 @@ void IfcProcedureType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcProcedureType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcProcedureType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcProcedureType::toString() const { return L"IfcProcedureType"; }
 void IfcProcedureType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

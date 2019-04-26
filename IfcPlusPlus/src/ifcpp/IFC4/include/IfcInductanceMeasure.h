@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcInductanceMeasure : public IfcDerivedMeasureValue
 public:
 	IfcInductanceMeasure() = default;
 	IfcInductanceMeasure( double value );
-	~IfcInductanceMeasure();
+	~IfcInductanceMeasure() = default;
 	virtual const char* className() const { return "IfcInductanceMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

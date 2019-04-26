@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcHeatExchangerTypeEnum.h"
 
 // TYPE IfcHeatExchangerTypeEnum = ENUMERATION OF	(PLATE	,SHELLANDTUBE	,USERDEFINED	,NOTDEFINED);
-IfcHeatExchangerTypeEnum::~IfcHeatExchangerTypeEnum() {}
 shared_ptr<BuildingObject> IfcHeatExchangerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcHeatExchangerTypeEnum> copy_self( new IfcHeatExchangerTypeEnum() );

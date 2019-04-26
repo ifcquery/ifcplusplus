@@ -11,7 +11,6 @@
 
 // TYPE IfcDayInWeekNumber = INTEGER;
 IfcDayInWeekNumber::IfcDayInWeekNumber( int value ) { m_value = value; }
-IfcDayInWeekNumber::~IfcDayInWeekNumber() {}
 shared_ptr<BuildingObject> IfcDayInWeekNumber::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDayInWeekNumber> copy_self( new IfcDayInWeekNumber() );

@@ -12,7 +12,6 @@
 
 // TYPE IfcLabel = STRING(255);
 IfcLabel::IfcLabel( std::wstring value ) { m_value = value; }
-IfcLabel::~IfcLabel() {}
 shared_ptr<BuildingObject> IfcLabel::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLabel> copy_self( new IfcLabel() );

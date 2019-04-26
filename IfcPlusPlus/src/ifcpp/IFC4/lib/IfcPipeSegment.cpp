@@ -40,7 +40,6 @@
 
 // ENTITY IfcPipeSegment 
 IfcPipeSegment::IfcPipeSegment( int id ) { m_entity_id = id; }
-IfcPipeSegment::~IfcPipeSegment() {}
 shared_ptr<BuildingObject> IfcPipeSegment::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPipeSegment> copy_self( new IfcPipeSegment() );
@@ -85,7 +84,7 @@ void IfcPipeSegment::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPipeSegment::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPipeSegment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPipeSegment::toString() const { return L"IfcPipeSegment"; }
 void IfcPipeSegment::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

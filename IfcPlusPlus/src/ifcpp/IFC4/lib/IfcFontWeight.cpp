@@ -11,7 +11,6 @@
 
 // TYPE IfcFontWeight = STRING;
 IfcFontWeight::IfcFontWeight( std::wstring value ) { m_value = value; }
-IfcFontWeight::~IfcFontWeight() {}
 shared_ptr<BuildingObject> IfcFontWeight::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFontWeight> copy_self( new IfcFontWeight() );

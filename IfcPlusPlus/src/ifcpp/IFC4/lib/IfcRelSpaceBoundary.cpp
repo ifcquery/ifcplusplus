@@ -22,7 +22,6 @@
 
 // ENTITY IfcRelSpaceBoundary 
 IfcRelSpaceBoundary::IfcRelSpaceBoundary( int id ) { m_entity_id = id; }
-IfcRelSpaceBoundary::~IfcRelSpaceBoundary() {}
 shared_ptr<BuildingObject> IfcRelSpaceBoundary::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelSpaceBoundary> copy_self( new IfcRelSpaceBoundary() );
@@ -67,7 +66,7 @@ void IfcRelSpaceBoundary::getStepLine( std::stringstream& stream ) const
 	if( m_InternalOrExternalBoundary ) { m_InternalOrExternalBoundary->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelSpaceBoundary::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelSpaceBoundary::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelSpaceBoundary::toString() const { return L"IfcRelSpaceBoundary"; }
 void IfcRelSpaceBoundary::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

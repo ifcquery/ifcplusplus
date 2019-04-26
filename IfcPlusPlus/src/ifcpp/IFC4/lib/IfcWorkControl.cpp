@@ -28,7 +28,6 @@
 
 // ENTITY IfcWorkControl 
 IfcWorkControl::IfcWorkControl( int id ) { m_entity_id = id; }
-IfcWorkControl::~IfcWorkControl() {}
 shared_ptr<BuildingObject> IfcWorkControl::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWorkControl> copy_self( new IfcWorkControl() );
@@ -92,7 +91,7 @@ void IfcWorkControl::getStepLine( std::stringstream& stream ) const
 	if( m_FinishTime ) { m_FinishTime->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcWorkControl::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcWorkControl::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWorkControl::toString() const { return L"IfcWorkControl"; }
 void IfcWorkControl::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

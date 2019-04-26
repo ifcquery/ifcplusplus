@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcDamperTypeEnum.h"
 
 // TYPE IfcDamperTypeEnum = ENUMERATION OF	(BACKDRAFTDAMPER	,BALANCINGDAMPER	,BLASTDAMPER	,CONTROLDAMPER	,FIREDAMPER	,FIRESMOKEDAMPER	,FUMEHOODEXHAUST	,GRAVITYDAMPER	,GRAVITYRELIEFDAMPER	,RELIEFDAMPER	,SMOKEDAMPER	,USERDEFINED	,NOTDEFINED);
-IfcDamperTypeEnum::~IfcDamperTypeEnum() {}
 shared_ptr<BuildingObject> IfcDamperTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDamperTypeEnum> copy_self( new IfcDamperTypeEnum() );

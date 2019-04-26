@@ -15,7 +15,6 @@
 
 // ENTITY IfcActorRole 
 IfcActorRole::IfcActorRole( int id ) { m_entity_id = id; }
-IfcActorRole::~IfcActorRole() {}
 shared_ptr<BuildingObject> IfcActorRole::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcActorRole> copy_self( new IfcActorRole() );
@@ -34,7 +33,7 @@ void IfcActorRole::getStepLine( std::stringstream& stream ) const
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcActorRole::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcActorRole::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcActorRole::toString() const { return L"IfcActorRole"; }
 void IfcActorRole::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

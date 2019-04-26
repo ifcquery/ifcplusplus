@@ -14,7 +14,6 @@
 
 // ENTITY IfcTextureMap 
 IfcTextureMap::IfcTextureMap( int id ) { m_entity_id = id; }
-IfcTextureMap::~IfcTextureMap() {}
 shared_ptr<BuildingObject> IfcTextureMap::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTextureMap> copy_self( new IfcTextureMap() );
@@ -47,7 +46,7 @@ void IfcTextureMap::getStepLine( std::stringstream& stream ) const
 	if( m_MappedTo ) { stream << "#" << m_MappedTo->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTextureMap::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTextureMap::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTextureMap::toString() const { return L"IfcTextureMap"; }
 void IfcTextureMap::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

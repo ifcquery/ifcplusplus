@@ -38,7 +38,6 @@
 
 // ENTITY IfcWall 
 IfcWall::IfcWall( int id ) { m_entity_id = id; }
-IfcWall::~IfcWall() {}
 shared_ptr<BuildingObject> IfcWall::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWall> copy_self( new IfcWall() );
@@ -83,7 +82,7 @@ void IfcWall::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcWall::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcWall::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcWall::toString() const { return L"IfcWall"; }
 void IfcWall::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -39,7 +39,7 @@ public:
 
 	IfcDoorTypeOperationEnum() = default;
 	IfcDoorTypeOperationEnum( IfcDoorTypeOperationEnumEnum e ) { m_enum = e; }
-	~IfcDoorTypeOperationEnum();
+	~IfcDoorTypeOperationEnum() = default;
 	virtual const char* className() const { return "IfcDoorTypeOperationEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

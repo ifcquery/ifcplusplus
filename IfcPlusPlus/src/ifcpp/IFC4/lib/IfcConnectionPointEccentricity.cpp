@@ -13,7 +13,6 @@
 
 // ENTITY IfcConnectionPointEccentricity 
 IfcConnectionPointEccentricity::IfcConnectionPointEccentricity( int id ) { m_entity_id = id; }
-IfcConnectionPointEccentricity::~IfcConnectionPointEccentricity() {}
 shared_ptr<BuildingObject> IfcConnectionPointEccentricity::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcConnectionPointEccentricity> copy_self( new IfcConnectionPointEccentricity() );
@@ -38,7 +37,7 @@ void IfcConnectionPointEccentricity::getStepLine( std::stringstream& stream ) co
 	if( m_EccentricityInZ ) { m_EccentricityInZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcConnectionPointEccentricity::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcConnectionPointEccentricity::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcConnectionPointEccentricity::toString() const { return L"IfcConnectionPointEccentricity"; }
 void IfcConnectionPointEccentricity::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

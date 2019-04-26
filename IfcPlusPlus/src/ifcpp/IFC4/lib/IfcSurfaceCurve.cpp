@@ -16,7 +16,6 @@
 
 // ENTITY IfcSurfaceCurve 
 IfcSurfaceCurve::IfcSurfaceCurve( int id ) { m_entity_id = id; }
-IfcSurfaceCurve::~IfcSurfaceCurve() {}
 shared_ptr<BuildingObject> IfcSurfaceCurve::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSurfaceCurve> copy_self( new IfcSurfaceCurve() );
@@ -42,7 +41,7 @@ void IfcSurfaceCurve::getStepLine( std::stringstream& stream ) const
 	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcSurfaceCurve::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcSurfaceCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcSurfaceCurve::toString() const { return L"IfcSurfaceCurve"; }
 void IfcSurfaceCurve::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

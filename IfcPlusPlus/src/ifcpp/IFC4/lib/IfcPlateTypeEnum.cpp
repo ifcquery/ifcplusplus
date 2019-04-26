@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcPlateTypeEnum.h"
 
 // TYPE IfcPlateTypeEnum = ENUMERATION OF	(CURTAIN_PANEL	,SHEET	,USERDEFINED	,NOTDEFINED);
-IfcPlateTypeEnum::~IfcPlateTypeEnum() {}
 shared_ptr<BuildingObject> IfcPlateTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPlateTypeEnum> copy_self( new IfcPlateTypeEnum() );

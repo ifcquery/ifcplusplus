@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcDoorStyleConstructionEnum.h"
 
 // TYPE IfcDoorStyleConstructionEnum = ENUMERATION OF	(ALUMINIUM	,HIGH_GRADE_STEEL	,STEEL	,WOOD	,ALUMINIUM_WOOD	,ALUMINIUM_PLASTIC	,PLASTIC	,USERDEFINED	,NOTDEFINED);
-IfcDoorStyleConstructionEnum::~IfcDoorStyleConstructionEnum() {}
 shared_ptr<BuildingObject> IfcDoorStyleConstructionEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoorStyleConstructionEnum> copy_self( new IfcDoorStyleConstructionEnum() );

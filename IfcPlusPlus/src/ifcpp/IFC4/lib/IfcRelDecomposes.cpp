@@ -15,7 +15,6 @@
 
 // ENTITY IfcRelDecomposes 
 IfcRelDecomposes::IfcRelDecomposes( int id ) { m_entity_id = id; }
-IfcRelDecomposes::~IfcRelDecomposes() {}
 shared_ptr<BuildingObject> IfcRelDecomposes::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelDecomposes> copy_self( new IfcRelDecomposes() );
@@ -45,7 +44,7 @@ void IfcRelDecomposes::getStepLine( std::stringstream& stream ) const
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRelDecomposes::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelDecomposes::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelDecomposes::toString() const { return L"IfcRelDecomposes"; }
 void IfcRelDecomposes::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

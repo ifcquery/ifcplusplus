@@ -40,7 +40,6 @@
 
 // ENTITY IfcTubeBundle 
 IfcTubeBundle::IfcTubeBundle( int id ) { m_entity_id = id; }
-IfcTubeBundle::~IfcTubeBundle() {}
 shared_ptr<BuildingObject> IfcTubeBundle::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTubeBundle> copy_self( new IfcTubeBundle() );
@@ -85,7 +84,7 @@ void IfcTubeBundle::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcTubeBundle::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTubeBundle::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTubeBundle::toString() const { return L"IfcTubeBundle"; }
 void IfcTubeBundle::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

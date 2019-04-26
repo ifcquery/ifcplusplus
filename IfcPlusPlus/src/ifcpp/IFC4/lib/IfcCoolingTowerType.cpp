@@ -26,7 +26,6 @@
 
 // ENTITY IfcCoolingTowerType 
 IfcCoolingTowerType::IfcCoolingTowerType( int id ) { m_entity_id = id; }
-IfcCoolingTowerType::~IfcCoolingTowerType() {}
 shared_ptr<BuildingObject> IfcCoolingTowerType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCoolingTowerType> copy_self( new IfcCoolingTowerType() );
@@ -88,7 +87,7 @@ void IfcCoolingTowerType::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCoolingTowerType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCoolingTowerType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCoolingTowerType::toString() const { return L"IfcCoolingTowerType"; }
 void IfcCoolingTowerType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

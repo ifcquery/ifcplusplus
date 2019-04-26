@@ -30,7 +30,6 @@
 
 // ENTITY IfcStructuralLoadCase 
 IfcStructuralLoadCase::IfcStructuralLoadCase( int id ) { m_entity_id = id; }
-IfcStructuralLoadCase::~IfcStructuralLoadCase() {}
 shared_ptr<BuildingObject> IfcStructuralLoadCase::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStructuralLoadCase> copy_self( new IfcStructuralLoadCase() );
@@ -88,7 +87,7 @@ void IfcStructuralLoadCase::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList( stream, m_SelfWeightCoefficients );
 	stream << ");";
 }
-void IfcStructuralLoadCase::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcStructuralLoadCase::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcStructuralLoadCase::toString() const { return L"IfcStructuralLoadCase"; }
 void IfcStructuralLoadCase::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

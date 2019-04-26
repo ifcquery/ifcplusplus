@@ -26,7 +26,7 @@ public:
 
 	IfcTimeSeriesDataTypeEnum() = default;
 	IfcTimeSeriesDataTypeEnum( IfcTimeSeriesDataTypeEnumEnum e ) { m_enum = e; }
-	~IfcTimeSeriesDataTypeEnum();
+	~IfcTimeSeriesDataTypeEnum() = default;
 	virtual const char* className() const { return "IfcTimeSeriesDataTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

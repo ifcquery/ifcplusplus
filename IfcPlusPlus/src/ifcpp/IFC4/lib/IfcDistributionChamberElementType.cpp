@@ -26,7 +26,6 @@
 
 // ENTITY IfcDistributionChamberElementType 
 IfcDistributionChamberElementType::IfcDistributionChamberElementType( int id ) { m_entity_id = id; }
-IfcDistributionChamberElementType::~IfcDistributionChamberElementType() {}
 shared_ptr<BuildingObject> IfcDistributionChamberElementType::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDistributionChamberElementType> copy_self( new IfcDistributionChamberElementType() );
@@ -88,7 +87,7 @@ void IfcDistributionChamberElementType::getStepLine( std::stringstream& stream )
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDistributionChamberElementType::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDistributionChamberElementType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDistributionChamberElementType::toString() const { return L"IfcDistributionChamberElementType"; }
 void IfcDistributionChamberElementType::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -18,7 +18,7 @@ class IFCQUERY_EXPORT IfcTessellatedFaceSet : virtual public IfcBooleanOperand, 
 public:
 	IfcTessellatedFaceSet() = default;
 	IfcTessellatedFaceSet( int id );
-	~IfcTessellatedFaceSet();
+	~IfcTessellatedFaceSet() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -19,7 +19,6 @@
 
 // ENTITY IfcTriangulatedFaceSet 
 IfcTriangulatedFaceSet::IfcTriangulatedFaceSet( int id ) { m_entity_id = id; }
-IfcTriangulatedFaceSet::~IfcTriangulatedFaceSet() {}
 shared_ptr<BuildingObject> IfcTriangulatedFaceSet::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTriangulatedFaceSet> copy_self( new IfcTriangulatedFaceSet() );
@@ -94,7 +93,7 @@ void IfcTriangulatedFaceSet::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcTriangulatedFaceSet::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcTriangulatedFaceSet::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcTriangulatedFaceSet::toString() const { return L"IfcTriangulatedFaceSet"; }
 void IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

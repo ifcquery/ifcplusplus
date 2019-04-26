@@ -12,7 +12,6 @@
 
 // ENTITY IfcDraughtingPreDefinedCurveFont 
 IfcDraughtingPreDefinedCurveFont::IfcDraughtingPreDefinedCurveFont( int id ) { m_entity_id = id; }
-IfcDraughtingPreDefinedCurveFont::~IfcDraughtingPreDefinedCurveFont() {}
 shared_ptr<BuildingObject> IfcDraughtingPreDefinedCurveFont::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDraughtingPreDefinedCurveFont> copy_self( new IfcDraughtingPreDefinedCurveFont() );
@@ -25,7 +24,7 @@ void IfcDraughtingPreDefinedCurveFont::getStepLine( std::stringstream& stream ) 
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcDraughtingPreDefinedCurveFont::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcDraughtingPreDefinedCurveFont::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcDraughtingPreDefinedCurveFont::toString() const { return L"IfcDraughtingPreDefinedCurveFont"; }
 void IfcDraughtingPreDefinedCurveFont::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

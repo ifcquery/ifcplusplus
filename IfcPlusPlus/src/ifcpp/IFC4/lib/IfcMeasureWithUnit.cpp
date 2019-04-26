@@ -13,7 +13,6 @@
 
 // ENTITY IfcMeasureWithUnit 
 IfcMeasureWithUnit::IfcMeasureWithUnit( int id ) { m_entity_id = id; }
-IfcMeasureWithUnit::~IfcMeasureWithUnit() {}
 shared_ptr<BuildingObject> IfcMeasureWithUnit::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMeasureWithUnit> copy_self( new IfcMeasureWithUnit() );
@@ -29,7 +28,7 @@ void IfcMeasureWithUnit::getStepLine( std::stringstream& stream ) const
 	if( m_UnitComponent ) { m_UnitComponent->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IfcMeasureWithUnit::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcMeasureWithUnit::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcMeasureWithUnit::toString() const { return L"IfcMeasureWithUnit"; }
 void IfcMeasureWithUnit::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

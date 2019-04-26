@@ -17,7 +17,7 @@ class IFCQUERY_EXPORT IfcMaterialProfileSetUsage : public IfcMaterialUsageDefini
 public:
 	IfcMaterialProfileSetUsage() = default;
 	IfcMaterialProfileSetUsage( int id );
-	~IfcMaterialProfileSetUsage();
+	~IfcMaterialProfileSetUsage() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

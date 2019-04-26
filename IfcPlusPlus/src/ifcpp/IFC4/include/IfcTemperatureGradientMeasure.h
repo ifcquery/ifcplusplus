@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcTemperatureGradientMeasure : public IfcDerivedMeasureVa
 public:
 	IfcTemperatureGradientMeasure() = default;
 	IfcTemperatureGradientMeasure( double value );
-	~IfcTemperatureGradientMeasure();
+	~IfcTemperatureGradientMeasure() = default;
 	virtual const char* className() const { return "IfcTemperatureGradientMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

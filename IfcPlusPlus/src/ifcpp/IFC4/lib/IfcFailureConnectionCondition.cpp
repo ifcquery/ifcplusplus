@@ -13,7 +13,6 @@
 
 // ENTITY IfcFailureConnectionCondition 
 IfcFailureConnectionCondition::IfcFailureConnectionCondition( int id ) { m_entity_id = id; }
-IfcFailureConnectionCondition::~IfcFailureConnectionCondition() {}
 shared_ptr<BuildingObject> IfcFailureConnectionCondition::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFailureConnectionCondition> copy_self( new IfcFailureConnectionCondition() );
@@ -44,7 +43,7 @@ void IfcFailureConnectionCondition::getStepLine( std::stringstream& stream ) con
 	if( m_CompressionFailureZ ) { m_CompressionFailureZ->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcFailureConnectionCondition::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcFailureConnectionCondition::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcFailureConnectionCondition::toString() const { return L"IfcFailureConnectionCondition"; }
 void IfcFailureConnectionCondition::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

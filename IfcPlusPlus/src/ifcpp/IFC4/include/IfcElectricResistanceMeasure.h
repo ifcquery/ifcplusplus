@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcElectricResistanceMeasure : public IfcDerivedMeasureVal
 public:
 	IfcElectricResistanceMeasure() = default;
 	IfcElectricResistanceMeasure( double value );
-	~IfcElectricResistanceMeasure();
+	~IfcElectricResistanceMeasure() = default;
 	virtual const char* className() const { return "IfcElectricResistanceMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

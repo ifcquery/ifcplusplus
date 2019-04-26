@@ -12,7 +12,6 @@
 
 // ENTITY IfcColourSpecification 
 IfcColourSpecification::IfcColourSpecification( int id ) { m_entity_id = id; }
-IfcColourSpecification::~IfcColourSpecification() {}
 shared_ptr<BuildingObject> IfcColourSpecification::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcColourSpecification> copy_self( new IfcColourSpecification() );
@@ -25,7 +24,7 @@ void IfcColourSpecification::getStepLine( std::stringstream& stream ) const
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcColourSpecification::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcColourSpecification::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcColourSpecification::toString() const { return L"IfcColourSpecification"; }
 void IfcColourSpecification::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

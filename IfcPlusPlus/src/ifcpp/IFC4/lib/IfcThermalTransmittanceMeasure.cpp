@@ -12,7 +12,6 @@
 
 // TYPE IfcThermalTransmittanceMeasure = REAL;
 IfcThermalTransmittanceMeasure::IfcThermalTransmittanceMeasure( double value ) { m_value = value; }
-IfcThermalTransmittanceMeasure::~IfcThermalTransmittanceMeasure() {}
 shared_ptr<BuildingObject> IfcThermalTransmittanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcThermalTransmittanceMeasure> copy_self( new IfcThermalTransmittanceMeasure() );

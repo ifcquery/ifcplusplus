@@ -14,7 +14,6 @@
 
 // ENTITY IfcCoordinateOperation 
 IfcCoordinateOperation::IfcCoordinateOperation( int id ) { m_entity_id = id; }
-IfcCoordinateOperation::~IfcCoordinateOperation() {}
 shared_ptr<BuildingObject> IfcCoordinateOperation::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCoordinateOperation> copy_self( new IfcCoordinateOperation() );
@@ -30,7 +29,7 @@ void IfcCoordinateOperation::getStepLine( std::stringstream& stream ) const
 	if( m_TargetCRS ) { stream << "#" << m_TargetCRS->m_entity_id; } else { stream << "$"; }
 	stream << ");";
 }
-void IfcCoordinateOperation::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcCoordinateOperation::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcCoordinateOperation::toString() const { return L"IfcCoordinateOperation"; }
 void IfcCoordinateOperation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

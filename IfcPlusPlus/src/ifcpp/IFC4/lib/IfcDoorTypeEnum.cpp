@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcDoorTypeEnum.h"
 
 // TYPE IfcDoorTypeEnum = ENUMERATION OF	(DOOR	,GATE	,TRAPDOOR	,USERDEFINED	,NOTDEFINED);
-IfcDoorTypeEnum::~IfcDoorTypeEnum() {}
 shared_ptr<BuildingObject> IfcDoorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoorTypeEnum> copy_self( new IfcDoorTypeEnum() );

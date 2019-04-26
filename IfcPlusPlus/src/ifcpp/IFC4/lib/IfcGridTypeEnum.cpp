@@ -10,7 +10,6 @@
 #include "ifcpp/IFC4/include/IfcGridTypeEnum.h"
 
 // TYPE IfcGridTypeEnum = ENUMERATION OF	(RECTANGULAR	,RADIAL	,TRIANGULAR	,IRREGULAR	,USERDEFINED	,NOTDEFINED);
-IfcGridTypeEnum::~IfcGridTypeEnum() {}
 shared_ptr<BuildingObject> IfcGridTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGridTypeEnum> copy_self( new IfcGridTypeEnum() );

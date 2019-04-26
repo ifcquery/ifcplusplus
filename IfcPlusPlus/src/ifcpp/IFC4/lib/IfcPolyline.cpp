@@ -14,7 +14,6 @@
 
 // ENTITY IfcPolyline 
 IfcPolyline::IfcPolyline( int id ) { m_entity_id = id; }
-IfcPolyline::~IfcPolyline() {}
 shared_ptr<BuildingObject> IfcPolyline::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPolyline> copy_self( new IfcPolyline() );
@@ -34,7 +33,7 @@ void IfcPolyline::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Points );
 	stream << ");";
 }
-void IfcPolyline::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPolyline::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPolyline::toString() const { return L"IfcPolyline"; }
 void IfcPolyline::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

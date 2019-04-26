@@ -16,7 +16,7 @@ class IFCQUERY_EXPORT IfcDate : public IfcSimpleValue
 public:
 	IfcDate() = default;
 	IfcDate( std::wstring value );
-	~IfcDate();
+	~IfcDate() = default;
 	virtual const char* className() const { return "IfcDate"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -19,7 +19,7 @@ class IFCQUERY_EXPORT IfcProcess : virtual public IfcProcessSelect, public IfcOb
 public:
 	IfcProcess() = default;
 	IfcProcess( int id );
-	~IfcProcess();
+	~IfcProcess() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

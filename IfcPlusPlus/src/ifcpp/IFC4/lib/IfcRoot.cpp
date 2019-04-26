@@ -15,7 +15,6 @@
 
 // ENTITY IfcRoot 
 IfcRoot::IfcRoot( int id ) { m_entity_id = id; }
-IfcRoot::~IfcRoot() {}
 shared_ptr<BuildingObject> IfcRoot::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRoot> copy_self( new IfcRoot() );
@@ -45,7 +44,7 @@ void IfcRoot::getStepLine( std::stringstream& stream ) const
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcRoot::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRoot::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRoot::toString() const { return L"IfcRoot"; }
 void IfcRoot::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

@@ -12,7 +12,6 @@
 
 // TYPE IfcAmountOfSubstanceMeasure = REAL;
 IfcAmountOfSubstanceMeasure::IfcAmountOfSubstanceMeasure( double value ) { m_value = value; }
-IfcAmountOfSubstanceMeasure::~IfcAmountOfSubstanceMeasure() {}
 shared_ptr<BuildingObject> IfcAmountOfSubstanceMeasure::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAmountOfSubstanceMeasure> copy_self( new IfcAmountOfSubstanceMeasure() );

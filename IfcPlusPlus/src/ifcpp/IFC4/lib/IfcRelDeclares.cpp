@@ -19,7 +19,6 @@
 
 // ENTITY IfcRelDeclares 
 IfcRelDeclares::IfcRelDeclares( int id ) { m_entity_id = id; }
-IfcRelDeclares::~IfcRelDeclares() {}
 shared_ptr<BuildingObject> IfcRelDeclares::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRelDeclares> copy_self( new IfcRelDeclares() );
@@ -79,7 +78,7 @@ void IfcRelDeclares::getStepLine( std::stringstream& stream ) const
 	stream << ")";
 	stream << ");";
 }
-void IfcRelDeclares::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcRelDeclares::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcRelDeclares::toString() const { return L"IfcRelDeclares"; }
 void IfcRelDeclares::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

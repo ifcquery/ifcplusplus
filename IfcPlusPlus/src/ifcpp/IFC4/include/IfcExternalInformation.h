@@ -14,7 +14,7 @@ class IFCQUERY_EXPORT IfcExternalInformation : virtual public IfcResourceObjectS
 public:
 	IfcExternalInformation() = default;
 	IfcExternalInformation( int id );
-	~IfcExternalInformation();
+	~IfcExternalInformation() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

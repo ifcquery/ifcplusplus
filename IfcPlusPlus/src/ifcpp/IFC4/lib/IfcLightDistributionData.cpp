@@ -13,7 +13,6 @@
 
 // ENTITY IfcLightDistributionData 
 IfcLightDistributionData::IfcLightDistributionData( int id ) { m_entity_id = id; }
-IfcLightDistributionData::~IfcLightDistributionData() {}
 shared_ptr<BuildingObject> IfcLightDistributionData::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLightDistributionData> copy_self( new IfcLightDistributionData() );
@@ -46,7 +45,7 @@ void IfcLightDistributionData::getStepLine( std::stringstream& stream ) const
 	writeNumericTypeList( stream, m_LuminousIntensity );
 	stream << ");";
 }
-void IfcLightDistributionData::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcLightDistributionData::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcLightDistributionData::toString() const { return L"IfcLightDistributionData"; }
 void IfcLightDistributionData::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {

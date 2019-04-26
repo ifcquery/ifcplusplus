@@ -30,7 +30,7 @@ public:
 
 	IfcEvaporativeCoolerTypeEnum() = default;
 	IfcEvaporativeCoolerTypeEnum( IfcEvaporativeCoolerTypeEnumEnum e ) { m_enum = e; }
-	~IfcEvaporativeCoolerTypeEnum();
+	~IfcEvaporativeCoolerTypeEnum() = default;
 	virtual const char* className() const { return "IfcEvaporativeCoolerTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

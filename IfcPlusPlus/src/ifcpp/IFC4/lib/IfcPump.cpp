@@ -40,7 +40,6 @@
 
 // ENTITY IfcPump 
 IfcPump::IfcPump( int id ) { m_entity_id = id; }
-IfcPump::~IfcPump() {}
 shared_ptr<BuildingObject> IfcPump::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPump> copy_self( new IfcPump() );
@@ -85,7 +84,7 @@ void IfcPump::getStepLine( std::stringstream& stream ) const
 	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
-void IfcPump::getStepParameter( std::stringstream& stream, bool ) const { stream << "#" << m_entity_id; }
+void IfcPump::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
 const std::wstring IfcPump::toString() const { return L"IfcPump"; }
 void IfcPump::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
