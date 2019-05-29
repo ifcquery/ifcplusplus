@@ -35,8 +35,64 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h>
 #include <ifcpp/IFC4/include/IfcSite.h>
 
+#ifdef _MSC_VER
+#include <windows.h>
+#include <tchar.h>
+#endif
+#include <external/XUnzip.h>
+
 #include "ReaderUtil.h"
 #include "ReaderSTEP.h"
+
+
+bool unzipFile(const std::wstring& filePathIn, std::string& bufferResult)
+{
+	bool bRet = false;
+#ifdef _MSC_VER
+	HZIP hZip = OpenZipW((void*)filePathIn.c_str(), 0, ZIP_FILENAME);
+
+	if( hZip )
+	{
+		ZIPENTRYW ze;
+		ZRESULT dRes = GetZipItemW(hZip, -1, &ze);
+
+		if( dRes == ZR_OK )
+		{
+			int numitems = ze.index;
+
+			for( int zi = 0; zi < numitems && !bRet; zi++ )
+			{
+				ZIPENTRYW ze;
+				dRes = GetZipItemW(hZip, zi, &ze); // fetch individual details
+
+				if( dRes == ZR_OK )
+				{
+					int nSize = ze.unc_size + 1;
+					std::vector<char> vecBuffer;
+					vecBuffer.resize(nSize);
+
+					dRes = UnzipItemW(hZip, zi, vecBuffer.data(), nSize, ZIP_MEMORY);
+
+					if( dRes != ZR_OK )
+					{
+						std::string strBuffer(vecBuffer.begin(), vecBuffer.end());
+						size_t file_header_start = strBuffer.find("HEADER;");
+						size_t file_header_end = strBuffer.find("ENDSEC;");
+						if( file_header_start != std::string::npos && file_header_end != std::string::npos )
+						{
+							bufferResult = strBuffer;
+							bRet = true;
+						}
+					}
+				}
+			}
+		}
+		CloseZip(hZip);
+	}
+#endif
+	return bRet;
+}
+
 
 ReaderSTEP::ReaderSTEP()= default;
 ReaderSTEP::~ReaderSTEP()= default;
@@ -64,7 +120,13 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 	else if( boost::iequals( ext, "ifcZIP" ) || boost::iequals(ext, "zip") )
 	{
-		messageCallback( "ifcZIP not implemented, see www.ifcquery.com for details", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+		std::string buffer;
+		unzipFile(filePath, buffer);
+		bool success = unzipFile(filePath, buffer);
+		if( success )
+		{
+			loadModelFromString(buffer, targetModel);
+		}
 		return;
 	}
 	else

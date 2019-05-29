@@ -1,0 +1,154 @@
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+#include <assert.h>
+
+#include <Inventor/errors/SoDebugError.h>
+#include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/nodes/SoAsciiText.h>
+#include <Inventor/sensors/SoFieldSensor.h>
+
+#include <Inventor/@Gui@/SoAny.h>
+#include <Inventor/@Gui@/nodes/SoGuiLabel.h>
+
+// *************************************************************************
+
+class Label {
+public:
+  Label(void);
+
+  SoGuiLabel * api;
+
+  SoAsciiText * text;
+
+  SoFieldSensor * text_sensor;
+  SoFieldSensor * which_sensor;
+  static void text_updated_cb(void * closure, SoSensor * sensor);
+
+  static const char * scene[];
+};
+
+// *************************************************************************
+
+#define PRIVATE(obj) ((Label *)this->internals)
+
+void
+SoGuiLabel::initClass(void)
+{
+  SO_KIT_INIT_CLASS(SoGuiLabel, SoBaseKit, "BaseKit");
+}
+
+SO_KIT_SOURCE(SoGuiLabel);
+
+SoGuiLabel::SoGuiLabel(void)
+{
+  this->internals = new Label;
+  PRIVATE(this)->api = this;
+
+  SO_KIT_CONSTRUCTOR(SoGuiLabel);
+  SO_KIT_ADD_FIELD(text, (""));
+  SO_KIT_ADD_FIELD(which, (0));
+
+  SO_KIT_ADD_CATALOG_ENTRY(scene, SoSeparator, FALSE, this, "", FALSE);
+
+  SO_KIT_INIT_INSTANCE();
+
+  SoNode * thescene = SoAny::loadSceneGraph(Label::scene);
+  assert(thescene);
+  thescene->ref();
+
+  PRIVATE(this)->text = (SoAsciiText *) SoAny::scanSceneForName(thescene, "text");
+  assert(PRIVATE(this)->text);
+
+  thescene->unrefNoDelete();
+  SbBool ok = this->setAnyPart("scene", thescene);
+  assert(ok);
+
+  PRIVATE(this)->text_sensor = new SoFieldSensor(Label::text_updated_cb, PRIVATE(this));
+  PRIVATE(this)->text_sensor->attach(&(this->text));
+  PRIVATE(this)->which_sensor = new SoFieldSensor(Label::text_updated_cb, PRIVATE(this));
+  PRIVATE(this)->which_sensor->attach(&(this->which));
+  Label::text_updated_cb(PRIVATE(this), NULL);
+}
+
+SoGuiLabel::~SoGuiLabel(void)
+{
+  delete PRIVATE(this)->text_sensor;
+  delete PRIVATE(this)->which_sensor;
+  Label * obj = PRIVATE(this);
+  delete obj;
+}
+
+#undef PRIVATE
+
+// *************************************************************************
+
+#define PUBLIC(obj) (obj->api)
+
+const char *
+Label::scene[] =
+{
+  "#Inventor V2.1 ascii",
+  "",
+  "Separator {",
+  "  SoGuiTranslation { translation 1 1 0 }",
+  "  Scale { scaleFactor 1.5 1.5 1 }",
+  "  BaseColor { rgb 0 0 0 }",
+  "  DEF text AsciiText { }",
+  "}",
+  NULL
+};
+
+Label::Label(void)
+{
+  this->api = NULL;
+  this->text = NULL;
+  this->which_sensor = NULL;
+}
+
+void
+Label::text_updated_cb(void * closure, SoSensor * sensor)
+{
+  assert(closure);
+  Label * me = (Label *) closure;
+  assert(me->text);
+  int which = PUBLIC(me)->which.getValue();
+  // SbString string = PUBLIC(me)->text.getValue();
+  SbString string = PUBLIC(me)->text[which];
+  me->text->string.setValue(string);
+}
+
+#undef PUBLIC
+
+// *************************************************************************

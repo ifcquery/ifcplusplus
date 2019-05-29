@@ -1,0 +1,7 @@
+The ChangeLog file is intentionally not updated in the repository as this
+information can be easily gathered through the revision control system.
+
+Upon release, don't forget to fill the ChangeLog file through e.g.:
+$ hg log --style=changelog -rtip:<PrevReleaseTag> > ChangeLog
+
+(replace the optional <PrevReleaseTag> token with the tag for the previous release)

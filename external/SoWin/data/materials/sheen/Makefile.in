@@ -1,0 +1,363 @@
+# Makefile.in generated automatically by automake 1.5 from Makefile.am.
+
+# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
+# Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+@SET_MAKE@
+
+############################################################################
+
+SHELL = @SHELL@
+
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
+oldincludedir = /usr/include
+pkgdatadir = $(datadir)/@PACKAGE@
+pkglibdir = $(libdir)/@PACKAGE@
+pkgincludedir = $(includedir)/@PACKAGE@
+top_builddir = ../..
+
+ACLOCAL = @ACLOCAL@
+AUTOCONF = @AUTOCONF@
+AUTOMAKE = @AUTOMAKE@
+AUTOHEADER = @AUTOHEADER@
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+INSTALL_HEADER = $(INSTALL_DATA)
+transform = @program_transform_name@
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+AMTAR = @AMTAR@
+AWK = @AWK@
+DEPDIR = @DEPDIR@
+EXEEXT = @EXEEXT@
+GUI = @GUI@
+Gui = @Gui@
+INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+MAC_FRAMEWORK_NAME = @MAC_FRAMEWORK_NAME@
+MAC_FRAMEWORK_PREFIX = @MAC_FRAMEWORK_PREFIX@
+MAC_FRAMEWORK_VERSION = @MAC_FRAMEWORK_VERSION@
+MAINT = @MAINT@
+OBJEXT = @OBJEXT@
+PACKAGE = @PACKAGE@
+VERSION = @VERSION@
+am__include = @am__include@
+am__quote = @am__quote@
+gui = @gui@
+install_sh = @install_sh@
+
+@MAC_FRAMEWORK_TRUE@materialdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Resources/materials/sheen
+@MAC_FRAMEWORK_FALSE@materialdir = $(datadir)/Coin/materials/sheen
+
+dist_material_DATA = \
+	sheen.0 sheen.1 sheen.2 sheen.3 sheen.4 \
+	sheen.5 sheen.6 sheen.7 sheen.8 sheen.9 \
+	sheen.10 sheen.11 sheen.12 sheen.13 sheen.14 \
+	sheen.15 sheen.16 sheen.17 sheen.18 sheen.19 \
+	sheen.20 sheen.21 sheen.22 sheen.23 sheen.24 \
+	sheen.25 sheen.26 sheen.27 sheen.28 sheen.29 \
+	sheen.30 sheen.31 sheen.32 sheen.33 sheen.34
+
+
+BUILT_SOURCES = \
+	sheen.h \
+	sheen_0.h sheen_1.h sheen_2.h sheen_3.h sheen_4.h \
+	sheen_5.h sheen_6.h sheen_7.h sheen_8.h sheen_9.h \
+	sheen_10.h sheen_11.h sheen_12.h sheen_13.h sheen_14.h \
+	sheen_15.h sheen_16.h sheen_17.h sheen_18.h sheen_19.h \
+	sheen_20.h sheen_21.h sheen_22.h sheen_23.h sheen_24.h \
+	sheen_25.h sheen_26.h sheen_27.h sheen_28.h sheen_29.h \
+	sheen_30.h sheen_31.h sheen_32.h sheen_33.h sheen_34.h
+
+
+noinst_DATA = $(BUILT_SOURCES)
+
+DISTCLEANFILES = $(BUILT_SOURCES)
+subdir = materials/sheen
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
+CONFIG_HEADER = $(top_builddir)/config.h
+CONFIG_CLEAN_FILES =
+DIST_SOURCES =
+DATA = $(dist_material_DATA) $(noinst_DATA)
+
+DIST_COMMON = $(dist_material_DATA) Makefile.am Makefile.in
+all: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-am
+
+.SUFFIXES:
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.ac $(ACLOCAL_M4)
+	cd $(top_srcdir) && \
+	  $(AUTOMAKE) --gnu  materials/sheen/Makefile
+Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
+	cd $(top_builddir) && \
+	  CONFIG_HEADERS= CONFIG_LINKS= \
+	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
+uninstall-info-am:
+
+uninstall-dist_materialDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_material_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(materialdir)/$$f"; \
+	  rm -f $(DESTDIR)$(materialdir)/$$f; \
+	done
+tags: TAGS
+TAGS:
+
+
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+
+top_distdir = ../..
+distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
+
+distdir: $(DISTFILES)
+	@for file in $(DISTFILES); do \
+	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
+	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
+	  if test "$$dir" != "$$file" && test "$$dir" != "."; then \
+	    $(mkinstalldirs) "$(distdir)/$$dir"; \
+	  fi; \
+	  if test -d $$d/$$file; then \
+	    cp -pR $$d/$$file $(distdir) \
+	    || exit 1; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || cp -p $$d/$$file $(distdir)/$$file \
+	    || exit 1; \
+	  fi; \
+	done
+check-am: all-am
+check: check-am
+all-am: Makefile $(DATA)
+
+installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(materialdir)
+
+install: install-am
+install-exec: install-exec-am
+install-data: install-data-am
+uninstall: uninstall-am
+
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+
+installcheck: installcheck-am
+install-strip:
+	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
+	  `test -z '$(STRIP)' || \
+	    echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
+mostlyclean-generic:
+
+clean-generic:
+
+distclean-generic:
+	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
+
+maintainer-clean-generic:
+	@echo "This command is intended for maintainers to use"
+	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
+clean: clean-am
+
+clean-am: clean-generic mostlyclean-am
+
+distclean: distclean-am
+
+distclean-am: clean-am distclean-generic
+
+dvi: dvi-am
+
+dvi-am:
+
+info: info-am
+
+info-am:
+
+install-data-am: install-dist_materialDATA
+
+install-exec-am:
+
+install-info: install-info-am
+
+install-man:
+
+installcheck-am:
+
+maintainer-clean: maintainer-clean-am
+
+maintainer-clean-am: distclean-am maintainer-clean-generic
+
+mostlyclean: mostlyclean-am
+
+mostlyclean-am: mostlyclean-generic
+
+uninstall-am: uninstall-dist_materialDATA uninstall-info-am
+
+.PHONY: all all-am check check-am clean clean-generic distclean \
+	distclean-generic distdir dvi dvi-am info info-am install \
+	install-am install-data install-data-am \
+	install-dist_materialDATA install-exec install-exec-am \
+	install-info install-info-am install-man install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic \
+	uninstall uninstall-am uninstall-dist_materialDATA \
+	uninstall-info-am
+
+
+############################################################################
+
+sheen.h: $(srcdir)/sheen.h.in
+	@( cd $(top_builddir); $(MAKE) built-sources )
+
+sheen_0.h: $(srcdir)/sheen.0 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.0 > $@
+
+sheen_1.h: $(srcdir)/sheen.1 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.1 > $@
+
+sheen_2.h: $(srcdir)/sheen.2 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.2 > $@
+
+sheen_3.h: $(srcdir)/sheen.3 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.3 > $@
+
+sheen_4.h: $(srcdir)/sheen.4 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.4 > $@
+
+sheen_5.h: $(srcdir)/sheen.5 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.5 > $@
+
+sheen_6.h: $(srcdir)/sheen.6 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.6 > $@
+
+sheen_7.h: $(srcdir)/sheen.7 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.7 > $@
+
+sheen_8.h: $(srcdir)/sheen.8 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.8 > $@
+
+sheen_9.h: $(srcdir)/sheen.9 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.9 > $@
+
+sheen_10.h: $(srcdir)/sheen.10 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.10 > $@
+
+sheen_11.h: $(srcdir)/sheen.11 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.11 > $@
+
+sheen_12.h: $(srcdir)/sheen.12 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.12 > $@
+
+sheen_13.h: $(srcdir)/sheen.13 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.13 > $@
+
+sheen_14.h: $(srcdir)/sheen.14 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.14 > $@
+
+sheen_15.h: $(srcdir)/sheen.15 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.15 > $@
+
+sheen_16.h: $(srcdir)/sheen.16 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.16 > $@
+
+sheen_17.h: $(srcdir)/sheen.17 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.17 > $@
+
+sheen_18.h: $(srcdir)/sheen.18 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.18 > $@
+
+sheen_19.h: $(srcdir)/sheen.19 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.19 > $@
+
+sheen_20.h: $(srcdir)/sheen.20 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.20 > $@
+
+sheen_21.h: $(srcdir)/sheen.21 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.21 > $@
+
+sheen_22.h: $(srcdir)/sheen.22 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.22 > $@
+
+sheen_23.h: $(srcdir)/sheen.23 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.23 > $@
+
+sheen_24.h: $(srcdir)/sheen.24 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.24 > $@
+
+sheen_25.h: $(srcdir)/sheen.25 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.25 > $@
+
+sheen_26.h: $(srcdir)/sheen.26 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.26 > $@
+
+sheen_27.h: $(srcdir)/sheen.27 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.27 > $@
+
+sheen_28.h: $(srcdir)/sheen.28 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.28 > $@
+
+sheen_29.h: $(srcdir)/sheen.29 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.29 > $@
+
+sheen_30.h: $(srcdir)/sheen.30 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.30 > $@
+
+sheen_31.h: $(srcdir)/sheen.31 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.31 > $@
+
+sheen_32.h: $(srcdir)/sheen.32 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.32 > $@
+
+sheen_33.h: $(srcdir)/sheen.33 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.33 > $@
+
+sheen_34.h: $(srcdir)/sheen.34 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/sheen.34 > $@
+
+############################################################################
+
+install-dist_materialDATA: $(dist_material_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(materialdir)
+	@list='$(dist_material_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  if cmp -s $$d$$p $(DESTDIR)$(materialdir)/$$f; then :; else \
+	    echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(materialdir)/$$f"; \
+	    $(INSTALL_DATA) $$d$$p $(DESTDIR)$(materialdir)/$$f; \
+	  fi; \
+	done
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:

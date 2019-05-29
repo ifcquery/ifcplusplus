@@ -1,0 +1,4212 @@
+ChangeLog
+=========
+
+This is the ChangeLog file for the SoWin module.  This file is supposed to
+be automatically generated every night.  Entries are in reversed chronological
+order.  Check also out the following ChangeLog files:
+
+  src/Inventor/Win/common/ChangeLog
+  src/Inventor/Win/common/ChangeLog.sh
+
+See http://www.red-bean.com/~kfogel/cvs2cl.shtml for information about the
+cvs2cl script used to generate this file.
+
+============================================================================
+
+2003-04-28 13:49  mortene
+
+	* Makefile.am, cfg/sowin.m4:
+	
+	Don't distribute any .m4 files, except sowin.m4.
+
+2003-04-28 10:46  mortene
+
+	* bootstrap, cfg/depcomp, cfg/errors.txt, cfg/gendsp.sh,
+	cfg/wrapmsvc.exe:
+	
+	Bootstrap from simacros.
+
+2003-04-25 14:45  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Initialize extension nodes and engines used by the ColorEditor and
+	MaterialEditor.
+
+2003-04-25 14:44  mortene
+
+	* configure.ac, src/Inventor/Win/Makefile.am,
+	src/Inventor/Win/devices/Makefile.am,
+	src/Inventor/Win/editors/Makefile.am,
+	src/Inventor/Win/engines/Makefile.am,
+	src/Inventor/Win/nodes/Makefile.am:
+	
+	Add in support for SoWinMaterialEditor.
+
+2003-04-25 12:28  mortene
+
+	* src/Inventor/Win/widgets/: SoWinBitmapButton.cpp,
+	SoWinBitmapButton.h:
+	
+	Corrects button click detection. Minor code clean-ups.
+
+2003-04-24 13:09  mortene
+
+	* src/Inventor/Win/SoWinMaterialList.cpp:
+	
+	Minor cleanup.
+
+2003-04-24 13:08  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Minor FIXME update.
+
+2003-04-24 12:59  mortene
+
+	* src/Inventor/Win/devices/Makefile.am:
+	
+	Spaceball supported not implemented yet.
+
+2003-04-24 12:47  mortene
+
+	* src/Inventor/Win/viewers/: ExaminerViewer.cpp, PlaneViewer.cpp:
+	
+	Collects common API doc.
+
+2003-04-24 12:31  mortene
+
+	* src/Inventor/Win/viewers/: ExaminerViewer.cpp, FullViewer.cpp,
+	PlaneViewer.cpp, SoWinExaminerViewerP.h, SoWinFullViewerP.h,
+	SoWinPlaneViewerP.h:
+	
+	Removes remaining SoWin-specifics in class declarations.
+
+2003-04-24 12:31  mortene
+
+	* src/Inventor/Win/widgets/: SoWinBitmapButton.cpp,
+	SoWinBitmapButton.h:
+	
+	Clean up interface. Make event / message handling self-contained
+	within the class.
+
+2003-04-23 16:02  mortene
+
+	* src/Inventor/Win/devices/SoWinDevice.cpp:
+	
+	Minor Doxygen fix.
+
+2003-04-23 15:02  mortene
+
+	* src/Inventor/Win/viewers/: ExaminerViewer.cpp, FullViewer.cpp,
+	PlaneViewer.cpp, SoWinFullViewerP.h:
+	
+	Removes unnecessary SoWin-specific public API members.
+
+2003-04-23 15:00  mortene
+
+	* src/Inventor/Win/widgets/: SoWinThumbWheel.cpp,
+	SoWinThumbWheel.h:
+	
+	Adds method to interface to map from HWND to SoWinThumbWheel.
+
+2003-04-23 14:59  mortene
+
+	* src/Inventor/Win/widgets/: SoWinBitmapButton.cpp,
+	SoWinBitmapButton.h:
+	
+	Additional constructor, for when position and size is initially
+	unknown.
+
+2003-04-22 16:01  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Get rid of unnecessary SoWin-specific parts of API.
+
+2003-04-22 15:55  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Minor code simplifications.
+
+2003-04-22 15:54  mortene
+
+	* src/Inventor/Win/viewers/: ExaminerViewer.cpp, FullViewer.cpp,
+	PlaneViewer.cpp:
+	
+	Doxygen doc fixes.
+
+2003-04-22 15:49  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Match function signature with declaration.
+
+2003-04-22 15:48  mortene
+
+	* src/Inventor/Win/widgets/: SoWinThumbWheel.cpp,
+	SoWinThumbWheel.h:
+	
+	Take out from public API. Const input argument strings.
+
+2003-04-22 14:40  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	When setSize() is invoked, turn off fullscreen mode to re-enable
+	window decoration settings.
+
+2003-04-11 15:45  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Doxygen doc fixes.
+
+2003-04-11 14:44  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Toolkit-generic doc collected in common file.
+
+2003-04-11 14:35  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Remove duplicated API documentation.
+
+2003-04-11 14:35  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Use Win32 API wrapper.
+
+2003-04-11 13:49  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, SoWinGLWidgetP.h:
+	
+	Remove internal methods from public API.
+
+2003-04-11 13:35  mortene
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h:
+	
+	Wrap SetFocus().
+
+2003-04-11 13:14  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinComponentP.h:
+	
+	Remove unnecessary API methods.
+
+2003-04-11 12:51  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	FIXME note.
+
+2003-04-11 11:43  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWin.cpp:
+	
+	Doxygen API doc.
+
+2003-04-11 11:40  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Made public API method private.
+
+2003-04-11 11:11  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Remove unnecessary API methods.
+
+2003-04-11 11:05  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Remove unnecessary API methods.
+
+2003-04-11 10:47  mortene
+
+	* COPYING, LICENSE.GPL, LICENSE.LGPL, Makefile.am,
+	src/Inventor/Win/SoWin.cpp, src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/SoWinComponentP.h,
+	src/Inventor/Win/SoWinGLWidget.cpp,
+	src/Inventor/Win/SoWinGLWidgetP.h,
+	src/Inventor/Win/SoWinMaterialList.cpp,
+	src/Inventor/Win/Win32API.cpp, src/Inventor/Win/Win32API.h,
+	src/Inventor/Win/devices/SoWinDevice.cpp,
+	src/Inventor/Win/devices/SoWinDeviceP.h,
+	src/Inventor/Win/devices/SoWinInputFocus.cpp,
+	src/Inventor/Win/devices/SoWinKeyboard.cpp,
+	src/Inventor/Win/devices/SoWinMouse.cpp,
+	src/Inventor/Win/devices/SoWinSpaceball.cpp,
+	src/Inventor/Win/devices/SoWinSpaceballP.h,
+	src/Inventor/Win/viewers/ExaminerViewer.cpp,
+	src/Inventor/Win/viewers/FullViewer.cpp,
+	src/Inventor/Win/viewers/PlaneViewer.cpp,
+	src/Inventor/Win/viewers/SoWinExaminerViewerP.h,
+	src/Inventor/Win/viewers/SoWinFullViewerP.h,
+	src/Inventor/Win/viewers/SoWinPlaneViewerP.h,
+	src/Inventor/Win/viewers/WalkViewer.cpp,
+	src/Inventor/Win/widgets/SoWinBitmapButton.cpp,
+	src/Inventor/Win/widgets/SoWinBitmapButton.h,
+	src/Inventor/Win/widgets/SoWinThumbWheel.cpp,
+	src/Inventor/Win/widgets/SoWinThumbWheel.h,
+	src/Inventor/Win/widgets/WinNativePopupMenu.cpp,
+	src/Inventor/Win/widgets/WinNativePopupMenu.h:
+	
+	Copyright header updates, Free Software license change.
+
+2003-04-11 10:17  mortene
+
+	* src/Inventor/Win/widgets/: SoWinBitmapButton.cpp,
+	SoWinBitmapButton.h:
+	
+	Pimplify.
+
+2003-04-11 10:01  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, widgets/SoWinBitmapButton.cpp,
+	widgets/SoWinThumbWheel.cpp:
+	
+	Removes unnecessary SoWin::setInstance() and getInstance().
+
+2003-04-11 09:57  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Compilation fix.
+
+2003-04-11 09:50  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Bugfix: out-of-bounds array access.
+
+2003-04-11 09:48  mortene
+
+	* src/Inventor/Win/widgets/SoWinBitmapButton.cpp:
+	
+	Bugfix: out-of-bounds array access, causing faulty deletion and
+	crashes. Codestyle fixes.
+
+2003-04-11 09:47  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Bugfix: out-of-bounds array access, causing faulty deletion and
+	crashes.
+
+2003-04-09 09:04  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Make constructor signature match declaration. Doxygen doc fixes.
+
+2003-04-08 10:39  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Match function signatures with declarations.
+
+2003-04-04 10:58  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Minor fixes for Doxygen.
+
+2003-04-04 10:53  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWin.cpp:
+	
+	Minor fix for Doxygen.
+
+2003-04-04 10:52  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Match function signature with declaration.
+
+2003-03-17 20:07  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinGLWidget.cpp,
+	viewers/FullViewer.cpp:
+	
+	Compilation fixes for gcc, by Lars Ivar Igesund.
+
+2003-03-10 14:15  larsa
+
+	* src/Inventor/Win/widgets/: Makefile.am, SoWinBitmapButton.h,
+	SoWinThumbWheel.h, SoWinViewerPrefSheet.cpp,
+	SoWinViewerPrefSheet.h, WinNativePopupMenu.h:
+	
+	cleanups
+
+2003-03-10 11:28  larsa
+
+	* NEWS, configure.ac:
+	
+	version 0.10.1a
+
+2003-03-10 11:26  larsa
+
+	* NEWS, configure.ac:
+	
+	version 0.10.0
+
+2003-03-10 11:23  larsa
+
+	* AUTHORS:
+	
+	remove grades
+
+2003-03-10 11:09  larsa
+
+	* Makefile.am:
+	
+	make dist tarball bootstrappable
+
+2003-03-09 21:50  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinGLWidget.cpp,
+	viewers/ExaminerViewer.cpp, viewers/FullViewer.cpp,
+	viewers/PlaneViewer.cpp:
+	
+	Kills MSVC++ 6.0 compiler warnings.
+
+2003-03-09 13:55  mortene
+
+	* configure.ac:
+	
+	Simplifies MSVC++ selection and setup. Also kills a bug where
+	BUILD_WITH_MSVC could end up not being AC_SUBSTed.
+
+2003-03-08 18:04  larsa
+
+	* Makefile.am:
+	
+	clean up a few extra files
+
+2003-03-07 19:33  larsa
+
+	* Makefile.am, configure.ac:
+	
+	a few missing AC_SUBSTs
+
+2003-03-07 18:51  larsa
+
+	* src/Inventor/Win/widgets/: SoWinThumbWheel.cpp,
+	SoWinThumbWheel.h:
+	
+	don't bool
+
+2003-03-07 18:00  larsa
+
+	* packaging/windows/heading.nsi.in:
+	
+	use _v_#.#.# in installer file name
+
+2003-03-07 15:53  larsa
+
+	* src/Inventor/Win/devices/Makefile.am:
+	
+	sync msvc with libtool setup
+
+2003-03-07 15:49  larsa
+
+	* src/Inventor/Win/viewers/Makefile.am:
+	
+	dist fixes
+
+2003-03-07 15:25  larsa
+
+	* src/Inventor/Win/devices/Makefile.am:
+	
+	dst fixes
+
+2003-03-07 14:58  larsa
+
+	* configure.ac:
+	
+	flag config.h as private header file
+
+2003-03-07 14:50  larsa
+
+	* src/Inventor/Win/devices/Makefile.am:
+	
+	dist tweaks
+
+2003-03-07 14:42  larsa
+
+	* src/Inventor/Win/devices/Makefile.am:
+	
+	dist tweaks
+
+2003-03-07 14:22  larsa
+
+	* Makefile.am:
+	
+	dist LICENSE.LGPL
+
+2003-03-06 20:16  larsa
+
+	* Makefile.am, configure.ac:
+	
+	don't disable windows-packages rule ever
+
+2003-03-06 20:13  larsa
+
+	* src/Inventor/Win/: Win32API.cpp, viewers/SoWinFullViewerP.h,
+	viewers/SoWinPlaneViewerP.h:
+	
+	include path fixes
+
+2003-03-06 19:54  larsa
+
+	* configure.ac, src/Inventor/Win/Makefile.am,
+	src/Inventor/Win/devices/Makefile.am,
+	src/Inventor/Win/viewers/Makefile.am,
+	src/Inventor/Win/widgets/Makefile.am:
+	
+	be super-strict on include paths
+
+2003-03-06 19:29  larsa
+
+	* packaging/windows/middle.nsi.in:
+	
+	png, not gif
+
+2003-03-06 19:12  larsa
+
+	* src/Inventor/Win/: SoWinComponentP.h, SoWinGLWidgetP.h,
+	devices/SoWinDeviceP.h, devices/SoWinSpaceballP.h,
+	viewers/SoWinExaminerViewerP.h, viewers/SoWinFullViewerP.h,
+	viewers/SoWinPlaneViewerP.h:
+	
+	flag as private header files
+
+2003-03-06 18:14  larsa
+
+	* html/Makefile.am, man/man3/Makefile.am:
+	
+	paths with spaces fixes
+
+2003-03-06 18:13  larsa
+
+	* packaging/windows/middle.nsi.in:
+	
+	package documentation also
+
+2003-03-06 17:40  larsa
+
+	* Makefile.am:
+	
+	bootstrap
+
+2003-03-06 17:40  larsa
+
+	* configure.ac:
+	
+	windows packaging stuff
+
+2003-03-06 17:08  larsa
+
+	* packaging/windows/: bfheader.nsi.in, footer.nsi.in,
+	heading.nsi.in, middle.nsi.in, post.nsi.in, sowin-sdk.html.in:
+	
+	s/Qt/Win/ from SoQt
+
+2003-02-24 18:53  larsa
+
+	* src/Inventor/Win/Makefile.am:
+	
+	that's two echo commands, not one
+
+2003-02-14 10:06  mortene
+
+	* BUGS.txt:
+	
+	New item.
+
+2003-02-05 13:29  mortene
+
+	* BUGS.txt:
+	
+	Minor update.
+
+2003-02-04 10:45  mortene
+
+	* BUGS.txt:
+	
+	New item.
+
+2003-01-24 11:14  mortene
+
+	* BUGS.txt:
+	
+	A couple of new items.
+
+2003-01-17 14:48  pederb
+
+	* src/Inventor/Win/SoWinComponentP.h:
+	
+	Remove const.
+
+2003-01-17 14:21  pederb
+
+	* src/Inventor/Win/SoWinComponentP.h:
+	
+	compile fix.
+
+2003-01-17 14:20  pederb
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	bugfix.
+
+2003-01-17 14:19  pederb
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinComponentP.h:
+	
+	Don't store pointer to an instance passed by reference. The
+	SoWinCursor instance might be on the stack and then we have an
+	illegal pointer after a while.
+
+2002-12-20 13:05  mortene
+
+	* src/Inventor/Win/viewers/ExaminerViewer.cpp:
+	
+	Minor fix: remove unnecessary include.
+
+2002-12-20 13:04  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Bugfix: init the wheel values, so the camera interaction doesn't
+	start off with a jump.
+
+2002-12-20 12:41  mortene
+
+	* src/Inventor/Win/: viewers/FullViewer.cpp,
+	viewers/SoWinFullViewerP.h, widgets/SoWinThumbWheel.cpp,
+	widgets/SoWinThumbWheel.h:
+	
+	Some minor cleanups in the interface between SoWinThumbWheel and
+	SoWinFullViewer.
+
+2002-12-20 12:26  mortene
+
+	* src/Inventor/Win/: viewers/FullViewer.cpp,
+	viewers/SoWinFullViewerP.h, widgets/SoWinThumbWheel.cpp,
+	widgets/SoWinThumbWheel.h:
+	
+	Refactor and generally clean up the event callback code from the
+	SoWinThumbWheel.
+
+2002-12-20 11:46  mortene
+
+	* src/Inventor/Win/widgets/SoWinThumbWheel.cpp:
+	
+	Codestyle fixes.
+
+2002-12-18 10:33  mortene
+
+	* BUGS.txt:
+	
+	New item: crash on exit when wrapped in ActiveX.
+
+2002-11-19 16:16  pederb
+
+	* src/Inventor/Win/Win32API.cpp:
+	
+	Don't print debug messages on release builds.
+
+2002-11-18 14:36  mortene
+
+	* BUGS.txt:
+	
+	Build problem, how to behave if Coin is static for Win32.
+
+2002-10-28 14:34  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Adds debugging facilities for spitting out module information.
+
+2002-10-28 14:17  mortene
+
+	* configure.ac:
+	
+	Add necessary checks for the ToolHelp API.
+
+2002-10-28 14:15  mortene
+
+	* BUGS.txt:
+	
+	Problem with unnecessary CPU hogging.
+
+2002-10-14 20:56  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	A couple of low-priority FIXME notes.
+
+2002-10-03 15:37  pederb
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Really disable debug info.
+
+2002-09-30 14:21  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Improved code comments, plus FIXMEs, on GL context locking.
+
+2002-09-30 14:14  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Context should always be made current on glLockNormal(). Also adds
+	additional debugging code.
+
+2002-09-24 17:49  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Compilation fix. Thanks to Heiko Hoffman.
+
+2002-09-18 14:57  mortene
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, SoWinGLWidgetP.h:
+	
+	Implements isDirectRendering().
+
+2002-09-09 16:53  larsa
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	crashbug-fix by Rune Torkildsen
+
+2002-07-21 00:19  mortene
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, SoWinGLWidgetP.h:
+	
+	Implements a replacement for Win32 ChoosePixelFormat(), which kills
+	about a dozen FIXMEs and a number of standing support requests.
+	Also makes it a lot easier to debug problems with GL-context
+	selection under MSWin, and supposedly picks _just_ the right
+	context for any SoWin use.
+
+2002-07-19 14:40  mortene
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, SoWinGLWidgetP.h:
+	
+	Update internal set of property bits for GL device according to
+	it's actual properties. Add misc FIXMEs about how to get full
+	control over GL device pixelformat selection. Add additional
+	debugging information on the GL device creation process.
+
+2002-07-19 14:06  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Bugfix for pixelformat traversal code, so it doesn't stop after the
+	first one available.
+
+2002-07-19 14:05  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Add envvar SOWIN_MSGS_TO_CONSOLE to pipe SoError messages to
+	console during debugging.
+
+2002-07-19 10:59  mortene
+
+	* BUGS.txt, src/Inventor/Win/viewers/ExaminerViewer.cpp,
+	src/Inventor/Win/viewers/PlaneViewer.cpp:
+	
+	Fix erroneous wiring of the viewer buttons for the examiner- and
+	plane-viewers.
+
+2002-07-19 10:51  mortene
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, SoWinGLWidgetP.h:
+	
+	Cleans out some SoWin-specific stuff from the class declaration.
+
+2002-07-19 01:59  mortene
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, SoWinGLWidgetP.h:
+	
+	Provides some extra debugging facilities: set envvar
+	SOWIN_DEBUG_GL_SETUP=1 to get a list of available pixelformats.
+
+2002-07-19 01:57  mortene
+
+	* BUGS.txt:
+	
+	The serious button-wiring bug.
+
+2002-07-19 00:46  mortene
+
+	* BUGS.txt:
+	
+	Removes bogus bug from list: the reason for the FPS counter to come
+	out wrong was that the resolution of the SbTime::getTimeOfDay()
+	call was not good enough for Coin 1.0.1 (a bug which has since been
+	fixed).
+
+2002-07-19 00:08  mortene
+
+	* BUGS.txt, src/Inventor/Win/SoWinGLWidget.cpp,
+	src/Inventor/Win/SoWinGLWidgetP.h:
+	
+	Use a lock counter to detect when to make and un-make the current
+	context.
+
+2002-06-27 11:44  mortene
+
+	* src/Inventor/Win/devices/SoWinInputFocus.cpp:
+	
+	Compile fix.
+
+2002-06-26 12:02  mortene
+
+	* src/Inventor/Win/devices/: SoWinSpaceball.cpp, SoWinSpaceballP.h:
+	
+	Compile fixes, bootstrap.
+
+2002-06-26 11:19  mortene
+
+	* src/Inventor/Win/devices/SoWinSpaceball.cpp:
+	
+	Clean up class declaration for So@Gui@Spaceball, move private data
+	into hidden implementation class.
+
+2002-06-25 21:40  mortene
+
+	* src/Inventor/Win/devices/SoWinInputFocus.cpp:
+	
+	Updated to compile with Cheshire Cat pattern.
+
+2002-06-25 19:42  mortene
+
+	* src/Inventor/Win/devices/SoWinDeviceP.h:
+	
+	Compile fix.
+
+2002-06-25 17:20  mortene
+
+	* src/Inventor/Win/devices/: SoWinKeyboard.cpp, SoWinMouse.cpp:
+	
+	Sets up hidden implementation classes for mouse and keyboard
+	devices, and collects common code and documentation.
+
+2002-06-25 14:32  mortene
+
+	* src/Inventor/Win/devices/: SoWinDevice.cpp, SoWinDeviceP.h:
+	
+	Reorganize to share lots of implementation code for the
+	So@Gui@Device class.
+
+2002-06-24 22:34  mortene
+
+	* BUGS.txt:
+	
+	3 new items found on my home machine.
+
+2002-06-24 18:12  mortene
+
+	* src/Inventor/Win/devices/SoWinDevice.cpp:
+	
+	Match method signature with common getWindowSize() declaration.
+
+2002-06-24 18:12  mortene
+
+	* src/Inventor/Win/devices/SoWinDevice.h:
+	
+	SoWinDevice.h now generated from template.
+
+2002-06-24 16:23  mortene
+
+	* src/Inventor/Win/devices/: SoWinDevice.cpp, SoWinDevice.h:
+	
+	Match with contents of this class for other So-toolkits.
+
+2002-06-24 16:03  mortene
+
+	* src/Inventor/Win/devices/: SoWinKeyboard.cpp, SoWinMouse.cpp:
+	
+	Compile fixes.
+
+2002-06-24 16:03  mortene
+
+	* src/Inventor/Win/devices/: SoWinDevice.cpp, SoWinDevice.h,
+	SoWinDeviceP.h:
+	
+	Cheshire Cat.
+
+2002-06-24 12:21  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Makes the static clean-up method public.
+
+2002-06-24 11:30  mortene
+
+	* README:
+	
+	Also point to Coin/README.WIN32.
+
+2002-06-24 11:27  mortene
+
+	* src/Inventor/Win/viewers/Makefile.am:
+	
+	Tmp disable WalkViewer, as it is not yet properly implemented.
+
+2002-06-18 17:30  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Doc fixes.
+
+2002-06-18 13:57  mortene
+
+	* BUGS.txt:
+	
+	Lists SoWin-specific bugs.
+
+2002-06-17 19:02  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Reorganization of init methods. Hide private method
+	sensorQueueChanged().
+
+2002-06-13 16:38  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Remove methods for getting GL context from public API.
+
+2002-06-13 16:01  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp, viewers/FullViewer.cpp:
+	
+	Doc fixes.
+
+2002-06-13 16:01  mortene
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, SoWinGLWidgetP.h:
+	
+	Hide private method.
+
+2002-06-12 18:26  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinComponentP.h:
+	
+	Compile fixes.
+
+2002-06-12 11:37  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	getComponent() moved to common code.
+
+2002-06-11 22:26  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinComponentP.h,
+	SoWinGLWidget.cpp:
+	
+	Compile fixes.
+
+2002-06-11 15:47  mortene
+
+	* src/Inventor/Win/: Makefile.am, SoWinComponent.cpp,
+	SoWinComponentP.h, SoWinGLWidget.cpp, SoWinGLWidgetP.h:
+	
+	Some refactoring; private implementation classes moved to separate
+	files.
+
+2002-06-07 10:32  mortene
+
+	* src/Inventor/Win/viewers/ExaminerViewer.cpp:
+	
+	setAnimationEnabled() and setFeedbackSize() now made completely
+	generic.
+
+2002-06-07 10:18  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Removes unnecessary overriding of setCamera().
+
+2002-06-07 10:18  mortene
+
+	* src/Inventor/Win/viewers/ExaminerViewer.cpp:
+	
+	Set right thumbwheel string when camera changes.
+
+2002-06-07 10:08  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp, viewers/FullViewer.cpp,
+	viewers/SoWinFullViewerP.h, viewers/WalkViewer.cpp:
+	
+	Removes unimplemented help-card system.
+
+2002-06-06 20:33  mortene
+
+	* src/Inventor/Win/: viewers/ExaminerViewer.cpp,
+	viewers/FullViewer.cpp, viewers/PlaneViewer.cpp,
+	viewers/SoWinFullViewerP.h, viewers/WalkViewer.cpp,
+	viewers/killed-prefs.diff, widgets/SoWinViewerPrefSheet.cpp,
+	widgets/SoWinViewerPrefSheet.h:
+	
+	Remove all code related to handling preference sheets, as we've
+	decided to not support them.
+
+2002-06-06 14:41  mortene
+
+	* src/Inventor/Win/viewers/PlaneViewer.cpp:
+	
+	Moves constructor and destructor functions to common template code.
+
+2002-06-06 11:08  mortene
+
+	* src/Inventor/Win/viewers/WalkViewer.cpp:
+	
+	Class doc is in common template.
+
+2002-06-04 17:36  mortene
+
+	* src/Inventor/Win/viewers/: FullViewer.cpp, SoWinFullViewerP.h:
+	
+	Do thumbwheel handling through a proxy method on the internal
+	class.
+
+2002-06-04 16:45  mortene
+
+	* src/Inventor/Win/viewers/PlaneViewer.cpp:
+	
+	Don't reset boundary handling for thumbwheels.
+
+2002-06-04 16:45  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Let thumbwheels accumulate values on boundaries, to simplify code
+	in subclasses.
+
+2002-06-04 16:37  mortene
+
+	* src/Inventor/Win/widgets/SoWinThumbWheel.cpp:
+	
+	Don't override default boundary range handling from
+	SoAnyThumbWheel.
+
+2002-06-03 21:43  mortene
+
+	* src/Inventor/Win/viewers/: ExaminerViewer.cpp,
+	SoWinExaminerViewerP.h:
+	
+	Compile fixes.
+
+2002-06-03 21:21  mortene
+
+	* src/Inventor/Win/viewers/ExaminerViewer.cpp:
+	
+	FIXME about faulty createPrefSheet().
+
+2002-06-03 18:33  mortene
+
+	* src/Inventor/Win/viewers/ExaminerViewer.cpp:
+	
+	Moves common code and doc for setViewing(), leftWheelMotion(),
+	bottomWheelMotion(), rightWheelMotion(), setCursorRepresentation()
+	and afterRealizeHook() to template file.
+
+2002-06-03 18:33  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	afterRealizeHook() now documented in common template.
+
+2002-05-31 16:03  mortene
+
+	* src/Inventor/Win/viewers/WalkViewer.cpp:
+	
+	Compile fix.
+
+2002-05-30 12:58  mortene
+
+	* src/Inventor/Win/: viewers/ExaminerViewer.cpp,
+	viewers/FullViewer.cpp, viewers/PlaneViewer.cpp,
+	viewers/SoWinFullViewerP.h, viewers/SoWinPlaneViewerP.h,
+	widgets/SoWinViewerPrefSheet.cpp, widgets/SoWinViewerPrefSheet.h:
+	
+	Build fixes.
+
+2002-05-30 12:00  mortene
+
+	* src/Inventor/Win/viewers/: FullViewer.cpp, SoWinFullViewerP.h:
+	
+	Compile fixes for SoWin.
+
+2002-05-30 11:48  mortene
+
+	* bootstrap:
+	
+	Removes obsoleted download info for Autotools.
+
+2002-05-30 09:50  mortene
+
+	* src/Inventor/Win/viewers/: FullViewer.cpp, PlaneViewer.cpp:
+	
+	FIXMEs, pref-sheet instantiation.
+
+2002-05-30 09:50  mortene
+
+	* configure.ac:
+	
+	Macro names changed.
+
+2002-05-29 14:52  mortene
+
+	* html/Makefile.am:
+	
+	Install PNGs.
+
+2002-05-29 14:02  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Moves common code to template.
+
+2002-05-29 14:02  mortene
+
+	* src/Inventor/Win/widgets/SoWinThumbWheel.cpp:
+	
+	Codestyle fixes.
+
+2002-05-29 12:22  mortene
+
+	* src/Inventor/Win/widgets/SoWinThumbWheel.cpp:
+	
+	Auto-update wheel-value.
+
+2002-05-28 15:26  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Use wgl-specific function to swap GL buffers, instead of common
+	Win32 SwapBuffers().
+
+2002-05-28 15:04  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Removes some unused private or protected methods. Codestyle fixes.
+
+2002-05-24 15:51  mortene
+
+	* src/Inventor/Win/viewers/: ExaminerViewer.cpp, FullViewer.cpp,
+	PlaneViewer.cpp:
+	
+	Moves over methods with only common/templatized code. Minor doc
+	fixes.
+
+2002-05-24 12:42  mortene
+
+	* src/Inventor/Win/viewers/: ExaminerViewer.cpp, PlaneViewer.cpp:
+	
+	Doc and codestyle fixes.
+
+2002-05-22 09:48  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Corrects app-button placement. Patch by Robert Derek Norris.
+
+2002-05-21 15:04  mortene
+
+	* src/Inventor/Win/widgets/WinNativePopupMenu.cpp:
+	
+	Only destruct popup menu once. Codestyle fixes.
+
+2002-05-21 14:53  mortene
+
+	* src/Inventor/Win/widgets/WinNativePopupMenu.cpp:
+	
+	Proper destruction of Win32-native popup menu.
+
+2002-05-21 14:52  mortene
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h:
+	
+	Wrap CreatePopupMenu() and DestroyMenu().
+
+2002-05-21 12:37  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Big FIXME-note with reproducible case for a bug in the
+	SoWin::init(HWND) method.
+	
+	Some codestyle fixes.
+
+2002-05-21 12:06  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Avoid duplicate removal of SoWinComponent-instances from internal
+	tracking list.
+
+2002-05-21 11:09  mortene
+
+	* configure.ac:
+	
+	Moves SIM_AC_SETUP_MSVCRT below AC_PROG_CC to preserve compiler
+	flags.
+
+2002-05-16 11:06  mortene
+
+	* src/Inventor/Win/Makefile.am:
+	
+	Remove classes not yet ready for the public API.
+
+2002-05-16 11:05  mortene
+
+	* configure.ac:
+	
+	Bugfix, name of .pdb-file could come out wrong.
+
+2002-05-16 09:31  mortene
+
+	* src/Inventor/Win/viewers/PlaneViewer.cpp:
+	
+	processEvent() has been obsoleted.
+
+2002-05-16 09:31  mortene
+
+	* src/Inventor/Win/Makefile.am:
+	
+	Typo-fix.
+
+2002-05-16 09:30  mortene
+
+	* Makefile.am, configure.ac:
+	
+	Tmp disable configure, build and installation of material data.
+
+2002-05-15 23:12  mortene
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, viewers/ExaminerViewer.cpp,
+	viewers/FullViewer.cpp, viewers/PlaneViewer.cpp,
+	viewers/WalkViewer.cpp:
+	
+	Misc minor doc fixes.
+
+2002-05-15 22:32  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Doc moved to common srccode-files.
+
+2002-05-15 17:33  mortene
+
+	* src/Inventor/Win/viewers/PlaneViewer.cpp:
+	
+	Moves actualRedraw() to comon code.
+
+2002-05-15 09:14  mortene
+
+	* src/Inventor/Win/viewers/PlaneViewer.cpp:
+	
+	Moves setViewing() to common code.
+
+2002-05-14 17:22  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Get rid of unused method destroyPopupMenu().
+
+2002-05-08 12:33  mortene
+
+	* src/Inventor/Win/viewers/: PlaneViewer.cpp, SoWinPlaneViewerP.h:
+	
+	Make private, hidden class inherit SoGuiPlaneViewerP. Compile
+	fixes.
+
+2002-05-08 12:00  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Minor codestyle issues.
+
+2002-05-07 15:20  mortene
+
+	* src/Inventor/Win/viewers/PlaneViewer.cpp:
+	
+	Collects more common code.
+
+2002-05-07 15:10  mortene
+
+	* src/Inventor/Win/viewers/PlaneViewer.cpp:
+	
+	Moves getDefault*Title() methods to common template.
+
+2002-05-07 12:14  mortene
+
+	* src/Inventor/Win/viewers/PlaneViewer.cpp:
+	
+	setCursorEnabled() moved to common code.
+
+2002-05-06 12:21  mortene
+
+	* src/Inventor/Win/viewers/PlaneViewer.cpp:
+	
+	setSeekMode() implemented in
+	common/viewers/SoGuiPlaneViewer.cpp.in.
+
+2002-05-06 11:33  mortene
+
+	* src/Inventor/Win/viewers/ExaminerViewer.cpp:
+	
+	setSeekMode() moved to template
+	common/viewers/SoGuiExaminerViewer.cpp.in
+
+2002-05-03 14:45  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Make resize work as expected for embedded components. Fix by Robert
+	Derek Norris.
+
+2002-05-03 13:43  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Proper stubbing of unimplemented methods setAccumulationBuffer()
+	and setStencilBuffer().
+
+2002-05-03 13:07  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Share code and documentation with other toolkits.
+
+2002-05-02 14:22  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Some doc moved to common/SoGuiCommon.cpp.in
+
+2002-05-02 10:39  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Moved SoWinObject::init() to common code.
+
+2002-04-16 13:12  pederb
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Fixed typo.
+
+2002-04-16 13:11  pederb
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Add methods to enable/disable OpenGL accumulation and stencil
+	buffer.
+
+2002-03-25 08:16  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Fixes popup menu positioning when an SoWinFullViewer-derived
+	instance is embedded. Problem reported by Guy Barrand.
+
+2002-03-22 10:42  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Fix minor typo in code comments.
+
+2002-03-20 10:56  mortene
+
+	* src/Inventor/Win/widgets/: SoWinBitmapButton.cpp,
+	SoWinBitmapButton.h:
+	
+	Parse an XPM-block with _const_ char*'ers. Also improves the
+	signature of some related methods.
+
+2002-03-15 15:53  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Enter the HWND->SoWinComponent dict mapping in buildWidget()
+	instead of the constructor, so all event handling works even when
+	the viewer does delayed build.
+
+2002-03-15 15:52  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Check for a NULL-pointer on the "current cursor" before trying to
+	set it (it can in a valid manner be NULL).
+
+2002-03-15 15:17  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Collect common event-handling code into a single function.
+
+2002-03-15 12:51  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinGLWidget.cpp,
+	viewers/FullViewer.cpp:
+	
+	Fix SoWinComponent::getComponent() to have the same semantics as
+	for the other So* toolkits. Thanks to Guy Barrand for the problem
+	report.
+	
+	Map from HWND parents to SoWinComponent-instances through a dict.
+
+2002-03-15 11:59  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, devices/SoWinMouse.cpp:
+	
+	Use CreateWindow() and CreateWindowEx() wrappers from Win32API.h. 
+	Misc minor fixes.
+
+2002-03-15 11:47  mortene
+
+	* src/Inventor/Win/widgets/: SoWinBitmapButton.cpp,
+	SoWinThumbWheel.cpp, SoWinViewerPrefSheet.cpp:
+	
+	Use Win32-wrappers for CreateWindow() and CreateWindowEx().
+
+2002-03-15 11:46  mortene
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h:
+	
+	Wrap CreateWindow() and CreateWindowEx().
+
+2002-03-13 14:20  larsa
+
+	* configure.ac, configure.in:
+	
+	rename file. doxygen doc-generating fixes
+
+2002-03-12 16:46  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Clean up message handling and message hooking.
+
+2002-03-12 16:11  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Clean up the msg hook installation a bit: we only need a single,
+	global system msg hook.
+
+2002-03-12 16:10  mortene
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h:
+	
+	Wrap UnhookWindowsHookEx().
+
+2002-03-12 15:21  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Avoid double invocation of menu selection actions (problem reported
+	by Guy Barrand).
+	
+	Removes unnecessary class method displayPopupMenu() (moves relevant
+	code to openPopupMenu()).
+
+2002-03-12 15:19  mortene
+
+	* src/Inventor/Win/widgets/: WinNativePopupMenu.cpp,
+	WinNativePopupMenu.h:
+	
+	Removes inactive method "itemActivation()", removes dead code in
+	popUp().
+
+2002-03-12 14:23  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Doc for createSimpleErrorDialog() moved to
+	common/SoGuiCommon.cpp.in.
+
+2002-01-28 23:49  mortene
+
+	* configure.in:
+	
+	Set MAC_FRAMEWORK conditional to "false".
+
+2002-01-28 23:41  mortene
+
+	* Makefile.am, configure.in, build/.cvsignore,
+	build/sowin.doxygen.in, html/Makefile.am, man/man3/Makefile.am:
+	
+	Use generic Doxygen config template.
+
+2002-01-18 16:16  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Moved isDebugLibrary(), isCompatible(), getABIType() and abort() to
+	generic So@Gui@ template.
+
+2002-01-18 14:42  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Compile fix.
+
+2002-01-18 11:46  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Removes init(void).
+
+2002-01-17 21:40  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Misc function signature changes for consistency versus the other
+	So* toolkits.
+	
+	Moves an init()-method to generic code in
+	common/SoGuiCommon.cpp.in.
+
+2002-01-13 16:13  mortene
+
+	* src/Inventor/Win/viewers/ExaminerViewer.cpp:
+	
+	Removes unused functions resetToHomePosition() and viewAll().
+
+2002-01-13 16:06  mortene
+
+	* src/Inventor/Win/viewers/PlaneViewer.cpp:
+	
+	Removes unused function computeSeekFinalOrientation().
+
+2002-01-13 16:04  mortene
+
+	* src/Inventor/Win/viewers/ExaminerViewer.cpp:
+	
+	Moves setCursorEnabled() to generic code.
+
+2002-01-13 15:44  mortene
+
+	* src/Inventor/Win/viewers/: ExaminerViewer.cpp, PlaneViewer.cpp:
+	
+	Some event processing fixes.
+
+2002-01-11 16:58  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Removes dependencies on SoAnyFullViewer.
+
+2002-01-11 16:18  mortene
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Compile fixes.
+
+2002-01-11 15:50  mortene
+
+	* src/Inventor/Win/: viewers/ExaminerViewer.cpp,
+	widgets/SoWinViewerPrefSheet.cpp:
+	
+	Compile fixes.
+
+2002-01-11 14:26  mortene
+
+	* src/Inventor/Win/viewers/ExaminerViewer.cpp:
+	
+	Removes dependency on SoAnyExaminerViewer.
+
+2002-01-11 13:34  mortene
+
+	* src/Inventor/Win/viewers/: ExaminerViewer.cpp, PlaneViewer.cpp:
+	
+	Build fixes.
+
+2002-01-11 13:20  mortene
+
+	* src/Inventor/Win/viewers/PlaneViewer.cpp:
+	
+	Compile fix.
+
+2002-01-11 12:47  mortene
+
+	* src/Inventor/Win/viewers/PlaneViewer.cpp:
+	
+	Removes dependency on SoAnyPlaneViewer.
+
+2002-01-11 11:19  mortene
+
+	* src/Inventor/Win/viewers/: Makefile.am, PlaneViewer.cpp,
+	SoWinPlaneViewer.cpp, SoWinPlaneViewer.h, SoWinWalkViewer.cpp,
+	SoWinWalkViewer.h, WalkViewer.cpp:
+	
+	Use generic templates for WalkViewer and PlaneViewer.
+
+2002-01-09 16:18  mortene
+
+	* src/Inventor/Win/viewers/: ExaminerViewer.cpp, Makefile.am,
+	SoWinExaminerViewer.cpp, SoWinExaminerViewer.h:
+	
+	Use generic ExaminerViewer templates.
+
+2002-01-09 13:26  mortene
+
+	* src/Inventor/Win/viewers/: FullViewer.cpp, Makefile.am,
+	SoWinFullViewer.cpp, SoWinFullViewer.h:
+	
+	Use common So*FullViewer.[cpp|h] templates. Bootstrap.
+
+2002-01-08 09:45  mortene
+
+	* src/Inventor/Win/viewers/: Makefile.am, SoNativeFlyViewer.cpp:
+	
+	Removes native flyviewer sourcefile, as it's now completely
+	templatized.
+
+2002-01-07 15:22  mortene
+
+	* build/sowin.doxygen.in:
+	
+	Set SORT_MEMBER_DOCS to NO for the Doxygen overload command to work
+	properly.
+
+2002-01-03 12:33  mortene
+
+	* configure.in:
+	
+	Sync up with SoQt configure.in.
+
+2001-12-20 23:07  mortene
+
+	* configure.in:
+	
+	Check for GetEnvironmentVariable().
+
+2001-12-20 13:27  mortene
+
+	* Makefile.am:
+	
+	More common dist-files. Bootstrap.
+
+2001-12-11 20:49  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	viewers/SoWinFullViewer.cpp:
+	
+	Fixes to make SoWin compile with MSVC 5. Done by Michael B Wright.
+
+2001-12-11 13:58  pederb
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Workaround/fix for low depth buffer precision on some gfx cards
+	(e.g. GeForce2MX and GeForce2Go).
+
+2001-12-10 17:37  mortene
+
+	* src/Inventor/Win/devices/: SoWinDevice.h, SoWinInputFocus.cpp,
+	SoWinInputFocus.h, SoWinKeyboard.cpp, SoWinKeyboard.h,
+	SoWinMouse.cpp, SoWinMouse.h, SoWinSpaceball.cpp, SoWinSpaceball.h:
+	
+	Generate header files from common templates.
+
+2001-12-10 11:17  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Ask for 24 colorbits in the GL context instead of 32, as it's RGB,
+	not RGBA.
+
+2001-12-10 11:16  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Minor doc fix in \mainpage.
+
+2001-12-09 12:40  mortene
+
+	* Makefile.am:
+	
+	Corrects some paths.
+
+2001-12-09 12:40  mortene
+
+	* sowin.m4:
+	
+	Removes duplicate file.
+
+2001-12-08 15:13  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	A bunch of FIXMEs regarding the handling of GL-context
+	pixelformats.
+
+2001-12-06 12:42  mortene
+
+	* Makefile.am:
+	
+	Fix make dist. Bootstrap.
+
+2001-12-05 18:38  pederb
+
+	* src/Inventor/Win/widgets/WinNativePopupMenu.cpp:
+	
+	Invoke popup menu callbacks.
+
+2001-12-02 16:46  mortene
+
+	* HACKING:
+	
+	Extended common information.
+
+2001-11-27 16:07  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp,
+	viewers/SoWinExaminerViewer.cpp:
+	
+	Use a bitmap instead of an enum for a blank shape.
+
+2001-11-27 15:53  mortene
+
+	* src/Inventor/Win/Makefile.am:
+	
+	Removes obsoleted SoGuiCursors files.
+
+2001-11-27 15:38  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Minor bugfix: make sure we always "unblank" when needed.
+
+2001-11-27 15:38  mortene
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Bugfix: make a deep copy of the cursor, as the reference will not
+	be persistent.
+
+2001-11-27 15:10  mortene
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	widgets/WinNativePopupMenu.cpp:
+	
+	Let position arguments to SoWinPopupMenu::popUp() be relative to
+	the canvas widget.
+
+2001-11-27 15:09  mortene
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h:
+	
+	Wrap ClientToScreen().
+
+2001-11-26 16:06  mortene
+
+	* src/Inventor/Win/viewers/: SoWinFullViewer.cpp,
+	SoWinFullViewer.h:
+	
+	React to WM_SETCURSOR.
+	
+	Change default cursor for OpenGL canvas so we can use SetCursor().
+	
+	Clean up the win-msg hook.
+
+2001-11-26 16:05  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Use a default arrow cursor for the OpenGL canvas.
+
+2001-11-26 16:04  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Change cursor upon WM_SETCURSOR messages.
+
+2001-11-26 16:03  mortene
+
+	* src/Inventor/Win/widgets/SoWinThumbWheel.cpp:
+	
+	Use a default arrow cursor for the thumbwheel widgets.
+
+2001-11-26 13:04  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp, Win32API.cpp,
+	Win32API.h, widgets/SoWinViewerPrefSheet.cpp:
+	
+	Wrap Win32 LoadCursor() call to detect unexpected errors.
+
+2001-11-26 12:50  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Clean up and bugfix cursor creation.
+
+2001-11-26 12:50  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Obsoletes SoWin-specific setCursor() and getCursor().
+
+2001-11-26 12:48  mortene
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.h:
+	
+	Override setComponentCursor().
+
+2001-11-26 12:48  mortene
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Overrides setComponentCursor() to make sure it will only influence
+	the renderarea canvas.
+
+2001-11-26 12:47  mortene
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h:
+	
+	Adds wrapper around CreateCursor().
+
+2001-11-26 11:00  mortene
+
+	* src/Inventor/Win/viewers/SoWinExaminerViewer.cpp:
+	
+	Use SoWinComponent::setComponentCursor() instead of directly
+	interfacing with native Win32.
+
+2001-11-26 10:58  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Implements setComponentCursor() and setWidgetCursor().
+
+2001-11-23 17:45  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Handle the rather obscure case where a fatal error occurs during
+	the construction of an SoWinComponent-derived instance without
+	crashing.
+
+2001-11-23 17:43  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Minor FIXME about the fatal error reporting.
+
+2001-11-23 16:30  mortene
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Compile fix.
+
+2001-11-23 16:29  mortene
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h, widgets/WinNativePopupMenu.h:
+	
+	Compile fixes, due to the renaming of SoAnyPopupMenu to
+	SoWinPopupMenu.
+
+2001-11-23 16:28  mortene
+
+	* src/Inventor/Win/widgets/Makefile.am:
+	
+	Install SoWinPopupMenu as part of the public API.
+
+2001-11-23 14:46  mortene
+
+	* src/Inventor/Win/widgets/: Makefile.am, SoWinPopupMenu.cpp,
+	SoWinPopupMenu.h, WinNativePopupMenu.cpp, WinNativePopupMenu.h:
+	
+	Renames SoWinPopupMenu to WinNativePopupMenu.
+	
+	Bootstrap.
+
+2001-11-22 14:32  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Mention the common classdoc. Doxygen \mainpage.
+
+2001-11-21 18:01  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Removes obsoleted cursor data member.
+
+2001-11-21 18:00  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Make setComponentCursor() virtual so it can be overridden in
+	subclasses to set cursors for individual native widgets in a
+	composite component (only the rendercanvas of viewers, for
+	instance).
+	
+	Removes getComponentCursor(), as it simplifies the interface to not
+	Match new SoGuiComponent.h.in interface.
+
+2001-11-21 12:39  larsa
+
+	* configure.in:
+	
+	subst more variables
+
+2001-11-20 18:06  pederb
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Rename method setCursor() to setComponentCursor() since setCursor
+	seems to be a reserved string/define under Windows.
+
+2001-11-19 18:28  pederb
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Compile fix.
+
+2001-11-19 18:20  pederb
+
+	* src/Inventor/Win/: Makefile.am, SoWinComponent.cpp:
+	
+	Bootstrap for cursor support.
+
+2001-11-16 20:14  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Compile fix.
+
+2001-11-16 17:29  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinGLWidget.cpp:
+	
+	Clean up inclusion of gl.h (use internal file).
+
+2001-11-16 16:39  mortene
+
+	* src/Inventor/Win/SoWin.cpp, build/sowin.doxygen.in:
+	
+	Start using So@Gui@Common.cpp.in sourcefile.
+
+2001-11-16 16:10  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Change name from [set|is]OverlayPlanes() to [set|is]OverlayRender()
+	to match TGS SoWin.
+
+2001-11-16 12:01  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Stub implementation of new methods setOverlayPlanes() and
+	isOverlayPlanes().
+
+2001-11-15 13:27  mortene
+
+	* configure.in, man/.cvsignore, man/Makefile.am,
+	man/man1/.cvsignore, man/man1/Makefile.am, man/man3/.cvsignore,
+	man/man3/Makefile.am:
+	
+	Copies man-page generation setup from SoQt.
+
+2001-11-15 13:11  mortene
+
+	* src/Inventor/Win/Makefile.am:
+	
+	Build SoWinMaterialList.
+
+2001-11-15 13:06  mortene
+
+	* src/Inventor/Win/SoWinMaterialList.cpp:
+	
+	Empty, copied from SoQt.
+
+2001-11-15 12:50  mortene
+
+	* configure.in:
+	
+	Configure data/ directory.
+
+2001-11-15 12:45  mortene
+
+	* Makefile.am, src/Makefile.am, src/Inventor/Makefile.am:
+	
+	Bugfix: can of course not attempt substitution in filenames used by
+	Automake.
+
+2001-11-15 12:11  mortene
+
+	* Makefile.am, configure.in, src/Makefile.am,
+	src/Inventor/Makefile.am, src/Inventor/Win/Makefile.am,
+	src/Inventor/Win/devices/Makefile.am,
+	src/Inventor/Win/viewers/Makefile.am,
+	src/Inventor/Win/widgets/Makefile.am:
+	
+	Synchronize build setup with SoQt's.
+
+2001-11-15 12:03  mortene
+
+	* html/Makefile.am:
+	
+	Empty dummy dir.
+
+2001-11-15 11:59  mortene
+
+	* HACKING:
+	
+	Initially empty, just points to Coin/HACKING.
+
+2001-11-15 11:55  mortene
+
+	* src/Inventor/Win/viewers/: SoWinWalkViewer.cpp,
+	SoWinWalkViewer.h:
+	
+	Skeletons for implementation.
+
+2001-11-15 11:37  mortene
+
+	* man/Makefile.am:
+	
+	Empty setup.
+
+2001-11-03 13:15  larsa
+
+	* Makefile.am:
+	
+	dist sowin.m4 and bootstrap
+
+2001-11-03 13:06  larsa
+
+	* Makefile.am:
+	
+	dist more common files
+
+2001-11-03 12:59  larsa
+
+	* Makefile.am:
+	
+	ltconfig is obsoleted
+
+2001-11-03 12:57  larsa
+
+	* Makefile.am:
+	
+	dist soguidefs.h.in
+
+2001-10-24 12:33  larsa
+
+	* README, configure.in:
+	
+	Implement the --with-msvcrt=<crt> option
+
+2001-10-23 20:48  mortene
+
+	* src/Inventor/Win/widgets/SoWinBitmapButton.cpp:
+	
+	Misc codestyle fixes in parseXpm().
+
+2001-10-18 22:34  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinGLWidget.cpp,
+	viewers/SoWinFullViewer.cpp, viewers/SoWinFullViewer.h:
+	
+	Corrects signature of sizeChanged().
+
+2001-10-18 10:38  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Explains Eos' fatal error clean-up problem, for future reference
+	and posible actions.
+
+2001-10-18 09:48  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Updates FIXME comment about fatal error clean-up.
+
+2001-10-17 10:57  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Quit application on fatal error (missing / faulty OpenGL support)
+	if no handler was installed.
+	
+	Thanks to Alan Walford for reporting the bug.
+
+2001-10-17 10:54  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Improve documentation: for the fatal-error handler callback, also
+	mention how to set up a callback handler for non-fatal errors.
+	
+	(Thanks to Alan Walford for pointing out the sub-par documentation
+	in this regard.)
+
+2001-10-16 15:00  larsa
+
+	* src/Inventor/Win/Makefile.am:
+	
+	uninstall fix
+
+2001-10-16 14:46  larsa
+
+	* src/Inventor/Win/Makefile.am:
+	
+	uninstall fix
+
+2001-10-16 14:38  larsa
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Adjustments for the new sanity testing.
+
+2001-10-14 15:47  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Use the proper technique for handling the "no valid OpenGL canvas"
+	fatal error.
+
+2001-10-14 15:47  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Implementation and documentation of the application callback
+	handler on fatal errors.
+
+2001-10-14 14:03  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp:
+	
+	Compile fixes.
+
+2001-10-13 13:49  mortene
+
+	* Makefile.am, configure.in, src/Inventor/Win/Makefile.am,
+	src/Inventor/Win/SoWin.h:
+	
+	Generate SoWin.h from common template.
+
+2001-10-12 23:01  mortene
+
+	* Makefile.am, src/Inventor/Win/Makefile.am,
+	src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/SoWinComponent.h:
+	
+	Generate SoWinComponent.h from common template.
+
+2001-10-12 16:15  mortene
+
+	* configure.in:
+	
+	Make sure we're in C++ mode when doing the Inventor implementation
+	checks.
+
+2001-10-12 15:52  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Get rid of variable haveBorder.
+
+2001-10-12 15:49  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Misc build fixes to compile with the SoWinGLWidget.h from the
+	common template.
+
+2001-10-12 15:29  mortene
+
+	* Makefile.am, src/Inventor/Win/Makefile.am,
+	src/Inventor/Win/SoWinGLWidget.cpp,
+	src/Inventor/Win/SoWinGLWidget.h:
+	
+	Generate SoWinGLWidget.h from common template.
+
+2001-10-12 09:05  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Classdoc stub.
+
+2001-10-11 19:57  mortene
+
+	* configure.in:
+	
+	Bugfix in configure script.
+
+2001-10-11 19:53  mortene
+
+	* Makefile.am, configure.in, sowin-config, sowin.cfg.in:
+	
+	Generate sowin-config and sowin.cfg from common templates.
+	
+	Bootstrap.
+
+2001-10-11 19:52  mortene
+
+	* configure.in:
+	
+	FIXME about SoWin-on-SGI-Inventor.
+
+2001-10-11 09:42  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWin.h, SoWinComponent.cpp,
+	SoWinComponent.h, SoWinGLWidget.h, Win32API.cpp,
+	devices/SoWinDevice.cpp, devices/SoWinDevice.h,
+	devices/SoWinInputFocus.cpp, devices/SoWinInputFocus.h,
+	devices/SoWinKeyboard.cpp, devices/SoWinKeyboard.h,
+	devices/SoWinMouse.cpp, devices/SoWinMouse.h,
+	devices/SoWinSpaceball.cpp, devices/SoWinSpaceball.h,
+	viewers/SoWinExaminerViewer.cpp, viewers/SoWinExaminerViewer.h,
+	viewers/SoWinFullViewer.cpp, viewers/SoWinFullViewer.h,
+	viewers/SoWinPlaneViewer.cpp, viewers/SoWinPlaneViewer.h,
+	widgets/SoWinBitmapButton.cpp, widgets/SoWinBitmapButton.h,
+	widgets/SoWinPopupMenu.cpp, widgets/SoWinPopupMenu.h,
+	widgets/SoWinThumbWheel.cpp, widgets/SoWinThumbWheel.h,
+	widgets/SoWinViewerPrefSheet.cpp, widgets/SoWinViewerPrefSheet.h:
+	
+	Get rid of excessive and inconsistent spacing around parentheses.
+
+2001-10-10 14:31  mortene
+
+	* configure.in:
+	
+	Check for OpenGL headers to be able to properly set up for use of
+	the common/gl.h.in file.
+	
+	Bootstrap.
+
+2001-10-10 14:30  mortene
+
+	* src/Inventor/Win/Win32API.h:
+	
+	All your TABs belong to us.
+
+2001-10-08 12:56  larsa
+
+	* Makefile.am, configure.in:
+	
+	Adjustments to use the new internal Inventor/Win/common/gl.h
+	header.
+
+2001-10-07 21:07  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.h:
+	
+	FIXME comment about enum values for canvas properties.
+
+2001-10-01 21:23  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Codestyle: kill silly whitespace after "(" and before ")".
+
+2001-09-26 18:26  larsa
+
+	* src/Inventor/Win/viewers/Makefile.am:
+	
+	Compile SoWinFlyViewer and install related header files.
+
+2001-09-26 15:25  larsa
+
+	* bootstrap, configure.in:
+	
+	Fixed configuration problem causing debug builds to be linked with
+	release builds of Coin...
+
+2001-09-26 13:28  larsa
+
+	* configure.in, src/Makefile.am,
+	src/Inventor/Win/viewers/Makefile.am:
+	
+	minor tweaks
+
+2001-09-26 13:28  larsa
+
+	* .cvsignore, build/.cvsignore, src/.cvsignore,
+	src/Inventor/.cvsignore, src/Inventor/Win/.cvsignore,
+	src/Inventor/Win/devices/.cvsignore,
+	src/Inventor/Win/viewers/.cvsignore,
+	src/Inventor/Win/widgets/.cvsignore:
+	
+	Make sourcedir builds a more pleasant experience.
+
+2001-09-26 13:15  larsa
+
+	* Makefile.am, bootstrap, configure.in, sowin.m4,
+	cfg/ltconfig.diff, cfg/ltmain.sh.diff, src/sowindefs.h.in,
+	src/Inventor/Win/viewers/Makefile.am,
+	src/Inventor/Win/viewers/SoNativeFlyViewer.cpp:
+	
+	Build FlyViewer.  Upgrade to libtool 1.4.2.
+
+2001-09-25 18:22  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Minor doc improvements.
+
+2001-09-25 18:21  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Robustify gl-canvas creation.
+	
+	Bugfixes for the fallback code when a certain gl-canvas format is
+	not available.
+
+2001-09-25 18:18  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Misc robustification and error reporting.
+	
+	Codestyle fixes.
+
+2001-09-25 18:10  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Wrap ChoosePixelFormat() invocations to catch and warn about
+	problems.
+
+2001-09-25 18:00  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Wrap all invocations of wglMakeCurrent() for easier detection of
+	errors.
+
+2001-09-24 20:35  mortene
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h:
+	
+	Adds a public method getWin32Err() as an external interface to
+	GetLastError() + FormatMessage().
+
+2001-09-22 11:12  mortene
+
+	* src/Inventor/Win/devices/SoWinSpaceball.cpp:
+	
+	Don't use stub-macro in exists().
+
+2001-09-20 13:05  mortene
+
+	* src/Inventor/Win/viewers/SoWinExaminerViewer.cpp:
+	
+	Corrects name of bottom wheel.
+
+2001-09-19 15:31  mortene
+
+	* src/sowindefs.h.in:
+	
+	Adds SO@GUI@_OBSOLETED().
+
+2001-08-31 16:41  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Document.
+
+2001-08-31 15:09  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.h:
+	
+	SO_GL_DEFAULT_MODE has been obsoleted.
+
+2001-08-24 17:35  mariusbu
+
+	* src/Inventor/Win/viewers/: SoWinExaminerViewer.cpp,
+	SoWinFullViewer.cpp, SoWinPlaneViewer.cpp:
+	
+	Misc cosmetic updates.
+
+2001-08-24 17:13  mariusbu
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, SoWinGLWidget.h:
+	
+	Added documentation.
+
+2001-08-24 15:10  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp:
+	
+	Added documentation.
+
+2001-08-24 12:42  mariusbu
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Added some documentation and removed some FIXMEs.
+
+2001-08-23 17:46  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Fix typo.
+
+2001-08-23 17:42  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	viewers/SoWinExaminerViewer.cpp, viewers/SoWinFullViewer.cpp,
+	viewers/SoWinPlaneViewer.cpp:
+	
+	Fix window title bug.
+
+2001-08-23 16:30  mariusbu
+
+	* src/Inventor/Win/devices/: SoWinKeyboard.cpp, SoWinMouse.cpp:
+	
+	Removed STUB() from enable() and disable(). Win32 cannot disable
+	mouse or keyboard.
+
+2001-08-23 15:55  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinComponent.h,
+	SoWinGLWidget.cpp:
+	
+	Add SoWinComponent::setFocusProxy() and getFocusProxy().
+
+2001-08-23 15:36  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Misc cosmetic fixes.
+
+2001-08-23 12:45  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinExaminerViewer.cpp:
+	
+	Kill layout bug.
+
+2001-08-23 10:46  mortene
+
+	* configure.in:
+	
+	Minor simplification of code for adding "default" Win32 libraries.
+
+2001-08-22 17:56  mariusbu
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h,
+	viewers/SoWinFullViewer.cpp, widgets/SoWinThumbWheel.cpp:
+	
+	Added improved thumbwheel label handling. Removed
+	Win32::ShowWindow().
+
+2001-08-22 17:26  larsa
+
+	* Makefile.am:
+	
+	dist fix
+
+2001-08-22 14:09  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Don't destroy window on close.
+
+2001-08-22 12:29  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp, Win32API.cpp, Win32API.h:
+	
+	Fix maximized/fullscreen bug reported by thammer.
+
+2001-08-22 11:05  mariusbu
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Kill focus bug.
+
+2001-08-21 18:44  mariusbu
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp,
+	widgets/SoWinBitmapButton.cpp:
+	
+	Added border support in SoWinGLWidget. Added WS_CLIPSIBLINGS to
+	SoWinBitmapButton to avoid being messed up by SoWinGLWidget.
+
+2001-08-21 15:54  mariusbu
+
+	* src/Inventor/Win/devices/SoWinKeyboard.cpp:
+	
+	Use virtual key codes. Additional key codes supported.
+
+2001-08-20 10:13  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Fixes a bug with setFullScreen() (it would always return FALSE).
+	
+	Simplified fullscreen-handling a lot.
+
+2001-08-17 16:40  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Compile fixes.
+
+2001-08-17 16:27  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinComponent.h:
+	
+	Rename goFullScreen() to setFullScreen() and fix method signature.
+
+2001-08-17 15:45  mortene
+
+	* configure.in:
+	
+	Don't bother with HAVE_SOGUI_GOFULLSCREEN, all toolkits should have
+	it.
+
+2001-08-15 11:42  mortene
+
+	* src/Inventor/Win/devices/SoWinKeyboard.cpp:
+	
+	FIXME about the reason why the arrow keys are not working.
+
+2001-08-15 11:20  mortene
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Corrects faulty use of SoDebugError::postWarning().
+
+2001-08-15 11:06  mortene
+
+	* src/Inventor/Win/viewers/SoWinExaminerViewer.cpp:
+	
+	Fixes a bug: SoWinExaminerViewer::setCamera() on an instance built
+	without decorations would crash.
+
+2001-08-10 18:42  mortene
+
+	* src/Inventor/Win/devices/SoWinKeyboard.cpp:
+	
+	FIXME about arrow key bugs.
+
+2001-08-10 18:01  mortene
+
+	* src/Inventor/Win/widgets/SoWinPopupMenu.cpp:
+	
+	Bugfix; gray out menu items when they are disabled.
+
+2001-08-10 17:52  mortene
+
+	* src/Inventor/Win/widgets/SoWinPopupMenu.cpp:
+	
+	Working setMenuItemEnabled() code.
+
+2001-08-10 17:49  mortene
+
+	* src/Inventor/Win/widgets/SoWinPopupMenu.cpp:
+	
+	Catch premature setMenuItemEnabled() calls.
+
+2001-08-10 17:49  mortene
+
+	* src/Inventor/Win/Win32API.cpp:
+	
+	Bugfix, avoid false negatives or positives on the EnableMenuItem()
+	call.
+
+2001-08-10 17:13  mariusbu
+
+	* src/Inventor/Win/widgets/SoWinPopupMenu.cpp:
+	
+	Added asserts to get more informative debug message.
+
+2001-08-10 17:10  mortene
+
+	* src/Inventor/Win/widgets/SoWinPopupMenu.cpp:
+	
+	Don't be robust (and silently ignore errors) on internal errors.
+
+2001-08-10 16:59  mariusbu
+
+	* src/Inventor/Win/widgets/SoWinPopupMenu.cpp:
+	
+	New disable item method.
+
+2001-08-10 15:47  mortene
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Forward setPopupMenuString() to common class.
+
+2001-08-10 15:14  mortene
+
+	* src/Inventor/Win/widgets/SoWinPopupMenu.cpp:
+	
+	Compile fix.
+
+2001-08-10 15:11  mortene
+
+	* src/Inventor/Win/widgets/: SoWinPopupMenu.cpp, SoWinPopupMenu.h:
+	
+	Match new SoAnyPopupMenu interface.
+
+2001-08-10 15:05  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Fix focus bug.
+
+2001-08-10 13:33  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Cosmetic update.
+
+2001-08-10 13:23  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Fix goFullScreen bug.
+
+2001-08-10 12:12  mortene
+
+	* configure.in:
+	
+	Compile library with SOWIN_INTERNAL CPP define.
+
+2001-08-09 21:14  larsa
+
+	* Makefile.am, configure.in, sowin.cfg.in:
+	
+	Install wrapmsvc.exe Use the installed wrapmsvc.exe from
+	sowin-config.
+
+2001-08-09 17:56  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Fix setDecoration redraw bug.
+
+2001-08-09 14:46  larsa
+
+	* src/Inventor/Win/viewers/Makefile.am:
+	
+	Bugfix.
+
+2001-08-09 14:33  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Updated comments.
+
+2001-08-09 14:30  larsa
+
+	* Makefile.am, src/Makefile.am, src/Inventor/Win/Makefile.am,
+	src/Inventor/Win/devices/Makefile.am,
+	src/Inventor/Win/viewers/Makefile.am,
+	src/Inventor/Win/widgets/Makefile.am:
+	
+	Misc distclean adjustments.  Small header-installation bugfix.
+
+2001-08-09 14:23  mariusbu
+
+	* src/Inventor/Win/Win32API.cpp:
+	
+	Fix typo.
+
+2001-08-09 14:20  pederb
+
+	* src/Inventor/Win/viewers/Makefile.am:
+	
+	Fixed bug in install headers rule.
+
+2001-08-09 14:01  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Forgotten fixes.
+
+2001-08-09 13:42  mariusbu
+
+	* src/Inventor/Win/widgets/: SoWinThumbWheel.cpp,
+	SoWinViewerPrefSheet.cpp, SoWinViewerPrefSheet.h:
+	
+	Fix "crash on close" bug.
+
+2001-08-09 11:35  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Set atom to NULL when unregitering window class.
+
+2001-08-09 10:43  mariusbu
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Reset atoms to NULL when unregistering window classes.
+
+2001-08-08 15:47  mariusbu
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h,
+	widgets/SoWinPopupMenu.cpp:
+	
+	Win32API'ify SoWinPopupMenu.
+
+2001-08-08 15:26  mortene
+
+	* configure.in:
+	
+	Set up CPPFLAGS etc for static version of lib.
+
+2001-08-08 15:12  mortene
+
+	* configure.in:
+	
+	Set up SOWIN_NOT_DLL for the sowin-config script.
+
+2001-08-08 14:57  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp,
+	widgets/SoWinBitmapButton.cpp:
+	
+	Add Win32:: calls and fix "no popup" bug.
+
+2001-08-08 14:22  mariusbu
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, Win32API.cpp, Win32API.h,
+	widgets/SoWinBitmapButton.cpp, widgets/SoWinThumbWheel.cpp:
+	
+	Added more methods to Win32API.
+
+2001-08-08 13:22  larsa
+
+	* configure.in:
+	
+	Bugfix.
+
+2001-08-08 13:17  larsa
+
+	* configure.in:
+	
+	Minor change in static/shared decision logic.
+
+2001-08-08 13:03  larsa
+
+	* .cvsignore, ChangeLog.sh, Makefile.am, acconfig.h, bootstrap,
+	configure.in, sowindefs.h.in, src/Makefile.am, src/sowindefs.h.in,
+	src/Inventor/Makefile.am, src/Inventor/Win/Makefile.am,
+	src/Inventor/Win/devices/Makefile.am,
+	src/Inventor/Win/viewers/Makefile.am,
+	src/Inventor/Win/widgets/Makefile.am:
+	
+	Functional "make dist".
+
+2001-08-08 12:58  mariusbu
+
+	* src/Inventor/Win/widgets/SoWinThumbWheel.cpp:
+	
+	Destroy windows.
+
+2001-08-08 12:55  mariusbu
+
+	* src/Inventor/Win/widgets/: SoWinThumbWheel.cpp,
+	SoWinThumbWheel.h:
+	
+	Unregister window class.
+
+2001-08-08 12:34  mortene
+
+	* src/Inventor/Win/viewers/: SoWinExaminerViewer.cpp,
+	SoWinExaminerViewer.h, SoWinFullViewer.h, SoWinPlaneViewer.cpp,
+	SoWinPlaneViewer.h:
+	
+	Compile fixes.
+
+2001-08-08 12:29  mortene
+
+	* src/Inventor/Win/viewers/: SoWinExaminerViewer.cpp,
+	SoWinFullViewer.cpp, SoWinPlaneViewer.cpp:
+	
+	Kill obnoxious warnings.
+
+2001-08-08 12:09  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinGLWidget.cpp,
+	SoWinGLWidget.h, Win32API.cpp, Win32API.h,
+	viewers/SoWinExaminerViewer.cpp, viewers/SoWinFullViewer.cpp,
+	viewers/SoWinPlaneViewer.cpp:
+	
+	Added Win32::RegisterClass.
+
+2001-08-08 11:28  mortene
+
+	* cfg/depcomp:
+	
+	Upgrades to latest version of depcomp script.
+
+2001-08-08 11:10  mortene
+
+	* src/Inventor/Win/: devices/Makefile.am, viewers/Makefile.am,
+	widgets/Makefile.am:
+	
+	Use new MSVC++ compiler wrapper.
+
+2001-08-07 19:24  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinComponent.h,
+	SoWinGLWidget.cpp, Win32API.cpp, Win32API.h,
+	viewers/SoWinExaminerViewer.cpp, viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h:
+	
+	Change to hook based message peeking.
+
+2001-08-07 11:57  mariusbu
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, SoWinGLWidget.h,
+	viewers/SoWinFullViewer.cpp, viewers/SoWinFullViewer.h:
+	
+	Remove patching of gl widget event handler.
+
+2001-08-07 11:28  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinExaminerViewer.cpp:
+	
+	Remove anoying zoom cursor pixels.
+
+2001-08-06 22:27  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Indentation.
+
+2001-08-06 20:04  mariusbu
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Size gl widget when created.
+
+2001-08-06 19:18  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, SoWinGLWidget.h,
+	viewers/SoWinExaminerViewer.cpp, viewers/SoWinFullViewer.cpp,
+	viewers/SoWinPlaneViewer.cpp, widgets/SoWinThumbWheel.cpp:
+	
+	Cleanup, bugfix and rework.
+
+2001-08-06 03:07  mortene
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	FIXME about assertion crash.
+
+2001-08-06 02:20  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, viewers/SoWinFullViewer.cpp,
+	widgets/SoWinBitmapButton.cpp, widgets/SoWinThumbWheel.cpp,
+	widgets/SoWinViewerPrefSheet.cpp:
+	
+	Redirects a bunch of Win32 API function-calls to our wrapper
+	functions.
+
+2001-08-06 02:18  mortene
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h:
+	
+	Corrected error detection and display for SetWindowLong() and
+	GetWindowLong().
+
+2001-08-04 14:14  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, Win32API.cpp, Win32API.h,
+	viewers/SoWinFullViewer.cpp:
+	
+	Added some Win32:: methods.
+
+2001-08-03 23:06  mariusbu
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp,
+	viewers/SoWinFullViewer.cpp:
+	
+	Reverse WS_CLIPSIBLINGS fix.
+
+2001-08-03 22:20  mariusbu
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h,
+	viewers/SoWinFullViewer.cpp:
+	
+	Always repaint on resize.
+
+2001-08-03 22:10  mariusbu
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, Win32API.cpp:
+	
+	Converted some win32 calls to Win32:: calls.
+
+2001-08-03 21:53  mariusbu
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Add WS_CLIPSIBLINGS to the gl widget.
+
+2001-08-03 16:54  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp, Win32API.cpp, Win32API.h:
+	
+	Added more Win32API methods.
+
+2001-08-03 16:10  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp, Win32API.cpp, Win32API.h:
+	
+	Added Win32API::SetWindowText() + fixed assert in SoWinComponent.
+
+2001-08-03 15:16  mariusbu
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Added SoWinGLWidgetP::widgetCounter.
+
+2001-08-03 15:14  mariusbu
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h:
+	
+	Added WinAPI::DestroyWindow().
+
+2001-08-03 14:58  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Only unregister window class when all component windows have been
+	destroyed.
+
+2001-08-03 14:52  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, Win32API.cpp, Win32API.h,
+	widgets/SoWinViewerPrefSheet.cpp:
+	
+	Wraps UnregisterClass().
+
+2001-08-03 14:34  mortene
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h,
+	widgets/SoWinThumbWheel.cpp:
+	
+	Wraps SelectObject().
+
+2001-08-03 14:21  mortene
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h,
+	widgets/SoWinThumbWheel.cpp, widgets/SoWinViewerPrefSheet.cpp:
+	
+	Wraps BitBlt() and GetTextExtentPoint().
+
+2001-08-03 14:04  larsa
+
+	* sowin-config:
+	
+	Update to the same level as soqt-config.
+
+2001-08-03 14:03  mortene
+
+	* src/Inventor/Win/Win32API.cpp:
+	
+	Corrected error checking on EnableWindow() to avoid false
+	negatives.
+
+2001-08-03 13:49  mortene
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, Win32API.cpp, Win32API.h,
+	widgets/SoWinBitmapButton.cpp, widgets/SoWinThumbWheel.cpp,
+	widgets/SoWinViewerPrefSheet.cpp:
+	
+	Wrap SwapBuffers() and EnableWindow().
+
+2001-08-03 13:28  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp,
+	viewers/SoWinFullViewer.cpp, widgets/SoWinBitmapButton.cpp,
+	widgets/SoWinThumbWheel.cpp, widgets/SoWinViewerPrefSheet.cpp:
+	
+	Use Win32::MoveWindow() wrapper.
+
+2001-08-03 13:17  mortene
+
+	* src/Inventor/Win/: Makefile.am, Win32API.cpp, Win32API.h:
+	
+	Framework for wrapping Win32 API functions.
+
+2001-08-03 12:52  mariusbu
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Added WS_CLIPCHILDREN to manager widget.
+
+2001-08-03 12:50  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinGLWidget.cpp,
+	widgets/SoWinBitmapButton.cpp, widgets/SoWinThumbWheel.cpp,
+	widgets/SoWinViewerPrefSheet.cpp:
+	
+	More Win32 robustness checking.
+
+2001-08-03 04:42  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, viewers/SoWinFullViewer.cpp,
+	widgets/SoWinBitmapButton.cpp, widgets/SoWinThumbWheel.cpp,
+	widgets/SoWinViewerPrefSheet.cpp:
+	
+	Assertion error checking on SetWindowLong() calls, for robustness'
+	sake.
+
+2001-08-03 04:07  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, viewers/SoWinFullViewer.cpp,
+	widgets/SoWinBitmapButton.cpp, widgets/SoWinThumbWheel.cpp,
+	widgets/SoWinViewerPrefSheet.cpp:
+	
+	Explicitly ignore return value of ShowWindow() calls.
+
+2001-08-03 04:02  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, viewers/SoWinFullViewer.cpp,
+	widgets/SoWinBitmapButton.cpp, widgets/SoWinThumbWheel.cpp,
+	widgets/SoWinViewerPrefSheet.cpp:
+	
+	Don't ignore return values from Win32 API methods EnableWindow(),
+	InvalidateRect(), ClientToScreen(), SetWindowPos(), GetWindowRect()
+	and SetActiveWindow() -- to make code more robust (ignoring return
+	values of external API functions spells lousy programming style and
+	is a definitive no-no).
+
+2001-08-03 03:30  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinGLWidget.cpp,
+	viewers/SoWinFullViewer.cpp, widgets/SoWinThumbWheel.cpp,
+	widgets/SoWinViewerPrefSheet.cpp:
+	
+	Don't just ignore return value of GetClientRect() Win32 API calls.
+
+2001-08-03 03:22  mortene
+
+	* src/Inventor/Win/: SoWinComponent.cpp,
+	viewers/SoWinFullViewer.cpp, widgets/SoWinBitmapButton.cpp,
+	widgets/SoWinViewerPrefSheet.cpp:
+	
+	Checking return value of MoveWindow() everywhere.
+
+2001-08-03 03:15  mortene
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Don't just ignore return value of Win32 API call MoveWindow().
+
+2001-08-02 23:03  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Fixed bug. Only hide widget, not shellWidget.
+
+2001-08-02 22:32  mortene
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, SoWinGLWidget.h, devices/SoWinMouse.h,
+	devices/SoWinSpaceball.h, viewers/SoWinExaminerViewer.cpp,
+	viewers/SoWinFullViewer.h, viewers/SoWinPlaneViewer.cpp,
+	widgets/SoWinBitmapButton.cpp, widgets/SoWinBitmapButton.h,
+	widgets/SoWinPopupMenu.cpp, widgets/SoWinPopupMenu.h,
+	widgets/SoWinThumbWheel.cpp, widgets/SoWinThumbWheel.h,
+	widgets/SoWinViewerPrefSheet.cpp:
+	
+	Untabify. Include files also re-indented.
+
+2001-08-02 22:14  larsa
+
+	* configure.in, build/sowin.doxygen.in:
+	
+	New AC_SUBST HTML_DOC_DIR
+
+2001-08-02 22:11  larsa
+
+	* configure.in:
+	
+	Check for doxygen program.
+
+2001-08-02 22:07  larsa
+
+	* .cvsignore, Makefile.am, bootstrap:
+	
+	New bootstrap.	CVS ignore autom4te.cache.  Duplicate rule
+	doxygen-doc.
+
+2001-08-02 21:50  mortene
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Untabified (and subsequently re-indented).
+
+2001-08-02 20:03  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, viewers/SoWinFullViewer.cpp:
+	
+	Fixed clipping bug in SoWinGLWidget. Bug reported by thammer.
+
+2001-08-02 15:23  mariusbu
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Handle unsupported modes.
+
+2001-08-02 15:02  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Use getShellWidget in show().
+
+2001-08-02 14:50  mariusbu
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Create invisible SoWin window.
+
+2001-08-02 01:41  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, viewers/SoWinExaminerViewer.cpp,
+	viewers/SoWinFullViewer.cpp, viewers/SoWinPlaneViewer.cpp:
+	
+	Update on size fix + build component when embedded too.
+
+2001-08-01 21:01  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Fixed getShellWidget. Bug reported by Alan Walford.
+
+2001-08-01 17:58  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinGLWidget.cpp, SoWinGLWidget.h,
+	viewers/SoWinFullViewer.cpp:
+	
+	Kill flicker in gl widget.
+
+2001-08-01 10:11  mariusbu
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, devices/SoWinKeyboard.cpp:
+	
+	Minor bug fix.
+
+2001-07-31 17:57  mariusbu
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Cleanup.
+
+2001-07-31 17:40  mariusbu
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Removed SWP_NOREDRAW.
+
+2001-07-31 16:26  mariusbu
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp,
+	widgets/SoWinViewerPrefSheet.cpp:
+	
+	Implemented setQuadBufferStereo + cleanup.
+
+2001-07-30 12:15  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	widgets/SoWinBitmapButton.cpp, widgets/SoWinViewerPrefSheet.cpp:
+	
+	Deallocate resources when deleted.
+
+2001-07-30 12:00  mariusbu
+
+	* src/Inventor/Win/widgets/SoWinViewerPrefSheet.cpp:
+	
+	Improved slider.
+
+2001-07-27 19:51  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp,
+	viewers/SoWinFullViewer.cpp, viewers/SoWinFullViewer.h:
+	
+	Implement add/remove visibility change CB.
+
+2001-07-27 19:23  mariusbu
+
+	* src/Inventor/Win/widgets/SoWinPopupMenu.cpp:
+	
+	Fixed check mark bug.
+
+2001-07-27 18:09  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinGLWidget.cpp,
+	viewers/SoWinExaminerViewer.cpp, viewers/SoWinFullViewer.cpp,
+	viewers/SoWinPlaneViewer.cpp, widgets/SoWinPopupMenu.cpp:
+	
+	Cleanup.
+
+2001-07-27 15:04  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinComponent.h, viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h:
+	
+	Fullviewer no longer builds its own widget.
+
+2001-07-27 11:29  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Removed unused code.
+
+2001-07-27 11:09  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Code cleanup + safer fullscreen list.
+
+2001-07-27 10:50  mariusbu
+
+	* src/Inventor/Win/devices/SoWinKeyboard.cpp:
+	
+	Added keypad support.
+
+2001-07-26 16:17  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Repaint on goFullScreen.
+
+2001-07-26 16:13  mariusbu
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Don't react to messages if user created the window (let user decide
+	what to do).
+
+2001-07-26 15:41  mariusbu
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Check all children when sizing.
+
+2001-07-26 14:56  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	widgets/SoWinBitmapButton.cpp:
+	
+	Create button in place (no need to move it).
+
+2001-07-26 14:05  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Added static fullscreen widget list.
+
+2001-07-26 12:19  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Handle goFullScreen when embedded.
+
+2001-07-25 19:04  mariusbu
+
+	* src/Inventor/Win/widgets/: SoWinBitmapButton.cpp,
+	SoWinThumbWheel.cpp:
+	
+	Redraw on move and size.
+
+2001-07-25 16:41  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp,
+	viewers/SoWinExaminerViewer.cpp:
+	
+	Fixing size problem.
+
+2001-07-25 15:35  mariusbu
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Cosmetic changes.
+
+2001-07-25 15:17  mariusbu
+
+	* src/Inventor/Win/SoWin.h:
+	
+	Moved doIdleTasks() back to public.
+
+2001-07-25 14:54  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp:
+	
+	Fixing message handling bug.
+
+2001-07-24 19:48  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinExaminerViewer.h:
+	
+	Cosmetic changes.
+
+2001-07-24 19:47  mariusbu
+
+	* src/Inventor/Win/viewers/: SoWinFullViewer.cpp,
+	SoWinFullViewer.h:
+	
+	Cleanup.
+
+2001-07-24 19:40  mariusbu
+
+	* src/Inventor/Win/viewers/: SoWinPlaneViewer.cpp,
+	SoWinPlaneViewer.h:
+	
+	Added SoWinPlaneViewerP.
+
+2001-07-24 18:27  mariusbu
+
+	* src/Inventor/Win/viewers/: SoWinExaminerViewer.cpp,
+	SoWinExaminerViewer.h:
+	
+	Added SoWinExaminerViewerP.
+
+2001-07-24 17:03  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinPlaneViewer.cpp:
+	
+	Removed debug output.
+
+2001-07-24 16:53  mariusbu
+
+	* src/Inventor/Win/viewers/: SoWinPlaneViewer.cpp,
+	SoWinPlaneViewer.h:
+	
+	Enable preference sheet.
+
+2001-07-24 16:23  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp, viewers/Makefile.am,
+	viewers/SoWinExaminerViewer.cpp, viewers/SoWinFullViewer.cpp:
+	
+	SoWinPlaneViewer support + cleanup.
+
+2001-07-24 16:22  mariusbu
+
+	* src/Inventor/Win/viewers/: SoWinPlaneViewer.cpp,
+	SoWinPlaneViewer.h:
+	
+	SoWinPlaneViewer added.
+
+2001-07-24 14:01  mariusbu
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Tiny fix.
+
+2001-07-24 11:44  mariusbu
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Don't handle WM_DESTROY if we have external topLevelWidget.
+
+2001-07-24 11:10  mariusbu
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Fixed resizing bug when using external parent window, bug reported
+	by Alan Walford, EOS Systems.
+
+2001-07-23 19:15  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinGLWidget.cpp,
+	SoWinGLWidget.h, viewers/SoWinExaminerViewer.cpp,
+	viewers/SoWinFullViewer.cpp, viewers/SoWinFullViewer.h:
+	
+	Code cleanup. Added private classes.
+
+2001-07-19 17:30  mariusbu
+
+	* src/Inventor/Win/SoWin.h:
+	
+	Cleanup.
+
+2001-07-19 17:27  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWin.h, SoWinComponent.cpp,
+	SoWinComponent.h, SoWinGLWidget.cpp, SoWinGLWidget.h:
+	
+	Code cleanup. Added SoWinP and SoWinComponentP.
+
+2001-07-18 19:59  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinComponent.h,
+	viewers/SoWinExaminerViewer.cpp, viewers/SoWinExaminerViewer.h,
+	viewers/SoWinFullViewer.cpp, viewers/SoWinFullViewer.h,
+	widgets/SoWinBitmapButton.h, widgets/SoWinPopupMenu.h:
+	
+	Code cleanup.
+
+2001-07-18 16:18  mariusbu
+
+	* src/Inventor/Win/viewers/: SoWinFullViewer.cpp,
+	SoWinFullViewer.h:
+	
+	Fixed update bug when running multiple viewers.
+
+2001-07-18 15:59  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinExaminerViewer.cpp:
+	
+	Bug fix.
+
+2001-07-18 14:50  mariusbu
+
+	* src/Inventor/Win/widgets/: SoWinBitmapButton.cpp,
+	SoWinBitmapButton.h, SoWinThumbWheel.cpp, SoWinViewerPrefSheet.cpp:
+	
+	Code cleanup.
+
+2001-07-18 14:40  mariusbu
+
+	* src/Inventor/Win/widgets/SoWinViewerPrefSheet.cpp:
+	
+	Edit fields are now grayed out when disabled.
+
+2001-07-18 12:40  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinExaminerViewer.cpp:
+	
+	Display cursor correctly.
+
+2001-07-17 17:44  mariusbu
+
+	* src/Inventor/Win/viewers/: SoWinExaminerViewer.cpp,
+	SoWinExaminerViewer.h, SoWinFullViewer.cpp, SoWinFullViewer.h:
+	
+	Add viewer buttons in buildViewerButtonsEx().
+
+2001-07-17 15:51  mariusbu
+
+	* src/Inventor/Win/widgets/SoWinViewerPrefSheet.cpp:
+	
+	Cleanup.
+
+2001-07-17 15:30  mariusbu
+
+	* src/Inventor/Win/widgets/SoWinViewerPrefSheet.cpp:
+	
+	Bugfix.
+
+2001-07-17 15:21  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinExaminerViewer.cpp,
+	viewers/SoWinExaminerViewer.h, widgets/SoWinViewerPrefSheet.cpp,
+	widgets/SoWinViewerPrefSheet.h:
+	
+	Functional prefsheet.
+
+2001-07-16 20:09  mariusbu
+
+	* src/Inventor/Win/widgets/SoWinViewerPrefSheet.cpp:
+	
+	Rebuild widgets if destroyed.
+
+2001-07-16 19:56  mariusbu
+
+	* src/Inventor/Win/widgets/SoWinThumbWheel.cpp:
+	
+	Fixed tiny label bug.
+
+2001-07-16 19:39  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Fixed back-from-fullscreen-redraw bug.
+
+2001-07-16 19:22  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinExaminerViewer.cpp,
+	viewers/SoWinExaminerViewer.h, viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h, widgets/SoWinThumbWheel.cpp,
+	widgets/SoWinThumbWheel.h, widgets/SoWinViewerPrefSheet.cpp,
+	widgets/SoWinViewerPrefSheet.h:
+	
+	Initialize prefsheet.
+
+2001-07-16 11:42  mariusbu
+
+	* src/Inventor/Win/widgets/SoWinThumbWheel.cpp:
+	
+	Set orientation *before* getting sizeHint().
+
+2001-07-16 11:10  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h, widgets/SoWinBitmapButton.cpp,
+	widgets/SoWinBitmapButton.h, widgets/SoWinThumbWheel.cpp,
+	widgets/SoWinThumbWheel.h:
+	
+	Cleanup/speedup.
+
+2001-07-13 21:09  mariusbu
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Fixed typo.
+
+2001-07-13 21:06  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWin.h, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, viewers/SoWinFullViewer.cpp:
+	
+	Improved sizing and redraw.
+
+2001-07-13 19:17  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Fix cursor problem.
+
+2001-07-13 18:51  mariusbu
+
+	* src/Inventor/Win/widgets/: SoWinViewerPrefSheet.cpp,
+	SoWinViewerPrefSheet.h:
+	
+	Minor fixes.
+
+2001-07-13 18:50  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWin.h, SoWinGLWidget.cpp,
+	viewers/SoWinFullViewer.cpp, viewers/SoWinFullViewer.h:
+	
+	Improved message handeling.
+
+2001-07-13 16:38  mariusbu
+
+	* src/Inventor/Win/widgets/SoWinViewerPrefSheet.cpp:
+	
+	Cleanup.
+
+2001-07-13 16:37  mariusbu
+
+	* src/Inventor/Win/widgets/: SoWinPopupMenu.cpp, SoWinPopupMenu.h,
+	SoWinThumbWheel.cpp:
+	
+	Added SoWinPopupMenu::setNotify() + cleanup.
+
+2001-07-13 16:35  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinGLWidget.cpp,
+	SoWinGLWidget.h, viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h:
+	
+	Filter SoWinGLWidget messages in SoWinFullViewer.
+
+2001-07-12 20:27  mariusbu
+
+	* src/Inventor/Win/widgets/: SoWinThumbWheel.cpp,
+	SoWinThumbWheel.h, SoWinViewerPrefSheet.cpp,
+	SoWinViewerPrefSheet.h:
+	
+	Dynamic positioning and sizing (font sensitive).
+
+2001-07-12 18:58  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h, widgets/Makefile.am,
+	widgets/SoWinViewerPrefSheet.cpp, widgets/SoWinViewerPrefSheet.h:
+	
+	Viewer preference widget (no functionality).
+
+2001-07-12 18:56  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinGLWidget.cpp,
+	widgets/SoWinThumbWheel.cpp:
+	
+	Code cleanup.
+
+2001-07-12 14:11  mariusbu
+
+	* src/Inventor/Win/widgets/: SoWinViewerPrefSheet.cpp,
+	SoWinViewerPrefSheet.h:
+	
+	Viewer preference widget, initial implementation.
+
+2001-07-10 21:16  larsa
+
+	* configure.in:
+	
+	New bootstrap to enable Fullscreen popup menu choice.
+
+2001-07-10 18:20  larsa
+
+	* bootstrap, src/Inventor/Win/Makefile.am:
+	
+	Minor corrections.
+
+2001-07-10 18:17  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinComponent.h,
+	viewers/SoWinFullViewer.cpp, viewers/SoWinFullViewer.h:
+	
+	Restore window size and position when returning from fullscreen
+	mode.
+
+2001-07-10 17:55  larsa
+
+	* bootstrap, configure.in, sowin.cfg.in, build/sowin.doxygen.in,
+	cfg/doxy4win.pl, src/Inventor/Win/Makefile.am,
+	src/Inventor/Win/devices/Makefile.am,
+	src/Inventor/Win/viewers/Makefile.am,
+	src/Inventor/Win/widgets/Makefile.am:
+	
+	New bootstrap that disables libtool for Cygwin-hosted MSVC++
+	builds.
+
+2001-07-10 17:14  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Code cleanup.
+
+2001-07-10 16:50  mariusbu
+
+	* src/Inventor/Win/viewers/: SoWinFullViewer.cpp,
+	SoWinFullViewer.h:
+	
+	Handle calls to setDoButtonBar().
+
+2001-07-10 13:22  mariusbu
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp,
+	viewers/SoWinFullViewer.cpp:
+	
+	Fixes to stay compatible with undocumented SoWin calls.
+
+2001-07-09 15:44  mariusbu
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Allow red/cyan stereo mode in single buffer rendering mode.
+
+2001-07-09 14:41  mariusbu
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp,
+	viewers/SoWinFullViewer.cpp:
+	
+	Fixed cursor handling.
+
+2001-07-09 13:15  mariusbu
+
+	* src/Inventor/Win/devices/: SoWinMouse.cpp, SoWinMouse.h:
+	
+	Remove fix. It only served to mask another bug.
+
+2001-07-09 12:57  mariusbu
+
+	* src/Inventor/Win/devices/: SoWinMouse.cpp, SoWinMouse.h:
+	
+	Avoid interactiveDec() warning.
+
+2001-07-09 12:55  mariusbu
+
+	* src/Inventor/Win/: SoWinMessageHandler.cpp,
+	SoWinMessageHandler.h:
+	
+	Remove files.
+
+2001-07-09 12:10  larsa
+
+	* ChangeLog.sh:
+	
+	Filter the cvs log correctly.
+
+2001-07-09 11:44  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, viewers/SoWinFullViewer.cpp,
+	SoWinGLWidget.cpp:
+	
+	Fixed redraw problems.
+
+2001-07-09 11:02  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Set correct classname.
+
+2001-07-09 10:45  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWin.h, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, SoWinGLWidget.h, viewers/SoWinFullViewer.cpp,
+	widgets/SoWinThumbWheel.cpp:
+	
+	Enable creation of examinerviewer without parent widget.
+
+2001-07-06 17:40  mariusbu
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Fixed YATB (Yet Another Timer Bug).
+
+2001-07-06 14:09  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	widgets/SoWinPopupMenu.cpp:
+	
+	Fixed popup menu bug.
+
+2001-07-06 11:39  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Fixed bug in setDecoration() when widget was maximized.
+
+2001-07-05 20:10  mariusbu
+
+	* src/Inventor/Win/: SoWinComponent.cpp,
+	viewers/SoWinFullViewer.cpp:
+	
+	Fullscreen mode now supports decorations (on/off).
+
+2001-07-05 19:38  mariusbu
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, SoWinGLWidget.h,
+	viewers/SoWinFullViewer.cpp, viewers/SoWinFullViewer.h:
+	
+	Fixed setDecoration( ).
+
+2001-07-05 14:56  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	widgets/SoWinThumbWheel.cpp, widgets/SoWinThumbWheel.h:
+	
+	Size bottom thumb wheel correctly.
+
+2001-07-05 14:25  mariusbu
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Fixed timer bug, this time for real!
+
+2001-07-05 14:16  mariusbu
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Fixed timer bug.
+
+2001-07-05 12:49  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Show help message.
+
+2001-07-05 12:19  mariusbu
+
+	* src/Inventor/Win/devices/SoWinMouse.cpp:
+	
+	Fixed popup position bug.
+
+2001-07-05 11:42  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, devices/SoWinMouse.cpp:
+	
+	Killed panning bug + set owner window in error output dialog.
+
+2001-07-04 17:53  mariusbu
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp,
+	devices/SoWinInputFocus.cpp, devices/SoWinKeyboard.cpp,
+	devices/SoWinMouse.cpp, devices/SoWinSpaceball.cpp,
+	viewers/SoWinExaminerViewer.cpp, viewers/SoWinFullViewer.cpp:
+	
+	Fixed event timing bug.
+
+2001-07-04 13:34  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinGLWidget.cpp,
+	viewers/SoWinFullViewer.cpp:
+	
+	Improved cursor handeling.
+
+2001-07-04 12:04  mariusbu
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp,
+	viewers/SoWinExaminerViewer.cpp, viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h, widgets/SoWinBitmapButton.cpp,
+	widgets/SoWinBitmapButton.h, widgets/SoWinThumbWheel.cpp,
+	widgets/SoWinThumbWheel.h:
+	
+	Improved fullscreen support in examinerviewer.
+
+2001-07-03 18:46  mariusbu
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Fix flicker when sizing.
+
+2001-07-03 18:38  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Position app buttons correctly.
+
+2001-07-03 18:21  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinExaminerViewer.cpp,
+	viewers/SoWinExaminerViewer.h, viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h, widgets/SoWinBitmapButton.cpp,
+	widgets/SoWinBitmapButton.h, widgets/SoWinThumbWheel.cpp:
+	
+	Added support for app buttons and cameratoggleButton functionality.
+
+2001-07-02 18:54  mariusbu
+
+	* src/Inventor/Win/: Makefile.am, SoWin.cpp, SoWinComponent.cpp,
+	SoWinGLWidget.cpp, viewers/SoWinExaminerViewer.cpp,
+	viewers/SoWinExaminerViewer.h, viewers/SoWinFullViewer.cpp:
+	
+	Added cursor support.
+
+2001-06-29 15:11  pederb
+
+	* Makefile.am, bootstrap, src/Inventor/Win/Makefile.am,
+	src/Inventor/Win/widgets/Makefile.am:
+	
+	Compile code for sharing GL resources.
+
+2001-06-26 20:02  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h, widgets/SoWinThumbWheel.cpp,
+	widgets/SoWinThumbWheel.h:
+	
+	Fixed sizing of thumbwheels.
+
+2001-06-26 19:59  mariusbu
+
+	* src/Inventor/Win/widgets/SoWinBitmapButton.cpp:
+	
+	Code cleanup.
+
+2001-06-26 10:33  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, viewers/SoWinFullViewer.cpp,
+	widgets/SoWinBitmapButton.cpp:
+	
+	Nicer buttons.
+
+2001-06-25 16:01  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h, widgets/SoWinBitmapButton.h,
+	widgets/SoWinThumbWheel.cpp:
+	
+	Added button functionality + code cleanup.
+
+2001-06-25 11:33  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp,
+	viewers/SoWinFullViewer.cpp, widgets/SoWinBitmapButton.cpp:
+	
+	New background color.
+
+2001-06-19 17:08  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	widgets/SoWinBitmapButton.cpp, widgets/SoWinBitmapButton.h:
+	
+	Added support for multiple bitmaps per button.
+
+2001-06-19 13:27  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, widgets/SoWinPopupMenu.h,
+	widgets/SoWinThumbWheel.cpp, widgets/SoWinThumbWheel.h:
+	
+	Code cleanup.
+
+2001-06-19 13:25  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.h,
+	viewers/SoWinFullViewer.cpp, widgets/Makefile.am:
+	
+	Added SoWinBitmapButton.
+
+2001-06-14 19:54  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinGLWidget.cpp,
+	viewers/SoWinFullViewer.cpp:
+	
+	Reduce flickering when resizing.
+
+2001-06-14 17:02  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	widgets/SoWinPopupMenu.cpp:
+	
+	Fixed Coin warning.
+
+2001-06-14 16:20  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h, widgets/SoWinPopupMenu.cpp,
+	widgets/SoWinPopupMenu.h:
+	
+	Added popupmenu functionality (still buggy!).
+
+2001-06-14 13:04  pederb
+
+	* sowindefs.h.in:
+	
+	Only enable SOWIN_STUB message when compiling debug version of
+	SoWin.
+
+2001-06-14 12:40  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinComponent.cpp:
+	
+	Cosmetic changes.
+
+2001-06-14 12:39  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h, widgets/SoWinThumbWheel.cpp,
+	widgets/SoWinThumbWheel.h:
+	
+	Added lables and initial button implementation.
+
+2001-06-14 11:20  larsa
+
+	* README:
+	
+	SOWIN_DLL define
+
+2001-06-13 19:41  larsa
+
+	* bootstrap:
+	
+	bootstrap
+
+2001-06-13 19:40  larsa
+
+	* cfg/ltconfig.diff:
+	
+	Reset $CYGWIN before running cygpath.
+
+2001-06-12 20:59  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Fixing tiny bug (caused SoError warning).
+
+2001-06-12 20:34  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Calling setRangeBoundaryHandling. Fixing dolly bug.
+
+2001-06-12 19:35  mariusbu
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Reenabled SetFocus to get all keystrokes (bugfix).
+
+2001-06-12 19:26  mariusbu
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Added bottom and right wheel (including functionality).
+
+2001-06-12 18:26  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinExaminerViewer.cpp,
+	SoWinGLWidget.cpp:
+	
+	Minor cosmetic changes.
+
+2001-06-12 18:24  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h, widgets/SoWinPopupMenu.cpp,
+	widgets/SoWinThumbWheel.cpp, widgets/SoWinThumbWheel.h:
+	
+	SoWinThumbwheel hooked to SoWinFullViewer. Both right and left mb
+	can now select items in SoWinPopupMenu.
+
+2001-06-11 18:12  mariusbu
+
+	* AUTHORS, COPYING, ChangeLog.sh, INSTALL, LICENSE.LGPL,
+	acconfig.h, sowindefs.h.in:
+	
+	Killed '\r' chars.
+
+2001-06-11 16:10  mariusbu
+
+	* src/Inventor/Win/: devices/SoWinMouse.cpp,
+	viewers/SoWinFullViewer.cpp, viewers/SoWinFullViewer.h,
+	widgets/SoWinPopupMenu.cpp:
+	
+	Fixing popupmenu. Fixed mouse buttons.
+
+2001-06-11 15:29  mariusbu
+
+	* src/Inventor/Win/widgets/: SoWinPopupMenu.cpp, SoWinPopupMenu.h:
+	
+	Added: int selectedItem.
+
+2001-06-11 14:02  mariusbu
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp,
+	viewers/SoWinFullViewer.cpp, viewers/SoWinFullViewer.h:
+	
+	SoWinGLWidget: removed check for WM_MBUTTONDOWN/UP and
+	WM_RBUTTONDOWN/UP.  SoWinFullViewer: added processSoEvent.
+
+2001-06-08 20:18  mariusbu
+
+	* src/Inventor/Win/: viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h, widgets/SoWinThumbWheel.cpp, SoWin.cpp,
+	SoWinGLWidget.cpp, viewers/SoWinExaminerViewer.cpp:
+	
+	Enable thumbwheel and popupmenu + commenting and code cleanup.
+
+2001-06-08 14:59  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Fixed tiny bug in goFullScreen.
+
+2001-06-08 14:23  mariusbu
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Removed debug output.
+
+2001-06-08 13:30  mariusbu
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Fixed problem when returning from fulscreen.
+
+2001-06-08 13:29  mariusbu
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Removed debug output (problem fixed).
+
+2001-06-07 15:41  mariusbu
+
+	* cfg/install-header, cfg/ltconfig.diff, cfg/ltmain.sh.diff,
+	src/Inventor/Win/Makefile.am, src/Inventor/Win/SoWin.cpp,
+	src/Inventor/Win/SoWin.h, src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/SoWinComponent.h,
+	src/Inventor/Win/SoWinGLWidget.cpp,
+	src/Inventor/Win/SoWinGLWidget.h,
+	src/Inventor/Win/SoWinMessageHandler.cpp,
+	src/Inventor/Win/SoWinMessageHandler.h,
+	src/Inventor/Win/devices/Makefile.am,
+	src/Inventor/Win/devices/SoWinDevice.cpp,
+	src/Inventor/Win/devices/SoWinInputFocus.cpp,
+	src/Inventor/Win/devices/SoWinInputFocus.h,
+	src/Inventor/Win/devices/SoWinKeyboard.h,
+	src/Inventor/Win/devices/SoWinMouse.h,
+	src/Inventor/Win/devices/SoWinSpaceball.cpp,
+	src/Inventor/Win/devices/SoWinSpaceball.h,
+	src/Inventor/Win/viewers/SoWinFullViewer.cpp,
+	src/Inventor/Win/viewers/SoWinFullViewer.h,
+	src/Inventor/Win/widgets/Makefile.am,
+	src/Inventor/Win/widgets/SoWinThumbWheel.cpp,
+	src/Inventor/Win/widgets/SoWinThumbWheel.h:
+	
+	Fixing ^M blooper + adding SbBool
+	SoWinComponent::isFulScreen(void).
+
+2001-06-06 20:31  mariusbu
+
+	* AUTHORS, COPYING, ChangeLog.sh, INSTALL, LICENSE.LGPL,
+	acconfig.h, sowindefs.h.in, cfg/install-header, cfg/ltconfig.diff,
+	cfg/ltmain.sh.diff, src/Inventor/Win/Makefile.am,
+	src/Inventor/Win/SoWin.cpp, src/Inventor/Win/SoWin.h,
+	src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/SoWinComponent.h,
+	src/Inventor/Win/SoWinGLWidget.cpp,
+	src/Inventor/Win/SoWinGLWidget.h,
+	src/Inventor/Win/SoWinMessageHandler.cpp,
+	src/Inventor/Win/SoWinMessageHandler.h,
+	src/Inventor/Win/devices/Makefile.am,
+	src/Inventor/Win/devices/SoWinDevice.cpp,
+	src/Inventor/Win/devices/SoWinInputFocus.cpp,
+	src/Inventor/Win/devices/SoWinInputFocus.h,
+	src/Inventor/Win/devices/SoWinKeyboard.h,
+	src/Inventor/Win/devices/SoWinMouse.h,
+	src/Inventor/Win/devices/SoWinSpaceball.cpp,
+	src/Inventor/Win/devices/SoWinSpaceball.h,
+	src/Inventor/Win/viewers/SoWinFullViewer.cpp,
+	src/Inventor/Win/viewers/SoWinFullViewer.h,
+	src/Inventor/Win/widgets/Makefile.am,
+	src/Inventor/Win/widgets/SoWinThumbWheel.cpp,
+	src/Inventor/Win/widgets/SoWinThumbWheel.h:
+	
+	Added SoWinComponent::goFullScreen(SbBool) + misc code cleanup.
+
+2001-06-05 19:10  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, viewers/SoWinFullViewer.cpp,
+	viewers/SoWinFullViewer.h:
+	
+	Updated mainLoop. mariusbu20010605.
+
+2001-05-31 15:05  mariusbu
+
+	* src/Inventor/Win/: SoWin.cpp, SoWinGLWidget.cpp:
+	
+	Bugfix: doIdleTasks is only called when idleSensorActive=TRUE
+
+2001-05-22 18:19  pederb
+
+	* src/Inventor/Win/devices/SoWinMouse.cpp:
+	
+	Fix for mouse position on mouse button up/down.
+
+2001-05-21 15:27  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Kills bug causing timers to never stop, making SoWin always eat
+	100% of the CPU. Bug reported by James Hargrave and Alan Walford.
+
+2001-05-21 11:37  pederb
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Compile fixes.
+
+2001-05-21 11:19  pederb
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinComponent.h:
+	
+	Fixed string handling bugs.
+
+2001-03-28 17:06  mortene
+
+	* src/Inventor/Win/viewers/: SoWinFullViewer.cpp,
+	SoWinFullViewer.h:
+	
+	Adds stubbed [get|set][Left|Bottom|Right]Wheel() methods.
+
+2001-03-28 16:30  mortene
+
+	* src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	Tmp disable unfinished code which makes a NULL-ptr access on
+	resize.
+
+2001-03-28 13:54  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Initialize and set the waitForExpose flag according to current
+	rendering status.
+
+2001-03-10 00:21  larsa
+
+	* Makefile.am, bootstrap, configure.in, sowin-config,
+	sowin-config.in, sowin.cfg.in, cfg/install-header,
+	src/Inventor/Win/Makefile.am:
+	
+	Make build procedure conform to the other Coin3D libraries.
+
+2001-03-02 11:47  pederb
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, SoWinGLWidget.h:
+	
+	Miscellaneous fixes to avoid multiple redraws on expose and resize
+	events.
+
+2001-03-01 18:18  larsa
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Implement SoWinObject::init().
+
+2001-01-12 15:42  larsa
+
+	* cfg/depcomp:
+	
+	New set of autogenerated files.
+
+2001-01-12 15:40  larsa
+
+	* configure.in, src/Inventor/Win/Makefile.am:
+	
+	Setup for common .pdb-file for the whole build process.  Modified
+	rules for dll creation.  Added uninstall rules for dll-related
+	files.
+
+2001-01-12 15:39  larsa
+
+	* bootstrap:
+	
+	Reordering the bootstrap process.  Apply libtool patches when
+	libtoolizing.
+
+2001-01-12 15:38  larsa
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, SoWinGLWidget.h:
+	
+	Added missing getGLAspectRatio() and glFlushBuffer(), used by
+	common code.
+
+2001-01-12 15:37  larsa
+
+	* src/Inventor/Win/devices/SoWinKeyboard.cpp:
+	
+	Use SoKeyoardEvent::KEY_DELETE instead of SoKeyboardEvent::DELETE.
+
+2001-01-12 15:37  larsa
+
+	* src/Inventor/Win/devices/SoWinDevice.h:
+	
+	Function signature typedef change.
+
+2001-01-12 15:32  larsa
+
+	* cfg/: ltconfig.diff, ltmain.sh.diff:
+	
+	Patches for fixing certain problems with libtool.
+

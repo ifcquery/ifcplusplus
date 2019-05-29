@@ -1,0 +1,190 @@
+/* src/config.h.in.  Generated from configure.ac by autoheader.  */
+
+
+#ifndef SOWIN_INTERNAL
+#error this is a private header file
+#endif
+
+
+/* Open Inventor extensions */
+#cmakedefine COIN_IV_EXTENSIONS
+
+/* Version string for Windows */
+#define GUI_TOOLKIT_VERSION "@GUI_TOOLKIT_VERSION@"
+
+/* The CPP compiler has a variable containing the current function name */
+#cmakedefine HAVE_CPP_COMPILER_FUNCTION_NAME_VAR @HAVE_CPP_COMPILER_FUNCTION_NAME_VAR@
+
+/* The C compiler has a variable containing the current function name */
+#cmakedefine HAVE_C_COMPILER_FUNCTION_NAME_VAR @HAVE_C_COMPILER_FUNCTION_NAME_VAR@
+
+/* Define to 1 if you have the <crtdbg.h> header file. */
+#cmakedefine HAVE_CRTDBG_H 1
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#cmakedefine HAVE_DLFCN_H 1
+
+/* Define to use GetEnvironmentVariable() instead of getenv() */
+#cmakedefine HAVE_GETENVIRONMENTVARIABLE 1
+
+/* define if you have GLX X11 OpenGL bindings */
+#cmakedefine HAVE_GLX 1
+
+/* define if the GLU header should be included as GL/glu.h */
+#cmakedefine HAVE_GL_GLU_H 1
+
+/* define if the GL header should be included as GL/gl.h */
+#cmakedefine HAVE_GL_GL_H 1
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#cmakedefine HAVE_INTTYPES_H 1
+
+/* Define if the Ivf API is to be included in the SoWin library */
+#cmakedefine HAVE_IVF 1
+
+/* Define if LONG_PTR typedef / define is available */
+#cmakedefine HAVE_LONG_PTR_TYPE 1
+
+/* Define to 1 if you have the <memory.h> header file. */
+#cmakedefine HAVE_MEMORY_H 1
+
+/* Define to 1 if you have the <netinet/in.h> header file. */
+#cmakedefine HAVE_NETINET_IN_H 1
+
+/* define if the GLU header should be included as OpenGL/glu.h */
+#cmakedefine HAVE_OPENGL_GLU_H 1
+
+/* define if the GL header should be included as OpenGL/gl.h */
+#cmakedefine HAVE_OPENGL_GL_H 1
+
+/* define if pthread's struct timespec uses nsecs and not usecs */
+#cmakedefine HAVE_PTHREAD_TIMESPEC_NSEC 1
+
+/* Define to enable use of Inventor feature */
+#cmakedefine HAVE_SBIMAGE_ADDREADIMAGECB 1
+
+/* Define to use SetClassLongPtr() instead of SetClassLong() */
+#cmakedefine HAVE_SETCLASSLONGPTR 1
+
+/* Define to use SetWindowLongPtr() instead of SetWindowLong() */
+#cmakedefine HAVE_SETWINDOWLONGPTR 1
+
+/* Define to enable use of Inventor feature */
+#cmakedefine HAVE_SOCAMERA_SETSTEREOMODE 1
+
+/* Define to enable use of Inventor feature */
+#cmakedefine HAVE_SOCONTEXTHANDLER 1
+
+/* Define to enable use of Inventor feature */
+#cmakedefine HAVE_SOKEYBOARDEVENT_DELETE 1
+
+/* Define to enable use of Inventor feature */
+#cmakedefine HAVE_SOMOUSEBUTTONEVENT_BUTTON5 1
+
+/* Define to enable use of the Open Inventor SoPolygonOffset node */
+#cmakedefine HAVE_SOPOLYGONOFFSET 1
+
+/* Define to enable use of Inventor feature */
+#cmakedefine HAVE_SORTED_LAYERS_BLEND 1
+
+/* Define to enable use of the Open Inventor SoVRMLBackground VRML node */
+#cmakedefine HAVE_SOVRMLBACKGROUND 1
+
+/* Define to enable use of the Open Inventor SoVRMLFog VRML node */
+#cmakedefine HAVE_SOVRMLFOG 1
+
+/* Define to enable use of the Open Inventor SoVRMLMaterial VRML node */
+#cmakedefine HAVE_SOVRMLMATERIAL 1
+
+/* Define to enable use of the Open Inventor SoVRMLViewpoint VRML node */
+#cmakedefine HAVE_SOVRMLVIEWPOINT 1
+
+/* Define to enable the Space Navigator support */
+#cmakedefine HAVE_SPACENAV_SUPPORT 1
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#cmakedefine HAVE_STDINT_H 1
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#cmakedefine HAVE_STDLIB_H 1
+
+/* Define to 1 if you have the <strings.h> header file. */
+#cmakedefine HAVE_STRINGS_H 1
+
+/* Define to 1 if you have the <string.h> header file. */
+#cmakedefine HAVE_STRING_H 1
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#cmakedefine HAVE_SYS_STAT_H 1
+
+/* Define to 1 if you have the <sys/time.h> header file. */
+#cmakedefine HAVE_SYS_TIME_H 1
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#cmakedefine HAVE_SYS_TYPES_H 1
+
+/* Define to 1 if you have the <tlhelp32.h> header file. */
+#cmakedefine HAVE_TLHELP32_H 1
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#cmakedefine HAVE_UNISTD_H 1
+
+/* Define if the Win32 API is available */
+#cmakedefine HAVE_WIN32_API 1
+
+/* Define to use Win32 LoadLibrary() */
+#cmakedefine HAVE_WIN32_LOADLIBRARY 1
+
+/* Define to 1 if you have the <windows.h> header file. */
+#cmakedefine HAVE_WINDOWS_H 1
+
+/* Name of package */
+#define PACKAGE "@PACKAGE@"
+
+/* Define to the address where bug reports for this package should be sent. */
+#define PACKAGE_BUGREPORT "@PACKAGE_BUGREPORT@"
+
+/* Define to the full name of this package. */
+#define PACKAGE_NAME "@PACKAGE_NAME@"
+
+/* Define to the full name and version of this package. */
+#define PACKAGE_STRING "@PACKAGE_STRING@"
+
+/* Define to the one symbol short name of this package. */
+#define PACKAGE_TARNAME "@PACKAGE_TARNAME@"
+
+/* Define to the home page for this package. */
+#define PACKAGE_URL "@PACKAGE_URL@"
+
+/* Define to the version of this package. */
+#define PACKAGE_VERSION "@PACKAGE_VERSION@"
+
+/* define this to the SoWin beta version letter */
+#define SOWIN_BETA_VERSION @SOWIN_BETA_VERSION@
+
+/* Define to the major version of SoWin */
+#define SOWIN_MAJOR_VERSION @SOWIN_MAJOR_VERSION@
+
+/* Define to the micro version of SoWin */
+#define SOWIN_MICRO_VERSION @SOWIN_MICRO_VERSION@
+
+/* Define to the minor version of SoWin */
+#define SOWIN_MINOR_VERSION @SOWIN_MINOR_VERSION@
+
+/* Version string for SoWin */
+#define SOWIN_VERSION "@SOWIN_VERSION@"
+
+/* Define to 1 if you have the ANSI C header files. */
+#cmakedefine STDC_HEADERS 1
+
+/* Define to make Coin use/catch exceptions at some particular places. */
+#cmakedefine USE_EXCEPTIONS 1
+
+/* Version number of package */
+#define VERSION "@SOWIN_VERSION@"
+
+/* Define this if you want defaults to be linked into SoXt */
+#cmakedefine WITH_STATIC_DEFAULTS
+
+/* Define to 1 if the X Window System is missing or not being used. */
+#cmakedefine X_DISPLAY_MISSING 1

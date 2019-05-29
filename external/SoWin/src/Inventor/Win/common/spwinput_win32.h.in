@@ -1,0 +1,511 @@
+#ifndef SPWINPUT_WIN32_H
+#define SPWINPUT_WIN32_H
+
+/* @configure_input@ */
+
+/*----------------------------------------------------------------------
+ * (C) 1998-2009 3Dconnexion. All rights reserved. 
+ * Permission to use, copy, modify, and distribute this software for all
+ * purposes and without fees is hereby grated provided that this copyright
+ * notice appears in all copies.  Permission to modify this software is granted
+ * and 3Dconnexion will support such modifications only is said modifications are
+ * approved by 3Dconnexion.
+ *
+ */
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif /* HAVE_CONFIG_H */
+
+#include <Inventor/@Gui@/devices/spwinput.h>
+
+#ifndef HAVE_WIN32_API
+#error "Do not include this file unless HAVE_WIN32_API is set."
+#endif /* !HAVE_WIN32_API */
+
+#include <tchar.h>
+
+/* some enumerated types used in spwinput_win32.cpp */
+enum InitResult 
+   {
+   NOT_LOADED, 
+   FAILED, 
+   LOADED
+   };
+
+enum ErrorCode 
+   {
+   NO_DLL_ERROR=0,
+   DLL_LOAD_FAILURE,
+   DLL_FUNCTION_LOAD_FAILURE,
+   DLL_VAR_LOAD_FAILURE
+   };
+
+enum SpwRetVal             /* Error return values.                           */
+   {
+   SPW_NO_ERROR,           /* No error.                                      */
+   SPW_ERROR,              /* Error -- function failed.                      */
+   SI_BAD_HANDLE,          /* Invalid SpaceWare handle.                      */
+   SI_BAD_ID,              /* Invalid device ID.                             */
+   SI_BAD_VALUE,           /* Invalid argument value.                        */
+   SI_IS_EVENT,            /* Event is a SpaceWare event.                    */
+   SI_SKIP_EVENT,          /* Skip this SpaceWare event.                     */
+   SI_NOT_EVENT,           /* Event is not a SpaceWare event.                */
+   SI_NO_DRIVER,           /* SpaceWare driver is not running.               */
+   SI_NO_RESPONSE,         /* SpaceWare driver is not responding.            */
+   SI_UNSUPPORTED,         /* The function is unsupported by this version.   */
+   SI_UNINITIALIZED,       /* SpaceWare input library is uninitialized.      */
+   SI_WRONG_DRIVER,        /* Driver is incorrect for this SpaceWare version.*/
+   SI_INTERNAL_ERROR,      /* Internal SpaceWare error.                      */
+   SI_BAD_PROTOCOL,        /* The transport protocol is unknown.             */
+   SI_OUT_OF_MEMORY,       /* Unable to malloc space required.               */
+   SPW_DLL_LOAD_ERROR,     /* Could not load siapp dlls                      */
+   SI_NOT_OPEN,            /* Spaceball device not open                      */
+   SI_ITEM_NOT_FOUND	   /* Item not found                                 */
+   };
+
+static enum SpwRetVal *pDllSpwRetVal;
+
+/* some macros */
+#define SPW_FALSE   (0)
+#define SPW_TRUE    (!SPW_FALSE)
+
+#define SPW_MAX(a,b)   (((a)>(b))?(a):(b))
+#define SPW_MIN(a,b)   (((a)<(b))?(a):(b))
+
+#define SPW_ABS(a)   (((a)<0)?(-(a)):(a))
+
+#define SPW_SIGN(a)  ((a)>=0?1:-1)
+
+#define SPW_BIND(min,n,max)   (SPW_MIN((max),SPW_MAX((min),(n))))
+
+#define SPW_NUM_ELEMENTS_IN(a)   (sizeof(a)/sizeof((a)[0]))
+
+#define SPW_PI   3.14159265358979324f
+
+#define SPW_DEG_TO_RAD(d)   ((d)*SPW_PI/180.0f)
+#define SPW_RAD_TO_DEG(r)   ((r)*180.0f/SPW_PI)
+
+#define SPW_LENGTH_OF(a)   (sizeof(a)/sizeof((a)[0]))
+
+#define SPW_END_OF(a)   (&(a)[SPW_LENGTH_OF(a)-1])
+
+#define SPW_SQ(a)   ((a)*(a))
+
+#define SPW_ABSDIFF(a, b) (fabs((double) (a) - (b)))
+
+/* the accepted datatypes for spacetec products */
+
+#define tchar_t				_TCHAR
+#define char_t				char
+#define uint32_t			unsigned long
+#define sint32_t			long
+#define boolean_t			unsigned char  
+#define void_t				void
+#define window_handle_t		HWND
+
+
+typedef long               SPWint32;
+typedef short              SPWint16;
+typedef char               SPWint8;
+typedef int                SPWbool;
+typedef unsigned long      SPWuint32;
+typedef unsigned short     SPWuint16;
+typedef unsigned char      SPWuint8;
+typedef _TCHAR             SPWchar;
+typedef _TCHAR*            SPWstring;
+typedef float              SPWfloat32;
+typedef double             SPWfloat64;
+
+/*
+ * UI modes 
+ */
+#define SI_UI_ALL_CONTROLS    0xffffffffL
+#define SI_UI_NO_CONTROLS     0x00000000L
+
+/*
+ *  These UI modes are left here for legacy applications.
+ */
+#define SI_UI_FILTERS         0x00000001L
+#define SI_UI_FUNC_BUTTONS    0x00000002L
+#define SI_UI_RESET_BUTTONS   0x00000004L
+#define SI_UI_SENSITIVITY     0x00000008L
+#define SI_UI_TUNING          0x00000010L
+#define SI_UI_DIALOG_POPUP    0x00000020L
+
+/*
+ * Device types and classes 
+ */
+typedef enum
+   {
+   SI_ALL_TYPES           = -1,
+   SI_UNKNOWN_DEVICE      =  0,
+   SI_SPACEBALL_2003      =  1,
+   SI_SPACEBALL_3003      =  2,
+   SI_SPACE_CONTROLLER    =  3,
+   SI_AVENGER             =  4,
+   SI_SPACEORB_360        =  5,
+   SI_NAVIGATOR           =  6,
+   SI_SPACEBALL_2003A     =  7,
+   SI_SPACEBALL_2003B     =  8,
+   SI_SPACEBALL_2003C     =  9,
+   SI_SPACEBALL_3003A     =  10,
+   SI_SPACEBALL_3003B     =  11,
+   SI_SPACEBALL_3003C     =  12,
+   SI_SPACEBALL_4000      =  13,
+   SI_SPACEMOUSE_CLASSIC  =  14, 
+   SI_SPACEMOUSE_PLUS     =  15,
+   SI_SPACEMOUSE_XT       =  16,
+   SI_PUCKMAN             =  17,
+   SI_CADMAN              =  18,
+   SI_NUM_DEV_TYPES  /* Leave this last, add before it */
+   } SiDevType;
+
+/*
+ *  These defintions of device classes are left in for legacy applications.
+ */
+#define SI_HIGH_END           63
+#define SI_MED_END            62
+#define SI_LOW_END            61
+
+/*
+ * Data retrieval mode, only SI_EVENT is currently supported.
+ */
+#define SI_EVENT              0x0001
+#define SI_POLL               0x0002
+
+/*
+ * Get event flags
+ */
+#define SI_AVERAGE_EVENTS     0x0001
+
+/*
+ * This is an INTERNAL flag used by the polling mechanism, user applications
+ * should NOT send this flag.
+ */
+#define SI_POLLED_REQUEST     0x0100 
+
+/*
+ * SpaceWare event types
+ */
+typedef enum
+   {
+   SI_BUTTON_EVENT = 1,
+   SI_MOTION_EVENT,
+   SI_COMBO_EVENT, /* Not implemented */
+   SI_ZERO_EVENT,
+   SI_EXCEPTION_EVENT,
+   SI_OUT_OF_BAND,
+   SI_ORIENTATION_EVENT,
+   SI_KEYBOARD_EVENT,
+   SI_LPFK_EVENT
+   } SiEventType;
+
+/*
+ * Data modes
+ */
+#define SI_MODE_NORMALIZE     0x0001
+#define SI_MODE_COMPRESS      0x0002
+#define SI_MODE_SENSITIVITY   0x0004
+#define SI_MODE_TUNING        0x0008
+
+/*
+ * Motion data offsets
+ */
+#define SI_TX                 0              /* Translation X value */
+#define SI_TY                 1              /* Translation Y value */
+#define SI_TZ                 2              /* Translation Z value */
+#define SI_RX                 3              /* Rotation X value */
+#define SI_RY                 4              /* Rotation Y value */
+#define SI_RZ                 5              /* Rotation Z value */
+
+/*
+ * Reserved buttons
+ */
+
+#define SI_RESET_BIT          0x00000001L
+#define SI_PICK_BIT           0x80000000L
+#define SI_DIALOG_BIT         0x40000000L
+
+#define SI_RESET_BUTTON       0
+#define SI_PICK_BUTTON        31
+#define SI_DIALOG_BUTTON      30
+
+/*
+ * Miscellaneous
+ */
+#define SI_END_ARGS           0
+#define SI_NO_HANDLE          ((SiHdl) NULL)
+#define SI_ALL_HANDLES        ((SiHdl) NULL)
+#define SI_ANY_HANDLE         ((SiHdl) NULL)
+#define SI_NO_TRANSCTL        ((SiTransCtl) NULL)
+#define SI_NO_MASK            ((SiTypeMask *) NULL)
+#define SI_ANY_DEVICE         -1
+#define SI_NO_DEVICE          -1
+#define SI_NO_TYPE            -1
+#define SI_NO_LIST            -1
+#define SI_NO_BUTTON          -1
+#define SI_STRSIZE            128
+#define SI_MAXBUF             128
+#define SI_KEY_MAXBUF         5120
+
+typedef int SiDevID;          /* Device ID */
+typedef void *SiHdl;          /* SpaceWare handle */
+typedef void *SiTransCtl;     /* SpaceWare transport control handle */
+
+typedef struct                /* Open data */
+   {
+
+   HWND hWnd;               /* Window handle for SpaceWare messages.        */
+   SiTransCtl transCtl;     /* SpaceWare transport control handle. Reserved */
+                            /* for the s80 transport mechanism.             */
+   DWORD processID;         /* The process ID for this application.         */
+   char exeFile[MAX_PATH];  /* The executable name of the process.          */
+   SPWint32 libFlag;        /* Library version flag.                        */
+   } SiOpenData;
+
+typedef struct                /* Get event Data */
+   {
+
+   UINT msg;
+   WPARAM wParam;
+   LPARAM lParam;
+   } SiGetEventData;
+
+typedef struct                /* Device type mask */
+   {
+   unsigned char mask[8];
+   } SiTypeMask;
+
+typedef struct                /* Device port information */
+   {
+   SiDevID devID;             /* Device ID */
+   int devType;               /* Device type */
+   int devClass;              /* Device class */
+   char devName[SI_STRSIZE];  /* Device name */
+   char portName[SI_STRSIZE]; /* Port name */
+   } SiDevPort;
+
+typedef struct                /* Device information */
+   {
+   char firmware[SI_STRSIZE]; /* Firmware version */
+   int devType;               /* Device type */
+   int numButtons;            /* Number of buttons */
+   int numDegrees;            /* Number of degrees of freedom */
+   SPWbool canBeep;           /* Device beeps */
+   int majorVersion;          /* Major version number */
+   int minorVersion;          /* Minor version number */
+   } SiDevInfo;
+
+typedef struct                /* Version information */
+   {
+   int major;                 /* Major version number */
+   int minor;                 /* Minor version number */
+   int build;                 /* Build number */
+   char version[SI_STRSIZE];  /* Version string */
+   char date[SI_STRSIZE];     /* Date string */
+   } SiVerInfo;
+
+typedef struct                /* Sensitivity parameters */
+   {
+   char dummy;
+   } SiSensitivity;
+
+typedef struct                /* Tuning parameters */
+   {
+   char dummy;
+   } SiTuning;
+
+typedef struct
+   {
+   SPWuint8 code;                 /* Out of band message code */
+   SPWuint8 message[SI_MAXBUF-1]; /* The actual message       */
+   } SiSpwOOB;
+
+typedef struct
+   {
+   SPWuint8 string[SI_KEY_MAXBUF];  /* String for keyboard data */
+   } SiKeyboardData;
+
+typedef struct
+   {
+   SPWuint32 lpfk;            /* LPFK number to send */
+   } SiLpfkData;
+
+typedef enum
+   {
+   SI_LEFT = 0,
+   SI_RIGHT
+   } SiOrientation;
+
+typedef struct                /* Bitmasks of button states */
+   {
+   SPWuint32 last;            /* Buttons pressed as of last event */
+   SPWuint32 current;         /* Buttons pressed as of this event */
+   SPWuint32 pressed;         /* Buttons pressed this event */
+   SPWuint32 released;        /* Buttons released this event */
+   } SiButtonData;
+
+typedef struct                /* SpaceWare data */
+   {
+   SiButtonData bData;        /* Button data */
+   long mData[6];             /* Motion data (index via SI_TX, etc) */
+   long period;               /* Period (milliseconds) */
+   } SiSpwData;
+
+typedef struct                /* SpaceWare event */
+   {
+   int type;                  /* Event type */
+   union
+      {
+      SiSpwData spwData;           /* Button, motion, or combo data        */
+      SiSpwOOB spwOOB;             /* Out of band message                  */
+      SiOrientation spwOrientation;/* Which hand orientation is the device */
+      char exData[SI_MAXBUF];      /* Exception data                       */
+      SiKeyboardData spwKeyData;   /* String for keyboard data             */
+      SiLpfkData spwLpfkData;      /* LPFK data                            */
+      } u;
+   } SiSpwEvent;
+
+typedef struct                /* Event handler (for SiDispatch) */
+   {
+   int (*func) (SiOpenData *, SiGetEventData *, SiSpwEvent *, void *);
+   void *data;
+   } SiEventHandler;
+
+typedef struct                /* SpaceWare event handlers */
+   {
+   SiEventHandler button;     /* Button event handler */
+   SiEventHandler motion;     /* Motion event handler */
+   SiEventHandler combo;      /* Combo event handler */
+   SiEventHandler zero;       /* Zero event handler */
+   SiEventHandler exception;  /* Exception event handler */
+   } SiSpwHandlers;
+
+
+enum SpwRetVal SiAndTypeMask (SiTypeMask *pTMaskA, SiTypeMask *pTMaskB);
+
+
+
+/* interface specifications define parameter passing to DLL functions */
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef enum SpwRetVal (WINAPI *PFNSI_INIT) (void);
+typedef void (WINAPI *PFNSI_TERMINATE) (void);
+typedef void (WINAPI *PFNSI_OPENWININIT) (SiOpenData *pData, HWND hWnd);
+typedef int (WINAPI *PFNSI_GETNUMDEVICES) (void);
+typedef SiDevID (WINAPI *PFNSI_GETDEVICEID) (SiHdl hdl);
+typedef int (WINAPI *PFNSI_DISPATCH) (SiHdl hdl, SiGetEventData *pData,
+                SiSpwEvent *pEvent, SiSpwHandlers *pDHandlers);
+typedef SiHdl (WINAPI *PFNSI_OPEN) (char *pAppName, SiDevID devID, SiTypeMask *pTMask, int mode, 
+              SiOpenData *pData);
+typedef enum SpwRetVal (WINAPI *PFNSI_CLOSE) (SiHdl hdl);
+typedef SPWbool (WINAPI *PFNSI_ISSPACEWAREEVENT) (SiGetEventData *pData, SiHdl *pHdl);
+typedef void (WINAPI *PFNSI_GETEVENTWININIT) (SiGetEventData *pData, UINT msg, WPARAM wParam, LPARAM lParam);
+typedef enum SpwRetVal (WINAPI *PFNSI_GETEVENT) (SiHdl hdl, int flags, SiGetEventData *pData, 
+                           SiSpwEvent *pEvent);
+typedef enum SpwRetVal (WINAPI *PFNSI_BEEP) (SiHdl hdl, char *pString);
+typedef enum SpwRetVal (WINAPI *PFNSI_REZERO) (SiHdl hdl);
+typedef enum SpwRetVal (WINAPI *PFNSI_GRABDEVICE) (SiHdl hdl, SPWbool exclusive);
+typedef enum SpwRetVal (WINAPI *PFNSI_RELEASEDEVICE) (SiHdl hdl);
+typedef int (WINAPI *PFNSI_BUTTONPRESSED) (SiSpwEvent *pEvent);
+typedef int (WINAPI *PFNSI_BUTTONRELEASED) (SiSpwEvent *pEvent);
+typedef enum SpwRetVal (WINAPI *PFNSI_SETUIMODE) (SiHdl hdl, SPWuint32 mode);
+typedef enum SpwRetVal (WINAPI *PFNSI_SETTYPEMASK) (SiTypeMask *pTMask, int type1, ...);
+typedef enum SpwRetVal (WINAPI *PFNSI_GETDEVICEPORT) (SiDevID devID, SiDevPort *pPort);
+typedef enum SpwRetVal (WINAPI *PFNSI_GETDRIVERINFO) (SiVerInfo *pInfo);
+typedef void (WINAPI *PFNSI_GETLIBRARYINFO) (SiVerInfo *pInfo);
+typedef enum SpwRetVal (WINAPI *PFNSI_GETDEVICEINFO) (SiHdl hdl, SiDevInfo *pInfo);
+typedef char* (WINAPI *PFNSPW_ERRORSTRING) (enum SpwRetVal val);
+typedef SiDevID (WINAPI *PFNSI_DEVICEINDEX) (int idx);
+
+#ifdef __cplusplus
+}
+#endif
+
+/* function pointers to functions in DLL */
+static PFNSI_INIT              pfnSiInit;
+static PFNSI_TERMINATE         pfnSiTerminate;
+static PFNSI_OPENWININIT       pfnSiOpenWinInit;
+static PFNSI_GETNUMDEVICES     pfnSiGetNumDevices;
+static PFNSI_GETDEVICEID       pfnSiGetDeviceID;
+static PFNSI_DISPATCH          pfnSiDispatch;
+static PFNSI_OPEN              pfnSiOpen;
+static PFNSI_CLOSE             pfnSiClose;
+static PFNSI_DEVICEINDEX       pfnSiDeviceIndex;
+static PFNSI_GETEVENTWININIT   pfnSiGetEventWinInit;
+static PFNSI_GETEVENT          pfnSiGetEvent;
+static PFNSI_ISSPACEWAREEVENT  pfnSiIsSpaceWareEvent;
+static PFNSI_BEEP              pfnSiBeep;
+static PFNSI_REZERO            pfnSiRezero;
+static PFNSI_GRABDEVICE        pfnSiGrabDevice;
+static PFNSI_RELEASEDEVICE     pfnSiReleaseDevice;
+static PFNSI_BUTTONPRESSED     pfnSiButtonPressed;
+static PFNSI_BUTTONRELEASED    pfnSiButtonReleased;
+static PFNSI_SETUIMODE         pfnSiSetUiMode;
+static PFNSI_SETTYPEMASK       pfnSiSetypeMask;
+static PFNSI_GETDEVICEPORT     pfnSiGetDevicePort;
+static PFNSI_GETDRIVERINFO     pfnSiGetDriverInfo;
+static PFNSI_GETLIBRARYINFO    pfnSiGetLibraryInfo;
+static PFNSI_GETDEVICEINFO     pfnSiGetDeviceInfo;
+static PFNSPW_ERRORSTRING      pfnSpwErrorString;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+/* externally used functions */
+int SiGetPortList (SiDevPort **ppPort);
+void SiFreePortList (SiDevPort *pPort);
+void SiTune2003 (SiSpwEvent *pEvent);
+void SiTuneSC (SiSpwEvent *pEvent);
+
+enum SpwRetVal SiInitialize(void);
+void           SiTerminate(void);
+int            SiGetNumDevices (void);
+SiDevID        SiDeviceIndex (int idx);
+int            SiDispatch (SiHdl hdl, SiGetEventData *pData,
+                           SiSpwEvent *pEvent, SiSpwHandlers *pDHandlers);
+void           SiOpenWinInit (SiOpenData *pData, HWND hWnd);
+SiHdl          SiOpen (char *pAppName, SiDevID devID, SiTypeMask *pTMask, int mode, 
+                       SiOpenData *pData);
+enum SpwRetVal SiClose (SiHdl hdl);
+void           SiGetEventWinInit (SiGetEventData *pData,
+                                  UINT msg, WPARAM wParam, LPARAM lParam);
+enum SpwRetVal SiGetEvent (SiHdl hdl, int flags, SiGetEventData *pData, 
+                           SiSpwEvent *pEvent);
+enum SpwRetVal SiBeep (SiHdl hdl, char *string);
+enum SpwRetVal SiRezero (SiHdl hdl);
+enum SpwRetVal SiGrabDevice (SiHdl hdl, SPWbool exclusive);
+enum SpwRetVal SiReleaseDevice (SiHdl hdl);
+int            SiButtonPressed (SiSpwEvent *pEvent);
+int            SiButtonReleased (SiSpwEvent *pEvent);
+enum SpwRetVal SiSetUiMode (SiHdl hdl, SPWuint32 mode);
+enum SpwRetVal SiSetTypeMask (SiTypeMask *pTMask, int type1, ...);
+enum           SpwRetVal SiGetDevicePort (SiDevID devID, SiDevPort *pPort);
+enum           SpwRetVal SiGetDriverInfo (SiVerInfo *pInfo);
+void           SiGetLibraryInfo (SiVerInfo *pInfo);
+enum           SpwRetVal SiGetDeviceInfo (SiHdl hdl, SiDevInfo *pInfo);
+char * SpwErrorString (enum SpwRetVal val);
+
+#ifdef __cplusplus
+}
+#endif
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+  
+int SPW_CheckForSpaceballWin32(void * win);
+int SPW_TranslateEventWin32(MSG * msg, SPW_InputEvent * sbEvent);
+void SPW_disableSpaceBallWin32(void);
+int SPW_SpaceBallExistsWin32(void);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* #ifndef SIAPP_H */
+

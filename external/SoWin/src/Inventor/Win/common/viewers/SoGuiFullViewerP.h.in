@@ -1,0 +1,154 @@
+#ifndef SOGUIFULLVIEWERP_H
+#define SOGUIFULLVIEWERP_H
+
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+#ifndef SO@GUI@_INTERNAL
+#error this is a private header file
+#endif /* !SO@GUI@_INTERNAL */
+
+#include <Inventor/SbString.h>
+#include <Inventor/@Gui@/viewers/So@Gui@Viewer.h>
+
+class So@Gui@FullViewer;
+
+// ************************************************************************
+
+// This class contains private data and methods used within the
+// SoGuiFullViewer class.
+
+class SoGuiFullViewerP
+{
+public:
+  ~SoGuiFullViewerP();
+
+  enum So@Gui@FullViewerPopupMenuItem {
+    // FIXME: there's code in (some of) the popupmenu widgets which
+    // assumes the root id is equal to 0.  Yup, lousy design. :-/
+    // Anyway, don't change it until those cases are fixed.
+    // 20010810 mortene.
+    ROOT_MENU = 0,
+      ROOT_MENU_TITLE,
+
+      FUNCTIONS_MENU,
+      HOME_ITEM,
+      SET_HOME_ITEM,
+      VIEW_ALL_ITEM,
+      SEEK_ITEM,
+
+      DRAWSTYLES_MENU,
+      DRAWSTYLES_STILL_MENU,
+      AS_IS_ITEM,
+      HIDDEN_LINE_ITEM,
+      WIREFRAME_OVERLAY_ITEM,
+      NO_TEXTURE_ITEM,
+      LOW_RESOLUTION_ITEM,
+      WIREFRAME_ITEM,
+      POINTS_ITEM,
+      BOUNDING_BOX_ITEM,
+
+      DRAWSTYLES_ANIMATING_MENU,
+      MOVE_SAME_AS_STILL_ITEM,
+      MOVE_NO_TEXTURE_ITEM,
+      MOVE_LOW_RES_ITEM,
+      MOVE_WIREFRAME_ITEM,
+      MOVE_LOW_RES_WIREFRAME_ITEM,
+      MOVE_POINTS_ITEM,
+      MOVE_LOW_RES_POINTS_ITEM,
+      MOVE_BOUNDING_BOX_ITEM,
+
+      TRANSPARENCY_TYPE_MENU,
+      SCREEN_DOOR_TRANSPARENCY_ITEM,
+      ADD_TRANSPARENCY_ITEM,
+      DELAYED_ADD_TRANSPARENCY_ITEM,
+      SORTED_OBJECT_ADD_TRANSPARENCY_ITEM,
+      BLEND_TRANSPARENCY_ITEM,
+      DELAYED_BLEND_TRANSPARENCY_ITEM,
+      SORTED_OBJECT_BLEND_TRANSPARENCY_ITEM,
+      // These are Coin extensions.
+      SORTED_OBJECT_SORTED_TRIANGLE_ADD_TRANSPARENCY_ITEM,
+      SORTED_OBJECT_SORTED_TRIANGLE_BLEND_TRANSPARENCY_ITEM,
+      SORTED_LAYERS_BLEND_ITEM,
+      NONE_TRANSPARENCY_ITEM,
+
+      RENDER_BUFFER_TYPE_MENU,
+      SINGLE_BUFFER_ITEM,
+      DOUBLE_BUFFER_ITEM,
+      INTERACTIVE_BUFFER_ITEM,
+
+      EXAMINING_ITEM,
+      DECORATION_ITEM,
+      HEADLIGHT_ITEM,
+      FULLSCREEN_ITEM,
+
+      STEREO_MENU,
+        STEREO_OFF_ITEM,
+        STEREO_ANAGLYPH_ITEM,
+        STEREO_QUADBUFFER_ITEM,
+        STEREO_INTERLEAVED_ROWS_ITEM,
+        STEREO_INTERLEAVED_COLUMNS_ITEM
+      };
+
+  enum So@Gui@ViewerPopupMenuRadioGroup {
+    STILL_GROUP = 1,
+      MOVE_GROUP,
+      TRANSPARENCY_GROUP,
+      BUFFER_GROUP,
+      STEREO_GROUP
+      };
+
+  class So@Gui@PopupMenu * setupStandardPopupMenu(void);
+  void prepareMenu(class So@Gui@PopupMenu * menu);
+  void menuSelection(int menuitemid);
+  static void menuSelectionCallback(int menuitemid, void * userdata);
+  SbString popupmenutitle;
+
+  void setDrawStyleMenuActivation(So@Gui@Viewer::DrawType type,
+                                  So@Gui@Viewer::DrawStyle value);
+  void drawstyleActivated(int menuitemid);
+
+  static void pan(SoCamera * cam,
+                  float aspectratio, const SbPlane & panplane,
+                  const SbVec2f & currpos, const SbVec2f & prevpos);
+  static void zoom(SoCamera * cam, const float diffvalue);
+
+protected:
+  SoGuiFullViewerP(So@Gui@FullViewer * publ);
+  So@Gui@FullViewer * pub;
+};
+
+// ************************************************************************
+
+#endif // ! SOGUIFULLVIEWERP_H

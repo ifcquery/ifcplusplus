@@ -1,0 +1,25 @@
+
+msvc6
+	Project files for building SoWin with Visual C++ 6.0.
+
+msvc7
+	Project files for building SoWin with Visual C++ 7.1.
+	(Visual Studio .Net 2003)
+
+msvc8
+	Project files for building SoWin with Visual C++ 8.0.
+        (Visual Studio 2005)
+
+msvc9
+	Project files for building SoWin with Visual C++ 9.0.
+        (Visual Studio 2008)
+
+To compile SoWin, open the Visual Studio solution file from one of the
+directories above and build the solution.
+
+As part of the build process, the SoWin library is installed in the
+COINDIR directory, so make sure you set the environment variable
+COINDIR before attempting to build SoWin. If Coin is installed in
+C:\Coin3D, COINDIR should be set to C:\Coin3D.
+
+

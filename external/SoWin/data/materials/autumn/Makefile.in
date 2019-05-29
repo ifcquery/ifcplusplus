@@ -1,0 +1,363 @@
+# Makefile.in generated automatically by automake 1.5 from Makefile.am.
+
+# Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
+# Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+@SET_MAKE@
+
+############################################################################
+
+SHELL = @SHELL@
+
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+bindir = @bindir@
+sbindir = @sbindir@
+libexecdir = @libexecdir@
+datadir = @datadir@
+sysconfdir = @sysconfdir@
+sharedstatedir = @sharedstatedir@
+localstatedir = @localstatedir@
+libdir = @libdir@
+infodir = @infodir@
+mandir = @mandir@
+includedir = @includedir@
+oldincludedir = /usr/include
+pkgdatadir = $(datadir)/@PACKAGE@
+pkglibdir = $(libdir)/@PACKAGE@
+pkgincludedir = $(includedir)/@PACKAGE@
+top_builddir = ../..
+
+ACLOCAL = @ACLOCAL@
+AUTOCONF = @AUTOCONF@
+AUTOMAKE = @AUTOMAKE@
+AUTOHEADER = @AUTOHEADER@
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+INSTALL_SCRIPT = @INSTALL_SCRIPT@
+INSTALL_HEADER = $(INSTALL_DATA)
+transform = @program_transform_name@
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+AMTAR = @AMTAR@
+AWK = @AWK@
+DEPDIR = @DEPDIR@
+EXEEXT = @EXEEXT@
+GUI = @GUI@
+Gui = @Gui@
+INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+MAC_FRAMEWORK_NAME = @MAC_FRAMEWORK_NAME@
+MAC_FRAMEWORK_PREFIX = @MAC_FRAMEWORK_PREFIX@
+MAC_FRAMEWORK_VERSION = @MAC_FRAMEWORK_VERSION@
+MAINT = @MAINT@
+OBJEXT = @OBJEXT@
+PACKAGE = @PACKAGE@
+VERSION = @VERSION@
+am__include = @am__include@
+am__quote = @am__quote@
+gui = @gui@
+install_sh = @install_sh@
+
+@MAC_FRAMEWORK_TRUE@materialdir = $(MAC_FRAMEWORK_PREFIX)/$(MAC_FRAMEWORK_NAME).framework/Versions/$(MAC_FRAMEWORK_VERSION)/Resources/materials/autumn
+@MAC_FRAMEWORK_FALSE@materialdir = $(datadir)/Coin/materials/autumn
+
+dist_material_DATA = \
+	autumn.0 autumn.1 autumn.2 autumn.3 autumn.4 \
+	autumn.5 autumn.6 autumn.7 autumn.8 autumn.9 \
+	autumn.10 autumn.11 autumn.12 autumn.13 autumn.14 \
+	autumn.15 autumn.16 autumn.17 autumn.18 autumn.19 \
+	autumn.20 autumn.21 autumn.22 autumn.23 autumn.24 \
+	autumn.25 autumn.26 autumn.27 autumn.28 autumn.29 \
+	autumn.30 autumn.31 autumn.32 autumn.33 autumn.34
+
+
+BUILT_SOURCES = \
+	autumn.h \
+	autumn_0.h autumn_1.h autumn_2.h autumn_3.h autumn_4.h \
+	autumn_5.h autumn_6.h autumn_7.h autumn_8.h autumn_9.h \
+	autumn_10.h autumn_11.h autumn_12.h autumn_13.h autumn_14.h \
+	autumn_15.h autumn_16.h autumn_17.h autumn_18.h autumn_19.h \
+	autumn_20.h autumn_21.h autumn_22.h autumn_23.h autumn_24.h \
+	autumn_25.h autumn_26.h autumn_27.h autumn_28.h autumn_29.h \
+	autumn_30.h autumn_31.h autumn_32.h autumn_33.h autumn_34.h
+
+
+noinst_DATA = $(BUILT_SOURCES)
+
+DISTCLEANFILES = $(BUILT_SOURCES)
+subdir = materials/autumn
+mkinstalldirs = $(SHELL) $(top_srcdir)/cfg/mkinstalldirs
+CONFIG_HEADER = $(top_builddir)/config.h
+CONFIG_CLEAN_FILES =
+DIST_SOURCES =
+DATA = $(dist_material_DATA) $(noinst_DATA)
+
+DIST_COMMON = $(dist_material_DATA) Makefile.am Makefile.in
+all: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-am
+
+.SUFFIXES:
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.ac $(ACLOCAL_M4)
+	cd $(top_srcdir) && \
+	  $(AUTOMAKE) --gnu  materials/autumn/Makefile
+Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
+	cd $(top_builddir) && \
+	  CONFIG_HEADERS= CONFIG_LINKS= \
+	  CONFIG_FILES=$(subdir)/$@ $(SHELL) ./config.status
+uninstall-info-am:
+
+uninstall-dist_materialDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_material_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(materialdir)/$$f"; \
+	  rm -f $(DESTDIR)$(materialdir)/$$f; \
+	done
+tags: TAGS
+TAGS:
+
+
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+
+top_distdir = ../..
+distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
+
+distdir: $(DISTFILES)
+	@for file in $(DISTFILES); do \
+	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
+	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
+	  if test "$$dir" != "$$file" && test "$$dir" != "."; then \
+	    $(mkinstalldirs) "$(distdir)/$$dir"; \
+	  fi; \
+	  if test -d $$d/$$file; then \
+	    cp -pR $$d/$$file $(distdir) \
+	    || exit 1; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || cp -p $$d/$$file $(distdir)/$$file \
+	    || exit 1; \
+	  fi; \
+	done
+check-am: all-am
+check: check-am
+all-am: Makefile $(DATA)
+
+installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(materialdir)
+
+install: install-am
+install-exec: install-exec-am
+install-data: install-data-am
+uninstall: uninstall-am
+
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+
+installcheck: installcheck-am
+install-strip:
+	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
+	  `test -z '$(STRIP)' || \
+	    echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
+mostlyclean-generic:
+
+clean-generic:
+
+distclean-generic:
+	-rm -f Makefile $(CONFIG_CLEAN_FILES) stamp-h stamp-h[0-9]*
+	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
+
+maintainer-clean-generic:
+	@echo "This command is intended for maintainers to use"
+	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
+clean: clean-am
+
+clean-am: clean-generic mostlyclean-am
+
+distclean: distclean-am
+
+distclean-am: clean-am distclean-generic
+
+dvi: dvi-am
+
+dvi-am:
+
+info: info-am
+
+info-am:
+
+install-data-am: install-dist_materialDATA
+
+install-exec-am:
+
+install-info: install-info-am
+
+install-man:
+
+installcheck-am:
+
+maintainer-clean: maintainer-clean-am
+
+maintainer-clean-am: distclean-am maintainer-clean-generic
+
+mostlyclean: mostlyclean-am
+
+mostlyclean-am: mostlyclean-generic
+
+uninstall-am: uninstall-dist_materialDATA uninstall-info-am
+
+.PHONY: all all-am check check-am clean clean-generic distclean \
+	distclean-generic distdir dvi dvi-am info info-am install \
+	install-am install-data install-data-am \
+	install-dist_materialDATA install-exec install-exec-am \
+	install-info install-info-am install-man install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic \
+	uninstall uninstall-am uninstall-dist_materialDATA \
+	uninstall-info-am
+
+
+############################################################################
+
+autumn.h: $(srcdir)/autumn.h.in
+	@( cd $(top_builddir); $(MAKE) built-sources )
+
+autumn_0.h: $(srcdir)/autumn.0 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.0 > $@
+
+autumn_1.h: $(srcdir)/autumn.1 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.1 > $@
+
+autumn_2.h: $(srcdir)/autumn.2 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.2 > $@
+
+autumn_3.h: $(srcdir)/autumn.3 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.3 > $@
+
+autumn_4.h: $(srcdir)/autumn.4 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.4 > $@
+
+autumn_5.h: $(srcdir)/autumn.5 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.5 > $@
+
+autumn_6.h: $(srcdir)/autumn.6 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.6 > $@
+
+autumn_7.h: $(srcdir)/autumn.7 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.7 > $@
+
+autumn_8.h: $(srcdir)/autumn.8 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.8 > $@
+
+autumn_9.h: $(srcdir)/autumn.9 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.9 > $@
+
+autumn_10.h: $(srcdir)/autumn.10 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.10 > $@
+
+autumn_11.h: $(srcdir)/autumn.11 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.11 > $@
+
+autumn_12.h: $(srcdir)/autumn.12 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.12 > $@
+
+autumn_13.h: $(srcdir)/autumn.13 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.13 > $@
+
+autumn_14.h: $(srcdir)/autumn.14 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.14 > $@
+
+autumn_15.h: $(srcdir)/autumn.15 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.15 > $@
+
+autumn_16.h: $(srcdir)/autumn.16 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.16 > $@
+
+autumn_17.h: $(srcdir)/autumn.17 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.17 > $@
+
+autumn_18.h: $(srcdir)/autumn.18 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.18 > $@
+
+autumn_19.h: $(srcdir)/autumn.19 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.19 > $@
+
+autumn_20.h: $(srcdir)/autumn.20 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.20 > $@
+
+autumn_21.h: $(srcdir)/autumn.21 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.21 > $@
+
+autumn_22.h: $(srcdir)/autumn.22 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.22 > $@
+
+autumn_23.h: $(srcdir)/autumn.23 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.23 > $@
+
+autumn_24.h: $(srcdir)/autumn.24 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.24 > $@
+
+autumn_25.h: $(srcdir)/autumn.25 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.25 > $@
+
+autumn_26.h: $(srcdir)/autumn.26 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.26 > $@
+
+autumn_27.h: $(srcdir)/autumn.27 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.27 > $@
+
+autumn_28.h: $(srcdir)/autumn.28 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.28 > $@
+
+autumn_29.h: $(srcdir)/autumn.29 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.29 > $@
+
+autumn_30.h: $(srcdir)/autumn.30 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.30 > $@
+
+autumn_31.h: $(srcdir)/autumn.31 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.31 > $@
+
+autumn_32.h: $(srcdir)/autumn.32 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.32 > $@
+
+autumn_33.h: $(srcdir)/autumn.33 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.33 > $@
+
+autumn_34.h: $(srcdir)/autumn.34 $(top_builddir)/bin/iv2h.sh
+	$(top_builddir)/bin/iv2h.sh $(srcdir)/autumn.34 > $@
+
+############################################################################
+
+install-dist_materialDATA: $(dist_material_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(materialdir)
+	@list='$(dist_material_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  if cmp -s $$d$$p $(DESTDIR)$(materialdir)/$$f; then :; else \
+	    echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(materialdir)/$$f"; \
+	    $(INSTALL_DATA) $$d$$p $(DESTDIR)$(materialdir)/$$f; \
+	  fi; \
+	done
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:

@@ -1,0 +1,45 @@
+New in SoWin v1.5.1a (so far):
+* bugfixes:
+
+New in SoWin v1.5.0 (2010-03-02):
+* new:
+  - Added getVersionToolkitString() providing the version of the
+    underlying GUI toolkit version in use
+
+* bugfixes:
+  - Various compile and robustness fixes
+  - Plugged memory leaks
+  - Many bug fixes
+
+* build system:
+  - Updated autotools to autoconf-2.65, automake-1.8.3, libtool-1.5.26
+  - Changed default location for generated HTML documentation
+  - Added pkg-config description and detection support
+
+* other:
+  - Removal of Spaceball support
+
+New in SoWin 1.4.0 (2006-10-29):
+* synchronization with SoQt major/minor-versioning
+* plugged many memory leaks, fixed many bugs
+
+New in SoWin 1.3.0 (2005-09-22):
+* improved stereo support
+* complete Visual Studio project file setup under build/
+* SoWinGLWidget::setStealFocus()/isStealFocus()
+* misc minor fixes
+
+New in SoWin 1.2.0 (2004-01-13):
+* Alpha channel support for viewers
+* Improved pixelformat selection when setting up OpenGL device contexts
+* Support the VRMLViewpoint node
+* Spaceball support
+* Handle mouse device wheel button
+
+New in SoWin 1.1.0 (2003-04-30):
+* SoWinColorEditor
+* SoWinMaterialEditor
+
+New in SoWin 0.10.0 (2003-03-10):
+* Microsoft Developer Studio project files for building without Cygwin
+* NEWS file

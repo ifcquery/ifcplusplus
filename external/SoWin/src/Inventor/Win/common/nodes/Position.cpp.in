@@ -1,0 +1,123 @@
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+#include <assert.h>
+
+#include <Inventor/errors/SoDebugError.h>
+#include <Inventor/actions/SoGLRenderAction.h>
+#include <Inventor/actions/SoPickAction.h>
+#include <Inventor/actions/SoRayPickAction.h>
+#include <Inventor/actions/SoGetMatrixAction.h>
+#include <Inventor/elements/SoModelMatrixElement.h>
+#include <Inventor/SoPath.h>
+
+#include <Inventor/@Gui@/nodes/SoGuiPane.h>
+#include <Inventor/@Gui@/nodes/SoGuiPosition.h>
+
+// *************************************************************************
+
+SO_NODE_SOURCE(SoGuiPosition);
+
+void
+SoGuiPosition::initClass(void)
+{
+  SO_NODE_INIT_CLASS(SoGuiPosition, SoTransformation, "Transformation");
+}
+
+SoGuiPosition::SoGuiPosition(void)
+{
+  SO_NODE_CONSTRUCTOR(SoGuiPosition);
+  SO_NODE_ADD_FIELD(position, (SbVec3f(0.0f, 0.0f, 0.0f)));
+}
+
+SoGuiPosition::~SoGuiPosition(void)
+{
+}
+
+void
+SoGuiPosition::doAction(SoAction * action)
+{
+  int i;
+  // SoDebugError::postInfo("SoGuiPosition::doAction", "invoked by %s", action->getTypeId().getName().getString());
+  SoGuiPane * pane = NULL;
+  const SoFullPath * path = (const SoFullPath *) action->getCurPath();
+  for ( i = path->getLength() - 1; (i >= 0) && (pane == NULL); i-- ) {
+    SoNode * node = path->getNode(i);
+    assert(node);
+    if ( node->isOfType(SoGuiPane::getClassTypeId()) ) pane = (SoGuiPane *) node;
+  }
+  if ( pane == NULL ) {
+    SoDebugError::postInfo("SoGuiPosition::GLRender", "SoGuiPosition only works below an SoGuiPane node");
+    return;
+  }
+  pane->moveTo(action->getState(), this->position.getValue());
+}
+
+void
+SoGuiPosition::GLRender(SoGLRenderAction * action)
+{
+  this->doAction(action);
+}
+
+void
+SoGuiPosition::pick(SoPickAction * action)
+{
+  this->doAction(action);
+}
+
+void
+SoGuiPosition::rayPick(SoRayPickAction * action)
+{
+  this->doAction(action);
+}
+
+void
+SoGuiPosition::getMatrix(SoGetMatrixAction * action)
+{
+  SoDebugError::postInfo("SoGuiPosition::getMatrix", "invoked");
+  int i;
+  SoGuiPane * pane = NULL;
+  const SoFullPath * path = (const SoFullPath *) action->getCurPath();
+  for ( i = path->getLength() - 1; (i >= 0) && (pane == NULL); i-- ) {
+    SoNode * node = path->getNode(i);
+    assert(node);
+    if ( node->isOfType(SoGuiPane::getClassTypeId()) ) pane = (SoGuiPane *) node;
+  }
+  if ( pane == NULL ) {
+    SoDebugError::postInfo("SoGuiPosition::getMatrix", "SoGuiPosition only works below an SoGuiPane node");
+    return;
+  }
+  pane->applyMoveTo(action, this->position.getValue());
+}
+

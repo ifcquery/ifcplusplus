@@ -1,0 +1,103 @@
+#ifndef COIN_SOGUIVIEWPOINTWRAPPER_H
+#define COIN_SOGUIVIEWPOINTWRAPPER_H
+
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+#ifndef SO@GUI@_INTERNAL
+#error this is a private header file
+#endif /* !SO@GUI@_INTERNAL */
+
+#include <Inventor/nodes/SoPerspectiveCamera.h>
+#include <Inventor/nodes/SoSubNode.h>
+#include <Inventor/actions/SoSearchAction.h>
+#include <Inventor/SoLists.h>
+
+class SoPath;
+class SoFullPath;
+class SoPathSensor;
+class SoSensor;
+class SoFieldSensor;
+class SoGetMatrixAction;
+
+class SoGuiViewpointWrapper : public SoPerspectiveCamera {
+  typedef SoPerspectiveCamera inherited;
+  SO_NODE_HEADER(SoGuiViewpointWrapper);
+public:
+  static void initClass(void);
+  SoGuiViewpointWrapper(void);
+  
+  void setSceneGraph(SoNode * root);
+  
+  static SbBool hasViewpoints(SoNode * root);
+
+protected:
+  ~SoGuiViewpointWrapper();
+  
+private:
+  void setViewpoint(SoPath * path);
+  
+  static void fieldsensor_cb(void * data, SoSensor * sensor);
+  static void pathsensor_cb(void * data, SoSensor * sensor);
+  static void set_bind_cb(void * data, SoSensor * sensor);
+
+  void updateCamera(void);
+  void updateViewpoint(void);
+  
+  void attachFieldSensors(void);
+  void detachFieldSensors(void);
+  
+  SoFullPath * pathtoviewpoint;
+  SoPathSensor * pathsensor;
+  SoFieldSensor * positionsensor;
+  SoFieldSensor * orientationsensor;
+  SoFieldSensor * heightanglesensor;
+  SoGetMatrixAction * gmaction;
+
+  void truncateLists(void);
+  
+  SoNodeList nodelist;
+  SbPList set_bind_sensorlist;
+  SoSearchAction sa;
+  SoNode * scenegraph;
+
+  void attachSetBindSensors(void);
+  void detachSetBindSensors(void);
+
+  void sendBindEvents(SoNode * node, const SbBool onoff);
+  void bindTopOfStack(void);
+
+};
+
+#endif //  COIN_SOGUIVIEWPOINTWRAPPER_H

@@ -1,0 +1,799 @@
+=====================================================================
+NOTE: see also src/Inventor/Win/common/BUGS.txt.
+=====================================================================
+
+000 The CTRL key can get "stuck", due to how SoWinKeyboardDevice
+    detects modifier keys only when they are pressed or released.
+
+    20020618 mortene, detected by oso.
+
+=====================================================================
+
+001 SoWinPlaneViewer will crash when rotating, because of our call to
+    get the range of valid line sizes when throwing up the
+    superimposition "anchor" graphics.
+
+    By adding a counter to the glLock / glUnlock methods of
+    SoWinGLWidget, one can see that they doesn't match up (the counter
+    dips below zero). The bug is very likely related to this.
+
+    20020618 mortene.
+
+    (Update 20020718 mortene: this seems to be fixed now -- at least
+    it doesn't crash on my home machine. Check to see that it doesn't
+    crash on ask.trh.sim.no any more -- as it did before.)
+
+=====================================================================
+
+002 Fullscreen mode does no longer work.
+
+    (I'm seeing this on my home machine, at least.)
+
+    20020624 mortene.
+
+    Update 20021220 mortene: pederb fixed this? I'm not seeing it on
+    ask.trh.sim.no, at least. Will try on my home machine too, before
+    removing this bug item.
+
+=====================================================================
+
+003 SoWin never stops processing the Coin/Inventor sensor queues.
+
+    Reproduce by inserting some debug output in the
+    SoSensorManager::process*() functions, and see how they are
+    invoked even with a still camera on a scene without any animating
+    parts.
+
+    20021015 mortene.
+
+=====================================================================
+
+004 Win32-specific build problem: if Coin is a static library, SoWin
+    must also be built static and *without* including Coin.
+
+    If built as a DLL under those circumstances, the static library we
+    depend on will be linked into the DLL -- but without it being
+    accessible from the application code. Then an app programmer is
+    likely to include several instances of Coin, which results in
+    various sorts of difficult to understand problems.
+
+    20021118 mortene.
+ 
+    UPDATE 20030604 mortene: this is now automatically detected in
+    Coin (at least I think so, I haven't yet tested if it actually
+    works), and a MessageBox() which explains the problem will pop
+    up. The problem will likely still be hard to _solve_ for the app
+    programmer, though..
+   
+=====================================================================
+
+005 Wrapped in ActiveX as a browser plug-in, Coin + SoWin crashes on
+    plug-in exit.
+
+    We've got a reproducible case for this from an external Coin
+    user. (Code that works with TGS's Inventor + InventorWin, but
+    fails with Coin + SoWin.) To get the code, ask mortene.
+
+    20021218 mortene.
+
+=====================================================================
+
+006 Tooltips on viewer buttons.
+
+    The functionality of the different viewer pushbuttons is not
+    entirely obvious, so we should add tooltips on the buttons.
+
+    20030114 mortene.
+
+=====================================================================
+
+007 The ALT key functionality in the viewers are not working properly.
+
+    The ALT key is supposed to temporarily switch event handling from
+    camera-interaction mode to scenegraph-interaction mode, but it
+    doesn't seem to work as expected for SoWin. (Not at all, so it's
+    no problem to reproduce the buggy behavior.)
+
+    (As for the other toolkits: for at least SoQt, it's ok.)
+
+    20030124 mortene.
+
+=====================================================================
+
+008 Mouse movement causes continuous cursor updates?
+
+    pederb reports that he is seeing this. Investigate.
+
+    20030204 mortene.
+
+=====================================================================
+
+009 SoWin crashes on something that works with SoQt.
+
+    The following example works with SoQt, but crashes on start-up
+    with SoWin:
+
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+
+    #include <Inventor/@Gui@/So@Gui@.h>
+    #include <Inventor/@Gui@/viewers/So@Gui@ExaminerViewer.h>
+    
+    #include <Inventor/nodes/SoCone.h>
+    #include <Inventor/nodes/SoSphere.h>
+    
+    int
+    main(int argc, char **argv)
+    {
+      @WIDGET@ mainWindow = So@Gui@::init(argv[0]);
+    
+      So@Gui@ExaminerViewer *viewer1 = new So@Gui@ExaminerViewer(mainWindow);
+      viewer1->setSceneGraph(new SoCone);
+      viewer1->viewAll();
+    
+      So@Gui@RenderArea *viewer2 = new So@Gui@RenderArea( NULL, "viewer", 
+                                                          true, true, true);
+      viewer2->setSceneGraph(new SoSphere);
+    
+      viewer1->show();
+      viewer2->show();
+       
+      So@Gui@::show(mainWindow);
+      So@Gui@::mainLoop();
+    
+      return 0;
+    }
+
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+
+    20030214 mortene.
+
+=====================================================================
+
+010 Uninstalling SoWin from the Nullsoft installer system (makensis)
+    fails in nasty ways.
+
+    thammer: "Uninstalling sowin doesn't work. Some directories are
+    wiped out entirely (deleting coin and simage specific files too),
+    and some sowin files aren't deleted."
+
+    The first part of this is bad. Consider for instance that this
+    means an SoWin _*upgrade_* will destroy the underlying Coin
+    installation.
+
+    20030604 mortene.
+
+=====================================================================
+
+011 sowin-config from a binary Windows package doesn't report correct
+    paths for everything.
+
+    At least the include-paths are wrong.
+
+    20030604 mortene, reported by thammer.
+
+=====================================================================
+
+012 Push button up/down status not working for "scene"/"camera"
+    interaction buttons.
+
+    It's ok from the start when firing up e.g. the ExaminerViewer, but
+    when switching to "scene interaction" mode (and also back again)
+    the down status of the button doesn't stick.
+
+    20030610 mortene.
+
+=====================================================================
+
+013 SoWin::init() crashes when called twice.
+
+    To aid when using Coin in special run-time environments, like
+    e.g. inside an ActiveX controller, it should be possible to use
+    the SoWin::init() + SoWin::mainLoop() sequence more than one time
+    without crashing.
+
+    Fixing this will take a bit of a clean-up operation in the two
+    above mentioned functions (plus SoWin::done(), and besides,
+    SoWin::init() comes in 3 different flavors).
+
+    This is a problem of medium priority, IMO. We've had a fair share
+    of external requests to fix this.
+
+    20031012 mortene.
+
+=====================================================================
+
+014 Keyboard focus flaw
+
+    Note that the focus grabbing has one known flaw: when using
+    e.g. Alt+TAB to select an SoWinComponent window, the form widget
+    will get the focus, and not the GL widget. For built-in,
+    non-abstract classes this only has practical consequences for the
+    SoWinRenderArea, as SoWinFullViewer passes on focus to the GL
+    widget when it receives WM_SETFOCUS messages. 
+
+    We should make sure that focus is set to the OpenGL canvas if any
+    widget from the top-level container widget and down receives focus.
+
+    20031215 thammer, based on note written by mortene.
+
+=====================================================================
+
+015 Missing SoWin::nextEvent() / SoWin::dispatchEvent()
+
+    Needed to implement your own event-processing mainloop.
+    Will probably also need to expose doIdleTasks() (SoWinP) to be
+    able to reimplement SoWin::mainLoop() in the application.
+
+    Frederic Rouas has sent the following simple patch:
+
+    ---------
+
+    Hello,
+
+    I propose you the following patch (tested on Windows XP) that adds
+    2 new methods in SoWin class :
+
+    void
+    SoWin::nextEvent(MSG *event)
+    {
+      while (GetQueueStatus(QS_ALLINPUT) == 0) {
+        if (SoWinP::idleSensorActive) {
+          SoWinP::doIdleTasks();
+        }
+        else {
+          WaitMessage();
+        }
+      }
+      GetMessage(event, NULL, 0, 0);
+    }
+
+    void
+    SoWin::dispatchEvent(MSG *event)
+    {
+     TranslateMessage(event);
+     DispatchMessage(event);
+    }
+
+    Note : For a thighter compatibility with TGS SoWin, you may prefer
+    add a dummy appContext argument to the nextEvent method : 
+    static nextEvent(UINT appContext, MSG *event);
+
+    Hopping this light patch will soon be available in CVS repository ...
+
+    Frédéric Rouas
+    Directeur Technique OKTAL SE
+    Tél   : 05 62 11 50 10
+    Fax  : 05 62 11 50 29
+    Mail : frederic.rouas@oktal.fr
+
+    ----------
+
+    Updated 20040715 thammer
+
+=====================================================================
+
+016 SoWinBitmapButton missing from external API
+
+    This class is needed to be able to add buttons to (the right of) 
+    a viewer. See docs for SoWinFullViewer::createViewerButtons().
+
+    20040219 thammer
+
+=====================================================================
+
+017 Investigate the use of SoWin::init("") and embedding
+
+    I have experienced crashes when using SoWin::init("") with
+    embedded viewers. The point is that the application doesn't have
+    one permanent window that can handle events.
+
+    The use of SoWin::init(...) in ActiveX controls should also be 
+    investigated further.
+
+    20040219 thammer
+
+=====================================================================
+
+018 Flawed SoWinComponent::setWidgetCursor(...)
+
+    It looks to me like our SoWinComponent::setWidgetCursor(HWND w,
+    const SoWinCursor & cursor) implementation is flawed. The
+    implemntation ignores the "w" parameter and just calls ::SetCursor
+    on the supplied cursor (first converting it to a native cursor
+    handle). This is not what the documentation says it should do.
+    The docs says it should set the cursor for a widget (i.e "Window"
+    in Win32-speak), the implementation sets the cursor for the
+    application. I would guess that the point of this function is to
+    be able to set which cursor should appear over different widgets,
+    like a special cursor over a render area and another cursor over a
+    button.
+
+    In SoWinFullViewerP::systemEventHook() there is what looks to me
+    like a work-around for the defunct
+    SoWinComponent::setWidgetCursor() - intercepting WM_SETCURSOR
+    messages to change the cursor when it is entering a fullviewer.
+    There's some related code in SoWinFullViewer::buildWidget() too.
+
+    One result of this workaround is that it is difficult for the
+    programmer to manually set which type of cursor he wants, at least
+    if he derives his class from SoWinFullViewer (or any of it's
+    descendants). If he doesn't, he can just use ::SetCursor and
+    ::SetClassLong(hwnd, GCL_HCURSOR, hcursor) himself and just ignore
+    the cursor handling in SoWinComponent.
+
+    A possible implementation of SoWinComponent::setWidgetCursor()
+    would be to call call ::SetClassLong(w, GCL_HCURSOR, <native
+    cursor>. (That would remove the need to do anything special in
+    SoWinFullViewerP::systemEventHook(), at least). The problem with
+    this solution is that it sets the cursor for the windows _class_
+    of the supplied windows handle. This means that all windows using
+    the same class will get their cursor changed too, which is
+    probably not acceptable. The correct (only?) way to set the cursor
+    of a window is to have the window's windows procedure handle the
+    WM_SETCURSOR message, and calling ::SetCursor() from there. _If_
+    this is to be done from SoWinComponent::setWidgetCursor(), I think
+    it would have to be done by hooking into the (supplied) window's
+    window procedure. Personally, I think this is rather nasty, and
+    would suggest we live with a flawed setWidgetCursor() (one that
+    just calls ::SetCursor()) and just make sure it's documented
+    properly. It's straightforward for the application programmer to
+    set cursors for windows anyway.
+
+    One thing that _would_ be usefull would be to set which cursor
+    should be used inside a renderarea. The windows procedure of the
+    renderarea should then pick up WM_SETCURSOR events and set the
+    cursor there. I'm not sure how to correctly set the cursor when
+    leaving the renderarea - it might be handled automatically because
+    all surrounding windows will have a default cursor.
+
+    20040219 thammer
+
+=====================================================================
+
+019 SoWinSpaceball device registration weirdness?
+
+    It was reported to coin-support by Cristian J. Luciano that the
+    following program does not provide a working spaceball interface:
+
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+#include <Inventor/Win/SoWin.h>
+#include <Inventor/Win/viewers/SoWinExaminerViewer.h>
+#include <Inventor/nodes/SoEventCallback.h>
+#include <Inventor/nodes/SoCone.h>
+#include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/nodes/SoRotation.h>
+#include <Inventor/nodes/SoTranslation.h>
+#include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/nodes/SoTransform.h>
+#include <Inventor/Win/devices/SoWinSpaceball.h>
+#include <Inventor/events/SoSpaceballButtonEvent.h>
+#include <Inventor/events/SoMotion3Event.h>
+ 
+
+#include <iostream.h>
+ 
+ 
+ 
+void motion3TransformationCB (void *userData, SoEventCallback *cb)
+{
+  const SoMotion3Event *ev = (const SoMotion3Event *) cb->getEvent();
+  SoTransform *transformation = (SoTransform *) userData;
+ 
+ SbVec3f SpaceBallTranslation = ev->getTranslation();
+ SbRotation SpaceBallRotation = ev->getRotation();
+ 
+ transformation->translation = transformation->translation.getValue() + SpaceBallTranslation;
+ transformation->rotation = transformation->rotation.getValue() * SpaceBallRotation;
+ 
+}  
+ 
+SoNode * buildSceneGraph(int argc, char *argv[])
+{
+  SoSeparator *root = new SoSeparator;
+  root->ref();
+ 
+  SoSeparator *separator = new SoSeparator;
+  root->addChild(separator);
+ 
+  SoTransform *transform = new SoTransform;
+  separator->addChild(transform);
+ 
+  SoCone *cone = new SoCone;
+  separator->addChild(cone);
+ 
+  SoEventCallback *cb = new SoEventCallback;
+  cb->addEventCallback(
+    SoMotion3Event::getClassTypeId(),
+    motion3TransformationCB,
+    transform);
+  separator->addChild(cb);
+ 
+  return root;
+}
+ 
+ 
+ 
+int main(int argc, char **argv)
+{
+ HWND mainWindow = SoWin::init(argv[0]);
+ 
+ SoWinExaminerViewer *vwr = new SoWinExaminerViewer(mainWindow);
+ vwr->setSceneGraph(buildSceneGraph(argc,argv));
+ vwr->setTitle("Space Ball and Space Mouse Device");
+ vwr->setViewing(FALSE);   // come up in pick mode
+ vwr->setHeadlight(TRUE);
+ 
+
+ if (! SoWinSpaceball::exists()) {
+  cerr << "Sorry, no Space Ball or Magellan Space Mouse on this display!" << endl;
+ }
+ else
+ {
+  SoWinSpaceball *sb = new SoWinSpaceball;
+  vwr->registerDevice(sb);
+  float rotScaleFactor = sb->getRotationScaleFactor();
+  float transScaleFactor = sb->getTranslationScaleFactor();
+ 
+  cout << "Default rotation scale factor: " << rotScaleFactor << endl;
+  cout << "Default translation scale factor: " << transScaleFactor << endl;
+ }
+ 
+    vwr->setStereoViewing (true);
+    vwr->setQuadBufferStereo (true);
+ 
+
+ vwr->show();
+ vwr->viewAll();
+ 
+
+ SoWin::show(mainWindow);
+ SoWin::mainLoop();
+ 
+ return 0;
+}
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+
+    The reported replied to himself by saying that it worked if the
+    quad-buffer stereo was set up _before_ the spaceball. But I
+    believe the spaceball should work anyway, so investigate why this
+    happens.
+
+    20040607 mortene.
+
+=====================================================================
+
+020 Assert crash when using non-NULL value for "name" argument to
+    SoWinExaminerViewer constructor.
+
+    The Win32 API call GetWindowLong() will somehow fail when running
+    the below test example, which is caught by an assert in the
+    Win32API.cpp wrapper around that call.
+
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+
+#include <Inventor/Win/SoWin.h>
+#include <Inventor/Win/viewers/SoWinExaminerViewer.h>
+#include <Inventor/nodes/SoCube.h>
+#include <Inventor/nodes/SoSeparator.h>
+
+int main(int argc, char ** argv)
+{
+    HWND mainwin = SoWin::init(argc, argv, argv[0]);
+
+    SoSeparator * root = new SoSeparator;
+    root->ref();
+    root->addChild( new SoCube );
+
+    // passing no name or NULL works
+    SoWinExaminerViewer * area = new SoWinExaminerViewer(mainwin, "Test name");
+    area->setSceneGraph(root);
+    area->show();
+
+    SoWin::show(mainwin);
+    SoWin::mainLoop();
+
+    delete area;
+    root->unref();
+
+    return 0;
+}
+    
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+
+    20040806 mortene, reported by Gerhard Reitmayr.
+
+=====================================================================
+
+021 Sensor handling incorrect
+
+    This SoGui library has its own delayqueue timeout timer.
+    This will cause delayqueue timeouts to trigger twice since Coin
+    handles this internally as well.
+
+    In addition, the code should be reviewed for bugs related to
+    assumptions on when the global field is updated in Coin
+    (the global field is updated after SoSceneManager::render(),
+    not after SoSceneManager::redraw() as was the case earlier.
+
+    I suspect further bugs to surface when the issues above are fixed,
+    so a thorough code review should be performed.
+
+    See the Sc21 source code for en example of how this should be done.
+
+    20040921 kintel.
+
+=====================================================================
+
+022 SoReadError messages not caught by the message handler?
+
+    According to pederb, the internal SoWin message handler only
+    catches SoDebugError messages, and not SoReadError -- which it
+    should.
+
+    Investigate and fix. Medium priority.
+
+    20040923 mortene.
+
+=====================================================================
+
+023 The message handler should direct error messages to a more
+    flexible handler than a modal dialog.
+
+    According to larsa, TGS's InventorWin has a "proper" message
+    handler console, with scroll bars etc. We should strive to be at
+    least as good. :-)
+
+    (Using a modal error handler dialog box can be really frustrating
+    when a lot of debug messages are thrown out.)
+
+    20040923 mortene.
+
+=====================================================================
+
+024 Decorations not updated correctly.
+
+    We got the below example code to reproduce something which
+    supposedly works with TGS InventorWin, but not with SoWin. The
+    decorations are not properly redrawn when they should
+    be. Investigate to find the cause of this.
+
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+#include <windows.h>
+#include <Inventor/Win/SoWin.h>
+#include <Inventor/Win/viewers/SoWinExaminerViewer.h>
+#include <Inventor/nodes/SoCone.h>
+
+LRESULT CALLBACK WndProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam){
+  switch (uiMessage)
+    {
+    case WM_CLOSE:
+      DestroyWindow(hWnd);
+      return 0;
+    case WM_DESTROY:
+      PostQuitMessage(0);
+      return 0;
+    default:
+      break;
+    }
+  return DefWindowProc(hWnd, uiMessage, wParam, lParam);
+}
+
+HWND createMainWindow(void)
+{
+
+  // register the main widget class by the windos manager
+  // and create a main window
+  HINSTANCE hinst; 
+  HWND hwndMain;
+  WNDCLASS windowclass;
+
+  windowclass.lpszClassName = "MainWidget";
+  windowclass.hInstance = NULL;
+  windowclass.lpfnWndProc = WndProc;
+  windowclass.style = CS_OWNDC;
+  windowclass.lpszMenuName = NULL;
+  windowclass.hIcon = NULL;
+  windowclass.hCursor = ::LoadCursor(NULL, IDC_ARROW);
+  windowclass.hbrBackground = NULL;
+  windowclass.cbClsExtra = 0;
+  windowclass.cbWndExtra = 4;
+
+  ATOM a = RegisterClass(&windowclass);
+  assert(a);
+
+  hwndMain = CreateWindow( 
+                          "MainWidget", // class name 
+                          "MultiViewer", // window name 
+                          WS_OVERLAPPEDWINDOW | // overlapped window 
+                          WS_CLIPSIBLINGS |
+                          WS_CLIPCHILDREN, 
+                          20, // default horizontal position 
+                          20, // default vertical position 
+                          250, // default width 
+                          250, // default height 
+                          (HWND) NULL, // no parent or owner window 
+                          (HMENU) NULL, // class menu used 
+                          NULL, // instance handle 
+                          NULL); // no window creation data 
+ 
+  assert(hwndMain);
+  return hwndMain; 
+}
+
+int main(int argc, char* argv[])
+{
+#if 1 // this bugs
+  HWND mainWidget = createMainWindow();
+  SoWin::init(mainWidget);
+#else // while this is ok
+  HWND mainWidget = SoWin::init(argv[0]);
+#endif
+
+  SoWinExaminerViewer * viewer1 = new SoWinExaminerViewer(mainWidget, NULL);
+  viewer1 -> setSceneGraph(new SoCone);
+
+  viewer1 -> show();
+  SoWin::show(mainWidget);
+
+  SoWin::mainLoop();
+
+  return 0;
+}
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+
+    20050711 mortene.
+
+    UPDATE 20050711 mortene: the reason for the see-through, or
+    missing redraws, on the borders is the NULL-value set for the
+    hbrBackground field of the WNDCLASS struct. This field signifies
+    what kind of brush to use for redraws. Set a proper brush:
+
+      windowclass.hbrBackground = (HBRUSH)GetSysColorBrush(COLOR_BTNFACE);
+
+    ...and there is no such problem.
+
+    Awaiting information from reported about whether or not his
+    example works better with TGS InventorWin before deciding to
+    remove this item, or whether we should fix up SoWin to work better
+    in this case.
+
+    UPDATE 20051104 mortene: Coin-user Volker Enderlein checked this
+    out, and found InventorWin to work properly in this case, so this
+    should be fixed for SoWin.
+
+=====================================================================
+
+025 Memory leaks upon opening and closing SoWinExaminerViewer
+    instances.
+
+    We've had reports about this, even with recent versions of
+    SoWin. Give it a spin with Rational Purify.
+
+    20051028 mortene.
+
+=====================================================================
+
+026 A minimized window causes the getGLSize() to return negative
+    values.
+
+    This further causes bad parameters to be passed in to OpenGL when
+    drawing the axis cross, which causes GL errors.
+
+    20051115 mortene. reported by Robert Derek Norris, who suggested
+    the following patch:
+
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+diff -r -u SoWin-20020502/src/Inventor/Win/SoWinComponent.cpp SoWin-20020502-Mod/src/Inventor/Win/SoWinComponent.cpp
+--- SoWin-20020502/src/Inventor/Win/SoWinComponent.cpp	Fri Mar 22 09:42:40 2002
++++ SoWin-20020502-Mod/src/Inventor/Win/SoWinComponent.cpp	Thu May  2 16:05:08 2002
+@@ -587,7 +587,7 @@
+ SoWinComponent::setSize(const SbVec2s size)
+ {
+   UINT flags = SWP_NOMOVE | SWP_NOZORDER; // do redraw
+-  Win32::SetWindowPos(this->getShellWidget(), NULL, 0, 0,
++  Win32::SetWindowPos(this->getParentWidget(), NULL, 0, 0,
+                        size[0], size[1], flags);
+ } // setSize()
+ 
+@@ -600,7 +600,7 @@
+ SoWinComponent::getSize(void) const
+ {
+   RECT rect;
+-  Win32::GetWindowRect(this->getShellWidget(), & rect);
++  Win32::GetWindowRect(this->getParentWidget(), & rect);
+   return SbVec2s(rect.right - rect.left, rect.bottom - rect.top);
+ } // getSize()
+ 
+Only in SoWin-20020502-Mod/src/Inventor/Win: sowin0.dll
+Only in SoWin-20020502-Mod/src/Inventor/Win: sowin0.exp
+Only in SoWin-20020502-Mod/src/Inventor/Win: sowin0.lib
+Only in SoWin-20020502-Mod/src/Inventor/Win: sowin0.pdb
+Only in SoWin-20020502-Mod/src/Inventor/Win: sowin0d.dll
+Only in SoWin-20020502-Mod/src/Inventor/Win: sowin0d.exp
+Only in SoWin-20020502-Mod/src/Inventor/Win: sowin0d.pdb
+diff -r -u SoWin-20020502/src/Inventor/Win/viewers/FullViewer.cpp SoWin-20020502-Mod/src/Inventor/Win/viewers/FullViewer.cpp
+--- SoWin-20020502/src/Inventor/Win/viewers/FullViewer.cpp	Mon Mar 25 07:16:24 2002
++++ SoWin-20020502-Mod/src/Inventor/Win/viewers/FullViewer.cpp	Thu May  2 16:04:38 2002
+@@ -1064,7 +1064,7 @@
+     // App buttons
+     for(i = 0; i < numAppButtons; i++) {
+       Win32::MoveWindow(APPBUTTON_O(i),
+-                         0, (DECORATION_SIZE * (i + numViewerButtons)),
++                         0, DECORATION_SIZE * i,
+                          DECORATION_SIZE, DECORATION_SIZE, TRUE);
+     }
+   }
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+
+    (This does look a little peculiar, tho'..?)
+
+=====================================================================
+
+027 Multithreading-support in Coin/SoWin worse than for Mercury/TGS
+    Inventor / InventorWin?
+
+    A user migrating from TGS Inventor reports that the following
+    example works as he expects with TGS Inventor, but not with Coin /
+    SoWin. He reports the problem as follows:
+
+        "I expect a cone to appear every second and the viewer should
+        redraw.  Instead I no updates occur until the thread is
+        completed."
+
+    We should check the ref doc of TGS Inventor to see if this is
+    officially supported, and if so, consider fixing it in Coin
+    aswell. Perhaps we should fix it anyway, since modifying the scene
+    graph in one thread would be very convenient to have
+    working. We've run into this problem ourselves many times -- the
+    same also goes for SoQt.
+
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+#include <Inventor/Win/SoWin.h>
+#include <Inventor/Win/viewers/SoWinExaminerViewer.h>
+#include <Inventor/nodes/SoSeparator.h> 
+#include <Inventor/nodes/SoCone.h>
+#include <Inventor/nodes/SoTranslation.h>
+#include <Inventor/threads/SbThread.h>
+#include <Inventor/SoDB.h>
+
+
+static void* AddCones(void * view) {
+  SoDB::init();
+
+  SoWinExaminerViewer* viewer = (SoWinExaminerViewer*) view;
+  SoSeparator *root = new SoSeparator; 
+  viewer->setSceneGraph(root);
+
+  while(root->getNumChildren() <= 10) {
+    Sleep(1000);
+    SoSeparator* sep = new SoSeparator();
+
+    SoTranslation* trans = new SoTranslation();
+    sep->addChild(trans);
+    trans->translation = 100.0f * SbVec3f((float)rand() / RAND_MAX, (float)rand() / RAND_MAX, (float)rand() / RAND_MAX);
+    sep->addChild(new SoCone());
+    SoDB::writelock();
+    root->addChild(sep);
+    SoDB::writeunlock();
+
+    SoDB::readlock();
+    viewer->viewAll();
+    SoDB::readunlock();
+  }
+  return NULL;
+}
+
+int main(int, char ** argv) {
+  HWND window = SoWin::init(argv[0]);
+  if (window==NULL) exit(1);
+  SoWinExaminerViewer * viewer = new SoWinExaminerViewer(window);
+  SoWin::show(window);
+  SbThread* thread = SbThread::create(AddCones, (void*)viewer);
+  SoWin::mainLoop();
+  return 0;
+}
+----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] --------
+
+    20051122 mortene, reported by Martin Kavalar.
+
+=====================================================================

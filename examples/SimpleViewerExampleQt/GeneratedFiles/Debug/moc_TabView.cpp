@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'TabView.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.12.3)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.10.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'TabView.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.12.3. It"
+#error "This file was generated using the moc from 5.10.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -50,7 +50,7 @@ QT_MOC_LITERAL(7, 92, 14) // "slotShowCurves"
 static const uint qt_meta_data_TabView[] = {
 
  // content:
-       8,       // revision
+       7,       // revision
        0,       // classname
        0,    0, // classinfo
        5,   14, // methods
@@ -80,7 +80,7 @@ static const uint qt_meta_data_TabView[] = {
 void TabView::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        auto *_t = static_cast<TabView *>(_o);
+        TabView *_t = static_cast<TabView *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->slotToggleSceneLight(); break;
@@ -93,14 +93,10 @@ void TabView::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
     }
 }
 
-QT_INIT_METAOBJECT const QMetaObject TabView::staticMetaObject = { {
-    &QWidget::staticMetaObject,
-    qt_meta_stringdata_TabView.data,
-    qt_meta_data_TabView,
-    qt_static_metacall,
-    nullptr,
-    nullptr
-} };
+QT_INIT_METAOBJECT const QMetaObject TabView::staticMetaObject = {
+    { &QWidget::staticMetaObject, qt_meta_stringdata_TabView.data,
+      qt_meta_data_TabView,  qt_static_metacall, nullptr, nullptr}
+};
 
 
 const QMetaObject *TabView::metaObject() const

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+cat <<EOF
+
+Error: to bootstrap, invoke the script simacros/bin/bootstrap.
+
+The simacros SVN repository can be fetched by doing:
+
+   \$ svn co https://svn.coin3d.org/repos/simacros/trunk simacros
+
+
+Exiting..
+
+EOF
+
+exit 1

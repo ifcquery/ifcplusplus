@@ -1,0 +1,246 @@
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+#include <Inventor/errors/SoDebugError.h>
+#include <Inventor/events/SoMouseButtonEvent.h>
+#include <Inventor/actions/SoHandleEventAction.h>
+#include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/nodes/SoIndexedFaceSet.h>
+#include <Inventor/nodes/SoTexture2.h>
+#include <Inventor/nodes/SoCoordinate3.h>
+#include <Inventor/nodes/SoTextureCoordinate2.h>
+#include <Inventor/nodes/SoMaterial.h>
+#include <Inventor/sensors/SoFieldSensor.h>
+#include <Inventor/SoPickedPoint.h>
+#include <Inventor/SoLists.h>
+
+#include <Inventor/SbColor.h>
+
+#include <Inventor/@Gui@/nodes/SoGuiClickCounter.h>
+#include <assert.h>
+
+//  SO_KIT_CATALOG_ENTRY_HEADER(topSeparator);
+//  SO_KIT_CATALOG_ENTRY_HEADER(surfaceMaterial);
+//  SO_KIT_CATALOG_ENTRY_HEADER(surfaceTexture);
+//  SO_KIT_CATALOG_ENTRY_HEADER(surfaceTexCoords);
+//  SO_KIT_CATALOG_ENTRY_HEADER(surfaceCoords);
+//  SO_KIT_CATALOG_ENTRY_HEADER(surfaceFaceSet);
+
+//  SoSFVec3f size;
+//  SoSFInt32 value;
+//  SoSFTrigger click;
+//  SoSFInt32 first;
+//  SoSFInt32 last;
+
+class ClickCounter {
+public:
+  SoGuiClickCounter * api;
+
+  SoFieldSensor * sizesensor;
+  static void sizeCB(void * closure, SoSensor * sensor);
+
+  SoFieldSensor * firstsensor;
+  static void firstCB(void * closure, SoSensor * sensor);
+
+  ClickCounter(void);
+  ~ClickCounter(void);
+};
+
+// *************************************************************************
+
+void
+SoGuiClickCounter::initClass(void)
+{
+  SO_KIT_INIT_CLASS(SoGuiClickCounter, SoBaseKit, "BaseKit");
+}
+
+SO_KIT_SOURCE(SoGuiClickCounter);
+
+#define PRIVATE(obj) ((ClickCounter *) this->internals)
+
+SoGuiClickCounter::SoGuiClickCounter(void)
+{
+  this->internals = new ClickCounter;
+  PRIVATE(this)->api = this;
+
+  SO_KIT_CONSTRUCTOR(SoGuiClickCounter);
+
+  SO_KIT_ADD_FIELD(size, (SbVec3f(1.0f, 1.0f, 0.0f)));
+  SO_KIT_ADD_FIELD(first, (0));
+  SO_KIT_ADD_FIELD(last, (0));
+  SO_KIT_ADD_FIELD(value, (0));
+  SO_KIT_ADD_FIELD(click, ());
+
+  SO_KIT_ADD_CATALOG_ENTRY(surfaceFaceSet, SoIndexedFaceSet, FALSE, topSeparator, "", FALSE);
+  SO_KIT_ADD_CATALOG_ENTRY(surfaceCoords, SoCoordinate3, FALSE, topSeparator, surfaceFaceSet, FALSE);
+  SO_KIT_ADD_CATALOG_ENTRY(surfaceTexCoords, SoTextureCoordinate2, FALSE, topSeparator, surfaceCoords, FALSE);
+  SO_KIT_ADD_CATALOG_ENTRY(surfaceTexture, SoTexture2, TRUE, topSeparator, surfaceTexCoords, TRUE);
+  SO_KIT_ADD_CATALOG_ENTRY(surfaceMaterial, SoMaterial, TRUE, topSeparator, surfaceTexture, TRUE);
+  SO_KIT_ADD_CATALOG_ENTRY(topSeparator, SoSeparator, FALSE, this, "", FALSE);
+
+  SO_KIT_INIT_INSTANCE();
+
+  static float surfacetexturecoordinates[][2] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
+  SoTextureCoordinate2 * surfacetexcoords = SO_GET_ANY_PART(this, "surfaceTexCoords", SoTextureCoordinate2);
+  assert(surfacetexcoords);
+  surfacetexcoords->point.setValues(0, 4, surfacetexturecoordinates);
+
+  static int32_t surfaceindices[] = { 0, 1, 2, -1, 0, 2, 3, -1 };
+  SoIndexedFaceSet * surfacefaceset = SO_GET_ANY_PART(this, "surfaceFaceSet", SoIndexedFaceSet);
+  assert(surfacefaceset);
+  surfacefaceset->textureCoordIndex.setValues(0, 8, surfaceindices);
+  surfacefaceset->coordIndex.setValues(0, 8, surfaceindices);
+
+  // SoMaterial * surfacematerial = SO_GET_ANY_PART(this, "surfaceMaterial", SoMaterial);
+  // surfacematerial->diffuseColor.setValue(SbColor(0.0f, 0.0f, 0.0f));
+
+  this->sizeUpdate();
+
+  PRIVATE(this)->sizesensor = new SoFieldSensor(ClickCounter::sizeCB, PRIVATE(this));
+  PRIVATE(this)->sizesensor->attach(&(this->size));
+  PRIVATE(this)->firstsensor = new SoFieldSensor(ClickCounter::firstCB, PRIVATE(this));
+  PRIVATE(this)->firstsensor->attach(&(this->first));
+}
+
+SoGuiClickCounter::~SoGuiClickCounter(void)
+{
+  ClickCounter * obj = PRIVATE(this);
+  delete obj;
+}
+
+void
+SoGuiClickCounter::handleEvent(SoHandleEventAction * action)
+{
+  const SoEvent * ev = action->getEvent();
+  if ( ev->isOfType(SoMouseButtonEvent::getClassTypeId()) ) {
+    const SoMouseButtonEvent * event = (SoMouseButtonEvent *) ev;
+    if ( event->getState() == SoButtonEvent::DOWN ) {
+      const SoPickedPointList & ppoints = action->getPickedPointList();
+      SbBool hit = FALSE;
+      int i = 0;
+      SoIndexedFaceSet * target = SO_GET_ANY_PART(this, "surfaceFaceSet", SoIndexedFaceSet);
+      assert(target);
+      for ( i = 0; !hit && i < ppoints.getLength(); i++ ) {
+        const SoPickedPoint * point = ppoints[i];
+        const SoFullPath * path = (const SoFullPath *) point->getPath();
+        assert(path);
+        SoNode * node = path->getTail();
+        if ( node == (SoNode *) target ) hit = TRUE;
+      }
+      if ( hit ) {
+        int32_t firstval = this->first.getValue();
+        int32_t lastval = this->last.getValue();
+        if ( firstval < lastval ) {
+          int32_t val = this->value.getValue() + 1;
+          if ( val > lastval ) val = firstval;
+          this->value.setValue(val);
+        } else if ( firstval > lastval ) {
+          int32_t val = this->value.getValue() - 1;
+          if ( val < lastval ) val = firstval;
+          this->value.setValue(val);
+        }
+        this->click.touch();
+      }
+    }
+  }
+}
+
+void
+SoGuiClickCounter::setSurfaceColor(const SbColor & valuearg)
+{
+}
+
+void
+SoGuiClickCounter::sizeUpdate(void)
+{
+  SbVec3f sizeval = this->size.getValue();
+  if ( sizeval[0] != 0.0f && sizeval[1] != 0.0f ) {
+    float coordinates[][3] = { {0.0f, 0.0f, 0.0f}, {sizeval[0], 0.0f, 0.0f}, {sizeval[0], sizeval[1], 0.0f}, {0.0f, sizeval[1], 0.0f} };
+    SoCoordinate3 * coords = SO_GET_ANY_PART(this, "surfaceCoords", SoCoordinate3);
+    assert(coords);
+    coords->point.setValues(0, sizeof(coordinates) / sizeof(coordinates[0]), coordinates);
+  }
+}
+
+void
+SoGuiClickCounter::firstUpdate(void)
+{
+  this->value.setValue(this->first.getValue());
+}
+
+SbBool
+SoGuiClickCounter::readInstance(SoInput * in, unsigned short flags)
+{
+  assert(PRIVATE(this)->firstsensor != NULL);
+  PRIVATE(this)->firstsensor->detach();
+  SbBool retval = inherited::readInstance(in, flags);
+  PRIVATE(this)->firstsensor->attach(&(this->first));
+  return retval;
+}
+
+// *************************************************************************
+
+ClickCounter::ClickCounter(void)
+{
+  this->api = NULL;
+  this->sizesensor = NULL;
+  this->firstsensor = NULL;
+}
+
+ClickCounter::~ClickCounter(void)
+{
+}
+
+void
+ClickCounter::sizeCB(void * closure, SoSensor * sensor)
+{
+  assert(closure);
+  ClickCounter * me = (ClickCounter *) closure;
+  assert(me->api);
+  me->api->sizeUpdate();
+}
+
+void
+ClickCounter::firstCB(void * closure, SoSensor * sensor)
+{
+  assert(closure);
+  ClickCounter * me = (ClickCounter *) closure;
+  assert(me->api);
+  me->api->firstUpdate();
+}
+
+// *************************************************************************
+
+#undef PRIVATE
+

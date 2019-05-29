@@ -1,0 +1,23 @@
+set(So${Gui}_VERSION "@SO${GUI}_MAJOR_VERSION@.@SO${GUI}_MINOR_VERSION@.@SO${GUI}_MICRO_VERSION@")
+set(So${Gui}_VERSION_MAJOR "@SO${GUI}_MAJOR_VERSION@")
+set(So${Gui}_VERSION_MINOR "@SO${GUI}_MINOR_VERSION@")
+set(So${Gui}_VERSION_PATCH "@SO${GUI}_MICRO_VERSION@")
+
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+include(GNUInstallDirs)
+
+find_dependency(Coin)
+
+include("${CMAKE_CURRENT_LIST_DIR}/so${gui}-export.cmake")
+
+if(SO${GUI}_BUILD_SHARED_LIBS)
+	set(So${Gui}_DEFINITIONS "-DSO${GUI}_DLL")
+else()
+	set(So${Gui}_DEFINITIONS "-DSO${GUI}_NOT_DLL")
+endif()
+
+set(So${Gui}_INCLUDE_DIRS "${PACKAGE_PREFIX_DIR}/@CMAKE_INSTALL_INCLUDEDIR@")
+set(So${Gui}_LIBRARY_DIRS "${PACKAGE_PREFIX_DIR}/@CMAKE_INSTALL_LIBDIR@")
+set(So${Gui}_LIBRARIES So${Gui}::So${Gui})

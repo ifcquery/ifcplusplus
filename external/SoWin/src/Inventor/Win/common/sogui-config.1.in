@@ -1,0 +1,37 @@
+.\" Process this file with
+.\" groff -man -Tascii so@gui@-config.1
+.\"
+.TH so@gui@-config 1 "AUGUST 2001" "Library Configuration" "User Manuals"
+.SH NAME
+so@gui@-config \- Display So@Gui@ Library Configuration
+.SH SYNOPSIS
+.B so@gui@-config 
+.I OPTION 
+.B [
+.I OPTION
+.B ... ]
+.SH DESCRIPTION
+.B so@gui@-config
+is a script that is used to display what compiler flags and libraries were
+used when So@Gui@ was built.
+.SH OPTIONS
+.IP --version
+Return So@Gui@ version string
+.IP --help
+Display so@gui@-config usage information
+.IP --cppflags
+Return C pre-processor flags for use when compiling with So@Gui@
+.IP --cxxflags
+Return C++ compiler flags for use when compiling with So@Gui@
+.IP --ldflags
+Return linker flags needed when linking against So@Gui@
+.IP --libs
+Return libraries one must link with when using So@Gui@
+.IP --alternate=<config-name>
+Set So@Gui@ configuration to something other than default (when using
+multiple So@Gui@ configurations).
+.SH AUTHORS
+Steve Robbins <smr@debian.org>, and
+.br
+Lars J. Aas <larsa@coin3d.org>
+.

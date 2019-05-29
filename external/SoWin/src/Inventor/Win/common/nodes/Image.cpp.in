@@ -1,0 +1,164 @@
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+#include <Inventor/errors/SoDebugError.h>
+#include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/nodes/SoTexture2.h>
+#include <Inventor/nodes/SoCoordinate3.h>
+#include <Inventor/sensors/SoFieldSensor.h>
+
+#include <Inventor/@Gui@/SoAny.h>
+#include <Inventor/@Gui@/nodes/SoGuiImage.h>
+#include <assert.h>
+
+// *************************************************************************
+
+class Image {
+public:
+  Image(void);
+
+  SoGuiImage * api;
+
+  SoFieldSensor * size_sensor;
+  static void size_updated_cb(void * closure, SoSensor * sensor);
+
+  SoCoordinate3 * coords;
+
+  static const char * geometryscene[];
+};
+
+// *************************************************************************
+
+#define PRIVATE(obj) ((Image *)obj->internals)
+
+void
+SoGuiImage::initClass(void)
+{
+  SO_KIT_INIT_CLASS(SoGuiImage, SoBaseKit, "BaseKit");
+}
+
+SO_KIT_SOURCE(SoGuiImage);
+
+SoGuiImage::SoGuiImage(void)
+{
+  this->internals = new Image;
+  PRIVATE(this)->api = this;
+
+  SO_KIT_CONSTRUCTOR(SoGuiImage);
+  SO_KIT_ADD_FIELD(size, (SbVec3f(1.0f, 1.0f, 0.0f)));
+
+  SO_KIT_ADD_CATALOG_ENTRY(geometry, SoGroup, FALSE, topSeparator, "", FALSE);
+  SO_KIT_ADD_CATALOG_ENTRY(texture, SoTexture2, FALSE, topSeparator, geometry, TRUE);
+  SO_KIT_ADD_CATALOG_ENTRY(topSeparator, SoSeparator, FALSE, this, "", FALSE);
+
+  SO_KIT_INIT_INSTANCE();
+
+  SoNode * geometryroot = SoAny::loadSceneGraph(Image::geometryscene);
+  assert(geometryroot);
+  geometryroot->ref();
+  geometryroot->isOfType(SoSeparator::getClassTypeId());
+  SoNode * realgeometry = ((SoSeparator *) geometryroot)->getChild(0);
+  assert(realgeometry);
+  realgeometry->ref();
+
+  PRIVATE(this)->coords = (SoCoordinate3 *) SoAny::scanSceneForName(realgeometry, "coords");
+  assert(PRIVATE(this)->coords);
+  assert(PRIVATE(this)->coords->isOfType(SoCoordinate3::getClassTypeId()));
+
+  realgeometry->unrefNoDelete();
+  SbBool ok = this->setAnyPart("geometry", realgeometry);
+  assert(ok);
+  geometryroot->unref();
+
+  PRIVATE(this)->size_sensor = new SoFieldSensor(Image::size_updated_cb, PRIVATE(this));
+  PRIVATE(this)->size_sensor->attach(&(this->size));
+}
+
+SoGuiImage::~SoGuiImage(void)
+{
+  delete PRIVATE(this)->size_sensor;
+  Image * obj = PRIVATE(this);
+  delete obj;
+}
+
+#undef PRIVATE
+
+// *************************************************************************
+
+#define PUBLIC(obj) (obj->api)
+
+const char *
+Image::geometryscene[] =
+{
+  "#Inventor V2.1 ascii",
+  "",
+  "Group {",
+  "  DEF coords Coordinate3 {",
+  "    point [ 0 0 0, 1 0 0, 1 1 0, 0 1 0 ]",
+  "  }",
+  "  TextureCoordinate2 {",
+  "    point [ 0 0, 1 0, 1 1, 0 1 ]",
+  "  }",
+  "  IndexedFaceSet {",
+  "    coordIndex [ 0 1 2 -1 0 2 3 -1 ]",
+  "    textureCoordIndex [ 0 1 2 -1 0 2 3 -1 ]",
+  "  }",
+  "}",
+  NULL
+};
+
+Image::Image(void)
+{
+  this->api = NULL;
+  this->size_sensor = NULL;
+  this->coords = NULL;
+}
+
+void
+Image::size_updated_cb(void * closure, SoSensor * sensor)
+{
+  assert(closure);
+  Image * me = (Image *) closure;
+  SbVec3f size = PUBLIC(me)->size.getValue();
+  SbBool save = me->coords->point.enableNotify(FALSE);
+  me->coords->point.set1Value(1, SbVec3f(size[0], 0.0f, 0.0f));
+  me->coords->point.set1Value(2, SbVec3f(size[0], size[1], 0.0f));
+  me->coords->point.set1Value(3, SbVec3f(0.0f, size[1], 0.0f));
+  me->coords->point.enableNotify(save);
+  if ( save ) me->coords->point.touch();
+}
+
+#undef PUBLIC
+
+// *************************************************************************

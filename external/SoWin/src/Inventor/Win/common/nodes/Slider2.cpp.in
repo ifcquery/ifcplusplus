@@ -1,0 +1,483 @@
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif /* HAVE_CONFIG_H */
+
+#include <math.h>
+
+#include <Inventor/errors/SoDebugError.h>
+#include <Inventor/actions/SoGLRenderAction.h>
+#include <Inventor/actions/SoHandleEventAction.h>
+#include <Inventor/misc/SoState.h>
+#include <Inventor/elements/SoLazyElement.h>
+#include <Inventor/sensors/SoFieldSensor.h>
+#include <Inventor/events/SoMouseButtonEvent.h>
+#include <Inventor/events/SoLocation2Event.h>
+#include <Inventor/SoPickedPoint.h>
+#include <Inventor/SoLists.h>
+
+#include <Inventor/SbColor.h>
+
+#include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/nodes/SoMaterial.h>
+#include <Inventor/nodes/SoTexture2.h>
+#include <Inventor/nodes/SoCoordinate3.h>
+#include <Inventor/nodes/SoTextureCoordinate2.h>
+#include <Inventor/nodes/SoIndexedFaceSet.h>
+#include <Inventor/nodes/SoTranslation.h>
+
+#include <Inventor/@Gui@/common/gl.h>
+#include <Inventor/@Gui@/SoAny.h>
+
+#include <Inventor/@Gui@/nodes/SoGuiPane.h>
+#include <Inventor/@Gui@/nodes/SoGuiSlider2.h>
+#include <assert.h>
+
+// *************************************************************************
+
+/*!
+  \class SoGuiSlider2 Inventor/@Gui@/nodes/SoGuiSlider2.h
+  \brief A GUI component for a 2-dimensional slider.
+
+  The SoGuiSlider2 node is for creating 2D user interfaces with
+  sliders.
+
+*/
+
+// *************************************************************************
+
+class Slider2 {
+public:
+  SoGuiSlider2 * kit;
+  SoFieldSensor * sizeSensor;
+  SoFieldSensor * valueSensor;
+
+  Slider2(void);
+  ~Slider2(void);
+
+  // sensors callbacks
+  static void sizeChangeCB(void * closure, SoSensor * sensor);
+  static void valueChangeCB(void * closure, SoSensor * sensor);
+
+  static const char * knobgeometry[];
+  SoTranslation * knobtranslation;
+
+  SoGuiPane * pane;
+
+  SbBool grabbing;
+
+  SbVec2f graboffset;
+  SbVec2f grabval;
+
+  SbVec2f pickpos;
+  SbVec2f grabpos;
+};
+
+Slider2::Slider2(void)
+{
+  this->kit = NULL;
+  this->sizeSensor = NULL;
+  this->valueSensor = NULL;
+  this->grabbing = FALSE;
+  this->pane = NULL;
+}
+
+Slider2::~Slider2(void)
+{
+  if ( this->sizeSensor ) {
+    this->sizeSensor->detach();
+    delete this->sizeSensor;
+    this->sizeSensor = NULL;
+  }
+  if ( this->valueSensor ) {
+    this->valueSensor->detach();
+    delete this->valueSensor;
+    this->valueSensor = NULL;
+  }
+  this->kit = NULL;
+}
+
+void
+Slider2::sizeChangeCB(void * closure, SoSensor * sensor)
+{
+  assert(closure);
+  Slider2 * internals = (Slider2 *) closure;
+  assert(internals->kit);
+  internals->kit->sizeUpdate();
+}
+
+void
+Slider2::valueChangeCB(void * closure, SoSensor * sensor)
+{
+  assert(closure);
+  Slider2 * internals = (Slider2 *) closure;
+  assert(internals->kit);
+  internals->kit->valueUpdate();
+}
+
+const char *
+Slider2::knobgeometry[] =
+{
+  "# Inventor V2.1 ascii",
+  "",
+  "Separator {",
+  "  DEF knobtranslation Translation {}",
+  "  Coordinate3 {",
+  "    point [",
+  // inner loop
+  "      0 0 0,",
+  "      1 0 0,",
+  "      1 1 0,",
+  "      0 1 0,",
+  // middle inner
+  "      -1 -1 0,",
+  "      2 -1 0,",
+  "      2 2 0,",
+  "      -1 2 0,",
+  // middle outer
+  "      -2 -2 0,",
+  "      3 -2 0,",
+  "      3 3 0,",
+  "      -2 3 0,",
+  // outer loop
+  "      -3 -3 0,",
+  "      4 -3 0,",
+  "      4 4 0,",
+  "      -3 4 0",
+  "    ]",
+  "  }",
+  "  Material {",
+  "    diffuseColor 0.7 0.7 0.7",
+  "  }",
+  "  IndexedFaceSet {",
+  "    coordIndex [",
+  // middle
+  "      8 9 5 8 -1",
+  "      8 5 4 8 -1",
+  "      9 10 6 9 -1",
+  "      9 6 5 9 -1",
+  "      10 11 7 10 -1",
+  "      10 7 6 10 -1",
+  "      11 8 4 11 -1",
+  "      11 4 7 11 -1",
+  "    ]",
+  "  }",
+  "  Material {",
+  "    diffuseColor 0.5 0.5 0.5",
+  "  }",
+  "  IndexedFaceSet {",
+  "    coordIndex [",
+  // inner shade
+  "      6 7 3 6 -1",
+  "      6 3 2 6 -1",
+  "      7 4 0 7 -1",
+  "      7 0 3 7 -1",
+  // outer shade
+  "      12 13 9 12 -1",
+  "      12 9 8 12 -1",
+  "      13 14 10 13 -1",
+  "      13 10 9 13 -1",
+  "    ]",
+  "  }",
+  "  Material {",
+  "    diffuseColor 0.9 0.9 0.9",
+  "  }",
+  "  IndexedFaceSet {",
+  "    coordIndex [",
+  // inner light
+  "      4 5 1 4 -1",
+  "      4 1 0 4 -1",
+  "      5 6 2 5 -1",
+  "      5 2 1 5 -1",
+  // outer light
+  "      14 15 11 14 -1",
+  "      14 11 10 14 -1",
+  "      15 12 8 15 -1",
+  "      15 8 11 15 -1",
+  "    ]",
+  "  }",
+  "}",
+  NULL
+};
+
+// *************************************************************************
+
+#define PRIVATE(obj) ((Slider2 *) obj->internals)
+
+void
+SoGuiSlider2::initClass(void)
+{
+  SO_KIT_INIT_CLASS(SoGuiSlider2, SoBaseKit, "BaseKit");
+}
+
+SO_KIT_SOURCE(SoGuiSlider2);
+
+SoGuiSlider2::SoGuiSlider2(void)
+{
+  this->internals = (void *) new Slider2;
+  PRIVATE(this)->kit = this;
+
+  SO_KIT_CONSTRUCTOR(SoGuiSlider2);
+
+  SO_KIT_ADD_FIELD(size, (SbVec3f(1.0f, 1.0f, 0.0f)));
+
+  SO_KIT_ADD_FIELD(min, (SbVec2f(0.0f, 0.0f)));
+  SO_KIT_ADD_FIELD(max, (SbVec2f(1.0f, 1.0f)));
+  SO_KIT_ADD_FIELD(value, (SbVec2f(0.0f, 0.0f)));
+
+  SO_KIT_ADD_FIELD(alwaysHook, (TRUE));
+
+  SO_KIT_ADD_CATALOG_ENTRY(knobGeometry, SoSeparator, FALSE, topSeparator, "", TRUE);
+  SO_KIT_ADD_CATALOG_ENTRY(surfaceFaceSet, SoIndexedFaceSet, FALSE, surfaceGeometry, "", FALSE);
+  SO_KIT_ADD_CATALOG_ENTRY(surfaceCoords, SoCoordinate3, FALSE, surfaceGeometry, surfaceFaceSet, FALSE);
+  SO_KIT_ADD_CATALOG_ENTRY(surfaceTexCoords, SoTextureCoordinate2, FALSE, surfaceGeometry, surfaceCoords, FALSE);
+  SO_KIT_ADD_CATALOG_ENTRY(surfaceTexture, SoTexture2, TRUE, surfaceGeometry, surfaceTexCoords, TRUE);
+  SO_KIT_ADD_CATALOG_ENTRY(surfaceMaterial, SoMaterial, TRUE, surfaceGeometry, surfaceTexture, TRUE);
+  SO_KIT_ADD_CATALOG_ENTRY(surfaceGeometry, SoSeparator, FALSE, topSeparator, knobGeometry, FALSE);
+  SO_KIT_ADD_CATALOG_ENTRY(topSeparator, SoSeparator, FALSE, this, "", FALSE);
+
+  SO_KIT_INIT_INSTANCE();
+
+  static float surfacetexturecoordinates[][2] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
+  SoTextureCoordinate2 * surfacetexcoords = SO_GET_ANY_PART(this, "surfaceTexCoords", SoTextureCoordinate2);
+  assert(surfacetexcoords);
+  surfacetexcoords->point.setValues(0, 4, surfacetexturecoordinates);
+
+  static int32_t surfaceindices[] = { 0, 1, 2, -1, 0, 2, 3, -1 };
+  SoIndexedFaceSet * surfacefaceset = SO_GET_ANY_PART(this, "surfaceFaceSet", SoIndexedFaceSet);
+  assert(surfacefaceset);
+  surfacefaceset->textureCoordIndex.setValues(0, 8, surfaceindices);
+  surfacefaceset->coordIndex.setValues(0, 8, surfaceindices);
+ 
+  SoNode * knob = (SoSeparator *) SoAny::loadSceneGraph(Slider2::knobgeometry);
+  assert(knob != NULL && knob->isOfType(SoSeparator::getClassTypeId()));
+  this->setPart("knobGeometry", knob);
+
+  SoNode * node = SoAny::scanSceneForName(knob, "knobtranslation", FALSE);
+  assert(node != NULL && node->isOfType(SoTranslation::getClassTypeId()));
+  PRIVATE(this)->knobtranslation = (SoTranslation *) node;
+
+  this->sizeUpdate();
+  
+  // set up sensors
+  PRIVATE(this)->sizeSensor = new SoFieldSensor(Slider2::sizeChangeCB, PRIVATE(this));
+  PRIVATE(this)->sizeSensor->attach(&(this->size));
+  PRIVATE(this)->valueSensor = new SoFieldSensor(Slider2::valueChangeCB, PRIVATE(this));
+  PRIVATE(this)->valueSensor->attach(&(this->value));
+}
+
+SoGuiSlider2::~SoGuiSlider2(void)
+{
+  Slider2 * obj = PRIVATE(this);
+  delete obj;
+  this->internals = NULL;
+}
+
+void
+SoGuiSlider2::sizeUpdate(void)
+{
+  SbVec3f sizeval = this->size.getValue();
+  if ( sizeval[0] != 0.0f && sizeval[1] != 0.0f ) {
+    float coordinates[][3] = { {0.0f, 0.0f, 0.0f}, {sizeval[0], 0.0f, 0.0f}, {sizeval[0], sizeval[1], 0.0f}, {0.0f, sizeval[1], 0.0f} };
+    SoCoordinate3 * coords = SO_GET_ANY_PART(this, "surfaceCoords", SoCoordinate3);
+    assert(coords);
+    coords->point.setValues(0, sizeof(coordinates) / sizeof(coordinates[0]), coordinates);
+    this->valueUpdate();
+  }
+}
+
+void
+SoGuiSlider2::valueUpdate(void)
+{
+  assert(PRIVATE(this)->knobtranslation != NULL);
+  SbVec2f val = this->value.getValue();
+  SbVec2f minval = this->min.getValue();
+  SbVec2f maxval = this->max.getValue();
+  SbVec3f sizeval = this->size.getValue();
+
+  SbVec2f nval;
+  nval[0] = (val[0] - minval[0]) / (maxval[0] - minval[0]);
+  nval[1] = (val[1] - minval[1]) / (maxval[1] - minval[1]);
+
+  SbVec3f translation;
+  translation[0] = nval[0] * sizeval[0];
+  translation[1] = nval[1] * sizeval[1];
+  translation[2] = 0.0f;
+
+  PRIVATE(this)->knobtranslation->translation.setValue(translation);
+}
+
+void
+SoGuiSlider2::handleEvent(SoHandleEventAction * action)
+{
+  if ( action->isHandled() ) return;
+
+  const SoEvent * event = action->getEvent();
+
+  if ( PRIVATE(this)->grabbing ) { // click-and-drag
+    if ( event->isOfType(SoLocation2Event::getClassTypeId()) ) {
+      assert(PRIVATE(this)->pane != NULL);
+
+      // although the return value is discarded, we need to make this call to make
+      // sure the raypick action is run over the scene graph so the pane can return
+      // a useful value...
+      action->getPickedPoint();
+
+      SbVec2f raypos = PRIVATE(this)->pane->getRayPickIntersectionPoint();
+      if ( raypos[0] != -1.0f ) {
+        SbVec2f imagpos = SbVec2f(raypos[0], raypos[1]) + PRIVATE(this)->graboffset;
+        SbVec2f minval = this->min.getValue();
+        SbVec2f maxval = this->max.getValue();
+        SbVec3f sizeval = this->size.getValue();
+        SbVec2f imagval;
+        imagval[0] = minval[0] + (maxval[0] - minval[0]) * So@Gui@Clamp(imagpos[0] / sizeval[0], 0.0f, 1.0f);
+        imagval[1] = minval[1] + (maxval[1] - minval[1]) * So@Gui@Clamp(imagpos[1] / sizeval[1], 0.0f, 1.0f);
+        this->value.setValue(imagval);
+      }
+      action->setHandled();
+    }
+    else if ( event->isOfType(SoMouseButtonEvent::getClassTypeId()) ) {
+      SoMouseButtonEvent * mbevent = (SoMouseButtonEvent *) event;
+      if ( (mbevent->getButton() == SoMouseButtonEvent::BUTTON1) &&
+           (mbevent->getState() == SoButtonEvent::UP) ) {
+        PRIVATE(this)->grabbing = FALSE;
+        PRIVATE(this)->pane = NULL;
+        action->setHandled();
+      }
+    }
+  }
+  else if ( event->isOfType(SoMouseButtonEvent::getClassTypeId()) ) {
+    SoMouseButtonEvent * mbevent = (SoMouseButtonEvent *) event;
+    if ( (mbevent->getButton() == SoMouseButtonEvent::BUTTON1) &&
+         (mbevent->getState() == SoButtonEvent::DOWN) ) {
+      action->setPickRadius(0);
+      const SoPickedPointList & pplist = action->getPickedPointList();
+      if ( pplist.getLength() > 0 ) {
+        int i;
+        for ( i = 0; i < pplist.getLength(); i++ ) {
+          if ( action->isHandled() ) break;
+          const SoPickedPoint * pp = pplist[i];
+          const SoFullPath * path = (const SoFullPath *) pp->getPath();
+          SoNode * node = NULL;
+          SoNode * knob = SO_GET_ANY_PART(this, "knobGeometry", SoSeparator);
+          int j = path->getLength() - 1;
+          for ( ; j >= 0; j-- ) {
+            SoNode * node = path->getNode(j);
+            if ( node == knob ) break;
+            node = NULL;
+          }
+
+          if ( node != NULL ) {
+            PRIVATE(this)->grabbing = TRUE;
+            action->setHandled();
+
+            SbVec3f point = pp->getObjectPoint();
+            SbVec2f sizeval = SbVec2f(this->size.getValue()[0], this->size.getValue()[1]);
+
+            const SoFullPath * path = (const SoFullPath *) action->getCurPath();
+            int i = path->getLength() - 1;
+            SoNode * node = NULL;
+            for ( ; i >= 0; i-- ) {
+              node = path->getNode(i);
+              if ( node->isOfType(SoGuiPane::getClassTypeId()) ) break;
+              node = NULL;
+            }
+            assert(node != NULL);
+            PRIVATE(this)->pane = (SoGuiPane *) node;
+            PRIVATE(this)->grabval = this->value.getValue();
+            PRIVATE(this)->pickpos = SbVec2f(point[0], point[1]);
+
+            SbVec2f raypos = PRIVATE(this)->pane->getRayPickIntersectionPoint();
+            PRIVATE(this)->grabpos = raypos;
+            SbVec2f upper = this->value.getValue() - this->min.getValue();
+            SbVec2f lower = this->max.getValue() - this->min.getValue();
+
+            SbVec2f realval;
+            realval[0] = (upper[0] / lower[0]) * sizeval[0];
+            realval[1] = (upper[1] / lower[1]) * sizeval[1];
+            PRIVATE(this)->graboffset = realval - raypos;
+          }
+        }
+        for ( i = 0; i < pplist.getLength(); i++ ) {
+          if ( action->isHandled() ) break;
+          const SoPickedPoint * pp = pplist[i];
+          const SoPath * path = pp->getPath();
+          SoNode * node = ((SoFullPath *) path)->getTail();
+          if ( node == ((SoNode *) SO_GET_ANY_PART(this, "surfaceFaceSet", SoIndexedFaceSet)) ) {
+            SbVec3f point = pp->getObjectPoint();
+            SbVec3f sizeval = this->size.getValue();
+            SbVec2f minval = this->min.getValue();
+            SbVec2f maxval = this->max.getValue();
+            SbVec2f val;
+            val[0] = minval[0] + (point[0] / sizeval[0]) * (maxval[0] - minval[0]);
+            val[1] = minval[1] + (point[1] / sizeval[1]) * (maxval[1] - minval[1]);
+            this->value.setValue(val);
+            action->setHandled();
+            if ( this->alwaysHook.getValue() ) {
+              PRIVATE(this)->grabbing = TRUE;
+              const SoFullPath * path = (const SoFullPath *) action->getCurPath();
+              SoNode * node = NULL;
+              int j = path->getLength() - 1;
+              for ( ; j >= 0; j-- ) {
+                node = path->getNode(j);
+                if ( node->isOfType(SoGuiPane::getClassTypeId()) ) break;
+                node = NULL;
+              }
+              assert(node != NULL);
+              PRIVATE(this)->pane = (SoGuiPane *) node;
+              PRIVATE(this)->grabval = this->value.getValue();
+              PRIVATE(this)->pickpos = SbVec2f(point[0], point[1]);
+
+              SbVec2f raypos = PRIVATE(this)->pane->getRayPickIntersectionPoint();
+              PRIVATE(this)->grabpos = raypos;
+              SbVec2f upper = this->value.getValue() - this->min.getValue();
+              SbVec2f lower = this->max.getValue() - this->min.getValue();
+              SbVec2f sizeval = SbVec2f(this->size.getValue()[0], this->size.getValue()[1]);
+
+              SbVec2f realval;
+              realval[0] = (upper[0] / lower[0]) * sizeval[0];
+              realval[1] = (upper[1] / lower[1]) * sizeval[1];
+              PRIVATE(this)->graboffset = realval - raypos;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+#undef PRIVATE
+

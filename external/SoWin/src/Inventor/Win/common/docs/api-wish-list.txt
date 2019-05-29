@@ -1,0 +1,59 @@
+WHAT'S THIS?
+============
+
+This document describes API extension ideas where we think the So*
+libraries lacks necessary functionality.
+
+The listing of an API change or API extension in this file does not
+mean that it will be implemented, only that it will be considered for
+implementation.
+
+Ideas for this wish list can be submitted by anyone.
+
+
+THE WISH LIST
+=============
+
+* Mouse control configuration API
+  2001-12-17  write-up by <mortene@sim.no>
+  [upwards compatible extension]
+
+  A request from coin-discuss: it should be possible for application
+  programmers to change the default mousebutton combination
+  configurations for dragging / zooming / panning for the
+  So*ExaminerViewer, and likewise for the other viewer classes.
+
+
+* Doubleclick handling
+  2002-01-16  Morten Eriksen  <mortene@sim.no>
+
+  The So*Mouse device class has no notion of doubleclick events, which
+  complicates matters for application programmers who wants to offer
+  those to the end-user for interaction. They can of course just
+  compare timings between single clicks, but those numbers will then
+  have to be compared to the murky details of the underlying GUI
+  toolkit manually to make it blend in with the rest (end-users tend
+  to configure their OS doubleclick interval setting to wildly
+  differing values, in my experience).
+
+  To fix this API deficiency, we would probably also need to add to
+  the API of Coin's SoMouseEvent, which have no concept of
+  doubleclicks either.
+
+
+* API for the viewer scenegraph
+  2002-05-28  Peder Blekken  <pederb@sim.no>, writeup by <mortene@sim.no>
+
+  Parts of the viewer scenegraphs are interesting to get access to for
+  the application programmers, to configure certain viewer parameters
+  like color settings in wireframe / point / bbox rendering styles,
+  etc.
+
+  At the same time, we want to avoid bloating the So@Gui@*Viewer APIs
+  with all these simple accessor (set*()/get*()) methods.
+
+  Peder's idea for a solution: we can hide the actual scenegraph
+  structure within an extension nodekit class, setting up a separate
+  public API on this nodekit. This would give us implementation
+  hiding, full control over what gets exposed, and no additional bloat
+  on the So@Gui@*Viewer classes.

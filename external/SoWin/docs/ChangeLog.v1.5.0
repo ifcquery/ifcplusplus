@@ -1,0 +1,1221 @@
+2010-03-02  Tamer Fahmy  <tamer@sim.no>
+
+	* NEWS, docs/announcement-1_5_0.txt:
+	update NEWS and announcement file.
+	[56e2ec29db80] [tip]
+
+	* COPYING, src/Inventor/Win/SoWin.cpp:
+	update copyright information.
+	[889449fe6d1a]
+
+	* .hgsubstate, build/msvc6/src/Inventor/Win/SoWinBasic.h,
+	build/msvc6/src/sowindefs.h,
+	build/msvc7/src/Inventor/Win/SoWinBasic.h,
+	build/msvc7/src/sowindefs.h,
+	build/msvc8/src/Inventor/Win/SoWinBasic.h,
+	build/msvc8/src/sowindefs.h,
+	build/msvc9/src/Inventor/Win/SoWinBasic.h,
+	build/msvc9/src/sowindefs.h, src/Inventor/Win/SoWin.cpp,
+	src/Inventor/Win/SoWinBeginStrict.h,
+	src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/SoWinComponentP.h, src/Inventor/Win/SoWinDef.h,
+	src/Inventor/Win/SoWinEndStrict.h,
+	src/Inventor/Win/SoWinGLWidget.cpp,
+	src/Inventor/Win/SoWinGLWidgetP.h,
+	src/Inventor/Win/SoWinMaterialList.cpp, src/Inventor/Win/SoWinRes.h,
+	src/Inventor/Win/SoWinResource.h, src/Inventor/Win/Win32API.cpp,
+	src/Inventor/Win/Win32API.h,
+	src/Inventor/Win/devices/SoWinDevice.cpp,
+	src/Inventor/Win/devices/SoWinDeviceP.h,
+	src/Inventor/Win/devices/SoWinInputFocus.cpp,
+	src/Inventor/Win/devices/SoWinKeyboard.cpp,
+	src/Inventor/Win/devices/SoWinMouse.cpp,
+	src/Inventor/Win/viewers/ExaminerViewer.cpp,
+	src/Inventor/Win/viewers/FullViewer.cpp,
+	src/Inventor/Win/viewers/PlaneViewer.cpp,
+	src/Inventor/Win/viewers/SoWinExaminerViewerP.h,
+	src/Inventor/Win/viewers/SoWinFullViewerP.h,
+	src/Inventor/Win/viewers/SoWinPlaneViewerP.h,
+	src/Inventor/Win/viewers/SoWinViewerResource.h,
+	src/Inventor/Win/viewers/WalkViewer.cpp,
+	src/Inventor/Win/widgets/SoWinBitmapButton.cpp,
+	src/Inventor/Win/widgets/SoWinBitmapButton.h,
+	src/Inventor/Win/widgets/SoWinThumbWheel.cpp,
+	src/Inventor/Win/widgets/SoWinThumbWheel.h,
+	src/Inventor/Win/widgets/WinNativePopupMenu.cpp,
+	src/Inventor/Win/widgets/WinNativePopupMenu.h, test-
+	code/crash.cpp.in, test-code/embedded.cpp, test-code/multiview.cpp:
+	update copyright headers.
+	[0222a2fdf0d8]
+
+	* .hgtags:
+	Removed tag sowin-1_4_0, sowin-1_3_0, sowin-1_2_0, sowin-1_1_0,
+	sowin-0_10_0
+	[81e2fd9a31fa]
+
+	* .hgtags:
+	Added tag SoWin-1.4.0 for changeset c8fca3422248
+	[635d30a541e7]
+
+	* .hgtags:
+	Added tag SoWin-1.3.0 for changeset fb63102c867b
+	[56fdd52d88c5]
+
+	* .hgtags:
+	Added tag SoWin-1.2.0 for changeset d05b0863d629
+	[f9de616809d6]
+
+	* .hgtags:
+	Removed tag SoWIN-0.10.0
+	[fbd141f0ea7b]
+
+	* .hgtags:
+	Added tag SoWin-0.10.0 for changeset e95baaf91b27
+	[e131b1fd2afa]
+
+	* .hgtags:
+	Added tag SoWin-1.1.0 for changeset cd8df2c157d3
+	[7534577efd9a]
+
+	* .hgtags:
+	Added tag SoWIN-0.10.0 for changeset e95baaf91b27
+	[4152344f9a66]
+
+	* Automated merge with https://hg.oslo.sim.no/coin/release/SoWin
+	[18337007f049]
+
+2010-03-02  Jostein  <josteint@sim.no>
+
+	* build/msvc7/sowin1.vcproj, build/msvc8/sowin1.vcproj,
+	build/msvc9/sowin1.vcproj:
+	linkage fix: use coin3.lib for release (not coin3d.lib)
+	[e354e9e798d4]
+
+2010-03-02  Tamer Fahmy  <tamer@sim.no>
+
+	* Makefile.am, Makefile.in:
+	make automake aware of the new announcement and ChangeLog file.
+	[cbe8a9b45ae7]
+
+	* docs/ChangeLog.v1.5.0, docs/announcement-1_5_0.txt:
+	add preliminary release announcement and ChangeLog.
+	[fba1afed317d]
+
+	* build/msvc6/Makefile, build/msvc6/src/Inventor/Win/SoWinBasic.h,
+	build/msvc6/src/config-debug.h, build/msvc6/src/config-release.h,
+	build/msvc7/Makefile, build/msvc7/src/Inventor/Win/SoWinBasic.h,
+	build/msvc7/src/config-debug.h, build/msvc7/src/config-release.h,
+	build/msvc8/Makefile, build/msvc8/src/Inventor/Win/SoWinBasic.h,
+	build/msvc8/src/config-debug.h, build/msvc8/src/config-release.h,
+	build/msvc9/Makefile, build/msvc9/src/Inventor/Win/SoWinBasic.h,
+	build/msvc9/src/config-debug.h, build/msvc9/src/config-release.h,
+	configure, configure.ac:
+	bump version to 1.5.0.
+	[d0900b937e42]
+
+2010-03-01  Tamer Fahmy  <tamer@sim.no>
+
+	* src/Ivf/Makefile.am:
+	remove executable bit.
+	[5f362e83cd18]
+
+	* src/Inventor/Win/SoWinBeginStrict.h, src/Inventor/Win/SoWinDef.h,
+	src/Inventor/Win/SoWinEndStrict.h,
+	src/Inventor/Win/viewers/PlaneViewer.cpp,
+	src/Inventor/Win/viewers/SoWinViewerResource.h,
+	src/Inventor/Win/widgets/SoWinBitmapButton.cpp,
+	src/Inventor/Win/widgets/SoWinBitmapButton.h, src/Ivf/IvfApp.h,
+	src/Ivf/IvfArchiveInput.h, src/Ivf/IvfArchiveOutput.h,
+	src/Ivf/IvfBasic.h, src/Ivf/IvfComponent.h, src/Ivf/IvfDocument.h,
+	src/Ivf/IvfMainFrm.h, src/Ivf/IvfRes.h, src/Ivf/IvfResource.h,
+	src/Ivf/IvfSrvrItem.h, src/Ivf/Viewers/IvfExaminerViewer.h,
+	src/Ivf/Viewers/IvfFlyViewer.h, src/Ivf/Viewers/IvfPlaneViewer.h,
+	src/Ivf/Viewers/IvfRenderArea.h, src/Ivf/Viewers/IvfSceneViewer.h,
+	src/Ivf/Viewers/IvfStdViewer.h, src/Ivf/Viewers/IvfWalkViewer.h,
+	test-code/multiview.cpp, test-code/standalone.cpp:
+	remove executable bit.
+	[5e3e06ad11c8]
+
+2010-02-28  Tamer Fahmy  <tamer@sim.no>
+
+	* .hgsubstate, Makefile.in, aclocal.m4, cfg/config.guess,
+	cfg/config.sub, cfg/ltmain.sh, configure, html/Makefile.in,
+	htmlhelp/Makefile.in, man/Makefile.in, man/man1/Makefile.in,
+	man/man3/Makefile.in, src/Inventor/Makefile.in,
+	src/Inventor/Win/Makefile.in, src/Inventor/Win/devices/Makefile.in,
+	src/Inventor/Win/editors/Makefile.in,
+	src/Inventor/Win/engines/Makefile.in,
+	src/Inventor/Win/nodes/Makefile.in,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/widgets/Makefile.in, src/Ivf/Makefile.in,
+	src/Makefile.in, src/config.h.in:
+	bootstrap with updated compatible autotools versions.
+	[7b2eb1f42769]
+
+	* configure.ac:
+	allow for disabling of compiler optimizations.
+	[78dd05febbb7]
+
+	* SoWin.pc.in:
+	change autoconf datadir to datarootdir and add htmldir.
+	[bb4787aea0a9]
+
+2010-02-23  Tamer Fahmy  <tamer@sim.no>
+
+	* src/Inventor/Win/Makefile.in, src/Inventor/Win/editors/Makefile.in,
+	src/Inventor/Win/engines/Makefile.in,
+	src/Inventor/Win/nodes/Makefile.in,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/widgets/Makefile.in:
+	bootstrap.
+	[cadb084ec91d]
+
+	* configure.ac:
+	merge backout for reestablishing win32 builds through autotools.
+	[f9ee883d76a7]
+
+	* configure.ac, src/Inventor/Win/Makefile.am,
+	src/Inventor/Win/devices/Makefile.am,
+	src/Inventor/Win/editors/Makefile.am,
+	src/Inventor/Win/engines/Makefile.am,
+	src/Inventor/Win/nodes/Makefile.am,
+	src/Inventor/Win/viewers/Makefile.am,
+	src/Inventor/Win/widgets/Makefile.am:
+	Backed out changeset 1965b44fa347
+	[85ff84d69a42]
+
+2010-02-22  Tamer Fahmy  <tamer@sim.no>
+
+	* .hgsubstate, src/Inventor/Win/Win32API.cpp:
+	simplified windows version string determination.
+	[003b0db7b725]
+
+2010-02-20  Tamer Fahmy  <tamer@sim.no>
+
+	* .hgsubstate, Makefile.in, aclocal.m4, cfg/config.guess,
+	cfg/config.sub, cfg/ltmain.sh, configure, html/Makefile.in,
+	htmlhelp/Makefile.in, man/Makefile.in, man/man1/Makefile.in,
+	man/man3/Makefile.in, src/Inventor/Makefile.in,
+	src/Inventor/Win/Makefile.in, src/Inventor/Win/devices/Makefile.in,
+	src/Inventor/Win/editors/Makefile.in,
+	src/Inventor/Win/engines/Makefile.in,
+	src/Inventor/Win/nodes/Makefile.in,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/widgets/Makefile.in, src/Ivf/Makefile.in,
+	src/Makefile.in, src/config.h.in:
+	boostrap.
+	[3693e69395c6]
+
+	* configure.ac:
+	remove ununsed BASIC_HEADER_TOP substitution hack.
+	[52d071d58c4c]
+
+	* src/Inventor/Win/devices/Makefile.am:
+	get rid of cfg/compile not found bootstrap warning.
+	[95fd67bce096]
+
+	* ChangeLog:
+	added ChangeLog placeholder.
+	[5f0ae2065757]
+
+2010-02-01  ToolsReleaseBot  <coin@sim.no>
+
+	* src/Inventor/Win/Win32API.cpp:
+	Check header versions, to be able to compile with older headers.
+	[6839015770ed]
+
+2010-01-29  Tom Fredrik Blenning Klaussen  <bfg@sim.no>
+
+	* Makefile.in, configure, html/Makefile.in, htmlhelp/Makefile.in,
+	man/Makefile.in, man/man1/Makefile.in, man/man3/Makefile.in,
+	src/Inventor/Makefile.in, src/Inventor/Win/Makefile.in,
+	src/Inventor/Win/devices/Makefile.in,
+	src/Inventor/Win/editors/Makefile.in,
+	src/Inventor/Win/engines/Makefile.in,
+	src/Inventor/Win/nodes/Makefile.in,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/widgets/Makefile.in, src/Ivf/Makefile.in,
+	src/Makefile.in:
+	Bootstrap.
+	[04830c3c2d2c]
+
+	* configure.ac, src/Inventor/Win/Win32API.h:
+	Get the correct GUI_TOOLKIT_VERSION of the platform we are running.
+	[35b5275e5cd2]
+
+2010-01-28  Tom Fredrik Blenning Klaussen  <bfg@sim.no>
+
+	* .hgsubstate:
+	Branch merge.
+	[3ba6d61722fc]
+
+	* .hgsubstate:
+	Upgraded subrepos.
+	[740be6d944a6]
+
+	* Makefile.in, aclocal.m4, cfg/config.guess, cfg/config.sub,
+	cfg/ltmain.sh, configure, html/Makefile.in, htmlhelp/Makefile.in,
+	man/Makefile.in, man/man1/Makefile.in, man/man3/Makefile.in,
+	src/Inventor/Makefile.in, src/Inventor/Win/Makefile.in,
+	src/Inventor/Win/devices/Makefile.in,
+	src/Inventor/Win/editors/Makefile.in,
+	src/Inventor/Win/engines/Makefile.in,
+	src/Inventor/Win/nodes/Makefile.in,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/widgets/Makefile.in, src/Ivf/Makefile.in,
+	src/Makefile.in, src/config.h.in:
+	Bootstrap with upgraded simacros.
+	[c890351be482]
+
+	* configure.ac, src/Inventor/Win/Makefile.am,
+	src/Inventor/Win/devices/Makefile.am,
+	src/Inventor/Win/editors/Makefile.am,
+	src/Inventor/Win/engines/Makefile.am,
+	src/Inventor/Win/nodes/Makefile.am,
+	src/Inventor/Win/viewers/Makefile.am,
+	src/Inventor/Win/widgets/Makefile.am:
+	Fix a bunchload of configure warnings.
+	[1965b44fa347]
+
+	* src/Inventor/Win/Win32API.cpp, src/Inventor/Win/Win32API.h:
+	Hack to get around GUI_TOOLKIT_VERSION issue.
+	[c57dcf76d7f3]
+
+2010-01-15  Tom Fredrik Blenning Klaussen  <bfg@sim.no>
+
+	* .hgsubstate:
+	Updated subrepos.
+	[bd00fafe9f6d]
+
+	* Makefile.in, html/Makefile.in, htmlhelp/Makefile.in,
+	man/man1/Makefile.in, man/man3/Makefile.in,
+	src/Inventor/Makefile.in, src/Inventor/Win/Makefile.in,
+	src/Inventor/Win/devices/Makefile.in,
+	src/Inventor/Win/editors/Makefile.in,
+	src/Inventor/Win/engines/Makefile.in,
+	src/Inventor/Win/nodes/Makefile.in,
+	src/Inventor/Win/viewers/Makefile.am,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/widgets/Makefile.in, src/Makefile.in:
+	Bootstrap.
+	[ecd3670888cf]
+
+2010-01-13  Tom Fredrik Blenning Klaussen  <bfg@sim.no>
+
+	* .hgsubstate:
+	Updated subrepos.
+	[9a7a52d26582]
+
+	* Makefile.in, aclocal.m4, cfg/errors.txt, configure,
+	html/Makefile.in, htmlhelp/Makefile.in, man/Makefile.in,
+	man/man1/Makefile.in, man/man3/Makefile.in,
+	src/Inventor/Makefile.in, src/Inventor/Win/Makefile.in,
+	src/Inventor/Win/devices/Makefile.in,
+	src/Inventor/Win/editors/Makefile.in,
+	src/Inventor/Win/engines/Makefile.in,
+	src/Inventor/Win/nodes/Makefile.in,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/widgets/Makefile.in, src/Ivf/Makefile.in,
+	src/Makefile.in, src/config.h.in:
+	bootstrap.
+	[098c4e74648a]
+
+2010-01-18  Tom Fredrik Blenning Klaussen  <bfg@sim.no>
+
+	* .hgsubstate:
+	Update subrepos.
+	[a496391f4938]
+
+2009-11-19  ToolsReleaseBot  <coin@sim.no>
+
+	* build/msvc7/Makefile, build/msvc7/sowin1.sln,
+	build/msvc7/sowin1.vcproj, build/msvc7/sowin1_docs.vcproj,
+	build/msvc7/sowin1_install.vcproj,
+	build/msvc7/sowin1_uninstall.vcproj, build/msvc7/src/config-debug.h,
+	build/msvc7/src/config-release.h, build/msvc8/Makefile,
+	build/msvc8/sowin1.sln, build/msvc8/sowin1.vcproj,
+	build/msvc8/sowin1_docs.vcproj, build/msvc8/sowin1_install.vcproj,
+	build/msvc8/sowin1_uninstall.vcproj, build/msvc8/src/config-debug.h,
+	build/msvc8/src/config-release.h, build/msvc9/Makefile,
+	build/msvc9/sowin1.sln, build/msvc9/sowin1.vcproj,
+	build/msvc9/sowin1_docs.vcproj, build/msvc9/sowin1_install.vcproj,
+	build/msvc9/sowin1_uninstall.vcproj, build/msvc9/src/config-debug.h,
+	build/msvc9/src/config-release.h:
+	Updated MSVC build files
+	[a5ba95622c89]
+
+2009-11-19  Tom Fredrik Blenning Klaussen  <bfg@sim.no>
+
+	* build/misc/generate.sh:
+	Use environment variables rather than hard coded paths.
+	[2255ea970106]
+
+2009-11-18  Tom Fredrik Blenning Klaussen  <bfg@sim.no>
+
+	* build/data/sowin1.sln:
+	MSVC project file for msvc2003.
+	[311f2d738003]
+
+	* build/misc/StartMSVCGeneration.sh:
+	Script for starting generation.
+	[c391ab6d2e69]
+
+	* .hgsub, .hgsubstate:
+	Added MSVC generation files, common to all projects.
+	[9741baa5fae8]
+
+2009-10-07  Tom Fredrik Blenning Klaussen  <bfg@sim.no>
+
+	* .hgsub, .hgsubstate:
+	Added subrepos.
+	[46148c21fd4e]
+
+2009-09-26  convert-repo  <convert-repo>
+
+	* .hgtags:
+	update tags
+	[0738aafc1873]
+
+2009-08-07  Tamer Fahmy  <tamer@sim.no>
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	fix initialization bug.
+	[3b5c9b5b40f8]
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	remove erroneously checked in printf statement.
+	[4f4abbaae8b5]
+
+2009-06-21  Tamer Fahmy  <tamer@sim.no>
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	revert accidential compiler warning fix.
+	[82ca871a9d3c]
+
+	* src/Inventor/Win/Makefile.am, src/Inventor/Win/Makefile.in,
+	src/Inventor/Win/viewers/FullViewer.cpp:
+	add missing -no-undefined libtool flag to allow for shared libs on
+	ming32
+	[e5d83c9a84d9]
+
+2009-06-17  Tamer Fahmy  <tamer@sim.no>
+
+	* Makefile.in, aclocal.m4, cfg/wrapmsvc.exe, configure,
+	html/Makefile.in, htmlhelp/Makefile.in, man/man1/Makefile.in,
+	man/man3/Makefile.in, src/Inventor/Makefile.in,
+	src/Inventor/Win/Makefile.in, src/Inventor/Win/devices/Makefile.in,
+	src/Inventor/Win/editors/Makefile.in,
+	src/Inventor/Win/engines/Makefile.in,
+	src/Inventor/Win/nodes/Makefile.in,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/widgets/Makefile.in, src/Makefile.in,
+	src/config.h.in:
+	bootstrap.
+	[728a730bac1d]
+
+	* configure.ac, src/Inventor/Win/Win32API.cpp:
+	check for Set/GetClassLongPtr functions and apply correct macros.
+	fixes mingw build issue.
+	[4b8854b554c2]
+
+2009-06-16  Lars J. Aas  <larsa@sim.no>
+
+	* build/misc/generate.sh:
+	generate script tweak
+	[dfbe047ba163]
+
+	* build/msvc7/Makefile, build/msvc7/sowin1.sln,
+	build/msvc7/sowin1.vcproj,
+	build/msvc7/src/Inventor/Win/SoWinBasic.h, build/msvc7/src/config-
+	debug.h, build/msvc7/src/config-release.h,
+	build/msvc7/src/sowindefs.h, build/msvc8/Makefile,
+	build/msvc8/sowin1.sln, build/msvc8/sowin1.vcproj,
+	build/msvc8/sowin1_docs.vcproj, build/msvc8/sowin1_install.vcproj,
+	build/msvc8/sowin1_uninstall.vcproj,
+	build/msvc8/src/Inventor/Win/SoWinBasic.h, build/msvc8/src/config-
+	debug.h, build/msvc8/src/config-release.h,
+	build/msvc8/src/sowindefs.h, build/msvc9/Makefile,
+	build/msvc9/sowin1.sln, build/msvc9/sowin1.vcproj,
+	build/msvc9/sowin1_docs.vcproj, build/msvc9/sowin1_install.vcproj,
+	build/msvc9/sowin1_uninstall.vcproj,
+	build/msvc9/src/Inventor/Win/SoWinBasic.h, build/msvc9/src/config-
+	debug.h, build/msvc9/src/config-release.h,
+	build/msvc9/src/sowindefs.h:
+	Visual Studio project files update
+	[47fb29a31687]
+
+	* build/misc/install-headers.bat, build/misc/uninstall-headers.bat,
+	build/msvc6/Makefile, build/msvc6/sowin1.dsp,
+	build/msvc6/src/Inventor/Win/SoWinBasic.h, build/msvc6/src/config-
+	debug.h, build/msvc6/src/config-release.h,
+	build/msvc6/src/sowindefs.h, build/msvc8/sowin1.vcproj:
+	update for msvc6
+	[bd7783a28662]
+
+2009-06-09  Tom Fredrik Blenning Klaussen  <bfg@sim.no>
+
+	* Makefile.in, html/Makefile.in, htmlhelp/Makefile.in,
+	man/man1/Makefile.in, man/man3/Makefile.in,
+	src/Inventor/Makefile.in, src/Inventor/Win/Makefile.in,
+	src/Inventor/Win/devices/Makefile.am,
+	src/Inventor/Win/devices/Makefile.in,
+	src/Inventor/Win/devices/SoWinSpaceball.cpp,
+	src/Inventor/Win/devices/SoWinSpaceballP.h,
+	src/Inventor/Win/editors/Makefile.in,
+	src/Inventor/Win/engines/Makefile.in,
+	src/Inventor/Win/nodes/Makefile.in,
+	src/Inventor/Win/viewers/ExaminerViewer.cpp,
+	src/Inventor/Win/viewers/FullViewer.cpp,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/viewers/PlaneViewer.cpp,
+	src/Inventor/Win/widgets/Makefile.in, src/Makefile.in:
+	API Update.
+	[371bbffd786e]
+
+2009-03-24  Tamer Fahmy  <tamer@sim.no>
+
+	* configure, configure.ac:
+	Compiler/Linker __declspec check to include DLL define in config
+	scripts.
+	[5632d1f6726d]
+
+2009-03-12  Peder Blekken  <pederb@sim.no>
+
+	* aclocal.m4, cfg/doxy4win.pl, configure, configure.ac,
+	src/Inventor/Win/SoWinGLWidget.cpp:
+	Add multisample support (STUB).
+	[ee6f006f931e]
+
+2008-11-21  Morten Eriksen  <mortene@sim.no>
+
+	* configure:
+	mead bootstrap
+	[73f8291ebe43]
+
+	* configure.ac:
+	build: must add in user32 before we run Win32 API availability tests
+	[9af4cdea8d3e]
+
+	* configure, src/Inventor/Win/Makefile.in,
+	src/Inventor/Win/viewers/Makefile.in, src/config.h.in:
+	mead bootstrap
+	[525f30d2843d]
+
+	* bootstrap:
+	update info
+	[6369a95e66d5]
+
+	* src/Inventor/Win/Win32API.h:
+	build: add in more defines for MSVC6 compatibility
+	[28de494a719e]
+
+	* src/Inventor/Win/widgets/SoWinThumbWheel.cpp:
+	build: fix typo
+	[791cc72f36d2]
+
+	* configure.ac:
+	check for availability of Set/GetWindowLongPtr()
+	[1b7c1f71048e]
+
+	* src/Inventor/Win/SoWin.cpp, src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/SoWinGLWidget.cpp, src/Inventor/Win/Win32API.cpp,
+	src/Inventor/Win/Win32API.h,
+	src/Inventor/Win/viewers/FullViewer.cpp,
+	src/Inventor/Win/widgets/SoWinBitmapButton.cpp,
+	src/Inventor/Win/widgets/SoWinThumbWheel.cpp:
+	build clean-up: bunch of fixes to better handle the MSVS SDK
+	'upgrade' of Set/GetWindowLong() and Set/GetClassLong() to
+	...LongPtr().
+	[477fac361c32]
+
+	* src/Inventor/Win/Win32API.cpp:
+	revert a (non-)fix that just padded over a graver error
+	[069dd8c569ce]
+
+	* src/Inventor/Win/widgets/SoWinThumbWheel.cpp:
+	compile: LONG_PTR not available in the msvc6 sdk.
+	[fe1d67778886]
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	compile: use alternate function available from the MSVC6 SDK.
+	[65e2209ab599]
+
+	* src/Inventor/Win/Win32API.h:
+	compile: corrects defs for Set/GetWindowLong()
+	[0e25b61971a3]
+
+2008-11-21  Lars J. Aas  <larsa@sim.no>
+
+	* build/misc/generate.sh, build/misc/install-headers.bat, build/misc
+	/uninstall-headers.bat:
+	fix install-script append-type-bug
+	[2ee18e9a3343]
+
+	* build/misc/install-headers.bat, build/misc/uninstall-headers.bat,
+	build/msvc6/Makefile, build/msvc6/sowin1.dsp,
+	build/msvc6/src/Inventor/Win/SoWinBasic.h, build/msvc7/Makefile,
+	build/msvc7/sowin1.sln, build/msvc7/sowin1.vcproj,
+	build/msvc7/src/Inventor/Win/SoWinBasic.h, build/msvc8/Makefile,
+	build/msvc8/sowin1.sln, build/msvc8/sowin1.vcproj,
+	build/msvc8/sowin1_docs.vcproj, build/msvc8/sowin1_install.vcproj,
+	build/msvc8/sowin1_uninstall.vcproj,
+	build/msvc8/src/Inventor/Win/SoWinBasic.h, build/msvc9/Makefile,
+	build/msvc9/sowin1.sln, build/msvc9/sowin1.vcproj,
+	build/msvc9/sowin1_docs.vcproj, build/msvc9/sowin1_install.vcproj,
+	build/msvc9/sowin1_uninstall.vcproj,
+	build/msvc9/src/Inventor/Win/SoWinBasic.h:
+	updated Visual Studio files
+	[4b5b38af5a02]
+
+2008-11-20  Morten Eriksen  <mortene@sim.no>
+
+	* src/Inventor/Win/SoWin.cpp:
+	feature/compatibility: implements SOGUI_ENTER_GL_SECTION and
+	SOGUI_LEAVE_GL_SECTION macros.
+	[4efd59e55fa0]
+
+	* src/Inventor/Win/Makefile.am, src/Inventor/Win/Makefile.in,
+	src/Inventor/Win/SoWinRes.h, src/Inventor/Win/SoWinResource.h:
+	compatibility: more InventorWin-compatibility headers.
+	[7dbc77353379]
+
+	* src/Inventor/Win/viewers/Makefile.am,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/viewers/SoWinViewerResource.h,
+	src/Inventor/Win/widgets/Makefile.am,
+	src/Inventor/Win/widgets/Makefile.in,
+	src/Inventor/Win/widgets/SoWinBitmapButton.h:
+	compatibility: more fixes for better compile-time conformance with
+	InventorWin. corrects installation directory for
+	SoWinBitmapButton.h.
+	[98a346599aa1]
+
+2008-11-19  Morten Eriksen  <mortene@sim.no>
+
+	* configure.ac, src/Inventor/Win/Makefile.am,
+	src/Inventor/Win/Makefile.in, src/Inventor/Win/SoWinBeginStrict.h,
+	src/Inventor/Win/SoWinDef.h, src/Inventor/Win/SoWinEndStrict.h,
+	src/Inventor/Win/widgets/Makefile.am,
+	src/Inventor/Win/widgets/Makefile.in,
+	src/Inventor/Win/widgets/SoWinBitmapButton.h:
+	compatibility: various fixes to improve compatibility with code
+	originally written for TGS InventorWin. incs the minor version
+	number, since we now officially expose the SoWinBitmapButton api.
+	[d5ba18eae9b7]
+
+2008-11-09  Tamer Fahmy  <tamer@sim.no>
+
+	* Makefile.am, Makefile.in:
+	deploy SoWin.pc.in.
+	[702a3cf82a2c]
+
+	* Makefile.in, configure:
+	bootstrap.
+	[5d011956899f]
+
+	* Makefile.am, SoWin.pc.in, configure.ac:
+	add SoWin.pc pkg-config meta file handling.
+	[33be0c9dcdaa]
+
+2008-10-28  Lars J. Aas  <larsa@sim.no>
+
+	* build/misc/install-sdk.bat:
+	typo fix
+	[133e7567fbfb]
+
+	* build/misc/install-sdk.bat:
+	Clone Coin's install-sdk.bat
+	[79dac4e60aac]
+
+2008-10-27  Lars J. Aas  <larsa@sim.no>
+
+	* cfg/gendsp.pl.in:
+	sync
+	[4053a30cc1e3]
+
+	* build/msvc6/src/Inventor/Win/SoWinBasic.h,
+	build/msvc7/src/Inventor/Win/SoWinBasic.h,
+	build/msvc8/src/Inventor/Win/SoWinBasic.h,
+	build/msvc9/src/sowindefs.h:
+	tweaks
+	[2930141c135d]
+
+	* build/misc/fixvcproj.sh, build/misc/generate.sh, build/misc
+	/uninstall-headers.bat, build/msvc6/Makefile,
+	build/msvc6/sowin1.dsp, build/msvc6/sowin1.dsw,
+	build/msvc6/sowin1_docs.dsp, build/msvc6/src/config-debug.h,
+	build/msvc6/src/config-release.h, build/msvc7/Makefile, build/msvc7
+	/install-headers.bat, build/msvc7/sowin1.sln,
+	build/msvc7/sowin1.vcproj, build/msvc7/sowin1_docs.vcproj,
+	build/msvc7/src/config-debug.h, build/msvc7/src/config-release.h,
+	build/msvc8/Makefile, build/msvc8/sowin1.sln,
+	build/msvc8/sowin1.vcproj, build/msvc8/sowin1_docs.vcproj,
+	build/msvc8/sowin1_install.vcproj,
+	build/msvc8/sowin1_uninstall.vcproj, build/msvc8/src/config-debug.h,
+	build/msvc8/src/config-release.h, build/msvc9/Makefile,
+	build/msvc9/sowin1.sln, build/msvc9/sowin1.vcproj,
+	build/msvc9/sowin1_docs.vcproj, build/msvc9/sowin1_install.vcproj,
+	build/msvc9/sowin1_uninstall.vcproj, build/msvc9/src/config-debug.h,
+	build/msvc9/src/config-release.h, build/msvc9/src/config.h:
+	updates
+	[002891488996]
+
+2008-10-05  Tamer Fahmy  <tamer@sim.no>
+
+	* aclocal.m4, cfg/config.guess, cfg/config.sub, cfg/gendsp.pl.in,
+	configure:
+	bootstrap.
+	[756a946d95a7]
+
+	* configure.ac:
+	reverting DEBUG preprocessor additions. caused failing /Md builds
+	with --enable-debug/--enable-symbols. (#COIN-9)
+	[3a218ed8c88f]
+
+2008-09-10  Lars J. Aas  <larsa@sim.no>
+
+	* src/Inventor/Win/SoWinGLWidget.cpp,
+	src/Inventor/Win/devices/SoWinMouse.cpp:
+	Keyboard command processing fixes, by Volker Enderlein
+	[58cafe91971c]
+
+2008-09-09  Lars J. Aas  <larsa@sim.no>
+
+	* src/Inventor/Win/SoWin.cpp:
+	Focus handling fixes by PC John
+	[9952020cc0f7]
+
+2008-07-30  Philip Bruvoll  <philipb@sim.no>
+
+	* src/Inventor/Win/devices/SoWinKeyboard.cpp,
+	src/Inventor/Win/devices/SoWinMouse.cpp:
+	Applied patch from Volker Enderlein to coin-support that fixes
+	sticking keys in the examiner viewer.
+	[861975c613b4]
+
+2008-06-25  Philip Bruvoll  <philipb@sim.no>
+
+	* src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/viewers/FullViewer.cpp:
+	Applied patch from Volker Enderlein regarding Hook Handle problems.
+	[ab285b16afb7]
+
+2008-03-26  Frode Øijord  <frodo@sim.no>
+
+	* src/Inventor/Win/Win32API.cpp:
+	use _ASSERT macro if available in the win32 api
+	[0e48a1df6e9a]
+
+	* aclocal.m4, cfg/config.guess, cfg/config.sub, cfg/errors.txt,
+	cfg/gendsp.pl.in, cfg/wrapmsvc.exe, configure, configure.ac,
+	src/config.h.in:
+	added the _DEBUG define for debug builds and a check for the
+	crtdbg.h header
+	[98e3e3c8645f]
+
+2008-01-22  Lars J. Aas  <larsa@sim.no>
+
+	* build/msvc6/Makefile, build/msvc6/sowin1.dsp,
+	build/msvc6/src/Inventor/Win/SoWinBasic.h, build/msvc7/Makefile,
+	build/msvc7/sowin1.sln, build/msvc7/sowin1.vcproj,
+	build/msvc7/src/Inventor/Win/SoWinBasic.h, build/msvc8/Makefile,
+	build/msvc8/sowin1.sln, build/msvc8/sowin1.vcproj,
+	build/msvc8/sowin1_install.vcproj,
+	build/msvc8/sowin1_uninstall.vcproj,
+	build/msvc8/src/Inventor/Win/SoWinBasic.h:
+	updated files
+	[12ea791a5fc4]
+
+2008-01-02  Frode Øijord  <frodo@sim.no>
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	should always set focus for mouse down events, regardless of
+	stealFocus setting. Patch provided by Volker Enderlein
+	[970176dbd13f]
+
+2007-06-13  Frode Øijord  <frodo@sim.no>
+
+	* src/Inventor/Win/SoWin.cpp, src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/SoWinGLWidget.cpp, src/Inventor/Win/Win32API.cpp,
+	src/Inventor/Win/Win32API.h,
+	src/Inventor/Win/viewers/FullViewer.cpp,
+	src/Inventor/Win/widgets/SoWinBitmapButton.cpp,
+	src/Inventor/Win/widgets/SoWinThumbWheel.cpp, test-
+	code/multiview.cpp:
+	misc 64-bit fixes, patch received by Andrew Jones
+	[b71f6576c251]
+
+2007-05-30  Lars J. Aas  <larsa@sim.no>
+
+	* build/misc/generate.sh:
+	generalize
+	[da2b64203a9d]
+
+	* build/msvc8/Makefile:
+	added missing dependency for csubst.exe-usage
+	[5fe0dfb24711]
+
+	* cfg/config.guess, cfg/config.sub, cfg/csubst.exe, cfg/gendsp.pl.in,
+	cfg/ltmain.sh, html/Makefile.in, htmlhelp/Makefile.in,
+	man/man1/Makefile.in, man/man3/Makefile.in,
+	src/Inventor/Makefile.in, src/Inventor/Win/Makefile.in,
+	src/Inventor/Win/devices/Makefile.in,
+	src/Inventor/Win/editors/Makefile.in,
+	src/Inventor/Win/engines/Makefile.in,
+	src/Inventor/Win/nodes/Makefile.in,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/widgets/Makefile.in, src/Makefile.in:
+	bootstrap update
+	[d17756fdf791]
+
+	* Makefile.am, Makefile.in, build/misc/generate.sh, build/misc
+	/install-headers.bat, build/misc/install-sdk.bat, build/misc
+	/uninstall-headers.bat, build/misc/uninstall-sdk.bat,
+	build/msvc6/Makefile, build/msvc6/install-headers.bat,
+	build/msvc6/sowin1.dsp, build/msvc6/sowin1.dsw,
+	build/msvc6/sowin1_install.dsp, build/msvc6/sowin1_uninstall.dsp,
+	build/msvc6/src/Inventor/Win/SoAny.cpp,
+	build/msvc6/src/Inventor/Win/SoAny.h,
+	build/msvc6/src/Inventor/Win/SoGuiComponentP.h,
+	build/msvc6/src/Inventor/Win/SoGuiGLWidgetP.h,
+	build/msvc6/src/Inventor/Win/SoGuiP.h,
+	build/msvc6/src/Inventor/Win/SoWin.h,
+	build/msvc6/src/Inventor/Win/SoWinBasic.h,
+	build/msvc6/src/Inventor/Win/SoWinColorEditor.h,
+	build/msvc6/src/Inventor/Win/SoWinCommon.cpp,
+	build/msvc6/src/Inventor/Win/SoWinComponent.h,
+	build/msvc6/src/Inventor/Win/SoWinComponentCommon.cpp,
+	build/msvc6/src/Inventor/Win/SoWinCursor.cpp,
+	build/msvc6/src/Inventor/Win/SoWinCursor.h,
+	build/msvc6/src/Inventor/Win/SoWinGLWidget.h,
+	build/msvc6/src/Inventor/Win/SoWinGLWidgetCommon.cpp,
+	build/msvc6/src/Inventor/Win/SoWinMaterialEditor.h,
+	build/msvc6/src/Inventor/Win/SoWinObject.cpp,
+	build/msvc6/src/Inventor/Win/SoWinObject.h,
+	build/msvc6/src/Inventor/Win/SoWinRenderArea.cpp,
+	build/msvc6/src/Inventor/Win/SoWinRenderArea.h,
+	build/msvc6/src/Inventor/Win/common/gl.h,
+	build/msvc6/src/Inventor/Win/devices/SoGuiDeviceP.h,
+	build/msvc6/src/Inventor/Win/devices/SoGuiInputFocusP.h,
+	build/msvc6/src/Inventor/Win/devices/SoGuiKeyboardP.h,
+	build/msvc6/src/Inventor/Win/devices/SoGuiMouseP.h,
+	build/msvc6/src/Inventor/Win/devices/SoGuiSpaceballP.h,
+	build/msvc6/src/Inventor/Win/devices/SoWinDevice.h,
+	build/msvc6/src/Inventor/Win/devices/SoWinDeviceCommon.cpp,
+	build/msvc6/src/Inventor/Win/devices/SoWinInputFocus.h,
+	build/msvc6/src/Inventor/Win/devices/SoWinInputFocusCommon.cpp,
+	build/msvc6/src/Inventor/Win/devices/SoWinKeyboard.h,
+	build/msvc6/src/Inventor/Win/devices/SoWinKeyboardCommon.cpp,
+	build/msvc6/src/Inventor/Win/devices/SoWinMouse.h,
+	build/msvc6/src/Inventor/Win/devices/SoWinMouseCommon.cpp,
+	build/msvc6/src/Inventor/Win/devices/SoWinSpaceball.h,
+	build/msvc6/src/Inventor/Win/devices/SoWinSpaceballCommon.cpp,
+	build/msvc6/src/Inventor/Win/devices/spwinput.h,
+	build/msvc6/src/Inventor/Win/devices/spwinput_win32.c,
+	build/msvc6/src/Inventor/Win/devices/spwinput_win32.h,
+	build/msvc6/src/Inventor/Win/devices/spwinput_x11.cpp,
+	build/msvc6/src/Inventor/Win/editors/SoWinColorEditor.cpp,
+	build/msvc6/src/Inventor/Win/editors/SoWinColorEditor.h,
+	build/msvc6/src/Inventor/Win/editors/SoWinMaterialEditor.cpp,
+	build/msvc6/src/Inventor/Win/editors/SoWinMaterialEditor.h,
+	build/msvc6/src/Inventor/Win/engines/Engines.cpp,
+	build/msvc6/src/Inventor/Win/engines/Format.cpp,
+	build/msvc6/src/Inventor/Win/engines/RadioGroup.cpp,
+	build/msvc6/src/Inventor/Win/engines/SoGuiEngines.h,
+	build/msvc6/src/Inventor/Win/engines/SoGuiFormat.h,
+	build/msvc6/src/Inventor/Win/engines/SoGuiRadioGroup.h,
+	build/msvc6/src/Inventor/Win/nodes/ClickCounter.cpp,
+	build/msvc6/src/Inventor/Win/nodes/ColorEditor.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Frame.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Image.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Label.cpp,
+	build/msvc6/src/Inventor/Win/nodes/MaterialEditor.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Nodes.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Pane.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Position.cpp,
+	build/msvc6/src/Inventor/Win/nodes/RadioButton.cpp,
+	build/msvc6/src/Inventor/Win/nodes/SceneTexture2.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Slider1.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Slider2.cpp,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiClickCounter.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiColorEditor.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiFrame.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiImage.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiLabel.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiMaterialEditor.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiNodes.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiPane.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiPosition.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiRadioButton.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiSceneTexture2.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiSlider1.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiSlider2.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiToggleButton.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiTranslation.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiViewpointWrapper.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiViewportFix.h,
+	build/msvc6/src/Inventor/Win/nodes/ToggleButton.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Translation.cpp,
+	build/msvc6/src/Inventor/Win/nodes/ViewpointWrapper.cpp,
+	build/msvc6/src/Inventor/Win/nodes/ViewportFix.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoGuiExaminerViewerP.h,
+	build/msvc6/src/Inventor/Win/viewers/SoGuiFullViewerP.h,
+	build/msvc6/src/Inventor/Win/viewers/SoGuiPlaneViewerP.h,
+	build/msvc6/src/Inventor/Win/viewers/SoGuiViewerP.h,
+	build/msvc6/src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinConstrainedViewer.h,
+	build/msvc6/src/Inventor/Win/viewers/SoWinExaminerViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinExaminerViewer.h,
+	build/msvc6/src/Inventor/Win/viewers/SoWinFlyViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinFlyViewer.h,
+	build/msvc6/src/Inventor/Win/viewers/SoWinFullViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinFullViewer.h,
+	build/msvc6/src/Inventor/Win/viewers/SoWinPlaneViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinPlaneViewer.h,
+	build/msvc6/src/Inventor/Win/viewers/SoWinViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinViewer.h,
+	build/msvc6/src/Inventor/Win/widgets/SoAnyThumbWheel.cpp,
+	build/msvc6/src/Inventor/Win/widgets/SoAnyThumbWheel.h,
+	build/msvc6/src/Inventor/Win/widgets/SoWinPopupMenu.cpp,
+	build/msvc6/src/Inventor/Win/widgets/SoWinPopupMenu.h,
+	build/msvc6/src/sowindefs.h, build/msvc7/Makefile,
+	build/msvc7/sowin1.sln, build/msvc7/sowin1.vcproj,
+	build/msvc7/sowin1_install.vcproj,
+	build/msvc7/sowin1_uninstall.vcproj,
+	build/msvc7/src/Inventor/Win/SoAny.cpp,
+	build/msvc7/src/Inventor/Win/SoAny.h,
+	build/msvc7/src/Inventor/Win/SoGuiComponentP.h,
+	build/msvc7/src/Inventor/Win/SoGuiGLWidgetP.h,
+	build/msvc7/src/Inventor/Win/SoGuiP.h,
+	build/msvc7/src/Inventor/Win/SoWin.h,
+	build/msvc7/src/Inventor/Win/SoWinBasic.h,
+	build/msvc7/src/Inventor/Win/SoWinColorEditor.h,
+	build/msvc7/src/Inventor/Win/SoWinCommon.cpp,
+	build/msvc7/src/Inventor/Win/SoWinComponent.h,
+	build/msvc7/src/Inventor/Win/SoWinComponentCommon.cpp,
+	build/msvc7/src/Inventor/Win/SoWinCursor.cpp,
+	build/msvc7/src/Inventor/Win/SoWinCursor.h,
+	build/msvc7/src/Inventor/Win/SoWinGLWidget.h,
+	build/msvc7/src/Inventor/Win/SoWinGLWidgetCommon.cpp,
+	build/msvc7/src/Inventor/Win/SoWinMaterialEditor.h,
+	build/msvc7/src/Inventor/Win/SoWinObject.cpp,
+	build/msvc7/src/Inventor/Win/SoWinObject.h,
+	build/msvc7/src/Inventor/Win/SoWinRenderArea.cpp,
+	build/msvc7/src/Inventor/Win/SoWinRenderArea.h,
+	build/msvc7/src/Inventor/Win/common/gl.h,
+	build/msvc7/src/Inventor/Win/devices/SoGuiDeviceP.h,
+	build/msvc7/src/Inventor/Win/devices/SoGuiInputFocusP.h,
+	build/msvc7/src/Inventor/Win/devices/SoGuiKeyboardP.h,
+	build/msvc7/src/Inventor/Win/devices/SoGuiMouseP.h,
+	build/msvc7/src/Inventor/Win/devices/SoGuiSpaceballP.h,
+	build/msvc7/src/Inventor/Win/devices/SoWinDevice.h,
+	build/msvc7/src/Inventor/Win/devices/SoWinDeviceCommon.cpp,
+	build/msvc7/src/Inventor/Win/devices/SoWinInputFocus.h,
+	build/msvc7/src/Inventor/Win/devices/SoWinInputFocusCommon.cpp,
+	build/msvc7/src/Inventor/Win/devices/SoWinKeyboard.h,
+	build/msvc7/src/Inventor/Win/devices/SoWinKeyboardCommon.cpp,
+	build/msvc7/src/Inventor/Win/devices/SoWinMouse.h,
+	build/msvc7/src/Inventor/Win/devices/SoWinMouseCommon.cpp,
+	build/msvc7/src/Inventor/Win/devices/SoWinSpaceball.h,
+	build/msvc7/src/Inventor/Win/devices/SoWinSpaceballCommon.cpp,
+	build/msvc7/src/Inventor/Win/devices/spwinput.h,
+	build/msvc7/src/Inventor/Win/devices/spwinput_win32.c,
+	build/msvc7/src/Inventor/Win/devices/spwinput_win32.h,
+	build/msvc7/src/Inventor/Win/devices/spwinput_x11.cpp,
+	build/msvc7/src/Inventor/Win/editors/SoWinColorEditor.cpp,
+	build/msvc7/src/Inventor/Win/editors/SoWinColorEditor.h,
+	build/msvc7/src/Inventor/Win/editors/SoWinMaterialEditor.cpp,
+	build/msvc7/src/Inventor/Win/editors/SoWinMaterialEditor.h,
+	build/msvc7/src/Inventor/Win/engines/Engines.cpp,
+	build/msvc7/src/Inventor/Win/engines/Format.cpp,
+	build/msvc7/src/Inventor/Win/engines/RadioGroup.cpp,
+	build/msvc7/src/Inventor/Win/engines/SoGuiEngines.h,
+	build/msvc7/src/Inventor/Win/engines/SoGuiFormat.h,
+	build/msvc7/src/Inventor/Win/engines/SoGuiRadioGroup.h,
+	build/msvc7/src/Inventor/Win/nodes/ClickCounter.cpp,
+	build/msvc7/src/Inventor/Win/nodes/ColorEditor.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Frame.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Image.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Label.cpp,
+	build/msvc7/src/Inventor/Win/nodes/MaterialEditor.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Nodes.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Pane.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Position.cpp,
+	build/msvc7/src/Inventor/Win/nodes/RadioButton.cpp,
+	build/msvc7/src/Inventor/Win/nodes/SceneTexture2.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Slider1.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Slider2.cpp,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiClickCounter.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiColorEditor.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiFrame.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiImage.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiLabel.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiMaterialEditor.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiNodes.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiPane.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiPosition.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiRadioButton.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiSceneTexture2.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiSlider1.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiSlider2.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiToggleButton.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiTranslation.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiViewpointWrapper.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiViewportFix.h,
+	build/msvc7/src/Inventor/Win/nodes/ToggleButton.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Translation.cpp,
+	build/msvc7/src/Inventor/Win/nodes/ViewpointWrapper.cpp,
+	build/msvc7/src/Inventor/Win/nodes/ViewportFix.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoGuiExaminerViewerP.h,
+	build/msvc7/src/Inventor/Win/viewers/SoGuiFullViewerP.h,
+	build/msvc7/src/Inventor/Win/viewers/SoGuiPlaneViewerP.h,
+	build/msvc7/src/Inventor/Win/viewers/SoGuiViewerP.h,
+	build/msvc7/src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinConstrainedViewer.h,
+	build/msvc7/src/Inventor/Win/viewers/SoWinExaminerViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinExaminerViewer.h,
+	build/msvc7/src/Inventor/Win/viewers/SoWinFlyViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinFlyViewer.h,
+	build/msvc7/src/Inventor/Win/viewers/SoWinFullViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinFullViewer.h,
+	build/msvc7/src/Inventor/Win/viewers/SoWinPlaneViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinPlaneViewer.h,
+	build/msvc7/src/Inventor/Win/viewers/SoWinViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinViewer.h,
+	build/msvc7/src/Inventor/Win/widgets/SoAnyThumbWheel.cpp,
+	build/msvc7/src/Inventor/Win/widgets/SoAnyThumbWheel.h,
+	build/msvc7/src/Inventor/Win/widgets/SoWinPopupMenu.cpp,
+	build/msvc7/src/Inventor/Win/widgets/SoWinPopupMenu.h,
+	build/msvc7/src/sowindefs.h, build/msvc8/install-headers.bat,
+	build/msvc8/sowin1.sln, build/msvc8/sowin1.vcproj,
+	build/msvc8/sowin1_install.vcproj,
+	build/msvc8/sowin1_uninstall.vcproj,
+	build/msvc8/src/Inventor/Win/SoAny.cpp,
+	build/msvc8/src/Inventor/Win/SoAny.h,
+	build/msvc8/src/Inventor/Win/SoGuiComponentP.h,
+	build/msvc8/src/Inventor/Win/SoGuiGLWidgetP.h,
+	build/msvc8/src/Inventor/Win/SoGuiP.h,
+	build/msvc8/src/Inventor/Win/SoWin.h,
+	build/msvc8/src/Inventor/Win/SoWinBasic.h,
+	build/msvc8/src/Inventor/Win/SoWinColorEditor.h,
+	build/msvc8/src/Inventor/Win/SoWinCommon.cpp,
+	build/msvc8/src/Inventor/Win/SoWinComponent.h,
+	build/msvc8/src/Inventor/Win/SoWinComponentCommon.cpp,
+	build/msvc8/src/Inventor/Win/SoWinCursor.cpp,
+	build/msvc8/src/Inventor/Win/SoWinCursor.h,
+	build/msvc8/src/Inventor/Win/SoWinGLWidget.h,
+	build/msvc8/src/Inventor/Win/SoWinGLWidgetCommon.cpp,
+	build/msvc8/src/Inventor/Win/SoWinMaterialEditor.h,
+	build/msvc8/src/Inventor/Win/SoWinObject.cpp,
+	build/msvc8/src/Inventor/Win/SoWinObject.h,
+	build/msvc8/src/Inventor/Win/SoWinRenderArea.cpp,
+	build/msvc8/src/Inventor/Win/SoWinRenderArea.h,
+	build/msvc8/src/Inventor/Win/common/gl.h,
+	build/msvc8/src/Inventor/Win/devices/SoGuiDeviceP.h,
+	build/msvc8/src/Inventor/Win/devices/SoGuiInputFocusP.h,
+	build/msvc8/src/Inventor/Win/devices/SoGuiKeyboardP.h,
+	build/msvc8/src/Inventor/Win/devices/SoGuiMouseP.h,
+	build/msvc8/src/Inventor/Win/devices/SoGuiSpaceballP.h,
+	build/msvc8/src/Inventor/Win/devices/SoWinDevice.h,
+	build/msvc8/src/Inventor/Win/devices/SoWinDeviceCommon.cpp,
+	build/msvc8/src/Inventor/Win/devices/SoWinInputFocus.h,
+	build/msvc8/src/Inventor/Win/devices/SoWinInputFocusCommon.cpp,
+	build/msvc8/src/Inventor/Win/devices/SoWinKeyboard.h,
+	build/msvc8/src/Inventor/Win/devices/SoWinKeyboardCommon.cpp,
+	build/msvc8/src/Inventor/Win/devices/SoWinMouse.h,
+	build/msvc8/src/Inventor/Win/devices/SoWinMouseCommon.cpp,
+	build/msvc8/src/Inventor/Win/devices/SoWinSpaceball.h,
+	build/msvc8/src/Inventor/Win/devices/SoWinSpaceballCommon.cpp,
+	build/msvc8/src/Inventor/Win/devices/spwinput.h,
+	build/msvc8/src/Inventor/Win/devices/spwinput_win32.c,
+	build/msvc8/src/Inventor/Win/devices/spwinput_win32.h,
+	build/msvc8/src/Inventor/Win/devices/spwinput_x11.cpp,
+	build/msvc8/src/Inventor/Win/editors/SoWinColorEditor.cpp,
+	build/msvc8/src/Inventor/Win/editors/SoWinColorEditor.h,
+	build/msvc8/src/Inventor/Win/editors/SoWinMaterialEditor.cpp,
+	build/msvc8/src/Inventor/Win/editors/SoWinMaterialEditor.h,
+	build/msvc8/src/Inventor/Win/engines/Engines.cpp,
+	build/msvc8/src/Inventor/Win/engines/Format.cpp,
+	build/msvc8/src/Inventor/Win/engines/RadioGroup.cpp,
+	build/msvc8/src/Inventor/Win/engines/SoGuiEngines.h,
+	build/msvc8/src/Inventor/Win/engines/SoGuiFormat.h,
+	build/msvc8/src/Inventor/Win/engines/SoGuiRadioGroup.h,
+	build/msvc8/src/Inventor/Win/nodes/ClickCounter.cpp,
+	build/msvc8/src/Inventor/Win/nodes/ColorEditor.cpp,
+	build/msvc8/src/Inventor/Win/nodes/Frame.cpp,
+	build/msvc8/src/Inventor/Win/nodes/Image.cpp,
+	build/msvc8/src/Inventor/Win/nodes/Label.cpp,
+	build/msvc8/src/Inventor/Win/nodes/MaterialEditor.cpp,
+	build/msvc8/src/Inventor/Win/nodes/Nodes.cpp,
+	build/msvc8/src/Inventor/Win/nodes/Pane.cpp,
+	build/msvc8/src/Inventor/Win/nodes/Position.cpp,
+	build/msvc8/src/Inventor/Win/nodes/RadioButton.cpp,
+	build/msvc8/src/Inventor/Win/nodes/SceneTexture2.cpp,
+	build/msvc8/src/Inventor/Win/nodes/Slider1.cpp,
+	build/msvc8/src/Inventor/Win/nodes/Slider2.cpp,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiClickCounter.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiColorEditor.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiFrame.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiImage.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiLabel.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiMaterialEditor.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiNodes.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiPane.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiPosition.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiRadioButton.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiSceneTexture2.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiSlider1.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiSlider2.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiToggleButton.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiTranslation.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiViewpointWrapper.h,
+	build/msvc8/src/Inventor/Win/nodes/SoGuiViewportFix.h,
+	build/msvc8/src/Inventor/Win/nodes/ToggleButton.cpp,
+	build/msvc8/src/Inventor/Win/nodes/Translation.cpp,
+	build/msvc8/src/Inventor/Win/nodes/ViewpointWrapper.cpp,
+	build/msvc8/src/Inventor/Win/nodes/ViewportFix.cpp,
+	build/msvc8/src/Inventor/Win/viewers/SoGuiExaminerViewerP.h,
+	build/msvc8/src/Inventor/Win/viewers/SoGuiFullViewerP.h,
+	build/msvc8/src/Inventor/Win/viewers/SoGuiPlaneViewerP.h,
+	build/msvc8/src/Inventor/Win/viewers/SoGuiViewerP.h,
+	build/msvc8/src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp,
+	build/msvc8/src/Inventor/Win/viewers/SoWinConstrainedViewer.h,
+	build/msvc8/src/Inventor/Win/viewers/SoWinExaminerViewer.cpp,
+	build/msvc8/src/Inventor/Win/viewers/SoWinExaminerViewer.h,
+	build/msvc8/src/Inventor/Win/viewers/SoWinFlyViewer.cpp,
+	build/msvc8/src/Inventor/Win/viewers/SoWinFlyViewer.h,
+	build/msvc8/src/Inventor/Win/viewers/SoWinFullViewer.cpp,
+	build/msvc8/src/Inventor/Win/viewers/SoWinFullViewer.h,
+	build/msvc8/src/Inventor/Win/viewers/SoWinPlaneViewer.cpp,
+	build/msvc8/src/Inventor/Win/viewers/SoWinPlaneViewer.h,
+	build/msvc8/src/Inventor/Win/viewers/SoWinViewer.cpp,
+	build/msvc8/src/Inventor/Win/viewers/SoWinViewer.h,
+	build/msvc8/src/Inventor/Win/widgets/SoAnyThumbWheel.cpp,
+	build/msvc8/src/Inventor/Win/widgets/SoAnyThumbWheel.h,
+	build/msvc8/src/Inventor/Win/widgets/SoWinPopupMenu.cpp,
+	build/msvc8/src/Inventor/Win/widgets/SoWinPopupMenu.h,
+	build/msvc8/src/sowindefs.h:
+	redundancy fixes from the redundancy department, new Visual Studio
+	project setup
+	[0c758b608578]
+
+	* aclocal.m4, configure, configure.ac:
+	fix exit()-declaration-problem
+	[1783f9f2e800]
+
+2007-05-01  Lars J. Aas  <larsa@sim.no>
+
+	* build/msvc6/src/Inventor/Win/devices/spwinput_x11.cpp,
+	build/msvc7/src/Inventor/Win/devices/spwinput_x11.cpp,
+	build/msvc8/src/Inventor/Win/devices/spwinput_x11.cpp:
+	sync
+	[91269a9ae6be]
+
+2007-03-12  Lars J. Aas  <larsa@sim.no>
+
+	* build/misc/create-directories.bat:
+	bugfix
+	[d4439ff33b84]
+
+	* Makefile.am, Makefile.in, aclocal.m4, build/misc/config-wrapper.h,
+	build/misc/create-directories.bat, build/misc/generate.sh,
+	build/misc/install-sdk.bat, build/msvc6/config-wrapper.h,
+	build/msvc6/generate.sh, build/msvc6/install-dll-debug.bat,
+	build/msvc6/install-dll-release.bat, build/msvc6/install-lib-
+	debug.bat, build/msvc6/install-lib-release.bat,
+	build/msvc6/sowin1.dsp, build/msvc6/src/Inventor/Win/SoAny.cpp,
+	build/msvc6/src/Inventor/Win/SoAny.h,
+	build/msvc6/src/Inventor/Win/SoWinBasic.h,
+	build/msvc6/src/Inventor/Win/SoWinCommon.cpp,
+	build/msvc6/src/Inventor/Win/SoWinCursor.cpp,
+	build/msvc6/src/Inventor/Win/SoWinRenderArea.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoGuiViewerP.h,
+	build/msvc6/src/Inventor/Win/viewers/SoWinFlyViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinPlaneViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinPlaneViewer.h,
+	build/msvc6/src/Inventor/Win/viewers/SoWinViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinViewer.h, build/msvc6/src
+	/config-debug.h, build/msvc6/src/config-release.h, build/msvc7
+	/config-wrapper.h, build/msvc7/generate.sh, build/msvc7/install-dll-
+	debug.bat, build/msvc7/install-dll-release.bat, build/msvc7/install-
+	lib-debug.bat, build/msvc7/install-lib-release.bat,
+	build/msvc7/sowin1.sln, build/msvc7/sowin1.vcproj,
+	build/msvc7/src/Inventor/Win/SoAny.cpp,
+	build/msvc7/src/Inventor/Win/SoAny.h,
+	build/msvc7/src/Inventor/Win/SoWinBasic.h,
+	build/msvc7/src/Inventor/Win/SoWinCommon.cpp,
+	build/msvc7/src/Inventor/Win/SoWinCursor.cpp,
+	build/msvc7/src/Inventor/Win/SoWinRenderArea.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoGuiViewerP.h,
+	build/msvc7/src/Inventor/Win/viewers/SoWinFlyViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinPlaneViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinPlaneViewer.h,
+	build/msvc7/src/Inventor/Win/viewers/SoWinViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinViewer.h, build/msvc7/src
+	/config-debug.h, build/msvc7/src/config-release.h, build/msvc8
+	/config-wrapper.h, build/msvc8/generate.sh, build/msvc8/install-dll-
+	debug.bat, build/msvc8/install-dll-release.bat, build/msvc8/install-
+	lib-debug.bat, build/msvc8/install-lib-release.bat,
+	build/msvc8/sowin1.sln, build/msvc8/sowin1.vcproj,
+	build/msvc8/src/Inventor/Win/SoAny.cpp,
+	build/msvc8/src/Inventor/Win/SoAny.h,
+	build/msvc8/src/Inventor/Win/SoWinBasic.h,
+	build/msvc8/src/Inventor/Win/SoWinCommon.cpp,
+	build/msvc8/src/Inventor/Win/SoWinCursor.cpp,
+	build/msvc8/src/Inventor/Win/SoWinRenderArea.cpp,
+	build/msvc8/src/Inventor/Win/viewers/SoGuiViewerP.h,
+	build/msvc8/src/Inventor/Win/viewers/SoWinFlyViewer.cpp,
+	build/msvc8/src/Inventor/Win/viewers/SoWinPlaneViewer.cpp,
+	build/msvc8/src/Inventor/Win/viewers/SoWinPlaneViewer.h,
+	build/msvc8/src/Inventor/Win/viewers/SoWinViewer.cpp,
+	build/msvc8/src/Inventor/Win/viewers/SoWinViewer.h, build/msvc8/src
+	/config-debug.h, build/msvc8/src/config-release.h, cfg/errors.txt,
+	cfg/gendsp.pl.in, cfg/ltmain.sh, cfg/wrapmsvc.exe, configure,
+	configure.ac:
+	updated Visual Studio build files
+	[b5255bd4092a]
+
+2007-02-27  Frode Øijord  <frodo@sim.no>
+
+	* build/msvc8/sowin1.vcproj, src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/SoWinComponentP.h,
+	src/Inventor/Win/viewers/FullViewer.cpp,
+	src/Inventor/Win/viewers/SoWinFullViewerP.h:
+	event hooks must be set per thread
+	[b951b1fa8988]
+
+2007-01-04  Frode Øijord  <frodo@sim.no>
+
+	* Makefile.in, html/Makefile.in, htmlhelp/Makefile.in,
+	man/man1/Makefile.in, man/man3/Makefile.in,
+	src/Inventor/Makefile.in, src/Inventor/Win/Makefile.in,
+	src/Inventor/Win/devices/Makefile.in,
+	src/Inventor/Win/editors/Makefile.in,
+	src/Inventor/Win/engines/Makefile.in,
+	src/Inventor/Win/nodes/Makefile.in,
+	src/Inventor/Win/viewers/Makefile.am,
+	src/Inventor/Win/viewers/Makefile.in,
+	src/Inventor/Win/widgets/Makefile.in, src/Makefile.in:
+	bootstrap
+	[efe65343f488]
+
+2006-12-07  Frode Øijord  <frodo@sim.no>
+
+	* src/Inventor/Win/SoWin.cpp:
+	pointers to windows procedures obtained via GetWindowLong with the
+	index parameter set to GWL_WNDPROC is either a function pointer or a
+	special internal value meaningful only to CallWindowProc. It must
+	therefore never be used directly. Problem reported and patch
+	provided by Morten Fjeldstad
+	[7d8fc86c4c55]
+
+2006-10-30  Lars J. Aas  <larsa@sim.no>
+
+	* configure, configure.ac:
+	Stamp version 1.4.1a
+	[a2720a8931a5]
+
+	* docs/ChangeLog.v1.4.0:
+	move changelog
+	[c8fca3422248] [SoWin-1.4.0]
+

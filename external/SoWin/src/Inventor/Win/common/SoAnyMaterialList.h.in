@@ -1,0 +1,100 @@
+#ifndef SOANY_MATERIALLIST_H
+#define SOANY_MATERIALLIST_H
+
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+#include <Inventor/@Gui@/So@Gui@MaterialList.h>
+
+class SbPList;
+class SoMaterial;
+
+// *************************************************************************
+
+#define SO@GUI@_BUILTIN_MATERIALS 0x0001
+
+struct So@Gui@Material {
+  const char * name;
+  const char * data;
+};
+
+struct So@Gui@MaterialGroup {
+  const char * name;
+  short numMaterials;
+  So@Gui@Material ** materials;
+  @WIDGET@ menuitem;
+};
+
+struct So@Gui@MaterialDirectory {
+  short flags;
+  short numGroups;
+  So@Gui@MaterialGroup ** groups;
+  short current;
+};
+
+// *************************************************************************
+
+class SO@GUI@_DLL_API SoAnyMaterialList {
+public:
+  SoAnyMaterialList(const char * const dir);
+  ~SoAnyMaterialList(void);
+
+  void addCallback(
+    So@Gui@MaterialListCB * const callback, void * const closure);
+  void removeCallback(
+    So@Gui@MaterialListCB * const callback, void * const closure);
+  void invokeCallbacks(SoMaterial * material);
+
+  const char * getMaterialDirectoryPath(void) const;
+  So@Gui@MaterialDirectory * getMaterialDirectory(void);
+
+private:
+  void setupBuiltinMaterials(So@Gui@MaterialDirectory * const index) const;
+  void freeMaterialDirectory(void);
+
+  static char ** getNonemptySubdirs(const char * const path);
+  static char ** getRegularFiles(const char * const path);
+
+  static int qsort_comparator(const void * itemA, const void * itemB);
+
+private:
+  SbPList * callbacks;
+  char * dirpath;
+  So@Gui@MaterialDirectory * directory;
+
+}; // class SoAnyMaterialList
+
+// *************************************************************************
+
+#endif // ! SOANY_MATERIALLIST_H

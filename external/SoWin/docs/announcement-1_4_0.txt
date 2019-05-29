@@ -1,0 +1,40 @@
+SoWin 1.4.0 Released
+====================
+
+Preamble
+--------
+
+The SoWin library is a C++ GUI toolkit that binds together the Coin
+rendering library with the user interface parts of the MSWindows Win32
+API, thereby providing application programmers a convenient method of
+using the Coin library from MSWindows development environments.
+
+Coin is a high-level 3D graphics library with a C++ Application
+Programming Interface. Coin implements the SGI Open Inventor API.
+
+New in this release
+-------------------
+
+New in SoWin 1.4.0 (2006-10-29):
+* synchronization with SoQt major/minor-versioning
+* plugged many memory leaks, fixed many bugs
+
+Download instructions
+---------------------
+
+We will regularly package up new bugfix releases of the SoWin library
+into source code archives for distribution on the FTP site whenever we
+feel this is justified by the number and/or severity of the fixed
+bugs. This also goes for updated binary installation packages.
+
+Source Code by FTP:
+  ftp://ftp.coin3d.org/pub/coin/src/SoWin-1.4.0.tar.gz
+
+Precompiled for MS Windows:
+  Visit http://www.coin3d.org/ and download the "Coin3D for Windows" 
+  installation package
+
+
+Regards,
+
+  Lars J

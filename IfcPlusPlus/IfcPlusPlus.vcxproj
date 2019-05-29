@@ -339,6 +339,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\external\XUnzip.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\EntityFactory.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcAbsorbedDoseMeasure.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcAccelerationMeasure.cpp" />
@@ -1526,6 +1527,7 @@
     <ClCompile Include="src\ifcpp\writer\WriterUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\external\XUnzip.h" />
     <ClInclude Include="src\ifcpp\geometry\AppearanceData.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\ConverterOSG.h" />
     <ClInclude Include="src\ifcpp\geometry\Carve\CSG_Adapter.h" />

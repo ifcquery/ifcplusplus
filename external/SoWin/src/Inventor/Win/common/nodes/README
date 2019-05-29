@@ -1,0 +1,40 @@
+NODES
+
+  SoGuiViewportFix - fix origo to a corner of the viewport
+
+  SoGuiPosition - set 2D position on pane
+
+  SoGuiTranslation - accumulate 2D translation on pane
+
+  SoGuiPane - group node for containing a 2D interface
+    - for enabling special translation/position nodes
+    - for enabling special scaling nodes
+
+NODEKITS
+
+  SoGuiFrame - a 2d-rect emboss / frame renderer
+
+  SoGuiClickCounter - a button-like widget that reacts to mouse presses
+
+  SoGuiToggleButton - a button-like widget that can be turned on/off with the mouse
+
+  SoGuiRadioButton - a button-like widget that can be turned on with the mouse
+
+  SoGuiSlider1 - an interactive slider for a one-dimensional value space
+
+  SoGuiSlider2 - an interactive slider for a two-dimensional value space
+
+  SoGuiColorEditor - the machinery of the color editor component
+
+  SoGuiMaterialEditor - the machinery of the material editor component
+
+ENGINES
+
+  SoGuiRadioGroup - an engine that will make sure only one SoSFBool is enabled
+
+  SoGuiFormat - a string formatting engine (very ad-hoc design for now)
+
+DRAGGERS
+
+  [SoGuiWindowDragger]
+

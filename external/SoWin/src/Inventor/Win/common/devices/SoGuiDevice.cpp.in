@@ -1,0 +1,293 @@
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+// This file contains common sourcecode and documentation for the
+// So[Gui]Device classes, in template form.
+
+/*!
+  \class So@Gui@Device So@Gui@Device.h Inventor/@Gui@/devices/So@Gui@Device.h
+  \brief The So@Gui@Device class is the base class for the translation devices.
+  \ingroup devices
+
+  The So@Gui@ device classes provide glue functionality for
+  translating native GUI events from the underlying toolkit to
+  Inventor scenegraph SoEvent events.
+
+  The device classes are mainly of interest to application programmers
+  when writing extensions for new types of devices, and seldom in
+  other contexts -- so they can most often be ignored.
+*/
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
+#include <Inventor/@Gui@/devices/So@Gui@Device.h>
+#include <Inventor/@Gui@/devices/So@Gui@DeviceP.h>
+#include <Inventor/SbPList.h>
+#include <Inventor/errors/SoDebugError.h>
+#include <Inventor/events/SoEvent.h>
+
+#include <Inventor/@Gui@/devices/So@Gui@InputFocus.h>
+#include <Inventor/@Gui@/devices/So@Gui@Keyboard.h>
+#include <Inventor/@Gui@/devices/So@Gui@Mouse.h>
+
+#ifdef HAVE_JOYSTICK_LINUX
+#include <Inventor/@Gui@/devices/So@Gui@LinuxJoystick.h>
+#endif // HAVE_JOYSTICK_LINUX
+
+#define PRIVATE(p) (p->pimpl)
+#define PUBLIC(p) (p->pub)
+
+// *************************************************************************
+
+/*!
+  \fn So@Gui@Device::So@Gui@Device(void)
+  Constructor.  Protected to only enable invocation from derived device
+  classes.
+*/
+/*!
+  \fn So@Gui@Device::~So@Gui@Device()
+  Public virtual destructor.
+*/
+
+/*!
+  \fn void So@Gui@Device::enable(@WIDGET@ widget, So@Gui@EventHandler * handler, void * closure)
+
+  This method will enable the device for the widget.
+
+  \a handler is invoked with the \a closure argument when an event
+  occur in \a widget.
+*/
+
+/*!
+  \fn void So@Gui@Device::disable(@WIDGET@ widget, So@Gui@EventHandler * handler, void * closure)
+
+  This method will disable the handler for the device.
+*/
+
+/*!
+  \fn const SoEvent * So@Gui@Device::translateEvent(@EVENT@ event)
+
+  This method translates from native events to Open Inventor SoEvent
+  events.
+*/
+
+/*!
+  \fn void So@Gui@Device::invokeHandlers(@EVENT@ event)
+
+  Invoke all handlers registered with So@Gui@Device::addEventHandler().
+*/
+
+// *************************************************************************
+
+SO@GUI@_OBJECT_ABSTRACT_SOURCE(So@Gui@Device);
+
+// *************************************************************************
+
+/*!
+  This function initializes the type system for all the So@Gui@
+  device classes.  It is called indirectly when calling
+  So@Gui@::init(), so the application programmer doesn't have to
+  bother with it.
+*/
+void
+So@Gui@Device::initClasses(void)
+{
+  So@Gui@Device::initClass();
+  So@Gui@InputFocus::initClass();
+  So@Gui@Keyboard::initClass();
+  So@Gui@Mouse::initClass();
+#ifdef HAVE_JOYSTICK_LINUX
+  So@Gui@LinuxJoystick::initClass();
+#endif // HAVE_JOYSTICK_LINUX
+}
+
+// *************************************************************************
+
+/*!
+  This method sets the cached size of the window the device is
+  "attached" to.
+*/
+void
+So@Gui@Device::setWindowSize(const SbVec2s size)
+{
+  PRIVATE(this)->widgetsize = size;
+}
+
+/*!
+  This method returns the cached window size.
+*/
+SbVec2s
+So@Gui@Device::getWindowSize(void) const
+{
+  return PRIVATE(this)->widgetsize;
+}
+
+// *************************************************************************
+
+/*!
+  This method fills in the position information of \a event,
+  translating the coordinates into the correct coordinate system.
+*/
+void
+So@Gui@Device::setEventPosition(SoEvent * event, int x, int y) const
+{
+  SoGuiDeviceP::lasteventposition = SbVec2s(x, y);
+  event->setPosition(SbVec2s(x, PRIVATE(this)->widgetsize[1] - y - 1));
+}
+
+/*!
+  Returns last event position that was set with
+  So@Gui@Device::setEventPosition().
+ */
+SbVec2s
+So@Gui@Device::getLastEventPosition(void)
+{
+  return SoGuiDeviceP::lasteventposition;
+}
+
+// *************************************************************************
+
+/*!
+  Stores an event \a handler for the \a widget, which can later be
+  invoked with So@Gui@Device::invokeHandlers(). Used by extension
+  device types.
+ */
+void
+So@Gui@Device::addEventHandler(@WIDGET@ widget,
+                               So@Gui@EventHandler * handler,
+                               void * closure)
+{
+  PRIVATE(this)->addEventHandler(widget, handler, closure);
+}
+
+/*!
+  Remove a \a handler registered with So@Gui@Device::addEventHandler().
+ */
+void
+So@Gui@Device::removeEventHandler(@WIDGET@ widget,
+                                  So@Gui@EventHandler * handler,
+                                  void * closure)
+{
+  PRIVATE(this)->removeEventHandler(widget, handler, closure);
+}
+
+// *************************************************************************
+
+#ifndef DOXYGEN_SKIP_THIS
+
+// Remaining code is for the internal, private hidden implementation
+// class.
+
+SbVec2s SoGuiDeviceP::lasteventposition;
+
+struct SoGuiDevicePHandlerInfo {
+  @WIDGET@ widget;
+  So@Gui@EventHandler * handler;
+  void * closure;
+};
+
+SoGuiDeviceP::SoGuiDeviceP(So@Gui@Device * p)
+{
+  PUBLIC(this) = p;
+  this->handlers = NULL;
+  this->widgetsize = SbVec2s(0, 0);
+}
+
+SoGuiDeviceP::~SoGuiDeviceP()
+{
+  if (this->handlers) {
+    for (int i = 0; i < this->handlers->getLength(); i++) {
+      SoGuiDevicePHandlerInfo * info =
+        (SoGuiDevicePHandlerInfo *) (*this->handlers)[i];
+      delete info;
+    }
+    delete this->handlers;
+  }
+}
+
+void
+SoGuiDeviceP::addEventHandler(@WIDGET@ widget,
+                              So@Gui@EventHandler * handler,
+                              void * closure)
+{
+  if (this->handlers == NULL) { this->handlers = new SbPList; }
+  SoGuiDevicePHandlerInfo * info = new SoGuiDevicePHandlerInfo;
+  info->widget = widget;
+  info->handler = handler;
+  info->closure = closure;
+  this->handlers->append(info);
+}
+
+void
+SoGuiDeviceP::removeEventHandler(@WIDGET@ widget,
+                                 So@Gui@EventHandler * handler,
+                                 void * closure)
+{
+  if (this->handlers) {
+    for (int i = 0; i < this->handlers->getLength(); i++) {
+      SoGuiDevicePHandlerInfo * info =
+        (SoGuiDevicePHandlerInfo *) (*this->handlers)[i];
+      if ((info->widget == widget) && (info->handler == handler) &&
+           (info->closure == closure)) {
+        delete info;
+        this->handlers->remove(i);
+        return;
+      }
+    }
+  }
+#if SO@GUI@_DEBUG
+  SoDebugError::post("SoGuiDeviceP::removeEventHandler",
+                     "tried to remove nonexisting handler");
+#endif // SO@GUI@_DEBUG
+}
+
+void
+SoGuiDeviceP::invokeHandlers(HandlerCB * cb, @EVENT@ event)
+{
+  if (this->handlers) {
+    for (int i = 0; i < this->handlers->getLength(); i++) {
+      SoGuiDevicePHandlerInfo * info =
+        (SoGuiDevicePHandlerInfo *) (*this->handlers)[i];
+      cb(info->handler, info->widget, event, info->closure);
+    }
+  }
+}
+
+#endif // DOXYGEN_SKIP_THIS
+
+#undef PRIVATE
+#undef PUBLIC
+

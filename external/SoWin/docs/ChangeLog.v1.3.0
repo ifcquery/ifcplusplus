@@ -1,0 +1,1063 @@
+2005-09-22 16:18  larsa
+
+	* build/: msvc6/sowin1.dsp, msvc6/src/config-debug.h,
+	msvc6/src/config-release.h, msvc6/src/Inventor/Win/SoWinBasic.h,
+	msvc6/src/Inventor/Win/SoWinGLWidgetCommon.cpp, msvc7/sowin1.sln,
+	msvc7/src/config-debug.h, msvc7/src/config-release.h,
+	msvc7/src/Inventor/Win/SoWinBasic.h,
+	msvc7/src/Inventor/Win/SoWinGLWidgetCommon.cpp:
+	
+	configured for new version number
+
+2005-09-22 15:36  larsa
+
+	* configure.ac:
+	
+	stamp version 1.3.0
+
+2005-09-22 15:27  larsa
+
+	* Makefile.am, docs/ChangeLog.v1.3.0, docs/announcement-1_3_0.txt:
+	
+	docs and dist updates
+
+2005-09-22 15:27  larsa
+
+	* README:
+	
+	new contents
+
+2005-09-22 13:59  larsa
+
+	* build/msvc6/src/sowindefs.h,
+	build/msvc6/src/Inventor/Win/SoAny.cpp,
+	build/msvc6/src/Inventor/Win/SoAny.h,
+	build/msvc6/src/Inventor/Win/SoGuiComponentP.h,
+	build/msvc6/src/Inventor/Win/SoGuiGLWidgetP.h,
+	build/msvc6/src/Inventor/Win/SoGuiP.h,
+	build/msvc6/src/Inventor/Win/SoWin.h,
+	build/msvc6/src/Inventor/Win/SoWinBasic.h,
+	build/msvc6/src/Inventor/Win/SoWinCommon.cpp,
+	build/msvc6/src/Inventor/Win/SoWinComponent.h,
+	build/msvc6/src/Inventor/Win/SoWinComponentCommon.cpp,
+	build/msvc6/src/Inventor/Win/SoWinCursor.cpp,
+	build/msvc6/src/Inventor/Win/SoWinCursor.h,
+	build/msvc6/src/Inventor/Win/SoWinGLWidget.h,
+	build/msvc6/src/Inventor/Win/SoWinGLWidgetCommon.cpp,
+	build/msvc6/src/Inventor/Win/SoWinObject.cpp,
+	build/msvc6/src/Inventor/Win/SoWinObject.h,
+	build/msvc6/src/Inventor/Win/SoWinRenderArea.cpp,
+	build/msvc6/src/Inventor/Win/SoWinRenderArea.h,
+	build/msvc6/src/Inventor/Win/devices/SoGuiDeviceP.h,
+	build/msvc6/src/Inventor/Win/devices/SoGuiInputFocusP.h,
+	build/msvc6/src/Inventor/Win/devices/SoGuiKeyboardP.h,
+	build/msvc6/src/Inventor/Win/devices/SoGuiMouseP.h,
+	build/msvc6/src/Inventor/Win/devices/SoGuiSpaceballP.h,
+	build/msvc6/src/Inventor/Win/devices/SoWinDevice.h,
+	build/msvc6/src/Inventor/Win/devices/SoWinDeviceCommon.cpp,
+	build/msvc6/src/Inventor/Win/devices/SoWinInputFocus.h,
+	build/msvc6/src/Inventor/Win/devices/SoWinInputFocusCommon.cpp,
+	build/msvc6/src/Inventor/Win/devices/SoWinKeyboard.h,
+	build/msvc6/src/Inventor/Win/devices/SoWinKeyboardCommon.cpp,
+	build/msvc6/src/Inventor/Win/devices/SoWinMouse.h,
+	build/msvc6/src/Inventor/Win/devices/SoWinMouseCommon.cpp,
+	build/msvc6/src/Inventor/Win/devices/SoWinSpaceball.h,
+	build/msvc6/src/Inventor/Win/devices/SoWinSpaceballCommon.cpp,
+	build/msvc6/src/Inventor/Win/editors/SoWinColorEditor.cpp,
+	build/msvc6/src/Inventor/Win/editors/SoWinColorEditor.h,
+	build/msvc6/src/Inventor/Win/editors/SoWinMaterialEditor.cpp,
+	build/msvc6/src/Inventor/Win/editors/SoWinMaterialEditor.h,
+	build/msvc6/src/Inventor/Win/engines/Engines.cpp,
+	build/msvc6/src/Inventor/Win/engines/Format.cpp,
+	build/msvc6/src/Inventor/Win/engines/RadioGroup.cpp,
+	build/msvc6/src/Inventor/Win/engines/SoGuiEngines.h,
+	build/msvc6/src/Inventor/Win/engines/SoGuiFormat.h,
+	build/msvc6/src/Inventor/Win/engines/SoGuiRadioGroup.h,
+	build/msvc6/src/Inventor/Win/nodes/ClickCounter.cpp,
+	build/msvc6/src/Inventor/Win/nodes/ColorEditor.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Frame.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Image.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Label.cpp,
+	build/msvc6/src/Inventor/Win/nodes/MaterialEditor.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Nodes.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Pane.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Position.cpp,
+	build/msvc6/src/Inventor/Win/nodes/RadioButton.cpp,
+	build/msvc6/src/Inventor/Win/nodes/SceneTexture2.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Slider1.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Slider2.cpp,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiClickCounter.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiColorEditor.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiFrame.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiImage.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiLabel.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiMaterialEditor.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiNodes.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiPane.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiPosition.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiRadioButton.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiSceneTexture2.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiSlider1.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiSlider2.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiToggleButton.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiTranslation.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiViewpointWrapper.h,
+	build/msvc6/src/Inventor/Win/nodes/SoGuiViewportFix.h,
+	build/msvc6/src/Inventor/Win/nodes/ToggleButton.cpp,
+	build/msvc6/src/Inventor/Win/nodes/Translation.cpp,
+	build/msvc6/src/Inventor/Win/nodes/ViewpointWrapper.cpp,
+	build/msvc6/src/Inventor/Win/nodes/ViewportFix.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoGuiExaminerViewerP.h,
+	build/msvc6/src/Inventor/Win/viewers/SoGuiFullViewerP.h,
+	build/msvc6/src/Inventor/Win/viewers/SoGuiPlaneViewerP.h,
+	build/msvc6/src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinConstrainedViewer.h,
+	build/msvc6/src/Inventor/Win/viewers/SoWinExaminerViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinExaminerViewer.h,
+	build/msvc6/src/Inventor/Win/viewers/SoWinFlyViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinFlyViewer.h,
+	build/msvc6/src/Inventor/Win/viewers/SoWinFullViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinFullViewer.h,
+	build/msvc6/src/Inventor/Win/viewers/SoWinPlaneViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinPlaneViewer.h,
+	build/msvc6/src/Inventor/Win/viewers/SoWinViewer.cpp,
+	build/msvc6/src/Inventor/Win/viewers/SoWinViewer.h,
+	build/msvc6/src/Inventor/Win/widgets/SoAnyThumbWheel.cpp,
+	build/msvc6/src/Inventor/Win/widgets/SoAnyThumbWheel.h,
+	build/msvc6/src/Inventor/Win/widgets/SoWinPopupMenu.cpp,
+	build/msvc6/src/Inventor/Win/widgets/SoWinPopupMenu.h,
+	build/msvc7/src/sowindefs.h,
+	build/msvc7/src/Inventor/Win/SoAny.cpp,
+	build/msvc7/src/Inventor/Win/SoAny.h,
+	build/msvc7/src/Inventor/Win/SoGuiComponentP.h,
+	build/msvc7/src/Inventor/Win/SoGuiGLWidgetP.h,
+	build/msvc7/src/Inventor/Win/SoGuiP.h,
+	build/msvc7/src/Inventor/Win/SoWin.h,
+	build/msvc7/src/Inventor/Win/SoWinBasic.h,
+	build/msvc7/src/Inventor/Win/SoWinCommon.cpp,
+	build/msvc7/src/Inventor/Win/SoWinComponent.h,
+	build/msvc7/src/Inventor/Win/SoWinComponentCommon.cpp,
+	build/msvc7/src/Inventor/Win/SoWinCursor.cpp,
+	build/msvc7/src/Inventor/Win/SoWinCursor.h,
+	build/msvc7/src/Inventor/Win/SoWinGLWidget.h,
+	build/msvc7/src/Inventor/Win/SoWinGLWidgetCommon.cpp,
+	build/msvc7/src/Inventor/Win/SoWinObject.cpp,
+	build/msvc7/src/Inventor/Win/SoWinObject.h,
+	build/msvc7/src/Inventor/Win/SoWinRenderArea.cpp,
+	build/msvc7/src/Inventor/Win/SoWinRenderArea.h,
+	build/msvc7/src/Inventor/Win/devices/SoGuiDeviceP.h,
+	build/msvc7/src/Inventor/Win/devices/SoGuiInputFocusP.h,
+	build/msvc7/src/Inventor/Win/devices/SoGuiKeyboardP.h,
+	build/msvc7/src/Inventor/Win/devices/SoGuiMouseP.h,
+	build/msvc7/src/Inventor/Win/devices/SoGuiSpaceballP.h,
+	build/msvc7/src/Inventor/Win/devices/SoWinDevice.h,
+	build/msvc7/src/Inventor/Win/devices/SoWinDeviceCommon.cpp,
+	build/msvc7/src/Inventor/Win/devices/SoWinInputFocus.h,
+	build/msvc7/src/Inventor/Win/devices/SoWinInputFocusCommon.cpp,
+	build/msvc7/src/Inventor/Win/devices/SoWinKeyboard.h,
+	build/msvc7/src/Inventor/Win/devices/SoWinKeyboardCommon.cpp,
+	build/msvc7/src/Inventor/Win/devices/SoWinMouse.h,
+	build/msvc7/src/Inventor/Win/devices/SoWinMouseCommon.cpp,
+	build/msvc7/src/Inventor/Win/devices/SoWinSpaceball.h,
+	build/msvc7/src/Inventor/Win/devices/SoWinSpaceballCommon.cpp,
+	build/msvc7/src/Inventor/Win/editors/SoWinColorEditor.cpp,
+	build/msvc7/src/Inventor/Win/editors/SoWinColorEditor.h,
+	build/msvc7/src/Inventor/Win/editors/SoWinMaterialEditor.cpp,
+	build/msvc7/src/Inventor/Win/editors/SoWinMaterialEditor.h,
+	build/msvc7/src/Inventor/Win/engines/Engines.cpp,
+	build/msvc7/src/Inventor/Win/engines/Format.cpp,
+	build/msvc7/src/Inventor/Win/engines/RadioGroup.cpp,
+	build/msvc7/src/Inventor/Win/engines/SoGuiEngines.h,
+	build/msvc7/src/Inventor/Win/engines/SoGuiFormat.h,
+	build/msvc7/src/Inventor/Win/engines/SoGuiRadioGroup.h,
+	build/msvc7/src/Inventor/Win/nodes/ClickCounter.cpp,
+	build/msvc7/src/Inventor/Win/nodes/ColorEditor.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Frame.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Image.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Label.cpp,
+	build/msvc7/src/Inventor/Win/nodes/MaterialEditor.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Nodes.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Pane.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Position.cpp,
+	build/msvc7/src/Inventor/Win/nodes/RadioButton.cpp,
+	build/msvc7/src/Inventor/Win/nodes/SceneTexture2.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Slider1.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Slider2.cpp,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiClickCounter.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiColorEditor.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiFrame.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiImage.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiLabel.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiMaterialEditor.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiNodes.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiPane.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiPosition.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiRadioButton.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiSceneTexture2.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiSlider1.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiSlider2.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiToggleButton.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiTranslation.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiViewpointWrapper.h,
+	build/msvc7/src/Inventor/Win/nodes/SoGuiViewportFix.h,
+	build/msvc7/src/Inventor/Win/nodes/ToggleButton.cpp,
+	build/msvc7/src/Inventor/Win/nodes/Translation.cpp,
+	build/msvc7/src/Inventor/Win/nodes/ViewpointWrapper.cpp,
+	build/msvc7/src/Inventor/Win/nodes/ViewportFix.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoGuiExaminerViewerP.h,
+	build/msvc7/src/Inventor/Win/viewers/SoGuiFullViewerP.h,
+	build/msvc7/src/Inventor/Win/viewers/SoGuiPlaneViewerP.h,
+	build/msvc7/src/Inventor/Win/viewers/SoWinConstrainedViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinConstrainedViewer.h,
+	build/msvc7/src/Inventor/Win/viewers/SoWinExaminerViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinExaminerViewer.h,
+	build/msvc7/src/Inventor/Win/viewers/SoWinFlyViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinFlyViewer.h,
+	build/msvc7/src/Inventor/Win/viewers/SoWinFullViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinFullViewer.h,
+	build/msvc7/src/Inventor/Win/viewers/SoWinPlaneViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinPlaneViewer.h,
+	build/msvc7/src/Inventor/Win/viewers/SoWinViewer.cpp,
+	build/msvc7/src/Inventor/Win/viewers/SoWinViewer.h,
+	build/msvc7/src/Inventor/Win/widgets/SoAnyThumbWheel.cpp,
+	build/msvc7/src/Inventor/Win/widgets/SoAnyThumbWheel.h,
+	build/msvc7/src/Inventor/Win/widgets/SoWinPopupMenu.cpp,
+	build/msvc7/src/Inventor/Win/widgets/SoWinPopupMenu.h,
+	src/Inventor/Win/SoWin.cpp, src/Inventor/Win/SoWinComponent.cpp,
+	src/Inventor/Win/SoWinComponentP.h,
+	src/Inventor/Win/SoWinGLWidget.cpp,
+	src/Inventor/Win/SoWinGLWidgetP.h,
+	src/Inventor/Win/SoWinMaterialList.cpp,
+	src/Inventor/Win/Win32API.cpp, src/Inventor/Win/Win32API.h,
+	src/Inventor/Win/devices/SoWinDevice.cpp,
+	src/Inventor/Win/devices/SoWinDeviceP.h,
+	src/Inventor/Win/devices/SoWinInputFocus.cpp,
+	src/Inventor/Win/devices/SoWinKeyboard.cpp,
+	src/Inventor/Win/devices/SoWinMouse.cpp,
+	src/Inventor/Win/devices/SoWinSpaceball.cpp,
+	src/Inventor/Win/devices/SoWinSpaceballP.h,
+	src/Inventor/Win/viewers/ExaminerViewer.cpp,
+	src/Inventor/Win/viewers/FullViewer.cpp,
+	src/Inventor/Win/viewers/PlaneViewer.cpp,
+	src/Inventor/Win/viewers/SoWinExaminerViewerP.h,
+	src/Inventor/Win/viewers/SoWinFullViewerP.h,
+	src/Inventor/Win/viewers/SoWinPlaneViewerP.h,
+	src/Inventor/Win/viewers/WalkViewer.cpp,
+	src/Inventor/Win/widgets/SoWinBitmapButton.cpp,
+	src/Inventor/Win/widgets/SoWinBitmapButton.h,
+	src/Inventor/Win/widgets/SoWinThumbWheel.cpp,
+	src/Inventor/Win/widgets/SoWinThumbWheel.h,
+	src/Inventor/Win/widgets/WinNativePopupMenu.cpp,
+	src/Inventor/Win/widgets/WinNativePopupMenu.h:
+	
+	copyright header update
+
+2005-09-22 12:14  larsa
+
+	* NEWS:
+	
+	update
+
+2005-09-21 11:50  larsa
+
+	* cfg/errors.txt:
+	
+	bootstrap
+
+2005-09-19 13:25  larsa
+
+	* build/: msvc6/install-dll-release.bat,
+	msvc7/install-dll-release.bat:
+	
+	tweaks
+
+2005-09-14 18:29  larsa
+
+	* src/Inventor/Win/widgets/WinNativePopupMenu.cpp:
+	
+	don't assert on removed menu items
+
+2005-09-02 18:00  larsa
+
+	* Makefile.am:
+	
+	dist changes
+
+2005-09-02 17:39  larsa
+
+	* build/msvc7/: .cvsignore, config-wrapper.h, generate.sh,
+	install-dll-debug.bat, install-dll-release.bat,
+	install-headers.bat, install-lib-debug.bat,
+	install-lib-release.bat, installsowin.bat, installsowinheaders.bat,
+	sowin1.sln, sowin1.vcproj, src/config-debug.h,
+	src/config-release.h, src/config.h, src/Inventor/Win/.cvsignore,
+	src/Inventor/Win/SoWinCommon.cpp,
+	src/Inventor/Win/SoWinRenderArea.cpp,
+	src/Inventor/Win/devices/.cvsignore,
+	src/Inventor/Win/editors/.cvsignore,
+	src/Inventor/Win/engines/.cvsignore,
+	src/Inventor/Win/nodes/.cvsignore, src/Inventor/Win/nodes/Pane.cpp,
+	src/Inventor/Win/viewers/.cvsignore,
+	src/Inventor/Win/viewers/SoWinViewer.cpp,
+	src/Inventor/Win/viewers/SoWinViewer.h,
+	src/Inventor/Win/widgets/.cvsignore,
+	src/Inventor/Win/widgets/SoAnyThumbWheel.cpp,
+	src/Inventor/Win/widgets/SoWinPopupMenu.cpp,
+	src/Inventor/Win/widgets/SoWinPopupMenu.h:
+	
+	update
+
+2005-09-02 12:30  larsa
+
+	* build/msvc6/: .cvsignore, config-wrapper.h, generate.sh,
+	install-dll-debug.bat, install-dll-release.bat,
+	install-headers.bat, install-lib-debug.bat,
+	install-lib-release.bat, installsowin.bat, installsowinheaders.bat,
+	sowin1.dsp, src/config-debug.h, src/config-release.h, src/config.h,
+	src/Inventor/Win/.cvsignore, src/Inventor/Win/SoWinCommon.cpp,
+	src/Inventor/Win/SoWinRenderArea.cpp,
+	src/Inventor/Win/devices/.cvsignore,
+	src/Inventor/Win/editors/.cvsignore,
+	src/Inventor/Win/engines/.cvsignore,
+	src/Inventor/Win/nodes/.cvsignore, src/Inventor/Win/nodes/Pane.cpp,
+	src/Inventor/Win/viewers/.cvsignore,
+	src/Inventor/Win/viewers/SoWinViewer.cpp,
+	src/Inventor/Win/viewers/SoWinViewer.h,
+	src/Inventor/Win/widgets/.cvsignore,
+	src/Inventor/Win/widgets/SoAnyThumbWheel.cpp,
+	src/Inventor/Win/widgets/SoWinPopupMenu.cpp,
+	src/Inventor/Win/widgets/SoWinPopupMenu.h:
+	
+	update
+
+2005-09-02 11:00  larsa
+
+	* cfg/: errors.txt, gendsp.sh.in:
+	
+	bootstrap
+
+2005-09-02 11:00  larsa
+
+	* configure.ac:
+	
+	static link fix
+
+2005-07-11 16:29  mortene
+
+	* BUGS.txt:
+	
+	Update on last item.
+
+2005-07-11 15:43  mortene
+
+	* BUGS.txt:
+	
+	New item.
+
+2005-07-01 13:56  mortene
+
+	* configure.ac:
+	
+	Typo.
+
+2005-07-01 13:51  mortene
+
+	* configure.ac:
+	
+	FIXME note about the next release.
+
+2005-06-22 12:24  mortene
+
+	* src/Inventor/Win/widgets/WinNativePopupMenu.cpp:
+	
+	Codestyle: remove rcsid tag.
+
+2005-06-22 12:23  mortene
+
+	* src/Inventor/Win/Makefile.am:
+	
+	Bugfix: link dll and/or lib _before_ installing, upon
+	install-exec-am / install-exec-local.
+
+2005-06-15 17:15  larsa
+
+	* build/msvc7/: generate.sh, installsowinheaders.bat, sowin1.sln,
+	sowin1.vcproj, src/Inventor/Win/SoWinGLWidgetCommon.cpp,
+	src/Inventor/Win/SoWinObject.cpp, src/Inventor/Win/SoWinObject.h,
+	src/Inventor/Win/SoWinRenderArea.cpp,
+	src/Inventor/Win/viewers/SoGuiFullViewerP.h,
+	src/Inventor/Win/viewers/SoWinExaminerViewer.cpp,
+	src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	update files
+
+2005-06-15 16:50  larsa
+
+	* build/msvc6/: sowin1.dsp,
+	src/Inventor/Win/SoWinGLWidgetCommon.cpp,
+	src/Inventor/Win/SoWinRenderArea.cpp,
+	src/Inventor/Win/viewers/SoGuiFullViewerP.h,
+	src/Inventor/Win/viewers/SoWinFullViewer.cpp:
+	
+	update files
+
+2005-04-18 13:41  larsa
+
+	* Makefile.am:
+	
+	distfix and bootstrap
+
+2005-04-01 15:41  larsa
+
+	* build/msvc7/: sowin1.dsp, sowin1.dsw:
+	
+	unused files
+
+2005-03-31 18:37  larsa
+
+	* build/msvc6/: installsowinheaders.bat, sowin1.dsp,
+	src/Inventor/Win/SoWinObject.cpp, src/Inventor/Win/SoWinObject.h,
+	src/Inventor/Win/SoWinRenderArea.cpp,
+	src/Inventor/Win/viewers/SoWinExaminerViewer.cpp:
+	
+	autogenerated files
+
+2005-03-31 18:37  larsa
+
+	* build/msvc6/generate.sh:
+	
+	update/fixes
+
+2005-03-30 19:23  larsa
+
+	* cfg/gendsp.sh.in:
+	
+	bootstrap
+
+2005-02-02 20:47  larsa
+
+	* build/: msvc6/src/Inventor/Win/viewers/SoWinExaminerViewer.cpp,
+	msvc7/src/Inventor/Win/viewers/SoWinExaminerViewer.cpp:
+	
+	propagate bugfix
+
+2005-01-05 17:28  larsa
+
+	* build/msvc7/: generate.sh, sowin1.sln,
+	src/Inventor/Win/SoWinObject.cpp:
+	
+	minor update
+
+2005-01-05 17:18  larsa
+
+	* build/msvc6/.cvsignore:
+	
+	ignore more
+
+2005-01-05 15:33  larsa
+
+	* build/msvc6/: .cvsignore, src/.cvsignore,
+	src/Inventor/.cvsignore, src/Inventor/Win/.cvsignore,
+	src/Inventor/Win/devices/.cvsignore,
+	src/Inventor/Win/editors/.cvsignore,
+	src/Inventor/Win/engines/.cvsignore,
+	src/Inventor/Win/nodes/.cvsignore,
+	src/Inventor/Win/viewers/.cvsignore,
+	src/Inventor/Win/widgets/.cvsignore:
+	
+	cvsignore files
+
+2005-01-05 15:11  larsa
+
+	* build/msvc6/src/: config.h, sowindefs.h, Inventor/Win/SoAny.cpp,
+	Inventor/Win/SoAny.h, Inventor/Win/SoGuiComponentP.h,
+	Inventor/Win/SoGuiGLWidgetP.h, Inventor/Win/SoGuiP.h,
+	Inventor/Win/SoWin.h, Inventor/Win/SoWinBasic.h,
+	Inventor/Win/SoWinColorEditor.h, Inventor/Win/SoWinCommon.cpp,
+	Inventor/Win/SoWinComponent.h,
+	Inventor/Win/SoWinComponentCommon.cpp,
+	Inventor/Win/SoWinCursor.cpp, Inventor/Win/SoWinCursor.h,
+	Inventor/Win/SoWinGLWidget.h, Inventor/Win/SoWinGLWidgetCommon.cpp,
+	Inventor/Win/SoWinMaterialEditor.h, Inventor/Win/SoWinObject.cpp,
+	Inventor/Win/SoWinObject.h, Inventor/Win/SoWinRenderArea.cpp,
+	Inventor/Win/SoWinRenderArea.h,
+	Inventor/Win/devices/SoGuiDeviceP.h,
+	Inventor/Win/devices/SoGuiInputFocusP.h,
+	Inventor/Win/devices/SoGuiKeyboardP.h,
+	Inventor/Win/devices/SoGuiMouseP.h,
+	Inventor/Win/devices/SoGuiSpaceballP.h,
+	Inventor/Win/devices/SoWinDevice.h,
+	Inventor/Win/devices/SoWinDeviceCommon.cpp,
+	Inventor/Win/devices/SoWinInputFocus.h,
+	Inventor/Win/devices/SoWinInputFocusCommon.cpp,
+	Inventor/Win/devices/SoWinKeyboard.h,
+	Inventor/Win/devices/SoWinKeyboardCommon.cpp,
+	Inventor/Win/devices/SoWinMouse.h,
+	Inventor/Win/devices/SoWinMouseCommon.cpp,
+	Inventor/Win/devices/SoWinSpaceball.h,
+	Inventor/Win/devices/SoWinSpaceballCommon.cpp,
+	Inventor/Win/devices/spwinput.h,
+	Inventor/Win/devices/spwinput_win32.c,
+	Inventor/Win/devices/spwinput_win32.h,
+	Inventor/Win/devices/spwinput_x11.cpp,
+	Inventor/Win/editors/SoWinColorEditor.cpp,
+	Inventor/Win/editors/SoWinColorEditor.h,
+	Inventor/Win/editors/SoWinMaterialEditor.cpp,
+	Inventor/Win/editors/SoWinMaterialEditor.h,
+	Inventor/Win/engines/Engines.cpp, Inventor/Win/engines/Format.cpp,
+	Inventor/Win/engines/RadioGroup.cpp,
+	Inventor/Win/engines/SoGuiEngines.h,
+	Inventor/Win/engines/SoGuiFormat.h,
+	Inventor/Win/engines/SoGuiRadioGroup.h,
+	Inventor/Win/nodes/ClickCounter.cpp,
+	Inventor/Win/nodes/ColorEditor.cpp, Inventor/Win/nodes/Frame.cpp,
+	Inventor/Win/nodes/Image.cpp, Inventor/Win/nodes/Label.cpp,
+	Inventor/Win/nodes/MaterialEditor.cpp,
+	Inventor/Win/nodes/Nodes.cpp, Inventor/Win/nodes/Pane.cpp,
+	Inventor/Win/nodes/Position.cpp,
+	Inventor/Win/nodes/RadioButton.cpp,
+	Inventor/Win/nodes/SceneTexture2.cpp,
+	Inventor/Win/nodes/Slider1.cpp, Inventor/Win/nodes/Slider2.cpp,
+	Inventor/Win/nodes/SoGuiClickCounter.h,
+	Inventor/Win/nodes/SoGuiColorEditor.h,
+	Inventor/Win/nodes/SoGuiFrame.h, Inventor/Win/nodes/SoGuiImage.h,
+	Inventor/Win/nodes/SoGuiLabel.h,
+	Inventor/Win/nodes/SoGuiMaterialEditor.h,
+	Inventor/Win/nodes/SoGuiNodes.h, Inventor/Win/nodes/SoGuiPane.h,
+	Inventor/Win/nodes/SoGuiPosition.h,
+	Inventor/Win/nodes/SoGuiRadioButton.h,
+	Inventor/Win/nodes/SoGuiSceneTexture2.h,
+	Inventor/Win/nodes/SoGuiSlider1.h,
+	Inventor/Win/nodes/SoGuiSlider2.h,
+	Inventor/Win/nodes/SoGuiToggleButton.h,
+	Inventor/Win/nodes/SoGuiTranslation.h,
+	Inventor/Win/nodes/SoGuiViewpointWrapper.h,
+	Inventor/Win/nodes/SoGuiViewportFix.h,
+	Inventor/Win/nodes/ToggleButton.cpp,
+	Inventor/Win/nodes/Translation.cpp,
+	Inventor/Win/nodes/ViewpointWrapper.cpp,
+	Inventor/Win/nodes/ViewportFix.cpp,
+	Inventor/Win/viewers/SoGuiExaminerViewerP.h,
+	Inventor/Win/viewers/SoGuiFullViewerP.h,
+	Inventor/Win/viewers/SoGuiPlaneViewerP.h,
+	Inventor/Win/viewers/SoWinConstrainedViewer.cpp,
+	Inventor/Win/viewers/SoWinConstrainedViewer.h,
+	Inventor/Win/viewers/SoWinExaminerViewer.cpp,
+	Inventor/Win/viewers/SoWinExaminerViewer.h,
+	Inventor/Win/viewers/SoWinFlyViewer.cpp,
+	Inventor/Win/viewers/SoWinFlyViewer.h,
+	Inventor/Win/viewers/SoWinFullViewer.cpp,
+	Inventor/Win/viewers/SoWinFullViewer.h,
+	Inventor/Win/viewers/SoWinPlaneViewer.cpp,
+	Inventor/Win/viewers/SoWinPlaneViewer.h,
+	Inventor/Win/viewers/SoWinViewer.cpp,
+	Inventor/Win/viewers/SoWinViewer.h,
+	Inventor/Win/widgets/SoAnyThumbWheel.cpp,
+	Inventor/Win/widgets/SoAnyThumbWheel.h,
+	Inventor/Win/widgets/SoWinPopupMenu.cpp,
+	Inventor/Win/widgets/SoWinPopupMenu.h:
+	
+	autogenerated files
+
+2005-01-05 15:03  larsa
+
+	* cfg/gendsp.sh.in:
+	
+	bootstrap
+
+2005-01-05 15:00  larsa
+
+	* build/msvc6/: generate.sh, installsowin.bat,
+	installsowinheaders.bat, sowin1.dsp, sowin1.dsw:
+	
+	generate/build/install files
+
+2005-01-04 15:55  larsa
+
+	* cfg/: gendsp.sh, gendsp.sh.in, wrapmsvc.exe:
+	
+	bootstrap
+
+2005-01-04 15:53  larsa
+
+	* Makefile.am, configure.ac:
+	
+	windows build changes
+
+2005-01-04 15:52  larsa
+
+	* build/msvc7/: .cvsignore, generate.sh, installsowin.bat,
+	installsowinheaders.bat, sowin1.dsp, sowin1.dsw, sowin1.sln,
+	sowin1.vcproj:
+	
+	build files
+
+2005-01-04 15:19  larsa
+
+	* build/msvc7/src/: .cvsignore, Inventor/.cvsignore,
+	Inventor/Win/.cvsignore:
+	
+	fixes
+
+2005-01-04 15:08  larsa
+
+	* build/msvc7/src/Inventor/Win/: .cvsignore, devices/.cvsignore,
+	editors/.cvsignore, engines/.cvsignore, nodes/.cvsignore,
+	viewers/.cvsignore, widgets/.cvsignore:
+	
+	ignore-files
+
+2005-01-04 15:00  larsa
+
+	* build/msvc7/src/: config.h, sowindefs.h, Inventor/Win/SoAny.cpp,
+	Inventor/Win/SoAny.h, Inventor/Win/SoGuiComponentP.h,
+	Inventor/Win/SoGuiGLWidgetP.h, Inventor/Win/SoGuiP.h,
+	Inventor/Win/SoWin.h, Inventor/Win/SoWinBasic.h,
+	Inventor/Win/SoWinColorEditor.h, Inventor/Win/SoWinCommon.cpp,
+	Inventor/Win/SoWinComponent.h,
+	Inventor/Win/SoWinComponentCommon.cpp,
+	Inventor/Win/SoWinCursor.cpp, Inventor/Win/SoWinCursor.h,
+	Inventor/Win/SoWinGLWidget.h, Inventor/Win/SoWinGLWidgetCommon.cpp,
+	Inventor/Win/SoWinMaterialEditor.h, Inventor/Win/SoWinObject.cpp,
+	Inventor/Win/SoWinObject.h, Inventor/Win/SoWinRenderArea.cpp,
+	Inventor/Win/SoWinRenderArea.h,
+	Inventor/Win/devices/SoGuiDeviceP.h,
+	Inventor/Win/devices/SoGuiInputFocusP.h,
+	Inventor/Win/devices/SoGuiKeyboardP.h,
+	Inventor/Win/devices/SoGuiMouseP.h,
+	Inventor/Win/devices/SoGuiSpaceballP.h,
+	Inventor/Win/devices/SoWinDevice.h,
+	Inventor/Win/devices/SoWinDeviceCommon.cpp,
+	Inventor/Win/devices/SoWinInputFocus.h,
+	Inventor/Win/devices/SoWinInputFocusCommon.cpp,
+	Inventor/Win/devices/SoWinKeyboard.h,
+	Inventor/Win/devices/SoWinKeyboardCommon.cpp,
+	Inventor/Win/devices/SoWinMouse.h,
+	Inventor/Win/devices/SoWinMouseCommon.cpp,
+	Inventor/Win/devices/SoWinSpaceball.h,
+	Inventor/Win/devices/SoWinSpaceballCommon.cpp,
+	Inventor/Win/devices/spwinput.h,
+	Inventor/Win/devices/spwinput_win32.c,
+	Inventor/Win/devices/spwinput_win32.h,
+	Inventor/Win/devices/spwinput_x11.cpp,
+	Inventor/Win/editors/SoWinColorEditor.cpp,
+	Inventor/Win/editors/SoWinColorEditor.h,
+	Inventor/Win/editors/SoWinMaterialEditor.cpp,
+	Inventor/Win/editors/SoWinMaterialEditor.h,
+	Inventor/Win/engines/Engines.cpp, Inventor/Win/engines/Format.cpp,
+	Inventor/Win/engines/RadioGroup.cpp,
+	Inventor/Win/engines/SoGuiEngines.h,
+	Inventor/Win/engines/SoGuiFormat.h,
+	Inventor/Win/engines/SoGuiRadioGroup.h,
+	Inventor/Win/nodes/ClickCounter.cpp,
+	Inventor/Win/nodes/ColorEditor.cpp, Inventor/Win/nodes/Frame.cpp,
+	Inventor/Win/nodes/Image.cpp, Inventor/Win/nodes/Label.cpp,
+	Inventor/Win/nodes/MaterialEditor.cpp,
+	Inventor/Win/nodes/Nodes.cpp, Inventor/Win/nodes/Pane.cpp,
+	Inventor/Win/nodes/Position.cpp,
+	Inventor/Win/nodes/RadioButton.cpp,
+	Inventor/Win/nodes/SceneTexture2.cpp,
+	Inventor/Win/nodes/Slider1.cpp, Inventor/Win/nodes/Slider2.cpp,
+	Inventor/Win/nodes/SoGuiClickCounter.h,
+	Inventor/Win/nodes/SoGuiColorEditor.h,
+	Inventor/Win/nodes/SoGuiFrame.h, Inventor/Win/nodes/SoGuiImage.h,
+	Inventor/Win/nodes/SoGuiLabel.h,
+	Inventor/Win/nodes/SoGuiMaterialEditor.h,
+	Inventor/Win/nodes/SoGuiNodes.h, Inventor/Win/nodes/SoGuiPane.h,
+	Inventor/Win/nodes/SoGuiPosition.h,
+	Inventor/Win/nodes/SoGuiRadioButton.h,
+	Inventor/Win/nodes/SoGuiSceneTexture2.h,
+	Inventor/Win/nodes/SoGuiSlider1.h,
+	Inventor/Win/nodes/SoGuiSlider2.h,
+	Inventor/Win/nodes/SoGuiToggleButton.h,
+	Inventor/Win/nodes/SoGuiTranslation.h,
+	Inventor/Win/nodes/SoGuiViewpointWrapper.h,
+	Inventor/Win/nodes/SoGuiViewportFix.h,
+	Inventor/Win/nodes/ToggleButton.cpp,
+	Inventor/Win/nodes/Translation.cpp,
+	Inventor/Win/nodes/ViewpointWrapper.cpp,
+	Inventor/Win/nodes/ViewportFix.cpp,
+	Inventor/Win/viewers/SoGuiExaminerViewerP.h,
+	Inventor/Win/viewers/SoGuiFullViewerP.h,
+	Inventor/Win/viewers/SoGuiPlaneViewerP.h,
+	Inventor/Win/viewers/SoWinConstrainedViewer.cpp,
+	Inventor/Win/viewers/SoWinConstrainedViewer.h,
+	Inventor/Win/viewers/SoWinExaminerViewer.cpp,
+	Inventor/Win/viewers/SoWinExaminerViewer.h,
+	Inventor/Win/viewers/SoWinFlyViewer.cpp,
+	Inventor/Win/viewers/SoWinFlyViewer.h,
+	Inventor/Win/viewers/SoWinFullViewer.cpp,
+	Inventor/Win/viewers/SoWinFullViewer.h,
+	Inventor/Win/viewers/SoWinPlaneViewer.cpp,
+	Inventor/Win/viewers/SoWinPlaneViewer.h,
+	Inventor/Win/viewers/SoWinViewer.cpp,
+	Inventor/Win/viewers/SoWinViewer.h,
+	Inventor/Win/widgets/SoAnyThumbWheel.cpp,
+	Inventor/Win/widgets/SoAnyThumbWheel.h,
+	Inventor/Win/widgets/SoWinPopupMenu.cpp,
+	Inventor/Win/widgets/SoWinPopupMenu.h:
+	
+	autogenerated files
+
+2004-12-08 16:46  larsa
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, viewers/FullViewer.cpp:
+	
+	first try at implementation
+
+2004-12-08 14:54  larsa
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, SoWinGLWidgetP.h:
+	
+	code has moved
+
+2004-12-08 14:39  larsa
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	share code as well as doc
+
+2004-12-08 14:27  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Make API doc common.
+
+2004-12-08 12:28  larsa
+
+	* src/Inventor/Win/: SoWinGLWidget.cpp, SoWinGLWidgetP.h:
+	
+	setStealFocus stub
+
+2004-10-22 16:38  larsa
+
+	* configure.ac:
+	
+	fixes for static builds, and some copy-fixes
+
+2004-10-15 09:42  larsa
+
+	* src/Ivf/: IvfApp.cpp, IvfArchiveInput.cpp, IvfArchiveInput.h,
+	IvfArchiveOutput.cpp, IvfArchiveOutput.h, IvfComponent.cpp,
+	IvfComponent.h, IvfDocument.cpp, IvfDocument.h,
+	IvfExaminerViewer.cpp, IvfFlyViewer.cpp, IvfMainFrm.cpp,
+	IvfPlaneViewer.cpp, IvfRenderArea.cpp, IvfStdViewer.cpp,
+	IvfWalkViewer.cpp, Makefile.am, SoSceneMenu.cpp, SoSceneViewer.cpp,
+	SvManipList.cpp, Viewers/SoSceneMenu.h, Viewers/SoSceneViewer.h,
+	Viewers/SvManipList.h:
+	
+	more stubbing
+
+2004-10-13 12:08  larsa
+
+	* src/Ivf/Makefile.am:
+	
+	IvfRes.h should be installed
+
+2004-10-13 12:01  larsa
+
+	* src/Ivf/IvfRes.h:
+	
+	another publoic header
+
+2004-10-13 12:00  larsa
+
+	* src/Ivf/: IvfAsyncFile.cpp, IvfAsyncFile.h, IvfResource.cpp,
+	IvfResource.h:
+	
+	misc stubbing, correct CIvfResource to IvfResource
+
+2004-10-12 20:33  larsa
+
+	* src/Ivf/Makefile.am:
+	
+	don't install ivf.lst
+
+2004-10-12 20:31  larsa
+
+	* src/Ivf/IvfApp.cpp:
+	
+	dummy API entry points
+
+2004-10-12 20:15  larsa
+
+	* src/: Inventor/Win/Makefile.am, Ivf/Makefile.am:
+	
+	build updates
+
+2004-10-12 19:56  larsa
+
+	* src/Ivf/: IvfApp.cpp, IvfApp.h, IvfAsyncFile.cpp, IvfAsyncFile.h,
+	IvfComponent.cpp, IvfComponent.h, IvfDocument.cpp, IvfDocument.h,
+	IvfExaminerViewer.cpp, IvfFlyViewer.cpp, IvfMainFrm.cpp,
+	IvfMainFrm.h, IvfPlaneViewer.cpp, IvfRenderArea.cpp,
+	IvfStdViewer.cpp, IvfWalkViewer.cpp, Makefile.am:
+	
+	build/compile fixes
+
+2004-10-12 18:36  larsa
+
+	* src/Ivf/: IvfComponent.h, Viewers/IvfExaminerViewer.h,
+	Viewers/IvfFlyViewer.h, Viewers/IvfPlaneViewer.h,
+	Viewers/IvfRenderArea.h, Viewers/IvfStdViewer.h,
+	Viewers/IvfWalkViewer.h:
+	
+	more stubbing
+
+2004-10-12 18:08  larsa
+
+	* src/Ivf/IvfComponent.h:
+	
+	stub header
+
+2004-10-12 17:37  larsa
+
+	* src/Ivf/IvfDocument.h:
+	
+	stub header
+
+2004-10-12 17:02  larsa
+
+	* cfg/errors.txt:
+	
+	bootstrap
+
+2004-10-12 16:59  larsa
+
+	* configure.ac, src/IvfEnterScope.h, src/IvfLeaveScope.h,
+	src/Makefile.am, src/Ivf/IvfApp.cpp, src/Ivf/IvfApp.h,
+	src/Ivf/IvfArchiveInput.cpp, src/Ivf/IvfArchiveInput.h,
+	src/Ivf/IvfArchiveOutput.cpp, src/Ivf/IvfArchiveOutput.h,
+	src/Ivf/IvfBasic.h, src/Ivf/IvfComponent.cpp,
+	src/Ivf/IvfComponent.h, src/Ivf/IvfDocument.cpp,
+	src/Ivf/IvfDocument.h, src/Ivf/IvfExaminerViewer.cpp,
+	src/Ivf/IvfFlyViewer.cpp, src/Ivf/IvfMainFrm.cpp,
+	src/Ivf/IvfMainFrm.h, src/Ivf/IvfPlaneViewer.cpp,
+	src/Ivf/IvfRenderArea.cpp, src/Ivf/IvfResource.cpp,
+	src/Ivf/IvfResource.h, src/Ivf/IvfSceneViewer.cpp,
+	src/Ivf/IvfSrvrItem.cpp, src/Ivf/IvfSrvrItem.h,
+	src/Ivf/IvfStdViewer.cpp, src/Ivf/IvfWalkViewer.cpp,
+	src/Ivf/Makefile.am, src/Ivf/Viewers/IvfExaminerViewer.h,
+	src/Ivf/Viewers/IvfFlyViewer.h, src/Ivf/Viewers/IvfPlaneViewer.h,
+	src/Ivf/Viewers/IvfRenderArea.h, src/Ivf/Viewers/IvfSceneViewer.h,
+	src/Ivf/Viewers/IvfStdViewer.h, src/Ivf/Viewers/IvfWalkViewer.h:
+	
+	stubs and build changes
+
+2004-10-01 16:23  larsa
+
+	* src/Inventor/Win/devices/SoWinMouse.cpp:
+	
+	update event position correctly for wheel mouse events
+
+2004-10-01 16:11  larsa
+
+	* src/Inventor/Win/devices/SoWinMouse.cpp:
+	
+	mousewheel support
+
+2004-09-23 11:28  mortene
+
+	* BUGS.txt:
+	
+	2 items related to the message handler.
+
+2004-09-22 11:42  larsa
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	reverse previous update that made SoWin busy-loop the event loop
+
+2004-09-21 16:20  larsa
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	mainloop event processing patch by Gerhard Reitmayr
+
+2004-09-21 16:05  mortene
+
+	* src/Inventor/Win/SoWinComponent.cpp:
+	
+	Bugfix: setTitle() more robust, in case it was called before
+	setting up the internal Win32 Window. Bug reported by David Haley.
+
+2004-09-21 14:46  kintel
+
+	* BUGS.txt:
+	
+	New item
+
+2004-09-10 10:04  mortene
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Heed OIV_FORCE_PIXEL_FORMAT, as used by TGS' InventorWin library.
+
+2004-08-26 14:32  larsa
+
+	* src/Inventor/Win/: SoWinComponent.cpp, SoWinGLWidget.cpp,
+	viewers/ExaminerViewer.cpp:
+	
+	compile fixes
+
+2004-08-26 14:28  larsa
+
+	* src/Inventor/Win/devices/: SoWinDevice.cpp, SoWinInputFocus.cpp,
+	SoWinKeyboard.cpp, SoWinMouse.cpp, SoWinSpaceball.cpp:
+	
+	compile fixes
+
+2004-08-06 12:16  mortene
+
+	* configure.ac:
+	
+	Define beta version letter for config.h and SoWinBasic.h.
+
+2004-08-06 11:55  mortene
+
+	* BUGS.txt:
+	
+	Old item never handled.
+
+2004-07-23 18:25  larsa
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	no such define
+
+2004-07-21 11:57  mortene
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Robustness: improve use of Win32 API for timers.
+
+2004-07-21 11:56  mortene
+
+	* src/Inventor/Win/: Win32API.cpp, Win32API.h:
+	
+	Wrap SetTimer() and KillTimer() to catch unexpected system errors.
+
+2004-07-15 16:24  thammer
+
+	* BUGS.txt:
+	
+	Added suggested fix for bug # 015.
+
+2004-07-13 11:20  larsa
+
+	* src/Inventor/Win/devices/SoWinKeyboard.cpp:
+	
+	remove debug output
+
+2004-07-13 11:03  larsa
+
+	* BUGS.txt, src/Inventor/Win/devices/SoWinKeyboard.cpp:
+	
+	bugfix
+
+2004-07-13 11:03  larsa
+
+	* src/Inventor/Win/devices/SoWinMouse.cpp:
+	
+	cosmetics
+
+2004-07-09 17:17  larsa
+
+	* BUGS.txt, src/Inventor/Win/devices/SoWinKeyboard.cpp:
+	
+	bug
+
+2004-06-07 21:14  mortene
+
+	* BUGS.txt:
+	
+	Bug from coin-support.
+
+2004-04-21 15:53  pederb
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Typofix
+
+2004-04-21 14:04  pederb
+
+	* src/Inventor/Win/SoWinGLWidget.cpp:
+	
+	Bugfix. Handle run-time context change.
+
+2004-02-20 13:14  pederb
+
+	* configure.ac:
+	
+	Add check for SORTED_LAYERS_BLEND
+
+2004-02-20 10:50  thammer
+
+	* BUGS.txt:
+	
+	Bug update
+
+2004-02-19 14:50  thammer
+
+	* BUGS.txt:
+	
+	Added items for missing SoWinBitmapButton, SoWin::init("") crash
+	and flawed SoWinComponent::setWidgetCursor(...).
+
+2004-02-16 23:35  larsa
+
+	* src/Inventor/Win/nodes/Makefile.am:
+	
+	another bugfix for cygwin/gcc builds
+
+2004-02-16 18:05  larsa
+
+	* src/Inventor/Win/engines/Makefile.am:
+	
+	build-fix and bootstrap
+
+2004-02-04 11:55  larsa
+
+	* BUGS.txt:
+	
+	additional comment
+
+2004-02-04 11:52  larsa
+
+	* BUGS.txt:
+	
+	mainloop
+
+2004-01-21 22:42  thammer
+
+	* src/Inventor/Win/viewers/FullViewer.cpp:
+	
+	Delete thumbwheels in destructor
+
+2004-01-21 22:41  thammer
+
+	* src/Inventor/Win/widgets/SoWinBitmapButton.cpp:
+	
+	Bugfix: make sure button_proc() isn't called after the destructor
+	has been called.  Added note about the need for robustness wrt
+	destructor vs DestroyWindow().
+
+2004-01-21 22:39  thammer
+
+	* src/Inventor/Win/widgets/SoWinThumbWheel.cpp:
+	
+	Make the wheelWidgetCounter actually count number of wheel widgets.
+	 And be more robust when unrgistering windows class.
+
+2004-01-16 11:32  thammer
+
+	* src/Inventor/Win/SoWin.cpp:
+	
+	Update licensing info on the main page of the docs.
+
+2004-01-13 13:20  thammer
+
+	* NEWS, configure.ac:
+	
+	Updated version number to 1.2.1a. Bootstrap.
+

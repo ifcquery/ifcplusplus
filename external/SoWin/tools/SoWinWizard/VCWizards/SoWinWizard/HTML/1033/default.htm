@@ -1,0 +1,291 @@
+<HTML DIR="LTR">
+
+<HEAD>
+	<TITLE>'SoWinWizard'</TITLE>
+	<META NAME="vs_targetSchema" CONTENT="http://schemas.microsoft.com/intellisense/ie5">
+	<LINK ID="LINKURL" REL="stylesheet" HREF="../../1033/NewStyles.css">
+
+	<!--  -->
+	<!-- The SYMBOL tag is used to set the default values for the user-defined symbols.-->
+	<!--  -->
+
+	<SYMBOL NAME='WIZARD_DIALOG_TITLE' TYPE=text VALUE='SoWinWizard'></SYMBOL>
+	<SYMBOL NAME='SAMPLE_CHECKBOX' TYPE=checkbox VALUE=true></SYMBOL>
+	<SYMBOL NAME='COIN_VERSION_RADIO_OPTION3' TYPE=checkbox VALUE=true></SYMBOL>
+	<SYMBOL NAME='COIN_VERSION_RADIO_OPTION4' TYPE=checkbox VALUE=false></SYMBOL>
+	<SYMBOL NAME='SOURCE_FILTER' TYPE=text VALUE='cpp'></SYMBOL>
+	<SYMBOL NAME='APP_TYPE_SUMMARY' TYPE=text VALUE='//TODO: Application summary'></SYMBOL>
+</HEAD>
+
+<BODY BGCOLOR="BUTTONFACE" TOPMARGIN="0" LEFTMARGIN="0" RIGHTMARGIN="0" BOTTOMMARGIN="0" ONLOAD="InitDocument(document);" ONKEYDOWN="OnKey();" ONKEYPRESS="OnPress();">
+
+<TABLE CLASS="ONE" HEIGHT="100%" WIDTH="100%" BORDER="0" CELLPADDING="0" CELLSPACING="0">
+
+<COL WIDTH="100%">
+
+  <!--OPEN OF INTRODUCTORY INFORMATION TABLE//-->
+  <TR VALIGN="TOP">
+	<TD HEIGHT="79" WIDTH="100%" COLSPAN="2">
+	 <TABLE CLASS="TWO" BORDER="0" CELLPADDING="0" CELLSPACING="0">
+	 <COL WIDTH="12"><COL><COL WIDTH="12">
+	  <TR>
+	   <TD VALIGN="TOP" HEIGHT="12" WIDTH="12">
+	  	&nbsp;
+	   </TD>
+  
+	   <TD VALIGN="TOP" HEIGHT="12">
+	  	&nbsp;
+	   </TD>
+  
+	   <TD VALIGN="TOP" HEIGHT="12" WIDTH="12">
+	  	&nbsp;
+	   </TD>
+  
+	   <TD CLASS="IMAGE" VALIGN="BOTTOM" WIDTH="110" ROWSPAN="2">
+		<DIV CLASS="SMALLA" ID="Layer0">
+		 <IMG CLASS="SMALLEST" SRC="../../Images/SoWinWizard.gif" WIDTH="63" HEIGHT="63" ALT="" BORDER="0">
+		</DIV>
+	   </TD>
+
+	   <TD VALIGN="TOP" HEIGHT="12" WIDTH="6" ROWSPAN="2">
+	  	&nbsp;
+	   </TD>
+	  </TR>
+	 
+	  <TR>
+	   <TD VALIGN="TOP" HEIGHT="65" WIDTH="12">
+	  	&nbsp;
+	   </TD>
+	  
+	   <TD VALIGN="TOP" HEIGHT="65">
+		<H4 CLASS="HEAD" ID="HEAD">Welcome to 'SoWinWizard'</H4>
+		<P CLASS="SUBHEAD" ID="SUBHEAD">'This Wizard will help you create a project with the SoWin toolkit.'</P>
+	   </TD>
+	  
+	   <TD VALIGN="TOP" HEIGHT="65" WIDTH="12">
+	  	&nbsp;
+	   </TD>
+	  </TR>
+	 
+	  <TR>
+	   <TD VALIGN="TOP" CLASS="RULE" COLSPAN="5" HEIGHT="2">
+		<TABLE BORDER="0" WIDTH="100%" HEIGHT="1" CELLPADDING="0" CELLSPACING="0">
+	  	 <TR VALIGN="TOP">
+	  	  <TD HEIGHT="1" WIDTH="100%" BGCOLOR="BUTTONSHADOW"><IMG SRC="../../Images/spacer.gif" HEIGHT="1" WIDTH="1" ALT=""></TD>
+	  	  <TD HEIGHT="1" WIDTH="1" BGCOLOR="WINDOW"><IMG SRC="../../Images/spacer.gif" HEIGHT="1" WIDTH="1" ALT=""></TD>
+	  	 </TR>
+		</TABLE>
+	   </TD>
+	  </TR>
+	 </TABLE>
+	</TD>
+  </TR>
+  <!--CLOSE OF INTRODUCTORY INFORMATION TABLE//-->
+
+  <!--OPEN OF NAVIGATION, CONTENT, AND BUTTON TABLES//-->
+  <TR VALIGN="TOP">
+  
+	   <TD VALIGN="TOP" HEIGHT="100%">
+	   <!--OPEN OF CONTENT AND BUTTON TABLE//-->
+	   	<TABLE CLASS="ONE" BORDER="0" CELLPADDING="0" CELLSPACING="0">
+		<COL WIDTH="100%">
+		 <TR VALIGN="TOP">
+		  <TD HEIGHT="100%">
+	   	  <!--OPEN OF CONTENT//-->
+		  
+		  	<TABLE CLASS="CONTENT" BORDER="0" CELLPADDING="0" CELLSPACING="0">
+			<COL WIDTH="12"><COL WIDTH="185"><COL WIDTH="12"><COL WIDTH="185"><COL WIDTH="12"><COL WIDTH="185"><COL WIDTH="12">
+ 			 <TR>
+  			  <TD VALIGN="TOP" HEIGHT="12" COLSPAN="5">
+  				&nbsp;
+  			  </TD>
+ 			 </TR>
+
+		 	 <TR VALIGN="TOP">
+ 			 <TD VALIGN="TOP" WIDTH="12">
+  				&nbsp;
+  			  </TD>
+  			  <TD VALIGN="TOP" COLSPAN="3">
+ 				<SPAN CLASS="itemTextTop">
+	  				 <INPUT CLASS="CheckBox" TYPE="checkbox" ID="SAMPLE_CHECKBOX" ACCESSKEY="K" TITLE="Generate sample code?">
+	  	 			 <DIV CLASS="itemTextCheckboxA" ID="SAMPLE_CHECKBOX_DIV" TITLE="Generate sample code?">
+		  			  <LABEL FOR="SAMPLE_CHECKBOX" TITLE="Generate sample code?" ID="AUT_ID" >Sample code</LABEL>
+	  	 			 </DIV>
+				</SPAN>
+	
+					<P CLASS="ElementSpacer">&nbsp;</P>
+				
+ 				<SPAN CLASS="itemText">Coin version:
+					 <P CLASS="Spacer">&nbsp;</P>
+	
+	  				 <INPUT TYPE="radio" CLASS="Radio" NAME="apptype" ID="COIN_VERSION_RADIO_OPTION3" ACCESSKEY="3" TITLE="Version of Coin to link with">
+	  	 			 <DIV CLASS="itemTextRadioB" TITLE="Version of Coin to link with" ID="AUT_ID1" >
+		  			  <LABEL FOR="COIN_VERSION_RADIO_OPTION3" TITLE="Version of Coin to link with" ID="AUT_ID2" >Coin 3</LABEL>
+	  	 			 </DIV>
+	  
+	  				 <BR>
+	  
+	  			 	 <INPUT TYPE="radio" CLASS="Radio" NAME="apptype" ID="COIN_VERSION_RADIO_OPTION4" ACCESSKEY="4" TITLE="Version of Coin to link with">
+	  	 			 <DIV CLASS="itemTextRadioB" TITLE="Version of Coin to link with" ID="AUT_ID3" >
+		  			  <LABEL FOR="COIN_VERSION_RADIO_OPTION4" TITLE="Version of Coin to link with" ID="AUT_ID4" >Coin 4</LABEL>
+	  	 			 </DIV>
+				</SPAN>
+	
+
+
+  		  	  </TD>
+  		  	  <TD VALIGN="TOP" WIDTH="12">
+  				&nbsp;
+  		  	  </TD>
+ 		  	 </TR>
+		 	 <TR VALIGN="TOP">
+ 			 <TD VALIGN="TOP" WIDTH="12">
+  				&nbsp;
+  			  </TD>
+  			  <TD VALIGN="TOP" COLSPAN="3">
+  			    <br />
+	          This Wizard helps you set up a project using Coin3D and SoWin. <br />
+  		  	</TD>
+  		  	  <TD VALIGN="TOP" WIDTH="12">
+  				&nbsp;
+  		  	  </TD>
+ 		  	 </TR>
+
+
+ 			 <TR>
+  			  <TD VALIGN="TOP" HEIGHT="100%" COLSPAN="7">
+  				&nbsp;
+  			  </TD>
+ 			 </TR>
+		 	</TABLE>
+			
+	   	  <!--CLOSE OF CONTENT//-->
+		  </TD>
+		 </TR>
+		 <TR VALIGN="BOTTOM">
+		  <TD HEIGHT="48">
+	   	  <!--OPEN OF BUTTON HTML//-->
+		  
+		  	<TABLE HEIGHT="48" BORDER="0" CELLPADDING="0" CELLSPACING="0">
+			<COL WIDTH="12"><COL><COL WIDTH="75"><COL WIDTH="4"><COL WIDTH="75"><COL WIDTH="4"><COL WIDTH="75"><COL WIDTH="12">
+			 <TR>
+  			  <TD VALIGN="TOP" CLASS="RULE" COLSPAN="8" HEIGHT="2">
+				<TABLE BORDER="0" WIDTH="100%" HEIGHT="1" CELLPADDING="0" CELLSPACING="0">
+  	 			 <TR VALIGN="TOP">
+  	  			  <TD HEIGHT="1" WIDTH="100%" BGCOLOR="BUTTONSHADOW"><IMG SRC="../../Images/spacer.gif" HEIGHT="1" WIDTH="1" ALT=""></TD>
+  	  			  <TD HEIGHT="1" WIDTH="1" BGCOLOR="WINDOW"><IMG SRC="../../Images/spacer.gif" HEIGHT="1" WIDTH="1" ALT=""></TD>
+  	 			 </TR>
+				</TABLE>
+  			  </TD>
+ 			  </TR>
+ 
+ 			  <TR>
+  			  <TD VALIGN="TOP" HEIGHT="11" COLSPAN="8">
+  				&nbsp;
+  			  </TD>
+ 			 </TR>
+ 
+ 			<TR>
+  			  <TD VALIGN="MIDDLE" HEIGHT="23" WIDTH="12">
+  				&nbsp;
+  			  </TD>
+  			  <TD VALIGN="TOP" HEIGHT="23">
+  				&nbsp;
+  			  </TD>
+  			  <TD VALIGN="MIDDLE" HEIGHT="23" WIDTH="75">
+  				<BUTTON CLASS="BUTTONS" ID="FinishBtn" ACCESSKEY="F" onClick="OnFinish(document);"><U>F</U>inish</BUTTON>
+  			  </TD>
+  			  <TD VALIGN="MIDDLE" HEIGHT="23" WIDTH="4">
+  				&nbsp;
+  			  </TD>
+  			  <TD VALIGN="MIDDLE" HEIGHT="23" WIDTH="75">
+  				<BUTTON CLASS="BUTTONS" ID="CancelBtn" ACCESSKEY="C" onClick="window.external.Finish(document, 'cancel');"><U>C</U>ancel</BUTTON>
+  			  </TD>
+  			  <TD VALIGN="MIDDLE" HEIGHT="23" WIDTH="4">
+  				&nbsp;
+  			  </TD>
+  			  <TD VALIGN="MIDDLE" HEIGHT="23" WIDTH="75">
+  				<BUTTON CLASS="BUTTONS" ID="HelpBtn" ACCESSKEY="H" onClick="window.external.OnHelp('vc.appwiz.custom.overview');"><U>H</U>elp</BUTTON>
+  			  </TD>
+  			  <TD VALIGN="MIDDLE" HEIGHT="23" WIDTH="12">
+  				&nbsp;
+  			  </TD>
+ 			 </TR>
+ 
+ 			 <TR>
+  			  <TD VALIGN="TOP" HEIGHT="12" COLSPAN="8">
+  				&nbsp;
+  			  </TD>
+ 			 </TR>
+			</TABLE>
+			
+	   	  <!--CLOSE OF BUTTON HTML//-->
+		  </TD>
+		 </TR>
+		</TABLE>
+	
+  	<!--CLOSE OF NAVIGATION, CONTENT, AND BUTTON TABLES//-->
+ 	</TD>
+  </TR>
+</TABLE>
+
+
+</BODY>
+</HTML>
+
+<SCRIPT LANGUAGE="JSCRIPT">
+
+
+// This is an example of a function which initializes the page
+//
+function InitDocument(document)
+{
+	setDirection();
+	
+	if (window.external.FindSymbol('DOCUMENT_FIRST_LOAD'))
+	{
+		// This function sets the default symbols based 
+		// on the values specified in the SYMBOL tags above
+		//
+		window.external.SetDefaults(document);
+	}
+
+	// Load the document and initialize the controls 
+	// with the appropriate symbol values
+	//
+	window.external.Load(document);
+}
+
+// If the wizard has more than 1 page, this 
+// function will browse to the page specified
+//
+function Next(document, linkto)
+{
+	window.external.Next(document, linkto);
+}
+
+// This is an example of a function which
+// gets called when the user clicks on 'Finish'
+//
+function OnFinish(document)
+{
+	OnWizFinish(document);
+}
+
+</SCRIPT>
+<SCRIPT ID="INCLUDE_SCRIPT" LANGUAGE="JSCRIPT"></SCRIPT>
+<SCRIPT ID="INCLUDE_COMMON" LANGUAGE="JSCRIPT"></SCRIPT>
+<!-- 
+Common.js is a script file which contains the helper functions 
+used by the wizards.  Include this line if you want to
+call these functions from your html scripts.
+//-->
+<SCRIPT>
+	var strPath = window.external.FindSymbol("PRODUCT_INSTALLATION_DIR");
+	strPath += "VCWizards/";
+	strPath += window.external.GetHostLocale();
+	var strScriptPath = strPath + "/Script.js";
+	var strCommonPath = strPath + "/Common.js";
+	document.scripts("INCLUDE_SCRIPT").src = strScriptPath;
+	document.scripts("INCLUDE_COMMON").src = strCommonPath;
+</SCRIPT>

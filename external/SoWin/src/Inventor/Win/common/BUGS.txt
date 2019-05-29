@@ -1,0 +1,161 @@
+=====================================================================
+NOTE: see also So@Gui@/BUGS.txt.
+=====================================================================
+
+000 SoText2 won't show with drawstyle == hidden line. Bug reported by
+    Jean Davy. Reproduce with this minimal, stand-alone example:
+
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+    #include <Inventor/Qt/SoQt.h>
+    #include <Inventor/Qt/viewers/SoQtExaminerViewer.h>
+    #include <Inventor/nodes/SoCone.h>
+    #include <Inventor/nodes/SoSeparator.h>
+    #include <Inventor/nodes/SoText2.h>
+    
+    int
+    main(int argc, char* argv[])
+    {
+      QWidget * mainwin = SoQt::init(argv[0]);
+      SoSeparator * root = new SoSeparator;
+    
+      root->addChild(new SoCone);
+      SoText2 * text2d = new SoText2;
+      root->addChild(text2d);
+      text2d->string = "tjo-bing";
+    
+      SoQtExaminerViewer * viewer = new SoQtExaminerViewer(mainwin);
+      viewer->setSceneGraph(root);
+      viewer->setDrawStyle(SoQtExaminerViewer::STILL,
+                           SoQtExaminerViewer::VIEW_HIDDEN_LINE);
+    
+      SoQt::show(mainwin);
+      SoQt::mainLoop();
+    
+      return 0;
+    }
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+
+    This is the cause of the bug, according to <pederb@sim.no>:
+
+      We use GL polygon offset to do hidden line rendering, and this
+      caused problems since the SoText2 characters are rendered twice
+      (for the first pass we just draw everything black, with an
+      z-buffer offset). SoText2 characters are drawn as bitmaps, which
+      are not affected by polygon offset.
+
+    Consider this a fairly low priority bug.
+
+    <mortene@sim.no> 20020521.
+
+=====================================================================
+
+002 Should search for and pick up VRML97 Viewpoint and other bindable
+    nodes.
+
+    As of now, the SoGuiViewer only scans a newly set scene graph for
+    SoCamera nodes. (If found, it will "attach" the viewer controls to
+    the first one.) If none is found, the viewer sets up it's own in
+    it's private "control graph".
+
+    This doesn't work with VRML97 scene graphs, obviously, so
+    SoGuiViewer should also scan for Viewpoint nodes to be set up as
+    the viewer's camera. 
+
+    Note that matters are complicated a bit by the fact that we can't
+    be sure that an implementation of any VRML97 nodes is actually
+    present in the Coin / Inventor library (it could be SGI Inventor,
+    or it could be Coin configured to exclude VRML97 support). So we
+    need to search for them by using the SoType::fromName("Viewpoint")
+    type (check that this is != SoType::badType() to see whether
+    VRML97 is supported), and connect up it's position, orientation
+    and fieldOfViewer fields by using the introspection features of
+    SoFieldContainer.
+
+    In addition to the Viewpoint nodes, other bindable nodes should
+    also be handled (Fog and Background).
+
+    20030107 mortene.
+
+=====================================================================
+
+003 View volume settings becomes incorrect for "point scene".
+
+    If the scene graph just contains a single point in 3D space, the
+    view volume setup will cause heaps of error messages when running
+    on top of debug-mode Coin.
+
+    Can be reproduced by loading this into an examinerviewer and
+    interacting with the camera:
+
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+    #Inventor V2.1 ascii
+    
+    Coordinate3 { point 42 4242 424242 }
+    PointSet { }
+    ----8<--- [snip] ---------8<--- [snip] ---------8<--- [snip] ---
+
+    A suggestion for a solution: should most likely handle this
+    problem by detecting when the scene bounding sphere is below a
+    certain radius, and then "artificially" expand it to a minimum
+    value.
+
+    20030916 mortene.
+
+=====================================================================
+
+004 Switching back and forth between camera types causes bugs in
+    height / heightAngle fields.
+
+    To reproduce, load a simple scene into the SoGuiExaminerViewer,
+    then switch camera modes, zoom back and forth, switch, zoom,
+    etc. Eventually, the field-of-view for the SoPerspectiveCamera
+    will go bonkers.
+
+    20040726 mortene.
+
+=====================================================================
+
+005 Switching back and forth between camera types causes weird
+    behavior with "view all".
+
+    To reproduce buggy behavior: load an iv-file just containing an
+    SoSphere node into an SoGuiExaminerViewer. Go to ortho camera,
+    click "view all", switch to perspective camera, click "view
+    all". The camera will now be a great deal further away from the
+    sphere than when in ortho camera mode.
+
+    This bug may be related to the generally buggy re-calculation of
+    height / heightAngle when switching back and forth between ortho
+    and perspective camera, as described in bug #004.
+
+    20040726 mortene.
+
+=====================================================================
+
+006 Static building of the So* libraries under Windows linking with a
+    staticly built Coin causes Coin to be included within the So*
+    lib-file.
+
+    This will typically cause multiple Coin instances in the final
+    executable, as the user is likely to link with Coin again for the
+    app code. The same problem also probably manifests itself with
+    e.g. SIM Voleon, SIM Aruba, and our other libraries dependent on
+    Coin.
+
+    20041021 mortene.
+
+    Update 20041103 larsa: Fixed, but not for SIM Voleon and
+    SmallChange.  WIll fix for those and remove this item RSN.
+
+=====================================================================
+
+007 Catch GL errors in a proper manner.
+
+    glGetError() should always be called in a loop, i.e. as we do in
+    Coin with the coin_catch_gl_errors() call in src/glue/gl.c.
+
+    Audit and fix all code in the So* libraries in this regard.
+
+    20051115 mortene.
+
+=====================================================================

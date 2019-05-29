@@ -1,0 +1,24 @@
+WHAT'S THIS?
+============
+
+This document contains a list of various common deficiencies in the
+So*-libraries that are larger in scope than just simple API additions
+/ changes (see the api-wish-list.txt file for that kind of "mini"
+projects).
+
+
+
+COMMON STUFF TO FIX IN THE SO* LIBRARIES
+========================================
+
+
+* Cross-platform spaceball and joystick device support
+  2002-01-03  Morten Eriksen  <mortene@sim.no>
+
+  Requested by Coin PEL holder Daniel Soto Alvarez.
+
+  We already have support for spaceballs and joysticks implemented for
+  some of the So*-libraries.
+
+  For spaceball SDKs, see
+  <URL:http://www.3dconnexion.com/software/sdk/>.

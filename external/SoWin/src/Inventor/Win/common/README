@@ -1,0 +1,8 @@
+README
+======
+
+This directory is a distinct Subversion repository, named SoGUI. The
+purpose of this repository is to collect code that is common for all
+Coin GUI component sets, so it can be shared and reused (and to round
+up all the bugs in one place :).
+

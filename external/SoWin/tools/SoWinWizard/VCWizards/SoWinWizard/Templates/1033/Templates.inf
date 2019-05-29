@@ -1,0 +1,7 @@
+readme.txt
+[!if SAMPLE_CHECKBOX]
+SoWinMain.cpp
+[!endif]
+
+
+

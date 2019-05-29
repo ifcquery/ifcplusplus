@@ -1,0 +1,690 @@
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+/*!
+  \class SoAny SoAny.h
+  \brief The SoAny class is a collection of common toolkit methods.
+
+  SoAny contains internal (ie not accessible to the application
+  programmer) functionality which needs to be "globally" visible to
+  all parts of the toolkit.
+*/
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif /* HAVE_CONFIG_H */
+
+#ifdef HAVE_WINDOWS_H
+#include <windows.h> /* GetEnvironmentVariable() */
+#endif /* HAVE_WINDOWS_H */
+
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
+
+#include <Inventor/errors/SoDebugError.h>
+#include <Inventor/elements/SoGLCacheContextElement.h>
+#include <Inventor/nodes/SoSeparator.h>
+#include <Inventor/actions/SoSearchAction.h>
+#include <Inventor/SoInput.h>
+#include <Inventor/SoDB.h>
+#include <Inventor/@Gui@/So@Gui@Object.h>
+#include <Inventor/@Gui@/So@Gui@Cursor.h>
+#include <Inventor/@Gui@/nodes/SoGuiNodes.h>
+#include <Inventor/@Gui@/engines/SoGuiEngines.h>
+
+#include <Inventor/@Gui@/SoAny.h>
+
+static SoAny * single_instance = NULL;
+
+SoSearchAction * SoAny::finder = NULL;
+
+// Following block explains OpenGL cache context handling in some
+// depth. Copied from an email write-up by pederb:
+//
+// The SoGui toolkits use the SoAny class to handle cache context ids
+// and cache context id sharing (cache context ids can be shared on
+// Windows and on Unix if the display and screen are equal).
+//
+// E.g. in SoQt, when a new GL-widget is created, it is registered
+// using SoAny::registerGLContext (from SoQtGLWidget.cpp). When the
+// GL-widget is destructed, SoAny::unregisterGLContext() must be
+// called. Then, in SoGuiRenderArea::initGraphic(),
+// SoAny::getSharedCacheContextId() is called to find a valid cache
+// context id for SoGLRenderAction.
+//
+// What one needs to do is to detect when the GL-context is
+// destructed, and then call SoAny::unregisterGLContext(). Then
+// SoAny::registerGLContext() to register the new context, and then
+// set the new cache context id in the SoGLRenderAction. This can
+// probably be done just by calling SoGuiRenderArea::initGraphic().
+
+class soany_cache_context {
+public:
+  soany_cache_context(void * display, void * screen)
+    : display(display), screen(screen), cacheid(-1) { } 
+  ~soany_cache_context() { }
+
+  SbBool isSameCacheContext(void * displayarg, void * screenarg) const {
+    return (this->display == displayarg && this->screen == screenarg);
+  }
+  SbBool findContext(void * context) const {
+    for (int i = 0; i < this->contextlist.getLength(); i++) {
+      if (this->contextlist[i] == context) return TRUE;
+    }
+    return FALSE;
+  }
+  void * getFirstContext(void) const {
+    assert(this->contextlist.getLength());
+    return this->contextlist[0];
+  }
+  void addContext(void * context) {
+    assert(!this->findContext(context));
+    this->contextlist.append(context);
+  }
+
+  SbBool tryRemoveContext(void * context) {
+    for (int i = 0; i < this->contextlist.getLength(); i++) {
+      if (this->contextlist[i] == context) {
+        this->contextlist.remove(i);
+        return TRUE;
+      }
+    }
+    return FALSE;
+  }
+  SbBool isEmpty(void) const {
+    return this->contextlist.getLength() == 0;
+  }
+  int getCacheContextId(void) {
+    if (this->cacheid < 0) {
+#ifdef __COIN__
+      // Coin has a method for generating an unique cache context id.
+      // Unfortunately, this method does not exists for SGI/TGS Inventor.
+      this->cacheid = (int) SoGLCacheContextElement::getUniqueCacheContext();
+#else // ! __COIN__
+      this->cacheid = soany_cache_context::oiv_counter++;
+#endif // ! __COIN__
+    }
+    return this->cacheid;
+  }
+
+private:
+  void * display;
+  void * screen;
+  int cacheid;
+  SbPList contextlist;
+  static int oiv_counter;
+};
+
+#if 0 // FIXME: not sure if this is ok, check with pederb. 20010806 mortene.
+// A semi-random magic number -- we want to avoid crashing with any
+// cache context id values internally used in SGI / TGS OIV as magic
+// numbers.
+int soany_cache_context::oiv_counter = 4242;
+#else
+int soany_cache_context::oiv_counter = 0;
+#endif
+
+// *************************************************************************
+
+static void soany_atexit_cleanup(void);
+
+void
+SoAny::init()
+{
+  So@Gui@Object::init();
+  So@Gui@Cursor::initClass();
+  SoGuiNodes::initClasses();
+  SoGuiEngines::initClasses();
+  SoAny::atexit((SoAny::atexit_f*)soany_atexit_cleanup, 0);
+  SoAny::atexit((SoAny::atexit_f*)SoAny::cleanup_si, 0);
+}
+
+// private constructor
+SoAny::SoAny(void) 
+  : fatalcb(NULL)
+{
+}
+ 
+// private destructor
+SoAny::~SoAny()
+{
+  for (int i = 0; i < this->cclist.getLength(); i++) {
+    delete (soany_cache_context*) this->cclist[i];
+  }
+}
+
+/*!
+  Returns pointer to the single instance of this class (implemented
+  according to the singleton design pattern).
+*/
+SoAny * 
+SoAny::si(void)
+{
+  if (single_instance == NULL) single_instance = new SoAny;
+  return single_instance;
+}
+
+//  Free memory/resources used by the singleton object. Will be called
+//  automatically on exit.
+void 
+SoAny::cleanup_si(void)
+{
+  delete single_instance;
+  single_instance = NULL;
+  if (SoAny::finder) {
+    delete SoAny::finder;
+    SoAny::finder = NULL;
+  }
+}
+
+/*!  
+  Returns a pointer to any previous context with which GL sharing
+  is possible, or \e NULL if none found.  
+*/
+void * 
+SoAny::getSharedGLContext(void * display, void * screen)
+{
+  for (int i = 0; i < this->cclist.getLength(); i++) {
+    soany_cache_context * cc = (soany_cache_context*) this->cclist[i];
+    if (cc->isSameCacheContext(display, screen)) {
+      return cc->getFirstContext();
+    }
+  }
+  return NULL;
+}
+
+/*!
+  Adds GL context information. Might be platform dependent what the \a
+  display and \a screen will be. Call this method once when the
+  context is created. In the Coin GUI toolkits, \a context will be a
+  pointer to a So@Gui@GLWidget.
+*/
+void 
+SoAny::registerGLContext(void * context, void * display, void * screen)
+{
+#if SO@GUI@_DEBUG && 0 // debug
+  SoDebugError::postInfo("SoAny::registerGLContext",
+                         "context==%p, display==%p, screen==%p",
+                         context, display, screen);
+#endif // debug
+
+  int i, n = this->cclist.getLength();
+  for (i = 0; i < n; i++) {
+    soany_cache_context * cc = (soany_cache_context*) this->cclist[i];
+    if (cc->isSameCacheContext(display, screen)) break;
+  }
+  if (i == n) this->cclist.append(new soany_cache_context(display, screen));
+  soany_cache_context * cc = (soany_cache_context*) this->cclist[i];
+  cc->addContext(context);
+}
+
+/*!
+  Removes a GL context from the list of contexts. Should be called
+  when the context/widget is destructed.
+*/
+void 
+SoAny::unregisterGLContext(void * context)
+{
+#if SO@GUI@_DEBUG && 0 // debug
+  SoDebugError::postInfo("SoAny::unregisterGLContext", "context==%p", context);
+#endif // debug
+
+  for (int i = 0; i < this->cclist.getLength(); i++) {
+    soany_cache_context * cc = (soany_cache_context*) this->cclist[i];
+    if (cc->tryRemoveContext(context)) {
+      if (cc->isEmpty()) {
+        delete cc;
+        this->cclist.remove(i);
+      }
+      return;
+    }
+  }
+  assert(FALSE && "couldn't find context in internal list");
+}
+
+/*!
+  Returns a shared cache context id, to be used as argument
+  in SoGLRenderAction::setCacheContext().
+*/
+int 
+SoAny::getSharedCacheContextId(void * context)
+{
+  for (int i = 0; i < this->cclist.getLength(); i++) {
+    soany_cache_context * cc = (soany_cache_context*) this->cclist[i];
+    if (cc->findContext(context)) return cc->getCacheContextId();
+  }
+#if SO@GUI@_DEBUG
+  SoDebugError::post("SoAny::getSharedCacheContextId",
+                     "could not find shared cache context for context %p "
+                     "(shared context handling not implemented for this "
+                     "toolkit?)", context);
+#endif // SO@GUI@_DEBUG
+  return 0;
+}
+
+/*!
+  Set up a fatal error handler in case of "impossible" errors.  Calls
+  to this function are calls forwarded from
+  So@Gui@::setFatalErrorHandler().
+
+  Returns previous fatal error handler callback, or \c NULL if none.
+
+  \sa So@Gui@::setFatalErrorHandler()
+ */
+So@Gui@::FatalErrorCB *
+SoAny::setFatalErrorHandler(So@Gui@::FatalErrorCB * cb, void * userdataarg)
+{
+  So@Gui@::FatalErrorCB * oldcb = this->fatalcb;
+  this->fatalcb = cb;
+  this->userdata = userdataarg;
+  return oldcb;
+}
+
+/*!
+  In the case of a fatal error condition in the library, this method
+  should be used to invoke the application fatal error handler.
+
+  Returns \c TRUE if an error handler was set up, or \c FALSE if none.
+
+  If no handler was set up, a dialog box with the error string will be
+  shown and then the application will exit.
+
+  A very important issue to be aware of for "client code" around in
+  the So*-libraries is that this function will not return if the
+  application programmer has set up a fatal error handler which throws
+  an exception. Because of this, the "as good as possible" clean-up
+  code around the points of fatal error failures needs to be executed
+  \e before calling this function.
+
+  \sa SoAny::setFatalErrorHandler()
+ */
+SbBool
+SoAny::invokeFatalErrorHandler(SbString errmsg, So@Gui@::FatalErrors errcode)
+{
+  // First trigger the internal clean-up routines.
+  int internals = this->internalfehandlers.getLength();
+  for (int idx = 0; idx < internals; idx++) {
+    SoAny::InternalFatalErrorCB * cb =
+      (SoAny::InternalFatalErrorCB *)this->internalfehandlers[idx];
+    (*cb)(this->internalfedata[idx]);
+  }
+
+  // If no app-programmer registered callback, throw up our own
+  // message dialog.
+  if (this->fatalcb == NULL) {
+    So@Gui@::createSimpleErrorDialog(NULL,
+                                     "Fatal application error",
+                                     errmsg.getString(),
+                                     "Application will exit.");
+    return FALSE;
+  }
+
+  fatalcb(errmsg, errcode, this->userdata);
+  return TRUE;
+}
+
+
+/*!
+  Lets us register an internal callback to run when a fatal error is
+  detected.
+
+  Internal clean-up functions is sometimes necessary because we set up
+  external references to internal resources which may not be valid
+  after a fatal error hits.
+*/
+void
+SoAny::addInternalFatalErrorHandler(SoAny::InternalFatalErrorCB * cb,
+                                    void * userdataarg)
+{
+  this->internalfehandlers.append((void *)cb);
+  this->internalfedata.append(userdataarg);
+}
+
+
+/**************************************************************************/
+
+/*** Singlelinked list for the environment variables. *********************/
+
+/*
+  FIXME: should implement a generic (macro-based) singlelinked list
+  abstraction in C (the following code could be a good starting
+  point). Then axe this code. Then move the various listhandling stuff
+  in the Coin library from the SbList<> template to the C-based one to
+  aid any future transition to pure C. 20010821 mortene.
+
+  UPDATE: SbList isn't really a linked list, but in fact a growable
+  array -- so the code below can not be used as a replacement. Still,
+  we should have a generic linked list class. 20011220 mortene.
+*/
+
+static struct envvar_data * envlist_head = NULL;
+static struct envvar_data * envlist_tail = NULL;
+
+struct envvar_data {
+  char * name;
+  char * val;
+  struct envvar_data * next;
+};
+
+static void
+envlist_append(struct envvar_data * item)
+{
+  item->next = NULL;
+  if (envlist_head == NULL) {
+    envlist_head = item;
+    envlist_tail = item;
+  }
+  else {
+    envlist_tail->next = item;
+    envlist_tail = item;
+  }
+}
+
+/**************************************************************************/
+
+/*
+  When working with MSWindows applications using the library as a DLL,
+  setenv() / getenv() will not work as expected, as the application
+  and the DLL has different instances of the C library with different
+  datastructures on different heaps. That's why we need this
+  abstraction around the C-libs getenv() vs the Win32 API
+  GetEnvironmentVariable() function.
+
+  Note: do not deallocate the returned string -- they are supposed to
+  be permanently available to all callers. Deallocating the resources
+  is the responsibility of the application exit cleanup code.
+*/
+
+const char *
+SoAny::getenv(const char * envname)
+{
+  /* Important note: this code is dulplicated in Coin, Coin-1,
+     So@Gui@/.../common/SoAny.cpp.in (and possibly stable forks of the
+     toolkits).  If you do bugfixes or whatever, keep them in sync! */
+#ifdef HAVE_GETENVIRONMENTVARIABLE
+  int neededsize;
+  neededsize = GetEnvironmentVariable(envname, NULL, 0);
+  /* neededsize includes the \0-terminating character */
+  if ( neededsize >= 1 ) {
+    int resultsize;
+    struct envvar_data * envptr;
+    char * valbuf = (char *) malloc(neededsize);
+    if ( valbuf == NULL ) {
+      /* Augh. Could we handle this any better? */
+      /* If we already bookkeep a buffer for this variable, we /could/ try
+         to reuse it (much work for a non-100% solution).  20030205 larsa */
+      return NULL;
+    }
+    resultsize = GetEnvironmentVariable(envname, valbuf, neededsize);
+    if ( resultsize != (neededsize - 1) ) {
+      /* Augh. Could we handle this any better? */
+      /* How about looping to top and trying again (in case the reason is mt
+         and envval being changed in the background, or maybe just asserting?
+         20030205 larsa */
+      free(valbuf);
+      return NULL;
+    }
+
+    /*
+      The GetEnvironmentVariable() signature forces us to allocate the space
+      for the value string on the outside of the call, as opposed to the UNIX
+      getenv() function.  We therefore have to do bookkeeping and maintain
+      this linked list of allocated buffers that should be cleaned up on exit
+      (atexit()).  We don't keep it for lookup of values - we actually can't
+      use the valus as value caches in case they have been changed from other
+      parts of the application.  We only keep them so we can free them later.
+    */
+
+    /* Try to find bookkeeped envvar buffer among those registered earlier. */
+    envptr = envlist_head;
+    while ( (envptr != NULL) && (strcmp(envptr->name, envname) != 0) )
+      envptr = envptr->next;
+
+    /* We can avoid this if-else by always freeing the envvar_data for the
+       variable upfront, but it's a tad less efficient. */
+    if ( envptr != NULL ) {
+      /* We are already bookkeeping a buffer for this variable.
+       * => free previous value buffer and bookkeep the new one instead */
+      free(envptr->val);
+      envptr->val = valbuf;
+    } else {
+      /* We aren't bookkeeping a buffer for this one yet. */
+      envptr = (struct envvar_data *) malloc(sizeof(struct envvar_data));
+      if ( envptr == NULL ) {
+        /* Augh. Could we handle this any better? */
+	/* We can alternatively ignore the bookkeeping and leak the buffer
+           - 20030205 larsa */
+        free(valbuf);
+        return NULL;
+      }
+      envptr->name = strdup(envname);
+      if ( envptr->name == NULL ) {
+        /* Augh. Could we handle this any better? */
+	/* We can alternatively ignore the bookkeeping and leak the buffer
+           - 20030205 larsa */
+	free(envptr);
+	free(valbuf);
+	return NULL;
+      }
+      envptr->val = valbuf;
+      envlist_append(envptr);
+    }
+    return envptr->val;
+  }
+  return NULL;
+#else /* !HAVE_GETENVIRONMENTVARIABLE */
+  return ::getenv(envname);
+#endif /* !HAVE_GETENVIRONMENTVARIABLE */
+}
+
+/**************************************************************************/
+
+#if defined(HAVE_WIN32_LOADLIBRARY) && defined(HAVE_TLHELP32_H)
+
+#include <tlhelp32.h>
+
+
+typedef HANDLE (WINAPI * CreateToolhelp32Snapshot_t)(DWORD, DWORD);
+typedef BOOL (WINAPI * Module32First_t)(HANDLE, LPMODULEENTRY32);
+typedef BOOL (WINAPI * Module32Next_t)(HANDLE, LPMODULEENTRY32);
+
+static CreateToolhelp32Snapshot_t funCreateToolhelp32Snapshot = NULL;
+static Module32First_t funModule32First = NULL;
+static Module32Next_t funModule32Next = NULL;
+
+
+void
+SoAny::listWin32ProcessModules(void)
+{
+  BOOL ok;
+
+  HINSTANCE kernel32dll = LoadLibrary("kernel32.dll");
+  assert(kernel32dll && "LoadLibrary(''kernel32.dll'') failed");
+
+  funCreateToolhelp32Snapshot = (CreateToolhelp32Snapshot_t)
+    GetProcAddress(kernel32dll, "CreateToolhelp32Snapshot");
+  funModule32First = (Module32First_t)
+    GetProcAddress(kernel32dll, "Module32First");
+  funModule32Next = (Module32Next_t)
+    GetProcAddress(kernel32dll, "Module32Next");
+
+
+  do {
+    if (!funCreateToolhelp32Snapshot || !funModule32First || !funModule32Next) {
+      SoDebugError::postWarning("SoAny::listWin32ProcessModules",
+                                "Tool Help Library not available (NT4?)");
+      break; // goto end of do-while loop
+    }
+    
+    HANDLE tool32snap = funCreateToolhelp32Snapshot(TH32CS_SNAPALL, 0);
+    assert((tool32snap != (void *)-1) && "CreateToolhelp32Snapshot() failed");
+    
+    MODULEENTRY32 moduleentry;
+    moduleentry.dwSize = sizeof(MODULEENTRY32);
+    ok = funModule32First(tool32snap, &moduleentry);
+    assert(ok && "Module32First() failed"); 
+    
+    SoDebugError::postInfo("SoAny::listWin32ProcessModules",
+                           "MODULEENTRY32.szModule=='%s', .szExePath=='%s'",
+                           moduleentry.szModule, moduleentry.szExePath);
+    
+    while (funModule32Next(tool32snap, &moduleentry)) {
+      SoDebugError::postInfo("SoAny::listWin32ProcessModules",
+                             "MODULEENTRY32.szModule=='%s', .szExePath=='%s'",
+                             moduleentry.szModule, moduleentry.szExePath);
+    }
+    
+    assert(GetLastError()==ERROR_NO_MORE_FILES && "Module32Next() failed"); 
+
+    ok = CloseHandle(tool32snap);
+    assert(ok && "CloseHandle() failed");
+  } while (0);
+
+  ok = FreeLibrary(kernel32dll);
+  assert(ok && "FreeLibrary() failed");
+}
+
+
+#else // !HAVE_WIN32_LOADLIBRARY || !HAVE_TLHELP32_H
+
+void
+SoAny::listWin32ProcessModules(void)
+{
+  SoDebugError::postWarning("SoAny::listWin32ProcessModules",
+                            "Tool Help Library not available "
+                            "(non-win32 platform?)");
+}
+
+#endif // !HAVE_WIN32_LOADLIBRARY || !HAVE_TLHELP32_H
+
+/**************************************************************************/
+
+char *
+SoAny::strconcat(const char ** stringlist, const char * glue, SbBool glueend) // static
+{
+  int i, gluelen, buflen;
+  char * buffer, * ptr;
+  assert(stringlist);
+  gluelen = 0;
+  buflen = 1; // The Terminator (1982)
+  if ( glue ) gluelen = strlen(glue);
+  for ( i = 0; stringlist[i] != NULL; i++ )
+    buflen += strlen(stringlist[i]) + gluelen;
+  if ( !glueend ) buflen -= gluelen;
+  buffer = new char [buflen];
+  assert(buffer);
+  ptr = buffer;
+  for ( i = 0; stringlist[i] != NULL; i++ ) {
+    int len;
+    len = strlen(stringlist[i]);
+    memcpy(ptr, stringlist[i], len);
+    ptr += len;
+    if ( gluelen && ((stringlist[i+1] != NULL) || glueend) ) {
+      memcpy(ptr, glue, gluelen);
+      ptr += gluelen;
+    }
+  }
+  *ptr = '\0';
+  return buffer;
+}
+
+SoNode *
+SoAny::loadSceneGraph(const char ** stringlist) // static
+{
+  char * buffer = SoAny::strconcat(stringlist, "\n");
+  SoNode * root = SoAny::loadSceneGraph(buffer);
+  delete [] buffer;
+  return root;
+}
+
+SoNode *
+SoAny::loadSceneGraph(char * buffer, unsigned int bufsize) // static
+{
+  SoSeparator * root;
+  SoInput in;
+  in.setBuffer(buffer, bufsize ? bufsize : strlen(buffer));
+  root = SoDB::readAll(&in);
+  return root;
+}
+
+SoNode *
+SoAny::scanSceneForName(SoNode * scene, const char * name, SbBool searchAll)
+{
+  assert(scene->getRefCount() > 0);
+  SoPath * path;
+  if ( SoAny::finder == NULL )
+    SoAny::finder = new SoSearchAction;
+  SoAny::finder->reset();
+  SoAny::finder->setName(SbName(name));
+  SoAny::finder->setInterest(SoSearchAction::FIRST);
+  if ( searchAll ) SoAny::finder->setSearchingAll(TRUE);
+  SoAny::finder->apply(scene);
+  path = SoAny::finder->getPath();
+  return path ? path->getTail() : NULL;
+}
+
+// FIXME: Dummy implementation of sogui_atexit(). Replace with real
+// implementation. kintel 20060209
+void 
+SoAny::atexit(SoAny::atexit_f * fp, int priority)
+{
+  // disabled this, as it is not safe to clean up So@Gui@ after Coin
+  // has been cleaned up. -mortene
+  //
+  // atexit(fp);
+}
+
+static void
+soany_atexit_cleanup(void)
+{
+  struct envvar_data * ptr = envlist_head;
+  while (ptr != NULL) {
+    struct envvar_data * tmp = ptr;
+    free(ptr->name);
+    free(ptr->val);
+    ptr = ptr->next;
+    free(tmp);
+  }
+  envlist_head = NULL;
+  envlist_tail = NULL;
+
+#if defined(HAVE_WIN32_LOADLIBRARY) && defined(HAVE_TLHELP32_H)
+  funCreateToolhelp32Snapshot = NULL;
+  funModule32First = NULL;
+  funModule32Next = NULL;
+#endif
+}
+
+/**************************************************************************/

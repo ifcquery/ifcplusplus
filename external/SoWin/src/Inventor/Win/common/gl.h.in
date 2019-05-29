@@ -1,0 +1,91 @@
+#ifndef SO@GUI@_GL_H
+#define SO@GUI@_GL_H
+
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+/* This header file is supposed to take care of all operating system
+ * dependent anomalies connected to the gl.h include file.  It is only
+ * for use while building the Coin library, and should not be installed
+ * with the rest of the header files (at least not yet).  20010913 larsa */
+
+#ifndef SO@GUI@_VERSION
+#error "you must include config.h before including Inventor/system/gl.h"
+#endif /* !SO@GUI_VERSION */
+
+#ifdef HAVE_WINDOWS_H
+/* on windows, headers do not include their dependencies */
+#include <windows.h>
+#endif /* HAVE_WINDOWS_H */
+
+#ifdef HAVE_GL_GL_H
+/* the preferred gl.h path */
+#include <GL/gl.h>
+#else
+#ifdef HAVE_OPENGL_GL_H
+/* how Mac OS X organizes things - should we now stuff Coin header in
+   OpenInventor/?  (that *was* irony) */
+#include <OpenGL/gl.h>
+#else
+#error "don't know how to include gl.h header"
+#endif /* !HAVE_GL_GL_H */
+#endif /* !HAVE_OPENGL_GL_H */
+
+#ifdef HAVE_GL_GLU_H
+#include <GL/glu.h>
+#else
+#ifdef HAVE_OPENGL_GLU_H
+#include <OpenGL/glu.h>
+#endif
+#endif
+
+/*
+  At least MS Windows often has very old gl.h files, so we just define
+  these values here if not defined already. Run-time checks are used
+  to determine which feature to use.
+*/
+
+#ifndef GL_CLAMP_TO_EDGE
+#define GL_CLAMP_TO_EDGE         0x812F
+#endif /* GL_CLAMP_TO_EDGE */
+
+#ifndef GL_CLAMP_TO_EDGE_EXT
+#define GL_CLAMP_TO_EDGE_EXT     0x812F
+#endif /* GL_CLAMP_TO_EDGE_EXT */
+
+#ifndef GL_CLAMP_TO_EDGE_SGIS
+#define GL_CLAMP_TO_EDGE_SGIS    0x812F
+#endif /* GL_CLAMP_TO_EDGE_SGIS */
+
+#endif /* ! COIN_GL_H */

@@ -1,0 +1,169 @@
+/* src/config.h.in.  Generated from configure.ac by autoheader.  */
+
+
+#ifndef SOWIN_INTERNAL
+#error this is a private header file
+#endif /* !SOWIN_INTERNAL */
+
+
+/* Version string for Windows */
+#undef GUI_TOOLKIT_VERSION
+
+/* The CPP compiler has a variable containing the current function name */
+#undef HAVE_CPP_COMPILER_FUNCTION_NAME_VAR
+
+/* Define to 1 if you have the <crtdbg.h> header file. */
+#undef HAVE_CRTDBG_H
+
+/* The C compiler has a variable containing the current function name */
+#undef HAVE_C_COMPILER_FUNCTION_NAME_VAR
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* Define to use GetEnvironmentVariable() instead of getenv() */
+#undef HAVE_GETENVIRONMENTVARIABLE
+
+/* Define to 1 if you have the <GL/glu.h> header file. */
+#undef HAVE_GL_GLU_H
+
+/* Define to 1 if you have the <GL/gl.h> header file. */
+#undef HAVE_GL_GL_H
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define if the Ivf API is to be included in the SoWin library */
+#undef HAVE_IVF
+
+/* Define if LONG_PTR typedef / define is available */
+#undef HAVE_LONG_PTR_TYPE
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the <netinet/in.h> header file. */
+#undef HAVE_NETINET_IN_H
+
+/* Define to 1 if you have the <OpenGL/glu.h> header file. */
+#undef HAVE_OPENGL_GLU_H
+
+/* Define to 1 if you have the <OpenGL/gl.h> header file. */
+#undef HAVE_OPENGL_GL_H
+
+/* Define to use SetClassLongPtr() instead of SetClassLong() */
+#undef HAVE_SETCLASSLONGPTR
+
+/* Define to use SetWindowLongPtr() instead of SetWindowLong() */
+#undef HAVE_SETWINDOWLONGPTR
+
+/* Define to enable use of Inventor feature */
+#undef HAVE_SOCAMERA_SETSTEREOMODE
+
+/* Define to enable use of Inventor feature */
+#undef HAVE_SOKEYBOARDEVENT_DELETE
+
+/* Define to enable use of Inventor feature */
+#undef HAVE_SOMOUSEBUTTONEVENT_BUTTON5
+
+/* Define to enable use of the Open Inventor SoPolygonOffset node */
+#undef HAVE_SOPOLYGONOFFSET
+
+/* Define to enable use of Inventor feature */
+#undef HAVE_SORTED_LAYERS_BLEND
+
+/* Define if the Space Navigator support should be included */
+#undef HAVE_SPACENAV_SUPPORT
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/time.h> header file. */
+#undef HAVE_SYS_TIME_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <tlhelp32.h> header file. */
+#undef HAVE_TLHELP32_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define if the Win32 API is available */
+#undef HAVE_WIN32_API
+
+/* Define to use Win32 LoadLibrary() */
+#undef HAVE_WIN32_LOADLIBRARY
+
+/* Define to 1 if you have the <windows.h> header file. */
+#undef HAVE_WINDOWS_H
+
+/* Define to 1 if you have the <X11/extensions/SGIMisc.h> header file. */
+#undef HAVE_X11_EXTENSIONS_SGIMISC_H
+
+/* Define to 1 if you have the <X11/extensions/XInput.h> header file. */
+#undef HAVE_X11_EXTENSIONS_XINPUT_H
+
+/* Define to 1 if you have the <X11/Xproto.h> header file. */
+#undef HAVE_X11_XPROTO_H
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* define this to the SoWin beta version letter */
+#undef SOWIN_BETA_VERSION
+
+/* Define to the major version of SoWin */
+#undef SOWIN_MAJOR_VERSION
+
+/* Define to the micro version of SoWin */
+#undef SOWIN_MICRO_VERSION
+
+/* Define to the minor version of SoWin */
+#undef SOWIN_MINOR_VERSION
+
+/* Version string for SoWin */
+#undef SOWIN_VERSION
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Define to make Coin use/catch exceptions at some particular places. */
+#undef USE_EXCEPTIONS
+
+/* Version number of package */
+#undef VERSION
+
+/* Define this if you want defaults to be linked into SoXt */
+#undef WITH_STATIC_DEFAULTS

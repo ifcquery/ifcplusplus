@@ -1,0 +1,3 @@
+data = ../soanydata
+src/Inventor/Win/common = ../sogui
+build/general = ../generalmsvcgeneration

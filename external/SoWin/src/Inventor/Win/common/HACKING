@@ -1,0 +1,35 @@
+This file describes some hacking techniques and tips & tricks that are
+common for the GUI interface toolkits.
+
+Be sure to check Coin/HACKING for Coin-specific tricks and more
+generic information, plus the file HACKING (if present) on the
+sourcecode root of the "parent" toolkit CVS module.
+
+
+0 Finding Component Information
+===============================
+
+  We have added some easter eggs to the debug versions of the
+  GUI toolkit libraries that can be used to find information
+  about which components are in use.
+
+  Typing 'glinfo' in a viewer will probe into all kinds of information
+  from the GL driver and open a window displaying it.
+
+  Typing 'ivinfo' in a viewer will probe about the underlying Open
+  Inventor implementation and display it in a new window.
+
+  Typing 'soinfo' in a viewer will open a window with some basic
+  information about the toolkit library and possibly the native
+  toolkit it has been built on.
+
+
+1 Performance profiling / debugging
+===================================
+
+  If you are doing work related to rendering performance, you will
+  probably want to see frames-per-second statistics when spinning
+  models, etc.  If you set the environment variable
+  COIN_SHOW_FPS_COUNTER to "1", a fps counter should show up in the
+  bottom left corner of the GL canvas when you do animation (spinning,
+  zooming, etc) in the viewer components.

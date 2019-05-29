@@ -1,0 +1,355 @@
+This file contains the big diff resulting when killing off all the
+common template code for handling the preference sheet. It has been
+added to the CVS repository in case someone (important) loudly
+complains about me ripping out the prefsheet support.
+
+The native toolkit specific diff can be found in
+src/Inventor/@Gui@/viewers/.
+
+20020606 mortene.
+
+
+Index: SoGuiExaminerViewer.cpp.in
+===================================================================
+RCS file: /export/cvsroot/SoGUI/viewers/SoGuiExaminerViewer.cpp.in,v
+retrieving revision 1.17
+diff -u -w -r1.17 SoGuiExaminerViewer.cpp.in
+--- SoGuiExaminerViewer.cpp.in	6 Jun 2002 13:01:12 -0000	1.17
++++ SoGuiExaminerViewer.cpp.in	6 Jun 2002 15:50:30 -0000
+@@ -1108,8 +1108,8 @@
+ // *************************************************************************
+ 
+ // Documented in superclass. Overrides this method to be able to draw
+-// the axis cross if selected in the preferences sheet, and to keep a
+-// continuous animation upon spin.
++// the axis cross, if selected, and to keep a continuous animation
++// upon spin.
+ void
+ So@Gui@ExaminerViewer::actualRedraw(void)
+ {
+Index: SoGuiExaminerViewer.h.in
+===================================================================
+RCS file: /export/cvsroot/SoGUI/viewers/SoGuiExaminerViewer.h.in,v
+retrieving revision 1.17
+diff -u -w -r1.17 SoGuiExaminerViewer.h.in
+--- SoGuiExaminerViewer.h.in	3 Jun 2002 19:28:18 -0000	1.17
++++ SoGuiExaminerViewer.h.in	6 Jun 2002 15:50:30 -0000
+@@ -75,7 +75,6 @@
+   virtual void bottomWheelMotion(float val);
+   virtual void rightWheelMotion(float val);
+ 
+-  virtual @WIDGET@ makeSubPreferences(@WIDGET@ parent);
+   virtual void createViewerButtons(@WIDGET@ parent, SbPList * buttonlist);
+ 
+   virtual const char * getDefaultWidgetName(void) const;
+@@ -89,7 +88,6 @@
+   virtual void actualRedraw(void);
+ 
+   virtual void afterRealizeHook(void);
+-  virtual void createPrefSheet(void);
+ 
+ private:
+   class So@Gui@ExaminerViewerP * pimpl;
+Index: SoGuiFlyViewer.cpp.in
+===================================================================
+RCS file: /export/cvsroot/SoGUI/viewers/SoGuiFlyViewer.cpp.in,v
+retrieving revision 1.14
+diff -u -w -r1.14 SoGuiFlyViewer.cpp.in
+--- SoGuiFlyViewer.cpp.in	6 Jun 2002 12:40:23 -0000	1.14
++++ SoGuiFlyViewer.cpp.in	6 Jun 2002 15:50:30 -0000
+@@ -1042,17 +1042,6 @@
+ 
+ // ************************************************************************
+ 
+-/*!
+-  FIXME: doc
+- */
+-void
+-So@Gui@FlyViewer::createPrefSheet(void)
+-{
+-  SO@GUI@_STUB();
+-}
+-
+-// ************************************************************************
+-
+ // doc in super
+ void
+ So@Gui@FlyViewer::openViewerHelpCard(void)
+@@ -1071,22 +1060,3 @@
+ }
+ 
+ // ************************************************************************
+-
+-// FIXME: this code is "left over" after we migrated to a common
+-// code-base in SoGuiFlyViewer.cpp.in. Fix up and re-enable. 20011209 mortene.
+-
+-//  void
+-//  SoXtFlyViewer::createPrefSheet(void)
+-//  {
+-//    if (! this->prefshell) {
+-//      this->prefparts = new Widget [ 16 ];
+-//      this->createPrefSheetShellAndForm(this->prefshell, this->prefsheet);
+-//      this->createDefaultPrefSheetParts(this->prefparts, this->numprefparts,
+-//        this->prefsheet);
+-//      this->prefparts[this->numprefparts] =
+-//        this->createFramedSpeedPrefSheetGuts(this->prefsheet);
+-//      if (this->prefparts[this->numprefparts] != NULL) this->numprefparts++;
+-//    }
+-//    this->layoutPartsAndMapPrefSheet(this->prefparts, this->numprefparts,
+-//      this->prefsheet, this->prefshell);
+-//  }
+Index: SoGuiFlyViewer.h.in
+===================================================================
+RCS file: /export/cvsroot/SoGUI/viewers/SoGuiFlyViewer.h.in,v
+retrieving revision 1.4
+diff -u -w -r1.4 SoGuiFlyViewer.h.in
+--- SoGuiFlyViewer.h.in	4 Jun 2002 15:16:11 -0000	1.4
++++ SoGuiFlyViewer.h.in	6 Jun 2002 15:50:30 -0000
+@@ -66,7 +66,6 @@
+ 
+   virtual void rightWheelMotion(float value);
+ 
+-  virtual void createPrefSheet(void);
+   virtual void openViewerHelpCard(void);
+ 
+   virtual void afterRealizeHook(void);
+Index: SoGuiFullViewer.cpp.in
+===================================================================
+RCS file: /export/cvsroot/SoGUI/viewers/SoGuiFullViewer.cpp.in,v
+retrieving revision 1.18
+diff -u -w -r1.18 SoGuiFullViewer.cpp.in
+--- SoGuiFullViewer.cpp.in	6 Jun 2002 13:01:12 -0000	1.18
++++ SoGuiFullViewer.cpp.in	6 Jun 2002 15:50:30 -0000
+@@ -105,31 +105,6 @@
+ 
+ // ************************************************************************
+ 
+-// Note: common documentation for all subclasses aswell.
+-/*!
+-  \fn void So@Gui@FullViewer::createPrefSheet(void)
+-
+-  Create preferences sheet.
+-
+-  This is a hook for constructing the preferences window in the
+-  derived viewer classes.
+-
+-  Basically, derived classes will do the following in this method:
+-
+-  \code
+-    if (! this->prefshell) {
+-      createPrefSheetShellAndForm(this->prefshell, this->prefsheet);
+-      createDefaultPrefSheetParts(this->prefparts, this->numprefparts,
+-        this->prefsheet);
+-      // add parts specific for derived viewer
+-    }
+-    layoutPartsAndMapPrefSheet(this->prefparts, this->numprefparts,
+-                               this->prefsheet, this->prefshell);
+-  \endcode
+-*/
+-
+-// ************************************************************************
+-
+ // Note: the following function documentation blocks for thumbwheel
+ // handling will also be used for all the miscellaneous viewer
+ // subclasses, so keep'em general.
+@@ -499,8 +474,6 @@
+   menu->setMenuItemTitle(HEADLIGHT_ITEM, _("Headlight"));
+   menu->newMenuItem("fullscreen", FULLSCREEN_ITEM);
+   menu->setMenuItemTitle(FULLSCREEN_ITEM, _("Fullscreen"));
+-  menu->newMenuItem("preferences", PREFERENCES_ITEM);
+-  menu->setMenuItemTitle(PREFERENCES_ITEM, _("Preferences..."));
+ 
+   menu->addMenu(ROOT_MENU, FUNCTIONS_MENU);
+   menu->addMenu(ROOT_MENU, DRAWSTYLES_MENU);
+@@ -509,8 +482,6 @@
+   menu->addMenuItem(ROOT_MENU, DECORATION_ITEM);
+   menu->addMenuItem(ROOT_MENU, HEADLIGHT_ITEM);
+   menu->addMenuItem(ROOT_MENU, FULLSCREEN_ITEM);
+-  menu->addSeparator(ROOT_MENU);
+-  menu->addMenuItem(ROOT_MENU, PREFERENCES_ITEM);
+ 
+   menu->newMenuItem("help", HELP_ITEM);
+   menu->setMenuItemTitle(HELP_ITEM, _("Help"));
+@@ -812,9 +783,6 @@
+   case FULLSCREEN_ITEM:
+     (void)PUBLIC(this)->setFullScreen(PUBLIC(this)->isFullScreen() ? FALSE : TRUE);
+     break;
+-  case PREFERENCES_ITEM:
+-    ((So@Gui@FullViewerP *)this)->selectedPrefs();
+-    break;
+ 
+   case HELP_ITEM:
+     PUBLIC(this)->openViewerHelpCard();
+Index: SoGuiFullViewer.h.in
+===================================================================
+RCS file: /export/cvsroot/SoGUI/viewers/SoGuiFullViewer.h.in,v
+retrieving revision 1.22
+diff -u -w -r1.22 SoGuiFullViewer.h.in
+--- SoGuiFullViewer.h.in	3 Jun 2002 16:27:59 -0000	1.22
++++ SoGuiFullViewer.h.in	6 Jun 2002 15:50:30 -0000
+@@ -66,7 +66,6 @@
+ 
+   virtual void setViewing(SbBool on);
+   virtual void setCamera(SoCamera * cam);
+-  virtual void hide(void);
+ 
+   virtual void setComponentCursor(const So@Gui@Cursor & cursor);
+ 
+@@ -95,8 +94,6 @@
+   virtual void setPopupMenuString(const char * title);
+   virtual void openPopupMenu(const SbVec2s position);
+ 
+-  void setPrefSheetString(const char * title);
+-
+   virtual void leftWheelStart(void);
+   virtual void leftWheelMotion(float);
+   virtual void leftWheelFinish(void);
+@@ -126,8 +123,6 @@
+ 
+   virtual void openViewerHelpCard(void);
+ 
+-  virtual void createPrefSheet(void);
+-
+ protected:
+   @WIDGET@ leftDecoration;
+   @WIDGET@ rightDecoration;
+@@ -164,9 +159,6 @@
+   @WIDGET@ leftWheel;
+   @WIDGET@ rightWheel;
+   @WIDGET@ bottomWheel;
+-
+-  virtual bool eventFilter(QObject * obj, QEvent * e);
+-  virtual @WIDGET@ makeSubPreferences(@WIDGET@ parent);
+ #endif // __COIN_SOQT__
+ 
+ #ifdef __COIN_SOXT__ // FIXME: get rid of non-templatized code. 20020108 mortene.
+@@ -180,31 +172,9 @@
+   Widget buildFunctionsSubmenu(Widget popup);
+   Widget buildDrawStyleSubmenu(Widget popup);
+ 
+-  char * prefstring;
+   char * popupTitle;
+   SbBool popupEnabled;
+   SbPList * viewerButtonWidgets;
+-
+-  Widget prefshell;
+-  Widget prefsheet;
+-
+-  void createPrefSheetShellAndForm(Widget & shell, Widget & form);
+-  void createDefaultPrefSheetParts(Widget * widgets, int & num, Widget form);
+-  void layoutPartsAndMapPrefSheet(Widget * widgets, int num, Widget form, Widget shell);
+-
+-  Widget createSeekPrefSheetGuts(Widget parent);
+-  Widget createSeekDistPrefSheetGuts(Widget parent);
+-  Widget createZoomPrefSheetGuts(Widget parent);
+-  Widget createClippingPrefSheetGuts(Widget parent);
+-  Widget createStereoPrefSheetGuts(Widget parent);
+-  Widget createSpeedPrefSheetGuts(Widget parent);
+-
+-  Widget createFramedSeekPrefSheetGuts(Widget parent);
+-  Widget createFramedSeekDistPrefSheetGuts(Widget parent);
+-  Widget createFramedZoomPrefSheetGuts(Widget parent);
+-  Widget createFramedClippingPrefSheetGuts(Widget parent);
+-  Widget createFramedStereoPrefSheetGuts(Widget parent);
+-  Widget createFramedSpeedPrefSheetGuts(Widget parent);
+ #endif // __COIN_SOXT__
+ 
+ #ifdef __COIN_SOGTK__ // FIXME: get rid of non-templatized code. 20020108 mortene.
+@@ -212,9 +182,6 @@
+   @WIDGET@ leftWheel;
+   @WIDGET@ rightWheel;
+   @WIDGET@ bottomWheel;
+-
+-  virtual SbBool eventFilter(GtkWidget * object, GdkEvent * event);
+-  virtual GtkWidget * makeSubPreferences(GtkWidget * parent);
+ #endif // __COIN_SOGTK__
+ 
+ #ifdef __COIN_SOWIN__ // FIXME: get rid of non-templatized code. 20020108 mortene.
+@@ -236,21 +203,12 @@
+   virtual LRESULT onMeasureItem(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
+ 
+ 
+-  class SoFieldSensor * zoomSensor;
+-
+   class SoWinThumbWheel * rightWheel;
+   class SoWinThumbWheel * bottomWheel;
+   class SoWinThumbWheel * leftWheel;
+ 
+-  SbVec2f zoomrange;
+-  class SoWinViewerPrefSheet * prefsheet;
+-
+   HWND viewerWidget;
+   HWND renderAreaWidget;
+-
+-  // FIXME: quick hack done while merging all the header file
+-  // definitions for So*FullViewer. 20020111 mortene.
+-  friend class SoWinViewerPrefSheet;
+ 
+ protected:
+   SbPList * viewerButtonList;
+Index: SoGuiFullViewerP.h.in
+===================================================================
+RCS file: /export/cvsroot/SoGUI/viewers/SoGuiFullViewerP.h.in,v
+retrieving revision 1.3
+diff -u -w -r1.3 SoGuiFullViewerP.h.in
+--- SoGuiFullViewerP.h.in	6 Jun 2002 13:01:12 -0000	1.3
++++ SoGuiFullViewerP.h.in	6 Jun 2002 15:50:30 -0000
+@@ -98,7 +98,6 @@
+       DECORATION_ITEM,
+       HEADLIGHT_ITEM,
+       FULLSCREEN_ITEM,
+-      PREFERENCES_ITEM,
+ 
+       STEREO_MENU,
+       STEREO_OFF_ITEM,
+Index: SoGuiPlaneViewer.h.in
+===================================================================
+RCS file: /export/cvsroot/SoGUI/viewers/SoGuiPlaneViewer.h.in,v
+retrieving revision 1.18
+diff -u -w -r1.18 SoGuiPlaneViewer.h.in
+--- SoGuiPlaneViewer.h.in	15 May 2002 20:29:03 -0000	1.18
++++ SoGuiPlaneViewer.h.in	6 Jun 2002 15:50:30 -0000
+@@ -73,8 +73,6 @@
+   virtual void rightWheelMotion(float value);
+   virtual void rightWheelFinish(void);
+ 
+-  virtual void createPrefSheet(void);
+-
+   virtual void createViewerButtons(@WIDGET@ parent, SbPList * buttons);
+   virtual void openViewerHelpCard(void);
+ 
+Index: SoGuiWalkViewer.h.in
+===================================================================
+RCS file: /export/cvsroot/SoGUI/viewers/SoGuiWalkViewer.h.in,v
+retrieving revision 1.7
+diff -u -w -r1.7 SoGuiWalkViewer.h.in
+--- SoGuiWalkViewer.h.in	31 May 2002 13:54:11 -0000	1.7
++++ SoGuiWalkViewer.h.in	6 Jun 2002 15:50:30 -0000
+@@ -64,7 +64,6 @@
+ 
+   virtual @WIDGET@ buildLeftTrim(@WIDGET@ parent);
+ 
+-  virtual void createPrefSheet(void);
+   virtual void openViewerHelpCard(void);
+ 
+ private:
+@@ -85,9 +84,6 @@
+ private:
+   void constructor(SbBool build);
+ 
+-  Widget * prefparts;
+-  int numprefparts;
+-
+   Widget heightwheel;
+   float heightvalue;
+ 
+@@ -100,9 +96,6 @@
+ #endif // ! __COIN_SOXT__
+ 
+ #ifdef __COIN_SOGTK__
+-protected:
+-  virtual GtkWidget * makeSubPreferences(GtkWidget * parent);
+-
+ private:
+   void constructor(const SbBool build);
+ #endif // ! __COIN_SOGTK__

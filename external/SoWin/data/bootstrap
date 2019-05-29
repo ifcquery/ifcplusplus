@@ -1,0 +1,101 @@
+#! /bin/sh
+# **************************************************************************
+# Regenerate all files which are constructed by the autoconf, automake
+# and libtool tool-chain. Note: only developers should need to use
+# this script.
+
+# Authors:
+#   Morten Eriksen <mortene@sim.no>
+#   Lars J. Aas <larsa@sim.no>
+
+wd=`echo "$0" | sed 's,[^/]*$,,g'`
+me=`echo "$0" | sed 's,.*/,,g'`
+
+cd $wd
+if test ! -f ./$me; then
+  echo >&2 "$me: error: unexpected problem with your shell - bailing out"
+  exit 1
+fi
+
+AUTOCONF_VER=2.5[0234]
+AUTOMAKE_VER=1.5
+LIBTOOL_VER=1.4.2
+
+# MACRODIR=../conf-macros-CVS
+DIE=false
+
+if test "$1" = "--clean"; then
+  rm -f aclocal.m4 \
+	config.guess \
+	config.h.in \
+	config.sub \
+	configure \
+	depcomp \
+	install-sh \
+	ltconfig \
+	ltmain.sh \
+	missing \
+	mkinstalldirs \
+	stamp-h*
+  find . -type f -name Makefile.in -print | xargs rm
+  exit 0
+elif test "$1" = "--add"; then
+  AUTOMAKE_ADD="--add-missing --gnu --copy"
+fi
+
+echo "Checking the installed configuration tools..."
+
+if test -z "`autoconf --version | grep \" $AUTOCONF_VER\" 2> /dev/null`"; then
+    echo
+    echo "You must have autoconf version $AUTOCONF_VER installed to"
+    echo "generate configure information and Makefiles for $PROJECT."
+    echo ""
+    echo "The Autoconf version we are using is a development version"
+    echo "\"frozen\" from the CVS repository at 2000-01-13. You can get"
+    echo "it here:"
+    echo ""
+    echo "   ftp://ftp.sim.no/pub/coin/autoconf-2.14.1-coin.tar.gz"
+    echo ""
+    DIE=true
+fi
+
+if test -z "`automake --version | grep \" $AUTOMAKE_VER\" 2> /dev/null`"; then
+    echo
+    echo "You must have automake version $AUTOMAKE_VER installed to"
+    echo "generate configure information and Makefiles for $PROJECT."
+    echo ""
+    echo "The Automake version we are using is a development version"
+    echo "\"frozen\" from the CVS repository at 2000-01-13. You can get"
+    echo "it here:"
+    echo ""
+    echo "   ftp://ftp.sim.no/pub/coin/automake-1.4a-coin.tar.gz"
+    echo ""
+    DIE=true
+fi
+
+if test -z "`libtool --version | grep \" $LIBTOOL_VER \" 2> /dev/null`"; then
+    echo
+    echo "You must have libtool version $LIBTOOL_VER installed to"
+    echo "generate configure information and Makefiles for $PROJECT."
+    echo ""
+    echo "Get ftp://ftp.gnu.org/pub/gnu/libtool/libtool-1.3.5.tar.gz"
+    echo ""
+    DIE=true
+fi
+
+${DIE=false} && echo "" && echo >&2 "$me: error: aborting..." && exit 1
+
+# **************************************************************************
+
+echo "Running aclocal..."
+aclocal # -I $MACRODIR
+
+echo "Running autoheader..."
+( autoheader 3>&1 1>&2 2>&3 | grep -v 'is unchanged$' ) 3>&1 1>&2 2>&3
+
+echo "Running automake..."
+automake $AUTOMAKE_ADD
+
+echo "Running autoconf..."
+autoconf
+

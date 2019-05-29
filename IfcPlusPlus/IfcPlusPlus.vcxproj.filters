@@ -210,6 +210,9 @@
     <ClInclude Include="src\ifcpp\reader\AbstractReader.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="src\external\XUnzip.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcAbsorbedDoseMeasure.cpp">
@@ -3765,6 +3768,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\ifcpp\writer\WriterUtil.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\external\XUnzip.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

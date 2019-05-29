@@ -1,0 +1,110 @@
+#ifndef SO@GUI@_MATERIALLIST_H
+#define SO@GUI@_MATERIALLIST_H
+
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+#include <Inventor/@Gui@/So@Gui@Component.h>
+
+class SoMaterial;
+class SoAnyMaterialList;
+
+typedef void So@Gui@MaterialListCB(void * closure, const SoMaterial * material);
+
+// *************************************************************************
+
+class SO@GUI@_DLL_API So@Gui@MaterialList : public So@Gui@Component {
+  SO@GUI@_OBJECT_HEADER(So@Gui@MaterialList, So@Gui@Component);
+
+public:
+  So@Gui@MaterialList(
+    @WIDGET@ parent = NULL,
+    const char * const name = NULL,
+    SbBool embed = TRUE,
+    const char * const dir = NULL);
+  ~So@Gui@MaterialList(void);
+
+  void addCallback(
+    So@Gui@MaterialListCB * const callback,
+    void * const closure = NULL);
+  void removeCallback(
+    So@Gui@MaterialListCB * const callback,
+    void * const closure = NULL);
+
+protected:
+  So@Gui@MaterialList(
+    @WIDGET@ parent,
+    const char * const name,
+    SbBool embed,
+    const char * const dir,
+    SbBool build);
+
+  virtual const char * getDefaultWidgetName(void) const;
+  virtual const char * getDefaultTitle(void) const;
+  virtual const char * getDefaultIconTitle(void) const;
+
+  @WIDGET@ buildWidget(@WIDGET@ parent);
+  @WIDGET@ buildPulldownMenu(@WIDGET@ parent);
+
+private:
+  void constructor(const char * const dir, const SbBool build);
+
+  // FIXME: remove all this and set it up for use with a
+  // SoGuiMaterialListP class. 2001???? larsa.
+
+  void selectionCallback(int i);
+  static void selection_cb(@WIDGET@, void *, void *);
+
+  void paletteMenuCallback(@WIDGET@);
+  static void palette_menu_cb(@WIDGET@, void *, void *);
+
+
+#ifdef __COIN_SOGTK__
+  void menuactivation(GtkWidget * menuitem);
+  static void menuactivationCB(GtkObject * obj, gpointer closure);
+
+  void itemactivation(int item);
+  static void itemactivationCB(GtkObject * obj, gint row, gint column,
+                               GdkEvent * event, gpointer closure);
+#endif // __COIN_SOGTK__
+
+  @WIDGET@ listwidget;
+
+  SoAnyMaterialList * common;
+
+}; // public So@Gui@MaterialList
+
+// *************************************************************************
+
+#endif // ! SO@GUI@_MATERIALLIST_H

@@ -1,0 +1,166 @@
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+// Pulls in __COIN_SO@GUI@__ define used below.
+#include <Inventor/@Gui@/So@Gui@Basic.h>
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif // HAVE_CONFIG_H
+
+#include <so@gui@defs.h>
+#include <Inventor/@Gui@/So@Gui@Object.h>
+#include <Inventor/@Gui@/devices/So@Gui@Device.h>
+#include <Inventor/@Gui@/So@Gui@Component.h>
+
+/*!
+  \class So@Gui@Object Inventor/@Gui@/So@Gui@Object.h
+  \brief The So@Gui@Object class is the common superclass for all So@Gui@ component classes.
+  \ingroup misc
+
+  The purpose of making this class the superclass of all So@Gui@
+  device, component and viewer classes is to be able to do run-time
+  type checking of the So@Gui@ objects.
+
+
+  You can place the macro SO@GUI@_OBJECT_HEADER(classname,parentname)
+  within a class definition header for So@Gui@ extension components to
+  automatically make the necessary definitions for setting up a
+  run-time type system for your extension classes:
+
+  \code
+  #ifndef MYSPECIALVIEWER_H
+  #define MYSPECIALVIEWER_H
+
+  class MySpecialViewer : public So@Gui@ExaminerViewer {
+    SO@GUI@_OBJECT_HEADER(MySpecialViewer, So@Gui@ExaminerViewer);
+    // [rest of class definition follows]
+  };
+
+  #endif // !MYSPECIALVIEWER_H
+  \endcode
+
+  Then put the SO@GUI@_OBJECT_SOURCE(classname) macro within the
+  actual implementation sourcecode file to include the necessary
+  code for the run-time type system:
+
+  \code
+  #include <MySpecialViewer.h>
+
+  SOQT_OBJECT_SOURCE(MySpecialViewer);
+
+  // [rest of class implementation]
+  \endcode
+
+
+  See also the documentation of the SoType class in Coin or Inventor.
+ */
+
+// *************************************************************************
+
+/*!
+  \fn SoType So@Gui@Object::getTypeId
+
+  Returns the type identification of an object derived from a class
+  inheriting So@Gui@Object.  This is used for run-time type checking
+  and "downward" casting.
+
+  Usage example:
+
+  \code
+  void foo(So@Gui@Viewer * comp)
+  {
+    if (comp->getTypeId() == So@Gui@ExaminerViewer::getClassTypeId()) {
+      // safe downward cast, knows the type
+      So@Gui@ExaminerViewer * exviewer = (So@Gui@ExaminerViewer *)comp;
+      /// [then something] ///
+    }
+    else if (comp->getTypeId().isOfType(So@Gui@FlyViewer::getClassTypeId())) {
+      // safe downward cast, knows the type
+      So@Gui@FlyViewer * flyviewer = (So@Gui@FlyViewer *)comp;
+      // then something else
+    }
+  }
+  \endcode
+*/
+// FIXME: add doc above to explain how external developers can use the
+// type system for their own extension classes. 20020502 mortene.
+
+// This is a private variable.
+SoType So@Gui@Object::classTypeId SO@GUI@_STATIC_SOTYPE_INIT;
+
+/*!
+  Sets up initialization for data common to all instances of this
+  class, submitting necessary information to the internal So@Gui@ type
+  system.
+*/
+void
+So@Gui@Object::initClass(void)
+{
+  assert(So@Gui@Object::classTypeId == SoType::badType());
+  So@Gui@Object::classTypeId =
+    SoType::createType(SoType::badType(), "So@Gui@Object");
+}
+
+/*!
+  Returns \c TRUE if the type of this object is either of the same
+  type or inherited from \a type.
+*/
+SbBool
+So@Gui@Object::isOfType(SoType type) const
+{
+  return this->getTypeId().isDerivedFrom(type);
+}
+
+/*!
+  This static method returns the SoType object associated with
+  objects of this class.
+*/
+SoType
+So@Gui@Object::getClassTypeId(void)
+{
+  return So@Gui@Object::classTypeId;
+}
+
+/*!
+  Initialize the type system of So@Gui@Object, all So@Gui@ device
+  classes and all So@Gui@ components (including viewers).
+*/
+void
+So@Gui@Object::init(void)
+{
+  So@Gui@Object::initClass();
+  So@Gui@Device::initClasses();
+  So@Gui@Component::initClasses();
+}

@@ -1,0 +1,102 @@
+#ifndef COIN_SO@GUI@COLOREDITOR_H
+#define COIN_SO@GUI@COLOREDITOR_H
+
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+#include <Inventor/@Gui@/nodes/SoGuiColorEditor.h>
+#include <Inventor/@Gui@/So@Gui@RenderArea.h>
+
+typedef void So@Gui@ColorEditorCB(void * closure, const SbColor * color);
+        
+class SbColor;
+class SoSFColor;
+class SoMFColor;
+class SoMFUInt32;
+
+class So@Gui@ColorEditor : public So@Gui@RenderArea {
+  SO@GUI@_OBJECT_HEADER(So@Gui@ColorEditor, So@Gui@RenderArea);
+
+public:
+  So@Gui@ColorEditor(@WIDGET@ parent = NULL, const char * name = NULL, SbBool embed = TRUE);
+  ~So@Gui@ColorEditor(void);
+
+  enum Sliders {
+    NONE = SoGuiColorEditor::NONE, 
+    INTENSITY = SoGuiColorEditor::INTENSITY,
+    RGB = SoGuiColorEditor::RGB, 
+    HSV = SoGuiColorEditor::HSV, 
+    RGB_V = SoGuiColorEditor::RGB_V, 
+    RGB_HSV = SoGuiColorEditor::RGB_HSV
+  };
+  
+  enum UpdateFrequency {
+    CONTINUOUS = SoGuiColorEditor::CONTINUOUS,
+    AFTER_ACCEPT = SoGuiColorEditor::AFTER_ACCEPT
+  };
+  
+  void attach(SoSFColor * color, SoBase * node = NULL);
+  void attach(SoMFColor * color, int idx = 0, SoBase * node = NULL);
+  void attach(SoMFUInt32 * color, int idx = 0, SoBase * node = NULL);
+  void detach(void);
+  SbBool isAttached(void) const;
+  
+  void addColorChangedCallback(So@Gui@ColorEditorCB * cb, void * closure = NULL);
+  void removeColorChangedCallback(So@Gui@ColorEditorCB * cb, void * closure = NULL);
+  
+  void setColor(const SbColor & color);
+  const SbColor & getColor(void) const;
+  
+  void setWYSIWYG(SbBool enable);
+  SbBool isWYSIWYG(void) const;
+  
+  void setCurrentSliders(Sliders which);
+  Sliders getCurrentSliders(void) const;
+  
+  void setUpdateFrequency(UpdateFrequency freq);
+  UpdateFrequency getUpdateFrequency(void) const;
+
+  SoGuiColorEditor * getEditor(void) const;
+
+protected:
+  virtual const char * getDefaultWidgetName(void) const;
+  virtual const char * getDefaultTitle(void) const;
+  virtual const char * getDefaultIconTitle(void) const;
+
+private:
+  void * internals;
+
+};
+
+#endif // !COIN_SO@GUI@COLOREDITOR_H

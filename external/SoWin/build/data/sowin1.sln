@@ -1,0 +1,66 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sowin1", "sowin1.vcproj", "{33922CC8-3892-4E07-B977-41F55488F356}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sowin1_install", "sowin1_install.vcproj", "{9564DB55-BA18-4098-9A17-F6233538FCFE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{33922CC8-3892-4E07-B977-41F55488F356} = {33922CC8-3892-4E07-B977-41F55488F356}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sowin1_uninstall", "sowin1_uninstall.vcproj", "{C1468F6F-FAF0-4CED-9816-2AB220C73BFE}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sowin1_docs", "sowin1_docs.vcproj", "{CFD87B4A-B04D-4018-8998-E5BCC0D8140E}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		DLL (Debug) = DLL (Debug)
+		DLL (Release) = DLL (Release)
+		LIB (Debug) = LIB (Debug)
+		LIB (Release) = LIB (Release)
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{33922CC8-3892-4E07-B977-41F55488F356}.DLL (Debug).ActiveCfg = DLL (Debug)|Win32
+		{33922CC8-3892-4E07-B977-41F55488F356}.DLL (Debug).Build.0 = DLL (Debug)|Win32
+		{33922CC8-3892-4E07-B977-41F55488F356}.DLL (Release).ActiveCfg = DLL (Release)|Win32
+		{33922CC8-3892-4E07-B977-41F55488F356}.DLL (Release).Build.0 = DLL (Release)|Win32
+		{33922CC8-3892-4E07-B977-41F55488F356}.LIB (Debug).ActiveCfg = LIB (Debug)|Win32
+		{33922CC8-3892-4E07-B977-41F55488F356}.LIB (Debug).Build.0 = LIB (Debug)|Win32
+		{33922CC8-3892-4E07-B977-41F55488F356}.LIB (Release).ActiveCfg = LIB (Release)|Win32
+		{33922CC8-3892-4E07-B977-41F55488F356}.LIB (Release).Build.0 = LIB (Release)|Win32
+		{9564DB55-BA18-4098-9A17-F6233538FCFE}.DLL (Debug).ActiveCfg = DLL (Debug)|Win32
+		{9564DB55-BA18-4098-9A17-F6233538FCFE}.DLL (Debug).Build.0 = DLL (Debug)|Win32
+		{9564DB55-BA18-4098-9A17-F6233538FCFE}.DLL (Release).ActiveCfg = DLL (Release)|Win32
+		{9564DB55-BA18-4098-9A17-F6233538FCFE}.DLL (Release).Build.0 = DLL (Release)|Win32
+		{9564DB55-BA18-4098-9A17-F6233538FCFE}.LIB (Debug).ActiveCfg = LIB (Debug)|Win32
+		{9564DB55-BA18-4098-9A17-F6233538FCFE}.LIB (Debug).Build.0 = LIB (Debug)|Win32
+		{9564DB55-BA18-4098-9A17-F6233538FCFE}.LIB (Release).ActiveCfg = LIB (Release)|Win32
+		{9564DB55-BA18-4098-9A17-F6233538FCFE}.LIB (Release).Build.0 = LIB (Release)|Win32
+		{C1468F6F-FAF0-4CED-9816-2AB220C73BFE}.DLL (Debug).ActiveCfg = DLL (Debug)|Win32
+		{C1468F6F-FAF0-4CED-9816-2AB220C73BFE}.DLL (Debug).Build.0 = DLL (Debug)|Win32
+		{C1468F6F-FAF0-4CED-9816-2AB220C73BFE}.DLL (Release).ActiveCfg = DLL (Release)|Win32
+		{C1468F6F-FAF0-4CED-9816-2AB220C73BFE}.DLL (Release).Build.0 = DLL (Release)|Win32
+		{C1468F6F-FAF0-4CED-9816-2AB220C73BFE}.LIB (Debug).ActiveCfg = LIB (Debug)|Win32
+		{C1468F6F-FAF0-4CED-9816-2AB220C73BFE}.LIB (Debug).Build.0 = LIB (Debug)|Win32
+		{C1468F6F-FAF0-4CED-9816-2AB220C73BFE}.LIB (Release).ActiveCfg = LIB (Release)|Win32
+		{C1468F6F-FAF0-4CED-9816-2AB220C73BFE}.LIB (Release).Build.0 = LIB (Release)|Win32
+		{CFD87B4A-B04D-4018-8998-E5BCC0D8140E}.DLL (Debug).ActiveCfg = DLL (Debug)|Win32
+		{CFD87B4A-B04D-4018-8998-E5BCC0D8140E}.DLL (Debug).Build.0 = DLL (Debug)|Win32
+		{CFD87B4A-B04D-4018-8998-E5BCC0D8140E}.DLL (Release).ActiveCfg = DLL (Release)|Win32
+		{CFD87B4A-B04D-4018-8998-E5BCC0D8140E}.DLL (Release).Build.0 = DLL (Release)|Win32
+		{CFD87B4A-B04D-4018-8998-E5BCC0D8140E}.LIB (Debug).ActiveCfg = LIB (Debug)|Win32
+		{CFD87B4A-B04D-4018-8998-E5BCC0D8140E}.LIB (Debug).Build.0 = LIB (Debug)|Win32
+		{CFD87B4A-B04D-4018-8998-E5BCC0D8140E}.LIB (Release).ActiveCfg = LIB (Release)|Win32
+		{CFD87B4A-B04D-4018-8998-E5BCC0D8140E}.LIB (Release).Build.0 = LIB (Release)|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

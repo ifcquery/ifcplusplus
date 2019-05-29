@@ -1,0 +1,106 @@
+#ifndef SOANY_H
+#define SOANY_H
+
+// @configure_input@
+
+/**************************************************************************\
+ * Copyright (c) Kongsberg Oil & Gas Technologies AS
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * 
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+\**************************************************************************/
+
+// This file contains definitions which should _only_ be used during
+// library build. It is not installed for use by the application
+// programmer.
+#ifndef SO@GUI@_INTERNAL
+#error Only for internal use during library build.
+#endif /* !SO@GUI@_INTERNAL */
+
+// ************************************************************************
+
+#include <Inventor/SbPList.h>
+
+#include <Inventor/@Gui@/So@Gui@.h>
+
+class SoNode;
+class SoSearchAction;
+
+// ************************************************************************
+
+class SoAny {
+public:
+  static void init();
+
+  // use the singleton design pattern for access
+  static SoAny * si(void);
+
+  static const char * getenv(const char * e);
+
+  void * getSharedGLContext(void * display, void * screen);
+  void registerGLContext(void * context, void * display, void * screen);
+  void unregisterGLContext(void * context);
+  int getSharedCacheContextId(void * context);
+
+  static void listWin32ProcessModules(void);
+
+  So@Gui@::FatalErrorCB * setFatalErrorHandler(So@Gui@::FatalErrorCB * cb, void * userdata);
+  SbBool invokeFatalErrorHandler(SbString errmsg, So@Gui@::FatalErrors errcode);
+  typedef void InternalFatalErrorCB(void * userdata);
+  void addInternalFatalErrorHandler(SoAny::InternalFatalErrorCB * cb,
+                                    void * ud);
+
+  static char * strconcat(const char ** stringlist, const char * glue = NULL, SbBool glueend = TRUE);
+  static SoNode * loadSceneGraph(const char ** stringlist);
+  static SoNode * loadSceneGraph(char * buffer, unsigned int bufsize = 0);
+  static SoNode * scanSceneForName(SoNode * scene, const char * name, SbBool searchAll = FALSE);
+
+  // FIXME: Dummy sogui_atexit(). Replace with real
+  // implementation. kintel 20060209
+  typedef void atexit_f(void);
+  static void atexit(atexit_f * fp, int priority);
+
+private:
+  SoAny(void);
+  ~SoAny();
+  static void cleanup_si(void);
+
+  // (use SbPList instances to be able to compile properly on SGI /
+  // TGS Inventor aswell as Coin)
+  SbPList cclist;
+  SbPList internalfehandlers, internalfedata;
+
+  So@Gui@::FatalErrorCB * fatalcb;
+  void * userdata;
+
+  static SoSearchAction * finder;
+}; // class SoAny
+
+// ************************************************************************
+
+#endif // ! SOANY_H
