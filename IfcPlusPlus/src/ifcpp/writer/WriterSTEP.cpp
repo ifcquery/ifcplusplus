@@ -38,7 +38,7 @@ void WriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<Build
 
 	const std::wstring& file_header_wstr = model->getFileHeader();
 	std::string file_header_str = ws2s( file_header_wstr );
-	stream << "ISO-10303-21;\n" << std::endl;
+	stream << "ISO-10303-21;\n";
 	stream << file_header_str.c_str();
 	stream << "DATA;\n";
 	stream << std::setprecision( 15 );
