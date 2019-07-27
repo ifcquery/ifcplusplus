@@ -101,7 +101,7 @@ inline boost::uuids::uuid decodeBase64Uuid(std::basic_string<T> const& input)
 	auto index_of = [](T const in){
 		for (uint8_t i = 0; i < base64Chars.size(); i++)
 			if(in == base64Chars[i]) return i;
-		return 0;
+		return uint8_t(0);
 	};
 	//4 input characters will be decoded to 3 output byte
 	for (size_t i = 0, j = 0; i < in_stop && j < out_stop; ++i)

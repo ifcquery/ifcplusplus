@@ -28,6 +28,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 IFCQUERY_EXPORT std::string encodeStepString(const std::wstring& str);
 
 template<typename T>
+void appendNumberWithoutTrailingZeros(std::stringstream& stream, const T& number)
+{
+	std::string str = std::to_string(number);
+	size_t pos_dot = str.find_last_of('.');
+	if (pos_dot != std::string::npos)
+	{
+		// 1.000 -> 1.
+		size_t pos_last_non_zero = str.find_last_not_of('0');
+		if (pos_last_non_zero != std::string::npos && pos_last_non_zero <= pos_dot)
+		{
+			str.erase(pos_last_non_zero+1, std::string::npos);
+		}
+	}
+	stream << str;
+}
+
+template<typename T>
 void writeNumericList( std::stringstream& stream, const std::vector<T>& vec )
 {
 	// example: (3,23,039)
@@ -43,7 +60,8 @@ void writeNumericList( std::stringstream& stream, const std::vector<T>& vec )
 		{
 			stream << ",";
 		}
-		stream << vec[ii];
+
+		appendNumberWithoutTrailingZeros(stream, vec[ii]);
 	}
 	stream << ")";
 }
@@ -110,7 +128,8 @@ void writeNumericTypeList( std::stringstream& stream, const std::vector<shared_p
 		{
 			stream << ",";
 		}
-		stream << vec[ii]->m_value;
+
+		appendNumberWithoutTrailingZeros(stream, vec[ii]->m_value);
 	}
 	stream << ")";
 }
