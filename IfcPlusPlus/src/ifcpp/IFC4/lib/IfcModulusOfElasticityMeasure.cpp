@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcModulusOfElasticityMeasure::getDeepCopy( BuildingC
 void IfcModulusOfElasticityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMODULUSOFELASTICITYMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcModulusOfElasticityMeasure::toString() const

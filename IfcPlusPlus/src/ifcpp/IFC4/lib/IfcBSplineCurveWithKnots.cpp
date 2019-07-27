@@ -66,9 +66,9 @@ void IfcBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeNumericTypeList( stream, m_KnotMultiplicities );
+	writeTypeOfIntList( stream, m_KnotMultiplicities );
 	stream << ",";
-	writeNumericTypeList( stream, m_Knots );
+	writeTypeOfRealList( stream, m_Knots );
 	stream << ",";
 	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcSpecularExponent::getDeepCopy( BuildingCopyOptions
 void IfcSpecularExponent::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPECULAREXPONENT("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcSpecularExponent::toString() const

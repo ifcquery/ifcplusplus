@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcThermodynamicTemperatureMeasure::getDeepCopy( Buil
 void IfcThermodynamicTemperatureMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTHERMODYNAMICTEMPERATUREMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcThermodynamicTemperatureMeasure::toString() const

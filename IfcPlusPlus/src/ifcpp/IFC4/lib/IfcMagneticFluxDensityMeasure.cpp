@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcMagneticFluxDensityMeasure::getDeepCopy( BuildingC
 void IfcMagneticFluxDensityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMAGNETICFLUXDENSITYMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcMagneticFluxDensityMeasure::toString() const

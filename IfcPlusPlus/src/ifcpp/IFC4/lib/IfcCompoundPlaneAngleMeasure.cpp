@@ -24,7 +24,7 @@ shared_ptr<BuildingObject> IfcCompoundPlaneAngleMeasure::getDeepCopy( BuildingCo
 void IfcCompoundPlaneAngleMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPOUNDPLANEANGLEMEASURE("; }
-	writeNumericList( stream, m_vec );
+	writeIntList( stream, m_vec );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcCompoundPlaneAngleMeasure::toString() const

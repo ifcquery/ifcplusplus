@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcMolecularWeightMeasure::getDeepCopy( BuildingCopyO
 void IfcMolecularWeightMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMOLECULARWEIGHTMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcMolecularWeightMeasure::toString() const

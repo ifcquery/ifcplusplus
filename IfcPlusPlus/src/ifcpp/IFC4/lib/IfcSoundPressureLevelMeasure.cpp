@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcSoundPressureLevelMeasure::getDeepCopy( BuildingCo
 void IfcSoundPressureLevelMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSOUNDPRESSURELEVELMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcSoundPressureLevelMeasure::toString() const

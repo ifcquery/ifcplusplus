@@ -23,7 +23,7 @@ shared_ptr<BuildingObject> IfcLengthMeasure::getDeepCopy( BuildingCopyOptions& o
 void IfcLengthMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLENGTHMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcLengthMeasure::toString() const

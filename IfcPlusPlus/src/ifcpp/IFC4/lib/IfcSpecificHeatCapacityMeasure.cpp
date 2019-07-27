@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcSpecificHeatCapacityMeasure::getDeepCopy( Building
 void IfcSpecificHeatCapacityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPECIFICHEATCAPACITYMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcSpecificHeatCapacityMeasure::toString() const

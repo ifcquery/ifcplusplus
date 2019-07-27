@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcSolidAngleMeasure::getDeepCopy( BuildingCopyOption
 void IfcSolidAngleMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSOLIDANGLEMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcSolidAngleMeasure::toString() const

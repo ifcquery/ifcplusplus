@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcAmountOfSubstanceMeasure::getDeepCopy( BuildingCop
 void IfcAmountOfSubstanceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCAMOUNTOFSUBSTANCEMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcAmountOfSubstanceMeasure::toString() const

@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcMonetaryMeasure::getDeepCopy( BuildingCopyOptions&
 void IfcMonetaryMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMONETARYMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcMonetaryMeasure::toString() const

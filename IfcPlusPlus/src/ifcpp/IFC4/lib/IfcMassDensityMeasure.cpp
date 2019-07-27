@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcMassDensityMeasure::getDeepCopy( BuildingCopyOptio
 void IfcMassDensityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMASSDENSITYMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcMassDensityMeasure::toString() const

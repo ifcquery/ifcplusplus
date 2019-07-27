@@ -30,7 +30,7 @@ shared_ptr<BuildingObject> IfcDirection::getDeepCopy( BuildingCopyOptions& optio
 void IfcDirection::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCDIRECTION" << "(";
-	writeNumericTypeList( stream, m_DirectionRatios );
+	writeTypeOfRealList( stream, m_DirectionRatios );
 	stream << ");";
 }
 void IfcDirection::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }

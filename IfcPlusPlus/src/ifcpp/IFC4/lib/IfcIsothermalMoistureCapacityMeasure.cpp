@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcIsothermalMoistureCapacityMeasure::getDeepCopy( Bu
 void IfcIsothermalMoistureCapacityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCISOTHERMALMOISTURECAPACITYMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcIsothermalMoistureCapacityMeasure::toString() const

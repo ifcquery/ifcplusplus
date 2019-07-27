@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcKinematicViscosityMeasure::getDeepCopy( BuildingCo
 void IfcKinematicViscosityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCKINEMATICVISCOSITYMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcKinematicViscosityMeasure::toString() const

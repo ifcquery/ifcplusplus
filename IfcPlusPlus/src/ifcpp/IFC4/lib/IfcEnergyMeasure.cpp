@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcEnergyMeasure::getDeepCopy( BuildingCopyOptions& o
 void IfcEnergyMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCENERGYMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcEnergyMeasure::toString() const

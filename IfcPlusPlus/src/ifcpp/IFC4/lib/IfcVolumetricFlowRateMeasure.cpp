@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcVolumetricFlowRateMeasure::getDeepCopy( BuildingCo
 void IfcVolumetricFlowRateMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVOLUMETRICFLOWRATEMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcVolumetricFlowRateMeasure::toString() const

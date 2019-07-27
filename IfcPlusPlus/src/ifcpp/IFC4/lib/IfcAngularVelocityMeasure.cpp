@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcAngularVelocityMeasure::getDeepCopy( BuildingCopyO
 void IfcAngularVelocityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCANGULARVELOCITYMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcAngularVelocityMeasure::toString() const

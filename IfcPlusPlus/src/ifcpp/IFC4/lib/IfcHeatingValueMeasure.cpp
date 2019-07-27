@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcHeatingValueMeasure::getDeepCopy( BuildingCopyOpti
 void IfcHeatingValueMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCHEATINGVALUEMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcHeatingValueMeasure::toString() const

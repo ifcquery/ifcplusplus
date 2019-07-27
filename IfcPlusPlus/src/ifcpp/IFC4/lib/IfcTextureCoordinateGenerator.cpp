@@ -43,7 +43,7 @@ void IfcTextureCoordinateGenerator::getStepLine( std::stringstream& stream ) con
 	stream << ",";
 	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeNumericTypeList( stream, m_Parameter );
+	writeTypeOfRealList( stream, m_Parameter );
 	stream << ");";
 }
 void IfcTextureCoordinateGenerator::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }

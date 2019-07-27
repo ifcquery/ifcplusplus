@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcThermalResistanceMeasure::getDeepCopy( BuildingCop
 void IfcThermalResistanceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTHERMALRESISTANCEMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcThermalResistanceMeasure::toString() const

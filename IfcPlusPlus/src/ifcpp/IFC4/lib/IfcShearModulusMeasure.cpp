@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcShearModulusMeasure::getDeepCopy( BuildingCopyOpti
 void IfcShearModulusMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSHEARMODULUSMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcShearModulusMeasure::toString() const

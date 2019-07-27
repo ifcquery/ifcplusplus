@@ -463,7 +463,7 @@ void readTypeOfRealList2D( const std::wstring& str, std::vector<std::vector<shar
 template<typename T>
 void readTypeOfStringList( const wchar_t* str, std::vector<shared_ptr<T> >& target_vec )
 {
-	// example: (.38,12.0,.04)
+	// example: ('Tahoma')
 	wchar_t* ch = (wchar_t*)str;
 	wchar_t* last_token = nullptr;
 
@@ -485,6 +485,7 @@ void readTypeOfStringList( const wchar_t* str, std::vector<shared_ptr<T> >& targ
 	{
 		if( isspace( *ch ) )
 		{
+			// ingore leading space characters
 			++ch;
 			continue;
 		}
@@ -500,6 +501,14 @@ void readTypeOfStringList( const wchar_t* str, std::vector<shared_ptr<T> >& targ
 			if( length_str > 0 )
 			{
 				std::wstring str_value( last_token, length_str );
+				if (length_str > 1)
+				{
+					if (str_value.front() == '\'' && str_value.back() == '\'')
+					{
+						// "'Tahoma'" -> "Tahoma"
+						str_value = str_value.substr(1, str_value.size() - 2);
+					}
+				}
 				target_vec.push_back( shared_ptr<T>( new T( str_value ) ) );
 			}
 		}

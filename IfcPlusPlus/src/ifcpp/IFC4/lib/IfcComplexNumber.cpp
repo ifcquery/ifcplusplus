@@ -24,7 +24,7 @@ shared_ptr<BuildingObject> IfcComplexNumber::getDeepCopy( BuildingCopyOptions& o
 void IfcComplexNumber::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPLEXNUMBER("; }
-	writeNumericList( stream, m_vec );
+	writeRealList( stream, m_vec );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcComplexNumber::toString() const

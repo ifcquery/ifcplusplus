@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcAbsorbedDoseMeasure::getDeepCopy( BuildingCopyOpti
 void IfcAbsorbedDoseMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCABSORBEDDOSEMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcAbsorbedDoseMeasure::toString() const

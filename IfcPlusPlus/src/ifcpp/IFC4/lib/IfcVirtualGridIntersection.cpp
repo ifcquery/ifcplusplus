@@ -39,7 +39,7 @@ void IfcVirtualGridIntersection::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCVIRTUALGRIDINTERSECTION" << "(";
 	writeEntityList( stream, m_IntersectingAxes );
 	stream << ",";
-	writeNumericTypeList( stream, m_OffsetDistances );
+	writeTypeOfRealList( stream, m_OffsetDistances );
 	stream << ");";
 }
 void IfcVirtualGridIntersection::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }

@@ -20,7 +20,7 @@ shared_ptr<BuildingObject> IfcPositivePlaneAngleMeasure::getDeepCopy( BuildingCo
 void IfcPositivePlaneAngleMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPOSITIVEPLANEANGLEMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcPositivePlaneAngleMeasure::toString() const

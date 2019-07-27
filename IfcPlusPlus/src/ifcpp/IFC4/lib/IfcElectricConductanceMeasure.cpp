@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcElectricConductanceMeasure::getDeepCopy( BuildingC
 void IfcElectricConductanceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICCONDUCTANCEMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcElectricConductanceMeasure::toString() const

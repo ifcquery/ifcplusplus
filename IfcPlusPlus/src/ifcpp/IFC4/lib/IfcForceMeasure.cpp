@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcForceMeasure::getDeepCopy( BuildingCopyOptions& op
 void IfcForceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFORCEMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcForceMeasure::toString() const

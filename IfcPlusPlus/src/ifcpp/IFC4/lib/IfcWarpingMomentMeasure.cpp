@@ -22,7 +22,7 @@ shared_ptr<BuildingObject> IfcWarpingMomentMeasure::getDeepCopy( BuildingCopyOpt
 void IfcWarpingMomentMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWARPINGMOMENTMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcWarpingMomentMeasure::toString() const

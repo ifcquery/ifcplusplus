@@ -30,7 +30,7 @@ shared_ptr<BuildingObject> IfcCartesianPoint::getDeepCopy( BuildingCopyOptions& 
 void IfcCartesianPoint::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCARTESIANPOINT" << "(";
-	writeNumericTypeList( stream, m_Coordinates );
+	writeTypeOfRealList( stream, m_Coordinates );
 	stream << ");";
 }
 void IfcCartesianPoint::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }

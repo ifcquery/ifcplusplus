@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcVolumeMeasure::getDeepCopy( BuildingCopyOptions& o
 void IfcVolumeMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVOLUMEMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcVolumeMeasure::toString() const

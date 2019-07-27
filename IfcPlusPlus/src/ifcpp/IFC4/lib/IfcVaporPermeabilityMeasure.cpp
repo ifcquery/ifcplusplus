@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcVaporPermeabilityMeasure::getDeepCopy( BuildingCop
 void IfcVaporPermeabilityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVAPORPERMEABILITYMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcVaporPermeabilityMeasure::toString() const

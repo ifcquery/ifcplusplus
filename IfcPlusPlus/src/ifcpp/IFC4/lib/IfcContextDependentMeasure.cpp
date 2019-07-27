@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcContextDependentMeasure::getDeepCopy( BuildingCopy
 void IfcContextDependentMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONTEXTDEPENDENTMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcContextDependentMeasure::toString() const

@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcAreaMeasure::getDeepCopy( BuildingCopyOptions& opt
 void IfcAreaMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCAREAMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcAreaMeasure::toString() const

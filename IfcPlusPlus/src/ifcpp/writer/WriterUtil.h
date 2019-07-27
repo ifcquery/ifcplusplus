@@ -27,93 +27,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 IFCQUERY_EXPORT std::string encodeStepString(const std::wstring& str);
 
-template<typename T>
-void appendNumberWithoutTrailingZeros(std::stringstream& stream, const T& number)
-{
-	std::string str = std::to_string(number);
-	size_t pos_dot = str.find_last_of('.');
-	if (pos_dot != std::string::npos)
-	{
-		// 1.000 -> 1.
-		size_t pos_last_non_zero = str.find_last_not_of('0');
-		if (pos_last_non_zero != std::string::npos && pos_last_non_zero <= pos_dot)
-		{
-			str.erase(pos_last_non_zero+1, std::string::npos);
-		}
-	}
-	stream << str;
-}
+IFCQUERY_EXPORT void appendRealWithoutTrailingZeros(std::stringstream& stream, const double number);
+void writeRealList(std::stringstream& stream, const std::vector<double>& vec);
+void writeRealList2D(std::stringstream& stream, const std::vector<std::vector<double> >& vec);
+void writeRealList3D(std::stringstream& stream, const std::vector<std::vector<std::vector<double> > >& vec);
+void writeIntList(std::stringstream& stream, const std::vector<int>& vec);
+void writeIntList2D(std::stringstream& stream, const std::vector<std::vector<int> >& vec);
+void writeIntList3D(std::stringstream& stream, const std::vector<std::vector<std::vector<int> > >& vec);
 
 template<typename T>
-void writeNumericList( std::stringstream& stream, const std::vector<T>& vec )
-{
-	// example: (3,23,039)
-	if( vec.size() == 0 )
-	{
-		stream << "$";
-		return;
-	}
-	stream << "(";
-	for( size_t ii = 0; ii < vec.size(); ++ii )
-	{
-		if( ii > 0 )
-		{
-			stream << ",";
-		}
-
-		appendNumberWithoutTrailingZeros(stream, vec[ii]);
-	}
-	stream << ")";
-}
-
-template<typename T>
-void writeNumericList2D( std::stringstream& stream, const std::vector<std::vector<T> >& vec )
-{
-	// example: ((1,2,4),(3,23,039),(938,3,-3,6))
-	if( vec.size() == 0 )
-	{
-		stream << "$";
-		return;
-	}
-
-	stream << "(";
-	for( size_t ii = 0; ii < vec.size(); ++ii )
-	{
-		const std::vector<T>& inner_vec = vec[ii];
-		if( ii > 0 )
-		{
-			stream << ",";
-		}
-		writeNumericList( stream, inner_vec );
-	}
-	stream << ")";
-}
-
-template<typename T>
-void writeNumericList3D( std::stringstream& stream, const std::vector<std::vector<std::vector<T> > >& vec )
-{
-	// example: ((1.6,2.0,4.9382),(3.78,23.34,039.938367),(938.034,3.0,-3.45,6.9182))
-	if( vec.size() == 0 )
-	{
-		stream << "$";
-		return;
-	}
-
-	stream << "(";
-	for( size_t ii = 0; ii < vec.size(); ++ii )
-	{
-		const std::vector<std::vector<int> >& inner_vec = vec[ii];
-		if( ii > 0 )
-		{
-			stream << ",";
-		}
-		writeNumericList2D( stream, inner_vec );
-	}
-	stream << ")";
-}
-
-template<typename T>
-void writeNumericTypeList( std::stringstream& stream, const std::vector<shared_ptr<T> >& vec )
+void writeTypeOfIntList( std::stringstream& stream, const std::vector<shared_ptr<T> >& vec )
 {
 	// example: (38,12,4)
 	if( vec.size() == 0 )
@@ -129,15 +52,36 @@ void writeNumericTypeList( std::stringstream& stream, const std::vector<shared_p
 			stream << ",";
 		}
 
-		appendNumberWithoutTrailingZeros(stream, vec[ii]->m_value);
+		stream << vec[ii]->m_value;
+	}
+	stream << ")";
+}
+template<typename T>
+void writeTypeOfRealList(std::stringstream& stream, const std::vector<shared_ptr<T> >& vec)
+{
+	// example: (38.5, -1.2, 4.0)
+	if (vec.size() == 0)
+	{
+		stream << "$";
+		return;
+	}
+	stream << "(";
+	for (size_t ii = 0; ii < vec.size(); ++ii)
+	{
+		if (ii > 0)
+		{
+			stream << ",";
+		}
+
+		appendRealWithoutTrailingZeros(stream, vec[ii]->m_value);
 	}
 	stream << ")";
 }
 
 template<typename T>
-void writeNumericTypeList2D( std::stringstream& stream, const std::vector<std::vector<shared_ptr<T> > >& vec )
+void writeTypeOfIntList2D( std::stringstream& stream, const std::vector<std::vector<shared_ptr<T> > >& vec )
 {
-	// example: ((.38,12.0,.04),(.38,1.0,346.0),(1.8,1.0,.04))
+	// example: ((38,12,4),(38,1,346),(1,1,0))
 	if( vec.size() == 0 )
 	{
 		stream << "$";
@@ -152,7 +96,30 @@ void writeNumericTypeList2D( std::stringstream& stream, const std::vector<std::v
 		{
 			stream << ",";
 		}
-		writeNumericTypeList( stream, inner_vec );
+		writeTypeOfIntList( stream, inner_vec );
+	}
+	stream << ")";
+}
+
+template<typename T>
+void writeTypeOfRealList2D(std::stringstream& stream, const std::vector<std::vector<shared_ptr<T> > >& vec)
+{
+	// example: ((.38,12.0,.04),(.38,1.0,346.0),(1.8,1.0,.04))
+	if (vec.size() == 0)
+	{
+		stream << "$";
+		return;
+	}
+	stream << "(";
+	for (size_t ii = 0; ii < vec.size(); ++ii)
+	{
+		const std::vector<shared_ptr<T> >& inner_vec = vec[ii];
+
+		if (ii > 0)
+		{
+			stream << ",";
+		}
+		writeTypeOfRealList(stream, inner_vec);
 	}
 	stream << ")";
 }

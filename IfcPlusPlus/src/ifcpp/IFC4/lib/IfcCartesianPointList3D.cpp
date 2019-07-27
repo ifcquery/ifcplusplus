@@ -36,7 +36,7 @@ shared_ptr<BuildingObject> IfcCartesianPointList3D::getDeepCopy( BuildingCopyOpt
 void IfcCartesianPointList3D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCARTESIANPOINTLIST3D" << "(";
-	writeNumericTypeList2D( stream, m_CoordList );
+	writeTypeOfRealList2D( stream, m_CoordList );
 	stream << ");";
 }
 void IfcCartesianPointList3D::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }

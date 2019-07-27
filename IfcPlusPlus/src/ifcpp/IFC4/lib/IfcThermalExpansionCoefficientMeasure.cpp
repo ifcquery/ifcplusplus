@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcThermalExpansionCoefficientMeasure::getDeepCopy( B
 void IfcThermalExpansionCoefficientMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTHERMALEXPANSIONCOEFFICIENTMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcThermalExpansionCoefficientMeasure::toString() const

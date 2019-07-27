@@ -20,7 +20,7 @@ shared_ptr<BuildingObject> IfcArcIndex::getDeepCopy( BuildingCopyOptions& option
 void IfcArcIndex::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCARCINDEX("; }
-	writeNumericTypeList( stream, m_vec );
+	writeTypeOfIntList( stream, m_vec );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcArcIndex::toString() const

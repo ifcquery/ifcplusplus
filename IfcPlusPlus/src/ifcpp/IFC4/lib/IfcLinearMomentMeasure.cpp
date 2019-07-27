@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcLinearMomentMeasure::getDeepCopy( BuildingCopyOpti
 void IfcLinearMomentMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLINEARMOMENTMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcLinearMomentMeasure::toString() const

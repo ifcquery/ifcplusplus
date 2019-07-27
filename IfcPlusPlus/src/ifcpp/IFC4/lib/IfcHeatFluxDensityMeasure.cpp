@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcHeatFluxDensityMeasure::getDeepCopy( BuildingCopyO
 void IfcHeatFluxDensityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCHEATFLUXDENSITYMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcHeatFluxDensityMeasure::toString() const

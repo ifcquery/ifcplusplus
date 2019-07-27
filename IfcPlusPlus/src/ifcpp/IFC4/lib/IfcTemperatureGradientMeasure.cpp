@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcTemperatureGradientMeasure::getDeepCopy( BuildingC
 void IfcTemperatureGradientMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTEMPERATUREGRADIENTMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcTemperatureGradientMeasure::toString() const

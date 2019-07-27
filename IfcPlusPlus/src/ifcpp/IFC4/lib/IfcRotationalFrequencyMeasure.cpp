@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcRotationalFrequencyMeasure::getDeepCopy( BuildingC
 void IfcRotationalFrequencyMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCROTATIONALFREQUENCYMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcRotationalFrequencyMeasure::toString() const

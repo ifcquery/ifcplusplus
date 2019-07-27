@@ -22,7 +22,7 @@ shared_ptr<BuildingObject> IfcModulusOfSubgradeReactionMeasure::getDeepCopy( Bui
 void IfcModulusOfSubgradeReactionMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMODULUSOFSUBGRADEREACTIONMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcModulusOfSubgradeReactionMeasure::toString() const

@@ -21,7 +21,7 @@ shared_ptr<BuildingObject> IfcMassPerLengthMeasure::getDeepCopy( BuildingCopyOpt
 void IfcMassPerLengthMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMASSPERLENGTHMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcMassPerLengthMeasure::toString() const
