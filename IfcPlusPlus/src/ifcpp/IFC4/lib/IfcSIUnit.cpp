@@ -27,7 +27,7 @@ shared_ptr<BuildingObject> IfcSIUnit::getDeepCopy( BuildingCopyOptions& options 
 void IfcSIUnit::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCSIUNIT" << "(";
-	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_entity_id; } else { stream << "$"; }
+	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_entity_id; } else { stream << "*"; }
 	stream << ",";
 	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
