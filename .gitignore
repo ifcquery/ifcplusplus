@@ -36,3 +36,4 @@ examples/SimpleViewerExampleMFC/.vs/IfcQueryViewer/v15/.suo
 *.cache
 examples/LoadFileExampleNoGUI/LoadFileExampleNoGUI/example.ifc
 *.ilk
+examples/CreateWallAndWriteFile/CreateWallAndWriteFile/SimpleWall.ifc
