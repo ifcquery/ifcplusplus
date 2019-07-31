@@ -34,3 +34,5 @@ examples/SimpleViewerExampleMFC/.vs/IfcQueryViewer/v15/.suo
 *.pch
 *.lib
 *.cache
+examples/LoadFileExampleNoGUI/LoadFileExampleNoGUI/example.ifc
+*.ilk
