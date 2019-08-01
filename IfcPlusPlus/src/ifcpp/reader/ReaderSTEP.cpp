@@ -38,8 +38,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #ifdef _MSC_VER
 #include <windows.h>
 #include <tchar.h>
-#endif
 #include <external/XUnzip.h>
+#endif
 
 #include "ReaderUtil.h"
 #include "ReaderSTEP.h"
