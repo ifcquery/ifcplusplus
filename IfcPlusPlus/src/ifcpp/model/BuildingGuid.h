@@ -24,99 +24,129 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
-inline std::string createGUID32()
+
+///@brief Creates a GUID string with 36 characters including dashes, for example: "F103000C-9865-44EE-BE6E-CCC780B81423"
+template<typename T>
+inline std::basic_string<T> createGUID32()
 {
-	std::stringstream uuid_strs;
+	std::basic_stringstream<T> uuid_strs;
 	uuid_strs << std::uppercase;
 	boost::uuids::uuid uuid = boost::uuids::random_generator()( );
 	uuid_strs << uuid;
 	return uuid_strs.str();
 }
 
-inline std::wstring createGUID32_wstr()
+static const char base16mask[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
+				- 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
+				- 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
+				0,  1,  2,  3,  4,  5,  6,  7,  8,  9, -1, -1, -1, -1, -1, -1, \
+				- 1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
+				- 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
+				- 1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
+				- 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+static const char base64mask[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
+				- 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
+				- 1, -1, -1, -1, 63, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
+				0,  1,  2,  3,  4,  5,  6,  7,  8,  9, -1, -1, -1, -1, -1, -1, \
+				- 1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, \
+				25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, -1, -1, -1, -1, 62, \
+				- 1, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, \
+				51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1 };
+
+
+///@brief Compresses a GUID string
+///@details Expects a string with exactly 36 characters including dashes, for example: "F103000C-9865-44EE-BE6E-CCC780B81423"
+///@returns an IFC GUID string with 22 characters, for example: "3n0m0Cc6L4xhvkpCU0k1GZ"
+template<typename T>
+inline std::basic_string<T> compressGUID(const std::basic_string<T>& in)
 {
-	std::wstringstream uuid_strs;
-	uuid_strs << std::uppercase;
-	boost::uuids::uuid uuid = boost::uuids::random_generator()( );
-	uuid_strs << uuid;
-	return uuid_strs.str();
+	static constexpr std::array<T, 64> base64Chars = {
+		'0','1','2','3','4','5','6','7','8','9',
+		'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+		'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+		'_','$'
+	};
+	
+	std::basic_string<T> temp;
+	std::basic_string<T> result;
+	result.resize(23);
+	result[0] = '0';
+
+	temp.push_back('0');
+
+	// remove dashes
+	for (size_t ii = 0; ii < in.length(); ++ii)
+	{
+		if (in[ii] != '-')
+		{
+			temp.push_back(in[ii]);
+		}
+	}
+
+	// compress
+	int n = 0;
+	for (size_t ii_out = 0, ii = 0; ii < 32; ii += 3)
+	{
+		n = base16mask[temp[ii]] << 8;
+		n += base16mask[temp[ii + 1]] << 4;
+		n += base16mask[temp[ii + 2]];
+		result[ii_out + 1] = base64Chars[n % 64];
+		result[ii_out] = base64Chars[n / 64];
+		ii_out += 2;
+	}
+	result.resize(22);
+	return result;
 }
 
-///@brief Create IFC GUID string
+///@brief Decompresses an IFC GUID string
+///@details Expects a string with exactly 22 characters, for example "3n0m0Cc6L4xhvkpCU0k1GZ"
+///@returns GUID string with 36 characters, including dashes, for example: "F103000C-9865-44EE-BE6E-CCC780B81423"
+template<typename T>
+inline std::basic_string<T> decompressGUID(const std::basic_string<T>& in )
+{
+	static constexpr std::array<T, 16> base16Chars = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
+
+	T temp[32 + 2];
+	size_t ii_out = 0;
+	int n = 0;
+	int t = 0;
+
+	for (size_t ii = 0; ii < 22; ii += 2)
+	{
+		n = base64mask[in[ii]] << 6;
+		n += base64mask[in[ii + 1]];
+		t = n / 16;
+		temp[ii_out + 2] = base16Chars[n % 16];
+		temp[ii_out + 1] = base16Chars[t % 16];
+		temp[ii_out] = base16Chars[t / 16];
+		ii_out += 3;
+	}
+	temp[ii_out] = '\0';
+
+	// add dashes: F103000C-9865-44EE-BE6E-CCC780B81423
+	std::basic_string<T> result;
+	for (size_t ii = 1; ii < 36; ++ii)
+	{
+		if (ii == 9 || ii == 13 || ii == 17 || ii == 21)
+		{
+			result.push_back('-');
+		}
+
+		result.push_back(temp[ii]);
+	}
+
+	result.resize(36);
+	return result;
+}
+
+///@brief Create IFC GUID string with 22 characters, for example "3n0m0Cc6L4xhvkpCU0k1GZ"
 ///@details Use desired character type as template parameter - char or wchar_t.
 ///IFC uses a different base64 character set than RFC4648 - it starts with digits
 ///instead of uppercase letters and uses '_' and '$' as last two characters.
 template<typename T>
 inline std::basic_string<T> createBase64Uuid()
 {
-	static constexpr std::array<T, 64> base64Chars = {
-		'0','1','2','3','4','5','6','7','8','9',
-		'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-		'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-		'_','$'
-	};
-	auto uuid = boost::uuids::random_generator()( );
-	std::array<T const*, 22> string_builder;
-	auto const stop = 16;
-	//3 input byte will be encoded to 4 output characters
-	for (size_t i = 0, j = 0; i < stop; ++i)
-	{
-		string_builder[j++] = &base64Chars[(uuid.data[i] & 0xFC) >> 2];
-		string_builder[j] = &base64Chars[(uuid.data[i] & 0x03) << 4];
-		if(stop <= ++i) break;
-		string_builder[j++] += (uuid.data[i] & 0xF0) >> 4;
-		string_builder[j] = &base64Chars[(uuid.data[i] & 0x0F) << 2];
-		if(stop <= ++i) break;
-		string_builder[j++] += (uuid.data[i] & 0xC0) >> 6;
-		string_builder[j++] = &base64Chars[(uuid.data[i] & 0x3F)];
-	}
-	//IFC does not use fill characters
-	std::basic_string<T> result;
-	result.reserve(22);
-	for(auto const& element : string_builder)
-		result.push_back(*element);
-	return result;
-}
-
-///@brief Decodes an IFC GUID string
-///@details Expects a string with exactly 22 characters.
-///@returns NIL UUID if the input string does not have exactly 22 characters or
-///contains characters which are not part of the IFC base64 set.
-template<typename T>
-inline boost::uuids::uuid decodeBase64Uuid(std::basic_string<T> const& input)
-{
-	if(input.size() != 22)
-		return boost::uuids::nil_generator()();
-	static constexpr std::array<T, 64> base64Chars = {
-		'0','1','2','3','4','5','6','7','8','9',
-		'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-		'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-		'_','$'
-	};
-	if(input.npos != input.find_first_not_of(base64Chars.data(), 0, base64Chars.size()))
-		return boost::uuids::nil_generator()();
-	auto uuid = boost::uuids::uuid{};
-	auto const in_stop = 22;
-	auto const out_stop = 16;
-	auto index_of = [](T const in){
-		for (uint8_t i = 0; i < base64Chars.size(); i++)
-			if(in == base64Chars[i]) return i;
-		return uint8_t(0);
-	};
-	//4 input characters will be decoded to 3 output byte
-	for (size_t i = 0, j = 0; i < in_stop && j < out_stop; ++i)
-	{
-		uuid.data[j] = index_of(input[i]) << 2;
-		if(in_stop <= ++i) break;
-		uuid.data[j++] += (index_of(input[i]) & 0x30) >> 4;
-		if(out_stop <= j) break;
-		uuid.data[j] = (index_of(input[i]) & 0x0F) << 4;
-		if(in_stop <= ++i) break;
-		uuid.data[j++] += (index_of(input[i]) & 0x3C) >> 2;
-		if(out_stop <= j) break;
-		uuid.data[j] = (index_of(input[i]) & 0x03) << 6;
-		if(in_stop <= ++i) break;
-		uuid.data[j++] += (index_of(input[i]) & 0x3F);
-	}
-	return uuid;
+	std::basic_string<T> guid_uncompressed = createGUID32<T>();
+	std::basic_string<T> guid_compressed = compressGUID<T>(guid_uncompressed);
+	return guid_compressed;
 }
