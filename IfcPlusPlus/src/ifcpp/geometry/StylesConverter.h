@@ -176,7 +176,7 @@ public:
 		}
 		const int style_id = surface_style->m_entity_id;
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 		{
 			ScopedLock lock(m_writelock_styles_converter);
 #endif
@@ -200,7 +200,7 @@ public:
 			m_map_ifc_styles[style_id] = appearance_data;
 		}
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 		}
 #endif
 
@@ -348,7 +348,7 @@ public:
 		shared_ptr<IfcStyledItem> styled_item( styled_item_weak );
 		const int style_id = styled_item->m_entity_id;
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 		{
 			ScopedLock lock(m_writelock_styles_converter);
 #endif
@@ -359,7 +359,7 @@ public:
 			return;
 		}
 
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 	}
 #endif
 
@@ -519,7 +519,7 @@ public:
 	void convertIfcPresentationStyle( shared_ptr<IfcPresentationStyle> presentation_style, shared_ptr<AppearanceData>& appearance_data )
 	{
 		int style_id = presentation_style->m_entity_id;
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 		{
 			ScopedLock lock(m_writelock_styles_converter);
 #endif
@@ -542,7 +542,7 @@ public:
 
 			m_map_ifc_styles[style_id] = appearance_data;
 		}
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 	}
 #endif
 
@@ -588,7 +588,7 @@ public:
 			return;
 		}
 		int style_id = curve_style->m_entity_id;
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 		{
 			ScopedLock lock(m_writelock_styles_converter);
 #endif
@@ -610,7 +610,7 @@ public:
 
 			m_map_ifc_styles[style_id] = appearance_data;
 		}
-#ifdef IFCPP_OPENMP
+#ifdef ENABLE_OPENMP
 	}
 #endif
 		appearance_data->m_apply_to_geometry_type = AppearanceData::GEOM_TYPE_CURVE;

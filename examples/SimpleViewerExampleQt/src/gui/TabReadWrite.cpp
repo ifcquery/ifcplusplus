@@ -81,8 +81,8 @@ TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidge
 #ifdef _DEBUG
 	std::stringstream uuid_strs;
 	//for( int i=0; i<10; ++i )
-	uuid_strs << createGUID32().c_str() << std::endl;
-	uuid_strs << createBase64Uuid<wchar_t>().data() << std::endl;
+	uuid_strs << createGUID32<char>().c_str() << std::endl;
+	uuid_strs << createBase64Uuid<char>().data() << std::endl;
 
 	m_txt_out->setText( uuid_strs.str().c_str() );
 #endif
