@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <cmath>
 #include <ifcpp/model/OpenMPIncludes.h>
 #include <functional>
+#include <ifcpp/IFC4/include/IfcFeatureElementSubtraction.h>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -124,6 +125,19 @@ public:
 	bool getRenderBoundingBoxes() { return m_render_bounding_box; }
 	void setRenderBoundingBoxes( bool render_bbox ) { m_render_bounding_box = render_bbox; }
 
+        /**\brief Render filter decides if a IfcObjectDefinition should be
+        rendered. The default filter will render all objects except objects
+        based on IfcFeatureElementSubtraction.*/
+        std::function<bool(const shared_ptr<IfcObjectDefinition> &)>
+        getRenderObjectFilter() const {
+          return m_render_object_filter;
+        };
+        void setRenderObjectFilter(
+            std::function<bool(const shared_ptr<IfcObjectDefinition> &)>
+                render_filter) {
+          m_render_object_filter = std::move(render_filter);
+        };
+
 protected:
 	int	m_num_vertices_per_circle = 14;
 	int m_num_vertices_per_circle_default = 14;
@@ -139,4 +153,9 @@ protected:
 	double m_crease_edges_max_delta_angle = M_PI*0.05;
 	double m_colinear_faces_max_delta_angle = M_PI*0.02;
 	std::function<int(double)> m_num_vertices_per_circle_given_radius = [&](double radius) {return m_num_vertices_per_circle;};
+	std::function<bool(const shared_ptr<IfcObjectDefinition> &)> m_render_object_filter =
+			[](const shared_ptr<IfcObjectDefinition> &ifc_object) {
+				return dynamic_pointer_cast<IfcFeatureElementSubtraction>(ifc_object) ==
+					nullptr;
+			};
 };
