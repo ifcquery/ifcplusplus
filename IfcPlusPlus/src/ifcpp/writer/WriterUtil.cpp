@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <sstream>
 #include <vector>
 #include <map>
+#include <cmath>
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BuildingObject.h"
 #include "WriterUtil.h"
@@ -58,7 +59,7 @@ void appendRealWithoutTrailingZeros(std::stringstream& stream, const double numb
 				{
 					temp2 *= 10.0;
 				}
-				temp2 = round(temp2);
+				temp2 = std::round(temp2);
 				for (int ii = 0; ii < num_digits_after_dot; ++ii)
 				{
 					temp2 *= 0.1;
