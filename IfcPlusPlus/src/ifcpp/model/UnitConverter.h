@@ -26,7 +26,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ifcpp/IFC4/include/IfcSIUnitName.h"
 
 //\brief class to convert values from different units into meter and radian
-class UnitConverter : public StatusCallback
+class IFCQUERY_EXPORT UnitConverter : public StatusCallback
 {
 public:
 	enum AngularUnit { UNDEFINED, RADIANT, DEGREE, GON, CONVERSION_BASED };
