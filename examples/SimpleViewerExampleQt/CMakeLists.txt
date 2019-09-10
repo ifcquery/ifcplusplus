@@ -72,20 +72,39 @@ else(UNIX)
     TARGET_LINK_LIBRARIES(SimpleViewerExample optimized ${OPENTHREADS_LIBRARY} debug ${OPENTHREADS_LIBRARY_DEBUG})
 ENDIF()
 
-TARGET_LINK_LIBRARIES(SimpleViewerExample
-  IfcPlusPlus
-  Qt5::Core
-  Qt5::Gui
-  Qt5::Widgets
-  Qt5::OpenGL
-  optimized ${OSG_LIBRARY} debug ${OSG_LIBRARY_DEBUG}
-  optimized ${OSGDB_LIBRARY} debug ${OSGDB_LIBRARY_DEBUG}
-  optimized ${OSGDB_LIBRARY} debug ${OSGDB_LIBRARY_DEBUG}
-  optimized ${OSGGA_LIBRARY} debug ${OSGGA_LIBRARY_DEBUG}
-  optimized ${OSGUTIL_LIBRARY} debug ${OSGUTIL_LIBRARY_DEBUG}
-  optimized ${OSGFX_LIBRARY} debug ${OSGFX_LIBRARY_DEBUG}
-  optimized ${OSGVIEWER_LIBRARY} debug ${OSGVIEWER_LIBRARY_DEBUG}
-  optimized ${OSGTEXT_LIBRARY} debug ${OSGTEXT_LIBRARY_DEBUG})
+if(USE_OSG_DEBUG)
+    target_link_libraries(SimpleViewerExample
+        IfcPlusPlus
+        Qt5::Core
+        Qt5::Gui
+        Qt5::Widgets
+        Qt5::OpenGL
+        optimized ${OSG_LIBRARY} debug ${OSG_LIBRARY_DEBUG}
+        optimized ${OSGDB_LIBRARY} debug ${OSGDB_LIBRARY_DEBUG}
+        optimized ${OSGDB_LIBRARY} debug ${OSGDB_LIBRARY_DEBUG}
+        optimized ${OSGGA_LIBRARY} debug ${OSGGA_LIBRARY_DEBUG}
+        optimized ${OSGUTIL_LIBRARY} debug ${OSGUTIL_LIBRARY_DEBUG}
+        optimized ${OSGFX_LIBRARY} debug ${OSGFX_LIBRARY_DEBUG}
+        optimized ${OSGVIEWER_LIBRARY} debug ${OSGVIEWER_LIBRARY_DEBUG}
+        optimized ${OSGTEXT_LIBRARY} debug ${OSGTEXT_LIBRARY_DEBUG}
+    )
+else(USE_OSG_DEBUG)
+    target_link_libraries(SimpleViewerExample
+        IfcPlusPlus
+        Qt5::Core
+        Qt5::Gui
+        Qt5::Widgets
+        Qt5::OpenGL
+        optimized ${OSG_LIBRARY}
+        optimized ${OSGDB_LIBRARY}
+        optimized ${OSGDB_LIBRARY}
+        optimized ${OSGGA_LIBRARY}
+        optimized ${OSGUTIL_LIBRARY}
+        optimized ${OSGFX_LIBRARY}
+        optimized ${OSGVIEWER_LIBRARY}
+        optimized ${OSGTEXT_LIBRARY}
+    )
+endif(USE_OSG_DEBUG)
 
 TARGET_INCLUDE_DIRECTORIES(SimpleViewerExample
   PRIVATE
