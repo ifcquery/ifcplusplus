@@ -1,16 +1,16 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 3.7.2)
 
 IF(NOT WIN32)
-IF(NOT CMAKE_BUILD_TYPE)
-   SET(CMAKE_BUILD_TYPE "Release")
-ENDIF()
+    IF(NOT CMAKE_BUILD_TYPE)
+        SET(CMAKE_BUILD_TYPE "Release")
+    ENDIF()
 
-SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
-SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
-SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
-SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+    SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
 ENDIF(NOT WIN32)
 
 # Qt library
@@ -23,44 +23,44 @@ ADD_DEFINITIONS(${Qt5Widgets_DEFINITIONS})
 FIND_PACKAGE(OpenSceneGraph REQUIRED osgDB osgUtil osgGA osgFX osgSim osgText osgViewer)
 
 SET(IFCPPVIEWER_SOURCE_FILES 
-  src/IfcPlusPlusSystem.cpp
-  src/main.cpp
-  src/cmd/CmdRemoveSelectedObjects.cpp
-  src/cmd/CmdWriteIfcFile.cpp
-  src/cmd/Command.cpp
-  src/cmd/CommandManager.cpp
-  src/cmd/LoadIfcFileCommand.cpp
-  src/gui/IfcTreeWidget.cpp
-  src/gui/MainWindow.cpp
-  src/gui/TabReadWrite.cpp
-  src/gui/TabView.cpp
-  src/viewer/GraphicsWindowQt.cpp
-  src/viewer/OrbitCameraManipulator.cpp
-  src/viewer/OrbitCameraManipulator.cpp
-  src/viewer/ViewerWidget.cpp
+    src/IfcPlusPlusSystem.cpp
+    src/main.cpp
+    src/cmd/CmdRemoveSelectedObjects.cpp
+    src/cmd/CmdWriteIfcFile.cpp
+    src/cmd/Command.cpp
+    src/cmd/CommandManager.cpp
+    src/cmd/LoadIfcFileCommand.cpp
+    src/gui/IfcTreeWidget.cpp
+    src/gui/MainWindow.cpp
+    src/gui/TabReadWrite.cpp
+    src/gui/TabView.cpp
+    src/viewer/GraphicsWindowQt.cpp
+    src/viewer/OrbitCameraManipulator.cpp
+    src/viewer/OrbitCameraManipulator.cpp
+    src/viewer/ViewerWidget.cpp
 )
 
 SET(IFCPPVIEWER_MOC_FILES
-  src/IfcPlusPlusSystem.h
-  src/gui/IfcTreeWidget.h
-  src/gui/MainWindow.h
-  src/gui/TabReadWrite.h
-  src/gui/TabView.h
-  src/viewer/ViewerWidget.h
+    src/IfcPlusPlusSystem.h
+    src/gui/IfcTreeWidget.h
+    src/gui/MainWindow.h
+    src/gui/TabReadWrite.h
+    src/gui/TabView.h
+    src/viewer/ViewerWidget.h
 )
 
 FIND_PACKAGE(Boost) 
 IF(Boost_FOUND)
     INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS}) 
-	ADD_DEFINITIONS( -DCARVE_SYSTEM_BOOST )
+    ADD_DEFINITIONS(-DCARVE_SYSTEM_BOOST)
 ENDIF()
 
 QT5_WRAP_CPP( IFCPPVIEWER_MOC_GENERATED_FILES ${IFCPPVIEWER_MOC_FILES})
 
 ADD_EXECUTABLE(SimpleViewerExample 
-  ${IFCPPVIEWER_MOC_GENERATED_FILES}
-  ${IFCPPVIEWER_SOURCE_FILES}
-  ${SimpleViewerExample_RESOURCES_RCC}
+    ${IFCPPVIEWER_MOC_GENERATED_FILES}
+    ${IFCPPVIEWER_SOURCE_FILES}
+    ${SimpleViewerExample_RESOURCES_RCC}
 )
 
 set_target_properties(SimpleViewerExample PROPERTIES DEBUG_POSTFIX "d")
@@ -107,7 +107,7 @@ else(USE_OSG_DEBUG)
 endif(USE_OSG_DEBUG)
 
 TARGET_INCLUDE_DIRECTORIES(SimpleViewerExample
-  PRIVATE
+    PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${OPENTHREADS_INCLUDE_DIR}
     ${OSG_INCLUDE_DIR}
@@ -115,11 +115,12 @@ TARGET_INCLUDE_DIRECTORIES(SimpleViewerExample
     ${OSGDB_INCLUDE_DIR}
     ${OSGUTIL_INCLUDE_DIR}
     ${OSGANIMATION_INCLUDE_DIR}
-    ${OSGTEXT_INCLUDE_DIR})
+    ${OSGTEXT_INCLUDE_DIR}
+)
 
 INSTALL(
-		TARGETS SimpleViewerExample
-		RUNTIME DESTINATION bin
-		LIBRARY DESTINATION bin
-		ARCHIVE DESTINATION lib
-	)
+    TARGETS SimpleViewerExample
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION bin
+    ARCHIVE DESTINATION lib
+)
