@@ -43,7 +43,7 @@ public:
 		return result_str;
 	}
 	virtual shared_ptr<BuildingObject> getDeepCopy() const { return shared_ptr<BuildingObject>( new AttributeObjectVector() );  }
-	void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const override {}
+	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override {}
 	std::vector<shared_ptr<BuildingObject> > m_vec;
 };
 
@@ -60,7 +60,7 @@ public:
 		return L"false"; 
 	}
 	virtual shared_ptr<BuildingObject> getDeepCopy() { return shared_ptr<BuildingObject>( new BoolAttribute( m_value ) );  }
-	void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const override{}
+	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override{}
 	bool m_value;
 };
 
@@ -78,7 +78,7 @@ public:
 		else { return L"unknown"; }
 	}
 	virtual shared_ptr<BuildingObject> getDeepCopy() { return shared_ptr<BuildingObject>( new LogicalAttribute( m_value ) );  }
-	void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const override{}
+	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override{}
 	LogicalEnum m_value;
 };
 
@@ -96,7 +96,7 @@ public:
 		return strs.str();
 	}
 	virtual shared_ptr<BuildingObject> getDeepCopy() { return shared_ptr<BuildingObject>( new IntegerAttribute( m_value ) );  }
-	void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const override{}
+	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override{}
 	int m_value;
 };
 
@@ -114,7 +114,7 @@ public:
 		return strs.str();
 	}
 	virtual shared_ptr<BuildingObject> getDeepCopy() { return shared_ptr<BuildingObject>( new RealAttribute( m_value ) );  }
-	void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const override{}
+	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override{}
 	double m_value;
 };
 
@@ -130,7 +130,7 @@ public:
 		return m_value;
 	}
 	virtual shared_ptr<BuildingObject> getDeepCopy() { return shared_ptr<BuildingObject>( new StringAttribute( m_value ) );  }
-	void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const override{}
+	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override{}
 	std::wstring m_value;
 };
 
@@ -147,6 +147,6 @@ public:
 		return m_value;
 	}
 	virtual shared_ptr<BuildingObject> getDeepCopy() { return shared_ptr<BuildingObject>( new BinaryAttribute( m_value ) );  }
-	void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const override{}
+	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override{}
 	const wchar_t* m_value;
 };

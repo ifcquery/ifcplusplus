@@ -45,7 +45,6 @@ IfcPlusPlusSystem::IfcPlusPlusSystem()
 {
 	m_command_manager = shared_ptr<CommandManager>( new CommandManager() );
 	m_ifc_model = shared_ptr<BuildingModel>( new BuildingModel() );
-	shared_ptr<GeometrySettings> geom_settings( new GeometrySettings() );
 	m_geometry_converter = shared_ptr<GeometryConverter>( new GeometryConverter( m_ifc_model ) );
 	m_step_reader = shared_ptr<ReaderSTEP>( new ReaderSTEP() );
 	m_step_writer = shared_ptr<WriterSTEP>( new WriterSTEP() );

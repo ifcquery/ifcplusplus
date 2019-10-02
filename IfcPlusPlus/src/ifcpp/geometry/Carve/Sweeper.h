@@ -560,7 +560,6 @@ public:
 			{
 				poly_data->addVertex( inner_shape_points[i] );
 			}
-			size_t num_vertices_all = poly_data->getVertexCount();
 
 			// faces of inner shape
 			for( size_t i=0; i<num_curve_points- 1; ++i )
@@ -575,12 +574,6 @@ public:
 					size_t next_loop_pt1 = jj + i_offset_next;
 					size_t next_loop_pt2 = ( jj + 1 ) % nvc + i_offset_next;
 
-#ifdef _DEBUG
-					if( current_loop_pt1 >= num_vertices_all || current_loop_pt2 >= num_vertices_all || next_loop_pt1 >= num_vertices_all || next_loop_pt2 >= num_vertices_all )
-					{
-						std::cout << "current_loop_pt1 >= num_vertices_all" << std::endl;
-					}
-#endif
 					poly_data->addFace( current_loop_pt1,	current_loop_pt2,	next_loop_pt2 );
 					poly_data->addFace( next_loop_pt2,		next_loop_pt1,		current_loop_pt1  );
 				}
@@ -591,12 +584,7 @@ public:
 			{
 				size_t outer_rim_next = ( jj + 1 ) % nvc;
 				size_t inner_rim_next = outer_rim_next + num_vertices_outer;
-#ifdef _DEBUG
-				if( outer_rim_next >= num_vertices_all || inner_rim_next >= num_vertices_all )
-				{
-					std::cout << "outer_rim_next >= num_vertices_outer || inner_rim_next >= num_vertices_outer" << std::endl;
-				}
-#endif
+
 				poly_data->addFace( jj,					outer_rim_next,		num_vertices_outer+jj );
 				poly_data->addFace( outer_rim_next,		inner_rim_next,		num_vertices_outer+jj );
 			}
@@ -607,12 +595,7 @@ public:
 			{
 				size_t outer_rim_next = ( jj + 1 ) % nvc + back_offset;
 				size_t inner_rim_next = outer_rim_next + num_vertices_outer;
-#ifdef _DEBUG
-				if( outer_rim_next >= num_vertices_all || inner_rim_next >= num_vertices_all )
-				{
-					std::cout << "outer_rim_next >= num_vertices_outer || inner_rim_next >= num_vertices_outer" << std::endl;
-				}
-#endif
+
 				poly_data->addFace( jj+back_offset,		num_vertices_outer+jj+back_offset,	outer_rim_next );
 				poly_data->addFace( outer_rim_next,		num_vertices_outer+jj+back_offset,	inner_rim_next );
 			}

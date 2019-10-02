@@ -487,70 +487,6 @@ namespace CSG_Adapter
 		}
 		return true;
 	}
-	inline void removeFins( shared_ptr<meshset_t >& meshset )
-	{
-		return;  // TODO: improve and check
-
-		if( !meshset )
-		{
-			return;
-		}
-		bool meshset_dirty = false;
-
-		std::map<face_t*, std::vector<carve::mesh::Edge<3>*> > map_omit_face_edges;
-		for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
-		{
-			carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
-
-			// find edges that are in line
-			std::vector<carve::mesh::Edge<3>*>& vec_closed_edges = mesh->closed_edges;
-
-			for( size_t closed_edge_i = 0; closed_edge_i < vec_closed_edges.size(); ++closed_edge_i )
-			{
-				carve::mesh::Edge<3>* edge = vec_closed_edges[closed_edge_i];
-				carve::mesh::Edge<3>* edge_reverse = edge->rev;
-				face_t* face = edge->face;
-				face_t* face_reverse = edge_reverse->face;
-
-				vec3& face_normal = face->plane.N;
-				vec3& face_reverse_normal = face_reverse->plane.N;
-
-				const double cos_angle = dot( face_normal, face_reverse_normal );
-				if( std::abs( cos_angle + 1.0 ) > 0.000001 )
-				{
-					continue;
-				}
-
-				//                      e->rev->prev
-				//              <----------------                             //
-				//             | --------------->                            //
-				//  e->rev [x] |^    e->next [x]             e->rev->prev   // e
-				//             ||                                          //
-				//             ||e 
-				//             v|
-
-				if( edge->next->rev == edge_reverse->prev )
-				{
-					carve::mesh::Edge<3>* edge_next_rev = edge->next->rev;
-					edge->next->removeHalfEdge();
-					edge_reverse->removeHalfEdge();
-
-					// TODO: erase from vec_closed_edges, check if closed_edge_i needs to be decremented
-
-					edge->rev = edge_next_rev;
-					edge_next_rev->rev = edge;
-					meshset_dirty = true;
-				}
-			}
-		}
-		if( meshset_dirty )
-		{
-			for( size_t i = 0; i < meshset->meshes.size(); ++i )
-			{
-				meshset->meshes[i]->cacheEdges();
-			}
-		}
-	}
 	inline void retriangulateMeshSet( shared_ptr<meshset_t >& meshset )
 	{
 		if( !meshset )
@@ -790,9 +726,6 @@ namespace CSG_Adapter
 			std::cout << "Error in removeRemnantFaces" << std::endl;
 		}
 #endif
-
-		removeFins( meshset );
-		//simplifier.cleanFaceEdges( meshset.get() );
 
 		for( size_t i = 0; i < meshset->meshes.size(); ++i )
 		{
