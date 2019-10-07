@@ -1330,7 +1330,6 @@ public:
 					continue;
 				}
 
-#ifdef _DEBUG
 				const carve::poly::Vertex<3>& v_a = poly_cache.m_poly_data->getVertex( vertex_id_a );
 				const carve::poly::Vertex<3>& v_b = poly_cache.m_poly_data->getVertex( vertex_id_b );
 
@@ -1343,11 +1342,14 @@ public:
 						double dz = v_a.v[2] - v_b.v[2];
 						if( std::abs( dz ) < 0.0000001 )
 						{
+#ifdef _DEBUG
 							messageCallback( "abs(dx) < 0.00001 && abs(dy) < 0.00001 && abs(dz) < 0.00001", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+#endif
+							continue;
+
 						}
 					}
 				}
-#endif
 
 				if( face_loop_reversed )
 				{

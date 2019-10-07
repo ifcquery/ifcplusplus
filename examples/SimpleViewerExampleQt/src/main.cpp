@@ -84,6 +84,10 @@ int main(int argc, char *argv[])
 	viewer_widget->startTimer();
 	viewer_widget->getMainView()->addEventHandler( sys );
 
+#ifdef _DEBUG
+	GeomDebugDump::clearMeshsetDump();
+#endif
+
 	if( argc > 1 )
 	{
 		std::string arg1 = argv[1];

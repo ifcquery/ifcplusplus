@@ -598,7 +598,6 @@ namespace CSG_Adapter
 						continue;
 					}
 
-#ifdef _DEBUG
 					const carve::poly::Vertex<3>& v_a = poly_cache.m_poly_data->getVertex( vertex_id_a );
 					const carve::poly::Vertex<3>& v_b = poly_cache.m_poly_data->getVertex( vertex_id_b );
 
@@ -611,11 +610,14 @@ namespace CSG_Adapter
 							double dz = v_a.v[2] - v_b.v[2];
 							if( std::abs( dz ) < 0.0000001 )
 							{
-								std::cerr << "abs(dx) < 0.00001 && abs(dy) < 0.00001 && abs(dz) < 0.00001\n";
+#ifdef _DEBUG
+								std::cerr << "degenerated triangle: abs(dx) < 0.00001 && abs(dy) < 0.00001 && abs(dz) < 0.00001\n";
+#endif	
+								continue;
 							}
 						}
 					}
-#endif
+
 					poly_cache.m_poly_data->addFace( vertex_id_a, vertex_id_b, vertex_id_c );
 				}
 			}
@@ -779,7 +781,8 @@ namespace CSG_Adapter
 #endif
 	}
 
-	inline void computeCSG( shared_ptr<meshset_t >& op1, shared_ptr<meshset_t >& op2, const carve::csg::CSG::OP operation, shared_ptr<meshset_t >& result, StatusCallback* report_callback, BuildingEntity* entity )
+	inline void computeCSG( shared_ptr<meshset_t >& op1, shared_ptr<meshset_t >& op2, const carve::csg::CSG::OP operation, 
+		shared_ptr<meshset_t >& result, StatusCallback* report_callback, const shared_ptr<BuildingEntity>& entity )
 	{
 		if( !op1 || !op2 )
 		{
@@ -794,7 +797,7 @@ namespace CSG_Adapter
 		std::stringstream strs_err;
 		try
 		{
-			if( !checkMeshSetValidAndClosed( op1, report_callback, entity ) )
+			if( !checkMeshSetValidAndClosed( op1, report_callback, entity.get() ) )
 			{
 				if( operation == carve::csg::CSG::B_MINUS_A )
 				{
@@ -807,11 +810,12 @@ namespace CSG_Adapter
 #ifdef _DEBUG
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 				GeomDebugDump::dumpMeshset( op1, color, true );
+				GeomDebugDump::dumpEntity( entity );
 #endif
 				return;
 			}
 
-			if( !checkMeshSetValidAndClosed( op2, report_callback, entity ) )
+			if( !checkMeshSetValidAndClosed( op2, report_callback, entity.get() ) )
 			{
 				if( operation == carve::csg::CSG::A_MINUS_B )
 				{
@@ -828,8 +832,8 @@ namespace CSG_Adapter
 				return;
 			}
 
-			simplifyMesh( op1, false, report_callback, entity );
-			simplifyMesh( op2, false, report_callback, entity );
+			simplifyMesh( op1, false, report_callback, entity.get() );
+			simplifyMesh( op2, false, report_callback, entity.get() );
 			// TODO: Subclass from carve::mesh::MeshSet and add attribute to remember which meshset has already been simplified. 
 
 			// check if meshset aabb is far away from origin. if so, move to origin, compute, move back
@@ -876,7 +880,7 @@ namespace CSG_Adapter
 				GeomUtils::applyTranslate( op2, -translate_avoid_large_numbers );
 			}
 
-			if( !checkMeshSetValidAndClosed( op1, report_callback, entity ) )
+			if( !checkMeshSetValidAndClosed( op1, report_callback, entity.get() ) )
 			{
 				if( operation == carve::csg::CSG::B_MINUS_A )
 				{
@@ -893,7 +897,7 @@ namespace CSG_Adapter
 				return;
 			}
 
-			if( !checkMeshSetValidAndClosed( op2, report_callback, entity ) )
+			if( !checkMeshSetValidAndClosed( op2, report_callback, entity.get()) )
 			{
 				if( operation == carve::csg::CSG::A_MINUS_B )
 				{
@@ -940,7 +944,7 @@ namespace CSG_Adapter
 				else
 				{
 					result_meshset_ok = true;
-					bool result_mesh_closed = checkMeshSetValidAndClosed( result, report_callback, entity );
+					bool result_mesh_closed = checkMeshSetValidAndClosed( result, report_callback, entity.get());
 					if( !result_mesh_closed )
 					{
 						result_meshset_ok = false;
@@ -950,7 +954,7 @@ namespace CSG_Adapter
 
 			if( result_meshset_ok )
 			{
-				simplifyMesh( result, true, report_callback, entity );
+				simplifyMesh( result, true, report_callback, entity.get());
 			}
 			else
 			{
@@ -987,28 +991,14 @@ namespace CSG_Adapter
 		if( strs_err.tellp() > 0 )
 		{
 #ifdef _DEBUG
+			//GeomDebugDump::dumpMeshset(op1, carve::geom::VECTOR(0.3, 0.4, 0.5, 1.0), true, false);
+			//GeomDebugDump::dumpMeshset(op2, carve::geom::VECTOR(0.3, 0.4, 0.5, 1.0), true);
 
-			shared_ptr<meshset_t > op1_copy( op1->clone() );
-			
-			GeomUtils::applyTranslate( op1_copy, carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
-			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
-			GeomDebugDump::dumpMeshset( op1_copy, color, true );
-			dump_y_pos += op1_copy->getAABB().extent.y*2.2;
-
-			shared_ptr<meshset_t > op2_copy( op2->clone() );
-			GeomUtils::applyTranslate( op2_copy, carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
-			color = carve::geom::VECTOR( 0.6, 0.2, 0.2, 1.0 );
-			GeomDebugDump::dumpMeshset( op2_copy, color, true );
-			dump_y_pos += op2_copy->getAABB().extent.y*2.2;
-
-			if( result )
-			{
-				shared_ptr<meshset_t > result_copy( result->clone() );
-				GeomUtils::applyTranslate( result_copy, carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
-				color = carve::geom::VECTOR( 0.4, 0.7, 0.4, 1.0 );
-				GeomDebugDump::dumpMeshset( result_copy, color, true );
-				dump_y_pos += result_copy->getAABB().extent.y*2.2;
-			}
+			//if (result)
+			//{
+			//	//GeomDebugDump::moveOffset(op2);
+			//	GeomDebugDump::dumpMeshset(result, carve::geom::VECTOR(0.3, 0.4, 0.5, 1.0), true);
+			//}
 #endif
 
 			if( operation == carve::csg::CSG::A_MINUS_B )

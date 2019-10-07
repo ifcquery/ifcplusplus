@@ -34,10 +34,9 @@ CmdRemoveSelectedObjects::~CmdRemoveSelectedObjects(){}
 bool CmdRemoveSelectedObjects::doCmd()
 {
 	const std::map<int, shared_ptr<SelectedEntity> >& selected_objects = m_system->getSelectedObjects();
-	std::map<int, shared_ptr<SelectedEntity> >::const_iterator it_selected;
-	for( it_selected = selected_objects.begin(); it_selected != selected_objects.end(); ++it_selected )
+	for( auto it_selected : selected_objects )
 	{
-		shared_ptr<SelectedEntity> selected_entity = it_selected->second;
+		const shared_ptr<SelectedEntity>& selected_entity = it_selected.second;
 		shared_ptr<BuildingEntity> entity = selected_entity->m_entity;
 		osg::Group* grp = selected_entity->m_osg_group.get();
 	

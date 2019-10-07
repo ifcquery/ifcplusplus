@@ -833,7 +833,7 @@ void OrbitCameraManipulator::zoomToBoundingSphere( const osg::BoundingSphere& bs
 {
 	osg::Vec3f bs_center( bs.center() );
 	double bs_radius = bs.radius();
-	if( bs_radius <= 0.0 )
+	if( bs_radius <= 0.5 )
 	{
 		bs_radius = 2.0;
 		bs_center._v[2] = 0.5;

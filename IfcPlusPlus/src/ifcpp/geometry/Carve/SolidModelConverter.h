@@ -855,15 +855,7 @@ public:
 				shared_ptr<carve::mesh::MeshSet<3> > result;
 				try
 				{
-#ifdef _DEBUG
-					//GeomDebugDump::dumpMeshset( first_operand_meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, false );
-					//GeomDebugDump::dumpMeshset( second_operand_meshset, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
-#endif
-					CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, result, this, bool_result.get() );
-
-#ifdef _DEBUG
-					//GeomDebugDump::dumpMeshset( result, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
-#endif
+					CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, result, this, bool_result );
 				}
 				catch( OutOfMemoryException& e )
 				{

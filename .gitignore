@@ -39,3 +39,4 @@ examples/LoadFileExampleNoGUI/LoadFileExampleNoGUI/example.ifc
 examples/CreateWallAndWriteFile/CreateWallAndWriteFile/SimpleWall.ifc
 examples/SimpleViewerExampleMFC/x64/Debug/IfcQueryViewer.res
 examples/SimpleViewerExampleMFC/x64/Debug/SimpleViewerExampleMFC.ilk
+examples/SimpleViewerExampleQt/dumpEntity.ifc
