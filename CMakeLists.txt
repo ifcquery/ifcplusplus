@@ -17,6 +17,7 @@ project(IFCPP)
 MESSAGE(STATUS "------------------------------------------------------------------------")
 
 OPTION(BUILD_VIEWER_APPLICATION "Build the viewer example application" ON)
+option(USE_OSG_DEBUG "Use openscenegraph debug library" OFF)
 OPTION(BUILD_STATIC_LIBRARY "Build static library" ON)
 
 IF(NOT WIN32)

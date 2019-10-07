@@ -138,20 +138,22 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 
 	// open file
+	std::string filePathStr(filePath.begin(), filePath.end());
 	if( !(setlocale(LC_ALL, "en-US") || setlocale(LC_ALL, "en_us.UTF-8") ||  setlocale(LC_ALL, "en_US.utf8")))
 	{
 		std::wstringstream strs;
 		strs << L"setlocale failed" << std::endl;
-		messageCallback(strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
-		return;
+		messageCallback(strs.str().c_str(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__);
 	}
-
-	char* buf = nullptr;
-	size_t len = std::wcstombs(buf, filePath.c_str(), 0);
-	buf = new char[len + 1];
-	std::wcstombs(buf, filePath.c_str(), (len + 1) * 6);
-	std::string filePathStr(buf);
-	delete[] buf;
+	else
+	{
+		char* buf = nullptr;
+		size_t len = std::wcstombs(buf, filePath.c_str(), 0);
+		buf = new char[len + 1];
+		std::wcstombs(buf, filePath.c_str(), (len + 1) * 6);
+		filePathStr = buf;
+		delete[] buf;
+	}
 	std::ifstream infile(filePathStr.c_str(), std::ifstream::in);
 	
 	if( !infile.is_open() )

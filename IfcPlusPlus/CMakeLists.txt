@@ -24,21 +24,41 @@ FIND_PACKAGE(Boost REQUIRED COMPONENTS date_time)
 
 FILE (GLOB ifc4_source "src/ifcpp/IFC4/lib/*.cpp")
 
-SET(IFCPP_SOURCE_FILES 
-  src/ifcpp/IFC4/EntityFactory.cpp
-  src/ifcpp/IFC4/TypeFactory.cpp
-  src/ifcpp/model/BuildingModel.cpp
-  src/ifcpp/model/UnitConverter.cpp
-  src/ifcpp/reader/AbstractReader.cpp
-  src/ifcpp/reader/ReaderSTEP.cpp
-  src/ifcpp/reader/ReaderXML.cpp
-  src/ifcpp/reader/ReaderUtil.cpp
-  src/ifcpp/writer/WriterSTEP.cpp
-  src/ifcpp/writer/WriterUtil.cpp
+if(UNIX)
+    # do not add src/external/XUnzip.cpp on unix plattforms
+    set(IFCPP_SOURCE_FILES 
+        src/ifcpp/IFC4/EntityFactory.cpp
+        src/ifcpp/IFC4/TypeFactory.cpp
+        src/ifcpp/model/BuildingModel.cpp
+        src/ifcpp/model/UnitConverter.cpp
+        src/ifcpp/reader/AbstractReader.cpp
+        src/ifcpp/reader/ReaderSTEP.cpp
+        src/ifcpp/reader/ReaderXML.cpp
+        src/ifcpp/reader/ReaderUtil.cpp
+        src/ifcpp/writer/WriterSTEP.cpp
+        src/ifcpp/writer/WriterUtil.cpp
 
-  ${ifc4_source}
-)
+        ${ifc4_source}
+    )
+else(UNIX)
+    set(IFCPP_SOURCE_FILES 
+        src/ifcpp/IFC4/EntityFactory.cpp
+        src/ifcpp/IFC4/TypeFactory.cpp
+        src/ifcpp/model/BuildingModel.cpp
+        src/ifcpp/model/UnitConverter.cpp
+        src/ifcpp/reader/AbstractReader.cpp
+        src/ifcpp/reader/ReaderSTEP.cpp
+        src/ifcpp/reader/ReaderXML.cpp
+        src/ifcpp/reader/ReaderUtil.cpp
+        src/ifcpp/writer/WriterSTEP.cpp
+        src/ifcpp/writer/WriterUtil.cpp
+        src/external/XUnzip.cpp
 
+        ${ifc4_source}
+    )
+endif(UNIX)
+
+    
 if (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj ")
     
