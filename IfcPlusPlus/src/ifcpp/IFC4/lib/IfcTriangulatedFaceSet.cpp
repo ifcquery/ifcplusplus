@@ -71,6 +71,7 @@ void IfcTriangulatedFaceSet::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Closed ) { m_Closed->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
+	writeTypeOfIntList2D( stream, m_CoordIndex );
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_PnIndex.size(); ++ii )

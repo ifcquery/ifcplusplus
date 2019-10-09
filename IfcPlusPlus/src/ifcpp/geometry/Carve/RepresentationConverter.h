@@ -1073,7 +1073,7 @@ public:
 									shared_ptr<carve::mesh::MeshSet<3> > result;
 									try
 									{
-										CSG_Adapter::computeCSG( product_meshset, opening_meshset, carve::csg::CSG::A_MINUS_B, result, this, ifc_element.get() );
+										CSG_Adapter::computeCSG( product_meshset, opening_meshset, carve::csg::CSG::A_MINUS_B, result, this, ifc_element );
 									}
 									catch( OutOfMemoryException& e )
 									{
