@@ -411,6 +411,10 @@ public:
 		for( size_t i_meshsets = 0; i_meshsets < m_meshsets.size(); ++i_meshsets )
 		{
 			const shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = m_meshsets[i_meshsets];
+			if (!item_meshset)
+			{
+				continue;
+			}
 			if( bbox.isEmpty() )
 			{
 				bbox = item_meshset->getAABB();
