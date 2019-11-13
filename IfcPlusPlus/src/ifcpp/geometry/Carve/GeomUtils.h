@@ -443,6 +443,29 @@ namespace GeomUtils
 		if( std::abs( mat._43 ) > 0.00001 )  return false;
 		return true;
 	}
+	inline bool isMatrixEqual(const carve::math::Matrix& mat1, const carve::math::Matrix& mat2, double maxDelta = 0.00001)
+	{
+		if (std::abs(mat1._11 - mat2._11) > maxDelta)  return false;
+		if (std::abs(mat1._12 - mat2._12) > maxDelta)  return false;
+		if (std::abs(mat1._13 - mat2._13) > maxDelta)  return false;
+		if (std::abs(mat1._14 - mat2._14) > maxDelta)  return false;
+
+		if (std::abs(mat1._21 - mat2._21) > maxDelta)  return false;
+		if (std::abs(mat1._22 - mat2._22) > maxDelta)  return false;
+		if (std::abs(mat1._23 - mat2._23) > maxDelta)  return false;
+		if (std::abs(mat1._24 - mat2._24) > maxDelta)  return false;
+
+		if (std::abs(mat1._31 - mat2._31) > maxDelta)  return false;
+		if (std::abs(mat1._32 - mat2._32) > maxDelta)  return false;
+		if (std::abs(mat1._33 - mat2._33) > maxDelta)  return false;
+		if (std::abs(mat1._34 - mat2._34) > maxDelta)  return false;
+
+		if (std::abs(mat1._41 - mat2._41) > maxDelta)  return false;
+		if (std::abs(mat1._42 - mat2._42) > maxDelta)  return false;
+		if (std::abs(mat1._43 - mat2._43) > maxDelta)  return false;
+		if (std::abs(mat1._44 - mat2._44) > maxDelta)  return false;
+		return true;
+	}
 	inline void makeLookAt(const vec3& eye,const vec3& center,const vec3& up, carve::math::Matrix& resulting_matrix )
 	{
 		vec3 zaxis = ( center - eye ).normalize();

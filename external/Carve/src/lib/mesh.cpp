@@ -662,7 +662,12 @@ void FaceStitcher::resolveOpenEdges() {
          ++i) {
       vpair_t e1 = *i;
       edge_map_t::iterator e1i = complex_edges.find(e1);
-      vpair_t e2 = vpair_t(e1.second, e1.first);
+	  if (e1i == complex_edges.end())
+	  {
+		  continue;
+	  }
+
+	  vpair_t e2 = vpair_t(e1.second, e1.first);
       edge_map_t::iterator e2i = complex_edges.find(e2);
       if (e2i == complex_edges.end()) {
         // This could occur, for example, when two faces share

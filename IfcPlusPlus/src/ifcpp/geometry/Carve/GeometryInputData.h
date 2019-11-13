@@ -704,6 +704,51 @@ public:
 		return transform_matrix;
 	}
 
+	carve::math::Matrix getRelaviteTransform(const shared_ptr<ProductShapeData>& other)
+	{
+		carve::math::Matrix transform_matrix;
+		if (!other)
+		{
+			return transform_matrix;
+		}
+		
+		if (m_vec_transforms.size() > 0)
+		{
+			std::vector<shared_ptr<TransformData> >	diff_transforms;
+			auto it_self = m_vec_transforms.rbegin();
+			auto it_other = other->m_vec_transforms.rbegin();
+			for (size_t ii_self = 0; ii_self < m_vec_transforms.size(); ++ii_self)
+			{
+				if (it_self == m_vec_transforms.rend())
+				{
+					break;
+				}
+				
+				shared_ptr<TransformData>& transform_self = *it_self;
+
+				if (it_other != other->m_vec_transforms.rend())
+				{
+					shared_ptr<TransformData>& transform_other = *it_other;
+		
+					if (transform_self->m_placement_entity_id >= 0 && transform_self->m_placement_entity_id == transform_other->m_placement_entity_id)
+					{
+						// skip matrices that are the same at both products, to avoid unecessary multiplications and numerical inaccuracies
+						++it_self;
+						++it_other;
+						continue;
+					}
+				}
+				
+				if (transform_self)
+				{
+					transform_matrix = transform_self->m_matrix*transform_matrix;
+				}
+				++it_self;
+			}
+		}
+		return transform_matrix;
+	}
+
 	void addTransform( shared_ptr<TransformData>& transform_data )
 	{
 		if( !transform_data )

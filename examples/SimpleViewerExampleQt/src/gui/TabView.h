@@ -45,4 +45,5 @@ private slots:
 	void slotCullBackFaces( int state );
 	void slotSetNumVertices(int);
 	void slotShowCurves( int );
+	void slotIgnoreProfileRadius(int);
 };

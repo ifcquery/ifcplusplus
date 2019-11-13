@@ -981,24 +981,12 @@ public:
 					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get() );
 				}
 
-				//opening_representation_data->premultPosition( opening_placement_matrix );
 				product_shape_opening->m_vec_representations.push_back( opening_representation_data );
 			}
 			vec_opening_data.push_back( product_shape_opening );
 		}
 
 		// for all items of the product shape, subtract all items of all related openings
-		carve::math::Matrix product_total_transform = product_shape->getTransform();
-		carve::math::Matrix product_matrix_inverse;
-		try
-		{
-			GeomUtils::computeInverse( product_total_transform, product_matrix_inverse, 0.01/m_unit_converter->getCustomLengthFactor() );
-		}
-		catch( std::exception& e )
-		{
-			messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, ifc_element.get() );
-		}
-
 		for( auto& product_representation : product_shape->m_vec_representations )
 		{
 			if( !product_representation )
@@ -1033,8 +1021,20 @@ public:
 							continue;
 						}
 
-						carve::math::Matrix opening_total_transform = opening_product_data->getTransform();
-						carve::math::Matrix opening_relative_to_product = product_matrix_inverse*opening_total_transform;
+						carve::math::Matrix product_transform = product_shape->getRelaviteTransform(opening_product_data);
+						carve::math::Matrix product_matrix_inverse;
+						try
+						{
+							GeomUtils::computeInverse(product_transform, product_matrix_inverse, 0.01 / m_unit_converter->getCustomLengthFactor());
+						}
+						catch (std::exception& e)
+						{
+							messageCallback(e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, ifc_element.get());
+						}
+
+						carve::math::Matrix opening_relative_to_product_matrix = opening_product_data->getRelaviteTransform(product_shape);
+						carve::math::Matrix opening_relative_to_product = product_matrix_inverse * opening_relative_to_product_matrix;
+
 						carve::math::Matrix opening_relative_to_product_inverse;
 						GeomUtils::computeInverse( opening_relative_to_product, opening_relative_to_product_inverse, 0.01/m_unit_converter->getCustomLengthFactor() );
 

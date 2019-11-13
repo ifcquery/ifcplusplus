@@ -42,8 +42,9 @@ protected:
 	shared_ptr<RepresentationConverter>		m_representation_converter;
 
 	std::map<int, shared_ptr<ProductShapeData> >	m_product_shape_data;
-	std::map<int, shared_ptr<BuildingObject> >			m_map_outside_spatial_structure;
-	double m_recent_progress;
+	std::map<int, shared_ptr<BuildingObject> >		m_map_outside_spatial_structure;
+	double m_recent_progress = 0;
+	double m_csg_eps = 1.5e-05;
 	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
 #ifdef ENABLE_OPENMP
 	Mutex m_writelock_messages;
@@ -98,6 +99,11 @@ public:
 	void resetNumVerticesPerCircle()
 	{
 		m_geom_settings->resetNumVerticesPerCircle();
+	}
+
+	void setCsgEps(double eps)
+	{
+		m_csg_eps = eps;
 	}
 
 	void setModel( shared_ptr<BuildingModel> model )
@@ -263,7 +269,6 @@ public:
 	}
 
 	/*\brief method convertGeometry: Creates geometry for Carve from previously loaded BuildingModel model.
-	\param[out] parent_group Group to append the resulting geometry.
 	**/
 	void convertGeometry()
 	{
@@ -285,7 +290,7 @@ public:
 		{
 			length_to_meter_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
 		}
-		carve::setEpsilon( 1.5e-05*length_to_meter_factor );
+		carve::setEpsilon( m_csg_eps );
 
 		const std::map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
 		for( auto it = map_entities.begin(); it != map_entities.end(); ++it )

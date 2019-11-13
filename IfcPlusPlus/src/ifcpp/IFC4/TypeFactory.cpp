@@ -327,7 +327,6 @@
 #include "ifcpp/IFC4/include/IfcStairFlightTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcStairTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcStateEnum.h"
-#include "ifcpp/IFC4/include/IfcStrippedOptional.h"
 #include "ifcpp/IFC4/include/IfcStructuralActivityAssignmentSelect.h"
 #include "ifcpp/IFC4/include/IfcStructuralCurveActivityTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcStructuralCurveMemberTypeEnum.h"
@@ -728,7 +727,6 @@
 { "IFCSTAIRFLIGHTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcStairFlightTypeEnum::createObjectFromSTEP( arg, map ); } },
 { "IFCSTAIRTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcStairTypeEnum::createObjectFromSTEP( arg, map ); } },
 { "IFCSTATEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcStateEnum::createObjectFromSTEP( arg, map ); } },
-{ "IFCSTRIPPEDOPTIONAL", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcStrippedOptional::createObjectFromSTEP( arg, map ); } },
 { "IFCSTRUCTURALACTIVITYASSIGNMENTSELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcStructuralActivityAssignmentSelect::createObjectFromSTEP( arg, map ); } },
 { "IFCSTRUCTURALCURVEACTIVITYTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcStructuralCurveActivityTypeEnum::createObjectFromSTEP( arg, map ); } },
 { "IFCSTRUCTURALCURVEMEMBERTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcStructuralCurveMemberTypeEnum::createObjectFromSTEP( arg, map ); } },

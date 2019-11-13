@@ -799,13 +799,17 @@ namespace CSG_Adapter
 		{
 			if( !checkMeshSetValidAndClosed( op1, report_callback, entity.get() ) )
 			{
-				if( operation == carve::csg::CSG::B_MINUS_A )
+				if (operation == carve::csg::CSG::A_MINUS_B)
+				{
+					result = op1;
+				}
+				else if( operation == carve::csg::CSG::B_MINUS_A )
 				{
 					result = op2;
 				}
 				else if( operation == carve::csg::CSG::UNION )
 				{
-					result = op2;
+					result = op1;
 				}
 #ifdef _DEBUG
 				carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
@@ -817,9 +821,13 @@ namespace CSG_Adapter
 
 			if( !checkMeshSetValidAndClosed( op2, report_callback, entity.get() ) )
 			{
-				if( operation == carve::csg::CSG::A_MINUS_B )
+				if (operation == carve::csg::CSG::A_MINUS_B)
 				{
 					result = op1;
+				}
+				else if( operation == carve::csg::CSG::B_MINUS_A )
+				{
+					result = op2;
 				}
 				else if( operation == carve::csg::CSG::UNION )
 				{
@@ -940,6 +948,14 @@ namespace CSG_Adapter
 					{
 						result.reset();
 					}
+#ifdef _DEBUG
+					carve::geom::vector<4> color = carve::geom::VECTOR(0.7, 0.7, 0.7, 1.0);
+					GeomDebugDump::dumpMeshset(op1, color, true, false);
+					//GeomDebugDump::moveOffset(op1);
+					GeomDebugDump::dumpMeshset(op2, color, true);
+					GeomDebugDump::moveOffset(op1);
+					GeomDebugDump::moveOffset(op2);
+#endif
 				}
 				else
 				{

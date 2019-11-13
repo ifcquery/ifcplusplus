@@ -101,6 +101,24 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 	num_vertices_hbox->addWidget( new QLabel( tr("Number of vertices per circle") ) );
 	connect(m_spinbox_circle_vertices, SIGNAL(valueChanged(int)), this, SLOT( slotSetNumVertices( int ) ) );
 
+	// ignore profile radius
+	QCheckBox* ignore_profile_radius_checkbox = new QCheckBox("Ignore profile radius");
+	if (m_system->getGeometryConverter()->getGeomSettings()->isIgnoreProfileRadius())
+	{
+		ignore_profile_radius_checkbox->setChecked(true);
+	}
+	if (keys.contains("IgnoreProfileRadius"))
+	{
+		bool ignore_profile_radius = settings.value("IgnoreProfileRadius").toBool();
+		if (ignore_profile_radius)
+		{
+			ignore_profile_radius_checkbox->setChecked(true);
+			m_system->getGeometryConverter()->getGeomSettings()->setIgnoreProfileRadius(true);
+		}
+	}
+	connect(ignore_profile_radius_checkbox, &QCheckBox::stateChanged, this, &TabView::slotIgnoreProfileRadius);
+
+
 	m_check_show_curve_representations = new QCheckBox(tr("Show curve representations"));
 	bool show_curves = true;
 	if( keys.contains( "ShowCurveRepresentations" ) )
@@ -119,6 +137,7 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 	hbox->addWidget( cull_front_faces, 0 );
 	hbox->addWidget( cull_back_faces, 0 );
 	hbox->addLayout( num_vertices_hbox );
+	hbox->addWidget( ignore_profile_radius_checkbox, 0);
 	hbox->addWidget( m_check_show_curve_representations );
 	hbox->addStretch( 1 );
 
@@ -179,4 +198,18 @@ void TabView::slotShowCurves( int state )
 	m_system->switchCurveRepresentation( m_system->getModelNode(), curves_on );
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
 	settings.setValue( "ShowCurveRepresentations", curves_on );
+}
+
+void TabView::slotIgnoreProfileRadius(int state)
+{
+	if (state == Qt::Checked)
+	{
+		m_system->getGeometryConverter()->getGeomSettings()->setIgnoreProfileRadius(true);
+	}
+	else
+	{
+		m_system->getGeometryConverter()->getGeomSettings()->setIgnoreProfileRadius(false);
+	}
+	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
+	settings.setValue("IgnoreProfileRadius", m_system->getGeometryConverter()->getGeomSettings()->isIgnoreProfileRadius());
 }
