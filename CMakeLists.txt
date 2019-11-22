@@ -41,8 +41,8 @@ ADD_SUBDIRECTORY (IfcPlusPlus)
 
 # Install configuration file
 INCLUDE(CMakePackageConfigHelpers)
-SET(config_file_input  "${CMAKE_SOURCE_DIR}/cmake/IFCPPConfig.cmake.in")
-SET(config_file_output "${CMAKE_BINARY_DIR}/cmake/IFCPPConfig.cmake")
+SET(config_file_input  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/IFCPPConfig.cmake.in")
+SET(config_file_output "${CMAKE_CURRENT_BINARY_DIR}/cmake/IFCPPConfig.cmake")
 
 CONFIGURE_PACKAGE_CONFIG_FILE(
   ${config_file_input}

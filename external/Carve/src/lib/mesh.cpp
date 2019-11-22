@@ -33,6 +33,10 @@
 #include <carve/poly.hpp>
 #include <functional>
 
+#if defined(_MSC_VER)
+inline int random() { return rand(); }
+#endif
+
 namespace {
 inline double CALC_X(const carve::geom::plane<3>& p, double y, double z) {
   return -(p.d + p.N.y * y + p.N.z * z) / p.N.x;
