@@ -54,39 +54,39 @@ shared_ptr<IfcFanTypeEnum> IfcFanTypeEnum::createObjectFromSTEP( const std::wstr
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFanTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFanTypeEnum>(); }
 	shared_ptr<IfcFanTypeEnum> type_object( new IfcFanTypeEnum() );
-	if( boost::iequals( arg, L".CENTRIFUGALFORWARDCURVED." ) )
+	if( std_iequal( arg, L".CENTRIFUGALFORWARDCURVED." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_CENTRIFUGALFORWARDCURVED;
 	}
-	else if( boost::iequals( arg, L".CENTRIFUGALRADIAL." ) )
+	else if( std_iequal( arg, L".CENTRIFUGALRADIAL." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_CENTRIFUGALRADIAL;
 	}
-	else if( boost::iequals( arg, L".CENTRIFUGALBACKWARDINCLINEDCURVED." ) )
+	else if( std_iequal( arg, L".CENTRIFUGALBACKWARDINCLINEDCURVED." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_CENTRIFUGALBACKWARDINCLINEDCURVED;
 	}
-	else if( boost::iequals( arg, L".CENTRIFUGALAIRFOIL." ) )
+	else if( std_iequal( arg, L".CENTRIFUGALAIRFOIL." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_CENTRIFUGALAIRFOIL;
 	}
-	else if( boost::iequals( arg, L".TUBEAXIAL." ) )
+	else if( std_iequal( arg, L".TUBEAXIAL." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_TUBEAXIAL;
 	}
-	else if( boost::iequals( arg, L".VANEAXIAL." ) )
+	else if( std_iequal( arg, L".VANEAXIAL." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_VANEAXIAL;
 	}
-	else if( boost::iequals( arg, L".PROPELLORAXIAL." ) )
+	else if( std_iequal( arg, L".PROPELLORAXIAL." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_PROPELLORAXIAL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFanTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -46,23 +46,23 @@ shared_ptr<IfcSurfaceFeatureTypeEnum> IfcSurfaceFeatureTypeEnum::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSurfaceFeatureTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSurfaceFeatureTypeEnum>(); }
 	shared_ptr<IfcSurfaceFeatureTypeEnum> type_object( new IfcSurfaceFeatureTypeEnum() );
-	if( boost::iequals( arg, L".MARK." ) )
+	if( std_iequal( arg, L".MARK." ) )
 	{
 		type_object->m_enum = IfcSurfaceFeatureTypeEnum::ENUM_MARK;
 	}
-	else if( boost::iequals( arg, L".TAG." ) )
+	else if( std_iequal( arg, L".TAG." ) )
 	{
 		type_object->m_enum = IfcSurfaceFeatureTypeEnum::ENUM_TAG;
 	}
-	else if( boost::iequals( arg, L".TREATMENT." ) )
+	else if( std_iequal( arg, L".TREATMENT." ) )
 	{
 		type_object->m_enum = IfcSurfaceFeatureTypeEnum::ENUM_TREATMENT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSurfaceFeatureTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSurfaceFeatureTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -56,43 +56,43 @@ shared_ptr<IfcBenchmarkEnum> IfcBenchmarkEnum::createObjectFromSTEP( const std::
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBenchmarkEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBenchmarkEnum>(); }
 	shared_ptr<IfcBenchmarkEnum> type_object( new IfcBenchmarkEnum() );
-	if( boost::iequals( arg, L".GREATERTHAN." ) )
+	if( std_iequal( arg, L".GREATERTHAN." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_GREATERTHAN;
 	}
-	else if( boost::iequals( arg, L".GREATERTHANOREQUALTO." ) )
+	else if( std_iequal( arg, L".GREATERTHANOREQUALTO." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_GREATERTHANOREQUALTO;
 	}
-	else if( boost::iequals( arg, L".LESSTHAN." ) )
+	else if( std_iequal( arg, L".LESSTHAN." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_LESSTHAN;
 	}
-	else if( boost::iequals( arg, L".LESSTHANOREQUALTO." ) )
+	else if( std_iequal( arg, L".LESSTHANOREQUALTO." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_LESSTHANOREQUALTO;
 	}
-	else if( boost::iequals( arg, L".EQUALTO." ) )
+	else if( std_iequal( arg, L".EQUALTO." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_EQUALTO;
 	}
-	else if( boost::iequals( arg, L".NOTEQUALTO." ) )
+	else if( std_iequal( arg, L".NOTEQUALTO." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_NOTEQUALTO;
 	}
-	else if( boost::iequals( arg, L".INCLUDES." ) )
+	else if( std_iequal( arg, L".INCLUDES." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_INCLUDES;
 	}
-	else if( boost::iequals( arg, L".NOTINCLUDES." ) )
+	else if( std_iequal( arg, L".NOTINCLUDES." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_NOTINCLUDES;
 	}
-	else if( boost::iequals( arg, L".INCLUDEDIN." ) )
+	else if( std_iequal( arg, L".INCLUDEDIN." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_INCLUDEDIN;
 	}
-	else if( boost::iequals( arg, L".NOTINCLUDEDIN." ) )
+	else if( std_iequal( arg, L".NOTINCLUDEDIN." ) )
 	{
 		type_object->m_enum = IfcBenchmarkEnum::ENUM_NOTINCLUDEDIN;
 	}

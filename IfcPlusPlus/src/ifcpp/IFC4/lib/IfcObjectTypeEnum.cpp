@@ -52,35 +52,35 @@ shared_ptr<IfcObjectTypeEnum> IfcObjectTypeEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcObjectTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcObjectTypeEnum>(); }
 	shared_ptr<IfcObjectTypeEnum> type_object( new IfcObjectTypeEnum() );
-	if( boost::iequals( arg, L".PRODUCT." ) )
+	if( std_iequal( arg, L".PRODUCT." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_PRODUCT;
 	}
-	else if( boost::iequals( arg, L".PROCESS." ) )
+	else if( std_iequal( arg, L".PROCESS." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_PROCESS;
 	}
-	else if( boost::iequals( arg, L".CONTROL." ) )
+	else if( std_iequal( arg, L".CONTROL." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_CONTROL;
 	}
-	else if( boost::iequals( arg, L".RESOURCE." ) )
+	else if( std_iequal( arg, L".RESOURCE." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_RESOURCE;
 	}
-	else if( boost::iequals( arg, L".ACTOR." ) )
+	else if( std_iequal( arg, L".ACTOR." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_ACTOR;
 	}
-	else if( boost::iequals( arg, L".GROUP." ) )
+	else if( std_iequal( arg, L".GROUP." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_GROUP;
 	}
-	else if( boost::iequals( arg, L".PROJECT." ) )
+	else if( std_iequal( arg, L".PROJECT." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_PROJECT;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcObjectTypeEnum::ENUM_NOTDEFINED;
 	}

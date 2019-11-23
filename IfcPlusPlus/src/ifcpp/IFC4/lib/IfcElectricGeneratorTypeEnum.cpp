@@ -46,23 +46,23 @@ shared_ptr<IfcElectricGeneratorTypeEnum> IfcElectricGeneratorTypeEnum::createObj
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricGeneratorTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricGeneratorTypeEnum>(); }
 	shared_ptr<IfcElectricGeneratorTypeEnum> type_object( new IfcElectricGeneratorTypeEnum() );
-	if( boost::iequals( arg, L".CHP." ) )
+	if( std_iequal( arg, L".CHP." ) )
 	{
 		type_object->m_enum = IfcElectricGeneratorTypeEnum::ENUM_CHP;
 	}
-	else if( boost::iequals( arg, L".ENGINEGENERATOR." ) )
+	else if( std_iequal( arg, L".ENGINEGENERATOR." ) )
 	{
 		type_object->m_enum = IfcElectricGeneratorTypeEnum::ENUM_ENGINEGENERATOR;
 	}
-	else if( boost::iequals( arg, L".STANDALONE." ) )
+	else if( std_iequal( arg, L".STANDALONE." ) )
 	{
 		type_object->m_enum = IfcElectricGeneratorTypeEnum::ENUM_STANDALONE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricGeneratorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricGeneratorTypeEnum::ENUM_NOTDEFINED;
 	}

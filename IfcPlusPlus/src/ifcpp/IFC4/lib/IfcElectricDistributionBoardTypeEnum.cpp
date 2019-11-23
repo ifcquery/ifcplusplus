@@ -48,27 +48,27 @@ shared_ptr<IfcElectricDistributionBoardTypeEnum> IfcElectricDistributionBoardTyp
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricDistributionBoardTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricDistributionBoardTypeEnum>(); }
 	shared_ptr<IfcElectricDistributionBoardTypeEnum> type_object( new IfcElectricDistributionBoardTypeEnum() );
-	if( boost::iequals( arg, L".CONSUMERUNIT." ) )
+	if( std_iequal( arg, L".CONSUMERUNIT." ) )
 	{
 		type_object->m_enum = IfcElectricDistributionBoardTypeEnum::ENUM_CONSUMERUNIT;
 	}
-	else if( boost::iequals( arg, L".DISTRIBUTIONBOARD." ) )
+	else if( std_iequal( arg, L".DISTRIBUTIONBOARD." ) )
 	{
 		type_object->m_enum = IfcElectricDistributionBoardTypeEnum::ENUM_DISTRIBUTIONBOARD;
 	}
-	else if( boost::iequals( arg, L".MOTORCONTROLCENTRE." ) )
+	else if( std_iequal( arg, L".MOTORCONTROLCENTRE." ) )
 	{
 		type_object->m_enum = IfcElectricDistributionBoardTypeEnum::ENUM_MOTORCONTROLCENTRE;
 	}
-	else if( boost::iequals( arg, L".SWITCHBOARD." ) )
+	else if( std_iequal( arg, L".SWITCHBOARD." ) )
 	{
 		type_object->m_enum = IfcElectricDistributionBoardTypeEnum::ENUM_SWITCHBOARD;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricDistributionBoardTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricDistributionBoardTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -46,23 +46,23 @@ shared_ptr<IfcDoorTypeEnum> IfcDoorTypeEnum::createObjectFromSTEP( const std::ws
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorTypeEnum>(); }
 	shared_ptr<IfcDoorTypeEnum> type_object( new IfcDoorTypeEnum() );
-	if( boost::iequals( arg, L".DOOR." ) )
+	if( std_iequal( arg, L".DOOR." ) )
 	{
 		type_object->m_enum = IfcDoorTypeEnum::ENUM_DOOR;
 	}
-	else if( boost::iequals( arg, L".GATE." ) )
+	else if( std_iequal( arg, L".GATE." ) )
 	{
 		type_object->m_enum = IfcDoorTypeEnum::ENUM_GATE;
 	}
-	else if( boost::iequals( arg, L".TRAPDOOR." ) )
+	else if( std_iequal( arg, L".TRAPDOOR." ) )
 	{
 		type_object->m_enum = IfcDoorTypeEnum::ENUM_TRAPDOOR;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorTypeEnum::ENUM_NOTDEFINED;
 	}

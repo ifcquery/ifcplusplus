@@ -48,27 +48,27 @@ shared_ptr<IfcPileConstructionEnum> IfcPileConstructionEnum::createObjectFromSTE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPileConstructionEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPileConstructionEnum>(); }
 	shared_ptr<IfcPileConstructionEnum> type_object( new IfcPileConstructionEnum() );
-	if( boost::iequals( arg, L".CAST_IN_PLACE." ) )
+	if( std_iequal( arg, L".CAST_IN_PLACE." ) )
 	{
 		type_object->m_enum = IfcPileConstructionEnum::ENUM_CAST_IN_PLACE;
 	}
-	else if( boost::iequals( arg, L".COMPOSITE." ) )
+	else if( std_iequal( arg, L".COMPOSITE." ) )
 	{
 		type_object->m_enum = IfcPileConstructionEnum::ENUM_COMPOSITE;
 	}
-	else if( boost::iequals( arg, L".PRECAST_CONCRETE." ) )
+	else if( std_iequal( arg, L".PRECAST_CONCRETE." ) )
 	{
 		type_object->m_enum = IfcPileConstructionEnum::ENUM_PRECAST_CONCRETE;
 	}
-	else if( boost::iequals( arg, L".PREFAB_STEEL." ) )
+	else if( std_iequal( arg, L".PREFAB_STEEL." ) )
 	{
 		type_object->m_enum = IfcPileConstructionEnum::ENUM_PREFAB_STEEL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPileConstructionEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPileConstructionEnum::ENUM_NOTDEFINED;
 	}

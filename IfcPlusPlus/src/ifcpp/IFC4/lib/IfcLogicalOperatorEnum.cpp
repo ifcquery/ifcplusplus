@@ -46,23 +46,23 @@ shared_ptr<IfcLogicalOperatorEnum> IfcLogicalOperatorEnum::createObjectFromSTEP(
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLogicalOperatorEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLogicalOperatorEnum>(); }
 	shared_ptr<IfcLogicalOperatorEnum> type_object( new IfcLogicalOperatorEnum() );
-	if( boost::iequals( arg, L".LOGICALAND." ) )
+	if( std_iequal( arg, L".LOGICALAND." ) )
 	{
 		type_object->m_enum = IfcLogicalOperatorEnum::ENUM_LOGICALAND;
 	}
-	else if( boost::iequals( arg, L".LOGICALOR." ) )
+	else if( std_iequal( arg, L".LOGICALOR." ) )
 	{
 		type_object->m_enum = IfcLogicalOperatorEnum::ENUM_LOGICALOR;
 	}
-	else if( boost::iequals( arg, L".LOGICALXOR." ) )
+	else if( std_iequal( arg, L".LOGICALXOR." ) )
 	{
 		type_object->m_enum = IfcLogicalOperatorEnum::ENUM_LOGICALXOR;
 	}
-	else if( boost::iequals( arg, L".LOGICALNOTAND." ) )
+	else if( std_iequal( arg, L".LOGICALNOTAND." ) )
 	{
 		type_object->m_enum = IfcLogicalOperatorEnum::ENUM_LOGICALNOTAND;
 	}
-	else if( boost::iequals( arg, L".LOGICALNOTOR." ) )
+	else if( std_iequal( arg, L".LOGICALNOTOR." ) )
 	{
 		type_object->m_enum = IfcLogicalOperatorEnum::ENUM_LOGICALNOTOR;
 	}

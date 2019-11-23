@@ -46,23 +46,23 @@ shared_ptr<IfcStackTerminalTypeEnum> IfcStackTerminalTypeEnum::createObjectFromS
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStackTerminalTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStackTerminalTypeEnum>(); }
 	shared_ptr<IfcStackTerminalTypeEnum> type_object( new IfcStackTerminalTypeEnum() );
-	if( boost::iequals( arg, L".BIRDCAGE." ) )
+	if( std_iequal( arg, L".BIRDCAGE." ) )
 	{
 		type_object->m_enum = IfcStackTerminalTypeEnum::ENUM_BIRDCAGE;
 	}
-	else if( boost::iequals( arg, L".COWL." ) )
+	else if( std_iequal( arg, L".COWL." ) )
 	{
 		type_object->m_enum = IfcStackTerminalTypeEnum::ENUM_COWL;
 	}
-	else if( boost::iequals( arg, L".RAINWATERHOPPER." ) )
+	else if( std_iequal( arg, L".RAINWATERHOPPER." ) )
 	{
 		type_object->m_enum = IfcStackTerminalTypeEnum::ENUM_RAINWATERHOPPER;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcStackTerminalTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcStackTerminalTypeEnum::ENUM_NOTDEFINED;
 	}

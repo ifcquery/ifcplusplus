@@ -40,11 +40,11 @@ shared_ptr<IfcProfileTypeEnum> IfcProfileTypeEnum::createObjectFromSTEP( const s
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProfileTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProfileTypeEnum>(); }
 	shared_ptr<IfcProfileTypeEnum> type_object( new IfcProfileTypeEnum() );
-	if( boost::iequals( arg, L".CURVE." ) )
+	if( std_iequal( arg, L".CURVE." ) )
 	{
 		type_object->m_enum = IfcProfileTypeEnum::ENUM_CURVE;
 	}
-	else if( boost::iequals( arg, L".AREA." ) )
+	else if( std_iequal( arg, L".AREA." ) )
 	{
 		type_object->m_enum = IfcProfileTypeEnum::ENUM_AREA;
 	}

@@ -50,31 +50,31 @@ shared_ptr<IfcFireSuppressionTerminalTypeEnum> IfcFireSuppressionTerminalTypeEnu
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFireSuppressionTerminalTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFireSuppressionTerminalTypeEnum>(); }
 	shared_ptr<IfcFireSuppressionTerminalTypeEnum> type_object( new IfcFireSuppressionTerminalTypeEnum() );
-	if( boost::iequals( arg, L".BREECHINGINLET." ) )
+	if( std_iequal( arg, L".BREECHINGINLET." ) )
 	{
 		type_object->m_enum = IfcFireSuppressionTerminalTypeEnum::ENUM_BREECHINGINLET;
 	}
-	else if( boost::iequals( arg, L".FIREHYDRANT." ) )
+	else if( std_iequal( arg, L".FIREHYDRANT." ) )
 	{
 		type_object->m_enum = IfcFireSuppressionTerminalTypeEnum::ENUM_FIREHYDRANT;
 	}
-	else if( boost::iequals( arg, L".HOSEREEL." ) )
+	else if( std_iequal( arg, L".HOSEREEL." ) )
 	{
 		type_object->m_enum = IfcFireSuppressionTerminalTypeEnum::ENUM_HOSEREEL;
 	}
-	else if( boost::iequals( arg, L".SPRINKLER." ) )
+	else if( std_iequal( arg, L".SPRINKLER." ) )
 	{
 		type_object->m_enum = IfcFireSuppressionTerminalTypeEnum::ENUM_SPRINKLER;
 	}
-	else if( boost::iequals( arg, L".SPRINKLERDEFLECTOR." ) )
+	else if( std_iequal( arg, L".SPRINKLERDEFLECTOR." ) )
 	{
 		type_object->m_enum = IfcFireSuppressionTerminalTypeEnum::ENUM_SPRINKLERDEFLECTOR;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFireSuppressionTerminalTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFireSuppressionTerminalTypeEnum::ENUM_NOTDEFINED;
 	}

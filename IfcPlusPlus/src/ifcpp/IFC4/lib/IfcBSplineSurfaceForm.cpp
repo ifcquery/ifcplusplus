@@ -58,47 +58,47 @@ shared_ptr<IfcBSplineSurfaceForm> IfcBSplineSurfaceForm::createObjectFromSTEP( c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBSplineSurfaceForm>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBSplineSurfaceForm>(); }
 	shared_ptr<IfcBSplineSurfaceForm> type_object( new IfcBSplineSurfaceForm() );
-	if( boost::iequals( arg, L".PLANE_SURF." ) )
+	if( std_iequal( arg, L".PLANE_SURF." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_PLANE_SURF;
 	}
-	else if( boost::iequals( arg, L".CYLINDRICAL_SURF." ) )
+	else if( std_iequal( arg, L".CYLINDRICAL_SURF." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_CYLINDRICAL_SURF;
 	}
-	else if( boost::iequals( arg, L".CONICAL_SURF." ) )
+	else if( std_iequal( arg, L".CONICAL_SURF." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_CONICAL_SURF;
 	}
-	else if( boost::iequals( arg, L".SPHERICAL_SURF." ) )
+	else if( std_iequal( arg, L".SPHERICAL_SURF." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_SPHERICAL_SURF;
 	}
-	else if( boost::iequals( arg, L".TOROIDAL_SURF." ) )
+	else if( std_iequal( arg, L".TOROIDAL_SURF." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_TOROIDAL_SURF;
 	}
-	else if( boost::iequals( arg, L".SURF_OF_REVOLUTION." ) )
+	else if( std_iequal( arg, L".SURF_OF_REVOLUTION." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_SURF_OF_REVOLUTION;
 	}
-	else if( boost::iequals( arg, L".RULED_SURF." ) )
+	else if( std_iequal( arg, L".RULED_SURF." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_RULED_SURF;
 	}
-	else if( boost::iequals( arg, L".GENERALISED_CONE." ) )
+	else if( std_iequal( arg, L".GENERALISED_CONE." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_GENERALISED_CONE;
 	}
-	else if( boost::iequals( arg, L".QUADRIC_SURF." ) )
+	else if( std_iequal( arg, L".QUADRIC_SURF." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_QUADRIC_SURF;
 	}
-	else if( boost::iequals( arg, L".SURF_OF_LINEAR_EXTRUSION." ) )
+	else if( std_iequal( arg, L".SURF_OF_LINEAR_EXTRUSION." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_SURF_OF_LINEAR_EXTRUSION;
 	}
-	else if( boost::iequals( arg, L".UNSPECIFIED." ) )
+	else if( std_iequal( arg, L".UNSPECIFIED." ) )
 	{
 		type_object->m_enum = IfcBSplineSurfaceForm::ENUM_UNSPECIFIED;
 	}

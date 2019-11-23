@@ -48,27 +48,27 @@ shared_ptr<IfcStructuralSurfaceActivityTypeEnum> IfcStructuralSurfaceActivityTyp
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStructuralSurfaceActivityTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStructuralSurfaceActivityTypeEnum>(); }
 	shared_ptr<IfcStructuralSurfaceActivityTypeEnum> type_object( new IfcStructuralSurfaceActivityTypeEnum() );
-	if( boost::iequals( arg, L".CONST." ) )
+	if( std_iequal( arg, L".CONST." ) )
 	{
 		type_object->m_enum = IfcStructuralSurfaceActivityTypeEnum::ENUM_CONST;
 	}
-	else if( boost::iequals( arg, L".BILINEAR." ) )
+	else if( std_iequal( arg, L".BILINEAR." ) )
 	{
 		type_object->m_enum = IfcStructuralSurfaceActivityTypeEnum::ENUM_BILINEAR;
 	}
-	else if( boost::iequals( arg, L".DISCRETE." ) )
+	else if( std_iequal( arg, L".DISCRETE." ) )
 	{
 		type_object->m_enum = IfcStructuralSurfaceActivityTypeEnum::ENUM_DISCRETE;
 	}
-	else if( boost::iequals( arg, L".ISOCONTOUR." ) )
+	else if( std_iequal( arg, L".ISOCONTOUR." ) )
 	{
 		type_object->m_enum = IfcStructuralSurfaceActivityTypeEnum::ENUM_ISOCONTOUR;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcStructuralSurfaceActivityTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcStructuralSurfaceActivityTypeEnum::ENUM_NOTDEFINED;
 	}

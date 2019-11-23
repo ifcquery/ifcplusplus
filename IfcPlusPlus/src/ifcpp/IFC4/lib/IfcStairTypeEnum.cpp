@@ -68,67 +68,67 @@ shared_ptr<IfcStairTypeEnum> IfcStairTypeEnum::createObjectFromSTEP( const std::
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStairTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStairTypeEnum>(); }
 	shared_ptr<IfcStairTypeEnum> type_object( new IfcStairTypeEnum() );
-	if( boost::iequals( arg, L".STRAIGHT_RUN_STAIR." ) )
+	if( std_iequal( arg, L".STRAIGHT_RUN_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_STRAIGHT_RUN_STAIR;
 	}
-	else if( boost::iequals( arg, L".TWO_STRAIGHT_RUN_STAIR." ) )
+	else if( std_iequal( arg, L".TWO_STRAIGHT_RUN_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_TWO_STRAIGHT_RUN_STAIR;
 	}
-	else if( boost::iequals( arg, L".QUARTER_WINDING_STAIR." ) )
+	else if( std_iequal( arg, L".QUARTER_WINDING_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_QUARTER_WINDING_STAIR;
 	}
-	else if( boost::iequals( arg, L".QUARTER_TURN_STAIR." ) )
+	else if( std_iequal( arg, L".QUARTER_TURN_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_QUARTER_TURN_STAIR;
 	}
-	else if( boost::iequals( arg, L".HALF_WINDING_STAIR." ) )
+	else if( std_iequal( arg, L".HALF_WINDING_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_HALF_WINDING_STAIR;
 	}
-	else if( boost::iequals( arg, L".HALF_TURN_STAIR." ) )
+	else if( std_iequal( arg, L".HALF_TURN_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_HALF_TURN_STAIR;
 	}
-	else if( boost::iequals( arg, L".TWO_QUARTER_WINDING_STAIR." ) )
+	else if( std_iequal( arg, L".TWO_QUARTER_WINDING_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_TWO_QUARTER_WINDING_STAIR;
 	}
-	else if( boost::iequals( arg, L".TWO_QUARTER_TURN_STAIR." ) )
+	else if( std_iequal( arg, L".TWO_QUARTER_TURN_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_TWO_QUARTER_TURN_STAIR;
 	}
-	else if( boost::iequals( arg, L".THREE_QUARTER_WINDING_STAIR." ) )
+	else if( std_iequal( arg, L".THREE_QUARTER_WINDING_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_THREE_QUARTER_WINDING_STAIR;
 	}
-	else if( boost::iequals( arg, L".THREE_QUARTER_TURN_STAIR." ) )
+	else if( std_iequal( arg, L".THREE_QUARTER_TURN_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_THREE_QUARTER_TURN_STAIR;
 	}
-	else if( boost::iequals( arg, L".SPIRAL_STAIR." ) )
+	else if( std_iequal( arg, L".SPIRAL_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_SPIRAL_STAIR;
 	}
-	else if( boost::iequals( arg, L".DOUBLE_RETURN_STAIR." ) )
+	else if( std_iequal( arg, L".DOUBLE_RETURN_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_DOUBLE_RETURN_STAIR;
 	}
-	else if( boost::iequals( arg, L".CURVED_RUN_STAIR." ) )
+	else if( std_iequal( arg, L".CURVED_RUN_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_CURVED_RUN_STAIR;
 	}
-	else if( boost::iequals( arg, L".TWO_CURVED_RUN_STAIR." ) )
+	else if( std_iequal( arg, L".TWO_CURVED_RUN_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_TWO_CURVED_RUN_STAIR;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_NOTDEFINED;
 	}

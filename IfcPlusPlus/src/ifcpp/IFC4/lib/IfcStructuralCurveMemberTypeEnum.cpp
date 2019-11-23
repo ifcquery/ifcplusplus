@@ -50,31 +50,31 @@ shared_ptr<IfcStructuralCurveMemberTypeEnum> IfcStructuralCurveMemberTypeEnum::c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStructuralCurveMemberTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStructuralCurveMemberTypeEnum>(); }
 	shared_ptr<IfcStructuralCurveMemberTypeEnum> type_object( new IfcStructuralCurveMemberTypeEnum() );
-	if( boost::iequals( arg, L".RIGID_JOINED_MEMBER." ) )
+	if( std_iequal( arg, L".RIGID_JOINED_MEMBER." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveMemberTypeEnum::ENUM_RIGID_JOINED_MEMBER;
 	}
-	else if( boost::iequals( arg, L".PIN_JOINED_MEMBER." ) )
+	else if( std_iequal( arg, L".PIN_JOINED_MEMBER." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveMemberTypeEnum::ENUM_PIN_JOINED_MEMBER;
 	}
-	else if( boost::iequals( arg, L".CABLE." ) )
+	else if( std_iequal( arg, L".CABLE." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveMemberTypeEnum::ENUM_CABLE;
 	}
-	else if( boost::iequals( arg, L".TENSION_MEMBER." ) )
+	else if( std_iequal( arg, L".TENSION_MEMBER." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveMemberTypeEnum::ENUM_TENSION_MEMBER;
 	}
-	else if( boost::iequals( arg, L".COMPRESSION_MEMBER." ) )
+	else if( std_iequal( arg, L".COMPRESSION_MEMBER." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveMemberTypeEnum::ENUM_COMPRESSION_MEMBER;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveMemberTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveMemberTypeEnum::ENUM_NOTDEFINED;
 	}

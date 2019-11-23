@@ -46,23 +46,23 @@ shared_ptr<IfcCoolingTowerTypeEnum> IfcCoolingTowerTypeEnum::createObjectFromSTE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCoolingTowerTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCoolingTowerTypeEnum>(); }
 	shared_ptr<IfcCoolingTowerTypeEnum> type_object( new IfcCoolingTowerTypeEnum() );
-	if( boost::iequals( arg, L".NATURALDRAFT." ) )
+	if( std_iequal( arg, L".NATURALDRAFT." ) )
 	{
 		type_object->m_enum = IfcCoolingTowerTypeEnum::ENUM_NATURALDRAFT;
 	}
-	else if( boost::iequals( arg, L".MECHANICALINDUCEDDRAFT." ) )
+	else if( std_iequal( arg, L".MECHANICALINDUCEDDRAFT." ) )
 	{
 		type_object->m_enum = IfcCoolingTowerTypeEnum::ENUM_MECHANICALINDUCEDDRAFT;
 	}
-	else if( boost::iequals( arg, L".MECHANICALFORCEDDRAFT." ) )
+	else if( std_iequal( arg, L".MECHANICALFORCEDDRAFT." ) )
 	{
 		type_object->m_enum = IfcCoolingTowerTypeEnum::ENUM_MECHANICALFORCEDDRAFT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCoolingTowerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCoolingTowerTypeEnum::ENUM_NOTDEFINED;
 	}

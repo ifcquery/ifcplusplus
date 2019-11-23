@@ -44,19 +44,19 @@ shared_ptr<IfcLightDistributionCurveEnum> IfcLightDistributionCurveEnum::createO
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLightDistributionCurveEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLightDistributionCurveEnum>(); }
 	shared_ptr<IfcLightDistributionCurveEnum> type_object( new IfcLightDistributionCurveEnum() );
-	if( boost::iequals( arg, L".TYPE_A." ) )
+	if( std_iequal( arg, L".TYPE_A." ) )
 	{
 		type_object->m_enum = IfcLightDistributionCurveEnum::ENUM_TYPE_A;
 	}
-	else if( boost::iequals( arg, L".TYPE_B." ) )
+	else if( std_iequal( arg, L".TYPE_B." ) )
 	{
 		type_object->m_enum = IfcLightDistributionCurveEnum::ENUM_TYPE_B;
 	}
-	else if( boost::iequals( arg, L".TYPE_C." ) )
+	else if( std_iequal( arg, L".TYPE_C." ) )
 	{
 		type_object->m_enum = IfcLightDistributionCurveEnum::ENUM_TYPE_C;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcLightDistributionCurveEnum::ENUM_NOTDEFINED;
 	}

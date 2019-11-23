@@ -46,23 +46,23 @@ shared_ptr<IfcStateEnum> IfcStateEnum::createObjectFromSTEP( const std::wstring&
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStateEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStateEnum>(); }
 	shared_ptr<IfcStateEnum> type_object( new IfcStateEnum() );
-	if( boost::iequals( arg, L".READWRITE." ) )
+	if( std_iequal( arg, L".READWRITE." ) )
 	{
 		type_object->m_enum = IfcStateEnum::ENUM_READWRITE;
 	}
-	else if( boost::iequals( arg, L".READONLY." ) )
+	else if( std_iequal( arg, L".READONLY." ) )
 	{
 		type_object->m_enum = IfcStateEnum::ENUM_READONLY;
 	}
-	else if( boost::iequals( arg, L".LOCKED." ) )
+	else if( std_iequal( arg, L".LOCKED." ) )
 	{
 		type_object->m_enum = IfcStateEnum::ENUM_LOCKED;
 	}
-	else if( boost::iequals( arg, L".READWRITELOCKED." ) )
+	else if( std_iequal( arg, L".READWRITELOCKED." ) )
 	{
 		type_object->m_enum = IfcStateEnum::ENUM_READWRITELOCKED;
 	}
-	else if( boost::iequals( arg, L".READONLYLOCKED." ) )
+	else if( std_iequal( arg, L".READONLYLOCKED." ) )
 	{
 		type_object->m_enum = IfcStateEnum::ENUM_READONLYLOCKED;
 	}

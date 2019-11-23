@@ -42,15 +42,15 @@ shared_ptr<IfcBooleanOperator> IfcBooleanOperator::createObjectFromSTEP( const s
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBooleanOperator>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBooleanOperator>(); }
 	shared_ptr<IfcBooleanOperator> type_object( new IfcBooleanOperator() );
-	if( boost::iequals( arg, L".UNION." ) )
+	if( std_iequal( arg, L".UNION." ) )
 	{
 		type_object->m_enum = IfcBooleanOperator::ENUM_UNION;
 	}
-	else if( boost::iequals( arg, L".INTERSECTION." ) )
+	else if( std_iequal( arg, L".INTERSECTION." ) )
 	{
 		type_object->m_enum = IfcBooleanOperator::ENUM_INTERSECTION;
 	}
-	else if( boost::iequals( arg, L".DIFFERENCE." ) )
+	else if( std_iequal( arg, L".DIFFERENCE." ) )
 	{
 		type_object->m_enum = IfcBooleanOperator::ENUM_DIFFERENCE;
 	}

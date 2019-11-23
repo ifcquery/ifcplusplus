@@ -40,11 +40,11 @@ shared_ptr<IfcPerformanceHistoryTypeEnum> IfcPerformanceHistoryTypeEnum::createO
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPerformanceHistoryTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPerformanceHistoryTypeEnum>(); }
 	shared_ptr<IfcPerformanceHistoryTypeEnum> type_object( new IfcPerformanceHistoryTypeEnum() );
-	if( boost::iequals( arg, L".USERDEFINED." ) )
+	if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPerformanceHistoryTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPerformanceHistoryTypeEnum::ENUM_NOTDEFINED;
 	}

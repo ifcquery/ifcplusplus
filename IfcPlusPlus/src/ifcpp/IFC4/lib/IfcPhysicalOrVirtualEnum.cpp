@@ -42,15 +42,15 @@ shared_ptr<IfcPhysicalOrVirtualEnum> IfcPhysicalOrVirtualEnum::createObjectFromS
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPhysicalOrVirtualEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPhysicalOrVirtualEnum>(); }
 	shared_ptr<IfcPhysicalOrVirtualEnum> type_object( new IfcPhysicalOrVirtualEnum() );
-	if( boost::iequals( arg, L".PHYSICAL." ) )
+	if( std_iequal( arg, L".PHYSICAL." ) )
 	{
 		type_object->m_enum = IfcPhysicalOrVirtualEnum::ENUM_PHYSICAL;
 	}
-	else if( boost::iequals( arg, L".VIRTUAL." ) )
+	else if( std_iequal( arg, L".VIRTUAL." ) )
 	{
 		type_object->m_enum = IfcPhysicalOrVirtualEnum::ENUM_VIRTUAL;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPhysicalOrVirtualEnum::ENUM_NOTDEFINED;
 	}

@@ -23,7 +23,7 @@ shared_ptr<BuildingObject> IfcRelInterferesElements::getDeepCopy( BuildingCopyOp
 	shared_ptr<IfcRelInterferesElements> copy_self( new IfcRelInterferesElements() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid_wstr().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )
@@ -78,9 +78,9 @@ void IfcRelInterferesElements::readStepArguments( const std::vector<std::wstring
 	readEntityReference( args[5], m_RelatedElement, map );
 	readEntityReference( args[6], m_InterferenceGeometry, map );
 	m_InterferenceType = IfcIdentifier::createObjectFromSTEP( args[7], map );
-	if( boost::iequals( args[8], L".F." ) ) { m_ImpliedOrder = LOGICAL_FALSE; }
-	else if( boost::iequals( args[8], L".T." ) ) { m_ImpliedOrder = LOGICAL_TRUE; }
-	else if( boost::iequals( args[8], L".U." ) ) { m_ImpliedOrder = LOGICAL_UNKNOWN; }
+	if( std_iequal( args[8], L".F." ) ) { m_ImpliedOrder = LOGICAL_FALSE; }
+	else if( std_iequal( args[8], L".T." ) ) { m_ImpliedOrder = LOGICAL_TRUE; }
+	else if( std_iequal( args[8], L".U." ) ) { m_ImpliedOrder = LOGICAL_UNKNOWN; }
 }
 void IfcRelInterferesElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {

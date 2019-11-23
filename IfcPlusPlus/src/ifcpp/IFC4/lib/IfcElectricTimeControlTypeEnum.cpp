@@ -46,23 +46,23 @@ shared_ptr<IfcElectricTimeControlTypeEnum> IfcElectricTimeControlTypeEnum::creat
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricTimeControlTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricTimeControlTypeEnum>(); }
 	shared_ptr<IfcElectricTimeControlTypeEnum> type_object( new IfcElectricTimeControlTypeEnum() );
-	if( boost::iequals( arg, L".TIMECLOCK." ) )
+	if( std_iequal( arg, L".TIMECLOCK." ) )
 	{
 		type_object->m_enum = IfcElectricTimeControlTypeEnum::ENUM_TIMECLOCK;
 	}
-	else if( boost::iequals( arg, L".TIMEDELAY." ) )
+	else if( std_iequal( arg, L".TIMEDELAY." ) )
 	{
 		type_object->m_enum = IfcElectricTimeControlTypeEnum::ENUM_TIMEDELAY;
 	}
-	else if( boost::iequals( arg, L".RELAY." ) )
+	else if( std_iequal( arg, L".RELAY." ) )
 	{
 		type_object->m_enum = IfcElectricTimeControlTypeEnum::ENUM_RELAY;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricTimeControlTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricTimeControlTypeEnum::ENUM_NOTDEFINED;
 	}

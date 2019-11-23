@@ -50,31 +50,31 @@ shared_ptr<IfcTimeSeriesDataTypeEnum> IfcTimeSeriesDataTypeEnum::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTimeSeriesDataTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTimeSeriesDataTypeEnum>(); }
 	shared_ptr<IfcTimeSeriesDataTypeEnum> type_object( new IfcTimeSeriesDataTypeEnum() );
-	if( boost::iequals( arg, L".CONTINUOUS." ) )
+	if( std_iequal( arg, L".CONTINUOUS." ) )
 	{
 		type_object->m_enum = IfcTimeSeriesDataTypeEnum::ENUM_CONTINUOUS;
 	}
-	else if( boost::iequals( arg, L".DISCRETE." ) )
+	else if( std_iequal( arg, L".DISCRETE." ) )
 	{
 		type_object->m_enum = IfcTimeSeriesDataTypeEnum::ENUM_DISCRETE;
 	}
-	else if( boost::iequals( arg, L".DISCRETEBINARY." ) )
+	else if( std_iequal( arg, L".DISCRETEBINARY." ) )
 	{
 		type_object->m_enum = IfcTimeSeriesDataTypeEnum::ENUM_DISCRETEBINARY;
 	}
-	else if( boost::iequals( arg, L".PIECEWISEBINARY." ) )
+	else if( std_iequal( arg, L".PIECEWISEBINARY." ) )
 	{
 		type_object->m_enum = IfcTimeSeriesDataTypeEnum::ENUM_PIECEWISEBINARY;
 	}
-	else if( boost::iequals( arg, L".PIECEWISECONSTANT." ) )
+	else if( std_iequal( arg, L".PIECEWISECONSTANT." ) )
 	{
 		type_object->m_enum = IfcTimeSeriesDataTypeEnum::ENUM_PIECEWISECONSTANT;
 	}
-	else if( boost::iequals( arg, L".PIECEWISECONTINUOUS." ) )
+	else if( std_iequal( arg, L".PIECEWISECONTINUOUS." ) )
 	{
 		type_object->m_enum = IfcTimeSeriesDataTypeEnum::ENUM_PIECEWISECONTINUOUS;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTimeSeriesDataTypeEnum::ENUM_NOTDEFINED;
 	}

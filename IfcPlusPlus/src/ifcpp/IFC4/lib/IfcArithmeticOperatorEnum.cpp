@@ -44,19 +44,19 @@ shared_ptr<IfcArithmeticOperatorEnum> IfcArithmeticOperatorEnum::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcArithmeticOperatorEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcArithmeticOperatorEnum>(); }
 	shared_ptr<IfcArithmeticOperatorEnum> type_object( new IfcArithmeticOperatorEnum() );
-	if( boost::iequals( arg, L".ADD." ) )
+	if( std_iequal( arg, L".ADD." ) )
 	{
 		type_object->m_enum = IfcArithmeticOperatorEnum::ENUM_ADD;
 	}
-	else if( boost::iequals( arg, L".DIVIDE." ) )
+	else if( std_iequal( arg, L".DIVIDE." ) )
 	{
 		type_object->m_enum = IfcArithmeticOperatorEnum::ENUM_DIVIDE;
 	}
-	else if( boost::iequals( arg, L".MULTIPLY." ) )
+	else if( std_iequal( arg, L".MULTIPLY." ) )
 	{
 		type_object->m_enum = IfcArithmeticOperatorEnum::ENUM_MULTIPLY;
 	}
-	else if( boost::iequals( arg, L".SUBTRACT." ) )
+	else if( std_iequal( arg, L".SUBTRACT." ) )
 	{
 		type_object->m_enum = IfcArithmeticOperatorEnum::ENUM_SUBTRACT;
 	}

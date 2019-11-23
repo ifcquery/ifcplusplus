@@ -44,19 +44,19 @@ shared_ptr<IfcCrewResourceTypeEnum> IfcCrewResourceTypeEnum::createObjectFromSTE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCrewResourceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCrewResourceTypeEnum>(); }
 	shared_ptr<IfcCrewResourceTypeEnum> type_object( new IfcCrewResourceTypeEnum() );
-	if( boost::iequals( arg, L".OFFICE." ) )
+	if( std_iequal( arg, L".OFFICE." ) )
 	{
 		type_object->m_enum = IfcCrewResourceTypeEnum::ENUM_OFFICE;
 	}
-	else if( boost::iequals( arg, L".SITE." ) )
+	else if( std_iequal( arg, L".SITE." ) )
 	{
 		type_object->m_enum = IfcCrewResourceTypeEnum::ENUM_SITE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCrewResourceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCrewResourceTypeEnum::ENUM_NOTDEFINED;
 	}

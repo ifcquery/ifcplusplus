@@ -46,23 +46,23 @@ shared_ptr<IfcRailingTypeEnum> IfcRailingTypeEnum::createObjectFromSTEP( const s
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRailingTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRailingTypeEnum>(); }
 	shared_ptr<IfcRailingTypeEnum> type_object( new IfcRailingTypeEnum() );
-	if( boost::iequals( arg, L".HANDRAIL." ) )
+	if( std_iequal( arg, L".HANDRAIL." ) )
 	{
 		type_object->m_enum = IfcRailingTypeEnum::ENUM_HANDRAIL;
 	}
-	else if( boost::iequals( arg, L".GUARDRAIL." ) )
+	else if( std_iequal( arg, L".GUARDRAIL." ) )
 	{
 		type_object->m_enum = IfcRailingTypeEnum::ENUM_GUARDRAIL;
 	}
-	else if( boost::iequals( arg, L".BALUSTRADE." ) )
+	else if( std_iequal( arg, L".BALUSTRADE." ) )
 	{
 		type_object->m_enum = IfcRailingTypeEnum::ENUM_BALUSTRADE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcRailingTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcRailingTypeEnum::ENUM_NOTDEFINED;
 	}

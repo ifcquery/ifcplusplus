@@ -44,19 +44,19 @@ shared_ptr<IfcRampFlightTypeEnum> IfcRampFlightTypeEnum::createObjectFromSTEP( c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRampFlightTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRampFlightTypeEnum>(); }
 	shared_ptr<IfcRampFlightTypeEnum> type_object( new IfcRampFlightTypeEnum() );
-	if( boost::iequals( arg, L".STRAIGHT." ) )
+	if( std_iequal( arg, L".STRAIGHT." ) )
 	{
 		type_object->m_enum = IfcRampFlightTypeEnum::ENUM_STRAIGHT;
 	}
-	else if( boost::iequals( arg, L".SPIRAL." ) )
+	else if( std_iequal( arg, L".SPIRAL." ) )
 	{
 		type_object->m_enum = IfcRampFlightTypeEnum::ENUM_SPIRAL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcRampFlightTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcRampFlightTypeEnum::ENUM_NOTDEFINED;
 	}

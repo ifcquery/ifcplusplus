@@ -54,39 +54,39 @@ shared_ptr<IfcTankTypeEnum> IfcTankTypeEnum::createObjectFromSTEP( const std::ws
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTankTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTankTypeEnum>(); }
 	shared_ptr<IfcTankTypeEnum> type_object( new IfcTankTypeEnum() );
-	if( boost::iequals( arg, L".BASIN." ) )
+	if( std_iequal( arg, L".BASIN." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_BASIN;
 	}
-	else if( boost::iequals( arg, L".BREAKPRESSURE." ) )
+	else if( std_iequal( arg, L".BREAKPRESSURE." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_BREAKPRESSURE;
 	}
-	else if( boost::iequals( arg, L".EXPANSION." ) )
+	else if( std_iequal( arg, L".EXPANSION." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_EXPANSION;
 	}
-	else if( boost::iequals( arg, L".FEEDANDEXPANSION." ) )
+	else if( std_iequal( arg, L".FEEDANDEXPANSION." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_FEEDANDEXPANSION;
 	}
-	else if( boost::iequals( arg, L".PRESSUREVESSEL." ) )
+	else if( std_iequal( arg, L".PRESSUREVESSEL." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_PRESSUREVESSEL;
 	}
-	else if( boost::iequals( arg, L".STORAGE." ) )
+	else if( std_iequal( arg, L".STORAGE." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_STORAGE;
 	}
-	else if( boost::iequals( arg, L".VESSEL." ) )
+	else if( std_iequal( arg, L".VESSEL." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_VESSEL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_NOTDEFINED;
 	}

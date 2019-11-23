@@ -44,19 +44,19 @@ shared_ptr<IfcSpaceHeaterTypeEnum> IfcSpaceHeaterTypeEnum::createObjectFromSTEP(
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpaceHeaterTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpaceHeaterTypeEnum>(); }
 	shared_ptr<IfcSpaceHeaterTypeEnum> type_object( new IfcSpaceHeaterTypeEnum() );
-	if( boost::iequals( arg, L".CONVECTOR." ) )
+	if( std_iequal( arg, L".CONVECTOR." ) )
 	{
 		type_object->m_enum = IfcSpaceHeaterTypeEnum::ENUM_CONVECTOR;
 	}
-	else if( boost::iequals( arg, L".RADIATOR." ) )
+	else if( std_iequal( arg, L".RADIATOR." ) )
 	{
 		type_object->m_enum = IfcSpaceHeaterTypeEnum::ENUM_RADIATOR;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSpaceHeaterTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSpaceHeaterTypeEnum::ENUM_NOTDEFINED;
 	}

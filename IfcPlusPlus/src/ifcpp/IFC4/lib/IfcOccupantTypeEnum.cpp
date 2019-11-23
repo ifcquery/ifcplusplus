@@ -54,39 +54,39 @@ shared_ptr<IfcOccupantTypeEnum> IfcOccupantTypeEnum::createObjectFromSTEP( const
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcOccupantTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcOccupantTypeEnum>(); }
 	shared_ptr<IfcOccupantTypeEnum> type_object( new IfcOccupantTypeEnum() );
-	if( boost::iequals( arg, L".ASSIGNEE." ) )
+	if( std_iequal( arg, L".ASSIGNEE." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_ASSIGNEE;
 	}
-	else if( boost::iequals( arg, L".ASSIGNOR." ) )
+	else if( std_iequal( arg, L".ASSIGNOR." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_ASSIGNOR;
 	}
-	else if( boost::iequals( arg, L".LESSEE." ) )
+	else if( std_iequal( arg, L".LESSEE." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_LESSEE;
 	}
-	else if( boost::iequals( arg, L".LESSOR." ) )
+	else if( std_iequal( arg, L".LESSOR." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_LESSOR;
 	}
-	else if( boost::iequals( arg, L".LETTINGAGENT." ) )
+	else if( std_iequal( arg, L".LETTINGAGENT." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_LETTINGAGENT;
 	}
-	else if( boost::iequals( arg, L".OWNER." ) )
+	else if( std_iequal( arg, L".OWNER." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_OWNER;
 	}
-	else if( boost::iequals( arg, L".TENANT." ) )
+	else if( std_iequal( arg, L".TENANT." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_TENANT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcOccupantTypeEnum::ENUM_NOTDEFINED;
 	}

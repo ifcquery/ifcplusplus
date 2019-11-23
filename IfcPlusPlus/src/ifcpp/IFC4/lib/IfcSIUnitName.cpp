@@ -96,123 +96,123 @@ shared_ptr<IfcSIUnitName> IfcSIUnitName::createObjectFromSTEP( const std::wstrin
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSIUnitName>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSIUnitName>(); }
 	shared_ptr<IfcSIUnitName> type_object( new IfcSIUnitName() );
-	if( boost::iequals( arg, L".AMPERE." ) )
+	if( std_iequal( arg, L".AMPERE." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_AMPERE;
 	}
-	else if( boost::iequals( arg, L".BECQUEREL." ) )
+	else if( std_iequal( arg, L".BECQUEREL." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_BECQUEREL;
 	}
-	else if( boost::iequals( arg, L".CANDELA." ) )
+	else if( std_iequal( arg, L".CANDELA." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_CANDELA;
 	}
-	else if( boost::iequals( arg, L".COULOMB." ) )
+	else if( std_iequal( arg, L".COULOMB." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_COULOMB;
 	}
-	else if( boost::iequals( arg, L".CUBIC_METRE." ) )
+	else if( std_iequal( arg, L".CUBIC_METRE." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_CUBIC_METRE;
 	}
-	else if( boost::iequals( arg, L".DEGREE_CELSIUS." ) )
+	else if( std_iequal( arg, L".DEGREE_CELSIUS." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_DEGREE_CELSIUS;
 	}
-	else if( boost::iequals( arg, L".FARAD." ) )
+	else if( std_iequal( arg, L".FARAD." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_FARAD;
 	}
-	else if( boost::iequals( arg, L".GRAM." ) )
+	else if( std_iequal( arg, L".GRAM." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_GRAM;
 	}
-	else if( boost::iequals( arg, L".GRAY." ) )
+	else if( std_iequal( arg, L".GRAY." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_GRAY;
 	}
-	else if( boost::iequals( arg, L".HENRY." ) )
+	else if( std_iequal( arg, L".HENRY." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_HENRY;
 	}
-	else if( boost::iequals( arg, L".HERTZ." ) )
+	else if( std_iequal( arg, L".HERTZ." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_HERTZ;
 	}
-	else if( boost::iequals( arg, L".JOULE." ) )
+	else if( std_iequal( arg, L".JOULE." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_JOULE;
 	}
-	else if( boost::iequals( arg, L".KELVIN." ) )
+	else if( std_iequal( arg, L".KELVIN." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_KELVIN;
 	}
-	else if( boost::iequals( arg, L".LUMEN." ) )
+	else if( std_iequal( arg, L".LUMEN." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_LUMEN;
 	}
-	else if( boost::iequals( arg, L".LUX." ) )
+	else if( std_iequal( arg, L".LUX." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_LUX;
 	}
-	else if( boost::iequals( arg, L".METRE." ) )
+	else if( std_iequal( arg, L".METRE." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_METRE;
 	}
-	else if( boost::iequals( arg, L".MOLE." ) )
+	else if( std_iequal( arg, L".MOLE." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_MOLE;
 	}
-	else if( boost::iequals( arg, L".NEWTON." ) )
+	else if( std_iequal( arg, L".NEWTON." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_NEWTON;
 	}
-	else if( boost::iequals( arg, L".OHM." ) )
+	else if( std_iequal( arg, L".OHM." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_OHM;
 	}
-	else if( boost::iequals( arg, L".PASCAL." ) )
+	else if( std_iequal( arg, L".PASCAL." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_PASCAL;
 	}
-	else if( boost::iequals( arg, L".RADIAN." ) )
+	else if( std_iequal( arg, L".RADIAN." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_RADIAN;
 	}
-	else if( boost::iequals( arg, L".SECOND." ) )
+	else if( std_iequal( arg, L".SECOND." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_SECOND;
 	}
-	else if( boost::iequals( arg, L".SIEMENS." ) )
+	else if( std_iequal( arg, L".SIEMENS." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_SIEMENS;
 	}
-	else if( boost::iequals( arg, L".SIEVERT." ) )
+	else if( std_iequal( arg, L".SIEVERT." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_SIEVERT;
 	}
-	else if( boost::iequals( arg, L".SQUARE_METRE." ) )
+	else if( std_iequal( arg, L".SQUARE_METRE." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_SQUARE_METRE;
 	}
-	else if( boost::iequals( arg, L".STERADIAN." ) )
+	else if( std_iequal( arg, L".STERADIAN." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_STERADIAN;
 	}
-	else if( boost::iequals( arg, L".TESLA." ) )
+	else if( std_iequal( arg, L".TESLA." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_TESLA;
 	}
-	else if( boost::iequals( arg, L".VOLT." ) )
+	else if( std_iequal( arg, L".VOLT." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_VOLT;
 	}
-	else if( boost::iequals( arg, L".WATT." ) )
+	else if( std_iequal( arg, L".WATT." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_WATT;
 	}
-	else if( boost::iequals( arg, L".WEBER." ) )
+	else if( std_iequal( arg, L".WEBER." ) )
 	{
 		type_object->m_enum = IfcSIUnitName::ENUM_WEBER;
 	}

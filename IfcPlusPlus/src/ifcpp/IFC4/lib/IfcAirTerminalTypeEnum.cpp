@@ -48,27 +48,27 @@ shared_ptr<IfcAirTerminalTypeEnum> IfcAirTerminalTypeEnum::createObjectFromSTEP(
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAirTerminalTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAirTerminalTypeEnum>(); }
 	shared_ptr<IfcAirTerminalTypeEnum> type_object( new IfcAirTerminalTypeEnum() );
-	if( boost::iequals( arg, L".DIFFUSER." ) )
+	if( std_iequal( arg, L".DIFFUSER." ) )
 	{
 		type_object->m_enum = IfcAirTerminalTypeEnum::ENUM_DIFFUSER;
 	}
-	else if( boost::iequals( arg, L".GRILLE." ) )
+	else if( std_iequal( arg, L".GRILLE." ) )
 	{
 		type_object->m_enum = IfcAirTerminalTypeEnum::ENUM_GRILLE;
 	}
-	else if( boost::iequals( arg, L".LOUVRE." ) )
+	else if( std_iequal( arg, L".LOUVRE." ) )
 	{
 		type_object->m_enum = IfcAirTerminalTypeEnum::ENUM_LOUVRE;
 	}
-	else if( boost::iequals( arg, L".REGISTER." ) )
+	else if( std_iequal( arg, L".REGISTER." ) )
 	{
 		type_object->m_enum = IfcAirTerminalTypeEnum::ENUM_REGISTER;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcAirTerminalTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcAirTerminalTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -48,27 +48,27 @@ shared_ptr<IfcSlabTypeEnum> IfcSlabTypeEnum::createObjectFromSTEP( const std::ws
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSlabTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSlabTypeEnum>(); }
 	shared_ptr<IfcSlabTypeEnum> type_object( new IfcSlabTypeEnum() );
-	if( boost::iequals( arg, L".FLOOR." ) )
+	if( std_iequal( arg, L".FLOOR." ) )
 	{
 		type_object->m_enum = IfcSlabTypeEnum::ENUM_FLOOR;
 	}
-	else if( boost::iequals( arg, L".ROOF." ) )
+	else if( std_iequal( arg, L".ROOF." ) )
 	{
 		type_object->m_enum = IfcSlabTypeEnum::ENUM_ROOF;
 	}
-	else if( boost::iequals( arg, L".LANDING." ) )
+	else if( std_iequal( arg, L".LANDING." ) )
 	{
 		type_object->m_enum = IfcSlabTypeEnum::ENUM_LANDING;
 	}
-	else if( boost::iequals( arg, L".BASESLAB." ) )
+	else if( std_iequal( arg, L".BASESLAB." ) )
 	{
 		type_object->m_enum = IfcSlabTypeEnum::ENUM_BASESLAB;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSlabTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSlabTypeEnum::ENUM_NOTDEFINED;
 	}

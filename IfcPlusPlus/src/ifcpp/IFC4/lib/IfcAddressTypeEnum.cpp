@@ -46,23 +46,23 @@ shared_ptr<IfcAddressTypeEnum> IfcAddressTypeEnum::createObjectFromSTEP( const s
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAddressTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAddressTypeEnum>(); }
 	shared_ptr<IfcAddressTypeEnum> type_object( new IfcAddressTypeEnum() );
-	if( boost::iequals( arg, L".OFFICE." ) )
+	if( std_iequal( arg, L".OFFICE." ) )
 	{
 		type_object->m_enum = IfcAddressTypeEnum::ENUM_OFFICE;
 	}
-	else if( boost::iequals( arg, L".SITE." ) )
+	else if( std_iequal( arg, L".SITE." ) )
 	{
 		type_object->m_enum = IfcAddressTypeEnum::ENUM_SITE;
 	}
-	else if( boost::iequals( arg, L".HOME." ) )
+	else if( std_iequal( arg, L".HOME." ) )
 	{
 		type_object->m_enum = IfcAddressTypeEnum::ENUM_HOME;
 	}
-	else if( boost::iequals( arg, L".DISTRIBUTIONPOINT." ) )
+	else if( std_iequal( arg, L".DISTRIBUTIONPOINT." ) )
 	{
 		type_object->m_enum = IfcAddressTypeEnum::ENUM_DISTRIBUTIONPOINT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcAddressTypeEnum::ENUM_USERDEFINED;
 	}

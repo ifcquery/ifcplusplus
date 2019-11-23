@@ -54,39 +54,39 @@ shared_ptr<IfcCoilTypeEnum> IfcCoilTypeEnum::createObjectFromSTEP( const std::ws
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCoilTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCoilTypeEnum>(); }
 	shared_ptr<IfcCoilTypeEnum> type_object( new IfcCoilTypeEnum() );
-	if( boost::iequals( arg, L".DXCOOLINGCOIL." ) )
+	if( std_iequal( arg, L".DXCOOLINGCOIL." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_DXCOOLINGCOIL;
 	}
-	else if( boost::iequals( arg, L".ELECTRICHEATINGCOIL." ) )
+	else if( std_iequal( arg, L".ELECTRICHEATINGCOIL." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_ELECTRICHEATINGCOIL;
 	}
-	else if( boost::iequals( arg, L".GASHEATINGCOIL." ) )
+	else if( std_iequal( arg, L".GASHEATINGCOIL." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_GASHEATINGCOIL;
 	}
-	else if( boost::iequals( arg, L".HYDRONICCOIL." ) )
+	else if( std_iequal( arg, L".HYDRONICCOIL." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_HYDRONICCOIL;
 	}
-	else if( boost::iequals( arg, L".STEAMHEATINGCOIL." ) )
+	else if( std_iequal( arg, L".STEAMHEATINGCOIL." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_STEAMHEATINGCOIL;
 	}
-	else if( boost::iequals( arg, L".WATERCOOLINGCOIL." ) )
+	else if( std_iequal( arg, L".WATERCOOLINGCOIL." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_WATERCOOLINGCOIL;
 	}
-	else if( boost::iequals( arg, L".WATERHEATINGCOIL." ) )
+	else if( std_iequal( arg, L".WATERHEATINGCOIL." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_WATERHEATINGCOIL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCoilTypeEnum::ENUM_NOTDEFINED;
 	}

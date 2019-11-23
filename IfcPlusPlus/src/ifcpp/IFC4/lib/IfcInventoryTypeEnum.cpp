@@ -46,23 +46,23 @@ shared_ptr<IfcInventoryTypeEnum> IfcInventoryTypeEnum::createObjectFromSTEP( con
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInventoryTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInventoryTypeEnum>(); }
 	shared_ptr<IfcInventoryTypeEnum> type_object( new IfcInventoryTypeEnum() );
-	if( boost::iequals( arg, L".ASSETINVENTORY." ) )
+	if( std_iequal( arg, L".ASSETINVENTORY." ) )
 	{
 		type_object->m_enum = IfcInventoryTypeEnum::ENUM_ASSETINVENTORY;
 	}
-	else if( boost::iequals( arg, L".SPACEINVENTORY." ) )
+	else if( std_iequal( arg, L".SPACEINVENTORY." ) )
 	{
 		type_object->m_enum = IfcInventoryTypeEnum::ENUM_SPACEINVENTORY;
 	}
-	else if( boost::iequals( arg, L".FURNITUREINVENTORY." ) )
+	else if( std_iequal( arg, L".FURNITUREINVENTORY." ) )
 	{
 		type_object->m_enum = IfcInventoryTypeEnum::ENUM_FURNITUREINVENTORY;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcInventoryTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcInventoryTypeEnum::ENUM_NOTDEFINED;
 	}

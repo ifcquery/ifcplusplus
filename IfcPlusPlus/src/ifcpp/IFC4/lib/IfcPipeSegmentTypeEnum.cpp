@@ -50,31 +50,31 @@ shared_ptr<IfcPipeSegmentTypeEnum> IfcPipeSegmentTypeEnum::createObjectFromSTEP(
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPipeSegmentTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPipeSegmentTypeEnum>(); }
 	shared_ptr<IfcPipeSegmentTypeEnum> type_object( new IfcPipeSegmentTypeEnum() );
-	if( boost::iequals( arg, L".CULVERT." ) )
+	if( std_iequal( arg, L".CULVERT." ) )
 	{
 		type_object->m_enum = IfcPipeSegmentTypeEnum::ENUM_CULVERT;
 	}
-	else if( boost::iequals( arg, L".FLEXIBLESEGMENT." ) )
+	else if( std_iequal( arg, L".FLEXIBLESEGMENT." ) )
 	{
 		type_object->m_enum = IfcPipeSegmentTypeEnum::ENUM_FLEXIBLESEGMENT;
 	}
-	else if( boost::iequals( arg, L".RIGIDSEGMENT." ) )
+	else if( std_iequal( arg, L".RIGIDSEGMENT." ) )
 	{
 		type_object->m_enum = IfcPipeSegmentTypeEnum::ENUM_RIGIDSEGMENT;
 	}
-	else if( boost::iequals( arg, L".GUTTER." ) )
+	else if( std_iequal( arg, L".GUTTER." ) )
 	{
 		type_object->m_enum = IfcPipeSegmentTypeEnum::ENUM_GUTTER;
 	}
-	else if( boost::iequals( arg, L".SPOOL." ) )
+	else if( std_iequal( arg, L".SPOOL." ) )
 	{
 		type_object->m_enum = IfcPipeSegmentTypeEnum::ENUM_SPOOL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPipeSegmentTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPipeSegmentTypeEnum::ENUM_NOTDEFINED;
 	}

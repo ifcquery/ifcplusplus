@@ -46,23 +46,23 @@ shared_ptr<IfcConstraintEnum> IfcConstraintEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstraintEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConstraintEnum>(); }
 	shared_ptr<IfcConstraintEnum> type_object( new IfcConstraintEnum() );
-	if( boost::iequals( arg, L".HARD." ) )
+	if( std_iequal( arg, L".HARD." ) )
 	{
 		type_object->m_enum = IfcConstraintEnum::ENUM_HARD;
 	}
-	else if( boost::iequals( arg, L".SOFT." ) )
+	else if( std_iequal( arg, L".SOFT." ) )
 	{
 		type_object->m_enum = IfcConstraintEnum::ENUM_SOFT;
 	}
-	else if( boost::iequals( arg, L".ADVISORY." ) )
+	else if( std_iequal( arg, L".ADVISORY." ) )
 	{
 		type_object->m_enum = IfcConstraintEnum::ENUM_ADVISORY;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstraintEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstraintEnum::ENUM_NOTDEFINED;
 	}

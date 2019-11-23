@@ -44,19 +44,19 @@ shared_ptr<IfcFlowDirectionEnum> IfcFlowDirectionEnum::createObjectFromSTEP( con
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFlowDirectionEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFlowDirectionEnum>(); }
 	shared_ptr<IfcFlowDirectionEnum> type_object( new IfcFlowDirectionEnum() );
-	if( boost::iequals( arg, L".SOURCE." ) )
+	if( std_iequal( arg, L".SOURCE." ) )
 	{
 		type_object->m_enum = IfcFlowDirectionEnum::ENUM_SOURCE;
 	}
-	else if( boost::iequals( arg, L".SINK." ) )
+	else if( std_iequal( arg, L".SINK." ) )
 	{
 		type_object->m_enum = IfcFlowDirectionEnum::ENUM_SINK;
 	}
-	else if( boost::iequals( arg, L".SOURCEANDSINK." ) )
+	else if( std_iequal( arg, L".SOURCEANDSINK." ) )
 	{
 		type_object->m_enum = IfcFlowDirectionEnum::ENUM_SOURCEANDSINK;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFlowDirectionEnum::ENUM_NOTDEFINED;
 	}

@@ -50,31 +50,31 @@ shared_ptr<IfcOutletTypeEnum> IfcOutletTypeEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcOutletTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcOutletTypeEnum>(); }
 	shared_ptr<IfcOutletTypeEnum> type_object( new IfcOutletTypeEnum() );
-	if( boost::iequals( arg, L".AUDIOVISUALOUTLET." ) )
+	if( std_iequal( arg, L".AUDIOVISUALOUTLET." ) )
 	{
 		type_object->m_enum = IfcOutletTypeEnum::ENUM_AUDIOVISUALOUTLET;
 	}
-	else if( boost::iequals( arg, L".COMMUNICATIONSOUTLET." ) )
+	else if( std_iequal( arg, L".COMMUNICATIONSOUTLET." ) )
 	{
 		type_object->m_enum = IfcOutletTypeEnum::ENUM_COMMUNICATIONSOUTLET;
 	}
-	else if( boost::iequals( arg, L".POWEROUTLET." ) )
+	else if( std_iequal( arg, L".POWEROUTLET." ) )
 	{
 		type_object->m_enum = IfcOutletTypeEnum::ENUM_POWEROUTLET;
 	}
-	else if( boost::iequals( arg, L".DATAOUTLET." ) )
+	else if( std_iequal( arg, L".DATAOUTLET." ) )
 	{
 		type_object->m_enum = IfcOutletTypeEnum::ENUM_DATAOUTLET;
 	}
-	else if( boost::iequals( arg, L".TELEPHONEOUTLET." ) )
+	else if( std_iequal( arg, L".TELEPHONEOUTLET." ) )
 	{
 		type_object->m_enum = IfcOutletTypeEnum::ENUM_TELEPHONEOUTLET;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcOutletTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcOutletTypeEnum::ENUM_NOTDEFINED;
 	}

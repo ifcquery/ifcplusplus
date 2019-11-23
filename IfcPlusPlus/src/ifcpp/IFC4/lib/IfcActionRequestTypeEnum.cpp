@@ -50,31 +50,31 @@ shared_ptr<IfcActionRequestTypeEnum> IfcActionRequestTypeEnum::createObjectFromS
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActionRequestTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActionRequestTypeEnum>(); }
 	shared_ptr<IfcActionRequestTypeEnum> type_object( new IfcActionRequestTypeEnum() );
-	if( boost::iequals( arg, L".EMAIL." ) )
+	if( std_iequal( arg, L".EMAIL." ) )
 	{
 		type_object->m_enum = IfcActionRequestTypeEnum::ENUM_EMAIL;
 	}
-	else if( boost::iequals( arg, L".FAX." ) )
+	else if( std_iequal( arg, L".FAX." ) )
 	{
 		type_object->m_enum = IfcActionRequestTypeEnum::ENUM_FAX;
 	}
-	else if( boost::iequals( arg, L".PHONE." ) )
+	else if( std_iequal( arg, L".PHONE." ) )
 	{
 		type_object->m_enum = IfcActionRequestTypeEnum::ENUM_PHONE;
 	}
-	else if( boost::iequals( arg, L".POST." ) )
+	else if( std_iequal( arg, L".POST." ) )
 	{
 		type_object->m_enum = IfcActionRequestTypeEnum::ENUM_POST;
 	}
-	else if( boost::iequals( arg, L".VERBAL." ) )
+	else if( std_iequal( arg, L".VERBAL." ) )
 	{
 		type_object->m_enum = IfcActionRequestTypeEnum::ENUM_VERBAL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcActionRequestTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcActionRequestTypeEnum::ENUM_NOTDEFINED;
 	}

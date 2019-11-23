@@ -40,11 +40,11 @@ shared_ptr<IfcProjectionElementTypeEnum> IfcProjectionElementTypeEnum::createObj
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProjectionElementTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProjectionElementTypeEnum>(); }
 	shared_ptr<IfcProjectionElementTypeEnum> type_object( new IfcProjectionElementTypeEnum() );
-	if( boost::iequals( arg, L".USERDEFINED." ) )
+	if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcProjectionElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcProjectionElementTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -48,27 +48,27 @@ shared_ptr<IfcTendonTypeEnum> IfcTendonTypeEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTendonTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTendonTypeEnum>(); }
 	shared_ptr<IfcTendonTypeEnum> type_object( new IfcTendonTypeEnum() );
-	if( boost::iequals( arg, L".BAR." ) )
+	if( std_iequal( arg, L".BAR." ) )
 	{
 		type_object->m_enum = IfcTendonTypeEnum::ENUM_BAR;
 	}
-	else if( boost::iequals( arg, L".COATED." ) )
+	else if( std_iequal( arg, L".COATED." ) )
 	{
 		type_object->m_enum = IfcTendonTypeEnum::ENUM_COATED;
 	}
-	else if( boost::iequals( arg, L".STRAND." ) )
+	else if( std_iequal( arg, L".STRAND." ) )
 	{
 		type_object->m_enum = IfcTendonTypeEnum::ENUM_STRAND;
 	}
-	else if( boost::iequals( arg, L".WIRE." ) )
+	else if( std_iequal( arg, L".WIRE." ) )
 	{
 		type_object->m_enum = IfcTendonTypeEnum::ENUM_WIRE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcTendonTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTendonTypeEnum::ENUM_NOTDEFINED;
 	}

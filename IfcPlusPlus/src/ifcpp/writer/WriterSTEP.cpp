@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <sstream>
 #include <iomanip>
 #include <clocale>
-#include <boost/fusion/container/map.hpp>
+#include <codecvt>
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 #include "ifcpp/model/BuildingModel.h"
@@ -30,6 +30,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ifcpp/IFC4/include/IfcProject.h"
 #include "ifcpp/writer/WriterSTEP.h"
 #include "ifcpp/reader/ReaderUtil.h"
+
+inline std::string ws2s(const std::wstring& wstr)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
+	return StringConverter.to_bytes(wstr);
+}
 
 void WriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<BuildingModel> model )
 {

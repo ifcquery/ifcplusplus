@@ -40,11 +40,11 @@ shared_ptr<IfcReinforcingBarSurfaceEnum> IfcReinforcingBarSurfaceEnum::createObj
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReinforcingBarSurfaceEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReinforcingBarSurfaceEnum>(); }
 	shared_ptr<IfcReinforcingBarSurfaceEnum> type_object( new IfcReinforcingBarSurfaceEnum() );
-	if( boost::iequals( arg, L".PLAIN." ) )
+	if( std_iequal( arg, L".PLAIN." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarSurfaceEnum::ENUM_PLAIN;
 	}
-	else if( boost::iequals( arg, L".TEXTURED." ) )
+	else if( std_iequal( arg, L".TEXTURED." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarSurfaceEnum::ENUM_TEXTURED;
 	}

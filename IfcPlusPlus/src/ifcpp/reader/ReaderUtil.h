@@ -20,15 +20,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma warning ( disable: 4996 )  // for boost\random\detail\polynomial.hpp
 
 #include <algorithm>
-#include <locale>
 #include <string>
 #include <vector>
-#include <locale>
-#include <codecvt>
 #include <map>
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <cwctype>
 #include <boost/optional.hpp>
 #include <boost/algorithm/string.hpp>
 #include "ifcpp/model/BasicTypes.h"
@@ -64,16 +62,13 @@ void findEndOfString(char*& stream_pos);
 void findEndOfWString(wchar_t*& stream_pos);
 void checkOpeningClosingParenthesis(const wchar_t* ch_check);
 
-inline std::wstring s2ws(const std::string& str)
+inline bool std_iequal(const std::wstring& a, const std::wstring& b)
 {
-	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
-	return StringConverter.from_bytes(str);
-}
-
-inline std::string ws2s(const std::wstring& wstr)
-{
-	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
-	return StringConverter.to_bytes(wstr);
+	if (a.size() == b.size())
+	{
+		return std::equal(a.begin(), a.end(), b.begin(), [](const wchar_t l, const wchar_t r) { return std::towupper(l) == std::towupper(r); });
+	}
+	return false;
 }
 
 inline void readIntegerValue( const std::wstring& str, int& int_value )

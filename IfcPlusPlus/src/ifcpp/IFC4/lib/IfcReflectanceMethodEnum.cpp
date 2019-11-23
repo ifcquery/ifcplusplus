@@ -56,43 +56,43 @@ shared_ptr<IfcReflectanceMethodEnum> IfcReflectanceMethodEnum::createObjectFromS
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReflectanceMethodEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReflectanceMethodEnum>(); }
 	shared_ptr<IfcReflectanceMethodEnum> type_object( new IfcReflectanceMethodEnum() );
-	if( boost::iequals( arg, L".BLINN." ) )
+	if( std_iequal( arg, L".BLINN." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_BLINN;
 	}
-	else if( boost::iequals( arg, L".FLAT." ) )
+	else if( std_iequal( arg, L".FLAT." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_FLAT;
 	}
-	else if( boost::iequals( arg, L".GLASS." ) )
+	else if( std_iequal( arg, L".GLASS." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_GLASS;
 	}
-	else if( boost::iequals( arg, L".MATT." ) )
+	else if( std_iequal( arg, L".MATT." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_MATT;
 	}
-	else if( boost::iequals( arg, L".METAL." ) )
+	else if( std_iequal( arg, L".METAL." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_METAL;
 	}
-	else if( boost::iequals( arg, L".MIRROR." ) )
+	else if( std_iequal( arg, L".MIRROR." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_MIRROR;
 	}
-	else if( boost::iequals( arg, L".PHONG." ) )
+	else if( std_iequal( arg, L".PHONG." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_PHONG;
 	}
-	else if( boost::iequals( arg, L".PLASTIC." ) )
+	else if( std_iequal( arg, L".PLASTIC." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_PLASTIC;
 	}
-	else if( boost::iequals( arg, L".STRAUSS." ) )
+	else if( std_iequal( arg, L".STRAUSS." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_STRAUSS;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcReflectanceMethodEnum::ENUM_NOTDEFINED;
 	}

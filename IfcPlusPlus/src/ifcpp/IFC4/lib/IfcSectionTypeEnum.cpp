@@ -40,11 +40,11 @@ shared_ptr<IfcSectionTypeEnum> IfcSectionTypeEnum::createObjectFromSTEP( const s
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSectionTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSectionTypeEnum>(); }
 	shared_ptr<IfcSectionTypeEnum> type_object( new IfcSectionTypeEnum() );
-	if( boost::iequals( arg, L".UNIFORM." ) )
+	if( std_iequal( arg, L".UNIFORM." ) )
 	{
 		type_object->m_enum = IfcSectionTypeEnum::ENUM_UNIFORM;
 	}
-	else if( boost::iequals( arg, L".TAPERED." ) )
+	else if( std_iequal( arg, L".TAPERED." ) )
 	{
 		type_object->m_enum = IfcSectionTypeEnum::ENUM_TAPERED;
 	}

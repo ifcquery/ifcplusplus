@@ -48,27 +48,27 @@ shared_ptr<IfcBSplineCurveForm> IfcBSplineCurveForm::createObjectFromSTEP( const
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBSplineCurveForm>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBSplineCurveForm>(); }
 	shared_ptr<IfcBSplineCurveForm> type_object( new IfcBSplineCurveForm() );
-	if( boost::iequals( arg, L".POLYLINE_FORM." ) )
+	if( std_iequal( arg, L".POLYLINE_FORM." ) )
 	{
 		type_object->m_enum = IfcBSplineCurveForm::ENUM_POLYLINE_FORM;
 	}
-	else if( boost::iequals( arg, L".CIRCULAR_ARC." ) )
+	else if( std_iequal( arg, L".CIRCULAR_ARC." ) )
 	{
 		type_object->m_enum = IfcBSplineCurveForm::ENUM_CIRCULAR_ARC;
 	}
-	else if( boost::iequals( arg, L".ELLIPTIC_ARC." ) )
+	else if( std_iequal( arg, L".ELLIPTIC_ARC." ) )
 	{
 		type_object->m_enum = IfcBSplineCurveForm::ENUM_ELLIPTIC_ARC;
 	}
-	else if( boost::iequals( arg, L".PARABOLIC_ARC." ) )
+	else if( std_iequal( arg, L".PARABOLIC_ARC." ) )
 	{
 		type_object->m_enum = IfcBSplineCurveForm::ENUM_PARABOLIC_ARC;
 	}
-	else if( boost::iequals( arg, L".HYPERBOLIC_ARC." ) )
+	else if( std_iequal( arg, L".HYPERBOLIC_ARC." ) )
 	{
 		type_object->m_enum = IfcBSplineCurveForm::ENUM_HYPERBOLIC_ARC;
 	}
-	else if( boost::iequals( arg, L".UNSPECIFIED." ) )
+	else if( std_iequal( arg, L".UNSPECIFIED." ) )
 	{
 		type_object->m_enum = IfcBSplineCurveForm::ENUM_UNSPECIFIED;
 	}

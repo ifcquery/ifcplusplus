@@ -58,47 +58,47 @@ shared_ptr<IfcSwitchingDeviceTypeEnum> IfcSwitchingDeviceTypeEnum::createObjectF
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSwitchingDeviceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSwitchingDeviceTypeEnum>(); }
 	shared_ptr<IfcSwitchingDeviceTypeEnum> type_object( new IfcSwitchingDeviceTypeEnum() );
-	if( boost::iequals( arg, L".CONTACTOR." ) )
+	if( std_iequal( arg, L".CONTACTOR." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_CONTACTOR;
 	}
-	else if( boost::iequals( arg, L".DIMMERSWITCH." ) )
+	else if( std_iequal( arg, L".DIMMERSWITCH." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_DIMMERSWITCH;
 	}
-	else if( boost::iequals( arg, L".EMERGENCYSTOP." ) )
+	else if( std_iequal( arg, L".EMERGENCYSTOP." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_EMERGENCYSTOP;
 	}
-	else if( boost::iequals( arg, L".KEYPAD." ) )
+	else if( std_iequal( arg, L".KEYPAD." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_KEYPAD;
 	}
-	else if( boost::iequals( arg, L".MOMENTARYSWITCH." ) )
+	else if( std_iequal( arg, L".MOMENTARYSWITCH." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_MOMENTARYSWITCH;
 	}
-	else if( boost::iequals( arg, L".SELECTORSWITCH." ) )
+	else if( std_iequal( arg, L".SELECTORSWITCH." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_SELECTORSWITCH;
 	}
-	else if( boost::iequals( arg, L".STARTER." ) )
+	else if( std_iequal( arg, L".STARTER." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_STARTER;
 	}
-	else if( boost::iequals( arg, L".SWITCHDISCONNECTOR." ) )
+	else if( std_iequal( arg, L".SWITCHDISCONNECTOR." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_SWITCHDISCONNECTOR;
 	}
-	else if( boost::iequals( arg, L".TOGGLESWITCH." ) )
+	else if( std_iequal( arg, L".TOGGLESWITCH." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_TOGGLESWITCH;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_NOTDEFINED;
 	}

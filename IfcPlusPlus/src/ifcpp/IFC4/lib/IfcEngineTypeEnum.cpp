@@ -44,19 +44,19 @@ shared_ptr<IfcEngineTypeEnum> IfcEngineTypeEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEngineTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEngineTypeEnum>(); }
 	shared_ptr<IfcEngineTypeEnum> type_object( new IfcEngineTypeEnum() );
-	if( boost::iequals( arg, L".EXTERNALCOMBUSTION." ) )
+	if( std_iequal( arg, L".EXTERNALCOMBUSTION." ) )
 	{
 		type_object->m_enum = IfcEngineTypeEnum::ENUM_EXTERNALCOMBUSTION;
 	}
-	else if( boost::iequals( arg, L".INTERNALCOMBUSTION." ) )
+	else if( std_iequal( arg, L".INTERNALCOMBUSTION." ) )
 	{
 		type_object->m_enum = IfcEngineTypeEnum::ENUM_INTERNALCOMBUSTION;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcEngineTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcEngineTypeEnum::ENUM_NOTDEFINED;
 	}

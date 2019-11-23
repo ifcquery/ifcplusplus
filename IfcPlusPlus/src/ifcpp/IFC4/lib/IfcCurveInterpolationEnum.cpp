@@ -44,19 +44,19 @@ shared_ptr<IfcCurveInterpolationEnum> IfcCurveInterpolationEnum::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCurveInterpolationEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCurveInterpolationEnum>(); }
 	shared_ptr<IfcCurveInterpolationEnum> type_object( new IfcCurveInterpolationEnum() );
-	if( boost::iequals( arg, L".LINEAR." ) )
+	if( std_iequal( arg, L".LINEAR." ) )
 	{
 		type_object->m_enum = IfcCurveInterpolationEnum::ENUM_LINEAR;
 	}
-	else if( boost::iequals( arg, L".LOG_LINEAR." ) )
+	else if( std_iequal( arg, L".LOG_LINEAR." ) )
 	{
 		type_object->m_enum = IfcCurveInterpolationEnum::ENUM_LOG_LINEAR;
 	}
-	else if( boost::iequals( arg, L".LOG_LOG." ) )
+	else if( std_iequal( arg, L".LOG_LOG." ) )
 	{
 		type_object->m_enum = IfcCurveInterpolationEnum::ENUM_LOG_LOG;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCurveInterpolationEnum::ENUM_NOTDEFINED;
 	}

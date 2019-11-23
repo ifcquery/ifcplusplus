@@ -42,15 +42,15 @@ shared_ptr<IfcSurfaceSide> IfcSurfaceSide::createObjectFromSTEP( const std::wstr
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSurfaceSide>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSurfaceSide>(); }
 	shared_ptr<IfcSurfaceSide> type_object( new IfcSurfaceSide() );
-	if( boost::iequals( arg, L".POSITIVE." ) )
+	if( std_iequal( arg, L".POSITIVE." ) )
 	{
 		type_object->m_enum = IfcSurfaceSide::ENUM_POSITIVE;
 	}
-	else if( boost::iequals( arg, L".NEGATIVE." ) )
+	else if( std_iequal( arg, L".NEGATIVE." ) )
 	{
 		type_object->m_enum = IfcSurfaceSide::ENUM_NEGATIVE;
 	}
-	else if( boost::iequals( arg, L".BOTH." ) )
+	else if( std_iequal( arg, L".BOTH." ) )
 	{
 		type_object->m_enum = IfcSurfaceSide::ENUM_BOTH;
 	}

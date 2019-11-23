@@ -46,23 +46,23 @@ shared_ptr<IfcStructuralSurfaceMemberTypeEnum> IfcStructuralSurfaceMemberTypeEnu
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStructuralSurfaceMemberTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStructuralSurfaceMemberTypeEnum>(); }
 	shared_ptr<IfcStructuralSurfaceMemberTypeEnum> type_object( new IfcStructuralSurfaceMemberTypeEnum() );
-	if( boost::iequals( arg, L".BENDING_ELEMENT." ) )
+	if( std_iequal( arg, L".BENDING_ELEMENT." ) )
 	{
 		type_object->m_enum = IfcStructuralSurfaceMemberTypeEnum::ENUM_BENDING_ELEMENT;
 	}
-	else if( boost::iequals( arg, L".MEMBRANE_ELEMENT." ) )
+	else if( std_iequal( arg, L".MEMBRANE_ELEMENT." ) )
 	{
 		type_object->m_enum = IfcStructuralSurfaceMemberTypeEnum::ENUM_MEMBRANE_ELEMENT;
 	}
-	else if( boost::iequals( arg, L".SHELL." ) )
+	else if( std_iequal( arg, L".SHELL." ) )
 	{
 		type_object->m_enum = IfcStructuralSurfaceMemberTypeEnum::ENUM_SHELL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcStructuralSurfaceMemberTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcStructuralSurfaceMemberTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -48,27 +48,27 @@ shared_ptr<IfcCableCarrierFittingTypeEnum> IfcCableCarrierFittingTypeEnum::creat
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCableCarrierFittingTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCableCarrierFittingTypeEnum>(); }
 	shared_ptr<IfcCableCarrierFittingTypeEnum> type_object( new IfcCableCarrierFittingTypeEnum() );
-	if( boost::iequals( arg, L".BEND." ) )
+	if( std_iequal( arg, L".BEND." ) )
 	{
 		type_object->m_enum = IfcCableCarrierFittingTypeEnum::ENUM_BEND;
 	}
-	else if( boost::iequals( arg, L".CROSS." ) )
+	else if( std_iequal( arg, L".CROSS." ) )
 	{
 		type_object->m_enum = IfcCableCarrierFittingTypeEnum::ENUM_CROSS;
 	}
-	else if( boost::iequals( arg, L".REDUCER." ) )
+	else if( std_iequal( arg, L".REDUCER." ) )
 	{
 		type_object->m_enum = IfcCableCarrierFittingTypeEnum::ENUM_REDUCER;
 	}
-	else if( boost::iequals( arg, L".TEE." ) )
+	else if( std_iequal( arg, L".TEE." ) )
 	{
 		type_object->m_enum = IfcCableCarrierFittingTypeEnum::ENUM_TEE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCableCarrierFittingTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCableCarrierFittingTypeEnum::ENUM_NOTDEFINED;
 	}

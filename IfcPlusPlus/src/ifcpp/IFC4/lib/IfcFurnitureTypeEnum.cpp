@@ -54,39 +54,39 @@ shared_ptr<IfcFurnitureTypeEnum> IfcFurnitureTypeEnum::createObjectFromSTEP( con
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFurnitureTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFurnitureTypeEnum>(); }
 	shared_ptr<IfcFurnitureTypeEnum> type_object( new IfcFurnitureTypeEnum() );
-	if( boost::iequals( arg, L".CHAIR." ) )
+	if( std_iequal( arg, L".CHAIR." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_CHAIR;
 	}
-	else if( boost::iequals( arg, L".TABLE." ) )
+	else if( std_iequal( arg, L".TABLE." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_TABLE;
 	}
-	else if( boost::iequals( arg, L".DESK." ) )
+	else if( std_iequal( arg, L".DESK." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_DESK;
 	}
-	else if( boost::iequals( arg, L".BED." ) )
+	else if( std_iequal( arg, L".BED." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_BED;
 	}
-	else if( boost::iequals( arg, L".FILECABINET." ) )
+	else if( std_iequal( arg, L".FILECABINET." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_FILECABINET;
 	}
-	else if( boost::iequals( arg, L".SHELF." ) )
+	else if( std_iequal( arg, L".SHELF." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_SHELF;
 	}
-	else if( boost::iequals( arg, L".SOFA." ) )
+	else if( std_iequal( arg, L".SOFA." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_SOFA;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_NOTDEFINED;
 	}

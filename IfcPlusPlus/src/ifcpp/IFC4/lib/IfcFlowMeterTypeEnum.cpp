@@ -48,27 +48,27 @@ shared_ptr<IfcFlowMeterTypeEnum> IfcFlowMeterTypeEnum::createObjectFromSTEP( con
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFlowMeterTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFlowMeterTypeEnum>(); }
 	shared_ptr<IfcFlowMeterTypeEnum> type_object( new IfcFlowMeterTypeEnum() );
-	if( boost::iequals( arg, L".ENERGYMETER." ) )
+	if( std_iequal( arg, L".ENERGYMETER." ) )
 	{
 		type_object->m_enum = IfcFlowMeterTypeEnum::ENUM_ENERGYMETER;
 	}
-	else if( boost::iequals( arg, L".GASMETER." ) )
+	else if( std_iequal( arg, L".GASMETER." ) )
 	{
 		type_object->m_enum = IfcFlowMeterTypeEnum::ENUM_GASMETER;
 	}
-	else if( boost::iequals( arg, L".OILMETER." ) )
+	else if( std_iequal( arg, L".OILMETER." ) )
 	{
 		type_object->m_enum = IfcFlowMeterTypeEnum::ENUM_OILMETER;
 	}
-	else if( boost::iequals( arg, L".WATERMETER." ) )
+	else if( std_iequal( arg, L".WATERMETER." ) )
 	{
 		type_object->m_enum = IfcFlowMeterTypeEnum::ENUM_WATERMETER;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFlowMeterTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFlowMeterTypeEnum::ENUM_NOTDEFINED;
 	}

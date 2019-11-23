@@ -58,47 +58,47 @@ shared_ptr<IfcLampTypeEnum> IfcLampTypeEnum::createObjectFromSTEP( const std::ws
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLampTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLampTypeEnum>(); }
 	shared_ptr<IfcLampTypeEnum> type_object( new IfcLampTypeEnum() );
-	if( boost::iequals( arg, L".COMPACTFLUORESCENT." ) )
+	if( std_iequal( arg, L".COMPACTFLUORESCENT." ) )
 	{
 		type_object->m_enum = IfcLampTypeEnum::ENUM_COMPACTFLUORESCENT;
 	}
-	else if( boost::iequals( arg, L".FLUORESCENT." ) )
+	else if( std_iequal( arg, L".FLUORESCENT." ) )
 	{
 		type_object->m_enum = IfcLampTypeEnum::ENUM_FLUORESCENT;
 	}
-	else if( boost::iequals( arg, L".HALOGEN." ) )
+	else if( std_iequal( arg, L".HALOGEN." ) )
 	{
 		type_object->m_enum = IfcLampTypeEnum::ENUM_HALOGEN;
 	}
-	else if( boost::iequals( arg, L".HIGHPRESSUREMERCURY." ) )
+	else if( std_iequal( arg, L".HIGHPRESSUREMERCURY." ) )
 	{
 		type_object->m_enum = IfcLampTypeEnum::ENUM_HIGHPRESSUREMERCURY;
 	}
-	else if( boost::iequals( arg, L".HIGHPRESSURESODIUM." ) )
+	else if( std_iequal( arg, L".HIGHPRESSURESODIUM." ) )
 	{
 		type_object->m_enum = IfcLampTypeEnum::ENUM_HIGHPRESSURESODIUM;
 	}
-	else if( boost::iequals( arg, L".LED." ) )
+	else if( std_iequal( arg, L".LED." ) )
 	{
 		type_object->m_enum = IfcLampTypeEnum::ENUM_LED;
 	}
-	else if( boost::iequals( arg, L".METALHALIDE." ) )
+	else if( std_iequal( arg, L".METALHALIDE." ) )
 	{
 		type_object->m_enum = IfcLampTypeEnum::ENUM_METALHALIDE;
 	}
-	else if( boost::iequals( arg, L".OLED." ) )
+	else if( std_iequal( arg, L".OLED." ) )
 	{
 		type_object->m_enum = IfcLampTypeEnum::ENUM_OLED;
 	}
-	else if( boost::iequals( arg, L".TUNGSTENFILAMENT." ) )
+	else if( std_iequal( arg, L".TUNGSTENFILAMENT." ) )
 	{
 		type_object->m_enum = IfcLampTypeEnum::ENUM_TUNGSTENFILAMENT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcLampTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcLampTypeEnum::ENUM_NOTDEFINED;
 	}

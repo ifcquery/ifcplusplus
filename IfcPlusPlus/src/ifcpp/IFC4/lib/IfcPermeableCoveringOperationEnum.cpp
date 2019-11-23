@@ -46,23 +46,23 @@ shared_ptr<IfcPermeableCoveringOperationEnum> IfcPermeableCoveringOperationEnum:
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPermeableCoveringOperationEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPermeableCoveringOperationEnum>(); }
 	shared_ptr<IfcPermeableCoveringOperationEnum> type_object( new IfcPermeableCoveringOperationEnum() );
-	if( boost::iequals( arg, L".GRILL." ) )
+	if( std_iequal( arg, L".GRILL." ) )
 	{
 		type_object->m_enum = IfcPermeableCoveringOperationEnum::ENUM_GRILL;
 	}
-	else if( boost::iequals( arg, L".LOUVER." ) )
+	else if( std_iequal( arg, L".LOUVER." ) )
 	{
 		type_object->m_enum = IfcPermeableCoveringOperationEnum::ENUM_LOUVER;
 	}
-	else if( boost::iequals( arg, L".SCREEN." ) )
+	else if( std_iequal( arg, L".SCREEN." ) )
 	{
 		type_object->m_enum = IfcPermeableCoveringOperationEnum::ENUM_SCREEN;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPermeableCoveringOperationEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPermeableCoveringOperationEnum::ENUM_NOTDEFINED;
 	}

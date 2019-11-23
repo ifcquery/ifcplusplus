@@ -56,43 +56,43 @@ shared_ptr<IfcReinforcingBarRoleEnum> IfcReinforcingBarRoleEnum::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReinforcingBarRoleEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReinforcingBarRoleEnum>(); }
 	shared_ptr<IfcReinforcingBarRoleEnum> type_object( new IfcReinforcingBarRoleEnum() );
-	if( boost::iequals( arg, L".MAIN." ) )
+	if( std_iequal( arg, L".MAIN." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarRoleEnum::ENUM_MAIN;
 	}
-	else if( boost::iequals( arg, L".SHEAR." ) )
+	else if( std_iequal( arg, L".SHEAR." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarRoleEnum::ENUM_SHEAR;
 	}
-	else if( boost::iequals( arg, L".LIGATURE." ) )
+	else if( std_iequal( arg, L".LIGATURE." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarRoleEnum::ENUM_LIGATURE;
 	}
-	else if( boost::iequals( arg, L".STUD." ) )
+	else if( std_iequal( arg, L".STUD." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarRoleEnum::ENUM_STUD;
 	}
-	else if( boost::iequals( arg, L".PUNCHING." ) )
+	else if( std_iequal( arg, L".PUNCHING." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarRoleEnum::ENUM_PUNCHING;
 	}
-	else if( boost::iequals( arg, L".EDGE." ) )
+	else if( std_iequal( arg, L".EDGE." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarRoleEnum::ENUM_EDGE;
 	}
-	else if( boost::iequals( arg, L".RING." ) )
+	else if( std_iequal( arg, L".RING." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarRoleEnum::ENUM_RING;
 	}
-	else if( boost::iequals( arg, L".ANCHORING." ) )
+	else if( std_iequal( arg, L".ANCHORING." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarRoleEnum::ENUM_ANCHORING;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarRoleEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarRoleEnum::ENUM_NOTDEFINED;
 	}

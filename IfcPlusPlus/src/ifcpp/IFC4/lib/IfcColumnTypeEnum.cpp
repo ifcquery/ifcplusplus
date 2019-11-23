@@ -44,19 +44,19 @@ shared_ptr<IfcColumnTypeEnum> IfcColumnTypeEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcColumnTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcColumnTypeEnum>(); }
 	shared_ptr<IfcColumnTypeEnum> type_object( new IfcColumnTypeEnum() );
-	if( boost::iequals( arg, L".COLUMN." ) )
+	if( std_iequal( arg, L".COLUMN." ) )
 	{
 		type_object->m_enum = IfcColumnTypeEnum::ENUM_COLUMN;
 	}
-	else if( boost::iequals( arg, L".PILASTER." ) )
+	else if( std_iequal( arg, L".PILASTER." ) )
 	{
 		type_object->m_enum = IfcColumnTypeEnum::ENUM_PILASTER;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcColumnTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcColumnTypeEnum::ENUM_NOTDEFINED;
 	}

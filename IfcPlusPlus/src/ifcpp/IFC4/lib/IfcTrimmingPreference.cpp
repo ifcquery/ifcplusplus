@@ -42,15 +42,15 @@ shared_ptr<IfcTrimmingPreference> IfcTrimmingPreference::createObjectFromSTEP( c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTrimmingPreference>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTrimmingPreference>(); }
 	shared_ptr<IfcTrimmingPreference> type_object( new IfcTrimmingPreference() );
-	if( boost::iequals( arg, L".CARTESIAN." ) )
+	if( std_iequal( arg, L".CARTESIAN." ) )
 	{
 		type_object->m_enum = IfcTrimmingPreference::ENUM_CARTESIAN;
 	}
-	else if( boost::iequals( arg, L".PARAMETER." ) )
+	else if( std_iequal( arg, L".PARAMETER." ) )
 	{
 		type_object->m_enum = IfcTrimmingPreference::ENUM_PARAMETER;
 	}
-	else if( boost::iequals( arg, L".UNSPECIFIED." ) )
+	else if( std_iequal( arg, L".UNSPECIFIED." ) )
 	{
 		type_object->m_enum = IfcTrimmingPreference::ENUM_UNSPECIFIED;
 	}

@@ -66,63 +66,63 @@ shared_ptr<IfcHumidifierTypeEnum> IfcHumidifierTypeEnum::createObjectFromSTEP( c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcHumidifierTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcHumidifierTypeEnum>(); }
 	shared_ptr<IfcHumidifierTypeEnum> type_object( new IfcHumidifierTypeEnum() );
-	if( boost::iequals( arg, L".STEAMINJECTION." ) )
+	if( std_iequal( arg, L".STEAMINJECTION." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_STEAMINJECTION;
 	}
-	else if( boost::iequals( arg, L".ADIABATICAIRWASHER." ) )
+	else if( std_iequal( arg, L".ADIABATICAIRWASHER." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ADIABATICAIRWASHER;
 	}
-	else if( boost::iequals( arg, L".ADIABATICPAN." ) )
+	else if( std_iequal( arg, L".ADIABATICPAN." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ADIABATICPAN;
 	}
-	else if( boost::iequals( arg, L".ADIABATICWETTEDELEMENT." ) )
+	else if( std_iequal( arg, L".ADIABATICWETTEDELEMENT." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ADIABATICWETTEDELEMENT;
 	}
-	else if( boost::iequals( arg, L".ADIABATICATOMIZING." ) )
+	else if( std_iequal( arg, L".ADIABATICATOMIZING." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ADIABATICATOMIZING;
 	}
-	else if( boost::iequals( arg, L".ADIABATICULTRASONIC." ) )
+	else if( std_iequal( arg, L".ADIABATICULTRASONIC." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ADIABATICULTRASONIC;
 	}
-	else if( boost::iequals( arg, L".ADIABATICRIGIDMEDIA." ) )
+	else if( std_iequal( arg, L".ADIABATICRIGIDMEDIA." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ADIABATICRIGIDMEDIA;
 	}
-	else if( boost::iequals( arg, L".ADIABATICCOMPRESSEDAIRNOZZLE." ) )
+	else if( std_iequal( arg, L".ADIABATICCOMPRESSEDAIRNOZZLE." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ADIABATICCOMPRESSEDAIRNOZZLE;
 	}
-	else if( boost::iequals( arg, L".ASSISTEDELECTRIC." ) )
+	else if( std_iequal( arg, L".ASSISTEDELECTRIC." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ASSISTEDELECTRIC;
 	}
-	else if( boost::iequals( arg, L".ASSISTEDNATURALGAS." ) )
+	else if( std_iequal( arg, L".ASSISTEDNATURALGAS." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ASSISTEDNATURALGAS;
 	}
-	else if( boost::iequals( arg, L".ASSISTEDPROPANE." ) )
+	else if( std_iequal( arg, L".ASSISTEDPROPANE." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ASSISTEDPROPANE;
 	}
-	else if( boost::iequals( arg, L".ASSISTEDBUTANE." ) )
+	else if( std_iequal( arg, L".ASSISTEDBUTANE." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ASSISTEDBUTANE;
 	}
-	else if( boost::iequals( arg, L".ASSISTEDSTEAM." ) )
+	else if( std_iequal( arg, L".ASSISTEDSTEAM." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_ASSISTEDSTEAM;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcHumidifierTypeEnum::ENUM_NOTDEFINED;
 	}

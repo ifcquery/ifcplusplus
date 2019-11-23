@@ -50,31 +50,31 @@ shared_ptr<IfcActuatorTypeEnum> IfcActuatorTypeEnum::createObjectFromSTEP( const
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActuatorTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActuatorTypeEnum>(); }
 	shared_ptr<IfcActuatorTypeEnum> type_object( new IfcActuatorTypeEnum() );
-	if( boost::iequals( arg, L".ELECTRICACTUATOR." ) )
+	if( std_iequal( arg, L".ELECTRICACTUATOR." ) )
 	{
 		type_object->m_enum = IfcActuatorTypeEnum::ENUM_ELECTRICACTUATOR;
 	}
-	else if( boost::iequals( arg, L".HANDOPERATEDACTUATOR." ) )
+	else if( std_iequal( arg, L".HANDOPERATEDACTUATOR." ) )
 	{
 		type_object->m_enum = IfcActuatorTypeEnum::ENUM_HANDOPERATEDACTUATOR;
 	}
-	else if( boost::iequals( arg, L".HYDRAULICACTUATOR." ) )
+	else if( std_iequal( arg, L".HYDRAULICACTUATOR." ) )
 	{
 		type_object->m_enum = IfcActuatorTypeEnum::ENUM_HYDRAULICACTUATOR;
 	}
-	else if( boost::iequals( arg, L".PNEUMATICACTUATOR." ) )
+	else if( std_iequal( arg, L".PNEUMATICACTUATOR." ) )
 	{
 		type_object->m_enum = IfcActuatorTypeEnum::ENUM_PNEUMATICACTUATOR;
 	}
-	else if( boost::iequals( arg, L".THERMOSTATICACTUATOR." ) )
+	else if( std_iequal( arg, L".THERMOSTATICACTUATOR." ) )
 	{
 		type_object->m_enum = IfcActuatorTypeEnum::ENUM_THERMOSTATICACTUATOR;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcActuatorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcActuatorTypeEnum::ENUM_NOTDEFINED;
 	}

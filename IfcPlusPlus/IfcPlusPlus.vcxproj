@@ -1516,6 +1516,7 @@
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcZShapeProfileDef.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\TypeFactory.cpp" />
     <ClCompile Include="src\ifcpp\model\AttributeObject.cpp" />
+    <ClCompile Include="src\ifcpp\model\BuildingGuid.cpp" />
     <ClCompile Include="src\ifcpp\model\BuildingModel.cpp" />
     <ClCompile Include="src\ifcpp\model\UnitConverter.cpp" />
     <ClCompile Include="src\ifcpp\reader\AbstractReader.cpp" />

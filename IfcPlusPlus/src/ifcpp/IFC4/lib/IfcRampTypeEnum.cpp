@@ -52,35 +52,35 @@ shared_ptr<IfcRampTypeEnum> IfcRampTypeEnum::createObjectFromSTEP( const std::ws
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRampTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRampTypeEnum>(); }
 	shared_ptr<IfcRampTypeEnum> type_object( new IfcRampTypeEnum() );
-	if( boost::iequals( arg, L".STRAIGHT_RUN_RAMP." ) )
+	if( std_iequal( arg, L".STRAIGHT_RUN_RAMP." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_STRAIGHT_RUN_RAMP;
 	}
-	else if( boost::iequals( arg, L".TWO_STRAIGHT_RUN_RAMP." ) )
+	else if( std_iequal( arg, L".TWO_STRAIGHT_RUN_RAMP." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_TWO_STRAIGHT_RUN_RAMP;
 	}
-	else if( boost::iequals( arg, L".QUARTER_TURN_RAMP." ) )
+	else if( std_iequal( arg, L".QUARTER_TURN_RAMP." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_QUARTER_TURN_RAMP;
 	}
-	else if( boost::iequals( arg, L".TWO_QUARTER_TURN_RAMP." ) )
+	else if( std_iequal( arg, L".TWO_QUARTER_TURN_RAMP." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_TWO_QUARTER_TURN_RAMP;
 	}
-	else if( boost::iequals( arg, L".HALF_TURN_RAMP." ) )
+	else if( std_iequal( arg, L".HALF_TURN_RAMP." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_HALF_TURN_RAMP;
 	}
-	else if( boost::iequals( arg, L".SPIRAL_RAMP." ) )
+	else if( std_iequal( arg, L".SPIRAL_RAMP." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_SPIRAL_RAMP;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcRampTypeEnum::ENUM_NOTDEFINED;
 	}

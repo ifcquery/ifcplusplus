@@ -46,23 +46,23 @@ shared_ptr<IfcChangeActionEnum> IfcChangeActionEnum::createObjectFromSTEP( const
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcChangeActionEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcChangeActionEnum>(); }
 	shared_ptr<IfcChangeActionEnum> type_object( new IfcChangeActionEnum() );
-	if( boost::iequals( arg, L".NOCHANGE." ) )
+	if( std_iequal( arg, L".NOCHANGE." ) )
 	{
 		type_object->m_enum = IfcChangeActionEnum::ENUM_NOCHANGE;
 	}
-	else if( boost::iequals( arg, L".MODIFIED." ) )
+	else if( std_iequal( arg, L".MODIFIED." ) )
 	{
 		type_object->m_enum = IfcChangeActionEnum::ENUM_MODIFIED;
 	}
-	else if( boost::iequals( arg, L".ADDED." ) )
+	else if( std_iequal( arg, L".ADDED." ) )
 	{
 		type_object->m_enum = IfcChangeActionEnum::ENUM_ADDED;
 	}
-	else if( boost::iequals( arg, L".DELETED." ) )
+	else if( std_iequal( arg, L".DELETED." ) )
 	{
 		type_object->m_enum = IfcChangeActionEnum::ENUM_DELETED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcChangeActionEnum::ENUM_NOTDEFINED;
 	}

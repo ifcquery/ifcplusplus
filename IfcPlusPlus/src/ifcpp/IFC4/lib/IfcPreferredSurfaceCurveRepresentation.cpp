@@ -42,15 +42,15 @@ shared_ptr<IfcPreferredSurfaceCurveRepresentation> IfcPreferredSurfaceCurveRepre
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPreferredSurfaceCurveRepresentation>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPreferredSurfaceCurveRepresentation>(); }
 	shared_ptr<IfcPreferredSurfaceCurveRepresentation> type_object( new IfcPreferredSurfaceCurveRepresentation() );
-	if( boost::iequals( arg, L".CURVE3D." ) )
+	if( std_iequal( arg, L".CURVE3D." ) )
 	{
 		type_object->m_enum = IfcPreferredSurfaceCurveRepresentation::ENUM_CURVE3D;
 	}
-	else if( boost::iequals( arg, L".PCURVE_S1." ) )
+	else if( std_iequal( arg, L".PCURVE_S1." ) )
 	{
 		type_object->m_enum = IfcPreferredSurfaceCurveRepresentation::ENUM_PCURVE_S1;
 	}
-	else if( boost::iequals( arg, L".PCURVE_S2." ) )
+	else if( std_iequal( arg, L".PCURVE_S2." ) )
 	{
 		type_object->m_enum = IfcPreferredSurfaceCurveRepresentation::ENUM_PCURVE_S2;
 	}

@@ -147,14 +147,14 @@ void BuildingModel::initIfcModel()
 	unit_assignment->m_Units.push_back( plane_angle_unit );
 	insertEntity(unit_assignment);
 
-	project->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>() );
+	project->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid_wstr() );
 	project->m_OwnerHistory = owner_history;
 	project->m_Name = std::make_shared<IfcLabel>( L"IfcPlusPlus project" );
 	project->m_UnitsInContext = unit_assignment;
 
 	// create default IfcSite
 	shared_ptr<IfcSite> site( new IfcSite() );
-	site->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>() );
+	site->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid_wstr() );
 	site->m_OwnerHistory = owner_history;
 	site->m_Name = std::make_shared<IfcLabel>( L"Site" );
 	insertEntity(site);
@@ -165,7 +165,7 @@ void BuildingModel::initIfcModel()
 
 	// create default Building
 	shared_ptr<IfcBuilding> building( new IfcBuilding() );
-	building->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>() );
+	building->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid_wstr() );
 	building->m_OwnerHistory = owner_history;
 	building->m_Name = std::make_shared<IfcLabel>( L"Building" );
 	insertEntity( building );

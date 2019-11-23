@@ -48,27 +48,27 @@ shared_ptr<IfcExternalSpatialElementTypeEnum> IfcExternalSpatialElementTypeEnum:
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcExternalSpatialElementTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcExternalSpatialElementTypeEnum>(); }
 	shared_ptr<IfcExternalSpatialElementTypeEnum> type_object( new IfcExternalSpatialElementTypeEnum() );
-	if( boost::iequals( arg, L".EXTERNAL." ) )
+	if( std_iequal( arg, L".EXTERNAL." ) )
 	{
 		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_EXTERNAL;
 	}
-	else if( boost::iequals( arg, L".EXTERNAL_EARTH." ) )
+	else if( std_iequal( arg, L".EXTERNAL_EARTH." ) )
 	{
 		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_EXTERNAL_EARTH;
 	}
-	else if( boost::iequals( arg, L".EXTERNAL_WATER." ) )
+	else if( std_iequal( arg, L".EXTERNAL_WATER." ) )
 	{
 		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_EXTERNAL_WATER;
 	}
-	else if( boost::iequals( arg, L".EXTERNAL_FIRE." ) )
+	else if( std_iequal( arg, L".EXTERNAL_FIRE." ) )
 	{
 		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_EXTERNAL_FIRE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcExternalSpatialElementTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -54,39 +54,39 @@ shared_ptr<IfcGeometricProjectionEnum> IfcGeometricProjectionEnum::createObjectF
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGeometricProjectionEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGeometricProjectionEnum>(); }
 	shared_ptr<IfcGeometricProjectionEnum> type_object( new IfcGeometricProjectionEnum() );
-	if( boost::iequals( arg, L".GRAPH_VIEW." ) )
+	if( std_iequal( arg, L".GRAPH_VIEW." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_GRAPH_VIEW;
 	}
-	else if( boost::iequals( arg, L".SKETCH_VIEW." ) )
+	else if( std_iequal( arg, L".SKETCH_VIEW." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_SKETCH_VIEW;
 	}
-	else if( boost::iequals( arg, L".MODEL_VIEW." ) )
+	else if( std_iequal( arg, L".MODEL_VIEW." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_MODEL_VIEW;
 	}
-	else if( boost::iequals( arg, L".PLAN_VIEW." ) )
+	else if( std_iequal( arg, L".PLAN_VIEW." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_PLAN_VIEW;
 	}
-	else if( boost::iequals( arg, L".REFLECTED_PLAN_VIEW." ) )
+	else if( std_iequal( arg, L".REFLECTED_PLAN_VIEW." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_REFLECTED_PLAN_VIEW;
 	}
-	else if( boost::iequals( arg, L".SECTION_VIEW." ) )
+	else if( std_iequal( arg, L".SECTION_VIEW." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_SECTION_VIEW;
 	}
-	else if( boost::iequals( arg, L".ELEVATION_VIEW." ) )
+	else if( std_iequal( arg, L".ELEVATION_VIEW." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_ELEVATION_VIEW;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcGeometricProjectionEnum::ENUM_NOTDEFINED;
 	}

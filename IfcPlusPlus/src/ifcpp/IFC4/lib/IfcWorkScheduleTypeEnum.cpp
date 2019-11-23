@@ -46,23 +46,23 @@ shared_ptr<IfcWorkScheduleTypeEnum> IfcWorkScheduleTypeEnum::createObjectFromSTE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWorkScheduleTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWorkScheduleTypeEnum>(); }
 	shared_ptr<IfcWorkScheduleTypeEnum> type_object( new IfcWorkScheduleTypeEnum() );
-	if( boost::iequals( arg, L".ACTUAL." ) )
+	if( std_iequal( arg, L".ACTUAL." ) )
 	{
 		type_object->m_enum = IfcWorkScheduleTypeEnum::ENUM_ACTUAL;
 	}
-	else if( boost::iequals( arg, L".BASELINE." ) )
+	else if( std_iequal( arg, L".BASELINE." ) )
 	{
 		type_object->m_enum = IfcWorkScheduleTypeEnum::ENUM_BASELINE;
 	}
-	else if( boost::iequals( arg, L".PLANNED." ) )
+	else if( std_iequal( arg, L".PLANNED." ) )
 	{
 		type_object->m_enum = IfcWorkScheduleTypeEnum::ENUM_PLANNED;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcWorkScheduleTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWorkScheduleTypeEnum::ENUM_NOTDEFINED;
 	}

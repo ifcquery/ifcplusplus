@@ -44,19 +44,19 @@ shared_ptr<IfcDoorPanelPositionEnum> IfcDoorPanelPositionEnum::createObjectFromS
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorPanelPositionEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorPanelPositionEnum>(); }
 	shared_ptr<IfcDoorPanelPositionEnum> type_object( new IfcDoorPanelPositionEnum() );
-	if( boost::iequals( arg, L".LEFT." ) )
+	if( std_iequal( arg, L".LEFT." ) )
 	{
 		type_object->m_enum = IfcDoorPanelPositionEnum::ENUM_LEFT;
 	}
-	else if( boost::iequals( arg, L".MIDDLE." ) )
+	else if( std_iequal( arg, L".MIDDLE." ) )
 	{
 		type_object->m_enum = IfcDoorPanelPositionEnum::ENUM_MIDDLE;
 	}
-	else if( boost::iequals( arg, L".RIGHT." ) )
+	else if( std_iequal( arg, L".RIGHT." ) )
 	{
 		type_object->m_enum = IfcDoorPanelPositionEnum::ENUM_RIGHT;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorPanelPositionEnum::ENUM_NOTDEFINED;
 	}

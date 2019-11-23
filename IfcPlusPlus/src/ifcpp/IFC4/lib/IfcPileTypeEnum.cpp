@@ -52,35 +52,35 @@ shared_ptr<IfcPileTypeEnum> IfcPileTypeEnum::createObjectFromSTEP( const std::ws
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPileTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPileTypeEnum>(); }
 	shared_ptr<IfcPileTypeEnum> type_object( new IfcPileTypeEnum() );
-	if( boost::iequals( arg, L".BORED." ) )
+	if( std_iequal( arg, L".BORED." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_BORED;
 	}
-	else if( boost::iequals( arg, L".DRIVEN." ) )
+	else if( std_iequal( arg, L".DRIVEN." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_DRIVEN;
 	}
-	else if( boost::iequals( arg, L".JETGROUTING." ) )
+	else if( std_iequal( arg, L".JETGROUTING." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_JETGROUTING;
 	}
-	else if( boost::iequals( arg, L".COHESION." ) )
+	else if( std_iequal( arg, L".COHESION." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_COHESION;
 	}
-	else if( boost::iequals( arg, L".FRICTION." ) )
+	else if( std_iequal( arg, L".FRICTION." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_FRICTION;
 	}
-	else if( boost::iequals( arg, L".SUPPORT." ) )
+	else if( std_iequal( arg, L".SUPPORT." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_SUPPORT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPileTypeEnum::ENUM_NOTDEFINED;
 	}

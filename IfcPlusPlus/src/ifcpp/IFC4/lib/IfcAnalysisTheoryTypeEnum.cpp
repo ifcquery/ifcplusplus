@@ -48,27 +48,27 @@ shared_ptr<IfcAnalysisTheoryTypeEnum> IfcAnalysisTheoryTypeEnum::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAnalysisTheoryTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAnalysisTheoryTypeEnum>(); }
 	shared_ptr<IfcAnalysisTheoryTypeEnum> type_object( new IfcAnalysisTheoryTypeEnum() );
-	if( boost::iequals( arg, L".FIRST_ORDER_THEORY." ) )
+	if( std_iequal( arg, L".FIRST_ORDER_THEORY." ) )
 	{
 		type_object->m_enum = IfcAnalysisTheoryTypeEnum::ENUM_FIRST_ORDER_THEORY;
 	}
-	else if( boost::iequals( arg, L".SECOND_ORDER_THEORY." ) )
+	else if( std_iequal( arg, L".SECOND_ORDER_THEORY." ) )
 	{
 		type_object->m_enum = IfcAnalysisTheoryTypeEnum::ENUM_SECOND_ORDER_THEORY;
 	}
-	else if( boost::iequals( arg, L".THIRD_ORDER_THEORY." ) )
+	else if( std_iequal( arg, L".THIRD_ORDER_THEORY." ) )
 	{
 		type_object->m_enum = IfcAnalysisTheoryTypeEnum::ENUM_THIRD_ORDER_THEORY;
 	}
-	else if( boost::iequals( arg, L".FULL_NONLINEAR_THEORY." ) )
+	else if( std_iequal( arg, L".FULL_NONLINEAR_THEORY." ) )
 	{
 		type_object->m_enum = IfcAnalysisTheoryTypeEnum::ENUM_FULL_NONLINEAR_THEORY;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcAnalysisTheoryTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcAnalysisTheoryTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -46,23 +46,23 @@ shared_ptr<IfcAnalysisModelTypeEnum> IfcAnalysisModelTypeEnum::createObjectFromS
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAnalysisModelTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAnalysisModelTypeEnum>(); }
 	shared_ptr<IfcAnalysisModelTypeEnum> type_object( new IfcAnalysisModelTypeEnum() );
-	if( boost::iequals( arg, L".IN_PLANE_LOADING_2D." ) )
+	if( std_iequal( arg, L".IN_PLANE_LOADING_2D." ) )
 	{
 		type_object->m_enum = IfcAnalysisModelTypeEnum::ENUM_IN_PLANE_LOADING_2D;
 	}
-	else if( boost::iequals( arg, L".OUT_PLANE_LOADING_2D." ) )
+	else if( std_iequal( arg, L".OUT_PLANE_LOADING_2D." ) )
 	{
 		type_object->m_enum = IfcAnalysisModelTypeEnum::ENUM_OUT_PLANE_LOADING_2D;
 	}
-	else if( boost::iequals( arg, L".LOADING_3D." ) )
+	else if( std_iequal( arg, L".LOADING_3D." ) )
 	{
 		type_object->m_enum = IfcAnalysisModelTypeEnum::ENUM_LOADING_3D;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcAnalysisModelTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcAnalysisModelTypeEnum::ENUM_NOTDEFINED;
 	}

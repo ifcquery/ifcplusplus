@@ -40,11 +40,11 @@ shared_ptr<IfcCurtainWallTypeEnum> IfcCurtainWallTypeEnum::createObjectFromSTEP(
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCurtainWallTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCurtainWallTypeEnum>(); }
 	shared_ptr<IfcCurtainWallTypeEnum> type_object( new IfcCurtainWallTypeEnum() );
-	if( boost::iequals( arg, L".USERDEFINED." ) )
+	if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCurtainWallTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCurtainWallTypeEnum::ENUM_NOTDEFINED;
 	}

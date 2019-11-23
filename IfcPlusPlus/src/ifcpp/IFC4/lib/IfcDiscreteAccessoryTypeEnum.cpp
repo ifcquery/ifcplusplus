@@ -46,23 +46,23 @@ shared_ptr<IfcDiscreteAccessoryTypeEnum> IfcDiscreteAccessoryTypeEnum::createObj
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDiscreteAccessoryTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDiscreteAccessoryTypeEnum>(); }
 	shared_ptr<IfcDiscreteAccessoryTypeEnum> type_object( new IfcDiscreteAccessoryTypeEnum() );
-	if( boost::iequals( arg, L".ANCHORPLATE." ) )
+	if( std_iequal( arg, L".ANCHORPLATE." ) )
 	{
 		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_ANCHORPLATE;
 	}
-	else if( boost::iequals( arg, L".BRACKET." ) )
+	else if( std_iequal( arg, L".BRACKET." ) )
 	{
 		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_BRACKET;
 	}
-	else if( boost::iequals( arg, L".SHOE." ) )
+	else if( std_iequal( arg, L".SHOE." ) )
 	{
 		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_SHOE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_NOTDEFINED;
 	}

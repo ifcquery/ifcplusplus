@@ -68,67 +68,67 @@ shared_ptr<IfcSIPrefix> IfcSIPrefix::createObjectFromSTEP( const std::wstring& a
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSIPrefix>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSIPrefix>(); }
 	shared_ptr<IfcSIPrefix> type_object( new IfcSIPrefix() );
-	if( boost::iequals( arg, L".EXA." ) )
+	if( std_iequal( arg, L".EXA." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_EXA;
 	}
-	else if( boost::iequals( arg, L".PETA." ) )
+	else if( std_iequal( arg, L".PETA." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_PETA;
 	}
-	else if( boost::iequals( arg, L".TERA." ) )
+	else if( std_iequal( arg, L".TERA." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_TERA;
 	}
-	else if( boost::iequals( arg, L".GIGA." ) )
+	else if( std_iequal( arg, L".GIGA." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_GIGA;
 	}
-	else if( boost::iequals( arg, L".MEGA." ) )
+	else if( std_iequal( arg, L".MEGA." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_MEGA;
 	}
-	else if( boost::iequals( arg, L".KILO." ) )
+	else if( std_iequal( arg, L".KILO." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_KILO;
 	}
-	else if( boost::iequals( arg, L".HECTO." ) )
+	else if( std_iequal( arg, L".HECTO." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_HECTO;
 	}
-	else if( boost::iequals( arg, L".DECA." ) )
+	else if( std_iequal( arg, L".DECA." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_DECA;
 	}
-	else if( boost::iequals( arg, L".DECI." ) )
+	else if( std_iequal( arg, L".DECI." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_DECI;
 	}
-	else if( boost::iequals( arg, L".CENTI." ) )
+	else if( std_iequal( arg, L".CENTI." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_CENTI;
 	}
-	else if( boost::iequals( arg, L".MILLI." ) )
+	else if( std_iequal( arg, L".MILLI." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_MILLI;
 	}
-	else if( boost::iequals( arg, L".MICRO." ) )
+	else if( std_iequal( arg, L".MICRO." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_MICRO;
 	}
-	else if( boost::iequals( arg, L".NANO." ) )
+	else if( std_iequal( arg, L".NANO." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_NANO;
 	}
-	else if( boost::iequals( arg, L".PICO." ) )
+	else if( std_iequal( arg, L".PICO." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_PICO;
 	}
-	else if( boost::iequals( arg, L".FEMTO." ) )
+	else if( std_iequal( arg, L".FEMTO." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_FEMTO;
 	}
-	else if( boost::iequals( arg, L".ATTO." ) )
+	else if( std_iequal( arg, L".ATTO." ) )
 	{
 		type_object->m_enum = IfcSIPrefix::ENUM_ATTO;
 	}

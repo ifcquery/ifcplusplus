@@ -50,31 +50,31 @@ shared_ptr<IfcUnitaryEquipmentTypeEnum> IfcUnitaryEquipmentTypeEnum::createObjec
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcUnitaryEquipmentTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcUnitaryEquipmentTypeEnum>(); }
 	shared_ptr<IfcUnitaryEquipmentTypeEnum> type_object( new IfcUnitaryEquipmentTypeEnum() );
-	if( boost::iequals( arg, L".AIRHANDLER." ) )
+	if( std_iequal( arg, L".AIRHANDLER." ) )
 	{
 		type_object->m_enum = IfcUnitaryEquipmentTypeEnum::ENUM_AIRHANDLER;
 	}
-	else if( boost::iequals( arg, L".AIRCONDITIONINGUNIT." ) )
+	else if( std_iequal( arg, L".AIRCONDITIONINGUNIT." ) )
 	{
 		type_object->m_enum = IfcUnitaryEquipmentTypeEnum::ENUM_AIRCONDITIONINGUNIT;
 	}
-	else if( boost::iequals( arg, L".DEHUMIDIFIER." ) )
+	else if( std_iequal( arg, L".DEHUMIDIFIER." ) )
 	{
 		type_object->m_enum = IfcUnitaryEquipmentTypeEnum::ENUM_DEHUMIDIFIER;
 	}
-	else if( boost::iequals( arg, L".SPLITSYSTEM." ) )
+	else if( std_iequal( arg, L".SPLITSYSTEM." ) )
 	{
 		type_object->m_enum = IfcUnitaryEquipmentTypeEnum::ENUM_SPLITSYSTEM;
 	}
-	else if( boost::iequals( arg, L".ROOFTOPUNIT." ) )
+	else if( std_iequal( arg, L".ROOFTOPUNIT." ) )
 	{
 		type_object->m_enum = IfcUnitaryEquipmentTypeEnum::ENUM_ROOFTOPUNIT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcUnitaryEquipmentTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcUnitaryEquipmentTypeEnum::ENUM_NOTDEFINED;
 	}

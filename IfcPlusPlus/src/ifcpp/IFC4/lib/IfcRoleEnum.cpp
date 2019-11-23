@@ -82,95 +82,95 @@ shared_ptr<IfcRoleEnum> IfcRoleEnum::createObjectFromSTEP( const std::wstring& a
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRoleEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRoleEnum>(); }
 	shared_ptr<IfcRoleEnum> type_object( new IfcRoleEnum() );
-	if( boost::iequals( arg, L".SUPPLIER." ) )
+	if( std_iequal( arg, L".SUPPLIER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_SUPPLIER;
 	}
-	else if( boost::iequals( arg, L".MANUFACTURER." ) )
+	else if( std_iequal( arg, L".MANUFACTURER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_MANUFACTURER;
 	}
-	else if( boost::iequals( arg, L".CONTRACTOR." ) )
+	else if( std_iequal( arg, L".CONTRACTOR." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_CONTRACTOR;
 	}
-	else if( boost::iequals( arg, L".SUBCONTRACTOR." ) )
+	else if( std_iequal( arg, L".SUBCONTRACTOR." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_SUBCONTRACTOR;
 	}
-	else if( boost::iequals( arg, L".ARCHITECT." ) )
+	else if( std_iequal( arg, L".ARCHITECT." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_ARCHITECT;
 	}
-	else if( boost::iequals( arg, L".STRUCTURALENGINEER." ) )
+	else if( std_iequal( arg, L".STRUCTURALENGINEER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_STRUCTURALENGINEER;
 	}
-	else if( boost::iequals( arg, L".COSTENGINEER." ) )
+	else if( std_iequal( arg, L".COSTENGINEER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_COSTENGINEER;
 	}
-	else if( boost::iequals( arg, L".CLIENT." ) )
+	else if( std_iequal( arg, L".CLIENT." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_CLIENT;
 	}
-	else if( boost::iequals( arg, L".BUILDINGOWNER." ) )
+	else if( std_iequal( arg, L".BUILDINGOWNER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_BUILDINGOWNER;
 	}
-	else if( boost::iequals( arg, L".BUILDINGOPERATOR." ) )
+	else if( std_iequal( arg, L".BUILDINGOPERATOR." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_BUILDINGOPERATOR;
 	}
-	else if( boost::iequals( arg, L".MECHANICALENGINEER." ) )
+	else if( std_iequal( arg, L".MECHANICALENGINEER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_MECHANICALENGINEER;
 	}
-	else if( boost::iequals( arg, L".ELECTRICALENGINEER." ) )
+	else if( std_iequal( arg, L".ELECTRICALENGINEER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_ELECTRICALENGINEER;
 	}
-	else if( boost::iequals( arg, L".PROJECTMANAGER." ) )
+	else if( std_iequal( arg, L".PROJECTMANAGER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_PROJECTMANAGER;
 	}
-	else if( boost::iequals( arg, L".FACILITIESMANAGER." ) )
+	else if( std_iequal( arg, L".FACILITIESMANAGER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_FACILITIESMANAGER;
 	}
-	else if( boost::iequals( arg, L".CIVILENGINEER." ) )
+	else if( std_iequal( arg, L".CIVILENGINEER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_CIVILENGINEER;
 	}
-	else if( boost::iequals( arg, L".COMMISSIONINGENGINEER." ) )
+	else if( std_iequal( arg, L".COMMISSIONINGENGINEER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_COMMISSIONINGENGINEER;
 	}
-	else if( boost::iequals( arg, L".ENGINEER." ) )
+	else if( std_iequal( arg, L".ENGINEER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_ENGINEER;
 	}
-	else if( boost::iequals( arg, L".OWNER." ) )
+	else if( std_iequal( arg, L".OWNER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_OWNER;
 	}
-	else if( boost::iequals( arg, L".CONSULTANT." ) )
+	else if( std_iequal( arg, L".CONSULTANT." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_CONSULTANT;
 	}
-	else if( boost::iequals( arg, L".CONSTRUCTIONMANAGER." ) )
+	else if( std_iequal( arg, L".CONSTRUCTIONMANAGER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_CONSTRUCTIONMANAGER;
 	}
-	else if( boost::iequals( arg, L".FIELDCONSTRUCTIONMANAGER." ) )
+	else if( std_iequal( arg, L".FIELDCONSTRUCTIONMANAGER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_FIELDCONSTRUCTIONMANAGER;
 	}
-	else if( boost::iequals( arg, L".RESELLER." ) )
+	else if( std_iequal( arg, L".RESELLER." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_RESELLER;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcRoleEnum::ENUM_USERDEFINED;
 	}

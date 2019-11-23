@@ -46,23 +46,23 @@ shared_ptr<IfcActionTypeEnum> IfcActionTypeEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActionTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActionTypeEnum>(); }
 	shared_ptr<IfcActionTypeEnum> type_object( new IfcActionTypeEnum() );
-	if( boost::iequals( arg, L".PERMANENT_G." ) )
+	if( std_iequal( arg, L".PERMANENT_G." ) )
 	{
 		type_object->m_enum = IfcActionTypeEnum::ENUM_PERMANENT_G;
 	}
-	else if( boost::iequals( arg, L".VARIABLE_Q." ) )
+	else if( std_iequal( arg, L".VARIABLE_Q." ) )
 	{
 		type_object->m_enum = IfcActionTypeEnum::ENUM_VARIABLE_Q;
 	}
-	else if( boost::iequals( arg, L".EXTRAORDINARY_A." ) )
+	else if( std_iequal( arg, L".EXTRAORDINARY_A." ) )
 	{
 		type_object->m_enum = IfcActionTypeEnum::ENUM_EXTRAORDINARY_A;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcActionTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcActionTypeEnum::ENUM_NOTDEFINED;
 	}

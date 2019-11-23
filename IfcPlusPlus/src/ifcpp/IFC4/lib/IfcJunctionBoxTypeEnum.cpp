@@ -44,19 +44,19 @@ shared_ptr<IfcJunctionBoxTypeEnum> IfcJunctionBoxTypeEnum::createObjectFromSTEP(
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcJunctionBoxTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcJunctionBoxTypeEnum>(); }
 	shared_ptr<IfcJunctionBoxTypeEnum> type_object( new IfcJunctionBoxTypeEnum() );
-	if( boost::iequals( arg, L".DATA." ) )
+	if( std_iequal( arg, L".DATA." ) )
 	{
 		type_object->m_enum = IfcJunctionBoxTypeEnum::ENUM_DATA;
 	}
-	else if( boost::iequals( arg, L".POWER." ) )
+	else if( std_iequal( arg, L".POWER." ) )
 	{
 		type_object->m_enum = IfcJunctionBoxTypeEnum::ENUM_POWER;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcJunctionBoxTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcJunctionBoxTypeEnum::ENUM_NOTDEFINED;
 	}

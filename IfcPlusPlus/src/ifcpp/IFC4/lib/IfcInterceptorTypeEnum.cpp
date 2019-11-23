@@ -48,27 +48,27 @@ shared_ptr<IfcInterceptorTypeEnum> IfcInterceptorTypeEnum::createObjectFromSTEP(
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInterceptorTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInterceptorTypeEnum>(); }
 	shared_ptr<IfcInterceptorTypeEnum> type_object( new IfcInterceptorTypeEnum() );
-	if( boost::iequals( arg, L".CYCLONIC." ) )
+	if( std_iequal( arg, L".CYCLONIC." ) )
 	{
 		type_object->m_enum = IfcInterceptorTypeEnum::ENUM_CYCLONIC;
 	}
-	else if( boost::iequals( arg, L".GREASE." ) )
+	else if( std_iequal( arg, L".GREASE." ) )
 	{
 		type_object->m_enum = IfcInterceptorTypeEnum::ENUM_GREASE;
 	}
-	else if( boost::iequals( arg, L".OIL." ) )
+	else if( std_iequal( arg, L".OIL." ) )
 	{
 		type_object->m_enum = IfcInterceptorTypeEnum::ENUM_OIL;
 	}
-	else if( boost::iequals( arg, L".PETROL." ) )
+	else if( std_iequal( arg, L".PETROL." ) )
 	{
 		type_object->m_enum = IfcInterceptorTypeEnum::ENUM_PETROL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcInterceptorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcInterceptorTypeEnum::ENUM_NOTDEFINED;
 	}

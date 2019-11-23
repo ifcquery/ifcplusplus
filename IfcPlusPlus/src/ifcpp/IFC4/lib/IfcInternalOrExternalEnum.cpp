@@ -48,27 +48,27 @@ shared_ptr<IfcInternalOrExternalEnum> IfcInternalOrExternalEnum::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcInternalOrExternalEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcInternalOrExternalEnum>(); }
 	shared_ptr<IfcInternalOrExternalEnum> type_object( new IfcInternalOrExternalEnum() );
-	if( boost::iequals( arg, L".INTERNAL." ) )
+	if( std_iequal( arg, L".INTERNAL." ) )
 	{
 		type_object->m_enum = IfcInternalOrExternalEnum::ENUM_INTERNAL;
 	}
-	else if( boost::iequals( arg, L".EXTERNAL." ) )
+	else if( std_iequal( arg, L".EXTERNAL." ) )
 	{
 		type_object->m_enum = IfcInternalOrExternalEnum::ENUM_EXTERNAL;
 	}
-	else if( boost::iequals( arg, L".EXTERNAL_EARTH." ) )
+	else if( std_iequal( arg, L".EXTERNAL_EARTH." ) )
 	{
 		type_object->m_enum = IfcInternalOrExternalEnum::ENUM_EXTERNAL_EARTH;
 	}
-	else if( boost::iequals( arg, L".EXTERNAL_WATER." ) )
+	else if( std_iequal( arg, L".EXTERNAL_WATER." ) )
 	{
 		type_object->m_enum = IfcInternalOrExternalEnum::ENUM_EXTERNAL_WATER;
 	}
-	else if( boost::iequals( arg, L".EXTERNAL_FIRE." ) )
+	else if( std_iequal( arg, L".EXTERNAL_FIRE." ) )
 	{
 		type_object->m_enum = IfcInternalOrExternalEnum::ENUM_EXTERNAL_FIRE;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcInternalOrExternalEnum::ENUM_NOTDEFINED;
 	}

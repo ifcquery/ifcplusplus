@@ -54,39 +54,39 @@ shared_ptr<IfcDoorPanelOperationEnum> IfcDoorPanelOperationEnum::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorPanelOperationEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorPanelOperationEnum>(); }
 	shared_ptr<IfcDoorPanelOperationEnum> type_object( new IfcDoorPanelOperationEnum() );
-	if( boost::iequals( arg, L".SWINGING." ) )
+	if( std_iequal( arg, L".SWINGING." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_SWINGING;
 	}
-	else if( boost::iequals( arg, L".DOUBLE_ACTING." ) )
+	else if( std_iequal( arg, L".DOUBLE_ACTING." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_DOUBLE_ACTING;
 	}
-	else if( boost::iequals( arg, L".SLIDING." ) )
+	else if( std_iequal( arg, L".SLIDING." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_SLIDING;
 	}
-	else if( boost::iequals( arg, L".FOLDING." ) )
+	else if( std_iequal( arg, L".FOLDING." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_FOLDING;
 	}
-	else if( boost::iequals( arg, L".REVOLVING." ) )
+	else if( std_iequal( arg, L".REVOLVING." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_REVOLVING;
 	}
-	else if( boost::iequals( arg, L".ROLLINGUP." ) )
+	else if( std_iequal( arg, L".ROLLINGUP." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_ROLLINGUP;
 	}
-	else if( boost::iequals( arg, L".FIXEDPANEL." ) )
+	else if( std_iequal( arg, L".FIXEDPANEL." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_FIXEDPANEL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorPanelOperationEnum::ENUM_NOTDEFINED;
 	}

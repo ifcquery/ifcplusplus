@@ -50,31 +50,31 @@ shared_ptr<IfcBuildingElementProxyTypeEnum> IfcBuildingElementProxyTypeEnum::cre
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBuildingElementProxyTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBuildingElementProxyTypeEnum>(); }
 	shared_ptr<IfcBuildingElementProxyTypeEnum> type_object( new IfcBuildingElementProxyTypeEnum() );
-	if( boost::iequals( arg, L".COMPLEX." ) )
+	if( std_iequal( arg, L".COMPLEX." ) )
 	{
 		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_COMPLEX;
 	}
-	else if( boost::iequals( arg, L".ELEMENT." ) )
+	else if( std_iequal( arg, L".ELEMENT." ) )
 	{
 		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_ELEMENT;
 	}
-	else if( boost::iequals( arg, L".PARTIAL." ) )
+	else if( std_iequal( arg, L".PARTIAL." ) )
 	{
 		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_PARTIAL;
 	}
-	else if( boost::iequals( arg, L".PROVISIONFORVOID." ) )
+	else if( std_iequal( arg, L".PROVISIONFORVOID." ) )
 	{
 		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_PROVISIONFORVOID;
 	}
-	else if( boost::iequals( arg, L".PROVISIONFORSPACE." ) )
+	else if( std_iequal( arg, L".PROVISIONFORSPACE." ) )
 	{
 		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_PROVISIONFORSPACE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcBuildingElementProxyTypeEnum::ENUM_NOTDEFINED;
 	}

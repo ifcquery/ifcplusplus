@@ -44,19 +44,19 @@ shared_ptr<IfcPlateTypeEnum> IfcPlateTypeEnum::createObjectFromSTEP( const std::
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPlateTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPlateTypeEnum>(); }
 	shared_ptr<IfcPlateTypeEnum> type_object( new IfcPlateTypeEnum() );
-	if( boost::iequals( arg, L".CURTAIN_PANEL." ) )
+	if( std_iequal( arg, L".CURTAIN_PANEL." ) )
 	{
 		type_object->m_enum = IfcPlateTypeEnum::ENUM_CURTAIN_PANEL;
 	}
-	else if( boost::iequals( arg, L".SHEET." ) )
+	else if( std_iequal( arg, L".SHEET." ) )
 	{
 		type_object->m_enum = IfcPlateTypeEnum::ENUM_SHEET;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPlateTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPlateTypeEnum::ENUM_NOTDEFINED;
 	}

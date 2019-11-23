@@ -42,15 +42,15 @@ shared_ptr<IfcTaskDurationEnum> IfcTaskDurationEnum::createObjectFromSTEP( const
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTaskDurationEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTaskDurationEnum>(); }
 	shared_ptr<IfcTaskDurationEnum> type_object( new IfcTaskDurationEnum() );
-	if( boost::iequals( arg, L".ELAPSEDTIME." ) )
+	if( std_iequal( arg, L".ELAPSEDTIME." ) )
 	{
 		type_object->m_enum = IfcTaskDurationEnum::ENUM_ELAPSEDTIME;
 	}
-	else if( boost::iequals( arg, L".WORKTIME." ) )
+	else if( std_iequal( arg, L".WORKTIME." ) )
 	{
 		type_object->m_enum = IfcTaskDurationEnum::ENUM_WORKTIME;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTaskDurationEnum::ENUM_NOTDEFINED;
 	}

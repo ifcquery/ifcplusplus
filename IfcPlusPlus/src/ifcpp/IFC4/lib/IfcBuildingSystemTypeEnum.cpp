@@ -52,35 +52,35 @@ shared_ptr<IfcBuildingSystemTypeEnum> IfcBuildingSystemTypeEnum::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBuildingSystemTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBuildingSystemTypeEnum>(); }
 	shared_ptr<IfcBuildingSystemTypeEnum> type_object( new IfcBuildingSystemTypeEnum() );
-	if( boost::iequals( arg, L".FENESTRATION." ) )
+	if( std_iequal( arg, L".FENESTRATION." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_FENESTRATION;
 	}
-	else if( boost::iequals( arg, L".FOUNDATION." ) )
+	else if( std_iequal( arg, L".FOUNDATION." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_FOUNDATION;
 	}
-	else if( boost::iequals( arg, L".LOADBEARING." ) )
+	else if( std_iequal( arg, L".LOADBEARING." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_LOADBEARING;
 	}
-	else if( boost::iequals( arg, L".OUTERSHELL." ) )
+	else if( std_iequal( arg, L".OUTERSHELL." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_OUTERSHELL;
 	}
-	else if( boost::iequals( arg, L".SHADING." ) )
+	else if( std_iequal( arg, L".SHADING." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_SHADING;
 	}
-	else if( boost::iequals( arg, L".TRANSPORT." ) )
+	else if( std_iequal( arg, L".TRANSPORT." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_TRANSPORT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_NOTDEFINED;
 	}

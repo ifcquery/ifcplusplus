@@ -50,31 +50,31 @@ shared_ptr<IfcControllerTypeEnum> IfcControllerTypeEnum::createObjectFromSTEP( c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcControllerTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcControllerTypeEnum>(); }
 	shared_ptr<IfcControllerTypeEnum> type_object( new IfcControllerTypeEnum() );
-	if( boost::iequals( arg, L".FLOATING." ) )
+	if( std_iequal( arg, L".FLOATING." ) )
 	{
 		type_object->m_enum = IfcControllerTypeEnum::ENUM_FLOATING;
 	}
-	else if( boost::iequals( arg, L".PROGRAMMABLE." ) )
+	else if( std_iequal( arg, L".PROGRAMMABLE." ) )
 	{
 		type_object->m_enum = IfcControllerTypeEnum::ENUM_PROGRAMMABLE;
 	}
-	else if( boost::iequals( arg, L".PROPORTIONAL." ) )
+	else if( std_iequal( arg, L".PROPORTIONAL." ) )
 	{
 		type_object->m_enum = IfcControllerTypeEnum::ENUM_PROPORTIONAL;
 	}
-	else if( boost::iequals( arg, L".MULTIPOSITION." ) )
+	else if( std_iequal( arg, L".MULTIPOSITION." ) )
 	{
 		type_object->m_enum = IfcControllerTypeEnum::ENUM_MULTIPOSITION;
 	}
-	else if( boost::iequals( arg, L".TWOPOSITION." ) )
+	else if( std_iequal( arg, L".TWOPOSITION." ) )
 	{
 		type_object->m_enum = IfcControllerTypeEnum::ENUM_TWOPOSITION;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcControllerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcControllerTypeEnum::ENUM_NOTDEFINED;
 	}

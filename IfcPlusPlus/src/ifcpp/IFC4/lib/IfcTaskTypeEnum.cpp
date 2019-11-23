@@ -64,59 +64,59 @@ shared_ptr<IfcTaskTypeEnum> IfcTaskTypeEnum::createObjectFromSTEP( const std::ws
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTaskTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTaskTypeEnum>(); }
 	shared_ptr<IfcTaskTypeEnum> type_object( new IfcTaskTypeEnum() );
-	if( boost::iequals( arg, L".ATTENDANCE." ) )
+	if( std_iequal( arg, L".ATTENDANCE." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_ATTENDANCE;
 	}
-	else if( boost::iequals( arg, L".CONSTRUCTION." ) )
+	else if( std_iequal( arg, L".CONSTRUCTION." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_CONSTRUCTION;
 	}
-	else if( boost::iequals( arg, L".DEMOLITION." ) )
+	else if( std_iequal( arg, L".DEMOLITION." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_DEMOLITION;
 	}
-	else if( boost::iequals( arg, L".DISMANTLE." ) )
+	else if( std_iequal( arg, L".DISMANTLE." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_DISMANTLE;
 	}
-	else if( boost::iequals( arg, L".DISPOSAL." ) )
+	else if( std_iequal( arg, L".DISPOSAL." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_DISPOSAL;
 	}
-	else if( boost::iequals( arg, L".INSTALLATION." ) )
+	else if( std_iequal( arg, L".INSTALLATION." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_INSTALLATION;
 	}
-	else if( boost::iequals( arg, L".LOGISTIC." ) )
+	else if( std_iequal( arg, L".LOGISTIC." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_LOGISTIC;
 	}
-	else if( boost::iequals( arg, L".MAINTENANCE." ) )
+	else if( std_iequal( arg, L".MAINTENANCE." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_MAINTENANCE;
 	}
-	else if( boost::iequals( arg, L".MOVE." ) )
+	else if( std_iequal( arg, L".MOVE." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_MOVE;
 	}
-	else if( boost::iequals( arg, L".OPERATION." ) )
+	else if( std_iequal( arg, L".OPERATION." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_OPERATION;
 	}
-	else if( boost::iequals( arg, L".REMOVAL." ) )
+	else if( std_iequal( arg, L".REMOVAL." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_REMOVAL;
 	}
-	else if( boost::iequals( arg, L".RENOVATION." ) )
+	else if( std_iequal( arg, L".RENOVATION." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_RENOVATION;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTaskTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -48,27 +48,27 @@ shared_ptr<IfcCableCarrierSegmentTypeEnum> IfcCableCarrierSegmentTypeEnum::creat
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCableCarrierSegmentTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCableCarrierSegmentTypeEnum>(); }
 	shared_ptr<IfcCableCarrierSegmentTypeEnum> type_object( new IfcCableCarrierSegmentTypeEnum() );
-	if( boost::iequals( arg, L".CABLELADDERSEGMENT." ) )
+	if( std_iequal( arg, L".CABLELADDERSEGMENT." ) )
 	{
 		type_object->m_enum = IfcCableCarrierSegmentTypeEnum::ENUM_CABLELADDERSEGMENT;
 	}
-	else if( boost::iequals( arg, L".CABLETRAYSEGMENT." ) )
+	else if( std_iequal( arg, L".CABLETRAYSEGMENT." ) )
 	{
 		type_object->m_enum = IfcCableCarrierSegmentTypeEnum::ENUM_CABLETRAYSEGMENT;
 	}
-	else if( boost::iequals( arg, L".CABLETRUNKINGSEGMENT." ) )
+	else if( std_iequal( arg, L".CABLETRUNKINGSEGMENT." ) )
 	{
 		type_object->m_enum = IfcCableCarrierSegmentTypeEnum::ENUM_CABLETRUNKINGSEGMENT;
 	}
-	else if( boost::iequals( arg, L".CONDUITSEGMENT." ) )
+	else if( std_iequal( arg, L".CONDUITSEGMENT." ) )
 	{
 		type_object->m_enum = IfcCableCarrierSegmentTypeEnum::ENUM_CONDUITSEGMENT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCableCarrierSegmentTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCableCarrierSegmentTypeEnum::ENUM_NOTDEFINED;
 	}

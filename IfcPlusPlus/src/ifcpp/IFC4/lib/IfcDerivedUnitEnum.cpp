@@ -142,215 +142,215 @@ shared_ptr<IfcDerivedUnitEnum> IfcDerivedUnitEnum::createObjectFromSTEP( const s
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDerivedUnitEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDerivedUnitEnum>(); }
 	shared_ptr<IfcDerivedUnitEnum> type_object( new IfcDerivedUnitEnum() );
-	if( boost::iequals( arg, L".ANGULARVELOCITYUNIT." ) )
+	if( std_iequal( arg, L".ANGULARVELOCITYUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_ANGULARVELOCITYUNIT;
 	}
-	else if( boost::iequals( arg, L".AREADENSITYUNIT." ) )
+	else if( std_iequal( arg, L".AREADENSITYUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_AREADENSITYUNIT;
 	}
-	else if( boost::iequals( arg, L".COMPOUNDPLANEANGLEUNIT." ) )
+	else if( std_iequal( arg, L".COMPOUNDPLANEANGLEUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_COMPOUNDPLANEANGLEUNIT;
 	}
-	else if( boost::iequals( arg, L".DYNAMICVISCOSITYUNIT." ) )
+	else if( std_iequal( arg, L".DYNAMICVISCOSITYUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_DYNAMICVISCOSITYUNIT;
 	}
-	else if( boost::iequals( arg, L".HEATFLUXDENSITYUNIT." ) )
+	else if( std_iequal( arg, L".HEATFLUXDENSITYUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_HEATFLUXDENSITYUNIT;
 	}
-	else if( boost::iequals( arg, L".INTEGERCOUNTRATEUNIT." ) )
+	else if( std_iequal( arg, L".INTEGERCOUNTRATEUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_INTEGERCOUNTRATEUNIT;
 	}
-	else if( boost::iequals( arg, L".ISOTHERMALMOISTURECAPACITYUNIT." ) )
+	else if( std_iequal( arg, L".ISOTHERMALMOISTURECAPACITYUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_ISOTHERMALMOISTURECAPACITYUNIT;
 	}
-	else if( boost::iequals( arg, L".KINEMATICVISCOSITYUNIT." ) )
+	else if( std_iequal( arg, L".KINEMATICVISCOSITYUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_KINEMATICVISCOSITYUNIT;
 	}
-	else if( boost::iequals( arg, L".LINEARVELOCITYUNIT." ) )
+	else if( std_iequal( arg, L".LINEARVELOCITYUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_LINEARVELOCITYUNIT;
 	}
-	else if( boost::iequals( arg, L".MASSDENSITYUNIT." ) )
+	else if( std_iequal( arg, L".MASSDENSITYUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_MASSDENSITYUNIT;
 	}
-	else if( boost::iequals( arg, L".MASSFLOWRATEUNIT." ) )
+	else if( std_iequal( arg, L".MASSFLOWRATEUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_MASSFLOWRATEUNIT;
 	}
-	else if( boost::iequals( arg, L".MOISTUREDIFFUSIVITYUNIT." ) )
+	else if( std_iequal( arg, L".MOISTUREDIFFUSIVITYUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_MOISTUREDIFFUSIVITYUNIT;
 	}
-	else if( boost::iequals( arg, L".MOLECULARWEIGHTUNIT." ) )
+	else if( std_iequal( arg, L".MOLECULARWEIGHTUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_MOLECULARWEIGHTUNIT;
 	}
-	else if( boost::iequals( arg, L".SPECIFICHEATCAPACITYUNIT." ) )
+	else if( std_iequal( arg, L".SPECIFICHEATCAPACITYUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_SPECIFICHEATCAPACITYUNIT;
 	}
-	else if( boost::iequals( arg, L".THERMALADMITTANCEUNIT." ) )
+	else if( std_iequal( arg, L".THERMALADMITTANCEUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_THERMALADMITTANCEUNIT;
 	}
-	else if( boost::iequals( arg, L".THERMALCONDUCTANCEUNIT." ) )
+	else if( std_iequal( arg, L".THERMALCONDUCTANCEUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_THERMALCONDUCTANCEUNIT;
 	}
-	else if( boost::iequals( arg, L".THERMALRESISTANCEUNIT." ) )
+	else if( std_iequal( arg, L".THERMALRESISTANCEUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_THERMALRESISTANCEUNIT;
 	}
-	else if( boost::iequals( arg, L".THERMALTRANSMITTANCEUNIT." ) )
+	else if( std_iequal( arg, L".THERMALTRANSMITTANCEUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_THERMALTRANSMITTANCEUNIT;
 	}
-	else if( boost::iequals( arg, L".VAPORPERMEABILITYUNIT." ) )
+	else if( std_iequal( arg, L".VAPORPERMEABILITYUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_VAPORPERMEABILITYUNIT;
 	}
-	else if( boost::iequals( arg, L".VOLUMETRICFLOWRATEUNIT." ) )
+	else if( std_iequal( arg, L".VOLUMETRICFLOWRATEUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_VOLUMETRICFLOWRATEUNIT;
 	}
-	else if( boost::iequals( arg, L".ROTATIONALFREQUENCYUNIT." ) )
+	else if( std_iequal( arg, L".ROTATIONALFREQUENCYUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_ROTATIONALFREQUENCYUNIT;
 	}
-	else if( boost::iequals( arg, L".TORQUEUNIT." ) )
+	else if( std_iequal( arg, L".TORQUEUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_TORQUEUNIT;
 	}
-	else if( boost::iequals( arg, L".MOMENTOFINERTIAUNIT." ) )
+	else if( std_iequal( arg, L".MOMENTOFINERTIAUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_MOMENTOFINERTIAUNIT;
 	}
-	else if( boost::iequals( arg, L".LINEARMOMENTUNIT." ) )
+	else if( std_iequal( arg, L".LINEARMOMENTUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_LINEARMOMENTUNIT;
 	}
-	else if( boost::iequals( arg, L".LINEARFORCEUNIT." ) )
+	else if( std_iequal( arg, L".LINEARFORCEUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_LINEARFORCEUNIT;
 	}
-	else if( boost::iequals( arg, L".PLANARFORCEUNIT." ) )
+	else if( std_iequal( arg, L".PLANARFORCEUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_PLANARFORCEUNIT;
 	}
-	else if( boost::iequals( arg, L".MODULUSOFELASTICITYUNIT." ) )
+	else if( std_iequal( arg, L".MODULUSOFELASTICITYUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_MODULUSOFELASTICITYUNIT;
 	}
-	else if( boost::iequals( arg, L".SHEARMODULUSUNIT." ) )
+	else if( std_iequal( arg, L".SHEARMODULUSUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_SHEARMODULUSUNIT;
 	}
-	else if( boost::iequals( arg, L".LINEARSTIFFNESSUNIT." ) )
+	else if( std_iequal( arg, L".LINEARSTIFFNESSUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_LINEARSTIFFNESSUNIT;
 	}
-	else if( boost::iequals( arg, L".ROTATIONALSTIFFNESSUNIT." ) )
+	else if( std_iequal( arg, L".ROTATIONALSTIFFNESSUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_ROTATIONALSTIFFNESSUNIT;
 	}
-	else if( boost::iequals( arg, L".MODULUSOFSUBGRADEREACTIONUNIT." ) )
+	else if( std_iequal( arg, L".MODULUSOFSUBGRADEREACTIONUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_MODULUSOFSUBGRADEREACTIONUNIT;
 	}
-	else if( boost::iequals( arg, L".ACCELERATIONUNIT." ) )
+	else if( std_iequal( arg, L".ACCELERATIONUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_ACCELERATIONUNIT;
 	}
-	else if( boost::iequals( arg, L".CURVATUREUNIT." ) )
+	else if( std_iequal( arg, L".CURVATUREUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_CURVATUREUNIT;
 	}
-	else if( boost::iequals( arg, L".HEATINGVALUEUNIT." ) )
+	else if( std_iequal( arg, L".HEATINGVALUEUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_HEATINGVALUEUNIT;
 	}
-	else if( boost::iequals( arg, L".IONCONCENTRATIONUNIT." ) )
+	else if( std_iequal( arg, L".IONCONCENTRATIONUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_IONCONCENTRATIONUNIT;
 	}
-	else if( boost::iequals( arg, L".LUMINOUSINTENSITYDISTRIBUTIONUNIT." ) )
+	else if( std_iequal( arg, L".LUMINOUSINTENSITYDISTRIBUTIONUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_LUMINOUSINTENSITYDISTRIBUTIONUNIT;
 	}
-	else if( boost::iequals( arg, L".MASSPERLENGTHUNIT." ) )
+	else if( std_iequal( arg, L".MASSPERLENGTHUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_MASSPERLENGTHUNIT;
 	}
-	else if( boost::iequals( arg, L".MODULUSOFLINEARSUBGRADEREACTIONUNIT." ) )
+	else if( std_iequal( arg, L".MODULUSOFLINEARSUBGRADEREACTIONUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_MODULUSOFLINEARSUBGRADEREACTIONUNIT;
 	}
-	else if( boost::iequals( arg, L".MODULUSOFROTATIONALSUBGRADEREACTIONUNIT." ) )
+	else if( std_iequal( arg, L".MODULUSOFROTATIONALSUBGRADEREACTIONUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_MODULUSOFROTATIONALSUBGRADEREACTIONUNIT;
 	}
-	else if( boost::iequals( arg, L".PHUNIT." ) )
+	else if( std_iequal( arg, L".PHUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_PHUNIT;
 	}
-	else if( boost::iequals( arg, L".ROTATIONALMASSUNIT." ) )
+	else if( std_iequal( arg, L".ROTATIONALMASSUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_ROTATIONALMASSUNIT;
 	}
-	else if( boost::iequals( arg, L".SECTIONAREAINTEGRALUNIT." ) )
+	else if( std_iequal( arg, L".SECTIONAREAINTEGRALUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_SECTIONAREAINTEGRALUNIT;
 	}
-	else if( boost::iequals( arg, L".SECTIONMODULUSUNIT." ) )
+	else if( std_iequal( arg, L".SECTIONMODULUSUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_SECTIONMODULUSUNIT;
 	}
-	else if( boost::iequals( arg, L".SOUNDPOWERLEVELUNIT." ) )
+	else if( std_iequal( arg, L".SOUNDPOWERLEVELUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_SOUNDPOWERLEVELUNIT;
 	}
-	else if( boost::iequals( arg, L".SOUNDPOWERUNIT." ) )
+	else if( std_iequal( arg, L".SOUNDPOWERUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_SOUNDPOWERUNIT;
 	}
-	else if( boost::iequals( arg, L".SOUNDPRESSURELEVELUNIT." ) )
+	else if( std_iequal( arg, L".SOUNDPRESSURELEVELUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_SOUNDPRESSURELEVELUNIT;
 	}
-	else if( boost::iequals( arg, L".SOUNDPRESSUREUNIT." ) )
+	else if( std_iequal( arg, L".SOUNDPRESSUREUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_SOUNDPRESSUREUNIT;
 	}
-	else if( boost::iequals( arg, L".TEMPERATUREGRADIENTUNIT." ) )
+	else if( std_iequal( arg, L".TEMPERATUREGRADIENTUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_TEMPERATUREGRADIENTUNIT;
 	}
-	else if( boost::iequals( arg, L".TEMPERATURERATEOFCHANGEUNIT." ) )
+	else if( std_iequal( arg, L".TEMPERATURERATEOFCHANGEUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_TEMPERATURERATEOFCHANGEUNIT;
 	}
-	else if( boost::iequals( arg, L".THERMALEXPANSIONCOEFFICIENTUNIT." ) )
+	else if( std_iequal( arg, L".THERMALEXPANSIONCOEFFICIENTUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_THERMALEXPANSIONCOEFFICIENTUNIT;
 	}
-	else if( boost::iequals( arg, L".WARPINGCONSTANTUNIT." ) )
+	else if( std_iequal( arg, L".WARPINGCONSTANTUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_WARPINGCONSTANTUNIT;
 	}
-	else if( boost::iequals( arg, L".WARPINGMOMENTUNIT." ) )
+	else if( std_iequal( arg, L".WARPINGMOMENTUNIT." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_WARPINGMOMENTUNIT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDerivedUnitEnum::ENUM_USERDEFINED;
 	}

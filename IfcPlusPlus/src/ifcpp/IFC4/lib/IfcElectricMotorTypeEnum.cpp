@@ -50,31 +50,31 @@ shared_ptr<IfcElectricMotorTypeEnum> IfcElectricMotorTypeEnum::createObjectFromS
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricMotorTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricMotorTypeEnum>(); }
 	shared_ptr<IfcElectricMotorTypeEnum> type_object( new IfcElectricMotorTypeEnum() );
-	if( boost::iequals( arg, L".DC." ) )
+	if( std_iequal( arg, L".DC." ) )
 	{
 		type_object->m_enum = IfcElectricMotorTypeEnum::ENUM_DC;
 	}
-	else if( boost::iequals( arg, L".INDUCTION." ) )
+	else if( std_iequal( arg, L".INDUCTION." ) )
 	{
 		type_object->m_enum = IfcElectricMotorTypeEnum::ENUM_INDUCTION;
 	}
-	else if( boost::iequals( arg, L".POLYPHASE." ) )
+	else if( std_iequal( arg, L".POLYPHASE." ) )
 	{
 		type_object->m_enum = IfcElectricMotorTypeEnum::ENUM_POLYPHASE;
 	}
-	else if( boost::iequals( arg, L".RELUCTANCESYNCHRONOUS." ) )
+	else if( std_iequal( arg, L".RELUCTANCESYNCHRONOUS." ) )
 	{
 		type_object->m_enum = IfcElectricMotorTypeEnum::ENUM_RELUCTANCESYNCHRONOUS;
 	}
-	else if( boost::iequals( arg, L".SYNCHRONOUS." ) )
+	else if( std_iequal( arg, L".SYNCHRONOUS." ) )
 	{
 		type_object->m_enum = IfcElectricMotorTypeEnum::ENUM_SYNCHRONOUS;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricMotorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricMotorTypeEnum::ENUM_NOTDEFINED;
 	}

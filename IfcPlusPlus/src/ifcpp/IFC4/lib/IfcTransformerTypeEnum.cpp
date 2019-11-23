@@ -50,31 +50,31 @@ shared_ptr<IfcTransformerTypeEnum> IfcTransformerTypeEnum::createObjectFromSTEP(
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTransformerTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTransformerTypeEnum>(); }
 	shared_ptr<IfcTransformerTypeEnum> type_object( new IfcTransformerTypeEnum() );
-	if( boost::iequals( arg, L".CURRENT." ) )
+	if( std_iequal( arg, L".CURRENT." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_CURRENT;
 	}
-	else if( boost::iequals( arg, L".FREQUENCY." ) )
+	else if( std_iequal( arg, L".FREQUENCY." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_FREQUENCY;
 	}
-	else if( boost::iequals( arg, L".INVERTER." ) )
+	else if( std_iequal( arg, L".INVERTER." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_INVERTER;
 	}
-	else if( boost::iequals( arg, L".RECTIFIER." ) )
+	else if( std_iequal( arg, L".RECTIFIER." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_RECTIFIER;
 	}
-	else if( boost::iequals( arg, L".VOLTAGE." ) )
+	else if( std_iequal( arg, L".VOLTAGE." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_VOLTAGE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_NOTDEFINED;
 	}

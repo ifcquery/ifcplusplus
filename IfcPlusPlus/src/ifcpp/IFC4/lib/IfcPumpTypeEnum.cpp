@@ -54,39 +54,39 @@ shared_ptr<IfcPumpTypeEnum> IfcPumpTypeEnum::createObjectFromSTEP( const std::ws
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPumpTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPumpTypeEnum>(); }
 	shared_ptr<IfcPumpTypeEnum> type_object( new IfcPumpTypeEnum() );
-	if( boost::iequals( arg, L".CIRCULATOR." ) )
+	if( std_iequal( arg, L".CIRCULATOR." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_CIRCULATOR;
 	}
-	else if( boost::iequals( arg, L".ENDSUCTION." ) )
+	else if( std_iequal( arg, L".ENDSUCTION." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_ENDSUCTION;
 	}
-	else if( boost::iequals( arg, L".SPLITCASE." ) )
+	else if( std_iequal( arg, L".SPLITCASE." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_SPLITCASE;
 	}
-	else if( boost::iequals( arg, L".SUBMERSIBLEPUMP." ) )
+	else if( std_iequal( arg, L".SUBMERSIBLEPUMP." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_SUBMERSIBLEPUMP;
 	}
-	else if( boost::iequals( arg, L".SUMPPUMP." ) )
+	else if( std_iequal( arg, L".SUMPPUMP." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_SUMPPUMP;
 	}
-	else if( boost::iequals( arg, L".VERTICALINLINE." ) )
+	else if( std_iequal( arg, L".VERTICALINLINE." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_VERTICALINLINE;
 	}
-	else if( boost::iequals( arg, L".VERTICALTURBINE." ) )
+	else if( std_iequal( arg, L".VERTICALTURBINE." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_VERTICALTURBINE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPumpTypeEnum::ENUM_NOTDEFINED;
 	}

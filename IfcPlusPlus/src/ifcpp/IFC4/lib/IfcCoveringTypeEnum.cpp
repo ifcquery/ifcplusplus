@@ -60,51 +60,51 @@ shared_ptr<IfcCoveringTypeEnum> IfcCoveringTypeEnum::createObjectFromSTEP( const
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCoveringTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCoveringTypeEnum>(); }
 	shared_ptr<IfcCoveringTypeEnum> type_object( new IfcCoveringTypeEnum() );
-	if( boost::iequals( arg, L".CEILING." ) )
+	if( std_iequal( arg, L".CEILING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_CEILING;
 	}
-	else if( boost::iequals( arg, L".FLOORING." ) )
+	else if( std_iequal( arg, L".FLOORING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_FLOORING;
 	}
-	else if( boost::iequals( arg, L".CLADDING." ) )
+	else if( std_iequal( arg, L".CLADDING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_CLADDING;
 	}
-	else if( boost::iequals( arg, L".ROOFING." ) )
+	else if( std_iequal( arg, L".ROOFING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_ROOFING;
 	}
-	else if( boost::iequals( arg, L".MOLDING." ) )
+	else if( std_iequal( arg, L".MOLDING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_MOLDING;
 	}
-	else if( boost::iequals( arg, L".SKIRTINGBOARD." ) )
+	else if( std_iequal( arg, L".SKIRTINGBOARD." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_SKIRTINGBOARD;
 	}
-	else if( boost::iequals( arg, L".INSULATION." ) )
+	else if( std_iequal( arg, L".INSULATION." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_INSULATION;
 	}
-	else if( boost::iequals( arg, L".MEMBRANE." ) )
+	else if( std_iequal( arg, L".MEMBRANE." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_MEMBRANE;
 	}
-	else if( boost::iequals( arg, L".SLEEVING." ) )
+	else if( std_iequal( arg, L".SLEEVING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_SLEEVING;
 	}
-	else if( boost::iequals( arg, L".WRAPPING." ) )
+	else if( std_iequal( arg, L".WRAPPING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_WRAPPING;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_NOTDEFINED;
 	}

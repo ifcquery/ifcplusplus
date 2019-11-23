@@ -40,11 +40,11 @@ shared_ptr<IfcCostItemTypeEnum> IfcCostItemTypeEnum::createObjectFromSTEP( const
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCostItemTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCostItemTypeEnum>(); }
 	shared_ptr<IfcCostItemTypeEnum> type_object( new IfcCostItemTypeEnum() );
-	if( boost::iequals( arg, L".USERDEFINED." ) )
+	if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCostItemTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCostItemTypeEnum::ENUM_NOTDEFINED;
 	}

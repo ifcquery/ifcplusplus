@@ -54,39 +54,39 @@ shared_ptr<IfcWasteTerminalTypeEnum> IfcWasteTerminalTypeEnum::createObjectFromS
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWasteTerminalTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWasteTerminalTypeEnum>(); }
 	shared_ptr<IfcWasteTerminalTypeEnum> type_object( new IfcWasteTerminalTypeEnum() );
-	if( boost::iequals( arg, L".FLOORTRAP." ) )
+	if( std_iequal( arg, L".FLOORTRAP." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_FLOORTRAP;
 	}
-	else if( boost::iequals( arg, L".FLOORWASTE." ) )
+	else if( std_iequal( arg, L".FLOORWASTE." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_FLOORWASTE;
 	}
-	else if( boost::iequals( arg, L".GULLYSUMP." ) )
+	else if( std_iequal( arg, L".GULLYSUMP." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_GULLYSUMP;
 	}
-	else if( boost::iequals( arg, L".GULLYTRAP." ) )
+	else if( std_iequal( arg, L".GULLYTRAP." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_GULLYTRAP;
 	}
-	else if( boost::iequals( arg, L".ROOFDRAIN." ) )
+	else if( std_iequal( arg, L".ROOFDRAIN." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_ROOFDRAIN;
 	}
-	else if( boost::iequals( arg, L".WASTEDISPOSALUNIT." ) )
+	else if( std_iequal( arg, L".WASTEDISPOSALUNIT." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_WASTEDISPOSALUNIT;
 	}
-	else if( boost::iequals( arg, L".WASTETRAP." ) )
+	else if( std_iequal( arg, L".WASTETRAP." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_WASTETRAP;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWasteTerminalTypeEnum::ENUM_NOTDEFINED;
 	}

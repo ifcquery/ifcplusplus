@@ -44,19 +44,19 @@ shared_ptr<IfcSubContractResourceTypeEnum> IfcSubContractResourceTypeEnum::creat
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSubContractResourceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSubContractResourceTypeEnum>(); }
 	shared_ptr<IfcSubContractResourceTypeEnum> type_object( new IfcSubContractResourceTypeEnum() );
-	if( boost::iequals( arg, L".PURCHASE." ) )
+	if( std_iequal( arg, L".PURCHASE." ) )
 	{
 		type_object->m_enum = IfcSubContractResourceTypeEnum::ENUM_PURCHASE;
 	}
-	else if( boost::iequals( arg, L".WORK." ) )
+	else if( std_iequal( arg, L".WORK." ) )
 	{
 		type_object->m_enum = IfcSubContractResourceTypeEnum::ENUM_WORK;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSubContractResourceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSubContractResourceTypeEnum::ENUM_NOTDEFINED;
 	}

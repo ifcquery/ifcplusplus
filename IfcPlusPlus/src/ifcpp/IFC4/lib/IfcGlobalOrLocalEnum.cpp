@@ -40,11 +40,11 @@ shared_ptr<IfcGlobalOrLocalEnum> IfcGlobalOrLocalEnum::createObjectFromSTEP( con
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGlobalOrLocalEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGlobalOrLocalEnum>(); }
 	shared_ptr<IfcGlobalOrLocalEnum> type_object( new IfcGlobalOrLocalEnum() );
-	if( boost::iequals( arg, L".GLOBAL_COORDS." ) )
+	if( std_iequal( arg, L".GLOBAL_COORDS." ) )
 	{
 		type_object->m_enum = IfcGlobalOrLocalEnum::ENUM_GLOBAL_COORDS;
 	}
-	else if( boost::iequals( arg, L".LOCAL_COORDS." ) )
+	else if( std_iequal( arg, L".LOCAL_COORDS." ) )
 	{
 		type_object->m_enum = IfcGlobalOrLocalEnum::ENUM_LOCAL_COORDS;
 	}

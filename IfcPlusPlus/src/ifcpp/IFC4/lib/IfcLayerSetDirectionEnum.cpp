@@ -42,15 +42,15 @@ shared_ptr<IfcLayerSetDirectionEnum> IfcLayerSetDirectionEnum::createObjectFromS
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLayerSetDirectionEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLayerSetDirectionEnum>(); }
 	shared_ptr<IfcLayerSetDirectionEnum> type_object( new IfcLayerSetDirectionEnum() );
-	if( boost::iequals( arg, L".AXIS1." ) )
+	if( std_iequal( arg, L".AXIS1." ) )
 	{
 		type_object->m_enum = IfcLayerSetDirectionEnum::ENUM_AXIS1;
 	}
-	else if( boost::iequals( arg, L".AXIS2." ) )
+	else if( std_iequal( arg, L".AXIS2." ) )
 	{
 		type_object->m_enum = IfcLayerSetDirectionEnum::ENUM_AXIS2;
 	}
-	else if( boost::iequals( arg, L".AXIS3." ) )
+	else if( std_iequal( arg, L".AXIS3." ) )
 	{
 		type_object->m_enum = IfcLayerSetDirectionEnum::ENUM_AXIS3;
 	}

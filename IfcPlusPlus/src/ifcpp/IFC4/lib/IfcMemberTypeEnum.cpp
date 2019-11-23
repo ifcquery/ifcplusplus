@@ -64,59 +64,59 @@ shared_ptr<IfcMemberTypeEnum> IfcMemberTypeEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMemberTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMemberTypeEnum>(); }
 	shared_ptr<IfcMemberTypeEnum> type_object( new IfcMemberTypeEnum() );
-	if( boost::iequals( arg, L".BRACE." ) )
+	if( std_iequal( arg, L".BRACE." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_BRACE;
 	}
-	else if( boost::iequals( arg, L".CHORD." ) )
+	else if( std_iequal( arg, L".CHORD." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_CHORD;
 	}
-	else if( boost::iequals( arg, L".COLLAR." ) )
+	else if( std_iequal( arg, L".COLLAR." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_COLLAR;
 	}
-	else if( boost::iequals( arg, L".MEMBER." ) )
+	else if( std_iequal( arg, L".MEMBER." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_MEMBER;
 	}
-	else if( boost::iequals( arg, L".MULLION." ) )
+	else if( std_iequal( arg, L".MULLION." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_MULLION;
 	}
-	else if( boost::iequals( arg, L".PLATE." ) )
+	else if( std_iequal( arg, L".PLATE." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_PLATE;
 	}
-	else if( boost::iequals( arg, L".POST." ) )
+	else if( std_iequal( arg, L".POST." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_POST;
 	}
-	else if( boost::iequals( arg, L".PURLIN." ) )
+	else if( std_iequal( arg, L".PURLIN." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_PURLIN;
 	}
-	else if( boost::iequals( arg, L".RAFTER." ) )
+	else if( std_iequal( arg, L".RAFTER." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_RAFTER;
 	}
-	else if( boost::iequals( arg, L".STRINGER." ) )
+	else if( std_iequal( arg, L".STRINGER." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_STRINGER;
 	}
-	else if( boost::iequals( arg, L".STRUT." ) )
+	else if( std_iequal( arg, L".STRUT." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_STRUT;
 	}
-	else if( boost::iequals( arg, L".STUD." ) )
+	else if( std_iequal( arg, L".STUD." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_STUD;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_NOTDEFINED;
 	}

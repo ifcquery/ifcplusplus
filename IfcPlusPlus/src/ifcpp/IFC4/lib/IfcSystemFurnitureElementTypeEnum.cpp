@@ -44,19 +44,19 @@ shared_ptr<IfcSystemFurnitureElementTypeEnum> IfcSystemFurnitureElementTypeEnum:
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSystemFurnitureElementTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSystemFurnitureElementTypeEnum>(); }
 	shared_ptr<IfcSystemFurnitureElementTypeEnum> type_object( new IfcSystemFurnitureElementTypeEnum() );
-	if( boost::iequals( arg, L".PANEL." ) )
+	if( std_iequal( arg, L".PANEL." ) )
 	{
 		type_object->m_enum = IfcSystemFurnitureElementTypeEnum::ENUM_PANEL;
 	}
-	else if( boost::iequals( arg, L".WORKSURFACE." ) )
+	else if( std_iequal( arg, L".WORKSURFACE." ) )
 	{
 		type_object->m_enum = IfcSystemFurnitureElementTypeEnum::ENUM_WORKSURFACE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSystemFurnitureElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSystemFurnitureElementTypeEnum::ENUM_NOTDEFINED;
 	}

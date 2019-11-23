@@ -56,43 +56,43 @@ shared_ptr<IfcFlowInstrumentTypeEnum> IfcFlowInstrumentTypeEnum::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFlowInstrumentTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFlowInstrumentTypeEnum>(); }
 	shared_ptr<IfcFlowInstrumentTypeEnum> type_object( new IfcFlowInstrumentTypeEnum() );
-	if( boost::iequals( arg, L".PRESSUREGAUGE." ) )
+	if( std_iequal( arg, L".PRESSUREGAUGE." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_PRESSUREGAUGE;
 	}
-	else if( boost::iequals( arg, L".THERMOMETER." ) )
+	else if( std_iequal( arg, L".THERMOMETER." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_THERMOMETER;
 	}
-	else if( boost::iequals( arg, L".AMMETER." ) )
+	else if( std_iequal( arg, L".AMMETER." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_AMMETER;
 	}
-	else if( boost::iequals( arg, L".FREQUENCYMETER." ) )
+	else if( std_iequal( arg, L".FREQUENCYMETER." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_FREQUENCYMETER;
 	}
-	else if( boost::iequals( arg, L".POWERFACTORMETER." ) )
+	else if( std_iequal( arg, L".POWERFACTORMETER." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_POWERFACTORMETER;
 	}
-	else if( boost::iequals( arg, L".PHASEANGLEMETER." ) )
+	else if( std_iequal( arg, L".PHASEANGLEMETER." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_PHASEANGLEMETER;
 	}
-	else if( boost::iequals( arg, L".VOLTMETER_PEAK." ) )
+	else if( std_iequal( arg, L".VOLTMETER_PEAK." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_VOLTMETER_PEAK;
 	}
-	else if( boost::iequals( arg, L".VOLTMETER_RMS." ) )
+	else if( std_iequal( arg, L".VOLTMETER_RMS." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_VOLTMETER_RMS;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_NOTDEFINED;
 	}

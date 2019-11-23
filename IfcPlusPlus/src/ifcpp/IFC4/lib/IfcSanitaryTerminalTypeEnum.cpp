@@ -60,51 +60,51 @@ shared_ptr<IfcSanitaryTerminalTypeEnum> IfcSanitaryTerminalTypeEnum::createObjec
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSanitaryTerminalTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSanitaryTerminalTypeEnum>(); }
 	shared_ptr<IfcSanitaryTerminalTypeEnum> type_object( new IfcSanitaryTerminalTypeEnum() );
-	if( boost::iequals( arg, L".BATH." ) )
+	if( std_iequal( arg, L".BATH." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_BATH;
 	}
-	else if( boost::iequals( arg, L".BIDET." ) )
+	else if( std_iequal( arg, L".BIDET." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_BIDET;
 	}
-	else if( boost::iequals( arg, L".CISTERN." ) )
+	else if( std_iequal( arg, L".CISTERN." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_CISTERN;
 	}
-	else if( boost::iequals( arg, L".SHOWER." ) )
+	else if( std_iequal( arg, L".SHOWER." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_SHOWER;
 	}
-	else if( boost::iequals( arg, L".SINK." ) )
+	else if( std_iequal( arg, L".SINK." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_SINK;
 	}
-	else if( boost::iequals( arg, L".SANITARYFOUNTAIN." ) )
+	else if( std_iequal( arg, L".SANITARYFOUNTAIN." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_SANITARYFOUNTAIN;
 	}
-	else if( boost::iequals( arg, L".TOILETPAN." ) )
+	else if( std_iequal( arg, L".TOILETPAN." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_TOILETPAN;
 	}
-	else if( boost::iequals( arg, L".URINAL." ) )
+	else if( std_iequal( arg, L".URINAL." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_URINAL;
 	}
-	else if( boost::iequals( arg, L".WASHHANDBASIN." ) )
+	else if( std_iequal( arg, L".WASHHANDBASIN." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_WASHHANDBASIN;
 	}
-	else if( boost::iequals( arg, L".WCSEAT." ) )
+	else if( std_iequal( arg, L".WCSEAT." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_WCSEAT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSanitaryTerminalTypeEnum::ENUM_NOTDEFINED;
 	}

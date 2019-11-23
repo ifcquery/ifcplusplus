@@ -40,11 +40,11 @@ shared_ptr<IfcDirectionSenseEnum> IfcDirectionSenseEnum::createObjectFromSTEP( c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDirectionSenseEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDirectionSenseEnum>(); }
 	shared_ptr<IfcDirectionSenseEnum> type_object( new IfcDirectionSenseEnum() );
-	if( boost::iequals( arg, L".POSITIVE." ) )
+	if( std_iequal( arg, L".POSITIVE." ) )
 	{
 		type_object->m_enum = IfcDirectionSenseEnum::ENUM_POSITIVE;
 	}
-	else if( boost::iequals( arg, L".NEGATIVE." ) )
+	else if( std_iequal( arg, L".NEGATIVE." ) )
 	{
 		type_object->m_enum = IfcDirectionSenseEnum::ENUM_NEGATIVE;
 	}

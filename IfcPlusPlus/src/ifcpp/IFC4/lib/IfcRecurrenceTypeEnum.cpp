@@ -52,35 +52,35 @@ shared_ptr<IfcRecurrenceTypeEnum> IfcRecurrenceTypeEnum::createObjectFromSTEP( c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcRecurrenceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcRecurrenceTypeEnum>(); }
 	shared_ptr<IfcRecurrenceTypeEnum> type_object( new IfcRecurrenceTypeEnum() );
-	if( boost::iequals( arg, L".DAILY." ) )
+	if( std_iequal( arg, L".DAILY." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_DAILY;
 	}
-	else if( boost::iequals( arg, L".WEEKLY." ) )
+	else if( std_iequal( arg, L".WEEKLY." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_WEEKLY;
 	}
-	else if( boost::iequals( arg, L".MONTHLY_BY_DAY_OF_MONTH." ) )
+	else if( std_iequal( arg, L".MONTHLY_BY_DAY_OF_MONTH." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_MONTHLY_BY_DAY_OF_MONTH;
 	}
-	else if( boost::iequals( arg, L".MONTHLY_BY_POSITION." ) )
+	else if( std_iequal( arg, L".MONTHLY_BY_POSITION." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_MONTHLY_BY_POSITION;
 	}
-	else if( boost::iequals( arg, L".BY_DAY_COUNT." ) )
+	else if( std_iequal( arg, L".BY_DAY_COUNT." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_BY_DAY_COUNT;
 	}
-	else if( boost::iequals( arg, L".BY_WEEKDAY_COUNT." ) )
+	else if( std_iequal( arg, L".BY_WEEKDAY_COUNT." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_BY_WEEKDAY_COUNT;
 	}
-	else if( boost::iequals( arg, L".YEARLY_BY_DAY_OF_MONTH." ) )
+	else if( std_iequal( arg, L".YEARLY_BY_DAY_OF_MONTH." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_YEARLY_BY_DAY_OF_MONTH;
 	}
-	else if( boost::iequals( arg, L".YEARLY_BY_POSITION." ) )
+	else if( std_iequal( arg, L".YEARLY_BY_POSITION." ) )
 	{
 		type_object->m_enum = IfcRecurrenceTypeEnum::ENUM_YEARLY_BY_POSITION;
 	}

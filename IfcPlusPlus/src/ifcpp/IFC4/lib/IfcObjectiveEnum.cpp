@@ -62,55 +62,55 @@ shared_ptr<IfcObjectiveEnum> IfcObjectiveEnum::createObjectFromSTEP( const std::
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcObjectiveEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcObjectiveEnum>(); }
 	shared_ptr<IfcObjectiveEnum> type_object( new IfcObjectiveEnum() );
-	if( boost::iequals( arg, L".CODECOMPLIANCE." ) )
+	if( std_iequal( arg, L".CODECOMPLIANCE." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_CODECOMPLIANCE;
 	}
-	else if( boost::iequals( arg, L".CODEWAIVER." ) )
+	else if( std_iequal( arg, L".CODEWAIVER." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_CODEWAIVER;
 	}
-	else if( boost::iequals( arg, L".DESIGNINTENT." ) )
+	else if( std_iequal( arg, L".DESIGNINTENT." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_DESIGNINTENT;
 	}
-	else if( boost::iequals( arg, L".EXTERNAL." ) )
+	else if( std_iequal( arg, L".EXTERNAL." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_EXTERNAL;
 	}
-	else if( boost::iequals( arg, L".HEALTHANDSAFETY." ) )
+	else if( std_iequal( arg, L".HEALTHANDSAFETY." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_HEALTHANDSAFETY;
 	}
-	else if( boost::iequals( arg, L".MERGECONFLICT." ) )
+	else if( std_iequal( arg, L".MERGECONFLICT." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_MERGECONFLICT;
 	}
-	else if( boost::iequals( arg, L".MODELVIEW." ) )
+	else if( std_iequal( arg, L".MODELVIEW." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_MODELVIEW;
 	}
-	else if( boost::iequals( arg, L".PARAMETER." ) )
+	else if( std_iequal( arg, L".PARAMETER." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_PARAMETER;
 	}
-	else if( boost::iequals( arg, L".REQUIREMENT." ) )
+	else if( std_iequal( arg, L".REQUIREMENT." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_REQUIREMENT;
 	}
-	else if( boost::iequals( arg, L".SPECIFICATION." ) )
+	else if( std_iequal( arg, L".SPECIFICATION." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_SPECIFICATION;
 	}
-	else if( boost::iequals( arg, L".TRIGGERCONDITION." ) )
+	else if( std_iequal( arg, L".TRIGGERCONDITION." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_TRIGGERCONDITION;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcObjectiveEnum::ENUM_NOTDEFINED;
 	}

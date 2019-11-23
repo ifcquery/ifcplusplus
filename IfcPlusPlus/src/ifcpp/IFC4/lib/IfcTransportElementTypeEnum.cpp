@@ -50,31 +50,31 @@ shared_ptr<IfcTransportElementTypeEnum> IfcTransportElementTypeEnum::createObjec
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTransportElementTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTransportElementTypeEnum>(); }
 	shared_ptr<IfcTransportElementTypeEnum> type_object( new IfcTransportElementTypeEnum() );
-	if( boost::iequals( arg, L".ELEVATOR." ) )
+	if( std_iequal( arg, L".ELEVATOR." ) )
 	{
 		type_object->m_enum = IfcTransportElementTypeEnum::ENUM_ELEVATOR;
 	}
-	else if( boost::iequals( arg, L".ESCALATOR." ) )
+	else if( std_iequal( arg, L".ESCALATOR." ) )
 	{
 		type_object->m_enum = IfcTransportElementTypeEnum::ENUM_ESCALATOR;
 	}
-	else if( boost::iequals( arg, L".MOVINGWALKWAY." ) )
+	else if( std_iequal( arg, L".MOVINGWALKWAY." ) )
 	{
 		type_object->m_enum = IfcTransportElementTypeEnum::ENUM_MOVINGWALKWAY;
 	}
-	else if( boost::iequals( arg, L".CRANEWAY." ) )
+	else if( std_iequal( arg, L".CRANEWAY." ) )
 	{
 		type_object->m_enum = IfcTransportElementTypeEnum::ENUM_CRANEWAY;
 	}
-	else if( boost::iequals( arg, L".LIFTINGGEAR." ) )
+	else if( std_iequal( arg, L".LIFTINGGEAR." ) )
 	{
 		type_object->m_enum = IfcTransportElementTypeEnum::ENUM_LIFTINGGEAR;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcTransportElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTransportElementTypeEnum::ENUM_NOTDEFINED;
 	}

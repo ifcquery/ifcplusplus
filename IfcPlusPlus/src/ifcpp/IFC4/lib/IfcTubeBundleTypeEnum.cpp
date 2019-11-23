@@ -42,15 +42,15 @@ shared_ptr<IfcTubeBundleTypeEnum> IfcTubeBundleTypeEnum::createObjectFromSTEP( c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTubeBundleTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTubeBundleTypeEnum>(); }
 	shared_ptr<IfcTubeBundleTypeEnum> type_object( new IfcTubeBundleTypeEnum() );
-	if( boost::iequals( arg, L".FINNED." ) )
+	if( std_iequal( arg, L".FINNED." ) )
 	{
 		type_object->m_enum = IfcTubeBundleTypeEnum::ENUM_FINNED;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcTubeBundleTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTubeBundleTypeEnum::ENUM_NOTDEFINED;
 	}

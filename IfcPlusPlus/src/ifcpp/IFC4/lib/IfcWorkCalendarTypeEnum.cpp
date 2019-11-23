@@ -46,23 +46,23 @@ shared_ptr<IfcWorkCalendarTypeEnum> IfcWorkCalendarTypeEnum::createObjectFromSTE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWorkCalendarTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWorkCalendarTypeEnum>(); }
 	shared_ptr<IfcWorkCalendarTypeEnum> type_object( new IfcWorkCalendarTypeEnum() );
-	if( boost::iequals( arg, L".FIRSTSHIFT." ) )
+	if( std_iequal( arg, L".FIRSTSHIFT." ) )
 	{
 		type_object->m_enum = IfcWorkCalendarTypeEnum::ENUM_FIRSTSHIFT;
 	}
-	else if( boost::iequals( arg, L".SECONDSHIFT." ) )
+	else if( std_iequal( arg, L".SECONDSHIFT." ) )
 	{
 		type_object->m_enum = IfcWorkCalendarTypeEnum::ENUM_SECONDSHIFT;
 	}
-	else if( boost::iequals( arg, L".THIRDSHIFT." ) )
+	else if( std_iequal( arg, L".THIRDSHIFT." ) )
 	{
 		type_object->m_enum = IfcWorkCalendarTypeEnum::ENUM_THIRDSHIFT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcWorkCalendarTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWorkCalendarTypeEnum::ENUM_NOTDEFINED;
 	}

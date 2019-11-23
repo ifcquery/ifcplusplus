@@ -40,11 +40,11 @@ shared_ptr<IfcReinforcingMeshTypeEnum> IfcReinforcingMeshTypeEnum::createObjectF
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcReinforcingMeshTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcReinforcingMeshTypeEnum>(); }
 	shared_ptr<IfcReinforcingMeshTypeEnum> type_object( new IfcReinforcingMeshTypeEnum() );
-	if( boost::iequals( arg, L".USERDEFINED." ) )
+	if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcReinforcingMeshTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcReinforcingMeshTypeEnum::ENUM_NOTDEFINED;
 	}

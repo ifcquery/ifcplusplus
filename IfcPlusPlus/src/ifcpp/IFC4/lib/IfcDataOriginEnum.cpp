@@ -46,23 +46,23 @@ shared_ptr<IfcDataOriginEnum> IfcDataOriginEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDataOriginEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDataOriginEnum>(); }
 	shared_ptr<IfcDataOriginEnum> type_object( new IfcDataOriginEnum() );
-	if( boost::iequals( arg, L".MEASURED." ) )
+	if( std_iequal( arg, L".MEASURED." ) )
 	{
 		type_object->m_enum = IfcDataOriginEnum::ENUM_MEASURED;
 	}
-	else if( boost::iequals( arg, L".PREDICTED." ) )
+	else if( std_iequal( arg, L".PREDICTED." ) )
 	{
 		type_object->m_enum = IfcDataOriginEnum::ENUM_PREDICTED;
 	}
-	else if( boost::iequals( arg, L".SIMULATED." ) )
+	else if( std_iequal( arg, L".SIMULATED." ) )
 	{
 		type_object->m_enum = IfcDataOriginEnum::ENUM_SIMULATED;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDataOriginEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDataOriginEnum::ENUM_NOTDEFINED;
 	}

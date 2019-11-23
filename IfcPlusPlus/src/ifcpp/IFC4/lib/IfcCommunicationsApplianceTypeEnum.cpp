@@ -64,59 +64,59 @@ shared_ptr<IfcCommunicationsApplianceTypeEnum> IfcCommunicationsApplianceTypeEnu
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCommunicationsApplianceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCommunicationsApplianceTypeEnum>(); }
 	shared_ptr<IfcCommunicationsApplianceTypeEnum> type_object( new IfcCommunicationsApplianceTypeEnum() );
-	if( boost::iequals( arg, L".ANTENNA." ) )
+	if( std_iequal( arg, L".ANTENNA." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_ANTENNA;
 	}
-	else if( boost::iequals( arg, L".COMPUTER." ) )
+	else if( std_iequal( arg, L".COMPUTER." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_COMPUTER;
 	}
-	else if( boost::iequals( arg, L".FAX." ) )
+	else if( std_iequal( arg, L".FAX." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_FAX;
 	}
-	else if( boost::iequals( arg, L".GATEWAY." ) )
+	else if( std_iequal( arg, L".GATEWAY." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_GATEWAY;
 	}
-	else if( boost::iequals( arg, L".MODEM." ) )
+	else if( std_iequal( arg, L".MODEM." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_MODEM;
 	}
-	else if( boost::iequals( arg, L".NETWORKAPPLIANCE." ) )
+	else if( std_iequal( arg, L".NETWORKAPPLIANCE." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_NETWORKAPPLIANCE;
 	}
-	else if( boost::iequals( arg, L".NETWORKBRIDGE." ) )
+	else if( std_iequal( arg, L".NETWORKBRIDGE." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_NETWORKBRIDGE;
 	}
-	else if( boost::iequals( arg, L".NETWORKHUB." ) )
+	else if( std_iequal( arg, L".NETWORKHUB." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_NETWORKHUB;
 	}
-	else if( boost::iequals( arg, L".PRINTER." ) )
+	else if( std_iequal( arg, L".PRINTER." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_PRINTER;
 	}
-	else if( boost::iequals( arg, L".REPEATER." ) )
+	else if( std_iequal( arg, L".REPEATER." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_REPEATER;
 	}
-	else if( boost::iequals( arg, L".ROUTER." ) )
+	else if( std_iequal( arg, L".ROUTER." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_ROUTER;
 	}
-	else if( boost::iequals( arg, L".SCANNER." ) )
+	else if( std_iequal( arg, L".SCANNER." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_SCANNER;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_NOTDEFINED;
 	}

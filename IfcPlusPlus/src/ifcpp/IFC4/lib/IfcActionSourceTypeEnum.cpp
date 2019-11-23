@@ -90,111 +90,111 @@ shared_ptr<IfcActionSourceTypeEnum> IfcActionSourceTypeEnum::createObjectFromSTE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcActionSourceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcActionSourceTypeEnum>(); }
 	shared_ptr<IfcActionSourceTypeEnum> type_object( new IfcActionSourceTypeEnum() );
-	if( boost::iequals( arg, L".DEAD_LOAD_G." ) )
+	if( std_iequal( arg, L".DEAD_LOAD_G." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_DEAD_LOAD_G;
 	}
-	else if( boost::iequals( arg, L".COMPLETION_G1." ) )
+	else if( std_iequal( arg, L".COMPLETION_G1." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_COMPLETION_G1;
 	}
-	else if( boost::iequals( arg, L".LIVE_LOAD_Q." ) )
+	else if( std_iequal( arg, L".LIVE_LOAD_Q." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_LIVE_LOAD_Q;
 	}
-	else if( boost::iequals( arg, L".SNOW_S." ) )
+	else if( std_iequal( arg, L".SNOW_S." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_SNOW_S;
 	}
-	else if( boost::iequals( arg, L".WIND_W." ) )
+	else if( std_iequal( arg, L".WIND_W." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_WIND_W;
 	}
-	else if( boost::iequals( arg, L".PRESTRESSING_P." ) )
+	else if( std_iequal( arg, L".PRESTRESSING_P." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_PRESTRESSING_P;
 	}
-	else if( boost::iequals( arg, L".SETTLEMENT_U." ) )
+	else if( std_iequal( arg, L".SETTLEMENT_U." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_SETTLEMENT_U;
 	}
-	else if( boost::iequals( arg, L".TEMPERATURE_T." ) )
+	else if( std_iequal( arg, L".TEMPERATURE_T." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_TEMPERATURE_T;
 	}
-	else if( boost::iequals( arg, L".EARTHQUAKE_E." ) )
+	else if( std_iequal( arg, L".EARTHQUAKE_E." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_EARTHQUAKE_E;
 	}
-	else if( boost::iequals( arg, L".FIRE." ) )
+	else if( std_iequal( arg, L".FIRE." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_FIRE;
 	}
-	else if( boost::iequals( arg, L".IMPULSE." ) )
+	else if( std_iequal( arg, L".IMPULSE." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_IMPULSE;
 	}
-	else if( boost::iequals( arg, L".IMPACT." ) )
+	else if( std_iequal( arg, L".IMPACT." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_IMPACT;
 	}
-	else if( boost::iequals( arg, L".TRANSPORT." ) )
+	else if( std_iequal( arg, L".TRANSPORT." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_TRANSPORT;
 	}
-	else if( boost::iequals( arg, L".ERECTION." ) )
+	else if( std_iequal( arg, L".ERECTION." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_ERECTION;
 	}
-	else if( boost::iequals( arg, L".PROPPING." ) )
+	else if( std_iequal( arg, L".PROPPING." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_PROPPING;
 	}
-	else if( boost::iequals( arg, L".SYSTEM_IMPERFECTION." ) )
+	else if( std_iequal( arg, L".SYSTEM_IMPERFECTION." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_SYSTEM_IMPERFECTION;
 	}
-	else if( boost::iequals( arg, L".SHRINKAGE." ) )
+	else if( std_iequal( arg, L".SHRINKAGE." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_SHRINKAGE;
 	}
-	else if( boost::iequals( arg, L".CREEP." ) )
+	else if( std_iequal( arg, L".CREEP." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_CREEP;
 	}
-	else if( boost::iequals( arg, L".LACK_OF_FIT." ) )
+	else if( std_iequal( arg, L".LACK_OF_FIT." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_LACK_OF_FIT;
 	}
-	else if( boost::iequals( arg, L".BUOYANCY." ) )
+	else if( std_iequal( arg, L".BUOYANCY." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_BUOYANCY;
 	}
-	else if( boost::iequals( arg, L".ICE." ) )
+	else if( std_iequal( arg, L".ICE." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_ICE;
 	}
-	else if( boost::iequals( arg, L".CURRENT." ) )
+	else if( std_iequal( arg, L".CURRENT." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_CURRENT;
 	}
-	else if( boost::iequals( arg, L".WAVE." ) )
+	else if( std_iequal( arg, L".WAVE." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_WAVE;
 	}
-	else if( boost::iequals( arg, L".RAIN." ) )
+	else if( std_iequal( arg, L".RAIN." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_RAIN;
 	}
-	else if( boost::iequals( arg, L".BRAKES." ) )
+	else if( std_iequal( arg, L".BRAKES." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_BRAKES;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcActionSourceTypeEnum::ENUM_NOTDEFINED;
 	}

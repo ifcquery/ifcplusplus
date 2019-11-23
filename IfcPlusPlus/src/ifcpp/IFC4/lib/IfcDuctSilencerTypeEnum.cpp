@@ -46,23 +46,23 @@ shared_ptr<IfcDuctSilencerTypeEnum> IfcDuctSilencerTypeEnum::createObjectFromSTE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDuctSilencerTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuctSilencerTypeEnum>(); }
 	shared_ptr<IfcDuctSilencerTypeEnum> type_object( new IfcDuctSilencerTypeEnum() );
-	if( boost::iequals( arg, L".FLATOVAL." ) )
+	if( std_iequal( arg, L".FLATOVAL." ) )
 	{
 		type_object->m_enum = IfcDuctSilencerTypeEnum::ENUM_FLATOVAL;
 	}
-	else if( boost::iequals( arg, L".RECTANGULAR." ) )
+	else if( std_iequal( arg, L".RECTANGULAR." ) )
 	{
 		type_object->m_enum = IfcDuctSilencerTypeEnum::ENUM_RECTANGULAR;
 	}
-	else if( boost::iequals( arg, L".ROUND." ) )
+	else if( std_iequal( arg, L".ROUND." ) )
 	{
 		type_object->m_enum = IfcDuctSilencerTypeEnum::ENUM_ROUND;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDuctSilencerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDuctSilencerTypeEnum::ENUM_NOTDEFINED;
 	}

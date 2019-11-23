@@ -52,35 +52,35 @@ shared_ptr<IfcBeamTypeEnum> IfcBeamTypeEnum::createObjectFromSTEP( const std::ws
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBeamTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBeamTypeEnum>(); }
 	shared_ptr<IfcBeamTypeEnum> type_object( new IfcBeamTypeEnum() );
-	if( boost::iequals( arg, L".BEAM." ) )
+	if( std_iequal( arg, L".BEAM." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_BEAM;
 	}
-	else if( boost::iequals( arg, L".JOIST." ) )
+	else if( std_iequal( arg, L".JOIST." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_JOIST;
 	}
-	else if( boost::iequals( arg, L".HOLLOWCORE." ) )
+	else if( std_iequal( arg, L".HOLLOWCORE." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_HOLLOWCORE;
 	}
-	else if( boost::iequals( arg, L".LINTEL." ) )
+	else if( std_iequal( arg, L".LINTEL." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_LINTEL;
 	}
-	else if( boost::iequals( arg, L".SPANDREL." ) )
+	else if( std_iequal( arg, L".SPANDREL." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_SPANDREL;
 	}
-	else if( boost::iequals( arg, L".T_BEAM." ) )
+	else if( std_iequal( arg, L".T_BEAM." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_T_BEAM;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_NOTDEFINED;
 	}

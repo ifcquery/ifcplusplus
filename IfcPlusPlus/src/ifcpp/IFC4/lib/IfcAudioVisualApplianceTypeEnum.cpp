@@ -62,55 +62,55 @@ shared_ptr<IfcAudioVisualApplianceTypeEnum> IfcAudioVisualApplianceTypeEnum::cre
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAudioVisualApplianceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAudioVisualApplianceTypeEnum>(); }
 	shared_ptr<IfcAudioVisualApplianceTypeEnum> type_object( new IfcAudioVisualApplianceTypeEnum() );
-	if( boost::iequals( arg, L".AMPLIFIER." ) )
+	if( std_iequal( arg, L".AMPLIFIER." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_AMPLIFIER;
 	}
-	else if( boost::iequals( arg, L".CAMERA." ) )
+	else if( std_iequal( arg, L".CAMERA." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_CAMERA;
 	}
-	else if( boost::iequals( arg, L".DISPLAY." ) )
+	else if( std_iequal( arg, L".DISPLAY." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_DISPLAY;
 	}
-	else if( boost::iequals( arg, L".MICROPHONE." ) )
+	else if( std_iequal( arg, L".MICROPHONE." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_MICROPHONE;
 	}
-	else if( boost::iequals( arg, L".PLAYER." ) )
+	else if( std_iequal( arg, L".PLAYER." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_PLAYER;
 	}
-	else if( boost::iequals( arg, L".PROJECTOR." ) )
+	else if( std_iequal( arg, L".PROJECTOR." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_PROJECTOR;
 	}
-	else if( boost::iequals( arg, L".RECEIVER." ) )
+	else if( std_iequal( arg, L".RECEIVER." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_RECEIVER;
 	}
-	else if( boost::iequals( arg, L".SPEAKER." ) )
+	else if( std_iequal( arg, L".SPEAKER." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_SPEAKER;
 	}
-	else if( boost::iequals( arg, L".SWITCHER." ) )
+	else if( std_iequal( arg, L".SWITCHER." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_SWITCHER;
 	}
-	else if( boost::iequals( arg, L".TELEPHONE." ) )
+	else if( std_iequal( arg, L".TELEPHONE." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_TELEPHONE;
 	}
-	else if( boost::iequals( arg, L".TUNER." ) )
+	else if( std_iequal( arg, L".TUNER." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_TUNER;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_NOTDEFINED;
 	}

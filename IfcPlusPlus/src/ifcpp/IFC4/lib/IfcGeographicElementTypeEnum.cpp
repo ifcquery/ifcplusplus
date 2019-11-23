@@ -42,15 +42,15 @@ shared_ptr<IfcGeographicElementTypeEnum> IfcGeographicElementTypeEnum::createObj
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcGeographicElementTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcGeographicElementTypeEnum>(); }
 	shared_ptr<IfcGeographicElementTypeEnum> type_object( new IfcGeographicElementTypeEnum() );
-	if( boost::iequals( arg, L".TERRAIN." ) )
+	if( std_iequal( arg, L".TERRAIN." ) )
 	{
 		type_object->m_enum = IfcGeographicElementTypeEnum::ENUM_TERRAIN;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcGeographicElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcGeographicElementTypeEnum::ENUM_NOTDEFINED;
 	}

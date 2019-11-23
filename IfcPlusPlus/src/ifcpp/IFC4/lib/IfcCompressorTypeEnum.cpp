@@ -70,71 +70,71 @@ shared_ptr<IfcCompressorTypeEnum> IfcCompressorTypeEnum::createObjectFromSTEP( c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCompressorTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCompressorTypeEnum>(); }
 	shared_ptr<IfcCompressorTypeEnum> type_object( new IfcCompressorTypeEnum() );
-	if( boost::iequals( arg, L".DYNAMIC." ) )
+	if( std_iequal( arg, L".DYNAMIC." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_DYNAMIC;
 	}
-	else if( boost::iequals( arg, L".RECIPROCATING." ) )
+	else if( std_iequal( arg, L".RECIPROCATING." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_RECIPROCATING;
 	}
-	else if( boost::iequals( arg, L".ROTARY." ) )
+	else if( std_iequal( arg, L".ROTARY." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_ROTARY;
 	}
-	else if( boost::iequals( arg, L".SCROLL." ) )
+	else if( std_iequal( arg, L".SCROLL." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_SCROLL;
 	}
-	else if( boost::iequals( arg, L".TROCHOIDAL." ) )
+	else if( std_iequal( arg, L".TROCHOIDAL." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_TROCHOIDAL;
 	}
-	else if( boost::iequals( arg, L".SINGLESTAGE." ) )
+	else if( std_iequal( arg, L".SINGLESTAGE." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_SINGLESTAGE;
 	}
-	else if( boost::iequals( arg, L".BOOSTER." ) )
+	else if( std_iequal( arg, L".BOOSTER." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_BOOSTER;
 	}
-	else if( boost::iequals( arg, L".OPENTYPE." ) )
+	else if( std_iequal( arg, L".OPENTYPE." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_OPENTYPE;
 	}
-	else if( boost::iequals( arg, L".HERMETIC." ) )
+	else if( std_iequal( arg, L".HERMETIC." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_HERMETIC;
 	}
-	else if( boost::iequals( arg, L".SEMIHERMETIC." ) )
+	else if( std_iequal( arg, L".SEMIHERMETIC." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_SEMIHERMETIC;
 	}
-	else if( boost::iequals( arg, L".WELDEDSHELLHERMETIC." ) )
+	else if( std_iequal( arg, L".WELDEDSHELLHERMETIC." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_WELDEDSHELLHERMETIC;
 	}
-	else if( boost::iequals( arg, L".ROLLINGPISTON." ) )
+	else if( std_iequal( arg, L".ROLLINGPISTON." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_ROLLINGPISTON;
 	}
-	else if( boost::iequals( arg, L".ROTARYVANE." ) )
+	else if( std_iequal( arg, L".ROTARYVANE." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_ROTARYVANE;
 	}
-	else if( boost::iequals( arg, L".SINGLESCREW." ) )
+	else if( std_iequal( arg, L".SINGLESCREW." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_SINGLESCREW;
 	}
-	else if( boost::iequals( arg, L".TWINSCREW." ) )
+	else if( std_iequal( arg, L".TWINSCREW." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_TWINSCREW;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCompressorTypeEnum::ENUM_NOTDEFINED;
 	}

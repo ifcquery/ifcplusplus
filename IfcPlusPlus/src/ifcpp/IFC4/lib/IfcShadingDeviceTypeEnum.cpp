@@ -46,23 +46,23 @@ shared_ptr<IfcShadingDeviceTypeEnum> IfcShadingDeviceTypeEnum::createObjectFromS
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcShadingDeviceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcShadingDeviceTypeEnum>(); }
 	shared_ptr<IfcShadingDeviceTypeEnum> type_object( new IfcShadingDeviceTypeEnum() );
-	if( boost::iequals( arg, L".JALOUSIE." ) )
+	if( std_iequal( arg, L".JALOUSIE." ) )
 	{
 		type_object->m_enum = IfcShadingDeviceTypeEnum::ENUM_JALOUSIE;
 	}
-	else if( boost::iequals( arg, L".SHUTTER." ) )
+	else if( std_iequal( arg, L".SHUTTER." ) )
 	{
 		type_object->m_enum = IfcShadingDeviceTypeEnum::ENUM_SHUTTER;
 	}
-	else if( boost::iequals( arg, L".AWNING." ) )
+	else if( std_iequal( arg, L".AWNING." ) )
 	{
 		type_object->m_enum = IfcShadingDeviceTypeEnum::ENUM_AWNING;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcShadingDeviceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcShadingDeviceTypeEnum::ENUM_NOTDEFINED;
 	}

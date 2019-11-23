@@ -44,19 +44,19 @@ shared_ptr<IfcDuctSegmentTypeEnum> IfcDuctSegmentTypeEnum::createObjectFromSTEP(
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDuctSegmentTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuctSegmentTypeEnum>(); }
 	shared_ptr<IfcDuctSegmentTypeEnum> type_object( new IfcDuctSegmentTypeEnum() );
-	if( boost::iequals( arg, L".RIGIDSEGMENT." ) )
+	if( std_iequal( arg, L".RIGIDSEGMENT." ) )
 	{
 		type_object->m_enum = IfcDuctSegmentTypeEnum::ENUM_RIGIDSEGMENT;
 	}
-	else if( boost::iequals( arg, L".FLEXIBLESEGMENT." ) )
+	else if( std_iequal( arg, L".FLEXIBLESEGMENT." ) )
 	{
 		type_object->m_enum = IfcDuctSegmentTypeEnum::ENUM_FLEXIBLESEGMENT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDuctSegmentTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDuctSegmentTypeEnum::ENUM_NOTDEFINED;
 	}

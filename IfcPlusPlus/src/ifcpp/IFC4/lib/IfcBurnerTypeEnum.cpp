@@ -40,11 +40,11 @@ shared_ptr<IfcBurnerTypeEnum> IfcBurnerTypeEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBurnerTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBurnerTypeEnum>(); }
 	shared_ptr<IfcBurnerTypeEnum> type_object( new IfcBurnerTypeEnum() );
-	if( boost::iequals( arg, L".USERDEFINED." ) )
+	if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcBurnerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcBurnerTypeEnum::ENUM_NOTDEFINED;
 	}

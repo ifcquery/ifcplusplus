@@ -28,6 +28,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/reader/ReaderSTEP.h>
 #include <ifcpp/writer/WriterSTEP.h>
+#include <ifcpp/writer/WriterUtil.h>
 
 #include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"
@@ -79,10 +80,13 @@ TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidge
 	m_txt_out = new QTextEdit();
 
 #ifdef _DEBUG
+	std::wstring str = L"test";
+	std::string str1 = encodeStepString(str);
+
 	std::stringstream uuid_strs;
 	//for( int i=0; i<10; ++i )
-	uuid_strs << createGUID32<char>().c_str() << std::endl;
-	uuid_strs << createBase64Uuid<char>().data() << std::endl;
+	uuid_strs << createGUID32().c_str() << std::endl;
+	uuid_strs << createBase64Uuid().data() << std::endl;
 
 	m_txt_out->setText( uuid_strs.str().c_str() );
 #endif

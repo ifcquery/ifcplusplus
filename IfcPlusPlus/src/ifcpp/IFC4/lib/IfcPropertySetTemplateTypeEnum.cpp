@@ -52,35 +52,35 @@ shared_ptr<IfcPropertySetTemplateTypeEnum> IfcPropertySetTemplateTypeEnum::creat
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPropertySetTemplateTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPropertySetTemplateTypeEnum>(); }
 	shared_ptr<IfcPropertySetTemplateTypeEnum> type_object( new IfcPropertySetTemplateTypeEnum() );
-	if( boost::iequals( arg, L".PSET_TYPEDRIVENONLY." ) )
+	if( std_iequal( arg, L".PSET_TYPEDRIVENONLY." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_PSET_TYPEDRIVENONLY;
 	}
-	else if( boost::iequals( arg, L".PSET_TYPEDRIVENOVERRIDE." ) )
+	else if( std_iequal( arg, L".PSET_TYPEDRIVENOVERRIDE." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_PSET_TYPEDRIVENOVERRIDE;
 	}
-	else if( boost::iequals( arg, L".PSET_OCCURRENCEDRIVEN." ) )
+	else if( std_iequal( arg, L".PSET_OCCURRENCEDRIVEN." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_PSET_OCCURRENCEDRIVEN;
 	}
-	else if( boost::iequals( arg, L".PSET_PERFORMANCEDRIVEN." ) )
+	else if( std_iequal( arg, L".PSET_PERFORMANCEDRIVEN." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_PSET_PERFORMANCEDRIVEN;
 	}
-	else if( boost::iequals( arg, L".QTO_TYPEDRIVENONLY." ) )
+	else if( std_iequal( arg, L".QTO_TYPEDRIVENONLY." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_QTO_TYPEDRIVENONLY;
 	}
-	else if( boost::iequals( arg, L".QTO_TYPEDRIVENOVERRIDE." ) )
+	else if( std_iequal( arg, L".QTO_TYPEDRIVENOVERRIDE." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_QTO_TYPEDRIVENOVERRIDE;
 	}
-	else if( boost::iequals( arg, L".QTO_OCCURRENCEDRIVEN." ) )
+	else if( std_iequal( arg, L".QTO_OCCURRENCEDRIVEN." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_QTO_OCCURRENCEDRIVEN;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPropertySetTemplateTypeEnum::ENUM_NOTDEFINED;
 	}

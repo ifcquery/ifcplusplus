@@ -56,43 +56,43 @@ shared_ptr<IfcConstructionEquipmentResourceTypeEnum> IfcConstructionEquipmentRes
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstructionEquipmentResourceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConstructionEquipmentResourceTypeEnum>(); }
 	shared_ptr<IfcConstructionEquipmentResourceTypeEnum> type_object( new IfcConstructionEquipmentResourceTypeEnum() );
-	if( boost::iequals( arg, L".DEMOLISHING." ) )
+	if( std_iequal( arg, L".DEMOLISHING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_DEMOLISHING;
 	}
-	else if( boost::iequals( arg, L".EARTHMOVING." ) )
+	else if( std_iequal( arg, L".EARTHMOVING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_EARTHMOVING;
 	}
-	else if( boost::iequals( arg, L".ERECTING." ) )
+	else if( std_iequal( arg, L".ERECTING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_ERECTING;
 	}
-	else if( boost::iequals( arg, L".HEATING." ) )
+	else if( std_iequal( arg, L".HEATING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_HEATING;
 	}
-	else if( boost::iequals( arg, L".LIGHTING." ) )
+	else if( std_iequal( arg, L".LIGHTING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_LIGHTING;
 	}
-	else if( boost::iequals( arg, L".PAVING." ) )
+	else if( std_iequal( arg, L".PAVING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_PAVING;
 	}
-	else if( boost::iequals( arg, L".PUMPING." ) )
+	else if( std_iequal( arg, L".PUMPING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_PUMPING;
 	}
-	else if( boost::iequals( arg, L".TRANSPORTING." ) )
+	else if( std_iequal( arg, L".TRANSPORTING." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_TRANSPORTING;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstructionEquipmentResourceTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -46,23 +46,23 @@ shared_ptr<IfcWindowTypeEnum> IfcWindowTypeEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowTypeEnum>(); }
 	shared_ptr<IfcWindowTypeEnum> type_object( new IfcWindowTypeEnum() );
-	if( boost::iequals( arg, L".WINDOW." ) )
+	if( std_iequal( arg, L".WINDOW." ) )
 	{
 		type_object->m_enum = IfcWindowTypeEnum::ENUM_WINDOW;
 	}
-	else if( boost::iequals( arg, L".SKYLIGHT." ) )
+	else if( std_iequal( arg, L".SKYLIGHT." ) )
 	{
 		type_object->m_enum = IfcWindowTypeEnum::ENUM_SKYLIGHT;
 	}
-	else if( boost::iequals( arg, L".LIGHTDOME." ) )
+	else if( std_iequal( arg, L".LIGHTDOME." ) )
 	{
 		type_object->m_enum = IfcWindowTypeEnum::ENUM_LIGHTDOME;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcWindowTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWindowTypeEnum::ENUM_NOTDEFINED;
 	}

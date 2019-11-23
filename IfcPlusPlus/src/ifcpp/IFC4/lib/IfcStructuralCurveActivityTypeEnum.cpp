@@ -54,39 +54,39 @@ shared_ptr<IfcStructuralCurveActivityTypeEnum> IfcStructuralCurveActivityTypeEnu
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStructuralCurveActivityTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStructuralCurveActivityTypeEnum>(); }
 	shared_ptr<IfcStructuralCurveActivityTypeEnum> type_object( new IfcStructuralCurveActivityTypeEnum() );
-	if( boost::iequals( arg, L".CONST." ) )
+	if( std_iequal( arg, L".CONST." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_CONST;
 	}
-	else if( boost::iequals( arg, L".LINEAR." ) )
+	else if( std_iequal( arg, L".LINEAR." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_LINEAR;
 	}
-	else if( boost::iequals( arg, L".POLYGONAL." ) )
+	else if( std_iequal( arg, L".POLYGONAL." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_POLYGONAL;
 	}
-	else if( boost::iequals( arg, L".EQUIDISTANT." ) )
+	else if( std_iequal( arg, L".EQUIDISTANT." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_EQUIDISTANT;
 	}
-	else if( boost::iequals( arg, L".SINUS." ) )
+	else if( std_iequal( arg, L".SINUS." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_SINUS;
 	}
-	else if( boost::iequals( arg, L".PARABOLA." ) )
+	else if( std_iequal( arg, L".PARABOLA." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_PARABOLA;
 	}
-	else if( boost::iequals( arg, L".DISCRETE." ) )
+	else if( std_iequal( arg, L".DISCRETE." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_DISCRETE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcStructuralCurveActivityTypeEnum::ENUM_NOTDEFINED;
 	}

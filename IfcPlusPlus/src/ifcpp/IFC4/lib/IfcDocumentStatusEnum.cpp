@@ -46,23 +46,23 @@ shared_ptr<IfcDocumentStatusEnum> IfcDocumentStatusEnum::createObjectFromSTEP( c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDocumentStatusEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDocumentStatusEnum>(); }
 	shared_ptr<IfcDocumentStatusEnum> type_object( new IfcDocumentStatusEnum() );
-	if( boost::iequals( arg, L".DRAFT." ) )
+	if( std_iequal( arg, L".DRAFT." ) )
 	{
 		type_object->m_enum = IfcDocumentStatusEnum::ENUM_DRAFT;
 	}
-	else if( boost::iequals( arg, L".FINALDRAFT." ) )
+	else if( std_iequal( arg, L".FINALDRAFT." ) )
 	{
 		type_object->m_enum = IfcDocumentStatusEnum::ENUM_FINALDRAFT;
 	}
-	else if( boost::iequals( arg, L".FINAL." ) )
+	else if( std_iequal( arg, L".FINAL." ) )
 	{
 		type_object->m_enum = IfcDocumentStatusEnum::ENUM_FINAL;
 	}
-	else if( boost::iequals( arg, L".REVISION." ) )
+	else if( std_iequal( arg, L".REVISION." ) )
 	{
 		type_object->m_enum = IfcDocumentStatusEnum::ENUM_REVISION;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDocumentStatusEnum::ENUM_NOTDEFINED;
 	}

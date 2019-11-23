@@ -40,11 +40,11 @@ shared_ptr<IfcProjectedOrTrueLengthEnum> IfcProjectedOrTrueLengthEnum::createObj
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProjectedOrTrueLengthEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProjectedOrTrueLengthEnum>(); }
 	shared_ptr<IfcProjectedOrTrueLengthEnum> type_object( new IfcProjectedOrTrueLengthEnum() );
-	if( boost::iequals( arg, L".PROJECTED_LENGTH." ) )
+	if( std_iequal( arg, L".PROJECTED_LENGTH." ) )
 	{
 		type_object->m_enum = IfcProjectedOrTrueLengthEnum::ENUM_PROJECTED_LENGTH;
 	}
-	else if( boost::iequals( arg, L".TRUE_LENGTH." ) )
+	else if( std_iequal( arg, L".TRUE_LENGTH." ) )
 	{
 		type_object->m_enum = IfcProjectedOrTrueLengthEnum::ENUM_TRUE_LENGTH;
 	}

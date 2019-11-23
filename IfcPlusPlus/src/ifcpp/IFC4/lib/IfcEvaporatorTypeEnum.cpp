@@ -52,35 +52,35 @@ shared_ptr<IfcEvaporatorTypeEnum> IfcEvaporatorTypeEnum::createObjectFromSTEP( c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEvaporatorTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEvaporatorTypeEnum>(); }
 	shared_ptr<IfcEvaporatorTypeEnum> type_object( new IfcEvaporatorTypeEnum() );
-	if( boost::iequals( arg, L".DIRECTEXPANSION." ) )
+	if( std_iequal( arg, L".DIRECTEXPANSION." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_DIRECTEXPANSION;
 	}
-	else if( boost::iequals( arg, L".DIRECTEXPANSIONSHELLANDTUBE." ) )
+	else if( std_iequal( arg, L".DIRECTEXPANSIONSHELLANDTUBE." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_DIRECTEXPANSIONSHELLANDTUBE;
 	}
-	else if( boost::iequals( arg, L".DIRECTEXPANSIONTUBEINTUBE." ) )
+	else if( std_iequal( arg, L".DIRECTEXPANSIONTUBEINTUBE." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_DIRECTEXPANSIONTUBEINTUBE;
 	}
-	else if( boost::iequals( arg, L".DIRECTEXPANSIONBRAZEDPLATE." ) )
+	else if( std_iequal( arg, L".DIRECTEXPANSIONBRAZEDPLATE." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_DIRECTEXPANSIONBRAZEDPLATE;
 	}
-	else if( boost::iequals( arg, L".FLOODEDSHELLANDTUBE." ) )
+	else if( std_iequal( arg, L".FLOODEDSHELLANDTUBE." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_FLOODEDSHELLANDTUBE;
 	}
-	else if( boost::iequals( arg, L".SHELLANDCOIL." ) )
+	else if( std_iequal( arg, L".SHELLANDCOIL." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_SHELLANDCOIL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcEvaporatorTypeEnum::ENUM_NOTDEFINED;
 	}

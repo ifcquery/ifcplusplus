@@ -54,39 +54,39 @@ shared_ptr<IfcDuctFittingTypeEnum> IfcDuctFittingTypeEnum::createObjectFromSTEP(
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDuctFittingTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDuctFittingTypeEnum>(); }
 	shared_ptr<IfcDuctFittingTypeEnum> type_object( new IfcDuctFittingTypeEnum() );
-	if( boost::iequals( arg, L".BEND." ) )
+	if( std_iequal( arg, L".BEND." ) )
 	{
 		type_object->m_enum = IfcDuctFittingTypeEnum::ENUM_BEND;
 	}
-	else if( boost::iequals( arg, L".CONNECTOR." ) )
+	else if( std_iequal( arg, L".CONNECTOR." ) )
 	{
 		type_object->m_enum = IfcDuctFittingTypeEnum::ENUM_CONNECTOR;
 	}
-	else if( boost::iequals( arg, L".ENTRY." ) )
+	else if( std_iequal( arg, L".ENTRY." ) )
 	{
 		type_object->m_enum = IfcDuctFittingTypeEnum::ENUM_ENTRY;
 	}
-	else if( boost::iequals( arg, L".EXIT." ) )
+	else if( std_iequal( arg, L".EXIT." ) )
 	{
 		type_object->m_enum = IfcDuctFittingTypeEnum::ENUM_EXIT;
 	}
-	else if( boost::iequals( arg, L".JUNCTION." ) )
+	else if( std_iequal( arg, L".JUNCTION." ) )
 	{
 		type_object->m_enum = IfcDuctFittingTypeEnum::ENUM_JUNCTION;
 	}
-	else if( boost::iequals( arg, L".OBSTRUCTION." ) )
+	else if( std_iequal( arg, L".OBSTRUCTION." ) )
 	{
 		type_object->m_enum = IfcDuctFittingTypeEnum::ENUM_OBSTRUCTION;
 	}
-	else if( boost::iequals( arg, L".TRANSITION." ) )
+	else if( std_iequal( arg, L".TRANSITION." ) )
 	{
 		type_object->m_enum = IfcDuctFittingTypeEnum::ENUM_TRANSITION;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDuctFittingTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDuctFittingTypeEnum::ENUM_NOTDEFINED;
 	}

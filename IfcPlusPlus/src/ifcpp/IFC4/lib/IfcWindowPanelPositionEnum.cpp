@@ -48,27 +48,27 @@ shared_ptr<IfcWindowPanelPositionEnum> IfcWindowPanelPositionEnum::createObjectF
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWindowPanelPositionEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWindowPanelPositionEnum>(); }
 	shared_ptr<IfcWindowPanelPositionEnum> type_object( new IfcWindowPanelPositionEnum() );
-	if( boost::iequals( arg, L".LEFT." ) )
+	if( std_iequal( arg, L".LEFT." ) )
 	{
 		type_object->m_enum = IfcWindowPanelPositionEnum::ENUM_LEFT;
 	}
-	else if( boost::iequals( arg, L".MIDDLE." ) )
+	else if( std_iequal( arg, L".MIDDLE." ) )
 	{
 		type_object->m_enum = IfcWindowPanelPositionEnum::ENUM_MIDDLE;
 	}
-	else if( boost::iequals( arg, L".RIGHT." ) )
+	else if( std_iequal( arg, L".RIGHT." ) )
 	{
 		type_object->m_enum = IfcWindowPanelPositionEnum::ENUM_RIGHT;
 	}
-	else if( boost::iequals( arg, L".BOTTOM." ) )
+	else if( std_iequal( arg, L".BOTTOM." ) )
 	{
 		type_object->m_enum = IfcWindowPanelPositionEnum::ENUM_BOTTOM;
 	}
-	else if( boost::iequals( arg, L".TOP." ) )
+	else if( std_iequal( arg, L".TOP." ) )
 	{
 		type_object->m_enum = IfcWindowPanelPositionEnum::ENUM_TOP;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWindowPanelPositionEnum::ENUM_NOTDEFINED;
 	}

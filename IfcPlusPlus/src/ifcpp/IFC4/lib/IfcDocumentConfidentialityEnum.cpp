@@ -48,27 +48,27 @@ shared_ptr<IfcDocumentConfidentialityEnum> IfcDocumentConfidentialityEnum::creat
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDocumentConfidentialityEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDocumentConfidentialityEnum>(); }
 	shared_ptr<IfcDocumentConfidentialityEnum> type_object( new IfcDocumentConfidentialityEnum() );
-	if( boost::iequals( arg, L".PUBLIC." ) )
+	if( std_iequal( arg, L".PUBLIC." ) )
 	{
 		type_object->m_enum = IfcDocumentConfidentialityEnum::ENUM_PUBLIC;
 	}
-	else if( boost::iequals( arg, L".RESTRICTED." ) )
+	else if( std_iequal( arg, L".RESTRICTED." ) )
 	{
 		type_object->m_enum = IfcDocumentConfidentialityEnum::ENUM_RESTRICTED;
 	}
-	else if( boost::iequals( arg, L".CONFIDENTIAL." ) )
+	else if( std_iequal( arg, L".CONFIDENTIAL." ) )
 	{
 		type_object->m_enum = IfcDocumentConfidentialityEnum::ENUM_CONFIDENTIAL;
 	}
-	else if( boost::iequals( arg, L".PERSONAL." ) )
+	else if( std_iequal( arg, L".PERSONAL." ) )
 	{
 		type_object->m_enum = IfcDocumentConfidentialityEnum::ENUM_PERSONAL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDocumentConfidentialityEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDocumentConfidentialityEnum::ENUM_NOTDEFINED;
 	}

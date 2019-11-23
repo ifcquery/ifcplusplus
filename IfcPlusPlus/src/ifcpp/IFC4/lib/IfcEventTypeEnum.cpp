@@ -46,23 +46,23 @@ shared_ptr<IfcEventTypeEnum> IfcEventTypeEnum::createObjectFromSTEP( const std::
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEventTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEventTypeEnum>(); }
 	shared_ptr<IfcEventTypeEnum> type_object( new IfcEventTypeEnum() );
-	if( boost::iequals( arg, L".STARTEVENT." ) )
+	if( std_iequal( arg, L".STARTEVENT." ) )
 	{
 		type_object->m_enum = IfcEventTypeEnum::ENUM_STARTEVENT;
 	}
-	else if( boost::iequals( arg, L".ENDEVENT." ) )
+	else if( std_iequal( arg, L".ENDEVENT." ) )
 	{
 		type_object->m_enum = IfcEventTypeEnum::ENUM_ENDEVENT;
 	}
-	else if( boost::iequals( arg, L".INTERMEDIATEEVENT." ) )
+	else if( std_iequal( arg, L".INTERMEDIATEEVENT." ) )
 	{
 		type_object->m_enum = IfcEventTypeEnum::ENUM_INTERMEDIATEEVENT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcEventTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcEventTypeEnum::ENUM_NOTDEFINED;
 	}

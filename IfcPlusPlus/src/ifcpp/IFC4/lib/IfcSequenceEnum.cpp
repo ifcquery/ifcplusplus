@@ -48,27 +48,27 @@ shared_ptr<IfcSequenceEnum> IfcSequenceEnum::createObjectFromSTEP( const std::ws
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSequenceEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSequenceEnum>(); }
 	shared_ptr<IfcSequenceEnum> type_object( new IfcSequenceEnum() );
-	if( boost::iequals( arg, L".START_START." ) )
+	if( std_iequal( arg, L".START_START." ) )
 	{
 		type_object->m_enum = IfcSequenceEnum::ENUM_START_START;
 	}
-	else if( boost::iequals( arg, L".START_FINISH." ) )
+	else if( std_iequal( arg, L".START_FINISH." ) )
 	{
 		type_object->m_enum = IfcSequenceEnum::ENUM_START_FINISH;
 	}
-	else if( boost::iequals( arg, L".FINISH_START." ) )
+	else if( std_iequal( arg, L".FINISH_START." ) )
 	{
 		type_object->m_enum = IfcSequenceEnum::ENUM_FINISH_START;
 	}
-	else if( boost::iequals( arg, L".FINISH_FINISH." ) )
+	else if( std_iequal( arg, L".FINISH_FINISH." ) )
 	{
 		type_object->m_enum = IfcSequenceEnum::ENUM_FINISH_FINISH;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSequenceEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSequenceEnum::ENUM_NOTDEFINED;
 	}

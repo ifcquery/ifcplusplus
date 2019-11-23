@@ -44,19 +44,19 @@ shared_ptr<IfcConnectionTypeEnum> IfcConnectionTypeEnum::createObjectFromSTEP( c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConnectionTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConnectionTypeEnum>(); }
 	shared_ptr<IfcConnectionTypeEnum> type_object( new IfcConnectionTypeEnum() );
-	if( boost::iequals( arg, L".ATPATH." ) )
+	if( std_iequal( arg, L".ATPATH." ) )
 	{
 		type_object->m_enum = IfcConnectionTypeEnum::ENUM_ATPATH;
 	}
-	else if( boost::iequals( arg, L".ATSTART." ) )
+	else if( std_iequal( arg, L".ATSTART." ) )
 	{
 		type_object->m_enum = IfcConnectionTypeEnum::ENUM_ATSTART;
 	}
-	else if( boost::iequals( arg, L".ATEND." ) )
+	else if( std_iequal( arg, L".ATEND." ) )
 	{
 		type_object->m_enum = IfcConnectionTypeEnum::ENUM_ATEND;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcConnectionTypeEnum::ENUM_NOTDEFINED;
 	}

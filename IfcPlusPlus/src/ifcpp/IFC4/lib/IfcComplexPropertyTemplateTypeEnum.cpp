@@ -40,11 +40,11 @@ shared_ptr<IfcComplexPropertyTemplateTypeEnum> IfcComplexPropertyTemplateTypeEnu
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcComplexPropertyTemplateTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcComplexPropertyTemplateTypeEnum>(); }
 	shared_ptr<IfcComplexPropertyTemplateTypeEnum> type_object( new IfcComplexPropertyTemplateTypeEnum() );
-	if( boost::iequals( arg, L".P_COMPLEX." ) )
+	if( std_iequal( arg, L".P_COMPLEX." ) )
 	{
 		type_object->m_enum = IfcComplexPropertyTemplateTypeEnum::ENUM_P_COMPLEX;
 	}
-	else if( boost::iequals( arg, L".Q_COMPLEX." ) )
+	else if( std_iequal( arg, L".Q_COMPLEX." ) )
 	{
 		type_object->m_enum = IfcComplexPropertyTemplateTypeEnum::ENUM_Q_COMPLEX;
 	}

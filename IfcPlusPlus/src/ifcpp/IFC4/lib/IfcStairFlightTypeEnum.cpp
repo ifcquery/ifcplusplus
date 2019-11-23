@@ -50,31 +50,31 @@ shared_ptr<IfcStairFlightTypeEnum> IfcStairFlightTypeEnum::createObjectFromSTEP(
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcStairFlightTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcStairFlightTypeEnum>(); }
 	shared_ptr<IfcStairFlightTypeEnum> type_object( new IfcStairFlightTypeEnum() );
-	if( boost::iequals( arg, L".STRAIGHT." ) )
+	if( std_iequal( arg, L".STRAIGHT." ) )
 	{
 		type_object->m_enum = IfcStairFlightTypeEnum::ENUM_STRAIGHT;
 	}
-	else if( boost::iequals( arg, L".WINDER." ) )
+	else if( std_iequal( arg, L".WINDER." ) )
 	{
 		type_object->m_enum = IfcStairFlightTypeEnum::ENUM_WINDER;
 	}
-	else if( boost::iequals( arg, L".SPIRAL." ) )
+	else if( std_iequal( arg, L".SPIRAL." ) )
 	{
 		type_object->m_enum = IfcStairFlightTypeEnum::ENUM_SPIRAL;
 	}
-	else if( boost::iequals( arg, L".CURVED." ) )
+	else if( std_iequal( arg, L".CURVED." ) )
 	{
 		type_object->m_enum = IfcStairFlightTypeEnum::ENUM_CURVED;
 	}
-	else if( boost::iequals( arg, L".FREEFORM." ) )
+	else if( std_iequal( arg, L".FREEFORM." ) )
 	{
 		type_object->m_enum = IfcStairFlightTypeEnum::ENUM_FREEFORM;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcStairFlightTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcStairFlightTypeEnum::ENUM_NOTDEFINED;
 	}

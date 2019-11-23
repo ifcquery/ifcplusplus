@@ -46,23 +46,23 @@ shared_ptr<IfcPermitTypeEnum> IfcPermitTypeEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcPermitTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcPermitTypeEnum>(); }
 	shared_ptr<IfcPermitTypeEnum> type_object( new IfcPermitTypeEnum() );
-	if( boost::iequals( arg, L".ACCESS." ) )
+	if( std_iequal( arg, L".ACCESS." ) )
 	{
 		type_object->m_enum = IfcPermitTypeEnum::ENUM_ACCESS;
 	}
-	else if( boost::iequals( arg, L".BUILDING." ) )
+	else if( std_iequal( arg, L".BUILDING." ) )
 	{
 		type_object->m_enum = IfcPermitTypeEnum::ENUM_BUILDING;
 	}
-	else if( boost::iequals( arg, L".WORK." ) )
+	else if( std_iequal( arg, L".WORK." ) )
 	{
 		type_object->m_enum = IfcPermitTypeEnum::ENUM_WORK;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcPermitTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcPermitTypeEnum::ENUM_NOTDEFINED;
 	}

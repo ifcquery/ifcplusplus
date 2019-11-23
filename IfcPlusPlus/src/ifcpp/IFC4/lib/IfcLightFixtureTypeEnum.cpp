@@ -46,23 +46,23 @@ shared_ptr<IfcLightFixtureTypeEnum> IfcLightFixtureTypeEnum::createObjectFromSTE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLightFixtureTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLightFixtureTypeEnum>(); }
 	shared_ptr<IfcLightFixtureTypeEnum> type_object( new IfcLightFixtureTypeEnum() );
-	if( boost::iequals( arg, L".POINTSOURCE." ) )
+	if( std_iequal( arg, L".POINTSOURCE." ) )
 	{
 		type_object->m_enum = IfcLightFixtureTypeEnum::ENUM_POINTSOURCE;
 	}
-	else if( boost::iequals( arg, L".DIRECTIONSOURCE." ) )
+	else if( std_iequal( arg, L".DIRECTIONSOURCE." ) )
 	{
 		type_object->m_enum = IfcLightFixtureTypeEnum::ENUM_DIRECTIONSOURCE;
 	}
-	else if( boost::iequals( arg, L".SECURITYLIGHTING." ) )
+	else if( std_iequal( arg, L".SECURITYLIGHTING." ) )
 	{
 		type_object->m_enum = IfcLightFixtureTypeEnum::ENUM_SECURITYLIGHTING;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcLightFixtureTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcLightFixtureTypeEnum::ENUM_NOTDEFINED;
 	}

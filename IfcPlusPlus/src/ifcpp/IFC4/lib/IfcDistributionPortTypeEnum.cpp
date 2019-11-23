@@ -48,27 +48,27 @@ shared_ptr<IfcDistributionPortTypeEnum> IfcDistributionPortTypeEnum::createObjec
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDistributionPortTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDistributionPortTypeEnum>(); }
 	shared_ptr<IfcDistributionPortTypeEnum> type_object( new IfcDistributionPortTypeEnum() );
-	if( boost::iequals( arg, L".CABLE." ) )
+	if( std_iequal( arg, L".CABLE." ) )
 	{
 		type_object->m_enum = IfcDistributionPortTypeEnum::ENUM_CABLE;
 	}
-	else if( boost::iequals( arg, L".CABLECARRIER." ) )
+	else if( std_iequal( arg, L".CABLECARRIER." ) )
 	{
 		type_object->m_enum = IfcDistributionPortTypeEnum::ENUM_CABLECARRIER;
 	}
-	else if( boost::iequals( arg, L".DUCT." ) )
+	else if( std_iequal( arg, L".DUCT." ) )
 	{
 		type_object->m_enum = IfcDistributionPortTypeEnum::ENUM_DUCT;
 	}
-	else if( boost::iequals( arg, L".PIPE." ) )
+	else if( std_iequal( arg, L".PIPE." ) )
 	{
 		type_object->m_enum = IfcDistributionPortTypeEnum::ENUM_PIPE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDistributionPortTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDistributionPortTypeEnum::ENUM_NOTDEFINED;
 	}

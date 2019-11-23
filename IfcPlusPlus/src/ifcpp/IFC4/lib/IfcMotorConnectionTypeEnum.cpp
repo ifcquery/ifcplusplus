@@ -46,23 +46,23 @@ shared_ptr<IfcMotorConnectionTypeEnum> IfcMotorConnectionTypeEnum::createObjectF
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMotorConnectionTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMotorConnectionTypeEnum>(); }
 	shared_ptr<IfcMotorConnectionTypeEnum> type_object( new IfcMotorConnectionTypeEnum() );
-	if( boost::iequals( arg, L".BELTDRIVE." ) )
+	if( std_iequal( arg, L".BELTDRIVE." ) )
 	{
 		type_object->m_enum = IfcMotorConnectionTypeEnum::ENUM_BELTDRIVE;
 	}
-	else if( boost::iequals( arg, L".COUPLING." ) )
+	else if( std_iequal( arg, L".COUPLING." ) )
 	{
 		type_object->m_enum = IfcMotorConnectionTypeEnum::ENUM_COUPLING;
 	}
-	else if( boost::iequals( arg, L".DIRECTDRIVE." ) )
+	else if( std_iequal( arg, L".DIRECTDRIVE." ) )
 	{
 		type_object->m_enum = IfcMotorConnectionTypeEnum::ENUM_DIRECTDRIVE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcMotorConnectionTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcMotorConnectionTypeEnum::ENUM_NOTDEFINED;
 	}

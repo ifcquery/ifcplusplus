@@ -46,23 +46,23 @@ shared_ptr<IfcLoadGroupTypeEnum> IfcLoadGroupTypeEnum::createObjectFromSTEP( con
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcLoadGroupTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcLoadGroupTypeEnum>(); }
 	shared_ptr<IfcLoadGroupTypeEnum> type_object( new IfcLoadGroupTypeEnum() );
-	if( boost::iequals( arg, L".LOAD_GROUP." ) )
+	if( std_iequal( arg, L".LOAD_GROUP." ) )
 	{
 		type_object->m_enum = IfcLoadGroupTypeEnum::ENUM_LOAD_GROUP;
 	}
-	else if( boost::iequals( arg, L".LOAD_CASE." ) )
+	else if( std_iequal( arg, L".LOAD_CASE." ) )
 	{
 		type_object->m_enum = IfcLoadGroupTypeEnum::ENUM_LOAD_CASE;
 	}
-	else if( boost::iequals( arg, L".LOAD_COMBINATION." ) )
+	else if( std_iequal( arg, L".LOAD_COMBINATION." ) )
 	{
 		type_object->m_enum = IfcLoadGroupTypeEnum::ENUM_LOAD_COMBINATION;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcLoadGroupTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcLoadGroupTypeEnum::ENUM_NOTDEFINED;
 	}

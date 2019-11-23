@@ -50,31 +50,31 @@ shared_ptr<IfcProjectOrderTypeEnum> IfcProjectOrderTypeEnum::createObjectFromSTE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProjectOrderTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProjectOrderTypeEnum>(); }
 	shared_ptr<IfcProjectOrderTypeEnum> type_object( new IfcProjectOrderTypeEnum() );
-	if( boost::iequals( arg, L".CHANGEORDER." ) )
+	if( std_iequal( arg, L".CHANGEORDER." ) )
 	{
 		type_object->m_enum = IfcProjectOrderTypeEnum::ENUM_CHANGEORDER;
 	}
-	else if( boost::iequals( arg, L".MAINTENANCEWORKORDER." ) )
+	else if( std_iequal( arg, L".MAINTENANCEWORKORDER." ) )
 	{
 		type_object->m_enum = IfcProjectOrderTypeEnum::ENUM_MAINTENANCEWORKORDER;
 	}
-	else if( boost::iequals( arg, L".MOVEORDER." ) )
+	else if( std_iequal( arg, L".MOVEORDER." ) )
 	{
 		type_object->m_enum = IfcProjectOrderTypeEnum::ENUM_MOVEORDER;
 	}
-	else if( boost::iequals( arg, L".PURCHASEORDER." ) )
+	else if( std_iequal( arg, L".PURCHASEORDER." ) )
 	{
 		type_object->m_enum = IfcProjectOrderTypeEnum::ENUM_PURCHASEORDER;
 	}
-	else if( boost::iequals( arg, L".WORKORDER." ) )
+	else if( std_iequal( arg, L".WORKORDER." ) )
 	{
 		type_object->m_enum = IfcProjectOrderTypeEnum::ENUM_WORKORDER;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcProjectOrderTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcProjectOrderTypeEnum::ENUM_NOTDEFINED;
 	}

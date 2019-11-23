@@ -44,19 +44,19 @@ shared_ptr<IfcConstructionProductResourceTypeEnum> IfcConstructionProductResourc
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstructionProductResourceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConstructionProductResourceTypeEnum>(); }
 	shared_ptr<IfcConstructionProductResourceTypeEnum> type_object( new IfcConstructionProductResourceTypeEnum() );
-	if( boost::iequals( arg, L".ASSEMBLY." ) )
+	if( std_iequal( arg, L".ASSEMBLY." ) )
 	{
 		type_object->m_enum = IfcConstructionProductResourceTypeEnum::ENUM_ASSEMBLY;
 	}
-	else if( boost::iequals( arg, L".FORMWORK." ) )
+	else if( std_iequal( arg, L".FORMWORK." ) )
 	{
 		type_object->m_enum = IfcConstructionProductResourceTypeEnum::ENUM_FORMWORK;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstructionProductResourceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstructionProductResourceTypeEnum::ENUM_NOTDEFINED;
 	}

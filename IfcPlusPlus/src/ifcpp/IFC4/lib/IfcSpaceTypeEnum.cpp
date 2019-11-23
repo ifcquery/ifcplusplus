@@ -50,31 +50,31 @@ shared_ptr<IfcSpaceTypeEnum> IfcSpaceTypeEnum::createObjectFromSTEP( const std::
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpaceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpaceTypeEnum>(); }
 	shared_ptr<IfcSpaceTypeEnum> type_object( new IfcSpaceTypeEnum() );
-	if( boost::iequals( arg, L".SPACE." ) )
+	if( std_iequal( arg, L".SPACE." ) )
 	{
 		type_object->m_enum = IfcSpaceTypeEnum::ENUM_SPACE;
 	}
-	else if( boost::iequals( arg, L".PARKING." ) )
+	else if( std_iequal( arg, L".PARKING." ) )
 	{
 		type_object->m_enum = IfcSpaceTypeEnum::ENUM_PARKING;
 	}
-	else if( boost::iequals( arg, L".GFA." ) )
+	else if( std_iequal( arg, L".GFA." ) )
 	{
 		type_object->m_enum = IfcSpaceTypeEnum::ENUM_GFA;
 	}
-	else if( boost::iequals( arg, L".INTERNAL." ) )
+	else if( std_iequal( arg, L".INTERNAL." ) )
 	{
 		type_object->m_enum = IfcSpaceTypeEnum::ENUM_INTERNAL;
 	}
-	else if( boost::iequals( arg, L".EXTERNAL." ) )
+	else if( std_iequal( arg, L".EXTERNAL." ) )
 	{
 		type_object->m_enum = IfcSpaceTypeEnum::ENUM_EXTERNAL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSpaceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSpaceTypeEnum::ENUM_NOTDEFINED;
 	}

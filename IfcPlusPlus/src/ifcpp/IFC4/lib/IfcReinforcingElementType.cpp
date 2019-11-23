@@ -30,7 +30,7 @@ shared_ptr<BuildingObject> IfcReinforcingElementType::getDeepCopy( BuildingCopyO
 	shared_ptr<IfcReinforcingElementType> copy_self( new IfcReinforcingElementType() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid_wstr().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )

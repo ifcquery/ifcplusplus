@@ -54,39 +54,39 @@ shared_ptr<IfcDoorStyleConstructionEnum> IfcDoorStyleConstructionEnum::createObj
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDoorStyleConstructionEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDoorStyleConstructionEnum>(); }
 	shared_ptr<IfcDoorStyleConstructionEnum> type_object( new IfcDoorStyleConstructionEnum() );
-	if( boost::iequals( arg, L".ALUMINIUM." ) )
+	if( std_iequal( arg, L".ALUMINIUM." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_ALUMINIUM;
 	}
-	else if( boost::iequals( arg, L".HIGH_GRADE_STEEL." ) )
+	else if( std_iequal( arg, L".HIGH_GRADE_STEEL." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_HIGH_GRADE_STEEL;
 	}
-	else if( boost::iequals( arg, L".STEEL." ) )
+	else if( std_iequal( arg, L".STEEL." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_STEEL;
 	}
-	else if( boost::iequals( arg, L".WOOD." ) )
+	else if( std_iequal( arg, L".WOOD." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_WOOD;
 	}
-	else if( boost::iequals( arg, L".ALUMINIUM_WOOD." ) )
+	else if( std_iequal( arg, L".ALUMINIUM_WOOD." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_ALUMINIUM_WOOD;
 	}
-	else if( boost::iequals( arg, L".ALUMINIUM_PLASTIC." ) )
+	else if( std_iequal( arg, L".ALUMINIUM_PLASTIC." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_ALUMINIUM_PLASTIC;
 	}
-	else if( boost::iequals( arg, L".PLASTIC." ) )
+	else if( std_iequal( arg, L".PLASTIC." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_PLASTIC;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDoorStyleConstructionEnum::ENUM_NOTDEFINED;
 	}

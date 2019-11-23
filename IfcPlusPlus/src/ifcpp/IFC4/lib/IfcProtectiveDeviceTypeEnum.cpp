@@ -54,39 +54,39 @@ shared_ptr<IfcProtectiveDeviceTypeEnum> IfcProtectiveDeviceTypeEnum::createObjec
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTypeEnum>(); }
 	shared_ptr<IfcProtectiveDeviceTypeEnum> type_object( new IfcProtectiveDeviceTypeEnum() );
-	if( boost::iequals( arg, L".CIRCUITBREAKER." ) )
+	if( std_iequal( arg, L".CIRCUITBREAKER." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_CIRCUITBREAKER;
 	}
-	else if( boost::iequals( arg, L".EARTHLEAKAGECIRCUITBREAKER." ) )
+	else if( std_iequal( arg, L".EARTHLEAKAGECIRCUITBREAKER." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_EARTHLEAKAGECIRCUITBREAKER;
 	}
-	else if( boost::iequals( arg, L".EARTHINGSWITCH." ) )
+	else if( std_iequal( arg, L".EARTHINGSWITCH." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_EARTHINGSWITCH;
 	}
-	else if( boost::iequals( arg, L".FUSEDISCONNECTOR." ) )
+	else if( std_iequal( arg, L".FUSEDISCONNECTOR." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_FUSEDISCONNECTOR;
 	}
-	else if( boost::iequals( arg, L".RESIDUALCURRENTCIRCUITBREAKER." ) )
+	else if( std_iequal( arg, L".RESIDUALCURRENTCIRCUITBREAKER." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_RESIDUALCURRENTCIRCUITBREAKER;
 	}
-	else if( boost::iequals( arg, L".RESIDUALCURRENTSWITCH." ) )
+	else if( std_iequal( arg, L".RESIDUALCURRENTSWITCH." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_RESIDUALCURRENTSWITCH;
 	}
-	else if( boost::iequals( arg, L".VARISTOR." ) )
+	else if( std_iequal( arg, L".VARISTOR." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_VARISTOR;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_NOTDEFINED;
 	}

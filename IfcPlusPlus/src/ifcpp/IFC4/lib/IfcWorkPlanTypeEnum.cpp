@@ -46,23 +46,23 @@ shared_ptr<IfcWorkPlanTypeEnum> IfcWorkPlanTypeEnum::createObjectFromSTEP( const
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWorkPlanTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWorkPlanTypeEnum>(); }
 	shared_ptr<IfcWorkPlanTypeEnum> type_object( new IfcWorkPlanTypeEnum() );
-	if( boost::iequals( arg, L".ACTUAL." ) )
+	if( std_iequal( arg, L".ACTUAL." ) )
 	{
 		type_object->m_enum = IfcWorkPlanTypeEnum::ENUM_ACTUAL;
 	}
-	else if( boost::iequals( arg, L".BASELINE." ) )
+	else if( std_iequal( arg, L".BASELINE." ) )
 	{
 		type_object->m_enum = IfcWorkPlanTypeEnum::ENUM_BASELINE;
 	}
-	else if( boost::iequals( arg, L".PLANNED." ) )
+	else if( std_iequal( arg, L".PLANNED." ) )
 	{
 		type_object->m_enum = IfcWorkPlanTypeEnum::ENUM_PLANNED;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcWorkPlanTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWorkPlanTypeEnum::ENUM_NOTDEFINED;
 	}

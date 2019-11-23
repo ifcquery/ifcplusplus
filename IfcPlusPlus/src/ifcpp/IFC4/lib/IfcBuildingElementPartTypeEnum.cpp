@@ -44,19 +44,19 @@ shared_ptr<IfcBuildingElementPartTypeEnum> IfcBuildingElementPartTypeEnum::creat
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBuildingElementPartTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBuildingElementPartTypeEnum>(); }
 	shared_ptr<IfcBuildingElementPartTypeEnum> type_object( new IfcBuildingElementPartTypeEnum() );
-	if( boost::iequals( arg, L".INSULATION." ) )
+	if( std_iequal( arg, L".INSULATION." ) )
 	{
 		type_object->m_enum = IfcBuildingElementPartTypeEnum::ENUM_INSULATION;
 	}
-	else if( boost::iequals( arg, L".PRECASTPANEL." ) )
+	else if( std_iequal( arg, L".PRECASTPANEL." ) )
 	{
 		type_object->m_enum = IfcBuildingElementPartTypeEnum::ENUM_PRECASTPANEL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcBuildingElementPartTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcBuildingElementPartTypeEnum::ENUM_NOTDEFINED;
 	}

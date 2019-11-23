@@ -42,15 +42,15 @@ shared_ptr<IfcElementCompositionEnum> IfcElementCompositionEnum::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElementCompositionEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElementCompositionEnum>(); }
 	shared_ptr<IfcElementCompositionEnum> type_object( new IfcElementCompositionEnum() );
-	if( boost::iequals( arg, L".COMPLEX." ) )
+	if( std_iequal( arg, L".COMPLEX." ) )
 	{
 		type_object->m_enum = IfcElementCompositionEnum::ENUM_COMPLEX;
 	}
-	else if( boost::iequals( arg, L".ELEMENT." ) )
+	else if( std_iequal( arg, L".ELEMENT." ) )
 	{
 		type_object->m_enum = IfcElementCompositionEnum::ENUM_ELEMENT;
 	}
-	else if( boost::iequals( arg, L".PARTIAL." ) )
+	else if( std_iequal( arg, L".PARTIAL." ) )
 	{
 		type_object->m_enum = IfcElementCompositionEnum::ENUM_PARTIAL;
 	}

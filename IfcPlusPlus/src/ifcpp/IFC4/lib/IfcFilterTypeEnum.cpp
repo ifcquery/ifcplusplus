@@ -52,35 +52,35 @@ shared_ptr<IfcFilterTypeEnum> IfcFilterTypeEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFilterTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFilterTypeEnum>(); }
 	shared_ptr<IfcFilterTypeEnum> type_object( new IfcFilterTypeEnum() );
-	if( boost::iequals( arg, L".AIRPARTICLEFILTER." ) )
+	if( std_iequal( arg, L".AIRPARTICLEFILTER." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_AIRPARTICLEFILTER;
 	}
-	else if( boost::iequals( arg, L".COMPRESSEDAIRFILTER." ) )
+	else if( std_iequal( arg, L".COMPRESSEDAIRFILTER." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_COMPRESSEDAIRFILTER;
 	}
-	else if( boost::iequals( arg, L".ODORFILTER." ) )
+	else if( std_iequal( arg, L".ODORFILTER." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_ODORFILTER;
 	}
-	else if( boost::iequals( arg, L".OILFILTER." ) )
+	else if( std_iequal( arg, L".OILFILTER." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_OILFILTER;
 	}
-	else if( boost::iequals( arg, L".STRAINER." ) )
+	else if( std_iequal( arg, L".STRAINER." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_STRAINER;
 	}
-	else if( boost::iequals( arg, L".WATERFILTER." ) )
+	else if( std_iequal( arg, L".WATERFILTER." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_WATERFILTER;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFilterTypeEnum::ENUM_NOTDEFINED;
 	}

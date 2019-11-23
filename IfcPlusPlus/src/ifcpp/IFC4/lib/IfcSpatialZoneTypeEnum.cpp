@@ -56,43 +56,43 @@ shared_ptr<IfcSpatialZoneTypeEnum> IfcSpatialZoneTypeEnum::createObjectFromSTEP(
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSpatialZoneTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSpatialZoneTypeEnum>(); }
 	shared_ptr<IfcSpatialZoneTypeEnum> type_object( new IfcSpatialZoneTypeEnum() );
-	if( boost::iequals( arg, L".CONSTRUCTION." ) )
+	if( std_iequal( arg, L".CONSTRUCTION." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_CONSTRUCTION;
 	}
-	else if( boost::iequals( arg, L".FIRESAFETY." ) )
+	else if( std_iequal( arg, L".FIRESAFETY." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_FIRESAFETY;
 	}
-	else if( boost::iequals( arg, L".LIGHTING." ) )
+	else if( std_iequal( arg, L".LIGHTING." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_LIGHTING;
 	}
-	else if( boost::iequals( arg, L".OCCUPANCY." ) )
+	else if( std_iequal( arg, L".OCCUPANCY." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_OCCUPANCY;
 	}
-	else if( boost::iequals( arg, L".SECURITY." ) )
+	else if( std_iequal( arg, L".SECURITY." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_SECURITY;
 	}
-	else if( boost::iequals( arg, L".THERMAL." ) )
+	else if( std_iequal( arg, L".THERMAL." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_THERMAL;
 	}
-	else if( boost::iequals( arg, L".TRANSPORT." ) )
+	else if( std_iequal( arg, L".TRANSPORT." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_TRANSPORT;
 	}
-	else if( boost::iequals( arg, L".VENTILATION." ) )
+	else if( std_iequal( arg, L".VENTILATION." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_VENTILATION;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_NOTDEFINED;
 	}

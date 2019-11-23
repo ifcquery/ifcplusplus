@@ -50,31 +50,31 @@ shared_ptr<IfcElectricFlowStorageDeviceTypeEnum> IfcElectricFlowStorageDeviceTyp
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricFlowStorageDeviceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricFlowStorageDeviceTypeEnum>(); }
 	shared_ptr<IfcElectricFlowStorageDeviceTypeEnum> type_object( new IfcElectricFlowStorageDeviceTypeEnum() );
-	if( boost::iequals( arg, L".BATTERY." ) )
+	if( std_iequal( arg, L".BATTERY." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_BATTERY;
 	}
-	else if( boost::iequals( arg, L".CAPACITORBANK." ) )
+	else if( std_iequal( arg, L".CAPACITORBANK." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_CAPACITORBANK;
 	}
-	else if( boost::iequals( arg, L".HARMONICFILTER." ) )
+	else if( std_iequal( arg, L".HARMONICFILTER." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_HARMONICFILTER;
 	}
-	else if( boost::iequals( arg, L".INDUCTORBANK." ) )
+	else if( std_iequal( arg, L".INDUCTORBANK." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_INDUCTORBANK;
 	}
-	else if( boost::iequals( arg, L".UPS." ) )
+	else if( std_iequal( arg, L".UPS." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_UPS;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_NOTDEFINED;
 	}

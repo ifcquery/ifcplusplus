@@ -44,19 +44,19 @@ shared_ptr<IfcVibrationIsolatorTypeEnum> IfcVibrationIsolatorTypeEnum::createObj
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVibrationIsolatorTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVibrationIsolatorTypeEnum>(); }
 	shared_ptr<IfcVibrationIsolatorTypeEnum> type_object( new IfcVibrationIsolatorTypeEnum() );
-	if( boost::iequals( arg, L".COMPRESSION." ) )
+	if( std_iequal( arg, L".COMPRESSION." ) )
 	{
 		type_object->m_enum = IfcVibrationIsolatorTypeEnum::ENUM_COMPRESSION;
 	}
-	else if( boost::iequals( arg, L".SPRING." ) )
+	else if( std_iequal( arg, L".SPRING." ) )
 	{
 		type_object->m_enum = IfcVibrationIsolatorTypeEnum::ENUM_SPRING;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcVibrationIsolatorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcVibrationIsolatorTypeEnum::ENUM_NOTDEFINED;
 	}

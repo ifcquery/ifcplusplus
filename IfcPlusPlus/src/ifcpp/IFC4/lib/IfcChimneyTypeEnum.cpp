@@ -40,11 +40,11 @@ shared_ptr<IfcChimneyTypeEnum> IfcChimneyTypeEnum::createObjectFromSTEP( const s
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcChimneyTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcChimneyTypeEnum>(); }
 	shared_ptr<IfcChimneyTypeEnum> type_object( new IfcChimneyTypeEnum() );
-	if( boost::iequals( arg, L".USERDEFINED." ) )
+	if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcChimneyTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcChimneyTypeEnum::ENUM_NOTDEFINED;
 	}

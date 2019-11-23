@@ -44,19 +44,19 @@ shared_ptr<IfcBoilerTypeEnum> IfcBoilerTypeEnum::createObjectFromSTEP( const std
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcBoilerTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcBoilerTypeEnum>(); }
 	shared_ptr<IfcBoilerTypeEnum> type_object( new IfcBoilerTypeEnum() );
-	if( boost::iequals( arg, L".WATER." ) )
+	if( std_iequal( arg, L".WATER." ) )
 	{
 		type_object->m_enum = IfcBoilerTypeEnum::ENUM_WATER;
 	}
-	else if( boost::iequals( arg, L".STEAM." ) )
+	else if( std_iequal( arg, L".STEAM." ) )
 	{
 		type_object->m_enum = IfcBoilerTypeEnum::ENUM_STEAM;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcBoilerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcBoilerTypeEnum::ENUM_NOTDEFINED;
 	}

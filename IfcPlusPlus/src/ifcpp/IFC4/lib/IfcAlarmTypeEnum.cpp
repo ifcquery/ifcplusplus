@@ -52,35 +52,35 @@ shared_ptr<IfcAlarmTypeEnum> IfcAlarmTypeEnum::createObjectFromSTEP( const std::
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAlarmTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAlarmTypeEnum>(); }
 	shared_ptr<IfcAlarmTypeEnum> type_object( new IfcAlarmTypeEnum() );
-	if( boost::iequals( arg, L".BELL." ) )
+	if( std_iequal( arg, L".BELL." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_BELL;
 	}
-	else if( boost::iequals( arg, L".BREAKGLASSBUTTON." ) )
+	else if( std_iequal( arg, L".BREAKGLASSBUTTON." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_BREAKGLASSBUTTON;
 	}
-	else if( boost::iequals( arg, L".LIGHT." ) )
+	else if( std_iequal( arg, L".LIGHT." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_LIGHT;
 	}
-	else if( boost::iequals( arg, L".MANUALPULLBOX." ) )
+	else if( std_iequal( arg, L".MANUALPULLBOX." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_MANUALPULLBOX;
 	}
-	else if( boost::iequals( arg, L".SIREN." ) )
+	else if( std_iequal( arg, L".SIREN." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_SIREN;
 	}
-	else if( boost::iequals( arg, L".WHISTLE." ) )
+	else if( std_iequal( arg, L".WHISTLE." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_WHISTLE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_NOTDEFINED;
 	}

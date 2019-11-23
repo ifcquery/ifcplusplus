@@ -58,47 +58,47 @@ shared_ptr<IfcConstructionMaterialResourceTypeEnum> IfcConstructionMaterialResou
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcConstructionMaterialResourceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcConstructionMaterialResourceTypeEnum>(); }
 	shared_ptr<IfcConstructionMaterialResourceTypeEnum> type_object( new IfcConstructionMaterialResourceTypeEnum() );
-	if( boost::iequals( arg, L".AGGREGATES." ) )
+	if( std_iequal( arg, L".AGGREGATES." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_AGGREGATES;
 	}
-	else if( boost::iequals( arg, L".CONCRETE." ) )
+	else if( std_iequal( arg, L".CONCRETE." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_CONCRETE;
 	}
-	else if( boost::iequals( arg, L".DRYWALL." ) )
+	else if( std_iequal( arg, L".DRYWALL." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_DRYWALL;
 	}
-	else if( boost::iequals( arg, L".FUEL." ) )
+	else if( std_iequal( arg, L".FUEL." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_FUEL;
 	}
-	else if( boost::iequals( arg, L".GYPSUM." ) )
+	else if( std_iequal( arg, L".GYPSUM." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_GYPSUM;
 	}
-	else if( boost::iequals( arg, L".MASONRY." ) )
+	else if( std_iequal( arg, L".MASONRY." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_MASONRY;
 	}
-	else if( boost::iequals( arg, L".METAL." ) )
+	else if( std_iequal( arg, L".METAL." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_METAL;
 	}
-	else if( boost::iequals( arg, L".PLASTIC." ) )
+	else if( std_iequal( arg, L".PLASTIC." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_PLASTIC;
 	}
-	else if( boost::iequals( arg, L".WOOD." ) )
+	else if( std_iequal( arg, L".WOOD." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_WOOD;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_NOTDEFINED;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcConstructionMaterialResourceTypeEnum::ENUM_USERDEFINED;
 	}

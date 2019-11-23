@@ -46,23 +46,23 @@ shared_ptr<IfcChillerTypeEnum> IfcChillerTypeEnum::createObjectFromSTEP( const s
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcChillerTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcChillerTypeEnum>(); }
 	shared_ptr<IfcChillerTypeEnum> type_object( new IfcChillerTypeEnum() );
-	if( boost::iequals( arg, L".AIRCOOLED." ) )
+	if( std_iequal( arg, L".AIRCOOLED." ) )
 	{
 		type_object->m_enum = IfcChillerTypeEnum::ENUM_AIRCOOLED;
 	}
-	else if( boost::iequals( arg, L".WATERCOOLED." ) )
+	else if( std_iequal( arg, L".WATERCOOLED." ) )
 	{
 		type_object->m_enum = IfcChillerTypeEnum::ENUM_WATERCOOLED;
 	}
-	else if( boost::iequals( arg, L".HEATRECOVERY." ) )
+	else if( std_iequal( arg, L".HEATRECOVERY." ) )
 	{
 		type_object->m_enum = IfcChillerTypeEnum::ENUM_HEATRECOVERY;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcChillerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcChillerTypeEnum::ENUM_NOTDEFINED;
 	}

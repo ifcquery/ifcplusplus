@@ -3068,9 +3068,6 @@
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcStateEnum.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\ifcpp\IFC4\lib\IfcStrippedOptional.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcStructuralAction.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -3771,6 +3768,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\external\XUnzip.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ifcpp\model\BuildingGuid.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

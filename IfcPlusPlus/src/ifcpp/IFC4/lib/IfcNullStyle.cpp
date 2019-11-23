@@ -39,7 +39,7 @@ shared_ptr<IfcNullStyle> IfcNullStyle::createObjectFromSTEP( const std::wstring&
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcNullStyle>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcNullStyle>(); }
 	shared_ptr<IfcNullStyle> type_object( new IfcNullStyle() );
-	if( boost::iequals( arg, L".ENUM_NULL." ) )
+	if( std_iequal( arg, L".ENUM_NULL." ) )
 	{
 		type_object->m_enum = IfcNullStyle::ENUM_ENUM_NULL;
 	}

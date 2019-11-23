@@ -54,39 +54,39 @@ shared_ptr<IfcCondenserTypeEnum> IfcCondenserTypeEnum::createObjectFromSTEP( con
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCondenserTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCondenserTypeEnum>(); }
 	shared_ptr<IfcCondenserTypeEnum> type_object( new IfcCondenserTypeEnum() );
-	if( boost::iequals( arg, L".AIRCOOLED." ) )
+	if( std_iequal( arg, L".AIRCOOLED." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_AIRCOOLED;
 	}
-	else if( boost::iequals( arg, L".EVAPORATIVECOOLED." ) )
+	else if( std_iequal( arg, L".EVAPORATIVECOOLED." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_EVAPORATIVECOOLED;
 	}
-	else if( boost::iequals( arg, L".WATERCOOLED." ) )
+	else if( std_iequal( arg, L".WATERCOOLED." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_WATERCOOLED;
 	}
-	else if( boost::iequals( arg, L".WATERCOOLEDBRAZEDPLATE." ) )
+	else if( std_iequal( arg, L".WATERCOOLEDBRAZEDPLATE." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_WATERCOOLEDBRAZEDPLATE;
 	}
-	else if( boost::iequals( arg, L".WATERCOOLEDSHELLCOIL." ) )
+	else if( std_iequal( arg, L".WATERCOOLEDSHELLCOIL." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_WATERCOOLEDSHELLCOIL;
 	}
-	else if( boost::iequals( arg, L".WATERCOOLEDSHELLTUBE." ) )
+	else if( std_iequal( arg, L".WATERCOOLEDSHELLTUBE." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_WATERCOOLEDSHELLTUBE;
 	}
-	else if( boost::iequals( arg, L".WATERCOOLEDTUBEINTUBE." ) )
+	else if( std_iequal( arg, L".WATERCOOLEDTUBEINTUBE." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_WATERCOOLEDTUBEINTUBE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCondenserTypeEnum::ENUM_NOTDEFINED;
 	}

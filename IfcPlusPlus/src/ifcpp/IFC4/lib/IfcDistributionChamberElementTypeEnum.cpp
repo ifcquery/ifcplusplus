@@ -56,43 +56,43 @@ shared_ptr<IfcDistributionChamberElementTypeEnum> IfcDistributionChamberElementT
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcDistributionChamberElementTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcDistributionChamberElementTypeEnum>(); }
 	shared_ptr<IfcDistributionChamberElementTypeEnum> type_object( new IfcDistributionChamberElementTypeEnum() );
-	if( boost::iequals( arg, L".FORMEDDUCT." ) )
+	if( std_iequal( arg, L".FORMEDDUCT." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_FORMEDDUCT;
 	}
-	else if( boost::iequals( arg, L".INSPECTIONCHAMBER." ) )
+	else if( std_iequal( arg, L".INSPECTIONCHAMBER." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_INSPECTIONCHAMBER;
 	}
-	else if( boost::iequals( arg, L".INSPECTIONPIT." ) )
+	else if( std_iequal( arg, L".INSPECTIONPIT." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_INSPECTIONPIT;
 	}
-	else if( boost::iequals( arg, L".MANHOLE." ) )
+	else if( std_iequal( arg, L".MANHOLE." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_MANHOLE;
 	}
-	else if( boost::iequals( arg, L".METERCHAMBER." ) )
+	else if( std_iequal( arg, L".METERCHAMBER." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_METERCHAMBER;
 	}
-	else if( boost::iequals( arg, L".SUMP." ) )
+	else if( std_iequal( arg, L".SUMP." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_SUMP;
 	}
-	else if( boost::iequals( arg, L".TRENCH." ) )
+	else if( std_iequal( arg, L".TRENCH." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_TRENCH;
 	}
-	else if( boost::iequals( arg, L".VALVECHAMBER." ) )
+	else if( std_iequal( arg, L".VALVECHAMBER." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_VALVECHAMBER;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcDistributionChamberElementTypeEnum::ENUM_NOTDEFINED;
 	}

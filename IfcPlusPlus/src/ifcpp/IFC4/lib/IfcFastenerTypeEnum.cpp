@@ -46,23 +46,23 @@ shared_ptr<IfcFastenerTypeEnum> IfcFastenerTypeEnum::createObjectFromSTEP( const
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcFastenerTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcFastenerTypeEnum>(); }
 	shared_ptr<IfcFastenerTypeEnum> type_object( new IfcFastenerTypeEnum() );
-	if( boost::iequals( arg, L".GLUE." ) )
+	if( std_iequal( arg, L".GLUE." ) )
 	{
 		type_object->m_enum = IfcFastenerTypeEnum::ENUM_GLUE;
 	}
-	else if( boost::iequals( arg, L".MORTAR." ) )
+	else if( std_iequal( arg, L".MORTAR." ) )
 	{
 		type_object->m_enum = IfcFastenerTypeEnum::ENUM_MORTAR;
 	}
-	else if( boost::iequals( arg, L".WELD." ) )
+	else if( std_iequal( arg, L".WELD." ) )
 	{
 		type_object->m_enum = IfcFastenerTypeEnum::ENUM_WELD;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcFastenerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcFastenerTypeEnum::ENUM_NOTDEFINED;
 	}

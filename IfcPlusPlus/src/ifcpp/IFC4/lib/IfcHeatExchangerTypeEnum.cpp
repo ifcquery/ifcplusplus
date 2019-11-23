@@ -44,19 +44,19 @@ shared_ptr<IfcHeatExchangerTypeEnum> IfcHeatExchangerTypeEnum::createObjectFromS
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcHeatExchangerTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcHeatExchangerTypeEnum>(); }
 	shared_ptr<IfcHeatExchangerTypeEnum> type_object( new IfcHeatExchangerTypeEnum() );
-	if( boost::iequals( arg, L".PLATE." ) )
+	if( std_iequal( arg, L".PLATE." ) )
 	{
 		type_object->m_enum = IfcHeatExchangerTypeEnum::ENUM_PLATE;
 	}
-	else if( boost::iequals( arg, L".SHELLANDTUBE." ) )
+	else if( std_iequal( arg, L".SHELLANDTUBE." ) )
 	{
 		type_object->m_enum = IfcHeatExchangerTypeEnum::ENUM_SHELLANDTUBE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcHeatExchangerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcHeatExchangerTypeEnum::ENUM_NOTDEFINED;
 	}

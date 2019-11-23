@@ -58,47 +58,47 @@ shared_ptr<IfcWallTypeEnum> IfcWallTypeEnum::createObjectFromSTEP( const std::ws
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcWallTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcWallTypeEnum>(); }
 	shared_ptr<IfcWallTypeEnum> type_object( new IfcWallTypeEnum() );
-	if( boost::iequals( arg, L".MOVABLE." ) )
+	if( std_iequal( arg, L".MOVABLE." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_MOVABLE;
 	}
-	else if( boost::iequals( arg, L".PARAPET." ) )
+	else if( std_iequal( arg, L".PARAPET." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_PARAPET;
 	}
-	else if( boost::iequals( arg, L".PARTITIONING." ) )
+	else if( std_iequal( arg, L".PARTITIONING." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_PARTITIONING;
 	}
-	else if( boost::iequals( arg, L".PLUMBINGWALL." ) )
+	else if( std_iequal( arg, L".PLUMBINGWALL." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_PLUMBINGWALL;
 	}
-	else if( boost::iequals( arg, L".SHEAR." ) )
+	else if( std_iequal( arg, L".SHEAR." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_SHEAR;
 	}
-	else if( boost::iequals( arg, L".SOLIDWALL." ) )
+	else if( std_iequal( arg, L".SOLIDWALL." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_SOLIDWALL;
 	}
-	else if( boost::iequals( arg, L".STANDARD." ) )
+	else if( std_iequal( arg, L".STANDARD." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_STANDARD;
 	}
-	else if( boost::iequals( arg, L".POLYGONAL." ) )
+	else if( std_iequal( arg, L".POLYGONAL." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_POLYGONAL;
 	}
-	else if( boost::iequals( arg, L".ELEMENTEDWALL." ) )
+	else if( std_iequal( arg, L".ELEMENTEDWALL." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_ELEMENTEDWALL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -56,43 +56,43 @@ shared_ptr<IfcUnitaryControlElementTypeEnum> IfcUnitaryControlElementTypeEnum::c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcUnitaryControlElementTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcUnitaryControlElementTypeEnum>(); }
 	shared_ptr<IfcUnitaryControlElementTypeEnum> type_object( new IfcUnitaryControlElementTypeEnum() );
-	if( boost::iequals( arg, L".ALARMPANEL." ) )
+	if( std_iequal( arg, L".ALARMPANEL." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_ALARMPANEL;
 	}
-	else if( boost::iequals( arg, L".CONTROLPANEL." ) )
+	else if( std_iequal( arg, L".CONTROLPANEL." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_CONTROLPANEL;
 	}
-	else if( boost::iequals( arg, L".GASDETECTIONPANEL." ) )
+	else if( std_iequal( arg, L".GASDETECTIONPANEL." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_GASDETECTIONPANEL;
 	}
-	else if( boost::iequals( arg, L".INDICATORPANEL." ) )
+	else if( std_iequal( arg, L".INDICATORPANEL." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_INDICATORPANEL;
 	}
-	else if( boost::iequals( arg, L".MIMICPANEL." ) )
+	else if( std_iequal( arg, L".MIMICPANEL." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_MIMICPANEL;
 	}
-	else if( boost::iequals( arg, L".HUMIDISTAT." ) )
+	else if( std_iequal( arg, L".HUMIDISTAT." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_HUMIDISTAT;
 	}
-	else if( boost::iequals( arg, L".THERMOSTAT." ) )
+	else if( std_iequal( arg, L".THERMOSTAT." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_THERMOSTAT;
 	}
-	else if( boost::iequals( arg, L".WEATHERSTATION." ) )
+	else if( std_iequal( arg, L".WEATHERSTATION." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_WEATHERSTATION;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_NOTDEFINED;
 	}

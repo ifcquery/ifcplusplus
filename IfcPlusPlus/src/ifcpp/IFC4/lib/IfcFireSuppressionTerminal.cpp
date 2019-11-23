@@ -45,7 +45,7 @@ shared_ptr<BuildingObject> IfcFireSuppressionTerminal::getDeepCopy( BuildingCopy
 	shared_ptr<IfcFireSuppressionTerminal> copy_self( new IfcFireSuppressionTerminal() );
 	if( m_GlobalId )
 	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid<wchar_t>().data() ); }
+		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid_wstr().data() ); }
 		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
 	}
 	if( m_OwnerHistory )

@@ -50,31 +50,31 @@ shared_ptr<IfcMedicalDeviceTypeEnum> IfcMedicalDeviceTypeEnum::createObjectFromS
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcMedicalDeviceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcMedicalDeviceTypeEnum>(); }
 	shared_ptr<IfcMedicalDeviceTypeEnum> type_object( new IfcMedicalDeviceTypeEnum() );
-	if( boost::iequals( arg, L".AIRSTATION." ) )
+	if( std_iequal( arg, L".AIRSTATION." ) )
 	{
 		type_object->m_enum = IfcMedicalDeviceTypeEnum::ENUM_AIRSTATION;
 	}
-	else if( boost::iequals( arg, L".FEEDAIRUNIT." ) )
+	else if( std_iequal( arg, L".FEEDAIRUNIT." ) )
 	{
 		type_object->m_enum = IfcMedicalDeviceTypeEnum::ENUM_FEEDAIRUNIT;
 	}
-	else if( boost::iequals( arg, L".OXYGENGENERATOR." ) )
+	else if( std_iequal( arg, L".OXYGENGENERATOR." ) )
 	{
 		type_object->m_enum = IfcMedicalDeviceTypeEnum::ENUM_OXYGENGENERATOR;
 	}
-	else if( boost::iequals( arg, L".OXYGENPLANT." ) )
+	else if( std_iequal( arg, L".OXYGENPLANT." ) )
 	{
 		type_object->m_enum = IfcMedicalDeviceTypeEnum::ENUM_OXYGENPLANT;
 	}
-	else if( boost::iequals( arg, L".VACUUMSTATION." ) )
+	else if( std_iequal( arg, L".VACUUMSTATION." ) )
 	{
 		type_object->m_enum = IfcMedicalDeviceTypeEnum::ENUM_VACUUMSTATION;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcMedicalDeviceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcMedicalDeviceTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -46,23 +46,23 @@ shared_ptr<IfcAirTerminalBoxTypeEnum> IfcAirTerminalBoxTypeEnum::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAirTerminalBoxTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAirTerminalBoxTypeEnum>(); }
 	shared_ptr<IfcAirTerminalBoxTypeEnum> type_object( new IfcAirTerminalBoxTypeEnum() );
-	if( boost::iequals( arg, L".CONSTANTFLOW." ) )
+	if( std_iequal( arg, L".CONSTANTFLOW." ) )
 	{
 		type_object->m_enum = IfcAirTerminalBoxTypeEnum::ENUM_CONSTANTFLOW;
 	}
-	else if( boost::iequals( arg, L".VARIABLEFLOWPRESSUREDEPENDANT." ) )
+	else if( std_iequal( arg, L".VARIABLEFLOWPRESSUREDEPENDANT." ) )
 	{
 		type_object->m_enum = IfcAirTerminalBoxTypeEnum::ENUM_VARIABLEFLOWPRESSUREDEPENDANT;
 	}
-	else if( boost::iequals( arg, L".VARIABLEFLOWPRESSUREINDEPENDANT." ) )
+	else if( std_iequal( arg, L".VARIABLEFLOWPRESSUREINDEPENDANT." ) )
 	{
 		type_object->m_enum = IfcAirTerminalBoxTypeEnum::ENUM_VARIABLEFLOWPRESSUREINDEPENDANT;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcAirTerminalBoxTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcAirTerminalBoxTypeEnum::ENUM_NOTDEFINED;
 	}

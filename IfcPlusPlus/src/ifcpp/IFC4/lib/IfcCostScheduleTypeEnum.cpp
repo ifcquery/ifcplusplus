@@ -54,39 +54,39 @@ shared_ptr<IfcCostScheduleTypeEnum> IfcCostScheduleTypeEnum::createObjectFromSTE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCostScheduleTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCostScheduleTypeEnum>(); }
 	shared_ptr<IfcCostScheduleTypeEnum> type_object( new IfcCostScheduleTypeEnum() );
-	if( boost::iequals( arg, L".BUDGET." ) )
+	if( std_iequal( arg, L".BUDGET." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_BUDGET;
 	}
-	else if( boost::iequals( arg, L".COSTPLAN." ) )
+	else if( std_iequal( arg, L".COSTPLAN." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_COSTPLAN;
 	}
-	else if( boost::iequals( arg, L".ESTIMATE." ) )
+	else if( std_iequal( arg, L".ESTIMATE." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_ESTIMATE;
 	}
-	else if( boost::iequals( arg, L".TENDER." ) )
+	else if( std_iequal( arg, L".TENDER." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_TENDER;
 	}
-	else if( boost::iequals( arg, L".PRICEDBILLOFQUANTITIES." ) )
+	else if( std_iequal( arg, L".PRICEDBILLOFQUANTITIES." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_PRICEDBILLOFQUANTITIES;
 	}
-	else if( boost::iequals( arg, L".UNPRICEDBILLOFQUANTITIES." ) )
+	else if( std_iequal( arg, L".UNPRICEDBILLOFQUANTITIES." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_UNPRICEDBILLOFQUANTITIES;
 	}
-	else if( boost::iequals( arg, L".SCHEDULEOFRATES." ) )
+	else if( std_iequal( arg, L".SCHEDULEOFRATES." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_SCHEDULEOFRATES;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCostScheduleTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -58,47 +58,47 @@ shared_ptr<IfcElementAssemblyTypeEnum> IfcElementAssemblyTypeEnum::createObjectF
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElementAssemblyTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElementAssemblyTypeEnum>(); }
 	shared_ptr<IfcElementAssemblyTypeEnum> type_object( new IfcElementAssemblyTypeEnum() );
-	if( boost::iequals( arg, L".ACCESSORY_ASSEMBLY." ) )
+	if( std_iequal( arg, L".ACCESSORY_ASSEMBLY." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_ACCESSORY_ASSEMBLY;
 	}
-	else if( boost::iequals( arg, L".ARCH." ) )
+	else if( std_iequal( arg, L".ARCH." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_ARCH;
 	}
-	else if( boost::iequals( arg, L".BEAM_GRID." ) )
+	else if( std_iequal( arg, L".BEAM_GRID." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_BEAM_GRID;
 	}
-	else if( boost::iequals( arg, L".BRACED_FRAME." ) )
+	else if( std_iequal( arg, L".BRACED_FRAME." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_BRACED_FRAME;
 	}
-	else if( boost::iequals( arg, L".GIRDER." ) )
+	else if( std_iequal( arg, L".GIRDER." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_GIRDER;
 	}
-	else if( boost::iequals( arg, L".REINFORCEMENT_UNIT." ) )
+	else if( std_iequal( arg, L".REINFORCEMENT_UNIT." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_REINFORCEMENT_UNIT;
 	}
-	else if( boost::iequals( arg, L".RIGID_FRAME." ) )
+	else if( std_iequal( arg, L".RIGID_FRAME." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_RIGID_FRAME;
 	}
-	else if( boost::iequals( arg, L".SLAB_FIELD." ) )
+	else if( std_iequal( arg, L".SLAB_FIELD." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_SLAB_FIELD;
 	}
-	else if( boost::iequals( arg, L".TRUSS." ) )
+	else if( std_iequal( arg, L".TRUSS." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_TRUSS;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -48,27 +48,27 @@ shared_ptr<IfcEventTriggerTypeEnum> IfcEventTriggerTypeEnum::createObjectFromSTE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcEventTriggerTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcEventTriggerTypeEnum>(); }
 	shared_ptr<IfcEventTriggerTypeEnum> type_object( new IfcEventTriggerTypeEnum() );
-	if( boost::iequals( arg, L".EVENTRULE." ) )
+	if( std_iequal( arg, L".EVENTRULE." ) )
 	{
 		type_object->m_enum = IfcEventTriggerTypeEnum::ENUM_EVENTRULE;
 	}
-	else if( boost::iequals( arg, L".EVENTMESSAGE." ) )
+	else if( std_iequal( arg, L".EVENTMESSAGE." ) )
 	{
 		type_object->m_enum = IfcEventTriggerTypeEnum::ENUM_EVENTMESSAGE;
 	}
-	else if( boost::iequals( arg, L".EVENTTIME." ) )
+	else if( std_iequal( arg, L".EVENTTIME." ) )
 	{
 		type_object->m_enum = IfcEventTriggerTypeEnum::ENUM_EVENTTIME;
 	}
-	else if( boost::iequals( arg, L".EVENTCOMPLEX." ) )
+	else if( std_iequal( arg, L".EVENTCOMPLEX." ) )
 	{
 		type_object->m_enum = IfcEventTriggerTypeEnum::ENUM_EVENTCOMPLEX;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcEventTriggerTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcEventTriggerTypeEnum::ENUM_NOTDEFINED;
 	}

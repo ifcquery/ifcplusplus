@@ -46,23 +46,23 @@ shared_ptr<IfcTendonAnchorTypeEnum> IfcTendonAnchorTypeEnum::createObjectFromSTE
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTendonAnchorTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTendonAnchorTypeEnum>(); }
 	shared_ptr<IfcTendonAnchorTypeEnum> type_object( new IfcTendonAnchorTypeEnum() );
-	if( boost::iequals( arg, L".COUPLER." ) )
+	if( std_iequal( arg, L".COUPLER." ) )
 	{
 		type_object->m_enum = IfcTendonAnchorTypeEnum::ENUM_COUPLER;
 	}
-	else if( boost::iequals( arg, L".FIXED_END." ) )
+	else if( std_iequal( arg, L".FIXED_END." ) )
 	{
 		type_object->m_enum = IfcTendonAnchorTypeEnum::ENUM_FIXED_END;
 	}
-	else if( boost::iequals( arg, L".TENSIONING_END." ) )
+	else if( std_iequal( arg, L".TENSIONING_END." ) )
 	{
 		type_object->m_enum = IfcTendonAnchorTypeEnum::ENUM_TENSIONING_END;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcTendonAnchorTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcTendonAnchorTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -44,19 +44,19 @@ shared_ptr<IfcKnotType> IfcKnotType::createObjectFromSTEP( const std::wstring& a
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcKnotType>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcKnotType>(); }
 	shared_ptr<IfcKnotType> type_object( new IfcKnotType() );
-	if( boost::iequals( arg, L".UNIFORM_KNOTS." ) )
+	if( std_iequal( arg, L".UNIFORM_KNOTS." ) )
 	{
 		type_object->m_enum = IfcKnotType::ENUM_UNIFORM_KNOTS;
 	}
-	else if( boost::iequals( arg, L".QUASI_UNIFORM_KNOTS." ) )
+	else if( std_iequal( arg, L".QUASI_UNIFORM_KNOTS." ) )
 	{
 		type_object->m_enum = IfcKnotType::ENUM_QUASI_UNIFORM_KNOTS;
 	}
-	else if( boost::iequals( arg, L".PIECEWISE_BEZIER_KNOTS." ) )
+	else if( std_iequal( arg, L".PIECEWISE_BEZIER_KNOTS." ) )
 	{
 		type_object->m_enum = IfcKnotType::ENUM_PIECEWISE_BEZIER_KNOTS;
 	}
-	else if( boost::iequals( arg, L".UNSPECIFIED." ) )
+	else if( std_iequal( arg, L".UNSPECIFIED." ) )
 	{
 		type_object->m_enum = IfcKnotType::ENUM_UNSPECIFIED;
 	}

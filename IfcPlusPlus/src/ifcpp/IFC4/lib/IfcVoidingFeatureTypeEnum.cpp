@@ -52,35 +52,35 @@ shared_ptr<IfcVoidingFeatureTypeEnum> IfcVoidingFeatureTypeEnum::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcVoidingFeatureTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcVoidingFeatureTypeEnum>(); }
 	shared_ptr<IfcVoidingFeatureTypeEnum> type_object( new IfcVoidingFeatureTypeEnum() );
-	if( boost::iequals( arg, L".CUTOUT." ) )
+	if( std_iequal( arg, L".CUTOUT." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_CUTOUT;
 	}
-	else if( boost::iequals( arg, L".NOTCH." ) )
+	else if( std_iequal( arg, L".NOTCH." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_NOTCH;
 	}
-	else if( boost::iequals( arg, L".HOLE." ) )
+	else if( std_iequal( arg, L".HOLE." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_HOLE;
 	}
-	else if( boost::iequals( arg, L".MITER." ) )
+	else if( std_iequal( arg, L".MITER." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_MITER;
 	}
-	else if( boost::iequals( arg, L".CHAMFER." ) )
+	else if( std_iequal( arg, L".CHAMFER." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_CHAMFER;
 	}
-	else if( boost::iequals( arg, L".EDGE." ) )
+	else if( std_iequal( arg, L".EDGE." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_EDGE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcVoidingFeatureTypeEnum::ENUM_NOTDEFINED;
 	}

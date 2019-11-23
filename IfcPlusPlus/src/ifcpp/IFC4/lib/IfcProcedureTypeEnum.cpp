@@ -54,39 +54,39 @@ shared_ptr<IfcProcedureTypeEnum> IfcProcedureTypeEnum::createObjectFromSTEP( con
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProcedureTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProcedureTypeEnum>(); }
 	shared_ptr<IfcProcedureTypeEnum> type_object( new IfcProcedureTypeEnum() );
-	if( boost::iequals( arg, L".ADVICE_CAUTION." ) )
+	if( std_iequal( arg, L".ADVICE_CAUTION." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_ADVICE_CAUTION;
 	}
-	else if( boost::iequals( arg, L".ADVICE_NOTE." ) )
+	else if( std_iequal( arg, L".ADVICE_NOTE." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_ADVICE_NOTE;
 	}
-	else if( boost::iequals( arg, L".ADVICE_WARNING." ) )
+	else if( std_iequal( arg, L".ADVICE_WARNING." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_ADVICE_WARNING;
 	}
-	else if( boost::iequals( arg, L".CALIBRATION." ) )
+	else if( std_iequal( arg, L".CALIBRATION." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_CALIBRATION;
 	}
-	else if( boost::iequals( arg, L".DIAGNOSTIC." ) )
+	else if( std_iequal( arg, L".DIAGNOSTIC." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_DIAGNOSTIC;
 	}
-	else if( boost::iequals( arg, L".SHUTDOWN." ) )
+	else if( std_iequal( arg, L".SHUTDOWN." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_SHUTDOWN;
 	}
-	else if( boost::iequals( arg, L".STARTUP." ) )
+	else if( std_iequal( arg, L".STARTUP." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_STARTUP;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcProcedureTypeEnum::ENUM_NOTDEFINED;
 	}

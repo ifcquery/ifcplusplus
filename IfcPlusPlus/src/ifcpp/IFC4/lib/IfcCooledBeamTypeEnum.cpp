@@ -44,19 +44,19 @@ shared_ptr<IfcCooledBeamTypeEnum> IfcCooledBeamTypeEnum::createObjectFromSTEP( c
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcCooledBeamTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcCooledBeamTypeEnum>(); }
 	shared_ptr<IfcCooledBeamTypeEnum> type_object( new IfcCooledBeamTypeEnum() );
-	if( boost::iequals( arg, L".ACTIVE." ) )
+	if( std_iequal( arg, L".ACTIVE." ) )
 	{
 		type_object->m_enum = IfcCooledBeamTypeEnum::ENUM_ACTIVE;
 	}
-	else if( boost::iequals( arg, L".PASSIVE." ) )
+	else if( std_iequal( arg, L".PASSIVE." ) )
 	{
 		type_object->m_enum = IfcCooledBeamTypeEnum::ENUM_PASSIVE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcCooledBeamTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcCooledBeamTypeEnum::ENUM_NOTDEFINED;
 	}

@@ -44,19 +44,19 @@ shared_ptr<IfcOpeningElementTypeEnum> IfcOpeningElementTypeEnum::createObjectFro
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcOpeningElementTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcOpeningElementTypeEnum>(); }
 	shared_ptr<IfcOpeningElementTypeEnum> type_object( new IfcOpeningElementTypeEnum() );
-	if( boost::iequals( arg, L".OPENING." ) )
+	if( std_iequal( arg, L".OPENING." ) )
 	{
 		type_object->m_enum = IfcOpeningElementTypeEnum::ENUM_OPENING;
 	}
-	else if( boost::iequals( arg, L".RECESS." ) )
+	else if( std_iequal( arg, L".RECESS." ) )
 	{
 		type_object->m_enum = IfcOpeningElementTypeEnum::ENUM_RECESS;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcOpeningElementTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcOpeningElementTypeEnum::ENUM_NOTDEFINED;
 	}

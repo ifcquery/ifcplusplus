@@ -72,75 +72,75 @@ shared_ptr<IfcElectricApplianceTypeEnum> IfcElectricApplianceTypeEnum::createObj
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcElectricApplianceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcElectricApplianceTypeEnum>(); }
 	shared_ptr<IfcElectricApplianceTypeEnum> type_object( new IfcElectricApplianceTypeEnum() );
-	if( boost::iequals( arg, L".DISHWASHER." ) )
+	if( std_iequal( arg, L".DISHWASHER." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_DISHWASHER;
 	}
-	else if( boost::iequals( arg, L".ELECTRICCOOKER." ) )
+	else if( std_iequal( arg, L".ELECTRICCOOKER." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_ELECTRICCOOKER;
 	}
-	else if( boost::iequals( arg, L".FREESTANDINGELECTRICHEATER." ) )
+	else if( std_iequal( arg, L".FREESTANDINGELECTRICHEATER." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_FREESTANDINGELECTRICHEATER;
 	}
-	else if( boost::iequals( arg, L".FREESTANDINGFAN." ) )
+	else if( std_iequal( arg, L".FREESTANDINGFAN." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_FREESTANDINGFAN;
 	}
-	else if( boost::iequals( arg, L".FREESTANDINGWATERHEATER." ) )
+	else if( std_iequal( arg, L".FREESTANDINGWATERHEATER." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_FREESTANDINGWATERHEATER;
 	}
-	else if( boost::iequals( arg, L".FREESTANDINGWATERCOOLER." ) )
+	else if( std_iequal( arg, L".FREESTANDINGWATERCOOLER." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_FREESTANDINGWATERCOOLER;
 	}
-	else if( boost::iequals( arg, L".FREEZER." ) )
+	else if( std_iequal( arg, L".FREEZER." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_FREEZER;
 	}
-	else if( boost::iequals( arg, L".FRIDGE_FREEZER." ) )
+	else if( std_iequal( arg, L".FRIDGE_FREEZER." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_FRIDGE_FREEZER;
 	}
-	else if( boost::iequals( arg, L".HANDDRYER." ) )
+	else if( std_iequal( arg, L".HANDDRYER." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_HANDDRYER;
 	}
-	else if( boost::iequals( arg, L".KITCHENMACHINE." ) )
+	else if( std_iequal( arg, L".KITCHENMACHINE." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_KITCHENMACHINE;
 	}
-	else if( boost::iequals( arg, L".MICROWAVE." ) )
+	else if( std_iequal( arg, L".MICROWAVE." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_MICROWAVE;
 	}
-	else if( boost::iequals( arg, L".PHOTOCOPIER." ) )
+	else if( std_iequal( arg, L".PHOTOCOPIER." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_PHOTOCOPIER;
 	}
-	else if( boost::iequals( arg, L".REFRIGERATOR." ) )
+	else if( std_iequal( arg, L".REFRIGERATOR." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_REFRIGERATOR;
 	}
-	else if( boost::iequals( arg, L".TUMBLEDRYER." ) )
+	else if( std_iequal( arg, L".TUMBLEDRYER." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_TUMBLEDRYER;
 	}
-	else if( boost::iequals( arg, L".VENDINGMACHINE." ) )
+	else if( std_iequal( arg, L".VENDINGMACHINE." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_VENDINGMACHINE;
 	}
-	else if( boost::iequals( arg, L".WASHINGMACHINE." ) )
+	else if( std_iequal( arg, L".WASHINGMACHINE." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_WASHINGMACHINE;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcElectricApplianceTypeEnum::ENUM_NOTDEFINED;
 	}

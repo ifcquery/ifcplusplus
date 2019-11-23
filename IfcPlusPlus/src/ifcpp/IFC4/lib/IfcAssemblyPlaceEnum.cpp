@@ -42,15 +42,15 @@ shared_ptr<IfcAssemblyPlaceEnum> IfcAssemblyPlaceEnum::createObjectFromSTEP( con
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcAssemblyPlaceEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcAssemblyPlaceEnum>(); }
 	shared_ptr<IfcAssemblyPlaceEnum> type_object( new IfcAssemblyPlaceEnum() );
-	if( boost::iequals( arg, L".SITE." ) )
+	if( std_iequal( arg, L".SITE." ) )
 	{
 		type_object->m_enum = IfcAssemblyPlaceEnum::ENUM_SITE;
 	}
-	else if( boost::iequals( arg, L".FACTORY." ) )
+	else if( std_iequal( arg, L".FACTORY." ) )
 	{
 		type_object->m_enum = IfcAssemblyPlaceEnum::ENUM_FACTORY;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcAssemblyPlaceEnum::ENUM_NOTDEFINED;
 	}

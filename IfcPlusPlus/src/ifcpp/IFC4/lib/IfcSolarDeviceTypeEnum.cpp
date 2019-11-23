@@ -44,19 +44,19 @@ shared_ptr<IfcSolarDeviceTypeEnum> IfcSolarDeviceTypeEnum::createObjectFromSTEP(
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcSolarDeviceTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcSolarDeviceTypeEnum>(); }
 	shared_ptr<IfcSolarDeviceTypeEnum> type_object( new IfcSolarDeviceTypeEnum() );
-	if( boost::iequals( arg, L".SOLARCOLLECTOR." ) )
+	if( std_iequal( arg, L".SOLARCOLLECTOR." ) )
 	{
 		type_object->m_enum = IfcSolarDeviceTypeEnum::ENUM_SOLARCOLLECTOR;
 	}
-	else if( boost::iequals( arg, L".SOLARPANEL." ) )
+	else if( std_iequal( arg, L".SOLARPANEL." ) )
 	{
 		type_object->m_enum = IfcSolarDeviceTypeEnum::ENUM_SOLARPANEL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcSolarDeviceTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcSolarDeviceTypeEnum::ENUM_NOTDEFINED;
 	}

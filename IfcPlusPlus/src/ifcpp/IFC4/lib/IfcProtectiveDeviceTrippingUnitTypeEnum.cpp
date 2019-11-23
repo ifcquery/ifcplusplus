@@ -48,27 +48,27 @@ shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum> IfcProtectiveDeviceTrippingU
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum>(); }
 	shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum> type_object( new IfcProtectiveDeviceTrippingUnitTypeEnum() );
-	if( boost::iequals( arg, L".ELECTRONIC." ) )
+	if( std_iequal( arg, L".ELECTRONIC." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTrippingUnitTypeEnum::ENUM_ELECTRONIC;
 	}
-	else if( boost::iequals( arg, L".ELECTROMAGNETIC." ) )
+	else if( std_iequal( arg, L".ELECTROMAGNETIC." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTrippingUnitTypeEnum::ENUM_ELECTROMAGNETIC;
 	}
-	else if( boost::iequals( arg, L".RESIDUALCURRENT." ) )
+	else if( std_iequal( arg, L".RESIDUALCURRENT." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTrippingUnitTypeEnum::ENUM_RESIDUALCURRENT;
 	}
-	else if( boost::iequals( arg, L".THERMAL." ) )
+	else if( std_iequal( arg, L".THERMAL." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTrippingUnitTypeEnum::ENUM_THERMAL;
 	}
-	else if( boost::iequals( arg, L".USERDEFINED." ) )
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTrippingUnitTypeEnum::ENUM_USERDEFINED;
 	}
-	else if( boost::iequals( arg, L".NOTDEFINED." ) )
+	else if( std_iequal( arg, L".NOTDEFINED." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTrippingUnitTypeEnum::ENUM_NOTDEFINED;
 	}

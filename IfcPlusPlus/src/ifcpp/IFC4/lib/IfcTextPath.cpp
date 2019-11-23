@@ -44,19 +44,19 @@ shared_ptr<IfcTextPath> IfcTextPath::createObjectFromSTEP( const std::wstring& a
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcTextPath>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcTextPath>(); }
 	shared_ptr<IfcTextPath> type_object( new IfcTextPath() );
-	if( boost::iequals( arg, L".LEFT." ) )
+	if( std_iequal( arg, L".LEFT." ) )
 	{
 		type_object->m_enum = IfcTextPath::ENUM_LEFT;
 	}
-	else if( boost::iequals( arg, L".RIGHT." ) )
+	else if( std_iequal( arg, L".RIGHT." ) )
 	{
 		type_object->m_enum = IfcTextPath::ENUM_RIGHT;
 	}
-	else if( boost::iequals( arg, L".UP." ) )
+	else if( std_iequal( arg, L".UP." ) )
 	{
 		type_object->m_enum = IfcTextPath::ENUM_UP;
 	}
-	else if( boost::iequals( arg, L".DOWN." ) )
+	else if( std_iequal( arg, L".DOWN." ) )
 	{
 		type_object->m_enum = IfcTextPath::ENUM_DOWN;
 	}
