@@ -47,6 +47,7 @@ class ConverterOSG : public StatusCallback
 protected:
 	shared_ptr<GeometrySettings>				m_geom_settings;
 	std::map<int, osg::ref_ptr<osg::Switch> >	m_map_entity_id_to_switch;
+	std::map<std::wstring, osg::ref_ptr<osg::Switch> >	m_map_entity_guid_to_switch;
 	std::map<int, osg::ref_ptr<osg::Switch> >	m_map_representation_id_to_switch;
 	double										m_recent_progress;
 	osg::ref_ptr<osg::CullFace>					m_cull_back_off;
@@ -71,12 +72,14 @@ public:
 
 	// Map: IfcProduct ID -> scenegraph switch
 	std::map<int, osg::ref_ptr<osg::Switch> >& getMapEntityIdToSwitch() { return m_map_entity_id_to_switch; }
+	std::map<std::wstring, osg::ref_ptr<osg::Switch> >& getMapEntityGUIDToSwitch() { return m_map_entity_guid_to_switch; }
 	// Map: Representation Identifier -> scenegraph switch
 	std::map<int, osg::ref_ptr<osg::Switch> >& getMapRepresentationToSwitch() { return m_map_representation_id_to_switch; }
 
 	void clearInputCache()
 	{
 		m_map_entity_id_to_switch.clear();
+		m_map_entity_guid_to_switch.clear();
 		m_map_representation_id_to_switch.clear();
 		m_vec_existing_statesets.clear();
 	}
@@ -610,6 +613,7 @@ public:
 			}
 
 			osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
+			geometry->setName("creaseEdges");
 			geometry->setVertexArray( vertices );
 			geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, vertices->size() ) );
 			geometry->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
@@ -956,6 +960,7 @@ public:
 		progressTextCallback( L"Converting geometry to OpenGL format ..." );
 		progressValueCallback( 0, "scenegraph" );
 		m_map_entity_id_to_switch.clear();
+		m_map_entity_guid_to_switch.clear();
 		m_map_representation_id_to_switch.clear();
 		m_vec_existing_statesets.clear();
 
@@ -973,6 +978,7 @@ public:
 
 		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
 		std::map<int, osg::ref_ptr<osg::Switch> >* map_entity_id = &m_map_entity_id_to_switch;
+		std::map<std::wstring, osg::ref_ptr<osg::Switch> >* map_entity_guid = &m_map_entity_guid_to_switch;
 		std::map<int, osg::ref_ptr<osg::Switch> >* map_representations = &m_map_representation_id_to_switch;
 		const int num_products = (int)vec_products.size();
 
@@ -981,7 +987,7 @@ public:
 		Mutex writelock_message_callback;
 		Mutex writelock_ifc_project;
 
-#pragma omp parallel firstprivate(num_products) shared(map_entity_id, map_representations)
+#pragma omp parallel firstprivate(num_products) shared(map_entity_id, map_entity_guid, map_representations)
 		{
 			// time for one product may vary significantly, so schedule not so many
 #pragma omp for schedule(dynamic,40)
@@ -1023,6 +1029,7 @@ public:
 				}
 				
 				const int product_id = ifc_product->m_entity_id;
+				std::wstring product_guid = L"";
 				std::map<int, osg::ref_ptr<osg::Switch> > map_representation_switches;
 				try
 				{
@@ -1047,6 +1054,11 @@ public:
 				catch( ... )
 				{
 					thread_err << "undefined error, product id " << product_id;
+				}
+
+				if (ifc_object_def->m_GlobalId)
+				{
+					product_guid = ifc_object_def->m_GlobalId->m_value;
 				}
 
 				if( map_representation_switches.size() > 0 )
@@ -1078,6 +1090,7 @@ public:
 					ScopedLock scoped_lock( writelock_map );
 #endif
 					map_entity_id->insert( std::make_pair( product_id, product_switch ) );
+					map_entity_guid->insert(std::make_pair(product_guid, product_switch));
 					map_representations->insert( map_representation_switches.begin(), map_representation_switches.end() );
 				}
 
