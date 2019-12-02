@@ -18,7 +18,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <cstring>
-#include <boost/algorithm/string.hpp>
 #include "ifcpp/IFC4/include/IfcConversionBasedUnit.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
 #include "ifcpp/IFC4/include/IfcLengthMeasure.h"
@@ -34,6 +33,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ifcpp/IFC4/include/IfcUnitEnum.h"
 #include "ifcpp/IFC4/include/IfcValue.h"
 
+#include "ifcpp/reader/ReaderUtil.h"
 #include "UnitConverter.h"
 
 UnitConverter::UnitConverter()
@@ -215,22 +215,22 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 									}
 								}
 
-								if( boost::iequals( conversion_based_unit->m_Name->m_value.c_str(), L"INCH" ) )
+								if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), L"INCH" ) )
 								{
 									m_length_unit_factor = 25.4*0.001; // 1 unit is 25.4 mm
 									m_length_unit_found = true;
 								}
-								else if( boost::iequals( conversion_based_unit->m_Name->m_value.c_str(), L"FOOT" ) )
+								else if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), L"FOOT" ) )
 								{
 									m_length_unit_factor = 304.8*0.001; // 1 unit is 304.8 mm
 									m_length_unit_found = true;
 								}
-								else if( boost::iequals( conversion_based_unit->m_Name->m_value.c_str(), L"YARD" ) )
+								else if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), L"YARD" ) )
 								{
 									m_length_unit_factor = 914*0.001; // 1 unit is 914 mm
 									m_length_unit_found = true;
 								}
-								else if( boost::iequals( conversion_based_unit->m_Name->m_value.c_str(), L"MILE" ) )
+								else if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), L"MILE" ) )
 								{
 									m_length_unit_factor = 1609*0.001; // 1 unit is 1609 mm
 									m_length_unit_found = true;
@@ -256,7 +256,7 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 									}
 									else if( conversion_based_unit->m_Name )
 									{
-										if( boost::iequals( conversion_based_unit->m_Name->m_value.c_str(), L"DEGREE" ) )
+										if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), L"DEGREE" ) )
 										{
 											m_angular_unit = DEGREE;
 											m_plane_angle_factor = M_PI / 180.0;

@@ -29,6 +29,7 @@ if(UNIX)
     set(IFCPP_SOURCE_FILES 
         src/ifcpp/IFC4/EntityFactory.cpp
         src/ifcpp/IFC4/TypeFactory.cpp
+		src/ifcpp/model/BuildingGuid.cpp
         src/ifcpp/model/BuildingModel.cpp
         src/ifcpp/model/UnitConverter.cpp
         src/ifcpp/reader/AbstractReader.cpp
@@ -44,6 +45,7 @@ else(UNIX)
     set(IFCPP_SOURCE_FILES 
         src/ifcpp/IFC4/EntityFactory.cpp
         src/ifcpp/IFC4/TypeFactory.cpp
+		src/ifcpp/model/BuildingGuid.cpp
         src/ifcpp/model/BuildingModel.cpp
         src/ifcpp/model/UnitConverter.cpp
         src/ifcpp/reader/AbstractReader.cpp

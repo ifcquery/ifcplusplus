@@ -27,8 +27,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <sstream>
 #include <string>
 #include <cwctype>
-#include <boost/optional.hpp>
-#include <boost/algorithm/string.hpp>
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/model/BuildingObject.h"
@@ -86,62 +84,17 @@ inline void readIntegerValue( const std::wstring& str, int& int_value )
 		int_value = std::stoi( str );
 	}
 }
-inline void readIntegerValue( const std::wstring& str, boost::optional<int>& int_value )
-{
-	if( str.compare( L"$" ) == 0 )
-	{
-		int_value = boost::none;
-	}
-	else if( str.compare( L"*" ) == 0 )
-	{
-		int_value = boost::none;
-	}
-	else
-	{
-		int_value = std::stoi( str );
-	}
-}
-inline void readRealValue( const std::wstring& str, double& real_value )
-{
-	if( str.compare( L"$" ) == 0 )
-	{
-		real_value = std::numeric_limits<double>::quiet_NaN();
-	}
-	else if( str.compare( L"*" ) == 0 )
-	{
-		real_value = std::numeric_limits<double>::quiet_NaN();
-	}
-	else
-	{
-		real_value = std::stod( str );
-	}
-}
-inline void readRealValue( const std::wstring& str, boost::optional<double>& real_value )
-{
-	if( str.compare( L"$" ) == 0 )
-	{
-		real_value = boost::none;
-	}
-	else if( str.compare( L"*" ) == 0 )
-	{
-		real_value = boost::none;
-	}
-	else
-	{
-		real_value = std::stod( str );
-	}
-}
 
 void copyToEndOfStepString( char*& stream_pos, char*& stream_pos_source );
 IFCQUERY_EXPORT void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::wstring>& args_out );
 
 inline void readBool( const std::wstring& attribute_value, bool& target )
 {
-	if( boost::iequals( attribute_value, L".F." ) )
+	if( std_iequal( attribute_value, L".F." ) )
 	{
 		target = false;
 	}
-	else if( boost::iequals( attribute_value, L".T." ) )
+	else if( std_iequal( attribute_value, L".T." ) )
 	{
 		target = true;;
 	}
@@ -149,15 +102,15 @@ inline void readBool( const std::wstring& attribute_value, bool& target )
 
 inline void readLogical( const std::wstring& attribute_value, LogicalEnum& target )
 {
-	if( boost::iequals(attribute_value, L".F." ) )
+	if( std_iequal(attribute_value, L".F." ) )
 	{
 		target = LOGICAL_FALSE;
 	}
-	else if( boost::iequals( attribute_value, L".T." ) )
+	else if( std_iequal( attribute_value, L".T." ) )
 	{
 		target = LOGICAL_TRUE;
 	}
-	else if( boost::iequals( attribute_value, L".U." ) )
+	else if( std_iequal( attribute_value, L".U." ) )
 	{
 		target = LOGICAL_UNKNOWN;;
 	}

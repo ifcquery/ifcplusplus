@@ -17,7 +17,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <boost/unordered/unordered_set.hpp>
+#include <unordered_set>
 #include <osg/Material>
 #include <osg/Geode>
 #include <osg/CullFace>

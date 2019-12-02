@@ -108,17 +108,17 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 	std::wstring ext = filePath.substr(posDot + 1);
 	
-	if( boost::iequals( ext, "ifc" ) )
+	if( std_iequal( ext, L"ifc" ) )
 	{
 		// ok, nothing to do here
 	}
-	else if( boost::iequals( ext, "ifcXML" ) )
+	else if( std_iequal( ext, L"ifcXML" ) )
 	{
 		// TODO: implement xml reader
 		messageCallback( "ifcXML not yet implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
-	else if( boost::iequals( ext, "ifcZIP" ) || boost::iequals(ext, "zip") )
+	else if( std_iequal( ext, L"ifcZIP" ) || std_iequal(ext, L"zip") )
 	{
 		std::string buffer;
 		unzipFile(filePath, buffer);

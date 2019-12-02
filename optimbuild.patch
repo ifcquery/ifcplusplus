@@ -1,0 +1,184 @@
+diff --git a/IfcPlusPlus/CMakeLists.txt b/IfcPlusPlus/CMakeLists.txt
+index a1d58071..77c35e73 100644
+--- a/IfcPlusPlus/CMakeLists.txt
++++ b/IfcPlusPlus/CMakeLists.txt
+@@ -29,6 +29,7 @@ if(UNIX)
+     set(IFCPP_SOURCE_FILES 
+         src/ifcpp/IFC4/EntityFactory.cpp
+         src/ifcpp/IFC4/TypeFactory.cpp
++        src/ifcpp/model/BuildingGuid.cpp
+         src/ifcpp/model/BuildingModel.cpp
+         src/ifcpp/model/UnitConverter.cpp
+         src/ifcpp/reader/AbstractReader.cpp
+@@ -44,6 +45,7 @@ else(UNIX)
+     set(IFCPP_SOURCE_FILES 
+         src/ifcpp/IFC4/EntityFactory.cpp
+         src/ifcpp/IFC4/TypeFactory.cpp
++        src/ifcpp/model/BuildingGuid.cpp
+         src/ifcpp/model/BuildingModel.cpp
+         src/ifcpp/model/UnitConverter.cpp
+         src/ifcpp/reader/AbstractReader.cpp
+diff --git a/IfcPlusPlus/src/ifcpp/reader/ReaderSTEP.cpp b/IfcPlusPlus/src/ifcpp/reader/ReaderSTEP.cpp
+index 36de9829..307d3ddd 100644
+--- a/IfcPlusPlus/src/ifcpp/reader/ReaderSTEP.cpp
++++ b/IfcPlusPlus/src/ifcpp/reader/ReaderSTEP.cpp
+@@ -108,17 +108,17 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
+ 	}
+ 	std::wstring ext = filePath.substr(posDot + 1);
+ 	
+-	if( std_iequal( ext, "ifc" ) )
++	if( std_iequal( ext, L"ifc" ) )
+ 	{
+ 		// ok, nothing to do here
+ 	}
+-	else if( std_iequal( ext, "ifcXML" ) )
++	else if( std_iequal( ext, L"ifcXML" ) )
+ 	{
+ 		// TODO: implement xml reader
+ 		messageCallback( "ifcXML not yet implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+ 		return;
+ 	}
+-	else if( std_iequal( ext, "ifcZIP" ) || std_iequal(ext, "zip") )
++	else if( std_iequal( ext, L"ifcZIP" ) || std_iequal(ext, L"zip") )
+ 	{
+ 		std::string buffer;
+ 		unzipFile(filePath, buffer);
+diff --git a/IfcPlusPlus/src/ifcpp/reader/ReaderUtil.cpp b/IfcPlusPlus/src/ifcpp/reader/ReaderUtil.cpp
+index 88b66c13..09037647 100644
+--- a/IfcPlusPlus/src/ifcpp/reader/ReaderUtil.cpp
++++ b/IfcPlusPlus/src/ifcpp/reader/ReaderUtil.cpp
+@@ -17,10 +17,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
+ 
+ #define _USE_MATH_DEFINES
+ #include <cmath>
+-#ifdef WIN32
+-#include <windows.h>
+-#endif
+-
+ #include <limits>
+ 
+ #include "ifcpp/model/BuildingException.h"
+diff --git a/IfcPlusPlus/src/ifcpp/reader/ReaderUtil.h b/IfcPlusPlus/src/ifcpp/reader/ReaderUtil.h
+index 95a26b1f..da21dd3d 100644
+--- a/IfcPlusPlus/src/ifcpp/reader/ReaderUtil.h
++++ b/IfcPlusPlus/src/ifcpp/reader/ReaderUtil.h
+@@ -27,8 +27,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
+ #include <sstream>
+ #include <string>
+ #include <cwctype>
+-#include <boost/optional.hpp>
+-#include <boost/algorithm/string.hpp>
+ #include "ifcpp/model/BasicTypes.h"
+ #include "ifcpp/model/BuildingException.h"
+ #include "ifcpp/model/BuildingObject.h"
+@@ -86,21 +84,7 @@ inline void readIntegerValue( const std::wstring& str, int& int_value )
+ 		int_value = std::stoi( str );
+ 	}
+ }
+-inline void readIntegerValue( const std::wstring& str, boost::optional<int>& int_value )
+-{
+-	if( str.compare( L"$" ) == 0 )
+-	{
+-		int_value = boost::none;
+-	}
+-	else if( str.compare( L"*" ) == 0 )
+-	{
+-		int_value = boost::none;
+-	}
+-	else
+-	{
+-		int_value = std::stoi( str );
+-	}
+-}
++
+ inline void readRealValue( const std::wstring& str, double& real_value )
+ {
+ 	if( str.compare( L"$" ) == 0 )
+@@ -116,50 +100,35 @@ inline void readRealValue( const std::wstring& str, double& real_value )
+ 		real_value = std::stod( str );
+ 	}
+ }
+-inline void readRealValue( const std::wstring& str, boost::optional<double>& real_value )
+-{
+-	if( str.compare( L"$" ) == 0 )
+-	{
+-		real_value = boost::none;
+-	}
+-	else if( str.compare( L"*" ) == 0 )
+-	{
+-		real_value = boost::none;
+-	}
+-	else
+-	{
+-		real_value = std::stod( str );
+-	}
+-}
+ 
+ void copyToEndOfStepString( char*& stream_pos, char*& stream_pos_source );
+ IFCQUERY_EXPORT void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::wstring>& args_out );
+ 
+ inline void readBool( const std::wstring& attribute_value, bool& target )
+ {
+-	if( std_iequal( attribute_value, L".F." ) )
++	if( std_iequal( attribute_value, L".F." ) )
+ 	{
+ 		target = false;
+ 	}
+-	else if( std_iequal( attribute_value, L".T." ) )
++	else if( std_iequal( attribute_value, L".T." ) )
+ 	{
+-		target = true;;
++		target = true;
+ 	}
+ }
+ 
+ inline void readLogical( const std::wstring& attribute_value, LogicalEnum& target )
+ {
+-	if( std_iequal(attribute_value, L".F." ) )
++	if( std_iequal(attribute_value, L".F." ) )
+ 	{
+ 		target = LOGICAL_FALSE;
+ 	}
+-	else if( std_iequal( attribute_value, L".T." ) )
++	else if( std_iequal( attribute_value, L".T." ) )
+ 	{
+ 		target = LOGICAL_TRUE;
+ 	}
+-	else if( std_iequal( attribute_value, L".U." ) )
++	else if( std_iequal( attribute_value, L".U." ) )
+ 	{
+-		target = LOGICAL_UNKNOWN;;
++		target = LOGICAL_UNKNOWN;
+ 	}
+ }
+ 
+diff --git a/external/Carve/src/lib/mesh.cpp b/external/Carve/src/lib/mesh.cpp
+index ecd3d18e..5aecd0ec 100644
+--- a/external/Carve/src/lib/mesh.cpp
++++ b/external/Carve/src/lib/mesh.cpp
+@@ -33,10 +33,6 @@
+ #include <carve/poly.hpp>
+ #include <functional>
+ 
+-#if defined(_MSC_VER)
+-inline int random() { return rand(); }
+-#endif
+-
+ namespace {
+ inline double CALC_X(const carve::geom::plane<3>& p, double y, double z) {
+   return -(p.d + p.N.y * y + p.N.z * z) / p.N.x;
+diff --git a/external/Carve/src/lib/polyhedron.cpp b/external/Carve/src/lib/polyhedron.cpp
+index aab41b41..b9cc130d 100644
+--- a/external/Carve/src/lib/polyhedron.cpp
++++ b/external/Carve/src/lib/polyhedron.cpp
+@@ -44,10 +44,6 @@
+ #include <carve/mesh.hpp>
+ #include <random>
+ 
+-#if defined(_MSC_VER)
+-inline int random() { return rand(); }
+-#endif
+-
+ namespace {
+ bool emb_test(carve::poly::Polyhedron* poly,
+               std::map<int, std::set<int> >& embedding, carve::geom3d::Vector v,

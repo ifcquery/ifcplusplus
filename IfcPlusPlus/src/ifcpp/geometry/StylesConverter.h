@@ -18,11 +18,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include <map>
-#include <boost/algorithm/string.hpp>
 
 #include <ifcpp/geometry/AppearanceData.h>
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
+#include <ifcpp/reader/ReaderUtil.h>
 #include <ifcpp/IFC4/include/IfcSpecularHighlightSelect.h>
 #include <ifcpp/IFC4/include/IfcSpecularExponent.h>
 #include <ifcpp/IFC4/include/IfcSpecularRoughness.h>
@@ -153,14 +153,14 @@ public:
 				if( draughting_predefined_color->m_Name )
 				{
 					std::wstring predefined_name = draughting_predefined_color->m_Name->m_value;
-					if( boost::iequals( predefined_name, L"black" ) )			color.setColor( 0.0, 0.0, 0.0, 1.0 );
-					else if( boost::iequals( predefined_name, L"red" ) )		color.setColor( 1.0, 0.0, 0.0, 1.0 );
-					else if( boost::iequals( predefined_name, L"green" ) )		color.setColor( 0.0, 1.0, 0.0, 1.0 );
-					else if( boost::iequals( predefined_name, L"blue" ) )		color.setColor( 0.0, 0.0, 1.0, 1.0 );
-					else if( boost::iequals( predefined_name, L"yellow" ) )		color.setColor( 1.0, 1.0, 0.0, 1.0 );
-					else if( boost::iequals( predefined_name, L"magenta" ) )	color.setColor( 1.0, 0.0, 1.0, 1.0 );
-					else if( boost::iequals( predefined_name, L"cyan" ) )		color.setColor( 0.0, 1.0, 1.0, 1.0 );
-					else if( boost::iequals( predefined_name, L"white" ) )		color.setColor( 1.0, 1.0, 1.0, 1.0 );
+					if( std_iequal( predefined_name, L"black" ) )			color.setColor( 0.0, 0.0, 0.0, 1.0 );
+					else if( std_iequal( predefined_name, L"red" ) )		color.setColor( 1.0, 0.0, 0.0, 1.0 );
+					else if( std_iequal( predefined_name, L"green" ) )		color.setColor( 0.0, 1.0, 0.0, 1.0 );
+					else if( std_iequal( predefined_name, L"blue" ) )		color.setColor( 0.0, 0.0, 1.0, 1.0 );
+					else if( std_iequal( predefined_name, L"yellow" ) )		color.setColor( 1.0, 1.0, 0.0, 1.0 );
+					else if( std_iequal( predefined_name, L"magenta" ) )	color.setColor( 1.0, 0.0, 1.0, 1.0 );
+					else if( std_iequal( predefined_name, L"cyan" ) )		color.setColor( 0.0, 1.0, 1.0, 1.0 );
+					else if( std_iequal( predefined_name, L"white" ) )		color.setColor( 1.0, 1.0, 1.0, 1.0 );
 				}
 			}
 			return;
@@ -463,7 +463,7 @@ public:
 		if( !complex_property->m_UsageName ) return;
 		if( vec_HasProperties.size() < 3 ) return;
 		std::wstring usage_name = complex_property->m_UsageName->m_value;
-		if( !boost::iequals( usage_name.c_str(), L"Color" ) ) return;
+		if( !std_iequal( usage_name.c_str(), L"Color" ) ) return;
 
 		if( complex_property->m_HasProperties.size() > 2 )
 		{

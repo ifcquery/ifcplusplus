@@ -20,7 +20,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <vector>
 #include <map>
 #include <string>
-#include <boost/unordered_map.hpp>
 #include "BasicTypes.h"
 #include "StatusCallback.h"
 
