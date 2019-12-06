@@ -68,9 +68,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_TabReadWrite.cpp">
       <Filter>Generierte Dateien\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_ViewerWidget.cpp">
-      <Filter>Generierte Dateien\Debug</Filter>
-    </ClCompile>
     <ClCompile Include="src\cmd\CmdRemoveSelectedObjects.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>

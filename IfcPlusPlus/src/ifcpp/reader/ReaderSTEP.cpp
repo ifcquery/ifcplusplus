@@ -138,7 +138,9 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 
 	// open file
-	std::string filePathStr(filePath.begin(), filePath.end());
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
+	std::string filePathStr = StringConverter.to_bytes(filePath);
+
 	if( !(setlocale(LC_ALL, "en-US") || setlocale(LC_ALL, "en_us.UTF-8") ||  setlocale(LC_ALL, "en_US.utf8")))
 	{
 		std::wstringstream strs;

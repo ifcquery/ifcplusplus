@@ -44,10 +44,6 @@
 #include <carve/mesh.hpp>
 #include <random>
 
-#if defined(_MSC_VER)
-inline int random() { return rand(); }
-#endif
-
 namespace {
 bool emb_test(carve::poly::Polyhedron* poly,
               std::map<int, std::set<int> >& embedding, carve::geom3d::Vector v,

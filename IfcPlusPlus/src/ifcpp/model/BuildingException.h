@@ -17,6 +17,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
+#include <codecvt>
 #include <exception>
 #include <string>
 #include "GlobalDefines.h"
@@ -38,13 +39,15 @@ public:
 		if( !reason.empty() )
 		{
 			m_reason_str.append( ": " );
-			m_reason_str.append( reason );
+			m_reason_str.append( reason.c_str() );
 		}
 	}
 
 	BuildingException(std::wstring reason)
 	{
-		m_reason_str.assign(reason.begin(), reason.end());
+		std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
+		std::string reason_str = StringConverter.to_bytes(reason);
+		m_reason_str.assign(reason_str.begin(), reason_str.end());
 	}
 
 	BuildingException(std::wstring reason, const char* function_name)
@@ -53,8 +56,10 @@ public:
 		if( !reason.empty() )
 		{
 			m_reason_str.append( ": " );
-			std::string reason_str;
-			reason_str.assign( reason.begin(), reason.end() );
+
+			std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
+			std::string reason_str = StringConverter.to_bytes(reason);
+
 			m_reason_str.append( reason_str );
 		}
 	}

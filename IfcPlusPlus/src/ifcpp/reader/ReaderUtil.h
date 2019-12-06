@@ -587,7 +587,8 @@ void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, con
 		return;
 	}
 
-	std::string type_name_upper( keyword.begin(), keyword.end() );
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
+	std::string type_name_upper = StringConverter.to_bytes(keyword);
 	std::transform( type_name_upper.begin(), type_name_upper.end(), type_name_upper.begin(), toupper );
 	
 	shared_ptr<BuildingObject> type_instance = TypeFactory::createTypeObject( type_name_upper.c_str(), inline_arg, map_entities );
