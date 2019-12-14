@@ -69,7 +69,7 @@ void UnitConverter::resetUnitFactors()
 	}
 	else if( m_angular_unit == DEGREE )
 	{
-		m_plane_angle_factor = M_PI/180.0; // 360°
+		m_plane_angle_factor = M_PI/180.0; // 360 degrees
 	}
 	else if( m_angular_unit == GON )
 	{
@@ -92,7 +92,7 @@ void UnitConverter::setAngleUnit(AngularUnit unit)
 	}
 	else if( m_angular_unit == DEGREE )
 	{
-		m_plane_angle_factor = M_PI / 180.0; // 360°
+		m_plane_angle_factor = M_PI / 180.0; // 360 degrees
 	}
 	else if( m_angular_unit == GON )
 	{
