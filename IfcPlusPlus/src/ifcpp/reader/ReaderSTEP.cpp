@@ -411,7 +411,7 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 		throw BuildingException("Invalid file content", __FUNC__);
 	}
 
-	stream_pos = strstr(stream_pos, "DATA;");
+	stream_pos = std::strstr(stream_pos, "DATA;");
 	if( stream_pos == nullptr )
 	{
 		throw BuildingException("Invalid file content, couldn't find DATA section", __FUNC__);

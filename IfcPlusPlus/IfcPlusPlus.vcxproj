@@ -340,7 +340,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\external\XUnzip.cpp" />
-    <ClCompile Include="src\ifcpp\IFC4\EntityFactory.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\EntityFactory.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcAbsorbedDoseMeasure.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcAccelerationMeasure.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcActionRequest.cpp" />
@@ -1514,7 +1516,9 @@
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcWorkTime.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcZone.cpp" />
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcZShapeProfileDef.cpp" />
-    <ClCompile Include="src\ifcpp\IFC4\TypeFactory.cpp" />
+    <ClCompile Include="src\ifcpp\IFC4\TypeFactory.cpp">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
     <ClCompile Include="src\ifcpp\model\AttributeObject.cpp" />
     <ClCompile Include="src\ifcpp\model\BuildingGuid.cpp" />
     <ClCompile Include="src\ifcpp\model\BuildingModel.cpp" />

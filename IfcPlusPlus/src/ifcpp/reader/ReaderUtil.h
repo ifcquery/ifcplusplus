@@ -69,6 +69,15 @@ inline bool std_iequal(const std::wstring& a, const std::wstring& b)
 	return false;
 }
 
+inline bool std_iequal(const std::string& a, const std::string& b)
+{
+	if (a.size() == b.size())
+	{
+		return std::equal(a.begin(), a.end(), b.begin(), [](const char l, const char r) { return std::towupper(l) == std::towupper(r); });
+	}
+	return false;
+}
+
 inline void readIntegerValue( const std::wstring& str, int& int_value )
 {
 	if( str.compare( L"$" ) == 0 )

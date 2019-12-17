@@ -1071,6 +1071,6 @@ void copyToEndOfStepString( char*& stream_pos, char*& stream_pos_source )
 	findEndOfString( stream_pos_source );
 
 	size_t length = stream_pos_source - pos_begin;
-	memcpy( stream_pos, pos_begin, (length)*sizeof( char) );
+	std::copy( stream_pos, pos_begin, (length)*sizeof( char) );
 	stream_pos += length;
 }
