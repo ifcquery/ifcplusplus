@@ -60,23 +60,8 @@ void findEndOfString(char*& stream_pos);
 void findEndOfWString(wchar_t*& stream_pos);
 void checkOpeningClosingParenthesis(const wchar_t* ch_check);
 
-inline bool std_iequal(const std::wstring& a, const std::wstring& b)
-{
-	if (a.size() == b.size())
-	{
-		return std::equal(a.begin(), a.end(), b.begin(), [](const wchar_t l, const wchar_t r) { return std::towupper(l) == std::towupper(r); });
-	}
-	return false;
-}
-
-inline bool std_iequal(const std::string& a, const std::string& b)
-{
-	if (a.size() == b.size())
-	{
-		return std::equal(a.begin(), a.end(), b.begin(), [](const char l, const char r) { return std::towupper(l) == std::towupper(r); });
-	}
-	return false;
-}
+IFCQUERY_EXPORT bool std_iequal(const std::wstring& a, const std::wstring& b);
+IFCQUERY_EXPORT bool std_iequal(const std::string& a, const std::string& b);
 
 inline void readIntegerValue( const std::wstring& str, int& int_value )
 {
@@ -94,7 +79,6 @@ inline void readIntegerValue( const std::wstring& str, int& int_value )
 	}
 }
 
-void copyToEndOfStepString( char*& stream_pos, char*& stream_pos_source );
 IFCQUERY_EXPORT void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::wstring>& args_out );
 
 inline void readBool( const std::wstring& attribute_value, bool& target )

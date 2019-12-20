@@ -128,7 +128,8 @@
       <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Networkd.lib;Qt5OpenGLd.lib;Qt5Widgetsd.lib;Qt5PrintSupportd.lib;Qt5Xmld.lib;osgd.lib;OpenThreadsd.lib;osgAnimationd.lib;osgDBd.lib;osgFXd.lib;osgGAd.lib;osgTextd.lib;osgUtild.lib;osgViewerd.lib;IfcPlusPlusd.lib;Carved.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y "$(SolutionDir)..\..\IfcPlusPlus\bin\IfcPlusPlusd.dll" "$(OutDir)\IfcPlusPlusd.dll"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -269,19 +270,19 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resources\ifcplusplus.qrc">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(FullPath);.\Resources\appicon.rc;.\Resources\styles.css;.\Resources\img\appicon.ico;.\Resources\img\splitterh.png;.\Resources\img\splitterv.png;.\Resources\img\TabViewShaded.png;.\Resources\img\TabViewWireframe.png;.\Resources\img\bulb.png;.\Resources\img\dropDownArrow.png;.\Resources\img\zoomBoundings.png;.\Resources\img\RemoveSelectedObjects.png;.\Resources\img\IfcPlusPlusViewerSplash.png;.\Resources\img\IfcPlusPlusViewerWindowIcon.png;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(FullPath);.\Resources\appicon.rc;.\Resources\styles.css;.\Resources\img\appicon.ico;.\Resources\img\bulb.png;.\Resources\img\dropDownArrow.png;.\Resources\img\zoomBoundings.png;.\Resources\img\RemoveSelectedObjects.png;.\Resources\img\IfcPlusPlusViewerWindowIcon.png;%(AdditionalInputs)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Rcc%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(FullPath);.\Resources\appicon.rc;.\Resources\styles.css;.\Resources\img\appicon.ico;.\Resources\img\splitterh.png;.\Resources\img\splitterv.png;.\Resources\img\TabViewShaded.png;.\Resources\img\TabViewWireframe.png;.\Resources\img\bulb.png;.\Resources\img\dropDownArrow.png;.\Resources\img\zoomBoundings.png;.\Resources\img\RemoveSelectedObjects.png;.\Resources\img\IfcPlusPlusViewerSplash.png;.\Resources\img\IfcPlusPlusViewerWindowIcon.png;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(FullPath);.\Resources\appicon.rc;.\Resources\styles.css;.\Resources\img\appicon.ico;.\Resources\img\bulb.png;.\Resources\img\dropDownArrow.png;.\Resources\img\zoomBoundings.png;.\Resources\img\RemoveSelectedObjects.png;.\Resources\img\IfcPlusPlusViewerWindowIcon.png;%(AdditionalInputs)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Rcc%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(FullPath);.\Resources\appicon.rc;.\Resources\styles.css;.\Resources\img\appicon.ico;.\Resources\img\splitterh.png;.\Resources\img\splitterv.png;.\Resources\img\TabViewShaded.png;.\Resources\img\TabViewWireframe.png;.\Resources\img\bulb.png;.\Resources\img\dropDownArrow.png;.\Resources\img\zoomBoundings.png;.\Resources\img\RemoveSelectedObjects.png;.\Resources\img\IfcPlusPlusViewerSplash.png;.\Resources\img\IfcPlusPlusViewerWindowIcon.png;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(FullPath);.\Resources\appicon.rc;.\Resources\styles.css;.\Resources\img\appicon.ico;.\Resources\img\bulb.png;.\Resources\img\dropDownArrow.png;.\Resources\img\zoomBoundings.png;.\Resources\img\RemoveSelectedObjects.png;.\Resources\img\IfcPlusPlusViewerWindowIcon.png;%(AdditionalInputs)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Rcc%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(FullPath);.\Resources\appicon.rc;.\Resources\styles.css;.\Resources\img\appicon.ico;.\Resources\img\splitterh.png;.\Resources\img\splitterv.png;.\Resources\img\TabViewShaded.png;.\Resources\img\TabViewWireframe.png;.\Resources\img\bulb.png;.\Resources\img\dropDownArrow.png;.\Resources\img\zoomBoundings.png;.\Resources\img\RemoveSelectedObjects.png;.\Resources\img\IfcPlusPlusViewerSplash.png;.\Resources\img\IfcPlusPlusViewerWindowIcon.png;%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(FullPath);.\Resources\appicon.rc;.\Resources\styles.css;.\Resources\img\appicon.ico;.\Resources\img\bulb.png;.\Resources\img\dropDownArrow.png;.\Resources\img\zoomBoundings.png;.\Resources\img\RemoveSelectedObjects.png;.\Resources\img\IfcPlusPlusViewerWindowIcon.png;%(AdditionalInputs)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Rcc%27ing %(Identity)...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
@@ -315,12 +316,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </Image>
-    <Image Include="Resources\img\IfcPlusPlusViewerSplash.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </Image>
     <Image Include="Resources\img\IfcPlusPlusViewerWindowIcon.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -328,30 +323,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </Image>
     <Image Include="Resources\img\RemoveSelectedObjects.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </Image>
-    <Image Include="Resources\img\splitterh.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </Image>
-    <Image Include="Resources\img\splitterv.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </Image>
-    <Image Include="Resources\img\TabViewShaded.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </Image>
-    <Image Include="Resources\img\TabViewWireframe.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

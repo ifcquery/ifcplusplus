@@ -149,18 +149,6 @@
     <Image Include="Resources\img\appicon.ico">
       <Filter>Resource Dateien</Filter>
     </Image>
-    <Image Include="Resources\img\splitterh.png">
-      <Filter>Resource Dateien</Filter>
-    </Image>
-    <Image Include="Resources\img\splitterv.png">
-      <Filter>Resource Dateien</Filter>
-    </Image>
-    <Image Include="Resources\img\TabViewShaded.png">
-      <Filter>Resource Dateien</Filter>
-    </Image>
-    <Image Include="Resources\img\TabViewWireframe.png">
-      <Filter>Resource Dateien</Filter>
-    </Image>
     <Image Include="Resources\img\bulb.png">
       <Filter>Resource Dateien</Filter>
     </Image>
@@ -171,9 +159,6 @@
       <Filter>Resource Dateien</Filter>
     </Image>
     <Image Include="Resources\img\RemoveSelectedObjects.png">
-      <Filter>Resource Dateien</Filter>
-    </Image>
-    <Image Include="Resources\img\IfcPlusPlusViewerSplash.png">
       <Filter>Resource Dateien</Filter>
     </Image>
     <Image Include="Resources\img\IfcPlusPlusViewerWindowIcon.png">

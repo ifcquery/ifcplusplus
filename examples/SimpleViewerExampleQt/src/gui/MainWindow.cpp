@@ -64,6 +64,7 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 	// building structure widget
 	QDockWidget *dock = new QDockWidget(tr("Project structure"), this);
 	dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	dock->setObjectName("dockWidgetProjectStructure");
 	addDockWidget(Qt::RightDockWidgetArea, dock);
 	
 	IfcTreeWidget* ifc_tree_widget = new IfcTreeWidget( m_system );
