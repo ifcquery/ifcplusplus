@@ -571,39 +571,26 @@ void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, con
 	}
 	
 	// could be type like IFCPARAMETERVALUE(90)
-	std::wstring keyword;
+	std::wstring type_name;
 	std::wstring inline_arg;
-	tokenizeInlineArgument( item, keyword, inline_arg );
+	tokenizeInlineArgument( item, type_name, inline_arg );
 
-	if( keyword.size() == 0 )
+	if(type_name.size() == 0 )
 	{
 		return;
 	}
 
-	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
-	std::string type_name_upper = StringConverter.to_bytes(keyword);
-	std::transform( type_name_upper.begin(), type_name_upper.end(), type_name_upper.begin(), toupper );
+	std::transform(type_name.begin(), type_name.end(), type_name.begin(), toupper );
 	
-	shared_ptr<BuildingObject> type_instance = TypeFactory::createTypeObject( type_name_upper.c_str(), inline_arg, map_entities );
+	shared_ptr<BuildingObject> type_instance = TypeFactory::createTypeObject(type_name.c_str(), inline_arg, map_entities );
 	if( type_instance )
 	{
 		result = dynamic_pointer_cast<select_t>(type_instance);
 		return;
 	}
 
-	//shared_ptr<BuildingEntity> entity_instance( BuildingEntityFactory::createEntityObject( type_name_upper.c_str() ) );
-	//if( entity_instance )
-	//{
-	//	entity_instance->m_id = -1;
-	//	std::vector<std::wstring> args;
-	//	args.push_back( inline_arg );
-	//	entity_instance->readStepArguments( args, map_entities );
-	//	result = dynamic_pointer_cast<select_t>(entity_instance);
-	//	return;
-	//}
-
 	std::wstringstream strs;
-	strs << "unhandled select argument: " << item << " in function " << __FUNC__ << std::endl;
+	strs << L"unhandled select argument: " << item << L" in function readSelectType" << std::endl;
 	throw BuildingException( strs.str() );
 }
 

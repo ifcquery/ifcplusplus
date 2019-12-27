@@ -7,6 +7,6 @@
 class IFCQUERY_EXPORT TypeFactory
 {
 public:
-	static shared_ptr<BuildingObject> createTypeObject( const std::string& class_name_upper, const std::wstring& type_arg, const std::map<int, shared_ptr<BuildingEntity> >& map_entities );
+	static shared_ptr<BuildingObject> createTypeObject( const std::wstring& class_name_upper, const std::wstring& type_arg, const std::map<int, shared_ptr<BuildingEntity> >& map_entities );
 	static void emptyMapOfTypes();
 };
