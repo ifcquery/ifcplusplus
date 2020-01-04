@@ -43,6 +43,37 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 namespace SceneGraphUtils
 {
+	inline bool inParentList(const std::string guid, const osg::Group* group)
+	{
+		if (!group)
+		{
+			return false;
+		}
+
+		const osg::Group::ParentList& vec_parents = group->getParents();
+		for (size_t ii = 0; ii < vec_parents.size(); ++ii)
+		{
+			const osg::Group* parent = vec_parents[ii];
+			if (parent)
+			{
+				const std::string parent_name = parent->getName();
+				if (parent_name.length() >= 22)
+				{
+					std::string parent_name_id = parent_name.substr(22);
+					if (parent_name_id == guid)
+					{
+						return true;
+					}
+					bool in_parent_list = inParentList(guid, parent);
+					if (in_parent_list)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 	inline bool inParentList( const int entity_id, const osg::Group* group )
 	{
 		if( !group )

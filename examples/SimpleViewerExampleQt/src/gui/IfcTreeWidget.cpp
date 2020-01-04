@@ -297,7 +297,7 @@ void IfcTreeWidget::slotModelLoadingDone()
 		}
 	}
 
-	std::map<int, shared_ptr<BuildingObject> >&	map_outside = m_system->getGeometryConverter()->getObjectsOutsideSpatialStructure();
+	std::map<std::string, shared_ptr<BuildingObject> >&	map_outside = m_system->getGeometryConverter()->getObjectsOutsideSpatialStructure();
 	
 	if( map_outside.size() > 0 )
 	{

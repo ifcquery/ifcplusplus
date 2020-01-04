@@ -46,16 +46,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 class ConverterOSG : public StatusCallback
 {
 protected:
-	shared_ptr<GeometrySettings>				m_geom_settings;
-	std::map<int, osg::ref_ptr<osg::Switch> >	m_map_entity_id_to_switch;
-	std::map<std::wstring, osg::ref_ptr<osg::Switch> >	m_map_entity_guid_to_switch;
-	std::map<int, osg::ref_ptr<osg::Switch> >	m_map_representation_id_to_switch;
-	double										m_recent_progress;
-	osg::ref_ptr<osg::CullFace>					m_cull_back_off;
-	osg::ref_ptr<osg::StateSet>					m_glass_stateset;
+	shared_ptr<GeometrySettings>						m_geom_settings;
+	std::map<std::string, osg::ref_ptr<osg::Switch> >	m_map_entity_guid_to_switch;
+	std::map<int, osg::ref_ptr<osg::Switch> >			m_map_representation_id_to_switch;
+	double												m_recent_progress;
+	osg::ref_ptr<osg::CullFace>							m_cull_back_off;
+	osg::ref_ptr<osg::StateSet>							m_glass_stateset;
 	//\brief StateSet caching and re-use
-	std::vector<osg::ref_ptr<osg::StateSet> >	m_vec_existing_statesets;
-	bool										m_enable_stateset_caching = false;
+	std::vector<osg::ref_ptr<osg::StateSet> >			m_vec_existing_statesets;
+	bool												m_enable_stateset_caching = false;
 
 #ifdef ENABLE_OPENMP
 	Mutex m_writelock_appearance_cache;
@@ -72,14 +71,12 @@ public:
 	virtual ~ConverterOSG() {}
 
 	// Map: IfcProduct ID -> scenegraph switch
-	std::map<int, osg::ref_ptr<osg::Switch> >& getMapEntityIdToSwitch() { return m_map_entity_id_to_switch; }
-	std::map<std::wstring, osg::ref_ptr<osg::Switch> >& getMapEntityGUIDToSwitch() { return m_map_entity_guid_to_switch; }
+	std::map<std::string, osg::ref_ptr<osg::Switch> >& getMapEntityGUIDToSwitch() { return m_map_entity_guid_to_switch; }
 	// Map: Representation Identifier -> scenegraph switch
 	std::map<int, osg::ref_ptr<osg::Switch> >& getMapRepresentationToSwitch() { return m_map_representation_id_to_switch; }
 
 	void clearInputCache()
 	{
-		m_map_entity_id_to_switch.clear();
 		m_map_entity_guid_to_switch.clear();
 		m_map_representation_id_to_switch.clear();
 		m_vec_existing_statesets.clear();
@@ -687,9 +684,14 @@ public:
 		{
 			return;
 		}
-		const int product_id = ifc_product->m_entity_id;
+		std::string product_guid;
+		if (ifc_product->m_GlobalId)
+		{
+			std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
+			product_guid = converterX.to_bytes(ifc_product->m_GlobalId->m_value);
+		}
 		std::stringstream strs_product_switch_name;
-		strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
+		strs_product_switch_name << product_guid << ":" << ifc_product->className() << " group";
 		bool draw_bounding_box = false;
 		
 		// create OSG objects
@@ -956,11 +958,10 @@ public:
 	/*\brief method convertToOSG: Creates geometry for OpenSceneGraph from given ProductShapeData.
 	\param[out] parent_group Group to append the geometry.
 	**/
-	void convertToOSG( const std::map<int, shared_ptr<ProductShapeData> >& map_shape_data, osg::ref_ptr<osg::Switch> parent_group )
+	void convertToOSG( const std::map<std::string, shared_ptr<ProductShapeData> >& map_shape_data, osg::ref_ptr<osg::Switch> parent_group )
 	{
 		progressTextCallback( L"Converting geometry to OpenGL format ..." );
 		progressValueCallback( 0, "scenegraph" );
-		m_map_entity_id_to_switch.clear();
 		m_map_entity_guid_to_switch.clear();
 		m_map_representation_id_to_switch.clear();
 		m_vec_existing_statesets.clear();
@@ -978,8 +979,7 @@ public:
 		}
 
 		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
-		std::map<int, osg::ref_ptr<osg::Switch> >* map_entity_id = &m_map_entity_id_to_switch;
-		std::map<std::wstring, osg::ref_ptr<osg::Switch> >* map_entity_guid = &m_map_entity_guid_to_switch;
+		std::map<std::string, osg::ref_ptr<osg::Switch> >* map_entity_guid = &m_map_entity_guid_to_switch;
 		std::map<int, osg::ref_ptr<osg::Switch> >* map_representations = &m_map_representation_id_to_switch;
 		const int num_products = (int)vec_products.size();
 
@@ -1030,7 +1030,7 @@ public:
 				}
 				
 				const int product_id = ifc_product->m_entity_id;
-				std::wstring product_guid = L"";
+				std::string product_guid;
 				std::map<int, osg::ref_ptr<osg::Switch> > map_representation_switches;
 				try
 				{
@@ -1059,7 +1059,8 @@ public:
 
 				if (ifc_object_def->m_GlobalId)
 				{
-					product_guid = ifc_object_def->m_GlobalId->m_value;
+					std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
+					product_guid = converterX.to_bytes(ifc_object_def->m_GlobalId->m_value);
 				}
 
 				if( map_representation_switches.size() > 0 )
@@ -1071,7 +1072,7 @@ public:
 					product_switch->addChild( product_transform );
 
 					std::stringstream strs_product_switch_name;
-					strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
+					strs_product_switch_name << product_guid << ":" << ifc_product->className() << " group";
 					product_switch->setName( strs_product_switch_name.str().c_str() );
 
 					for( auto it_map = map_representation_switches.begin(); it_map != map_representation_switches.end(); ++it_map )
@@ -1090,7 +1091,6 @@ public:
 #ifdef ENABLE_OPENMP
 					ScopedLock scoped_lock( writelock_map );
 #endif
-					map_entity_id->insert( std::make_pair( product_id, product_switch ) );
 					map_entity_guid->insert(std::make_pair(product_guid, product_switch));
 					map_representations->insert( map_representation_switches.begin(), map_representation_switches.end() );
 				}
@@ -1148,7 +1148,7 @@ public:
 		progressValueCallback( 0.9, "scenegraph" );
 	}
 
-	void addNodes( const std::map<int, shared_ptr<BuildingObject> >& map_shape_data, osg::ref_ptr<osg::Switch>& target_group )
+	void addNodes( const std::map<std::string, shared_ptr<BuildingObject> >& map_shape_data, osg::ref_ptr<osg::Switch>& target_group )
 	{
 		// check if there are entities that are not in spatial structure
 		if( !target_group )
@@ -1158,10 +1158,10 @@ public:
 
 		for( auto it_product_shapes = map_shape_data.begin(); it_product_shapes != map_shape_data.end(); ++it_product_shapes )
 		{
-			int product_id = it_product_shapes->first;
-			auto it_find = m_map_entity_id_to_switch.find( product_id );
+			std::string product_guid = it_product_shapes->first;
+			auto it_find = m_map_entity_guid_to_switch.find(product_guid);
 
-			if( it_find != m_map_entity_id_to_switch.end() )
+			if( it_find != m_map_entity_guid_to_switch.end() )
 			{
 				osg::ref_ptr<osg::Switch>& sw = it_find->second;
 				if( sw )
@@ -1185,8 +1185,15 @@ public:
 		}
 
 		shared_ptr<IfcObjectDefinition> object_def( product_data->m_ifc_object_definition );
-		const int entity_id = object_def->m_entity_id;
-		if( SceneGraphUtils::inParentList( entity_id, group ) )
+
+		std::string guid;
+		if (object_def->m_GlobalId)
+		{
+			std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
+			guid = converterX.to_bytes(object_def->m_GlobalId->m_value);
+		}
+
+		if( SceneGraphUtils::inParentList(guid, group ) )
 		{
 			messageCallback( "Cycle in project structure detected", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, object_def.get() );
 			return;
@@ -1215,8 +1222,8 @@ public:
 			resolveProjectStructure( child_product_data, group_subparts );
 		}
 
-		auto it_product_map = m_map_entity_id_to_switch.find( entity_id );
-		if( it_product_map != m_map_entity_id_to_switch.end() )
+		auto it_product_map = m_map_entity_guid_to_switch.find(guid);
+		if( it_product_map != m_map_entity_guid_to_switch.end() )
 		{
 			const osg::ref_ptr<osg::Switch>& product_switch = it_product_map->second;
 			if( product_switch )
@@ -1232,7 +1239,7 @@ public:
 				group->addChild( product_switch );
 
 				std::stringstream switch_name;
-				switch_name << "#" << entity_id << "=" << object_def->className();
+				switch_name << guid << ":" << object_def->className();
 				product_switch->setName( switch_name.str().c_str() );
 			}
 		}

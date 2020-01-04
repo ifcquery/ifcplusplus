@@ -41,8 +41,8 @@ protected:
 	shared_ptr<GeometrySettings>			m_geom_settings;
 	shared_ptr<RepresentationConverter>		m_representation_converter;
 
-	std::map<int, shared_ptr<ProductShapeData> >	m_product_shape_data;
-	std::map<int, shared_ptr<BuildingObject> >		m_map_outside_spatial_structure;
+	std::map<std::string, shared_ptr<ProductShapeData> >	m_product_shape_data;
+	std::map<std::string, shared_ptr<BuildingObject> >		m_map_outside_spatial_structure;
 	double m_recent_progress = 0;
 	double m_csg_eps = 1.5e-05;
 	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
@@ -55,8 +55,8 @@ public:
 	shared_ptr<BuildingModel>&						getBuildingModel() { return m_ifc_model; }
 	shared_ptr<RepresentationConverter>&			getRepresentationConverter() { return m_representation_converter; }
 	shared_ptr<GeometrySettings>&					getGeomSettings() { return m_geom_settings; }
-	std::map<int, shared_ptr<ProductShapeData> >&	getShapeInputData() { return m_product_shape_data; }
-	std::map<int, shared_ptr<BuildingObject> >&		getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
+	std::map<std::string, shared_ptr<ProductShapeData> >&	getShapeInputData() { return m_product_shape_data; }
+	std::map<std::string, shared_ptr<BuildingObject> >&		getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
 
 	GeometryConverter( shared_ptr<BuildingModel>& ifc_model )
 	{
@@ -130,7 +130,6 @@ public:
 			return;
 		}
 		shared_ptr<IfcObjectDefinition> ifc_object_def( product_data->m_ifc_object_definition );
-		const int entity_id = ifc_object_def->m_entity_id;
 		product_data->m_added_to_spatial_structure = true;
 
 		const std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = ifc_object_def->m_IsDecomposedBy_inverse;
@@ -150,7 +149,14 @@ public:
 					const shared_ptr<IfcObjectDefinition>& related_obj_def = vec_related_objects[jj];
 					if( related_obj_def )
 					{
-						auto it_product_map = m_product_shape_data.find( related_obj_def->m_entity_id );
+						std::string related_guid;
+						if (related_obj_def->m_GlobalId)
+						{
+							std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
+							related_guid = converterX.to_bytes(related_obj_def->m_GlobalId->m_value);
+						}
+
+						auto it_product_map = m_product_shape_data.find(related_guid);
 						if( it_product_map != m_product_shape_data.end() )
 						{
 							shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
@@ -186,7 +192,14 @@ public:
 						const shared_ptr<IfcProduct>& related_product = vec_related_elements[jj];
 						if( related_product )
 						{
-							auto it_product_map = m_product_shape_data.find( related_product->m_entity_id );
+							std::string related_guid;
+							if (related_product->m_GlobalId)
+							{
+								std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
+								related_guid = converterX.to_bytes(related_product->m_GlobalId->m_value);
+							}
+
+							auto it_product_map = m_product_shape_data.find(related_guid);
 							if( it_product_map != m_product_shape_data.end() )
 							{
 								shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
@@ -304,7 +317,7 @@ public:
 		}
 
 		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
-		std::map<int, shared_ptr<ProductShapeData> >* map_products_ptr = &m_product_shape_data;
+		std::map<std::string, shared_ptr<ProductShapeData> >* map_products_ptr = &m_product_shape_data;
 		const int num_products = (int)vec_object_defs.size();
 
 #ifdef ENABLE_OPENMP
@@ -320,6 +333,13 @@ public:
 			{
 				shared_ptr<IfcObjectDefinition> ifc_object_def = vec_object_defs[i];
 				const int entity_id = ifc_object_def->m_entity_id;
+				std::string guid;
+				if (ifc_object_def->m_GlobalId)
+				{
+					std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
+					guid = converterX.to_bytes(ifc_object_def->m_GlobalId->m_value);
+				}
+
 				shared_ptr<ProductShapeData> product_geom_input_data( new ProductShapeData( entity_id ) );
 				product_geom_input_data->m_ifc_object_definition = ifc_object_def;
 
@@ -366,7 +386,7 @@ public:
 #ifdef ENABLE_OPENMP
 					ScopedLock scoped_lock( writelock_map );
 #endif
-					map_products_ptr->insert( std::make_pair( entity_id, product_geom_input_data ) );
+					map_products_ptr->insert( std::make_pair( guid, product_geom_input_data ) );
 
 					if( thread_err.tellp() > 0 )
 					{
@@ -450,7 +470,13 @@ public:
 						{
 							continue;
 						}
-						m_map_outside_spatial_structure[ifc_product->m_entity_id] = ifc_product;
+						std::string guid;
+						if (ifc_product->m_GlobalId)
+						{
+							std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
+							guid = converterX.to_bytes(ifc_product->m_GlobalId->m_value);
+						}
+						m_map_outside_spatial_structure[guid] = ifc_product;
 					}
 				}
 			}
@@ -636,9 +662,14 @@ public:
 				{
 					continue;
 				}
-				if( related_object->m_entity_id >= 0 )
+
+				std::string guid;
+				if (related_object->m_GlobalId)
 				{
-					auto it_find_related_shape = m_product_shape_data.find(related_object->m_entity_id);
+					std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
+					guid = converterX.to_bytes(related_object->m_GlobalId->m_value);
+				
+					auto it_find_related_shape = m_product_shape_data.find(guid);
 					if( it_find_related_shape != m_product_shape_data.end() )
 					{
 						shared_ptr<ProductShapeData>& related_product_shape = it_find_related_shape->second;
