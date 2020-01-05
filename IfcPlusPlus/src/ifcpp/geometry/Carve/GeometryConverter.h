@@ -22,6 +22,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/BuildingModel.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/IFC4/include/IfcCurtainWall.h>
+#include <ifcpp/IFC4/include/IfcGloballyUniqueId.h>
 #include <ifcpp/IFC4/include/IfcPropertySetDefinitionSet.h>
 #include <ifcpp/IFC4/include/IfcRelAggregates.h>
 #include <ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h>

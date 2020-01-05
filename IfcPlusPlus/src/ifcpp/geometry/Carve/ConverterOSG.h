@@ -988,7 +988,7 @@ public:
 		Mutex writelock_message_callback;
 		Mutex writelock_ifc_project;
 
-#pragma omp parallel firstprivate(num_products) shared(map_entity_id, map_entity_guid, map_representations)
+#pragma omp parallel firstprivate(num_products) shared(map_entity_guid, map_representations)
 		{
 			// time for one product may vary significantly, so schedule not so many
 #pragma omp for schedule(dynamic,40)
