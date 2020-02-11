@@ -7,13 +7,12 @@
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
-#include "IfcCurve.h"
-class IFCQUERY_EXPORT IfcCurve;
+#include "IfcOffsetCurve.h"
 class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcLogical;
 class IFCQUERY_EXPORT IfcDirection;
 //ENTITY
-class IFCQUERY_EXPORT IfcOffsetCurve3D : public IfcCurve
+class IFCQUERY_EXPORT IfcOffsetCurve3D : public IfcOffsetCurve
 { 
 public:
 	IfcOffsetCurve3D() = default;
@@ -41,9 +40,12 @@ public:
 
 	// IfcCurve -----------------------------------------------------------
 
+	// IfcOffsetCurve -----------------------------------------------------------
+	// attributes:
+	//  shared_ptr<IfcCurve>									m_BasisCurve;
+
 	// IfcOffsetCurve3D -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcCurve>									m_BasisCurve;
 	shared_ptr<IfcLengthMeasure>							m_Distance;
 	shared_ptr<IfcLogical>									m_SelfIntersect;
 	shared_ptr<IfcDirection>								m_RefDirection;

@@ -120,7 +120,7 @@ void IfcGrid::readStepArguments( const std::vector<std::wstring>& args, const st
 }
 void IfcGrid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	IfcProduct::getAttributes( vec_attributes );
+	IfcPositioningElement::getAttributes( vec_attributes );
 	if( !m_UAxes.empty() )
 	{
 		shared_ptr<AttributeObjectVector> UAxes_vec_object( new AttributeObjectVector() );
@@ -143,23 +143,11 @@ void IfcGrid::getAttributes( std::vector<std::pair<std::string, shared_ptr<Build
 }
 void IfcGrid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	IfcProduct::getAttributesInverse( vec_attributes_inverse );
-	if( !m_ContainedInStructure_inverse.empty() )
-	{
-		shared_ptr<AttributeObjectVector> ContainedInStructure_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
-		{
-			if( !m_ContainedInStructure_inverse[i].expired() )
-			{
-				ContainedInStructure_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
-			}
-		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
-	}
+	IfcPositioningElement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcGrid::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
-	IfcProduct::setInverseCounterparts( ptr_self_entity );
+	IfcPositioningElement::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcGrid> ptr_self = dynamic_pointer_cast<IfcGrid>( ptr_self_entity );
 	if( !ptr_self ) { throw BuildingException( "IfcGrid::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_UAxes.size(); ++i )
@@ -186,7 +174,7 @@ void IfcGrid::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity
 }
 void IfcGrid::unlinkFromInverseCounterparts()
 {
-	IfcProduct::unlinkFromInverseCounterparts();
+	IfcPositioningElement::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_UAxes.size(); ++i )
 	{
 		if( m_UAxes[i] )

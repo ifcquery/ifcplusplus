@@ -20,6 +20,16 @@
 #include "ifcpp/IFC4/include/IfcAirToAirHeatRecoveryType.h"
 #include "ifcpp/IFC4/include/IfcAlarm.h"
 #include "ifcpp/IFC4/include/IfcAlarmType.h"
+#include "ifcpp/IFC4/include/IfcAlignment.h"
+#include "ifcpp/IFC4/include/IfcAlignment2DHorizontal.h"
+#include "ifcpp/IFC4/include/IfcAlignment2DHorizontalSegment.h"
+#include "ifcpp/IFC4/include/IfcAlignment2DSegment.h"
+#include "ifcpp/IFC4/include/IfcAlignment2DVerSegCircularArc.h"
+#include "ifcpp/IFC4/include/IfcAlignment2DVerSegLine.h"
+#include "ifcpp/IFC4/include/IfcAlignment2DVerSegParabolicArc.h"
+#include "ifcpp/IFC4/include/IfcAlignment2DVertical.h"
+#include "ifcpp/IFC4/include/IfcAlignment2DVerticalSegment.h"
+#include "ifcpp/IFC4/include/IfcAlignmentCurve.h"
 #include "ifcpp/IFC4/include/IfcAnnotation.h"
 #include "ifcpp/IFC4/include/IfcAnnotationFillArea.h"
 #include "ifcpp/IFC4/include/IfcApplication.h"
@@ -96,6 +106,7 @@
 #include "ifcpp/IFC4/include/IfcCircle.h"
 #include "ifcpp/IFC4/include/IfcCircleHollowProfileDef.h"
 #include "ifcpp/IFC4/include/IfcCircleProfileDef.h"
+#include "ifcpp/IFC4/include/IfcCircularArcSegment2D.h"
 #include "ifcpp/IFC4/include/IfcCivilElement.h"
 #include "ifcpp/IFC4/include/IfcCivilElementType.h"
 #include "ifcpp/IFC4/include/IfcClassification.h"
@@ -166,6 +177,7 @@
 #include "ifcpp/IFC4/include/IfcCurve.h"
 #include "ifcpp/IFC4/include/IfcCurveBoundedPlane.h"
 #include "ifcpp/IFC4/include/IfcCurveBoundedSurface.h"
+#include "ifcpp/IFC4/include/IfcCurveSegment2D.h"
 #include "ifcpp/IFC4/include/IfcCurveStyle.h"
 #include "ifcpp/IFC4/include/IfcCurveStyleFont.h"
 #include "ifcpp/IFC4/include/IfcCurveStyleFontAndScaling.h"
@@ -180,6 +192,7 @@
 #include "ifcpp/IFC4/include/IfcDirection.h"
 #include "ifcpp/IFC4/include/IfcDiscreteAccessory.h"
 #include "ifcpp/IFC4/include/IfcDiscreteAccessoryType.h"
+#include "ifcpp/IFC4/include/IfcDistanceExpression.h"
 #include "ifcpp/IFC4/include/IfcDistributionChamberElement.h"
 #include "ifcpp/IFC4/include/IfcDistributionChamberElementType.h"
 #include "ifcpp/IFC4/include/IfcDistributionCircuit.h"
@@ -353,6 +366,9 @@
 #include "ifcpp/IFC4/include/IfcLightSourcePositional.h"
 #include "ifcpp/IFC4/include/IfcLightSourceSpot.h"
 #include "ifcpp/IFC4/include/IfcLine.h"
+#include "ifcpp/IFC4/include/IfcLineSegment2D.h"
+#include "ifcpp/IFC4/include/IfcLinearPlacement.h"
+#include "ifcpp/IFC4/include/IfcLinearPositioningElement.h"
 #include "ifcpp/IFC4/include/IfcLocalPlacement.h"
 #include "ifcpp/IFC4/include/IfcLoop.h"
 #include "ifcpp/IFC4/include/IfcManifoldSolidBrep.h"
@@ -396,13 +412,16 @@
 #include "ifcpp/IFC4/include/IfcObjectPlacement.h"
 #include "ifcpp/IFC4/include/IfcObjective.h"
 #include "ifcpp/IFC4/include/IfcOccupant.h"
+#include "ifcpp/IFC4/include/IfcOffsetCurve.h"
 #include "ifcpp/IFC4/include/IfcOffsetCurve2D.h"
 #include "ifcpp/IFC4/include/IfcOffsetCurve3D.h"
+#include "ifcpp/IFC4/include/IfcOffsetCurveByDistances.h"
 #include "ifcpp/IFC4/include/IfcOpenShell.h"
 #include "ifcpp/IFC4/include/IfcOpeningElement.h"
 #include "ifcpp/IFC4/include/IfcOpeningStandardCase.h"
 #include "ifcpp/IFC4/include/IfcOrganization.h"
 #include "ifcpp/IFC4/include/IfcOrganizationRelationship.h"
+#include "ifcpp/IFC4/include/IfcOrientationExpression.h"
 #include "ifcpp/IFC4/include/IfcOrientedEdge.h"
 #include "ifcpp/IFC4/include/IfcOuterBoundaryCurve.h"
 #include "ifcpp/IFC4/include/IfcOutlet.h"
@@ -441,6 +460,7 @@
 #include "ifcpp/IFC4/include/IfcPolygonalFaceSet.h"
 #include "ifcpp/IFC4/include/IfcPolyline.h"
 #include "ifcpp/IFC4/include/IfcPort.h"
+#include "ifcpp/IFC4/include/IfcPositioningElement.h"
 #include "ifcpp/IFC4/include/IfcPostalAddress.h"
 #include "ifcpp/IFC4/include/IfcPreDefinedColour.h"
 #include "ifcpp/IFC4/include/IfcPreDefinedCurveFont.h"
@@ -510,6 +530,7 @@
 #include "ifcpp/IFC4/include/IfcRectangularTrimmedSurface.h"
 #include "ifcpp/IFC4/include/IfcRecurrencePattern.h"
 #include "ifcpp/IFC4/include/IfcReference.h"
+#include "ifcpp/IFC4/include/IfcReferent.h"
 #include "ifcpp/IFC4/include/IfcRegularTimeSeries.h"
 #include "ifcpp/IFC4/include/IfcReinforcementBarProperties.h"
 #include "ifcpp/IFC4/include/IfcReinforcementDefinitionProperties.h"
@@ -592,6 +613,8 @@
 #include "ifcpp/IFC4/include/IfcSeamCurve.h"
 #include "ifcpp/IFC4/include/IfcSectionProperties.h"
 #include "ifcpp/IFC4/include/IfcSectionReinforcementProperties.h"
+#include "ifcpp/IFC4/include/IfcSectionedSolid.h"
+#include "ifcpp/IFC4/include/IfcSectionedSolidHorizontal.h"
 #include "ifcpp/IFC4/include/IfcSectionedSpine.h"
 #include "ifcpp/IFC4/include/IfcSensor.h"
 #include "ifcpp/IFC4/include/IfcSensorType.h"
@@ -732,10 +755,12 @@
 #include "ifcpp/IFC4/include/IfcToroidalSurface.h"
 #include "ifcpp/IFC4/include/IfcTransformer.h"
 #include "ifcpp/IFC4/include/IfcTransformerType.h"
+#include "ifcpp/IFC4/include/IfcTransitionCurveSegment2D.h"
 #include "ifcpp/IFC4/include/IfcTransportElement.h"
 #include "ifcpp/IFC4/include/IfcTransportElementType.h"
 #include "ifcpp/IFC4/include/IfcTrapeziumProfileDef.h"
 #include "ifcpp/IFC4/include/IfcTriangulatedFaceSet.h"
+#include "ifcpp/IFC4/include/IfcTriangulatedIrregularNetwork.h"
 #include "ifcpp/IFC4/include/IfcTrimmedCurve.h"
 #include "ifcpp/IFC4/include/IfcTubeBundle.h"
 #include "ifcpp/IFC4/include/IfcTubeBundleType.h"
@@ -799,6 +824,16 @@
 { "IFCAIRTOAIRHEATRECOVERYTYPE", []()->BuildingEntity* { return new IfcAirToAirHeatRecoveryType(); } },
 { "IFCALARM", []()->BuildingEntity* { return new IfcAlarm(); } },
 { "IFCALARMTYPE", []()->BuildingEntity* { return new IfcAlarmType(); } },
+{ "IFCALIGNMENT", []()->BuildingEntity* { return new IfcAlignment(); } },
+{ "IFCALIGNMENT2DHORIZONTAL", []()->BuildingEntity* { return new IfcAlignment2DHorizontal(); } },
+{ "IFCALIGNMENT2DHORIZONTALSEGMENT", []()->BuildingEntity* { return new IfcAlignment2DHorizontalSegment(); } },
+{ "IFCALIGNMENT2DSEGMENT", []()->BuildingEntity* { return new IfcAlignment2DSegment(); } },
+{ "IFCALIGNMENT2DVERSEGCIRCULARARC", []()->BuildingEntity* { return new IfcAlignment2DVerSegCircularArc(); } },
+{ "IFCALIGNMENT2DVERSEGLINE", []()->BuildingEntity* { return new IfcAlignment2DVerSegLine(); } },
+{ "IFCALIGNMENT2DVERSEGPARABOLICARC", []()->BuildingEntity* { return new IfcAlignment2DVerSegParabolicArc(); } },
+{ "IFCALIGNMENT2DVERTICAL", []()->BuildingEntity* { return new IfcAlignment2DVertical(); } },
+{ "IFCALIGNMENT2DVERTICALSEGMENT", []()->BuildingEntity* { return new IfcAlignment2DVerticalSegment(); } },
+{ "IFCALIGNMENTCURVE", []()->BuildingEntity* { return new IfcAlignmentCurve(); } },
 { "IFCANNOTATION", []()->BuildingEntity* { return new IfcAnnotation(); } },
 { "IFCANNOTATIONFILLAREA", []()->BuildingEntity* { return new IfcAnnotationFillArea(); } },
 { "IFCAPPLICATION", []()->BuildingEntity* { return new IfcApplication(); } },
@@ -875,6 +910,7 @@
 { "IFCCIRCLE", []()->BuildingEntity* { return new IfcCircle(); } },
 { "IFCCIRCLEHOLLOWPROFILEDEF", []()->BuildingEntity* { return new IfcCircleHollowProfileDef(); } },
 { "IFCCIRCLEPROFILEDEF", []()->BuildingEntity* { return new IfcCircleProfileDef(); } },
+{ "IFCCIRCULARARCSEGMENT2D", []()->BuildingEntity* { return new IfcCircularArcSegment2D(); } },
 { "IFCCIVILELEMENT", []()->BuildingEntity* { return new IfcCivilElement(); } },
 { "IFCCIVILELEMENTTYPE", []()->BuildingEntity* { return new IfcCivilElementType(); } },
 { "IFCCLASSIFICATION", []()->BuildingEntity* { return new IfcClassification(); } },
@@ -945,6 +981,7 @@
 { "IFCCURVE", []()->BuildingEntity* { return new IfcCurve(); } },
 { "IFCCURVEBOUNDEDPLANE", []()->BuildingEntity* { return new IfcCurveBoundedPlane(); } },
 { "IFCCURVEBOUNDEDSURFACE", []()->BuildingEntity* { return new IfcCurveBoundedSurface(); } },
+{ "IFCCURVESEGMENT2D", []()->BuildingEntity* { return new IfcCurveSegment2D(); } },
 { "IFCCURVESTYLE", []()->BuildingEntity* { return new IfcCurveStyle(); } },
 { "IFCCURVESTYLEFONT", []()->BuildingEntity* { return new IfcCurveStyleFont(); } },
 { "IFCCURVESTYLEFONTANDSCALING", []()->BuildingEntity* { return new IfcCurveStyleFontAndScaling(); } },
@@ -959,6 +996,7 @@
 { "IFCDIRECTION", []()->BuildingEntity* { return new IfcDirection(); } },
 { "IFCDISCRETEACCESSORY", []()->BuildingEntity* { return new IfcDiscreteAccessory(); } },
 { "IFCDISCRETEACCESSORYTYPE", []()->BuildingEntity* { return new IfcDiscreteAccessoryType(); } },
+{ "IFCDISTANCEEXPRESSION", []()->BuildingEntity* { return new IfcDistanceExpression(); } },
 { "IFCDISTRIBUTIONCHAMBERELEMENT", []()->BuildingEntity* { return new IfcDistributionChamberElement(); } },
 { "IFCDISTRIBUTIONCHAMBERELEMENTTYPE", []()->BuildingEntity* { return new IfcDistributionChamberElementType(); } },
 { "IFCDISTRIBUTIONCIRCUIT", []()->BuildingEntity* { return new IfcDistributionCircuit(); } },
@@ -1132,6 +1170,9 @@
 { "IFCLIGHTSOURCEPOSITIONAL", []()->BuildingEntity* { return new IfcLightSourcePositional(); } },
 { "IFCLIGHTSOURCESPOT", []()->BuildingEntity* { return new IfcLightSourceSpot(); } },
 { "IFCLINE", []()->BuildingEntity* { return new IfcLine(); } },
+{ "IFCLINESEGMENT2D", []()->BuildingEntity* { return new IfcLineSegment2D(); } },
+{ "IFCLINEARPLACEMENT", []()->BuildingEntity* { return new IfcLinearPlacement(); } },
+{ "IFCLINEARPOSITIONINGELEMENT", []()->BuildingEntity* { return new IfcLinearPositioningElement(); } },
 { "IFCLOCALPLACEMENT", []()->BuildingEntity* { return new IfcLocalPlacement(); } },
 { "IFCLOOP", []()->BuildingEntity* { return new IfcLoop(); } },
 { "IFCMANIFOLDSOLIDBREP", []()->BuildingEntity* { return new IfcManifoldSolidBrep(); } },
@@ -1175,13 +1216,16 @@
 { "IFCOBJECTPLACEMENT", []()->BuildingEntity* { return new IfcObjectPlacement(); } },
 { "IFCOBJECTIVE", []()->BuildingEntity* { return new IfcObjective(); } },
 { "IFCOCCUPANT", []()->BuildingEntity* { return new IfcOccupant(); } },
+{ "IFCOFFSETCURVE", []()->BuildingEntity* { return new IfcOffsetCurve(); } },
 { "IFCOFFSETCURVE2D", []()->BuildingEntity* { return new IfcOffsetCurve2D(); } },
 { "IFCOFFSETCURVE3D", []()->BuildingEntity* { return new IfcOffsetCurve3D(); } },
+{ "IFCOFFSETCURVEBYDISTANCES", []()->BuildingEntity* { return new IfcOffsetCurveByDistances(); } },
 { "IFCOPENSHELL", []()->BuildingEntity* { return new IfcOpenShell(); } },
 { "IFCOPENINGELEMENT", []()->BuildingEntity* { return new IfcOpeningElement(); } },
 { "IFCOPENINGSTANDARDCASE", []()->BuildingEntity* { return new IfcOpeningStandardCase(); } },
 { "IFCORGANIZATION", []()->BuildingEntity* { return new IfcOrganization(); } },
 { "IFCORGANIZATIONRELATIONSHIP", []()->BuildingEntity* { return new IfcOrganizationRelationship(); } },
+{ "IFCORIENTATIONEXPRESSION", []()->BuildingEntity* { return new IfcOrientationExpression(); } },
 { "IFCORIENTEDEDGE", []()->BuildingEntity* { return new IfcOrientedEdge(); } },
 { "IFCOUTERBOUNDARYCURVE", []()->BuildingEntity* { return new IfcOuterBoundaryCurve(); } },
 { "IFCOUTLET", []()->BuildingEntity* { return new IfcOutlet(); } },
@@ -1220,6 +1264,7 @@
 { "IFCPOLYGONALFACESET", []()->BuildingEntity* { return new IfcPolygonalFaceSet(); } },
 { "IFCPOLYLINE", []()->BuildingEntity* { return new IfcPolyline(); } },
 { "IFCPORT", []()->BuildingEntity* { return new IfcPort(); } },
+{ "IFCPOSITIONINGELEMENT", []()->BuildingEntity* { return new IfcPositioningElement(); } },
 { "IFCPOSTALADDRESS", []()->BuildingEntity* { return new IfcPostalAddress(); } },
 { "IFCPREDEFINEDCOLOUR", []()->BuildingEntity* { return new IfcPreDefinedColour(); } },
 { "IFCPREDEFINEDCURVEFONT", []()->BuildingEntity* { return new IfcPreDefinedCurveFont(); } },
@@ -1289,6 +1334,7 @@
 { "IFCRECTANGULARTRIMMEDSURFACE", []()->BuildingEntity* { return new IfcRectangularTrimmedSurface(); } },
 { "IFCRECURRENCEPATTERN", []()->BuildingEntity* { return new IfcRecurrencePattern(); } },
 { "IFCREFERENCE", []()->BuildingEntity* { return new IfcReference(); } },
+{ "IFCREFERENT", []()->BuildingEntity* { return new IfcReferent(); } },
 { "IFCREGULARTIMESERIES", []()->BuildingEntity* { return new IfcRegularTimeSeries(); } },
 { "IFCREINFORCEMENTBARPROPERTIES", []()->BuildingEntity* { return new IfcReinforcementBarProperties(); } },
 { "IFCREINFORCEMENTDEFINITIONPROPERTIES", []()->BuildingEntity* { return new IfcReinforcementDefinitionProperties(); } },
@@ -1371,6 +1417,8 @@
 { "IFCSEAMCURVE", []()->BuildingEntity* { return new IfcSeamCurve(); } },
 { "IFCSECTIONPROPERTIES", []()->BuildingEntity* { return new IfcSectionProperties(); } },
 { "IFCSECTIONREINFORCEMENTPROPERTIES", []()->BuildingEntity* { return new IfcSectionReinforcementProperties(); } },
+{ "IFCSECTIONEDSOLID", []()->BuildingEntity* { return new IfcSectionedSolid(); } },
+{ "IFCSECTIONEDSOLIDHORIZONTAL", []()->BuildingEntity* { return new IfcSectionedSolidHorizontal(); } },
 { "IFCSECTIONEDSPINE", []()->BuildingEntity* { return new IfcSectionedSpine(); } },
 { "IFCSENSOR", []()->BuildingEntity* { return new IfcSensor(); } },
 { "IFCSENSORTYPE", []()->BuildingEntity* { return new IfcSensorType(); } },
@@ -1511,10 +1559,12 @@
 { "IFCTOROIDALSURFACE", []()->BuildingEntity* { return new IfcToroidalSurface(); } },
 { "IFCTRANSFORMER", []()->BuildingEntity* { return new IfcTransformer(); } },
 { "IFCTRANSFORMERTYPE", []()->BuildingEntity* { return new IfcTransformerType(); } },
+{ "IFCTRANSITIONCURVESEGMENT2D", []()->BuildingEntity* { return new IfcTransitionCurveSegment2D(); } },
 { "IFCTRANSPORTELEMENT", []()->BuildingEntity* { return new IfcTransportElement(); } },
 { "IFCTRANSPORTELEMENTTYPE", []()->BuildingEntity* { return new IfcTransportElementType(); } },
 { "IFCTRAPEZIUMPROFILEDEF", []()->BuildingEntity* { return new IfcTrapeziumProfileDef(); } },
 { "IFCTRIANGULATEDFACESET", []()->BuildingEntity* { return new IfcTriangulatedFaceSet(); } },
+{ "IFCTRIANGULATEDIRREGULARNETWORK", []()->BuildingEntity* { return new IfcTriangulatedIrregularNetwork(); } },
 { "IFCTRIMMEDCURVE", []()->BuildingEntity* { return new IfcTrimmedCurve(); } },
 { "IFCTUBEBUNDLE", []()->BuildingEntity* { return new IfcTubeBundle(); } },
 { "IFCTUBEBUNDLETYPE", []()->BuildingEntity* { return new IfcTubeBundleType(); } },

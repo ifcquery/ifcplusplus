@@ -8,6 +8,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCartesianPointList2D.h"
+#include "ifcpp/IFC4/include/IfcLabel.h"
 #include "ifcpp/IFC4/include/IfcLengthMeasure.h"
 #include "ifcpp/IFC4/include/IfcPresentationLayerAssignment.h"
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
@@ -31,12 +32,39 @@ shared_ptr<BuildingObject> IfcCartesianPointList2D::getDeepCopy( BuildingCopyOpt
 			}
 		}
 	}
+	for( size_t ii=0; ii<m_TagList.size(); ++ii )
+	{
+		auto item_ii = m_TagList[ii];
+		if( item_ii )
+		{
+			copy_self->m_TagList.emplace_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
+		}
+	}
 	return copy_self;
 }
 void IfcCartesianPointList2D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCCARTESIANPOINTLIST2D" << "(";
 	writeTypeOfRealList2D( stream, m_CoordList );
+	stream << ",";
+	stream << "(";
+	for( size_t ii = 0; ii < m_TagList.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcLabel>& type_object = m_TagList[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, false );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ");";
 }
 void IfcCartesianPointList2D::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
@@ -44,12 +72,19 @@ const std::wstring IfcCartesianPointList2D::toString() const { return L"IfcCarte
 void IfcCartesianPointList2D::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianPointList2D, expecting 1, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianPointList2D, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readTypeOfRealList2D( args[0], m_CoordList );
+	readTypeOfStringList( args[1], m_TagList );
 }
 void IfcCartesianPointList2D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCartesianPointList::getAttributes( vec_attributes );
+	if( !m_TagList.empty() )
+	{
+		shared_ptr<AttributeObjectVector> TagList_vec_object( new AttributeObjectVector() );
+		std::copy( m_TagList.begin(), m_TagList.end(), std::back_inserter( TagList_vec_object->m_vec ) );
+		vec_attributes.emplace_back( std::make_pair( "TagList", TagList_vec_object ) );
+	}
 }
 void IfcCartesianPointList2D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

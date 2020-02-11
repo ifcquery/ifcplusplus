@@ -7,12 +7,11 @@
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
-#include "IfcProduct.h"
+#include "IfcPositioningElement.h"
 class IFCQUERY_EXPORT IfcGridAxis;
 class IFCQUERY_EXPORT IfcGridTypeEnum;
-class IFCQUERY_EXPORT IfcRelContainedInSpatialStructure;
 //ENTITY
-class IFCQUERY_EXPORT IfcGrid : public IfcProduct
+class IFCQUERY_EXPORT IfcGrid : public IfcPositioningElement
 { 
 public:
 	IfcGrid() = default;
@@ -64,13 +63,15 @@ public:
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcRelAssignsToProduct> >				m_ReferencedBy_inverse;
 
+	// IfcPositioningElement -----------------------------------------------------------
+	// inverse attributes:
+	//  std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >	m_ContainedInStructure_inverse;
+
 	// IfcGrid -----------------------------------------------------------
 	// attributes:
 	std::vector<shared_ptr<IfcGridAxis> >						m_UAxes;
 	std::vector<shared_ptr<IfcGridAxis> >						m_VAxes;
 	std::vector<shared_ptr<IfcGridAxis> >						m_WAxes;					//optional
 	shared_ptr<IfcGridTypeEnum>									m_PredefinedType;			//optional
-	// inverse attributes:
-	std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >	m_ContainedInStructure_inverse;
 };
 

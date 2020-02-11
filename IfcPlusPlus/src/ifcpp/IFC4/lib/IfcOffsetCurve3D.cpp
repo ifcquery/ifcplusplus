@@ -51,21 +51,20 @@ void IfcOffsetCurve3D::readStepArguments( const std::vector<std::wstring>& args,
 }
 void IfcOffsetCurve3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	IfcCurve::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
+	IfcOffsetCurve::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "Distance", m_Distance ) );
 	vec_attributes.emplace_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 	vec_attributes.emplace_back( std::make_pair( "RefDirection", m_RefDirection ) );
 }
 void IfcOffsetCurve3D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	IfcCurve::getAttributesInverse( vec_attributes_inverse );
+	IfcOffsetCurve::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcOffsetCurve3D::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
-	IfcCurve::setInverseCounterparts( ptr_self_entity );
+	IfcOffsetCurve::setInverseCounterparts( ptr_self_entity );
 }
 void IfcOffsetCurve3D::unlinkFromInverseCounterparts()
 {
-	IfcCurve::unlinkFromInverseCounterparts();
+	IfcOffsetCurve::unlinkFromInverseCounterparts();
 }
