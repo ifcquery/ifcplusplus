@@ -130,10 +130,17 @@ public:
 		{
 			return;
 		}
-		shared_ptr<IfcObjectDefinition> ifc_object_def( product_data->m_ifc_object_definition );
+
+		shared_ptr<IfcObjectDefinition> ifc_object_def(product_data->m_ifc_object_definition);
+		shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
+		if (!ifc_product)
+		{
+			return;
+		}
+
 		product_data->m_added_to_spatial_structure = true;
 
-		const std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = ifc_object_def->m_IsDecomposedBy_inverse;
+		const std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = ifc_product->m_IsDecomposedBy_inverse;
 		for( size_t ii = 0; ii < vec_IsDecomposedBy.size(); ++ii )
 		{
 			const weak_ptr<IfcRelAggregates>& rel_aggregates_weak_ptr = vec_IsDecomposedBy[ii];
@@ -172,7 +179,7 @@ public:
 			}
 		}
 
-		shared_ptr<IfcSpatialStructureElement> spatial_ele = dynamic_pointer_cast<IfcSpatialStructureElement>(ifc_object_def);
+		shared_ptr<IfcSpatialStructureElement> spatial_ele = dynamic_pointer_cast<IfcSpatialStructureElement>(ifc_product);
 		if( spatial_ele )
 		{
 			const std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& vec_contains = spatial_ele->m_ContainsElements_inverse;
@@ -298,7 +305,7 @@ public:
 		}
 
 		shared_ptr<ProductShapeData> ifc_project_data;
-		std::vector<shared_ptr<IfcObjectDefinition> > vec_object_defs;
+		std::vector<shared_ptr<IfcProduct> > vec_products;
 		double length_to_meter_factor = 1.0;
 		if( m_ifc_model->getUnitConverter() )
 		{
@@ -310,16 +317,16 @@ public:
 		for( auto it = map_entities.begin(); it != map_entities.end(); ++it )
 		{
 			shared_ptr<BuildingEntity> obj = it->second;
-			shared_ptr<IfcObjectDefinition> object_def = dynamic_pointer_cast<IfcObjectDefinition>(obj);
-			if( object_def )
+			shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>(obj);
+			if(product)
 			{
-				vec_object_defs.push_back( object_def );
+				vec_products.push_back(product);
 			}
 		}
 
 		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
 		std::map<std::string, shared_ptr<ProductShapeData> >* map_products_ptr = &m_product_shape_data;
-		const int num_products = (int)vec_object_defs.size();
+		const int num_products = (int)vec_products.size();
 
 #ifdef ENABLE_OPENMP
 		Mutex writelock_map;
@@ -332,25 +339,25 @@ public:
 #endif
 			for( int i = 0; i < num_products; ++i )
 			{
-				shared_ptr<IfcObjectDefinition> ifc_object_def = vec_object_defs[i];
-				const int entity_id = ifc_object_def->m_entity_id;
+				shared_ptr<IfcProduct> ifc_product = vec_products[i];
+				const int entity_id = ifc_product->m_entity_id;
 				std::string guid;
-				if (ifc_object_def->m_GlobalId)
+				if (ifc_product->m_GlobalId)
 				{
 					std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-					guid = converterX.to_bytes(ifc_object_def->m_GlobalId->m_value);
+					guid = converterX.to_bytes(ifc_product->m_GlobalId->m_value);
 				}
 
 				shared_ptr<ProductShapeData> product_geom_input_data( new ProductShapeData( entity_id ) );
-				product_geom_input_data->m_ifc_object_definition = ifc_object_def;
+				product_geom_input_data->m_ifc_object_definition = ifc_product;
 
 				std::stringstream thread_err;
-				if( !m_geom_settings->getRenderObjectFilter()(ifc_object_def) )
+				if( !m_geom_settings->getRenderObjectFilter()(ifc_product) )
 				{
 					// geometry will be created in method subtractOpenings
 					continue;
 				}
-				else if( dynamic_pointer_cast<IfcProject>(ifc_object_def) )
+				else if( dynamic_pointer_cast<IfcProject>(ifc_product) )
 				{
 #ifdef ENABLE_OPENMP
 					ScopedLock scoped_lock( writelock_ifc_project );
@@ -465,19 +472,19 @@ public:
 				{
 					if( !product_shape->m_ifc_object_definition.expired() )
 					{
-						shared_ptr<IfcObjectDefinition> ifc_product( product_shape->m_ifc_object_definition );
-						shared_ptr<IfcFeatureElementSubtraction> opening = dynamic_pointer_cast<IfcFeatureElementSubtraction>(ifc_product);
-						if( !m_geom_settings->getRenderObjectFilter()(ifc_product) )
+						shared_ptr<IfcObjectDefinition> ifc_object_def( product_shape->m_ifc_object_definition );
+						shared_ptr<IfcFeatureElementSubtraction> opening = dynamic_pointer_cast<IfcFeatureElementSubtraction>(ifc_object_def);
+						if( !m_geom_settings->getRenderObjectFilter()(ifc_object_def) )
 						{
 							continue;
 						}
 						std::string guid;
-						if (ifc_product->m_GlobalId)
+						if (ifc_object_def->m_GlobalId)
 						{
 							std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-							guid = converterX.to_bytes(ifc_product->m_GlobalId->m_value);
+							guid = converterX.to_bytes(ifc_object_def->m_GlobalId->m_value);
 						}
-						m_map_outside_spatial_structure[guid] = ifc_product;
+						m_map_outside_spatial_structure[guid] = ifc_object_def;
 					}
 				}
 			}
@@ -512,9 +519,10 @@ public:
 		{
 			return;
 		}
-		shared_ptr<IfcObjectDefinition> ifc_object_def( product_shape->m_ifc_object_definition );
+
+		shared_ptr<IfcObjectDefinition> ifc_object_def(product_shape->m_ifc_object_definition);
 		shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
-		if( !ifc_product )
+		if (!ifc_product)
 		{
 			return;
 		}
@@ -634,8 +642,15 @@ public:
 		{
 			return;
 		}
+
 		shared_ptr<IfcObjectDefinition> ifc_object_def(product_shape->m_ifc_object_definition);
-		shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>(ifc_object_def);
+		shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
+		if (!ifc_product)
+		{
+			return;
+		}
+
+		shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>(ifc_product);
 		if( !ifc_element )
 		{
 			return;

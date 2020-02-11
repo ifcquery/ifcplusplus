@@ -15,6 +15,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <regex>
 #include <osg/Group>
 #include <osg/Material>
 #include <osgViewer/ViewerEventHandlers>
@@ -39,6 +40,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "IfcPlusPlusSystem.h"
 #include "viewer/ViewerWidget.h"
 #include "viewer/OrbitCameraManipulator.h"
+
+std::string getGUID(const shared_ptr<BuildingEntity>& ent)
+{
+	std::string guid;
+	shared_ptr<IfcRoot> ifc_root = dynamic_pointer_cast<IfcRoot>(ent);
+	if (ifc_root)
+	{
+		if (ifc_root->m_GlobalId)
+		{
+			std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
+			guid = StringConverter.to_bytes(ifc_root->m_GlobalId->m_value);
+		}
+	}
+	return guid;
+}
 
 IfcPlusPlusSystem::IfcPlusPlusSystem()
 	: m_viewer_widget(nullptr)
@@ -146,35 +162,38 @@ bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActio
 #define _DEBUG_GEOMETRY
 #endif
 
-osg::Group* findNodeByIfcId( osg::Group* group, int ifc_id )
+osg::Group* findNodeByIfcId(osg::Group* group, std::string ifc_guid)
 {
 	int num_children = group->getNumChildren();
-	for( int i=0; i<num_children; ++i )
+	for (int i = 0; i < num_children; ++i)
 	{
-		osg::Node* child_node = group->getChild( i );
+		osg::Node* child_node = group->getChild(i);
 		osg::Group* child = dynamic_cast<osg::Group*>(child_node);
-		if( !child )
+		if (!child)
 		{
 			continue;
 		}
 
-		const std::string child_name = child->getName();
+		std::string child_name = child->getName();
 
-		if( child_name.length() > 0 )
+		if (child_name.length() >= 22)
 		{
-			if( child_name.substr(0,1).compare("#") == 0 )
+			child_name = child_name.substr(0, 22);
+			std::string guid;
+			std::regex re("[a-zA-Z0-9_$]{22}");
+			std::smatch match;
+			if (std::regex_search(child_name, match, re))
 			{
-				std::string id_str = child_name.substr(1,child_name.length()-1);
-				int id = atoi( id_str.c_str() );
+				guid = match.str(0);
 
-				if( id == ifc_id )
+				if (guid.compare(ifc_guid) == 0)
 				{
 					return child;
 				}
 			}
 		}
-		osg::Group* child_of_child = findNodeByIfcId( child, ifc_id );
-		if( child_of_child != 0 )
+		osg::Group* child_of_child = findNodeByIfcId(child, ifc_guid);
+		if (child_of_child != 0)
 		{
 			return child_of_child;
 		}
@@ -184,10 +203,10 @@ osg::Group* findNodeByIfcId( osg::Group* group, int ifc_id )
 
 void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object, bool selected, osg::Group* grp )
 {
-	const int id = ifc_object->m_entity_id;
+	const std::string guid = getGUID(ifc_object);
 	if( !grp )
 	{
-		grp = findNodeByIfcId( m_sw_model, id );
+		grp = findNodeByIfcId( m_sw_model, guid );
 	}
 
 	if( selected )
@@ -198,7 +217,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object
 			shared_ptr<SelectedEntity> selected_entity( new SelectedEntity() );
 			selected_entity->m_entity = ifc_object;
 			selected_entity->m_osg_group = grp;
-			m_map_selected[id] = selected_entity;
+			m_map_selected[guid] = selected_entity;
 
 			bool site_selected = false;
 			if( grp->getName().find( "IfcSite" ) != std::string::npos )
@@ -228,8 +247,8 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object
 				selected_entity->m_material_selected = m_material_selected;
 			}
 
-			std::map<int, shared_ptr<BuildingEntity> > map_objects;
-			map_objects[id] = ifc_object;
+			std::map<std::string, shared_ptr<BuildingEntity> > map_objects;
+			map_objects[guid] = ifc_object;
 			emit( signalObjectsSelected( map_objects ) );
 		}
 	}
@@ -238,7 +257,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object
 		// deselect
 		if( grp )
 		{
- 			auto it_selected = m_map_selected.find( id );
+ 			auto it_selected = m_map_selected.find( guid );
 			if( it_selected != m_map_selected.end() )
 			{
 				shared_ptr<SelectedEntity> selected_entity = it_selected->second;
@@ -259,8 +278,8 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object
 				m_map_selected.erase( it_selected );
 			}
 		}
-		std::map<int, shared_ptr<BuildingEntity> > map_objects;
-		map_objects[id] = ifc_object;
+		std::map<std::string, shared_ptr<BuildingEntity> > map_objects;
+		map_objects[guid] = ifc_object;
 		emit( signalObjectsUnselected( map_objects ) );
 	}
 }
@@ -272,10 +291,10 @@ void IfcPlusPlusSystem::zoomToObject( shared_ptr<BuildingEntity> ifc_object, osg
 		return;
 	}
 
-	const int id = ifc_object->m_entity_id;
+	const std::string guid = getGUID(ifc_object);
 	if( !grp )
 	{
-		grp = findNodeByIfcId( m_sw_model, id );
+		grp = findNodeByIfcId( m_sw_model, guid );
 		if( !grp )
 			return;
 	}

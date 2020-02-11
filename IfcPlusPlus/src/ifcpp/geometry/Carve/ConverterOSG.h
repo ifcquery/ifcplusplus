@@ -678,8 +678,8 @@ public:
 			return;
 		}
 		
-		shared_ptr<IfcObjectDefinition> ifc_object_def( product_shape->m_ifc_object_definition );
-		shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>( ifc_object_def );
+		shared_ptr<IfcObjectDefinition> ifc_object_def(product_shape->m_ifc_object_definition);
+		shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
 		if( !ifc_product )
 		{
 			return;
@@ -1002,26 +1002,26 @@ public:
 				{
 					continue;
 				}
-				shared_ptr<IfcObjectDefinition> ifc_object_def( ifc_object_def_weak );
+
+				shared_ptr<IfcObjectDefinition> ifc_object_def(shape_data->m_ifc_object_definition);
+				shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
+				if (!ifc_product)
+				{
+					continue;
+				}
 				
 				std::stringstream thread_err;
-				if( dynamic_pointer_cast<IfcFeatureElementSubtraction>(ifc_object_def) )
+				if( dynamic_pointer_cast<IfcFeatureElementSubtraction>(ifc_product) )
 				{
 					// geometry will be created in method subtractOpenings
 					continue;
 				}
-				else if( dynamic_pointer_cast<IfcProject>(ifc_object_def) )
+				else if( dynamic_pointer_cast<IfcProject>(ifc_product) )
 				{
 #ifdef ENABLE_OPENMP
 					ScopedLock scoped_lock( writelock_ifc_project );
 #endif
 					ifc_project_data = shape_data;
-				}
-
-				shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
-				if( !ifc_product )
-				{
-					continue;
 				}
 
 				if( !ifc_product->m_Representation )
@@ -1057,10 +1057,10 @@ public:
 					thread_err << "undefined error, product id " << product_id;
 				}
 
-				if (ifc_object_def->m_GlobalId)
+				if (ifc_product->m_GlobalId)
 				{
 					std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-					product_guid = converterX.to_bytes(ifc_object_def->m_GlobalId->m_value);
+					product_guid = converterX.to_bytes(ifc_product->m_GlobalId->m_value);
 				}
 
 				if( map_representation_switches.size() > 0 )
@@ -1184,7 +1184,12 @@ public:
 			return;
 		}
 
-		shared_ptr<IfcObjectDefinition> object_def( product_data->m_ifc_object_definition );
+		shared_ptr<IfcObjectDefinition> ifc_object_def(product_data->m_ifc_object_definition);
+		shared_ptr<IfcProduct> object_def = dynamic_pointer_cast<IfcProduct>( ifc_object_def );
+		if (!object_def)
+		{
+			return;
+		}
 
 		std::string guid;
 		if (object_def->m_GlobalId)
