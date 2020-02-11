@@ -732,6 +732,59 @@ namespace GeomUtils
 			}
 		}
 	}
+
+	inline bool pointInPolySimple(const std::vector<vec2>& points, const vec2& p) {
+		if (points.size() < 1)
+		{
+			return false;
+		}
+		size_t l = points.size();
+		double s = 0.0;
+		double rp, r0, d;
+
+		rp = r0 = ::atan2(points[0].y - p.y, points[0].x - p.x);
+
+		for (size_t i = 1; i < l; i++) {
+			double r = atan2(points[i].y - p.y, points[i].x - p.x);
+			d = r - rp;
+			if (d > M_PI) {
+				d -= M_TWOPI;
+			}
+			if (d < -M_PI) {
+				d += M_TWOPI;
+			}
+			s = s + d;
+			rp = r;
+		}
+
+		d = r0 - rp;
+		if (d > M_PI) {
+			d -= M_TWOPI;
+		}
+		if (d < -M_PI) {
+			d += M_TWOPI;
+		}
+		s = s + d;
+
+		bool is_zero = fabs(s) < carve::CARVE_EPSILON;
+		return !is_zero;
+	}
+
+	inline bool isEnclosed(const std::vector<vec2>& loop1, const std::vector<vec2>& loop2)
+	{
+		bool all_points_inside = true;
+		for( size_t ii = 0; ii < loop1.size(); ++ii )
+		{
+			const vec2& p1 = loop1[ii];
+			if (!pointInPolySimple(loop2, p1))
+			{
+				all_points_inside = false;
+				break;
+			}
+		}
+		return all_points_inside;
+	}
+
 	//\brief: finds the first occurrence of T in vector
 	template<typename T, typename U>
 	bool findFirstInVector( std::vector<shared_ptr<U> > vec, shared_ptr<T>& ptr )

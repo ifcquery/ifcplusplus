@@ -298,8 +298,6 @@ namespace GeomDebugDump
 			{
 				color = vec_colors[i];
 			}
-			//shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset, -1 ) );
-			//Polyhedron2Stream( poly.get(), offset, color, strs_out );
 			MeshSet2Stream(meshset, offset, color, strs_out);
 		}
 
@@ -352,15 +350,7 @@ namespace GeomDebugDump
 		{
 			return;
 		}
-		if( !move_offset )
-		{
-			//dump_y_pos_geom = 0;
-		}
-		//GeomUtils::applyTranslate( meshset, carve::geom::VECTOR( 0, dump_y_pos_geom, 0 ) );
 		vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
-
-		
-		//shared_ptr<carve::poly::Polyhedron> poly( carve::polyhedronFromMesh( meshset.get(), -1 ) );
 		dumpMeshSet( meshset.get(), offset, color, append );
 
 		if( move_offset )
@@ -509,13 +499,6 @@ namespace GeomDebugDump
 		}
 
 		std::stringstream strs_out;
-		
-
-		if( vec_polyline.size() < 1 )
-		{
-			return;
-		}
-
 		strs_out << "Polyline{" << std::endl;
 		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
 
@@ -558,6 +541,65 @@ namespace GeomDebugDump
 		}
 
 		std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
+		dump_ofstream << strs_out.str().c_str();
+		dump_ofstream.close();
+	}
+
+	inline void dumpPolylineSet(const std::vector<std::vector<vec2> > loops_2d, const carve::geom::vector<4>& color, bool append, bool move_dump_position )
+	{
+		std::stringstream strs_out;
+		double min_y = DBL_MAX;
+		double max_y = -DBL_MAX;
+
+		for (size_t ii = 0; ii < loops_2d.size(); ++ii )
+		{
+			const std::vector<vec2>& vec_polyline = loops_2d[ii];
+
+			if (vec_polyline.size() == 0)
+			{
+				continue;
+			}
+
+			strs_out << "Polyline{" << std::endl;
+			strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
+			strs_out << "vertices{" << std::endl;
+			
+			const size_t num_vertices = vec_polyline.size();
+			for (size_t i = 0; i < num_vertices; ++i)
+			{
+				const vec2& vertex = vec_polyline[i];
+				if (i > 0)
+				{
+					strs_out << ",";
+					if (vertex.y < min_y) min_y = vertex.y;
+					else if (vertex.y > max_y) max_y = vertex.y;
+				}
+				else
+				{
+					min_y = vertex.y;
+					max_y = vertex.y;
+				}
+				strs_out << "{" << vertex.x << ", " << vertex.y + dump_y_pos_geom << "}";
+			}
+			strs_out << "}" << std::endl;  // vertices
+			strs_out << std::endl << "}" << std::endl;  // Polyline
+		}
+
+		if (move_dump_position)
+		{
+			dump_y_pos_geom += (max_y - min_y) * 1.5;
+			if (max_y > dump_y_pos_geom)
+			{
+				dump_y_pos_geom = max_y * 1.1;
+			}
+		}
+
+		if (!append)
+		{
+			clearMeshsetDump();
+		}
+
+		std::ofstream dump_ofstream("dump_mesh_debug.txt", std::ofstream::app);
 		dump_ofstream << strs_out.str().c_str();
 		dump_ofstream.close();
 	}

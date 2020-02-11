@@ -17,6 +17,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <iostream>
 #include <iomanip>
+#include <regex>
 
 #include <osg/ShapeDrawable>
 #include <osgUtil/IntersectionVisitor>
@@ -437,14 +438,23 @@ bool OrbitCameraManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter&
 				m_pointer_intersection.set( world_intersect_point );
 
 				// check if picked object is a representation of an IfcProduct
-				if( node_name.length() == 0 )
+				if( node_name.length() < 22 )
 				{
 					continue;
 				}
-				if( node_name.at( 0 ) != '#' )
+				
+				std::string guid;
+				std::regex re("[a-zA-Z0-9_$]{22}");
+				std::smatch match;
+				if (std::regex_search(node_name, match, re))
+				{
+					guid = match.str(0);
+				}
+				else
 				{
 					continue;
 				}
+
 				if( node_name.compare( 0, 9, "intersect" ) == 0 )
 				{
 					continue;
@@ -482,13 +492,16 @@ bool OrbitCameraManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter&
 				if( group )
 				{
 					// extract entity id
-					std::string node_name_id = node_name.substr( 1 );
-					size_t last_index = node_name_id.find_first_not_of( "0123456789" );
-					std::string id_str = node_name_id.substr( 0, last_index );
-					const int id = atoi( id_str.c_str() );
+					std::string guid_selected;
+					std::regex re("[a-zA-Z0-9_$]{22}");
+					std::smatch match;
+					if (std::regex_search(node_name, match, re))
+					{
+						guid_selected = match.str(0);
+					}
 
 					auto map_selected = m_system->getSelectedObjects();
-					auto it_selected = map_selected.find( id );
+					auto it_selected = map_selected.find(guid_selected);
 					if( it_selected != map_selected.end() )
 					{
 						shared_ptr<SelectedEntity> selected_entity = it_selected->second;
@@ -501,15 +514,20 @@ bool OrbitCameraManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter&
 						// select
 						shared_ptr<BuildingModel> ifc_model = m_system->getIfcModel();
 						auto map_ifc_objects = ifc_model->getMapIfcEntities();
-						auto it_find = map_ifc_objects.find( id );
-						if( it_find != map_ifc_objects.end() )
+
+						for (auto it_find : map_ifc_objects)
 						{
-							shared_ptr<BuildingEntity> entitiy_selected = it_find->second;
-							if( !m_control_key_down )
+							shared_ptr<BuildingEntity> entity = it_find.second;
+							std::string guid = getGUID(entity);
+							if (guid.compare(guid_selected) == 0)
 							{
-								m_system->clearSelection();
+								shared_ptr<BuildingEntity> entitiy_selected = entity;
+								if (!m_control_key_down)
+								{
+									m_system->clearSelection();
+								}
+								m_system->setObjectSelected(entitiy_selected, true, group);
 							}
-							m_system->setObjectSelected( entitiy_selected, true, group );
 						}
 						return true;
 					}

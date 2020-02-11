@@ -38,6 +38,7 @@ struct SelectedEntity
 	osg::ref_ptr<osg::Material> m_material_previous;
 	osg::ref_ptr<osg::Material> m_material_selected;
 };
+std::string getGUID(const shared_ptr<BuildingEntity>& ent);
 
 class IfcPlusPlusSystem : public QObject, public osgGA::GUIEventHandler
 {
@@ -64,7 +65,7 @@ public:
 	
 	void setObjectSelected( shared_ptr<BuildingEntity> object, bool selected, osg::Group* node = 0 );
 	void zoomToObject( shared_ptr<BuildingEntity> object, osg::Group* node = 0 );
-	const std::map<int, shared_ptr<SelectedEntity> >& getSelectedObjects() { return m_map_selected; }
+	const std::map<std::string, shared_ptr<SelectedEntity> >& getSelectedObjects() { return m_map_selected; }
 	void clearSelection();
 	void notifyModelCleared();
 	void notifyModelLoadingStart();
@@ -76,7 +77,7 @@ private:
 	shared_ptr<ReaderSTEP>						m_step_reader;
 	shared_ptr<WriterSTEP>						m_step_writer;
 	shared_ptr<CommandManager>					m_command_manager;
-	std::map<int, shared_ptr<SelectedEntity> >	m_map_selected;
+	std::map<std::string, shared_ptr<SelectedEntity> >	m_map_selected;
 	shared_ptr<BuildingModel>					m_ifc_model;
 	osg::ref_ptr<osg::Group>					m_rootnode;
 	osg::ref_ptr<osg::Switch>					m_sw_coord_axes;
@@ -87,8 +88,8 @@ private:
 	bool										m_show_curve_representation;
 
 signals:
-	void signalObjectsSelected( std::map<int, shared_ptr<BuildingEntity> >& map_objects );
-	void signalObjectsUnselected( std::map<int, shared_ptr<BuildingEntity> >& map_objects );
+	void signalObjectsSelected( std::map<std::string, shared_ptr<BuildingEntity> >& map_objects );
+	void signalObjectsUnselected( std::map<std::string, shared_ptr<BuildingEntity> >& map_objects );
 	void signalModelCleared();
 	void signalModelLoadingStart();
 	void signalModelLoadingDone();

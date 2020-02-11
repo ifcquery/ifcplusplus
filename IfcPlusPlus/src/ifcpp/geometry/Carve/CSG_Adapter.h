@@ -764,7 +764,7 @@ namespace CSG_Adapter
 			//applyTranslate( meshset_pre_triang.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
 			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
 			GeomDebugDump::dumpMeshset( meshset_pre_triang, color, true );
-			//dump_y_pos += meshset_pre_triang->getAABB().extent.y*2.2;
+			dump_y_pos += meshset_pre_triang->getAABB().extent.y*2.2;
 
 			shared_ptr<meshset_t > meshset_post_triang( meshset->clone() );
 			//applyTranslate( meshset_post_triang.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );

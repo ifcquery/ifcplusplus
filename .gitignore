@@ -41,3 +41,4 @@ examples/SimpleViewerExampleMFC/x64/Debug/IfcQueryViewer.res
 examples/SimpleViewerExampleMFC/x64/Debug/SimpleViewerExampleMFC.ilk
 examples/SimpleViewerExampleQt/dumpEntity.ifc
 examples/SimpleViewerExampleQt/SimpleWall.ifc
+examples/SimpleViewerExampleQt/GeneratedFiles/

@@ -24,7 +24,7 @@ class UnknownEntityException : public std::exception
 {
 public:
 	UnknownEntityException( std::string keyword ) { m_keyword = keyword; }
-	~UnknownEntityException() throw() {}
+	~UnknownEntityException() = default;
 	virtual const char* what() const throw() { return m_keyword.c_str(); }
 	std::string m_keyword;
 };
