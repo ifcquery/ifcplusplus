@@ -36,12 +36,19 @@ void writeIntList2D(std::stringstream& stream, const std::vector<std::vector<int
 void writeIntList3D(std::stringstream& stream, const std::vector<std::vector<std::vector<int> > >& vec);
 
 template<typename T>
-void writeTypeOfIntList( std::stringstream& stream, const std::vector<shared_ptr<T> >& vec )
+void writeTypeOfIntList( std::stringstream& stream, const std::vector<shared_ptr<T> >& vec, bool optionalAttribute )
 {
 	// example: (38,12,4)
 	if( vec.size() == 0 )
 	{
-		stream << "$";
+		if (optionalAttribute)
+		{
+			stream << "$";
+		}
+		else
+		{
+			stream << "()";
+		}
 		return;
 	}
 	stream << "(";
@@ -57,12 +64,19 @@ void writeTypeOfIntList( std::stringstream& stream, const std::vector<shared_ptr
 	stream << ")";
 }
 template<typename T>
-void writeTypeOfRealList(std::stringstream& stream, const std::vector<shared_ptr<T> >& vec)
+void writeTypeOfRealList(std::stringstream& stream, const std::vector<shared_ptr<T> >& vec, bool optionalAttribute)
 {
 	// example: (38.5, -1.2, 4.0)
 	if (vec.size() == 0)
 	{
-		stream << "$";
+		if (optionalAttribute)
+		{
+			stream << "$";
+		}
+		else
+		{
+			stream << "()";
+		}
 		return;
 	}
 	stream << "(";
@@ -79,7 +93,7 @@ void writeTypeOfRealList(std::stringstream& stream, const std::vector<shared_ptr
 }
 
 template<typename T>
-void writeTypeOfIntList2D( std::stringstream& stream, const std::vector<std::vector<shared_ptr<T> > >& vec )
+void writeTypeOfIntList2D( std::stringstream& stream, const std::vector<std::vector<shared_ptr<T> > >& vec, bool optionalAttribute)
 {
 	// example: ((38,12,4),(38,1,346),(1,1,0))
 	if( vec.size() == 0 )
@@ -96,13 +110,13 @@ void writeTypeOfIntList2D( std::stringstream& stream, const std::vector<std::vec
 		{
 			stream << ",";
 		}
-		writeTypeOfIntList( stream, inner_vec );
+		writeTypeOfIntList( stream, inner_vec, optionalAttribute );
 	}
 	stream << ")";
 }
 
 template<typename T>
-void writeTypeOfRealList2D(std::stringstream& stream, const std::vector<std::vector<shared_ptr<T> > >& vec)
+void writeTypeOfRealList2D(std::stringstream& stream, const std::vector<std::vector<shared_ptr<T> > >& vec, bool optionalAttribute)
 {
 	// example: ((.38,12.0,.04),(.38,1.0,346.0),(1.8,1.0,.04))
 	if (vec.size() == 0)
@@ -119,7 +133,7 @@ void writeTypeOfRealList2D(std::stringstream& stream, const std::vector<std::vec
 		{
 			stream << ",";
 		}
-		writeTypeOfRealList(stream, inner_vec);
+		writeTypeOfRealList(stream, inner_vec, optionalAttribute);
 	}
 	stream << ")";
 }

@@ -42,9 +42,9 @@ void IfcSurfaceReinforcementArea::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCSURFACEREINFORCEMENTAREA" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfRealList( stream, m_SurfaceReinforcement1 );
+	writeTypeOfRealList( stream, m_SurfaceReinforcement1, true );
 	stream << ",";
-	writeTypeOfRealList( stream, m_SurfaceReinforcement2 );
+	writeTypeOfRealList( stream, m_SurfaceReinforcement2, true );
 	stream << ",";
 	if( m_ShearReinforcement ) { m_ShearReinforcement->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

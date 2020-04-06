@@ -76,11 +76,11 @@ void IfcTriangulatedIrregularNetwork::getStepLine( std::stringstream& stream ) c
 	stream << "#" << m_entity_id << "= IFCTRIANGULATEDIRREGULARNETWORK" << "(";
 	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfRealList2D( stream, m_Normals );
+	writeTypeOfRealList2D( stream, m_Normals, true );
 	stream << ",";
 	if( m_Closed ) { m_Closed->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfIntList2D( stream, m_CoordIndex );
+	writeTypeOfIntList2D( stream, m_CoordIndex, false );
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_PnIndex.size(); ++ii )
@@ -101,7 +101,7 @@ void IfcTriangulatedIrregularNetwork::getStepLine( std::stringstream& stream ) c
 	}
 	stream << ")";
 	stream << ",";
-	writeTypeOfIntList( stream, m_Flags );
+	writeTypeOfIntList( stream, m_Flags, false );
 	stream << ");";
 }
 void IfcTriangulatedIrregularNetwork::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }

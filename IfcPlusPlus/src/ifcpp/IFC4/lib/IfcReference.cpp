@@ -40,7 +40,7 @@ void IfcReference::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_InstanceName ) { m_InstanceName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfIntList( stream, m_ListPositions );
+	writeTypeOfIntList( stream, m_ListPositions, true );
 	stream << ",";
 	if( m_InnerReference ) { stream << "#" << m_InnerReference->m_entity_id; } else { stream << "$"; }
 	stream << ");";

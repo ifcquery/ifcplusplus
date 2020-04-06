@@ -20,7 +20,7 @@ shared_ptr<BuildingObject> IfcLineIndex::getDeepCopy( BuildingCopyOptions& optio
 void IfcLineIndex::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLINEINDEX("; }
-	writeTypeOfIntList( stream, m_vec );
+	writeTypeOfIntList( stream, m_vec, false );
 	if( is_select_type ) { stream << ")"; }
 }
 const std::wstring IfcLineIndex::toString() const

@@ -34,7 +34,7 @@ shared_ptr<BuildingObject> IfcTextureVertexList::getDeepCopy( BuildingCopyOption
 void IfcTextureVertexList::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCTEXTUREVERTEXLIST" << "(";
-	writeTypeOfRealList2D( stream, m_TexCoordsList );
+	writeTypeOfRealList2D( stream, m_TexCoordsList, false );
 	stream << ");";
 }
 void IfcTextureVertexList::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }

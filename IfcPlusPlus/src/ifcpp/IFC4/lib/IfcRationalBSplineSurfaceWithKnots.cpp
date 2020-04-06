@@ -109,17 +109,17 @@ void IfcRationalBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream 
 	stream << ",";
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfIntList( stream, m_UMultiplicities );
+	writeTypeOfIntList( stream, m_UMultiplicities, false );
 	stream << ",";
-	writeTypeOfIntList( stream, m_VMultiplicities );
+	writeTypeOfIntList( stream, m_VMultiplicities, false );
 	stream << ",";
-	writeTypeOfRealList( stream, m_UKnots );
+	writeTypeOfRealList( stream, m_UKnots, false );
 	stream << ",";
-	writeTypeOfRealList( stream, m_VKnots );
+	writeTypeOfRealList( stream, m_VKnots, false );
 	stream << ",";
 	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfRealList2D( stream, m_WeightsData );
+	writeTypeOfRealList2D( stream, m_WeightsData, false );
 	stream << ");";
 }
 void IfcRationalBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
