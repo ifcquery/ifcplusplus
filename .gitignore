@@ -42,3 +42,4 @@ examples/SimpleViewerExampleMFC/x64/Debug/SimpleViewerExampleMFC.ilk
 examples/SimpleViewerExampleQt/dumpEntity.ifc
 examples/SimpleViewerExampleQt/SimpleWall.ifc
 examples/SimpleViewerExampleQt/GeneratedFiles/
+examples/SimpleViewerExampleMFC/dump_mesh_debug.txt

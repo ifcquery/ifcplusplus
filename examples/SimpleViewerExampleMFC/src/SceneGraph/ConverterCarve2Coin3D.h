@@ -34,8 +34,8 @@ class IFCQUERY_EXPORT ConverterCarve2Coin3D : public StatusCallback
 {
 protected:
 	shared_ptr<GeometrySettings>				m_geom_settings;
-	std::map<int, SoPtr<SoSeparator> >			m_map_entity_id_to_node;
-	std::map<int, SoPtr<SoSeparator> >			m_map_representation_id_to_node;
+	std::map<std::string, SoPtr<SoSeparator> >			m_map_entity_id_to_node;
+	std::map<std::string, SoPtr<SoSeparator> >			m_map_representation_id_to_node;
 	double										m_recent_progress;
 	SoPtr<SoMaterial>							m_glass_material;
 
@@ -44,9 +44,9 @@ public:
 	virtual ~ConverterCarve2Coin3D();
 
 	// Map: IfcProduct ID -> scenegraph switch
-	const std::map<int, SoPtr<SoSeparator> >& getMapEntityIdToNode() { return m_map_entity_id_to_node; }
+	const std::map<std::string, SoPtr<SoSeparator> >& getMapEntityIdToNode() { return m_map_entity_id_to_node; }
 	// Map: Representation Identifier -> scenegraph node
-	const std::map<int, SoPtr<SoSeparator> >& getMapRepresentationIdToNode() { return m_map_representation_id_to_node; }
+	const std::map<std::string, SoPtr<SoSeparator> >& getMapRepresentationIdToNode() { return m_map_representation_id_to_node; }
 
 	void clearInputCache();
 
@@ -69,13 +69,13 @@ public:
 
 	//\brief method convertProductShapeToOSG: creates geometry objects from an IfcProduct object
 	// caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
-	void convertProductShapeToCoin3D( shared_ptr<ProductShapeData>& product_shape, std::map<int, SoSeparator* >& map_representation_switches );
+	void convertProductShapeToCoin3D( shared_ptr<ProductShapeData>& product_shape, std::map<std::string, SoSeparator* >& map_representation_switches );
 	
 
 	/*\brief method convertToCoin3D: Creates geometry for OpenSceneGraph from given ProductShapeData.
 	\param[out] parent_group Group to append the geometry.
 	**/
-	void convertToCoin3D( const std::map<int, shared_ptr<ProductShapeData> >& map_shape_data, SoSeparator* parent_group );
-	void addNodes( const std::map<int, shared_ptr<BuildingObject> >& map_shape_data, SoSeparator* target_group );
+	void convertToCoin3D( const std::map<std::string, shared_ptr<ProductShapeData> >& map_shape_data, SoSeparator* parent_group );
+	void addNodes( const std::map<std::string, shared_ptr<BuildingObject> >& map_shape_data, SoSeparator* target_group );
 	void resolveProjectStructure( const shared_ptr<ProductShapeData>& product_data, SoSeparator* group );
 };

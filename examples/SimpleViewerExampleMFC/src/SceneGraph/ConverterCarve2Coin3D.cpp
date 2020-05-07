@@ -542,7 +542,7 @@ SoTransform* ConverterCarve2Coin3D::convertMatrixToSoTransform( const carve::mat
 
 //\brief method ConverterCarve2Coin3D: creates geometry objects from an IfcProduct object
 // caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
-void ConverterCarve2Coin3D::convertProductShapeToCoin3D( shared_ptr<ProductShapeData>& product_shape, std::map<int, SoSeparator* >& map_representation_switches )
+void ConverterCarve2Coin3D::convertProductShapeToCoin3D( shared_ptr<ProductShapeData>& product_shape, std::map<std::string, SoSeparator* >& map_representation_switches )
 {
 	if( product_shape->m_ifc_object_definition.expired() )
 	{
@@ -555,9 +555,15 @@ void ConverterCarve2Coin3D::convertProductShapeToCoin3D( shared_ptr<ProductShape
 	{
 		return;
 	}
-	const int product_id = ifc_product->m_entity_id;
+	std::string product_guid;
+	if (ifc_product->m_GlobalId)
+	{
+		std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
+		product_guid = converterX.to_bytes(ifc_product->m_GlobalId->m_value);
+	}
+
 	std::stringstream strs_product_switch_name;
-	strs_product_switch_name << "_#" << product_id << "=" << ifc_product->className() << "_group";
+	strs_product_switch_name << ifc_object_def->m_entity_id << "_" << ifc_product->className() << "_group";
 	
 	bool draw_bounding_box = false;
 	if( m_geom_settings )
@@ -575,7 +581,7 @@ void ConverterCarve2Coin3D::convertProductShapeToCoin3D( shared_ptr<ProductShape
 			continue;
 		}
 		shared_ptr<IfcRepresentation> ifc_representation( product_representation_data->m_ifc_representation );
-		const int representation_id = ifc_representation->m_entity_id;
+		std::string representation_guid;
 		SoSeparator* representation_switch = new SoSeparator();
 		
 		// apply statesets if there are any
@@ -586,7 +592,7 @@ void ConverterCarve2Coin3D::convertProductShapeToCoin3D( shared_ptr<ProductShape
 
 //#ifdef _DEBUG
 		std::stringstream strs_representation_name;
-		strs_representation_name << strs_product_switch_name.str().c_str() << ",representation_" << ii_representation;
+		strs_representation_name << "_" << strs_product_switch_name.str().c_str() << "_representation_" << ii_representation;
 		representation_switch->setName( strs_representation_name.str().c_str() );
 //#endif
 
@@ -657,7 +663,7 @@ void ConverterCarve2Coin3D::convertProductShapeToCoin3D( shared_ptr<ProductShape
 
 //#ifdef _DEBUG
 				std::stringstream strs_item_meshset_name;
-				strs_item_meshset_name << strs_item_name.str().c_str() << ",open_meshset_" << ii;
+				strs_item_meshset_name << "_" << strs_item_name.str().c_str() << ",open_meshset_" << ii;
 				geode->setName( strs_item_meshset_name.str().c_str() );
 //#endif
 			}
@@ -688,7 +694,7 @@ void ConverterCarve2Coin3D::convertProductShapeToCoin3D( shared_ptr<ProductShape
 
 //#ifdef _DEBUG
 				std::stringstream strs_item_meshset_name;
-				strs_item_meshset_name << strs_item_name.str().c_str() << ",meshset_" << ii;
+				strs_item_meshset_name << "_" << strs_item_name.str().c_str() << ",meshset_" << ii;
 				meshset_node->setName( strs_item_meshset_name.str().c_str() );
 //#endif
 			}
@@ -719,7 +725,7 @@ void ConverterCarve2Coin3D::convertProductShapeToCoin3D( shared_ptr<ProductShape
 
 //#ifdef _DEBUG
 						std::stringstream strs_item_meshset_name;
-						strs_item_meshset_name << strs_item_name.str().c_str() << ",vertex_point_" << ii;
+						strs_item_meshset_name << "_" << strs_item_name.str().c_str() << ",vertex_point_" << ii;
 						geode->setName( strs_item_meshset_name.str().c_str() );
 //#endif
 					}
@@ -842,7 +848,7 @@ void ConverterCarve2Coin3D::convertProductShapeToCoin3D( shared_ptr<ProductShape
 				representation_switch->addChild( mat );
 			}
 
-			map_representation_switches.insert( std::make_pair( representation_id, representation_switch ) );
+			map_representation_switches.insert( std::make_pair( product_guid, representation_switch ) );
 		}
 	}
 
@@ -852,7 +858,7 @@ void ConverterCarve2Coin3D::convertProductShapeToCoin3D( shared_ptr<ProductShape
 /*\brief method convertToOSG: Creates geometry for OpenSceneGraph from given ProductShapeData.
 \param[out] parent_group Group to append the geometry.
 **/
-void ConverterCarve2Coin3D::convertToCoin3D( const std::map<int, shared_ptr<ProductShapeData> >& map_shape_data, SoSeparator* parent_group )
+void ConverterCarve2Coin3D::convertToCoin3D( const std::map<std::string, shared_ptr<ProductShapeData> >& map_shape_data, SoSeparator* parent_group )
 {
 	progressTextCallback( L"Converting geometry to OpenGL format ..." );
 	progressValueCallback( 0, "scenegraph" );
@@ -874,8 +880,8 @@ void ConverterCarve2Coin3D::convertToCoin3D( const std::map<int, shared_ptr<Prod
 	}
 
 	// create geometry for for each IfcProduct independently, spatial structure will be resolved later
-	std::map<int, SoPtr<SoSeparator> >* map_entity_id = &m_map_entity_id_to_node;
-	std::map<int, SoPtr<SoSeparator> >* map_representations = &m_map_representation_id_to_node;
+	std::map<std::string, SoPtr<SoSeparator> >* map_entity_id = &m_map_entity_id_to_node;
+	std::map<std::string, SoPtr<SoSeparator> >* map_representations = &m_map_representation_id_to_node;
 	const int num_products = (int)vec_products.size();
 
 #ifdef ENABLE_OPENMP
@@ -925,7 +931,7 @@ void ConverterCarve2Coin3D::convertToCoin3D( const std::map<int, shared_ptr<Prod
 			}
 
 			const int product_id = ifc_product->m_entity_id;
-			std::map<int, SoSeparator* > map_representation_switches;
+			std::map<std::string, SoSeparator* > map_representation_switches;
 			try
 			{
 				convertProductShapeToCoin3D( shape_data, map_representation_switches );
@@ -956,12 +962,17 @@ void ConverterCarve2Coin3D::convertToCoin3D( const std::map<int, shared_ptr<Prod
 				SoSeparator* product_switch = new SoSeparator();
 
 				SoTransform* product_transform = convertMatrixToSoTransform( shape_data->getTransform() );
-				//osg::ref_ptr<osg::MatrixTransform> product_transform = new osg::MatrixTransform();
-				//product_transform->setMatrix( convertMatrixToOSG( shape_data->getTransform() ) );
 				product_switch->addChild( product_transform );
 
+				std::string product_guid = "";
+				if (ifc_product->m_GlobalId)
+				{
+					std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
+					product_guid = converterX.to_bytes(ifc_product->m_GlobalId->m_value);
+				}
 				std::stringstream strs_product_switch_name;
-				strs_product_switch_name << "_#" << product_id << "=" << ifc_product->className() << "group";
+				strs_product_switch_name << "_" << product_id << "_" << ifc_product->className() << "_group";
+
 				product_switch->setName( strs_product_switch_name.str().c_str() );
 
 				for( auto it_map = map_representation_switches.begin(); it_map != map_representation_switches.end(); ++it_map )
@@ -981,7 +992,7 @@ void ConverterCarve2Coin3D::convertToCoin3D( const std::map<int, shared_ptr<Prod
 #ifdef ENABLE_OPENMP
 				ScopedLock scoped_lock( writelock_map );
 #endif
-				map_entity_id->insert( std::make_pair( product_id, product_switch ) );
+				map_entity_id->insert( std::make_pair(product_guid, product_switch ) );
 				map_representations->insert( map_representation_switches.begin(), map_representation_switches.end() );
 				//for( auto rep_switch : map_representation_switches )
 				//{
@@ -1043,7 +1054,7 @@ void ConverterCarve2Coin3D::convertToCoin3D( const std::map<int, shared_ptr<Prod
 	progressValueCallback( 0.9, "scenegraph" );
 }
 
-void ConverterCarve2Coin3D::addNodes( const std::map<int, shared_ptr<BuildingObject> >& map_shape_data, SoSeparator* target_group )
+void ConverterCarve2Coin3D::addNodes( const std::map<std::string, shared_ptr<BuildingObject> >& map_shape_data, SoSeparator* target_group )
 {
 	// check if there are entities that are not in spatial structure
 	if( !target_group )
@@ -1053,8 +1064,8 @@ void ConverterCarve2Coin3D::addNodes( const std::map<int, shared_ptr<BuildingObj
 
 	for( auto it_product_shapes = map_shape_data.begin(); it_product_shapes != map_shape_data.end(); ++it_product_shapes )
 	{
-		int product_id = it_product_shapes->first;
-		auto it_find = m_map_entity_id_to_node.find( product_id );
+		std::string product_guid = it_product_shapes->first;
+		auto it_find = m_map_entity_id_to_node.find(product_guid);
 
 		if( it_find != m_map_entity_id_to_node.end() )
 		{
@@ -1080,12 +1091,14 @@ void ConverterCarve2Coin3D::resolveProjectStructure( const shared_ptr<ProductSha
 	}
 
 	shared_ptr<IfcObjectDefinition> object_def( product_data->m_ifc_object_definition );
-	const int entity_id = object_def->m_entity_id;
-	//if( SceneGraphUtils::inParentList( entity_id, group ) )
-	//{
-	//	messageCallback( "Cycle in project structure detected", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, object_def.get() );
-	//	return;
-	//}
+	
+	std::string product_guid;
+	if (object_def->m_GlobalId)
+	{
+		std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
+		product_guid = converterX.to_bytes(object_def->m_GlobalId->m_value);
+	}
+
 
 	const std::vector<shared_ptr<ProductShapeData> >& vec_children = product_data->getChildren();
 	for( size_t ii = 0; ii < vec_children.size(); ++ii )
@@ -1100,9 +1113,9 @@ void ConverterCarve2Coin3D::resolveProjectStructure( const shared_ptr<ProductSha
 		if( !child_product_data->m_ifc_object_definition.expired() )
 		{
 			shared_ptr<IfcObjectDefinition> child_obj_def( child_product_data->m_ifc_object_definition );
+
 			std::stringstream group_subparts_name;
-			group_subparts_name << "_#" << child_obj_def->m_entity_id << "=";
-			group_subparts_name << child_obj_def->className();
+			group_subparts_name << "_" << object_def->m_entity_id << "_" << child_obj_def->className() << "_group";
 			group_subparts->setName( group_subparts_name.str().c_str() );
 		}
 
@@ -1110,7 +1123,7 @@ void ConverterCarve2Coin3D::resolveProjectStructure( const shared_ptr<ProductSha
 		resolveProjectStructure( child_product_data, group_subparts );
 	}
 
-	auto it_product_map = m_map_entity_id_to_node.find( entity_id );
+	auto it_product_map = m_map_entity_id_to_node.find(product_guid);
 	if( it_product_map != m_map_entity_id_to_node.end() )
 	{
 		SoPtr<SoSeparator>& product_switch = it_product_map->second;
@@ -1127,7 +1140,7 @@ void ConverterCarve2Coin3D::resolveProjectStructure( const shared_ptr<ProductSha
 			group->addChild( product_switch );
 
 			std::stringstream switch_name;
-			switch_name << "_#" << entity_id << "=" << object_def->className();
+			switch_name << "_" << object_def->m_entity_id << "_" << object_def->className();
 			product_switch->setName( switch_name.str().c_str() );
 		}
 	}

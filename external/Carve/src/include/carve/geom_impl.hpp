@@ -44,6 +44,10 @@ vector<ndim>& vector<ndim>::normalize() {
 #if defined(CARVE_DEBUG)
   CARVE_ASSERT(length() > 0.0);
 #endif
+  if (length2() == 0.0)
+  {
+      return *this;
+  }
   *this /= length();
   return *this;
 }
@@ -53,6 +57,10 @@ vector<ndim> vector<ndim>::normalized() const {
 #if defined(CARVE_DEBUG)
   CARVE_ASSERT(length() > 0.0);
 #endif
+  if (length2() == 0.0)
+  {
+      return *this;
+  }
   return *this / length();
 }
 

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BuildingUtils.h"
 #include "WindowUtils.h"
+#include "IfcQueryMFC.h"
 #include <ifcpp/reader/ReaderUtil.h>
 
 MyGridProperty::MyGridProperty( shared_ptr<BuildingObject> buildingObject, const CString& strGroupName, DWORD_PTR dwData, BOOL bIsValueList, bool isInverse )
