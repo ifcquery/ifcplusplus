@@ -47,24 +47,28 @@ void IfcCartesianPointList2D::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCCARTESIANPOINTLIST2D" << "(";
 	writeTypeOfRealList2D( stream, m_CoordList, false );
 	stream << ",";
-	stream << "(";
-	for( size_t ii = 0; ii < m_TagList.size(); ++ii )
+	if( m_TagList.size() > 0 )
 	{
-		if( ii > 0 )
+		stream << "(";
+		for( size_t ii = 0; ii < m_TagList.size(); ++ii )
 		{
-			stream << ",";
+			if( ii > 0 )
+			{
+				stream << ",";
+			}
+			const shared_ptr<IfcLabel>& type_object = m_TagList[ii];
+			if( type_object )
+			{
+				type_object->getStepParameter( stream, false );
+			}
+			else
+			{
+				stream << "$";
+			}
 		}
-		const shared_ptr<IfcLabel>& type_object = m_TagList[ii];
-		if( type_object )
-		{
-			type_object->getStepParameter( stream, false );
-		}
-		else
-		{
-			stream << "$";
-		}
+		stream << ")";
 	}
-	stream << ")";
+	else { stream << "$"; }
 	stream << ");";
 }
 void IfcCartesianPointList2D::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }

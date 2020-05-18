@@ -51,24 +51,28 @@ void IfcPolygonalFaceSet::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	writeEntityList( stream, m_Faces );
 	stream << ",";
-	stream << "(";
-	for( size_t ii = 0; ii < m_PnIndex.size(); ++ii )
+	if( m_PnIndex.size() > 0 )
 	{
-		if( ii > 0 )
+		stream << "(";
+		for( size_t ii = 0; ii < m_PnIndex.size(); ++ii )
 		{
-			stream << ",";
+			if( ii > 0 )
+			{
+				stream << ",";
+			}
+			const shared_ptr<IfcPositiveInteger>& type_object = m_PnIndex[ii];
+			if( type_object )
+			{
+				type_object->getStepParameter( stream, false );
+			}
+			else
+			{
+				stream << "$";
+			}
 		}
-		const shared_ptr<IfcPositiveInteger>& type_object = m_PnIndex[ii];
-		if( type_object )
-		{
-			type_object->getStepParameter( stream, false );
-		}
-		else
-		{
-			stream << "$";
-		}
+		stream << ")";
 	}
-	stream << ")";
+	else { stream << "$"; }
 	stream << ");";
 }
 void IfcPolygonalFaceSet::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }

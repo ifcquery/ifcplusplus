@@ -52,24 +52,28 @@ void IfcClassification::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	stream << "(";
-	for( size_t ii = 0; ii < m_ReferenceTokens.size(); ++ii )
+	if( m_ReferenceTokens.size() > 0 )
 	{
-		if( ii > 0 )
+		stream << "(";
+		for( size_t ii = 0; ii < m_ReferenceTokens.size(); ++ii )
 		{
-			stream << ",";
+			if( ii > 0 )
+			{
+				stream << ",";
+			}
+			const shared_ptr<IfcIdentifier>& type_object = m_ReferenceTokens[ii];
+			if( type_object )
+			{
+				type_object->getStepParameter( stream, false );
+			}
+			else
+			{
+				stream << "$";
+			}
 		}
-		const shared_ptr<IfcIdentifier>& type_object = m_ReferenceTokens[ii];
-		if( type_object )
-		{
-			type_object->getStepParameter( stream, false );
-		}
-		else
-		{
-			stream << "$";
-		}
+		stream << ")";
 	}
-	stream << ")";
+	else { stream << "$"; }
 	stream << ");";
 }
 void IfcClassification::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }

@@ -44,24 +44,28 @@ void IfcSurfaceTexture::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_TextureTransform ) { stream << "#" << m_TextureTransform->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	stream << "(";
-	for( size_t ii = 0; ii < m_Parameter.size(); ++ii )
+	if( m_Parameter.size() > 0 )
 	{
-		if( ii > 0 )
+		stream << "(";
+		for( size_t ii = 0; ii < m_Parameter.size(); ++ii )
 		{
-			stream << ",";
+			if( ii > 0 )
+			{
+				stream << ",";
+			}
+			const shared_ptr<IfcIdentifier>& type_object = m_Parameter[ii];
+			if( type_object )
+			{
+				type_object->getStepParameter( stream, false );
+			}
+			else
+			{
+				stream << "$";
+			}
 		}
-		const shared_ptr<IfcIdentifier>& type_object = m_Parameter[ii];
-		if( type_object )
-		{
-			type_object->getStepParameter( stream, false );
-		}
-		else
-		{
-			stream << "$";
-		}
+		stream << ")";
 	}
-	stream << ")";
+	else { stream << "$"; }
 	stream << ");";
 }
 void IfcSurfaceTexture::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }

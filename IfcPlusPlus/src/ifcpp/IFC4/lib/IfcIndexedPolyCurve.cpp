@@ -36,24 +36,28 @@ void IfcIndexedPolyCurve::getStepLine( std::stringstream& stream ) const
 	stream << "#" << m_entity_id << "= IFCINDEXEDPOLYCURVE" << "(";
 	if( m_Points ) { stream << "#" << m_Points->m_entity_id; } else { stream << "$"; }
 	stream << ",";
-	stream << "(";
-	for( size_t ii = 0; ii < m_Segments.size(); ++ii )
+	if( m_Segments.size() > 0 )
 	{
-		if( ii > 0 )
+		stream << "(";
+		for( size_t ii = 0; ii < m_Segments.size(); ++ii )
 		{
-			stream << ",";
+			if( ii > 0 )
+			{
+				stream << ",";
+			}
+			const shared_ptr<IfcSegmentIndexSelect>& type_object = m_Segments[ii];
+			if( type_object )
+			{
+				type_object->getStepParameter( stream, true );
+			}
+			else
+			{
+				stream << "$";
+			}
 		}
-		const shared_ptr<IfcSegmentIndexSelect>& type_object = m_Segments[ii];
-		if( type_object )
-		{
-			type_object->getStepParameter( stream, true );
-		}
-		else
-		{
-			stream << "$";
-		}
+		stream << ")";
 	}
-	stream << ")";
+	else { stream << "$"; }
 	stream << ",";
 	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";

@@ -73,62 +73,74 @@ void IfcPerson::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_GivenName ) { m_GivenName->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	stream << "(";
-	for( size_t ii = 0; ii < m_MiddleNames.size(); ++ii )
+	if( m_MiddleNames.size() > 0 )
 	{
-		if( ii > 0 )
+		stream << "(";
+		for( size_t ii = 0; ii < m_MiddleNames.size(); ++ii )
 		{
-			stream << ",";
+			if( ii > 0 )
+			{
+				stream << ",";
+			}
+			const shared_ptr<IfcLabel>& type_object = m_MiddleNames[ii];
+			if( type_object )
+			{
+				type_object->getStepParameter( stream, false );
+			}
+			else
+			{
+				stream << "$";
+			}
 		}
-		const shared_ptr<IfcLabel>& type_object = m_MiddleNames[ii];
-		if( type_object )
-		{
-			type_object->getStepParameter( stream, false );
-		}
-		else
-		{
-			stream << "$";
-		}
+		stream << ")";
 	}
-	stream << ")";
+	else { stream << "$"; }
 	stream << ",";
-	stream << "(";
-	for( size_t ii = 0; ii < m_PrefixTitles.size(); ++ii )
+	if( m_PrefixTitles.size() > 0 )
 	{
-		if( ii > 0 )
+		stream << "(";
+		for( size_t ii = 0; ii < m_PrefixTitles.size(); ++ii )
 		{
-			stream << ",";
+			if( ii > 0 )
+			{
+				stream << ",";
+			}
+			const shared_ptr<IfcLabel>& type_object = m_PrefixTitles[ii];
+			if( type_object )
+			{
+				type_object->getStepParameter( stream, false );
+			}
+			else
+			{
+				stream << "$";
+			}
 		}
-		const shared_ptr<IfcLabel>& type_object = m_PrefixTitles[ii];
-		if( type_object )
-		{
-			type_object->getStepParameter( stream, false );
-		}
-		else
-		{
-			stream << "$";
-		}
+		stream << ")";
 	}
-	stream << ")";
+	else { stream << "$"; }
 	stream << ",";
-	stream << "(";
-	for( size_t ii = 0; ii < m_SuffixTitles.size(); ++ii )
+	if( m_SuffixTitles.size() > 0 )
 	{
-		if( ii > 0 )
+		stream << "(";
+		for( size_t ii = 0; ii < m_SuffixTitles.size(); ++ii )
 		{
-			stream << ",";
+			if( ii > 0 )
+			{
+				stream << ",";
+			}
+			const shared_ptr<IfcLabel>& type_object = m_SuffixTitles[ii];
+			if( type_object )
+			{
+				type_object->getStepParameter( stream, false );
+			}
+			else
+			{
+				stream << "$";
+			}
 		}
-		const shared_ptr<IfcLabel>& type_object = m_SuffixTitles[ii];
-		if( type_object )
-		{
-			type_object->getStepParameter( stream, false );
-		}
-		else
-		{
-			stream << "$";
-		}
+		stream << ")";
 	}
-	stream << ")";
+	else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_Roles );
 	stream << ",";

@@ -73,24 +73,28 @@ void IfcDocumentInformation::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_DocumentOwner ) { m_DocumentOwner->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	stream << "(";
-	for( size_t ii = 0; ii < m_Editors.size(); ++ii )
+	if( m_Editors.size() > 0 )
 	{
-		if( ii > 0 )
+		stream << "(";
+		for( size_t ii = 0; ii < m_Editors.size(); ++ii )
 		{
-			stream << ",";
+			if( ii > 0 )
+			{
+				stream << ",";
+			}
+			const shared_ptr<IfcActorSelect>& type_object = m_Editors[ii];
+			if( type_object )
+			{
+				type_object->getStepParameter( stream, true );
+			}
+			else
+			{
+				stream << "$";
+			}
 		}
-		const shared_ptr<IfcActorSelect>& type_object = m_Editors[ii];
-		if( type_object )
-		{
-			type_object->getStepParameter( stream, true );
-		}
-		else
-		{
-			stream << "$";
-		}
+		stream << ")";
 	}
-	stream << ")";
+	else { stream << "$"; }
 	stream << ",";
 	if( m_CreationTime ) { m_CreationTime->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";

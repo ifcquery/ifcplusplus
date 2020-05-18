@@ -30,24 +30,28 @@ shared_ptr<BuildingObject> IfcTableRow::getDeepCopy( BuildingCopyOptions& option
 void IfcTableRow::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCTABLEROW" << "(";
-	stream << "(";
-	for( size_t ii = 0; ii < m_RowCells.size(); ++ii )
+	if( m_RowCells.size() > 0 )
 	{
-		if( ii > 0 )
+		stream << "(";
+		for( size_t ii = 0; ii < m_RowCells.size(); ++ii )
 		{
-			stream << ",";
+			if( ii > 0 )
+			{
+				stream << ",";
+			}
+			const shared_ptr<IfcValue>& type_object = m_RowCells[ii];
+			if( type_object )
+			{
+				type_object->getStepParameter( stream, true );
+			}
+			else
+			{
+				stream << "$";
+			}
 		}
-		const shared_ptr<IfcValue>& type_object = m_RowCells[ii];
-		if( type_object )
-		{
-			type_object->getStepParameter( stream, true );
-		}
-		else
-		{
-			stream << "$";
-		}
+		stream << ")";
 	}
-	stream << ")";
+	else { stream << "$"; }
 	stream << ",";
 	if( m_IsHeading ) { m_IsHeading->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
