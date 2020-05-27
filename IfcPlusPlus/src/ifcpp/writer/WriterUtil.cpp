@@ -225,36 +225,45 @@ std::string encodeStepString( const std::wstring& str )
 	std::string endUnicodeTag = "\\X0\\";
 	bool hasOpenedUnicodeTag = false;
 
+	auto closeUnicodeBlockIfOpened = [&]
+	{
+		if( hasOpenedUnicodeTag )
+		{
+			result_str += endUnicodeTag;
+			hasOpenedUnicodeTag = false;
+		}
+	};
+
 	while( *stream_pos != '\0' )
 	{
 		wchar_t append_char = *stream_pos;
 		if( append_char == 10 )
 		{
+			closeUnicodeBlockIfOpened();
 			// encode new line
 			result_str.append( "\\X\\0A" );
 		}
 		else if( append_char == 13 )
 		{
+			closeUnicodeBlockIfOpened();
 			// encode carriage return
 			result_str.append( "\\X\\0D" );
 		}
 		else if( append_char == 39 )
 		{
+			closeUnicodeBlockIfOpened();
 			// encode apostrophe
 			result_str.append( "\\X\\27" );
 		}
 		else if( append_char == 92 )
 		{
+			closeUnicodeBlockIfOpened();
 			// encode backslash
 			result_str.append( "\\\\" );
 		}
 		else if( append_char > 0 && append_char < 128 )
 		{
-			if( hasOpenedUnicodeTag )
-			{
-				result_str += endUnicodeTag;
-				hasOpenedUnicodeTag = false;
-			}
+			closeUnicodeBlockIfOpened();
 
 			result_str.push_back( static_cast<char>(append_char) );
 		}
@@ -283,11 +292,7 @@ std::string encodeStepString( const std::wstring& str )
 		++stream_pos;
 	}
 
-	if( hasOpenedUnicodeTag )
-	{
-		result_str += endUnicodeTag;
-		hasOpenedUnicodeTag = false;
-	}
+	closeUnicodeBlockIfOpened();
 
 	return result_str;
 }
