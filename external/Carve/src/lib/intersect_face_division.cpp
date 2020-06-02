@@ -742,6 +742,10 @@ static void mergeFacesAndHoles(
         unassigned--;
       }
     }
+	if (removed.size() == 0)
+	{
+		break;
+	}
     for (std::set<int>::iterator f = removed.begin(); f != removed.end(); ++f) {
       for (unsigned i = 0; i < containing_faces.size(); ++i) {
         containing_faces[i].erase(std::remove(containing_faces[i].begin(),

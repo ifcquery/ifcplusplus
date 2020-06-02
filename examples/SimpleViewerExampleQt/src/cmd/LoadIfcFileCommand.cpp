@@ -67,7 +67,7 @@ bool LoadIfcFileCommand::doCmd()
 
 		// convert IFC geometric representations into Carve geometry
 		const double length_in_meter = geometry_converter->getBuildingModel()->getUnitConverter()->getLengthInMeterFactor();
-		geometry_converter->setCsgEps(carve::CARVE_EPSILON*length_in_meter);
+		geometry_converter->setCsgEps(1.5e-08*length_in_meter);
 		geometry_converter->convertGeometry();
 
 		// convert Carve geometry to OSG
