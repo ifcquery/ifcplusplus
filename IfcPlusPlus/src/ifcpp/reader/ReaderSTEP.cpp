@@ -139,10 +139,15 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 
 	// open file
+	std::ifstream infile;
+
+#ifdef _MSC_VER
+	infile.open(filePath);
+#else
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
 	std::string filePathStr = StringConverter.to_bytes(filePath);
 
-	if( !(setlocale(LC_ALL, "en-US") || setlocale(LC_ALL, "en_us.UTF-8") ||  setlocale(LC_ALL, "en_US.utf8")))
+	if( !(setlocale(LC_ALL,"English_United States.65001") || setlocale(LC_ALL, "en-US")) )
 	{
 		std::wstringstream strs;
 		strs << L"setlocale failed" << std::endl;
@@ -157,8 +162,10 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 		filePathStr = buf;
 		delete[] buf;
 	}
-	std::ifstream infile(filePathStr.c_str(), std::ifstream::in);
-	
+	infile.open(filePathStr.c_str(), std::ifstream::in);
+
+#endif
+
 	if( !infile.is_open() )
 	{
 		std::wstringstream strs;
