@@ -751,7 +751,7 @@ void ReaderSTEP::readEntityArguments( const BuildingModel::SchemaVersion& ifc_ve
 			}
 			
 			const std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_object = (*vec_entities_ptr)[i];
-			const shared_ptr<BuildingEntity> entity = entity_read_object.second;
+			const shared_ptr<BuildingEntity>& entity = entity_read_object.second;
 			if( !entity )
 			{
 				continue;
