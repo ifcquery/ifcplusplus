@@ -512,8 +512,8 @@ void BuildingModel::clearIfcModel()
 	m_map_entities.clear();
 	m_ifc_project.reset();
 	m_geom_context_3d.reset();
-	m_ifc_schema_version.m_ifc_file_schema_enum = IFC4;
-	m_ifc_schema_version.m_IFC_FILE_SCHEMA = L"IFC4";
+	m_ifc_schema_version.m_ifc_file_schema_enum = IFC4X1;
+	m_ifc_schema_version.m_IFC_FILE_SCHEMA = L"IFC4X1";
 	m_IFC_FILE_NAME = L"";
 	m_IFC_FILE_DESCRIPTION = L"";
 	m_file_header = L"";

@@ -34,14 +34,14 @@ public:
 	BuildingModel();
 	~BuildingModel() override;
 	
-	enum QueryVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4 };
+	enum QueryVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4, IFC4X1 };
 	class SchemaVersion
 	{
 		public:
 			SchemaVersion()
 			{
-				m_IFC_FILE_SCHEMA = L"IFC4";
-				m_ifc_file_schema_enum = BuildingModel::IFC4;
+				m_IFC_FILE_SCHEMA = L"IFC4X1";
+				m_ifc_file_schema_enum = BuildingModel::IFC4X1;
 			}
 			SchemaVersion(std::wstring schema_str, QueryVersionEnum schema_enum)
 				: m_IFC_FILE_SCHEMA(schema_str), m_ifc_file_schema_enum(schema_enum)
@@ -64,7 +64,13 @@ public:
 	shared_ptr<IfcProject> getIfcProject();
 	shared_ptr<IfcGeometricRepresentationContext> getIfcGeometricRepresentationContext3D();
 	shared_ptr<UnitConverter>& getUnitConverter() { return m_unit_converter; }
+
+	/*! \brief Method getIfcSchemaVersion. Returns the IFC version of the loaded file */
 	SchemaVersion& getIfcSchemaVersion() {	return m_ifc_schema_version; }
+
+	/*! \brief Method getIfcSchemaVersionCurrent. Returns the IFC version after loading. It is the newest implemented IFC version. IFC version of the loaded file may be older */
+	SchemaVersion& getIfcSchemaVersionCurrent() { return m_ifc_schema_version_current; }
+	
 	const std::wstring& getFileHeader() { return m_file_header; }
 	const std::wstring& getFileDescription() { return m_IFC_FILE_DESCRIPTION; }
 	const std::wstring& getFileName() { return m_IFC_FILE_NAME; }
@@ -99,4 +105,5 @@ private:
 	std::wstring									m_IFC_FILE_DESCRIPTION;
 	std::wstring									m_IFC_FILE_NAME;
 	SchemaVersion									m_ifc_schema_version;
+	SchemaVersion									m_ifc_schema_version_current;
 };
