@@ -305,7 +305,7 @@ public:
 		}
 
 		shared_ptr<ProductShapeData> ifc_project_data;
-		std::vector<shared_ptr<IfcProduct> > vec_products;
+		std::vector<shared_ptr<IfcObjectDefinition> > vec_object_definitions;
 		double length_to_meter_factor = 1.0;
 		if( m_ifc_model->getUnitConverter() )
 		{
@@ -317,29 +317,29 @@ public:
 		for( auto it = map_entities.begin(); it != map_entities.end(); ++it )
 		{
 			shared_ptr<BuildingEntity> obj = it->second;
-			shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>(obj);
+			shared_ptr<IfcObjectDefinition> product = dynamic_pointer_cast<IfcObjectDefinition>(obj);
 			if(product)
 			{
-				vec_products.push_back(product);
+				vec_object_definitions.push_back(product);
 			}
 		}
 
 		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
 		std::map<std::string, shared_ptr<ProductShapeData> >* map_products_ptr = &m_product_shape_data;
-		const int num_products = (int)vec_products.size();
+		const int num_object_definitions = (int)vec_object_definitions.size();
 
 #ifdef ENABLE_OPENMP
 		Mutex writelock_map;
 		Mutex writelock_ifc_project;
 
-#pragma omp parallel firstprivate(num_products) shared(map_products_ptr)
+#pragma omp parallel firstprivate(num_object_definitions) shared(map_products_ptr)
 		{
 			// time for one product may vary significantly, so schedule not so many
 #pragma omp for schedule(dynamic,40)
 #endif
-			for( int i = 0; i < num_products; ++i )
+			for( int i = 0; i < num_object_definitions; ++i )
 			{
-				shared_ptr<IfcProduct> ifc_product = vec_products[i];
+				shared_ptr<IfcObjectDefinition> ifc_product = vec_object_definitions[i];
 				const int entity_id = ifc_product->m_entity_id;
 				std::string guid;
 				if (ifc_product->m_GlobalId)
@@ -403,7 +403,7 @@ public:
 				}
 
 				// progress callback
-				double progress = (double)i / (double)num_products;
+				double progress = (double)i / (double)num_object_definitions;
 				if( progress - m_recent_progress > 0.02 )
 				{
 
