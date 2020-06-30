@@ -650,7 +650,7 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 			// each object that is derived from IfcRoot should have a GUID
 			if (!ifc_root_object->m_GlobalId)
 			{
-				ifc_root_object->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId(createBase64Uuid<wchar_t>().data()));
+				ifc_root_object->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId(createBase64Uuid_wstr().data()));
 			}
 
 			ifc_root_object->m_OwnerHistory = owner_history;

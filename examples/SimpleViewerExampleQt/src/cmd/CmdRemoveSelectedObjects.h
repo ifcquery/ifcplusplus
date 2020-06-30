@@ -22,7 +22,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <osg/Group>
 #include <osgGA/GUIEventAdapter>
 #include <osgGA/GUIActionAdapter>
-#include <boost/unordered_map.hpp>
 #include "Command.h"
 
 class IfcPlusPlusSystem;

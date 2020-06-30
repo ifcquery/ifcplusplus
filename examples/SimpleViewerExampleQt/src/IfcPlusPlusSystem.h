@@ -20,7 +20,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <QtCore/QObject>
 #include <osg/Material>
 #include <osgGA/GUIEventHandler>
-#include <boost/unordered_map.hpp>
 #include "ifcpp/model/BasicTypes.h"
 
 class BuildingModel;

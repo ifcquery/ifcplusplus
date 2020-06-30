@@ -118,10 +118,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRTDBG_MAP_ALLOC;_WINDOWS;_DEBUG;COIN_NOT_DLL;SOWIN_NOT_DLL;HAVE_NODEKITS;HAVE_DRAGGERS;HAVE_MANIPULATORS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;../../external/Coin3D/include;../../external/Coin3D/build/msvc10/include;../../external/SoWin/src;../../external/SoWin/build/msvc9/src;../../IfcQueryDLL/src;../../external/Carve/src/include;../../external;../../external/boost;..\..\IfcPlusPlus\src;..\..\IfcPlusPlusGeometry\src;$(BOOST_DIR)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;../../external/Coin3D/include;../../external/Coin3D/build/msvc10/include;../../external/SoWin/src;../../external/SoWin/build/msvc9/src;../../IfcQueryDLL/src;../../external/Carve/src/include;../../external;..\..\IfcPlusPlus\src;..\..\IfcPlusPlusGeometry\src;</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalOptions>
-      </AdditionalOptions>
+      <AdditionalOptions>/bigobj </AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -177,7 +176,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;NDEBUG;ENABLE_OPENMP;_CRT_SECURE_NO_WARNINGS;COIN_NOT_DLL;SOWIN_NOT_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;../../external/Coin3D/include;../../external/Coin3D/build/msvc10/include;../../external/SoWin/src;../../external/SoWin/build/msvc9/src;../../IfcQueryDLL/src;../../external/Carve/src/include;../../external;../../external/boost;..\..\IfcPlusPlus\src;..\..\IfcPlusPlusGeometry\src;$(BOOST_DIR)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;../../external/Coin3D/include;../../external/Coin3D/build/msvc10/include;../../external/SoWin/src;../../external/SoWin/build/msvc9/src;../../IfcQueryDLL/src;../../external/Carve/src/include;../../external;..\..\IfcPlusPlus\src;..\..\IfcPlusPlusGeometry\src;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
