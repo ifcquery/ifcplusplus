@@ -20,7 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #if _MSC_VER >= 1600
 
 #include <memory>
-#if _MSC_VER < 1912
+#if _MSC_VER < 1900
 using std::tr1::shared_ptr;
 using std::tr1::weak_ptr;
 using std::tr1::dynamic_pointer_cast;
