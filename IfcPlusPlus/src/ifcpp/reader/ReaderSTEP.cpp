@@ -553,7 +553,7 @@ void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std:
 		for( int i = 0; i<num_lines; ++i )
 		{
 			const std::string& step_line = (*step_lines_ptr)[i];
-			std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_obj = (*target_vec_ptr)[i];;
+			std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_obj = (*target_vec_ptr)[i];
 			
 			// read lines: #1234=IFCOBJECTNAME(...,...,(...,...),...)
 			try
@@ -769,7 +769,7 @@ void ReaderSTEP::readEntityArguments( const BuildingModel::SchemaVersion& ifc_ve
 			// character decoding:
 			decodeArgumentStrings( arguments, arguments_w );
 
-			if( ifc_version.m_ifc_file_schema_enum != BuildingModel::IFC4 )
+			if( ifc_version.m_ifc_file_schema_enum != BuildingModel::IFC4X1 )
 			{
 				size_t num_expected_arguments = entity->getNumAttributes();
 				if( num_expected_arguments != arguments_w.size() )

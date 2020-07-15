@@ -89,7 +89,7 @@ inline void readBool( const std::wstring& attribute_value, bool& target )
 	}
 	else if( std_iequal( attribute_value, L".T." ) )
 	{
-		target = true;;
+		target = true;
 	}
 }
 
@@ -105,7 +105,7 @@ inline void readLogical( const std::wstring& attribute_value, LogicalEnum& targe
 	}
 	else if( std_iequal( attribute_value, L".U." ) )
 	{
-		target = LOGICAL_UNKNOWN;;
+		target = LOGICAL_UNKNOWN;
 	}
 }
 
