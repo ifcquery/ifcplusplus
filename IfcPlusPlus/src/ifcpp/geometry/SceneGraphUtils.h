@@ -228,7 +228,7 @@ namespace SceneGraphUtils
 			label_x->setFont( "ARIAL.TTF" );
 			label_x->setAlignment( osgText::Text::RIGHT_TOP );
 			label_x->setAxisAlignment( osgText::Text::SCREEN );
-			label_x->setColor( osg::Vec4( 0.8, 0.0, 0.0, 1.0 ) );
+			label_x->setColor( osg::Vec4( 0.8f, 0.0f, 0.0f, 1.0f ) );
 			label_x->setCharacterSize( 0.5f );
 			label_x->setText( "x" );
 			label_x->setPosition( osg::Vec3( 1, 0, 0 ) );
