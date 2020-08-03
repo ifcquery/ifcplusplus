@@ -155,6 +155,7 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 	else
 	{
+		setlocale(LC_ALL, "");
 		char* buf = nullptr;
 		size_t len = std::wcstombs(buf, filePath.c_str(), 0);
 		buf = new char[len + 1];
