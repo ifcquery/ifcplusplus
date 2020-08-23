@@ -72,11 +72,11 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 
 	// light button
 	QToolButton* btn_toggle_light = new QToolButton();
-	btn_toggle_light->setIcon( QIcon( ":img/bulb.png" ) );
-	btn_toggle_light->setIconSize( QSize( 22, 22 ) );
-	btn_toggle_light->setToolTip( "Light on/off" );
-	btn_toggle_light->setCheckable( true );
-	btn_toggle_light->setChecked( true );
+	btn_toggle_light->setIcon(QIcon(":img/Bulb.svg"));
+	btn_toggle_light->setIconSize(QSize(22, 22));
+	btn_toggle_light->setToolTip("Light on/off");
+	btn_toggle_light->setCheckable(true);
+	btn_toggle_light->setChecked(true);
 	connect( btn_toggle_light,	SIGNAL( clicked() ),	this,	SLOT( slotToggleSceneLight() ) );
 
 	// number of vertices per cycle
