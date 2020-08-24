@@ -20,6 +20,10 @@ FIND_PACKAGE(Qt5Widgets REQUIRED)
 FIND_PACKAGE(Qt5OpenGL REQUIRED)
 ADD_DEFINITIONS(${Qt5Widgets_DEFINITIONS})
 
+SET(viewer_dir ${IFCPP_SOURCE_DIR}/examples/SimpleViewerExampleQt)
+SET(RESOURCES ${viewer_dir}/Resources/ifcplusplus.qrc)
+QT5_ADD_RESOURCES(SimpleViewerExample_RESOURCES_RCC ${RESOURCES})
+
 FIND_PACKAGE(OpenSceneGraph REQUIRED osgDB osgUtil osgGA osgFX osgSim osgText osgViewer)
 
 SET(IFCPPVIEWER_SOURCE_FILES 
