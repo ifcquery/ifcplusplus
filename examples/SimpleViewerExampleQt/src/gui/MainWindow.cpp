@@ -37,7 +37,7 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 {
 	m_system = sys;
 	setWindowTitle("IfcQuery example application");
-	setWindowIcon( QIcon( ":img/IfcPlusPlusViewerWindowIcon.png" ) );
+	setWindowIcon(QIcon(":img/IfcPlusPlusViewerWindowIcon.svg"));
 	
 	// global style sheet definitions
 	QFile file( ":styles.css" );
@@ -46,12 +46,12 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 	setStyleSheet( styleSheet );
 	createTabWidget();
 
-	QAction* zoom_bounds_btn = new QAction(QIcon(":img/zoomBoundings.png"), "&Zoom to boundings", this );
+	QAction* zoom_bounds_btn = new QAction(QIcon(":img/ZoomBoundings.svg"), "&Zoom to boundings", this );
 	zoom_bounds_btn->setShortcut(tr("Ctrl+Z"));
 	zoom_bounds_btn->setStatusTip("Zoom to boundings");
 	connect(zoom_bounds_btn, &QAction::triggered, this, &MainWindow::slotBtnZoomBoundingsClicked);
 
-	QAction* remove_selected_objects = new QAction(QIcon(":img/RemoveSelectedObjects.png"), "&Remove selected objects [del]", this );
+	QAction* remove_selected_objects = new QAction(QIcon(":img/RemoveSelectedObjects.svg"), "&Remove selected objects [del]", this );
 	remove_selected_objects->setStatusTip("Remove selected objects [del]");
 	connect(remove_selected_objects, &QAction::triggered, this, &MainWindow::slotBtnRemoveSelectedObjectsClicked);
 
