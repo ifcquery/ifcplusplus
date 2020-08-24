@@ -122,7 +122,7 @@ public:
 		shared_ptr<IfcNormalisedRatioMeasure> ratio_measure = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( color_or_factor );
 		if( ratio_measure )
 		{
-			float factor = ratio_measure->m_value;
+			float factor = (float)ratio_measure->m_value;
 			target_color.setColor( src_color.r()*factor, src_color.g()*factor, src_color.b()*factor, src_color.a() );
 			return;
 		}

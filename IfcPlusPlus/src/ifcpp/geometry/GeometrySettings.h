@@ -148,7 +148,10 @@ protected:
 	bool m_render_bounding_box = false;
 	double m_crease_edges_max_delta_angle = M_PI*0.05;
 	double m_colinear_faces_max_delta_angle = M_PI*0.02;
-	std::function<int(double)> m_num_vertices_per_circle_given_radius = [&](double radius) {return m_num_vertices_per_circle;};
+	std::function<int(double)> m_num_vertices_per_circle_given_radius = [&](double radius) {
+		if( radius > 0.5 ) return int(m_num_vertices_per_circle*1.5);
+		return m_num_vertices_per_circle;
+	};
 	std::function<bool(const shared_ptr<IfcObjectDefinition> &)> m_render_object_filter =
 			[](const shared_ptr<IfcObjectDefinition> &ifc_object) {
 				return dynamic_pointer_cast<IfcFeatureElementSubtraction>(ifc_object) ==

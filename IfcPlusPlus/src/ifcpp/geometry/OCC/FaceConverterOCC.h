@@ -480,16 +480,30 @@ public:
 		// IfcFaceList can be a closed or open shell
 		if( st == SHELL_TYPE_UNKONWN || st == OPEN_SHELL )
 		{
-			TopoDS_Compound compound;
-			BRep_Builder builder;
-			builder.MakeCompound( compound );
-
-			TopTools_ListIteratorOfListOfShape face_iterator;
-			for( face_iterator.Initialize( list_of_shapes ); face_iterator.More(); face_iterator.Next() )
+			try
 			{
-				builder.Add( compound, face_iterator.Value() );
+				TopoDS_Shell shell;
+				BRep_Builder builder;
+				builder.MakeShell(shell);
+
+				TopTools_ListIteratorOfListOfShape face_iterator;
+				for (face_iterator.Initialize(list_of_shapes); face_iterator.More(); face_iterator.Next())
+				{
+					builder.Add(shell, face_iterator.Value());
+				}
+				if (!shell.IsNull())
+				{
+					item_data->addShape(shell);
+				}
 			}
-			item_data->addShape( compound );
+			catch (Standard_Failure sf)
+			{
+				std::cout << sf.GetMessageString() << std::endl;
+			}
+			catch (...)
+			{
+				std::cout << __FUNC__ << " failed" << std::endl;
+			}
 		}
 		else if( st == CLOSED_SHELL )
 		{
