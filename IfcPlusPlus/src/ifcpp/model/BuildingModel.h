@@ -40,14 +40,18 @@ public:
 		public:
 			SchemaVersion()
 			{
-				m_IFC_FILE_SCHEMA = L"IFC4X1";
-				m_ifc_file_schema_enum = BuildingModel::IFC4X1;
+				setDefaults();
 			}
 			SchemaVersion(std::wstring schema_str, QueryVersionEnum schema_enum)
 				: m_IFC_FILE_SCHEMA(schema_str), m_ifc_file_schema_enum(schema_enum)
 			{
 			}
 			~SchemaVersion() = default;
+			void setDefaults()
+			{
+				m_IFC_FILE_SCHEMA = L"IFC4X1";
+				m_ifc_file_schema_enum = BuildingModel::IFC4X1;
+			}
 			std::wstring		m_IFC_FILE_SCHEMA;
 			QueryVersionEnum	m_ifc_file_schema_enum;
 	};

@@ -314,13 +314,16 @@ public:
 		carve::setEpsilon( m_csg_eps );
 
 		const std::map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
-		for( auto it = map_entities.begin(); it != map_entities.end(); ++it )
+		if (map_entities.size() > 0)
 		{
-			shared_ptr<BuildingEntity> obj = it->second;
-			shared_ptr<IfcObjectDefinition> product = dynamic_pointer_cast<IfcObjectDefinition>(obj);
-			if(product)
+			for (auto it = map_entities.begin(); it != map_entities.end(); ++it)
 			{
-				vec_object_definitions.push_back(product);
+				shared_ptr<BuildingEntity> obj = it->second;
+				shared_ptr<IfcObjectDefinition> product = dynamic_pointer_cast<IfcObjectDefinition>(obj);
+				if (product)
+				{
+					vec_object_definitions.push_back(product);
+				}
 			}
 		}
 
