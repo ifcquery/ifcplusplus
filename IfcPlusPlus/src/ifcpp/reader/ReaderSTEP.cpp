@@ -209,8 +209,8 @@ void ReaderSTEP::loadModelFromString( std::string& content, shared_ptr<BuildingM
 		targetModel->resolveInverseAttributes();
 		targetModel->updateCache();
 
-		// currently generated IFC classes are IFC4X1, files with older versions are converted. So after loading, the schema is always IFC4X1
-		targetModel->getIfcSchemaVersionCurrent().m_IFC_FILE_SCHEMA = L"IFC4X1";
+		// set to current IFC version. Files with older versions are converted. So after loading, the schema is always the current one
+		targetModel->getIfcSchemaVersionCurrent().setDefaults();
 		targetModel->getIfcSchemaVersionCurrent().m_ifc_file_schema_enum = BuildingModel::IFC4X1;
 	}
 	catch( OutOfMemoryException& e)

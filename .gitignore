@@ -41,3 +41,5 @@ examples/SimpleViewerExampleMFC/.vs/SimpleViewerExampleMFC/v15/.suo
 examples/CreateWallAndWriteFile/CreateWallAndWriteFile/x64/
 examples/CreateWallAndWriteFile/CreateWallAndWriteFile/SimpleWall.ifc
 examples/LoadFileExampleNoGUI/LoadFileExampleNoGUI/x64/
+*.db-shm
+*.db-wal
