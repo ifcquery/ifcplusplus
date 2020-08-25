@@ -5,10 +5,10 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   version="1.1"
-   id="svg3007"
+   width="64px"
    height="64px"
-   width="64px">
+   id="svg3007"
+   version="1.1">
   <title
      id="title822">ZoomBoundings</title>
   <defs
@@ -28,7 +28,25 @@
           </cc:Agent>
         </dc:creator>
         <dc:description>Four blue arrows extending from the center outwards to each of the four corners</dc:description>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-sa/4.0/" />
+        <dc:date>2020-08-25</dc:date>
       </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-sa/4.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#ShareAlike" />
+      </cc:License>
     </rdf:RDF>
   </metadata>
   <g
@@ -36,25 +54,25 @@
     <g
        id="g825">
       <path
-         style="fill:#4172bf;fill-opacity:1;stroke:#1c2238;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path827"
          d="M 43.041016,24.960938 55,13 58,17 V 6 H 47 l 4,3 -12,12 z"
-         id="path827" />
-      <path
-         id="path821"
-         d="M 21.959026,24.960938 10.000042,13 l -3,4 V 6 h 11 l -4,3 12,12 z"
          style="fill:#4172bf;fill-opacity:1;stroke:#1c2238;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         style="fill:#4172bf;fill-opacity:1;stroke:#1c2238;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 21.959026,24.960938 10.000042,13 l -3,4 V 6 h 11 l -4,3 12,12 z"
+         id="path821" />
     </g>
     <g
-       transform="matrix(1,0,0,-1,0,62.960897)"
-       id="g832">
-      <path
-         id="path828"
-         d="M 43.041016,24.960938 55,13 58,17 V 6 H 47 l 4,3 -12,12 z"
-         style="fill:#4172bf;fill-opacity:1;stroke:#1c2238;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       id="g832"
+       transform="matrix(1,0,0,-1,0,62.960897)">
       <path
          style="fill:#4172bf;fill-opacity:1;stroke:#1c2238;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 43.041016,24.960938 55,13 58,17 V 6 H 47 l 4,3 -12,12 z"
+         id="path828" />
+      <path
+         id="path830"
          d="M 21.959026,24.960938 10.000042,13 l -3,4 V 6 h 11 l -4,3 12,12 z"
-         id="path830" />
+         style="fill:#4172bf;fill-opacity:1;stroke:#1c2238;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
   </g>
 </svg>
