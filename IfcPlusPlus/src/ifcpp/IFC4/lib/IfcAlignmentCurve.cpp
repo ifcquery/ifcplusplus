@@ -11,6 +11,7 @@
 #include "ifcpp/IFC4/include/IfcAlignment2DVertical.h"
 #include "ifcpp/IFC4/include/IfcAlignmentCurve.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
+#include "ifcpp/IFC4/include/IfcLinearPositioningElement.h"
 #include "ifcpp/IFC4/include/IfcPresentationLayerAssignment.h"
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 

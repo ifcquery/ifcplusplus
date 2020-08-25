@@ -9,7 +9,7 @@
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcGridPlacement.h"
 #include "ifcpp/IFC4/include/IfcGridPlacementDirectionSelect.h"
-#include "ifcpp/IFC4/include/IfcLocalPlacement.h"
+#include "ifcpp/IFC4/include/IfcObjectPlacement.h"
 #include "ifcpp/IFC4/include/IfcProduct.h"
 #include "ifcpp/IFC4/include/IfcVirtualGridIntersection.h"
 
@@ -18,6 +18,7 @@ IfcGridPlacement::IfcGridPlacement( int id ) { m_entity_id = id; }
 shared_ptr<BuildingObject> IfcGridPlacement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGridPlacement> copy_self( new IfcGridPlacement() );
+	if( m_PlacementRelTo ) { copy_self->m_PlacementRelTo = dynamic_pointer_cast<IfcObjectPlacement>( m_PlacementRelTo->getDeepCopy(options) ); }
 	if( m_PlacementLocation ) { copy_self->m_PlacementLocation = dynamic_pointer_cast<IfcVirtualGridIntersection>( m_PlacementLocation->getDeepCopy(options) ); }
 	if( m_PlacementRefDirection ) { copy_self->m_PlacementRefDirection = dynamic_pointer_cast<IfcGridPlacementDirectionSelect>( m_PlacementRefDirection->getDeepCopy(options) ); }
 	return copy_self;
@@ -25,6 +26,8 @@ shared_ptr<BuildingObject> IfcGridPlacement::getDeepCopy( BuildingCopyOptions& o
 void IfcGridPlacement::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCGRIDPLACEMENT" << "(";
+	if( m_PlacementRelTo ) { stream << "#" << m_PlacementRelTo->m_entity_id; } else { stream << "$"; }
+	stream << ",";
 	if( m_PlacementLocation ) { stream << "#" << m_PlacementLocation->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_PlacementRefDirection ) { m_PlacementRefDirection->getStepParameter( stream, true ); } else { stream << "$" ; }
@@ -35,9 +38,10 @@ const std::wstring IfcGridPlacement::toString() const { return L"IfcGridPlacemen
 void IfcGridPlacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 2 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGridPlacement, expecting 2, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
-	readEntityReference( args[0], m_PlacementLocation, map );
-	m_PlacementRefDirection = IfcGridPlacementDirectionSelect::createObjectFromSTEP( args[1], map );
+	if( num_args != 3 ){ std::stringstream err; err << "Wrong parameter count for entity IfcGridPlacement, expecting 3, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	readEntityReference( args[0], m_PlacementRelTo, map );
+	readEntityReference( args[1], m_PlacementLocation, map );
+	m_PlacementRefDirection = IfcGridPlacementDirectionSelect::createObjectFromSTEP( args[2], map );
 }
 void IfcGridPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {

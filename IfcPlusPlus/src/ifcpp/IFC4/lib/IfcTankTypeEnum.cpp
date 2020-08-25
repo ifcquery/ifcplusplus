@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcTankTypeEnum.h"
 
-// TYPE IfcTankTypeEnum = ENUMERATION OF	(BASIN	,BREAKPRESSURE	,EXPANSION	,FEEDANDEXPANSION	,PRESSUREVESSEL	,STORAGE	,VESSEL	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcTankTypeEnum = ENUMERATION OF	(BASIN	,BREAKPRESSURE	,EXPANSION	,FEEDANDEXPANSION	,PRESSUREVESSEL	,STORAGE	,VESSEL	,OILRETENTIONTRAY	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcTankTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTankTypeEnum> copy_self( new IfcTankTypeEnum() );
@@ -28,6 +28,7 @@ void IfcTankTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 		case ENUM_PRESSUREVESSEL:	stream << ".PRESSUREVESSEL."; break;
 		case ENUM_STORAGE:	stream << ".STORAGE."; break;
 		case ENUM_VESSEL:	stream << ".VESSEL."; break;
+		case ENUM_OILRETENTIONTRAY:	stream << ".OILRETENTIONTRAY."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -44,6 +45,7 @@ const std::wstring IfcTankTypeEnum::toString() const
 		case ENUM_PRESSUREVESSEL:	return L"PRESSUREVESSEL";
 		case ENUM_STORAGE:	return L"STORAGE";
 		case ENUM_VESSEL:	return L"VESSEL";
+		case ENUM_OILRETENTIONTRAY:	return L"OILRETENTIONTRAY";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -81,6 +83,10 @@ shared_ptr<IfcTankTypeEnum> IfcTankTypeEnum::createObjectFromSTEP( const std::ws
 	else if( std_iequal( arg, L".VESSEL." ) )
 	{
 		type_object->m_enum = IfcTankTypeEnum::ENUM_VESSEL;
+	}
+	else if( std_iequal( arg, L".OILRETENTIONTRAY." ) )
+	{
+		type_object->m_enum = IfcTankTypeEnum::ENUM_OILRETENTIONTRAY;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

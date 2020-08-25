@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcCoveringTypeEnum.h"
 
-// TYPE IfcCoveringTypeEnum = ENUMERATION OF	(CEILING	,FLOORING	,CLADDING	,ROOFING	,MOLDING	,SKIRTINGBOARD	,INSULATION	,MEMBRANE	,SLEEVING	,WRAPPING	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcCoveringTypeEnum = ENUMERATION OF	(CEILING	,FLOORING	,CLADDING	,ROOFING	,MOLDING	,SKIRTINGBOARD	,INSULATION	,MEMBRANE	,SLEEVING	,WRAPPING	,COPING	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcCoveringTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCoveringTypeEnum> copy_self( new IfcCoveringTypeEnum() );
@@ -31,6 +31,7 @@ void IfcCoveringTypeEnum::getStepParameter( std::stringstream& stream, bool is_s
 		case ENUM_MEMBRANE:	stream << ".MEMBRANE."; break;
 		case ENUM_SLEEVING:	stream << ".SLEEVING."; break;
 		case ENUM_WRAPPING:	stream << ".WRAPPING."; break;
+		case ENUM_COPING:	stream << ".COPING."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -50,6 +51,7 @@ const std::wstring IfcCoveringTypeEnum::toString() const
 		case ENUM_MEMBRANE:	return L"MEMBRANE";
 		case ENUM_SLEEVING:	return L"SLEEVING";
 		case ENUM_WRAPPING:	return L"WRAPPING";
+		case ENUM_COPING:	return L"COPING";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -99,6 +101,10 @@ shared_ptr<IfcCoveringTypeEnum> IfcCoveringTypeEnum::createObjectFromSTEP( const
 	else if( std_iequal( arg, L".WRAPPING." ) )
 	{
 		type_object->m_enum = IfcCoveringTypeEnum::ENUM_WRAPPING;
+	}
+	else if( std_iequal( arg, L".COPING." ) )
+	{
+		type_object->m_enum = IfcCoveringTypeEnum::ENUM_COPING;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

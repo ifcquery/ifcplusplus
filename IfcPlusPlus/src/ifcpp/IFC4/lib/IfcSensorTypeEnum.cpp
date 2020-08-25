@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcSensorTypeEnum.h"
 
-// TYPE IfcSensorTypeEnum = ENUMERATION OF	(COSENSOR	,CO2SENSOR	,CONDUCTANCESENSOR	,CONTACTSENSOR	,FIRESENSOR	,FLOWSENSOR	,FROSTSENSOR	,GASSENSOR	,HEATSENSOR	,HUMIDITYSENSOR	,IDENTIFIERSENSOR	,IONCONCENTRATIONSENSOR	,LEVELSENSOR	,LIGHTSENSOR	,MOISTURESENSOR	,MOVEMENTSENSOR	,PHSENSOR	,PRESSURESENSOR	,RADIATIONSENSOR	,RADIOACTIVITYSENSOR	,SMOKESENSOR	,SOUNDSENSOR	,TEMPERATURESENSOR	,WINDSENSOR	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcSensorTypeEnum = ENUMERATION OF	(COSENSOR	,CO2SENSOR	,CONDUCTANCESENSOR	,CONTACTSENSOR	,FIRESENSOR	,FLOWSENSOR	,FROSTSENSOR	,GASSENSOR	,HEATSENSOR	,HUMIDITYSENSOR	,IDENTIFIERSENSOR	,IONCONCENTRATIONSENSOR	,LEVELSENSOR	,LIGHTSENSOR	,MOISTURESENSOR	,MOVEMENTSENSOR	,PHSENSOR	,PRESSURESENSOR	,RADIATIONSENSOR	,RADIOACTIVITYSENSOR	,SMOKESENSOR	,SOUNDSENSOR	,TEMPERATURESENSOR	,WINDSENSOR	,EARTHQUAKESENSOR	,FOREIGNOBJECTDETECTIONSENSOR	,OBSTACLESENSOR	,RAINSENSOR	,SNOWDEPTHSENSOR	,TRAINSENSOR	,TURNOUTCLOSURESENSOR	,WHEELSENSOR	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcSensorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSensorTypeEnum> copy_self( new IfcSensorTypeEnum() );
@@ -45,6 +45,14 @@ void IfcSensorTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 		case ENUM_SOUNDSENSOR:	stream << ".SOUNDSENSOR."; break;
 		case ENUM_TEMPERATURESENSOR:	stream << ".TEMPERATURESENSOR."; break;
 		case ENUM_WINDSENSOR:	stream << ".WINDSENSOR."; break;
+		case ENUM_EARTHQUAKESENSOR:	stream << ".EARTHQUAKESENSOR."; break;
+		case ENUM_FOREIGNOBJECTDETECTIONSENSOR:	stream << ".FOREIGNOBJECTDETECTIONSENSOR."; break;
+		case ENUM_OBSTACLESENSOR:	stream << ".OBSTACLESENSOR."; break;
+		case ENUM_RAINSENSOR:	stream << ".RAINSENSOR."; break;
+		case ENUM_SNOWDEPTHSENSOR:	stream << ".SNOWDEPTHSENSOR."; break;
+		case ENUM_TRAINSENSOR:	stream << ".TRAINSENSOR."; break;
+		case ENUM_TURNOUTCLOSURESENSOR:	stream << ".TURNOUTCLOSURESENSOR."; break;
+		case ENUM_WHEELSENSOR:	stream << ".WHEELSENSOR."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -78,6 +86,14 @@ const std::wstring IfcSensorTypeEnum::toString() const
 		case ENUM_SOUNDSENSOR:	return L"SOUNDSENSOR";
 		case ENUM_TEMPERATURESENSOR:	return L"TEMPERATURESENSOR";
 		case ENUM_WINDSENSOR:	return L"WINDSENSOR";
+		case ENUM_EARTHQUAKESENSOR:	return L"EARTHQUAKESENSOR";
+		case ENUM_FOREIGNOBJECTDETECTIONSENSOR:	return L"FOREIGNOBJECTDETECTIONSENSOR";
+		case ENUM_OBSTACLESENSOR:	return L"OBSTACLESENSOR";
+		case ENUM_RAINSENSOR:	return L"RAINSENSOR";
+		case ENUM_SNOWDEPTHSENSOR:	return L"SNOWDEPTHSENSOR";
+		case ENUM_TRAINSENSOR:	return L"TRAINSENSOR";
+		case ENUM_TURNOUTCLOSURESENSOR:	return L"TURNOUTCLOSURESENSOR";
+		case ENUM_WHEELSENSOR:	return L"WHEELSENSOR";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -183,6 +199,38 @@ shared_ptr<IfcSensorTypeEnum> IfcSensorTypeEnum::createObjectFromSTEP( const std
 	else if( std_iequal( arg, L".WINDSENSOR." ) )
 	{
 		type_object->m_enum = IfcSensorTypeEnum::ENUM_WINDSENSOR;
+	}
+	else if( std_iequal( arg, L".EARTHQUAKESENSOR." ) )
+	{
+		type_object->m_enum = IfcSensorTypeEnum::ENUM_EARTHQUAKESENSOR;
+	}
+	else if( std_iequal( arg, L".FOREIGNOBJECTDETECTIONSENSOR." ) )
+	{
+		type_object->m_enum = IfcSensorTypeEnum::ENUM_FOREIGNOBJECTDETECTIONSENSOR;
+	}
+	else if( std_iequal( arg, L".OBSTACLESENSOR." ) )
+	{
+		type_object->m_enum = IfcSensorTypeEnum::ENUM_OBSTACLESENSOR;
+	}
+	else if( std_iequal( arg, L".RAINSENSOR." ) )
+	{
+		type_object->m_enum = IfcSensorTypeEnum::ENUM_RAINSENSOR;
+	}
+	else if( std_iequal( arg, L".SNOWDEPTHSENSOR." ) )
+	{
+		type_object->m_enum = IfcSensorTypeEnum::ENUM_SNOWDEPTHSENSOR;
+	}
+	else if( std_iequal( arg, L".TRAINSENSOR." ) )
+	{
+		type_object->m_enum = IfcSensorTypeEnum::ENUM_TRAINSENSOR;
+	}
+	else if( std_iequal( arg, L".TURNOUTCLOSURESENSOR." ) )
+	{
+		type_object->m_enum = IfcSensorTypeEnum::ENUM_TURNOUTCLOSURESENSOR;
+	}
+	else if( std_iequal( arg, L".WHEELSENSOR." ) )
+	{
+		type_object->m_enum = IfcSensorTypeEnum::ENUM_WHEELSENSOR;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

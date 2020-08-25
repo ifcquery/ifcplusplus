@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcAudioVisualApplianceTypeEnum.h"
 
-// TYPE IfcAudioVisualApplianceTypeEnum = ENUMERATION OF	(AMPLIFIER	,CAMERA	,DISPLAY	,MICROPHONE	,PLAYER	,PROJECTOR	,RECEIVER	,SPEAKER	,SWITCHER	,TELEPHONE	,TUNER	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcAudioVisualApplianceTypeEnum = ENUMERATION OF	(AMPLIFIER	,CAMERA	,DISPLAY	,MICROPHONE	,PLAYER	,PROJECTOR	,RECEIVER	,SPEAKER	,SWITCHER	,TELEPHONE	,TUNER	,RAILWAY_COMMUNICATION_TERMINAL	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcAudioVisualApplianceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAudioVisualApplianceTypeEnum> copy_self( new IfcAudioVisualApplianceTypeEnum() );
@@ -32,6 +32,7 @@ void IfcAudioVisualApplianceTypeEnum::getStepParameter( std::stringstream& strea
 		case ENUM_SWITCHER:	stream << ".SWITCHER."; break;
 		case ENUM_TELEPHONE:	stream << ".TELEPHONE."; break;
 		case ENUM_TUNER:	stream << ".TUNER."; break;
+		case ENUM_RAILWAY_COMMUNICATION_TERMINAL:	stream << ".RAILWAY_COMMUNICATION_TERMINAL."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -52,6 +53,7 @@ const std::wstring IfcAudioVisualApplianceTypeEnum::toString() const
 		case ENUM_SWITCHER:	return L"SWITCHER";
 		case ENUM_TELEPHONE:	return L"TELEPHONE";
 		case ENUM_TUNER:	return L"TUNER";
+		case ENUM_RAILWAY_COMMUNICATION_TERMINAL:	return L"RAILWAY_COMMUNICATION_TERMINAL";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -105,6 +107,10 @@ shared_ptr<IfcAudioVisualApplianceTypeEnum> IfcAudioVisualApplianceTypeEnum::cre
 	else if( std_iequal( arg, L".TUNER." ) )
 	{
 		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_TUNER;
+	}
+	else if( std_iequal( arg, L".RAILWAY_COMMUNICATION_TERMINAL." ) )
+	{
+		type_object->m_enum = IfcAudioVisualApplianceTypeEnum::ENUM_RAILWAY_COMMUNICATION_TERMINAL;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

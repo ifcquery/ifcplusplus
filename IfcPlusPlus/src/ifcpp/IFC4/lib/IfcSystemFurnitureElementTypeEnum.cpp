@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcSystemFurnitureElementTypeEnum.h"
 
-// TYPE IfcSystemFurnitureElementTypeEnum = ENUMERATION OF	(PANEL	,WORKSURFACE	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcSystemFurnitureElementTypeEnum = ENUMERATION OF	(PANEL	,WORKSURFACE	,SUBRACK	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcSystemFurnitureElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSystemFurnitureElementTypeEnum> copy_self( new IfcSystemFurnitureElementTypeEnum() );
@@ -23,6 +23,7 @@ void IfcSystemFurnitureElementTypeEnum::getStepParameter( std::stringstream& str
 	{
 		case ENUM_PANEL:	stream << ".PANEL."; break;
 		case ENUM_WORKSURFACE:	stream << ".WORKSURFACE."; break;
+		case ENUM_SUBRACK:	stream << ".SUBRACK."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -34,6 +35,7 @@ const std::wstring IfcSystemFurnitureElementTypeEnum::toString() const
 	{
 		case ENUM_PANEL:	return L"PANEL";
 		case ENUM_WORKSURFACE:	return L"WORKSURFACE";
+		case ENUM_SUBRACK:	return L"SUBRACK";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -51,6 +53,10 @@ shared_ptr<IfcSystemFurnitureElementTypeEnum> IfcSystemFurnitureElementTypeEnum:
 	else if( std_iequal( arg, L".WORKSURFACE." ) )
 	{
 		type_object->m_enum = IfcSystemFurnitureElementTypeEnum::ENUM_WORKSURFACE;
+	}
+	else if( std_iequal( arg, L".SUBRACK." ) )
+	{
+		type_object->m_enum = IfcSystemFurnitureElementTypeEnum::ENUM_SUBRACK;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

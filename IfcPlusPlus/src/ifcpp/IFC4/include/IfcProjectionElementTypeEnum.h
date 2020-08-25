@@ -9,12 +9,14 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 
-// TYPE IfcProjectionElementTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
+// TYPE IfcProjectionElementTypeEnum = ENUMERATION OF	(BLISTER	,DEVIATOR	,USERDEFINED	,NOTDEFINED);
 class IFCQUERY_EXPORT IfcProjectionElementTypeEnum : virtual public BuildingObject
 {
 public:
 	enum IfcProjectionElementTypeEnumEnum
 	{
+		ENUM_BLISTER,
+		ENUM_DEVIATOR,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};

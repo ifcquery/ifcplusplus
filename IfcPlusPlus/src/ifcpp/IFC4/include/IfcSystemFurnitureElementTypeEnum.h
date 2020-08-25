@@ -9,7 +9,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 
-// TYPE IfcSystemFurnitureElementTypeEnum = ENUMERATION OF	(PANEL	,WORKSURFACE	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcSystemFurnitureElementTypeEnum = ENUMERATION OF	(PANEL	,WORKSURFACE	,SUBRACK	,USERDEFINED	,NOTDEFINED);
 class IFCQUERY_EXPORT IfcSystemFurnitureElementTypeEnum : virtual public BuildingObject
 {
 public:
@@ -17,6 +17,7 @@ public:
 	{
 		ENUM_PANEL,
 		ENUM_WORKSURFACE,
+		ENUM_SUBRACK,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};

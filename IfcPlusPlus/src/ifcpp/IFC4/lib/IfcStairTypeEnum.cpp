@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcStairTypeEnum.h"
 
-// TYPE IfcStairTypeEnum = ENUMERATION OF	(STRAIGHT_RUN_STAIR	,TWO_STRAIGHT_RUN_STAIR	,QUARTER_WINDING_STAIR	,QUARTER_TURN_STAIR	,HALF_WINDING_STAIR	,HALF_TURN_STAIR	,TWO_QUARTER_WINDING_STAIR	,TWO_QUARTER_TURN_STAIR	,THREE_QUARTER_WINDING_STAIR	,THREE_QUARTER_TURN_STAIR	,SPIRAL_STAIR	,DOUBLE_RETURN_STAIR	,CURVED_RUN_STAIR	,TWO_CURVED_RUN_STAIR	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcStairTypeEnum = ENUMERATION OF	(STRAIGHT_RUN_STAIR	,TWO_STRAIGHT_RUN_STAIR	,QUARTER_WINDING_STAIR	,QUARTER_TURN_STAIR	,HALF_WINDING_STAIR	,HALF_TURN_STAIR	,TWO_QUARTER_WINDING_STAIR	,TWO_QUARTER_TURN_STAIR	,THREE_QUARTER_WINDING_STAIR	,THREE_QUARTER_TURN_STAIR	,SPIRAL_STAIR	,DOUBLE_RETURN_STAIR	,CURVED_RUN_STAIR	,TWO_CURVED_RUN_STAIR	,LADDER	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcStairTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcStairTypeEnum> copy_self( new IfcStairTypeEnum() );
@@ -35,6 +35,7 @@ void IfcStairTypeEnum::getStepParameter( std::stringstream& stream, bool is_sele
 		case ENUM_DOUBLE_RETURN_STAIR:	stream << ".DOUBLE_RETURN_STAIR."; break;
 		case ENUM_CURVED_RUN_STAIR:	stream << ".CURVED_RUN_STAIR."; break;
 		case ENUM_TWO_CURVED_RUN_STAIR:	stream << ".TWO_CURVED_RUN_STAIR."; break;
+		case ENUM_LADDER:	stream << ".LADDER."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -58,6 +59,7 @@ const std::wstring IfcStairTypeEnum::toString() const
 		case ENUM_DOUBLE_RETURN_STAIR:	return L"DOUBLE_RETURN_STAIR";
 		case ENUM_CURVED_RUN_STAIR:	return L"CURVED_RUN_STAIR";
 		case ENUM_TWO_CURVED_RUN_STAIR:	return L"TWO_CURVED_RUN_STAIR";
+		case ENUM_LADDER:	return L"LADDER";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -123,6 +125,10 @@ shared_ptr<IfcStairTypeEnum> IfcStairTypeEnum::createObjectFromSTEP( const std::
 	else if( std_iequal( arg, L".TWO_CURVED_RUN_STAIR." ) )
 	{
 		type_object->m_enum = IfcStairTypeEnum::ENUM_TWO_CURVED_RUN_STAIR;
+	}
+	else if( std_iequal( arg, L".LADDER." ) )
+	{
+		type_object->m_enum = IfcStairTypeEnum::ENUM_LADDER;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

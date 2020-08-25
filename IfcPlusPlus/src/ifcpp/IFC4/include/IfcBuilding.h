@@ -7,11 +7,11 @@
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
-#include "IfcSpatialStructureElement.h"
+#include "IfcFacility.h"
 class IFCQUERY_EXPORT IfcLengthMeasure;
 class IFCQUERY_EXPORT IfcPostalAddress;
 //ENTITY
-class IFCQUERY_EXPORT IfcBuilding : public IfcSpatialStructureElement
+class IFCQUERY_EXPORT IfcBuilding : public IfcFacility
 { 
 public:
 	IfcBuilding() = default;
@@ -62,6 +62,8 @@ public:
 	//  shared_ptr<IfcProductRepresentation>						m_Representation;			//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcRelAssignsToProduct> >				m_ReferencedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelPositions> >						m_PositionedRelativeTo_inverse;
+	//  std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >	m_ReferencedInStructures_inverse;
 
 	// IfcSpatialElement -----------------------------------------------------------
 	// attributes:
@@ -74,6 +76,8 @@ public:
 	// IfcSpatialStructureElement -----------------------------------------------------------
 	// attributes:
 	//  shared_ptr<IfcElementCompositionEnum>						m_CompositionType;			//optional
+
+	// IfcFacility -----------------------------------------------------------
 
 	// IfcBuilding -----------------------------------------------------------
 	// attributes:

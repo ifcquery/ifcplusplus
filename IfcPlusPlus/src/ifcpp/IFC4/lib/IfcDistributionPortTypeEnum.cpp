@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDistributionPortTypeEnum.h"
 
-// TYPE IfcDistributionPortTypeEnum = ENUMERATION OF	(CABLE	,CABLECARRIER	,DUCT	,PIPE	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcDistributionPortTypeEnum = ENUMERATION OF	(CABLE	,CABLECARRIER	,DUCT	,PIPE	,WIRELESS	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcDistributionPortTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDistributionPortTypeEnum> copy_self( new IfcDistributionPortTypeEnum() );
@@ -25,6 +25,7 @@ void IfcDistributionPortTypeEnum::getStepParameter( std::stringstream& stream, b
 		case ENUM_CABLECARRIER:	stream << ".CABLECARRIER."; break;
 		case ENUM_DUCT:	stream << ".DUCT."; break;
 		case ENUM_PIPE:	stream << ".PIPE."; break;
+		case ENUM_WIRELESS:	stream << ".WIRELESS."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -38,6 +39,7 @@ const std::wstring IfcDistributionPortTypeEnum::toString() const
 		case ENUM_CABLECARRIER:	return L"CABLECARRIER";
 		case ENUM_DUCT:	return L"DUCT";
 		case ENUM_PIPE:	return L"PIPE";
+		case ENUM_WIRELESS:	return L"WIRELESS";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -63,6 +65,10 @@ shared_ptr<IfcDistributionPortTypeEnum> IfcDistributionPortTypeEnum::createObjec
 	else if( std_iequal( arg, L".PIPE." ) )
 	{
 		type_object->m_enum = IfcDistributionPortTypeEnum::ENUM_PIPE;
+	}
+	else if( std_iequal( arg, L".WIRELESS." ) )
+	{
+		type_object->m_enum = IfcDistributionPortTypeEnum::ENUM_WIRELESS;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

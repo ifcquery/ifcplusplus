@@ -9,7 +9,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 
-// TYPE IfcReferentTypeEnum = ENUMERATION OF	(KILOPOINT	,MILEPOINT	,STATION	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcReferentTypeEnum = ENUMERATION OF	(KILOPOINT	,MILEPOINT	,STATION	,REFERENCEMARKER	,USERDEFINED	,NOTDEFINED);
 class IFCQUERY_EXPORT IfcReferentTypeEnum : virtual public BuildingObject
 {
 public:
@@ -18,6 +18,7 @@ public:
 		ENUM_KILOPOINT,
 		ENUM_MILEPOINT,
 		ENUM_STATION,
+		ENUM_REFERENCEMARKER,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};

@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcAlarmTypeEnum.h"
 
-// TYPE IfcAlarmTypeEnum = ENUMERATION OF	(BELL	,BREAKGLASSBUTTON	,LIGHT	,MANUALPULLBOX	,SIREN	,WHISTLE	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcAlarmTypeEnum = ENUMERATION OF	(BELL	,BREAKGLASSBUTTON	,LIGHT	,MANUALPULLBOX	,SIREN	,WHISTLE	,RAILWAYCROCODILE	,RAILWAYDETONATOR	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcAlarmTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcAlarmTypeEnum> copy_self( new IfcAlarmTypeEnum() );
@@ -27,6 +27,8 @@ void IfcAlarmTypeEnum::getStepParameter( std::stringstream& stream, bool is_sele
 		case ENUM_MANUALPULLBOX:	stream << ".MANUALPULLBOX."; break;
 		case ENUM_SIREN:	stream << ".SIREN."; break;
 		case ENUM_WHISTLE:	stream << ".WHISTLE."; break;
+		case ENUM_RAILWAYCROCODILE:	stream << ".RAILWAYCROCODILE."; break;
+		case ENUM_RAILWAYDETONATOR:	stream << ".RAILWAYDETONATOR."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -42,6 +44,8 @@ const std::wstring IfcAlarmTypeEnum::toString() const
 		case ENUM_MANUALPULLBOX:	return L"MANUALPULLBOX";
 		case ENUM_SIREN:	return L"SIREN";
 		case ENUM_WHISTLE:	return L"WHISTLE";
+		case ENUM_RAILWAYCROCODILE:	return L"RAILWAYCROCODILE";
+		case ENUM_RAILWAYDETONATOR:	return L"RAILWAYDETONATOR";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -75,6 +79,14 @@ shared_ptr<IfcAlarmTypeEnum> IfcAlarmTypeEnum::createObjectFromSTEP( const std::
 	else if( std_iequal( arg, L".WHISTLE." ) )
 	{
 		type_object->m_enum = IfcAlarmTypeEnum::ENUM_WHISTLE;
+	}
+	else if( std_iequal( arg, L".RAILWAYCROCODILE." ) )
+	{
+		type_object->m_enum = IfcAlarmTypeEnum::ENUM_RAILWAYCROCODILE;
+	}
+	else if( std_iequal( arg, L".RAILWAYDETONATOR." ) )
+	{
+		type_object->m_enum = IfcAlarmTypeEnum::ENUM_RAILWAYDETONATOR;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

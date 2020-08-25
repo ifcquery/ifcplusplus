@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcHeatExchangerTypeEnum.h"
 
-// TYPE IfcHeatExchangerTypeEnum = ENUMERATION OF	(PLATE	,SHELLANDTUBE	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcHeatExchangerTypeEnum = ENUMERATION OF	(PLATE	,SHELLANDTUBE	,TURNOUTHEATING	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcHeatExchangerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcHeatExchangerTypeEnum> copy_self( new IfcHeatExchangerTypeEnum() );
@@ -23,6 +23,7 @@ void IfcHeatExchangerTypeEnum::getStepParameter( std::stringstream& stream, bool
 	{
 		case ENUM_PLATE:	stream << ".PLATE."; break;
 		case ENUM_SHELLANDTUBE:	stream << ".SHELLANDTUBE."; break;
+		case ENUM_TURNOUTHEATING:	stream << ".TURNOUTHEATING."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -34,6 +35,7 @@ const std::wstring IfcHeatExchangerTypeEnum::toString() const
 	{
 		case ENUM_PLATE:	return L"PLATE";
 		case ENUM_SHELLANDTUBE:	return L"SHELLANDTUBE";
+		case ENUM_TURNOUTHEATING:	return L"TURNOUTHEATING";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -51,6 +53,10 @@ shared_ptr<IfcHeatExchangerTypeEnum> IfcHeatExchangerTypeEnum::createObjectFromS
 	else if( std_iequal( arg, L".SHELLANDTUBE." ) )
 	{
 		type_object->m_enum = IfcHeatExchangerTypeEnum::ENUM_SHELLANDTUBE;
+	}
+	else if( std_iequal( arg, L".TURNOUTHEATING." ) )
+	{
+		type_object->m_enum = IfcHeatExchangerTypeEnum::ENUM_TURNOUTHEATING;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

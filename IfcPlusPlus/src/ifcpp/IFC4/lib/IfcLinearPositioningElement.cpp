@@ -7,6 +7,7 @@
 #include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
+#include "ifcpp/IFC4/include/IfcBoundedCurve.h"
 #include "ifcpp/IFC4/include/IfcCurve.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
@@ -24,6 +25,8 @@
 #include "ifcpp/IFC4/include/IfcRelDefinesByProperties.h"
 #include "ifcpp/IFC4/include/IfcRelDefinesByType.h"
 #include "ifcpp/IFC4/include/IfcRelNests.h"
+#include "ifcpp/IFC4/include/IfcRelPositions.h"
+#include "ifcpp/IFC4/include/IfcRelReferencedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcLinearPositioningElement 
@@ -96,8 +99,38 @@ void IfcLinearPositioningElement::getAttributesInverse( std::vector<std::pair<st
 void IfcLinearPositioningElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcPositioningElement::setInverseCounterparts( ptr_self_entity );
+	shared_ptr<IfcLinearPositioningElement> ptr_self = dynamic_pointer_cast<IfcLinearPositioningElement>( ptr_self_entity );
+	if( !ptr_self ) { throw BuildingException( "IfcLinearPositioningElement::setInverseCounterparts: type mismatch" ); }
+	shared_ptr<IfcBoundedCurve>  Axis_IfcBoundedCurve = dynamic_pointer_cast<IfcBoundedCurve>( m_Axis );
+	if( Axis_IfcBoundedCurve )
+	{
+		Axis_IfcBoundedCurve->m_PositioningElement_inverse.emplace_back( ptr_self );
+	}
 }
 void IfcLinearPositioningElement::unlinkFromInverseCounterparts()
 {
 	IfcPositioningElement::unlinkFromInverseCounterparts();
+	shared_ptr<IfcBoundedCurve>  Axis_IfcBoundedCurve = dynamic_pointer_cast<IfcBoundedCurve>( m_Axis );
+	if( Axis_IfcBoundedCurve )
+	{
+		std::vector<weak_ptr<IfcLinearPositioningElement> >& PositioningElement_inverse = Axis_IfcBoundedCurve->m_PositioningElement_inverse;
+		for( auto it_PositioningElement_inverse = PositioningElement_inverse.begin(); it_PositioningElement_inverse != PositioningElement_inverse.end(); )
+		{
+			weak_ptr<IfcLinearPositioningElement> self_candidate_weak = *it_PositioningElement_inverse;
+			if( self_candidate_weak.expired() )
+			{
+				++it_PositioningElement_inverse;
+				continue;
+			}
+			shared_ptr<IfcLinearPositioningElement> self_candidate( *it_PositioningElement_inverse );
+			if( self_candidate.get() == this )
+			{
+				it_PositioningElement_inverse= PositioningElement_inverse.erase( it_PositioningElement_inverse );
+			}
+			else
+			{
+				++it_PositioningElement_inverse;
+			}
+		}
+	}
 }

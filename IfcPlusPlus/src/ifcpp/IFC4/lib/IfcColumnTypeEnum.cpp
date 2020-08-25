@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcColumnTypeEnum.h"
 
-// TYPE IfcColumnTypeEnum = ENUMERATION OF	(COLUMN	,PILASTER	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcColumnTypeEnum = ENUMERATION OF	(COLUMN	,PILASTER	,PIERSTEM	,PIERSTEM_SEGMENT	,STANDCOLUMN	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcColumnTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcColumnTypeEnum> copy_self( new IfcColumnTypeEnum() );
@@ -23,6 +23,9 @@ void IfcColumnTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 	{
 		case ENUM_COLUMN:	stream << ".COLUMN."; break;
 		case ENUM_PILASTER:	stream << ".PILASTER."; break;
+		case ENUM_PIERSTEM:	stream << ".PIERSTEM."; break;
+		case ENUM_PIERSTEM_SEGMENT:	stream << ".PIERSTEM_SEGMENT."; break;
+		case ENUM_STANDCOLUMN:	stream << ".STANDCOLUMN."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -34,6 +37,9 @@ const std::wstring IfcColumnTypeEnum::toString() const
 	{
 		case ENUM_COLUMN:	return L"COLUMN";
 		case ENUM_PILASTER:	return L"PILASTER";
+		case ENUM_PIERSTEM:	return L"PIERSTEM";
+		case ENUM_PIERSTEM_SEGMENT:	return L"PIERSTEM_SEGMENT";
+		case ENUM_STANDCOLUMN:	return L"STANDCOLUMN";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -51,6 +57,18 @@ shared_ptr<IfcColumnTypeEnum> IfcColumnTypeEnum::createObjectFromSTEP( const std
 	else if( std_iequal( arg, L".PILASTER." ) )
 	{
 		type_object->m_enum = IfcColumnTypeEnum::ENUM_PILASTER;
+	}
+	else if( std_iequal( arg, L".PIERSTEM." ) )
+	{
+		type_object->m_enum = IfcColumnTypeEnum::ENUM_PIERSTEM;
+	}
+	else if( std_iequal( arg, L".PIERSTEM_SEGMENT." ) )
+	{
+		type_object->m_enum = IfcColumnTypeEnum::ENUM_PIERSTEM_SEGMENT;
+	}
+	else if( std_iequal( arg, L".STANDCOLUMN." ) )
+	{
+		type_object->m_enum = IfcColumnTypeEnum::ENUM_STANDCOLUMN;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

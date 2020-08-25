@@ -9,7 +9,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 
-// TYPE IfcHeatExchangerTypeEnum = ENUMERATION OF	(PLATE	,SHELLANDTUBE	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcHeatExchangerTypeEnum = ENUMERATION OF	(PLATE	,SHELLANDTUBE	,TURNOUTHEATING	,USERDEFINED	,NOTDEFINED);
 class IFCQUERY_EXPORT IfcHeatExchangerTypeEnum : virtual public BuildingObject
 {
 public:
@@ -17,6 +17,7 @@ public:
 	{
 		ENUM_PLATE,
 		ENUM_SHELLANDTUBE,
+		ENUM_TURNOUTHEATING,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};

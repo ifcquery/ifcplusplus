@@ -20,6 +20,7 @@
 #include "ifcpp/IFC4/include/IfcAnalysisModelTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcAnalysisTheoryTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcAngularVelocityMeasure.h"
+#include "ifcpp/IFC4/include/IfcAnnotationTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcAppliedValueSelect.h"
 #include "ifcpp/IFC4/include/IfcArcIndex.h"
 #include "ifcpp/IFC4/include/IfcAreaDensityMeasure.h"
@@ -31,6 +32,8 @@
 #include "ifcpp/IFC4/include/IfcBSplineCurveForm.h"
 #include "ifcpp/IFC4/include/IfcBSplineSurfaceForm.h"
 #include "ifcpp/IFC4/include/IfcBeamTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcBearingTypeDisplacementEnum.h"
+#include "ifcpp/IFC4/include/IfcBearingTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcBenchmarkEnum.h"
 #include "ifcpp/IFC4/include/IfcBendingParameterSelect.h"
 #include "ifcpp/IFC4/include/IfcBinary.h"
@@ -39,14 +42,18 @@
 #include "ifcpp/IFC4/include/IfcBooleanOperand.h"
 #include "ifcpp/IFC4/include/IfcBooleanOperator.h"
 #include "ifcpp/IFC4/include/IfcBoxAlignment.h"
+#include "ifcpp/IFC4/include/IfcBridgePartTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcBridgeTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcBuildingElementPartTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcBuildingElementProxyTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcBuildingSystemTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcBuiltSystemTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcBurnerTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcCableCarrierFittingTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcCableCarrierSegmentTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcCableFittingTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcCableSegmentTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcCaissonFoundationTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcCardinalPointReference.h"
 #include "ifcpp/IFC4/include/IfcChangeActionEnum.h"
 #include "ifcpp/IFC4/include/IfcChillerTypeEnum.h"
@@ -70,12 +77,14 @@
 #include "ifcpp/IFC4/include/IfcConstructionProductResourceTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcContextDependentMeasure.h"
 #include "ifcpp/IFC4/include/IfcControllerTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcConveyorSegmentTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcCooledBeamTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcCoolingTowerTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcCoordinateReferenceSystemSelect.h"
 #include "ifcpp/IFC4/include/IfcCostItemTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcCostScheduleTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcCountMeasure.h"
+#include "ifcpp/IFC4/include/IfcCourseTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcCoveringTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcCrewResourceTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcCsgSelect.h"
@@ -99,6 +108,7 @@
 #include "ifcpp/IFC4/include/IfcDimensionCount.h"
 #include "ifcpp/IFC4/include/IfcDirectionSenseEnum.h"
 #include "ifcpp/IFC4/include/IfcDiscreteAccessoryTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcDistributionBoardTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcDistributionChamberElementTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcDistributionPortTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcDistributionSystemEnum.h"
@@ -117,6 +127,8 @@
 #include "ifcpp/IFC4/include/IfcDuctSilencerTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcDuration.h"
 #include "ifcpp/IFC4/include/IfcDynamicViscosityMeasure.h"
+#include "ifcpp/IFC4/include/IfcEarthworksCutTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcEarthworksFillTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcElectricApplianceTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcElectricCapacitanceMeasure.h"
 #include "ifcpp/IFC4/include/IfcElectricChargeMeasure.h"
@@ -124,6 +136,7 @@
 #include "ifcpp/IFC4/include/IfcElectricCurrentMeasure.h"
 #include "ifcpp/IFC4/include/IfcElectricDistributionBoardTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcElectricFlowStorageDeviceTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcElectricFlowTreatmentDeviceTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcElectricGeneratorTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcElectricMotorTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcElectricResistanceMeasure.h"
@@ -138,6 +151,9 @@
 #include "ifcpp/IFC4/include/IfcEventTriggerTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcEventTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcExternalSpatialElementTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcFacilityPartCommonTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcFacilityPartTypeSelect.h"
+#include "ifcpp/IFC4/include/IfcFacilityUsageEnum.h"
 #include "ifcpp/IFC4/include/IfcFanTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcFastenerTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcFillStyleSelect.h"
@@ -167,10 +183,13 @@
 #include "ifcpp/IFC4/include/IfcHumidifierTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcIdentifier.h"
 #include "ifcpp/IFC4/include/IfcIlluminanceMeasure.h"
+#include "ifcpp/IFC4/include/IfcImpactProtectionDeviceTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcImpactProtectionDeviceTypeSelect.h"
 #include "ifcpp/IFC4/include/IfcInductanceMeasure.h"
 #include "ifcpp/IFC4/include/IfcInteger.h"
 #include "ifcpp/IFC4/include/IfcIntegerCountRateMeasure.h"
 #include "ifcpp/IFC4/include/IfcInterceptorTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcInterferenceSelect.h"
 #include "ifcpp/IFC4/include/IfcInternalOrExternalEnum.h"
 #include "ifcpp/IFC4/include/IfcInventoryTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcIonConcentrationMeasure.h"
@@ -191,10 +210,12 @@
 #include "ifcpp/IFC4/include/IfcLightEmissionSourceEnum.h"
 #include "ifcpp/IFC4/include/IfcLightFixtureTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcLineIndex.h"
+#include "ifcpp/IFC4/include/IfcLinearAxisSelect.h"
 #include "ifcpp/IFC4/include/IfcLinearForceMeasure.h"
 #include "ifcpp/IFC4/include/IfcLinearMomentMeasure.h"
 #include "ifcpp/IFC4/include/IfcLinearStiffnessMeasure.h"
 #include "ifcpp/IFC4/include/IfcLinearVelocityMeasure.h"
+#include "ifcpp/IFC4/include/IfcLiquidTerminalTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcLoadGroupTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcLogical.h"
 #include "ifcpp/IFC4/include/IfcLogicalOperatorEnum.h"
@@ -203,6 +224,8 @@
 #include "ifcpp/IFC4/include/IfcLuminousIntensityMeasure.h"
 #include "ifcpp/IFC4/include/IfcMagneticFluxDensityMeasure.h"
 #include "ifcpp/IFC4/include/IfcMagneticFluxMeasure.h"
+#include "ifcpp/IFC4/include/IfcMarineFacilityTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcMarinePartTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcMassDensityMeasure.h"
 #include "ifcpp/IFC4/include/IfcMassFlowRateMeasure.h"
 #include "ifcpp/IFC4/include/IfcMassMeasure.h"
@@ -213,6 +236,7 @@
 #include "ifcpp/IFC4/include/IfcMedicalDeviceTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcMemberTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcMetricValueSelect.h"
+#include "ifcpp/IFC4/include/IfcMobileTelecommunicationsApplianceTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcModulusOfElasticityMeasure.h"
 #include "ifcpp/IFC4/include/IfcModulusOfLinearSubgradeReactionMeasure.h"
 #include "ifcpp/IFC4/include/IfcModulusOfRotationalSubgradeReactionMeasure.h"
@@ -225,7 +249,9 @@
 #include "ifcpp/IFC4/include/IfcMomentOfInertiaMeasure.h"
 #include "ifcpp/IFC4/include/IfcMonetaryMeasure.h"
 #include "ifcpp/IFC4/include/IfcMonthInYearNumber.h"
+#include "ifcpp/IFC4/include/IfcMooringDeviceTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcMotorConnectionTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcNavigationElementTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcNonNegativeLengthMeasure.h"
 #include "ifcpp/IFC4/include/IfcNormalisedRatioMeasure.h"
 #include "ifcpp/IFC4/include/IfcNullStyle.h"
@@ -274,7 +300,9 @@
 #include "ifcpp/IFC4/include/IfcProtectiveDeviceTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcPumpTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcRadioActivityMeasure.h"
+#include "ifcpp/IFC4/include/IfcRailTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcRailingTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcRailwayPartTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcRampFlightTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcRampTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcRatioMeasure.h"
@@ -282,12 +310,14 @@
 #include "ifcpp/IFC4/include/IfcRecurrenceTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcReferentTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcReflectanceMethodEnum.h"
+#include "ifcpp/IFC4/include/IfcReinforcedSoilTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcReinforcingBarRoleEnum.h"
 #include "ifcpp/IFC4/include/IfcReinforcingBarSurfaceEnum.h"
 #include "ifcpp/IFC4/include/IfcReinforcingBarTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcReinforcingMeshTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcResourceObjectSelect.h"
 #include "ifcpp/IFC4/include/IfcResourceSelect.h"
+#include "ifcpp/IFC4/include/IfcRoadPartTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcRoleEnum.h"
 #include "ifcpp/IFC4/include/IfcRoofTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcRotationalFrequencyMeasure.h"
@@ -306,6 +336,8 @@
 #include "ifcpp/IFC4/include/IfcShadingDeviceTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcShearModulusMeasure.h"
 #include "ifcpp/IFC4/include/IfcShell.h"
+#include "ifcpp/IFC4/include/IfcSignTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcSignalTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcSimplePropertyTemplateTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcSimpleValue.h"
 #include "ifcpp/IFC4/include/IfcSizeSelect.h"
@@ -320,6 +352,7 @@
 #include "ifcpp/IFC4/include/IfcSpaceBoundarySelect.h"
 #include "ifcpp/IFC4/include/IfcSpaceHeaterTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcSpaceTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcSpatialReferenceSelect.h"
 #include "ifcpp/IFC4/include/IfcSpatialZoneTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcSpecificHeatCapacityMeasure.h"
 #include "ifcpp/IFC4/include/IfcSpecularExponent.h"
@@ -348,6 +381,7 @@
 #include "ifcpp/IFC4/include/IfcTemperatureGradientMeasure.h"
 #include "ifcpp/IFC4/include/IfcTemperatureRateOfChangeMeasure.h"
 #include "ifcpp/IFC4/include/IfcTendonAnchorTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcTendonConduitTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcTendonTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcText.h"
 #include "ifcpp/IFC4/include/IfcTextAlignment.h"
@@ -368,11 +402,14 @@
 #include "ifcpp/IFC4/include/IfcTimeSeriesDataTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcTimeStamp.h"
 #include "ifcpp/IFC4/include/IfcTorqueMeasure.h"
+#include "ifcpp/IFC4/include/IfcTrackElementTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcTransformerTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcTransitionCode.h"
 #include "ifcpp/IFC4/include/IfcTransitionCurveType.h"
 #include "ifcpp/IFC4/include/IfcTranslationalStiffnessSelect.h"
-#include "ifcpp/IFC4/include/IfcTransportElementTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcTransportElementFixedTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcTransportElementNonFixedTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcTransportElementTypeSelect.h"
 #include "ifcpp/IFC4/include/IfcTrimmingPreference.h"
 #include "ifcpp/IFC4/include/IfcTrimmingSelect.h"
 #include "ifcpp/IFC4/include/IfcTubeBundleTypeEnum.h"
@@ -385,6 +422,7 @@
 #include "ifcpp/IFC4/include/IfcValveTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcVaporPermeabilityMeasure.h"
 #include "ifcpp/IFC4/include/IfcVectorOrDirection.h"
+#include "ifcpp/IFC4/include/IfcVibrationDamperTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcVibrationIsolatorTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcVoidingFeatureTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcVolumeMeasure.h"
@@ -423,6 +461,7 @@
 { L"IFCANALYSISMODELTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcAnalysisModelTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCANALYSISTHEORYTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcAnalysisTheoryTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCANGULARVELOCITYMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcAngularVelocityMeasure::createObjectFromSTEP( arg, map ); } },
+{ L"IFCANNOTATIONTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcAnnotationTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCAPPLIEDVALUESELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcAppliedValueSelect::createObjectFromSTEP( arg, map ); } },
 { L"IFCARCINDEX", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcArcIndex::createObjectFromSTEP( arg, map ); } },
 { L"IFCAREADENSITYMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcAreaDensityMeasure::createObjectFromSTEP( arg, map ); } },
@@ -434,6 +473,8 @@
 { L"IFCBSPLINECURVEFORM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBSplineCurveForm::createObjectFromSTEP( arg, map ); } },
 { L"IFCBSPLINESURFACEFORM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBSplineSurfaceForm::createObjectFromSTEP( arg, map ); } },
 { L"IFCBEAMTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBeamTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCBEARINGTYPEDISPLACEMENTENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBearingTypeDisplacementEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCBEARINGTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBearingTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCBENCHMARKENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBenchmarkEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCBENDINGPARAMETERSELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBendingParameterSelect::createObjectFromSTEP( arg, map ); } },
 { L"IFCBINARY", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBinary::createObjectFromSTEP( arg, map ); } },
@@ -442,14 +483,18 @@
 { L"IFCBOOLEANOPERAND", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBooleanOperand::createObjectFromSTEP( arg, map ); } },
 { L"IFCBOOLEANOPERATOR", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBooleanOperator::createObjectFromSTEP( arg, map ); } },
 { L"IFCBOXALIGNMENT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBoxAlignment::createObjectFromSTEP( arg, map ); } },
+{ L"IFCBRIDGEPARTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBridgePartTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCBRIDGETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBridgeTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCBUILDINGELEMENTPARTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBuildingElementPartTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCBUILDINGELEMENTPROXYTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBuildingElementProxyTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCBUILDINGSYSTEMTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBuildingSystemTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCBUILTSYSTEMTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBuiltSystemTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCBURNERTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcBurnerTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCABLECARRIERFITTINGTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCableCarrierFittingTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCABLECARRIERSEGMENTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCableCarrierSegmentTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCABLEFITTINGTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCableFittingTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCABLESEGMENTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCableSegmentTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCCAISSONFOUNDATIONTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCaissonFoundationTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCARDINALPOINTREFERENCE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCardinalPointReference::createObjectFromSTEP( arg, map ); } },
 { L"IFCCHANGEACTIONENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcChangeActionEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCHILLERTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcChillerTypeEnum::createObjectFromSTEP( arg, map ); } },
@@ -473,12 +518,14 @@
 { L"IFCCONSTRUCTIONPRODUCTRESOURCETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcConstructionProductResourceTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCONTEXTDEPENDENTMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcContextDependentMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCCONTROLLERTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcControllerTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCCONVEYORSEGMENTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcConveyorSegmentTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCOOLEDBEAMTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCooledBeamTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCOOLINGTOWERTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCoolingTowerTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCOORDINATEREFERENCESYSTEMSELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( arg, map ); } },
 { L"IFCCOSTITEMTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCostItemTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCOSTSCHEDULETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCostScheduleTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCOUNTMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCountMeasure::createObjectFromSTEP( arg, map ); } },
+{ L"IFCCOURSETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCourseTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCOVERINGTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCoveringTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCREWRESOURCETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCrewResourceTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCCSGSELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcCsgSelect::createObjectFromSTEP( arg, map ); } },
@@ -502,6 +549,7 @@
 { L"IFCDIMENSIONCOUNT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcDimensionCount::createObjectFromSTEP( arg, map ); } },
 { L"IFCDIRECTIONSENSEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcDirectionSenseEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCDISCRETEACCESSORYTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcDiscreteAccessoryTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCDISTRIBUTIONBOARDTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcDistributionBoardTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCDISTRIBUTIONCHAMBERELEMENTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcDistributionChamberElementTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCDISTRIBUTIONPORTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcDistributionPortTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCDISTRIBUTIONSYSTEMENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcDistributionSystemEnum::createObjectFromSTEP( arg, map ); } },
@@ -520,6 +568,8 @@
 { L"IFCDUCTSILENCERTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcDuctSilencerTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCDURATION", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcDuration::createObjectFromSTEP( arg, map ); } },
 { L"IFCDYNAMICVISCOSITYMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcDynamicViscosityMeasure::createObjectFromSTEP( arg, map ); } },
+{ L"IFCEARTHWORKSCUTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcEarthworksCutTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCEARTHWORKSFILLTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcEarthworksFillTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCELECTRICAPPLIANCETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcElectricApplianceTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCELECTRICCAPACITANCEMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcElectricCapacitanceMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCELECTRICCHARGEMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcElectricChargeMeasure::createObjectFromSTEP( arg, map ); } },
@@ -527,6 +577,7 @@
 { L"IFCELECTRICCURRENTMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcElectricCurrentMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCELECTRICDISTRIBUTIONBOARDTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcElectricDistributionBoardTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCELECTRICFLOWSTORAGEDEVICETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcElectricFlowStorageDeviceTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCELECTRICFLOWTREATMENTDEVICETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcElectricFlowTreatmentDeviceTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCELECTRICGENERATORTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcElectricGeneratorTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCELECTRICMOTORTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcElectricMotorTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCELECTRICRESISTANCEMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcElectricResistanceMeasure::createObjectFromSTEP( arg, map ); } },
@@ -541,6 +592,9 @@
 { L"IFCEVENTTRIGGERTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcEventTriggerTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCEVENTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcEventTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCEXTERNALSPATIALELEMENTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcExternalSpatialElementTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCFACILITYPARTCOMMONTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcFacilityPartCommonTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCFACILITYPARTTYPESELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcFacilityPartTypeSelect::createObjectFromSTEP( arg, map ); } },
+{ L"IFCFACILITYUSAGEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcFacilityUsageEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCFANTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcFanTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCFASTENERTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcFastenerTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCFILLSTYLESELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcFillStyleSelect::createObjectFromSTEP( arg, map ); } },
@@ -570,10 +624,13 @@
 { L"IFCHUMIDIFIERTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcHumidifierTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCIDENTIFIER", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcIdentifier::createObjectFromSTEP( arg, map ); } },
 { L"IFCILLUMINANCEMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcIlluminanceMeasure::createObjectFromSTEP( arg, map ); } },
+{ L"IFCIMPACTPROTECTIONDEVICETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcImpactProtectionDeviceTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCIMPACTPROTECTIONDEVICETYPESELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcImpactProtectionDeviceTypeSelect::createObjectFromSTEP( arg, map ); } },
 { L"IFCINDUCTANCEMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcInductanceMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCINTEGER", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcInteger::createObjectFromSTEP( arg, map ); } },
 { L"IFCINTEGERCOUNTRATEMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcIntegerCountRateMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCINTERCEPTORTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcInterceptorTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCINTERFERENCESELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcInterferenceSelect::createObjectFromSTEP( arg, map ); } },
 { L"IFCINTERNALOREXTERNALENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcInternalOrExternalEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCINVENTORYTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcInventoryTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCIONCONCENTRATIONMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcIonConcentrationMeasure::createObjectFromSTEP( arg, map ); } },
@@ -594,10 +651,12 @@
 { L"IFCLIGHTEMISSIONSOURCEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcLightEmissionSourceEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCLIGHTFIXTURETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcLightFixtureTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCLINEINDEX", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcLineIndex::createObjectFromSTEP( arg, map ); } },
+{ L"IFCLINEARAXISSELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcLinearAxisSelect::createObjectFromSTEP( arg, map ); } },
 { L"IFCLINEARFORCEMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcLinearForceMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCLINEARMOMENTMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcLinearMomentMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCLINEARSTIFFNESSMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcLinearStiffnessMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCLINEARVELOCITYMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcLinearVelocityMeasure::createObjectFromSTEP( arg, map ); } },
+{ L"IFCLIQUIDTERMINALTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcLiquidTerminalTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCLOADGROUPTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcLoadGroupTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCLOGICAL", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcLogical::createObjectFromSTEP( arg, map ); } },
 { L"IFCLOGICALOPERATORENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcLogicalOperatorEnum::createObjectFromSTEP( arg, map ); } },
@@ -606,6 +665,8 @@
 { L"IFCLUMINOUSINTENSITYMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcLuminousIntensityMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCMAGNETICFLUXDENSITYMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMagneticFluxDensityMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCMAGNETICFLUXMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMagneticFluxMeasure::createObjectFromSTEP( arg, map ); } },
+{ L"IFCMARINEFACILITYTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMarineFacilityTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCMARINEPARTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMarinePartTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCMASSDENSITYMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMassDensityMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCMASSFLOWRATEMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMassFlowRateMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCMASSMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMassMeasure::createObjectFromSTEP( arg, map ); } },
@@ -616,6 +677,7 @@
 { L"IFCMEDICALDEVICETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMedicalDeviceTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCMEMBERTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMemberTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCMETRICVALUESELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMetricValueSelect::createObjectFromSTEP( arg, map ); } },
+{ L"IFCMOBILETELECOMMUNICATIONSAPPLIANCETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMobileTelecommunicationsApplianceTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCMODULUSOFELASTICITYMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcModulusOfElasticityMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCMODULUSOFLINEARSUBGRADEREACTIONMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcModulusOfLinearSubgradeReactionMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCMODULUSOFROTATIONALSUBGRADEREACTIONMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcModulusOfRotationalSubgradeReactionMeasure::createObjectFromSTEP( arg, map ); } },
@@ -628,7 +690,9 @@
 { L"IFCMOMENTOFINERTIAMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMomentOfInertiaMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCMONETARYMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMonetaryMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCMONTHINYEARNUMBER", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMonthInYearNumber::createObjectFromSTEP( arg, map ); } },
+{ L"IFCMOORINGDEVICETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMooringDeviceTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCMOTORCONNECTIONTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcMotorConnectionTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCNAVIGATIONELEMENTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcNavigationElementTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCNONNEGATIVELENGTHMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcNonNegativeLengthMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCNORMALISEDRATIOMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcNormalisedRatioMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCNULLSTYLE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcNullStyle::createObjectFromSTEP( arg, map ); } },
@@ -677,7 +741,9 @@
 { L"IFCPROTECTIVEDEVICETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcProtectiveDeviceTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCPUMPTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcPumpTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCRADIOACTIVITYMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcRadioActivityMeasure::createObjectFromSTEP( arg, map ); } },
+{ L"IFCRAILTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcRailTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCRAILINGTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcRailingTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCRAILWAYPARTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcRailwayPartTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCRAMPFLIGHTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcRampFlightTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCRAMPTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcRampTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCRATIOMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcRatioMeasure::createObjectFromSTEP( arg, map ); } },
@@ -685,12 +751,14 @@
 { L"IFCRECURRENCETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcRecurrenceTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCREFERENTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcReferentTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCREFLECTANCEMETHODENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcReflectanceMethodEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCREINFORCEDSOILTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcReinforcedSoilTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCREINFORCINGBARROLEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcReinforcingBarRoleEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCREINFORCINGBARSURFACEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcReinforcingBarSurfaceEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCREINFORCINGBARTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcReinforcingBarTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCREINFORCINGMESHTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcReinforcingMeshTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCRESOURCEOBJECTSELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcResourceObjectSelect::createObjectFromSTEP( arg, map ); } },
 { L"IFCRESOURCESELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcResourceSelect::createObjectFromSTEP( arg, map ); } },
+{ L"IFCROADPARTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcRoadPartTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCROLEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcRoleEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCROOFTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcRoofTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCROTATIONALFREQUENCYMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcRotationalFrequencyMeasure::createObjectFromSTEP( arg, map ); } },
@@ -709,6 +777,8 @@
 { L"IFCSHADINGDEVICETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcShadingDeviceTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCSHEARMODULUSMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcShearModulusMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCSHELL", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcShell::createObjectFromSTEP( arg, map ); } },
+{ L"IFCSIGNTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcSignTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCSIGNALTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcSignalTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCSIMPLEPROPERTYTEMPLATETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcSimplePropertyTemplateTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCSIMPLEVALUE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcSimpleValue::createObjectFromSTEP( arg, map ); } },
 { L"IFCSIZESELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcSizeSelect::createObjectFromSTEP( arg, map ); } },
@@ -723,6 +793,7 @@
 { L"IFCSPACEBOUNDARYSELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcSpaceBoundarySelect::createObjectFromSTEP( arg, map ); } },
 { L"IFCSPACEHEATERTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcSpaceHeaterTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCSPACETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcSpaceTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCSPATIALREFERENCESELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcSpatialReferenceSelect::createObjectFromSTEP( arg, map ); } },
 { L"IFCSPATIALZONETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcSpatialZoneTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCSPECIFICHEATCAPACITYMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcSpecificHeatCapacityMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCSPECULAREXPONENT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcSpecularExponent::createObjectFromSTEP( arg, map ); } },
@@ -751,6 +822,7 @@
 { L"IFCTEMPERATUREGRADIENTMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTemperatureGradientMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCTEMPERATURERATEOFCHANGEMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTemperatureRateOfChangeMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCTENDONANCHORTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTendonAnchorTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCTENDONCONDUITTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTendonConduitTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCTENDONTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTendonTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCTEXT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcText::createObjectFromSTEP( arg, map ); } },
 { L"IFCTEXTALIGNMENT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTextAlignment::createObjectFromSTEP( arg, map ); } },
@@ -771,11 +843,14 @@
 { L"IFCTIMESERIESDATATYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTimeSeriesDataTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCTIMESTAMP", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTimeStamp::createObjectFromSTEP( arg, map ); } },
 { L"IFCTORQUEMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTorqueMeasure::createObjectFromSTEP( arg, map ); } },
+{ L"IFCTRACKELEMENTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTrackElementTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCTRANSFORMERTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTransformerTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCTRANSITIONCODE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTransitionCode::createObjectFromSTEP( arg, map ); } },
 { L"IFCTRANSITIONCURVETYPE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTransitionCurveType::createObjectFromSTEP( arg, map ); } },
 { L"IFCTRANSLATIONALSTIFFNESSSELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTranslationalStiffnessSelect::createObjectFromSTEP( arg, map ); } },
-{ L"IFCTRANSPORTELEMENTTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTransportElementTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCTRANSPORTELEMENTFIXEDTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTransportElementFixedTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCTRANSPORTELEMENTNONFIXEDTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTransportElementNonFixedTypeEnum::createObjectFromSTEP( arg, map ); } },
+{ L"IFCTRANSPORTELEMENTTYPESELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTransportElementTypeSelect::createObjectFromSTEP( arg, map ); } },
 { L"IFCTRIMMINGPREFERENCE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTrimmingPreference::createObjectFromSTEP( arg, map ); } },
 { L"IFCTRIMMINGSELECT", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTrimmingSelect::createObjectFromSTEP( arg, map ); } },
 { L"IFCTUBEBUNDLETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcTubeBundleTypeEnum::createObjectFromSTEP( arg, map ); } },
@@ -788,6 +863,7 @@
 { L"IFCVALVETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcValveTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCVAPORPERMEABILITYMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcVaporPermeabilityMeasure::createObjectFromSTEP( arg, map ); } },
 { L"IFCVECTORORDIRECTION", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcVectorOrDirection::createObjectFromSTEP( arg, map ); } },
+{ L"IFCVIBRATIONDAMPERTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcVibrationDamperTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCVIBRATIONISOLATORTYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcVibrationIsolatorTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCVOIDINGFEATURETYPEENUM", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcVoidingFeatureTypeEnum::createObjectFromSTEP( arg, map ); } },
 { L"IFCVOLUMEMEASURE", []( const std::wstring& arg, const std::map<int, shared_ptr<BuildingEntity> >& map )->shared_ptr<BuildingObject> { return IfcVolumeMeasure::createObjectFromSTEP( arg, map ); } },

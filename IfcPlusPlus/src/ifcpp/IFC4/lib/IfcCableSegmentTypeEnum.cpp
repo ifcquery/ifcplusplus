@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcCableSegmentTypeEnum.h"
 
-// TYPE IfcCableSegmentTypeEnum = ENUMERATION OF	(BUSBARSEGMENT	,CABLESEGMENT	,CONDUCTORSEGMENT	,CORESEGMENT	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcCableSegmentTypeEnum = ENUMERATION OF	(BUSBARSEGMENT	,CABLESEGMENT	,CONDUCTORSEGMENT	,CORESEGMENT	,CONTACTWIRESEGMENT	,FIBERSEGMENT	,FIBERTUBE	,OPTICALCABLESEGMENT	,STITCHWIRE	,WIREPAIRSEGMENT	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcCableSegmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCableSegmentTypeEnum> copy_self( new IfcCableSegmentTypeEnum() );
@@ -25,6 +25,12 @@ void IfcCableSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool 
 		case ENUM_CABLESEGMENT:	stream << ".CABLESEGMENT."; break;
 		case ENUM_CONDUCTORSEGMENT:	stream << ".CONDUCTORSEGMENT."; break;
 		case ENUM_CORESEGMENT:	stream << ".CORESEGMENT."; break;
+		case ENUM_CONTACTWIRESEGMENT:	stream << ".CONTACTWIRESEGMENT."; break;
+		case ENUM_FIBERSEGMENT:	stream << ".FIBERSEGMENT."; break;
+		case ENUM_FIBERTUBE:	stream << ".FIBERTUBE."; break;
+		case ENUM_OPTICALCABLESEGMENT:	stream << ".OPTICALCABLESEGMENT."; break;
+		case ENUM_STITCHWIRE:	stream << ".STITCHWIRE."; break;
+		case ENUM_WIREPAIRSEGMENT:	stream << ".WIREPAIRSEGMENT."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -38,6 +44,12 @@ const std::wstring IfcCableSegmentTypeEnum::toString() const
 		case ENUM_CABLESEGMENT:	return L"CABLESEGMENT";
 		case ENUM_CONDUCTORSEGMENT:	return L"CONDUCTORSEGMENT";
 		case ENUM_CORESEGMENT:	return L"CORESEGMENT";
+		case ENUM_CONTACTWIRESEGMENT:	return L"CONTACTWIRESEGMENT";
+		case ENUM_FIBERSEGMENT:	return L"FIBERSEGMENT";
+		case ENUM_FIBERTUBE:	return L"FIBERTUBE";
+		case ENUM_OPTICALCABLESEGMENT:	return L"OPTICALCABLESEGMENT";
+		case ENUM_STITCHWIRE:	return L"STITCHWIRE";
+		case ENUM_WIREPAIRSEGMENT:	return L"WIREPAIRSEGMENT";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -63,6 +75,30 @@ shared_ptr<IfcCableSegmentTypeEnum> IfcCableSegmentTypeEnum::createObjectFromSTE
 	else if( std_iequal( arg, L".CORESEGMENT." ) )
 	{
 		type_object->m_enum = IfcCableSegmentTypeEnum::ENUM_CORESEGMENT;
+	}
+	else if( std_iequal( arg, L".CONTACTWIRESEGMENT." ) )
+	{
+		type_object->m_enum = IfcCableSegmentTypeEnum::ENUM_CONTACTWIRESEGMENT;
+	}
+	else if( std_iequal( arg, L".FIBERSEGMENT." ) )
+	{
+		type_object->m_enum = IfcCableSegmentTypeEnum::ENUM_FIBERSEGMENT;
+	}
+	else if( std_iequal( arg, L".FIBERTUBE." ) )
+	{
+		type_object->m_enum = IfcCableSegmentTypeEnum::ENUM_FIBERTUBE;
+	}
+	else if( std_iequal( arg, L".OPTICALCABLESEGMENT." ) )
+	{
+		type_object->m_enum = IfcCableSegmentTypeEnum::ENUM_OPTICALCABLESEGMENT;
+	}
+	else if( std_iequal( arg, L".STITCHWIRE." ) )
+	{
+		type_object->m_enum = IfcCableSegmentTypeEnum::ENUM_STITCHWIRE;
+	}
+	else if( std_iequal( arg, L".WIREPAIRSEGMENT." ) )
+	{
+		type_object->m_enum = IfcCableSegmentTypeEnum::ENUM_WIREPAIRSEGMENT;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

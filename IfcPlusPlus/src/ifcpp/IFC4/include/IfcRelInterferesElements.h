@@ -8,9 +8,10 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 #include "IfcRelConnects.h"
-class IFCQUERY_EXPORT IfcElement;
+class IFCQUERY_EXPORT IfcInterferenceSelect;
 class IFCQUERY_EXPORT IfcConnectionGeometry;
 class IFCQUERY_EXPORT IfcIdentifier;
+class IFCQUERY_EXPORT IfcLogical;
 //ENTITY
 class IFCQUERY_EXPORT IfcRelInterferesElements : public IfcRelConnects
 { 
@@ -44,10 +45,10 @@ public:
 
 	// IfcRelInterferesElements -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcElement>				m_RelatingElement;
-	shared_ptr<IfcElement>				m_RelatedElement;
+	shared_ptr<IfcInterferenceSelect>	m_RelatingElement;
+	shared_ptr<IfcInterferenceSelect>	m_RelatedElement;
 	shared_ptr<IfcConnectionGeometry>	m_InterferenceGeometry;		//optional
 	shared_ptr<IfcIdentifier>			m_InterferenceType;			//optional
-	LogicalEnum							m_ImpliedOrder;
+	shared_ptr<IfcLogical>				m_ImpliedOrder;
 };
 

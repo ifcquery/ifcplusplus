@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcProjectionElementTypeEnum.h"
 
-// TYPE IfcProjectionElementTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
+// TYPE IfcProjectionElementTypeEnum = ENUMERATION OF	(BLISTER	,DEVIATOR	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcProjectionElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProjectionElementTypeEnum> copy_self( new IfcProjectionElementTypeEnum() );
@@ -21,6 +21,8 @@ void IfcProjectionElementTypeEnum::getStepParameter( std::stringstream& stream, 
 	if( is_select_type ) { stream << "IFCPROJECTIONELEMENTTYPEENUM("; }
 	switch( m_enum )
 	{
+		case ENUM_BLISTER:	stream << ".BLISTER."; break;
+		case ENUM_DEVIATOR:	stream << ".DEVIATOR."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -30,6 +32,8 @@ const std::wstring IfcProjectionElementTypeEnum::toString() const
 {
 	switch( m_enum ) 
 	{
+		case ENUM_BLISTER:	return L"BLISTER";
+		case ENUM_DEVIATOR:	return L"DEVIATOR";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -40,7 +44,15 @@ shared_ptr<IfcProjectionElementTypeEnum> IfcProjectionElementTypeEnum::createObj
 	if( arg.compare( L"$" ) == 0 ) { return shared_ptr<IfcProjectionElementTypeEnum>(); }
 	if( arg.compare( L"*" ) == 0 ) { return shared_ptr<IfcProjectionElementTypeEnum>(); }
 	shared_ptr<IfcProjectionElementTypeEnum> type_object( new IfcProjectionElementTypeEnum() );
-	if( std_iequal( arg, L".USERDEFINED." ) )
+	if( std_iequal( arg, L".BLISTER." ) )
+	{
+		type_object->m_enum = IfcProjectionElementTypeEnum::ENUM_BLISTER;
+	}
+	else if( std_iequal( arg, L".DEVIATOR." ) )
+	{
+		type_object->m_enum = IfcProjectionElementTypeEnum::ENUM_DEVIATOR;
+	}
+	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{
 		type_object->m_enum = IfcProjectionElementTypeEnum::ENUM_USERDEFINED;
 	}

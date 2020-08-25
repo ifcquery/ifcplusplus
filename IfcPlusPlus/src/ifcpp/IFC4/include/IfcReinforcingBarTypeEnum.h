@@ -9,7 +9,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 
-// TYPE IfcReinforcingBarTypeEnum = ENUMERATION OF	(ANCHORING	,EDGE	,LIGATURE	,MAIN	,PUNCHING	,RING	,SHEAR	,STUD	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcReinforcingBarTypeEnum = ENUMERATION OF	(ANCHORING	,EDGE	,LIGATURE	,MAIN	,PUNCHING	,RING	,SHEAR	,STUD	,SPACEBAR	,USERDEFINED	,NOTDEFINED);
 class IFCQUERY_EXPORT IfcReinforcingBarTypeEnum : virtual public BuildingObject
 {
 public:
@@ -23,6 +23,7 @@ public:
 		ENUM_RING,
 		ENUM_SHEAR,
 		ENUM_STUD,
+		ENUM_SPACEBAR,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};

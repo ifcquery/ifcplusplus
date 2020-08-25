@@ -8,6 +8,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 #include "IfcProduct.h"
+class IFCQUERY_EXPORT IfcAnnotationTypeEnum;
 class IFCQUERY_EXPORT IfcRelContainedInSpatialStructure;
 //ENTITY
 class IFCQUERY_EXPORT IfcAnnotation : public IfcProduct
@@ -21,7 +22,7 @@ public:
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map );
 	virtual void setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self );
-	virtual size_t getNumAttributes() { return 7; }
+	virtual size_t getNumAttributes() { return 8; }
 	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const;
 	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const;
 	virtual void unlinkFromInverseCounterparts();
@@ -61,8 +62,12 @@ public:
 	//  shared_ptr<IfcProductRepresentation>						m_Representation;			//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcRelAssignsToProduct> >				m_ReferencedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelPositions> >						m_PositionedRelativeTo_inverse;
+	//  std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >	m_ReferencedInStructures_inverse;
 
 	// IfcAnnotation -----------------------------------------------------------
+	// attributes:
+	shared_ptr<IfcAnnotationTypeEnum>							m_PredefinedType;			//optional
 	// inverse attributes:
 	std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >	m_ContainedInStructure_inverse;
 };

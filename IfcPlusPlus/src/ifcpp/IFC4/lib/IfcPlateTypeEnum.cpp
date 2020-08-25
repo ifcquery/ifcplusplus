@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcPlateTypeEnum.h"
 
-// TYPE IfcPlateTypeEnum = ENUMERATION OF	(CURTAIN_PANEL	,SHEET	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcPlateTypeEnum = ENUMERATION OF	(CURTAIN_PANEL	,SHEET	,FLANGE_PLATE	,WEB_PLATE	,STIFFENER_PLATE	,GUSSET_PLATE	,COVER_PLATE	,SPLICE_PLATE	,BASE_PLATE	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcPlateTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcPlateTypeEnum> copy_self( new IfcPlateTypeEnum() );
@@ -23,6 +23,13 @@ void IfcPlateTypeEnum::getStepParameter( std::stringstream& stream, bool is_sele
 	{
 		case ENUM_CURTAIN_PANEL:	stream << ".CURTAIN_PANEL."; break;
 		case ENUM_SHEET:	stream << ".SHEET."; break;
+		case ENUM_FLANGE_PLATE:	stream << ".FLANGE_PLATE."; break;
+		case ENUM_WEB_PLATE:	stream << ".WEB_PLATE."; break;
+		case ENUM_STIFFENER_PLATE:	stream << ".STIFFENER_PLATE."; break;
+		case ENUM_GUSSET_PLATE:	stream << ".GUSSET_PLATE."; break;
+		case ENUM_COVER_PLATE:	stream << ".COVER_PLATE."; break;
+		case ENUM_SPLICE_PLATE:	stream << ".SPLICE_PLATE."; break;
+		case ENUM_BASE_PLATE:	stream << ".BASE_PLATE."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -34,6 +41,13 @@ const std::wstring IfcPlateTypeEnum::toString() const
 	{
 		case ENUM_CURTAIN_PANEL:	return L"CURTAIN_PANEL";
 		case ENUM_SHEET:	return L"SHEET";
+		case ENUM_FLANGE_PLATE:	return L"FLANGE_PLATE";
+		case ENUM_WEB_PLATE:	return L"WEB_PLATE";
+		case ENUM_STIFFENER_PLATE:	return L"STIFFENER_PLATE";
+		case ENUM_GUSSET_PLATE:	return L"GUSSET_PLATE";
+		case ENUM_COVER_PLATE:	return L"COVER_PLATE";
+		case ENUM_SPLICE_PLATE:	return L"SPLICE_PLATE";
+		case ENUM_BASE_PLATE:	return L"BASE_PLATE";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -51,6 +65,34 @@ shared_ptr<IfcPlateTypeEnum> IfcPlateTypeEnum::createObjectFromSTEP( const std::
 	else if( std_iequal( arg, L".SHEET." ) )
 	{
 		type_object->m_enum = IfcPlateTypeEnum::ENUM_SHEET;
+	}
+	else if( std_iequal( arg, L".FLANGE_PLATE." ) )
+	{
+		type_object->m_enum = IfcPlateTypeEnum::ENUM_FLANGE_PLATE;
+	}
+	else if( std_iequal( arg, L".WEB_PLATE." ) )
+	{
+		type_object->m_enum = IfcPlateTypeEnum::ENUM_WEB_PLATE;
+	}
+	else if( std_iequal( arg, L".STIFFENER_PLATE." ) )
+	{
+		type_object->m_enum = IfcPlateTypeEnum::ENUM_STIFFENER_PLATE;
+	}
+	else if( std_iequal( arg, L".GUSSET_PLATE." ) )
+	{
+		type_object->m_enum = IfcPlateTypeEnum::ENUM_GUSSET_PLATE;
+	}
+	else if( std_iequal( arg, L".COVER_PLATE." ) )
+	{
+		type_object->m_enum = IfcPlateTypeEnum::ENUM_COVER_PLATE;
+	}
+	else if( std_iequal( arg, L".SPLICE_PLATE." ) )
+	{
+		type_object->m_enum = IfcPlateTypeEnum::ENUM_SPLICE_PLATE;
+	}
+	else if( std_iequal( arg, L".BASE_PLATE." ) )
+	{
+		type_object->m_enum = IfcPlateTypeEnum::ENUM_BASE_PLATE;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

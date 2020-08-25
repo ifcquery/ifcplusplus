@@ -17,11 +17,7 @@ IfcLocalPlacement::IfcLocalPlacement( int id ) { m_entity_id = id; }
 shared_ptr<BuildingObject> IfcLocalPlacement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLocalPlacement> copy_self( new IfcLocalPlacement() );
-	if( m_PlacementRelTo )
-	{
-		if( options.shallow_copy_IfcLocalPlacement_PlacementRelTo ) { copy_self->m_PlacementRelTo = m_PlacementRelTo; }
-		else { copy_self->m_PlacementRelTo = dynamic_pointer_cast<IfcObjectPlacement>( m_PlacementRelTo->getDeepCopy(options) ); }
-	}
+	if( m_PlacementRelTo ) { copy_self->m_PlacementRelTo = dynamic_pointer_cast<IfcObjectPlacement>( m_PlacementRelTo->getDeepCopy(options) ); }
 	if( m_RelativePlacement ) { copy_self->m_RelativePlacement = dynamic_pointer_cast<IfcAxis2Placement>( m_RelativePlacement->getDeepCopy(options) ); }
 	return copy_self;
 }
@@ -45,7 +41,6 @@ void IfcLocalPlacement::readStepArguments( const std::vector<std::wstring>& args
 void IfcLocalPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcObjectPlacement::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( std::make_pair( "PlacementRelTo", m_PlacementRelTo ) );
 	vec_attributes.emplace_back( std::make_pair( "RelativePlacement", m_RelativePlacement ) );
 }
 void IfcLocalPlacement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
@@ -55,36 +50,8 @@ void IfcLocalPlacement::getAttributesInverse( std::vector<std::pair<std::string,
 void IfcLocalPlacement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
 	IfcObjectPlacement::setInverseCounterparts( ptr_self_entity );
-	shared_ptr<IfcLocalPlacement> ptr_self = dynamic_pointer_cast<IfcLocalPlacement>( ptr_self_entity );
-	if( !ptr_self ) { throw BuildingException( "IfcLocalPlacement::setInverseCounterparts: type mismatch" ); }
-	if( m_PlacementRelTo )
-	{
-		m_PlacementRelTo->m_ReferencedByPlacements_inverse.emplace_back( ptr_self );
-	}
 }
 void IfcLocalPlacement::unlinkFromInverseCounterparts()
 {
 	IfcObjectPlacement::unlinkFromInverseCounterparts();
-	if( m_PlacementRelTo )
-	{
-		std::vector<weak_ptr<IfcLocalPlacement> >& ReferencedByPlacements_inverse = m_PlacementRelTo->m_ReferencedByPlacements_inverse;
-		for( auto it_ReferencedByPlacements_inverse = ReferencedByPlacements_inverse.begin(); it_ReferencedByPlacements_inverse != ReferencedByPlacements_inverse.end(); )
-		{
-			weak_ptr<IfcLocalPlacement> self_candidate_weak = *it_ReferencedByPlacements_inverse;
-			if( self_candidate_weak.expired() )
-			{
-				++it_ReferencedByPlacements_inverse;
-				continue;
-			}
-			shared_ptr<IfcLocalPlacement> self_candidate( *it_ReferencedByPlacements_inverse );
-			if( self_candidate.get() == this )
-			{
-				it_ReferencedByPlacements_inverse= ReferencedByPlacements_inverse.erase( it_ReferencedByPlacements_inverse );
-			}
-			else
-			{
-				++it_ReferencedByPlacements_inverse;
-			}
-		}
-	}
 }

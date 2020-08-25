@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcElementAssemblyTypeEnum.h"
 
-// TYPE IfcElementAssemblyTypeEnum = ENUMERATION OF	(ACCESSORY_ASSEMBLY	,ARCH	,BEAM_GRID	,BRACED_FRAME	,GIRDER	,REINFORCEMENT_UNIT	,RIGID_FRAME	,SLAB_FIELD	,TRUSS	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcElementAssemblyTypeEnum = ENUMERATION OF	(ACCESSORY_ASSEMBLY	,ARCH	,BEAM_GRID	,BRACED_FRAME	,GIRDER	,REINFORCEMENT_UNIT	,RIGID_FRAME	,SLAB_FIELD	,TRUSS	,ABUTMENT	,PIER	,PYLON	,CROSS_BRACING	,DECK	,MAST	,SIGNALASSEMBLY	,GRID	,SHELTER	,SUPPORTINGASSEMBLY	,SUSPENSIONASSEMBLY	,TRACTION_SWITCHING_ASSEMBLY	,TRACKPANEL	,TURNOUTPANEL	,DILATATIONPANEL	,RAIL_MECHANICAL_EQUIPMENT_ASSEMBLY	,ENTRANCEWORKS	,SUMPBUSTER	,TRAFFIC_CALMING_DEVICE	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcElementAssemblyTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElementAssemblyTypeEnum> copy_self( new IfcElementAssemblyTypeEnum() );
@@ -30,6 +30,25 @@ void IfcElementAssemblyTypeEnum::getStepParameter( std::stringstream& stream, bo
 		case ENUM_RIGID_FRAME:	stream << ".RIGID_FRAME."; break;
 		case ENUM_SLAB_FIELD:	stream << ".SLAB_FIELD."; break;
 		case ENUM_TRUSS:	stream << ".TRUSS."; break;
+		case ENUM_ABUTMENT:	stream << ".ABUTMENT."; break;
+		case ENUM_PIER:	stream << ".PIER."; break;
+		case ENUM_PYLON:	stream << ".PYLON."; break;
+		case ENUM_CROSS_BRACING:	stream << ".CROSS_BRACING."; break;
+		case ENUM_DECK:	stream << ".DECK."; break;
+		case ENUM_MAST:	stream << ".MAST."; break;
+		case ENUM_SIGNALASSEMBLY:	stream << ".SIGNALASSEMBLY."; break;
+		case ENUM_GRID:	stream << ".GRID."; break;
+		case ENUM_SHELTER:	stream << ".SHELTER."; break;
+		case ENUM_SUPPORTINGASSEMBLY:	stream << ".SUPPORTINGASSEMBLY."; break;
+		case ENUM_SUSPENSIONASSEMBLY:	stream << ".SUSPENSIONASSEMBLY."; break;
+		case ENUM_TRACTION_SWITCHING_ASSEMBLY:	stream << ".TRACTION_SWITCHING_ASSEMBLY."; break;
+		case ENUM_TRACKPANEL:	stream << ".TRACKPANEL."; break;
+		case ENUM_TURNOUTPANEL:	stream << ".TURNOUTPANEL."; break;
+		case ENUM_DILATATIONPANEL:	stream << ".DILATATIONPANEL."; break;
+		case ENUM_RAIL_MECHANICAL_EQUIPMENT_ASSEMBLY:	stream << ".RAIL_MECHANICAL_EQUIPMENT_ASSEMBLY."; break;
+		case ENUM_ENTRANCEWORKS:	stream << ".ENTRANCEWORKS."; break;
+		case ENUM_SUMPBUSTER:	stream << ".SUMPBUSTER."; break;
+		case ENUM_TRAFFIC_CALMING_DEVICE:	stream << ".TRAFFIC_CALMING_DEVICE."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -48,6 +67,25 @@ const std::wstring IfcElementAssemblyTypeEnum::toString() const
 		case ENUM_RIGID_FRAME:	return L"RIGID_FRAME";
 		case ENUM_SLAB_FIELD:	return L"SLAB_FIELD";
 		case ENUM_TRUSS:	return L"TRUSS";
+		case ENUM_ABUTMENT:	return L"ABUTMENT";
+		case ENUM_PIER:	return L"PIER";
+		case ENUM_PYLON:	return L"PYLON";
+		case ENUM_CROSS_BRACING:	return L"CROSS_BRACING";
+		case ENUM_DECK:	return L"DECK";
+		case ENUM_MAST:	return L"MAST";
+		case ENUM_SIGNALASSEMBLY:	return L"SIGNALASSEMBLY";
+		case ENUM_GRID:	return L"GRID";
+		case ENUM_SHELTER:	return L"SHELTER";
+		case ENUM_SUPPORTINGASSEMBLY:	return L"SUPPORTINGASSEMBLY";
+		case ENUM_SUSPENSIONASSEMBLY:	return L"SUSPENSIONASSEMBLY";
+		case ENUM_TRACTION_SWITCHING_ASSEMBLY:	return L"TRACTION_SWITCHING_ASSEMBLY";
+		case ENUM_TRACKPANEL:	return L"TRACKPANEL";
+		case ENUM_TURNOUTPANEL:	return L"TURNOUTPANEL";
+		case ENUM_DILATATIONPANEL:	return L"DILATATIONPANEL";
+		case ENUM_RAIL_MECHANICAL_EQUIPMENT_ASSEMBLY:	return L"RAIL_MECHANICAL_EQUIPMENT_ASSEMBLY";
+		case ENUM_ENTRANCEWORKS:	return L"ENTRANCEWORKS";
+		case ENUM_SUMPBUSTER:	return L"SUMPBUSTER";
+		case ENUM_TRAFFIC_CALMING_DEVICE:	return L"TRAFFIC_CALMING_DEVICE";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -93,6 +131,82 @@ shared_ptr<IfcElementAssemblyTypeEnum> IfcElementAssemblyTypeEnum::createObjectF
 	else if( std_iequal( arg, L".TRUSS." ) )
 	{
 		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_TRUSS;
+	}
+	else if( std_iequal( arg, L".ABUTMENT." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_ABUTMENT;
+	}
+	else if( std_iequal( arg, L".PIER." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_PIER;
+	}
+	else if( std_iequal( arg, L".PYLON." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_PYLON;
+	}
+	else if( std_iequal( arg, L".CROSS_BRACING." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_CROSS_BRACING;
+	}
+	else if( std_iequal( arg, L".DECK." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_DECK;
+	}
+	else if( std_iequal( arg, L".MAST." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_MAST;
+	}
+	else if( std_iequal( arg, L".SIGNALASSEMBLY." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_SIGNALASSEMBLY;
+	}
+	else if( std_iequal( arg, L".GRID." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_GRID;
+	}
+	else if( std_iequal( arg, L".SHELTER." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_SHELTER;
+	}
+	else if( std_iequal( arg, L".SUPPORTINGASSEMBLY." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_SUPPORTINGASSEMBLY;
+	}
+	else if( std_iequal( arg, L".SUSPENSIONASSEMBLY." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_SUSPENSIONASSEMBLY;
+	}
+	else if( std_iequal( arg, L".TRACTION_SWITCHING_ASSEMBLY." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_TRACTION_SWITCHING_ASSEMBLY;
+	}
+	else if( std_iequal( arg, L".TRACKPANEL." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_TRACKPANEL;
+	}
+	else if( std_iequal( arg, L".TURNOUTPANEL." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_TURNOUTPANEL;
+	}
+	else if( std_iequal( arg, L".DILATATIONPANEL." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_DILATATIONPANEL;
+	}
+	else if( std_iequal( arg, L".RAIL_MECHANICAL_EQUIPMENT_ASSEMBLY." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_RAIL_MECHANICAL_EQUIPMENT_ASSEMBLY;
+	}
+	else if( std_iequal( arg, L".ENTRANCEWORKS." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_ENTRANCEWORKS;
+	}
+	else if( std_iequal( arg, L".SUMPBUSTER." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_SUMPBUSTER;
+	}
+	else if( std_iequal( arg, L".TRAFFIC_CALMING_DEVICE." ) )
+	{
+		type_object->m_enum = IfcElementAssemblyTypeEnum::ENUM_TRAFFIC_CALMING_DEVICE;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

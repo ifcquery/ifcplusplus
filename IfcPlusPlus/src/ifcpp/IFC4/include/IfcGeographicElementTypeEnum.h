@@ -9,13 +9,14 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 
-// TYPE IfcGeographicElementTypeEnum = ENUMERATION OF	(TERRAIN	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcGeographicElementTypeEnum = ENUMERATION OF	(TERRAIN	,SOIL_BORING_POINT	,USERDEFINED	,NOTDEFINED);
 class IFCQUERY_EXPORT IfcGeographicElementTypeEnum : virtual public BuildingObject
 {
 public:
 	enum IfcGeographicElementTypeEnumEnum
 	{
 		ENUM_TERRAIN,
+		ENUM_SOIL_BORING_POINT,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};

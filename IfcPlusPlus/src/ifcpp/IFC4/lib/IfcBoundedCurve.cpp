@@ -8,6 +8,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBoundedCurve.h"
+#include "ifcpp/IFC4/include/IfcLinearPositioningElement.h"
 #include "ifcpp/IFC4/include/IfcPresentationLayerAssignment.h"
 #include "ifcpp/IFC4/include/IfcStyledItem.h"
 
@@ -35,6 +36,18 @@ void IfcBoundedCurve::getAttributes( std::vector<std::pair<std::string, shared_p
 void IfcBoundedCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IfcCurve::getAttributesInverse( vec_attributes_inverse );
+	if( !m_PositioningElement_inverse.empty() )
+	{
+		shared_ptr<AttributeObjectVector> PositioningElement_inverse_vec_obj( new AttributeObjectVector() );
+		for( size_t i=0; i<m_PositioningElement_inverse.size(); ++i )
+		{
+			if( !m_PositioningElement_inverse[i].expired() )
+			{
+				PositioningElement_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcLinearPositioningElement>( m_PositioningElement_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.emplace_back( std::make_pair( "PositioningElement_inverse", PositioningElement_inverse_vec_obj ) );
+	}
 }
 void IfcBoundedCurve::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

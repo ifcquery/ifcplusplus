@@ -9,6 +9,7 @@
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCompositeCurve.h"
 #include "ifcpp/IFC4/include/IfcCompositeCurveSegment.h"
+#include "ifcpp/IFC4/include/IfcLinearPositioningElement.h"
 #include "ifcpp/IFC4/include/IfcLogical.h"
 #include "ifcpp/IFC4/include/IfcPresentationLayerAssignment.h"
 #include "ifcpp/IFC4/include/IfcStyledItem.h"

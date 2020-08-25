@@ -39,6 +39,8 @@ public:
 	// IfcCurve -----------------------------------------------------------
 
 	// IfcBoundedCurve -----------------------------------------------------------
+	// inverse attributes:
+	//  std::vector<weak_ptr<IfcLinearPositioningElement> >		m_PositioningElement_inverse;
 
 	// IfcCompositeCurve -----------------------------------------------------------
 	// attributes:

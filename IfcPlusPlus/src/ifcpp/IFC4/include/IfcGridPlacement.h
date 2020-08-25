@@ -22,7 +22,7 @@ public:
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map );
 	virtual void setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self );
-	virtual size_t getNumAttributes() { return 2; }
+	virtual size_t getNumAttributes() { return 3; }
 	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const;
 	virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const;
 	virtual void unlinkFromInverseCounterparts();
@@ -31,9 +31,10 @@ public:
 
 
 	// IfcObjectPlacement -----------------------------------------------------------
+	// attributes:
+	//  shared_ptr<IfcObjectPlacement>				m_PlacementRelTo;			//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcProduct> >			m_PlacesObject_inverse;
-	//  std::vector<weak_ptr<IfcLocalPlacement> >	m_ReferencedByPlacements_inverse;
 
 	// IfcGridPlacement -----------------------------------------------------------
 	// attributes:

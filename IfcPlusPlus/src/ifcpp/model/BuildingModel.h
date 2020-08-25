@@ -34,7 +34,7 @@ public:
 	BuildingModel();
 	~BuildingModel() override;
 	
-	enum QueryVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4, IFC4X1 };
+	enum QueryVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4, IFC4X1, IFC4X3RC1 };
 	class SchemaVersion
 	{
 		public:
@@ -49,8 +49,8 @@ public:
 			~SchemaVersion() = default;
 			void setDefaults()
 			{
-				m_IFC_FILE_SCHEMA = L"IFC4X1";
-				m_ifc_file_schema_enum = BuildingModel::IFC4X1;
+				m_IFC_FILE_SCHEMA = L"IFC4_3_RC1";
+				m_ifc_file_schema_enum = BuildingModel::IFC4X3RC1;
 			}
 			std::wstring		m_IFC_FILE_SCHEMA;
 			QueryVersionEnum	m_ifc_file_schema_enum;

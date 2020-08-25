@@ -7,9 +7,10 @@
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingException.h"
+#include "ifcpp/IFC4/include/IfcImpactProtectionDeviceTypeSelect.h"
 #include "ifcpp/IFC4/include/IfcVibrationIsolatorTypeEnum.h"
 
-// TYPE IfcVibrationIsolatorTypeEnum = ENUMERATION OF	(COMPRESSION	,SPRING	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcVibrationIsolatorTypeEnum = ENUMERATION OF	(COMPRESSION	,SPRING	,BASE	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcVibrationIsolatorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcVibrationIsolatorTypeEnum> copy_self( new IfcVibrationIsolatorTypeEnum() );
@@ -23,6 +24,7 @@ void IfcVibrationIsolatorTypeEnum::getStepParameter( std::stringstream& stream, 
 	{
 		case ENUM_COMPRESSION:	stream << ".COMPRESSION."; break;
 		case ENUM_SPRING:	stream << ".SPRING."; break;
+		case ENUM_BASE:	stream << ".BASE."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -34,6 +36,7 @@ const std::wstring IfcVibrationIsolatorTypeEnum::toString() const
 	{
 		case ENUM_COMPRESSION:	return L"COMPRESSION";
 		case ENUM_SPRING:	return L"SPRING";
+		case ENUM_BASE:	return L"BASE";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -51,6 +54,10 @@ shared_ptr<IfcVibrationIsolatorTypeEnum> IfcVibrationIsolatorTypeEnum::createObj
 	else if( std_iequal( arg, L".SPRING." ) )
 	{
 		type_object->m_enum = IfcVibrationIsolatorTypeEnum::ENUM_SPRING;
+	}
+	else if( std_iequal( arg, L".BASE." ) )
+	{
+		type_object->m_enum = IfcVibrationIsolatorTypeEnum::ENUM_BASE;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

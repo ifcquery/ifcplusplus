@@ -8,9 +8,10 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 #include "IfcGeometricSetSelect.h"
+#include "IfcLinearAxisSelect.h"
 #include "IfcGeometricRepresentationItem.h"
 //ENTITY
-class IFCQUERY_EXPORT IfcCurve : virtual public IfcGeometricSetSelect, public IfcGeometricRepresentationItem
+class IFCQUERY_EXPORT IfcCurve : virtual public IfcGeometricSetSelect, virtual public IfcLinearAxisSelect, public IfcGeometricRepresentationItem
 { 
 public:
 	IfcCurve() = default;

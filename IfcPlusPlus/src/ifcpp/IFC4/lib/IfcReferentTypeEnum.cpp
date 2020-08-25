@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcReferentTypeEnum.h"
 
-// TYPE IfcReferentTypeEnum = ENUMERATION OF	(KILOPOINT	,MILEPOINT	,STATION	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcReferentTypeEnum = ENUMERATION OF	(KILOPOINT	,MILEPOINT	,STATION	,REFERENCEMARKER	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcReferentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReferentTypeEnum> copy_self( new IfcReferentTypeEnum() );
@@ -24,6 +24,7 @@ void IfcReferentTypeEnum::getStepParameter( std::stringstream& stream, bool is_s
 		case ENUM_KILOPOINT:	stream << ".KILOPOINT."; break;
 		case ENUM_MILEPOINT:	stream << ".MILEPOINT."; break;
 		case ENUM_STATION:	stream << ".STATION."; break;
+		case ENUM_REFERENCEMARKER:	stream << ".REFERENCEMARKER."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -36,6 +37,7 @@ const std::wstring IfcReferentTypeEnum::toString() const
 		case ENUM_KILOPOINT:	return L"KILOPOINT";
 		case ENUM_MILEPOINT:	return L"MILEPOINT";
 		case ENUM_STATION:	return L"STATION";
+		case ENUM_REFERENCEMARKER:	return L"REFERENCEMARKER";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -57,6 +59,10 @@ shared_ptr<IfcReferentTypeEnum> IfcReferentTypeEnum::createObjectFromSTEP( const
 	else if( std_iequal( arg, L".STATION." ) )
 	{
 		type_object->m_enum = IfcReferentTypeEnum::ENUM_STATION;
+	}
+	else if( std_iequal( arg, L".REFERENCEMARKER." ) )
+	{
+		type_object->m_enum = IfcReferentTypeEnum::ENUM_REFERENCEMARKER;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

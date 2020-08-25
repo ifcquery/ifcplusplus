@@ -11,6 +11,7 @@
 #include "ifcpp/IFC4/include/IfcBSplineCurveForm.h"
 #include "ifcpp/IFC4/include/IfcCartesianPoint.h"
 #include "ifcpp/IFC4/include/IfcInteger.h"
+#include "ifcpp/IFC4/include/IfcLinearPositioningElement.h"
 #include "ifcpp/IFC4/include/IfcLogical.h"
 #include "ifcpp/IFC4/include/IfcPresentationLayerAssignment.h"
 #include "ifcpp/IFC4/include/IfcStyledItem.h"

@@ -106,18 +106,18 @@ void IfcPileType::readStepArguments( const std::vector<std::wstring>& args, cons
 }
 void IfcPileType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	IfcBuildingElementType::getAttributes( vec_attributes );
+	IfcDeepFoundationType::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcPileType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	IfcBuildingElementType::getAttributesInverse( vec_attributes_inverse );
+	IfcDeepFoundationType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPileType::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
-	IfcBuildingElementType::setInverseCounterparts( ptr_self_entity );
+	IfcDeepFoundationType::setInverseCounterparts( ptr_self_entity );
 }
 void IfcPileType::unlinkFromInverseCounterparts()
 {
-	IfcBuildingElementType::unlinkFromInverseCounterparts();
+	IfcDeepFoundationType::unlinkFromInverseCounterparts();
 }

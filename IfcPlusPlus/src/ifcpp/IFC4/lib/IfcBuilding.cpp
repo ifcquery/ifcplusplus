@@ -26,6 +26,7 @@
 #include "ifcpp/IFC4/include/IfcRelDefinesByProperties.h"
 #include "ifcpp/IFC4/include/IfcRelDefinesByType.h"
 #include "ifcpp/IFC4/include/IfcRelNests.h"
+#include "ifcpp/IFC4/include/IfcRelPositions.h"
 #include "ifcpp/IFC4/include/IfcRelReferencedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcRelServicesBuildings.h"
 #include "ifcpp/IFC4/include/IfcText.h"
@@ -106,20 +107,20 @@ void IfcBuilding::readStepArguments( const std::vector<std::wstring>& args, cons
 }
 void IfcBuilding::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	IfcSpatialStructureElement::getAttributes( vec_attributes );
+	IfcFacility::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "ElevationOfRefHeight", m_ElevationOfRefHeight ) );
 	vec_attributes.emplace_back( std::make_pair( "ElevationOfTerrain", m_ElevationOfTerrain ) );
 	vec_attributes.emplace_back( std::make_pair( "BuildingAddress", m_BuildingAddress ) );
 }
 void IfcBuilding::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	IfcSpatialStructureElement::getAttributesInverse( vec_attributes_inverse );
+	IfcFacility::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcBuilding::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
-	IfcSpatialStructureElement::setInverseCounterparts( ptr_self_entity );
+	IfcFacility::setInverseCounterparts( ptr_self_entity );
 }
 void IfcBuilding::unlinkFromInverseCounterparts()
 {
-	IfcSpatialStructureElement::unlinkFromInverseCounterparts();
+	IfcFacility::unlinkFromInverseCounterparts();
 }

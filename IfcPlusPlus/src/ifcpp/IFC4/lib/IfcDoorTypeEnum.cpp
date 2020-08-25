@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDoorTypeEnum.h"
 
-// TYPE IfcDoorTypeEnum = ENUMERATION OF	(DOOR	,GATE	,TRAPDOOR	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcDoorTypeEnum = ENUMERATION OF	(DOOR	,GATE	,TRAPDOOR	,BOOM_BARRIER	,TURNSTILE	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcDoorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDoorTypeEnum> copy_self( new IfcDoorTypeEnum() );
@@ -24,6 +24,8 @@ void IfcDoorTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 		case ENUM_DOOR:	stream << ".DOOR."; break;
 		case ENUM_GATE:	stream << ".GATE."; break;
 		case ENUM_TRAPDOOR:	stream << ".TRAPDOOR."; break;
+		case ENUM_BOOM_BARRIER:	stream << ".BOOM_BARRIER."; break;
+		case ENUM_TURNSTILE:	stream << ".TURNSTILE."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -36,6 +38,8 @@ const std::wstring IfcDoorTypeEnum::toString() const
 		case ENUM_DOOR:	return L"DOOR";
 		case ENUM_GATE:	return L"GATE";
 		case ENUM_TRAPDOOR:	return L"TRAPDOOR";
+		case ENUM_BOOM_BARRIER:	return L"BOOM_BARRIER";
+		case ENUM_TURNSTILE:	return L"TURNSTILE";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -57,6 +61,14 @@ shared_ptr<IfcDoorTypeEnum> IfcDoorTypeEnum::createObjectFromSTEP( const std::ws
 	else if( std_iequal( arg, L".TRAPDOOR." ) )
 	{
 		type_object->m_enum = IfcDoorTypeEnum::ENUM_TRAPDOOR;
+	}
+	else if( std_iequal( arg, L".BOOM_BARRIER." ) )
+	{
+		type_object->m_enum = IfcDoorTypeEnum::ENUM_BOOM_BARRIER;
+	}
+	else if( std_iequal( arg, L".TURNSTILE." ) )
+	{
+		type_object->m_enum = IfcDoorTypeEnum::ENUM_TURNSTILE;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcWallTypeEnum.h"
 
-// TYPE IfcWallTypeEnum = ENUMERATION OF	(MOVABLE	,PARAPET	,PARTITIONING	,PLUMBINGWALL	,SHEAR	,SOLIDWALL	,STANDARD	,POLYGONAL	,ELEMENTEDWALL	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcWallTypeEnum = ENUMERATION OF	(MOVABLE	,PARAPET	,PARTITIONING	,PLUMBINGWALL	,SHEAR	,SOLIDWALL	,STANDARD	,POLYGONAL	,ELEMENTEDWALL	,RETAININGWALL	,WAVEWALL	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcWallTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcWallTypeEnum> copy_self( new IfcWallTypeEnum() );
@@ -30,6 +30,8 @@ void IfcWallTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 		case ENUM_STANDARD:	stream << ".STANDARD."; break;
 		case ENUM_POLYGONAL:	stream << ".POLYGONAL."; break;
 		case ENUM_ELEMENTEDWALL:	stream << ".ELEMENTEDWALL."; break;
+		case ENUM_RETAININGWALL:	stream << ".RETAININGWALL."; break;
+		case ENUM_WAVEWALL:	stream << ".WAVEWALL."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -48,6 +50,8 @@ const std::wstring IfcWallTypeEnum::toString() const
 		case ENUM_STANDARD:	return L"STANDARD";
 		case ENUM_POLYGONAL:	return L"POLYGONAL";
 		case ENUM_ELEMENTEDWALL:	return L"ELEMENTEDWALL";
+		case ENUM_RETAININGWALL:	return L"RETAININGWALL";
+		case ENUM_WAVEWALL:	return L"WAVEWALL";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -93,6 +97,14 @@ shared_ptr<IfcWallTypeEnum> IfcWallTypeEnum::createObjectFromSTEP( const std::ws
 	else if( std_iequal( arg, L".ELEMENTEDWALL." ) )
 	{
 		type_object->m_enum = IfcWallTypeEnum::ENUM_ELEMENTEDWALL;
+	}
+	else if( std_iequal( arg, L".RETAININGWALL." ) )
+	{
+		type_object->m_enum = IfcWallTypeEnum::ENUM_RETAININGWALL;
+	}
+	else if( std_iequal( arg, L".WAVEWALL." ) )
+	{
+		type_object->m_enum = IfcWallTypeEnum::ENUM_WAVEWALL;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

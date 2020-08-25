@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcGeographicElementTypeEnum.h"
 
-// TYPE IfcGeographicElementTypeEnum = ENUMERATION OF	(TERRAIN	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcGeographicElementTypeEnum = ENUMERATION OF	(TERRAIN	,SOIL_BORING_POINT	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcGeographicElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcGeographicElementTypeEnum> copy_self( new IfcGeographicElementTypeEnum() );
@@ -22,6 +22,7 @@ void IfcGeographicElementTypeEnum::getStepParameter( std::stringstream& stream, 
 	switch( m_enum )
 	{
 		case ENUM_TERRAIN:	stream << ".TERRAIN."; break;
+		case ENUM_SOIL_BORING_POINT:	stream << ".SOIL_BORING_POINT."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -32,6 +33,7 @@ const std::wstring IfcGeographicElementTypeEnum::toString() const
 	switch( m_enum ) 
 	{
 		case ENUM_TERRAIN:	return L"TERRAIN";
+		case ENUM_SOIL_BORING_POINT:	return L"SOIL_BORING_POINT";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -45,6 +47,10 @@ shared_ptr<IfcGeographicElementTypeEnum> IfcGeographicElementTypeEnum::createObj
 	if( std_iequal( arg, L".TERRAIN." ) )
 	{
 		type_object->m_enum = IfcGeographicElementTypeEnum::ENUM_TERRAIN;
+	}
+	else if( std_iequal( arg, L".SOIL_BORING_POINT." ) )
+	{
+		type_object->m_enum = IfcGeographicElementTypeEnum::ENUM_SOIL_BORING_POINT;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

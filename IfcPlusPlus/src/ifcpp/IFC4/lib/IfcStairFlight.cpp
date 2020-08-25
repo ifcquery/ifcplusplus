@@ -30,6 +30,7 @@
 #include "ifcpp/IFC4/include/IfcRelFillsElement.h"
 #include "ifcpp/IFC4/include/IfcRelInterferesElements.h"
 #include "ifcpp/IFC4/include/IfcRelNests.h"
+#include "ifcpp/IFC4/include/IfcRelPositions.h"
 #include "ifcpp/IFC4/include/IfcRelProjectsElement.h"
 #include "ifcpp/IFC4/include/IfcRelReferencedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcRelSpaceBoundary.h"
@@ -118,7 +119,7 @@ void IfcStairFlight::readStepArguments( const std::vector<std::wstring>& args, c
 }
 void IfcStairFlight::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	IfcBuildingElement::getAttributes( vec_attributes );
+	IfcBuiltElement::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "NumberOfRisers", m_NumberOfRisers ) );
 	vec_attributes.emplace_back( std::make_pair( "NumberOfTreads", m_NumberOfTreads ) );
 	vec_attributes.emplace_back( std::make_pair( "RiserHeight", m_RiserHeight ) );
@@ -127,13 +128,13 @@ void IfcStairFlight::getAttributes( std::vector<std::pair<std::string, shared_pt
 }
 void IfcStairFlight::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	IfcBuildingElement::getAttributesInverse( vec_attributes_inverse );
+	IfcBuiltElement::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcStairFlight::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
-	IfcBuildingElement::setInverseCounterparts( ptr_self_entity );
+	IfcBuiltElement::setInverseCounterparts( ptr_self_entity );
 }
 void IfcStairFlight::unlinkFromInverseCounterparts()
 {
-	IfcBuildingElement::unlinkFromInverseCounterparts();
+	IfcBuiltElement::unlinkFromInverseCounterparts();
 }

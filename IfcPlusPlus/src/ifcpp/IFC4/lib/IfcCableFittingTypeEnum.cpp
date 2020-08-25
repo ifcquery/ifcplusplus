@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcCableFittingTypeEnum.h"
 
-// TYPE IfcCableFittingTypeEnum = ENUMERATION OF	(CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcCableFittingTypeEnum = ENUMERATION OF	(CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,TRANSITION	,FANOUT	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcCableFittingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCableFittingTypeEnum> copy_self( new IfcCableFittingTypeEnum() );
@@ -26,6 +26,7 @@ void IfcCableFittingTypeEnum::getStepParameter( std::stringstream& stream, bool 
 		case ENUM_EXIT:	stream << ".EXIT."; break;
 		case ENUM_JUNCTION:	stream << ".JUNCTION."; break;
 		case ENUM_TRANSITION:	stream << ".TRANSITION."; break;
+		case ENUM_FANOUT:	stream << ".FANOUT."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -40,6 +41,7 @@ const std::wstring IfcCableFittingTypeEnum::toString() const
 		case ENUM_EXIT:	return L"EXIT";
 		case ENUM_JUNCTION:	return L"JUNCTION";
 		case ENUM_TRANSITION:	return L"TRANSITION";
+		case ENUM_FANOUT:	return L"FANOUT";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -69,6 +71,10 @@ shared_ptr<IfcCableFittingTypeEnum> IfcCableFittingTypeEnum::createObjectFromSTE
 	else if( std_iequal( arg, L".TRANSITION." ) )
 	{
 		type_object->m_enum = IfcCableFittingTypeEnum::ENUM_TRANSITION;
+	}
+	else if( std_iequal( arg, L".FANOUT." ) )
+	{
+		type_object->m_enum = IfcCableFittingTypeEnum::ENUM_FANOUT;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

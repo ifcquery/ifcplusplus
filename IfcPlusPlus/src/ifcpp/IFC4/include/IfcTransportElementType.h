@@ -8,7 +8,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 #include "IfcElementType.h"
-class IFCQUERY_EXPORT IfcTransportElementTypeEnum;
+class IFCQUERY_EXPORT IfcTransportElementTypeSelect;
 //ENTITY
 class IFCQUERY_EXPORT IfcTransportElementType : public IfcElementType
 { 
@@ -66,6 +66,6 @@ public:
 
 	// IfcTransportElementType -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcTransportElementTypeEnum>				m_PredefinedType;
+	shared_ptr<IfcTransportElementTypeSelect>			m_PredefinedType;
 };
 

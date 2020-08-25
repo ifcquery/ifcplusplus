@@ -7,13 +7,13 @@
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
-#include "IfcBuildingElementType.h"
+#include "IfcBuiltElementType.h"
 class IFCQUERY_EXPORT IfcDoorTypeEnum;
 class IFCQUERY_EXPORT IfcDoorTypeOperationEnum;
 class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcLabel;
 //ENTITY
-class IFCQUERY_EXPORT IfcDoorType : public IfcBuildingElementType
+class IFCQUERY_EXPORT IfcDoorType : public IfcBuiltElementType
 { 
 public:
 	IfcDoorType() = default;
@@ -67,7 +67,7 @@ public:
 	// attributes:
 	//  shared_ptr<IfcLabel>								m_ElementType;				//optional
 
-	// IfcBuildingElementType -----------------------------------------------------------
+	// IfcBuiltElementType -----------------------------------------------------------
 
 	// IfcDoorType -----------------------------------------------------------
 	// attributes:

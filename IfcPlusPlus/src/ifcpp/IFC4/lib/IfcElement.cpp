@@ -29,6 +29,7 @@
 #include "ifcpp/IFC4/include/IfcRelFillsElement.h"
 #include "ifcpp/IFC4/include/IfcRelInterferesElements.h"
 #include "ifcpp/IFC4/include/IfcRelNests.h"
+#include "ifcpp/IFC4/include/IfcRelPositions.h"
 #include "ifcpp/IFC4/include/IfcRelProjectsElement.h"
 #include "ifcpp/IFC4/include/IfcRelReferencedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcRelSpaceBoundary.h"
@@ -160,18 +161,6 @@ void IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared
 			}
 		}
 		vec_attributes_inverse.emplace_back( std::make_pair( "HasProjections_inverse", HasProjections_inverse_vec_obj ) );
-	}
-	if( !m_ReferencedInStructures_inverse.empty() )
-	{
-		shared_ptr<AttributeObjectVector> ReferencedInStructures_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ReferencedInStructures_inverse.size(); ++i )
-		{
-			if( !m_ReferencedInStructures_inverse[i].expired() )
-			{
-				ReferencedInStructures_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelReferencedInSpatialStructure>( m_ReferencedInStructures_inverse[i] ) );
-			}
-		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ReferencedInStructures_inverse", ReferencedInStructures_inverse_vec_obj ) );
 	}
 	if( !m_HasOpenings_inverse.empty() )
 	{

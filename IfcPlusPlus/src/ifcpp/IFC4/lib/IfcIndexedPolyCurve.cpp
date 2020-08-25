@@ -10,6 +10,7 @@
 #include "ifcpp/IFC4/include/IfcBoolean.h"
 #include "ifcpp/IFC4/include/IfcCartesianPointList.h"
 #include "ifcpp/IFC4/include/IfcIndexedPolyCurve.h"
+#include "ifcpp/IFC4/include/IfcLinearPositioningElement.h"
 #include "ifcpp/IFC4/include/IfcPresentationLayerAssignment.h"
 #include "ifcpp/IFC4/include/IfcSegmentIndexSelect.h"
 #include "ifcpp/IFC4/include/IfcStyledItem.h"

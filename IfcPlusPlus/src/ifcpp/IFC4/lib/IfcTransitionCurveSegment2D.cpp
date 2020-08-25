@@ -9,6 +9,7 @@
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcBoolean.h"
 #include "ifcpp/IFC4/include/IfcCartesianPoint.h"
+#include "ifcpp/IFC4/include/IfcLinearPositioningElement.h"
 #include "ifcpp/IFC4/include/IfcPlaneAngleMeasure.h"
 #include "ifcpp/IFC4/include/IfcPositiveLengthMeasure.h"
 #include "ifcpp/IFC4/include/IfcPresentationLayerAssignment.h"

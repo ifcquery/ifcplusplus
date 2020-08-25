@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcMechanicalFastenerTypeEnum.h"
 
-// TYPE IfcMechanicalFastenerTypeEnum = ENUMERATION OF	(ANCHORBOLT	,BOLT	,DOWEL	,NAIL	,NAILPLATE	,RIVET	,SCREW	,SHEARCONNECTOR	,STAPLE	,STUDSHEARCONNECTOR	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcMechanicalFastenerTypeEnum = ENUMERATION OF	(ANCHORBOLT	,BOLT	,DOWEL	,NAIL	,NAILPLATE	,RIVET	,SCREW	,SHEARCONNECTOR	,STAPLE	,STUDSHEARCONNECTOR	,COUPLER	,RAILJOINT	,RAILFASTENING	,CHAIN	,ROPE	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcMechanicalFastenerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMechanicalFastenerTypeEnum> copy_self( new IfcMechanicalFastenerTypeEnum() );
@@ -31,6 +31,11 @@ void IfcMechanicalFastenerTypeEnum::getStepParameter( std::stringstream& stream,
 		case ENUM_SHEARCONNECTOR:	stream << ".SHEARCONNECTOR."; break;
 		case ENUM_STAPLE:	stream << ".STAPLE."; break;
 		case ENUM_STUDSHEARCONNECTOR:	stream << ".STUDSHEARCONNECTOR."; break;
+		case ENUM_COUPLER:	stream << ".COUPLER."; break;
+		case ENUM_RAILJOINT:	stream << ".RAILJOINT."; break;
+		case ENUM_RAILFASTENING:	stream << ".RAILFASTENING."; break;
+		case ENUM_CHAIN:	stream << ".CHAIN."; break;
+		case ENUM_ROPE:	stream << ".ROPE."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -50,6 +55,11 @@ const std::wstring IfcMechanicalFastenerTypeEnum::toString() const
 		case ENUM_SHEARCONNECTOR:	return L"SHEARCONNECTOR";
 		case ENUM_STAPLE:	return L"STAPLE";
 		case ENUM_STUDSHEARCONNECTOR:	return L"STUDSHEARCONNECTOR";
+		case ENUM_COUPLER:	return L"COUPLER";
+		case ENUM_RAILJOINT:	return L"RAILJOINT";
+		case ENUM_RAILFASTENING:	return L"RAILFASTENING";
+		case ENUM_CHAIN:	return L"CHAIN";
+		case ENUM_ROPE:	return L"ROPE";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -99,6 +109,26 @@ shared_ptr<IfcMechanicalFastenerTypeEnum> IfcMechanicalFastenerTypeEnum::createO
 	else if( std_iequal( arg, L".STUDSHEARCONNECTOR." ) )
 	{
 		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_STUDSHEARCONNECTOR;
+	}
+	else if( std_iequal( arg, L".COUPLER." ) )
+	{
+		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_COUPLER;
+	}
+	else if( std_iequal( arg, L".RAILJOINT." ) )
+	{
+		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_RAILJOINT;
+	}
+	else if( std_iequal( arg, L".RAILFASTENING." ) )
+	{
+		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_RAILFASTENING;
+	}
+	else if( std_iequal( arg, L".CHAIN." ) )
+	{
+		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_CHAIN;
+	}
+	else if( std_iequal( arg, L".ROPE." ) )
+	{
+		type_object->m_enum = IfcMechanicalFastenerTypeEnum::ENUM_ROPE;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

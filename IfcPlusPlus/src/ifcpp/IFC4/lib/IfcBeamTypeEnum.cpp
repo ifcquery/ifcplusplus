@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcBeamTypeEnum.h"
 
-// TYPE IfcBeamTypeEnum = ENUMERATION OF	(BEAM	,JOIST	,HOLLOWCORE	,LINTEL	,SPANDREL	,T_BEAM	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcBeamTypeEnum = ENUMERATION OF	(BEAM	,JOIST	,HOLLOWCORE	,LINTEL	,SPANDREL	,T_BEAM	,GIRDER_SEGMENT	,DIAPHRAGM	,PIERCAP	,HATSTONE	,CORNICE	,EDGEBEAM	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcBeamTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBeamTypeEnum> copy_self( new IfcBeamTypeEnum() );
@@ -27,6 +27,12 @@ void IfcBeamTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 		case ENUM_LINTEL:	stream << ".LINTEL."; break;
 		case ENUM_SPANDREL:	stream << ".SPANDREL."; break;
 		case ENUM_T_BEAM:	stream << ".T_BEAM."; break;
+		case ENUM_GIRDER_SEGMENT:	stream << ".GIRDER_SEGMENT."; break;
+		case ENUM_DIAPHRAGM:	stream << ".DIAPHRAGM."; break;
+		case ENUM_PIERCAP:	stream << ".PIERCAP."; break;
+		case ENUM_HATSTONE:	stream << ".HATSTONE."; break;
+		case ENUM_CORNICE:	stream << ".CORNICE."; break;
+		case ENUM_EDGEBEAM:	stream << ".EDGEBEAM."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -42,6 +48,12 @@ const std::wstring IfcBeamTypeEnum::toString() const
 		case ENUM_LINTEL:	return L"LINTEL";
 		case ENUM_SPANDREL:	return L"SPANDREL";
 		case ENUM_T_BEAM:	return L"T_BEAM";
+		case ENUM_GIRDER_SEGMENT:	return L"GIRDER_SEGMENT";
+		case ENUM_DIAPHRAGM:	return L"DIAPHRAGM";
+		case ENUM_PIERCAP:	return L"PIERCAP";
+		case ENUM_HATSTONE:	return L"HATSTONE";
+		case ENUM_CORNICE:	return L"CORNICE";
+		case ENUM_EDGEBEAM:	return L"EDGEBEAM";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -75,6 +87,30 @@ shared_ptr<IfcBeamTypeEnum> IfcBeamTypeEnum::createObjectFromSTEP( const std::ws
 	else if( std_iequal( arg, L".T_BEAM." ) )
 	{
 		type_object->m_enum = IfcBeamTypeEnum::ENUM_T_BEAM;
+	}
+	else if( std_iequal( arg, L".GIRDER_SEGMENT." ) )
+	{
+		type_object->m_enum = IfcBeamTypeEnum::ENUM_GIRDER_SEGMENT;
+	}
+	else if( std_iequal( arg, L".DIAPHRAGM." ) )
+	{
+		type_object->m_enum = IfcBeamTypeEnum::ENUM_DIAPHRAGM;
+	}
+	else if( std_iequal( arg, L".PIERCAP." ) )
+	{
+		type_object->m_enum = IfcBeamTypeEnum::ENUM_PIERCAP;
+	}
+	else if( std_iequal( arg, L".HATSTONE." ) )
+	{
+		type_object->m_enum = IfcBeamTypeEnum::ENUM_HATSTONE;
+	}
+	else if( std_iequal( arg, L".CORNICE." ) )
+	{
+		type_object->m_enum = IfcBeamTypeEnum::ENUM_CORNICE;
+	}
+	else if( std_iequal( arg, L".EDGEBEAM." ) )
+	{
+		type_object->m_enum = IfcBeamTypeEnum::ENUM_EDGEBEAM;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

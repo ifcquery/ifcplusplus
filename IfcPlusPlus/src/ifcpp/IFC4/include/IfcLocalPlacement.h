@@ -8,7 +8,6 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 #include "IfcObjectPlacement.h"
-class IFCQUERY_EXPORT IfcObjectPlacement;
 class IFCQUERY_EXPORT IfcAxis2Placement;
 //ENTITY
 class IFCQUERY_EXPORT IfcLocalPlacement : public IfcObjectPlacement
@@ -31,13 +30,13 @@ public:
 
 
 	// IfcObjectPlacement -----------------------------------------------------------
+	// attributes:
+	//  shared_ptr<IfcObjectPlacement>		m_PlacementRelTo;			//optional
 	// inverse attributes:
-	//  std::vector<weak_ptr<IfcProduct> >			m_PlacesObject_inverse;
-	//  std::vector<weak_ptr<IfcLocalPlacement> >	m_ReferencedByPlacements_inverse;
+	//  std::vector<weak_ptr<IfcProduct> >	m_PlacesObject_inverse;
 
 	// IfcLocalPlacement -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcObjectPlacement>				m_PlacementRelTo;			//optional
-	shared_ptr<IfcAxis2Placement>				m_RelativePlacement;
+	shared_ptr<IfcAxis2Placement>		m_RelativePlacement;
 };
 

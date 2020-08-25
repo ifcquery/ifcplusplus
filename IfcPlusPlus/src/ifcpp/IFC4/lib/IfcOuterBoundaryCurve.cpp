@@ -8,6 +8,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcCompositeCurveSegment.h"
+#include "ifcpp/IFC4/include/IfcLinearPositioningElement.h"
 #include "ifcpp/IFC4/include/IfcLogical.h"
 #include "ifcpp/IFC4/include/IfcOuterBoundaryCurve.h"
 #include "ifcpp/IFC4/include/IfcPresentationLayerAssignment.h"

@@ -19,6 +19,7 @@
 #include "ifcpp/IFC4/include/IfcRelDefinesByProperties.h"
 #include "ifcpp/IFC4/include/IfcRelDefinesByType.h"
 #include "ifcpp/IFC4/include/IfcRelNests.h"
+#include "ifcpp/IFC4/include/IfcRelReferencedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcRelServicesBuildings.h"
 #include "ifcpp/IFC4/include/IfcSystem.h"
 #include "ifcpp/IFC4/include/IfcText.h"
@@ -87,6 +88,18 @@ void IfcSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_
 			}
 		}
 		vec_attributes_inverse.emplace_back( std::make_pair( "ServicesBuildings_inverse", ServicesBuildings_inverse_vec_obj ) );
+	}
+	if( !m_ServicesFacilities_inverse.empty() )
+	{
+		shared_ptr<AttributeObjectVector> ServicesFacilities_inverse_vec_obj( new AttributeObjectVector() );
+		for( size_t i=0; i<m_ServicesFacilities_inverse.size(); ++i )
+		{
+			if( !m_ServicesFacilities_inverse[i].expired() )
+			{
+				ServicesFacilities_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelReferencedInSpatialStructure>( m_ServicesFacilities_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.emplace_back( std::make_pair( "ServicesFacilities_inverse", ServicesFacilities_inverse_vec_obj ) );
 	}
 }
 void IfcSystem::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

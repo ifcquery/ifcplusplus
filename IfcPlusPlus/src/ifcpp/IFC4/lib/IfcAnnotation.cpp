@@ -8,6 +8,7 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4/include/IfcAnnotation.h"
+#include "ifcpp/IFC4/include/IfcAnnotationTypeEnum.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
 #include "ifcpp/IFC4/include/IfcObjectPlacement.h"
@@ -23,6 +24,8 @@
 #include "ifcpp/IFC4/include/IfcRelDefinesByProperties.h"
 #include "ifcpp/IFC4/include/IfcRelDefinesByType.h"
 #include "ifcpp/IFC4/include/IfcRelNests.h"
+#include "ifcpp/IFC4/include/IfcRelPositions.h"
+#include "ifcpp/IFC4/include/IfcRelReferencedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcAnnotation 
@@ -45,6 +48,7 @@ shared_ptr<BuildingObject> IfcAnnotation::getDeepCopy( BuildingCopyOptions& opti
 	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
 	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy(options) ); }
 	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy(options) ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcAnnotationTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcAnnotation::getStepLine( std::stringstream& stream ) const
@@ -63,6 +67,8 @@ void IfcAnnotation::getStepLine( std::stringstream& stream ) const
 	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Representation ) { stream << "#" << m_Representation->m_entity_id; } else { stream << "$"; }
+	stream << ",";
+	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcAnnotation::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
@@ -70,7 +76,7 @@ const std::wstring IfcAnnotation::toString() const { return L"IfcAnnotation"; }
 void IfcAnnotation::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 7 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAnnotation, expecting 7, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 8 ){ std::stringstream err; err << "Wrong parameter count for entity IfcAnnotation, expecting 8, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map );
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
@@ -78,10 +84,12 @@ void IfcAnnotation::readStepArguments( const std::vector<std::wstring>& args, co
 	m_ObjectType = IfcLabel::createObjectFromSTEP( args[4], map );
 	readEntityReference( args[5], m_ObjectPlacement, map );
 	readEntityReference( args[6], m_Representation, map );
+	m_PredefinedType = IfcAnnotationTypeEnum::createObjectFromSTEP( args[7], map );
 }
 void IfcAnnotation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcProduct::getAttributes( vec_attributes );
+	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IfcAnnotation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

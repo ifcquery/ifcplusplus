@@ -9,7 +9,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 
-// TYPE IfcTransformerTypeEnum = ENUMERATION OF	(CURRENT	,FREQUENCY	,INVERTER	,RECTIFIER	,VOLTAGE	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcTransformerTypeEnum = ENUMERATION OF	(CURRENT	,FREQUENCY	,INVERTER	,RECTIFIER	,VOLTAGE	,CHOPPER	,COMBINED	,USERDEFINED	,NOTDEFINED);
 class IFCQUERY_EXPORT IfcTransformerTypeEnum : virtual public BuildingObject
 {
 public:
@@ -20,6 +20,8 @@ public:
 		ENUM_INVERTER,
 		ENUM_RECTIFIER,
 		ENUM_VOLTAGE,
+		ENUM_CHOPPER,
+		ENUM_COMBINED,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};

@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcRailingTypeEnum.h"
 
-// TYPE IfcRailingTypeEnum = ENUMERATION OF	(HANDRAIL	,GUARDRAIL	,BALUSTRADE	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcRailingTypeEnum = ENUMERATION OF	(HANDRAIL	,GUARDRAIL	,BALUSTRADE	,FENCE	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcRailingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcRailingTypeEnum> copy_self( new IfcRailingTypeEnum() );
@@ -24,6 +24,7 @@ void IfcRailingTypeEnum::getStepParameter( std::stringstream& stream, bool is_se
 		case ENUM_HANDRAIL:	stream << ".HANDRAIL."; break;
 		case ENUM_GUARDRAIL:	stream << ".GUARDRAIL."; break;
 		case ENUM_BALUSTRADE:	stream << ".BALUSTRADE."; break;
+		case ENUM_FENCE:	stream << ".FENCE."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -36,6 +37,7 @@ const std::wstring IfcRailingTypeEnum::toString() const
 		case ENUM_HANDRAIL:	return L"HANDRAIL";
 		case ENUM_GUARDRAIL:	return L"GUARDRAIL";
 		case ENUM_BALUSTRADE:	return L"BALUSTRADE";
+		case ENUM_FENCE:	return L"FENCE";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -57,6 +59,10 @@ shared_ptr<IfcRailingTypeEnum> IfcRailingTypeEnum::createObjectFromSTEP( const s
 	else if( std_iequal( arg, L".BALUSTRADE." ) )
 	{
 		type_object->m_enum = IfcRailingTypeEnum::ENUM_BALUSTRADE;
+	}
+	else if( std_iequal( arg, L".FENCE." ) )
+	{
+		type_object->m_enum = IfcRailingTypeEnum::ENUM_FENCE;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcTransformerTypeEnum.h"
 
-// TYPE IfcTransformerTypeEnum = ENUMERATION OF	(CURRENT	,FREQUENCY	,INVERTER	,RECTIFIER	,VOLTAGE	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcTransformerTypeEnum = ENUMERATION OF	(CURRENT	,FREQUENCY	,INVERTER	,RECTIFIER	,VOLTAGE	,CHOPPER	,COMBINED	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcTransformerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcTransformerTypeEnum> copy_self( new IfcTransformerTypeEnum() );
@@ -26,6 +26,8 @@ void IfcTransformerTypeEnum::getStepParameter( std::stringstream& stream, bool i
 		case ENUM_INVERTER:	stream << ".INVERTER."; break;
 		case ENUM_RECTIFIER:	stream << ".RECTIFIER."; break;
 		case ENUM_VOLTAGE:	stream << ".VOLTAGE."; break;
+		case ENUM_CHOPPER:	stream << ".CHOPPER."; break;
+		case ENUM_COMBINED:	stream << ".COMBINED."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -40,6 +42,8 @@ const std::wstring IfcTransformerTypeEnum::toString() const
 		case ENUM_INVERTER:	return L"INVERTER";
 		case ENUM_RECTIFIER:	return L"RECTIFIER";
 		case ENUM_VOLTAGE:	return L"VOLTAGE";
+		case ENUM_CHOPPER:	return L"CHOPPER";
+		case ENUM_COMBINED:	return L"COMBINED";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -69,6 +73,14 @@ shared_ptr<IfcTransformerTypeEnum> IfcTransformerTypeEnum::createObjectFromSTEP(
 	else if( std_iequal( arg, L".VOLTAGE." ) )
 	{
 		type_object->m_enum = IfcTransformerTypeEnum::ENUM_VOLTAGE;
+	}
+	else if( std_iequal( arg, L".CHOPPER." ) )
+	{
+		type_object->m_enum = IfcTransformerTypeEnum::ENUM_CHOPPER;
+	}
+	else if( std_iequal( arg, L".COMBINED." ) )
+	{
+		type_object->m_enum = IfcTransformerTypeEnum::ENUM_COMBINED;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

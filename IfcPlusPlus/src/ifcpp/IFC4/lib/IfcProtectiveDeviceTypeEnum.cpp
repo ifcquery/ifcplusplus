@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcProtectiveDeviceTypeEnum.h"
 
-// TYPE IfcProtectiveDeviceTypeEnum = ENUMERATION OF	(CIRCUITBREAKER	,EARTHLEAKAGECIRCUITBREAKER	,EARTHINGSWITCH	,FUSEDISCONNECTOR	,RESIDUALCURRENTCIRCUITBREAKER	,RESIDUALCURRENTSWITCH	,VARISTOR	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcProtectiveDeviceTypeEnum = ENUMERATION OF	(CIRCUITBREAKER	,EARTHLEAKAGECIRCUITBREAKER	,EARTHINGSWITCH	,FUSEDISCONNECTOR	,RESIDUALCURRENTCIRCUITBREAKER	,RESIDUALCURRENTSWITCH	,VARISTOR	,ANTI_ARCING_DEVICE	,SPARKGAP	,VOLTAGELIMITER	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcProtectiveDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcProtectiveDeviceTypeEnum> copy_self( new IfcProtectiveDeviceTypeEnum() );
@@ -28,6 +28,9 @@ void IfcProtectiveDeviceTypeEnum::getStepParameter( std::stringstream& stream, b
 		case ENUM_RESIDUALCURRENTCIRCUITBREAKER:	stream << ".RESIDUALCURRENTCIRCUITBREAKER."; break;
 		case ENUM_RESIDUALCURRENTSWITCH:	stream << ".RESIDUALCURRENTSWITCH."; break;
 		case ENUM_VARISTOR:	stream << ".VARISTOR."; break;
+		case ENUM_ANTI_ARCING_DEVICE:	stream << ".ANTI_ARCING_DEVICE."; break;
+		case ENUM_SPARKGAP:	stream << ".SPARKGAP."; break;
+		case ENUM_VOLTAGELIMITER:	stream << ".VOLTAGELIMITER."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -44,6 +47,9 @@ const std::wstring IfcProtectiveDeviceTypeEnum::toString() const
 		case ENUM_RESIDUALCURRENTCIRCUITBREAKER:	return L"RESIDUALCURRENTCIRCUITBREAKER";
 		case ENUM_RESIDUALCURRENTSWITCH:	return L"RESIDUALCURRENTSWITCH";
 		case ENUM_VARISTOR:	return L"VARISTOR";
+		case ENUM_ANTI_ARCING_DEVICE:	return L"ANTI_ARCING_DEVICE";
+		case ENUM_SPARKGAP:	return L"SPARKGAP";
+		case ENUM_VOLTAGELIMITER:	return L"VOLTAGELIMITER";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -81,6 +87,18 @@ shared_ptr<IfcProtectiveDeviceTypeEnum> IfcProtectiveDeviceTypeEnum::createObjec
 	else if( std_iequal( arg, L".VARISTOR." ) )
 	{
 		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_VARISTOR;
+	}
+	else if( std_iequal( arg, L".ANTI_ARCING_DEVICE." ) )
+	{
+		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_ANTI_ARCING_DEVICE;
+	}
+	else if( std_iequal( arg, L".SPARKGAP." ) )
+	{
+		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_SPARKGAP;
+	}
+	else if( std_iequal( arg, L".VOLTAGELIMITER." ) )
+	{
+		type_object->m_enum = IfcProtectiveDeviceTypeEnum::ENUM_VOLTAGELIMITER;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

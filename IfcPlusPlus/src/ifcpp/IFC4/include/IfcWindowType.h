@@ -7,13 +7,13 @@
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
-#include "IfcBuildingElementType.h"
+#include "IfcBuiltElementType.h"
 class IFCQUERY_EXPORT IfcWindowTypeEnum;
 class IFCQUERY_EXPORT IfcWindowTypePartitioningEnum;
 class IFCQUERY_EXPORT IfcBoolean;
 class IFCQUERY_EXPORT IfcLabel;
 //ENTITY
-class IFCQUERY_EXPORT IfcWindowType : public IfcBuildingElementType
+class IFCQUERY_EXPORT IfcWindowType : public IfcBuiltElementType
 { 
 public:
 	IfcWindowType() = default;
@@ -67,7 +67,7 @@ public:
 	// attributes:
 	//  shared_ptr<IfcLabel>								m_ElementType;				//optional
 
-	// IfcBuildingElementType -----------------------------------------------------------
+	// IfcBuiltElementType -----------------------------------------------------------
 
 	// IfcWindowType -----------------------------------------------------------
 	// attributes:

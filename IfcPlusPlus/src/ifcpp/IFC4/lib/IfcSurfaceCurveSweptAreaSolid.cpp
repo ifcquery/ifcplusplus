@@ -64,21 +64,18 @@ void IfcSurfaceCurveSweptAreaSolid::readStepArguments( const std::vector<std::ws
 }
 void IfcSurfaceCurveSweptAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	IfcSweptAreaSolid::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( std::make_pair( "Directrix", m_Directrix ) );
-	vec_attributes.emplace_back( std::make_pair( "StartParam", m_StartParam ) );
-	vec_attributes.emplace_back( std::make_pair( "EndParam", m_EndParam ) );
+	IfcDirectrixCurveSweptAreaSolid::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "ReferenceSurface", m_ReferenceSurface ) );
 }
 void IfcSurfaceCurveSweptAreaSolid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	IfcSweptAreaSolid::getAttributesInverse( vec_attributes_inverse );
+	IfcDirectrixCurveSweptAreaSolid::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcSurfaceCurveSweptAreaSolid::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
-	IfcSweptAreaSolid::setInverseCounterparts( ptr_self_entity );
+	IfcDirectrixCurveSweptAreaSolid::setInverseCounterparts( ptr_self_entity );
 }
 void IfcSurfaceCurveSweptAreaSolid::unlinkFromInverseCounterparts()
 {
-	IfcSweptAreaSolid::unlinkFromInverseCounterparts();
+	IfcDirectrixCurveSweptAreaSolid::unlinkFromInverseCounterparts();
 }

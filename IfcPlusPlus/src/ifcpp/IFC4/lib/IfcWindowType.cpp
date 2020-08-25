@@ -120,7 +120,7 @@ void IfcWindowType::readStepArguments( const std::vector<std::wstring>& args, co
 }
 void IfcWindowType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	IfcBuildingElementType::getAttributes( vec_attributes );
+	IfcBuiltElementType::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.emplace_back( std::make_pair( "PartitioningType", m_PartitioningType ) );
 	vec_attributes.emplace_back( std::make_pair( "ParameterTakesPrecedence", m_ParameterTakesPrecedence ) );
@@ -128,13 +128,13 @@ void IfcWindowType::getAttributes( std::vector<std::pair<std::string, shared_ptr
 }
 void IfcWindowType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	IfcBuildingElementType::getAttributesInverse( vec_attributes_inverse );
+	IfcBuiltElementType::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcWindowType::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
-	IfcBuildingElementType::setInverseCounterparts( ptr_self_entity );
+	IfcBuiltElementType::setInverseCounterparts( ptr_self_entity );
 }
 void IfcWindowType::unlinkFromInverseCounterparts()
 {
-	IfcBuildingElementType::unlinkFromInverseCounterparts();
+	IfcBuiltElementType::unlinkFromInverseCounterparts();
 }

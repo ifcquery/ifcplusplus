@@ -9,7 +9,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 
-// TYPE IfcDistributionPortTypeEnum = ENUMERATION OF	(CABLE	,CABLECARRIER	,DUCT	,PIPE	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcDistributionPortTypeEnum = ENUMERATION OF	(CABLE	,CABLECARRIER	,DUCT	,PIPE	,WIRELESS	,USERDEFINED	,NOTDEFINED);
 class IFCQUERY_EXPORT IfcDistributionPortTypeEnum : virtual public BuildingObject
 {
 public:
@@ -19,6 +19,7 @@ public:
 		ENUM_CABLECARRIER,
 		ENUM_DUCT,
 		ENUM_PIPE,
+		ENUM_WIRELESS,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};

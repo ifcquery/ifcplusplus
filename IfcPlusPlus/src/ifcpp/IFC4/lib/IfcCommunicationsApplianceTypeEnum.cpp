@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcCommunicationsApplianceTypeEnum.h"
 
-// TYPE IfcCommunicationsApplianceTypeEnum = ENUMERATION OF	(ANTENNA	,COMPUTER	,FAX	,GATEWAY	,MODEM	,NETWORKAPPLIANCE	,NETWORKBRIDGE	,NETWORKHUB	,PRINTER	,REPEATER	,ROUTER	,SCANNER	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcCommunicationsApplianceTypeEnum = ENUMERATION OF	(ANTENNA	,COMPUTER	,FAX	,GATEWAY	,MODEM	,NETWORKAPPLIANCE	,NETWORKBRIDGE	,NETWORKHUB	,PRINTER	,REPEATER	,ROUTER	,SCANNER	,AUTOMATON	,INTELLIGENT_PERIPHERAL	,IP_NETWORK_EQUIPMENT	,OPTICAL_NETWORK_UNIT	,TELECOMMAND	,TELEPHONYEXCHANGE	,TRANSITIONCOMPONENT	,TRANSPONDER	,TRANSPORTEQUIPMENT	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcCommunicationsApplianceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCommunicationsApplianceTypeEnum> copy_self( new IfcCommunicationsApplianceTypeEnum() );
@@ -33,6 +33,15 @@ void IfcCommunicationsApplianceTypeEnum::getStepParameter( std::stringstream& st
 		case ENUM_REPEATER:	stream << ".REPEATER."; break;
 		case ENUM_ROUTER:	stream << ".ROUTER."; break;
 		case ENUM_SCANNER:	stream << ".SCANNER."; break;
+		case ENUM_AUTOMATON:	stream << ".AUTOMATON."; break;
+		case ENUM_INTELLIGENT_PERIPHERAL:	stream << ".INTELLIGENT_PERIPHERAL."; break;
+		case ENUM_IP_NETWORK_EQUIPMENT:	stream << ".IP_NETWORK_EQUIPMENT."; break;
+		case ENUM_OPTICAL_NETWORK_UNIT:	stream << ".OPTICAL_NETWORK_UNIT."; break;
+		case ENUM_TELECOMMAND:	stream << ".TELECOMMAND."; break;
+		case ENUM_TELEPHONYEXCHANGE:	stream << ".TELEPHONYEXCHANGE."; break;
+		case ENUM_TRANSITIONCOMPONENT:	stream << ".TRANSITIONCOMPONENT."; break;
+		case ENUM_TRANSPONDER:	stream << ".TRANSPONDER."; break;
+		case ENUM_TRANSPORTEQUIPMENT:	stream << ".TRANSPORTEQUIPMENT."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -54,6 +63,15 @@ const std::wstring IfcCommunicationsApplianceTypeEnum::toString() const
 		case ENUM_REPEATER:	return L"REPEATER";
 		case ENUM_ROUTER:	return L"ROUTER";
 		case ENUM_SCANNER:	return L"SCANNER";
+		case ENUM_AUTOMATON:	return L"AUTOMATON";
+		case ENUM_INTELLIGENT_PERIPHERAL:	return L"INTELLIGENT_PERIPHERAL";
+		case ENUM_IP_NETWORK_EQUIPMENT:	return L"IP_NETWORK_EQUIPMENT";
+		case ENUM_OPTICAL_NETWORK_UNIT:	return L"OPTICAL_NETWORK_UNIT";
+		case ENUM_TELECOMMAND:	return L"TELECOMMAND";
+		case ENUM_TELEPHONYEXCHANGE:	return L"TELEPHONYEXCHANGE";
+		case ENUM_TRANSITIONCOMPONENT:	return L"TRANSITIONCOMPONENT";
+		case ENUM_TRANSPONDER:	return L"TRANSPONDER";
+		case ENUM_TRANSPORTEQUIPMENT:	return L"TRANSPORTEQUIPMENT";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -111,6 +129,42 @@ shared_ptr<IfcCommunicationsApplianceTypeEnum> IfcCommunicationsApplianceTypeEnu
 	else if( std_iequal( arg, L".SCANNER." ) )
 	{
 		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_SCANNER;
+	}
+	else if( std_iequal( arg, L".AUTOMATON." ) )
+	{
+		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_AUTOMATON;
+	}
+	else if( std_iequal( arg, L".INTELLIGENT_PERIPHERAL." ) )
+	{
+		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_INTELLIGENT_PERIPHERAL;
+	}
+	else if( std_iequal( arg, L".IP_NETWORK_EQUIPMENT." ) )
+	{
+		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_IP_NETWORK_EQUIPMENT;
+	}
+	else if( std_iequal( arg, L".OPTICAL_NETWORK_UNIT." ) )
+	{
+		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_OPTICAL_NETWORK_UNIT;
+	}
+	else if( std_iequal( arg, L".TELECOMMAND." ) )
+	{
+		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_TELECOMMAND;
+	}
+	else if( std_iequal( arg, L".TELEPHONYEXCHANGE." ) )
+	{
+		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_TELEPHONYEXCHANGE;
+	}
+	else if( std_iequal( arg, L".TRANSITIONCOMPONENT." ) )
+	{
+		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_TRANSITIONCOMPONENT;
+	}
+	else if( std_iequal( arg, L".TRANSPONDER." ) )
+	{
+		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_TRANSPONDER;
+	}
+	else if( std_iequal( arg, L".TRANSPORTEQUIPMENT." ) )
+	{
+		type_object->m_enum = IfcCommunicationsApplianceTypeEnum::ENUM_TRANSPORTEQUIPMENT;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

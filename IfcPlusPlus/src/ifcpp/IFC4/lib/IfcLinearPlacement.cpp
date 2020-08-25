@@ -11,7 +11,7 @@
 #include "ifcpp/IFC4/include/IfcCurve.h"
 #include "ifcpp/IFC4/include/IfcDistanceExpression.h"
 #include "ifcpp/IFC4/include/IfcLinearPlacement.h"
-#include "ifcpp/IFC4/include/IfcLocalPlacement.h"
+#include "ifcpp/IFC4/include/IfcObjectPlacement.h"
 #include "ifcpp/IFC4/include/IfcOrientationExpression.h"
 #include "ifcpp/IFC4/include/IfcProduct.h"
 
@@ -20,7 +20,8 @@ IfcLinearPlacement::IfcLinearPlacement( int id ) { m_entity_id = id; }
 shared_ptr<BuildingObject> IfcLinearPlacement::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcLinearPlacement> copy_self( new IfcLinearPlacement() );
-	if( m_PlacementRelTo ) { copy_self->m_PlacementRelTo = dynamic_pointer_cast<IfcCurve>( m_PlacementRelTo->getDeepCopy(options) ); }
+	if( m_PlacementRelTo ) { copy_self->m_PlacementRelTo = dynamic_pointer_cast<IfcObjectPlacement>( m_PlacementRelTo->getDeepCopy(options) ); }
+	if( m_PlacementMeasuredAlong ) { copy_self->m_PlacementMeasuredAlong = dynamic_pointer_cast<IfcCurve>( m_PlacementMeasuredAlong->getDeepCopy(options) ); }
 	if( m_Distance ) { copy_self->m_Distance = dynamic_pointer_cast<IfcDistanceExpression>( m_Distance->getDeepCopy(options) ); }
 	if( m_Orientation ) { copy_self->m_Orientation = dynamic_pointer_cast<IfcOrientationExpression>( m_Orientation->getDeepCopy(options) ); }
 	if( m_CartesianPosition ) { copy_self->m_CartesianPosition = dynamic_pointer_cast<IfcAxis2Placement3D>( m_CartesianPosition->getDeepCopy(options) ); }
@@ -30,6 +31,8 @@ void IfcLinearPlacement::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_entity_id << "= IFCLINEARPLACEMENT" << "(";
 	if( m_PlacementRelTo ) { stream << "#" << m_PlacementRelTo->m_entity_id; } else { stream << "$"; }
+	stream << ",";
+	if( m_PlacementMeasuredAlong ) { stream << "#" << m_PlacementMeasuredAlong->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_Distance ) { stream << "#" << m_Distance->m_entity_id; } else { stream << "$"; }
 	stream << ",";
@@ -43,16 +46,17 @@ const std::wstring IfcLinearPlacement::toString() const { return L"IfcLinearPlac
 void IfcLinearPlacement::readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	const size_t num_args = args.size();
-	if( num_args != 4 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLinearPlacement, expecting 4, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
+	if( num_args != 5 ){ std::stringstream err; err << "Wrong parameter count for entity IfcLinearPlacement, expecting 5, having " << num_args << ". Entity ID: " << m_entity_id << std::endl; throw BuildingException( err.str().c_str() ); }
 	readEntityReference( args[0], m_PlacementRelTo, map );
-	readEntityReference( args[1], m_Distance, map );
-	readEntityReference( args[2], m_Orientation, map );
-	readEntityReference( args[3], m_CartesianPosition, map );
+	readEntityReference( args[1], m_PlacementMeasuredAlong, map );
+	readEntityReference( args[2], m_Distance, map );
+	readEntityReference( args[3], m_Orientation, map );
+	readEntityReference( args[4], m_CartesianPosition, map );
 }
 void IfcLinearPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcObjectPlacement::getAttributes( vec_attributes );
-	vec_attributes.emplace_back( std::make_pair( "PlacementRelTo", m_PlacementRelTo ) );
+	vec_attributes.emplace_back( std::make_pair( "PlacementMeasuredAlong", m_PlacementMeasuredAlong ) );
 	vec_attributes.emplace_back( std::make_pair( "Distance", m_Distance ) );
 	vec_attributes.emplace_back( std::make_pair( "Orientation", m_Orientation ) );
 	vec_attributes.emplace_back( std::make_pair( "CartesianPosition", m_CartesianPosition ) );

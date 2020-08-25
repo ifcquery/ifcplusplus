@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcFurnitureTypeEnum.h"
 
-// TYPE IfcFurnitureTypeEnum = ENUMERATION OF	(CHAIR	,TABLE	,DESK	,BED	,FILECABINET	,SHELF	,SOFA	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcFurnitureTypeEnum = ENUMERATION OF	(CHAIR	,TABLE	,DESK	,BED	,FILECABINET	,SHELF	,SOFA	,TECHNICALCABINET	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcFurnitureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFurnitureTypeEnum> copy_self( new IfcFurnitureTypeEnum() );
@@ -28,6 +28,7 @@ void IfcFurnitureTypeEnum::getStepParameter( std::stringstream& stream, bool is_
 		case ENUM_FILECABINET:	stream << ".FILECABINET."; break;
 		case ENUM_SHELF:	stream << ".SHELF."; break;
 		case ENUM_SOFA:	stream << ".SOFA."; break;
+		case ENUM_TECHNICALCABINET:	stream << ".TECHNICALCABINET."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -44,6 +45,7 @@ const std::wstring IfcFurnitureTypeEnum::toString() const
 		case ENUM_FILECABINET:	return L"FILECABINET";
 		case ENUM_SHELF:	return L"SHELF";
 		case ENUM_SOFA:	return L"SOFA";
+		case ENUM_TECHNICALCABINET:	return L"TECHNICALCABINET";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -81,6 +83,10 @@ shared_ptr<IfcFurnitureTypeEnum> IfcFurnitureTypeEnum::createObjectFromSTEP( con
 	else if( std_iequal( arg, L".SOFA." ) )
 	{
 		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_SOFA;
+	}
+	else if( std_iequal( arg, L".TECHNICALCABINET." ) )
+	{
+		type_object->m_enum = IfcFurnitureTypeEnum::ENUM_TECHNICALCABINET;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

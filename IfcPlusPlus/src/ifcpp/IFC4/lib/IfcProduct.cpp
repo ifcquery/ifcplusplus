@@ -23,6 +23,8 @@
 #include "ifcpp/IFC4/include/IfcRelDefinesByProperties.h"
 #include "ifcpp/IFC4/include/IfcRelDefinesByType.h"
 #include "ifcpp/IFC4/include/IfcRelNests.h"
+#include "ifcpp/IFC4/include/IfcRelPositions.h"
+#include "ifcpp/IFC4/include/IfcRelReferencedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcProduct 
@@ -99,6 +101,30 @@ void IfcProduct::getAttributesInverse( std::vector<std::pair<std::string, shared
 			}
 		}
 		vec_attributes_inverse.emplace_back( std::make_pair( "ReferencedBy_inverse", ReferencedBy_inverse_vec_obj ) );
+	}
+	if( !m_PositionedRelativeTo_inverse.empty() )
+	{
+		shared_ptr<AttributeObjectVector> PositionedRelativeTo_inverse_vec_obj( new AttributeObjectVector() );
+		for( size_t i=0; i<m_PositionedRelativeTo_inverse.size(); ++i )
+		{
+			if( !m_PositionedRelativeTo_inverse[i].expired() )
+			{
+				PositionedRelativeTo_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelPositions>( m_PositionedRelativeTo_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.emplace_back( std::make_pair( "PositionedRelativeTo_inverse", PositionedRelativeTo_inverse_vec_obj ) );
+	}
+	if( !m_ReferencedInStructures_inverse.empty() )
+	{
+		shared_ptr<AttributeObjectVector> ReferencedInStructures_inverse_vec_obj( new AttributeObjectVector() );
+		for( size_t i=0; i<m_ReferencedInStructures_inverse.size(); ++i )
+		{
+			if( !m_ReferencedInStructures_inverse[i].expired() )
+			{
+				ReferencedInStructures_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelReferencedInSpatialStructure>( m_ReferencedInStructures_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.emplace_back( std::make_pair( "ReferencedInStructures_inverse", ReferencedInStructures_inverse_vec_obj ) );
 	}
 }
 void IfcProduct::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

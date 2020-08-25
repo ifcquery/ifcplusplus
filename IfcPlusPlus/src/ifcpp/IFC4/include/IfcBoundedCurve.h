@@ -9,6 +9,7 @@
 #include "ifcpp/model/BuildingObject.h"
 #include "IfcCurveOrEdgeCurve.h"
 #include "IfcCurve.h"
+class IFCQUERY_EXPORT IfcLinearPositioningElement;
 //ENTITY
 class IFCQUERY_EXPORT IfcBoundedCurve : virtual public IfcCurveOrEdgeCurve, public IfcCurve
 { 
@@ -39,5 +40,7 @@ public:
 	// IfcCurve -----------------------------------------------------------
 
 	// IfcBoundedCurve -----------------------------------------------------------
+	// inverse attributes:
+	std::vector<weak_ptr<IfcLinearPositioningElement> >		m_PositioningElement_inverse;
 };
 

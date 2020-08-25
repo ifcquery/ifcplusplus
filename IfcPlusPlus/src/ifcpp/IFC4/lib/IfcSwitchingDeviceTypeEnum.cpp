@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcSwitchingDeviceTypeEnum.h"
 
-// TYPE IfcSwitchingDeviceTypeEnum = ENUMERATION OF	(CONTACTOR	,DIMMERSWITCH	,EMERGENCYSTOP	,KEYPAD	,MOMENTARYSWITCH	,SELECTORSWITCH	,STARTER	,SWITCHDISCONNECTOR	,TOGGLESWITCH	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcSwitchingDeviceTypeEnum = ENUMERATION OF	(CONTACTOR	,DIMMERSWITCH	,EMERGENCYSTOP	,KEYPAD	,MOMENTARYSWITCH	,SELECTORSWITCH	,STARTER	,SWITCHDISCONNECTOR	,TOGGLESWITCH	,RELAY	,START_AND_STOP_EQUIPMENT	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcSwitchingDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSwitchingDeviceTypeEnum> copy_self( new IfcSwitchingDeviceTypeEnum() );
@@ -30,6 +30,8 @@ void IfcSwitchingDeviceTypeEnum::getStepParameter( std::stringstream& stream, bo
 		case ENUM_STARTER:	stream << ".STARTER."; break;
 		case ENUM_SWITCHDISCONNECTOR:	stream << ".SWITCHDISCONNECTOR."; break;
 		case ENUM_TOGGLESWITCH:	stream << ".TOGGLESWITCH."; break;
+		case ENUM_RELAY:	stream << ".RELAY."; break;
+		case ENUM_START_AND_STOP_EQUIPMENT:	stream << ".START_AND_STOP_EQUIPMENT."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -48,6 +50,8 @@ const std::wstring IfcSwitchingDeviceTypeEnum::toString() const
 		case ENUM_STARTER:	return L"STARTER";
 		case ENUM_SWITCHDISCONNECTOR:	return L"SWITCHDISCONNECTOR";
 		case ENUM_TOGGLESWITCH:	return L"TOGGLESWITCH";
+		case ENUM_RELAY:	return L"RELAY";
+		case ENUM_START_AND_STOP_EQUIPMENT:	return L"START_AND_STOP_EQUIPMENT";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -93,6 +97,14 @@ shared_ptr<IfcSwitchingDeviceTypeEnum> IfcSwitchingDeviceTypeEnum::createObjectF
 	else if( std_iequal( arg, L".TOGGLESWITCH." ) )
 	{
 		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_TOGGLESWITCH;
+	}
+	else if( std_iequal( arg, L".RELAY." ) )
+	{
+		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_RELAY;
+	}
+	else if( std_iequal( arg, L".START_AND_STOP_EQUIPMENT." ) )
+	{
+		type_object->m_enum = IfcSwitchingDeviceTypeEnum::ENUM_START_AND_STOP_EQUIPMENT;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

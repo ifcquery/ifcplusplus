@@ -8,7 +8,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 #include "IfcElement.h"
-class IFCQUERY_EXPORT IfcTransportElementTypeEnum;
+class IFCQUERY_EXPORT IfcTransportElementTypeSelect;
 //ENTITY
 class IFCQUERY_EXPORT IfcTransportElement : public IfcElement
 { 
@@ -61,6 +61,8 @@ public:
 	//  shared_ptr<IfcProductRepresentation>						m_Representation;			//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcRelAssignsToProduct> >				m_ReferencedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelPositions> >						m_PositionedRelativeTo_inverse;
+	//  std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >	m_ReferencedInStructures_inverse;
 
 	// IfcElement -----------------------------------------------------------
 	// attributes:
@@ -71,7 +73,6 @@ public:
 	//  std::vector<weak_ptr<IfcRelInterferesElements> >			m_IsInterferedByElements_inverse;
 	//  std::vector<weak_ptr<IfcRelInterferesElements> >			m_InterferesElements_inverse;
 	//  std::vector<weak_ptr<IfcRelProjectsElement> >				m_HasProjections_inverse;
-	//  std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >	m_ReferencedInStructures_inverse;
 	//  std::vector<weak_ptr<IfcRelVoidsElement> >					m_HasOpenings_inverse;
 	//  std::vector<weak_ptr<IfcRelConnectsWithRealizingElements> >	m_IsConnectionRealization_inverse;
 	//  std::vector<weak_ptr<IfcRelSpaceBoundary> >					m_ProvidesBoundaries_inverse;
@@ -81,6 +82,6 @@ public:
 
 	// IfcTransportElement -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcTransportElementTypeEnum>						m_PredefinedType;			//optional
+	shared_ptr<IfcTransportElementTypeSelect>					m_PredefinedType;			//optional
 };
 

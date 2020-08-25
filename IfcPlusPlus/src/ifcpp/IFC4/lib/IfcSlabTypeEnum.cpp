@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcSlabTypeEnum.h"
 
-// TYPE IfcSlabTypeEnum = ENUMERATION OF	(FLOOR	,ROOF	,LANDING	,BASESLAB	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcSlabTypeEnum = ENUMERATION OF	(FLOOR	,ROOF	,LANDING	,BASESLAB	,APPROACH_SLAB	,PAVING	,WEARING	,SIDEWALK	,TRACKSLAB	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcSlabTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSlabTypeEnum> copy_self( new IfcSlabTypeEnum() );
@@ -25,6 +25,11 @@ void IfcSlabTypeEnum::getStepParameter( std::stringstream& stream, bool is_selec
 		case ENUM_ROOF:	stream << ".ROOF."; break;
 		case ENUM_LANDING:	stream << ".LANDING."; break;
 		case ENUM_BASESLAB:	stream << ".BASESLAB."; break;
+		case ENUM_APPROACH_SLAB:	stream << ".APPROACH_SLAB."; break;
+		case ENUM_PAVING:	stream << ".PAVING."; break;
+		case ENUM_WEARING:	stream << ".WEARING."; break;
+		case ENUM_SIDEWALK:	stream << ".SIDEWALK."; break;
+		case ENUM_TRACKSLAB:	stream << ".TRACKSLAB."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -38,6 +43,11 @@ const std::wstring IfcSlabTypeEnum::toString() const
 		case ENUM_ROOF:	return L"ROOF";
 		case ENUM_LANDING:	return L"LANDING";
 		case ENUM_BASESLAB:	return L"BASESLAB";
+		case ENUM_APPROACH_SLAB:	return L"APPROACH_SLAB";
+		case ENUM_PAVING:	return L"PAVING";
+		case ENUM_WEARING:	return L"WEARING";
+		case ENUM_SIDEWALK:	return L"SIDEWALK";
+		case ENUM_TRACKSLAB:	return L"TRACKSLAB";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -63,6 +73,26 @@ shared_ptr<IfcSlabTypeEnum> IfcSlabTypeEnum::createObjectFromSTEP( const std::ws
 	else if( std_iequal( arg, L".BASESLAB." ) )
 	{
 		type_object->m_enum = IfcSlabTypeEnum::ENUM_BASESLAB;
+	}
+	else if( std_iequal( arg, L".APPROACH_SLAB." ) )
+	{
+		type_object->m_enum = IfcSlabTypeEnum::ENUM_APPROACH_SLAB;
+	}
+	else if( std_iequal( arg, L".PAVING." ) )
+	{
+		type_object->m_enum = IfcSlabTypeEnum::ENUM_PAVING;
+	}
+	else if( std_iequal( arg, L".WEARING." ) )
+	{
+		type_object->m_enum = IfcSlabTypeEnum::ENUM_WEARING;
+	}
+	else if( std_iequal( arg, L".SIDEWALK." ) )
+	{
+		type_object->m_enum = IfcSlabTypeEnum::ENUM_SIDEWALK;
+	}
+	else if( std_iequal( arg, L".TRACKSLAB." ) )
+	{
+		type_object->m_enum = IfcSlabTypeEnum::ENUM_TRACKSLAB;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

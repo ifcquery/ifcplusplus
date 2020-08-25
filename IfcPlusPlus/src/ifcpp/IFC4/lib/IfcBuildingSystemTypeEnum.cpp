@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcBuildingSystemTypeEnum.h"
 
-// TYPE IfcBuildingSystemTypeEnum = ENUMERATION OF	(FENESTRATION	,FOUNDATION	,LOADBEARING	,OUTERSHELL	,SHADING	,TRANSPORT	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcBuildingSystemTypeEnum = ENUMERATION OF	(FENESTRATION	,FOUNDATION	,LOADBEARING	,OUTERSHELL	,SHADING	,TRANSPORT	,REINFORCING	,PRESTRESSING	,EROSIONPREVENTION	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcBuildingSystemTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcBuildingSystemTypeEnum> copy_self( new IfcBuildingSystemTypeEnum() );
@@ -27,6 +27,9 @@ void IfcBuildingSystemTypeEnum::getStepParameter( std::stringstream& stream, boo
 		case ENUM_OUTERSHELL:	stream << ".OUTERSHELL."; break;
 		case ENUM_SHADING:	stream << ".SHADING."; break;
 		case ENUM_TRANSPORT:	stream << ".TRANSPORT."; break;
+		case ENUM_REINFORCING:	stream << ".REINFORCING."; break;
+		case ENUM_PRESTRESSING:	stream << ".PRESTRESSING."; break;
+		case ENUM_EROSIONPREVENTION:	stream << ".EROSIONPREVENTION."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -42,6 +45,9 @@ const std::wstring IfcBuildingSystemTypeEnum::toString() const
 		case ENUM_OUTERSHELL:	return L"OUTERSHELL";
 		case ENUM_SHADING:	return L"SHADING";
 		case ENUM_TRANSPORT:	return L"TRANSPORT";
+		case ENUM_REINFORCING:	return L"REINFORCING";
+		case ENUM_PRESTRESSING:	return L"PRESTRESSING";
+		case ENUM_EROSIONPREVENTION:	return L"EROSIONPREVENTION";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -75,6 +81,18 @@ shared_ptr<IfcBuildingSystemTypeEnum> IfcBuildingSystemTypeEnum::createObjectFro
 	else if( std_iequal( arg, L".TRANSPORT." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_TRANSPORT;
+	}
+	else if( std_iequal( arg, L".REINFORCING." ) )
+	{
+		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_REINFORCING;
+	}
+	else if( std_iequal( arg, L".PRESTRESSING." ) )
+	{
+		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_PRESTRESSING;
+	}
+	else if( std_iequal( arg, L".EROSIONPREVENTION." ) )
+	{
+		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_EROSIONPREVENTION;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

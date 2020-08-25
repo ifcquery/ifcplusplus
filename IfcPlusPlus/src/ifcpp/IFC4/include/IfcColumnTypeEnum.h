@@ -9,7 +9,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 
-// TYPE IfcColumnTypeEnum = ENUMERATION OF	(COLUMN	,PILASTER	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcColumnTypeEnum = ENUMERATION OF	(COLUMN	,PILASTER	,PIERSTEM	,PIERSTEM_SEGMENT	,STANDCOLUMN	,USERDEFINED	,NOTDEFINED);
 class IFCQUERY_EXPORT IfcColumnTypeEnum : virtual public BuildingObject
 {
 public:
@@ -17,6 +17,9 @@ public:
 	{
 		ENUM_COLUMN,
 		ENUM_PILASTER,
+		ENUM_PIERSTEM,
+		ENUM_PIERSTEM_SEGMENT,
+		ENUM_STANDCOLUMN,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};

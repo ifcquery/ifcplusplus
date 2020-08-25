@@ -9,7 +9,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 
-// TYPE IfcBuildingElementPartTypeEnum = ENUMERATION OF	(INSULATION	,PRECASTPANEL	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcBuildingElementPartTypeEnum = ENUMERATION OF	(INSULATION	,PRECASTPANEL	,APRON	,ARMOURUNIT	,SAFETYCAGE	,USERDEFINED	,NOTDEFINED);
 class IFCQUERY_EXPORT IfcBuildingElementPartTypeEnum : virtual public BuildingObject
 {
 public:
@@ -17,6 +17,9 @@ public:
 	{
 		ENUM_INSULATION,
 		ENUM_PRECASTPANEL,
+		ENUM_APRON,
+		ENUM_ARMOURUNIT,
+		ENUM_SAFETYCAGE,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};

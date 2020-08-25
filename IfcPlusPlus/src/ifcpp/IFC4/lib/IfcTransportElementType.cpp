@@ -22,7 +22,7 @@
 #include "ifcpp/IFC4/include/IfcRepresentationMap.h"
 #include "ifcpp/IFC4/include/IfcText.h"
 #include "ifcpp/IFC4/include/IfcTransportElementType.h"
-#include "ifcpp/IFC4/include/IfcTransportElementTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcTransportElementTypeSelect.h"
 
 // ENTITY IfcTransportElementType 
 IfcTransportElementType::IfcTransportElementType( int id ) { m_entity_id = id; }
@@ -60,7 +60,7 @@ shared_ptr<BuildingObject> IfcTransportElementType::getDeepCopy( BuildingCopyOpt
 	}
 	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcLabel>( m_Tag->getDeepCopy(options) ); }
 	if( m_ElementType ) { copy_self->m_ElementType = dynamic_pointer_cast<IfcLabel>( m_ElementType->getDeepCopy(options) ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcTransportElementTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcTransportElementTypeSelect>( m_PredefinedType->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcTransportElementType::getStepLine( std::stringstream& stream ) const
@@ -84,7 +84,7 @@ void IfcTransportElementType::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_ElementType ) { m_ElementType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcTransportElementType::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
@@ -102,7 +102,7 @@ void IfcTransportElementType::readStepArguments( const std::vector<std::wstring>
 	readEntityReferenceList( args[6], m_RepresentationMaps, map );
 	m_Tag = IfcLabel::createObjectFromSTEP( args[7], map );
 	m_ElementType = IfcLabel::createObjectFromSTEP( args[8], map );
-	m_PredefinedType = IfcTransportElementTypeEnum::createObjectFromSTEP( args[9], map );
+	m_PredefinedType = IfcTransportElementTypeSelect::createObjectFromSTEP( args[9], map );
 }
 void IfcTransportElementType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {

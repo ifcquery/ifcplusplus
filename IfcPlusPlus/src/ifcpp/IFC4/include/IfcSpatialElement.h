@@ -7,13 +7,14 @@
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
+#include "IfcInterferenceSelect.h"
 #include "IfcProduct.h"
 class IFCQUERY_EXPORT IfcLabel;
 class IFCQUERY_EXPORT IfcRelContainedInSpatialStructure;
 class IFCQUERY_EXPORT IfcRelServicesBuildings;
 class IFCQUERY_EXPORT IfcRelReferencedInSpatialStructure;
 //ENTITY
-class IFCQUERY_EXPORT IfcSpatialElement : public IfcProduct
+class IFCQUERY_EXPORT IfcSpatialElement : virtual public IfcInterferenceSelect, public IfcProduct
 { 
 public:
 	IfcSpatialElement() = default;
@@ -64,6 +65,8 @@ public:
 	//  shared_ptr<IfcProductRepresentation>						m_Representation;			//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcRelAssignsToProduct> >				m_ReferencedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelPositions> >						m_PositionedRelativeTo_inverse;
+	//  std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >	m_ReferencedInStructures_inverse;
 
 	// IfcSpatialElement -----------------------------------------------------------
 	// attributes:

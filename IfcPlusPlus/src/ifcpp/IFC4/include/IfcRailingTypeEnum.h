@@ -9,7 +9,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 
-// TYPE IfcRailingTypeEnum = ENUMERATION OF	(HANDRAIL	,GUARDRAIL	,BALUSTRADE	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcRailingTypeEnum = ENUMERATION OF	(HANDRAIL	,GUARDRAIL	,BALUSTRADE	,FENCE	,USERDEFINED	,NOTDEFINED);
 class IFCQUERY_EXPORT IfcRailingTypeEnum : virtual public BuildingObject
 {
 public:
@@ -18,6 +18,7 @@ public:
 		ENUM_HANDRAIL,
 		ENUM_GUARDRAIL,
 		ENUM_BALUSTRADE,
+		ENUM_FENCE,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};

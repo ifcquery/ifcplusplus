@@ -12,6 +12,7 @@
 #include "ifcpp/IFC4/include/IfcCartesianPoint.h"
 #include "ifcpp/IFC4/include/IfcInteger.h"
 #include "ifcpp/IFC4/include/IfcKnotType.h"
+#include "ifcpp/IFC4/include/IfcLinearPositioningElement.h"
 #include "ifcpp/IFC4/include/IfcLogical.h"
 #include "ifcpp/IFC4/include/IfcParameterValue.h"
 #include "ifcpp/IFC4/include/IfcPresentationLayerAssignment.h"

@@ -7,10 +7,10 @@
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
-#include "IfcBuildingElementType.h"
+#include "IfcBuiltElementType.h"
 class IFCQUERY_EXPORT IfcCoveringTypeEnum;
 //ENTITY
-class IFCQUERY_EXPORT IfcCoveringType : public IfcBuildingElementType
+class IFCQUERY_EXPORT IfcCoveringType : public IfcBuiltElementType
 { 
 public:
 	IfcCoveringType() = default;
@@ -64,7 +64,7 @@ public:
 	// attributes:
 	//  shared_ptr<IfcLabel>								m_ElementType;				//optional
 
-	// IfcBuildingElementType -----------------------------------------------------------
+	// IfcBuiltElementType -----------------------------------------------------------
 
 	// IfcCoveringType -----------------------------------------------------------
 	// attributes:

@@ -28,6 +28,7 @@
 #include "ifcpp/IFC4/include/IfcRelFillsElement.h"
 #include "ifcpp/IFC4/include/IfcRelInterferesElements.h"
 #include "ifcpp/IFC4/include/IfcRelNests.h"
+#include "ifcpp/IFC4/include/IfcRelPositions.h"
 #include "ifcpp/IFC4/include/IfcRelProjectsElement.h"
 #include "ifcpp/IFC4/include/IfcRelReferencedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcRelSpaceBoundary.h"

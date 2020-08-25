@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcMemberTypeEnum.h"
 
-// TYPE IfcMemberTypeEnum = ENUMERATION OF	(BRACE	,CHORD	,COLLAR	,MEMBER	,MULLION	,PLATE	,POST	,PURLIN	,RAFTER	,STRINGER	,STRUT	,STUD	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcMemberTypeEnum = ENUMERATION OF	(BRACE	,CHORD	,COLLAR	,MEMBER	,MULLION	,PLATE	,POST	,PURLIN	,RAFTER	,STRINGER	,STRUT	,STUD	,STIFFENING_RIB	,ARCH_SEGMENT	,SUSPENSION_CABLE	,SUSPENDER	,STAY_CABLE	,STRUCTURALCABLE	,TIEBAR	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcMemberTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcMemberTypeEnum> copy_self( new IfcMemberTypeEnum() );
@@ -33,6 +33,13 @@ void IfcMemberTypeEnum::getStepParameter( std::stringstream& stream, bool is_sel
 		case ENUM_STRINGER:	stream << ".STRINGER."; break;
 		case ENUM_STRUT:	stream << ".STRUT."; break;
 		case ENUM_STUD:	stream << ".STUD."; break;
+		case ENUM_STIFFENING_RIB:	stream << ".STIFFENING_RIB."; break;
+		case ENUM_ARCH_SEGMENT:	stream << ".ARCH_SEGMENT."; break;
+		case ENUM_SUSPENSION_CABLE:	stream << ".SUSPENSION_CABLE."; break;
+		case ENUM_SUSPENDER:	stream << ".SUSPENDER."; break;
+		case ENUM_STAY_CABLE:	stream << ".STAY_CABLE."; break;
+		case ENUM_STRUCTURALCABLE:	stream << ".STRUCTURALCABLE."; break;
+		case ENUM_TIEBAR:	stream << ".TIEBAR."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -54,6 +61,13 @@ const std::wstring IfcMemberTypeEnum::toString() const
 		case ENUM_STRINGER:	return L"STRINGER";
 		case ENUM_STRUT:	return L"STRUT";
 		case ENUM_STUD:	return L"STUD";
+		case ENUM_STIFFENING_RIB:	return L"STIFFENING_RIB";
+		case ENUM_ARCH_SEGMENT:	return L"ARCH_SEGMENT";
+		case ENUM_SUSPENSION_CABLE:	return L"SUSPENSION_CABLE";
+		case ENUM_SUSPENDER:	return L"SUSPENDER";
+		case ENUM_STAY_CABLE:	return L"STAY_CABLE";
+		case ENUM_STRUCTURALCABLE:	return L"STRUCTURALCABLE";
+		case ENUM_TIEBAR:	return L"TIEBAR";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -111,6 +125,34 @@ shared_ptr<IfcMemberTypeEnum> IfcMemberTypeEnum::createObjectFromSTEP( const std
 	else if( std_iequal( arg, L".STUD." ) )
 	{
 		type_object->m_enum = IfcMemberTypeEnum::ENUM_STUD;
+	}
+	else if( std_iequal( arg, L".STIFFENING_RIB." ) )
+	{
+		type_object->m_enum = IfcMemberTypeEnum::ENUM_STIFFENING_RIB;
+	}
+	else if( std_iequal( arg, L".ARCH_SEGMENT." ) )
+	{
+		type_object->m_enum = IfcMemberTypeEnum::ENUM_ARCH_SEGMENT;
+	}
+	else if( std_iequal( arg, L".SUSPENSION_CABLE." ) )
+	{
+		type_object->m_enum = IfcMemberTypeEnum::ENUM_SUSPENSION_CABLE;
+	}
+	else if( std_iequal( arg, L".SUSPENDER." ) )
+	{
+		type_object->m_enum = IfcMemberTypeEnum::ENUM_SUSPENDER;
+	}
+	else if( std_iequal( arg, L".STAY_CABLE." ) )
+	{
+		type_object->m_enum = IfcMemberTypeEnum::ENUM_STAY_CABLE;
+	}
+	else if( std_iequal( arg, L".STRUCTURALCABLE." ) )
+	{
+		type_object->m_enum = IfcMemberTypeEnum::ENUM_STRUCTURALCABLE;
+	}
+	else if( std_iequal( arg, L".TIEBAR." ) )
+	{
+		type_object->m_enum = IfcMemberTypeEnum::ENUM_TIEBAR;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

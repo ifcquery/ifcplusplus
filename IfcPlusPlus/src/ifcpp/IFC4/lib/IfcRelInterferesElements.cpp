@@ -11,7 +11,9 @@
 #include "ifcpp/IFC4/include/IfcElement.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
 #include "ifcpp/IFC4/include/IfcIdentifier.h"
+#include "ifcpp/IFC4/include/IfcInterferenceSelect.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
+#include "ifcpp/IFC4/include/IfcLogical.h"
 #include "ifcpp/IFC4/include/IfcOwnerHistory.h"
 #include "ifcpp/IFC4/include/IfcRelInterferesElements.h"
 #include "ifcpp/IFC4/include/IfcText.h"
@@ -33,11 +35,11 @@ shared_ptr<BuildingObject> IfcRelInterferesElements::getDeepCopy( BuildingCopyOp
 	}
 	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
 	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_RelatingElement ) { copy_self->m_RelatingElement = dynamic_pointer_cast<IfcElement>( m_RelatingElement->getDeepCopy(options) ); }
-	if( m_RelatedElement ) { copy_self->m_RelatedElement = dynamic_pointer_cast<IfcElement>( m_RelatedElement->getDeepCopy(options) ); }
+	if( m_RelatingElement ) { copy_self->m_RelatingElement = dynamic_pointer_cast<IfcInterferenceSelect>( m_RelatingElement->getDeepCopy(options) ); }
+	if( m_RelatedElement ) { copy_self->m_RelatedElement = dynamic_pointer_cast<IfcInterferenceSelect>( m_RelatedElement->getDeepCopy(options) ); }
 	if( m_InterferenceGeometry ) { copy_self->m_InterferenceGeometry = dynamic_pointer_cast<IfcConnectionGeometry>( m_InterferenceGeometry->getDeepCopy(options) ); }
 	if( m_InterferenceType ) { copy_self->m_InterferenceType = dynamic_pointer_cast<IfcIdentifier>( m_InterferenceType->getDeepCopy(options) ); }
-	copy_self->m_ImpliedOrder = m_ImpliedOrder;
+	if( m_ImpliedOrder ) { copy_self->m_ImpliedOrder = dynamic_pointer_cast<IfcLogical>( m_ImpliedOrder->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcRelInterferesElements::getStepLine( std::stringstream& stream ) const
@@ -51,17 +53,15 @@ void IfcRelInterferesElements::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RelatingElement ) { stream << "#" << m_RelatingElement->m_entity_id; } else { stream << "$"; }
+	if( m_RelatingElement ) { m_RelatingElement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_RelatedElement ) { stream << "#" << m_RelatedElement->m_entity_id; } else { stream << "$"; }
+	if( m_RelatedElement ) { m_RelatedElement->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_InterferenceGeometry ) { stream << "#" << m_InterferenceGeometry->m_entity_id; } else { stream << "$"; }
 	stream << ",";
 	if( m_InterferenceType ) { m_InterferenceType->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ImpliedOrder == LOGICAL_FALSE ) { stream << ".F."; }
-	else if( m_ImpliedOrder == LOGICAL_TRUE ) { stream << ".T."; }
-	else { stream << ".U."; } // LOGICAL_UNKNOWN
+	if( m_ImpliedOrder ) { m_ImpliedOrder->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ");";
 }
 void IfcRelInterferesElements::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
@@ -74,13 +74,11 @@ void IfcRelInterferesElements::readStepArguments( const std::vector<std::wstring
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
-	readEntityReference( args[4], m_RelatingElement, map );
-	readEntityReference( args[5], m_RelatedElement, map );
+	m_RelatingElement = IfcInterferenceSelect::createObjectFromSTEP( args[4], map );
+	m_RelatedElement = IfcInterferenceSelect::createObjectFromSTEP( args[5], map );
 	readEntityReference( args[6], m_InterferenceGeometry, map );
 	m_InterferenceType = IfcIdentifier::createObjectFromSTEP( args[7], map );
-	if( std_iequal( args[8], L".F." ) ) { m_ImpliedOrder = LOGICAL_FALSE; }
-	else if( std_iequal( args[8], L".T." ) ) { m_ImpliedOrder = LOGICAL_TRUE; }
-	else if( std_iequal( args[8], L".U." ) ) { m_ImpliedOrder = LOGICAL_UNKNOWN; }
+	m_ImpliedOrder = IfcLogical::createObjectFromSTEP( args[8], map );
 }
 void IfcRelInterferesElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
@@ -89,7 +87,7 @@ void IfcRelInterferesElements::getAttributes( std::vector<std::pair<std::string,
 	vec_attributes.emplace_back( std::make_pair( "RelatedElement", m_RelatedElement ) );
 	vec_attributes.emplace_back( std::make_pair( "InterferenceGeometry", m_InterferenceGeometry ) );
 	vec_attributes.emplace_back( std::make_pair( "InterferenceType", m_InterferenceType ) );
-	vec_attributes.emplace_back( std::make_pair( "ImpliedOrder", shared_ptr<LogicalAttribute>( new LogicalAttribute( m_ImpliedOrder ) ) ) );
+	vec_attributes.emplace_back( std::make_pair( "ImpliedOrder", m_ImpliedOrder ) );
 }
 void IfcRelInterferesElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -100,21 +98,24 @@ void IfcRelInterferesElements::setInverseCounterparts( shared_ptr<BuildingEntity
 	IfcRelConnects::setInverseCounterparts( ptr_self_entity );
 	shared_ptr<IfcRelInterferesElements> ptr_self = dynamic_pointer_cast<IfcRelInterferesElements>( ptr_self_entity );
 	if( !ptr_self ) { throw BuildingException( "IfcRelInterferesElements::setInverseCounterparts: type mismatch" ); }
-	if( m_RelatedElement )
+	shared_ptr<IfcElement>  RelatedElement_IfcElement = dynamic_pointer_cast<IfcElement>( m_RelatedElement );
+	if( RelatedElement_IfcElement )
 	{
-		m_RelatedElement->m_IsInterferedByElements_inverse.emplace_back( ptr_self );
+		RelatedElement_IfcElement->m_IsInterferedByElements_inverse.emplace_back( ptr_self );
 	}
-	if( m_RelatingElement )
+	shared_ptr<IfcElement>  RelatingElement_IfcElement = dynamic_pointer_cast<IfcElement>( m_RelatingElement );
+	if( RelatingElement_IfcElement )
 	{
-		m_RelatingElement->m_InterferesElements_inverse.emplace_back( ptr_self );
+		RelatingElement_IfcElement->m_InterferesElements_inverse.emplace_back( ptr_self );
 	}
 }
 void IfcRelInterferesElements::unlinkFromInverseCounterparts()
 {
 	IfcRelConnects::unlinkFromInverseCounterparts();
-	if( m_RelatedElement )
+	shared_ptr<IfcElement>  RelatedElement_IfcElement = dynamic_pointer_cast<IfcElement>( m_RelatedElement );
+	if( RelatedElement_IfcElement )
 	{
-		std::vector<weak_ptr<IfcRelInterferesElements> >& IsInterferedByElements_inverse = m_RelatedElement->m_IsInterferedByElements_inverse;
+		std::vector<weak_ptr<IfcRelInterferesElements> >& IsInterferedByElements_inverse = RelatedElement_IfcElement->m_IsInterferedByElements_inverse;
 		for( auto it_IsInterferedByElements_inverse = IsInterferedByElements_inverse.begin(); it_IsInterferedByElements_inverse != IsInterferedByElements_inverse.end(); )
 		{
 			weak_ptr<IfcRelInterferesElements> self_candidate_weak = *it_IsInterferedByElements_inverse;
@@ -134,9 +135,10 @@ void IfcRelInterferesElements::unlinkFromInverseCounterparts()
 			}
 		}
 	}
-	if( m_RelatingElement )
+	shared_ptr<IfcElement>  RelatingElement_IfcElement = dynamic_pointer_cast<IfcElement>( m_RelatingElement );
+	if( RelatingElement_IfcElement )
 	{
-		std::vector<weak_ptr<IfcRelInterferesElements> >& InterferesElements_inverse = m_RelatingElement->m_InterferesElements_inverse;
+		std::vector<weak_ptr<IfcRelInterferesElements> >& InterferesElements_inverse = RelatingElement_IfcElement->m_InterferesElements_inverse;
 		for( auto it_InterferesElements_inverse = InterferesElements_inverse.begin(); it_InterferesElements_inverse != InterferesElements_inverse.end(); )
 		{
 			weak_ptr<IfcRelInterferesElements> self_candidate_weak = *it_InterferesElements_inverse;

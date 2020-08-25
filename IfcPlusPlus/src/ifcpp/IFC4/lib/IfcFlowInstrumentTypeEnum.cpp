@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcFlowInstrumentTypeEnum.h"
 
-// TYPE IfcFlowInstrumentTypeEnum = ENUMERATION OF	(PRESSUREGAUGE	,THERMOMETER	,AMMETER	,FREQUENCYMETER	,POWERFACTORMETER	,PHASEANGLEMETER	,VOLTMETER_PEAK	,VOLTMETER_RMS	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcFlowInstrumentTypeEnum = ENUMERATION OF	(PRESSUREGAUGE	,THERMOMETER	,AMMETER	,FREQUENCYMETER	,POWERFACTORMETER	,PHASEANGLEMETER	,VOLTMETER_PEAK	,VOLTMETER_RMS	,COMBINED	,VOLTMETER	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcFlowInstrumentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcFlowInstrumentTypeEnum> copy_self( new IfcFlowInstrumentTypeEnum() );
@@ -29,6 +29,8 @@ void IfcFlowInstrumentTypeEnum::getStepParameter( std::stringstream& stream, boo
 		case ENUM_PHASEANGLEMETER:	stream << ".PHASEANGLEMETER."; break;
 		case ENUM_VOLTMETER_PEAK:	stream << ".VOLTMETER_PEAK."; break;
 		case ENUM_VOLTMETER_RMS:	stream << ".VOLTMETER_RMS."; break;
+		case ENUM_COMBINED:	stream << ".COMBINED."; break;
+		case ENUM_VOLTMETER:	stream << ".VOLTMETER."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -46,6 +48,8 @@ const std::wstring IfcFlowInstrumentTypeEnum::toString() const
 		case ENUM_PHASEANGLEMETER:	return L"PHASEANGLEMETER";
 		case ENUM_VOLTMETER_PEAK:	return L"VOLTMETER_PEAK";
 		case ENUM_VOLTMETER_RMS:	return L"VOLTMETER_RMS";
+		case ENUM_COMBINED:	return L"COMBINED";
+		case ENUM_VOLTMETER:	return L"VOLTMETER";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -87,6 +91,14 @@ shared_ptr<IfcFlowInstrumentTypeEnum> IfcFlowInstrumentTypeEnum::createObjectFro
 	else if( std_iequal( arg, L".VOLTMETER_RMS." ) )
 	{
 		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_VOLTMETER_RMS;
+	}
+	else if( std_iequal( arg, L".COMBINED." ) )
+	{
+		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_COMBINED;
+	}
+	else if( std_iequal( arg, L".VOLTMETER." ) )
+	{
+		type_object->m_enum = IfcFlowInstrumentTypeEnum::ENUM_VOLTMETER;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

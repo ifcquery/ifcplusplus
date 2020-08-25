@@ -9,7 +9,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 
-// TYPE IfcCableFittingTypeEnum = ENUMERATION OF	(CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcCableFittingTypeEnum = ENUMERATION OF	(CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,TRANSITION	,FANOUT	,USERDEFINED	,NOTDEFINED);
 class IFCQUERY_EXPORT IfcCableFittingTypeEnum : virtual public BuildingObject
 {
 public:
@@ -20,6 +20,7 @@ public:
 		ENUM_EXIT,
 		ENUM_JUNCTION,
 		ENUM_TRANSITION,
+		ENUM_FANOUT,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};

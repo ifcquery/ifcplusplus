@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcDiscreteAccessoryTypeEnum.h"
 
-// TYPE IfcDiscreteAccessoryTypeEnum = ENUMERATION OF	(ANCHORPLATE	,BRACKET	,SHOE	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcDiscreteAccessoryTypeEnum = ENUMERATION OF	(ANCHORPLATE	,BRACKET	,SHOE	,EXPANSION_JOINT_DEVICE	,BIRDPROTECTION	,CABLEARRANGER	,INSULATOR	,LOCK	,TENSIONINGEQUIPMENT	,RAILPAD	,SLIDINGCHAIR	,PANEL_STRENGTHENING	,RAILBRACE	,ELASTIC_CUSHION	,SOUNDABSORPTION	,RAIL_LUBRICATION	,RAIL_MECHANICAL_EQUIPMENT	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcDiscreteAccessoryTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcDiscreteAccessoryTypeEnum> copy_self( new IfcDiscreteAccessoryTypeEnum() );
@@ -24,6 +24,20 @@ void IfcDiscreteAccessoryTypeEnum::getStepParameter( std::stringstream& stream, 
 		case ENUM_ANCHORPLATE:	stream << ".ANCHORPLATE."; break;
 		case ENUM_BRACKET:	stream << ".BRACKET."; break;
 		case ENUM_SHOE:	stream << ".SHOE."; break;
+		case ENUM_EXPANSION_JOINT_DEVICE:	stream << ".EXPANSION_JOINT_DEVICE."; break;
+		case ENUM_BIRDPROTECTION:	stream << ".BIRDPROTECTION."; break;
+		case ENUM_CABLEARRANGER:	stream << ".CABLEARRANGER."; break;
+		case ENUM_INSULATOR:	stream << ".INSULATOR."; break;
+		case ENUM_LOCK:	stream << ".LOCK."; break;
+		case ENUM_TENSIONINGEQUIPMENT:	stream << ".TENSIONINGEQUIPMENT."; break;
+		case ENUM_RAILPAD:	stream << ".RAILPAD."; break;
+		case ENUM_SLIDINGCHAIR:	stream << ".SLIDINGCHAIR."; break;
+		case ENUM_PANEL_STRENGTHENING:	stream << ".PANEL_STRENGTHENING."; break;
+		case ENUM_RAILBRACE:	stream << ".RAILBRACE."; break;
+		case ENUM_ELASTIC_CUSHION:	stream << ".ELASTIC_CUSHION."; break;
+		case ENUM_SOUNDABSORPTION:	stream << ".SOUNDABSORPTION."; break;
+		case ENUM_RAIL_LUBRICATION:	stream << ".RAIL_LUBRICATION."; break;
+		case ENUM_RAIL_MECHANICAL_EQUIPMENT:	stream << ".RAIL_MECHANICAL_EQUIPMENT."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -36,6 +50,20 @@ const std::wstring IfcDiscreteAccessoryTypeEnum::toString() const
 		case ENUM_ANCHORPLATE:	return L"ANCHORPLATE";
 		case ENUM_BRACKET:	return L"BRACKET";
 		case ENUM_SHOE:	return L"SHOE";
+		case ENUM_EXPANSION_JOINT_DEVICE:	return L"EXPANSION_JOINT_DEVICE";
+		case ENUM_BIRDPROTECTION:	return L"BIRDPROTECTION";
+		case ENUM_CABLEARRANGER:	return L"CABLEARRANGER";
+		case ENUM_INSULATOR:	return L"INSULATOR";
+		case ENUM_LOCK:	return L"LOCK";
+		case ENUM_TENSIONINGEQUIPMENT:	return L"TENSIONINGEQUIPMENT";
+		case ENUM_RAILPAD:	return L"RAILPAD";
+		case ENUM_SLIDINGCHAIR:	return L"SLIDINGCHAIR";
+		case ENUM_PANEL_STRENGTHENING:	return L"PANEL_STRENGTHENING";
+		case ENUM_RAILBRACE:	return L"RAILBRACE";
+		case ENUM_ELASTIC_CUSHION:	return L"ELASTIC_CUSHION";
+		case ENUM_SOUNDABSORPTION:	return L"SOUNDABSORPTION";
+		case ENUM_RAIL_LUBRICATION:	return L"RAIL_LUBRICATION";
+		case ENUM_RAIL_MECHANICAL_EQUIPMENT:	return L"RAIL_MECHANICAL_EQUIPMENT";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -57,6 +85,62 @@ shared_ptr<IfcDiscreteAccessoryTypeEnum> IfcDiscreteAccessoryTypeEnum::createObj
 	else if( std_iequal( arg, L".SHOE." ) )
 	{
 		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_SHOE;
+	}
+	else if( std_iequal( arg, L".EXPANSION_JOINT_DEVICE." ) )
+	{
+		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_EXPANSION_JOINT_DEVICE;
+	}
+	else if( std_iequal( arg, L".BIRDPROTECTION." ) )
+	{
+		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_BIRDPROTECTION;
+	}
+	else if( std_iequal( arg, L".CABLEARRANGER." ) )
+	{
+		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_CABLEARRANGER;
+	}
+	else if( std_iequal( arg, L".INSULATOR." ) )
+	{
+		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_INSULATOR;
+	}
+	else if( std_iequal( arg, L".LOCK." ) )
+	{
+		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_LOCK;
+	}
+	else if( std_iequal( arg, L".TENSIONINGEQUIPMENT." ) )
+	{
+		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_TENSIONINGEQUIPMENT;
+	}
+	else if( std_iequal( arg, L".RAILPAD." ) )
+	{
+		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_RAILPAD;
+	}
+	else if( std_iequal( arg, L".SLIDINGCHAIR." ) )
+	{
+		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_SLIDINGCHAIR;
+	}
+	else if( std_iequal( arg, L".PANEL_STRENGTHENING." ) )
+	{
+		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_PANEL_STRENGTHENING;
+	}
+	else if( std_iequal( arg, L".RAILBRACE." ) )
+	{
+		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_RAILBRACE;
+	}
+	else if( std_iequal( arg, L".ELASTIC_CUSHION." ) )
+	{
+		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_ELASTIC_CUSHION;
+	}
+	else if( std_iequal( arg, L".SOUNDABSORPTION." ) )
+	{
+		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_SOUNDABSORPTION;
+	}
+	else if( std_iequal( arg, L".RAIL_LUBRICATION." ) )
+	{
+		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_RAIL_LUBRICATION;
+	}
+	else if( std_iequal( arg, L".RAIL_MECHANICAL_EQUIPMENT." ) )
+	{
+		type_object->m_enum = IfcDiscreteAccessoryTypeEnum::ENUM_RAIL_MECHANICAL_EQUIPMENT;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcUnitaryControlElementTypeEnum.h"
 
-// TYPE IfcUnitaryControlElementTypeEnum = ENUMERATION OF	(ALARMPANEL	,CONTROLPANEL	,GASDETECTIONPANEL	,INDICATORPANEL	,MIMICPANEL	,HUMIDISTAT	,THERMOSTAT	,WEATHERSTATION	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcUnitaryControlElementTypeEnum = ENUMERATION OF	(ALARMPANEL	,CONTROLPANEL	,GASDETECTIONPANEL	,INDICATORPANEL	,MIMICPANEL	,HUMIDISTAT	,THERMOSTAT	,WEATHERSTATION	,COMBINED	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcUnitaryControlElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcUnitaryControlElementTypeEnum> copy_self( new IfcUnitaryControlElementTypeEnum() );
@@ -29,6 +29,7 @@ void IfcUnitaryControlElementTypeEnum::getStepParameter( std::stringstream& stre
 		case ENUM_HUMIDISTAT:	stream << ".HUMIDISTAT."; break;
 		case ENUM_THERMOSTAT:	stream << ".THERMOSTAT."; break;
 		case ENUM_WEATHERSTATION:	stream << ".WEATHERSTATION."; break;
+		case ENUM_COMBINED:	stream << ".COMBINED."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -46,6 +47,7 @@ const std::wstring IfcUnitaryControlElementTypeEnum::toString() const
 		case ENUM_HUMIDISTAT:	return L"HUMIDISTAT";
 		case ENUM_THERMOSTAT:	return L"THERMOSTAT";
 		case ENUM_WEATHERSTATION:	return L"WEATHERSTATION";
+		case ENUM_COMBINED:	return L"COMBINED";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -87,6 +89,10 @@ shared_ptr<IfcUnitaryControlElementTypeEnum> IfcUnitaryControlElementTypeEnum::c
 	else if( std_iequal( arg, L".WEATHERSTATION." ) )
 	{
 		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_WEATHERSTATION;
+	}
+	else if( std_iequal( arg, L".COMBINED." ) )
+	{
+		type_object->m_enum = IfcUnitaryControlElementTypeEnum::ENUM_COMBINED;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

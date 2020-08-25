@@ -23,6 +23,8 @@
 #include "ifcpp/IFC4/include/IfcRelDefinesByProperties.h"
 #include "ifcpp/IFC4/include/IfcRelDefinesByType.h"
 #include "ifcpp/IFC4/include/IfcRelNests.h"
+#include "ifcpp/IFC4/include/IfcRelPositions.h"
+#include "ifcpp/IFC4/include/IfcRelReferencedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcStructuralLoad.h"
 #include "ifcpp/IFC4/include/IfcStructuralReaction.h"
 #include "ifcpp/IFC4/include/IfcText.h"

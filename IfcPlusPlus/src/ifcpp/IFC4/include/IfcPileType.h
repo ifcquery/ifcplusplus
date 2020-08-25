@@ -7,10 +7,10 @@
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
-#include "IfcBuildingElementType.h"
+#include "IfcDeepFoundationType.h"
 class IFCQUERY_EXPORT IfcPileTypeEnum;
 //ENTITY
-class IFCQUERY_EXPORT IfcPileType : public IfcBuildingElementType
+class IFCQUERY_EXPORT IfcPileType : public IfcDeepFoundationType
 { 
 public:
 	IfcPileType() = default;
@@ -64,7 +64,9 @@ public:
 	// attributes:
 	//  shared_ptr<IfcLabel>								m_ElementType;				//optional
 
-	// IfcBuildingElementType -----------------------------------------------------------
+	// IfcBuiltElementType -----------------------------------------------------------
+
+	// IfcDeepFoundationType -----------------------------------------------------------
 
 	// IfcPileType -----------------------------------------------------------
 	// attributes:

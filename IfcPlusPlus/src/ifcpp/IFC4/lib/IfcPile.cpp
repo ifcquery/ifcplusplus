@@ -31,6 +31,7 @@
 #include "ifcpp/IFC4/include/IfcRelFillsElement.h"
 #include "ifcpp/IFC4/include/IfcRelInterferesElements.h"
 #include "ifcpp/IFC4/include/IfcRelNests.h"
+#include "ifcpp/IFC4/include/IfcRelPositions.h"
 #include "ifcpp/IFC4/include/IfcRelProjectsElement.h"
 #include "ifcpp/IFC4/include/IfcRelReferencedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcRelSpaceBoundary.h"
@@ -105,19 +106,19 @@ void IfcPile::readStepArguments( const std::vector<std::wstring>& args, const st
 }
 void IfcPile::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	IfcBuildingElement::getAttributes( vec_attributes );
+	IfcDeepFoundation::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.emplace_back( std::make_pair( "ConstructionType", m_ConstructionType ) );
 }
 void IfcPile::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	IfcBuildingElement::getAttributesInverse( vec_attributes_inverse );
+	IfcDeepFoundation::getAttributesInverse( vec_attributes_inverse );
 }
 void IfcPile::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {
-	IfcBuildingElement::setInverseCounterparts( ptr_self_entity );
+	IfcDeepFoundation::setInverseCounterparts( ptr_self_entity );
 }
 void IfcPile::unlinkFromInverseCounterparts()
 {
-	IfcBuildingElement::unlinkFromInverseCounterparts();
+	IfcDeepFoundation::unlinkFromInverseCounterparts();
 }

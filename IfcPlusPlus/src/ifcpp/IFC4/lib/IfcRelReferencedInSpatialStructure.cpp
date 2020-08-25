@@ -7,13 +7,14 @@
 #include "ifcpp/model/BuildingGuid.h"
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/IFC4/include/IfcElement.h"
 #include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
 #include "ifcpp/IFC4/include/IfcLabel.h"
 #include "ifcpp/IFC4/include/IfcOwnerHistory.h"
 #include "ifcpp/IFC4/include/IfcProduct.h"
 #include "ifcpp/IFC4/include/IfcRelReferencedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcSpatialElement.h"
+#include "ifcpp/IFC4/include/IfcSpatialReferenceSelect.h"
+#include "ifcpp/IFC4/include/IfcSystem.h"
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcRelReferencedInSpatialStructure 
@@ -38,7 +39,7 @@ shared_ptr<BuildingObject> IfcRelReferencedInSpatialStructure::getDeepCopy( Buil
 		auto item_ii = m_RelatedElements[ii];
 		if( item_ii )
 		{
-			copy_self->m_RelatedElements.emplace_back( dynamic_pointer_cast<IfcProduct>(item_ii->getDeepCopy(options) ) );
+			copy_self->m_RelatedElements.emplace_back( dynamic_pointer_cast<IfcSpatialReferenceSelect>(item_ii->getDeepCopy(options) ) );
 		}
 	}
 	if( m_RelatingStructure ) { copy_self->m_RelatingStructure = dynamic_pointer_cast<IfcSpatialElement>( m_RelatingStructure->getDeepCopy(options) ); }
@@ -55,7 +56,24 @@ void IfcRelReferencedInSpatialStructure::getStepLine( std::stringstream& stream 
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	writeEntityList( stream, m_RelatedElements );
+	stream << "(";
+	for( size_t ii = 0; ii < m_RelatedElements.size(); ++ii )
+	{
+		if( ii > 0 )
+		{
+			stream << ",";
+		}
+		const shared_ptr<IfcSpatialReferenceSelect>& type_object = m_RelatedElements[ii];
+		if( type_object )
+		{
+			type_object->getStepParameter( stream, true );
+		}
+		else
+		{
+			stream << "$";
+		}
+	}
+	stream << ")";
 	stream << ",";
 	if( m_RelatingStructure ) { stream << "#" << m_RelatingStructure->m_entity_id; } else { stream << "$"; }
 	stream << ");";
@@ -70,7 +88,7 @@ void IfcRelReferencedInSpatialStructure::readStepArguments( const std::vector<st
 	readEntityReference( args[1], m_OwnerHistory, map );
 	m_Name = IfcLabel::createObjectFromSTEP( args[2], map );
 	m_Description = IfcText::createObjectFromSTEP( args[3], map );
-	readEntityReferenceList( args[4], m_RelatedElements, map );
+	readSelectList( args[4], m_RelatedElements, map );
 	readEntityReference( args[5], m_RelatingStructure, map );
 }
 void IfcRelReferencedInSpatialStructure::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
@@ -95,10 +113,15 @@ void IfcRelReferencedInSpatialStructure::setInverseCounterparts( shared_ptr<Buil
 	if( !ptr_self ) { throw BuildingException( "IfcRelReferencedInSpatialStructure::setInverseCounterparts: type mismatch" ); }
 	for( size_t i=0; i<m_RelatedElements.size(); ++i )
 	{
-		shared_ptr<IfcElement>  RelatedElements_IfcElement = dynamic_pointer_cast<IfcElement>( m_RelatedElements[i] );
-		if( RelatedElements_IfcElement )
+		shared_ptr<IfcProduct>  RelatedElements_IfcProduct = dynamic_pointer_cast<IfcProduct>( m_RelatedElements[i] );
+		if( RelatedElements_IfcProduct )
 		{
-			RelatedElements_IfcElement->m_ReferencedInStructures_inverse.emplace_back( ptr_self );
+			RelatedElements_IfcProduct->m_ReferencedInStructures_inverse.emplace_back( ptr_self );
+		}
+		shared_ptr<IfcSystem>  RelatedElements_IfcSystem = dynamic_pointer_cast<IfcSystem>( m_RelatedElements[i] );
+		if( RelatedElements_IfcSystem )
+		{
+			RelatedElements_IfcSystem->m_ServicesFacilities_inverse.emplace_back( ptr_self );
 		}
 	}
 	if( m_RelatingStructure )
@@ -111,10 +134,10 @@ void IfcRelReferencedInSpatialStructure::unlinkFromInverseCounterparts()
 	IfcRelConnects::unlinkFromInverseCounterparts();
 	for( size_t i=0; i<m_RelatedElements.size(); ++i )
 	{
-		shared_ptr<IfcElement>  RelatedElements_IfcElement = dynamic_pointer_cast<IfcElement>( m_RelatedElements[i] );
-		if( RelatedElements_IfcElement )
+		shared_ptr<IfcProduct>  RelatedElements_IfcProduct = dynamic_pointer_cast<IfcProduct>( m_RelatedElements[i] );
+		if( RelatedElements_IfcProduct )
 		{
-			std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >& ReferencedInStructures_inverse = RelatedElements_IfcElement->m_ReferencedInStructures_inverse;
+			std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >& ReferencedInStructures_inverse = RelatedElements_IfcProduct->m_ReferencedInStructures_inverse;
 			for( auto it_ReferencedInStructures_inverse = ReferencedInStructures_inverse.begin(); it_ReferencedInStructures_inverse != ReferencedInStructures_inverse.end(); )
 			{
 				weak_ptr<IfcRelReferencedInSpatialStructure> self_candidate_weak = *it_ReferencedInStructures_inverse;
@@ -131,6 +154,29 @@ void IfcRelReferencedInSpatialStructure::unlinkFromInverseCounterparts()
 				else
 				{
 					++it_ReferencedInStructures_inverse;
+				}
+			}
+		}
+		shared_ptr<IfcSystem>  RelatedElements_IfcSystem = dynamic_pointer_cast<IfcSystem>( m_RelatedElements[i] );
+		if( RelatedElements_IfcSystem )
+		{
+			std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >& ServicesFacilities_inverse = RelatedElements_IfcSystem->m_ServicesFacilities_inverse;
+			for( auto it_ServicesFacilities_inverse = ServicesFacilities_inverse.begin(); it_ServicesFacilities_inverse != ServicesFacilities_inverse.end(); )
+			{
+				weak_ptr<IfcRelReferencedInSpatialStructure> self_candidate_weak = *it_ServicesFacilities_inverse;
+				if( self_candidate_weak.expired() )
+				{
+					++it_ServicesFacilities_inverse;
+					continue;
+				}
+				shared_ptr<IfcRelReferencedInSpatialStructure> self_candidate( *it_ServicesFacilities_inverse );
+				if( self_candidate.get() == this )
+				{
+					it_ServicesFacilities_inverse= ServicesFacilities_inverse.erase( it_ServicesFacilities_inverse );
+				}
+				else
+				{
+					++it_ServicesFacilities_inverse;
 				}
 			}
 		}

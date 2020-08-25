@@ -402,6 +402,11 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC4X1";
 				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = BuildingModel::IFC4X1;
 			}
+			else if (file_schema_args.compare(L"IFC4X3RC1") == 0)
+			{
+				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC4X3RC1";
+				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = BuildingModel::IFC4X3RC1;
+			}
 			else
 			{
 				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"";

@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcCableCarrierSegmentTypeEnum.h"
 
-// TYPE IfcCableCarrierSegmentTypeEnum = ENUMERATION OF	(CABLELADDERSEGMENT	,CABLETRAYSEGMENT	,CABLETRUNKINGSEGMENT	,CONDUITSEGMENT	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcCableCarrierSegmentTypeEnum = ENUMERATION OF	(CABLELADDERSEGMENT	,CABLETRAYSEGMENT	,CABLETRUNKINGSEGMENT	,CONDUITSEGMENT	,CABLEBRACKET	,CATENARYWIRE	,DROPPER	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcCableCarrierSegmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcCableCarrierSegmentTypeEnum> copy_self( new IfcCableCarrierSegmentTypeEnum() );
@@ -25,6 +25,9 @@ void IfcCableCarrierSegmentTypeEnum::getStepParameter( std::stringstream& stream
 		case ENUM_CABLETRAYSEGMENT:	stream << ".CABLETRAYSEGMENT."; break;
 		case ENUM_CABLETRUNKINGSEGMENT:	stream << ".CABLETRUNKINGSEGMENT."; break;
 		case ENUM_CONDUITSEGMENT:	stream << ".CONDUITSEGMENT."; break;
+		case ENUM_CABLEBRACKET:	stream << ".CABLEBRACKET."; break;
+		case ENUM_CATENARYWIRE:	stream << ".CATENARYWIRE."; break;
+		case ENUM_DROPPER:	stream << ".DROPPER."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -38,6 +41,9 @@ const std::wstring IfcCableCarrierSegmentTypeEnum::toString() const
 		case ENUM_CABLETRAYSEGMENT:	return L"CABLETRAYSEGMENT";
 		case ENUM_CABLETRUNKINGSEGMENT:	return L"CABLETRUNKINGSEGMENT";
 		case ENUM_CONDUITSEGMENT:	return L"CONDUITSEGMENT";
+		case ENUM_CABLEBRACKET:	return L"CABLEBRACKET";
+		case ENUM_CATENARYWIRE:	return L"CATENARYWIRE";
+		case ENUM_DROPPER:	return L"DROPPER";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -63,6 +69,18 @@ shared_ptr<IfcCableCarrierSegmentTypeEnum> IfcCableCarrierSegmentTypeEnum::creat
 	else if( std_iequal( arg, L".CONDUITSEGMENT." ) )
 	{
 		type_object->m_enum = IfcCableCarrierSegmentTypeEnum::ENUM_CONDUITSEGMENT;
+	}
+	else if( std_iequal( arg, L".CABLEBRACKET." ) )
+	{
+		type_object->m_enum = IfcCableCarrierSegmentTypeEnum::ENUM_CABLEBRACKET;
+	}
+	else if( std_iequal( arg, L".CATENARYWIRE." ) )
+	{
+		type_object->m_enum = IfcCableCarrierSegmentTypeEnum::ENUM_CATENARYWIRE;
+	}
+	else if( std_iequal( arg, L".DROPPER." ) )
+	{
+		type_object->m_enum = IfcCableCarrierSegmentTypeEnum::ENUM_DROPPER;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

@@ -7,12 +7,10 @@
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
-#include "IfcSweptAreaSolid.h"
-class IFCQUERY_EXPORT IfcCurve;
-class IFCQUERY_EXPORT IfcParameterValue;
+#include "IfcDirectrixCurveSweptAreaSolid.h"
 class IFCQUERY_EXPORT IfcSurface;
 //ENTITY
-class IFCQUERY_EXPORT IfcSurfaceCurveSweptAreaSolid : public IfcSweptAreaSolid
+class IFCQUERY_EXPORT IfcSurfaceCurveSweptAreaSolid : public IfcDirectrixCurveSweptAreaSolid
 { 
 public:
 	IfcSurfaceCurveSweptAreaSolid() = default;
@@ -45,11 +43,14 @@ public:
 	//  shared_ptr<IfcProfileDef>								m_SweptArea;
 	//  shared_ptr<IfcAxis2Placement3D>							m_Position;					//optional
 
+	// IfcDirectrixCurveSweptAreaSolid -----------------------------------------------------------
+	// attributes:
+	//  shared_ptr<IfcCurve>									m_Directrix;
+	//  shared_ptr<IfcParameterValue>							m_StartParam;				//optional
+	//  shared_ptr<IfcParameterValue>							m_EndParam;					//optional
+
 	// IfcSurfaceCurveSweptAreaSolid -----------------------------------------------------------
 	// attributes:
-	shared_ptr<IfcCurve>									m_Directrix;
-	shared_ptr<IfcParameterValue>							m_StartParam;				//optional
-	shared_ptr<IfcParameterValue>							m_EndParam;					//optional
 	shared_ptr<IfcSurface>									m_ReferenceSurface;
 };
 

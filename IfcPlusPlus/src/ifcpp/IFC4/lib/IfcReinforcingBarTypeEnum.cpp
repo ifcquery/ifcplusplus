@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcReinforcingBarTypeEnum.h"
 
-// TYPE IfcReinforcingBarTypeEnum = ENUMERATION OF	(ANCHORING	,EDGE	,LIGATURE	,MAIN	,PUNCHING	,RING	,SHEAR	,STUD	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcReinforcingBarTypeEnum = ENUMERATION OF	(ANCHORING	,EDGE	,LIGATURE	,MAIN	,PUNCHING	,RING	,SHEAR	,STUD	,SPACEBAR	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcReinforcingBarTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcReinforcingBarTypeEnum> copy_self( new IfcReinforcingBarTypeEnum() );
@@ -29,6 +29,7 @@ void IfcReinforcingBarTypeEnum::getStepParameter( std::stringstream& stream, boo
 		case ENUM_RING:	stream << ".RING."; break;
 		case ENUM_SHEAR:	stream << ".SHEAR."; break;
 		case ENUM_STUD:	stream << ".STUD."; break;
+		case ENUM_SPACEBAR:	stream << ".SPACEBAR."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -46,6 +47,7 @@ const std::wstring IfcReinforcingBarTypeEnum::toString() const
 		case ENUM_RING:	return L"RING";
 		case ENUM_SHEAR:	return L"SHEAR";
 		case ENUM_STUD:	return L"STUD";
+		case ENUM_SPACEBAR:	return L"SPACEBAR";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -87,6 +89,10 @@ shared_ptr<IfcReinforcingBarTypeEnum> IfcReinforcingBarTypeEnum::createObjectFro
 	else if( std_iequal( arg, L".STUD." ) )
 	{
 		type_object->m_enum = IfcReinforcingBarTypeEnum::ENUM_STUD;
+	}
+	else if( std_iequal( arg, L".SPACEBAR." ) )
+	{
+		type_object->m_enum = IfcReinforcingBarTypeEnum::ENUM_SPACEBAR;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

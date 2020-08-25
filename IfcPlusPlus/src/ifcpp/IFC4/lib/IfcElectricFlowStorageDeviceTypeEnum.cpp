@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcElectricFlowStorageDeviceTypeEnum.h"
 
-// TYPE IfcElectricFlowStorageDeviceTypeEnum = ENUMERATION OF	(BATTERY	,CAPACITORBANK	,HARMONICFILTER	,INDUCTORBANK	,UPS	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcElectricFlowStorageDeviceTypeEnum = ENUMERATION OF	(BATTERY	,CAPACITORBANK	,HARMONICFILTER	,INDUCTORBANK	,UPS	,CAPACITOR	,COMPENSATOR	,INDUCTOR	,RECHARGER	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcElectricFlowStorageDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcElectricFlowStorageDeviceTypeEnum> copy_self( new IfcElectricFlowStorageDeviceTypeEnum() );
@@ -26,6 +26,10 @@ void IfcElectricFlowStorageDeviceTypeEnum::getStepParameter( std::stringstream& 
 		case ENUM_HARMONICFILTER:	stream << ".HARMONICFILTER."; break;
 		case ENUM_INDUCTORBANK:	stream << ".INDUCTORBANK."; break;
 		case ENUM_UPS:	stream << ".UPS."; break;
+		case ENUM_CAPACITOR:	stream << ".CAPACITOR."; break;
+		case ENUM_COMPENSATOR:	stream << ".COMPENSATOR."; break;
+		case ENUM_INDUCTOR:	stream << ".INDUCTOR."; break;
+		case ENUM_RECHARGER:	stream << ".RECHARGER."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -40,6 +44,10 @@ const std::wstring IfcElectricFlowStorageDeviceTypeEnum::toString() const
 		case ENUM_HARMONICFILTER:	return L"HARMONICFILTER";
 		case ENUM_INDUCTORBANK:	return L"INDUCTORBANK";
 		case ENUM_UPS:	return L"UPS";
+		case ENUM_CAPACITOR:	return L"CAPACITOR";
+		case ENUM_COMPENSATOR:	return L"COMPENSATOR";
+		case ENUM_INDUCTOR:	return L"INDUCTOR";
+		case ENUM_RECHARGER:	return L"RECHARGER";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -69,6 +77,22 @@ shared_ptr<IfcElectricFlowStorageDeviceTypeEnum> IfcElectricFlowStorageDeviceTyp
 	else if( std_iequal( arg, L".UPS." ) )
 	{
 		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_UPS;
+	}
+	else if( std_iequal( arg, L".CAPACITOR." ) )
+	{
+		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_CAPACITOR;
+	}
+	else if( std_iequal( arg, L".COMPENSATOR." ) )
+	{
+		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_COMPENSATOR;
+	}
+	else if( std_iequal( arg, L".INDUCTOR." ) )
+	{
+		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_INDUCTOR;
+	}
+	else if( std_iequal( arg, L".RECHARGER." ) )
+	{
+		type_object->m_enum = IfcElectricFlowStorageDeviceTypeEnum::ENUM_RECHARGER;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

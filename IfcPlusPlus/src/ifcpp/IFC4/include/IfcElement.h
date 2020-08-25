@@ -7,6 +7,7 @@
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
+#include "IfcInterferenceSelect.h"
 #include "IfcStructuralActivityAssignmentSelect.h"
 #include "IfcProduct.h"
 class IFCQUERY_EXPORT IfcIdentifier;
@@ -14,14 +15,13 @@ class IFCQUERY_EXPORT IfcRelFillsElement;
 class IFCQUERY_EXPORT IfcRelConnectsElements;
 class IFCQUERY_EXPORT IfcRelInterferesElements;
 class IFCQUERY_EXPORT IfcRelProjectsElement;
-class IFCQUERY_EXPORT IfcRelReferencedInSpatialStructure;
 class IFCQUERY_EXPORT IfcRelVoidsElement;
 class IFCQUERY_EXPORT IfcRelConnectsWithRealizingElements;
 class IFCQUERY_EXPORT IfcRelSpaceBoundary;
 class IFCQUERY_EXPORT IfcRelContainedInSpatialStructure;
 class IFCQUERY_EXPORT IfcRelCoversBldgElements;
 //ENTITY
-class IFCQUERY_EXPORT IfcElement : virtual public IfcStructuralActivityAssignmentSelect, public IfcProduct
+class IFCQUERY_EXPORT IfcElement : virtual public IfcInterferenceSelect, virtual public IfcStructuralActivityAssignmentSelect, public IfcProduct
 { 
 public:
 	IfcElement() = default;
@@ -72,6 +72,8 @@ public:
 	//  shared_ptr<IfcProductRepresentation>						m_Representation;			//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcRelAssignsToProduct> >				m_ReferencedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelPositions> >						m_PositionedRelativeTo_inverse;
+	//  std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >	m_ReferencedInStructures_inverse;
 
 	// IfcElement -----------------------------------------------------------
 	// attributes:
@@ -82,7 +84,6 @@ public:
 	std::vector<weak_ptr<IfcRelInterferesElements> >			m_IsInterferedByElements_inverse;
 	std::vector<weak_ptr<IfcRelInterferesElements> >			m_InterferesElements_inverse;
 	std::vector<weak_ptr<IfcRelProjectsElement> >				m_HasProjections_inverse;
-	std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >	m_ReferencedInStructures_inverse;
 	std::vector<weak_ptr<IfcRelVoidsElement> >					m_HasOpenings_inverse;
 	std::vector<weak_ptr<IfcRelConnectsWithRealizingElements> >	m_IsConnectionRealization_inverse;
 	std::vector<weak_ptr<IfcRelSpaceBoundary> >					m_ProvidesBoundaries_inverse;

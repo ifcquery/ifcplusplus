@@ -9,7 +9,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 
-// TYPE IfcDoorTypeEnum = ENUMERATION OF	(DOOR	,GATE	,TRAPDOOR	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcDoorTypeEnum = ENUMERATION OF	(DOOR	,GATE	,TRAPDOOR	,BOOM_BARRIER	,TURNSTILE	,USERDEFINED	,NOTDEFINED);
 class IFCQUERY_EXPORT IfcDoorTypeEnum : virtual public BuildingObject
 {
 public:
@@ -18,6 +18,8 @@ public:
 		ENUM_DOOR,
 		ENUM_GATE,
 		ENUM_TRAPDOOR,
+		ENUM_BOOM_BARRIER,
+		ENUM_TURNSTILE,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};

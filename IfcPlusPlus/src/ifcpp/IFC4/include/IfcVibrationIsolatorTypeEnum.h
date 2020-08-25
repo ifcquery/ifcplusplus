@@ -8,15 +8,17 @@
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
+#include "IfcImpactProtectionDeviceTypeSelect.h"
 
-// TYPE IfcVibrationIsolatorTypeEnum = ENUMERATION OF	(COMPRESSION	,SPRING	,USERDEFINED	,NOTDEFINED);
-class IFCQUERY_EXPORT IfcVibrationIsolatorTypeEnum : virtual public BuildingObject
+// TYPE IfcVibrationIsolatorTypeEnum = ENUMERATION OF	(COMPRESSION	,SPRING	,BASE	,USERDEFINED	,NOTDEFINED);
+class IFCQUERY_EXPORT IfcVibrationIsolatorTypeEnum : public IfcImpactProtectionDeviceTypeSelect
 {
 public:
 	enum IfcVibrationIsolatorTypeEnumEnum
 	{
 		ENUM_COMPRESSION,
 		ENUM_SPRING,
+		ENUM_BASE,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};

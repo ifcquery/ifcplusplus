@@ -23,6 +23,8 @@
 #include "ifcpp/IFC4/include/IfcRelDefinesByProperties.h"
 #include "ifcpp/IFC4/include/IfcRelDefinesByType.h"
 #include "ifcpp/IFC4/include/IfcRelNests.h"
+#include "ifcpp/IFC4/include/IfcRelPositions.h"
+#include "ifcpp/IFC4/include/IfcRelReferencedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcText.h"
 
 // ENTITY IfcPositioningElement 
@@ -97,6 +99,18 @@ void IfcPositioningElement::getAttributesInverse( std::vector<std::pair<std::str
 			}
 		}
 		vec_attributes_inverse.emplace_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
+	}
+	if( !m_Positions_inverse.empty() )
+	{
+		shared_ptr<AttributeObjectVector> Positions_inverse_vec_obj( new AttributeObjectVector() );
+		for( size_t i=0; i<m_Positions_inverse.size(); ++i )
+		{
+			if( !m_Positions_inverse[i].expired() )
+			{
+				Positions_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelPositions>( m_Positions_inverse[i] ) );
+			}
+		}
+		vec_attributes_inverse.emplace_back( std::make_pair( "Positions_inverse", Positions_inverse_vec_obj ) );
 	}
 }
 void IfcPositioningElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )

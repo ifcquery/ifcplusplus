@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4/include/IfcSpatialZoneTypeEnum.h"
 
-// TYPE IfcSpatialZoneTypeEnum = ENUMERATION OF	(CONSTRUCTION	,FIRESAFETY	,LIGHTING	,OCCUPANCY	,SECURITY	,THERMAL	,TRANSPORT	,VENTILATION	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcSpatialZoneTypeEnum = ENUMERATION OF	(CONSTRUCTION	,FIRESAFETY	,LIGHTING	,OCCUPANCY	,SECURITY	,THERMAL	,TRANSPORT	,VENTILATION	,RESERVATION	,USERDEFINED	,NOTDEFINED);
 shared_ptr<BuildingObject> IfcSpatialZoneTypeEnum::getDeepCopy( BuildingCopyOptions& options )
 {
 	shared_ptr<IfcSpatialZoneTypeEnum> copy_self( new IfcSpatialZoneTypeEnum() );
@@ -29,6 +29,7 @@ void IfcSpatialZoneTypeEnum::getStepParameter( std::stringstream& stream, bool i
 		case ENUM_THERMAL:	stream << ".THERMAL."; break;
 		case ENUM_TRANSPORT:	stream << ".TRANSPORT."; break;
 		case ENUM_VENTILATION:	stream << ".VENTILATION."; break;
+		case ENUM_RESERVATION:	stream << ".RESERVATION."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -46,6 +47,7 @@ const std::wstring IfcSpatialZoneTypeEnum::toString() const
 		case ENUM_THERMAL:	return L"THERMAL";
 		case ENUM_TRANSPORT:	return L"TRANSPORT";
 		case ENUM_VENTILATION:	return L"VENTILATION";
+		case ENUM_RESERVATION:	return L"RESERVATION";
 		case ENUM_USERDEFINED:	return L"USERDEFINED";
 		case ENUM_NOTDEFINED:	return L"NOTDEFINED";
 	}
@@ -87,6 +89,10 @@ shared_ptr<IfcSpatialZoneTypeEnum> IfcSpatialZoneTypeEnum::createObjectFromSTEP(
 	else if( std_iequal( arg, L".VENTILATION." ) )
 	{
 		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_VENTILATION;
+	}
+	else if( std_iequal( arg, L".RESERVATION." ) )
+	{
+		type_object->m_enum = IfcSpatialZoneTypeEnum::ENUM_RESERVATION;
 	}
 	else if( std_iequal( arg, L".USERDEFINED." ) )
 	{

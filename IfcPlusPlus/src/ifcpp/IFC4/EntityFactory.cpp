@@ -21,12 +21,17 @@
 #include "ifcpp/IFC4/include/IfcAlarm.h"
 #include "ifcpp/IFC4/include/IfcAlarmType.h"
 #include "ifcpp/IFC4/include/IfcAlignment.h"
+#include "ifcpp/IFC4/include/IfcAlignment2DCant.h"
+#include "ifcpp/IFC4/include/IfcAlignment2DCantSegLine.h"
+#include "ifcpp/IFC4/include/IfcAlignment2DCantSegTransition.h"
+#include "ifcpp/IFC4/include/IfcAlignment2DCantSegment.h"
 #include "ifcpp/IFC4/include/IfcAlignment2DHorizontal.h"
 #include "ifcpp/IFC4/include/IfcAlignment2DHorizontalSegment.h"
 #include "ifcpp/IFC4/include/IfcAlignment2DSegment.h"
 #include "ifcpp/IFC4/include/IfcAlignment2DVerSegCircularArc.h"
 #include "ifcpp/IFC4/include/IfcAlignment2DVerSegLine.h"
 #include "ifcpp/IFC4/include/IfcAlignment2DVerSegParabolicArc.h"
+#include "ifcpp/IFC4/include/IfcAlignment2DVerSegTransition.h"
 #include "ifcpp/IFC4/include/IfcAlignment2DVertical.h"
 #include "ifcpp/IFC4/include/IfcAlignment2DVerticalSegment.h"
 #include "ifcpp/IFC4/include/IfcAlignmentCurve.h"
@@ -46,6 +51,7 @@
 #include "ifcpp/IFC4/include/IfcAxis1Placement.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement2D.h"
 #include "ifcpp/IFC4/include/IfcAxis2Placement3D.h"
+#include "ifcpp/IFC4/include/IfcAxisLateralInclination.h"
 #include "ifcpp/IFC4/include/IfcBSplineCurve.h"
 #include "ifcpp/IFC4/include/IfcBSplineCurveWithKnots.h"
 #include "ifcpp/IFC4/include/IfcBSplineSurface.h"
@@ -53,12 +59,15 @@
 #include "ifcpp/IFC4/include/IfcBeam.h"
 #include "ifcpp/IFC4/include/IfcBeamStandardCase.h"
 #include "ifcpp/IFC4/include/IfcBeamType.h"
+#include "ifcpp/IFC4/include/IfcBearing.h"
+#include "ifcpp/IFC4/include/IfcBearingType.h"
 #include "ifcpp/IFC4/include/IfcBlobTexture.h"
 #include "ifcpp/IFC4/include/IfcBlock.h"
 #include "ifcpp/IFC4/include/IfcBoiler.h"
 #include "ifcpp/IFC4/include/IfcBoilerType.h"
 #include "ifcpp/IFC4/include/IfcBooleanClippingResult.h"
 #include "ifcpp/IFC4/include/IfcBooleanResult.h"
+#include "ifcpp/IFC4/include/IfcBorehole.h"
 #include "ifcpp/IFC4/include/IfcBoundaryCondition.h"
 #include "ifcpp/IFC4/include/IfcBoundaryCurve.h"
 #include "ifcpp/IFC4/include/IfcBoundaryEdgeCondition.h"
@@ -69,15 +78,18 @@
 #include "ifcpp/IFC4/include/IfcBoundedSurface.h"
 #include "ifcpp/IFC4/include/IfcBoundingBox.h"
 #include "ifcpp/IFC4/include/IfcBoxedHalfSpace.h"
+#include "ifcpp/IFC4/include/IfcBridge.h"
+#include "ifcpp/IFC4/include/IfcBridgePart.h"
 #include "ifcpp/IFC4/include/IfcBuilding.h"
-#include "ifcpp/IFC4/include/IfcBuildingElement.h"
 #include "ifcpp/IFC4/include/IfcBuildingElementPart.h"
 #include "ifcpp/IFC4/include/IfcBuildingElementPartType.h"
 #include "ifcpp/IFC4/include/IfcBuildingElementProxy.h"
 #include "ifcpp/IFC4/include/IfcBuildingElementProxyType.h"
-#include "ifcpp/IFC4/include/IfcBuildingElementType.h"
 #include "ifcpp/IFC4/include/IfcBuildingStorey.h"
 #include "ifcpp/IFC4/include/IfcBuildingSystem.h"
+#include "ifcpp/IFC4/include/IfcBuiltElement.h"
+#include "ifcpp/IFC4/include/IfcBuiltElementType.h"
+#include "ifcpp/IFC4/include/IfcBuiltSystem.h"
 #include "ifcpp/IFC4/include/IfcBurner.h"
 #include "ifcpp/IFC4/include/IfcBurnerType.h"
 #include "ifcpp/IFC4/include/IfcCShapeProfileDef.h"
@@ -89,6 +101,8 @@
 #include "ifcpp/IFC4/include/IfcCableFittingType.h"
 #include "ifcpp/IFC4/include/IfcCableSegment.h"
 #include "ifcpp/IFC4/include/IfcCableSegmentType.h"
+#include "ifcpp/IFC4/include/IfcCaissonFoundation.h"
+#include "ifcpp/IFC4/include/IfcCaissonFoundationType.h"
 #include "ifcpp/IFC4/include/IfcCartesianPoint.h"
 #include "ifcpp/IFC4/include/IfcCartesianPointList.h"
 #include "ifcpp/IFC4/include/IfcCartesianPointList2D.h"
@@ -156,6 +170,8 @@
 #include "ifcpp/IFC4/include/IfcControllerType.h"
 #include "ifcpp/IFC4/include/IfcConversionBasedUnit.h"
 #include "ifcpp/IFC4/include/IfcConversionBasedUnitWithOffset.h"
+#include "ifcpp/IFC4/include/IfcConveyorSegment.h"
+#include "ifcpp/IFC4/include/IfcConveyorSegmentType.h"
 #include "ifcpp/IFC4/include/IfcCooledBeam.h"
 #include "ifcpp/IFC4/include/IfcCooledBeamType.h"
 #include "ifcpp/IFC4/include/IfcCoolingTower.h"
@@ -165,6 +181,8 @@
 #include "ifcpp/IFC4/include/IfcCostItem.h"
 #include "ifcpp/IFC4/include/IfcCostSchedule.h"
 #include "ifcpp/IFC4/include/IfcCostValue.h"
+#include "ifcpp/IFC4/include/IfcCourse.h"
+#include "ifcpp/IFC4/include/IfcCourseType.h"
 #include "ifcpp/IFC4/include/IfcCovering.h"
 #include "ifcpp/IFC4/include/IfcCoveringType.h"
 #include "ifcpp/IFC4/include/IfcCrewResource.h"
@@ -185,14 +203,20 @@
 #include "ifcpp/IFC4/include/IfcCylindricalSurface.h"
 #include "ifcpp/IFC4/include/IfcDamper.h"
 #include "ifcpp/IFC4/include/IfcDamperType.h"
+#include "ifcpp/IFC4/include/IfcDeepFoundation.h"
+#include "ifcpp/IFC4/include/IfcDeepFoundationType.h"
 #include "ifcpp/IFC4/include/IfcDerivedProfileDef.h"
 #include "ifcpp/IFC4/include/IfcDerivedUnit.h"
 #include "ifcpp/IFC4/include/IfcDerivedUnitElement.h"
 #include "ifcpp/IFC4/include/IfcDimensionalExponents.h"
 #include "ifcpp/IFC4/include/IfcDirection.h"
+#include "ifcpp/IFC4/include/IfcDirectrixCurveSweptAreaSolid.h"
+#include "ifcpp/IFC4/include/IfcDirectrixDistanceSweptAreaSolid.h"
 #include "ifcpp/IFC4/include/IfcDiscreteAccessory.h"
 #include "ifcpp/IFC4/include/IfcDiscreteAccessoryType.h"
 #include "ifcpp/IFC4/include/IfcDistanceExpression.h"
+#include "ifcpp/IFC4/include/IfcDistributionBoard.h"
+#include "ifcpp/IFC4/include/IfcDistributionBoardType.h"
 #include "ifcpp/IFC4/include/IfcDistributionChamberElement.h"
 #include "ifcpp/IFC4/include/IfcDistributionChamberElementType.h"
 #include "ifcpp/IFC4/include/IfcDistributionCircuit.h"
@@ -221,6 +245,9 @@
 #include "ifcpp/IFC4/include/IfcDuctSegmentType.h"
 #include "ifcpp/IFC4/include/IfcDuctSilencer.h"
 #include "ifcpp/IFC4/include/IfcDuctSilencerType.h"
+#include "ifcpp/IFC4/include/IfcEarthworksCut.h"
+#include "ifcpp/IFC4/include/IfcEarthworksElement.h"
+#include "ifcpp/IFC4/include/IfcEarthworksFill.h"
 #include "ifcpp/IFC4/include/IfcEdge.h"
 #include "ifcpp/IFC4/include/IfcEdgeCurve.h"
 #include "ifcpp/IFC4/include/IfcEdgeLoop.h"
@@ -230,6 +257,8 @@
 #include "ifcpp/IFC4/include/IfcElectricDistributionBoardType.h"
 #include "ifcpp/IFC4/include/IfcElectricFlowStorageDevice.h"
 #include "ifcpp/IFC4/include/IfcElectricFlowStorageDeviceType.h"
+#include "ifcpp/IFC4/include/IfcElectricFlowTreatmentDevice.h"
+#include "ifcpp/IFC4/include/IfcElectricFlowTreatmentDeviceType.h"
 #include "ifcpp/IFC4/include/IfcElectricGenerator.h"
 #include "ifcpp/IFC4/include/IfcElectricGeneratorType.h"
 #include "ifcpp/IFC4/include/IfcElectricMotor.h"
@@ -275,6 +304,8 @@
 #include "ifcpp/IFC4/include/IfcFaceSurface.h"
 #include "ifcpp/IFC4/include/IfcFacetedBrep.h"
 #include "ifcpp/IFC4/include/IfcFacetedBrepWithVoids.h"
+#include "ifcpp/IFC4/include/IfcFacility.h"
+#include "ifcpp/IFC4/include/IfcFacilityPart.h"
 #include "ifcpp/IFC4/include/IfcFailureConnectionCondition.h"
 #include "ifcpp/IFC4/include/IfcFan.h"
 #include "ifcpp/IFC4/include/IfcFanType.h"
@@ -322,6 +353,11 @@
 #include "ifcpp/IFC4/include/IfcGeometricRepresentationItem.h"
 #include "ifcpp/IFC4/include/IfcGeometricRepresentationSubContext.h"
 #include "ifcpp/IFC4/include/IfcGeometricSet.h"
+#include "ifcpp/IFC4/include/IfcGeomodel.h"
+#include "ifcpp/IFC4/include/IfcGeoslice.h"
+#include "ifcpp/IFC4/include/IfcGeotechnicalAssembly.h"
+#include "ifcpp/IFC4/include/IfcGeotechnicalElement.h"
+#include "ifcpp/IFC4/include/IfcGeotechnicalStratum.h"
 #include "ifcpp/IFC4/include/IfcGrid.h"
 #include "ifcpp/IFC4/include/IfcGridAxis.h"
 #include "ifcpp/IFC4/include/IfcGridPlacement.h"
@@ -333,6 +369,9 @@
 #include "ifcpp/IFC4/include/IfcHumidifierType.h"
 #include "ifcpp/IFC4/include/IfcIShapeProfileDef.h"
 #include "ifcpp/IFC4/include/IfcImageTexture.h"
+#include "ifcpp/IFC4/include/IfcImpactProtectionDevice.h"
+#include "ifcpp/IFC4/include/IfcImpactProtectionDeviceType.h"
+#include "ifcpp/IFC4/include/IfcInclinedReferenceSweptAreaSolid.h"
 #include "ifcpp/IFC4/include/IfcIndexedColourMap.h"
 #include "ifcpp/IFC4/include/IfcIndexedPolyCurve.h"
 #include "ifcpp/IFC4/include/IfcIndexedPolygonalFace.h"
@@ -347,6 +386,8 @@
 #include "ifcpp/IFC4/include/IfcIrregularTimeSeriesValue.h"
 #include "ifcpp/IFC4/include/IfcJunctionBox.h"
 #include "ifcpp/IFC4/include/IfcJunctionBoxType.h"
+#include "ifcpp/IFC4/include/IfcKerb.h"
+#include "ifcpp/IFC4/include/IfcKerbType.h"
 #include "ifcpp/IFC4/include/IfcLShapeProfileDef.h"
 #include "ifcpp/IFC4/include/IfcLaborResource.h"
 #include "ifcpp/IFC4/include/IfcLaborResourceType.h"
@@ -367,13 +408,19 @@
 #include "ifcpp/IFC4/include/IfcLightSourceSpot.h"
 #include "ifcpp/IFC4/include/IfcLine.h"
 #include "ifcpp/IFC4/include/IfcLineSegment2D.h"
+#include "ifcpp/IFC4/include/IfcLinearAxisWithInclination.h"
 #include "ifcpp/IFC4/include/IfcLinearPlacement.h"
+#include "ifcpp/IFC4/include/IfcLinearPlacementWithInclination.h"
 #include "ifcpp/IFC4/include/IfcLinearPositioningElement.h"
+#include "ifcpp/IFC4/include/IfcLinearSpanPlacement.h"
+#include "ifcpp/IFC4/include/IfcLiquidTerminal.h"
+#include "ifcpp/IFC4/include/IfcLiquidTerminalType.h"
 #include "ifcpp/IFC4/include/IfcLocalPlacement.h"
 #include "ifcpp/IFC4/include/IfcLoop.h"
 #include "ifcpp/IFC4/include/IfcManifoldSolidBrep.h"
 #include "ifcpp/IFC4/include/IfcMapConversion.h"
 #include "ifcpp/IFC4/include/IfcMappedItem.h"
+#include "ifcpp/IFC4/include/IfcMarineFacility.h"
 #include "ifcpp/IFC4/include/IfcMaterial.h"
 #include "ifcpp/IFC4/include/IfcMaterialClassificationRelationship.h"
 #include "ifcpp/IFC4/include/IfcMaterialConstituent.h"
@@ -403,10 +450,16 @@
 #include "ifcpp/IFC4/include/IfcMemberType.h"
 #include "ifcpp/IFC4/include/IfcMetric.h"
 #include "ifcpp/IFC4/include/IfcMirroredProfileDef.h"
+#include "ifcpp/IFC4/include/IfcMobileTelecommunicationsAppliance.h"
+#include "ifcpp/IFC4/include/IfcMobileTelecommunicationsApplianceType.h"
 #include "ifcpp/IFC4/include/IfcMonetaryUnit.h"
+#include "ifcpp/IFC4/include/IfcMooringDevice.h"
+#include "ifcpp/IFC4/include/IfcMooringDeviceType.h"
 #include "ifcpp/IFC4/include/IfcMotorConnection.h"
 #include "ifcpp/IFC4/include/IfcMotorConnectionType.h"
 #include "ifcpp/IFC4/include/IfcNamedUnit.h"
+#include "ifcpp/IFC4/include/IfcNavigationElement.h"
+#include "ifcpp/IFC4/include/IfcNavigationElementType.h"
 #include "ifcpp/IFC4/include/IfcObject.h"
 #include "ifcpp/IFC4/include/IfcObjectDefinition.h"
 #include "ifcpp/IFC4/include/IfcObjectPlacement.h"
@@ -416,6 +469,7 @@
 #include "ifcpp/IFC4/include/IfcOffsetCurve2D.h"
 #include "ifcpp/IFC4/include/IfcOffsetCurve3D.h"
 #include "ifcpp/IFC4/include/IfcOffsetCurveByDistances.h"
+#include "ifcpp/IFC4/include/IfcOpenCrossProfileDef.h"
 #include "ifcpp/IFC4/include/IfcOpenShell.h"
 #include "ifcpp/IFC4/include/IfcOpeningElement.h"
 #include "ifcpp/IFC4/include/IfcOpeningStandardCase.h"
@@ -429,6 +483,8 @@
 #include "ifcpp/IFC4/include/IfcOwnerHistory.h"
 #include "ifcpp/IFC4/include/IfcParameterizedProfileDef.h"
 #include "ifcpp/IFC4/include/IfcPath.h"
+#include "ifcpp/IFC4/include/IfcPavement.h"
+#include "ifcpp/IFC4/include/IfcPavementType.h"
 #include "ifcpp/IFC4/include/IfcPcurve.h"
 #include "ifcpp/IFC4/include/IfcPerformanceHistory.h"
 #include "ifcpp/IFC4/include/IfcPermeableCoveringProperties.h"
@@ -449,6 +505,7 @@
 #include "ifcpp/IFC4/include/IfcPlanarBox.h"
 #include "ifcpp/IFC4/include/IfcPlanarExtent.h"
 #include "ifcpp/IFC4/include/IfcPlane.h"
+#include "ifcpp/IFC4/include/IfcPlant.h"
 #include "ifcpp/IFC4/include/IfcPlate.h"
 #include "ifcpp/IFC4/include/IfcPlateStandardCase.h"
 #include "ifcpp/IFC4/include/IfcPlateType.h"
@@ -516,8 +573,11 @@
 #include "ifcpp/IFC4/include/IfcQuantityTime.h"
 #include "ifcpp/IFC4/include/IfcQuantityVolume.h"
 #include "ifcpp/IFC4/include/IfcQuantityWeight.h"
+#include "ifcpp/IFC4/include/IfcRail.h"
+#include "ifcpp/IFC4/include/IfcRailType.h"
 #include "ifcpp/IFC4/include/IfcRailing.h"
 #include "ifcpp/IFC4/include/IfcRailingType.h"
+#include "ifcpp/IFC4/include/IfcRailway.h"
 #include "ifcpp/IFC4/include/IfcRamp.h"
 #include "ifcpp/IFC4/include/IfcRampFlight.h"
 #include "ifcpp/IFC4/include/IfcRampFlightType.h"
@@ -532,6 +592,7 @@
 #include "ifcpp/IFC4/include/IfcReference.h"
 #include "ifcpp/IFC4/include/IfcReferent.h"
 #include "ifcpp/IFC4/include/IfcRegularTimeSeries.h"
+#include "ifcpp/IFC4/include/IfcReinforcedSoil.h"
 #include "ifcpp/IFC4/include/IfcReinforcementBarProperties.h"
 #include "ifcpp/IFC4/include/IfcReinforcementDefinitionProperties.h"
 #include "ifcpp/IFC4/include/IfcReinforcingBar.h"
@@ -556,6 +617,7 @@
 #include "ifcpp/IFC4/include/IfcRelAssociatesDocument.h"
 #include "ifcpp/IFC4/include/IfcRelAssociatesLibrary.h"
 #include "ifcpp/IFC4/include/IfcRelAssociatesMaterial.h"
+#include "ifcpp/IFC4/include/IfcRelAssociatesProfileDef.h"
 #include "ifcpp/IFC4/include/IfcRelConnects.h"
 #include "ifcpp/IFC4/include/IfcRelConnectsElements.h"
 #include "ifcpp/IFC4/include/IfcRelConnectsPathElements.h"
@@ -579,6 +641,7 @@
 #include "ifcpp/IFC4/include/IfcRelFlowControlElements.h"
 #include "ifcpp/IFC4/include/IfcRelInterferesElements.h"
 #include "ifcpp/IFC4/include/IfcRelNests.h"
+#include "ifcpp/IFC4/include/IfcRelPositions.h"
 #include "ifcpp/IFC4/include/IfcRelProjectsElement.h"
 #include "ifcpp/IFC4/include/IfcRelReferencedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcRelSequence.h"
@@ -602,6 +665,7 @@
 #include "ifcpp/IFC4/include/IfcRevolvedAreaSolidTapered.h"
 #include "ifcpp/IFC4/include/IfcRightCircularCone.h"
 #include "ifcpp/IFC4/include/IfcRightCircularCylinder.h"
+#include "ifcpp/IFC4/include/IfcRoad.h"
 #include "ifcpp/IFC4/include/IfcRoof.h"
 #include "ifcpp/IFC4/include/IfcRoofType.h"
 #include "ifcpp/IFC4/include/IfcRoot.h"
@@ -616,6 +680,7 @@
 #include "ifcpp/IFC4/include/IfcSectionedSolid.h"
 #include "ifcpp/IFC4/include/IfcSectionedSolidHorizontal.h"
 #include "ifcpp/IFC4/include/IfcSectionedSpine.h"
+#include "ifcpp/IFC4/include/IfcSectionedSurface.h"
 #include "ifcpp/IFC4/include/IfcSensor.h"
 #include "ifcpp/IFC4/include/IfcSensorType.h"
 #include "ifcpp/IFC4/include/IfcShadingDevice.h"
@@ -624,6 +689,10 @@
 #include "ifcpp/IFC4/include/IfcShapeModel.h"
 #include "ifcpp/IFC4/include/IfcShapeRepresentation.h"
 #include "ifcpp/IFC4/include/IfcShellBasedSurfaceModel.h"
+#include "ifcpp/IFC4/include/IfcSign.h"
+#include "ifcpp/IFC4/include/IfcSignType.h"
+#include "ifcpp/IFC4/include/IfcSignal.h"
+#include "ifcpp/IFC4/include/IfcSignalType.h"
 #include "ifcpp/IFC4/include/IfcSimpleProperty.h"
 #include "ifcpp/IFC4/include/IfcSimplePropertyTemplate.h"
 #include "ifcpp/IFC4/include/IfcSite.h"
@@ -635,6 +704,7 @@
 #include "ifcpp/IFC4/include/IfcSolarDevice.h"
 #include "ifcpp/IFC4/include/IfcSolarDeviceType.h"
 #include "ifcpp/IFC4/include/IfcSolidModel.h"
+#include "ifcpp/IFC4/include/IfcSolidStratum.h"
 #include "ifcpp/IFC4/include/IfcSpace.h"
 #include "ifcpp/IFC4/include/IfcSpaceHeater.h"
 #include "ifcpp/IFC4/include/IfcSpaceHeaterType.h"
@@ -733,6 +803,8 @@
 #include "ifcpp/IFC4/include/IfcTendon.h"
 #include "ifcpp/IFC4/include/IfcTendonAnchor.h"
 #include "ifcpp/IFC4/include/IfcTendonAnchorType.h"
+#include "ifcpp/IFC4/include/IfcTendonConduit.h"
+#include "ifcpp/IFC4/include/IfcTendonConduitType.h"
 #include "ifcpp/IFC4/include/IfcTendonType.h"
 #include "ifcpp/IFC4/include/IfcTessellatedFaceSet.h"
 #include "ifcpp/IFC4/include/IfcTessellatedItem.h"
@@ -753,6 +825,8 @@
 #include "ifcpp/IFC4/include/IfcTopologicalRepresentationItem.h"
 #include "ifcpp/IFC4/include/IfcTopologyRepresentation.h"
 #include "ifcpp/IFC4/include/IfcToroidalSurface.h"
+#include "ifcpp/IFC4/include/IfcTrackElement.h"
+#include "ifcpp/IFC4/include/IfcTrackElementType.h"
 #include "ifcpp/IFC4/include/IfcTransformer.h"
 #include "ifcpp/IFC4/include/IfcTransformerType.h"
 #include "ifcpp/IFC4/include/IfcTransitionCurveSegment2D.h"
@@ -780,10 +854,13 @@
 #include "ifcpp/IFC4/include/IfcVertex.h"
 #include "ifcpp/IFC4/include/IfcVertexLoop.h"
 #include "ifcpp/IFC4/include/IfcVertexPoint.h"
+#include "ifcpp/IFC4/include/IfcVibrationDamper.h"
+#include "ifcpp/IFC4/include/IfcVibrationDamperType.h"
 #include "ifcpp/IFC4/include/IfcVibrationIsolator.h"
 #include "ifcpp/IFC4/include/IfcVibrationIsolatorType.h"
 #include "ifcpp/IFC4/include/IfcVirtualElement.h"
 #include "ifcpp/IFC4/include/IfcVirtualGridIntersection.h"
+#include "ifcpp/IFC4/include/IfcVoidStratum.h"
 #include "ifcpp/IFC4/include/IfcVoidingFeature.h"
 #include "ifcpp/IFC4/include/IfcWall.h"
 #include "ifcpp/IFC4/include/IfcWallElementedCase.h"
@@ -791,6 +868,7 @@
 #include "ifcpp/IFC4/include/IfcWallType.h"
 #include "ifcpp/IFC4/include/IfcWasteTerminal.h"
 #include "ifcpp/IFC4/include/IfcWasteTerminalType.h"
+#include "ifcpp/IFC4/include/IfcWaterStratum.h"
 #include "ifcpp/IFC4/include/IfcWindow.h"
 #include "ifcpp/IFC4/include/IfcWindowLiningProperties.h"
 #include "ifcpp/IFC4/include/IfcWindowPanelProperties.h"
@@ -825,12 +903,17 @@
 { "IFCALARM", []()->BuildingEntity* { return new IfcAlarm(); } },
 { "IFCALARMTYPE", []()->BuildingEntity* { return new IfcAlarmType(); } },
 { "IFCALIGNMENT", []()->BuildingEntity* { return new IfcAlignment(); } },
+{ "IFCALIGNMENT2DCANT", []()->BuildingEntity* { return new IfcAlignment2DCant(); } },
+{ "IFCALIGNMENT2DCANTSEGLINE", []()->BuildingEntity* { return new IfcAlignment2DCantSegLine(); } },
+{ "IFCALIGNMENT2DCANTSEGTRANSITION", []()->BuildingEntity* { return new IfcAlignment2DCantSegTransition(); } },
+{ "IFCALIGNMENT2DCANTSEGMENT", []()->BuildingEntity* { return new IfcAlignment2DCantSegment(); } },
 { "IFCALIGNMENT2DHORIZONTAL", []()->BuildingEntity* { return new IfcAlignment2DHorizontal(); } },
 { "IFCALIGNMENT2DHORIZONTALSEGMENT", []()->BuildingEntity* { return new IfcAlignment2DHorizontalSegment(); } },
 { "IFCALIGNMENT2DSEGMENT", []()->BuildingEntity* { return new IfcAlignment2DSegment(); } },
 { "IFCALIGNMENT2DVERSEGCIRCULARARC", []()->BuildingEntity* { return new IfcAlignment2DVerSegCircularArc(); } },
 { "IFCALIGNMENT2DVERSEGLINE", []()->BuildingEntity* { return new IfcAlignment2DVerSegLine(); } },
 { "IFCALIGNMENT2DVERSEGPARABOLICARC", []()->BuildingEntity* { return new IfcAlignment2DVerSegParabolicArc(); } },
+{ "IFCALIGNMENT2DVERSEGTRANSITION", []()->BuildingEntity* { return new IfcAlignment2DVerSegTransition(); } },
 { "IFCALIGNMENT2DVERTICAL", []()->BuildingEntity* { return new IfcAlignment2DVertical(); } },
 { "IFCALIGNMENT2DVERTICALSEGMENT", []()->BuildingEntity* { return new IfcAlignment2DVerticalSegment(); } },
 { "IFCALIGNMENTCURVE", []()->BuildingEntity* { return new IfcAlignmentCurve(); } },
@@ -850,6 +933,7 @@
 { "IFCAXIS1PLACEMENT", []()->BuildingEntity* { return new IfcAxis1Placement(); } },
 { "IFCAXIS2PLACEMENT2D", []()->BuildingEntity* { return new IfcAxis2Placement2D(); } },
 { "IFCAXIS2PLACEMENT3D", []()->BuildingEntity* { return new IfcAxis2Placement3D(); } },
+{ "IFCAXISLATERALINCLINATION", []()->BuildingEntity* { return new IfcAxisLateralInclination(); } },
 { "IFCBSPLINECURVE", []()->BuildingEntity* { return new IfcBSplineCurve(); } },
 { "IFCBSPLINECURVEWITHKNOTS", []()->BuildingEntity* { return new IfcBSplineCurveWithKnots(); } },
 { "IFCBSPLINESURFACE", []()->BuildingEntity* { return new IfcBSplineSurface(); } },
@@ -857,12 +941,15 @@
 { "IFCBEAM", []()->BuildingEntity* { return new IfcBeam(); } },
 { "IFCBEAMSTANDARDCASE", []()->BuildingEntity* { return new IfcBeamStandardCase(); } },
 { "IFCBEAMTYPE", []()->BuildingEntity* { return new IfcBeamType(); } },
+{ "IFCBEARING", []()->BuildingEntity* { return new IfcBearing(); } },
+{ "IFCBEARINGTYPE", []()->BuildingEntity* { return new IfcBearingType(); } },
 { "IFCBLOBTEXTURE", []()->BuildingEntity* { return new IfcBlobTexture(); } },
 { "IFCBLOCK", []()->BuildingEntity* { return new IfcBlock(); } },
 { "IFCBOILER", []()->BuildingEntity* { return new IfcBoiler(); } },
 { "IFCBOILERTYPE", []()->BuildingEntity* { return new IfcBoilerType(); } },
 { "IFCBOOLEANCLIPPINGRESULT", []()->BuildingEntity* { return new IfcBooleanClippingResult(); } },
 { "IFCBOOLEANRESULT", []()->BuildingEntity* { return new IfcBooleanResult(); } },
+{ "IFCBOREHOLE", []()->BuildingEntity* { return new IfcBorehole(); } },
 { "IFCBOUNDARYCONDITION", []()->BuildingEntity* { return new IfcBoundaryCondition(); } },
 { "IFCBOUNDARYCURVE", []()->BuildingEntity* { return new IfcBoundaryCurve(); } },
 { "IFCBOUNDARYEDGECONDITION", []()->BuildingEntity* { return new IfcBoundaryEdgeCondition(); } },
@@ -873,15 +960,18 @@
 { "IFCBOUNDEDSURFACE", []()->BuildingEntity* { return new IfcBoundedSurface(); } },
 { "IFCBOUNDINGBOX", []()->BuildingEntity* { return new IfcBoundingBox(); } },
 { "IFCBOXEDHALFSPACE", []()->BuildingEntity* { return new IfcBoxedHalfSpace(); } },
+{ "IFCBRIDGE", []()->BuildingEntity* { return new IfcBridge(); } },
+{ "IFCBRIDGEPART", []()->BuildingEntity* { return new IfcBridgePart(); } },
 { "IFCBUILDING", []()->BuildingEntity* { return new IfcBuilding(); } },
-{ "IFCBUILDINGELEMENT", []()->BuildingEntity* { return new IfcBuildingElement(); } },
 { "IFCBUILDINGELEMENTPART", []()->BuildingEntity* { return new IfcBuildingElementPart(); } },
 { "IFCBUILDINGELEMENTPARTTYPE", []()->BuildingEntity* { return new IfcBuildingElementPartType(); } },
 { "IFCBUILDINGELEMENTPROXY", []()->BuildingEntity* { return new IfcBuildingElementProxy(); } },
 { "IFCBUILDINGELEMENTPROXYTYPE", []()->BuildingEntity* { return new IfcBuildingElementProxyType(); } },
-{ "IFCBUILDINGELEMENTTYPE", []()->BuildingEntity* { return new IfcBuildingElementType(); } },
 { "IFCBUILDINGSTOREY", []()->BuildingEntity* { return new IfcBuildingStorey(); } },
 { "IFCBUILDINGSYSTEM", []()->BuildingEntity* { return new IfcBuildingSystem(); } },
+{ "IFCBUILTELEMENT", []()->BuildingEntity* { return new IfcBuiltElement(); } },
+{ "IFCBUILTELEMENTTYPE", []()->BuildingEntity* { return new IfcBuiltElementType(); } },
+{ "IFCBUILTSYSTEM", []()->BuildingEntity* { return new IfcBuiltSystem(); } },
 { "IFCBURNER", []()->BuildingEntity* { return new IfcBurner(); } },
 { "IFCBURNERTYPE", []()->BuildingEntity* { return new IfcBurnerType(); } },
 { "IFCCSHAPEPROFILEDEF", []()->BuildingEntity* { return new IfcCShapeProfileDef(); } },
@@ -893,6 +983,8 @@
 { "IFCCABLEFITTINGTYPE", []()->BuildingEntity* { return new IfcCableFittingType(); } },
 { "IFCCABLESEGMENT", []()->BuildingEntity* { return new IfcCableSegment(); } },
 { "IFCCABLESEGMENTTYPE", []()->BuildingEntity* { return new IfcCableSegmentType(); } },
+{ "IFCCAISSONFOUNDATION", []()->BuildingEntity* { return new IfcCaissonFoundation(); } },
+{ "IFCCAISSONFOUNDATIONTYPE", []()->BuildingEntity* { return new IfcCaissonFoundationType(); } },
 { "IFCCARTESIANPOINT", []()->BuildingEntity* { return new IfcCartesianPoint(); } },
 { "IFCCARTESIANPOINTLIST", []()->BuildingEntity* { return new IfcCartesianPointList(); } },
 { "IFCCARTESIANPOINTLIST2D", []()->BuildingEntity* { return new IfcCartesianPointList2D(); } },
@@ -960,6 +1052,8 @@
 { "IFCCONTROLLERTYPE", []()->BuildingEntity* { return new IfcControllerType(); } },
 { "IFCCONVERSIONBASEDUNIT", []()->BuildingEntity* { return new IfcConversionBasedUnit(); } },
 { "IFCCONVERSIONBASEDUNITWITHOFFSET", []()->BuildingEntity* { return new IfcConversionBasedUnitWithOffset(); } },
+{ "IFCCONVEYORSEGMENT", []()->BuildingEntity* { return new IfcConveyorSegment(); } },
+{ "IFCCONVEYORSEGMENTTYPE", []()->BuildingEntity* { return new IfcConveyorSegmentType(); } },
 { "IFCCOOLEDBEAM", []()->BuildingEntity* { return new IfcCooledBeam(); } },
 { "IFCCOOLEDBEAMTYPE", []()->BuildingEntity* { return new IfcCooledBeamType(); } },
 { "IFCCOOLINGTOWER", []()->BuildingEntity* { return new IfcCoolingTower(); } },
@@ -969,6 +1063,8 @@
 { "IFCCOSTITEM", []()->BuildingEntity* { return new IfcCostItem(); } },
 { "IFCCOSTSCHEDULE", []()->BuildingEntity* { return new IfcCostSchedule(); } },
 { "IFCCOSTVALUE", []()->BuildingEntity* { return new IfcCostValue(); } },
+{ "IFCCOURSE", []()->BuildingEntity* { return new IfcCourse(); } },
+{ "IFCCOURSETYPE", []()->BuildingEntity* { return new IfcCourseType(); } },
 { "IFCCOVERING", []()->BuildingEntity* { return new IfcCovering(); } },
 { "IFCCOVERINGTYPE", []()->BuildingEntity* { return new IfcCoveringType(); } },
 { "IFCCREWRESOURCE", []()->BuildingEntity* { return new IfcCrewResource(); } },
@@ -989,14 +1085,20 @@
 { "IFCCYLINDRICALSURFACE", []()->BuildingEntity* { return new IfcCylindricalSurface(); } },
 { "IFCDAMPER", []()->BuildingEntity* { return new IfcDamper(); } },
 { "IFCDAMPERTYPE", []()->BuildingEntity* { return new IfcDamperType(); } },
+{ "IFCDEEPFOUNDATION", []()->BuildingEntity* { return new IfcDeepFoundation(); } },
+{ "IFCDEEPFOUNDATIONTYPE", []()->BuildingEntity* { return new IfcDeepFoundationType(); } },
 { "IFCDERIVEDPROFILEDEF", []()->BuildingEntity* { return new IfcDerivedProfileDef(); } },
 { "IFCDERIVEDUNIT", []()->BuildingEntity* { return new IfcDerivedUnit(); } },
 { "IFCDERIVEDUNITELEMENT", []()->BuildingEntity* { return new IfcDerivedUnitElement(); } },
 { "IFCDIMENSIONALEXPONENTS", []()->BuildingEntity* { return new IfcDimensionalExponents(); } },
 { "IFCDIRECTION", []()->BuildingEntity* { return new IfcDirection(); } },
+{ "IFCDIRECTRIXCURVESWEPTAREASOLID", []()->BuildingEntity* { return new IfcDirectrixCurveSweptAreaSolid(); } },
+{ "IFCDIRECTRIXDISTANCESWEPTAREASOLID", []()->BuildingEntity* { return new IfcDirectrixDistanceSweptAreaSolid(); } },
 { "IFCDISCRETEACCESSORY", []()->BuildingEntity* { return new IfcDiscreteAccessory(); } },
 { "IFCDISCRETEACCESSORYTYPE", []()->BuildingEntity* { return new IfcDiscreteAccessoryType(); } },
 { "IFCDISTANCEEXPRESSION", []()->BuildingEntity* { return new IfcDistanceExpression(); } },
+{ "IFCDISTRIBUTIONBOARD", []()->BuildingEntity* { return new IfcDistributionBoard(); } },
+{ "IFCDISTRIBUTIONBOARDTYPE", []()->BuildingEntity* { return new IfcDistributionBoardType(); } },
 { "IFCDISTRIBUTIONCHAMBERELEMENT", []()->BuildingEntity* { return new IfcDistributionChamberElement(); } },
 { "IFCDISTRIBUTIONCHAMBERELEMENTTYPE", []()->BuildingEntity* { return new IfcDistributionChamberElementType(); } },
 { "IFCDISTRIBUTIONCIRCUIT", []()->BuildingEntity* { return new IfcDistributionCircuit(); } },
@@ -1025,6 +1127,9 @@
 { "IFCDUCTSEGMENTTYPE", []()->BuildingEntity* { return new IfcDuctSegmentType(); } },
 { "IFCDUCTSILENCER", []()->BuildingEntity* { return new IfcDuctSilencer(); } },
 { "IFCDUCTSILENCERTYPE", []()->BuildingEntity* { return new IfcDuctSilencerType(); } },
+{ "IFCEARTHWORKSCUT", []()->BuildingEntity* { return new IfcEarthworksCut(); } },
+{ "IFCEARTHWORKSELEMENT", []()->BuildingEntity* { return new IfcEarthworksElement(); } },
+{ "IFCEARTHWORKSFILL", []()->BuildingEntity* { return new IfcEarthworksFill(); } },
 { "IFCEDGE", []()->BuildingEntity* { return new IfcEdge(); } },
 { "IFCEDGECURVE", []()->BuildingEntity* { return new IfcEdgeCurve(); } },
 { "IFCEDGELOOP", []()->BuildingEntity* { return new IfcEdgeLoop(); } },
@@ -1034,6 +1139,8 @@
 { "IFCELECTRICDISTRIBUTIONBOARDTYPE", []()->BuildingEntity* { return new IfcElectricDistributionBoardType(); } },
 { "IFCELECTRICFLOWSTORAGEDEVICE", []()->BuildingEntity* { return new IfcElectricFlowStorageDevice(); } },
 { "IFCELECTRICFLOWSTORAGEDEVICETYPE", []()->BuildingEntity* { return new IfcElectricFlowStorageDeviceType(); } },
+{ "IFCELECTRICFLOWTREATMENTDEVICE", []()->BuildingEntity* { return new IfcElectricFlowTreatmentDevice(); } },
+{ "IFCELECTRICFLOWTREATMENTDEVICETYPE", []()->BuildingEntity* { return new IfcElectricFlowTreatmentDeviceType(); } },
 { "IFCELECTRICGENERATOR", []()->BuildingEntity* { return new IfcElectricGenerator(); } },
 { "IFCELECTRICGENERATORTYPE", []()->BuildingEntity* { return new IfcElectricGeneratorType(); } },
 { "IFCELECTRICMOTOR", []()->BuildingEntity* { return new IfcElectricMotor(); } },
@@ -1079,6 +1186,8 @@
 { "IFCFACESURFACE", []()->BuildingEntity* { return new IfcFaceSurface(); } },
 { "IFCFACETEDBREP", []()->BuildingEntity* { return new IfcFacetedBrep(); } },
 { "IFCFACETEDBREPWITHVOIDS", []()->BuildingEntity* { return new IfcFacetedBrepWithVoids(); } },
+{ "IFCFACILITY", []()->BuildingEntity* { return new IfcFacility(); } },
+{ "IFCFACILITYPART", []()->BuildingEntity* { return new IfcFacilityPart(); } },
 { "IFCFAILURECONNECTIONCONDITION", []()->BuildingEntity* { return new IfcFailureConnectionCondition(); } },
 { "IFCFAN", []()->BuildingEntity* { return new IfcFan(); } },
 { "IFCFANTYPE", []()->BuildingEntity* { return new IfcFanType(); } },
@@ -1126,6 +1235,11 @@
 { "IFCGEOMETRICREPRESENTATIONITEM", []()->BuildingEntity* { return new IfcGeometricRepresentationItem(); } },
 { "IFCGEOMETRICREPRESENTATIONSUBCONTEXT", []()->BuildingEntity* { return new IfcGeometricRepresentationSubContext(); } },
 { "IFCGEOMETRICSET", []()->BuildingEntity* { return new IfcGeometricSet(); } },
+{ "IFCGEOMODEL", []()->BuildingEntity* { return new IfcGeomodel(); } },
+{ "IFCGEOSLICE", []()->BuildingEntity* { return new IfcGeoslice(); } },
+{ "IFCGEOTECHNICALASSEMBLY", []()->BuildingEntity* { return new IfcGeotechnicalAssembly(); } },
+{ "IFCGEOTECHNICALELEMENT", []()->BuildingEntity* { return new IfcGeotechnicalElement(); } },
+{ "IFCGEOTECHNICALSTRATUM", []()->BuildingEntity* { return new IfcGeotechnicalStratum(); } },
 { "IFCGRID", []()->BuildingEntity* { return new IfcGrid(); } },
 { "IFCGRIDAXIS", []()->BuildingEntity* { return new IfcGridAxis(); } },
 { "IFCGRIDPLACEMENT", []()->BuildingEntity* { return new IfcGridPlacement(); } },
@@ -1137,6 +1251,9 @@
 { "IFCHUMIDIFIERTYPE", []()->BuildingEntity* { return new IfcHumidifierType(); } },
 { "IFCISHAPEPROFILEDEF", []()->BuildingEntity* { return new IfcIShapeProfileDef(); } },
 { "IFCIMAGETEXTURE", []()->BuildingEntity* { return new IfcImageTexture(); } },
+{ "IFCIMPACTPROTECTIONDEVICE", []()->BuildingEntity* { return new IfcImpactProtectionDevice(); } },
+{ "IFCIMPACTPROTECTIONDEVICETYPE", []()->BuildingEntity* { return new IfcImpactProtectionDeviceType(); } },
+{ "IFCINCLINEDREFERENCESWEPTAREASOLID", []()->BuildingEntity* { return new IfcInclinedReferenceSweptAreaSolid(); } },
 { "IFCINDEXEDCOLOURMAP", []()->BuildingEntity* { return new IfcIndexedColourMap(); } },
 { "IFCINDEXEDPOLYCURVE", []()->BuildingEntity* { return new IfcIndexedPolyCurve(); } },
 { "IFCINDEXEDPOLYGONALFACE", []()->BuildingEntity* { return new IfcIndexedPolygonalFace(); } },
@@ -1151,6 +1268,8 @@
 { "IFCIRREGULARTIMESERIESVALUE", []()->BuildingEntity* { return new IfcIrregularTimeSeriesValue(); } },
 { "IFCJUNCTIONBOX", []()->BuildingEntity* { return new IfcJunctionBox(); } },
 { "IFCJUNCTIONBOXTYPE", []()->BuildingEntity* { return new IfcJunctionBoxType(); } },
+{ "IFCKERB", []()->BuildingEntity* { return new IfcKerb(); } },
+{ "IFCKERBTYPE", []()->BuildingEntity* { return new IfcKerbType(); } },
 { "IFCLSHAPEPROFILEDEF", []()->BuildingEntity* { return new IfcLShapeProfileDef(); } },
 { "IFCLABORRESOURCE", []()->BuildingEntity* { return new IfcLaborResource(); } },
 { "IFCLABORRESOURCETYPE", []()->BuildingEntity* { return new IfcLaborResourceType(); } },
@@ -1171,13 +1290,19 @@
 { "IFCLIGHTSOURCESPOT", []()->BuildingEntity* { return new IfcLightSourceSpot(); } },
 { "IFCLINE", []()->BuildingEntity* { return new IfcLine(); } },
 { "IFCLINESEGMENT2D", []()->BuildingEntity* { return new IfcLineSegment2D(); } },
+{ "IFCLINEARAXISWITHINCLINATION", []()->BuildingEntity* { return new IfcLinearAxisWithInclination(); } },
 { "IFCLINEARPLACEMENT", []()->BuildingEntity* { return new IfcLinearPlacement(); } },
+{ "IFCLINEARPLACEMENTWITHINCLINATION", []()->BuildingEntity* { return new IfcLinearPlacementWithInclination(); } },
 { "IFCLINEARPOSITIONINGELEMENT", []()->BuildingEntity* { return new IfcLinearPositioningElement(); } },
+{ "IFCLINEARSPANPLACEMENT", []()->BuildingEntity* { return new IfcLinearSpanPlacement(); } },
+{ "IFCLIQUIDTERMINAL", []()->BuildingEntity* { return new IfcLiquidTerminal(); } },
+{ "IFCLIQUIDTERMINALTYPE", []()->BuildingEntity* { return new IfcLiquidTerminalType(); } },
 { "IFCLOCALPLACEMENT", []()->BuildingEntity* { return new IfcLocalPlacement(); } },
 { "IFCLOOP", []()->BuildingEntity* { return new IfcLoop(); } },
 { "IFCMANIFOLDSOLIDBREP", []()->BuildingEntity* { return new IfcManifoldSolidBrep(); } },
 { "IFCMAPCONVERSION", []()->BuildingEntity* { return new IfcMapConversion(); } },
 { "IFCMAPPEDITEM", []()->BuildingEntity* { return new IfcMappedItem(); } },
+{ "IFCMARINEFACILITY", []()->BuildingEntity* { return new IfcMarineFacility(); } },
 { "IFCMATERIAL", []()->BuildingEntity* { return new IfcMaterial(); } },
 { "IFCMATERIALCLASSIFICATIONRELATIONSHIP", []()->BuildingEntity* { return new IfcMaterialClassificationRelationship(); } },
 { "IFCMATERIALCONSTITUENT", []()->BuildingEntity* { return new IfcMaterialConstituent(); } },
@@ -1207,10 +1332,16 @@
 { "IFCMEMBERTYPE", []()->BuildingEntity* { return new IfcMemberType(); } },
 { "IFCMETRIC", []()->BuildingEntity* { return new IfcMetric(); } },
 { "IFCMIRROREDPROFILEDEF", []()->BuildingEntity* { return new IfcMirroredProfileDef(); } },
+{ "IFCMOBILETELECOMMUNICATIONSAPPLIANCE", []()->BuildingEntity* { return new IfcMobileTelecommunicationsAppliance(); } },
+{ "IFCMOBILETELECOMMUNICATIONSAPPLIANCETYPE", []()->BuildingEntity* { return new IfcMobileTelecommunicationsApplianceType(); } },
 { "IFCMONETARYUNIT", []()->BuildingEntity* { return new IfcMonetaryUnit(); } },
+{ "IFCMOORINGDEVICE", []()->BuildingEntity* { return new IfcMooringDevice(); } },
+{ "IFCMOORINGDEVICETYPE", []()->BuildingEntity* { return new IfcMooringDeviceType(); } },
 { "IFCMOTORCONNECTION", []()->BuildingEntity* { return new IfcMotorConnection(); } },
 { "IFCMOTORCONNECTIONTYPE", []()->BuildingEntity* { return new IfcMotorConnectionType(); } },
 { "IFCNAMEDUNIT", []()->BuildingEntity* { return new IfcNamedUnit(); } },
+{ "IFCNAVIGATIONELEMENT", []()->BuildingEntity* { return new IfcNavigationElement(); } },
+{ "IFCNAVIGATIONELEMENTTYPE", []()->BuildingEntity* { return new IfcNavigationElementType(); } },
 { "IFCOBJECT", []()->BuildingEntity* { return new IfcObject(); } },
 { "IFCOBJECTDEFINITION", []()->BuildingEntity* { return new IfcObjectDefinition(); } },
 { "IFCOBJECTPLACEMENT", []()->BuildingEntity* { return new IfcObjectPlacement(); } },
@@ -1220,6 +1351,7 @@
 { "IFCOFFSETCURVE2D", []()->BuildingEntity* { return new IfcOffsetCurve2D(); } },
 { "IFCOFFSETCURVE3D", []()->BuildingEntity* { return new IfcOffsetCurve3D(); } },
 { "IFCOFFSETCURVEBYDISTANCES", []()->BuildingEntity* { return new IfcOffsetCurveByDistances(); } },
+{ "IFCOPENCROSSPROFILEDEF", []()->BuildingEntity* { return new IfcOpenCrossProfileDef(); } },
 { "IFCOPENSHELL", []()->BuildingEntity* { return new IfcOpenShell(); } },
 { "IFCOPENINGELEMENT", []()->BuildingEntity* { return new IfcOpeningElement(); } },
 { "IFCOPENINGSTANDARDCASE", []()->BuildingEntity* { return new IfcOpeningStandardCase(); } },
@@ -1233,6 +1365,8 @@
 { "IFCOWNERHISTORY", []()->BuildingEntity* { return new IfcOwnerHistory(); } },
 { "IFCPARAMETERIZEDPROFILEDEF", []()->BuildingEntity* { return new IfcParameterizedProfileDef(); } },
 { "IFCPATH", []()->BuildingEntity* { return new IfcPath(); } },
+{ "IFCPAVEMENT", []()->BuildingEntity* { return new IfcPavement(); } },
+{ "IFCPAVEMENTTYPE", []()->BuildingEntity* { return new IfcPavementType(); } },
 { "IFCPCURVE", []()->BuildingEntity* { return new IfcPcurve(); } },
 { "IFCPERFORMANCEHISTORY", []()->BuildingEntity* { return new IfcPerformanceHistory(); } },
 { "IFCPERMEABLECOVERINGPROPERTIES", []()->BuildingEntity* { return new IfcPermeableCoveringProperties(); } },
@@ -1253,6 +1387,7 @@
 { "IFCPLANARBOX", []()->BuildingEntity* { return new IfcPlanarBox(); } },
 { "IFCPLANAREXTENT", []()->BuildingEntity* { return new IfcPlanarExtent(); } },
 { "IFCPLANE", []()->BuildingEntity* { return new IfcPlane(); } },
+{ "IFCPLANT", []()->BuildingEntity* { return new IfcPlant(); } },
 { "IFCPLATE", []()->BuildingEntity* { return new IfcPlate(); } },
 { "IFCPLATESTANDARDCASE", []()->BuildingEntity* { return new IfcPlateStandardCase(); } },
 { "IFCPLATETYPE", []()->BuildingEntity* { return new IfcPlateType(); } },
@@ -1320,8 +1455,11 @@
 { "IFCQUANTITYTIME", []()->BuildingEntity* { return new IfcQuantityTime(); } },
 { "IFCQUANTITYVOLUME", []()->BuildingEntity* { return new IfcQuantityVolume(); } },
 { "IFCQUANTITYWEIGHT", []()->BuildingEntity* { return new IfcQuantityWeight(); } },
+{ "IFCRAIL", []()->BuildingEntity* { return new IfcRail(); } },
+{ "IFCRAILTYPE", []()->BuildingEntity* { return new IfcRailType(); } },
 { "IFCRAILING", []()->BuildingEntity* { return new IfcRailing(); } },
 { "IFCRAILINGTYPE", []()->BuildingEntity* { return new IfcRailingType(); } },
+{ "IFCRAILWAY", []()->BuildingEntity* { return new IfcRailway(); } },
 { "IFCRAMP", []()->BuildingEntity* { return new IfcRamp(); } },
 { "IFCRAMPFLIGHT", []()->BuildingEntity* { return new IfcRampFlight(); } },
 { "IFCRAMPFLIGHTTYPE", []()->BuildingEntity* { return new IfcRampFlightType(); } },
@@ -1336,6 +1474,7 @@
 { "IFCREFERENCE", []()->BuildingEntity* { return new IfcReference(); } },
 { "IFCREFERENT", []()->BuildingEntity* { return new IfcReferent(); } },
 { "IFCREGULARTIMESERIES", []()->BuildingEntity* { return new IfcRegularTimeSeries(); } },
+{ "IFCREINFORCEDSOIL", []()->BuildingEntity* { return new IfcReinforcedSoil(); } },
 { "IFCREINFORCEMENTBARPROPERTIES", []()->BuildingEntity* { return new IfcReinforcementBarProperties(); } },
 { "IFCREINFORCEMENTDEFINITIONPROPERTIES", []()->BuildingEntity* { return new IfcReinforcementDefinitionProperties(); } },
 { "IFCREINFORCINGBAR", []()->BuildingEntity* { return new IfcReinforcingBar(); } },
@@ -1360,6 +1499,7 @@
 { "IFCRELASSOCIATESDOCUMENT", []()->BuildingEntity* { return new IfcRelAssociatesDocument(); } },
 { "IFCRELASSOCIATESLIBRARY", []()->BuildingEntity* { return new IfcRelAssociatesLibrary(); } },
 { "IFCRELASSOCIATESMATERIAL", []()->BuildingEntity* { return new IfcRelAssociatesMaterial(); } },
+{ "IFCRELASSOCIATESPROFILEDEF", []()->BuildingEntity* { return new IfcRelAssociatesProfileDef(); } },
 { "IFCRELCONNECTS", []()->BuildingEntity* { return new IfcRelConnects(); } },
 { "IFCRELCONNECTSELEMENTS", []()->BuildingEntity* { return new IfcRelConnectsElements(); } },
 { "IFCRELCONNECTSPATHELEMENTS", []()->BuildingEntity* { return new IfcRelConnectsPathElements(); } },
@@ -1383,6 +1523,7 @@
 { "IFCRELFLOWCONTROLELEMENTS", []()->BuildingEntity* { return new IfcRelFlowControlElements(); } },
 { "IFCRELINTERFERESELEMENTS", []()->BuildingEntity* { return new IfcRelInterferesElements(); } },
 { "IFCRELNESTS", []()->BuildingEntity* { return new IfcRelNests(); } },
+{ "IFCRELPOSITIONS", []()->BuildingEntity* { return new IfcRelPositions(); } },
 { "IFCRELPROJECTSELEMENT", []()->BuildingEntity* { return new IfcRelProjectsElement(); } },
 { "IFCRELREFERENCEDINSPATIALSTRUCTURE", []()->BuildingEntity* { return new IfcRelReferencedInSpatialStructure(); } },
 { "IFCRELSEQUENCE", []()->BuildingEntity* { return new IfcRelSequence(); } },
@@ -1406,6 +1547,7 @@
 { "IFCREVOLVEDAREASOLIDTAPERED", []()->BuildingEntity* { return new IfcRevolvedAreaSolidTapered(); } },
 { "IFCRIGHTCIRCULARCONE", []()->BuildingEntity* { return new IfcRightCircularCone(); } },
 { "IFCRIGHTCIRCULARCYLINDER", []()->BuildingEntity* { return new IfcRightCircularCylinder(); } },
+{ "IFCROAD", []()->BuildingEntity* { return new IfcRoad(); } },
 { "IFCROOF", []()->BuildingEntity* { return new IfcRoof(); } },
 { "IFCROOFTYPE", []()->BuildingEntity* { return new IfcRoofType(); } },
 { "IFCROOT", []()->BuildingEntity* { return new IfcRoot(); } },
@@ -1420,6 +1562,7 @@
 { "IFCSECTIONEDSOLID", []()->BuildingEntity* { return new IfcSectionedSolid(); } },
 { "IFCSECTIONEDSOLIDHORIZONTAL", []()->BuildingEntity* { return new IfcSectionedSolidHorizontal(); } },
 { "IFCSECTIONEDSPINE", []()->BuildingEntity* { return new IfcSectionedSpine(); } },
+{ "IFCSECTIONEDSURFACE", []()->BuildingEntity* { return new IfcSectionedSurface(); } },
 { "IFCSENSOR", []()->BuildingEntity* { return new IfcSensor(); } },
 { "IFCSENSORTYPE", []()->BuildingEntity* { return new IfcSensorType(); } },
 { "IFCSHADINGDEVICE", []()->BuildingEntity* { return new IfcShadingDevice(); } },
@@ -1428,6 +1571,10 @@
 { "IFCSHAPEMODEL", []()->BuildingEntity* { return new IfcShapeModel(); } },
 { "IFCSHAPEREPRESENTATION", []()->BuildingEntity* { return new IfcShapeRepresentation(); } },
 { "IFCSHELLBASEDSURFACEMODEL", []()->BuildingEntity* { return new IfcShellBasedSurfaceModel(); } },
+{ "IFCSIGN", []()->BuildingEntity* { return new IfcSign(); } },
+{ "IFCSIGNTYPE", []()->BuildingEntity* { return new IfcSignType(); } },
+{ "IFCSIGNAL", []()->BuildingEntity* { return new IfcSignal(); } },
+{ "IFCSIGNALTYPE", []()->BuildingEntity* { return new IfcSignalType(); } },
 { "IFCSIMPLEPROPERTY", []()->BuildingEntity* { return new IfcSimpleProperty(); } },
 { "IFCSIMPLEPROPERTYTEMPLATE", []()->BuildingEntity* { return new IfcSimplePropertyTemplate(); } },
 { "IFCSITE", []()->BuildingEntity* { return new IfcSite(); } },
@@ -1439,6 +1586,7 @@
 { "IFCSOLARDEVICE", []()->BuildingEntity* { return new IfcSolarDevice(); } },
 { "IFCSOLARDEVICETYPE", []()->BuildingEntity* { return new IfcSolarDeviceType(); } },
 { "IFCSOLIDMODEL", []()->BuildingEntity* { return new IfcSolidModel(); } },
+{ "IFCSOLIDSTRATUM", []()->BuildingEntity* { return new IfcSolidStratum(); } },
 { "IFCSPACE", []()->BuildingEntity* { return new IfcSpace(); } },
 { "IFCSPACEHEATER", []()->BuildingEntity* { return new IfcSpaceHeater(); } },
 { "IFCSPACEHEATERTYPE", []()->BuildingEntity* { return new IfcSpaceHeaterType(); } },
@@ -1537,6 +1685,8 @@
 { "IFCTENDON", []()->BuildingEntity* { return new IfcTendon(); } },
 { "IFCTENDONANCHOR", []()->BuildingEntity* { return new IfcTendonAnchor(); } },
 { "IFCTENDONANCHORTYPE", []()->BuildingEntity* { return new IfcTendonAnchorType(); } },
+{ "IFCTENDONCONDUIT", []()->BuildingEntity* { return new IfcTendonConduit(); } },
+{ "IFCTENDONCONDUITTYPE", []()->BuildingEntity* { return new IfcTendonConduitType(); } },
 { "IFCTENDONTYPE", []()->BuildingEntity* { return new IfcTendonType(); } },
 { "IFCTESSELLATEDFACESET", []()->BuildingEntity* { return new IfcTessellatedFaceSet(); } },
 { "IFCTESSELLATEDITEM", []()->BuildingEntity* { return new IfcTessellatedItem(); } },
@@ -1557,6 +1707,8 @@
 { "IFCTOPOLOGICALREPRESENTATIONITEM", []()->BuildingEntity* { return new IfcTopologicalRepresentationItem(); } },
 { "IFCTOPOLOGYREPRESENTATION", []()->BuildingEntity* { return new IfcTopologyRepresentation(); } },
 { "IFCTOROIDALSURFACE", []()->BuildingEntity* { return new IfcToroidalSurface(); } },
+{ "IFCTRACKELEMENT", []()->BuildingEntity* { return new IfcTrackElement(); } },
+{ "IFCTRACKELEMENTTYPE", []()->BuildingEntity* { return new IfcTrackElementType(); } },
 { "IFCTRANSFORMER", []()->BuildingEntity* { return new IfcTransformer(); } },
 { "IFCTRANSFORMERTYPE", []()->BuildingEntity* { return new IfcTransformerType(); } },
 { "IFCTRANSITIONCURVESEGMENT2D", []()->BuildingEntity* { return new IfcTransitionCurveSegment2D(); } },
@@ -1584,10 +1736,13 @@
 { "IFCVERTEX", []()->BuildingEntity* { return new IfcVertex(); } },
 { "IFCVERTEXLOOP", []()->BuildingEntity* { return new IfcVertexLoop(); } },
 { "IFCVERTEXPOINT", []()->BuildingEntity* { return new IfcVertexPoint(); } },
+{ "IFCVIBRATIONDAMPER", []()->BuildingEntity* { return new IfcVibrationDamper(); } },
+{ "IFCVIBRATIONDAMPERTYPE", []()->BuildingEntity* { return new IfcVibrationDamperType(); } },
 { "IFCVIBRATIONISOLATOR", []()->BuildingEntity* { return new IfcVibrationIsolator(); } },
 { "IFCVIBRATIONISOLATORTYPE", []()->BuildingEntity* { return new IfcVibrationIsolatorType(); } },
 { "IFCVIRTUALELEMENT", []()->BuildingEntity* { return new IfcVirtualElement(); } },
 { "IFCVIRTUALGRIDINTERSECTION", []()->BuildingEntity* { return new IfcVirtualGridIntersection(); } },
+{ "IFCVOIDSTRATUM", []()->BuildingEntity* { return new IfcVoidStratum(); } },
 { "IFCVOIDINGFEATURE", []()->BuildingEntity* { return new IfcVoidingFeature(); } },
 { "IFCWALL", []()->BuildingEntity* { return new IfcWall(); } },
 { "IFCWALLELEMENTEDCASE", []()->BuildingEntity* { return new IfcWallElementedCase(); } },
@@ -1595,6 +1750,7 @@
 { "IFCWALLTYPE", []()->BuildingEntity* { return new IfcWallType(); } },
 { "IFCWASTETERMINAL", []()->BuildingEntity* { return new IfcWasteTerminal(); } },
 { "IFCWASTETERMINALTYPE", []()->BuildingEntity* { return new IfcWasteTerminalType(); } },
+{ "IFCWATERSTRATUM", []()->BuildingEntity* { return new IfcWaterStratum(); } },
 { "IFCWINDOW", []()->BuildingEntity* { return new IfcWindow(); } },
 { "IFCWINDOWLININGPROPERTIES", []()->BuildingEntity* { return new IfcWindowLiningProperties(); } },
 { "IFCWINDOWPANELPROPERTIES", []()->BuildingEntity* { return new IfcWindowPanelProperties(); } },

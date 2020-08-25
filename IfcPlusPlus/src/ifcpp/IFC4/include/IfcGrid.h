@@ -62,10 +62,13 @@ public:
 	//  shared_ptr<IfcProductRepresentation>						m_Representation;			//optional
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcRelAssignsToProduct> >				m_ReferencedBy_inverse;
+	//  std::vector<weak_ptr<IfcRelPositions> >						m_PositionedRelativeTo_inverse;
+	//  std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >	m_ReferencedInStructures_inverse;
 
 	// IfcPositioningElement -----------------------------------------------------------
 	// inverse attributes:
 	//  std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >	m_ContainedInStructure_inverse;
+	//  std::vector<weak_ptr<IfcRelPositions> >						m_Positions_inverse;
 
 	// IfcGrid -----------------------------------------------------------
 	// attributes:

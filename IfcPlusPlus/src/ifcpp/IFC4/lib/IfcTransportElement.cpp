@@ -28,13 +28,14 @@
 #include "ifcpp/IFC4/include/IfcRelFillsElement.h"
 #include "ifcpp/IFC4/include/IfcRelInterferesElements.h"
 #include "ifcpp/IFC4/include/IfcRelNests.h"
+#include "ifcpp/IFC4/include/IfcRelPositions.h"
 #include "ifcpp/IFC4/include/IfcRelProjectsElement.h"
 #include "ifcpp/IFC4/include/IfcRelReferencedInSpatialStructure.h"
 #include "ifcpp/IFC4/include/IfcRelSpaceBoundary.h"
 #include "ifcpp/IFC4/include/IfcRelVoidsElement.h"
 #include "ifcpp/IFC4/include/IfcText.h"
 #include "ifcpp/IFC4/include/IfcTransportElement.h"
-#include "ifcpp/IFC4/include/IfcTransportElementTypeEnum.h"
+#include "ifcpp/IFC4/include/IfcTransportElementTypeSelect.h"
 
 // ENTITY IfcTransportElement 
 IfcTransportElement::IfcTransportElement( int id ) { m_entity_id = id; }
@@ -57,7 +58,7 @@ shared_ptr<BuildingObject> IfcTransportElement::getDeepCopy( BuildingCopyOptions
 	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy(options) ); }
 	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy(options) ); }
 	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcIdentifier>( m_Tag->getDeepCopy(options) ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcTransportElementTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
+	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcTransportElementTypeSelect>( m_PredefinedType->getDeepCopy(options) ); }
 	return copy_self;
 }
 void IfcTransportElement::getStepLine( std::stringstream& stream ) const
@@ -79,7 +80,7 @@ void IfcTransportElement::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
 	stream << ",";
-	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream, true ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IfcTransportElement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_entity_id; }
@@ -96,7 +97,7 @@ void IfcTransportElement::readStepArguments( const std::vector<std::wstring>& ar
 	readEntityReference( args[5], m_ObjectPlacement, map );
 	readEntityReference( args[6], m_Representation, map );
 	m_Tag = IfcIdentifier::createObjectFromSTEP( args[7], map );
-	m_PredefinedType = IfcTransportElementTypeEnum::createObjectFromSTEP( args[8], map );
+	m_PredefinedType = IfcTransportElementTypeSelect::createObjectFromSTEP( args[8], map );
 }
 void IfcTransportElement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {

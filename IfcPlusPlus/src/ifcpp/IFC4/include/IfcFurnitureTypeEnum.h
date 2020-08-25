@@ -9,7 +9,7 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 
-// TYPE IfcFurnitureTypeEnum = ENUMERATION OF	(CHAIR	,TABLE	,DESK	,BED	,FILECABINET	,SHELF	,SOFA	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcFurnitureTypeEnum = ENUMERATION OF	(CHAIR	,TABLE	,DESK	,BED	,FILECABINET	,SHELF	,SOFA	,TECHNICALCABINET	,USERDEFINED	,NOTDEFINED);
 class IFCQUERY_EXPORT IfcFurnitureTypeEnum : virtual public BuildingObject
 {
 public:
@@ -22,6 +22,7 @@ public:
 		ENUM_FILECABINET,
 		ENUM_SHELF,
 		ENUM_SOFA,
+		ENUM_TECHNICALCABINET,
 		ENUM_USERDEFINED,
 		ENUM_NOTDEFINED
 	};
