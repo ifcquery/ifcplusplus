@@ -610,7 +610,9 @@ void readSelectList( const std::wstring& arg_complete, std::vector<shared_ptr<se
 			return;
 		}
 		std::stringstream err;
-		err << "num_opening != num_closing : " << arg_complete.c_str() << std::endl;
+		std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
+		std::string arg_complete_narrow = converter.to_bytes( arg_complete );
+		err << "num_opening != num_closing : " << arg_complete_narrow.c_str() << std::endl;
 		throw BuildingException( err.str().c_str(), __FUNC__ );
 	}
 	std::wstring arg( pos_opening+1, pos_closing-pos_opening-1 );
