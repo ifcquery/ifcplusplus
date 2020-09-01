@@ -985,8 +985,8 @@ public:
 
 #ifdef ENABLE_OPENMP
 		Mutex writelock_map;
-		Mutex writelock_message_callback;
 		Mutex writelock_ifc_project;
+		Mutex writelock_message_callback;
 
 #pragma omp parallel firstprivate(num_products) shared(map_entity_guid, map_representations)
 		{
@@ -1004,6 +1004,17 @@ public:
 				}
 
 				shared_ptr<IfcObjectDefinition> ifc_object_def(shape_data->m_ifc_object_definition);
+
+				shared_ptr<IfcProject> ifc_project = dynamic_pointer_cast<IfcProject>(ifc_object_def);
+				if (ifc_project)
+				{
+#ifdef ENABLE_OPENMP
+					ScopedLock scoped_lock(writelock_ifc_project);
+#endif
+					ifc_project_data = shape_data;
+				}
+
+
 				shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
 				if (!ifc_product)
 				{
@@ -1015,13 +1026,6 @@ public:
 				{
 					// geometry will be created in method subtractOpenings
 					continue;
-				}
-				else if( dynamic_pointer_cast<IfcProject>(ifc_product) )
-				{
-#ifdef ENABLE_OPENMP
-					ScopedLock scoped_lock( writelock_ifc_project );
-#endif
-					ifc_project_data = shape_data;
 				}
 
 				if( !ifc_product->m_Representation )
@@ -1185,22 +1189,21 @@ public:
 		}
 
 		shared_ptr<IfcObjectDefinition> ifc_object_def(product_data->m_ifc_object_definition);
-		shared_ptr<IfcProduct> object_def = dynamic_pointer_cast<IfcProduct>( ifc_object_def );
-		if (!object_def)
+		if (!ifc_object_def)
 		{
 			return;
 		}
 
 		std::string guid;
-		if (object_def->m_GlobalId)
+		if (ifc_object_def->m_GlobalId)
 		{
 			std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-			guid = converterX.to_bytes(object_def->m_GlobalId->m_value);
+			guid = converterX.to_bytes(ifc_object_def->m_GlobalId->m_value);
 		}
 
 		if( SceneGraphUtils::inParentList(guid, group ) )
 		{
-			messageCallback( "Cycle in project structure detected", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, object_def.get() );
+			messageCallback( "Cycle in project structure detected", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, ifc_object_def.get() );
 			return;
 		}
 
@@ -1244,7 +1247,7 @@ public:
 				group->addChild( product_switch );
 
 				std::stringstream switch_name;
-				switch_name << guid << ":" << object_def->className();
+				switch_name << guid << ":" << ifc_object_def->className();
 				product_switch->setName( switch_name.str().c_str() );
 			}
 		}

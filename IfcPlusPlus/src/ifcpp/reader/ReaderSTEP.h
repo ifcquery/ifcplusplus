@@ -28,7 +28,7 @@ public:
 	~ReaderSTEP() override;
 	void removeComments( std::string& buffer ) override;
 	void readHeader(	const std::string& in, shared_ptr<BuildingModel>& target_model ) override;
-	void readData( std::string& in, const BuildingModel::SchemaVersion& ifc_version, std::map<int, shared_ptr<BuildingEntity> >& map ) override;
+	void readData( std::string& in, const std::wstring& ifc_version, std::map<int, shared_ptr<BuildingEntity> >& map ) override;
 	void readData( std::string& in, shared_ptr<BuildingModel>& model ) override;
 	
 	/*\brief Opens the given file, reads the content, and puts the entities into target_model.
@@ -40,5 +40,5 @@ public:
 	void splitIntoStepLines(	const std::string& read_in, std::vector<std::string>& target_vec );
 	void readSingleStepLine(	const std::string& line, std::pair<std::string, shared_ptr<BuildingEntity> >& target_read_object );
 	void readStepLines(			const std::vector<std::string>& step_lines, std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& target_entity_vec );
-	void readEntityArguments(	const BuildingModel::SchemaVersion& ifc_version, const std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities, const std::map<int, shared_ptr<BuildingEntity> >& map );
+	void readEntityArguments(	const std::wstring& ifc_version, const std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities, const std::map<int, shared_ptr<BuildingEntity> >& map );
 };

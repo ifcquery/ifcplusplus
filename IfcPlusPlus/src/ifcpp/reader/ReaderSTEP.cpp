@@ -210,8 +210,7 @@ void ReaderSTEP::loadModelFromString( std::string& content, shared_ptr<BuildingM
 		targetModel->updateCache();
 
 		// currently generated IFC classes are IFC4X1, files with older versions are converted. So after loading, the schema is always IFC4X1
-		targetModel->getIfcSchemaVersionCurrent().m_IFC_FILE_SCHEMA = L"IFC4X1";
-		targetModel->getIfcSchemaVersionCurrent().m_ifc_file_schema_enum = BuildingModel::IFC4X1;
+		targetModel->m_ifc_schema_version_current = BuildingModel::IFC4X1;
 	}
 	catch( OutOfMemoryException& e)
 	{
@@ -289,7 +288,7 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 		return;
 	}
 
-	target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = BuildingModel::IFC_VERSION_UNDEFINED;
+	target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC_VERSION_UNDEFINED;
 	file_header_start += 7;
 	std::string file_header = read_in.substr( file_header_start, file_header_end - file_header_start );
 	std::vector<std::string> vec_header;
@@ -374,38 +373,31 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 			
 			if( file_schema_args.substr(0,6).compare(L"IFC2X2") == 0 )
 			{
-				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC2X2";
-				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = BuildingModel::IFC2X2;
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X2;
 			}
 			else if( file_schema_args.substr(0,6).compare(L"IFC2X3") == 0 )
 			{
-				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC2X3";
-				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = BuildingModel::IFC2X3;
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X3;
 			}
 			else if( file_schema_args.substr(0,6).compare(L"IFC2X4") == 0 )
 			{
-				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC2X4";
-				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = BuildingModel::IFC2X4;
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X4;
 			}
 			else if( file_schema_args.substr( 0, 5 ).compare( L"IFC2X" ) == 0 )
 			{
-				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC2X";
-				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = BuildingModel::IFC2X;
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X;
 			}
 			else if( file_schema_args.compare( L"IFC4" ) == 0 )
 			{
-				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC4";
-				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = BuildingModel::IFC4;
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC4;
 			}
 			else if (file_schema_args.compare(L"IFC4X1") == 0)
 			{
-				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC4X1";
-				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = BuildingModel::IFC4X1;
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC4X1;
 			}
 			else
 			{
-				target_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"";
-				target_model->getIfcSchemaVersion().m_ifc_file_schema_enum = BuildingModel::IFC_VERSION_UNDEFINED;
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC_VERSION_UNDEFINED;
 			}
 		}
 	}
@@ -723,8 +715,7 @@ void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::str
 	}
 }
 
-void ReaderSTEP::readEntityArguments( const BuildingModel::SchemaVersion& ifc_version,
-	const std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities,  const std::map<int,shared_ptr<BuildingEntity> >& map_entities  )
+void ReaderSTEP::readEntityArguments( const std::wstring& ifc_version, const std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities,  const std::map<int,shared_ptr<BuildingEntity> >& map_entities  )
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
@@ -770,7 +761,7 @@ void ReaderSTEP::readEntityArguments( const BuildingModel::SchemaVersion& ifc_ve
 			// character decoding:
 			decodeArgumentStrings( arguments, arguments_w );
 
-			if( ifc_version.m_ifc_file_schema_enum != BuildingModel::IFC4X1 )
+			if( ifc_version.compare( L"IFC4X1" ) != 0 )
 			{
 				size_t num_expected_arguments = entity->getNumAttributes();
 				if( num_expected_arguments != arguments_w.size() )
@@ -850,21 +841,21 @@ void ReaderSTEP::readEntityArguments( const BuildingModel::SchemaVersion& ifc_ve
 
 void ReaderSTEP::readData( std::string& read_in, shared_ptr<BuildingModel>& model )
 {
-	BuildingModel::SchemaVersion& file_schema_version = model->getIfcSchemaVersion();
+	std::wstring file_schema_version = model->getIfcSchemaVersionOfLoadedFile();
 	std::map<int, shared_ptr<BuildingEntity> >& map_entities = model->m_map_entities;
 	readData( read_in, file_schema_version, map_entities );
 }
 
-void ReaderSTEP::readData(	std::string& read_in, const BuildingModel::SchemaVersion& ifc_version, std::map<int, shared_ptr<BuildingEntity> >& target_map )
+void ReaderSTEP::readData(	std::string& read_in, const std::wstring& ifc_version, std::map<int, shared_ptr<BuildingEntity> >& target_map )
 {
 	std::string current_numeric_locale(setlocale(LC_NUMERIC, nullptr));
 	setlocale(LC_NUMERIC,"C");
 
-	if( ifc_version.m_ifc_file_schema_enum  == BuildingModel::IFC_VERSION_UNDEFINED || ifc_version.m_ifc_file_schema_enum == BuildingModel::IFC_VERSION_UNKNOWN )
+	if( ifc_version.compare( L"IFC_VERSION_UNDEFINED" ) == 0 || ifc_version.compare( L"IFC_VERSION_UNKNOWN" ) == 0 )
 	{
 		std::wstring error_message;
 		error_message.append( L"Unsupported IFC version: " );
-		error_message.append( ifc_version.m_IFC_FILE_SCHEMA );
+		error_message.append( ifc_version );
 		messageCallback( error_message, StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		progressValueCallback(0.0, "parse");
 		return;
@@ -874,7 +865,7 @@ void ReaderSTEP::readData(	std::string& read_in, const BuildingModel::SchemaVers
 	{
 		return;
 	}
-	messageCallback( std::wstring( L"Detected IFC version: ") + ifc_version.m_IFC_FILE_SCHEMA, StatusCallback::MESSAGE_TYPE_GENERAL_MESSAGE, "" );
+	messageCallback( std::wstring( L"Detected IFC version: ") + ifc_version, StatusCallback::MESSAGE_TYPE_GENERAL_MESSAGE, "" );
 
 	std::stringstream err;
 	std::vector<std::string> step_lines;

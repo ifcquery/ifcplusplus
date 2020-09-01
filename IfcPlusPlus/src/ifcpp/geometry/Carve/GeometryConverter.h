@@ -132,15 +132,14 @@ public:
 		}
 
 		shared_ptr<IfcObjectDefinition> ifc_object_def(product_data->m_ifc_object_definition);
-		shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
-		if (!ifc_product)
+		if (!ifc_object_def)
 		{
 			return;
 		}
 
 		product_data->m_added_to_spatial_structure = true;
 
-		const std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = ifc_product->m_IsDecomposedBy_inverse;
+		const std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = ifc_object_def->m_IsDecomposedBy_inverse;
 		for( size_t ii = 0; ii < vec_IsDecomposedBy.size(); ++ii )
 		{
 			const weak_ptr<IfcRelAggregates>& rel_aggregates_weak_ptr = vec_IsDecomposedBy[ii];
@@ -179,7 +178,7 @@ public:
 			}
 		}
 
-		shared_ptr<IfcSpatialStructureElement> spatial_ele = dynamic_pointer_cast<IfcSpatialStructureElement>(ifc_product);
+		shared_ptr<IfcSpatialStructureElement> spatial_ele = dynamic_pointer_cast<IfcSpatialStructureElement>(ifc_object_def);
 		if( spatial_ele )
 		{
 			const std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& vec_contains = spatial_ele->m_ContainsElements_inverse;
@@ -319,10 +318,10 @@ public:
 			for (auto it = map_entities.begin(); it != map_entities.end(); ++it)
 			{
 				shared_ptr<BuildingEntity> obj = it->second;
-				shared_ptr<IfcObjectDefinition> product = dynamic_pointer_cast<IfcObjectDefinition>(obj);
-				if (product)
+				shared_ptr<IfcObjectDefinition> object_def = dynamic_pointer_cast<IfcObjectDefinition>(obj);
+				if (object_def)
 				{
-					vec_object_definitions.push_back(product);
+					vec_object_definitions.push_back(object_def);
 				}
 			}
 		}
@@ -342,25 +341,25 @@ public:
 #endif
 			for( int i = 0; i < num_object_definitions; ++i )
 			{
-				shared_ptr<IfcObjectDefinition> ifc_product = vec_object_definitions[i];
-				const int entity_id = ifc_product->m_entity_id;
+				shared_ptr<IfcObjectDefinition> object_def = vec_object_definitions[i];
+				const int entity_id = object_def->m_entity_id;
 				std::string guid;
-				if (ifc_product->m_GlobalId)
+				if (object_def->m_GlobalId)
 				{
 					std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-					guid = converterX.to_bytes(ifc_product->m_GlobalId->m_value);
+					guid = converterX.to_bytes(object_def->m_GlobalId->m_value);
 				}
 
 				shared_ptr<ProductShapeData> product_geom_input_data( new ProductShapeData( entity_id ) );
-				product_geom_input_data->m_ifc_object_definition = ifc_product;
+				product_geom_input_data->m_ifc_object_definition = object_def;
 
 				std::stringstream thread_err;
-				if( !m_geom_settings->getRenderObjectFilter()(ifc_product) )
+				if( !m_geom_settings->getRenderObjectFilter()(object_def) )
 				{
 					// geometry will be created in method subtractOpenings
 					continue;
 				}
-				else if( dynamic_pointer_cast<IfcProject>(ifc_product) )
+				else if( dynamic_pointer_cast<IfcProject>(object_def) )
 				{
 #ifdef ENABLE_OPENMP
 					ScopedLock scoped_lock( writelock_ifc_project );

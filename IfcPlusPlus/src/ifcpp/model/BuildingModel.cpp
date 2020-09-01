@@ -72,6 +72,31 @@ BuildingModel::BuildingModel()
 
 BuildingModel::~BuildingModel()= default;
 
+std::wstring getIfcSchemaVersionString(BuildingModel::SchemaVersionEnum version)
+{
+	switch (version)
+	{
+	case BuildingModel::IFC2X: return L"IFC2X";
+	case BuildingModel::IFC2X2: return L"IFC2X2";
+	case BuildingModel::IFC2X3: return L"IFC2X3";
+	case BuildingModel::IFC2X4: return L"IFC2X4";
+	case BuildingModel::IFC4: return L"IFC4";
+	case BuildingModel::IFC4X1: return L"IFC4X1";
+	case BuildingModel::IFC4X3RC1: return L"IFC4X3RC1";
+	}
+	return L"IFC_VERSION_UNDEFINED";
+};
+
+std::wstring BuildingModel::getIfcSchemaVersionOfLoadedFile()
+{
+	return getIfcSchemaVersionString(m_ifc_schema_version_loaded_file);
+}
+
+std::wstring BuildingModel::getIfcSchemaVersionCurrent()
+{
+	return getIfcSchemaVersionString(m_ifc_schema_version_current);
+}
+
 void BuildingModel::initIfcModel()
 {
 	clearIfcModel();
@@ -470,7 +495,7 @@ void BuildingModel::initFileHeader( std::wstring file_name )
 	std::string filename_escaped = encodeStepString( file_name );
 	std::wstringstream strs;
 	strs << "HEADER;" << std::endl;
-	strs << "FILE_DESCRIPTION(('" << m_ifc_schema_version.m_IFC_FILE_SCHEMA << "'),'2;1');" << std::endl;
+	strs << "FILE_DESCRIPTION(('" << getIfcSchemaVersionCurrent() << "'),'2;1');" << std::endl;
 	strs << "FILE_NAME('" << filename_escaped.c_str() << "','";
 
 	//2011-04-21T14:25:12
@@ -486,7 +511,7 @@ void BuildingModel::initFileHeader( std::wstring file_name )
 
 	strs << buffer;
 	strs << "',(''),('',''),'','IfcPlusPlus','');" << std::endl;
-	strs << "FILE_SCHEMA(('" << m_ifc_schema_version.m_IFC_FILE_SCHEMA << "'));" << std::endl;
+	strs << "FILE_SCHEMA(('" << getIfcSchemaVersionCurrent() << "'));" << std::endl;
 	strs << "ENDSEC;" << std::endl;
 
 	m_file_header = strs.str();
@@ -512,7 +537,8 @@ void BuildingModel::clearIfcModel()
 	m_map_entities.clear();
 	m_ifc_project.reset();
 	m_geom_context_3d.reset();
-	m_ifc_schema_version.setDefaults();
+	m_ifc_schema_version_current = IFC4X1;
+	m_ifc_schema_version_loaded_file = IFC4X1;
 	m_IFC_FILE_NAME = L"";
 	m_IFC_FILE_DESCRIPTION = L"";
 	m_file_header = L"";

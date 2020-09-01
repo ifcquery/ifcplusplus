@@ -19,8 +19,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <QSettings>
 #include <QAction>
 #include <QDockWidget>
-#include <QStatusBar>
 #include <QFile>
+#include <QStatusBar>
+#include <QToolButton>
 
 #include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"
@@ -36,7 +37,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *parent) : m_system(sys), m_viewer_widget(vw), QMainWindow(parent)
 {
 	m_system = sys;
-	setWindowTitle("IfcQuery example application");
+	setWindowTitle("IFC++ example application");
 	setWindowIcon(QIcon(":img/IfcPlusPlusViewerWindowIcon.svg"));
 	
 	// global style sheet definitions
@@ -46,21 +47,29 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 	setStyleSheet( styleSheet );
 	createTabWidget();
 
-	QAction* zoom_bounds_btn = new QAction(QIcon(":img/ZoomBoundings.svg"), "&Zoom to boundings", this );
+	QToolButton* zoom_bounds_btn = new QToolButton(this );
+	zoom_bounds_btn->setIcon(QIcon(":img/zoomToBounds.svg"));
 	zoom_bounds_btn->setShortcut(tr("Ctrl+Z"));
 	zoom_bounds_btn->setStatusTip("Zoom to boundings");
-	connect(zoom_bounds_btn, &QAction::triggered, this, &MainWindow::slotBtnZoomBoundingsClicked);
+	zoom_bounds_btn->setFixedSize(35, 35);
+	zoom_bounds_btn->setIconSize(QSize(35, 35));
+	zoom_bounds_btn->setStyleSheet("QToolButton{border:0px;background:none;}");
+	connect(zoom_bounds_btn, &QToolButton::clicked, this, &MainWindow::slotBtnZoomBoundingsClicked);
 
-	QAction* remove_selected_objects = new QAction(QIcon(":img/RemoveSelectedObjects.svg"), "&Remove selected objects [del]", this );
+	QToolButton* remove_selected_objects = new QToolButton( this );
+	remove_selected_objects->setIcon(QIcon(":img/RemoveSelectedObjects.svg"));
 	remove_selected_objects->setStatusTip("Remove selected objects [del]");
-	connect(remove_selected_objects, &QAction::triggered, this, &MainWindow::slotBtnRemoveSelectedObjectsClicked);
+	remove_selected_objects->setFixedSize(35, 35);
+	remove_selected_objects->setIconSize(QSize(35, 35));
+	remove_selected_objects->setStyleSheet("QToolButton{border:0px;background:none;}");
+	connect(remove_selected_objects, &QToolButton::clicked, this, &MainWindow::slotBtnRemoveSelectedObjectsClicked);
 
 	m_file_toolbar = new QToolBar();
 	m_file_toolbar->setObjectName("FileToolbar");
-	m_file_toolbar->addAction(zoom_bounds_btn);
-	m_file_toolbar->addAction(remove_selected_objects);
+	m_file_toolbar->addWidget(zoom_bounds_btn);
+	m_file_toolbar->addWidget(remove_selected_objects);
 	addToolBar( Qt::LeftToolBarArea, m_file_toolbar );
-
+	
 	// building structure widget
 	QDockWidget *dock = new QDockWidget(tr("Project structure"), this);
 	dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
