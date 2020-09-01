@@ -34,28 +34,7 @@ public:
 	BuildingModel();
 	~BuildingModel() override;
 	
-	enum QueryVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4, IFC4X1, IFC4X3RC1 };
-	class SchemaVersion
-	{
-		public:
-			SchemaVersion()
-			{
-				setDefaults();
-			}
-			SchemaVersion(std::wstring schema_str, QueryVersionEnum schema_enum)
-				: m_IFC_FILE_SCHEMA(schema_str), m_ifc_file_schema_enum(schema_enum)
-			{
-			}
-			~SchemaVersion() = default;
-			void setDefaults()
-			{
-				m_IFC_FILE_SCHEMA = L"IFC4_3_RC1";
-				m_ifc_file_schema_enum = BuildingModel::IFC4X3RC1;
-			}
-			std::wstring		m_IFC_FILE_SCHEMA;
-			QueryVersionEnum	m_ifc_file_schema_enum;
-	};
-	
+	enum SchemaVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4, IFC4X1, IFC4X3RC1 };
 	const std::map<int, shared_ptr<BuildingEntity> >& getMapIfcEntities() const { return m_map_entities; }
 	void setMapIfcEntities( const std::map<int, shared_ptr<BuildingEntity> >& map );
 	void insertEntity( shared_ptr<BuildingEntity> e, bool overwrite_existing = false, bool warn_on_existing_entities = true );
@@ -70,10 +49,12 @@ public:
 	shared_ptr<UnitConverter>& getUnitConverter() { return m_unit_converter; }
 
 	/*! \brief Method getIfcSchemaVersion. Returns the IFC version of the loaded file */
-	SchemaVersion& getIfcSchemaVersion() {	return m_ifc_schema_version; }
+	SchemaVersionEnum& getIfcSchemaVersionEnumOfLoadedFile() {	return m_ifc_schema_version_loaded_file; }
+	std::wstring getIfcSchemaVersionOfLoadedFile();
 
 	/*! \brief Method getIfcSchemaVersionCurrent. Returns the IFC version after loading. It is the newest implemented IFC version. IFC version of the loaded file may be older */
-	SchemaVersion& getIfcSchemaVersionCurrent() { return m_ifc_schema_version_current; }
+	SchemaVersionEnum& getIfcSchemaVersionEnumCurrent() { return m_ifc_schema_version_current; }
+	std::wstring getIfcSchemaVersionCurrent();
 	
 	const std::wstring& getFileHeader() { return m_file_header; }
 	const std::wstring& getFileDescription() { return m_IFC_FILE_DESCRIPTION; }
@@ -108,6 +89,6 @@ private:
 	std::wstring									m_file_header;
 	std::wstring									m_IFC_FILE_DESCRIPTION;
 	std::wstring									m_IFC_FILE_NAME;
-	SchemaVersion									m_ifc_schema_version;
-	SchemaVersion									m_ifc_schema_version_current;
+	SchemaVersionEnum								m_ifc_schema_version_loaded_file = IFC4X3RC1;
+	SchemaVersionEnum								m_ifc_schema_version_current = IFC4X3RC1;
 };

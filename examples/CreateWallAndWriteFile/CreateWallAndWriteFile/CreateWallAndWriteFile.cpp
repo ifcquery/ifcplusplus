@@ -1,4 +1,3 @@
-
 #include <fstream>
 #include <sstream>
 
@@ -667,7 +666,6 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 
 	ifc_model->unsetInverseAttributes();
 	ifc_model->resolveInverseAttributes();
-	ifc_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC4";
 }
 
 

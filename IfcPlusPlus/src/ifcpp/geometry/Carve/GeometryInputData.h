@@ -157,8 +157,6 @@ public:
 		m_meshsets_open.push_back( meshset );
 	}
 
-	
-
 	void addClosedPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data )
 	{
 		if( poly_data->getVertexCount() < 3 )

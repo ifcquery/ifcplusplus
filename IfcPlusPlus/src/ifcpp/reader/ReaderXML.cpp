@@ -32,14 +32,14 @@ void ReaderXML::readStreamHeader(	const std::string& in, shared_ptr<BuildingMode
 	// not implemented
 }
 
-void ReaderXML::readStreamData( std::string& in, const BuildingModel::SchemaVersion& ifc_version, std::map<int,shared_ptr<BuildingEntity> >& map )
+void ReaderXML::readStreamData( std::string& in, const BuildingModel::SchemaVersionEnum& ifc_version, std::map<int,shared_ptr<BuildingEntity> >& map )
 {
 	// not implemented
 }
 
 void ReaderXML::readStreamData( std::string& in, shared_ptr<BuildingModel>& model )
 {
-	BuildingModel::SchemaVersion& file_schema_version = model->getIfcSchemaVersion();
+	BuildingModel::SchemaVersionEnum& file_schema_version = model->getIfcSchemaVersionEnumCurrent();
 	std::map<int,shared_ptr<BuildingEntity> >& map_entities = model->m_map_entities;
 	readStreamData( in, file_schema_version, map_entities );
 }

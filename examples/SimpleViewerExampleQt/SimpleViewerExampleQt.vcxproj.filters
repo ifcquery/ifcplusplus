@@ -146,16 +146,10 @@
     <Image Include="Resources\img\appicon.ico">
       <Filter>Resource Dateien</Filter>
     </Image>
-    <Image Include="Resources\img\bulb.png">
-      <Filter>Resource Dateien</Filter>
-    </Image>
     <Image Include="Resources\img\dropDownArrow.png">
       <Filter>Resource Dateien</Filter>
     </Image>
-    <Image Include="Resources\img\zoomBoundings.png">
-      <Filter>Resource Dateien</Filter>
-    </Image>
-    <Image Include="Resources\img\RemoveSelectedObjects.png">
+    <Image Include="Resources\img\zoomToBounds.svg">
       <Filter>Resource Dateien</Filter>
     </Image>
     <Image Include="Resources\img\IfcPlusPlusViewerWindowIcon.png">

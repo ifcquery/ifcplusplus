@@ -860,7 +860,6 @@ namespace GeomDebugDump
 
 		ifc_model->unsetInverseAttributes();
 		ifc_model->resolveInverseAttributes();
-		ifc_model->getIfcSchemaVersion().m_IFC_FILE_SCHEMA = L"IFC4X1";
 
 
 		// write IFC file in STEP format
