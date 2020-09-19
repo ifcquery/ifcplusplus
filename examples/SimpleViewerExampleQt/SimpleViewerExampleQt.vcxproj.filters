@@ -155,6 +155,8 @@
     <Image Include="Resources\img\IfcPlusPlusViewerWindowIcon.png">
       <Filter>Resource Dateien</Filter>
     </Image>
+    <Image Include="Resources\img\Bulb.svg" />
+    <Image Include="Resources\img\RemoveSelectedObjects.svg" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\appicon.rc" />

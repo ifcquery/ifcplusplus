@@ -234,6 +234,7 @@ void ReaderSTEP::removeComments( std::string& buffer )
 {
 	const size_t length = buffer.length();
 	size_t length_without_comments = 0;
+	bool in_string = false;
 
 	// sort out comments like /* ... */
 	char* read_pos = static_cast<char*>(&buffer[0]);
@@ -241,25 +242,33 @@ void ReaderSTEP::removeComments( std::string& buffer )
 
 	while( *read_pos != '\0' )
 	{
-		if( *read_pos == '/' )
+		if (*read_pos == '\'')
 		{
-			if( *( read_pos + 1 ) == '*' )
+			in_string = !in_string;
+		}
+
+		if (!in_string)
+		{
+			if (*read_pos == '/')
 			{
-				// we are inside comment now, proceed to end of comment
-				++read_pos;
-				while( *read_pos != '\0' )
+				if (*(read_pos + 1) == '*')
 				{
-					if( *read_pos == '/' )
-					{
-						if( *( read_pos - 1 ) == '*' )
-						{
-							break;
-						}
-					}
+					// we are inside comment now, proceed to end of comment
 					++read_pos;
+					while (*read_pos != '\0')
+					{
+						if (*read_pos == '/')
+						{
+							if (*(read_pos - 1) == '*')
+							{
+								++read_pos;
+								break;
+							}
+						}
+						++read_pos;
+					}
+					continue;
 				}
-				++read_pos;
-				continue;
 			}
 		}
 		*write_pos = *read_pos;
