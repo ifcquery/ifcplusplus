@@ -19,7 +19,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <sstream>
 #include <vector>
 #include <map>
-#include <cmath>
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BuildingObject.h"
 #include "WriterUtil.h"
@@ -33,55 +32,11 @@ void appendRealWithoutTrailingZeros(std::stringstream& stream, const double numb
 	size_t pos_dot = str.find_last_of('.');
 	if (pos_dot != std::string::npos)
 	{
-		// 0.99999 -> 1.
-		// 0.499999 -> 0.5
-		size_t pos_nines = str.find("9999");
-		if (pos_nines != std::string::npos)
-		{
-			size_t num_chars = str.size();
-			for (size_t ii = 0; ii < num_chars; ++ii)
-			{
-				size_t next_pos_nines = str.find("9999", pos_nines + 1);
-				if (next_pos_nines == std::string::npos)
-				{
-					break;
-				}
-				pos_nines = next_pos_nines;
-			}
-
-			if (pos_nines >= pos_dot)
-			{
-				double temp2 = number;
-				size_t num_digits_after_dot = pos_nines - pos_dot;
-				for (int ii = 0; ii < num_digits_after_dot; ++ii)
-				{
-					temp2 *= 10.0;
-				}
-				temp2 = std::round(temp2);
-				for (int ii = 0; ii < num_digits_after_dot; ++ii)
-				{
-					temp2 *= 0.1;
-				}
-
-				std::ostringstream temp;
-				temp.precision(15);
-				temp << std::fixed << temp2;
-				str = temp.str();
-			}
-		}
-
 		// 1.000 -> 1.
 		size_t pos_last_non_zero = str.find_last_not_of('0');
 		if (pos_last_non_zero != std::string::npos && pos_last_non_zero >= pos_dot)
 		{
 			str.erase(pos_last_non_zero + 1, std::string::npos);
-		}
-
-		// 8.873385390000067  -> 8.87338539
-		size_t pos_5_zeros = str.find("00000");
-		if (pos_5_zeros != std::string::npos && pos_last_non_zero > pos_dot)
-		{
-			str.erase(pos_5_zeros, std::string::npos);
 		}
 	}
 	stream << str;
