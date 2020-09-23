@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include "GlobalDefines.h"
+#include <iterator>
 #include <sstream>
 #include <vector>
 #include <map>

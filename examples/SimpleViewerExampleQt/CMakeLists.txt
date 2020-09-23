@@ -15,6 +15,13 @@ ENDIF(NOT WIN32)
 
 # Qt library
 message(STATUS "Qt5 is used")
+
+IF(DEFINED ENV{QT_DIR})
+	set(Qt5Core_DIR "$ENV{QT_DIR}/lib/cmake/Qt5Core")
+	set(Qt5_DIR "$ENV{QT_DIR}/lib/cmake/Qt5")
+	set(QT_QMAKE_EXECUTABLE "$ENV{QT_DIR}/bin/qmake.exe")
+ENDIF()
+
 FIND_PACKAGE(Qt5Core REQUIRED)
 FIND_PACKAGE(Qt5Widgets REQUIRED)
 FIND_PACKAGE(Qt5OpenGL REQUIRED)
