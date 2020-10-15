@@ -431,6 +431,9 @@ void readTypeOfStringList( const wchar_t* str, std::vector<shared_ptr<T> >& targ
 			continue;
 		}
 
+		if ( *ch == '\'' )
+			findEndOfWString( ch );
+
 		while( *ch != ',' && *ch != L'\0' && *ch != ')' )
 		{
 			++ch;
