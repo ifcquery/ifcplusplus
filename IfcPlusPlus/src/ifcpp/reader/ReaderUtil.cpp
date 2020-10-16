@@ -81,6 +81,11 @@ void checkOpeningClosingParenthesis( const wchar_t* ch_check )
 		{
 			++num_closing;
 		}
+		else if ( *ch_check == '\'' )
+		{
+			findEndOfWString( ch_check );
+			continue;
+		}
 		++ch_check;
 	}
 	if( num_opening != num_closing )
@@ -532,10 +537,10 @@ void readStringList( const std::wstring& str, std::vector<std::wstring>& vec )
 	}
 }
 
-void findEndOfString( char*& stream_pos )
+void findEndOfString( const char*& stream_pos )
 {
 	++stream_pos;
-	char* pos_begin = stream_pos;
+	const char* pos_begin = stream_pos;
 
 	// beginning of string, continue to end
 	while( *stream_pos != '\0' )
@@ -592,10 +597,10 @@ void findEndOfString( char*& stream_pos )
 	}
 }
 
-void findEndOfWString( wchar_t*& stream_pos )
+void findEndOfWString( const wchar_t*& stream_pos )
 {
 	++stream_pos;
-	wchar_t* pos_begin = stream_pos;
+	const wchar_t* pos_begin = stream_pos;
 
 	// beginning of string, continue to end
 	while( *stream_pos != '\0' )
@@ -789,7 +794,7 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vec
 // caution: when using OpenMP, this method runs in parallel threads
 void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::string>& entity_arguments )
 {
-	char* stream_pos = const_cast<char*>(argument_str.c_str());
+	const char* stream_pos = argument_str.c_str();
 	if( *stream_pos != '(' )
 	{
 		return;
@@ -797,7 +802,7 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 
 	++stream_pos;
 	int num_open_braces = 1;
-	char* last_token = stream_pos;
+	const char* last_token = stream_pos;
 
 	while( *stream_pos != '\0' )
 	{
@@ -820,14 +825,14 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 					++last_token;
 				}
 
-				char* begin_arg = last_token;
+				const char* begin_arg = last_token;
 
 				// skip whitespace
 				while( isspace( *begin_arg ) ) 
 				{
 					++begin_arg; 
 				}
-				char* end_arg = stream_pos-1;
+				const char* end_arg = stream_pos-1;
 				entity_arguments.emplace_back( begin_arg, end_arg-begin_arg+1 );
 				last_token = stream_pos;
 			}
@@ -842,7 +847,7 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 					++last_token;
 				}
 
-				char* begin_arg = last_token;
+				const char* begin_arg = last_token;
 
 				// skip whitespace
 				while( isspace( *begin_arg ) ) 
@@ -853,7 +858,7 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 				int remaining_size = static_cast<int>(stream_pos - begin_arg);
 				if( remaining_size > 0 )
 				{
-					char* end_arg = stream_pos-1;
+					const char* end_arg = stream_pos-1;
 					entity_arguments.emplace_back( begin_arg, end_arg-begin_arg+1 );
 				}
 				break;
@@ -867,7 +872,7 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 // caution: when using OpenMP, this method runs in parallel threads
 void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std::wstring>& entity_arguments )
 {
-	wchar_t* stream_pos = const_cast<wchar_t*>(argument_str.c_str());
+	const wchar_t* stream_pos = argument_str.c_str();
 	if( *stream_pos != '(' )
 	{
 		return;
@@ -875,7 +880,7 @@ void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std:
 
 	++stream_pos;
 	int num_open_braces = 1;
-	wchar_t* last_token = stream_pos;
+	const wchar_t* last_token = stream_pos;
 
 	while( *stream_pos != '\0' )
 	{
@@ -898,14 +903,14 @@ void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std:
 					++last_token;
 				}
 
-				wchar_t* begin_arg = last_token;
+				const wchar_t* begin_arg = last_token;
 
 				// skip whitespace
 				while( isspace( *begin_arg ) ) 
 				{
 					++begin_arg; 
 				}
-				wchar_t* end_arg = stream_pos-1;
+				const wchar_t* end_arg = stream_pos-1;
 				entity_arguments.emplace_back( begin_arg, end_arg-begin_arg+1 );
 				last_token = stream_pos;
 			}
@@ -920,7 +925,7 @@ void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std:
 					++last_token;
 				}
 
-				wchar_t* begin_arg = last_token;
+				const wchar_t* begin_arg = last_token;
 
 				// skip whitespace
 				while( isspace( *begin_arg ) ) 
@@ -931,7 +936,7 @@ void tokenizeEntityArguments( const std::wstring& argument_str, std::vector<std:
 				int remaining_size = static_cast<int>(stream_pos - begin_arg);
 				if( remaining_size > 0 )
 				{
-					wchar_t* end_arg = stream_pos-1;
+					const wchar_t* end_arg = stream_pos-1;
 					entity_arguments.emplace_back( begin_arg, end_arg-begin_arg+1 );
 				}
 				break;
