@@ -314,8 +314,8 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 	
 	std::vector<std::wstring> vec_header_lines;
 	// split into lines
-	wchar_t* stream_pos = &file_header_wstr[0];
-	wchar_t* last_token = stream_pos;
+	const wchar_t* stream_pos = &file_header_wstr[0];
+	const wchar_t* last_token = stream_pos;
 
 	if( stream_pos == nullptr )
 	{
@@ -332,7 +332,7 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 
 		if( *stream_pos == ';' )
 		{
-			wchar_t* begin_line = last_token;
+			const wchar_t* begin_line = last_token;
 			std::wstring single_step_line( begin_line, stream_pos-last_token );
 			vec_header_lines.push_back( single_step_line );
 
@@ -420,7 +420,7 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 
 	// find beginning of data lines
 	const size_t length = read_in.length();
-	char* stream_pos = const_cast<char*>(&read_in[0]);
+	const char* stream_pos = &read_in[0];
 	if( stream_pos == nullptr )
 	{
 		throw BuildingException("Invalid file content", __FUNC__);
@@ -448,7 +448,7 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 	}
 
 	// split into data lines: #1234=IFCOBJECTNAME(...,...,(...,...),...);
-	char* progress_anchor = stream_pos;
+	const char* progress_anchor = stream_pos;
 	std::string single_step_line;
 
 	while( *stream_pos != '\0' )
@@ -462,7 +462,7 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 
 		if( *( stream_pos )  == '!' )
 		{
-			char* stream_pos_next = stream_pos;
+			const char* stream_pos_next = stream_pos;
 			++stream_pos_next;
 			if( *stream_pos_next != '\0' )
 			{
@@ -490,7 +490,7 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 
 		if( *stream_pos == '\'' )
 		{
-			char* string_start = stream_pos;
+			const char* string_start = stream_pos;
 			findEndOfString(stream_pos);
 			std::string s(string_start, stream_pos - string_start);
 			single_step_line += s;

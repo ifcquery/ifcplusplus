@@ -56,8 +56,8 @@ void tokenizeInlineArgument(std::wstring arg, std::wstring& keyword, std::wstrin
 void tokenizeList( std::wstring& list_str, std::vector<std::wstring>& list_items );
 void tokenizeEntityList( std::wstring& list_str, std::vector<int>& list_items );
 void findLeadingTrailingParanthesis(wchar_t* ch, wchar_t*& pos_opening, wchar_t*& pos_closing);
-void findEndOfString(char*& stream_pos);
-void findEndOfWString(wchar_t*& stream_pos);
+void findEndOfString(const char*& stream_pos);
+void findEndOfWString(const wchar_t*& stream_pos);
 void checkOpeningClosingParenthesis(const wchar_t* ch_check);
 
 IFCQUERY_EXPORT bool std_iequal(const std::wstring& a, const std::wstring& b);
@@ -405,8 +405,8 @@ template<typename T>
 void readTypeOfStringList( const wchar_t* str, std::vector<shared_ptr<T> >& target_vec )
 {
 	// example: ('Tahoma')
-	wchar_t* ch = (wchar_t*)str;
-	wchar_t* last_token = nullptr;
+	const wchar_t* ch = str;
+	const wchar_t* last_token = nullptr;
 
 	// ignore leading space or opening parenthesis
 	while( *ch != '\0' )
