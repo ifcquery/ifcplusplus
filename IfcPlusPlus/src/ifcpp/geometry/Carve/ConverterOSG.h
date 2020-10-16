@@ -540,7 +540,7 @@ public:
 		geode->addDrawable( geometry );
 	}
 
-	void computeCreaseEdgesFromMeshset( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::vector<carve::mesh::Edge<3>* >& vec_edges_out, const double crease_angle )
+	static void computeCreaseEdgesFromMeshset( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::vector<carve::mesh::Edge<3>* >& vec_edges_out, const double crease_angle )
 	{
 		if( !meshset )
 		{
@@ -585,7 +585,7 @@ public:
 		}
 	}
 
-	void renderMeshsetCreaseEdges( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* target_geode, const double crease_angle )
+	static void renderMeshsetCreaseEdges( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* target_geode, const double crease_angle )
 	{
 		if( !meshset )
 		{
