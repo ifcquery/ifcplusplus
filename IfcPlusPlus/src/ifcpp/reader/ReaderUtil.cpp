@@ -81,6 +81,11 @@ void checkOpeningClosingParenthesis( const wchar_t* ch_check )
 		{
 			++num_closing;
 		}
+		else if ( *ch_check == '\'' )
+		{
+			findEndOfWString( ch_check );
+			continue;
+		}
 		++ch_check;
 	}
 	if( num_opening != num_closing )
