@@ -49,7 +49,6 @@ public:
 
 	IfcUnitEnum() = default;
 	IfcUnitEnum( IfcUnitEnumEnum e ) { m_enum = e; }
-	~IfcUnitEnum() = default;
 	virtual const char* className() const { return "IfcUnitEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

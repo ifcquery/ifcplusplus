@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcAngularVelocityMeasure : public IfcDerivedMeasureValue
 public:
 	IfcAngularVelocityMeasure() = default;
 	IfcAngularVelocityMeasure( double value );
-	~IfcAngularVelocityMeasure() = default;
 	virtual const char* className() const { return "IfcAngularVelocityMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

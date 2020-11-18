@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcBinary : public IfcSimpleValue
 public:
 	IfcBinary() = default;
 	IfcBinary( std::wstring value );
-	~IfcBinary() = default;
 	virtual const char* className() const { return "IfcBinary"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

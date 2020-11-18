@@ -112,7 +112,31 @@ void IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::wstring>&
 void IfcTriangulatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcTessellatedFaceSet::getAttributes( vec_attributes );
+	if( !m_Normals.empty() )
+	{
+		shared_ptr<AttributeObjectVector> outer_vector( new AttributeObjectVector() );
+		vec_attributes.emplace_back( std::make_pair( "Normals", outer_vector ) );
+		for( size_t ii=0; ii<m_Normals.size(); ++ii )
+		{
+			const std::vector<shared_ptr<IfcParameterValue> >& vec_ii = m_Normals[ii];
+			shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
+			outer_vector->m_vec.push_back( inner_vector );
+			std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
+		}
+	}
 	vec_attributes.emplace_back( std::make_pair( "Closed", m_Closed ) );
+	if( !m_CoordIndex.empty() )
+	{
+		shared_ptr<AttributeObjectVector> outer_vector( new AttributeObjectVector() );
+		vec_attributes.emplace_back( std::make_pair( "CoordIndex", outer_vector ) );
+		for( size_t ii=0; ii<m_CoordIndex.size(); ++ii )
+		{
+			const std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_CoordIndex[ii];
+			shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
+			outer_vector->m_vec.push_back( inner_vector );
+			std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
+		}
+	}
 	if( !m_PnIndex.empty() )
 	{
 		shared_ptr<AttributeObjectVector> PnIndex_vec_object( new AttributeObjectVector() );

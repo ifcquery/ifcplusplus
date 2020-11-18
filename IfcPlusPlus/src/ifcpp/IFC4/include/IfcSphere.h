@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcSphere : public IfcCsgPrimitive3D
 public:
 	IfcSphere() = default;
 	IfcSphere( int id );
-	~IfcSphere() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

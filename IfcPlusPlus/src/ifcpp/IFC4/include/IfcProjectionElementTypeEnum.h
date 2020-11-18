@@ -21,7 +21,6 @@ public:
 
 	IfcProjectionElementTypeEnum() = default;
 	IfcProjectionElementTypeEnum( IfcProjectionElementTypeEnumEnum e ) { m_enum = e; }
-	~IfcProjectionElementTypeEnum() = default;
 	virtual const char* className() const { return "IfcProjectionElementTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

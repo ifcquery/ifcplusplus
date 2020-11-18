@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcCompoundPlaneAngleMeasure : public IfcDerivedMeasureVal
 {
 public:
 	IfcCompoundPlaneAngleMeasure() = default;
-	~IfcCompoundPlaneAngleMeasure() = default;
 	virtual const char* className() const { return "IfcCompoundPlaneAngleMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcCardinalPointReference : public BuildingObject
 public:
 	IfcCardinalPointReference() = default;
 	IfcCardinalPointReference( int value );
-	~IfcCardinalPointReference() = default;
 	virtual const char* className() const { return "IfcCardinalPointReference"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

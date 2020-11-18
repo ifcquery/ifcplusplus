@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcBlobTexture : public IfcSurfaceTexture
 public:
 	IfcBlobTexture() = default;
 	IfcBlobTexture( int id );
-	~IfcBlobTexture() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

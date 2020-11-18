@@ -79,6 +79,18 @@ void IfcBSplineSurface::getAttributes( std::vector<std::pair<std::string, shared
 	IfcBoundedSurface::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "UDegree", m_UDegree ) );
 	vec_attributes.emplace_back( std::make_pair( "VDegree", m_VDegree ) );
+	if( !m_ControlPointsList.empty() )
+	{
+		shared_ptr<AttributeObjectVector> outer_vector( new AttributeObjectVector() );
+		vec_attributes.emplace_back( std::make_pair( "ControlPointsList", outer_vector ) );
+		for( size_t ii=0; ii<m_ControlPointsList.size(); ++ii )
+		{
+			const std::vector<shared_ptr<IfcCartesianPoint> >& vec_ii = m_ControlPointsList[ii];
+			shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
+			outer_vector->m_vec.push_back( inner_vector );
+			std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
+		}
+	}
 	vec_attributes.emplace_back( std::make_pair( "SurfaceForm", m_SurfaceForm ) );
 	vec_attributes.emplace_back( std::make_pair( "UClosed", m_UClosed ) );
 	vec_attributes.emplace_back( std::make_pair( "VClosed", m_VClosed ) );

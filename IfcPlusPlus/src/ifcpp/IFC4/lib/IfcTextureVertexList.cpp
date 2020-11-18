@@ -48,6 +48,18 @@ void IfcTextureVertexList::readStepArguments( const std::vector<std::wstring>& a
 void IfcTextureVertexList::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
+	if( !m_TexCoordsList.empty() )
+	{
+		shared_ptr<AttributeObjectVector> outer_vector( new AttributeObjectVector() );
+		vec_attributes.emplace_back( std::make_pair( "TexCoordsList", outer_vector ) );
+		for( size_t ii=0; ii<m_TexCoordsList.size(); ++ii )
+		{
+			const std::vector<shared_ptr<IfcParameterValue> >& vec_ii = m_TexCoordsList[ii];
+			shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
+			outer_vector->m_vec.push_back( inner_vector );
+			std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
+		}
+	}
 }
 void IfcTextureVertexList::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

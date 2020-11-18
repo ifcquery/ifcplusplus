@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcAreaDensityMeasure : public IfcDerivedMeasureValue
 public:
 	IfcAreaDensityMeasure() = default;
 	IfcAreaDensityMeasure( double value );
-	~IfcAreaDensityMeasure() = default;
 	virtual const char* className() const { return "IfcAreaDensityMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

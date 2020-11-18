@@ -20,7 +20,6 @@ class IFCQUERY_EXPORT IfcExternalReference : virtual public IfcLightDistribution
 public:
 	IfcExternalReference() = default;
 	IfcExternalReference( int id );
-	~IfcExternalReference() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -25,7 +25,6 @@ public:
 
 	IfcDocumentConfidentialityEnum() = default;
 	IfcDocumentConfidentialityEnum( IfcDocumentConfidentialityEnumEnum e ) { m_enum = e; }
-	~IfcDocumentConfidentialityEnum() = default;
 	virtual const char* className() const { return "IfcDocumentConfidentialityEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

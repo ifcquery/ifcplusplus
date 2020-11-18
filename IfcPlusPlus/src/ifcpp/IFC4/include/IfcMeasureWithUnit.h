@@ -17,7 +17,6 @@ class IFCQUERY_EXPORT IfcMeasureWithUnit : virtual public IfcAppliedValueSelect,
 public:
 	IfcMeasureWithUnit() = default;
 	IfcMeasureWithUnit( int id );
-	~IfcMeasureWithUnit() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

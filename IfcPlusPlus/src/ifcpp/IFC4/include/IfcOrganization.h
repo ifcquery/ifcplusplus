@@ -23,7 +23,6 @@ class IFCQUERY_EXPORT IfcOrganization : virtual public IfcActorSelect, virtual p
 public:
 	IfcOrganization() = default;
 	IfcOrganization( int id );
-	~IfcOrganization() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

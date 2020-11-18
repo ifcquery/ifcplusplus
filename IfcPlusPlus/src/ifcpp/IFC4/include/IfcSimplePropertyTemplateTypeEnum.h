@@ -31,7 +31,6 @@ public:
 
 	IfcSimplePropertyTemplateTypeEnum() = default;
 	IfcSimplePropertyTemplateTypeEnum( IfcSimplePropertyTemplateTypeEnumEnum e ) { m_enum = e; }
-	~IfcSimplePropertyTemplateTypeEnum() = default;
 	virtual const char* className() const { return "IfcSimplePropertyTemplateTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

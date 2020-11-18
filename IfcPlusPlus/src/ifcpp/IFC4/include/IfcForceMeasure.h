@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcForceMeasure : public IfcDerivedMeasureValue
 public:
 	IfcForceMeasure() = default;
 	IfcForceMeasure( double value );
-	~IfcForceMeasure() = default;
 	virtual const char* className() const { return "IfcForceMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

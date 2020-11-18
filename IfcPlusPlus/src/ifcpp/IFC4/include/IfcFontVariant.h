@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcFontVariant : public BuildingObject
 public:
 	IfcFontVariant() = default;
 	IfcFontVariant( std::wstring value );
-	~IfcFontVariant() = default;
 	virtual const char* className() const { return "IfcFontVariant"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

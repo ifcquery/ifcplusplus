@@ -14,7 +14,6 @@ class IFCQUERY_EXPORT IfcAdvancedBrep : public IfcManifoldSolidBrep
 public:
 	IfcAdvancedBrep() = default;
 	IfcAdvancedBrep( int id );
-	~IfcAdvancedBrep() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -25,7 +25,6 @@ public:
 
 	IfcStructuralSurfaceActivityTypeEnum() = default;
 	IfcStructuralSurfaceActivityTypeEnum( IfcStructuralSurfaceActivityTypeEnumEnum e ) { m_enum = e; }
-	~IfcStructuralSurfaceActivityTypeEnum() = default;
 	virtual const char* className() const { return "IfcStructuralSurfaceActivityTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -25,7 +25,6 @@ public:
 
 	IfcExternalSpatialElementTypeEnum() = default;
 	IfcExternalSpatialElementTypeEnum( IfcExternalSpatialElementTypeEnumEnum e ) { m_enum = e; }
-	~IfcExternalSpatialElementTypeEnum() = default;
 	virtual const char* className() const { return "IfcExternalSpatialElementTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

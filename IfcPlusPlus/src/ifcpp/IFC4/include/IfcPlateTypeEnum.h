@@ -23,7 +23,6 @@ public:
 
 	IfcPlateTypeEnum() = default;
 	IfcPlateTypeEnum( IfcPlateTypeEnumEnum e ) { m_enum = e; }
-	~IfcPlateTypeEnum() = default;
 	virtual const char* className() const { return "IfcPlateTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

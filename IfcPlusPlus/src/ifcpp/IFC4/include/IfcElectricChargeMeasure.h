@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcElectricChargeMeasure : public IfcDerivedMeasureValue
 public:
 	IfcElectricChargeMeasure() = default;
 	IfcElectricChargeMeasure( double value );
-	~IfcElectricChargeMeasure() = default;
 	virtual const char* className() const { return "IfcElectricChargeMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

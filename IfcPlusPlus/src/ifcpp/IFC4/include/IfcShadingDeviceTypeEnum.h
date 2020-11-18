@@ -24,7 +24,6 @@ public:
 
 	IfcShadingDeviceTypeEnum() = default;
 	IfcShadingDeviceTypeEnum( IfcShadingDeviceTypeEnumEnum e ) { m_enum = e; }
-	~IfcShadingDeviceTypeEnum() = default;
 	virtual const char* className() const { return "IfcShadingDeviceTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

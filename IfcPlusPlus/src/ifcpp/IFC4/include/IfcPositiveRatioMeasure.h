@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcPositiveRatioMeasure : public IfcRatioMeasure
 public:
 	IfcPositiveRatioMeasure() = default;
 	IfcPositiveRatioMeasure( double value ) { m_value = value; }
-	~IfcPositiveRatioMeasure() = default;
 	virtual const char* className() const { return "IfcPositiveRatioMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

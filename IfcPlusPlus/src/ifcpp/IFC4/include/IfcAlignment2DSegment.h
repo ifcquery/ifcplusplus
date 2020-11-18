@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcAlignment2DSegment : public IfcGeometricRepresentationI
 public:
 	IfcAlignment2DSegment() = default;
 	IfcAlignment2DSegment( int id );
-	~IfcAlignment2DSegment() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

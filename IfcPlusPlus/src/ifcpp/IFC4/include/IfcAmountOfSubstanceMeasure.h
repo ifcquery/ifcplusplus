@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcAmountOfSubstanceMeasure : public IfcMeasureValue
 public:
 	IfcAmountOfSubstanceMeasure() = default;
 	IfcAmountOfSubstanceMeasure( double value );
-	~IfcAmountOfSubstanceMeasure() = default;
 	virtual const char* className() const { return "IfcAmountOfSubstanceMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

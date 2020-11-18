@@ -83,6 +83,18 @@ void IfcCartesianPointList3D::readStepArguments( const std::vector<std::wstring>
 void IfcCartesianPointList3D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcCartesianPointList::getAttributes( vec_attributes );
+	if( !m_CoordList.empty() )
+	{
+		shared_ptr<AttributeObjectVector> outer_vector( new AttributeObjectVector() );
+		vec_attributes.emplace_back( std::make_pair( "CoordList", outer_vector ) );
+		for( size_t ii=0; ii<m_CoordList.size(); ++ii )
+		{
+			const std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii = m_CoordList[ii];
+			shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
+			outer_vector->m_vec.push_back( inner_vector );
+			std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
+		}
+	}
 	if( !m_TagList.empty() )
 	{
 		shared_ptr<AttributeObjectVector> TagList_vec_object( new AttributeObjectVector() );

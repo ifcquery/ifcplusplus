@@ -23,7 +23,6 @@ public:
 
 	IfcTransitionCode() = default;
 	IfcTransitionCode( IfcTransitionCodeEnum e ) { m_enum = e; }
-	~IfcTransitionCode() = default;
 	virtual const char* className() const { return "IfcTransitionCode"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

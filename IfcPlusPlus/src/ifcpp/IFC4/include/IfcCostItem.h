@@ -17,7 +17,6 @@ class IFCQUERY_EXPORT IfcCostItem : public IfcControl
 public:
 	IfcCostItem() = default;
 	IfcCostItem( int id );
-	~IfcCostItem() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

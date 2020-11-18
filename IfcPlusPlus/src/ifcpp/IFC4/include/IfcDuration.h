@@ -17,7 +17,6 @@ class IFCQUERY_EXPORT IfcDuration : public IfcSimpleValue, public IfcTimeOrRatio
 public:
 	IfcDuration() = default;
 	IfcDuration( std::wstring value );
-	~IfcDuration() = default;
 	virtual const char* className() const { return "IfcDuration"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

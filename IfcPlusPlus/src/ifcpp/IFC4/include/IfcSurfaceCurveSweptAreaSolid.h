@@ -17,7 +17,6 @@ class IFCQUERY_EXPORT IfcSurfaceCurveSweptAreaSolid : public IfcSweptAreaSolid
 public:
 	IfcSurfaceCurveSweptAreaSolid() = default;
 	IfcSurfaceCurveSweptAreaSolid( int id );
-	~IfcSurfaceCurveSweptAreaSolid() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

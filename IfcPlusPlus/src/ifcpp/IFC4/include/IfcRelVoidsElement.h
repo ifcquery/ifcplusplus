@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcRelVoidsElement : public IfcRelDecomposes
 public:
 	IfcRelVoidsElement() = default;
 	IfcRelVoidsElement( int id );
-	~IfcRelVoidsElement() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

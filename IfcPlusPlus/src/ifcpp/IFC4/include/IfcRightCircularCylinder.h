@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcRightCircularCylinder : public IfcCsgPrimitive3D
 public:
 	IfcRightCircularCylinder() = default;
 	IfcRightCircularCylinder( int id );
-	~IfcRightCircularCylinder() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

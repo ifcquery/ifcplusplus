@@ -19,7 +19,6 @@ class IFCQUERY_EXPORT IfcLibraryReference : virtual public IfcLibrarySelect, pub
 public:
 	IfcLibraryReference() = default;
 	IfcLibraryReference( int id );
-	~IfcLibraryReference() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

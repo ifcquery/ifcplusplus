@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcExternallyDefinedTextFont : virtual public IfcTextFontS
 public:
 	IfcExternallyDefinedTextFont() = default;
 	IfcExternallyDefinedTextFont( int id );
-	~IfcExternallyDefinedTextFont() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

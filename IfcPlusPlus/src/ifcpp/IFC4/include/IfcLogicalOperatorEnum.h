@@ -24,7 +24,6 @@ public:
 
 	IfcLogicalOperatorEnum() = default;
 	IfcLogicalOperatorEnum( IfcLogicalOperatorEnumEnum e ) { m_enum = e; }
-	~IfcLogicalOperatorEnum() = default;
 	virtual const char* className() const { return "IfcLogicalOperatorEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

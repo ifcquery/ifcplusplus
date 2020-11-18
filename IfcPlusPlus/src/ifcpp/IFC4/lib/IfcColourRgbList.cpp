@@ -48,6 +48,18 @@ void IfcColourRgbList::readStepArguments( const std::vector<std::wstring>& args,
 void IfcColourRgbList::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcPresentationItem::getAttributes( vec_attributes );
+	if( !m_ColourList.empty() )
+	{
+		shared_ptr<AttributeObjectVector> outer_vector( new AttributeObjectVector() );
+		vec_attributes.emplace_back( std::make_pair( "ColourList", outer_vector ) );
+		for( size_t ii=0; ii<m_ColourList.size(); ++ii )
+		{
+			const std::vector<shared_ptr<IfcNormalisedRatioMeasure> >& vec_ii = m_ColourList[ii];
+			shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
+			outer_vector->m_vec.push_back( inner_vector );
+			std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
+		}
+	}
 }
 void IfcColourRgbList::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

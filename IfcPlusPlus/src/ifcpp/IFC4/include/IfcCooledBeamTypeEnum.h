@@ -23,7 +23,6 @@ public:
 
 	IfcCooledBeamTypeEnum() = default;
 	IfcCooledBeamTypeEnum( IfcCooledBeamTypeEnumEnum e ) { m_enum = e; }
-	~IfcCooledBeamTypeEnum() = default;
 	virtual const char* className() const { return "IfcCooledBeamTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

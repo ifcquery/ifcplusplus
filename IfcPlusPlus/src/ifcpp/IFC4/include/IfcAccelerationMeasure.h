@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcAccelerationMeasure : public IfcDerivedMeasureValue
 public:
 	IfcAccelerationMeasure() = default;
 	IfcAccelerationMeasure( double value );
-	~IfcAccelerationMeasure() = default;
 	virtual const char* className() const { return "IfcAccelerationMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcPlacement : public IfcGeometricRepresentationItem
 public:
 	IfcPlacement() = default;
 	IfcPlacement( int id );
-	~IfcPlacement() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

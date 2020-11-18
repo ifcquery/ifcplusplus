@@ -14,7 +14,6 @@ class IFCQUERY_EXPORT IfcCivilElementType : public IfcElementType
 public:
 	IfcCivilElementType() = default;
 	IfcCivilElementType( int id );
-	~IfcCivilElementType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

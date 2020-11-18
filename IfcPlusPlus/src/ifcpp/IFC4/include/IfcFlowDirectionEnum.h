@@ -23,7 +23,6 @@ public:
 
 	IfcFlowDirectionEnum() = default;
 	IfcFlowDirectionEnum( IfcFlowDirectionEnumEnum e ) { m_enum = e; }
-	~IfcFlowDirectionEnum() = default;
 	virtual const char* className() const { return "IfcFlowDirectionEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

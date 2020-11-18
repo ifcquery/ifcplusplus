@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcPixelTexture : public IfcSurfaceTexture
 public:
 	IfcPixelTexture() = default;
 	IfcPixelTexture( int id );
-	~IfcPixelTexture() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

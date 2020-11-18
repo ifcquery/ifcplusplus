@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcElectricCurrentMeasure : public IfcMeasureValue
 public:
 	IfcElectricCurrentMeasure() = default;
 	IfcElectricCurrentMeasure( double value );
-	~IfcElectricCurrentMeasure() = default;
 	virtual const char* className() const { return "IfcElectricCurrentMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

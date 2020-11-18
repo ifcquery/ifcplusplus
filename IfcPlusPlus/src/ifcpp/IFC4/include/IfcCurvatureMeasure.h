@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcCurvatureMeasure : public IfcDerivedMeasureValue
 public:
 	IfcCurvatureMeasure() = default;
 	IfcCurvatureMeasure( double value );
-	~IfcCurvatureMeasure() = default;
 	virtual const char* className() const { return "IfcCurvatureMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcPropertySetDefinitionSet : public IfcPropertySetDefinit
 {
 public:
 	IfcPropertySetDefinitionSet() = default;
-	~IfcPropertySetDefinitionSet() = default;
 	virtual const char* className() const { return "IfcPropertySetDefinitionSet"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

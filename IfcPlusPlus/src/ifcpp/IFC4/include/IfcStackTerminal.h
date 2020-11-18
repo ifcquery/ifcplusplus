@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcStackTerminal : public IfcFlowTerminal
 public:
 	IfcStackTerminal() = default;
 	IfcStackTerminal( int id );
-	~IfcStackTerminal() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcBoxAlignment : public IfcLabel
 public:
 	IfcBoxAlignment() = default;
 	IfcBoxAlignment( std::wstring value ) { m_value = value; }
-	~IfcBoxAlignment() = default;
 	virtual const char* className() const { return "IfcBoxAlignment"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

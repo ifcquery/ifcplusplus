@@ -17,7 +17,6 @@ class IFCQUERY_EXPORT IfcIShapeProfileDef : public IfcParameterizedProfileDef
 public:
 	IfcIShapeProfileDef() = default;
 	IfcIShapeProfileDef( int id );
-	~IfcIShapeProfileDef() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

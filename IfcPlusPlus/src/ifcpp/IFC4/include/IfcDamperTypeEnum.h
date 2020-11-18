@@ -32,7 +32,6 @@ public:
 
 	IfcDamperTypeEnum() = default;
 	IfcDamperTypeEnum( IfcDamperTypeEnumEnum e ) { m_enum = e; }
-	~IfcDamperTypeEnum() = default;
 	virtual const char* className() const { return "IfcDamperTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

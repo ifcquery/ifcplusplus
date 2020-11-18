@@ -28,7 +28,6 @@ public:
 
 	IfcPipeFittingTypeEnum() = default;
 	IfcPipeFittingTypeEnum( IfcPipeFittingTypeEnumEnum e ) { m_enum = e; }
-	~IfcPipeFittingTypeEnum() = default;
 	virtual const char* className() const { return "IfcPipeFittingTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

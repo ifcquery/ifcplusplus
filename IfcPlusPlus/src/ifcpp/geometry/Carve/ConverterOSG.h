@@ -617,6 +617,9 @@ public:
 			geometry->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 			geometry->getOrCreateStateSet()->setMode( GL_BLEND, osg::StateAttribute::ON );
 			geometry->getOrCreateStateSet()->setAttributeAndModes( new osg::LineWidth( 3.0f ), osg::StateAttribute::ON );
+			osg::Material* mat = new osg::Material();
+			mat->setDiffuse(osg::Material::FRONT_AND_BACK, osg::Vec4f(0.3f, 0.3f, 0.35f, 0.8f));
+			geometry->getOrCreateStateSet()->setAttributeAndModes(mat, osg::StateAttribute::ON);
 			geometry->getOrCreateStateSet()->setMode( GL_LINE_SMOOTH, osg::StateAttribute::ON );
 			geometry->getOrCreateStateSet()->setAttributeAndModes( new osg::Hint( GL_LINE_SMOOTH_HINT, GL_NICEST ), osg::StateAttribute::ON );
 			geometry->getOrCreateStateSet()->setRenderBinDetails( 10, "RenderBin");

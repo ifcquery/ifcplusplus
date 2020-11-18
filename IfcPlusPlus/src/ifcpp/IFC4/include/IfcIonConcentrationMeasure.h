@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcIonConcentrationMeasure : public IfcDerivedMeasureValue
 public:
 	IfcIonConcentrationMeasure() = default;
 	IfcIonConcentrationMeasure( double value );
-	~IfcIonConcentrationMeasure() = default;
 	virtual const char* className() const { return "IfcIonConcentrationMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

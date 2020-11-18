@@ -17,7 +17,6 @@ class IFCQUERY_EXPORT IfcParameterValue : public IfcMeasureValue, public IfcTrim
 public:
 	IfcParameterValue() = default;
 	IfcParameterValue( double value );
-	~IfcParameterValue() = default;
 	virtual const char* className() const { return "IfcParameterValue"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

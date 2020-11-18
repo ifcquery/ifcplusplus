@@ -23,7 +23,6 @@ public:
 
 	IfcConstructionProductResourceTypeEnum() = default;
 	IfcConstructionProductResourceTypeEnum( IfcConstructionProductResourceTypeEnumEnum e ) { m_enum = e; }
-	~IfcConstructionProductResourceTypeEnum() = default;
 	virtual const char* className() const { return "IfcConstructionProductResourceTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

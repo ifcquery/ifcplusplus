@@ -29,7 +29,6 @@ public:
 
 	IfcReinforcingBarRoleEnum() = default;
 	IfcReinforcingBarRoleEnum( IfcReinforcingBarRoleEnumEnum e ) { m_enum = e; }
-	~IfcReinforcingBarRoleEnum() = default;
 	virtual const char* className() const { return "IfcReinforcingBarRoleEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

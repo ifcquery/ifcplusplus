@@ -23,7 +23,6 @@ public:
 
 	IfcArithmeticOperatorEnum() = default;
 	IfcArithmeticOperatorEnum( IfcArithmeticOperatorEnumEnum e ) { m_enum = e; }
-	~IfcArithmeticOperatorEnum() = default;
 	virtual const char* className() const { return "IfcArithmeticOperatorEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -17,7 +17,6 @@ class IFCQUERY_EXPORT IfcCurveSegment2D : public IfcBoundedCurve
 public:
 	IfcCurveSegment2D() = default;
 	IfcCurveSegment2D( int id );
-	~IfcCurveSegment2D() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

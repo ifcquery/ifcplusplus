@@ -24,7 +24,6 @@ public:
 
 	IfcWindowTypeEnum() = default;
 	IfcWindowTypeEnum( IfcWindowTypeEnumEnum e ) { m_enum = e; }
-	~IfcWindowTypeEnum() = default;
 	virtual const char* className() const { return "IfcWindowTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

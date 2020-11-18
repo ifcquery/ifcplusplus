@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcTextDecoration : public BuildingObject
 public:
 	IfcTextDecoration() = default;
 	IfcTextDecoration( std::wstring value );
-	~IfcTextDecoration() = default;
 	virtual const char* className() const { return "IfcTextDecoration"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

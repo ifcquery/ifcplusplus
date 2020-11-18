@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcElectricGeneratorType : public IfcEnergyConversionDevic
 public:
 	IfcElectricGeneratorType() = default;
 	IfcElectricGeneratorType( int id );
-	~IfcElectricGeneratorType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

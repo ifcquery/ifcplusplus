@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcText : public IfcSimpleValue
 public:
 	IfcText() = default;
 	IfcText( std::wstring value );
-	~IfcText() = default;
 	virtual const char* className() const { return "IfcText"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

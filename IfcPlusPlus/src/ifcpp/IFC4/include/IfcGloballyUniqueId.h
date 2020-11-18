@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcGloballyUniqueId : public BuildingObject
 public:
 	IfcGloballyUniqueId() = default;
 	IfcGloballyUniqueId( std::wstring value );
-	~IfcGloballyUniqueId() = default;
 	virtual const char* className() const { return "IfcGloballyUniqueId"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

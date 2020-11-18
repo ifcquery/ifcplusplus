@@ -14,7 +14,6 @@ class IFCQUERY_EXPORT IfcCartesianTransformationOperator2D : public IfcCartesian
 public:
 	IfcCartesianTransformationOperator2D() = default;
 	IfcCartesianTransformationOperator2D( int id );
-	~IfcCartesianTransformationOperator2D() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

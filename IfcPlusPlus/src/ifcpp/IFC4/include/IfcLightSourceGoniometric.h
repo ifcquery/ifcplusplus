@@ -20,7 +20,6 @@ class IFCQUERY_EXPORT IfcLightSourceGoniometric : public IfcLightSource
 public:
 	IfcLightSourceGoniometric() = default;
 	IfcLightSourceGoniometric( int id );
-	~IfcLightSourceGoniometric() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

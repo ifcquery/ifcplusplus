@@ -71,6 +71,18 @@ void IfcStructuralLoadConfiguration::getAttributes( std::vector<std::pair<std::s
 		std::copy( m_Values.begin(), m_Values.end(), std::back_inserter( Values_vec_object->m_vec ) );
 		vec_attributes.emplace_back( std::make_pair( "Values", Values_vec_object ) );
 	}
+	if( !m_Locations.empty() )
+	{
+		shared_ptr<AttributeObjectVector> outer_vector( new AttributeObjectVector() );
+		vec_attributes.emplace_back( std::make_pair( "Locations", outer_vector ) );
+		for( size_t ii=0; ii<m_Locations.size(); ++ii )
+		{
+			const std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii = m_Locations[ii];
+			shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
+			outer_vector->m_vec.push_back( inner_vector );
+			std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
+		}
+	}
 }
 void IfcStructuralLoadConfiguration::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -24,7 +24,6 @@ public:
 
 	IfcCoolingTowerTypeEnum() = default;
 	IfcCoolingTowerTypeEnum( IfcCoolingTowerTypeEnumEnum e ) { m_enum = e; }
-	~IfcCoolingTowerTypeEnum() = default;
 	virtual const char* className() const { return "IfcCoolingTowerTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

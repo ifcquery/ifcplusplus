@@ -18,7 +18,6 @@ class IFCQUERY_EXPORT IfcReinforcingBar : public IfcReinforcingElement
 public:
 	IfcReinforcingBar() = default;
 	IfcReinforcingBar( int id );
-	~IfcReinforcingBar() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

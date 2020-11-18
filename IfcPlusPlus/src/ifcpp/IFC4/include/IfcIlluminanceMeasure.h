@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcIlluminanceMeasure : public IfcDerivedMeasureValue
 public:
 	IfcIlluminanceMeasure() = default;
 	IfcIlluminanceMeasure( double value );
-	~IfcIlluminanceMeasure() = default;
 	virtual const char* className() const { return "IfcIlluminanceMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

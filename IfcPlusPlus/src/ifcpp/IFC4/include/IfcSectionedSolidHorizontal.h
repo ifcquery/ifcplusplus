@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcSectionedSolidHorizontal : public IfcSectionedSolid
 public:
 	IfcSectionedSolidHorizontal() = default;
 	IfcSectionedSolidHorizontal( int id );
-	~IfcSectionedSolidHorizontal() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

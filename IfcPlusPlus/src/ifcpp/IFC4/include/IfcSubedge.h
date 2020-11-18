@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcSubedge : public IfcEdge
 public:
 	IfcSubedge() = default;
 	IfcSubedge( int id );
-	~IfcSubedge() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

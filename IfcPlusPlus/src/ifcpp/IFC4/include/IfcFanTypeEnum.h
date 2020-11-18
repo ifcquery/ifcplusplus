@@ -28,7 +28,6 @@ public:
 
 	IfcFanTypeEnum() = default;
 	IfcFanTypeEnum( IfcFanTypeEnumEnum e ) { m_enum = e; }
-	~IfcFanTypeEnum() = default;
 	virtual const char* className() const { return "IfcFanTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

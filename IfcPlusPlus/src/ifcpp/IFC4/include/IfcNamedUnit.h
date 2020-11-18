@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcNamedUnit : virtual public IfcUnit, public BuildingEnti
 public:
 	IfcNamedUnit() = default;
 	IfcNamedUnit( int id );
-	~IfcNamedUnit() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

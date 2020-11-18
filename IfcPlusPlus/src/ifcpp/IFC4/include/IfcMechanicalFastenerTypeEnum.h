@@ -31,7 +31,6 @@ public:
 
 	IfcMechanicalFastenerTypeEnum() = default;
 	IfcMechanicalFastenerTypeEnum( IfcMechanicalFastenerTypeEnumEnum e ) { m_enum = e; }
-	~IfcMechanicalFastenerTypeEnum() = default;
 	virtual const char* className() const { return "IfcMechanicalFastenerTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

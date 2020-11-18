@@ -29,7 +29,6 @@ public:
 
 	IfcReinforcingBarTypeEnum() = default;
 	IfcReinforcingBarTypeEnum( IfcReinforcingBarTypeEnumEnum e ) { m_enum = e; }
-	~IfcReinforcingBarTypeEnum() = default;
 	virtual const char* className() const { return "IfcReinforcingBarTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

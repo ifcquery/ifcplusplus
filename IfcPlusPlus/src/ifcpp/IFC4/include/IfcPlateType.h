@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcPlateType : public IfcBuildingElementType
 public:
 	IfcPlateType() = default;
 	IfcPlateType( int id );
-	~IfcPlateType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

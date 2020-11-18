@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcSoundPressureLevelMeasure : public IfcDerivedMeasureVal
 public:
 	IfcSoundPressureLevelMeasure() = default;
 	IfcSoundPressureLevelMeasure( double value );
-	~IfcSoundPressureLevelMeasure() = default;
 	virtual const char* className() const { return "IfcSoundPressureLevelMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

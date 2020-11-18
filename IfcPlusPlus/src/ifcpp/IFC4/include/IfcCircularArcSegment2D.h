@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcCircularArcSegment2D : public IfcCurveSegment2D
 public:
 	IfcCircularArcSegment2D() = default;
 	IfcCircularArcSegment2D( int id );
-	~IfcCircularArcSegment2D() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

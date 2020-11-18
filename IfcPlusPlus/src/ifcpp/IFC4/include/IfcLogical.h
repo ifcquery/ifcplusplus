@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcLogical : public IfcSimpleValue
 public:
 	IfcLogical() = default;
 	IfcLogical( LogicalEnum value );
-	~IfcLogical() = default;
 	virtual const char* className() const { return "IfcLogical"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

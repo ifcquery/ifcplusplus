@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcMassDensityMeasure : public IfcDerivedMeasureValue
 public:
 	IfcMassDensityMeasure() = default;
 	IfcMassDensityMeasure( double value );
-	~IfcMassDensityMeasure() = default;
 	virtual const char* className() const { return "IfcMassDensityMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

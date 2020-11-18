@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcSoundPowerMeasure : public IfcDerivedMeasureValue
 public:
 	IfcSoundPowerMeasure() = default;
 	IfcSoundPowerMeasure( double value );
-	~IfcSoundPowerMeasure() = default;
 	virtual const char* className() const { return "IfcSoundPowerMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -23,7 +23,6 @@ public:
 
 	IfcCurveInterpolationEnum() = default;
 	IfcCurveInterpolationEnum( IfcCurveInterpolationEnumEnum e ) { m_enum = e; }
-	~IfcCurveInterpolationEnum() = default;
 	virtual const char* className() const { return "IfcCurveInterpolationEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

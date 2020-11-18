@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcDayInWeekNumber : public BuildingObject
 public:
 	IfcDayInWeekNumber() = default;
 	IfcDayInWeekNumber( int value );
-	~IfcDayInWeekNumber() = default;
 	virtual const char* className() const { return "IfcDayInWeekNumber"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

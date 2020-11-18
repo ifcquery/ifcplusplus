@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcThermalTransmittanceMeasure : public IfcDerivedMeasureV
 public:
 	IfcThermalTransmittanceMeasure() = default;
 	IfcThermalTransmittanceMeasure( double value );
-	~IfcThermalTransmittanceMeasure() = default;
 	virtual const char* className() const { return "IfcThermalTransmittanceMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

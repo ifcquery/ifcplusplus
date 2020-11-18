@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcElectricVoltageMeasure : public IfcDerivedMeasureValue
 public:
 	IfcElectricVoltageMeasure() = default;
 	IfcElectricVoltageMeasure( double value );
-	~IfcElectricVoltageMeasure() = default;
 	virtual const char* className() const { return "IfcElectricVoltageMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcElectricTimeControl : public IfcFlowController
 public:
 	IfcElectricTimeControl() = default;
 	IfcElectricTimeControl( int id );
-	~IfcElectricTimeControl() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

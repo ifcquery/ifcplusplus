@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcRegularTimeSeries : public IfcTimeSeries
 public:
 	IfcRegularTimeSeries() = default;
 	IfcRegularTimeSeries( int id );
-	~IfcRegularTimeSeries() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

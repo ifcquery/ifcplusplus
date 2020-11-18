@@ -30,7 +30,6 @@ public:
 
 	IfcBSplineSurfaceForm() = default;
 	IfcBSplineSurfaceForm( IfcBSplineSurfaceFormEnum e ) { m_enum = e; }
-	~IfcBSplineSurfaceForm() = default;
 	virtual const char* className() const { return "IfcBSplineSurfaceForm"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

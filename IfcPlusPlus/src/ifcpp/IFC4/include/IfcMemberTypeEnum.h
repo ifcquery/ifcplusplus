@@ -33,7 +33,6 @@ public:
 
 	IfcMemberTypeEnum() = default;
 	IfcMemberTypeEnum( IfcMemberTypeEnumEnum e ) { m_enum = e; }
-	~IfcMemberTypeEnum() = default;
 	virtual const char* className() const { return "IfcMemberTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

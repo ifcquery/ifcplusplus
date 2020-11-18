@@ -18,7 +18,6 @@ class IFCQUERY_EXPORT IfcBooleanResult : virtual public IfcBooleanOperand, virtu
 public:
 	IfcBooleanResult() = default;
 	IfcBooleanResult( int id );
-	~IfcBooleanResult() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

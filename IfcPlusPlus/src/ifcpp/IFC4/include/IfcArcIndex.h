@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcArcIndex : public IfcPositiveInteger, public IfcSegment
 {
 public:
 	IfcArcIndex() = default;
-	~IfcArcIndex() = default;
 	virtual const char* className() const { return "IfcArcIndex"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

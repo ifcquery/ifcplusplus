@@ -14,7 +14,6 @@ class IFCQUERY_EXPORT IfcStructuralLoadOrResult : public IfcStructuralLoad
 public:
 	IfcStructuralLoadOrResult() = default;
 	IfcStructuralLoadOrResult( int id );
-	~IfcStructuralLoadOrResult() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

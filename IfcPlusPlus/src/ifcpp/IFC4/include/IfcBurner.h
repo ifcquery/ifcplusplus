@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcBurner : public IfcEnergyConversionDevice
 public:
 	IfcBurner() = default;
 	IfcBurner( int id );
-	~IfcBurner() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -17,7 +17,6 @@ class IFCQUERY_EXPORT IfcPositiveLengthMeasure : public IfcLengthMeasure, public
 public:
 	IfcPositiveLengthMeasure() = default;
 	IfcPositiveLengthMeasure( double value ) { m_value = value; }
-	~IfcPositiveLengthMeasure() = default;
 	virtual const char* className() const { return "IfcPositiveLengthMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

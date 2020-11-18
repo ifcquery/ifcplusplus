@@ -25,7 +25,6 @@ public:
 
 	IfcTransitionCurveType() = default;
 	IfcTransitionCurveType( IfcTransitionCurveTypeEnum e ) { m_enum = e; }
-	~IfcTransitionCurveType() = default;
 	virtual const char* className() const { return "IfcTransitionCurveType"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

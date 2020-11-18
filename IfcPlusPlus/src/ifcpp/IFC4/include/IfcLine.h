@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcLine : public IfcCurve
 public:
 	IfcLine() = default;
 	IfcLine( int id );
-	~IfcLine() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

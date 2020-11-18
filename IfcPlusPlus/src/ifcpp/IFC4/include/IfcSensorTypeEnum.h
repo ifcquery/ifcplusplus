@@ -45,7 +45,6 @@ public:
 
 	IfcSensorTypeEnum() = default;
 	IfcSensorTypeEnum( IfcSensorTypeEnumEnum e ) { m_enum = e; }
-	~IfcSensorTypeEnum() = default;
 	virtual const char* className() const { return "IfcSensorTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

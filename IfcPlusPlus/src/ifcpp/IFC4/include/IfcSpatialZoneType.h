@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcSpatialZoneType : public IfcSpatialElementType
 public:
 	IfcSpatialZoneType() = default;
 	IfcSpatialZoneType( int id );
-	~IfcSpatialZoneType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -14,7 +14,6 @@ class IFCQUERY_EXPORT IfcOuterBoundaryCurve : public IfcBoundaryCurve
 public:
 	IfcOuterBoundaryCurve() = default;
 	IfcOuterBoundaryCurve( int id );
-	~IfcOuterBoundaryCurve() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

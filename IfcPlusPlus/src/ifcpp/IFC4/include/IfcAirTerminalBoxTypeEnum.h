@@ -24,7 +24,6 @@ public:
 
 	IfcAirTerminalBoxTypeEnum() = default;
 	IfcAirTerminalBoxTypeEnum( IfcAirTerminalBoxTypeEnumEnum e ) { m_enum = e; }
-	~IfcAirTerminalBoxTypeEnum() = default;
 	virtual const char* className() const { return "IfcAirTerminalBoxTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

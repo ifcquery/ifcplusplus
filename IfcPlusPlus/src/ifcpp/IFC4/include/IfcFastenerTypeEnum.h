@@ -24,7 +24,6 @@ public:
 
 	IfcFastenerTypeEnum() = default;
 	IfcFastenerTypeEnum( IfcFastenerTypeEnumEnum e ) { m_enum = e; }
-	~IfcFastenerTypeEnum() = default;
 	virtual const char* className() const { return "IfcFastenerTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

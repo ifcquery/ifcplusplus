@@ -21,7 +21,6 @@ public:
 
 	IfcAlignmentTypeEnum() = default;
 	IfcAlignmentTypeEnum( IfcAlignmentTypeEnumEnum e ) { m_enum = e; }
-	~IfcAlignmentTypeEnum() = default;
 	virtual const char* className() const { return "IfcAlignmentTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

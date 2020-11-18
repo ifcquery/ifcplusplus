@@ -17,7 +17,6 @@ class IFCQUERY_EXPORT IfcCurveStyleFont : virtual public IfcCurveStyleFontSelect
 public:
 	IfcCurveStyleFont() = default;
 	IfcCurveStyleFont( int id );
-	~IfcCurveStyleFont() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

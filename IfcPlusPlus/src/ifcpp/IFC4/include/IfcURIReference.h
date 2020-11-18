@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcURIReference : public BuildingObject
 public:
 	IfcURIReference() = default;
 	IfcURIReference( std::wstring value );
-	~IfcURIReference() = default;
 	virtual const char* className() const { return "IfcURIReference"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

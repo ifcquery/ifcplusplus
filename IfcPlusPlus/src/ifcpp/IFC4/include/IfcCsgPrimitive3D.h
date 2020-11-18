@@ -17,7 +17,6 @@ class IFCQUERY_EXPORT IfcCsgPrimitive3D : virtual public IfcBooleanOperand, virt
 public:
 	IfcCsgPrimitive3D() = default;
 	IfcCsgPrimitive3D( int id );
-	~IfcCsgPrimitive3D() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

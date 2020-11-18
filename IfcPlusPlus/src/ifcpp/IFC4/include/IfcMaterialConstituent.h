@@ -19,7 +19,6 @@ class IFCQUERY_EXPORT IfcMaterialConstituent : public IfcMaterialDefinition
 public:
 	IfcMaterialConstituent() = default;
 	IfcMaterialConstituent( int id );
-	~IfcMaterialConstituent() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

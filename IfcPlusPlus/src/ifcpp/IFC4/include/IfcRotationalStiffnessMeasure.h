@@ -17,7 +17,6 @@ class IFCQUERY_EXPORT IfcRotationalStiffnessMeasure : public IfcDerivedMeasureVa
 public:
 	IfcRotationalStiffnessMeasure() = default;
 	IfcRotationalStiffnessMeasure( double value );
-	~IfcRotationalStiffnessMeasure() = default;
 	virtual const char* className() const { return "IfcRotationalStiffnessMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

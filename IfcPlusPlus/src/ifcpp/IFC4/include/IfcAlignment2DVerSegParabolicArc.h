@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcAlignment2DVerSegParabolicArc : public IfcAlignment2DVe
 public:
 	IfcAlignment2DVerSegParabolicArc() = default;
 	IfcAlignment2DVerSegParabolicArc( int id );
-	~IfcAlignment2DVerSegParabolicArc() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

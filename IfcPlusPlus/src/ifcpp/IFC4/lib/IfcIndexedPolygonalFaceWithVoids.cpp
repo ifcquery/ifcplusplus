@@ -79,6 +79,18 @@ void IfcIndexedPolygonalFaceWithVoids::readStepArguments( const std::vector<std:
 void IfcIndexedPolygonalFaceWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IfcIndexedPolygonalFace::getAttributes( vec_attributes );
+	if( !m_InnerCoordIndices.empty() )
+	{
+		shared_ptr<AttributeObjectVector> outer_vector( new AttributeObjectVector() );
+		vec_attributes.emplace_back( std::make_pair( "InnerCoordIndices", outer_vector ) );
+		for( size_t ii=0; ii<m_InnerCoordIndices.size(); ++ii )
+		{
+			const std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_InnerCoordIndices[ii];
+			shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
+			outer_vector->m_vec.push_back( inner_vector );
+			std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
+		}
+	}
 }
 void IfcIndexedPolygonalFaceWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

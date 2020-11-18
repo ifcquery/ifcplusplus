@@ -14,7 +14,6 @@ class IFCQUERY_EXPORT IfcDistributionFlowElementType : public IfcDistributionEle
 public:
 	IfcDistributionFlowElementType() = default;
 	IfcDistributionFlowElementType( int id );
-	~IfcDistributionFlowElementType() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

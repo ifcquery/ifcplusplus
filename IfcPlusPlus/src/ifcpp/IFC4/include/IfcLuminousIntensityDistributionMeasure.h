@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcLuminousIntensityDistributionMeasure : public IfcDerive
 public:
 	IfcLuminousIntensityDistributionMeasure() = default;
 	IfcLuminousIntensityDistributionMeasure( double value );
-	~IfcLuminousIntensityDistributionMeasure() = default;
 	virtual const char* className() const { return "IfcLuminousIntensityDistributionMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

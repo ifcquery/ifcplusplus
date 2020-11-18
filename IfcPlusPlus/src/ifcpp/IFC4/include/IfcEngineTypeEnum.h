@@ -23,7 +23,6 @@ public:
 
 	IfcEngineTypeEnum() = default;
 	IfcEngineTypeEnum( IfcEngineTypeEnumEnum e ) { m_enum = e; }
-	~IfcEngineTypeEnum() = default;
 	virtual const char* className() const { return "IfcEngineTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

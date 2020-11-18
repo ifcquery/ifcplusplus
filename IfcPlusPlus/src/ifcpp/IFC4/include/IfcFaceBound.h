@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcFaceBound : public IfcTopologicalRepresentationItem
 public:
 	IfcFaceBound() = default;
 	IfcFaceBound( int id );
-	~IfcFaceBound() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

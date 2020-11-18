@@ -14,7 +14,6 @@ class IFCQUERY_EXPORT IfcStructuralSurfaceConnection : public IfcStructuralConne
 public:
 	IfcStructuralSurfaceConnection() = default;
 	IfcStructuralSurfaceConnection( int id );
-	~IfcStructuralSurfaceConnection() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcCartesianTransformationOperator3DnonUniform : public If
 public:
 	IfcCartesianTransformationOperator3DnonUniform() = default;
 	IfcCartesianTransformationOperator3DnonUniform( int id );
-	~IfcCartesianTransformationOperator3DnonUniform() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

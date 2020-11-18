@@ -16,7 +16,6 @@ class IFCQUERY_EXPORT IfcMassMeasure : public IfcMeasureValue
 public:
 	IfcMassMeasure() = default;
 	IfcMassMeasure( double value );
-	~IfcMassMeasure() = default;
 	virtual const char* className() const { return "IfcMassMeasure"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

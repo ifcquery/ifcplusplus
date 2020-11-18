@@ -27,7 +27,6 @@ public:
 
 	IfcPileTypeEnum() = default;
 	IfcPileTypeEnum( IfcPileTypeEnumEnum e ) { m_enum = e; }
-	~IfcPileTypeEnum() = default;
 	virtual const char* className() const { return "IfcPileTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

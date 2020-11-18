@@ -17,7 +17,6 @@ class IFCQUERY_EXPORT IfcOffsetCurve3D : public IfcOffsetCurve
 public:
 	IfcOffsetCurve3D() = default;
 	IfcOffsetCurve3D( int id );
-	~IfcOffsetCurve3D() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

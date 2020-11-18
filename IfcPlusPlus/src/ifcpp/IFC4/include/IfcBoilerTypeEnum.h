@@ -23,7 +23,6 @@ public:
 
 	IfcBoilerTypeEnum() = default;
 	IfcBoilerTypeEnum( IfcBoilerTypeEnumEnum e ) { m_enum = e; }
-	~IfcBoilerTypeEnum() = default;
 	virtual const char* className() const { return "IfcBoilerTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

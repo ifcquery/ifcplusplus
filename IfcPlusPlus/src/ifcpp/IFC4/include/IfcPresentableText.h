@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcPresentableText : public BuildingObject
 public:
 	IfcPresentableText() = default;
 	IfcPresentableText( std::wstring value );
-	~IfcPresentableText() = default;
 	virtual const char* className() const { return "IfcPresentableText"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

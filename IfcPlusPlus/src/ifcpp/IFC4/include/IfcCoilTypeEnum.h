@@ -28,7 +28,6 @@ public:
 
 	IfcCoilTypeEnum() = default;
 	IfcCoilTypeEnum( IfcCoilTypeEnumEnum e ) { m_enum = e; }
-	~IfcCoilTypeEnum() = default;
 	virtual const char* className() const { return "IfcCoilTypeEnum"; }
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;

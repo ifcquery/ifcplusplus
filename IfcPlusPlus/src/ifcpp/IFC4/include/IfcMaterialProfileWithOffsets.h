@@ -15,7 +15,6 @@ class IFCQUERY_EXPORT IfcMaterialProfileWithOffsets : public IfcMaterialProfile
 public:
 	IfcMaterialProfileWithOffsets() = default;
 	IfcMaterialProfileWithOffsets( int id );
-	~IfcMaterialProfileWithOffsets() = default;
 	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 	virtual void getStepLine( std::stringstream& stream ) const;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
