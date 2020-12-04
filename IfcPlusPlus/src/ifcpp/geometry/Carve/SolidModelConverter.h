@@ -49,6 +49,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include "GeomDebugDump.h"
 #include "GeometryInputData.h"
+#include "GeomUtils.h"
 #include "PointConverter.h"
 #include "ProfileCache.h"
 #include "FaceConverter.h"
@@ -310,6 +311,7 @@ public:
 			std::vector<vec3> segment_start_points;
 			std::vector<vec3> basis_curve_points;
 			m_curve_converter->convertIfcCurve( directrix_curve, basis_curve_points, segment_start_points );
+			GeomUtils::removeDuplicates(basis_curve_points);
 
 			shared_ptr<ItemShapeData> item_data_solid( new ItemShapeData() );
 			if( !item_data_solid )

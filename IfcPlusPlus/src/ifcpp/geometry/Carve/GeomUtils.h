@@ -650,7 +650,39 @@ namespace GeomUtils
 		}
 		return true;
 	}
+	inline void removeDuplicates(std::vector<vec3>& loop)
+	{
+		if (loop.size() > 1)
+		{
+			auto it_loop = loop.begin();
+			double previous_x = (*it_loop).x;
+			double previous_y = (*it_loop).y;
+			double previous_z = (*it_loop).z;
+			++it_loop;
 
+			while (it_loop != loop.end())
+			{
+				vec3& current_point = *it_loop;
+				if (std::abs(current_point.x - previous_x) < 0.00001)
+				{
+					if (std::abs(current_point.y - previous_y) < 0.00001)
+					{
+						if (std::abs(current_point.z - previous_z) < 0.00001)
+						{
+							previous_x = current_point.x;
+							previous_y = current_point.y;
+							previous_z = current_point.z;
+							it_loop = loop.erase(it_loop);
+							continue;
+						}
+					}
+				}
+				previous_x = current_point.x;
+				previous_y = current_point.y;
+				++it_loop;
+			}
+		}
+	}
 	inline void removeDuplicates( std::vector<vec2>&	loop )
 	{
 		if( loop.size() > 1 )

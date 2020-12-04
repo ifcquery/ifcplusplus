@@ -215,6 +215,41 @@ public:
 			vertex_previous.z = z;
 		}
 	}
+
+	void convertPointList(const std::vector<std::vector<shared_ptr<IfcLengthMeasure> > >& pointList, std::vector<vec3>& loop)
+	{
+		const double length_factor = m_unit_converter->getLengthInMeterFactor();
+		for (size_t ii = 0; ii < pointList.size(); ++ii)
+		{
+
+			const std::vector<shared_ptr<IfcLengthMeasure> >& coords1 = pointList[ii];
+			if (coords1.size() > 2)
+			{
+#ifdef ROUND_IFC_COORDINATES
+				double x = round(coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
+				double y = round(coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
+				double z = round(coords1[2]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
+#else
+				double x = coords1[0]->m_value*length_factor;
+				double y = coords1[1]->m_value*length_factor;
+				double z = coords1[2]->m_value*length_factor;
+#endif
+				loop.push_back(carve::geom::VECTOR(x, y, z));
+			}
+			else if (coords1.size() > 1)
+			{
+#ifdef ROUND_IFC_COORDINATES
+				double x = round(coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
+				double y = round(coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
+#else
+				double x = coords1[0]->m_value*length_factor;
+				double y = coords1[1]->m_value*length_factor;
+#endif
+				loop.push_back(carve::geom::VECTOR(x, y, 0.0));
+			}
+		}
+	}
+
 	static bool convertIfcVertex( const shared_ptr<IfcVertex>& vertex, vec3& point_result, const double length_factor )
 	{
 		shared_ptr<IfcVertexPoint> vertex_point = dynamic_pointer_cast<IfcVertexPoint>( vertex );
@@ -256,7 +291,7 @@ public:
 
 			if( std::abs( cos_angle ) < 0.0001 )
 			{
-				if( center_trim_point.y > 0 )
+				if( center_trim_point.y >= 0 )
 				{
 					result_angle = M_PI_2;
 				}
@@ -267,7 +302,7 @@ public:
 			}
 			else
 			{
-				if( center_trim_point.y > 0 )
+				if( center_trim_point.y >= 0 )
 				{
 					result_angle = acos( cos_angle );
 				}

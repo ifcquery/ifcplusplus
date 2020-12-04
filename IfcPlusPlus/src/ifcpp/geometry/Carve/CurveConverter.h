@@ -22,9 +22,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
+#include <ifcpp/IFC4/include/IfcArcIndex.h>
 #include <ifcpp/IFC4/include/IfcBoolean.h>
 #include <ifcpp/IFC4/include/IfcBSplineCurve.h>
 #include <ifcpp/IFC4/include/IfcCartesianPoint.h>
+#include <ifcpp/IFC4/include/IfcCartesianPointList2D.h>
+#include <ifcpp/IFC4/include/IfcCartesianPointList3D.h>
 #include <ifcpp/IFC4/include/IfcCircle.h>
 #include <ifcpp/IFC4/include/IfcConic.h>
 #include <ifcpp/IFC4/include/IfcCompositeCurve.h>
@@ -33,8 +36,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4/include/IfcDirection.h>
 #include <ifcpp/IFC4/include/IfcEdgeLoop.h>
 #include <ifcpp/IFC4/include/IfcEllipse.h>
+#include <ifcpp/IFC4/include/IfcIndexedPolyCurve.h>
 #include <ifcpp/IFC4/include/IfcLengthMeasure.h>
 #include <ifcpp/IFC4/include/IfcLine.h>
+#include <ifcpp/IFC4/include/IfcLineIndex.h>
 #include <ifcpp/IFC4/include/IfcLoop.h>
 #include <ifcpp/IFC4/include/IfcOffsetCurve2D.h>
 #include <ifcpp/IFC4/include/IfcOffsetCurve3D.h>
@@ -184,6 +189,153 @@ public:
 				m_spline_converter->convertBSplineCurve( bspline_curve, target_vec, segment_start_points );
 				return;
 			}
+
+			shared_ptr<IfcIndexedPolyCurve> indexed_poly_curve = dynamic_pointer_cast<IfcIndexedPolyCurve>(bounded_curve);
+			if (indexed_poly_curve)
+			{
+				shared_ptr<IfcCartesianPointList>& pointList = indexed_poly_curve->m_Points;
+				if (!pointList)
+				{
+					return;
+				}
+
+				// IfcIndexedPolyCurve -----------------------------------------------------------
+				const std::vector<shared_ptr<IfcSegmentIndexSelect> >& segments = indexed_poly_curve->m_Segments;					//optional
+				std::vector<vec3> pointVec;
+
+				shared_ptr<IfcCartesianPointList2D> pointList2D = dynamic_pointer_cast<IfcCartesianPointList2D>(pointList);
+				if (pointList2D)
+				{
+					m_point_converter->convertPointList(pointList2D->m_CoordList, pointVec);
+				}
+				else
+				{
+					shared_ptr<IfcCartesianPointList3D> pointList3D = dynamic_pointer_cast<IfcCartesianPointList3D>(pointList);
+					if (pointList3D)
+					{
+						m_point_converter->convertPointList(pointList3D->m_CoordList, pointVec);
+					}
+				}
+
+				for (size_t ii = 0; ii < segments.size(); ++ii)
+				{
+					const shared_ptr<IfcSegmentIndexSelect>& segment = segments[ii];
+
+					shared_ptr<IfcLineIndex> lineIdx = dynamic_pointer_cast<IfcLineIndex>(segment);
+					if (lineIdx)
+					{
+						if (lineIdx->m_vec.size() > 1)
+						{
+							if (lineIdx->m_vec[0] && lineIdx->m_vec[1])
+							{
+								int idx0 = lineIdx->m_vec[0]->m_value - 1;
+								int idx1 = lineIdx->m_vec[1]->m_value - 1;
+								if (idx0 < pointVec.size() && idx1 < pointVec.size())
+								{
+									const vec3& pt0 = pointVec[idx0];
+									const vec3& pt1 = pointVec[idx1];
+
+									target_vec.push_back(pt0);
+									target_vec.push_back(pt1);
+									segment_start_points.push_back(pt0);
+								}
+							}
+						}
+						continue;
+					}
+
+					shared_ptr<IfcArcIndex> arcIdx = dynamic_pointer_cast<IfcArcIndex>(segment);
+					if (arcIdx)
+					{
+						if (arcIdx->m_vec.size() < 3)
+						{
+							continue;
+						}
+
+						if (arcIdx->m_vec[0] && arcIdx->m_vec[1] && arcIdx->m_vec[2])
+						{
+							int idx0 = arcIdx->m_vec[0]->m_value - 1;
+							int idx1 = arcIdx->m_vec[1]->m_value - 1;
+							int idx2 = arcIdx->m_vec[2]->m_value - 1;
+							if (idx0 >=0 && idx1 >= 0 && idx2 >= 0)
+							{
+								if (idx0 < pointVec.size() && idx1 < pointVec.size() && idx2 < pointVec.size())
+								{
+									const vec3& p1 = pointVec[idx0];
+									const vec3& p2 = pointVec[idx1];
+									const vec3& p3 = pointVec[idx2];
+									std::vector<vec2> circle_points;
+
+									double offset = p2.x*p2.x + p2.y*p2.y;
+									double bc = (p1.x*p1.x + p1.y*p1.y - offset) / 2.0;
+									double cd = (offset - p3.x*p3.x - p3.y*p3.y) / 2.0;
+									double det = (p1.x - p2.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p2.y);
+
+									if (abs(det) > 0.0000001)
+									{
+										double idet = 1.0 / det;
+										double centerx = (bc * (p2.y - p3.y) - cd * (p1.y - p2.y)) * idet;
+										double centery = (cd * (p1.x - p2.x) - bc * (p2.x - p3.x)) * idet;
+										double radius = sqrt(pow(p2.x - centerx, 2) + pow(p2.y - centery, 2));
+
+										double circle_radius = sqrt((p1.x -centerx)*(p1.x -centerx) + (p1.y -centery)*(p1.y -centery));
+										vec3 circle_origin = carve::geom::VECTOR(centerx, centery, 0);
+										double trim_angle1 = m_point_converter->getAngleOnCircle(circle_origin, circle_radius, p1);
+										double trim_angle2 = m_point_converter->getAngleOnCircle(circle_origin, circle_radius, p3);
+
+										double start_angle = trim_angle1;
+										double opening_angle = trim_angle2 - trim_angle1;
+
+										while (opening_angle > 2.0*M_PI)
+										{
+											opening_angle -= 2.0*M_PI;
+										}
+										while (opening_angle < -2.0*M_PI)
+										{
+											opening_angle += 2.0*M_PI;
+										}
+
+										int num_segments = m_geom_settings->getNumVerticesPerCircleWithRadius(circle_radius)*(std::abs(opening_angle) / (2.0*M_PI));
+										if (num_segments < m_geom_settings->getMinNumVerticesPerArc()) num_segments = m_geom_settings->getMinNumVerticesPerArc();
+										
+										
+										if (circle_radius > 0.0)
+										{
+											GeomUtils::addArcWithEndPoint(circle_points, circle_radius, start_angle, opening_angle, centerx, centery, num_segments);
+										}
+										else
+										{
+											circle_points.push_back(carve::geom::VECTOR(centerx, centery));
+										}
+									}
+									else
+									{
+										circle_points.push_back(carve::geom::VECTOR(p1.x, p1.y));
+										circle_points.push_back(carve::geom::VECTOR(p2.x, p2.y));
+										circle_points.push_back(carve::geom::VECTOR(p3.x, p3.y));
+									}
+
+									if (circle_points.size() > 0)
+									{
+										std::vector<vec3> circle_points3D;
+										for (size_t i = 0; i < circle_points.size(); ++i)
+										{
+											vec2& point = circle_points[i];
+											vec3  point3D(carve::geom::VECTOR(point.x, point.y, 0));
+											circle_points3D.push_back(point3D);
+										}
+
+										GeomUtils::appendPointsToCurve(circle_points3D, target_vec);
+										segment_start_points.push_back(circle_points3D[0]);
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				return;
+			}
 			throw UnhandledRepresentationException( bounded_curve );
 		}
 
@@ -255,8 +407,9 @@ public:
 						{
 							vec3 trim_point;
 							PointConverter::convertIfcCartesianPoint( trim_point1, trim_point, length_factor );
+							vec3 circle_origin = carve::geom::VECTOR(0, 0, 0);  // trim points are given in local circle coord system
 							// TODO: get direction of trim_point to circle_center, get angle. This is more robust in case the trim_point is not exactly on the circle
-							trim_angle1 = m_point_converter->getAngleOnCircle( circle_center, circle_radius, trim_point );
+							trim_angle1 = m_point_converter->getAngleOnCircle(circle_origin, circle_radius, trim_point );
 						}
 					}
 				}
@@ -288,7 +441,8 @@ public:
 						{
 							vec3 trim_point;
 							PointConverter::convertIfcCartesianPoint( ifc_trim_point, trim_point, length_factor );
-							trim_angle2 = m_point_converter->getAngleOnCircle( circle_center, circle_radius, trim_point );
+							vec3 circle_origin = carve::geom::VECTOR(0, 0, 0);  // trim points are given in local circle coord system
+							trim_angle2 = m_point_converter->getAngleOnCircle(circle_origin, circle_radius, trim_point );
 						}
 					}
 				}

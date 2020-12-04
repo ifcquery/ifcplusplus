@@ -495,7 +495,7 @@ void BuildingModel::initFileHeader( std::wstring file_name )
 	std::string filename_escaped = encodeStepString( file_name );
 	std::wstringstream strs;
 	strs << "HEADER;" << std::endl;
-	strs << "FILE_DESCRIPTION(('" << getIfcSchemaVersionCurrent() << "'),'2;1');" << std::endl;
+	strs << "FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');" << std::endl;
 	strs << "FILE_NAME('" << filename_escaped.c_str() << "','";
 
 	//2011-04-21T14:25:12
