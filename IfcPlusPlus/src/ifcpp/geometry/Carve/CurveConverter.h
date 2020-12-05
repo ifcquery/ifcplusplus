@@ -407,9 +407,8 @@ public:
 						{
 							vec3 trim_point;
 							PointConverter::convertIfcCartesianPoint( trim_point1, trim_point, length_factor );
-							vec3 circle_origin = carve::geom::VECTOR(0, 0, 0);  // trim points are given in local circle coord system
 							// TODO: get direction of trim_point to circle_center, get angle. This is more robust in case the trim_point is not exactly on the circle
-							trim_angle1 = m_point_converter->getAngleOnCircle(circle_origin, circle_radius, trim_point );
+							trim_angle1 = m_point_converter->getAngleOnCircle(circle_center, circle_radius, trim_point );
 						}
 					}
 				}
@@ -441,8 +440,7 @@ public:
 						{
 							vec3 trim_point;
 							PointConverter::convertIfcCartesianPoint( ifc_trim_point, trim_point, length_factor );
-							vec3 circle_origin = carve::geom::VECTOR(0, 0, 0);  // trim points are given in local circle coord system
-							trim_angle2 = m_point_converter->getAngleOnCircle(circle_origin, circle_radius, trim_point );
+							trim_angle2 = m_point_converter->getAngleOnCircle(circle_center, circle_radius, trim_point );
 						}
 					}
 				}
