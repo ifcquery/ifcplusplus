@@ -21,12 +21,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <vector>
 #include <fstream>
+#include <cfloat>
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/BuildingException.h>
 #include <ifcpp/model/BuildingModel.h>
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/model/BuildingGuid.h>
-#include <ifcpp/writer/WriterStep.h>
+#include <ifcpp/writer/WriterSTEP.h>
 
 #include <ifcpp/IFC4/include/IfcAxis2Placement3D.h>
 #include <ifcpp/IFC4/include/IfcBuilding.h>
@@ -871,11 +872,15 @@ namespace GeomDebugDump
 		step_writer->writeModelToStream(stream, ifc_model);
 		ifc_model->clearIfcModel();
 
+#ifdef _MSC_VER
 		std::ofstream ofs(file_path, std::ofstream::out);
+#else
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> conv;
+		std::string file_path8 = conv.to_bytes(file_path);
+		std::ofstream ofs(file_path8, std::ofstream::out);
+#endif
 		ofs << stream.str().c_str();
 		ofs.close();
-
-
 	}
 }
 #endif
