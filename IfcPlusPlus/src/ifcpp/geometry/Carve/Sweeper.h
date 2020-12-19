@@ -451,18 +451,28 @@ public:
 
 			vec3 section1 = vertex_current - vertex_before;
 			vec3 section2 = vertex_next - vertex_current;
-			section1.normalize();
-			section2.normalize();
-			double dot_product = dot( section1, section2 );
-			double dot_product_abs = std::abs(dot_product);
-
-			if( dot_product_abs < (1.0-0.0001) || dot_product_abs > (1.0+0.0001) )
+			if (section1.length2() > 0.0001)
 			{
-				// bend found, compute next local z vector
-				vec3 lateral_vec = cross( section1, section2 );
-				local_z = cross( lateral_vec, section1 );
-				local_z.normalize();
+				section1.normalize();
+				if (section2.length2() > 0.0001)
+				{
+					section2.normalize();
+					double dot_product = dot(section1, section2);
+					double dot_product_abs = std::abs(dot_product);
+
+					if (dot_product_abs < (1.0-0.0001) || dot_product_abs >(1.0+0.0001))
+					{
+						// bend found, compute next local z vector
+						vec3 lateral_vec = cross(section1, section2);
+						if (lateral_vec.length2() > 0.0001)
+						{
+							local_z = cross(lateral_vec, section1);
+							local_z.normalize();
+						}
+					}
+				}
 			}
+
 			if( ii == num_curve_points -1 )
 			{
 				bisecting_normal *= -1.0;
