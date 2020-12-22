@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.757
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CreateWallAndWriteFile", "CreateWallAndWriteFile\CreateWallAndWriteFile.vcxproj", "{ECE47E9B-9C3B-45AF-AA56-8DE83C3E5955}"
 EndProject
@@ -15,12 +15,10 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{ECE47E9B-9C3B-45AF-AA56-8DE83C3E5955}.Debug|x64.ActiveCfg = Debug|x64
 		{ECE47E9B-9C3B-45AF-AA56-8DE83C3E5955}.Debug|x64.Build.0 = Debug|x64
-		{ECE47E9B-9C3B-45AF-AA56-8DE83C3E5955}.Debug|x86.ActiveCfg = Debug|Win32
-		{ECE47E9B-9C3B-45AF-AA56-8DE83C3E5955}.Debug|x86.Build.0 = Debug|Win32
+		{ECE47E9B-9C3B-45AF-AA56-8DE83C3E5955}.Debug|x86.ActiveCfg = Debug|x64
 		{ECE47E9B-9C3B-45AF-AA56-8DE83C3E5955}.Release|x64.ActiveCfg = Release|x64
 		{ECE47E9B-9C3B-45AF-AA56-8DE83C3E5955}.Release|x64.Build.0 = Release|x64
-		{ECE47E9B-9C3B-45AF-AA56-8DE83C3E5955}.Release|x86.ActiveCfg = Release|Win32
-		{ECE47E9B-9C3B-45AF-AA56-8DE83C3E5955}.Release|x86.Build.0 = Release|Win32
+		{ECE47E9B-9C3B-45AF-AA56-8DE83C3E5955}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
