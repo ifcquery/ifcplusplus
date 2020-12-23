@@ -276,16 +276,45 @@ public:
 										double idet = 1.0 / det;
 										double centerx = (bc * (p2.y - p3.y) - cd * (p1.y - p2.y)) * idet;
 										double centery = (cd * (p1.x - p2.x) - bc * (p2.x - p3.x)) * idet;
-										double radius = sqrt(pow(p2.x - centerx, 2) + pow(p2.y - centery, 2));
-
 										double circle_radius = sqrt((p1.x -centerx)*(p1.x -centerx) + (p1.y -centery)*(p1.y -centery));
 										vec3 circle_origin = carve::geom::VECTOR(centerx, centery, 0);
 										double trim_angle1 = m_point_converter->getAngleOnCircle(circle_origin, circle_radius, p1);
 										double trim_angle2 = m_point_converter->getAngleOnCircle(circle_origin, circle_radius, p3);
 
-										double start_angle = trim_angle1;
-										double opening_angle = trim_angle2 - trim_angle1;
+										vec3 orig_p1 = p1 - circle_origin;
+										vec3 orig_p3 = p3 - circle_origin;
+										vec3 up = carve::geom::cross(orig_p1, orig_p3);
 
+										double start_angle = trim_angle2;
+										double opening_angle = 0;
+
+										if (up.z > 0 )
+										{
+											if (trim_angle1 < trim_angle2)
+											{
+												opening_angle = trim_angle2 - trim_angle1;
+											}
+											else
+											{
+												// circle passes 0 angle
+												opening_angle = trim_angle2 - trim_angle1 + 2.0 * M_PI;
+											}
+										}
+										else
+										{
+											if (trim_angle1 > trim_angle2)
+											{
+												opening_angle = trim_angle2 - trim_angle1;
+											}
+											else
+											{
+												// circle passes 0 angle
+												opening_angle = trim_angle2 - trim_angle1 - 2.0 * M_PI;
+											}
+										}
+
+										opening_angle = -opening_angle;
+										
 										while (opening_angle > 2.0*M_PI)
 										{
 											opening_angle -= 2.0*M_PI;
@@ -297,7 +326,6 @@ public:
 
 										int num_segments = m_geom_settings->getNumVerticesPerCircleWithRadius(circle_radius)*(std::abs(opening_angle) / (2.0*M_PI));
 										if (num_segments < m_geom_settings->getMinNumVerticesPerArc()) num_segments = m_geom_settings->getMinNumVerticesPerArc();
-										
 										
 										if (circle_radius > 0.0)
 										{
