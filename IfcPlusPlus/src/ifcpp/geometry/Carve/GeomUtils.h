@@ -234,6 +234,11 @@ namespace GeomUtils
 	}
 	inline void appendPointsToCurve( const std::vector<vec3>& points_vec_src, std::vector<vec3>& target_vec )
 	{
+		if (points_vec_src.size() == 0)
+		{
+			return;
+		}
+
 		// sometimes, sense agreement is not given correctly. try to correct sense of segment if necessary
 		std::vector<vec3> points_vec( points_vec_src );
 		if( target_vec.size() > 0 && points_vec.size() > 1 )

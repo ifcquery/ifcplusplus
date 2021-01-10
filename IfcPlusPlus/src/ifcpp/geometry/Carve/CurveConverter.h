@@ -264,69 +264,49 @@ public:
 									const vec3& p1 = pointVec[idx0];
 									const vec3& p2 = pointVec[idx1];
 									const vec3& p3 = pointVec[idx2];
-									std::vector<vec2> circle_points;
 
-									double offset = p2.x*p2.x + p2.y*p2.y;
-									double bc = (p1.x*p1.x + p1.y*p1.y - offset) / 2.0;
-									double cd = (offset - p3.x*p3.x - p3.y*p3.y) / 2.0;
-									double det = (p1.x - p2.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p2.y);
+									const vec3 t = p2-p1;
+									const vec3 u = p3-p1;
+									const vec3 v = p3-p2;
 
-									if (abs(det) > 0.0000001)
+									const vec3 w = carve::geom::cross(t, u);
+									const double wsl = w.length2();
+									if (wsl > 10e-14)
 									{
-										double idet = 1.0 / det;
-										double centerx = (bc * (p2.y - p3.y) - cd * (p1.y - p2.y)) * idet;
-										double centery = (cd * (p1.x - p2.x) - bc * (p2.x - p3.x)) * idet;
-										double radius = sqrt(pow(p2.x - centerx, 2) + pow(p2.y - centery, 2));
+										const double iwsl2 = 1.0 / (2.0*wsl);
+										const double tt = carve::geom::dot(t, t);
+										const double uu = carve::geom::dot(u, u);
 
-										double circle_radius = sqrt((p1.x -centerx)*(p1.x -centerx) + (p1.y -centery)*(p1.y -centery));
-										vec3 circle_origin = carve::geom::VECTOR(centerx, centery, 0);
-										double trim_angle1 = m_point_converter->getAngleOnCircle(circle_origin, circle_radius, p1);
-										double trim_angle2 = m_point_converter->getAngleOnCircle(circle_origin, circle_radius, p3);
+										vec3 circ_center = p1 + (u*tt*(carve::geom::dot(u, v)) - t*uu*(carve::geom::dot(t, v))) * iwsl2;
+										vec3 circ_axis = w / sqrt(wsl);
+										vec3 center_p1 = p1 - circ_center;
+										vec3 center_p2 = p2 - circ_center;
+										vec3 center_p3 = p3 - circ_center;
+										vec3 center_p1_normalized = center_p1.normalized();
+										vec3 center_p3_normalized = center_p3.normalized();
 
-										double start_angle = trim_angle1;
-										double opening_angle = trim_angle2 - trim_angle1;
-
-										while (opening_angle > 2.0*M_PI)
+										double opening_angle = std::acos(carve::geom::dot(center_p1_normalized, center_p3_normalized));
+										size_t n = m_geom_settings->getNumVerticesPerCircle()*opening_angle/(M_PI * 2.0);
+										if (n < m_geom_settings->getMinNumVerticesPerArc())
 										{
-											opening_angle -= 2.0*M_PI;
-										}
-										while (opening_angle < -2.0*M_PI)
-										{
-											opening_angle += 2.0*M_PI;
+											n = m_geom_settings->getMinNumVerticesPerArc();
 										}
 
-										int num_segments = m_geom_settings->getNumVerticesPerCircleWithRadius(circle_radius)*(std::abs(opening_angle) / (2.0*M_PI));
-										if (num_segments < m_geom_settings->getMinNumVerticesPerArc()) num_segments = m_geom_settings->getMinNumVerticesPerArc();
-										
-										
-										if (circle_radius > 0.0)
+										double delta_angle = opening_angle / (double)n;
+										double angle = M_PI*1.5;
+										std::vector<vec3> circle_points_3d;
+										for (size_t kk = 0; kk < n; ++kk)
 										{
-											GeomUtils::addArcWithEndPoint(circle_points, circle_radius, start_angle, opening_angle, centerx, centery, num_segments);
-										}
-										else
-										{
-											circle_points.push_back(carve::geom::VECTOR(centerx, centery));
-										}
-									}
-									else
-									{
-										circle_points.push_back(carve::geom::VECTOR(p1.x, p1.y));
-										circle_points.push_back(carve::geom::VECTOR(p2.x, p2.y));
-										circle_points.push_back(carve::geom::VECTOR(p3.x, p3.y));
-									}
+											carve::math::Matrix m = carve::math::Matrix::ROT(-angle, circ_axis);
 
-									if (circle_points.size() > 0)
-									{
-										std::vector<vec3> circle_points3D;
-										for (size_t i = 0; i < circle_points.size(); ++i)
-										{
-											vec2& point = circle_points[i];
-											vec3  point3D(carve::geom::VECTOR(point.x, point.y, 0));
-											circle_points3D.push_back(point3D);
-										}
+											vec3 p_rotated = center_p3;
+											p_rotated = m*p_rotated + circ_center;
 
-										GeomUtils::appendPointsToCurve(circle_points3D, target_vec);
-										segment_start_points.push_back(circle_points3D[0]);
+											circle_points_3d.push_back(p_rotated);
+											angle += delta_angle;
+										}
+										GeomUtils::appendPointsToCurve(circle_points_3d, target_vec);
+										segment_start_points.push_back(circle_points_3d[0]);
 									}
 								}
 							}
