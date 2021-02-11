@@ -323,4 +323,5 @@ void IfcTreeWidget::slotModelLoadingDone()
 		blockSignals( false );
 		m_block_selection_signals = false;
 	}
+	expandToDepth(2);
 }

@@ -949,9 +949,9 @@ namespace CSG_Adapter
 						result.reset();
 					}
 #ifdef _DEBUG
-					carve::geom::vector<4> color = carve::geom::VECTOR(0.7, 0.7, 0.7, 1.0);
+					carve::geom::vector<4> color = carve::geom::VECTOR(0.7, 0.7, 0.7, 0.05);
 					GeomDebugDump::dumpMeshset(op1, color, true, false);
-					//GeomDebugDump::moveOffset(op1);
+					color = carve::geom::VECTOR(0.5, 0.7, 0.5, 1.0);
 					GeomDebugDump::dumpMeshset(op2, color, true);
 					GeomDebugDump::moveOffset(op1);
 					GeomDebugDump::moveOffset(op2);
@@ -970,7 +970,7 @@ namespace CSG_Adapter
 
 			if( result_meshset_ok )
 			{
-				simplifyMesh( result, true, report_callback, entity.get());
+				//simplifyMesh( result, true, report_callback, entity.get());
 			}
 			else
 			{

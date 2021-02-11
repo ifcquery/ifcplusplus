@@ -24,15 +24,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 class BuildingModel;
 class BuildingEntity;
-class ReaderSTEP;
-class WriterSTEP;
 class GeometryConverter;
 class CommandManager;
 class ViewerWidget;
 
 struct SelectedEntity 
 {
-	shared_ptr<BuildingEntity>		m_entity;
+	shared_ptr<BuildingEntity>	m_entity;
 	osg::ref_ptr<osg::Group>	m_osg_group;
 	osg::ref_ptr<osg::Material> m_material_previous;
 	osg::ref_ptr<osg::Material> m_material_selected;
@@ -51,8 +49,6 @@ public:
 	shared_ptr<GeometryConverter>	getGeometryConverter()	{ return m_geometry_converter; }
 	shared_ptr<BuildingModel>&		getIfcModel()			{ return m_ifc_model; }
 	void setIfcModel( shared_ptr<BuildingModel>& model );
-	shared_ptr<ReaderSTEP>&	getModelReader()		{ return m_step_reader; }
-	shared_ptr<WriterSTEP>&	getModelWriter()		{ return m_step_writer; }
 	shared_ptr<CommandManager>		getCommandManager()		{ return m_command_manager; }
 	osg::Group*						getRootNode() { return m_rootnode; }
 	osg::Switch*					getModelNode() { return m_sw_model; }
@@ -70,11 +66,8 @@ public:
 	void notifyModelLoadingStart();
 	void notifyModelLoadingDone();
 
-private:
 	ViewerWidget*								m_viewer_widget;
 	shared_ptr<GeometryConverter>				m_geometry_converter;
-	shared_ptr<ReaderSTEP>						m_step_reader;
-	shared_ptr<WriterSTEP>						m_step_writer;
 	shared_ptr<CommandManager>					m_command_manager;
 	std::map<std::string, shared_ptr<SelectedEntity> >	m_map_selected;
 	shared_ptr<BuildingModel>					m_ifc_model;

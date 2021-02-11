@@ -60,6 +60,9 @@ void findEndOfString(const char*& stream_pos);
 void findEndOfWString(const wchar_t*& stream_pos);
 void checkOpeningClosingParenthesis(const wchar_t* ch_check);
 
+std::string wstring2string(const std::wstring& wstr);
+std::wstring string2wstring(std::string& str_in);
+
 IFCQUERY_EXPORT bool std_iequal(const std::wstring& a, const std::wstring& b);
 IFCQUERY_EXPORT bool std_iequal(const std::string& a, const std::string& b);
 

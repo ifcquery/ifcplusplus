@@ -49,15 +49,12 @@ public:
 	static void messageTarget( void* obj_ptr, shared_ptr<StatusCallback::Message> t );
 	void closeEvent( QCloseEvent *event );
 
-public slots:
-	void slotTxtOut( QString txt );
-	void slotTxtOutWarning( QString txt );
-	void slotTxtOutError( QString txt );
-	void slotProgressValue( double progress_value, const std::string& progress_type );
-	void slotClearTxtOut();
-
-	void slotLoadIfcFile( QString& path );
-	void slotRecentFilesIndexChanged(int);
+	void txtOut( QString txt );
+	void txtOutWarning( QString txt );
+	void txtOutError( QString txt );
+	void progressValue( double progress_value, const std::string& progress_type );
+	void clearTxtOut();
+	void loadIfcFile( QString& path );
 	void updateRecentFilesCombo();
 
 protected:
@@ -66,7 +63,6 @@ protected:
 	IfcPlusPlusSystem*	m_system;
 	ViewerWidget*	m_viewer;
 	QTextEdit*		m_txt_out;
-	QProgressBar*	m_progress_bar;
 	
 	QComboBox*		m_combo_recent_files;
 	QStringList		m_recent_files;
@@ -75,11 +71,13 @@ protected:
 
 	QLineEdit*		m_le_path_write;
 	QSplitter*		m_io_splitter;
-	double			m_current_progress_value = 0;
-
+	
 #ifdef ENABLE_OPENMP
 	Mutex m_mutex_messages;
 #endif
+
+signals:
+	void signalProgressValue(double progress_value, const std::string& progress_type);
 
 private slots:
 	void slotAddOtherIfcFileClicked();
@@ -87,4 +85,5 @@ private slots:
 	void slotSetWritePathClicked();
 	void slotWriteFileClicked();
 	void slotClearRecentIfcFiles();
+	void slotRecentFilesIndexChanged(int);
 };

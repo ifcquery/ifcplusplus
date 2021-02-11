@@ -173,8 +173,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>src;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;WIN64;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCQUERY_AS_DYNAMIC_LIBRARY;IFCQUERY_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;WIN64;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCQUERY_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <EnableParallelCodeGeneration>
@@ -208,7 +208,7 @@
       <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;ENABLE_OPENMP;IFCPP_AS_DYNAMIC_LIBRARY;IFCPP_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;ENABLE_OPENMP;IFCQUERY_AS_DYNAMIC_LIBRARY;IFCQUERY_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
       <DebugInformationFormat />
@@ -253,7 +253,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <AdditionalIncludeDirectories>src;$(BOOST_DIR);(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>CARVE_SYSTEM_BOOST;UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;ENABLE_OPENMP;IFCQUERY_AS_DYNAMIC_LIBRARY;IFCQUERY_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;ENABLE_OPENMP;IFCQUERY_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -1550,6 +1550,7 @@
     <ClCompile Include="src\ifcpp\model\AttributeObject.cpp" />
     <ClCompile Include="src\ifcpp\model\BuildingGuid.cpp" />
     <ClCompile Include="src\ifcpp\model\BuildingModel.cpp" />
+    <ClCompile Include="src\ifcpp\model\PythonWrapperInterface.cpp" />
     <ClCompile Include="src\ifcpp\model\UnitConverter.cpp" />
     <ClCompile Include="src\ifcpp\reader\AbstractReader.cpp" />
     <ClCompile Include="src\ifcpp\reader\ReaderSTEP.cpp" />

@@ -273,6 +273,33 @@ namespace GeomDebugDump
 								str_faces << "{" << v0index << "," << v1index << "," << v2index << "}" << std::endl;
 								++face_count;
 							}
+							else if (number_of_edges == 4)
+							{
+								if (face_count > 0)
+								{
+									str_faces << ",   ";
+								}
+								carve::mesh::Edge<3>* edge0 = face->edge;
+								carve::mesh::Edge<3>* edge1 = edge0->next;
+								carve::mesh::Edge<3>* edge2 = edge1->next;
+								carve::mesh::Edge<3>* edge3 = edge2->next;
+								carve::mesh::Vertex<3>* v0 = edge0->vert;
+								carve::mesh::Vertex<3>* v1 = edge1->vert;
+								carve::mesh::Vertex<3>* v2 = edge2->vert;
+								carve::mesh::Vertex<3>* v3 = edge3->vert;
+								int v0index = findVertexIndex(vec_vertices, v0);
+								int v1index = findVertexIndex(vec_vertices, v1);
+								int v2index = findVertexIndex(vec_vertices, v2);
+								int v3index = findVertexIndex(vec_vertices, v3);
+
+								if (v0index < 0 || v1index < 0 || v2index < 0|| v3index < 0)
+								{
+									std::cout << "vertex not found " << std::endl;
+									continue;
+								}
+								str_faces << "{" << v0index << "," << v1index << "," << v2index <<"," << v3index << "}" << std::endl;
+								++face_count;
+							}
 							else
 							{
 								std::cout << "exporting only triangles " << std::endl;

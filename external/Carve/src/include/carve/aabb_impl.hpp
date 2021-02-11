@@ -62,7 +62,7 @@ void aabb<ndim>::_fit(iter_t begin, iter_t end, value_type) {
   min = a.min();
   max = a.max();
   while (begin != end) {
-    aabb<ndim> a = get_aabb<ndim, value_type>()(*begin);
+    a = get_aabb<ndim, value_type>()(*begin);
     ++begin;
     assign_op(min, min, a.min(), carve::util::min_functor());
     assign_op(max, max, a.max(), carve::util::max_functor());

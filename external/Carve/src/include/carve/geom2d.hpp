@@ -331,7 +331,7 @@ double signedArea(iter_t begin, iter_t end, adapt_t adapt) {
 
   p = adapt(*begin);
   for (iter_t c = begin; ++c != end;) {
-    P2 n = adapt(*c);
+    n = adapt(*c);
     A += (n.y + p.y) * (n.x - p.x);
     p = n;
   }

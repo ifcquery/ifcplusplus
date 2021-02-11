@@ -217,6 +217,7 @@ public:
 				}
 				representation_data->m_vec_item_data.push_back( geom_item_data );
 				geom_item_data->m_parent_representation = representation_data;
+				geom_item_data->m_ifc_item = geom_item;
 
 				try
 				{
@@ -349,6 +350,7 @@ public:
 				}
 				representation_data->m_vec_item_data.push_back( topological_item_data );
 				topological_item_data->m_parent_representation = representation_data;
+				topological_item_data->m_ifc_item = topo_item;
 
 				try
 				{
@@ -1021,7 +1023,7 @@ public:
 							continue;
 						}
 
-						carve::math::Matrix product_transform = product_shape->getRelaviteTransform(opening_product_data);
+						carve::math::Matrix product_transform = product_shape->getRelativeTransform(opening_product_data);
 						carve::math::Matrix product_matrix_inverse;
 						try
 						{
@@ -1032,7 +1034,7 @@ public:
 							messageCallback(e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, ifc_element.get());
 						}
 
-						carve::math::Matrix opening_relative_to_product_matrix = opening_product_data->getRelaviteTransform(product_shape);
+						carve::math::Matrix opening_relative_to_product_matrix = opening_product_data->getRelativeTransform(product_shape);
 						carve::math::Matrix opening_relative_to_product = product_matrix_inverse * opening_relative_to_product_matrix;
 
 						carve::math::Matrix opening_relative_to_product_inverse;

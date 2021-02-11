@@ -17,28 +17,39 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <array>
 #include <string>
+#include <random>
 #include <sstream>
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
-#include <boost/uuid/uuid_io.hpp>
+#include "ifcpp/reader/ReaderUtil.h"
 #include "BuildingGuid.h"
 
 ///@brief Creates a GUID string with 36 characters including dashes, for example: "F103000C-9865-44EE-BE6E-CCC780B81423"
 std::wstring createGUID32_wstr()
 {
-	std::basic_stringstream<wchar_t> uuid_strs;
-	uuid_strs << std::uppercase;
-	boost::uuids::uuid uuid = boost::uuids::random_generator()( );
-	uuid_strs << uuid;
-	return uuid_strs.str();
+	return string2wstring(createGUID32());
 }
 
 std::string createGUID32()
 {
+	std::random_device              rd;
+	std::mt19937                    gen(rd());
+	std::uniform_int_distribution<> dis(0, 15);
+	std::uniform_int_distribution<> dis2(8, 11);
 	std::basic_stringstream<char> uuid_strs;
 	uuid_strs << std::uppercase;
-	boost::uuids::uuid uuid = boost::uuids::random_generator()();
-	uuid_strs << uuid;
+
+	size_t i;
+	uuid_strs << std::hex;
+	for (i = 0; i < 8; i++) { uuid_strs << dis(gen); }
+	uuid_strs << "-";
+	for (i = 0; i < 4; i++){uuid_strs << dis(gen); }
+	uuid_strs << "-4";
+	for (i = 0; i < 3; i++){uuid_strs << dis(gen);}
+	uuid_strs << "-";
+	uuid_strs << dis2(gen);
+	for (i = 0; i < 3; i++){uuid_strs << dis(gen);}
+	uuid_strs << "-";
+	for (i = 0; i < 12; i++){uuid_strs << dis(gen);}
+	std::string str = uuid_strs.str();	
 	return uuid_strs.str();
 }
 

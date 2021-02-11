@@ -71,19 +71,10 @@ int main(int argc, char *argv[])
 {
 	IfcPlusPlusApplication app(argc, argv);
 	IfcPlusPlusSystem* sys = new IfcPlusPlusSystem();
-	ViewerWidget* viewer_widget = new ViewerWidget( sys );
-	OrbitCameraManipulator* camera_manip = new OrbitCameraManipulator( sys );
-	viewer_widget->getMainView()->setCameraManipulator( camera_manip );
-	viewer_widget->setRootNode( sys->getRootNode() );
-
-	MainWindow* window = new MainWindow( sys, viewer_widget );
+	MainWindow* window = new MainWindow( sys );
 	app.connect( window,	SIGNAL(signalMainWindowClosed()),	&app,	SLOT(quit()) );
-	
 	window->show();
-	viewer_widget->setFocus();
-	viewer_widget->startTimer();
-	viewer_widget->getMainView()->addEventHandler( sys );
-
+	
 #ifdef _DEBUG
 	GeomDebugDump::clearMeshsetDump();
 #endif
@@ -100,7 +91,7 @@ int main(int argc, char *argv[])
 			if( file_type.compare( "IFC" ) == 0 || file_type.compare( "STP" ) == 0  )
 			{
 				QString path(arg1.c_str());
-				window->getTabReadWrite()->slotLoadIfcFile( path );
+				window->getTabReadWrite()->loadIfcFile( path );
 			}
 		}
 	}
@@ -122,9 +113,6 @@ int main(int argc, char *argv[])
 	{
 		std::cout << "std::exception in app.exec(): " << e->what();
 	}
-
-	viewer_widget->getCompositeViewer()->setDone(true);
-	viewer_widget->stopTimer();
 
 	return re;
 }

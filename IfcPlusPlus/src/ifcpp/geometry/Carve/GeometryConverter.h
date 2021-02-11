@@ -318,10 +318,13 @@ public:
 			for (auto it = map_entities.begin(); it != map_entities.end(); ++it)
 			{
 				shared_ptr<BuildingEntity> obj = it->second;
-				shared_ptr<IfcObjectDefinition> object_def = dynamic_pointer_cast<IfcObjectDefinition>(obj);
-				if (object_def)
+				if (obj)
 				{
-					vec_object_definitions.push_back(object_def);
+					shared_ptr<IfcObjectDefinition> object_def = dynamic_pointer_cast<IfcObjectDefinition>(obj);
+					if (object_def)
+					{
+						vec_object_definitions.push_back(object_def);
+					}
 				}
 			}
 		}
@@ -353,6 +356,7 @@ public:
 				shared_ptr<ProductShapeData> product_geom_input_data( new ProductShapeData( entity_id ) );
 				product_geom_input_data->m_ifc_object_definition = object_def;
 
+				// TODO: check for equal product shapes: each representation and each item must be equal, also openings must be equal: m_HasOpenings_inverse
 				std::stringstream thread_err;
 				if( !m_geom_settings->getRenderObjectFilter()(object_def) )
 				{

@@ -22,6 +22,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #endif
 
 #include <cctype>
+#include <codecvt>
 #include <limits>
 
 #include "ifcpp/model/BuildingException.h"
@@ -65,6 +66,19 @@ static wchar_t Hex4Wchar(unsigned char h1, unsigned char h2, unsigned char h3, u
 {
 	wchar_t returnValue = (convertToHex(h1)<< 12) + (convertToHex(h2) << 8) +(convertToHex(h3) << 4) + convertToHex(h4);
 	return (returnValue);
+}
+
+std::string wstring2string(const std::wstring& wstr)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
+	return StringConverter.to_bytes(wstr);
+}
+
+std::wstring string2wstring(std::string& str_in)
+{
+	std::wstring wstr_out;
+	wstr_out.assign(str_in.begin(), str_in.end());
+	return wstr_out;
 }
 
 void checkOpeningClosingParenthesis( const wchar_t* ch_check )

@@ -16,10 +16,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 */
 
 #pragma warning( disable: 4996 )
-#include <qevent.h>
-#include <QSettings>
+#include <random>
+#include <sstream>
+#include <QKeyEvent>
 #include <QFileDialog>
 #include <QFile>
+#include <QSettings>
+#include <QTextStream>
+#include <osgUtil/Optimizer>
 
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/BuildingModel.h>
@@ -34,9 +38,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "IfcPlusPlusSystem.h"
 #include "viewer/ViewerWidget.h"
 #include "viewer/OrbitCameraManipulator.h"
-#include "cmd/LoadIfcFileCommand.h"
-#include "cmd/CmdWriteIfcFile.h"
 #include "cmd/CommandManager.h"
+#include "StoreyShiftWidget.h"
 #include "TabReadWrite.h"
 
 TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidget* parent ) : m_system(sys), m_viewer(viewer), QWidget( parent )
@@ -84,15 +87,14 @@ TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidge
 	std::string str1 = encodeStepString(str);
 
 	std::stringstream uuid_strs;
-	//for( int i=0; i<10; ++i )
+	uuid_strs << createGUID32().c_str() << std::endl;
 	uuid_strs << createGUID32().c_str() << std::endl;
 	uuid_strs << createBase64Uuid().data() << std::endl;
 
 	m_txt_out->setText( uuid_strs.str().c_str() );
 #endif
 	
-	m_progress_bar = new QProgressBar();
-	m_progress_bar->setRange( 0, 1000 );
+	StoreyShiftWidget* storey_shift = new StoreyShiftWidget(m_system);
 
 	// layout
 	QHBoxLayout* combo_hbox = new QHBoxLayout();
@@ -106,9 +108,7 @@ TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidge
 	io_vbox->addWidget( new QLabel( "Read IFC file" ), 0 );
 	io_vbox->addLayout( combo_hbox, 1 );
 	io_vbox->addSpacing( 10 );
-
 	io_vbox->addStretch( 1 );
-	io_vbox->addWidget( m_progress_bar,	0 );
 
 	m_io_splitter = new QSplitter( Qt::Horizontal );
 	m_io_splitter->addWidget( m_io_widget );
@@ -157,25 +157,25 @@ void TabReadWrite::messageTarget( void* ptr, shared_ptr<StatusCallback::Message>
 		if( m->m_message_type == StatusCallback::MESSAGE_TYPE_GENERAL_MESSAGE )
 		{
 			QString qt_str = QString::fromStdWString( message_str );
-			myself->slotTxtOut( qt_str );
+			myself->txtOut( qt_str );
 		}
 		else if( m->m_message_type == StatusCallback::MESSAGE_TYPE_WARNING )
 		{
 			QString qt_str = QString::fromStdWString( message_str );
-			myself->slotTxtOutWarning( qt_str );
+			myself->txtOutWarning( qt_str );
 		}
 		else if( m->m_message_type == StatusCallback::MESSAGE_TYPE_ERROR )
 		{
 			QString qt_str = QString::fromStdWString( message_str );
-			myself->slotTxtOutError( qt_str );
+			myself->txtOutError( qt_str );
 		}
 		else if( m->m_message_type == StatusCallback::MESSAGE_TYPE_PROGRESS_VALUE )
 		{
-			myself->slotProgressValue( m->m_progress_value, m->m_progress_type );
+			myself->progressValue( m->m_progress_value, m->m_progress_type );
 		}
 		else if( m->m_message_type == StatusCallback::MESSAGE_TYPE_CLEAR_MESSAGES )
 		{
-			myself->slotClearTxtOut();
+			myself->clearTxtOut();
 		}
 	}
 }
@@ -205,21 +205,19 @@ void TabReadWrite::updateRecentFilesCombo()
 	m_combo_recent_files->blockSignals( false );
 }
 
-void TabReadWrite::slotRecentFilesIndexChanged(int)
+void TabReadWrite::slotRecentFilesIndexChanged(int idx)
 {
-	slotProgressValue( 0, "" );
+	progressValue( 0, "" );
 	m_btn_load->setFocus();
 }
 
-void TabReadWrite::slotLoadIfcFile( QString& path_in )
+void TabReadWrite::loadIfcFile( QString& path_in )
 {
 	// redirect message callbacks
 	m_system->getGeometryConverter()->setMessageCallBack( this, &TabReadWrite::messageTarget );
-	m_system->getModelReader()->setMessageCallBack( this, &TabReadWrite::messageTarget );
-	m_system->getModelWriter()->setMessageCallBack( this, &TabReadWrite::messageTarget );
 	
 
-	slotTxtOut( QString( "loading file: " ) + path_in );
+	txtOut( QString( "loading file: " ) + path_in );
 	QApplication::processEvents();
 	clock_t millisecs = clock();
 	m_system->notifyModelCleared();
@@ -228,7 +226,7 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 
 	if( !QFile::exists(path_in) )
 	{
-		slotTxtOutError( QString("file ") + path_in + QString(" does not exist\n") );
+		txtOutError( QString("file ") + path_in + QString(" does not exist\n") );
 
 		// remove all non-existing files from recent files combo
 		for( int i=0; i<m_recent_files.size(); )
@@ -270,22 +268,84 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 
 	try
 	{
-		shared_ptr<LoadIfcFileCommand> cmd_load( new LoadIfcFileCommand( m_system ) );
 		std::wstring path_str = path_in.toStdWString();
-		cmd_load->setFilePath( path_str );
-		cmd_load->doCmd();
+		if (path_str.length() == 0)
+		{
+			return;
+		}
+
+		// first remove previously loaded geometry from scenegraph
+		osg::ref_ptr<osg::Switch> model_switch = m_system->getModelNode();
+		SceneGraphUtils::clearAllChildNodes(model_switch);
+		m_system->clearSelection();
+
+		// reset the IFC model
+		shared_ptr<GeometryConverter> geometry_converter = m_system->getGeometryConverter();
+		geometry_converter->clearMessagesCallback();
+		geometry_converter->resetModel();
+		std::stringstream err;
+
+		// load file to IFC model
+		shared_ptr<ReaderSTEP> step_reader(new ReaderSTEP());
+		step_reader->setMessageCallBack(this, &TabReadWrite::messageTarget);
+		step_reader->loadModelFromFile(path_str, geometry_converter->getBuildingModel());
+
+		// convert IFC geometric representations into Carve geometry
+		const double length_in_meter = geometry_converter->getBuildingModel()->getUnitConverter()->getLengthInMeterFactor();
+		geometry_converter->setCsgEps(1.5e-08*length_in_meter);
+		geometry_converter->convertGeometry();
+
+		// convert Carve geometry to OSG
+		shared_ptr<ConverterOSG> converter_osg(new ConverterOSG(geometry_converter->getGeomSettings()));
+		converter_osg->setMessageTarget(geometry_converter.get());
+		converter_osg->convertToOSG(geometry_converter->getShapeInputData(), model_switch);
+
+		// in case there are IFC entities that are not in the spatial structure
+		const std::map<std::string, shared_ptr<BuildingObject> >& objects_outside_spatial_structure = geometry_converter->getObjectsOutsideSpatialStructure();
+		if (objects_outside_spatial_structure.size() > 0 && false)
+		{
+			osg::ref_ptr<osg::Switch> sw_objects_outside_spatial_structure = new osg::Switch();
+			sw_objects_outside_spatial_structure->setName("IfcProduct objects outside spatial structure");
+
+			converter_osg->addNodes(objects_outside_spatial_structure, sw_objects_outside_spatial_structure);
+			if (sw_objects_outside_spatial_structure->getNumChildren() > 0)
+			{
+				model_switch->addChild(sw_objects_outside_spatial_structure);
+			}
+		}
+
+		if (model_switch)
+		{
+			bool optimize = true;
+			if (optimize)
+			{
+				osgUtil::Optimizer opt;
+				opt.optimize(model_switch);
+			}
+
+			// if model bounding sphere is far from origin, move to origin
+			const osg::BoundingSphere& bsphere = model_switch->getBound();
+			if (bsphere.center().length() > 10000)
+			{
+				if (bsphere.center().length()/bsphere.radius() > 100)
+				{
+					std::unordered_set<osg::Geode*> set_applied;
+					SceneGraphUtils::translateGroup(model_switch, -bsphere.center(), set_applied);
+				}
+			}
+		}
 	}
 	catch( OutOfMemoryException& e)
 	{
-		slotTxtOutError( e.what() );
+		txtOutError( e.what() );
 	}
 	catch( BuildingException& e )
 	{
-		slotTxtOutError( e.what() );
+		txtOutError( e.what() );
 	}
 	catch(std::exception& e)
 	{
-		slotTxtOutError( e.what() );
+		txtOutError( e.what() );
 	}
 
 	m_viewer->update();
@@ -304,56 +364,34 @@ void TabReadWrite::slotLoadIfcFile( QString& path_in )
 
 	clock_t time_diff = clock() - millisecs;
 	int num_entities = m_system->getIfcModel()->getMapIfcEntities().size();
-	slotTxtOut( tr("File loaded: ") + QString::number(num_entities) + " entities in " + QString::number( round(time_diff*0.1)*0.01 ) + " sec."  );
+	txtOut( tr("File loaded: ") + QString::number(num_entities) + " entities in " + QString::number( round(time_diff*0.1)*0.01 ) + " sec."  );
 
 	m_system->notifyModelLoadingDone();
-	slotProgressValue( 1.0, "" );
+	progressValue( 1.0, "" );
 }
 
-void TabReadWrite::slotTxtOut( QString txt )
+void TabReadWrite::txtOut( QString txt )
 {
 	QString basecol = palette().text().color().name();
 	m_txt_out->append( "<div style=\"color:" + basecol + ";\">" + txt.replace( "\n", "<br/>" ) + "</div><br/>" );
 }
 
-void TabReadWrite::slotTxtOutWarning( QString txt )
+void TabReadWrite::txtOutWarning( QString txt )
 {
 	m_txt_out->append( "<div style=\"color:#dca103;\">Warning: " + txt.replace( "\n", "<br/>" ) + "</div><br/>" );
 }
 
-void TabReadWrite::slotTxtOutError( QString txt )
+void TabReadWrite::txtOutError( QString txt )
 {
 	m_txt_out->append( "<div style=\"color:red;\">Error: " + txt.replace( "\n", "<br/>" ) + "</div><br/>" );
 }
 
-void TabReadWrite::slotProgressValue( double progress_value_in, const std::string& progress_type )
+void TabReadWrite::progressValue(double progress_value_in, const std::string& progress_type)
 {
-	double progress_value = progress_value_in;
-	if( progress_value >= 0.0 )
-	{
-		if( progress_type.compare( "parse" ) == 0 )
-		{
-			progress_value = progress_value*0.3;
-		}
-		else if( progress_type.compare( "geometry" ) == 0 )
-		{
-			progress_value = 0.3 + progress_value*0.6;
-		}
-		else if( progress_type.compare( "scenegraph" ) == 0 )
-		{
-			progress_value = 0.9 + progress_value*0.1;
-		}
-	
-		if( abs( m_current_progress_value - progress_value ) > 0.015 || progress_value == 0.0 || progress_value == 1.0 )
-		{
-			m_progress_bar->setValue( (int)(progress_value * 1000) );
-			QApplication::processEvents();
-			m_current_progress_value = progress_value;
-		}
-	}
+	emit(signalProgressValue(progress_value_in, progress_type));
 }
 
-void TabReadWrite::slotClearTxtOut()
+void TabReadWrite::clearTxtOut()
 {
 	m_txt_out->clear();
 }
@@ -376,7 +414,7 @@ void TabReadWrite::slotLoadRecentIfcFileClicked()
 	if( row < m_recent_files.size() )
 	{
 		QString file_name = m_recent_files.at( row );
-		slotLoadIfcFile( file_name );
+		loadIfcFile( file_name );
 	}
 	m_io_widget->setDisabled(false);
 }
@@ -404,7 +442,7 @@ void TabReadWrite::slotAddOtherIfcFileClicked()
 	{
 		QDir current_dir;
 		settings.setValue( "defaultDir", current_dir.absoluteFilePath(selected_file) );
-		slotLoadIfcFile( selected_file );
+		loadIfcFile( selected_file );
 	}
 }
 
@@ -424,22 +462,41 @@ void TabReadWrite::slotWriteFileClicked()
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
 	settings.setValue("pathIfcFileOut", path );
 
-	slotTxtOut( "writing file: " + path );
+	txtOut( "writing file: " + path );
 	int millisecs = clock();
 
 	std::wstring path_std = path.toStdWString();
 	try
 	{
-		shared_ptr<CmdWriteIfcFile> cmd_write( new CmdWriteIfcFile( m_system ) );
-		cmd_write->setFilePath( path_std );
-		m_system->getCommandManager()->executeCommand( cmd_write );
+		if (path_std.length() == 0)
+		{
+			return;
+		}
+
+		shared_ptr<GeometryConverter> geom_converter = m_system->getGeometryConverter();
+		shared_ptr<BuildingModel>& model = geom_converter->getBuildingModel();
+		model->initFileHeader(path_std);
+		std::stringstream stream;
+		shared_ptr<WriterSTEP> writer_step(new WriterSTEP());
+		writer_step->writeModelToStream(stream, model);
+
+		QFile file_out(QString::fromStdWString(path_std.c_str()));
+		if (!file_out.open(QIODevice::WriteOnly | QIODevice::Text))
+		{
+			return;
+		}
+
+		QTextStream file_out_stream(&file_out);
+		file_out_stream << stream.str().c_str();
+		file_out.close();
+
 	}
 	catch( std::exception& e )
 	{
-		slotTxtOutWarning( "couldn't write file " + path + e.what() );
+		txtOutWarning( "couldn't write file " + path + e.what() );
 	}
 	
 	int time_diff = clock() - millisecs;
-	slotTxtOut( "file written (" + QString::number( time_diff*0.001 ) + " sec)" );
-	slotProgressValue( 1.0, "" );
+	txtOut( "file written (" + QString::number( time_diff*0.001 ) + " sec)" );
+	progressValue( 1.0, "" );
 }

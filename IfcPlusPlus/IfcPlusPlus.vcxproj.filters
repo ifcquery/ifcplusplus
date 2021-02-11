@@ -3857,5 +3857,8 @@
     <ClCompile Include="src\ifcpp\IFC4\lib\IfcTriangulatedIrregularNetwork.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\ifcpp\model\PythonWrapperInterface.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

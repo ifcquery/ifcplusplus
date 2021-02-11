@@ -22,16 +22,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 	#define BOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE
 #endif
 
-// If IfcQuery should be loaded as a dynamically linked library, define IFCQUERY_AS_DYNAMIC_LIBRARY in your project settings.
-// Additionally, IFCQUERY_LIB needs to be defined in the settings of the library (IfcPlusPlus)
+// IFCQUERY_LIB needs to be defined in the settings of the library (IfcPlusPlus). Do not define IFCQUERY_LIB in your application though
 
 #if defined(_MSC_VER)
-	#ifdef IFCQUERY_AS_DYNAMIC_LIBRARY
-		#ifdef IFCQUERY_LIB
-			#define IFCQUERY_EXPORT __declspec(dllexport)
-		#else
-			#define IFCQUERY_EXPORT __declspec(dllimport)
-		#endif
+	#ifdef IFCQUERY_LIB
+		#define IFCQUERY_EXPORT __declspec(dllexport)
+	#else
+		#define IFCQUERY_EXPORT __declspec(dllimport)
 	#endif
 #endif
 

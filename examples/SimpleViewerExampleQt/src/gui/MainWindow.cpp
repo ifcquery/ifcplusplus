@@ -15,12 +15,13 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include <QtCore/qglobal.h>
-#include <QSettings>
+
 #include <QAction>
+#include <QDesktopWidget>
 #include <QDockWidget>
 #include <QFile>
 #include <QStatusBar>
+#include <QSettings>
 #include <QToolButton>
 
 #include "IncludeGeometryHeaders.h"
@@ -34,9 +35,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "IfcTreeWidget.h"
 #include "MainWindow.h"
 
-MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *parent) : m_system(sys), m_viewer_widget(vw), QMainWindow(parent)
+MainWindow::MainWindow( IfcPlusPlusSystem* sys, QWidget *parent) : m_system(sys), QMainWindow(parent)
 {
-	m_system = sys;
 	setWindowTitle("IFC++ example application");
 	setWindowIcon(QIcon(":img/IfcPlusPlusViewerWindowIcon.svg"));
 	
@@ -45,6 +45,11 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 	file.open( QFile::ReadOnly );
 	QString styleSheet = QLatin1String( file.readAll() );
 	setStyleSheet( styleSheet );
+	
+	m_viewer_widget = new ViewerWidget(sys);
+	OrbitCameraManipulator* camera_manip = new OrbitCameraManipulator(sys);
+	m_viewer_widget->getMainView()->setCameraManipulator(camera_manip);
+	m_viewer_widget->setRootNode(sys->getRootNode());
 	createTabWidget();
 
 	QToolButton* zoom_bounds_btn = new QToolButton(this );
@@ -69,6 +74,7 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 	m_file_toolbar->addWidget(zoom_bounds_btn);
 	m_file_toolbar->addWidget(remove_selected_objects);
 	addToolBar( Qt::LeftToolBarArea, m_file_toolbar );
+
 	
 	// building structure widget
 	QDockWidget *dock = new QDockWidget(tr("Project structure"), this);
@@ -90,12 +96,19 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 	splitter_sizes << 400 << 100;
 	m_splitter->setSizes( splitter_sizes );
 
+	// progress bar
+	m_progress_bar = new QProgressBar();
+	m_progress_bar->setRange(0, 1000);
+
 	// status bar
-	QStatusBar* status = new QStatusBar();
+	QStatusBar* status_bar = new QStatusBar();
 	m_label_status_cursor = new QLabel( "0.000, 0.000, 0.000" );
-	status->addWidget( m_label_status_cursor, 0 );
-	status->setSizeGripEnabled( true );
-	setStatusBar( status );
+	status_bar->setStyleSheet("QStatusBar{ background-color: #83a7b7; }");
+	status_bar->addWidget( m_label_status_cursor, 0 );
+	status_bar->addWidget(m_progress_bar, 1);
+	status_bar->addWidget(new QLabel(" "), 1);
+	status_bar->setSizeGripEnabled( true );
+	setStatusBar(status_bar);
 
 	// central widget
 	setCentralWidget( m_splitter );
@@ -109,12 +122,17 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 	}
 	else
 	{
-		showMaximized();
+		QRect rec = QApplication::desktop()->screenGeometry();
+		setGeometry(rec.width()*0.2, rec.height()*0.2, rec.width()*0.6, rec.height()*0.7);
 	}
 	if( keys.contains( "mainWindowState" ) )
 	{
 		restoreState(settings.value("mainWindowState").toByteArray());
 	}
+
+	m_viewer_widget->setFocus();
+	m_viewer_widget->startTimer();
+	m_viewer_widget->getMainView()->addEventHandler(sys);
 }
 
 MainWindow::~MainWindow(){}
@@ -125,6 +143,8 @@ void MainWindow::closeEvent( QCloseEvent *event )
 	settings.setValue("MainWindowGeometry", saveGeometry());
 	settings.setValue("mainWindowState", saveState());
 	
+	m_viewer_widget->getCompositeViewer()->setDone(true);
+	m_viewer_widget->stopTimer();
 	m_tab_read_write->closeEvent( event );
 	QMainWindow::closeEvent( event );
 
@@ -137,10 +157,28 @@ void MainWindow::createTabWidget()
 	m_tabwidget->setIconSize( QSize( 19, 19 ) );
 
 	m_tab_read_write	= new TabReadWrite( m_system, m_viewer_widget, this );
+	connect(m_tab_read_write, &TabReadWrite::signalProgressValue, this, &MainWindow::slotProgressValue);
 	QWidget* tab_view	= new TabView( m_system, m_viewer_widget );
 
-	m_tabwidget->addTab( m_tab_read_write,	/*QIcon( ":img/material.png" ),*/	"Read/Write IFC" );
-	m_tabwidget->addTab( tab_view,			/*QIcon( ":img/material.png" ),*/	"View" );
+	
+	QString about = "SimpleViewerExample based on IFC++, OpenSceneGraph (OSG) and Qt.<br>\
+For customized features like import, export to other file formats, please refer to <a href=\"http://www.ifcquery.com\">www.ifcquery.com</a><br>\
+IFC++ can also be used in server applications without dependencies like Qt and OSG";
+	
+	QLabel* label_about = new QLabel(about);
+	label_about->setTextFormat(Qt::RichText);
+	label_about->setTextInteractionFlags(Qt::TextBrowserInteraction);
+	label_about->setOpenExternalLinks(true);
+
+	QVBoxLayout* vbox = new QVBoxLayout();
+	vbox->addWidget(label_about);
+	QWidget* tab_about = new QWidget();
+	tab_about->setContentsMargins(8, 8, 8, 8);
+	tab_about->setLayout(vbox);
+
+	m_tabwidget->addTab( m_tab_read_write,	"Read/Write IFC" );
+	m_tabwidget->addTab( tab_view,			"View" );
+	m_tabwidget->addTab( tab_about,			"About");
 }
 
 void MainWindow::slotBtnZoomBoundingsClicked()
@@ -163,4 +201,31 @@ void MainWindow::slotBtnRemoveSelectedObjectsClicked()
 {
 	shared_ptr<CmdRemoveSelectedObjects> cmd_remove( new CmdRemoveSelectedObjects( m_system ) );
 	m_system->getCommandManager()->executeCommand( cmd_remove );
+}
+
+void MainWindow::slotProgressValue(double progress_value_in, const std::string& progress_type)
+{
+	double progress_value = progress_value_in;
+	if (progress_value >= 0.0)
+	{
+		if (progress_type.compare("parse") == 0)
+		{
+			progress_value = progress_value*0.3;
+		}
+		else if (progress_type.compare("geometry") == 0)
+		{
+			progress_value = 0.3 + progress_value*0.6;
+		}
+		else if (progress_type.compare("scenegraph") == 0)
+		{
+			progress_value = 0.9 + progress_value*0.1;
+		}
+
+		if (abs(m_current_progress_value - progress_value) > 0.015 || progress_value == 0.0 || progress_value == 1.0)
+		{
+			m_progress_bar->setValue((int)(progress_value * 1000));
+			QApplication::processEvents();
+			m_current_progress_value = progress_value;
+		}
+	}
 }

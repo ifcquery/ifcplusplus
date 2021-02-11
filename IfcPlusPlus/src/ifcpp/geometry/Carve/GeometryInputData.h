@@ -105,6 +105,7 @@ public:
 	std::vector<shared_ptr<AppearanceData> >				m_vec_item_appearances;
 	std::vector<shared_ptr<TextItemData> >					m_vec_text_literals;
 	weak_ptr<RepresentationData>							m_parent_representation;  // Pointer to representation object that this item belongs to
+	shared_ptr<IfcRepresentationItem>						m_ifc_item;
 
 protected:
 	std::vector<shared_ptr<carve::input::VertexData> >	m_vertex_points;
@@ -174,7 +175,7 @@ public:
 		else
 		{
 			m_meshsets_open.push_back(meshset); // still may be useful as open mesh
-			throw BuildingException("Meshset is not closed", __FUNC__);
+			//throw BuildingException("Meshset is not closed", __FUNC__);
 		}
 	}
 
@@ -702,7 +703,7 @@ public:
 		return transform_matrix;
 	}
 
-	carve::math::Matrix getRelaviteTransform(const shared_ptr<ProductShapeData>& other)
+	carve::math::Matrix getRelativeTransform(const shared_ptr<ProductShapeData>& other)
 	{
 		carve::math::Matrix transform_matrix;
 		if (!other)

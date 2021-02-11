@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{12E766DD-617D-481A-A0F6-B3F795D640AA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>LoadFileExampleNoGUI</RootNamespace>
+    <RootNamespace>LoadFileExampleConsole</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -107,12 +107,12 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\..\IfcPlusPlus\src;$(BOOST_DIR)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\IfcPlusPlus\src;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\..\IfcPlusPlus\bin</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\IfcPlusPlus\bin</AdditionalLibraryDirectories>
       <AdditionalDependencies>IfcPlusPlusd.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -147,19 +147,19 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\..\IfcPlusPlus\src;$(BOOST_DIR)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\IfcPlusPlus\src;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\..\IfcPlusPlus\bin</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\IfcPlusPlus\bin</AdditionalLibraryDirectories>
       <AdditionalDependencies>IfcPlusPlus.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LoadFileExampleNoGUI.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

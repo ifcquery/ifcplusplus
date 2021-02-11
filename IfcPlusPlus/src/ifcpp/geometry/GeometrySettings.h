@@ -106,12 +106,28 @@ public:
 	}
 	double getCoplanarFacesMaxDeltaAngle() { return m_colinear_faces_max_delta_angle; }
 
+	/**\brief setMinTriangleArea: if a triangle is smaller than this value, it is still in the carve meshset, but skipped for rendering.
+	That reduces the number of triangles on the GPU, not visible unless you zoom in to a very small area */
+	void setMinTriangleArea(double min_area)
+	{
+		m_min_triangle_area = min_area;
+	}
+	double getMinTriangleArea() { return m_min_triangle_area; }
+	
+
 	/**\brief If angle between two faces is smaller than max_delta, the normals will be added and normalized. */
 	void setCreaseEdgesMaxDeltaAngle( double max_delta )
 	{
 		m_crease_edges_max_delta_angle = max_delta;
 	}
 	double getCreaseEdgesMaxDeltaAngle() { return m_crease_edges_max_delta_angle; }
+
+	/**\brief Set line width of crease edges. If <= 0, crease edges are not rendered */
+	void setCreaseEdgesLineWidth(double w)
+	{
+		m_crease_edges_line_width = w;
+	}
+	double getCreaseEdgesLineWidth() { return m_crease_edges_line_width; }
 
 	/**\brief Render crease edges */
 	bool getRenderCreaseEdges() { return m_render_crease_edges; }
@@ -121,19 +137,15 @@ public:
 	bool getRenderBoundingBoxes() { return m_render_bounding_box; }
 	void setRenderBoundingBoxes( bool render_bbox ) { m_render_bounding_box = render_bbox; }
 
-        /**\brief Render filter decides if a IfcObjectDefinition should be
-        rendered. The default filter will render all objects except objects
-        based on IfcFeatureElementSubtraction.*/
-        std::function<bool(const shared_ptr<IfcObjectDefinition> &)>
-        getRenderObjectFilter() const {
-          return m_render_object_filter;
-        };
-        void setRenderObjectFilter(
-            std::function<bool(const shared_ptr<IfcObjectDefinition> &)>
-                render_filter) {
-          m_render_object_filter = std::move(render_filter);
-        };
-
+    /**\brief Render filter decides if a IfcObjectDefinition should be rendered. 
+	  The default filter will render all objects except objects based on IfcFeatureElementSubtraction.*/
+	std::function<bool(const shared_ptr<IfcObjectDefinition>&)>getRenderObjectFilter() const {
+		return m_render_object_filter;
+	}
+	void setRenderObjectFilter(std::function<bool(const shared_ptr<IfcObjectDefinition>&)> render_filter) {
+		m_render_object_filter = std::move(render_filter);
+	}
+	
 protected:
 	int	m_num_vertices_per_circle = 14;
 	int m_num_vertices_per_circle_default = 14;
@@ -147,14 +159,16 @@ protected:
 	bool m_render_crease_edges = true;
 	bool m_render_bounding_box = false;
 	double m_crease_edges_max_delta_angle = M_PI*0.05;
+	double m_crease_edges_line_width = 1.5;
 	double m_colinear_faces_max_delta_angle = M_PI*0.02;
+	double m_min_triangle_area = 0.005*0.005;
+
 	std::function<int(double)> m_num_vertices_per_circle_given_radius = [&](double radius) {
-		if( radius > 0.5 ) return int(m_num_vertices_per_circle*1.5);
+		if (radius > 0.5) return int(m_num_vertices_per_circle*1.5);
 		return m_num_vertices_per_circle;
 	};
-	std::function<bool(const shared_ptr<IfcObjectDefinition> &)> m_render_object_filter =
-			[](const shared_ptr<IfcObjectDefinition> &ifc_object) {
-				return dynamic_pointer_cast<IfcFeatureElementSubtraction>(ifc_object) ==
-					nullptr;
-			};
+	std::function<bool(const shared_ptr<IfcObjectDefinition>&)> m_render_object_filter =
+		[](const shared_ptr<IfcObjectDefinition>& ifc_object) {
+		return dynamic_pointer_cast<IfcFeatureElementSubtraction>(ifc_object) == nullptr;
+	};
 };

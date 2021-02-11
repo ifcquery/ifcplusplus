@@ -17,9 +17,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <QtCore/qglobal.h>
-#include <QMainWindow>
 #include <QLabel>
+#include <QMainWindow>
+#include <QProgressBar>
 #include <QSplitter>
 #include <QToolBar>
 
@@ -32,7 +32,7 @@ class MainWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-	MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *parent = 0 );
+	MainWindow( IfcPlusPlusSystem* sys, QWidget *parent = 0 );
 	~MainWindow();
 
 	TabReadWrite* getTabReadWrite() { return m_tab_read_write; }
@@ -50,6 +50,8 @@ private:
 
 	QToolBar*		m_file_toolbar;
 	QToolBar*		m_edit_toolbar;
+	QProgressBar*	m_progress_bar;
+	double			m_current_progress_value = 0;
 
 	void createTabWidget();
 
@@ -59,4 +61,5 @@ signals:
 private slots:
 	void slotBtnZoomBoundingsClicked();
 	void slotBtnRemoveSelectedObjectsClicked();
+	void slotProgressValue(double progress_value, const std::string& progress_type);
 };

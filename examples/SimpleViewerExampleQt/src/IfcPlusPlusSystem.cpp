@@ -24,9 +24,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/BuildingModel.h>
 #include <ifcpp/model/BuildingException.h>
 #include <ifcpp/model/BuildingGuid.h>
-#include <ifcpp/reader/ReaderSTEP.h>
 #include <ifcpp/reader/ReaderUtil.h>
-#include <ifcpp/writer/WriterSTEP.h>
 #include <ifcpp/IFC4/include/IfcProduct.h>
 #include <ifcpp/IFC4/include/IfcSite.h>
 #include <ifcpp/IFC4/include/IfcLengthMeasure.h>
@@ -62,9 +60,7 @@ IfcPlusPlusSystem::IfcPlusPlusSystem()
 	m_command_manager = shared_ptr<CommandManager>( new CommandManager() );
 	m_ifc_model = shared_ptr<BuildingModel>( new BuildingModel() );
 	m_geometry_converter = shared_ptr<GeometryConverter>( new GeometryConverter( m_ifc_model ) );
-	m_step_reader = shared_ptr<ReaderSTEP>( new ReaderSTEP() );
-	m_step_writer = shared_ptr<WriterSTEP>( new WriterSTEP() );
-
+	
 	m_rootnode = new osg::Group();
 	m_rootnode->setName( "m_rootnode" );
 	

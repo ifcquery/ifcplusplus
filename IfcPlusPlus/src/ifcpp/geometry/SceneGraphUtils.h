@@ -519,13 +519,17 @@ namespace SceneGraphUtils
 	}
 	inline void setMaterialAlpha( osg::Node* node, float alpha, bool create_material_if_not_existing )
 	{
-		osg::StateSet* stateset = node->getStateSet();
+		osg::StateSet* stateset = node->getOrCreateStateSet();
 		if( stateset )
 		{
 			osg::ref_ptr<osg::Material> mat = dynamic_cast<osg::Material*>( stateset->getAttribute( osg::StateAttribute::MATERIAL ) );
 			if( mat )
 			{
-				mat->setAlpha( osg::Material::FRONT_AND_BACK, alpha );
+				osg::Vec4f ambient = mat->getAmbient(osg::Material::FRONT_AND_BACK);
+				if (ambient.a() > alpha)
+				{
+					mat->setAlpha(osg::Material::FRONT_AND_BACK, alpha);
+				}
 			}
 			else if( create_material_if_not_existing )
 			{
@@ -534,7 +538,6 @@ namespace SceneGraphUtils
 				mat->setDiffuse(osg::Material::FRONT_AND_BACK, osg::Vec4f(0.8f, 0.83f, 0.84f, alpha));
 				stateset->setAttribute(mat, osg::StateAttribute::ON);
 				stateset->setMode(GL_BLEND, osg::StateAttribute::ON);
-				//stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 				stateset->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
 			}
 		}

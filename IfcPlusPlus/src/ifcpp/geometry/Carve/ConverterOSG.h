@@ -51,22 +51,11 @@ protected:
 	std::map<int, osg::ref_ptr<osg::Switch> >			m_map_representation_id_to_switch;
 	double												m_recent_progress;
 	osg::ref_ptr<osg::CullFace>							m_cull_back_off;
-	osg::ref_ptr<osg::StateSet>							m_glass_stateset;
-	//\brief StateSet caching and re-use
-	std::vector<osg::ref_ptr<osg::StateSet> >			m_vec_existing_statesets;
-	bool												m_enable_stateset_caching = false;
-
-#ifdef ENABLE_OPENMP
-	Mutex m_writelock_appearance_cache;
-#endif
 
 public:
 	ConverterOSG( shared_ptr<GeometrySettings>& geom_settings ) : m_geom_settings(geom_settings)
 	{
 		m_cull_back_off = new osg::CullFace( osg::CullFace::BACK );
-		m_glass_stateset = new osg::StateSet();
-		m_glass_stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
-		m_glass_stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
 	}
 	virtual ~ConverterOSG() {}
 
@@ -79,7 +68,6 @@ public:
 	{
 		m_map_entity_guid_to_switch.clear();
 		m_map_representation_id_to_switch.clear();
-		m_vec_existing_statesets.clear();
 	}
 
 	static void drawBoundingBox( const carve::geom::aabb<3>& aabb, osg::Geometry* geom )
@@ -129,10 +117,10 @@ public:
 		osg::ref_ptr<osg::Material> mat = new osg::Material();
 		if( !mat ) { throw OutOfMemoryException(); }
 		osg::Vec4f ambientColor( 1.f, 0.2f, 0.1f, 1.f );
-		mat->setAmbient( osg::Material::FRONT_AND_BACK, ambientColor );
-		mat->setDiffuse( osg::Material::FRONT_AND_BACK, ambientColor );
-		mat->setSpecular( osg::Material::FRONT_AND_BACK, ambientColor );
-		//mat->setShininess( osg::Material::FRONT_AND_BACK, shininess );
+		mat->setAmbient( osg::Material::FRONT, ambientColor );
+		mat->setDiffuse( osg::Material::FRONT, ambientColor );
+		mat->setSpecular( osg::Material::FRONT, ambientColor );
+		//mat->setShininess( osg::Material::FRONT, shininess );
 		//mat->setColorMode( osg::Material::SPECULAR );
 
 		osg::StateSet* stateset = geom->getOrCreateStateSet();
@@ -231,7 +219,7 @@ public:
 
 	//#define DEBUG_DRAW_NORMALS
 
-	static void drawMeshSet( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* geode, double crease_angle = M_PI*0.05, bool add_color_array = false )
+	static void drawMeshSet( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* geode, double crease_angle, double min_triangle_area, bool add_color_array = false )
 	{
 		if( !meshset )
 		{
@@ -375,8 +363,26 @@ public:
 						const vec3& vertex_v = vertex->v;
 						if( face->n_edges == 3 )
 						{
-							vertices_tri->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
-							normals_tri->push_back( osg::Vec3( intermediate_normal.x, intermediate_normal.y, intermediate_normal.z ) );
+							const carve::mesh::Edge<3>* edge0 = face->edge;
+							const carve::mesh::Edge<3>* edge1 = edge0->next;
+							const carve::mesh::Edge<3>* edge2 = edge1->next;
+							const carve::mesh::Vertex<3>* v0 = edge0->vert;
+							const carve::mesh::Vertex<3>* v1 = edge1->vert;
+							const carve::mesh::Vertex<3>* v2 = edge2->vert;
+
+							vec3 vert0 = v0->v;
+							vec3 vert1 = v1->v;
+							vec3 vert2 = v2->v;
+
+							vec3 v0v1 = vert1 - vert0;
+							vec3 v0v2 = vert2 - vert0;
+							double area = (carve::geom::cross(v0v1, v0v2).length())*0.5;
+							if (abs(area) > min_triangle_area)   // skip degenerated triangle
+							{
+								
+								vertices_tri->push_back(osg::Vec3(vertex_v.x, vertex_v.y, vertex_v.z));
+								normals_tri->push_back(osg::Vec3(intermediate_normal.x, intermediate_normal.y, intermediate_normal.z));
+							}
 						}
 						else if( face->n_edges == 4 )
 						{
@@ -398,8 +404,25 @@ public:
 
 						if( face->n_edges == 3 )
 						{
-							vertices_tri->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
-							normals_tri->push_back( osg::Vec3( face_normal.x, face_normal.y, face_normal.z ) );
+							const carve::mesh::Edge<3>* edge0 = face->edge;
+							const carve::mesh::Edge<3>* edge1 = edge0->next;
+							const carve::mesh::Edge<3>* edge2 = edge1->next;
+							const carve::mesh::Vertex<3>* v0 = edge0->vert;
+							const carve::mesh::Vertex<3>* v1 = edge1->vert;
+							const carve::mesh::Vertex<3>* v2 = edge2->vert;
+
+							vec3 vert0 = v0->v;
+							vec3 vert1 = v1->v;
+							vec3 vert2 = v2->v;
+
+							vec3 v0v1 = vert1 - vert0;
+							vec3 v0v2 = vert2 - vert0;
+							double area = (carve::geom::cross(v0v1, v0v2).length())*0.5;
+							if (abs(area) > min_triangle_area)   // skip degenerated triangle
+							{
+								vertices_tri->push_back(osg::Vec3(vertex_v.x, vertex_v.y, vertex_v.z));
+								normals_tri->push_back(osg::Vec3(face_normal.x, face_normal.y, face_normal.z));
+							}
 						}
 						else if( face->n_edges == 4 )
 						{
@@ -585,7 +608,7 @@ public:
 		}
 	}
 
-	static void renderMeshsetCreaseEdges( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* target_geode, const double crease_angle )
+	static void renderMeshsetCreaseEdges( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* target_geode, const double crease_angle, const float line_width )
 	{
 		if( !meshset )
 		{
@@ -616,9 +639,9 @@ public:
 			geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, vertices->size() ) );
 			geometry->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 			geometry->getOrCreateStateSet()->setMode( GL_BLEND, osg::StateAttribute::ON );
-			geometry->getOrCreateStateSet()->setAttributeAndModes( new osg::LineWidth( 3.0f ), osg::StateAttribute::ON );
+			geometry->getOrCreateStateSet()->setAttributeAndModes( new osg::LineWidth( line_width ), osg::StateAttribute::ON );
 			osg::Material* mat = new osg::Material();
-			mat->setDiffuse(osg::Material::FRONT_AND_BACK, osg::Vec4f(0.3f, 0.3f, 0.35f, 0.8f));
+			mat->setDiffuse(osg::Material::FRONT, osg::Vec4f(0.3f, 0.3f, 0.35f, 0.8f));
 			geometry->getOrCreateStateSet()->setAttributeAndModes(mat, osg::StateAttribute::ON);
 			geometry->getOrCreateStateSet()->setMode( GL_LINE_SMOOTH, osg::StateAttribute::ON );
 			geometry->getOrCreateStateSet()->setAttributeAndModes( new osg::Hint( GL_LINE_SMOOTH_HINT, GL_NICEST ), osg::StateAttribute::ON );
@@ -696,6 +719,8 @@ public:
 		std::stringstream strs_product_switch_name;
 		strs_product_switch_name << product_guid << ":" << ifc_product->className() << " group";
 		bool draw_bounding_box = false;
+		double crease_angle = m_geom_settings->getCoplanarFacesMaxDeltaAngle();
+		double min_triangle_area = m_geom_settings->getMinTriangleArea();
 		
 		// create OSG objects
 		std::vector<shared_ptr<RepresentationData> >& vec_product_representations = product_shape->m_vec_representations;
@@ -736,11 +761,11 @@ public:
 					CSG_Adapter::retriangulateMeshSet( item_meshset );
 					osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 					if( !geode ) { throw OutOfMemoryException( __FUNC__ ); }
-					drawMeshSet( item_meshset, geode, m_geom_settings->getCoplanarFacesMaxDeltaAngle() );
+					drawMeshSet( item_meshset, geode, crease_angle, min_triangle_area );
 
 					if( m_geom_settings->getRenderCreaseEdges() )
 					{
-						renderMeshsetCreaseEdges( item_meshset, geode, m_geom_settings->getCreaseEdgesMaxDeltaAngle() );
+						renderMeshsetCreaseEdges( item_meshset, geode, m_geom_settings->getCreaseEdgesMaxDeltaAngle(), m_geom_settings->getCreaseEdgesLineWidth() );
 					}
 
 					// disable back face culling for open meshes
@@ -769,12 +794,12 @@ public:
 					CSG_Adapter::retriangulateMeshSet( item_meshset );
 					osg::ref_ptr<osg::Geode> geode_meshset = new osg::Geode();
 					if( !geode_meshset ) { throw OutOfMemoryException( __FUNC__ ); }
-					drawMeshSet( item_meshset, geode_meshset, m_geom_settings->getCoplanarFacesMaxDeltaAngle() );
+					drawMeshSet( item_meshset, geode_meshset, crease_angle, min_triangle_area);
 					item_group->addChild( geode_meshset );
 
 					if( m_geom_settings->getRenderCreaseEdges() )
 					{
-						renderMeshsetCreaseEdges( item_meshset, geode_meshset, m_geom_settings->getCreaseEdgesMaxDeltaAngle() );
+						renderMeshsetCreaseEdges( item_meshset, geode_meshset, m_geom_settings->getCreaseEdgesMaxDeltaAngle(), m_geom_settings->getCreaseEdgesLineWidth() );
 					}
 
 					if( draw_bounding_box )
@@ -920,12 +945,11 @@ public:
 				// enable transparency for certain objects
 				if( dynamic_pointer_cast<IfcSpace>(ifc_product) )
 				{
-					representation_switch->setStateSet( m_glass_stateset );
+					SceneGraphUtils::setMaterialAlpha(representation_switch, 0.1f, true);
 				}
 				else if( dynamic_pointer_cast<IfcCurtainWall>(ifc_product) || dynamic_pointer_cast<IfcWindow>(ifc_product) )
 				{
-					representation_switch->setStateSet( m_glass_stateset );
-					SceneGraphUtils::setMaterialAlpha( representation_switch, 0.6f, true );
+					SceneGraphUtils::setMaterialAlpha( representation_switch, 0.2f, false );
 				}
 
 				// check if parent building element is window
@@ -944,8 +968,7 @@ public:
 						{
 							if( dynamic_pointer_cast<IfcCurtainWall>(relating_object) || dynamic_pointer_cast<IfcWindow>(relating_object) )
 							{
-								representation_switch->setStateSet(m_glass_stateset);
-								SceneGraphUtils::setMaterialAlpha(representation_switch, 0.6f, true);
+								SceneGraphUtils::setMaterialAlpha(representation_switch, 0.6f, false);
 							}
 						}
 					}
@@ -967,7 +990,6 @@ public:
 		progressValueCallback( 0, "scenegraph" );
 		m_map_entity_guid_to_switch.clear();
 		m_map_representation_id_to_switch.clear();
-		m_vec_existing_statesets.clear();
 
 		shared_ptr<ProductShapeData> ifc_project_data;
 		std::vector<shared_ptr<ProductShapeData> > vec_products;
@@ -1224,8 +1246,7 @@ public:
 			{
 				shared_ptr<IfcObjectDefinition> child_obj_def( child_product_data->m_ifc_object_definition );
 				std::stringstream group_subparts_name;
-				group_subparts_name << "#" << child_obj_def->m_entity_id << "=";
-				group_subparts_name << child_obj_def->className();
+				group_subparts_name << guid << ":" << ifc_object_def->className();
 				group_subparts->setName( group_subparts_name.str().c_str() );
 			}
 
@@ -1253,15 +1274,9 @@ public:
 				switch_name << guid << ":" << ifc_object_def->className();
 				product_switch->setName( switch_name.str().c_str() );
 			}
-		}
-	}
 
-	void clearAppearanceCache()
-	{
-#ifdef ENABLE_OPENMP
-		ScopedLock lock( m_writelock_appearance_cache );
-#endif
-		m_vec_existing_statesets.clear();
+			m_map_entity_guid_to_switch[guid] = group;
+		}
 	}
 
 	void convertToOSGStateSet( const shared_ptr<AppearanceData>& appearence, osg::ref_ptr<osg::StateSet>& target_stateset )
@@ -1289,63 +1304,6 @@ public:
 		const float color_specular_b = appearence->m_color_specular.b();
 		const float color_specular_a = appearence->m_color_specular.a();
 
-		if( m_enable_stateset_caching )
-		{
-
-#ifdef ENABLE_OPENMP
-			ScopedLock lock( m_writelock_appearance_cache );
-#endif
-
-			for( size_t i = 0; i<m_vec_existing_statesets.size(); ++i )
-			{
-				const osg::ref_ptr<osg::StateSet> stateset_existing = m_vec_existing_statesets[i];
-
-				if( !stateset_existing.valid() )
-				{
-					continue;
-				}
-
-				osg::ref_ptr<osg::Material> mat_existing = (osg::Material*)stateset_existing->getAttribute( osg::StateAttribute::MATERIAL );
-				if( !mat_existing )
-				{
-					continue;
-				}
-
-				// compare
-				osg::Vec4f color_ambient_existing = mat_existing->getAmbient( osg::Material::FRONT_AND_BACK );
-				if( fabs( color_ambient_existing.r() - color_ambient_r ) > 0.03 ) break;
-				if( fabs( color_ambient_existing.g() - color_ambient_g ) > 0.03 ) break;
-				if( fabs( color_ambient_existing.b() - color_ambient_b ) > 0.03 ) break;
-				if( fabs( color_ambient_existing.a() - color_ambient_a ) > 0.03 ) break;
-
-				osg::Vec4f color_diffuse_existing = mat_existing->getDiffuse( osg::Material::FRONT_AND_BACK );
-				if( fabs( color_diffuse_existing.r() - color_diffuse_r ) > 0.03 ) break;
-				if( fabs( color_diffuse_existing.g() - color_diffuse_g ) > 0.03 ) break;
-				if( fabs( color_diffuse_existing.b() - color_diffuse_b ) > 0.03 ) break;
-				if( fabs( color_diffuse_existing.a() - color_diffuse_a ) > 0.03 ) break;
-
-				osg::Vec4f color_specular_existing = mat_existing->getSpecular( osg::Material::FRONT_AND_BACK );
-				if( fabs( color_specular_existing.r() - color_specular_r ) > 0.03 ) break;
-				if( fabs( color_specular_existing.g() - color_specular_g ) > 0.03 ) break;
-				if( fabs( color_specular_existing.b() - color_specular_b ) > 0.03 ) break;
-				if( fabs( color_specular_existing.a() - color_specular_a ) > 0.03 ) break;
-
-				float shininess_existing = mat_existing->getShininess( osg::Material::FRONT_AND_BACK );
-				if( fabs( shininess_existing - shininess ) > 0.03 ) break;
-
-				bool blend_on_existing = stateset_existing->getMode( GL_BLEND ) == osg::StateAttribute::ON;
-				if( blend_on_existing != set_transparent ) break;
-
-				bool transparent_bin = stateset_existing->getRenderingHint() == osg::StateSet::TRANSPARENT_BIN;
-				if( transparent_bin != set_transparent ) break;
-
-				// if we get here, appearance is same as existing state set
-				// TODO: block this re-used stateset for merging, or prevent merged statesets from being re-used
-				target_stateset = stateset_existing;
-				return;
-			}
-		}
-
 		osg::Vec4f ambientColor(	color_ambient_r,	color_ambient_g,	color_ambient_b,	transparency );
 		osg::Vec4f diffuseColor(	color_diffuse_r,	color_diffuse_g,	color_diffuse_b,	transparency  );
 		osg::Vec4f specularColor(	color_specular_r,	color_specular_g,	color_specular_b,	transparency );
@@ -1353,10 +1311,10 @@ public:
 		// TODO: material caching and re-use
 		osg::ref_ptr<osg::Material> mat = new osg::Material();
 		if( !mat ){ throw OutOfMemoryException(); }
-		mat->setAmbient( osg::Material::FRONT_AND_BACK, ambientColor );
-		mat->setDiffuse( osg::Material::FRONT_AND_BACK, diffuseColor );
-		mat->setSpecular( osg::Material::FRONT_AND_BACK, specularColor );
-		mat->setShininess( osg::Material::FRONT_AND_BACK, shininess );
+		mat->setAmbient( osg::Material::FRONT, ambientColor );
+		mat->setDiffuse( osg::Material::FRONT, diffuseColor );
+		mat->setSpecular( osg::Material::FRONT, specularColor );
+		mat->setShininess( osg::Material::FRONT, shininess );
 		mat->setColorMode( osg::Material::SPECULAR );
 
 		target_stateset = new osg::StateSet();
@@ -1365,7 +1323,7 @@ public:
 	
 		if( appearence->m_set_transparent )
 		{
-			mat->setTransparency( osg::Material::FRONT_AND_BACK, transparency );	
+			mat->setTransparency( osg::Material::FRONT, transparency );
 			target_stateset->setMode( GL_BLEND, osg::StateAttribute::ON );
 			target_stateset->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
 		}
@@ -1375,11 +1333,6 @@ public:
 			//osg::ref_ptr<osgFX::SpecularHighlights> spec_highlights = new osgFX::SpecularHighlights();
 			//spec_highlights->setSpecularExponent( spec->m_value );
 			// todo: add to scenegraph
-		}
-
-		if( m_enable_stateset_caching )
-		{
-			m_vec_existing_statesets.push_back( target_stateset );
 		}
 	}
 };

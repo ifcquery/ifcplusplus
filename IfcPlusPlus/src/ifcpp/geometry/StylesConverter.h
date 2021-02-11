@@ -167,7 +167,6 @@ public:
 		}
 	}
 
-
 	void convertIfcSurfaceStyle( shared_ptr<IfcSurfaceStyle> surface_style, shared_ptr<AppearanceData>& appearance_data )
 	{
 		if( !surface_style )
@@ -178,7 +177,7 @@ public:
 
 #ifdef ENABLE_OPENMP
 		{
-			ScopedLock lock(m_writelock_styles_converter);
+		ScopedLock lock(m_writelock_styles_converter);
 #endif
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
@@ -350,7 +349,7 @@ public:
 
 #ifdef ENABLE_OPENMP
 		{
-			ScopedLock lock(m_writelock_styles_converter);
+		ScopedLock lock(m_writelock_styles_converter);
 #endif
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
@@ -358,9 +357,9 @@ public:
 			vec_appearance_data.push_back( it_find_existing_style->second );
 			return;
 		}
-
+	
 #ifdef ENABLE_OPENMP
-	}
+		}
 #endif
 
 		std::vector<shared_ptr<IfcStyleAssignmentSelect> >& vec_style_assigns = styled_item->m_Styles;
@@ -521,7 +520,7 @@ public:
 		int style_id = presentation_style->m_entity_id;
 #ifdef ENABLE_OPENMP
 		{
-			ScopedLock lock(m_writelock_styles_converter);
+		ScopedLock lock(m_writelock_styles_converter);
 #endif
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )
@@ -590,7 +589,7 @@ public:
 		int style_id = curve_style->m_entity_id;
 #ifdef ENABLE_OPENMP
 		{
-			ScopedLock lock(m_writelock_styles_converter);
+		ScopedLock lock(m_writelock_styles_converter);
 #endif
 		auto it_find_existing_style = m_map_ifc_styles.find( style_id );
 		if( it_find_existing_style != m_map_ifc_styles.end() )

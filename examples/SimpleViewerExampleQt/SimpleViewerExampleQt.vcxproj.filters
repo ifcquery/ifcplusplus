@@ -68,16 +68,10 @@
     <ClCompile Include="src\cmd\CmdRemoveSelectedObjects.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmd\CmdWriteIfcFile.cpp">
-      <Filter>Source Dateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\cmd\Command.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
     <ClCompile Include="src\cmd\CommandManager.cpp">
-      <Filter>Source Dateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cmd\LoadIfcFileCommand.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
     <ClCompile Include="src\viewer\GraphicsWindowQt.cpp">
@@ -116,6 +110,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_TabReadWrite.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_StoreyShiftWidget.cpp">
+      <Filter>Generierte Dateien\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_StoreyShiftWidget.cpp">
+      <Filter>Generierte Dateien\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\StoreyShiftWidget.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resources\ifcplusplus.qrc">
@@ -137,6 +140,9 @@
       <Filter>Header Dateien</Filter>
     </CustomBuild>
     <CustomBuild Include="src\gui\TabReadWrite.h">
+      <Filter>Header Dateien</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\gui\StoreyShiftWidget.h">
       <Filter>Header Dateien</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -168,16 +174,10 @@
     <ClInclude Include="src\cmd\CmdRemoveSelectedObjects.h">
       <Filter>Header Dateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\cmd\CmdWriteIfcFile.h">
-      <Filter>Header Dateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\cmd\Command.h">
       <Filter>Header Dateien</Filter>
     </ClInclude>
     <ClInclude Include="src\cmd\CommandManager.h">
-      <Filter>Header Dateien</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cmd\LoadIfcFileCommand.h">
       <Filter>Header Dateien</Filter>
     </ClInclude>
     <ClInclude Include="src\viewer\GraphicsWindowQt.h">
@@ -187,6 +187,9 @@
       <Filter>Header Dateien</Filter>
     </ClInclude>
     <ClInclude Include="src\IncludeGeometryHeaders.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\ScopedLockAndBlock.h">
       <Filter>Header Dateien</Filter>
     </ClInclude>
   </ItemGroup>
