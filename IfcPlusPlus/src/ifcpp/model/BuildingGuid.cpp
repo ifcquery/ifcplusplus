@@ -25,7 +25,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 ///@brief Creates a GUID string with 36 characters including dashes, for example: "F103000C-9865-44EE-BE6E-CCC780B81423"
 std::wstring createGUID32_wstr()
 {
-	return string2wstring(createGUID32());
+	std::string guid = createGUID32();
+	std::wstring guid_wstr = string2wstring(guid);
+	return guid_wstr;
 }
 
 std::string createGUID32()
@@ -50,7 +52,7 @@ std::string createGUID32()
 	uuid_strs << "-";
 	for (i = 0; i < 12; i++){uuid_strs << dis(gen);}
 	std::string str = uuid_strs.str();	
-	return uuid_strs.str();
+	return str;
 }
 
 static const char base16mask[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
