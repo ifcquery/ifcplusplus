@@ -37,10 +37,8 @@ SET(IFCPPVIEWER_SOURCE_FILES
     src/IfcPlusPlusSystem.cpp
     src/main.cpp
     src/cmd/CmdRemoveSelectedObjects.cpp
-    src/cmd/CmdWriteIfcFile.cpp
     src/cmd/Command.cpp
     src/cmd/CommandManager.cpp
-    src/cmd/LoadIfcFileCommand.cpp
     src/gui/IfcTreeWidget.cpp
     src/gui/MainWindow.cpp
     src/gui/TabReadWrite.cpp
