@@ -1550,7 +1550,6 @@
     <ClCompile Include="src\ifcpp\model\AttributeObject.cpp" />
     <ClCompile Include="src\ifcpp\model\BuildingGuid.cpp" />
     <ClCompile Include="src\ifcpp\model\BuildingModel.cpp" />
-    <ClCompile Include="src\ifcpp\model\PythonWrapperInterface.cpp" />
     <ClCompile Include="src\ifcpp\model\UnitConverter.cpp" />
     <ClCompile Include="src\ifcpp\reader\AbstractReader.cpp" />
     <ClCompile Include="src\ifcpp\reader\ReaderSTEP.cpp" />

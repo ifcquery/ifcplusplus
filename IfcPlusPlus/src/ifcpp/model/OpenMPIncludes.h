@@ -17,8 +17,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#ifdef ENABLE_OPENMP
+#ifndef _DEBUG
+	#ifndef ENABLE_OPENMP
+		#if defined(_OPENMP)
+			#define ENABLE_OPENMP
+		#endif
+	#endif
+#endif
 
+#ifdef ENABLE_OPENMP
 #include <omp.h>
 
 class Mutex 

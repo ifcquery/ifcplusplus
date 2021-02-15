@@ -13,6 +13,7 @@ IF(NOT WIN32)
     SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
 ENDIF(NOT WIN32)
 
+find_package(OpenMP)
 
 SET(app_dir ${IFCPP_SOURCE_DIR}/examples/LoadFileExampleConsole)
 
@@ -28,7 +29,13 @@ ADD_EXECUTABLE(LoadFileExampleConsole
 )
 
 set_target_properties(LoadFileExampleConsole PROPERTIES DEBUG_POSTFIX "d")
-TARGET_LINK_LIBRARIES(LoadFileExampleConsole IfcPlusPlus)
+
+
+if(OpenMP_CXX_FOUND)
+    TARGET_LINK_LIBRARIES(LoadFileExampleConsole IfcPlusPlus PUBLIC OpenMP::OpenMP_CXX)
+else(OpenMP_CXX_FOUND)
+	TARGET_LINK_LIBRARIES(LoadFileExampleConsole IfcPlusPlus)
+endif()
 
 TARGET_INCLUDE_DIRECTORIES(LoadFileExampleConsole
     PRIVATE

@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <ifcpp/geometry/AppearanceData.h>
 #include <ifcpp/model/BasicTypes.h>
+#include <ifcpp/model/OpenMPIncludes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/reader/ReaderUtil.h>
 #include <ifcpp/IFC4/include/IfcSpecularHighlightSelect.h>

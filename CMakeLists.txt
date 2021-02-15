@@ -19,7 +19,7 @@ MESSAGE(STATUS "----------------------------------------------------------------
 OPTION(BUILD_CONSOLE_APPLICATION "Build an example CLI application" ON)
 OPTION(BUILD_VIEWER_APPLICATION "Build the viewer example application" ON)
 option(USE_OSG_DEBUG "Use openscenegraph debug library" OFF)
-OPTION(BUILD_STATIC_LIBRARY "Build static library" ON)
+OPTION(BUILD_STATIC_LIBRARY "Build static library" OFF)
 
 IF(NOT WIN32)
     IF("${CMAKE_BUILD_TYPE}" MATCHES "Debug")

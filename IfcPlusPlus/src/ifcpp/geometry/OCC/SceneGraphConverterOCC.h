@@ -43,6 +43,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/geometry/SceneGraphUtils.h>
 #include <ifcpp/model/BuildingModel.h>
 #include <ifcpp/model/BasicTypes.h>
+#include <ifcpp/model/OpenMPIncludes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/IFC4/include/IfcCurtainWall.h>
 #include <ifcpp/IFC4/include/IfcFeatureElementSubtraction.h>
