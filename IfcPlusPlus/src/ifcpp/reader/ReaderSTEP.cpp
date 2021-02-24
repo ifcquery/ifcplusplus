@@ -583,8 +583,10 @@ void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std:
 #ifdef ENABLE_OPENMP
 #pragma omp critical
 #endif
-							unkown_entities.insert( unknown_keyword );
-							err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
+							{
+								unkown_entities.insert( unknown_keyword );
+								err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
+							}
 						}
 					}
 				}
@@ -595,8 +597,10 @@ void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std:
 #ifdef ENABLE_OPENMP
 #pragma omp critical
 #endif
-						unkown_entities.insert( unknown_keyword );
-						err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
+						{
+							unkown_entities.insert( unknown_keyword );
+							err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
+						}
 					}
 				}
 			}
