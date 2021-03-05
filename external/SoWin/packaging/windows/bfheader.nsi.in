@@ -1,8 +1,0 @@
-SectionEnd
-# **************************************************************************
-Section "Microsoft Visual C++ Build Files"
-SectionIn 3
-
-SetCompress auto
-SetOverwrite on
-

@@ -15,26 +15,18 @@ ENDIF(NOT WIN32)
 
 find_package(OpenMP)
 
-SET(app_dir ${IFCPP_SOURCE_DIR}/examples/LoadFileExampleConsole)
-
-
-SET(IFCPPAPP_SOURCE_FILES 
-    ${IFCPP_SOURCE_DIR}/examples/LoadFileExampleConsole/src/main.cpp
-)
-
 ADD_EXECUTABLE(LoadFileExampleConsole 
-    ${IFCPPVIEWER_MOC_GENERATED_FILES}
-    ${IFCPPAPP_SOURCE_FILES}
-    ${SimpleViewerExample_RESOURCES_RCC}
+    ${IFCPP_SOURCE_DIR}/examples/LoadFileExampleConsole/src/main.cpp
 )
 
 set_target_properties(LoadFileExampleConsole PROPERTIES DEBUG_POSTFIX "d")
 
-
 if(OpenMP_CXX_FOUND)
-    TARGET_LINK_LIBRARIES(LoadFileExampleConsole IfcPlusPlus PUBLIC OpenMP::OpenMP_CXX)
+    TARGET_LINK_LIBRARIES(LoadFileExampleConsole debug IfcPlusPlusd OpenMP::OpenMP_CXX)
+	TARGET_LINK_LIBRARIES(LoadFileExampleConsole optimized IfcPlusPlus OpenMP::OpenMP_CXX)
 else(OpenMP_CXX_FOUND)
-	TARGET_LINK_LIBRARIES(LoadFileExampleConsole IfcPlusPlus)
+	TARGET_LINK_LIBRARIES(LoadFileExampleConsole debug IfcPlusPlusd)
+	TARGET_LINK_LIBRARIES(LoadFileExampleConsole optimized IfcPlusPlus)
 endif()
 
 TARGET_INCLUDE_DIRECTORIES(LoadFileExampleConsole

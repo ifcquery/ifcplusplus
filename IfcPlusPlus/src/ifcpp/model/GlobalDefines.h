@@ -28,7 +28,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 	#ifdef IFCQUERY_LIB
 		#define IFCQUERY_EXPORT __declspec(dllexport)
 	#else
-		#define IFCQUERY_EXPORT __declspec(dllimport)
+		#ifdef IFCQUERY_STATIC_LIB
+			#define IFCQUERY_EXPORT
+		#else
+			#define IFCQUERY_EXPORT __declspec(dllimport)
+		#endif
 	#endif
 #endif
 

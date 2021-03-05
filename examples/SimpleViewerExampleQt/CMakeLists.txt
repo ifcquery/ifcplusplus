@@ -68,20 +68,23 @@ ADD_EXECUTABLE(SimpleViewerExample
 
 set_target_properties(SimpleViewerExample PROPERTIES DEBUG_POSTFIX "d")
 
+target_link_libraries(SimpleViewerExample
+        debug IfcPlusPlusd optimized IfcPlusPlus
+        debug Qt5::Core
+        debug Qt5::Gui
+        debug Qt5::Widgets
+        debug Qt5::OpenGL)
+		
 If(UNIX)
     # ON Debian Stretch with cmake 3.7.2 OPENTHREADS_LIBRARY_DEBUG is a not known variable
-    TARGET_LINK_LIBRARIES(SimpleViewerExample ${OPENTHREADS_LIBRARY})
+    TARGET_LINK_LIBRARIES(SimpleViewerExample optimized ${OPENTHREADS_LIBRARY})
 else(UNIX)
-    TARGET_LINK_LIBRARIES(SimpleViewerExample optimized ${OPENTHREADS_LIBRARY} debug ${OPENTHREADS_LIBRARY_DEBUG})
+    TARGET_LINK_LIBRARIES(SimpleViewerExample debug ${OPENTHREADS_LIBRARY_DEBUG})
+	TARGET_LINK_LIBRARIES(SimpleViewerExample ${OPENTHREADS_LIBRARY} )
 ENDIF()
 
 if(USE_OSG_DEBUG)
     target_link_libraries(SimpleViewerExample
-        IfcPlusPlus
-        Qt5::Core
-        Qt5::Gui
-        Qt5::Widgets
-        Qt5::OpenGL
         optimized ${OSG_LIBRARY} debug ${OSG_LIBRARY_DEBUG}
         optimized ${OSGDB_LIBRARY} debug ${OSGDB_LIBRARY_DEBUG}
         optimized ${OSGDB_LIBRARY} debug ${OSGDB_LIBRARY_DEBUG}
@@ -93,19 +96,14 @@ if(USE_OSG_DEBUG)
     )
 else(USE_OSG_DEBUG)
     target_link_libraries(SimpleViewerExample
-        IfcPlusPlus
-        Qt5::Core
-        Qt5::Gui
-        Qt5::Widgets
-        Qt5::OpenGL
-        optimized ${OSG_LIBRARY}
-        optimized ${OSGDB_LIBRARY}
-        optimized ${OSGDB_LIBRARY}
-        optimized ${OSGGA_LIBRARY}
-        optimized ${OSGUTIL_LIBRARY}
-        optimized ${OSGFX_LIBRARY}
-        optimized ${OSGVIEWER_LIBRARY}
-        optimized ${OSGTEXT_LIBRARY}
+		${OSG_LIBRARY}
+		${OSGDB_LIBRARY}
+		${OSGDB_LIBRARY}
+        ${OSGGA_LIBRARY}
+        ${OSGUTIL_LIBRARY}
+        ${OSGFX_LIBRARY}
+        ${OSGVIEWER_LIBRARY}
+        ${OSGTEXT_LIBRARY}
     )
 endif(USE_OSG_DEBUG)
 

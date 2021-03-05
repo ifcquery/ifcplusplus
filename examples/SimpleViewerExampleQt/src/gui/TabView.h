@@ -40,7 +40,6 @@ private:
 	bool			m_cull_back;
 	
 private slots:
-	void slotToggleSceneLight();
 	void slotCullFrontFaces( int state );
 	void slotCullBackFaces( int state );
 	void slotSetNumVertices(int);

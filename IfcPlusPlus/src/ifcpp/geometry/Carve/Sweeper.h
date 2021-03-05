@@ -840,8 +840,8 @@ public:
 		}
 		catch( ... )
 		{
-			messageCallback( "carve::triangulate failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
 #ifdef _DEBUG
+			messageCallback("carve::triangulate failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity);
 			carve::geom::vector<4> color = carve::geom::VECTOR(0.3, 0.4, 0.5, 1.0);
 			GeomDebugDump::dumpPolylineSet(face_loops_used_for_triangulation, color, true, true );
 #endif
@@ -1352,9 +1352,8 @@ public:
 			}
 			catch( ... )
 			{
-				messageCallback( "carve::triangulate::incorporateHolesIntoPolygon failed ", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
-
 #ifdef _DEBUG
+				messageCallback("carve::triangulate::incorporateHolesIntoPolygon failed ", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity);
 				carve::geom::vector<4> color = carve::geom::VECTOR(0.3, 0.4, 0.5, 1.0);
 				GeomDebugDump::dumpPolylineSet(face_loops_2d, color, true, true);
 #endif

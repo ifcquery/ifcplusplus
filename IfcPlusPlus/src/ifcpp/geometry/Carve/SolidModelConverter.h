@@ -469,7 +469,9 @@ public:
 		}
 		catch( ... )
 		{
+#ifdef _DEBUG
 			messageCallback( "carve::triangulate failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
+#endif
 			return;
 		}
 

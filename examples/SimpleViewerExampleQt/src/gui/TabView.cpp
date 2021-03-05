@@ -77,7 +77,8 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 	btn_toggle_light->setToolTip("Light on/off");
 	btn_toggle_light->setCheckable(true);
 	btn_toggle_light->setChecked(true);
-	connect( btn_toggle_light,	SIGNAL( clicked() ),	this,	SLOT( slotToggleSceneLight() ) );
+	connect(btn_toggle_light, &QToolButton::clicked, this, [this]() { m_system->toggleSceneLight(); });
+
 
 	// number of vertices per cycle
 	m_spinbox_circle_vertices = new QSpinBox( this );
@@ -146,11 +147,6 @@ TabView::TabView( IfcPlusPlusSystem* sys, ViewerWidget* vw ) : m_system(sys), m_
 	vbox->addStretch(1);
 
 	setLayout( vbox );
-}
-
-void TabView::slotToggleSceneLight()
-{
-	m_system->toggleSceneLight();
 }
 
 void TabView::slotCullFrontFaces( int state )

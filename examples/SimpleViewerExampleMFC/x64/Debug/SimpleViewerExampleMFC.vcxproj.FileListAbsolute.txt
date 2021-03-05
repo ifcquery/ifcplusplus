@@ -1,2 +1,0 @@
-C:\work\IfcPlusPlus\examples\SimpleViewerExampleMFC\x64\Debug\SimpleViewerExampleMFC.exe
-C:\work\IfcPlusPlus\examples\SimpleViewerExampleMFC\x64\Debug\SimpleViewerExampleMFC.pdb

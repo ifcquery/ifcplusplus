@@ -1,9 +1,0 @@
-This file describes some hacking techniques that are particular
-for the SoWin Open Inventor GUI toolkit.
-
-Be sure to check Coin/HACKING for Coin-specific tricks and more
-generic information, plus the src/Inventor/Win/common/HACKING file for
-some hints common to all GUI interface toolkits.
-
-[This file is a work in progress, and was just started. There is no
-specific information for SoWin available yet.]

@@ -1,1 +1,0 @@
-// IRIX libtool workaround
