@@ -17,11 +17,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <QLabel>
-#include <QMainWindow>
-#include <QProgressBar>
-#include <QSplitter>
-#include <QToolBar>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QProgressBar>
+#include <QtWidgets/QSplitter>
+#include <QtWidgets/QToolBar>
 
 class IfcPlusPlusSystem;
 class TabReadWrite;

@@ -22,8 +22,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <string>
 
 #include <QtCore/qglobal.h>
-#include <QApplication>
-#include <QSplashScreen>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QSplashScreen>
 #include <osgViewer/CompositeViewer>
 
 #include <ifcpp/model/BuildingException.h>

@@ -17,13 +17,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <osg/Version>
 #include <osgViewer/ViewerBase>
-#include <QInputEvent>
-#include <QOpenGLContext>
+#include <QtGui/QInputEvent>
+#include <QtGui/QOpenGLContext>
 
 #if (QT_VERSION >= QT_VERSION_CHECK(4, 6, 0))
 	#define USE_GESTURES
-	#include <QGestureEvent>
-	#include <QGesture>
+	#include <QtWidgets/QGestureEvent>
+	#include <QtWidgets/QGesture>
 #endif
 
 #include "GraphicsWindowQt.h"

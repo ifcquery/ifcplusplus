@@ -23,7 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <osg/Material>
 #include <QtCore/qglobal.h>
 #include <QtCore/QTimer>
-#include <qwidget.h>
+#include <QtWidgets/QWidget>
 
 #include "GraphicsWindowQt.h"
 class IfcPlusPlusSystem;

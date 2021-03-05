@@ -17,7 +17,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <QtCore/QObject>
+#include <QObject>
 #include <osg/Material>
 #include <osgGA/GUIEventHandler>
 #include "ifcpp/model/BasicTypes.h"

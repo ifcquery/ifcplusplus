@@ -23,17 +23,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/OpenMPIncludes.h>
 
 #include <QtCore/qglobal.h>
-#include <QWidget>
-#include <QVBoxLayout>
-#include <QTreeWidget>
-#include <QLabel>
-#include <QComboBox>
-#include <QPushButton>
-#include <QProgressBar>
-#include <QLineEdit>
-#include <QSplitter>
-#include <QApplication>
-#include <QTextEdit>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QTreeWidget>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QProgressBar>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QSplitter>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QTextEdit>
 
 class ViewerWidget;
 class BuildingEntity;

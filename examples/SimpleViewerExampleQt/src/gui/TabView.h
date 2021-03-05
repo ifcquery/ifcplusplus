@@ -17,10 +17,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <qglobal.h>
-#include <QWidget>
-#include <QSpinBox>
-#include <QCheckBox>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QCheckBox>
 
 class IfcPlusPlusSystem;
 class ViewerWidget;

@@ -24,8 +24,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <QEvent>
 #include <QQueue>
 #include <QSet>
-#include <QOpenGLWidget>
-#include <QOpenGLFunctions>
+#include <QtWidgets/QOpenGLWidget>
+#include <QtGui/QOpenGLFunctions>
 
 class QInputEvent;
 class QGestureEvent;

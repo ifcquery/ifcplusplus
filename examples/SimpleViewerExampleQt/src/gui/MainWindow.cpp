@@ -16,13 +16,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 */
 
 
-#include <QAction>
-#include <QDesktopWidget>
-#include <QDockWidget>
-#include <QFile>
-#include <QStatusBar>
-#include <QSettings>
-#include <QToolButton>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QDesktopWidget>
+#include <QtWidgets/QDockWidget>
+#include <QtCore/QFile>
+#include <QtWidgets/QStatusBar>
+#include <QtCore/QSettings>
+#include <QtWidgets/QToolButton>
 
 #include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"

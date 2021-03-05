@@ -17,7 +17,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <QTreeWidget>
+#include <QtWidgets/QTreeWidget>
 #include "ifcpp/model/BasicTypes.h"
 
 class BuildingEntity;

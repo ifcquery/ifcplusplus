@@ -18,11 +18,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma warning( disable: 4996 )
 #include <random>
 #include <sstream>
-#include <QKeyEvent>
-#include <QFileDialog>
-#include <QFile>
-#include <QSettings>
-#include <QTextStream>
+#include <QtGui/QKeyEvent>
+#include <QtWidgets/QFileDialog>
+#include <QtCore/QFile>
+#include <QtCore/QSettings>
+#include <QtCore/QTextStream>
 #include <osgUtil/Optimizer>
 
 #include <ifcpp/model/BasicTypes.h>

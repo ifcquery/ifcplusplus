@@ -123,7 +123,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName)d.exe</OutputFile>
-      <AdditionalLibraryDirectories>..\..\IfcPlusPlus\bin;..\..\external\Carve\bin;$(QTDIR)\lib;$(OSG_DIR)\build\lib;$(FREETYPE_DIR)\objs\vc2010\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\IfcPlusPlus\bin;..\..\external\Carve\bin;$(QTDIR)\lib;$(OSG_DIR)\lib;$(OSG_DIR)\build\lib;$(FREETYPE_DIR)\objs\vc2010\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Networkd.lib;Qt5OpenGLd.lib;Qt5Widgetsd.lib;Qt5PrintSupportd.lib;Qt5Xmld.lib;osgd.lib;OpenThreadsd.lib;osgAnimationd.lib;osgDBd.lib;osgFXd.lib;osgGAd.lib;osgTextd.lib;osgUtild.lib;osgViewerd.lib;IfcPlusPlusd.lib;Carved.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>

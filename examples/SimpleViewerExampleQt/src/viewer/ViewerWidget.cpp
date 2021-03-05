@@ -28,8 +28,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <osg/MatrixTransform>
 #include <osgViewer/CompositeViewer>
 #include <QtCore/qglobal.h>
-#include <QVBoxLayout>
-#include <QLabel>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QLabel>
 #include <QtGui/QKeyEvent>
 
 #include "IfcPlusPlusSystem.h"

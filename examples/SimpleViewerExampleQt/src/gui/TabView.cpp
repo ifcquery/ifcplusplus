@@ -15,15 +15,15 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include <qglobal.h>
-#include <QSettings>
-#include <QToolButton>
-#include <QBoxLayout>
-#include <QCheckBox>
-#include <QRadioButton>
-#include <QButtonGroup>
-#include <QLabel>
-#include <QSpinBox>
+#include <QtCore/qglobal.h>
+#include <QtCore/QSettings>
+#include <QtWidgets/QToolButton>
+#include <QtWidgets/QBoxLayout>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QRadioButton>
+#include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QSpinBox>
 
 #include <osgGA/OrbitManipulator>
 
