@@ -18,23 +18,24 @@ find_package(OpenMP)
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/IfcPlusPlus/Debug)
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/IfcPlusPlus/${CMAKE_BUILD_TYPE})
 
-ADD_EXECUTABLE(LoadFileExampleConsole 
-    ${IFCPP_SOURCE_DIR}/examples/LoadFileExampleConsole/src/main.cpp
+ADD_EXECUTABLE(CreateWallAndWriteFile 
+    ${IFCPP_SOURCE_DIR}/examples/CreateWallAndWriteFile/src/main.cpp
 )
 
-set_target_properties(LoadFileExampleConsole PROPERTIES DEBUG_POSTFIX "d")
+set_target_properties(CreateWallAndWriteFile PROPERTIES DEBUG_POSTFIX "d")
 
 if(OpenMP_CXX_FOUND)
-    TARGET_LINK_LIBRARIES(LoadFileExampleConsole optimized IfcPlusPlus OpenMP::OpenMP_CXX debug IfcPlusPlusd )
+    TARGET_LINK_LIBRARIES(CreateWallAndWriteFile debug IfcPlusPlusd)
+	TARGET_LINK_LIBRARIES(CreateWallAndWriteFile optimized IfcPlusPlus OpenMP::OpenMP_CXX)
 else(OpenMP_CXX_FOUND)
-	TARGET_LINK_LIBRARIES(LoadFileExampleConsole optimized IfcPlusPlus debug IfcPlusPlusd)
+	TARGET_LINK_LIBRARIES(CreateWallAndWriteFile debug IfcPlusPlusd optimized IfcPlusPlus)
 endif()
 
 IF(BUILD_STATIC_LIBRARY)
 	ADD_DEFINITIONS(-DIFCQUERY_STATIC_LIB)
 ENDIF()
 
-TARGET_INCLUDE_DIRECTORIES(LoadFileExampleConsole
+TARGET_INCLUDE_DIRECTORIES(CreateWallAndWriteFile
     PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src
@@ -45,7 +46,7 @@ TARGET_INCLUDE_DIRECTORIES(LoadFileExampleConsole
 )
 
 INSTALL(
-    TARGETS LoadFileExampleConsole
+    TARGETS CreateWallAndWriteFile
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION bin
     ARCHIVE DESTINATION lib

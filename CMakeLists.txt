@@ -11,15 +11,15 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
     "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
-MESSAGE(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 project(IFCPP)
-MESSAGE(STATUS "------------------------------------------------------------------------")
+message(STATUS "------------------------------------------------------------------------")
 
-OPTION(BUILD_CONSOLE_APPLICATION "Build an example CLI application" ON)
-OPTION(BUILD_VIEWER_APPLICATION "Build the viewer example application" ON)
+option(BUILD_CONSOLE_APPLICATION "Build an example CLI application" ON)
+option(BUILD_VIEWER_APPLICATION "Build the viewer example application" ON)
 option(USE_OSG_DEBUG "Use openscenegraph debug library" OFF)
-OPTION(BUILD_STATIC_LIBRARY "Build static library" OFF)
+option(BUILD_STATIC_LIBRARY "Build static library" OFF)
 
 IF(NOT WIN32)
     IF("${CMAKE_BUILD_TYPE}" MATCHES "Debug")
@@ -31,19 +31,19 @@ IF(NOT WIN32)
     ENDIF()
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 ELSE(NOT WIN32)
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 ENDIF(NOT WIN32)
 
-SET(CARVE_SOURCE_DIR ${IFCPP_SOURCE_DIR}/external/Carve)
-SET(CARVE_BINARY_DIR ${IFCPP_BINARY_DIR})
-SET(IFCPP_CONFIG_DIR "share/IFCPP/cmake")
+set(CARVE_SOURCE_DIR ${IFCPP_SOURCE_DIR}/external/Carve)
+set(CARVE_BINARY_DIR ${IFCPP_BINARY_DIR})
+set(IFCPP_CONFIG_DIR "share/IFCPP/cmake")
 ADD_SUBDIRECTORY (external/Carve)
 ADD_SUBDIRECTORY (IfcPlusPlus)
 
 # Install configuration file
 INCLUDE(CMakePackageConfigHelpers)
-SET(config_file_input  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/IFCPPConfig.cmake.in")
-SET(config_file_output "${CMAKE_CURRENT_BINARY_DIR}/cmake/IFCPPConfig.cmake")
+set(config_file_input  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/IFCPPConfig.cmake.in")
+set(config_file_output "${CMAKE_CURRENT_BINARY_DIR}/cmake/IFCPPConfig.cmake")
 
 CONFIGURE_PACKAGE_CONFIG_FILE(
   ${config_file_input}
@@ -53,8 +53,9 @@ CONFIGURE_PACKAGE_CONFIG_FILE(
 INSTALL(
   FILES ${config_file_output}
   DESTINATION ${IFCPP_CONFIG_DIR})
-
+  
 IF(BUILD_CONSOLE_APPLICATION)
+  ADD_SUBDIRECTORY (examples/CreateWallAndWriteFile)
   ADD_SUBDIRECTORY (examples/LoadFileExampleConsole)
 ENDIF()
 IF(BUILD_VIEWER_APPLICATION)

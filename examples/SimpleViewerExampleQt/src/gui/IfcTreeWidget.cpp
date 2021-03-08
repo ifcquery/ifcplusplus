@@ -33,7 +33,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "IfcPlusPlusSystem.h"
 #include "IfcTreeWidget.h"
 
-#include <QHeaderView>
+#include <QtWidgets/QHeaderView>
 
 QTreeWidgetItem* findItemByIfcId( QTreeWidgetItem* item, int ifc_id )
 {

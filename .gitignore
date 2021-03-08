@@ -39,3 +39,4 @@ examples/LoadFileExampleNoGUI/LoadFileExampleNoGUI/x64/
 
 *.db-wal
 *.db-shm
+examples/CreateWallAndWriteFile/SimpleWall.ifc

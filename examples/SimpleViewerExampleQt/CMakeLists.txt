@@ -27,6 +27,10 @@ FIND_PACKAGE(Qt5Widgets REQUIRED)
 FIND_PACKAGE(Qt5OpenGL REQUIRED)
 ADD_DEFINITIONS(${Qt5Widgets_DEFINITIONS})
 
+IF(BUILD_STATIC_LIBRARY)
+	ADD_DEFINITIONS(-DIFCQUERY_STATIC_LIB)
+ENDIF()
+
 SET(viewer_dir ${IFCPP_SOURCE_DIR}/examples/SimpleViewerExampleQt)
 SET(RESOURCES ${viewer_dir}/Resources/ifcplusplus.qrc)
 QT5_ADD_RESOURCES(SimpleViewerExample_RESOURCES_RCC ${RESOURCES})
@@ -43,6 +47,7 @@ SET(IFCPPVIEWER_SOURCE_FILES
     src/gui/MainWindow.cpp
     src/gui/TabReadWrite.cpp
     src/gui/TabView.cpp
+	src/gui/storeyShiftWidget.cpp
     src/viewer/GraphicsWindowQt.cpp
     src/viewer/OrbitCameraManipulator.cpp
     src/viewer/OrbitCameraManipulator.cpp
@@ -55,10 +60,16 @@ SET(IFCPPVIEWER_MOC_FILES
     src/gui/MainWindow.h
     src/gui/TabReadWrite.h
     src/gui/TabView.h
+	src/gui/storeyShiftWidget.h
     src/viewer/ViewerWidget.h
 )
 
 QT5_WRAP_CPP( IFCPPVIEWER_MOC_GENERATED_FILES ${IFCPPVIEWER_MOC_FILES})
+
+LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/external/Carve/Debug)
+LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/external/Carve/${CMAKE_BUILD_TYPE})
+LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/IfcPlusPlus/Debug)
+LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/IfcPlusPlus/${CMAKE_BUILD_TYPE})
 
 ADD_EXECUTABLE(SimpleViewerExample 
     ${IFCPPVIEWER_MOC_GENERATED_FILES}
@@ -69,11 +80,12 @@ ADD_EXECUTABLE(SimpleViewerExample
 set_target_properties(SimpleViewerExample PROPERTIES DEBUG_POSTFIX "d")
 
 target_link_libraries(SimpleViewerExample
-        debug IfcPlusPlusd optimized IfcPlusPlus
-        debug Qt5::Core
-        debug Qt5::Gui
-        debug Qt5::Widgets
-        debug Qt5::OpenGL)
+        debug Carved optimized Carve
+		debug IfcPlusPlusd optimized IfcPlusPlus
+        Qt5::Core
+        Qt5::Gui
+        Qt5::Widgets
+        Qt5::OpenGL)
 		
 If(UNIX)
     # ON Debian Stretch with cmake 3.7.2 OPENTHREADS_LIBRARY_DEBUG is a not known variable
@@ -81,7 +93,7 @@ If(UNIX)
 else(UNIX)
     TARGET_LINK_LIBRARIES(SimpleViewerExample debug ${OPENTHREADS_LIBRARY_DEBUG})
 	TARGET_LINK_LIBRARIES(SimpleViewerExample ${OPENTHREADS_LIBRARY} )
-ENDIF()
+endif()
 
 if(USE_OSG_DEBUG)
     target_link_libraries(SimpleViewerExample
@@ -110,6 +122,12 @@ endif(USE_OSG_DEBUG)
 TARGET_INCLUDE_DIRECTORIES(SimpleViewerExample
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src
+	${IFCPP_SOURCE_DIR}/external/Carve
+	${IFCPP_SOURCE_DIR}/external/Carve/src
+	${IFCPP_SOURCE_DIR}/external/Carve/src/lib
+	${IFCPP_SOURCE_DIR}/external/Carve/src/common
+	${IFCPP_SOURCE_DIR}/external/Carve/src/include
     ${OPENTHREADS_INCLUDE_DIR}
     ${OSG_INCLUDE_DIR}
     ${OSGGA_INCLUDE_DIR}

@@ -16,8 +16,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 */
 
 #pragma once
-#include <QWidget>
-#include <QSlider>
+#include <QtWidgets/QSlider>
 #include "ScopedLockAndBlock.h"
 
 class IfcPlusPlusSystem;

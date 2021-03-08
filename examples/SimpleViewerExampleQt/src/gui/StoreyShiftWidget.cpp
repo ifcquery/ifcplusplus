@@ -35,7 +35,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include "ScopedLockAndBlock.h"
 #include "StoreyShiftWidget.h"
-//#include "ViewController.h"
 #include "IfcPlusPlusSystem.h"
 
 StoreyShiftWidget::StoreyShiftWidget(IfcPlusPlusSystem* system )

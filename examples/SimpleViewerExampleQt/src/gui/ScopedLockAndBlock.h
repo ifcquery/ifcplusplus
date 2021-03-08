@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
-#include <QObject>
-#include <QWidget>
+#include <QtCore/QObject>
+#include <QtWidgets/QWidget>
 
 struct ScopedBlockCount
 {
