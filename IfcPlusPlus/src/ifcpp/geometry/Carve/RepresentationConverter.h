@@ -35,6 +35,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4/include/IfcGeometricCurveSet.h>
 #include <ifcpp/IFC4/include/IfcGeometricRepresentationItem.h>
 #include <ifcpp/IFC4/include/IfcGeometricSet.h>
+#include <ifcpp/IFC4/include/IfcGloballyUniqueId.h>
 #include <ifcpp/IFC4/include/IfcLabel.h>
 #include <ifcpp/IFC4/include/IfcMappedItem.h>
 #include <ifcpp/IFC4/include/IfcOpenShell.h>
@@ -119,6 +120,7 @@ public:
 	{
 		m_profile_cache->clearProfileCache();
 		m_styles_converter->clearStylesCache();
+		m_unit_converter->resetUnitFactors();
 	}
 	shared_ptr<GeometrySettings>&		getGeomSettings()	{ return m_geom_settings; }
 	shared_ptr<UnitConverter>&			getUnitConverter() { return m_unit_converter; }
@@ -947,7 +949,11 @@ public:
 
 			// opening can have its own relative placement
 			shared_ptr<IfcObjectPlacement>	opening_placement = opening->m_ObjectPlacement;
-			shared_ptr<ProductShapeData> product_shape_opening( new ProductShapeData( opening_placement->m_entity_id ) );
+			shared_ptr<ProductShapeData> product_shape_opening( new ProductShapeData() );
+			if (opening->m_GlobalId)
+			{
+				product_shape_opening->m_entity_guid = opening->m_GlobalId->m_value;
+			}
 			if( opening_placement )
 			{
 				std::unordered_set<IfcObjectPlacement*> opening_placements_applied;

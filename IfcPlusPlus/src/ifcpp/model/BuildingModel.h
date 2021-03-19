@@ -35,7 +35,7 @@ public:
 	~BuildingModel() override;
 	
 	enum SchemaVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4, IFC4X1, IFC4X3RC1, IFC4X3RC2, IFC4X3RC3 };
-	const std::map<int, shared_ptr<BuildingEntity> >& getMapIfcEntities() const { return m_map_entities; }
+	std::map<int, shared_ptr<BuildingEntity> >& getMapIfcEntities() { return m_map_entities; }
 	void setMapIfcEntities( const std::map<int, shared_ptr<BuildingEntity> >& map );
 	void insertEntity( shared_ptr<BuildingEntity> e, bool overwrite_existing = false, bool warn_on_existing_entities = true );
 	void removeEntity( shared_ptr<BuildingEntity> e );

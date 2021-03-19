@@ -555,7 +555,7 @@ public:
 class ProductShapeData 
 {
 public:
-	int m_entity_id = -1;
+	std::wstring m_entity_guid;
 	weak_ptr<IfcObjectDefinition>						m_ifc_object_definition;
 	weak_ptr<IfcObjectPlacement>						m_object_placement;
 	std::vector<shared_ptr<RepresentationData> >		m_vec_representations;
@@ -569,12 +569,12 @@ protected:
 
 public:
 	ProductShapeData() {}
-	ProductShapeData( int entity_id ) : m_entity_id(entity_id) { }
+	ProductShapeData( std::wstring entity_guid ) : m_entity_guid(entity_guid) { }
 
 	const std::vector<shared_ptr<ProductShapeData> >& getChildren() { return m_vec_children; }
 	shared_ptr<ProductShapeData> getDeepCopy()
 	{
-		shared_ptr<ProductShapeData> copy_data( new ProductShapeData(m_entity_id) );
+		shared_ptr<ProductShapeData> copy_data( new ProductShapeData(m_entity_guid) );
 		for( size_t item_i = 0; item_i < m_vec_representations.size(); ++item_i )
 		{
 			shared_ptr<RepresentationData>& representation_data = m_vec_representations[item_i];
@@ -667,13 +667,13 @@ public:
 			const shared_ptr<ProductShapeData>& existing_child = m_vec_children[ii];
 			if( existing_child == add_child )
 			{
-				if( existing_child->m_entity_id == add_child->m_entity_id )
+				if( existing_child->m_entity_guid.compare( add_child->m_entity_guid ) == 0 )
 				{
-					std::cout << __FUNCTION__ << ": child already added, entity_id: " << add_child->m_entity_id << std::endl;
+					std::wcout << __FUNCTION__ << L": child already added, entity_id: " << add_child->m_entity_guid << std::endl;
 				}
 				else
 				{
-					std::cout << __FUNCTION__ << ": entity_id mismatch: " << add_child->m_entity_id << " != " << existing_child->m_entity_id << std::endl;
+					std::wcout << __FUNCTION__ << L": entity_id mismatch: " << add_child->m_entity_guid << L" != " << existing_child->m_entity_guid << std::endl;
 				}
 				return;
 			}

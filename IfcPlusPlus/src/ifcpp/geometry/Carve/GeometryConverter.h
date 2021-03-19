@@ -348,13 +348,15 @@ public:
 				shared_ptr<IfcObjectDefinition> object_def = vec_object_definitions[i];
 				const int entity_id = object_def->m_entity_id;
 				std::string guid;
+				std::wstring guid_wstr;
 				if (object_def->m_GlobalId)
 				{
 					std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-					guid = converterX.to_bytes(object_def->m_GlobalId->m_value);
+					guid_wstr = object_def->m_GlobalId->m_value;
+					guid = converterX.to_bytes(guid_wstr);
 				}
 
-				shared_ptr<ProductShapeData> product_geom_input_data( new ProductShapeData( entity_id ) );
+				shared_ptr<ProductShapeData> product_geom_input_data( new ProductShapeData(guid_wstr) );
 				product_geom_input_data->m_ifc_object_definition = object_def;
 
 				// TODO: check for equal product shapes: each representation and each item must be equal, also openings must be equal: m_HasOpenings_inverse
