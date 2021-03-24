@@ -94,7 +94,7 @@ public:
 	{
 		m_product_shape_data.clear();
 		m_map_outside_spatial_structure.clear();
-		m_representation_converter->clearCache();
+		m_representation_converter->clearCache(false);
 		m_messages.clear();
 	}
 
@@ -116,7 +116,7 @@ public:
 		}
 		clearInputCache();
 		m_ifc_model = model;
-		m_representation_converter->clearCache();
+		m_representation_converter->clearCache(false);
 		m_representation_converter->setUnitConverter( m_ifc_model->getUnitConverter() );
 		m_ifc_model->setMessageTarget( this );
 	}
@@ -297,7 +297,7 @@ public:
 		progressValueCallback( 0, "geometry" );
 		m_product_shape_data.clear();
 		m_map_outside_spatial_structure.clear();
-		m_representation_converter->clearCache();
+		m_representation_converter->clearCache(false);
 
 		if( !m_ifc_model )
 		{

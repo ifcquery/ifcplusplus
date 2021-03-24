@@ -118,7 +118,7 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 	std::vector<shared_ptr<IfcUnit> >& vec_units = unit_assignment->m_Units;
 	for(auto unit : vec_units)
 	{
-			if( !unit )
+		if( !unit )
 		{
 			continue;
 		}
