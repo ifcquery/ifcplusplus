@@ -722,6 +722,7 @@ public:
 		bool draw_bounding_box = false;
 		double crease_angle = m_geom_settings->getCoplanarFacesMaxDeltaAngle();
 		double min_triangle_area = m_geom_settings->getMinTriangleArea();
+		std::vector<osg::ref_ptr<osg::Switch> > vec_current_switches;
 		
 		// create OSG objects
 		std::vector<shared_ptr<RepresentationData> >& vec_product_representations = product_shape->m_vec_representations;
@@ -976,10 +977,18 @@ public:
 				}
 
 				map_representation_switches.insert( std::make_pair( representation_id, representation_switch ) );
+				vec_current_switches.push_back(representation_switch);
 			}
 		}
 
 		// TODO: if no color or material is given, set color 231/219/169 for walls, 140/140/140 for slabs 
+		if (product_shape->m_vec_product_appearances.size() > 0)
+		{
+			for (auto representation_switch : vec_current_switches)
+			{
+				applyAppearancesToGroup(product_shape->m_vec_product_appearances, representation_switch);
+			}
+		}
 	}
 
 	/*\brief method convertToOSG: Creates geometry for OpenSceneGraph from given ProductShapeData.
@@ -1058,7 +1067,7 @@ public:
 				{
 					continue;
 				}
-				
+
 				const int product_id = ifc_product->m_entity_id;
 				std::string product_guid;
 				std::map<int, osg::ref_ptr<osg::Switch> > map_representation_switches;

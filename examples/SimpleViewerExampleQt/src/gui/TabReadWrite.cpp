@@ -330,7 +330,7 @@ void TabReadWrite::loadIfcFile( QString& path_in )
 				if (bsphere.center().length()/bsphere.radius() > 100)
 				{
 					std::unordered_set<osg::Geode*> set_applied;
-					SceneGraphUtils::translateGroup(model_switch, -bsphere.center(), set_applied);
+					SceneGraphUtils::translateGroup(model_switch, -bsphere.center(), set_applied, length_in_meter*0.001);
 				}
 			}
 		}

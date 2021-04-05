@@ -113,17 +113,13 @@ public:
 
 	virtual ~RepresentationConverter()
 	{
-		clearCache(false);
+		clearCache();
 	}
 
-	void clearCache( bool resetUnitFactor )
+	void clearCache()
 	{
 		m_profile_cache->clearProfileCache();
 		m_styles_converter->clearStylesCache();
-		if (resetUnitFactor)
-		{
-			m_unit_converter->resetUnitFactors();
-		}
 	}
 	shared_ptr<GeometrySettings>&		getGeomSettings()	{ return m_geom_settings; }
 	shared_ptr<UnitConverter>&			getUnitConverter() { return m_unit_converter; }

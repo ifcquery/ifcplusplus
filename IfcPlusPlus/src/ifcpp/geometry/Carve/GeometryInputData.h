@@ -562,12 +562,9 @@ public:
 	bool												m_added_to_spatial_structure = false;
 	weak_ptr<ProductShapeData>							m_parent;
 	std::vector<shared_ptr<TransformData> >				m_vec_transforms;
-	
-protected:
 	std::vector<shared_ptr<ProductShapeData> >			m_vec_children;
 	std::vector<shared_ptr<AppearanceData> >			m_vec_product_appearances;
 
-public:
 	ProductShapeData() {}
 	ProductShapeData( std::wstring entity_guid ) : m_entity_guid(entity_guid) { }
 

@@ -24,38 +24,47 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/OpenMPIncludes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/reader/ReaderUtil.h>
-#include <ifcpp/IFC4/include/IfcSpecularHighlightSelect.h>
-#include <ifcpp/IFC4/include/IfcSpecularExponent.h>
-#include <ifcpp/IFC4/include/IfcSpecularRoughness.h>
+
 #include <ifcpp/IFC4/include/IfcColour.h>
 #include <ifcpp/IFC4/include/IfcColourOrFactor.h>
 #include <ifcpp/IFC4/include/IfcColourRgb.h>
-#include <ifcpp/IFC4/include/IfcNormalisedRatioMeasure.h>
+#include <ifcpp/IFC4/include/IfcComplexProperty.h>
+#include <ifcpp/IFC4/include/IfcCurveStyle.h>
 #include <ifcpp/IFC4/include/IfcDraughtingPreDefinedColour.h>
+#include <ifcpp/IFC4/include/IfcElement.h>
+#include <ifcpp/IFC4/include/IfcExternallyDefinedSurfaceStyle.h>
+#include <ifcpp/IFC4/include/IfcFillAreaStyle.h>
+#include <ifcpp/IFC4/include/IfcIdentifier.h>
+#include <ifcpp/IFC4/include/IfcInteger.h>
 #include <ifcpp/IFC4/include/IfcLabel.h>
-#include <ifcpp/IFC4/include/IfcStyleAssignmentSelect.h>
-#include <ifcpp/IFC4/include/IfcSurfaceStyleElementSelect.h>
-#include <ifcpp/IFC4/include/IfcSurfaceStyle.h>
-#include <ifcpp/IFC4/include/IfcSurfaceStyleShading.h>
-#include <ifcpp/IFC4/include/IfcSurfaceStyleRendering.h>
-#include <ifcpp/IFC4/include/IfcStyledItem.h>
+#include <ifcpp/IFC4/include/IfcMaterial.h>
+#include <ifcpp/IFC4/include/IfcMaterialDefinitionRepresentation.h>
+#include <ifcpp/IFC4/include/IfcMaterialLayer.h>
+#include <ifcpp/IFC4/include/IfcMaterialLayerSet.h>
+#include <ifcpp/IFC4/include/IfcMaterialLayerSetUsage.h>
+#include <ifcpp/IFC4/include/IfcNormalisedRatioMeasure.h>
+#include <ifcpp/IFC4/include/IfcNullStyle.h>
 #include <ifcpp/IFC4/include/IfcPresentationStyleAssignment.h>
 #include <ifcpp/IFC4/include/IfcPresentationStyleSelect.h>
 #include <ifcpp/IFC4/include/IfcPresentationStyle.h>
 #include <ifcpp/IFC4/include/IfcProperty.h>
-#include <ifcpp/IFC4/include/IfcComplexProperty.h>
-#include <ifcpp/IFC4/include/IfcIdentifier.h>
 #include <ifcpp/IFC4/include/IfcPropertySingleValue.h>
-#include <ifcpp/IFC4/include/IfcInteger.h>
-#include <ifcpp/IFC4/include/IfcCurveStyle.h>
-#include <ifcpp/IFC4/include/IfcFillAreaStyle.h>
-#include <ifcpp/IFC4/include/IfcTextStyle.h>
-#include <ifcpp/IFC4/include/IfcTextStyleTextModel.h>
-#include <ifcpp/IFC4/include/IfcNullStyle.h>
-#include <ifcpp/IFC4/include/IfcExternallyDefinedSurfaceStyle.h>
+#include <ifcpp/IFC4/include/IfcRelAssociatesMaterial.h>
+#include <ifcpp/IFC4/include/IfcSpecularHighlightSelect.h>
+#include <ifcpp/IFC4/include/IfcSpecularExponent.h>
+#include <ifcpp/IFC4/include/IfcSpecularRoughness.h>
+#include <ifcpp/IFC4/include/IfcStyleAssignmentSelect.h>
+#include <ifcpp/IFC4/include/IfcStyledItem.h>
+#include <ifcpp/IFC4/include/IfcStyledRepresentation.h>
+#include <ifcpp/IFC4/include/IfcSurfaceStyleElementSelect.h>
+#include <ifcpp/IFC4/include/IfcSurfaceStyle.h>
+#include <ifcpp/IFC4/include/IfcSurfaceStyleShading.h>
+#include <ifcpp/IFC4/include/IfcSurfaceStyleRendering.h>
 #include <ifcpp/IFC4/include/IfcSurfaceStyleLighting.h>
 #include <ifcpp/IFC4/include/IfcSurfaceStyleRefraction.h>
 #include <ifcpp/IFC4/include/IfcSurfaceStyleWithTextures.h>
+#include <ifcpp/IFC4/include/IfcTextStyle.h>
+#include <ifcpp/IFC4/include/IfcTextStyleTextModel.h>
 #include <ifcpp/IFC4/include/IfcValue.h>
 
 class StylesConverter : public StatusCallback
@@ -80,7 +89,7 @@ public:
 		m_map_ifc_styles.clear();
 	}
 
-	void convertIfcSpecularHighlightSelect( shared_ptr<IfcSpecularHighlightSelect> highlight_select, shared_ptr<AppearanceData>& appearance_data )
+	static void convertIfcSpecularHighlightSelect( shared_ptr<IfcSpecularHighlightSelect> highlight_select, shared_ptr<AppearanceData>& appearance_data )
 	{
 		if( dynamic_pointer_cast<IfcSpecularExponent>( highlight_select ) )
 		{
@@ -94,7 +103,7 @@ public:
 		}
 	}
 
-	void convertIfcColourRgb( shared_ptr<IfcColourRgb> color_rgb, vec4& color )
+	static void convertIfcColourRgb( shared_ptr<IfcColourRgb> color_rgb, vec4& color )
 	{
 		if( color_rgb->m_Red )
 		{
@@ -110,7 +119,7 @@ public:
 		}
 	}
 
-	void convertIfcColourOrFactor( shared_ptr<IfcColourOrFactor> color_or_factor, vec4& src_color, vec4& target_color )
+	static void convertIfcColourOrFactor( shared_ptr<IfcColourOrFactor> color_or_factor, vec4& src_color, vec4& target_color )
 	{
 		// TYPE IfcColourOrFactor = SELECT ( IfcNormalisedRatioMeasure, IfcColourRgb);
 		shared_ptr<IfcColourRgb> color_rgb = dynamic_pointer_cast<IfcColourRgb>( color_or_factor );
@@ -129,7 +138,7 @@ public:
 		}
 	}
 
-	void convertIfcColour( shared_ptr<IfcColour> ifc_color_select, vec4& color )
+	static void convertIfcColour( shared_ptr<IfcColour> ifc_color_select, vec4& color )
 	{
 		// IfcColour = SELECT ( IfcColourSpecification, IfcPreDefinedColour );
 		shared_ptr<IfcColourSpecification> color_spec = dynamic_pointer_cast<IfcColourSpecification>( ifc_color_select );
@@ -165,6 +174,238 @@ public:
 				}
 			}
 			return;
+		}
+	}
+
+	static void convertIfcSurfaceStyleShading(shared_ptr<IfcSurfaceStyleShading> surface_style_shading, shared_ptr<AppearanceData>& appearance_data)
+	{
+		if (surface_style_shading)
+		{
+			vec4 surface_color(0.8, 0.82, 0.84, 1.0);
+			if (surface_style_shading->m_SurfaceColour)
+			{
+				shared_ptr<IfcColourRgb> surf_color = surface_style_shading->m_SurfaceColour;
+				convertIfcColourRgb(surf_color, surface_color);
+			}
+
+			if (surface_color.r() < 0.05 && surface_color.g() < 0.05 && surface_color.b() < 0.05)
+			{
+				surface_color.setColor(0.11, 0.12, 0.13, surface_color.a());
+			}
+
+			vec4 ambient_color(surface_color);
+			vec4 diffuse_color(surface_color);
+			vec4 specular_color(surface_color);
+			double shininess = 35.f;
+			double transparency = surface_color.a();
+			bool set_transparent = false;
+
+			shared_ptr<IfcSurfaceStyleRendering> surf_style_rendering = dynamic_pointer_cast<IfcSurfaceStyleRendering>(surface_style_shading);
+			if (surf_style_rendering)
+			{
+				if (surf_style_rendering->m_DiffuseColour)
+				{
+					shared_ptr<IfcColourOrFactor> color_or_factor = surf_style_rendering->m_DiffuseColour;
+					convertIfcColourOrFactor(color_or_factor, surface_color, diffuse_color);
+				}
+
+				if (surf_style_rendering->m_SpecularColour)
+				{
+					shared_ptr<IfcColourOrFactor> ifc_specular_color = surf_style_rendering->m_SpecularColour;
+					convertIfcColourOrFactor(ifc_specular_color, surface_color, specular_color);
+				}
+
+				if (surf_style_rendering->m_Transparency)
+				{
+					// in IFC 1 is transparent, 0 is opaque. if not given, the value 0 (opaque) is assumed
+					// in osg, 1 is opaque, 0 is transparent
+					transparency = 1.f - (float)surf_style_rendering->m_Transparency->m_value;
+					if (transparency < 0.1f)
+					{
+						transparency = 0.1f;
+					}
+
+					if (transparency > 1.f)
+					{
+						transparency = 1.f;
+					}
+
+					if (transparency < 0.99f)
+					{
+						set_transparent = true;
+					}
+				}
+
+				if (surf_style_rendering->m_SpecularHighlight)
+				{
+					shared_ptr<IfcSpecularHighlightSelect> spec_highlight = surf_style_rendering->m_SpecularHighlight;
+					convertIfcSpecularHighlightSelect(spec_highlight, appearance_data);
+					shininess = appearance_data->m_specular_roughness * 128;
+					if (shininess <= 1.0)
+					{
+						shininess = 1.0;
+					}
+				}
+			}
+
+			appearance_data->m_color_ambient.setColor(ambient_color.r()*0.8, ambient_color.g()*0.8, ambient_color.b()*0.8, transparency);
+			appearance_data->m_color_diffuse.setColor(diffuse_color.r(), diffuse_color.g(), diffuse_color.b(), transparency);
+			appearance_data->m_color_specular.setColor(specular_color.r()*0.1, specular_color.g()*0.1, specular_color.b()*0.1, transparency);
+
+			appearance_data->m_shininess = shininess;
+			appearance_data->m_set_transparent = set_transparent;
+			appearance_data->m_transparency = transparency;
+			appearance_data->m_complete = true;
+			appearance_data->m_apply_to_geometry_type = AppearanceData::GEOM_TYPE_SURFACE;
+			return;
+		}
+	}
+	
+	static void convertElementStyle(const shared_ptr<IfcElement>& ifc_element, std::vector<shared_ptr<AppearanceData> >& vec_appearance_data)
+	{
+		// handle assigned materials
+		std::vector<weak_ptr<IfcRelAssociates> >& vec_associates = ifc_element->m_HasAssociations_inverse;
+
+		for (size_t ii = 0; ii < vec_associates.size(); ++ii)
+		{
+			shared_ptr<IfcRelAssociates> rel_associates(vec_associates[ii]);
+			shared_ptr<IfcRelAssociatesMaterial> associated_material = dynamic_pointer_cast<IfcRelAssociatesMaterial>(rel_associates);
+			if (!associated_material)
+			{
+				continue;
+			}
+
+			if (!associated_material->m_RelatingMaterial)
+			{
+				continue;
+			}
+
+			shared_ptr<IfcMaterialLayerSetUsage> material_layer_set_usage = dynamic_pointer_cast<IfcMaterialLayerSetUsage>(associated_material->m_RelatingMaterial);
+			if (!material_layer_set_usage)
+			{
+				continue;
+			}
+
+			if (!material_layer_set_usage->m_ForLayerSet)
+			{
+				continue;
+			}
+
+			for (size_t jj = 0; jj < material_layer_set_usage->m_ForLayerSet->m_MaterialLayers.size(); ++jj)
+			{
+				const shared_ptr<IfcMaterialLayer>& material_layer = material_layer_set_usage->m_ForLayerSet->m_MaterialLayers[jj];
+				if (!material_layer)
+				{
+					continue;
+				}
+
+				const shared_ptr<IfcMaterial>& mat = material_layer->m_Material;					//optional
+				if (!mat)
+				{
+					continue;
+				}
+
+				//#132199 = IFCCOLOURRGB($, 0.933333333333333, 0.929411764705882, 0.756862745098039);
+				//#132200 = IFCSURFACESTYLERENDERING(#132199, 0., $, $, $, $, IFCNORMALISEDRATIOMEASURE(0.5), IFCSPECULAREXPONENT(64.), .NOTDEFINED.);
+				//#132201 = IFCSURFACESTYLE('Wall paint', .BOTH., (#132200));
+				//#132203 = IFCPRESENTATIONSTYLEASSIGNMENT((#132201));
+				//#132205 = IFCSTYLEDITEM(#132198, (#132203), $);
+
+				//#132228 = IFCPRESENTATIONSTYLEASSIGNMENT((#132201));
+				//#132230 = IFCSTYLEDITEM($, (#132228), $);
+				//#132232 = IFCSTYLEDREPRESENTATION(#96, 'Style', 'Material', (#132230));
+				//#132234 = IFCMATERIALDEFINITIONREPRESENTATION($, $, (#132232), #132227);
+
+				//#132227 = IFCMATERIAL('Wall paint');
+				//#132351 = IFCWALLSTANDARDCASE('3RLTfSMBXE_BWgA7WbvgI5', #41, 'Mur de base:250 mm_Exterior Wall:188968', $, 'Mur de base:250 mm_Exterior Wall:190858', #132331, #132349, '188968');
+				//#132366 = IFCMATERIALLAYER(#132227, 0.25, $);
+				//#132367 = IFCMATERIALLAYERSET((#132366), 'Mur de base:250 mm_Exterior Wall');
+				//#132370 = IFCMATERIALLAYERSETUSAGE(#132367, .AXIS2., .POSITIVE., -0.125);
+
+				//#805426 = IFCRELASSOCIATESMATERIAL('3UrmiAemXCIO2heyEAUvHP', #41, $, $, (#132351), #132370);
+
+
+				for (size_t kk = 0; kk < mat->m_HasRepresentation_inverse.size(); ++kk)
+				{
+					const weak_ptr<IfcMaterialDefinitionRepresentation>& mat_def_representation_weak = mat->m_HasRepresentation_inverse[kk];
+
+					if (mat_def_representation_weak.expired())
+					{
+						continue;
+					}
+
+					shared_ptr<IfcMaterialDefinitionRepresentation> mat_def_representation(mat_def_representation_weak);
+					if (!mat_def_representation)
+					{
+						continue;
+					}
+					std::vector<shared_ptr<IfcRepresentation> >& mat_representations = mat_def_representation->m_Representations;
+
+					for (const shared_ptr<IfcRepresentation>& mat_rep : mat_representations)
+					{
+						if (!mat_rep)
+						{
+							continue;
+						}
+						shared_ptr<IfcStyledRepresentation> mat_style = dynamic_pointer_cast<IfcStyledRepresentation>(mat_rep);
+						if (!mat_style)
+						{
+							continue;
+						}
+						for (const shared_ptr<IfcRepresentationItem>& mat_rep_item : mat_style->m_Items)
+						{
+							if (!mat_rep_item)
+							{
+								continue;
+							}
+
+							shared_ptr<IfcStyledItem> styled_item = dynamic_pointer_cast<IfcStyledItem>(mat_rep_item);
+							if (styled_item)
+							{
+								for (const shared_ptr<IfcStyleAssignmentSelect>& style_assignment_select : styled_item->m_Styles)
+								{
+									if (!style_assignment_select)
+									{
+										continue;
+									}
+									shared_ptr<IfcPresentationStyleAssignment> style_assignment = dynamic_pointer_cast<IfcPresentationStyleAssignment>(style_assignment_select);
+									if (style_assignment)
+									{
+										for (const shared_ptr<IfcPresentationStyleSelect>& style_select : style_assignment->m_Styles)
+										{
+											if (!style_select)
+											{
+												continue;
+											}
+											shared_ptr<IfcSurfaceStyle> surface_style = dynamic_pointer_cast<IfcSurfaceStyle>(style_select);
+											if (!surface_style)
+											{
+												continue;
+											}
+											for (const shared_ptr<IfcSurfaceStyleElementSelect>& surface_style_select : surface_style->m_Styles)
+											{
+												if (!surface_style_select)
+												{
+													continue;
+												}
+												shared_ptr<IfcSurfaceStyleShading> surface_style_shading = dynamic_pointer_cast<IfcSurfaceStyleShading>(surface_style_select);
+												if (surface_style_shading)
+												{
+													const int style_id = surface_style->m_entity_id;
+													shared_ptr<AppearanceData> appearance_data(new AppearanceData(style_id));
+													StylesConverter::convertIfcSurfaceStyleShading(surface_style_shading, appearance_data);
+													vec_appearance_data.push_back(appearance_data);
+													continue;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -223,81 +464,7 @@ public:
 			shared_ptr<IfcSurfaceStyleShading> surface_style_shading = dynamic_pointer_cast<IfcSurfaceStyleShading>( surf_style_element_select );
 			if( surface_style_shading )
 			{
-				vec4 surface_color( 0.8, 0.82, 0.84, 1.0 );
-				if( surface_style_shading->m_SurfaceColour )
-				{
-					shared_ptr<IfcColourRgb> surf_color = surface_style_shading->m_SurfaceColour;
-					convertIfcColourRgb( surf_color, surface_color );
-				}
-
-				if( surface_color.r() < 0.05 && surface_color.g() < 0.05 && surface_color.b() < 0.05 )
-				{
-					surface_color.setColor( 0.11, 0.12, 0.13, surface_color.a() );
-				}
-
-				vec4 ambient_color( surface_color );
-				vec4 diffuse_color( surface_color );
-				vec4 specular_color( surface_color );
-				double shininess = 35.f;
-				double transparency = surface_color.a();
-				bool set_transparent = false;
-
-				shared_ptr<IfcSurfaceStyleRendering> surf_style_rendering = dynamic_pointer_cast<IfcSurfaceStyleRendering>( surf_style_element_select );
-				if( surf_style_rendering )
-				{
-					if( surf_style_rendering->m_DiffuseColour )
-					{
-						shared_ptr<IfcColourOrFactor> color_or_factor = surf_style_rendering->m_DiffuseColour;
-						convertIfcColourOrFactor( color_or_factor, surface_color, diffuse_color );
-					}
-
-					if( surf_style_rendering->m_SpecularColour )
-					{
-						shared_ptr<IfcColourOrFactor> ifc_specular_color = surf_style_rendering->m_SpecularColour;
-						convertIfcColourOrFactor( ifc_specular_color, surface_color, specular_color );
-					}
-
-					if( surf_style_rendering->m_Transparency )
-					{
-						// in IFC 1 is transparent, 0 is opaque. if not given, the value 0 (opaque) is assumed
-						// in osg, 1 is opaque, 0 is transparent
-						transparency = 1.f - (float)surf_style_rendering->m_Transparency->m_value;
-						if( transparency < 0.1f )
-						{
-							transparency = 0.1f;
-						}
-
-						if( transparency > 1.f )
-						{
-							transparency = 1.f;
-						}
-
-						if( transparency < 0.99f )
-						{
-							set_transparent = true;
-						}
-					}
-
-					if( surf_style_rendering->m_SpecularHighlight )
-					{
-						shared_ptr<IfcSpecularHighlightSelect> spec_highlight = surf_style_rendering->m_SpecularHighlight;
-						convertIfcSpecularHighlightSelect( spec_highlight, appearance_data );
-						shininess = appearance_data->m_specular_roughness * 128;
-						if( shininess <= 1.0 )
-						{
-							shininess = 1.0;
-						}
-					}
-				}
-
-				appearance_data->m_color_ambient.setColor( ambient_color.r()*0.8, ambient_color.g()*0.8, ambient_color.b()*0.8, transparency );
-				appearance_data->m_color_diffuse.setColor( diffuse_color.r(), diffuse_color.g(), diffuse_color.b(), transparency );
-				appearance_data->m_color_specular.setColor( specular_color.r()*0.1, specular_color.g()*0.1, specular_color.b()*0.1, transparency );
-
-				appearance_data->m_shininess = shininess;
-				appearance_data->m_set_transparent = set_transparent;
-				appearance_data->m_transparency = transparency;
-				appearance_data->m_complete = true;
+				convertIfcSurfaceStyleShading(surface_style_shading, appearance_data);
 				continue;
 			}
 

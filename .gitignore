@@ -35,8 +35,6 @@ examples/SimpleViewerExampleMFC/.vs/IfcQueryViewer/v15/.suo
 examples/SimpleViewerExampleMFC/.vs/SimpleViewerExampleMFC/v15/.suo
 examples/CreateWallAndWriteFile/CreateWallAndWriteFile/x64/
 examples/CreateWallAndWriteFile/CreateWallAndWriteFile/SimpleWall.ifc
-examples/LoadFileExampleNoGUI/LoadFileExampleNoGUI/x64/
-
-*.db-wal
-*.db-shm
 examples/CreateWallAndWriteFile/SimpleWall.ifc
+examples/LoadFileExampleNoGUI/LoadFileExampleNoGUI/x64/
+external/Carve/build/

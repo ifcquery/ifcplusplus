@@ -592,53 +592,77 @@ namespace SceneGraphUtils
 		}
 	}
 
-	inline void translateGroup( osg::Group* grp, const osg::Vec3f& trans, std::unordered_set<osg::Geode*>& set_applied )
+	inline void translateGroup( osg::Group* grp, const osg::Vec3d& trans, std::unordered_set<osg::Geode*>& set_applied, double minTranslateLength )
 	{
-		int num_children = grp->getNumChildren();
-		for( int i = 0; i < num_children; ++i )
+		if (trans.length2() < minTranslateLength*minTranslateLength )
 		{
-			osg::Node* node = grp->getChild( i );
-			osg::Group* child_group = dynamic_cast<osg::Group*>( node );
-			if( child_group )
+			return;
+		}
+
+		osg::Vec3d currentTranslate = trans;
+		int num_children = grp->getNumChildren();
+		for (int i = 0; i < num_children; ++i)
+		{
+			osg::Node* node = grp->getChild(i);
+			if (!node)
 			{
-				translateGroup( child_group, trans, set_applied );
 				continue;
 			}
 
-			osg::Geode* child_geode = dynamic_cast<osg::Geode*>( node );
-			if( child_geode )
+			osg::MatrixTransform* child_transform = dynamic_cast<osg::MatrixTransform*>(node);
+			if (child_transform)
 			{
-				if( set_applied.find( child_geode ) != set_applied.end() )
+				osg::Matrix matrix = child_transform->getMatrix();
+				osg::Vec3d delta = trans - matrix.getTrans();
+
+				matrix.preMult(osg::Matrix::translate(trans));
+				child_transform->setMatrix(matrix);
+				
+				osg::Vec3d matrix_translate2 = child_transform->getMatrix().getTrans();
+				currentTranslate = osg::Vec3d();
+			}
+
+			osg::Group* child_group = dynamic_cast<osg::Group*>(node);
+			if (child_group)
+			{
+				translateGroup(child_group, currentTranslate, set_applied, minTranslateLength);
+				continue;
+			}
+
+			osg::Geode* child_geode = dynamic_cast<osg::Geode*>(node);
+			if (child_geode)
+			{
+				if (set_applied.find(child_geode) != set_applied.end())
 				{
 					continue;
 				}
-				set_applied.insert( child_geode );
-				for( size_t ii_drawables = 0; ii_drawables < child_geode->getNumDrawables(); ++ii_drawables )
+				set_applied.insert(child_geode);
+				for (size_t ii_drawables = 0; ii_drawables < child_geode->getNumDrawables(); ++ii_drawables)
 				{
 					osg::Drawable* drawable = child_geode->getDrawable(ii_drawables);
-				
-					osg::Geometry* child_geometry = dynamic_cast<osg::Geometry*>( drawable );
-					if( !child_geometry )
+
+					osg::Geometry* child_geometry = dynamic_cast<osg::Geometry*>(drawable);
+					if (!child_geometry)
 					{
 #ifdef _DEBUG
 						std::cout << "!child_geometry" << std::endl;
 #endif
-						return;
+						continue;
 					}
 					osg::Array* vertices_array = child_geometry->getVertexArray();
-					osg::Vec3Array* vertices_float = dynamic_cast<osg::Vec3Array*>( vertices_array );
+					osg::Vec3Array* vertices_float = dynamic_cast<osg::Vec3Array*>(vertices_array);
 
-					if( !vertices_float )
+					if (!vertices_float)
 					{
 #ifdef _DEBUG
 						std::cout << "!vertices_float" << std::endl;
 #endif
-						return;
+						continue;
 					}
 
-					for( osg::Vec3Array::iterator it_array = vertices_float->begin(); it_array != vertices_float->end(); ++it_array )
+					for (osg::Vec3Array::iterator it_array = vertices_float->begin(); it_array != vertices_float->end(); ++it_array)
 					{
-						osg::Vec3f& vertex = ( *it_array );
+						osg::Vec3f& vertex = (*it_array);
 						vertex = vertex + trans;
 					}
 
@@ -649,6 +673,32 @@ namespace SceneGraphUtils
 					grp->dirtyBound();
 				}
 
+				continue;
+			}
+
+			osg::Geometry* child_geometry = dynamic_cast<osg::Geometry*>(node);
+			if (child_geometry)
+			{
+				osg::Array* vertices_array = child_geometry->getVertexArray();
+				osg::Vec3Array* vertices_float = dynamic_cast<osg::Vec3Array*>(vertices_array);
+
+				if (!vertices_float)
+				{
+#ifdef _DEBUG
+					std::cout << "!vertices_float" << std::endl;
+#endif
+					continue;
+				}
+
+				for (osg::Vec3Array::iterator it_array = vertices_float->begin(); it_array != vertices_float->end(); ++it_array)
+				{
+					osg::Vec3f& vertex = (*it_array);
+					vertex = vertex + trans;
+				}
+
+				vertices_float->dirty();
+				child_geometry->dirtyBound();
+				child_geometry->dirtyDisplayList();
 				continue;
 			}
 

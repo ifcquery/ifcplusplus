@@ -28,6 +28,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4/include/IfcRelAggregates.h>
 #include <ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h>
 #include <ifcpp/IFC4/include/IfcRelDefinesByProperties.h>
+#include <ifcpp/IFC4/include/IfcSite.h>
 #include <ifcpp/IFC4/include/IfcSpace.h>
 #include <ifcpp/IFC4/include/IfcWindow.h>
 
@@ -94,7 +95,7 @@ public:
 	{
 		m_product_shape_data.clear();
 		m_map_outside_spatial_structure.clear();
-		m_representation_converter->clearCache(false);
+		m_representation_converter->clearCache();
 		m_messages.clear();
 	}
 
@@ -116,7 +117,7 @@ public:
 		}
 		clearInputCache();
 		m_ifc_model = model;
-		m_representation_converter->clearCache(false);
+		m_representation_converter->clearCache();
 		m_representation_converter->setUnitConverter( m_ifc_model->getUnitConverter() );
 		m_ifc_model->setMessageTarget( this );
 	}
@@ -289,6 +290,66 @@ public:
 		}
 	}
 
+	void resetIfcSiteLargeCoords(shared_ptr<IfcSite>& ifc_site)
+	{
+		if (!ifc_site)
+		{
+			return;
+		}
+
+		if (!ifc_site->m_ObjectPlacement)
+		{
+			return;
+		}
+
+		shared_ptr<IfcLocalPlacement> local_placement = dynamic_pointer_cast<IfcLocalPlacement>(ifc_site->m_ObjectPlacement);
+		if (!local_placement)
+		{
+			return;
+		}
+
+		if (local_placement->m_RelativePlacement)
+		{
+			shared_ptr<IfcAxis2Placement3D> axis_placement = dynamic_pointer_cast<IfcAxis2Placement3D>(local_placement->m_RelativePlacement);
+			if (axis_placement)
+			{
+				if (axis_placement->m_Location)
+				{
+					shared_ptr<IfcCartesianPoint> placement_location = dynamic_pointer_cast<IfcCartesianPoint>(axis_placement->m_Location);
+					if (placement_location)
+					{
+						if (placement_location->m_Coordinates.size() > 2)
+						{
+							if (placement_location->m_Coordinates[0])
+							{
+								if (placement_location->m_Coordinates[0]->m_value > 1000)
+								{
+									placement_location->m_Coordinates[0]->m_value = 0;
+								}
+							}
+
+							if (placement_location->m_Coordinates[1])
+							{
+								if (placement_location->m_Coordinates[1]->m_value > 1000)
+								{
+									placement_location->m_Coordinates[1]->m_value = 0;
+								}
+							}
+
+							if (placement_location->m_Coordinates[2])
+							{
+								if (placement_location->m_Coordinates[2]->m_value > 1000)
+								{
+									placement_location->m_Coordinates[2]->m_value = 0;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	/*\brief method convertGeometry: Creates geometry for Carve from previously loaded BuildingModel model.
 	**/
 	void convertGeometry()
@@ -297,7 +358,7 @@ public:
 		progressValueCallback( 0, "geometry" );
 		m_product_shape_data.clear();
 		m_map_outside_spatial_structure.clear();
-		m_representation_converter->clearCache(false);
+		m_representation_converter->clearCache();
 
 		if( !m_ifc_model )
 		{
@@ -325,6 +386,12 @@ public:
 					if (object_def)
 					{
 						vec_object_definitions.push_back(object_def);
+
+						shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>(object_def);
+						if (ifc_site)
+						{
+							resetIfcSiteLargeCoords(ifc_site);
+						}
 					}
 				}
 			}
@@ -520,6 +587,23 @@ public:
 		progressValueCallback( 1.0, "geometry" );
 	}
 
+	void addVector3D(const vec3& point, std::vector<float>& target_array)
+	{
+		bool m_roundCoords = false;
+		if (m_roundCoords)
+		{
+			target_array.push_back(round(point.x*10000)*0.0001);
+			target_array.push_back(round(point.y*10000)*0.0001);
+			target_array.push_back(round(point.z*10000)*0.0001);
+		}
+		else
+		{
+			target_array.push_back(point.x);
+			target_array.push_back(point.y);
+			target_array.push_back(point.z);
+		}
+	}
+
 	//\brief method convertIfcProduct: Creates geometry objects (meshset with connected vertex-edge-face graph) from an IfcProduct object
 	// caution: when using OpenMP, this method runs in parallel threads, so every write access to member variables needs a write lock
 	void convertIfcProductShape( shared_ptr<ProductShapeData>& product_shape )
@@ -535,21 +619,21 @@ public:
 		{
 			return;
 		}
-		
-		if( !ifc_product->m_Representation )
-		{
-			return;
-		}
-		
+
 		double length_factor = 1.0;
-		if( m_ifc_model )
+		if (m_ifc_model)
 		{
-			if( m_ifc_model->getUnitConverter() )
+			if (m_ifc_model->getUnitConverter())
 			{
 				length_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
 			}
 		}
 
+		if( !ifc_product->m_Representation )
+		{
+			return;
+		}
+		
 		// evaluate IFC geometry
 		shared_ptr<IfcProductRepresentation>& product_representation = ifc_product->m_Representation;
 		std::vector<shared_ptr<IfcRepresentation> >& vec_representations = product_representation->m_Representations;
@@ -591,12 +675,21 @@ public:
 			m_representation_converter->getPlacementConverter()->convertIfcObjectPlacement( ifc_product->m_ObjectPlacement, product_shape, placement_already_applied, false );
 		}
 
-		// handle openings
+		
 		std::vector<shared_ptr<ProductShapeData> > vec_opening_data;
 		const shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>(ifc_product);
 		if( ifc_element )
 		{
+			// handle openings
 			m_representation_converter->subtractOpenings(ifc_element, product_shape);
+
+			// handle styles on IfcElement level
+			std::vector<shared_ptr<AppearanceData> > vec_apperances;
+			StylesConverter::convertElementStyle(ifc_element, vec_apperances);
+			for (auto appearance_data : vec_apperances)
+			{
+				product_shape->addAppearance(appearance_data);
+			}
 		}
 
 		// Fetch the IFCProduct relationships
@@ -643,6 +736,46 @@ public:
 				}
 			}
 		}
+	}
+
+	bool hasRelatedOpenings(shared_ptr<ProductShapeData>& product_shape)
+	{
+		if (product_shape->m_ifc_object_definition.expired())
+		{
+			return false;
+		}
+
+		shared_ptr<IfcObjectDefinition> ifc_object_def(product_shape->m_ifc_object_definition);
+		shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
+		if (!ifc_product)
+		{
+			return false;
+		}
+
+		shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>(ifc_product);
+		if (!ifc_element)
+		{
+			return false;
+		}
+
+		if (ifc_element->m_HasOpenings_inverse.size() == 0)
+		{
+			return false;
+		}
+
+		// collect aggregated objects
+		const std::vector<weak_ptr<IfcRelAggregates> >& vec_decomposed_by = ifc_object_def->m_IsDecomposedBy_inverse;
+		if (vec_decomposed_by.size() > 0)
+		{
+			return true;
+		}
+
+		const std::vector<weak_ptr<IfcRelAggregates> >& vec_decomposes = ifc_object_def->m_Decomposes_inverse;
+		if (vec_decomposes.size() > 0)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	void subtractOpeningsInRelatedObjects(shared_ptr<ProductShapeData>& product_shape)
