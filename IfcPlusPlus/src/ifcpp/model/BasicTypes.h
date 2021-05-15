@@ -17,73 +17,50 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#if _MSC_VER >= 1600
-
 #include <memory>
+
 #if _MSC_VER < 1900
-using std::tr1::shared_ptr;
-using std::tr1::weak_ptr;
-using std::tr1::dynamic_pointer_cast;
-using std::tr1::make_shared;
-#else
-using std::shared_ptr;
-using std::weak_ptr;
-using std::dynamic_pointer_cast;
-using std::make_shared;
-#endif
-
+	using std::tr1::shared_ptr;
+	using std::tr1::weak_ptr;
+	using std::tr1::dynamic_pointer_cast;
+	using std::tr1::make_shared;
+#elif _MSC_VER >= 1900
+	using std::shared_ptr;
+	using std::weak_ptr;
+	using std::dynamic_pointer_cast;
+	using std::make_shared;
 #elif defined __clang__
-#include <memory>
-using std::shared_ptr;
-using std::weak_ptr;
-using std::dynamic_pointer_cast;
-using std::make_shared;
-
-#elif defined __GNUC__ && !defined(__FreeBSD__)
-#if __GNUC__ < 5
-#include <tr1/memory>
-using std::tr1::shared_ptr;
-using std::tr1::weak_ptr;
-using std::tr1::dynamic_pointer_cast;
-using std::tr1::make_shared;
+	using std::shared_ptr;
+	using std::weak_ptr;
+	using std::dynamic_pointer_cast;
+	using std::make_shared;
+#elif defined __GNUC__
+	#define _stricmp strcasecmp
+	#if defined(__FreeBSD__)
+		using std::shared_ptr;
+		using std::weak_ptr;
+		using std::dynamic_pointer_cast;
+		using std::make_shared;
+	#else
+	using std::shared_ptr;
+	using std::weak_ptr;
+	using std::dynamic_pointer_cast;
+	using std::make_shared;
+	#endif
 #else
-#include <memory>
-using std::shared_ptr;
-using std::weak_ptr;
-using std::dynamic_pointer_cast;
-using std::make_shared;
-#endif
+	#ifndef BOOST_SP_USE_QUICK_ALLOCATOR
+	#define BOOST_SP_USE_QUICK_ALLOCATOR
+	#endif
+	#ifndef BOOST_SP_NO_ATOMIC_ACCESS
+	#define BOOST_SP_NO_ATOMIC_ACCESS
+	#endif
 
-#define _stricmp strcasecmp
-
-#elif defined(__FreeBSD__)
-
-// Requires clang++ and libc++
-#include <memory>
-
-using std::shared_ptr;
-using std::weak_ptr;
-using std::dynamic_pointer_cast;
-using std::make_shared;
-
-#define _stricmp strcasecmp
-
-#else
-
-#ifndef BOOST_SP_USE_QUICK_ALLOCATOR
-#define BOOST_SP_USE_QUICK_ALLOCATOR
-#endif
-#ifndef BOOST_SP_NO_ATOMIC_ACCESS
-#define BOOST_SP_NO_ATOMIC_ACCESS
-#endif
-
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
-using boost::shared_ptr;
-using boost::weak_ptr;
-using boost::dynamic_pointer_cast;
-using boost::make_shared;
-
+	#include <boost/shared_ptr.hpp>
+	#include <boost/weak_ptr.hpp>
+	using boost::shared_ptr;
+	using boost::weak_ptr;
+	using boost::dynamic_pointer_cast;
+	using boost::make_shared;
 #endif
 
 struct vec4

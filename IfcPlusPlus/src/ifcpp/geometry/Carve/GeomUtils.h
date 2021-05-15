@@ -684,6 +684,7 @@ namespace GeomUtils
 				}
 				previous_x = current_point.x;
 				previous_y = current_point.y;
+				previous_z = current_point.z;
 				++it_loop;
 			}
 		}

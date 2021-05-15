@@ -113,15 +113,13 @@ public:
 		{
 			if( m )
 			{
-				switch (m->m_message_type)
+				if (m->m_message_type == MESSAGE_TYPE_UNKNOWN
+					|| m->m_message_type == MESSAGE_TYPE_GENERAL_MESSAGE
+					|| m->m_message_type == MESSAGE_TYPE_MINOR_WARNING
+					|| m->m_message_type == MESSAGE_TYPE_WARNING
+					|| m->m_message_type == MESSAGE_TYPE_ERROR )
 				{
-					case MESSAGE_TYPE_UNKNOWN:
-					case MESSAGE_TYPE_GENERAL_MESSAGE:
-					case MESSAGE_TYPE_MINOR_WARNING:
-					case MESSAGE_TYPE_WARNING:
-					case MESSAGE_TYPE_ERROR:
-						std::wcout << L"messageCallback not set. Lost message: " << m->m_message_text.c_str() << std::endl;
-						break;
+					std::wcout << L"messageCallback not set. Lost message: " << m->m_message_text.c_str() << std::endl;
 				}
 			}
 		}

@@ -47,7 +47,7 @@ SET(IFCPPVIEWER_SOURCE_FILES
     src/gui/MainWindow.cpp
     src/gui/TabReadWrite.cpp
     src/gui/TabView.cpp
-	src/gui/storeyShiftWidget.cpp
+	src/gui/StoreyShiftWidget.cpp
     src/viewer/GraphicsWindowQt.cpp
     src/viewer/OrbitCameraManipulator.cpp
     src/viewer/OrbitCameraManipulator.cpp

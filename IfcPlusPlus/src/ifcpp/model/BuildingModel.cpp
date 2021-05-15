@@ -494,6 +494,7 @@ void BuildingModel::initFileHeader( std::wstring file_name )
 	m_file_name = file_name;
 	std::string filename_escaped = encodeStepString( file_name );
 	std::wstringstream strs;
+	// ISO-10303-21; is set outside of header
 	strs << "HEADER;" << std::endl;
 	strs << "FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');" << std::endl;
 	strs << "FILE_NAME('" << filename_escaped.c_str() << "','";

@@ -78,141 +78,7 @@ namespace CSG_Adapter
 			vertex.v.z = round( vertex.v.z*1000000.0 ) * 0.000001;
 		}
 	}
-	inline void mergeAlignedEdges( shared_ptr<meshset_t >& meshset, carve::mesh::MeshSimplifier& simplifier )
-	{
-		if( !meshset )
-		{
-			return;
-		}
-
-		std::map<face_t*, std::vector<carve::mesh::Edge<3>*> > map_omit_face_edges;
-		for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
-		{
-			carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
-
-			const std::vector<carve::mesh::Edge<3>*>& vec_closed_edges = mesh->closed_edges;
-			bool mesh_dirty = false;
-			for( size_t closed_edge_i = 0; closed_edge_i < vec_closed_edges.size(); ++closed_edge_i )
-			{
-				carve::mesh::Edge<3>* edge_i = vec_closed_edges[closed_edge_i];
-				carve::mesh::Edge<3>* edge_next = edge_i->next;
-				if( !edge_next )
-				{
-					continue;
-				}
-
-				if( !edge_i )
-				{
-#ifdef _DEBUG
-					std::cout << __FUNC__ << ": !edge_i" << std::endl;
-#endif
-					continue;
-				}
-
-				if( !edge_next )
-				{
-#ifdef _DEBUG
-					std::cout << __FUNC__ << ": !edge_next" << std::endl;
-#endif
-					continue;
-				}
-
-				if( !edge_next->rev )
-				{
-#ifdef _DEBUG
-					std::cout << __FUNC__ << ": !edge_j->rev" << std::endl;
-#endif
-					continue;
-				}
-
-				if( edge_next->rev->next == edge_i->rev )
-				{
-					//   ----------->(v3)--->		     --->o--->
-					//               |^                      |^
-					// edge_next->rev||edge_next(remove)     ||
-					//               v|                      || 
-					//              (v2)                     ||
-					//               |^                      ||
-					//       (remove)||edge_i	             ||edge_i
-					//               v|				         v|
-					//   <----------(v1)<---             <---o<---
-
-					const carve::mesh::Vertex<3>* v1 = edge_i->v1();
-					const carve::mesh::Vertex<3>* v2 = edge_i->v2();
-					const carve::mesh::Vertex<3>* v3 = edge_next->v2();
-
-					const vec3& v1vec = v1->v;
-					const vec3& v2vec = v2->v;
-					const vec3& v3vec = v3->v;
-					vec3 sement12 = v2vec - v1vec;
-					vec3 sement23 = v3vec - v2vec;
-#ifdef _DEBUG
-					double sement12_length2 = sement12.length2();
-					double sement23_length2 = sement23.length2();
-					if( std::abs( edge_i->length2() - sement12_length2 ) > 0.00001 )
-					{
-						std::cout << __FUNC__ << ": abs( edge_i->length2() - sement12_length2 ) > 0.00001" << std::endl;
-					}
-
-					if( std::abs( edge_next->length2() - sement23_length2 ) > 0.00001 )
-					{
-						std::cout << __FUNC__ << ": abs( edge_next->length2() - sement23_length2 ) > 0.00001" << std::endl;
-					}
-#endif
-
-					// check angle between edges
-					sement12.normalize();
-					sement23.normalize();
-					double dot_angle = dot( sement12, sement23 );
-					if( std::abs( std::abs( dot_angle ) - 1.0 ) < 0.001 )
-					{
-						// edges are in line
-						if( v1 == v3 )
-						{
-#ifdef _DEBUG
-							std::cout << __FUNC__ << ": edge loop with only 2 edges" << std::endl;
-#endif
-							//edge_i->rev == edge_next
-							edge_i->removeEdge(); //also removes edge_i->rev
-						}
-						else
-						{
-							// this links previous and next edges and deletes edge_j and reverse of edge_i:
-							edge_i->rev->removeHalfEdge();
-							edge_i->rev = edge_next->rev;
-
-							edge_next->rev->rev = edge_i;
-							edge_next->removeHalfEdge();
-							mesh_dirty = true;
-						}
-
-						// the vertex is kept in the vertex storage, no need to delete here
-					}
-					else
-					{
-						// edges are not in line, so faces should be in a plane
-#ifdef _DEBUG
-						const vec3& normal_face_i = edge_i->face->plane.N;
-						const vec3& normal_face_i_rev = edge_i->rev->face->plane.N;
-
-
-						double dot_face_angle = dot( normal_face_i, normal_face_i_rev );
-						if( std::abs( dot_face_angle - 1.0 ) > 0.001 )
-						{
-							std::cout << __FUNC__ << ": abs( dot_face_angle - 1.0 ) > 0.001" << std::endl;
-						}
-#endif
-					}
-				}
-			}
-
-			if (mesh_dirty)
-			{
-				//clears closed_edges and rebuilds it from faces
-				mesh->cacheEdges();
-			}
-		}
-	}
+	
 	inline bool checkMeshSetNonNegativeAndClosed( const shared_ptr<meshset_t> mesh_set )
 	{
 		bool meshes_closed = true;
@@ -577,11 +443,6 @@ namespace CSG_Adapter
 					++i_vert;
 				} while( edge != face->edge );
 
-				//std::vector<carve::mesh::Vertex<3>* > verts;
-				//face->getVertices( verts );
-
-				// TODO: merge coplanar faces and re-triangulate
-
 				for( size_t i = 0; i != triangulated.size(); ++i )
 				{
 					const carve::triangulate::tri_idx& triangle = triangulated[i];
@@ -626,32 +487,9 @@ namespace CSG_Adapter
 		meshset.reset();
 		meshset = shared_ptr<meshset_t >( poly_cache.m_poly_data->createMesh( carve::input::opts() ) );
 	}
+
 	inline void simplifyMesh( shared_ptr<meshset_t >& meshset, bool triangulate, StatusCallback* report_callback, BuildingEntity* entity )
 	{
-		carve::mesh::MeshSimplifier simplifier;
-		//double min_colinearity = m_geom_settings->m_min_colinearity;
-		//double min_delta_v = m_geom_settings->m_min_delta_v;
-		//double min_normal_angle = m_geom_settings->m_min_normal_angle;
-		//double min_length = 0.0001;//m_geom_settings->m_min_length;
-
-		//try
-		//{
-		//      simplifier.removeFins(meshset.get());
-		//      //simplifier.cleanFaceEdges( meshset.get() );
-		//      //simplifier.removeRemnantFaces( meshset.get() );
-		//      //simplifier.mergeCoplanarFaces( meshset.get(), 0.0 );
-		//      //simplifier.eliminateShortEdges( meshset.get(), min_length );
-		//      //simplifier.removeFins(meshset.get());
-		//      simplifier.simplify( meshset.get(), min_colinearity, min_delta_v, min_normal_angle, min_length );
-		//      simplifier.removeFins(meshset.get());
-		//      //simplifier.removeLowVolumeManifolds(meshset, 0.01);
-		//      simplifier.improveMesh( meshset.get(), m_geom_settings->m_min_colinearity, m_geom_settings->m_min_delta_v, m_geom_settings->m_min_normal_angle );
-		//}
-		//catch(...)
-		//{
-		//      std::cout << "simplifier.eliminateShortEdges failed." << std::endl;
-		//}
-
 		if( !meshset )
 		{
 			return;
@@ -671,7 +509,9 @@ namespace CSG_Adapter
 #endif
 			return;
 		}
+
 		shared_ptr<meshset_t > meshset_copy( meshset->clone() );
+		carve::mesh::MeshSimplifier simplifier;
 		simplifier.removeLowVolumeManifolds( meshset.get(), 0.000000001 );
 
 		if( meshset->meshes.size() < 1 )
@@ -679,40 +519,12 @@ namespace CSG_Adapter
 			return;
 		}
 
-		//size_t num_faces = getNumFaces( meshset.get() );
-		// merge faces if their normals have a difference less than 10^-5 rad
-		/*size_t modifications_coplanar = simplifier.mergeCoplanarFaces( meshset.get(), 0.00001 );
-		if( modifications_coplanar > 0 )
-		{
-			int num_faces_post_merge = getNumFaces( meshset.get() );
-			if( num_faces_post_merge + modifications_coplanar != num_faces )
-			{
-#ifdef _DEBUG
-				std::cout << "num_faces_post_merge + modifications_coplanar != num_faces" << std::endl;
-#endif
-			}
-		}*/
-
 		bool faces_ok = checkFaceIntegrity( meshset );
 		if( !faces_ok )
 		{
 			meshset = meshset_copy;
 #ifdef _DEBUG
-			std::cout << "Error in simplifier.mergeCoplanarFaces" << std::endl;
-#endif
-			return;
-		}
-
-		meshset_copy = shared_ptr<meshset_t >( meshset->clone() );
-		//mergeAlignedEdges( meshset, simplifier );
-		meshset->collectVertices(); //removes unreferenced Vertices
-
-		faces_ok = checkFaceIntegrity( meshset );
-		if( !faces_ok )
-		{
-			meshset = meshset_copy;
-#ifdef _DEBUG
-			std::cout << "Error in mergeAlignedEdges" << std::endl;
+			std::cout << "Error in checkFaceIntegrity" << std::endl;
 #endif
 			return;
 		}

@@ -24,7 +24,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <map>
 #include "ifcpp/model/BasicTypes.h"
 
-enum BuildingEntityEnum {};
 enum LogicalEnum { LOGICAL_TRUE, LOGICAL_FALSE, LOGICAL_UNKNOWN };
 
 struct BuildingCopyOptions

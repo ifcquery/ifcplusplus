@@ -121,6 +121,10 @@ public:
 	void convertIfcCurve( const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec3>& target_vec, std::vector<vec3>& segment_start_points,
 		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool sense_agreement ) const
 	{
+		if (!ifc_curve)
+		{
+			return;
+		}
 		double length_factor = m_point_converter->getUnitConverter()->getLengthInMeterFactor();
 
 		//	ENTITY IfcCurve ABSTRACT SUPERTYPE OF	(ONEOF(IfcBoundedCurve, IfcConic, IfcLine, IfcOffsetCurve2D, IfcOffsetCurve3D, IfcPCurve))
@@ -169,17 +173,14 @@ public:
 			shared_ptr<IfcTrimmedCurve> trimmed_curve = dynamic_pointer_cast<IfcTrimmedCurve>( bounded_curve );
 			if( trimmed_curve )
 			{
-				shared_ptr<IfcCurve> basis_curve = trimmed_curve->m_BasisCurve;
-				if( basis_curve )
-				{
-					std::vector<vec3> basis_curve_points;
-					std::vector<shared_ptr<IfcTrimmingSelect> >& curve_trim1_vec = trimmed_curve->m_Trim1;
-					std::vector<shared_ptr<IfcTrimmingSelect> >& curve_trim2_vec = trimmed_curve->m_Trim2;
-					bool trimmed_sense_agreement = trimmed_curve->m_SenseAgreement ? trimmed_curve->m_SenseAgreement->m_value : true;
+				std::vector<vec3> basis_curve_points;
+				std::vector<shared_ptr<IfcTrimmingSelect> >& curve_trim1_vec = trimmed_curve->m_Trim1;
+				std::vector<shared_ptr<IfcTrimmingSelect> >& curve_trim2_vec = trimmed_curve->m_Trim2;
+				bool trimmed_sense_agreement = trimmed_curve->m_SenseAgreement ? trimmed_curve->m_SenseAgreement->m_value : true;
 
-					convertIfcCurve( basis_curve, basis_curve_points, segment_start_points, curve_trim1_vec, curve_trim2_vec, trimmed_sense_agreement );
-					GeomUtils::appendPointsToCurve( basis_curve_points, target_vec );
-				}
+				shared_ptr<IfcCurve> basis_curve = trimmed_curve->m_BasisCurve;
+				convertIfcCurve( basis_curve, basis_curve_points, segment_start_points, curve_trim1_vec, curve_trim2_vec, trimmed_sense_agreement );
+				GeomUtils::appendPointsToCurve( basis_curve_points, target_vec );
 				return;
 			}
 

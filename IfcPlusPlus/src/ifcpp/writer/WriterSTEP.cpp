@@ -39,9 +39,6 @@ inline std::string ws2s(const std::wstring& wstr)
 
 void WriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<BuildingModel> model )
 {
-	//imbue C locale to always use dots as decimal separator
-	stream.imbue(std::locale("C"));
-
 	const std::wstring& file_header_wstr = model->getFileHeader();
 	std::string file_header_str = ws2s( file_header_wstr );
 	stream << "ISO-10303-21;\n";
