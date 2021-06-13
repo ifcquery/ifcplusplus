@@ -37,7 +37,7 @@
 #include <ifcpp/IFC4/include/IfcPerson.h>
 #include <ifcpp/IFC4/include/IfcPersonAndOrganization.h>
 #include <ifcpp/IFC4/include/IfcPolyline.h>
-#include <ifcpp/IFC4/include/IfcPolyloop.h>
+#include <ifcpp/IFC4/include/IfcPolyLoop.h>
 #include <ifcpp/IFC4/include/IfcPositiveLengthMeasure.h>
 #include <ifcpp/IFC4/include/IfcProductDefinitionShape.h>
 #include <ifcpp/IFC4/include/IfcPropertySet.h>
@@ -675,8 +675,8 @@ int main()
 	LoadWallExample(ifc_model, true, true, 2);
 
 	// write IFC file in STEP format
-	std::wstring file_path = L"SimpleWall.ifc";
-	ifc_model->initFileHeader(file_path);
+	std::string file_path = "SimpleWall.ifc";
+	ifc_model->initFileHeader(std::wstring(file_path.begin(), file_path.end()));
 	std::stringstream stream;
 
 	shared_ptr<WriterSTEP> step_writer(new WriterSTEP());

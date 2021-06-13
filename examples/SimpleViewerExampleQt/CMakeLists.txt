@@ -60,7 +60,7 @@ SET(IFCPPVIEWER_MOC_FILES
     src/gui/MainWindow.h
     src/gui/TabReadWrite.h
     src/gui/TabView.h
-	src/gui/storeyShiftWidget.h
+	src/gui/StoreyShiftWidget.h
     src/viewer/ViewerWidget.h
 )
 
@@ -80,7 +80,7 @@ ADD_EXECUTABLE(SimpleViewerExample
 set_target_properties(SimpleViewerExample PROPERTIES DEBUG_POSTFIX "d")
 
 target_link_libraries(SimpleViewerExample
-        debug Carved optimized Carve
+        debug carved optimized carve
 		debug IfcPlusPlusd optimized IfcPlusPlus
         Qt5::Core
         Qt5::Gui
