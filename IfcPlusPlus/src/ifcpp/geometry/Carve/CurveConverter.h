@@ -81,7 +81,7 @@ public:
 	virtual ~CurveConverter(){}
 
 	const shared_ptr<GeometrySettings>&		getGeomSettings() { return m_geom_settings; }
-	const shared_ptr<PlacementConverter>&	getPlcamentConverter() { return m_placement_converter; }
+	const shared_ptr<PlacementConverter>&	getPlacementConverter() { return m_placement_converter; }
 	const shared_ptr<PointConverter>&		getPointConverter() { return m_point_converter; }
 	const shared_ptr<SplineConverter>&		getSplineConverter() { return m_spline_converter; }
 
@@ -201,7 +201,6 @@ public:
 				}
 
 				// IfcIndexedPolyCurve -----------------------------------------------------------
-				const std::vector<shared_ptr<IfcSegmentIndexSelect> >& segments = indexed_poly_curve->m_Segments;					//optional
 				std::vector<vec3> pointVec;
 
 				shared_ptr<IfcCartesianPointList2D> pointList2D = dynamic_pointer_cast<IfcCartesianPointList2D>(pointList);
@@ -218,100 +217,114 @@ public:
 					}
 				}
 
-				for (size_t ii = 0; ii < segments.size(); ++ii)
+				const std::vector<shared_ptr<IfcSegmentIndexSelect> >& segments = indexed_poly_curve->m_Segments;					//optional
+				if (segments.size() > 0)
 				{
-					const shared_ptr<IfcSegmentIndexSelect>& segment = segments[ii];
-
-					shared_ptr<IfcLineIndex> lineIdx = dynamic_pointer_cast<IfcLineIndex>(segment);
-					if (lineIdx)
+					for (size_t ii = 0; ii < segments.size(); ++ii)
 					{
-						if (lineIdx->m_vec.size() > 1)
-						{
-							if (lineIdx->m_vec[0] && lineIdx->m_vec[1])
-							{
-								int idx0 = lineIdx->m_vec[0]->m_value - 1;
-								int idx1 = lineIdx->m_vec[1]->m_value - 1;
-								if (idx0 < pointVec.size() && idx1 < pointVec.size())
-								{
-									const vec3& pt0 = pointVec[idx0];
-									const vec3& pt1 = pointVec[idx1];
+						const shared_ptr<IfcSegmentIndexSelect>& segment = segments[ii];
 
-									target_vec.push_back(pt0);
-									target_vec.push_back(pt1);
-									segment_start_points.push_back(pt0);
+						shared_ptr<IfcLineIndex> lineIdx = dynamic_pointer_cast<IfcLineIndex>(segment);
+						if (lineIdx)
+						{
+							if (lineIdx->m_vec.size() > 1)
+							{
+								if (lineIdx->m_vec[0] && lineIdx->m_vec[1])
+								{
+									int idx0 = lineIdx->m_vec[0]->m_value - 1;
+									int idx1 = lineIdx->m_vec[1]->m_value - 1;
+									if (idx0 < pointVec.size() && idx1 < pointVec.size())
+									{
+										const vec3& pt0 = pointVec[idx0];
+										const vec3& pt1 = pointVec[idx1];
+
+										target_vec.push_back(pt0);
+										target_vec.push_back(pt1);
+										segment_start_points.push_back(pt0);
+									}
 								}
 							}
-						}
-						continue;
-					}
-
-					shared_ptr<IfcArcIndex> arcIdx = dynamic_pointer_cast<IfcArcIndex>(segment);
-					if (arcIdx)
-					{
-						if (arcIdx->m_vec.size() < 3)
-						{
 							continue;
 						}
 
-						if (arcIdx->m_vec[0] && arcIdx->m_vec[1] && arcIdx->m_vec[2])
+						shared_ptr<IfcArcIndex> arcIdx = dynamic_pointer_cast<IfcArcIndex>(segment);
+						if (arcIdx)
 						{
-							int idx0 = arcIdx->m_vec[0]->m_value - 1;
-							int idx1 = arcIdx->m_vec[1]->m_value - 1;
-							int idx2 = arcIdx->m_vec[2]->m_value - 1;
-							if (idx0 >=0 && idx1 >= 0 && idx2 >= 0)
+							if (arcIdx->m_vec.size() < 3)
 							{
-								if (idx0 < pointVec.size() && idx1 < pointVec.size() && idx2 < pointVec.size())
+								continue;
+							}
+
+							if (arcIdx->m_vec[0] && arcIdx->m_vec[1] && arcIdx->m_vec[2])
+							{
+								int idx0 = arcIdx->m_vec[0]->m_value - 1;
+								int idx1 = arcIdx->m_vec[1]->m_value - 1;
+								int idx2 = arcIdx->m_vec[2]->m_value - 1;
+								if (idx0 >=0 && idx1 >= 0 && idx2 >= 0)
 								{
-									const vec3& p0 = pointVec[idx0];
-									const vec3& p1 = pointVec[idx1];
-									const vec3& p2 = pointVec[idx2];
-
-									const vec3 t = p1-p0;
-									const vec3 u = p2-p0;
-									const vec3 v = p2-p1;
-
-									const vec3 w = carve::geom::cross(t, u);
-									const double wsl = w.length2();
-									if (wsl > 10e-14)
+									if (idx0 < pointVec.size() && idx1 < pointVec.size() && idx2 < pointVec.size())
 									{
-										const double iwsl2 = 1.0 / (2.0*wsl);
-										const double tt = carve::geom::dot(t, t);
-										const double uu = carve::geom::dot(u, u);
+										const vec3& p0 = pointVec[idx0];
+										const vec3& p1 = pointVec[idx1];
+										const vec3& p2 = pointVec[idx2];
 
-										vec3 circ_center = p0 + (u*tt*(carve::geom::dot(u, v)) - t*uu*(carve::geom::dot(t, v))) * iwsl2;
-										vec3 circ_axis = w / sqrt(wsl);
-										vec3 center_p0 = p0 - circ_center;
-										vec3 center_p1 = p1 - circ_center;
-										vec3 center_p2 = p2 - circ_center;
-										vec3 center_p0_normalized = center_p0.normalized();
-										vec3 center_p2_normalized = center_p2.normalized();
+										const vec3 t = p1-p0;
+										const vec3 u = p2-p0;
+										const vec3 v = p2-p1;
 
-										const double opening_angle = std::acos(carve::geom::dot(center_p0_normalized, center_p2_normalized));
-										size_t n = m_geom_settings->getNumVerticesPerCircle()*opening_angle/(M_PI * 2.0);
-										if (n < m_geom_settings->getMinNumVerticesPerArc())
+										const vec3 w = carve::geom::cross(t, u);
+										const double wsl = w.length2();
+										if (wsl > 10e-14)
 										{
-											n = m_geom_settings->getMinNumVerticesPerArc();
+											const double iwsl2 = 1.0 / (2.0*wsl);
+											const double tt = carve::geom::dot(t, t);
+											const double uu = carve::geom::dot(u, u);
+
+											vec3 circ_center = p0 + (u*tt*(carve::geom::dot(u, v)) - t*uu*(carve::geom::dot(t, v))) * iwsl2;
+											vec3 circ_axis = w / sqrt(wsl);
+											vec3 center_p0 = p0 - circ_center;
+											vec3 center_p1 = p1 - circ_center;
+											vec3 center_p2 = p2 - circ_center;
+											vec3 center_p0_normalized = center_p0.normalized();
+											vec3 center_p2_normalized = center_p2.normalized();
+
+											const double opening_angle = std::acos(carve::geom::dot(center_p0_normalized, center_p2_normalized));
+											size_t n = m_geom_settings->getNumVerticesPerCircle()*opening_angle/(M_PI * 2.0);
+											if (n < m_geom_settings->getMinNumVerticesPerArc())
+											{
+												n = m_geom_settings->getMinNumVerticesPerArc();
+											}
+
+											const double delta_angle = opening_angle / (double)(n-1);
+											double angle = 0;
+											std::vector<vec3> circle_points_3d;
+											for (size_t kk = 0; kk < n; ++kk)
+											{
+												carve::math::Matrix m = carve::math::Matrix::ROT(-angle, circ_axis);
+
+												vec3 p_rotated = center_p0;
+												p_rotated = m*p_rotated + circ_center;
+
+												circle_points_3d.push_back(p_rotated);
+												angle += delta_angle;
+											}
+											GeomUtils::appendPointsToCurve(circle_points_3d, target_vec);
+											segment_start_points.push_back(circle_points_3d[0]);
 										}
-
-										const double delta_angle = opening_angle / (double)(n-1);
-										double angle = 0;
-										std::vector<vec3> circle_points_3d;
-										for (size_t kk = 0; kk < n; ++kk)
-										{
-											carve::math::Matrix m = carve::math::Matrix::ROT(-angle, circ_axis);
-
-											vec3 p_rotated = center_p0;
-											p_rotated = m*p_rotated + circ_center;
-
-											circle_points_3d.push_back(p_rotated);
-											angle += delta_angle;
-										}
-										GeomUtils::appendPointsToCurve(circle_points_3d, target_vec);
-										segment_start_points.push_back(circle_points_3d[0]);
 									}
 								}
 							}
 						}
+					}
+				}
+				else
+				{
+					// no segments, take all points from CoordList
+					if (pointVec.size() > 0)
+					{
+						const vec3& pt0 = pointVec[0];
+						GeomUtils::appendPointsToCurve(pointVec, target_vec);
+						segment_start_points.push_back(pt0);
 					}
 				}
 				

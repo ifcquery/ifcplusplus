@@ -45,6 +45,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 class GeometrySettings
 {
 public:
+	bool m_retriangulate_mesh_before_csg = true;
+
+protected:
+	int	m_num_vertices_per_circle = 14;
+	int m_num_vertices_per_circle_default = 14;
+	int m_min_num_vertices_per_arc = 6;
+	int m_num_vertices_per_control_point = 4;
+	int m_num_vertices_per_control_point_default = 4;
+	bool m_show_text_literals = false;
+	bool m_ignore_profile_radius = false;
+	bool m_handle_styled_items = true;
+	bool m_handle_layer_assignments = true;
+	bool m_render_crease_edges = true;
+	bool m_render_bounding_box = false;
+	double m_crease_edges_max_delta_angle = M_PI*0.05;
+	double m_crease_edges_line_width = 1.5;
+	double m_colinear_faces_max_delta_angle = M_PI*0.02;
+	double m_min_triangle_area = 0.005*0.005;
+
+	std::function<int(double)> m_num_vertices_per_circle_given_radius = [&](double radius) {
+		if (radius > 0.5) return int(m_num_vertices_per_circle*1.5);
+		return m_num_vertices_per_circle;
+	};
+	std::function<bool(const shared_ptr<IfcObjectDefinition>&)> m_render_object_filter =
+		[](const shared_ptr<IfcObjectDefinition>& ifc_object) {
+		return dynamic_pointer_cast<IfcFeatureElementSubtraction>(ifc_object) == nullptr;
+	};
+
+public:
 	GeometrySettings()
 	{
 	}
@@ -145,30 +174,4 @@ public:
 	void setRenderObjectFilter(std::function<bool(const shared_ptr<IfcObjectDefinition>&)> render_filter) {
 		m_render_object_filter = std::move(render_filter);
 	}
-	
-protected:
-	int	m_num_vertices_per_circle = 14;
-	int m_num_vertices_per_circle_default = 14;
-	int m_min_num_vertices_per_arc = 6;
-	int m_num_vertices_per_control_point = 4;
-	int m_num_vertices_per_control_point_default = 4;
-	bool m_show_text_literals = false;
-	bool m_ignore_profile_radius = false;
-	bool m_handle_styled_items = true;
-	bool m_handle_layer_assignments = true;
-	bool m_render_crease_edges = true;
-	bool m_render_bounding_box = false;
-	double m_crease_edges_max_delta_angle = M_PI*0.05;
-	double m_crease_edges_line_width = 1.5;
-	double m_colinear_faces_max_delta_angle = M_PI*0.02;
-	double m_min_triangle_area = 0.005*0.005;
-
-	std::function<int(double)> m_num_vertices_per_circle_given_radius = [&](double radius) {
-		if (radius > 0.5) return int(m_num_vertices_per_circle*1.5);
-		return m_num_vertices_per_circle;
-	};
-	std::function<bool(const shared_ptr<IfcObjectDefinition>&)> m_render_object_filter =
-		[](const shared_ptr<IfcObjectDefinition>& ifc_object) {
-		return dynamic_pointer_cast<IfcFeatureElementSubtraction>(ifc_object) == nullptr;
-	};
 };

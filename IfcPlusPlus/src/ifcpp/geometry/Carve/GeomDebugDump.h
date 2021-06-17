@@ -302,7 +302,39 @@ namespace GeomDebugDump
 							}
 							else
 							{
-								std::cout << "exporting only triangles " << std::endl;
+								
+								carve::mesh::Edge<3>* edge = face->edge;
+								if (edge)
+								{
+									str_faces << "{";
+									++face_count;
+
+									for (size_t ii_max_edge = 0; ii_max_edge < number_of_edges; ++ii_max_edge)
+									{
+										carve::mesh::Vertex<3>* v0 = edge->vert;
+										if (!v0)
+										{
+											break;
+										}
+										int v0index = findVertexIndex(vec_vertices, v0);
+										str_faces << v0index << ",";
+									
+										edge = edge->next;
+
+										if (!edge)
+										{
+											break;
+										}
+
+										if (edge == face->edge)
+										{
+											break;
+										}
+									}
+
+									str_faces << "}" << std::endl;
+									++face_count;
+								}
 							}
 						}
 					}
@@ -576,6 +608,7 @@ namespace GeomDebugDump
 	inline void dumpPolylineSet(const std::vector<std::vector<vec2> > loops_2d, const carve::geom::vector<4>& color, bool append, bool move_dump_position )
 	{
 		std::stringstream strs_out;
+		strs_out << std::setprecision(15);
 		double min_y = DBL_MAX;
 		double max_y = -DBL_MAX;
 
@@ -608,6 +641,66 @@ namespace GeomDebugDump
 					max_y = vertex.y;
 				}
 				strs_out << "{" << vertex.x << ", " << vertex.y + dump_y_pos_geom << "}";
+			}
+			strs_out << "}" << std::endl;  // vertices
+			strs_out << std::endl << "}" << std::endl;  // Polyline
+		}
+
+		if (move_dump_position)
+		{
+			dump_y_pos_geom += (max_y - min_y) * 1.5;
+			if (max_y > dump_y_pos_geom)
+			{
+				dump_y_pos_geom = max_y * 1.1;
+			}
+		}
+
+		if (!append)
+		{
+			clearMeshsetDump();
+		}
+
+		std::ofstream dump_ofstream("dump_mesh_debug.txt", std::ofstream::app);
+		dump_ofstream << strs_out.str().c_str();
+		dump_ofstream.close();
+	}
+
+	inline void dumpPolylineSet(const std::vector<std::vector<vec3> > loops_3d, const carve::geom::vector<4>& color, bool append, bool move_dump_position)
+	{
+		std::stringstream strs_out;
+		strs_out << std::setprecision(18);
+		double min_y = DBL_MAX;
+		double max_y = -DBL_MAX;
+
+		for (size_t ii = 0; ii < loops_3d.size(); ++ii)
+		{
+			const std::vector<vec3>& vec_polyline = loops_3d[ii];
+
+			if (vec_polyline.size() == 0)
+			{
+				continue;
+			}
+
+			strs_out << "Polyline{" << std::endl;
+			strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
+			strs_out << "vertices{" << std::endl;
+
+			const size_t num_vertices = vec_polyline.size();
+			for (size_t i = 0; i < num_vertices; ++i)
+			{
+				const vec3& vertex = vec_polyline[i];
+				if (i > 0)
+				{
+					strs_out << ",";
+					if (vertex.y < min_y) min_y = vertex.y;
+					else if (vertex.y > max_y) max_y = vertex.y;
+				}
+				else
+				{
+					min_y = vertex.y;
+					max_y = vertex.y;
+				}
+				strs_out << "{" << vertex.x << ", " << vertex.y + dump_y_pos_geom << ", " << vertex.z << "}";
 			}
 			strs_out << "}" << std::endl;  // vertices
 			strs_out << std::endl << "}" << std::endl;  // Polyline

@@ -113,7 +113,7 @@ public:
 			if( swept_area_solid->m_Position )
 			{
 				shared_ptr<IfcAxis2Placement3D> swept_area_position = swept_area_solid->m_Position;
-				m_curve_converter->getPlcamentConverter()->convertIfcAxis2Placement3D( swept_area_position, swept_area_pos );
+				m_curve_converter->getPlacementConverter()->convertIfcAxis2Placement3D( swept_area_position, swept_area_pos );
 			}
 
 			shared_ptr<IfcExtrudedAreaSolid> extruded_area = dynamic_pointer_cast<IfcExtrudedAreaSolid>( swept_area_solid );
@@ -859,7 +859,7 @@ public:
 				shared_ptr<carve::mesh::MeshSet<3> > result;
 				try
 				{
-					CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, result, this, bool_result );
+					CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, result, this, bool_result, m_geom_settings );
 				}
 				catch( OutOfMemoryException& e )
 				{
@@ -901,7 +901,7 @@ public:
 		shared_ptr<IfcAxis2Placement3D>& primitive_placement = csg_primitive->m_Position;
 		if( primitive_placement )
 		{
-			m_curve_converter->getPlcamentConverter()->convertIfcAxis2Placement3D( primitive_placement, primitive_placement_transform );
+			m_curve_converter->getPlacementConverter()->convertIfcAxis2Placement3D( primitive_placement, primitive_placement_transform );
 		}
 
 		carve::math::Matrix primitive_placement_matrix;
@@ -1229,8 +1229,8 @@ public:
 		shared_ptr<TransformData> base_position_transform;
 		if( base_surface_pos )
 		{
-			m_curve_converter->getPlcamentConverter()->getPlane( base_surface_pos, base_surface_plane, base_surface_position );
-			m_curve_converter->getPlcamentConverter()->convertIfcAxis2Placement3D( base_surface_pos, base_position_transform );
+			m_curve_converter->getPlacementConverter()->getPlane( base_surface_pos, base_surface_plane, base_surface_position );
+			m_curve_converter->getPlacementConverter()->convertIfcAxis2Placement3D( base_surface_pos, base_position_transform );
 		}
 		carve::math::Matrix base_position_matrix;
 		if( base_position_transform )
@@ -1313,7 +1313,11 @@ public:
 
 			for( size_t ii = 0; ii < other_operand->m_meshsets.size(); ++ii )
 			{
-				shared_ptr<carve::mesh::MeshSet<3> >& meshset = other_operand->m_meshsets[ii];
+				const shared_ptr<carve::mesh::MeshSet<3> >& meshset = other_operand->m_meshsets[ii];
+				if (!meshset)
+				{
+					continue;
+				}
 				if( ii == 0 )
 				{
 					aabb.pos = meshset->getAABB().pos;
@@ -1345,7 +1349,7 @@ public:
 			vec3 boundary_position;
 			if( polygonal_half_space->m_Position )
 			{
-				m_curve_converter->getPlcamentConverter()->convertIfcAxis2Placement3D( polygonal_half_space->m_Position, boundary_transform );
+				m_curve_converter->getPlacementConverter()->convertIfcAxis2Placement3D( polygonal_half_space->m_Position, boundary_transform );
 				if( boundary_transform )
 				{
 					boundary_position_matrix = boundary_transform->m_matrix;

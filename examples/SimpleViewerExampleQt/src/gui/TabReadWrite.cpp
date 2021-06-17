@@ -283,6 +283,8 @@ void TabReadWrite::loadIfcFile( QString& path_in )
 		shared_ptr<GeometryConverter> geometry_converter = m_system->getGeometryConverter();
 		geometry_converter->clearMessagesCallback();
 		geometry_converter->resetModel();
+		geometry_converter->getGeomSettings()->setNumVerticesPerCircle(16);
+		geometry_converter->getGeomSettings()->setMinNumVerticesPerArc(4);
 		std::stringstream err;
 
 		// load file to IFC model
@@ -329,8 +331,24 @@ void TabReadWrite::loadIfcFile( QString& path_in )
 			{
 				if (bsphere.center().length()/bsphere.radius() > 100)
 				{
-					std::unordered_set<osg::Geode*> set_applied;
-					SceneGraphUtils::translateGroup(model_switch, -bsphere.center(), set_applied, length_in_meter*0.001);
+					//std::unordered_set<osg::Node*> set_applied;
+					//SceneGraphUtils::translateGroup(model_switch, , set_applied, length_in_meter*0.001);
+
+					osg::MatrixTransform* mt = new osg::MatrixTransform();
+					mt->setMatrix(osg::Matrix::translate(-bsphere.center()*0.98));
+
+					int num_children = model_switch->getNumChildren();
+					for (int i = 0; i < num_children; ++i)
+					{
+						osg::Node* node = model_switch->getChild(i);
+						if (!node)
+						{
+							continue;
+						}
+						mt->addChild(node);
+					}
+					SceneGraphUtils::removeChildren(model_switch);
+					model_switch->addChild(mt);
 				}
 			}
 		}

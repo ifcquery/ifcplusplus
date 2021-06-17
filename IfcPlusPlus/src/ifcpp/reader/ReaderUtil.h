@@ -584,7 +584,7 @@ void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, con
 		return;
 	}
 
-	std::transform(type_name.begin(), type_name.end(), type_name.begin(), toupper );
+	std::transform(type_name.begin(), type_name.end(), type_name.begin(), [](wchar_t c) {return static_cast<wchar_t>(std::toupper(c)); });
 	
 	shared_ptr<BuildingObject> type_instance = TypeFactory::createTypeObject(type_name.c_str(), inline_arg, map_entities );
 	if( type_instance )

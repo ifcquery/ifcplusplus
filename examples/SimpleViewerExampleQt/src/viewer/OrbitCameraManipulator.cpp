@@ -37,7 +37,7 @@ OrbitCameraManipulator::OrbitCameraManipulator( IfcPlusPlusSystem* sys, int flag
 	m_eye.set( 10, 10, 10 );
 	m_up.set( 0, 0, 1 );
 	m_rotate_center.set( 0, 0, 0 );
-	setMinimumDistance( 0.05, true );
+	setMinimumDistance( 0.01, true );
 	m_wheel_zoom_factor = 0.05;
 
 	initManipulator();

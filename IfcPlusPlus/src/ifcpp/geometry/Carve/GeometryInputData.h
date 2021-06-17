@@ -812,65 +812,17 @@ public:
 	}
 };
 
-#define ROUND_POLY_COORDINATES_UP 1000000.0
-#define ROUND_POLY_COORDINATES_DOWN 0.000001
-
 class PolyInputCache3D
 {
 public:
 	PolyInputCache3D()
 	{
-		m_poly_data = shared_ptr<carve::input::PolyhedronData>( new carve::input::PolyhedronData() );
-	}
-
-	size_t addPointPrecise( const vec3& v )
-	{
-		const double vertex_x = v.x;
-		const double vertex_y = v.y;
-		const double vertex_z = v.z;
-
-		// insert: returns a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
-		std::map<double, std::map<double, size_t> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, std::map<double, std::map<double, size_t> >() ) ).first->second;
-		std::map<double, size_t>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, std::map<double, size_t>() ) ).first->second;
-		auto it_find_z = map_z_index.find( vertex_z );
-		if( it_find_z != map_z_index.end() )
-		{
-			// vertex already exists in polyhedron. return its index
-			size_t vertex_index = it_find_z->second;
-			return vertex_index;
-		}
-		else
-		{
-			// add point to polyhedron
-			size_t vertex_index = m_poly_data->addVertex( v );
-			map_z_index[vertex_z] = vertex_index;
-			return vertex_index;
-		}
+		m_poly_data = shared_ptr<carve::input::PolyhedronData>(new carve::input::PolyhedronData());
 	}
 	
 	size_t addPoint( const vec3& v )
 	{
-		const double vertex_x = round( v.x*ROUND_POLY_COORDINATES_UP )*ROUND_POLY_COORDINATES_DOWN;
-		const double vertex_y = round( v.y*ROUND_POLY_COORDINATES_UP )*ROUND_POLY_COORDINATES_DOWN;
-		const double vertex_z = round( v.z*ROUND_POLY_COORDINATES_UP )*ROUND_POLY_COORDINATES_DOWN;
-
-		// insert: returns a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
-		std::map<double, std::map<double, size_t> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, std::map<double, std::map<double, size_t> >() ) ).first->second;
-		std::map<double, size_t>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, std::map<double, size_t>() ) ).first->second;
-		auto it_find_z = map_z_index.find( vertex_z );
-		if( it_find_z != map_z_index.end() )
-		{
-			// vertex already exists in polyhedron. return its index
-			size_t vertex_index = it_find_z->second;
-			return vertex_index;
-		}
-		else
-		{
-			// add point to polyhedron
-			size_t vertex_index = m_poly_data->addVertex( v );
-			map_z_index[vertex_z] = vertex_index;
-			return vertex_index;
-		}
+		return m_poly_data->addVertex(v);
 	}
 
 	bool checkFaceIndices()
@@ -906,5 +858,4 @@ public:
 	}
 
 	shared_ptr<carve::input::PolyhedronData> m_poly_data;
-	std::map<double, std::map<double, std::map<double, size_t> > > m_existing_vertices_coords;
 };

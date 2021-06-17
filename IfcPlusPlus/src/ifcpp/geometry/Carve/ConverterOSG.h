@@ -219,20 +219,21 @@ public:
 	}
 
 	//#define DEBUG_DRAW_NORMALS
-
-	static void drawMeshSet( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* geode, double crease_angle, double min_triangle_area, bool add_color_array = false )
+	template<typename T>
+	static void drawMeshSet( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* geode, double crease_angle, double min_triangle_area, bool add_color_array = false)
 	{
 		if( !meshset )
 		{
 			return;
 		}
 
-		osg::ref_ptr<osg::Vec3Array> vertices_tri = new osg::Vec3Array();
-		if( !vertices_tri ) { throw OutOfMemoryException(); }
+		osg::ref_ptr<T> vertices_tri = new T();
+		if (!vertices_tri) { throw OutOfMemoryException(); }
+
 		osg::ref_ptr<osg::Vec3Array> normals_tri = new osg::Vec3Array();
 		if( !normals_tri ) { throw OutOfMemoryException(); }
 
-		osg::ref_ptr<osg::Vec3Array> vertices_quad;
+		osg::ref_ptr<T> vertices_quad;
 		osg::ref_ptr<osg::Vec3Array> normals_quad;
 
 		const size_t max_num_faces_per_vertex = 10000;
@@ -381,14 +382,14 @@ public:
 							if (abs(area) > min_triangle_area)   // skip degenerated triangle
 							{
 								
-								vertices_tri->push_back(osg::Vec3(vertex_v.x, vertex_v.y, vertex_v.z));
+								vertices_tri->push_back(osg::Vec3d(vertex_v.x, vertex_v.y, vertex_v.z));
 								normals_tri->push_back(osg::Vec3(intermediate_normal.x, intermediate_normal.y, intermediate_normal.z));
 							}
 						}
 						else if( face->n_edges == 4 )
 						{
-							if( !vertices_quad ) vertices_quad = new osg::Vec3Array();
-							vertices_quad->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
+							if( !vertices_quad ) vertices_quad = new T();
+							vertices_quad->push_back( osg::Vec3d( vertex_v.x, vertex_v.y, vertex_v.z ) );
 							if( !normals_quad ) normals_quad = new osg::Vec3Array();
 							normals_quad->push_back( osg::Vec3( intermediate_normal.x, intermediate_normal.y, intermediate_normal.z ) );
 						}
@@ -421,14 +422,14 @@ public:
 							double area = (carve::geom::cross(v0v1, v0v2).length())*0.5;
 							if (abs(area) > min_triangle_area)   // skip degenerated triangle
 							{
-								vertices_tri->push_back(osg::Vec3(vertex_v.x, vertex_v.y, vertex_v.z));
+								vertices_tri->push_back(osg::Vec3d(vertex_v.x, vertex_v.y, vertex_v.z));
 								normals_tri->push_back(osg::Vec3(face_normal.x, face_normal.y, face_normal.z));
 							}
 						}
 						else if( face->n_edges == 4 )
 						{
-							if( !vertices_quad ) vertices_quad = new osg::Vec3Array();
-							vertices_quad->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
+							if( !vertices_quad ) vertices_quad = new T();
+							vertices_quad->push_back( osg::Vec3d( vertex_v.x, vertex_v.y, vertex_v.z ) );
 							if( !normals_quad ) normals_quad = new osg::Vec3Array();
 							normals_quad->push_back( osg::Vec3( face_normal.x, face_normal.y, face_normal.z ) );
 						}
@@ -516,6 +517,21 @@ public:
 
 	static void drawPolyline( const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array = false )
 	{
+		if (!polyline_data)
+		{
+			return;
+		}
+
+		if (polyline_data->points.size() < 2)
+		{
+			return;
+		}
+
+		if (polyline_data->polylines.size() < 1)
+		{
+			return;
+		}
+
 		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
 		if( !vertices ) { throw OutOfMemoryException(); }
 		carve::line::PolylineSet* polyline_set = polyline_data->create( carve::input::opts() );
@@ -609,6 +625,7 @@ public:
 		}
 	}
 
+	template<typename T>
 	static void renderMeshsetCreaseEdges( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* target_geode, const double crease_angle, const float line_width )
 	{
 		if( !meshset )
@@ -624,7 +641,7 @@ public:
 
 		if( vec_crease_edges.size() > 0 )
 		{
-			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
+			osg::ref_ptr<T> vertices = new T();
 			for( size_t i_edge = 0; i_edge < vec_crease_edges.size(); ++i_edge )
 			{
 				const carve::mesh::Edge<3>* edge = vec_crease_edges[i_edge];
@@ -743,6 +760,14 @@ public:
 			representation_switch->setName( strs_representation_name.str().c_str() );
 #endif
 
+			bool use_double_precision = false;
+			carve::geom::aabb<3> item_bbox;
+			product_representation_data->computeBoundingBox(item_bbox);
+			if (item_bbox.pos.x + item_bbox.extent.x > 100000 || item_bbox.pos.y + item_bbox.extent.y > 100000 || item_bbox.pos.z + item_bbox.extent.z > 100000)
+			{
+				use_double_precision = true;
+			}
+
 			const std::vector<shared_ptr<ItemShapeData> >& product_items = product_representation_data->m_vec_item_data;
 			for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
 			{
@@ -763,11 +788,25 @@ public:
 					CSG_Adapter::retriangulateMeshSet( item_meshset );
 					osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 					if( !geode ) { throw OutOfMemoryException( __FUNC__ ); }
-					drawMeshSet( item_meshset, geode, crease_angle, min_triangle_area );
+					if (use_double_precision)
+					{
+						drawMeshSet<osg::Vec3dArray>(item_meshset, geode, crease_angle, min_triangle_area);
+					}
+					else
+					{
+						drawMeshSet<osg::Vec3Array>(item_meshset, geode, crease_angle, min_triangle_area);
+					}
 
 					if( m_geom_settings->getRenderCreaseEdges() )
 					{
-						renderMeshsetCreaseEdges( item_meshset, geode, m_geom_settings->getCreaseEdgesMaxDeltaAngle(), m_geom_settings->getCreaseEdgesLineWidth() );
+						if (use_double_precision)
+						{
+							renderMeshsetCreaseEdges<osg::Vec3dArray>(item_meshset, geode, m_geom_settings->getCreaseEdgesMaxDeltaAngle(), m_geom_settings->getCreaseEdgesLineWidth());
+						}
+						else
+						{
+							renderMeshsetCreaseEdges<osg::Vec3Array>(item_meshset, geode, m_geom_settings->getCreaseEdgesMaxDeltaAngle(), m_geom_settings->getCreaseEdgesLineWidth());
+						}
 					}
 
 					// disable back face culling for open meshes
@@ -796,12 +835,27 @@ public:
 					CSG_Adapter::retriangulateMeshSet( item_meshset );
 					osg::ref_ptr<osg::Geode> geode_meshset = new osg::Geode();
 					if( !geode_meshset ) { throw OutOfMemoryException( __FUNC__ ); }
-					drawMeshSet( item_meshset, geode_meshset, crease_angle, min_triangle_area);
+					if (use_double_precision)
+					{
+						drawMeshSet<osg::Vec3dArray>(item_meshset, geode_meshset, crease_angle, min_triangle_area);
+					}
+					else
+					{
+						drawMeshSet<osg::Vec3Array>(item_meshset, geode_meshset, crease_angle, min_triangle_area);
+					}
+
 					item_group->addChild( geode_meshset );
 
 					if( m_geom_settings->getRenderCreaseEdges() )
 					{
-						renderMeshsetCreaseEdges( item_meshset, geode_meshset, m_geom_settings->getCreaseEdgesMaxDeltaAngle(), m_geom_settings->getCreaseEdgesLineWidth() );
+						if (use_double_precision)
+						{
+							renderMeshsetCreaseEdges<osg::Vec3dArray>(item_meshset, geode_meshset, m_geom_settings->getCreaseEdgesMaxDeltaAngle(), m_geom_settings->getCreaseEdgesLineWidth());
+						}
+						else
+						{
+							renderMeshsetCreaseEdges<osg::Vec3Array>(item_meshset, geode_meshset, m_geom_settings->getCreaseEdgesMaxDeltaAngle(), m_geom_settings->getCreaseEdgesLineWidth());
+						}
 					}
 
 					if( draw_bounding_box )

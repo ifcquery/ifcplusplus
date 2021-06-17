@@ -192,7 +192,6 @@ void ViewerWidget::initGLWidgetAndViewer()
 	osg::ref_ptr<osg::Camera> camera = m_main_view->getCamera();
 	camera->setGraphicsContext( m_graphics_window );
 	camera->setClearColor( osg::Vec4f( 0.92, 0.93, 0.94, 1.0 ) );
-	camera->setComputeNearFarMode( osg::CullSettings::DO_NOT_COMPUTE_NEAR_FAR );
 
 	if( m_main_view )
 	{

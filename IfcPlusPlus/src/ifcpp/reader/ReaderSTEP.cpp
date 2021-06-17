@@ -190,7 +190,17 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	size_t file_header_end = buffer.find("ENDSEC;");
 	if( file_header_start == std::string::npos || file_header_end == std::string::npos )
 	{
-		messageCallback("Not a valid IFC file, might be zip archive, see www.ifcquery.com for details", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
+		// check if it is a zipped file
+		std::string buffer;
+		unzipFile(filePath, buffer);
+		bool success = unzipFile(filePath, buffer);
+		if (success)
+		{
+			loadModelFromString(buffer, targetModel);
+			return;
+		}
+		
+		messageCallback("Not a valid IFC file", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
 		return;
 	}
 
@@ -690,7 +700,7 @@ void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::str
 	while( isalnum( *stream_pos ) ) { ++stream_pos; }
 
 	std::string entity_name_upper( entity_name_begin, stream_pos - entity_name_begin );
-	std::transform( entity_name_upper.begin(), entity_name_upper.end(), entity_name_upper.begin(), toupper );
+	std::transform(entity_name_upper.begin(), entity_name_upper.end(), entity_name_upper.begin(), [](wchar_t c) {return static_cast<wchar_t>(std::toupper(c)); });
 
 	// proceed to '('
 	if( *stream_pos != '(' )

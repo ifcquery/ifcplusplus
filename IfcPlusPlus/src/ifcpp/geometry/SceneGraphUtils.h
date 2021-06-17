@@ -592,7 +592,7 @@ namespace SceneGraphUtils
 		}
 	}
 
-	inline void translateGroup( osg::Group* grp, const osg::Vec3d& trans, std::unordered_set<osg::Geode*>& set_applied, double minTranslateLength )
+	inline void translateGroup( osg::Group* grp, const osg::Vec3d& trans, std::unordered_set<osg::Node*>& set_applied, double minTranslateLength )
 	{
 		if (trans.length2() < minTranslateLength*minTranslateLength )
 		{
@@ -617,7 +617,7 @@ namespace SceneGraphUtils
 
 				matrix.preMult(osg::Matrix::translate(trans));
 				child_transform->setMatrix(matrix);
-				
+
 				osg::Vec3d matrix_translate2 = child_transform->getMatrix().getTrans();
 				currentTranslate = osg::Vec3d();
 			}
@@ -650,16 +650,66 @@ namespace SceneGraphUtils
 						continue;
 					}
 					osg::Array* vertices_array = child_geometry->getVertexArray();
-					osg::Vec3Array* vertices_float = dynamic_cast<osg::Vec3Array*>(vertices_array);
 
-					if (!vertices_float)
+					osg::Vec3Array* vertices_float = dynamic_cast<osg::Vec3Array*>(vertices_array);
+					if (vertices_float)
 					{
-#ifdef _DEBUG
-						std::cout << "!vertices_float" << std::endl;
-#endif
+						for (osg::Vec3Array::iterator it_array = vertices_float->begin(); it_array != vertices_float->end(); ++it_array)
+						{
+							osg::Vec3f& vertex = (*it_array);
+							vertex = vertex + trans;
+						}
+
+						vertices_float->dirty();
+						child_geometry->dirtyBound();
+						child_geometry->dirtyDisplayList();
+						child_geode->dirtyBound();
+						grp->dirtyBound();
 						continue;
 					}
 
+					osg::Vec3dArray* vertices_double = dynamic_cast<osg::Vec3dArray*>(vertices_array);
+					if (vertices_double)
+					{
+						for (osg::Vec3dArray::iterator it_array = vertices_double->begin(); it_array != vertices_double->end(); ++it_array)
+						{
+							osg::Vec3d& vertex = (*it_array);
+							vertex = vertex + trans;
+						}
+
+						vertices_double->dirty();
+						child_geometry->dirtyBound();
+						child_geometry->dirtyDisplayList();
+						child_geode->dirtyBound();
+						grp->dirtyBound();
+						continue;
+					}
+
+#ifdef _DEBUG
+					std::cout << "vertices type not implemented" << std::endl;
+#endif
+
+
+
+				}
+
+				continue;
+			}
+
+			osg::Geometry* child_geometry = dynamic_cast<osg::Geometry*>(node);
+			if (child_geometry)
+			{
+				if (set_applied.find(child_geometry) != set_applied.end())
+				{
+					continue;
+				}
+				set_applied.insert(child_geometry);
+
+				osg::Array* vertices_array = child_geometry->getVertexArray();
+				
+				osg::Vec3Array* vertices_float = dynamic_cast<osg::Vec3Array*>(vertices_array);
+				if (vertices_float)
+				{
 					for (osg::Vec3Array::iterator it_array = vertices_float->begin(); it_array != vertices_float->end(); ++it_array)
 					{
 						osg::Vec3f& vertex = (*it_array);
@@ -669,36 +719,33 @@ namespace SceneGraphUtils
 					vertices_float->dirty();
 					child_geometry->dirtyBound();
 					child_geometry->dirtyDisplayList();
-					child_geode->dirtyBound();
-					grp->dirtyBound();
-				}
-
-				continue;
-			}
-
-			osg::Geometry* child_geometry = dynamic_cast<osg::Geometry*>(node);
-			if (child_geometry)
-			{
-				osg::Array* vertices_array = child_geometry->getVertexArray();
-				osg::Vec3Array* vertices_float = dynamic_cast<osg::Vec3Array*>(vertices_array);
-
-				if (!vertices_float)
-				{
-#ifdef _DEBUG
-					std::cout << "!vertices_float" << std::endl;
-#endif
 					continue;
 				}
 
-				for (osg::Vec3Array::iterator it_array = vertices_float->begin(); it_array != vertices_float->end(); ++it_array)
+				osg::Vec3dArray* vertices_double = dynamic_cast<osg::Vec3dArray*>(vertices_array);
+				if (vertices_double)
 				{
-					osg::Vec3f& vertex = (*it_array);
-					vertex = vertex + trans;
+					for (osg::Vec3dArray::iterator it_array = vertices_double->begin(); it_array != vertices_double->end(); ++it_array)
+					{
+						osg::Vec3d& vertex = (*it_array);
+						vertex = vertex + trans;
+					}
+
+					vertices_double->dirty();
+					child_geometry->dirtyBound();
+					child_geometry->dirtyDisplayList();
+					continue;
 				}
 
-				vertices_float->dirty();
-				child_geometry->dirtyBound();
-				child_geometry->dirtyDisplayList();
+				std::cout << "vertices type not implemented" << std::endl;
+				continue;
+			}
+
+			osgText::Text* child_text = dynamic_cast<osgText::Text*>(node);
+			if (child_text)
+			{
+				osg::Vec3d pos = child_text->getPosition() + trans;
+				child_text->setPosition(pos);
 				continue;
 			}
 

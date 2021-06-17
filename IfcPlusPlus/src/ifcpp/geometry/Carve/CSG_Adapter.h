@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include <ifcpp/geometry/GeometryException.h>
+#include <ifcpp/geometry/GeometrySettings.h>
 #include <ifcpp/geometry/Carve/GeomDebugDump.h>
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/BuildingException.h>
@@ -437,10 +438,24 @@ namespace CSG_Adapter
 				do
 				{
 					const vec3& v = edge->vert->v;
-					edge = edge->next;
+					
 					int vertex_index = poly_cache.addPoint( v );
-					map_merged_idx[i_vert] = vertex_index;
+					if (i_vert >= map_merged_idx.size())
+					{
+						map_merged_idx.push_back(vertex_index);
+					}
+					else
+					{
+						map_merged_idx[i_vert] = vertex_index;
+					}
 					++i_vert;
+
+
+					edge = edge->next;
+					if (edge == face->edge)
+					{
+						break;
+					}
 				} while( edge != face->edge );
 
 				for( size_t i = 0; i != triangulated.size(); ++i )
@@ -569,22 +584,19 @@ namespace CSG_Adapter
 		bool retriangulated_meshset_ok = checkMeshSetValidAndClosed( meshset, report_callback, entity );
 		if( !retriangulated_meshset_ok )
 		{
-#ifdef _DEBUG
-			std::cout << err_retriangulated.str().c_str() << std::endl;
-
-			shared_ptr<meshset_t > meshset_pre_triang( meshset_copy->clone() );
-			//applyTranslate( meshset_pre_triang.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
-			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
-			GeomDebugDump::dumpMeshset( meshset_pre_triang, color, true );
-			dump_y_pos += meshset_pre_triang->getAABB().extent.y*2.2;
-
-			shared_ptr<meshset_t > meshset_post_triang( meshset->clone() );
-			//applyTranslate( meshset_post_triang.get(), carve::geom::VECTOR( 0, dump_y_pos, 0 ) );
-			color = carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 );
-			GeomDebugDump::dumpMeshset( meshset_post_triang, color, true );
-			//dump_y_pos += meshset_post_triang->getAABB().extent.y*2.2;
-
-#endif
+//#ifdef _DEBUG
+//			std::cout << err_retriangulated.str().c_str() << std::endl;
+//
+//			shared_ptr<meshset_t > meshset_pre_triang( meshset_copy->clone() );
+//			carve::geom::vector<4> color = carve::geom::VECTOR( 0.7, 0.7, 0.7, 1.0 );
+//			GeomDebugDump::dumpMeshset( meshset_pre_triang, color, true );
+//			dump_y_pos += meshset_pre_triang->getAABB().extent.y*2.2;
+//
+//			shared_ptr<meshset_t > meshset_post_triang( meshset->clone() );
+//			color = carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 );
+//			GeomDebugDump::dumpMeshset( meshset_post_triang, color, true );
+//
+//#endif
 			meshset = meshset_copy;
 		}
 
@@ -594,7 +606,7 @@ namespace CSG_Adapter
 	}
 
 	inline void computeCSG( shared_ptr<meshset_t >& op1, shared_ptr<meshset_t >& op2, const carve::csg::CSG::OP operation, 
-		shared_ptr<meshset_t >& result, StatusCallback* report_callback, const shared_ptr<BuildingEntity>& entity )
+		shared_ptr<meshset_t >& result, StatusCallback* report_callback, const shared_ptr<BuildingEntity>& entity, const shared_ptr<GeometrySettings>& geom_settings )
 	{
 		if( !op1 || !op2 )
 		{
@@ -652,7 +664,8 @@ namespace CSG_Adapter
 				return;
 			}
 
-			simplifyMesh( op1, false, report_callback, entity.get() );
+			bool retriangulate_op1 = geom_settings->m_retriangulate_mesh_before_csg;
+			simplifyMesh( op1, retriangulate_op1, report_callback, entity.get() );
 			simplifyMesh( op2, false, report_callback, entity.get() );
 			// TODO: Subclass from carve::mesh::MeshSet and add attribute to remember which meshset has already been simplified. 
 

@@ -111,7 +111,7 @@ public:
 
 					if( basis_surface_placement )
 					{
-						m_curve_converter->getPlcamentConverter()->convertIfcAxis2Placement3D( basis_surface_placement, curve_bounded_plane_matrix );
+						m_curve_converter->getPlacementConverter()->convertIfcAxis2Placement3D( basis_surface_placement, curve_bounded_plane_matrix );
 					}
 				}
 
@@ -138,7 +138,7 @@ public:
 				}
 
 				PolyInputCache3D poly_cache;
-				m_sweeper->createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache );
+				Sweeper::createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache );
 				item_data->addOpenPolyhedron( poly_cache.m_poly_data );
 				item_data->applyTransformToItem( curve_bounded_plane_matrix );
 			}
@@ -193,7 +193,7 @@ public:
 			shared_ptr<TransformData> elementary_surface_transform;
 			if( elementary_surface_placement )
 			{
-				m_curve_converter->getPlcamentConverter()->convertIfcAxis2Placement3D( elementary_surface_placement, elementary_surface_transform );
+				m_curve_converter->getPlacementConverter()->convertIfcAxis2Placement3D( elementary_surface_placement, elementary_surface_transform );
 			}
 
 			shared_ptr<SurfaceProxyLinear> proxy_linear( new SurfaceProxyLinear() );
@@ -273,7 +273,7 @@ public:
 			shared_ptr<TransformData> swept_surface_transform;
 			if( swept_surface_placement )
 			{
-				m_curve_converter->getPlcamentConverter()->convertIfcAxis2Placement3D( swept_surface_placement,  swept_surface_transform );
+				m_curve_converter->getPlacementConverter()->convertIfcAxis2Placement3D( swept_surface_placement,  swept_surface_transform );
 			}
 
 			shared_ptr<IfcSurfaceOfLinearExtrusion> linear_extrusion = dynamic_pointer_cast<IfcSurfaceOfLinearExtrusion>( swept_surface );
@@ -366,7 +366,7 @@ public:
 					std::reverse( loop_points.begin(), loop_points.end() );
 				}
 			}
-			m_sweeper->createTriangulated3DFace( face_loops, report_entity, poly_cache );
+			Sweeper::createTriangulated3DFace( face_loops, report_entity, poly_cache );
 		}
 
 		// IfcFaceList can be a closed or open shell

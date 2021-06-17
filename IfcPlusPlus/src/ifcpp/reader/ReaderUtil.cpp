@@ -1080,7 +1080,7 @@ void tokenizeInlineArgument( std::wstring arg, std::wstring& keyword, std::wstri
 		++stream_pos;
 	}
 
-	std::transform(key.begin(), key.end(), key.begin(), toupper);
+	std::transform(key.begin(), key.end(), key.begin(), [](wchar_t c) {return static_cast<wchar_t>(std::toupper(c)); });
 	keyword = key;
 	inline_arg = inline_argument;
 }

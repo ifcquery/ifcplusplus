@@ -339,7 +339,7 @@ public:
 		shared_ptr<IfcCartesianTransformationOperator2D> transf_op_2D = derived_profile->m_Operator;
 
 		shared_ptr<TransformData> transform;
-		m_curve_converter->getPlcamentConverter()->convertTransformationOperator( transf_op_2D, transform );
+		m_curve_converter->getPlacementConverter()->convertTransformationOperator( transf_op_2D, transform );
 		for( size_t i = 0; i < parent_paths.size(); ++i )
 		{
 			const std::vector<vec2>& loop_parent = parent_paths[i];
@@ -368,7 +368,7 @@ public:
 		{
 			shared_ptr<IfcAxis2Placement2D> axis2Placement2D = parameterized->m_Position;
 			shared_ptr<TransformData> transform;
-			m_curve_converter->getPlcamentConverter()->convertIfcPlacement( axis2Placement2D, transform );
+			m_curve_converter->getPlacementConverter()->convertIfcPlacement( axis2Placement2D, transform );
 
 			for( size_t i = 0; i < temp_paths.size(); ++i )
 			{

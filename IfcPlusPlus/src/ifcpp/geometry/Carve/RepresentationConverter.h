@@ -687,7 +687,7 @@ public:
 			}
 
 			PolyInputCache3D poly_cache;
-			m_sweeper->createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache );
+			Sweeper::createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache );
 			item_data->addOpenPolyhedron( poly_cache.m_poly_data );
 
 			return;
@@ -829,7 +829,7 @@ public:
 						std::reverse( loop_points.begin(), loop_points.end() );
 					}
 
-					m_sweeper->createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face );
+					Sweeper::createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face );
 				}
 			}
 			if( poly_cache_top_face.m_poly_data )
@@ -863,7 +863,7 @@ public:
 				}
 
 				PolyInputCache3D poly_cache_top_face;
-				m_sweeper->createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face );
+				Sweeper::createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face );
 
 				if( poly_cache_top_face.m_poly_data )
 				{
@@ -1080,7 +1080,7 @@ public:
 									shared_ptr<carve::mesh::MeshSet<3> > result;
 									try
 									{
-										CSG_Adapter::computeCSG( product_meshset, opening_meshset, carve::csg::CSG::A_MINUS_B, result, this, ifc_element );
+										CSG_Adapter::computeCSG( product_meshset, opening_meshset, carve::csg::CSG::A_MINUS_B, result, this, ifc_element, m_geom_settings );
 									}
 									catch( OutOfMemoryException& e )
 									{
