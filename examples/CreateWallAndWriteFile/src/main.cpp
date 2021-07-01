@@ -37,7 +37,7 @@
 #include <ifcpp/IFC4/include/IfcPerson.h>
 #include <ifcpp/IFC4/include/IfcPersonAndOrganization.h>
 #include <ifcpp/IFC4/include/IfcPolyline.h>
-#include <ifcpp/IFC4/include/IfcPolyloop.h>
+#include <ifcpp/IFC4/include/IfcPolyLoop.h>
 #include <ifcpp/IFC4/include/IfcPositiveLengthMeasure.h>
 #include <ifcpp/IFC4/include/IfcProductDefinitionShape.h>
 #include <ifcpp/IFC4/include/IfcPropertySet.h>

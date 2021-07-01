@@ -38,3 +38,4 @@ examples/CreateWallAndWriteFile/CreateWallAndWriteFile/SimpleWall.ifc
 examples/CreateWallAndWriteFile/SimpleWall.ifc
 examples/LoadFileExampleNoGUI/LoadFileExampleNoGUI/x64/
 external/Carve/build/
+examples/CreateWallAndWriteFile/x64/
