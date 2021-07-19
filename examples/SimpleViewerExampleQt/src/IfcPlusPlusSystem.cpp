@@ -239,7 +239,11 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object
 					selected_entity->m_material_previous = material_previous;
 				}
 
-				stateset->setAttribute( m_material_selected, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
+				//stateset->setAttribute( m_material_selected, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
+
+				osg::ref_ptr<osg::StateSet> statesetSelected = new osg::StateSet();
+				statesetSelected->setAttribute(m_material_selected, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
+				grp->setStateSet(statesetSelected);
 				selected_entity->m_material_selected = m_material_selected;
 			}
 

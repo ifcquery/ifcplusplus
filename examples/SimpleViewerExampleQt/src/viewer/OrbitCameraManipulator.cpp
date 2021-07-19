@@ -527,6 +527,7 @@ bool OrbitCameraManipulator::intersectSceneSelect( const osgGA::GUIEventAdapter&
 									m_system->clearSelection();
 								}
 								m_system->setObjectSelected(entitiy_selected, true, group);
+								break;
 							}
 						}
 						return true;

@@ -20,7 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <array>
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
-#include "earcut.hpp/include/mapbox/earcut.hpp"
+#include <earcut.hpp/include/mapbox/earcut.hpp>
 
 #include "IncludeCarveHeaders.h"
 #include "GeometryInputData.h"
