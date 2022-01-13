@@ -735,7 +735,8 @@ public:
 		//}
 #endif
 
-		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
+		bool isClosed = false;
+		item_data->addPolyhedron( polyhedron_data, isClosed );
 	}
 
 	void convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevolvedAreaSolid>& revolved_area, shared_ptr<ItemShapeData> item_data )
@@ -966,7 +967,8 @@ public:
 			polyhedron_data->addFace( 3, 7, 4 );
 			polyhedron_data->addFace( 4, 0, 3 );
 
-			item_data->addOpenOrClosedPolyhedron( polyhedron_data );
+			bool isClosed = false;
+			item_data->addPolyhedron( polyhedron_data, isClosed );
 			return;
 		}
 
@@ -1006,7 +1008,8 @@ public:
 			polyhedron_data->addFace( 0, 4, 3 );
 			polyhedron_data->addFace( 0, 3, 2 );
 
-			item_data->addOpenOrClosedPolyhedron( polyhedron_data );
+			bool isClosed = false;
+			item_data->addPolyhedron( polyhedron_data, isClosed );
 			return;
 		}
 
@@ -1052,7 +1055,8 @@ public:
 			}
 			polyhedron_data->addFace( 1, m_geom_settings->getNumVerticesPerCircleWithRadius(radius) + 1, 2 );
 
-			item_data->addOpenOrClosedPolyhedron( polyhedron_data );
+			bool isClosed = false;
+			item_data->addPolyhedron( polyhedron_data, isClosed );
 			return;
 		}
 
@@ -1101,7 +1105,8 @@ public:
 				polyhedron_data->addFace( 1, i*2 + 5, i*2 + 3 );	// bottom cap:	1-5-3	1-7-5		1-9-7
 			}
 
-			item_data->addOpenOrClosedPolyhedron( polyhedron_data );
+			bool isClosed = false;
+			item_data->addPolyhedron( polyhedron_data, isClosed );
 			return;
 		}
 
@@ -1180,7 +1185,8 @@ public:
 				polyhedron_data->addFace( last_index, last_index - ( i + 2 ), last_index - ( i + 1 ) );
 			}
 			polyhedron_data->addFace( last_index, last_index - 1, last_index - nvc );
-			item_data->addOpenOrClosedPolyhedron( polyhedron_data );
+			bool isClosed = false;
+			item_data->addPolyhedron( polyhedron_data, isClosed );
 			return;
 		}
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
@@ -1300,7 +1306,8 @@ public:
 				poly_point = box_position_matrix*poly_point;
 			}
 
-			item_data->addOpenOrClosedPolyhedron( polyhedron_data );
+			bool isClosed = false;
+			item_data->addPolyhedron( polyhedron_data, isClosed );
 			return;
 		}
 
@@ -1481,7 +1488,8 @@ public:
 					vec3  half_space_extrusion_vector = half_space_extrusion_direction*HALF_SPACE_BOX_SIZE*m_point_converter->getUnitConverter()->getCustomLengthFactor();
 					shared_ptr<carve::input::PolyhedronData> half_space_box_data( new carve::input::PolyhedronData() );
 					extrudeBox( base_surface_points, half_space_extrusion_vector, half_space_box_data );
-					item_data->addOpenOrClosedPolyhedron( half_space_box_data );
+					bool isClosed = false;
+					item_data->addPolyhedron( half_space_box_data, isClosed );
 				}
 			}
 
@@ -1505,7 +1513,8 @@ public:
 
 				shared_ptr<carve::input::PolyhedronData> half_space_box_data( new carve::input::PolyhedronData() );
 				extrudeBox( box_base_points, half_space_extrusion_vector, half_space_box_data );
-				item_data->addOpenOrClosedPolyhedron( half_space_box_data );
+				bool isClosed = false;
+				item_data->addPolyhedron( half_space_box_data, isClosed );
 			}
 
 			return;

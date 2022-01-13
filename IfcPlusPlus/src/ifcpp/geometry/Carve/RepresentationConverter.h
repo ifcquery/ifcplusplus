@@ -688,7 +688,8 @@ public:
 
 			PolyInputCache3D poly_cache;
 			Sweeper::createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache );
-			item_data->addOpenPolyhedron( poly_cache.m_poly_data );
+			bool isClosed = false;
+			item_data->addPolyhedron( poly_cache.m_poly_data, isClosed );
 
 			return;
 		}
@@ -834,7 +835,8 @@ public:
 			}
 			if( poly_cache_top_face.m_poly_data )
 			{
-				topo_item_data->addOpenOrClosedPolyhedron( poly_cache_top_face.m_poly_data );
+				bool isClosed = false;
+				topo_item_data->addPolyhedron( poly_cache_top_face.m_poly_data, isClosed );
 			}
 			return;
 		}
@@ -867,7 +869,8 @@ public:
 
 				if( poly_cache_top_face.m_poly_data )
 				{
-					topo_item_data->addOpenOrClosedPolyhedron( poly_cache_top_face.m_poly_data );
+					bool isClosed = false;
+					topo_item_data->addPolyhedron( poly_cache_top_face.m_poly_data, isClosed );
 				}
 			}
 			return;
@@ -926,7 +929,6 @@ public:
 		{
 			return;
 		}
-		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 
 		// convert opening representation
 		for( auto& rel_voids_weak : vec_rel_voids )

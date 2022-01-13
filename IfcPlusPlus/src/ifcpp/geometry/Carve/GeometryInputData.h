@@ -123,8 +123,9 @@ public:
 		return true;
 	}
 
-	void addOpenOrClosedPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data )
+	void addPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data, bool& isClosed )
 	{
+		isClosed = false;
 		if( !poly_data )
 		{
 			return;
@@ -139,43 +140,12 @@ public:
 		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
 		if( meshset->isClosed() )
 		{
+			isClosed = true;
 			m_meshsets.push_back( meshset );
 		}
 		else
 		{
 			m_meshsets_open.push_back( meshset );
-		}
-	}
-
-	void addOpenPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data )
-	{
-		if( poly_data->getVertexCount() < 3 )
-		{
-			return;
-		}
-
-		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
-		m_meshsets_open.push_back( meshset );
-	}
-
-	void addClosedPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data )
-	{
-		if( poly_data->getVertexCount() < 3 )
-		{
-			return;
-		}
-
-		std::map<std::string, std::string> mesh_input_options;
-		//mesh_input_options["avoid_cavities"] = "true";
-		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( mesh_input_options ) );
-		if( meshset->isClosed() )
-		{
-			m_meshsets.push_back( meshset );
-		}
-		else
-		{
-			m_meshsets_open.push_back(meshset); // still may be useful as open mesh
-			//throw BuildingException("Meshset is not closed", __FUNC__);
 		}
 	}
 

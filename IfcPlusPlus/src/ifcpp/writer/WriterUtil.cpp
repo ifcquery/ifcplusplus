@@ -192,7 +192,13 @@ std::string encodeStepString( const std::wstring& str )
 	while( *stream_pos != '\0' )
 	{
 		wchar_t append_char = *stream_pos;
-		if( append_char == 10 )
+		if (append_char == 9)
+		{
+			closeUnicodeBlockIfOpened();
+			// encode tab
+			result_str.append("\\X\\09");
+		}
+		else if( append_char == 10 )
 		{
 			closeUnicodeBlockIfOpened();
 			// encode new line

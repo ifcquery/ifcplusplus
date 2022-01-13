@@ -81,7 +81,8 @@ public:
 		if(auto const tri_face_set = dynamic_pointer_cast<IfcTriangulatedFaceSet>(tessellated_item))
 			convertTriangulatedFaceSet( tri_face_set, coordinate_count, carve_mesh_builder );
 
-		item_data->addOpenOrClosedPolyhedron( carve_mesh_builder );
+		bool isClosed = false;
+		item_data->addPolyhedron( carve_mesh_builder, isClosed );
 	}
 
 protected:

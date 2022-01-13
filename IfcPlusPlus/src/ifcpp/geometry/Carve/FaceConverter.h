@@ -139,7 +139,8 @@ public:
 
 				PolyInputCache3D poly_cache;
 				Sweeper::createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache );
-				item_data->addOpenPolyhedron( poly_cache.m_poly_data );
+				bool isClosed = false;
+				item_data->addPolyhedron( poly_cache.m_poly_data, isClosed );
 				item_data->applyTransformToItem( curve_bounded_plane_matrix );
 			}
 			else if( dynamic_pointer_cast<IfcCurveBoundedSurface>( bounded_surface ) )
@@ -370,35 +371,32 @@ public:
 		}
 
 		// IfcFaceList can be a closed or open shell
-		if( st == SHELL_TYPE_UNKONWN )
+		bool isClosed = false;
+		item_data->addPolyhedron(poly_cache.m_poly_data, isClosed);
+
+#ifdef _DEBUG
+		if( st == SHELL_TYPE_UNKONWN || st == OPEN_SHELL)
 		{
-			item_data->addOpenOrClosedPolyhedron( poly_cache.m_poly_data );
-		}
-		else if( st == OPEN_SHELL )
-		{
-			item_data->addOpenPolyhedron( poly_cache.m_poly_data );
+			// ok
 		}
 		else if( st == CLOSED_SHELL )
 		{
-			try
-			{
-				item_data->addClosedPolyhedron( poly_cache.m_poly_data );
-			}
-			catch( BuildingException& e )
+			if (!isClosed)
 			{
 				// not a fatal error, just mesh is not closed
-				messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, "", report_entity );  // calling function already in e.what()
+				messageCallback("convertIfcFaceList: CLOSED_SHELL: mesh is not closed", StatusCallback::MESSAGE_TYPE_MINOR_WARNING, "", report_entity);
 
-#ifdef _DEBUG
-				if( item_data->m_meshsets_open.size() > 0 )
+				if (item_data->m_meshsets_open.size() > 0)
 				{
-					shared_ptr<carve::mesh::MeshSet<3> > meshset = item_data->m_meshsets_open.back();
-					carve::geom::vector<4> color = carve::geom::VECTOR(0.7, 0.7, 0.7, 1.0);
-					//shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_cache.m_poly_data->createMesh(carve::input::opts()));
-					GeomDebugDump::dumpMeshset(meshset, color, true);
+					shared_ptr<carve::mesh::MeshSet<3> >& meshset = item_data->m_meshsets_open.back();
+					if (!meshset->isClosed())
+					{
+						carve::geom::vector<4> color = carve::geom::VECTOR(0.7, 0.7, 0.7, 1.0);
+						GeomDebugDump::dumpMeshset(meshset, color, true);
+					}
 				}
-#endif
 			}
 		}
+#endif
 	}
 };

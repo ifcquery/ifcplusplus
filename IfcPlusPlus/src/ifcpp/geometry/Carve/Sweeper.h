@@ -182,32 +182,18 @@ public:
 				}
 			}
 
-			try
-			{
-#ifdef _DEBUG
-				shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts()));
-				bool valid = CSG_Adapter::checkMeshSetValidAndClosed(meshset, this, ifc_entity);
-				if (!valid)
-				{
-					carve::geom::vector<4> color = carve::geom::VECTOR(0.3, 0.4, 0.5, 1.0);
-					GeomDebugDump::dumpMeshset(meshset, color, true);
-					GeomDebugDump::clearMeshsetDump();
-				}
-#endif
+			bool isClosed = false;
+			item_data->addPolyhedron(poly_data, isClosed);
 
-				item_data->addClosedPolyhedron(poly_data);
-
-			}
-			catch (BuildingException& exception)
-			{
 #ifdef _DEBUG
-				std::cout << exception.what() << std::endl;
+			if( !isClosed )
+			{
 				shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts()));
 				carve::geom::vector<4> color = carve::geom::VECTOR(0.3, 0.4, 0.5, 1.0);
 				GeomDebugDump::dumpMeshset(meshset, color, true);
-#endif
-				messageCallback(exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity);  // calling function already in e.what()
+				messageCallback("extrude: meshset not closed", StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity);  // calling function already in e.what()
 			}
+#endif
 		}
 	}
 
@@ -577,19 +563,19 @@ public:
 			}
 		}
 
-		try
-		{
-			item_data->addClosedPolyhedron(poly_data);
-		}
-		catch (BuildingException& exception)
-		{
-			messageCallback(exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity);  // calling function already in e.what()
+		bool isClosed = false;
+		item_data->addPolyhedron(poly_data, isClosed);
+
 #ifdef _DEBUG
+		if( !isClosed )
+		{
+			messageCallback("sweepDisk: meshset not closed", StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity);  // calling function already in e.what()
+
 			shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts()));
 			carve::geom::vector<4> color = carve::geom::VECTOR(0.7, 0.7, 0.7, 1.0);
 			GeomDebugDump::dumpMeshset(meshset, color, true);
-#endif
 		}
+#endif
 
 #ifdef _DEBUG
 		shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts()));
@@ -909,23 +895,17 @@ public:
 
 				}
 
-				try
-				{
-					item_data->addClosedPolyhedron(poly_data);
-				}
-				catch (BuildingException& exception)
-				{
-					messageCallback(exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity);  // calling function already in e.what()
+				bool isClosed = false;
+				item_data->addPolyhedron(poly_data, isClosed);
+
 #ifdef _DEBUG
+				if( !isClosed)
+				{
+					messageCallback("sweepArea: meshset not closed", StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity);  // calling function already in e.what()
 					carve::geom::vector<4> color = carve::geom::VECTOR(0.7, 0.7, 0.7, 1.0);
 					shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts()));
 					GeomDebugDump::dumpMeshset(meshset, color, true);
-#endif
 				}
-
-#ifdef _DEBUG
-				shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts()));
-				CSG_Adapter::checkMeshSetValidAndClosed(meshset, this, ifc_entity);
 #endif
 			}
 		}
