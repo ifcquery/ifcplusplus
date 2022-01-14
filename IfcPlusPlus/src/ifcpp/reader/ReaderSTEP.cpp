@@ -414,9 +414,13 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 			{
 				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC4X1;
 			}
-			else
+			else if( !file_schema_args.empty() )
 			{
 				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC_VERSION_UNKNOWN;
+			}
+			else
+			{
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC_VERSION_UNDEFINED;
 			}
 		}
 	}
