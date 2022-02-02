@@ -377,6 +377,11 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 			size_t find_whitespace = file_schema_args.find(L' ');
 			while(find_whitespace != std::string::npos){ file_schema_args.erase(find_whitespace,1); find_whitespace = file_schema_args.find(L' '); }
 			
+			if( file_schema_args.empty() )
+			{
+				continue;
+			}
+
 			if( file_schema_args.at(0) =='(' && file_schema_args.at(file_schema_args.size()-1) ==')' )
 			{
 				file_schema_args = file_schema_args.substr( 1, file_schema_args.size()-2 );
@@ -416,7 +421,7 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 			}
 			else
 			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC_VERSION_UNDEFINED;
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC_VERSION_UNKNOWN;
 			}
 		}
 	}
