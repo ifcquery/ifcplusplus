@@ -68,6 +68,14 @@ static wchar_t Hex4Wchar(unsigned char h1, unsigned char h2, unsigned char h3, u
 	return (returnValue);
 }
 
+static void addCharWithEscaping( std::wstring& str, wchar_t ch )
+{
+	if ( ch == '\'' || ch == '\\' )
+		str += ch;
+	str += ch;
+}
+
+
 std::string wstring2string(const std::wstring& wstr)
 {
 	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
@@ -747,8 +755,7 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vec
 						wchar_t wc = Hex2Wchar(*(stream_pos+3), *(stream_pos+4));
 
 						//unsigned char char_ascii = wctob(wc);
-						arg_str_new += wc;
-
+						addCharWithEscaping(arg_str_new, wc);
 						stream_pos += 5;
 						continue;
 					}
@@ -774,7 +781,7 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vec
 							{
 								wchar_t wc = Hex4Wchar(*(stream_pos), *(stream_pos+1), *(stream_pos+2), *(stream_pos+3));
 								//unsigned char char_ascii = wctob(wc);
-								arg_str_new += wc;
+								addCharWithEscaping(arg_str_new, wc);
 								stream_pos += 4;
 
 							} while (( *stream_pos != '\0' ) && ( *stream_pos != '\\' ));
