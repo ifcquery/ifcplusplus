@@ -430,10 +430,10 @@ struct RTreeNode {
     }
 
     for (size_t j = 0; j < best.partition_pos; ++j) {
-      part_num[begin[(ssize_t)j]] = part_curr;
+      part_num[begin[j]] = part_curr;
     }
     for (size_t j = best.partition_pos; j < N; ++j) {
-      part_num[begin[(ssize_t)j]] = part_next;
+      part_num[begin[j]] = part_next;
     }
     ++part_next;
 
