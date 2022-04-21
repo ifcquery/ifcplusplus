@@ -59,6 +59,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4/include/IfcUnitAssignment.h>
 #include <ifcpp/IFC4/include/IfcUnitEnum.h>
 #include <ifcpp/IFC4/include/IfcWall.h>
+#include <ifcpp/geometry/Carve/GeometryInputData.h>
 #include "IncludeCarveHeaders.h"
 
 inline void convertPlacement(double local_x[3], double local_z[3], double location[3], shared_ptr<IfcAxis2Placement3D>& axis2placement3d, std::vector<shared_ptr<BuildingEntity> >& vec_new_entities)
@@ -203,7 +204,7 @@ namespace GeomDebugDump
 		return -1;
 	}
 	
-	inline void MeshSet2Stream(const carve::mesh::MeshSet<3>* meshset, const vec3& offset, const carve::geom::vector<4>& color, std::stringstream& strs_out)
+	inline void MeshSet2Stream(const carve::mesh::MeshSet<3>* meshset, const carve::math::Matrix& transform, const vec3& offset, const carve::geom::vector<4>& color, std::stringstream& strs_out)
 	{
 		strs_out << "Polyhedron{" << std::endl;
 		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
@@ -225,9 +226,10 @@ namespace GeomDebugDump
 				{
 					strs_vertices << ",   ";
 				}
-				double x = (vertex.v.x + offset.x)*scale_length_factor;
-				double y = (vertex.v.y + offset.y)*scale_length_factor;
-				double z = (vertex.v.z + offset.z)*scale_length_factor;
+				vec3 vertex_transformed = transform * vertex.v;
+				double x = (vertex_transformed.x + offset.x)*scale_length_factor;
+				double y = (vertex_transformed.y + offset.y)*scale_length_factor;
+				double z = (vertex_transformed.z + offset.z)*scale_length_factor;
 
 				strs_vertices << "{" << x << "," << y << "," << z << "}" << std::endl;
 				++vertex_count;
@@ -350,6 +352,7 @@ namespace GeomDebugDump
 	inline void dumpMeshsets( const std::vector<carve::mesh::MeshSet<3>* >& vec_meshsets, const vec3& offset, const std::vector<carve::geom::vector<4> >& vec_colors, bool append )
 	{
 		std::stringstream strs_out;
+		carve::math::Matrix ident = carve::math::Matrix::IDENT();
 		for( size_t i = 0; i < vec_meshsets.size(); ++i )
 		{
 			carve::mesh::MeshSet<3>* meshset = vec_meshsets[i];
@@ -358,7 +361,7 @@ namespace GeomDebugDump
 			{
 				color = vec_colors[i];
 			}
-			MeshSet2Stream(meshset, offset, color, strs_out);
+			MeshSet2Stream(meshset, ident, offset, color, strs_out);
 		}
 
 		if( !append )
@@ -370,7 +373,7 @@ namespace GeomDebugDump
 		dump_ofstream.close();
 	}
 
-	inline void dumpPolyhedron( const carve::poly::Polyhedron* poly, const vec3& offset, const carve::geom::vector<4>& color, bool append )
+	inline void dumpPolyhedron( const carve::poly::Polyhedron* poly, const vec3& offset, const carve::geom::vector<4>& color, bool append)
 	{
 		std::stringstream strs_out;
 		Polyhedron2Stream( poly, offset, color, strs_out );
@@ -384,10 +387,10 @@ namespace GeomDebugDump
 		dump_ofstream << strs_out.str().c_str();
 		dump_ofstream.close();
 	}
-	inline void dumpMeshSet(const carve::mesh::MeshSet<3>* poly, const vec3& offset, const carve::geom::vector<4>& color, bool append)
+	inline void dumpMeshSetWithTransform(const carve::mesh::MeshSet<3>* meshset, const carve::math::Matrix& transform, const vec3& offset, const carve::geom::vector<4>& color, bool append, bool move_offset = true)
 	{
 		std::stringstream strs_out;
-		MeshSet2Stream(poly, offset, color, strs_out);
+		MeshSet2Stream(meshset, transform, offset, color, strs_out);
 
 		if( !append )
 		{
@@ -397,25 +400,66 @@ namespace GeomDebugDump
 		std::ofstream dump_ofstream("dump_mesh_debug.txt", std::ofstream::app);
 		dump_ofstream << strs_out.str().c_str();
 		dump_ofstream.close();
+
+		if( move_offset )
+		{
+			dump_y_pos_geom += meshset->getAABB().extent.y * 2.2;
+		}
 	}
 	
-	inline void dumpPolyhedronInput( const carve::input::PolyhedronData& poly_input, const vec3& offset, const carve::geom::vector<4>& color, bool append )
+	inline void dumpPolyhedronInput( const carve::input::PolyhedronData& poly_input, const vec3& offset, const carve::geom::vector<4>& color, bool append)
 	{
 		dumpPolyhedron( poly_input.create( carve::input::opts() ), offset, color, append );
 	}
 
-	inline void dumpMeshset( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::geom::vector<4>& color, bool append, bool move_offset = true )
-	{
-		if( meshset->meshes.size() == 0 )
-		{
-			return;
-		}
-		vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
-		dumpMeshSet( meshset.get(), offset, color, append );
+	//inline void dumpMeshset( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::math::Matrix& transform, const carve::geom::vector<4>& color, bool append, bool move_offset = true )
+	//{
+	//	if( meshset->meshes.size() == 0 )
+	//	{
+	//		return;
+	//	}
+	//	vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
+	//	dumpMeshSet( meshset.get(), transform, offset, color, append );
 
-		if( move_offset )
-		{
-			dump_y_pos_geom += meshset->getAABB().extent.y*2.2;
+	//	if( move_offset )
+	//	{
+	//		dump_y_pos_geom += meshset->getAABB().extent.y*2.2;
+	//	}
+	//}
+
+	inline void dumpMeshset(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::geom::vector<4>& color, bool append, bool move_offset = true)
+	{
+		carve::math::Matrix ident = carve::math::Matrix::IDENT();
+		vec3 offset = carve::geom::VECTOR(0, dump_y_pos_geom, 0);
+		dumpMeshSetWithTransform(meshset.get(), ident, offset, color, append, move_offset);
+	}
+
+	inline void dumpItemData(const shared_ptr<ItemShapeData >& itemData, const carve::math::Matrix& transform, const carve::geom::vector<4>& color, bool append, bool move_offset = true)
+	{
+		vec3 offset = carve::geom::VECTOR(0, dump_y_pos_geom, 0);
+		for( const shared_ptr<carve::mesh::MeshSet<3> >& meshset : itemData->m_meshsets ) {
+			dumpMeshSetWithTransform(meshset.get(), transform, offset, color, append, move_offset);
+		}
+
+		for( auto meshset : itemData->m_meshsets_open ) {
+			dumpMeshSetWithTransform(meshset.get(), transform, offset, color, append, move_offset);
+		}
+	}
+
+	inline void dumpProductData(const shared_ptr<ProductShapeData >& productData, const carve::geom::vector<4>& color, bool append, bool move_offset = true, bool includeChildren = false)
+	{
+		carve::math::Matrix transform = productData->getTransform();
+		for( const shared_ptr<RepresentationData >& rep : productData->m_vec_representations ) {
+
+			for( const shared_ptr<ItemShapeData >& itemData : rep->m_vec_item_data ) {
+				dumpItemData(itemData, transform, color, append, move_offset);
+			}
+		}
+
+		if( includeChildren ) {
+			for( const shared_ptr<ProductShapeData >& child : productData->m_vec_children ) {
+				dumpProductData(child, color, append, move_offset, includeChildren);
+			}
 		}
 	}
 

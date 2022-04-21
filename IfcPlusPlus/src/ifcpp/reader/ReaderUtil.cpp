@@ -105,7 +105,7 @@ void checkOpeningClosingParenthesis( const wchar_t* ch_check )
 	if( num_opening != num_closing )
 	{
 		std::stringstream err;
-		err << "checkOpeningClosingParenthesis: num_opening != num_closing : " << ch_check << std::endl;
+		err << "checkOpeningClosingParenthesis: num_opening != num_closing : " << wstring2string(ch_check) << std::endl;
 		throw BuildingException( err.str(), __FUNC__ );
 	}
 }
@@ -258,7 +258,7 @@ void tokenizeEntityList( std::wstring& list_str, std::vector<int>& list_items )
 		else
 		{
 			std::stringstream err;
-			err << "tokenizeEntityList: unexpected argument: " << list_str.c_str() << std::endl;
+			err << "tokenizeEntityList: unexpected argument: " << wstring2string(list_str).c_str() << std::endl;
 			throw BuildingException( err.str(), __FUNC__ );
 		}
 

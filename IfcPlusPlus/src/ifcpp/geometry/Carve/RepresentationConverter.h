@@ -202,7 +202,6 @@ public:
 		representation_data->m_ifc_representation = ifc_representation;
 		representation_data->m_ifc_representation_context = ifc_representation->m_ContextOfItems;
 
-		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		for( size_t i_representation_items = 0; i_representation_items < ifc_representation->m_Items.size(); ++i_representation_items )
 		{
 			shared_ptr<IfcRepresentationItem> representation_item = ifc_representation->m_Items[i_representation_items];

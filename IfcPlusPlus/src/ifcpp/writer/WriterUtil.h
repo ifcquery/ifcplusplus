@@ -215,7 +215,7 @@ void writeEntityList3D( std::stringstream& stream, const std::vector<std::vector
 	stream << ")";
 }
 
-inline void writeStringList( std::stringstream& stream, const std::vector<std::wstring >& vec_strings )
+inline void writeStringList( std::wstringstream& stream, const std::vector<std::wstring >& vec_strings )
 {
 	// example: ("str1","str2","str3")
 	stream << "(";

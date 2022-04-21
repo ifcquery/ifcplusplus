@@ -19,43 +19,46 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <iostream>
 #include <ctime>
 #include <memory>
-#include "ifcpp/IFC4/include/IfcLabel.h"
-#include "ifcpp/IFC4/include/IfcIdentifier.h"
-#include "ifcpp/IFC4/include/IfcUnitEnum.h"
-#include "ifcpp/IFC4/include/IfcSIUnitName.h"
-#include "ifcpp/IFC4/include/IfcLengthMeasure.h"
-#include "ifcpp/IFC4/include/IfcChangeActionEnum.h"
-#include "ifcpp/IFC4/include/IfcValue.h"
-#include "ifcpp/IFC4/include/IfcPlaneAngleMeasure.h"
-#include "ifcpp/IFC4/include/IfcGloballyUniqueId.h"
-#include "ifcpp/IFC4/include/IfcDimensionCount.h"
-#include "ifcpp/IFC4/include/IfcPerson.h"
-#include "ifcpp/IFC4/include/IfcOrganization.h"
-#include "ifcpp/IFC4/include/IfcPersonAndOrganization.h"
-#include "ifcpp/IFC4/include/IfcApplication.h"
-#include "ifcpp/IFC4/include/IfcSIUnit.h"
-#include "ifcpp/IFC4/include/IfcCartesianPoint.h"
-#include "ifcpp/IFC4/include/IfcAxis2Placement.h"
-#include "ifcpp/IFC4/include/IfcAxis2Placement3D.h"
-#include "ifcpp/IFC4/include/IfcOwnerHistory.h"
-#include "ifcpp/IFC4/include/IfcDimensionalExponents.h"
-#include "ifcpp/IFC4/include/IfcMeasureWithUnit.h"
-#include "ifcpp/IFC4/include/IfcConversionBasedUnit.h"
-#include "ifcpp/IFC4/include/IfcUnitAssignment.h"
-#include "ifcpp/IFC4/include/IfcProject.h"
-#include "ifcpp/IFC4/include/IfcGeometricRepresentationContext.h"
-#include "ifcpp/IFC4/include/IfcProduct.h"
-#include "ifcpp/IFC4/include/IfcDirection.h"
-#include "ifcpp/IFC4/include/IfcReal.h"
-#include "ifcpp/IFC4/include/IfcRelationship.h"
-#include "ifcpp/IFC4/include/IfcRelAggregates.h"
-#include "ifcpp/IFC4/include/IfcSite.h"
-#include "ifcpp/IFC4/include/IfcBuilding.h"
-#include "ifcpp/IFC4/include/IfcElementAssembly.h"
-#include "ifcpp/IFC4/include/IfcStyledItem.h"
-#include "ifcpp/IFC4/include/IfcUnit.h"
-#include "ifcpp/reader/ReaderUtil.h"
-#include "ifcpp/writer/WriterUtil.h"
+
+#include <ifcpp/IFC4/include/IfcApplication.h>
+#include <ifcpp/IFC4/include/IfcAxis2Placement.h>
+#include <ifcpp/IFC4/include/IfcAxis2Placement3D.h>
+#include <ifcpp/IFC4/include/IfcBuilding.h>
+#include <ifcpp/IFC4/include/IfcCartesianPoint.h>
+#include <ifcpp/IFC4/include/IfcConversionBasedUnit.h>
+#include <ifcpp/IFC4/include/IfcChangeActionEnum.h>
+#include <ifcpp/IFC4/include/IfcDimensionalExponents.h>
+#include <ifcpp/IFC4/include/IfcDimensionCount.h>
+#include <ifcpp/IFC4/include/IfcDirection.h>
+#include <ifcpp/IFC4/include/IfcElementAssembly.h>
+#include <ifcpp/IFC4/include/IfcGeometricRepresentationContext.h>
+#include <ifcpp/IFC4/include/IfcGloballyUniqueId.h>
+#include <ifcpp/IFC4/include/IfcIdentifier.h>
+#include <ifcpp/IFC4/include/IfcLabel.h>
+#include <ifcpp/IFC4/include/IfcLengthMeasure.h>
+#include <ifcpp/IFC4/include/IfcMeasureWithUnit.h>
+#include <ifcpp/IFC4/include/IfcOrganization.h>
+#include <ifcpp/IFC4/include/IfcOwnerHistory.h>
+#include <ifcpp/IFC4/include/IfcPersonAndOrganization.h>
+#include <ifcpp/IFC4/include/IfcPerson.h>
+#include <ifcpp/IFC4/include/IfcPlaneAngleMeasure.h>
+#include <ifcpp/IFC4/include/IfcProject.h>
+#include <ifcpp/IFC4/include/IfcProduct.h>
+#include <ifcpp/IFC4/include/IfcReal.h>
+#include <ifcpp/IFC4/include/IfcRelationship.h>
+#include <ifcpp/IFC4/include/IfcRelAggregates.h>
+#include <ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h>
+#include <ifcpp/IFC4/include/IfcSite.h>
+#include <ifcpp/IFC4/include/IfcSIUnit.h>
+#include <ifcpp/IFC4/include/IfcSIUnitName.h>
+#include <ifcpp/IFC4/include/IfcSpatialStructureElement.h>
+#include <ifcpp/IFC4/include/IfcStyledItem.h>
+#include <ifcpp/IFC4/include/IfcUnit.h>
+#include <ifcpp/IFC4/include/IfcUnitEnum.h>
+#include <ifcpp/IFC4/include/IfcUnitAssignment.h>
+#include <ifcpp/IFC4/include/IfcValue.h>
+#include <ifcpp/reader/ReaderUtil.h>
+#include <ifcpp/writer/WriterUtil.h>
 
 #include "AttributeObject.h"
 #include "BuildingGuid.h"
@@ -663,6 +666,27 @@ void BuildingModel::collectDependentEntities( shared_ptr<BuildingEntity> entity,
 			{
 				shared_ptr<BuildingEntity> as_ifcpp_entity = is_decomposed_ptr;
 				collectDependentEntities( as_ifcpp_entity, target_map, resolveInverseAttributes );
+			}
+		}
+	}
+
+	shared_ptr<IfcSpatialElement> spatial_element = dynamic_pointer_cast<IfcSpatialElement>(entity);
+	if( spatial_element && false )
+	{
+		for( const auto& contains_weak_ptr : spatial_element->m_ContainsElements_inverse )
+		{
+			if( contains_weak_ptr.expired() )
+			{
+				continue;
+			}
+
+			shared_ptr<IfcRelContainedInSpatialStructure> rel_contained(contains_weak_ptr);
+			if( rel_contained )
+			{
+				for( auto relatedProduct : rel_contained->m_RelatedElements )
+				{
+					collectDependentEntities(relatedProduct, target_map, resolveInverseAttributes);
+				}
 			}
 		}
 	}

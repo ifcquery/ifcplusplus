@@ -157,7 +157,7 @@ shared_ptr<IfcFace> createIfcFace(
 */
 inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_property_set = true, bool add_window = true, int geometry_type = 1)
 {
-	if (!ifc_model)
+	if( !ifc_model )
 	{
 		// create IFC model
 		ifc_model = shared_ptr<BuildingModel>(new BuildingModel());
@@ -175,7 +175,7 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 	wall->m_Description = shared_ptr<IfcText>(new IfcText());
 	wall->m_Description->m_value = L"Wall example";
 
-	if (add_property_set)
+	if( add_property_set )
 	{
 		// Example for property set
 		shared_ptr<IfcPropertySet> ifc_property_set(new IfcPropertySet());
@@ -231,7 +231,7 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 	vec_new_entities.push_back(shape_representation);
 	shape_representation->m_RepresentationIdentifier = shared_ptr<IfcLabel>(new IfcLabel(L"Body"));
 
-	if (geometry_type == 1)
+	if( geometry_type == 1 )
 	{
 		shape_representation->m_RepresentationType = shared_ptr<IfcLabel>(new IfcLabel(L"SweptSolid"));
 
@@ -364,7 +364,7 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 		shared_ptr<IfcCartesianPoint> point7 = createIfcCartesianPoint(0.0, wall_thickness, upper_level, vec_new_entities);
 
 		// the closed shell consists of several faces
-		shared_ptr<IfcFace> face0 = createIfcFace(point0, point1, point2, point3, vec_new_entities);
+		shared_ptr<IfcFace> face0 = createIfcFace(point0, point3, point2, point1, vec_new_entities);
 		shared_ptr<IfcFace> face1 = createIfcFace(point4, point5, point6, point7, vec_new_entities);
 		shared_ptr<IfcFace> face2 = createIfcFace(point0, point1, point5, point4, vec_new_entities);
 		shared_ptr<IfcFace> face3 = createIfcFace(point1, point2, point6, point5, vec_new_entities);
@@ -401,7 +401,7 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 
 
 	shared_ptr<IfcOpeningElement> opening;
-	if (add_window)
+	if( add_window )
 	{
 		//#84 = IFCOPENINGELEMENT( '3yEl4kjB98e9jYEmmNx99a', #2, 'Bathroom Window Opening', 'Description of Opening', $, #85, #90, $ );
 		//#85 = IFCLOCALPLACEMENT( #46, #86 );
@@ -478,18 +478,18 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 		// we need 8 points to define a cube
 		lower_level += 1.5;
 		shared_ptr<IfcCartesianPoint> point0 = createIfcCartesianPoint(0.3, 0.0, lower_level, vec_new_entities);
-		shared_ptr<IfcCartesianPoint> point1 = createIfcCartesianPoint(wall_length*0.5, 0.0, lower_level, vec_new_entities);
-		shared_ptr<IfcCartesianPoint> point2 = createIfcCartesianPoint(wall_length*0.5, wall_thickness, lower_level, vec_new_entities);
+		shared_ptr<IfcCartesianPoint> point1 = createIfcCartesianPoint(wall_length * 0.5, 0.0, lower_level, vec_new_entities);
+		shared_ptr<IfcCartesianPoint> point2 = createIfcCartesianPoint(wall_length * 0.5, wall_thickness, lower_level, vec_new_entities);
 		shared_ptr<IfcCartesianPoint> point3 = createIfcCartesianPoint(0.3, wall_thickness, lower_level, vec_new_entities);
 
 		upper_level -= 0.3;
 		shared_ptr<IfcCartesianPoint> point4 = createIfcCartesianPoint(0.3, 0.0, upper_level, vec_new_entities);
-		shared_ptr<IfcCartesianPoint> point5 = createIfcCartesianPoint(wall_length*0.5, 0.0, upper_level, vec_new_entities);
-		shared_ptr<IfcCartesianPoint> point6 = createIfcCartesianPoint(wall_length*0.5, wall_thickness, upper_level, vec_new_entities);
+		shared_ptr<IfcCartesianPoint> point5 = createIfcCartesianPoint(wall_length * 0.5, 0.0, upper_level, vec_new_entities);
+		shared_ptr<IfcCartesianPoint> point6 = createIfcCartesianPoint(wall_length * 0.5, wall_thickness, upper_level, vec_new_entities);
 		shared_ptr<IfcCartesianPoint> point7 = createIfcCartesianPoint(0.3, wall_thickness, upper_level, vec_new_entities);
 
 		// the closed shell consists of several faces
-		shared_ptr<IfcFace> face0 = createIfcFace(point0, point1, point2, point3, vec_new_entities);
+		shared_ptr<IfcFace> face0 = createIfcFace(point0, point3, point2, point1, vec_new_entities);
 		shared_ptr<IfcFace> face1 = createIfcFace(point4, point5, point6, point7, vec_new_entities);
 		shared_ptr<IfcFace> face2 = createIfcFace(point0, point1, point5, point4, vec_new_entities);
 		shared_ptr<IfcFace> face3 = createIfcFace(point1, point2, point6, point5, vec_new_entities);
@@ -513,7 +513,7 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 
 	// building structure
 	shared_ptr<IfcProject> ifc_project = ifc_model->getIfcProject();
-	if (!ifc_project)
+	if( !ifc_project )
 	{
 		ifc_project = shared_ptr<IfcProject>(new IfcProject());
 		vec_new_entities.push_back(ifc_project);
@@ -587,7 +587,7 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 	wall_placement->m_RelativePlacement = axis_placement_local;
 	wall->m_ObjectPlacement = wall_placement;
 
-	if (opening)
+	if( opening )
 	{
 		opening->m_ObjectPlacement = wall_placement;
 	}
@@ -641,13 +641,13 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 	// insert entities into IFC model
 
 	// insert entities into IFC model
-	for (auto entity : vec_new_entities)
+	for( auto entity : vec_new_entities )
 	{
 		shared_ptr<IfcRoot> ifc_root_object = dynamic_pointer_cast<IfcRoot>(entity);
-		if (ifc_root_object)
+		if( ifc_root_object )
 		{
 			// each object that is derived from IfcRoot should have a GUID
-			if (!ifc_root_object->m_GlobalId)
+			if( !ifc_root_object->m_GlobalId )
 			{
 				ifc_root_object->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId(createBase64Uuid_wstr().data()));
 			}
@@ -656,7 +656,7 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 		}
 
 		shared_ptr<IfcRepresentation> ifc_representation = dynamic_pointer_cast<IfcRepresentation>(entity);
-		if (ifc_representation)
+		if( ifc_representation )
 		{
 			ifc_representation->m_ContextOfItems = geom_context;
 		}

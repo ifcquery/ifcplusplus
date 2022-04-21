@@ -305,7 +305,6 @@ public:
 
 	inline void convertIfcPlacement( const shared_ptr<IfcPlacement>& placement, shared_ptr<TransformData>& resulting_matrix, bool only_rotation = false )
 	{
-		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		if( dynamic_pointer_cast<IfcAxis1Placement>( placement ) )
 		{
 			messageCallback( "IfcAxis1Placement not implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, placement.get() );

@@ -20,6 +20,7 @@
 *.pdb
 *.tlog
 *.log
+*.bin
 bin
 bin32
 /build/
