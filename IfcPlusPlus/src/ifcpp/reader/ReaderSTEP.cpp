@@ -395,6 +395,7 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 				file_schema_args = file_schema_args.substr( 1, file_schema_args.size()-2 );
 			}
 			
+			std::transform(file_schema_args.begin(), file_schema_args.end(), file_schema_args.begin(), toupper);
 			if( file_schema_args.substr(0,6).compare(L"IFC2X2") == 0 )
 			{
 				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X2;
