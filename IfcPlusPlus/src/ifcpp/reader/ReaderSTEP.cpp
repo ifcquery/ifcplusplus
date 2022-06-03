@@ -139,33 +139,15 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 
 	// open file
+	setlocale(LC_ALL, "");
+	size_t len = filePath.length();
+	char* buf = new char[(len + 1) * 6];
+	std::wcstombs(buf, filePath.c_str(), (len + 1) * 6);
+	std::string filePathStr = buf;
+	delete[] buf;
+
 	std::ifstream infile;
-
-#ifdef _MSC_VER
-	infile.open(filePath);
-#else
-	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
-	std::string filePathStr = StringConverter.to_bytes(filePath);
-
-	if( !(setlocale(LC_ALL,"") ) )
-	{
-		std::wstringstream strs;
-		strs << L"setlocale failed" << std::endl;
-		messageCallback(strs.str().c_str(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__);
-	}
-	else
-	{
-		setlocale(LC_ALL, "");
-		char* buf = nullptr;
-		size_t len = std::wcstombs(buf, filePath.c_str(), 0);
-		buf = new char[len + 1];
-		std::wcstombs(buf, filePath.c_str(), (len + 1) * 6);
-		filePathStr = buf;
-		delete[] buf;
-	}
 	infile.open(filePathStr.c_str(), std::ifstream::in);
-
-#endif
 
 	if( !infile.is_open() )
 	{
@@ -176,6 +158,7 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 
 	// get length of file content
+	infile.imbue(std::locale("C"));
 	std::streampos file_size = infile.tellg();
 	infile.seekg( 0, std::ios::end );
 	file_size = infile.tellg() - file_size;
@@ -395,7 +378,8 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 				file_schema_args = file_schema_args.substr( 1, file_schema_args.size()-2 );
 			}
 			
-			std::transform(file_schema_args.begin(), file_schema_args.end(), file_schema_args.begin(), toupper);
+			std::transform(file_schema_args.begin(), file_schema_args.end(), file_schema_args.begin(), ::toupper);
+
 			if( file_schema_args.substr(0,6).compare(L"IFC2X2") == 0 )
 			{
 				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X2;
@@ -706,7 +690,7 @@ void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::str
 	while( isalnum( *stream_pos ) ) { ++stream_pos; }
 
 	std::string entity_name_upper( entity_name_begin, stream_pos - entity_name_begin );
-	std::transform(entity_name_upper.begin(), entity_name_upper.end(), entity_name_upper.begin(), [](wchar_t c) {return static_cast<wchar_t>(std::toupper(c)); });
+	std::transform(entity_name_upper.begin(), entity_name_upper.end(), entity_name_upper.begin(), ::toupper);
 
 	// proceed to '('
 	if( *stream_pos != '(' )

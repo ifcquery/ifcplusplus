@@ -123,6 +123,7 @@ TARGET_INCLUDE_DIRECTORIES(SimpleViewerExample
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external
 	${IFCPP_SOURCE_DIR}/external/
 	${IFCPP_SOURCE_DIR}/external/Carve
 	${IFCPP_SOURCE_DIR}/external/Carve/src

@@ -107,17 +107,19 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>WIN32;WIN64;_WINDOWS;WINDOWS;UNICODE;_UNICODE;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCQUERY_STATIC_LIB;_HAS_AUTO_PTR_ETC=1;GLM_FORCE_XYZW_ONLY;GLM_FORCE_CTOR_INIT;CARVE_SYSTEM_BOOST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>Default</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\IfcPlusPlus\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\IfcPlusPlus\src;..\..\IfcPlusPlus\src\external;..\..\IfcPlusPlus\src\external\earcut\include;..\..\external\Carve\include;..\..\external\Carve\src;..\..\external\Carve\src\include;..\..\external\Carve\src\common</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\IfcPlusPlus\bin</AdditionalLibraryDirectories>
-      <AdditionalDependencies>IfcPlusPlusd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\IfcPlusPlus\bin;..\..\external\Carve\bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>IfcPlusPlusd.lib;Carved.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

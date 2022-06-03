@@ -47,6 +47,7 @@ void WriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<Build
 	stream << std::setprecision( 15 );
 	stream << std::setiosflags( std::ios::showpoint );
 	stream << std::fixed;
+	stream.imbue(std::locale("C"));
 	const std::map<int,shared_ptr<BuildingEntity> >& map = model->getMapIfcEntities();
 	std::map<int, shared_ptr<BuildingEntity> > map_ordered( map.begin(), map.end() );
 	size_t i = 0;

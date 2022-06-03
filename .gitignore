@@ -40,3 +40,4 @@ examples/CreateWallAndWriteFile/SimpleWall.ifc
 examples/LoadFileExampleNoGUI/LoadFileExampleNoGUI/x64/
 external/Carve/build/
 examples/CreateWallAndWriteFile/x64/
+examples/LoadFileWithGeometryExampleConsole/dump_mesh_debug.txt
