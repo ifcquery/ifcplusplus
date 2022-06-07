@@ -26,6 +26,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 void appendRealWithoutTrailingZeros(std::stringstream& stream, const double number)
 {
 	std::ostringstream temp;
+	temp.imbue(std::locale("C"));
 	temp.precision(15);
 	temp << std::fixed << number;
 	std::string str = temp.str();

@@ -221,6 +221,7 @@ void ReaderSTEP::loadModelFromString( std::string& content, shared_ptr<BuildingM
 	{
 		messageCallback( "An error occurred", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 	}
+	progressValueCallback( 1, "parse" );
 }
 
 void ReaderSTEP::removeComments( std::string& buffer )
