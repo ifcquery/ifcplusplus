@@ -687,6 +687,8 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vec
 		char* stream_pos = const_cast<char*>(argument_str.c_str());		// ascii characters from STEP file
 		while( *stream_pos != '\0' )
 		{
+			if (!std::isspace(static_cast<unsigned char>(*stream_pos)) && ((*stream_pos) < 32 || (*stream_pos) > 126))
+				throw BuildingException("unsupported character encountered", __FUNC__);
 			if( *stream_pos == '\\' )
 			{
 				if( *(stream_pos+1) == 'S' )
