@@ -675,7 +675,7 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vec
 {
 	for(auto & argument_str : entity_arguments)
 	{
-			const size_t arg_length = argument_str.length();
+		const size_t arg_length = argument_str.length();
 		if( arg_length == 0 )
 		{
 			continue;
@@ -685,6 +685,15 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vec
 		arg_str_new.reserve(arg_length);
 
 		char* stream_pos = const_cast<char*>(argument_str.c_str());		// ascii characters from STEP file
+		if( ((*stream_pos) < 32 || (*stream_pos) > 126) )
+		{
+			if( !std::isspace(static_cast<unsigned char>(*stream_pos)) )
+			{
+				std::cout << "unsupported character encountered\n";
+				return;
+			}
+		}
+
 		while( *stream_pos != '\0' )
 		{
 			if( *stream_pos == '\\' )

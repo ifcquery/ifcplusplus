@@ -21,6 +21,8 @@
 *.tlog
 *.log
 *.bin
+*.vsidx
+*.lock
 bin
 bin32
 /build/
@@ -41,3 +43,4 @@ examples/LoadFileExampleNoGUI/LoadFileExampleNoGUI/x64/
 external/Carve/build/
 examples/CreateWallAndWriteFile/x64/
 examples/LoadFileWithGeometryExampleConsole/dump_mesh_debug.txt
+

@@ -170,7 +170,7 @@ int main()
 
 	// 2: load the model:
 	std::cout << "Loading IFC model: ";
-	step_reader->loadModelFromFile( L"exampleäöüßÄÖÜ.ifc", ifc_model);
+	step_reader->loadModelFromFile( L"example.ifc", ifc_model);
 
 	shared_ptr<GeometryConverter> geometry_converter(new GeometryConverter(ifc_model));
 	geometry_converter->setMessageCallBack(&mh, &MessageHandler::slotMessageWrapper);
