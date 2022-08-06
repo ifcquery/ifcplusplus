@@ -19,7 +19,7 @@ endif(WIN32)
 file (GLOB ifc4_source "src/ifcpp/IFC4/lib/*.cpp")
 
 if(UNIX)
-    # do not add src/external/XUnzip.cpp on unix plattforms
+    # do not add src/external/XUnzip.cpp on unix platforms
     set(IFCPP_SOURCE_FILES 
         src/ifcpp/IFC4/EntityFactory.cpp
         src/ifcpp/IFC4/TypeFactory.cpp

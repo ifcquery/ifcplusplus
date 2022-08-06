@@ -1157,7 +1157,7 @@ public:
 			}
 			polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR( 0.0, 0.0, -radius ) ); // bottom
 
-			// uppper triangle fan
+			// upper triangle fan
 			for( int i = 0; i < nvc - 1; ++i )
 			{
 				polyhedron_data->addFace( 0, i + 2, i + 1 );

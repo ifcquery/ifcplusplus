@@ -427,7 +427,7 @@ void readTypeOfStringList( const wchar_t* str, std::vector<shared_ptr<T> >& targ
 	{
 		if( isspace( *ch ) )
 		{
-			// ingore leading space characters
+			// ignore leading space characters
 			++ch;
 			continue;
 		}
