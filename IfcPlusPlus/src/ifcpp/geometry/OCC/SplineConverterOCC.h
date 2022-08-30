@@ -240,7 +240,7 @@ public:
 		const size_t num_curve_pts = num_control_pts * m_geom_settings->getNumVerticesPerControlPoint();
 		std::vector<double> knot_vec;
 
-		//	set weighting factors to 1.0 in case of homogenious curve
+		//	set weighting factors to 1.0 in case of homogeneous curve
 		vec_weights.resize( num_control_pts + 1, 1.0 );
 
 		shared_ptr<IfcBSplineCurveWithKnots> bspline_curve_with_knots = dynamic_pointer_cast<IfcBSplineCurveWithKnots>( bspline_curve );

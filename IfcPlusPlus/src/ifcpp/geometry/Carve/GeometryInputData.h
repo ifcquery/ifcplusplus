@@ -680,7 +680,7 @@ public:
 		
 					if (transform_self->m_placement_entity_id >= 0 && transform_self->m_placement_entity_id == transform_other->m_placement_entity_id)
 					{
-						// skip matrices that are the same at both products, to avoid unecessary multiplications and numerical inaccuracies
+						// skip matrices that are the same at both products, to avoid unnecessary multiplications and numerical inaccuracies
 						++it_self;
 						++it_other;
 						continue;
