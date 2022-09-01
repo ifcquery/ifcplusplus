@@ -120,6 +120,13 @@ inline void readReal( const std::wstring& attribute_value, double& target )
 	target = std::stod( attribute_value );
 }
 
+inline void removeCharEscaping( std::wstring& str, wchar_t ch )
+{
+	const wchar_t escapedCharStr[] = { ch, ch };
+	for ( size_t pos=0; str.npos!=(pos=str.find(escapedCharStr, pos, 2)); ++pos )
+		str.replace(pos, 2, 1, ch);
+}
+
 inline void readString( const std::wstring& attribute_value, std::wstring& target )
 {
 	if( attribute_value.size() < 2 )
@@ -129,7 +136,9 @@ inline void readString( const std::wstring& attribute_value, std::wstring& targe
 	}
 	if( attribute_value[0] == '\'' && attribute_value[attribute_value.size()-1] == '\'' )
 	{
-		target = attribute_value.substr( 1, attribute_value.size()-2 );
+		target = attribute_value.substr( 1, attribute_value.size()-2);
+		removeCharEscaping(target, '\'');
+		removeCharEscaping(target, '\\');
 	}
 }
 
