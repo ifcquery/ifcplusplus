@@ -792,27 +792,6 @@ public:
 			return;
 		}
 
-#ifdef _DEBUG
-		if( ifc_product->m_GlobalId->m_value.compare("1Ymw2Qiez6buX6OkNzOEaT")==0 || ifc_product->m_GlobalId->m_value.compare("1Ymw2Qiez6buX6OkVzOEnI") == 0 )
-		{
-			int wait = ifc_product->m_tag; // 181595
-		}
-		if( ifc_product->m_GlobalId->m_value.compare("1GVZve0001O34pDJ0qDZ0m") == 0 )
-		{
-			int wait = ifc_product->m_tag; // 181595
-		}
-
-		if( ifc_product->m_GlobalId->m_value.compare("2O2Fr$t4X7Zf8NOew3FLR9") == 0 )
-		{
-			int wait = ifc_product->m_tag; // 181595
-		}
-
-		if( ifc_product->m_GlobalId->m_value.compare("3ThA22djr8AQQ9eQMA5s7I") == 0 )
-		{
-			int wait = ifc_product->m_tag;
-		}
-#endif
-
 		shared_ptr<IfcProductRepresentation>& product_representation = ifc_product->m_Representation;
 		if( !product_representation )
 		{

@@ -1144,7 +1144,9 @@ namespace MeshUtils
 				int idxB = meshOut.addPoint(v1);
 				int idxC = meshOut.addPoint(v2);
 				int idxD = meshOut.addPoint(v3);
-				meshOut.m_poly_data->addFace(idxA, idxB, idxC, idxD);
+				//meshOut.m_poly_data->addFace(idxA, idxB, idxC, idxD);
+				meshOut.m_poly_data->addFace(idxA, idxB, idxC);
+				meshOut.m_poly_data->addFace(idxA, idxC, idxD);
 
 #ifdef _DEBUG
 				if( dumpPolygon )
@@ -2165,7 +2167,7 @@ namespace MeshUtils
 		return false;
 	}
 
-	inline void meshset2PolyInput(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, PolyInputCache3D& polyInput)
+	inline void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, PolyInputCache3D& polyInput)
 	{
 		for( size_t ii = 0; ii < meshset->meshes.size(); ++ii )
 		{
@@ -2200,10 +2202,98 @@ namespace MeshUtils
 						continue;
 					}
 					polyInput.m_poly_data->addFace(vecPointIndexes.begin(), vecPointIndexes.end());
-
 				}
 			}
 		}
+	}
+
+	inline void polyhedronFromMesh(const carve::mesh::Mesh<3>* mesh, PolyInputCache3D& polyInput)
+	{
+		for( size_t jj = 0; jj < mesh->faces.size(); ++jj )
+		{
+			carve::mesh::Face<3>* face = mesh->faces[jj];
+			carve::mesh::Edge<3>* edge = face->edge;
+			if( edge )
+			{
+				std::vector<int> vecPointIndexes;
+				size_t maxNumEdges = 1000;
+				for( size_t kk = 0; kk < face->n_edges; ++kk )
+				{
+					vec3& edgeEndPoint = edge->v2()->v;
+					int idx = polyInput.addPoint(edgeEndPoint);
+					vecPointIndexes.push_back(idx);
+
+					edge = edge->next;
+					if( edge == face->edge )
+					{
+						break;
+					}
+				}
+				if( vecPointIndexes.size() < 3 )
+				{
+#ifdef _DEBUG
+					std::cout << "face with < 3 edges" << std::endl;
+#endif
+					continue;
+				}
+				polyInput.m_poly_data->addFace(vecPointIndexes.begin(), vecPointIndexes.end());
+			}
+		}
+	}
+
+	inline bool addFacesReversed(const PolyInputCache3D& poly_cache_source, PolyInputCache3D& poly_cache_target)
+	{
+		shared_ptr<carve::input::PolyhedronData> poly_data_source = poly_cache_source.m_poly_data;
+
+		std::vector<int>& faceIndices = poly_data_source->faceIndices;
+		if( faceIndices.size() == 0 )
+		{
+			return true;
+		}
+
+		size_t numPointsAll = poly_data_source->points.size();
+		if( numPointsAll < 2 )
+		{
+			return true;
+		}
+		bool inputCorrect = true;
+		for( size_t iiFace = 0; iiFace < faceIndices.size(); )
+		{
+			int numPoints = faceIndices[iiFace];
+			int numPointsIdx = iiFace;
+
+			if( iiFace + numPoints >= faceIndices.size() )
+			{
+				// skip face
+				break;
+			}
+
+			std::vector<int> pointIdxCurrentFace;
+			for( size_t iiPoint = 1; iiPoint <= numPoints; ++iiPoint )
+			{
+				int idx = faceIndices[iiFace + iiPoint];
+
+				carve::geom3d::Vector point = poly_data_source->points[idx];
+				int idxTarget = poly_cache_target.addPoint(point);
+				pointIdxCurrentFace.push_back(idxTarget);
+			}
+
+			poly_cache_target.m_poly_data->addFace(pointIdxCurrentFace.rbegin(), pointIdxCurrentFace.rend());
+
+			iiFace += numPoints + 1;
+
+			if( iiFace > faceIndices.size() )
+			{
+				inputCorrect = false;
+				break;
+			}
+			if( iiFace == faceIndices.size() )
+			{
+				break;
+			}
+		}
+
+		return inputCorrect;
 	}
 
 	static void resolveOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, double eps, bool dumpPolygons)
@@ -2243,7 +2333,7 @@ namespace MeshUtils
 		}
 
 		PolyInputCache3D polyInput( eps );
-		meshset2PolyInput(meshset, polyInput);
+		polyhedronFromMeshSet(meshset, polyInput);
 		bool meshsetChanged = false;
 		
 

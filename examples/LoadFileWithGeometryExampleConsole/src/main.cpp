@@ -187,6 +187,9 @@ int main()
 	geometry_converter->setCsgEps(1.5e-9);
 
 	// convert IFC geometry representations to Carve meshes
+#ifdef _DEBUG
+	GeomDebugDump::clearMeshsetDump();
+#endif
 	std::cout << "Converting IFC geometry: ";
 	geometry_converter->convertGeometry();
 

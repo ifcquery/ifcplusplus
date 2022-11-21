@@ -319,6 +319,7 @@ public:
 		}
 		PolyInputCache3D poly_cache(m_epsMergePoints);
 		BuildingEntity* report_entity = nullptr;
+		bool dumpPolygon = false;
 
 		for( const shared_ptr<IfcFace>& ifc_face : vec_faces )
 		{
@@ -395,15 +396,14 @@ public:
 				}
 
 #ifdef _DEBUG
-				if( ifc_face->m_tag == 3517290 )
-				{
-					glm::vec4 color(0.5, 0.6, 0.7, 1.0);
-					GeomDebugDump::dumpPolyline(loop_points, color, true);
-				}
+				//glm::vec4 color(0.5, 0.6, 0.7, 1.0);
+				//GeomDebugDump::dumpPolyline(loop_points, color, false);
+				//GeomDebugDump::moveOffset(0.01);
+				//dumpPolygon = true;
 #endif
 			}
 
-			bool dumpPolygon = false;
+			
 			for( size_t iiLoop = 0; iiLoop < face_loops.size(); ++iiLoop )
 			{
 				std::vector<vec3>& loop = face_loops[iiLoop];
@@ -423,7 +423,22 @@ public:
 		}
 		else if( st == CLOSED_SHELL )
 		{
-			item_data->addClosedPolyhedron(poly_cache.m_poly_data);
+			bool success = item_data->addClosedPolyhedron(poly_cache.m_poly_data);
+			if( !success )
+			{
+#ifdef _DEBUG
+				if( item_data->m_meshsets_open.size() > 0)
+				{
+					glm::vec4 color(0.5, 0.6, 0.7, 1.0);
+					GeomDebugDump::dumpMeshset(item_data->m_meshsets_open[0], color, true);
+				}
+				if( item_data->m_meshsets.size() > 0)
+				{
+					glm::vec4 color(0.5, 0.6, 0.7, 1.0);
+					GeomDebugDump::dumpMeshset(item_data->m_meshsets[0], color, true);
+				}
+#endif
+			}
 		}
 	}
 };
