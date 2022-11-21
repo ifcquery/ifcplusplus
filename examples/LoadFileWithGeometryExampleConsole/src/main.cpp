@@ -1,23 +1,25 @@
 #include <unordered_set>
-#include <ifcpp/IFC4/include/IfcBuildingStorey.h>
-#include <ifcpp/IFC4/include/IfcGloballyUniqueId.h>
-#include <ifcpp/IFC4/include/IfcLabel.h>
-#include <ifcpp/IFC4/include/IfcObjectDefinition.h>
-#include <ifcpp/IFC4/include/IfcProject.h>
-#include <ifcpp/IFC4/include/IfcRelAggregates.h>
-#include <ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h>
-#include <ifcpp/IFC4/include/IfcText.h>
+#include <ifcpp/IFC4X3/include/IfcBuildingStorey.h>
+#include <ifcpp/IFC4X3/include/IfcGloballyUniqueId.h>
+#include <ifcpp/IFC4X3/include/IfcLabel.h>
+#include <ifcpp/IFC4X3/include/IfcObjectDefinition.h>
+#include <ifcpp/IFC4X3/include/IfcProject.h>
+#include <ifcpp/IFC4X3/include/IfcRelAggregates.h>
+#include <ifcpp/IFC4X3/include/IfcRelContainedInSpatialStructure.h>
+#include <ifcpp/IFC4X3/include/IfcText.h>
 #include <ifcpp/model/BuildingModel.h>
 #include <ifcpp/reader/ReaderSTEP.h>
 #include <ifcpp/geometry/Carve/GeometryConverter.h>
+
+using namespace IFC4X3;
 
 class MyIfcTreeItem
 {
 public:
 	MyIfcTreeItem() {}
-	std::wstring m_name;
-	std::wstring m_description;
-	std::wstring m_entity_guid;
+	std::string m_name;
+	std::string m_description;
+	std::string m_entity_guid;
 	std::string m_ifc_class_name;
 	std::vector<shared_ptr<MyIfcTreeItem> > m_children;
 };
@@ -85,14 +87,14 @@ shared_ptr<MyIfcTreeItem> resolveTreeItems(shared_ptr<BuildingObject> obj, std::
 	shared_ptr<IfcObjectDefinition> obj_def = dynamic_pointer_cast<IfcObjectDefinition>(obj);
 	if (obj_def)
 	{
-		if (set_visited.find(obj_def->m_entity_id) != set_visited.end())
+		if (set_visited.find(obj_def->m_tag) != set_visited.end())
 		{
 			return nullptr;
 		}
-		set_visited.insert(obj_def->m_entity_id);
+		set_visited.insert(obj_def->m_tag);
 
 		item = std::shared_ptr<MyIfcTreeItem>(new MyIfcTreeItem());
-		item->m_ifc_class_name = obj_def->className();
+		item->m_ifc_class_name = EntityFactory::getStringForClassID(obj_def->classID());
 
 		// access some attributes of IfcObjectDefinition
 		if (obj_def->m_GlobalId)
@@ -170,7 +172,7 @@ int main()
 
 	// 2: load the model:
 	std::cout << "Loading IFC model: ";
-	step_reader->loadModelFromFile( L"example.ifc", ifc_model);
+	step_reader->loadModelFromFile( "example.ifc", ifc_model);
 
 	shared_ptr<GeometryConverter> geometry_converter(new GeometryConverter(ifc_model));
 	geometry_converter->setMessageCallBack(&mh, &MessageHandler::slotMessageWrapper);
@@ -188,24 +190,86 @@ int main()
 	std::cout << "Converting IFC geometry: ";
 	geometry_converter->convertGeometry();
 
-
-	// 3: get a flat map of all loaded IFC entities:
-	const std::map<int, shared_ptr<BuildingEntity> >& map_entities = ifc_model->getMapIfcEntities();
+	// 3: get a flat map of all loaded IFC entities with geometry:
+	const std::map<std::string, shared_ptr<ProductShapeData> >& map_entities = geometry_converter->getShapeInputData();
 
 	for (auto it : map_entities)
 	{
-		shared_ptr<BuildingEntity> entity = it.second;
-		
+		shared_ptr<ProductShapeData> shapeData = it.second;
+
+		shared_ptr<IfcObjectDefinition> ifcObject;
+		if( !shapeData->m_ifc_object_definition.expired() )
+		{
+			ifcObject = shared_ptr<IfcObjectDefinition>(shapeData->m_ifc_object_definition);
+		}
+
 		// check for certain type of the entity:
-		shared_ptr<IfcBuildingStorey> ifc_storey = dynamic_pointer_cast<IfcBuildingStorey>(entity);
-		if (ifc_storey)
+		shared_ptr<IfcRoot> ifc_root = dynamic_pointer_cast<IfcRoot>(ifcObject);
+		if (ifc_root)
 		{
 			// access attributes:
-			if (ifc_storey->m_GlobalId)
+			if (ifc_root->m_GlobalId)
 			{
-				std::wcout << L"found IfcBuildingStorey entity with GUID: " << ifc_storey->m_GlobalId->m_value << std::endl;
+				std::cout << "Entity with GUID: " << ifc_root->m_GlobalId->m_value << std::endl;
 			}
 		}
+
+		carve::math::Matrix localTransform = shapeData->getTransform();
+
+		// traverse geometry
+		for( auto representation : shapeData->m_vec_representations )
+		{
+			// representation can be a bounding box, text, 2D geometry, or 3D geometry
+			for( auto representationItem : representation->m_vec_item_data )
+			{
+				// closed meshes
+				for( auto meshset : representationItem->m_meshsets )
+				{
+					std::vector<carve::mesh::Vertex<3> >& vertexData = meshset->vertex_storage;
+					for( auto mesh : meshset->meshes )
+					{
+						for( auto face : mesh->faces )
+						{
+							carve::mesh::Edge<3>* edge = face->edge;
+							for( size_t ii = 0; ii < face->n_edges; ++ii )
+							{
+								carve::mesh::Vertex<3>* vertex = edge->vert;
+								carve::geom::vector<3> pointLocal = vertex->v;
+								carve::geom::vector<3> pointGlobal = localTransform*pointLocal;
+								double x = pointGlobal.x;
+								double y = pointGlobal.y;
+								double z = pointGlobal.z;
+								std::cout << "point in mesh: (" << x << "/" << y << "/" << z << ")" << std::endl;
+							}
+						}
+					}
+				}
+
+				// open meshes
+				for( auto meshset : representationItem->m_meshsets_open )
+				{
+					std::vector<carve::mesh::Vertex<3> >& vertexData = meshset->vertex_storage;
+					for( auto mesh : meshset->meshes )
+					{
+						for( auto face : mesh->faces )
+						{
+							carve::mesh::Edge<3>* edge = face->edge;
+							for( size_t ii = 0; ii < face->n_edges; ++ii )
+							{
+								carve::mesh::Vertex<3>* vertex = edge->vert;
+								carve::geom::vector<3> pointLocal = vertex->v;
+								carve::geom::vector<3> pointGlobal = localTransform * pointLocal;
+								double x = pointGlobal.x;
+								double y = pointGlobal.y;
+								double z = pointGlobal.z;
+								std::cout << "point in mesh: (" << x << "/" << y << "/" << z << ")" << std::endl;
+							}
+						}
+					}
+				}
+			}
+		}
+
 	}
 
 	// 4: traverse tree structure of model, starting at root object (IfcProject)

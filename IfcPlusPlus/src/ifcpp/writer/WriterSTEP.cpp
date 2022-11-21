@@ -26,28 +26,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ifcpp/model/BuildingObject.h"
 #include "ifcpp/model/BuildingModel.h"
 #include "ifcpp/writer/WriterUtil.h"
-#include "ifcpp/IFC4/include/IfcProduct.h"
-#include "ifcpp/IFC4/include/IfcProject.h"
+#include "IfcProduct.h"
+#include "IfcProject.h"
 #include "ifcpp/writer/WriterSTEP.h"
 #include "ifcpp/reader/ReaderUtil.h"
 
-inline std::string ws2s(const std::wstring& wstr)
-{
-	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
-	return StringConverter.to_bytes(wstr);
-}
-
 void WriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<BuildingModel> model )
 {
-	const std::wstring& file_header_wstr = model->getFileHeader();
-	std::string file_header_str = ws2s( file_header_wstr );
+	//imbue C locale to always use dots as decimal separator
+	stream.imbue(std::locale("C"));
+
+	const std::string& file_header_str = model->getFileHeader();
 	stream << "ISO-10303-21;\n";
 	stream << file_header_str.c_str();
 	stream << "DATA;\n";
 	stream << std::setprecision( 15 );
 	stream << std::setiosflags( std::ios::showpoint );
 	stream << std::fixed;
-	stream.imbue(std::locale("C"));
 	const std::map<int,shared_ptr<BuildingEntity> >& map = model->getMapIfcEntities();
 	std::map<int, shared_ptr<BuildingEntity> > map_ordered( map.begin(), map.end() );
 	size_t i = 0;
@@ -60,7 +55,7 @@ void WriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<Build
 		if( obj.use_count() < 2 )
 		{
 			// entity is referenced only in model map, not by other entities
-			if( !dynamic_pointer_cast<IfcProduct>(obj) && !dynamic_pointer_cast<IfcProject>(obj) )
+			if( !dynamic_pointer_cast<IFC4X3::IfcProduct>(obj) && !dynamic_pointer_cast<IFC4X3::IfcProject>(obj) )
 			{
 				continue;
 			}

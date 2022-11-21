@@ -28,6 +28,7 @@
 
 #include <assert.h>
 #include <list>
+#include <algorithm>
 
 namespace carve {
 namespace poly {

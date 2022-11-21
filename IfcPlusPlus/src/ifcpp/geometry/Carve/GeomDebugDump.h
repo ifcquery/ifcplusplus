@@ -28,170 +28,473 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/model/BuildingGuid.h>
 #include <ifcpp/writer/WriterSTEP.h>
-
-#include <ifcpp/IFC4/include/IfcAxis2Placement3D.h>
-#include <ifcpp/IFC4/include/IfcBuilding.h>
-#include <ifcpp/IFC4/include/IfcBuildingElementProxy.h>
-#include <ifcpp/IFC4/include/IfcBuildingStorey.h>
-#include <ifcpp/IFC4/include/IfcCartesianPoint.h>
-#include <ifcpp/IFC4/include/IfcDirection.h>
-#include <ifcpp/IFC4/include/IfcDimensionCount.h>
-#include <ifcpp/IFC4/include/IfcGloballyUniqueId.h>
-#include <ifcpp/IFC4/include/IfcGeometricRepresentationContext.h>
-#include <ifcpp/IFC4/include/IfcIdentifier.h>
-#include <ifcpp/IFC4/include/IfcLabel.h>
-#include <ifcpp/IFC4/include/IfcLengthMeasure.h>
-#include <ifcpp/IFC4/include/IfcLocalPlacement.h>
-#include <ifcpp/IFC4/include/IfcOrganization.h>
-#include <ifcpp/IFC4/include/IfcOwnerHistory.h>
-#include <ifcpp/IFC4/include/IfcPerson.h>
-#include <ifcpp/IFC4/include/IfcPersonAndOrganization.h>
-#include <ifcpp/IFC4/include/IfcProductDefinitionShape.h>
-#include <ifcpp/IFC4/include/IfcReal.h>
-#include <ifcpp/IFC4/include/IfcRelAggregates.h>
-#include <ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h>
-#include <ifcpp/IFC4/include/IfcRelDefinesByProperties.h>
-#include <ifcpp/IFC4/include/IfcRelVoidsElement.h>
-#include <ifcpp/IFC4/include/IfcShapeRepresentation.h>
-#include <ifcpp/IFC4/include/IfcSite.h>
-#include <ifcpp/IFC4/include/IfcSIUnit.h>
-#include <ifcpp/IFC4/include/IfcText.h>
-#include <ifcpp/IFC4/include/IfcUnitAssignment.h>
-#include <ifcpp/IFC4/include/IfcUnitEnum.h>
-#include <ifcpp/IFC4/include/IfcWall.h>
 #include <ifcpp/geometry/Carve/GeometryInputData.h>
+
+#include <IfcAxis2Placement3D.h>
+#include <IfcBuilding.h>
+#include <IfcBuildingElementProxy.h>
+#include <IfcBuildingStorey.h>
+#include <IfcCartesianPoint.h>
+#include <IfcDirection.h>
+#include <IfcDimensionCount.h>
+#include <IfcGloballyUniqueId.h>
+#include <IfcGeometricRepresentationContext.h>
+#include <IfcIdentifier.h>
+#include <IfcLabel.h>
+#include <IfcLengthMeasure.h>
+#include <IfcLocalPlacement.h>
+#include <IfcOrganization.h>
+#include <IfcOwnerHistory.h>
+#include <IfcPerson.h>
+#include <IfcPersonAndOrganization.h>
+#include <IfcProductDefinitionShape.h>
+#include <IfcReal.h>
+#include <IfcRelAggregates.h>
+#include <IfcRelContainedInSpatialStructure.h>
+#include <IfcRelDefinesByProperties.h>
+#include <IfcRelVoidsElement.h>
+#include <IfcShapeRepresentation.h>
+#include <IfcSite.h>
+#include <IfcSIUnit.h>
+#include <IfcText.h>
+#include <IfcUnitAssignment.h>
+#include <IfcUnitEnum.h>
+#include <IfcWall.h>
 #include "IncludeCarveHeaders.h"
 
-inline void convertPlacement(double local_x[3], double local_z[3], double location[3], shared_ptr<IfcAxis2Placement3D>& axis2placement3d, std::vector<shared_ptr<BuildingEntity> >& vec_new_entities)
-{
-	if (!axis2placement3d)
-	{
-		axis2placement3d = shared_ptr<IfcAxis2Placement3D>(new IfcAxis2Placement3D());
-		vec_new_entities.push_back(axis2placement3d);
-	}
+using namespace IFC4X3;
 
-	if (!axis2placement3d->m_Location)
-	{
-		axis2placement3d->m_Location = shared_ptr<IfcCartesianPoint>(new IfcCartesianPoint());
-		vec_new_entities.push_back(axis2placement3d->m_Location);
-	}
-	axis2placement3d->m_Location->m_Coordinates.clear();
-	axis2placement3d->m_Location->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[0])));
-	axis2placement3d->m_Location->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[1])));
-	axis2placement3d->m_Location->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[2])));
 
-	if (!axis2placement3d->m_Axis)
-	{
-		axis2placement3d->m_Axis = shared_ptr<IfcDirection>(new IfcDirection());
-		vec_new_entities.push_back(axis2placement3d->m_Axis);
-	}
-	axis2placement3d->m_Axis->m_DirectionRatios.clear();
-	axis2placement3d->m_Axis->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_z[0])));
-	axis2placement3d->m_Axis->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_z[1])));
-	axis2placement3d->m_Axis->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_z[2])));
-
-	if (!axis2placement3d->m_RefDirection)
-	{
-		axis2placement3d->m_RefDirection = shared_ptr<IfcDirection>(new IfcDirection());
-		vec_new_entities.push_back(axis2placement3d->m_RefDirection);
-	}
-
-	axis2placement3d->m_RefDirection->m_DirectionRatios.clear();
-	axis2placement3d->m_RefDirection->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_x[0])));
-	axis2placement3d->m_RefDirection->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_x[1])));
-	axis2placement3d->m_RefDirection->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_x[2])));
-}
-
-static double dump_y_pos_geom = 0;
 namespace GeomDebugDump
 {
-	inline void clearMeshsetDump()
+	static double dump_y_pos_geom;
+	static int dumpCount;
+	static carve::geom::vector<3> labelPos = carve::geom::VECTOR(-0.5,0,0);
+	static carve::geom::vector<3> countLabelPos = carve::geom::VECTOR(0.5,0,0);
+	static std::stringstream strs_buffer;
+	static int dump_buffering = 0;
+
+	static void convertPlacement(double local_x[3], double local_z[3], double location[3], shared_ptr<IfcAxis2Placement3D>& axis2placement3d, std::vector<shared_ptr<BuildingEntity> >& vec_new_entities)
 	{
-		std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::trunc );
+		if (!axis2placement3d)
+		{
+			axis2placement3d = shared_ptr<IfcAxis2Placement3D>(new IfcAxis2Placement3D());
+			vec_new_entities.push_back(axis2placement3d);
+		}
+
+		shared_ptr<IfcCartesianPoint> cartesianPoint;
+		if (axis2placement3d->m_Location)
+		{
+			cartesianPoint = dynamic_pointer_cast<IfcCartesianPoint>(axis2placement3d->m_Location);
+		}
+
+		if (!cartesianPoint)
+		{
+			cartesianPoint = shared_ptr<IfcCartesianPoint>(new IfcCartesianPoint());
+			axis2placement3d->m_Location = cartesianPoint;
+			vec_new_entities.push_back(axis2placement3d->m_Location);
+		}
+		cartesianPoint->m_Coordinates.clear();
+		cartesianPoint->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[0])));
+		cartesianPoint->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[1])));
+		cartesianPoint->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[2])));
+
+		if (!axis2placement3d->m_Axis)
+		{
+			axis2placement3d->m_Axis = shared_ptr<IfcDirection>(new IfcDirection());
+			vec_new_entities.push_back(axis2placement3d->m_Axis);
+		}
+		axis2placement3d->m_Axis->m_DirectionRatios.clear();
+		axis2placement3d->m_Axis->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_z[0])));
+		axis2placement3d->m_Axis->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_z[1])));
+		axis2placement3d->m_Axis->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_z[2])));
+
+		if (!axis2placement3d->m_RefDirection)
+		{
+			axis2placement3d->m_RefDirection = shared_ptr<IfcDirection>(new IfcDirection());
+			vec_new_entities.push_back(axis2placement3d->m_RefDirection);
+		}
+
+		axis2placement3d->m_RefDirection->m_DirectionRatios.clear();
+		axis2placement3d->m_RefDirection->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_x[0])));
+		axis2placement3d->m_RefDirection->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_x[1])));
+		axis2placement3d->m_RefDirection->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_x[2])));
+	}
+
+	static double computeFaceArea(const carve::mesh::Face<3>* face)
+	{
+		double face_area = 0;
+		if( face->nVertices() == 3 )
+		{
+			carve::mesh::Edge<3>* edge = face->edge;
+			if( edge )
+			{
+				carve::geom::vector<3>& v1 = edge->v1()->v;
+				carve::geom::vector<3>& v2 = edge->v2()->v;
+				if( edge->next )
+				{
+					carve::geom::vector<3>& v3 = edge->next->v2()->v;
+					carve::geom::vector<3> side1 = v2 - v1;
+					carve::geom::vector<3> side2 = v3 - v2;
+					carve::geom::vector<3> c = cross(side1, side2);
+					double len_square = c.length2();
+					if( len_square > EPS_M14*0.001 )
+					{
+						double area = sqrt(len_square) * 0.5;
+						face_area += abs(area);
+					}
+				}
+			}
+		}
+		else
+		{
+			std::vector<carve::mesh::Face<3>::vertex_t* > faceVertices;
+			face->getVertices(faceVertices);
+			if( faceVertices.size() > 2 )
+			{
+				size_t n = faceVertices.size();
+
+				carve::geom::vector<3> normal;
+				carve::geom::vector<3> a;
+				carve::geom::vector<3> b = faceVertices[n - 2]->v;
+				carve::geom::vector<3> c = faceVertices[n - 1]->v;
+				carve::geom::vector<3> s;
+
+				for( int i = 0; i < n; ++i )
+				{
+					a = b;
+					b = c;
+					c = faceVertices[i]->v;
+
+					normal.x += b.y * (c.z - a.z);
+					normal.y += b.z * (c.x - a.x);
+					normal.z += b.x * (c.y - a.y);
+
+					s += c;
+				}
+
+				double length = normal.length();// glm::length(normal);
+				if( std::abs(length) < EPS_M8 )
+				{
+					return false;
+				}
+
+				normal /= length;
+				double area = 0.5 * length;
+				face_area += area;
+			}
+		}
+		return face_area;
+	}
+
+	static void checkFaceLoops(const carve::mesh::Face<3>* face)
+	{
+		carve::mesh::Edge<3>* e = face->edge;
+		if( !e )
+		{
+			return;
+		}
+		size_t closed_edges = 0;
+
+		size_t numEdges = face->n_edges;
+		if( numEdges == 0 )
+		{
+			return;
+		}
+
+		size_t ii = 0;
+		do {
+			if( e->rev == nullptr ) {
+				//open_edges.push_back(e);
+			}
+			else if( e < e->rev ) {
+				//closed_edges.push_back(e);
+				++closed_edges;
+			}
+			e = e->next;
+
+			if( ii > numEdges * 3 )
+			{
+				break;
+			}
+			if( ii > 10000 )
+			{
+				break;
+			}
+			++ii;
+
+		} while( e != face->edge );
+
+		if( ii > numEdges )
+		{
+			std::cout << "invalid edge loop " << std::endl;
+		}
+	}
+
+	static void startBuffering()
+	{
+		++dump_buffering;
+		if( strs_buffer.str().size() > 0 )
+		{
+			std::ofstream dump_ofstream("dump_mesh_debug.txt", std::ofstream::app);
+			dump_ofstream << strs_buffer.str().c_str();
+			dump_ofstream.close();
+		}
+	}
+
+	static void clearBuffer()
+	{
+		strs_buffer.str(std::string());
+	}
+
+	static void stopBuffering()
+	{
+		--dump_buffering;
+		if( strs_buffer.str().size() > 0 )
+		{
+			std::ofstream dump_ofstream("dump_mesh_debug.txt", std::ofstream::app);
+			dump_ofstream << strs_buffer.str().c_str();
+			dump_ofstream.close();
+			strs_buffer.clear();
+		}
+	}
+	
+	static void clearMeshsetDump()
+	{
+		std::ofstream dump_ofstream("dump_mesh_debug.txt", std::ofstream::trunc);
 		dump_ofstream.close();
 		dump_y_pos_geom = 0;
 	}
 
-	inline void Polyhedron2Stream( const carve::poly::Polyhedron* poly, const vec3& offset, const carve::geom::vector<4>& color, std::stringstream& strs_out )
+	class ScopedDumpBuffering
 	{
-		strs_out << "Polyhedron{" << std::endl;
+	public:
+		ScopedDumpBuffering()
+		{
+			startBuffering();
+		}
+		~ScopedDumpBuffering()
+		{
+			stopBuffering();
+		}
+	};
+
+	static void appendToOutput(const std::stringstream& strs_out)
+	{
+		if( dump_buffering > 0 )
+		{
+			strs_buffer << strs_out.str();
+		}
+		else
+		{
+			std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
+			dump_ofstream << strs_out.str().c_str();
+			dump_ofstream.close();
+		}
+	}
+
+	static void dumpPolyline(const std::vector<vec3>& vec_polyline, const glm::vec4& color, bool move_dump_position)
+	{
+		if( vec_polyline.size() < 1 )
+		{
+			return;
+		}
+
+		std::stringstream strs_out;
+		strs_out << "Polyline{" << std::endl;
 		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
+
 		strs_out << "vertices{" << std::endl;
-		const size_t num_vertices = poly->vertices.size();
+
+		double min_y = 0;
+		double max_y = 0;
+		const size_t num_vertices = vec_polyline.size();
 		for( size_t i = 0; i < num_vertices; ++i )
 		{
-			carve::poly::Vertex<3> vertex = poly->vertices[i];
+			const vec3& vertex = vec_polyline[i];
 			if( i > 0 )
 			{
 				strs_out << ",";
+				if( vertex.y < min_y ) min_y = vertex.y;
+				else if( vertex.y > max_y ) max_y = vertex.y;
 			}
-			strs_out << "{" << vertex.v.x + offset.x << ", " << vertex.v.y + offset.y << ", " << vertex.v.z + offset.z << "}" << std::endl;
+			else
+			{
+				min_y = vertex.y;
+				max_y = vertex.y;
+			}
+			strs_out << "{" << vertex.x << ", " << vertex.y + dump_y_pos_geom << ", " << vertex.z << "}";
 		}
-		strs_out << "}" << std::endl;
-
-		strs_out << "faces{" << std::endl;
-		for( size_t ii = 0; ii < poly->faces.size(); ++ii )
+		strs_out << "}" << std::endl;  // vertices
+		if( move_dump_position )
 		{
-			carve::poly::Face<3> f = poly->faces[ii];
-			if( ii > 0 )
+			dump_y_pos_geom += (max_y - min_y) * 1.5;
+			if( max_y > dump_y_pos_geom )
 			{
-				strs_out << ",";
+				dump_y_pos_geom = max_y * 1.1;
 			}
-			strs_out << "{";
-
-			std::vector<const carve::poly::Vertex<3> *>::const_iterator vertices_begin = f.vbegin();
-			std::vector<const carve::poly::Vertex<3> *>::const_iterator vertices_end = f.vend();
-			for( auto it_vert = vertices_begin; it_vert != vertices_end; ++it_vert )
-			{
-				const carve::poly::Vertex<3>* vert = *it_vert;
-
-				if( it_vert != vertices_begin )
-				{
-					strs_out << ", ";
-				}
-				ptrdiff_t ptr_diff = poly->vertexToIndex( vert );
-				strs_out << ptr_diff;
-
-#ifdef _DEBUG
-				int vert_index = -1;
-
-				for( size_t i_find_vert = 0; i_find_vert < num_vertices; ++i_find_vert )
-				{
-					const carve::poly::Vertex<3>& vertex_ref = (poly->vertices[i_find_vert]);
-					const carve::poly::Vertex<3>* vertex_ptr = &vertex_ref;
-					if( vertex_ptr == vert )
-					{
-						vert_index = i_find_vert;
-						break;
-					}
-				}
-
-				if( vert_index != ptr_diff )
-				{
-					std::cout << "vert_index != ptr_diff" << std::endl;
-				}
-#endif
-			}
-			////const_vertex_iter_t vbegin() const { return vertices.begin(); }
-			////const_vertex_iter_t vend() const { return vertices.end(); }
-
-			////f.getVertexLoop() vertices;
-			//for( size_t jj = 0; jj < f.nVertices(); ++jj )
-			//{
-			//	if( jj > 0 )
-			//	{
-			//		strs_out << ", ";
-			//	}
-			//	ptrdiff_t ptr_diff = poly->vertexToIndex( f.vertex( jj ) );
-			//	strs_out << ptr_diff;
-			//}
-			strs_out << "}" << std::endl;
+			++dumpCount;
 		}
-		strs_out << std::endl << "}" << std::endl;  // faces
-		strs_out << std::endl << "}" << std::endl;  // Polyhedron
+
+		strs_out << std::endl << "}" << std::endl;  // Polyline
+
+		appendToOutput(strs_out);
 	}
-	
-	inline int findVertexIndex(const std::vector<carve::mesh::Vertex<3> >& vec_vertices, const carve::mesh::Vertex<3>* v)
+
+	static void dumpPolyline(const std::vector<std::vector<vec3> >& loops_3d_input, const glm::vec4& color, bool move_dump_position)
+	{
+		for( const std::vector<vec3>& vec_polyline : loops_3d_input )
+		{
+			dumpPolyline(vec_polyline, color, false);
+		}
+
+		if( move_dump_position )
+		{
+			vec3 min, max;
+			GeomUtils::polygonBbox(loops_3d_input, min, max);
+			dump_y_pos_geom += (max.y - min.y) * 1.5;
+		}
+	}
+
+	static void dumpPolyline(const std::vector<glm::dvec3>& loop_3d_input, const glm::vec4& color, bool move_dump_position)
+	{
+		std::vector<vec3> poly_3d_carve;
+		for( const glm::dvec3& point : loop_3d_input )
+		{
+			poly_3d_carve.push_back(carve::geom::VECTOR(point.x, point.y, point.z ) );
+		}
+		dumpPolyline(poly_3d_carve, color, move_dump_position);
+	}
+
+	static void dumpPolyline(const std::vector<vec2>& vec_polyline, const glm::vec4& color, bool move_dump_position)
+	{
+		if( vec_polyline.size() < 1 )
+		{
+			return;
+		}
+
+		std::vector<vec3> vec_polyline3d;
+		for( size_t i = 0; i < vec_polyline.size(); ++i )
+		{
+			const vec2& vertex = vec_polyline[i];
+			vec_polyline3d.push_back(carve::geom::VECTOR(vertex.x, vertex.y, 0));
+		}
+
+		dumpPolyline(vec_polyline3d, color, move_dump_position);
+	}
+
+	static void dumpPolyline(const std::vector<std::vector<vec2> >& loops_2d, const glm::vec4& color, bool move_dump_position)
+	{
+		std::stringstream strs_out;
+		double min_y = DBL_MAX;
+		double max_y = -DBL_MAX;
+
+		for( size_t ii = 0; ii < loops_2d.size(); ++ii )
+		{
+			const std::vector<vec2>& vec_polyline = loops_2d[ii];
+
+			if( vec_polyline.size() == 0 )
+			{
+				continue;
+			}
+
+			strs_out << "Polyline{" << std::endl;
+			strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
+			strs_out << "vertices{" << std::endl;
+
+			const size_t num_vertices = vec_polyline.size();
+			for( size_t i = 0; i < num_vertices; ++i )
+			{
+				const vec2& vertex = vec_polyline[i];
+				if( i > 0 )
+				{
+					strs_out << ",";
+					if( vertex.y < min_y ) min_y = vertex.y;
+					else if( vertex.y > max_y ) max_y = vertex.y;
+				}
+				else
+				{
+					min_y = vertex.y;
+					max_y = vertex.y;
+				}
+				strs_out << "{" << vertex.x << ", " << vertex.y + dump_y_pos_geom << "}";
+			}
+			strs_out << "}" << std::endl;  // vertices
+			strs_out << std::endl << "}" << std::endl;  // Polyline
+		}
+
+		if( move_dump_position )
+		{
+			dump_y_pos_geom += (max_y - min_y) * 1.5;
+			if( max_y > dump_y_pos_geom )
+			{
+				dump_y_pos_geom = max_y * 1.1;
+			}
+			++dumpCount;
+		}
+
+		appendToOutput(strs_out);
+	}
+
+	static void dumpPolyline(const std::vector<array2d>& loops_2d_input, const glm::vec4& color, bool move_dump_position)
+	{
+		std::vector<vec2> vec2d;
+		for( const array2d& vertex : loops_2d_input )
+		{
+			vec2d.push_back(carve::geom::VECTOR(vertex[0], vertex[1]));
+		}
+		dumpPolyline(vec2d, color, move_dump_position);
+	}
+
+	static void dumpPolyline(const std::vector<std::vector<array2d> >& loops_2d_input, const glm::vec4& color, bool move_dump_position)
+	{
+		std::vector<std::vector<vec2> > loops_2d;
+		for( const std::vector<array2d>& vec_polyline : loops_2d_input )
+		{
+			std::vector<vec2> vec2d;
+
+			for( const array2d& vertex : vec_polyline )
+			{
+				vec2d.push_back(carve::geom::VECTOR(vertex[0], vertex[1]));
+			}
+
+			loops_2d.push_back(vec2d);
+		}
+
+		dumpPolyline(loops_2d, color, move_dump_position);
+	}
+
+	/*static void dumpPolyline(const boostRing& poly, const glm::vec4& color, bool move_dump_position)
+	{
+		std::vector<carve::geom::vector<2> > ring_points;
+		for( const auto& point : poly )
+		{
+			ring_points.push_back(carve::geom::VECTOR(point.x(), point.y()));
+		}
+		dumpPolyline(ring_points, color, move_dump_position);
+	}
+
+	static void dumpPolyline(const boostPolygon& poly, const glm::vec4& color, bool move_dump_position)
+	{
+		std::vector<carve::geom::vector<2> > poly2d_inners;
+		for( const auto& innerLoop : poly.inners() )
+		{
+			for( const auto& point : innerLoop )
+			{
+				poly2d_inners.push_back(carve::geom::VECTOR(point.x(), point.y()));
+			}
+		}
+		dumpPolyline(poly2d_inners, color, false);
+
+		std::vector<carve::geom::vector<2> > poly2d_outer;
+		for( const auto& point : poly.outer() )
+		{
+			poly2d_outer.push_back(carve::geom::VECTOR(point.x(), point.y()));
+		}
+		dumpPolyline(poly2d_outer, color, move_dump_position);
+	}*/
+
+	static int findVertexIndexInVector(const std::vector<carve::mesh::Vertex<3> >& vec_vertices, const carve::mesh::Vertex<3>* v)
 	{
 		for( size_t iiv = 0; iiv < vec_vertices.size(); ++iiv )
 		{
@@ -203,140 +506,134 @@ namespace GeomDebugDump
 		}
 		return -1;
 	}
-	
-	inline void MeshSet2Stream(const carve::mesh::MeshSet<3>* meshset, const carve::math::Matrix& transform, const vec3& offset, const carve::geom::vector<4>& color, std::stringstream& strs_out)
+
+	static void MeshSet2Stream(const carve::mesh::MeshSet<3>* meshsetInput, const vec3& offset, const glm::vec4& color, std::stringstream& strs_out, bool trianglesAndQuadsOnly = false )
 	{
-		strs_out << "Polyhedron{" << std::endl;
-		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
-
-		std::stringstream strs_vertices;
-		std::stringstream str_faces;
-		double scale_length_factor = 1.0;
-		if (meshset)
+		if( !meshsetInput )
 		{
-			// vertices of the meshset:
-			size_t vertex_count = 0;
-			size_t face_count = 0;
-			const std::vector<carve::mesh::Vertex<3> >& vec_vertices = meshset->vertex_storage;
+			return;
+		}
 
-			for (size_t iiv = 0; iiv < vec_vertices.size(); ++iiv)
+		++dumpCount;
+
+		PolyInputCache3D poly_data;
+
+		{
+			std::map<size_t, size_t> mapVertexIndexes;
+			std::map<const carve::mesh::Vertex<3>*, size_t> mapVertexPtrIndexes;
+			const std::vector<carve::mesh::Vertex<3> >& vec_vertices = meshsetInput->vertex_storage;
+
+			if( vec_vertices.size() > 2000 )
 			{
-				const carve::mesh::Vertex<3>& vertex = vec_vertices[iiv];
-				if (vertex_count > 0)
-				{
-					strs_vertices << ",   ";
-				}
-				vec3 vertex_transformed = transform * vertex.v;
-				double x = (vertex_transformed.x + offset.x)*scale_length_factor;
-				double y = (vertex_transformed.y + offset.y)*scale_length_factor;
-				double z = (vertex_transformed.z + offset.z)*scale_length_factor;
-
-				strs_vertices << "{" << x << "," << y << "," << z << "}" << std::endl;
-				++vertex_count;
+				return;
 			}
 
-			const std::vector<carve::mesh::Mesh<3>* >& vec_meshes = meshset->meshes;
-			for (size_t i_mesh = 0; i_mesh < vec_meshes.size(); ++i_mesh)
+			for( size_t iiv = 0; iiv < vec_vertices.size(); ++iiv )
 			{
-				const carve::mesh::Mesh<3>* mesh = vec_meshes[i_mesh];
+				const carve::mesh::Vertex<3>& vertex = meshsetInput->vertex_storage[iiv];
+				size_t idx = poly_data.addPoint(vertex.v);
+				mapVertexIndexes[iiv] = idx;
+			}
 
-				if (mesh)
+			
+			for( auto mesh : meshsetInput->meshes )
+			{
+				const std::vector<carve::mesh::Face<3>* >& vec_faces = mesh->faces;
+				for( size_t i_face = 0; i_face < vec_faces.size(); ++i_face )
 				{
-					// faces:
-					const std::vector<carve::mesh::Face<3>* >& vec_faces = mesh->faces;
-					for (size_t i_face = 0; i_face < vec_faces.size(); ++i_face)
+					const carve::mesh::Face<3>* face = vec_faces[i_face];
+					if( face )
 					{
-						const carve::mesh::Face<3>* face = vec_faces[i_face];
-						if (face)
+						int number_of_edges = face->n_edges;
+
+						if( number_of_edges == 3 )
 						{
-							int number_of_edges = face->n_edges;
+							carve::mesh::Edge<3>* edge0 = face->edge;
+							carve::mesh::Edge<3>* edge1 = edge0->next;
+							carve::mesh::Edge<3>* edge2 = edge1->next;
+							carve::mesh::Vertex<3>* v0 = edge0->vert;
+							carve::mesh::Vertex<3>* v1 = edge1->vert;
+							carve::mesh::Vertex<3>* v2 = edge2->vert;
+							int v0index = findVertexIndexInVector(vec_vertices, v0);
+							int v1index = findVertexIndexInVector(vec_vertices, v1);
+							int v2index = findVertexIndexInVector(vec_vertices, v2);
 
-							if (number_of_edges == 3)
+							if( v0index < 0 || v1index < 0 || v2index < 0 )
 							{
-								if (face_count > 0)
-								{
-									str_faces << ",   ";
-								}
-								carve::mesh::Edge<3>* edge0 = face->edge;
-								carve::mesh::Edge<3>* edge1 = edge0->next;
-								carve::mesh::Edge<3>* edge2 = edge1->next;
-								carve::mesh::Vertex<3>* v0 = edge0->vert;
-								carve::mesh::Vertex<3>* v1 = edge1->vert;
-								carve::mesh::Vertex<3>* v2 = edge2->vert;
-								int v0index = findVertexIndex(vec_vertices, v0);
-								int v1index = findVertexIndex(vec_vertices, v1);
-								int v2index = findVertexIndex(vec_vertices, v2);
-
-								if (v0index < 0 || v1index < 0 || v2index < 0)
-								{
-									std::cout << "vertex not found " << std::endl;
-									continue;
-								}
-								str_faces << "{" << v0index << "," << v1index << "," << v2index << "}" << std::endl;
-								++face_count;
+								std::cout << "vertex not found " << std::endl;
+								continue;
 							}
-							else if (number_of_edges == 4)
-							{
-								if (face_count > 0)
-								{
-									str_faces << ",   ";
-								}
-								carve::mesh::Edge<3>* edge0 = face->edge;
-								carve::mesh::Edge<3>* edge1 = edge0->next;
-								carve::mesh::Edge<3>* edge2 = edge1->next;
-								carve::mesh::Edge<3>* edge3 = edge2->next;
-								carve::mesh::Vertex<3>* v0 = edge0->vert;
-								carve::mesh::Vertex<3>* v1 = edge1->vert;
-								carve::mesh::Vertex<3>* v2 = edge2->vert;
-								carve::mesh::Vertex<3>* v3 = edge3->vert;
-								int v0index = findVertexIndex(vec_vertices, v0);
-								int v1index = findVertexIndex(vec_vertices, v1);
-								int v2index = findVertexIndex(vec_vertices, v2);
-								int v3index = findVertexIndex(vec_vertices, v3);
+							size_t idx0 = mapVertexIndexes[v0index];
+							size_t idx1 = mapVertexIndexes[v1index];
+							size_t idx2 = mapVertexIndexes[v2index];
 
-								if (v0index < 0 || v1index < 0 || v2index < 0|| v3index < 0)
-								{
-									std::cout << "vertex not found " << std::endl;
-									continue;
-								}
-								str_faces << "{" << v0index << "," << v1index << "," << v2index <<"," << v3index << "}" << std::endl;
-								++face_count;
+							poly_data.m_poly_data->addFace(idx0, idx1, idx2);
+						}
+						else if( number_of_edges == 4 )
+						{
+							carve::mesh::Edge<3>* edge0 = face->edge;
+							carve::mesh::Edge<3>* edge1 = edge0->next;
+							carve::mesh::Edge<3>* edge2 = edge1->next;
+							carve::mesh::Edge<3>* edge3 = edge2->next;
+							carve::mesh::Vertex<3>* v0 = edge0->vert;
+							carve::mesh::Vertex<3>* v1 = edge1->vert;
+							carve::mesh::Vertex<3>* v2 = edge2->vert;
+							carve::mesh::Vertex<3>* v3 = edge3->vert;
+							int v0index = findVertexIndexInVector(vec_vertices, v0);
+							int v1index = findVertexIndexInVector(vec_vertices, v1);
+							int v2index = findVertexIndexInVector(vec_vertices, v2);
+							int v3index = findVertexIndexInVector(vec_vertices, v3);
+
+							if( v0index < 0 || v1index < 0 || v2index < 0 || v3index < 0 )
+							{
+								std::cout << "vertex not found " << std::endl;
+								continue;
 							}
-							else
-							{
-								
-								carve::mesh::Edge<3>* edge = face->edge;
-								if (edge)
-								{
-									str_faces << "{";
-									++face_count;
+							size_t idx0 = mapVertexIndexes[v0index];
+							size_t idx1 = mapVertexIndexes[v1index];
+							size_t idx2 = mapVertexIndexes[v2index];
+							size_t idx3 = mapVertexIndexes[v3index];
 
-									for (size_t ii_max_edge = 0; ii_max_edge < number_of_edges; ++ii_max_edge)
+							poly_data.m_poly_data->addFace(idx0, idx1, idx2, idx3);
+							//poly_data.m_poly_data->addFace(idx2, idx3, idx0);
+						}
+						else
+						{
+							if( !trianglesAndQuadsOnly )
+							{
+
+								carve::mesh::Edge<3>* edge0 = face->edge;
+
+
+								std::vector<size_t> faceIndexes;
+
+								for( size_t edge_ii = 0; edge_ii < face->n_edges; ++edge_ii )
+								{
+									carve::mesh::Vertex<3>* v0 = edge0->vert;
+
+									int v0index = findVertexIndexInVector(vec_vertices, v0);
+
+									if( v0index < 0 )
 									{
-										carve::mesh::Vertex<3>* v0 = edge->vert;
-										if (!v0)
-										{
-											break;
-										}
-										int v0index = findVertexIndex(vec_vertices, v0);
-										str_faces << v0index << ",";
-									
-										edge = edge->next;
-
-										if (!edge)
-										{
-											break;
-										}
-
-										if (edge == face->edge)
-										{
-											break;
-										}
+										std::cout << "vertex not found " << std::endl;
+										continue;
 									}
 
-									str_faces << "}" << std::endl;
-									++face_count;
+									size_t idx0 = mapVertexIndexes[v0index];
+									faceIndexes.push_back(idx0);
+
+
+									edge0 = edge0->next;
 								}
+
+
+
+
+								//std::cout << "skip dump face with > 4 vertices" << std::endl;
+
+								poly_data.m_poly_data->faceIndices.push_back(faceIndexes.size());
+								std::copy(faceIndexes.begin(), faceIndexes.end(), std::back_inserter(poly_data.m_poly_data->faceIndices));
+								poly_data.m_poly_data->faceCount = poly_data.m_poly_data->faceCount + 1;
 							}
 						}
 					}
@@ -344,197 +641,634 @@ namespace GeomDebugDump
 			}
 		}
 
+		// vertices of the meshset:
+		size_t vertex_count = 0;
+		size_t face_count = 0;
+		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data.m_poly_data->createMesh( carve::input::opts() ) );
+		const std::vector<carve::mesh::Vertex<3> >& vec_vertices = meshset->vertex_storage;
+
+		if( vec_vertices.size() > 10000 )
+		{
+			return;
+		}
+
+		strs_out << "Polyhedron{" << std::endl;
+		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
+
+		std::stringstream strs_vertices;
+		std::stringstream strs_labels;
+		std::stringstream strs_faces;
+		double scale_length_factor = 1.0;
+
+		if( meshset->meshes.size() > 0 )
+		{
+			if( meshset->meshes[0]->faces.size() > 0 )
+			{
+				carve::mesh::Face<3>* f = meshset->meshes[0]->faces[0];
+				const carve::mesh::Vertex<3>* v1 = f->edge->v1();
+				const carve::mesh::Vertex<3>* v2 = f->edge->v2();
+
+				int v1index = findVertexIndexInVector(vec_vertices, v1);
+				if( v1index < 0 )
+				{
+					std::cout << "vertex not found\n";
+				}
+
+				int v2index = findVertexIndexInVector(vec_vertices, v2);
+				if( v2index < 0 )
+				{
+					std::cout << "vertex not found\n";
+				}
+			}
+		}
+		
+
+		for( size_t iiv = 0; iiv < vec_vertices.size(); ++iiv )
+		{
+			const carve::mesh::Vertex<3>& vertex = vec_vertices[iiv];
+			if( vertex_count > 0 )
+			{
+				strs_vertices << ",   ";
+				strs_labels << ",   ";
+			}
+			double x = (vertex.v.x + offset.x) * scale_length_factor;
+			double y = (vertex.v.y + offset.y) * scale_length_factor;
+			double z = (vertex.v.z + offset.z) * scale_length_factor;
+
+			strs_vertices << "{" << x << "," << y << "," << z << "}" << std::endl;
+			strs_labels << "{\"" << iiv << "\", " << x << "," << y << "," << z << "}" << std::endl;
+			++vertex_count;
+		}
+
+		std::map<size_t, size_t> mapVertices;
+		for( size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh )
+		{
+			const carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
+
+			if( !mesh )
+			{
+				continue;
+			}
+			// faces:
+			const std::vector<carve::mesh::Face<3>* >& vec_faces = mesh->faces;
+			for( size_t i_face = 0; i_face < vec_faces.size(); ++i_face )
+			{
+				const carve::mesh::Face<3>* face = vec_faces[i_face];
+				if( face )
+				{
+					int number_of_edges = face->n_edges;
+
+					if( number_of_edges == 3 )
+					{
+						if( face_count > 0 )
+						{
+							strs_faces << ",   ";
+						}
+						carve::mesh::Edge<3>* edge0 = face->edge;
+						carve::mesh::Edge<3>* edge1 = edge0->next;
+						carve::mesh::Edge<3>* edge2 = edge1->next;
+						carve::mesh::Vertex<3>* v0 = edge0->vert;
+						carve::mesh::Vertex<3>* v1 = edge1->vert;
+						carve::mesh::Vertex<3>* v2 = edge2->vert;
+						int v0index = findVertexIndexInVector(vec_vertices, v0);
+						int v1index = findVertexIndexInVector(vec_vertices, v1);
+						int v2index = findVertexIndexInVector(vec_vertices, v2);
+						
+						if( v0index < 0 || v1index < 0 || v2index < 0 )
+						{
+							std::cout << "vertex not found " << std::endl;
+							continue;
+						}
+						mapVertices[v0index] = v0index;
+						mapVertices[v1index] = v1index;
+						mapVertices[v2index] = v2index;
+						strs_faces << "{" << v0index << "," << v1index << "," << v2index << "}" << std::endl;
+						++face_count;
+					}
+					else if( number_of_edges == 4 )
+					{
+						if( face_count > 0 )
+						{
+							strs_faces << ",   ";
+						}
+						carve::mesh::Edge<3>* edge0 = face->edge;
+						carve::mesh::Edge<3>* edge1 = edge0->next;
+						carve::mesh::Edge<3>* edge2 = edge1->next;
+						carve::mesh::Edge<3>* edge3 = edge2->next;
+						carve::mesh::Vertex<3>* v0 = edge0->vert;
+						carve::mesh::Vertex<3>* v1 = edge1->vert;
+						carve::mesh::Vertex<3>* v2 = edge2->vert;
+						carve::mesh::Vertex<3>* v3 = edge3->vert;
+						int v0index = findVertexIndexInVector(vec_vertices, v0);
+						int v1index = findVertexIndexInVector(vec_vertices, v1);
+						int v2index = findVertexIndexInVector(vec_vertices, v2);
+						int v3index = findVertexIndexInVector(vec_vertices, v3);
+
+						if( v0index < 0 || v1index < 0 || v2index < 0 || v3index < 0 )
+						{
+							std::cout << "vertex not found " << std::endl;
+							continue;
+						}
+						mapVertices[v0index] = v0index;
+						mapVertices[v1index] = v1index;
+						mapVertices[v2index] = v2index;
+						mapVertices[v3index] = v3index;
+						strs_faces << "{" << v0index << "," << v1index << "," << v2index << "," << v3index << "}" << std::endl;
+						++face_count;
+					}
+					else
+					{
+						if( !trianglesAndQuadsOnly )
+						{
+							if( face_count > 0 )
+							{
+								strs_faces << ",   ";
+							}
+							carve::mesh::Edge<3>* edge0 = face->edge;
+							strs_faces << "{";
+
+							for( size_t edge_ii = 0; edge_ii < face->n_edges; ++edge_ii )
+							{
+								carve::mesh::Vertex<3>* v0 = edge0->vert;
+
+								int v0index = findVertexIndexInVector(vec_vertices, v0);
+
+								if( v0index < 0 )
+								{
+									std::cout << "vertex not found " << std::endl;
+									continue;
+								}
+
+								mapVertices[v0index] = v0index;
+
+								if( edge_ii > 0 )
+								{
+									strs_faces << ",";
+								}
+								strs_faces << v0index;
+
+								edge0 = edge0->next;
+							}
+
+							strs_faces << "}" << std::endl;
+							++face_count;
+						}
+					}
+				}
+			}
+		}
+
 		strs_out << "vertices{" << strs_vertices.str().c_str() << "}" << std::endl;
-		strs_out << "faces{" << str_faces.str().c_str() << "}" << std::endl;
+		strs_out << "faces{" << strs_faces.str().c_str() << "}" << std::endl;
+		strs_out << "labels{" << strs_labels.str().c_str() << "}" << std::endl;
 		strs_out << std::endl << "}" << std::endl;  // Polyhedron
 	}
 
-	inline void dumpMeshsets( const std::vector<carve::mesh::MeshSet<3>* >& vec_meshsets, const vec3& offset, const std::vector<carve::geom::vector<4> >& vec_colors, bool append )
+	static void Mesh2Stream(const carve::mesh::Mesh<3>* mesh, const vec3& offset, const glm::vec4& color, std::stringstream& strs_out, bool trianglesAndQuadsOnly = false)
+	{
+		if( !mesh )
+		{
+			return;
+		}
+
+		PolyInputCache3D poly_data( EPS_M8 );
+
+		const std::vector<carve::mesh::Face<3>* >& vec_faces = mesh->faces;
+		for( size_t i_face = 0; i_face < vec_faces.size(); ++i_face )
+		{
+			const carve::mesh::Face<3>* face = vec_faces[i_face];
+			if( face )
+			{
+				int number_of_edges = face->n_edges;
+
+				if( number_of_edges == 3 )
+				{
+					carve::mesh::Edge<3>* edge0 = face->edge;
+					carve::mesh::Edge<3>* edge1 = edge0->next;
+					carve::mesh::Edge<3>* edge2 = edge1->next;
+					carve::mesh::Vertex<3>* v0 = edge0->vert;
+					carve::mesh::Vertex<3>* v1 = edge1->vert;
+					carve::mesh::Vertex<3>* v2 = edge2->vert;
+
+					size_t idx0 = poly_data.addPoint(v0->v);
+					size_t idx1 = poly_data.addPoint(v1->v);
+					size_t idx2 = poly_data.addPoint(v2->v);
+
+					poly_data.m_poly_data->addFace(idx0, idx1, idx2);
+				}
+				else if( number_of_edges == 4 )
+				{
+					carve::mesh::Edge<3>* edge0 = face->edge;
+					carve::mesh::Edge<3>* edge1 = edge0->next;
+					carve::mesh::Edge<3>* edge2 = edge1->next;
+					carve::mesh::Edge<3>* edge3 = edge2->next;
+					carve::mesh::Vertex<3>* v0 = edge0->vert;
+					carve::mesh::Vertex<3>* v1 = edge1->vert;
+					carve::mesh::Vertex<3>* v2 = edge2->vert;
+					carve::mesh::Vertex<3>* v3 = edge3->vert;
+
+					size_t idx0 = poly_data.addPoint(v0->v);
+					size_t idx1 = poly_data.addPoint(v1->v);
+					size_t idx2 = poly_data.addPoint(v2->v);
+					size_t idx3 = poly_data.addPoint(v3->v);
+
+					poly_data.m_poly_data->addFace(idx0, idx1, idx2);
+					poly_data.m_poly_data->addFace(idx2, idx3, idx0);
+				}
+				else
+				{
+					if( !trianglesAndQuadsOnly )
+					{
+						carve::mesh::Edge<3>* edge0 = face->edge;
+						std::vector<size_t> faceIndexes;
+
+						for( size_t edge_ii = 0; edge_ii < face->n_edges; ++edge_ii )
+						{
+							carve::mesh::Vertex<3>* v0 = edge0->vert;
+							size_t idx0 = poly_data.addPoint(v0->v);
+							faceIndexes.push_back(idx0);
+
+							edge0 = edge0->next;
+						}
+
+						//std::cout << "skip dump face with > 4 vertices" << std::endl;
+
+						poly_data.m_poly_data->faceIndices.push_back(faceIndexes.size());
+						std::copy(faceIndexes.begin(), faceIndexes.end(), std::back_inserter(poly_data.m_poly_data->faceIndices));
+						poly_data.m_poly_data->faceCount = poly_data.m_poly_data->faceCount + 1;
+					}
+				}
+			}
+		}
+		
+		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data.m_poly_data->createMesh( carve::input::opts() ) );
+		MeshSet2Stream(meshset.get(), offset, color, strs_out, trianglesAndQuadsOnly);
+	}
+
+	static void dumpMeshsets( const std::vector<carve::mesh::MeshSet<3>* >& vec_meshsets, const vec3& offset, const std::vector<glm::vec4 >& vec_colors )
 	{
 		std::stringstream strs_out;
-		carve::math::Matrix ident = carve::math::Matrix::IDENT();
 		for( size_t i = 0; i < vec_meshsets.size(); ++i )
 		{
 			carve::mesh::MeshSet<3>* meshset = vec_meshsets[i];
-			carve::geom::vector<4> color = carve::geom::VECTOR( 0.5, 0.5, 0.5, 1.0 );
+			glm::vec4 color( 0.5, 0.5, 0.5, 1.0 );
 			if( i < vec_colors.size() )
 			{
 				color = vec_colors[i];
 			}
-			MeshSet2Stream(meshset, ident, offset, color, strs_out);
+			MeshSet2Stream(meshset, offset, color, strs_out);
 		}
 
-		if( !append )
-		{
-			clearMeshsetDump();
-		}
-		std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
-		dump_ofstream << strs_out.str().c_str();
-		dump_ofstream.close();
+		appendToOutput(strs_out);
 	}
 
-	inline void dumpPolyhedron( const carve::poly::Polyhedron* poly, const vec3& offset, const carve::geom::vector<4>& color, bool append)
+	static void dumpMeshset(const carve::mesh::MeshSet<3>* meshset, const vec3& offset, const glm::vec4& color)
 	{
 		std::stringstream strs_out;
-		Polyhedron2Stream( poly, offset, color, strs_out );
+		MeshSet2Stream(meshset, offset, color, strs_out);
 
-		if( !append )
-		{
-			clearMeshsetDump();
-		}
-
-		std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
-		dump_ofstream << strs_out.str().c_str();
-		dump_ofstream.close();
+		appendToOutput(strs_out);
 	}
-	inline void dumpMeshSetWithTransform(const carve::mesh::MeshSet<3>* meshset, const carve::math::Matrix& transform, const vec3& offset, const carve::geom::vector<4>& color, bool append, bool move_offset = true)
+
+	static void dumpTrianglesAndQuads(const carve::mesh::MeshSet<3>* meshset, const vec3& offset, const glm::vec4& color)
 	{
 		std::stringstream strs_out;
-		MeshSet2Stream(meshset, transform, offset, color, strs_out);
+		MeshSet2Stream(meshset, offset, color, strs_out, true);
 
-		if( !append )
-		{
-			clearMeshsetDump();
-		}
+		appendToOutput(strs_out);
+	}
 
-		std::ofstream dump_ofstream("dump_mesh_debug.txt", std::ofstream::app);
-		dump_ofstream << strs_out.str().c_str();
-		dump_ofstream.close();
+	static void dumpTrianglesAndQuads(const carve::mesh::Mesh<3>* mesh, /*const std::vector<carve::mesh::Vertex<3> >& vertex_storage,*/ const vec3& offset, const glm::vec4& color)
+	{
+		std::stringstream strs_out;
+		Mesh2Stream(mesh, offset, color, strs_out, true);
+
+		appendToOutput(strs_out);
+	}
+
+	static void dumpMeshset(carve::mesh::MeshSet<3>* meshset, const glm::vec4& color, bool move_offset = true)
+	{
+		vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
+		dumpMeshset(meshset, offset, color );
 
 		if( move_offset )
 		{
-			dump_y_pos_geom += meshset->getAABB().extent.y * 2.2;
+			dump_y_pos_geom += meshset->getAABB().extent.y*2.2;
+		}
+	}
+
+	static void dumpMeshset( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, const glm::vec4& color, bool move_offset = true )
+	{
+		if( meshset->meshes.size() == 0 )
+		{
+			//return;
+		}
+		vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
+		dumpMeshset(meshset.get(), offset, color );
+
+		if( move_offset )
+		{
+			dump_y_pos_geom += meshset->getAABB().extent.y*2.2;
 		}
 	}
 	
-	inline void dumpPolyhedronInput( const carve::input::PolyhedronData& poly_input, const vec3& offset, const carve::geom::vector<4>& color, bool append)
+	static void dumpMeshsets(const std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vecMeshsets, const glm::vec4& color, bool move_offset = true)
 	{
-		dumpPolyhedron( poly_input.create( carve::input::opts() ), offset, color, append );
-	}
-
-	//inline void dumpMeshset( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::math::Matrix& transform, const carve::geom::vector<4>& color, bool append, bool move_offset = true )
-	//{
-	//	if( meshset->meshes.size() == 0 )
-	//	{
-	//		return;
-	//	}
-	//	vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
-	//	dumpMeshSet( meshset.get(), transform, offset, color, append );
-
-	//	if( move_offset )
-	//	{
-	//		dump_y_pos_geom += meshset->getAABB().extent.y*2.2;
-	//	}
-	//}
-
-	inline void dumpMeshset(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::geom::vector<4>& color, bool append, bool move_offset = true)
-	{
-		carve::math::Matrix ident = carve::math::Matrix::IDENT();
-		vec3 offset = carve::geom::VECTOR(0, dump_y_pos_geom, 0);
-		dumpMeshSetWithTransform(meshset.get(), ident, offset, color, append, move_offset);
-	}
-
-	inline void dumpItemData(const shared_ptr<ItemShapeData >& itemData, const carve::math::Matrix& transform, const carve::geom::vector<4>& color, bool append, bool move_offset = true)
-	{
-		vec3 offset = carve::geom::VECTOR(0, dump_y_pos_geom, 0);
-		for( const shared_ptr<carve::mesh::MeshSet<3> >& meshset : itemData->m_meshsets ) {
-			dumpMeshSetWithTransform(meshset.get(), transform, offset, color, append, move_offset);
-		}
-
-		for( auto meshset : itemData->m_meshsets_open ) {
-			dumpMeshSetWithTransform(meshset.get(), transform, offset, color, append, move_offset);
-		}
-	}
-
-	inline void dumpProductData(const shared_ptr<ProductShapeData >& productData, const carve::geom::vector<4>& color, bool append, bool move_offset = true, bool includeChildren = false)
-	{
-		carve::math::Matrix transform = productData->getTransform();
-		for( const shared_ptr<RepresentationData >& rep : productData->m_vec_representations ) {
-
-			for( const shared_ptr<ItemShapeData >& itemData : rep->m_vec_item_data ) {
-				dumpItemData(itemData, transform, color, append, move_offset);
+		vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
+		carve::geom::aabb<3> bbox;
+		for( auto meshset : vecMeshsets )
+		{
+			dumpMeshset(meshset.get(), offset, color);
+			
+			if( move_offset )
+			{
+				if( bbox.isEmpty() )
+				{
+					bbox = meshset->getAABB();
+				}
+				else
+				{
+					bbox.unionAABB(meshset->getAABB());
+				}
 			}
 		}
-
-		if( includeChildren ) {
-			for( const shared_ptr<ProductShapeData >& child : productData->m_vec_children ) {
-				dumpProductData(child, color, append, move_offset, includeChildren);
-			}
+		if( move_offset )
+		{
+			dump_y_pos_geom += bbox.extent.y*2.2;
 		}
 	}
 
-	inline void moveOffset(const shared_ptr<carve::mesh::MeshSet<3> >& meshset)
+	static void dumpMesh( const carve::mesh::Mesh<3>* mesh, const glm::vec4& color, bool move_offset = true )
 	{
-		if (meshset->meshes.size() == 0)
+		if( !mesh )
+		{
+			return;
+		}
+
+		vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
+		std::stringstream strs_out;
+		Mesh2Stream(mesh, offset, color, strs_out, true);
+
+		appendToOutput(strs_out);
+
+		if( move_offset )
+		{
+			dump_y_pos_geom += mesh->getAABB().extent.y*2.2;
+		}
+	}
+
+	static void dumpPoints( const std::vector<glm::dvec3>& points, const glm::vec4& color, bool move_offset = true )
+	{
+		PolyInputCache3D poly_cache;
+		for( size_t ii = 0; ii < points.size(); ++ii )
+		{
+			const glm::dvec3& point = points[ii];
+			poly_cache.addPoint(carve::geom::VECTOR(point.x, point.y, point.z));
+		}
+		shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_cache.m_poly_data->createMesh(carve::input::opts()));
+
+		dumpMeshset(meshset, color, move_offset);
+	}
+
+	static void dumpFaces( const std::vector<carve::mesh::Face<3>* >& vecFaces, const glm::vec4& color, bool move_offset = true )
+	{
+		PolyInputCache3D poly_cache;
+		size_t ii = 0;
+		for( const carve::mesh::Face<3>* face : vecFaces )
+		{
+			if( face->n_edges > 100000 )
+			{
+				std::cout << "face->n_edges > 100000" << std::endl;
+			}
+
+			checkFaceLoops(face);
+
+			const carve::mesh::Edge<3>* edge = face->edge;
+			size_t countEdges = 0;
+			do
+			{
+				++countEdges;
+				edge = edge->next;
+				if( face->edge == edge )
+				{
+					break;
+				}
+			} while( countEdges < 10000 );
+
+			if( countEdges > face->n_edges )
+			{
+				std::cout << "countEdges > face->n_edges" << std::endl;
+			}
+			
+			if( countEdges > 100000 )
+			{
+				std::cout << "face->n_edges > 100000" << std::endl;
+			}
+			
+			std::vector<carve::mesh::Face<3>::vertex_t* > faceVertices;
+			face->getVertices(faceVertices);
+			
+			std::vector<int> faceIndexes;
+			for( const carve::mesh::Face<3>::vertex_t * vertex : faceVertices )
+			{
+				const carve::geom::vector<3>& vertexPoint = vertex->v;
+				size_t idx = poly_cache.addPoint(vertexPoint);
+				faceIndexes.push_back(idx);
+
+			}
+
+			poly_cache.m_poly_data->addFace(faceIndexes.begin(), faceIndexes.end());
+			++ii;
+		}
+		
+		shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_cache.m_poly_data->createMesh(carve::input::opts()));
+		dumpMeshset(meshset, color, move_offset);
+	}
+
+	static void dumpFacePolygon(const carve::mesh::Face<3>* face, glm::vec4& color1, bool moveOffset)
+	{
+		std::vector<carve::mesh::Vertex<3>* > vertices;
+		face->getVertices(vertices);
+
+		std::vector<carve::geom::vector<3> > vertice_points;
+		for( auto vert : vertices )
+		{
+			vertice_points.push_back(vert->v);
+		}
+		
+		dumpPolyline(vertice_points, color1, moveOffset);
+	}
+
+	static void dumpFacePolygons(const std::vector<carve::mesh::Face<3>* >& vecFaces, glm::vec4& color1, bool moveDumpOffset)
+	{
+		carve::geom::aabb<3> bbox;
+		
+		for( auto face : vecFaces )
+		{
+			dumpFacePolygon(face, color1, false);
+			const auto aabb = face->getAABB();
+			bbox.unionAABB(aabb);
+		}
+
+		if( moveDumpOffset )
+		{
+			dump_y_pos_geom += bbox.extent.y * 1.1;
+		}
+	}
+
+	static void moveOffset(const carve::mesh::Mesh<3>* mesh)
+	{
+		if( !mesh )
+		{
+			return;
+		}
+		const auto aabb = mesh->getAABB();
+		double dy = aabb.extent.y * 2.0;
+#ifdef _DEBUG
+		double dx = aabb.extent.x * 2.0;
+		double dz = aabb.extent.z * 2.0;
+		dx = dx;
+		dz = dz;
+#endif
+		dump_y_pos_geom += dy * 1.1;
+	}
+
+	static void moveOffset(const shared_ptr<carve::mesh::MeshSet<3> >& meshset)
+	{
+		if( meshset->meshes.size() == 0 )
 		{
 			return;
 		}
 		const auto aabb = meshset->getAABB();
-		double dy = aabb.extent.y*2.0;
+		double dy = aabb.extent.y * 2.0;
 #ifdef _DEBUG
-		double dx = aabb.extent.x*2.0;
-		double dz = aabb.extent.z*2.0;
+		double dx = aabb.extent.x * 2.0;
+		double dz = aabb.extent.z * 2.0;
 		dx = dx;
 		dz = dz;
 #endif
-		dump_y_pos_geom += dy*1.1;
+		dump_y_pos_geom += dy * 1.1;
 	}
 
-	inline void dumpFaces( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, const std::vector<carve::mesh::Face<3>* >& vec_faces )
+	static void moveOffset(double deltaY)
+	{
+		dump_y_pos_geom += deltaY;
+	}
+
+	static void dumpMeshsetOpenEdges(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, const glm::vec4& colorInput, bool checkZeroAreaFaces, bool move_offset )
+	{
+		glm::vec4 color = colorInput;
+		float red = color.x;
+		size_t numOpenEdges = 0;
+		for( auto mesh : meshset->meshes )
+		{
+			std::vector<carve::mesh::Edge<3>* > openEdges = mesh->open_edges;
+			numOpenEdges += openEdges.size();
+			for( size_t ii = 0; ii < openEdges.size(); ++ii )
+			{
+				auto e = openEdges[ii];
+				auto p1 = e->v1()->v;
+				auto p2 = e->v2()->v;
+
+				double edgeLength = (p2 - p1).length();
+
+				std::vector<vec3> line = { carve::geom::VECTOR(p1.x, p1.y, p1.z), carve::geom::VECTOR(p2.x, p2.y, p2.z) };
+				if( ii %2 == 0 )
+				{
+					if( red > 0.5 )
+					{
+						color.x = red - 0.3;
+					}
+					else
+					{
+						color.x = red + 0.3;
+					}
+				}
+				else
+				{
+					color.x = red;
+				}
+				dumpPolyline(line, color, false);
+
+				if( e->face )
+				{
+					if( checkZeroAreaFaces )
+					{
+						double faceArea = computeFaceArea(e->face);
+						if( std::abs(faceArea) < EPS_M6 )
+						{
+							std::cout << "faceArea) < EPS_M6 )" << std::endl;
+						}
+					}
+					std::vector<carve::mesh::Face<3>* > vecFaces = { e->face };
+					dumpFaces(vecFaces, color, false);
+				}
+				if( move_offset )
+				{
+					moveOffset(0.00005);
+				}
+			}
+		}
+		if( numOpenEdges > 0 )
+		{
+			if( move_offset )
+			{
+				moveOffset(meshset);
+			}
+		}
+	}
+
+	static void dumpLocalCoordinateSystem()
 	{
 		std::stringstream strs_out;
-		strs_out << "Polyhedron{" << std::endl;
-		strs_out << "vertices{" << std::endl;
+		strs_out << "Polyline{" << std::endl;
+		strs_out << "color{1,0,0,1}," << std::endl;
+		strs_out << R"(pointLabels: "no",)" << std::endl;
+		strs_out << "vertices{ {0, " << dump_y_pos_geom << ", 0}, {5, " << dump_y_pos_geom << ", 0}}" << std::endl;
+		strs_out << std::endl << "}" << std::endl;  // Polyline
 
-		std::map<const carve::mesh::Vertex<3>*, int > map_vertex_idx;
-		const size_t num_vertices = meshset->vertex_storage.size();
-		for( size_t i = 0; i < num_vertices; ++i )
-		{
-			const carve::mesh::Vertex<3>& vertex = meshset->vertex_storage[i];
-			//carve::poly::Vertex<3> vertex = meshset->vertex_storage[i].v;
-			map_vertex_idx[&vertex] = i;
-			if( i > 0 )
-			{
-				strs_out << ",";
-			}
-			strs_out << "{" << vertex.v.x << ", " << vertex.v.y + dump_y_pos_geom << ", " << vertex.v.z << "}";
-		}
-		strs_out << "}" << std::endl;  // vertices
+		strs_out << "Polyline{" << std::endl;
+		strs_out << "color{0,1,0,1}" << std::endl;
+		strs_out << R"(pointLabels: "no",)" << std::endl;
+		strs_out << "vertices{ {0, " << dump_y_pos_geom << ", 0}, {0, " << 5 + dump_y_pos_geom << ", 0}}" << std::endl;
+		strs_out << std::endl << "}" << std::endl;  // Polyline
 
-		strs_out << "faces{" << std::endl;
-		for( size_t i = 0; i < vec_faces.size(); ++i )
-		{
-			carve::mesh::Face<3>* f = vec_faces[i];
-			if( i > 0 )
-			{
-				strs_out << ",";
-			}
-			strs_out << "{";
-			carve::mesh::Edge<3>* edge = f->edge;
-			for( size_t j = 0; j < f->nEdges(); ++j )
-			{
-				if( j > 0 )
-				{
-					strs_out << ", ";
-				}
-				carve::mesh::Vertex<3>* face_vertex = edge->vert;
-				int idx = map_vertex_idx[face_vertex];
-				strs_out << idx;// poly->vertexToIndex( f.vertex( j ) );
-				edge = edge->next;
-			}
-			strs_out << "}";
-		}
-		strs_out << std::endl << "}"; // faces
-		strs_out << std::endl << "}"; // Polyhedron
+		strs_out << "Polyline{" << std::endl;
+		strs_out << "color{0,0,1,1}" << std::endl;
+		strs_out << R"(pointLabels: "no",)" << std::endl;
+		strs_out << "vertices{ {0, " << dump_y_pos_geom << ", 0}, {0, " << dump_y_pos_geom << ", 5}}" << std::endl;
+		strs_out << std::endl << "}" << std::endl;  // Polyline
 
-		std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
-		dump_ofstream << strs_out.str().c_str();
-		dump_ofstream.close();
-
-		dump_y_pos_geom += meshset->getAABB().extent.y*2.2;
+		appendToOutput(strs_out);
 	}
 
-	inline void dumpEdges( const shared_ptr<carve::mesh::MeshSet<3> > meshset, const std::vector<carve::mesh::Edge<3>* >& vec_edges )
+	static void dumpVertex(const vec3& point, const glm::vec4& color, std::string& label)
+	{
+		std::stringstream strs_out;
+		strs_out << "Vertex{" << std::endl;
+		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
+		strs_out << "coords{" << point.x << ", " << point.y + dump_y_pos_geom << ", " << point.z << "}" << std::endl;
+		strs_out << "label{\"" << label << "\"}" << std::endl;
+		strs_out << "}" << std::endl << std::endl;
+
+		appendToOutput(strs_out);
+	}
+
+	static void dumpCountLabel(const vec3& point)
+	{
+		std::string label = std::to_string(dumpCount);
+		const glm::vec4 color(0.4, 0.4, 0.15, 0.9);
+		std::stringstream strs_out;
+		strs_out << "Vertex{" << std::endl;
+		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
+		strs_out << "coords{" << point.x << ", " << point.y + dump_y_pos_geom << ", " << point.z << "}" << std::endl;
+		strs_out << "label{\"" << label << "\"}" << std::endl;
+		strs_out << "}" << std::endl << std::endl;
+
+		appendToOutput(strs_out);
+	}
+
+	static void dumpEdges( const shared_ptr<carve::mesh::MeshSet<3> > meshset, const std::vector<carve::mesh::Edge<3>* >& vec_edges )
 	{
 		std::stringstream strs_out;
 		strs_out << "PolyLineSet{" << std::endl;
@@ -570,11 +1304,7 @@ namespace GeomDebugDump
 		for( size_t i = 0; i < vec_edges.size(); ++i )
 		{
 			carve::mesh::Edge<3>* edge = vec_edges[i];
-			if( i > 0 )
-			{
-				strs_out << ",";
-			}
-
+			
 			const carve::mesh::Vertex<3>* vertex1 = edge->v1();
 			const carve::mesh::Vertex<3>* vertex2 = edge->v2();
 
@@ -590,247 +1320,29 @@ namespace GeomDebugDump
 		strs_out << std::endl << "}"; // lines
 		strs_out << std::endl << "}"; // PolyLineSet
 
-		std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
-		dump_ofstream << strs_out.str().c_str();
-		dump_ofstream.close();
+
+		appendToOutput(strs_out);
 	}
 
-	inline void dumpPolyline( const std::vector<vec2>& vec_polyline, const carve::geom::vector<4>& color, bool append, bool move_dump_position )
+	static void dumpShapeInputData(shared_ptr<ProductShapeData>& product_shape, const glm::vec4& color )
 	{
-		if( vec_polyline.size() < 1 )
+		for( auto representation_data : product_shape->m_vec_representations )
 		{
-			return;
-		}
-
-		std::stringstream strs_out;
-		strs_out << "Polyline{" << std::endl;
-		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
-
-		strs_out << "vertices{" << std::endl;
-
-		double min_y = 0;
-		double max_y = 0;
-		const size_t num_vertices = vec_polyline.size();
-		for( size_t i = 0; i < num_vertices; ++i )
-		{
-			const vec2& vertex = vec_polyline[i];
-			if( i > 0 )
+			if( representation_data->m_vec_item_data.size() > 0 )
 			{
-				strs_out << ",";
-				if( vertex.y < min_y ) min_y = vertex.y;
-				else if( vertex.y > max_y ) max_y = vertex.y;
-			}
-			else
-			{
-				min_y = vertex.y;
-				max_y = vertex.y;
-			}
-			strs_out << "{" << vertex.x << ", " << vertex.y + dump_y_pos_geom << "}";
-		}
-		strs_out << "}" << std::endl;  // vertices
-		if( move_dump_position )
-		{
-			dump_y_pos_geom += (max_y - min_y)*1.5;
-			if( max_y > dump_y_pos_geom )
-			{
-				dump_y_pos_geom = max_y*1.1;
+				if( representation_data->m_vec_item_data[0]->m_meshsets_open.size() > 0 )
+				{
+					GeomDebugDump::dumpMeshset(representation_data->m_vec_item_data[0]->m_meshsets_open[0], color, false);
+				}
+				if( representation_data->m_vec_item_data[0]->m_meshsets.size() > 0 )
+				{
+					GeomDebugDump::dumpMeshset(representation_data->m_vec_item_data[0]->m_meshsets[0], color, false);
+				}
 			}
 		}
-
-		strs_out << std::endl << "}" << std::endl;  // Polyline
-
-		if( !append )
-		{
-			clearMeshsetDump();
-		}
-
-		std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
-		dump_ofstream << strs_out.str().c_str();
-		dump_ofstream.close();
 	}
 
-	inline void dumpPolylineSet(const std::vector<std::vector<vec2> > loops_2d, const carve::geom::vector<4>& color, bool append, bool move_dump_position )
-	{
-		std::stringstream strs_out;
-		strs_out << std::setprecision(15);
-		double min_y = DBL_MAX;
-		double max_y = -DBL_MAX;
-
-		for (size_t ii = 0; ii < loops_2d.size(); ++ii )
-		{
-			const std::vector<vec2>& vec_polyline = loops_2d[ii];
-
-			if (vec_polyline.size() == 0)
-			{
-				continue;
-			}
-
-			strs_out << "Polyline{" << std::endl;
-			strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
-			strs_out << "vertices{" << std::endl;
-			
-			const size_t num_vertices = vec_polyline.size();
-			for (size_t i = 0; i < num_vertices; ++i)
-			{
-				const vec2& vertex = vec_polyline[i];
-				if (i > 0)
-				{
-					strs_out << ",";
-					if (vertex.y < min_y) min_y = vertex.y;
-					else if (vertex.y > max_y) max_y = vertex.y;
-				}
-				else
-				{
-					min_y = vertex.y;
-					max_y = vertex.y;
-				}
-				strs_out << "{" << vertex.x << ", " << vertex.y + dump_y_pos_geom << "}";
-			}
-			strs_out << "}" << std::endl;  // vertices
-			strs_out << std::endl << "}" << std::endl;  // Polyline
-		}
-
-		if (move_dump_position)
-		{
-			dump_y_pos_geom += (max_y - min_y) * 1.5;
-			if (max_y > dump_y_pos_geom)
-			{
-				dump_y_pos_geom = max_y * 1.1;
-			}
-		}
-
-		if (!append)
-		{
-			clearMeshsetDump();
-		}
-
-		std::ofstream dump_ofstream("dump_mesh_debug.txt", std::ofstream::app);
-		dump_ofstream << strs_out.str().c_str();
-		dump_ofstream.close();
-	}
-
-	inline void dumpPolylineSet(const std::vector<std::vector<vec3> > loops_3d, const carve::geom::vector<4>& color, bool append, bool move_dump_position)
-	{
-		std::stringstream strs_out;
-		strs_out << std::setprecision(18);
-		double min_y = DBL_MAX;
-		double max_y = -DBL_MAX;
-
-		for (size_t ii = 0; ii < loops_3d.size(); ++ii)
-		{
-			const std::vector<vec3>& vec_polyline = loops_3d[ii];
-
-			if (vec_polyline.size() == 0)
-			{
-				continue;
-			}
-
-			strs_out << "Polyline{" << std::endl;
-			strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
-			strs_out << "vertices{" << std::endl;
-
-			const size_t num_vertices = vec_polyline.size();
-			for (size_t i = 0; i < num_vertices; ++i)
-			{
-				const vec3& vertex = vec_polyline[i];
-				if (i > 0)
-				{
-					strs_out << ",";
-					if (vertex.y < min_y) min_y = vertex.y;
-					else if (vertex.y > max_y) max_y = vertex.y;
-				}
-				else
-				{
-					min_y = vertex.y;
-					max_y = vertex.y;
-				}
-				strs_out << "{" << vertex.x << ", " << vertex.y + dump_y_pos_geom << ", " << vertex.z << "}";
-			}
-			strs_out << "}" << std::endl;  // vertices
-			strs_out << std::endl << "}" << std::endl;  // Polyline
-		}
-
-		if (move_dump_position)
-		{
-			dump_y_pos_geom += (max_y - min_y) * 1.5;
-			if (max_y > dump_y_pos_geom)
-			{
-				dump_y_pos_geom = max_y * 1.1;
-			}
-		}
-
-		if (!append)
-		{
-			clearMeshsetDump();
-		}
-
-		std::ofstream dump_ofstream("dump_mesh_debug.txt", std::ofstream::app);
-		dump_ofstream << strs_out.str().c_str();
-		dump_ofstream.close();
-	}
-
-	inline void dumpPolylineSet( const carve::input::PolylineSetData* polyline_data, const carve::geom::vector<4>& color, bool append )
-	{
-		carve::line::PolylineSet* polyline_set = polyline_data->create( carve::input::opts() );
-
-		if( polyline_set->vertices.size() < 2 )
-		{
-#ifdef _DEBUG
-			std::cout << __FUNC__ << ": polyline_set->vertices.size() < 2" << std::endl;
-#endif
-			return;
-		}
-
-
-		std::stringstream strs_out;
-		strs_out << "Polyline{" << std::endl;
-		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
-		strs_out << "vertices{" << std::endl;
-
-		int vertex_count_all = 0;
-		for( auto it = polyline_set->lines.begin(); it != polyline_set->lines.end(); ++it )
-		{
-			carve::line::Polyline* pline = *it;
-			size_t vertex_count_polyline = pline->vertexCount();
-
-			for( size_t vertex_i = 0; vertex_i < vertex_count_polyline; ++vertex_i )
-			{
-				if( vertex_i >= polyline_set->vertices.size() )
-				{
-#ifdef _DEBUG
-					std::cout << __FUNC__ << ": vertex_i >= polyline_set->vertices.size()" << std::endl;
-#endif
-					continue;
-				}
-				const carve::line::Vertex* vertex = pline->vertex( vertex_i );
-				//vertices->push_back( osg::Vec3d( v->v[0], v->v[1], v->v[2] ) );
-
-				//if( it != polyline_set->lines.begin() )
-				if( vertex_count_all > 0 )
-				{
-					strs_out << "," << std::endl;
-				}
-				strs_out << "{" << vertex->v.x << ", " << vertex->v.y << ", " << vertex->v.z << "}";
-				++vertex_count_all;
-
-			}
-		}
-		strs_out << "}" << std::endl; // vertices
-		strs_out << "}" << std::endl; // Polyline
-
-
-
-		if( !append )
-		{
-			clearMeshsetDump();
-		}
-
-		std::ofstream dump_ofstream( "dump_mesh_debug.txt", std::ofstream::app );
-		dump_ofstream << strs_out.str().c_str();
-		dump_ofstream.close();
-	}
-
-	inline void dumpEntity(const shared_ptr<BuildingEntity>& entity)
+	static void dumpEntity(const shared_ptr<BuildingEntity>& entity)
 	{
 		std::vector<shared_ptr<BuildingEntity> > vec_new_entities;
 		shared_ptr<BuildingModel> ifc_model(new BuildingModel());
@@ -838,12 +1350,16 @@ namespace GeomDebugDump
 		ifc_model->clearIfcModel();
 		ifc_model->getUnitConverter()->setLengthInMeterFactor(unit_length_factor);
 
-		std::map<BuildingEntity*, shared_ptr<BuildingEntity> > map_entities;
+		std::map<BuildingObject*, shared_ptr<BuildingObject> > map_entities;
 		ifc_model->collectDependentEntities(entity, map_entities);
 
 		for (auto it : map_entities)
 		{
-			vec_new_entities.push_back(it.second);
+			shared_ptr<BuildingEntity> entity = dynamic_pointer_cast<BuildingEntity>(it.second);
+			if( entity )
+			{
+				vec_new_entities.push_back(entity);
+			}
 		}
 
 		shared_ptr<IfcProduct> entity_product = dynamic_pointer_cast<IfcProduct>(entity);
@@ -855,13 +1371,13 @@ namespace GeomDebugDump
 				entity_product = shared_ptr<IfcBuildingElementProxy>(new IfcBuildingElementProxy());
 				vec_new_entities.push_back(entity_product);
 				entity_product->m_Name = shared_ptr<IfcLabel>(new IfcLabel());
-				entity_product->m_Name->m_value = L"proxy";
+				entity_product->m_Name->m_value = "proxy";
 				
 				// geometry
 				shared_ptr<IfcShapeRepresentation> shape_representation(new IfcShapeRepresentation());
 				vec_new_entities.push_back(shape_representation);
-				shape_representation->m_RepresentationIdentifier = shared_ptr<IfcLabel>(new IfcLabel(L"Body"));
-				shape_representation->m_RepresentationType = shared_ptr<IfcLabel>(new IfcLabel(L"SweptSolid"));
+				shape_representation->m_RepresentationIdentifier = shared_ptr<IfcLabel>(new IfcLabel("Body"));
+				shape_representation->m_RepresentationType = shared_ptr<IfcLabel>(new IfcLabel("SweptSolid"));
 
 				shared_ptr<IfcProductDefinitionShape> product_def_shape(new IfcProductDefinitionShape());
 				vec_new_entities.push_back(product_def_shape);
@@ -955,15 +1471,15 @@ namespace GeomDebugDump
 
 		// general objects
 		shared_ptr<IfcPerson> person(new IfcPerson());
-		person->m_Identification = shared_ptr<IfcIdentifier>(new IfcIdentifier(L"MyID"));
-		person->m_FamilyName = shared_ptr<IfcLabel>(new IfcLabel(L"MyFamilyName"));
-		person->m_GivenName = shared_ptr<IfcLabel>(new IfcLabel(L"MyGivenName"));
+		person->m_Identification = shared_ptr<IfcIdentifier>(new IfcIdentifier("MyID"));
+		person->m_FamilyName = shared_ptr<IfcLabel>(new IfcLabel("MyFamilyName"));
+		person->m_GivenName = shared_ptr<IfcLabel>(new IfcLabel("MyGivenName"));
 		vec_new_entities.push_back(person);
 
 		shared_ptr<IfcOrganization> orga(new IfcOrganization());
-		orga->m_Identification = shared_ptr<IfcIdentifier>(new IfcIdentifier(L"MyOrganization"));
-		orga->m_Name = shared_ptr<IfcLabel>(new IfcLabel(L"My organizations name"));
-		orga->m_Description = shared_ptr<IfcText>(new IfcText(L"My organizations description"));
+		orga->m_Identification = shared_ptr<IfcIdentifier>(new IfcIdentifier("MyOrganization"));
+		orga->m_Name = shared_ptr<IfcLabel>(new IfcLabel("My organizations name"));
+		orga->m_Description = shared_ptr<IfcText>(new IfcText("My organizations description"));
 		vec_new_entities.push_back(orga);
 
 		shared_ptr<IfcPersonAndOrganization> person_and_organization(new IfcPersonAndOrganization());
@@ -987,7 +1503,7 @@ namespace GeomDebugDump
 
 		// define representation context
 		shared_ptr<IfcGeometricRepresentationContext> geom_context(new IfcGeometricRepresentationContext());
-		geom_context->m_ContextType = shared_ptr<IfcLabel>(new IfcLabel(L"Model"));
+		geom_context->m_ContextType = shared_ptr<IfcLabel>(new IfcLabel("Model"));
 		geom_context->m_CoordinateSpaceDimension = shared_ptr<IfcDimensionCount>(new IfcDimensionCount(3));
 		geom_context->m_Precision = shared_ptr<IfcReal>(new IfcReal(1.000E-5));
 		geom_context->m_WorldCoordinateSystem = axis_placement_origin;
@@ -1008,7 +1524,7 @@ namespace GeomDebugDump
 				// each object that is derived from IfcRoot should have a GUID
 				if (!ifc_root_object->m_GlobalId)
 				{
-					ifc_root_object->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId(createBase64Uuid_wstr().data()));
+					ifc_root_object->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId(createBase64Uuid().data()));
 				}
 
 				ifc_root_object->m_OwnerHistory = owner_history;
@@ -1028,7 +1544,7 @@ namespace GeomDebugDump
 
 
 		// write IFC file in STEP format
-		std::wstring file_path = L"dumpEntity.ifc";
+		std::string file_path = "dumpEntity.ifc";
 		ifc_model->initFileHeader(file_path);
 		std::stringstream stream;
 
@@ -1046,5 +1562,16 @@ namespace GeomDebugDump
 		ofs << stream.str().c_str();
 		ofs.close();
 	}
-}
+};
+
+//#else
+//namespace GeomDebugDump
+//{
+//	static void startBuffering()
+//	{
+//	}
+//
+//	static void clearBuffer()
+//	{
+//	}
 #endif

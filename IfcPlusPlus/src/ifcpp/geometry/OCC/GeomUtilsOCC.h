@@ -101,7 +101,7 @@ namespace GeomUtilsOCC
 			gp_Dir ray_direction( ray->direction.X(), ray->direction.Y(), ray->direction.Z() );
 
 			double denom = plane_normal.Dot( ray_direction );
-			double abs_denom = abs( denom );
+			double abs_denom = std::abs( denom );
 			if( abs_denom < 0.0001 )
 			{
 				return false;
@@ -535,7 +535,7 @@ namespace GeomUtilsOCC
 			const TangentialPoint2D& tangent_point = tangential_points[ii];
 			const gp_Vec2d& vec = tangent_point.m_coords;
 			const double radius = tangent_point.m_radius;
-			if( abs( radius ) > 0.0001 )
+			if( std::abs( radius ) > 0.0001 )
 			{
 				have_radius = true;
 			}
@@ -592,9 +592,9 @@ namespace GeomUtilsOCC
 			for( size_t ii = 0; ii < tangential_points.size(); ++ii )
 			{
 				const double radius = tangential_points[ii].m_radius;
-				if( abs( radius ) > 0.0001 )
+				if( std::abs( radius ) > 0.0001 )
 				{
-					fillet.AddFillet( vertices[ii], abs( radius ) );
+					fillet.AddFillet( vertices[ii], std::abs( radius ) );
 				}
 			}
 			fillet.Build();

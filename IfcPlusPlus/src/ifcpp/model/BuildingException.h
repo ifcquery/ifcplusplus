@@ -74,27 +74,3 @@ public:
 
 	std::string m_reason_str;
 };
-
-class OutOfMemoryException : public std::exception
-{
-public:
-	OutOfMemoryException()
-	{
-		m_reason_str = "Out of memory";
-	}
-
-	OutOfMemoryException( const char* function_name )
-	{
-		m_reason_str = "Out of memory in function: ";
-		m_reason_str.append( function_name );
-	}
-
-	~OutOfMemoryException() noexcept override = default;
-
-	const char* what() const noexcept override
-	{
-		return m_reason_str.c_str();
-	}
-
-	std::string m_reason_str;
-};

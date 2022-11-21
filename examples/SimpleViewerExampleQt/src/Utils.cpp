@@ -571,7 +571,7 @@ PropertyValueContainer::PropertyValueContainer(const shared_ptr<IfcPropertySet>&
 		else
 		{
 			m_pset_name = L"#";
-			m_pset_name.append(std::to_wstring(pSet->m_entity_id));
+			m_pset_name.append(std::to_wstring(pSet->m_tag));
 		}
 	}
 }
@@ -591,7 +591,7 @@ PropertyValueContainer::PropertyValueContainer(const shared_ptr<IfcPropertySet>&
 		else
 		{
 			m_pset_name = L"#";
-			m_pset_name.append(std::to_wstring(pSet->m_entity_id));
+			m_pset_name.append(std::to_wstring(pSet->m_tag));
 		}
 	}
 
@@ -628,7 +628,7 @@ void readIfcValue(const shared_ptr<IfcValue>& ifc_value, shared_ptr<PropertyValu
 				if (derived_value)
 				{
 				}
-				std::cout << "readIfcProperty:: unimplemented simple property: " << ifc_value->className() << std::endl;
+				std::cout << "readIfcProperty:: unimplemented simple property: " << EntityFactory::getStringForClassID(ifc_value->classID()) << std::endl;
 			}
 		}
 	}
@@ -677,7 +677,7 @@ void readIfcMeasureValue(shared_ptr<IfcMeasureValue>& ifc_measure, std::wstring&
 	}
 
 
-	std::cout << "readIfcMeasureValue:: unimplemented measure: " << ifc_measure->className() << std::endl;
+	std::cout << "readIfcMeasureValue:: unimplemented measure: " << EntityFactory::getStringForClassID(ifc_measure->classID()) << std::endl;
 }
 
 void readIfcSimpleValue(shared_ptr<IfcSimpleValue>& simple, std::wstring& prop_value)
@@ -786,7 +786,7 @@ void readIfcSimpleValue(shared_ptr<IfcSimpleValue>& simple, std::wstring& prop_v
 		return;
 	}
 
-	std::cout << "readIfcSimpleValue:: unimplemented value: " << simple->className() << std::endl;
+	std::cout << "readIfcSimpleValue:: unimplemented value: " << EntityFactory::getStringForClassID(simple->classID()) << std::endl;
 }
 
 
@@ -864,7 +864,7 @@ void readIfcProperty(const shared_ptr<IfcPropertySet>& pset, const shared_ptr<If
 				}
 				else
 				{
-					std::cout << "readIfcProperty:: unimplemented simple property: " << simple_property->className() << std::endl;
+					std::cout << "readIfcProperty:: unimplemented simple property: " << EntityFactory::getStringForClassID(simple_property->classID()) << std::endl;
 				}
 			}
 		}
@@ -943,7 +943,7 @@ void readIfcProperty(const shared_ptr<IfcPropertySet>& pset, const shared_ptr<If
 				}
 				else
 				{
-					std::cout << "readIfcProperty:: unimplemented simple property: " << simple_property->className() << std::endl;
+					std::cout << "readIfcProperty:: unimplemented simple property: " << EntityFactory::getStringForClassID(simple_property->classID()) << std::endl;
 				}
 			}
 		}

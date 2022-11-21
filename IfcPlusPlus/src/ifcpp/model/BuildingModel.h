@@ -23,10 +23,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "BasicTypes.h"
 #include "StatusCallback.h"
 
+class BuildingObject;
 class BuildingEntity;
-class IfcProject;
-class IfcGeometricRepresentationContext;
 class UnitConverter;
+namespace IFC4X3{
+	class IfcProject;
+	class IfcGeometricRepresentationContext;
+}
 
 class IFCQUERY_EXPORT BuildingModel : public StatusCallback
 {
@@ -34,38 +37,38 @@ public:
 	BuildingModel();
 	~BuildingModel() override;
 	
-	enum SchemaVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4, IFC4X1, IFC4X3RC1, IFC4X3RC2, IFC4X3RC3 };
+	enum SchemaVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4, IFC4X1, IFC4X3 };
 	std::map<int, shared_ptr<BuildingEntity> >& getMapIfcEntities() { return m_map_entities; }
 	void setMapIfcEntities( const std::map<int, shared_ptr<BuildingEntity> >& map );
 	void insertEntity( shared_ptr<BuildingEntity> e, bool overwrite_existing = false, bool warn_on_existing_entities = true );
 	void removeEntity( shared_ptr<BuildingEntity> e );
-	void removeEntity( int entity_id );
+	void removeEntity( int tag );
 	void removeUnreferencedEntities();
 	
 	/*! \brief Method getMaxUsedEntityId. Return the highest entity id in the model. */
 	int getMaxUsedEntityId();
-	shared_ptr<IfcProject> getIfcProject();
-	shared_ptr<IfcGeometricRepresentationContext> getIfcGeometricRepresentationContext3D();
+	shared_ptr<IFC4X3::IfcProject> getIfcProject();
+	shared_ptr<IFC4X3::IfcGeometricRepresentationContext> getIfcGeometricRepresentationContext3D();
 	shared_ptr<UnitConverter>& getUnitConverter() { return m_unit_converter; }
 
 	/*! \brief Method getIfcSchemaVersion. Returns the IFC version of the loaded file */
 	SchemaVersionEnum& getIfcSchemaVersionEnumOfLoadedFile() {	return m_ifc_schema_version_loaded_file; }
-	std::wstring getIfcSchemaVersionOfLoadedFile();
+	std::string getIfcSchemaVersionOfLoadedFile();
 
 	/*! \brief Method getIfcSchemaVersionCurrent. Returns the IFC version after loading. It is the newest implemented IFC version. IFC version of the loaded file may be older */
 	SchemaVersionEnum& getIfcSchemaVersionEnumCurrent() { return m_ifc_schema_version_current; }
-	std::wstring getIfcSchemaVersionCurrent();
+	std::string getIfcSchemaVersionCurrent();
 	
-	const std::wstring& getFileHeader() { return m_file_header; }
-	const std::wstring& getFileDescription() { return m_IFC_FILE_DESCRIPTION; }
-	const std::wstring& getFileName() { return m_IFC_FILE_NAME; }
+	const std::string& getFileHeader() { return m_file_header; }
+	const std::string& getFileDescription() { return m_IFC_FILE_DESCRIPTION; }
+	const std::string& getFileName() { return m_IFC_FILE_NAME; }
 
-	void setFileHeader( const std::wstring& header );
-	void setFileDescription( const std::wstring& description );
-	void setFileName( const std::wstring& name );
-	void setIfcProject( shared_ptr<IfcProject> project );
+	void setFileHeader( const std::string& header );
+	void setFileDescription( const std::string& description );
+	void setFileName( const std::string& name );
+	void setIfcProject( shared_ptr<IFC4X3::IfcProject> project );
 	void setUnitConverter( shared_ptr<UnitConverter>& uc );
-	void setIfcGeometricRepresentationContext3D( shared_ptr<IfcGeometricRepresentationContext>& context );
+	void setIfcGeometricRepresentationContext3D( shared_ptr<IFC4X3::IfcGeometricRepresentationContext>& context );
 	void resolveInverseAttributes();
 	void unsetInverseAttributes();
 	void clearIfcModel();
@@ -74,21 +77,21 @@ public:
 	void resetIfcModel();
 	void updateCache();
 	void clearCache();
-	void initFileHeader( std::wstring file_name );
-	static void collectDependentEntities( shared_ptr<BuildingEntity> entity, std::map<BuildingEntity*, shared_ptr<BuildingEntity> >& target_map, bool resolveInverseAttributes = false );
+	void initFileHeader( std::string file_name );
+	static void collectDependentEntities( shared_ptr<BuildingObject> entity, std::map<BuildingObject*, shared_ptr<BuildingObject> >& target_map, bool resolveInverseAttributes = false );
 
 	friend class ReaderSTEP;
 	friend class ReaderXML;
 
 private:
-	std::map<int, shared_ptr<BuildingEntity> >		m_map_entities;
-	shared_ptr<IfcProject>							m_ifc_project;
-	shared_ptr<IfcGeometricRepresentationContext>	m_geom_context_3d;
-	shared_ptr<UnitConverter>						m_unit_converter;
-	std::wstring									m_file_name;
-	std::wstring									m_file_header;
-	std::wstring									m_IFC_FILE_DESCRIPTION;
-	std::wstring									m_IFC_FILE_NAME;
-	SchemaVersionEnum								m_ifc_schema_version_loaded_file = IFC4X1;
-	SchemaVersionEnum								m_ifc_schema_version_current = IFC4X1;
+	std::map<int, shared_ptr<BuildingEntity> >			m_map_entities;
+	shared_ptr<IFC4X3::IfcProject>						m_ifc_project;
+	shared_ptr<IFC4X3::IfcGeometricRepresentationContext>	m_geom_context_3d;
+	shared_ptr<UnitConverter>							m_unit_converter;
+	std::string											m_file_name;
+	std::string											m_file_header;
+	std::string											m_IFC_FILE_DESCRIPTION;
+	std::string											m_IFC_FILE_NAME;
+	SchemaVersionEnum									m_ifc_schema_version_loaded_file = IFC4X3;
+	SchemaVersionEnum									m_ifc_schema_version_current = IFC4X3;
 };

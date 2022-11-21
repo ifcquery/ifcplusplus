@@ -111,7 +111,7 @@
       <ConformanceMode>Default</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\IfcPlusPlus\src;..\..\IfcPlusPlus\src\external;..\..\IfcPlusPlus\src\external\earcut\include;..\..\external\Carve\include;..\..\external\Carve\src;..\..\external\Carve\src\include;..\..\external\Carve\src\common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\IfcPlusPlus\src;..\..\IfcPlusPlus\src\ifcpp\IFC4X3\include;..\..\IfcPlusPlus\src\external;..\..\IfcPlusPlus\src\external\glm;..\..\IfcPlusPlus\src\external\earcut\include;..\..\external\Carve\include;..\..\external\Carve\src;..\..\external\Carve\src\include;..\..\external\Carve\src\common</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
@@ -149,24 +149,25 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>ENABLE_OPENMP;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ENABLE_OPENMP;NDEBUG;_CONSOLE;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\IfcPlusPlus\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\IfcPlusPlus\src;..\..\IfcPlusPlus\src\ifcpp\IFC4X3\include;..\..\IfcPlusPlus\src\external;..\..\IfcPlusPlus\src\external\glm;..\..\IfcPlusPlus\src\external\earcut\include;..\..\external\Carve\include;..\..\external\Carve\src;..\..\external\Carve\src\include;..\..\external\Carve\src\common</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\IfcPlusPlus\bin</AdditionalLibraryDirectories>
-      <AdditionalDependencies>IfcPlusPlus.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\IfcPlusPlus\bin;..\..\external\Carve\bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>IfcPlusPlus.lib;Carve.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

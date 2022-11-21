@@ -25,7 +25,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ifcpp/model/BuildingObject.h"
 #include "ifcpp/model/BasicTypes.h"
 
-IFCQUERY_EXPORT std::string encodeStepString(const std::wstring& str);
+IFCQUERY_EXPORT std::string encodeStepString(const std::string& str);
 
 IFCQUERY_EXPORT void appendRealWithoutTrailingZeros(std::stringstream& stream, const double number);
 void writeRealList(std::stringstream& stream, const std::vector<double>& vec);
@@ -158,7 +158,7 @@ void writeEntityList( std::stringstream& stream, const std::vector<shared_ptr<T>
 		const shared_ptr<T>& entity = vec[ii];
 		if( entity )
 		{
-			stream << "#" << entity->m_entity_id;
+			stream << "#" << entity->m_tag;
 		}
 		else
 		{

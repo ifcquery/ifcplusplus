@@ -22,20 +22,37 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/BuildingModel.h>
 #include <ifcpp/model/OpenMPIncludes.h>
 #include <ifcpp/model/StatusCallback.h>
-#include <ifcpp/IFC4/include/IfcCurtainWall.h>
-#include <ifcpp/IFC4/include/IfcGloballyUniqueId.h>
-#include <ifcpp/IFC4/include/IfcPropertySetDefinitionSet.h>
-#include <ifcpp/IFC4/include/IfcRelAggregates.h>
-#include <ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h>
-#include <ifcpp/IFC4/include/IfcRelDefinesByProperties.h>
-#include <ifcpp/IFC4/include/IfcSite.h>
-#include <ifcpp/IFC4/include/IfcSpace.h>
-#include <ifcpp/IFC4/include/IfcWindow.h>
+#include <ifcpp/reader/ReaderUtil.h>
+#include <ifcpp/IFC4X3/include/IfcBuilding.h>
+#include <ifcpp/IFC4X3/include/IfcCurtainWall.h>
+#include <ifcpp/IFC4X3/include/IfcDistributionElement.h>
+#include <ifcpp/IFC4X3/include/IfcGloballyUniqueId.h>
+#include <ifcpp/IFC4X3/include/IfcDistributionPort.h>
+#include <ifcpp/IFC4X3/include/IfcPropertySetDefinitionSet.h>
+#include <ifcpp/IFC4X3/include/IfcRelAggregates.h>
+#include <ifcpp/IFC4X3/include/IfcRelAssigns.h>
+#include <ifcpp/IFC4X3/include/IfcRelAssignsToGroup.h>
+#include <ifcpp/IFC4X3/include/IfcRelConnectsPortToElement.h>
+#include <ifcpp/IFC4X3/include/IfcRelContainedInSpatialStructure.h>
+#include <ifcpp/IFC4X3/include/IfcRelDefinesByProperties.h>
+#include <ifcpp/IFC4X3/include/IfcRelServicesBuildings.h>
+#include <ifcpp/IFC4X3/include/IfcSite.h>
+#include <ifcpp/IFC4X3/include/IfcSpace.h>
+#include <ifcpp/IFC4X3/include/IfcSystem.h>
+#include <ifcpp/IFC4X3/include/IfcWindow.h>
+#include <ifcpp/IFC4X3/EntityFactory.h>
 
 #include "IncludeCarveHeaders.h"
 #include "GeometryInputData.h"
 #include "RepresentationConverter.h"
 #include "CSG_Adapter.h"
+
+#if defined(_OPENMP)
+	#ifndef ENABLE_OPENMP
+		#define ENABLE_OPENMP
+	#endif
+#endif
+//#undef ENABLE_OPENMP   // temp
 
 class GeometryConverter : public StatusCallback
 {
@@ -46,8 +63,10 @@ protected:
 
 	std::map<std::string, shared_ptr<ProductShapeData> >	m_product_shape_data;
 	std::map<std::string, shared_ptr<BuildingObject> >		m_map_outside_spatial_structure;
+	std::set<std::string> m_setResolvedProjectStructure;
+	vec3 m_siteOffset;
 	double m_recent_progress = 0;
-	double m_csg_eps = 1.5e-05;
+	double m_csg_eps = 1.5e-08;
 	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
 #ifdef ENABLE_OPENMP
 	Mutex m_writelock_messages;
@@ -60,6 +79,7 @@ public:
 	shared_ptr<GeometrySettings>&					getGeomSettings() { return m_geom_settings; }
 	std::map<std::string, shared_ptr<ProductShapeData> >&	getShapeInputData() { return m_product_shape_data; }
 	std::map<std::string, shared_ptr<BuildingObject> >&		getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
+	bool m_clear_memory_immedeately = true;
 
 	GeometryConverter( shared_ptr<BuildingModel>& ifc_model )
 	{
@@ -77,13 +97,13 @@ public:
 
 	void resetModel()
 	{
-		progressTextCallback( L"Unloading model, cleaning up memory..." );
+		progressTextCallback( "Unloading model, cleaning up memory..." );
 		clearInputCache();
 		m_recent_progress = 0.0;
 
 		m_ifc_model->clearCache();
 		m_ifc_model->clearIfcModel();
-		progressTextCallback( L"Unloading model done" );
+		progressTextCallback( "Unloading model done" );
 		progressValueCallback( 0.0, "parse" );
 
 #ifdef _DEBUG
@@ -95,6 +115,7 @@ public:
 	{
 		m_product_shape_data.clear();
 		m_map_outside_spatial_structure.clear();
+		m_setResolvedProjectStructure.clear();
 		m_representation_converter->clearCache();
 		m_messages.clear();
 	}
@@ -122,175 +143,7 @@ public:
 		m_ifc_model->setMessageTarget( this );
 	}
 
-	void resolveProjectStructure( shared_ptr<ProductShapeData>& product_data )
-	{
-		if( !product_data )
-		{
-			return;
-		}
-		if( product_data->m_ifc_object_definition.expired() )
-		{
-			return;
-		}
-
-		shared_ptr<IfcObjectDefinition> ifc_object_def(product_data->m_ifc_object_definition);
-		if (!ifc_object_def)
-		{
-			return;
-		}
-
-		product_data->m_added_to_spatial_structure = true;
-
-		const std::vector<weak_ptr<IfcRelAggregates> >& vec_IsDecomposedBy = ifc_object_def->m_IsDecomposedBy_inverse;
-		for( size_t ii = 0; ii < vec_IsDecomposedBy.size(); ++ii )
-		{
-			const weak_ptr<IfcRelAggregates>& rel_aggregates_weak_ptr = vec_IsDecomposedBy[ii];
-			if( rel_aggregates_weak_ptr.expired() )
-			{
-				continue;
-			}
-			shared_ptr<IfcRelAggregates> rel_aggregates( rel_aggregates_weak_ptr );
-			if( rel_aggregates )
-			{
-				const std::vector<shared_ptr<IfcObjectDefinition> >& vec_related_objects = rel_aggregates->m_RelatedObjects;
-				for( size_t jj = 0; jj < vec_related_objects.size(); ++jj )
-				{
-					const shared_ptr<IfcObjectDefinition>& related_obj_def = vec_related_objects[jj];
-					if( related_obj_def )
-					{
-						std::string related_guid;
-						if (related_obj_def->m_GlobalId)
-						{
-							std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-							related_guid = converterX.to_bytes(related_obj_def->m_GlobalId->m_value);
-						}
-
-						auto it_product_map = m_product_shape_data.find(related_guid);
-						if( it_product_map != m_product_shape_data.end() )
-						{
-							shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
-							if( related_product_shape )
-							{
-								product_data->addChildProduct( related_product_shape, product_data );
-								resolveProjectStructure( related_product_shape );
-							}
-						}
-					}
-				}
-			}
-		}
-
-		shared_ptr<IfcSpatialStructureElement> spatial_ele = dynamic_pointer_cast<IfcSpatialStructureElement>(ifc_object_def);
-		if( spatial_ele )
-		{
-			const std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& vec_contains = spatial_ele->m_ContainsElements_inverse;
-			for( size_t ii = 0; ii < vec_contains.size(); ++ii )
-			{
-				const weak_ptr<IfcRelContainedInSpatialStructure>& rel_contained_weak_ptr = vec_contains[ii];
-				if( rel_contained_weak_ptr.expired() )
-				{
-					continue;
-				}
-				shared_ptr<IfcRelContainedInSpatialStructure> rel_contained( rel_contained_weak_ptr );
-				if( rel_contained )
-				{
-					const std::vector<shared_ptr<IfcProduct> >& vec_related_elements = rel_contained->m_RelatedElements;
-
-					for( size_t jj = 0; jj < vec_related_elements.size(); ++jj )
-					{
-						const shared_ptr<IfcProduct>& related_product = vec_related_elements[jj];
-						if( related_product )
-						{
-							std::string related_guid;
-							if (related_product->m_GlobalId)
-							{
-								std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-								related_guid = converterX.to_bytes(related_product->m_GlobalId->m_value);
-							}
-
-							auto it_product_map = m_product_shape_data.find(related_guid);
-							if( it_product_map != m_product_shape_data.end() )
-							{
-								shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
-								if( related_product_shape )
-								{
-									product_data->addChildProduct( related_product_shape, product_data );
-									resolveProjectStructure( related_product_shape );
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-		// TODO: handle IfcRelAssignsToProduct
-	}
-
-	void readAppearanceFromPropertySet( const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ProductShapeData>& product_shape )
-	{
-		if( !prop_set )
-		{
-			return;
-		}
-		for( auto& ifc_property : prop_set->m_HasProperties )
-		{
-			if( !ifc_property )
-			{
-				continue;
-			}
-
-			shared_ptr<IfcSimpleProperty> simple_property = dynamic_pointer_cast<IfcSimpleProperty>(ifc_property);
-			if( simple_property )
-			{
-				// ENTITY IfcSimpleProperty ABSTRACT SUPERTYPE OF(ONEOF( IfcPropertyBoundedValue, IfcPropertyEnumeratedValue, IfcPropertyListValue,
-				// IfcPropertyReferenceValue, IfcPropertySingleValue, IfcPropertyTableValue))
-
-				shared_ptr<IfcIdentifier> property_name = simple_property->m_Name;
-				std::wstring name_str = property_name->m_value;
-				if( name_str.compare( L"LayerName" ) == 0 )
-				{
-					// TODO: implement layers
-				}
-				shared_ptr<IfcText> description = simple_property->m_Description;
-
-
-				shared_ptr<IfcPropertySingleValue> property_single_value = dynamic_pointer_cast<IfcPropertySingleValue>(simple_property);
-				if( property_single_value )
-				{
-					//shared_ptr<IfcValue>& nominal_value = property_single_value->m_NominalValue;				//optional
-					//shared_ptr<IfcUnit>& unit = property_single_value->m_Unit;						//optional
-
-				}
-
-				continue;
-			}
-
-			shared_ptr<IfcComplexProperty> complex_property = dynamic_pointer_cast<IfcComplexProperty>(ifc_property);
-			if( complex_property )
-			{
-				if( !complex_property->m_UsageName ) continue;
-				if( complex_property->m_UsageName->m_value.compare( L"Color" ) == 0 )
-				{
-					vec4 vec_color;
-					m_representation_converter->getStylesConverter()->convertIfcComplexPropertyColor( complex_property, vec_color );
-					shared_ptr<AppearanceData> appearance_data( new AppearanceData( -1 ) );
-					if( !appearance_data )
-					{
-						throw OutOfMemoryException( __FUNC__ );
-					}
-					appearance_data->m_apply_to_geometry_type = AppearanceData::GEOM_TYPE_ANY;
-					appearance_data->m_color_ambient.setColor( vec_color );
-					appearance_data->m_color_diffuse.setColor( vec_color );
-					appearance_data->m_color_specular.setColor( vec_color );
-					appearance_data->m_shininess = 35.f;
-					product_shape->addAppearance( appearance_data );
-				}
-			}
-		}
-	}
-
-	void resetIfcSiteLargeCoords(shared_ptr<IfcSite>& ifc_site)
+	void setIfcSiteToOrigin(shared_ptr<IfcSite>& ifc_site)
 	{
 		if (!ifc_site)
 		{
@@ -318,29 +171,285 @@ public:
 					shared_ptr<IfcCartesianPoint> placement_location = dynamic_pointer_cast<IfcCartesianPoint>(axis_placement->m_Location);
 					if (placement_location)
 					{
-						if (placement_location->m_Coordinates.size() > 2)
+						double lengthFactor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
+						PointConverter::convertIfcCartesianPoint(placement_location, m_siteOffset, lengthFactor);
+
+						if( m_siteOffset.length2() > 1000 * 1000 )
 						{
-							if (placement_location->m_Coordinates[0])
+							for( auto coordinate : placement_location->m_Coordinates )
 							{
-								if (placement_location->m_Coordinates[0]->m_value > 1000)
+								if( coordinate )
 								{
-									placement_location->m_Coordinates[0]->m_value = 0;
+									coordinate->m_value = 0;
 								}
 							}
+						}
+					}
+					else
+					{
+						std::cout << "IfcAxis2Placement3D.Location is not an IfcCartesianPoint" << std::endl;
+					}
+				}
+			}
+		}
+	}
 
-							if (placement_location->m_Coordinates[1])
+	void resolveProjectStructure(shared_ptr<ProductShapeData>& product_data, bool resolveSecondaryStructure )
+	{
+		if( !product_data )
+		{
+			return;
+		}
+		product_data->m_added_to_spatial_structure = true;
+
+		if( product_data->m_ifc_object_definition.expired() )
+		{
+			return;
+		}
+
+		shared_ptr<IfcObjectDefinition> ifc_object_def(product_data->m_ifc_object_definition);
+		if( !ifc_object_def )
+		{
+			return;
+		}
+
+		for( const weak_ptr<IfcRelAggregates>& relAggregates_weak_ptr : ifc_object_def->m_IsDecomposedBy_inverse )
+		{
+			if( relAggregates_weak_ptr.expired() )
+			{
+				continue;
+			}
+			shared_ptr<IfcRelAggregates> relAggregates(relAggregates_weak_ptr);
+			if( relAggregates )
+			{
+				const std::vector<shared_ptr<IfcObjectDefinition> >& vec_related_objects = relAggregates->m_RelatedObjects;
+				for( size_t jj = 0; jj < vec_related_objects.size(); ++jj )
+				{
+					const shared_ptr<IfcObjectDefinition>& related_obj_def = vec_related_objects[jj];
+					if( related_obj_def )
+					{
+						std::string related_guid;
+						if( related_obj_def->m_GlobalId )
+						{
+							related_guid = related_obj_def->m_GlobalId->m_value;
+						}
+
+						if( related_guid.size() < 20 )
+						{
+							std::cout << "guid invalid: " << related_guid << std::endl;
+							continue;
+						}
+
+						if( m_setResolvedProjectStructure.find(related_guid) != m_setResolvedProjectStructure.end() )
+						{
+							//std::cout << "duplicate guid in model tree: " << related_guid << std::endl;
+							continue;
+						}
+						m_setResolvedProjectStructure.insert(related_guid);
+
+
+						auto it_product_map = m_product_shape_data.find(related_guid);
+						if( it_product_map != m_product_shape_data.end() )
+						{
+							shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
+							if( related_product_shape )
 							{
-								if (placement_location->m_Coordinates[1]->m_value > 1000)
-								{
-									placement_location->m_Coordinates[1]->m_value = 0;
-								}
+								product_data->addChildProduct(related_product_shape, product_data);
+								resolveProjectStructure(related_product_shape, resolveSecondaryStructure);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		shared_ptr<IfcSpatialStructureElement> spatial_ele = dynamic_pointer_cast<IfcSpatialStructureElement>(ifc_object_def);
+		if( spatial_ele )
+		{
+			const std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >& vec_contains = spatial_ele->m_ContainsElements_inverse;
+			for( size_t ii = 0; ii < vec_contains.size(); ++ii )
+			{
+				const weak_ptr<IfcRelContainedInSpatialStructure>& rel_contained_weak_ptr = vec_contains[ii];
+				if( rel_contained_weak_ptr.expired() )
+				{
+					continue;
+				}
+				shared_ptr<IfcRelContainedInSpatialStructure> rel_contained(rel_contained_weak_ptr);
+				if( rel_contained )
+				{
+					const std::vector<shared_ptr<IfcProduct> >& vec_related_elements = rel_contained->m_RelatedElements;
+
+					for( size_t jj = 0; jj < vec_related_elements.size(); ++jj )
+					{
+						const shared_ptr<IfcProduct>& related_product = vec_related_elements[jj];
+						if( related_product )
+						{
+							std::string related_guid;
+							if( related_product->m_GlobalId )
+							{
+								related_guid = related_product->m_GlobalId->m_value;
 							}
 
-							if (placement_location->m_Coordinates[2])
+							if( related_guid.size() < 20 )
 							{
-								if (placement_location->m_Coordinates[2]->m_value > 1000)
+								std::cout << "guid invalid: " << related_guid << std::endl;
+								continue;
+							}
+
+							if( m_setResolvedProjectStructure.find(related_guid) != m_setResolvedProjectStructure.end() )
+							{
+								//std::cout << "duplicate guid in model tree: " << related_guid << std::endl;
+								continue;
+							}
+							m_setResolvedProjectStructure.insert(related_guid);
+
+							auto it_product_map = m_product_shape_data.find(related_guid);
+							if( it_product_map != m_product_shape_data.end() )
+							{
+								shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
+								if( related_product_shape )
 								{
-									placement_location->m_Coordinates[2]->m_value = 0;
+									product_data->addChildProduct(related_product_shape, product_data);
+									resolveProjectStructure(related_product_shape, resolveSecondaryStructure);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	
+		if( resolveSecondaryStructure )
+		{
+			// handle IfcRelAssigns
+			shared_ptr<IfcSpatialStructureElement> ifcSpatial = dynamic_pointer_cast<IfcSpatialStructureElement>(ifc_object_def);
+			if( ifcSpatial )
+			{
+				//std::cout << "ifcSpatial: " << ifcSpatial->m_tag << std::endl;
+
+				//ServicedBySystems	 : 	SET OF IfcRelServicesBuildings FOR RelatedBuildings;
+				for( auto servicedBy_weak_ptr : ifcSpatial->m_ServicedBySystems_inverse )
+				{
+
+					if( servicedBy_weak_ptr.expired() )
+					{
+						continue;
+					}
+					shared_ptr<IfcRelServicesBuildings> servicedBy(servicedBy_weak_ptr);
+					if( servicedBy )
+					{
+						//shared_ptr<IfcSystem>						m_RelatingSystem;
+						//std::vector<shared_ptr<IfcSpatialElement> >	m_RelatedBuildings;
+						shared_ptr<IfcSystem> sys = servicedBy->m_RelatingSystem;
+						//std::cout << "m_ServicesBuildings_inverse: " << sys->m_ServicesBuildings_inverse.size() << std::endl;
+						//std::cout << "m_ServicesFacilities_inverse: " << sys->m_ServicesFacilities_inverse.size() << std::endl;
+
+
+						for( auto groupedBy_weak : sys->m_IsGroupedBy_inverse )
+						{
+							if( groupedBy_weak.expired() ) { continue; }
+							shared_ptr<IfcRelAssignsToGroup> groupedBy(groupedBy_weak);
+
+							//  std::vector<shared_ptr<IfcObjectDefinition> >	m_RelatedObjects;
+							//  shared_ptr<IfcObjectTypeEnum>					m_RelatedObjectsType;		//optional
+
+							// IfcRelAssignsToGroup -----------------------------------------------------------
+							// attributes:
+							shared_ptr<IfcGroup>& group = groupedBy->m_RelatingGroup;
+
+							for( auto related_object : groupedBy->m_RelatedObjects )
+							{
+								std::string related_guid;
+								if( related_object->m_GlobalId )
+								{
+									related_guid = related_object->m_GlobalId->m_value;
+								}
+
+								if( related_guid.size() < 20 )
+								{
+									std::cout << "guid invalid: " << related_guid << std::endl;
+									continue;
+								}
+
+								if( m_setResolvedProjectStructure.find(related_guid) != m_setResolvedProjectStructure.end() )
+								{
+									// std::cout << "duplicate guid in model tree: " << related_guid << std::endl;
+									continue;
+								}
+								m_setResolvedProjectStructure.insert(related_guid);
+
+								auto it_product_map = m_product_shape_data.find(related_guid);
+								if( it_product_map != m_product_shape_data.end() )
+								{
+									shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
+									if( related_product_shape )
+									{
+										product_data->addChildProduct(related_product_shape, product_data);
+										resolveProjectStructure(related_product_shape, resolveSecondaryStructure);
+									}
+								}
+							}
+						}
+					}
+
+				}
+
+			}
+
+			// handle IfcRelConnects
+
+			shared_ptr<IfcDistributionElement> distributionElement = dynamic_pointer_cast<IfcDistributionElement>(ifc_object_def);
+			if( distributionElement )
+			{
+				// #971193= IFCFLOWSEGMENT('2zIAtK02XAfPD15y9EpuCl',#41,'name',$,'description',#971178,#971191,'6021202');  - in spatial structure
+				//#4542544= IFCDISTRIBUTIONPORT('0$K3Bu1NXCwviGJbnhv$tO',#41,'name','description',$,#4542542,$,.SOURCEANDSINK.);  
+				//#4542546= IFCRELCONNECTSPORTTOELEMENT('0dih3rwKj6FhUYiBG4sVkO',#41,'name','description',#4542544,#971193);
+
+				std::string className = IFC4X3::EntityFactory::getStringForClassID(distributionElement->classID());
+				//std::cout << "#" <<  distributionElement->m_tag << "=" << className << " " << std::endl;
+
+				for( auto RelConnectsPortToElement_weak_ptr : distributionElement->m_HasPorts_inverse )
+				{
+					if( RelConnectsPortToElement_weak_ptr.expired() )
+					{
+						continue;
+					}
+					shared_ptr<IfcRelConnectsPortToElement> RelConnectsPortToElement(RelConnectsPortToElement_weak_ptr);
+					if( RelConnectsPortToElement )
+					{
+						shared_ptr<IfcPort> related_object = RelConnectsPortToElement->m_RelatingPort;
+						if( related_object )
+						{
+							//shared_ptr<IfcPort>					m_RelatingPort;
+							//shared_ptr<IfcDistributionElement>	m_RelatedElement;
+
+							std::string related_guid;
+							if( related_object->m_GlobalId )
+							{
+								related_guid = related_object->m_GlobalId->m_value;
+							}
+
+							if( related_guid.size() < 20 )
+							{
+								std::cout << "guid invalid: " << related_guid << std::endl;
+								continue;
+							}
+
+							if( m_setResolvedProjectStructure.find(related_guid) != m_setResolvedProjectStructure.end() )
+							{
+								// std::cout << "duplicate guid in model tree: " << related_guid << std::endl;
+								continue;
+							}
+							m_setResolvedProjectStructure.insert(related_guid);
+
+							auto it_product_map = m_product_shape_data.find(related_guid);
+							if( it_product_map != m_product_shape_data.end() )
+							{
+								shared_ptr<ProductShapeData>& related_product_shape = it_product_map->second;
+								if( related_product_shape )
+								{
+									product_data->addChildProduct(related_product_shape, product_data);
+									resolveProjectStructure(related_product_shape, resolveSecondaryStructure);
 								}
 							}
 						}
@@ -350,14 +459,74 @@ public:
 		}
 	}
 
+	void readAppearanceFromPropertySet( const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ProductShapeData>& product_shape )
+	{
+		if( !prop_set )
+		{
+			return;
+		}
+		for( auto& ifc_property : prop_set->m_HasProperties )
+		{
+			if( !ifc_property )
+			{
+				continue;
+			}
+
+			shared_ptr<IfcSimpleProperty> simple_property = dynamic_pointer_cast<IfcSimpleProperty>(ifc_property);
+			if( simple_property )
+			{
+				// ENTITY IfcSimpleProperty ABSTRACT SUPERTYPE OF(ONEOF( IfcPropertyBoundedValue, IfcPropertyEnumeratedValue, IfcPropertyListValue,
+				// IfcPropertyReferenceValue, IfcPropertySingleValue, IfcPropertyTableValue))
+
+				shared_ptr<IfcIdentifier> property_name = simple_property->m_Name;
+				std::string name_str = property_name->m_value;
+				if( name_str.compare( "LayerName" ) == 0 )
+				{
+					// TODO: implement layers
+				}
+				shared_ptr<IfcText> description = simple_property->m_Specification;
+
+
+				shared_ptr<IfcPropertySingleValue> property_single_value = dynamic_pointer_cast<IfcPropertySingleValue>(simple_property);
+				if( property_single_value )
+				{
+					//shared_ptr<IfcValue>& nominal_value = property_single_value->m_NominalValue;				//optional
+					//shared_ptr<IfcUnit>& unit = property_single_value->m_Unit;						//optional
+
+				}
+
+				continue;
+			}
+
+			shared_ptr<IfcComplexProperty> complex_property = dynamic_pointer_cast<IfcComplexProperty>(ifc_property);
+			if( complex_property )
+			{
+				if( !complex_property->m_UsageName ) continue;
+				if( complex_property->m_UsageName->m_value.compare( "Color" ) == 0 )
+				{
+					vec4 vec_color;
+					m_representation_converter->getStylesConverter()->convertIfcComplexPropertyColor( complex_property, vec_color );
+					shared_ptr<AppearanceData> appearance_data( new AppearanceData( -1 ) );
+					appearance_data->m_apply_to_geometry_type = AppearanceData::GEOM_TYPE_ANY;
+					appearance_data->m_color_ambient.setColor( vec_color );
+					appearance_data->m_color_diffuse.setColor( vec_color );
+					appearance_data->m_color_specular.setColor( vec_color );
+					appearance_data->m_shininess = 35.f;
+					product_shape->addAppearance( appearance_data );
+				}
+			}
+		}
+	}
+
 	/*\brief method convertGeometry: Creates geometry for Carve from previously loaded BuildingModel model.
 	**/
 	void convertGeometry()
 	{
-		progressTextCallback( L"Creating geometry..." );
+		progressTextCallback( "Creating geometry..." );
 		progressValueCallback( 0, "geometry" );
 		m_product_shape_data.clear();
 		m_map_outside_spatial_structure.clear();
+		m_setResolvedProjectStructure.clear();
 		m_representation_converter->clearCache();
 
 		if( !m_ifc_model )
@@ -367,34 +536,42 @@ public:
 
 		shared_ptr<ProductShapeData> ifc_project_data;
 		std::vector<shared_ptr<IfcObjectDefinition> > vec_object_definitions;
-		double length_to_meter_factor = 1.0;
-		if( m_ifc_model->getUnitConverter() )
+		const double length_in_meter = m_representation_converter->getUnitConverter()->getLengthInMeterFactor();
+		if( std::abs(length_in_meter) > EPS_M14 )
 		{
-			length_to_meter_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
+			double eps = m_csg_eps / length_in_meter;
+			carve::setEpsilon(eps);
 		}
-		carve::setEpsilon( m_csg_eps );
 
 		const std::map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
-		if (map_entities.size() > 0)
+		if( map_entities.size() > 0 )
 		{
-			for (auto it = map_entities.begin(); it != map_entities.end(); ++it)
+			for( auto it = map_entities.begin(); it != map_entities.end(); ++it )
 			{
 				shared_ptr<BuildingEntity> obj = it->second;
-				if (obj)
+				if( obj )
 				{
 					shared_ptr<IfcObjectDefinition> object_def = dynamic_pointer_cast<IfcObjectDefinition>(obj);
-					if (object_def)
+					if( object_def )
 					{
 						vec_object_definitions.push_back(object_def);
 
-						shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>(object_def);
-						if (ifc_site)
+						if( object_def->classID() == IFC4X3::IFCSITE )
 						{
-							resetIfcSiteLargeCoords(ifc_site);
+							shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>(object_def);
+							if( ifc_site )
+							{
+								setIfcSiteToOrigin(ifc_site);
+							}
 						}
 					}
 				}
 			}
+		}
+
+		if( m_clear_memory_immedeately )
+		{
+			//m_ifc_model->getMapIfcEntities().clear();
 		}
 
 		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
@@ -408,22 +585,19 @@ public:
 #pragma omp parallel firstprivate(num_object_definitions) shared(map_products_ptr)
 		{
 			// time for one product may vary significantly, so schedule not so many
-#pragma omp for schedule(dynamic,40)
+#pragma omp for schedule(dynamic,10)
 #endif
 			for( int i = 0; i < num_object_definitions; ++i )
 			{
 				shared_ptr<IfcObjectDefinition> object_def = vec_object_definitions[i];
-				const int entity_id = object_def->m_entity_id;
+				const int tag = object_def->m_tag;
 				std::string guid;
-				std::wstring guid_wstr;
 				if (object_def->m_GlobalId)
 				{
-					std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-					guid_wstr = object_def->m_GlobalId->m_value;
-					guid = converterX.to_bytes(guid_wstr);
+					guid = object_def->m_GlobalId->m_value;
 				}
 
-				shared_ptr<ProductShapeData> product_geom_input_data( new ProductShapeData(guid_wstr) );
+				shared_ptr<ProductShapeData> product_geom_input_data( new ProductShapeData(guid) );
 				product_geom_input_data->m_ifc_object_definition = object_def;
 
 				// TODO: check for equal product shapes: each representation and each item must be equal, also openings must be equal: m_HasOpenings_inverse
@@ -433,7 +607,7 @@ public:
 					// geometry will be created in method subtractOpenings
 					continue;
 				}
-				else if( dynamic_pointer_cast<IfcProject>(object_def) )
+				else if( object_def->classID() == IFC4X3::IFCPROJECT )
 				{
 #ifdef ENABLE_OPENMP
 					ScopedLock scoped_lock( writelock_ifc_project );
@@ -444,10 +618,6 @@ public:
 				try
 				{
 					convertIfcProductShape( product_geom_input_data );
-				}
-				catch( OutOfMemoryException& e )
-				{
-					throw e;
 				}
 				catch( BuildingException& e )
 				{
@@ -463,7 +633,7 @@ public:
 				}
 				catch( ... )
 				{
-					thread_err << "undefined error, product id " << entity_id;
+					thread_err << "undefined error, product id " << tag;
 				}
 
 				{
@@ -503,11 +673,7 @@ public:
 			shared_ptr<ProductShapeData> product_geom_input_data = it->second;
 			try
 			{
-				subtractOpeningsInRelatedObjects(product_geom_input_data);
-			}
-			catch( OutOfMemoryException& e )
-			{
-				throw e;
+				//subtractOpeningsInRelatedObjects(product_geom_input_data);
 			}
 			catch( BuildingException& e )
 			{
@@ -532,7 +698,10 @@ public:
 			// now resolve spatial structure
 			if( ifc_project_data )
 			{
-				resolveProjectStructure( ifc_project_data );
+				// resove spatial structure first (IfcBuilding->IfcBuildingStorey->IfcBuildingElement)
+				resolveProjectStructure( ifc_project_data, false );
+				// resove secondary structure (IfcRelConnectsPortToElement etc)
+				resolveProjectStructure( ifc_project_data, true );
 			}
 
 			// check if there are entities that are not in spatial structure
@@ -557,17 +726,20 @@ public:
 						std::string guid;
 						if (ifc_object_def->m_GlobalId)
 						{
-							std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-							guid = converterX.to_bytes(ifc_object_def->m_GlobalId->m_value);
+							guid = ifc_object_def->m_GlobalId->m_value;
 						}
-						m_map_outside_spatial_structure[guid] = ifc_object_def;
+
+						if( guid.size() > 18 )
+						{
+							m_map_outside_spatial_structure[guid] = ifc_object_def;
+						}
+						else
+						{
+							std::cout << "guid invalid: " << guid << std::endl;
+						}
 					}
 				}
 			}
-		}
-		catch( OutOfMemoryException& e )
-		{
-			throw e;
 		}
 		catch( BuildingException& e )
 		{
@@ -583,7 +755,7 @@ public:
 		}
 
 		m_representation_converter->getProfileCache()->clearProfileCache();
-		progressTextCallback( L"Loading file done" );
+		progressTextCallback( "Loading file done" );
 		progressValueCallback( 1.0, "geometry" );
 	}
 
@@ -620,22 +792,34 @@ public:
 			return;
 		}
 
-		double length_factor = 1.0;
-		if (m_ifc_model)
+#ifdef _DEBUG
+		if( ifc_product->m_GlobalId->m_value.compare("1Ymw2Qiez6buX6OkNzOEaT")==0 || ifc_product->m_GlobalId->m_value.compare("1Ymw2Qiez6buX6OkVzOEnI") == 0 )
 		{
-			if (m_ifc_model->getUnitConverter())
-			{
-				length_factor = m_ifc_model->getUnitConverter()->getLengthInMeterFactor();
-			}
+			int wait = ifc_product->m_tag; // 181595
+		}
+		if( ifc_product->m_GlobalId->m_value.compare("1GVZve0001O34pDJ0qDZ0m") == 0 )
+		{
+			int wait = ifc_product->m_tag; // 181595
 		}
 
-		if( !ifc_product->m_Representation )
+		if( ifc_product->m_GlobalId->m_value.compare("2O2Fr$t4X7Zf8NOew3FLR9") == 0 )
+		{
+			int wait = ifc_product->m_tag; // 181595
+		}
+
+		if( ifc_product->m_GlobalId->m_value.compare("3ThA22djr8AQQ9eQMA5s7I") == 0 )
+		{
+			int wait = ifc_product->m_tag;
+		}
+#endif
+
+		shared_ptr<IfcProductRepresentation>& product_representation = ifc_product->m_Representation;
+		if( !product_representation )
 		{
 			return;
 		}
 		
-		// evaluate IFC geometry
-		shared_ptr<IfcProductRepresentation>& product_representation = ifc_product->m_Representation;
+		// convert IFC geometry
 		std::vector<shared_ptr<IfcRepresentation> >& vec_representations = product_representation->m_Representations;
 		for( size_t i_representations = 0; i_representations < vec_representations.size(); ++i_representations )
 		{
@@ -651,10 +835,6 @@ public:
 				m_representation_converter->convertIfcRepresentation( representation, representation_data );
 				product_shape->m_vec_representations.push_back( representation_data );
 				representation_data->m_parent_product = product_shape;
-			}
-			catch( OutOfMemoryException& e )
-			{
-				throw e;
 			}
 			catch( BuildingException& e )
 			{
@@ -675,7 +855,6 @@ public:
 			m_representation_converter->getPlacementConverter()->convertIfcObjectPlacement( ifc_product->m_ObjectPlacement, product_shape, placement_already_applied, false );
 		}
 
-		
 		std::vector<shared_ptr<ProductShapeData> > vec_opening_data;
 		const shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>(ifc_product);
 		if( ifc_element )
@@ -685,7 +864,7 @@ public:
 
 			// handle styles on IfcElement level
 			std::vector<shared_ptr<AppearanceData> > vec_apperances;
-			StylesConverter::convertElementStyle(ifc_element, vec_apperances);
+			m_representation_converter->getStylesConverter()->convertElementStyle(ifc_element, vec_apperances);
 			for (auto appearance_data : vec_apperances)
 			{
 				product_shape->addAppearance(appearance_data);
@@ -735,6 +914,10 @@ public:
 					}
 				}
 			}
+		}
+		if( m_clear_memory_immedeately )
+		{
+			vec_representations.clear();
 		}
 	}
 
@@ -786,13 +969,7 @@ public:
 		}
 
 		shared_ptr<IfcObjectDefinition> ifc_object_def(product_shape->m_ifc_object_definition);
-		shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
-		if (!ifc_product)
-		{
-			return;
-		}
-
-		shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>(ifc_product);
+		shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>(ifc_object_def);
 		if( !ifc_element )
 		{
 			return;
@@ -824,8 +1001,7 @@ public:
 				std::string guid;
 				if (related_object->m_GlobalId)
 				{
-					std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-					guid = converterX.to_bytes(related_object->m_GlobalId->m_value);
+					guid = related_object->m_GlobalId->m_value;
 				
 					auto it_find_related_shape = m_product_shape_data.find(guid);
 					if( it_find_related_shape != m_product_shape_data.end() )
@@ -849,9 +1025,9 @@ public:
 				ScopedLock lock( myself->m_writelock_messages );
 #endif
 				// make sure that the same message for one entity does not appear several times
-				const int entity_id = m->m_entity->m_entity_id;
+				const int tag = m->m_entity->m_tag;
 
-				auto it = myself->m_messages.find( entity_id );
+				auto it = myself->m_messages.find( tag );
 				if( it != myself->m_messages.end() )
 				{
 					std::vector<shared_ptr<StatusCallback::Message> >& vec_message_for_entity = it->second;
@@ -868,7 +1044,7 @@ public:
 				}
 				else
 				{
-					std::vector<shared_ptr<StatusCallback::Message> >& vec = myself->m_messages.insert( std::make_pair( entity_id, std::vector<shared_ptr<StatusCallback::Message> >() ) ).first->second;
+					std::vector<shared_ptr<StatusCallback::Message> >& vec = myself->m_messages.insert( std::make_pair( tag, std::vector<shared_ptr<StatusCallback::Message> >() ) ).first->second;
 					vec.push_back( m );
 				}
 			}

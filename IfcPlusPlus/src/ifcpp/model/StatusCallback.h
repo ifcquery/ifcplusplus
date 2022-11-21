@@ -56,14 +56,14 @@ public:
 			m_progress_value = -1;
 		}
 
-		std::wstring m_message_text;		// Message text.
+		std::string m_message_text;			// Message text.
 		MessageType m_message_type;			// Type of message (warning, error etc.).
 		const char* m_reporting_function;	// Function name where the message is sent from. You can use the __FUNC__ macro from BuildingException.h.
 		BuildingEntity* m_entity;			// IFC entity in case the message applies to a certain entity.
 
 		double m_progress_value;			// Value of progress [0...1]. If negative value is given, the progress itself is ignored, for example when only the progress text is updated.
 		std::string m_progress_type;		// Type of progress, for example "parse", "geometry".
-		std::wstring m_progress_text;		// A text that describes the current actions. It can be used for example to set a text on the progress bar.
+		std::string m_progress_text;		// A text that describes the current actions. It can be used for example to set a text on the progress bar.
 	};
 
 	StatusCallback() = default;
@@ -113,13 +113,15 @@ public:
 		{
 			if( m )
 			{
-				if (m->m_message_type == MESSAGE_TYPE_UNKNOWN
-					|| m->m_message_type == MESSAGE_TYPE_GENERAL_MESSAGE
-					|| m->m_message_type == MESSAGE_TYPE_MINOR_WARNING
-					|| m->m_message_type == MESSAGE_TYPE_WARNING
-					|| m->m_message_type == MESSAGE_TYPE_ERROR )
+				switch (m->m_message_type)
 				{
-					std::wcout << L"messageCallback not set. Lost message: " << m->m_message_text.c_str() << std::endl;
+					case MESSAGE_TYPE_UNKNOWN:
+					case MESSAGE_TYPE_GENERAL_MESSAGE:
+					case MESSAGE_TYPE_MINOR_WARNING:
+					case MESSAGE_TYPE_WARNING:
+					case MESSAGE_TYPE_ERROR:
+						std::wcout << L"messageCallback not set. Lost message: " << m->m_message_text.c_str() << std::endl;
+						break;
 				}
 			}
 		}
@@ -175,15 +177,6 @@ public:
 		message->m_entity = entity;
 		messageCallback( message );
 	}
-	virtual void messageCallback( const std::wstring& message_text, MessageType type, const char* reporting_function, BuildingEntity* entity = nullptr )
-	{
-		shared_ptr<Message> message( new Message() );
-		message->m_message_text.assign( message_text );
-		message->m_message_type = type;
-		message->m_reporting_function = reporting_function;
-		message->m_entity = entity;
-		messageCallback( message );
-	}
 	virtual void progressValueCallback( double progress_value, const std::string& progress_type )
 	{
 		shared_ptr<Message> progress_message( new Message() );
@@ -192,7 +185,7 @@ public:
 		progress_message->m_progress_type.assign( progress_type );
 		messageCallback( progress_message );
 	}
-	virtual void progressTextCallback( const std::wstring& progress_text )
+	virtual void progressTextCallback( const std::string& progress_text )
 	{
 		shared_ptr<Message> progress_message( new Message() );
 		progress_message->m_message_type = MessageType::MESSAGE_TYPE_PROGRESS_TEXT;

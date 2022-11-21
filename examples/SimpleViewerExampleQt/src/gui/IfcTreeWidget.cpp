@@ -18,17 +18,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/BuildingObject.h>
 #include <ifcpp/model/BuildingModel.h>
-#include <ifcpp/IFC4/include/IfcAxis2Placement.h>
-#include <ifcpp/IFC4/include/IfcAxis2Placement3D.h>
-#include <ifcpp/IFC4/include/IfcDirection.h>
-#include <ifcpp/IFC4/include/IfcGeometricRepresentationContext.h>
-#include <ifcpp/IFC4/include/IfcLabel.h>
-#include <ifcpp/IFC4/include/IfcObjectDefinition.h>
-#include <ifcpp/IFC4/include/IfcProject.h>
-#include <ifcpp/IFC4/include/IfcRelAggregates.h>
-#include <ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h>
-#include <ifcpp/IFC4/include/IfcSpatialStructureElement.h>
-#include <ifcpp/IFC4/include/IfcTypeProduct.h>
+#include <ifcpp/IFC4X3/include/IfcAxis2Placement.h>
+#include <ifcpp/IFC4X3/include/IfcAxis2Placement3D.h>
+#include <ifcpp/IFC4X3/include/IfcDirection.h>
+#include <ifcpp/IFC4X3/include/IfcGeometricRepresentationContext.h>
+#include <ifcpp/IFC4X3/include/IfcLabel.h>
+#include <ifcpp/IFC4X3/include/IfcObjectDefinition.h>
+#include <ifcpp/IFC4X3/include/IfcProject.h>
+#include <ifcpp/IFC4X3/include/IfcRelAggregates.h>
+#include <ifcpp/IFC4X3/include/IfcRelContainedInSpatialStructure.h>
+#include <ifcpp/IFC4X3/include/IfcSpatialStructureElement.h>
+#include <ifcpp/IFC4X3/include/IfcTypeProduct.h>
 
 #include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"
@@ -98,7 +98,7 @@ void IfcTreeWidget::slotObjectsSelected( std::map<std::string, shared_ptr<Buildi
 
 	// take the first object from map and highlight it
 	shared_ptr<BuildingEntity> object = (*(map.begin())).second;
-	int selected_id = object->m_entity_id;
+	int selected_id = object->m_tag;
 
 	for( int i=0; i<topLevelItemCount(); ++i )
 	{
@@ -256,25 +256,26 @@ QTreeWidgetItem* resolveTreeItems( shared_ptr<BuildingObject> obj, std::unordere
 	shared_ptr<IfcObjectDefinition> obj_def = dynamic_pointer_cast<IfcObjectDefinition>(obj);
 	if( obj_def )
 	{
-		if( set_visited.find( obj_def->m_entity_id ) != set_visited.end() )
+		if( set_visited.find( obj_def->m_tag ) != set_visited.end() )
 		{
 			return nullptr;
 		}
-		set_visited.insert( obj_def->m_entity_id );
+		set_visited.insert( obj_def->m_tag );
 
 
 		item = new QTreeWidgetItem();
 		
 		if( obj_def->m_Name )
 		{
-			if( obj_def->m_Name->m_value.size() > 0 )
+			std::string name = obj_def->m_Name->m_value;
+			if( name.size() > 0 )
 			{
-				item->setText(0, QString::fromStdWString(obj_def->m_Name->m_value));
+				item->setText(0, QString::fromStdWString(string2wstring(name)));
 			}
 		}
 
-		item->setText( 1, QString::number( obj_def->m_entity_id ) );
-		item->setText( 2, obj_def->className() );
+		item->setText( 1, QString::number( obj_def->m_tag ) );
+		item->setText( 2, EntityFactory::getStringForClassID(obj_def->classID()) );
 
 		if( obj_def->m_IsDecomposedBy_inverse.size() > 0 )
 		{

@@ -21,9 +21,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "BasicTypes.h"
 #include "StatusCallback.h"
 #include "BuildingException.h"
-#include "ifcpp/IFC4/include/IfcProject.h"
-#include "ifcpp/IFC4/include/IfcSIPrefix.h"
-#include "ifcpp/IFC4/include/IfcSIUnitName.h"
+#include "ifcpp/IFC4X3/include/IfcProject.h"
+#include "ifcpp/IFC4X3/include/IfcSIPrefix.h"
+#include "ifcpp/IFC4X3/include/IfcSIUnitName.h"
 
 //\brief class to convert values from different units into meter and radian
 class IFCQUERY_EXPORT UnitConverter : public StatusCallback
@@ -32,7 +32,7 @@ public:
 	enum AngularUnit { UNDEFINED, RADIANT, DEGREE, GON, CONVERSION_BASED };
 	UnitConverter();
 	~UnitConverter() override = default;
-	void setIfcProject( shared_ptr<IfcProject> project);
+	void setIfcProject( shared_ptr<IFC4X3::IfcProject> project);
 	void setLengthInMeterFactor( double factor )
 	{
 		m_length_unit_factor = factor;
@@ -67,14 +67,14 @@ public:
 		return m_plane_angle_factor;
 	}
 	AngularUnit getAngularUnit() { return m_angular_unit; }
-	shared_ptr<IfcSIPrefix>& getLoadedPrefix() { return m_loaded_prefix; }
+	shared_ptr<IFC4X3::IfcSIPrefix>& getLoadedPrefix() { return m_loaded_prefix; }
 
 	void resetUnitFactors();
 	void resetComplete();
 
 protected:
 	std::map<int, double> m_prefix_map;
-	shared_ptr<IfcSIPrefix>	m_loaded_prefix;
+	shared_ptr<IFC4X3::IfcSIPrefix>	m_loaded_prefix;
 	double m_length_unit_factor = 1.0;
 	double m_custom_length_factor = 1.0;
 	bool m_length_unit_found = false;

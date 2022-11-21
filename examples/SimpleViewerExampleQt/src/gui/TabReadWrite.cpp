@@ -83,7 +83,7 @@ TabReadWrite::TabReadWrite( IfcPlusPlusSystem* sys, ViewerWidget* viewer, QWidge
 	m_txt_out = new QTextEdit();
 
 #ifdef _DEBUG
-	std::wstring str = L"test";
+	std::string str = "test";
 	std::string str1 = encodeStepString(str);
 
 	std::stringstream uuid_strs;
@@ -150,7 +150,7 @@ void TabReadWrite::messageTarget( void* ptr, shared_ptr<StatusCallback::Message>
 
 		if( m->m_entity )
 		{
-			strs_report << ", IFC entity: #" << m->m_entity->m_entity_id << "=" << m->m_entity->className();
+			strs_report << ", IFC entity: #" << m->m_entity->m_tag << "=" << EntityFactory::getStringForClassID(m->m_entity->classID());
 		}
 		std::wstring message_str = strs_report.str().c_str();
 
@@ -268,7 +268,7 @@ void TabReadWrite::loadIfcFile( QString& path_in )
 
 	try
 	{
-		std::wstring path_str = path_in.toStdWString();
+		std::string path_str = path_in.toStdString();
 		if (path_str.length() == 0)
 		{
 			return;
@@ -350,10 +350,6 @@ void TabReadWrite::loadIfcFile( QString& path_in )
 				}
 			}
 		}
-	}
-	catch( OutOfMemoryException& e)
-	{
-		txtOutError( e.what() );
 	}
 	catch( BuildingException& e )
 	{
@@ -481,7 +477,7 @@ void TabReadWrite::slotWriteFileClicked()
 	txtOut( "writing file: " + path );
 	int millisecs = clock();
 
-	std::wstring path_std = path.toStdWString();
+	std::string path_std = path.toStdString();
 	try
 	{
 		if (path_std.length() == 0)
@@ -496,7 +492,7 @@ void TabReadWrite::slotWriteFileClicked()
 		shared_ptr<WriterSTEP> writer_step(new WriterSTEP());
 		writer_step->writeModelToStream(stream, model);
 
-		QFile file_out(QString::fromStdWString(path_std.c_str()));
+		QFile file_out(QString::fromStdString(path_std.c_str()));
 		if (!file_out.open(QIODevice::WriteOnly | QIODevice::Text))
 		{
 			return;

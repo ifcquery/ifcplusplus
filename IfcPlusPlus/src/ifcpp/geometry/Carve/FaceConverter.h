@@ -22,17 +22,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
 
-#include <ifcpp/IFC4/include/IfcCurveBoundedPlane.h>
-#include <ifcpp/IFC4/include/IfcCurveBoundedSurface.h>
-#include <ifcpp/IFC4/include/IfcCylindricalSurface.h>
-#include <ifcpp/IFC4/include/IfcFace.h>
-#include <ifcpp/IFC4/include/IfcFaceBound.h>
-#include <ifcpp/IFC4/include/IfcPlane.h>
-#include <ifcpp/IFC4/include/IfcRationalBSplineSurfaceWithKnots.h>
-#include <ifcpp/IFC4/include/IfcRectangularTrimmedSurface.h>
-#include <ifcpp/IFC4/include/IfcSurfaceOfLinearExtrusion.h>
-#include <ifcpp/IFC4/include/IfcSurfaceOfRevolution.h>
-#include <ifcpp/IFC4/include/IfcSweptSurface.h>
+#include <IfcAdvancedFace.h>
+#include <IfcCurveBoundedPlane.h>
+#include <IfcCurveBoundedSurface.h>
+#include <IfcCylindricalSurface.h>
+#include <IfcFace.h>
+#include <IfcFaceBound.h>
+#include <IfcPlane.h>
+#include <IfcRationalBSplineSurfaceWithKnots.h>
+#include <IfcRectangularTrimmedSurface.h>
+#include <IfcSurfaceOfLinearExtrusion.h>
+#include <IfcSurfaceOfRevolution.h>
+#include <IfcSweptSurface.h>
 
 #include "IncludeCarveHeaders.h"
 #include "GeometryInputData.h"
@@ -66,19 +67,21 @@ public:
 	shared_ptr<CurveConverter>		m_curve_converter;
 	shared_ptr<SplineConverter>		m_spline_converter;
 	shared_ptr<Sweeper>				m_sweeper;
+	double m_epsMergePoints = EPS_M7;
 
 	FaceConverter( shared_ptr<GeometrySettings>& gs, shared_ptr<UnitConverter>& uc, shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc, shared_ptr<Sweeper>& sw )
 		: m_geom_settings( gs ), m_unit_converter( uc ), m_curve_converter( cc ), m_spline_converter( sc ), m_sweeper( sw )
 	{
+		double lengthFactor = m_unit_converter->getLengthInMeterFactor();
+		m_epsMergePoints = EPS_M6*lengthFactor;
 	}
 
 	virtual ~FaceConverter(){}
 
-	void convertIfcSurface( const shared_ptr<IfcSurface>& surface, shared_ptr<ItemShapeData>& item_data, shared_ptr<SurfaceProxy>& surface_proxy )
+	void convertIfcSurface( const shared_ptr<IfcSurface>& surface, shared_ptr<ItemShapeData>& item_data, shared_ptr<SurfaceProxy>& surface_proxy, double plane_span_default = -1)
 	{
 		//ENTITY IfcSurface ABSTRACT SUPERTYPE OF(ONEOF(IfcBoundedSurface, IfcElementarySurface, IfcSweptSurface))
 
-		//double length_factor = m_unit_converter->getLengthInMeterFactor();
 		shared_ptr<IfcBoundedSurface> bounded_surface = dynamic_pointer_cast<IfcBoundedSurface>( surface );
 		if( bounded_surface )
 		{
@@ -137,10 +140,10 @@ public:
 					m_curve_converter->convertIfcCurve( inner_boundary, inner_boundary_loop, segment_start_points );
 				}
 
-				PolyInputCache3D poly_cache;
-				Sweeper::createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache );
-				bool isClosed = false;
-				item_data->addPolyhedron( poly_cache.m_poly_data, isClosed );
+				PolyInputCache3D poly_cache(m_epsMergePoints);
+				bool mergeAlignedEdges = true;
+				MeshUtils::createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache, mergeAlignedEdges, false, this );
+				item_data->addOpenPolyhedron( poly_cache.m_poly_data );
 				item_data->applyTransformToItem( curve_bounded_plane_matrix );
 			}
 			else if( dynamic_pointer_cast<IfcCurveBoundedSurface>( bounded_surface ) )
@@ -213,6 +216,10 @@ public:
 				//  2----3     ---> x
 				{
 					double plane_span = HALF_SPACE_BOX_SIZE*m_unit_converter->getCustomLengthFactor();
+					if( plane_span_default > 0 )
+					{
+						plane_span = plane_span_default;
+					}
 					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 					polyline_data->beginPolyline();
 					polyline_data->addVertex( proxy_linear->m_surface_matrix*carve::geom::VECTOR( plane_span, plane_span, 0.0 ) );
@@ -306,17 +313,37 @@ public:
 
 	void convertIfcFaceList( const std::vector<shared_ptr<IfcFace> >& vec_faces, shared_ptr<ItemShapeData> item_data, ShellType st )
 	{
-		PolyInputCache3D poly_cache;
+		if( vec_faces.size() == 0 )
+		{
+			return;
+		}
+		PolyInputCache3D poly_cache(m_epsMergePoints);
 		BuildingEntity* report_entity = nullptr;
+
 		for( const shared_ptr<IfcFace>& ifc_face : vec_faces )
 		{
 			if( !ifc_face )
 			{
 				continue;
 			}
+
+#ifdef _DEBUG
+			shared_ptr<IfcAdvancedFace> advancedFace = dynamic_pointer_cast<IfcAdvancedFace>( ifc_face );
+			if( advancedFace )
+			{
+				int tag = advancedFace->m_tag;
+				if( tag == 3518020 )
+				{
+					std::cout << tag << std::endl;
+				}
+			}
+#endif
+
 			const std::vector<shared_ptr<IfcFaceBound> >& vec_bounds = ifc_face->m_Bounds;
 			std::vector<std::vector<vec3> > face_loops;
 			report_entity = ifc_face.get();
+			bool mergeAlignedEdges = true;
+			size_t maxNumIntersectionPoints = 200;
 
 			for( auto it_bounds = vec_bounds.begin(); it_bounds != vec_bounds.end(); ++it_bounds )
 			{
@@ -366,37 +393,37 @@ public:
 				{
 					std::reverse( loop_points.begin(), loop_points.end() );
 				}
+
+#ifdef _DEBUG
+				if( ifc_face->m_tag == 3517290 )
+				{
+					glm::vec4 color(0.5, 0.6, 0.7, 1.0);
+					GeomDebugDump::dumpPolyline(loop_points, color, true);
+				}
+#endif
 			}
-			Sweeper::createTriangulated3DFace( face_loops, report_entity, poly_cache );
+
+			bool dumpPolygon = false;
+			for( size_t iiLoop = 0; iiLoop < face_loops.size(); ++iiLoop )
+			{
+				std::vector<vec3>& loop = face_loops[iiLoop];
+				GeomUtils::unClosePolygon(loop);
+			}
+			MeshUtils::createTriangulated3DFace( face_loops, report_entity, poly_cache, mergeAlignedEdges, dumpPolygon, this );
 		}
 
 		// IfcFaceList can be a closed or open shell
-		bool isClosed = false;
-		item_data->addPolyhedron(poly_cache.m_poly_data, isClosed);
-
-#ifdef _DEBUG
-		if( st == SHELL_TYPE_UNKONWN || st == OPEN_SHELL)
+		if( st == SHELL_TYPE_UNKONWN )
 		{
-			// ok
+			item_data->addOpenOrClosedPolyhedron( poly_cache.m_poly_data );
+		}
+		else if( st == OPEN_SHELL )
+		{
+			item_data->addOpenPolyhedron( poly_cache.m_poly_data );
 		}
 		else if( st == CLOSED_SHELL )
 		{
-			if (!isClosed)
-			{
-				// not a fatal error, just mesh is not closed
-				messageCallback("convertIfcFaceList: CLOSED_SHELL: mesh is not closed", StatusCallback::MESSAGE_TYPE_MINOR_WARNING, "", report_entity);
-
-				if (item_data->m_meshsets_open.size() > 0)
-				{
-					shared_ptr<carve::mesh::MeshSet<3> >& meshset = item_data->m_meshsets_open.back();
-					if (!meshset->isClosed())
-					{
-						carve::geom::vector<4> color = carve::geom::VECTOR(0.7, 0.7, 0.7, 1.0);
-						GeomDebugDump::dumpMeshset(meshset, color, true);
-					}
-				}
-			}
+			item_data->addClosedPolyhedron(poly_cache.m_poly_data);
 		}
-#endif
 	}
 };

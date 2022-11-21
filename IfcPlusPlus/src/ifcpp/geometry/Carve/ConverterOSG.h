@@ -28,14 +28,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/OpenMPIncludes.h>
 #include <ifcpp/model/StatusCallback.h>
-#include <ifcpp/IFC4/include/IfcCurtainWall.h>
-#include <ifcpp/IFC4/include/IfcFeatureElementSubtraction.h>
-#include <ifcpp/IFC4/include/IfcGloballyUniqueId.h>
-#include <ifcpp/IFC4/include/IfcProject.h>
-#include <ifcpp/IFC4/include/IfcPropertySetDefinitionSet.h>
-#include <ifcpp/IFC4/include/IfcRelAggregates.h>
-#include <ifcpp/IFC4/include/IfcSpace.h>
-#include <ifcpp/IFC4/include/IfcWindow.h>
+#include <ifcpp/IFC4X3/include/IfcCurtainWall.h>
+#include <ifcpp/IFC4X3/include/IfcFeatureElementSubtraction.h>
+#include <ifcpp/IFC4X3/include/IfcGloballyUniqueId.h>
+#include <ifcpp/IFC4X3/include/IfcProject.h>
+#include <ifcpp/IFC4X3/include/IfcPropertySetDefinitionSet.h>
+#include <ifcpp/IFC4X3/include/IfcRelAggregates.h>
+#include <ifcpp/IFC4X3/include/IfcSpace.h>
+#include <ifcpp/IFC4X3/include/IfcWindow.h>
 
 #include <ifcpp/geometry/GeometrySettings.h>
 #include <ifcpp/geometry/SceneGraphUtils.h>
@@ -116,7 +116,6 @@ public:
 		geom->addPrimitiveSet( box_lines );
 
 		osg::ref_ptr<osg::Material> mat = new osg::Material();
-		if( !mat ) { throw OutOfMemoryException(); }
 		osg::Vec4f ambientColor( 1.f, 0.2f, 0.1f, 1.f );
 		mat->setAmbient( osg::Material::FRONT, ambientColor );
 		mat->setDiffuse( osg::Material::FRONT, ambientColor );
@@ -125,7 +124,6 @@ public:
 		//mat->setColorMode( osg::Material::SPECULAR );
 
 		osg::StateSet* stateset = geom->getOrCreateStateSet();
-		if( !stateset ) { throw OutOfMemoryException(); }
 		stateset->setAttribute( mat, osg::StateAttribute::ON );
 		stateset->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 	}
@@ -152,9 +150,7 @@ public:
 
 		vec3* vertex_vec;
 		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array( num_vertices );
-		if( !vertices ) { throw OutOfMemoryException(); }
 		osg::ref_ptr<osg::DrawElementsUInt> triangles = new osg::DrawElementsUInt( osg::PrimitiveSet::POLYGON, num_vertices );
-		if( !triangles ) { throw OutOfMemoryException(); }
 
 		for( size_t i = 0; i < num_vertices; ++i )
 		{
@@ -219,21 +215,17 @@ public:
 	}
 
 	//#define DEBUG_DRAW_NORMALS
-	template<typename T>
-	static void drawMeshSet( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* geode, double crease_angle, double min_triangle_area, bool add_color_array = false)
+
+	static void drawMeshSet( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* geode, double crease_angle, double min_triangle_area, bool add_color_array = false )
 	{
 		if( !meshset )
 		{
 			return;
 		}
 
-		osg::ref_ptr<T> vertices_tri = new T();
-		if (!vertices_tri) { throw OutOfMemoryException(); }
-
+		osg::ref_ptr<osg::Vec3Array> vertices_tri = new osg::Vec3Array();
 		osg::ref_ptr<osg::Vec3Array> normals_tri = new osg::Vec3Array();
-		if( !normals_tri ) { throw OutOfMemoryException(); }
-
-		osg::ref_ptr<T> vertices_quad;
+		osg::ref_ptr<osg::Vec3Array> vertices_quad;
 		osg::ref_ptr<osg::Vec3Array> normals_quad;
 
 		const size_t max_num_faces_per_vertex = 10000;
@@ -253,7 +245,7 @@ public:
 					std::vector<vec2> projected;
 					face->getProjectedVertices( projected );
 					double face_area = carve::geom2d::signedArea( projected );
-					map_face_area[face] = abs( face_area );
+					map_face_area[face] = std::abs( face_area );
 				}
 			}
 		}
@@ -379,17 +371,17 @@ public:
 							vec3 v0v1 = vert1 - vert0;
 							vec3 v0v2 = vert2 - vert0;
 							double area = (carve::geom::cross(v0v1, v0v2).length())*0.5;
-							if (abs(area) > min_triangle_area)   // skip degenerated triangle
+							if ( std::abs(area) > min_triangle_area)   // skip degenerated triangle
 							{
 								
-								vertices_tri->push_back(osg::Vec3d(vertex_v.x, vertex_v.y, vertex_v.z));
+								vertices_tri->push_back(osg::Vec3(vertex_v.x, vertex_v.y, vertex_v.z));
 								normals_tri->push_back(osg::Vec3(intermediate_normal.x, intermediate_normal.y, intermediate_normal.z));
 							}
 						}
 						else if( face->n_edges == 4 )
 						{
-							if( !vertices_quad ) vertices_quad = new T();
-							vertices_quad->push_back( osg::Vec3d( vertex_v.x, vertex_v.y, vertex_v.z ) );
+							if( !vertices_quad ) vertices_quad = new osg::Vec3Array();
+							vertices_quad->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
 							if( !normals_quad ) normals_quad = new osg::Vec3Array();
 							normals_quad->push_back( osg::Vec3( intermediate_normal.x, intermediate_normal.y, intermediate_normal.z ) );
 						}
@@ -420,16 +412,16 @@ public:
 							vec3 v0v1 = vert1 - vert0;
 							vec3 v0v2 = vert2 - vert0;
 							double area = (carve::geom::cross(v0v1, v0v2).length())*0.5;
-							if (abs(area) > min_triangle_area)   // skip degenerated triangle
+							if ( std::abs(area) > min_triangle_area)   // skip degenerated triangle
 							{
-								vertices_tri->push_back(osg::Vec3d(vertex_v.x, vertex_v.y, vertex_v.z));
+								vertices_tri->push_back(osg::Vec3(vertex_v.x, vertex_v.y, vertex_v.z));
 								normals_tri->push_back(osg::Vec3(face_normal.x, face_normal.y, face_normal.z));
 							}
 						}
 						else if( face->n_edges == 4 )
 						{
-							if( !vertices_quad ) vertices_quad = new T();
-							vertices_quad->push_back( osg::Vec3d( vertex_v.x, vertex_v.y, vertex_v.z ) );
+							if( !vertices_quad ) vertices_quad = new osg::Vec3Array();
+							vertices_quad->push_back( osg::Vec3( vertex_v.x, vertex_v.y, vertex_v.z ) );
 							if( !normals_quad ) normals_quad = new osg::Vec3Array();
 							normals_quad->push_back( osg::Vec3( face_normal.x, face_normal.y, face_normal.z ) );
 						}
@@ -442,7 +434,6 @@ public:
 		if( vertices_tri->size() > 0 )
 		{
 			osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-			if( !geometry ) { throw OutOfMemoryException(); }
 			geometry->setVertexArray( vertices_tri );
 
 			geometry->setNormalArray( normals_tri );
@@ -451,14 +442,12 @@ public:
 			if( add_color_array )
 			{
 				osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-				if( !colors ) { throw OutOfMemoryException(); }
 				colors->resize( vertices_tri->size(), osg::Vec4f( 0.6f, 0.6f, 0.6f, 0.1f ) );
 				colors->setBinding( osg::Array::BIND_PER_VERTEX );
 				geometry->setColorArray( colors );
 			}
 
 			geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLES, 0, vertices_tri->size() ) );
-			if( !geometry ) { throw OutOfMemoryException(); }
 			geode->addDrawable( geometry );
 
 #ifdef DEBUG_DRAW_NORMALS
@@ -491,7 +480,6 @@ public:
 			if( vertices_quad->size() > 0 )
 			{
 				osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-				if( !geometry ) { throw OutOfMemoryException(); }
 				geometry->setVertexArray( vertices_quad );
 				if( normals_quad )
 				{
@@ -502,14 +490,12 @@ public:
 				if( add_color_array )
 				{
 					osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-					if( !colors ) { throw OutOfMemoryException(); }
 					colors->resize( vertices_quad->size(), osg::Vec4f( 0.6f, 0.6f, 0.6f, 0.1f ) );
 					colors->setBinding( osg::Array::BIND_PER_VERTEX );
 					geometry->setColorArray( colors );
 				}
 
 				geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, vertices_quad->size() ) );
-				if( !geometry ) { throw OutOfMemoryException(); }
 				geode->addDrawable( geometry );
 			}
 		}
@@ -521,7 +507,7 @@ public:
 		{
 			return;
 		}
-
+		
 		if (polyline_data->points.size() < 2)
 		{
 			return;
@@ -533,7 +519,6 @@ public:
 		}
 
 		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
-		if( !vertices ) { throw OutOfMemoryException(); }
 		carve::line::PolylineSet* polyline_set = polyline_data->create( carve::input::opts() );
 
 		if( polyline_set->vertices.size() < 2 )
@@ -564,7 +549,6 @@ public:
 		}
 
 		osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-		if( !geometry ) { throw OutOfMemoryException(); }
 		geometry->setVertexArray( vertices );
 		geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, vertices->size() ) );
 
@@ -572,7 +556,6 @@ public:
 		{
 			osg::Vec4f color( 0.6f, 0.6f, 0.6f, 0.1f );
 			osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array( vertices->size(), &color );
-			if( !colors ) { throw OutOfMemoryException(); }
 			colors->setBinding( osg::Array::BIND_PER_VERTEX );
 			geometry->setColorArray( colors );
 		}
@@ -625,7 +608,6 @@ public:
 		}
 	}
 
-	template<typename T>
 	static void renderMeshsetCreaseEdges( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* target_geode, const double crease_angle, const float line_width )
 	{
 		if( !meshset )
@@ -641,7 +623,7 @@ public:
 
 		if( vec_crease_edges.size() > 0 )
 		{
-			osg::ref_ptr<T> vertices = new T();
+			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
 			for( size_t i_edge = 0; i_edge < vec_crease_edges.size(); ++i_edge )
 			{
 				const carve::mesh::Edge<3>* edge = vec_crease_edges[i_edge];
@@ -731,14 +713,14 @@ public:
 		std::string product_guid;
 		if (ifc_product->m_GlobalId)
 		{
-			std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-			product_guid = converterX.to_bytes(ifc_product->m_GlobalId->m_value);
+			product_guid = ifc_product->m_GlobalId->m_value;
 		}
 		std::stringstream strs_product_switch_name;
-		strs_product_switch_name << product_guid << ":" << ifc_product->className() << " group";
+		strs_product_switch_name << product_guid << ":" << EntityFactory::getStringForClassID( ifc_product->classID() ) << " group";
 		bool draw_bounding_box = false;
 		double crease_angle = m_geom_settings->getCoplanarFacesMaxDeltaAngle();
 		double min_triangle_area = m_geom_settings->getMinTriangleArea();
+		double eps = m_geom_settings->m_epsCoplanarDistance;
 		std::vector<osg::ref_ptr<osg::Switch> > vec_current_switches;
 		
 		// create OSG objects
@@ -751,7 +733,7 @@ public:
 				continue;
 			}
 			shared_ptr<IfcRepresentation> ifc_representation( product_representation_data->m_ifc_representation );
-			const int representation_id = ifc_representation->m_entity_id;
+			const int representation_id = ifc_representation->m_tag;
 			osg::ref_ptr<osg::Switch> representation_switch = new osg::Switch();
 			
 #ifdef _DEBUG
@@ -760,20 +742,11 @@ public:
 			representation_switch->setName( strs_representation_name.str().c_str() );
 #endif
 
-			bool use_double_precision = false;
-			carve::geom::aabb<3> item_bbox;
-			product_representation_data->computeBoundingBox(item_bbox);
-			if (item_bbox.pos.x + item_bbox.extent.x > 100000 || item_bbox.pos.y + item_bbox.extent.y > 100000 || item_bbox.pos.z + item_bbox.extent.z > 100000)
-			{
-				use_double_precision = true;
-			}
-
 			const std::vector<shared_ptr<ItemShapeData> >& product_items = product_representation_data->m_vec_item_data;
 			for( size_t i_item = 0; i_item < product_items.size(); ++i_item )
 			{
 				const shared_ptr<ItemShapeData>& item_shape = product_items[i_item];
 				osg::ref_ptr<osg::MatrixTransform> item_group = new osg::MatrixTransform();
-				if( !item_group ) { throw OutOfMemoryException( __FUNC__ ); }
 
 #ifdef _DEBUG
 				std::stringstream strs_item_name;
@@ -785,28 +758,13 @@ public:
 				for( size_t ii = 0; ii < item_shape->m_meshsets_open.size(); ++ii )
 				{
 					shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = item_shape->m_meshsets_open[ii];
-					CSG_Adapter::retriangulateMeshSet( item_meshset );
+					MeshOps::retriangulateMeshSetSimple( item_meshset, true, eps, 0 );
 					osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-					if( !geode ) { throw OutOfMemoryException( __FUNC__ ); }
-					if (use_double_precision)
-					{
-						drawMeshSet<osg::Vec3dArray>(item_meshset, geode, crease_angle, min_triangle_area);
-					}
-					else
-					{
-						drawMeshSet<osg::Vec3Array>(item_meshset, geode, crease_angle, min_triangle_area);
-					}
+					drawMeshSet( item_meshset, geode, crease_angle, min_triangle_area );
 
 					if( m_geom_settings->getRenderCreaseEdges() )
 					{
-						if (use_double_precision)
-						{
-							renderMeshsetCreaseEdges<osg::Vec3dArray>(item_meshset, geode, m_geom_settings->getCreaseEdgesMaxDeltaAngle(), m_geom_settings->getCreaseEdgesLineWidth());
-						}
-						else
-						{
-							renderMeshsetCreaseEdges<osg::Vec3Array>(item_meshset, geode, m_geom_settings->getCreaseEdgesMaxDeltaAngle(), m_geom_settings->getCreaseEdgesLineWidth());
-						}
+						renderMeshsetCreaseEdges( item_meshset, geode, m_geom_settings->getCreaseEdgesMaxDeltaAngle(), m_geom_settings->getCreaseEdgesLineWidth() );
 					}
 
 					// disable back face culling for open meshes
@@ -832,30 +790,14 @@ public:
 				for( size_t ii = 0; ii < item_shape->m_meshsets.size(); ++ii )
 				{
 					shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = item_shape->m_meshsets[ii];
-					CSG_Adapter::retriangulateMeshSet( item_meshset );
+					MeshOps::retriangulateMeshSetSimple( item_meshset, true, eps, 0 );
 					osg::ref_ptr<osg::Geode> geode_meshset = new osg::Geode();
-					if( !geode_meshset ) { throw OutOfMemoryException( __FUNC__ ); }
-					if (use_double_precision)
-					{
-						drawMeshSet<osg::Vec3dArray>(item_meshset, geode_meshset, crease_angle, min_triangle_area);
-					}
-					else
-					{
-						drawMeshSet<osg::Vec3Array>(item_meshset, geode_meshset, crease_angle, min_triangle_area);
-					}
-
+					drawMeshSet( item_meshset, geode_meshset, crease_angle, min_triangle_area);
 					item_group->addChild( geode_meshset );
 
 					if( m_geom_settings->getRenderCreaseEdges() )
 					{
-						if (use_double_precision)
-						{
-							renderMeshsetCreaseEdges<osg::Vec3dArray>(item_meshset, geode_meshset, m_geom_settings->getCreaseEdgesMaxDeltaAngle(), m_geom_settings->getCreaseEdgesLineWidth());
-						}
-						else
-						{
-							renderMeshsetCreaseEdges<osg::Vec3Array>(item_meshset, geode_meshset, m_geom_settings->getCreaseEdgesMaxDeltaAngle(), m_geom_settings->getCreaseEdgesLineWidth());
-						}
+						renderMeshsetCreaseEdges( item_meshset, geode_meshset, m_geom_settings->getCreaseEdgesMaxDeltaAngle(), m_geom_settings->getCreaseEdgesLineWidth() );
 					}
 
 					if( draw_bounding_box )
@@ -883,7 +825,6 @@ public:
 						if( pointset_data->points.size() > 0 )
 						{
 							osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-							if( !geode ) { throw OutOfMemoryException( __FUNC__ ); }
 
 							osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
 							for( size_t i_pointset_point = 0; i_pointset_point < pointset_data->points.size(); ++i_pointset_point )
@@ -915,7 +856,6 @@ public:
 				{
 					shared_ptr<carve::input::PolylineSetData>& polyline_data = item_shape->m_polylines[ii];
 					osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-					if( !geode ) { throw OutOfMemoryException( __FUNC__ ); }
 					geode->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 					drawPolyline( polyline_data.get(), geode );
 					item_group->addChild( geode );
@@ -945,10 +885,6 @@ public:
 						osg::Vec3 pos2( text_pos._41, text_pos._42, text_pos._43 );
 
 						osg::ref_ptr<osgText::Text> txt = new osgText::Text();
-						if( !txt )
-						{
-							throw OutOfMemoryException( __FUNC__ );
-						}
 						txt->setFont( "fonts/arial.ttf" );
 						txt->setColor( osg::Vec4f( 0, 0, 0, 1 ) );
 						txt->setCharacterSize( 0.1f );
@@ -958,7 +894,6 @@ public:
 						txt->getOrCreateStateSet()->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 
 						osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-						if( !geode ){ throw OutOfMemoryException( __FUNC__ ); }
 						geode->addDrawable( txt );
 						item_group->addChild( geode );
 					}
@@ -1050,7 +985,7 @@ public:
 	**/
 	void convertToOSG( const std::map<std::string, shared_ptr<ProductShapeData> >& map_shape_data, osg::ref_ptr<osg::Switch> parent_group )
 	{
-		progressTextCallback( L"Converting geometry to OpenGL format ..." );
+		progressTextCallback( "Converting geometry to OpenGL format ..." );
 		progressValueCallback( 0, "scenegraph" );
 		m_map_entity_guid_to_switch.clear();
 		m_map_representation_id_to_switch.clear();
@@ -1122,16 +1057,12 @@ public:
 					continue;
 				}
 
-				const int product_id = ifc_product->m_entity_id;
+				const int product_id = ifc_product->m_tag;
 				std::string product_guid;
 				std::map<int, osg::ref_ptr<osg::Switch> > map_representation_switches;
 				try
 				{
 					convertProductShapeToOSG( shape_data, map_representation_switches );
-				}
-				catch( OutOfMemoryException& e )
-				{
-					throw e;
 				}
 				catch( BuildingException& e )
 				{
@@ -1152,8 +1083,7 @@ public:
 
 				if (ifc_product->m_GlobalId)
 				{
-					std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-					product_guid = converterX.to_bytes(ifc_product->m_GlobalId->m_value);
+					product_guid = ifc_product->m_GlobalId->m_value;
 				}
 
 				if( map_representation_switches.size() > 0 )
@@ -1165,7 +1095,7 @@ public:
 					product_switch->addChild( product_transform );
 
 					std::stringstream strs_product_switch_name;
-					strs_product_switch_name << product_guid << ":" << ifc_product->className() << " group";
+					strs_product_switch_name << product_guid << ":" << EntityFactory::getStringForClassID( ifc_product->classID() ) << " group";
 					product_switch->setName( strs_product_switch_name.str().c_str() );
 
 					for( auto it_map = map_representation_switches.begin(); it_map != map_representation_switches.end(); ++it_map )
@@ -1221,10 +1151,6 @@ public:
 			{
 				resolveProjectStructure( ifc_project_data, parent_group );
 			}
-		}
-		catch( OutOfMemoryException& e )
-		{
-			throw e;
 		}
 		catch( BuildingException& e )
 		{
@@ -1286,8 +1212,7 @@ public:
 		std::string guid;
 		if (ifc_object_def->m_GlobalId)
 		{
-			std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-			guid = converterX.to_bytes(ifc_object_def->m_GlobalId->m_value);
+			guid = ifc_object_def->m_GlobalId->m_value;
 		}
 
 		if( SceneGraphUtils::inParentList(guid, group ) )
@@ -1310,7 +1235,7 @@ public:
 			{
 				shared_ptr<IfcObjectDefinition> child_obj_def( child_product_data->m_ifc_object_definition );
 				std::stringstream group_subparts_name;
-				group_subparts_name << guid << ":" << ifc_object_def->className();
+				group_subparts_name << guid << ":" << EntityFactory::getStringForClassID( ifc_object_def->classID() );
 				group_subparts->setName( group_subparts_name.str().c_str() );
 			}
 
@@ -1335,7 +1260,7 @@ public:
 				group->addChild( product_switch );
 
 				std::stringstream switch_name;
-				switch_name << guid << ":" << ifc_object_def->className();
+				switch_name << guid << ":" << EntityFactory::getStringForClassID( ifc_object_def->classID() );
 				product_switch->setName( switch_name.str().c_str() );
 			}
 
@@ -1374,7 +1299,6 @@ public:
 
 		// TODO: material caching and re-use
 		osg::ref_ptr<osg::Material> mat = new osg::Material();
-		if( !mat ){ throw OutOfMemoryException(); }
 		mat->setAmbient( osg::Material::FRONT, ambientColor );
 		mat->setDiffuse( osg::Material::FRONT, diffuseColor );
 		mat->setSpecular( osg::Material::FRONT, specularColor );
@@ -1382,7 +1306,6 @@ public:
 		mat->setColorMode( osg::Material::SPECULAR );
 
 		target_stateset = new osg::StateSet();
-		if( !target_stateset ){ throw OutOfMemoryException(); }
 		target_stateset->setAttribute( mat, osg::StateAttribute::ON );
 	
 		if( appearence->m_set_transparent )

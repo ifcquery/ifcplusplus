@@ -24,6 +24,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <map>
 #include "ifcpp/model/BasicTypes.h"
 
+enum BuildingEntityEnum {};
 enum LogicalEnum { LOGICAL_TRUE, LOGICAL_FALSE, LOGICAL_UNKNOWN };
 
 struct BuildingCopyOptions
@@ -39,31 +40,26 @@ public:
 class IFCQUERY_EXPORT BuildingObject
 {
 public:
-	virtual const char* className() const = 0;
+	virtual uint32_t classID() const = 0;
 	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const = 0;
-	
-	/** \brief Returns a self-description of the Type or Entity 
-	*  Enum types return their value as they appear in the STEP file
-	*/
-	virtual const std::wstring toString() const = 0;
 };
 
 // ENTITY
 class IFCQUERY_EXPORT BuildingEntity : virtual public BuildingObject
 {
 public:
-	BuildingEntity() : m_entity_id(-1)
+	BuildingEntity() : m_tag(-1)
 	{
 	}
 
-	BuildingEntity( int id ) : m_entity_id(id)
+	BuildingEntity( int tag ) : m_tag(tag)
 	{
 	}
 
 	virtual ~BuildingEntity()
 	{
 	}
-	virtual const char* className() const = 0;
+	virtual uint32_t classID() const = 0;
 
 	/** \brief Creates a deep copy of the object, recursively creating deep copies of attributes.
 	 *  Usually it makes sense to create only a shallow copy (not a new object) for entities like IfcOwnerHistory, IfcRepresentationContext and others.
@@ -76,10 +72,10 @@ public:
 	virtual void getStepLine( std::stringstream& stream ) const = 0;
 
 	/** \brief Reads all attributes from args. References to other entities are taken from map_entities. */
-	virtual void readStepArguments( const std::vector<std::wstring>& args, const std::map<int,shared_ptr<BuildingEntity> >& map_entities ) = 0;
+	virtual void readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map_entities, std::stringstream& errorStream ) = 0;
 
 	/** \brief Number of attributes, including inherited attributes, without inverse attributes */
-	virtual size_t getNumAttributes() = 0;
+	virtual uint8_t getNumAttributes() const = 0;
 
 	/** \brief Adds all attributes (including inherited attributes) with name and value to vec_attributes. Single attributes can be accessed directly, without this method.*/
 	virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const = 0;
@@ -94,5 +90,5 @@ public:
 	virtual void unlinkFromInverseCounterparts() = 0;
 
 	/// Entity ID (same as STEP ID)
-	int m_entity_id;
+	int m_tag;
 };

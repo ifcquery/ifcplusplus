@@ -1,15 +1,16 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 3.7.2)
+project(IfcPlusPlus)
 
 # Set a default build type if none was specified https://blog.kitware.com/cmake-and-the-default-build-type/
 set(default_build_type "Release")
  
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
-  set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE
-      STRING "Choose the type of build." FORCE)
-  # Set the possible values of build type for cmake-gui
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
-    "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+	message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
+  
+	set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE STRING "Choose the type of build." FORCE)
+  
+	# Set the possible values of build type for cmake-gui
+	set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
@@ -17,7 +18,11 @@ project(IFCPP)
 message(STATUS "------------------------------------------------------------------------")
 
 option(BUILD_CONSOLE_APPLICATION "Build an example CLI application" ON)
-option(BUILD_VIEWER_APPLICATION "Build the viewer example application" ON)
+if (WIN32)
+	option(BUILD_VIEWER_APPLICATION "Build the viewer example application" ON)
+else(NOT WIN32)
+	option(BUILD_VIEWER_APPLICATION "Build the viewer example application" OFF)
+endif()
 option(USE_OSG_DEBUG "Use openscenegraph debug library" OFF)
 option(BUILD_STATIC_LIBRARY "Build static library" OFF)
 
@@ -33,6 +38,13 @@ IF(NOT WIN32)
 ELSE(NOT WIN32)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 ENDIF(NOT WIN32)
+
+find_package(OpenMP)
+if (OPENMP_FOUND)
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif()
 
 set(CARVE_SOURCE_DIR ${IFCPP_SOURCE_DIR}/external/Carve)
 set(CARVE_BINARY_DIR ${IFCPP_BINARY_DIR})
@@ -57,6 +69,7 @@ INSTALL(
 IF(BUILD_CONSOLE_APPLICATION)
   ADD_SUBDIRECTORY (examples/CreateWallAndWriteFile)
   ADD_SUBDIRECTORY (examples/LoadFileExampleConsole)
+  ADD_SUBDIRECTORY (examples/LoadFileWithGeometryExampleConsole)
 ENDIF()
 IF(BUILD_VIEWER_APPLICATION)
   ADD_SUBDIRECTORY (examples/SimpleViewerExampleQt)

@@ -56,6 +56,11 @@
 
 #include <stdarg.h>
 
+#if defined(_MSC_VER)
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#endif
+
 #define STR(x) #x
 #define XSTR(x) STR(x)
 

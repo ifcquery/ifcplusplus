@@ -21,23 +21,29 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/geometry/AppearanceData.h>
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/BuildingException.h>
-#include <ifcpp/IFC4/include/IfcObjectPlacement.h>
-#include <ifcpp/IFC4/include/IfcProduct.h>
-#include <ifcpp/IFC4/include/IfcRepresentation.h>
-#include <ifcpp/IFC4/include/IfcTextStyle.h>
+#include <ifcpp/IFC4X3/include/IfcObjectPlacement.h>
+#include <ifcpp/IFC4X3/include/IfcProduct.h>
+#include <ifcpp/IFC4X3/include/IfcRepresentation.h>
+#include <ifcpp/IFC4X3/include/IfcTextStyle.h>
 #include "IncludeCarveHeaders.h"
 #include "GeomUtils.h"
 
 class TextItemData
 {
 public:
-	std::wstring m_text;
+	std::string m_text;
 	carve::math::Matrix m_text_position;
 };
 
 inline void premultMatrix( const carve::math::Matrix& matrix_to_append, carve::math::Matrix& target_matrix )
 {
 	target_matrix = matrix_to_append*target_matrix;
+}
+
+namespace MeshUtils
+{
+	inline void intersectOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, double eps, bool dumpMeshes);
+	static void resolveOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, double eps, bool dumpPolygons);
 }
 
 /**
@@ -47,7 +53,7 @@ class TransformData
 {
 public:
 	TransformData(){}
-	TransformData( const carve::math::Matrix& matrix, weak_ptr<BuildingEntity>& placement_entity, int placement_id ) : m_placement_entity_id( placement_id ), m_matrix(matrix), m_placement_entity(placement_entity)
+	TransformData( const carve::math::Matrix& matrix, weak_ptr<BuildingEntity>& placement_entity, int placement_id ) : m_placement_tag( placement_id ), m_matrix(matrix), m_placement_entity(placement_entity)
 	{
 	}
 	TransformData( const shared_ptr<TransformData>& other )
@@ -56,7 +62,7 @@ public:
 		{
 			m_matrix = other->m_matrix;
 			m_placement_entity = other->m_placement_entity;
-			m_placement_entity_id = other->m_placement_entity_id;
+			m_placement_tag = other->m_placement_tag;
 		}
 	}
 	bool isSameTransform( shared_ptr<TransformData>& transform_data )
@@ -78,8 +84,186 @@ public:
 	
 	carve::math::Matrix			m_matrix;
 	weak_ptr<BuildingEntity>	m_placement_entity;
-	int							m_placement_entity_id = -1;
+	int							m_placement_tag = -1;
 };
+
+inline bool checkPolyhedronData( const shared_ptr<carve::input::PolyhedronData>& poly_data )
+{
+	if( poly_data )
+	{
+		const std::vector<int>& faceIndices = poly_data->faceIndices;
+		if( faceIndices.size() > 0 )
+		{
+			size_t iiFace = 0;
+			for(  ; iiFace < faceIndices.size(); )
+			{
+				int numPoints = faceIndices[iiFace];
+				int numPointsIdx = iiFace;
+
+#ifdef _DEBUG
+				std::vector<int> checkIndexes1;
+				if( faceIndices.size() < 500 )
+				{
+					auto it = faceIndices.begin() + iiFace;
+					std::copy(it, faceIndices.end(), std::back_inserter(checkIndexes1));
+				}
+#endif
+
+				if( iiFace + numPoints >= faceIndices.size() )
+				{
+					return false;
+				}
+
+				if( numPoints < 3 )
+				{
+#ifdef _DEBUG
+					//std::cout << "checkPolyhedronData: face with < 3 points" << std::endl;
+#endif
+					return false;
+				}
+
+				++iiFace;
+
+				int idxFirst = faceIndices[iiFace];
+				int idxLast = faceIndices[iiFace+numPoints-1];
+				if( idxFirst == idxLast )
+				{
+#ifdef _DEBUG
+					//std::cout << "checkPolyhedronData: closed polygon of " << numPoints << " points" << std::endl;
+#endif
+					return false;
+				}
+
+				for( size_t iiPoint = 0; iiPoint < numPoints; ++iiPoint )
+				{
+					int idx = faceIndices[iiFace + iiPoint];
+					if( idx >= poly_data->points.size() )
+					{
+#ifdef _DEBUG
+						//std::cout << "checkPolyhedronData: incorrect idx" << std::endl;
+#endif
+						return false;
+					}
+
+					if( iiPoint < numPoints - 1)
+					{
+						int idxNext = faceIndices[iiFace + iiPoint + 1];
+						if( idx == idxNext )
+						{
+#ifdef _DEBUG
+							//std::cout << "checkPolyhedronData: duplicate point" << std::endl;
+#endif
+ 							return false;
+						}
+					}
+				}
+
+				iiFace = iiFace + numPoints;
+			}
+
+			if( iiFace != faceIndices.size() )
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+inline bool fixPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data)
+{
+	if( !poly_data )
+	{
+		return false;
+	}
+
+	std::vector<int>& faceIndices = poly_data->faceIndices;
+	if( faceIndices.size() == 0 )
+	{
+		return true;
+	}
+
+	size_t numPointsAll = poly_data->points.size();
+	if( numPointsAll < 2 )
+	{
+		return true;
+	}
+	bool inputCorrect = true;
+	size_t maxPointIndex = numPointsAll - 1;
+
+	std::vector<int> polyDataCorrected;
+	int numFacesCorrected = 0;
+
+	for( size_t iiFace = 0; iiFace < faceIndices.size(); )
+	{
+		int numPoints = faceIndices[iiFace];
+		int numPointsIdx = iiFace;
+
+		if( iiFace + numPoints >= faceIndices.size() )
+		{
+			// skip face
+			break;
+		}
+
+		std::vector<int> pointIdxCurrentFace;
+		for( size_t iiPoint = 1; iiPoint <= numPoints; ++iiPoint )
+		{
+			int idx = faceIndices[iiFace + iiPoint];
+			if( idx > maxPointIndex )
+			{
+				// incorrect point index, skip current point
+				continue;
+			}
+
+			if( pointIdxCurrentFace.size() > 0 )
+			{
+				if( idx == pointIdxCurrentFace.back() )
+				{
+					// duplicate index, skip
+					continue;
+				}
+			}
+			pointIdxCurrentFace.push_back(idx);
+		}
+
+		if( pointIdxCurrentFace.size() > 2 )
+		{
+			int firstPointIndex = pointIdxCurrentFace.front();
+			int lastPointIndex = pointIdxCurrentFace.back();
+			if( firstPointIndex == lastPointIndex )
+			{
+				// duplicate index, remove last point
+				pointIdxCurrentFace.pop_back();
+			}
+
+			if( pointIdxCurrentFace.size() > 2 )
+			{
+				// found correct face
+				++numFacesCorrected;
+				int numPointsInFace = pointIdxCurrentFace.size();
+				polyDataCorrected.push_back(numPointsInFace);
+				std::copy(pointIdxCurrentFace.begin(), pointIdxCurrentFace.end(), std::back_inserter(polyDataCorrected));
+			}
+		}
+
+		iiFace += numPoints + 1;
+
+		if( iiFace > faceIndices.size() )
+		{
+			inputCorrect = false;
+			break;
+		}
+		if( iiFace == faceIndices.size() )
+		{
+			break;
+		}
+	}
+
+	poly_data->faceCount = numFacesCorrected;
+	faceIndices = polyDataCorrected;
+
+	return inputCorrect;
+}
 
 class RepresentationData;
 class ProductShapeData;
@@ -105,7 +289,7 @@ public:
 	std::vector<shared_ptr<AppearanceData> >				m_vec_item_appearances;
 	std::vector<shared_ptr<TextItemData> >					m_vec_text_literals;
 	weak_ptr<RepresentationData>							m_parent_representation;  // Pointer to representation object that this item belongs to
-	shared_ptr<IfcRepresentationItem>						m_ifc_item;
+	shared_ptr<IFC4X3::IfcRepresentationItem>				m_ifc_item;
 
 protected:
 	std::vector<shared_ptr<carve::input::VertexData> >	m_vertex_points;
@@ -123,9 +307,8 @@ public:
 		return true;
 	}
 
-	void addPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data, bool& isClosed )
+	void addOpenOrClosedPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data )
 	{
-		isClosed = false;
 		if( !poly_data )
 		{
 			return;
@@ -137,16 +320,113 @@ public:
 			return;
 		}
 
+		bool correct = checkPolyhedronData(poly_data);
+		if( !correct )
+		{
+			fixPolyhedronData(poly_data);
+#ifdef _DEBUG
+			bool correct2 = checkPolyhedronData(poly_data);
+			if( !correct2 )
+			{
+				std::cout << "incorrect idx";
+			}
+#endif
+		}
+
 		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
 		if( meshset->isClosed() )
 		{
-			isClosed = true;
 			m_meshsets.push_back( meshset );
 		}
 		else
 		{
 			m_meshsets_open.push_back( meshset );
 		}
+	}
+
+	void addOpenPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data )
+	{
+		if( poly_data->getVertexCount() < 3 )
+		{
+			return;
+		}
+
+		bool correct = checkPolyhedronData(poly_data);
+		if( !correct )
+		{
+			fixPolyhedronData(poly_data);
+#ifdef _DEBUG
+			bool correct2 = checkPolyhedronData(poly_data);
+			if( !correct2 )
+			{
+				std::cout << "incorrect idx";
+			}
+#endif
+		}
+
+		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
+		m_meshsets_open.push_back( meshset );
+	}
+
+	bool addClosedPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data )
+	{
+		if( poly_data->getVertexCount() < 3 )
+		{
+			return false;
+		}
+
+		bool correct = checkPolyhedronData(poly_data);
+		if( !correct )
+		{
+ 			fixPolyhedronData(poly_data);
+#ifdef _DEBUG
+			std::cout << "fixing polyhedron data" << std::endl;
+			bool correct2 = checkPolyhedronData(poly_data);
+			if( !correct2 )
+			{
+				std::cout << "incorrect idx";
+			}
+#endif
+			//return false;
+		}
+
+		bool dumpMeshes = false;
+		std::map<std::string, std::string> mesh_input_options;
+		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( mesh_input_options ) );
+		if( meshset->isClosed() )
+		{
+			m_meshsets.push_back( meshset );
+		}
+		else
+		{
+			double eps = carve::CARVE_EPSILON;
+			MeshUtils::intersectOpenEdges(meshset, eps, dumpMeshes);
+
+			for( size_t i = 0; i < meshset->meshes.size(); ++i )
+			{
+				meshset->meshes[i]->recalc();
+			}
+			if( meshset->isClosed() )
+			{
+				m_meshsets.push_back(meshset);
+				return true;
+			}
+			else
+			{
+				MeshUtils::resolveOpenEdges(meshset, eps, dumpMeshes);
+
+				if( meshset->isClosed() )
+				{
+					m_meshsets.push_back(meshset);
+					return true;
+				}
+
+				m_meshsets_open.push_back(meshset); // still may be useful as open mesh
+			}
+			// Meshset is not closed
+			return false;
+		}
+		return true;
 	}
 
 	void addPoint( const vec3& point )
@@ -157,14 +437,12 @@ public:
 			if( !m_vertex_points[0] )
 			{
 				m_vertex_points[0] = shared_ptr<carve::input::VertexData>( new carve::input::VertexData() );
-				if( !m_vertex_points[0] ){ throw OutOfMemoryException( __FUNC__ ); }
 			}
 			vertex_data = m_vertex_points[0];
 		}
 		else
 		{
 			vertex_data = shared_ptr<carve::input::VertexData>( new carve::input::VertexData() );
-			if( !vertex_data ){ throw OutOfMemoryException( __FUNC__ ); }
 			m_vertex_points.push_back( vertex_data );
 		}
 
@@ -217,6 +495,14 @@ public:
 			}
 		}
 
+		//is negative if coordinate system changes handedness (for example as result of mirroring)
+		//in this case invert the meshes to not make them look inside out (only noticeable if using
+		//back face culling)
+		bool const invert_meshes = 0 > carve::geom::dotcross(
+			carve::geom::VECTOR(mat.m[0][0], mat.m[1][0], mat.m[2][0]),
+			carve::geom::VECTOR(mat.m[0][1], mat.m[1][1], mat.m[2][1]),
+			carve::geom::VECTOR(mat.m[0][2], mat.m[1][2], mat.m[2][2]));
+
 		for( size_t i_meshsets = 0; i_meshsets < m_meshsets_open.size(); ++i_meshsets )
 		{
 			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = m_meshsets_open[i_meshsets];
@@ -229,6 +515,10 @@ public:
 			for( size_t i = 0; i < item_meshset->meshes.size(); ++i )
 			{
 				item_meshset->meshes[i]->recalc();
+				if(invert_meshes)
+				{
+					item_meshset->meshes[i]->invert();
+				}
 			}
 		}
 
@@ -244,6 +534,12 @@ public:
 			for( size_t i = 0; i < item_meshset->meshes.size(); ++i )
 			{
 				item_meshset->meshes[i]->recalc();
+				if(invert_meshes)
+				{
+					item_meshset->meshes[i]->invert();
+					//calcOrientation resets isNegative flag (usually)
+					item_meshset->meshes[i]->calcOrientation();
+				}
 			}
 		}
 
@@ -349,13 +645,21 @@ public:
 		for( size_t i_meshsets = 0; i_meshsets < m_meshsets_open.size(); ++i_meshsets )
 		{
 			const shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = m_meshsets_open[i_meshsets];
+			if (!item_meshset)
+			{
+				continue;
+			}
+			carve::geom::aabb<3> meshBBox = item_meshset->getAABB();
 			if( bbox.isEmpty() )
 			{
-				bbox = item_meshset->getAABB();
+				bbox = meshBBox;
 			}
 			else
 			{
-				bbox.unionAABB( item_meshset->getAABB() );
+				if( !meshBBox.isEmpty() )
+				{
+					bbox.unionAABB(meshBBox);
+				}
 			}
 		}
 
@@ -366,13 +670,17 @@ public:
 			{
 				continue;
 			}
+			carve::geom::aabb<3> meshBBox = item_meshset->getAABB();
 			if( bbox.isEmpty() )
 			{
 				bbox = item_meshset->getAABB();
 			}
 			else
 			{
-				bbox.unionAABB( item_meshset->getAABB() );
+				if( !meshBBox.isEmpty() )
+				{
+					bbox.unionAABB(meshBBox);
+				}
 			}
 		}
 
@@ -399,12 +707,12 @@ public:
 	RepresentationData() {}
 	~RepresentationData(){}
 
-	weak_ptr<IfcRepresentation>						m_ifc_representation;
-	weak_ptr<IfcRepresentationContext>				m_ifc_representation_context;
+	weak_ptr<IFC4X3::IfcRepresentation>				m_ifc_representation;
+	weak_ptr<IFC4X3::IfcRepresentationContext>		m_ifc_representation_context;
 	std::vector<shared_ptr<ItemShapeData> >			m_vec_item_data;
 	std::vector<shared_ptr<AppearanceData> >		m_vec_representation_appearances;
-	std::wstring									m_representation_identifier;
-	std::wstring									m_representation_type;
+	std::string										m_representation_identifier;
+	std::string										m_representation_type;
 	weak_ptr<ProductShapeData>						m_parent_product;  // Pointer to product object that this representation belongs to
 
 	shared_ptr<RepresentationData> getRepresentationDataDeepCopy()
@@ -475,8 +783,8 @@ public:
 		m_ifc_representation.reset();
 		m_ifc_representation_context.reset();
 		m_vec_item_data.clear();
-		m_representation_identifier = L"";
-		m_representation_type = L"";
+		m_representation_identifier = "";
+		m_representation_type = "";
 	}
 	
 	void applyTransformToRepresentation( const carve::math::Matrix& matrix, bool matrix_identity_checked = false )
@@ -507,9 +815,9 @@ public:
 class ProductShapeData 
 {
 public:
-	std::wstring m_entity_guid;
-	weak_ptr<IfcObjectDefinition>						m_ifc_object_definition;
-	weak_ptr<IfcObjectPlacement>						m_object_placement;
+	std::string m_entity_guid;
+	weak_ptr<IFC4X3::IfcObjectDefinition>				m_ifc_object_definition;
+	weak_ptr<IFC4X3::IfcObjectPlacement>				m_object_placement;
 	std::vector<shared_ptr<RepresentationData> >		m_vec_representations;
 	bool												m_added_to_spatial_structure = false;
 	weak_ptr<ProductShapeData>							m_parent;
@@ -518,7 +826,7 @@ public:
 	std::vector<shared_ptr<AppearanceData> >			m_vec_product_appearances;
 
 	ProductShapeData() {}
-	ProductShapeData( std::wstring entity_guid ) : m_entity_guid(entity_guid) { }
+	ProductShapeData( std::string entity_guid ) : m_entity_guid(entity_guid) { }
 
 	const std::vector<shared_ptr<ProductShapeData> >& getChildren() { return m_vec_children; }
 	shared_ptr<ProductShapeData> getDeepCopy()
@@ -543,7 +851,7 @@ public:
 		{
 			if( transform )
 			{
-				shared_ptr<TransformData> transform_deep_copy( new TransformData( transform->m_matrix, transform->m_placement_entity, transform->m_placement_entity_id ) );
+				shared_ptr<TransformData> transform_deep_copy( new TransformData( transform->m_matrix, transform->m_placement_entity, transform->m_placement_tag ) );
 				copy_data->m_vec_transforms.push_back( transform_deep_copy );
 			}
 		}
@@ -610,24 +918,26 @@ public:
 			std::cout << __FUNCTION__ << ": isContainedInParentsList" << std::endl;
 			return;
 		}
-#ifdef _DEBUG
+
 		for( size_t ii = 0; ii < m_vec_children.size(); ++ii )
 		{
 			const shared_ptr<ProductShapeData>& existing_child = m_vec_children[ii];
 			if( existing_child == add_child )
 			{
+#ifdef _DEBUG
 				if( existing_child->m_entity_guid.compare( add_child->m_entity_guid ) == 0 )
 				{
-					std::wcout << __FUNCTION__ << L": child already added, entity_id: " << add_child->m_entity_guid << std::endl;
+					std::cout << __FUNCTION__ << ": child already added, tag: " << add_child->m_entity_guid << std::endl;
 				}
 				else
 				{
-					std::wcout << __FUNCTION__ << L": entity_id mismatch: " << add_child->m_entity_guid << L" != " << existing_child->m_entity_guid << std::endl;
+					std::cout << __FUNCTION__ << ": tag mismatch: " << add_child->m_entity_guid << " != " << existing_child->m_entity_guid << std::endl;
 				}
+#endif
 				return;
 			}
 		}
-#endif
+
 		m_vec_children.push_back( add_child );
 		add_child->m_parent = ptr_self;
 	}
@@ -641,7 +951,7 @@ public:
 		carve::math::Matrix transform_matrix;
 		if( m_vec_transforms.size() > 0 )
 		{
-			for( auto transform : m_vec_transforms )
+			for( shared_ptr<TransformData>& transform : m_vec_transforms )
 			{
 				if( transform )
 				{
@@ -678,7 +988,7 @@ public:
 				{
 					shared_ptr<TransformData>& transform_other = *it_other;
 		
-					if (transform_self->m_placement_entity_id >= 0 && transform_self->m_placement_entity_id == transform_other->m_placement_entity_id)
+					if (transform_self->m_placement_tag >= 0 && transform_self->m_placement_tag == transform_other->m_placement_tag)
 					{
 						// skip matrices that are the same at both products, to avoid unnecessary multiplications and numerical inaccuracies
 						++it_self;
@@ -764,46 +1074,211 @@ public:
 		}
 		return true;
 	}
-	void computeBoundingBox( carve::geom::aabb<3>& bbox, bool include_children ) const
-	{
-		for( size_t ii = 0; ii < m_vec_representations.size(); ++ii )
-		{
-			const shared_ptr<RepresentationData>& representation_data = m_vec_representations[ii];
-			representation_data->computeBoundingBox( bbox );
-		}
 
-		if( include_children )
+	bool hasGeometricRepresentation( bool includeChildren = true ) const
+	{
+		if( includeChildren )
 		{
-			for( auto child_product_data : m_vec_children )
+			for( size_t ii = 0; ii < m_vec_children.size(); ++ii )
 			{
-				child_product_data->computeBoundingBox( bbox, include_children );
+				const shared_ptr<ProductShapeData>& child = m_vec_children[ii];
+				bool childHasGeom = child->hasGeometricRepresentation(includeChildren);
+				if( childHasGeom )
+				{
+					return true;
+				}
 			}
 		}
+
+		if( m_vec_representations.size() > 0 )
+		{
+			// TODO: check if further check for mesh bounding box is necessary
+			return true;
+		}
+		return false;
 	}
+
+	//void computeBoundingBoxLocalCoords( carve::geom::aabb<3>& bbox, bool include_children ) const
+	//{
+	//	for( size_t ii = 0; ii < m_vec_representations.size(); ++ii )
+	//	{
+	//		const shared_ptr<RepresentationData>& representation_data = m_vec_representations[ii];
+	//		representation_data->computeBoundingBox( bbox );
+	//	}
+
+	//	if( include_children )
+	//	{
+	//		for( auto child_product_data : m_vec_children )
+	//		{
+	//			child_product_data->computeBoundingBoxLocalCoords( bbox, include_children );
+	//		}
+	//	}
+	//}
 };
 
 
-#define ROUND_POLY_COORDINATES_UP 1000000.0
-#define ROUND_POLY_COORDINATES_DOWN 0.000001
-
+typedef double mapPointEpsType;
 class PolyInputCache3D
 {
 public:
-	PolyInputCache3D()
+	PolyInputCache3D( double epsMergePoints = -1 )
 	{
-		m_poly_data = shared_ptr<carve::input::PolyhedronData>(new carve::input::PolyhedronData());
+		m_mergePointsFactor = 1.0/epsMergePoints;
+
+#ifdef _DEBUG
+		if( epsMergePoints > 0 && epsMergePoints < 10000000000000000 )
+		{
+
+			double epsCheck = EPS_DEFAULT;
+			double mergePointsFactor = 1.0/epsCheck;
+
+			double x2 = -3.7725000000000155;
+			mapPointEpsType vertex_x2_key = round(x2 * mergePointsFactor);
+			double x2_restored = double(vertex_x2_key) / mergePointsFactor;
+			double x2_restored_check = double(vertex_x2_key) *epsCheck;
+
+			if(false)
+			{
+				// check int casting
+				double mult = x2 * mergePointsFactor;
+				double vertex_x2_key = int( mult );
+				int vertex_x2_key_int = int( mult );
+				int vertex_x2_key_check = int( mult + 0.5);
+
+				double x2_restored1 = double(vertex_x2_key - 0.5)/mergePointsFactor;
+				double x2_restored2 = double(vertex_x2_key) / mergePointsFactor;
+				double x2_restored_check = double(vertex_x2_key) *epsCheck;
+				double dx2 = x2_restored1 - x2;
+				if( std::abs(dx2) > epsCheck )
+				{
+					std::cout << "int casting incorrect";
+				}
+			}
+
+			double x2_key = x2/epsMergePoints;
+			double x2_key_long = static_cast<long>(x2_key);
+			double x2_key_long2 = round(x2_key);  // should be -2515000000 with eps=1.50E-09
+			long x2_key_long3 = round(x2_key);  // should be -2515000000
+			long x2_key_long4 = long(x2_key);  // should be -2515000000
+			int x2_key_int = round(x2_key);  // should be -2515000000
+			double x2_key_restored = x2_key*epsMergePoints;  // should be -3.7725000000000155
+
+			double dx2 = x2_restored - x2;
+			if( std::abs(dx2) > epsMergePoints )
+			{
+				std::cout << "check";
+			}
+		}
+#endif
+
+		m_poly_data = shared_ptr<carve::input::PolyhedronData>( new carve::input::PolyhedronData() );
 	}
 
-	size_t addPointPrecise(const vec3& v)
+	virtual size_t addPoint( const vec3& v )
 	{
-		const double vertex_x = v.x;
-		const double vertex_y = v.y;
-		const double vertex_z = v.z;
+		double vertex_x = v.x;
+		double vertex_y = v.y;
+		double vertex_z = v.z;
+
+		if( m_mergePointsFactor > EPS_M16 )
+		{
+			mapPointEpsType vertex_x_key = round(vertex_x * m_mergePointsFactor);
+			mapPointEpsType vertex_y_key = round(vertex_y * m_mergePointsFactor);
+			mapPointEpsType vertex_z_key = round(vertex_z * m_mergePointsFactor);
+
+			// TODO: in case there are two points within eps, but dx/dy/dz > EPS_M16, try merging points to mid point
+#ifdef _DEBUG
+			bool existingPointFound = false;
+			if( false )
+			{
+				double eps = 1.0 / m_mergePointsFactor;
+				for( auto it : m_existing_vertices_coords_merged )
+				{
+					mapPointEpsType existing_key_x = it.first;
+					if( existing_key_x != vertex_x_key )
+					{
+						continue;
+					}
+
+					double x_restored = existing_key_x / m_mergePointsFactor;
+					double dx = x_restored - vertex_x;
+					if( std::abs(dx) > eps )
+					{
+						continue;
+					}
+
+					for( auto itY : it.second )
+					{
+						mapPointEpsType existing_key_y = itY.first;
+						if( existing_key_y != vertex_y_key )
+						{
+							continue;
+						}
+
+						double y_restored = existing_key_y / m_mergePointsFactor;
+						double dy = y_restored - vertex_y;
+						if( std::abs(dy) > eps )
+						{
+							continue;
+						}
+
+						for( auto itZ : itY.second )
+						{
+							mapPointEpsType existing_key_z = itZ.first;
+							if( existing_key_z != vertex_z_key )
+							{
+								continue;
+							}
+
+							double z_restored = existing_key_z / m_mergePointsFactor;
+							double dz = z_restored - vertex_z;
+							if( std::abs(dz) > eps )
+							{
+								continue;
+							}
+							existingPointFound = true;
+
+						}
+					}
+				}
+			}
+#endif
+
+			std::map<mapPointEpsType, std::map<mapPointEpsType, size_t> >& map_y_index = m_existing_vertices_coords_merged.insert( std::make_pair( vertex_x_key, std::map<mapPointEpsType, std::map<mapPointEpsType, size_t> >() ) ).first->second;
+			std::map<mapPointEpsType, size_t>& map_z_index = map_y_index.insert( std::make_pair( vertex_y_key, std::map<mapPointEpsType, size_t>() ) ).first->second;
+			auto it_find_z = map_z_index.find( vertex_z_key );
+			if( it_find_z != map_z_index.end() )
+			{
+				// vertex already exists in polyhedron. return its index
+				size_t vertex_index = it_find_z->second;
+#ifdef _DEBUG
+				if( !existingPointFound )
+				{
+					//std::cout << "!existingPointFound, check m_existing_vertices_coords_merged.insert" << std::endl;
+				}
+#endif
+				return vertex_index;
+			}
+			else
+			{
+#ifdef _DEBUG
+				if( existingPointFound )
+				{
+					//std::cout << "existingPointFound, check m_existing_vertices_coords_merged.insert" << std::endl;
+				}
+#endif
+
+				// add point to polyhedron
+				size_t vertex_index = m_poly_data->addVertex( v );
+				map_z_index[vertex_z_key] = vertex_index;
+				return vertex_index;
+			}
+		}
 
 		// insert: returns a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
-		std::map<double, std::map<double, size_t> >& map_y_index = m_existing_vertices_coords.insert(std::make_pair(vertex_x, std::map<double, std::map<double, size_t> >())).first->second;
-		std::map<double, size_t>& map_z_index = map_y_index.insert(std::make_pair(vertex_y, std::map<double, size_t>())).first->second;
-		auto it_find_z = map_z_index.find(vertex_z);
+		std::map<double, std::map<double, size_t> >& map_y_index = m_existing_vertices_coords.insert( std::make_pair( vertex_x, std::map<double, std::map<double, size_t> >() ) ).first->second;
+		std::map<double, size_t>& map_z_index = map_y_index.insert( std::make_pair( vertex_y, std::map<double, size_t>() ) ).first->second;
+		auto it_find_z = map_z_index.find( vertex_z );
 		if( it_find_z != map_z_index.end() )
 		{
 			// vertex already exists in polyhedron. return its index
@@ -813,36 +1288,77 @@ public:
 		else
 		{
 			// add point to polyhedron
-			size_t vertex_index = m_poly_data->addVertex(v);
+			size_t vertex_index = m_poly_data->addVertex( v );
 			map_z_index[vertex_z] = vertex_index;
 			return vertex_index;
 		}
 	}
 
-	size_t addPoint(const vec3& v)
+#ifdef _DEBUG
+	virtual int getPointIndex(const vec3& v)
 	{
-		const double vertex_x = round(v.x * ROUND_POLY_COORDINATES_UP) * ROUND_POLY_COORDINATES_DOWN;
-		const double vertex_y = round(v.y * ROUND_POLY_COORDINATES_UP) * ROUND_POLY_COORDINATES_DOWN;
-		const double vertex_z = round(v.z * ROUND_POLY_COORDINATES_UP) * ROUND_POLY_COORDINATES_DOWN;
+		double vertex_x = v.x;
+		double vertex_y = v.y;
+		double vertex_z = v.z;
+
+		if( m_mergePointsFactor > EPS_M16 )
+		{
+			mapPointEpsType vertex_x_key = round(vertex_x * m_mergePointsFactor);
+			mapPointEpsType vertex_y_key = round(vertex_y * m_mergePointsFactor);
+			mapPointEpsType vertex_z_key = round(vertex_z * m_mergePointsFactor);
+
+			auto itFindX = m_existing_vertices_coords.find(vertex_x_key);
+			if( itFindX == m_existing_vertices_coords.end() )
+			{
+				return -1;
+			}
+
+			std::map<double, std::map<double, size_t> >& map_y_index = itFindX->second;
+
+			auto itFindY = map_y_index.find(vertex_y_key);
+			if( itFindY== map_y_index.end() )
+			{
+				return -1;
+			}
+
+			std::map<double, size_t>& map_z_index = itFindY->second;
+			auto it_find_z = map_z_index.find(vertex_z_key);
+			if( it_find_z != map_z_index.end() )
+			{
+				// vertex exists in polyhedron. return its index
+				size_t vertex_index = it_find_z->second;
+				return vertex_index;
+			}
+			return -1;
+
+		}
 
 		// insert: returns a pair, with its member pair::first set to an iterator pointing to either the newly inserted element or to the element with an equivalent key in the map
-		std::map<double, std::map<double, size_t> >& map_y_index = m_existing_vertices_coords.insert(std::make_pair(vertex_x, std::map<double, std::map<double, size_t> >())).first->second;
-		std::map<double, size_t>& map_z_index = map_y_index.insert(std::make_pair(vertex_y, std::map<double, size_t>())).first->second;
+		auto itFindX = m_existing_vertices_coords.find(vertex_x);
+		if( itFindX == m_existing_vertices_coords.end() )
+		{
+			return -1;
+		}
+
+		std::map<double, std::map<double, size_t> >& map_y_index = itFindX->second;
+
+		auto itFindY = map_y_index.find(vertex_y);
+		if( itFindY== map_y_index.end() )
+		{
+			return -1;
+		}
+
+		std::map<double, size_t>& map_z_index = itFindY->second;
 		auto it_find_z = map_z_index.find(vertex_z);
 		if( it_find_z != map_z_index.end() )
 		{
-			// vertex already exists in polyhedron. return its index
+			// vertex exists in polyhedron. return its index
 			size_t vertex_index = it_find_z->second;
 			return vertex_index;
 		}
-		else
-		{
-			// add point to polyhedron
-			size_t vertex_index = m_poly_data->addVertex(v);
-			map_z_index[vertex_z] = vertex_index;
-			return vertex_index;
-		}
+		return -1;
 	}
+#endif
 
 	bool checkFaceIndices()
 	{
@@ -876,6 +1392,110 @@ public:
 		return true;
 	}
 
+	void clearAllData()
+	{
+		m_poly_data->clearFaces();
+		m_existing_vertices_coords.clear();
+		m_existing_vertices_coords_merged.clear();
+	}
+
+	double m_mergePointsFactor = -1;
 	shared_ptr<carve::input::PolyhedronData> m_poly_data;
 	std::map<double, std::map<double, std::map<double, size_t> > > m_existing_vertices_coords;
+	std::map<mapPointEpsType, std::map<mapPointEpsType, std::map<mapPointEpsType, size_t> > > m_existing_vertices_coords_merged;
 };
+
+static carve::geom::aabb<3> computeBoundingBoxLocalCoords( shared_ptr<ProductShapeData>& productData, bool includeChildren )
+{
+	carve::geom::aabb<3> bbox;
+
+	for( auto rep : productData->m_vec_representations )
+	{
+		carve::geom::aabb<3> repBBox;
+		rep->computeBoundingBox(repBBox);
+		if( bbox.isEmpty() )
+		{
+			bbox = repBBox;
+		}
+		else
+		{
+			bbox.unionAABB(repBBox);
+		}
+	}
+
+	if( includeChildren )
+	{
+		for( auto child : productData->m_vec_children )
+		{
+			carve::geom::aabb<3> childBBox = computeBoundingBoxLocalCoords(child, true);
+			if( bbox.isEmpty() )
+			{
+				bbox = childBBox;
+			}
+			else
+			{
+				bbox.unionAABB(childBBox);
+			}
+		}
+	}
+	return bbox;
+}
+
+static carve::geom::aabb<3> computeBoundingBox(shared_ptr<ProductShapeData>& productData, bool includeChildren, bool applyTransformToGlobalCoordinates)
+{
+	carve::geom::aabb<3> bbox;
+
+	carve::math::Matrix transform;
+	if( applyTransformToGlobalCoordinates )
+	{
+		transform = productData->getTransform();
+	}
+
+	for( auto rep : productData->m_vec_representations )
+	{
+		carve::geom::aabb<3> repBBox;
+		rep->computeBoundingBox(repBBox);
+
+		if( repBBox.isEmpty() )
+		{
+			continue;
+		}
+
+		if( bbox.isEmpty() )
+		{
+			if( applyTransformToGlobalCoordinates )
+			{
+				repBBox.pos = transform * repBBox.pos;
+			}
+			bbox = repBBox;
+		}
+		else
+		{
+			bbox.unionAABB(repBBox);
+		}
+	}
+
+	if( includeChildren )
+	{
+		for( shared_ptr<ProductShapeData>& child : productData->m_vec_children )
+		{
+			carve::geom::aabb<3> childBBox = computeBoundingBox(child, true, applyTransformToGlobalCoordinates);
+
+			if( childBBox.isEmpty() )
+			{
+				continue;
+			}
+
+			if( bbox.isEmpty() )
+			{
+				bbox = childBBox;
+			}
+			else
+			{
+				bbox.unionAABB(childBBox);
+			}
+		}
+	}
+
+	return bbox;
+}

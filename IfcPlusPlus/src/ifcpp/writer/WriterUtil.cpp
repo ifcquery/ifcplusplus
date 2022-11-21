@@ -173,9 +173,9 @@ void writeRealList3D(std::stringstream& stream, const std::vector<std::vector<st
 }
 
 
-std::string encodeStepString( const std::wstring& str )
+std::string encodeStepString( const std::string& str )
 {
-	wchar_t* stream_pos = const_cast<wchar_t*>(str.c_str());
+	char* stream_pos = const_cast<char*>(str.c_str());
 	std::string result_str;
 	std::string beginUnicodeTag = "\\X2\\";
 	std::string endUnicodeTag = "\\X0\\";
@@ -193,13 +193,7 @@ std::string encodeStepString( const std::wstring& str )
 	while( *stream_pos != '\0' )
 	{
 		wchar_t append_char = *stream_pos;
-		if (append_char == 9)
-		{
-			closeUnicodeBlockIfOpened();
-			// encode tab
-			result_str.append("\\X\\09");
-		}
-		else if( append_char == 10 )
+		if( append_char == 10 )
 		{
 			closeUnicodeBlockIfOpened();
 			// encode new line
@@ -232,8 +226,8 @@ std::string encodeStepString( const std::wstring& str )
 		else
 		{
 			int value = static_cast<int>(append_char);
-			wchar_t temporary[8];
-			swprintf( temporary, 5, L"%04X", value );
+			char temporary[8];
+			sprintf( temporary, "%04X", value );
 
 			if( !hasOpenedUnicodeTag )
 			{
@@ -241,15 +235,10 @@ std::string encodeStepString( const std::wstring& str )
 				hasOpenedUnicodeTag = true;
 			}
 
-			char mb[8];
-			wctomb( mb, temporary[0] );
-			result_str.push_back( mb[0] );
-			wctomb( mb, temporary[1] );
-			result_str.push_back( mb[0] );
-			wctomb( mb, temporary[2] );
-			result_str.push_back( mb[0] );
-			wctomb( mb, temporary[3] );
-			result_str.push_back( mb[0] );
+			result_str.push_back( temporary[0] );
+			result_str.push_back( temporary[1] );
+			result_str.push_back( temporary[2] );
+			result_str.push_back( temporary[3] );
 		}
 		++stream_pos;
 	}

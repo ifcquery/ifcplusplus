@@ -23,14 +23,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
-#include <ifcpp/IFC4/include/IfcCartesianPoint.h>
-#include <ifcpp/IFC4/include/IfcCurve.h>
-#include <ifcpp/IFC4/include/IfcLengthMeasure.h>
-#include <ifcpp/IFC4/include/IfcLoop.h>
-#include <ifcpp/IFC4/include/IfcPolyline.h>
-#include <ifcpp/IFC4/include/IfcTrimmingSelect.h>
-#include <ifcpp/IFC4/include/IfcVertex.h>
-#include <ifcpp/IFC4/include/IfcVertexPoint.h>
+#include <IfcCartesianPoint.h>
+#include <IfcCurve.h>
+#include <IfcLengthMeasure.h>
+#include <IfcLoop.h>
+#include <IfcPolyline.h>
+#include <IfcTrimmingSelect.h>
+#include <IfcVertex.h>
+#include <IfcVertexPoint.h>
 
 #include "IncludeCarveHeaders.h"
 
@@ -52,6 +52,7 @@ public:
 	{
 		m_unit_converter = unit_converter;
 	}
+
 	static bool convertIfcCartesianPoint( const shared_ptr<IfcCartesianPoint>& ifc_point, vec3& point, double length_factor )
 	{
 		if( !ifc_point )
@@ -61,32 +62,22 @@ public:
 		std::vector<shared_ptr<IfcLengthMeasure> >& coords1 = ifc_point->m_Coordinates;
 		if( coords1.size() > 2 )
 		{
-#ifdef ROUND_IFC_COORDINATES
-			double x = round( coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-			double y = round( coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-			double z = round( coords1[2]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-#else
 			double x = coords1[0]->m_value*length_factor;
 			double y = coords1[1]->m_value*length_factor;
 			double z = coords1[2]->m_value*length_factor;
-#endif
 			point = carve::geom::VECTOR( x, y, z );
 			return true;
 		}
 		else if( coords1.size() > 1 )
 		{
-#ifdef ROUND_IFC_COORDINATES
-			double x = round( coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-			double y = round( coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-#else
 			double x = coords1[0]->m_value*length_factor;
 			double y = coords1[1]->m_value*length_factor;
-#endif
 			point = carve::geom::VECTOR( x, y, 0.0 );
 			return true;
 		}
 		return false;
 	}
+
 	void convertIfcCartesianPointVector( const std::vector<shared_ptr<IfcCartesianPoint> >& points, std::vector<vec3>& loop ) const
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
@@ -102,26 +93,15 @@ public:
 			const std::vector<shared_ptr<IfcLengthMeasure> >& coords = ifc_cartesian_point->m_Coordinates;
 			if( coords.size() > 2 )
 			{
-#ifdef ROUND_IFC_COORDINATES
-				double x = round( coords[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-				double y = round( coords[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-				double z = round( coords[2]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-#else
 				double x = coords[0]->m_value*length_factor;
 				double y = coords[1]->m_value*length_factor;
 				double z = coords[2]->m_value*length_factor;
-#endif
 				loop.push_back( carve::geom::VECTOR( x, y, z ) );
 			}
 			else if( coords.size() > 1 )
 			{
-#ifdef ROUND_IFC_COORDINATES
-				double x = round( coords[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-				double y = round( coords[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-#else
 				double x = coords[0]->m_value*length_factor;
 				double y = coords[1]->m_value*length_factor;
-#endif
 				loop.push_back( carve::geom::VECTOR( x, y, 0.0 ) );
 			}
 			else
@@ -173,25 +153,14 @@ public:
 
 				if( coords.size() > 2 )
 				{
-#ifdef ROUND_IFC_COORDINATES
-					x = round( coords[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-					y = round( coords[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-					z = round( coords[2]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-#else
 					x = coords[0]->m_value*length_factor;
 					y = coords[1]->m_value*length_factor;
 					z = coords[2]->m_value*length_factor;
-#endif
 				}
 				else if( coords.size() > 1 )
 				{
-#ifdef ROUND_IFC_COORDINATES
-					x = round( coords[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-					y = round( coords[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP )*ROUND_IFC_COORDINATES_DOWN;
-#else
 					x = coords[0]->m_value*length_factor;
 					y = coords[1]->m_value*length_factor;
-#endif
 				}
 			}
 
@@ -225,93 +194,246 @@ public:
 			const std::vector<shared_ptr<IfcLengthMeasure> >& coords1 = pointList[ii];
 			if (coords1.size() > 2)
 			{
-#ifdef ROUND_IFC_COORDINATES
-				double x = round(coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-				double y = round(coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-				double z = round(coords1[2]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-#else
 				double x = coords1[0]->m_value*length_factor;
 				double y = coords1[1]->m_value*length_factor;
 				double z = coords1[2]->m_value*length_factor;
-#endif
 				loop.push_back(carve::geom::VECTOR(x, y, z));
 			}
 			else if (coords1.size() > 1)
 			{
-#ifdef ROUND_IFC_COORDINATES
-				double x = round(coords1[0]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-				double y = round(coords1[1]->m_value*length_factor*ROUND_IFC_COORDINATES_UP)*ROUND_IFC_COORDINATES_DOWN;
-#else
 				double x = coords1[0]->m_value*length_factor;
 				double y = coords1[1]->m_value*length_factor;
-#endif
 				loop.push_back(carve::geom::VECTOR(x, y, 0.0));
 			}
 		}
 	}
 
-	static bool convertIfcVertex( const shared_ptr<IfcVertex>& vertex, vec3& point_result, const double length_factor )
+	static bool convertIfcVertex(const shared_ptr<IfcVertex>& vertex, vec3& point_result, const double length_factor)
 	{
-		shared_ptr<IfcVertexPoint> vertex_point = dynamic_pointer_cast<IfcVertexPoint>( vertex );
+		shared_ptr<IfcVertexPoint> vertex_point = dynamic_pointer_cast<IfcVertexPoint>(vertex);
 		if( vertex_point )
 		{
 			if( vertex_point->m_VertexGeometry )
 			{
 				const shared_ptr<IfcPoint>& vertex_point_geometry = vertex_point->m_VertexGeometry;
 				// ENTITY IfcPoint ABSTRACT SUPERTYPE OF(ONEOF(IfcCartesianPoint, IfcPointOnCurve, IfcPointOnSurface))
-				shared_ptr<IfcCartesianPoint> cartesian_point = dynamic_pointer_cast<IfcCartesianPoint>( vertex_point_geometry );
+				shared_ptr<IfcCartesianPoint> cartesian_point = dynamic_pointer_cast<IfcCartesianPoint>(vertex_point_geometry);
 				if( cartesian_point )
 				{
 					if( cartesian_point->m_Coordinates.size() > 2 )
 					{
-						point_result = carve::geom::VECTOR( cartesian_point->m_Coordinates[0]->m_value*length_factor, cartesian_point->m_Coordinates[1]->m_value*length_factor, cartesian_point->m_Coordinates[2]->m_value*length_factor );
+						point_result = carve::geom::VECTOR(cartesian_point->m_Coordinates[0]->m_value * length_factor, cartesian_point->m_Coordinates[1]->m_value * length_factor, cartesian_point->m_Coordinates[2]->m_value * length_factor);
 						return true;
 					}
 					if( cartesian_point->m_Coordinates.size() > 1 )
 					{
-						point_result = carve::geom::VECTOR( cartesian_point->m_Coordinates[0]->m_value*length_factor, cartesian_point->m_Coordinates[1]->m_value*length_factor, 0.0 );
+						point_result = carve::geom::VECTOR(cartesian_point->m_Coordinates[0]->m_value * length_factor, cartesian_point->m_Coordinates[1]->m_value * length_factor, 0.0);
 						return true;
 					}
 				}
+				else
+				{
+					std::cout << "IfcVertexPoint.VertexGeometry type = " << EntityFactory::getStringForClassID(vertex_point_geometry->classID()) << std::endl;
+				}
 			}
 		}
+		else
+		{
+			std::cout << "IfcVertex type = " << EntityFactory::getStringForClassID(vertex->classID()) << std::endl;
+		}
+		
 		return false;
 	}
 
-	//\brief: returns the corresponding angle (radian, 0 is to the right) if the given point lies on the circle. If the point does not lie on the circle, -1 is returned.
-	static double getAngleOnCircle( const vec3& circle_center, double circle_radius, const vec3& trim_point )
+	static double trimPointCircleDistance(double angle, double radius, const carve::math::Matrix& circlePosition, const vec3& trimPoint)
 	{
-		double result_angle = -1.0;
-		vec3 center_trim_point = trim_point - circle_center;
-		if( std::abs( center_trim_point.length() - circle_radius ) < 0.0001 )
-		{
-			vec3 center_trim_point_direction = center_trim_point;
-			center_trim_point_direction.normalize();
-			double cos_angle = carve::geom::dot( center_trim_point_direction, vec3( carve::geom::VECTOR( 1.0, 0, 0 ) ) );
+		vec3 circlePoint = carve::geom::VECTOR(radius * cos(angle), radius * sin(angle), 0);
+		circlePoint = circlePosition * circlePoint;
+		double distance2 = (trimPoint - circlePoint).length2();
+		return distance2;
+	}
 
-			if( std::abs( cos_angle ) < 0.0001 )
+	static double regula( double x0,double x1, double fx0,double fx1)
+	{
+		return x0-((x1-x0)/(fx1-fx0))*fx0;
+	}
+
+	//\brief: returns the corresponding angle (radian, 0 is to the right) if the given point lies on the circle. If the point does not lie on the circle, -1 is returned.
+	static double getAngleOnCircle( const vec3& circleCenter, double radius, vec3& trimPoint, const carve::math::Matrix& circlePosition, const carve::math::Matrix& circlePositionInverse )
+	{
+		double resultAngle = -1.0;
+		vec3 center2trimPoint = trimPoint - circleCenter;
+		vec3 center2trimPointDirection = center2trimPoint;
+		center2trimPointDirection.normalize();
+
+		bool checkDistanceToCircleCenter = false;
+		if( checkDistanceToCircleCenter )
+		{
+			if( std::abs(center2trimPoint.length() - radius) > EPS_DEFAULT )
 			{
-				if( center_trim_point.y >= 0 )
-				{
-					result_angle = M_PI_2;
-				}
-				else if( center_trim_point.y < 0 )
-				{
-					result_angle = M_PI*1.5;
-				}
+				trimPoint = circleCenter + center2trimPointDirection * radius;
 			}
-			else
+		}
+		
+		vec3 circleCenter2D = circlePositionInverse * circleCenter;
+		vec3 trimPoint2D = circlePositionInverse * trimPoint;
+		vec3 trimPointRelative2D = trimPoint2D - circleCenter2D;
+		if( std::abs(trimPointRelative2D.z) < EPS_M4 )
+		{
+			resultAngle = atan2(trimPointRelative2D.y - circleCenter2D.y, trimPointRelative2D.x - circleCenter2D.x);
+
+			vec3 circleCenter3DCheck = circlePosition * carve::geom::VECTOR(0, 0, 0);
+			vec3 circlePoint = carve::geom::VECTOR(radius * cos(resultAngle), radius * sin(resultAngle), 0);
+			circlePoint = circlePosition * circlePoint;
+
+			vec3 check = circlePoint - trimPoint;
+			double dist = check.length();
+			if( dist < EPS_M8 )
 			{
-				if( center_trim_point.y >= 0 )
+				return resultAngle;
+			}
+		}
+		
+		{
+			// try parabola
+			double angle = resultAngle;
+			double angleStep = 0.1;
+			double x[4], y[4];
+			x[1] = resultAngle - angleStep;
+			x[2] = resultAngle;
+			x[3] = resultAngle + angleStep;
+			
+			for( size_t ii = 0; ii < 40; ++ii )
+			{
+				y[1] = trimPointCircleDistance(x[1], radius, circlePosition, trimPoint);
+				y[2] = trimPointCircleDistance(x[2], radius, circlePosition, trimPoint);
+				y[3] = trimPointCircleDistance(x[3], radius, circlePosition, trimPoint);
+
+				// zero of parabola
+				x[0] = (x[2] * x[2] * (y[3] - y[1]) - x[1] * (y[3] - y[2]) - x[3] * (y[2] - y[1])) / (2 * (x[2] * (y[3] - y[1]) - x[1] * (y[3] - y[2]) - x[3] * (y[2] - y[1])));
+				y[0] = trimPointCircleDistance(x[0], radius, circlePosition, trimPoint);
+				bool improvementFound = false;
+				
+				for( size_t jj = 1; jj <= 3; ++jj )
 				{
-					result_angle = acos( cos_angle );
+					if( y[jj] < EPS_DEFAULT )
+					{
+						resultAngle = x[jj];
+						return resultAngle;
+					}
+
+					if( y[jj] < y[0] )
+					{
+						// improvement found
+						angleStep *= 0.7;
+						x[1] = x[jj] - angleStep;
+						x[2] = x[jj];
+						x[3] = x[jj] + angleStep;
+						resultAngle = x[jj];
+						x[0] = x[jj];
+						y[0] = y[jj];
+						improvementFound = true;
+					}
 				}
-				else if( center_trim_point.y < 0 )
+
+				if( !improvementFound )
 				{
-					result_angle = 2.0*M_PI - acos( cos_angle );
+					double bestX = x[2];
+					double bestY = y[2];
+
+					if( y[1] < bestY )
+					{
+						bestX = x[1];
+						bestY = y[1];
+					}
+					if( y[3] < bestY )
+					{
+						bestX = x[3];
+						bestY = y[3];
+					}
+
+					if( angleStep < 3 )
+					{
+						angleStep += 0.03;
+					}
+					x[1] = bestX - angleStep;
+					x[2] = bestX;
+					x[3] = bestX + angleStep;
 				}
 			}
 		}
-		return result_angle;
+
+
+		double angle = resultAngle;
+		size_t smallestDistanceAngle = resultAngle;
+		double angleStep = 0.1;// deltaAngle * 0.2;
+		double x0 = smallestDistanceAngle;
+		double x1 = smallestDistanceAngle + angleStep;
+		double x2 = x1;
+		double x3 = x1;
+		double f0 = trimPointCircleDistance(x0, radius, circlePosition, trimPoint);
+		double f1 = trimPointCircleDistance(x1, radius, circlePosition, trimPoint);
+		double f2 = f1;
+		x2 = regula( x0, x1, f0, f1);
+
+		for( size_t ii = 0; ii < 40; ++ii)
+		{
+			f0 = trimPointCircleDistance(x0, radius, circlePosition, trimPoint);
+			f2 = trimPointCircleDistance(x2, radius, circlePosition, trimPoint);
+			if(  f0 < f2 )
+			{
+				// no improvement found
+				x1 = x2;
+			}
+			else
+			{
+				// improvement found
+				x0 = x2;
+				resultAngle = x2;
+			}
+
+			if( f0 < EPS_DEFAULT )
+			{
+				resultAngle = x0;
+				break;
+			}
+
+			if( f2 < EPS_DEFAULT )
+			{
+				resultAngle = x2;
+				break;
+			}
+
+			f0 = trimPointCircleDistance(x0, radius, circlePosition, trimPoint);
+			f1 = trimPointCircleDistance(x1, radius, circlePosition, trimPoint);
+			x3 = regula(x0,x1, f0, f1);
+			if(fabs(x3-x2) < EPS_M9)
+			{
+				break;
+			}
+
+			if( f0 < EPS_DEFAULT )
+			{
+				resultAngle = x0;
+				break;
+			}
+			if( f1 < EPS_DEFAULT )
+			{
+				resultAngle = x1;
+				break;
+			}
+			x2=x3;
+		}
+
+		if( resultAngle < 0 )
+		{
+			resultAngle += 2.0 * M_PI;
+		}
+		
+		if( resultAngle > 2.0*M_PI )
+		{
+			resultAngle -= 2.0 * M_PI;
+		}
+		return resultAngle;
 	}
 };

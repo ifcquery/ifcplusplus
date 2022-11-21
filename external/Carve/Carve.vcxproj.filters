@@ -96,6 +96,9 @@
     <ClCompile Include="src\common\geometry.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\lib\triangle_intersection.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\lib\csg_collector.hpp">

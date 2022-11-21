@@ -342,6 +342,7 @@
     <ClCompile Include="src\lib\shewchuk_predicates.cpp" />
     <ClCompile Include="src\lib\tag.cpp" />
     <ClCompile Include="src\lib\timing.cpp" />
+    <ClCompile Include="src\lib\triangle_intersection.cpp" />
     <ClCompile Include="src\lib\triangulator.cpp" />
   </ItemGroup>
   <ItemGroup>

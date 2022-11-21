@@ -20,7 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <exception>
 #include <string>
 #include <ifcpp/model/BasicTypes.h>
-#include <ifcpp/IFC4/include/IfcRepresentation.h>
+#include <ifcpp/IFC4X3/include/IfcRepresentationItem.h>
 
 class UnhandledRepresentationException : public std::exception
 {
@@ -28,7 +28,7 @@ public:
 	UnhandledRepresentationException()
 	{
 	}
-	UnhandledRepresentationException( shared_ptr<IfcRepresentationItem> item )
+	UnhandledRepresentationException( shared_ptr<IFC4X3::IfcRepresentationItem> item )
 	{
 		m_item = item;
 	}
@@ -42,5 +42,5 @@ public:
 		return "Unhandled IFC Representation";
 	}
 
-	shared_ptr<IfcRepresentationItem> m_item;
+	shared_ptr<IFC4X3::IfcRepresentationItem> m_item;
 };

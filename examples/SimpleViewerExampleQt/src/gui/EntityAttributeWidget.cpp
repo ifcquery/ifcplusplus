@@ -158,7 +158,7 @@ void EntityAttributeWidget::appendAttributeChildren( shared_ptr<BuildingObject>&
 			continue;
 		}
 
-		const char* class_name = attribute_value->className();
+		const char* class_name = EntityFactory::getStringForClassID(attribute_value->classID());
 		item->setToolTip( 1, class_name );
 
 		shared_ptr<IfcCartesianPoint> cartesian_point = dynamic_pointer_cast<IfcCartesianPoint>( attribute_value );
@@ -322,7 +322,7 @@ void EntityAttributeWidget::appendAttributeChildren( shared_ptr<BuildingObject>&
 		{
 			if( attribute_vec->m_vec.size() > 0 )
 			{
-				const char* vec_content_type = attribute_vec->m_vec[0]->className();
+				const char* vec_content_type = EntityFactory::getStringForClassID(attribute_vec->m_vec[0]->classID());
 				item->setText( 1, QString( vec_content_type ) +"[" + QString::number( attribute_vec->m_vec.size() ) + "]" );
 				item->setForeground( 1, QBrush( Qt::blue ) );
 				item->setChildIndicatorPolicy( QTreeWidgetItem::ShowIndicator );
@@ -349,7 +349,7 @@ void EntityAttributeWidget::appendAttributeChildren( shared_ptr<BuildingObject>&
 			}
 			if( !use_to_string )
 			{
-				item->setText( 1, attribute_entity->className() );
+				item->setText( 1, EntityFactory::getStringForClassID(attribute_entity->classID()) );
 			}
 			item->setForeground( 1, QBrush( Qt::blue ) );
 			continue;
@@ -369,7 +369,7 @@ void EntityAttributeWidget::appendAttributeChildren( shared_ptr<BuildingObject>&
 			if( attribute_value )
 			{
 				std::stringstream strs;
-				strs << attribute_value->className();
+				strs << EntityFactory::getStringForClassID(attribute_value->classID());
 				item->setText( 1, strs.str().c_str() );
 			}
 		}
@@ -421,7 +421,7 @@ void EntityAttributeWidget::slotObjectsSelected( std::map<std::string, shared_pt
 	ScopedBlockSignals block( m_tree_widget, m_block_counter );
 	
 	QTreeWidgetItem* root_item = new QTreeWidgetItem();
-	root_item->setText( 0, m_current_root->className() );
+	root_item->setText( 0, EntityFactory::getStringForClassID(m_current_root->classID()) );
 	root_item->setFlags(root_item->flags() | Qt::ItemIsEditable);
 	m_tree_widget->addTopLevelItem( root_item );
 	m_current_item = root_item;

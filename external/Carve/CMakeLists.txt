@@ -51,6 +51,7 @@ SET(CARVE_SOURCE_FILES
   src/lib/shewchuk_predicates.cpp
   src/lib/tag.cpp
   src/lib/timing.cpp
+  src/lib/triangle_intersection.cpp
   src/lib/triangulator.cpp
   src/common/geometry.cpp  
 )
@@ -63,7 +64,8 @@ ENDIF()
 
 # Use this to request C++11 features. Dependent targets will transitively get
 # this requirement as well.
-TARGET_COMPILE_FEATURES(carve PUBLIC cxx_auto_type)
+#TARGET_COMPILE_FEATURES(carve PUBLIC cxx_auto_type)
+set(CMAKE_CXX_STANDARD 17)
 
 set_target_properties(carve PROPERTIES DEBUG_POSTFIX "d")
 

@@ -21,32 +21,32 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
-#include <ifcpp/IFC4/include/IfcArbitraryClosedProfileDef.h>
-#include <ifcpp/IFC4/include/IfcArbitraryOpenProfileDef.h>
-#include <ifcpp/IFC4/include/IfcArbitraryProfileDefWithVoids.h>
-#include <ifcpp/IFC4/include/IfcAsymmetricIShapeProfileDef.h>
-#include <ifcpp/IFC4/include/IfcBoundedCurve.h>
-#include <ifcpp/IFC4/include/IfcCartesianTransformationOperator2D.h>
-#include <ifcpp/IFC4/include/IfcCenterLineProfileDef.h>
-#include <ifcpp/IFC4/include/IfcCircleHollowProfileDef.h>
-#include <ifcpp/IFC4/include/IfcCompositeProfileDef.h>
-#include <ifcpp/IFC4/include/IfcCShapeProfileDef.h>
-#include <ifcpp/IFC4/include/IfcDerivedProfileDef.h>
-#include <ifcpp/IFC4/include/IfcEllipseProfileDef.h>
-#include <ifcpp/IFC4/include/IfcIShapeProfileDef.h>
-#include <ifcpp/IFC4/include/IfcLShapeProfileDef.h>
-#include <ifcpp/IFC4/include/IfcNonNegativeLengthMeasure.h>
-#include <ifcpp/IFC4/include/IfcParameterizedProfileDef.h>
-#include <ifcpp/IFC4/include/IfcPlaneAngleMeasure.h>
-#include <ifcpp/IFC4/include/IfcPositiveLengthMeasure.h>
-#include <ifcpp/IFC4/include/IfcProfileDef.h>
-#include <ifcpp/IFC4/include/IfcRectangleProfileDef.h>
-#include <ifcpp/IFC4/include/IfcRectangleHollowProfileDef.h>
-#include <ifcpp/IFC4/include/IfcRoundedRectangleProfileDef.h>
-#include <ifcpp/IFC4/include/IfcTrapeziumProfileDef.h>
-#include <ifcpp/IFC4/include/IfcTShapeProfileDef.h>
-#include <ifcpp/IFC4/include/IfcUShapeProfileDef.h>
-#include <ifcpp/IFC4/include/IfcZShapeProfileDef.h>
+#include <IfcArbitraryClosedProfileDef.h>
+#include <IfcArbitraryOpenProfileDef.h>
+#include <IfcArbitraryProfileDefWithVoids.h>
+#include <IfcAsymmetricIShapeProfileDef.h>
+#include <IfcBoundedCurve.h>
+#include <IfcCartesianTransformationOperator2D.h>
+#include <IfcCenterLineProfileDef.h>
+#include <IfcCircleHollowProfileDef.h>
+#include <IfcCompositeProfileDef.h>
+#include <IfcCShapeProfileDef.h>
+#include <IfcDerivedProfileDef.h>
+#include <IfcEllipseProfileDef.h>
+#include <IfcIShapeProfileDef.h>
+#include <IfcLShapeProfileDef.h>
+#include <IfcNonNegativeLengthMeasure.h>
+#include <IfcParameterizedProfileDef.h>
+#include <IfcPlaneAngleMeasure.h>
+#include <IfcPositiveLengthMeasure.h>
+#include <IfcProfileDef.h>
+#include <IfcRectangleProfileDef.h>
+#include <IfcRectangleHollowProfileDef.h>
+#include <IfcRoundedRectangleProfileDef.h>
+#include <IfcTrapeziumProfileDef.h>
+#include <IfcTShapeProfileDef.h>
+#include <IfcUShapeProfileDef.h>
+#include <IfcZShapeProfileDef.h>
 
 #include "IncludeCarveHeaders.h"
 #include "PointConverter.h"
@@ -1022,6 +1022,7 @@ public:
 
 		messageCallback( "Profile not supported", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, profile.get() );
 	}
+
 	static void deleteLastPointIfEqualToFirst( std::vector<vec2>& coords )
 	{
 		while( coords.size() > 2 )
@@ -1040,10 +1041,12 @@ public:
 			break;
 		}
 	}
+
 	void simplifyPaths()
 	{
 		simplifyPaths( m_paths );
 	}
+
 	static void simplifyPaths( std::vector<std::vector<vec2> >& paths )
 	{
 		for( std::vector<std::vector<vec2> >::iterator it_paths = paths.begin(); it_paths != paths.end(); ++it_paths )
@@ -1056,6 +1059,7 @@ public:
 			simplifyPath( path );
 		}
 	}
+
 	static void simplifyPath( std::vector<vec2>& path )
 	{
 		if( path.size() < 3 )
@@ -1122,6 +1126,7 @@ public:
 			}
 		}
 	}
+	
 	void addArc( std::vector<vec2>& coords, double radius, double start_angle, double opening_angle, double x_center, double y_center, int num_segments = 4 ) const
 	{
 		const shared_ptr<GeometrySettings>& gs = m_curve_converter->getGeomSettings();
@@ -1175,6 +1180,7 @@ public:
 			coords.push_back( carve::geom::VECTOR( x, y ) );
 		}
 	}
+
 	static void mirrorCopyPathReverse( std::vector<vec2>& coords, bool mirror_on_y_axis, bool mirror_on_x_axis )
 	{
 		int points_count = coords.size();

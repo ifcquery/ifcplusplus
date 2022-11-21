@@ -15,26 +15,41 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include <set>
-#include <vector>
-#include <map>
 #include <cstring>
-#include <string>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <map>
+#include <set>
+#include <string>
+#include <vector>
 
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/BuildingModel.h>
 #include <ifcpp/model/BuildingException.h>
 #include <ifcpp/model/OpenMPIncludes.h>
 #include <ifcpp/model/UnknownEntityException.h>
-#include <ifcpp/IFC4/EntityFactory.h>
-#include <ifcpp/IFC4/include/IfcBuilding.h>
-#include <ifcpp/IFC4/include/IfcBuildingStorey.h>
-#include <ifcpp/IFC4/include/IfcProject.h>
-#include <ifcpp/IFC4/include/IfcRelAggregates.h>
-#include <ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h>
-#include <ifcpp/IFC4/include/IfcSite.h>
+#include <ifcpp/IFC4X3/EntityFactory.h>
+#include <IfcBuilding.h>
+#include <IfcBuildingStorey.h>
+#include <IfcColour.h>
+#include <IfcColourOrFactor.h>
+#include <IfcColourRgb.h>
+#include <IfcCurveStyle.h>
+#include <IfcFillAreaStyle.h>
+#include <IfcLabel.h>
+#include <IfcNormalisedRatioMeasure.h>
+#include <IfcPresentationStyle.h>
+#include <IfcPresentationStyleAssignment.h>
+#include <IfcProject.h>
+#include <IfcRelAggregates.h>
+#include <IfcRelContainedInSpatialStructure.h>
+#include <IfcSite.h>
+#include <IfcStyledItem.h>
+#include <IfcSurfaceStyle.h>
+#include <IfcSurfaceStyleElementSelect.h>
+#include <IfcSurfaceStyleRendering.h>
+#include <IfcTextStyle.h>
 
 #ifdef _MSC_VER
 #include <windows.h>
@@ -42,11 +57,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <external/XUnzip.h>
 #endif
 
+#include "ifcpp/model/OpenMPIncludes.h"
 #include "ReaderUtil.h"
 #include "ReaderSTEP.h"
 
+#if defined(_OPENMP)
+	#ifndef ENABLE_OPENMP
+		#define ENABLE_OPENMP
+	#endif
+#endif
 
-bool unzipFile(const std::wstring& filePathIn, std::string& bufferResult)
+using namespace IFC4X3;
+
+bool unzipFile(const std::string& filePathIn, std::string& bufferResult)
 {
 	bool bRet = false;
 #ifdef _MSC_VER
@@ -98,28 +121,22 @@ bool unzipFile(const std::wstring& filePathIn, std::string& bufferResult)
 ReaderSTEP::ReaderSTEP()= default;
 ReaderSTEP::~ReaderSTEP()= default;
 
-void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<BuildingModel>& targetModel )
+void ReaderSTEP::loadModelFromFile( const std::string& filePath, shared_ptr<BuildingModel>& targetModel )
 {
 	// if file content needs to be loaded into a plain model, call resetModel() before loadModelFromFile
-	size_t posDot = filePath.find_last_of(L".");
-	if( filePath.size() < posDot + 3 || posDot > filePath.size() )
-	{
-		messageCallback("not an .ifc file", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
-		return;
-	}
-	std::wstring ext = filePath.substr(posDot + 1);
+	std::string ext = getFileExtension(filePath);
 	
-	if( std_iequal( ext, L"ifc" ) )
+	if( std_iequal( ext, ".ifc" ) )
 	{
 		// ok, nothing to do here
 	}
-	else if( std_iequal( ext, L"ifcXML" ) )
+	else if( std_iequal( ext, ".ifcXML" ) )
 	{
 		// TODO: implement xml reader
 		messageCallback( "ifcXML not yet implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
-	else if( std_iequal( ext, L"ifcZIP" ) || std_iequal(ext, L"zip") )
+	else if( std_iequal( ext, ".ifcZIP" ) || std_iequal(ext, ".zip") )
 	{
 		std::string buffer;
 		unzipFile(filePath, buffer);
@@ -132,7 +149,7 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 	else
 	{
-		std::wstringstream strs;
+		std::stringstream strs;
 		strs << "Unsupported file type: " << ext;
 		messageCallback( strs.str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
@@ -140,25 +157,19 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 
 	// open file
 	setlocale(LC_ALL, "");
-	size_t len = filePath.length();
-	char* buf = new char[(len + 1) * 6];
-	std::wcstombs(buf, filePath.c_str(), (len + 1) * 6);
-	std::string filePathStr = buf;
-	delete[] buf;
-
 	std::ifstream infile;
-	infile.open(filePathStr.c_str(), std::ifstream::in);
+	infile.open(filePath.c_str(), std::ifstream::in);
 
 	if( !infile.is_open() )
 	{
-		std::wstringstream strs;
+		std::stringstream strs;
 		strs << "Could not open file: " << filePath.c_str();
 		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
 
 	// get length of file content
-	infile.imbue(std::locale("C"));
+	infile.imbue(std::locale(""));
 	std::streampos file_size = infile.tellg();
 	infile.seekg( 0, std::ios::end );
 	file_size = infile.tellg() - file_size;
@@ -182,7 +193,7 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 			loadModelFromString(buffer, targetModel);
 			return;
 		}
-		
+
 		messageCallback("Not a valid IFC file", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
 		return;
 	}
@@ -192,7 +203,7 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 
 void ReaderSTEP::loadModelFromString( std::string& content, shared_ptr<BuildingModel>& targetModel)
 {
-	progressTextCallback( L"Reading file..." );
+	progressTextCallback( "Reading file..." );
 	progressValueCallback( 0, "parse" );
 	try
 	{
@@ -203,11 +214,7 @@ void ReaderSTEP::loadModelFromString( std::string& content, shared_ptr<BuildingM
 		targetModel->updateCache();
 
 		// currently generated IFC classes are IFC4X1, files with older versions are converted. So after loading, the schema is always IFC4X1
-		targetModel->m_ifc_schema_version_current = BuildingModel::IFC4X1;
-	}
-	catch( OutOfMemoryException& e)
-	{
-		throw e;
+		targetModel->m_ifc_schema_version_current = BuildingModel::IFC4X3;
 	}
 	catch( BuildingException& e )
 	{
@@ -280,10 +287,10 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 		throw BuildingException( "Model not set.", __FUNC__ );
 	}
 
-	target_model->m_file_header = L"";
-	target_model->m_IFC_FILE_DESCRIPTION = L"";
-	target_model->m_IFC_FILE_NAME = L"";
-	
+	target_model->m_file_header = "";
+	target_model->m_IFC_FILE_DESCRIPTION = "";
+	target_model->m_IFC_FILE_NAME = "";
+
 	size_t file_header_start = read_in.find("HEADER;");
 	size_t file_header_end = read_in.find("ENDSEC;");
 	if( file_header_start == std::string::npos || file_header_end == std::string::npos )
@@ -295,21 +302,21 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 	file_header_start += 7;
 	std::string file_header = read_in.substr( file_header_start, file_header_end - file_header_start );
 	std::vector<std::string> vec_header;
-	std::vector<std::wstring> vec_header_wstr;
+	std::vector<std::string> vec_header_wstr;
 	vec_header.emplace_back( file_header );
 	decodeArgumentStrings( vec_header, vec_header_wstr );
-	
-	std::wstring file_header_wstr;
+
+	std::string file_header_wstr;
 	if( !vec_header_wstr.empty() )
 	{
 		file_header_wstr = vec_header_wstr[0];
 	}
 	target_model->setFileHeader( file_header_wstr );
-	
-	std::vector<std::wstring> vec_header_lines;
+
+	std::vector<std::string> vec_header_lines;
 	// split into lines
-	const wchar_t* stream_pos = &file_header_wstr[0];
-	const wchar_t* last_token = stream_pos;
+	const char* stream_pos = &file_header_wstr[0];
+	const char* last_token = stream_pos;
 
 	if( stream_pos == nullptr )
 	{
@@ -320,14 +327,14 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 	{
 		if( *stream_pos == '\'' )
 		{
-			findEndOfWString( stream_pos );
+			findEndOfString( stream_pos );
 			continue;
 		}
 
 		if( *stream_pos == ';' )
 		{
-			const wchar_t* begin_line = last_token;
-			std::wstring single_step_line( begin_line, stream_pos-last_token );
+			const char* begin_line = last_token;
+			std::string single_step_line( begin_line, stream_pos-last_token );
 			vec_header_lines.push_back( single_step_line );
 
 			++stream_pos;
@@ -341,26 +348,26 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 
 	for(auto header_line : vec_header_lines)
 	{
-		if( header_line.find(L"FILE_DESCRIPTION") != std::string::npos )
+		if( header_line.find("FILE_DESCRIPTION") != std::string::npos )
 		{
 			target_model->setFileDescription( header_line );
 			continue;
 		}
 
-		if( header_line.find(L"FILE_NAME") != std::string::npos )
+		if( header_line.find("FILE_NAME") != std::string::npos )
 		{
 			target_model->setFileName( header_line );
 			continue;
 		}
 
-		if( header_line.find(L"FILE_SCHEMA") != std::string::npos )
+		if( header_line.find("FILE_SCHEMA") != std::string::npos )
 		{
-			size_t file_schema_begin = header_line.find(L"FILE_SCHEMA") + 11;
+			size_t file_schema_begin = header_line.find("FILE_SCHEMA") + 11;
 
-			std::wstring file_schema_args = header_line.substr( 11 );
-			size_t find_whitespace = file_schema_args.find(L' ');
+			std::string file_schema_args = header_line.substr( 11 );
+			size_t find_whitespace = file_schema_args.find(' ');
 			while(find_whitespace != std::string::npos){ file_schema_args.erase(find_whitespace,1); find_whitespace = file_schema_args.find(L' '); }
-			
+
 			if( file_schema_args.empty() )
 			{
 				continue;
@@ -378,32 +385,36 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 			{
 				file_schema_args = file_schema_args.substr( 1, file_schema_args.size()-2 );
 			}
-			
+
 			std::transform(file_schema_args.begin(), file_schema_args.end(), file_schema_args.begin(), ::toupper);
 
-			if( file_schema_args.substr(0,6).compare(L"IFC2X2") == 0 )
+			if( file_schema_args.substr(0,6).compare( "IFC2X2") == 0 )
 			{
 				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X2;
 			}
-			else if( file_schema_args.substr(0,6).compare(L"IFC2X3") == 0 )
+			else if( file_schema_args.substr(0,6).compare( "IFC2X3") == 0 )
 			{
 				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X3;
 			}
-			else if( file_schema_args.substr(0,6).compare(L"IFC2X4") == 0 )
+			else if( file_schema_args.substr(0,6).compare( "IFC2X4") == 0 )
 			{
 				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X4;
 			}
-			else if( file_schema_args.substr( 0, 5 ).compare( L"IFC2X" ) == 0 )
+			else if( file_schema_args.substr( 0, 5 ).compare( "IFC2X" ) == 0 )
 			{
 				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X;
 			}
-			else if( file_schema_args.compare( L"IFC4" ) == 0 )
+			else if( file_schema_args.compare( "IFC4" ) == 0 )
 			{
 				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC4;
 			}
-			else if (file_schema_args.compare(L"IFC4X1") == 0)
+			else if (file_schema_args.compare( "IFC4X1") == 0)
 			{
 				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC4X1;
+			}
+			else if (file_schema_args.compare( "IFC4X3") == 0)
+			{
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC4X3;
 			}
 			else
 			{
@@ -436,7 +447,7 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 	// skip whitespaces
 	stream_pos += 5;
 	while( isspace(*stream_pos) ){ ++stream_pos; }
-	
+
 
 	// find the first data line
 	while( *stream_pos != '\0' )
@@ -541,7 +552,7 @@ void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std:
 	double progress = 0.2;
 	double last_progress = 0.2;
 	const int num_lines = static_cast<int>(step_lines.size());
-	
+
 	target_entity_vec.resize( num_lines );
 	std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >* target_vec_ptr = &target_entity_vec;
 	const std::vector<std::string>* step_lines_ptr = &step_lines;
@@ -557,7 +568,7 @@ void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std:
 		{
 			const std::string& step_line = (*step_lines_ptr)[i];
 			std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_obj = (*target_vec_ptr)[i];
-			
+
 			// read lines: #1234=IFCOBJECTNAME(...,...,(...,...),...)
 			try
 			{
@@ -568,30 +579,36 @@ void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std:
 				std::string step_line_fix = step_line;
 				std::string unknown_keyword = e.m_keyword;
 
-				if( unknown_keyword.compare( "IFC2DCOMPOSITECURVE" ) == 0 )
+				std::map<std::string, std::string > mapFindReplaceTypes;
+ 				mapFindReplaceTypes["IFC2DCOMPOSITECURVE"] = "IFCCOMPOSITECURVE";
+				mapFindReplaceTypes["IFCELECTRICDISTRIBUTIONPOINT"] = "IFCFLOWCONTROLLER";
+				// IfcElectricDistributionPoint	DELETED   ->  IfcFlowController
+
+				for( auto it : mapFindReplaceTypes )
 				{
-					size_t pos_find = step_line_fix.find( "IFC2DCOMPOSITECURVE" );
-					step_line_fix = step_line_fix.erase( pos_find + 3, 2 );
-				
+					const std::string& find1 = it.first;
+					const std::string& replace1 = it.second;
+
+					size_t pos1 = step_line_fix.find(find1);
+					if( pos1 != std::string::npos )
+					{
+						step_line_fix.replace(pos1, find1.size(), replace1);
+					}
+				}
+
+				if( step_line_fix.compare( step_line ) != 0 )
+				{
 					try
 					{
 						readSingleStepLine( step_line_fix, entity_read_obj );
+						continue;
 					}
 					catch( UnknownEntityException& )
 					{
-						if( unkown_entities.find( unknown_keyword ) == unkown_entities.end() )
-						{
-#ifdef ENABLE_OPENMP
-#pragma omp critical
-#endif
-							{
-								unkown_entities.insert( unknown_keyword );
-								err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
-							}
-						}
+
 					}
 				}
-				else
+
 				{
 					if( unkown_entities.find( unknown_keyword ) == unkown_entities.end() )
 					{
@@ -624,10 +641,13 @@ void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std:
 #ifdef ENABLE_OPENMP
 	}
 #endif
-	
+
 	if( err_unknown_entity.tellp() > 0 )
 	{
-		throw UnknownEntityException( err_unknown_entity.str() );
+		shared_ptr<Message> m( new Message() );
+		m->m_message_text = err_unknown_entity.str();
+		m->m_message_type = StatusCallback::MESSAGE_TYPE_WARNING;
+		messageCallback(m);
 	}
 }
 
@@ -670,7 +690,7 @@ void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::str
 		}
 	}
 
-	const int entity_id = atoi( std::string( begin_id, stream_pos - begin_id ).c_str() );
+	const int tag = atoi( std::string( begin_id, stream_pos - begin_id ).c_str() );
 
 	// skip whitespace
 	while( isspace( *stream_pos ) ) { ++stream_pos; }
@@ -713,11 +733,11 @@ void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::str
 		messageCallback( strs.str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
-	
+
 	shared_ptr<BuildingEntity> obj( EntityFactory::createEntityObject( entity_name_upper ) );
 	if( obj )
 	{
-		obj->m_entity_id = entity_id;
+		obj->m_tag = tag;
 		target_read_object.second = obj;
 		size_t sub_length = line.size() - (stream_pos - line.c_str());
 		std::string entity_arg( stream_pos, sub_length );
@@ -729,7 +749,7 @@ void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::str
 	}
 }
 
-void ReaderSTEP::readEntityArguments( const std::wstring& ifc_version, const std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities,  const std::map<int,shared_ptr<BuildingEntity> >& map_entities  )
+void ReaderSTEP::readEntityArguments( const std::string& ifc_version, const std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities,  const std::map<int,shared_ptr<BuildingEntity> >& map_entities  )
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
@@ -742,8 +762,11 @@ void ReaderSTEP::readEntityArguments( const std::wstring& ifc_version, const std
 	double last_progress = 0.3;
 	const std::map<int,shared_ptr<BuildingEntity> >* map_entities_ptr = &map_entities;
 	const std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >* vec_entities_ptr = &vec_entities;
-
 	bool canceled = isCanceled();
+
+#ifdef _DEBUG
+	std::set<std::string> setClassesWithAdjustedArguments;
+#endif
 
 #ifdef ENABLE_OPENMP
 #pragma omp parallel firstprivate(num_objects) shared(map_entities_ptr,vec_entities_ptr)
@@ -760,63 +783,177 @@ void ReaderSTEP::readEntityArguments( const std::wstring& ifc_version, const std
 			{
 				continue;
 			}
-			
+
 			const std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_object = (*vec_entities_ptr)[i];
 			const shared_ptr<BuildingEntity>& entity = entity_read_object.second;
 			if( !entity )
 			{
 				continue;
 			}
+			std::stringstream errorStream;
 			const std::string& argument_str = entity_read_object.first;
-			std::vector<std::string> arguments;
-			std::vector<std::wstring> arguments_w;
-			tokenizeEntityArguments( argument_str, arguments );
+			std::vector<std::string> arguments_raw;
+			tokenizeEntityArguments( argument_str, arguments_raw );
 
 			// character decoding:
-			decodeArgumentStrings( arguments, arguments_w );
+			std::vector<std::string> arguments_decoded;
+			decodeArgumentStrings( arguments_raw, arguments_decoded );
 
-			if( ifc_version.compare( L"IFC4X1" ) != 0 )
+
+			const size_t num_expected_arguments = entity->getNumAttributes();
+			if( entity->classID() == IFCCOLOURRGB )
 			{
-				size_t num_expected_arguments = entity->getNumAttributes();
-				if( num_expected_arguments != arguments_w.size() )
+				if( arguments_decoded.size() < num_expected_arguments )
 				{
-					while( arguments_w.size() > num_expected_arguments ) { arguments_w.pop_back(); }
-					while( arguments_w.size() < num_expected_arguments ) { arguments_w.emplace_back( L"$" ); }
+					arguments_decoded.insert(arguments_decoded.begin(), "$");
+				}
+			}
+			else if( entity->classID() == IFCPRESENTATIONSTYLEASSIGNMENT )
+			{
+				if( num_expected_arguments > arguments_decoded.size() )
+				{
+					arguments_decoded.insert(arguments_decoded.begin(), "$");
+				}
+			}
+			else if( entity->classID() == IFCTRIANGULATEDFACESET )
+			{
+				// IFC4: second argument: Closed : OPTIONAL IfcBoolean;
+				// Coordinates : IfcCartesianPointList3D;
+				// Normals : OPTIONAL LIST [1:?] OF LIST [3:3] OF IfcParameterValue;
+				// Closed : OPTIONAL IfcBoolean;
+				// CoordIndex : LIST [1:?] OF LIST [3:3] OF IfcPositiveInteger;
+				// PnIndex : OPTIONAL LIST [1:?] OF IfcPositiveInteger;
+
+				// IFC4X3 arguments:
+				// Coordinates : IfcCartesianPointList3D;
+				// Closed : OPTIONAL IfcBoolean;
+				// Normals : OPTIONAL LIST [1:?] OF LIST [3:3] OF IfcParameterValue;
+				// CoordIndex : LIST [1:?] OF LIST [3:3] OF IfcPositiveInteger;
+				// PnIndex : OPTIONAL LIST [1:?] OF IfcPositiveInteger;
+
+				if( arguments_decoded.size() > 2 )
+				{
+					if( arguments_decoded[2].compare(".T.") == 0 || arguments_decoded[2].compare(".F.") == 0 )
+					{
+						std::swap(arguments_decoded[2], arguments_decoded[1]);
+					}
 				}
 			}
 
-			if( std::string( entity->className() ).compare( "IfcColourRGB" ) == 0 )
+			if( num_expected_arguments != arguments_decoded.size() )
 			{
-				if( arguments_w.size() < 4 )
+				while( arguments_decoded.size() > num_expected_arguments ) { arguments_decoded.pop_back(); }
+				while( arguments_decoded.size() < num_expected_arguments ) { arguments_decoded.emplace_back("$"); }
+#ifdef _DEBUG
+				std::string className = EntityFactory::getStringForClassID(entity->classID());
+				if( setClassesWithAdjustedArguments.find(className) == setClassesWithAdjustedArguments.end() )
 				{
-					arguments_w.insert( arguments_w.begin(), L"$" );
+					//std::cout << "adjusted number of arguments for entity #" << entity->m_tag << "=" << className << std::endl;
+					setClassesWithAdjustedArguments.insert(className);
 				}
+#endif
 			}
 
 			try
 			{
-				entity->readStepArguments( arguments_w, map_entities_ptr_local );
+				entity->readStepArguments(arguments_decoded, map_entities_ptr_local, errorStream);
+
+				if( entity->classID() == IFCSTYLEDITEM )
+				{
+					int tag = entity->m_tag;
+					shared_ptr<IfcStyledItem> styledItem = dynamic_pointer_cast<IfcStyledItem>(entity);
+					if( styledItem )
+					{
+						std::vector<shared_ptr<IfcPresentationStyle> >			vec_presentationStylesReplaced;
+						for( shared_ptr<IfcPresentationStyle>& presentationStyle : styledItem->m_Styles )
+						{
+							if( !presentationStyle )
+							{
+								continue;
+							}
+
+							shared_ptr<IfcPresentationStyleAssignment> presentationStyleAssignment = dynamic_pointer_cast<IfcPresentationStyleAssignment>(presentationStyle);
+							if( presentationStyleAssignment )
+							{
+								// IFCPRESENTATIONSTYLEASSIGNMENT has been removed in IFC4X3
+								// old:    IfcRepresentationItem  <- IFCSTYLEDITEM ->  IFCPRESENTATIONSTYLEASSIGNMENT -> IFCSURFACESTYLE
+								// new      IfcRepresentationItem  <- IFCSTYLEDITEM ->     [x]   ->      IFCSURFACESTYLE
+
+								for( shared_ptr<IfcPresentationStyle>& presentationStyle : presentationStyleAssignment->m_Styles )
+								{
+									if( !presentationStyle )
+									{
+										continue;
+									}
+
+									//ENTITY IfcPresentationStyle ABSTRACT SUPERTYPE OF (ONEOF (IfcCurveStyle ,IfcFillAreaStyle ,IfcSurfaceStyle ,IfcTextStyle));
+
+									shared_ptr<IfcSurfaceStyle> surfaceStyle = dynamic_pointer_cast<IfcSurfaceStyle>(presentationStyle);
+									if( surfaceStyle )
+									{
+										vec_presentationStylesReplaced.push_back(surfaceStyle);
+										continue;
+									}
+
+									shared_ptr<IfcCurveStyle> curveStyle = dynamic_pointer_cast<IfcCurveStyle>(presentationStyle);
+									if( curveStyle )
+									{
+										vec_presentationStylesReplaced.push_back(curveStyle);
+										continue;
+									}
+
+									shared_ptr<IfcFillAreaStyle> fillAreaStyle = dynamic_pointer_cast<IfcFillAreaStyle>(presentationStyle);
+									if( fillAreaStyle )
+									{
+										vec_presentationStylesReplaced.push_back(fillAreaStyle);
+										continue;
+									}
+
+									shared_ptr<IfcTextStyle> textStyle = dynamic_pointer_cast<IfcTextStyle>(presentationStyle);
+									if( textStyle )
+									{
+										vec_presentationStylesReplaced.push_back(textStyle);
+										continue;
+									}
+								}
+								continue;
+							}
+
+							vec_presentationStylesReplaced.push_back(presentationStyle);
+						}
+
+						styledItem->m_Styles = vec_presentationStylesReplaced;
+					}
+				}
 			}
 			catch( std::exception& e )
 			{
 #ifdef ENABLE_OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->m_entity_id << "=" << entity->className() << ": " << e.what();
+				err << "#" << entity->m_tag << "=" << EntityFactory::getStringForClassID( entity->classID() ) << ": " << e.what();
 			}
 			catch( std::exception* e )
 			{
 #ifdef ENABLE_OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->m_entity_id << "=" << entity->className() << ": " << e->what();
+				err << "#" << entity->m_tag << "=" << EntityFactory::getStringForClassID( entity->classID() ) << ": " << e->what();
 			}
 			catch(...)
 			{
 #ifdef ENABLE_OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->m_entity_id << "=" << entity->className() << " readStepData: error occurred" << std::endl;
+				err << "#" << entity->m_tag << "=" << EntityFactory::getStringForClassID( entity->classID() ) << " readStepData: error occurred" << std::endl;
+			}
+
+			if( errorStream.tellp() > 0 )
+			{
+#ifdef ENABLE_OPENMP
+#pragma omp critical
+#endif
+				err << errorStream.str();
 			}
 
 			if( i%10 == 0 )
@@ -846,7 +983,7 @@ void ReaderSTEP::readEntityArguments( const std::wstring& ifc_version, const std
 			}
 		}
 	}   // implicic barrier
-	
+
 	if( err.tellp() > 0 )
 	{
 		messageCallback( err.str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
@@ -855,31 +992,31 @@ void ReaderSTEP::readEntityArguments( const std::wstring& ifc_version, const std
 
 void ReaderSTEP::readData( std::string& read_in, shared_ptr<BuildingModel>& model )
 {
-	std::wstring file_schema_version = model->getIfcSchemaVersionOfLoadedFile();
+	std::string file_schema_version = model->getIfcSchemaVersionOfLoadedFile();
 	std::map<int, shared_ptr<BuildingEntity> >& map_entities = model->m_map_entities;
 	readData( read_in, file_schema_version, map_entities );
 }
 
-void ReaderSTEP::readData(	std::string& read_in, const std::wstring& ifc_version, std::map<int, shared_ptr<BuildingEntity> >& target_map )
+void ReaderSTEP::readData(	std::string& read_in, const std::string& ifc_version, std::map<int, shared_ptr<BuildingEntity> >& target_map )
 {
 	std::string current_numeric_locale(setlocale(LC_NUMERIC, nullptr));
 	setlocale(LC_NUMERIC,"C");
 
-	if( ifc_version.compare( L"IFC_VERSION_UNDEFINED" ) == 0 || ifc_version.compare( L"IFC_VERSION_UNKNOWN" ) == 0 )
+	if( ifc_version.compare( "IFC_VERSION_UNDEFINED" ) == 0 || ifc_version.compare( "IFC_VERSION_UNKNOWN" ) == 0 )
 	{
-		std::wstring error_message;
-		error_message.append( L"Unsupported IFC version: " );
+		std::string error_message;
+		error_message.append( "Unsupported IFC version: " );
 		error_message.append( ifc_version );
 		messageCallback( error_message, StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		progressValueCallback(0.0, "parse");
 		return;
 	}
-	
+
 	if( read_in.empty() )
 	{
 		return;
 	}
-	messageCallback( std::wstring( L"Detected IFC version: ") + ifc_version, StatusCallback::MESSAGE_TYPE_GENERAL_MESSAGE, "" );
+	messageCallback( std::string( "Detected IFC version: ") + ifc_version, StatusCallback::MESSAGE_TYPE_GENERAL_MESSAGE, "" );
 
 	std::stringstream err;
 	std::vector<std::string> step_lines;
@@ -897,10 +1034,6 @@ void ReaderSTEP::readData(	std::string& read_in, const std::wstring& ifc_version
 	{
 		std::string unknown_keyword = e.m_keyword;
 		err << __FUNC__ << ": unknown entity: " << unknown_keyword.c_str() << std::endl;
-	}
-	catch( OutOfMemoryException& e)
-	{
-		throw e;
 	}
 	catch( BuildingException& e )
 	{
@@ -923,17 +1056,13 @@ void ReaderSTEP::readData(	std::string& read_in, const std::wstring& ifc_version
 
 		if( entity ) // skip aborted entities
 		{
-			target_map.insert( std::make_pair( entity->m_entity_id, entity ) );
+			target_map.insert( std::make_pair( entity->m_tag, entity ) );
 		}
 	}
 
 	try
 	{
 		readEntityArguments( ifc_version, vec_entities, target_map );
-	}
-	catch( OutOfMemoryException& e)
-	{
-		throw e;
 	}
 	catch( BuildingException& e )
 	{

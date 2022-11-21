@@ -470,7 +470,7 @@ public:
 		{
 			return;
 		}
-		const int product_id = ifc_product->m_entity_id;
+		const int product_id = ifc_product->m_tag;
 		std::stringstream strs_product_switch_name;
 		strs_product_switch_name << "#" << product_id << "=" << ifc_product->className() << " group";
 
@@ -484,7 +484,7 @@ public:
 				continue;
 			}
 			shared_ptr<IfcRepresentation> ifc_representation( product_representation_data->m_ifc_representation );
-			const int representation_id = ifc_representation->m_entity_id;
+			const int representation_id = ifc_representation->m_tag;
 			osg::ref_ptr<osg::Switch> representation_switch = new osg::Switch();
 			
 #ifdef _DEBUG
@@ -773,7 +773,7 @@ public:
 					continue;
 				}
 
-				const int product_id = ifc_product->m_entity_id;
+				const int product_id = ifc_product->m_tag;
 				
 				std::map<int, osg::ref_ptr<osg::Switch> > map_representation_switches;
 				try
@@ -988,7 +988,7 @@ public:
 		}
 
 		shared_ptr<IfcObjectDefinition> object_def( product_data->m_ifc_object_definition );
-		const int entity_id = object_def->m_entity_id;
+		const int entity_id = object_def->m_tag;
 		if( SceneGraphUtils::inParentList( entity_id, group ) )
 		{
 			messageCallback( "Cycle in project structure detected", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, object_def.get() );
@@ -1012,7 +1012,7 @@ public:
 				{
 					shared_ptr<IfcObjectDefinition> child_obj_def( child_product_data->m_ifc_object_definition );
 					std::stringstream group_subparts_name;
-					group_subparts_name << "#" << child_obj_def->m_entity_id << "=";
+					group_subparts_name << "#" << child_obj_def->m_tag << "=";
 					group_subparts_name << child_obj_def->className();
 					group_subparts->setName( group_subparts_name.str().c_str() );
 				}
@@ -1100,25 +1100,25 @@ public:
 
 				// compare
 				osg::Vec4f color_ambient_existing = mat_existing->getAmbient( osg::Material::FRONT_AND_BACK );
-				if( abs( color_ambient_existing.r() - color_ambient_r ) > 0.03 ) break;
-				if( abs( color_ambient_existing.g() - color_ambient_g ) > 0.03 ) break;
-				if( abs( color_ambient_existing.b() - color_ambient_b ) > 0.03 ) break;
-				if( abs( color_ambient_existing.a() - color_ambient_a ) > 0.03 ) break;
+				if( std::abs( color_ambient_existing.r() - color_ambient_r ) > 0.03 ) break;
+				if( std::abs( color_ambient_existing.g() - color_ambient_g ) > 0.03 ) break;
+				if( std::abs( color_ambient_existing.b() - color_ambient_b ) > 0.03 ) break;
+				if( std::abs( color_ambient_existing.a() - color_ambient_a ) > 0.03 ) break;
 
 				osg::Vec4f color_diffuse_existing = mat_existing->getDiffuse( osg::Material::FRONT_AND_BACK );
-				if( abs( color_diffuse_existing.r() - color_diffuse_r ) > 0.03 ) break;
-				if( abs( color_diffuse_existing.g() - color_diffuse_g ) > 0.03 ) break;
-				if( abs( color_diffuse_existing.b() - color_diffuse_b ) > 0.03 ) break;
-				if( abs( color_diffuse_existing.a() - color_diffuse_a ) > 0.03 ) break;
+				if( std::abs( color_diffuse_existing.r() - color_diffuse_r ) > 0.03 ) break;
+				if( std::abs( color_diffuse_existing.g() - color_diffuse_g ) > 0.03 ) break;
+				if( std::abs( color_diffuse_existing.b() - color_diffuse_b ) > 0.03 ) break;
+				if( std::abs( color_diffuse_existing.a() - color_diffuse_a ) > 0.03 ) break;
 
 				osg::Vec4f color_specular_existing = mat_existing->getSpecular( osg::Material::FRONT_AND_BACK );
-				if( abs( color_specular_existing.r() - color_specular_r ) > 0.03 ) break;
-				if( abs( color_specular_existing.g() - color_specular_g ) > 0.03 ) break;
-				if( abs( color_specular_existing.b() - color_specular_b ) > 0.03 ) break;
-				if( abs( color_specular_existing.a() - color_specular_a ) > 0.03 ) break;
+				if( std::abs( color_specular_existing.r() - color_specular_r ) > 0.03 ) break;
+				if( std::abs( color_specular_existing.g() - color_specular_g ) > 0.03 ) break;
+				if( std::abs( color_specular_existing.b() - color_specular_b ) > 0.03 ) break;
+				if( std::abs( color_specular_existing.a() - color_specular_a ) > 0.03 ) break;
 
 				float shininess_existing = mat_existing->getShininess( osg::Material::FRONT_AND_BACK );
-				if( abs( shininess_existing - shininess ) > 0.03 ) break;
+				if( std::abs( shininess_existing - shininess ) > 0.03 ) break;
 
 				bool blend_on_existing = stateset_existing->getMode( GL_BLEND ) == osg::StateAttribute::ON;
 				if( blend_on_existing != set_transparent ) break;

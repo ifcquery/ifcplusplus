@@ -1,10 +1,10 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 3.7.2)
 
+IF(NOT CMAKE_BUILD_TYPE)
+   SET(CMAKE_BUILD_TYPE "Release")
+ENDIF()
+	
 IF(NOT WIN32)
-    IF(NOT CMAKE_BUILD_TYPE)
-        SET(CMAKE_BUILD_TYPE "Release")
-    ENDIF()
-
     SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
     SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
     SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
@@ -26,6 +26,12 @@ FIND_PACKAGE(Qt5Core REQUIRED)
 FIND_PACKAGE(Qt5Widgets REQUIRED)
 FIND_PACKAGE(Qt5OpenGL REQUIRED)
 ADD_DEFINITIONS(${Qt5Widgets_DEFINITIONS})
+ADD_DEFINITIONS(-DGLM_FORCE_CTOR_INIT)
+ADD_DEFINITIONS(-DGLM_FORCE_XYZW_ONLY)
+ADD_DEFINITIONS(-DUNICODE)
+ADD_DEFINITIONS(-D_UNICODE)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 IF(BUILD_STATIC_LIBRARY)
 	ADD_DEFINITIONS(-DIFCQUERY_STATIC_LIB)
@@ -33,7 +39,7 @@ ENDIF()
 
 SET(viewer_dir ${IFCPP_SOURCE_DIR}/examples/SimpleViewerExampleQt)
 SET(RESOURCES ${viewer_dir}/Resources/ifcplusplus.qrc)
-QT5_ADD_RESOURCES(SimpleViewerExample_RESOURCES_RCC ${RESOURCES})
+QT5_ADD_RESOURCES(SimpleViewerExampleQt_RESOURCES_RCC ${RESOURCES})
 
 FIND_PACKAGE(OpenSceneGraph REQUIRED osgDB osgUtil osgGA osgFX osgSim osgText osgViewer)
 
@@ -71,15 +77,17 @@ LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/external/Carve/${CMAKE_BUILD_TYPE})
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/IfcPlusPlus/Debug)
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/IfcPlusPlus/${CMAKE_BUILD_TYPE})
 
-ADD_EXECUTABLE(SimpleViewerExample 
+ADD_EXECUTABLE(SimpleViewerExampleQt 
     ${IFCPPVIEWER_MOC_GENERATED_FILES}
     ${IFCPPVIEWER_SOURCE_FILES}
-    ${SimpleViewerExample_RESOURCES_RCC}
+    ${SimpleViewerExampleQt_RESOURCES_RCC}
 )
 
-set_target_properties(SimpleViewerExample PROPERTIES DEBUG_POSTFIX "d")
+set_target_properties(SimpleViewerExampleQt PROPERTIES DEBUG_POSTFIX "d")
+set_target_properties(SimpleViewerExampleQt PROPERTIES CXX_STANDARD 17)
+set_target_properties(SimpleViewerExampleQt PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=../../IfcPlusPlus/Debug;../../IfcPlusPlus/Release;$(PATH)") # is there a way to set Debug/Release by one variable?
 
-target_link_libraries(SimpleViewerExample
+target_link_libraries(SimpleViewerExampleQt
         debug carved optimized carve
 		debug IfcPlusPlusd optimized IfcPlusPlus
         Qt5::Core
@@ -89,14 +97,14 @@ target_link_libraries(SimpleViewerExample
 		
 If(UNIX)
     # ON Debian Stretch with cmake 3.7.2 OPENTHREADS_LIBRARY_DEBUG is a not known variable
-    TARGET_LINK_LIBRARIES(SimpleViewerExample optimized ${OPENTHREADS_LIBRARY})
+    TARGET_LINK_LIBRARIES(SimpleViewerExampleQt optimized ${OPENTHREADS_LIBRARY})
 else(UNIX)
-    TARGET_LINK_LIBRARIES(SimpleViewerExample debug ${OPENTHREADS_LIBRARY_DEBUG})
-	TARGET_LINK_LIBRARIES(SimpleViewerExample ${OPENTHREADS_LIBRARY} )
+    TARGET_LINK_LIBRARIES(SimpleViewerExampleQt debug ${OPENTHREADS_LIBRARY_DEBUG})
+	TARGET_LINK_LIBRARIES(SimpleViewerExampleQt ${OPENTHREADS_LIBRARY} )
 endif()
 
 if(USE_OSG_DEBUG)
-    target_link_libraries(SimpleViewerExample
+    target_link_libraries(SimpleViewerExampleQt
         optimized ${OSG_LIBRARY} debug ${OSG_LIBRARY_DEBUG}
         optimized ${OSGDB_LIBRARY} debug ${OSGDB_LIBRARY_DEBUG}
         optimized ${OSGDB_LIBRARY} debug ${OSGDB_LIBRARY_DEBUG}
@@ -107,7 +115,7 @@ if(USE_OSG_DEBUG)
         optimized ${OSGTEXT_LIBRARY} debug ${OSGTEXT_LIBRARY_DEBUG}
     )
 else(USE_OSG_DEBUG)
-    target_link_libraries(SimpleViewerExample
+    target_link_libraries(SimpleViewerExampleQt
 		${OSG_LIBRARY}
 		${OSGDB_LIBRARY}
 		${OSGDB_LIBRARY}
@@ -119,11 +127,13 @@ else(USE_OSG_DEBUG)
     )
 endif(USE_OSG_DEBUG)
 
-TARGET_INCLUDE_DIRECTORIES(SimpleViewerExample
+TARGET_INCLUDE_DIRECTORIES(SimpleViewerExampleQt
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/ifcpp/IFC4X3/include
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/glm
 	${IFCPP_SOURCE_DIR}/external/
 	${IFCPP_SOURCE_DIR}/external/Carve
 	${IFCPP_SOURCE_DIR}/external/Carve/src
@@ -141,7 +151,7 @@ TARGET_INCLUDE_DIRECTORIES(SimpleViewerExample
 )
 
 INSTALL(
-    TARGETS SimpleViewerExample
+    TARGETS SimpleViewerExampleQt
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION bin
     ARCHIVE DESTINATION lib

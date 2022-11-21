@@ -28,20 +28,7 @@ public:
 	AttributeObjectVector() = default;
 	AttributeObjectVector( std::vector<shared_ptr<BuildingObject> >& vec ){ m_vec = vec; }
 	virtual ~AttributeObjectVector()= default;
-	const char* className() const override { return "AttributeObjectVector"; }
-	const std::wstring toString() const override
-	{
-		std::wstring result_str;
-		for( size_t ii = 0; ii < m_vec.size(); ++ii )
-		{
-			if( ii > 0 )
-			{
-				result_str.append( L", " );
-			}
-			result_str.append( m_vec[ii]->toString() );
-		}
-		return result_str;
-	}
+	uint32_t classID() const override { return 3667068888; }
 	virtual shared_ptr<BuildingObject> getDeepCopy() const { return shared_ptr<BuildingObject>( new AttributeObjectVector() );  }
 	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override {}
 	std::vector<shared_ptr<BuildingObject> > m_vec;
@@ -53,12 +40,7 @@ public:
 	BoolAttribute()= default;
 	BoolAttribute( bool value ) : m_value( value ){}
 	virtual ~BoolAttribute()= default;
-	const char* className() const override { return "BoolAttribute"; }
-	const std::wstring toString() const override
-	{
-		if( m_value ) { return L"true"; }
-		return L"false"; 
-	}
+	uint32_t classID() const override { return 164996446; }
 	virtual shared_ptr<BuildingObject> getDeepCopy() { return shared_ptr<BuildingObject>( new BoolAttribute( m_value ) );  }
 	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override{}
 	bool m_value;
@@ -70,13 +52,7 @@ public:
 	LogicalAttribute()= default;
 	LogicalAttribute( LogicalEnum value ) : m_value( value ){}
 	virtual ~LogicalAttribute()= default;
-	const char* className() const override { return "LogicalAttribute"; }
-	const std::wstring toString() const override
-	{
-		if( m_value == LOGICAL_TRUE ) { return L"true"; }
-		if( m_value == LOGICAL_FALSE ) { return L"false"; }
-		else { return L"unknown"; }
-	}
+	uint32_t classID() const override { return 1777643854; }
 	virtual shared_ptr<BuildingObject> getDeepCopy() { return shared_ptr<BuildingObject>( new LogicalAttribute( m_value ) );  }
 	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override{}
 	LogicalEnum m_value;
@@ -88,13 +64,7 @@ public:
 	IntegerAttribute()= default;
 	IntegerAttribute( int value ) : m_value( value ){}
 	virtual ~IntegerAttribute()= default;
-	const char* className() const override { return "IntegerAttribute"; }
-	const std::wstring toString() const override
-	{
-		std::wstringstream strs;
-		strs << m_value;
-		return strs.str();
-	}
+	uint32_t classID() const override { return 2693262938; }
 	virtual shared_ptr<BuildingObject> getDeepCopy() { return shared_ptr<BuildingObject>( new IntegerAttribute( m_value ) );  }
 	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override{}
 	int m_value;
@@ -106,13 +76,7 @@ public:
 	RealAttribute()= default;
 	RealAttribute( double value ) : m_value( value ){}
 	virtual ~RealAttribute()= default;
-	const char* className() const override { return "RealAttribute"; }
-	const std::wstring toString() const override
-	{
-		std::wstringstream strs;
-		strs << m_value;
-		return strs.str();
-	}
+	uint32_t classID() const override { return 93569251; }
 	virtual shared_ptr<BuildingObject> getDeepCopy() { return shared_ptr<BuildingObject>( new RealAttribute( m_value ) );  }
 	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override{}
 	double m_value;
@@ -124,11 +88,7 @@ public:
 	StringAttribute()= default;
 	StringAttribute( std::wstring& value ) : m_value( value ){}
 	virtual ~StringAttribute()= default;
-	const char* className() const override { return "StringAttribute"; }
-	const std::wstring toString() const override
-	{
-		return m_value;
-	}
+	uint32_t classID() const override { return 308612603; }
 	virtual shared_ptr<BuildingObject> getDeepCopy() { return shared_ptr<BuildingObject>( new StringAttribute( m_value ) );  }
 	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override{}
 	std::wstring m_value;
@@ -141,11 +101,7 @@ public:
 	BinaryAttribute( const std::wstring& value ) { m_value = value.c_str(); }
 	BinaryAttribute( const wchar_t* value ) : m_value( value ) {}
 	virtual ~BinaryAttribute()= default;
-	const char* className() const override { return "BinaryAttribute"; }
-	const std::wstring toString() const override
-	{
-		return m_value;
-	}
+	uint32_t classID() const override { return 2341374947; }
 	virtual shared_ptr<BuildingObject> getDeepCopy() { return shared_ptr<BuildingObject>( new BinaryAttribute( m_value ) );  }
 	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override{}
 	const wchar_t* m_value;

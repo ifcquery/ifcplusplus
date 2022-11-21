@@ -1,10 +1,6 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.7.2)
+cmake_minimum_required(VERSION 2.8...3.13)
 
 IF(NOT WIN32)
-    IF(NOT CMAKE_BUILD_TYPE)
-        SET(CMAKE_BUILD_TYPE "Release")
-    ENDIF()
-
     SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
     SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
     SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
@@ -13,8 +9,6 @@ IF(NOT WIN32)
     SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
 ENDIF(NOT WIN32)
 
-find_package(OpenMP)
-
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/IfcPlusPlus/Debug)
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/IfcPlusPlus/${CMAKE_BUILD_TYPE})
 
@@ -22,13 +16,18 @@ ADD_EXECUTABLE(CreateWallAndWriteFile
     ${IFCPP_SOURCE_DIR}/examples/CreateWallAndWriteFile/src/main.cpp
 )
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set_target_properties(CreateWallAndWriteFile PROPERTIES CXX_STANDARD 20)
 set_target_properties(CreateWallAndWriteFile PROPERTIES DEBUG_POSTFIX "d")
+set_target_properties(CreateWallAndWriteFile PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=../../IfcPlusPlus/Debug;../../IfcPlusPlus/Release;$(PATH)") # is there a way to set Debug/Release by one variable?
 
+find_package(OpenMP)
 if(OpenMP_CXX_FOUND)
-    TARGET_LINK_LIBRARIES(CreateWallAndWriteFile debug IfcPlusPlusd)
-	TARGET_LINK_LIBRARIES(CreateWallAndWriteFile optimized IfcPlusPlus OpenMP::OpenMP_CXX)
+	# openmp should not appear in debug mode. Does it anyway...
+	TARGET_LINK_LIBRARIES(CreateWallAndWriteFile optimized IfcPlusPlus OpenMP::OpenMP_CXX debug IfcPlusPlusd )
 else(OpenMP_CXX_FOUND)
-	TARGET_LINK_LIBRARIES(CreateWallAndWriteFile debug IfcPlusPlusd optimized IfcPlusPlus)
+	TARGET_LINK_LIBRARIES(CreateWallAndWriteFile optimized IfcPlusPlus debug IfcPlusPlusd)
 endif()
 
 IF(BUILD_STATIC_LIBRARY)
@@ -43,6 +42,7 @@ TARGET_INCLUDE_DIRECTORIES(CreateWallAndWriteFile
 	${CMAKE_CURRENT_SOURCE_DIR}/src/external/RapidJSON
 	${CMAKE_CURRENT_SOURCE_DIR}/src
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/ifcpp/IFC4X3/include
 )
 
 INSTALL(

@@ -564,7 +564,7 @@ namespace PlacementConverterOCC
 			return;
 		}
 
-		if( abs( scale - 1.0 ) > 0.0001 )
+		if( std::abs( scale - 1.0 ) > 0.0001 )
 		{
 			gp_Trsf transform_scale;
 			transform_scale.SetScale( gp_Pnt(0,0,0), scale );

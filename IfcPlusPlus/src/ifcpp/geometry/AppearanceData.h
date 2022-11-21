@@ -17,7 +17,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <ifcpp/IFC4/include/IfcTextStyle.h>
+#include <ifcpp/IFC4X3/include/IfcTextStyle.h>
 #include <ifcpp/model/BasicTypes.h>
 
 class AppearanceData
@@ -37,6 +37,6 @@ public:
 	double m_specular_roughness = 0.0;
 	bool m_set_transparent = false;
 	bool m_complete = false;
-	shared_ptr<IfcTextStyle> m_text_style;
+	shared_ptr<IFC4X3::IfcTextStyle> m_text_style;
 	GeometryTypeEnum m_apply_to_geometry_type = GEOM_TYPE_UNDEFINED;
 };

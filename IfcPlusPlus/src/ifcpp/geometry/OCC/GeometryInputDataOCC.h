@@ -326,7 +326,7 @@ class ProductShapeDataOCC
 {
 public:
 	ProductShapeDataOCC() {}
-	ProductShapeDataOCC( int entity_id ) : m_entity_id( entity_id ) { }
+	ProductShapeDataOCC( int tag ) : m_tag( tag ) { }
 	virtual ~ProductShapeDataOCC() {}
 
 	void addInputData( shared_ptr<ProductShapeDataOCC>& other )
@@ -429,13 +429,13 @@ public:
 			const shared_ptr<ProductShapeDataOCC>& existing_child = m_vec_children[ii];
 			if( existing_child == add_child )
 			{
-				if( existing_child->m_entity_id == add_child->m_entity_id )
+				if( existing_child->m_tag == add_child->m_tag )
 				{
-					std::cout << __FUNCTION__ << ": child already added, entity_id: " << add_child->m_entity_id << std::endl;
+					std::cout << __FUNCTION__ << ": child already added, tag: " << add_child->m_tag << std::endl;
 				}
 				else
 				{
-					std::cout << __FUNCTION__ << ": entity_id mismatch: " << add_child->m_entity_id << " != " << existing_child->m_entity_id << std::endl;
+					std::cout << __FUNCTION__ << ": tag mismatch: " << add_child->m_tag << " != " << existing_child->m_tag << std::endl;
 				}
 				return;
 			}
@@ -446,7 +446,7 @@ public:
 	}
 
 public:
-	int												m_entity_id = -1;
+	int												m_tag = -1;
 	bool											m_added_to_spatial_structure = false;
 	weak_ptr<ProductShapeDataOCC>					m_parent;
 	weak_ptr<IfcObjectDefinition>					m_ifc_object_definition;

@@ -22,30 +22,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
 
-#include <ifcpp/IFC4/include/IfcAdvancedBrepWithVoids.h>
-#include <ifcpp/IFC4/include/IfcBlock.h>
-#include <ifcpp/IFC4/include/IfcBooleanResult.h>
-#include <ifcpp/IFC4/include/IfcBooleanOperand.h>
-#include <ifcpp/IFC4/include/IfcBooleanOperator.h>
-#include <ifcpp/IFC4/include/IfcBooleanClippingResult.h>
-#include <ifcpp/IFC4/include/IfcBoxedHalfSpace.h>
-#include <ifcpp/IFC4/include/IfcCsgPrimitive3D.h>
-#include <ifcpp/IFC4/include/IfcCsgSolid.h>
-#include <ifcpp/IFC4/include/IfcExtrudedAreaSolid.h>
-#include <ifcpp/IFC4/include/IfcFacetedBrep.h>
-#include <ifcpp/IFC4/include/IfcFixedReferenceSweptAreaSolid.h>
-#include <ifcpp/IFC4/include/IfcHalfSpaceSolid.h>
-#include <ifcpp/IFC4/include/IfcManifoldSolidBrep.h>
-#include <ifcpp/IFC4/include/IfcPolygonalBoundedHalfSpace.h>
-#include <ifcpp/IFC4/include/IfcRectangularPyramid.h>
-#include <ifcpp/IFC4/include/IfcRevolvedAreaSolid.h>
-#include <ifcpp/IFC4/include/IfcRightCircularCone.h>
-#include <ifcpp/IFC4/include/IfcRightCircularCylinder.h>
-#include <ifcpp/IFC4/include/IfcSectionedSpine.h>
-#include <ifcpp/IFC4/include/IfcSolidModel.h>
-#include <ifcpp/IFC4/include/IfcSphere.h>
-#include <ifcpp/IFC4/include/IfcSurfaceCurveSweptAreaSolid.h>
-#include <ifcpp/IFC4/include/IfcSweptDiskSolid.h>
+#include <IfcAdvancedBrepWithVoids.h>
+#include <IfcBlock.h>
+#include <IfcBooleanResult.h>
+#include <IfcBooleanOperand.h>
+#include <IfcBooleanOperator.h>
+#include <IfcBooleanClippingResult.h>
+#include <IfcBoxedHalfSpace.h>
+#include <IfcCsgPrimitive3D.h>
+#include <IfcCsgSolid.h>
+#include <IfcExtrudedAreaSolid.h>
+#include <IfcFacetedBrep.h>
+#include <IfcFixedReferenceSweptAreaSolid.h>
+#include <IfcHalfSpaceSolid.h>
+#include <IfcManifoldSolidBrep.h>
+#include <IfcPolygonalBoundedHalfSpace.h>
+#include <IfcRectangularPyramid.h>
+#include <IfcRevolvedAreaSolid.h>
+#include <IfcRightCircularCone.h>
+#include <IfcRightCircularCylinder.h>
+#include <IfcSectionedSpine.h>
+#include <IfcSolidModel.h>
+#include <IfcSphere.h>
+#include <IfcSurfaceCurveSweptAreaSolid.h>
+#include <IfcSweptDiskSolid.h>
 
 #include "GeomDebugDump.h"
 #include "GeometryInputData.h"
@@ -81,8 +81,6 @@ public:
 	// ENTITY IfcSolidModel ABSTRACT SUPERTYPE OF(ONEOF(IfcCsgSolid, IfcManifoldSolidBrep, IfcSweptAreaSolid, IfcSweptDiskSolid))
 	void convertIfcSolidModel( const shared_ptr<IfcSolidModel>& solid_model, shared_ptr<ItemShapeData> item_data )
 	{
-		const double length_in_meter = m_curve_converter->getPointConverter()->getUnitConverter()->getLengthInMeterFactor();
-
 		shared_ptr<IfcSweptAreaSolid> swept_area_solid = dynamic_pointer_cast<IfcSweptAreaSolid>( solid_model );
 		if( swept_area_solid )
 		{
@@ -103,10 +101,6 @@ public:
 			}
 			
 			shared_ptr<ItemShapeData> item_data_solid( new ItemShapeData() );
-			if( !item_data_solid )
-			{
-				throw OutOfMemoryException( __FUNC__ );
-			}
 
 			// check if local coordinate system is specified for extrusion
 			shared_ptr<TransformData> swept_area_pos;
@@ -229,9 +223,10 @@ public:
 			if( advanced_brep )
 			{
 				// ENTITY IfcAdvancedBrep	SUPERTYPE OF(IfcAdvancedBrepWithVoids)
-				if( dynamic_pointer_cast<IfcAdvancedBrepWithVoids>( advanced_brep ) )
+				shared_ptr<IfcAdvancedBrepWithVoids> brep_with_voids = dynamic_pointer_cast<IfcAdvancedBrepWithVoids>( solid_model );
+				if( brep_with_voids )
 				{
-					//shared_ptr<IfcAdvancedBrepWithVoids> advanced_brep_with_voids = dynamic_pointer_cast<IfcAdvancedBrepWithVoids>( solid_model );
+					
 					//std::vector<shared_ptr<IfcClosedShell> >& vec_voids = advanced_brep_with_voids->m_Voids;
 
 					// TODO: subtract voids from outer shell
@@ -295,6 +290,7 @@ public:
 
 			shared_ptr<IfcCurve>& directrix_curve = swept_disp_solid->m_Directrix;
 			double radius = 0.0;
+			const double length_in_meter = m_curve_converter->getPointConverter()->getUnitConverter()->getLengthInMeterFactor();
 			if( swept_disp_solid->m_Radius )
 			{
 				radius = swept_disp_solid->m_Radius->m_value*length_in_meter;
@@ -314,11 +310,6 @@ public:
 			GeomUtils::removeDuplicates(basis_curve_points);
 
 			shared_ptr<ItemShapeData> item_data_solid( new ItemShapeData() );
-			if( !item_data_solid )
-			{
-				throw OutOfMemoryException( __FUNC__ );
-			}
-
 			const int nvc = m_geom_settings->getNumVerticesPerCircleWithRadius(radius);
 			int nvc_disk = nvc;
 			if( radius < 0.1 )
@@ -436,7 +427,7 @@ public:
 		if( warning_small_loop_detected )
 		{
 			std::stringstream err;
-			err << "abs( signed_area ) < 1.e-6";
+			err << "std::abs( signed_area ) < 1.e-6";
 			messageCallback( err.str().c_str(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, entity_of_origin );
 		}
 
@@ -519,10 +510,6 @@ public:
 		// TODO: use m_sweeper->sweepArea
 
 		shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
-		if( !polyhedron_data )
-		{
-			throw OutOfMemoryException( __FUNC__ );
-		}
 
 		// create vertices
 		carve::math::Matrix m;
@@ -567,7 +554,7 @@ public:
 		const vec3& vertex0_section1 = polyhedron_data->getVertex( num_vertices_per_section );
 		vec3 normal_front_cap = (vertex0_section0 - vertex0_section1).normalize();
 
-		//if( abs( fmod( revolution_angle, 2.0*M_PI ) ) > 0.0001 )
+		//if( std::abs( fmod( revolution_angle, 2.0*M_PI ) ) > 0.0001 )
 		{
 			// in case of a full circle, there are no front and back caps necessary
 			// front cap
@@ -718,25 +705,7 @@ public:
 			segment_offset += num_vertices_per_section;
 		}
 
-#ifdef _DEBUG
-		//GeomDebugDump::dumpPolyline( path_merged, carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true, true );
-
-		//shared_ptr<carve::mesh::MeshSet<3> > meshset( polyhedron_data->createMesh( carve::input::opts() ) );
-		//if( meshset->meshes.size() != 1 )
-		//{
-		//	messageCallback( "meshset->meshes.size() != 1", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, entity_of_origin );
-		//	return;
-		//}
-		//bool meshset_ok = CSG_Adapter::checkMeshSetValidAndClosed( meshset, this, entity_of_origin );
-
-		//if( !meshset_ok )
-		//{
-		//	GeomDebugDump::dumpPolyhedronInput( *(polyhedron_data.get()), carve::geom::VECTOR( 0.0, 0.0, 0.0 ), carve::geom::VECTOR( 0.3, 0.4, 0.5, 1.0 ), true );
-		//}
-#endif
-
-		bool isClosed = false;
-		item_data->addPolyhedron( polyhedron_data, isClosed );
+		item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 	}
 
 	void convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevolvedAreaSolid>& revolved_area, shared_ptr<ItemShapeData> item_data )
@@ -784,8 +753,11 @@ public:
 
 			if( axis_placement->m_Location )
 			{
-				shared_ptr<IfcCartesianPoint> location_point = axis_placement->m_Location;
-				PointConverter::convertIfcCartesianPoint( location_point, axis_location, length_factor );
+				shared_ptr<IfcCartesianPoint> location_point = dynamic_pointer_cast<IfcCartesianPoint>(axis_placement->m_Location);
+				if( location_point )
+				{
+					PointConverter::convertIfcCartesianPoint(location_point, axis_location, length_factor);
+				}
 			}
 
 			if( axis_placement->m_Axis )
@@ -833,20 +805,35 @@ public:
 
 		// convert the first operand
 		shared_ptr<ItemShapeData> first_operand_data( new ItemShapeData() );
-		if( !first_operand_data )
-		{
-			throw OutOfMemoryException( __FUNC__ );
-		}
 		shared_ptr<ItemShapeData> empty_operand;
 		convertIfcBooleanOperand( ifc_first_operand, first_operand_data, empty_operand );
 
 		// convert the second operand
 		shared_ptr<ItemShapeData> second_operand_data( new ItemShapeData() );
-		if( !second_operand_data )
-		{
-			throw OutOfMemoryException( __FUNC__ );
-		}
 		convertIfcBooleanOperand( ifc_second_operand, second_operand_data, first_operand_data );
+
+#ifdef _DEBUG
+		if( bool_result->m_tag == 269529 || bool_result->m_tag == 269533 )// 428815 )//429391 )
+		{
+			glm::dvec4 color(0.5, 0.6, 0.7, 1.0 );
+			if( first_operand_data->m_meshsets.size() > 0 )
+			{
+				GeomDebugDump::dumpMeshset(first_operand_data->m_meshsets[0], color, true);
+			}
+			else
+			{
+				std::cout << "first_operand_data->m_meshsets.size() == 0" << std::endl;
+			}
+			if( second_operand_data->m_meshsets.size() > 0 )
+			{
+				GeomDebugDump::dumpMeshset(second_operand_data->m_meshsets[0], color, true);
+			}
+			else
+			{
+				std::cout << "second_operand_data->m_meshsets.size() == 0" << std::endl;
+			}
+		}
+#endif
 
 		// for every first operand polyhedrons, apply all second operand polyhedrons
 		std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vec_first_operand_meshsets = first_operand_data->m_meshsets;
@@ -860,11 +847,7 @@ public:
 				shared_ptr<carve::mesh::MeshSet<3> > result;
 				try
 				{
-					CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, result, this, bool_result, m_geom_settings );
-				}
-				catch( OutOfMemoryException& e )
-				{
-					throw e;
+					CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, result, m_geom_settings, this, bool_result );
 				}
 				catch( BuildingException& e )
 				{
@@ -877,6 +860,22 @@ public:
 				first_operand_meshset = result;
 			}
 		}
+
+
+#ifdef _DEBUG
+		if( bool_result->m_tag == 269529 )// 428815 )//429391 )
+		{
+			glm::dvec4 color(0.5, 0.6, 0.7, 1.0);
+			if( first_operand_data->m_meshsets.size() > 0 )
+			{
+				GeomDebugDump::dumpMeshset(first_operand_data->m_meshsets[0], color, true);
+			}
+			else
+			{
+				std::cout << "first_operand_data->m_meshsets.size() == 0" << std::endl;
+			}
+		}
+#endif
 
 		// now copy processed first operands to result input data
 		std::copy( first_operand_data->m_meshsets.begin(), first_operand_data->m_meshsets.end(), std::back_inserter( item_data->m_meshsets ) );
@@ -967,8 +966,7 @@ public:
 			polyhedron_data->addFace( 3, 7, 4 );
 			polyhedron_data->addFace( 4, 0, 3 );
 
-			bool isClosed = false;
-			item_data->addPolyhedron( polyhedron_data, isClosed );
+			item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 			return;
 		}
 
@@ -1008,8 +1006,7 @@ public:
 			polyhedron_data->addFace( 0, 4, 3 );
 			polyhedron_data->addFace( 0, 3, 2 );
 
-			bool isClosed = false;
-			item_data->addPolyhedron( polyhedron_data, isClosed );
+			item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 			return;
 		}
 
@@ -1055,8 +1052,7 @@ public:
 			}
 			polyhedron_data->addFace( 1, m_geom_settings->getNumVerticesPerCircleWithRadius(radius) + 1, 2 );
 
-			bool isClosed = false;
-			item_data->addPolyhedron( polyhedron_data, isClosed );
+			item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 			return;
 		}
 
@@ -1105,8 +1101,7 @@ public:
 				polyhedron_data->addFace( 1, i*2 + 5, i*2 + 3 );	// bottom cap:	1-5-3	1-7-5		1-9-7
 			}
 
-			bool isClosed = false;
-			item_data->addPolyhedron( polyhedron_data, isClosed );
+			item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 			return;
 		}
 
@@ -1130,10 +1125,6 @@ public:
 			//        /   |   \
 
 			shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
-			if( !polyhedron_data )
-			{
-				throw OutOfMemoryException( __FUNC__ );
-			}
 			polyhedron_data->addVertex( primitive_placement_matrix*carve::geom::VECTOR( 0.0, 0.0, radius ) ); // top
 
 			const int nvc = m_geom_settings->getNumVerticesPerCircleWithRadius(radius);
@@ -1185,8 +1176,7 @@ public:
 				polyhedron_data->addFace( last_index, last_index - ( i + 2 ), last_index - ( i + 1 ) );
 			}
 			polyhedron_data->addFace( last_index, last_index - 1, last_index - nvc );
-			bool isClosed = false;
-			item_data->addPolyhedron( polyhedron_data, isClosed );
+			item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 			return;
 		}
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
@@ -1238,7 +1228,7 @@ public:
 			m_curve_converter->getPlacementConverter()->getPlane( base_surface_pos, base_surface_plane, base_surface_position );
 			m_curve_converter->getPlacementConverter()->convertIfcAxis2Placement3D( base_surface_pos, base_position_transform );
 		}
-		carve::math::Matrix base_position_matrix;
+		carve::math::Matrix base_position_matrix = carve::math::Matrix::IDENT();
 		if( base_position_transform )
 		{
 			base_position_matrix = base_position_transform->m_matrix;
@@ -1306,40 +1296,19 @@ public:
 				poly_point = box_position_matrix*poly_point;
 			}
 
-			bool isClosed = false;
-			item_data->addPolyhedron( polyhedron_data, isClosed );
+			item_data->addOpenOrClosedPolyhedron( polyhedron_data );
 			return;
 		}
 
 		// check dimensions of other operand
 		double extrusion_depth = HALF_SPACE_BOX_SIZE*m_point_converter->getUnitConverter()->getCustomLengthFactor();
-		//vec3 other_operand_pos = base_surface_position;
 		if( other_operand )
 		{
-			carve::geom::aabb<3> aabb;
-
-			for( size_t ii = 0; ii < other_operand->m_meshsets.size(); ++ii )
-			{
-				const shared_ptr<carve::mesh::MeshSet<3> >& meshset = other_operand->m_meshsets[ii];
-				if (!meshset)
-				{
-					continue;
-				}
-				if( ii == 0 )
-				{
-					aabb.pos = meshset->getAABB().pos;
-					aabb.extent = meshset->getAABB().extent;
-				}
-				else
-				{
-					aabb.unionAABB( meshset->getAABB() );
-				}
-			}
-
-			vec3& aabb_extent = aabb.extent;
+			carve::geom::aabb<3> bbox_other_operand;
+			other_operand->computeBoundingBox(bbox_other_operand);
+			vec3& aabb_extent = bbox_other_operand.extent;
 			double max_extent = std::max( aabb_extent.x, std::max( aabb_extent.y, aabb_extent.z ) );
-			extrusion_depth = 2.0*max_extent;
-			//other_operand_pos = aabb.pos;
+			extrusion_depth = 2.5*max_extent;
 		}
 
 		shared_ptr<IfcPolygonalBoundedHalfSpace> polygonal_half_space = dynamic_pointer_cast<IfcPolygonalBoundedHalfSpace>( half_space_solid );
@@ -1395,6 +1364,10 @@ public:
 			polygonal_halfspace_item_data->applyTransformToItem( boundary_position_matrix );
 
 			shared_ptr<carve::mesh::MeshSet<3> > polygonal_halfspace_meshset = polygonal_halfspace_item_data->m_meshsets[0];
+			if( !polygonal_halfspace_meshset )
+			{
+				return;
+			}
 			const size_t num_poly_points = polygonal_halfspace_meshset->vertex_storage.size();
 
 			if( num_poly_points % 2 )
@@ -1453,23 +1426,28 @@ public:
 			}
 
 			item_data->m_meshsets.push_back( polygonal_halfspace_meshset );
+
+#ifdef _DEBUG
+			bool isClosed = polygonal_halfspace_meshset->isClosed();
+			if( !isClosed || polygonal_half_space->m_tag == 754980 )
+			{
+				std::cout << "!polygonal_halfspace_meshset->isClosed()" << std::endl;
+				GeomDebugDump::dumpMeshset(polygonal_halfspace_meshset, glm::dvec4(0.7, 0.7, 0.7, 1), true);
+			}
+#endif
 		}
 		else
 		{
 			// else, its an unbounded half space solid, create simple box
-
 			int var = 0;
-
 			if( var == 0 )
 			{
-				//shared_ptr<carve::input::PolylineSetData> surface_data( new carve::input::PolylineSetData() );
 				shared_ptr<ItemShapeData> surface_item_data( new ItemShapeData() );
 				shared_ptr<SurfaceProxy> surface_proxy;
-				m_face_converter->convertIfcSurface( base_surface, surface_item_data, surface_proxy );
+				m_face_converter->convertIfcSurface( base_surface, surface_item_data, surface_proxy, extrusion_depth );
 				if( surface_item_data->m_polylines.size() > 0 )
 				{
 					shared_ptr<carve::input::PolylineSetData>& surface_data = surface_item_data->m_polylines[0];
-				
 					std::vector<vec3> base_surface_points = surface_data->points;
 
 					if( base_surface_points.size() != 4 )
@@ -1485,11 +1463,10 @@ public:
 					}
 					vec3  base_surface_normal = GeomUtils::computePolygonNormal( base_surface_points );
 					vec3  half_space_extrusion_direction = -base_surface_normal;
-					vec3  half_space_extrusion_vector = half_space_extrusion_direction*HALF_SPACE_BOX_SIZE*m_point_converter->getUnitConverter()->getCustomLengthFactor();
+					vec3  half_space_extrusion_vector = half_space_extrusion_direction*extrusion_depth;
 					shared_ptr<carve::input::PolyhedronData> half_space_box_data( new carve::input::PolyhedronData() );
 					extrudeBox( base_surface_points, half_space_extrusion_vector, half_space_box_data );
-					bool isClosed = false;
-					item_data->addPolyhedron( half_space_box_data, isClosed );
+					item_data->addOpenOrClosedPolyhedron( half_space_box_data );
 				}
 			}
 
@@ -1513,8 +1490,7 @@ public:
 
 				shared_ptr<carve::input::PolyhedronData> half_space_box_data( new carve::input::PolyhedronData() );
 				extrudeBox( box_base_points, half_space_extrusion_vector, half_space_box_data );
-				bool isClosed = false;
-				item_data->addPolyhedron( half_space_box_data, isClosed );
+				item_data->addOpenOrClosedPolyhedron( half_space_box_data );
 			}
 
 			return;
@@ -1553,7 +1529,7 @@ public:
 		}
 
 		std::stringstream strs_err;
-		strs_err << "Unhandled IFC Representation: " << operand_select->className();
+		strs_err << "Unhandled IFC Representation: " << operand_select->classID();
 		throw BuildingException( strs_err.str().c_str(), __FUNC__ );
 	}
 
@@ -1576,7 +1552,7 @@ public:
 			num_cross_sections = vec_cross_section_positions.size();
 		}
 
-		std::vector<shared_ptr<IfcCompositeCurveSegment> > segements = spine_curve->m_Segments;
+		std::vector<shared_ptr<IfcSegment> > segements = spine_curve->m_Segments;
 		size_t num_segments = segements.size();
 		if( vec_cross_section_positions.size() < num_segments + 1 )
 		{

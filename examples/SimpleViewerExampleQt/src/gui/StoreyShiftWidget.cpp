@@ -25,12 +25,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <osg/Switch>
 
 #include <ifcpp/model/BuildingModel.h>
-#include <ifcpp/IFC4/include/IfcProject.h>
-#include <ifcpp/IFC4/include/IfcRelAggregates.h>
-#include <ifcpp/IFC4/include/IfcSite.h>
-#include <ifcpp/IFC4/include/IfcBuilding.h>
-#include <ifcpp/IFC4/include/IfcBuildingStorey.h>
-#include <ifcpp/IFC4/include/IfcLengthMeasure.h>
+#include <IfcProject.h>
+#include <IfcRelAggregates.h>
+#include <IfcSite.h>
+#include <IfcBuilding.h>
+#include <IfcBuildingStorey.h>
+#include <IfcLengthMeasure.h>
 #include <ifcpp/geometry/Carve/GeometryConverter.h>
 
 #include "ScopedLockAndBlock.h"

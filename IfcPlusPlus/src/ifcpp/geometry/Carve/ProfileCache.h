@@ -57,11 +57,11 @@ public:
 		{
 			return shared_ptr<ProfileConverter>();
 		}
-		const int profile_id = ifc_profile->m_entity_id;
+		const int profile_id = ifc_profile->m_tag;
 		if( profile_id < 0 )
 		{
 			std::stringstream strs;
-			strs << "Entity ID is invalid, type: " << ifc_profile->className();
+			strs << "Entity ID is invalid, type: " << ifc_profile->classID();
 			throw BuildingException( strs.str().c_str(), __FUNC__ );
 		}
 
@@ -72,10 +72,6 @@ public:
 		}
 
 		shared_ptr<ProfileConverter> profile_converter = shared_ptr<ProfileConverter>( new ProfileConverter( m_curve_converter, m_spline_converter ) );
-		if( !profile_converter )
-		{
-			throw OutOfMemoryException( __FUNC__ );
-		}
 		profile_converter->computeProfile( ifc_profile );
 
 #ifdef ENABLE_OPENMP

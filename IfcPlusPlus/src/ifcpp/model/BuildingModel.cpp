@@ -20,45 +20,45 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ctime>
 #include <memory>
 
-#include <ifcpp/IFC4/include/IfcApplication.h>
-#include <ifcpp/IFC4/include/IfcAxis2Placement.h>
-#include <ifcpp/IFC4/include/IfcAxis2Placement3D.h>
-#include <ifcpp/IFC4/include/IfcBuilding.h>
-#include <ifcpp/IFC4/include/IfcCartesianPoint.h>
-#include <ifcpp/IFC4/include/IfcConversionBasedUnit.h>
-#include <ifcpp/IFC4/include/IfcChangeActionEnum.h>
-#include <ifcpp/IFC4/include/IfcDimensionalExponents.h>
-#include <ifcpp/IFC4/include/IfcDimensionCount.h>
-#include <ifcpp/IFC4/include/IfcDirection.h>
-#include <ifcpp/IFC4/include/IfcElementAssembly.h>
-#include <ifcpp/IFC4/include/IfcGeometricRepresentationContext.h>
-#include <ifcpp/IFC4/include/IfcGloballyUniqueId.h>
-#include <ifcpp/IFC4/include/IfcIdentifier.h>
-#include <ifcpp/IFC4/include/IfcLabel.h>
-#include <ifcpp/IFC4/include/IfcLengthMeasure.h>
-#include <ifcpp/IFC4/include/IfcMeasureWithUnit.h>
-#include <ifcpp/IFC4/include/IfcOrganization.h>
-#include <ifcpp/IFC4/include/IfcOwnerHistory.h>
-#include <ifcpp/IFC4/include/IfcPersonAndOrganization.h>
-#include <ifcpp/IFC4/include/IfcPerson.h>
-#include <ifcpp/IFC4/include/IfcPlaneAngleMeasure.h>
-#include <ifcpp/IFC4/include/IfcProject.h>
-#include <ifcpp/IFC4/include/IfcProduct.h>
-#include <ifcpp/IFC4/include/IfcReal.h>
-#include <ifcpp/IFC4/include/IfcRelationship.h>
-#include <ifcpp/IFC4/include/IfcRelAggregates.h>
-#include <ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h>
-#include <ifcpp/IFC4/include/IfcSite.h>
-#include <ifcpp/IFC4/include/IfcSIUnit.h>
-#include <ifcpp/IFC4/include/IfcSIUnitName.h>
-#include <ifcpp/IFC4/include/IfcSpatialStructureElement.h>
-#include <ifcpp/IFC4/include/IfcStyledItem.h>
-#include <ifcpp/IFC4/include/IfcUnit.h>
-#include <ifcpp/IFC4/include/IfcUnitEnum.h>
-#include <ifcpp/IFC4/include/IfcUnitAssignment.h>
-#include <ifcpp/IFC4/include/IfcValue.h>
-#include <ifcpp/reader/ReaderUtil.h>
-#include <ifcpp/writer/WriterUtil.h>
+#include "IfcApplication.h"
+#include "IfcAxis2Placement.h"
+#include "IfcAxis2Placement3D.h"
+#include "IfcBuilding.h"
+#include "IfcCartesianPoint.h"
+#include "IfcChangeActionEnum.h"
+#include "IfcConversionBasedUnit.h"
+#include "IfcDimensionCount.h"
+#include "IfcDimensionalExponents.h"
+#include "IfcDirection.h"
+#include "IfcElementAssembly.h"
+#include "IfcGeometricRepresentationContext.h"
+#include "IfcGloballyUniqueId.h"
+#include "IfcIdentifier.h"
+#include "IfcLabel.h"
+#include "IfcLengthMeasure.h"
+#include "IfcMeasureWithUnit.h"
+#include "IfcOrganization.h"
+#include "IfcOwnerHistory.h"
+#include "IfcPerson.h"
+#include "IfcPersonAndOrganization.h"
+#include "IfcPlaneAngleMeasure.h"
+#include "IfcProduct.h"
+#include "IfcProject.h"
+#include "IfcReal.h"
+#include "IfcRelationship.h"
+#include "IfcRelAggregates.h"
+#include "IfcRelContainedInSpatialStructure.h"
+#include "IfcSite.h"
+#include "IfcSIUnit.h"
+#include "IfcSIUnitName.h"
+#include "IfcStyledItem.h"
+#include "IfcUnit.h"
+#include "IfcUnitAssignment.h"
+#include "IfcUnitEnum.h"
+#include "IfcValue.h"
+#include "ifcpp/IFC4X3/EntityFactory.h"
+#include "ifcpp/reader/ReaderUtil.h"
+#include "ifcpp/writer/WriterUtil.h"
 
 #include "AttributeObject.h"
 #include "BuildingGuid.h"
@@ -66,36 +66,38 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "BuildingModel.h"
 #include "UnitConverter.h"
 
+using namespace IFC4X3;
+
 BuildingModel::BuildingModel()
 {
 	m_unit_converter = std::make_shared<UnitConverter>( );
 	m_unit_converter->setMessageTarget( this );
-	initFileHeader( L"IfcPlusPlus-export.ifc" );
+	initFileHeader( "IfcPlusPlus-export.ifc" );
 }
 
 BuildingModel::~BuildingModel()= default;
 
-std::wstring getIfcSchemaVersionString(BuildingModel::SchemaVersionEnum version)
+std::string getIfcSchemaVersionString(BuildingModel::SchemaVersionEnum version)
 {
 	switch (version)
 	{
-	case BuildingModel::IFC2X: return L"IFC2X";
-	case BuildingModel::IFC2X2: return L"IFC2X2";
-	case BuildingModel::IFC2X3: return L"IFC2X3";
-	case BuildingModel::IFC2X4: return L"IFC2X4";
-	case BuildingModel::IFC4: return L"IFC4";
-	case BuildingModel::IFC4X1: return L"IFC4X1";
-	case BuildingModel::IFC4X3RC1: return L"IFC4X3RC1";
+	case BuildingModel::IFC2X: return "IFC2X";
+	case BuildingModel::IFC2X2: return "IFC2X2";
+	case BuildingModel::IFC2X3: return "IFC2X3";
+	case BuildingModel::IFC2X4: return "IFC2X4";
+	case BuildingModel::IFC4: return "IFC4";
+	case BuildingModel::IFC4X1: return "IFC4X1";
+	case BuildingModel::IFC4X3: return "IFC4X3";
 	}
-	return L"IFC_VERSION_UNDEFINED";
+	return "IFC_VERSION_UNDEFINED";
 };
 
-std::wstring BuildingModel::getIfcSchemaVersionOfLoadedFile()
+std::string BuildingModel::getIfcSchemaVersionOfLoadedFile()
 {
 	return getIfcSchemaVersionString(m_ifc_schema_version_loaded_file);
 }
 
-std::wstring BuildingModel::getIfcSchemaVersionCurrent()
+std::string BuildingModel::getIfcSchemaVersionCurrent()
 {
 	return getIfcSchemaVersionString(m_ifc_schema_version_current);
 }
@@ -108,12 +110,12 @@ void BuildingModel::initIfcModel()
 	insertEntity(project);
 
 	shared_ptr<IfcPerson> person( new IfcPerson() );
-	person->m_FamilyName = std::make_shared<IfcLabel>( L"FamilyName" );
-	person->m_GivenName = std::make_shared<IfcLabel>( L"GivenName" );
+	person->m_FamilyName = std::make_shared<IfcLabel>( "FamilyName" );
+	person->m_GivenName = std::make_shared<IfcLabel>( "GivenName" );
 	insertEntity(person);
 	
 	shared_ptr<IfcOrganization> org( new IfcOrganization() );
-	org->m_Name = std::make_shared<IfcLabel>( L"OrganizationName" );
+	org->m_Name = std::make_shared<IfcLabel>( "OrganizationName" );
 	insertEntity(org);
 
 	shared_ptr<IfcPersonAndOrganization> person_org( new IfcPersonAndOrganization() );
@@ -123,9 +125,9 @@ void BuildingModel::initIfcModel()
 
 	shared_ptr<IfcApplication> app( new IfcApplication() );
 	app->m_ApplicationDeveloper = org;
-	app->m_Version = std::make_shared<IfcLabel>( L"1.0" );
-	app->m_ApplicationFullName = std::make_shared<IfcLabel>( L"IfcPlusPlus" );
-	app->m_ApplicationIdentifier = std::make_shared<IfcIdentifier>( L"IfcPlusPlus" );
+	app->m_Version = std::make_shared<IfcLabel>( "1.0" );
+	app->m_ApplicationFullName = std::make_shared<IfcLabel>( "IfcPlusPlus" );
+	app->m_ApplicationIdentifier = std::make_shared<IfcIdentifier>( "IfcPlusPlus" );
 	insertEntity(app);
 
 	shared_ptr<IfcCartesianPoint> point( new IfcCartesianPoint() );
@@ -172,16 +174,16 @@ void BuildingModel::initIfcModel()
 	unit_assignment->m_Units.push_back( plane_angle_unit );
 	insertEntity(unit_assignment);
 
-	project->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid_wstr() );
+	project->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid() );
 	project->m_OwnerHistory = owner_history;
-	project->m_Name = std::make_shared<IfcLabel>( L"IfcPlusPlus project" );
+	project->m_Name = std::make_shared<IfcLabel>( "IfcPlusPlus project" );
 	project->m_UnitsInContext = unit_assignment;
 
 	// create default IfcSite
 	shared_ptr<IfcSite> site( new IfcSite() );
-	site->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid_wstr() );
+	site->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid() );
 	site->m_OwnerHistory = owner_history;
-	site->m_Name = std::make_shared<IfcLabel>( L"Site" );
+	site->m_Name = std::make_shared<IfcLabel>( "Site" );
 	insertEntity(site);
 
 	shared_ptr<IfcRelAggregates> rel_aggregates_site( new IfcRelAggregates() );
@@ -190,9 +192,9 @@ void BuildingModel::initIfcModel()
 
 	// create default Building
 	shared_ptr<IfcBuilding> building( new IfcBuilding() );
-	building->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid_wstr() );
+	building->m_GlobalId = std::make_shared<IfcGloballyUniqueId>( createBase64Uuid() );
 	building->m_OwnerHistory = owner_history;
-	building->m_Name = std::make_shared<IfcLabel>( L"Building" );
+	building->m_Name = std::make_shared<IfcLabel>( "Building" );
 	insertEntity( building );
 	
 	// set up world coordinate system
@@ -234,16 +236,20 @@ void BuildingModel::initCopyIfcModel( const shared_ptr<BuildingModel>& other )
 	clearIfcModel();
 
 	shared_ptr<IfcProject> project = other->getIfcProject();
-	std::map<BuildingEntity*, shared_ptr<BuildingEntity> > map_entities_copy;
+	std::map<BuildingObject*, shared_ptr<BuildingObject> > map_entities_copy;
 	map_entities_copy[project.get()] = project;
 	
-	shared_ptr<BuildingEntity> project_as_entity( project );
+	shared_ptr<BuildingObject> project_as_entity( project );
 	collectDependentEntities( project_as_entity, map_entities_copy );
 
 	for( auto it = map_entities_copy.begin(); it != map_entities_copy.end(); ++it )
 	{
-		shared_ptr<BuildingEntity> entity = it->second;
-		insertEntity( entity );
+		shared_ptr<BuildingObject> bo = it->second;
+		shared_ptr<BuildingEntity> entity = dynamic_pointer_cast<BuildingEntity>(bo);
+		if( entity )
+		{
+			insertEntity(entity);
+		}
 	}
 
 	updateCache();
@@ -288,15 +294,15 @@ void BuildingModel::insertEntity( shared_ptr<BuildingEntity> e, bool overwrite_e
 	{
 		return;
 	}
-	int entity_id = e->m_entity_id;
-	if( entity_id < 0 )
+	int tag = e->m_tag;
+	if( tag < 0 )
 	{
 		int next_unused_id = getMaxUsedEntityId() + 1;
-		e->m_entity_id = next_unused_id;
-		entity_id = next_unused_id;
+		e->m_tag = next_unused_id;
+		tag = next_unused_id;
 	}
 
-	auto it_find = m_map_entities.find( entity_id );
+	auto it_find = m_map_entities.find( tag );
 	if( it_find != m_map_entities.end() )
 	{
 		// key already exists
@@ -315,7 +321,7 @@ void BuildingModel::insertEntity( shared_ptr<BuildingEntity> e, bool overwrite_e
 	else
 	{
 		// the key does not exist in the map
-		m_map_entities.insert( it_find, std::map<int, shared_ptr<BuildingEntity> >::value_type( entity_id, e ) );
+		m_map_entities.insert( it_find, std::map<int, shared_ptr<BuildingEntity> >::value_type( tag, e ) );
 	}
 #ifdef _DEBUG
 	shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>( e );
@@ -343,7 +349,7 @@ void BuildingModel::removeEntity( shared_ptr<BuildingEntity> e )
 		messageCallback( "Entity not valid", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, e.get() );
 		return;
 	}
-	int remove_id = e->m_entity_id;
+	int remove_id = e->m_tag;
 	auto it_find = m_map_entities.find(remove_id);
 	if( it_find == m_map_entities.end() )
 	{
@@ -386,9 +392,9 @@ void BuildingModel::removeEntity( shared_ptr<BuildingEntity> e )
 	m_map_entities.erase( it_find );
 }
 
-void BuildingModel::removeEntity( int entity_id )
+void BuildingModel::removeEntity( int tag )
 {
-	auto it_find = m_map_entities.find(entity_id);
+	auto it_find = m_map_entities.find(tag);
 	if( it_find != m_map_entities.end() )
 	{
 		shared_ptr<BuildingEntity> entity_found = it_find->second;
@@ -473,8 +479,8 @@ void BuildingModel::removeUnreferencedEntities()
 				entity->unlinkFromInverseCounterparts();
 				auto erase_it = it_entities;
 #ifdef _DEBUG
-				int entity_id = entity->m_entity_id;
-				const char* entity_className = entity->className();
+				int tag = entity->m_tag;
+				const char* entity_className = IFC4X3::EntityFactory::getStringForClassID(entity->classID());
 #endif
 				++it_entities;
 				// TODO: check here if it really has been removed
@@ -492,12 +498,11 @@ void BuildingModel::removeUnreferencedEntities()
 	}
 }
 
-void BuildingModel::initFileHeader( std::wstring file_name )
+void BuildingModel::initFileHeader( std::string file_name )
 {
 	m_file_name = file_name;
 	std::string filename_escaped = encodeStepString( file_name );
-	std::wstringstream strs;
-	// ISO-10303-21; is set outside of header
+	std::stringstream strs;
 	strs << "HEADER;" << std::endl;
 	strs << "FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');" << std::endl;
 	strs << "FILE_NAME('" << filename_escaped.c_str() << "','";
@@ -521,17 +526,17 @@ void BuildingModel::initFileHeader( std::wstring file_name )
 	m_file_header = strs.str();
 }
 
-void BuildingModel::setFileHeader( const std::wstring& header )
+void BuildingModel::setFileHeader( const std::string& header )
 {
 	m_file_header = header;
 }
 
-void BuildingModel::setFileDescription( const std::wstring& description )
+void BuildingModel::setFileDescription( const std::string& description )
 {
 	m_IFC_FILE_DESCRIPTION = description;
 }
 
-void BuildingModel::setFileName( const std::wstring& name )
+void BuildingModel::setFileName( const std::string& name )
 {
 	m_IFC_FILE_NAME = name;
 }
@@ -543,9 +548,9 @@ void BuildingModel::clearIfcModel()
 	m_geom_context_3d.reset();
 	m_ifc_schema_version_current = IFC4X1;
 	m_ifc_schema_version_loaded_file = IFC4X1;
-	m_IFC_FILE_NAME = L"";
-	m_IFC_FILE_DESCRIPTION = L"";
-	m_file_header = L"";
+	m_IFC_FILE_NAME = "";
+	m_IFC_FILE_DESCRIPTION = "";
+	m_file_header = "";
 	m_unit_converter->resetUnitFactors();
 }
 
@@ -620,6 +625,7 @@ void BuildingModel::resolveInverseAttributes()
 		{
 			continue;
 		}
+
 		entity->setInverseCounterparts( entity );
 	}
 }
@@ -637,104 +643,92 @@ void BuildingModel::unsetInverseAttributes()
 	}
 }
 
-void BuildingModel::collectDependentEntities( shared_ptr<BuildingEntity> entity, std::map<BuildingEntity*, shared_ptr<BuildingEntity> >& target_map, bool resolveInverseAttributes )
+void BuildingModel::collectDependentEntities( shared_ptr<BuildingObject> obj, std::map<BuildingObject*, shared_ptr<BuildingObject> >& target_map, bool resolveInverseAttributes )
 {
-	if( !entity )
+	if( !obj )
 	{
 		return;
 	}
-	if( target_map.find( entity.get() ) != target_map.end() )
+	if( target_map.find( obj.get() ) != target_map.end() )
 	{
 		//return;
 	}
-	target_map[entity.get()] = entity;
 
-	shared_ptr<IfcElementAssembly> ele_assembly = dynamic_pointer_cast<IfcElementAssembly>( entity );
-	if( ele_assembly )
+	target_map[obj.get()] = obj;
+
+	shared_ptr<BuildingEntity> entity = dynamic_pointer_cast<BuildingEntity>( obj );
+
+	if( entity )
 	{
-		int assembly_id = ele_assembly->m_entity_id;
-		std::vector<weak_ptr<IfcRelAggregates> >& vec_is_decomposed_by = ele_assembly->m_IsDecomposedBy_inverse;
-		for(const auto & is_decomposed_weak_ptr : vec_is_decomposed_by)
+		shared_ptr<IfcElementAssembly> ele_assembly = dynamic_pointer_cast<IfcElementAssembly>(entity);
+		if( ele_assembly )
 		{
-			shared_ptr<IfcRelDecomposes> rel_dec;
-			if( is_decomposed_weak_ptr.expired() )
+			int assembly_id = ele_assembly->m_tag;
+			std::vector<weak_ptr<IfcRelAggregates> >& vec_is_decomposed_by = ele_assembly->m_IsDecomposedBy_inverse;
+			for( const auto& is_decomposed_weak_ptr : vec_is_decomposed_by )
 			{
-				continue;
-			}
-			shared_ptr<IfcRelAggregates> is_decomposed_ptr( is_decomposed_weak_ptr );
-			if( is_decomposed_ptr )
-			{
-				shared_ptr<BuildingEntity> as_ifcpp_entity = is_decomposed_ptr;
-				collectDependentEntities( as_ifcpp_entity, target_map, resolveInverseAttributes );
-			}
-		}
-	}
-
-	shared_ptr<IfcSpatialElement> spatial_element = dynamic_pointer_cast<IfcSpatialElement>(entity);
-	if( spatial_element && false )
-	{
-		for( const auto& contains_weak_ptr : spatial_element->m_ContainsElements_inverse )
-		{
-			if( contains_weak_ptr.expired() )
-			{
-				continue;
-			}
-
-			shared_ptr<IfcRelContainedInSpatialStructure> rel_contained(contains_weak_ptr);
-			if( rel_contained )
-			{
-				for( auto relatedProduct : rel_contained->m_RelatedElements )
+				shared_ptr<IfcRelDecomposes> rel_dec;
+				if( is_decomposed_weak_ptr.expired() )
 				{
-					collectDependentEntities(relatedProduct, target_map, resolveInverseAttributes);
+					continue;
+				}
+				shared_ptr<IfcRelAggregates> is_decomposed_ptr(is_decomposed_weak_ptr);
+				if( is_decomposed_ptr )
+				{
+					shared_ptr<BuildingEntity> as_ifcpp_entity = is_decomposed_ptr;
+					collectDependentEntities(as_ifcpp_entity, target_map, resolveInverseAttributes);
 				}
 			}
 		}
-	}
 
-	std::vector<std::pair<std::string, shared_ptr<BuildingObject> > > vec_attributes;
-	entity->getAttributes( vec_attributes );
+		std::vector<std::pair<std::string, shared_ptr<BuildingObject> > > vec_attributes;
+		entity->getAttributes(vec_attributes);
 
-	if( resolveInverseAttributes )
-	{
-		entity->getAttributesInverse( vec_attributes );
-	}
-
-	for(auto & vec_attribute : vec_attributes)
-	{
-		shared_ptr<BuildingObject>& attribute = vec_attribute.second;
-		if( !attribute )
+		if( resolveInverseAttributes )
 		{
-			// empty attribute
-			continue;
+			entity->getAttributesInverse(vec_attributes);
 		}
-		shared_ptr<BuildingEntity> attribute_entity = dynamic_pointer_cast<BuildingEntity>( attribute );
-		if( attribute_entity )
+
+		for( auto& vec_attribute : vec_attributes )
 		{
-			if( target_map.find( attribute_entity.get() ) == target_map.end() )
+			shared_ptr<BuildingObject>& attribute = vec_attribute.second;
+			if( !attribute )
 			{
-				target_map[attribute_entity.get()] = attribute_entity;
-				collectDependentEntities( attribute_entity, target_map, resolveInverseAttributes );
+				// empty attribute
+				continue;
 			}
-			continue;
-		}
-
-		shared_ptr<AttributeObjectVector> attribute_object_vector = dynamic_pointer_cast<AttributeObjectVector>( attribute );
-		if( attribute_object_vector )
-		{
-			std::vector<shared_ptr<BuildingObject> >& vec_of_attributes = attribute_object_vector->m_vec;
-
-			for(auto & attribute_object : vec_of_attributes)
+			shared_ptr<BuildingEntity> attribute_entity = dynamic_pointer_cast<BuildingEntity>(attribute);
+			if( attribute_entity )
 			{
-				shared_ptr<BuildingEntity> attribute_entity = dynamic_pointer_cast<BuildingEntity>( attribute_object );
-				if( attribute_entity )
+				if( target_map.find(attribute_entity.get()) == target_map.end() )
 				{
-					if( target_map.find( attribute_entity.get() ) == target_map.end() )
-					{
-						target_map[attribute_entity.get()] = attribute_entity;
-						collectDependentEntities( attribute_entity, target_map, resolveInverseAttributes );
-					}
+					target_map[attribute_entity.get()] = attribute_entity;
+					collectDependentEntities(attribute_entity, target_map, resolveInverseAttributes);
 				}
+				continue;
 			}
+
+			shared_ptr<AttributeObjectVector> attribute_object_vector = dynamic_pointer_cast<AttributeObjectVector>(attribute);
+			if( attribute_object_vector )
+			{
+				std::vector<shared_ptr<BuildingObject> >& vec_of_attributes = attribute_object_vector->m_vec;
+				for( auto& attribute_object : vec_of_attributes )
+				{
+					collectDependentEntities(attribute_object, target_map, resolveInverseAttributes);
+				}
+				continue;
+			}
+		}
+		return;
+	}
+
+	shared_ptr<AttributeObjectVector> attribute_object_vector = dynamic_pointer_cast<AttributeObjectVector>(obj);
+	if( attribute_object_vector )
+	{
+		std::vector<shared_ptr<BuildingObject> >& vec_of_attributes = attribute_object_vector->m_vec;
+		for( auto& attribute_object : vec_of_attributes )
+		{
+			collectDependentEntities(attribute_object, target_map, resolveInverseAttributes);
 		}
 	}
 }

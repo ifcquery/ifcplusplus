@@ -23,13 +23,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "BuildingGuid.h"
 
 ///@brief Creates a GUID string with 36 characters including dashes, for example: "F103000C-9865-44EE-BE6E-CCC780B81423"
-std::wstring createGUID32_wstr()
-{
-	std::string guid = createGUID32();
-	std::wstring guid_wstr = string2wstring(guid);
-	return guid_wstr;
-}
-
 std::string createGUID32()
 {
 	std::random_device              rd;
@@ -76,45 +69,6 @@ static const char base64mask[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -
 ///@brief Compresses a GUID string
 ///@details Expects a string with exactly 36 characters including dashes, for example: "F103000C-9865-44EE-BE6E-CCC780B81423"
 ///@returns an IFC GUID string with 22 characters, for example: "3n0m0Cc6L4xhvkpCU0k1GZ"
-std::wstring compressGUID_wstr(const std::wstring& in)
-{
-	static constexpr std::array<wchar_t, 64> base64Chars = {
-		'0','1','2','3','4','5','6','7','8','9',
-		'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-		'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-		'_','$'
-	};
-	
-	std::wstring temp;
-	std::wstring result;
-	result.resize(23);
-	result[0] = '0';
-
-	temp.push_back('0');
-
-	// remove dashes
-	for (size_t ii = 0; ii < in.length(); ++ii)
-	{
-		if (in[ii] != '-')
-		{
-			temp.push_back(in[ii]);
-		}
-	}
-
-	// compress
-	int n = 0;
-	for (size_t ii_out = 0, ii = 0; ii < 32; ii += 3)
-	{
-		n = base16mask[temp[ii]] << 8;
-		n += base16mask[temp[ii + 1]] << 4;
-		n += base16mask[temp[ii + 2]];
-		result[ii_out + 1] = base64Chars[n % 64];
-		result[ii_out] = base64Chars[n / 64];
-		ii_out += 2;
-	}
-	result.resize(22);
-	return result;
-}
 std::string compressGUID(const std::string& in)
 {
 	static constexpr std::array<char, 64> base64Chars = {
@@ -158,42 +112,6 @@ std::string compressGUID(const std::string& in)
 ///@brief Decompresses an IFC GUID string
 ///@details Expects a string with exactly 22 characters, for example "3n0m0Cc6L4xhvkpCU0k1GZ"
 ///@returns GUID string with 36 characters, including dashes, for example: "F103000C-9865-44EE-BE6E-CCC780B81423"
-std::wstring decompressGUID_wstr(const std::wstring& in )
-{
-	static constexpr std::array<wchar_t, 16> base16Chars = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
-
-	wchar_t temp[32 + 2];
-	size_t ii_out = 0;
-	int n = 0;
-	int t = 0;
-
-	for (size_t ii = 0; ii < 22; ii += 2)
-	{
-		n = base64mask[in[ii]] << 6;
-		n += base64mask[in[ii + 1]];
-		t = n / 16;
-		temp[ii_out + 2] = base16Chars[n % 16];
-		temp[ii_out + 1] = base16Chars[t % 16];
-		temp[ii_out] = base16Chars[t / 16];
-		ii_out += 3;
-	}
-	temp[ii_out] = '\0';
-
-	// add dashes: F103000C-9865-44EE-BE6E-CCC780B81423
-	std::wstring result;
-	for (size_t ii = 1; ii < 36; ++ii)
-	{
-		if (ii == 9 || ii == 13 || ii == 17 || ii == 21)
-		{
-			result.push_back('-');
-		}
-
-		result.push_back(temp[ii]);
-	}
-
-	result.resize(36);
-	return result;
-}
 std::string decompressGUID(const std::string& in)
 {
 	static constexpr std::array<char, 16> base16Chars = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
@@ -235,12 +153,6 @@ std::string decompressGUID(const std::string& in)
 ///@details Use desired character type as template parameter - char or wchar_t.
 ///IFC uses a different base64 character set than RFC4648 - it starts with digits
 ///instead of uppercase letters and uses '_' and '$' as last two characters.
-std::wstring createBase64Uuid_wstr()
-{
-	std::wstring guid_uncompressed = createGUID32_wstr();
-	std::wstring guid_compressed = compressGUID_wstr(guid_uncompressed);
-	return guid_compressed;
-}
 std::string createBase64Uuid()
 {
 	std::string guid_uncompressed = createGUID32();

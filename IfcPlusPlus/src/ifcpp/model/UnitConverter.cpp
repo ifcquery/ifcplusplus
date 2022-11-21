@@ -18,23 +18,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <cstring>
-#include "ifcpp/IFC4/include/IfcConversionBasedUnit.h"
-#include "ifcpp/IFC4/include/IfcLabel.h"
-#include "ifcpp/IFC4/include/IfcLengthMeasure.h"
-#include "ifcpp/IFC4/include/IfcMeasureWithUnit.h"
-#include "ifcpp/IFC4/include/IfcPlaneAngleMeasure.h"
-#include "ifcpp/IFC4/include/IfcProject.h"
-#include "ifcpp/IFC4/include/IfcRatioMeasure.h"
-#include "ifcpp/IFC4/include/IfcUnit.h"
-#include "ifcpp/IFC4/include/IfcSIUnit.h"
-#include "ifcpp/IFC4/include/IfcSIUnitName.h"
-#include "ifcpp/IFC4/include/IfcSIPrefix.h"
-#include "ifcpp/IFC4/include/IfcUnitAssignment.h"
-#include "ifcpp/IFC4/include/IfcUnitEnum.h"
-#include "ifcpp/IFC4/include/IfcValue.h"
+#include <IfcConversionBasedUnit.h>
+#include <IfcLabel.h>
+#include <IfcLengthMeasure.h>
+#include <IfcMeasureWithUnit.h>
+#include <IfcPlaneAngleMeasure.h>
+#include <IfcProject.h>
+#include <IfcRatioMeasure.h>
+#include <IfcUnit.h>
+#include <IfcSIUnit.h>
+#include <IfcSIUnitName.h>
+#include <IfcSIPrefix.h>
+#include <IfcUnitAssignment.h>
+#include <IfcUnitEnum.h>
+#include <IfcValue.h>
 
 #include "ifcpp/reader/ReaderUtil.h"
 #include "UnitConverter.h"
+
+using namespace IFC4X3;
 
 UnitConverter::UnitConverter()
 {
@@ -118,7 +120,7 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 	std::vector<shared_ptr<IfcUnit> >& vec_units = unit_assignment->m_Units;
 	for(auto unit : vec_units)
 	{
-		if( !unit )
+			if( !unit )
 		{
 			continue;
 		}
@@ -215,22 +217,22 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 									}
 								}
 
-								if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), L"INCH" ) )
+								if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), "INCH" ) )
 								{
 									m_length_unit_factor = 25.4*0.001; // 1 unit is 25.4 mm
 									m_length_unit_found = true;
 								}
-								else if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), L"FOOT" ) )
+								else if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), "FOOT" ) )
 								{
 									m_length_unit_factor = 304.8*0.001; // 1 unit is 304.8 mm
 									m_length_unit_found = true;
 								}
-								else if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), L"YARD" ) )
+								else if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), "YARD" ) )
 								{
 									m_length_unit_factor = 914*0.001; // 1 unit is 914 mm
 									m_length_unit_found = true;
 								}
-								else if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), L"MILE" ) )
+								else if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), "MILE" ) )
 								{
 									m_length_unit_factor = 1609*0.001; // 1 unit is 1609 mm
 									m_length_unit_found = true;
@@ -256,7 +258,7 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 									}
 									else if( conversion_based_unit->m_Name )
 									{
-										if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), L"DEGREE" ) )
+										if( std_iequal( conversion_based_unit->m_Name->m_value.c_str(), "DEGREE" ) )
 										{
 											m_angular_unit = DEGREE;
 											m_plane_angle_factor = M_PI / 180.0;

@@ -23,37 +23,40 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/model/UnitConverter.h>
-#include <ifcpp/IFC4/include/IfcAnnotationFillArea.h>
-#include <ifcpp/IFC4/include/IfcBooleanResult.h>
-#include <ifcpp/IFC4/include/IfcBoundingBox.h>
-#include <ifcpp/IFC4/include/IfcClosedShell.h>
-#include <ifcpp/IFC4/include/IfcConnectedFaceSet.h>
-#include <ifcpp/IFC4/include/IfcElement.h>
-#include <ifcpp/IFC4/include/IfcFaceBasedSurfaceModel.h>
-#include <ifcpp/IFC4/include/IfcFaceSurface.h>
-#include <ifcpp/IFC4/include/IfcFeatureElementSubtraction.h>
-#include <ifcpp/IFC4/include/IfcGeometricCurveSet.h>
-#include <ifcpp/IFC4/include/IfcGeometricRepresentationItem.h>
-#include <ifcpp/IFC4/include/IfcGeometricSet.h>
-#include <ifcpp/IFC4/include/IfcGloballyUniqueId.h>
-#include <ifcpp/IFC4/include/IfcLabel.h>
-#include <ifcpp/IFC4/include/IfcMappedItem.h>
-#include <ifcpp/IFC4/include/IfcOpenShell.h>
-#include <ifcpp/IFC4/include/IfcPath.h>
-#include <ifcpp/IFC4/include/IfcPresentableText.h>
-#include <ifcpp/IFC4/include/IfcPresentationLayerWithStyle.h>
-#include <ifcpp/IFC4/include/IfcProductRepresentation.h>
-#include <ifcpp/IFC4/include/IfcPropertySet.h>
-#include <ifcpp/IFC4/include/IfcSectionedSpine.h>
-#include <ifcpp/IFC4/include/IfcShellBasedSurfaceModel.h>
-#include <ifcpp/IFC4/include/IfcSolidModel.h>
-#include <ifcpp/IFC4/include/IfcStyledItem.h>
-#include <ifcpp/IFC4/include/IfcRelVoidsElement.h>
-#include <ifcpp/IFC4/include/IfcRepresentation.h>
-#include <ifcpp/IFC4/include/IfcRepresentationItem.h>
-#include <ifcpp/IFC4/include/IfcRepresentationMap.h>
-#include <ifcpp/IFC4/include/IfcTessellatedItem.h>
-#include <ifcpp/IFC4/include/IfcTextLiteral.h>
+#include <IfcAnnotationFillArea.h>
+#include <IfcBooleanResult.h>
+#include <IfcBoundingBox.h>
+#include <IfcClosedShell.h>
+#include <IfcConnectedFaceSet.h>
+#include <IfcElement.h>
+#include <IfcFaceBasedSurfaceModel.h>
+#include <IfcFaceSurface.h>
+#include <IfcFeatureElementSubtraction.h>
+#include <IfcGeometricCurveSet.h>
+#include <IfcGeometricRepresentationItem.h>
+#include <IfcGeometricSet.h>
+#include <IfcGloballyUniqueId.h>
+#include <IfcIndexedPolygonalFaceWithVoids.h>
+#include <IfcLabel.h>
+#include <IfcMappedItem.h>
+#include <IfcOpenShell.h>
+#include <IfcPath.h>
+#include <IfcPolygonalFaceSet.h>
+#include <IfcPresentableText.h>
+#include <IfcPresentationLayerWithStyle.h>
+#include <IfcProductRepresentation.h>
+#include <IfcPropertySet.h>
+#include <IfcSectionedSpine.h>
+#include <IfcShellBasedSurfaceModel.h>
+#include <IfcSolidModel.h>
+#include <IfcStyledItem.h>
+#include <IfcRelVoidsElement.h>
+#include <IfcRepresentation.h>
+#include <IfcRepresentationItem.h>
+#include <IfcRepresentationMap.h>
+#include <IfcTessellatedFaceSet.h>
+#include <IfcTextLiteral.h>
+#include <IfcTriangulatedFaceSet.h>
 
 #include "IncludeCarveHeaders.h"
 #include "GeometryInputData.h"
@@ -64,7 +67,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "SolidModelConverter.h"
 #include "FaceConverter.h"
 #include "ProfileCache.h"
-#include "TessellatedItemConverter.h"
 
 class RepresentationConverter : public StatusCallback
 {
@@ -80,7 +82,6 @@ protected:
 	shared_ptr<ProfileCache>			m_profile_cache;
 	shared_ptr<FaceConverter>			m_face_converter;
 	shared_ptr<SolidModelConverter>		m_solid_converter;
-	shared_ptr<TessellatedItemConverter> m_tessel_converter;
 	
 public:
 	RepresentationConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter )
@@ -95,7 +96,6 @@ public:
 		m_profile_cache = shared_ptr<ProfileCache>( new ProfileCache( m_curve_converter, m_spline_converter ) );
 		m_face_converter = shared_ptr<FaceConverter>( new FaceConverter( m_geom_settings, m_unit_converter, m_curve_converter, m_spline_converter, m_sweeper ) );
 		m_solid_converter = shared_ptr<SolidModelConverter>( new SolidModelConverter( m_geom_settings, m_point_converter, m_curve_converter, m_face_converter, m_profile_cache, m_sweeper ) );
-		m_tessel_converter = shared_ptr<TessellatedItemConverter>( new TessellatedItemConverter( m_unit_converter ) );
 		
 
 		// this redirects the callback messages from all converters to RepresentationConverter's callback
@@ -108,7 +108,6 @@ public:
 		m_profile_cache->setMessageTarget( this );
 		m_face_converter->setMessageTarget( this );
 		m_solid_converter->setMessageTarget( this );
-		m_tessel_converter->setMessageTarget( this );
 	}
 
 	virtual ~RepresentationConverter()
@@ -157,64 +156,24 @@ public:
 	{
 		if( ifc_representation->m_RepresentationIdentifier )
 		{
-			// http://www.buildingsmart-tech.org/ifc/IFC4/final/html/index.htm
-			// Box	Bounding box as simplified 3D box geometry of an element
-			// Annotation	2D annotations not representing elements
-			// Axis	2D or 3D Axis, or single line, representation of an element
-			// FootPrint	2D Foot print, or double line, representation of an element, projected to ground view
-			// Profile	3D line representation of a profile being planar, e.g. used for door and window outlines
-			// Surface	3D Surface representation, e.g. of an analytical surface, of an elementplane)
-			// Body	3D Body representation, e.g. as wireframe, surface, or solid model, of an element
-			// Body-FallBack	3D Body representation, e.g. as tessellation, or other surface, or boundary representation, added in addition to the solid model (potentially involving Boolean operations) of an element
-			// Clearance	3D clearance volume of the element. Such clearance region indicates space that should not intersect with the 'Body' representation of other elements, though may intersect with the 'Clearance' representation of other elements.
-			// Lighting	Representation of emitting light as a light source within a shape representation
 			representation_data->m_representation_identifier = ifc_representation->m_RepresentationIdentifier->m_value;
 		}
 
 		if( ifc_representation->m_RepresentationType )
 		{
-			// Point	2 or 3 dimensional point(s)
-			// PointCloud	3 dimensional points represented by a point list
-			// Curve	2 or 3 dimensional curve(s)
-			// Curve2D	2 dimensional curve(s)
-			// Curve3D	3 dimensional curve(s)
-			// Surface	2 or 3 dimensional surface(s)
-			// Surface2D	2 dimensional surface(s) (a region on ground view)
-			// Surface3D	3 dimensional surface(s)
-			// FillArea	2D region(s) represented as a filled area (hatching)
-			// Text	text defined as text literals
-			// AdvancedSurface	3 dimensional b-spline surface(s)
-			// GeometricSet	points, curves, surfaces (2 or 3 dimensional)
-			//		GeometricCurveSet	points, curves (2 or 3 dimensional)
-			//		Annotation2D	points, curves (2 or 3 dimensional), hatches and text (2 dimensional)
-			// SurfaceModel	face based and shell based surface model(s), or tessellated surface model(s)
-			//		Tessellation	tessellated surface representation(s) only
-			// SolidModel	including swept solid, Boolean results and Brep bodies; more specific types are:
-			//		SweptSolid	swept area solids, by extrusion and revolution, excluding tapered sweeps
-			//		AdvancedSweptSolid	swept area solids created by sweeping a profile along a directrix, and tapered sweeps
-			//		Brep	faceted Brep's with and without voids
-			//		AdvancedBrep	Brep's based on advanced faces, with b-spline surface geometry, with and without voids
-			//		CSG	Boolean results of operations between solid models, half spaces and Boolean results
-			//		Clipping	Boolean differences between swept area solids, half spaces and Boolean results
 			representation_data->m_representation_type = ifc_representation->m_RepresentationType->m_value;
 		}
 
 		representation_data->m_ifc_representation = ifc_representation;
 		representation_data->m_ifc_representation_context = ifc_representation->m_ContextOfItems;
 
-		for( size_t i_representation_items = 0; i_representation_items < ifc_representation->m_Items.size(); ++i_representation_items )
+		for( const shared_ptr<IfcRepresentationItem>& representation_item : ifc_representation->m_Items )
 		{
-			shared_ptr<IfcRepresentationItem> representation_item = ifc_representation->m_Items[i_representation_items];
-
 			//ENTITY IfcRepresentationItem  ABSTRACT SUPERTYPE OF(ONEOF(IfcGeometricRepresentationItem, IfcMappedItem, IfcStyledItem, IfcTopologicalRepresentationItem));
 			shared_ptr<IfcGeometricRepresentationItem> geom_item = dynamic_pointer_cast<IfcGeometricRepresentationItem>( representation_item );
 			if( geom_item )
 			{
 				shared_ptr<ItemShapeData> geom_item_data( new ItemShapeData() );
-				if( !geom_item_data )
-				{
-					throw OutOfMemoryException( __FUNC__ );
-				}
 				representation_data->m_vec_item_data.push_back( geom_item_data );
 				geom_item_data->m_parent_representation = representation_data;
 				geom_item_data->m_ifc_item = geom_item;
@@ -222,10 +181,6 @@ public:
 				try
 				{
 					convertIfcGeometricRepresentationItem( geom_item, geom_item_data );
-				}
-				catch( OutOfMemoryException& e )
-				{
-					throw e;
 				}
 				catch( BuildingException& e )
 				{
@@ -278,18 +233,10 @@ public:
 				}
 
 				shared_ptr<RepresentationData> mapped_input_data( new RepresentationData() );
-				if( !mapped_input_data )
-				{
-					throw OutOfMemoryException( __FUNC__ );
-				}
 
 				try
 				{
 					convertIfcRepresentation( mapped_representation, mapped_input_data );
-				}
-				catch( OutOfMemoryException& e )
-				{
-					throw e;
 				}
 				catch( BuildingException& e )
 				{
@@ -344,31 +291,10 @@ public:
 			if( topo_item )
 			{
 				shared_ptr<ItemShapeData> topological_item_data( new ItemShapeData() );
-				if( !topological_item_data )
-				{
-					throw OutOfMemoryException( __FUNC__ );
-				}
 				representation_data->m_vec_item_data.push_back( topological_item_data );
 				topological_item_data->m_parent_representation = representation_data;
 				topological_item_data->m_ifc_item = topo_item;
-
-				try
-				{
-					convertTopologicalRepresentationItem( topo_item, topological_item_data );
-				}
-				catch( OutOfMemoryException& e )
-				{
-					throw e;
-				}
-				catch( BuildingException& e )
-				{
-					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", representation_item.get() );
-				}
-				catch( std::exception& e )
-				{
-					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, representation_item.get() );
-				}
-
+				convertTopologicalRepresentationItem(topo_item, topological_item_data);
 				continue;
 			}
 
@@ -380,9 +306,21 @@ public:
 			std::vector<weak_ptr<IfcPresentationLayerAssignment> >& vec_layer_assignments_inverse = ifc_representation->m_LayerAssignments_inverse;
 			for( size_t ii = 0; ii < vec_layer_assignments_inverse.size(); ++ii )
 			{
+				weak_ptr<IfcPresentationLayerAssignment>& layer_assignment_weak = vec_layer_assignments_inverse[ii];
+				if( layer_assignment_weak.expired() )
+				{
+					continue;
+				}
+
 				shared_ptr<IfcPresentationLayerAssignment> layer_assignment( vec_layer_assignments_inverse[ii] );
 				if( layer_assignment )
 				{
+					// attributes:
+					shared_ptr<IfcLabel>						layerName = layer_assignment->m_Name;
+					shared_ptr<IfcText>							layerDescription = layer_assignment->m_Description;				//optional
+					std::vector<shared_ptr<IfcLayeredItem> >&	layerAssignedItems = layer_assignment->m_AssignedItems;
+					shared_ptr<IfcIdentifier>					layerID = layer_assignment->m_Identifier;				//optional
+
 					shared_ptr<IfcPresentationLayerWithStyle> layer_assignment_with_style = dynamic_pointer_cast<IfcPresentationLayerWithStyle>( layer_assignment );
 					if( layer_assignment_with_style )
 					{
@@ -401,9 +339,67 @@ public:
 							}
 						}
 					}
+					else
+					{
+						// check layerName etc. for window transparency
+					}
 				}
 			}
 		}
+	}
+
+	void copyIndexedFaceLoop(const std::vector<shared_ptr<IfcPositiveInteger> >& vecIdx, const std::vector<vec3>& vecPointsIn, std::vector<vec3>& vecOut)
+	{
+		for( size_t ii = 0; ii < vecIdx.size(); ++ii )
+		{
+			const shared_ptr<IfcPositiveInteger>& positiveInt = vecIdx[ii];
+			if( !positiveInt )
+			{
+				continue;
+			}
+			size_t idx = (size_t)positiveInt->m_value - 1;  // 1 based index in IfcIndexedPolygonalFace
+			if( idx >= vecPointsIn.size() )
+			{
+				std::cout << "copyIndexedFaceLoop: invalid index" << std::endl;
+				continue;
+			}
+			vecOut.push_back(vecPointsIn[idx]);
+		}
+	}
+
+	void convertIndexedPolygonalFace(shared_ptr<IfcIndexedPolygonalFace>& polygonalFace, std::vector<vec3>& pointStorage, PolyInputCache3D& poly_cache)
+	{
+		// IfcIndexedPolygonalFace -----------------------------------------------------------
+		// std::vector<shared_ptr<IfcPositiveInteger> >			m_CoordIndex;
+
+		std::vector<vec3> faceOuterBound;
+		copyIndexedFaceLoop(polygonalFace->m_CoordIndex, pointStorage, faceOuterBound);
+
+		std::vector<std::vector<vec3> > face_loops;
+		face_loops.push_back(faceOuterBound);
+
+		shared_ptr<IfcIndexedPolygonalFaceWithVoids> faceWithVoids = dynamic_pointer_cast<IfcIndexedPolygonalFaceWithVoids>(polygonalFace);
+		if( faceWithVoids )
+		{
+			for( auto innerLoop : faceWithVoids->m_InnerCoordIndices )
+			{
+				std::vector<vec3> faceInnerLoop;
+				copyIndexedFaceLoop(innerLoop, pointStorage, faceInnerLoop);
+				if( faceInnerLoop.size() > 2 )
+				{
+					face_loops.push_back(faceInnerLoop);
+				}
+			}
+		}
+
+		bool mergeAlignedEdges = true;
+		MeshUtils::createTriangulated3DFace(face_loops, polygonalFace.get(), poly_cache, mergeAlignedEdges, false, this);
+
+#ifdef _DEBUG
+		//glm::dvec4 color(0.3, 0.4, 0.5, 1.0);
+		//GeomDebugDump::dumpPolyline(face_loops, color, true);
+#endif
+
 	}
 
 	void convertIfcGeometricRepresentationItem( const shared_ptr<IfcGeometricRepresentationItem>& geom_item, shared_ptr<ItemShapeData> item_data )
@@ -466,14 +462,10 @@ public:
 			m_curve_converter->convertIfcCurve( ifc_curve, loops, segment_start_points );
 
 			shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-			if( !polyline_data )
-			{
-				throw OutOfMemoryException( __FUNC__ );
-			}
 			polyline_data->beginPolyline();
 			for( size_t i = 0; i < loops.size(); ++i )
 			{
-				vec3 point = loops[i];
+				const vec3& point = loops[i];
 				polyline_data->addVertex( point );
 				polyline_data->addPolylineIndex( i );
 			}
@@ -510,6 +502,157 @@ public:
 			return;
 		}
 
+		shared_ptr<IfcTessellatedItem> tessellatedItem = dynamic_pointer_cast<IfcTessellatedItem>(geom_item);
+		if( tessellatedItem )
+		{
+			//ENTITY IfcTessellatedItem   ABSTRACT SUPERTYPE OF(ONEOF(IfcIndexedPolygonalFace, IfcTessellatedFaceSet))
+
+			PolyInputCache3D polyCache;
+
+			shared_ptr<IfcIndexedPolygonalFace> polygonalFace = dynamic_pointer_cast<IfcIndexedPolygonalFace>(tessellatedItem);
+			if( polygonalFace )
+			{
+				//ENTITY IfcIndexedPolygonalFace SUPERTYPE OF(IfcIndexedPolygonalFaceWithVoids)
+
+				messageCallback("Single IfcIndexedPolygonalFace, no coordinates", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, geom_item.get());
+
+				return;
+			}
+
+			shared_ptr<IfcTessellatedFaceSet> abstractFaceSet = dynamic_pointer_cast<IfcTessellatedFaceSet>(tessellatedItem);
+			if( abstractFaceSet )
+			{
+				// ENTITY IfcTessellatedFaceSet ABSTRACT SUPERTYPE OF(ONEOF(IfcPolygonalFaceSet, IfcTriangulatedFaceSet))
+
+				shared_ptr<IfcCartesianPointList3D> pointList = abstractFaceSet->m_Coordinates;
+				if( !abstractFaceSet->m_Coordinates )
+				{
+					messageCallback("IfcTessellatedFaceSet item does not contain any vertices!", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, abstractFaceSet.get());
+					return;
+				}
+
+				std::vector<vec3> pointVec;
+				m_point_converter->convertPointList(pointList->m_CoordList, pointVec);
+
+				shared_ptr<IfcPolygonalFaceSet> polygonalFaceSet = dynamic_pointer_cast<IfcPolygonalFaceSet>(abstractFaceSet);
+				if( polygonalFaceSet )
+				{
+					
+					std::vector<shared_ptr<IfcIndexedPolygonalFace> >& vecFaces = polygonalFaceSet->m_Faces;
+					for( auto face : vecFaces )
+					{
+						convertIndexedPolygonalFace(face, pointVec, polyCache);
+					}
+					std::vector<shared_ptr<IfcPositiveInteger> >& PnIndex = polygonalFaceSet->m_PnIndex;					//optional
+				
+					if( polygonalFaceSet->m_Closed )
+					{
+						if( polygonalFaceSet->m_Closed->m_value == true )
+						{
+							item_data->addClosedPolyhedron(polyCache.m_poly_data);
+						}
+						else
+						{
+							item_data->addOpenPolyhedron(polyCache.m_poly_data);
+						}
+					}
+					else
+					{
+						item_data->addOpenOrClosedPolyhedron(polyCache.m_poly_data);
+					}
+
+
+					return;
+				}
+
+				shared_ptr<IfcTriangulatedFaceSet> triangulatedFaceSet = dynamic_pointer_cast<IfcTriangulatedFaceSet>(abstractFaceSet);
+				if( triangulatedFaceSet )
+				{
+					// IfcTriangulatedFaceSet -----------------------------------------------------------
+					//std::vector<std::vector<shared_ptr<IfcParameterValue> > >	m_Normals;					//optional
+					//shared_ptr<IfcBoolean>									m_Closed;					//optional
+					//std::vector<std::vector<shared_ptr<IfcPositiveInteger> > >	m_CoordIndex;
+					//std::vector<shared_ptr<IfcPositiveInteger> >			m_PnIndex;					//optional
+
+					std::vector<vec3> faceNormals;
+					for( const std::vector<shared_ptr<IfcParameterValue> >& vecNormalParam : triangulatedFaceSet->m_Normals )
+					{
+						if( vecNormalParam.size() == 3 )
+						{
+							const shared_ptr<IfcParameterValue>& normalParamX = vecNormalParam[0];
+							const shared_ptr<IfcParameterValue>& normalParamY = vecNormalParam[1];
+							const shared_ptr<IfcParameterValue>& normalParamZ = vecNormalParam[2];
+
+							if( normalParamX && normalParamY && normalParamZ )
+							{
+								vec3 normal = carve::geom::VECTOR(normalParamX->m_value, normalParamY->m_value, normalParamZ->m_value);
+								GeomUtils::safeNormalize(normal);
+								faceNormals.push_back(normal);
+								continue;
+							}
+						}
+						// insert default vector, to maintain the relation to faces
+						faceNormals.push_back(carve::geom::VECTOR(0,0,1));
+					}
+
+					for( size_t ii = 0; ii < triangulatedFaceSet->m_CoordIndex.size(); ++ii )
+					{
+						const std::vector<shared_ptr<IfcPositiveInteger> >& vecFaceLoop = triangulatedFaceSet->m_CoordIndex[ii];
+						std::vector<vec3> faceOuterBound;
+						for( const shared_ptr<IfcPositiveInteger>& positiveInt : vecFaceLoop )
+						{
+							if( !positiveInt )
+							{
+								continue;
+							}
+							size_t idx = (size_t)positiveInt->m_value - 1;  // 1 based index in IfcIndexedPolygonalFace
+							if( idx >= pointVec.size() )
+							{
+								std::cout << "copyIndexedFaceLoop: invalid index" << std::endl;
+								continue;
+							}
+							faceOuterBound.push_back(pointVec[idx]);
+						}
+						std::vector<std::vector<vec3> > face_loops;
+						face_loops.push_back(faceOuterBound);
+
+						if( ii < faceNormals.size() )
+						{
+							vec3 computedNormal = GeomUtils::computePolygonNormal(faceOuterBound);
+							vec3& normal = faceNormals[ii];
+							if( dot(normal, computedNormal) < 0 )
+							{
+								std::reverse(faceOuterBound.begin(), faceOuterBound.end());
+							}
+						}
+
+						bool mergeAlignedEdges = true;
+						MeshUtils::createTriangulated3DFace(face_loops, polygonalFace.get(), polyCache, mergeAlignedEdges, false, this);
+					}
+				
+					if( triangulatedFaceSet->m_Closed )
+					{
+						if( triangulatedFaceSet->m_Closed->m_value == true )
+						{
+							item_data->addClosedPolyhedron(polyCache.m_poly_data);
+						}
+						else
+						{
+							item_data->addOpenPolyhedron(polyCache.m_poly_data);
+						}
+					}
+					else
+					{
+						item_data->addOpenOrClosedPolyhedron(polyCache.m_poly_data);
+					}
+
+					return;
+				}
+			}
+
+			messageCallback("IfcTessellatedItem not as expected", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, tessellatedItem.get());
+		}
+
 		shared_ptr<IfcSurface> ifc_surface = dynamic_pointer_cast<IfcSurface>( geom_item );
 		if( ifc_surface )
 		{
@@ -526,10 +669,6 @@ public:
 
 			const size_t num_points = poly_vertices.size();
 			shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-			if( !polyline_data )
-			{
-				throw OutOfMemoryException( __FUNC__ );
-			}
 			polyline_data->beginPolyline();
 
 			// apply position
@@ -571,10 +710,6 @@ public:
 					m_curve_converter->convertIfcCurve( select_curve, loops, segment_start_points );
 
 					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-					if( !polyline_data )
-					{
-						throw OutOfMemoryException( __FUNC__ );
-					}
 					polyline_data->beginPolyline();
 					for( size_t i = 0; i < loops.size(); ++i )
 					{
@@ -621,7 +756,7 @@ public:
 			if( m_geom_settings->isShowTextLiterals() )
 			{
 				shared_ptr<IfcPresentableText>& ifc_literal = text_literal->m_Literal;
-				std::wstring& literal_text = ifc_literal->m_value;
+				std::string& literal_text = ifc_literal->m_value;
 
 				// check if text has a local placemnt
 				shared_ptr<TransformData> text_position_matrix;
@@ -645,10 +780,6 @@ public:
 
 				//shared_ptr<IfcTextPath>& path = text_literal->m_Path;
 				shared_ptr<TextItemData> text_item_data( new TextItemData() );
-				if( !text_item_data )
-				{
-					throw OutOfMemoryException( __FUNC__ );
-				}
 				if( text_position_matrix )
 				{
 					text_item_data->m_text_position = text_position_matrix->m_matrix;
@@ -686,9 +817,9 @@ public:
 			}
 
 			PolyInputCache3D poly_cache;
-			Sweeper::createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache );
-			bool isClosed = false;
-			item_data->addPolyhedron( poly_cache.m_poly_data, isClosed );
+			bool mergeAlignedEdges = true;
+			MeshUtils::createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache, true, false, this );
+			item_data->addOpenPolyhedron( poly_cache.m_poly_data );
 
 			return;
 		}
@@ -708,13 +839,6 @@ public:
 				}
 				return;
 			}
-		}
-
-		shared_ptr<IfcTessellatedItem> ifc_tessel_item = dynamic_pointer_cast<IfcTessellatedItem>( geom_item );
-		if(ifc_tessel_item)
-		{
-			m_tessel_converter->convertTessellatedItem(ifc_tessel_item, item_data);
-			return;
 		}
 
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, geom_item.get() );
@@ -744,10 +868,6 @@ public:
 				if( PointConverter::convertIfcVertex( vertex_end, point_end, length_factor ) )
 				{
 					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-					if( !polyline_data )
-					{
-						throw OutOfMemoryException( __FUNC__ );
-					}
 					topo_item_data->m_polylines.push_back( polyline_data );
 					polyline_data->beginPolyline();
 					polyline_data->addVertex( point_start );
@@ -829,13 +949,13 @@ public:
 						std::reverse( loop_points.begin(), loop_points.end() );
 					}
 
-					Sweeper::createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face );
+					bool mergeAlignedEdges = true;
+					MeshUtils::createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face, true, false, this );
 				}
 			}
 			if( poly_cache_top_face.m_poly_data )
 			{
-				bool isClosed = false;
-				topo_item_data->addPolyhedron( poly_cache_top_face.m_poly_data, isClosed );
+				topo_item_data->addOpenOrClosedPolyhedron( poly_cache_top_face.m_poly_data );
 			}
 			return;
 		}
@@ -864,12 +984,12 @@ public:
 				}
 
 				PolyInputCache3D poly_cache_top_face;
-				Sweeper::createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face );
+				bool mergeAlignedEdges = true;
+				MeshUtils::createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face, mergeAlignedEdges, false, this );
 
 				if( poly_cache_top_face.m_poly_data )
 				{
-					bool isClosed = false;
-					topo_item_data->addPolyhedron( poly_cache_top_face.m_poly_data, isClosed );
+					topo_item_data->addOpenOrClosedPolyhedron( poly_cache_top_face.m_poly_data );
 				}
 			}
 			return;
@@ -884,10 +1004,6 @@ public:
 			if( loop_points.size() > 0 )
 			{
 				shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-				if( !polyline_data )
-				{
-					throw OutOfMemoryException( __FUNC__ );
-				}
 				topo_item_data->m_polylines.push_back( polyline_data );
 				polyline_data->beginPolyline();
 
@@ -928,6 +1044,7 @@ public:
 		{
 			return;
 		}
+		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 
 		// convert opening representation
 		for( auto& rel_voids_weak : vec_rel_voids )
@@ -960,25 +1077,13 @@ public:
 				m_placement_converter->convertIfcObjectPlacement( opening_placement, product_shape_opening, opening_placements_applied, false );
 			}
 
-			std::vector<shared_ptr<IfcRepresentation> >& vec_opening_representations = opening->m_Representation->m_Representations;
-			for( size_t i_representations = 0; i_representations < vec_opening_representations.size(); ++i_representations )
+			for( shared_ptr<IfcRepresentation> ifc_opening_representation : opening->m_Representation->m_Representations )
 			{
-				shared_ptr<IfcRepresentation> ifc_opening_representation = vec_opening_representations[i_representations];
-
 				shared_ptr<RepresentationData> opening_representation_data( new RepresentationData() );
-				if( !opening_representation_data )
-				{
-					throw OutOfMemoryException( __FUNC__ );
-				}
 
-				// TODO: Representation caching, one element could be used for several openings
 				try
 				{
 					convertIfcRepresentation( ifc_opening_representation, opening_representation_data );
-				}
-				catch( OutOfMemoryException& e )
-				{
-					throw e;
 				}
 				catch( BuildingException& e )
 				{
@@ -1015,7 +1120,9 @@ public:
 				{
 					shared_ptr<carve::mesh::MeshSet<3> >& product_meshset = product_item_data->m_meshsets[i_product_meshset];
 					std::stringstream strs_meshset_err;
-					bool product_meshset_valid_for_csg = CSG_Adapter::checkMeshSetValidAndClosed( product_meshset, this, ifc_element.get() );
+					
+					MeshSetInfo info;
+					bool product_meshset_valid_for_csg = MeshUtils::checkMeshSetValidAndClosed( product_meshset, info, this, ifc_element.get() );
 					if( !product_meshset_valid_for_csg )
 					{
 						continue;
@@ -1055,15 +1162,19 @@ public:
 								{
 									continue;
 								}
-								if( opening_item_data->m_meshsets.size() == 0 )
-								{
-									continue;
-								}
+								
 
 								// transform opening meshset relative to product
 								opening_item_data->applyTransformToItem( opening_relative_to_product );
 
-								std::vector<shared_ptr<carve::mesh::MeshSet<3> > >&	opening_meshsets = opening_item_data->m_meshsets;
+								std::vector<shared_ptr<carve::mesh::MeshSet<3> > > opening_meshsets(opening_item_data->m_meshsets);
+								std::copy(opening_item_data->m_meshsets_open.begin(), opening_item_data->m_meshsets_open.end(), std::back_inserter(opening_meshsets));
+
+								if( opening_meshsets.size() == 0 )
+								{
+									continue;
+								}
+
 								for( size_t i_opening_meshset = 0; i_opening_meshset < opening_meshsets.size(); ++i_opening_meshset )
 								{
 									shared_ptr<carve::mesh::MeshSet<3> > opening_meshset = opening_meshsets[i_opening_meshset];
@@ -1081,11 +1192,7 @@ public:
 									shared_ptr<carve::mesh::MeshSet<3> > result;
 									try
 									{
-										CSG_Adapter::computeCSG( product_meshset, opening_meshset, carve::csg::CSG::A_MINUS_B, result, this, ifc_element, m_geom_settings );
-									}
-									catch( OutOfMemoryException& e )
-									{
-										throw e;
+										CSG_Adapter::computeCSG( product_meshset, opening_meshset, carve::csg::CSG::A_MINUS_B, result, m_geom_settings, this, ifc_element );
 									}
 									catch( BuildingException& e )
 									{

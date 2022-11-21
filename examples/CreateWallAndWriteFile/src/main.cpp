@@ -10,50 +10,52 @@
 #include <ifcpp/model/UnitConverter.h>
 #include <ifcpp/model/BuildingGuid.h>
 
-#include <ifcpp/IFC4/include/IfcArbitraryClosedProfileDef.h>
-#include <ifcpp/IFC4/include/IfcAxis2Placement3D.h>
-#include <ifcpp/IFC4/include/IfcBoolean.h>
-#include <ifcpp/IFC4/include/IfcBoundingBox.h>
-#include <ifcpp/IFC4/include/IfcBuilding.h>
-#include <ifcpp/IFC4/include/IfcBuildingStorey.h>
-#include <ifcpp/IFC4/include/IfcCartesianPoint.h>
-#include <ifcpp/IFC4/include/IfcClosedShell.h>
-#include <ifcpp/IFC4/include/IfcDimensionCount.h>
-#include <ifcpp/IFC4/include/IfcDimensionalExponents.h>
-#include <ifcpp/IFC4/include/IfcDirection.h>
-#include <ifcpp/IFC4/include/IfcExtrudedAreaSolid.h>
-#include <ifcpp/IFC4/include/IfcFace.h>
-#include <ifcpp/IFC4/include/IfcFacetedBrep.h>
-#include <ifcpp/IFC4/include/IfcFaceOuterBound.h>
-#include <ifcpp/IFC4/include/IfcGeometricRepresentationContext.h>
-#include <ifcpp/IFC4/include/IfcGloballyUniqueId.h>
-#include <ifcpp/IFC4/include/IfcIdentifier.h>
-#include <ifcpp/IFC4/include/IfcLabel.h>
-#include <ifcpp/IFC4/include/IfcLengthMeasure.h>
-#include <ifcpp/IFC4/include/IfcLocalPlacement.h>
-#include <ifcpp/IFC4/include/IfcOpeningElement.h>
-#include <ifcpp/IFC4/include/IfcOrganization.h>
-#include <ifcpp/IFC4/include/IfcOwnerHistory.h>
-#include <ifcpp/IFC4/include/IfcPerson.h>
-#include <ifcpp/IFC4/include/IfcPersonAndOrganization.h>
-#include <ifcpp/IFC4/include/IfcPolyline.h>
-#include <ifcpp/IFC4/include/IfcPolyLoop.h>
-#include <ifcpp/IFC4/include/IfcPositiveLengthMeasure.h>
-#include <ifcpp/IFC4/include/IfcProductDefinitionShape.h>
-#include <ifcpp/IFC4/include/IfcPropertySet.h>
-#include <ifcpp/IFC4/include/IfcPropertySingleValue.h>
-#include <ifcpp/IFC4/include/IfcReal.h>
-#include <ifcpp/IFC4/include/IfcRelAggregates.h>
-#include <ifcpp/IFC4/include/IfcRelContainedInSpatialStructure.h>
-#include <ifcpp/IFC4/include/IfcRelDefinesByProperties.h>
-#include <ifcpp/IFC4/include/IfcRelVoidsElement.h>
-#include <ifcpp/IFC4/include/IfcShapeRepresentation.h>
-#include <ifcpp/IFC4/include/IfcSite.h>
-#include <ifcpp/IFC4/include/IfcSIUnit.h>
-#include <ifcpp/IFC4/include/IfcText.h>
-#include <ifcpp/IFC4/include/IfcUnitAssignment.h>
-#include <ifcpp/IFC4/include/IfcUnitEnum.h>
-#include <ifcpp/IFC4/include/IfcWall.h>
+#include <IfcArbitraryClosedProfileDef.h>
+#include <IfcAxis2Placement3D.h>
+#include <IfcBoolean.h>
+#include <IfcBoundingBox.h>
+#include <IfcBuilding.h>
+#include <IfcBuildingStorey.h>
+#include <IfcCartesianPoint.h>
+#include <IfcClosedShell.h>
+#include <IfcDimensionCount.h>
+#include <IfcDimensionalExponents.h>
+#include <IfcDirection.h>
+#include <IfcExtrudedAreaSolid.h>
+#include <IfcFace.h>
+#include <IfcFacetedBrep.h>
+#include <IfcFaceOuterBound.h>
+#include <IfcGeometricRepresentationContext.h>
+#include <IfcGloballyUniqueId.h>
+#include <IfcIdentifier.h>
+#include <IfcLabel.h>
+#include <IfcLengthMeasure.h>
+#include <IfcLocalPlacement.h>
+#include <IfcOpeningElement.h>
+#include <IfcOrganization.h>
+#include <IfcOwnerHistory.h>
+#include <IfcPerson.h>
+#include <IfcPersonAndOrganization.h>
+#include <IfcPolyline.h>
+#include <IfcPolyLoop.h>
+#include <IfcPositiveLengthMeasure.h>
+#include <IfcProductDefinitionShape.h>
+#include <IfcPropertySet.h>
+#include <IfcPropertySingleValue.h>
+#include <IfcReal.h>
+#include <IfcRelAggregates.h>
+#include <IfcRelContainedInSpatialStructure.h>
+#include <IfcRelDefinesByProperties.h>
+#include <IfcRelVoidsElement.h>
+#include <IfcShapeRepresentation.h>
+#include <IfcSite.h>
+#include <IfcSIUnit.h>
+#include <IfcText.h>
+#include <IfcUnitAssignment.h>
+#include <IfcUnitEnum.h>
+#include <IfcWall.h>
+
+using namespace IFC4X3;
 
 inline void convertPlacement(double local_x[3], double local_z[3], double location[3], shared_ptr<IfcAxis2Placement3D>& axis2placement3d, std::vector<shared_ptr<BuildingEntity> >& vec_new_entities)
 {
@@ -63,15 +65,22 @@ inline void convertPlacement(double local_x[3], double local_z[3], double locati
 		vec_new_entities.push_back(axis2placement3d);
 	}
 
-	if (!axis2placement3d->m_Location)
+	shared_ptr<IfcCartesianPoint> cartesianPoint;
+	if (axis2placement3d->m_Location)
 	{
-		axis2placement3d->m_Location = shared_ptr<IfcCartesianPoint>(new IfcCartesianPoint());
+		cartesianPoint = dynamic_pointer_cast<IfcCartesianPoint>(axis2placement3d->m_Location);
+	}
+
+	if (!cartesianPoint)
+	{
+		cartesianPoint = shared_ptr<IfcCartesianPoint>(new IfcCartesianPoint());
+		axis2placement3d->m_Location = cartesianPoint;
 		vec_new_entities.push_back(axis2placement3d->m_Location);
 	}
-	axis2placement3d->m_Location->m_Coordinates.clear();
-	axis2placement3d->m_Location->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[0])));
-	axis2placement3d->m_Location->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[1])));
-	axis2placement3d->m_Location->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[2])));
+	cartesianPoint->m_Coordinates.clear();
+	cartesianPoint->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[0])));
+	cartesianPoint->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[1])));
+	cartesianPoint->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[2])));
 
 	if (!axis2placement3d->m_Axis)
 	{
@@ -94,7 +103,6 @@ inline void convertPlacement(double local_x[3], double local_z[3], double locati
 	axis2placement3d->m_RefDirection->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_x[1])));
 	axis2placement3d->m_RefDirection->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_x[2])));
 }
-
 
 shared_ptr<IfcDirection> createIfcDirection(double x, double y, double z, std::vector<shared_ptr<BuildingEntity> >& vec_new_entities)
 {
@@ -155,26 +163,21 @@ shared_ptr<IfcFace> createIfcFace(
 /**
 \param geometry_type: 1 for extruded solid, 2 for brep
 */
-inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_property_set = true, bool add_window = true, int geometry_type = 1)
+void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_property_set = true, bool add_window = true, int geometry_type = 1)
 {
-	if( !ifc_model )
-	{
-		// create IFC model
-		ifc_model = shared_ptr<BuildingModel>(new BuildingModel());
-	}
 	double unit_length_factor = 1.0;
-	ifc_model->clearIfcModel();
-	ifc_model->getUnitConverter()->setLengthInMeterFactor(unit_length_factor);
 	std::vector<shared_ptr<BuildingEntity> > vec_new_entities;
 
+	
 	// create wall object
 	shared_ptr<IfcWall> wall(new IfcWall());
 	vec_new_entities.push_back(wall);
 	wall->m_Name = shared_ptr<IfcLabel>(new IfcLabel());
-	wall->m_Name->m_value = L"Hello Wall";
+	wall->m_Name->m_value = "Hello Wall";
 	wall->m_Description = shared_ptr<IfcText>(new IfcText());
-	wall->m_Description->m_value = L"Wall example";
+	wall->m_Description->m_value = "Wall example";
 
+	
 	if( add_property_set )
 	{
 		// Example for property set
@@ -182,10 +185,10 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 		vec_new_entities.push_back(ifc_property_set);
 
 		ifc_property_set->m_Name = shared_ptr<IfcLabel>(new IfcLabel());
-		ifc_property_set->m_Name->m_value = L"Pset_Wall";   // name of the property set
+		ifc_property_set->m_Name->m_value = "Pset_Wall";   // name of the property set
 
 		ifc_property_set->m_Description = shared_ptr<IfcText>(new IfcText());
-		ifc_property_set->m_Description->m_value = L"Pset to define Wall";
+		ifc_property_set->m_Description->m_value = "Pset to define Wall";
 
 		std::vector<shared_ptr<IfcProperty> >& vec_properties = ifc_property_set->m_HasProperties;
 
@@ -194,10 +197,10 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 			vec_new_entities.push_back(prop1);
 			vec_properties.push_back(prop1);
 			prop1->m_Name = shared_ptr<IfcIdentifier>(new IfcIdentifier());  // name of property 1
-			prop1->m_Name->m_value = L"WallIentifier";
+			prop1->m_Name->m_value = "WallIentifier";
 
 			shared_ptr<IfcIdentifier> prop1_value(new IfcIdentifier());  // value property
-			prop1_value->m_value = L"W1";
+			prop1_value->m_value = "W1";
 			prop1->m_NominalValue = prop1_value;
 		}
 
@@ -206,7 +209,7 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 			vec_new_entities.push_back(prop2);
 			vec_properties.push_back(prop2);
 			prop2->m_Name = shared_ptr<IfcIdentifier>(new IfcIdentifier());
-			prop2->m_Name->m_value = L"Footprint area";
+			prop2->m_Name->m_value = "Footprint area";
 
 			shared_ptr<IfcReal> prop2_value(new IfcReal());
 			prop2_value->m_value = 0.8;
@@ -221,6 +224,7 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 		ifc_rel_defines->m_RelatingPropertyDefinition = ifc_property_set;
 	}
 
+
 	// geometry
 	double lower_level = 0.2*unit_length_factor;
 	double upper_level = 3.5*unit_length_factor;
@@ -229,11 +233,11 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 
 	shared_ptr<IfcShapeRepresentation> shape_representation(new IfcShapeRepresentation());
 	vec_new_entities.push_back(shape_representation);
-	shape_representation->m_RepresentationIdentifier = shared_ptr<IfcLabel>(new IfcLabel(L"Body"));
+	shape_representation->m_RepresentationIdentifier = shared_ptr<IfcLabel>(new IfcLabel("Body"));
 
 	if( geometry_type == 1 )
 	{
-		shape_representation->m_RepresentationType = shared_ptr<IfcLabel>(new IfcLabel(L"SweptSolid"));
+		shape_representation->m_RepresentationType = shared_ptr<IfcLabel>(new IfcLabel("SweptSolid"));
 
 		shared_ptr<IfcProductDefinitionShape> product_def_shape(new IfcProductDefinitionShape());
 		vec_new_entities.push_back(product_def_shape);
@@ -295,7 +299,7 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 	}
 	else
 	{
-		shape_representation->m_RepresentationType = shared_ptr<IfcLabel>(new IfcLabel(L"BRep"));
+		shape_representation->m_RepresentationType = shared_ptr<IfcLabel>(new IfcLabel("BRep"));
 
 		shared_ptr<IfcProductDefinitionShape> product_def_shape(new IfcProductDefinitionShape());
 		vec_new_entities.push_back(product_def_shape);
@@ -382,8 +386,8 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 		// add bounding box representation
 		shared_ptr<IfcShapeRepresentation> shape_representation_bbox(new IfcShapeRepresentation());
 		vec_new_entities.push_back(shape_representation_bbox);
-		shape_representation_bbox->m_RepresentationIdentifier = shared_ptr<IfcLabel>(new IfcLabel(L"Box"));
-		shape_representation_bbox->m_RepresentationType = shared_ptr<IfcLabel>(new IfcLabel(L"BoundingBox"));
+		shape_representation_bbox->m_RepresentationIdentifier = shared_ptr<IfcLabel>(new IfcLabel("Box"));
+		shape_representation_bbox->m_RepresentationType = shared_ptr<IfcLabel>(new IfcLabel("BoundingBox"));
 		shared_ptr<IfcBoundingBox> bbox(new IfcBoundingBox());
 		vec_new_entities.push_back(bbox);
 		bbox->m_Corner = createIfcCartesianPoint(0, 0, lower_level, vec_new_entities);
@@ -448,8 +452,8 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 
 		shared_ptr<IfcShapeRepresentation> shape_representation(new IfcShapeRepresentation());
 		vec_new_entities.push_back(shape_representation);
-		shape_representation->m_RepresentationIdentifier = shared_ptr<IfcLabel>(new IfcLabel(L"Body"));
-		shape_representation->m_RepresentationType = shared_ptr<IfcLabel>(new IfcLabel(L"BRep"));
+		shape_representation->m_RepresentationIdentifier = shared_ptr<IfcLabel>(new IfcLabel("Body"));
+		shape_representation->m_RepresentationType = shared_ptr<IfcLabel>(new IfcLabel("BRep"));
 
 		shared_ptr<IfcProductDefinitionShape> product_def_shape(new IfcProductDefinitionShape());
 		vec_new_entities.push_back(product_def_shape);
@@ -594,15 +598,15 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 
 	// general objects
 	shared_ptr<IfcPerson> person(new IfcPerson());
-	person->m_Identification = shared_ptr<IfcIdentifier>(new IfcIdentifier(L"MyID"));
-	person->m_FamilyName = shared_ptr<IfcLabel>(new IfcLabel(L"MyFamilyName"));
-	person->m_GivenName = shared_ptr<IfcLabel>(new IfcLabel(L"MyGivenName"));
+	person->m_Identification = shared_ptr<IfcIdentifier>(new IfcIdentifier("MyID"));
+	person->m_FamilyName = shared_ptr<IfcLabel>(new IfcLabel("MyFamilyName"));
+	person->m_GivenName = shared_ptr<IfcLabel>(new IfcLabel("MyGivenName"));
 	vec_new_entities.push_back(person);
 
 	shared_ptr<IfcOrganization> orga(new IfcOrganization());
-	orga->m_Identification = shared_ptr<IfcIdentifier>(new IfcIdentifier(L"MyOrganization"));
-	orga->m_Name = shared_ptr<IfcLabel>(new IfcLabel(L"My organizations name"));
-	orga->m_Description = shared_ptr<IfcText>(new IfcText(L"My organizations description"));
+	orga->m_Identification = shared_ptr<IfcIdentifier>(new IfcIdentifier("MyOrganization"));
+	orga->m_Name = shared_ptr<IfcLabel>(new IfcLabel("My organizations name"));
+	orga->m_Description = shared_ptr<IfcText>(new IfcText("My organizations description"));
 	vec_new_entities.push_back(orga);
 
 	shared_ptr<IfcPersonAndOrganization> person_and_organization(new IfcPersonAndOrganization());
@@ -626,7 +630,7 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 
 	// define representation context
 	shared_ptr<IfcGeometricRepresentationContext> geom_context(new IfcGeometricRepresentationContext());
-	geom_context->m_ContextType = shared_ptr<IfcLabel>(new IfcLabel(L"Model"));
+	geom_context->m_ContextType = shared_ptr<IfcLabel>(new IfcLabel("Model"));
 	geom_context->m_CoordinateSpaceDimension = shared_ptr<IfcDimensionCount>(new IfcDimensionCount(3));
 	geom_context->m_Precision = shared_ptr<IfcReal>(new IfcReal(1.000E-5));
 	geom_context->m_WorldCoordinateSystem = axis_placement_origin;
@@ -649,7 +653,7 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 			// each object that is derived from IfcRoot should have a GUID
 			if( !ifc_root_object->m_GlobalId )
 			{
-				ifc_root_object->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId(createBase64Uuid_wstr().data()));
+				ifc_root_object->m_GlobalId = shared_ptr<IfcGloballyUniqueId>(new IfcGloballyUniqueId(createBase64Uuid().data()));
 			}
 
 			ifc_root_object->m_OwnerHistory = owner_history;
@@ -671,11 +675,11 @@ inline void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_prope
 
 int main()
 {
-	shared_ptr<BuildingModel> ifc_model;
+	shared_ptr<BuildingModel> ifc_model = shared_ptr<BuildingModel>(new BuildingModel());
 	LoadWallExample(ifc_model, true, true, 2);
 
 	// write IFC file in STEP format
-	std::wstring file_path = L"SimpleWall.ifc";
+	std::string file_path = "example.ifc";
 	ifc_model->initFileHeader(file_path);
 	std::stringstream stream;
 
@@ -683,7 +687,7 @@ int main()
 	step_writer->writeModelToStream(stream, ifc_model);
 	ifc_model->clearIfcModel();
 
-	std::ofstream ofs(file_path, std::ofstream::out);
+	std::ofstream ofs(file_path.c_str(), std::ofstream::out);
 	ofs << stream.str().c_str();
 	ofs.close();
 
