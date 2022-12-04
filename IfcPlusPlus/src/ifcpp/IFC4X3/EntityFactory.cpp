@@ -226,6 +226,7 @@
 #include "lib/IfcDoor.cpp"
 #include "lib/IfcDoorLiningProperties.cpp"
 #include "lib/IfcDoorPanelProperties.cpp"
+#include "lib/IfcDoorStyle.cpp"
 #include "lib/IfcDoorType.cpp"
 #include "lib/IfcDraughtingPreDefinedColour.cpp"
 #include "lib/IfcDraughtingPreDefinedCurveFont.cpp"
@@ -868,6 +869,7 @@
 #include "lib/IfcWindow.cpp"
 #include "lib/IfcWindowLiningProperties.cpp"
 #include "lib/IfcWindowPanelProperties.cpp"
+#include "lib/IfcWindowStyle.cpp"
 #include "lib/IfcWindowType.cpp"
 #include "lib/IfcWorkCalendar.cpp"
 #include "lib/IfcWorkControl.cpp"
@@ -1102,6 +1104,7 @@
 { "IFCDOOR", []()->BuildingEntity* { return new IFC4X3::IfcDoor(); } },
 { "IFCDOORLININGPROPERTIES", []()->BuildingEntity* { return new IFC4X3::IfcDoorLiningProperties(); } },
 { "IFCDOORPANELPROPERTIES", []()->BuildingEntity* { return new IFC4X3::IfcDoorPanelProperties(); } },
+{ "IFCDOORSTYLE", []()->BuildingEntity* { return new IFC4X3::IfcDoorStyle(); } },
 { "IFCDOORTYPE", []()->BuildingEntity* { return new IFC4X3::IfcDoorType(); } },
 { "IFCDRAUGHTINGPREDEFINEDCOLOUR", []()->BuildingEntity* { return new IFC4X3::IfcDraughtingPreDefinedColour(); } },
 { "IFCDRAUGHTINGPREDEFINEDCURVEFONT", []()->BuildingEntity* { return new IFC4X3::IfcDraughtingPreDefinedCurveFont(); } },
@@ -1744,6 +1747,7 @@
 { "IFCWINDOW", []()->BuildingEntity* { return new IFC4X3::IfcWindow(); } },
 { "IFCWINDOWLININGPROPERTIES", []()->BuildingEntity* { return new IFC4X3::IfcWindowLiningProperties(); } },
 { "IFCWINDOWPANELPROPERTIES", []()->BuildingEntity* { return new IFC4X3::IfcWindowPanelProperties(); } },
+{ "IFCWINDOWSTYLE", []()->BuildingEntity* { return new IFC4X3::IfcWindowStyle(); } },
 { "IFCWINDOWTYPE", []()->BuildingEntity* { return new IFC4X3::IfcWindowType(); } },
 { "IFCWORKCALENDAR", []()->BuildingEntity* { return new IFC4X3::IfcWorkCalendar(); } },
 { "IFCWORKCONTROL", []()->BuildingEntity* { return new IFC4X3::IfcWorkControl(); } },
@@ -2434,6 +2438,7 @@ const char* IFC4X3::EntityFactory::getStringForClassID(uint32_t ifcClassID)
 		case 395920057: return "IfcDoor";
 		case 2963535650: return "IfcDoorLiningProperties";
 		case 1714330368: return "IfcDoorPanelProperties";
+		case 526551008: return "IfcDoorStyle";
 		case 2323601079: return "IfcDoorType";
 		case 445594917: return "IfcDraughtingPreDefinedColour";
 		case 4006246654: return "IfcDraughtingPreDefinedCurveFont";
@@ -3076,6 +3081,7 @@ const char* IFC4X3::EntityFactory::getStringForClassID(uint32_t ifcClassID)
 		case 3304561284: return "IfcWindow";
 		case 336235671: return "IfcWindowLiningProperties";
 		case 512836454: return "IfcWindowPanelProperties";
+		case 1299126871: return "IfcWindowStyle";
 		case 4009809668: return "IfcWindowType";
 		case 4088093105: return "IfcWorkCalendar";
 		case 1028945134: return "IfcWorkControl";

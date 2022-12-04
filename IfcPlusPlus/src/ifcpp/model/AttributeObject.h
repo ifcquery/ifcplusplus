@@ -86,23 +86,23 @@ class StringAttribute : public BuildingObject
 {
 public:
 	StringAttribute()= default;
-	StringAttribute( std::wstring& value ) : m_value( value ){}
+	StringAttribute( std::string& value ) : m_value( value ){}
 	virtual ~StringAttribute()= default;
 	uint32_t classID() const override { return 308612603; }
 	virtual shared_ptr<BuildingObject> getDeepCopy() { return shared_ptr<BuildingObject>( new StringAttribute( m_value ) );  }
 	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override{}
-	std::wstring m_value;
+	std::string m_value;
 };
 
 class BinaryAttribute : public BuildingObject
 {
 public:
 	BinaryAttribute()= default;
-	BinaryAttribute( const std::wstring& value ) { m_value = value.c_str(); }
-	BinaryAttribute( const wchar_t* value ) : m_value( value ) {}
+	BinaryAttribute( const std::string& value ) { m_value = value.c_str(); }
+	BinaryAttribute( const char* value ) : m_value( value ) {}
 	virtual ~BinaryAttribute()= default;
 	uint32_t classID() const override { return 2341374947; }
 	virtual shared_ptr<BuildingObject> getDeepCopy() { return shared_ptr<BuildingObject>( new BinaryAttribute( m_value ) );  }
 	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override{}
-	const wchar_t* m_value;
+	const char* m_value;
 };

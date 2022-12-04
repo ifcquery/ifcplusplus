@@ -157,7 +157,7 @@ public:
 		{
 			std::vector<vec2> curve_polygon;
 			std::vector<vec2> segment_start_points;
-			m_curve_converter->convertIfcCurve2D( outer_curve, curve_polygon, segment_start_points );
+			m_curve_converter->convertIfcCurve2D( outer_curve, curve_polygon, segment_start_points, true );
 			deleteLastPointIfEqualToFirst( curve_polygon );
 			addAvoidingDuplicates( curve_polygon, paths );
 		}
@@ -173,7 +173,7 @@ public:
 				std::vector<vec2> inner_curve_polygon;
 				std::vector<vec2> segment_start_points;
 
-				m_curve_converter->convertIfcCurve2D( inner_ifc_curve, inner_curve_polygon, segment_start_points );
+				m_curve_converter->convertIfcCurve2D( inner_ifc_curve, inner_curve_polygon, segment_start_points, true );
 				deleteLastPointIfEqualToFirst( inner_curve_polygon );
 				addAvoidingDuplicates( inner_curve_polygon, paths );
 			}
@@ -198,7 +198,7 @@ public:
 				const double thickness = center_line_profile_def->m_Thickness->m_value * uc->getLengthInMeterFactor();
 				std::vector<vec3> segment_start_points;
 				std::vector<vec3> basis_curve_points;
-				m_curve_converter->convertIfcCurve( ifc_curve, basis_curve_points, segment_start_points );
+				m_curve_converter->convertIfcCurve( ifc_curve, basis_curve_points, segment_start_points, true );
 
 				size_t num_base_points = basis_curve_points.size();
 				if( num_base_points < 2 )
@@ -278,7 +278,7 @@ public:
 		{
 			std::vector<vec2> polygon;
 			std::vector<vec2> segment_start_points;
-			m_curve_converter->convertIfcCurve2D( ifc_curve, polygon, segment_start_points );
+			m_curve_converter->convertIfcCurve2D( ifc_curve, polygon, segment_start_points, true );
 			addAvoidingDuplicates( polygon, paths );
 		}
 	}

@@ -88,19 +88,19 @@ public:
 	const shared_ptr<PointConverter>& getPointConverter() { return m_point_converter; }
 	const shared_ptr<SplineConverter>& getSplineConverter() { return m_spline_converter; }
 
-	void convertIfcCurve2D(const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec2>& loops, std::vector<vec2>& segment_start_points) const
+	void convertIfcCurve2D(const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec2>& loops, std::vector<vec2>& segment_start_points, bool senseAgreement) const
 	{
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim1_vec;
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim2_vec;
-		convertIfcCurve2D(ifc_curve, loops, segment_start_points, trim1_vec, trim2_vec/*, true*/);
+		convertIfcCurve2D(ifc_curve, loops, segment_start_points, trim1_vec, trim2_vec, senseAgreement );
 	}
 
 	void convertIfcCurve2D(const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec2>& target_vec, std::vector<vec2>& segment_start_points,
-		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec) const
+		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool senseAgreement) const
 	{
 		std::vector<vec3> target_vec_3d;
 		std::vector<vec3> segment_start_points_3d;
-		convertIfcCurve(ifc_curve, target_vec_3d, segment_start_points_3d );
+		convertIfcCurve(ifc_curve, target_vec_3d, segment_start_points_3d, senseAgreement );
 
 		for( size_t i = 0; i < target_vec_3d.size(); ++i )
 		{
@@ -114,15 +114,15 @@ public:
 		}
 	}
 
-	void convertIfcCurve(const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec3>& loops, std::vector<vec3>& segment_start_points) const
+	void convertIfcCurve(const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec3>& loops, std::vector<vec3>& segment_start_points, bool senseAgreement) const
 	{
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim1_vec;
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim2_vec;
-		convertIfcCurve(ifc_curve, loops, segment_start_points, trim1_vec, trim2_vec);
+		convertIfcCurve(ifc_curve, loops, segment_start_points, trim1_vec, trim2_vec, senseAgreement);
 	}
 
 	void convertIfcCurve(const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec3>& target_vec, std::vector<vec3>& segment_start_points,
-		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec) const
+		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool senseAgreement) const
 	{
 		double lengthFactor = m_point_converter->getUnitConverter()->getLengthInMeterFactor();
 
@@ -147,7 +147,7 @@ public:
 						shared_ptr<IfcCurve> segement_curve = compositeCurveSegment->m_ParentCurve;
 
 						std::vector<vec3> segment_vec;
-						convertIfcCurve(segement_curve, segment_vec, segment_start_points);
+						convertIfcCurve(segement_curve, segment_vec, segment_start_points, senseAgreement);
 						if( segment_vec.size() > 0 )
 						{
 							GeomUtils::appendPointsToCurve(segment_vec, target_vec);
@@ -166,7 +166,7 @@ public:
 						shared_ptr<IfcCurve> segement_curve = curveSegment->m_ParentCurve;
 
 						std::vector<vec3> segment_vec;
-						convertIfcCurve(segement_curve, segment_vec, segment_start_points);
+						convertIfcCurve(segement_curve, segment_vec, segment_start_points, senseAgreement);
 						if( segment_vec.size() > 0 )
 						{
 							GeomUtils::appendPointsToCurve(segment_vec, target_vec);
@@ -208,14 +208,18 @@ public:
 					std::vector<shared_ptr<IfcTrimmingSelect> >& curve_trim2_vec = trimmed_curve->m_Trim2;
 					bool trimmed_senseAgreement = true;
 					if( trimmed_curve->m_SenseAgreement ) { trimmed_senseAgreement = trimmed_curve->m_SenseAgreement->m_value; }
-
-					convertIfcCurve(basis_curve, basis_curve_points, basis_curve_start_points, curve_trim1_vec, curve_trim2_vec);
-
-					if( !trimmed_senseAgreement )
+					if( !senseAgreement )
 					{
-						std::reverse(basis_curve_points.begin(), basis_curve_points.end());
-						std::reverse(basis_curve_start_points.begin(), basis_curve_start_points.end());
+						trimmed_senseAgreement = !trimmed_senseAgreement;
 					}
+
+					convertIfcCurve(basis_curve, basis_curve_points, basis_curve_start_points, curve_trim1_vec, curve_trim2_vec, trimmed_senseAgreement);
+
+					//if( !trimmed_senseAgreement )
+					//{
+					//	std::reverse(basis_curve_points.begin(), basis_curve_points.end());
+					//	std::reverse(basis_curve_start_points.begin(), basis_curve_start_points.end());
+					//}
 					GeomUtils::appendPointsToCurve(basis_curve_points, target_vec);
 					GeomUtils::appendPointsToCurve(basis_curve_start_points, segment_start_points);
 				}
@@ -424,7 +428,7 @@ public:
 			double trimAngle2 = M_PI * 2.0;
 			double startAngle = 0;
 			double openingAngle = M_PI * 2.0;
-			bool senseAgreement = true;
+			//bool senseAgreement = true;
 			getTrimAngles(trim1_vec, trim2_vec, circle_center, maxRadius, senseAgreement, trimAngle1, trimAngle2, startAngle, openingAngle, conic_position_matrix->m_matrix, circlePositionInverse);
 
 			vec3 trimPoint1;
@@ -485,6 +489,13 @@ public:
 			GeomUtils::appendPointsToCurve(circle_segment_points3D, target_vec);
 			segment_start_points.push_back(circle_segment_points3D[0]);
 
+#ifdef _DEBUG
+			if( openingAngle > M_PI )
+			{
+				glm::dvec4 color(0.2, 0.2, 0.2, 0.8);
+				GeomDebugDump::dumpPolyline(target_vec, color, true);
+			}
+#endif
 			return;
 		}
 
@@ -905,6 +916,7 @@ public:
 			std::vector<vec3> curvePoints;
 			std::vector<vec3> segmentStartPoints;
 			const shared_ptr<IfcCurve> edgeCurveCurve = edgeCurve->m_EdgeGeometry;
+			bool senseAgreement = true;
 			
 			if( edgeCurveCurve )
 			{
@@ -929,14 +941,14 @@ public:
 						trim2->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(p1.y)));
 						trim2->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(p1.z)));
 						curve_trim2_vec.push_back(trim2);
-						convertIfcCurve(basisCurve, curvePoints, segmentStartPoints, curve_trim1_vec, curve_trim2_vec);
+						convertIfcCurve(basisCurve, curvePoints, segmentStartPoints, curve_trim1_vec, curve_trim2_vec, senseAgreement);
 					}
 				}
 				else
 				{
 					std::vector<shared_ptr<IfcTrimmingSelect> > curve_trim1_vec;
 					std::vector<shared_ptr<IfcTrimmingSelect> > curve_trim2_vec;
-					convertIfcCurve(edgeCurveCurve, curvePoints, segmentStartPoints, curve_trim1_vec, curve_trim2_vec);
+					convertIfcCurve(edgeCurveCurve, curvePoints, segmentStartPoints, curve_trim1_vec, curve_trim2_vec, senseAgreement);
 				}
 			}
 			else
@@ -1036,7 +1048,7 @@ public:
 					std::vector<vec3> segmentStartPoints;
 					if( edgeCurve->m_EdgeGeometry )
 					{
-						convertIfcCurve(edgeCurve->m_EdgeGeometry, curvePoints, segmentStartPoints);
+						convertIfcCurve(edgeCurve->m_EdgeGeometry, curvePoints, segmentStartPoints, senseAgreement );
 					}
 
 				}

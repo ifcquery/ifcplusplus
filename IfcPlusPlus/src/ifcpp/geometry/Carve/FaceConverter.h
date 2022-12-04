@@ -124,7 +124,7 @@ public:
 				face_loops.push_back( std::vector<vec3>() );
 				std::vector<vec3>& outer_boundary_loop = face_loops.back();
 				std::vector<vec3> segment_start_points;
-				m_curve_converter->convertIfcCurve( outer_boundary, outer_boundary_loop, segment_start_points );
+				m_curve_converter->convertIfcCurve( outer_boundary, outer_boundary_loop, segment_start_points, true );
 
 				// convert inner boundaries
 				std::vector<shared_ptr<IfcCurve> >& vec_inner_boundaries = curve_bounded_plane->m_InnerBoundaries;			//optional
@@ -137,7 +137,7 @@ public:
 					face_loops.push_back( std::vector<vec3>() );
 					std::vector<vec3>& inner_boundary_loop = face_loops.back();
 					std::vector<vec3> segment_start_points;
-					m_curve_converter->convertIfcCurve( inner_boundary, inner_boundary_loop, segment_start_points );
+					m_curve_converter->convertIfcCurve( inner_boundary, inner_boundary_loop, segment_start_points, true );
 				}
 
 				PolyInputCache3D poly_cache(m_epsMergePoints);

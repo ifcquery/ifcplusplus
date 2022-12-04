@@ -138,7 +138,7 @@ public:
 
 				std::vector<vec3> segment_start_points;
 				std::vector<vec3> basis_curve_points;
-				m_curve_converter->convertIfcCurve( ifc_directrix_curve, basis_curve_points, segment_start_points );
+				m_curve_converter->convertIfcCurve( ifc_directrix_curve, basis_curve_points, segment_start_points, true );
 
 				m_sweeper->sweepArea( basis_curve_points, profile_paths, fixed_reference_swept_area_solid.get(), item_data_solid );
 				item_data->addItemData( item_data_solid );
@@ -167,7 +167,7 @@ public:
 
 				std::vector<vec3> segment_start_points;
 				std::vector<vec3> directrix_curve_points;
-				m_curve_converter->convertIfcCurve( ifc_directrix_curve, directrix_curve_points, segment_start_points );
+				m_curve_converter->convertIfcCurve( ifc_directrix_curve, directrix_curve_points, segment_start_points, true );
 
 				// apply reference curve
 				//shared_ptr<carve::input::PolylineSetData> reference_surface_data( new carve::input::PolylineSetData() );
@@ -306,7 +306,7 @@ public:
 
 			std::vector<vec3> segment_start_points;
 			std::vector<vec3> basis_curve_points;
-			m_curve_converter->convertIfcCurve( directrix_curve, basis_curve_points, segment_start_points );
+			m_curve_converter->convertIfcCurve( directrix_curve, basis_curve_points, segment_start_points, true );
 			GeomUtils::removeDuplicates(basis_curve_points);
 
 			shared_ptr<ItemShapeData> item_data_solid( new ItemShapeData() );
@@ -1338,7 +1338,7 @@ public:
 			std::vector<vec2> polygonal_boundary;
 			std::vector<vec2> segment_start_points_2d;
 			shared_ptr<IfcBoundedCurve> bounded_curve = polygonal_half_space->m_PolygonalBoundary;
-			m_curve_converter->convertIfcCurve2D( bounded_curve, polygonal_boundary, segment_start_points_2d );
+			m_curve_converter->convertIfcCurve2D( bounded_curve, polygonal_boundary, segment_start_points_2d, true );
 			ProfileConverter::deleteLastPointIfEqualToFirst( polygonal_boundary );
 			ProfileConverter::simplifyPath( polygonal_boundary );
 
@@ -1562,7 +1562,7 @@ public:
 		std::vector<vec3> curve_polygon;
 		std::vector<vec3> segment_start_points;
 		//CurveConverter cconv( m_unit_converter );
-		m_curve_converter->convertIfcCurve( spine_curve, curve_polygon, segment_start_points );
+		m_curve_converter->convertIfcCurve( spine_curve, curve_polygon, segment_start_points, true );
 
 #ifdef _DEBUG
 		std::cout << "IfcSectionedSpine not implemented." << std::endl;

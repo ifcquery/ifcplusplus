@@ -459,7 +459,7 @@ public:
 		{
 			std::vector<vec3> loops;
 			std::vector<vec3> segment_start_points;
-			m_curve_converter->convertIfcCurve( ifc_curve, loops, segment_start_points );
+			m_curve_converter->convertIfcCurve( ifc_curve, loops, segment_start_points, true );
 
 			shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 			polyline_data->beginPolyline();
@@ -707,7 +707,7 @@ public:
 				{
 					std::vector<vec3> loops;
 					std::vector<vec3> segment_start_points;
-					m_curve_converter->convertIfcCurve( select_curve, loops, segment_start_points );
+					m_curve_converter->convertIfcCurve( select_curve, loops, segment_start_points, true );
 
 					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 					polyline_data->beginPolyline();
@@ -800,7 +800,7 @@ public:
 			face_loops.push_back( std::vector<vec3>() );
 			std::vector<vec3>& outer_boundary_loop = face_loops.back();
 			std::vector<vec3> segment_start_points;
-			m_curve_converter->convertIfcCurve( outer_boundary, outer_boundary_loop, segment_start_points );
+			m_curve_converter->convertIfcCurve( outer_boundary, outer_boundary_loop, segment_start_points, true );
 
 			// convert inner boundaries
 			std::vector<shared_ptr<IfcCurve> >& vec_inner_boundaries = annotation_fill_area->m_InnerBoundaries;			//optional
@@ -813,7 +813,7 @@ public:
 				face_loops.push_back( std::vector<vec3>() );
 				std::vector<vec3>& inner_boundary_loop = face_loops.back();
 				std::vector<vec3> segment_start_points_inner_curve;
-				m_curve_converter->convertIfcCurve( inner_boundary, inner_boundary_loop, segment_start_points_inner_curve);
+				m_curve_converter->convertIfcCurve( inner_boundary, inner_boundary_loop, segment_start_points_inner_curve, true );
 			}
 
 			PolyInputCache3D poly_cache;

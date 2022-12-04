@@ -1481,28 +1481,11 @@ public:
 		}
 		return false;
 	}
-
-	//void computeBoundingBoxLocalCoords( carve::geom::aabb<3>& bbox, bool include_children ) const
-	//{
-	//	for( size_t ii = 0; ii < m_vec_representations.size(); ++ii )
-	//	{
-	//		const shared_ptr<RepresentationData>& representation_data = m_vec_representations[ii];
-	//		representation_data->computeBoundingBox( bbox );
-	//	}
-
-	//	if( include_children )
-	//	{
-	//		for( auto child_product_data : m_vec_children )
-	//		{
-	//			child_product_data->computeBoundingBoxLocalCoords( bbox, include_children );
-	//		}
-	//	}
-	//}
 };
 
 
 
-static carve::geom::aabb<3> computeBoundingBoxLocalCoords( shared_ptr<ProductShapeData>& productData, bool includeChildren )
+static carve::geom::aabb<3> computeBoundingBoxLocalCoords( const shared_ptr<ProductShapeData>& productData, bool includeChildren )
 {
 	carve::geom::aabb<3> bbox;
 
