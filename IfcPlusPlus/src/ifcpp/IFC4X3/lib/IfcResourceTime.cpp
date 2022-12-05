@@ -17,29 +17,6 @@
 
 // ENTITY IfcResourceTime 
 IFC4X3::IfcResourceTime::IfcResourceTime( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcResourceTime::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcResourceTime> copy_self( new IfcResourceTime() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy(options) ); }
-	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy(options) ); }
-	if( m_ScheduleWork ) { copy_self->m_ScheduleWork = dynamic_pointer_cast<IfcDuration>( m_ScheduleWork->getDeepCopy(options) ); }
-	if( m_ScheduleUsage ) { copy_self->m_ScheduleUsage = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_ScheduleUsage->getDeepCopy(options) ); }
-	if( m_ScheduleStart ) { copy_self->m_ScheduleStart = dynamic_pointer_cast<IfcDateTime>( m_ScheduleStart->getDeepCopy(options) ); }
-	if( m_ScheduleFinish ) { copy_self->m_ScheduleFinish = dynamic_pointer_cast<IfcDateTime>( m_ScheduleFinish->getDeepCopy(options) ); }
-	if( m_ScheduleContour ) { copy_self->m_ScheduleContour = dynamic_pointer_cast<IfcLabel>( m_ScheduleContour->getDeepCopy(options) ); }
-	if( m_LevelingDelay ) { copy_self->m_LevelingDelay = dynamic_pointer_cast<IfcDuration>( m_LevelingDelay->getDeepCopy(options) ); }
-	if( m_IsOverAllocated ) { copy_self->m_IsOverAllocated = dynamic_pointer_cast<IfcBoolean>( m_IsOverAllocated->getDeepCopy(options) ); }
-	if( m_StatusTime ) { copy_self->m_StatusTime = dynamic_pointer_cast<IfcDateTime>( m_StatusTime->getDeepCopy(options) ); }
-	if( m_ActualWork ) { copy_self->m_ActualWork = dynamic_pointer_cast<IfcDuration>( m_ActualWork->getDeepCopy(options) ); }
-	if( m_ActualUsage ) { copy_self->m_ActualUsage = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_ActualUsage->getDeepCopy(options) ); }
-	if( m_ActualStart ) { copy_self->m_ActualStart = dynamic_pointer_cast<IfcDateTime>( m_ActualStart->getDeepCopy(options) ); }
-	if( m_ActualFinish ) { copy_self->m_ActualFinish = dynamic_pointer_cast<IfcDateTime>( m_ActualFinish->getDeepCopy(options) ); }
-	if( m_RemainingWork ) { copy_self->m_RemainingWork = dynamic_pointer_cast<IfcDuration>( m_RemainingWork->getDeepCopy(options) ); }
-	if( m_RemainingUsage ) { copy_self->m_RemainingUsage = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_RemainingUsage->getDeepCopy(options) ); }
-	if( m_Completion ) { copy_self->m_Completion = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_Completion->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcResourceTime::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCRESOURCETIME" << "(";

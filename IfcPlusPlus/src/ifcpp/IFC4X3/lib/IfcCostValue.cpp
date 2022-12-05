@@ -19,28 +19,6 @@
 
 // ENTITY IfcCostValue 
 IFC4X3::IfcCostValue::IfcCostValue( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCostValue::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCostValue> copy_self( new IfcCostValue() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_AppliedValue ) { copy_self->m_AppliedValue = dynamic_pointer_cast<IfcAppliedValueSelect>( m_AppliedValue->getDeepCopy(options) ); }
-	if( m_UnitBasis ) { copy_self->m_UnitBasis = dynamic_pointer_cast<IfcMeasureWithUnit>( m_UnitBasis->getDeepCopy(options) ); }
-	if( m_ApplicableDate ) { copy_self->m_ApplicableDate = dynamic_pointer_cast<IfcDate>( m_ApplicableDate->getDeepCopy(options) ); }
-	if( m_FixedUntilDate ) { copy_self->m_FixedUntilDate = dynamic_pointer_cast<IfcDate>( m_FixedUntilDate->getDeepCopy(options) ); }
-	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy(options) ); }
-	if( m_Condition ) { copy_self->m_Condition = dynamic_pointer_cast<IfcLabel>( m_Condition->getDeepCopy(options) ); }
-	if( m_ArithmeticOperator ) { copy_self->m_ArithmeticOperator = dynamic_pointer_cast<IfcArithmeticOperatorEnum>( m_ArithmeticOperator->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Components.size(); ++ii )
-	{
-		auto item_ii = m_Components[ii];
-		if( item_ii )
-		{
-			copy_self->m_Components.emplace_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcCostValue::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCOSTVALUE" << "(";

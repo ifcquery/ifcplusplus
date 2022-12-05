@@ -14,19 +14,6 @@
 
 // ENTITY IfcCartesianPoint 
 IFC4X3::IfcCartesianPoint::IfcCartesianPoint( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCartesianPoint::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCartesianPoint> copy_self( new IfcCartesianPoint() );
-	for( size_t ii=0; ii<m_Coordinates.size(); ++ii )
-	{
-		auto item_ii = m_Coordinates[ii];
-		if( item_ii )
-		{
-			copy_self->m_Coordinates.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcCartesianPoint::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCARTESIANPOINT" << "(";

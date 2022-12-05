@@ -12,12 +12,6 @@
 
 // ENTITY IfcStructuralConnectionCondition 
 IFC4X3::IfcStructuralConnectionCondition::IfcStructuralConnectionCondition( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcStructuralConnectionCondition::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcStructuralConnectionCondition> copy_self( new IfcStructuralConnectionCondition() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcStructuralConnectionCondition::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSTRUCTURALCONNECTIONCONDITION" << "(";

@@ -14,12 +14,6 @@
 
 // ENTITY IfcPlacement 
 IFC4X3::IfcPlacement::IfcPlacement( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPlacement::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPlacement> copy_self( new IfcPlacement() );
-	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcPoint>( m_Location->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPlacement::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPLACEMENT" << "(";

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcLightFixtureTypeEnum.h"
 
 // TYPE IfcLightFixtureTypeEnum = ENUMERATION OF	(DIRECTIONSOURCE	,POINTSOURCE	,SECURITYLIGHTING	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcLightFixtureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLightFixtureTypeEnum> copy_self( new IfcLightFixtureTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcLightFixtureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLIGHTFIXTURETYPEENUM("; }

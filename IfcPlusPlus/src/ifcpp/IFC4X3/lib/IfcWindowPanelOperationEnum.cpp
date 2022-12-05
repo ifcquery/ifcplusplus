@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcWindowPanelOperationEnum.h"
 
 // TYPE IfcWindowPanelOperationEnum = ENUMERATION OF	(BOTTOMHUNG	,FIXEDCASEMENT	,OTHEROPERATION	,PIVOTHORIZONTAL	,PIVOTVERTICAL	,REMOVABLECASEMENT	,SIDEHUNGLEFTHAND	,SIDEHUNGRIGHTHAND	,SLIDINGHORIZONTAL	,SLIDINGVERTICAL	,TILTANDTURNLEFTHAND	,TILTANDTURNRIGHTHAND	,TOPHUNG	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcWindowPanelOperationEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcWindowPanelOperationEnum> copy_self( new IfcWindowPanelOperationEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcWindowPanelOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWINDOWPANELOPERATIONENUM("; }

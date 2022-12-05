@@ -19,17 +19,6 @@
 
 // ENTITY IfcGeometricRepresentationContext 
 IFC4X3::IfcGeometricRepresentationContext::IfcGeometricRepresentationContext( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcGeometricRepresentationContext::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcGeometricRepresentationContext> copy_self( new IfcGeometricRepresentationContext() );
-	if( m_ContextIdentifier ) { copy_self->m_ContextIdentifier = dynamic_pointer_cast<IfcLabel>( m_ContextIdentifier->getDeepCopy(options) ); }
-	if( m_ContextType ) { copy_self->m_ContextType = dynamic_pointer_cast<IfcLabel>( m_ContextType->getDeepCopy(options) ); }
-	if( m_CoordinateSpaceDimension ) { copy_self->m_CoordinateSpaceDimension = dynamic_pointer_cast<IfcDimensionCount>( m_CoordinateSpaceDimension->getDeepCopy(options) ); }
-	if( m_Precision ) { copy_self->m_Precision = dynamic_pointer_cast<IfcReal>( m_Precision->getDeepCopy(options) ); }
-	if( m_WorldCoordinateSystem ) { copy_self->m_WorldCoordinateSystem = dynamic_pointer_cast<IfcAxis2Placement>( m_WorldCoordinateSystem->getDeepCopy(options) ); }
-	if( m_TrueNorth ) { copy_self->m_TrueNorth = dynamic_pointer_cast<IfcDirection>( m_TrueNorth->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcGeometricRepresentationContext::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCGEOMETRICREPRESENTATIONCONTEXT" << "(";

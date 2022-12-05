@@ -13,11 +13,6 @@
 
 // ENTITY IfcGeometricRepresentationItem 
 IFC4X3::IfcGeometricRepresentationItem::IfcGeometricRepresentationItem( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcGeometricRepresentationItem::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcGeometricRepresentationItem> copy_self( new IfcGeometricRepresentationItem() );
-	return copy_self;
-}
 void IFC4X3::IfcGeometricRepresentationItem::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCGEOMETRICREPRESENTATIONITEM" << "(";

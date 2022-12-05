@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcWindowTypeEnum.h"
 
 // TYPE IfcWindowTypeEnum = ENUMERATION OF	(LIGHTDOME	,SKYLIGHT	,WINDOW	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcWindowTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcWindowTypeEnum> copy_self( new IfcWindowTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcWindowTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWINDOWTYPEENUM("; }

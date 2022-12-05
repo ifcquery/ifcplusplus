@@ -17,31 +17,6 @@
 
 // ENTITY IfcBSplineSurface 
 IFC4X3::IfcBSplineSurface::IfcBSplineSurface( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcBSplineSurface::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBSplineSurface> copy_self( new IfcBSplineSurface() );
-	if( m_UDegree ) { copy_self->m_UDegree = dynamic_pointer_cast<IfcInteger>( m_UDegree->getDeepCopy(options) ); }
-	if( m_VDegree ) { copy_self->m_VDegree = dynamic_pointer_cast<IfcInteger>( m_VDegree->getDeepCopy(options) ); }
-	copy_self->m_ControlPointsList.resize( m_ControlPointsList.size() );
-	for( size_t ii=0; ii<m_ControlPointsList.size(); ++ii )
-	{
-		std::vector<shared_ptr<IfcCartesianPoint> >& vec_ii = m_ControlPointsList[ii];
-		std::vector<shared_ptr<IfcCartesianPoint> >& vec_ii_target = copy_self->m_ControlPointsList[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
-		{
-			shared_ptr<IfcCartesianPoint>& item_jj = vec_ii[jj];
-			if( item_jj )
-			{
-				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcCartesianPoint>( item_jj->getDeepCopy(options) ) );
-			}
-		}
-	}
-	if( m_SurfaceForm ) { copy_self->m_SurfaceForm = dynamic_pointer_cast<IfcBSplineSurfaceForm>( m_SurfaceForm->getDeepCopy(options) ); }
-	if( m_UClosed ) { copy_self->m_UClosed = dynamic_pointer_cast<IfcLogical>( m_UClosed->getDeepCopy(options) ); }
-	if( m_VClosed ) { copy_self->m_VClosed = dynamic_pointer_cast<IfcLogical>( m_VClosed->getDeepCopy(options) ); }
-	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = dynamic_pointer_cast<IfcLogical>( m_SelfIntersect->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcBSplineSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCBSPLINESURFACE" << "(";

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcMooringDeviceTypeEnum.h"
 
 // TYPE IfcMooringDeviceTypeEnum = ENUMERATION OF	(BOLLARD	,LINETENSIONER	,MAGNETICDEVICE	,MOORINGHOOKS	,VACUUMDEVICE	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcMooringDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMooringDeviceTypeEnum> copy_self( new IfcMooringDeviceTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcMooringDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMOORINGDEVICETYPEENUM("; }

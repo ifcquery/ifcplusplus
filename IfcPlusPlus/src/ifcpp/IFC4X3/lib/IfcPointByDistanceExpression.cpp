@@ -16,16 +16,6 @@
 
 // ENTITY IfcPointByDistanceExpression 
 IFC4X3::IfcPointByDistanceExpression::IfcPointByDistanceExpression( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPointByDistanceExpression::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPointByDistanceExpression> copy_self( new IfcPointByDistanceExpression() );
-	if( m_DistanceAlong ) { copy_self->m_DistanceAlong = dynamic_pointer_cast<IfcCurveMeasureSelect>( m_DistanceAlong->getDeepCopy(options) ); }
-	if( m_OffsetLateral ) { copy_self->m_OffsetLateral = dynamic_pointer_cast<IfcLengthMeasure>( m_OffsetLateral->getDeepCopy(options) ); }
-	if( m_OffsetVertical ) { copy_self->m_OffsetVertical = dynamic_pointer_cast<IfcLengthMeasure>( m_OffsetVertical->getDeepCopy(options) ); }
-	if( m_OffsetLongitudinal ) { copy_self->m_OffsetLongitudinal = dynamic_pointer_cast<IfcLengthMeasure>( m_OffsetLongitudinal->getDeepCopy(options) ); }
-	if( m_BasisCurve ) { copy_self->m_BasisCurve = dynamic_pointer_cast<IfcCurve>( m_BasisCurve->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPointByDistanceExpression::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPOINTBYDISTANCEEXPRESSION" << "(";

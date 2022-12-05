@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcBoxAlignment.h"
 
 // TYPE IfcBoxAlignment = IfcLabel;
-shared_ptr<BuildingObject> IFC4X3::IfcBoxAlignment::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBoxAlignment> copy_self( new IfcBoxAlignment() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcBoxAlignment::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBOXALIGNMENT("; }

@@ -16,14 +16,6 @@
 
 // ENTITY IfcTextLiteral 
 IFC4X3::IfcTextLiteral::IfcTextLiteral( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTextLiteral::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTextLiteral> copy_self( new IfcTextLiteral() );
-	if( m_Literal ) { copy_self->m_Literal = dynamic_pointer_cast<IfcPresentableText>( m_Literal->getDeepCopy(options) ); }
-	if( m_Placement ) { copy_self->m_Placement = dynamic_pointer_cast<IfcAxis2Placement>( m_Placement->getDeepCopy(options) ); }
-	if( m_Path ) { copy_self->m_Path = dynamic_pointer_cast<IfcTextPath>( m_Path->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTextLiteral::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTLITERAL" << "(";

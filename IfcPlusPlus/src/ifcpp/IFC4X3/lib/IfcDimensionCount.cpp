@@ -11,12 +11,6 @@
 
 // TYPE IfcDimensionCount = INTEGER;
 IFC4X3::IfcDimensionCount::IfcDimensionCount( int value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcDimensionCount::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDimensionCount> copy_self( new IfcDimensionCount() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcDimensionCount::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDIMENSIONCOUNT("; }

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcRoofTypeEnum.h"
 
 // TYPE IfcRoofTypeEnum = ENUMERATION OF	(BARREL_ROOF	,BUTTERFLY_ROOF	,DOME_ROOF	,FLAT_ROOF	,FREEFORM	,GABLE_ROOF	,GAMBREL_ROOF	,HIPPED_GABLE_ROOF	,HIP_ROOF	,MANSARD_ROOF	,PAVILION_ROOF	,RAINBOW_ROOF	,SHED_ROOF	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcRoofTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRoofTypeEnum> copy_self( new IfcRoofTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcRoofTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCROOFTYPEENUM("; }

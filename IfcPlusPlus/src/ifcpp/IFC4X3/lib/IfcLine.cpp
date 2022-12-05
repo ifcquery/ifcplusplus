@@ -15,13 +15,6 @@
 
 // ENTITY IfcLine 
 IFC4X3::IfcLine::IfcLine( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcLine::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLine> copy_self( new IfcLine() );
-	if( m_Pnt ) { copy_self->m_Pnt = dynamic_pointer_cast<IfcCartesianPoint>( m_Pnt->getDeepCopy(options) ); }
-	if( m_Dir ) { copy_self->m_Dir = dynamic_pointer_cast<IfcVector>( m_Dir->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcLine::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCLINE" << "(";

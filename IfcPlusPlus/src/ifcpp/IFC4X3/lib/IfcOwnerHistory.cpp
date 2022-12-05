@@ -16,19 +16,6 @@
 
 // ENTITY IfcOwnerHistory 
 IFC4X3::IfcOwnerHistory::IfcOwnerHistory( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcOwnerHistory::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcOwnerHistory> copy_self( new IfcOwnerHistory() );
-	if( m_OwningUser ) { copy_self->m_OwningUser = dynamic_pointer_cast<IfcPersonAndOrganization>( m_OwningUser->getDeepCopy(options) ); }
-	if( m_OwningApplication ) { copy_self->m_OwningApplication = dynamic_pointer_cast<IfcApplication>( m_OwningApplication->getDeepCopy(options) ); }
-	if( m_State ) { copy_self->m_State = dynamic_pointer_cast<IfcStateEnum>( m_State->getDeepCopy(options) ); }
-	if( m_ChangeAction ) { copy_self->m_ChangeAction = dynamic_pointer_cast<IfcChangeActionEnum>( m_ChangeAction->getDeepCopy(options) ); }
-	if( m_LastModifiedDate ) { copy_self->m_LastModifiedDate = dynamic_pointer_cast<IfcTimeStamp>( m_LastModifiedDate->getDeepCopy(options) ); }
-	if( m_LastModifyingUser ) { copy_self->m_LastModifyingUser = dynamic_pointer_cast<IfcPersonAndOrganization>( m_LastModifyingUser->getDeepCopy(options) ); }
-	if( m_LastModifyingApplication ) { copy_self->m_LastModifyingApplication = dynamic_pointer_cast<IfcApplication>( m_LastModifyingApplication->getDeepCopy(options) ); }
-	if( m_CreationDate ) { copy_self->m_CreationDate = dynamic_pointer_cast<IfcTimeStamp>( m_CreationDate->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcOwnerHistory::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCOWNERHISTORY" << "(";

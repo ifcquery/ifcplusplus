@@ -14,20 +14,6 @@
 
 // ENTITY IfcAnnotationFillArea 
 IFC4X3::IfcAnnotationFillArea::IfcAnnotationFillArea( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcAnnotationFillArea::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAnnotationFillArea> copy_self( new IfcAnnotationFillArea() );
-	if( m_OuterBoundary ) { copy_self->m_OuterBoundary = dynamic_pointer_cast<IfcCurve>( m_OuterBoundary->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_InnerBoundaries.size(); ++ii )
-	{
-		auto item_ii = m_InnerBoundaries[ii];
-		if( item_ii )
-		{
-			copy_self->m_InnerBoundaries.emplace_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcAnnotationFillArea::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCANNOTATIONFILLAREA" << "(";

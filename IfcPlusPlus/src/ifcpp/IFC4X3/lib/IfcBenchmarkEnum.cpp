@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcBenchmarkEnum.h"
 
 // TYPE IfcBenchmarkEnum = ENUMERATION OF	(EQUALTO	,GREATERTHAN	,GREATERTHANOREQUALTO	,INCLUDEDIN	,INCLUDES	,LESSTHAN	,LESSTHANOREQUALTO	,NOTEQUALTO	,NOTINCLUDEDIN	,NOTINCLUDES);
-shared_ptr<BuildingObject> IFC4X3::IfcBenchmarkEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBenchmarkEnum> copy_self( new IfcBenchmarkEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcBenchmarkEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBENCHMARKENUM("; }

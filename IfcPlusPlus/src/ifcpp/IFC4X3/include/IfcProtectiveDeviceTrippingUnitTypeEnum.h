@@ -28,7 +28,6 @@ namespace IFC4X3
 		IfcProtectiveDeviceTrippingUnitTypeEnum() = default;
 		IfcProtectiveDeviceTrippingUnitTypeEnum( IfcProtectiveDeviceTrippingUnitTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 2749697471; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcProtectiveDeviceTrippingUnitTypeEnumEnum m_enum;

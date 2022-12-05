@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcMedicalDeviceTypeEnum.h"
 
 // TYPE IfcMedicalDeviceTypeEnum = ENUMERATION OF	(AIRSTATION	,FEEDAIRUNIT	,OXYGENGENERATOR	,OXYGENPLANT	,VACUUMSTATION	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcMedicalDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMedicalDeviceTypeEnum> copy_self( new IfcMedicalDeviceTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcMedicalDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMEDICALDEVICETYPEENUM("; }

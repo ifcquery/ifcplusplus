@@ -15,20 +15,6 @@
 
 // ENTITY IfcCompositeCurve 
 IFC4X3::IfcCompositeCurve::IfcCompositeCurve( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCompositeCurve::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCompositeCurve> copy_self( new IfcCompositeCurve() );
-	for( size_t ii=0; ii<m_Segments.size(); ++ii )
-	{
-		auto item_ii = m_Segments[ii];
-		if( item_ii )
-		{
-			copy_self->m_Segments.emplace_back( dynamic_pointer_cast<IfcSegment>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = dynamic_pointer_cast<IfcLogical>( m_SelfIntersect->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCompositeCurve::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCOMPOSITECURVE" << "(";

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcPumpTypeEnum.h"
 
 // TYPE IfcPumpTypeEnum = ENUMERATION OF	(CIRCULATOR	,ENDSUCTION	,SPLITCASE	,SUBMERSIBLEPUMP	,SUMPPUMP	,VERTICALINLINE	,VERTICALTURBINE	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcPumpTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPumpTypeEnum> copy_self( new IfcPumpTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcPumpTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPUMPTYPEENUM("; }

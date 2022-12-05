@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcDoorPanelPositionEnum.h"
 
 // TYPE IfcDoorPanelPositionEnum = ENUMERATION OF	(LEFT	,MIDDLE	,RIGHT	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcDoorPanelPositionEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDoorPanelPositionEnum> copy_self( new IfcDoorPanelPositionEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcDoorPanelPositionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOORPANELPOSITIONENUM("; }

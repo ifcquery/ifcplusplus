@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcPileConstructionEnum.h"
 
 // TYPE IfcPileConstructionEnum = ENUMERATION OF	(CAST_IN_PLACE	,COMPOSITE	,PRECAST_CONCRETE	,PREFAB_STEEL	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcPileConstructionEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPileConstructionEnum> copy_self( new IfcPileConstructionEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcPileConstructionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPILECONSTRUCTIONENUM("; }

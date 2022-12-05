@@ -11,16 +11,6 @@
 #include "ifcpp/IFC4X3/include/IfcCompoundPlaneAngleMeasure.h"
 
 // TYPE IfcCompoundPlaneAngleMeasure = LIST [3:4] OF INTEGER;
-shared_ptr<BuildingObject> IFC4X3::IfcCompoundPlaneAngleMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCompoundPlaneAngleMeasure> copy_self( new IfcCompoundPlaneAngleMeasure() );
-	for( size_t ii=0; ii<m_vec.size(); ++ii )
-	{
-		int item_ii = m_vec[ii];
-		copy_self->m_vec.emplace_back( item_ii );
-	}
-	return copy_self;
-}
 void IFC4X3::IfcCompoundPlaneAngleMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPOUNDPLANEANGLEMEASURE("; }

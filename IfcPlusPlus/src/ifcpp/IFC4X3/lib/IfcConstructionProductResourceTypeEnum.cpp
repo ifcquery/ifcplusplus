@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcConstructionProductResourceTypeEnum.h"
 
 // TYPE IfcConstructionProductResourceTypeEnum = ENUMERATION OF	(ASSEMBLY	,FORMWORK	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcConstructionProductResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcConstructionProductResourceTypeEnum> copy_self( new IfcConstructionProductResourceTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcConstructionProductResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONSTRUCTIONPRODUCTRESOURCETYPEENUM("; }

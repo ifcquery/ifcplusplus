@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcNavigationElementTypeEnum.h"
 
 // TYPE IfcNavigationElementTypeEnum = ENUMERATION OF	(BEACON	,BUOY	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcNavigationElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcNavigationElementTypeEnum> copy_self( new IfcNavigationElementTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcNavigationElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCNAVIGATIONELEMENTTYPEENUM("; }

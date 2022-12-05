@@ -12,12 +12,6 @@
 
 // TYPE IfcDynamicViscosityMeasure = REAL;
 IFC4X3::IfcDynamicViscosityMeasure::IfcDynamicViscosityMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcDynamicViscosityMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDynamicViscosityMeasure> copy_self( new IfcDynamicViscosityMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcDynamicViscosityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDYNAMICVISCOSITYMEASURE("; }

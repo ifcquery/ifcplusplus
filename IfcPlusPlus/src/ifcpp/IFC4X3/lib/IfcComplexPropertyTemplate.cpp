@@ -20,33 +20,6 @@
 
 // ENTITY IfcComplexPropertyTemplate 
 IFC4X3::IfcComplexPropertyTemplate::IfcComplexPropertyTemplate( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcComplexPropertyTemplate::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcComplexPropertyTemplate> copy_self( new IfcComplexPropertyTemplate() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_UsageName ) { copy_self->m_UsageName = dynamic_pointer_cast<IfcLabel>( m_UsageName->getDeepCopy(options) ); }
-	if( m_TemplateType ) { copy_self->m_TemplateType = dynamic_pointer_cast<IfcComplexPropertyTemplateTypeEnum>( m_TemplateType->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_HasPropertyTemplates.size(); ++ii )
-	{
-		auto item_ii = m_HasPropertyTemplates[ii];
-		if( item_ii )
-		{
-			copy_self->m_HasPropertyTemplates.emplace_back( dynamic_pointer_cast<IfcPropertyTemplate>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcComplexPropertyTemplate::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCOMPLEXPROPERTYTEMPLATE" << "(";

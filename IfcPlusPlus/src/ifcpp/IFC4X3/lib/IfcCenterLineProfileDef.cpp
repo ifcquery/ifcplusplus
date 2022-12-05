@@ -17,15 +17,6 @@
 
 // ENTITY IfcCenterLineProfileDef 
 IFC4X3::IfcCenterLineProfileDef::IfcCenterLineProfileDef( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCenterLineProfileDef::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCenterLineProfileDef> copy_self( new IfcCenterLineProfileDef() );
-	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
-	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
-	if( m_Curve ) { copy_self->m_Curve = dynamic_pointer_cast<IfcBoundedCurve>( m_Curve->getDeepCopy(options) ); }
-	if( m_Thickness ) { copy_self->m_Thickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Thickness->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCenterLineProfileDef::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCENTERLINEPROFILEDEF" << "(";

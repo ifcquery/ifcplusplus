@@ -15,15 +15,6 @@
 
 // ENTITY IfcSecondOrderPolynomialSpiral 
 IFC4X3::IfcSecondOrderPolynomialSpiral::IfcSecondOrderPolynomialSpiral( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSecondOrderPolynomialSpiral::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSecondOrderPolynomialSpiral> copy_self( new IfcSecondOrderPolynomialSpiral() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement>( m_Position->getDeepCopy(options) ); }
-	if( m_QuadraticTerm ) { copy_self->m_QuadraticTerm = dynamic_pointer_cast<IfcLengthMeasure>( m_QuadraticTerm->getDeepCopy(options) ); }
-	if( m_LinearTerm ) { copy_self->m_LinearTerm = dynamic_pointer_cast<IfcLengthMeasure>( m_LinearTerm->getDeepCopy(options) ); }
-	if( m_ConstantTerm ) { copy_self->m_ConstantTerm = dynamic_pointer_cast<IfcLengthMeasure>( m_ConstantTerm->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSecondOrderPolynomialSpiral::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSECONDORDERPOLYNOMIALSPIRAL" << "(";

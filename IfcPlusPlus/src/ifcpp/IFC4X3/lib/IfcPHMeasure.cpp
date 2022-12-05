@@ -12,12 +12,6 @@
 
 // TYPE IfcPHMeasure = REAL;
 IFC4X3::IfcPHMeasure::IfcPHMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcPHMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPHMeasure> copy_self( new IfcPHMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcPHMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPHMEASURE("; }

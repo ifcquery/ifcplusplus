@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcCooledBeamTypeEnum.h"
 
 // TYPE IfcCooledBeamTypeEnum = ENUMERATION OF	(ACTIVE	,PASSIVE	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcCooledBeamTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCooledBeamTypeEnum> copy_self( new IfcCooledBeamTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcCooledBeamTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOOLEDBEAMTYPEENUM("; }

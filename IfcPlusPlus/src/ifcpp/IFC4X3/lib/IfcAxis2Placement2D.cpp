@@ -15,13 +15,6 @@
 
 // ENTITY IfcAxis2Placement2D 
 IFC4X3::IfcAxis2Placement2D::IfcAxis2Placement2D( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcAxis2Placement2D::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAxis2Placement2D> copy_self( new IfcAxis2Placement2D() );
-	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcPoint>( m_Location->getDeepCopy(options) ); }
-	if( m_RefDirection ) { copy_self->m_RefDirection = dynamic_pointer_cast<IfcDirection>( m_RefDirection->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcAxis2Placement2D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCAXIS2PLACEMENT2D" << "(";

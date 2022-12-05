@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcElementAssemblyTypeEnum.h"
 
 // TYPE IfcElementAssemblyTypeEnum = ENUMERATION OF	(ABUTMENT	,ACCESSORY_ASSEMBLY	,ARCH	,BEAM_GRID	,BRACED_FRAME	,CROSS_BRACING	,DECK	,DILATATIONPANEL	,ENTRANCEWORKS	,GIRDER	,GRID	,MAST	,PIER	,PYLON	,RAIL_MECHANICAL_EQUIPMENT_ASSEMBLY	,REINFORCEMENT_UNIT	,RIGID_FRAME	,SHELTER	,SIGNALASSEMBLY	,SLAB_FIELD	,SUMPBUSTER	,SUPPORTINGASSEMBLY	,SUSPENSIONASSEMBLY	,TRACKPANEL	,TRACTION_SWITCHING_ASSEMBLY	,TRAFFIC_CALMING_DEVICE	,TRUSS	,TURNOUTPANEL	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcElementAssemblyTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcElementAssemblyTypeEnum> copy_self( new IfcElementAssemblyTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcElementAssemblyTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELEMENTASSEMBLYTYPEENUM("; }

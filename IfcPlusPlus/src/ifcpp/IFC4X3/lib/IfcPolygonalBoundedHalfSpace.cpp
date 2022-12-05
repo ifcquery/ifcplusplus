@@ -17,15 +17,6 @@
 
 // ENTITY IfcPolygonalBoundedHalfSpace 
 IFC4X3::IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPolygonalBoundedHalfSpace::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPolygonalBoundedHalfSpace> copy_self( new IfcPolygonalBoundedHalfSpace() );
-	if( m_BaseSurface ) { copy_self->m_BaseSurface = dynamic_pointer_cast<IfcSurface>( m_BaseSurface->getDeepCopy(options) ); }
-	if( m_AgreementFlag ) { copy_self->m_AgreementFlag = dynamic_pointer_cast<IfcBoolean>( m_AgreementFlag->getDeepCopy(options) ); }
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
-	if( m_PolygonalBoundary ) { copy_self->m_PolygonalBoundary = dynamic_pointer_cast<IfcBoundedCurve>( m_PolygonalBoundary->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPolygonalBoundedHalfSpace::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPOLYGONALBOUNDEDHALFSPACE" << "(";

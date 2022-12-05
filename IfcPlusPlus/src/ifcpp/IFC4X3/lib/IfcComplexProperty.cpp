@@ -19,22 +19,6 @@
 
 // ENTITY IfcComplexProperty 
 IFC4X3::IfcComplexProperty::IfcComplexProperty( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcComplexProperty::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcComplexProperty> copy_self( new IfcComplexProperty() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
-	if( m_Specification ) { copy_self->m_Specification = dynamic_pointer_cast<IfcText>( m_Specification->getDeepCopy(options) ); }
-	if( m_UsageName ) { copy_self->m_UsageName = dynamic_pointer_cast<IfcIdentifier>( m_UsageName->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_HasProperties.size(); ++ii )
-	{
-		auto item_ii = m_HasProperties[ii];
-		if( item_ii )
-		{
-			copy_self->m_HasProperties.emplace_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcComplexProperty::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCOMPLEXPROPERTY" << "(";

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcCableCarrierFittingTypeEnum.h"
 
 // TYPE IfcCableCarrierFittingTypeEnum = ENUMERATION OF	(BEND	,CONNECTOR	,CROSS	,JUNCTION	,TEE	,TRANSITION	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcCableCarrierFittingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCableCarrierFittingTypeEnum> copy_self( new IfcCableCarrierFittingTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcCableCarrierFittingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCABLECARRIERFITTINGTYPEENUM("; }

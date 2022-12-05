@@ -16,22 +16,6 @@
 
 // ENTITY IfcMaterialProperties 
 IFC4X3::IfcMaterialProperties::IfcMaterialProperties( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMaterialProperties::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMaterialProperties> copy_self( new IfcMaterialProperties() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Properties.size(); ++ii )
-	{
-		auto item_ii = m_Properties[ii];
-		if( item_ii )
-		{
-			copy_self->m_Properties.emplace_back( dynamic_pointer_cast<IfcProperty>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterialDefinition>( m_Material->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcMaterialProperties::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIALPROPERTIES" << "(";

@@ -27,7 +27,6 @@ namespace IFC4X3
 		IfcWorkCalendarTypeEnum() = default;
 		IfcWorkCalendarTypeEnum( IfcWorkCalendarTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1471118587; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcWorkCalendarTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcWorkCalendarTypeEnumEnum m_enum;

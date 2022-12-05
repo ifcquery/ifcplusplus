@@ -17,23 +17,6 @@
 
 // ENTITY IfcBSplineCurve 
 IFC4X3::IfcBSplineCurve::IfcBSplineCurve( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcBSplineCurve::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBSplineCurve> copy_self( new IfcBSplineCurve() );
-	if( m_Degree ) { copy_self->m_Degree = dynamic_pointer_cast<IfcInteger>( m_Degree->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_ControlPointsList.size(); ++ii )
-	{
-		auto item_ii = m_ControlPointsList[ii];
-		if( item_ii )
-		{
-			copy_self->m_ControlPointsList.emplace_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_CurveForm ) { copy_self->m_CurveForm = dynamic_pointer_cast<IfcBSplineCurveForm>( m_CurveForm->getDeepCopy(options) ); }
-	if( m_ClosedCurve ) { copy_self->m_ClosedCurve = dynamic_pointer_cast<IfcLogical>( m_ClosedCurve->getDeepCopy(options) ); }
-	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = dynamic_pointer_cast<IfcLogical>( m_SelfIntersect->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcBSplineCurve::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCBSPLINECURVE" << "(";

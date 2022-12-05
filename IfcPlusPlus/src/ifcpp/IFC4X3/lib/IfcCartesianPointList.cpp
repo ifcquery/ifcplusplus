@@ -13,11 +13,6 @@
 
 // ENTITY IfcCartesianPointList 
 IFC4X3::IfcCartesianPointList::IfcCartesianPointList( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCartesianPointList::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCartesianPointList> copy_self( new IfcCartesianPointList() );
-	return copy_self;
-}
 void IFC4X3::IfcCartesianPointList::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCARTESIANPOINTLIST" << "(";

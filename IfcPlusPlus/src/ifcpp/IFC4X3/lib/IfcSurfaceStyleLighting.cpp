@@ -12,15 +12,6 @@
 
 // ENTITY IfcSurfaceStyleLighting 
 IFC4X3::IfcSurfaceStyleLighting::IfcSurfaceStyleLighting( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSurfaceStyleLighting::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSurfaceStyleLighting> copy_self( new IfcSurfaceStyleLighting() );
-	if( m_DiffuseTransmissionColour ) { copy_self->m_DiffuseTransmissionColour = dynamic_pointer_cast<IfcColourRgb>( m_DiffuseTransmissionColour->getDeepCopy(options) ); }
-	if( m_DiffuseReflectionColour ) { copy_self->m_DiffuseReflectionColour = dynamic_pointer_cast<IfcColourRgb>( m_DiffuseReflectionColour->getDeepCopy(options) ); }
-	if( m_TransmissionColour ) { copy_self->m_TransmissionColour = dynamic_pointer_cast<IfcColourRgb>( m_TransmissionColour->getDeepCopy(options) ); }
-	if( m_ReflectanceColour ) { copy_self->m_ReflectanceColour = dynamic_pointer_cast<IfcColourRgb>( m_ReflectanceColour->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSurfaceStyleLighting::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACESTYLELIGHTING" << "(";

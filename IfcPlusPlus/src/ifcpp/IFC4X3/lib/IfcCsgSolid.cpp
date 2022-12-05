@@ -14,12 +14,6 @@
 
 // ENTITY IfcCsgSolid 
 IFC4X3::IfcCsgSolid::IfcCsgSolid( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCsgSolid::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCsgSolid> copy_self( new IfcCsgSolid() );
-	if( m_TreeRootExpression ) { copy_self->m_TreeRootExpression = dynamic_pointer_cast<IfcCsgSelect>( m_TreeRootExpression->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCsgSolid::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCSGSOLID" << "(";

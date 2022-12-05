@@ -15,28 +15,6 @@
 
 // ENTITY IfcFillAreaStyleTiles 
 IFC4X3::IfcFillAreaStyleTiles::IfcFillAreaStyleTiles( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcFillAreaStyleTiles::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFillAreaStyleTiles> copy_self( new IfcFillAreaStyleTiles() );
-	for( size_t ii=0; ii<m_TilingPattern.size(); ++ii )
-	{
-		auto item_ii = m_TilingPattern[ii];
-		if( item_ii )
-		{
-			copy_self->m_TilingPattern.emplace_back( dynamic_pointer_cast<IfcVector>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_Tiles.size(); ++ii )
-	{
-		auto item_ii = m_Tiles[ii];
-		if( item_ii )
-		{
-			copy_self->m_Tiles.emplace_back( dynamic_pointer_cast<IfcStyledItem>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_TilingScale ) { copy_self->m_TilingScale = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_TilingScale->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcFillAreaStyleTiles::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCFILLAREASTYLETILES" << "(";

@@ -16,20 +16,6 @@
 
 // ENTITY IfcSurfaceStyleRendering 
 IFC4X3::IfcSurfaceStyleRendering::IfcSurfaceStyleRendering( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSurfaceStyleRendering::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSurfaceStyleRendering> copy_self( new IfcSurfaceStyleRendering() );
-	if( m_SurfaceColour ) { copy_self->m_SurfaceColour = dynamic_pointer_cast<IfcColourRgb>( m_SurfaceColour->getDeepCopy(options) ); }
-	if( m_Transparency ) { copy_self->m_Transparency = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Transparency->getDeepCopy(options) ); }
-	if( m_DiffuseColour ) { copy_self->m_DiffuseColour = dynamic_pointer_cast<IfcColourOrFactor>( m_DiffuseColour->getDeepCopy(options) ); }
-	if( m_TransmissionColour ) { copy_self->m_TransmissionColour = dynamic_pointer_cast<IfcColourOrFactor>( m_TransmissionColour->getDeepCopy(options) ); }
-	if( m_DiffuseTransmissionColour ) { copy_self->m_DiffuseTransmissionColour = dynamic_pointer_cast<IfcColourOrFactor>( m_DiffuseTransmissionColour->getDeepCopy(options) ); }
-	if( m_ReflectionColour ) { copy_self->m_ReflectionColour = dynamic_pointer_cast<IfcColourOrFactor>( m_ReflectionColour->getDeepCopy(options) ); }
-	if( m_SpecularColour ) { copy_self->m_SpecularColour = dynamic_pointer_cast<IfcColourOrFactor>( m_SpecularColour->getDeepCopy(options) ); }
-	if( m_SpecularHighlight ) { copy_self->m_SpecularHighlight = dynamic_pointer_cast<IfcSpecularHighlightSelect>( m_SpecularHighlight->getDeepCopy(options) ); }
-	if( m_ReflectanceMethod ) { copy_self->m_ReflectanceMethod = dynamic_pointer_cast<IfcReflectanceMethodEnum>( m_ReflectanceMethod->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSurfaceStyleRendering::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACESTYLERENDERING" << "(";

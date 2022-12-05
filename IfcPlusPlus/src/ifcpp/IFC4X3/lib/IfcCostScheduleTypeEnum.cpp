@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcCostScheduleTypeEnum.h"
 
 // TYPE IfcCostScheduleTypeEnum = ENUMERATION OF	(BUDGET	,COSTPLAN	,ESTIMATE	,PRICEDBILLOFQUANTITIES	,SCHEDULEOFRATES	,TENDER	,UNPRICEDBILLOFQUANTITIES	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcCostScheduleTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCostScheduleTypeEnum> copy_self( new IfcCostScheduleTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcCostScheduleTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOSTSCHEDULETYPEENUM("; }

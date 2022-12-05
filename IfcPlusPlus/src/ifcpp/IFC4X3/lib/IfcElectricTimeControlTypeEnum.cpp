@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcElectricTimeControlTypeEnum.h"
 
 // TYPE IfcElectricTimeControlTypeEnum = ENUMERATION OF	(RELAY	,TIMECLOCK	,TIMEDELAY	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcElectricTimeControlTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcElectricTimeControlTypeEnum> copy_self( new IfcElectricTimeControlTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcElectricTimeControlTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICTIMECONTROLTYPEENUM("; }

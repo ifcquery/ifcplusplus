@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcWallTypeEnum.h"
 
 // TYPE IfcWallTypeEnum = ENUMERATION OF	(ELEMENTEDWALL	,MOVABLE	,PARAPET	,PARTITIONING	,PLUMBINGWALL	,POLYGONAL	,RETAININGWALL	,SHEAR	,SOLIDWALL	,STANDARD	,WAVEWALL	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcWallTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcWallTypeEnum> copy_self( new IfcWallTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcWallTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWALLTYPEENUM("; }

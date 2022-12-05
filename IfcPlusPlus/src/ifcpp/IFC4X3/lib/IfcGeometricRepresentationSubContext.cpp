@@ -21,21 +21,6 @@
 
 // ENTITY IfcGeometricRepresentationSubContext 
 IFC4X3::IfcGeometricRepresentationSubContext::IfcGeometricRepresentationSubContext( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcGeometricRepresentationSubContext::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcGeometricRepresentationSubContext> copy_self( new IfcGeometricRepresentationSubContext() );
-	if( m_ContextIdentifier ) { copy_self->m_ContextIdentifier = dynamic_pointer_cast<IfcLabel>( m_ContextIdentifier->getDeepCopy(options) ); }
-	if( m_ContextType ) { copy_self->m_ContextType = dynamic_pointer_cast<IfcLabel>( m_ContextType->getDeepCopy(options) ); }
-	if( m_CoordinateSpaceDimension ) { copy_self->m_CoordinateSpaceDimension = dynamic_pointer_cast<IfcDimensionCount>( m_CoordinateSpaceDimension->getDeepCopy(options) ); }
-	if( m_Precision ) { copy_self->m_Precision = dynamic_pointer_cast<IfcReal>( m_Precision->getDeepCopy(options) ); }
-	if( m_WorldCoordinateSystem ) { copy_self->m_WorldCoordinateSystem = dynamic_pointer_cast<IfcAxis2Placement>( m_WorldCoordinateSystem->getDeepCopy(options) ); }
-	if( m_TrueNorth ) { copy_self->m_TrueNorth = dynamic_pointer_cast<IfcDirection>( m_TrueNorth->getDeepCopy(options) ); }
-	if( m_ParentContext ) { copy_self->m_ParentContext = dynamic_pointer_cast<IfcGeometricRepresentationContext>( m_ParentContext->getDeepCopy(options) ); }
-	if( m_TargetScale ) { copy_self->m_TargetScale = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_TargetScale->getDeepCopy(options) ); }
-	if( m_TargetView ) { copy_self->m_TargetView = dynamic_pointer_cast<IfcGeometricProjectionEnum>( m_TargetView->getDeepCopy(options) ); }
-	if( m_UserDefinedTargetView ) { copy_self->m_UserDefinedTargetView = dynamic_pointer_cast<IfcLabel>( m_UserDefinedTargetView->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcGeometricRepresentationSubContext::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCGEOMETRICREPRESENTATIONSUBCONTEXT" << "(";

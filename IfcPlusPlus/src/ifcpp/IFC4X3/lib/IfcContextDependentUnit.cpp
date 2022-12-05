@@ -15,14 +15,6 @@
 
 // ENTITY IfcContextDependentUnit 
 IFC4X3::IfcContextDependentUnit::IfcContextDependentUnit( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcContextDependentUnit::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcContextDependentUnit> copy_self( new IfcContextDependentUnit() );
-	if( m_Dimensions ) { copy_self->m_Dimensions = dynamic_pointer_cast<IfcDimensionalExponents>( m_Dimensions->getDeepCopy(options) ); }
-	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcUnitEnum>( m_UnitType->getDeepCopy(options) ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcContextDependentUnit::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCONTEXTDEPENDENTUNIT" << "(";

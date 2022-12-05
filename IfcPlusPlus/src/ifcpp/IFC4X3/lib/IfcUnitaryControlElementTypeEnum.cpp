@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcUnitaryControlElementTypeEnum.h"
 
 // TYPE IfcUnitaryControlElementTypeEnum = ENUMERATION OF	(ALARMPANEL	,BASESTATIONCONTROLLER	,COMBINED	,CONTROLPANEL	,GASDETECTIONPANEL	,HUMIDISTAT	,INDICATORPANEL	,MIMICPANEL	,THERMOSTAT	,WEATHERSTATION	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcUnitaryControlElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcUnitaryControlElementTypeEnum> copy_self( new IfcUnitaryControlElementTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcUnitaryControlElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCUNITARYCONTROLELEMENTTYPEENUM("; }

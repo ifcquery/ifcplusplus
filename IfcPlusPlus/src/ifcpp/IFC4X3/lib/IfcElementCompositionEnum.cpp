@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcElementCompositionEnum.h"
 
 // TYPE IfcElementCompositionEnum = ENUMERATION OF	(COMPLEX	,ELEMENT	,PARTIAL);
-shared_ptr<BuildingObject> IFC4X3::IfcElementCompositionEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcElementCompositionEnum> copy_self( new IfcElementCompositionEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcElementCompositionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELEMENTCOMPOSITIONENUM("; }

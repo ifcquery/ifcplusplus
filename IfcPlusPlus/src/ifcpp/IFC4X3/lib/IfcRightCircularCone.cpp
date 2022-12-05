@@ -15,14 +15,6 @@
 
 // ENTITY IfcRightCircularCone 
 IFC4X3::IfcRightCircularCone::IfcRightCircularCone( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcRightCircularCone::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRightCircularCone> copy_self( new IfcRightCircularCone() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
-	if( m_Height ) { copy_self->m_Height = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Height->getDeepCopy(options) ); }
-	if( m_BottomRadius ) { copy_self->m_BottomRadius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_BottomRadius->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcRightCircularCone::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCRIGHTCIRCULARCONE" << "(";

@@ -17,47 +17,6 @@
 
 // ENTITY IfcRecurrencePattern 
 IFC4X3::IfcRecurrencePattern::IfcRecurrencePattern( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcRecurrencePattern::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRecurrencePattern> copy_self( new IfcRecurrencePattern() );
-	if( m_RecurrenceType ) { copy_self->m_RecurrenceType = dynamic_pointer_cast<IfcRecurrenceTypeEnum>( m_RecurrenceType->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_DayComponent.size(); ++ii )
-	{
-		auto item_ii = m_DayComponent[ii];
-		if( item_ii )
-		{
-			copy_self->m_DayComponent.emplace_back( dynamic_pointer_cast<IfcDayInMonthNumber>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_WeekdayComponent.size(); ++ii )
-	{
-		auto item_ii = m_WeekdayComponent[ii];
-		if( item_ii )
-		{
-			copy_self->m_WeekdayComponent.emplace_back( dynamic_pointer_cast<IfcDayInWeekNumber>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_MonthComponent.size(); ++ii )
-	{
-		auto item_ii = m_MonthComponent[ii];
-		if( item_ii )
-		{
-			copy_self->m_MonthComponent.emplace_back( dynamic_pointer_cast<IfcMonthInYearNumber>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcInteger>( m_Position->getDeepCopy(options) ); }
-	if( m_Interval ) { copy_self->m_Interval = dynamic_pointer_cast<IfcInteger>( m_Interval->getDeepCopy(options) ); }
-	if( m_Occurrences ) { copy_self->m_Occurrences = dynamic_pointer_cast<IfcInteger>( m_Occurrences->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_TimePeriods.size(); ++ii )
-	{
-		auto item_ii = m_TimePeriods[ii];
-		if( item_ii )
-		{
-			copy_self->m_TimePeriods.emplace_back( dynamic_pointer_cast<IfcTimePeriod>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcRecurrencePattern::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCRECURRENCEPATTERN" << "(";

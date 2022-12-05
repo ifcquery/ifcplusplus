@@ -15,13 +15,6 @@
 
 // ENTITY IfcClothoid 
 IFC4X3::IfcClothoid::IfcClothoid( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcClothoid::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcClothoid> copy_self( new IfcClothoid() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement>( m_Position->getDeepCopy(options) ); }
-	if( m_ClothoidConstant ) { copy_self->m_ClothoidConstant = dynamic_pointer_cast<IfcLengthMeasure>( m_ClothoidConstant->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcClothoid::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCLOTHOID" << "(";

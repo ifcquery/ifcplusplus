@@ -12,12 +12,6 @@
 
 // TYPE IfcTimeStamp = INTEGER;
 IFC4X3::IfcTimeStamp::IfcTimeStamp( int value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcTimeStamp::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTimeStamp> copy_self( new IfcTimeStamp() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcTimeStamp::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTIMESTAMP("; }

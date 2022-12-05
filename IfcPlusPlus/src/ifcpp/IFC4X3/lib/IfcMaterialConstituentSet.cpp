@@ -17,21 +17,6 @@
 
 // ENTITY IfcMaterialConstituentSet 
 IFC4X3::IfcMaterialConstituentSet::IfcMaterialConstituentSet( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMaterialConstituentSet::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMaterialConstituentSet> copy_self( new IfcMaterialConstituentSet() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_MaterialConstituents.size(); ++ii )
-	{
-		auto item_ii = m_MaterialConstituents[ii];
-		if( item_ii )
-		{
-			copy_self->m_MaterialConstituents.emplace_back( dynamic_pointer_cast<IfcMaterialConstituent>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcMaterialConstituentSet::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIALCONSTITUENTSET" << "(";

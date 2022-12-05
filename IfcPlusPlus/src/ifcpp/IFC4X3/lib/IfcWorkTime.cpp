@@ -15,17 +15,6 @@
 
 // ENTITY IfcWorkTime 
 IFC4X3::IfcWorkTime::IfcWorkTime( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcWorkTime::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcWorkTime> copy_self( new IfcWorkTime() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy(options) ); }
-	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy(options) ); }
-	if( m_RecurrencePattern ) { copy_self->m_RecurrencePattern = dynamic_pointer_cast<IfcRecurrencePattern>( m_RecurrencePattern->getDeepCopy(options) ); }
-	if( m_StartDate ) { copy_self->m_StartDate = dynamic_pointer_cast<IfcDate>( m_StartDate->getDeepCopy(options) ); }
-	if( m_FinishDate ) { copy_self->m_FinishDate = dynamic_pointer_cast<IfcDate>( m_FinishDate->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcWorkTime::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCWORKTIME" << "(";

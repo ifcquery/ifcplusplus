@@ -13,15 +13,6 @@
 
 // ENTITY IfcStructuralLoadPlanarForce 
 IFC4X3::IfcStructuralLoadPlanarForce::IfcStructuralLoadPlanarForce( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcStructuralLoadPlanarForce::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcStructuralLoadPlanarForce> copy_self( new IfcStructuralLoadPlanarForce() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_PlanarForceX ) { copy_self->m_PlanarForceX = dynamic_pointer_cast<IfcPlanarForceMeasure>( m_PlanarForceX->getDeepCopy(options) ); }
-	if( m_PlanarForceY ) { copy_self->m_PlanarForceY = dynamic_pointer_cast<IfcPlanarForceMeasure>( m_PlanarForceY->getDeepCopy(options) ); }
-	if( m_PlanarForceZ ) { copy_self->m_PlanarForceZ = dynamic_pointer_cast<IfcPlanarForceMeasure>( m_PlanarForceZ->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcStructuralLoadPlanarForce::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSTRUCTURALLOADPLANARFORCE" << "(";

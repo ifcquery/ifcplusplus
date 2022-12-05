@@ -20,48 +20,6 @@
 
 // ENTITY IfcRationalBSplineCurveWithKnots 
 IFC4X3::IfcRationalBSplineCurveWithKnots::IfcRationalBSplineCurveWithKnots( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcRationalBSplineCurveWithKnots::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRationalBSplineCurveWithKnots> copy_self( new IfcRationalBSplineCurveWithKnots() );
-	if( m_Degree ) { copy_self->m_Degree = dynamic_pointer_cast<IfcInteger>( m_Degree->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_ControlPointsList.size(); ++ii )
-	{
-		auto item_ii = m_ControlPointsList[ii];
-		if( item_ii )
-		{
-			copy_self->m_ControlPointsList.emplace_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_CurveForm ) { copy_self->m_CurveForm = dynamic_pointer_cast<IfcBSplineCurveForm>( m_CurveForm->getDeepCopy(options) ); }
-	if( m_ClosedCurve ) { copy_self->m_ClosedCurve = dynamic_pointer_cast<IfcLogical>( m_ClosedCurve->getDeepCopy(options) ); }
-	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = dynamic_pointer_cast<IfcLogical>( m_SelfIntersect->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_KnotMultiplicities.size(); ++ii )
-	{
-		auto item_ii = m_KnotMultiplicities[ii];
-		if( item_ii )
-		{
-			copy_self->m_KnotMultiplicities.emplace_back( dynamic_pointer_cast<IfcInteger>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_Knots.size(); ++ii )
-	{
-		auto item_ii = m_Knots[ii];
-		if( item_ii )
-		{
-			copy_self->m_Knots.emplace_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_KnotSpec ) { copy_self->m_KnotSpec = dynamic_pointer_cast<IfcKnotType>( m_KnotSpec->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_WeightsData.size(); ++ii )
-	{
-		auto item_ii = m_WeightsData[ii];
-		if( item_ii )
-		{
-			copy_self->m_WeightsData.emplace_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcRationalBSplineCurveWithKnots::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCRATIONALBSPLINECURVEWITHKNOTS" << "(";

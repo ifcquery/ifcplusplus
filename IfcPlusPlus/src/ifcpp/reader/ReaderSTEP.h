@@ -26,19 +26,16 @@ class IFCQUERY_EXPORT ReaderSTEP : public AbstractReader
 public:
 	ReaderSTEP();
 	~ReaderSTEP() override;
-	void removeComments( std::string& buffer ) override;
-	void readHeader(	const std::string& in, shared_ptr<BuildingModel>& target_model ) override;
-	void readData( std::string& in, const std::string& ifc_version, std::map<int, shared_ptr<BuildingEntity> >& map ) override;
-	void readData( std::string& in, shared_ptr<BuildingModel>& model ) override;
+	void readHeader( std::istream& in, shared_ptr<BuildingModel>& target_model );
+	void readData( std::istream& in, std::streampos file_size, shared_ptr<BuildingModel>& model );
 	
 	/*\brief Opens the given file, reads the content, and puts the entities into target_model.
 	  \param[in] file_path Absolute path of the file to read.
 	**/
 	virtual void loadModelFromFile( const std::string& filePath, shared_ptr<BuildingModel>& targetModel );
-	virtual void loadModelFromString( std::string& content, shared_ptr<BuildingModel>& targetModel );
+	virtual void loadModelFromStream( std::istream& content, std::streampos file_size, shared_ptr<BuildingModel>& targetModel );
 
-	void splitIntoStepLines(	const std::string& read_in, std::vector<std::string>& target_vec );
 	void readSingleStepLine(	const std::string& line, std::pair<std::string, shared_ptr<BuildingEntity> >& target_read_object );
-	void readStepLines(			const std::vector<std::string>& step_lines, std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& target_entity_vec );
-	void readEntityArguments(	const std::string& ifc_version, const std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities, const std::map<int, shared_ptr<BuildingEntity> >& map );
+	void readStepLines(			std::vector<std::string>& step_lines, std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& target_entity_vec );
+	void readEntityArguments(	const std::string& ifc_version, std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities, const std::map<int, shared_ptr<BuildingEntity> >& map );
 };

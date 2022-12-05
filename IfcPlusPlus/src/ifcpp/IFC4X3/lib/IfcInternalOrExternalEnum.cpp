@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcInternalOrExternalEnum.h"
 
 // TYPE IfcInternalOrExternalEnum = ENUMERATION OF	(EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_FIRE	,EXTERNAL_WATER	,INTERNAL	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcInternalOrExternalEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcInternalOrExternalEnum> copy_self( new IfcInternalOrExternalEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcInternalOrExternalEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCINTERNALOREXTERNALENUM("; }

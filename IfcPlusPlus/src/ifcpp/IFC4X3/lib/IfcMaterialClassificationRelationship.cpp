@@ -13,20 +13,6 @@
 
 // ENTITY IfcMaterialClassificationRelationship 
 IFC4X3::IfcMaterialClassificationRelationship::IfcMaterialClassificationRelationship( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMaterialClassificationRelationship::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMaterialClassificationRelationship> copy_self( new IfcMaterialClassificationRelationship() );
-	for( size_t ii=0; ii<m_MaterialClassifications.size(); ++ii )
-	{
-		auto item_ii = m_MaterialClassifications[ii];
-		if( item_ii )
-		{
-			copy_self->m_MaterialClassifications.emplace_back( dynamic_pointer_cast<IfcClassificationSelect>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_ClassifiedMaterial ) { copy_self->m_ClassifiedMaterial = dynamic_pointer_cast<IfcMaterial>( m_ClassifiedMaterial->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcMaterialClassificationRelationship::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIALCLASSIFICATIONRELATIONSHIP" << "(";

@@ -12,12 +12,6 @@
 
 // TYPE IfcAccelerationMeasure = REAL;
 IFC4X3::IfcAccelerationMeasure::IfcAccelerationMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcAccelerationMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAccelerationMeasure> copy_self( new IfcAccelerationMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcAccelerationMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCACCELERATIONMEASURE("; }

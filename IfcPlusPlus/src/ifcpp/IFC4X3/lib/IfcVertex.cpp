@@ -13,11 +13,6 @@
 
 // ENTITY IfcVertex 
 IFC4X3::IfcVertex::IfcVertex( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcVertex::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcVertex> copy_self( new IfcVertex() );
-	return copy_self;
-}
 void IFC4X3::IfcVertex::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCVERTEX" << "(";

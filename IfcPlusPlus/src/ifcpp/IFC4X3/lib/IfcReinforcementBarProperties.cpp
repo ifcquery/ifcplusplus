@@ -18,17 +18,6 @@
 
 // ENTITY IfcReinforcementBarProperties 
 IFC4X3::IfcReinforcementBarProperties::IfcReinforcementBarProperties( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcReinforcementBarProperties::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcReinforcementBarProperties> copy_self( new IfcReinforcementBarProperties() );
-	if( m_TotalCrossSectionArea ) { copy_self->m_TotalCrossSectionArea = dynamic_pointer_cast<IfcAreaMeasure>( m_TotalCrossSectionArea->getDeepCopy(options) ); }
-	if( m_SteelGrade ) { copy_self->m_SteelGrade = dynamic_pointer_cast<IfcLabel>( m_SteelGrade->getDeepCopy(options) ); }
-	if( m_BarSurface ) { copy_self->m_BarSurface = dynamic_pointer_cast<IfcReinforcingBarSurfaceEnum>( m_BarSurface->getDeepCopy(options) ); }
-	if( m_EffectiveDepth ) { copy_self->m_EffectiveDepth = dynamic_pointer_cast<IfcLengthMeasure>( m_EffectiveDepth->getDeepCopy(options) ); }
-	if( m_NominalBarDiameter ) { copy_self->m_NominalBarDiameter = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_NominalBarDiameter->getDeepCopy(options) ); }
-	if( m_BarCount ) { copy_self->m_BarCount = dynamic_pointer_cast<IfcCountMeasure>( m_BarCount->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcReinforcementBarProperties::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCREINFORCEMENTBARPROPERTIES" << "(";

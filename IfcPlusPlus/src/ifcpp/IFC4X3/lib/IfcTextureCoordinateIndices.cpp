@@ -14,20 +14,6 @@
 
 // ENTITY IfcTextureCoordinateIndices 
 IFC4X3::IfcTextureCoordinateIndices::IfcTextureCoordinateIndices( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTextureCoordinateIndices::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTextureCoordinateIndices> copy_self( new IfcTextureCoordinateIndices() );
-	for( size_t ii=0; ii<m_TexCoordIndex.size(); ++ii )
-	{
-		auto item_ii = m_TexCoordIndex[ii];
-		if( item_ii )
-		{
-			copy_self->m_TexCoordIndex.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_TexCoordsOf ) { copy_self->m_TexCoordsOf = dynamic_pointer_cast<IfcIndexedPolygonalFace>( m_TexCoordsOf->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTextureCoordinateIndices::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTURECOORDINATEINDICES" << "(";

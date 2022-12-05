@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcReinforcingBarSurfaceEnum.h"
 
 // TYPE IfcReinforcingBarSurfaceEnum = ENUMERATION OF	(PLAIN	,TEXTURED);
-shared_ptr<BuildingObject> IFC4X3::IfcReinforcingBarSurfaceEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcReinforcingBarSurfaceEnum> copy_self( new IfcReinforcingBarSurfaceEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcReinforcingBarSurfaceEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCREINFORCINGBARSURFACEENUM("; }

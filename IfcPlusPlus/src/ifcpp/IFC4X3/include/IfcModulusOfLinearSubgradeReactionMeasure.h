@@ -20,7 +20,6 @@ namespace IFC4X3
 		IfcModulusOfLinearSubgradeReactionMeasure() = default;
 		IfcModulusOfLinearSubgradeReactionMeasure( double value );
 		virtual uint32_t classID() const { return 2173214787; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		double m_value;

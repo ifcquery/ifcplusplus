@@ -13,13 +13,6 @@
 
 // ENTITY IfcMeasureWithUnit 
 IFC4X3::IfcMeasureWithUnit::IfcMeasureWithUnit( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMeasureWithUnit::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMeasureWithUnit> copy_self( new IfcMeasureWithUnit() );
-	if( m_ValueComponent ) { copy_self->m_ValueComponent = dynamic_pointer_cast<IfcValue>( m_ValueComponent->getDeepCopy(options) ); }
-	if( m_UnitComponent ) { copy_self->m_UnitComponent = dynamic_pointer_cast<IfcUnit>( m_UnitComponent->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcMeasureWithUnit::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMEASUREWITHUNIT" << "(";

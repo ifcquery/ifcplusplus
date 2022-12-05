@@ -12,12 +12,6 @@
 
 // TYPE IfcNumericMeasure = NUMBER;
 IFC4X3::IfcNumericMeasure::IfcNumericMeasure( int value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcNumericMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcNumericMeasure> copy_self( new IfcNumericMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcNumericMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCNUMERICMEASURE("; }

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcStructuralSurfaceActivityTypeEnum.h"
 
 // TYPE IfcStructuralSurfaceActivityTypeEnum = ENUMERATION OF	(BILINEAR	,CONST	,DISCRETE	,ISOCONTOUR	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcStructuralSurfaceActivityTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcStructuralSurfaceActivityTypeEnum> copy_self( new IfcStructuralSurfaceActivityTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcStructuralSurfaceActivityTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTRUCTURALSURFACEACTIVITYTYPEENUM("; }

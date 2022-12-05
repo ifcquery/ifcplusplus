@@ -19,7 +19,6 @@ namespace IFC4X3
 		IfcSectionModulusMeasure() = default;
 		IfcSectionModulusMeasure( double value );
 		virtual uint32_t classID() const { return 3467162246; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcSectionModulusMeasure> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		double m_value;

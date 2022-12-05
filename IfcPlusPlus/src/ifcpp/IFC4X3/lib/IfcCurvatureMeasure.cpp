@@ -12,12 +12,6 @@
 
 // TYPE IfcCurvatureMeasure = REAL;
 IFC4X3::IfcCurvatureMeasure::IfcCurvatureMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcCurvatureMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCurvatureMeasure> copy_self( new IfcCurvatureMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcCurvatureMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCURVATUREMEASURE("; }

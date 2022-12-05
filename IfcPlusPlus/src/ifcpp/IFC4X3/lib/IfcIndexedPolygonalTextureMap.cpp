@@ -15,29 +15,6 @@
 
 // ENTITY IfcIndexedPolygonalTextureMap 
 IFC4X3::IfcIndexedPolygonalTextureMap::IfcIndexedPolygonalTextureMap( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcIndexedPolygonalTextureMap::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcIndexedPolygonalTextureMap> copy_self( new IfcIndexedPolygonalTextureMap() );
-	for( size_t ii=0; ii<m_Maps.size(); ++ii )
-	{
-		auto item_ii = m_Maps[ii];
-		if( item_ii )
-		{
-			copy_self->m_Maps.emplace_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy(options) ); }
-	if( m_TexCoords ) { copy_self->m_TexCoords = dynamic_pointer_cast<IfcTextureVertexList>( m_TexCoords->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_TexCoordIndices.size(); ++ii )
-	{
-		auto item_ii = m_TexCoordIndices[ii];
-		if( item_ii )
-		{
-			copy_self->m_TexCoordIndices.emplace_back( dynamic_pointer_cast<IfcTextureCoordinateIndices>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcIndexedPolygonalTextureMap::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCINDEXEDPOLYGONALTEXTUREMAP" << "(";

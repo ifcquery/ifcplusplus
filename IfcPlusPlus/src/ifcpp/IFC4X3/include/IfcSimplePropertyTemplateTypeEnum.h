@@ -35,7 +35,6 @@ namespace IFC4X3
 		IfcSimplePropertyTemplateTypeEnum() = default;
 		IfcSimplePropertyTemplateTypeEnum( IfcSimplePropertyTemplateTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 3841475323; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcSimplePropertyTemplateTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcSimplePropertyTemplateTypeEnumEnum m_enum;

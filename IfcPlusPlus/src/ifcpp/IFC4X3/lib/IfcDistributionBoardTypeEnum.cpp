@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcDistributionBoardTypeEnum.h"
 
 // TYPE IfcDistributionBoardTypeEnum = ENUMERATION OF	(CONSUMERUNIT	,DISPATCHINGBOARD	,DISTRIBUTIONBOARD	,DISTRIBUTIONFRAME	,MOTORCONTROLCENTRE	,SWITCHBOARD	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcDistributionBoardTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDistributionBoardTypeEnum> copy_self( new IfcDistributionBoardTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcDistributionBoardTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDISTRIBUTIONBOARDTYPEENUM("; }

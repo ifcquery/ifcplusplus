@@ -19,7 +19,6 @@ namespace IFC4X3
 		IfcInductanceMeasure() = default;
 		IfcInductanceMeasure( double value );
 		virtual uint32_t classID() const { return 2679005408; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcInductanceMeasure> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		double m_value;

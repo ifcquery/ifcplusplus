@@ -13,15 +13,6 @@
 
 // ENTITY IfcStructuralLoadTemperature 
 IFC4X3::IfcStructuralLoadTemperature::IfcStructuralLoadTemperature( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcStructuralLoadTemperature::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcStructuralLoadTemperature> copy_self( new IfcStructuralLoadTemperature() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_DeltaTConstant ) { copy_self->m_DeltaTConstant = dynamic_pointer_cast<IfcThermodynamicTemperatureMeasure>( m_DeltaTConstant->getDeepCopy(options) ); }
-	if( m_DeltaTY ) { copy_self->m_DeltaTY = dynamic_pointer_cast<IfcThermodynamicTemperatureMeasure>( m_DeltaTY->getDeepCopy(options) ); }
-	if( m_DeltaTZ ) { copy_self->m_DeltaTZ = dynamic_pointer_cast<IfcThermodynamicTemperatureMeasure>( m_DeltaTZ->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcStructuralLoadTemperature::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSTRUCTURALLOADTEMPERATURE" << "(";

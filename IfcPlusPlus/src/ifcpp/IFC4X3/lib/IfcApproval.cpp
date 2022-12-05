@@ -20,20 +20,6 @@
 
 // ENTITY IfcApproval 
 IFC4X3::IfcApproval::IfcApproval( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcApproval::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcApproval> copy_self( new IfcApproval() );
-	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy(options) ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_TimeOfApproval ) { copy_self->m_TimeOfApproval = dynamic_pointer_cast<IfcDateTime>( m_TimeOfApproval->getDeepCopy(options) ); }
-	if( m_Status ) { copy_self->m_Status = dynamic_pointer_cast<IfcLabel>( m_Status->getDeepCopy(options) ); }
-	if( m_Level ) { copy_self->m_Level = dynamic_pointer_cast<IfcLabel>( m_Level->getDeepCopy(options) ); }
-	if( m_Qualifier ) { copy_self->m_Qualifier = dynamic_pointer_cast<IfcText>( m_Qualifier->getDeepCopy(options) ); }
-	if( m_RequestingApproval ) { copy_self->m_RequestingApproval = dynamic_pointer_cast<IfcActorSelect>( m_RequestingApproval->getDeepCopy(options) ); }
-	if( m_GivingApproval ) { copy_self->m_GivingApproval = dynamic_pointer_cast<IfcActorSelect>( m_GivingApproval->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcApproval::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCAPPROVAL" << "(";

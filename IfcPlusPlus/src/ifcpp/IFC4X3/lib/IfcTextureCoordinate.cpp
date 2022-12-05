@@ -12,19 +12,6 @@
 
 // ENTITY IfcTextureCoordinate 
 IFC4X3::IfcTextureCoordinate::IfcTextureCoordinate( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTextureCoordinate::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTextureCoordinate> copy_self( new IfcTextureCoordinate() );
-	for( size_t ii=0; ii<m_Maps.size(); ++ii )
-	{
-		auto item_ii = m_Maps[ii];
-		if( item_ii )
-		{
-			copy_self->m_Maps.emplace_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcTextureCoordinate::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTURECOORDINATE" << "(";

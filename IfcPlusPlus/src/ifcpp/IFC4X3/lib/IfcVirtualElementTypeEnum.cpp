@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcVirtualElementTypeEnum.h"
 
 // TYPE IfcVirtualElementTypeEnum = ENUMERATION OF	(BOUNDARY	,CLEARANCE	,PROVISIONFORVOID	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcVirtualElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcVirtualElementTypeEnum> copy_self( new IfcVirtualElementTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcVirtualElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVIRTUALELEMENTTYPEENUM("; }

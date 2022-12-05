@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcComplexPropertyTemplateTypeEnum.h"
 
 // TYPE IfcComplexPropertyTemplateTypeEnum = ENUMERATION OF	(P_COMPLEX	,Q_COMPLEX);
-shared_ptr<BuildingObject> IFC4X3::IfcComplexPropertyTemplateTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcComplexPropertyTemplateTypeEnum> copy_self( new IfcComplexPropertyTemplateTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcComplexPropertyTemplateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPLEXPROPERTYTEMPLATETYPEENUM("; }

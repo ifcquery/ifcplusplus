@@ -15,14 +15,6 @@
 
 // ENTITY IfcEllipse 
 IFC4X3::IfcEllipse::IfcEllipse( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcEllipse::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcEllipse> copy_self( new IfcEllipse() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement>( m_Position->getDeepCopy(options) ); }
-	if( m_SemiAxis1 ) { copy_self->m_SemiAxis1 = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_SemiAxis1->getDeepCopy(options) ); }
-	if( m_SemiAxis2 ) { copy_self->m_SemiAxis2 = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_SemiAxis2->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcEllipse::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCELLIPSE" << "(";

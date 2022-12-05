@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcCourseTypeEnum.h"
 
 // TYPE IfcCourseTypeEnum = ENUMERATION OF	(ARMOUR	,BALLASTBED	,CORE	,FILTER	,PAVEMENT	,PROTECTION	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcCourseTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCourseTypeEnum> copy_self( new IfcCourseTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcCourseTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOURSETYPEENUM("; }

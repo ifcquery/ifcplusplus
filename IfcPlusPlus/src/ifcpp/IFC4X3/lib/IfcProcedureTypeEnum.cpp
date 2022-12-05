@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcProcedureTypeEnum.h"
 
 // TYPE IfcProcedureTypeEnum = ENUMERATION OF	(ADVICE_CAUTION	,ADVICE_NOTE	,ADVICE_WARNING	,CALIBRATION	,DIAGNOSTIC	,SHUTDOWN	,STARTUP	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcProcedureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcProcedureTypeEnum> copy_self( new IfcProcedureTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcProcedureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROCEDURETYPEENUM("; }

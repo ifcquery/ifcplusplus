@@ -17,21 +17,6 @@
 
 // ENTITY IfcFaceSurface 
 IFC4X3::IfcFaceSurface::IfcFaceSurface( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcFaceSurface::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFaceSurface> copy_self( new IfcFaceSurface() );
-	for( size_t ii=0; ii<m_Bounds.size(); ++ii )
-	{
-		auto item_ii = m_Bounds[ii];
-		if( item_ii )
-		{
-			copy_self->m_Bounds.emplace_back( dynamic_pointer_cast<IfcFaceBound>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_FaceSurface ) { copy_self->m_FaceSurface = dynamic_pointer_cast<IfcSurface>( m_FaceSurface->getDeepCopy(options) ); }
-	if( m_SameSense ) { copy_self->m_SameSense = dynamic_pointer_cast<IfcBoolean>( m_SameSense->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcFaceSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCFACESURFACE" << "(";

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcBridgePartTypeEnum.h"
 
 // TYPE IfcBridgePartTypeEnum = ENUMERATION OF	(ABUTMENT	,DECK	,DECK_SEGMENT	,FOUNDATION	,PIER	,PIER_SEGMENT	,PYLON	,SUBSTRUCTURE	,SUPERSTRUCTURE	,SURFACESTRUCTURE	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcBridgePartTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBridgePartTypeEnum> copy_self( new IfcBridgePartTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcBridgePartTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBRIDGEPARTTYPEENUM("; }

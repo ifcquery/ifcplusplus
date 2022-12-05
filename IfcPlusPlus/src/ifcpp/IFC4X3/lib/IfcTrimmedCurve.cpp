@@ -17,30 +17,6 @@
 
 // ENTITY IfcTrimmedCurve 
 IFC4X3::IfcTrimmedCurve::IfcTrimmedCurve( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTrimmedCurve::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTrimmedCurve> copy_self( new IfcTrimmedCurve() );
-	if( m_BasisCurve ) { copy_self->m_BasisCurve = dynamic_pointer_cast<IfcCurve>( m_BasisCurve->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Trim1.size(); ++ii )
-	{
-		auto item_ii = m_Trim1[ii];
-		if( item_ii )
-		{
-			copy_self->m_Trim1.emplace_back( dynamic_pointer_cast<IfcTrimmingSelect>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_Trim2.size(); ++ii )
-	{
-		auto item_ii = m_Trim2[ii];
-		if( item_ii )
-		{
-			copy_self->m_Trim2.emplace_back( dynamic_pointer_cast<IfcTrimmingSelect>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_SenseAgreement ) { copy_self->m_SenseAgreement = dynamic_pointer_cast<IfcBoolean>( m_SenseAgreement->getDeepCopy(options) ); }
-	if( m_MasterRepresentation ) { copy_self->m_MasterRepresentation = dynamic_pointer_cast<IfcTrimmingPreference>( m_MasterRepresentation->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTRIMMEDCURVE" << "(";

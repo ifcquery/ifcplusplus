@@ -23,35 +23,6 @@
 
 // ENTITY IfcDocumentInformation 
 IFC4X3::IfcDocumentInformation::IfcDocumentInformation( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcDocumentInformation::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDocumentInformation> copy_self( new IfcDocumentInformation() );
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy(options) ); }
-	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcText>( m_Purpose->getDeepCopy(options) ); }
-	if( m_IntendedUse ) { copy_self->m_IntendedUse = dynamic_pointer_cast<IfcText>( m_IntendedUse->getDeepCopy(options) ); }
-	if( m_Scope ) { copy_self->m_Scope = dynamic_pointer_cast<IfcText>( m_Scope->getDeepCopy(options) ); }
-	if( m_Revision ) { copy_self->m_Revision = dynamic_pointer_cast<IfcLabel>( m_Revision->getDeepCopy(options) ); }
-	if( m_DocumentOwner ) { copy_self->m_DocumentOwner = dynamic_pointer_cast<IfcActorSelect>( m_DocumentOwner->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Editors.size(); ++ii )
-	{
-		auto item_ii = m_Editors[ii];
-		if( item_ii )
-		{
-			copy_self->m_Editors.emplace_back( dynamic_pointer_cast<IfcActorSelect>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_CreationTime ) { copy_self->m_CreationTime = dynamic_pointer_cast<IfcDateTime>( m_CreationTime->getDeepCopy(options) ); }
-	if( m_LastRevisionTime ) { copy_self->m_LastRevisionTime = dynamic_pointer_cast<IfcDateTime>( m_LastRevisionTime->getDeepCopy(options) ); }
-	if( m_ElectronicFormat ) { copy_self->m_ElectronicFormat = dynamic_pointer_cast<IfcIdentifier>( m_ElectronicFormat->getDeepCopy(options) ); }
-	if( m_ValidFrom ) { copy_self->m_ValidFrom = dynamic_pointer_cast<IfcDate>( m_ValidFrom->getDeepCopy(options) ); }
-	if( m_ValidUntil ) { copy_self->m_ValidUntil = dynamic_pointer_cast<IfcDate>( m_ValidUntil->getDeepCopy(options) ); }
-	if( m_Confidentiality ) { copy_self->m_Confidentiality = dynamic_pointer_cast<IfcDocumentConfidentialityEnum>( m_Confidentiality->getDeepCopy(options) ); }
-	if( m_Status ) { copy_self->m_Status = dynamic_pointer_cast<IfcDocumentStatusEnum>( m_Status->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcDocumentInformation::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCDOCUMENTINFORMATION" << "(";

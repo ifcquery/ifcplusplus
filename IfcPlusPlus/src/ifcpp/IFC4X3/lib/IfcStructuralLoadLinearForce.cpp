@@ -14,18 +14,6 @@
 
 // ENTITY IfcStructuralLoadLinearForce 
 IFC4X3::IfcStructuralLoadLinearForce::IfcStructuralLoadLinearForce( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcStructuralLoadLinearForce::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcStructuralLoadLinearForce> copy_self( new IfcStructuralLoadLinearForce() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_LinearForceX ) { copy_self->m_LinearForceX = dynamic_pointer_cast<IfcLinearForceMeasure>( m_LinearForceX->getDeepCopy(options) ); }
-	if( m_LinearForceY ) { copy_self->m_LinearForceY = dynamic_pointer_cast<IfcLinearForceMeasure>( m_LinearForceY->getDeepCopy(options) ); }
-	if( m_LinearForceZ ) { copy_self->m_LinearForceZ = dynamic_pointer_cast<IfcLinearForceMeasure>( m_LinearForceZ->getDeepCopy(options) ); }
-	if( m_LinearMomentX ) { copy_self->m_LinearMomentX = dynamic_pointer_cast<IfcLinearMomentMeasure>( m_LinearMomentX->getDeepCopy(options) ); }
-	if( m_LinearMomentY ) { copy_self->m_LinearMomentY = dynamic_pointer_cast<IfcLinearMomentMeasure>( m_LinearMomentY->getDeepCopy(options) ); }
-	if( m_LinearMomentZ ) { copy_self->m_LinearMomentZ = dynamic_pointer_cast<IfcLinearMomentMeasure>( m_LinearMomentZ->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcStructuralLoadLinearForce::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSTRUCTURALLOADLINEARFORCE" << "(";

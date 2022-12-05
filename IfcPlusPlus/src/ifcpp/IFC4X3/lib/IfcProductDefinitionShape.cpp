@@ -16,21 +16,6 @@
 
 // ENTITY IfcProductDefinitionShape 
 IFC4X3::IfcProductDefinitionShape::IfcProductDefinitionShape( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcProductDefinitionShape::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcProductDefinitionShape> copy_self( new IfcProductDefinitionShape() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Representations.size(); ++ii )
-	{
-		auto item_ii = m_Representations[ii];
-		if( item_ii )
-		{
-			copy_self->m_Representations.emplace_back( dynamic_pointer_cast<IfcRepresentation>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcProductDefinitionShape::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPRODUCTDEFINITIONSHAPE" << "(";

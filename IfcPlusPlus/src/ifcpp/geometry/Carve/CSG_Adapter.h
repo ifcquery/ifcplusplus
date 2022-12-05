@@ -25,7 +25,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include "IncludeCarveHeaders.h"
 #include "MeshOps.h"
+#include "MeshUtils.h"
 #include "GeometryInputData.h"
+
+
 
 #ifdef _DEBUG
 static int csg_compute_count = 0;
@@ -95,12 +98,16 @@ namespace CSG_Adapter
 			bool op2_dumped = false;
 			if( op1->vertex_storage.size() > 8 || op2->vertex_storage.size() > 8 )
 			{
-				if( entity->m_tag == 5498 || entity->m_tag == 835571 || entity->m_tag == 779169 )
+				if( entity->m_tag == 5498 || entity->m_tag == 835571 || entity->m_tag == 38022 )
 				{
 					dumpMeshes = true;
 					op1_dumped = true;
 					op2_dumped = true;
 				}
+			}
+			if( entity->m_tag == 38022 )
+			{
+				dumpMeshes = true;
 			}
 #endif
 
@@ -113,16 +120,16 @@ namespace CSG_Adapter
 			
 			MeshSetInfo infoMesh1;
 			MeshSetInfo infoMesh2;
-			bool mesh1valid = MeshUtils::checkMeshSetValidAndClosed(op1, infoMesh1, report_callback, entity.get());
-			bool mesh2valid = MeshUtils::checkMeshSetValidAndClosed(op2, infoMesh2, report_callback, entity.get());
+			bool operand1valid = MeshUtils::checkMeshSetValidAndClosed(op1, infoMesh1, report_callback, entity.get());
+			bool operand2valid = MeshUtils::checkMeshSetValidAndClosed(op2, infoMesh2, report_callback, entity.get());
 
 #ifdef _DEBUG
 			DumpSettingsStruct dumpColorSettings;
 			glm::vec4 color(0.3, 0.33, 0.33, 1.);
-			if( !mesh1valid )//|| entity->m_tag == 835571 )
+			if( !operand1valid )//|| entity->m_tag == 835571 )
 			{
 				dumpMeshes = true;
-				if( !mesh1valid )
+				if( !operand1valid )
 				{
 					std::cout << "incorrect csg operand, csg_compute_count " << csg_compute_count << std::endl;
 				}
@@ -138,11 +145,16 @@ namespace CSG_Adapter
 				GeomDebugDump::dumpVertex( GeomDebugDump::labelPos, color, labelStr);
 
 				dumpMeshset(op1, color, false);
+				GeomDebugDump::moveOffset(op1);
+				GeomDebugDump::moveOffset(0.3);
+				
+				GeomDebugDump::dumpFacePolygons(op2.get(), color, false);
 				dumpMeshset(op2, color);
+				
 				//GeomDebugDump::dumpEntity(entity);
 			}
 
-			if( !mesh2valid )
+			if( !operand2valid )
 			{
 				glm::vec4 color(0.7, 0.7, 0.7, 1.0);
 				dumpMeshset(op2, color, true);
@@ -152,168 +164,347 @@ namespace CSG_Adapter
 #endif
 
 			////////////////////// compute carve csg operation   /////////////////////////////////////////////
-			if( mesh1valid && mesh2valid )
+			if( operand1valid && operand2valid )
 			{
 				carve::csg::CSG csg;
 				result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(op1.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
 			}
 
-			bool result_meshset_ok = false;
-			if( result )
+			MeshSetInfo infoResult;
+			bool result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
+
+			if( !result_meshset_ok )
 			{
-				if( result->meshes.size() == 0 )
+				carve::csg::CSG csg;
+				result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(op1.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_NORMAL));
+				result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
+			}
+
+			if( !result_meshset_ok )
+			{
+				if( operand1valid && operand2valid )
 				{
-					if( mesh1valid && mesh2valid )
+					MeshOps::simplifyMeshCarve(op1, geom_settings, report_callback, entity.get(), dumpMeshes);
+					MeshOps::simplifyMeshCarve(op2, geom_settings, report_callback, entity.get(), dumpMeshes);
+					carve::csg::CSG csg;
+					result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(op1.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
+
+					double eps_restore = eps;
+					for( size_t ii = 0; ii < 5; ++ii )
 					{
-						MeshOps::simplifyMeshCarve(op1, geom_settings, report_callback, entity.get(), dumpMeshes);
-						MeshOps::simplifyMeshCarve(op2, geom_settings, report_callback, entity.get(), dumpMeshes);
+						eps = eps * 5.5;
+						epsilonSetter.setEpsilonValue(eps);
 						carve::csg::CSG csg;
 						result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(op1.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
-
-						double eps_restore = eps;
-						//for( size_t ii = 0; ii < 3; ++ii )
+						result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
+						
+						if( !result_meshset_ok )
 						{
-							if( result )
-							{
-								if( result->meshes.size() == 0 )
-								{
-									eps = eps * 5;
-									epsilonSetter.setEpsilonValue(eps);
-									carve::csg::CSG csg;
-									result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(op1.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
-									if( result )
-									{
-										MeshSetInfo infoResult;
-										result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
-										if( result_meshset_ok )
-										{
-											//break;
-										}
-									}
-								}
-							}
+							carve::csg::CSG csg;
+							result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(op1.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_NORMAL));
+							result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
 						}
-						epsilonSetter.setEpsilonValue(eps_restore);
-						if( result )
+
+						if( result_meshset_ok )
 						{
-							if( result->meshes.size() == 0 )
-							{
-								normMesh.deNormalizeMesh(op1, "op1");
-								normMesh.deNormalizeMesh(op2, "op2");
-								carve::csg::CSG csg;
-								result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(op1.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
-								normMesh.setToZero();
-							}
+#ifdef _DEBUG
+							bool checkZeroAreaFaces = false;
+							GeomDebugDump::moveOffset(1.0);
+							dumpWithLabel("result_changed_eps: ", op1, dumpColorSettings, checkZeroAreaFaces, false, false);
+							GeomDebugDump::moveOffset(1.0);
+							dumpWithLabel("result_changed_eps: ", op2, dumpColorSettings, checkZeroAreaFaces, false, false);
+							GeomDebugDump::moveOffset(1.0);
+							dumpWithLabel("result_changed_eps: ", result, dumpColorSettings, checkZeroAreaFaces, false, false);
+							std::cout << "successfully changed epsilon: " << eps << std::endl;
+#endif
+							break;
 						}
 					}
+					epsilonSetter.setEpsilonValue(eps_restore);
 				}
 			}
 
-			if( result )
+			if( !result_meshset_ok )
 			{
-				if( result->meshes.size() == 0 )
+				dumpMeshes = true;
+
+				if( operation == carve::csg::CSG::A_MINUS_B )
 				{
-					result_meshset_ok = false;
-				}
-				else
-				{
-					MeshSetInfo infoResult;
-					result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
+					//// try first to intersect, then A_MINUS_B
+					//carve::csg::CSG csg;
+					//shared_ptr<carve::mesh::MeshSet<3> > unionResultMesh(csg.compute(op1.get(), op2.get(), carve::csg::CSG::UNION, nullptr, carve::csg::CSG::CLASSIFY_NORMAL));
+
+					//shared_ptr<carve::mesh::MeshSet<3> > unionResult;
+					//MeshUtils::getLargestClosedMesh(unionResultMesh, unionResult);
+					//MeshOps::simplifyMeshSet(unionResult, geom_settings, report_callback, entity.get(), triangulateOperands, dumpMeshes);
+
+					//MeshSetInfo infoIntersectionResult;
+					//bool intersection_ok = MeshUtils::checkMeshSetValidAndClosed(unionResult, infoIntersectionResult, report_callback, entity.get());
+
+					//if( !intersection_ok )
+					//{
+					//	carve::csg::CSG csg;
+					//	shared_ptr<carve::mesh::MeshSet<3> > unionResult2(csg.compute(op1.get(), op2.get(), carve::csg::CSG::UNION, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
+					//	
+					//	shared_ptr<carve::mesh::MeshSet<3> > unionResult;
+					//	MeshUtils::getLargestClosedMesh(unionResult2, unionResult);
+					//	MeshOps::simplifyMeshSet(unionResult, geom_settings, report_callback, entity.get(), triangulateOperands, dumpMeshes);
+					//	intersection_ok = MeshUtils::checkMeshSetValidAndClosed(unionResult, infoIntersectionResult, report_callback, entity.get());
+
+					//}
+//
+//					if( intersection_ok )
+//					{
+//						carve::csg::CSG csg;
+//						result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(unionResult.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
+//						result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
+//
+//						if( !result_meshset_ok )
+//						{
+//#ifdef _DEBUG
+//							if( dumpMeshes )
+//							{
+//								bool checkZeroAreaFaces = false;
+//								GeomDebugDump::dumpLocalCoordinateSystem();
+//								GeomDebugDump::moveOffset(1.0);
+//								dumpWithLabel("unionResult: ", unionResult, dumpColorSettings, checkZeroAreaFaces, false, false);
+//								dumpWithLabel("result: ", result, dumpColorSettings, checkZeroAreaFaces, false, true);
+//							}
+//#endif
+//
+//							carve::csg::CSG csg;
+//							result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(unionResult.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_NORMAL));
+//							result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
+//						}
+//					}
+
 
 					if( !result_meshset_ok )
 					{
-						MeshOps::simplifyMeshSet(op1, geom_settings, report_callback, entity.get(), triangulateOperands, dumpMeshes);
-						MeshOps::simplifyMeshSet(op2, geom_settings, report_callback, entity.get(), triangulateOperands, dumpMeshes);
+#ifdef OCC_FOUND
+						TopoDS_Shape operand1_shape;
+						TopoDS_Shape operand2_shape;
+						MeshUtils::convertCarve2OpenCascade(op1.get(), operand1_shape);
+						MeshUtils::convertCarve2OpenCascade(op2.get(), operand2_shape);
 
+						TopoDS_Solid operand1_solid;
+						TopoDS_Solid operand2_solid;
+						MeshUtils::getLargestSolid(operand1_shape, operand1_solid);
+						MeshUtils::getLargestSolid(operand2_shape, operand2_solid);
+
+#ifdef _DEBUG
+						if( dumpMeshes )
 						{
-							// try again with bigger epsilon tolerance
-							eps = eps * 10;
-							ScopedEpsilonSetter epsilonSetter;
-							epsilonSetter.setEpsilonValue(eps);
+							bool checkZeroAreaFaces = false;
+							GeomDebugDump::dumpLocalCoordinateSystem();
+							GeomDebugDump::moveOffset(1.0);
+							dumpWithLabel("op1: ", op1, dumpColorSettings, checkZeroAreaFaces, false, false);
+							dumpWithLabel("op2: ", op2, dumpColorSettings, checkZeroAreaFaces, false, true);
+							GeomDebugDump::moveOffset(0.7);
+							//dumpWithLabel("computeCSG::union: ", unionResult, dumpColorSettings, checkZeroAreaFaces, true, true);
+							GeomDebugDump::moveOffset(0.7);
+							dumpWithLabel("computeCSG:: result: ", result, dumpColorSettings, checkZeroAreaFaces, true, true);
+							GeomDebugDump::moveOffset(0.5);
+							GeomDebugDump::dumpLocalCoordinateSystem();
+						}
+						
 
-							carve::csg::CSG csg;
-							result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(op1.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
+						shared_ptr<carve::mesh::MeshSet<3> > shape1mesh;
+						shared_ptr<carve::mesh::MeshSet<3> > shape2mesh;
+						MeshUtils::TopoDS_Shape2Meshset(operand1_solid, shape1mesh);
+						MeshUtils::TopoDS_Shape2Meshset(operand2_solid, shape2mesh);
+
+						MeshSetInfo infoOp1;
+						bool mesh_closed1 = MeshUtils::checkMeshSetValidAndClosed(shape1mesh, infoOp1, nullptr, nullptr);
+						if( !mesh_closed1 )
+						{
+							bool triangulateOperands = false;
+							bool dumpMeshes = false;
+							MeshOps::simplifyMeshSet(shape1mesh, geom_settings, nullptr, nullptr, triangulateOperands, dumpMeshes);
+						}
+						MeshSetInfo infoOp2;
+						bool mesh_closed2 = MeshUtils::checkMeshSetValidAndClosed(shape2mesh, infoOp1, nullptr, nullptr);
+						if( !mesh_closed2 )
+						{
+							bool triangulateOperands = false;
+							bool dumpMeshes = false;
+							MeshOps::simplifyMeshSet(shape2mesh, geom_settings, nullptr, nullptr, triangulateOperands, dumpMeshes);
 						}
 
-						result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
+						bool checkZeroAreaFaces = false;
+						GeomDebugDump::moveOffset(0.6);
+						dumpWithLabel("TopoDS_Shape1: ", shape1mesh, dumpColorSettings, checkZeroAreaFaces, false, true);
 
-						if( !result_meshset_ok )
+						GeomDebugDump::moveOffset(0.6);
+						dumpWithLabel("TopoDS_Shape2: ", shape2mesh, dumpColorSettings, checkZeroAreaFaces, false, true);
+#endif
+
+						if( !operand1_solid.IsNull() && !operand2_solid.IsNull() )
 						{
-							dumpMeshes = true;
-							MeshOps::simplifyMeshSet(result, geom_settings, report_callback, entity.get(), triangulateOperands, dumpMeshes);
-							result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
+							double volume1 = MeshUtils::getVolume(operand1_solid);
+							double volume2 = MeshUtils::getVolume(operand2_solid);
+							if( volume1 < 0 ) { operand1_solid.Reverse(); }
+							if( volume2 < 0 ) { operand2_solid.Reverse(); }
 
-							if( operation == carve::csg::CSG::A_MINUS_B )
+							ShapeFix_ShapeTolerance shapeTolerance;// = new ShapeFix_ShapeTolerance();
+							double tolerance = 1e-7;
+							shapeTolerance.SetTolerance(operand1_solid,tolerance);
+							shapeTolerance.SetTolerance(operand2_solid,tolerance);
+
+							BRepAlgoAPI_Cut mkCut(operand1_solid, operand2_solid);  // CSG::A_MINUS_B
+							mkCut.SetFuzzyValue(tolerance);
+							mkCut.SetNonDestructive(true);
+							mkCut.SetUseOBB( true );
+
+							mkCut.Build();
+
+							if( mkCut.IsDone() )
 							{
-								// try first to intersect, then A_MINUS_B
-								carve::csg::CSG csg;
-								shared_ptr<carve::mesh::MeshSet<3> > intersectionResult(csg.compute(op1.get(), op2.get(), carve::csg::CSG::INTERSECTION, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
-								MeshOps::simplifyMeshSet(intersectionResult, geom_settings, report_callback, entity.get(), triangulateOperands, dumpMeshes);
+								TopoDS_Shape cutResultShape = mkCut.Shape();
 
-								MeshSetInfo infoIntersectionResult;
-								bool intersection_ok = MeshUtils::checkMeshSetValidAndClosed(intersectionResult, infoIntersectionResult, report_callback, entity.get());
-
-								if( intersection_ok )
-								{
-									carve::csg::CSG csg;
-									result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(op1.get(), intersectionResult.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
-
-									result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
-								}
+								TopoDS_Solid cutResult;
+								MeshUtils::getLargestSolid(cutResultShape, cutResult);
 								
+
+								MeshUtils::TopoDS_Shape2Meshset(cutResult, result);
+								result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
 #ifdef _DEBUG
-								if( dumpMeshes )
+								if( result_meshset_ok )
 								{
+									std::cout << "CSG no success with carve, success with OCC" << std::endl;
+								}
+
+								if( !result_meshset_ok )
+								{
+
+									StlAPI_Writer STLwriter;
+									STLwriter.Write(operand1_solid, "D:\\temp\\op1_shape.stl");
+									STLwriter.Write(operand2_solid, "D:\\temp\\op2_shape.stl");
+									STLwriter.Write(cutResult, "D:\\temp\\cutResult.stl");
+
+
 									bool checkZeroAreaFaces = false;
 									GeomDebugDump::moveOffset(0.6);
-									dumpWithLabel("computeCSG::intersection: ", intersectionResult, dumpColorSettings, checkZeroAreaFaces, false, true);
+									dumpWithLabel("BRepAlgoAPI_Cut: ", result, dumpColorSettings, checkZeroAreaFaces, false, true);
+									GeomDebugDump::moveOffset(0.6);
+									dumpWithLabel("op1: ", op1, dumpColorSettings, checkZeroAreaFaces, false, true);
+									GeomDebugDump::moveOffset(0.6);
+									dumpWithLabel("op2: ", op2, dumpColorSettings, checkZeroAreaFaces, false, true);
+								}
+
+								double volume = MeshUtils::getVolume(cutResult);
+								if( volume == 0 )
+								{
+									std::cout << "volume is 0";
 								}
 #endif
 							}
+							else
+							{
+								std::cout << "BRepAlgoAPI_Cut failed";
+							}
+
+//							if( !result_meshset_ok )
+//							{
+//								BRepAlgoAPI_Fuse mkCommon(operand1_solid, operand2_solid);       // CSG::UNION
+//								mkCommon.SetFuzzyValue(tolerance);
+//								mkCommon.SetNonDestructive(true);
+//								mkCommon.Build();
+//
+//								if( mkCommon.IsDone() )
+//								{
+//									TopoDS_Solid fusedSolid;
+//									MeshUtils::getLargestSolid(mkCommon.Shape(), fusedSolid);
+//
+//									shared_ptr<carve::mesh::MeshSet<3> > meshCommon;
+//									MeshUtils::TopoDS_Shape2Meshset(fusedSolid, meshCommon);
+//
+//#ifdef _DEBUG
+//									GProp_GProps gprops;
+//									BRepGProp::VolumeProperties(fusedSolid, gprops);
+//									double volume = gprops.Mass();
+//
+//
+//									bool checkZeroAreaFaces = false;
+//									GeomDebugDump::moveOffset(0.6);
+//									dumpWithLabel("meshCommon: ", meshCommon, dumpColorSettings, checkZeroAreaFaces, false, true);
+//									//GeomDebugDump::dumpMeshset(meshCommon, color, true);
+//#endif
+//
+//									TopoDS_Shape aResult = BRepAlgoAPI_Cut(fusedSolid, operand2_solid).Shape();
+//									MeshUtils::TopoDS_Shape2Meshset(aResult, result);
+//									result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
+//
+//									if( !result_meshset_ok )
+//									{
+//										shared_ptr<carve::mesh::MeshSet<3> > largestMesh;
+//										MeshUtils::getLargestClosedMesh(result, largestMesh);
+//
+//										//carve::csg::CSG csg;
+//										//result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(op1.get(), meshCommon1.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
+//
+//										//result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
+//
+//
+//#ifdef _DEBUG
+//										bool checkZeroAreaFaces = false;
+//										GeomDebugDump::moveOffset(0.6);
+//										GeomDebugDump::dumpMesh(meshCommon->meshes[0], color, false);
+//										GeomDebugDump::moveOffset(0.6);
+//										GeomDebugDump::dumpMeshset(op1, color, false);
+//										GeomDebugDump::dumpMeshset(op2, color, false);
+//										GeomDebugDump::moveOffset(0.6);
+//										dumpWithLabel("BRepAlgoAPI_Cut: ", result, dumpColorSettings, checkZeroAreaFaces, false, true);
+//
+//										// try also https://github.com/executionunit/csgjs-cpp
+//#endif
+//									}
+//								}
+//							}
 						}
-					}
-					
-
-#ifdef _DEBUG
-					if( dumpMeshes )
-					{
-						bool checkZeroAreaFaces = false;
-						
-						if( (op2_dumped && !op1_dumped) )//|| (!op2_dumped && op1_dumped) )
-						{
-							GeomDebugDump::moveOffset(0.3);
-						}
-
-						if( !op1_dumped )
-						{
-							op1_dumped = true;
-							dumpWithLabel("computeCSG::op1", op1, dumpColorSettings, checkZeroAreaFaces, true, false);
-						}
-
-						if( !op2_dumped )
-						{
-							dumpWithLabel("computeCSG::op2", op2, dumpColorSettings, checkZeroAreaFaces, false, true);
-							op2_dumped = true;
-							
-						}
-
-
-						GeomDebugDump::moveOffset(0.2);
-						GeomDebugDump::moveOffset(op2);
-						
-						dumpWithLabel("computeCSG::results", result, dumpColorSettings, checkZeroAreaFaces, true, true);
-						
-						GeomDebugDump::dumpMeshsetOpenEdges(result, color, false, true);
-						
-						GeomDebugDump::moveOffset(op1);
-						GeomDebugDump::moveOffset(op2);
-						GeomDebugDump::moveOffset(0.3);
-					}
 #endif
-					normMesh.deNormalizeMesh(result, "");
+					}
 				}
 			}
+			
+#ifdef _DEBUG
+			if( dumpMeshes )
+			{
+				bool checkZeroAreaFaces = false;
+						
+				if( (op2_dumped && !op1_dumped) )//|| (!op2_dumped && op1_dumped) )
+				{
+					GeomDebugDump::moveOffset(0.3);
+				}
 
+				if( !op1_dumped )
+				{
+					op1_dumped = true;
+					dumpWithLabel("computeCSG::op1", op1, dumpColorSettings, checkZeroAreaFaces, true, false);
+				}
+
+				if( !op2_dumped )
+				{
+					dumpWithLabel("computeCSG::op2", op2, dumpColorSettings, checkZeroAreaFaces, false, true);
+					op2_dumped = true;
+							
+				}
+
+
+				GeomDebugDump::moveOffset(0.2);
+				GeomDebugDump::moveOffset(op2);
+						
+				dumpWithLabel("computeCSG::results", result, dumpColorSettings, checkZeroAreaFaces, true, true);
+						
+				GeomDebugDump::dumpMeshsetOpenEdges(result, color, false, true);
+						
+				GeomDebugDump::moveOffset(op1);
+				GeomDebugDump::moveOffset(op2);
+				GeomDebugDump::moveOffset(0.3);
+			}
+#endif
+			normMesh.deNormalizeMesh(result, "");
+			
 			if( !result_meshset_ok )
 			{
 				strs_err << "csg operation failed" << std::endl;

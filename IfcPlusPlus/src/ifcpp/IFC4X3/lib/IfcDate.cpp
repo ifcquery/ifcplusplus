@@ -12,12 +12,6 @@
 
 // TYPE IfcDate = STRING;
 IFC4X3::IfcDate::IfcDate( std::string value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcDate::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDate> copy_self( new IfcDate() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcDate::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDATE("; }

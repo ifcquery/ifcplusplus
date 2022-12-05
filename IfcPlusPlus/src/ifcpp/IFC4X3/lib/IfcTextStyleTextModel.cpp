@@ -15,18 +15,6 @@
 
 // ENTITY IfcTextStyleTextModel 
 IFC4X3::IfcTextStyleTextModel::IfcTextStyleTextModel( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTextStyleTextModel::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTextStyleTextModel> copy_self( new IfcTextStyleTextModel() );
-	if( m_TextIndent ) { copy_self->m_TextIndent = dynamic_pointer_cast<IfcSizeSelect>( m_TextIndent->getDeepCopy(options) ); }
-	if( m_TextAlign ) { copy_self->m_TextAlign = dynamic_pointer_cast<IfcTextAlignment>( m_TextAlign->getDeepCopy(options) ); }
-	if( m_TextDecoration ) { copy_self->m_TextDecoration = dynamic_pointer_cast<IfcTextDecoration>( m_TextDecoration->getDeepCopy(options) ); }
-	if( m_LetterSpacing ) { copy_self->m_LetterSpacing = dynamic_pointer_cast<IfcSizeSelect>( m_LetterSpacing->getDeepCopy(options) ); }
-	if( m_WordSpacing ) { copy_self->m_WordSpacing = dynamic_pointer_cast<IfcSizeSelect>( m_WordSpacing->getDeepCopy(options) ); }
-	if( m_TextTransform ) { copy_self->m_TextTransform = dynamic_pointer_cast<IfcTextTransformation>( m_TextTransform->getDeepCopy(options) ); }
-	if( m_LineHeight ) { copy_self->m_LineHeight = dynamic_pointer_cast<IfcSizeSelect>( m_LineHeight->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTextStyleTextModel::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTSTYLETEXTMODEL" << "(";

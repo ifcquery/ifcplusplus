@@ -12,12 +12,6 @@
 
 // TYPE IfcAreaMeasure = REAL;
 IFC4X3::IfcAreaMeasure::IfcAreaMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcAreaMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAreaMeasure> copy_self( new IfcAreaMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcAreaMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCAREAMEASURE("; }

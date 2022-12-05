@@ -11,12 +11,6 @@
 
 // TYPE IfcFontVariant = STRING;
 IFC4X3::IfcFontVariant::IfcFontVariant( std::string value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcFontVariant::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFontVariant> copy_self( new IfcFontVariant() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcFontVariant::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFONTVARIANT("; }

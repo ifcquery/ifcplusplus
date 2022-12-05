@@ -21,29 +21,6 @@
 
 // ENTITY IfcObjective 
 IFC4X3::IfcObjective::IfcObjective( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcObjective::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcObjective> copy_self( new IfcObjective() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_ConstraintGrade ) { copy_self->m_ConstraintGrade = dynamic_pointer_cast<IfcConstraintEnum>( m_ConstraintGrade->getDeepCopy(options) ); }
-	if( m_ConstraintSource ) { copy_self->m_ConstraintSource = dynamic_pointer_cast<IfcLabel>( m_ConstraintSource->getDeepCopy(options) ); }
-	if( m_CreatingActor ) { copy_self->m_CreatingActor = dynamic_pointer_cast<IfcActorSelect>( m_CreatingActor->getDeepCopy(options) ); }
-	if( m_CreationTime ) { copy_self->m_CreationTime = dynamic_pointer_cast<IfcDateTime>( m_CreationTime->getDeepCopy(options) ); }
-	if( m_UserDefinedGrade ) { copy_self->m_UserDefinedGrade = dynamic_pointer_cast<IfcLabel>( m_UserDefinedGrade->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_BenchmarkValues.size(); ++ii )
-	{
-		auto item_ii = m_BenchmarkValues[ii];
-		if( item_ii )
-		{
-			copy_self->m_BenchmarkValues.emplace_back( dynamic_pointer_cast<IfcConstraint>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_LogicalAggregator ) { copy_self->m_LogicalAggregator = dynamic_pointer_cast<IfcLogicalOperatorEnum>( m_LogicalAggregator->getDeepCopy(options) ); }
-	if( m_ObjectiveQualifier ) { copy_self->m_ObjectiveQualifier = dynamic_pointer_cast<IfcObjectiveEnum>( m_ObjectiveQualifier->getDeepCopy(options) ); }
-	if( m_UserDefinedQualifier ) { copy_self->m_UserDefinedQualifier = dynamic_pointer_cast<IfcLabel>( m_UserDefinedQualifier->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcObjective::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCOBJECTIVE" << "(";

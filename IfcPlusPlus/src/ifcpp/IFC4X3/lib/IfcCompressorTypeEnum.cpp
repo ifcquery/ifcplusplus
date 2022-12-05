@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcCompressorTypeEnum.h"
 
 // TYPE IfcCompressorTypeEnum = ENUMERATION OF	(BOOSTER	,DYNAMIC	,HERMETIC	,OPENTYPE	,RECIPROCATING	,ROLLINGPISTON	,ROTARY	,ROTARYVANE	,SCROLL	,SEMIHERMETIC	,SINGLESCREW	,SINGLESTAGE	,TROCHOIDAL	,TWINSCREW	,WELDEDSHELLHERMETIC	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcCompressorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCompressorTypeEnum> copy_self( new IfcCompressorTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcCompressorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPRESSORTYPEENUM("; }

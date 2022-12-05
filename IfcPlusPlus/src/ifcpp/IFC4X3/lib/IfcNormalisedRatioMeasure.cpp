@@ -13,12 +13,6 @@
 #include "ifcpp/IFC4X3/include/IfcNormalisedRatioMeasure.h"
 
 // TYPE IfcNormalisedRatioMeasure = IfcRatioMeasure;
-shared_ptr<BuildingObject> IFC4X3::IfcNormalisedRatioMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcNormalisedRatioMeasure> copy_self( new IfcNormalisedRatioMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcNormalisedRatioMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCNORMALISEDRATIOMEASURE("; }

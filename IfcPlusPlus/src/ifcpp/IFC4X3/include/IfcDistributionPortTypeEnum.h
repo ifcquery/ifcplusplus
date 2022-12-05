@@ -29,7 +29,6 @@ namespace IFC4X3
 		IfcDistributionPortTypeEnum() = default;
 		IfcDistributionPortTypeEnum( IfcDistributionPortTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 860830233; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcDistributionPortTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcDistributionPortTypeEnumEnum m_enum;

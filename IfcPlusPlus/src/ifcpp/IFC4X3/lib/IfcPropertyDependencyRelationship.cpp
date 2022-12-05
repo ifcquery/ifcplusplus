@@ -14,16 +14,6 @@
 
 // ENTITY IfcPropertyDependencyRelationship 
 IFC4X3::IfcPropertyDependencyRelationship::IfcPropertyDependencyRelationship( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPropertyDependencyRelationship::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPropertyDependencyRelationship> copy_self( new IfcPropertyDependencyRelationship() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_DependingProperty ) { copy_self->m_DependingProperty = dynamic_pointer_cast<IfcProperty>( m_DependingProperty->getDeepCopy(options) ); }
-	if( m_DependantProperty ) { copy_self->m_DependantProperty = dynamic_pointer_cast<IfcProperty>( m_DependantProperty->getDeepCopy(options) ); }
-	if( m_Expression ) { copy_self->m_Expression = dynamic_pointer_cast<IfcText>( m_Expression->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPropertyDependencyRelationship::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPROPERTYDEPENDENCYRELATIONSHIP" << "(";

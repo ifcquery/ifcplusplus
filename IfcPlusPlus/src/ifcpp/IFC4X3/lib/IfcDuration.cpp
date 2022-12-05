@@ -13,12 +13,6 @@
 
 // TYPE IfcDuration = STRING;
 IFC4X3::IfcDuration::IfcDuration( std::string value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcDuration::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDuration> copy_self( new IfcDuration() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcDuration::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDURATION("; }

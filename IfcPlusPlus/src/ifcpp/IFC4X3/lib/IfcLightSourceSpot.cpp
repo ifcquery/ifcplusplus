@@ -21,24 +21,6 @@
 
 // ENTITY IfcLightSourceSpot 
 IFC4X3::IfcLightSourceSpot::IfcLightSourceSpot( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcLightSourceSpot::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLightSourceSpot> copy_self( new IfcLightSourceSpot() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_LightColour ) { copy_self->m_LightColour = dynamic_pointer_cast<IfcColourRgb>( m_LightColour->getDeepCopy(options) ); }
-	if( m_AmbientIntensity ) { copy_self->m_AmbientIntensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_AmbientIntensity->getDeepCopy(options) ); }
-	if( m_Intensity ) { copy_self->m_Intensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Intensity->getDeepCopy(options) ); }
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcCartesianPoint>( m_Position->getDeepCopy(options) ); }
-	if( m_Radius ) { copy_self->m_Radius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Radius->getDeepCopy(options) ); }
-	if( m_ConstantAttenuation ) { copy_self->m_ConstantAttenuation = dynamic_pointer_cast<IfcReal>( m_ConstantAttenuation->getDeepCopy(options) ); }
-	if( m_DistanceAttenuation ) { copy_self->m_DistanceAttenuation = dynamic_pointer_cast<IfcReal>( m_DistanceAttenuation->getDeepCopy(options) ); }
-	if( m_QuadricAttenuation ) { copy_self->m_QuadricAttenuation = dynamic_pointer_cast<IfcReal>( m_QuadricAttenuation->getDeepCopy(options) ); }
-	if( m_Orientation ) { copy_self->m_Orientation = dynamic_pointer_cast<IfcDirection>( m_Orientation->getDeepCopy(options) ); }
-	if( m_ConcentrationExponent ) { copy_self->m_ConcentrationExponent = dynamic_pointer_cast<IfcReal>( m_ConcentrationExponent->getDeepCopy(options) ); }
-	if( m_SpreadAngle ) { copy_self->m_SpreadAngle = dynamic_pointer_cast<IfcPositivePlaneAngleMeasure>( m_SpreadAngle->getDeepCopy(options) ); }
-	if( m_BeamWidthAngle ) { copy_self->m_BeamWidthAngle = dynamic_pointer_cast<IfcPositivePlaneAngleMeasure>( m_BeamWidthAngle->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcLightSourceSpot::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCLIGHTSOURCESPOT" << "(";

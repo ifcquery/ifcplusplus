@@ -16,21 +16,6 @@
 
 // ENTITY IfcCurveBoundedSurface 
 IFC4X3::IfcCurveBoundedSurface::IfcCurveBoundedSurface( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCurveBoundedSurface::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCurveBoundedSurface> copy_self( new IfcCurveBoundedSurface() );
-	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Boundaries.size(); ++ii )
-	{
-		auto item_ii = m_Boundaries[ii];
-		if( item_ii )
-		{
-			copy_self->m_Boundaries.emplace_back( dynamic_pointer_cast<IfcBoundaryCurve>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_ImplicitOuter ) { copy_self->m_ImplicitOuter = dynamic_pointer_cast<IfcBoolean>( m_ImplicitOuter->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCurveBoundedSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCURVEBOUNDEDSURFACE" << "(";

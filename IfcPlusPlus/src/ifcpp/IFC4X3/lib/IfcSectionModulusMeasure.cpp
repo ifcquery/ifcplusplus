@@ -12,12 +12,6 @@
 
 // TYPE IfcSectionModulusMeasure = REAL;
 IFC4X3::IfcSectionModulusMeasure::IfcSectionModulusMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcSectionModulusMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSectionModulusMeasure> copy_self( new IfcSectionModulusMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcSectionModulusMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSECTIONMODULUSMEASURE("; }

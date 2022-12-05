@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcAnnotationTypeEnum.h"
 
 // TYPE IfcAnnotationTypeEnum = ENUMERATION OF	(ASBUILTAREA	,ASBUILTLINE	,ASBUILTPOINT	,ASSUMEDAREA	,ASSUMEDLINE	,ASSUMEDPOINT	,NON_PHYSICAL_SIGNAL	,SUPERELEVATIONEVENT	,WIDTHEVENT	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcAnnotationTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAnnotationTypeEnum> copy_self( new IfcAnnotationTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcAnnotationTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCANNOTATIONTYPEENUM("; }

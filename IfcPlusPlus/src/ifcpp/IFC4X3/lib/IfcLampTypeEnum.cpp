@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcLampTypeEnum.h"
 
 // TYPE IfcLampTypeEnum = ENUMERATION OF	(COMPACTFLUORESCENT	,FLUORESCENT	,HALOGEN	,HIGHPRESSUREMERCURY	,HIGHPRESSURESODIUM	,LED	,METALHALIDE	,OLED	,TUNGSTENFILAMENT	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcLampTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLampTypeEnum> copy_self( new IfcLampTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcLampTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLAMPTYPEENUM("; }

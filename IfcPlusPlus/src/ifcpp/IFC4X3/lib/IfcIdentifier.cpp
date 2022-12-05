@@ -12,12 +12,6 @@
 
 // TYPE IfcIdentifier = STRING(255);
 IFC4X3::IfcIdentifier::IfcIdentifier( std::string value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcIdentifier::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcIdentifier> copy_self( new IfcIdentifier() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcIdentifier::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCIDENTIFIER("; }

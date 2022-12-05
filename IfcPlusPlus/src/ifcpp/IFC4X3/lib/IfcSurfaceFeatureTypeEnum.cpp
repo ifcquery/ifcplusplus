@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcSurfaceFeatureTypeEnum.h"
 
 // TYPE IfcSurfaceFeatureTypeEnum = ENUMERATION OF	(DEFECT	,HATCHMARKING	,LINEMARKING	,MARK	,NONSKIDSURFACING	,PAVEMENTSURFACEMARKING	,RUMBLESTRIP	,SYMBOLMARKING	,TAG	,TRANSVERSERUMBLESTRIP	,TREATMENT	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcSurfaceFeatureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSurfaceFeatureTypeEnum> copy_self( new IfcSurfaceFeatureTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcSurfaceFeatureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSURFACEFEATURETYPEENUM("; }

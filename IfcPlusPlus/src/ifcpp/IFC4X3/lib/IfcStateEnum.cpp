@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcStateEnum.h"
 
 // TYPE IfcStateEnum = ENUMERATION OF	(LOCKED	,READONLY	,READONLYLOCKED	,READWRITE	,READWRITELOCKED);
-shared_ptr<BuildingObject> IFC4X3::IfcStateEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcStateEnum> copy_self( new IfcStateEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcStateEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTATEENUM("; }

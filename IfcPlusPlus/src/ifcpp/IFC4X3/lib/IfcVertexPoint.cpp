@@ -14,12 +14,6 @@
 
 // ENTITY IfcVertexPoint 
 IFC4X3::IfcVertexPoint::IfcVertexPoint( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcVertexPoint::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcVertexPoint> copy_self( new IfcVertexPoint() );
-	if( m_VertexGeometry ) { copy_self->m_VertexGeometry = dynamic_pointer_cast<IfcPoint>( m_VertexGeometry->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcVertexPoint::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCVERTEXPOINT" << "(";

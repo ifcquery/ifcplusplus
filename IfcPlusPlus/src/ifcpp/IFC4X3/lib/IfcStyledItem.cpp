@@ -15,21 +15,6 @@
 
 // ENTITY IfcStyledItem 
 IFC4X3::IfcStyledItem::IfcStyledItem( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcStyledItem::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcStyledItem> copy_self( new IfcStyledItem() );
-	if( m_Item ) { copy_self->m_Item = dynamic_pointer_cast<IfcRepresentationItem>( m_Item->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Styles.size(); ++ii )
-	{
-		auto item_ii = m_Styles[ii];
-		if( item_ii )
-		{
-			copy_self->m_Styles.emplace_back( dynamic_pointer_cast<IfcPresentationStyle>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcStyledItem::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSTYLEDITEM" << "(";

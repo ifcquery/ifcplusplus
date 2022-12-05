@@ -14,13 +14,6 @@
 
 // ENTITY IfcLocalPlacement 
 IFC4X3::IfcLocalPlacement::IfcLocalPlacement( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcLocalPlacement::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLocalPlacement> copy_self( new IfcLocalPlacement() );
-	if( m_PlacementRelTo ) { copy_self->m_PlacementRelTo = dynamic_pointer_cast<IfcObjectPlacement>( m_PlacementRelTo->getDeepCopy(options) ); }
-	if( m_RelativePlacement ) { copy_self->m_RelativePlacement = dynamic_pointer_cast<IfcAxis2Placement>( m_RelativePlacement->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcLocalPlacement::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCLOCALPLACEMENT" << "(";

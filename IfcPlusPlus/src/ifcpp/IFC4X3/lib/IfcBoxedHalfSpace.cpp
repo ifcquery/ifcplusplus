@@ -16,14 +16,6 @@
 
 // ENTITY IfcBoxedHalfSpace 
 IFC4X3::IfcBoxedHalfSpace::IfcBoxedHalfSpace( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcBoxedHalfSpace::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBoxedHalfSpace> copy_self( new IfcBoxedHalfSpace() );
-	if( m_BaseSurface ) { copy_self->m_BaseSurface = dynamic_pointer_cast<IfcSurface>( m_BaseSurface->getDeepCopy(options) ); }
-	if( m_AgreementFlag ) { copy_self->m_AgreementFlag = dynamic_pointer_cast<IfcBoolean>( m_AgreementFlag->getDeepCopy(options) ); }
-	if( m_Enclosure ) { copy_self->m_Enclosure = dynamic_pointer_cast<IfcBoundingBox>( m_Enclosure->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcBoxedHalfSpace::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCBOXEDHALFSPACE" << "(";

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcTimeSeriesDataTypeEnum.h"
 
 // TYPE IfcTimeSeriesDataTypeEnum = ENUMERATION OF	(CONTINUOUS	,DISCRETE	,DISCRETEBINARY	,PIECEWISEBINARY	,PIECEWISECONSTANT	,PIECEWISECONTINUOUS	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcTimeSeriesDataTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTimeSeriesDataTypeEnum> copy_self( new IfcTimeSeriesDataTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcTimeSeriesDataTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTIMESERIESDATATYPEENUM("; }

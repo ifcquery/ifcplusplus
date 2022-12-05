@@ -15,13 +15,6 @@
 
 // ENTITY IfcVector 
 IFC4X3::IfcVector::IfcVector( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcVector::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcVector> copy_self( new IfcVector() );
-	if( m_Orientation ) { copy_self->m_Orientation = dynamic_pointer_cast<IfcDirection>( m_Orientation->getDeepCopy(options) ); }
-	if( m_Magnitude ) { copy_self->m_Magnitude = dynamic_pointer_cast<IfcLengthMeasure>( m_Magnitude->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcVector::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCVECTOR" << "(";

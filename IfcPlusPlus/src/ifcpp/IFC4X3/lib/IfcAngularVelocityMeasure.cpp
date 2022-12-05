@@ -12,12 +12,6 @@
 
 // TYPE IfcAngularVelocityMeasure = REAL;
 IFC4X3::IfcAngularVelocityMeasure::IfcAngularVelocityMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcAngularVelocityMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAngularVelocityMeasure> copy_self( new IfcAngularVelocityMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcAngularVelocityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCANGULARVELOCITYMEASURE("; }

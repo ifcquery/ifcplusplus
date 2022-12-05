@@ -12,12 +12,6 @@
 
 // TYPE IfcTorqueMeasure = REAL;
 IFC4X3::IfcTorqueMeasure::IfcTorqueMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcTorqueMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTorqueMeasure> copy_self( new IfcTorqueMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcTorqueMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTORQUEMEASURE("; }

@@ -11,12 +11,6 @@
 #include "ifcpp/IFC4X3/include/IfcPositiveInteger.h"
 
 // TYPE IfcPositiveInteger = IfcInteger;
-shared_ptr<BuildingObject> IFC4X3::IfcPositiveInteger::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPositiveInteger> copy_self( new IfcPositiveInteger() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcPositiveInteger::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPOSITIVEINTEGER("; }

@@ -11,12 +11,6 @@
 
 // TYPE IfcFontWeight = STRING;
 IFC4X3::IfcFontWeight::IfcFontWeight( std::string value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcFontWeight::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFontWeight> copy_self( new IfcFontWeight() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcFontWeight::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFONTWEIGHT("; }

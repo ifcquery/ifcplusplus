@@ -11,11 +11,6 @@
 
 // ENTITY IfcExternalInformation 
 IFC4X3::IfcExternalInformation::IfcExternalInformation( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcExternalInformation::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcExternalInformation> copy_self( new IfcExternalInformation() );
-	return copy_self;
-}
 void IFC4X3::IfcExternalInformation::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCEXTERNALINFORMATION" << "(";

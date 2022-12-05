@@ -15,14 +15,6 @@
 
 // ENTITY IfcAxis2PlacementLinear 
 IFC4X3::IfcAxis2PlacementLinear::IfcAxis2PlacementLinear( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcAxis2PlacementLinear::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAxis2PlacementLinear> copy_self( new IfcAxis2PlacementLinear() );
-	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcPoint>( m_Location->getDeepCopy(options) ); }
-	if( m_Axis ) { copy_self->m_Axis = dynamic_pointer_cast<IfcDirection>( m_Axis->getDeepCopy(options) ); }
-	if( m_RefDirection ) { copy_self->m_RefDirection = dynamic_pointer_cast<IfcDirection>( m_RefDirection->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcAxis2PlacementLinear::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCAXIS2PLACEMENTLINEAR" << "(";

@@ -15,15 +15,6 @@
 
 // ENTITY IfcCoordinateReferenceSystem 
 IFC4X3::IfcCoordinateReferenceSystem::IfcCoordinateReferenceSystem( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCoordinateReferenceSystem::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCoordinateReferenceSystem> copy_self( new IfcCoordinateReferenceSystem() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_GeodeticDatum ) { copy_self->m_GeodeticDatum = dynamic_pointer_cast<IfcIdentifier>( m_GeodeticDatum->getDeepCopy(options) ); }
-	if( m_VerticalDatum ) { copy_self->m_VerticalDatum = dynamic_pointer_cast<IfcIdentifier>( m_VerticalDatum->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCoordinateReferenceSystem::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCOORDINATEREFERENCESYSTEM" << "(";

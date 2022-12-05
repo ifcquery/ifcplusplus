@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcBeamTypeEnum.h"
 
 // TYPE IfcBeamTypeEnum = ENUMERATION OF	(BEAM	,CORNICE	,DIAPHRAGM	,EDGEBEAM	,GIRDER_SEGMENT	,HATSTONE	,HOLLOWCORE	,JOIST	,LINTEL	,PIERCAP	,SPANDREL	,T_BEAM	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcBeamTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBeamTypeEnum> copy_self( new IfcBeamTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcBeamTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBEAMTYPEENUM("; }

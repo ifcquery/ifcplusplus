@@ -14,19 +14,6 @@
 
 // ENTITY IfcGeometricCurveSet 
 IFC4X3::IfcGeometricCurveSet::IfcGeometricCurveSet( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcGeometricCurveSet::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcGeometricCurveSet> copy_self( new IfcGeometricCurveSet() );
-	for( size_t ii=0; ii<m_Elements.size(); ++ii )
-	{
-		auto item_ii = m_Elements[ii];
-		if( item_ii )
-		{
-			copy_self->m_Elements.emplace_back( dynamic_pointer_cast<IfcGeometricSetSelect>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcGeometricCurveSet::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCGEOMETRICCURVESET" << "(";

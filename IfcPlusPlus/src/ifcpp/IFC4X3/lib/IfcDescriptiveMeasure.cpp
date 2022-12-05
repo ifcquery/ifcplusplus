@@ -13,12 +13,6 @@
 
 // TYPE IfcDescriptiveMeasure = STRING;
 IFC4X3::IfcDescriptiveMeasure::IfcDescriptiveMeasure( std::string value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcDescriptiveMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDescriptiveMeasure> copy_self( new IfcDescriptiveMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcDescriptiveMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDESCRIPTIVEMEASURE("; }

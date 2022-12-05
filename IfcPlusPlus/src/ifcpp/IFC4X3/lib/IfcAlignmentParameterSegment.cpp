@@ -12,13 +12,6 @@
 
 // ENTITY IfcAlignmentParameterSegment 
 IFC4X3::IfcAlignmentParameterSegment::IfcAlignmentParameterSegment( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcAlignmentParameterSegment::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAlignmentParameterSegment> copy_self( new IfcAlignmentParameterSegment() );
-	if( m_StartTag ) { copy_self->m_StartTag = dynamic_pointer_cast<IfcLabel>( m_StartTag->getDeepCopy(options) ); }
-	if( m_EndTag ) { copy_self->m_EndTag = dynamic_pointer_cast<IfcLabel>( m_EndTag->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcAlignmentParameterSegment::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCALIGNMENTPARAMETERSEGMENT" << "(";

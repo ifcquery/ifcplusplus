@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcReflectanceMethodEnum.h"
 
 // TYPE IfcReflectanceMethodEnum = ENUMERATION OF	(BLINN	,FLAT	,GLASS	,MATT	,METAL	,MIRROR	,PHONG	,PHYSICAL	,PLASTIC	,STRAUSS	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcReflectanceMethodEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcReflectanceMethodEnum> copy_self( new IfcReflectanceMethodEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcReflectanceMethodEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCREFLECTANCEMETHODENUM("; }

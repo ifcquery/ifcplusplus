@@ -15,13 +15,6 @@
 
 // ENTITY IfcMappedItem 
 IFC4X3::IfcMappedItem::IfcMappedItem( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMappedItem::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMappedItem> copy_self( new IfcMappedItem() );
-	if( m_MappingSource ) { copy_self->m_MappingSource = dynamic_pointer_cast<IfcRepresentationMap>( m_MappingSource->getDeepCopy(options) ); }
-	if( m_MappingTarget ) { copy_self->m_MappingTarget = dynamic_pointer_cast<IfcCartesianTransformationOperator>( m_MappingTarget->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcMappedItem::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMAPPEDITEM" << "(";

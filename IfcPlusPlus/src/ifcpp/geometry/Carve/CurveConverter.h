@@ -215,11 +215,6 @@ public:
 
 					convertIfcCurve(basis_curve, basis_curve_points, basis_curve_start_points, curve_trim1_vec, curve_trim2_vec, trimmed_senseAgreement);
 
-					//if( !trimmed_senseAgreement )
-					//{
-					//	std::reverse(basis_curve_points.begin(), basis_curve_points.end());
-					//	std::reverse(basis_curve_start_points.begin(), basis_curve_start_points.end());
-					//}
 					GeomUtils::appendPointsToCurve(basis_curve_points, target_vec);
 					GeomUtils::appendPointsToCurve(basis_curve_start_points, segment_start_points);
 				}
@@ -439,7 +434,7 @@ public:
 			vec3 checkTrimAngle1 = conic_position_matrix->m_matrix * carve::geom::VECTOR(circle_radius * cos(startAngle), circle_radius * sin(startAngle), 0);
 			double distanceTrim1 = (trimPoint1 - checkTrimAngle1).length();
 
-			if( distanceTrim1 > EPS_M6 )
+			if( distanceTrim1 > EPS_M6 && trim1_vec.size() > 0 )
 			{
 				std::cout << "distanceTrim1: " << distanceTrim1 << std::endl;
 			}
@@ -448,7 +443,7 @@ public:
 			vec3 pointAtTrimAngle2 = conic_position_matrix->m_matrix * carve::geom::VECTOR(circle_radius * cos(endAngle), circle_radius * sin(endAngle), 0);
 			double distanceTrim2 = (trimPoint2 - pointAtTrimAngle2).length();
 
-			if( distanceTrim2 > EPS_M6 )
+			if( distanceTrim2 > EPS_M6 && trim2_vec.size() > 0 )
 			{
 				std::cout << "distanceTrim2: " << distanceTrim2 << std::endl;
 			}
@@ -490,7 +485,7 @@ public:
 			segment_start_points.push_back(circle_segment_points3D[0]);
 
 #ifdef _DEBUG
-			if( openingAngle > M_PI )
+			if( openingAngle > M_PI*1.01 )
 			{
 				glm::dvec4 color(0.2, 0.2, 0.2, 0.8);
 				GeomDebugDump::dumpPolyline(target_vec, color, true);

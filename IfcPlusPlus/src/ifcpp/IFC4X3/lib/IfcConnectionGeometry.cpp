@@ -11,11 +11,6 @@
 
 // ENTITY IfcConnectionGeometry 
 IFC4X3::IfcConnectionGeometry::IfcConnectionGeometry( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcConnectionGeometry::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcConnectionGeometry> copy_self( new IfcConnectionGeometry() );
-	return copy_self;
-}
 void IFC4X3::IfcConnectionGeometry::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCONNECTIONGEOMETRY" << "(";

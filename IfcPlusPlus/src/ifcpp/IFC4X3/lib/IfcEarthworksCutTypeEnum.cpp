@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcEarthworksCutTypeEnum.h"
 
 // TYPE IfcEarthworksCutTypeEnum = ENUMERATION OF	(BASE_EXCAVATION	,CUT	,DREDGING	,EXCAVATION	,OVEREXCAVATION	,PAVEMENTMILLING	,STEPEXCAVATION	,TOPSOILREMOVAL	,TRENCH	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcEarthworksCutTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcEarthworksCutTypeEnum> copy_self( new IfcEarthworksCutTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcEarthworksCutTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCEARTHWORKSCUTTYPEENUM("; }

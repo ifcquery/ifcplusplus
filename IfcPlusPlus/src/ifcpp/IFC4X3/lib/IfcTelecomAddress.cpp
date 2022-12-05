@@ -17,48 +17,6 @@
 
 // ENTITY IfcTelecomAddress 
 IFC4X3::IfcTelecomAddress::IfcTelecomAddress( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTelecomAddress::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTelecomAddress> copy_self( new IfcTelecomAddress() );
-	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcAddressTypeEnum>( m_Purpose->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_UserDefinedPurpose ) { copy_self->m_UserDefinedPurpose = dynamic_pointer_cast<IfcLabel>( m_UserDefinedPurpose->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_TelephoneNumbers.size(); ++ii )
-	{
-		auto item_ii = m_TelephoneNumbers[ii];
-		if( item_ii )
-		{
-			copy_self->m_TelephoneNumbers.emplace_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_FacsimileNumbers.size(); ++ii )
-	{
-		auto item_ii = m_FacsimileNumbers[ii];
-		if( item_ii )
-		{
-			copy_self->m_FacsimileNumbers.emplace_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_PagerNumber ) { copy_self->m_PagerNumber = dynamic_pointer_cast<IfcLabel>( m_PagerNumber->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_ElectronicMailAddresses.size(); ++ii )
-	{
-		auto item_ii = m_ElectronicMailAddresses[ii];
-		if( item_ii )
-		{
-			copy_self->m_ElectronicMailAddresses.emplace_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_WWWHomePageURL ) { copy_self->m_WWWHomePageURL = dynamic_pointer_cast<IfcURIReference>( m_WWWHomePageURL->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_MessagingIDs.size(); ++ii )
-	{
-		auto item_ii = m_MessagingIDs[ii];
-		if( item_ii )
-		{
-			copy_self->m_MessagingIDs.emplace_back( dynamic_pointer_cast<IfcURIReference>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcTelecomAddress::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTELECOMADDRESS" << "(";

@@ -464,36 +464,6 @@ namespace GeomDebugDump
 		dumpPolyline(loops_2d, color, move_dump_position);
 	}
 
-	/*static void dumpPolyline(const boostRing& poly, const glm::vec4& color, bool move_dump_position)
-	{
-		std::vector<carve::geom::vector<2> > ring_points;
-		for( const auto& point : poly )
-		{
-			ring_points.push_back(carve::geom::VECTOR(point.x(), point.y()));
-		}
-		dumpPolyline(ring_points, color, move_dump_position);
-	}
-
-	static void dumpPolyline(const boostPolygon& poly, const glm::vec4& color, bool move_dump_position)
-	{
-		std::vector<carve::geom::vector<2> > poly2d_inners;
-		for( const auto& innerLoop : poly.inners() )
-		{
-			for( const auto& point : innerLoop )
-			{
-				poly2d_inners.push_back(carve::geom::VECTOR(point.x(), point.y()));
-			}
-		}
-		dumpPolyline(poly2d_inners, color, false);
-
-		std::vector<carve::geom::vector<2> > poly2d_outer;
-		for( const auto& point : poly.outer() )
-		{
-			poly2d_outer.push_back(carve::geom::VECTOR(point.x(), point.y()));
-		}
-		dumpPolyline(poly2d_outer, color, move_dump_position);
-	}*/
-
 	static int findVertexIndexInVector(const std::vector<carve::mesh::Vertex<3> >& vec_vertices, const carve::mesh::Vertex<3>* v)
 	{
 		for( size_t iiv = 0; iiv < vec_vertices.size(); ++iiv )
@@ -1108,6 +1078,20 @@ namespace GeomDebugDump
 			dumpFacePolygon(face, color1, false);
 			const auto aabb = face->getAABB();
 			bbox.unionAABB(aabb);
+		}
+
+		if( moveDumpOffset )
+		{
+			dump_y_pos_geom += bbox.extent.y * 1.1;
+		}
+	}
+	static void dumpFacePolygons(const carve::mesh::MeshSet<3>* meshset, glm::vec4& color1, bool moveDumpOffset)
+	{
+		carve::geom::aabb<3> bbox = meshset->getAABB();
+
+		for( auto mesh : meshset->meshes )
+		{
+			dumpFacePolygons(mesh->faces, color1, false);
 		}
 
 		if( moveDumpOffset )

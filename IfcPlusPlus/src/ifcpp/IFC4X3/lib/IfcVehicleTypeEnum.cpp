@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcVehicleTypeEnum.h"
 
 // TYPE IfcVehicleTypeEnum = ENUMERATION OF	(CARGO	,ROLLINGSTOCK	,VEHICLE	,VEHICLEAIR	,VEHICLEMARINE	,VEHICLETRACKED	,VEHICLEWHEELED	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcVehicleTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcVehicleTypeEnum> copy_self( new IfcVehicleTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcVehicleTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVEHICLETYPEENUM("; }

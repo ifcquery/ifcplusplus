@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcDiscreteAccessoryTypeEnum.h"
 
 // TYPE IfcDiscreteAccessoryTypeEnum = ENUMERATION OF	(ANCHORPLATE	,BIRDPROTECTION	,BRACKET	,CABLEARRANGER	,ELASTIC_CUSHION	,EXPANSION_JOINT_DEVICE	,FILLER	,FLASHING	,INSULATOR	,LOCK	,PANEL_STRENGTHENING	,POINTMACHINEMOUNTINGDEVICE	,POINT_MACHINE_LOCKING_DEVICE	,RAILBRACE	,RAILPAD	,RAIL_LUBRICATION	,RAIL_MECHANICAL_EQUIPMENT	,SHOE	,SLIDINGCHAIR	,SOUNDABSORPTION	,TENSIONINGEQUIPMENT	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcDiscreteAccessoryTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDiscreteAccessoryTypeEnum> copy_self( new IfcDiscreteAccessoryTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcDiscreteAccessoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDISCRETEACCESSORYTYPEENUM("; }

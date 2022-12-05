@@ -11,12 +11,6 @@
 
 // TYPE IfcGloballyUniqueId = STRING(22) FIXED;
 IFC4X3::IfcGloballyUniqueId::IfcGloballyUniqueId( std::string value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcGloballyUniqueId::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcGloballyUniqueId> copy_self( new IfcGloballyUniqueId() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcGloballyUniqueId::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCGLOBALLYUNIQUEID("; }

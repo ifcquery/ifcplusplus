@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcSpaceHeaterTypeEnum.h"
 
 // TYPE IfcSpaceHeaterTypeEnum = ENUMERATION OF	(CONVECTOR	,RADIATOR	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcSpaceHeaterTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSpaceHeaterTypeEnum> copy_self( new IfcSpaceHeaterTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcSpaceHeaterTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPACEHEATERTYPEENUM("; }

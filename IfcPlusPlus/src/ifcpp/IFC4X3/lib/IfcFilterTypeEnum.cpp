@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcFilterTypeEnum.h"
 
 // TYPE IfcFilterTypeEnum = ENUMERATION OF	(AIRPARTICLEFILTER	,COMPRESSEDAIRFILTER	,ODORFILTER	,OILFILTER	,STRAINER	,WATERFILTER	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcFilterTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFilterTypeEnum> copy_self( new IfcFilterTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcFilterTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFILTERTYPEENUM("; }

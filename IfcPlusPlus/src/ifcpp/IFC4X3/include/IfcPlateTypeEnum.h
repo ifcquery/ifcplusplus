@@ -33,7 +33,6 @@ namespace IFC4X3
 		IfcPlateTypeEnum() = default;
 		IfcPlateTypeEnum( IfcPlateTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 661370862; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcPlateTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcPlateTypeEnumEnum m_enum;

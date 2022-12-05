@@ -11,12 +11,6 @@
 #include "ifcpp/IFC4X3/include/IfcArcIndex.h"
 
 // TYPE IfcArcIndex = LIST [3:3] OF IfcPositiveInteger;
-shared_ptr<BuildingObject> IFC4X3::IfcArcIndex::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcArcIndex> copy_self( new IfcArcIndex() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcArcIndex::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCARCINDEX("; }

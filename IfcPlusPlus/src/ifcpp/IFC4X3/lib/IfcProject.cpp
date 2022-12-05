@@ -23,35 +23,6 @@
 
 // ENTITY IfcProject 
 IFC4X3::IfcProject::IfcProject( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcProject::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcProject> copy_self( new IfcProject() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
-	if( m_LongName ) { copy_self->m_LongName = dynamic_pointer_cast<IfcLabel>( m_LongName->getDeepCopy(options) ); }
-	if( m_Phase ) { copy_self->m_Phase = dynamic_pointer_cast<IfcLabel>( m_Phase->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_RepresentationContexts.size(); ++ii )
-	{
-		auto item_ii = m_RepresentationContexts[ii];
-		if( item_ii )
-		{
-			copy_self->m_RepresentationContexts.emplace_back( dynamic_pointer_cast<IfcRepresentationContext>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_UnitsInContext ) { copy_self->m_UnitsInContext = dynamic_pointer_cast<IfcUnitAssignment>( m_UnitsInContext->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcProject::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPROJECT" << "(";

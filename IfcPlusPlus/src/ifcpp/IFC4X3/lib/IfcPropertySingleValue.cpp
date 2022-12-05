@@ -21,15 +21,6 @@
 
 // ENTITY IfcPropertySingleValue 
 IFC4X3::IfcPropertySingleValue::IfcPropertySingleValue( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPropertySingleValue::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPropertySingleValue> copy_self( new IfcPropertySingleValue() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
-	if( m_Specification ) { copy_self->m_Specification = dynamic_pointer_cast<IfcText>( m_Specification->getDeepCopy(options) ); }
-	if( m_NominalValue ) { copy_self->m_NominalValue = dynamic_pointer_cast<IfcValue>( m_NominalValue->getDeepCopy(options) ); }
-	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPropertySingleValue::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPROPERTYSINGLEVALUE" << "(";

@@ -21,29 +21,6 @@
 
 // ENTITY IfcMaterialProfileWithOffsets 
 IFC4X3::IfcMaterialProfileWithOffsets::IfcMaterialProfileWithOffsets( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMaterialProfileWithOffsets::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMaterialProfileWithOffsets> copy_self( new IfcMaterialProfileWithOffsets() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_Material ) { copy_self->m_Material = dynamic_pointer_cast<IfcMaterial>( m_Material->getDeepCopy(options) ); }
-	if( m_Profile )
-	{
-		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_Profile = m_Profile; }
-		else { copy_self->m_Profile = dynamic_pointer_cast<IfcProfileDef>( m_Profile->getDeepCopy(options) ); }
-	}
-	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcInteger>( m_Priority->getDeepCopy(options) ); }
-	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_OffsetValues.size(); ++ii )
-	{
-		auto item_ii = m_OffsetValues[ii];
-		if( item_ii )
-		{
-			copy_self->m_OffsetValues.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcMaterialProfileWithOffsets::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIALPROFILEWITHOFFSETS" << "(";

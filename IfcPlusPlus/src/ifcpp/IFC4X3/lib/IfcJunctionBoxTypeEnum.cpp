@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcJunctionBoxTypeEnum.h"
 
 // TYPE IfcJunctionBoxTypeEnum = ENUMERATION OF	(DATA	,POWER	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcJunctionBoxTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcJunctionBoxTypeEnum> copy_self( new IfcJunctionBoxTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcJunctionBoxTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCJUNCTIONBOXTYPEENUM("; }

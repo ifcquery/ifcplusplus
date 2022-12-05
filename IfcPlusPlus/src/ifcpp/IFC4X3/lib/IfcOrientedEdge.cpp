@@ -16,15 +16,6 @@
 
 // ENTITY IfcOrientedEdge 
 IFC4X3::IfcOrientedEdge::IfcOrientedEdge( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcOrientedEdge::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcOrientedEdge> copy_self( new IfcOrientedEdge() );
-	if( m_EdgeStart ) { copy_self->m_EdgeStart = dynamic_pointer_cast<IfcVertex>( m_EdgeStart->getDeepCopy(options) ); }
-	if( m_EdgeEnd ) { copy_self->m_EdgeEnd = dynamic_pointer_cast<IfcVertex>( m_EdgeEnd->getDeepCopy(options) ); }
-	if( m_EdgeElement ) { copy_self->m_EdgeElement = dynamic_pointer_cast<IfcEdge>( m_EdgeElement->getDeepCopy(options) ); }
-	if( m_Orientation ) { copy_self->m_Orientation = dynamic_pointer_cast<IfcBoolean>( m_Orientation->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcOrientedEdge::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCORIENTEDEDGE" << "(";

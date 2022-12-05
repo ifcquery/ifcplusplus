@@ -151,6 +151,11 @@ inline void dumpMeshset(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, con
 
 static void dumpWithLabel(std::string labelStr, shared_ptr<carve::mesh::MeshSet<3> >& meshset, const DumpSettingsStruct& colorSettings, bool checkZeroAreaFaces, bool moveOffsetBefore, bool moveOffsetAfter)
 {
+	if( !meshset )
+	{
+		return;
+	}
+
 	auto aabb = meshset->getAABB();
 	if( !aabb.isEmpty() )
 	{

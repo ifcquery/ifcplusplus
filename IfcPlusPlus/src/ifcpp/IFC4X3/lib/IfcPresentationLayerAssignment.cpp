@@ -17,22 +17,6 @@
 
 // ENTITY IfcPresentationLayerAssignment 
 IFC4X3::IfcPresentationLayerAssignment::IfcPresentationLayerAssignment( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPresentationLayerAssignment::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPresentationLayerAssignment> copy_self( new IfcPresentationLayerAssignment() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_AssignedItems.size(); ++ii )
-	{
-		auto item_ii = m_AssignedItems[ii];
-		if( item_ii )
-		{
-			copy_self->m_AssignedItems.emplace_back( dynamic_pointer_cast<IfcLayeredItem>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPresentationLayerAssignment::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPRESENTATIONLAYERASSIGNMENT" << "(";

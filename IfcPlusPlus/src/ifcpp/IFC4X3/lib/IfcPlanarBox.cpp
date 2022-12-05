@@ -15,14 +15,6 @@
 
 // ENTITY IfcPlanarBox 
 IFC4X3::IfcPlanarBox::IfcPlanarBox( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPlanarBox::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPlanarBox> copy_self( new IfcPlanarBox() );
-	if( m_SizeInX ) { copy_self->m_SizeInX = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInX->getDeepCopy(options) ); }
-	if( m_SizeInY ) { copy_self->m_SizeInY = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInY->getDeepCopy(options) ); }
-	if( m_Placement ) { copy_self->m_Placement = dynamic_pointer_cast<IfcAxis2Placement>( m_Placement->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPlanarBox::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPLANARBOX" << "(";

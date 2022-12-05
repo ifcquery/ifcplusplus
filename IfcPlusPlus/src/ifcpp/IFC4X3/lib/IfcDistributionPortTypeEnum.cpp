@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcDistributionPortTypeEnum.h"
 
 // TYPE IfcDistributionPortTypeEnum = ENUMERATION OF	(CABLE	,CABLECARRIER	,DUCT	,PIPE	,WIRELESS	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcDistributionPortTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDistributionPortTypeEnum> copy_self( new IfcDistributionPortTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcDistributionPortTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDISTRIBUTIONPORTTYPEENUM("; }

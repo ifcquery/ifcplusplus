@@ -13,15 +13,6 @@
 
 // ENTITY IfcSlippageConnectionCondition 
 IFC4X3::IfcSlippageConnectionCondition::IfcSlippageConnectionCondition( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSlippageConnectionCondition::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSlippageConnectionCondition> copy_self( new IfcSlippageConnectionCondition() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_SlippageX ) { copy_self->m_SlippageX = dynamic_pointer_cast<IfcLengthMeasure>( m_SlippageX->getDeepCopy(options) ); }
-	if( m_SlippageY ) { copy_self->m_SlippageY = dynamic_pointer_cast<IfcLengthMeasure>( m_SlippageY->getDeepCopy(options) ); }
-	if( m_SlippageZ ) { copy_self->m_SlippageZ = dynamic_pointer_cast<IfcLengthMeasure>( m_SlippageZ->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSlippageConnectionCondition::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSLIPPAGECONNECTIONCONDITION" << "(";

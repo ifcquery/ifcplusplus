@@ -16,14 +16,6 @@
 
 // ENTITY IfcGridAxis 
 IFC4X3::IfcGridAxis::IfcGridAxis( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcGridAxis::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcGridAxis> copy_self( new IfcGridAxis() );
-	if( m_AxisTag ) { copy_self->m_AxisTag = dynamic_pointer_cast<IfcLabel>( m_AxisTag->getDeepCopy(options) ); }
-	if( m_AxisCurve ) { copy_self->m_AxisCurve = dynamic_pointer_cast<IfcCurve>( m_AxisCurve->getDeepCopy(options) ); }
-	if( m_SameSense ) { copy_self->m_SameSense = dynamic_pointer_cast<IfcBoolean>( m_SameSense->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcGridAxis::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCGRIDAXIS" << "(";

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcPipeFittingTypeEnum.h"
 
 // TYPE IfcPipeFittingTypeEnum = ENUMERATION OF	(BEND	,CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,OBSTRUCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcPipeFittingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPipeFittingTypeEnum> copy_self( new IfcPipeFittingTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcPipeFittingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPIPEFITTINGTYPEENUM("; }

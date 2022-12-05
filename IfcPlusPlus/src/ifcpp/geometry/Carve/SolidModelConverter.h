@@ -813,7 +813,7 @@ public:
 		convertIfcBooleanOperand( ifc_second_operand, second_operand_data, first_operand_data );
 
 #ifdef _DEBUG
-		if( bool_result->m_tag == 269529 || bool_result->m_tag == 269533 )// 428815 )//429391 )
+		if( bool_result->m_tag == 269529 || bool_result->m_tag == 244 )// 428815 )//429391 )
 		{
 			glm::dvec4 color(0.5, 0.6, 0.7, 1.0 );
 			if( first_operand_data->m_meshsets.size() > 0 )

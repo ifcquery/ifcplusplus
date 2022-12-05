@@ -14,19 +14,6 @@
 
 // ENTITY IfcPath 
 IFC4X3::IfcPath::IfcPath( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPath::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPath> copy_self( new IfcPath() );
-	for( size_t ii=0; ii<m_EdgeList.size(); ++ii )
-	{
-		auto item_ii = m_EdgeList[ii];
-		if( item_ii )
-		{
-			copy_self->m_EdgeList.emplace_back( dynamic_pointer_cast<IfcOrientedEdge>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcPath::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPATH" << "(";

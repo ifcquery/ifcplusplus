@@ -17,24 +17,6 @@
 
 // ENTITY IfcTextStyleFontModel 
 IFC4X3::IfcTextStyleFontModel::IfcTextStyleFontModel( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTextStyleFontModel::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTextStyleFontModel> copy_self( new IfcTextStyleFontModel() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_FontFamily.size(); ++ii )
-	{
-		auto item_ii = m_FontFamily[ii];
-		if( item_ii )
-		{
-			copy_self->m_FontFamily.emplace_back( dynamic_pointer_cast<IfcTextFontName>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_FontStyle ) { copy_self->m_FontStyle = dynamic_pointer_cast<IfcFontStyle>( m_FontStyle->getDeepCopy(options) ); }
-	if( m_FontVariant ) { copy_self->m_FontVariant = dynamic_pointer_cast<IfcFontVariant>( m_FontVariant->getDeepCopy(options) ); }
-	if( m_FontWeight ) { copy_self->m_FontWeight = dynamic_pointer_cast<IfcFontWeight>( m_FontWeight->getDeepCopy(options) ); }
-	if( m_FontSize ) { copy_self->m_FontSize = dynamic_pointer_cast<IfcSizeSelect>( m_FontSize->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTextStyleFontModel::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTSTYLEFONTMODEL" << "(";

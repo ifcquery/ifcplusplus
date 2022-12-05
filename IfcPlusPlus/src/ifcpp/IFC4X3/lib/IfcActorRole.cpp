@@ -15,14 +15,6 @@
 
 // ENTITY IfcActorRole 
 IFC4X3::IfcActorRole::IfcActorRole( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcActorRole::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcActorRole> copy_self( new IfcActorRole() );
-	if( m_Role ) { copy_self->m_Role = dynamic_pointer_cast<IfcRoleEnum>( m_Role->getDeepCopy(options) ); }
-	if( m_UserDefinedRole ) { copy_self->m_UserDefinedRole = dynamic_pointer_cast<IfcLabel>( m_UserDefinedRole->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcActorRole::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCACTORROLE" << "(";

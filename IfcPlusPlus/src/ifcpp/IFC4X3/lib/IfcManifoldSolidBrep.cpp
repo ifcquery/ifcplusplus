@@ -14,12 +14,6 @@
 
 // ENTITY IfcManifoldSolidBrep 
 IFC4X3::IfcManifoldSolidBrep::IfcManifoldSolidBrep( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcManifoldSolidBrep::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcManifoldSolidBrep> copy_self( new IfcManifoldSolidBrep() );
-	if( m_Outer ) { copy_self->m_Outer = dynamic_pointer_cast<IfcClosedShell>( m_Outer->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcManifoldSolidBrep::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMANIFOLDSOLIDBREP" << "(";

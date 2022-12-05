@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcChimneyTypeEnum.h"
 
 // TYPE IfcChimneyTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcChimneyTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcChimneyTypeEnum> copy_self( new IfcChimneyTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcChimneyTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCHIMNEYTYPEENUM("; }

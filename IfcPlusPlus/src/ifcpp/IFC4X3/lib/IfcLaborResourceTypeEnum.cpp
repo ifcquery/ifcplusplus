@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcLaborResourceTypeEnum.h"
 
 // TYPE IfcLaborResourceTypeEnum = ENUMERATION OF	(ADMINISTRATION	,CARPENTRY	,CLEANING	,CONCRETE	,DRYWALL	,ELECTRIC	,FINISHING	,FLOORING	,GENERAL	,HVAC	,LANDSCAPING	,MASONRY	,PAINTING	,PAVING	,PLUMBING	,ROOFING	,SITEGRADING	,STEELWORK	,SURVEYING	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcLaborResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLaborResourceTypeEnum> copy_self( new IfcLaborResourceTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcLaborResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLABORRESOURCETYPEENUM("; }

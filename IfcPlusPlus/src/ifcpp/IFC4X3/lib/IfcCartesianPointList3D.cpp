@@ -15,33 +15,6 @@
 
 // ENTITY IfcCartesianPointList3D 
 IFC4X3::IfcCartesianPointList3D::IfcCartesianPointList3D( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCartesianPointList3D::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCartesianPointList3D> copy_self( new IfcCartesianPointList3D() );
-	copy_self->m_CoordList.resize( m_CoordList.size() );
-	for( size_t ii=0; ii<m_CoordList.size(); ++ii )
-	{
-		std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii = m_CoordList[ii];
-		std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii_target = copy_self->m_CoordList[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
-		{
-			shared_ptr<IfcLengthMeasure>& item_jj = vec_ii[jj];
-			if( item_jj )
-			{
-				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>( item_jj->getDeepCopy(options) ) );
-			}
-		}
-	}
-	for( size_t ii=0; ii<m_TagList.size(); ++ii )
-	{
-		auto item_ii = m_TagList[ii];
-		if( item_ii )
-		{
-			copy_self->m_TagList.emplace_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcCartesianPointList3D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCARTESIANPOINTLIST3D" << "(";

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcElectricApplianceTypeEnum.h"
 
 // TYPE IfcElectricApplianceTypeEnum = ENUMERATION OF	(DISHWASHER	,ELECTRICCOOKER	,FREESTANDINGELECTRICHEATER	,FREESTANDINGFAN	,FREESTANDINGWATERCOOLER	,FREESTANDINGWATERHEATER	,FREEZER	,FRIDGE_FREEZER	,HANDDRYER	,KITCHENMACHINE	,MICROWAVE	,PHOTOCOPIER	,REFRIGERATOR	,TUMBLEDRYER	,VENDINGMACHINE	,WASHINGMACHINE	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcElectricApplianceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcElectricApplianceTypeEnum> copy_self( new IfcElectricApplianceTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcElectricApplianceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICAPPLIANCETYPEENUM("; }

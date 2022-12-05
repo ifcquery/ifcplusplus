@@ -12,12 +12,6 @@
 
 // TYPE IfcRadioActivityMeasure = REAL;
 IFC4X3::IfcRadioActivityMeasure::IfcRadioActivityMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcRadioActivityMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRadioActivityMeasure> copy_self( new IfcRadioActivityMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcRadioActivityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRADIOACTIVITYMEASURE("; }

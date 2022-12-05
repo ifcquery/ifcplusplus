@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcReinforcedSoilTypeEnum.h"
 
 // TYPE IfcReinforcedSoilTypeEnum = ENUMERATION OF	(DYNAMICALLYCOMPACTED	,GROUTED	,REPLACED	,ROLLERCOMPACTED	,SURCHARGEPRELOADED	,VERTICALLYDRAINED	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcReinforcedSoilTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcReinforcedSoilTypeEnum> copy_self( new IfcReinforcedSoilTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcReinforcedSoilTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCREINFORCEDSOILTYPEENUM("; }

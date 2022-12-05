@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcSanitaryTerminalTypeEnum.h"
 
 // TYPE IfcSanitaryTerminalTypeEnum = ENUMERATION OF	(BATH	,BIDET	,CISTERN	,SANITARYFOUNTAIN	,SHOWER	,SINK	,TOILETPAN	,URINAL	,WASHHANDBASIN	,WCSEAT	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcSanitaryTerminalTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSanitaryTerminalTypeEnum> copy_self( new IfcSanitaryTerminalTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcSanitaryTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSANITARYTERMINALTYPEENUM("; }

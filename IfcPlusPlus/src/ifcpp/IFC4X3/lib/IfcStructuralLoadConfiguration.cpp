@@ -14,34 +14,6 @@
 
 // ENTITY IfcStructuralLoadConfiguration 
 IFC4X3::IfcStructuralLoadConfiguration::IfcStructuralLoadConfiguration( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcStructuralLoadConfiguration::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcStructuralLoadConfiguration> copy_self( new IfcStructuralLoadConfiguration() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Values.size(); ++ii )
-	{
-		auto item_ii = m_Values[ii];
-		if( item_ii )
-		{
-			copy_self->m_Values.emplace_back( dynamic_pointer_cast<IfcStructuralLoadOrResult>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	copy_self->m_Locations.resize( m_Locations.size() );
-	for( size_t ii=0; ii<m_Locations.size(); ++ii )
-	{
-		std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii = m_Locations[ii];
-		std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii_target = copy_self->m_Locations[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
-		{
-			shared_ptr<IfcLengthMeasure>& item_jj = vec_ii[jj];
-			if( item_jj )
-			{
-				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>( item_jj->getDeepCopy(options) ) );
-			}
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcStructuralLoadConfiguration::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSTRUCTURALLOADCONFIGURATION" << "(";

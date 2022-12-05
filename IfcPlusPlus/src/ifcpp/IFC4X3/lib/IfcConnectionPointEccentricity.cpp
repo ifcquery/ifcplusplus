@@ -13,16 +13,6 @@
 
 // ENTITY IfcConnectionPointEccentricity 
 IFC4X3::IfcConnectionPointEccentricity::IfcConnectionPointEccentricity( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcConnectionPointEccentricity::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcConnectionPointEccentricity> copy_self( new IfcConnectionPointEccentricity() );
-	if( m_PointOnRelatingElement ) { copy_self->m_PointOnRelatingElement = dynamic_pointer_cast<IfcPointOrVertexPoint>( m_PointOnRelatingElement->getDeepCopy(options) ); }
-	if( m_PointOnRelatedElement ) { copy_self->m_PointOnRelatedElement = dynamic_pointer_cast<IfcPointOrVertexPoint>( m_PointOnRelatedElement->getDeepCopy(options) ); }
-	if( m_EccentricityInX ) { copy_self->m_EccentricityInX = dynamic_pointer_cast<IfcLengthMeasure>( m_EccentricityInX->getDeepCopy(options) ); }
-	if( m_EccentricityInY ) { copy_self->m_EccentricityInY = dynamic_pointer_cast<IfcLengthMeasure>( m_EccentricityInY->getDeepCopy(options) ); }
-	if( m_EccentricityInZ ) { copy_self->m_EccentricityInZ = dynamic_pointer_cast<IfcLengthMeasure>( m_EccentricityInZ->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcConnectionPointEccentricity::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCONNECTIONPOINTECCENTRICITY" << "(";

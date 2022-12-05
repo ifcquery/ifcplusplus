@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcRoadTypeEnum.h"
 
 // TYPE IfcRoadTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcRoadTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRoadTypeEnum> copy_self( new IfcRoadTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcRoadTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCROADTYPEENUM("; }

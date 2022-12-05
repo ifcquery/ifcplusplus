@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcFacilityUsageEnum.h"
 
 // TYPE IfcFacilityUsageEnum = ENUMERATION OF	(LATERAL	,LONGITUDINAL	,REGION	,VERTICAL	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcFacilityUsageEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFacilityUsageEnum> copy_self( new IfcFacilityUsageEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcFacilityUsageEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFACILITYUSAGEENUM("; }

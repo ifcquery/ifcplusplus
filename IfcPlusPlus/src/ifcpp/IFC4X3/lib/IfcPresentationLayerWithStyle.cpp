@@ -17,33 +17,6 @@
 
 // ENTITY IfcPresentationLayerWithStyle 
 IFC4X3::IfcPresentationLayerWithStyle::IfcPresentationLayerWithStyle( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPresentationLayerWithStyle::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPresentationLayerWithStyle> copy_self( new IfcPresentationLayerWithStyle() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_AssignedItems.size(); ++ii )
-	{
-		auto item_ii = m_AssignedItems[ii];
-		if( item_ii )
-		{
-			copy_self->m_AssignedItems.emplace_back( dynamic_pointer_cast<IfcLayeredItem>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy(options) ); }
-	if( m_LayerOn ) { copy_self->m_LayerOn = dynamic_pointer_cast<IfcLogical>( m_LayerOn->getDeepCopy(options) ); }
-	if( m_LayerFrozen ) { copy_self->m_LayerFrozen = dynamic_pointer_cast<IfcLogical>( m_LayerFrozen->getDeepCopy(options) ); }
-	if( m_LayerBlocked ) { copy_self->m_LayerBlocked = dynamic_pointer_cast<IfcLogical>( m_LayerBlocked->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_LayerStyles.size(); ++ii )
-	{
-		auto item_ii = m_LayerStyles[ii];
-		if( item_ii )
-		{
-			copy_self->m_LayerStyles.emplace_back( dynamic_pointer_cast<IfcPresentationStyle>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcPresentationLayerWithStyle::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPRESENTATIONLAYERWITHSTYLE" << "(";

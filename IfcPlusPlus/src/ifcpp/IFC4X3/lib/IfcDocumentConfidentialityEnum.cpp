@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcDocumentConfidentialityEnum.h"
 
 // TYPE IfcDocumentConfidentialityEnum = ENUMERATION OF	(CONFIDENTIAL	,PERSONAL	,PUBLIC	,RESTRICTED	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcDocumentConfidentialityEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDocumentConfidentialityEnum> copy_self( new IfcDocumentConfidentialityEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcDocumentConfidentialityEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOCUMENTCONFIDENTIALITYENUM("; }

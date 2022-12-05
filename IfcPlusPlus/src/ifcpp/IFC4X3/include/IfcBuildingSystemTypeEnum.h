@@ -33,7 +33,6 @@ namespace IFC4X3
 		IfcBuildingSystemTypeEnum() = default;
 		IfcBuildingSystemTypeEnum( IfcBuildingSystemTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 3114819794; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcBuildingSystemTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcBuildingSystemTypeEnumEnum m_enum;

@@ -12,12 +12,6 @@
 
 // TYPE IfcTimeMeasure = REAL;
 IFC4X3::IfcTimeMeasure::IfcTimeMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcTimeMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTimeMeasure> copy_self( new IfcTimeMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcTimeMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTIMEMEASURE("; }

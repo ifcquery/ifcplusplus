@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcRailTypeEnum.h"
 
 // TYPE IfcRailTypeEnum = ENUMERATION OF	(BLADE	,CHECKRAIL	,GUARDRAIL	,RACKRAIL	,RAIL	,STOCKRAIL	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcRailTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRailTypeEnum> copy_self( new IfcRailTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcRailTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRAILTYPEENUM("; }

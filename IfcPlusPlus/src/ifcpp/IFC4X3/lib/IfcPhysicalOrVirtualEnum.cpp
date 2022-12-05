@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcPhysicalOrVirtualEnum.h"
 
 // TYPE IfcPhysicalOrVirtualEnum = ENUMERATION OF	(PHYSICAL	,VIRTUAL	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcPhysicalOrVirtualEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPhysicalOrVirtualEnum> copy_self( new IfcPhysicalOrVirtualEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcPhysicalOrVirtualEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPHYSICALORVIRTUALENUM("; }

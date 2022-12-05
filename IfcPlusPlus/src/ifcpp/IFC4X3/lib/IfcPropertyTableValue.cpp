@@ -22,33 +22,6 @@
 
 // ENTITY IfcPropertyTableValue 
 IFC4X3::IfcPropertyTableValue::IfcPropertyTableValue( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPropertyTableValue::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPropertyTableValue> copy_self( new IfcPropertyTableValue() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
-	if( m_Specification ) { copy_self->m_Specification = dynamic_pointer_cast<IfcText>( m_Specification->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_DefiningValues.size(); ++ii )
-	{
-		auto item_ii = m_DefiningValues[ii];
-		if( item_ii )
-		{
-			copy_self->m_DefiningValues.emplace_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_DefinedValues.size(); ++ii )
-	{
-		auto item_ii = m_DefinedValues[ii];
-		if( item_ii )
-		{
-			copy_self->m_DefinedValues.emplace_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Expression ) { copy_self->m_Expression = dynamic_pointer_cast<IfcText>( m_Expression->getDeepCopy(options) ); }
-	if( m_DefiningUnit ) { copy_self->m_DefiningUnit = dynamic_pointer_cast<IfcUnit>( m_DefiningUnit->getDeepCopy(options) ); }
-	if( m_DefinedUnit ) { copy_self->m_DefinedUnit = dynamic_pointer_cast<IfcUnit>( m_DefinedUnit->getDeepCopy(options) ); }
-	if( m_CurveInterpolation ) { copy_self->m_CurveInterpolation = dynamic_pointer_cast<IfcCurveInterpolationEnum>( m_CurveInterpolation->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPropertyTableValue::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPROPERTYTABLEVALUE" << "(";

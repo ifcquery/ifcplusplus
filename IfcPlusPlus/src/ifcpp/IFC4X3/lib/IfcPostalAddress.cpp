@@ -16,28 +16,6 @@
 
 // ENTITY IfcPostalAddress 
 IFC4X3::IfcPostalAddress::IfcPostalAddress( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPostalAddress::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPostalAddress> copy_self( new IfcPostalAddress() );
-	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcAddressTypeEnum>( m_Purpose->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_UserDefinedPurpose ) { copy_self->m_UserDefinedPurpose = dynamic_pointer_cast<IfcLabel>( m_UserDefinedPurpose->getDeepCopy(options) ); }
-	if( m_InternalLocation ) { copy_self->m_InternalLocation = dynamic_pointer_cast<IfcLabel>( m_InternalLocation->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_AddressLines.size(); ++ii )
-	{
-		auto item_ii = m_AddressLines[ii];
-		if( item_ii )
-		{
-			copy_self->m_AddressLines.emplace_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_PostalBox ) { copy_self->m_PostalBox = dynamic_pointer_cast<IfcLabel>( m_PostalBox->getDeepCopy(options) ); }
-	if( m_Town ) { copy_self->m_Town = dynamic_pointer_cast<IfcLabel>( m_Town->getDeepCopy(options) ); }
-	if( m_Region ) { copy_self->m_Region = dynamic_pointer_cast<IfcLabel>( m_Region->getDeepCopy(options) ); }
-	if( m_PostalCode ) { copy_self->m_PostalCode = dynamic_pointer_cast<IfcLabel>( m_PostalCode->getDeepCopy(options) ); }
-	if( m_Country ) { copy_self->m_Country = dynamic_pointer_cast<IfcLabel>( m_Country->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPostalAddress::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPOSTALADDRESS" << "(";

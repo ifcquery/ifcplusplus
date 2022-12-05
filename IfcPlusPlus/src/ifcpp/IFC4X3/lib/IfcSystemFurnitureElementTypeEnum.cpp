@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcSystemFurnitureElementTypeEnum.h"
 
 // TYPE IfcSystemFurnitureElementTypeEnum = ENUMERATION OF	(PANEL	,SUBRACK	,WORKSURFACE	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcSystemFurnitureElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSystemFurnitureElementTypeEnum> copy_self( new IfcSystemFurnitureElementTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcSystemFurnitureElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSYSTEMFURNITUREELEMENTTYPEENUM("; }

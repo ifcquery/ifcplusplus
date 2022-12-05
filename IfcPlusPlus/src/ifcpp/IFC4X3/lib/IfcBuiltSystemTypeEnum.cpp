@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcBuiltSystemTypeEnum.h"
 
 // TYPE IfcBuiltSystemTypeEnum = ENUMERATION OF	(EROSIONPREVENTION	,FENESTRATION	,FOUNDATION	,LOADBEARING	,MOORING	,OUTERSHELL	,PRESTRESSING	,RAILWAYLINE	,RAILWAYTRACK	,REINFORCING	,SHADING	,TRACKCIRCUIT	,TRANSPORT	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcBuiltSystemTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBuiltSystemTypeEnum> copy_self( new IfcBuiltSystemTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcBuiltSystemTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBUILTSYSTEMTYPEENUM("; }

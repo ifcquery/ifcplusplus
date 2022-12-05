@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcDuctSegmentTypeEnum.h"
 
 // TYPE IfcDuctSegmentTypeEnum = ENUMERATION OF	(FLEXIBLESEGMENT	,RIGIDSEGMENT	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcDuctSegmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDuctSegmentTypeEnum> copy_self( new IfcDuctSegmentTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcDuctSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDUCTSEGMENTTYPEENUM("; }

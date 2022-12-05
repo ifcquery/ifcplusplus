@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcProtectiveDeviceTypeEnum.h"
 
 // TYPE IfcProtectiveDeviceTypeEnum = ENUMERATION OF	(ANTI_ARCING_DEVICE	,CIRCUITBREAKER	,EARTHINGSWITCH	,EARTHLEAKAGECIRCUITBREAKER	,FUSEDISCONNECTOR	,RESIDUALCURRENTCIRCUITBREAKER	,RESIDUALCURRENTSWITCH	,SPARKGAP	,VARISTOR	,VOLTAGELIMITER	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcProtectiveDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcProtectiveDeviceTypeEnum> copy_self( new IfcProtectiveDeviceTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcProtectiveDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROTECTIVEDEVICETYPEENUM("; }

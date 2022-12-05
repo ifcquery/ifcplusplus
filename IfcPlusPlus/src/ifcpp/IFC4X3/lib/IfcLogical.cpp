@@ -12,12 +12,6 @@
 
 // TYPE IfcLogical = LOGICAL;
 IFC4X3::IfcLogical::IfcLogical( LogicalEnum value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcLogical::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLogical> copy_self( new IfcLogical() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcLogical::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLOGICAL("; }

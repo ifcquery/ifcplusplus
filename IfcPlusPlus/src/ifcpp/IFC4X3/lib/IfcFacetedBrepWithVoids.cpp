@@ -14,20 +14,6 @@
 
 // ENTITY IfcFacetedBrepWithVoids 
 IFC4X3::IfcFacetedBrepWithVoids::IfcFacetedBrepWithVoids( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcFacetedBrepWithVoids::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFacetedBrepWithVoids> copy_self( new IfcFacetedBrepWithVoids() );
-	if( m_Outer ) { copy_self->m_Outer = dynamic_pointer_cast<IfcClosedShell>( m_Outer->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Voids.size(); ++ii )
-	{
-		auto item_ii = m_Voids[ii];
-		if( item_ii )
-		{
-			copy_self->m_Voids.emplace_back( dynamic_pointer_cast<IfcClosedShell>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcFacetedBrepWithVoids::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCFACETEDBREPWITHVOIDS" << "(";

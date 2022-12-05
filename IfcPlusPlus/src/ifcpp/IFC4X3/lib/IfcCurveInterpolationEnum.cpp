@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcCurveInterpolationEnum.h"
 
 // TYPE IfcCurveInterpolationEnum = ENUMERATION OF	(LINEAR	,LOG_LINEAR	,LOG_LOG	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcCurveInterpolationEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCurveInterpolationEnum> copy_self( new IfcCurveInterpolationEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcCurveInterpolationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCURVEINTERPOLATIONENUM("; }

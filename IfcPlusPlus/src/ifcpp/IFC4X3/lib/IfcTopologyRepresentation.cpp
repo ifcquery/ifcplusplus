@@ -18,26 +18,6 @@
 
 // ENTITY IfcTopologyRepresentation 
 IFC4X3::IfcTopologyRepresentation::IfcTopologyRepresentation( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTopologyRepresentation::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTopologyRepresentation> copy_self( new IfcTopologyRepresentation() );
-	if( m_ContextOfItems )
-	{
-		if( options.shallow_copy_IfcRepresentationContext ) { copy_self->m_ContextOfItems = m_ContextOfItems; }
-		else { copy_self->m_ContextOfItems = dynamic_pointer_cast<IfcRepresentationContext>( m_ContextOfItems->getDeepCopy(options) ); }
-	}
-	if( m_RepresentationIdentifier ) { copy_self->m_RepresentationIdentifier = dynamic_pointer_cast<IfcLabel>( m_RepresentationIdentifier->getDeepCopy(options) ); }
-	if( m_RepresentationType ) { copy_self->m_RepresentationType = dynamic_pointer_cast<IfcLabel>( m_RepresentationType->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Items.size(); ++ii )
-	{
-		auto item_ii = m_Items[ii];
-		if( item_ii )
-		{
-			copy_self->m_Items.emplace_back( dynamic_pointer_cast<IfcRepresentationItem>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcTopologyRepresentation::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTOPOLOGYREPRESENTATION" << "(";

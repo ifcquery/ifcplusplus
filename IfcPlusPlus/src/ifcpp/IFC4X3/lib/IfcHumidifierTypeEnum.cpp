@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcHumidifierTypeEnum.h"
 
 // TYPE IfcHumidifierTypeEnum = ENUMERATION OF	(ADIABATICAIRWASHER	,ADIABATICATOMIZING	,ADIABATICCOMPRESSEDAIRNOZZLE	,ADIABATICPAN	,ADIABATICRIGIDMEDIA	,ADIABATICULTRASONIC	,ADIABATICWETTEDELEMENT	,ASSISTEDBUTANE	,ASSISTEDELECTRIC	,ASSISTEDNATURALGAS	,ASSISTEDPROPANE	,ASSISTEDSTEAM	,STEAMINJECTION	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcHumidifierTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcHumidifierTypeEnum> copy_self( new IfcHumidifierTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcHumidifierTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCHUMIDIFIERTYPEENUM("; }

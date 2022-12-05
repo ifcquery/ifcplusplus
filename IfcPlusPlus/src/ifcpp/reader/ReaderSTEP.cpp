@@ -62,14 +62,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ReaderSTEP.h"
 
 #if defined(_OPENMP)
-	#ifndef ENABLE_OPENMP
-		#define ENABLE_OPENMP
-	#endif
+#ifndef ENABLE_OPENMP
+#define ENABLE_OPENMP
+#endif
 #endif
 
 using namespace IFC4X3;
 
-bool unzipFile(const std::string& filePathIn, std::string& bufferResult)
+bool unzipFile(const std::string& filePathIn, std::stringstream& bufferResult)
 {
 	bool bRet = false;
 #ifdef _MSC_VER
@@ -104,7 +104,7 @@ bool unzipFile(const std::string& filePathIn, std::string& bufferResult)
 						size_t file_header_end = strBuffer.find("ENDSEC;");
 						if( file_header_start != std::string::npos && file_header_end != std::string::npos )
 						{
-							bufferResult = strBuffer;
+							bufferResult << strBuffer;
 							bRet = true;
 						}
 					}
@@ -125,7 +125,7 @@ void ReaderSTEP::loadModelFromFile( const std::string& filePath, shared_ptr<Buil
 {
 	// if file content needs to be loaded into a plain model, call resetModel() before loadModelFromFile
 	std::string ext = getFileExtension(filePath);
-	
+
 	if( std_iequal( ext, ".ifc" ) )
 	{
 		// ok, nothing to do here
@@ -138,12 +138,15 @@ void ReaderSTEP::loadModelFromFile( const std::string& filePath, shared_ptr<Buil
 	}
 	else if( std_iequal( ext, ".ifcZIP" ) || std_iequal(ext, ".zip") )
 	{
-		std::string buffer;
+		std::stringstream buffer;
+		buffer.seekp(0, std::ios::end);
+		std::stringstream::pos_type buffer_size = buffer.tellp();
+
 		unzipFile(filePath, buffer);
 		bool success = unzipFile(filePath, buffer);
 		if( success )
 		{
-			loadModelFromString(buffer, targetModel);
+			loadModelFromStream(buffer, buffer_size, targetModel);
 		}
 		return;
 	}
@@ -170,117 +173,70 @@ void ReaderSTEP::loadModelFromFile( const std::string& filePath, shared_ptr<Buil
 
 	// get length of file content
 	infile.imbue(std::locale(""));
-	std::streampos file_size = infile.tellg();
+	std::streampos file_size_pos = infile.tellg();
 	infile.seekg( 0, std::ios::end );
-	file_size = infile.tellg() - file_size;
+	file_size_pos = infile.tellg() - file_size_pos;
 	infile.seekg( 0, std::ios::beg );
 
-	// read file content into string
-	std::string buffer( (int)file_size, '\0' );
-	infile.read( &buffer[0], file_size );
-	infile.close();
+	size_t file_size = file_size_pos;
 
-	size_t file_header_start = buffer.find("HEADER;");
-	size_t file_header_end = buffer.find("ENDSEC;");
-	if( file_header_start == std::string::npos || file_header_end == std::string::npos )
+
+	loadModelFromStream(infile, file_size, targetModel);
+	return;
+
+	size_t max_file_size = 100 * 1000 * 1000;
+	if( file_size < max_file_size )
 	{
-		// check if it is a zipped file
-		std::string buffer;
-		unzipFile(filePath, buffer);
-		bool success = unzipFile(filePath, buffer);
-		if (success)
+
+		// read file content into string
+		std::string buffer((int)file_size, '\0');
+		infile.read(&buffer[0], file_size);
+		infile.close();
+
+		size_t file_header_start = buffer.find("HEADER;");
+		size_t file_header_end = buffer.find("ENDSEC;");
+		if( file_header_start == std::string::npos || file_header_end == std::string::npos )
 		{
-			loadModelFromString(buffer, targetModel);
+			// check if it is a zipped file
+			std::stringstream buffer;
+			unzipFile(filePath, buffer);
+			bool success = unzipFile(filePath, buffer);
+			if( success )
+			{
+				buffer.seekp(0, std::ios::end);
+				std::stringstream::pos_type buffer_size = buffer.tellp();
+
+				loadModelFromStream(buffer, buffer_size, targetModel);
+				return;
+			}
+
+			messageCallback("Not a valid IFC file", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
 			return;
 		}
-
-		messageCallback("Not a valid IFC file", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
-		return;
 	}
 
-	loadModelFromString( buffer, targetModel);
+	//loadModelFromString( buffer, targetModel);
 }
 
-void ReaderSTEP::loadModelFromString( std::string& content, shared_ptr<BuildingModel>& targetModel)
+void ReaderSTEP::loadModelFromStream(std::istream& content, std::streampos file_size, shared_ptr<BuildingModel>& targetModel)
 {
-	progressTextCallback( "Reading file..." );
-	progressValueCallback( 0, "parse" );
-	try
-	{
-		removeComments( content );
-		readHeader( content, targetModel);
-		readData( content, targetModel);
-		targetModel->resolveInverseAttributes();
-		targetModel->updateCache();
+	int millisecs_begin = clock();
 
-		// currently generated IFC classes are IFC4X1, files with older versions are converted. So after loading, the schema is always IFC4X1
-		targetModel->m_ifc_schema_version_current = BuildingModel::IFC4X3;
-	}
-	catch( BuildingException& e )
-	{
-		messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
-	}
-	catch( std::exception& e )
-	{
-		messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "" );
-	}
-	catch( ... )
-	{
-		messageCallback( "An error occurred", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
-	}
-	progressValueCallback( 1, "parse" );
+	readHeader(content, targetModel);
+
+	// currently generated IFC classes are IFC4X3, files with older versions are converted. So after loading, the schema is always IFC4X3
+	targetModel->m_ifc_schema_version_current = BuildingModel::IFC4X3;
+
+	readData(content, file_size, targetModel);
+
+	targetModel->resolveInverseAttributes();
+	targetModel->updateCache();
+
+	int millisecs_end = clock();
+	double seconds = (millisecs_end - millisecs_begin) * 0.001;
 }
 
-void ReaderSTEP::removeComments( std::string& buffer )
-{
-	const size_t length = buffer.length();
-	size_t length_without_comments = 0;
-	bool in_string = false;
-
-	// sort out comments like /* ... */
-	char* read_pos = static_cast<char*>(&buffer[0]);
-	char* write_pos = static_cast<char*>(&buffer[0]);
-
-	while( *read_pos != '\0' )
-	{
-		if (*read_pos == '\'')
-		{
-			in_string = !in_string;
-		}
-
-		if (!in_string)
-		{
-			if (*read_pos == '/')
-			{
-				if (*(read_pos + 1) == '*')
-				{
-					// we are inside comment now, proceed to end of comment
-					++read_pos;
-					while (*read_pos != '\0')
-					{
-						if (*read_pos == '/')
-						{
-							if (*(read_pos - 1) == '*')
-							{
-								++read_pos;
-								break;
-							}
-						}
-						++read_pos;
-					}
-					continue;
-				}
-			}
-		}
-		*write_pos = *read_pos;
-		++read_pos;
-		++write_pos;
-		++length_without_comments;
-	}
-	buffer = buffer.substr( 0, length_without_comments );
-}
-
-void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingModel>& target_model )
+void ReaderSTEP::readHeader( std::istream& content, shared_ptr<BuildingModel>& target_model )
 {
 	if( !target_model )
 	{
@@ -291,31 +247,93 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 	target_model->m_IFC_FILE_DESCRIPTION = "";
 	target_model->m_IFC_FILE_NAME = "";
 
-	size_t file_header_start = read_in.find("HEADER;");
-	size_t file_header_end = read_in.find("ENDSEC;");
-	if( file_header_start == std::string::npos || file_header_end == std::string::npos )
+	std::string line; 
+	std::string strHeader;
+	size_t line_header_start = std::string::npos;
+	size_t line_header_end = std::string::npos;
+	size_t lineCount = 0;
+	bool inComment = false;
+	while (std::getline(content, line))
 	{
-		return;
+		size_t found_comment_start = line.find("/*");
+		if( found_comment_start != std::string::npos )
+		{
+			inComment = true;
+		}
+
+		if( inComment )
+		{
+			size_t found_comment_end = line.find("*/");
+			if( found_comment_end != std::string::npos )
+			{
+				if( found_comment_start != std::string::npos )
+				{
+					// comment start and end in same line
+					if( found_comment_end > found_comment_start )
+					{
+						inComment = false;
+						continue;
+					}
+					// TODO: remove comment from line, and check rest of line
+				}
+				else
+				{
+					inComment = false;
+					continue;
+				}
+			}
+		}
+		if( inComment )
+		{
+			continue;
+		}
+
+		if( line_header_start == std::string::npos )
+		{
+			size_t found = line.find("HEADER;");
+			if( found != std::string::npos )
+			{
+				line_header_start = lineCount;
+				strHeader += line + '\n';
+			}
+		}
+		else
+		{
+			if( line_header_end == std::string::npos )
+			{
+				strHeader += line + '\n';
+			}
+		}
+
+		if( line_header_end == std::string::npos )
+		{
+			size_t found = line.find("ENDSEC;");
+			if( found != std::string::npos )
+			{
+				line_header_end = lineCount;
+				break;
+			}
+		}
+
+		++lineCount;
 	}
 
 	target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC_VERSION_UNDEFINED;
-	file_header_start += 7;
-	std::string file_header = read_in.substr( file_header_start, file_header_end - file_header_start );
 	std::vector<std::string> vec_header;
-	std::vector<std::string> vec_header_wstr;
-	vec_header.emplace_back( file_header );
-	decodeArgumentStrings( vec_header, vec_header_wstr );
+	std::vector<std::string> vec_header_str;
+	vec_header.emplace_back(strHeader);
+	decodeArgumentStrings( vec_header, vec_header_str );
 
-	std::string file_header_wstr;
-	if( !vec_header_wstr.empty() )
+	std::string file_header_str;
+	if( !vec_header_str.empty() )
 	{
-		file_header_wstr = vec_header_wstr[0];
+		file_header_str = vec_header_str[0];
 	}
-	target_model->setFileHeader( file_header_wstr );
+	target_model->setFileHeader( file_header_str );
 
 	std::vector<std::string> vec_header_lines;
 	// split into lines
-	const char* stream_pos = &file_header_wstr[0];
+	const char* stream_pos = &file_header_str[0];
 	const char* last_token = stream_pos;
 
 	if( stream_pos == nullptr )
@@ -424,127 +442,7 @@ void ReaderSTEP::readHeader( const std::string& read_in, shared_ptr<BuildingMode
 	}
 }
 
-void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std::string>& target_vec)
-{
-	// set progress to 0
-	double progress = 0.0;
-	progressValueCallback(progress, "parse");
-
-	// find beginning of data lines
-	const size_t length = read_in.length();
-	const char* stream_pos = &read_in[0];
-	if( stream_pos == nullptr )
-	{
-		throw BuildingException("Invalid file content", __FUNC__);
-	}
-
-	stream_pos = std::strstr(stream_pos, "DATA;");
-	if( stream_pos == nullptr )
-	{
-		throw BuildingException("Invalid file content, couldn't find DATA section", __FUNC__);
-	}
-
-	// skip whitespaces
-	stream_pos += 5;
-	while( isspace(*stream_pos) ){ ++stream_pos; }
-
-
-	// find the first data line
-	while( *stream_pos != '\0' )
-	{
-		if( *stream_pos == '#' )
-		{
-			break;
-		}
-		++stream_pos;
-	}
-
-	// split into data lines: #1234=IFCOBJECTNAME(...,...,(...,...),...);
-	const char* progress_anchor = stream_pos;
-	std::string single_step_line;
-
-	while( *stream_pos != '\0' )
-	{
-		if( *stream_pos == '\r' )
-		{
-			// omit newlines
-			++stream_pos;
-			continue;
-		}
-
-		if( *( stream_pos )  == '!' )
-		{
-			const char* stream_pos_next = stream_pos;
-			++stream_pos_next;
-			if( *stream_pos_next != '\0' )
-			{
-				if( *stream_pos_next == '\r' || *stream_pos_next == '\n' )
-				{
-					++stream_pos;  // omit newline exclamation mark
-					++stream_pos;  // omit newline
-					continue;
-				}
-			}
-		}
-
-		if( *stream_pos == '\n' )
-		{
-			// omit newlines
-			++stream_pos;
-			continue;
-		}
-
-		if( isspace(*stream_pos) )
-		{
-			++stream_pos;
-			continue;
-		}
-
-		if( *stream_pos == '\'' )
-		{
-			const char* string_start = stream_pos;
-			findEndOfString(stream_pos);
-			std::string s(string_start, stream_pos - string_start);
-			single_step_line += s;
-			continue;
-		}
-
-		if( *stream_pos == ';' )
-		{
-			if( single_step_line[0] == '#' )
-			{
-				target_vec.emplace_back(single_step_line);
-				single_step_line = "";
-			}
-
-			++stream_pos;
-			while( isspace(*stream_pos) ){ ++stream_pos; }
-
-			if( target_vec.size() % 100 == 0 )
-			{
-				double progress_since_anchor = static_cast<double>( stream_pos - progress_anchor ) / double(length);
-				if( progress_since_anchor > 0.03 )
-				{
-					progress = 0.2*static_cast<double>( stream_pos - &read_in[0] ) / double(length);
-					progressValueCallback(progress, "parse");
-					progress_anchor = stream_pos;
-
-					if ( isCanceled() )
-					{
-						canceledCallback();
-						return;
-					}
-				}
-			}
-			continue;
-		}
-
-		single_step_line += *stream_pos;
-		++stream_pos;
-	}
-}
-
-void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& target_entity_vec )
+void ReaderSTEP::readStepLines( std::vector<std::string>& step_lines, std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& target_entity_vec )
 {
 	std::set<std::string> unkown_entities;
 	std::stringstream err_unknown_entity;
@@ -555,7 +453,7 @@ void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std:
 
 	target_entity_vec.resize( num_lines );
 	std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >* target_vec_ptr = &target_entity_vec;
-	const std::vector<std::string>* step_lines_ptr = &step_lines;
+	std::vector<std::string>* step_lines_ptr = &step_lines;
 	const std::set<std::string>* unkown_entities_ptr = &unkown_entities;
 
 #ifdef ENABLE_OPENMP
@@ -566,7 +464,7 @@ void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std:
 #endif
 		for( int i = 0; i<num_lines; ++i )
 		{
-			const std::string& step_line = (*step_lines_ptr)[i];
+			std::string& step_line = (*step_lines_ptr)[i];
 			std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_obj = (*target_vec_ptr)[i];
 
 			// read lines: #1234=IFCOBJECTNAME(...,...,(...,...),...)
@@ -580,7 +478,7 @@ void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std:
 				std::string unknown_keyword = e.m_keyword;
 
 				std::map<std::string, std::string > mapFindReplaceTypes;
- 				mapFindReplaceTypes["IFC2DCOMPOSITECURVE"] = "IFCCOMPOSITECURVE";
+				mapFindReplaceTypes["IFC2DCOMPOSITECURVE"] = "IFCCOMPOSITECURVE";
 				mapFindReplaceTypes["IFCELECTRICDISTRIBUTIONPOINT"] = "IFCFLOWCONTROLLER";
 				// IfcElectricDistributionPoint	DELETED   ->  IfcFlowController
 
@@ -623,6 +521,8 @@ void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std:
 				}
 			}
 
+			step_line.clear();
+
 			if( i%10 == 0)
 			{
 				progress = 0.2 + 0.1*double(i)/double(num_lines);
@@ -641,6 +541,8 @@ void ReaderSTEP::readStepLines( const std::vector<std::string>& step_lines, std:
 #ifdef ENABLE_OPENMP
 	}
 #endif
+
+	step_lines.clear();
 
 	if( err_unknown_entity.tellp() > 0 )
 	{
@@ -741,6 +643,19 @@ void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::str
 		target_read_object.second = obj;
 		size_t sub_length = line.size() - (stream_pos - line.c_str());
 		std::string entity_arg( stream_pos, sub_length );
+		if( entity_arg.size() > 2 )
+		{
+			if( entity_arg[0] == '(' )
+			{
+				if( entity_arg[entity_arg.size() - 1] == ';' )
+				{
+					if( entity_arg[entity_arg.size() - 2] == ')' )
+					{
+						entity_arg = entity_arg.substr(1, entity_arg.size() - 3);
+					}
+				}
+			}
+		}
 		target_read_object.first.assign( entity_arg.begin(), entity_arg.end() );
 	}
 	else
@@ -749,7 +664,7 @@ void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::str
 	}
 }
 
-void ReaderSTEP::readEntityArguments( const std::string& ifc_version, const std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities,  const std::map<int,shared_ptr<BuildingEntity> >& map_entities  )
+void ReaderSTEP::readEntityArguments( const std::string& ifc_version, std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities,  const std::map<int,shared_ptr<BuildingEntity> >& map_entities  )
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
@@ -761,7 +676,7 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, const std:
 	progressValueCallback( progress, "parse" );
 	double last_progress = 0.3;
 	const std::map<int,shared_ptr<BuildingEntity> >* map_entities_ptr = &map_entities;
-	const std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >* vec_entities_ptr = &vec_entities;
+	std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >* vec_entities_ptr = &vec_entities;
 	bool canceled = isCanceled();
 
 #ifdef _DEBUG
@@ -784,21 +699,22 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, const std:
 				continue;
 			}
 
-			const std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_object = (*vec_entities_ptr)[i];
+			std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_object = (*vec_entities_ptr)[i];
 			const shared_ptr<BuildingEntity>& entity = entity_read_object.second;
 			if( !entity )
 			{
 				continue;
 			}
 			std::stringstream errorStream;
-			const std::string& argument_str = entity_read_object.first;
+			std::string& argument_str = entity_read_object.first;
 			std::vector<std::string> arguments_raw;
 			tokenizeEntityArguments( argument_str, arguments_raw );
+			argument_str.clear();
 
 			// character decoding:
 			std::vector<std::string> arguments_decoded;
 			decodeArgumentStrings( arguments_raw, arguments_decoded );
-
+			arguments_raw.clear();
 
 			const size_t num_expected_arguments = entity->getNumAttributes();
 			if( entity->classID() == IFCCOLOURRGB )
@@ -990,45 +906,155 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, const std:
 	}
 }
 
-void ReaderSTEP::readData( std::string& read_in, shared_ptr<BuildingModel>& model )
-{
-	std::string file_schema_version = model->getIfcSchemaVersionOfLoadedFile();
-	std::map<int, shared_ptr<BuildingEntity> >& map_entities = model->m_map_entities;
-	readData( read_in, file_schema_version, map_entities );
-}
-
-void ReaderSTEP::readData(	std::string& read_in, const std::string& ifc_version, std::map<int, shared_ptr<BuildingEntity> >& target_map )
+void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shared_ptr<BuildingModel>& model )//, const std::string& ifc_version, std::map<int, shared_ptr<BuildingEntity> >& target_map )
 {
 	std::string current_numeric_locale(setlocale(LC_NUMERIC, nullptr));
 	setlocale(LC_NUMERIC,"C");
 
-	if( ifc_version.compare( "IFC_VERSION_UNDEFINED" ) == 0 || ifc_version.compare( "IFC_VERSION_UNKNOWN" ) == 0 )
+	//if( ifc_version.compare( "IFC_VERSION_UNDEFINED" ) == 0 || ifc_version.compare( "IFC_VERSION_UNKNOWN" ) == 0 )
+	//{
+	//	std::string error_message;
+	//	error_message.append( "Unsupported IFC version: " );
+	//	error_message.append( ifc_version );
+	//	messageCallback( error_message, StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
+	//	progressValueCallback(0.0, "parse");
+	//	return;
+	//}
+
+	if( read_in.peek() == EOF )
 	{
-		std::string error_message;
-		error_message.append( "Unsupported IFC version: " );
-		error_message.append( ifc_version );
-		messageCallback( error_message, StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
-		progressValueCallback(0.0, "parse");
 		return;
 	}
+	std::string file_schema_version = model->getIfcSchemaVersionOfLoadedFile();
+	messageCallback( std::string( "Detected IFC version: ") + file_schema_version, StatusCallback::MESSAGE_TYPE_GENERAL_MESSAGE, "" );
 
-	if( read_in.empty() )
-	{
-		return;
-	}
-	messageCallback( std::string( "Detected IFC version: ") + ifc_version, StatusCallback::MESSAGE_TYPE_GENERAL_MESSAGE, "" );
-
+	size_t read_size = model->getFileHeader().size();
 	std::stringstream err;
-	std::vector<std::string> step_lines;
-
+	std::set<std::string> unkown_entities;
+	std::stringstream err_unknown_entity;
 	std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > > vec_entities;
 	try
 	{
-		splitIntoStepLines( read_in, step_lines );
-		read_in.clear(); // the input string is not needed any more
-		const size_t num_lines = step_lines.size();
-		vec_entities.resize( num_lines );
-		readStepLines( step_lines, vec_entities );
+		std::string line; 
+		std::string strHeader;
+		size_t line_header_start = std::string::npos;
+		size_t line_header_end = std::string::npos;
+		size_t lineCount = 0;
+		double progress = 0;
+		double last_progress = 0;
+		bool inComment = false;
+		while (std::getline(read_in, line))
+		{
+			size_t found_comment_start = line.find("/*");
+			if( found_comment_start != std::string::npos )
+			{
+				inComment = true;
+			}
+
+			if( inComment )
+			{
+				size_t found_comment_end = line.find("*/");
+				if( found_comment_end != std::string::npos )
+				{
+					if( found_comment_start != std::string::npos )
+					{
+						if( found_comment_end > found_comment_start )
+						{
+							// comment start and end in same line
+							size_t lengthOfComment = found_comment_end - found_comment_start;
+							std::string lineBeforeCommentStart = line.substr(0, found_comment_start);
+							std::string lineAfterCommentEnd = line.substr(found_comment_end);
+							line = lineBeforeCommentStart + lineAfterCommentEnd;
+						}
+						else
+						{
+							inComment = false;
+							continue;
+						}
+					}
+					else
+					{
+						inComment = false;
+						continue;
+					}
+				}
+			}
+
+			if( inComment )
+			{
+				continue;
+			}
+
+			read_size += line.size();
+			std::pair<std::string, shared_ptr<BuildingEntity> > entity_read_obj;
+			try
+			{
+				readSingleStepLine( line, entity_read_obj );
+				vec_entities.push_back(entity_read_obj);
+			}
+			catch(UnknownEntityException& e)
+			{
+				std::string step_line_fix = line;
+				std::string unknown_keyword = e.m_keyword;
+
+				std::map<std::string, std::string > mapFindReplaceTypes;
+				mapFindReplaceTypes["IFC2DCOMPOSITECURVE"] = "IFCCOMPOSITECURVE";
+				mapFindReplaceTypes["IFCELECTRICDISTRIBUTIONPOINT"] = "IFCFLOWCONTROLLER";
+				// IfcElectricDistributionPoint	DELETED   ->  IfcFlowController
+
+				for( auto it : mapFindReplaceTypes )
+				{
+					const std::string& find1 = it.first;
+					const std::string& replace1 = it.second;
+
+					size_t pos1 = step_line_fix.find(find1);
+					if( pos1 != std::string::npos )
+					{
+						step_line_fix.replace(pos1, find1.size(), replace1);
+					}
+				}
+
+				if( step_line_fix.compare( line ) != 0 )
+				{
+					try
+					{
+						readSingleStepLine( step_line_fix, entity_read_obj );
+						continue;
+					}
+					catch( UnknownEntityException& )
+					{
+
+					}
+				}
+
+				{
+					if( unkown_entities.find( unknown_keyword ) == unkown_entities.end() )
+					{
+						{
+							unkown_entities.insert( unknown_keyword );
+							err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
+						}
+					}
+				}
+			}
+
+			if( lineCount%100 == 0)
+			{
+				progress = 0.2 + 0.1*double(read_size)/double(file_size);
+				if( progress - last_progress > 0.03 )
+				{
+#ifdef ENABLE_OPENMP
+					if( omp_get_thread_num() == 0 )
+#endif
+					{
+						progressValueCallback( progress, "parse" );
+						last_progress = progress;
+					}
+				}
+			}
+
+			++lineCount;
+		}
 	}
 	catch( UnknownEntityException& e )
 	{
@@ -1047,22 +1073,23 @@ void ReaderSTEP::readData(	std::string& read_in, const std::string& ifc_version,
 	{
 		err << __FUNC__ << ": error occurred" << std::endl;
 	}
-	step_lines.clear();
 
 	// copy entities into map so that they can be found during entity attribute initialization
+	std::map<int, shared_ptr<BuildingEntity> >& map_entities = model->m_map_entities;
 	for(auto & entity_read_object : vec_entities)
 	{
 		shared_ptr<BuildingEntity> entity = entity_read_object.second;
 
 		if( entity ) // skip aborted entities
 		{
-			target_map.insert( std::make_pair( entity->m_tag, entity ) );
+			map_entities.insert( std::make_pair( entity->m_tag, entity ) );
 		}
 	}
 
 	try
 	{
-		readEntityArguments( ifc_version, vec_entities, target_map );
+		std::string ifc_version = model->getIfcSchemaVersionOfLoadedFile();
+		readEntityArguments( ifc_version, vec_entities, map_entities );
 	}
 	catch( BuildingException& e )
 	{

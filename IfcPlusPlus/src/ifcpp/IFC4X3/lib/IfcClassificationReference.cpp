@@ -19,17 +19,6 @@
 
 // ENTITY IfcClassificationReference 
 IFC4X3::IfcClassificationReference::IfcClassificationReference( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcClassificationReference::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcClassificationReference> copy_self( new IfcClassificationReference() );
-	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy(options) ); }
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_ReferencedSource ) { copy_self->m_ReferencedSource = dynamic_pointer_cast<IfcClassificationReferenceSelect>( m_ReferencedSource->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_Sort ) { copy_self->m_Sort = dynamic_pointer_cast<IfcIdentifier>( m_Sort->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcClassificationReference::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCLASSIFICATIONREFERENCE" << "(";

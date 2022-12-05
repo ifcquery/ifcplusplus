@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcTendonConduitTypeEnum.h"
 
 // TYPE IfcTendonConduitTypeEnum = ENUMERATION OF	(COUPLER	,DIABOLO	,DUCT	,GROUTING_DUCT	,TRUMPET	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcTendonConduitTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTendonConduitTypeEnum> copy_self( new IfcTendonConduitTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcTendonConduitTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTENDONCONDUITTYPEENUM("; }

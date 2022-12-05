@@ -12,12 +12,6 @@
 
 // ENTITY IfcDraughtingPreDefinedColour 
 IFC4X3::IfcDraughtingPreDefinedColour::IfcDraughtingPreDefinedColour( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcDraughtingPreDefinedColour::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDraughtingPreDefinedColour> copy_self( new IfcDraughtingPreDefinedColour() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcDraughtingPreDefinedColour::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCDRAUGHTINGPREDEFINEDCOLOUR" << "(";

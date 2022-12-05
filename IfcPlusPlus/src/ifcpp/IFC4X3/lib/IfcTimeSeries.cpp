@@ -18,19 +18,6 @@
 
 // ENTITY IfcTimeSeries 
 IFC4X3::IfcTimeSeries::IfcTimeSeries( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTimeSeries::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTimeSeries> copy_self( new IfcTimeSeries() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_StartTime ) { copy_self->m_StartTime = dynamic_pointer_cast<IfcDateTime>( m_StartTime->getDeepCopy(options) ); }
-	if( m_EndTime ) { copy_self->m_EndTime = dynamic_pointer_cast<IfcDateTime>( m_EndTime->getDeepCopy(options) ); }
-	if( m_TimeSeriesDataType ) { copy_self->m_TimeSeriesDataType = dynamic_pointer_cast<IfcTimeSeriesDataTypeEnum>( m_TimeSeriesDataType->getDeepCopy(options) ); }
-	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy(options) ); }
-	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy(options) ); }
-	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTimeSeries::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTIMESERIES" << "(";

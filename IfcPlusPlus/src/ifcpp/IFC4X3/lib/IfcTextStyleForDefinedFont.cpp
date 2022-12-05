@@ -12,13 +12,6 @@
 
 // ENTITY IfcTextStyleForDefinedFont 
 IFC4X3::IfcTextStyleForDefinedFont::IfcTextStyleForDefinedFont( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTextStyleForDefinedFont::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTextStyleForDefinedFont> copy_self( new IfcTextStyleForDefinedFont() );
-	if( m_Colour ) { copy_self->m_Colour = dynamic_pointer_cast<IfcColour>( m_Colour->getDeepCopy(options) ); }
-	if( m_BackgroundColour ) { copy_self->m_BackgroundColour = dynamic_pointer_cast<IfcColour>( m_BackgroundColour->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTextStyleForDefinedFont::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTSTYLEFORDEFINEDFONT" << "(";

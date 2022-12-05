@@ -15,12 +15,6 @@
 
 // ENTITY IfcSegment 
 IFC4X3::IfcSegment::IfcSegment( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSegment::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSegment> copy_self( new IfcSegment() );
-	if( m_Transition ) { copy_self->m_Transition = dynamic_pointer_cast<IfcTransitionCode>( m_Transition->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSegment::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSEGMENT" << "(";

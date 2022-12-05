@@ -15,22 +15,6 @@
 
 // ENTITY IfcIndexedColourMap 
 IFC4X3::IfcIndexedColourMap::IfcIndexedColourMap( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcIndexedColourMap::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcIndexedColourMap> copy_self( new IfcIndexedColourMap() );
-	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy(options) ); }
-	if( m_Opacity ) { copy_self->m_Opacity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Opacity->getDeepCopy(options) ); }
-	if( m_Colours ) { copy_self->m_Colours = dynamic_pointer_cast<IfcColourRgbList>( m_Colours->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_ColourIndex.size(); ++ii )
-	{
-		auto item_ii = m_ColourIndex[ii];
-		if( item_ii )
-		{
-			copy_self->m_ColourIndex.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcIndexedColourMap::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCINDEXEDCOLOURMAP" << "(";

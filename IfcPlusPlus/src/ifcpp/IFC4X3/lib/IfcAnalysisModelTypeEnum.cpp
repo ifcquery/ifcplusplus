@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcAnalysisModelTypeEnum.h"
 
 // TYPE IfcAnalysisModelTypeEnum = ENUMERATION OF	(IN_PLANE_LOADING_2D	,LOADING_3D	,OUT_PLANE_LOADING_2D	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcAnalysisModelTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAnalysisModelTypeEnum> copy_self( new IfcAnalysisModelTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcAnalysisModelTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCANALYSISMODELTYPEENUM("; }

@@ -69,9 +69,9 @@ IFCQUERY_EXPORT bool std_iequal(const std::string& a, const std::string& b);
 
 inline std::string getFileExtension(std::string path)
 {
-//#ifdef _MSC_VER
-//	return std::filesystem::path(string2string(path)).extension().string();
-//#endif
+#ifdef _MSC_VER
+	return std::filesystem::path(string2wstring(path)).extension().string();
+#endif
 	return std::filesystem::path(path).extension().string();
 }
 

@@ -20,7 +20,6 @@ namespace IFC4X3
 	public:
 		IfcObjective() = default;
 		IfcObjective( int id );
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepLine( std::stringstream& stream ) const;
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		virtual void readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );

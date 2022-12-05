@@ -18,20 +18,6 @@
 
 // ENTITY IfcAlignmentHorizontalSegment 
 IFC4X3::IfcAlignmentHorizontalSegment::IfcAlignmentHorizontalSegment( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcAlignmentHorizontalSegment::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAlignmentHorizontalSegment> copy_self( new IfcAlignmentHorizontalSegment() );
-	if( m_StartTag ) { copy_self->m_StartTag = dynamic_pointer_cast<IfcLabel>( m_StartTag->getDeepCopy(options) ); }
-	if( m_EndTag ) { copy_self->m_EndTag = dynamic_pointer_cast<IfcLabel>( m_EndTag->getDeepCopy(options) ); }
-	if( m_StartPoint ) { copy_self->m_StartPoint = dynamic_pointer_cast<IfcCartesianPoint>( m_StartPoint->getDeepCopy(options) ); }
-	if( m_StartDirection ) { copy_self->m_StartDirection = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_StartDirection->getDeepCopy(options) ); }
-	if( m_StartRadiusOfCurvature ) { copy_self->m_StartRadiusOfCurvature = dynamic_pointer_cast<IfcLengthMeasure>( m_StartRadiusOfCurvature->getDeepCopy(options) ); }
-	if( m_EndRadiusOfCurvature ) { copy_self->m_EndRadiusOfCurvature = dynamic_pointer_cast<IfcLengthMeasure>( m_EndRadiusOfCurvature->getDeepCopy(options) ); }
-	if( m_SegmentLength ) { copy_self->m_SegmentLength = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_SegmentLength->getDeepCopy(options) ); }
-	if( m_GravityCenterLineHeight ) { copy_self->m_GravityCenterLineHeight = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_GravityCenterLineHeight->getDeepCopy(options) ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcAlignmentHorizontalSegmentTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcAlignmentHorizontalSegment::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCALIGNMENTHORIZONTALSEGMENT" << "(";

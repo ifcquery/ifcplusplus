@@ -12,12 +12,6 @@
 
 // TYPE IfcMagneticFluxDensityMeasure = REAL;
 IFC4X3::IfcMagneticFluxDensityMeasure::IfcMagneticFluxDensityMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcMagneticFluxDensityMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMagneticFluxDensityMeasure> copy_self( new IfcMagneticFluxDensityMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcMagneticFluxDensityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMAGNETICFLUXDENSITYMEASURE("; }

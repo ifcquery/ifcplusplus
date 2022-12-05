@@ -17,16 +17,6 @@
 
 // ENTITY IfcRectangleProfileDef 
 IFC4X3::IfcRectangleProfileDef::IfcRectangleProfileDef( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcRectangleProfileDef::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRectangleProfileDef> copy_self( new IfcRectangleProfileDef() );
-	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
-	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement2D>( m_Position->getDeepCopy(options) ); }
-	if( m_XDim ) { copy_self->m_XDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_XDim->getDeepCopy(options) ); }
-	if( m_YDim ) { copy_self->m_YDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_YDim->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcRectangleProfileDef::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCRECTANGLEPROFILEDEF" << "(";

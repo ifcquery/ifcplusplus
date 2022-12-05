@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcOccupantTypeEnum.h"
 
 // TYPE IfcOccupantTypeEnum = ENUMERATION OF	(ASSIGNEE	,ASSIGNOR	,LESSEE	,LESSOR	,LETTINGAGENT	,OWNER	,TENANT	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcOccupantTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcOccupantTypeEnum> copy_self( new IfcOccupantTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcOccupantTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCOCCUPANTTYPEENUM("; }

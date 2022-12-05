@@ -17,13 +17,6 @@
 
 // ENTITY IfcTessellatedFaceSet 
 IFC4X3::IfcTessellatedFaceSet::IfcTessellatedFaceSet( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTessellatedFaceSet::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTessellatedFaceSet> copy_self( new IfcTessellatedFaceSet() );
-	if( m_Coordinates ) { copy_self->m_Coordinates = dynamic_pointer_cast<IfcCartesianPointList3D>( m_Coordinates->getDeepCopy(options) ); }
-	if( m_Closed ) { copy_self->m_Closed = dynamic_pointer_cast<IfcBoolean>( m_Closed->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTessellatedFaceSet::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTESSELLATEDFACESET" << "(";

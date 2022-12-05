@@ -13,13 +13,6 @@
 
 // ENTITY IfcSurfaceStyleShading 
 IFC4X3::IfcSurfaceStyleShading::IfcSurfaceStyleShading( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSurfaceStyleShading::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSurfaceStyleShading> copy_self( new IfcSurfaceStyleShading() );
-	if( m_SurfaceColour ) { copy_self->m_SurfaceColour = dynamic_pointer_cast<IfcColourRgb>( m_SurfaceColour->getDeepCopy(options) ); }
-	if( m_Transparency ) { copy_self->m_Transparency = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Transparency->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSurfaceStyleShading::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACESTYLESHADING" << "(";

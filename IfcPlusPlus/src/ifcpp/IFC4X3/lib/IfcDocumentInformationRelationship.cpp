@@ -14,23 +14,6 @@
 
 // ENTITY IfcDocumentInformationRelationship 
 IFC4X3::IfcDocumentInformationRelationship::IfcDocumentInformationRelationship( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcDocumentInformationRelationship::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDocumentInformationRelationship> copy_self( new IfcDocumentInformationRelationship() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_RelatingDocument ) { copy_self->m_RelatingDocument = dynamic_pointer_cast<IfcDocumentInformation>( m_RelatingDocument->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_RelatedDocuments.size(); ++ii )
-	{
-		auto item_ii = m_RelatedDocuments[ii];
-		if( item_ii )
-		{
-			copy_self->m_RelatedDocuments.emplace_back( dynamic_pointer_cast<IfcDocumentInformation>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_RelationshipType ) { copy_self->m_RelationshipType = dynamic_pointer_cast<IfcLabel>( m_RelationshipType->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcDocumentInformationRelationship::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCDOCUMENTINFORMATIONRELATIONSHIP" << "(";

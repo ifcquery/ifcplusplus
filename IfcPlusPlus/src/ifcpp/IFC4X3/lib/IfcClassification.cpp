@@ -18,25 +18,6 @@
 
 // ENTITY IfcClassification 
 IFC4X3::IfcClassification::IfcClassification( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcClassification::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcClassification> copy_self( new IfcClassification() );
-	if( m_Source ) { copy_self->m_Source = dynamic_pointer_cast<IfcLabel>( m_Source->getDeepCopy(options) ); }
-	if( m_Edition ) { copy_self->m_Edition = dynamic_pointer_cast<IfcLabel>( m_Edition->getDeepCopy(options) ); }
-	if( m_EditionDate ) { copy_self->m_EditionDate = dynamic_pointer_cast<IfcDate>( m_EditionDate->getDeepCopy(options) ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_Specification ) { copy_self->m_Specification = dynamic_pointer_cast<IfcURIReference>( m_Specification->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_ReferenceTokens.size(); ++ii )
-	{
-		auto item_ii = m_ReferenceTokens[ii];
-		if( item_ii )
-		{
-			copy_self->m_ReferenceTokens.emplace_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcClassification::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCLASSIFICATION" << "(";

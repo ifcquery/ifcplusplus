@@ -26,7 +26,6 @@ namespace IFC4X3
 		IfcNavigationElementTypeEnum() = default;
 		IfcNavigationElementTypeEnum( IfcNavigationElementTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 3294834125; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcNavigationElementTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcNavigationElementTypeEnumEnum m_enum;

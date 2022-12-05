@@ -15,24 +15,6 @@
 
 // ENTITY IfcPhysicalComplexQuantity 
 IFC4X3::IfcPhysicalComplexQuantity::IfcPhysicalComplexQuantity( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPhysicalComplexQuantity::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPhysicalComplexQuantity> copy_self( new IfcPhysicalComplexQuantity() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_HasQuantities.size(); ++ii )
-	{
-		auto item_ii = m_HasQuantities[ii];
-		if( item_ii )
-		{
-			copy_self->m_HasQuantities.emplace_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Discrimination ) { copy_self->m_Discrimination = dynamic_pointer_cast<IfcLabel>( m_Discrimination->getDeepCopy(options) ); }
-	if( m_Quality ) { copy_self->m_Quality = dynamic_pointer_cast<IfcLabel>( m_Quality->getDeepCopy(options) ); }
-	if( m_Usage ) { copy_self->m_Usage = dynamic_pointer_cast<IfcLabel>( m_Usage->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPhysicalComplexQuantity::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPHYSICALCOMPLEXQUANTITY" << "(";

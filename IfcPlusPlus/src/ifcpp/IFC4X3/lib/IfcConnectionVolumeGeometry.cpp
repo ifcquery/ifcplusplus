@@ -12,13 +12,6 @@
 
 // ENTITY IfcConnectionVolumeGeometry 
 IFC4X3::IfcConnectionVolumeGeometry::IfcConnectionVolumeGeometry( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcConnectionVolumeGeometry::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcConnectionVolumeGeometry> copy_self( new IfcConnectionVolumeGeometry() );
-	if( m_VolumeOnRelatingElement ) { copy_self->m_VolumeOnRelatingElement = dynamic_pointer_cast<IfcSolidOrShell>( m_VolumeOnRelatingElement->getDeepCopy(options) ); }
-	if( m_VolumeOnRelatedElement ) { copy_self->m_VolumeOnRelatedElement = dynamic_pointer_cast<IfcSolidOrShell>( m_VolumeOnRelatedElement->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcConnectionVolumeGeometry::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCONNECTIONVOLUMEGEOMETRY" << "(";

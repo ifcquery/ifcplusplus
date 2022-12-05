@@ -11,12 +11,6 @@
 
 // TYPE IfcURIReference = STRING;
 IFC4X3::IfcURIReference::IfcURIReference( std::string value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcURIReference::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcURIReference> copy_self( new IfcURIReference() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcURIReference::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCURIREFERENCE("; }

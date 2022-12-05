@@ -12,19 +12,6 @@
 #include "ifcpp/IFC4X3/include/IfcPropertySetDefinitionSet.h"
 
 // TYPE IfcPropertySetDefinitionSet = SET [1:?] OF IfcPropertySetDefinition;
-shared_ptr<BuildingObject> IFC4X3::IfcPropertySetDefinitionSet::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPropertySetDefinitionSet> copy_self( new IfcPropertySetDefinitionSet() );
-	for( size_t ii=0; ii<m_vec.size(); ++ii )
-	{
-		auto item_ii = m_vec[ii];
-		if( item_ii )
-		{
-			copy_self->m_vec.emplace_back( dynamic_pointer_cast<IfcPropertySetDefinition>( item_ii->getDeepCopy( options ) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcPropertySetDefinitionSet::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROPERTYSETDEFINITIONSET("; }

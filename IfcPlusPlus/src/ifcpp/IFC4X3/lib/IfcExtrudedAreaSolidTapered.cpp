@@ -17,24 +17,6 @@
 
 // ENTITY IfcExtrudedAreaSolidTapered 
 IFC4X3::IfcExtrudedAreaSolidTapered::IfcExtrudedAreaSolidTapered( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcExtrudedAreaSolidTapered::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcExtrudedAreaSolidTapered> copy_self( new IfcExtrudedAreaSolidTapered() );
-	if( m_SweptArea )
-	{
-		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_SweptArea = m_SweptArea; }
-		else { copy_self->m_SweptArea = dynamic_pointer_cast<IfcProfileDef>( m_SweptArea->getDeepCopy(options) ); }
-	}
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
-	if( m_ExtrudedDirection ) { copy_self->m_ExtrudedDirection = dynamic_pointer_cast<IfcDirection>( m_ExtrudedDirection->getDeepCopy(options) ); }
-	if( m_Depth ) { copy_self->m_Depth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Depth->getDeepCopy(options) ); }
-	if( m_EndSweptArea )
-	{
-		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_EndSweptArea = m_EndSweptArea; }
-		else { copy_self->m_EndSweptArea = dynamic_pointer_cast<IfcProfileDef>( m_EndSweptArea->getDeepCopy(options) ); }
-	}
-	return copy_self;
-}
 void IFC4X3::IfcExtrudedAreaSolidTapered::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCEXTRUDEDAREASOLIDTAPERED" << "(";

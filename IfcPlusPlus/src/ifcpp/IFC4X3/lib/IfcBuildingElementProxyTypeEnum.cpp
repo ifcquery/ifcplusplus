@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcBuildingElementProxyTypeEnum.h"
 
 // TYPE IfcBuildingElementProxyTypeEnum = ENUMERATION OF	(COMPLEX	,ELEMENT	,PARTIAL	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcBuildingElementProxyTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBuildingElementProxyTypeEnum> copy_self( new IfcBuildingElementProxyTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcBuildingElementProxyTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBUILDINGELEMENTPROXYTYPEENUM("; }

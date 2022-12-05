@@ -13,11 +13,6 @@
 
 // ENTITY IfcRepresentationItem 
 IFC4X3::IfcRepresentationItem::IfcRepresentationItem( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcRepresentationItem::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRepresentationItem> copy_self( new IfcRepresentationItem() );
-	return copy_self;
-}
 void IFC4X3::IfcRepresentationItem::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCREPRESENTATIONITEM" << "(";

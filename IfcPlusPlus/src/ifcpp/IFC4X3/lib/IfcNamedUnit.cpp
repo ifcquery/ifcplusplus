@@ -13,13 +13,6 @@
 
 // ENTITY IfcNamedUnit 
 IFC4X3::IfcNamedUnit::IfcNamedUnit( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcNamedUnit::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcNamedUnit> copy_self( new IfcNamedUnit() );
-	if( m_Dimensions ) { copy_self->m_Dimensions = dynamic_pointer_cast<IfcDimensionalExponents>( m_Dimensions->getDeepCopy(options) ); }
-	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcUnitEnum>( m_UnitType->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcNamedUnit::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCNAMEDUNIT" << "(";

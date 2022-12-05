@@ -16,28 +16,6 @@
 
 // ENTITY IfcSectionedSpine 
 IFC4X3::IfcSectionedSpine::IfcSectionedSpine( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSectionedSpine::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSectionedSpine> copy_self( new IfcSectionedSpine() );
-	if( m_SpineCurve ) { copy_self->m_SpineCurve = dynamic_pointer_cast<IfcCompositeCurve>( m_SpineCurve->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_CrossSections.size(); ++ii )
-	{
-		auto item_ii = m_CrossSections[ii];
-		if( item_ii )
-		{
-			copy_self->m_CrossSections.emplace_back( dynamic_pointer_cast<IfcProfileDef>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_CrossSectionPositions.size(); ++ii )
-	{
-		auto item_ii = m_CrossSectionPositions[ii];
-		if( item_ii )
-		{
-			copy_self->m_CrossSectionPositions.emplace_back( dynamic_pointer_cast<IfcAxis2Placement3D>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcSectionedSpine::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSECTIONEDSPINE" << "(";

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcSubContractResourceTypeEnum.h"
 
 // TYPE IfcSubContractResourceTypeEnum = ENUMERATION OF	(PURCHASE	,WORK	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcSubContractResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSubContractResourceTypeEnum> copy_self( new IfcSubContractResourceTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcSubContractResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSUBCONTRACTRESOURCETYPEENUM("; }

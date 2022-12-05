@@ -13,15 +13,6 @@
 
 // ENTITY IfcColourRgb 
 IFC4X3::IfcColourRgb::IfcColourRgb( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcColourRgb::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcColourRgb> copy_self( new IfcColourRgb() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Red ) { copy_self->m_Red = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Red->getDeepCopy(options) ); }
-	if( m_Green ) { copy_self->m_Green = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Green->getDeepCopy(options) ); }
-	if( m_Blue ) { copy_self->m_Blue = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Blue->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcColourRgb::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCOLOURRGB" << "(";

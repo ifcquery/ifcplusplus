@@ -22,29 +22,6 @@
 
 // ENTITY IfcRelInterferesElements 
 IFC4X3::IfcRelInterferesElements::IfcRelInterferesElements( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcRelInterferesElements::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRelInterferesElements> copy_self( new IfcRelInterferesElements() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_RelatingElement ) { copy_self->m_RelatingElement = dynamic_pointer_cast<IfcInterferenceSelect>( m_RelatingElement->getDeepCopy(options) ); }
-	if( m_RelatedElement ) { copy_self->m_RelatedElement = dynamic_pointer_cast<IfcInterferenceSelect>( m_RelatedElement->getDeepCopy(options) ); }
-	if( m_InterferenceGeometry ) { copy_self->m_InterferenceGeometry = dynamic_pointer_cast<IfcConnectionGeometry>( m_InterferenceGeometry->getDeepCopy(options) ); }
-	if( m_InterferenceSpace ) { copy_self->m_InterferenceSpace = dynamic_pointer_cast<IfcSpatialZone>( m_InterferenceSpace->getDeepCopy(options) ); }
-	if( m_InterferenceType ) { copy_self->m_InterferenceType = dynamic_pointer_cast<IfcIdentifier>( m_InterferenceType->getDeepCopy(options) ); }
-	if( m_ImpliedOrder ) { copy_self->m_ImpliedOrder = dynamic_pointer_cast<IfcLogical>( m_ImpliedOrder->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcRelInterferesElements::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCRELINTERFERESELEMENTS" << "(";

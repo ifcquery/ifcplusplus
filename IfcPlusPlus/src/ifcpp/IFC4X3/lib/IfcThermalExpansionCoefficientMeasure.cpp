@@ -12,12 +12,6 @@
 
 // TYPE IfcThermalExpansionCoefficientMeasure = REAL;
 IFC4X3::IfcThermalExpansionCoefficientMeasure::IfcThermalExpansionCoefficientMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcThermalExpansionCoefficientMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcThermalExpansionCoefficientMeasure> copy_self( new IfcThermalExpansionCoefficientMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcThermalExpansionCoefficientMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTHERMALEXPANSIONCOEFFICIENTMEASURE("; }

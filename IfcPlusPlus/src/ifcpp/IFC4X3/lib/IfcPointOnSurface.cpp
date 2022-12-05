@@ -15,14 +15,6 @@
 
 // ENTITY IfcPointOnSurface 
 IFC4X3::IfcPointOnSurface::IfcPointOnSurface( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPointOnSurface::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPointOnSurface> copy_self( new IfcPointOnSurface() );
-	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy(options) ); }
-	if( m_PointParameterU ) { copy_self->m_PointParameterU = dynamic_pointer_cast<IfcParameterValue>( m_PointParameterU->getDeepCopy(options) ); }
-	if( m_PointParameterV ) { copy_self->m_PointParameterV = dynamic_pointer_cast<IfcParameterValue>( m_PointParameterV->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPointOnSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPOINTONSURFACE" << "(";

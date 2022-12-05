@@ -12,12 +12,6 @@
 
 // TYPE IfcBinary = BINARY;
 IFC4X3::IfcBinary::IfcBinary( std::string value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcBinary::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBinary> copy_self( new IfcBinary() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcBinary::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBINARY("; }

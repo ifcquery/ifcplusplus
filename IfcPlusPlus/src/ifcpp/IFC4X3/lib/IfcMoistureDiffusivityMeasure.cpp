@@ -12,12 +12,6 @@
 
 // TYPE IfcMoistureDiffusivityMeasure = REAL;
 IFC4X3::IfcMoistureDiffusivityMeasure::IfcMoistureDiffusivityMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcMoistureDiffusivityMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMoistureDiffusivityMeasure> copy_self( new IfcMoistureDiffusivityMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcMoistureDiffusivityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMOISTUREDIFFUSIVITYMEASURE("; }

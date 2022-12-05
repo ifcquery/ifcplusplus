@@ -13,11 +13,6 @@
 
 // ENTITY IfcLoop 
 IFC4X3::IfcLoop::IfcLoop( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcLoop::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLoop> copy_self( new IfcLoop() );
-	return copy_self;
-}
 void IFC4X3::IfcLoop::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCLOOP" << "(";

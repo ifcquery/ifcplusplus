@@ -12,12 +12,6 @@
 
 // TYPE IfcElectricConductanceMeasure = REAL;
 IFC4X3::IfcElectricConductanceMeasure::IfcElectricConductanceMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcElectricConductanceMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcElectricConductanceMeasure> copy_self( new IfcElectricConductanceMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcElectricConductanceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICCONDUCTANCEMEASURE("; }

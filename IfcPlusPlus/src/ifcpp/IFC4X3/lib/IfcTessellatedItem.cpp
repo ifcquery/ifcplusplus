@@ -13,11 +13,6 @@
 
 // ENTITY IfcTessellatedItem 
 IFC4X3::IfcTessellatedItem::IfcTessellatedItem( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTessellatedItem::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTessellatedItem> copy_self( new IfcTessellatedItem() );
-	return copy_self;
-}
 void IFC4X3::IfcTessellatedItem::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTESSELLATEDITEM" << "(";

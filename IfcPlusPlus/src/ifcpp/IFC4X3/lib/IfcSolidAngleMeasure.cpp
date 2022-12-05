@@ -12,12 +12,6 @@
 
 // TYPE IfcSolidAngleMeasure = REAL;
 IFC4X3::IfcSolidAngleMeasure::IfcSolidAngleMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcSolidAngleMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSolidAngleMeasure> copy_self( new IfcSolidAngleMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcSolidAngleMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSOLIDANGLEMEASURE("; }

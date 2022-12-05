@@ -13,11 +13,6 @@
 
 // ENTITY IfcPoint 
 IFC4X3::IfcPoint::IfcPoint( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPoint::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPoint> copy_self( new IfcPoint() );
-	return copy_self;
-}
 void IFC4X3::IfcPoint::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPOINT" << "(";

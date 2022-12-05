@@ -33,7 +33,6 @@ namespace IFC4X3
 		IfcEarthworksCutTypeEnum() = default;
 		IfcEarthworksCutTypeEnum( IfcEarthworksCutTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1268632640; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcEarthworksCutTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcEarthworksCutTypeEnumEnum m_enum;

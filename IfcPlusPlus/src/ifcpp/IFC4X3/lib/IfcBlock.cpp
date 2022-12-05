@@ -15,15 +15,6 @@
 
 // ENTITY IfcBlock 
 IFC4X3::IfcBlock::IfcBlock( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcBlock::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBlock> copy_self( new IfcBlock() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
-	if( m_XLength ) { copy_self->m_XLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_XLength->getDeepCopy(options) ); }
-	if( m_YLength ) { copy_self->m_YLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_YLength->getDeepCopy(options) ); }
-	if( m_ZLength ) { copy_self->m_ZLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_ZLength->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcBlock::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCBLOCK" << "(";

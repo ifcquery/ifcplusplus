@@ -19,29 +19,6 @@
 
 // ENTITY IfcPolygonalFaceSet 
 IFC4X3::IfcPolygonalFaceSet::IfcPolygonalFaceSet( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPolygonalFaceSet::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPolygonalFaceSet> copy_self( new IfcPolygonalFaceSet() );
-	if( m_Coordinates ) { copy_self->m_Coordinates = dynamic_pointer_cast<IfcCartesianPointList3D>( m_Coordinates->getDeepCopy(options) ); }
-	if( m_Closed ) { copy_self->m_Closed = dynamic_pointer_cast<IfcBoolean>( m_Closed->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Faces.size(); ++ii )
-	{
-		auto item_ii = m_Faces[ii];
-		if( item_ii )
-		{
-			copy_self->m_Faces.emplace_back( dynamic_pointer_cast<IfcIndexedPolygonalFace>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_PnIndex.size(); ++ii )
-	{
-		auto item_ii = m_PnIndex[ii];
-		if( item_ii )
-		{
-			copy_self->m_PnIndex.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcPolygonalFaceSet::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPOLYGONALFACESET" << "(";

@@ -12,25 +12,6 @@
 
 // ENTITY IfcColourRgbList 
 IFC4X3::IfcColourRgbList::IfcColourRgbList( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcColourRgbList::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcColourRgbList> copy_self( new IfcColourRgbList() );
-	copy_self->m_ColourList.resize( m_ColourList.size() );
-	for( size_t ii=0; ii<m_ColourList.size(); ++ii )
-	{
-		std::vector<shared_ptr<IfcNormalisedRatioMeasure> >& vec_ii = m_ColourList[ii];
-		std::vector<shared_ptr<IfcNormalisedRatioMeasure> >& vec_ii_target = copy_self->m_ColourList[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
-		{
-			shared_ptr<IfcNormalisedRatioMeasure>& item_jj = vec_ii[jj];
-			if( item_jj )
-			{
-				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcNormalisedRatioMeasure>( item_jj->getDeepCopy(options) ) );
-			}
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcColourRgbList::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCOLOURRGBLIST" << "(";

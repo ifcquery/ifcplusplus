@@ -20,33 +20,6 @@
 
 // ENTITY IfcRelAssignsToProduct 
 IFC4X3::IfcRelAssignsToProduct::IfcRelAssignsToProduct( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcRelAssignsToProduct::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRelAssignsToProduct> copy_self( new IfcRelAssignsToProduct() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_RelatedObjects.size(); ++ii )
-	{
-		auto item_ii = m_RelatedObjects[ii];
-		if( item_ii )
-		{
-			copy_self->m_RelatedObjects.emplace_back( dynamic_pointer_cast<IfcObjectDefinition>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_RelatedObjectsType ) { copy_self->m_RelatedObjectsType = dynamic_pointer_cast<IfcObjectTypeEnum>( m_RelatedObjectsType->getDeepCopy(options) ); }
-	if( m_RelatingProduct ) { copy_self->m_RelatingProduct = dynamic_pointer_cast<IfcProductSelect>( m_RelatingProduct->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcRelAssignsToProduct::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCRELASSIGNSTOPRODUCT" << "(";

@@ -13,15 +13,6 @@
 
 // ENTITY IfcBoundaryFaceCondition 
 IFC4X3::IfcBoundaryFaceCondition::IfcBoundaryFaceCondition( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcBoundaryFaceCondition::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBoundaryFaceCondition> copy_self( new IfcBoundaryFaceCondition() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_TranslationalStiffnessByAreaX ) { copy_self->m_TranslationalStiffnessByAreaX = dynamic_pointer_cast<IfcModulusOfSubgradeReactionSelect>( m_TranslationalStiffnessByAreaX->getDeepCopy(options) ); }
-	if( m_TranslationalStiffnessByAreaY ) { copy_self->m_TranslationalStiffnessByAreaY = dynamic_pointer_cast<IfcModulusOfSubgradeReactionSelect>( m_TranslationalStiffnessByAreaY->getDeepCopy(options) ); }
-	if( m_TranslationalStiffnessByAreaZ ) { copy_self->m_TranslationalStiffnessByAreaZ = dynamic_pointer_cast<IfcModulusOfSubgradeReactionSelect>( m_TranslationalStiffnessByAreaZ->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcBoundaryFaceCondition::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCBOUNDARYFACECONDITION" << "(";

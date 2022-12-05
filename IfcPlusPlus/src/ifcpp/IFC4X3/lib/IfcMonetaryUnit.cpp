@@ -12,12 +12,6 @@
 
 // ENTITY IfcMonetaryUnit 
 IFC4X3::IfcMonetaryUnit::IfcMonetaryUnit( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMonetaryUnit::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMonetaryUnit> copy_self( new IfcMonetaryUnit() );
-	if( m_Currency ) { copy_self->m_Currency = dynamic_pointer_cast<IfcLabel>( m_Currency->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcMonetaryUnit::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMONETARYUNIT" << "(";

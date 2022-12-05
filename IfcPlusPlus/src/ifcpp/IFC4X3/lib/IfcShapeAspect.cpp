@@ -19,23 +19,6 @@
 
 // ENTITY IfcShapeAspect 
 IFC4X3::IfcShapeAspect::IfcShapeAspect( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcShapeAspect::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcShapeAspect> copy_self( new IfcShapeAspect() );
-	for( size_t ii=0; ii<m_ShapeRepresentations.size(); ++ii )
-	{
-		auto item_ii = m_ShapeRepresentations[ii];
-		if( item_ii )
-		{
-			copy_self->m_ShapeRepresentations.emplace_back( dynamic_pointer_cast<IfcShapeModel>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_ProductDefinitional ) { copy_self->m_ProductDefinitional = dynamic_pointer_cast<IfcLogical>( m_ProductDefinitional->getDeepCopy(options) ); }
-	if( m_PartOfProductDefinitionShape ) { copy_self->m_PartOfProductDefinitionShape = dynamic_pointer_cast<IfcProductRepresentationSelect>( m_PartOfProductDefinitionShape->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcShapeAspect::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSHAPEASPECT" << "(";

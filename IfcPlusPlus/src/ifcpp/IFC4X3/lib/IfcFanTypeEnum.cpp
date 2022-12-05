@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcFanTypeEnum.h"
 
 // TYPE IfcFanTypeEnum = ENUMERATION OF	(CENTRIFUGALAIRFOIL	,CENTRIFUGALBACKWARDINCLINEDCURVED	,CENTRIFUGALFORWARDCURVED	,CENTRIFUGALRADIAL	,PROPELLORAXIAL	,TUBEAXIAL	,VANEAXIAL	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcFanTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFanTypeEnum> copy_self( new IfcFanTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcFanTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFANTYPEENUM("; }

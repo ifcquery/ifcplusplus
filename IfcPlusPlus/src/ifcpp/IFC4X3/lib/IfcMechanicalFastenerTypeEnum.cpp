@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcMechanicalFastenerTypeEnum.h"
 
 // TYPE IfcMechanicalFastenerTypeEnum = ENUMERATION OF	(ANCHORBOLT	,BOLT	,CHAIN	,COUPLER	,DOWEL	,NAIL	,NAILPLATE	,RAILFASTENING	,RAILJOINT	,RIVET	,ROPE	,SCREW	,SHEARCONNECTOR	,STAPLE	,STUDSHEARCONNECTOR	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcMechanicalFastenerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMechanicalFastenerTypeEnum> copy_self( new IfcMechanicalFastenerTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcMechanicalFastenerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMECHANICALFASTENERTYPEENUM("; }

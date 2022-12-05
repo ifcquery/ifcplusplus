@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcSpatialZoneTypeEnum.h"
 
 // TYPE IfcSpatialZoneTypeEnum = ENUMERATION OF	(CONSTRUCTION	,FIRESAFETY	,INTERFERENCE	,LIGHTING	,OCCUPANCY	,RESERVATION	,SECURITY	,THERMAL	,TRANSPORT	,VENTILATION	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcSpatialZoneTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSpatialZoneTypeEnum> copy_self( new IfcSpatialZoneTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcSpatialZoneTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPATIALZONETYPEENUM("; }

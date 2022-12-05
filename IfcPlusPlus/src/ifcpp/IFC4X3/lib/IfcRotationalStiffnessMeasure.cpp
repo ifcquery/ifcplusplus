@@ -13,12 +13,6 @@
 
 // TYPE IfcRotationalStiffnessMeasure = REAL;
 IFC4X3::IfcRotationalStiffnessMeasure::IfcRotationalStiffnessMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcRotationalStiffnessMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRotationalStiffnessMeasure> copy_self( new IfcRotationalStiffnessMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcRotationalStiffnessMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCROTATIONALSTIFFNESSMEASURE("; }

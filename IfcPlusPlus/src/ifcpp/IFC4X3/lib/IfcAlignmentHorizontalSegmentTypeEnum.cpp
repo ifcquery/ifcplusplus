@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcAlignmentHorizontalSegmentTypeEnum.h"
 
 // TYPE IfcAlignmentHorizontalSegmentTypeEnum = ENUMERATION OF	(BLOSSCURVE	,CIRCULARARC	,CLOTHOID	,COSINECURVE	,CUBIC	,HELMERTCURVE	,LINE	,SINECURVE	,VIENNESEBEND);
-shared_ptr<BuildingObject> IFC4X3::IfcAlignmentHorizontalSegmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAlignmentHorizontalSegmentTypeEnum> copy_self( new IfcAlignmentHorizontalSegmentTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcAlignmentHorizontalSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCALIGNMENTHORIZONTALSEGMENTTYPEENUM("; }

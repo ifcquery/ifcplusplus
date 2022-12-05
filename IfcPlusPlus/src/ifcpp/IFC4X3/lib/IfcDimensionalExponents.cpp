@@ -11,18 +11,6 @@
 
 // ENTITY IfcDimensionalExponents 
 IFC4X3::IfcDimensionalExponents::IfcDimensionalExponents( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcDimensionalExponents::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDimensionalExponents> copy_self( new IfcDimensionalExponents() );
-	copy_self->m_LengthExponent = m_LengthExponent;
-	copy_self->m_MassExponent = m_MassExponent;
-	copy_self->m_TimeExponent = m_TimeExponent;
-	copy_self->m_ElectricCurrentExponent = m_ElectricCurrentExponent;
-	copy_self->m_ThermodynamicTemperatureExponent = m_ThermodynamicTemperatureExponent;
-	copy_self->m_AmountOfSubstanceExponent = m_AmountOfSubstanceExponent;
-	copy_self->m_LuminousIntensityExponent = m_LuminousIntensityExponent;
-	return copy_self;
-}
 void IFC4X3::IfcDimensionalExponents::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCDIMENSIONALEXPONENTS" << "(";

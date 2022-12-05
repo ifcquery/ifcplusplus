@@ -24,7 +24,6 @@ namespace IFC4X3
 		IfcAlignmentTypeEnum() = default;
 		IfcAlignmentTypeEnum( IfcAlignmentTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 2326367582; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcAlignmentTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcAlignmentTypeEnumEnum m_enum;

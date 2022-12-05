@@ -17,26 +17,6 @@
 
 // ENTITY IfcRelConnectsElements 
 IFC4X3::IfcRelConnectsElements::IfcRelConnectsElements( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcRelConnectsElements::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRelConnectsElements> copy_self( new IfcRelConnectsElements() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_ConnectionGeometry ) { copy_self->m_ConnectionGeometry = dynamic_pointer_cast<IfcConnectionGeometry>( m_ConnectionGeometry->getDeepCopy(options) ); }
-	if( m_RelatingElement ) { copy_self->m_RelatingElement = dynamic_pointer_cast<IfcElement>( m_RelatingElement->getDeepCopy(options) ); }
-	if( m_RelatedElement ) { copy_self->m_RelatedElement = dynamic_pointer_cast<IfcElement>( m_RelatedElement->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcRelConnectsElements::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCRELCONNECTSELEMENTS" << "(";

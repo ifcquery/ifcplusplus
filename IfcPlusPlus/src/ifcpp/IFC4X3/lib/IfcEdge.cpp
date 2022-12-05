@@ -14,13 +14,6 @@
 
 // ENTITY IfcEdge 
 IFC4X3::IfcEdge::IfcEdge( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcEdge::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcEdge> copy_self( new IfcEdge() );
-	if( m_EdgeStart ) { copy_self->m_EdgeStart = dynamic_pointer_cast<IfcVertex>( m_EdgeStart->getDeepCopy(options) ); }
-	if( m_EdgeEnd ) { copy_self->m_EdgeEnd = dynamic_pointer_cast<IfcVertex>( m_EdgeEnd->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcEdge::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCEDGE" << "(";

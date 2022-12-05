@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcCrewResourceTypeEnum.h"
 
 // TYPE IfcCrewResourceTypeEnum = ENUMERATION OF	(OFFICE	,SITE	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcCrewResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCrewResourceTypeEnum> copy_self( new IfcCrewResourceTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcCrewResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCREWRESOURCETYPEENUM("; }

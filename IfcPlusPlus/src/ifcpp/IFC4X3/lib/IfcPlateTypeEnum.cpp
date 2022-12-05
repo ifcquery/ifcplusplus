@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcPlateTypeEnum.h"
 
 // TYPE IfcPlateTypeEnum = ENUMERATION OF	(BASE_PLATE	,COVER_PLATE	,CURTAIN_PANEL	,FLANGE_PLATE	,GUSSET_PLATE	,SHEET	,SPLICE_PLATE	,STIFFENER_PLATE	,WEB_PLATE	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcPlateTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPlateTypeEnum> copy_self( new IfcPlateTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcPlateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPLATETYPEENUM("; }

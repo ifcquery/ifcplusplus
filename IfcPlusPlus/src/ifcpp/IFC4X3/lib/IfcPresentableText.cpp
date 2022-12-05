@@ -11,12 +11,6 @@
 
 // TYPE IfcPresentableText = STRING;
 IFC4X3::IfcPresentableText::IfcPresentableText( std::string value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcPresentableText::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPresentableText> copy_self( new IfcPresentableText() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcPresentableText::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPRESENTABLETEXT("; }

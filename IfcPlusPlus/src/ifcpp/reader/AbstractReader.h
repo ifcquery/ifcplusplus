@@ -29,8 +29,4 @@ class IFCQUERY_EXPORT AbstractReader : public StatusCallback
 public:
 	AbstractReader();
 	~AbstractReader() override = default;
-	virtual void removeComments( std::string& buffer ) = 0;
-	virtual void readHeader(	const std::string& in, shared_ptr<BuildingModel>& target_model ) = 0;
-	virtual void readData( std::string& in, const std::string& ifc_version, std::map<int, shared_ptr<BuildingEntity> >& map ) = 0;
-	virtual void readData( std::string& in, shared_ptr<BuildingModel>& model ) = 0;
 };

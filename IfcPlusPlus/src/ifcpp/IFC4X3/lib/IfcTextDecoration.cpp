@@ -11,12 +11,6 @@
 
 // TYPE IfcTextDecoration = STRING;
 IFC4X3::IfcTextDecoration::IfcTextDecoration( std::string value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcTextDecoration::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTextDecoration> copy_self( new IfcTextDecoration() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcTextDecoration::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTEXTDECORATION("; }

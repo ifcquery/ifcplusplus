@@ -14,15 +14,6 @@
 
 // ENTITY IfcApplication 
 IFC4X3::IfcApplication::IfcApplication( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcApplication::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcApplication> copy_self( new IfcApplication() );
-	if( m_ApplicationDeveloper ) { copy_self->m_ApplicationDeveloper = dynamic_pointer_cast<IfcOrganization>( m_ApplicationDeveloper->getDeepCopy(options) ); }
-	if( m_Version ) { copy_self->m_Version = dynamic_pointer_cast<IfcLabel>( m_Version->getDeepCopy(options) ); }
-	if( m_ApplicationFullName ) { copy_self->m_ApplicationFullName = dynamic_pointer_cast<IfcLabel>( m_ApplicationFullName->getDeepCopy(options) ); }
-	if( m_ApplicationIdentifier ) { copy_self->m_ApplicationIdentifier = dynamic_pointer_cast<IfcIdentifier>( m_ApplicationIdentifier->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcApplication::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCAPPLICATION" << "(";

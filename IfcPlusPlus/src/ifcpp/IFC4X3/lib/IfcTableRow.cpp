@@ -13,20 +13,6 @@
 
 // ENTITY IfcTableRow 
 IFC4X3::IfcTableRow::IfcTableRow( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTableRow::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTableRow> copy_self( new IfcTableRow() );
-	for( size_t ii=0; ii<m_RowCells.size(); ++ii )
-	{
-		auto item_ii = m_RowCells[ii];
-		if( item_ii )
-		{
-			copy_self->m_RowCells.emplace_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_IsHeading ) { copy_self->m_IsHeading = dynamic_pointer_cast<IfcBoolean>( m_IsHeading->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTableRow::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTABLEROW" << "(";

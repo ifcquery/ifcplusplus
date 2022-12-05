@@ -14,14 +14,6 @@
 
 // ENTITY IfcCurveStyleFontAndScaling 
 IFC4X3::IfcCurveStyleFontAndScaling::IfcCurveStyleFontAndScaling( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCurveStyleFontAndScaling::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCurveStyleFontAndScaling> copy_self( new IfcCurveStyleFontAndScaling() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_CurveStyleFont ) { copy_self->m_CurveStyleFont = dynamic_pointer_cast<IfcCurveStyleFontSelect>( m_CurveStyleFont->getDeepCopy(options) ); }
-	if( m_CurveFontScaling ) { copy_self->m_CurveFontScaling = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_CurveFontScaling->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCurveStyleFontAndScaling::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCURVESTYLEFONTANDSCALING" << "(";

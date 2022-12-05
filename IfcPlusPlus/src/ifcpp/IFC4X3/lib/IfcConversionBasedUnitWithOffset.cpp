@@ -17,16 +17,6 @@
 
 // ENTITY IfcConversionBasedUnitWithOffset 
 IFC4X3::IfcConversionBasedUnitWithOffset::IfcConversionBasedUnitWithOffset( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcConversionBasedUnitWithOffset::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcConversionBasedUnitWithOffset> copy_self( new IfcConversionBasedUnitWithOffset() );
-	if( m_Dimensions ) { copy_self->m_Dimensions = dynamic_pointer_cast<IfcDimensionalExponents>( m_Dimensions->getDeepCopy(options) ); }
-	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcUnitEnum>( m_UnitType->getDeepCopy(options) ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_ConversionFactor ) { copy_self->m_ConversionFactor = dynamic_pointer_cast<IfcMeasureWithUnit>( m_ConversionFactor->getDeepCopy(options) ); }
-	if( m_ConversionOffset ) { copy_self->m_ConversionOffset = dynamic_pointer_cast<IfcReal>( m_ConversionOffset->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcConversionBasedUnitWithOffset::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCONVERSIONBASEDUNITWITHOFFSET" << "(";

@@ -17,18 +17,6 @@
 
 // ENTITY IfcCurrencyRelationship 
 IFC4X3::IfcCurrencyRelationship::IfcCurrencyRelationship( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCurrencyRelationship::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCurrencyRelationship> copy_self( new IfcCurrencyRelationship() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_RelatingMonetaryUnit ) { copy_self->m_RelatingMonetaryUnit = dynamic_pointer_cast<IfcMonetaryUnit>( m_RelatingMonetaryUnit->getDeepCopy(options) ); }
-	if( m_RelatedMonetaryUnit ) { copy_self->m_RelatedMonetaryUnit = dynamic_pointer_cast<IfcMonetaryUnit>( m_RelatedMonetaryUnit->getDeepCopy(options) ); }
-	if( m_ExchangeRate ) { copy_self->m_ExchangeRate = dynamic_pointer_cast<IfcPositiveRatioMeasure>( m_ExchangeRate->getDeepCopy(options) ); }
-	if( m_RateDateTime ) { copy_self->m_RateDateTime = dynamic_pointer_cast<IfcDateTime>( m_RateDateTime->getDeepCopy(options) ); }
-	if( m_RateSource ) { copy_self->m_RateSource = dynamic_pointer_cast<IfcLibraryInformation>( m_RateSource->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCurrencyRelationship::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCURRENCYRELATIONSHIP" << "(";

@@ -14,21 +14,6 @@
 
 // ENTITY IfcPersonAndOrganization 
 IFC4X3::IfcPersonAndOrganization::IfcPersonAndOrganization( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPersonAndOrganization::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPersonAndOrganization> copy_self( new IfcPersonAndOrganization() );
-	if( m_ThePerson ) { copy_self->m_ThePerson = dynamic_pointer_cast<IfcPerson>( m_ThePerson->getDeepCopy(options) ); }
-	if( m_TheOrganization ) { copy_self->m_TheOrganization = dynamic_pointer_cast<IfcOrganization>( m_TheOrganization->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Roles.size(); ++ii )
-	{
-		auto item_ii = m_Roles[ii];
-		if( item_ii )
-		{
-			copy_self->m_Roles.emplace_back( dynamic_pointer_cast<IfcActorRole>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcPersonAndOrganization::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPERSONANDORGANIZATION" << "(";

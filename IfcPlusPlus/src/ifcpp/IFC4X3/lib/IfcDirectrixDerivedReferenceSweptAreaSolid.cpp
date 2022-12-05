@@ -18,21 +18,6 @@
 
 // ENTITY IfcDirectrixDerivedReferenceSweptAreaSolid 
 IFC4X3::IfcDirectrixDerivedReferenceSweptAreaSolid::IfcDirectrixDerivedReferenceSweptAreaSolid( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcDirectrixDerivedReferenceSweptAreaSolid::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDirectrixDerivedReferenceSweptAreaSolid> copy_self( new IfcDirectrixDerivedReferenceSweptAreaSolid() );
-	if( m_SweptArea )
-	{
-		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_SweptArea = m_SweptArea; }
-		else { copy_self->m_SweptArea = dynamic_pointer_cast<IfcProfileDef>( m_SweptArea->getDeepCopy(options) ); }
-	}
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
-	if( m_Directrix ) { copy_self->m_Directrix = dynamic_pointer_cast<IfcCurve>( m_Directrix->getDeepCopy(options) ); }
-	if( m_StartParam ) { copy_self->m_StartParam = dynamic_pointer_cast<IfcCurveMeasureSelect>( m_StartParam->getDeepCopy(options) ); }
-	if( m_EndParam ) { copy_self->m_EndParam = dynamic_pointer_cast<IfcCurveMeasureSelect>( m_EndParam->getDeepCopy(options) ); }
-	if( m_FixedReference ) { copy_self->m_FixedReference = dynamic_pointer_cast<IfcDirection>( m_FixedReference->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcDirectrixDerivedReferenceSweptAreaSolid::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCDIRECTRIXDERIVEDREFERENCESWEPTAREASOLID" << "(";

@@ -21,22 +21,6 @@
 
 // ENTITY IfcPropertyListValue 
 IFC4X3::IfcPropertyListValue::IfcPropertyListValue( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPropertyListValue::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPropertyListValue> copy_self( new IfcPropertyListValue() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
-	if( m_Specification ) { copy_self->m_Specification = dynamic_pointer_cast<IfcText>( m_Specification->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_ListValues.size(); ++ii )
-	{
-		auto item_ii = m_ListValues[ii];
-		if( item_ii )
-		{
-			copy_self->m_ListValues.emplace_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPropertyListValue::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPROPERTYLISTVALUE" << "(";

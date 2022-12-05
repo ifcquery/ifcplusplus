@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcLightDistributionCurveEnum.h"
 
 // TYPE IfcLightDistributionCurveEnum = ENUMERATION OF	(TYPE_A	,TYPE_B	,TYPE_C	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcLightDistributionCurveEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLightDistributionCurveEnum> copy_self( new IfcLightDistributionCurveEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcLightDistributionCurveEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLIGHTDISTRIBUTIONCURVEENUM("; }

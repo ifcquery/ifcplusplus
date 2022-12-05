@@ -18,15 +18,6 @@
 
 // ENTITY IfcReparametrisedCompositeCurveSegment 
 IFC4X3::IfcReparametrisedCompositeCurveSegment::IfcReparametrisedCompositeCurveSegment( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcReparametrisedCompositeCurveSegment::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcReparametrisedCompositeCurveSegment> copy_self( new IfcReparametrisedCompositeCurveSegment() );
-	if( m_Transition ) { copy_self->m_Transition = dynamic_pointer_cast<IfcTransitionCode>( m_Transition->getDeepCopy(options) ); }
-	if( m_SameSense ) { copy_self->m_SameSense = dynamic_pointer_cast<IfcBoolean>( m_SameSense->getDeepCopy(options) ); }
-	if( m_ParentCurve ) { copy_self->m_ParentCurve = dynamic_pointer_cast<IfcCurve>( m_ParentCurve->getDeepCopy(options) ); }
-	if( m_ParamLength ) { copy_self->m_ParamLength = dynamic_pointer_cast<IfcParameterValue>( m_ParamLength->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcReparametrisedCompositeCurveSegment::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCREPARAMETRISEDCOMPOSITECURVESEGMENT" << "(";

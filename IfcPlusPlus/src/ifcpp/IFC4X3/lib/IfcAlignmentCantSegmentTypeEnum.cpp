@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcAlignmentCantSegmentTypeEnum.h"
 
 // TYPE IfcAlignmentCantSegmentTypeEnum = ENUMERATION OF	(BLOSSCURVE	,CONSTANTCANT	,COSINECURVE	,HELMERTCURVE	,LINEARTRANSITION	,SINECURVE	,VIENNESEBEND);
-shared_ptr<BuildingObject> IFC4X3::IfcAlignmentCantSegmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAlignmentCantSegmentTypeEnum> copy_self( new IfcAlignmentCantSegmentTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcAlignmentCantSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCALIGNMENTCANTSEGMENTTYPEENUM("; }

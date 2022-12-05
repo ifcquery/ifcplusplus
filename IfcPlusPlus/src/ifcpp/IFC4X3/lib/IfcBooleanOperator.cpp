@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcBooleanOperator.h"
 
 // TYPE IfcBooleanOperator = ENUMERATION OF	(DIFFERENCE	,INTERSECTION	,UNION);
-shared_ptr<BuildingObject> IFC4X3::IfcBooleanOperator::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBooleanOperator> copy_self( new IfcBooleanOperator() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcBooleanOperator::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBOOLEANOPERATOR("; }

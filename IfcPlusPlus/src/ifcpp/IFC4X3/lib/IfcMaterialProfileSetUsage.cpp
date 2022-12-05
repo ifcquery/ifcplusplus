@@ -15,14 +15,6 @@
 
 // ENTITY IfcMaterialProfileSetUsage 
 IFC4X3::IfcMaterialProfileSetUsage::IfcMaterialProfileSetUsage( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMaterialProfileSetUsage::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMaterialProfileSetUsage> copy_self( new IfcMaterialProfileSetUsage() );
-	if( m_ForProfileSet ) { copy_self->m_ForProfileSet = dynamic_pointer_cast<IfcMaterialProfileSet>( m_ForProfileSet->getDeepCopy(options) ); }
-	if( m_CardinalPoint ) { copy_self->m_CardinalPoint = dynamic_pointer_cast<IfcCardinalPointReference>( m_CardinalPoint->getDeepCopy(options) ); }
-	if( m_ReferenceExtent ) { copy_self->m_ReferenceExtent = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_ReferenceExtent->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcMaterialProfileSetUsage::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIALPROFILESETUSAGE" << "(";

@@ -16,28 +16,6 @@
 
 // ENTITY IfcSectionedSurface 
 IFC4X3::IfcSectionedSurface::IfcSectionedSurface( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSectionedSurface::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSectionedSurface> copy_self( new IfcSectionedSurface() );
-	if( m_Directrix ) { copy_self->m_Directrix = dynamic_pointer_cast<IfcCurve>( m_Directrix->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_CrossSectionPositions.size(); ++ii )
-	{
-		auto item_ii = m_CrossSectionPositions[ii];
-		if( item_ii )
-		{
-			copy_self->m_CrossSectionPositions.emplace_back( dynamic_pointer_cast<IfcAxis2PlacementLinear>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_CrossSections.size(); ++ii )
-	{
-		auto item_ii = m_CrossSections[ii];
-		if( item_ii )
-		{
-			copy_self->m_CrossSections.emplace_back( dynamic_pointer_cast<IfcProfileDef>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcSectionedSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSECTIONEDSURFACE" << "(";

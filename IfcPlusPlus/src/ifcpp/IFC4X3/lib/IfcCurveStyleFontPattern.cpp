@@ -13,13 +13,6 @@
 
 // ENTITY IfcCurveStyleFontPattern 
 IFC4X3::IfcCurveStyleFontPattern::IfcCurveStyleFontPattern( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCurveStyleFontPattern::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCurveStyleFontPattern> copy_self( new IfcCurveStyleFontPattern() );
-	if( m_VisibleSegmentLength ) { copy_self->m_VisibleSegmentLength = dynamic_pointer_cast<IfcLengthMeasure>( m_VisibleSegmentLength->getDeepCopy(options) ); }
-	if( m_InvisibleSegmentLength ) { copy_self->m_InvisibleSegmentLength = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_InvisibleSegmentLength->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCurveStyleFontPattern::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCURVESTYLEFONTPATTERN" << "(";

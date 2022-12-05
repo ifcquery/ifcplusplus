@@ -20,29 +20,6 @@
 
 // ENTITY IfcRelSpaceBoundary1stLevel 
 IFC4X3::IfcRelSpaceBoundary1stLevel::IfcRelSpaceBoundary1stLevel( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcRelSpaceBoundary1stLevel::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRelSpaceBoundary1stLevel> copy_self( new IfcRelSpaceBoundary1stLevel() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_RelatingSpace ) { copy_self->m_RelatingSpace = dynamic_pointer_cast<IfcSpaceBoundarySelect>( m_RelatingSpace->getDeepCopy(options) ); }
-	if( m_RelatedBuildingElement ) { copy_self->m_RelatedBuildingElement = dynamic_pointer_cast<IfcElement>( m_RelatedBuildingElement->getDeepCopy(options) ); }
-	if( m_ConnectionGeometry ) { copy_self->m_ConnectionGeometry = dynamic_pointer_cast<IfcConnectionGeometry>( m_ConnectionGeometry->getDeepCopy(options) ); }
-	if( m_PhysicalOrVirtualBoundary ) { copy_self->m_PhysicalOrVirtualBoundary = dynamic_pointer_cast<IfcPhysicalOrVirtualEnum>( m_PhysicalOrVirtualBoundary->getDeepCopy(options) ); }
-	if( m_InternalOrExternalBoundary ) { copy_self->m_InternalOrExternalBoundary = dynamic_pointer_cast<IfcInternalOrExternalEnum>( m_InternalOrExternalBoundary->getDeepCopy(options) ); }
-	if( m_ParentBoundary ) { copy_self->m_ParentBoundary = dynamic_pointer_cast<IfcRelSpaceBoundary1stLevel>( m_ParentBoundary->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcRelSpaceBoundary1stLevel::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCRELSPACEBOUNDARY1STLEVEL" << "(";

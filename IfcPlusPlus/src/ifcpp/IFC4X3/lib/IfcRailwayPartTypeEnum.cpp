@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcRailwayPartTypeEnum.h"
 
 // TYPE IfcRailwayPartTypeEnum = ENUMERATION OF	(DILATATIONSUPERSTRUCTURE	,LINESIDESTRUCTURE	,LINESIDESTRUCTUREPART	,PLAINTRACKSUPERSTRUCTURE	,SUPERSTRUCTURE	,TRACKSTRUCTURE	,TRACKSTRUCTUREPART	,TURNOUTSUPERSTRUCTURE	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcRailwayPartTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRailwayPartTypeEnum> copy_self( new IfcRailwayPartTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcRailwayPartTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRAILWAYPARTTYPEENUM("; }

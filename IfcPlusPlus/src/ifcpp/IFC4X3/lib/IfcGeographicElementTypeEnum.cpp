@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcGeographicElementTypeEnum.h"
 
 // TYPE IfcGeographicElementTypeEnum = ENUMERATION OF	(SOIL_BORING_POINT	,TERRAIN	,VEGETATION	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcGeographicElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcGeographicElementTypeEnum> copy_self( new IfcGeographicElementTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcGeographicElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCGEOGRAPHICELEMENTTYPEENUM("; }

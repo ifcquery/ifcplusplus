@@ -12,12 +12,6 @@
 
 // TYPE IfcSpecularExponent = REAL;
 IFC4X3::IfcSpecularExponent::IfcSpecularExponent( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcSpecularExponent::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSpecularExponent> copy_self( new IfcSpecularExponent() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcSpecularExponent::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPECULAREXPONENT("; }

@@ -11,12 +11,6 @@
 
 // TYPE IfcDayInWeekNumber = INTEGER;
 IFC4X3::IfcDayInWeekNumber::IfcDayInWeekNumber( int value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcDayInWeekNumber::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDayInWeekNumber> copy_self( new IfcDayInWeekNumber() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcDayInWeekNumber::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDAYINWEEKNUMBER("; }

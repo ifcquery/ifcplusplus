@@ -11,12 +11,6 @@
 #include "ifcpp/IFC4X3/include/IfcLineIndex.h"
 
 // TYPE IfcLineIndex = LIST [2:?] OF IfcPositiveInteger;
-shared_ptr<BuildingObject> IFC4X3::IfcLineIndex::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLineIndex> copy_self( new IfcLineIndex() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcLineIndex::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLINEINDEX("; }

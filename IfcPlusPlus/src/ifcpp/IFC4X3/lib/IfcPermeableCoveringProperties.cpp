@@ -24,28 +24,6 @@
 
 // ENTITY IfcPermeableCoveringProperties 
 IFC4X3::IfcPermeableCoveringProperties::IfcPermeableCoveringProperties( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPermeableCoveringProperties::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPermeableCoveringProperties> copy_self( new IfcPermeableCoveringProperties() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_OperationType ) { copy_self->m_OperationType = dynamic_pointer_cast<IfcPermeableCoveringOperationEnum>( m_OperationType->getDeepCopy(options) ); }
-	if( m_PanelPosition ) { copy_self->m_PanelPosition = dynamic_pointer_cast<IfcWindowPanelPositionEnum>( m_PanelPosition->getDeepCopy(options) ); }
-	if( m_FrameDepth ) { copy_self->m_FrameDepth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_FrameDepth->getDeepCopy(options) ); }
-	if( m_FrameThickness ) { copy_self->m_FrameThickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_FrameThickness->getDeepCopy(options) ); }
-	if( m_ShapeAspectStyle ) { copy_self->m_ShapeAspectStyle = dynamic_pointer_cast<IfcShapeAspect>( m_ShapeAspectStyle->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPermeableCoveringProperties::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPERMEABLECOVERINGPROPERTIES" << "(";

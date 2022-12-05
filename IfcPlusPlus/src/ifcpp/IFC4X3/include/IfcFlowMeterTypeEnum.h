@@ -28,7 +28,6 @@ namespace IFC4X3
 		IfcFlowMeterTypeEnum() = default;
 		IfcFlowMeterTypeEnum( IfcFlowMeterTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 2973211341; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcFlowMeterTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcFlowMeterTypeEnumEnum m_enum;

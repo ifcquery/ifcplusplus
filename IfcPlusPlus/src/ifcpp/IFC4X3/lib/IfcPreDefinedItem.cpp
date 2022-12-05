@@ -12,12 +12,6 @@
 
 // ENTITY IfcPreDefinedItem 
 IFC4X3::IfcPreDefinedItem::IfcPreDefinedItem( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPreDefinedItem::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPreDefinedItem> copy_self( new IfcPreDefinedItem() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPreDefinedItem::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPREDEFINEDITEM" << "(";

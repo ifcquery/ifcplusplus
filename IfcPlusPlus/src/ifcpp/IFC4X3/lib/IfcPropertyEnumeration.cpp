@@ -15,21 +15,6 @@
 
 // ENTITY IfcPropertyEnumeration 
 IFC4X3::IfcPropertyEnumeration::IfcPropertyEnumeration( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPropertyEnumeration::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPropertyEnumeration> copy_self( new IfcPropertyEnumeration() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_EnumerationValues.size(); ++ii )
-	{
-		auto item_ii = m_EnumerationValues[ii];
-		if( item_ii )
-		{
-			copy_self->m_EnumerationValues.emplace_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPropertyEnumeration::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPROPERTYENUMERATION" << "(";

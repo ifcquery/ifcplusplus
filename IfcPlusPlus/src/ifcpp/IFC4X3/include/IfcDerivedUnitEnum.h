@@ -75,7 +75,6 @@ namespace IFC4X3
 		IfcDerivedUnitEnum() = default;
 		IfcDerivedUnitEnum( IfcDerivedUnitEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 124742581; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcDerivedUnitEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcDerivedUnitEnumEnum m_enum;

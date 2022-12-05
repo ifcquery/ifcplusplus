@@ -12,19 +12,6 @@
 
 // ENTITY IfcTextureVertex 
 IFC4X3::IfcTextureVertex::IfcTextureVertex( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTextureVertex::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTextureVertex> copy_self( new IfcTextureVertex() );
-	for( size_t ii=0; ii<m_Coordinates.size(); ++ii )
-	{
-		auto item_ii = m_Coordinates[ii];
-		if( item_ii )
-		{
-			copy_self->m_Coordinates.emplace_back( dynamic_pointer_cast<IfcParameterValue>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcTextureVertex::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTUREVERTEX" << "(";

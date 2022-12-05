@@ -12,12 +12,6 @@
 
 // ENTITY IfcStructuralLoadStatic 
 IFC4X3::IfcStructuralLoadStatic::IfcStructuralLoadStatic( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcStructuralLoadStatic::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcStructuralLoadStatic> copy_self( new IfcStructuralLoadStatic() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcStructuralLoadStatic::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSTRUCTURALLOADSTATIC" << "(";

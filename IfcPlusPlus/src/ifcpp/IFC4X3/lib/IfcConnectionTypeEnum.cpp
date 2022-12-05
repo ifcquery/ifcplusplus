@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcConnectionTypeEnum.h"
 
 // TYPE IfcConnectionTypeEnum = ENUMERATION OF	(ATEND	,ATPATH	,ATSTART	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcConnectionTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcConnectionTypeEnum> copy_self( new IfcConnectionTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcConnectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONNECTIONTYPEENUM("; }

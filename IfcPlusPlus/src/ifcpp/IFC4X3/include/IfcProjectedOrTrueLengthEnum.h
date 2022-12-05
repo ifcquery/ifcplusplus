@@ -24,7 +24,6 @@ namespace IFC4X3
 		IfcProjectedOrTrueLengthEnum() = default;
 		IfcProjectedOrTrueLengthEnum( IfcProjectedOrTrueLengthEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 960326014; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcProjectedOrTrueLengthEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcProjectedOrTrueLengthEnumEnum m_enum;

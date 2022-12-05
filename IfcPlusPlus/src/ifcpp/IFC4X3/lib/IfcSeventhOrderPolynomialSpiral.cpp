@@ -15,20 +15,6 @@
 
 // ENTITY IfcSeventhOrderPolynomialSpiral 
 IFC4X3::IfcSeventhOrderPolynomialSpiral::IfcSeventhOrderPolynomialSpiral( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSeventhOrderPolynomialSpiral::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSeventhOrderPolynomialSpiral> copy_self( new IfcSeventhOrderPolynomialSpiral() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement>( m_Position->getDeepCopy(options) ); }
-	if( m_SepticTerm ) { copy_self->m_SepticTerm = dynamic_pointer_cast<IfcLengthMeasure>( m_SepticTerm->getDeepCopy(options) ); }
-	if( m_SexticTerm ) { copy_self->m_SexticTerm = dynamic_pointer_cast<IfcLengthMeasure>( m_SexticTerm->getDeepCopy(options) ); }
-	if( m_QuinticTerm ) { copy_self->m_QuinticTerm = dynamic_pointer_cast<IfcLengthMeasure>( m_QuinticTerm->getDeepCopy(options) ); }
-	if( m_QuarticTerm ) { copy_self->m_QuarticTerm = dynamic_pointer_cast<IfcLengthMeasure>( m_QuarticTerm->getDeepCopy(options) ); }
-	if( m_CubicTerm ) { copy_self->m_CubicTerm = dynamic_pointer_cast<IfcLengthMeasure>( m_CubicTerm->getDeepCopy(options) ); }
-	if( m_QuadraticTerm ) { copy_self->m_QuadraticTerm = dynamic_pointer_cast<IfcLengthMeasure>( m_QuadraticTerm->getDeepCopy(options) ); }
-	if( m_LinearTerm ) { copy_self->m_LinearTerm = dynamic_pointer_cast<IfcLengthMeasure>( m_LinearTerm->getDeepCopy(options) ); }
-	if( m_ConstantTerm ) { copy_self->m_ConstantTerm = dynamic_pointer_cast<IfcLengthMeasure>( m_ConstantTerm->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSeventhOrderPolynomialSpiral::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSEVENTHORDERPOLYNOMIALSPIRAL" << "(";

@@ -15,21 +15,6 @@
 
 // ENTITY IfcMapConversion 
 IFC4X3::IfcMapConversion::IfcMapConversion( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMapConversion::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMapConversion> copy_self( new IfcMapConversion() );
-	if( m_SourceCRS ) { copy_self->m_SourceCRS = dynamic_pointer_cast<IfcCoordinateReferenceSystemSelect>( m_SourceCRS->getDeepCopy(options) ); }
-	if( m_TargetCRS ) { copy_self->m_TargetCRS = dynamic_pointer_cast<IfcCoordinateReferenceSystem>( m_TargetCRS->getDeepCopy(options) ); }
-	if( m_Eastings ) { copy_self->m_Eastings = dynamic_pointer_cast<IfcLengthMeasure>( m_Eastings->getDeepCopy(options) ); }
-	if( m_Northings ) { copy_self->m_Northings = dynamic_pointer_cast<IfcLengthMeasure>( m_Northings->getDeepCopy(options) ); }
-	if( m_OrthogonalHeight ) { copy_self->m_OrthogonalHeight = dynamic_pointer_cast<IfcLengthMeasure>( m_OrthogonalHeight->getDeepCopy(options) ); }
-	if( m_XAxisAbscissa ) { copy_self->m_XAxisAbscissa = dynamic_pointer_cast<IfcReal>( m_XAxisAbscissa->getDeepCopy(options) ); }
-	if( m_XAxisOrdinate ) { copy_self->m_XAxisOrdinate = dynamic_pointer_cast<IfcReal>( m_XAxisOrdinate->getDeepCopy(options) ); }
-	if( m_Scale ) { copy_self->m_Scale = dynamic_pointer_cast<IfcReal>( m_Scale->getDeepCopy(options) ); }
-	if( m_ScaleY ) { copy_self->m_ScaleY = dynamic_pointer_cast<IfcReal>( m_ScaleY->getDeepCopy(options) ); }
-	if( m_ScaleZ ) { copy_self->m_ScaleZ = dynamic_pointer_cast<IfcReal>( m_ScaleZ->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcMapConversion::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMAPCONVERSION" << "(";

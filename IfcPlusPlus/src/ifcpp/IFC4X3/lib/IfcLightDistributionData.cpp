@@ -13,28 +13,6 @@
 
 // ENTITY IfcLightDistributionData 
 IFC4X3::IfcLightDistributionData::IfcLightDistributionData( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcLightDistributionData::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLightDistributionData> copy_self( new IfcLightDistributionData() );
-	if( m_MainPlaneAngle ) { copy_self->m_MainPlaneAngle = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_MainPlaneAngle->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_SecondaryPlaneAngle.size(); ++ii )
-	{
-		auto item_ii = m_SecondaryPlaneAngle[ii];
-		if( item_ii )
-		{
-			copy_self->m_SecondaryPlaneAngle.emplace_back( dynamic_pointer_cast<IfcPlaneAngleMeasure>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_LuminousIntensity.size(); ++ii )
-	{
-		auto item_ii = m_LuminousIntensity[ii];
-		if( item_ii )
-		{
-			copy_self->m_LuminousIntensity.emplace_back( dynamic_pointer_cast<IfcLuminousIntensityDistributionMeasure>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcLightDistributionData::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCLIGHTDISTRIBUTIONDATA" << "(";

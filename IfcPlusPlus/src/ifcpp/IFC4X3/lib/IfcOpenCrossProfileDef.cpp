@@ -19,39 +19,6 @@
 
 // ENTITY IfcOpenCrossProfileDef 
 IFC4X3::IfcOpenCrossProfileDef::IfcOpenCrossProfileDef( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcOpenCrossProfileDef::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcOpenCrossProfileDef> copy_self( new IfcOpenCrossProfileDef() );
-	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
-	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
-	if( m_HorizontalWidths ) { copy_self->m_HorizontalWidths = dynamic_pointer_cast<IfcBoolean>( m_HorizontalWidths->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Widths.size(); ++ii )
-	{
-		auto item_ii = m_Widths[ii];
-		if( item_ii )
-		{
-			copy_self->m_Widths.emplace_back( dynamic_pointer_cast<IfcNonNegativeLengthMeasure>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_Slopes.size(); ++ii )
-	{
-		auto item_ii = m_Slopes[ii];
-		if( item_ii )
-		{
-			copy_self->m_Slopes.emplace_back( dynamic_pointer_cast<IfcPlaneAngleMeasure>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_Tags.size(); ++ii )
-	{
-		auto item_ii = m_Tags[ii];
-		if( item_ii )
-		{
-			copy_self->m_Tags.emplace_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_OffsetPoint ) { copy_self->m_OffsetPoint = dynamic_pointer_cast<IfcCartesianPoint>( m_OffsetPoint->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcOpenCrossProfileDef::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCOPENCROSSPROFILEDEF" << "(";

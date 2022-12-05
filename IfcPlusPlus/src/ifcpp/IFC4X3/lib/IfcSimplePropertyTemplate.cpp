@@ -23,31 +23,6 @@
 
 // ENTITY IfcSimplePropertyTemplate 
 IFC4X3::IfcSimplePropertyTemplate::IfcSimplePropertyTemplate( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSimplePropertyTemplate::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSimplePropertyTemplate> copy_self( new IfcSimplePropertyTemplate() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_TemplateType ) { copy_self->m_TemplateType = dynamic_pointer_cast<IfcSimplePropertyTemplateTypeEnum>( m_TemplateType->getDeepCopy(options) ); }
-	if( m_PrimaryMeasureType ) { copy_self->m_PrimaryMeasureType = dynamic_pointer_cast<IfcLabel>( m_PrimaryMeasureType->getDeepCopy(options) ); }
-	if( m_SecondaryMeasureType ) { copy_self->m_SecondaryMeasureType = dynamic_pointer_cast<IfcLabel>( m_SecondaryMeasureType->getDeepCopy(options) ); }
-	if( m_Enumerators ) { copy_self->m_Enumerators = dynamic_pointer_cast<IfcPropertyEnumeration>( m_Enumerators->getDeepCopy(options) ); }
-	if( m_PrimaryUnit ) { copy_self->m_PrimaryUnit = dynamic_pointer_cast<IfcUnit>( m_PrimaryUnit->getDeepCopy(options) ); }
-	if( m_SecondaryUnit ) { copy_self->m_SecondaryUnit = dynamic_pointer_cast<IfcUnit>( m_SecondaryUnit->getDeepCopy(options) ); }
-	if( m_Expression ) { copy_self->m_Expression = dynamic_pointer_cast<IfcLabel>( m_Expression->getDeepCopy(options) ); }
-	if( m_AccessState ) { copy_self->m_AccessState = dynamic_pointer_cast<IfcStateEnum>( m_AccessState->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSimplePropertyTemplate::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSIMPLEPROPERTYTEMPLATE" << "(";

@@ -14,18 +14,6 @@
 
 // ENTITY IfcEventTime 
 IFC4X3::IfcEventTime::IfcEventTime( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcEventTime::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcEventTime> copy_self( new IfcEventTime() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy(options) ); }
-	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy(options) ); }
-	if( m_ActualDate ) { copy_self->m_ActualDate = dynamic_pointer_cast<IfcDateTime>( m_ActualDate->getDeepCopy(options) ); }
-	if( m_EarlyDate ) { copy_self->m_EarlyDate = dynamic_pointer_cast<IfcDateTime>( m_EarlyDate->getDeepCopy(options) ); }
-	if( m_LateDate ) { copy_self->m_LateDate = dynamic_pointer_cast<IfcDateTime>( m_LateDate->getDeepCopy(options) ); }
-	if( m_ScheduleDate ) { copy_self->m_ScheduleDate = dynamic_pointer_cast<IfcDateTime>( m_ScheduleDate->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcEventTime::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCEVENTTIME" << "(";

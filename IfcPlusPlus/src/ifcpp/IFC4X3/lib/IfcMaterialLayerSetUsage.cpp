@@ -17,16 +17,6 @@
 
 // ENTITY IfcMaterialLayerSetUsage 
 IFC4X3::IfcMaterialLayerSetUsage::IfcMaterialLayerSetUsage( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMaterialLayerSetUsage::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMaterialLayerSetUsage> copy_self( new IfcMaterialLayerSetUsage() );
-	if( m_ForLayerSet ) { copy_self->m_ForLayerSet = dynamic_pointer_cast<IfcMaterialLayerSet>( m_ForLayerSet->getDeepCopy(options) ); }
-	if( m_LayerSetDirection ) { copy_self->m_LayerSetDirection = dynamic_pointer_cast<IfcLayerSetDirectionEnum>( m_LayerSetDirection->getDeepCopy(options) ); }
-	if( m_DirectionSense ) { copy_self->m_DirectionSense = dynamic_pointer_cast<IfcDirectionSenseEnum>( m_DirectionSense->getDeepCopy(options) ); }
-	if( m_OffsetFromReferenceLine ) { copy_self->m_OffsetFromReferenceLine = dynamic_pointer_cast<IfcLengthMeasure>( m_OffsetFromReferenceLine->getDeepCopy(options) ); }
-	if( m_ReferenceExtent ) { copy_self->m_ReferenceExtent = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_ReferenceExtent->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcMaterialLayerSetUsage::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIALLAYERSETUSAGE" << "(";

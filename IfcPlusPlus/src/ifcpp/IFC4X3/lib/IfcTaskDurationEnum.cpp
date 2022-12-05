@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcTaskDurationEnum.h"
 
 // TYPE IfcTaskDurationEnum = ENUMERATION OF	(ELAPSEDTIME	,WORKTIME	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcTaskDurationEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTaskDurationEnum> copy_self( new IfcTaskDurationEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcTaskDurationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTASKDURATIONENUM("; }

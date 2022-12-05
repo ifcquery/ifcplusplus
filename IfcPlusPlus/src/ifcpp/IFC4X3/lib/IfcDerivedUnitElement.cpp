@@ -12,13 +12,6 @@
 
 // ENTITY IfcDerivedUnitElement 
 IFC4X3::IfcDerivedUnitElement::IfcDerivedUnitElement( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcDerivedUnitElement::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDerivedUnitElement> copy_self( new IfcDerivedUnitElement() );
-	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcNamedUnit>( m_Unit->getDeepCopy(options) ); }
-	copy_self->m_Exponent = m_Exponent;
-	return copy_self;
-}
 void IFC4X3::IfcDerivedUnitElement::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCDERIVEDUNITELEMENT" << "(";

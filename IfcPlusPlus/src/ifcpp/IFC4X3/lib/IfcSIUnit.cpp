@@ -15,15 +15,6 @@
 
 // ENTITY IfcSIUnit 
 IFC4X3::IfcSIUnit::IfcSIUnit( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSIUnit::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSIUnit> copy_self( new IfcSIUnit() );
-	if( m_Dimensions ) { copy_self->m_Dimensions = dynamic_pointer_cast<IfcDimensionalExponents>( m_Dimensions->getDeepCopy(options) ); }
-	if( m_UnitType ) { copy_self->m_UnitType = dynamic_pointer_cast<IfcUnitEnum>( m_UnitType->getDeepCopy(options) ); }
-	if( m_Prefix ) { copy_self->m_Prefix = dynamic_pointer_cast<IfcSIPrefix>( m_Prefix->getDeepCopy(options) ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcSIUnitName>( m_Name->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSIUnit::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSIUNIT" << "(";

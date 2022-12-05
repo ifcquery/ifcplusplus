@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcObjectiveEnum.h"
 
 // TYPE IfcObjectiveEnum = ENUMERATION OF	(CODECOMPLIANCE	,CODEWAIVER	,DESIGNINTENT	,EXTERNAL	,HEALTHANDSAFETY	,MERGECONFLICT	,MODELVIEW	,PARAMETER	,REQUIREMENT	,SPECIFICATION	,TRIGGERCONDITION	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcObjectiveEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcObjectiveEnum> copy_self( new IfcObjectiveEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcObjectiveEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCOBJECTIVEENUM("; }

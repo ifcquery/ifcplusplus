@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcCurtainWallTypeEnum.h"
 
 // TYPE IfcCurtainWallTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcCurtainWallTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCurtainWallTypeEnum> copy_self( new IfcCurtainWallTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcCurtainWallTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCURTAINWALLTYPEENUM("; }

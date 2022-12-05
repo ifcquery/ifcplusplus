@@ -15,14 +15,6 @@
 
 // ENTITY IfcExternallyDefinedHatchStyle 
 IFC4X3::IfcExternallyDefinedHatchStyle::IfcExternallyDefinedHatchStyle( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcExternallyDefinedHatchStyle::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcExternallyDefinedHatchStyle> copy_self( new IfcExternallyDefinedHatchStyle() );
-	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy(options) ); }
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcExternallyDefinedHatchStyle::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCEXTERNALLYDEFINEDHATCHSTYLE" << "(";

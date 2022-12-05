@@ -12,19 +12,6 @@
 
 // ENTITY IfcMaterialList 
 IFC4X3::IfcMaterialList::IfcMaterialList( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMaterialList::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMaterialList> copy_self( new IfcMaterialList() );
-	for( size_t ii=0; ii<m_Materials.size(); ++ii )
-	{
-		auto item_ii = m_Materials[ii];
-		if( item_ii )
-		{
-			copy_self->m_Materials.emplace_back( dynamic_pointer_cast<IfcMaterial>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcMaterialList::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIALLIST" << "(";

@@ -12,12 +12,6 @@
 
 // TYPE IfcIsothermalMoistureCapacityMeasure = REAL;
 IFC4X3::IfcIsothermalMoistureCapacityMeasure::IfcIsothermalMoistureCapacityMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcIsothermalMoistureCapacityMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcIsothermalMoistureCapacityMeasure> copy_self( new IfcIsothermalMoistureCapacityMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcIsothermalMoistureCapacityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCISOTHERMALMOISTURECAPACITYMEASURE("; }

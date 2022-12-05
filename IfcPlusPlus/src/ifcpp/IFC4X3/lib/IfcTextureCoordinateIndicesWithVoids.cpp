@@ -14,34 +14,6 @@
 
 // ENTITY IfcTextureCoordinateIndicesWithVoids 
 IFC4X3::IfcTextureCoordinateIndicesWithVoids::IfcTextureCoordinateIndicesWithVoids( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTextureCoordinateIndicesWithVoids::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTextureCoordinateIndicesWithVoids> copy_self( new IfcTextureCoordinateIndicesWithVoids() );
-	for( size_t ii=0; ii<m_TexCoordIndex.size(); ++ii )
-	{
-		auto item_ii = m_TexCoordIndex[ii];
-		if( item_ii )
-		{
-			copy_self->m_TexCoordIndex.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_TexCoordsOf ) { copy_self->m_TexCoordsOf = dynamic_pointer_cast<IfcIndexedPolygonalFace>( m_TexCoordsOf->getDeepCopy(options) ); }
-	copy_self->m_InnerTexCoordIndices.resize( m_InnerTexCoordIndices.size() );
-	for( size_t ii=0; ii<m_InnerTexCoordIndices.size(); ++ii )
-	{
-		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_InnerTexCoordIndices[ii];
-		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii_target = copy_self->m_InnerTexCoordIndices[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
-		{
-			shared_ptr<IfcPositiveInteger>& item_jj = vec_ii[jj];
-			if( item_jj )
-			{
-				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
-			}
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcTextureCoordinateIndicesWithVoids::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTURECOORDINATEINDICESWITHVOIDS" << "(";

@@ -17,21 +17,6 @@
 
 // ENTITY IfcMaterialLayerSet 
 IFC4X3::IfcMaterialLayerSet::IfcMaterialLayerSet( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMaterialLayerSet::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMaterialLayerSet> copy_self( new IfcMaterialLayerSet() );
-	for( size_t ii=0; ii<m_MaterialLayers.size(); ++ii )
-	{
-		auto item_ii = m_MaterialLayers[ii];
-		if( item_ii )
-		{
-			copy_self->m_MaterialLayers.emplace_back( dynamic_pointer_cast<IfcMaterialLayer>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_LayerSetName ) { copy_self->m_LayerSetName = dynamic_pointer_cast<IfcLabel>( m_LayerSetName->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcMaterialLayerSet::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIALLAYERSET" << "(";

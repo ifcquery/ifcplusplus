@@ -14,12 +14,6 @@
 
 // ENTITY IfcCsgPrimitive3D 
 IFC4X3::IfcCsgPrimitive3D::IfcCsgPrimitive3D( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCsgPrimitive3D::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCsgPrimitive3D> copy_self( new IfcCsgPrimitive3D() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCsgPrimitive3D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCSGPRIMITIVE3D" << "(";

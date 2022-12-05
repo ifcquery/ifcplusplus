@@ -25,7 +25,6 @@ namespace IFC4X3
 		IfcAssemblyPlaceEnum() = default;
 		IfcAssemblyPlaceEnum( IfcAssemblyPlaceEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1925676203; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcAssemblyPlaceEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcAssemblyPlaceEnumEnum m_enum;

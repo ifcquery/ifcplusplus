@@ -29,40 +29,6 @@
 
 // ENTITY IfcWorkSchedule 
 IFC4X3::IfcWorkSchedule::IfcWorkSchedule( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcWorkSchedule::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcWorkSchedule> copy_self( new IfcWorkSchedule() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
-	if( m_CreationDate ) { copy_self->m_CreationDate = dynamic_pointer_cast<IfcDateTime>( m_CreationDate->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Creators.size(); ++ii )
-	{
-		auto item_ii = m_Creators[ii];
-		if( item_ii )
-		{
-			copy_self->m_Creators.emplace_back( dynamic_pointer_cast<IfcPerson>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcLabel>( m_Purpose->getDeepCopy(options) ); }
-	if( m_Duration ) { copy_self->m_Duration = dynamic_pointer_cast<IfcDuration>( m_Duration->getDeepCopy(options) ); }
-	if( m_TotalFloat ) { copy_self->m_TotalFloat = dynamic_pointer_cast<IfcDuration>( m_TotalFloat->getDeepCopy(options) ); }
-	if( m_StartTime ) { copy_self->m_StartTime = dynamic_pointer_cast<IfcDateTime>( m_StartTime->getDeepCopy(options) ); }
-	if( m_FinishTime ) { copy_self->m_FinishTime = dynamic_pointer_cast<IfcDateTime>( m_FinishTime->getDeepCopy(options) ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcWorkScheduleTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcWorkSchedule::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCWORKSCHEDULE" << "(";

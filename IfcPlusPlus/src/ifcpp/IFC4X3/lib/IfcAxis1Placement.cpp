@@ -15,13 +15,6 @@
 
 // ENTITY IfcAxis1Placement 
 IFC4X3::IfcAxis1Placement::IfcAxis1Placement( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcAxis1Placement::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAxis1Placement> copy_self( new IfcAxis1Placement() );
-	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcPoint>( m_Location->getDeepCopy(options) ); }
-	if( m_Axis ) { copy_self->m_Axis = dynamic_pointer_cast<IfcDirection>( m_Axis->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcAxis1Placement::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCAXIS1PLACEMENT" << "(";

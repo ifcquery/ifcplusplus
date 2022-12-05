@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcPermeableCoveringOperationEnum.h"
 
 // TYPE IfcPermeableCoveringOperationEnum = ENUMERATION OF	(GRILL	,LOUVER	,SCREEN	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcPermeableCoveringOperationEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPermeableCoveringOperationEnum> copy_self( new IfcPermeableCoveringOperationEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcPermeableCoveringOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPERMEABLECOVERINGOPERATIONENUM("; }

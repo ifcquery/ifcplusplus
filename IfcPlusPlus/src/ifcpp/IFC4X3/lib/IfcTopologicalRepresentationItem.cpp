@@ -13,11 +13,6 @@
 
 // ENTITY IfcTopologicalRepresentationItem 
 IFC4X3::IfcTopologicalRepresentationItem::IfcTopologicalRepresentationItem( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTopologicalRepresentationItem::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTopologicalRepresentationItem> copy_self( new IfcTopologicalRepresentationItem() );
-	return copy_self;
-}
 void IFC4X3::IfcTopologicalRepresentationItem::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTOPOLOGICALREPRESENTATIONITEM" << "(";

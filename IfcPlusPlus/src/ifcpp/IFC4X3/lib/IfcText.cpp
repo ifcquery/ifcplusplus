@@ -12,12 +12,6 @@
 
 // TYPE IfcText = STRING;
 IFC4X3::IfcText::IfcText( std::string value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcText::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcText> copy_self( new IfcText() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcText::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTEXT("; }

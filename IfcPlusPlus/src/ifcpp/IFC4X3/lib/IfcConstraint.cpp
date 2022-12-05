@@ -18,18 +18,6 @@
 
 // ENTITY IfcConstraint 
 IFC4X3::IfcConstraint::IfcConstraint( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcConstraint::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcConstraint> copy_self( new IfcConstraint() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_ConstraintGrade ) { copy_self->m_ConstraintGrade = dynamic_pointer_cast<IfcConstraintEnum>( m_ConstraintGrade->getDeepCopy(options) ); }
-	if( m_ConstraintSource ) { copy_self->m_ConstraintSource = dynamic_pointer_cast<IfcLabel>( m_ConstraintSource->getDeepCopy(options) ); }
-	if( m_CreatingActor ) { copy_self->m_CreatingActor = dynamic_pointer_cast<IfcActorSelect>( m_CreatingActor->getDeepCopy(options) ); }
-	if( m_CreationTime ) { copy_self->m_CreationTime = dynamic_pointer_cast<IfcDateTime>( m_CreationTime->getDeepCopy(options) ); }
-	if( m_UserDefinedGrade ) { copy_self->m_UserDefinedGrade = dynamic_pointer_cast<IfcLabel>( m_UserDefinedGrade->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcConstraint::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCONSTRAINT" << "(";

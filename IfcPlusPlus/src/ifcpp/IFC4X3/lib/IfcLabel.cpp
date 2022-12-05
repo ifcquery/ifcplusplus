@@ -12,12 +12,6 @@
 
 // TYPE IfcLabel = STRING(255);
 IFC4X3::IfcLabel::IfcLabel( std::string value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcLabel::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLabel> copy_self( new IfcLabel() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcLabel::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLABEL("; }

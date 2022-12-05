@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcProfileTypeEnum.h"
 
 // TYPE IfcProfileTypeEnum = ENUMERATION OF	(AREA	,CURVE);
-shared_ptr<BuildingObject> IFC4X3::IfcProfileTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcProfileTypeEnum> copy_self( new IfcProfileTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcProfileTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROFILETYPEENUM("; }

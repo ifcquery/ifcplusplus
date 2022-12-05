@@ -18,12 +18,6 @@
 
 // TYPE IfcBoolean = BOOLEAN;
 IFC4X3::IfcBoolean::IfcBoolean( bool value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcBoolean::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBoolean> copy_self( new IfcBoolean() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcBoolean::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBOOLEAN("; }

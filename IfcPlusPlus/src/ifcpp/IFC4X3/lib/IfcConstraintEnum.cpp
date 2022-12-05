@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcConstraintEnum.h"
 
 // TYPE IfcConstraintEnum = ENUMERATION OF	(ADVISORY	,HARD	,SOFT	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcConstraintEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcConstraintEnum> copy_self( new IfcConstraintEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcConstraintEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONSTRAINTENUM("; }

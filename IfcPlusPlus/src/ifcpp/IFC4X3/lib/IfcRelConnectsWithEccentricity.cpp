@@ -22,30 +22,6 @@
 
 // ENTITY IfcRelConnectsWithEccentricity 
 IFC4X3::IfcRelConnectsWithEccentricity::IfcRelConnectsWithEccentricity( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcRelConnectsWithEccentricity::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRelConnectsWithEccentricity> copy_self( new IfcRelConnectsWithEccentricity() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_RelatingStructuralMember ) { copy_self->m_RelatingStructuralMember = dynamic_pointer_cast<IfcStructuralMember>( m_RelatingStructuralMember->getDeepCopy(options) ); }
-	if( m_RelatedStructuralConnection ) { copy_self->m_RelatedStructuralConnection = dynamic_pointer_cast<IfcStructuralConnection>( m_RelatedStructuralConnection->getDeepCopy(options) ); }
-	if( m_AppliedCondition ) { copy_self->m_AppliedCondition = dynamic_pointer_cast<IfcBoundaryCondition>( m_AppliedCondition->getDeepCopy(options) ); }
-	if( m_AdditionalConditions ) { copy_self->m_AdditionalConditions = dynamic_pointer_cast<IfcStructuralConnectionCondition>( m_AdditionalConditions->getDeepCopy(options) ); }
-	if( m_SupportedLength ) { copy_self->m_SupportedLength = dynamic_pointer_cast<IfcLengthMeasure>( m_SupportedLength->getDeepCopy(options) ); }
-	if( m_ConditionCoordinateSystem ) { copy_self->m_ConditionCoordinateSystem = dynamic_pointer_cast<IfcAxis2Placement3D>( m_ConditionCoordinateSystem->getDeepCopy(options) ); }
-	if( m_ConnectionConstraint ) { copy_self->m_ConnectionConstraint = dynamic_pointer_cast<IfcConnectionGeometry>( m_ConnectionConstraint->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcRelConnectsWithEccentricity::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCRELCONNECTSWITHECCENTRICITY" << "(";

@@ -18,17 +18,6 @@
 
 // ENTITY IfcLibraryInformation 
 IFC4X3::IfcLibraryInformation::IfcLibraryInformation( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcLibraryInformation::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLibraryInformation> copy_self( new IfcLibraryInformation() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Version ) { copy_self->m_Version = dynamic_pointer_cast<IfcLabel>( m_Version->getDeepCopy(options) ); }
-	if( m_Publisher ) { copy_self->m_Publisher = dynamic_pointer_cast<IfcActorSelect>( m_Publisher->getDeepCopy(options) ); }
-	if( m_VersionDate ) { copy_self->m_VersionDate = dynamic_pointer_cast<IfcDateTime>( m_VersionDate->getDeepCopy(options) ); }
-	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcLibraryInformation::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCLIBRARYINFORMATION" << "(";

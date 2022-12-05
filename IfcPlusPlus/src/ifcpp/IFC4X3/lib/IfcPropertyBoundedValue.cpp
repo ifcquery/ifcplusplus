@@ -21,17 +21,6 @@
 
 // ENTITY IfcPropertyBoundedValue 
 IFC4X3::IfcPropertyBoundedValue::IfcPropertyBoundedValue( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPropertyBoundedValue::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPropertyBoundedValue> copy_self( new IfcPropertyBoundedValue() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
-	if( m_Specification ) { copy_self->m_Specification = dynamic_pointer_cast<IfcText>( m_Specification->getDeepCopy(options) ); }
-	if( m_UpperBoundValue ) { copy_self->m_UpperBoundValue = dynamic_pointer_cast<IfcValue>( m_UpperBoundValue->getDeepCopy(options) ); }
-	if( m_LowerBoundValue ) { copy_self->m_LowerBoundValue = dynamic_pointer_cast<IfcValue>( m_LowerBoundValue->getDeepCopy(options) ); }
-	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy(options) ); }
-	if( m_SetPointValue ) { copy_self->m_SetPointValue = dynamic_pointer_cast<IfcValue>( m_SetPointValue->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPropertyBoundedValue::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPROPERTYBOUNDEDVALUE" << "(";

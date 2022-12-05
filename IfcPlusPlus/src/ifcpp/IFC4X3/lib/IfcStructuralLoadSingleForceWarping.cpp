@@ -15,19 +15,6 @@
 
 // ENTITY IfcStructuralLoadSingleForceWarping 
 IFC4X3::IfcStructuralLoadSingleForceWarping::IfcStructuralLoadSingleForceWarping( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcStructuralLoadSingleForceWarping::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcStructuralLoadSingleForceWarping> copy_self( new IfcStructuralLoadSingleForceWarping() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_ForceX ) { copy_self->m_ForceX = dynamic_pointer_cast<IfcForceMeasure>( m_ForceX->getDeepCopy(options) ); }
-	if( m_ForceY ) { copy_self->m_ForceY = dynamic_pointer_cast<IfcForceMeasure>( m_ForceY->getDeepCopy(options) ); }
-	if( m_ForceZ ) { copy_self->m_ForceZ = dynamic_pointer_cast<IfcForceMeasure>( m_ForceZ->getDeepCopy(options) ); }
-	if( m_MomentX ) { copy_self->m_MomentX = dynamic_pointer_cast<IfcTorqueMeasure>( m_MomentX->getDeepCopy(options) ); }
-	if( m_MomentY ) { copy_self->m_MomentY = dynamic_pointer_cast<IfcTorqueMeasure>( m_MomentY->getDeepCopy(options) ); }
-	if( m_MomentZ ) { copy_self->m_MomentZ = dynamic_pointer_cast<IfcTorqueMeasure>( m_MomentZ->getDeepCopy(options) ); }
-	if( m_WarpingMoment ) { copy_self->m_WarpingMoment = dynamic_pointer_cast<IfcWarpingMomentMeasure>( m_WarpingMoment->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcStructuralLoadSingleForceWarping::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSTRUCTURALLOADSINGLEFORCEWARPING" << "(";

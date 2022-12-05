@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcSurfaceSide.h"
 
 // TYPE IfcSurfaceSide = ENUMERATION OF	(BOTH	,NEGATIVE	,POSITIVE);
-shared_ptr<BuildingObject> IFC4X3::IfcSurfaceSide::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSurfaceSide> copy_self( new IfcSurfaceSide() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcSurfaceSide::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSURFACESIDE("; }

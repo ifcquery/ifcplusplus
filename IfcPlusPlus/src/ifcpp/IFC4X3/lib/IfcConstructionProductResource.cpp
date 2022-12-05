@@ -29,37 +29,6 @@
 
 // ENTITY IfcConstructionProductResource 
 IFC4X3::IfcConstructionProductResource::IfcConstructionProductResource( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcConstructionProductResource::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcConstructionProductResource> copy_self( new IfcConstructionProductResource() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
-	if( m_LongDescription ) { copy_self->m_LongDescription = dynamic_pointer_cast<IfcText>( m_LongDescription->getDeepCopy(options) ); }
-	if( m_Usage ) { copy_self->m_Usage = dynamic_pointer_cast<IfcResourceTime>( m_Usage->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_BaseCosts.size(); ++ii )
-	{
-		auto item_ii = m_BaseCosts[ii];
-		if( item_ii )
-		{
-			copy_self->m_BaseCosts.emplace_back( dynamic_pointer_cast<IfcAppliedValue>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_BaseQuantity ) { copy_self->m_BaseQuantity = dynamic_pointer_cast<IfcPhysicalQuantity>( m_BaseQuantity->getDeepCopy(options) ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcConstructionProductResourceTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcConstructionProductResource::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCONSTRUCTIONPRODUCTRESOURCE" << "(";

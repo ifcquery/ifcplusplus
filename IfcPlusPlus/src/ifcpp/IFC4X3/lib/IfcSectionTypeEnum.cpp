@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcSectionTypeEnum.h"
 
 // TYPE IfcSectionTypeEnum = ENUMERATION OF	(TAPERED	,UNIFORM);
-shared_ptr<BuildingObject> IFC4X3::IfcSectionTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSectionTypeEnum> copy_self( new IfcSectionTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcSectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSECTIONTYPEENUM("; }

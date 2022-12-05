@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcDuctSilencerTypeEnum.h"
 
 // TYPE IfcDuctSilencerTypeEnum = ENUMERATION OF	(FLATOVAL	,RECTANGULAR	,ROUND	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcDuctSilencerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDuctSilencerTypeEnum> copy_self( new IfcDuctSilencerTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcDuctSilencerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDUCTSILENCERTYPEENUM("; }

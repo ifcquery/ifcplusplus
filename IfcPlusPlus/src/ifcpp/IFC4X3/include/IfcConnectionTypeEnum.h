@@ -26,7 +26,6 @@ namespace IFC4X3
 		IfcConnectionTypeEnum() = default;
 		IfcConnectionTypeEnum( IfcConnectionTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 2128902557; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcConnectionTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcConnectionTypeEnumEnum m_enum;

@@ -28,7 +28,6 @@ namespace IFC4X3
 		IfcInternalOrExternalEnum() = default;
 		IfcInternalOrExternalEnum( IfcInternalOrExternalEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1687521235; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcInternalOrExternalEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcInternalOrExternalEnumEnum m_enum;

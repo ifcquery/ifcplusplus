@@ -12,12 +12,6 @@
 
 // TYPE IfcLuminousFluxMeasure = REAL;
 IFC4X3::IfcLuminousFluxMeasure::IfcLuminousFluxMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcLuminousFluxMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLuminousFluxMeasure> copy_self( new IfcLuminousFluxMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcLuminousFluxMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLUMINOUSFLUXMEASURE("; }

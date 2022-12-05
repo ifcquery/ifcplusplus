@@ -12,12 +12,6 @@
 
 // ENTITY IfcPresentationStyle 
 IFC4X3::IfcPresentationStyle::IfcPresentationStyle( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPresentationStyle::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPresentationStyle> copy_self( new IfcPresentationStyle() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPresentationStyle::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPRESENTATIONSTYLE" << "(";

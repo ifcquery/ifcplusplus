@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcBurnerTypeEnum.h"
 
 // TYPE IfcBurnerTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcBurnerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBurnerTypeEnum> copy_self( new IfcBurnerTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcBurnerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBURNERTYPEENUM("; }

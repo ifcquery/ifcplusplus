@@ -16,18 +16,6 @@
 
 // ENTITY IfcRectangularTrimmedSurface 
 IFC4X3::IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcRectangularTrimmedSurface::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRectangularTrimmedSurface> copy_self( new IfcRectangularTrimmedSurface() );
-	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy(options) ); }
-	if( m_U1 ) { copy_self->m_U1 = dynamic_pointer_cast<IfcParameterValue>( m_U1->getDeepCopy(options) ); }
-	if( m_V1 ) { copy_self->m_V1 = dynamic_pointer_cast<IfcParameterValue>( m_V1->getDeepCopy(options) ); }
-	if( m_U2 ) { copy_self->m_U2 = dynamic_pointer_cast<IfcParameterValue>( m_U2->getDeepCopy(options) ); }
-	if( m_V2 ) { copy_self->m_V2 = dynamic_pointer_cast<IfcParameterValue>( m_V2->getDeepCopy(options) ); }
-	if( m_Usense ) { copy_self->m_Usense = dynamic_pointer_cast<IfcBoolean>( m_Usense->getDeepCopy(options) ); }
-	if( m_Vsense ) { copy_self->m_Vsense = dynamic_pointer_cast<IfcBoolean>( m_Vsense->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcRectangularTrimmedSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCRECTANGULARTRIMMEDSURFACE" << "(";

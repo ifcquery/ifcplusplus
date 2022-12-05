@@ -16,16 +16,6 @@
 
 // ENTITY IfcTableColumn 
 IFC4X3::IfcTableColumn::IfcTableColumn( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTableColumn::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTableColumn> copy_self( new IfcTableColumn() );
-	if( m_Identifier ) { copy_self->m_Identifier = dynamic_pointer_cast<IfcIdentifier>( m_Identifier->getDeepCopy(options) ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcUnit>( m_Unit->getDeepCopy(options) ); }
-	if( m_ReferencePath ) { copy_self->m_ReferencePath = dynamic_pointer_cast<IfcReference>( m_ReferencePath->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTableColumn::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTABLECOLUMN" << "(";

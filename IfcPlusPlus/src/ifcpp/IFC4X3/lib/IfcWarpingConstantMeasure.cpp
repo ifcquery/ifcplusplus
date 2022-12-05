@@ -12,12 +12,6 @@
 
 // TYPE IfcWarpingConstantMeasure = REAL;
 IFC4X3::IfcWarpingConstantMeasure::IfcWarpingConstantMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcWarpingConstantMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcWarpingConstantMeasure> copy_self( new IfcWarpingConstantMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcWarpingConstantMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWARPINGCONSTANTMEASURE("; }

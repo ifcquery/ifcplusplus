@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcLayerSetDirectionEnum.h"
 
 // TYPE IfcLayerSetDirectionEnum = ENUMERATION OF	(AXIS1	,AXIS2	,AXIS3);
-shared_ptr<BuildingObject> IFC4X3::IfcLayerSetDirectionEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLayerSetDirectionEnum> copy_self( new IfcLayerSetDirectionEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcLayerSetDirectionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLAYERSETDIRECTIONENUM("; }

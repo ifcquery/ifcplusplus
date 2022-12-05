@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcRecurrenceTypeEnum.h"
 
 // TYPE IfcRecurrenceTypeEnum = ENUMERATION OF	(BY_DAY_COUNT	,BY_WEEKDAY_COUNT	,DAILY	,MONTHLY_BY_DAY_OF_MONTH	,MONTHLY_BY_POSITION	,WEEKLY	,YEARLY_BY_DAY_OF_MONTH	,YEARLY_BY_POSITION);
-shared_ptr<BuildingObject> IFC4X3::IfcRecurrenceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRecurrenceTypeEnum> copy_self( new IfcRecurrenceTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcRecurrenceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRECURRENCETYPEENUM("; }

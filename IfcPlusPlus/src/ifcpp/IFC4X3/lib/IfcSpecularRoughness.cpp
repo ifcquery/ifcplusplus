@@ -12,12 +12,6 @@
 
 // TYPE IfcSpecularRoughness = REAL;
 IFC4X3::IfcSpecularRoughness::IfcSpecularRoughness( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcSpecularRoughness::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSpecularRoughness> copy_self( new IfcSpecularRoughness() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcSpecularRoughness::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPECULARROUGHNESS("; }

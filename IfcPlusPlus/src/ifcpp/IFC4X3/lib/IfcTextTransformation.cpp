@@ -11,12 +11,6 @@
 
 // TYPE IfcTextTransformation = STRING;
 IFC4X3::IfcTextTransformation::IfcTextTransformation( std::string value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcTextTransformation::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTextTransformation> copy_self( new IfcTextTransformation() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcTextTransformation::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTEXTTRANSFORMATION("; }

@@ -17,16 +17,6 @@
 
 // ENTITY IfcQuantityArea 
 IFC4X3::IfcQuantityArea::IfcQuantityArea( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcQuantityArea::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcQuantityArea> copy_self( new IfcQuantityArea() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcNamedUnit>( m_Unit->getDeepCopy(options) ); }
-	if( m_AreaValue ) { copy_self->m_AreaValue = dynamic_pointer_cast<IfcAreaMeasure>( m_AreaValue->getDeepCopy(options) ); }
-	if( m_Formula ) { copy_self->m_Formula = dynamic_pointer_cast<IfcLabel>( m_Formula->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcQuantityArea::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCQUANTITYAREA" << "(";

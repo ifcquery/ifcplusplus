@@ -28,46 +28,6 @@
 
 // ENTITY IfcDoorType 
 IFC4X3::IfcDoorType::IfcDoorType( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcDoorType::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDoorType> copy_self( new IfcDoorType() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_ApplicableOccurrence ) { copy_self->m_ApplicableOccurrence = dynamic_pointer_cast<IfcIdentifier>( m_ApplicableOccurrence->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_HasPropertySets.size(); ++ii )
-	{
-		auto item_ii = m_HasPropertySets[ii];
-		if( item_ii )
-		{
-			copy_self->m_HasPropertySets.emplace_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_RepresentationMaps.size(); ++ii )
-	{
-		auto item_ii = m_RepresentationMaps[ii];
-		if( item_ii )
-		{
-			copy_self->m_RepresentationMaps.emplace_back( dynamic_pointer_cast<IfcRepresentationMap>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcLabel>( m_Tag->getDeepCopy(options) ); }
-	if( m_ElementType ) { copy_self->m_ElementType = dynamic_pointer_cast<IfcLabel>( m_ElementType->getDeepCopy(options) ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcDoorTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
-	if( m_OperationType ) { copy_self->m_OperationType = dynamic_pointer_cast<IfcDoorTypeOperationEnum>( m_OperationType->getDeepCopy(options) ); }
-	if( m_ParameterTakesPrecedence ) { copy_self->m_ParameterTakesPrecedence = dynamic_pointer_cast<IfcBoolean>( m_ParameterTakesPrecedence->getDeepCopy(options) ); }
-	if( m_UserDefinedOperationType ) { copy_self->m_UserDefinedOperationType = dynamic_pointer_cast<IfcLabel>( m_UserDefinedOperationType->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcDoorType::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCDOORTYPE" << "(";

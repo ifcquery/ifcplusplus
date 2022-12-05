@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcTendonTypeEnum.h"
 
 // TYPE IfcTendonTypeEnum = ENUMERATION OF	(BAR	,COATED	,STRAND	,WIRE	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcTendonTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTendonTypeEnum> copy_self( new IfcTendonTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcTendonTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTENDONTYPEENUM("; }

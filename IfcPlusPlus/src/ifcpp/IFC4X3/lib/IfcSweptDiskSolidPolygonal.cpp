@@ -17,17 +17,6 @@
 
 // ENTITY IfcSweptDiskSolidPolygonal 
 IFC4X3::IfcSweptDiskSolidPolygonal::IfcSweptDiskSolidPolygonal( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSweptDiskSolidPolygonal::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSweptDiskSolidPolygonal> copy_self( new IfcSweptDiskSolidPolygonal() );
-	if( m_Directrix ) { copy_self->m_Directrix = dynamic_pointer_cast<IfcCurve>( m_Directrix->getDeepCopy(options) ); }
-	if( m_Radius ) { copy_self->m_Radius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Radius->getDeepCopy(options) ); }
-	if( m_InnerRadius ) { copy_self->m_InnerRadius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_InnerRadius->getDeepCopy(options) ); }
-	if( m_StartParam ) { copy_self->m_StartParam = dynamic_pointer_cast<IfcParameterValue>( m_StartParam->getDeepCopy(options) ); }
-	if( m_EndParam ) { copy_self->m_EndParam = dynamic_pointer_cast<IfcParameterValue>( m_EndParam->getDeepCopy(options) ); }
-	if( m_FilletRadius ) { copy_self->m_FilletRadius = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_FilletRadius->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSweptDiskSolidPolygonal::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSWEPTDISKSOLIDPOLYGONAL" << "(";

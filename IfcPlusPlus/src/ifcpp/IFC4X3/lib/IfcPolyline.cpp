@@ -14,19 +14,6 @@
 
 // ENTITY IfcPolyline 
 IFC4X3::IfcPolyline::IfcPolyline( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPolyline::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPolyline> copy_self( new IfcPolyline() );
-	for( size_t ii=0; ii<m_Points.size(); ++ii )
-	{
-		auto item_ii = m_Points[ii];
-		if( item_ii )
-		{
-			copy_self->m_Points.emplace_back( dynamic_pointer_cast<IfcCartesianPoint>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcPolyline::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPOLYLINE" << "(";

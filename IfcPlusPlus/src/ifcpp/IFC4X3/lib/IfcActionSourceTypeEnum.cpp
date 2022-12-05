@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcActionSourceTypeEnum.h"
 
 // TYPE IfcActionSourceTypeEnum = ENUMERATION OF	(BRAKES	,BUOYANCY	,COMPLETION_G1	,CREEP	,CURRENT	,DEAD_LOAD_G	,EARTHQUAKE_E	,ERECTION	,FIRE	,ICE	,IMPACT	,IMPULSE	,LACK_OF_FIT	,LIVE_LOAD_Q	,PRESTRESSING_P	,PROPPING	,RAIN	,SETTLEMENT_U	,SHRINKAGE	,SNOW_S	,SYSTEM_IMPERFECTION	,TEMPERATURE_T	,TRANSPORT	,WAVE	,WIND_W	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcActionSourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcActionSourceTypeEnum> copy_self( new IfcActionSourceTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcActionSourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCACTIONSOURCETYPEENUM("; }

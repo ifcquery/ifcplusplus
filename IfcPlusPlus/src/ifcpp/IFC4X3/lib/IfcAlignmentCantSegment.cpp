@@ -15,20 +15,6 @@
 
 // ENTITY IfcAlignmentCantSegment 
 IFC4X3::IfcAlignmentCantSegment::IfcAlignmentCantSegment( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcAlignmentCantSegment::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAlignmentCantSegment> copy_self( new IfcAlignmentCantSegment() );
-	if( m_StartTag ) { copy_self->m_StartTag = dynamic_pointer_cast<IfcLabel>( m_StartTag->getDeepCopy(options) ); }
-	if( m_EndTag ) { copy_self->m_EndTag = dynamic_pointer_cast<IfcLabel>( m_EndTag->getDeepCopy(options) ); }
-	if( m_StartDistAlong ) { copy_self->m_StartDistAlong = dynamic_pointer_cast<IfcLengthMeasure>( m_StartDistAlong->getDeepCopy(options) ); }
-	if( m_HorizontalLength ) { copy_self->m_HorizontalLength = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_HorizontalLength->getDeepCopy(options) ); }
-	if( m_StartCantLeft ) { copy_self->m_StartCantLeft = dynamic_pointer_cast<IfcLengthMeasure>( m_StartCantLeft->getDeepCopy(options) ); }
-	if( m_EndCantLeft ) { copy_self->m_EndCantLeft = dynamic_pointer_cast<IfcLengthMeasure>( m_EndCantLeft->getDeepCopy(options) ); }
-	if( m_StartCantRight ) { copy_self->m_StartCantRight = dynamic_pointer_cast<IfcLengthMeasure>( m_StartCantRight->getDeepCopy(options) ); }
-	if( m_EndCantRight ) { copy_self->m_EndCantRight = dynamic_pointer_cast<IfcLengthMeasure>( m_EndCantRight->getDeepCopy(options) ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcAlignmentCantSegmentTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcAlignmentCantSegment::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCALIGNMENTCANTSEGMENT" << "(";

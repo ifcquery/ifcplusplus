@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcChangeActionEnum.h"
 
 // TYPE IfcChangeActionEnum = ENUMERATION OF	(ADDED	,DELETED	,MODIFIED	,NOCHANGE	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcChangeActionEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcChangeActionEnum> copy_self( new IfcChangeActionEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcChangeActionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCHANGEACTIONENUM("; }

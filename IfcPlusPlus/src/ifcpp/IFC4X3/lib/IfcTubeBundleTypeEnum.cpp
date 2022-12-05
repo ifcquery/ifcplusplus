@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcTubeBundleTypeEnum.h"
 
 // TYPE IfcTubeBundleTypeEnum = ENUMERATION OF	(FINNED	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcTubeBundleTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTubeBundleTypeEnum> copy_self( new IfcTubeBundleTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcTubeBundleTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTUBEBUNDLETYPEENUM("; }

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcElectricMotorTypeEnum.h"
 
 // TYPE IfcElectricMotorTypeEnum = ENUMERATION OF	(DC	,INDUCTION	,POLYPHASE	,RELUCTANCESYNCHRONOUS	,SYNCHRONOUS	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcElectricMotorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcElectricMotorTypeEnum> copy_self( new IfcElectricMotorTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcElectricMotorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICMOTORTYPEENUM("; }

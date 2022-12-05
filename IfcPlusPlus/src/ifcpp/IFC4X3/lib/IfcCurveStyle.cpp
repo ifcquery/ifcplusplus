@@ -16,16 +16,6 @@
 
 // ENTITY IfcCurveStyle 
 IFC4X3::IfcCurveStyle::IfcCurveStyle( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCurveStyle::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCurveStyle> copy_self( new IfcCurveStyle() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_CurveFont ) { copy_self->m_CurveFont = dynamic_pointer_cast<IfcCurveFontOrScaledCurveFontSelect>( m_CurveFont->getDeepCopy(options) ); }
-	if( m_CurveWidth ) { copy_self->m_CurveWidth = dynamic_pointer_cast<IfcSizeSelect>( m_CurveWidth->getDeepCopy(options) ); }
-	if( m_CurveColour ) { copy_self->m_CurveColour = dynamic_pointer_cast<IfcColour>( m_CurveColour->getDeepCopy(options) ); }
-	if( m_ModelOrDraughting ) { copy_self->m_ModelOrDraughting = dynamic_pointer_cast<IfcBoolean>( m_ModelOrDraughting->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCurveStyle::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCURVESTYLE" << "(";

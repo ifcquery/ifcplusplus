@@ -25,7 +25,6 @@ namespace IFC4X3
 		IfcBooleanOperator() = default;
 		IfcBooleanOperator( IfcBooleanOperatorEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 3054888242; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcBooleanOperator> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcBooleanOperatorEnum m_enum;

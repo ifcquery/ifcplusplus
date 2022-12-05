@@ -15,14 +15,6 @@
 
 // ENTITY IfcBooleanResult 
 IFC4X3::IfcBooleanResult::IfcBooleanResult( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcBooleanResult::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBooleanResult> copy_self( new IfcBooleanResult() );
-	if( m_Operator ) { copy_self->m_Operator = dynamic_pointer_cast<IfcBooleanOperator>( m_Operator->getDeepCopy(options) ); }
-	if( m_FirstOperand ) { copy_self->m_FirstOperand = dynamic_pointer_cast<IfcBooleanOperand>( m_FirstOperand->getDeepCopy(options) ); }
-	if( m_SecondOperand ) { copy_self->m_SecondOperand = dynamic_pointer_cast<IfcBooleanOperand>( m_SecondOperand->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcBooleanResult::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCBOOLEANRESULT" << "(";

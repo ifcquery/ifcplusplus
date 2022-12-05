@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcBridgeTypeEnum.h"
 
 // TYPE IfcBridgeTypeEnum = ENUMERATION OF	(ARCHED	,CABLE_STAYED	,CANTILEVER	,CULVERT	,FRAMEWORK	,GIRDER	,SUSPENSION	,TRUSS	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcBridgeTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBridgeTypeEnum> copy_self( new IfcBridgeTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcBridgeTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBRIDGETYPEENUM("; }

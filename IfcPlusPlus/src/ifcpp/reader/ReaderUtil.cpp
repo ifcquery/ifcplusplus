@@ -786,19 +786,51 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vec
 	}
 }
 
+void addArgument(const char* stream_pos, const char*& last_token, std::vector<std::string>& entity_arguments)
+{
+	if( *last_token == ',' )
+	{
+		++last_token;
+	}
+
+	const char* begin_arg = last_token;
+
+	// skip whitespace
+	while( isspace(*begin_arg) )
+	{
+		++begin_arg;
+	}
+
+	int remaining_size = static_cast<int>(stream_pos - begin_arg);
+	if( remaining_size > 0 )
+	{
+		const char* end_arg = stream_pos - 1;
+		//if( *stream_pos == ')' )
+		//{
+		//	++end_arg;
+		//}
+		entity_arguments.emplace_back(begin_arg, end_arg - begin_arg + 1);
+	}
+	last_token = stream_pos;
+}
 
 //\brief split one string into a vector of argument strings
 // caution: when using OpenMP, this method runs in parallel threads
 void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::string>& entity_arguments )
 {
-	const char* stream_pos = argument_str.c_str();
-	if( *stream_pos != '(' )
+	if( argument_str.size() == 0 )
 	{
 		return;
 	}
+	const char* stream_pos = argument_str.c_str();
+	int num_open_braces = 0;
+	//if( *stream_pos != '(' )
+	//{
+	//	return;
+	//}
 
-	++stream_pos;
-	int num_open_braces = 1;
+	//++stream_pos;
+	
 	const char* last_token = stream_pos;
 
 	while( *stream_pos != '\0' )
@@ -815,23 +847,42 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 		}
 		else if( *stream_pos == ',' )
 		{
-			if( num_open_braces == 1 )
+			if( num_open_braces == 0 )
 			{
-				if( *last_token == ',' )
+				const char* last_token_check = last_token;
+
+				addArgument(stream_pos, last_token, entity_arguments);
+
+#ifdef _DEBUG
+				if( argument_str.find("#242") != std::string::npos )
 				{
-					++last_token;
+					int wait = 0;
+				}
+				if( *last_token_check == ',' )
+				{
+					++last_token_check;
 				}
 
-				const char* begin_arg = last_token;
+				const char* begin_arg = last_token_check;
 
-				// skip whitespace
+				 // skip whitespace
 				while( isspace( *begin_arg ) ) 
 				{
 					++begin_arg; 
 				}
 				const char* end_arg = stream_pos-1;
-				entity_arguments.emplace_back( begin_arg, end_arg-begin_arg+1 );
-				last_token = stream_pos;
+				std::string check (  begin_arg, end_arg-begin_arg+1 );
+				last_token_check = stream_pos;
+
+				std::string check1 = entity_arguments.back();
+				if( check.size() > 0 )
+				{
+					if( check.compare(check1) != 0 )
+					{
+						std::cout << "check: " << check1 << std::endl;
+					}
+				}
+#endif
 			}
 		}
 		else if( *stream_pos == ')' )
@@ -839,29 +890,47 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 			--num_open_braces;
 			if( num_open_braces == 0 )
 			{
-				if( *last_token == ',' )
-				{
-					++last_token;
-				}
+				++stream_pos;
+				addArgument(stream_pos, last_token, entity_arguments);
 
-				const char* begin_arg = last_token;
+				const char* stream_pos_begin = argument_str.c_str();
+				size_t readCount = stream_pos - stream_pos_begin;
 
-				// skip whitespace
-				while( isspace( *begin_arg ) ) 
+				if( readCount == argument_str.size() )
 				{
-					++begin_arg; 
+					break;
 				}
+				//if( *last_token == ',' )
+				//{
+				//	++last_token;
+				//}
 
-				int remaining_size = static_cast<int>(stream_pos - begin_arg);
-				if( remaining_size > 0 )
-				{
-					const char* end_arg = stream_pos-1;
-					entity_arguments.emplace_back( begin_arg, end_arg-begin_arg+1 );
-				}
-				break;
+				//const char* begin_arg = last_token;
+
+				//// skip whitespace
+				//while( isspace( *begin_arg ) ) 
+				//{
+				//	++begin_arg; 
+				//}
+
+				//int remaining_size = static_cast<int>(stream_pos - begin_arg);
+				//if( remaining_size > 0 )
+				//{
+				//	const char* end_arg = stream_pos-1;
+				//	entity_arguments.emplace_back( begin_arg, end_arg-begin_arg+1 );
+				//}
+				//break;
 			}
 		}
 		++stream_pos;
+	}
+
+	if( *last_token != *stream_pos )
+	{
+		if( *last_token != '\0' )// *last_token == ',' )
+		{
+			addArgument(stream_pos, last_token, entity_arguments);
+		}
 	}
 }
 

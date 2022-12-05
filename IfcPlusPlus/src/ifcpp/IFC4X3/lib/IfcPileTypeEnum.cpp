@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcPileTypeEnum.h"
 
 // TYPE IfcPileTypeEnum = ENUMERATION OF	(BORED	,COHESION	,DRIVEN	,FRICTION	,JETGROUTING	,SUPPORT	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcPileTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPileTypeEnum> copy_self( new IfcPileTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcPileTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPILETYPEENUM("; }

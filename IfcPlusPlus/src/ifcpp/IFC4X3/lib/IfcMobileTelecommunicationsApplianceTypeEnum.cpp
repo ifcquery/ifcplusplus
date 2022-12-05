@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcMobileTelecommunicationsApplianceTypeEnum.h"
 
 // TYPE IfcMobileTelecommunicationsApplianceTypeEnum = ENUMERATION OF	(ACCESSPOINT	,BASEBANDUNIT	,BASETRANSCEIVERSTATION	,E_UTRAN_NODE_B	,GATEWAY_GPRS_SUPPORT_NODE	,MASTERUNIT	,MOBILESWITCHINGCENTER	,MSCSERVER	,PACKETCONTROLUNIT	,REMOTERADIOUNIT	,REMOTEUNIT	,SERVICE_GPRS_SUPPORT_NODE	,SUBSCRIBERSERVER	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcMobileTelecommunicationsApplianceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMobileTelecommunicationsApplianceTypeEnum> copy_self( new IfcMobileTelecommunicationsApplianceTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcMobileTelecommunicationsApplianceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMOBILETELECOMMUNICATIONSAPPLIANCETYPEENUM("; }

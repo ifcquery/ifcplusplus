@@ -12,12 +12,6 @@
 
 // TYPE IfcLinearMomentMeasure = REAL;
 IFC4X3::IfcLinearMomentMeasure::IfcLinearMomentMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcLinearMomentMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLinearMomentMeasure> copy_self( new IfcLinearMomentMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcLinearMomentMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLINEARMOMENTMEASURE("; }

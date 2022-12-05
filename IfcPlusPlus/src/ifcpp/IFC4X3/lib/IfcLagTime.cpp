@@ -15,16 +15,6 @@
 
 // ENTITY IfcLagTime 
 IFC4X3::IfcLagTime::IfcLagTime( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcLagTime::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLagTime> copy_self( new IfcLagTime() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy(options) ); }
-	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy(options) ); }
-	if( m_LagValue ) { copy_self->m_LagValue = dynamic_pointer_cast<IfcTimeOrRatioSelect>( m_LagValue->getDeepCopy(options) ); }
-	if( m_DurationType ) { copy_self->m_DurationType = dynamic_pointer_cast<IfcTaskDurationEnum>( m_DurationType->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcLagTime::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCLAGTIME" << "(";

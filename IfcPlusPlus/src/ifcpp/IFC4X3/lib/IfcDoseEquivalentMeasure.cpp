@@ -12,12 +12,6 @@
 
 // TYPE IfcDoseEquivalentMeasure = REAL;
 IFC4X3::IfcDoseEquivalentMeasure::IfcDoseEquivalentMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcDoseEquivalentMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDoseEquivalentMeasure> copy_self( new IfcDoseEquivalentMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcDoseEquivalentMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOSEEQUIVALENTMEASURE("; }

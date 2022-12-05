@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcSIUnitName.h"
 
 // TYPE IfcSIUnitName = ENUMERATION OF	(AMPERE	,BECQUEREL	,CANDELA	,COULOMB	,CUBIC_METRE	,DEGREE_CELSIUS	,FARAD	,GRAM	,GRAY	,HENRY	,HERTZ	,JOULE	,KELVIN	,LUMEN	,LUX	,METRE	,MOLE	,NEWTON	,OHM	,PASCAL	,RADIAN	,SECOND	,SIEMENS	,SIEVERT	,SQUARE_METRE	,STERADIAN	,TESLA	,VOLT	,WATT	,WEBER);
-shared_ptr<BuildingObject> IFC4X3::IfcSIUnitName::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSIUnitName> copy_self( new IfcSIUnitName() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcSIUnitName::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSIUNITNAME("; }

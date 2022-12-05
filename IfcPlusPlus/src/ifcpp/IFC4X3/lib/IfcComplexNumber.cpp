@@ -11,16 +11,6 @@
 #include "ifcpp/IFC4X3/include/IfcComplexNumber.h"
 
 // TYPE IfcComplexNumber = ARRAY [1:2] OF REAL;
-shared_ptr<BuildingObject> IFC4X3::IfcComplexNumber::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcComplexNumber> copy_self( new IfcComplexNumber() );
-	for( size_t ii=0; ii<m_vec.size(); ++ii )
-	{
-		double item_ii = m_vec[ii];
-		copy_self->m_vec.emplace_back( item_ii );
-	}
-	return copy_self;
-}
 void IFC4X3::IfcComplexNumber::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPLEXNUMBER("; }

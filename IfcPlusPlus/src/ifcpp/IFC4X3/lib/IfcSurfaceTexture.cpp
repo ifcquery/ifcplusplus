@@ -16,23 +16,6 @@
 
 // ENTITY IfcSurfaceTexture 
 IFC4X3::IfcSurfaceTexture::IfcSurfaceTexture( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSurfaceTexture::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSurfaceTexture> copy_self( new IfcSurfaceTexture() );
-	if( m_RepeatS ) { copy_self->m_RepeatS = dynamic_pointer_cast<IfcBoolean>( m_RepeatS->getDeepCopy(options) ); }
-	if( m_RepeatT ) { copy_self->m_RepeatT = dynamic_pointer_cast<IfcBoolean>( m_RepeatT->getDeepCopy(options) ); }
-	if( m_Mode ) { copy_self->m_Mode = dynamic_pointer_cast<IfcIdentifier>( m_Mode->getDeepCopy(options) ); }
-	if( m_TextureTransform ) { copy_self->m_TextureTransform = dynamic_pointer_cast<IfcCartesianTransformationOperator2D>( m_TextureTransform->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Parameter.size(); ++ii )
-	{
-		auto item_ii = m_Parameter[ii];
-		if( item_ii )
-		{
-			copy_self->m_Parameter.emplace_back( dynamic_pointer_cast<IfcIdentifier>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcSurfaceTexture::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACETEXTURE" << "(";

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcConstructionMaterialResourceTypeEnum.h"
 
 // TYPE IfcConstructionMaterialResourceTypeEnum = ENUMERATION OF	(AGGREGATES	,CONCRETE	,DRYWALL	,FUEL	,GYPSUM	,MASONRY	,METAL	,PLASTIC	,WOOD	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcConstructionMaterialResourceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcConstructionMaterialResourceTypeEnum> copy_self( new IfcConstructionMaterialResourceTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcConstructionMaterialResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCONSTRUCTIONMATERIALRESOURCETYPEENUM("; }

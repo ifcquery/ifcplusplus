@@ -13,12 +13,6 @@
 
 // TYPE IfcModulusOfLinearSubgradeReactionMeasure = REAL;
 IFC4X3::IfcModulusOfLinearSubgradeReactionMeasure::IfcModulusOfLinearSubgradeReactionMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcModulusOfLinearSubgradeReactionMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure> copy_self( new IfcModulusOfLinearSubgradeReactionMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcModulusOfLinearSubgradeReactionMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMODULUSOFLINEARSUBGRADEREACTIONMEASURE("; }

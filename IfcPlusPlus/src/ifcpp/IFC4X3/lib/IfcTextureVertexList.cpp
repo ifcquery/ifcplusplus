@@ -12,25 +12,6 @@
 
 // ENTITY IfcTextureVertexList 
 IFC4X3::IfcTextureVertexList::IfcTextureVertexList( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTextureVertexList::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTextureVertexList> copy_self( new IfcTextureVertexList() );
-	copy_self->m_TexCoordsList.resize( m_TexCoordsList.size() );
-	for( size_t ii=0; ii<m_TexCoordsList.size(); ++ii )
-	{
-		std::vector<shared_ptr<IfcParameterValue> >& vec_ii = m_TexCoordsList[ii];
-		std::vector<shared_ptr<IfcParameterValue> >& vec_ii_target = copy_self->m_TexCoordsList[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
-		{
-			shared_ptr<IfcParameterValue>& item_jj = vec_ii[jj];
-			if( item_jj )
-			{
-				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcParameterValue>( item_jj->getDeepCopy(options) ) );
-			}
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcTextureVertexList::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTUREVERTEXLIST" << "(";

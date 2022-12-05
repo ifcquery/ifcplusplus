@@ -16,22 +16,6 @@
 
 // ENTITY IfcCompositeProfileDef 
 IFC4X3::IfcCompositeProfileDef::IfcCompositeProfileDef( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCompositeProfileDef::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCompositeProfileDef> copy_self( new IfcCompositeProfileDef() );
-	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
-	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Profiles.size(); ++ii )
-	{
-		auto item_ii = m_Profiles[ii];
-		if( item_ii )
-		{
-			copy_self->m_Profiles.emplace_back( dynamic_pointer_cast<IfcProfileDef>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Label ) { copy_self->m_Label = dynamic_pointer_cast<IfcLabel>( m_Label->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCompositeProfileDef::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCOMPOSITEPROFILEDEF" << "(";

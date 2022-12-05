@@ -12,12 +12,6 @@
 
 // TYPE IfcAreaDensityMeasure = REAL;
 IFC4X3::IfcAreaDensityMeasure::IfcAreaDensityMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcAreaDensityMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAreaDensityMeasure> copy_self( new IfcAreaDensityMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcAreaDensityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCAREADENSITYMEASURE("; }

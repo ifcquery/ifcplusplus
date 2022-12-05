@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcStructuralCurveActivityTypeEnum.h"
 
 // TYPE IfcStructuralCurveActivityTypeEnum = ENUMERATION OF	(CONST	,DISCRETE	,EQUIDISTANT	,LINEAR	,PARABOLA	,POLYGONAL	,SINUS	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcStructuralCurveActivityTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcStructuralCurveActivityTypeEnum> copy_self( new IfcStructuralCurveActivityTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcStructuralCurveActivityTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTRUCTURALCURVEACTIVITYTYPEENUM("; }

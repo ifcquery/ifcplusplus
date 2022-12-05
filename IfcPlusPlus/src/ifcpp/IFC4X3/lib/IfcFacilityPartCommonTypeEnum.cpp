@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcFacilityPartCommonTypeEnum.h"
 
 // TYPE IfcFacilityPartCommonTypeEnum = ENUMERATION OF	(ABOVEGROUND	,BELOWGROUND	,JUNCTION	,LEVELCROSSING	,SEGMENT	,SUBSTRUCTURE	,SUPERSTRUCTURE	,TERMINAL	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcFacilityPartCommonTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFacilityPartCommonTypeEnum> copy_self( new IfcFacilityPartCommonTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcFacilityPartCommonTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFACILITYPARTCOMMONTYPEENUM("; }

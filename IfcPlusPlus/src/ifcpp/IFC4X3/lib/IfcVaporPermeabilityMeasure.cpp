@@ -12,12 +12,6 @@
 
 // TYPE IfcVaporPermeabilityMeasure = REAL;
 IFC4X3::IfcVaporPermeabilityMeasure::IfcVaporPermeabilityMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcVaporPermeabilityMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcVaporPermeabilityMeasure> copy_self( new IfcVaporPermeabilityMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcVaporPermeabilityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVAPORPERMEABILITYMEASURE("; }

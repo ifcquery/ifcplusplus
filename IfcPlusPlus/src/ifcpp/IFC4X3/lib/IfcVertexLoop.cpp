@@ -14,12 +14,6 @@
 
 // ENTITY IfcVertexLoop 
 IFC4X3::IfcVertexLoop::IfcVertexLoop( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcVertexLoop::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcVertexLoop> copy_self( new IfcVertexLoop() );
-	if( m_LoopVertex ) { copy_self->m_LoopVertex = dynamic_pointer_cast<IfcVertex>( m_LoopVertex->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcVertexLoop::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCVERTEXLOOP" << "(";

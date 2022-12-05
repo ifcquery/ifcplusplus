@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcCoolingTowerTypeEnum.h"
 
 // TYPE IfcCoolingTowerTypeEnum = ENUMERATION OF	(MECHANICALFORCEDDRAFT	,MECHANICALINDUCEDDRAFT	,NATURALDRAFT	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcCoolingTowerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCoolingTowerTypeEnum> copy_self( new IfcCoolingTowerTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcCoolingTowerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOOLINGTOWERTYPEENUM("; }

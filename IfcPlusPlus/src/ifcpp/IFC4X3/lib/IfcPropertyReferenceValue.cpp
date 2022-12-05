@@ -20,15 +20,6 @@
 
 // ENTITY IfcPropertyReferenceValue 
 IFC4X3::IfcPropertyReferenceValue::IfcPropertyReferenceValue( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPropertyReferenceValue::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPropertyReferenceValue> copy_self( new IfcPropertyReferenceValue() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcIdentifier>( m_Name->getDeepCopy(options) ); }
-	if( m_Specification ) { copy_self->m_Specification = dynamic_pointer_cast<IfcText>( m_Specification->getDeepCopy(options) ); }
-	if( m_UsageName ) { copy_self->m_UsageName = dynamic_pointer_cast<IfcText>( m_UsageName->getDeepCopy(options) ); }
-	if( m_PropertyReference ) { copy_self->m_PropertyReference = dynamic_pointer_cast<IfcObjectReferenceSelect>( m_PropertyReference->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPropertyReferenceValue::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPROPERTYREFERENCEVALUE" << "(";

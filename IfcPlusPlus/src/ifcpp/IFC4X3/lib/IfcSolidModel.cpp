@@ -13,11 +13,6 @@
 
 // ENTITY IfcSolidModel 
 IFC4X3::IfcSolidModel::IfcSolidModel( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSolidModel::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSolidModel> copy_self( new IfcSolidModel() );
-	return copy_self;
-}
 void IFC4X3::IfcSolidModel::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSOLIDMODEL" << "(";

@@ -14,12 +14,6 @@
 
 // ENTITY IfcSpiral 
 IFC4X3::IfcSpiral::IfcSpiral( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSpiral::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSpiral> copy_self( new IfcSpiral() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement>( m_Position->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSpiral::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSPIRAL" << "(";

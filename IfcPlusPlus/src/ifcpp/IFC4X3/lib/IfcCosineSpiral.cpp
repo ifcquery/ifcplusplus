@@ -15,14 +15,6 @@
 
 // ENTITY IfcCosineSpiral 
 IFC4X3::IfcCosineSpiral::IfcCosineSpiral( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCosineSpiral::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCosineSpiral> copy_self( new IfcCosineSpiral() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement>( m_Position->getDeepCopy(options) ); }
-	if( m_CosineTerm ) { copy_self->m_CosineTerm = dynamic_pointer_cast<IfcLengthMeasure>( m_CosineTerm->getDeepCopy(options) ); }
-	if( m_ConstantTerm ) { copy_self->m_ConstantTerm = dynamic_pointer_cast<IfcLengthMeasure>( m_ConstantTerm->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCosineSpiral::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCOSINESPIRAL" << "(";

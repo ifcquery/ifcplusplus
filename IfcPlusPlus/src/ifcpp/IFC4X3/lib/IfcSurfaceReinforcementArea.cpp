@@ -14,29 +14,6 @@
 
 // ENTITY IfcSurfaceReinforcementArea 
 IFC4X3::IfcSurfaceReinforcementArea::IfcSurfaceReinforcementArea( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSurfaceReinforcementArea::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSurfaceReinforcementArea> copy_self( new IfcSurfaceReinforcementArea() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_SurfaceReinforcement1.size(); ++ii )
-	{
-		auto item_ii = m_SurfaceReinforcement1[ii];
-		if( item_ii )
-		{
-			copy_self->m_SurfaceReinforcement1.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_SurfaceReinforcement2.size(); ++ii )
-	{
-		auto item_ii = m_SurfaceReinforcement2[ii];
-		if( item_ii )
-		{
-			copy_self->m_SurfaceReinforcement2.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_ShearReinforcement ) { copy_self->m_ShearReinforcement = dynamic_pointer_cast<IfcRatioMeasure>( m_ShearReinforcement->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSurfaceReinforcementArea::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACEREINFORCEMENTAREA" << "(";

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcWorkPlanTypeEnum.h"
 
 // TYPE IfcWorkPlanTypeEnum = ENUMERATION OF	(ACTUAL	,BASELINE	,PLANNED	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcWorkPlanTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcWorkPlanTypeEnum> copy_self( new IfcWorkPlanTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcWorkPlanTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWORKPLANTYPEENUM("; }

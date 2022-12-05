@@ -30,32 +30,6 @@
 
 // ENTITY IfcTask 
 IFC4X3::IfcTask::IfcTask( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTask::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTask> copy_self( new IfcTask() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
-	if( m_LongDescription ) { copy_self->m_LongDescription = dynamic_pointer_cast<IfcText>( m_LongDescription->getDeepCopy(options) ); }
-	if( m_Status ) { copy_self->m_Status = dynamic_pointer_cast<IfcLabel>( m_Status->getDeepCopy(options) ); }
-	if( m_WorkMethod ) { copy_self->m_WorkMethod = dynamic_pointer_cast<IfcLabel>( m_WorkMethod->getDeepCopy(options) ); }
-	if( m_IsMilestone ) { copy_self->m_IsMilestone = dynamic_pointer_cast<IfcBoolean>( m_IsMilestone->getDeepCopy(options) ); }
-	if( m_Priority ) { copy_self->m_Priority = dynamic_pointer_cast<IfcInteger>( m_Priority->getDeepCopy(options) ); }
-	if( m_TaskTime ) { copy_self->m_TaskTime = dynamic_pointer_cast<IfcTaskTime>( m_TaskTime->getDeepCopy(options) ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcTaskTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTask::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTASK" << "(";

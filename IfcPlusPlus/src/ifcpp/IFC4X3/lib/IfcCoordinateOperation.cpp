@@ -14,13 +14,6 @@
 
 // ENTITY IfcCoordinateOperation 
 IFC4X3::IfcCoordinateOperation::IfcCoordinateOperation( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCoordinateOperation::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCoordinateOperation> copy_self( new IfcCoordinateOperation() );
-	if( m_SourceCRS ) { copy_self->m_SourceCRS = dynamic_pointer_cast<IfcCoordinateReferenceSystemSelect>( m_SourceCRS->getDeepCopy(options) ); }
-	if( m_TargetCRS ) { copy_self->m_TargetCRS = dynamic_pointer_cast<IfcCoordinateReferenceSystem>( m_TargetCRS->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCoordinateOperation::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCOORDINATEOPERATION" << "(";

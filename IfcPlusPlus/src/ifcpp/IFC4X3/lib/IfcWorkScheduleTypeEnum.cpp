@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcWorkScheduleTypeEnum.h"
 
 // TYPE IfcWorkScheduleTypeEnum = ENUMERATION OF	(ACTUAL	,BASELINE	,PLANNED	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcWorkScheduleTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcWorkScheduleTypeEnum> copy_self( new IfcWorkScheduleTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcWorkScheduleTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCWORKSCHEDULETYPEENUM("; }

@@ -12,12 +12,6 @@
 
 // TYPE IfcModulusOfElasticityMeasure = REAL;
 IFC4X3::IfcModulusOfElasticityMeasure::IfcModulusOfElasticityMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcModulusOfElasticityMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcModulusOfElasticityMeasure> copy_self( new IfcModulusOfElasticityMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcModulusOfElasticityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMODULUSOFELASTICITYMEASURE("; }

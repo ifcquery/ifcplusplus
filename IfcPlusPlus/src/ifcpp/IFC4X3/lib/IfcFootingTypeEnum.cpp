@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcFootingTypeEnum.h"
 
 // TYPE IfcFootingTypeEnum = ENUMERATION OF	(CAISSON_FOUNDATION	,FOOTING_BEAM	,PAD_FOOTING	,PILE_CAP	,STRIP_FOOTING	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcFootingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFootingTypeEnum> copy_self( new IfcFootingTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcFootingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFOOTINGTYPEENUM("; }

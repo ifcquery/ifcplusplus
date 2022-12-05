@@ -18,28 +18,6 @@
 
 // ENTITY IfcRelSequence 
 IFC4X3::IfcRelSequence::IfcRelSequence( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcRelSequence::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRelSequence> copy_self( new IfcRelSequence() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_RelatingProcess ) { copy_self->m_RelatingProcess = dynamic_pointer_cast<IfcProcess>( m_RelatingProcess->getDeepCopy(options) ); }
-	if( m_RelatedProcess ) { copy_self->m_RelatedProcess = dynamic_pointer_cast<IfcProcess>( m_RelatedProcess->getDeepCopy(options) ); }
-	if( m_TimeLag ) { copy_self->m_TimeLag = dynamic_pointer_cast<IfcLagTime>( m_TimeLag->getDeepCopy(options) ); }
-	if( m_SequenceType ) { copy_self->m_SequenceType = dynamic_pointer_cast<IfcSequenceEnum>( m_SequenceType->getDeepCopy(options) ); }
-	if( m_UserDefinedSequenceType ) { copy_self->m_UserDefinedSequenceType = dynamic_pointer_cast<IfcLabel>( m_UserDefinedSequenceType->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcRelSequence::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCRELSEQUENCE" << "(";

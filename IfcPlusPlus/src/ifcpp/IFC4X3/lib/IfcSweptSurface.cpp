@@ -15,17 +15,6 @@
 
 // ENTITY IfcSweptSurface 
 IFC4X3::IfcSweptSurface::IfcSweptSurface( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSweptSurface::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSweptSurface> copy_self( new IfcSweptSurface() );
-	if( m_SweptCurve )
-	{
-		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_SweptCurve = m_SweptCurve; }
-		else { copy_self->m_SweptCurve = dynamic_pointer_cast<IfcProfileDef>( m_SweptCurve->getDeepCopy(options) ); }
-	}
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSweptSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSWEPTSURFACE" << "(";

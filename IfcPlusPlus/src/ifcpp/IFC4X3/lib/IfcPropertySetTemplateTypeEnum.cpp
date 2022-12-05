@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcPropertySetTemplateTypeEnum.h"
 
 // TYPE IfcPropertySetTemplateTypeEnum = ENUMERATION OF	(PSET_MATERIALDRIVEN	,PSET_OCCURRENCEDRIVEN	,PSET_PERFORMANCEDRIVEN	,PSET_PROFILEDRIVEN	,PSET_TYPEDRIVENONLY	,PSET_TYPEDRIVENOVERRIDE	,QTO_OCCURRENCEDRIVEN	,QTO_TYPEDRIVENONLY	,QTO_TYPEDRIVENOVERRIDE	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcPropertySetTemplateTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPropertySetTemplateTypeEnum> copy_self( new IfcPropertySetTemplateTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcPropertySetTemplateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROPERTYSETTEMPLATETYPEENUM("; }

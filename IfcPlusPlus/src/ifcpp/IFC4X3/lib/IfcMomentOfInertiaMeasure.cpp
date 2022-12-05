@@ -12,12 +12,6 @@
 
 // TYPE IfcMomentOfInertiaMeasure = REAL;
 IFC4X3::IfcMomentOfInertiaMeasure::IfcMomentOfInertiaMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcMomentOfInertiaMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMomentOfInertiaMeasure> copy_self( new IfcMomentOfInertiaMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcMomentOfInertiaMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMOMENTOFINERTIAMEASURE("; }

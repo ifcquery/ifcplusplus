@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcProtectiveDeviceTrippingUnitTypeEnum.h"
 
 // TYPE IfcProtectiveDeviceTrippingUnitTypeEnum = ENUMERATION OF	(ELECTROMAGNETIC	,ELECTRONIC	,RESIDUALCURRENT	,THERMAL	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcProtectiveDeviceTrippingUnitTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum> copy_self( new IfcProtectiveDeviceTrippingUnitTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcProtectiveDeviceTrippingUnitTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROTECTIVEDEVICETRIPPINGUNITTYPEENUM("; }

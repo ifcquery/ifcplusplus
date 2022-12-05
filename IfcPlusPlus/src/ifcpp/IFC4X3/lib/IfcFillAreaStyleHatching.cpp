@@ -17,16 +17,6 @@
 
 // ENTITY IfcFillAreaStyleHatching 
 IFC4X3::IfcFillAreaStyleHatching::IfcFillAreaStyleHatching( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcFillAreaStyleHatching::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFillAreaStyleHatching> copy_self( new IfcFillAreaStyleHatching() );
-	if( m_HatchLineAppearance ) { copy_self->m_HatchLineAppearance = dynamic_pointer_cast<IfcCurveStyle>( m_HatchLineAppearance->getDeepCopy(options) ); }
-	if( m_StartOfNextHatchLine ) { copy_self->m_StartOfNextHatchLine = dynamic_pointer_cast<IfcHatchLineDistanceSelect>( m_StartOfNextHatchLine->getDeepCopy(options) ); }
-	if( m_PointOfReferenceHatchLine ) { copy_self->m_PointOfReferenceHatchLine = dynamic_pointer_cast<IfcCartesianPoint>( m_PointOfReferenceHatchLine->getDeepCopy(options) ); }
-	if( m_PatternStart ) { copy_self->m_PatternStart = dynamic_pointer_cast<IfcCartesianPoint>( m_PatternStart->getDeepCopy(options) ); }
-	if( m_HatchLineAngle ) { copy_self->m_HatchLineAngle = dynamic_pointer_cast<IfcPlaneAngleMeasure>( m_HatchLineAngle->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcFillAreaStyleHatching::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCFILLAREASTYLEHATCHING" << "(";

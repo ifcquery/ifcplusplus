@@ -12,19 +12,6 @@
 
 // ENTITY IfcSurfaceStyleWithTextures 
 IFC4X3::IfcSurfaceStyleWithTextures::IfcSurfaceStyleWithTextures( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSurfaceStyleWithTextures::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSurfaceStyleWithTextures> copy_self( new IfcSurfaceStyleWithTextures() );
-	for( size_t ii=0; ii<m_Textures.size(); ++ii )
-	{
-		auto item_ii = m_Textures[ii];
-		if( item_ii )
-		{
-			copy_self->m_Textures.emplace_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcSurfaceStyleWithTextures::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACESTYLEWITHTEXTURES" << "(";

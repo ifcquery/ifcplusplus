@@ -12,12 +12,6 @@
 
 // TYPE IfcThermodynamicTemperatureMeasure = REAL;
 IFC4X3::IfcThermodynamicTemperatureMeasure::IfcThermodynamicTemperatureMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcThermodynamicTemperatureMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcThermodynamicTemperatureMeasure> copy_self( new IfcThermodynamicTemperatureMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcThermodynamicTemperatureMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTHERMODYNAMICTEMPERATUREMEASURE("; }

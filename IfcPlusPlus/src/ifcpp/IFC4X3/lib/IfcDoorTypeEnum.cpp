@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcDoorTypeEnum.h"
 
 // TYPE IfcDoorTypeEnum = ENUMERATION OF	(BOOM_BARRIER	,DOOR	,GATE	,TRAPDOOR	,TURNSTILE	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcDoorTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDoorTypeEnum> copy_self( new IfcDoorTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcDoorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOORTYPEENUM("; }

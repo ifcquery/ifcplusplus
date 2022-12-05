@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcSwitchingDeviceTypeEnum.h"
 
 // TYPE IfcSwitchingDeviceTypeEnum = ENUMERATION OF	(CONTACTOR	,DIMMERSWITCH	,EMERGENCYSTOP	,KEYPAD	,MOMENTARYSWITCH	,RELAY	,SELECTORSWITCH	,STARTER	,START_AND_STOP_EQUIPMENT	,SWITCHDISCONNECTOR	,TOGGLESWITCH	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcSwitchingDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSwitchingDeviceTypeEnum> copy_self( new IfcSwitchingDeviceTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcSwitchingDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSWITCHINGDEVICETYPEENUM("; }

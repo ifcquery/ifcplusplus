@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcCableCarrierSegmentTypeEnum.h"
 
 // TYPE IfcCableCarrierSegmentTypeEnum = ENUMERATION OF	(CABLEBRACKET	,CABLELADDERSEGMENT	,CABLETRAYSEGMENT	,CABLETRUNKINGSEGMENT	,CATENARYWIRE	,CONDUITSEGMENT	,DROPPER	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcCableCarrierSegmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCableCarrierSegmentTypeEnum> copy_self( new IfcCableCarrierSegmentTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcCableCarrierSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCABLECARRIERSEGMENTTYPEENUM("; }

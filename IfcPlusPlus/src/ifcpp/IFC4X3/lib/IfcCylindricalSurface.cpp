@@ -15,13 +15,6 @@
 
 // ENTITY IfcCylindricalSurface 
 IFC4X3::IfcCylindricalSurface::IfcCylindricalSurface( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCylindricalSurface::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCylindricalSurface> copy_self( new IfcCylindricalSurface() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
-	if( m_Radius ) { copy_self->m_Radius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Radius->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCylindricalSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCYLINDRICALSURFACE" << "(";

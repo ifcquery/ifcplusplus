@@ -13,11 +13,6 @@
 
 // ENTITY IfcSurface 
 IFC4X3::IfcSurface::IfcSurface( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSurface::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSurface> copy_self( new IfcSurface() );
-	return copy_self;
-}
 void IFC4X3::IfcSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACE" << "(";

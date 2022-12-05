@@ -12,12 +12,6 @@
 
 // TYPE IfcSoundPowerMeasure = REAL;
 IFC4X3::IfcSoundPowerMeasure::IfcSoundPowerMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcSoundPowerMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSoundPowerMeasure> copy_self( new IfcSoundPowerMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcSoundPowerMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSOUNDPOWERMEASURE("; }

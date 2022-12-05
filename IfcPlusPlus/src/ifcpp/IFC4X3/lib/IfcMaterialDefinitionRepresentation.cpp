@@ -15,22 +15,6 @@
 
 // ENTITY IfcMaterialDefinitionRepresentation 
 IFC4X3::IfcMaterialDefinitionRepresentation::IfcMaterialDefinitionRepresentation( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMaterialDefinitionRepresentation::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMaterialDefinitionRepresentation> copy_self( new IfcMaterialDefinitionRepresentation() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Representations.size(); ++ii )
-	{
-		auto item_ii = m_Representations[ii];
-		if( item_ii )
-		{
-			copy_self->m_Representations.emplace_back( dynamic_pointer_cast<IfcRepresentation>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_RepresentedMaterial ) { copy_self->m_RepresentedMaterial = dynamic_pointer_cast<IfcMaterial>( m_RepresentedMaterial->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcMaterialDefinitionRepresentation::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIALDEFINITIONREPRESENTATION" << "(";

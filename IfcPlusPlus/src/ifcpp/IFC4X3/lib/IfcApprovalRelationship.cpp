@@ -14,22 +14,6 @@
 
 // ENTITY IfcApprovalRelationship 
 IFC4X3::IfcApprovalRelationship::IfcApprovalRelationship( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcApprovalRelationship::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcApprovalRelationship> copy_self( new IfcApprovalRelationship() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_RelatingApproval ) { copy_self->m_RelatingApproval = dynamic_pointer_cast<IfcApproval>( m_RelatingApproval->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_RelatedApprovals.size(); ++ii )
-	{
-		auto item_ii = m_RelatedApprovals[ii];
-		if( item_ii )
-		{
-			copy_self->m_RelatedApprovals.emplace_back( dynamic_pointer_cast<IfcApproval>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcApprovalRelationship::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCAPPROVALRELATIONSHIP" << "(";

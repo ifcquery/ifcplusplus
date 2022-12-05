@@ -14,19 +14,6 @@
 
 // ENTITY IfcConnectedFaceSet 
 IFC4X3::IfcConnectedFaceSet::IfcConnectedFaceSet( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcConnectedFaceSet::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcConnectedFaceSet> copy_self( new IfcConnectedFaceSet() );
-	for( size_t ii=0; ii<m_CfsFaces.size(); ++ii )
-	{
-		auto item_ii = m_CfsFaces[ii];
-		if( item_ii )
-		{
-			copy_self->m_CfsFaces.emplace_back( dynamic_pointer_cast<IfcFace>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcConnectedFaceSet::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCONNECTEDFACESET" << "(";

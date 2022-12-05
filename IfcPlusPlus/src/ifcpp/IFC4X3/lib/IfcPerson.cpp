@@ -16,54 +16,6 @@
 
 // ENTITY IfcPerson 
 IFC4X3::IfcPerson::IfcPerson( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPerson::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPerson> copy_self( new IfcPerson() );
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
-	if( m_FamilyName ) { copy_self->m_FamilyName = dynamic_pointer_cast<IfcLabel>( m_FamilyName->getDeepCopy(options) ); }
-	if( m_GivenName ) { copy_self->m_GivenName = dynamic_pointer_cast<IfcLabel>( m_GivenName->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_MiddleNames.size(); ++ii )
-	{
-		auto item_ii = m_MiddleNames[ii];
-		if( item_ii )
-		{
-			copy_self->m_MiddleNames.emplace_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_PrefixTitles.size(); ++ii )
-	{
-		auto item_ii = m_PrefixTitles[ii];
-		if( item_ii )
-		{
-			copy_self->m_PrefixTitles.emplace_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_SuffixTitles.size(); ++ii )
-	{
-		auto item_ii = m_SuffixTitles[ii];
-		if( item_ii )
-		{
-			copy_self->m_SuffixTitles.emplace_back( dynamic_pointer_cast<IfcLabel>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_Roles.size(); ++ii )
-	{
-		auto item_ii = m_Roles[ii];
-		if( item_ii )
-		{
-			copy_self->m_Roles.emplace_back( dynamic_pointer_cast<IfcActorRole>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_Addresses.size(); ++ii )
-	{
-		auto item_ii = m_Addresses[ii];
-		if( item_ii )
-		{
-			copy_self->m_Addresses.emplace_back( dynamic_pointer_cast<IfcAddress>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcPerson::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPERSON" << "(";

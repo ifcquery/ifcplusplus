@@ -12,12 +12,6 @@
 
 // TYPE IfcElectricChargeMeasure = REAL;
 IFC4X3::IfcElectricChargeMeasure::IfcElectricChargeMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcElectricChargeMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcElectricChargeMeasure> copy_self( new IfcElectricChargeMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcElectricChargeMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICCHARGEMEASURE("; }

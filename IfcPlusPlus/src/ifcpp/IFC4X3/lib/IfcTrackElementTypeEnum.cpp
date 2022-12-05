@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcTrackElementTypeEnum.h"
 
 // TYPE IfcTrackElementTypeEnum = ENUMERATION OF	(BLOCKINGDEVICE	,DERAILER	,FROG	,HALF_SET_OF_BLADES	,SLEEPER	,SPEEDREGULATOR	,TRACKENDOFALIGNMENT	,VEHICLESTOP	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcTrackElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTrackElementTypeEnum> copy_self( new IfcTrackElementTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcTrackElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTRACKELEMENTTYPEENUM("; }

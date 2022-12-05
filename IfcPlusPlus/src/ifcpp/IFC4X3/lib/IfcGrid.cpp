@@ -31,51 +31,6 @@
 
 // ENTITY IfcGrid 
 IFC4X3::IfcGrid::IfcGrid( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcGrid::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcGrid> copy_self( new IfcGrid() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
-	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy(options) ); }
-	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_UAxes.size(); ++ii )
-	{
-		auto item_ii = m_UAxes[ii];
-		if( item_ii )
-		{
-			copy_self->m_UAxes.emplace_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_VAxes.size(); ++ii )
-	{
-		auto item_ii = m_VAxes[ii];
-		if( item_ii )
-		{
-			copy_self->m_VAxes.emplace_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_WAxes.size(); ++ii )
-	{
-		auto item_ii = m_WAxes[ii];
-		if( item_ii )
-		{
-			copy_self->m_WAxes.emplace_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcGridTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcGrid::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCGRID" << "(";

@@ -15,15 +15,6 @@
 
 // ENTITY IfcBoundingBox 
 IFC4X3::IfcBoundingBox::IfcBoundingBox( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcBoundingBox::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBoundingBox> copy_self( new IfcBoundingBox() );
-	if( m_Corner ) { copy_self->m_Corner = dynamic_pointer_cast<IfcCartesianPoint>( m_Corner->getDeepCopy(options) ); }
-	if( m_XDim ) { copy_self->m_XDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_XDim->getDeepCopy(options) ); }
-	if( m_YDim ) { copy_self->m_YDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_YDim->getDeepCopy(options) ); }
-	if( m_ZDim ) { copy_self->m_ZDim = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_ZDim->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcBoundingBox::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCBOUNDINGBOX" << "(";

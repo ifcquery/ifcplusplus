@@ -11,12 +11,6 @@
 
 // TYPE IfcCardinalPointReference = INTEGER;
 IFC4X3::IfcCardinalPointReference::IfcCardinalPointReference( int value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcCardinalPointReference::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCardinalPointReference> copy_self( new IfcCardinalPointReference() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcCardinalPointReference::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCARDINALPOINTREFERENCE("; }

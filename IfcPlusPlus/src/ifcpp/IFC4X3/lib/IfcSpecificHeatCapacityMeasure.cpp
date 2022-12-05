@@ -12,12 +12,6 @@
 
 // TYPE IfcSpecificHeatCapacityMeasure = REAL;
 IFC4X3::IfcSpecificHeatCapacityMeasure::IfcSpecificHeatCapacityMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcSpecificHeatCapacityMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSpecificHeatCapacityMeasure> copy_self( new IfcSpecificHeatCapacityMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcSpecificHeatCapacityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSPECIFICHEATCAPACITYMEASURE("; }

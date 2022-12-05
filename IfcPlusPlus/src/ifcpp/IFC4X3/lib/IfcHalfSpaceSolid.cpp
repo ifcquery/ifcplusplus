@@ -15,13 +15,6 @@
 
 // ENTITY IfcHalfSpaceSolid 
 IFC4X3::IfcHalfSpaceSolid::IfcHalfSpaceSolid( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcHalfSpaceSolid::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcHalfSpaceSolid> copy_self( new IfcHalfSpaceSolid() );
-	if( m_BaseSurface ) { copy_self->m_BaseSurface = dynamic_pointer_cast<IfcSurface>( m_BaseSurface->getDeepCopy(options) ); }
-	if( m_AgreementFlag ) { copy_self->m_AgreementFlag = dynamic_pointer_cast<IfcBoolean>( m_AgreementFlag->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcHalfSpaceSolid::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCHALFSPACESOLID" << "(";

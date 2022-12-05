@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcDataOriginEnum.h"
 
 // TYPE IfcDataOriginEnum = ENUMERATION OF	(MEASURED	,PREDICTED	,SIMULATED	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcDataOriginEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDataOriginEnum> copy_self( new IfcDataOriginEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcDataOriginEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDATAORIGINENUM("; }

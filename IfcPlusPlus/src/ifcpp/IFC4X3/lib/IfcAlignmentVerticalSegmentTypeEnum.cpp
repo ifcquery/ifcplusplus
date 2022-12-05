@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcAlignmentVerticalSegmentTypeEnum.h"
 
 // TYPE IfcAlignmentVerticalSegmentTypeEnum = ENUMERATION OF	(CIRCULARARC	,CLOTHOID	,CONSTANTGRADIENT	,PARABOLICARC);
-shared_ptr<BuildingObject> IFC4X3::IfcAlignmentVerticalSegmentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAlignmentVerticalSegmentTypeEnum> copy_self( new IfcAlignmentVerticalSegmentTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcAlignmentVerticalSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCALIGNMENTVERTICALSEGMENTTYPEENUM("; }

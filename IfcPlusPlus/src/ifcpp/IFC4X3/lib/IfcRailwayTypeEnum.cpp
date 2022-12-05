@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcRailwayTypeEnum.h"
 
 // TYPE IfcRailwayTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcRailwayTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRailwayTypeEnum> copy_self( new IfcRailwayTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcRailwayTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRAILWAYTYPEENUM("; }

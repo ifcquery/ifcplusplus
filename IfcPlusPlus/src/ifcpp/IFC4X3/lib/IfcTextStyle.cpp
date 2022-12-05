@@ -16,16 +16,6 @@
 
 // ENTITY IfcTextStyle 
 IFC4X3::IfcTextStyle::IfcTextStyle( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTextStyle::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTextStyle> copy_self( new IfcTextStyle() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_TextCharacterAppearance ) { copy_self->m_TextCharacterAppearance = dynamic_pointer_cast<IfcTextStyleForDefinedFont>( m_TextCharacterAppearance->getDeepCopy(options) ); }
-	if( m_TextStyle ) { copy_self->m_TextStyle = dynamic_pointer_cast<IfcTextStyleTextModel>( m_TextStyle->getDeepCopy(options) ); }
-	if( m_TextFontStyle ) { copy_self->m_TextFontStyle = dynamic_pointer_cast<IfcTextFontSelect>( m_TextFontStyle->getDeepCopy(options) ); }
-	if( m_ModelOrDraughting ) { copy_self->m_ModelOrDraughting = dynamic_pointer_cast<IfcBoolean>( m_ModelOrDraughting->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTextStyle::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTSTYLE" << "(";

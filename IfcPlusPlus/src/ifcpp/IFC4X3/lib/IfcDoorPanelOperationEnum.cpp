@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcDoorPanelOperationEnum.h"
 
 // TYPE IfcDoorPanelOperationEnum = ENUMERATION OF	(DOUBLE_ACTING	,FIXEDPANEL	,FOLDING	,REVOLVING	,ROLLINGUP	,SLIDING	,SWINGING	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcDoorPanelOperationEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDoorPanelOperationEnum> copy_self( new IfcDoorPanelOperationEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcDoorPanelOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOORPANELOPERATIONENUM("; }

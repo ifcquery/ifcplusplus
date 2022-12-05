@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcFlowInstrumentTypeEnum.h"
 
 // TYPE IfcFlowInstrumentTypeEnum = ENUMERATION OF	(AMMETER	,COMBINED	,FREQUENCYMETER	,PHASEANGLEMETER	,POWERFACTORMETER	,PRESSUREGAUGE	,THERMOMETER	,VOLTMETER	,VOLTMETER_PEAK	,VOLTMETER_RMS	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcFlowInstrumentTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFlowInstrumentTypeEnum> copy_self( new IfcFlowInstrumentTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcFlowInstrumentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCFLOWINSTRUMENTTYPEENUM("; }

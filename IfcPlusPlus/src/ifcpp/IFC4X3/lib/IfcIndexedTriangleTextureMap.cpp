@@ -15,35 +15,6 @@
 
 // ENTITY IfcIndexedTriangleTextureMap 
 IFC4X3::IfcIndexedTriangleTextureMap::IfcIndexedTriangleTextureMap( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcIndexedTriangleTextureMap::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcIndexedTriangleTextureMap> copy_self( new IfcIndexedTriangleTextureMap() );
-	for( size_t ii=0; ii<m_Maps.size(); ++ii )
-	{
-		auto item_ii = m_Maps[ii];
-		if( item_ii )
-		{
-			copy_self->m_Maps.emplace_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcTessellatedFaceSet>( m_MappedTo->getDeepCopy(options) ); }
-	if( m_TexCoords ) { copy_self->m_TexCoords = dynamic_pointer_cast<IfcTextureVertexList>( m_TexCoords->getDeepCopy(options) ); }
-	copy_self->m_TexCoordIndex.resize( m_TexCoordIndex.size() );
-	for( size_t ii=0; ii<m_TexCoordIndex.size(); ++ii )
-	{
-		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_TexCoordIndex[ii];
-		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii_target = copy_self->m_TexCoordIndex[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
-		{
-			shared_ptr<IfcPositiveInteger>& item_jj = vec_ii[jj];
-			if( item_jj )
-			{
-				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
-			}
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcIndexedTriangleTextureMap::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCINDEXEDTRIANGLETEXTUREMAP" << "(";

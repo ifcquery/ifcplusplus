@@ -17,22 +17,6 @@
 
 // ENTITY IfcSegmentedReferenceCurve 
 IFC4X3::IfcSegmentedReferenceCurve::IfcSegmentedReferenceCurve( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSegmentedReferenceCurve::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSegmentedReferenceCurve> copy_self( new IfcSegmentedReferenceCurve() );
-	for( size_t ii=0; ii<m_Segments.size(); ++ii )
-	{
-		auto item_ii = m_Segments[ii];
-		if( item_ii )
-		{
-			copy_self->m_Segments.emplace_back( dynamic_pointer_cast<IfcSegment>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_SelfIntersect ) { copy_self->m_SelfIntersect = dynamic_pointer_cast<IfcLogical>( m_SelfIntersect->getDeepCopy(options) ); }
-	if( m_BaseCurve ) { copy_self->m_BaseCurve = dynamic_pointer_cast<IfcBoundedCurve>( m_BaseCurve->getDeepCopy(options) ); }
-	if( m_EndPoint ) { copy_self->m_EndPoint = dynamic_pointer_cast<IfcPlacement>( m_EndPoint->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSegmentedReferenceCurve::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSEGMENTEDREFERENCECURVE" << "(";

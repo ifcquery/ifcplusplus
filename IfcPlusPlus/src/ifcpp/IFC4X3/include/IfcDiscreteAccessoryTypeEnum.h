@@ -45,7 +45,6 @@ namespace IFC4X3
 		IfcDiscreteAccessoryTypeEnum() = default;
 		IfcDiscreteAccessoryTypeEnum( IfcDiscreteAccessoryTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 697765865; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcDiscreteAccessoryTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcDiscreteAccessoryTypeEnumEnum m_enum;

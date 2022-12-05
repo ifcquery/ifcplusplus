@@ -12,13 +12,6 @@
 
 // ENTITY IfcSurfaceStyleRefraction 
 IFC4X3::IfcSurfaceStyleRefraction::IfcSurfaceStyleRefraction( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSurfaceStyleRefraction::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSurfaceStyleRefraction> copy_self( new IfcSurfaceStyleRefraction() );
-	if( m_RefractionIndex ) { copy_self->m_RefractionIndex = dynamic_pointer_cast<IfcReal>( m_RefractionIndex->getDeepCopy(options) ); }
-	if( m_DispersionFactor ) { copy_self->m_DispersionFactor = dynamic_pointer_cast<IfcReal>( m_DispersionFactor->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSurfaceStyleRefraction::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACESTYLEREFRACTION" << "(";

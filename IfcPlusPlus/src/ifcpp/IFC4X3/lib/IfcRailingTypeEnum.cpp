@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcRailingTypeEnum.h"
 
 // TYPE IfcRailingTypeEnum = ENUMERATION OF	(BALUSTRADE	,FENCE	,GUARDRAIL	,HANDRAIL	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcRailingTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRailingTypeEnum> copy_self( new IfcRailingTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcRailingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRAILINGTYPEENUM("; }

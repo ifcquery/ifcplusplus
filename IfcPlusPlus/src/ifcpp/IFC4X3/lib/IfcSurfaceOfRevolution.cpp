@@ -16,18 +16,6 @@
 
 // ENTITY IfcSurfaceOfRevolution 
 IFC4X3::IfcSurfaceOfRevolution::IfcSurfaceOfRevolution( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSurfaceOfRevolution::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSurfaceOfRevolution> copy_self( new IfcSurfaceOfRevolution() );
-	if( m_SweptCurve )
-	{
-		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_SweptCurve = m_SweptCurve; }
-		else { copy_self->m_SweptCurve = dynamic_pointer_cast<IfcProfileDef>( m_SweptCurve->getDeepCopy(options) ); }
-	}
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
-	if( m_AxisPosition ) { copy_self->m_AxisPosition = dynamic_pointer_cast<IfcAxis1Placement>( m_AxisPosition->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSurfaceOfRevolution::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACEOFREVOLUTION" << "(";

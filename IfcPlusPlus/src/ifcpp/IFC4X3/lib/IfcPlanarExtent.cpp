@@ -14,13 +14,6 @@
 
 // ENTITY IfcPlanarExtent 
 IFC4X3::IfcPlanarExtent::IfcPlanarExtent( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPlanarExtent::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPlanarExtent> copy_self( new IfcPlanarExtent() );
-	if( m_SizeInX ) { copy_self->m_SizeInX = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInX->getDeepCopy(options) ); }
-	if( m_SizeInY ) { copy_self->m_SizeInY = dynamic_pointer_cast<IfcLengthMeasure>( m_SizeInY->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPlanarExtent::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPLANAREXTENT" << "(";

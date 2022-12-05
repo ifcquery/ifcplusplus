@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcVoidingFeatureTypeEnum.h"
 
 // TYPE IfcVoidingFeatureTypeEnum = ENUMERATION OF	(CHAMFER	,CUTOUT	,EDGE	,HOLE	,MITER	,NOTCH	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcVoidingFeatureTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcVoidingFeatureTypeEnum> copy_self( new IfcVoidingFeatureTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcVoidingFeatureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVOIDINGFEATURETYPEENUM("; }

@@ -19,17 +19,6 @@
 
 // ENTITY IfcLibraryReference 
 IFC4X3::IfcLibraryReference::IfcLibraryReference( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcLibraryReference::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLibraryReference> copy_self( new IfcLibraryReference() );
-	if( m_Location ) { copy_self->m_Location = dynamic_pointer_cast<IfcURIReference>( m_Location->getDeepCopy(options) ); }
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_Language ) { copy_self->m_Language = dynamic_pointer_cast<IfcLanguageId>( m_Language->getDeepCopy(options) ); }
-	if( m_ReferencedLibrary ) { copy_self->m_ReferencedLibrary = dynamic_pointer_cast<IfcLibraryInformation>( m_ReferencedLibrary->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcLibraryReference::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCLIBRARYREFERENCE" << "(";

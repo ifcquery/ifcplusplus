@@ -15,36 +15,6 @@
 
 // ENTITY IfcPolynomialCurve 
 IFC4X3::IfcPolynomialCurve::IfcPolynomialCurve( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPolynomialCurve::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPolynomialCurve> copy_self( new IfcPolynomialCurve() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcPlacement>( m_Position->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_CoefficientsX.size(); ++ii )
-	{
-		auto item_ii = m_CoefficientsX[ii];
-		if( item_ii )
-		{
-			copy_self->m_CoefficientsX.emplace_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_CoefficientsY.size(); ++ii )
-	{
-		auto item_ii = m_CoefficientsY[ii];
-		if( item_ii )
-		{
-			copy_self->m_CoefficientsY.emplace_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_CoefficientsZ.size(); ++ii )
-	{
-		auto item_ii = m_CoefficientsZ[ii];
-		if( item_ii )
-		{
-			copy_self->m_CoefficientsZ.emplace_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcPolynomialCurve::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPOLYNOMIALCURVE" << "(";

@@ -16,14 +16,6 @@
 
 // ENTITY IfcArbitraryClosedProfileDef 
 IFC4X3::IfcArbitraryClosedProfileDef::IfcArbitraryClosedProfileDef( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcArbitraryClosedProfileDef::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcArbitraryClosedProfileDef> copy_self( new IfcArbitraryClosedProfileDef() );
-	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
-	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
-	if( m_OuterCurve ) { copy_self->m_OuterCurve = dynamic_pointer_cast<IfcCurve>( m_OuterCurve->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcArbitraryClosedProfileDef::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCARBITRARYCLOSEDPROFILEDEF" << "(";

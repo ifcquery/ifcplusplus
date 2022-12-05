@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcColumnTypeEnum.h"
 
 // TYPE IfcColumnTypeEnum = ENUMERATION OF	(COLUMN	,PIERSTEM	,PIERSTEM_SEGMENT	,PILASTER	,STANDCOLUMN	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcColumnTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcColumnTypeEnum> copy_self( new IfcColumnTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcColumnTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOLUMNTYPEENUM("; }

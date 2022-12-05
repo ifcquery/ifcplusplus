@@ -14,21 +14,6 @@
 
 // ENTITY IfcSurfaceStyle 
 IFC4X3::IfcSurfaceStyle::IfcSurfaceStyle( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSurfaceStyle::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSurfaceStyle> copy_self( new IfcSurfaceStyle() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Side ) { copy_self->m_Side = dynamic_pointer_cast<IfcSurfaceSide>( m_Side->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_Styles.size(); ++ii )
-	{
-		auto item_ii = m_Styles[ii];
-		if( item_ii )
-		{
-			copy_self->m_Styles.emplace_back( dynamic_pointer_cast<IfcSurfaceStyleElementSelect>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcSurfaceStyle::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACESTYLE" << "(";

@@ -13,13 +13,6 @@
 
 // ENTITY IfcRepresentationContext 
 IFC4X3::IfcRepresentationContext::IfcRepresentationContext( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcRepresentationContext::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRepresentationContext> copy_self( new IfcRepresentationContext() );
-	if( m_ContextIdentifier ) { copy_self->m_ContextIdentifier = dynamic_pointer_cast<IfcLabel>( m_ContextIdentifier->getDeepCopy(options) ); }
-	if( m_ContextType ) { copy_self->m_ContextType = dynamic_pointer_cast<IfcLabel>( m_ContextType->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcRepresentationContext::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCREPRESENTATIONCONTEXT" << "(";

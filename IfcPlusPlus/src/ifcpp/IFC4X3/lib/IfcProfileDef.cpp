@@ -15,13 +15,6 @@
 
 // ENTITY IfcProfileDef 
 IFC4X3::IfcProfileDef::IfcProfileDef( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcProfileDef::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcProfileDef> copy_self( new IfcProfileDef() );
-	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
-	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcProfileDef::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPROFILEDEF" << "(";

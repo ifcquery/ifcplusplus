@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcSignalTypeEnum.h"
 
 // TYPE IfcSignalTypeEnum = ENUMERATION OF	(AUDIO	,MIXED	,VISUAL	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcSignalTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSignalTypeEnum> copy_self( new IfcSignalTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcSignalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSIGNALTYPEENUM("; }

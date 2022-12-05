@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcPerformanceHistoryTypeEnum.h"
 
 // TYPE IfcPerformanceHistoryTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcPerformanceHistoryTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPerformanceHistoryTypeEnum> copy_self( new IfcPerformanceHistoryTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcPerformanceHistoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPERFORMANCEHISTORYTYPEENUM("; }

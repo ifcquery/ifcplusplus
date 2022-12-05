@@ -15,20 +15,6 @@
 
 // ENTITY IfcSectionedSolid 
 IFC4X3::IfcSectionedSolid::IfcSectionedSolid( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSectionedSolid::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSectionedSolid> copy_self( new IfcSectionedSolid() );
-	if( m_Directrix ) { copy_self->m_Directrix = dynamic_pointer_cast<IfcCurve>( m_Directrix->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_CrossSections.size(); ++ii )
-	{
-		auto item_ii = m_CrossSections[ii];
-		if( item_ii )
-		{
-			copy_self->m_CrossSections.emplace_back( dynamic_pointer_cast<IfcProfileDef>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcSectionedSolid::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSECTIONEDSOLID" << "(";

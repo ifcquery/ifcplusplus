@@ -45,36 +45,6 @@
 
 // ENTITY IfcTendon 
 IFC4X3::IfcTendon::IfcTendon( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTendon::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTendon> copy_self( new IfcTendon() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
-	if( m_ObjectPlacement ) { copy_self->m_ObjectPlacement = dynamic_pointer_cast<IfcObjectPlacement>( m_ObjectPlacement->getDeepCopy(options) ); }
-	if( m_Representation ) { copy_self->m_Representation = dynamic_pointer_cast<IfcProductRepresentation>( m_Representation->getDeepCopy(options) ); }
-	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcIdentifier>( m_Tag->getDeepCopy(options) ); }
-	if( m_SteelGrade ) { copy_self->m_SteelGrade = dynamic_pointer_cast<IfcLabel>( m_SteelGrade->getDeepCopy(options) ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcTendonTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
-	if( m_NominalDiameter ) { copy_self->m_NominalDiameter = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_NominalDiameter->getDeepCopy(options) ); }
-	if( m_CrossSectionArea ) { copy_self->m_CrossSectionArea = dynamic_pointer_cast<IfcAreaMeasure>( m_CrossSectionArea->getDeepCopy(options) ); }
-	if( m_TensionForce ) { copy_self->m_TensionForce = dynamic_pointer_cast<IfcForceMeasure>( m_TensionForce->getDeepCopy(options) ); }
-	if( m_PreStress ) { copy_self->m_PreStress = dynamic_pointer_cast<IfcPressureMeasure>( m_PreStress->getDeepCopy(options) ); }
-	if( m_FrictionCoefficient ) { copy_self->m_FrictionCoefficient = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_FrictionCoefficient->getDeepCopy(options) ); }
-	if( m_AnchorageSlip ) { copy_self->m_AnchorageSlip = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_AnchorageSlip->getDeepCopy(options) ); }
-	if( m_MinCurvatureRadius ) { copy_self->m_MinCurvatureRadius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_MinCurvatureRadius->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTendon::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTENDON" << "(";

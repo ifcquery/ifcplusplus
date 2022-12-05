@@ -25,28 +25,6 @@
 
 // ENTITY IfcDoorPanelProperties 
 IFC4X3::IfcDoorPanelProperties::IfcDoorPanelProperties( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcDoorPanelProperties::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDoorPanelProperties> copy_self( new IfcDoorPanelProperties() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_PanelDepth ) { copy_self->m_PanelDepth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_PanelDepth->getDeepCopy(options) ); }
-	if( m_PanelOperation ) { copy_self->m_PanelOperation = dynamic_pointer_cast<IfcDoorPanelOperationEnum>( m_PanelOperation->getDeepCopy(options) ); }
-	if( m_PanelWidth ) { copy_self->m_PanelWidth = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_PanelWidth->getDeepCopy(options) ); }
-	if( m_PanelPosition ) { copy_self->m_PanelPosition = dynamic_pointer_cast<IfcDoorPanelPositionEnum>( m_PanelPosition->getDeepCopy(options) ); }
-	if( m_ShapeAspectStyle ) { copy_self->m_ShapeAspectStyle = dynamic_pointer_cast<IfcShapeAspect>( m_ShapeAspectStyle->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcDoorPanelProperties::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCDOORPANELPROPERTIES" << "(";

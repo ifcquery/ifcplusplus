@@ -28,42 +28,6 @@
 
 // ENTITY IfcCostItem 
 IFC4X3::IfcCostItem::IfcCostItem( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCostItem::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCostItem> copy_self( new IfcCostItem() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_ObjectType ) { copy_self->m_ObjectType = dynamic_pointer_cast<IfcLabel>( m_ObjectType->getDeepCopy(options) ); }
-	if( m_Identification ) { copy_self->m_Identification = dynamic_pointer_cast<IfcIdentifier>( m_Identification->getDeepCopy(options) ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcCostItemTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_CostValues.size(); ++ii )
-	{
-		auto item_ii = m_CostValues[ii];
-		if( item_ii )
-		{
-			copy_self->m_CostValues.emplace_back( dynamic_pointer_cast<IfcCostValue>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_CostQuantities.size(); ++ii )
-	{
-		auto item_ii = m_CostQuantities[ii];
-		if( item_ii )
-		{
-			copy_self->m_CostQuantities.emplace_back( dynamic_pointer_cast<IfcPhysicalQuantity>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcCostItem::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCOSTITEM" << "(";

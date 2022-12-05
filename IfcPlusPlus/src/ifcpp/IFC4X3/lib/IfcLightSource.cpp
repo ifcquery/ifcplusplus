@@ -16,15 +16,6 @@
 
 // ENTITY IfcLightSource 
 IFC4X3::IfcLightSource::IfcLightSource( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcLightSource::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLightSource> copy_self( new IfcLightSource() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_LightColour ) { copy_self->m_LightColour = dynamic_pointer_cast<IfcColourRgb>( m_LightColour->getDeepCopy(options) ); }
-	if( m_AmbientIntensity ) { copy_self->m_AmbientIntensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_AmbientIntensity->getDeepCopy(options) ); }
-	if( m_Intensity ) { copy_self->m_Intensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Intensity->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcLightSource::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCLIGHTSOURCE" << "(";

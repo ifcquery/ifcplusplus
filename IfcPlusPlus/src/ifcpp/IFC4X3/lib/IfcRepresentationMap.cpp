@@ -15,13 +15,6 @@
 
 // ENTITY IfcRepresentationMap 
 IFC4X3::IfcRepresentationMap::IfcRepresentationMap( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcRepresentationMap::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRepresentationMap> copy_self( new IfcRepresentationMap() );
-	if( m_MappingOrigin ) { copy_self->m_MappingOrigin = dynamic_pointer_cast<IfcAxis2Placement>( m_MappingOrigin->getDeepCopy(options) ); }
-	if( m_MappedRepresentation ) { copy_self->m_MappedRepresentation = dynamic_pointer_cast<IfcRepresentation>( m_MappedRepresentation->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcRepresentationMap::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCREPRESENTATIONMAP" << "(";

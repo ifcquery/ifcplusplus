@@ -13,14 +13,6 @@
 
 // ENTITY IfcSchedulingTime 
 IFC4X3::IfcSchedulingTime::IfcSchedulingTime( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSchedulingTime::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSchedulingTime> copy_self( new IfcSchedulingTime() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_DataOrigin ) { copy_self->m_DataOrigin = dynamic_pointer_cast<IfcDataOriginEnum>( m_DataOrigin->getDeepCopy(options) ); }
-	if( m_UserDefinedDataOrigin ) { copy_self->m_UserDefinedDataOrigin = dynamic_pointer_cast<IfcLabel>( m_UserDefinedDataOrigin->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSchedulingTime::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSCHEDULINGTIME" << "(";

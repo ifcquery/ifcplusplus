@@ -25,35 +25,6 @@
 
 // ENTITY IfcWindowLiningProperties 
 IFC4X3::IfcWindowLiningProperties::IfcWindowLiningProperties( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcWindowLiningProperties::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcWindowLiningProperties> copy_self( new IfcWindowLiningProperties() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_LiningDepth ) { copy_self->m_LiningDepth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_LiningDepth->getDeepCopy(options) ); }
-	if( m_LiningThickness ) { copy_self->m_LiningThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_LiningThickness->getDeepCopy(options) ); }
-	if( m_TransomThickness ) { copy_self->m_TransomThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_TransomThickness->getDeepCopy(options) ); }
-	if( m_MullionThickness ) { copy_self->m_MullionThickness = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_MullionThickness->getDeepCopy(options) ); }
-	if( m_FirstTransomOffset ) { copy_self->m_FirstTransomOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_FirstTransomOffset->getDeepCopy(options) ); }
-	if( m_SecondTransomOffset ) { copy_self->m_SecondTransomOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_SecondTransomOffset->getDeepCopy(options) ); }
-	if( m_FirstMullionOffset ) { copy_self->m_FirstMullionOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_FirstMullionOffset->getDeepCopy(options) ); }
-	if( m_SecondMullionOffset ) { copy_self->m_SecondMullionOffset = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_SecondMullionOffset->getDeepCopy(options) ); }
-	if( m_ShapeAspectStyle ) { copy_self->m_ShapeAspectStyle = dynamic_pointer_cast<IfcShapeAspect>( m_ShapeAspectStyle->getDeepCopy(options) ); }
-	if( m_LiningOffset ) { copy_self->m_LiningOffset = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningOffset->getDeepCopy(options) ); }
-	if( m_LiningToPanelOffsetX ) { copy_self->m_LiningToPanelOffsetX = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningToPanelOffsetX->getDeepCopy(options) ); }
-	if( m_LiningToPanelOffsetY ) { copy_self->m_LiningToPanelOffsetY = dynamic_pointer_cast<IfcLengthMeasure>( m_LiningToPanelOffsetY->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcWindowLiningProperties::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCWINDOWLININGPROPERTIES" << "(";

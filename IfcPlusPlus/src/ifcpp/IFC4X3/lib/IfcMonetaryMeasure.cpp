@@ -12,12 +12,6 @@
 
 // TYPE IfcMonetaryMeasure = REAL;
 IFC4X3::IfcMonetaryMeasure::IfcMonetaryMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcMonetaryMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMonetaryMeasure> copy_self( new IfcMonetaryMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcMonetaryMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMONETARYMEASURE("; }

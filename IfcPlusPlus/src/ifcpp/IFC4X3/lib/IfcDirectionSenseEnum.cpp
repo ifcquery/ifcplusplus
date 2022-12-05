@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcDirectionSenseEnum.h"
 
 // TYPE IfcDirectionSenseEnum = ENUMERATION OF	(NEGATIVE	,POSITIVE);
-shared_ptr<BuildingObject> IFC4X3::IfcDirectionSenseEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDirectionSenseEnum> copy_self( new IfcDirectionSenseEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcDirectionSenseEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDIRECTIONSENSEENUM("; }

@@ -16,22 +16,6 @@
 
 // ENTITY IfcArbitraryProfileDefWithVoids 
 IFC4X3::IfcArbitraryProfileDefWithVoids::IfcArbitraryProfileDefWithVoids( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcArbitraryProfileDefWithVoids::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcArbitraryProfileDefWithVoids> copy_self( new IfcArbitraryProfileDefWithVoids() );
-	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
-	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
-	if( m_OuterCurve ) { copy_self->m_OuterCurve = dynamic_pointer_cast<IfcCurve>( m_OuterCurve->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_InnerCurves.size(); ++ii )
-	{
-		auto item_ii = m_InnerCurves[ii];
-		if( item_ii )
-		{
-			copy_self->m_InnerCurves.emplace_back( dynamic_pointer_cast<IfcCurve>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcArbitraryProfileDefWithVoids::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCARBITRARYPROFILEDEFWITHVOIDS" << "(";

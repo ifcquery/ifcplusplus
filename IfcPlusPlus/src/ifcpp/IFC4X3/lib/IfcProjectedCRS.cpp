@@ -16,18 +16,6 @@
 
 // ENTITY IfcProjectedCRS 
 IFC4X3::IfcProjectedCRS::IfcProjectedCRS( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcProjectedCRS::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcProjectedCRS> copy_self( new IfcProjectedCRS() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_GeodeticDatum ) { copy_self->m_GeodeticDatum = dynamic_pointer_cast<IfcIdentifier>( m_GeodeticDatum->getDeepCopy(options) ); }
-	if( m_VerticalDatum ) { copy_self->m_VerticalDatum = dynamic_pointer_cast<IfcIdentifier>( m_VerticalDatum->getDeepCopy(options) ); }
-	if( m_MapProjection ) { copy_self->m_MapProjection = dynamic_pointer_cast<IfcIdentifier>( m_MapProjection->getDeepCopy(options) ); }
-	if( m_MapZone ) { copy_self->m_MapZone = dynamic_pointer_cast<IfcIdentifier>( m_MapZone->getDeepCopy(options) ); }
-	if( m_MapUnit ) { copy_self->m_MapUnit = dynamic_pointer_cast<IfcNamedUnit>( m_MapUnit->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcProjectedCRS::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPROJECTEDCRS" << "(";

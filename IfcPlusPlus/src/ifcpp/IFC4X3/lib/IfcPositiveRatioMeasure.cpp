@@ -12,12 +12,6 @@
 #include "ifcpp/IFC4X3/include/IfcPositiveRatioMeasure.h"
 
 // TYPE IfcPositiveRatioMeasure = IfcRatioMeasure;
-shared_ptr<BuildingObject> IFC4X3::IfcPositiveRatioMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPositiveRatioMeasure> copy_self( new IfcPositiveRatioMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcPositiveRatioMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPOSITIVERATIOMEASURE("; }

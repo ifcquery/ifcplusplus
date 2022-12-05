@@ -19,7 +19,6 @@ namespace IFC4X3
 		IfcTorqueMeasure() = default;
 		IfcTorqueMeasure( double value );
 		virtual uint32_t classID() const { return 1278329552; }
-		virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options );
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
 		static shared_ptr<IfcTorqueMeasure> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		double m_value;

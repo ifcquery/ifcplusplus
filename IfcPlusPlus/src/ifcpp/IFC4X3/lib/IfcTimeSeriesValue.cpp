@@ -12,19 +12,6 @@
 
 // ENTITY IfcTimeSeriesValue 
 IFC4X3::IfcTimeSeriesValue::IfcTimeSeriesValue( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTimeSeriesValue::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTimeSeriesValue> copy_self( new IfcTimeSeriesValue() );
-	for( size_t ii=0; ii<m_ListValues.size(); ++ii )
-	{
-		auto item_ii = m_ListValues[ii];
-		if( item_ii )
-		{
-			copy_self->m_ListValues.emplace_back( dynamic_pointer_cast<IfcValue>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcTimeSeriesValue::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTIMESERIESVALUE" << "(";

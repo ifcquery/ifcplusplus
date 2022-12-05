@@ -21,21 +21,6 @@
 
 // ENTITY IfcLightSourceGoniometric 
 IFC4X3::IfcLightSourceGoniometric::IfcLightSourceGoniometric( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcLightSourceGoniometric::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLightSourceGoniometric> copy_self( new IfcLightSourceGoniometric() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_LightColour ) { copy_self->m_LightColour = dynamic_pointer_cast<IfcColourRgb>( m_LightColour->getDeepCopy(options) ); }
-	if( m_AmbientIntensity ) { copy_self->m_AmbientIntensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_AmbientIntensity->getDeepCopy(options) ); }
-	if( m_Intensity ) { copy_self->m_Intensity = dynamic_pointer_cast<IfcNormalisedRatioMeasure>( m_Intensity->getDeepCopy(options) ); }
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
-	if( m_ColourAppearance ) { copy_self->m_ColourAppearance = dynamic_pointer_cast<IfcColourRgb>( m_ColourAppearance->getDeepCopy(options) ); }
-	if( m_ColourTemperature ) { copy_self->m_ColourTemperature = dynamic_pointer_cast<IfcThermodynamicTemperatureMeasure>( m_ColourTemperature->getDeepCopy(options) ); }
-	if( m_LuminousFlux ) { copy_self->m_LuminousFlux = dynamic_pointer_cast<IfcLuminousFluxMeasure>( m_LuminousFlux->getDeepCopy(options) ); }
-	if( m_LightEmissionSource ) { copy_self->m_LightEmissionSource = dynamic_pointer_cast<IfcLightEmissionSourceEnum>( m_LightEmissionSource->getDeepCopy(options) ); }
-	if( m_LightDistributionDataSource ) { copy_self->m_LightDistributionDataSource = dynamic_pointer_cast<IfcLightDistributionDataSourceSelect>( m_LightDistributionDataSource->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcLightSourceGoniometric::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCLIGHTSOURCEGONIOMETRIC" << "(";

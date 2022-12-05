@@ -16,20 +16,6 @@
 
 // ENTITY IfcAlignmentVerticalSegment 
 IFC4X3::IfcAlignmentVerticalSegment::IfcAlignmentVerticalSegment( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcAlignmentVerticalSegment::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAlignmentVerticalSegment> copy_self( new IfcAlignmentVerticalSegment() );
-	if( m_StartTag ) { copy_self->m_StartTag = dynamic_pointer_cast<IfcLabel>( m_StartTag->getDeepCopy(options) ); }
-	if( m_EndTag ) { copy_self->m_EndTag = dynamic_pointer_cast<IfcLabel>( m_EndTag->getDeepCopy(options) ); }
-	if( m_StartDistAlong ) { copy_self->m_StartDistAlong = dynamic_pointer_cast<IfcLengthMeasure>( m_StartDistAlong->getDeepCopy(options) ); }
-	if( m_HorizontalLength ) { copy_self->m_HorizontalLength = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_HorizontalLength->getDeepCopy(options) ); }
-	if( m_StartHeight ) { copy_self->m_StartHeight = dynamic_pointer_cast<IfcLengthMeasure>( m_StartHeight->getDeepCopy(options) ); }
-	if( m_StartGradient ) { copy_self->m_StartGradient = dynamic_pointer_cast<IfcRatioMeasure>( m_StartGradient->getDeepCopy(options) ); }
-	if( m_EndGradient ) { copy_self->m_EndGradient = dynamic_pointer_cast<IfcRatioMeasure>( m_EndGradient->getDeepCopy(options) ); }
-	if( m_RadiusOfCurvature ) { copy_self->m_RadiusOfCurvature = dynamic_pointer_cast<IfcLengthMeasure>( m_RadiusOfCurvature->getDeepCopy(options) ); }
-	if( m_PredefinedType ) { copy_self->m_PredefinedType = dynamic_pointer_cast<IfcAlignmentVerticalSegmentTypeEnum>( m_PredefinedType->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcAlignmentVerticalSegment::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCALIGNMENTVERTICALSEGMENT" << "(";

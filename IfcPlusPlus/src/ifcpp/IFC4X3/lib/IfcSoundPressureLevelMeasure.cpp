@@ -12,12 +12,6 @@
 
 // TYPE IfcSoundPressureLevelMeasure = REAL;
 IFC4X3::IfcSoundPressureLevelMeasure::IfcSoundPressureLevelMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcSoundPressureLevelMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSoundPressureLevelMeasure> copy_self( new IfcSoundPressureLevelMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcSoundPressureLevelMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSOUNDPRESSURELEVELMEASURE("; }

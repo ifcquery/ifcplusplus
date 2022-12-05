@@ -28,45 +28,6 @@
 
 // ENTITY IfcDoorStyle 
 IFC4X3::IfcDoorStyle::IfcDoorStyle( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcDoorStyle::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDoorStyle> copy_self( new IfcDoorStyle() );
-	if( m_GlobalId )
-	{
-		if( options.create_new_IfcGloballyUniqueId ) { copy_self->m_GlobalId = make_shared<IfcGloballyUniqueId>( createBase64Uuid().data() ); }
-		else { copy_self->m_GlobalId = dynamic_pointer_cast<IfcGloballyUniqueId>( m_GlobalId->getDeepCopy(options) ); }
-	}
-	if( m_OwnerHistory )
-	{
-		if( options.shallow_copy_IfcOwnerHistory ) { copy_self->m_OwnerHistory = m_OwnerHistory; }
-		else { copy_self->m_OwnerHistory = dynamic_pointer_cast<IfcOwnerHistory>( m_OwnerHistory->getDeepCopy(options) ); }
-	}
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_ApplicableOccurrence ) { copy_self->m_ApplicableOccurrence = dynamic_pointer_cast<IfcIdentifier>( m_ApplicableOccurrence->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_HasPropertySets.size(); ++ii )
-	{
-		auto item_ii = m_HasPropertySets[ii];
-		if( item_ii )
-		{
-			copy_self->m_HasPropertySets.emplace_back( dynamic_pointer_cast<IfcPropertySetDefinition>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_RepresentationMaps.size(); ++ii )
-	{
-		auto item_ii = m_RepresentationMaps[ii];
-		if( item_ii )
-		{
-			copy_self->m_RepresentationMaps.emplace_back( dynamic_pointer_cast<IfcRepresentationMap>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcLabel>( m_Tag->getDeepCopy(options) ); }
-	if( m_OperationType ) { copy_self->m_OperationType = dynamic_pointer_cast<IfcDoorStyleOperationEnum>( m_OperationType->getDeepCopy(options) ); }
-	if( m_ConstructionType ) { copy_self->m_ConstructionType = dynamic_pointer_cast<IfcDoorStyleConstructionEnum>( m_ConstructionType->getDeepCopy(options) ); }
-	if( m_ParameterTakesPrecedence ) { copy_self->m_ParameterTakesPrecedence = dynamic_pointer_cast<IfcBoolean>( m_ParameterTakesPrecedence->getDeepCopy(options) ); }
-	if( m_Sizeable ) { copy_self->m_Sizeable = dynamic_pointer_cast<IfcBoolean>( m_Sizeable->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcDoorStyle::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCDOORSTYLE" << "(";

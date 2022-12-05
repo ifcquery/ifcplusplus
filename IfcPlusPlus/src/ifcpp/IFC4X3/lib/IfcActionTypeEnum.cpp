@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcActionTypeEnum.h"
 
 // TYPE IfcActionTypeEnum = ENUMERATION OF	(EXTRAORDINARY_A	,PERMANENT_G	,VARIABLE_Q	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcActionTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcActionTypeEnum> copy_self( new IfcActionTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcActionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCACTIONTYPEENUM("; }

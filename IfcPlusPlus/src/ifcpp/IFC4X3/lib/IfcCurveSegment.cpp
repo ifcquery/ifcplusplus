@@ -18,16 +18,6 @@
 
 // ENTITY IfcCurveSegment 
 IFC4X3::IfcCurveSegment::IfcCurveSegment( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCurveSegment::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCurveSegment> copy_self( new IfcCurveSegment() );
-	if( m_Transition ) { copy_self->m_Transition = dynamic_pointer_cast<IfcTransitionCode>( m_Transition->getDeepCopy(options) ); }
-	if( m_Placement ) { copy_self->m_Placement = dynamic_pointer_cast<IfcPlacement>( m_Placement->getDeepCopy(options) ); }
-	if( m_SegmentStart ) { copy_self->m_SegmentStart = dynamic_pointer_cast<IfcCurveMeasureSelect>( m_SegmentStart->getDeepCopy(options) ); }
-	if( m_SegmentLength ) { copy_self->m_SegmentLength = dynamic_pointer_cast<IfcCurveMeasureSelect>( m_SegmentLength->getDeepCopy(options) ); }
-	if( m_ParentCurve ) { copy_self->m_ParentCurve = dynamic_pointer_cast<IfcCurve>( m_ParentCurve->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCurveSegment::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCURVESEGMENT" << "(";

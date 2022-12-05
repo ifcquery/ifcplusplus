@@ -12,13 +12,6 @@
 
 // ENTITY IfcConnectionPointGeometry 
 IFC4X3::IfcConnectionPointGeometry::IfcConnectionPointGeometry( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcConnectionPointGeometry::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcConnectionPointGeometry> copy_self( new IfcConnectionPointGeometry() );
-	if( m_PointOnRelatingElement ) { copy_self->m_PointOnRelatingElement = dynamic_pointer_cast<IfcPointOrVertexPoint>( m_PointOnRelatingElement->getDeepCopy(options) ); }
-	if( m_PointOnRelatedElement ) { copy_self->m_PointOnRelatedElement = dynamic_pointer_cast<IfcPointOrVertexPoint>( m_PointOnRelatedElement->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcConnectionPointGeometry::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCONNECTIONPOINTGEOMETRY" << "(";

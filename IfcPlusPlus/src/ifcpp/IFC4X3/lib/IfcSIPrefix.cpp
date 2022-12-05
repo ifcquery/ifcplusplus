@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcSIPrefix.h"
 
 // TYPE IfcSIPrefix = ENUMERATION OF	(ATTO	,CENTI	,DECA	,DECI	,EXA	,FEMTO	,GIGA	,HECTO	,KILO	,MEGA	,MICRO	,MILLI	,NANO	,PETA	,PICO	,TERA);
-shared_ptr<BuildingObject> IFC4X3::IfcSIPrefix::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSIPrefix> copy_self( new IfcSIPrefix() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcSIPrefix::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSIPREFIX("; }

@@ -14,18 +14,6 @@
 
 // ENTITY IfcBoundaryNodeCondition 
 IFC4X3::IfcBoundaryNodeCondition::IfcBoundaryNodeCondition( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcBoundaryNodeCondition::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBoundaryNodeCondition> copy_self( new IfcBoundaryNodeCondition() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_TranslationalStiffnessX ) { copy_self->m_TranslationalStiffnessX = dynamic_pointer_cast<IfcTranslationalStiffnessSelect>( m_TranslationalStiffnessX->getDeepCopy(options) ); }
-	if( m_TranslationalStiffnessY ) { copy_self->m_TranslationalStiffnessY = dynamic_pointer_cast<IfcTranslationalStiffnessSelect>( m_TranslationalStiffnessY->getDeepCopy(options) ); }
-	if( m_TranslationalStiffnessZ ) { copy_self->m_TranslationalStiffnessZ = dynamic_pointer_cast<IfcTranslationalStiffnessSelect>( m_TranslationalStiffnessZ->getDeepCopy(options) ); }
-	if( m_RotationalStiffnessX ) { copy_self->m_RotationalStiffnessX = dynamic_pointer_cast<IfcRotationalStiffnessSelect>( m_RotationalStiffnessX->getDeepCopy(options) ); }
-	if( m_RotationalStiffnessY ) { copy_self->m_RotationalStiffnessY = dynamic_pointer_cast<IfcRotationalStiffnessSelect>( m_RotationalStiffnessY->getDeepCopy(options) ); }
-	if( m_RotationalStiffnessZ ) { copy_self->m_RotationalStiffnessZ = dynamic_pointer_cast<IfcRotationalStiffnessSelect>( m_RotationalStiffnessZ->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcBoundaryNodeCondition::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCBOUNDARYNODECONDITION" << "(";

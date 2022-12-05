@@ -12,19 +12,6 @@
 
 // ENTITY IfcUnitAssignment 
 IFC4X3::IfcUnitAssignment::IfcUnitAssignment( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcUnitAssignment::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcUnitAssignment> copy_self( new IfcUnitAssignment() );
-	for( size_t ii=0; ii<m_Units.size(); ++ii )
-	{
-		auto item_ii = m_Units[ii];
-		if( item_ii )
-		{
-			copy_self->m_Units.emplace_back( dynamic_pointer_cast<IfcUnit>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcUnitAssignment::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCUNITASSIGNMENT" << "(";

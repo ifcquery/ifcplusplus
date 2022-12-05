@@ -18,19 +18,6 @@
 
 // ENTITY IfcCShapeProfileDef 
 IFC4X3::IfcCShapeProfileDef::IfcCShapeProfileDef( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCShapeProfileDef::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCShapeProfileDef> copy_self( new IfcCShapeProfileDef() );
-	if( m_ProfileType ) { copy_self->m_ProfileType = dynamic_pointer_cast<IfcProfileTypeEnum>( m_ProfileType->getDeepCopy(options) ); }
-	if( m_ProfileName ) { copy_self->m_ProfileName = dynamic_pointer_cast<IfcLabel>( m_ProfileName->getDeepCopy(options) ); }
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement2D>( m_Position->getDeepCopy(options) ); }
-	if( m_Depth ) { copy_self->m_Depth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Depth->getDeepCopy(options) ); }
-	if( m_Width ) { copy_self->m_Width = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Width->getDeepCopy(options) ); }
-	if( m_WallThickness ) { copy_self->m_WallThickness = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_WallThickness->getDeepCopy(options) ); }
-	if( m_Girth ) { copy_self->m_Girth = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_Girth->getDeepCopy(options) ); }
-	if( m_InternalFilletRadius ) { copy_self->m_InternalFilletRadius = dynamic_pointer_cast<IfcNonNegativeLengthMeasure>( m_InternalFilletRadius->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCShapeProfileDef::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCSHAPEPROFILEDEF" << "(";

@@ -12,11 +12,6 @@
 
 // ENTITY IfcPreDefinedProperties 
 IFC4X3::IfcPreDefinedProperties::IfcPreDefinedProperties( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPreDefinedProperties::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPreDefinedProperties> copy_self( new IfcPreDefinedProperties() );
-	return copy_self;
-}
 void IFC4X3::IfcPreDefinedProperties::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPREDEFINEDPROPERTIES" << "(";

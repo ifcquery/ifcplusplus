@@ -12,12 +12,6 @@
 
 // TYPE IfcTemperatureRateOfChangeMeasure = REAL;
 IFC4X3::IfcTemperatureRateOfChangeMeasure::IfcTemperatureRateOfChangeMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcTemperatureRateOfChangeMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTemperatureRateOfChangeMeasure> copy_self( new IfcTemperatureRateOfChangeMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcTemperatureRateOfChangeMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTEMPERATURERATEOFCHANGEMEASURE("; }

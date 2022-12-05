@@ -14,12 +14,6 @@
 
 // TYPE IfcParameterValue = REAL;
 IFC4X3::IfcParameterValue::IfcParameterValue( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcParameterValue::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcParameterValue> copy_self( new IfcParameterValue() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcParameterValue::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPARAMETERVALUE("; }

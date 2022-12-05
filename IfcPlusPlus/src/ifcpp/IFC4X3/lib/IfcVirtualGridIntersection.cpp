@@ -13,27 +13,6 @@
 
 // ENTITY IfcVirtualGridIntersection 
 IFC4X3::IfcVirtualGridIntersection::IfcVirtualGridIntersection( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcVirtualGridIntersection::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcVirtualGridIntersection> copy_self( new IfcVirtualGridIntersection() );
-	for( size_t ii=0; ii<m_IntersectingAxes.size(); ++ii )
-	{
-		auto item_ii = m_IntersectingAxes[ii];
-		if( item_ii )
-		{
-			copy_self->m_IntersectingAxes.emplace_back( dynamic_pointer_cast<IfcGridAxis>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_OffsetDistances.size(); ++ii )
-	{
-		auto item_ii = m_OffsetDistances[ii];
-		if( item_ii )
-		{
-			copy_self->m_OffsetDistances.emplace_back( dynamic_pointer_cast<IfcLengthMeasure>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcVirtualGridIntersection::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCVIRTUALGRIDINTERSECTION" << "(";

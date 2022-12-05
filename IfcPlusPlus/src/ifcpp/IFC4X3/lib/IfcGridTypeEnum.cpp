@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcGridTypeEnum.h"
 
 // TYPE IfcGridTypeEnum = ENUMERATION OF	(IRREGULAR	,RADIAL	,RECTANGULAR	,TRIANGULAR	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcGridTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcGridTypeEnum> copy_self( new IfcGridTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcGridTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCGRIDTYPEENUM("; }

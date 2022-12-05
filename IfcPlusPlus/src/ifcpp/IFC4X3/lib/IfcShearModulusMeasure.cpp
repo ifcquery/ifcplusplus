@@ -12,12 +12,6 @@
 
 // TYPE IfcShearModulusMeasure = REAL;
 IFC4X3::IfcShearModulusMeasure::IfcShearModulusMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcShearModulusMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcShearModulusMeasure> copy_self( new IfcShearModulusMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcShearModulusMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSHEARMODULUSMEASURE("; }

@@ -18,14 +18,6 @@
 
 // ENTITY IfcMaterial 
 IFC4X3::IfcMaterial::IfcMaterial( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMaterial::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMaterial> copy_self( new IfcMaterial() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_Category ) { copy_self->m_Category = dynamic_pointer_cast<IfcLabel>( m_Category->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcMaterial::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIAL" << "(";

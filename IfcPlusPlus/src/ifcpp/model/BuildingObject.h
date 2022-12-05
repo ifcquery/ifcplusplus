@@ -61,13 +61,6 @@ public:
 	}
 	virtual uint32_t classID() const = 0;
 
-	/** \brief Creates a deep copy of the object, recursively creating deep copies of attributes.
-	 *  Usually it makes sense to create only a shallow copy (not a new object) for entities like IfcOwnerHistory, IfcRepresentationContext and others.
-	 *  The exact copying behaviour can be set with BuildingCopyOptions.
-	 *	Inverse attributes are not copied.
-	*/
-	virtual shared_ptr<BuildingObject> getDeepCopy( BuildingCopyOptions& options ) = 0;
-	
 	/** \brief Appends a line in STEP format to stream, including all attributes. */
 	virtual void getStepLine( std::stringstream& stream ) const = 0;
 

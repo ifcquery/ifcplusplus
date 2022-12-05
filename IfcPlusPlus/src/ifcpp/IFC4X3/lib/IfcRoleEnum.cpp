@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcRoleEnum.h"
 
 // TYPE IfcRoleEnum = ENUMERATION OF	(ARCHITECT	,BUILDINGOPERATOR	,BUILDINGOWNER	,CIVILENGINEER	,CLIENT	,COMMISSIONINGENGINEER	,CONSTRUCTIONMANAGER	,CONSULTANT	,CONTRACTOR	,COSTENGINEER	,ELECTRICALENGINEER	,ENGINEER	,FACILITIESMANAGER	,FIELDCONSTRUCTIONMANAGER	,MANUFACTURER	,MECHANICALENGINEER	,OWNER	,PROJECTMANAGER	,RESELLER	,STRUCTURALENGINEER	,SUBCONTRACTOR	,SUPPLIER	,USERDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcRoleEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRoleEnum> copy_self( new IfcRoleEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcRoleEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCROLEENUM("; }

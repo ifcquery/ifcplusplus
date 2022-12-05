@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcKnotType.h"
 
 // TYPE IfcKnotType = ENUMERATION OF	(PIECEWISE_BEZIER_KNOTS	,QUASI_UNIFORM_KNOTS	,UNIFORM_KNOTS	,UNSPECIFIED);
-shared_ptr<BuildingObject> IFC4X3::IfcKnotType::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcKnotType> copy_self( new IfcKnotType() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcKnotType::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCKNOTTYPE("; }

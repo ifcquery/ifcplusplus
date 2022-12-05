@@ -14,28 +14,6 @@
 
 // ENTITY IfcTextureMap 
 IFC4X3::IfcTextureMap::IfcTextureMap( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTextureMap::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTextureMap> copy_self( new IfcTextureMap() );
-	for( size_t ii=0; ii<m_Maps.size(); ++ii )
-	{
-		auto item_ii = m_Maps[ii];
-		if( item_ii )
-		{
-			copy_self->m_Maps.emplace_back( dynamic_pointer_cast<IfcSurfaceTexture>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	for( size_t ii=0; ii<m_Vertices.size(); ++ii )
-	{
-		auto item_ii = m_Vertices[ii];
-		if( item_ii )
-		{
-			copy_self->m_Vertices.emplace_back( dynamic_pointer_cast<IfcTextureVertex>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_MappedTo ) { copy_self->m_MappedTo = dynamic_pointer_cast<IfcFace>( m_MappedTo->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTextureMap::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTUREMAP" << "(";

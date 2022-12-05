@@ -185,9 +185,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>..\..\IfcPlusPlus\bin;..\..\external\Carve\bin;..\..\external\Carve\build\lib\Release;$(QTDIR)\lib;$(OSG_DIR)\lib;$(OSG_DIR)\build\lib;$(FREETYPE_DIR)\objs\vc2010\x64;$(OCCT_DIR)\win64\vc14\libd;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\IfcPlusPlus\bin;..\..\external\Carve\bin;..\..\external\Carve\build\lib\Release;$(QTDIR)\lib;$(OSG_DIR)\lib;$(OSG_DIR)\build\lib;$(FREETYPE_DIR)\objs\vc2010\x64;$(OCCT_DIR)\win64\vc14\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Carve.lib;qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Network.lib;Qt5OpenGL.lib;Qt5Widgets.lib;Qt5PrintSupport.lib;Qt5Xml.lib;osg.lib;OpenThreads.lib;osgDB.lib;osgFX.lib;osgGA.lib;osgText.lib;osgUtil.lib;osgViewer.lib;IfcPlusPlus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Carve.lib;qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Network.lib;Qt5OpenGL.lib;Qt5Widgets.lib;Qt5PrintSupport.lib;Qt5Xml.lib;osg.lib;OpenThreads.lib;osgDB.lib;osgFX.lib;osgGA.lib;osgText.lib;osgUtil.lib;osgViewer.lib;IfcPlusPlus.lib;TKernel.lib;TKFeat.lib;TKMath.lib;TKBRep.lib;TKGeomBase.lib;TKGeomAlgo.lib;TKG3d.lib;TKG2d.lib;TKSTEP.lib;TKSTEPBase.lib;TKXSBase.lib;TKShHealing.lib;TKHLR.lib;TKTopAlgo.lib;TKMesh.lib;TKPrim.lib;TKCDF.lib;TKBool.lib;TKBO.lib;TKFillet.lib;TKOffset.lib;TKLCAF.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <StackReserveSize>
       </StackReserveSize>

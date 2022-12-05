@@ -16,14 +16,6 @@
 
 // ENTITY IfcAddress 
 IFC4X3::IfcAddress::IfcAddress( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcAddress::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcAddress> copy_self( new IfcAddress() );
-	if( m_Purpose ) { copy_self->m_Purpose = dynamic_pointer_cast<IfcAddressTypeEnum>( m_Purpose->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_UserDefinedPurpose ) { copy_self->m_UserDefinedPurpose = dynamic_pointer_cast<IfcLabel>( m_UserDefinedPurpose->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcAddress::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCADDRESS" << "(";

@@ -16,21 +16,6 @@
 
 // ENTITY IfcOffsetCurveByDistances 
 IFC4X3::IfcOffsetCurveByDistances::IfcOffsetCurveByDistances( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcOffsetCurveByDistances::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcOffsetCurveByDistances> copy_self( new IfcOffsetCurveByDistances() );
-	if( m_BasisCurve ) { copy_self->m_BasisCurve = dynamic_pointer_cast<IfcCurve>( m_BasisCurve->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_OffsetValues.size(); ++ii )
-	{
-		auto item_ii = m_OffsetValues[ii];
-		if( item_ii )
-		{
-			copy_self->m_OffsetValues.emplace_back( dynamic_pointer_cast<IfcPointByDistanceExpression>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_Tag ) { copy_self->m_Tag = dynamic_pointer_cast<IfcLabel>( m_Tag->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcOffsetCurveByDistances::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCOFFSETCURVEBYDISTANCES" << "(";

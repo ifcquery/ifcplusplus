@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcShadingDeviceTypeEnum.h"
 
 // TYPE IfcShadingDeviceTypeEnum = ENUMERATION OF	(AWNING	,JALOUSIE	,SHUTTER	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcShadingDeviceTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcShadingDeviceTypeEnum> copy_self( new IfcShadingDeviceTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcShadingDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSHADINGDEVICETYPEENUM("; }

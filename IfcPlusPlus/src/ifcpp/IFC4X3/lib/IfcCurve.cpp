@@ -13,11 +13,6 @@
 
 // ENTITY IfcCurve 
 IFC4X3::IfcCurve::IfcCurve( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCurve::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCurve> copy_self( new IfcCurve() );
-	return copy_self;
-}
 void IFC4X3::IfcCurve::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCURVE" << "(";

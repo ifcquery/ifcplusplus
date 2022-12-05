@@ -17,16 +17,6 @@
 
 // ENTITY IfcQuantityNumber 
 IFC4X3::IfcQuantityNumber::IfcQuantityNumber( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcQuantityNumber::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcQuantityNumber> copy_self( new IfcQuantityNumber() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_Unit ) { copy_self->m_Unit = dynamic_pointer_cast<IfcNamedUnit>( m_Unit->getDeepCopy(options) ); }
-	if( m_NumberValue ) { copy_self->m_NumberValue = dynamic_pointer_cast<IfcNumericMeasure>( m_NumberValue->getDeepCopy(options) ); }
-	if( m_Formula ) { copy_self->m_Formula = dynamic_pointer_cast<IfcLabel>( m_Formula->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcQuantityNumber::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCQUANTITYNUMBER" << "(";

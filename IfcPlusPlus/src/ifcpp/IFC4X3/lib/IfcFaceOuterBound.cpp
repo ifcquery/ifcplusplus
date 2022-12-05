@@ -15,13 +15,6 @@
 
 // ENTITY IfcFaceOuterBound 
 IFC4X3::IfcFaceOuterBound::IfcFaceOuterBound( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcFaceOuterBound::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFaceOuterBound> copy_self( new IfcFaceOuterBound() );
-	if( m_Bound ) { copy_self->m_Bound = dynamic_pointer_cast<IfcLoop>( m_Bound->getDeepCopy(options) ); }
-	if( m_Orientation ) { copy_self->m_Orientation = dynamic_pointer_cast<IfcBoolean>( m_Orientation->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcFaceOuterBound::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCFACEOUTERBOUND" << "(";

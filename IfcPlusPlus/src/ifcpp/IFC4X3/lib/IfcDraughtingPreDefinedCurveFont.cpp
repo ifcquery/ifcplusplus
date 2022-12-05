@@ -12,12 +12,6 @@
 
 // ENTITY IfcDraughtingPreDefinedCurveFont 
 IFC4X3::IfcDraughtingPreDefinedCurveFont::IfcDraughtingPreDefinedCurveFont( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcDraughtingPreDefinedCurveFont::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDraughtingPreDefinedCurveFont> copy_self( new IfcDraughtingPreDefinedCurveFont() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcDraughtingPreDefinedCurveFont::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCDRAUGHTINGPREDEFINEDCURVEFONT" << "(";

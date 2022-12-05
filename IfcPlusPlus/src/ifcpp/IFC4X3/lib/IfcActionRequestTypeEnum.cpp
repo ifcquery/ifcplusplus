@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcActionRequestTypeEnum.h"
 
 // TYPE IfcActionRequestTypeEnum = ENUMERATION OF	(EMAIL	,FAX	,PHONE	,POST	,VERBAL	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcActionRequestTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcActionRequestTypeEnum> copy_self( new IfcActionRequestTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcActionRequestTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCACTIONREQUESTTYPEENUM("; }

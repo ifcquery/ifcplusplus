@@ -13,18 +13,6 @@
 
 // ENTITY IfcFailureConnectionCondition 
 IFC4X3::IfcFailureConnectionCondition::IfcFailureConnectionCondition( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcFailureConnectionCondition::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFailureConnectionCondition> copy_self( new IfcFailureConnectionCondition() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_TensionFailureX ) { copy_self->m_TensionFailureX = dynamic_pointer_cast<IfcForceMeasure>( m_TensionFailureX->getDeepCopy(options) ); }
-	if( m_TensionFailureY ) { copy_self->m_TensionFailureY = dynamic_pointer_cast<IfcForceMeasure>( m_TensionFailureY->getDeepCopy(options) ); }
-	if( m_TensionFailureZ ) { copy_self->m_TensionFailureZ = dynamic_pointer_cast<IfcForceMeasure>( m_TensionFailureZ->getDeepCopy(options) ); }
-	if( m_CompressionFailureX ) { copy_self->m_CompressionFailureX = dynamic_pointer_cast<IfcForceMeasure>( m_CompressionFailureX->getDeepCopy(options) ); }
-	if( m_CompressionFailureY ) { copy_self->m_CompressionFailureY = dynamic_pointer_cast<IfcForceMeasure>( m_CompressionFailureY->getDeepCopy(options) ); }
-	if( m_CompressionFailureZ ) { copy_self->m_CompressionFailureZ = dynamic_pointer_cast<IfcForceMeasure>( m_CompressionFailureZ->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcFailureConnectionCondition::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCFAILURECONNECTIONCONDITION" << "(";

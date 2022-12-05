@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcTransitionCode.h"
 
 // TYPE IfcTransitionCode = ENUMERATION OF	(CONTINUOUS	,CONTSAMEGRADIENT	,CONTSAMEGRADIENTSAMECURVATURE	,DISCONTINUOUS);
-shared_ptr<BuildingObject> IFC4X3::IfcTransitionCode::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTransitionCode> copy_self( new IfcTransitionCode() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcTransitionCode::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTRANSITIONCODE("; }

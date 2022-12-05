@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcProjectOrderTypeEnum.h"
 
 // TYPE IfcProjectOrderTypeEnum = ENUMERATION OF	(CHANGEORDER	,MAINTENANCEWORKORDER	,MOVEORDER	,PURCHASEORDER	,WORKORDER	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcProjectOrderTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcProjectOrderTypeEnum> copy_self( new IfcProjectOrderTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcProjectOrderTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROJECTORDERTYPEENUM("; }

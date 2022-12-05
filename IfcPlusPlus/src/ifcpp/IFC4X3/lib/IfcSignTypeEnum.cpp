@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcSignTypeEnum.h"
 
 // TYPE IfcSignTypeEnum = ENUMERATION OF	(MARKER	,MIRROR	,PICTORAL	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcSignTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSignTypeEnum> copy_self( new IfcSignTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcSignTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSIGNTYPEENUM("; }

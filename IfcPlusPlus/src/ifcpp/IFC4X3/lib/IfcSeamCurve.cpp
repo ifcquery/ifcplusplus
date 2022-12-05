@@ -16,21 +16,6 @@
 
 // ENTITY IfcSeamCurve 
 IFC4X3::IfcSeamCurve::IfcSeamCurve( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSeamCurve::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSeamCurve> copy_self( new IfcSeamCurve() );
-	if( m_Curve3D ) { copy_self->m_Curve3D = dynamic_pointer_cast<IfcCurve>( m_Curve3D->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_AssociatedGeometry.size(); ++ii )
-	{
-		auto item_ii = m_AssociatedGeometry[ii];
-		if( item_ii )
-		{
-			copy_self->m_AssociatedGeometry.emplace_back( dynamic_pointer_cast<IfcPcurve>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	if( m_MasterRepresentation ) { copy_self->m_MasterRepresentation = dynamic_pointer_cast<IfcPreferredSurfaceCurveRepresentation>( m_MasterRepresentation->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSeamCurve::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSEAMCURVE" << "(";

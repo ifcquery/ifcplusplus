@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcMemberTypeEnum.h"
 
 // TYPE IfcMemberTypeEnum = ENUMERATION OF	(ARCH_SEGMENT	,BRACE	,CHORD	,COLLAR	,MEMBER	,MULLION	,PLATE	,POST	,PURLIN	,RAFTER	,STAY_CABLE	,STIFFENING_RIB	,STRINGER	,STRUCTURALCABLE	,STRUT	,STUD	,SUSPENDER	,SUSPENSION_CABLE	,TIEBAR	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcMemberTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMemberTypeEnum> copy_self( new IfcMemberTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcMemberTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCMEMBERTYPEENUM("; }

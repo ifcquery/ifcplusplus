@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcProjectionElementTypeEnum.h"
 
 // TYPE IfcProjectionElementTypeEnum = ENUMERATION OF	(BLISTER	,DEVIATOR	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcProjectionElementTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcProjectionElementTypeEnum> copy_self( new IfcProjectionElementTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcProjectionElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCPROJECTIONELEMENTTYPEENUM("; }

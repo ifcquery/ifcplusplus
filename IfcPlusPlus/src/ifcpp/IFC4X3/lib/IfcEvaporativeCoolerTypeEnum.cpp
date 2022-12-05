@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcEvaporativeCoolerTypeEnum.h"
 
 // TYPE IfcEvaporativeCoolerTypeEnum = ENUMERATION OF	(DIRECTEVAPORATIVEAIRWASHER	,DIRECTEVAPORATIVEPACKAGEDROTARYAIRCOOLER	,DIRECTEVAPORATIVERANDOMMEDIAAIRCOOLER	,DIRECTEVAPORATIVERIGIDMEDIAAIRCOOLER	,DIRECTEVAPORATIVESLINGERSPACKAGEDAIRCOOLER	,INDIRECTDIRECTCOMBINATION	,INDIRECTEVAPORATIVECOOLINGTOWERORCOILCOOLER	,INDIRECTEVAPORATIVEPACKAGEAIRCOOLER	,INDIRECTEVAPORATIVEWETCOIL	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcEvaporativeCoolerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcEvaporativeCoolerTypeEnum> copy_self( new IfcEvaporativeCoolerTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcEvaporativeCoolerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCEVAPORATIVECOOLERTYPEENUM("; }

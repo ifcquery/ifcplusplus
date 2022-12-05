@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcCoveringTypeEnum.h"
 
 // TYPE IfcCoveringTypeEnum = ENUMERATION OF	(CEILING	,CLADDING	,COPING	,FLOORING	,INSULATION	,MEMBRANE	,MOLDING	,ROOFING	,SKIRTINGBOARD	,SLEEVING	,TOPPING	,WRAPPING	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcCoveringTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCoveringTypeEnum> copy_self( new IfcCoveringTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcCoveringTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOVERINGTYPEENUM("; }

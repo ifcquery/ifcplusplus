@@ -18,21 +18,6 @@
 
 // ENTITY IfcSurfaceCurveSweptAreaSolid 
 IFC4X3::IfcSurfaceCurveSweptAreaSolid::IfcSurfaceCurveSweptAreaSolid( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcSurfaceCurveSweptAreaSolid::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSurfaceCurveSweptAreaSolid> copy_self( new IfcSurfaceCurveSweptAreaSolid() );
-	if( m_SweptArea )
-	{
-		if( options.shallow_copy_IfcProfileDef ) { copy_self->m_SweptArea = m_SweptArea; }
-		else { copy_self->m_SweptArea = dynamic_pointer_cast<IfcProfileDef>( m_SweptArea->getDeepCopy(options) ); }
-	}
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
-	if( m_Directrix ) { copy_self->m_Directrix = dynamic_pointer_cast<IfcCurve>( m_Directrix->getDeepCopy(options) ); }
-	if( m_StartParam ) { copy_self->m_StartParam = dynamic_pointer_cast<IfcCurveMeasureSelect>( m_StartParam->getDeepCopy(options) ); }
-	if( m_EndParam ) { copy_self->m_EndParam = dynamic_pointer_cast<IfcCurveMeasureSelect>( m_EndParam->getDeepCopy(options) ); }
-	if( m_ReferenceSurface ) { copy_self->m_ReferenceSurface = dynamic_pointer_cast<IfcSurface>( m_ReferenceSurface->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcSurfaceCurveSweptAreaSolid::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACECURVESWEPTAREASOLID" << "(";

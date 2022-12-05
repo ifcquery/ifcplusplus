@@ -724,6 +724,7 @@ public:
 							continue;
 						}
 						std::string guid;
+						
 						if (ifc_object_def->m_GlobalId)
 						{
 							guid = ifc_object_def->m_GlobalId->m_value;
@@ -731,7 +732,8 @@ public:
 
 						if( guid.size() > 18 )
 						{
-							m_map_outside_spatial_structure[guid] = ifc_object_def;
+							shared_ptr<IfcRoot> ifc_object_def_as_root = ifc_object_def;
+							m_map_outside_spatial_structure[guid] = ifc_object_def_as_root;
 						}
 						else
 						{

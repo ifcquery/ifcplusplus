@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcBSplineCurveForm.h"
 
 // TYPE IfcBSplineCurveForm = ENUMERATION OF	(CIRCULAR_ARC	,ELLIPTIC_ARC	,HYPERBOLIC_ARC	,PARABOLIC_ARC	,POLYLINE_FORM	,UNSPECIFIED);
-shared_ptr<BuildingObject> IFC4X3::IfcBSplineCurveForm::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBSplineCurveForm> copy_self( new IfcBSplineCurveForm() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcBSplineCurveForm::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBSPLINECURVEFORM("; }

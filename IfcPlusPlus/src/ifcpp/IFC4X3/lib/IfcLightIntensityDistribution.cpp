@@ -13,20 +13,6 @@
 
 // ENTITY IfcLightIntensityDistribution 
 IFC4X3::IfcLightIntensityDistribution::IfcLightIntensityDistribution( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcLightIntensityDistribution::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLightIntensityDistribution> copy_self( new IfcLightIntensityDistribution() );
-	if( m_LightDistributionCurve ) { copy_self->m_LightDistributionCurve = dynamic_pointer_cast<IfcLightDistributionCurveEnum>( m_LightDistributionCurve->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_DistributionData.size(); ++ii )
-	{
-		auto item_ii = m_DistributionData[ii];
-		if( item_ii )
-		{
-			copy_self->m_DistributionData.emplace_back( dynamic_pointer_cast<IfcLightDistributionData>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcLightIntensityDistribution::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCLIGHTINTENSITYDISTRIBUTION" << "(";

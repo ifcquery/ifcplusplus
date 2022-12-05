@@ -15,14 +15,6 @@
 
 // ENTITY IfcToroidalSurface 
 IFC4X3::IfcToroidalSurface::IfcToroidalSurface( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcToroidalSurface::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcToroidalSurface> copy_self( new IfcToroidalSurface() );
-	if( m_Position ) { copy_self->m_Position = dynamic_pointer_cast<IfcAxis2Placement3D>( m_Position->getDeepCopy(options) ); }
-	if( m_MajorRadius ) { copy_self->m_MajorRadius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_MajorRadius->getDeepCopy(options) ); }
-	if( m_MinorRadius ) { copy_self->m_MinorRadius = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_MinorRadius->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcToroidalSurface::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTOROIDALSURFACE" << "(";

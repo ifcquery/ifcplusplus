@@ -12,13 +12,6 @@
 
 // ENTITY IfcTimePeriod 
 IFC4X3::IfcTimePeriod::IfcTimePeriod( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTimePeriod::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTimePeriod> copy_self( new IfcTimePeriod() );
-	if( m_StartTime ) { copy_self->m_StartTime = dynamic_pointer_cast<IfcTime>( m_StartTime->getDeepCopy(options) ); }
-	if( m_EndTime ) { copy_self->m_EndTime = dynamic_pointer_cast<IfcTime>( m_EndTime->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTimePeriod::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTIMEPERIOD" << "(";

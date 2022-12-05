@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcStructuralCurveMemberTypeEnum.h"
 
 // TYPE IfcStructuralCurveMemberTypeEnum = ENUMERATION OF	(CABLE	,COMPRESSION_MEMBER	,PIN_JOINED_MEMBER	,RIGID_JOINED_MEMBER	,TENSION_MEMBER	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcStructuralCurveMemberTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcStructuralCurveMemberTypeEnum> copy_self( new IfcStructuralCurveMemberTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcStructuralCurveMemberTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSTRUCTURALCURVEMEMBERTYPEENUM("; }

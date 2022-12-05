@@ -12,12 +12,6 @@
 
 // TYPE IfcElectricVoltageMeasure = REAL;
 IFC4X3::IfcElectricVoltageMeasure::IfcElectricVoltageMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcElectricVoltageMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcElectricVoltageMeasure> copy_self( new IfcElectricVoltageMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcElectricVoltageMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICVOLTAGEMEASURE("; }

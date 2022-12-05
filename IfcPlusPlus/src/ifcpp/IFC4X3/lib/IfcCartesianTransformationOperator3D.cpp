@@ -16,16 +16,6 @@
 
 // ENTITY IfcCartesianTransformationOperator3D 
 IFC4X3::IfcCartesianTransformationOperator3D::IfcCartesianTransformationOperator3D( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcCartesianTransformationOperator3D::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcCartesianTransformationOperator3D> copy_self( new IfcCartesianTransformationOperator3D() );
-	if( m_Axis1 ) { copy_self->m_Axis1 = dynamic_pointer_cast<IfcDirection>( m_Axis1->getDeepCopy(options) ); }
-	if( m_Axis2 ) { copy_self->m_Axis2 = dynamic_pointer_cast<IfcDirection>( m_Axis2->getDeepCopy(options) ); }
-	if( m_LocalOrigin ) { copy_self->m_LocalOrigin = dynamic_pointer_cast<IfcCartesianPoint>( m_LocalOrigin->getDeepCopy(options) ); }
-	if( m_Scale ) { copy_self->m_Scale = dynamic_pointer_cast<IfcReal>( m_Scale->getDeepCopy(options) ); }
-	if( m_Axis3 ) { copy_self->m_Axis3 = dynamic_pointer_cast<IfcDirection>( m_Axis3->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcCartesianTransformationOperator3D::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCARTESIANTRANSFORMATIONOPERATOR3D" << "(";

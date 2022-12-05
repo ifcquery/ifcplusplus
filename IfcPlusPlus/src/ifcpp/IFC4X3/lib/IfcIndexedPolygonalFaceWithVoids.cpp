@@ -16,33 +16,6 @@
 
 // ENTITY IfcIndexedPolygonalFaceWithVoids 
 IFC4X3::IfcIndexedPolygonalFaceWithVoids::IfcIndexedPolygonalFaceWithVoids( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcIndexedPolygonalFaceWithVoids::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcIndexedPolygonalFaceWithVoids> copy_self( new IfcIndexedPolygonalFaceWithVoids() );
-	for( size_t ii=0; ii<m_CoordIndex.size(); ++ii )
-	{
-		auto item_ii = m_CoordIndex[ii];
-		if( item_ii )
-		{
-			copy_self->m_CoordIndex.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	copy_self->m_InnerCoordIndices.resize( m_InnerCoordIndices.size() );
-	for( size_t ii=0; ii<m_InnerCoordIndices.size(); ++ii )
-	{
-		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_InnerCoordIndices[ii];
-		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii_target = copy_self->m_InnerCoordIndices[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
-		{
-			shared_ptr<IfcPositiveInteger>& item_jj = vec_ii[jj];
-			if( item_jj )
-			{
-				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
-			}
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcIndexedPolygonalFaceWithVoids::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCINDEXEDPOLYGONALFACEWITHVOIDS" << "(";

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcRampFlightTypeEnum.h"
 
 // TYPE IfcRampFlightTypeEnum = ENUMERATION OF	(SPIRAL	,STRAIGHT	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcRampFlightTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRampFlightTypeEnum> copy_self( new IfcRampFlightTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcRampFlightTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCRAMPFLIGHTTYPEENUM("; }

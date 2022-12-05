@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcBoilerTypeEnum.h"
 
 // TYPE IfcBoilerTypeEnum = ENUMERATION OF	(STEAM	,WATER	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcBoilerTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBoilerTypeEnum> copy_self( new IfcBoilerTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcBoilerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBOILERTYPEENUM("; }

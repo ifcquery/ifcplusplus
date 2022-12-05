@@ -18,16 +18,6 @@
 
 // ENTITY IfcTextLiteralWithExtent 
 IFC4X3::IfcTextLiteralWithExtent::IfcTextLiteralWithExtent( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTextLiteralWithExtent::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTextLiteralWithExtent> copy_self( new IfcTextLiteralWithExtent() );
-	if( m_Literal ) { copy_self->m_Literal = dynamic_pointer_cast<IfcPresentableText>( m_Literal->getDeepCopy(options) ); }
-	if( m_Placement ) { copy_self->m_Placement = dynamic_pointer_cast<IfcAxis2Placement>( m_Placement->getDeepCopy(options) ); }
-	if( m_Path ) { copy_self->m_Path = dynamic_pointer_cast<IfcTextPath>( m_Path->getDeepCopy(options) ); }
-	if( m_Extent ) { copy_self->m_Extent = dynamic_pointer_cast<IfcPlanarExtent>( m_Extent->getDeepCopy(options) ); }
-	if( m_BoxAlignment ) { copy_self->m_BoxAlignment = dynamic_pointer_cast<IfcBoxAlignment>( m_BoxAlignment->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcTextLiteralWithExtent::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTLITERALWITHEXTENT" << "(";

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcLiquidTerminalTypeEnum.h"
 
 // TYPE IfcLiquidTerminalTypeEnum = ENUMERATION OF	(HOSEREEL	,LOADINGARM	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcLiquidTerminalTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcLiquidTerminalTypeEnum> copy_self( new IfcLiquidTerminalTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcLiquidTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCLIQUIDTERMINALTYPEENUM("; }

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcBearingTypeDisplacementEnum.h"
 
 // TYPE IfcBearingTypeDisplacementEnum = ENUMERATION OF	(FIXED_MOVEMENT	,FREE_MOVEMENT	,GUIDED_LONGITUDINAL	,GUIDED_TRANSVERSAL	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcBearingTypeDisplacementEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBearingTypeDisplacementEnum> copy_self( new IfcBearingTypeDisplacementEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcBearingTypeDisplacementEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBEARINGTYPEDISPLACEMENTENUM("; }

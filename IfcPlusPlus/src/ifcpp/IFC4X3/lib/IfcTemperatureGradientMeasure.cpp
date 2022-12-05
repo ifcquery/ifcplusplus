@@ -12,12 +12,6 @@
 
 // TYPE IfcTemperatureGradientMeasure = REAL;
 IFC4X3::IfcTemperatureGradientMeasure::IfcTemperatureGradientMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcTemperatureGradientMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTemperatureGradientMeasure> copy_self( new IfcTemperatureGradientMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcTemperatureGradientMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCTEMPERATUREGRADIENTMEASURE("; }

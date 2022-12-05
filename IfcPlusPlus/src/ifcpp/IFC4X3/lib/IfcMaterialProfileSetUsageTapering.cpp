@@ -15,16 +15,6 @@
 
 // ENTITY IfcMaterialProfileSetUsageTapering 
 IFC4X3::IfcMaterialProfileSetUsageTapering::IfcMaterialProfileSetUsageTapering( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMaterialProfileSetUsageTapering::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMaterialProfileSetUsageTapering> copy_self( new IfcMaterialProfileSetUsageTapering() );
-	if( m_ForProfileSet ) { copy_self->m_ForProfileSet = dynamic_pointer_cast<IfcMaterialProfileSet>( m_ForProfileSet->getDeepCopy(options) ); }
-	if( m_CardinalPoint ) { copy_self->m_CardinalPoint = dynamic_pointer_cast<IfcCardinalPointReference>( m_CardinalPoint->getDeepCopy(options) ); }
-	if( m_ReferenceExtent ) { copy_self->m_ReferenceExtent = dynamic_pointer_cast<IfcPositiveLengthMeasure>( m_ReferenceExtent->getDeepCopy(options) ); }
-	if( m_ForProfileEndSet ) { copy_self->m_ForProfileEndSet = dynamic_pointer_cast<IfcMaterialProfileSet>( m_ForProfileEndSet->getDeepCopy(options) ); }
-	if( m_CardinalEndPoint ) { copy_self->m_CardinalEndPoint = dynamic_pointer_cast<IfcCardinalPointReference>( m_CardinalEndPoint->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcMaterialProfileSetUsageTapering::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIALPROFILESETUSAGETAPERING" << "(";

@@ -16,19 +16,6 @@
 
 // ENTITY IfcIndexedPolygonalFace 
 IFC4X3::IfcIndexedPolygonalFace::IfcIndexedPolygonalFace( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcIndexedPolygonalFace::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcIndexedPolygonalFace> copy_self( new IfcIndexedPolygonalFace() );
-	for( size_t ii=0; ii<m_CoordIndex.size(); ++ii )
-	{
-		auto item_ii = m_CoordIndex[ii];
-		if( item_ii )
-		{
-			copy_self->m_CoordIndex.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcIndexedPolygonalFace::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCINDEXEDPOLYGONALFACE" << "(";

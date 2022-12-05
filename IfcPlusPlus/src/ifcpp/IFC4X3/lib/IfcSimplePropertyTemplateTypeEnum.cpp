@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcSimplePropertyTemplateTypeEnum.h"
 
 // TYPE IfcSimplePropertyTemplateTypeEnum = ENUMERATION OF	(P_BOUNDEDVALUE	,P_ENUMERATEDVALUE	,P_LISTVALUE	,P_REFERENCEVALUE	,P_SINGLEVALUE	,P_TABLEVALUE	,Q_AREA	,Q_COUNT	,Q_LENGTH	,Q_NUMBER	,Q_TIME	,Q_VOLUME	,Q_WEIGHT);
-shared_ptr<BuildingObject> IFC4X3::IfcSimplePropertyTemplateTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcSimplePropertyTemplateTypeEnum> copy_self( new IfcSimplePropertyTemplateTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcSimplePropertyTemplateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCSIMPLEPROPERTYTEMPLATETYPEENUM("; }

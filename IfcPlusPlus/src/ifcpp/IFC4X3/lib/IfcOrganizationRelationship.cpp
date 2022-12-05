@@ -14,22 +14,6 @@
 
 // ENTITY IfcOrganizationRelationship 
 IFC4X3::IfcOrganizationRelationship::IfcOrganizationRelationship( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcOrganizationRelationship::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcOrganizationRelationship> copy_self( new IfcOrganizationRelationship() );
-	if( m_Name ) { copy_self->m_Name = dynamic_pointer_cast<IfcLabel>( m_Name->getDeepCopy(options) ); }
-	if( m_Description ) { copy_self->m_Description = dynamic_pointer_cast<IfcText>( m_Description->getDeepCopy(options) ); }
-	if( m_RelatingOrganization ) { copy_self->m_RelatingOrganization = dynamic_pointer_cast<IfcOrganization>( m_RelatingOrganization->getDeepCopy(options) ); }
-	for( size_t ii=0; ii<m_RelatedOrganizations.size(); ++ii )
-	{
-		auto item_ii = m_RelatedOrganizations[ii];
-		if( item_ii )
-		{
-			copy_self->m_RelatedOrganizations.emplace_back( dynamic_pointer_cast<IfcOrganization>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcOrganizationRelationship::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCORGANIZATIONRELATIONSHIP" << "(";

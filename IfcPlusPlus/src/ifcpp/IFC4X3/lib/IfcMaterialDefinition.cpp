@@ -14,11 +14,6 @@
 
 // ENTITY IfcMaterialDefinition 
 IFC4X3::IfcMaterialDefinition::IfcMaterialDefinition( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcMaterialDefinition::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcMaterialDefinition> copy_self( new IfcMaterialDefinition() );
-	return copy_self;
-}
 void IFC4X3::IfcMaterialDefinition::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIALDEFINITION" << "(";

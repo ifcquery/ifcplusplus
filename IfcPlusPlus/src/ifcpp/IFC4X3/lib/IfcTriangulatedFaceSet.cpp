@@ -19,49 +19,6 @@
 
 // ENTITY IfcTriangulatedFaceSet 
 IFC4X3::IfcTriangulatedFaceSet::IfcTriangulatedFaceSet( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcTriangulatedFaceSet::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcTriangulatedFaceSet> copy_self( new IfcTriangulatedFaceSet() );
-	if( m_Coordinates ) { copy_self->m_Coordinates = dynamic_pointer_cast<IfcCartesianPointList3D>( m_Coordinates->getDeepCopy(options) ); }
-	if( m_Closed ) { copy_self->m_Closed = dynamic_pointer_cast<IfcBoolean>( m_Closed->getDeepCopy(options) ); }
-	copy_self->m_Normals.resize( m_Normals.size() );
-	for( size_t ii=0; ii<m_Normals.size(); ++ii )
-	{
-		std::vector<shared_ptr<IfcParameterValue> >& vec_ii = m_Normals[ii];
-		std::vector<shared_ptr<IfcParameterValue> >& vec_ii_target = copy_self->m_Normals[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
-		{
-			shared_ptr<IfcParameterValue>& item_jj = vec_ii[jj];
-			if( item_jj )
-			{
-				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcParameterValue>( item_jj->getDeepCopy(options) ) );
-			}
-		}
-	}
-	copy_self->m_CoordIndex.resize( m_CoordIndex.size() );
-	for( size_t ii=0; ii<m_CoordIndex.size(); ++ii )
-	{
-		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_CoordIndex[ii];
-		std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii_target = copy_self->m_CoordIndex[ii];
-		for( size_t jj=0; jj<vec_ii.size(); ++jj )
-		{
-			shared_ptr<IfcPositiveInteger>& item_jj = vec_ii[jj];
-			if( item_jj )
-			{
-				vec_ii_target.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>( item_jj->getDeepCopy(options) ) );
-			}
-		}
-	}
-	for( size_t ii=0; ii<m_PnIndex.size(); ++ii )
-	{
-		auto item_ii = m_PnIndex[ii];
-		if( item_ii )
-		{
-			copy_self->m_PnIndex.emplace_back( dynamic_pointer_cast<IfcPositiveInteger>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcTriangulatedFaceSet::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCTRIANGULATEDFACESET" << "(";

@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcVibrationDamperTypeEnum.h"
 
 // TYPE IfcVibrationDamperTypeEnum = ENUMERATION OF	(AXIAL_YIELD	,BENDING_YIELD	,FRICTION	,RUBBER	,SHEAR_YIELD	,VISCOUS	,USERDEFINED	,NOTDEFINED);
-shared_ptr<BuildingObject> IFC4X3::IfcVibrationDamperTypeEnum::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcVibrationDamperTypeEnum> copy_self( new IfcVibrationDamperTypeEnum() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcVibrationDamperTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCVIBRATIONDAMPERTYPEENUM("; }

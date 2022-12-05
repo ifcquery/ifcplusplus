@@ -12,12 +12,6 @@
 
 // TYPE IfcRotationalMassMeasure = REAL;
 IFC4X3::IfcRotationalMassMeasure::IfcRotationalMassMeasure( double value ) { m_value = value; }
-shared_ptr<BuildingObject> IFC4X3::IfcRotationalMassMeasure::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcRotationalMassMeasure> copy_self( new IfcRotationalMassMeasure() );
-	copy_self->m_value = m_value;
-	return copy_self;
-}
 void IFC4X3::IfcRotationalMassMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCROTATIONALMASSMEASURE("; }

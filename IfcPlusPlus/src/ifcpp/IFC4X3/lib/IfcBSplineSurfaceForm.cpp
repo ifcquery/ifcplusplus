@@ -10,12 +10,6 @@
 #include "ifcpp/IFC4X3/include/IfcBSplineSurfaceForm.h"
 
 // TYPE IfcBSplineSurfaceForm = ENUMERATION OF	(CONICAL_SURF	,CYLINDRICAL_SURF	,GENERALISED_CONE	,PLANE_SURF	,QUADRIC_SURF	,RULED_SURF	,SPHERICAL_SURF	,SURF_OF_LINEAR_EXTRUSION	,SURF_OF_REVOLUTION	,TOROIDAL_SURF	,UNSPECIFIED);
-shared_ptr<BuildingObject> IFC4X3::IfcBSplineSurfaceForm::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcBSplineSurfaceForm> copy_self( new IfcBSplineSurfaceForm() );
-	copy_self->m_enum = m_enum;
-	return copy_self;
-}
 void IFC4X3::IfcBSplineSurfaceForm::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBSPLINESURFACEFORM("; }

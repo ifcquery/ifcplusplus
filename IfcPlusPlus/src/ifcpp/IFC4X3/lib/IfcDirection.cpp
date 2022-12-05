@@ -14,19 +14,6 @@
 
 // ENTITY IfcDirection 
 IFC4X3::IfcDirection::IfcDirection( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcDirection::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcDirection> copy_self( new IfcDirection() );
-	for( size_t ii=0; ii<m_DirectionRatios.size(); ++ii )
-	{
-		auto item_ii = m_DirectionRatios[ii];
-		if( item_ii )
-		{
-			copy_self->m_DirectionRatios.emplace_back( dynamic_pointer_cast<IfcReal>(item_ii->getDeepCopy(options) ) );
-		}
-	}
-	return copy_self;
-}
 void IFC4X3::IfcDirection::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCDIRECTION" << "(";

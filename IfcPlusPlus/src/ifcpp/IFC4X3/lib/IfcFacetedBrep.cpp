@@ -14,12 +14,6 @@
 
 // ENTITY IfcFacetedBrep 
 IFC4X3::IfcFacetedBrep::IfcFacetedBrep( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcFacetedBrep::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcFacetedBrep> copy_self( new IfcFacetedBrep() );
-	if( m_Outer ) { copy_self->m_Outer = dynamic_pointer_cast<IfcClosedShell>( m_Outer->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcFacetedBrep::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCFACETEDBREP" << "(";

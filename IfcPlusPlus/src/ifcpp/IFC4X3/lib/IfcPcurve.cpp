@@ -15,13 +15,6 @@
 
 // ENTITY IfcPcurve 
 IFC4X3::IfcPcurve::IfcPcurve( int tag ) { m_tag = tag; }
-shared_ptr<BuildingObject> IFC4X3::IfcPcurve::getDeepCopy( BuildingCopyOptions& options )
-{
-	shared_ptr<IfcPcurve> copy_self( new IfcPcurve() );
-	if( m_BasisSurface ) { copy_self->m_BasisSurface = dynamic_pointer_cast<IfcSurface>( m_BasisSurface->getDeepCopy(options) ); }
-	if( m_ReferenceCurve ) { copy_self->m_ReferenceCurve = dynamic_pointer_cast<IfcCurve>( m_ReferenceCurve->getDeepCopy(options) ); }
-	return copy_self;
-}
 void IFC4X3::IfcPcurve::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCPCURVE" << "(";
