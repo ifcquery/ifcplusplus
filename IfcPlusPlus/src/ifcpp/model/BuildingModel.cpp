@@ -236,11 +236,13 @@ void BuildingModel::initCopyIfcModel( const shared_ptr<BuildingModel>& other )
 	clearIfcModel();
 
 	shared_ptr<IfcProject> project = other->getIfcProject();
+	shared_ptr<IfcRoot> projectAsRoot(project);
+	//IfcRoot* projectAsRoot = project.get();
 	std::map<BuildingObject*, shared_ptr<BuildingObject> > map_entities_copy;
-	map_entities_copy[project.get()] = project;
+	map_entities_copy[projectAsRoot.get()] = projectAsRoot;
 	
-	shared_ptr<BuildingObject> project_as_entity( project );
-	collectDependentEntities( project_as_entity, map_entities_copy );
+	//shared_ptr<BuildingObject> project_as_entity( project );
+	collectDependentEntities( projectAsRoot, map_entities_copy );
 
 	for( auto it = map_entities_copy.begin(); it != map_entities_copy.end(); ++it )
 	{

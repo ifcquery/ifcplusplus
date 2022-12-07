@@ -177,45 +177,9 @@ void ReaderSTEP::loadModelFromFile( const std::string& filePath, shared_ptr<Buil
 	infile.seekg( 0, std::ios::end );
 	file_size_pos = infile.tellg() - file_size_pos;
 	infile.seekg( 0, std::ios::beg );
-
 	size_t file_size = file_size_pos;
 
-
 	loadModelFromStream(infile, file_size, targetModel);
-	return;
-
-	size_t max_file_size = 100 * 1000 * 1000;
-	if( file_size < max_file_size )
-	{
-
-		// read file content into string
-		std::string buffer((int)file_size, '\0');
-		infile.read(&buffer[0], file_size);
-		infile.close();
-
-		size_t file_header_start = buffer.find("HEADER;");
-		size_t file_header_end = buffer.find("ENDSEC;");
-		if( file_header_start == std::string::npos || file_header_end == std::string::npos )
-		{
-			// check if it is a zipped file
-			std::stringstream buffer;
-			unzipFile(filePath, buffer);
-			bool success = unzipFile(filePath, buffer);
-			if( success )
-			{
-				buffer.seekp(0, std::ios::end);
-				std::stringstream::pos_type buffer_size = buffer.tellp();
-
-				loadModelFromStream(buffer, buffer_size, targetModel);
-				return;
-			}
-
-			messageCallback("Not a valid IFC file", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
-			return;
-		}
-	}
-
-	//loadModelFromString( buffer, targetModel);
 }
 
 void ReaderSTEP::loadModelFromStream(std::istream& content, std::streampos file_size, shared_ptr<BuildingModel>& targetModel)
@@ -234,6 +198,8 @@ void ReaderSTEP::loadModelFromStream(std::istream& content, std::streampos file_
 
 	int millisecs_end = clock();
 	double seconds = (millisecs_end - millisecs_begin) * 0.001;
+	double progress = 1.0;
+	progressValueCallback( progress, "parse" );
 }
 
 void ReaderSTEP::readHeader( std::istream& content, shared_ptr<BuildingModel>& target_model )
@@ -935,7 +901,8 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 	std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > > vec_entities;
 	try
 	{
-		std::string line; 
+		std::string line;
+		std::string linePreviousRemaining;
 		std::string strHeader;
 		size_t line_header_start = std::string::npos;
 		size_t line_header_end = std::string::npos;
@@ -943,8 +910,21 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 		double progress = 0;
 		double last_progress = 0;
 		bool inComment = false;
-		while (std::getline(read_in, line))
+		while (true)
 		{
+			if( linePreviousRemaining.size() > 0 )
+			{
+				line = linePreviousRemaining;
+				linePreviousRemaining = "";
+			}
+			else
+			{
+				if( !std::getline(read_in, line) )
+				{
+					break;
+				}
+			}
+
 			size_t found_comment_start = line.find("/*");
 			if( found_comment_start != std::string::npos )
 			{
@@ -985,12 +965,84 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 				continue;
 			}
 
+			bool currentLineIsValid = false;
+			while( true )
+			{
+				char* line_begin = const_cast<char*>(line.c_str());
+				char* line_end = line_begin;
+				bool foundCompleteStepLine = findEndOfStepLine(line_begin, line_end);
+
+				if( foundCompleteStepLine )
+				{
+					// a STEP line can have newlines in it: #1=Example('bla',...,\n,(...));
+
+					size_t stepLineLength = line_end - line_begin;
+					if( line_begin != line_end )
+					{
+						if( *line_end == ';' )
+						{
+							++stepLineLength;
+						}
+					}
+					if( stepLineLength == line.size() )
+					{
+						// complete line
+						currentLineIsValid = true;
+						break;
+					}
+					else if( stepLineLength < line.size() )
+					{
+						int remainingLength = line.length() - stepLineLength;
+						if( remainingLength > 0 )
+						{
+							linePreviousRemaining = line.substr(stepLineLength, remainingLength);
+							line = line.substr(0, stepLineLength);
+						}
+					}
+					else
+					{
+#ifdef _DEBUG
+						// check
+						char* line_begin2 = const_cast<char*>(line.c_str());
+						char* line_end2 = line_begin2;
+						findEndOfStepLine(line_begin2, line_end2);
+
+#endif
+					}
+				}
+				else
+				{
+					std::string lineNext;
+					if( !std::getline(read_in, lineNext) )
+					{
+						// end of file, without complete STEP line
+						break;
+					}
+					line.append(lineNext);
+					// continue in current loop with 
+					// bool foundCompleteStepLine = findEndOfStepLine(...)
+				}
+			}
+
+			
+			if( linePreviousRemaining.size() > 0 )
+			{
+				if( !currentLineIsValid )
+				{
+					continue;
+				}
+			}
+
 			read_size += line.size();
 			std::pair<std::string, shared_ptr<BuildingEntity> > entity_read_obj;
 			try
 			{
 				readSingleStepLine( line, entity_read_obj );
-				vec_entities.push_back(entity_read_obj);
+				if( entity_read_obj.second )
+				{
+					vec_entities.push_back(entity_read_obj);
+					line = "";
+				}
 			}
 			catch(UnknownEntityException& e)
 			{
@@ -1037,11 +1089,15 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 					}
 				}
 			}
+			catch( std::exception& e )
+			{
+
+			}
 
 			if( lineCount%100 == 0)
 			{
 				progress = 0.2 + 0.1*double(read_size)/double(file_size);
-				if( progress - last_progress > 0.03 )
+				if( progress - last_progress > 0.02 )
 				{
 #ifdef ENABLE_OPENMP
 					if( omp_get_thread_num() == 0 )

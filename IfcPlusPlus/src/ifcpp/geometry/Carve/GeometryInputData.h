@@ -1092,7 +1092,6 @@ public:
 	~RepresentationData(){}
 
 	weak_ptr<IFC4X3::IfcRepresentation>				m_ifc_representation;
-	weak_ptr<IFC4X3::IfcRepresentationContext>		m_ifc_representation_context;
 	std::vector<shared_ptr<ItemShapeData> >			m_vec_item_data;
 	std::vector<shared_ptr<AppearanceData> >		m_vec_representation_appearances;
 	std::string										m_representation_identifier;
@@ -1103,7 +1102,6 @@ public:
 	{
 		shared_ptr<RepresentationData> copy_representation( new RepresentationData() );
 		copy_representation->m_ifc_representation = m_ifc_representation;
-		copy_representation->m_ifc_representation_context = m_ifc_representation_context;
 		for( size_t ii = 0; ii < m_vec_item_data.size(); ++ii )
 		{
 			shared_ptr<ItemShapeData>& item_data = m_vec_item_data[ii];
@@ -1165,7 +1163,6 @@ public:
 	{
 		m_vec_representation_appearances.clear();
 		m_ifc_representation.reset();
-		m_ifc_representation_context.reset();
 		m_vec_item_data.clear();
 		m_representation_identifier = "";
 		m_representation_type = "";
@@ -1266,6 +1263,34 @@ public:
 		m_vec_product_appearances.clear();
 	}
 
+	void clearMeshGeometry()
+	{
+		m_vec_product_appearances.clear();
+
+		//m_ifc_object_definition.reset();
+		m_object_placement.reset();
+		//m_vec_children.clear();
+		
+		for( size_t item_i = 0; item_i < m_vec_representations.size(); ++item_i )
+		{
+			shared_ptr<RepresentationData>& representation_data = m_vec_representations[item_i];
+
+			representation_data->m_vec_item_data.clear();
+			//std::vector<shared_ptr<ItemShapeData> >	& items = representation_data->m_vec_item_data;
+			//for( size_t jj = 0; jj < items.size(); ++jj )
+			//{
+			//	shared_ptr<ItemShapeData>& item = items[item_i];
+			//	item->m_meshsets.clear();
+			//	item->m_meshsets.clear();
+			//}
+
+		}
+		
+		//m_vec_representations.clear(); 
+
+
+		m_added_to_spatial_structure = false;
+	}
 	void clearAll()
 	{
 		m_vec_product_appearances.clear();

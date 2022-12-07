@@ -399,7 +399,7 @@ namespace MeshUtils
 		{
 			return false;
 		}
-		
+
 		if( !e->rev )
 		{
 			return false;
@@ -530,12 +530,12 @@ namespace MeshUtils
 			{
 				return false;
 			}
-	
+
 			if( !checkEdgePointers(e->rev) )
 			{
 				return false;
 			}
-	
+
 			// continue
 			e = e->next;
 		}
@@ -598,7 +598,7 @@ namespace MeshUtils
 
 			e = e->next;
 		}
-		
+
 		return false;
 	}
 
@@ -1056,7 +1056,7 @@ namespace MeshUtils
 		const vec3 B = edge1->v2()->v;
 		const vec3 C = edge2->v1()->v;
 		const vec3 D = edge2->v2()->v;
-		
+
 		vec3 u = B - A;
 		vec3 v = D - C;
 		vec3 w = A - C;
@@ -1786,7 +1786,7 @@ namespace MeshUtils
 			}
 		}
 	}
-	
+
 	static void triangulateLoops( const std::vector<std::vector<vec2> >& profilePathsInput, std::vector<std::vector<vec2> >& faceLoopsUsedForTriangulation, std::vector<uint32_t>& face_indexes_out, BuildingEntity* ifc_entity )
 	{
 		// TODO: complete and test
@@ -1977,7 +1977,7 @@ namespace MeshUtils
 
 			GeomDebugDump::moveOffset(0.3);
 			GeomDebugDump::dumpPolyline(profilePathsInput, color, true );
-			
+
 #endif
 			return;
 		}
@@ -2057,12 +2057,12 @@ namespace MeshUtils
 				size_t idx2_poly = poly.addPoint(carve::geom::VECTOR(pt2.x, pt2.y, 0));
 				poly.m_poly_data->addFace(idx0_poly, idx1_poly, idx2_poly);
 			}
-			
+
 			glm::dvec4 colorCurrentLabel(0.3, 0.4, 0.5, 1.0);
 			std::string labelStr = "carve_triangulation";
 			GeomDebugDump::dumpVertex(GeomDebugDump::labelPos, colorCurrentLabel, labelStr);
 			GeomDebugDump::dumpCountLabel(GeomDebugDump::countLabelPos);
-			
+
 			glm::dvec4 color(0.3, 0.4, 0.5, 1.0);
 			shared_ptr<carve::mesh::MeshSet<3> > mesh_triangle(poly.m_poly_data->createMesh(carve::input::opts()));
 			GeomDebugDump::dumpMeshset(mesh_triangle, color, true );
@@ -2195,7 +2195,7 @@ namespace MeshUtils
 		vecResultLoop.push_back(startEdge->v2());
 		usedEdges.clear();
 		usedEdges.insert(startEdge);
-		
+
 #ifdef _DEBUG
 		bool blue = true;
 		glm::vec4 color1(1.0, 0.1, 1, 1);
@@ -2209,7 +2209,7 @@ namespace MeshUtils
 #endif
 
 		std::set<carve::mesh::Edge<3>* > vecEdges = vecEdgesInput;
-		
+
 		for( size_t ii = 0; ii < vecEdges.size(); ++ii )
 		{
 			bool connectionFound = false;
@@ -2227,7 +2227,7 @@ namespace MeshUtils
 				}
 
 				vec3& edgeP0 = edge->v1()->v;
-				
+
 				vec3 delt0 = edgeP0 - currentEndPoint;
 				if( delt0.length2() < eps * eps )
 				{
@@ -2475,7 +2475,7 @@ namespace MeshUtils
 		PolyInputCache3D polyInput( eps );
 		polyhedronFromMeshSet(meshset, polyInput);
 		bool meshsetChanged = false;
-		
+
 
 		for( size_t ii = 0; ii < allOpenEdges.size(); ++ii )
 		{
@@ -2956,7 +2956,7 @@ namespace MeshUtils
 				aTri.Set(id0, id1, id2);
 				//aMesh->SetTriangle(aTriIter, aTri);
 
-				
+
 				vec3 point1_carve = carve::geom::VECTOR(triang_point1.X(), triang_point1.Y(), triang_point1.Z());
 				vec3 point2_carve = carve::geom::VECTOR(triang_point2.X(), triang_point2.Y(), triang_point2.Z());
 				vec3 point3_carve = carve::geom::VECTOR(triang_point3.X(), triang_point3.Y(), triang_point3.Z());
@@ -2966,7 +2966,7 @@ namespace MeshUtils
 
 				std::vector<vec3> trianglePoints = { point1_carve, point2_carve, point3_carve };
 				vec3 triangleNormal = GeomUtils::computePolygonNormal(trianglePoints);
-				
+
 				poly.m_poly_data->addFace(point1Index, point2Index, point3Index);
 
 
@@ -3027,7 +3027,7 @@ namespace MeshUtils
 		{
 			addShapeToPolyInput(shape, poly);
 		}
-		
+
 		meshset = shared_ptr<carve::mesh::MeshSet<3> >(poly.m_poly_data->createMesh(carve::input::opts()));	
 	}
 
@@ -3137,7 +3137,7 @@ namespace MeshUtils
 
 	static void convertCarve2OpenCascade(carve::mesh::MeshSet<3>* meshset, TopoDS_Shape& result)
 	{
-		
+
 		try
 		{
 			//BRepBuilderAPI_Sewing sewer;
@@ -3147,7 +3147,7 @@ namespace MeshUtils
 			TopoDS_Shell shell;
 			BRep_Builder builder;
 			builder.MakeShell(shell);
-			
+
 			std::map<carve::mesh::Vertex<3>*, TopoDS_Vertex> mapVertices;
 			for( size_t ii = 0; ii < meshset->vertex_storage.size(); ++ii )
 			{
@@ -3168,10 +3168,10 @@ namespace MeshUtils
 					if( faceVertices.size() > 2 )
 					{
 						BRepBuilderAPI_MakeWire mk_wire;
-						
+
 						size_t n = faceVertices.size();
 						carve::mesh::Vertex<3>* vertexFirst = faceVertices[0];
-							 
+
 						for( int i = 0; i < n; ++i )
 						{
 							carve::mesh::Vertex<3>* v0 = faceVertices[i];
@@ -3225,7 +3225,9 @@ namespace MeshUtils
 
 						if( wire.IsNull() )
 						{
+#ifdef _DEBUG
 							std::cout << "wire isNull" << std::endl;
+#endif
 						}
 						else
 						{
@@ -3235,7 +3237,9 @@ namespace MeshUtils
 
 							if( face.IsNull() )
 							{
+#ifdef _DEBUG
 								std::cout << "face isNull" << std::endl;
+#endif
 							}
 							else
 							{
@@ -3247,7 +3251,7 @@ namespace MeshUtils
 				}
 			}
 
-			
+
 			//sewer.Perform();
 			//TopoDS_Shape sewedShape = sewer.SewedShape();
 			BRepBuilderAPI_MakeSolid mkSolid(shell);

@@ -59,6 +59,7 @@ void tokenizeList( std::string& list_str, std::vector<std::string>& list_items )
 void tokenizeEntityList( std::string& list_str, std::vector<int>& list_items );
 void findLeadingTrailingParanthesis(char* ch, char*& pos_opening, char*& pos_closing);
 void findEndOfString(const char*& stream_pos);
+bool findEndOfStepLine(char* ch, char*& pos_end);
 void checkOpeningClosingParenthesis(const char* ch_check);
 
 IFCQUERY_EXPORT std::string wstring2string(const std::wstring& str);

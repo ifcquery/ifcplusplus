@@ -194,6 +194,58 @@ void findLeadingTrailingParanthesis( char* ch, char*& pos_opening, char*& pos_cl
 	}
 }
 
+bool findEndOfStepLine( char* ch, char*& pos_end )
+{
+	short num_opening = 0;
+	while( *ch != '\0' )
+	{
+		if( *ch == '\'' )
+		{
+			++ch;
+			// beginning of string, continue to end
+			while( *ch != '\0' )
+			{
+				if( *ch == '\'' )
+				{
+					break;
+				}
+				++ch;
+			}
+			++ch;
+			continue;
+		}
+
+		if( *ch == '(' )
+		{
+			++num_opening;
+		}
+		else if( *ch == ')' )
+		{
+			--num_opening;
+			if( num_opening == 0 )
+			{
+				while( isspace(*ch) ) { ++ch; }
+
+				if( *ch == ';' )
+				{
+					pos_end = ch;
+					return true;
+				}
+			}
+		}
+		else if( *ch == ';' )
+		{
+			if( num_opening == 0 )
+			{
+				pos_end = ch;
+				return true;
+			}
+		}
+		++ch;
+	}
+	return false;
+}
+
 void tokenizeList( std::string& list_str, std::vector<std::string>& list_items )
 {
 	if( list_str.empty() )

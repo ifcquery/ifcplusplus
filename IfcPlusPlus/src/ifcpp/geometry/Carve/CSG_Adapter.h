@@ -282,6 +282,8 @@ namespace CSG_Adapter
 					if( !result_meshset_ok )
 					{
 #ifdef OCC_FOUND
+						// include directory $(CSF_OPT_INC)
+
 						TopoDS_Shape operand1_shape;
 						TopoDS_Shape operand2_shape;
 						MeshUtils::convertCarve2OpenCascade(op1.get(), operand1_shape);
@@ -347,7 +349,7 @@ namespace CSG_Adapter
 							if( volume2 < 0 ) { operand2_solid.Reverse(); }
 
 							ShapeFix_ShapeTolerance shapeTolerance;// = new ShapeFix_ShapeTolerance();
-							double tolerance = 1e-7;
+							double tolerance = eps;// 1e-7;
 							shapeTolerance.SetTolerance(operand1_solid,tolerance);
 							shapeTolerance.SetTolerance(operand2_solid,tolerance);
 
@@ -368,11 +370,13 @@ namespace CSG_Adapter
 
 								MeshUtils::TopoDS_Shape2Meshset(cutResult, result);
 								result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, report_callback, entity.get());
-#ifdef _DEBUG
+
 								if( result_meshset_ok )
 								{
-									std::cout << "CSG no success with carve, success with OCC" << std::endl;
+									std::cout << "===> CSG successful with OCC" << std::endl;
 								}
+#ifdef _DEBUG
+								
 
 								if( !result_meshset_ok )
 								{

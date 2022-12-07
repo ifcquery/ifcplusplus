@@ -165,7 +165,6 @@ public:
 		}
 
 		representation_data->m_ifc_representation = ifc_representation;
-		representation_data->m_ifc_representation_context = ifc_representation->m_ContextOfItems;
 
 		for( const shared_ptr<IfcRepresentationItem>& representation_item : ifc_representation->m_Items )
 		{
@@ -399,11 +398,45 @@ public:
 		//glm::dvec4 color(0.3, 0.4, 0.5, 1.0);
 		//GeomDebugDump::dumpPolyline(face_loops, color, true);
 #endif
-
 	}
 
-	void convertIfcGeometricRepresentationItem( const shared_ptr<IfcGeometricRepresentationItem>& geom_item, shared_ptr<ItemShapeData> item_data )
+	std::map<int, shared_ptr<ItemShapeData> > map_item_data_cache;
+	struct ScopedAddItemToMap
 	{
+		int m_tag = -1;
+		shared_ptr<ItemShapeData> m_item_data;
+		std::map<int, shared_ptr<ItemShapeData> >* m_map_item_data_cache;
+		ScopedAddItemToMap( int tag, shared_ptr<ItemShapeData> item_data, std::map<int, shared_ptr<ItemShapeData> >& map) : m_tag(tag), m_item_data(item_data), m_map_item_data_cache(&map)
+		{
+			
+		}
+
+		~ScopedAddItemToMap()
+		{
+			if(m_item_data )
+			{
+				m_map_item_data_cache->insert({ m_tag, m_item_data });
+			}
+		}
+	};
+
+	void convertIfcGeometricRepresentationItem( const shared_ptr<IfcGeometricRepresentationItem>& geom_item, shared_ptr<ItemShapeData>& item_data )
+	{
+		int tag = geom_item->m_tag;
+
+		//ScopedAddItemToMap addItemToMap(tag, item_data, map_item_data_cache);
+		if( false )
+		{
+			auto it = map_item_data_cache.find(tag);
+			if( it != map_item_data_cache.end() )
+			{
+				shared_ptr<ItemShapeData> item_data_existing = it->second;
+				shared_ptr<ItemShapeData> item_data_existing_copy = item_data_existing->getItemShapeDataDeepCopy();
+				item_data = item_data_existing_copy;
+				return;
+			}
+		}
+
 		//ENTITY IfcGeometricRepresentationItem
 		//ABSTRACT SUPERTYPE OF(ONEOF(IfcAnnotationFillArea, IfcBooleanResult, IfcBoundingBox, IfcCartesianPointList, IfcCartesianTransformationOperator, 
 		//IfcCompositeCurveSegment, IfcCsgPrimitive3D, IfcCurve, IfcDirection, IfcFaceBasedSurfaceModel, IfcFillAreaStyleHatching, IfcFillAreaStyleTiles, 
@@ -416,6 +449,7 @@ public:
 			std::copy( vec_appearance_data.begin(), vec_appearance_data.end(), std::back_inserter( item_data->m_vec_item_appearances ) );
 		}
 		
+#ifdef HANDLE_BBOX_AS_GEOMETRY
 		shared_ptr<IfcBoundingBox> bbox = dynamic_pointer_cast<IfcBoundingBox>( geom_item );
 		if( bbox )
 		{
@@ -425,6 +459,7 @@ public:
 			shared_ptr<IfcPositiveLengthMeasure> z_dim = bbox->m_ZDim;
 			return;
 		}
+#endif
 
 		shared_ptr<IfcFaceBasedSurfaceModel> surface_model = dynamic_pointer_cast<IfcFaceBasedSurfaceModel>( geom_item );
 		if( surface_model )
@@ -436,7 +471,6 @@ public:
 				std::vector<shared_ptr<IfcFace> >& vec_ifc_faces = face_set->m_CfsFaces;
 				m_face_converter->convertIfcFaceList( vec_ifc_faces, item_data, FaceConverter::SHELL_TYPE_UNKONWN );
 			}
-
 			return;
 		}
 
@@ -470,7 +504,6 @@ public:
 				polyline_data->addPolylineIndex( i );
 			}
 			item_data->m_polylines.push_back( polyline_data );
-
 			return;
 		}
 
@@ -498,7 +531,6 @@ public:
 					continue;
 				}
 			}
-
 			return;
 		}
 
@@ -560,7 +592,6 @@ public:
 					{
 						item_data->addOpenOrClosedPolyhedron(polyCache.m_poly_data);
 					}
-
 
 					return;
 				}
@@ -645,7 +676,6 @@ public:
 					{
 						item_data->addOpenOrClosedPolyhedron(polyCache.m_poly_data);
 					}
-
 					return;
 				}
 			}
@@ -679,7 +709,6 @@ public:
 				polyline_data->addPolylineIndex( i );
 			}
 			item_data->m_polylines.push_back( polyline_data );
-
 			return;
 		}
 
@@ -820,7 +849,6 @@ public:
 			bool mergeAlignedEdges = true;
 			MeshUtils::createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache, true, false, this );
 			item_data->addOpenPolyhedron( poly_cache.m_poly_data );
-
 			return;
 		}
 
@@ -876,6 +904,7 @@ public:
 					polyline_data->addPolylineIndex( 1 );
 				}
 			}
+
 			return;
 		}
 
