@@ -36,12 +36,12 @@ examples/SimpleViewerExampleMFC/dump_mesh_debug.txt
 examples/SimpleViewerExampleMFC/x64/
 examples/SimpleViewerExampleMFC/.vs/IfcQueryViewer/v15/.suo
 examples/SimpleViewerExampleMFC/.vs/SimpleViewerExampleMFC/v15/.suo
-examples/CreateWallAndWriteFile/CreateWallAndWriteFile/x64/
-examples/CreateWallAndWriteFile/CreateWallAndWriteFile/SimpleWall.ifc
-examples/CreateWallAndWriteFile/SimpleWall.ifc
+examples/CreateIfcWallAndWriteFile/CreateIfcWallAndWriteFile/x64/
+examples/CreateIfcWallAndWriteFile/CreateIfcWallAndWriteFile/SimpleWall.ifc
+examples/CreateIfcWallAndWriteFile/SimpleWall.ifc
 examples/LoadFileExampleNoGUI/LoadFileExampleNoGUI/x64/
 external/Carve/build/
-examples/CreateWallAndWriteFile/x64/
+examples/CreateIfcWallAndWriteFile/x64/
 examples/LoadFileWithGeometryExampleConsole/dump_mesh_debug.txt
 IfcPlusPlus-*
 IfcPlusPlus/src/ifcpp/geometry/Carve - Copy/

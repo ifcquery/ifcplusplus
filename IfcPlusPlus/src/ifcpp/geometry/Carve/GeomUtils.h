@@ -59,6 +59,14 @@ typedef std::array<double, 2> array2d;
 
 namespace GeomUtils
 {
+	inline double length2( const carve::geom::vector<3>& p0, const carve::geom::vector<3>& p1 )
+	{
+		double dx = p1.x - p0.x;
+		double dy = p1.y - p0.y;
+		double dz = p1.z - p0.z;
+		return dx * dx + dy * dy + dz * dz;
+	}
+	
 	inline void safeNormalize(carve::geom::vector<3>& vec)
 	{
 		double len = vec.length();

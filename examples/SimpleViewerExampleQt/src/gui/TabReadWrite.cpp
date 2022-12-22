@@ -199,7 +199,11 @@ void TabReadWrite::updateRecentFilesCombo()
 	{
 		const QString& path_recent_file = m_recent_files.at( ii );
 		QFileInfo fi( path_recent_file );
-		QString file_name = fi.fileName();
+		QString file_name = fi.filePath();
+		if( file_name.size() > 100 )
+		{
+			file_name = "..." + file_name.right(97);
+		}
 		m_combo_recent_files->addItem( file_name );
 	}
 	m_combo_recent_files->blockSignals( false );

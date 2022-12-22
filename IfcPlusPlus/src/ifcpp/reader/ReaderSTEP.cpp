@@ -173,16 +173,14 @@ void ReaderSTEP::loadModelFromFile( const std::string& filePath, shared_ptr<Buil
 
 	// get length of file content
 	infile.imbue(std::locale(""));
-	std::streampos file_size_pos = infile.tellg();
 	infile.seekg( 0, std::ios::end );
-	file_size_pos = infile.tellg() - file_size_pos;
+	std::streampos file_end_pos = infile.tellg();
 	infile.seekg( 0, std::ios::beg );
-	size_t file_size = file_size_pos;
 
-	loadModelFromStream(infile, file_size, targetModel);
+	loadModelFromStream(infile, file_end_pos, targetModel);
 }
 
-void ReaderSTEP::loadModelFromStream(std::istream& content, std::streampos file_size, shared_ptr<BuildingModel>& targetModel)
+void ReaderSTEP::loadModelFromStream(std::istream& content, std::streampos file_end_pos, shared_ptr<BuildingModel>& targetModel)
 {
 	int millisecs_begin = clock();
 
@@ -191,7 +189,7 @@ void ReaderSTEP::loadModelFromStream(std::istream& content, std::streampos file_
 	// currently generated IFC classes are IFC4X3, files with older versions are converted. So after loading, the schema is always IFC4X3
 	targetModel->m_ifc_schema_version_current = BuildingModel::IFC4X3;
 
-	readData(content, file_size, targetModel);
+	readData(content, file_end_pos, targetModel);
 
 	targetModel->resolveInverseAttributes();
 	targetModel->updateCache();
@@ -408,117 +406,6 @@ void ReaderSTEP::readHeader( std::istream& content, shared_ptr<BuildingModel>& t
 	}
 }
 
-void ReaderSTEP::readStepLines( std::vector<std::string>& step_lines, std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& target_entity_vec )
-{
-	std::set<std::string> unkown_entities;
-	std::stringstream err_unknown_entity;
-
-	double progress = 0.2;
-	double last_progress = 0.2;
-	const int num_lines = static_cast<int>(step_lines.size());
-
-	target_entity_vec.resize( num_lines );
-	std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >* target_vec_ptr = &target_entity_vec;
-	std::vector<std::string>* step_lines_ptr = &step_lines;
-	const std::set<std::string>* unkown_entities_ptr = &unkown_entities;
-
-#ifdef ENABLE_OPENMP
-#pragma omp parallel firstprivate(num_lines) shared(target_vec_ptr,unkown_entities_ptr,step_lines_ptr)
-	{
-		// time for reading a step line does not differ much, so schedule many per thread
-#pragma omp for schedule(dynamic,100)
-#endif
-		for( int i = 0; i<num_lines; ++i )
-		{
-			std::string& step_line = (*step_lines_ptr)[i];
-			std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_obj = (*target_vec_ptr)[i];
-
-			// read lines: #1234=IFCOBJECTNAME(...,...,(...,...),...)
-			try
-			{
-				readSingleStepLine( step_line, entity_read_obj );
-			}
-			catch(UnknownEntityException& e)
-			{
-				std::string step_line_fix = step_line;
-				std::string unknown_keyword = e.m_keyword;
-
-				std::map<std::string, std::string > mapFindReplaceTypes;
-				mapFindReplaceTypes["IFC2DCOMPOSITECURVE"] = "IFCCOMPOSITECURVE";
-				mapFindReplaceTypes["IFCELECTRICDISTRIBUTIONPOINT"] = "IFCFLOWCONTROLLER";
-				// IfcElectricDistributionPoint	DELETED   ->  IfcFlowController
-
-				for( auto it : mapFindReplaceTypes )
-				{
-					const std::string& find1 = it.first;
-					const std::string& replace1 = it.second;
-
-					size_t pos1 = step_line_fix.find(find1);
-					if( pos1 != std::string::npos )
-					{
-						step_line_fix.replace(pos1, find1.size(), replace1);
-					}
-				}
-
-				if( step_line_fix.compare( step_line ) != 0 )
-				{
-					try
-					{
-						readSingleStepLine( step_line_fix, entity_read_obj );
-						continue;
-					}
-					catch( UnknownEntityException& )
-					{
-
-					}
-				}
-
-				{
-					if( unkown_entities.find( unknown_keyword ) == unkown_entities.end() )
-					{
-#ifdef ENABLE_OPENMP
-#pragma omp critical
-#endif
-						{
-							unkown_entities.insert( unknown_keyword );
-							err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
-						}
-					}
-				}
-			}
-
-			step_line.clear();
-
-			if( i%10 == 0)
-			{
-				progress = 0.2 + 0.1*double(i)/double(num_lines);
-				if( progress - last_progress > 0.03 )
-				{
-#ifdef ENABLE_OPENMP
-					if( omp_get_thread_num() == 0 )
-#endif
-					{
-						progressValueCallback( progress, "parse" );
-						last_progress = progress;
-					}
-				}
-			}
-		}
-#ifdef ENABLE_OPENMP
-	}
-#endif
-
-	step_lines.clear();
-
-	if( err_unknown_entity.tellp() > 0 )
-	{
-		shared_ptr<Message> m( new Message() );
-		m->m_message_text = err_unknown_entity.str();
-		m->m_message_type = StatusCallback::MESSAGE_TYPE_WARNING;
-		messageCallback(m);
-	}
-}
-
 void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::string, shared_ptr<BuildingEntity> >& target_read_object )
 {
 	if( line.empty() )
@@ -526,6 +413,11 @@ void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::str
 		return;
 	}
 	char* stream_pos = const_cast<char*>(line.c_str());
+	while( isspace(*stream_pos) )
+	{
+		++stream_pos;
+	}
+
 	if( *stream_pos != '#' )
 	{
 		return;
@@ -721,6 +613,12 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, std::vecto
 					}
 				}
 			}
+#ifdef _DEBUG
+			if( entity->classID() == IFCRELVOIDSELEMENT )
+			{
+				int tag = entity->m_tag;
+			}
+#endif
 
 			if( num_expected_arguments != arguments_decoded.size() )
 			{
@@ -877,16 +775,6 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 	std::string current_numeric_locale(setlocale(LC_NUMERIC, nullptr));
 	setlocale(LC_NUMERIC,"C");
 
-	//if( ifc_version.compare( "IFC_VERSION_UNDEFINED" ) == 0 || ifc_version.compare( "IFC_VERSION_UNKNOWN" ) == 0 )
-	//{
-	//	std::string error_message;
-	//	error_message.append( "Unsupported IFC version: " );
-	//	error_message.append( ifc_version );
-	//	messageCallback( error_message, StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
-	//	progressValueCallback(0.0, "parse");
-	//	return;
-	//}
-
 	if( read_in.peek() == EOF )
 	{
 		return;
@@ -919,7 +807,7 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 			}
 			else
 			{
-				if( !std::getline(read_in, line) )
+				if( !getline(read_in, line) )
 				{
 					break;
 				}
@@ -1013,7 +901,7 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 				else
 				{
 					std::string lineNext;
-					if( !std::getline(read_in, lineNext) )
+					if( !getline(read_in, lineNext) )
 					{
 						// end of file, without complete STEP line
 						break;
@@ -1024,7 +912,6 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 				}
 			}
 
-			
 			if( linePreviousRemaining.size() > 0 )
 			{
 				if( !currentLineIsValid )
@@ -1050,6 +937,7 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 				std::string unknown_keyword = e.m_keyword;
 
 				std::map<std::string, std::string > mapFindReplaceTypes;
+				mapFindReplaceTypes["IFCBEAMSTANDARDCASE"] = "IFCBEAM";
 				mapFindReplaceTypes["IFC2DCOMPOSITECURVE"] = "IFCCOMPOSITECURVE";
 				mapFindReplaceTypes["IFCELECTRICDISTRIBUTIONPOINT"] = "IFCFLOWCONTROLLER";
 				// IfcElectricDistributionPoint	DELETED   ->  IfcFlowController
@@ -1071,6 +959,11 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 					try
 					{
 						readSingleStepLine( step_line_fix, entity_read_obj );
+						if( entity_read_obj.second )
+						{
+							vec_entities.push_back(entity_read_obj);
+							line = "";
+						}
 						continue;
 					}
 					catch( UnknownEntityException& )
@@ -1079,14 +972,10 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 					}
 				}
 
+				if( unkown_entities.find( unknown_keyword ) == unkown_entities.end() )
 				{
-					if( unkown_entities.find( unknown_keyword ) == unkown_entities.end() )
-					{
-						{
-							unkown_entities.insert( unknown_keyword );
-							err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
-						}
-					}
+					unkown_entities.insert( unknown_keyword );
+					err_unknown_entity << "unknown IFC entity: " << unknown_keyword << std::endl;
 				}
 			}
 			catch( std::exception& e )
@@ -1096,16 +985,12 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 
 			if( lineCount%100 == 0)
 			{
-				progress = 0.2 + 0.1*double(read_size)/double(file_size);
-				if( progress - last_progress > 0.02 )
+				progress = 0.05 + 0.2*double(read_size)/double(file_size);
+				if( progress - last_progress > 0.01 )
 				{
-#ifdef ENABLE_OPENMP
-					if( omp_get_thread_num() == 0 )
-#endif
-					{
-						progressValueCallback( progress, "parse" );
-						last_progress = progress;
-					}
+					// TODO read arguments already in parallel thread
+					progressValueCallback( progress, "parse" );
+					last_progress = progress;
 				}
 			}
 

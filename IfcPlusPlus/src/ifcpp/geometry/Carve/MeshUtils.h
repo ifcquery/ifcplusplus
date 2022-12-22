@@ -18,93 +18,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include "IncludeCarveHeaders.h"
+#include "GeomUtils.h"
+#include "GeometryInputData.h"
+#include "GeomDebugDump.h"
 #include <ifcpp/model/StatusCallback.h>
 #include <earcut/include/mapbox/earcut.hpp>
-
-#if __has_include(<TopoDS_Shape.hxx>) && __has_include(<BRepAlgoAPI_BooleanOperation.hxx>)
-#define OCC_FOUND
-#include <BOPAlgo_Builder.hxx>
-#include <BRepAlgoAPI_BooleanOperation.hxx>
-#include <BRepAlgoAPI_Common.hxx>
-#include <BRepAlgoAPI_Cut.hxx>
-#include <BRepAlgoAPI_Fuse.hxx>
-#include <BRep_Builder.hxx>
-#include <BRepBuilderAPI_Copy.hxx>
-#include <BRepBuilderAPI_MakeEdge.hxx>
-#include <BRepBuilderAPI_MakeFace.hxx>
-#include <BRepBuilderAPI_MakeShell.hxx>
-#include <BRepBuilderAPI_MakeSolid.hxx>
-#include <BRepBuilderAPI_MakeVertex.hxx>
-#include <BRepBuilderAPI_MakeWire.hxx>
-#include <BRepBuilderAPI_Sewing.hxx>
-#include <BRepCheck_Shell.hxx>
-#include <BRepCheck_Solid.hxx>
-#include <BRepGProp.hxx>
-#include <BRepMesh_IncrementalMesh.hxx>
-#include <BRep_Tool.hxx>
-#include <GProp_GProps.hxx>
-#include <Poly.hxx>
-#include <Poly_Triangulation.hxx>
-#include <ShapeBuild_Edge.hxx>
-#include <ShapeFix_Shape.hxx>
-#include <ShapeFix_ShapeTolerance.hxx>
-#include <TopExp_Explorer.hxx>
-#include <TopoDS_Shape.hxx>
-#include <TopoDS_Solid.hxx>
-#include <TopoDS_Iterator.hxx>
-#include <TopoDS.hxx>
-#include <StlAPI_Writer.hxx>
-
-#ifdef _DEBUG
-// viewer
-
-//#include <AIS_InteractiveContext.hxx>
-//#include <AIS_Shape.hxx>
-//#include <AIS_ViewController.hxx>
-//#include <Aspect_DisplayConnection.hxx>
-//#include <BRepPrimAPI_MakeBox.hxx>
-//#include <BRepPrimAPI_MakeWedge.hxx>
-//#include <OpenGl_GraphicDriver.hxx>
-//#include <V3d_View.hxx>
-//#include <V3d_Viewer.hxx>
-//#include <WNT_Window.hxx>
-//#include <Xw_Window.hxx>
-//#include <WNT_WClass.hxx>
-//#include <Graphic3d_WNTGraphicDevice.hxx>
-
-
-
-
-//#include <windows.h>
-//
-//#include <AIS_InteractiveContext.hxx>
-//#include <AIS_Shape.hxx>
-//#include <AIS_ViewController.hxx>
-//#include <BRepPrimAPI_MakeBox.hxx>
-//#include <Graphic3d_GraphicDriver.hxx>
-//
-//#include <OpenGl_GraphicDriver.hxx>
-//#include <V3d_View.hxx>
-//#include <V3d_Viewer.hxx>
-//
-//#include <WNT_WClass.hxx>
-//#include <WNT_Window.hxx>
-//
-//#pragma comment(lib, "TKOpenGl.lib")
-//#pragma comment(lib, "TKV3d.lib")
-//#pragma comment(lib, "TKPrim.lib")   
-//#pragma comment(lib, "TKTopAlgo.lib")
-//#pragma comment(lib, "TKBRep.lib")
-//#pragma comment(lib, "TKService.lib")
-//#pragma comment(lib, "TKMath.lib")
-//#pragma comment(lib, "TKernel.lib")
-
-
-
-
-#endif
-
-#endif
+#include <manifold/src/manifold/include/manifold.h>
 
 struct MeshSetInfo
 {
@@ -162,16 +81,22 @@ namespace MeshUtils
 		}
 		return num_edges;
 	}
-	inline double getVolume( const carve::mesh::MeshSet<3>* meshset )
+	inline double getMeshVolume( const carve::mesh::MeshSet<3>* meshset )
 	{
-		double meshset_volume = 0;
+		double volume = 0;
 		for( size_t kk = 0; kk < meshset->meshes.size(); ++kk )
 		{
 			carve::mesh::Mesh<3>* mesh = meshset->meshes[kk];
-			double mesh_volume = mesh->volume();
-			meshset_volume += mesh_volume;
+			double meshVolume = mesh->volume();
+
+			if( meshVolume < 0 )
+			{
+				mesh->invert();
+				meshVolume = -meshVolume;
+			}
+			volume += meshVolume;
 		}
-		return meshset_volume;
+		return volume;
 	}
 
 	inline void roundVertices( carve::mesh::MeshSet<3>* meshset )
@@ -426,6 +351,17 @@ namespace MeshUtils
 		{
 			return false;
 		}
+
+		if( e->prev->vert == e->next->vert )
+		{
+			return false;
+		}
+
+		if( e->next == e->rev )
+		{
+			return false;
+		}
+
 		return true;
 	}
 
@@ -482,7 +418,7 @@ namespace MeshUtils
 										if( std::abs(face_area) > carve::CARVE_EPSILON * 10 )
 										{
 #ifdef _DEBUG
-											std::cout << "opposite face is coplanar" << std::endl;
+											//std::cout << "opposite face is coplanar" << std::endl;
 #endif
 											return false;
 										}
@@ -661,6 +597,94 @@ namespace MeshUtils
 			lines.push_back(vertex_point);
 		}
 		return lines;
+	}
+
+	static void addFaceCheckIndexes(int idxA, int idxB, int idxC, PolyInputCache3D& meshOut)
+	{
+		if( idxA == idxB || idxA == idxC || idxB == idxC )
+		{
+			return;
+		}
+		meshOut.m_poly_data->addFace(idxA, idxB, idxC);
+	}
+	static void addFaceCheckIndexes(int idxA, int idxB, int idxC, int idxD, PolyInputCache3D& meshOut)
+	{
+		std::set<int> setIndices = { idxA, idxB, idxC, idxD };
+
+		if( setIndices.size() == 3 )
+		{
+			auto it = setIndices.begin();
+			idxA = *it;
+			++it;
+			idxB = *it;
+			++it;
+			idxC = *it;
+			meshOut.m_poly_data->addFace(idxA, idxB, idxC);
+			return;
+		}
+
+		if( idxA == idxB || idxA == idxC || idxB == idxC )
+		{
+#ifdef _DEBUG
+			std::cout << "skipping degenerate triangle: " << idxA << "/" << idxB << "/" << idxC << std::endl;
+#endif
+		}
+		else
+		{
+			meshOut.m_poly_data->addFace(idxA, idxB, idxC);
+		}
+
+		if( idxA == idxC || idxA == idxD || idxC == idxD )
+		{
+#ifdef _DEBUG
+			std::cout << "skipping degenerate triangle: " << idxA << "/" << idxC << "/" << idxD << std::endl;
+#endif
+		}
+		else
+		{
+			meshOut.m_poly_data->addFace(idxA, idxC, idxD);
+		}
+	}
+
+	static void addFaceCheckIndexes(const vec3& v0, const vec3& v1, const vec3& v2, PolyInputCache3D& meshOut)
+	{
+		int idxA = meshOut.addPoint(v0);
+		int idxB = meshOut.addPoint(v1);
+		int idxC = meshOut.addPoint(v2);
+		if( idxA == idxB || idxA == idxC || idxB == idxC )
+		{
+			return;
+		}
+		meshOut.m_poly_data->addFace(idxA, idxB, idxC);
+	}
+
+	static void addFaceCheckIndexes(const vec3& v0, const vec3& v1, const vec3& v2, const vec3& v3, PolyInputCache3D& meshOut)
+	{
+		int idxA = meshOut.addPoint(v0);
+		int idxB = meshOut.addPoint(v1);
+		int idxC = meshOut.addPoint(v2);
+		int idxD = meshOut.addPoint(v3);
+		if( idxA == idxB || idxA == idxC || idxB == idxC )
+		{
+#ifdef _DEBUG
+			std::cout << "skipping degenerate triangle: " << idxA << "/" << idxB << "/" << idxC << std::endl;
+#endif
+		}
+		else
+		{
+			meshOut.m_poly_data->addFace(idxA, idxB, idxC);
+		}
+
+		if( idxA == idxC || idxA == idxD || idxC == idxD )
+		{
+#ifdef _DEBUG
+			std::cout << "skipping degenerate triangle: " << idxA << "/" << idxC << "/" << idxD << std::endl;
+#endif
+		}
+		else
+		{
+			meshOut.m_poly_data->addFace(idxA, idxC, idxD);
+		}
 	}
 
 	static void getMeshVertexPoints(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::vector<glm::dvec3>& vecAllPoints)
@@ -1201,10 +1225,7 @@ namespace MeshUtils
 				const vec3& v0 = outerLoop[0];
 				const vec3& v1 = outerLoop[1];
 				const vec3& v2 = outerLoop[2];
-				int idxA = meshOut.addPoint(v0);
-				int idxB = meshOut.addPoint(v1);
-				int idxC = meshOut.addPoint(v2);
-				meshOut.m_poly_data->addFace(idxA, idxB, idxC);
+				addFaceCheckIndexes(v0, v1, v2, meshOut);
 
 #ifdef _DEBUG
 				if( dumpPolygon )
@@ -1228,13 +1249,10 @@ namespace MeshUtils
 				const vec3& v1 = outerLoop[1];
 				const vec3& v2 = outerLoop[2];
 				const vec3& v3 = outerLoop[3];
-				int idxA = meshOut.addPoint(v0);
-				int idxB = meshOut.addPoint(v1);
-				int idxC = meshOut.addPoint(v2);
-				int idxD = meshOut.addPoint(v3);
-				//meshOut.m_poly_data->addFace(idxA, idxB, idxC, idxD);
-				meshOut.m_poly_data->addFace(idxA, idxB, idxC);
-				meshOut.m_poly_data->addFace(idxA, idxC, idxD);
+
+				addFaceCheckIndexes(v0, v1, v2, v3, meshOut);
+
+				
 
 #ifdef _DEBUG
 				if( dumpPolygon )
@@ -1717,8 +1735,15 @@ namespace MeshUtils
 						}
 					}
 
-					if( faceIndexes.size() > 2 )
+					if( faceIndexes.size() > 2 && faceIndexes.size() < 500 )
 					{
+						size_t n = std::distance(faceIndexes.begin(), faceIndexes.end());
+						
+						size_t numFaceIndices = polyInput.m_poly_data->faceIndices.size();
+						if( numFaceIndices > 1000 )
+						{
+							//std::cout << numFaceIndices << " ";
+						}
 						polyInput.m_poly_data->addFace(faceIndexes.begin(), faceIndexes.end());
 					}
 				}
@@ -2645,674 +2670,198 @@ namespace MeshUtils
 		}
 	}
 
-#ifdef OCC_FOUND
-	static void addShapeToPolyInput(const TopoDS_Shape& shape, PolyInputCache3D& poly)
+	static void carve2Manifold( shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput, shared_ptr<manifold::Mesh>& manimesh, double eps)
 	{
-		if( shape.IsNull() )
-		{
-			return;
-		}
+		PolyInputCache3D polyhedron(eps);
+		size_t pointCount = 0;
 
-		TopAbs_ShapeEnum shape_type = shape.ShapeType();
-		if( shape_type == TopAbs_COMPOUND )
+		for( size_t ii = 0; ii < meshsetInput->meshes.size(); ++ii )
 		{
-			TopExp_Explorer Ex;
-			for( Ex.Init(shape, TopAbs_SHAPE); Ex.More(); Ex.Next() )
+			carve::mesh::Mesh<3>* mesh = meshsetInput->meshes[ii];
+			const std::vector<carve::mesh::Face<3>* >& vec_faces = mesh->faces;
+			for( size_t jj = 0; jj < vec_faces.size(); ++jj )
 			{
-				TopoDS_Shape subshape = Ex.Current();
-				addShapeToPolyInput(subshape, poly);
-			}
+				carve::mesh::Face<3>* face = vec_faces[jj];
 
-			auto it = TopoDS_Iterator(shape, true, true);// # options: compose subshapes with orientation and location of aShape
-			while( it.More() )
-			{
-				const TopoDS_Shape& subshape = it.Value();
-				addShapeToPolyInput(subshape, poly);
-				it.Next();
-			}
-		}
-		else if( shape_type == TopAbs_WIRE || shape_type == TopAbs_EDGE || shape_type == TopAbs_VERTEX )
-		{
-
-		}
-		else
-		{
-
-			Standard_Real linear_tolerance = 0.000006;
-			Standard_Real angular_tolerance = 0.0005;
-			bool is_relative = false;
-			BRepMesh_IncrementalMesh incremental_mesh(shape, linear_tolerance, is_relative, angular_tolerance);
-
-			TopExp_Explorer shape_explorer(shape, TopAbs_FACE);
-			for( ; shape_explorer.More(); shape_explorer.Next() )
-			{
-				const TopoDS_Face& face = TopoDS::Face(shape_explorer.Current());
-				TopLoc_Location L = TopLoc_Location();
-				const Handle(Poly_Triangulation)& poly_triangulation = BRep_Tool::Triangulation(face, L);
-
-				if( poly_triangulation.IsNull() )
+				const size_t n_edges = face->n_edges;
+				if( n_edges < 3 )
 				{
 					continue;
 				}
 
-				const gp_Trsf& face_trsf = L.Transformation();
-				Poly::ComputeNormals(poly_triangulation);
-				const Poly_Array1OfTriangle& triangles = poly_triangulation->Triangles();
-
-				// Number of nodes in the triangulation
-				int num_vertices = poly_triangulation->NbNodes();
-
-				gp_Dir normalVector;
-				if( poly_triangulation->HasNormals() )
+				if( n_edges == 3 )
 				{
-					normalVector = poly_triangulation->Normal(1);
-				}
-				vec3 triangleNormalOCC = carve::geom::VECTOR(normalVector.X(), normalVector.Y(), normalVector.Z());
+					carve::mesh::Edge<3>* e = face->edge;
+					vec3& v0 = e->vert->v;
+					e = e->next;
+					vec3& v1 = e->vert->v;
+					e = e->next;
+					vec3& v2 = e->vert->v;
 
-				for( auto it = triangles.begin(); it != triangles.end(); ++it )
-				{
-					const Poly_Triangle& triang = *it;
-					int idx_tri1, idx_tri2, idx_tri3;
-					triang.Get(idx_tri1, idx_tri2, idx_tri3);
-
-					gp_Pnt triang_point1 = poly_triangulation->Node(idx_tri1);
-					gp_Pnt triang_point2 = poly_triangulation->Node(idx_tri2);
-					gp_Pnt triang_point3 = poly_triangulation->Node(idx_tri3);
-
-					if( face_trsf.Form() != gp_Identity )
+					if( GeomUtils::length2(v1,v0) < eps )
 					{
-						triang_point1.Transform(face_trsf);
-						triang_point2.Transform(face_trsf);
-						triang_point3.Transform(face_trsf);
-					}
-					vec3 point1_carve = carve::geom::VECTOR(triang_point1.X(), triang_point1.Y(), triang_point1.Z());
-					vec3 point2_carve = carve::geom::VECTOR(triang_point2.X(), triang_point2.Y(), triang_point2.Z());
-					vec3 point3_carve = carve::geom::VECTOR(triang_point3.X(), triang_point3.Y(), triang_point3.Z());
-					size_t point1Index = poly.addPoint(point1_carve);
-					size_t point2Index = poly.addPoint(point2_carve);
-					size_t point3Index = poly.addPoint(point3_carve);
-
-					std::vector<vec3> trianglePoints = { point1_carve, point2_carve, point3_carve };
-					vec3 triangleNormal = GeomUtils::computePolygonNormal(trianglePoints);
-					double angle = std::acos(dot(triangleNormalOCC, triangleNormal));
-
-					if( std::abs(angle) > 0.001 )
-					{
-						poly.m_poly_data->addFace(point3Index, point2Index, point1Index);
-					}
-					else
-					{
-						poly.m_poly_data->addFace(point1Index, point2Index, point3Index);
-					}
-#ifdef _DEBUG
-					if( std::abs(triangleNormalOCC.length() - 1.0) > 0.0001 )
-					{
-						std::cout << "triangleNormalOCC not normalized" << std::endl;
+						// skip current face, and merge point0 and point 1
+						v0 = v1;
+						continue;
 					}
 
-					if( std::abs(triangleNormal.length() - 1.0) > 0.0001 )
+					if( GeomUtils::length2(v1,v2) < eps )
 					{
-						std::cout << "triangleNormal not normalized" << std::endl;
+						// skip current face, and merge point0 and point 1
+						v2 = v1;
+						continue;
 					}
-#endif
-				}
-			}
-		}
-	}
 
-	static double getVolume(const TopoDS_Solid& solid)
-	{
-		GProp_GProps prop;
-		BRepGProp::VolumeProperties(solid, prop);
-		double volume = prop.Mass();
-		return volume;
-	}
+					if( GeomUtils::length2(v2,v0) < eps )
+					{
+						// skip current face, and merge point0 and point 1
+						v0 = v2;
+						continue;
+					}
 
-	static void getSolids( const TopoDS_Shape& shape, std::vector<TopoDS_Solid>& vecSolids )
-	{
-		if (shape.IsNull())
-		{
-			return;
-		}
-
-		TopAbs_ShapeEnum shape_type = shape.ShapeType();
-		if( shape_type == TopAbs_SOLID )
-		{
-			vecSolids.push_back(TopoDS::Solid(shape));
-			return;
-		}
-
-		if (shape_type == TopAbs_COMPOUND)
-		{
-			auto it = TopoDS_Iterator(shape, true, true);
-			while (it.More())
-			{
-				const TopoDS_Shape& subshape = it.Value();
-				getSolids(subshape, vecSolids);
-				it.Next();
-			}
-		}
-	}
-
-	static void getLargestSolid( const TopoDS_Shape& inputShape, TopoDS_Solid& resultSolid)
-	{
-		std::vector<TopoDS_Solid> vecSolids;
-		MeshUtils::getSolids(inputShape, vecSolids);
-		std::map<double , TopoDS_Solid> mapSolids;
-
-		for( size_t ii = 0; ii < vecSolids.size(); ++ii )
-		{
-			TopoDS_Solid& solid = vecSolids[ii];
-			ShapeFix_Solid fixSolid(solid);
-			solid = TopoDS::Solid(fixSolid.Shape());
-
-			BRepCheck_Solid checkSolid(solid);
-			BRepCheck_ListOfStatus solidStatus = checkSolid.Status();
-			for( BRepCheck_Status status : solidStatus )
-			{
-				if( status == BRepCheck_NoError )
-				{
-					// ok
+					MeshUtils::addFaceCheckIndexes(v0, v1, v2, polyhedron);
 					continue;
 				}
-				if( status == BRepCheck_NotClosed )
+
+				if( n_edges >= 4 )
 				{
-					std::cout << "solid not closed" << std::endl;
+					std::cout << "MeshSet not triangulated: " << n_edges << " edges" << std::endl;
+				}
+			}
+		}
+
+		bool polyhedron_ok = checkPolyhedronData(polyhedron.m_poly_data);
+		if( !polyhedron_ok )
+		{
+			fixPolyhedronData(polyhedron.m_poly_data);
+		}
+
+		if( !manimesh )
+		{
+			manimesh = shared_ptr<manifold::Mesh>(new manifold::Mesh());
+		}
+
+		for( int ii = 0; ii < polyhedron.m_poly_data->points.size(); ++ii )
+		{
+			const vec3& v0 = polyhedron.m_poly_data->points[ii];
+			manimesh->vertPos.emplace_back(v0.x, v0.y, v0.z);
+		}
+
+		for( int ii = 0; ii < polyhedron.m_poly_data->faceIndices.size(); ++ii )
+		{
+			size_t numPointsInFace = polyhedron.m_poly_data->faceIndices[ii];
+			if( numPointsInFace == 3 )
+			{
+				if( polyhedron.m_poly_data->faceIndices.size() > ii + 3 )
+				{
+					size_t idx0 = polyhedron.m_poly_data->faceIndices[ii + 1];
+					size_t idx1 = polyhedron.m_poly_data->faceIndices[ii + 2];
+					size_t idx2 = polyhedron.m_poly_data->faceIndices[ii + 3];
+
+					if( idx0 == idx1 )
+					{
+						continue;
+					}
+					if( idx1 == idx2 )
+					{
+						continue;
+					}
+					if( idx2 == idx0 )
+					{
+						continue;
+					}
+					manimesh->triVerts.emplace_back(idx0, idx1, idx2);
+					ii += 3;
+					continue;
 				}
 			}
 
-			double volume = getVolume(solid);
-			if( volume < 0 )
-			{
-				solid.Reverse();
-			}
-			mapSolids.insert({ volume, solid });
-		}
+#ifdef _DEBUG
+			std::cout << "check polyhedron.m_poly_data[" << ii << "]" << std::endl;
+#endif
 
-		if( mapSolids.size() > 0 )
-		{
-			TopoDS_Solid s = mapSolids.rbegin()->second;
-			resultSolid = s;
 		}
 	}
 
-	static bool TopoDS_Shape2Meshset(const TopoDS_Shape& shapeInput, shared_ptr<carve::mesh::MeshSet<3> >& meshset)
+	static void manifold2carve( const shared_ptr<manifold::Manifold>& manifoldInput, shared_ptr<carve::mesh::MeshSet<3> >& result, double eps)
 	{
-		if( shapeInput.IsNull() )
+		if( !manifoldInput )
 		{
-			return false;
+			return;
 		}
+		PolyInputCache3D poly( eps );
 
 
-		//TopoDS_Shape theShape = shapeInput;
+		manifold::Mesh resultMesh = manifoldInput->GetMesh();
 
-		TopoDS_Solid theSolid;
-		getLargestSolid(shapeInput, theSolid);
-		if( theSolid.IsNull() )
+		for (int i = 0, n = resultMesh.triVerts.size(); i < n; i++)
 		{
-			return false;
-		}
+			int triIdx0 = resultMesh.triVerts[i][0];
+			int triIdx1 = resultMesh.triVerts[i][1];
+			int triIdx2 = resultMesh.triVerts[i][2];
 
-
-		//std::vector<TopoDS_Solid> vecSolids;
-		//getSolids(shapeInput, vecSolids);
-		//if( vecSolids.size() > 0)
-		//{
-		//	TopoDS_Solid shapeAsSolid = vecSolids[0];
-
-		//	ShapeFix_Solid fixSolid(shapeAsSolid);
-		//	theShape = fixSolid.Shape();
-
-		//	//shape = shapeAsSolid;
-		//}
-
-
-		Standard_Real linear_tolerance = 0.01;
-		Standard_Real angular_tolerance = 0.05;
-		bool is_relative = false;
-		BRepMesh_IncrementalMesh incremental_mesh(theSolid, linear_tolerance, is_relative, angular_tolerance);
-
-
-		Standard_Integer aNbNodes = 0;
-		Standard_Integer aNbTriangles = 0;
-
-		// calculate total number of the nodes and triangles
-		for( TopExp_Explorer anExpSF(theSolid, TopAbs_FACE); anExpSF.More(); anExpSF.Next() )
-		{
-			TopoDS_Face face = TopoDS::Face(anExpSF.Current());
-			if( face.IsNull() )
+			if( triIdx0 > resultMesh.vertPos.size() )
 			{
 				continue;
 			}
 
-			TopLoc_Location aLoc;
-			Handle(Poly_Triangulation) aTriangulation = BRep_Tool::Triangulation(face, aLoc);
-			if( !aTriangulation.IsNull() )
+			if( triIdx1 > resultMesh.vertPos.size() )
 			{
-				aNbNodes += aTriangulation->NbNodes();
-				aNbTriangles += aTriangulation->NbTriangles();
-			}
-		}
-
-		if( aNbTriangles == 0 )
-		{
-			// No triangulation on the shape
-			return Standard_False;
-		}
-
-		PolyInputCache3D poly(carve::CARVE_EPSILON);
-
-		// create temporary triangulation
-		//Handle(Poly_Triangulation) aMesh = new Poly_Triangulation(aNbNodes, aNbTriangles, Standard_False);
-		// count faces missing triangulation
-		Standard_Integer aNbFacesNoTri = 0;
-		// fill temporary triangulation
-		for( TopExp_Explorer anExpSF(theSolid, TopAbs_FACE); anExpSF.More(); anExpSF.Next() )
-		{
-			const TopoDS_Shape& aFace = anExpSF.Current();
-			TopLoc_Location aLoc;
-			Handle(Poly_Triangulation) aTriangulation = BRep_Tool::Triangulation(TopoDS::Face(aFace), aLoc);
-			if( aTriangulation.IsNull() )
-			{
-				++aNbFacesNoTri;
 				continue;
 			}
 
-			// copy nodes
-			gp_Trsf aTrsf = aLoc.Transformation();
-			//for( Standard_Integer aNodeIter = 1; aNodeIter <= aTriangulation->NbNodes(); ++aNodeIter )
-			//{
-			//	gp_Pnt aPnt = aTriangulation->Node(aNodeIter);
-			//	aPnt.Transform(aTrsf);
-			//	aMesh->SetNode(aNodeIter, aPnt);
-			//}
-
-			// copy triangles
-			const TopAbs_Orientation anOrientation = anExpSF.Current().Orientation();
-			for( Standard_Integer aTriIter = 1; aTriIter <= aTriangulation->NbTriangles(); ++aTriIter )
+			if( triIdx2 > resultMesh.vertPos.size() )
 			{
-				Poly_Triangle aTri = aTriangulation->Triangle(aTriIter);
-
-				int id0 = 0;
-				int id1 = 0;
-				int id2 = 0;
-				aTri.Get(id0, id1, id2);
-				if( anOrientation == TopAbs_REVERSED )
-				{
-					std::swap(id1, id2);
-				}
-
-				// Update nodes according to the offset.
-				gp_Pnt triang_point1 = aTriangulation->Node(id0);
-				gp_Pnt triang_point2 = aTriangulation->Node(id1);
-				gp_Pnt triang_point3 = aTriangulation->Node(id2);
-				if( aTrsf.Form() != gp_Identity )
-				{
-					triang_point1.Transform(aTrsf);
-					triang_point2.Transform(aTrsf);
-					triang_point3.Transform(aTrsf);
-				}
-
-				aTri.Set(id0, id1, id2);
-				//aMesh->SetTriangle(aTriIter, aTri);
-
-
-				vec3 point1_carve = carve::geom::VECTOR(triang_point1.X(), triang_point1.Y(), triang_point1.Z());
-				vec3 point2_carve = carve::geom::VECTOR(triang_point2.X(), triang_point2.Y(), triang_point2.Z());
-				vec3 point3_carve = carve::geom::VECTOR(triang_point3.X(), triang_point3.Y(), triang_point3.Z());
-				size_t point1Index = poly.addPoint(point1_carve);
-				size_t point2Index = poly.addPoint(point2_carve);
-				size_t point3Index = poly.addPoint(point3_carve);
-
-				std::vector<vec3> trianglePoints = { point1_carve, point2_carve, point3_carve };
-				vec3 triangleNormal = GeomUtils::computePolygonNormal(trianglePoints);
-
-				poly.m_poly_data->addFace(point1Index, point2Index, point3Index);
-
-
+				continue;
 			}
+			glm::vec3 p0 = resultMesh.vertPos[triIdx0];
+			glm::vec3 p1 = resultMesh.vertPos[triIdx1];
+			glm::vec3 p2 = resultMesh.vertPos[triIdx2];
+			carve::geom::vector<3> v0 = carve::geom::VECTOR(p0.x, p0.y, p0.z);
+			carve::geom::vector<3> v1 = carve::geom::VECTOR(p1.x, p1.y, p1.z);
+			carve::geom::vector<3> v2 = carve::geom::VECTOR(p2.x, p2.y, p2.z);
 
-
-			size_t numTriangles = aTriangulation->NbTriangles();
+			MeshUtils::addFaceCheckIndexes(v0, v1, v2, poly);
 		}
-		meshset = shared_ptr<carve::mesh::MeshSet<3> >(poly.m_poly_data->createMesh(carve::input::opts()));	
-		return true;
+		result = shared_ptr<carve::mesh::MeshSet<3> >(poly.m_poly_data->createMesh(carve::input::opts()));
 	}
 
-	static void TopoDS_Shape2Meshset2(const TopoDS_Shape& shapeInput, shared_ptr<carve::mesh::MeshSet<3> >& meshset)
+	static void boundingBox2Mesh(carve::geom::aabb<3>& bbox, shared_ptr<carve::mesh::MeshSet<3> >& meshset)
 	{
-		if (shapeInput.IsNull())
-		{
-			return;
-		}
+		double minX = bbox.pos.x - bbox.extent.x;
+		double maxX = bbox.pos.x + bbox.extent.x;
+		double minY = bbox.pos.y - bbox.extent.y;
+		double maxY = bbox.pos.y + bbox.extent.y;
+		double minZ = bbox.pos.z - bbox.extent.z;
+		double maxZ = bbox.pos.z + bbox.extent.z;
 
-		TopoDS_Shape shape = shapeInput;
-		std::vector<TopoDS_Solid> vecSolids;
-		getSolids(shape, vecSolids);
-		if( vecSolids.size() > 0)
-		{
-			TopoDS_Solid shapeAsSolid = vecSolids[0];
+		shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
+		polyhedron_data->addVertex( carve::geom::VECTOR( maxX, maxY, maxZ ) );
+		polyhedron_data->addVertex( carve::geom::VECTOR( minX, maxY, maxZ ) );
+		polyhedron_data->addVertex( carve::geom::VECTOR( minX, minY, maxZ ) );
+		polyhedron_data->addVertex( carve::geom::VECTOR( maxX, minY, maxZ ) );
 
-			ShapeFix_Solid fixSolid(shapeAsSolid);
-			shape = fixSolid.Shape();
+		polyhedron_data->addVertex( carve::geom::VECTOR( maxX, maxY, minZ ) );
+		polyhedron_data->addVertex( carve::geom::VECTOR( minX, maxY, minZ ) );
+		polyhedron_data->addVertex( carve::geom::VECTOR( minX, minY, minZ ) );
+		polyhedron_data->addVertex( carve::geom::VECTOR( maxX, minY, minZ ) );
 
-			//shape = shapeAsSolid;
-		}
+		polyhedron_data->addFace( 0, 1, 2 );
+		polyhedron_data->addFace( 2, 3, 0 );
 
-		PolyInputCache3D poly(carve::CARVE_EPSILON);
+		polyhedron_data->addFace( 7, 6, 5 );
+		polyhedron_data->addFace( 5, 4, 7 );
 
-		TopAbs_ShapeEnum shape_type = shape.ShapeType();
-		if (shape_type == TopAbs_COMPOUND)
-		{
-			TopExp_Explorer Ex;
-			for( Ex.Init( shape, TopAbs_SHAPE ); Ex.More(); Ex.Next() )
-			{
-				TopoDS_Shape subshape = Ex.Current();
-				addShapeToPolyInput(subshape, poly);
-			}
+		polyhedron_data->addFace( 0, 4, 5 );
+		polyhedron_data->addFace( 5, 1, 0 );
+		polyhedron_data->addFace( 1, 5, 6 );
+		polyhedron_data->addFace( 6, 2, 1 );
+		polyhedron_data->addFace( 2, 6, 7 );
+		polyhedron_data->addFace( 7, 3, 2 );
+		polyhedron_data->addFace( 3, 7, 4 );
+		polyhedron_data->addFace( 4, 0, 3 );
 
-			auto it = TopoDS_Iterator(shape, true, true);// # options: compose subshapes with orientation and location of aShape
-			while (it.More())
-			{
-				const TopoDS_Shape& subshape = it.Value();
-				addShapeToPolyInput(subshape, poly);
-				it.Next();
-			}
-		}
-		else if (shape_type == TopAbs_WIRE || shape_type == TopAbs_EDGE || shape_type == TopAbs_VERTEX)
-		{
-
-		}
-		else
-		{
-			addShapeToPolyInput(shape, poly);
-		}
-
-		meshset = shared_ptr<carve::mesh::MeshSet<3> >(poly.m_poly_data->createMesh(carve::input::opts()));	
+		meshset = shared_ptr<carve::mesh::MeshSet<3> >(polyhedron_data->createMesh(carve::input::opts()));
 	}
-
-	inline void closeWire( TopoDS_Wire& wire )
-	{
-		if( wire.IsNull() )
-		{
-			return;
-		}
-
-		Standard_Boolean closed_before = wire.Closed();
-		if( closed_before )
-		{
-			return;
-		}
-
-		// TODO: first try to re-order
-
-		// close gaps with new edges
-		std::vector<TopoDS_Edge> vec_edges;
-		std::vector<TopoDS_Edge> vec_edges_closed;
-		bool edges_to_insert = false;
-		TopExp_Explorer explorer( wire, TopAbs_EDGE );
-		for( ; explorer.More(); explorer.Next() )
-		{
-			TopoDS_Edge current_edge = TopoDS::Edge( explorer.Current() );
-			vec_edges.push_back( current_edge );
-		}
-
-		if( vec_edges.size() > 1 )
-		{
-			try
-			{
-				for( size_t ii = 0; ii < vec_edges.size(); ++ii )
-				{
-					TopoDS_Edge current_edge = vec_edges[ii];
-					TopoDS_Edge next_edge = vec_edges[(ii+1)%vec_edges.size()];
-
-					if( !current_edge.IsNull() && !next_edge.IsNull() )
-					{
-						const TopoDS_Vertex& current_vertex = TopExp::LastVertex( current_edge );
-						gp_Pnt current_point = BRep_Tool::Pnt( current_vertex );
-
-						const TopoDS_Vertex& next_vertex = TopExp::FirstVertex( next_edge );
-						gp_Pnt next_point = BRep_Tool::Pnt( next_vertex );
-
-						if( current_point.SquareDistance( next_point ) > 0.001 )
-						{
-							TopoDS_Edge closing_edge = BRepBuilderAPI_MakeEdge( current_vertex, next_vertex );
-							vec_edges_closed.push_back( closing_edge );
-							edges_to_insert = true;
-						}
-						else
-						{
-							// same coordinates but different vertex obects
-							ShapeBuild_Edge edge_builder;
-							TopoDS_Vertex null_vertex;
-							TopoDS_Edge closing_edge = edge_builder.CopyReplaceVertices( current_edge, null_vertex, next_vertex );
-							vec_edges_closed.push_back( closing_edge );
-							edges_to_insert = true;
-						}
-					}
-				}
-			}
-			catch( Standard_Failure sf )
-			{
-				std::cout << __FUNCTION__ << sf.GetMessageString() << std::endl;
-			}
-		}
-
-		try
-		{
-			ShapeFix_Wire fix_wire;
-			Handle_ShapeExtend_WireData wire_data = new ShapeExtend_WireData();
-
-			for( size_t ii = 0; ii < vec_edges_closed.size(); ++ii )
-			{
-				TopoDS_Edge edge = vec_edges_closed[ii];
-				wire_data->Add( edge );
-			}
-
-			fix_wire.Load( wire_data );
-
-			//if( close_wire )
-			//{
-			//fix_wire.ClosedWireMode() = Standard_True; //Enables closed wire mode
-			//}
-			fix_wire.FixConnected(); //Fix connection between wires
-			fix_wire.FixClosed();
-			//fix_wire.FixSelfIntersection(); //Fix Self Intersection
-			fix_wire.Perform(); //Perform the fixes
-			wire = fix_wire.Wire();
-		}
-		catch( Standard_Failure sf )
-		{
-			std::cout << __FUNCTION__ << sf.GetMessageString() << std::endl;
-		}
-
-#ifdef _DEBUG
-		Standard_Boolean closed = wire.Closed();
-		if( !closed )
-		{
-			std::cout << __FUNCTION__ << ": wire not closed" << std::endl;
-		}
-#endif
-	}
-
-	static void convertCarve2OpenCascade(carve::mesh::MeshSet<3>* meshset, TopoDS_Shape& result)
-	{
-
-		try
-		{
-			//BRepBuilderAPI_Sewing sewer;
-			//sewer.SetTolerance(Precision::Confusion());
-			//sewer.SetTolerance( carve::CARVE_EPSILON*10.0 );
-			//BRepBuilderAPI_MakeShell mkShell;
-			TopoDS_Shell shell;
-			BRep_Builder builder;
-			builder.MakeShell(shell);
-
-			std::map<carve::mesh::Vertex<3>*, TopoDS_Vertex> mapVertices;
-			for( size_t ii = 0; ii < meshset->vertex_storage.size(); ++ii )
-			{
-				carve::mesh::Vertex<3>& carve_vertex = meshset->vertex_storage[ii];
-				vec3 point = carve_vertex.v;
-				gp_Pnt point_occ(point.x, point.y, point.z);
-				mapVertices.insert({ &carve_vertex, BRepBuilderAPI_MakeVertex(point_occ) } );
-			}
-
-			for( size_t kk = 0; kk < meshset->meshes.size(); ++kk )
-			{
-				carve::mesh::Mesh<3>* mesh = meshset->meshes[kk];
-
-				for( carve::mesh::Face<3>*face : mesh->faces )
-				{
-					std::vector<carve::mesh::Vertex<3>* > faceVertices;
-					face->getVertices(faceVertices);
-					if( faceVertices.size() > 2 )
-					{
-						BRepBuilderAPI_MakeWire mk_wire;
-
-						size_t n = faceVertices.size();
-						carve::mesh::Vertex<3>* vertexFirst = faceVertices[0];
-
-						for( int i = 0; i < n; ++i )
-						{
-							carve::mesh::Vertex<3>* v0 = faceVertices[i];
-							auto itFind = mapVertices.find(v0);
-							if( itFind == mapVertices.end() )
-							{
-#ifdef _DEBUG
-								std::cout << "vertex not found" << std::endl;
-#endif
-								continue;
-							}
-
-							TopoDS_Vertex& vertexOCC = itFind->second;
-
-							carve::mesh::Vertex<3>* v1 = faceVertices[(i + 1) % n];
-							auto it1Find = mapVertices.find(v1);
-							if( it1Find == mapVertices.end() )
-							{
-#ifdef _DEBUG
-								std::cout << "vertex not found" << std::endl;
-#endif
-								continue;
-							}
-							TopoDS_Vertex& vertex1OCC = it1Find->second;
-
-							vec3 delta = v1->v - v0->v;
-							if( delta.length2() < carve::CARVE_EPSILON2 )
-							{
-								continue;
-							}
-
-							try
-							{
-								BRepBuilderAPI_MakeEdge mk_edge(vertexOCC, vertex1OCC);
-								mk_wire.Add(mk_edge);
-							}
-							catch( Standard_Failure& f )
-							{
-								std::cout << f.GetMessageString() << std::endl;
-							}
-
-							vec3 deltaToFirst = v1->v - vertexFirst->v;
-							if( deltaToFirst.length2() < carve::CARVE_EPSILON2 )
-							{
-								break;
-							}
-						}
-
-						mk_wire.Build();
-						TopoDS_Wire wire = mk_wire.Wire();
-
-						if( wire.IsNull() )
-						{
-#ifdef _DEBUG
-							std::cout << "wire isNull" << std::endl;
-#endif
-						}
-						else
-						{
-							closeWire(wire);
-							BRepBuilderAPI_MakeFace mk_face( wire, false );
-							TopoDS_Face face = mk_face.Face();
-
-							if( face.IsNull() )
-							{
-#ifdef _DEBUG
-								std::cout << "face isNull" << std::endl;
-#endif
-							}
-							else
-							{
-								//sewer.Add();
-								builder.Add(shell, face);
-							}
-						}
-					}
-				}
-			}
-
-
-			//sewer.Perform();
-			//TopoDS_Shape sewedShape = sewer.SewedShape();
-			BRepBuilderAPI_MakeSolid mkSolid(shell);
-			TopoDS_Shape sewedShape = mkSolid.Shape();
-			result = sewedShape;
-
-#ifdef _DEBUG
-			TopAbs_ShapeEnum shapeType = sewedShape.ShapeType();
-			if( shapeType == TopAbs_ShapeEnum::TopAbs_SOLID )
-			{
-				// ok
-			}
-			else if( shapeType == TopAbs_ShapeEnum::TopAbs_SHELL )
-			{
-				// ok
-				//build the solid
-				TopoDS_Shell sewedShell = TopoDS::Shell(sewedShape);
-				if( !sewedShell.IsNull() )
-				{
-					BRepBuilderAPI_MakeSolid mkSolid;
-					mkSolid.Add(sewedShell);
-					if( !mkSolid.IsDone() )
-					{
-						std::cout << "MeshSet is not a solid" << std::endl;
-					}
-					result = mkSolid.Shape();
-				}
-			}
-			else if( shapeType == TopAbs_ShapeEnum::TopAbs_COMPOUND )
-			{
-				// not ok
-				if( meshset->isClosed() )
-				{
-					std::cout << "MeshSet is not a solid" << std::endl;
-#ifdef _DEBUG
-					shared_ptr<carve::mesh::MeshSet<3> > meshsetCompound;
-					TopoDS_Shape2Meshset(sewedShape, meshsetCompound);
-					GeomDebugDump::moveOffset(0.5);
-					glm::vec4 color(0.6, 0.6, 0.7, 1.);
-					GeomDebugDump::dumpMeshset(meshsetCompound, color, true);
-#endif
-				}
-			}
-			else
-			{
-				// not ok
-				std::cout << "MeshSet is not a solid" << std::endl;
-			}
-
-#endif
-
-		}
-		catch( Standard_Failure& f )
-		{
-			std::cout << f.GetMessageString() << std::endl;
-		}
-		catch( ... )
-		{
-			std::cout << "convertCarve2OpenCascade failed" << std::endl;
-		}
-	}
-#endif
 }
 

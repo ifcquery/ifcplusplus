@@ -841,24 +841,10 @@ public:
 		{
 			shared_ptr<carve::mesh::MeshSet<3> >& first_operand_meshset = vec_first_operand_meshsets[i_meshset_first];
 			std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vec_second_operand_meshsets = second_operand_data->m_meshsets;
-			for( size_t i_meshset_second = 0; i_meshset_second < vec_second_operand_meshsets.size(); ++i_meshset_second )
-			{
-				shared_ptr<carve::mesh::MeshSet<3> >& second_operand_meshset = vec_second_operand_meshsets[i_meshset_second];
-				shared_ptr<carve::mesh::MeshSet<3> > result;
-				try
-				{
-					CSG_Adapter::computeCSG( first_operand_meshset, second_operand_meshset, csg_operation, result, m_geom_settings, this, bool_result );
-				}
-				catch( BuildingException& e )
-				{
-					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", bool_result.get() ); // __FUNC__ is already in exception.what()
-				}
-				catch( std::exception& e )
-				{
-					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, bool_result.get() );
-				}
-				first_operand_meshset = result;
-			}
+
+			shared_ptr<carve::mesh::MeshSet<3> > result;
+			CSG_Adapter::computeCSG( first_operand_meshset, vec_second_operand_meshsets, csg_operation, result, m_geom_settings, this, bool_result );
+			first_operand_meshset = result;
 		}
 
 

@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 3.7.2)
+CMAKE_MINIMUM_REQUIRED (VERSION 3.6)
 project(IfcPlusPlus)
 
 # Set a default build type if none was specified https://blog.kitware.com/cmake-and-the-default-build-type/
@@ -24,7 +24,6 @@ else(NOT WIN32)
 	option(BUILD_VIEWER_APPLICATION "Build the viewer example application" OFF)
 endif()
 option(USE_OSG_DEBUG "Use openscenegraph debug library" OFF)
-option(BUILD_STATIC_LIBRARY "Build static library" OFF)
 
 IF(NOT WIN32)
     IF("${CMAKE_BUILD_TYPE}" MATCHES "Debug")
@@ -46,10 +45,7 @@ if (OPENMP_FOUND)
     set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
-set(CARVE_SOURCE_DIR ${IFCPP_SOURCE_DIR}/external/Carve)
-set(CARVE_BINARY_DIR ${IFCPP_BINARY_DIR})
 set(IFCPP_CONFIG_DIR "share/IFCPP/cmake")
-ADD_SUBDIRECTORY (external/Carve)
 ADD_SUBDIRECTORY (IfcPlusPlus)
 
 # Install configuration file
@@ -67,9 +63,9 @@ INSTALL(
   DESTINATION ${IFCPP_CONFIG_DIR})
   
 IF(BUILD_CONSOLE_APPLICATION)
-  ADD_SUBDIRECTORY (examples/CreateWallAndWriteFile)
-  ADD_SUBDIRECTORY (examples/LoadFileExampleConsole)
-  ADD_SUBDIRECTORY (examples/LoadFileWithGeometryExampleConsole)
+  ADD_SUBDIRECTORY (examples/CreateIfcWallAndWriteFile)
+  ADD_SUBDIRECTORY (examples/LoadFileExample)
+  ADD_SUBDIRECTORY (examples/LoadFileWithGeometryExample)
 ENDIF()
 IF(BUILD_VIEWER_APPLICATION)
   ADD_SUBDIRECTORY (examples/SimpleViewerExampleQt)

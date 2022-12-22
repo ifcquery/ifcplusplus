@@ -80,6 +80,7 @@ public:
 	std::map<std::string, shared_ptr<ProductShapeData> >&	getShapeInputData() { return m_product_shape_data; }
 	std::map<std::string, shared_ptr<BuildingObject> >&		getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
 	bool m_clear_memory_immedeately = true;
+	bool m_set_model_to_origin = false;
 
 	GeometryConverter( shared_ptr<BuildingModel>& ifc_model )
 	{
@@ -213,6 +214,10 @@ public:
 			return;
 		}
 
+#ifdef _DEBUG
+		 std::string className = IFC4X3::EntityFactory::getStringForClassID(ifc_object_def->classID());
+#endif
+
 		for( const weak_ptr<IfcRelAggregates>& relAggregates_weak_ptr : ifc_object_def->m_IsDecomposedBy_inverse )
 		{
 			if( relAggregates_weak_ptr.expired() )
@@ -242,7 +247,6 @@ public:
 
 						if( m_setResolvedProjectStructure.find(related_guid) != m_setResolvedProjectStructure.end() )
 						{
-							//std::cout << "duplicate guid in model tree: " << related_guid << std::endl;
 							continue;
 						}
 						m_setResolvedProjectStructure.insert(related_guid);
@@ -391,13 +395,10 @@ public:
 							}
 						}
 					}
-
 				}
-
 			}
 
 			// handle IfcRelConnects
-
 			shared_ptr<IfcDistributionElement> distributionElement = dynamic_pointer_cast<IfcDistributionElement>(ifc_object_def);
 			if( distributionElement )
 			{
@@ -556,12 +557,15 @@ public:
 					{
 						vec_object_definitions.push_back(object_def);
 
-						if( object_def->classID() == IFC4X3::IFCSITE )
+						if( m_set_model_to_origin )
 						{
-							shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>(object_def);
-							if( ifc_site )
+							if( object_def->classID() == IFC4X3::IFCSITE )
 							{
-								setIfcSiteToOrigin(ifc_site);
+								shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>(object_def);
+								if( ifc_site )
+								{
+									setIfcSiteToOrigin(ifc_site);
+								}
 							}
 						}
 					}
@@ -640,6 +644,26 @@ public:
 #ifdef ENABLE_OPENMP
 					ScopedLock scoped_lock( writelock_map );
 #endif
+					auto it_find = map_products_ptr->find(guid);
+					if( it_find != map_products_ptr->end() )
+					{
+						thread_err << "duplicate GUID in model: " << guid;
+
+						size_t guid_append = 1;
+						for( auto it = map_products_ptr->begin(); it != map_products_ptr->end(); ++it )
+						{
+							std::string guid_unique = guid + "_" + std::to_string(guid_append);
+							auto it_find2 = map_products_ptr->find(guid_unique);
+							if( it_find2 == map_products_ptr->end() )
+							{
+								object_def->m_GlobalId->m_value = guid_unique;
+								guid = guid_unique;
+								break;
+							}
+							++guid_append;
+						}
+					}
+
 					map_products_ptr->insert( std::make_pair( guid, product_geom_input_data ) );
 
 					if( thread_err.tellp() > 0 )
@@ -673,7 +697,7 @@ public:
 			shared_ptr<ProductShapeData> product_geom_input_data = it->second;
 			try
 			{
-				//subtractOpeningsInRelatedObjects(product_geom_input_data);
+				subtractOpeningsInRelatedObjects(product_geom_input_data);
 			}
 			catch( BuildingException& e )
 			{
@@ -798,6 +822,11 @@ public:
 		if( !product_representation )
 		{
 			return;
+		}
+
+		if( ifc_product->m_tag == 354884 )
+		{
+			int wait = 0;
 		}
 		
 		// convert IFC geometry

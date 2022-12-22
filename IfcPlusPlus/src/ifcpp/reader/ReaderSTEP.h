@@ -19,23 +19,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
-#include "AbstractReader.h"
+#include "ifcpp/model/StatusCallback.h"
 
-class IFCQUERY_EXPORT ReaderSTEP : public AbstractReader
+class IFCQUERY_EXPORT ReaderSTEP : public StatusCallback
 {
 public:
 	ReaderSTEP();
 	~ReaderSTEP() override;
 	void readHeader( std::istream& in, shared_ptr<BuildingModel>& target_model );
-	void readData( std::istream& in, std::streampos file_size, shared_ptr<BuildingModel>& model );
+	void readData( std::istream& in, std::streampos file_end_pos, shared_ptr<BuildingModel>& model );
 	
 	/*\brief Opens the given file, reads the content, and puts the entities into target_model.
 	  \param[in] file_path Absolute path of the file to read.
 	**/
-	virtual void loadModelFromFile( const std::string& filePath, shared_ptr<BuildingModel>& targetModel );
-	virtual void loadModelFromStream( std::istream& content, std::streampos file_size, shared_ptr<BuildingModel>& targetModel );
-
+	void loadModelFromFile( const std::string& filePath, shared_ptr<BuildingModel>& targetModel );
+	void loadModelFromStream( std::istream& content, std::streampos file_end_pos, shared_ptr<BuildingModel>& targetModel );
 	void readSingleStepLine(	const std::string& line, std::pair<std::string, shared_ptr<BuildingEntity> >& target_read_object );
-	void readStepLines(			std::vector<std::string>& step_lines, std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& target_entity_vec );
 	void readEntityArguments(	const std::string& ifc_version, std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities, const std::map<int, shared_ptr<BuildingEntity> >& map );
 };

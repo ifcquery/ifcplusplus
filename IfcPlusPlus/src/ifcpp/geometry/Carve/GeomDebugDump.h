@@ -64,6 +64,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 using namespace IFC4X3;
 
+namespace MeshUtils{
+	static void addFaceCheckIndexes(int idxA, int idxB, int idxC, PolyInputCache3D& meshOut);
+	static void addFaceCheckIndexes(int idxA, int idxB, int idxC, int idxD, PolyInputCache3D& meshOut);
+}
 
 namespace GeomDebugDump
 {
@@ -486,7 +490,7 @@ namespace GeomDebugDump
 
 		++dumpCount;
 
-		PolyInputCache3D poly_data;
+		PolyInputCache3D poly_data(carve::CARVE_EPSILON);
 
 		{
 			std::map<size_t, size_t> mapVertexIndexes;
@@ -537,7 +541,8 @@ namespace GeomDebugDump
 							size_t idx1 = mapVertexIndexes[v1index];
 							size_t idx2 = mapVertexIndexes[v2index];
 
-							poly_data.m_poly_data->addFace(idx0, idx1, idx2);
+							MeshUtils::addFaceCheckIndexes(idx0, idx1, idx2,  poly_data);
+
 						}
 						else if( number_of_edges == 4 )
 						{
@@ -564,8 +569,7 @@ namespace GeomDebugDump
 							size_t idx2 = mapVertexIndexes[v2index];
 							size_t idx3 = mapVertexIndexes[v3index];
 
-							poly_data.m_poly_data->addFace(idx0, idx1, idx2, idx3);
-							//poly_data.m_poly_data->addFace(idx2, idx3, idx0);
+							MeshUtils::addFaceCheckIndexes(idx0, idx1, idx2, idx3, poly_data);
 						}
 						else
 						{
@@ -609,6 +613,13 @@ namespace GeomDebugDump
 					}
 				}
 			}
+		}
+
+		shared_ptr<carve::input::PolyhedronData>& polyhedron = poly_data.m_poly_data;
+		bool polyhedron_ok = checkPolyhedronData(polyhedron);
+		if( !polyhedron_ok )
+		{
+			return;
 		}
 
 		// vertices of the meshset:

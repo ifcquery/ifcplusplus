@@ -328,7 +328,12 @@ public:
 											vec3 center_p0_normalized = center_p0.normalized();
 											vec3 center_p2_normalized = center_p2.normalized();
 
-											const double openingAngle = std::acos(carve::geom::dot(center_p0_normalized, center_p2_normalized));
+											double dotProduct = carve::geom::dot(center_p0_normalized, center_p2_normalized);
+											if( dotProduct < -1.0 ) { dotProduct = -1.0; }
+											if( dotProduct > 1.0 ) { dotProduct = 1.0; }
+											double openingAngle = std::acos(dotProduct);
+											if( openingAngle < -M_PI*2.0 ) { openingAngle = -M_PI * 2.0; }
+											if( openingAngle > M_PI*2.0 ) { openingAngle = M_PI * 2.0; }
 											size_t n = m_geom_settings->getNumVerticesPerCircle() * openingAngle / (M_PI * 2.0);
 											if( n < m_geom_settings->getMinNumVerticesPerArc() )
 											{

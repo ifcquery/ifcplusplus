@@ -30,12 +30,11 @@ ADD_DEFINITIONS(-DGLM_FORCE_CTOR_INIT)
 ADD_DEFINITIONS(-DGLM_FORCE_XYZW_ONLY)
 ADD_DEFINITIONS(-DUNICODE)
 ADD_DEFINITIONS(-D_UNICODE)
+ADD_DEFINITIONS(-DIFCQUERY_STATIC_LIB)
+ADD_DEFINITIONS(-DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-IF(BUILD_STATIC_LIBRARY)
-	ADD_DEFINITIONS(-DIFCQUERY_STATIC_LIB)
-ENDIF()
 
 SET(viewer_dir ${IFCPP_SOURCE_DIR}/examples/SimpleViewerExampleQt)
 SET(RESOURCES ${viewer_dir}/Resources/ifcplusplus.qrc)
@@ -72,8 +71,6 @@ SET(IFCPPVIEWER_MOC_FILES
 
 QT5_WRAP_CPP( IFCPPVIEWER_MOC_GENERATED_FILES ${IFCPPVIEWER_MOC_FILES})
 
-LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/external/Carve/Debug)
-LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/external/Carve/${CMAKE_BUILD_TYPE})
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/IfcPlusPlus/Debug)
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/IfcPlusPlus/${CMAKE_BUILD_TYPE})
 
@@ -85,10 +82,9 @@ ADD_EXECUTABLE(SimpleViewerExampleQt
 
 set_target_properties(SimpleViewerExampleQt PROPERTIES DEBUG_POSTFIX "d")
 set_target_properties(SimpleViewerExampleQt PROPERTIES CXX_STANDARD 17)
-set_target_properties(SimpleViewerExampleQt PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=../../IfcPlusPlus/Debug;../../IfcPlusPlus/Release;$(PATH)") # is there a way to set Debug/Release by one variable?
+set_target_properties(SimpleViewerExampleQt PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=../../IfcPlusPlus/Debug;../../IfcPlusPlus/Release;${OSG_INCLUDE_DIR}/../bin;$(PATH)") # is there a way to set Debug/Release by one variable?
 
 target_link_libraries(SimpleViewerExampleQt
-        debug carved optimized carve
 		debug IfcPlusPlusd optimized IfcPlusPlus
         Qt5::Core
         Qt5::Gui
@@ -134,12 +130,22 @@ TARGET_INCLUDE_DIRECTORIES(SimpleViewerExampleQt
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/ifcpp/IFC4X3/include
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/glm
-	${IFCPP_SOURCE_DIR}/external/
-	${IFCPP_SOURCE_DIR}/external/Carve
-	${IFCPP_SOURCE_DIR}/external/Carve/src
-	${IFCPP_SOURCE_DIR}/external/Carve/src/lib
-	${IFCPP_SOURCE_DIR}/external/Carve/src/common
-	${IFCPP_SOURCE_DIR}/external/Carve/src/include
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/Carve/include
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/Carve/src
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/Carve/src/include
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/Carve/src/common
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/Carve/build/src
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/glm
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/utilities/include
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/utilities
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/polygon/include
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/manifold/include
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/collider/include
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/third_party
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/third_party/thrust
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/third_party/graphlite/include
+	
     ${OPENTHREADS_INCLUDE_DIR}
     ${OSG_INCLUDE_DIR}
     ${OSGGA_INCLUDE_DIR}

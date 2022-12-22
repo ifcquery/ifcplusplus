@@ -111,19 +111,28 @@ static void getAdjacentFaces(carve::mesh::Face<3>* fx, std::set<carve::mesh::Fac
 			return;
 		}
 		carve::mesh::Face<3>* nextAdjacentFace = nextEdgeRev->face;
-		
-		if( nextAdjacentFace == fx )
-		{
-			nextEdgeRev = nextEdgeRev->rev;
-			nextAdjacentFace = nextEdgeRev->face;
-		}
 
-		if( nextAdjacentFace == firstAdjacentFace )
+		if( nextAdjacentFace )
 		{
-			break;
+			if( nextAdjacentFace == fx )
+			{
+				nextEdgeRev = nextEdgeRev->rev;
+				nextAdjacentFace = nextEdgeRev->face;
+			}
+
+			if( nextAdjacentFace == firstAdjacentFace )
+			{
+				break;
+			}
+
+			adjacentFaces.insert(nextAdjacentFace);
 		}
-		
-		adjacentFaces.insert(nextAdjacentFace);
+		else
+		{
+#ifdef _DEBUG
+			std::cout << "nextEdgeRev->face == nullptr" << std::endl;
+#endif
+		}
 
 		edgeRev = nextEdgeRev;
 	}
@@ -246,7 +255,19 @@ static size_t replaceFacePointer( carve::mesh::Face<3>* faceFrom, carve::mesh::F
 	size_t numChanges = 0;
 	for( auto f : faces )
 	{
+		if( !f )
+		{
+#ifdef _DEBUG
+			std::cout << "invalid pointer" << std::endl;
+#endif
+			continue;
+		}
 		carve::mesh::Edge<3>* edge = f->edge;
+		if( !edge )
+		{
+			//std::cout << "invalid edge pointer" << std::endl;
+			continue;
+		}
 
 		for( size_t ii = 0; ii < f->n_edges; ++ii )
 		{
@@ -482,22 +503,36 @@ struct CarveMeshNormalizer
 	{
 		m_normalizeCoordsInsteadOfEpsilon = normalizeCoordsInsteadOfEpsilon;
 	}
-	CarveMeshNormalizer(const shared_ptr<carve::mesh::MeshSet<3>>& mesh1, const shared_ptr<carve::mesh::MeshSet<3>>& mesh2, bool normalizeCoordsInsteadOfEpsilon)
+	CarveMeshNormalizer(const shared_ptr<carve::mesh::MeshSet<3>>& mesh1, const shared_ptr<carve::mesh::MeshSet<3> >& mesh2, bool normalizeCoordsInsteadOfEpsilon)
 	{
 		m_normalizeCoordsInsteadOfEpsilon = normalizeCoordsInsteadOfEpsilon;
 		if( !mesh1 )
 		{
 			return;
 		}
-		if( !mesh2 )
-		{
-			return;
-		}
+		
 		carve::geom::aabb<3> bbox1 = mesh1->getAABB();
 		vec3 center1 = bbox1.pos;
 		vec3 extents1 = bbox1.extent;
 
 		carve::geom::aabb<3> bbox2 = mesh2->getAABB();
+		//carve::geom::aabb<3> bbox2;
+		//for( const shared_ptr<carve::mesh::MeshSet<3> >& mesh2 : meshes2 )
+		//{
+		//	if( bbox2.isEmpty() )
+		//	{
+		//		bbox2 = mesh2->getAABB();
+		//	}
+		//	else
+		//	{
+		//		bbox2.unionAABB(mesh2->getAABB());
+		//	}
+		//}
+		if( bbox2.isEmpty() )
+		{
+			return;
+		}
+
 		vec3 center2 = bbox2.pos;
 		vec3 extents2 = bbox2.extent;
 
@@ -522,10 +557,10 @@ struct CarveMeshNormalizer
 			m_scale = 1.0;
 		}
 
-		if( !m_normalizeCoordsInsteadOfEpsilon )
-		{
-			
-		}
+		//if( !m_normalizeCoordsInsteadOfEpsilon )
+		//{
+		//	m_scale = 1.0;
+		//}
 	}
 	
 	double getScale() const { return m_scale; }
@@ -535,8 +570,13 @@ struct CarveMeshNormalizer
 		m_normalizeCenter.setZero();
 	}
 
-	void normalizeMesh(shared_ptr<carve::mesh::MeshSet<3>>& meshset, std::string tag)
+	//void normalizeMesh(std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vecMeshsets, std::string tag)
+	void normalizeMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::string tag)
 	{
+		if( disableNormalizeAll )
+		{
+			return;
+		}
 		double centerLength2 = m_normalizeCenter.length2();
 		if( m_scale == 1.0 && centerLength2 < 2.0 )
 		{
@@ -552,36 +592,43 @@ struct CarveMeshNormalizer
 			}
 		}
 
-		std::vector<carve::mesh::Vertex<3> >& vertex_storage = meshset->vertex_storage;
-		const size_t num_vertices = vertex_storage.size();
-
-		for( size_t i = 0; i < num_vertices; ++i )
+		//for( shared_ptr<carve::mesh::MeshSet<3> >&meshset : vecMeshsets )
 		{
-			carve::mesh::Vertex<3>& vertex = vertex_storage[i];
-			vec3& point = vertex.v;
-				
-			if( m_scale != 1.0 && m_normalizeCoordsInsteadOfEpsilon )
+			std::vector<carve::mesh::Vertex<3> >& vertex_storage = meshset->vertex_storage;
+			const size_t num_vertices = vertex_storage.size();
+
+			for( size_t i = 0; i < num_vertices; ++i )
 			{
-				point = (point - m_normalizeCenter) * m_scale;
+				carve::mesh::Vertex<3>& vertex = vertex_storage[i];
+				vec3& point = vertex.v;
+
+				if( m_scale != 1.0 && m_normalizeCoordsInsteadOfEpsilon )
+				{
+					point = (point - m_normalizeCenter) * m_scale;
+				}
+				else
+				{
+					point = (point - m_normalizeCenter);
+				}
 			}
-			else
+
+
+			for( size_t kk = 0; kk < meshset->meshes.size(); ++kk )
 			{
-				point = (point - m_normalizeCenter);
+				carve::mesh::Mesh<3>* mesh = meshset->meshes[kk];
+				mesh->recalc();
 			}
+
+			m_normalizedMeshes.insert({ tag, meshset.get() });
 		}
-
-
-		for( size_t kk = 0; kk < meshset->meshes.size(); ++kk )
-		{
-			carve::mesh::Mesh<3>* mesh = meshset->meshes[kk];
-			mesh->recalc();
-		}
-
-		m_normalizedMeshes.insert({ tag, meshset.get() });
 	}
 
-	void deNormalizeMesh(shared_ptr<carve::mesh::MeshSet<3>>& meshset, std::string tag)//, bool checkIfNormalizedBefore = true)
+	void deNormalizeMesh(shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::string tag)//, bool checkIfNormalizedBefore = true)
 	{
+		if( disableNormalizeAll )
+		{
+			return;
+		}
 		double centerLength2 = m_normalizeCenter.length2();
 		if( m_scale == 1.0 && centerLength2 < 2.0 )
 		{
@@ -600,28 +647,33 @@ struct CarveMeshNormalizer
 		}
 
 		double unScaleFactor = (1.0 / m_scale);
-		std::vector<carve::mesh::Vertex<3> >& vertex_storage = meshset->vertex_storage;
-		const size_t num_vertices = vertex_storage.size();
-		for( size_t i = 0; i < num_vertices; ++i )
+
+		//for( shared_ptr<carve::mesh::MeshSet<3> >&meshset : vecMeshsets )
 		{
-			carve::mesh::Vertex<3>& vertex = vertex_storage[i];
-			vec3& point = vertex.v;
-			if( m_scale != 1.0 && m_normalizeCoordsInsteadOfEpsilon )
+			std::vector<carve::mesh::Vertex<3> >& vertex_storage = meshset->vertex_storage;
+			const size_t num_vertices = vertex_storage.size();
+			for( size_t i = 0; i < num_vertices; ++i )
 			{
-				point = point * unScaleFactor + m_normalizeCenter;
+				carve::mesh::Vertex<3>& vertex = vertex_storage[i];
+				vec3& point = vertex.v;
+				if( m_scale != 1.0 && m_normalizeCoordsInsteadOfEpsilon )
+				{
+					point = point * unScaleFactor + m_normalizeCenter;
+				}
+				else
+				{
+					point = point + m_normalizeCenter;
+				}
 			}
-			else
+			for( size_t kk = 0; kk < meshset->meshes.size(); ++kk )
 			{
-				point = point + m_normalizeCenter;
+				carve::mesh::Mesh<3>* mesh = meshset->meshes[kk];
+				mesh->recalc();
 			}
-		}
-		for( size_t kk = 0; kk < meshset->meshes.size(); ++kk )
-		{
-			carve::mesh::Mesh<3>* mesh = meshset->meshes[kk];
-			mesh->recalc();
 		}
 	}
 
+	bool disableNormalizeAll = false;
 private:
 	double m_scale = 1.0;
 	vec3 m_normalizeCenter;
@@ -999,7 +1051,13 @@ static void retriangulateMeshSetSimple( shared_ptr<carve::mesh::MeshSet<3> >& me
 	meshset = meshsetTrinangulated;
 }
 
-
+static void retriangulateMeshSetSimple( std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& meshsets, bool ignoreResultOpenEdges, double eps, size_t retryCount )
+{
+	for( shared_ptr<carve::mesh::MeshSet<3> >& meshset : meshsets )
+	{
+		retriangulateMeshSetSimple(meshset, ignoreResultOpenEdges, eps, retryCount);
+	}
+}
 
 static void getOpenEdgePoints(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::vector<glm::dvec3>& vecAllPoints)
 {
@@ -1089,11 +1147,11 @@ static bool isCoplanar(const shared_ptr<CoplanarFaceContainer>& coplanar, const 
 
 static bool isCoplanar(const carve::geom::plane<3>& plane, const carve::mesh::Face<3>* face1, const carve::mesh::Face<3>* face2, shared_ptr<GeometrySettings>& geomSettings)
 {
-	//const vec3& face1Normal = face1->plane.N;
-	//const vec3& face1Position = face1->edge->v2()->v;
-
+	if( !face2 )
+	{
+		return false;
+	}
 	const vec3& planeNormal = plane.N;
-
 	const vec3& face2Normal = face2->plane.N;
 	const vec3& face2Position = face2->edge->v2()->v;
 
@@ -1482,7 +1540,7 @@ static size_t findAndMergeCoplanarFaces( carve::mesh::Face<3>* faceIn, std::set<
 		bool mesh_correct1 = MeshUtils::checkMeshPointers(mesh1, info1);
 		if( !mesh_correct1 )
 		{
-			std::cout << "!mesh_correct\n";
+			//std::cout << "!mesh_correct\n";
 		}
 
 		bool check1 = facePair->edge->face == faceOnRverseEdge;
@@ -1669,7 +1727,7 @@ static size_t findAndMergeCoplanarFaces( carve::mesh::Face<3>* faceIn, std::set<
 
 		if( !valid4 )
 		{
-			std::cout << "!mesh_correct\n";
+			//std::cout << "!mesh_correct\n";
 		}
 
 		//if( dumpFaces )
@@ -1687,7 +1745,7 @@ static size_t findAndMergeCoplanarFaces( carve::mesh::Face<3>* faceIn, std::set<
 		if( !mesh_correct6 )
 		{
 			info6.allPointersValid = false;
-			std::cout << "!mesh_correct\n";
+			//std::cout << "!mesh_correct\n";
 		}
 #endif
 	}
@@ -1699,6 +1757,86 @@ static size_t findAndMergeCoplanarFaces( carve::mesh::Face<3>* faceIn, std::set<
 	}
 
 	return numChanges;
+}
+
+static void mergeCoplanarTriangles(shared_ptr<carve::mesh::MeshSet<3> >& meshset, shared_ptr<GeometrySettings>& geomSettings, bool dumpFaces)
+{
+	shared_ptr<carve::mesh::MeshSet<3> > meshset_copy(meshset->clone());
+
+	std::set<carve::mesh::Face<3>* > setFacesBegin;
+	MeshUtils::getFacesInMeshSet(meshset, setFacesBegin);
+	size_t numFacesAll = setFacesBegin.size();
+	size_t numChanges = 0;
+
+	if( numFacesAll > 100 )
+	{
+		numFacesAll = 100;
+	}
+
+	std::set<carve::mesh::Face<3>* > setMasterFaces;  // remaining faces
+	for( size_t ii = 0; ii < numFacesAll; ++ii )
+	{
+		std::set<carve::mesh::Face<3>* > setFaces;
+		MeshUtils::getFacesInMeshSet(meshset, setFaces);
+		if( setFaces.size() == setMasterFaces.size() )
+		{
+			break;
+		}
+
+		size_t numChangesCurrentLoop = 0;
+		size_t jj = 0;
+		for( auto it = setFaces.begin(); it != setFaces.end(); ++it )
+		{
+			carve::mesh::Face<3>* face = *it;
+			if( !face )
+			{
+				continue;
+			}
+
+			if( jj > 400 )
+			{
+				break;
+			}
+			++jj;
+
+			auto itFindInMaster = setMasterFaces.find(face);
+			if( itFindInMaster != setMasterFaces.end() )
+			{
+				continue;
+			}
+
+			carve::mesh::Edge<3>* edge = face->edge;
+			vec3& facePosition_carve = edge->v2()->v;
+
+			const vec3& faceNormal_carve = face->plane.N;
+			glm::dvec3 faceNormal(faceNormal_carve.x, faceNormal_carve.y, faceNormal_carve.z);
+			glm::dvec3 facePosition(facePosition_carve.x, facePosition_carve.y, facePosition_carve.z);
+			shared_ptr<CoplanarFaceContainer> coplanar(new CoplanarFaceContainer());
+			coplanar->m_pointProjector.m_plane.setNormal(faceNormal);
+			coplanar->m_pointProjector.m_plane.setPlane(facePosition, faceNormal);
+
+			size_t numFaces = setFaces.size();
+			size_t numChangesMergedFaces = findAndMergeCoplanarFaces(face, setFaces, coplanar, geomSettings, dumpFaces);
+			numChanges += numChangesMergedFaces;
+			numChangesCurrentLoop += numChangesMergedFaces;
+
+			setMasterFaces.insert(face);
+		}
+	}
+
+	for( auto mesh : meshset->meshes )
+	{
+		mesh->cacheEdges();
+		mesh->recalc();
+	}
+
+	MeshSetInfo infoResult;
+	bool validMeshsetResult = MeshUtils::checkMeshSetValidAndClosed(meshset, infoResult, nullptr, nullptr);
+
+	if( !validMeshsetResult )
+	{
+		meshset = meshset_copy;
+	}
 }
 
 static size_t mergeCoplanarFacesInMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::vector<shared_ptr<CoplanarFaceContainer> >& vecCoplanarFaces, shared_ptr<GeometrySettings>& geomSettings, bool dumpFaces)
@@ -1714,7 +1852,7 @@ static size_t mergeCoplanarFacesInMeshSet( shared_ptr<carve::mesh::MeshSet<3> >&
 	{
 		numFacesAll = 400;
 #ifdef _DEBUG
-		std::cout << "TODO: optimize for numFacesAll > 500\n";
+		//std::cout << "TODO: optimize for numFacesAll > 500\n";
 #endif
 	}
 
@@ -2089,15 +2227,15 @@ static size_t mergeAlignedEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, d
 									double dz = edgeVector.z - edgeNextVector.z;
 									if( std::abs(dx) > EPS_M8 )
 									{
-										std::cout << "aligne check" << std::endl;
+										std::cout << "align check" << std::endl;
 									}
 									if( std::abs(dy) > EPS_M8 )
 									{
-										std::cout << "aligne check" << std::endl;
+										std::cout << "align check" << std::endl;
 									}
 									if( std::abs(dz) > EPS_M8 )
 									{
-										std::cout << "aligne check" << std::endl;
+										std::cout << "align check" << std::endl;
 									}
 #endif
 
@@ -2217,7 +2355,7 @@ static size_t simplifyMeshCarve(shared_ptr<carve::mesh::MeshSet<3> >& meshset, s
 		if( numChanges == 0 )
 		{
 #ifdef _DEBUG
-			std::cout << "no changes" << std::endl;
+			//std::cout << "no changes" << std::endl;
 #endif
 			return 0;
 		}
@@ -2268,7 +2406,7 @@ static size_t simplifyMeshCarve(shared_ptr<carve::mesh::MeshSet<3> >& meshset, s
 /// \param report_callback		callback function for errors, warnings, notifications, progress
 /// \param entity				IFC entity that is currently being processed
 /// \param ignoreOpenEdgesInResult	If true, the result is kept even with open edges (good for visualization). If false, the result will be the input mesh in case open edges occur after triangulation (good for further boolean operations)
-static void simplifyMeshSet(shared_ptr<carve::mesh::MeshSet<3>>& meshset, shared_ptr<GeometrySettings>& geomSettings, StatusCallback* report_callback, BuildingEntity* entity, bool triangulateResult, bool dumpPolygon)
+static void simplifyMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, shared_ptr<GeometrySettings>& geomSettings, StatusCallback* report_callback, BuildingEntity* entity, bool triangulateResult, bool dumpPolygon)
 {
 	if( !meshset )
 	{
@@ -2495,5 +2633,13 @@ static void simplifyMeshSet(shared_ptr<carve::mesh::MeshSet<3>>& meshset, shared
 	}
 
 	meshset = meshset_copy;
+}
+static void simplifyMeshSet(std::vector<shared_ptr<carve::mesh::MeshSet<3>> >& meshsets, shared_ptr<GeometrySettings>& geomSettings, StatusCallback* report_callback, 
+	BuildingEntity* entity, bool triangulateResult, bool dumpPolygon)
+{
+	for( shared_ptr<carve::mesh::MeshSet<3> >&meshset : meshsets )
+	{
+		simplifyMeshSet(meshset, geomSettings, report_callback, entity, triangulateResult, dumpPolygon);
+	}
 }
 };

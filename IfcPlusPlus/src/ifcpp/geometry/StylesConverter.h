@@ -199,7 +199,7 @@ public:
 			vec4 diffuse_color(surface_color);
 			vec4 specular_color(surface_color);
 			double shininess = 35.f;
-			double transparency = surface_color.a();
+			double alpha = surface_color.a();  // 1=opaque, 0=transparent
 			bool set_transparent = false;
 
 			shared_ptr<IfcSurfaceStyleRendering> surf_style_rendering = dynamic_pointer_cast<IfcSurfaceStyleRendering>(surface_style_shading);
@@ -221,18 +221,18 @@ public:
 				{
 					// in IFC 1 is transparent, 0 is opaque. if not given, the value 0 (opaque) is assumed
 					// in osg, 1 is opaque, 0 is transparent
-					transparency = 1.f - (float)surf_style_rendering->m_Transparency->m_value;
-					if (transparency < 0.1f)
+					alpha = 1.f - (float)surf_style_rendering->m_Transparency->m_value;
+					if (alpha < 0.1f)
 					{
-						transparency = 0.1f;
+						alpha = 0.1f;
 					}
 
-					if (transparency > 1.f)
+					if (alpha > 1.f)
 					{
-						transparency = 1.f;
+						alpha = 1.f;
 					}
 
-					if (transparency < 0.99f)
+					if (alpha < 0.99f)
 					{
 						set_transparent = true;
 					}
@@ -250,13 +250,18 @@ public:
 				}
 			}
 
-			appearance_data->m_color_ambient.setColor(ambient_color.r()*0.8, ambient_color.g()*0.8, ambient_color.b()*0.8, transparency);
-			appearance_data->m_color_diffuse.setColor(diffuse_color.r(), diffuse_color.g(), diffuse_color.b(), transparency);
-			appearance_data->m_color_specular.setColor(specular_color.r()*0.1, specular_color.g()*0.1, specular_color.b()*0.1, transparency);
+			if (alpha < 0.1f)
+			{
+				alpha = 0.1f;
+			}
+
+			appearance_data->m_color_ambient.setColor(ambient_color.r()*0.8, ambient_color.g()*0.8, ambient_color.b()*0.8, alpha);
+			appearance_data->m_color_diffuse.setColor(diffuse_color.r(), diffuse_color.g(), diffuse_color.b(), alpha);
+			appearance_data->m_color_specular.setColor(specular_color.r()*0.1, specular_color.g()*0.1, specular_color.b()*0.1, alpha);
 
 			appearance_data->m_shininess = shininess;
 			appearance_data->m_set_transparent = set_transparent;
-			appearance_data->m_transparency = transparency;
+			appearance_data->m_transparency = alpha;
 			appearance_data->m_complete = true;
 			appearance_data->m_apply_to_geometry_type = AppearanceData::GEOM_TYPE_SURFACE;
 			return;

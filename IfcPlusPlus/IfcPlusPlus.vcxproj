@@ -47,7 +47,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -74,7 +74,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -158,8 +158,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCPP_AS_DYNAMIC_LIBRARY;IFCPP_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;src/external/manifold/src/utilities/include;src/external/manifold/src/utilities;src/external/manifold/src/polygon/include;src/external/manifold/src/manifold/include;src/external/manifold/src;src\external\manifold\src\collider\include;src/external/manifold/src/third_party;src/external/manifold/src/third_party/thrust;src/external/manifold/src/third_party/graphlite/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCPP_AS_DYNAMIC_LIBRARY;IFCPP_LIB;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MinimalRebuild>false</MinimalRebuild>
@@ -173,8 +173,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>src;src/external/;src/ifcpp/IFC4X3/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;WIN64;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCQUERY_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;.\src;src\ifcpp;src\ifcpp\IFC4X3\include;.\src\external\;.\src\external\RapidJSON;.\src\external\glm;src/external/Carve;src/external/Carve/src;src/external/Carve/src/common;src/external/Carve/src/lib;src/external/Carve/src/include;src/external/Carve/src/include/carve;src/external/manifold/src/utilities/include;src/external/manifold/src/utilities;src/external/manifold/src/polygon/include;src/external/manifold/src/manifold/include;src/external/manifold/src;src\external\manifold\src\collider\include;src/external/manifold/src/third_party;src/external/manifold/src/third_party/thrust;src/external/manifold/src/third_party/graphlite/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;WIN64;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;IFCQUERY_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <EnableParallelCodeGeneration>
@@ -206,10 +206,10 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;src/external/manifold/src/utilities/include;src/external/manifold/src/utilities;src/external/manifold/src/polygon/include;src/external/manifold/src/manifold/include;src/external/manifold/src;src\external\manifold\src\collider\include;src/external/manifold/src/third_party;src/external/manifold/src/third_party/thrust;src/external/manifold/src/third_party/graphlite/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;ENABLE_OPENMP;IFCQUERY_AS_DYNAMIC_LIBRARY;IFCQUERY_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;IFCQUERY_AS_DYNAMIC_LIBRARY;IFCQUERY_LIB;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
       <DebugInformationFormat />
@@ -252,9 +252,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>src;src/external/;src/ifcpp/IFC4X3/include;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;.\src;src\ifcpp;src\ifcpp\IFC4X3\include;.\src\external\;.\src\external\RapidJSON;.\src\external\glm;src/external/Carve;src/external/Carve/src;src/external/Carve/src/common;src/external/Carve/src/lib;src/external/Carve/src/include;src/external/Carve/src/include/carve;src/external/manifold/src/utilities/include;src/external/manifold/src/utilities;src/external/manifold/src/polygon/include;src/external/manifold/src/manifold/include;src/external/manifold/src;src\external\manifold\src\collider\include;src/external/manifold/src/third_party;src/external/manifold/src/third_party/thrust;src/external/manifold/src/third_party/graphlite/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;ENABLE_OPENMP;IFCQUERY_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;IFCQUERY_LIB;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;IFCQUERY_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -300,9 +300,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;src/external/manifold/src/utilities/include;src/external/manifold/src/utilities;src/external/manifold/src/polygon/include;src/external/manifold/src/manifold/include;src/external/manifold/src;src\external\manifold\src\collider\include;src/external/manifold/src/third_party;src/external/manifold/src/third_party/thrust;src/external/manifold/src/third_party/graphlite/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;ENABLE_OPENMP;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -323,9 +323,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;$(BOOST_DIR);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;src/external/manifold/src/utilities/include;src/external/manifold/src/utilities;src/external/manifold/src/polygon/include;src/external/manifold/src/manifold/include;src/external/manifold/src;src\external\manifold\src\collider\include;src/external/manifold/src/third_party;src/external/manifold/src/third_party/thrust;src/external/manifold/src/third_party/graphlite/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;ENABLE_OPENMP;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -352,12 +352,54 @@
     <ClCompile Include="src\ifcpp\model\BuildingGuid.cpp" />
     <ClCompile Include="src\ifcpp\model\BuildingModel.cpp" />
     <ClCompile Include="src\ifcpp\model\UnitConverter.cpp" />
-    <ClCompile Include="src\ifcpp\reader\AbstractReader.cpp" />
     <ClCompile Include="src\ifcpp\reader\ReaderSTEP.cpp" />
     <ClCompile Include="src\ifcpp\reader\ReaderUtil.cpp" />
-    <ClCompile Include="src\ifcpp\reader\ReaderXML.cpp" />
     <ClCompile Include="src\ifcpp\writer\WriterSTEP.cpp" />
     <ClCompile Include="src\ifcpp\writer\WriterUtil.cpp" />
+    <ClCompile Include="src\external\manifold\src\boolean3.cpp" />
+    <ClCompile Include="src\external\manifold\src\boolean_result.cpp" />
+    <ClCompile Include="src\external\manifold\src\collider\src\collider.cpp" />
+    <ClCompile Include="src\external\manifold\src\constructors.cpp" />
+    <ClCompile Include="src\external\manifold\src\csg_tree.cpp" />
+    <ClCompile Include="src\external\manifold\src\edge_op.cpp" />
+    <ClCompile Include="src\external\manifold\src\face_op.cpp" />
+    <ClCompile Include="src\external\manifold\src\impl.cpp" />
+    <ClCompile Include="src\external\manifold\src\manifold.cpp" />
+    <ClCompile Include="src\external\manifold\src\polygon\src\polygon.cpp" />
+    <ClCompile Include="src\external\manifold\src\properties.cpp" />
+    <ClCompile Include="src\external\manifold\src\smoothing.cpp" />
+    <ClCompile Include="src\external\manifold\src\sort.cpp" />
+    <ClCompile Include="src\external\manifold\src\third_party\graphlite\src\connected_components.cpp" />
+    <ClCompile Include="src\external\manifold\src\utilities\src\detect_cuda.cpp" />
+    <ClCompile Include="src\external\Carve\src\common\geometry.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\aabb.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\carve.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\convex_hull.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\csg.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\csg_collector.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\edge.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\face.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\geom.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\geom2d.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\geom3d.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\intersect.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\intersection.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\intersect_classify_edge.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\intersect_classify_group.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\intersect_face_division.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\intersect_group.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\intersect_half_classify_group.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\math.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\mesh.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\octree.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\pointset.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\polyhedron.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\polyline.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\shewchuk_predicates.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\tag.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\timing.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\triangle_intersection.cpp" />
+    <ClCompile Include="src\external\Carve\src\lib\triangulator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\external\XUnzip.h" />
@@ -382,22 +424,6 @@
     <ClInclude Include="src\ifcpp\geometry\Carve\TessellatedItemConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\GeometryException.h" />
     <ClInclude Include="src\ifcpp\geometry\GeometrySettings.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\CSG_AdapterOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\CurveConverterOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\FaceConverterOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeomDebugDumpOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeometryConverterOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeometryInputDataOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\GeomUtilsOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\PlacementConverterOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\PointConverterOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\ProfileCacheOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\ProfileConverterOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\RepresentationConverterOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\SceneGraphConverterOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\SceneGraphUtilsOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\SolidModelConverterOCC.h" />
-    <ClInclude Include="src\ifcpp\geometry\OCC\SplineConverterOCC.h" />
     <ClInclude Include="src\ifcpp\geometry\SceneGraphUtils.h" />
     <ClInclude Include="src\ifcpp\geometry\StylesConverter.h" />
     <ClInclude Include="src\ifcpp\IFC4\EntityFactory.h" />
@@ -416,11 +442,8 @@
     <ClInclude Include="src\ifcpp\reader\AbstractReader.h" />
     <ClInclude Include="src\ifcpp\reader\ReaderSTEP.h" />
     <ClInclude Include="src\ifcpp\reader\ReaderUtil.h" />
-    <ClInclude Include="src\ifcpp\reader\ReaderXML.h" />
-    <ClInclude Include="src\ifcpp\writer\AbstractWriter.h" />
     <ClInclude Include="src\ifcpp\writer\WriterSTEP.h" />
     <ClInclude Include="src\ifcpp\writer\WriterUtil.h" />
-    <ClInclude Include="src\ifcpp\writer\WriterXML.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
