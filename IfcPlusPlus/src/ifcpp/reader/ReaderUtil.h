@@ -64,90 +64,25 @@ void checkOpeningClosingParenthesis(const char* ch_check);
 
 IFCQUERY_EXPORT std::string wstring2string(const std::wstring& str);
 IFCQUERY_EXPORT std::wstring string2wstring(const std::string& inputString);
-
-IFCQUERY_EXPORT bool std_iequal(const std::wstring& a, const std::wstring& b);
 IFCQUERY_EXPORT bool std_iequal(const std::string& a, const std::string& b);
 
 inline std::string getFileExtension(std::string path)
 {
 #ifdef _MSC_VER
 	return std::filesystem::path(string2wstring(path)).extension().string();
-#endif
+#else
 	return std::filesystem::path(path).extension().string();
-}
-
-inline void readIntegerValue( const std::string& str, int& int_value )
-{
-	if( str.compare( "$" ) == 0 )
-	{
-		int_value = std::numeric_limits<int>::quiet_NaN();
-	}
-	else if( str.compare( "*" ) == 0 )
-	{
-		int_value = std::numeric_limits<int>::quiet_NaN();
-	}
-	else
-	{
-		int_value = std::stoi( str );
-	}
+#endif
 }
 
 IFCQUERY_EXPORT void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::string>& args_out );
 
-inline void readBool( const std::string& attribute_value, bool& target )
-{
-	if( std_iequal( attribute_value, ".F." ) )
-	{
-		target = false;
-	}
-	else if( std_iequal( attribute_value, ".T." ) )
-	{
-		target = true;
-	}
-}
-
-inline void readLogical( const std::string& attribute_value, LogicalEnum& target )
-{
-	if( std_iequal(attribute_value, ".F." ) )
-	{
-		target = LOGICAL_FALSE;
-	}
-	else if( std_iequal( attribute_value, ".T." ) )
-	{
-		target = LOGICAL_TRUE;
-	}
-	else if( std_iequal( attribute_value, ".U." ) )
-	{
-		target = LOGICAL_UNKNOWN;
-	}
-}
-
-inline void readInteger( const std::string& attribute_value, int& target )
-{
-	target = std::stoi( attribute_value );
-}
-
-inline void readReal( const std::string& attribute_value, double& target )
-{
-	target = std::stod( attribute_value );
-}
-
-inline void readString( const std::string& attribute_value, std::string& target )
-{
-	if( attribute_value.size() < 2 )
-	{
-		target = attribute_value;
-		return;
-	}
-	if( attribute_value[0] == '\'' && attribute_value[attribute_value.size()-1] == '\'' )
-	{
-		target = attribute_value.substr( 1, attribute_value.size()-2 );
-	}
-	else
-	{
-		target = attribute_value;
-	}
-}
+void readBool(const std::string& attribute_value, bool& target);
+void readLogical(const std::string& attribute_value, LogicalEnum& target);
+void readInteger(const std::string& attribute_value, int& target);
+void readIntegerValue(const std::string& str, int& int_value);
+void readReal(const std::string& attribute_value, double& target);
+void readString(const std::string& attribute_value, std::string& target);
 
 template<typename T>
 void readTypeOfIntegerList( const std::string& str, std::vector<shared_ptr<T> >& target_vec )

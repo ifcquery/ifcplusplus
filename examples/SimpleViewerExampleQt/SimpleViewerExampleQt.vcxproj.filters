@@ -35,36 +35,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GeneratedFiles\qrc_ifcplusplus.cpp">
-      <Filter>Generierte Dateien</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_IfcPlusPlusSystem.cpp">
-      <Filter>Generierte Dateien\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_IfcPlusPlusSystem.cpp">
-      <Filter>Generierte Dateien\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_TabView.cpp">
-      <Filter>Generierte Dateien\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_TabView.cpp">
-      <Filter>Generierte Dateien\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_IfcTreeWidget.cpp">
-      <Filter>Generierte Dateien\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_IfcTreeWidget.cpp">
-      <Filter>Generierte Dateien\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_MainWindow.cpp">
-      <Filter>Generierte Dateien\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_MainWindow.cpp">
-      <Filter>Generierte Dateien\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_TabReadWrite.cpp">
-      <Filter>Generierte Dateien\Debug</Filter>
-    </ClCompile>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <ClCompile Include="src\cmd\CmdRemoveSelectedObjects.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
@@ -98,53 +78,43 @@
     <ClCompile Include="src\gui\TabView.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_ViewerWidget.cpp">
-      <Filter>Source Dateien</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ViewerWidget.cpp">
-      <Filter>Source Dateien</Filter>
-    </ClCompile>
+    
+    
     <ClCompile Include="src\gui\TabReadWrite.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_TabReadWrite.cpp">
-      <Filter>Source Dateien</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_StoreyShiftWidget.cpp">
-      <Filter>Generierte Dateien\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_StoreyShiftWidget.cpp">
-      <Filter>Generierte Dateien\Release</Filter>
-    </ClCompile>
+    
+    
+    
     <ClCompile Include="src\gui\StoreyShiftWidget.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="Resources\ifcplusplus.qrc">
+    <QtRcc Include="Resources\ifcplusplus.qrc">
       <Filter>Resource Dateien</Filter>
-    </CustomBuild>
-    <CustomBuild Include="src\IfcPlusPlusSystem.h">
+    </QtRcc>
+    <QtMoc Include="src\IfcPlusPlusSystem.h">
       <Filter>Header Dateien</Filter>
-    </CustomBuild>
-    <CustomBuild Include="src\viewer\ViewerWidget.h">
+    </QtMoc>
+    <QtMoc Include="src\viewer\ViewerWidget.h">
       <Filter>Header Dateien</Filter>
-    </CustomBuild>
-    <CustomBuild Include="src\gui\TabView.h">
+    </QtMoc>
+    <QtMoc Include="src\gui\TabView.h">
       <Filter>Header Dateien</Filter>
-    </CustomBuild>
-    <CustomBuild Include="src\gui\IfcTreeWidget.h">
+    </QtMoc>
+    <QtMoc Include="src\gui\IfcTreeWidget.h">
       <Filter>Header Dateien</Filter>
-    </CustomBuild>
-    <CustomBuild Include="src\gui\MainWindow.h">
+    </QtMoc>
+    <QtMoc Include="src\gui\MainWindow.h">
       <Filter>Header Dateien</Filter>
-    </CustomBuild>
-    <CustomBuild Include="src\gui\TabReadWrite.h">
+    </QtMoc>
+    <QtMoc Include="src\gui\TabReadWrite.h">
       <Filter>Header Dateien</Filter>
-    </CustomBuild>
-    <CustomBuild Include="src\gui\StoreyShiftWidget.h">
+    </QtMoc>
+    <QtMoc Include="src\gui\StoreyShiftWidget.h">
       <Filter>Header Dateien</Filter>
-    </CustomBuild>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\styles.css">

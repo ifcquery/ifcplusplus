@@ -51,7 +51,6 @@ public:
 
 	PointProjector m_pointProjector;
 	carve::mesh::Face<3>* m_face = nullptr;
-	//std::set<carve::mesh::Face<3>* > m_facesErase;
 
 	double distancePointPlane(const glm::dvec3& point) const
 	{
@@ -140,7 +139,7 @@ static void getAdjacentFaces(carve::mesh::Face<3>* fx, std::set<carve::mesh::Fac
 #ifdef _DEBUG
 	if( dumpFaces )
 	{
-		std::vector<carve::mesh::Face<3>* > vecFaces;
+		std::vector<const carve::mesh::Face<3>* > vecFaces;
 		std::copy(adjacentFaces.begin(), adjacentFaces.end(), std::back_inserter(vecFaces));
 		GeomDebugDump::moveOffset(0.4);
 		glm::vec4 color2(0.3, 0.2, 0.2, 0.8);
@@ -310,15 +309,14 @@ static size_t replaceFacePointer( carve::mesh::Face<3>* faceFrom, carve::mesh::F
 
 static size_t countEdges(carve::mesh::Face<3>* face)
 {
+	if( !face )
+	{
+		return 0;
+	}
 	size_t numEdges = 0;
 	carve::mesh::Edge<3>* edge = face->edge;
 	for( size_t ii = 0; ii < 10000; ++ii )
 	{
-		if( !face )
-		{
-			break;
-		}
-
 		++numEdges;
 		edge = edge->next;
 		if( edge == face->edge )
@@ -326,6 +324,7 @@ static size_t countEdges(carve::mesh::Face<3>* face)
 			break;
 		}
 	}
+
 	face->n_edges = numEdges;
 	return numEdges;
 }
@@ -362,118 +361,6 @@ static size_t getNumFaces(const shared_ptr<carve::mesh::MeshSet<3> >& meshset )
 		numFaces += mesh->faces.size();
 	}
 	return numFaces;
-}
-
-static void removeZeroAreaFaces(const shared_ptr<carve::mesh::MeshSet<3>>&meshset, const shared_ptr<GeometrySettings>& geom_settings)
-{
-	if( getNumFaces(meshset) == 0 )
-	{
-		return;
-	}
-
-
-	return;
-
-	bool useCarveSimplifier = false;
-	if( useCarveSimplifier )
-	{
-		carve::mesh::MeshSimplifier simplifier;
-		double min_colinearity = geom_settings->m_epsCoplanarAngle;
-		double min_delta_v = EPS_M8;
-		double min_normal_angle = geom_settings->m_epsCoplanarAngle;
-		double min_length = geom_settings->m_epsCoplanarDistance;
-		size_t modifications = 0;
-		try
-		{
-			//simplifier.removeFins(meshset.get());
-			//simplifier.cleanFaceEdges( meshset.get() );
-			//simplifier.removeRemnantFaces( meshset.get() );
-			//simplifier.mergeCoplanarFaces( meshset.get(), min_normal_angle );
-			modifications += simplifier.eliminateShortEdges(meshset.get(), min_length);
-			//simplifier.removeFins(meshset.get());
-			//simplifier.simplify( meshset.get(), min_colinearity, min_delta_v, min_normal_angle, min_length );
-			//simplifier.removeFins(meshset.get());
-			//simplifier.removeLowVolumeManifolds(meshset, 0.01);
-			modifications += simplifier.improveMesh(meshset.get(), min_colinearity, min_delta_v, min_normal_angle);
-		}
-		catch( ... )
-		{
-#ifdef _DEBUG
-			std::cout << "simplifier.eliminateShortEdges failed." << std::endl;
-#endif
-			return;
-		}
-	}
-
-	for( size_t ii = 0; ii < meshset->meshes.size(); ++ii )
-	{
-		carve::mesh::Mesh<3>* mesh = meshset->meshes[ii];
-		const std::vector<carve::mesh::Face<3>*>& vec_faces = mesh->faces;
-
-		for( size_t i2 = 0; i2 < vec_faces.size(); ++i2 )
-		{
-			carve::mesh::Face<3>* inputFace = vec_faces[i2];
-
-			size_t numEdges = countEdges(inputFace);
-			if( numEdges < 3 )
-			{
-				//removeFace(inputFace);
-				continue;
-			}
-			
-			double face_area = MeshUtils::computeFaceArea(inputFace);
-			if( std::abs(face_area) < carve::CARVE_EPSILON )
-			{
-				//removeFace(inputFace);
-				
-
-				if( inputFace->n_edges < 3 )
-				{
-					
-				}
-				else if( inputFace->n_edges == 3 )
-				{
-					// A----------B-----C
-					// -----------------
-
-					// A---------------B
-					// ------C----------
-
-					carve::mesh::Edge<3>* edgeA = inputFace->edge;
-					if( edgeA )
-					{
-						carve::mesh::Edge<3>* edgeB = edgeA->next;
-						if( edgeB )
-						{
-							carve::mesh::Edge<3>* edgeC = edgeB->next;
-							if( edgeC )
-							{
-								vec3& A = edgeA->vert->v;
-								vec3& B = edgeB->vert->v;
-								vec3& C = edgeC->vert->v;
-
-								// find longest edge
-								vec3 AB = B - A;
-								vec3 AC = C - A;
-								vec3 BC = C - B;
-								double length2_AB = AB.length2();
-								double length2_AC = AC.length2();
-								double length2_BC = BC.length2();
-								if( length2_AB < EPS_M12 && length2_AC < EPS_M12 && length2_BC < EPS_M12)
-								{
-									// all points on one spot, remove face
-								}
-								else
-								{
-									// 
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
 }
 
 static bool checkMeshsetTriangulated(const shared_ptr<carve::mesh::MeshSet<3>>&meshset)
@@ -516,18 +403,6 @@ struct CarveMeshNormalizer
 		vec3 extents1 = bbox1.extent;
 
 		carve::geom::aabb<3> bbox2 = mesh2->getAABB();
-		//carve::geom::aabb<3> bbox2;
-		//for( const shared_ptr<carve::mesh::MeshSet<3> >& mesh2 : meshes2 )
-		//{
-		//	if( bbox2.isEmpty() )
-		//	{
-		//		bbox2 = mesh2->getAABB();
-		//	}
-		//	else
-		//	{
-		//		bbox2.unionAABB(mesh2->getAABB());
-		//	}
-		//}
 		if( bbox2.isEmpty() )
 		{
 			return;
@@ -556,11 +431,6 @@ struct CarveMeshNormalizer
 			// Negative effects like small inaccuracies after multiplication and time to multiply overweigh
 			m_scale = 1.0;
 		}
-
-		//if( !m_normalizeCoordsInsteadOfEpsilon )
-		//{
-		//	m_scale = 1.0;
-		//}
 	}
 	
 	double getScale() const { return m_scale; }
@@ -570,8 +440,7 @@ struct CarveMeshNormalizer
 		m_normalizeCenter.setZero();
 	}
 
-	//void normalizeMesh(std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vecMeshsets, std::string tag)
-	void normalizeMesh( shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::string tag)
+	void normalizeMesh(shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::string tag)
 	{
 		if( disableNormalizeAll )
 		{
@@ -592,35 +461,32 @@ struct CarveMeshNormalizer
 			}
 		}
 
-		//for( shared_ptr<carve::mesh::MeshSet<3> >&meshset : vecMeshsets )
+		std::vector<carve::mesh::Vertex<3> >& vertex_storage = meshset->vertex_storage;
+		const size_t num_vertices = vertex_storage.size();
+
+		for( size_t i = 0; i < num_vertices; ++i )
 		{
-			std::vector<carve::mesh::Vertex<3> >& vertex_storage = meshset->vertex_storage;
-			const size_t num_vertices = vertex_storage.size();
+			carve::mesh::Vertex<3>& vertex = vertex_storage[i];
+			vec3& point = vertex.v;
 
-			for( size_t i = 0; i < num_vertices; ++i )
+			if( m_scale != 1.0 && m_normalizeCoordsInsteadOfEpsilon )
 			{
-				carve::mesh::Vertex<3>& vertex = vertex_storage[i];
-				vec3& point = vertex.v;
-
-				if( m_scale != 1.0 && m_normalizeCoordsInsteadOfEpsilon )
-				{
-					point = (point - m_normalizeCenter) * m_scale;
-				}
-				else
-				{
-					point = (point - m_normalizeCenter);
-				}
+				point = (point - m_normalizeCenter) * m_scale;
 			}
-
-
-			for( size_t kk = 0; kk < meshset->meshes.size(); ++kk )
+			else
 			{
-				carve::mesh::Mesh<3>* mesh = meshset->meshes[kk];
-				mesh->recalc();
+				point = (point - m_normalizeCenter);
 			}
-
-			m_normalizedMeshes.insert({ tag, meshset.get() });
 		}
+
+
+		for( size_t kk = 0; kk < meshset->meshes.size(); ++kk )
+		{
+			carve::mesh::Mesh<3>* mesh = meshset->meshes[kk];
+			mesh->recalc();
+		}
+
+		m_normalizedMeshes.insert({ tag, meshset.get() });
 	}
 
 	void deNormalizeMesh(shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::string tag)//, bool checkIfNormalizedBefore = true)
@@ -648,28 +514,25 @@ struct CarveMeshNormalizer
 
 		double unScaleFactor = (1.0 / m_scale);
 
-		//for( shared_ptr<carve::mesh::MeshSet<3> >&meshset : vecMeshsets )
+		std::vector<carve::mesh::Vertex<3> >& vertex_storage = meshset->vertex_storage;
+		const size_t num_vertices = vertex_storage.size();
+		for( size_t i = 0; i < num_vertices; ++i )
 		{
-			std::vector<carve::mesh::Vertex<3> >& vertex_storage = meshset->vertex_storage;
-			const size_t num_vertices = vertex_storage.size();
-			for( size_t i = 0; i < num_vertices; ++i )
+			carve::mesh::Vertex<3>& vertex = vertex_storage[i];
+			vec3& point = vertex.v;
+			if( m_scale != 1.0 && m_normalizeCoordsInsteadOfEpsilon )
 			{
-				carve::mesh::Vertex<3>& vertex = vertex_storage[i];
-				vec3& point = vertex.v;
-				if( m_scale != 1.0 && m_normalizeCoordsInsteadOfEpsilon )
-				{
-					point = point * unScaleFactor + m_normalizeCenter;
-				}
-				else
-				{
-					point = point + m_normalizeCenter;
-				}
+				point = point * unScaleFactor + m_normalizeCenter;
 			}
-			for( size_t kk = 0; kk < meshset->meshes.size(); ++kk )
+			else
 			{
-				carve::mesh::Mesh<3>* mesh = meshset->meshes[kk];
-				mesh->recalc();
+				point = point + m_normalizeCenter;
 			}
+		}
+		for( size_t kk = 0; kk < meshset->meshes.size(); ++kk )
+		{
+			carve::mesh::Mesh<3>* mesh = meshset->meshes[kk];
+			mesh->recalc();
 		}
 	}
 
@@ -726,7 +589,6 @@ static void splitIntoSubLoops(const std::vector<carve::geom::vector<2> >& polygo
 					break;
 				}
 			}
-
 		}
 
 		size_t loopIndex = polygonLoops.size();
@@ -825,22 +687,6 @@ static void shiftSubLoops(std::vector<carve::geom::vector<2> >& polygonMerged, s
 #endif
 }
 
-static int getPointIndexFromNestedArrayIndex(size_t loopIndex, size_t pointIndex, std::map<size_t, std::array<size_t, 2> >& mapFlat2NestedArray)
-{
-	for( auto it = mapFlat2NestedArray.begin(); it != mapFlat2NestedArray.end(); ++it )
-	{
-		std::array<size_t, 2>& loopAndPointIndex = it->second;
-		if( loopAndPointIndex[0] == loopIndex )
-		{
-			if( loopAndPointIndex[1] == pointIndex )
-			{
-				return it->first;
-			}
-		}
-	}
-	return -1;
-}
-
 static void retriangulateMeshSetSimple( shared_ptr<carve::mesh::MeshSet<3> >& meshset, bool ignoreResultOpenEdges, double eps, size_t retryCount )
 {
 	if( !meshset )
@@ -849,7 +695,7 @@ static void retriangulateMeshSetSimple( shared_ptr<carve::mesh::MeshSet<3> >& me
 	}
 
 	MeshSetInfo info;
-	bool validInput = MeshUtils::checkMeshSetValidAndClosed(meshset, info, nullptr, nullptr);
+	bool validInput = MeshUtils::checkMeshSetValidAndClosed(meshset, info);
 	MeshUtils::checkMeshSetNonNegativeAndClosed( meshset );
 
 	bool already_triagulated = MeshUtils::checkMeshsetTriangulated(meshset);
@@ -858,7 +704,7 @@ static void retriangulateMeshSetSimple( shared_ptr<carve::mesh::MeshSet<3> >& me
 		return;
 	}
 
-	PolyInputCache3D poly_cache(EPS_M8);  // TODO: check to use double
+	PolyInputCache3D poly_cache( eps );  // TODO: check to use double
 	std::vector<size_t> map_merged_idx;
 	map_merged_idx.resize( meshset->vertex_storage.size(), 0 );
 	for( size_t ii = 0; ii < meshset->meshes.size(); ++ii )
@@ -1025,7 +871,7 @@ static void retriangulateMeshSetSimple( shared_ptr<carve::mesh::MeshSet<3> >& me
 
 	shared_ptr<carve::mesh::MeshSet<3>> meshsetTrinangulated = shared_ptr<carve::mesh::MeshSet<3> >( poly_cache.m_poly_data->createMesh( carve::input::opts() ) );
 	MeshSetInfo infoTriangulated;
-	bool validTriangulatedMesh = MeshUtils::checkMeshSetValidAndClosed(meshsetTrinangulated, infoTriangulated, nullptr, nullptr);
+	bool validTriangulatedMesh = MeshUtils::checkMeshSetValidAndClosed(meshsetTrinangulated, infoTriangulated);
 	if( !validTriangulatedMesh )
 	{
 #ifdef _DEBUG
@@ -1059,41 +905,6 @@ static void retriangulateMeshSetSimple( std::vector<shared_ptr<carve::mesh::Mesh
 	}
 }
 
-static void getOpenEdgePoints(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::vector<glm::dvec3>& vecAllPoints)
-{
-	PolyInputCache3D uniquePoints(EPS_DEFAULT);
-	for( size_t ii = 0; ii < meshset->meshes.size(); ++ii )
-	{
-		const carve::mesh::Mesh<3>* mesh = meshset->meshes[ii];
-		for( auto edge : mesh->open_edges )
-		{
-			if( edge )
-			{
-				if( edge->vert )
-				{
-					carve::geom::vector<3>& carvePoint3D = edge->vert->v;
-					uniquePoints.addPoint(carvePoint3D);
-					
-				}
-
-				if( edge->prev )
-				{
-					if( edge->prev->vert )
-					{
-						carve::geom::vector<3>& carvePoint3D = edge->prev->vert->v;
-						uniquePoints.addPoint(carvePoint3D);
-					}
-				}
-			}
-		}
-	}
-
-	for( auto carvePoint3D : uniquePoints.m_poly_data->points )
-	{
-		vecAllPoints.push_back(glm::dvec3(carvePoint3D.x, carvePoint3D.y, carvePoint3D.z));
-	}
-}
-
 static bool isCoplanar(const shared_ptr<CoplanarFaceContainer>& coplanar, const carve::mesh::Face<3>* faceIn, shared_ptr<GeometrySettings>& geomSettings)
 {
 	const vec3& faceNormal_carve = faceIn->plane.N;
@@ -1122,7 +933,6 @@ static bool isCoplanar(const shared_ptr<CoplanarFaceContainer>& coplanar, const 
 	faceIn->getVertices(faceVertices);
 	if( faceVertices.size() > 2 )
 	{
-
 		bool allVerticesInPlane = true;
 		for( const carve::mesh::Face<3>::vertex_t * vertex : faceVertices )
 		{
@@ -1167,9 +977,15 @@ static bool isCoplanar(const carve::geom::plane<3>& plane, const carve::mesh::Fa
 
 
 #ifdef _DEBUG
-
 	std::vector<carve::mesh::Face<3>::vertex_t* > face1Vertices;
 	face1->getVertices(face1Vertices);
+	vec3 vertexNormal = GeomUtils::computePolygonNormal(face1Vertices);
+	double dotProduct1 = std::abs(dot(vertexNormal, planeNormal));
+	if( std::abs(dotProduct1 - 1.0) > geomSettings->m_epsCoplanarAngle )
+	{
+		std::cout << "std::abs(dotProduct1 - 1.0) > geomSettings->m_epsCoplanarAngle )" << std::endl;
+	}
+	
 	if( face1Vertices.size() > 2 )
 	{
 
@@ -1182,7 +998,7 @@ static bool isCoplanar(const carve::geom::plane<3>& plane, const carve::mesh::Fa
 
 			//double distanceToPlane = face1Plane-.m_plane.distancePointPlane(facePoint);
 
-			if( std::abs(distanceToPlane) > geomSettings->m_epsCoplanarDistance )
+			if( std::abs(distanceToPlane) > geomSettings->m_epsCoplanarDistance*1.5 )
 			{
 				allVerticesInPlane = false;
 				break;
@@ -1206,15 +1022,12 @@ static bool isCoplanar(const carve::geom::plane<3>& plane, const carve::mesh::Fa
 	face2->getVertices(faceVertices);
 	if( faceVertices.size() > 2 )
 	{
-
 		bool allVerticesInPlane = true;
 		for( const carve::mesh::Face<3>::vertex_t * vertex : faceVertices )
 		{
 			const carve::geom::vector<3>& facePoint = vertex->v;
 
 			double distanceToPlane = std::abs(dot(planeNormal, facePoint - planePosition));
-
-			//double distanceToPlane = face1Plane-.m_plane.distancePointPlane(facePoint);
 
 			if( std::abs(distanceToPlane) > geomSettings->m_epsCoplanarDistance )
 			{
@@ -1233,6 +1046,61 @@ static bool isCoplanar(const carve::geom::plane<3>& plane, const carve::mesh::Fa
 
 static void getAdjacentCoplanarFaces(const carve::geom::plane<3>& plane, carve::mesh::Face<3>* faceIn, std::set<shared_ptr<AdjacentFacePair> >& setAdjacentFaces, shared_ptr<GeometrySettings>& geomSettings, bool recursive)
 {
+#ifdef _DEBUG
+	std::vector<carve::mesh::Face<3>::vertex_t* > face1Vertices;
+	faceIn->getVertices(face1Vertices);
+	vec3 vertexNormal = GeomUtils::computePolygonNormal(face1Vertices);
+	double dotProduct1 = std::abs(dot(vertexNormal, plane.N));
+	if( std::abs(dotProduct1 - 1.0) > geomSettings->m_epsCoplanarAngle )
+	{
+		std::cout << "std::abs(dotProduct1 - 1.0) > 0 )" << std::endl;
+
+		std::vector<vec3 > face1Points;
+		for( size_t i = 0; i < face1Vertices.size(); ++i )
+		{
+			vec3 point = face1Vertices[i]->v;
+			face1Points.push_back(point);
+		}
+		glm::vec4 color(0.6, 0.65, 0.4, 1);
+		GeomDebugDump::stopBuffering();
+		GeomDebugDump::dumpPolyline(face1Points, color, true);
+
+		if (face1Vertices.size() > 3)
+		{
+			std::cerr << "N-gon with " << face1Vertices.size() << " vertices: fitted distance:";
+			for (size_t i = 0; i < face1Vertices.size(); ++i)
+			{
+				vec3 point = face1Vertices[i]->v;
+				double distanceFromPlane = distance(faceIn->plane, point);
+				if( std::abs(distanceFromPlane) > carve::CARVE_EPSILON )
+				{
+					std::cerr << " {" << face1Vertices[i] << "} " << distanceFromPlane << std::endl;
+				}
+			}
+
+			carve::geom::plane<3> planeFit;
+			carve::mesh::Face<3>::vector_mapping vecMap;
+			bool fitPlaneSuccess = carve::geom3d::fitPlane(faceIn->begin(), faceIn->end(), vecMap, planeFit);
+			if( fitPlaneSuccess )
+			{
+				vec3 fitPlaneNormal = planeFit.N;
+				double dotProduct1 = std::abs(dot(vertexNormal, fitPlaneNormal));
+				if( std::abs(dotProduct1 - 1.0) > geomSettings->m_epsCoplanarAngle )
+				{
+					std::cout << "std::abs(dotProduct1 - 1.0) > 0 )" << std::endl;
+				}
+			}
+			
+			
+		}
+
+		vec3 faceNormal1 = faceIn->plane.N;
+		faceIn->recalc();
+		vec3 faceNormal2 = faceIn->plane.N;
+		return;
+	}
+#endif
+
 	carve::mesh::Edge<3>* edge = faceIn->edge;
 	if( !edge )
 	{
@@ -1265,6 +1133,11 @@ static void getAdjacentCoplanarFaces(const carve::geom::plane<3>& plane, carve::
 					alreadyHandled = true;
 					break;
 				}
+			}
+
+			if( faceIn == adjacentFace)
+			{
+				alreadyHandled = true;
 			}
 
 			if( !alreadyHandled )
@@ -1333,20 +1206,23 @@ static void dumpAdjacentFaces(std::set<shared_ptr<AdjacentFacePair> >& setAdjace
 		}
 	}
 
-	std::vector<carve::mesh::Face<3>* > vecFaces;
+	std::vector<const carve::mesh::Face<3>* > vecFaces;
 	std::copy(setFaces.begin(), setFaces.end(), std::back_inserter(vecFaces));
 	GeomDebugDump::moveOffset(0.4);
 	GeomDebugDump::dumpFaces(vecFaces, color, false);
 }
 #endif
 
-static void _link(carve::mesh::Edge<3>* a, carve::mesh::Edge<3>* b) {
+static void _link(carve::mesh::Edge<3>* a, carve::mesh::Edge<3>* b)
+{
 	a->next = b;
 	b->prev = a;
 }
-static void _setloopface(carve::mesh::Edge<3>* s, carve::mesh::Face<3>* f) {
+static void _setloopface(carve::mesh::Edge<3>* s, carve::mesh::Face<3>* f)
+{
 	carve::mesh::Edge<3>* e = s;
-	do {
+	do
+	{
 		e->face = f;
 		e = e->next;
 	} while (e != s);
@@ -1384,7 +1260,7 @@ static carve::mesh::Edge<3>* checkMergeFaces(carve::mesh::Edge<3>* e, shared_ptr
 	if( dumpMeshes )
 	{
 		glm::vec4 color(0.3, 0.3, 0.3, 1.);
-		std::vector<carve::mesh::Face<3>* > vecFaces = { fwdface };
+		std::vector<const carve::mesh::Face<3>* > vecFaces = { fwdface };
 		GeomDebugDump::dumpFaces(vecFaces, color, false);
 		GeomDebugDump::dumpFacePolygon(revface, color, false);
 	}
@@ -1485,6 +1361,12 @@ static carve::mesh::Edge<3>* checkMergeFaces(carve::mesh::Edge<3>* e, shared_ptr
 
 static size_t findAndMergeCoplanarFaces( carve::mesh::Face<3>* faceIn, std::set<carve::mesh::Face<3>*>& setAllFaces, shared_ptr<CoplanarFaceContainer> coplanar, shared_ptr<GeometrySettings>& geomSettings, bool dumpFaces)
 {
+	double faceArea = MeshUtils::computeFaceArea(faceIn);
+	if( std::abs(faceArea) < carve::CARVE_EPSILON*10 )
+	{
+		return 0;
+	}
+
 	carve::mesh::Edge<3>* edge = faceIn->edge;
 	vec3& facePosition_carve = edge->v2()->v;
 
@@ -1511,17 +1393,34 @@ static size_t findAndMergeCoplanarFaces( carve::mesh::Face<3>* faceIn, std::set<
 	}
 #endif
 
+	std::set<carve::mesh::Mesh<3>* > setMeshesToFix;
 	coplanar->m_face = faceIn;
 	for( auto it1 = setAdjacentCoplanarFaces.begin(); it1 != setAdjacentCoplanarFaces.end(); ++it1 )
 	{
 		shared_ptr<AdjacentFacePair> facePair = *it1;
 		carve::mesh::Face<3>* faceOnRverseEdge = facePair->faceOnReverseEdge;
 		carve::mesh::Face<3>* faceOnEdge = facePair->faceOnEdge;
+		if( faceOnEdge == nullptr )
+		{
+			continue;
+		}
+
+		if( faceOnRverseEdge == nullptr )
+		{
+			continue;
+		}
+
+		if( facePair->edge == nullptr )
+		{
+			continue;
+		}
+
 		if( faceOnEdge == faceOnRverseEdge )
 		{
 			// remaining edge between inner opening of face and outer boundary. Leave it for triangulation
 			//continue;
 		}
+		size_t numFacesBeforeMerge = faceOnRverseEdge->mesh->faces.size();
 
 #ifdef _DEBUG
 		if( faceNormal.x < -0.9 )
@@ -1534,13 +1433,19 @@ static size_t findAndMergeCoplanarFaces( carve::mesh::Face<3>* faceIn, std::set<
 			int wait = 0;
 		}
 
-		auto mesh1 = faceOnRverseEdge->mesh;
-		size_t numFacesBeforeMerge = mesh1->faces.size();
-		MeshSetInfo info1;
-		bool mesh_correct1 = MeshUtils::checkMeshPointers(mesh1, info1);
-		if( !mesh_correct1 )
+		if( !facePair->edge )
 		{
-			//std::cout << "!mesh_correct\n";
+			std::cout << "facePair->edge == nullptr" << std::endl;
+		}
+
+		if( !facePair->edge->vert )
+		{
+			std::cout << "facePair->edge->vert == nullptr" << std::endl;
+		}
+
+		if( !facePair->edge->rev )
+		{
+			std::cout << "facePair->edge->rev == nullptr" << std::endl;
 		}
 
 		bool check1 = facePair->edge->face == faceOnRverseEdge;
@@ -1548,7 +1453,7 @@ static size_t findAndMergeCoplanarFaces( carve::mesh::Face<3>* faceIn, std::set<
 
 		if( dumpFaces )
 		{
-			std::vector<carve::mesh::Face<3>* > vecFaces = {faceOnRverseEdge, faceOnEdge};
+			std::vector<const carve::mesh::Face<3>* > vecFaces = {faceOnRverseEdge, faceOnEdge};
 			glm::vec4 color2(0.7, 0.2, 0.2, 0.8);
 			GeomDebugDump::dumpFaces(vecFaces, color2, false);
 		}
@@ -1580,10 +1485,11 @@ static size_t findAndMergeCoplanarFaces( carve::mesh::Face<3>* faceIn, std::set<
 #endif
 
 		MeshSetInfo info2;
-		bool valid2 = MeshUtils::checkFaceIntegrity(edgeErase->face, info2);
+		bool checkForDegenerateEdges = true;
+		bool valid2 = MeshUtils::checkFaceIntegrity(edgeErase->face, checkForDegenerateEdges, info2);
 
 		MeshSetInfo info3;
-		bool valid3 = MeshUtils::checkFaceIntegrity(edgeErase->rev->face, info3);
+		bool valid3 = MeshUtils::checkFaceIntegrity(edgeErase->rev->face, checkForDegenerateEdges, info3);
 
 		if( !valid2 )
 		{
@@ -1604,7 +1510,6 @@ static size_t findAndMergeCoplanarFaces( carve::mesh::Face<3>* faceIn, std::set<
 			continue;
 		}
 		
-		//edgeMergeNext = edgeErase->mergeFaces();
 		carve::mesh::Face<3>* faceRemain = nullptr;
 		carve::mesh::Face<3>* faceRemove = nullptr;
 
@@ -1718,33 +1623,74 @@ static size_t findAndMergeCoplanarFaces( carve::mesh::Face<3>* faceIn, std::set<
 
 		mesh->cacheEdges();
 		mesh->recalc();
+		setMeshesToFix.insert(mesh);
 
 		++numChanges;
 
-#ifdef _DEBUG
-		MeshSetInfo info4;
-		bool valid4 = MeshUtils::checkMeshPointers(mesh1, info4);
-
-		if( !valid4 )
+		// TODO: enforceMergedFacesToCommonPlane() : compute normal vector and centroid of merged face, then move all vertices precisely into that plane
+		
+		std::vector<carve::mesh::Vertex<3>* > faceVertices;
+		faceRemain->getVertices(faceVertices);
+		if( faceVertices.size() > 3 )
 		{
-			//std::cout << "!mesh_correct\n";
+			carve::geom::vector<3> normalVector = GeomUtils::computePolygonNormal(faceVertices);
+			carve::geom::vector<3> centroid = faceRemain->centroid();
+			GeomUtils::Plane plane( glm::dvec3(centroid.x, centroid.y, centroid.z), glm::dvec3(normalVector.x, normalVector.y, normalVector.z) );
+			bool allVerticesInPlane = true;
+			for( carve::mesh::Face<3>::vertex_t * vertex : faceVertices )
+			{
+				const carve::geom::vector<3>& facePoint_carve = vertex->v;
+				glm::dvec3 facePoint(facePoint_carve.x, facePoint_carve.y, facePoint_carve.z);
+				
+				double distanceToPlane = plane.distancePointPlane(facePoint);
+
+				if( std::abs(distanceToPlane) > geomSettings->m_epsCoplanarDistance )
+				{
+					vec3 pointOnPlane = facePoint_carve + normalVector * distanceToPlane;
+					
+#ifdef _DEBUG
+					glm::dvec3 pointOnPlane_glm(pointOnPlane.x, pointOnPlane.y, pointOnPlane.z);
+					double distanceToPlaneCheck = plane.distancePointPlane(pointOnPlane_glm);
+
+					if( std::abs(distanceToPlaneCheck) > geomSettings->m_epsCoplanarDistance )
+					{
+						std::cout << "distanceToPlaneCheck too big" << std::endl;
+
+					}
+#endif
+					vertex->v = pointOnPlane;
+					
+				}
+			}
+
+			if( allVerticesInPlane )
+			{
+				return true;
+			}
 		}
 
-		//if( dumpFaces )
-		//{
-		//	GeomDebugDump::moveOffset(0.4);
-		//	glm::vec4 color2(0.3, 0.2, 0.2, 0.8);
-		//	GeomDebugDump::dumpFaces({ faceRemain }, color2, false);
-		//}
+		
 
+#ifdef _DEBUG
 		size_t numFacesAfterMerge = mesh->faces.size();
 		int numFacesMerged = numFacesBeforeMerge - numFacesAfterMerge;
 		
 		MeshSetInfo info6;
-		bool mesh_correct6 = MeshUtils::checkMeshPointers(mesh, info6);
+		bool mesh_correct6 = MeshUtils::checkMeshPointers(mesh, checkForDegenerateEdges, info6);
 		if( !mesh_correct6 )
 		{
-			info6.allPointersValid = false;
+#ifdef _DEBUG
+			glm::vec4 color(0.2, 0.2, 0.2, 1.);
+			GeomDebugDump::stopBuffering();
+			GeomDebugDump::moveOffset(0.3);
+			GeomDebugDump::dumpMesh(mesh, color, true);
+#endif
+
+			bool mesh_correct6 = MeshUtils::checkMeshPointers(mesh, checkForDegenerateEdges, info6);
+			if( !mesh_correct6 )
+			{
+				info6.allPointersValid = false;
+			}
 			//std::cout << "!mesh_correct\n";
 		}
 #endif
@@ -1759,7 +1705,7 @@ static size_t findAndMergeCoplanarFaces( carve::mesh::Face<3>* faceIn, std::set<
 	return numChanges;
 }
 
-static void mergeCoplanarTriangles(shared_ptr<carve::mesh::MeshSet<3> >& meshset, shared_ptr<GeometrySettings>& geomSettings, bool dumpFaces)
+static size_t mergeCoplanarFacesInMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, shared_ptr<GeometrySettings>& geomSettings, bool shouldBeClosedManifold, bool dumpFaces)
 {
 	shared_ptr<carve::mesh::MeshSet<3> > meshset_copy(meshset->clone());
 
@@ -1767,10 +1713,14 @@ static void mergeCoplanarTriangles(shared_ptr<carve::mesh::MeshSet<3> >& meshset
 	MeshUtils::getFacesInMeshSet(meshset, setFacesBegin);
 	size_t numFacesAll = setFacesBegin.size();
 	size_t numChanges = 0;
-
-	if( numFacesAll > 100 )
+	
+	size_t maxNumFacesToMerge = 600;
+	if( numFacesAll > maxNumFacesToMerge )
 	{
-		numFacesAll = 100;
+		numFacesAll = maxNumFacesToMerge;
+#ifdef _DEBUG
+		//std::cout << "TODO: optimize for numFacesAll > 500\n";
+#endif
 	}
 
 	std::set<carve::mesh::Face<3>* > setMasterFaces;  // remaining faces
@@ -1793,7 +1743,7 @@ static void mergeCoplanarTriangles(shared_ptr<carve::mesh::MeshSet<3> >& meshset
 				continue;
 			}
 
-			if( jj > 400 )
+			if( jj > maxNumFacesToMerge )
 			{
 				break;
 			}
@@ -1806,6 +1756,17 @@ static void mergeCoplanarTriangles(shared_ptr<carve::mesh::MeshSet<3> >& meshset
 			}
 
 			carve::mesh::Edge<3>* edge = face->edge;
+			if( !edge )
+			{
+				continue;
+			}
+
+			double faceArea = MeshUtils::computeFaceArea(face);
+			if( std::abs(faceArea) < carve::CARVE_EPSILON*10 )
+			{
+				continue;
+			}
+
 			vec3& facePosition_carve = edge->v2()->v;
 
 			const vec3& faceNormal_carve = face->plane.N;
@@ -1823,6 +1784,9 @@ static void mergeCoplanarTriangles(shared_ptr<carve::mesh::MeshSet<3> >& meshset
 			setMasterFaces.insert(face);
 		}
 	}
+
+	double eps = carve::CARVE_EPSILON;
+	MeshUtils::fixMeshset(meshset.get(), eps, shouldBeClosedManifold, dumpFaces);
 
 	for( auto mesh : meshset->meshes )
 	{
@@ -1831,108 +1795,16 @@ static void mergeCoplanarTriangles(shared_ptr<carve::mesh::MeshSet<3> >& meshset
 	}
 
 	MeshSetInfo infoResult;
-	bool validMeshsetResult = MeshUtils::checkMeshSetValidAndClosed(meshset, infoResult, nullptr, nullptr);
+	bool validMeshsetResult = MeshUtils::checkMeshSetValidAndClosed(meshset, infoResult);
 
 	if( !validMeshsetResult )
 	{
 		meshset = meshset_copy;
-	}
-}
-
-static size_t mergeCoplanarFacesInMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::vector<shared_ptr<CoplanarFaceContainer> >& vecCoplanarFaces, shared_ptr<GeometrySettings>& geomSettings, bool dumpFaces)
-{
-	std::set<carve::mesh::Face<3>* > setFacesBegin;
-	MeshUtils::getFacesInMeshSet(meshset, setFacesBegin);
-	size_t numFacesAll = setFacesBegin.size();
-	size_t numChanges = 0;
-		
-	
-	
-	if( numFacesAll > 400 )
-	{
-		numFacesAll = 400;
-#ifdef _DEBUG
-		//std::cout << "TODO: optimize for numFacesAll > 500\n";
-#endif
+		numChanges = 0;
 	}
 
-
-	std::set<carve::mesh::Face<3>* > setMasterFaces;  // remaining faces
-	for( size_t ii = 0; ii < numFacesAll; ++ii )
-	{
-		std::set<carve::mesh::Face<3>* > setFaces;
-		MeshUtils::getFacesInMeshSet(meshset, setFaces);
-		if( setFaces.size() == setMasterFaces.size() )
-		{
-			break;
-		}
-
-		size_t numChangesCurrentLoop = 0;
-		size_t jj = 0;
-		for( auto it = setFaces.begin(); it != setFaces.end(); ++it )
-		{
-			carve::mesh::Face<3>* face = *it;
-			if( !face )
-			{
-				continue;
-			}
-
-			if( jj > 400 )
-			{
-				break;
-			}
-			++jj;
-
-			auto itFindInMaster = setMasterFaces.find(face);
-			if( itFindInMaster != setMasterFaces.end() )
-			{
-				continue;
-			}
-
-			carve::mesh::Edge<3>* edge = face->edge;
-			vec3& facePosition_carve = edge->v2()->v;
-
-			const vec3& faceNormal_carve = face->plane.N;
-			glm::dvec3 faceNormal(faceNormal_carve.x, faceNormal_carve.y, faceNormal_carve.z);
-			glm::dvec3 facePosition(facePosition_carve.x, facePosition_carve.y, facePosition_carve.z);
-			shared_ptr<CoplanarFaceContainer> coplanar(new CoplanarFaceContainer());
-			coplanar->m_pointProjector.m_plane.setNormal(faceNormal);
-			coplanar->m_pointProjector.m_plane.setPlane(facePosition, faceNormal);
-
-			size_t numFaces = setFaces.size();
-			size_t numChangesMergedFaces = findAndMergeCoplanarFaces(face, setFaces, coplanar, geomSettings, dumpFaces);
-			numChanges += numChangesMergedFaces;
-			numChangesCurrentLoop += numChangesMergedFaces;
-
-			setMasterFaces.insert(face);
-
-			bool existingCopFound = false;
-			for( shared_ptr<CoplanarFaceContainer>& existingCop : vecCoplanarFaces )
-			{
-				bool equal = existingCop->m_pointProjector.isEqual(coplanar->m_pointProjector, geomSettings->m_epsCoplanarAngle, geomSettings->m_epsCoplanarDistance);
-				if( equal )
-				{
-					existingCopFound = true;
-					//existingCop->m_facesErase.insert(coplanar->m_facesErase.begin(), coplanar->m_facesErase.end());
-				}
-			}
-
-			if( !existingCopFound )
-			{
-				vecCoplanarFaces.push_back(coplanar);
-			}
-		}
-	}
-
-	for( auto mesh : meshset->meshes )
-	{
-		mesh->cacheEdges();
-		mesh->recalc();
-	}
 	return numChanges;
 }
-
-
 
 static void getPointerToEdge(carve::mesh::Mesh<3>* mesh, carve::mesh::Edge<3>* edgeFind, std::set<carve::mesh::Edge<3>* >& setEdges, std::set<carve::mesh::Face<3>* >& setFaces)
 {
@@ -2080,7 +1952,6 @@ static size_t mergeAlignedEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, d
 								//   ------------------->   ------------------>   ----------------------->   ---------------------->
 								//     edge->prev               edge                  edge->next             edge->next->next
 
-
 								carve::mesh::Vertex<3>* vertex1 = edge->v1();
 								carve::mesh::Vertex<3>* vertex2 = edge->v2();
 								carve::mesh::Vertex<3>* vertex3 = edge->next->v2();
@@ -2088,7 +1959,6 @@ static size_t mergeAlignedEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, d
 								std::set<carve::mesh::Edge<3>* > setEdges;
 								getEdgesOnVertex(mesh, vertex2, setEdges);
 								size_t numEdgesOnVertex = setEdges.size();
-																
 								
 								const carve::geom::vector<3>& p1 = vertex1->v;
 								const carve::geom::vector<3>& p2 = vertex2->v;
@@ -2126,7 +1996,7 @@ static size_t mergeAlignedEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, d
 #ifdef _DEBUG
 									if( dumpFaces )
 									{
-										std::vector<carve::mesh::Face<3>* > vecAdjacentFaces = { edge->face, edge->rev->face, edgeRemove->face, edgeRemove->rev->face, edge->prev->face, edge->prev->rev->face };
+										std::vector<const carve::mesh::Face<3>* > vecAdjacentFaces = { edge->face, edge->rev->face, edgeRemove->face, edgeRemove->rev->face, edge->prev->face, edge->prev->rev->face };
 										GeomDebugDump::moveOffset(0.05);
 										GeomDebugDump::dumpFaces(vecAdjacentFaces, color1, false);
 										GeomDebugDump::dumpFacePolygons(vecAdjacentFaces, color1, false);
@@ -2136,21 +2006,15 @@ static size_t mergeAlignedEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, d
 									std::set<carve::mesh::Edge<3>* > setEdgePointersToRemovedEdge;
 									std::set<carve::mesh::Face<3>* > setFacePointersToRemovedEdge;
 									getPointerToEdge(mesh, edgeRemove, setEdgePointersToRemovedEdge, setFacePointersToRemovedEdge);
-									
 									size_t numVertexChanges = removePointerToVertex(mesh, vertex2, vertex1);
-
-
 									edge = edgeRemove->removeEdge();  // returns ->next
-									//edge = edge->prev;
-									//edge->next->prev = edge->prev;
-									//prev->next = next;
-									//n = next;
-
 									carve::geom::vector<3> distanceV1 = edge->v1()->v - p1;
 									carve::geom::vector<3> distanceV3 = edge->v2()->v - p3;
+
+									double epsMinFaceArea = carve::CARVE_EPSILON * 0.001;
+									MeshUtils::removeZeroAreaFacesInMesh(mesh, epsMinFaceArea);
 							
 									++numEdgesRemoved;
-
 									mesh->cacheEdges();
 									mesh->recalc();
 
@@ -2212,7 +2076,7 @@ static size_t mergeAlignedEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, d
 									}
 
 									MeshSetInfo infoMergedFaces;
-									bool validMeshsetMergedFaces= MeshUtils::checkMeshSetValidAndClosed(meshset, infoMergedFaces, nullptr, nullptr);
+									bool validMeshsetMergedFaces= MeshUtils::checkMeshSetValidAndClosed(meshset, infoMergedFaces);
 
 									if( dumpFaces )
 									{
@@ -2289,124 +2153,12 @@ static size_t mergeAlignedEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, d
 	return numEdgesRemoved;
 }
 
-static size_t simplifyMeshCarve(shared_ptr<carve::mesh::MeshSet<3> >& meshset, shared_ptr<GeometrySettings>& geom_settings, StatusCallback* report_callback, BuildingEntity* entity, bool dumpPolygon)
-{
-	MeshSetInfo infoInput;
-	bool validMeshsetInput = MeshUtils::checkMeshSetValidAndClosed(meshset, infoInput, report_callback, entity);
-	
-	if( !infoInput.allPointersValid || !validMeshsetInput )
-	{
-		return 0;
-	}
-
-	if( getNumFaces(meshset) == 0 )
-	{
-		return 0;
-	}
-
-#ifdef _DEBUG
-	DumpSettingsStruct dumpSetting;
-	glm::vec4 colorLabel(0.3, 0.33, 0.33, 1.);
-	glm::vec4 colorMesh(0.4, 0.5, 0.4, 0.4);
-	glm::vec4 colorOpenEdges(0.99, 0.2, 0.2, 0.4);
-
-	if( dumpPolygon )
-	{
-		GeomDebugDump::moveOffset(0.4);
-		std::string labelStr = "carve::MeshSimplifier-input";
-		dumpWithLabel(labelStr, meshset, dumpSetting, true, true, true);
-	}
-#endif
-
-	shared_ptr<carve::mesh::MeshSet<3> > meshset_copy(meshset->clone());
-
-	size_t numChanges = 0;
-	carve::mesh::MeshSimplifier simplifier;
-	double min_colinearity = geom_settings->m_epsCoplanarAngle;
-	double min_delta_v = EPS_M8;
-	double min_normal_angle = geom_settings->m_epsCoplanarAngle;
-	double epsCoplanarDistance = geom_settings->m_epsCoplanarDistance;
-
-	try
-	{
-		//simplifier.removeFins(meshset.get());
-		//simplifier.cleanFaceEdges( meshset.get() );
-		//simplifier.removeRemnantFaces( meshset.get() );
-		//simplifier.mergeCoplanarFaces( meshset.get(), min_normal_angle );
-
-		if( getNumFaces(meshset) == 0 )
-		{
-			return 0;
-		}
-
-		//simplifier.eliminateShortEdges( meshset.get(), min_length );
-		//simplifier.removeFins(meshset.get());
-		numChanges = simplifier.simplify( meshset.get(), min_colinearity, min_delta_v, min_normal_angle, epsCoplanarDistance );
-
-		if( getNumFaces(meshset) == 0 )
-		{
-			return 0;
-		}
-
-		//simplifier.removeFins(meshset.get());
-		//simplifier.removeLowVolumeManifolds(meshset, 0.01);
-		numChanges += simplifier.improveMesh( meshset.get(), min_colinearity, min_delta_v, min_normal_angle );
-
-		if( numChanges == 0 )
-		{
-#ifdef _DEBUG
-			//std::cout << "no changes" << std::endl;
-#endif
-			return 0;
-		}
-	}
-	catch(...)
-	{
-#ifdef _DEBUG
-		std::cout << "carve::mesh::MeshSimplifier::simplify failed." << std::endl;
-#endif
-
-		meshset = meshset_copy;
-		return 0;
-	}
-
-	MeshSetInfo infoSimplified;
-	bool valid_MeshSet = MeshUtils::checkMeshSetValidAndClosed(meshset, infoSimplified, report_callback, entity);
-
-	if( valid_MeshSet )
-	{
-		retriangulateMeshSetSimple(meshset, false, epsCoplanarDistance, 0);
-	}
-	else
-	{
-		if( validMeshsetInput )
-		{
-			meshset = meshset_copy;
-			return 0;
-		}
-	}
-
-	MeshSetInfo infoSimplifiedTriangulated;
-	valid_MeshSet = MeshUtils::checkMeshSetValidAndClosed(meshset, infoSimplifiedTriangulated, report_callback, entity);
-
-
-#ifdef _DEBUG
-	if( dumpPolygon )
-	{
-		GeomDebugDump::moveOffset(0.4);
-		std::string labelStr3 = "carve::mesh::MeshSimplifier-result";
-		dumpWithLabel(labelStr3, meshset, dumpSetting, true, true, true);
-	}
-#endif
-	return numChanges;
-}
-
 /// \brief simplifyMeshSet merge coplanar faces and re-triangulate each set of merged faces
 /// \param meshset				Carve meshset
 /// \param report_callback		callback function for errors, warnings, notifications, progress
 /// \param entity				IFC entity that is currently being processed
 /// \param ignoreOpenEdgesInResult	If true, the result is kept even with open edges (good for visualization). If false, the result will be the input mesh in case open edges occur after triangulation (good for further boolean operations)
-static void simplifyMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, shared_ptr<GeometrySettings>& geomSettings, StatusCallback* report_callback, BuildingEntity* entity, bool triangulateResult, bool dumpPolygon)
+static void simplifyMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, shared_ptr<GeometrySettings>& geomSettings, StatusCallback* report_callback, BuildingEntity* entity, bool triangulateResult, bool shouldBeClosedManifold, bool dumpPolygon)
 {
 	if( !meshset )
 	{
@@ -2414,9 +2166,9 @@ static void simplifyMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, shar
 	}
 	double epsCoplanarDistance = geomSettings->m_epsCoplanarDistance;
 	double epsCoplanarAngle = geomSettings->m_epsCoplanarAngle;
-	double epsLineSegmentSplit = EPS_M7*28;
-	MeshSetInfo infoInput;
-	bool validMeshsetInput = MeshUtils::checkMeshSetValidAndClosed(meshset, infoInput, report_callback, entity);
+	double epsMinFaceArea = geomSettings->m_epsCoplanarDistance*0.001;
+	MeshSetInfo infoInput(report_callback, entity);
+	bool validMeshsetInput = MeshUtils::checkMeshSetValidAndClosed(meshset, infoInput);
 
 	if( meshset->vertex_storage.size() < 9 && infoInput.numOpenEdges == 0 )
 	{
@@ -2426,7 +2178,7 @@ static void simplifyMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, shar
 	if( !validMeshsetInput )
 	{
 		MeshUtils::resolveOpenEdges(meshset, epsCoplanarDistance, dumpPolygon);
-		validMeshsetInput = MeshUtils::checkMeshSetValidAndClosed(meshset, infoInput, report_callback, entity);
+		validMeshsetInput = MeshUtils::checkMeshSetValidAndClosed(meshset, infoInput);
 
 #ifdef _DEBUG
 		if(dumpPolygon)
@@ -2464,7 +2216,6 @@ static void simplifyMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, shar
 	GeomDebugDump::ScopedDumpBuffering scopedBuffer;
 #endif
 
-
 	bool meshShouldBeTriangulated = false;
 	if( meshShouldBeTriangulated )
 	{
@@ -2500,7 +2251,7 @@ static void simplifyMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, shar
 				//return;
 			}
 
-			bool validMeshsetTriangulated = MeshUtils::checkMeshSetValidAndClosed(meshset, infoInput, report_callback, entity);
+			bool validMeshsetTriangulated = MeshUtils::checkMeshSetValidAndClosed(meshset, infoInput);
 			if( !validMeshsetTriangulated )
 			{
 #ifdef _DEBUG
@@ -2514,19 +2265,18 @@ static void simplifyMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, shar
 	}
 
 	shared_ptr<carve::mesh::MeshSet<3> > meshset_copy(meshset->clone());
-	std::vector<shared_ptr<CoplanarFaceContainer> > vecCoplanarFaces;
 	dumpPolygon = false;
 
 	try
 	{
-		size_t numChanges = mergeCoplanarFacesInMeshSet(meshset, vecCoplanarFaces, geomSettings, dumpPolygon);
+		MeshUtils::removeZeroAreaFacesInMeshSet(meshset, epsMinFaceArea);
+		size_t numChanges = mergeCoplanarFacesInMeshSet(meshset, geomSettings, shouldBeClosedManifold, dumpPolygon);
 		MeshUtils::recalcMeshSet(meshset);
 
 		// TODO: find faces with biggest area, and trim all points to plane
 
-		//meshset_next = shared_ptr<carve::mesh::MeshSet<3> >(meshset->clone());
-		MeshSetInfo infoMergedFaces;
-		bool validMeshsetMergedFaces = MeshUtils::checkMeshSetValidAndClosed(meshset, infoMergedFaces, report_callback, entity);
+		MeshSetInfo infoMergedFaces(report_callback, entity);
+		bool validMeshsetMergedFaces = MeshUtils::checkMeshSetValidAndClosed(meshset, infoMergedFaces);
 				
 #ifdef _DEBUG
 
@@ -2559,7 +2309,7 @@ static void simplifyMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, shar
 		shared_ptr<carve::mesh::MeshSet<3> > meshset_next = shared_ptr<carve::mesh::MeshSet<3> >(meshset->clone());
 
 		// run the check again with the new 
-		validMeshsetMergedFaces = MeshUtils::checkMeshSetValidAndClosed(meshset_next, infoMergedFaces, report_callback, entity);
+		validMeshsetMergedFaces = MeshUtils::checkMeshSetValidAndClosed(meshset_next, infoMergedFaces);
 
 		if( !validMeshsetMergedFaces )
 		{
@@ -2572,9 +2322,8 @@ static void simplifyMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, shar
 		size_t numEdgesRemoved = mergeAlignedEdges(meshset, epsCoplanarAngle, false);
 		if( numEdgesRemoved > 0 )
 		{
-
-			MeshSetInfo infoMergedAlignedEdges;
-			bool validMergedAlignedEdges = MeshUtils::checkMeshSetValidAndClosed(meshset, infoMergedAlignedEdges, report_callback, entity);
+			MeshSetInfo infoMergedAlignedEdges( report_callback, entity );
+			bool validMergedAlignedEdges = MeshUtils::checkMeshSetValidAndClosed(meshset, infoMergedAlignedEdges);
 
 #ifdef _DEBUG
 			if( dumpPolygon )
@@ -2594,11 +2343,11 @@ static void simplifyMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, shar
 #endif
 			if( validMergedAlignedEdges )
 			{
-				if( triangulateResult )//meshShouldBeTriangulated )
+				if( triangulateResult )
 				{
 					retriangulateMeshSetSimple(meshset, false, epsCoplanarDistance, 0);
-					MeshSetInfo infoTriangulated;
-					bool validTriangulated = MeshUtils::checkMeshSetValidAndClosed(meshset, infoTriangulated, report_callback, entity);
+					MeshSetInfo infoTriangulated( report_callback, entity );
+					bool validTriangulated = MeshUtils::checkMeshSetValidAndClosed(meshset, infoTriangulated);
 					if( !validTriangulated )
 					{
 						meshset = meshset_copy;
@@ -2635,11 +2384,11 @@ static void simplifyMeshSet( shared_ptr<carve::mesh::MeshSet<3> >& meshset, shar
 	meshset = meshset_copy;
 }
 static void simplifyMeshSet(std::vector<shared_ptr<carve::mesh::MeshSet<3>> >& meshsets, shared_ptr<GeometrySettings>& geomSettings, StatusCallback* report_callback, 
-	BuildingEntity* entity, bool triangulateResult, bool dumpPolygon)
+	BuildingEntity* entity, bool triangulateResult, bool shouldBeClosedManifold, bool dumpPolygon)
 {
 	for( shared_ptr<carve::mesh::MeshSet<3> >&meshset : meshsets )
 	{
-		simplifyMeshSet(meshset, geomSettings, report_callback, entity, triangulateResult, dumpPolygon);
+		simplifyMeshSet(meshset, geomSettings, report_callback, entity, triangulateResult, shouldBeClosedManifold, dumpPolygon);
 	}
 }
 };

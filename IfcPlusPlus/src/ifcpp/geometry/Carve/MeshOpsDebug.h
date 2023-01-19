@@ -18,7 +18,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 #include "MeshUtils.h"
 
-
 #ifdef _DEBUG
 static size_t numM6 = 0;
 static size_t dumpFaceCount = 0;
@@ -125,9 +124,9 @@ static bool GetPolygonNormalAndArea( const std::vector<glm::dvec3>& polygon, glm
 	return true;
 }
 
-
 static int debug_poly_dump_count = 0;
-namespace MeshOps {
+namespace MeshOps
+{
 	static void retriangulateMeshSetSimple(shared_ptr<carve::mesh::MeshSet<3> >& meshset, bool ignoreResultOpenEdges, double eps, size_t retryCount);
 };
 
@@ -174,14 +173,15 @@ static void dumpWithLabel(std::string labelStr, shared_ptr<carve::mesh::MeshSet<
 		GeomDebugDump::moveOffset(0.4);
 	}
 	
-	shared_ptr<carve::mesh::MeshSet<3> > meshset_copy(meshset->clone());
+	shared_ptr<carve::mesh::MeshSet<3> > meshset_copy( meshset );
 	if( colorSettings.triangulateBeforeDump )
 	{
-		MeshOps::retriangulateMeshSetSimple(meshset_copy, true, EPS_DEFAULT, 0);
+		//meshset_copy = shared_ptr<carve::mesh::MeshSet<3> > (meshset->clone());
+		//MeshOps::retriangulateMeshSetSimple(meshset_copy, true, EPS_DEFAULT, 0);
 	}
 
 	MeshSetInfo infoMeshset;
-	bool meshset_ok = MeshUtils::checkMeshSetValidAndClosed(meshset, infoMeshset, nullptr, nullptr);
+	bool meshset_ok = MeshUtils::checkMeshSetValidAndClosed(meshset, infoMeshset);
 
 	glm::vec4 colorCurrentLabel = colorSettings.colorLabel;
 	if( infoMeshset.meshSetValid )

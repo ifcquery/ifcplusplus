@@ -136,6 +136,7 @@ inline bool checkPolyhedronData( const shared_ptr<carve::input::PolyhedronData>&
 					return false;
 				}
 
+				std::vector<vec3> facePoints;
 				for( size_t iiPoint = 0; iiPoint < numPoints; ++iiPoint )
 				{
 					int idx = faceIndices[iiFace + iiPoint];
@@ -158,8 +159,16 @@ inline bool checkPolyhedronData( const shared_ptr<carve::input::PolyhedronData>&
  							return false;
 						}
 					}
+
+					vec3& point = poly_data->points[idx];
+					facePoints.push_back(point);
 				}
 
+				double area = GeomUtils::computePolygonArea(facePoints);
+				if( std::abs(area) < carve::CARVE_EPSILON )
+				{
+					return false;
+				}
 				iiFace = iiFace + numPoints;
 			}
 
@@ -240,13 +249,34 @@ inline bool fixPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& po
 
 			if( pointIdxCurrentFace.size() > 2 )
 			{
-				// found correct face
-				++numFacesCorrected;
-				int numPointsInFace = pointIdxCurrentFace.size();
-				polyDataCorrected.push_back(numPointsInFace);
-				std::copy(pointIdxCurrentFace.begin(), pointIdxCurrentFace.end(), std::back_inserter(polyDataCorrected));
+				std::vector<vec3> facePoints;
+				for( size_t iiPoint = 0; iiPoint < pointIdxCurrentFace.size(); ++iiPoint )
+				{
+					int idx = pointIdxCurrentFace[iiPoint];
+					const vec3& point = poly_data->points[idx];
+					facePoints.push_back(point);
+				}
+
+				double area = GeomUtils::computePolygonArea(facePoints);
+				if( std::abs(area) < carve::CARVE_EPSILON )
+				{
+					//inputCorrect = false;
+#ifdef _DEBUG
+					//std::cout << "skipping face with 0 area" << std::endl;
+#endif
+				}
+				else
+				{
+					// found correct face
+					++numFacesCorrected;
+					int numPointsInFace = pointIdxCurrentFace.size();
+					polyDataCorrected.push_back(numPointsInFace);
+					std::copy(pointIdxCurrentFace.begin(), pointIdxCurrentFace.end(), std::back_inserter(polyDataCorrected));
+				}
 			}
 		}
+
+		
 
 		iiFace += numPoints + 1;
 
@@ -731,9 +761,6 @@ public:
 		if( !correct )
 		{
 			fixPolyhedronData(poly_data);
-#ifdef _DEBUG
-			std::cout << "fixing polyhedron data" << std::endl;
-#endif
 			bool correct2 = checkPolyhedronData(poly_data);
 			if( !correct2 )
 			{

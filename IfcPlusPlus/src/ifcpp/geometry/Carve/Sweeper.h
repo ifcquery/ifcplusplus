@@ -196,7 +196,6 @@ public:
 		}
 #endif
 
-
 		// check winding order in 2D
 		for( size_t ii = 0; ii < faceLoopsTriangulate.size(); ++ii )
 		{
@@ -765,8 +764,8 @@ public:
 
 	#ifdef _DEBUG
 		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh(carve::input::opts()) );
-		MeshSetInfo infoMesh;
-		MeshUtils::checkMeshSetValidAndClosed( meshset, infoMesh, this, ifc_entity );
+		MeshSetInfo infoMesh( this, ifc_entity );
+		MeshUtils::checkMeshSetValidAndClosed( meshset, infoMesh );
 	#endif
 	}
 
@@ -1278,8 +1277,8 @@ public:
 
 #ifdef _DEBUG
 				shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts()));
-				MeshSetInfo infoMesh;
-				MeshUtils::checkMeshSetValidAndClosed(meshset, infoMesh, this, ifc_entity);
+				MeshSetInfo infoMesh(this, ifc_entity);
+				MeshUtils::checkMeshSetValidAndClosed(meshset, infoMesh);
 #endif
 			}
 		}

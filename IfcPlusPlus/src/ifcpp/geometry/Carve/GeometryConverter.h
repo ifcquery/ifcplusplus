@@ -47,12 +47,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "RepresentationConverter.h"
 #include "CSG_Adapter.h"
 
-#if defined(_OPENMP)
-	#ifndef ENABLE_OPENMP
-		#define ENABLE_OPENMP
-	#endif
-#endif
-//#undef ENABLE_OPENMP   // temp
+//#undef _OPENMP   // temp
 
 class GeometryConverter : public StatusCallback
 {
@@ -68,7 +63,7 @@ protected:
 	double m_recent_progress = 0;
 	double m_csg_eps = 1.5e-08;
 	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 	Mutex m_writelock_messages;
 #endif
 
@@ -460,6 +455,110 @@ public:
 		}
 	}
 
+	void fixModelHierarchy()
+	{
+		// sometimes there are IfcBuilding, not attached to IfcSite and IfcProject
+		std::map<std::string, shared_ptr<ProductShapeData> >& map_shapeInputData = getShapeInputData();
+		shared_ptr<BuildingModel> ifc_model = getBuildingModel();
+		shared_ptr<IfcProject> ifc_project = ifc_model->getIfcProject();
+		shared_ptr<IfcSite> ifc_site;
+
+		std::vector<shared_ptr<ProductShapeData> > vec_ifc_buildings;
+		
+		for( auto it : map_shapeInputData )
+		{
+			std::string guid = it.first;
+			shared_ptr<ProductShapeData>& product_shape = it.second;
+
+			if( product_shape->m_ifc_object_definition.expired() )
+			{
+				continue;
+			}
+
+			shared_ptr<IfcObjectDefinition> ifc_object_definition(product_shape->m_ifc_object_definition);
+			if( !ifc_object_definition )
+			{
+				continue;
+			}
+
+			if( ifc_object_definition->classID() == IFC4X3::IFCBUILDING )
+			{
+				shared_ptr<IfcBuilding> ifc_building = dynamic_pointer_cast<IfcBuilding>(ifc_object_definition);
+				if( ifc_building )
+				{
+					vec_ifc_buildings.push_back(product_shape);
+					continue;
+				}
+			}
+
+			if( ifc_object_definition->classID() == IFC4X3::IFCSITE )
+			{
+				shared_ptr<IfcSite> site = dynamic_pointer_cast<IfcSite>(ifc_object_definition);
+				if( site )
+				{
+					ifc_site = site;
+					continue;
+				}
+			}
+
+			if( ifc_object_definition->classID() == IFC4X3::IFCPROJECT )
+			{
+				shared_ptr<IfcProject> project = dynamic_pointer_cast<IfcProject>(ifc_object_definition);
+				if( project )
+				{
+					ifc_project = project;
+					continue;
+				}
+			}
+		}
+
+		// if IfcBuilding is not connected to IfcSite and IfcProject, find IfcSite, and connect it
+		for( auto product_shape_building : vec_ifc_buildings )
+		{
+			shared_ptr<IfcObjectDefinition> ifc_object_definition(product_shape_building->m_ifc_object_definition);
+			if( !ifc_object_definition )
+			{
+				continue;
+			}
+			shared_ptr<IfcBuilding> ifc_building = dynamic_pointer_cast<IfcBuilding>(ifc_object_definition);
+			if( ifc_building )
+			{
+				if( ifc_building->m_Decomposes_inverse.size() == 0 )
+				{
+					if( ifc_site->m_IsDecomposedBy_inverse.size() == 0 )
+					{
+						shared_ptr<IfcRelAggregates> site_aggregates(new IfcRelAggregates());
+						ifc_model->insertEntity(site_aggregates);
+						site_aggregates->m_RelatingObject = ifc_site;
+
+						ifc_site->m_IsDecomposedBy_inverse.push_back(site_aggregates);
+					}
+
+					weak_ptr<IfcRelAggregates> site_aggregates_weak = ifc_site->m_IsDecomposedBy_inverse[0];
+					if( !site_aggregates_weak.expired() )
+					{
+						shared_ptr<IfcRelAggregates> site_aggregates(site_aggregates_weak);
+						site_aggregates->m_RelatingObject = ifc_site;
+						site_aggregates->m_RelatedObjects.push_back(ifc_building);
+
+						ifc_building->m_Decomposes_inverse.push_back(site_aggregates);
+					}
+				}
+			}
+		}
+
+		if( ifc_project->m_IsDecomposedBy_inverse.size() == 0 )
+		{
+			shared_ptr<IfcRelAggregates> project_aggregates(new IfcRelAggregates());
+			ifc_model->insertEntity(project_aggregates);
+			project_aggregates->m_RelatingObject = ifc_project;
+			project_aggregates->m_RelatedObjects.push_back(ifc_site);
+
+			ifc_site->m_Decomposes_inverse.push_back(project_aggregates);
+			ifc_project->m_IsDecomposedBy_inverse.push_back(project_aggregates);
+		}
+	}
+
 	void readAppearanceFromPropertySet( const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ProductShapeData>& product_shape )
 	{
 		if( !prop_set )
@@ -582,7 +681,7 @@ public:
 		std::map<std::string, shared_ptr<ProductShapeData> >* map_products_ptr = &m_product_shape_data;
 		const int num_object_definitions = (int)vec_object_definitions.size();
 
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 		Mutex writelock_map;
 		Mutex writelock_ifc_project;
 
@@ -613,7 +712,7 @@ public:
 				}
 				else if( object_def->classID() == IFC4X3::IFCPROJECT )
 				{
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 					ScopedLock scoped_lock( writelock_ifc_project );
 #endif
 					ifc_project_data = product_geom_input_data;
@@ -641,7 +740,7 @@ public:
 				}
 
 				{
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 					ScopedLock scoped_lock( writelock_map );
 #endif
 					auto it_find = map_products_ptr->find(guid);
@@ -677,7 +776,7 @@ public:
 				if( progress - m_recent_progress > 0.02 )
 				{
 
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 					if( omp_get_thread_num() == 0 )
 #endif
 					{
@@ -687,7 +786,7 @@ public:
 					}
 				}
 			}
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 		} // implicit barrier
 #endif
 
@@ -722,6 +821,8 @@ public:
 			// now resolve spatial structure
 			if( ifc_project_data )
 			{
+				fixModelHierarchy();
+
 				// resove spatial structure first (IfcBuilding->IfcBuildingStorey->IfcBuildingElement)
 				resolveProjectStructure( ifc_project_data, false );
 				// resove secondary structure (IfcRelConnectsPortToElement etc)
@@ -824,11 +925,6 @@ public:
 			return;
 		}
 
-		if( ifc_product->m_tag == 354884 )
-		{
-			int wait = 0;
-		}
-		
 		// convert IFC geometry
 		std::vector<shared_ptr<IfcRepresentation> >& vec_representations = product_representation->m_Representations;
 		for( size_t i_representations = 0; i_representations < vec_representations.size(); ++i_representations )
@@ -1031,7 +1127,7 @@ public:
 		{
 			if( m->m_entity )
 			{
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 				ScopedLock lock( myself->m_writelock_messages );
 #endif
 				// make sure that the same message for one entity does not appear several times

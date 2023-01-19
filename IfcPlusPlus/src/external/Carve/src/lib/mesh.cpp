@@ -426,12 +426,19 @@ namespace carve {
 
 				edge_map_t::iterator edgeiter;
 				edgeiter = complex_edges.find(vpair_t(vert, next));
-				std::copy((*edgeiter).second.begin(), (*edgeiter).second.end(),
-					std::back_inserter(efwd));
+				if( edgeiter == complex_edges.end() )
+				{
+					return;
+				}
+				std::copy((*edgeiter).second.begin(), (*edgeiter).second.end(), std::back_inserter(efwd));
 
 				edgeiter = complex_edges.find(vpair_t(next, vert));
-				std::copy((*edgeiter).second.begin(), (*edgeiter).second.end(),
-					std::back_inserter(erev));
+				if( edgeiter == complex_edges.end() )
+				{
+					return;
+				}
+
+				std::copy((*edgeiter).second.begin(), (*edgeiter).second.end(), std::back_inserter(erev));
 
 				path.push_back(vert);
 
@@ -696,8 +703,24 @@ namespace carve {
 							j != (*e2i).second.end(); ++j ) {
 							open_groups.insert(faceGroupID(*j));
 						}
+
+						bool eraseSecond = true;
+						if( e2i == e2i )
+						{
+							eraseSecond == false;
+							//eraseSecond = false;
+						}
 						complex_edges.erase(e1i);
-						complex_edges.erase(e2i);
+						if( eraseSecond )
+						{
+							edge_map_t::iterator e2i_check = complex_edges.find(e2);
+							if( e2i_check != complex_edges.end() )
+
+							//if( e2i != complex_edges.end() )
+							{
+								complex_edges.erase(e2i_check);
+							}
+						}
 					}
 				}
 			}

@@ -64,7 +64,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 using namespace IFC4X3;
 
-namespace MeshUtils{
+namespace MeshUtils
+{
+	static void checkFaceLoops(const carve::mesh::Face<3>* face);
+	static double computeFaceArea(const carve::mesh::Face<3>* face);
 	static void addFaceCheckIndexes(int idxA, int idxB, int idxC, PolyInputCache3D& meshOut);
 	static void addFaceCheckIndexes(int idxA, int idxB, int idxC, int idxD, PolyInputCache3D& meshOut);
 }
@@ -125,115 +128,7 @@ namespace GeomDebugDump
 		axis2placement3d->m_RefDirection->m_DirectionRatios.push_back(shared_ptr<IfcReal>(new IfcReal(local_x[2])));
 	}
 
-	static double computeFaceArea(const carve::mesh::Face<3>* face)
-	{
-		double face_area = 0;
-		if( face->nVertices() == 3 )
-		{
-			carve::mesh::Edge<3>* edge = face->edge;
-			if( edge )
-			{
-				carve::geom::vector<3>& v1 = edge->v1()->v;
-				carve::geom::vector<3>& v2 = edge->v2()->v;
-				if( edge->next )
-				{
-					carve::geom::vector<3>& v3 = edge->next->v2()->v;
-					carve::geom::vector<3> side1 = v2 - v1;
-					carve::geom::vector<3> side2 = v3 - v2;
-					carve::geom::vector<3> c = cross(side1, side2);
-					double len_square = c.length2();
-					if( len_square > EPS_M14*0.001 )
-					{
-						double area = sqrt(len_square) * 0.5;
-						face_area += abs(area);
-					}
-				}
-			}
-		}
-		else
-		{
-			std::vector<carve::mesh::Face<3>::vertex_t* > faceVertices;
-			face->getVertices(faceVertices);
-			if( faceVertices.size() > 2 )
-			{
-				size_t n = faceVertices.size();
-
-				carve::geom::vector<3> normal;
-				carve::geom::vector<3> a;
-				carve::geom::vector<3> b = faceVertices[n - 2]->v;
-				carve::geom::vector<3> c = faceVertices[n - 1]->v;
-				carve::geom::vector<3> s;
-
-				for( int i = 0; i < n; ++i )
-				{
-					a = b;
-					b = c;
-					c = faceVertices[i]->v;
-
-					normal.x += b.y * (c.z - a.z);
-					normal.y += b.z * (c.x - a.x);
-					normal.z += b.x * (c.y - a.y);
-
-					s += c;
-				}
-
-				double length = normal.length();// glm::length(normal);
-				if( std::abs(length) < EPS_M8 )
-				{
-					return false;
-				}
-
-				normal /= length;
-				double area = 0.5 * length;
-				face_area += area;
-			}
-		}
-		return face_area;
-	}
-
-	static void checkFaceLoops(const carve::mesh::Face<3>* face)
-	{
-		carve::mesh::Edge<3>* e = face->edge;
-		if( !e )
-		{
-			return;
-		}
-		size_t closed_edges = 0;
-
-		size_t numEdges = face->n_edges;
-		if( numEdges == 0 )
-		{
-			return;
-		}
-
-		size_t ii = 0;
-		do {
-			if( e->rev == nullptr ) {
-				//open_edges.push_back(e);
-			}
-			else if( e < e->rev ) {
-				//closed_edges.push_back(e);
-				++closed_edges;
-			}
-			e = e->next;
-
-			if( ii > numEdges * 3 )
-			{
-				break;
-			}
-			if( ii > 10000 )
-			{
-				break;
-			}
-			++ii;
-
-		} while( e != face->edge );
-
-		if( ii > numEdges )
-		{
-			std::cout << "invalid edge loop " << std::endl;
-		}
-	}
+	
 
 	static void startBuffering()
 	{
@@ -490,142 +385,11 @@ namespace GeomDebugDump
 
 		++dumpCount;
 
-		PolyInputCache3D poly_data(carve::CARVE_EPSILON);
-
-		{
-			std::map<size_t, size_t> mapVertexIndexes;
-			std::map<const carve::mesh::Vertex<3>*, size_t> mapVertexPtrIndexes;
-			const std::vector<carve::mesh::Vertex<3> >& vec_vertices = meshsetInput->vertex_storage;
-
-			if( vec_vertices.size() > 2000 )
-			{
-				return;
-			}
-
-			for( size_t iiv = 0; iiv < vec_vertices.size(); ++iiv )
-			{
-				const carve::mesh::Vertex<3>& vertex = meshsetInput->vertex_storage[iiv];
-				size_t idx = poly_data.addPoint(vertex.v);
-				mapVertexIndexes[iiv] = idx;
-			}
-
-			
-			for( auto mesh : meshsetInput->meshes )
-			{
-				const std::vector<carve::mesh::Face<3>* >& vec_faces = mesh->faces;
-				for( size_t i_face = 0; i_face < vec_faces.size(); ++i_face )
-				{
-					const carve::mesh::Face<3>* face = vec_faces[i_face];
-					if( face )
-					{
-						int number_of_edges = face->n_edges;
-
-						if( number_of_edges == 3 )
-						{
-							carve::mesh::Edge<3>* edge0 = face->edge;
-							carve::mesh::Edge<3>* edge1 = edge0->next;
-							carve::mesh::Edge<3>* edge2 = edge1->next;
-							carve::mesh::Vertex<3>* v0 = edge0->vert;
-							carve::mesh::Vertex<3>* v1 = edge1->vert;
-							carve::mesh::Vertex<3>* v2 = edge2->vert;
-							int v0index = findVertexIndexInVector(vec_vertices, v0);
-							int v1index = findVertexIndexInVector(vec_vertices, v1);
-							int v2index = findVertexIndexInVector(vec_vertices, v2);
-
-							if( v0index < 0 || v1index < 0 || v2index < 0 )
-							{
-								std::cout << "vertex not found " << std::endl;
-								continue;
-							}
-							size_t idx0 = mapVertexIndexes[v0index];
-							size_t idx1 = mapVertexIndexes[v1index];
-							size_t idx2 = mapVertexIndexes[v2index];
-
-							MeshUtils::addFaceCheckIndexes(idx0, idx1, idx2,  poly_data);
-
-						}
-						else if( number_of_edges == 4 )
-						{
-							carve::mesh::Edge<3>* edge0 = face->edge;
-							carve::mesh::Edge<3>* edge1 = edge0->next;
-							carve::mesh::Edge<3>* edge2 = edge1->next;
-							carve::mesh::Edge<3>* edge3 = edge2->next;
-							carve::mesh::Vertex<3>* v0 = edge0->vert;
-							carve::mesh::Vertex<3>* v1 = edge1->vert;
-							carve::mesh::Vertex<3>* v2 = edge2->vert;
-							carve::mesh::Vertex<3>* v3 = edge3->vert;
-							int v0index = findVertexIndexInVector(vec_vertices, v0);
-							int v1index = findVertexIndexInVector(vec_vertices, v1);
-							int v2index = findVertexIndexInVector(vec_vertices, v2);
-							int v3index = findVertexIndexInVector(vec_vertices, v3);
-
-							if( v0index < 0 || v1index < 0 || v2index < 0 || v3index < 0 )
-							{
-								std::cout << "vertex not found " << std::endl;
-								continue;
-							}
-							size_t idx0 = mapVertexIndexes[v0index];
-							size_t idx1 = mapVertexIndexes[v1index];
-							size_t idx2 = mapVertexIndexes[v2index];
-							size_t idx3 = mapVertexIndexes[v3index];
-
-							MeshUtils::addFaceCheckIndexes(idx0, idx1, idx2, idx3, poly_data);
-						}
-						else
-						{
-							if( !trianglesAndQuadsOnly )
-							{
-
-								carve::mesh::Edge<3>* edge0 = face->edge;
-
-
-								std::vector<size_t> faceIndexes;
-
-								for( size_t edge_ii = 0; edge_ii < face->n_edges; ++edge_ii )
-								{
-									carve::mesh::Vertex<3>* v0 = edge0->vert;
-
-									int v0index = findVertexIndexInVector(vec_vertices, v0);
-
-									if( v0index < 0 )
-									{
-										std::cout << "vertex not found " << std::endl;
-										continue;
-									}
-
-									size_t idx0 = mapVertexIndexes[v0index];
-									faceIndexes.push_back(idx0);
-
-
-									edge0 = edge0->next;
-								}
-
-
-
-
-								//std::cout << "skip dump face with > 4 vertices" << std::endl;
-
-								poly_data.m_poly_data->faceIndices.push_back(faceIndexes.size());
-								std::copy(faceIndexes.begin(), faceIndexes.end(), std::back_inserter(poly_data.m_poly_data->faceIndices));
-								poly_data.m_poly_data->faceCount = poly_data.m_poly_data->faceCount + 1;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		shared_ptr<carve::input::PolyhedronData>& polyhedron = poly_data.m_poly_data;
-		bool polyhedron_ok = checkPolyhedronData(polyhedron);
-		if( !polyhedron_ok )
-		{
-			return;
-		}
-
 		// vertices of the meshset:
 		size_t vertex_count = 0;
 		size_t face_count = 0;
-		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data.m_poly_data->createMesh( carve::input::opts() ) );
+		
+		const carve::mesh::MeshSet<3>* meshset = meshsetInput;
 		const std::vector<carve::mesh::Vertex<3> >& vec_vertices = meshset->vertex_storage;
 
 		if( vec_vertices.size() > 10000 )
@@ -1011,18 +775,28 @@ namespace GeomDebugDump
 		dumpMeshset(meshset, color, move_offset);
 	}
 
-	static void dumpFaces( const std::vector<carve::mesh::Face<3>* >& vecFaces, const glm::vec4& color, bool move_offset = true )
+	static void dumpFaces( const std::vector<const carve::mesh::Face<3>* >& vecFaces, const glm::vec4& color, bool move_offset = true )
 	{
 		PolyInputCache3D poly_cache;
 		size_t ii = 0;
 		for( const carve::mesh::Face<3>* face : vecFaces )
 		{
+			if( !face )
+			{
+				continue;
+			}
+
+			if( !face->edge )
+			{
+				continue;
+			}
+
 			if( face->n_edges > 100000 )
 			{
 				std::cout << "face->n_edges > 100000" << std::endl;
 			}
 
-			checkFaceLoops(face);
+			MeshUtils::checkFaceLoops(face);
 
 			const carve::mesh::Edge<3>* edge = face->edge;
 			size_t countEdges = 0;
@@ -1068,6 +842,14 @@ namespace GeomDebugDump
 
 	static void dumpFacePolygon(const carve::mesh::Face<3>* face, glm::vec4& color1, bool moveOffset)
 	{
+		if( !face )
+		{
+			return;
+		}
+		if( !face->edge )
+		{
+			return;
+		}
 		std::vector<carve::mesh::Vertex<3>* > vertices;
 		face->getVertices(vertices);
 
@@ -1076,11 +858,12 @@ namespace GeomDebugDump
 		{
 			vertice_points.push_back(vert->v);
 		}
+		GeomUtils::closePolygon(vertice_points);
 		
 		dumpPolyline(vertice_points, color1, moveOffset);
 	}
 
-	static void dumpFacePolygons(const std::vector<carve::mesh::Face<3>* >& vecFaces, glm::vec4& color1, bool moveDumpOffset)
+	static void dumpFacePolygons(const std::vector<const carve::mesh::Face<3>* >& vecFaces, glm::vec4& color1, bool moveDumpOffset)
 	{
 		carve::geom::aabb<3> bbox;
 		
@@ -1095,6 +878,12 @@ namespace GeomDebugDump
 		{
 			dump_y_pos_geom += bbox.extent.y * 1.1;
 		}
+	}
+	static void dumpFacePolygons(const std::vector<carve::mesh::Face<3>* >& vecFacesIn, glm::vec4& color1, bool moveDumpOffset)
+	{
+		std::vector<const carve::mesh::Face<3>* > vecFaces;
+		std::copy(vecFacesIn.begin(), vecFacesIn.end(), std::back_inserter(vecFaces));
+		dumpFacePolygons(vecFaces, color1, moveDumpOffset);
 	}
 	static void dumpFacePolygons(const carve::mesh::MeshSet<3>* meshset, glm::vec4& color1, bool moveDumpOffset)
 	{
@@ -1155,8 +944,10 @@ namespace GeomDebugDump
 		glm::vec4 color = colorInput;
 		float red = color.x;
 		size_t numOpenEdges = 0;
+		
 		for( auto mesh : meshset->meshes )
 		{
+			mesh->cacheEdges();
 			std::vector<carve::mesh::Edge<3>* > openEdges = mesh->open_edges;
 			numOpenEdges += openEdges.size();
 			for( size_t ii = 0; ii < openEdges.size(); ++ii )
@@ -1189,13 +980,13 @@ namespace GeomDebugDump
 				{
 					if( checkZeroAreaFaces )
 					{
-						double faceArea = computeFaceArea(e->face);
+						double faceArea = MeshUtils::computeFaceArea(e->face);
 						if( std::abs(faceArea) < EPS_M6 )
 						{
 							std::cout << "faceArea) < EPS_M6 )" << std::endl;
 						}
 					}
-					std::vector<carve::mesh::Face<3>* > vecFaces = { e->face };
+					std::vector<const carve::mesh::Face<3>* > vecFaces = { e->face };
 					dumpFaces(vecFaces, color, false);
 				}
 				if( move_offset )
@@ -1319,25 +1110,31 @@ namespace GeomDebugDump
 		appendToOutput(strs_out);
 	}
 
+	static void dumpItemShapeInputData(shared_ptr<ItemShapeData>& item_shape, const glm::vec4& color )
+	{
+		for( auto meshset_open : item_shape->m_meshsets_open )
+		{
+			GeomDebugDump::dumpMeshset(meshset_open, color, false);
+		}
+
+		for( auto meshset_closed : item_shape->m_meshsets )
+		{
+			GeomDebugDump::dumpMeshset(meshset_closed, color, false);
+		}
+	}
+
 	static void dumpShapeInputData(shared_ptr<ProductShapeData>& product_shape, const glm::vec4& color )
 	{
 		for( auto representation_data : product_shape->m_vec_representations )
 		{
-			if( representation_data->m_vec_item_data.size() > 0 )
+			for( auto item_data : representation_data->m_vec_item_data )
 			{
-				if( representation_data->m_vec_item_data[0]->m_meshsets_open.size() > 0 )
-				{
-					GeomDebugDump::dumpMeshset(representation_data->m_vec_item_data[0]->m_meshsets_open[0], color, false);
-				}
-				if( representation_data->m_vec_item_data[0]->m_meshsets.size() > 0 )
-				{
-					GeomDebugDump::dumpMeshset(representation_data->m_vec_item_data[0]->m_meshsets[0], color, false);
-				}
+				dumpItemShapeInputData(item_data, color);
 			}
 		}
 	}
 
-	static void dumpEntity(const shared_ptr<BuildingEntity>& entity)
+	static void dumpEntityToIfcFile(const shared_ptr<BuildingEntity>& entity)
 	{
 		std::vector<shared_ptr<BuildingEntity> > vec_new_entities;
 		shared_ptr<BuildingModel> ifc_model(new BuildingModel());

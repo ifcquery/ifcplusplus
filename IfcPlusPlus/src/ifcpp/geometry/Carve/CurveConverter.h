@@ -257,6 +257,7 @@ public:
 					}
 				}
 
+				int tag = indexed_poly_curve->m_tag;
 				const std::vector<shared_ptr<IfcSegmentIndexSelect> >& segments = indexed_poly_curve->m_Segments;					//optional
 				if( segments.size() > 0 )
 				{
@@ -269,19 +270,23 @@ public:
 						{
 							if( lineIdx->m_vec.size() > 1 )
 							{
-								if( lineIdx->m_vec[0] && lineIdx->m_vec[1] )
+								std::vector<vec3> line_points_3d;
+
+								for( size_t jj = 0; jj < lineIdx->m_vec.size(); ++jj )
 								{
-									int idx0 = lineIdx->m_vec[0]->m_value - 1;
-									int idx1 = lineIdx->m_vec[1]->m_value - 1;
-									if( idx0 < pointVec.size() && idx1 < pointVec.size() )
+									int idx0 = lineIdx->m_vec[jj]->m_value - 1;
+									if( idx0 < pointVec.size() )
 									{
 										const vec3& pt0 = pointVec[idx0];
-										const vec3& pt1 = pointVec[idx1];
 
-										target_vec.push_back(pt0);
-										target_vec.push_back(pt1);
-										segment_start_points.push_back(pt0);
+										line_points_3d.push_back(pt0);
 									}
+								}
+
+								if( line_points_3d.size() > 1 )		
+								{
+									GeomUtils::appendPointsToCurve( line_points_3d, target_vec);
+									segment_start_points.push_back(line_points_3d[0]);
 								}
 							}
 							continue;
@@ -293,6 +298,13 @@ public:
 							if( arcIdx->m_vec.size() < 3 )
 							{
 								continue;
+							}
+
+							if( arcIdx->m_vec.size() > 3 )
+							{
+#ifdef _DEBUG
+								std::cout << "IfcIndexedPolyCurve: arc index with > 3 points not implemented" << std::endl;
+#endif
 							}
 
 							if( arcIdx->m_vec[0] && arcIdx->m_vec[1] && arcIdx->m_vec[2] )

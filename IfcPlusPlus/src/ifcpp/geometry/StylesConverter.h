@@ -74,7 +74,7 @@ class StylesConverter : public StatusCallback
 protected:
 	std::map<int, shared_ptr<AppearanceData> > m_map_ifc_styles;
 
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 	Mutex m_writelock_styles_converter;
 #endif
 
@@ -271,7 +271,7 @@ public:
 	void convertIfcPresentationStyle( shared_ptr<IfcPresentationStyle> presentation_style, shared_ptr<AppearanceData>& appearance_data )
 	{
 		int style_id = presentation_style->m_tag;
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 		{
 			ScopedLock lock(m_writelock_styles_converter);
 #endif
@@ -294,7 +294,7 @@ public:
 
 				m_map_ifc_styles[style_id] = appearance_data;
 			}
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 		}
 #endif
 
@@ -403,7 +403,7 @@ public:
 			return;
 		}
 		int style_id = curve_style->m_tag;
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 		{
 			ScopedLock lock(m_writelock_styles_converter);
 #endif
@@ -425,7 +425,7 @@ public:
 
 				m_map_ifc_styles[style_id] = appearance_data;
 			}
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 		}
 #endif
 		appearance_data->m_apply_to_geometry_type = AppearanceData::GEOM_TYPE_CURVE;
@@ -689,7 +689,7 @@ public:
 		}
 		const int style_id = surface_style->m_tag;
 
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 		{
 		ScopedLock lock(m_writelock_styles_converter);
 #endif
@@ -713,7 +713,7 @@ public:
 			m_map_ifc_styles[style_id] = appearance_data;
 		}
 
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 		}
 #endif
 
@@ -787,7 +787,7 @@ public:
 		shared_ptr<IfcStyledItem> styled_item( styled_item_weak );
 		const int style_id = styled_item->m_tag;
 
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 		{
 		ScopedLock lock(m_writelock_styles_converter);
 #endif
@@ -798,7 +798,7 @@ public:
 			return;
 		}
 	
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 		}
 #endif
 
@@ -863,7 +863,7 @@ public:
 						vec_color.m_b = b;
 						vec_color.m_a = 1.0;
 
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 						//ScopedLock lock( m_writelock_styles_converter );
 #endif
 						//appearance_data->color_ambient.setColor( r, g, b, 1.f );

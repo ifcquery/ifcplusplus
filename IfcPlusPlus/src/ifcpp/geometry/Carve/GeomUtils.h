@@ -268,6 +268,10 @@ namespace GeomUtils
 	inline vec3 computePolygonNormal( const std::vector<vec3>& polygon )
 	{
 		vec3 polygon_normal( carve::geom::VECTOR( 0, 0, 0 ) );
+		if( polygon.size() < 2 )
+		{
+			return polygon_normal;
+		}
 		bool last_loop = false;
 		for( std::vector<vec3>::const_iterator it = polygon.begin();; )
 		{
@@ -290,6 +294,37 @@ namespace GeomUtils
 		polygon_normal.normalize();
 		return polygon_normal;
 	}
+
+	inline vec3 computePolygonNormal( const std::vector<carve::mesh::Vertex<3>* >& polygon )
+	{
+		vec3 polygon_normal( carve::geom::VECTOR( 0, 0, 0 ) );
+		if( polygon.size() < 2 )
+		{
+			return polygon_normal;
+		}
+		bool last_loop = false;
+		for( std::vector<carve::mesh::Vertex<3>* >::const_iterator it = polygon.begin();; )
+		{
+			const carve::geom::vector<3>& vertex_current = ( *it )->v;
+			++it;
+			if( it == polygon.end() )
+			{
+				it = polygon.begin();
+				last_loop = true;
+			}
+			const vec3& vertex_next = ( *it )->v;
+			polygon_normal[0] += ( vertex_current.y - vertex_next.y )*( vertex_current.z + vertex_next.z );
+			polygon_normal[1] += ( vertex_current.z - vertex_next.z )*( vertex_current.x + vertex_next.x );
+			polygon_normal[2] += ( vertex_current.x - vertex_next.x )*( vertex_current.y + vertex_next.y );
+			if( last_loop )
+			{
+				break;
+			}
+		}
+		polygon_normal.normalize();
+		return polygon_normal;
+	}
+
 	inline vec3 computePolygon2DNormal( const std::vector<vec2>& polygon )
 	{
 		const int num_points = polygon.size();
@@ -637,6 +672,60 @@ namespace GeomUtils
 		return A / 2.0;
 	}
 
+	static double computePolygonArea(const std::vector<vec3>& points)
+	{
+		if( points.size() == 3 )
+		{
+			const carve::geom::vector<3>& v1 = points[0];
+			const carve::geom::vector<3>& v2 = points[1];
+			const carve::geom::vector<3>& v3 = points[2];
+			carve::geom::vector<3> side1 = v2 - v1;
+			carve::geom::vector<3> side2 = v3 - v2;
+			carve::geom::vector<3> c = cross(side1, side2);
+			double len_square = c.length2();
+			if( len_square > EPS_M14 * 0.001 )
+			{
+				double area = sqrt(len_square) * 0.5;
+				return std::abs(area);
+			}
+		}
+		else
+		{
+			// continue for n points
+			size_t n = points.size();
+			carve::geom::vector<3> normal;
+			carve::geom::vector<3> a;
+			carve::geom::vector<3> b = points[n - 2];
+			carve::geom::vector<3> c = points[n - 1];
+			carve::geom::vector<3> s;
+
+			for( int i = 0; i < n; ++i )
+			{
+				a = b;
+				b = c;
+				c = points[i];
+
+				normal.x += b.y * (c.z - a.z);
+				normal.y += b.z * (c.x - a.x);
+				normal.z += b.x * (c.y - a.y);
+
+				s += c;
+			}
+
+			double length = normal.length();// glm::length(normal);
+			if( std::abs(length) < EPS_M8 )
+			{
+				return false;
+			}
+
+			normal /= length;
+			double area = 0.5 * length;
+			return std::abs(area);
+		}
+
+		return 0.0;
+	}
+
 	inline bool checkOpenPolygonConvexity( const std::vector<vec2>& polygon )
 	{
 		if( polygon.size() < 3 )
@@ -728,14 +817,15 @@ namespace GeomUtils
 
 			vec3 first_segment_point = points_vec.front();
 			vec3 last_segment_point = points_vec.back();
-
-			if( ( last_target_point - first_segment_point ).length2() < 0.000001 )
+			double d0 = (last_target_point - first_segment_point).length2();
+			if( d0 < 0.000001 )
 			{
 				// segment order is as expected, nothing to do
 			}
 			else
 			{
-				if( ( last_target_point - last_segment_point ).length2() < 0.000001 )
+				double d1 = (last_target_point - last_segment_point).length2();
+				if( d1 < 0.000001 )
 				{
 					// current segment seems to be in wrong order
 					std::reverse( points_vec.begin(), points_vec.end() );
@@ -743,16 +833,34 @@ namespace GeomUtils
 				else
 				{
 					// maybe the current segment fits to the beginning of the target vector
-					if( ( first_target_point - first_segment_point ).length2() < 0.000001 )
+					double d2 = (first_target_point - first_segment_point).length2();
+					if( d2 < 0.000001 )
 					{
 						std::reverse( target_vec.begin(), target_vec.end() );
 					}
 					else
 					{
-						if( ( first_target_point - last_segment_point ).length2() < 0.000001 )
+						double d3 = (first_target_point - last_segment_point).length2();
+						if( d3 < 0.000001 )
 						{
 							std::reverse( target_vec.begin(), target_vec.end() );
 							std::reverse( points_vec.begin(), points_vec.end() );
+						}
+						else
+						{
+							if( d1 < d0 && d1 < d2 && d1 < d3 )
+							{
+								std::reverse( points_vec.begin(), points_vec.end() );
+							}
+							else if(d2 < d0 && d2 < d1 && d2 < d3 )
+							{
+								std::reverse( target_vec.begin(), target_vec.end() );
+							}
+							else if( d3 < d0 && d3 < d1 && d3 < d2 )
+							{
+								std::reverse( target_vec.begin(), target_vec.end() );
+								std::reverse( points_vec.begin(), points_vec.end() );
+							}
 						}
 					}
 				}

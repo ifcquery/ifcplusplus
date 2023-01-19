@@ -1119,7 +1119,6 @@ public:
 				product_shape_opening->m_vec_representations.push_back(opening_representation_data);
 			}
 
-
 			// bring opening meshes to global position
 			carve::math::Matrix product_transform_relative = product_shape->getRelativeTransform(product_shape_opening);
 			if( !GeomUtils::isMatrixIdentity(product_transform_relative) )
@@ -1160,7 +1159,6 @@ public:
 			}
 		}
 
-
 		// for all items of the product shape, subtract all items of all related openings
 		for( auto& product_representation : product_shape->m_vec_representations )
 		{
@@ -1188,13 +1186,6 @@ public:
 					shared_ptr<carve::mesh::MeshSet<3> >& product_meshset = product_item_data->m_meshsets[i_product_meshset];
 					std::stringstream strs_meshset_err;
 				
-					MeshSetInfo info;
-					bool product_meshset_valid_for_csg = MeshUtils::checkMeshSetValidAndClosed( product_meshset, info, this, ifc_element.get() );
-					if( !product_meshset_valid_for_csg )
-					{
-						continue;
-					}
-					
 					// do the subtraction
 					shared_ptr<carve::mesh::MeshSet<3> > result;
 					CSG_Adapter::computeCSG( product_meshset, vec_opening_meshes, carve::csg::CSG::A_MINUS_B, result, m_geom_settings, this, ifc_element );

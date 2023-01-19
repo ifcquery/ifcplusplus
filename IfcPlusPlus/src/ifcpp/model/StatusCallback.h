@@ -136,7 +136,7 @@ public:
 		{
 			if( m_obj_call_on_message )
 			{
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 				// Note: this lock protects accesses only for this instance. If several StatusCallback (or derived) objects are bound to the same callback function, a lock is necessary there.
 				ScopedLock lock( m_writelock );
 #endif
@@ -157,7 +157,7 @@ public:
 		{
 			if( m_obj_call_check_cancel )
 			{
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 				// Note: this lock protects accesses only for this instance. If several StatusCallback (or derived) objects are bound to the same callback function, a lock is necessary there.
 				ScopedLock lock( m_writelock );
 #endif
@@ -221,7 +221,7 @@ protected:
 
 	StatusCallback* m_redirect_target = nullptr;
 
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 	Mutex m_writelock;
 #endif
 };

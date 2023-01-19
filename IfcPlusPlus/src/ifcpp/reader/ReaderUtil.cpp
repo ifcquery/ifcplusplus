@@ -91,7 +91,7 @@ std::string wstring2string(const std::wstring& wstr)
 #endif
 
 	return strTo;
-#endif
+#else
 
 	try
 	{
@@ -103,8 +103,8 @@ std::string wstring2string(const std::wstring& wstr)
 		std::cout << "std::use_facet failed" << std::endl;
 	}
 
-	
 	return "";
+#endif
 }
 
 std::wstring string2wstring(const std::string& inputString)
@@ -116,12 +116,10 @@ std::wstring string2wstring(const std::string& inputString)
 	ws << inputString.c_str();
 	std::wstring result = ws.str();
 	return result;
-#endif
-
+#else
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> conv;
 	return conv.from_bytes(inputString);
-
-	return std::wstring();
+#endif
 }
 
 void checkOpeningClosingParenthesis( const char* ch_check )
@@ -210,6 +208,11 @@ bool findEndOfStepLine( char* ch, char*& pos_end )
 					break;
 				}
 				++ch;
+			}
+			if( *ch == '\0' )
+			{
+				// end of string inside comment, so not a valid end of STEP line
+				return false;
 			}
 			++ch;
 			continue;
@@ -835,6 +838,77 @@ void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vec
 		}
 		
 		args_out.push_back( arg_str_new );
+	}
+}
+
+void readBool( const std::string& attribute_value, bool& target )
+{
+	if( std_iequal( attribute_value, ".F." ) )
+	{
+		target = false;
+	}
+	else if( std_iequal( attribute_value, ".T." ) )
+	{
+		target = true;
+	}
+}
+
+void readLogical( const std::string& attribute_value, LogicalEnum& target )
+{
+	if( std_iequal(attribute_value, ".F." ) )
+	{
+		target = LOGICAL_FALSE;
+	}
+	else if( std_iequal( attribute_value, ".T." ) )
+	{
+		target = LOGICAL_TRUE;
+	}
+	else if( std_iequal( attribute_value, ".U." ) )
+	{
+		target = LOGICAL_UNKNOWN;
+	}
+}
+
+void readInteger( const std::string& attribute_value, int& target )
+{
+	target = std::stoi( attribute_value );
+}
+
+void readIntegerValue( const std::string& str, int& int_value )
+{
+	if( str.compare( "$" ) == 0 )
+	{
+		int_value = std::numeric_limits<int>::quiet_NaN();
+	}
+	else if( str.compare( "*" ) == 0 )
+	{
+		int_value = std::numeric_limits<int>::quiet_NaN();
+	}
+	else
+	{
+		int_value = std::stoi( str );
+	}
+}
+
+void readReal( const std::string& attribute_value, double& target )
+{
+	target = std::stod( attribute_value );
+}
+
+void readString( const std::string& attribute_value, std::string& target )
+{
+	if( attribute_value.size() < 2 )
+	{
+		target = attribute_value;
+		return;
+	}
+	if( attribute_value[0] == '\'' && attribute_value[attribute_value.size()-1] == '\'' )
+	{
+		target = attribute_value.substr( 1, attribute_value.size()-2 );
+	}
+	else
+	{
+		target = attribute_value;
 	}
 }
 

@@ -61,12 +61,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ReaderUtil.h"
 #include "ReaderSTEP.h"
 
-#if defined(_OPENMP)
-#ifndef ENABLE_OPENMP
-#define ENABLE_OPENMP
-#endif
-#endif
-
 using namespace IFC4X3;
 
 bool unzipFile(const std::string& filePathIn, std::stringstream& bufferResult)
@@ -541,13 +535,13 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, std::vecto
 	std::set<std::string> setClassesWithAdjustedArguments;
 #endif
 
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 #pragma omp parallel firstprivate(num_objects) shared(map_entities_ptr,vec_entities_ptr)
 #endif
 	{
 		const std::map<int,shared_ptr<BuildingEntity> > &map_entities_ptr_local = *map_entities_ptr;
 
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 #pragma omp for schedule(dynamic, 100)
 #endif
 		for( int i=0; i<num_objects; ++i )
@@ -708,21 +702,21 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, std::vecto
 			}
 			catch( std::exception& e )
 			{
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 #pragma omp critical
 #endif
 				err << "#" << entity->m_tag << "=" << EntityFactory::getStringForClassID( entity->classID() ) << ": " << e.what();
 			}
 			catch( std::exception* e )
 			{
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 #pragma omp critical
 #endif
 				err << "#" << entity->m_tag << "=" << EntityFactory::getStringForClassID( entity->classID() ) << ": " << e->what();
 			}
 			catch(...)
 			{
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 #pragma omp critical
 #endif
 				err << "#" << entity->m_tag << "=" << EntityFactory::getStringForClassID( entity->classID() ) << " readStepData: error occurred" << std::endl;
@@ -730,7 +724,7 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, std::vecto
 
 			if( errorStream.tellp() > 0 )
 			{
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 #pragma omp critical
 #endif
 				err << errorStream.str();
@@ -741,7 +735,7 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, std::vecto
 				progress = 0.3 + 0.6*double(i)/double(num_objects);
 				if( progress - last_progress > 0.03 )
 				{
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 					if( omp_get_thread_num() == 0 )
 #endif
 					{
@@ -751,7 +745,7 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, std::vecto
 						if ( isCanceled() )
 						{
 							canceledCallback();
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 							canceled = true;
 #pragma omp flush(canceled)
 #else
@@ -791,7 +785,12 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 	{
 		std::string line;
 		std::string linePreviousRemaining;
-		std::string strHeader;
+
+#ifdef _DEBUG
+		std::string strIgnoredComment;
+		std::vector<std::string> vecStrIgnoredComment;
+#endif
+
 		size_t line_header_start = std::string::npos;
 		size_t line_header_end = std::string::npos;
 		size_t lineCount = 0;
@@ -816,6 +815,13 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 			size_t found_comment_start = line.find("/*");
 			if( found_comment_start != std::string::npos )
 			{
+#ifdef _DEBUG
+				if( strIgnoredComment.size() > 0 ) vecStrIgnoredComment.push_back(strIgnoredComment);
+
+				std::string lineAfterCommentStart = line.substr(found_comment_start);
+				strIgnoredComment = lineAfterCommentStart;
+#endif
+
 				inComment = true;
 			}
 
@@ -824,31 +830,68 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 				size_t found_comment_end = line.find("*/");
 				if( found_comment_end != std::string::npos )
 				{
+					found_comment_end += 2;  // add length of */
+
 					if( found_comment_start != std::string::npos )
 					{
+						// comment start and end in one line
 						if( found_comment_end > found_comment_start )
 						{
 							// comment start and end in same line
 							size_t lengthOfComment = found_comment_end - found_comment_start;
+
+#ifdef _DEBUG
+							std::string lineComment = line.substr(found_comment_start, lengthOfComment);
+							strIgnoredComment += lineComment + '\n';
+							vecStrIgnoredComment.push_back(strIgnoredComment);
+							std::cout << strIgnoredComment << std::endl;
+							strIgnoredComment = "";
+#endif
+
 							std::string lineBeforeCommentStart = line.substr(0, found_comment_start);
 							std::string lineAfterCommentEnd = line.substr(found_comment_end);
 							line = lineBeforeCommentStart + lineAfterCommentEnd;
 						}
-						else
-						{
-							inComment = false;
-							continue;
-						}
 					}
 					else
 					{
-						inComment = false;
-						continue;
+#ifdef _DEBUG
+						std::string lineComment = line.substr(0, found_comment_end);
+						strIgnoredComment += lineComment + '\n';
+						vecStrIgnoredComment.push_back(strIgnoredComment);
+						std::cout << strIgnoredComment << std::endl;
+						strIgnoredComment = "";
+#endif
+
+						// comment start was on previous line
+						std::string lineAfterCommentEnd = line.substr(found_comment_end);
+						line = lineAfterCommentEnd;
+					}
+
+
+					inComment = false;
+					//continue;
+					
+				}
+				else
+				{
+					if( found_comment_start == std::string::npos )
+					{
+						// we are in a multi-line comment, start and end of comment is not in current line, so ignore this line
+#ifdef _DEBUG
+						strIgnoredComment += line + '\n';
+#endif
+						line = "";
+					}
+					else
+					{
+						std::string lineBeforeCommentStart = line.substr(0, found_comment_start);
+						line = lineBeforeCommentStart;
 					}
 				}
 			}
 
-			if( inComment )
+			if( line.size() == 0 )
 			{
 				continue;
 			}

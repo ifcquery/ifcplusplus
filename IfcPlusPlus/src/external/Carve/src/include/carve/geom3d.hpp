@@ -71,22 +71,47 @@ bool fitPlane(iter_t begin, iter_t end, adapt_t adapt, Plane& plane) {
   } else {
     const size_t N = p.size();
 
-    n = cross(p[N - 1] - C, p[0] - C);
-    if (n < Vector::ZERO()) {
-      n.negate();
-    }
-    for (size_t i = 1; i < p.size(); ++i) {
-      Vector v = cross(p[i] - C, p[i - 1] - C);
-      if (v < Vector::ZERO()) {
-        v.negate();
-      }
-      n += v;
-    }
+	// original carve algorithm does not always work:
+    //n = cross(p[N - 1] - C, p[0] - C);
+    //if (n < Vector::ZERO()) {
+    //  n.negate();
+    //}
+    //for (size_t i = 1; i < p.size(); ++i) {
+    //  Vector v = cross(p[i] - C, p[i - 1] - C);
+    //  if (v < Vector::ZERO()) {
+    //    v.negate();
+    //  }
+    //  n += v;
+    //}
+
+
+	n = carve::geom::VECTOR( 0, 0, 0 );
+	bool last_loop = false;
+	for( std::vector<Vector >::const_iterator it = p.begin();; )
+	{
+		const Vector& vertex_current = ( *it );
+		++it;
+		if( it == p.end() )
+		{
+			it = p.begin();
+			last_loop = true;
+		}
+		const Vector& vertex_next = ( *it );
+		n[0] += ( vertex_current.y - vertex_next.y )*( vertex_current.z + vertex_next.z );
+		n[1] += ( vertex_current.z - vertex_next.z )*( vertex_current.x + vertex_next.x );
+		n[2] += ( vertex_current.x - vertex_next.x )*( vertex_current.y + vertex_next.y );
+		if( last_loop )
+		{
+			break;
+		}
+	}
+	//n.normalize();
+
   }
 
   double l = n.length();
 
-  if (l == 0.0) {
+  if (std::abs(l) < CARVE_EPSILON*0.001 ) {
     n.x = 1.0;
     n.y = 0.0;
     n.z = 0.0;
@@ -97,11 +122,17 @@ bool fitPlane(iter_t begin, iter_t end, adapt_t adapt, Plane& plane) {
   plane.N = n;
   plane.d = -dot(n, C);
 
-#if defined(CARVE_DEBUG)
-  if (p.size() > 3) {
-    std::cerr << "N-gon with " << p.size() << " vertices: fitted distance:";
-    for (size_t i = 0; i < p.size(); ++i) {
-      std::cerr << " {" << p[i] << "} " << distance(plane, p[i]);
+#if defined(_DEBUG)
+  if (p.size() > 3)
+  {
+    //std::cerr << "N-gon with " << p.size() << " vertices: fitted distance:";
+    for (size_t i = 0; i < p.size(); ++i)
+	{
+		double distanceFromPlane = distance(plane, p[i]);
+		if( std::abs(distanceFromPlane) > CARVE_EPSILON )
+		{
+			std::cerr << " {" << p[i] << "} " << distanceFromPlane;
+		}
     }
     std::cerr << std::endl;
   }

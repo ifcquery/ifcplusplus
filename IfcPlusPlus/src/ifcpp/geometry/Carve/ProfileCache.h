@@ -32,7 +32,7 @@ protected:
 	shared_ptr<SplineConverter>					m_spline_converter;
 	std::map<int,shared_ptr<ProfileConverter> >	m_profile_cache;
 
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 	Mutex m_writelock_profile_cache;
 #endif
 
@@ -74,7 +74,7 @@ public:
 		shared_ptr<ProfileConverter> profile_converter = shared_ptr<ProfileConverter>( new ProfileConverter( m_curve_converter, m_spline_converter ) );
 		profile_converter->computeProfile( ifc_profile );
 
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 		ScopedLock lock( m_writelock_profile_cache );
 #endif
 		m_profile_cache[profile_id] = profile_converter;

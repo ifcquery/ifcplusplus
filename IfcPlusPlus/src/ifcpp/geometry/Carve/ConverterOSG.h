@@ -1007,7 +1007,7 @@ public:
 		std::map<int, osg::ref_ptr<osg::Switch> >* map_representations = &m_map_representation_id_to_switch;
 		const int num_products = (int)vec_products.size();
 
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 		Mutex writelock_map;
 		Mutex writelock_ifc_project;
 		Mutex writelock_message_callback;
@@ -1032,7 +1032,7 @@ public:
 				shared_ptr<IfcProject> ifc_project = dynamic_pointer_cast<IfcProject>(ifc_object_def);
 				if (ifc_project)
 				{
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 					ScopedLock scoped_lock(writelock_ifc_project);
 #endif
 					ifc_project_data = shape_data;
@@ -1111,7 +1111,7 @@ public:
 						applyAppearancesToGroup( vec_product_appearances, product_switch );
 					}
 
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 					ScopedLock scoped_lock( writelock_map );
 #endif
 					map_entity_guid->insert(std::make_pair(product_guid, product_switch));
@@ -1120,7 +1120,7 @@ public:
 
 				if( thread_err.tellp() > 0 )
 				{
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 					ScopedLock scoped_lock( writelock_message_callback );
 #endif
 					messageCallback( thread_err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
@@ -1130,7 +1130,7 @@ public:
 				double progress = (double)i / (double)num_products;
 				if( progress - m_recent_progress > 0.02 )
 				{
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 					if( omp_get_thread_num() == 0 )
 #endif
 					{
@@ -1140,7 +1140,7 @@ public:
 					}
 				}
 			}
-#ifdef ENABLE_OPENMP
+#ifdef _OPENMP
 		} // implicit barrier
 #endif
 
