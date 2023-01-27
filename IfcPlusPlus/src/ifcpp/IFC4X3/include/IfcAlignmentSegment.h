@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAlignmentParameterSegment;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAlignmentSegment : public IfcLinearElement
-	{ 
+	{
 	public:
 		IfcAlignmentSegment() = default;
 		IfcAlignmentSegment( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcAlignmentParameterSegment>					m_DesignParameters;
 	};
 }
-

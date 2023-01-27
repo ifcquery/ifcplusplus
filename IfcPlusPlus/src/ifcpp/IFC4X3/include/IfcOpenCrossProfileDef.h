@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCartesianPoint;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcOpenCrossProfileDef : public IfcProfileDef
-	{ 
+	{
 	public:
 		IfcOpenCrossProfileDef() = default;
 		IfcOpenCrossProfileDef( int id );
@@ -48,4 +48,3 @@ namespace IFC4X3
 		shared_ptr<IfcCartesianPoint>								m_OffsetPoint;				//optional
 	};
 }
-

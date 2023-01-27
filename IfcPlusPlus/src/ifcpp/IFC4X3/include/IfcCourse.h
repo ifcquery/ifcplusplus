@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCourseTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCourse : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcCourse() = default;
 		IfcCourse( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcCourseTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

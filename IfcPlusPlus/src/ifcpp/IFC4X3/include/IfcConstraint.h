@@ -19,7 +19,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcResourceConstraintRelationship;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcConstraint : virtual public IfcResourceObjectSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcConstraint() = default;
 		IfcConstraint( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcResourceConstraintRelationship> >	m_PropertiesForConstraint_inverse;
 	};
 }
-

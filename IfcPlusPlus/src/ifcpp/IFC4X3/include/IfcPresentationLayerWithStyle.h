@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPresentationStyle;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPresentationLayerWithStyle : public IfcPresentationLayerAssignment
-	{ 
+	{
 	public:
 		IfcPresentationLayerWithStyle() = default;
 		IfcPresentationLayerWithStyle( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcPresentationStyle> >	m_LayerStyles;
 	};
 }
-

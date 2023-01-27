@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMirroredProfileDef : public IfcDerivedProfileDef
-	{ 
+	{
 	public:
 		IfcMirroredProfileDef() = default;
 		IfcMirroredProfileDef( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		// IfcMirroredProfileDef -----------------------------------------------------------
 	};
 }
-

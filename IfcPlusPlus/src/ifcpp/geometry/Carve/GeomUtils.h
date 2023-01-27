@@ -56,6 +56,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #define EPS_ANGLE_COPLANAR_FACES 1e-13
 
 typedef std::array<double, 2> array2d;
+class GeometrySettings;
 
 namespace GeomUtils
 {
@@ -1434,7 +1435,7 @@ namespace GeomUtils
 		}
 	}
 
-	static void simplifyPolygon(std::vector<vec3>& polygon, bool mergeAlignedEdges)
+	static void simplifyPolygon(std::vector<vec3>& polygon, double epsMergePoints, double epsMergeAlignedEdges)
 	{
 		if( polygon.size() > 2 )
 		{
@@ -1446,33 +1447,44 @@ namespace GeomUtils
 					const vec3& p0 = polygon[ii - 2];
 					const vec3& p1 = polygon[ii - 1];
 					const vec3& p2 = polygon[ii - 0];
-					const double dx1 = p1.x - p0.x;
-					const double dx2 = p2.x - p1.x;
-					const double dy1 = p1.y - p0.y;
-					const double dy2 = p2.y - p1.y;
-					const double dz1 = p1.z - p0.z;
-					const double dz2 = p2.z - p1.z;
+					double dx1 = p1.x - p0.x;
+					double dx2 = p2.x - p1.x;
+					double dy1 = p1.y - p0.y;
+					double dy2 = p2.y - p1.y;
+					double dz1 = p1.z - p0.z;
+					double dz2 = p2.z - p1.z;
 
-					if( std::abs(dx1) < EPS_DEFAULT && std::abs(dy1) < EPS_DEFAULT && std::abs(dz1) < EPS_DEFAULT )
+					if( std::abs(dx1) < epsMergePoints && std::abs(dy1) < epsMergePoints && std::abs(dz1) < epsMergePoints )
 					{
 						polygon.erase(polygon.begin() + ii - 1);
 						removedPoint = true;
 						break;
 					}
 
-					if( std::abs(dx2) < EPS_DEFAULT && std::abs(dy2) < EPS_DEFAULT && std::abs(dz2) < EPS_DEFAULT )
+					if( std::abs(dx2) < epsMergePoints && std::abs(dy2) < epsMergePoints && std::abs(dz2) < epsMergePoints )
 					{
 						polygon.erase(polygon.begin() + ii - 1);
 						removedPoint = true;
 						break;
 					}
 
-					if( mergeAlignedEdges )
+					if( epsMergeAlignedEdges > 0 )
 					{
+						vec3 p1p0 = p1 - p0;
+						vec3 p1p2 = p1 - p2;
+						safeNormalize(p1p0);
+						safeNormalize(p1p2);
+						dx1 = p1p0.x;
+						dx2 = p1p2.x;
+						dy1 = p1p0.y;
+						dy2 = p1p2.y;
+						dz1 = p1p0.z;
+						dz2 = p1p2.z;
+
 						double scalar = dx1 * dx2 + dy1 * dy2 + dz1 * dz2;
 						double check = scalar * scalar - (dx1 * dx1 + dy1 * dy1 + dz1 * dz1) * (dx2 * dx2 + dy2 * dy2 + dz2 * dz2);
 
-						if( std::abs(check) < EPS_ALIGNED_EDGES )
+						if( std::abs(check) < epsMergeAlignedEdges )
 						{
 							polygon.erase(polygon.begin() + ii - 1);
 							removedPoint = true;

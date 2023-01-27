@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveRatioMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTaskTime : public IfcSchedulingTime
-	{ 
+	{
 	public:
 		IfcTaskTime() = default;
 		IfcTaskTime( int id );
@@ -58,4 +58,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveRatioMeasure>	m_Completion;				//optional
 	};
 }
-

@@ -12,7 +12,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcNamedUnit;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDerivedUnitElement : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcDerivedUnitElement() = default;
 		IfcDerivedUnitElement( int id );
@@ -32,4 +32,3 @@ namespace IFC4X3
 		int							m_Exponent;
 	};
 }
-

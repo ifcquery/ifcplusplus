@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcShapeAspect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPermeableCoveringProperties : public IfcPreDefinedPropertySet
-	{ 
+	{
 	public:
 		IfcPermeableCoveringProperties() = default;
 		IfcPermeableCoveringProperties( int id );
@@ -59,4 +59,3 @@ namespace IFC4X3
 		shared_ptr<IfcShapeAspect>							m_ShapeAspectStyle;			//optional
 	};
 }
-

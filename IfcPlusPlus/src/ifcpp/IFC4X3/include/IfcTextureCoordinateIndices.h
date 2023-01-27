@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcIndexedPolygonalTextureMap;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTextureCoordinateIndices : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcTextureCoordinateIndices() = default;
 		IfcTextureCoordinateIndices( int id );
@@ -36,4 +36,3 @@ namespace IFC4X3
 		weak_ptr<IfcIndexedPolygonalTextureMap>			m_ToTexMap_inverse;
 	};
 }
-

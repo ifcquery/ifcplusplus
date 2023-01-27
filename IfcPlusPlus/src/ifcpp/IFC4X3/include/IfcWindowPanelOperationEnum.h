@@ -41,4 +41,3 @@ namespace IFC4X3
 		IfcWindowPanelOperationEnumEnum m_enum;
 	};
 }
-

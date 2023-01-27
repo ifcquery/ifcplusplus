@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReflectanceMethodEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSurfaceStyleRendering : public IfcSurfaceStyleShading
-	{ 
+	{
 	public:
 		IfcSurfaceStyleRendering() = default;
 		IfcSurfaceStyleRendering( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		shared_ptr<IfcReflectanceMethodEnum>	m_ReflectanceMethod;
 	};
 }
-

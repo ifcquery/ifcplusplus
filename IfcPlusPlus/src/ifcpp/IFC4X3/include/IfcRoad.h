@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRoadTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRoad : public IfcFacility
-	{ 
+	{
 	public:
 		IfcRoad() = default;
 		IfcRoad( int id );
@@ -83,4 +83,3 @@ namespace IFC4X3
 		shared_ptr<IfcRoadTypeEnum>									m_PredefinedType;			//optional
 	};
 }
-

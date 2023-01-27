@@ -41,12 +41,9 @@ void IFC4X3::IfcArbitraryProfileDefWithVoids::readStepArguments( const std::vect
 void IFC4X3::IfcArbitraryProfileDefWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcArbitraryClosedProfileDef::getAttributes( vec_attributes );
-	if( !m_InnerCurves.empty() )
-	{
-		shared_ptr<AttributeObjectVector> InnerCurves_vec_object( new AttributeObjectVector() );
-		std::copy( m_InnerCurves.begin(), m_InnerCurves.end(), std::back_inserter( InnerCurves_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "InnerCurves", InnerCurves_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> InnerCurves_vec_object( new AttributeObjectVector() );
+	std::copy( m_InnerCurves.begin(), m_InnerCurves.end(), std::back_inserter( InnerCurves_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "InnerCurves", InnerCurves_vec_object ) );
 }
 void IFC4X3::IfcArbitraryProfileDefWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

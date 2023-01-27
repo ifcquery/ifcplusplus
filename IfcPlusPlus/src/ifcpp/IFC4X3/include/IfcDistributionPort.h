@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDistributionSystemEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDistributionPort : public IfcPort
-	{ 
+	{
 	public:
 		IfcDistributionPort() = default;
 		IfcDistributionPort( int id );
@@ -77,4 +77,3 @@ namespace IFC4X3
 		shared_ptr<IfcDistributionSystemEnum>						m_SystemType;				//optional
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoundingBox;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBoxedHalfSpace : public IfcHalfSpaceSolid
-	{ 
+	{
 	public:
 		IfcBoxedHalfSpace() = default;
 		IfcBoxedHalfSpace( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcBoundingBox>								m_Enclosure;
 	};
 }
-

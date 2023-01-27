@@ -30,12 +30,9 @@ void IFC4X3::IfcFaceBasedSurfaceModel::readStepArguments( const std::vector<std:
 void IFC4X3::IfcFaceBasedSurfaceModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	if( !m_FbsmFaces.empty() )
-	{
-		shared_ptr<AttributeObjectVector> FbsmFaces_vec_object( new AttributeObjectVector() );
-		std::copy( m_FbsmFaces.begin(), m_FbsmFaces.end(), std::back_inserter( FbsmFaces_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "FbsmFaces", FbsmFaces_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> FbsmFaces_vec_object( new AttributeObjectVector() );
+	std::copy( m_FbsmFaces.begin(), m_FbsmFaces.end(), std::back_inserter( FbsmFaces_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "FbsmFaces", FbsmFaces_vec_object ) );
 }
 void IFC4X3::IfcFaceBasedSurfaceModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

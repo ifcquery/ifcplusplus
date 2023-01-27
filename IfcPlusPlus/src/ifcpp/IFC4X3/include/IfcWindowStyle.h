@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoolean;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcWindowStyle : public IfcTypeProduct
-	{ 
+	{
 	public:
 		IfcWindowStyle() = default;
 		IfcWindowStyle( int id );
@@ -68,4 +68,3 @@ namespace IFC4X3
 		shared_ptr<IfcBoolean>								m_Sizeable;
 	};
 }
-

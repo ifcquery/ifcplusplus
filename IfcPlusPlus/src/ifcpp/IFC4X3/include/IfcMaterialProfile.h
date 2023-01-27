@@ -18,7 +18,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcMaterialProfileSet;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMaterialProfile : public IfcMaterialDefinition
-	{ 
+	{
 	public:
 		IfcMaterialProfile() = default;
 		IfcMaterialProfile( int id );
@@ -50,4 +50,3 @@ namespace IFC4X3
 		weak_ptr<IfcMaterialProfileSet>								m_ToMaterialProfileSet_inverse;
 	};
 }
-

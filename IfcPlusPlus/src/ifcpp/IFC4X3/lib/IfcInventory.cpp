@@ -78,12 +78,9 @@ void IFC4X3::IfcInventory::getAttributes( std::vector<std::pair<std::string, sha
 	IFC4X3::IfcGroup::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.emplace_back( std::make_pair( "Jurisdiction", m_Jurisdiction ) );
-	if( !m_ResponsiblePersons.empty() )
-	{
-		shared_ptr<AttributeObjectVector> ResponsiblePersons_vec_object( new AttributeObjectVector() );
-		std::copy( m_ResponsiblePersons.begin(), m_ResponsiblePersons.end(), std::back_inserter( ResponsiblePersons_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "ResponsiblePersons", ResponsiblePersons_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> ResponsiblePersons_vec_object( new AttributeObjectVector() );
+	std::copy( m_ResponsiblePersons.begin(), m_ResponsiblePersons.end(), std::back_inserter( ResponsiblePersons_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "ResponsiblePersons", ResponsiblePersons_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "LastUpdateDate", m_LastUpdateDate ) );
 	vec_attributes.emplace_back( std::make_pair( "CurrentValue", m_CurrentValue ) );
 	vec_attributes.emplace_back( std::make_pair( "OriginalValue", m_OriginalValue ) );

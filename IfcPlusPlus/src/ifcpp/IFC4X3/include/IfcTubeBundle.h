@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTubeBundleTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTubeBundle : public IfcEnergyConversionDevice
-	{ 
+	{
 	public:
 		IfcTubeBundle() = default;
 		IfcTubeBundle( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcTubeBundleTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

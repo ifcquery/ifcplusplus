@@ -69,18 +69,12 @@ void IFC4X3::IfcCostItem::getAttributes( std::vector<std::pair<std::string, shar
 {
 	IFC4X3::IfcControl::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
-	if( !m_CostValues.empty() )
-	{
-		shared_ptr<AttributeObjectVector> CostValues_vec_object( new AttributeObjectVector() );
-		std::copy( m_CostValues.begin(), m_CostValues.end(), std::back_inserter( CostValues_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "CostValues", CostValues_vec_object ) );
-	}
-	if( !m_CostQuantities.empty() )
-	{
-		shared_ptr<AttributeObjectVector> CostQuantities_vec_object( new AttributeObjectVector() );
-		std::copy( m_CostQuantities.begin(), m_CostQuantities.end(), std::back_inserter( CostQuantities_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "CostQuantities", CostQuantities_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> CostValues_vec_object( new AttributeObjectVector() );
+	std::copy( m_CostValues.begin(), m_CostValues.end(), std::back_inserter( CostValues_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "CostValues", CostValues_vec_object ) );
+	shared_ptr<AttributeObjectVector> CostQuantities_vec_object( new AttributeObjectVector() );
+	std::copy( m_CostQuantities.begin(), m_CostQuantities.end(), std::back_inserter( CostQuantities_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "CostQuantities", CostQuantities_vec_object ) );
 }
 void IFC4X3::IfcCostItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcClassificationSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelAssociatesClassification : public IfcRelAssociates
-	{ 
+	{
 	public:
 		IfcRelAssociatesClassification() = default;
 		IfcRelAssociatesClassification( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcClassificationSelect>				m_RelatingClassification;
 	};
 }
-

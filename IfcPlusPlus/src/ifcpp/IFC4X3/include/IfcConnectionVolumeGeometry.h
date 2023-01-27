@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSolidOrShell;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcConnectionVolumeGeometry : public IfcConnectionGeometry
-	{ 
+	{
 	public:
 		IfcConnectionVolumeGeometry() = default;
 		IfcConnectionVolumeGeometry( int id );
@@ -35,4 +35,3 @@ namespace IFC4X3
 		shared_ptr<IfcSolidOrShell>	m_VolumeOnRelatedElement;	//optional
 	};
 }
-

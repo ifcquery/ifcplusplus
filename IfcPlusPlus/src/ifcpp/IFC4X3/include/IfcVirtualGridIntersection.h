@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcVirtualGridIntersection : virtual public IfcGridPlacementDirectionSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcVirtualGridIntersection() = default;
 		IfcVirtualGridIntersection( int id );
@@ -34,4 +34,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcLengthMeasure> >	m_OffsetDistances;
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReal;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCartesianTransformationOperator2DnonUniform : public IfcCartesianTransformationOperator2D
-	{ 
+	{
 	public:
 		IfcCartesianTransformationOperator2DnonUniform() = default;
 		IfcCartesianTransformationOperator2DnonUniform( int id );
@@ -48,4 +48,3 @@ namespace IFC4X3
 		shared_ptr<IfcReal>										m_Scale2;					//optional
 	};
 }
-

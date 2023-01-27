@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcVector : virtual public IfcHatchLineDistanceSelect, virtual public IfcVectorOrDirection, public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcVector() = default;
 		IfcVector( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		shared_ptr<IfcLengthMeasure>							m_Magnitude;
 	};
 }
-

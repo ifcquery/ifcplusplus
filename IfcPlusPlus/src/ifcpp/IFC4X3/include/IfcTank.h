@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTankTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTank : public IfcFlowStorageDevice
-	{ 
+	{
 	public:
 		IfcTank() = default;
 		IfcTank( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcTankTypeEnum>									m_PredefinedType;			//optional
 	};
 }
-

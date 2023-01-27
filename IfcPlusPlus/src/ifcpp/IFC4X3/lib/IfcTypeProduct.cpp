@@ -62,29 +62,23 @@ void IFC4X3::IfcTypeProduct::readStepArguments( const std::vector<std::string>& 
 void IFC4X3::IfcTypeProduct::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcTypeObject::getAttributes( vec_attributes );
-	if( !m_RepresentationMaps.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RepresentationMaps_vec_object( new AttributeObjectVector() );
-		std::copy( m_RepresentationMaps.begin(), m_RepresentationMaps.end(), std::back_inserter( RepresentationMaps_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RepresentationMaps", RepresentationMaps_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RepresentationMaps_vec_object( new AttributeObjectVector() );
+	std::copy( m_RepresentationMaps.begin(), m_RepresentationMaps.end(), std::back_inserter( RepresentationMaps_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RepresentationMaps", RepresentationMaps_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "Tag", m_Tag ) );
 }
 void IFC4X3::IfcTypeProduct::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcTypeObject::getAttributesInverse( vec_attributes_inverse );
-	if( !m_ReferencedBy_inverse.empty() )
+	shared_ptr<AttributeObjectVector> ReferencedBy_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ReferencedBy_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ReferencedBy_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ReferencedBy_inverse.size(); ++i )
+		if( !m_ReferencedBy_inverse[i].expired() )
 		{
-			if( !m_ReferencedBy_inverse[i].expired() )
-			{
-				ReferencedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssignsToProduct>( m_ReferencedBy_inverse[i] ) );
-			}
+			ReferencedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssignsToProduct>( m_ReferencedBy_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ReferencedBy_inverse", ReferencedBy_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "ReferencedBy_inverse", ReferencedBy_inverse_vec_obj ) );
 }
 void IFC4X3::IfcTypeProduct::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

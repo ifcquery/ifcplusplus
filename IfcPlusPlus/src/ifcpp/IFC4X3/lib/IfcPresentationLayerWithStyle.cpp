@@ -74,12 +74,9 @@ void IFC4X3::IfcPresentationLayerWithStyle::getAttributes( std::vector<std::pair
 	vec_attributes.emplace_back( std::make_pair( "LayerOn", m_LayerOn ) );
 	vec_attributes.emplace_back( std::make_pair( "LayerFrozen", m_LayerFrozen ) );
 	vec_attributes.emplace_back( std::make_pair( "LayerBlocked", m_LayerBlocked ) );
-	if( !m_LayerStyles.empty() )
-	{
-		shared_ptr<AttributeObjectVector> LayerStyles_vec_object( new AttributeObjectVector() );
-		std::copy( m_LayerStyles.begin(), m_LayerStyles.end(), std::back_inserter( LayerStyles_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "LayerStyles", LayerStyles_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> LayerStyles_vec_object( new AttributeObjectVector() );
+	std::copy( m_LayerStyles.begin(), m_LayerStyles.end(), std::back_inserter( LayerStyles_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "LayerStyles", LayerStyles_vec_object ) );
 }
 void IFC4X3::IfcPresentationLayerWithStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -41,24 +41,15 @@ void IFC4X3::IfcPolynomialCurve::getAttributes( std::vector<std::pair<std::strin
 {
 	IFC4X3::IfcCurve::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "Position", m_Position ) );
-	if( !m_CoefficientsX.empty() )
-	{
-		shared_ptr<AttributeObjectVector> CoefficientsX_vec_object( new AttributeObjectVector() );
-		std::copy( m_CoefficientsX.begin(), m_CoefficientsX.end(), std::back_inserter( CoefficientsX_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "CoefficientsX", CoefficientsX_vec_object ) );
-	}
-	if( !m_CoefficientsY.empty() )
-	{
-		shared_ptr<AttributeObjectVector> CoefficientsY_vec_object( new AttributeObjectVector() );
-		std::copy( m_CoefficientsY.begin(), m_CoefficientsY.end(), std::back_inserter( CoefficientsY_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "CoefficientsY", CoefficientsY_vec_object ) );
-	}
-	if( !m_CoefficientsZ.empty() )
-	{
-		shared_ptr<AttributeObjectVector> CoefficientsZ_vec_object( new AttributeObjectVector() );
-		std::copy( m_CoefficientsZ.begin(), m_CoefficientsZ.end(), std::back_inserter( CoefficientsZ_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "CoefficientsZ", CoefficientsZ_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> CoefficientsX_vec_object( new AttributeObjectVector() );
+	std::copy( m_CoefficientsX.begin(), m_CoefficientsX.end(), std::back_inserter( CoefficientsX_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "CoefficientsX", CoefficientsX_vec_object ) );
+	shared_ptr<AttributeObjectVector> CoefficientsY_vec_object( new AttributeObjectVector() );
+	std::copy( m_CoefficientsY.begin(), m_CoefficientsY.end(), std::back_inserter( CoefficientsY_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "CoefficientsY", CoefficientsY_vec_object ) );
+	shared_ptr<AttributeObjectVector> CoefficientsZ_vec_object( new AttributeObjectVector() );
+	std::copy( m_CoefficientsZ.begin(), m_CoefficientsZ.end(), std::back_inserter( CoefficientsZ_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "CoefficientsZ", CoefficientsZ_vec_object ) );
 }
 void IFC4X3::IfcPolynomialCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

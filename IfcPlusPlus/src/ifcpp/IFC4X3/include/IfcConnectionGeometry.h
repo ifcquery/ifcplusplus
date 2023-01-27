@@ -11,7 +11,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcConnectionGeometry : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcConnectionGeometry() = default;
 		IfcConnectionGeometry( int id );
@@ -28,4 +28,3 @@ namespace IFC4X3
 		// IfcConnectionGeometry -----------------------------------------------------------
 	};
 }
-

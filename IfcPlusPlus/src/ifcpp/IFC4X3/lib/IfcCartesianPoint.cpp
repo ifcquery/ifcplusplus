@@ -30,12 +30,9 @@ void IFC4X3::IfcCartesianPoint::readStepArguments( const std::vector<std::string
 void IFC4X3::IfcCartesianPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcPoint::getAttributes( vec_attributes );
-	if( !m_Coordinates.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Coordinates_vec_object( new AttributeObjectVector() );
-		std::copy( m_Coordinates.begin(), m_Coordinates.end(), std::back_inserter( Coordinates_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Coordinates", Coordinates_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Coordinates_vec_object( new AttributeObjectVector() );
+	std::copy( m_Coordinates.begin(), m_Coordinates.end(), std::back_inserter( Coordinates_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Coordinates", Coordinates_vec_object ) );
 }
 void IFC4X3::IfcCartesianPoint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

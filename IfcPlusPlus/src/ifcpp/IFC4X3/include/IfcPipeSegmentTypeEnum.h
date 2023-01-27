@@ -34,4 +34,3 @@ namespace IFC4X3
 		IfcPipeSegmentTypeEnumEnum m_enum;
 	};
 }
-

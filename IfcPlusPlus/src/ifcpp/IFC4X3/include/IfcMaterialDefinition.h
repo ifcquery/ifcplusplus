@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcMaterialProperties;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMaterialDefinition : virtual public IfcMaterialSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcMaterialDefinition() = default;
 		IfcMaterialDefinition( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcMaterialProperties> >				m_HasProperties_inverse;
 	};
 }
-

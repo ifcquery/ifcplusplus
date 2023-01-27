@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMaterialRelationship : public IfcResourceLevelRelationship
-	{ 
+	{
 	public:
 		IfcMaterialRelationship() = default;
 		IfcMaterialRelationship( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>					m_MaterialExpression;		//optional
 	};
 }
-

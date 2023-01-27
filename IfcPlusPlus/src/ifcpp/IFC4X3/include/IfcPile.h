@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPileConstructionEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPile : public IfcDeepFoundation
-	{ 
+	{
 	public:
 		IfcPile() = default;
 		IfcPile( int id );
@@ -90,4 +90,3 @@ namespace IFC4X3
 		shared_ptr<IfcPileConstructionEnum>							m_ConstructionType;			//optional
 	};
 }
-

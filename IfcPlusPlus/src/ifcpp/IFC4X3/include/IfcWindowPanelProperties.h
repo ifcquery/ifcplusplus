@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcShapeAspect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcWindowPanelProperties : public IfcPreDefinedPropertySet
-	{ 
+	{
 	public:
 		IfcWindowPanelProperties() = default;
 		IfcWindowPanelProperties( int id );
@@ -59,4 +59,3 @@ namespace IFC4X3
 		shared_ptr<IfcShapeAspect>							m_ShapeAspectStyle;			//optional
 	};
 }
-

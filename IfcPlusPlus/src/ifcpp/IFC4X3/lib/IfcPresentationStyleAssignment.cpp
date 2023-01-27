@@ -32,12 +32,9 @@ void IFC4X3::IfcPresentationStyleAssignment::readStepArguments( const std::vecto
 void IFC4X3::IfcPresentationStyleAssignment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcPresentationStyle::getAttributes( vec_attributes );
-	if( !m_Styles.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Styles_vec_object( new AttributeObjectVector() );
-		std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Styles", Styles_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Styles_vec_object( new AttributeObjectVector() );
+	std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Styles", Styles_vec_object ) );
 }
 void IFC4X3::IfcPresentationStyleAssignment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

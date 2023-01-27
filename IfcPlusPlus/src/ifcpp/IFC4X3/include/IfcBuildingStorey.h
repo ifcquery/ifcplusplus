@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBuildingStorey : public IfcSpatialStructureElement
-	{ 
+	{
 	public:
 		IfcBuildingStorey() = default;
 		IfcBuildingStorey( int id );
@@ -81,4 +81,3 @@ namespace IFC4X3
 		shared_ptr<IfcLengthMeasure>								m_Elevation;				//optional
 	};
 }
-

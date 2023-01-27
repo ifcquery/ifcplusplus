@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcNonNegativeLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCShapeProfileDef : public IfcParameterizedProfileDef
-	{ 
+	{
 	public:
 		IfcCShapeProfileDef() = default;
 		IfcCShapeProfileDef( int id );
@@ -49,4 +49,3 @@ namespace IFC4X3
 		shared_ptr<IfcNonNegativeLengthMeasure>						m_InternalFilletRadius;		//optional
 	};
 }
-

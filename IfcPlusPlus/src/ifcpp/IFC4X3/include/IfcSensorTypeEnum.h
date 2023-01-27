@@ -61,4 +61,3 @@ namespace IFC4X3
 		IfcSensorTypeEnumEnum m_enum;
 	};
 }
-

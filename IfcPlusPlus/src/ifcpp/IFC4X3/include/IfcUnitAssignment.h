@@ -12,7 +12,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcUnit;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcUnitAssignment : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcUnitAssignment() = default;
 		IfcUnitAssignment( int id );
@@ -31,4 +31,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcUnit> >	m_Units;
 	};
 }
-

@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelAssignsToProcess;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcProcess : virtual public IfcProcessSelect, public IfcObject
-	{ 
+	{
 	public:
 		IfcProcess() = default;
 		IfcProcess( int id );
@@ -67,4 +67,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelAssignsToProcess> >		m_OperatesOn_inverse;
 	};
 }
-

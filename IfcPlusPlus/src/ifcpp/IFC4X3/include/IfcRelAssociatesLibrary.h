@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLibrarySelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelAssociatesLibrary : public IfcRelAssociates
-	{ 
+	{
 	public:
 		IfcRelAssociatesLibrary() = default;
 		IfcRelAssociatesLibrary( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcLibrarySelect>					m_RelatingLibrary;
 	};
 }
-

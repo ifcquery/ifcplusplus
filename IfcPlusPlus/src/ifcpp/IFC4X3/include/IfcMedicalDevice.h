@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcMedicalDeviceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMedicalDevice : public IfcFlowTerminal
-	{ 
+	{
 	public:
 		IfcMedicalDevice() = default;
 		IfcMedicalDevice( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcMedicalDeviceTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

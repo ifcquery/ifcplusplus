@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLogical;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBSplineCurve : public IfcBoundedCurve
-	{ 
+	{
 	public:
 		IfcBSplineCurve() = default;
 		IfcBSplineCurve( int id );
@@ -50,4 +50,3 @@ namespace IFC4X3
 		shared_ptr<IfcLogical>									m_SelfIntersect;
 	};
 }
-

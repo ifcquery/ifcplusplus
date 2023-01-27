@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcConnectedFaceSet;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFaceBasedSurfaceModel : virtual public IfcSurfaceOrFaceSurface, public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcFaceBasedSurfaceModel() = default;
 		IfcFaceBasedSurfaceModel( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcConnectedFaceSet> >			m_FbsmFaces;
 	};
 }
-

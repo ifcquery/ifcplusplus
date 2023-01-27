@@ -35,18 +35,12 @@ void IFC4X3::IfcLightDistributionData::readStepArguments( const std::vector<std:
 void IFC4X3::IfcLightDistributionData::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.emplace_back( std::make_pair( "MainPlaneAngle", m_MainPlaneAngle ) );
-	if( !m_SecondaryPlaneAngle.empty() )
-	{
-		shared_ptr<AttributeObjectVector> SecondaryPlaneAngle_vec_object( new AttributeObjectVector() );
-		std::copy( m_SecondaryPlaneAngle.begin(), m_SecondaryPlaneAngle.end(), std::back_inserter( SecondaryPlaneAngle_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "SecondaryPlaneAngle", SecondaryPlaneAngle_vec_object ) );
-	}
-	if( !m_LuminousIntensity.empty() )
-	{
-		shared_ptr<AttributeObjectVector> LuminousIntensity_vec_object( new AttributeObjectVector() );
-		std::copy( m_LuminousIntensity.begin(), m_LuminousIntensity.end(), std::back_inserter( LuminousIntensity_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "LuminousIntensity", LuminousIntensity_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> SecondaryPlaneAngle_vec_object( new AttributeObjectVector() );
+	std::copy( m_SecondaryPlaneAngle.begin(), m_SecondaryPlaneAngle.end(), std::back_inserter( SecondaryPlaneAngle_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "SecondaryPlaneAngle", SecondaryPlaneAngle_vec_object ) );
+	shared_ptr<AttributeObjectVector> LuminousIntensity_vec_object( new AttributeObjectVector() );
+	std::copy( m_LuminousIntensity.begin(), m_LuminousIntensity.end(), std::back_inserter( LuminousIntensity_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "LuminousIntensity", LuminousIntensity_vec_object ) );
 }
 void IFC4X3::IfcLightDistributionData::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

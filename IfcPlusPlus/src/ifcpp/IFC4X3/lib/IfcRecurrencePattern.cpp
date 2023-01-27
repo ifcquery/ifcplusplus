@@ -54,33 +54,21 @@ void IFC4X3::IfcRecurrencePattern::readStepArguments( const std::vector<std::str
 void IFC4X3::IfcRecurrencePattern::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.emplace_back( std::make_pair( "RecurrenceType", m_RecurrenceType ) );
-	if( !m_DayComponent.empty() )
-	{
-		shared_ptr<AttributeObjectVector> DayComponent_vec_object( new AttributeObjectVector() );
-		std::copy( m_DayComponent.begin(), m_DayComponent.end(), std::back_inserter( DayComponent_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "DayComponent", DayComponent_vec_object ) );
-	}
-	if( !m_WeekdayComponent.empty() )
-	{
-		shared_ptr<AttributeObjectVector> WeekdayComponent_vec_object( new AttributeObjectVector() );
-		std::copy( m_WeekdayComponent.begin(), m_WeekdayComponent.end(), std::back_inserter( WeekdayComponent_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "WeekdayComponent", WeekdayComponent_vec_object ) );
-	}
-	if( !m_MonthComponent.empty() )
-	{
-		shared_ptr<AttributeObjectVector> MonthComponent_vec_object( new AttributeObjectVector() );
-		std::copy( m_MonthComponent.begin(), m_MonthComponent.end(), std::back_inserter( MonthComponent_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "MonthComponent", MonthComponent_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> DayComponent_vec_object( new AttributeObjectVector() );
+	std::copy( m_DayComponent.begin(), m_DayComponent.end(), std::back_inserter( DayComponent_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "DayComponent", DayComponent_vec_object ) );
+	shared_ptr<AttributeObjectVector> WeekdayComponent_vec_object( new AttributeObjectVector() );
+	std::copy( m_WeekdayComponent.begin(), m_WeekdayComponent.end(), std::back_inserter( WeekdayComponent_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "WeekdayComponent", WeekdayComponent_vec_object ) );
+	shared_ptr<AttributeObjectVector> MonthComponent_vec_object( new AttributeObjectVector() );
+	std::copy( m_MonthComponent.begin(), m_MonthComponent.end(), std::back_inserter( MonthComponent_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "MonthComponent", MonthComponent_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "Position", m_Position ) );
 	vec_attributes.emplace_back( std::make_pair( "Interval", m_Interval ) );
 	vec_attributes.emplace_back( std::make_pair( "Occurrences", m_Occurrences ) );
-	if( !m_TimePeriods.empty() )
-	{
-		shared_ptr<AttributeObjectVector> TimePeriods_vec_object( new AttributeObjectVector() );
-		std::copy( m_TimePeriods.begin(), m_TimePeriods.end(), std::back_inserter( TimePeriods_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "TimePeriods", TimePeriods_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> TimePeriods_vec_object( new AttributeObjectVector() );
+	std::copy( m_TimePeriods.begin(), m_TimePeriods.end(), std::back_inserter( TimePeriods_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "TimePeriods", TimePeriods_vec_object ) );
 }
 void IFC4X3::IfcRecurrencePattern::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

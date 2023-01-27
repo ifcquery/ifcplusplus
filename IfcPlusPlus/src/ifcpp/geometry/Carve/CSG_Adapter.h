@@ -357,53 +357,6 @@ namespace CSG_Adapter
 			}
 #endif
 
-			if( !result_meshset_ok && false)
-			{
-				double eps_restore = eps;
-				eps = eps * 0.11;
-				for( size_t ii = 0; ii < 5; ++ii )
-				{
-					eps = eps * 5.5;
-					epsilonSetter.setEpsilonValue(eps);
-
-					carve::csg::CSG csg;
-					result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(op1.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
-					result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, eps, true, dumpMeshes);
-
-#ifdef _USE_CLASSIFY_NORMAL
-					if( !result_meshset_ok )
-					{
-						carve::csg::CSG csg;
-						result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(op1.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_NORMAL));
-						result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult, eps, true, dumpMeshes);
-
-						if( result_meshset_ok )
-						{
-							shared_ptr<carve::mesh::MeshSet<3> > result_clone(result->clone());
-							MeshOps::retriangulateMeshSetSimple(result_clone, false, eps, 0);
-							result_meshset_ok = MeshUtils::checkMeshSetValidAndClosed(result, infoResult);
-						}
-					}
-#endif
-
-					if( result_meshset_ok )
-					{
-#ifdef _DEBUG
-						bool checkZeroAreaFaces = false;
-						GeomDebugDump::moveOffset(1.0);
-						dumpWithLabel("result_changed_eps: ", op1, dumpColorSettings, checkZeroAreaFaces, false, false);
-						GeomDebugDump::moveOffset(1.0);
-						dumpWithLabel("result_changed_eps: ", op2, dumpColorSettings, checkZeroAreaFaces, false, false);
-						GeomDebugDump::moveOffset(1.0);
-						dumpWithLabel("result_changed_eps: ", result, dumpColorSettings, checkZeroAreaFaces, false, false);
-						std::cout << "successfully changed epsilon: " << eps << std::endl;
-#endif
-						break;
-					}
-				}
-				epsilonSetter.setEpsilonValue(eps_restore);
-			}
-
 			if( !result_meshset_ok )
 			{
 				dumpMeshes = true;

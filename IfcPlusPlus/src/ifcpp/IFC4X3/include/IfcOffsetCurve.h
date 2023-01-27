@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCurve;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcOffsetCurve : public IfcCurve
-	{ 
+	{
 	public:
 		IfcOffsetCurve() = default;
 		IfcOffsetCurve( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcCurve>									m_BasisCurve;
 	};
 }
-

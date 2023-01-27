@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcGeometricSetSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcGeometricSet : public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcGeometricSet() = default;
 		IfcGeometricSet( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcGeometricSetSelect> >			m_Elements;
 	};
 }
-

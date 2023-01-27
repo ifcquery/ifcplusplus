@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSphere : public IfcCsgPrimitive3D
-	{ 
+	{
 	public:
 		IfcSphere() = default;
 		IfcSphere( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveLengthMeasure>					m_Radius;
 	};
 }
-

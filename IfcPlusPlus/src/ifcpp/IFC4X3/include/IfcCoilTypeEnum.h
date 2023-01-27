@@ -36,4 +36,3 @@ namespace IFC4X3
 		IfcCoilTypeEnumEnum m_enum;
 	};
 }
-

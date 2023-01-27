@@ -68,30 +68,18 @@ void IFC4X3::IfcBSplineSurfaceWithKnots::readStepArguments( const std::vector<st
 void IFC4X3::IfcBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcBSplineSurface::getAttributes( vec_attributes );
-	if( !m_UMultiplicities.empty() )
-	{
-		shared_ptr<AttributeObjectVector> UMultiplicities_vec_object( new AttributeObjectVector() );
-		std::copy( m_UMultiplicities.begin(), m_UMultiplicities.end(), std::back_inserter( UMultiplicities_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "UMultiplicities", UMultiplicities_vec_object ) );
-	}
-	if( !m_VMultiplicities.empty() )
-	{
-		shared_ptr<AttributeObjectVector> VMultiplicities_vec_object( new AttributeObjectVector() );
-		std::copy( m_VMultiplicities.begin(), m_VMultiplicities.end(), std::back_inserter( VMultiplicities_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "VMultiplicities", VMultiplicities_vec_object ) );
-	}
-	if( !m_UKnots.empty() )
-	{
-		shared_ptr<AttributeObjectVector> UKnots_vec_object( new AttributeObjectVector() );
-		std::copy( m_UKnots.begin(), m_UKnots.end(), std::back_inserter( UKnots_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "UKnots", UKnots_vec_object ) );
-	}
-	if( !m_VKnots.empty() )
-	{
-		shared_ptr<AttributeObjectVector> VKnots_vec_object( new AttributeObjectVector() );
-		std::copy( m_VKnots.begin(), m_VKnots.end(), std::back_inserter( VKnots_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "VKnots", VKnots_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> UMultiplicities_vec_object( new AttributeObjectVector() );
+	std::copy( m_UMultiplicities.begin(), m_UMultiplicities.end(), std::back_inserter( UMultiplicities_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "UMultiplicities", UMultiplicities_vec_object ) );
+	shared_ptr<AttributeObjectVector> VMultiplicities_vec_object( new AttributeObjectVector() );
+	std::copy( m_VMultiplicities.begin(), m_VMultiplicities.end(), std::back_inserter( VMultiplicities_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "VMultiplicities", VMultiplicities_vec_object ) );
+	shared_ptr<AttributeObjectVector> UKnots_vec_object( new AttributeObjectVector() );
+	std::copy( m_UKnots.begin(), m_UKnots.end(), std::back_inserter( UKnots_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "UKnots", UKnots_vec_object ) );
+	shared_ptr<AttributeObjectVector> VKnots_vec_object( new AttributeObjectVector() );
+	std::copy( m_VKnots.begin(), m_VKnots.end(), std::back_inserter( VKnots_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "VKnots", VKnots_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "KnotSpec", m_KnotSpec ) );
 }
 void IFC4X3::IfcBSplineSurfaceWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

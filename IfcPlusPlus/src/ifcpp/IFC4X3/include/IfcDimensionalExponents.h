@@ -11,7 +11,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDimensionalExponents : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcDimensionalExponents() = default;
 		IfcDimensionalExponents( int id );
@@ -36,4 +36,3 @@ namespace IFC4X3
 		int	m_LuminousIntensityExponent;
 	};
 }
-

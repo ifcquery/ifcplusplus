@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCurveInterpolationEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPropertyTableValue : public IfcSimpleProperty
-	{ 
+	{
 	public:
 		IfcPropertyTableValue() = default;
 		IfcPropertyTableValue( int id );
@@ -58,4 +58,3 @@ namespace IFC4X3
 		shared_ptr<IfcCurveInterpolationEnum>						m_CurveInterpolation;		//optional
 	};
 }
-

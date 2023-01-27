@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCurve;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcArbitraryProfileDefWithVoids : public IfcArbitraryClosedProfileDef
-	{ 
+	{
 	public:
 		IfcArbitraryProfileDefWithVoids() = default;
 		IfcArbitraryProfileDefWithVoids( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcCurve> >							m_InnerCurves;
 	};
 }
-

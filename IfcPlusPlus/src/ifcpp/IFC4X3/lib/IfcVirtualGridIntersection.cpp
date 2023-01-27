@@ -31,18 +31,12 @@ void IFC4X3::IfcVirtualGridIntersection::readStepArguments( const std::vector<st
 }
 void IFC4X3::IfcVirtualGridIntersection::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( !m_IntersectingAxes.empty() )
-	{
-		shared_ptr<AttributeObjectVector> IntersectingAxes_vec_object( new AttributeObjectVector() );
-		std::copy( m_IntersectingAxes.begin(), m_IntersectingAxes.end(), std::back_inserter( IntersectingAxes_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "IntersectingAxes", IntersectingAxes_vec_object ) );
-	}
-	if( !m_OffsetDistances.empty() )
-	{
-		shared_ptr<AttributeObjectVector> OffsetDistances_vec_object( new AttributeObjectVector() );
-		std::copy( m_OffsetDistances.begin(), m_OffsetDistances.end(), std::back_inserter( OffsetDistances_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "OffsetDistances", OffsetDistances_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> IntersectingAxes_vec_object( new AttributeObjectVector() );
+	std::copy( m_IntersectingAxes.begin(), m_IntersectingAxes.end(), std::back_inserter( IntersectingAxes_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "IntersectingAxes", IntersectingAxes_vec_object ) );
+	shared_ptr<AttributeObjectVector> OffsetDistances_vec_object( new AttributeObjectVector() );
+	std::copy( m_OffsetDistances.begin(), m_OffsetDistances.end(), std::back_inserter( OffsetDistances_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "OffsetDistances", OffsetDistances_vec_object ) );
 }
 void IFC4X3::IfcVirtualGridIntersection::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

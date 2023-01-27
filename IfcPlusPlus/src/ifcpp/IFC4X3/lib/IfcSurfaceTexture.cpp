@@ -69,40 +69,31 @@ void IFC4X3::IfcSurfaceTexture::getAttributes( std::vector<std::pair<std::string
 	vec_attributes.emplace_back( std::make_pair( "RepeatT", m_RepeatT ) );
 	vec_attributes.emplace_back( std::make_pair( "Mode", m_Mode ) );
 	vec_attributes.emplace_back( std::make_pair( "TextureTransform", m_TextureTransform ) );
-	if( !m_Parameter.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Parameter_vec_object( new AttributeObjectVector() );
-		std::copy( m_Parameter.begin(), m_Parameter.end(), std::back_inserter( Parameter_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Parameter", Parameter_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Parameter_vec_object( new AttributeObjectVector() );
+	std::copy( m_Parameter.begin(), m_Parameter.end(), std::back_inserter( Parameter_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Parameter", Parameter_vec_object ) );
 }
 void IFC4X3::IfcSurfaceTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcPresentationItem::getAttributesInverse( vec_attributes_inverse );
-	if( !m_IsMappedBy_inverse.empty() )
+	shared_ptr<AttributeObjectVector> IsMappedBy_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_IsMappedBy_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> IsMappedBy_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_IsMappedBy_inverse.size(); ++i )
+		if( !m_IsMappedBy_inverse[i].expired() )
 		{
-			if( !m_IsMappedBy_inverse[i].expired() )
-			{
-				IsMappedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcTextureCoordinate>( m_IsMappedBy_inverse[i] ) );
-			}
+			IsMappedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcTextureCoordinate>( m_IsMappedBy_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "IsMappedBy_inverse", IsMappedBy_inverse_vec_obj ) );
 	}
-	if( !m_UsedInStyles_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "IsMappedBy_inverse", IsMappedBy_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> UsedInStyles_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_UsedInStyles_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> UsedInStyles_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_UsedInStyles_inverse.size(); ++i )
+		if( !m_UsedInStyles_inverse[i].expired() )
 		{
-			if( !m_UsedInStyles_inverse[i].expired() )
-			{
-				UsedInStyles_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcSurfaceStyleWithTextures>( m_UsedInStyles_inverse[i] ) );
-			}
+			UsedInStyles_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcSurfaceStyleWithTextures>( m_UsedInStyles_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "UsedInStyles_inverse", UsedInStyles_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "UsedInStyles_inverse", UsedInStyles_inverse_vec_obj ) );
 }
 void IFC4X3::IfcSurfaceTexture::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

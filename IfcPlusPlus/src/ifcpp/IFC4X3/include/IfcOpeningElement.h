@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelFillsElement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcOpeningElement : public IfcFeatureElementSubtraction
-	{ 
+	{
 	public:
 		IfcOpeningElement() = default;
 		IfcOpeningElement( int id );
@@ -93,4 +93,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelFillsElement> >					m_HasFillings_inverse;
 	};
 }
-

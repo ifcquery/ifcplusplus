@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAreaMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTendonType : public IfcReinforcingElementType
-	{ 
+	{
 	public:
 		IfcTendonType() = default;
 		IfcTendonType( int id );
@@ -76,4 +76,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveLengthMeasure>				m_SheathDiameter;			//optional
 	};
 }
-

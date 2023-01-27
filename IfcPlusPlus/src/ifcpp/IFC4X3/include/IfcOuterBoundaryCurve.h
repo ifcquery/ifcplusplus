@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcOuterBoundaryCurve : public IfcBoundaryCurve
-	{ 
+	{
 	public:
 		IfcOuterBoundaryCurve() = default;
 		IfcOuterBoundaryCurve( int id );
@@ -49,4 +49,3 @@ namespace IFC4X3
 		// IfcOuterBoundaryCurve -----------------------------------------------------------
 	};
 }
-

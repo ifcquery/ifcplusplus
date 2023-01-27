@@ -33,4 +33,3 @@ namespace IFC4X3
 		IfcProtectiveDeviceTrippingUnitTypeEnumEnum m_enum;
 	};
 }
-

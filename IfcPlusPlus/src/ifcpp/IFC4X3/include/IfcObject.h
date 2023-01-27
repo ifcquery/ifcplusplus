@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelDefinesByProperties;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcObject : public IfcObjectDefinition
-	{ 
+	{
 	public:
 		IfcObject() = default;
 		IfcObject( int id );
@@ -57,4 +57,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelDefinesByProperties> >	m_IsDefinedBy_inverse;
 	};
 }
-

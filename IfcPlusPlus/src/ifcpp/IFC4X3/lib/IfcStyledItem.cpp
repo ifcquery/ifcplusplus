@@ -38,12 +38,9 @@ void IFC4X3::IfcStyledItem::getAttributes( std::vector<std::pair<std::string, sh
 {
 	IFC4X3::IfcRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "Item", m_Item ) );
-	if( !m_Styles.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Styles_vec_object( new AttributeObjectVector() );
-		std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Styles", Styles_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Styles_vec_object( new AttributeObjectVector() );
+	std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Styles", Styles_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 }
 void IFC4X3::IfcStyledItem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

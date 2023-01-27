@@ -44,12 +44,9 @@ void IFC4X3::IfcUnitAssignment::readStepArguments( const std::vector<std::string
 }
 void IFC4X3::IfcUnitAssignment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( !m_Units.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Units_vec_object( new AttributeObjectVector() );
-		std::copy( m_Units.begin(), m_Units.end(), std::back_inserter( Units_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Units", Units_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Units_vec_object( new AttributeObjectVector() );
+	std::copy( m_Units.begin(), m_Units.end(), std::back_inserter( Units_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Units", Units_vec_object ) );
 }
 void IFC4X3::IfcUnitAssignment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

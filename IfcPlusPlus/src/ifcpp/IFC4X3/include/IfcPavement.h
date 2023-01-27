@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPavementTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPavement : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcPavement() = default;
 		IfcPavement( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcPavementTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

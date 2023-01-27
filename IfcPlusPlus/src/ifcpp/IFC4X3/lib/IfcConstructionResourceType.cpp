@@ -72,12 +72,9 @@ void IFC4X3::IfcConstructionResourceType::readStepArguments( const std::vector<s
 void IFC4X3::IfcConstructionResourceType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcTypeResource::getAttributes( vec_attributes );
-	if( !m_BaseCosts.empty() )
-	{
-		shared_ptr<AttributeObjectVector> BaseCosts_vec_object( new AttributeObjectVector() );
-		std::copy( m_BaseCosts.begin(), m_BaseCosts.end(), std::back_inserter( BaseCosts_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "BaseCosts", BaseCosts_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> BaseCosts_vec_object( new AttributeObjectVector() );
+	std::copy( m_BaseCosts.begin(), m_BaseCosts.end(), std::back_inserter( BaseCosts_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "BaseCosts", BaseCosts_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "BaseQuantity", m_BaseQuantity ) );
 }
 void IFC4X3::IfcConstructionResourceType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

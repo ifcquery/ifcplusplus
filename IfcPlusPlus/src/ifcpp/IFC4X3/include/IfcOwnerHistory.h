@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTimeStamp;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcOwnerHistory : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcOwnerHistory() = default;
 		IfcOwnerHistory( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		shared_ptr<IfcTimeStamp>				m_CreationDate;
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcColumnTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcColumnType : public IfcBuiltElementType
-	{ 
+	{
 	public:
 		IfcColumnType() = default;
 		IfcColumnType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcColumnTypeEnum>						m_PredefinedType;
 	};
 }
-

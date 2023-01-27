@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDistributionFlowElement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelFlowControlElements : public IfcRelConnects
-	{ 
+	{
 	public:
 		IfcRelFlowControlElements() = default;
 		IfcRelFlowControlElements( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcDistributionFlowElement>					m_RelatingFlowElement;
 	};
 }
-

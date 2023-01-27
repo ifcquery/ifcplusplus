@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcMemberTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMember : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcMember() = default;
 		IfcMember( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcMemberTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

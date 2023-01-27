@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveInteger;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcIndexedColourMap : public IfcPresentationItem
-	{ 
+	{
 	public:
 		IfcIndexedColourMap() = default;
 		IfcIndexedColourMap( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcPositiveInteger> >	m_ColourIndex;
 	};
 }
-

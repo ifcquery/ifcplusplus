@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcGroup;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelAssignsToGroup : public IfcRelAssigns
-	{ 
+	{
 	public:
 		IfcRelAssignsToGroup() = default;
 		IfcRelAssignsToGroup( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcGroup>							m_RelatingGroup;
 	};
 }
-

@@ -34,4 +34,3 @@ namespace IFC4X3
 		IfcActuatorTypeEnumEnum m_enum;
 	};
 }
-

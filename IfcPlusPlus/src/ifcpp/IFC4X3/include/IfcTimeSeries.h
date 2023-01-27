@@ -21,7 +21,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcExternalReferenceRelationship;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTimeSeries : virtual public IfcMetricValueSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcTimeSeries() = default;
 		IfcTimeSeries( int id );
@@ -49,4 +49,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReference_inverse;
 	};
 }
-

@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcMaterialRelationship;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMaterial : public IfcMaterialDefinition
-	{ 
+	{
 	public:
 		IfcMaterial() = default;
 		IfcMaterial( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcMaterialRelationship> >				m_RelatesTo_inverse;
 	};
 }
-

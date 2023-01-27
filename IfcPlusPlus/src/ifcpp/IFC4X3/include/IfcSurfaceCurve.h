@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPreferredSurfaceCurveRepresentation;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSurfaceCurve : virtual public IfcCurveOnSurface, public IfcCurve
-	{ 
+	{
 	public:
 		IfcSurfaceCurve() = default;
 		IfcSurfaceCurve( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcPreferredSurfaceCurveRepresentation>		m_MasterRepresentation;
 	};
 }
-

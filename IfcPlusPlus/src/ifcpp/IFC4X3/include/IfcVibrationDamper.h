@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDamperTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcVibrationDamper : public IfcElementComponent
-	{ 
+	{
 	public:
 		IfcVibrationDamper() = default;
 		IfcVibrationDamper( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcDamperTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

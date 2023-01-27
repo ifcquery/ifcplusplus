@@ -32,4 +32,3 @@ namespace IFC4X3
 		IfcElectricTimeControlTypeEnumEnum m_enum;
 	};
 }
-

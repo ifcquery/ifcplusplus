@@ -12,7 +12,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTime;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTimePeriod : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcTimePeriod() = default;
 		IfcTimePeriod( int id );
@@ -32,4 +32,3 @@ namespace IFC4X3
 		shared_ptr<IfcTime>	m_EndTime;
 	};
 }
-

@@ -46,30 +46,24 @@ void IFC4X3::IfcPropertyDefinition::getAttributes( std::vector<std::pair<std::st
 void IFC4X3::IfcPropertyDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcRoot::getAttributesInverse( vec_attributes_inverse );
-	if( !m_HasContext_inverse.empty() )
+	shared_ptr<AttributeObjectVector> HasContext_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasContext_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasContext_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasContext_inverse.size(); ++i )
+		if( !m_HasContext_inverse[i].expired() )
 		{
-			if( !m_HasContext_inverse[i].expired() )
-			{
-				HasContext_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDeclares>( m_HasContext_inverse[i] ) );
-			}
+			HasContext_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDeclares>( m_HasContext_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasContext_inverse", HasContext_inverse_vec_obj ) );
 	}
-	if( !m_HasAssociations_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasContext_inverse", HasContext_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> HasAssociations_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasAssociations_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasAssociations_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasAssociations_inverse.size(); ++i )
+		if( !m_HasAssociations_inverse[i].expired() )
 		{
-			if( !m_HasAssociations_inverse[i].expired() )
-			{
-				HasAssociations_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssociates>( m_HasAssociations_inverse[i] ) );
-			}
+			HasAssociations_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssociates>( m_HasAssociations_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasAssociations_inverse", HasAssociations_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasAssociations_inverse", HasAssociations_inverse_vec_obj ) );
 }
 void IFC4X3::IfcPropertyDefinition::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

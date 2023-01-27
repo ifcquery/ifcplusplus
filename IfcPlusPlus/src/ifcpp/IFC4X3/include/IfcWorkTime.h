@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDate;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcWorkTime : public IfcSchedulingTime
-	{ 
+	{
 	public:
 		IfcWorkTime() = default;
 		IfcWorkTime( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcDate>					m_FinishDate;				//optional
 	};
 }
-

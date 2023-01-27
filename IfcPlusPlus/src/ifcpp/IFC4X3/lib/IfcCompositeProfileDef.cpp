@@ -41,12 +41,9 @@ void IFC4X3::IfcCompositeProfileDef::readStepArguments( const std::vector<std::s
 void IFC4X3::IfcCompositeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcProfileDef::getAttributes( vec_attributes );
-	if( !m_Profiles.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Profiles_vec_object( new AttributeObjectVector() );
-		std::copy( m_Profiles.begin(), m_Profiles.end(), std::back_inserter( Profiles_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Profiles", Profiles_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Profiles_vec_object( new AttributeObjectVector() );
+	std::copy( m_Profiles.begin(), m_Profiles.end(), std::back_inserter( Profiles_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Profiles", Profiles_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "Label", m_Label ) );
 }
 void IFC4X3::IfcCompositeProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcProfileDef;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelAssociatesProfileDef : public IfcRelAssociates
-	{ 
+	{
 	public:
 		IfcRelAssociatesProfileDef() = default;
 		IfcRelAssociatesProfileDef( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcProfileDef>						m_RelatingProfileDef;
 	};
 }
-

@@ -65,12 +65,9 @@ void IFC4X3::IfcTextStyleFontModel::readStepArguments( const std::vector<std::st
 void IFC4X3::IfcTextStyleFontModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcPreDefinedTextFont::getAttributes( vec_attributes );
-	if( !m_FontFamily.empty() )
-	{
-		shared_ptr<AttributeObjectVector> FontFamily_vec_object( new AttributeObjectVector() );
-		std::copy( m_FontFamily.begin(), m_FontFamily.end(), std::back_inserter( FontFamily_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "FontFamily", FontFamily_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> FontFamily_vec_object( new AttributeObjectVector() );
+	std::copy( m_FontFamily.begin(), m_FontFamily.end(), std::back_inserter( FontFamily_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "FontFamily", FontFamily_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "FontStyle", m_FontStyle ) );
 	vec_attributes.emplace_back( std::make_pair( "FontVariant", m_FontVariant ) );
 	vec_attributes.emplace_back( std::make_pair( "FontWeight", m_FontWeight ) );

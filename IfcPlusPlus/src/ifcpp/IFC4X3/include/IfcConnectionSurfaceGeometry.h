@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSurfaceOrFaceSurface;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcConnectionSurfaceGeometry : public IfcConnectionGeometry
-	{ 
+	{
 	public:
 		IfcConnectionSurfaceGeometry() = default;
 		IfcConnectionSurfaceGeometry( int id );
@@ -35,4 +35,3 @@ namespace IFC4X3
 		shared_ptr<IfcSurfaceOrFaceSurface>	m_SurfaceOnRelatedElement;	//optional
 	};
 }
-

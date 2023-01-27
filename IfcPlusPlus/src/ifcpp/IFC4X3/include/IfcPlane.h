@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPlane : public IfcElementarySurface
-	{ 
+	{
 	public:
 		IfcPlane() = default;
 		IfcPlane( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		// IfcPlane -----------------------------------------------------------
 	};
 }
-

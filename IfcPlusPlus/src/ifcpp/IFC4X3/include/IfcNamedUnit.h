@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcUnitEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcNamedUnit : virtual public IfcUnit, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcNamedUnit() = default;
 		IfcNamedUnit( int id );
@@ -34,4 +34,3 @@ namespace IFC4X3
 		shared_ptr<IfcUnitEnum>				m_UnitType;
 	};
 }
-

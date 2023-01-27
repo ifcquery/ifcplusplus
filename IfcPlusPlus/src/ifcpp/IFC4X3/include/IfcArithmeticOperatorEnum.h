@@ -31,4 +31,3 @@ namespace IFC4X3
 		IfcArithmeticOperatorEnumEnum m_enum;
 	};
 }
-

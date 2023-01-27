@@ -27,12 +27,9 @@ void IFC4X3::IfcMaterialList::readStepArguments( const std::vector<std::string>&
 }
 void IFC4X3::IfcMaterialList::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( !m_Materials.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Materials_vec_object( new AttributeObjectVector() );
-		std::copy( m_Materials.begin(), m_Materials.end(), std::back_inserter( Materials_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Materials", Materials_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Materials_vec_object( new AttributeObjectVector() );
+	std::copy( m_Materials.begin(), m_Materials.end(), std::back_inserter( Materials_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Materials", Materials_vec_object ) );
 }
 void IFC4X3::IfcMaterialList::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

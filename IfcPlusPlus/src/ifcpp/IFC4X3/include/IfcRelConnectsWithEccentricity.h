@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcConnectionGeometry;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelConnectsWithEccentricity : public IfcRelConnectsStructuralMember
-	{ 
+	{
 	public:
 		IfcRelConnectsWithEccentricity() = default;
 		IfcRelConnectsWithEccentricity( int id );
@@ -52,4 +52,3 @@ namespace IFC4X3
 		shared_ptr<IfcConnectionGeometry>				m_ConnectionConstraint;
 	};
 }
-

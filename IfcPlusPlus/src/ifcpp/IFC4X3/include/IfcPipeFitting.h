@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPipeFittingTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPipeFitting : public IfcFlowFitting
-	{ 
+	{
 	public:
 		IfcPipeFitting() = default;
 		IfcPipeFitting( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcPipeFittingTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

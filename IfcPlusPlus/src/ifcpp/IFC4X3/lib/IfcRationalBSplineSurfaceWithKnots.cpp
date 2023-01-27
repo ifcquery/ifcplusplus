@@ -72,17 +72,14 @@ void IFC4X3::IfcRationalBSplineSurfaceWithKnots::readStepArguments( const std::v
 void IFC4X3::IfcRationalBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcBSplineSurfaceWithKnots::getAttributes( vec_attributes );
-	if( !m_WeightsData.empty() )
+	shared_ptr<AttributeObjectVector> WeightsData_vector( new AttributeObjectVector() );
+	vec_attributes.emplace_back( std::make_pair( "WeightsData", WeightsData_vector ) );
+	for( size_t ii=0; ii<m_WeightsData.size(); ++ii )
 	{
-		shared_ptr<AttributeObjectVector> outer_vector( new AttributeObjectVector() );
-		vec_attributes.emplace_back( std::make_pair( "WeightsData", outer_vector ) );
-		for( size_t ii=0; ii<m_WeightsData.size(); ++ii )
-		{
-			const std::vector<shared_ptr<IfcReal> >& vec_ii = m_WeightsData[ii];
-			shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
-			outer_vector->m_vec.push_back( inner_vector );
-			std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
-		}
+		const std::vector<shared_ptr<IfcReal> >& vec_ii = m_WeightsData[ii];
+		shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
+		WeightsData_vector->m_vec.push_back( inner_vector );
+		std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
 	}
 }
 void IFC4X3::IfcRationalBSplineSurfaceWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

@@ -39,18 +39,12 @@ void IFC4X3::IfcSectionedSpine::getAttributes( std::vector<std::pair<std::string
 {
 	IFC4X3::IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "SpineCurve", m_SpineCurve ) );
-	if( !m_CrossSections.empty() )
-	{
-		shared_ptr<AttributeObjectVector> CrossSections_vec_object( new AttributeObjectVector() );
-		std::copy( m_CrossSections.begin(), m_CrossSections.end(), std::back_inserter( CrossSections_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "CrossSections", CrossSections_vec_object ) );
-	}
-	if( !m_CrossSectionPositions.empty() )
-	{
-		shared_ptr<AttributeObjectVector> CrossSectionPositions_vec_object( new AttributeObjectVector() );
-		std::copy( m_CrossSectionPositions.begin(), m_CrossSectionPositions.end(), std::back_inserter( CrossSectionPositions_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "CrossSectionPositions", CrossSectionPositions_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> CrossSections_vec_object( new AttributeObjectVector() );
+	std::copy( m_CrossSections.begin(), m_CrossSections.end(), std::back_inserter( CrossSections_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "CrossSections", CrossSections_vec_object ) );
+	shared_ptr<AttributeObjectVector> CrossSectionPositions_vec_object( new AttributeObjectVector() );
+	std::copy( m_CrossSectionPositions.begin(), m_CrossSectionPositions.end(), std::back_inserter( CrossSectionPositions_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "CrossSectionPositions", CrossSectionPositions_vec_object ) );
 }
 void IFC4X3::IfcSectionedSpine::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

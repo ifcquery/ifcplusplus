@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcFace;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcConnectedFaceSet : public IfcTopologicalRepresentationItem
-	{ 
+	{
 	public:
 		IfcConnectedFaceSet() = default;
 		IfcConnectedFaceSet( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcFace> >						m_CfsFaces;
 	};
 }
-

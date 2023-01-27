@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcText;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcProjectOrder : public IfcControl
-	{ 
+	{
 	public:
 		IfcProjectOrder() = default;
 		IfcProjectOrder( int id );
@@ -68,4 +68,3 @@ namespace IFC4X3
 		shared_ptr<IfcText>									m_LongDescription;			//optional
 	};
 }
-

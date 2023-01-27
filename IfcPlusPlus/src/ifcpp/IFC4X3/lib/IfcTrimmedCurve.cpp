@@ -80,18 +80,12 @@ void IFC4X3::IfcTrimmedCurve::getAttributes( std::vector<std::pair<std::string, 
 {
 	IFC4X3::IfcBoundedCurve::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "BasisCurve", m_BasisCurve ) );
-	if( !m_Trim1.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Trim1_vec_object( new AttributeObjectVector() );
-		std::copy( m_Trim1.begin(), m_Trim1.end(), std::back_inserter( Trim1_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Trim1", Trim1_vec_object ) );
-	}
-	if( !m_Trim2.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Trim2_vec_object( new AttributeObjectVector() );
-		std::copy( m_Trim2.begin(), m_Trim2.end(), std::back_inserter( Trim2_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Trim2", Trim2_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Trim1_vec_object( new AttributeObjectVector() );
+	std::copy( m_Trim1.begin(), m_Trim1.end(), std::back_inserter( Trim1_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Trim1", Trim1_vec_object ) );
+	shared_ptr<AttributeObjectVector> Trim2_vec_object( new AttributeObjectVector() );
+	std::copy( m_Trim2.begin(), m_Trim2.end(), std::back_inserter( Trim2_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Trim2", Trim2_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "SenseAgreement", m_SenseAgreement ) );
 	vec_attributes.emplace_back( std::make_pair( "MasterRepresentation", m_MasterRepresentation ) );
 }

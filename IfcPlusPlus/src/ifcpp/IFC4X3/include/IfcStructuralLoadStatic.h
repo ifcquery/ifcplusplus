@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralLoadStatic : public IfcStructuralLoadOrResult
-	{ 
+	{
 	public:
 		IfcStructuralLoadStatic() = default;
 		IfcStructuralLoadStatic( int id );
@@ -35,4 +35,3 @@ namespace IFC4X3
 		// IfcStructuralLoadStatic -----------------------------------------------------------
 	};
 }
-

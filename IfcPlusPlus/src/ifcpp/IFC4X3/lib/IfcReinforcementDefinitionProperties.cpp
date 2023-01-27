@@ -53,12 +53,9 @@ void IFC4X3::IfcReinforcementDefinitionProperties::getAttributes( std::vector<st
 {
 	IFC4X3::IfcPreDefinedPropertySet::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "DefinitionType", m_DefinitionType ) );
-	if( !m_ReinforcementSectionDefinitions.empty() )
-	{
-		shared_ptr<AttributeObjectVector> ReinforcementSectionDefinitions_vec_object( new AttributeObjectVector() );
-		std::copy( m_ReinforcementSectionDefinitions.begin(), m_ReinforcementSectionDefinitions.end(), std::back_inserter( ReinforcementSectionDefinitions_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "ReinforcementSectionDefinitions", ReinforcementSectionDefinitions_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> ReinforcementSectionDefinitions_vec_object( new AttributeObjectVector() );
+	std::copy( m_ReinforcementSectionDefinitions.begin(), m_ReinforcementSectionDefinitions.end(), std::back_inserter( ReinforcementSectionDefinitions_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "ReinforcementSectionDefinitions", ReinforcementSectionDefinitions_vec_object ) );
 }
 void IFC4X3::IfcReinforcementDefinitionProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

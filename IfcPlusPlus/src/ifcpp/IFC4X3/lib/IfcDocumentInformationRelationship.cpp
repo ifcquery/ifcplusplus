@@ -43,12 +43,9 @@ void IFC4X3::IfcDocumentInformationRelationship::getAttributes( std::vector<std:
 {
 	IFC4X3::IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "RelatingDocument", m_RelatingDocument ) );
-	if( !m_RelatedDocuments.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RelatedDocuments_vec_object( new AttributeObjectVector() );
-		std::copy( m_RelatedDocuments.begin(), m_RelatedDocuments.end(), std::back_inserter( RelatedDocuments_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RelatedDocuments", RelatedDocuments_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RelatedDocuments_vec_object( new AttributeObjectVector() );
+	std::copy( m_RelatedDocuments.begin(), m_RelatedDocuments.end(), std::back_inserter( RelatedDocuments_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedDocuments", RelatedDocuments_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "RelationshipType", m_RelationshipType ) );
 }
 void IFC4X3::IfcDocumentInformationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcUnit;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPropertyBoundedValue : public IfcSimpleProperty
-	{ 
+	{
 	public:
 		IfcPropertyBoundedValue() = default;
 		IfcPropertyBoundedValue( int id );
@@ -54,4 +54,3 @@ namespace IFC4X3
 		shared_ptr<IfcValue>										m_SetPointValue;			//optional
 	};
 }
-

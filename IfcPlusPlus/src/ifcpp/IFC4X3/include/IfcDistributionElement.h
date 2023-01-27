@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelConnectsPortToElement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDistributionElement : public IfcElement
-	{ 
+	{
 	public:
 		IfcDistributionElement() = default;
 		IfcDistributionElement( int id );
@@ -84,4 +84,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelConnectsPortToElement> >			m_HasPorts_inverse;
 	};
 }
-

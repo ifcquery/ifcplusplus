@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBuildingElementProxyTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBuildingElementProxyType : public IfcBuiltElementType
-	{ 
+	{
 	public:
 		IfcBuildingElementProxyType() = default;
 		IfcBuildingElementProxyType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcBuildingElementProxyTypeEnum>			m_PredefinedType;
 	};
 }
-

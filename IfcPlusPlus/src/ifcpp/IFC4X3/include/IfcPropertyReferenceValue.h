@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcObjectReferenceSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPropertyReferenceValue : public IfcSimpleProperty
-	{ 
+	{
 	public:
 		IfcPropertyReferenceValue() = default;
 		IfcPropertyReferenceValue( int id );
@@ -52,4 +52,3 @@ namespace IFC4X3
 		shared_ptr<IfcObjectReferenceSelect>						m_PropertyReference;		//optional
 	};
 }
-

@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelSpaceBoundary;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSpace : virtual public IfcSpaceBoundarySelect, public IfcSpatialStructureElement
-	{ 
+	{
 	public:
 		IfcSpace() = default;
 		IfcSpace( int id );
@@ -89,4 +89,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelSpaceBoundary> >					m_BoundedBy_inverse;
 	};
 }
-

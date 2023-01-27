@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveRatioMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFillAreaStyleTiles : virtual public IfcFillStyleSelect, public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcFillAreaStyleTiles() = default;
 		IfcFillAreaStyleTiles( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveRatioMeasure>						m_TilingScale;
 	};
 }
-

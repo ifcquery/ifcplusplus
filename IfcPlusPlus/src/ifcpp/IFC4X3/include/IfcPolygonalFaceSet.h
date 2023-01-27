@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveInteger;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPolygonalFaceSet : public IfcTessellatedFaceSet
-	{ 
+	{
 	public:
 		IfcPolygonalFaceSet() = default;
 		IfcPolygonalFaceSet( int id );
@@ -51,4 +51,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcPositiveInteger> >			m_PnIndex;					//optional
 	};
 }
-

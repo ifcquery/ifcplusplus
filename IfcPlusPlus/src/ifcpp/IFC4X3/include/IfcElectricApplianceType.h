@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcElectricApplianceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcElectricApplianceType : public IfcFlowTerminalType
-	{ 
+	{
 	public:
 		IfcElectricApplianceType() = default;
 		IfcElectricApplianceType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcElectricApplianceTypeEnum>			m_PredefinedType;
 	};
 }
-

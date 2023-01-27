@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcMooringDeviceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMooringDevice : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcMooringDevice() = default;
 		IfcMooringDevice( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcMooringDeviceTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

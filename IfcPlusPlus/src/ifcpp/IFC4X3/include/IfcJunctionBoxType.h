@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcJunctionBoxTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcJunctionBoxType : public IfcFlowFittingType
-	{ 
+	{
 	public:
 		IfcJunctionBoxType() = default;
 		IfcJunctionBoxType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcJunctionBoxTypeEnum>					m_PredefinedType;
 	};
 }
-

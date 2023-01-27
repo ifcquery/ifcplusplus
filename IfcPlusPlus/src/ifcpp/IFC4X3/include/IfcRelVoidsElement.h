@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcFeatureElementSubtraction;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelVoidsElement : public IfcRelDecomposes
-	{ 
+	{
 	public:
 		IfcRelVoidsElement() = default;
 		IfcRelVoidsElement( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcFeatureElementSubtraction>	m_RelatedOpeningElement;
 	};
 }
-

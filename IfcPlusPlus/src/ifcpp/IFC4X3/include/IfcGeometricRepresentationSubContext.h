@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcGeometricRepresentationSubContext : public IfcGeometricRepresentationContext
-	{ 
+	{
 	public:
 		IfcGeometricRepresentationSubContext() = default;
 		IfcGeometricRepresentationSubContext( int id );
@@ -55,4 +55,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>											m_UserDefinedTargetView;	//optional
 	};
 }
-

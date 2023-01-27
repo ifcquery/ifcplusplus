@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcParameterValue;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcReparametrisedCompositeCurveSegment : public IfcCompositeCurveSegment
-	{ 
+	{
 	public:
 		IfcReparametrisedCompositeCurveSegment() = default;
 		IfcReparametrisedCompositeCurveSegment( int id );
@@ -50,4 +50,3 @@ namespace IFC4X3
 		shared_ptr<IfcParameterValue>							m_ParamLength;
 	};
 }
-

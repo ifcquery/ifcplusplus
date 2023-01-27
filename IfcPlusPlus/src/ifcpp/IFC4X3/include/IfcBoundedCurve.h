@@ -13,7 +13,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBoundedCurve : virtual public IfcCurveOrEdgeCurve, public IfcCurve
-	{ 
+	{
 	public:
 		IfcBoundedCurve() = default;
 		IfcBoundedCurve( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		// IfcBoundedCurve -----------------------------------------------------------
 	};
 }
-

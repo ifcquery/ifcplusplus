@@ -13,7 +13,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcExternallyDefinedSurfaceStyle : virtual public IfcSurfaceStyleElementSelect, public IfcExternalReference
-	{ 
+	{
 	public:
 		IfcExternallyDefinedSurfaceStyle() = default;
 		IfcExternallyDefinedSurfaceStyle( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		// IfcExternallyDefinedSurfaceStyle -----------------------------------------------------------
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCoveringTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCoveringType : public IfcBuiltElementType
-	{ 
+	{
 	public:
 		IfcCoveringType() = default;
 		IfcCoveringType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcCoveringTypeEnum>						m_PredefinedType;
 	};
 }
-

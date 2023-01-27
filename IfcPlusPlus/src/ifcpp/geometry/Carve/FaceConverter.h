@@ -73,7 +73,7 @@ public:
 		: m_geom_settings( gs ), m_unit_converter( uc ), m_curve_converter( cc ), m_spline_converter( sc ), m_sweeper( sw )
 	{
 		double lengthFactor = m_unit_converter->getLengthInMeterFactor();
-		m_epsMergePoints = EPS_M6*lengthFactor;
+		m_epsMergePoints = carve::CARVE_EPSILON * 0.01 * lengthFactor;
 	}
 
 	virtual ~FaceConverter(){}
@@ -142,7 +142,8 @@ public:
 
 				PolyInputCache3D poly_cache(m_epsMergePoints);
 				bool mergeAlignedEdges = true;
-				MeshUtils::createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache, mergeAlignedEdges, false, this );
+				GeomProcessingParams params( m_geom_settings, outer_boundary.get(),  this );
+				MeshUtils::createTriangulated3DFace( face_loops, poly_cache, params );
 				item_data->addOpenPolyhedron( poly_cache.m_poly_data );
 				item_data->applyTransformToItem( curve_bounded_plane_matrix );
 			}
@@ -318,11 +319,11 @@ public:
 			return;
 		}
 		PolyInputCache3D poly_cache(m_epsMergePoints);
-		BuildingEntity* report_entity = nullptr;
-		bool dumpPolygon = false;
-
-		for( const shared_ptr<IfcFace>& ifc_face : vec_faces )
+		GeomProcessingParams params( m_geom_settings, nullptr,  this );
+		
+		for( size_t ii = 0; ii < vec_faces.size(); ++ii )
 		{
+			const shared_ptr<IfcFace>& ifc_face = vec_faces[ii];
 			if( !ifc_face )
 			{
 				continue;
@@ -335,14 +336,14 @@ public:
 				int tag = advancedFace->m_tag;
 				if( tag == 3518020 )
 				{
-					std::cout << tag << std::endl;
+					std::cout << "IfcAdvancedFace, tag=" << tag << std::endl;
 				}
 			}
 #endif
 
 			const std::vector<shared_ptr<IfcFaceBound> >& vec_bounds = ifc_face->m_Bounds;
 			std::vector<std::vector<vec3> > face_loops;
-			report_entity = ifc_face.get();
+			params.ifc_entity = ifc_face.get();
 			bool mergeAlignedEdges = true;
 			size_t maxNumIntersectionPoints = 200;
 
@@ -394,22 +395,47 @@ public:
 				{
 					std::reverse( loop_points.begin(), loop_points.end() );
 				}
-
-#ifdef _DEBUG
-				//glm::vec4 color(0.5, 0.6, 0.7, 1.0);
-				//GeomDebugDump::dumpPolyline(loop_points, color, false);
-				//GeomDebugDump::moveOffset(0.01);
-				//dumpPolygon = true;
-#endif
 			}
 
-			
 			for( size_t iiLoop = 0; iiLoop < face_loops.size(); ++iiLoop )
 			{
 				std::vector<vec3>& loop = face_loops[iiLoop];
 				GeomUtils::unClosePolygon(loop);
 			}
-			MeshUtils::createTriangulated3DFace( face_loops, report_entity, poly_cache, mergeAlignedEdges, dumpPolygon, this );
+			
+			MeshUtils::createTriangulated3DFace( face_loops, poly_cache, params );
+
+#ifdef _DEBUG
+			if( ifc_face->m_tag == 46832 )
+			{
+				params.debugDump = true;
+			}
+
+			//if( ifc_face->m_tag == 2529 )
+			//{
+			//	params.debugDump = true;
+			//}
+
+			if( params.debugDump )
+			{
+				glm::vec4 color(0.5, 0.6, 0.7, 1.0);
+				for( size_t iiLoop = 0; iiLoop < face_loops.size(); ++iiLoop )
+				{
+					std::vector<vec3>& loop = face_loops[iiLoop];
+					GeomDebugDump::dumpPolyline(loop, color, false);
+				}
+
+				if( ii == 34 )
+				{
+					PolyInputCache3D poly_cache_dump(m_epsMergePoints);
+					MeshUtils::createTriangulated3DFace(face_loops, poly_cache_dump, params);
+					std::map<std::string, std::string> mesh_input_options;
+					shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_cache_dump.m_poly_data->createMesh(mesh_input_options));
+					GeomDebugDump::dumpMeshset(meshset, color, false);
+				}
+				GeomDebugDump::moveOffset(0.0001);
+			}
+#endif
 		}
 
 		// IfcFaceList can be a closed or open shell
@@ -423,22 +449,7 @@ public:
 		}
 		else if( st == CLOSED_SHELL )
 		{
-			bool success = item_data->addClosedPolyhedron(poly_cache.m_poly_data);
-			if( !success )
-			{
-#ifdef _DEBUG
-				if( item_data->m_meshsets_open.size() > 0)
-				{
-					glm::vec4 color(0.5, 0.6, 0.7, 1.0);
-					GeomDebugDump::dumpMeshset(item_data->m_meshsets_open[0], color, true);
-				}
-				if( item_data->m_meshsets.size() > 0)
-				{
-					glm::vec4 color(0.5, 0.6, 0.7, 1.0);
-					GeomDebugDump::dumpMeshset(item_data->m_meshsets[0], color, true);
-				}
-#endif
-			}
+			item_data->addClosedPolyhedron(poly_cache.m_poly_data, params);
 		}
 	}
 };

@@ -19,7 +19,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcResourceApprovalRelationship;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcProperty : public IfcPropertyAbstraction
-	{ 
+	{
 	public:
 		IfcProperty() = default;
 		IfcProperty( int id );
@@ -50,4 +50,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcResourceApprovalRelationship> >		m_HasApprovals_inverse;
 	};
 }
-

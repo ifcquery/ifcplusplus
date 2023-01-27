@@ -24,4 +24,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcPositiveInteger> > m_vec;
 	};
 }
-

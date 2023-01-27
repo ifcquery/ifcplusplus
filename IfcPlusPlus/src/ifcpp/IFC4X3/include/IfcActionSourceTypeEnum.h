@@ -54,4 +54,3 @@ namespace IFC4X3
 		IfcActionSourceTypeEnumEnum m_enum;
 	};
 }
-

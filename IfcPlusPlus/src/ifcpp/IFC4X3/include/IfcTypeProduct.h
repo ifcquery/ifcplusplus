@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelAssignsToProduct;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTypeProduct : virtual public IfcProductSelect, public IfcTypeObject
-	{ 
+	{
 	public:
 		IfcTypeProduct() = default;
 		IfcTypeProduct( int id );
@@ -62,4 +62,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelAssignsToProduct> >		m_ReferencedBy_inverse;
 	};
 }
-

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCompositeCurve;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSegment : public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcSegment() = default;
 		IfcSegment( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcCompositeCurve> >				m_UsingCurves_inverse;
 	};
 }
-

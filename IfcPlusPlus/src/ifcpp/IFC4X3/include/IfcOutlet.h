@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcOutletTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcOutlet : public IfcFlowTerminal
-	{ 
+	{
 	public:
 		IfcOutlet() = default;
 		IfcOutlet( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcOutletTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

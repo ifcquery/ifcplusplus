@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLogical;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCompositeCurve : public IfcBoundedCurve
-	{ 
+	{
 	public:
 		IfcCompositeCurve() = default;
 		IfcCompositeCurve( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcLogical>									m_SelfIntersect;
 	};
 }
-

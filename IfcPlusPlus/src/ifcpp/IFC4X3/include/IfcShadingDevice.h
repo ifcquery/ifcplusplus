@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcShadingDeviceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcShadingDevice : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcShadingDevice() = default;
 		IfcShadingDevice( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcShadingDeviceTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

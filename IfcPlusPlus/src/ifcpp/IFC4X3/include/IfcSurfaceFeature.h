@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelAdheresToElement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSurfaceFeature : public IfcFeatureElement
-	{ 
+	{
 	public:
 		IfcSurfaceFeature() = default;
 		IfcSurfaceFeature( int id );
@@ -89,4 +89,3 @@ namespace IFC4X3
 		weak_ptr<IfcRelAdheresToElement>							m_AdheresToElement_inverse;
 	};
 }
-

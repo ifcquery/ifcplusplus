@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCurveOrEdgeCurve;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcConnectionCurveGeometry : public IfcConnectionGeometry
-	{ 
+	{
 	public:
 		IfcConnectionCurveGeometry() = default;
 		IfcConnectionCurveGeometry( int id );
@@ -35,4 +35,3 @@ namespace IFC4X3
 		shared_ptr<IfcCurveOrEdgeCurve>	m_CurveOnRelatedElement;	//optional
 	};
 }
-

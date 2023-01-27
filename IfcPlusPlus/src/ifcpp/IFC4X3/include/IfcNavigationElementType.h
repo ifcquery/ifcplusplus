@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcNavigationElementTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcNavigationElementType : public IfcBuiltElementType
-	{ 
+	{
 	public:
 		IfcNavigationElementType() = default;
 		IfcNavigationElementType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcNavigationElementTypeEnum>			m_PredefinedType;
 	};
 }
-

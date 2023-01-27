@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcGridTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcGrid : public IfcPositioningElement
-	{ 
+	{
 	public:
 		IfcGrid() = default;
 		IfcGrid( int id );
@@ -76,4 +76,3 @@ namespace IFC4X3
 		shared_ptr<IfcGridTypeEnum>									m_PredefinedType;			//optional
 	};
 }
-

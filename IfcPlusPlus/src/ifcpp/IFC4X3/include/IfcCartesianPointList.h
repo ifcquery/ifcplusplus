@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCartesianPointList : public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcCartesianPointList() = default;
 		IfcCartesianPointList( int id );
@@ -36,4 +36,3 @@ namespace IFC4X3
 		// IfcCartesianPointList -----------------------------------------------------------
 	};
 }
-

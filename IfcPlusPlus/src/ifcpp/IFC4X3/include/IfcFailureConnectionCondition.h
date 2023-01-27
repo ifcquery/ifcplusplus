@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcForceMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFailureConnectionCondition : public IfcStructuralConnectionCondition
-	{ 
+	{
 	public:
 		IfcFailureConnectionCondition() = default;
 		IfcFailureConnectionCondition( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcForceMeasure>	m_CompressionFailureZ;		//optional
 	};
 }
-

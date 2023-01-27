@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoolean;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFaceSurface : virtual public IfcSurfaceOrFaceSurface, public IfcFace
-	{ 
+	{
 	public:
 		IfcFaceSurface() = default;
 		IfcFaceSurface( int id );
@@ -48,4 +48,3 @@ namespace IFC4X3
 		shared_ptr<IfcBoolean>									m_SameSense;
 	};
 }
-

@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveRatioMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCurveStyleFontAndScaling : virtual public IfcCurveFontOrScaledCurveFontSelect, public IfcPresentationItem
-	{ 
+	{
 	public:
 		IfcCurveStyleFontAndScaling() = default;
 		IfcCurveStyleFontAndScaling( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveRatioMeasure>	m_CurveFontScaling;
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcFireSuppressionTerminalTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFireSuppressionTerminal : public IfcFlowTerminal
-	{ 
+	{
 	public:
 		IfcFireSuppressionTerminal() = default;
 		IfcFireSuppressionTerminal( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcFireSuppressionTerminalTypeEnum>				m_PredefinedType;			//optional
 	};
 }
-

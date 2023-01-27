@@ -37,4 +37,3 @@ namespace IFC4X3
 		IfcFurnitureTypeEnumEnum m_enum;
 	};
 }
-

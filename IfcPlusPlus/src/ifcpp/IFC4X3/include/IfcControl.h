@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelAssignsToControl;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcControl : public IfcObject
-	{ 
+	{
 	public:
 		IfcControl() = default;
 		IfcControl( int id );
@@ -61,4 +61,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelAssignsToControl> >		m_Controls_inverse;
 	};
 }
-

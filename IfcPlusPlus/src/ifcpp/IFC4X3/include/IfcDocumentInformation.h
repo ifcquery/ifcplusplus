@@ -25,7 +25,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDocumentInformationRelationship;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDocumentInformation : virtual public IfcDocumentSelect, public IfcExternalInformation
-	{ 
+	{
 	public:
 		IfcDocumentInformation() = default;
 		IfcDocumentInformation( int id );
@@ -67,4 +67,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcDocumentInformationRelationship> >	m_IsPointer_inverse;
 	};
 }
-

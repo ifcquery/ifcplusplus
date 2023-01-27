@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBuildingSystem : public IfcSystem
-	{ 
+	{
 	public:
 		IfcBuildingSystem() = default;
 		IfcBuildingSystem( int id );
@@ -70,4 +70,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>										m_LongName;					//optional
 	};
 }
-

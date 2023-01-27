@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcImpactProtectionDeviceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcImpactProtectionDevice : public IfcElementComponent
-	{ 
+	{
 	public:
 		IfcImpactProtectionDevice() = default;
 		IfcImpactProtectionDevice( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcImpactProtectionDeviceTypeEnum>				m_PredefinedType;			//optional
 	};
 }
-

@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDerivedUnit : virtual public IfcUnit, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcDerivedUnit() = default;
 		IfcDerivedUnit( int id );
@@ -37,4 +37,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>							m_Name;						//optional
 	};
 }
-

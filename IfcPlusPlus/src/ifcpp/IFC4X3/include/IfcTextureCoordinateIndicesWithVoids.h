@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveInteger;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTextureCoordinateIndicesWithVoids : public IfcTextureCoordinateIndices
-	{ 
+	{
 	public:
 		IfcTextureCoordinateIndicesWithVoids() = default;
 		IfcTextureCoordinateIndicesWithVoids( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		std::vector<std::vector<shared_ptr<IfcPositiveInteger> > >	m_InnerTexCoordIndices;
 	};
 }
-

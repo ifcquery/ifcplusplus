@@ -39,18 +39,12 @@ void IFC4X3::IfcSurfaceReinforcementArea::readStepArguments( const std::vector<s
 void IFC4X3::IfcSurfaceReinforcementArea::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcStructuralLoadOrResult::getAttributes( vec_attributes );
-	if( !m_SurfaceReinforcement1.empty() )
-	{
-		shared_ptr<AttributeObjectVector> SurfaceReinforcement1_vec_object( new AttributeObjectVector() );
-		std::copy( m_SurfaceReinforcement1.begin(), m_SurfaceReinforcement1.end(), std::back_inserter( SurfaceReinforcement1_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "SurfaceReinforcement1", SurfaceReinforcement1_vec_object ) );
-	}
-	if( !m_SurfaceReinforcement2.empty() )
-	{
-		shared_ptr<AttributeObjectVector> SurfaceReinforcement2_vec_object( new AttributeObjectVector() );
-		std::copy( m_SurfaceReinforcement2.begin(), m_SurfaceReinforcement2.end(), std::back_inserter( SurfaceReinforcement2_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "SurfaceReinforcement2", SurfaceReinforcement2_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> SurfaceReinforcement1_vec_object( new AttributeObjectVector() );
+	std::copy( m_SurfaceReinforcement1.begin(), m_SurfaceReinforcement1.end(), std::back_inserter( SurfaceReinforcement1_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "SurfaceReinforcement1", SurfaceReinforcement1_vec_object ) );
+	shared_ptr<AttributeObjectVector> SurfaceReinforcement2_vec_object( new AttributeObjectVector() );
+	std::copy( m_SurfaceReinforcement2.begin(), m_SurfaceReinforcement2.end(), std::back_inserter( SurfaceReinforcement2_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "SurfaceReinforcement2", SurfaceReinforcement2_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "ShearReinforcement", m_ShearReinforcement ) );
 }
 void IFC4X3::IfcSurfaceReinforcementArea::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

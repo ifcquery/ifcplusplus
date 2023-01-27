@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcOrganization;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcOrganizationRelationship : public IfcResourceLevelRelationship
-	{ 
+	{
 	public:
 		IfcOrganizationRelationship() = default;
 		IfcOrganizationRelationship( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcOrganization> >	m_RelatedOrganizations;
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcNonNegativeLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSweptDiskSolidPolygonal : public IfcSweptDiskSolid
-	{ 
+	{
 	public:
 		IfcSweptDiskSolidPolygonal() = default;
 		IfcSweptDiskSolidPolygonal( int id );
@@ -49,4 +49,3 @@ namespace IFC4X3
 		shared_ptr<IfcNonNegativeLengthMeasure>					m_FilletRadius;				//optional
 	};
 }
-

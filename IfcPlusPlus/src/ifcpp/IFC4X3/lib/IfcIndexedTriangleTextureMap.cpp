@@ -40,17 +40,14 @@ void IFC4X3::IfcIndexedTriangleTextureMap::readStepArguments( const std::vector<
 void IFC4X3::IfcIndexedTriangleTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcIndexedTextureMap::getAttributes( vec_attributes );
-	if( !m_TexCoordIndex.empty() )
+	shared_ptr<AttributeObjectVector> TexCoordIndex_vector( new AttributeObjectVector() );
+	vec_attributes.emplace_back( std::make_pair( "TexCoordIndex", TexCoordIndex_vector ) );
+	for( size_t ii=0; ii<m_TexCoordIndex.size(); ++ii )
 	{
-		shared_ptr<AttributeObjectVector> outer_vector( new AttributeObjectVector() );
-		vec_attributes.emplace_back( std::make_pair( "TexCoordIndex", outer_vector ) );
-		for( size_t ii=0; ii<m_TexCoordIndex.size(); ++ii )
-		{
-			const std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_TexCoordIndex[ii];
-			shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
-			outer_vector->m_vec.push_back( inner_vector );
-			std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
-		}
+		const std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_TexCoordIndex[ii];
+		shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
+		TexCoordIndex_vector->m_vec.push_back( inner_vector );
+		std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
 	}
 }
 void IFC4X3::IfcIndexedTriangleTextureMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcProfileProperties;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcProfileDef : virtual public IfcResourceObjectSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcProfileDef() = default;
 		IfcProfileDef( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcProfileProperties> >				m_HasProperties_inverse;
 	};
 }
-

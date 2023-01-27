@@ -37,18 +37,12 @@ void IFC4X3::IfcFillAreaStyleTiles::readStepArguments( const std::vector<std::st
 void IFC4X3::IfcFillAreaStyleTiles::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	if( !m_TilingPattern.empty() )
-	{
-		shared_ptr<AttributeObjectVector> TilingPattern_vec_object( new AttributeObjectVector() );
-		std::copy( m_TilingPattern.begin(), m_TilingPattern.end(), std::back_inserter( TilingPattern_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "TilingPattern", TilingPattern_vec_object ) );
-	}
-	if( !m_Tiles.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Tiles_vec_object( new AttributeObjectVector() );
-		std::copy( m_Tiles.begin(), m_Tiles.end(), std::back_inserter( Tiles_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Tiles", Tiles_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> TilingPattern_vec_object( new AttributeObjectVector() );
+	std::copy( m_TilingPattern.begin(), m_TilingPattern.end(), std::back_inserter( TilingPattern_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "TilingPattern", TilingPattern_vec_object ) );
+	shared_ptr<AttributeObjectVector> Tiles_vec_object( new AttributeObjectVector() );
+	std::copy( m_Tiles.begin(), m_Tiles.end(), std::back_inserter( Tiles_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Tiles", Tiles_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "TilingScale", m_TilingScale ) );
 }
 void IFC4X3::IfcFillAreaStyleTiles::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

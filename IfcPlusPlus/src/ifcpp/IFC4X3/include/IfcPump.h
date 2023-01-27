@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPumpTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPump : public IfcFlowMovingDevice
-	{ 
+	{
 	public:
 		IfcPump() = default;
 		IfcPump( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcPumpTypeEnum>									m_PredefinedType;			//optional
 	};
 }
-

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCurve;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCompositeCurveSegment : public IfcSegment
-	{ 
+	{
 	public:
 		IfcCompositeCurveSegment() = default;
 		IfcCompositeCurveSegment( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		shared_ptr<IfcCurve>									m_ParentCurve;
 	};
 }
-

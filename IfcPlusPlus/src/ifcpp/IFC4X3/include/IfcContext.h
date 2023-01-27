@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelDeclares;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcContext : public IfcObjectDefinition
-	{ 
+	{
 	public:
 		IfcContext() = default;
 		IfcContext( int id );
@@ -60,4 +60,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelDeclares> >				m_Declares_inverse;
 	};
 }
-

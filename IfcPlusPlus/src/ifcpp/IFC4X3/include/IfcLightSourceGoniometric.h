@@ -18,7 +18,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLightDistributionDataSourceSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLightSourceGoniometric : public IfcLightSource
-	{ 
+	{
 	public:
 		IfcLightSourceGoniometric() = default;
 		IfcLightSourceGoniometric( int id );
@@ -56,4 +56,3 @@ namespace IFC4X3
 		shared_ptr<IfcLightDistributionDataSourceSelect>		m_LightDistributionDataSource;
 	};
 }
-

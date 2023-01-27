@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcObject;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelDefinesByObject : public IfcRelDefines
-	{ 
+	{
 	public:
 		IfcRelDefinesByObject() = default;
 		IfcRelDefinesByObject( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcObject>				m_RelatingObject;
 	};
 }
-

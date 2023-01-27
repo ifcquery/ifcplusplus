@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCaissonFoundationTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCaissonFoundationType : public IfcDeepFoundationType
-	{ 
+	{
 	public:
 		IfcCaissonFoundationType() = default;
 		IfcCaissonFoundationType( int id );
@@ -71,4 +71,3 @@ namespace IFC4X3
 		shared_ptr<IfcCaissonFoundationTypeEnum>			m_PredefinedType;
 	};
 }
-

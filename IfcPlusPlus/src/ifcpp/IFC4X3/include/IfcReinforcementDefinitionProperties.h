@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSectionReinforcementProperties;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcReinforcementDefinitionProperties : public IfcPreDefinedPropertySet
-	{ 
+	{
 	public:
 		IfcReinforcementDefinitionProperties() = default;
 		IfcReinforcementDefinitionProperties( int id );
@@ -54,4 +54,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcSectionReinforcementProperties> >	m_ReinforcementSectionDefinitions;
 	};
 }
-

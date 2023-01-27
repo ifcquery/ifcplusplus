@@ -18,7 +18,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelInterferesElements;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSpatialElement : virtual public IfcInterferenceSelect, public IfcProduct
-	{ 
+	{
 	public:
 		IfcSpatialElement() = default;
 		IfcSpatialElement( int id );
@@ -78,4 +78,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelInterferesElements> >			m_InterferesElements_inverse;
 	};
 }
-

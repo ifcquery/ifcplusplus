@@ -13,7 +13,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcExternallyDefinedHatchStyle : virtual public IfcFillStyleSelect, public IfcExternalReference
-	{ 
+	{
 	public:
 		IfcExternallyDefinedHatchStyle() = default;
 		IfcExternallyDefinedHatchStyle( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		// IfcExternallyDefinedHatchStyle -----------------------------------------------------------
 	};
 }
-

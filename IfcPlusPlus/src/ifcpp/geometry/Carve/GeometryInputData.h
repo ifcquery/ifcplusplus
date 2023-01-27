@@ -19,6 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <vector>
 #include <ifcpp/geometry/AppearanceData.h>
+#include <ifcpp/geometry/GeometrySettings.h>
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/BuildingException.h>
 #include <ifcpp/IFC4X3/include/IfcObjectPlacement.h>
@@ -27,6 +28,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4X3/include/IfcTextStyle.h>
 #include "IncludeCarveHeaders.h"
 #include "GeomUtils.h"
+namespace GeomDebugDump
+{
+	static void dumpMeshset(carve::mesh::MeshSet<3>* meshset, const glm::vec4& color, bool move_offset = true);
+	static void dumpMeshsetOpenEdges(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, const glm::vec4& colorInput, bool checkZeroAreaFaces, bool move_offset);
+}
 
 class TextItemData
 {
@@ -42,7 +48,7 @@ inline void premultMatrix( const carve::math::Matrix& matrix_to_append, carve::m
 class PolyInputCache3D;
 namespace MeshUtils
 {
-	inline void intersectOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, double eps, bool dumpMeshes);
+	inline void intersectOpenEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, GeomProcessingParams& params); 
 	static void resolveOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, double eps, bool dumpPolygons);
 	inline void polyhedronFromMesh(const carve::mesh::Mesh<3>* mesh, PolyInputCache3D& polyInput);
 	inline bool addFacesReversed(const PolyInputCache3D& poly_cache_source, PolyInputCache3D& poly_cache_target);
@@ -89,7 +95,7 @@ public:
 	int							m_placement_tag = -1;
 };
 
-inline bool checkPolyhedronData( const shared_ptr<carve::input::PolyhedronData>& poly_data )
+inline bool checkPolyhedronData( const shared_ptr<carve::input::PolyhedronData>& poly_data, double minFaceArea )
 {
 	if( poly_data )
 	{
@@ -165,7 +171,7 @@ inline bool checkPolyhedronData( const shared_ptr<carve::input::PolyhedronData>&
 				}
 
 				double area = GeomUtils::computePolygonArea(facePoints);
-				if( std::abs(area) < carve::CARVE_EPSILON )
+				if( std::abs(area) < minFaceArea )
 				{
 					return false;
 				}
@@ -181,7 +187,7 @@ inline bool checkPolyhedronData( const shared_ptr<carve::input::PolyhedronData>&
 	return true;
 }
 
-inline bool fixPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data)
+inline bool fixPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data, double minFaceArea )
 {
 	if( !poly_data )
 	{
@@ -258,11 +264,11 @@ inline bool fixPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& po
 				}
 
 				double area = GeomUtils::computePolygonArea(facePoints);
-				if( std::abs(area) < carve::CARVE_EPSILON )
+				if( std::abs(area) < minFaceArea )
 				{
 					//inputCorrect = false;
 #ifdef _DEBUG
-					//std::cout << "skipping face with 0 area" << std::endl;
+					int wait = 0;
 #endif
 				}
 				else
@@ -702,12 +708,13 @@ public:
 			return;
 		}
 
-		bool correct = checkPolyhedronData(poly_data);
+		double minFaceArea = carve::CARVE_EPSILON * 0.001;
+		bool correct = checkPolyhedronData(poly_data, minFaceArea);
 		if( !correct )
 		{
-			fixPolyhedronData(poly_data);
+			fixPolyhedronData(poly_data, minFaceArea);
 #ifdef _DEBUG
-			bool correct2 = checkPolyhedronData(poly_data);
+			bool correct2 = checkPolyhedronData(poly_data, minFaceArea);
 			if( !correct2 )
 			{
 				std::cout << "incorrect idx";
@@ -733,12 +740,13 @@ public:
 			return;
 		}
 
-		bool correct = checkPolyhedronData(poly_data);
+		double minFaceArea = carve::CARVE_EPSILON * 0.001;
+		bool correct = checkPolyhedronData(poly_data, minFaceArea);
 		if( !correct )
 		{
-			fixPolyhedronData(poly_data);
+			fixPolyhedronData(poly_data, minFaceArea);
 #ifdef _DEBUG
-			bool correct2 = checkPolyhedronData(poly_data);
+			bool correct2 = checkPolyhedronData(poly_data, minFaceArea);
 			if( !correct2 )
 			{
 				std::cout << "incorrect idx";
@@ -750,18 +758,33 @@ public:
 		m_meshsets_open.push_back( meshset );
 	}
 
-	bool addClosedPolyhedron(const shared_ptr<carve::input::PolyhedronData>& poly_data)
+	bool addClosedPolyhedron(const shared_ptr<carve::input::PolyhedronData>& poly_data, GeomProcessingParams& params)
 	{
 		if( poly_data->getVertexCount() < 3 )
 		{
 			return false;
 		}
 
-		bool correct = checkPolyhedronData(poly_data);
+#ifdef _DEBUG
+		shared_ptr<carve::input::PolyhedronData> poly_data_copy(poly_data);
+		bool correct1 = checkPolyhedronData(poly_data_copy, params.minFaceArea);
+		if( !correct1 )
+		{
+			//std::map<std::string, std::string> mesh_input_options;
+			//shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(mesh_input_options));
+
+			//glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+			//GeomDebugDump::dumpMeshset(meshset.get(), color, true);
+		}
+#endif
+
+		std::map<std::string, std::string> mesh_input_options;
+		shared_ptr<carve::mesh::MeshSet<3> > meshsetUnchanged(poly_data->createMesh(mesh_input_options));
+		bool correct = checkPolyhedronData(poly_data, params.minFaceArea);
 		if( !correct )
 		{
-			fixPolyhedronData(poly_data);
-			bool correct2 = checkPolyhedronData(poly_data);
+			fixPolyhedronData(poly_data, params.minFaceArea);
+			bool correct2 = checkPolyhedronData(poly_data, params.minFaceArea);
 			if( !correct2 )
 			{
 				std::cout << "failed to correct polyhedron data\n";
@@ -770,13 +793,24 @@ public:
 		}
 
 		bool dumpMeshes = false;
-		std::map<std::string, std::string> mesh_input_options;
 		shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(mesh_input_options));
 		if( meshset->isClosed() )
 		{
 			m_meshsets.push_back(meshset);
 			return true;
 		}
+
+		if( meshsetUnchanged->isClosed() )
+		{
+			m_meshsets.push_back(meshsetUnchanged);
+			return true;
+		}
+
+#ifdef _DEBUG
+		glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+		GeomDebugDump::dumpMeshsetOpenEdges(meshset, color, false, false );
+		GeomDebugDump::dumpMeshset(meshset.get(), color, false );
+#endif
 
 		if( meshset->meshes.size() > 1 )
 		{
@@ -812,7 +846,7 @@ public:
 		}
 
 		double eps = carve::CARVE_EPSILON;
-		MeshUtils::intersectOpenEdges(meshset, eps, dumpMeshes);
+		MeshUtils::intersectOpenEdges(meshset, params);
 
 		for( size_t i = 0; i < meshset->meshes.size(); ++i )
 		{

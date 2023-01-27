@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTextTransformation;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTextStyleTextModel : public IfcPresentationItem
-	{ 
+	{
 	public:
 		IfcTextStyleTextModel() = default;
 		IfcTextStyleTextModel( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		shared_ptr<IfcSizeSelect>			m_LineHeight;				//optional
 	};
 }
-

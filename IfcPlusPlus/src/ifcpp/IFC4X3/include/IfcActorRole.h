@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcExternalReferenceRelationship;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcActorRole : virtual public IfcResourceObjectSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcActorRole() = default;
 		IfcActorRole( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReference_inverse;
 	};
 }
-

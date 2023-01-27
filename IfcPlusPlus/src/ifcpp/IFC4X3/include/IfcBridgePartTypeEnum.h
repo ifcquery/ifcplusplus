@@ -39,4 +39,3 @@ namespace IFC4X3
 		IfcBridgePartTypeEnumEnum m_enum;
 	};
 }
-

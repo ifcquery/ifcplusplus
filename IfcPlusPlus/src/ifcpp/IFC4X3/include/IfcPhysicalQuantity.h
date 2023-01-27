@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPhysicalComplexQuantity;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPhysicalQuantity : virtual public IfcResourceObjectSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcPhysicalQuantity() = default;
 		IfcPhysicalQuantity( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcPhysicalComplexQuantity> >			m_PartOfComplex_inverse;
 	};
 }
-

@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFacetedBrep : public IfcManifoldSolidBrep
-	{ 
+	{
 	public:
 		IfcFacetedBrep() = default;
 		IfcFacetedBrep( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		// IfcFacetedBrep -----------------------------------------------------------
 	};
 }
-

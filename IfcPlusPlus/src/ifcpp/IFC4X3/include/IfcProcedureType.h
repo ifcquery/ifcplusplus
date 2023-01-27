@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcProcedureTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcProcedureType : public IfcTypeProcess
-	{ 
+	{
 	public:
 		IfcProcedureType() = default;
 		IfcProcedureType( int id );
@@ -64,4 +64,3 @@ namespace IFC4X3
 		shared_ptr<IfcProcedureTypeEnum>					m_PredefinedType;
 	};
 }
-

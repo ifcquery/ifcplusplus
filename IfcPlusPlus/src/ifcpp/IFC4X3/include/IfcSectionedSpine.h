@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAxis2Placement3D;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSectionedSpine : public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcSectionedSpine() = default;
 		IfcSectionedSpine( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcAxis2Placement3D> >			m_CrossSectionPositions;
 	};
 }
-

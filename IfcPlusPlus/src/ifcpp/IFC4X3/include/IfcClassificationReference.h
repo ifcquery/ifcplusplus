@@ -19,7 +19,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcClassificationReference;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcClassificationReference : virtual public IfcClassificationReferenceSelect, virtual public IfcClassificationSelect, public IfcExternalReference
-	{ 
+	{
 	public:
 		IfcClassificationReference() = default;
 		IfcClassificationReference( int id );
@@ -51,4 +51,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcClassificationReference> >			m_HasReferences_inverse;
 	};
 }
-

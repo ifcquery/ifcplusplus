@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcProfileDef;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRevolvedAreaSolidTapered : public IfcRevolvedAreaSolid
-	{ 
+	{
 	public:
 		IfcRevolvedAreaSolidTapered() = default;
 		IfcRevolvedAreaSolidTapered( int id );
@@ -51,4 +51,3 @@ namespace IFC4X3
 		shared_ptr<IfcProfileDef>								m_EndSweptArea;
 	};
 }
-

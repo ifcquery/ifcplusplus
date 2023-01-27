@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCableCarrierSegmentTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCableCarrierSegment : public IfcFlowSegment
-	{ 
+	{
 	public:
 		IfcCableCarrierSegment() = default;
 		IfcCableCarrierSegment( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcCableCarrierSegmentTypeEnum>					m_PredefinedType;			//optional
 	};
 }
-

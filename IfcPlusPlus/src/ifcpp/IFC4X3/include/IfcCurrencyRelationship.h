@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLibraryInformation;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCurrencyRelationship : public IfcResourceLevelRelationship
-	{ 
+	{
 	public:
 		IfcCurrencyRelationship() = default;
 		IfcCurrencyRelationship( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcLibraryInformation>	m_RateSource;				//optional
 	};
 }
-

@@ -39,4 +39,3 @@ namespace IFC4X3
 		IfcUnitaryControlElementTypeEnumEnum m_enum;
 	};
 }
-

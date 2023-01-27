@@ -60,12 +60,9 @@ void IFC4X3::IfcPresentationLayerAssignment::getAttributes( std::vector<std::pai
 {
 	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
-	if( !m_AssignedItems.empty() )
-	{
-		shared_ptr<AttributeObjectVector> AssignedItems_vec_object( new AttributeObjectVector() );
-		std::copy( m_AssignedItems.begin(), m_AssignedItems.end(), std::back_inserter( AssignedItems_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "AssignedItems", AssignedItems_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> AssignedItems_vec_object( new AttributeObjectVector() );
+	std::copy( m_AssignedItems.begin(), m_AssignedItems.end(), std::back_inserter( AssignedItems_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "AssignedItems", AssignedItems_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "Identifier", m_Identifier ) );
 }
 void IFC4X3::IfcPresentationLayerAssignment::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

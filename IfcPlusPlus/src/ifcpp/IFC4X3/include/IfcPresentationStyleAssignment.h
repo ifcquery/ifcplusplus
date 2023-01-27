@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPresentationStyle;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPresentationStyleAssignment : public IfcPresentationStyle
-	{ 
+	{
 	public:
 		IfcPresentationStyleAssignment() = default;
 		IfcPresentationStyleAssignment( int id );
@@ -36,4 +36,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcPresentationStyle> >	m_Styles;
 	};
 }
-

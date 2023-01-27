@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcVibrationIsolatorTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcVibrationIsolatorType : public IfcElementComponentType
-	{ 
+	{
 	public:
 		IfcVibrationIsolatorType() = default;
 		IfcVibrationIsolatorType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcVibrationIsolatorTypeEnum>			m_PredefinedType;
 	};
 }
-

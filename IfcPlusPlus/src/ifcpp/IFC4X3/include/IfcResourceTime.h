@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoolean;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcResourceTime : public IfcSchedulingTime
-	{ 
+	{
 	public:
 		IfcResourceTime() = default;
 		IfcResourceTime( int id );
@@ -56,4 +56,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveRatioMeasure>	m_Completion;				//optional
 	};
 }
-

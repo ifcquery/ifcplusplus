@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelCoversBldgElements;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCovering : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcCovering() = default;
 		IfcCovering( int id );
@@ -91,4 +91,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelCoversBldgElements> >			m_CoversElements_inverse;
 	};
 }
-

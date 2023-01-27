@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcExternalReferenceRelationship;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcConversionBasedUnit : virtual public IfcResourceObjectSelect, public IfcNamedUnit
-	{ 
+	{
 	public:
 		IfcConversionBasedUnit() = default;
 		IfcConversionBasedUnit( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReference_inverse;
 	};
 }
-

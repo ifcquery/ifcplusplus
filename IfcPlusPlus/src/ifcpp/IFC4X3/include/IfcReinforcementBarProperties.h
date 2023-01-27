@@ -18,7 +18,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCountMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcReinforcementBarProperties : public IfcPreDefinedProperties
-	{ 
+	{
 	public:
 		IfcReinforcementBarProperties() = default;
 		IfcReinforcementBarProperties( int id );
@@ -48,4 +48,3 @@ namespace IFC4X3
 		shared_ptr<IfcCountMeasure>									m_BarCount;					//optional
 	};
 }
-

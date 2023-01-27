@@ -19,7 +19,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPersonAndOrganization;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPerson : virtual public IfcActorSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcPerson() = default;
 		IfcPerson( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcPersonAndOrganization> >	m_EngagedIn_inverse;
 	};
 }
-

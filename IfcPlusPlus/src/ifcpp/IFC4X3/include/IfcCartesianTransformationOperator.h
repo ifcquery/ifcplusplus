@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReal;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCartesianTransformationOperator : public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcCartesianTransformationOperator() = default;
 		IfcCartesianTransformationOperator( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcReal>										m_Scale;					//optional
 	};
 }
-

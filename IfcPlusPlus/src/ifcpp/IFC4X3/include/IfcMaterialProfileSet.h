@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCompositeProfileDef;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMaterialProfileSet : public IfcMaterialDefinition
-	{ 
+	{
 	public:
 		IfcMaterialProfileSet() = default;
 		IfcMaterialProfileSet( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcCompositeProfileDef>							m_CompositeProfile;			//optional
 	};
 }
-

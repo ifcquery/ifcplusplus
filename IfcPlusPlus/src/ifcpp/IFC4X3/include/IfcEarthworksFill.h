@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcEarthworksFillTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcEarthworksFill : public IfcEarthworksElement
-	{ 
+	{
 	public:
 		IfcEarthworksFill() = default;
 		IfcEarthworksFill( int id );
@@ -88,4 +88,3 @@ namespace IFC4X3
 		shared_ptr<IfcEarthworksFillTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

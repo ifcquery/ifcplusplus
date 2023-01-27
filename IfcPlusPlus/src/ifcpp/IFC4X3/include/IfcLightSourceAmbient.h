@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLightSourceAmbient : public IfcLightSource
-	{ 
+	{
 	public:
 		IfcLightSourceAmbient() = default;
 		IfcLightSourceAmbient( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		// IfcLightSourceAmbient -----------------------------------------------------------
 	};
 }
-

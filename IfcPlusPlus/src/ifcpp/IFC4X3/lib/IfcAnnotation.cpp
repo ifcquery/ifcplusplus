@@ -72,18 +72,15 @@ void IFC4X3::IfcAnnotation::getAttributes( std::vector<std::pair<std::string, sh
 void IFC4X3::IfcAnnotation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcProduct::getAttributesInverse( vec_attributes_inverse );
-	if( !m_ContainedInStructure_inverse.empty() )
+	shared_ptr<AttributeObjectVector> ContainedInStructure_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ContainedInStructure_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
+		if( !m_ContainedInStructure_inverse[i].expired() )
 		{
-			if( !m_ContainedInStructure_inverse[i].expired() )
-			{
-				ContainedInStructure_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
-			}
+			ContainedInStructure_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
 }
 void IFC4X3::IfcAnnotation::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

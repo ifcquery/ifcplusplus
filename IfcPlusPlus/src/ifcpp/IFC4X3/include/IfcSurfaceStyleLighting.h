@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcColourRgb;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSurfaceStyleLighting : virtual public IfcSurfaceStyleElementSelect, public IfcPresentationItem
-	{ 
+	{
 	public:
 		IfcSurfaceStyleLighting() = default;
 		IfcSurfaceStyleLighting( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		shared_ptr<IfcColourRgb>	m_ReflectanceColour;
 	};
 }
-

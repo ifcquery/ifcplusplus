@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcProtectiveDeviceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcProtectiveDeviceType : public IfcFlowControllerType
-	{ 
+	{
 	public:
 		IfcProtectiveDeviceType() = default;
 		IfcProtectiveDeviceType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcProtectiveDeviceTypeEnum>				m_PredefinedType;
 	};
 }
-

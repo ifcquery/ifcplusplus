@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBuildingElementPartTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBuildingElementPartType : public IfcElementComponentType
-	{ 
+	{
 	public:
 		IfcBuildingElementPartType() = default;
 		IfcBuildingElementPartType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcBuildingElementPartTypeEnum>			m_PredefinedType;
 	};
 }
-

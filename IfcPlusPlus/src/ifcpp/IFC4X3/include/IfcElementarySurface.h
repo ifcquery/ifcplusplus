@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAxis2Placement3D;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcElementarySurface : public IfcSurface
-	{ 
+	{
 	public:
 		IfcElementarySurface() = default;
 		IfcElementarySurface( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcAxis2Placement3D>							m_Position;
 	};
 }
-

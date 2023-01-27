@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcWindow : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcWindow() = default;
 		IfcWindow( int id );
@@ -93,4 +93,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>										m_UserDefinedPartitioningType;	//optional
 	};
 }
-

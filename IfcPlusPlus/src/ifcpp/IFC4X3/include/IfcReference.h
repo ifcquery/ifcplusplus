@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReference;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcReference : virtual public IfcAppliedValueSelect, virtual public IfcMetricValueSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcReference() = default;
 		IfcReference( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		shared_ptr<IfcReference>				m_InnerReference;			//optional
 	};
 }
-

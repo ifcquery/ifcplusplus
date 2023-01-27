@@ -37,4 +37,3 @@ namespace IFC4X3
 		IfcRailwayPartTypeEnumEnum m_enum;
 	};
 }
-

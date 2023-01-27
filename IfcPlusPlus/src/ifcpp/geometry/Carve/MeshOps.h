@@ -382,8 +382,6 @@ static bool checkMeshsetTriangulated(const shared_ptr<carve::mesh::MeshSet<3>>&m
 	return true;
 }
 
-#define NORMALIZE_COORDS_INSTEAD_OF_EPSILON
-
 struct CarveMeshNormalizer
 {
 	CarveMeshNormalizer( bool normalizeCoordsInsteadOfEpsilon )
@@ -856,12 +854,15 @@ static void retriangulateMeshSetSimple( shared_ptr<carve::mesh::MeshSet<3> >& me
 		}
 	}
 
-	bool correct = checkPolyhedronData(poly_cache.m_poly_data);
+	shared_ptr<carve::mesh::MeshSet<3>> meshsetTrinangulated1 = shared_ptr<carve::mesh::MeshSet<3> >( poly_cache.m_poly_data->createMesh( carve::input::opts() ) );
+
+	double minFaceArea = carve::CARVE_EPSILON * 0.01;
+	bool correct = checkPolyhedronData(poly_cache.m_poly_data, minFaceArea);
 	if( !correct )
 	{
-		fixPolyhedronData(poly_cache.m_poly_data);
+		fixPolyhedronData(poly_cache.m_poly_data, minFaceArea);
 #ifdef _DEBUG
-		bool correct2 = checkPolyhedronData(poly_cache.m_poly_data);
+		bool correct2 = checkPolyhedronData(poly_cache.m_poly_data, minFaceArea);
 		if( !correct2 )
 		{
 			std::cout << "incorrect idx";
@@ -888,6 +889,14 @@ static void retriangulateMeshSetSimple( shared_ptr<carve::mesh::MeshSet<3> >& me
 			dumpWithLabel("triangulate:result", meshsetTrinangulated, dumpSet, false, true, true);
 		}
 #endif
+		bool validTriangulatedMesh1 = MeshUtils::checkMeshSetValidAndClosed(meshsetTrinangulated1, infoTriangulated);
+		if( validTriangulatedMesh1 )
+		{
+			meshset.reset();
+			meshset = meshsetTrinangulated1;
+			return;
+		}
+
 		if( !ignoreResultOpenEdges )
 		{
 			return;
@@ -1587,7 +1596,9 @@ static size_t findAndMergeCoplanarFaces( carve::mesh::Face<3>* faceIn, std::set<
 		}
 		else
 		{
+#ifdef _DEBUG
 			std::cout << "faceOnEdge not found in setAllFaces" << std::endl;
+#endif
 		}
 
 		size_t numPointersToFaceDelete = replaceFacePointer(faceRemove, faceRemain, adjacentFaces);
@@ -1616,7 +1627,7 @@ static size_t findAndMergeCoplanarFaces( carve::mesh::Face<3>* faceIn, std::set<
 		}
 		catch( carve::exception& e )
 		{
-			std::cout << e.str();
+			std::cout << "validateLoop failed: " << e.str();
 		}
 
 		MeshUtils::checkFaceLoops(mesh);

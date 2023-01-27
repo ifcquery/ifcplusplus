@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPointOrVertexPoint;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcConnectionPointGeometry : public IfcConnectionGeometry
-	{ 
+	{
 	public:
 		IfcConnectionPointGeometry() = default;
 		IfcConnectionPointGeometry( int id );
@@ -35,4 +35,3 @@ namespace IFC4X3
 		shared_ptr<IfcPointOrVertexPoint>	m_PointOnRelatedElement;	//optional
 	};
 }
-

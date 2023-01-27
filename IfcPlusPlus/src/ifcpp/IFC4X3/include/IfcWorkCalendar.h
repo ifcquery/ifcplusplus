@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcWorkCalendarTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcWorkCalendar : public IfcControl
-	{ 
+	{
 	public:
 		IfcWorkCalendar() = default;
 		IfcWorkCalendar( int id );
@@ -67,4 +67,3 @@ namespace IFC4X3
 		shared_ptr<IfcWorkCalendarTypeEnum>					m_PredefinedType;			//optional
 	};
 }
-

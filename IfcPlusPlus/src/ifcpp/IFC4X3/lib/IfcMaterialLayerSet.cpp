@@ -39,12 +39,9 @@ void IFC4X3::IfcMaterialLayerSet::readStepArguments( const std::vector<std::stri
 void IFC4X3::IfcMaterialLayerSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcMaterialDefinition::getAttributes( vec_attributes );
-	if( !m_MaterialLayers.empty() )
-	{
-		shared_ptr<AttributeObjectVector> MaterialLayers_vec_object( new AttributeObjectVector() );
-		std::copy( m_MaterialLayers.begin(), m_MaterialLayers.end(), std::back_inserter( MaterialLayers_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "MaterialLayers", MaterialLayers_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> MaterialLayers_vec_object( new AttributeObjectVector() );
+	std::copy( m_MaterialLayers.begin(), m_MaterialLayers.end(), std::back_inserter( MaterialLayers_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "MaterialLayers", MaterialLayers_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "LayerSetName", m_LayerSetName ) );
 	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
 }

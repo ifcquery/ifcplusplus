@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCartesianPointList3D : public IfcCartesianPointList
-	{ 
+	{
 	public:
 		IfcCartesianPointList3D() = default;
 		IfcCartesianPointList3D( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcLabel> >						m_TagList;					//optional
 	};
 }
-

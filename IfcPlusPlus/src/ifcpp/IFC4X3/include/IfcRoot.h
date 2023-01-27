@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcText;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRoot : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcRoot() = default;
 		IfcRoot( int id );
@@ -37,4 +37,3 @@ namespace IFC4X3
 		shared_ptr<IfcText>				m_Description;				//optional
 	};
 }
-

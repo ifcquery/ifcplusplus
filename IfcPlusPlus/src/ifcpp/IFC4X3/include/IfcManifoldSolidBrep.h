@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcClosedShell;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcManifoldSolidBrep : public IfcSolidModel
-	{ 
+	{
 	public:
 		IfcManifoldSolidBrep() = default;
 		IfcManifoldSolidBrep( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcClosedShell>								m_Outer;
 	};
 }
-

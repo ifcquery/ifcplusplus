@@ -22,6 +22,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "GeometryInputData.h"
 #include "GeomDebugDump.h"
 #include <ifcpp/model/StatusCallback.h>
+#include <ifcpp/geometry/GeometrySettings.h>
 #include <earcut/include/mapbox/earcut.hpp>
 #include <manifold/src/manifold/include/manifold.h>
 
@@ -644,6 +645,12 @@ namespace MeshUtils
 			return;
 		}
 
+		carve::mesh::Mesh<3>* mesh = face->mesh;
+		if( mesh->open_edges.size() == 0 )
+		{
+			return;
+		}
+
 		carve::mesh::Edge<3>* e = face->edge;
 		if( !e )
 		{
@@ -773,6 +780,11 @@ namespace MeshUtils
 		if( !mesh )
 		{
 			return;
+		}
+
+		if( mesh->open_edges.size() == 0 )
+		{
+			//return;
 		}
 
 		const std::vector<carve::mesh::Face<3>* >& vec_faces = mesh->faces;
@@ -1545,7 +1557,7 @@ namespace MeshUtils
 	///\param[in] inputBounds3D: Curves as face boundaries. The first input curve is the outer boundary, succeeding curves are inner boundaries
 	///\param[in] ifc_entity: Ifc entity that the geometry belongs to, just for error messages. Pass a nullptr if no entity at hand.
 	///\param[out] meshOut: Result mesh
-	static void createTriangulated3DFace(const std::vector<std::vector<vec3> >& inputBounds3D, BuildingEntity* ifc_entity, PolyInputCache3D& meshOut, bool mergeAlignedEdges, bool dumpPolygon, StatusCallback* callbackFunc)
+	static void createTriangulated3DFace(const std::vector<std::vector<vec3> >& inputBounds3D, PolyInputCache3D& meshOut, GeomProcessingParams& params )
 	{
 		if( inputBounds3D.size() == 1 )
 		{
@@ -1562,7 +1574,7 @@ namespace MeshUtils
 				addFaceCheckIndexes(v0, v1, v2, meshOut);
 
 #ifdef _DEBUG
-				if( dumpPolygon )
+				if( params.debugDump )
 				{
 					glm::vec4 color(0, 1, 1, 1);
 					PolyInputCache3D poly( carve::CARVE_EPSILON );
@@ -1589,7 +1601,7 @@ namespace MeshUtils
 				
 
 #ifdef _DEBUG
-				if( dumpPolygon )
+				if( params.debugDump )
 				{
 					glm::vec4 color(0, 1, 1, 1);
 					PolyInputCache3D poly( carve::CARVE_EPSILON );
@@ -1638,7 +1650,7 @@ namespace MeshUtils
 			}
 
 			//bool mergeAlignedEdges = true;
-			GeomUtils::simplifyPolygon(loopPoints3Dinput, mergeAlignedEdges);
+			GeomUtils::simplifyPolygon(loopPoints3Dinput, params.epsMergePoints, params.epsMergeAlignedEdgesAngle);
 			GeomUtils::unClosePolygon(loopPoints3Dinput);
 			normal = GeomUtils::computePolygonNormal(loopPoints3Dinput);
 
@@ -1666,9 +1678,9 @@ namespace MeshUtils
 				{
 					std::stringstream err;
 					err << "unable to project to plane: nx" << nx << " ny " << ny << " nz " << nz << std::endl;
-					if( callbackFunc )
+					if( params.callbackFunc )
 					{
-						callbackFunc->messageCallback(err.str().c_str(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity);
+						params.callbackFunc->messageCallback(err.str().c_str(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
 					}
 					continue;
 				}
@@ -1851,9 +1863,9 @@ namespace MeshUtils
 		{
 			std::stringstream err;
 			err << "std::abs( signed_area ) < 1.e-10";
-			if( callbackFunc )
+			if( params.callbackFunc )
 			{
-				callbackFunc->messageCallback(err.str().c_str(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, ifc_entity);
+				params.callbackFunc->messageCallback(err.str().c_str(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, params.ifc_entity);
 			}
 		}
 
@@ -1902,10 +1914,10 @@ namespace MeshUtils
 				}
 			}
 #ifdef _DEBUG
-			if( errorOccured )
+			if( errorOccured /*|| ifc_entity->m_tag == 64*/ )
 			{
-				//glm::vec4 color(0, 1, 1, 1);
-				//GeomDebugDump::dumpPolyline(polygons2d, color, true);
+				glm::vec4 color(0, 1, 1, 1);
+				GeomDebugDump::dumpPolyline(polygons2d, color, true);
 				//shared_ptr<carve::mesh::MeshSet<3> > meshset(meshOut.m_poly_data->createMesh(carve::input::opts()));
 				//GeomDebugDump::dumpMeshset(meshset, color, true, true);
 			}
@@ -1913,7 +1925,7 @@ namespace MeshUtils
 		}
 
 #ifdef _DEBUG
-		if( errorOccured || dumpPolygon)
+		if( errorOccured || params.debugDump)
 		{
 			glm::vec4 color(0, 1, 1, 1);
 			shared_ptr<carve::mesh::MeshSet<3> > meshset(poly.m_poly_data->createMesh(carve::input::opts()));
@@ -1926,7 +1938,7 @@ namespace MeshUtils
 	///\param[in/out] meshset: MeshSet with open edges. If fix is found, a new MeshSet is assigned to the smart pointer
 	///\param[in] eps: tolerance to find edge-edge intersections
 	///\param[in] dumpMeshes: write meshes to dump file for debugging
-	inline void intersectOpenEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, double eps, bool dumpMeshes)
+	inline void intersectOpenEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, GeomProcessingParams& params)
 	{
 		if( !meshset )
 		{
@@ -1939,7 +1951,7 @@ namespace MeshUtils
 
 #ifdef _DEBUG
 		glm::vec4 color(0.5, 0.6, 0.7, 1.0);
-		if( dumpMeshes )
+		if( params.debugDump )
 		{
 			GeomDebugDump::moveOffset(0.8);
 			GeomDebugDump::dumpMeshset(meshset, color, true);
@@ -1964,7 +1976,7 @@ namespace MeshUtils
 				std::copy(mesh->faces.begin(), mesh->faces.end(), std::back_inserter(allFaces));
 			}
 
-			PolyInputCache3D polyInput(eps);
+			PolyInputCache3D polyInput(params.epsMergePoints);
 
 			// intersect with closed edges
 			size_t numSplitEdges = 0;
@@ -1980,7 +1992,7 @@ namespace MeshUtils
 				if( n_edges > maxNumEdges )
 				{
 #ifdef _DEBUG
-					if( dumpMeshes )
+					if( params.debugDump )
 					{
 						std::cout << "n_edges > maxNumEdges" << std::endl;
 						glm::vec4 color(0.3, 0.3, 0.3, 1.);
@@ -2008,7 +2020,7 @@ namespace MeshUtils
 						vec3 openEdgeEnd = openEdge->v2()->v;
 
 						vec3 intersectionPoint;
-						bool intersect = edgeToEdgeIntersect(openEdge, edge, eps, intersectionPoint);
+						bool intersect = edgeToEdgeIntersect(openEdge, edge, params.epsMergePoints, intersectionPoint);
 
 						if( intersect )
 						{
@@ -2086,16 +2098,16 @@ namespace MeshUtils
 					std::vector<std::vector<vec3> > faceLoops = { faceLoop };
 					bool mergeAlignedEdges = false;
 					bool dumpPolygon = true;
-					createTriangulated3DFace(faceLoops, nullptr, polyInput, mergeAlignedEdges, dumpPolygon, nullptr);
+					createTriangulated3DFace(faceLoops, polyInput, params );
 				}
 			}
 
 			if( numSplitEdges > 0 )
 			{
-				bool correct = checkPolyhedronData(polyInput.m_poly_data);
+				bool correct = checkPolyhedronData(polyInput.m_poly_data, params.minFaceArea);
 				if( !correct )
 				{
-					bool correct = fixPolyhedronData(polyInput.m_poly_data);
+					bool correct = fixPolyhedronData(polyInput.m_poly_data, params.minFaceArea);
 #ifdef _DEBUG
 					std::cout << "incorrect idx";
 #endif
@@ -2130,7 +2142,7 @@ namespace MeshUtils
 					}
 
 #ifdef _DEBUG
-					if( dumpMeshes )
+					if( params.debugDump )
 					{
 						glm::vec4 color(0.3, 0.3, 0.3, 1.);
 						GeomDebugDump::dumpMeshset(meshsetNew, color, false);
@@ -2652,11 +2664,12 @@ namespace MeshUtils
 
 		if( meshsetChanged )
 		{
-			bool polyInputCorrect = checkPolyhedronData(polyInput.m_poly_data);
+			GeomProcessingParams params(carve::CARVE_EPSILON, carve::CARVE_EPSILON*0.1, carve::CARVE_EPSILON * 0.01);
+			bool polyInputCorrect = checkPolyhedronData(polyInput.m_poly_data, params.minFaceArea);
 			if( !polyInputCorrect )
 			{
-				fixPolyhedronData(polyInput.m_poly_data);
-				polyInputCorrect = checkPolyhedronData(polyInput.m_poly_data);
+				fixPolyhedronData(polyInput.m_poly_data, params.minFaceArea);
+				polyInputCorrect = checkPolyhedronData(polyInput.m_poly_data, params.minFaceArea);
 			}
 
 			if( polyInputCorrect )
@@ -2781,10 +2794,11 @@ namespace MeshUtils
 			}
 		}
 
-		bool polyhedron_ok = checkPolyhedronData(polyhedron.m_poly_data);
+		double minFaceArea = carve::CARVE_EPSILON * 0.001;
+		bool polyhedron_ok = checkPolyhedronData(polyhedron.m_poly_data, minFaceArea);
 		if( !polyhedron_ok )
 		{
-			fixPolyhedronData(polyhedron.m_poly_data);
+			fixPolyhedronData(polyhedron.m_poly_data, minFaceArea);
 		}
 
 		if( !manimesh )
@@ -2830,7 +2844,6 @@ namespace MeshUtils
 #ifdef _DEBUG
 			std::cout << "check polyhedron.m_poly_data[" << ii << "]" << std::endl;
 #endif
-
 		}
 	}
 
@@ -2841,8 +2854,6 @@ namespace MeshUtils
 			return;
 		}
 		PolyInputCache3D poly( eps );
-
-
 		manifold::Mesh resultMesh = manifoldInput->GetMesh();
 
 		for (int i = 0, n = resultMesh.triVerts.size(); i < n; i++)
@@ -2915,4 +2926,3 @@ namespace MeshUtils
 		meshset = shared_ptr<carve::mesh::MeshSet<3> >(polyhedron_data->createMesh(carve::input::opts()));
 	}
 }
-

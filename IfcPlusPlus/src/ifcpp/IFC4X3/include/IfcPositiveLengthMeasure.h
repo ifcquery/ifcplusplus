@@ -24,4 +24,3 @@ namespace IFC4X3
 		static shared_ptr<IfcPositiveLengthMeasure> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 	};
 }
-

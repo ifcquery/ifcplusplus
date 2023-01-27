@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFacility : public IfcSpatialStructureElement
-	{ 
+	{
 	public:
 		IfcFacility() = default;
 		IfcFacility( int id );
@@ -78,4 +78,3 @@ namespace IFC4X3
 		// IfcFacility -----------------------------------------------------------
 	};
 }
-

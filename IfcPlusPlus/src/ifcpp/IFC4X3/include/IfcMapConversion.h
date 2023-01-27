@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReal;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMapConversion : public IfcCoordinateOperation
-	{ 
+	{
 	public:
 		IfcMapConversion() = default;
 		IfcMapConversion( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcReal>								m_ScaleZ;					//optional
 	};
 }
-

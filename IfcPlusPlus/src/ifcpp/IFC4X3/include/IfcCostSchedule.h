@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDateTime;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCostSchedule : public IfcControl
-	{ 
+	{
 	public:
 		IfcCostSchedule() = default;
 		IfcCostSchedule( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcDateTime>								m_UpdateDate;				//optional
 	};
 }
-

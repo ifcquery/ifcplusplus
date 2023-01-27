@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDirection;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcOffsetCurve3D : public IfcOffsetCurve
-	{ 
+	{
 	public:
 		IfcOffsetCurve3D() = default;
 		IfcOffsetCurve3D( int id );
@@ -49,4 +49,3 @@ namespace IFC4X3
 		shared_ptr<IfcDirection>								m_RefDirection;
 	};
 }
-

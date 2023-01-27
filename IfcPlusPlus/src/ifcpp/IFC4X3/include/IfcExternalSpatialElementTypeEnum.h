@@ -33,4 +33,3 @@ namespace IFC4X3
 		IfcExternalSpatialElementTypeEnumEnum m_enum;
 	};
 }
-

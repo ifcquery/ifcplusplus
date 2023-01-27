@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcParameterValue;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPointOnSurface : public IfcPoint
-	{ 
+	{
 	public:
 		IfcPointOnSurface() = default;
 		IfcPointOnSurface( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcParameterValue>							m_PointParameterV;
 	};
 }
-

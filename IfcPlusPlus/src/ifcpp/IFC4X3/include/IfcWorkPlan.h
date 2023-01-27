@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcWorkPlanTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcWorkPlan : public IfcWorkControl
-	{ 
+	{
 	public:
 		IfcWorkPlan() = default;
 		IfcWorkPlan( int id );
@@ -74,4 +74,3 @@ namespace IFC4X3
 		shared_ptr<IfcWorkPlanTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

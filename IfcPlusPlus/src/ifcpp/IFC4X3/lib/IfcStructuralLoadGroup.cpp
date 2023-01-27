@@ -83,30 +83,24 @@ void IFC4X3::IfcStructuralLoadGroup::getAttributes( std::vector<std::pair<std::s
 void IFC4X3::IfcStructuralLoadGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcGroup::getAttributesInverse( vec_attributes_inverse );
-	if( !m_SourceOfResultGroup_inverse.empty() )
+	shared_ptr<AttributeObjectVector> SourceOfResultGroup_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_SourceOfResultGroup_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> SourceOfResultGroup_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_SourceOfResultGroup_inverse.size(); ++i )
+		if( !m_SourceOfResultGroup_inverse[i].expired() )
 		{
-			if( !m_SourceOfResultGroup_inverse[i].expired() )
-			{
-				SourceOfResultGroup_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcStructuralResultGroup>( m_SourceOfResultGroup_inverse[i] ) );
-			}
+			SourceOfResultGroup_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcStructuralResultGroup>( m_SourceOfResultGroup_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "SourceOfResultGroup_inverse", SourceOfResultGroup_inverse_vec_obj ) );
 	}
-	if( !m_LoadGroupFor_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "SourceOfResultGroup_inverse", SourceOfResultGroup_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> LoadGroupFor_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_LoadGroupFor_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> LoadGroupFor_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_LoadGroupFor_inverse.size(); ++i )
+		if( !m_LoadGroupFor_inverse[i].expired() )
 		{
-			if( !m_LoadGroupFor_inverse[i].expired() )
-			{
-				LoadGroupFor_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcStructuralAnalysisModel>( m_LoadGroupFor_inverse[i] ) );
-			}
+			LoadGroupFor_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcStructuralAnalysisModel>( m_LoadGroupFor_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "LoadGroupFor_inverse", LoadGroupFor_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "LoadGroupFor_inverse", LoadGroupFor_inverse_vec_obj ) );
 }
 void IFC4X3::IfcStructuralLoadGroup::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

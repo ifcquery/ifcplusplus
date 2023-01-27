@@ -18,7 +18,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBendingParameterSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcReinforcingBarType : public IfcReinforcingElementType
-	{ 
+	{
 	public:
 		IfcReinforcingBarType() = default;
 		IfcReinforcingBarType( int id );
@@ -82,4 +82,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcBendingParameterSelect> >	m_BendingParameters;		//optional
 	};
 }
-

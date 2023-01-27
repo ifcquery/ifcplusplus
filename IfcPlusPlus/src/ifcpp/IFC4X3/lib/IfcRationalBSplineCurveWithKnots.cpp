@@ -60,12 +60,9 @@ void IFC4X3::IfcRationalBSplineCurveWithKnots::readStepArguments( const std::vec
 void IFC4X3::IfcRationalBSplineCurveWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcBSplineCurveWithKnots::getAttributes( vec_attributes );
-	if( !m_WeightsData.empty() )
-	{
-		shared_ptr<AttributeObjectVector> WeightsData_vec_object( new AttributeObjectVector() );
-		std::copy( m_WeightsData.begin(), m_WeightsData.end(), std::back_inserter( WeightsData_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "WeightsData", WeightsData_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> WeightsData_vec_object( new AttributeObjectVector() );
+	std::copy( m_WeightsData.begin(), m_WeightsData.end(), std::back_inserter( WeightsData_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "WeightsData", WeightsData_vec_object ) );
 }
 void IFC4X3::IfcRationalBSplineCurveWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -11,7 +11,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPresentationItem : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcPresentationItem() = default;
 		IfcPresentationItem( int id );
@@ -28,4 +28,3 @@ namespace IFC4X3
 		// IfcPresentationItem -----------------------------------------------------------
 	};
 }
-

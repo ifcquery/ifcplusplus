@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLogical;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBSplineSurface : public IfcBoundedSurface
-	{ 
+	{
 	public:
 		IfcBSplineSurface() = default;
 		IfcBSplineSurface( int id );
@@ -52,4 +52,3 @@ namespace IFC4X3
 		shared_ptr<IfcLogical>									m_SelfIntersect;
 	};
 }
-

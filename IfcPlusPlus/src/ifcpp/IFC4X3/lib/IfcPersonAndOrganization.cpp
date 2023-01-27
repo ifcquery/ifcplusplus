@@ -37,12 +37,9 @@ void IFC4X3::IfcPersonAndOrganization::getAttributes( std::vector<std::pair<std:
 {
 	vec_attributes.emplace_back( std::make_pair( "ThePerson", m_ThePerson ) );
 	vec_attributes.emplace_back( std::make_pair( "TheOrganization", m_TheOrganization ) );
-	if( !m_Roles.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Roles_vec_object( new AttributeObjectVector() );
-		std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Roles", Roles_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Roles_vec_object( new AttributeObjectVector() );
+	std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Roles", Roles_vec_object ) );
 }
 void IFC4X3::IfcPersonAndOrganization::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

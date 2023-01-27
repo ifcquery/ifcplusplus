@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRectangularPyramid : public IfcCsgPrimitive3D
-	{ 
+	{
 	public:
 		IfcRectangularPyramid() = default;
 		IfcRectangularPyramid( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveLengthMeasure>					m_Height;
 	};
 }
-

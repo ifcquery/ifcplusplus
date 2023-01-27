@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAxis2PlacementLinear;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSectionedSolidHorizontal : public IfcSectionedSolid
-	{ 
+	{
 	public:
 		IfcSectionedSolidHorizontal() = default;
 		IfcSectionedSolidHorizontal( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcAxis2PlacementLinear> >		m_CrossSectionPositions;
 	};
 }
-

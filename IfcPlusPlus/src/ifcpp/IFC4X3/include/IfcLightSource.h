@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcNormalisedRatioMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLightSource : public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcLightSource() = default;
 		IfcLightSource( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcNormalisedRatioMeasure>					m_Intensity;				//optional
 	};
 }
-

@@ -92,24 +92,15 @@ void IFC4X3::IfcOpenCrossProfileDef::getAttributes( std::vector<std::pair<std::s
 {
 	IFC4X3::IfcProfileDef::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "HorizontalWidths", m_HorizontalWidths ) );
-	if( !m_Widths.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Widths_vec_object( new AttributeObjectVector() );
-		std::copy( m_Widths.begin(), m_Widths.end(), std::back_inserter( Widths_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Widths", Widths_vec_object ) );
-	}
-	if( !m_Slopes.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Slopes_vec_object( new AttributeObjectVector() );
-		std::copy( m_Slopes.begin(), m_Slopes.end(), std::back_inserter( Slopes_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Slopes", Slopes_vec_object ) );
-	}
-	if( !m_Tags.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Tags_vec_object( new AttributeObjectVector() );
-		std::copy( m_Tags.begin(), m_Tags.end(), std::back_inserter( Tags_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Tags", Tags_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Widths_vec_object( new AttributeObjectVector() );
+	std::copy( m_Widths.begin(), m_Widths.end(), std::back_inserter( Widths_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Widths", Widths_vec_object ) );
+	shared_ptr<AttributeObjectVector> Slopes_vec_object( new AttributeObjectVector() );
+	std::copy( m_Slopes.begin(), m_Slopes.end(), std::back_inserter( Slopes_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Slopes", Slopes_vec_object ) );
+	shared_ptr<AttributeObjectVector> Tags_vec_object( new AttributeObjectVector() );
+	std::copy( m_Tags.begin(), m_Tags.end(), std::back_inserter( Tags_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Tags", Tags_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "OffsetPoint", m_OffsetPoint ) );
 }
 void IFC4X3::IfcOpenCrossProfileDef::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDraughtingPreDefinedCurveFont : public IfcPreDefinedCurveFont
-	{ 
+	{
 	public:
 		IfcDraughtingPreDefinedCurveFont() = default;
 		IfcDraughtingPreDefinedCurveFont( int id );
@@ -37,4 +37,3 @@ namespace IFC4X3
 		// IfcDraughtingPreDefinedCurveFont -----------------------------------------------------------
 	};
 }
-

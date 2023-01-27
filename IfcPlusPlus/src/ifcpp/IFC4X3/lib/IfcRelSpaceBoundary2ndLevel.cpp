@@ -72,18 +72,15 @@ void IFC4X3::IfcRelSpaceBoundary2ndLevel::getAttributes( std::vector<std::pair<s
 void IFC4X3::IfcRelSpaceBoundary2ndLevel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcRelSpaceBoundary1stLevel::getAttributesInverse( vec_attributes_inverse );
-	if( !m_Corresponds_inverse.empty() )
+	shared_ptr<AttributeObjectVector> Corresponds_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_Corresponds_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> Corresponds_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_Corresponds_inverse.size(); ++i )
+		if( !m_Corresponds_inverse[i].expired() )
 		{
-			if( !m_Corresponds_inverse[i].expired() )
-			{
-				Corresponds_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSpaceBoundary2ndLevel>( m_Corresponds_inverse[i] ) );
-			}
+			Corresponds_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSpaceBoundary2ndLevel>( m_Corresponds_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "Corresponds_inverse", Corresponds_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "Corresponds_inverse", Corresponds_inverse_vec_obj ) );
 }
 void IFC4X3::IfcRelSpaceBoundary2ndLevel::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

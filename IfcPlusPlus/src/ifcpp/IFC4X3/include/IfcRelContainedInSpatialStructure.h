@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSpatialElement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelContainedInSpatialStructure : public IfcRelConnects
-	{ 
+	{
 	public:
 		IfcRelContainedInSpatialStructure() = default;
 		IfcRelContainedInSpatialStructure( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcSpatialElement>			m_RelatingStructure;
 	};
 }
-

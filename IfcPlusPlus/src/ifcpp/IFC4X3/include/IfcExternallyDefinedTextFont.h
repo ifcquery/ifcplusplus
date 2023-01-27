@@ -13,7 +13,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcExternallyDefinedTextFont : virtual public IfcTextFontSelect, public IfcExternalReference
-	{ 
+	{
 	public:
 		IfcExternallyDefinedTextFont() = default;
 		IfcExternallyDefinedTextFont( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		// IfcExternallyDefinedTextFont -----------------------------------------------------------
 	};
 }
-

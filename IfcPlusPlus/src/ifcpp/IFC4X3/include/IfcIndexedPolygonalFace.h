@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTextureCoordinateIndices;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcIndexedPolygonalFace : public IfcTessellatedItem
-	{ 
+	{
 	public:
 		IfcIndexedPolygonalFace() = default;
 		IfcIndexedPolygonalFace( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcTextureCoordinateIndices> >		m_HasTexCoords_inverse;
 	};
 }
-

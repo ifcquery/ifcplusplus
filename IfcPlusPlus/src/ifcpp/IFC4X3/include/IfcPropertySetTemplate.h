@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelDefinesByTemplate;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPropertySetTemplate : public IfcPropertyTemplateDefinition
-	{ 
+	{
 	public:
 		IfcPropertySetTemplate() = default;
 		IfcPropertySetTemplate( int id );
@@ -53,4 +53,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelDefinesByTemplate> >	m_Defines_inverse;
 	};
 }
-

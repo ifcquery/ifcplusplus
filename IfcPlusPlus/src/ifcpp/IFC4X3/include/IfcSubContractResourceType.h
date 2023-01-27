@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSubContractResourceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSubContractResourceType : public IfcConstructionResourceType
-	{ 
+	{
 	public:
 		IfcSubContractResourceType() = default;
 		IfcSubContractResourceType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcSubContractResourceTypeEnum>			m_PredefinedType;
 	};
 }
-

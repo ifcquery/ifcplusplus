@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLogical;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelInterferesElements : public IfcRelConnects
-	{ 
+	{
 	public:
 		IfcRelInterferesElements() = default;
 		IfcRelInterferesElements( int id );
@@ -52,4 +52,3 @@ namespace IFC4X3
 		shared_ptr<IfcLogical>				m_ImpliedOrder;
 	};
 }
-

@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcExternalInformation : virtual public IfcResourceObjectSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcExternalInformation() = default;
 		IfcExternalInformation( int id );
@@ -29,4 +29,3 @@ namespace IFC4X3
 		// IfcExternalInformation -----------------------------------------------------------
 	};
 }
-

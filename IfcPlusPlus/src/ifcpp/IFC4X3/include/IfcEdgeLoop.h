@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcOrientedEdge;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcEdgeLoop : public IfcLoop
-	{ 
+	{
 	public:
 		IfcEdgeLoop() = default;
 		IfcEdgeLoop( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcOrientedEdge> >				m_EdgeList;
 	};
 }
-

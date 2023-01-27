@@ -18,7 +18,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcNormalisedRatioMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTendon : public IfcReinforcingElement
-	{ 
+	{
 	public:
 		IfcTendon() = default;
 		IfcTendon( int id );
@@ -102,4 +102,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveLengthMeasure>						m_MinCurvatureRadius;		//optional
 	};
 }
-

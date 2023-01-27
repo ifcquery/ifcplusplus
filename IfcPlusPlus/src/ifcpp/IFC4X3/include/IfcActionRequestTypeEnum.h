@@ -34,4 +34,3 @@ namespace IFC4X3
 		IfcActionRequestTypeEnumEnum m_enum;
 	};
 }
-

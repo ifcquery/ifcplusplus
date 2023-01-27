@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLinearPositioningElement : public IfcPositioningElement
-	{ 
+	{
 	public:
 		IfcLinearPositioningElement() = default;
 		IfcLinearPositioningElement( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		// IfcLinearPositioningElement -----------------------------------------------------------
 	};
 }
-

@@ -49,12 +49,9 @@ void IFC4X3::IfcRelPositions::getAttributes( std::vector<std::pair<std::string, 
 {
 	IFC4X3::IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "RelatingPositioningElement", m_RelatingPositioningElement ) );
-	if( !m_RelatedProducts.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RelatedProducts_vec_object( new AttributeObjectVector() );
-		std::copy( m_RelatedProducts.begin(), m_RelatedProducts.end(), std::back_inserter( RelatedProducts_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RelatedProducts", RelatedProducts_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RelatedProducts_vec_object( new AttributeObjectVector() );
+	std::copy( m_RelatedProducts.begin(), m_RelatedProducts.end(), std::back_inserter( RelatedProducts_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedProducts", RelatedProducts_vec_object ) );
 }
 void IFC4X3::IfcRelPositions::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

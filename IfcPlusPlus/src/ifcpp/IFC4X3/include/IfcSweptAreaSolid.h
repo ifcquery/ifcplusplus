@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAxis2Placement3D;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSweptAreaSolid : public IfcSolidModel
-	{ 
+	{
 	public:
 		IfcSweptAreaSolid() = default;
 		IfcSweptAreaSolid( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		shared_ptr<IfcAxis2Placement3D>							m_Position;					//optional
 	};
 }
-

@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcGeomodel : public IfcGeotechnicalAssembly
-	{ 
+	{
 	public:
 		IfcGeomodel() = default;
 		IfcGeomodel( int id );
@@ -85,4 +85,3 @@ namespace IFC4X3
 		// IfcGeomodel -----------------------------------------------------------
 	};
 }
-

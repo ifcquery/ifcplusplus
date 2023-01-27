@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcValveTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcValveType : public IfcFlowControllerType
-	{ 
+	{
 	public:
 		IfcValveType() = default;
 		IfcValveType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcValveTypeEnum>						m_PredefinedType;
 	};
 }
-

@@ -31,4 +31,3 @@ namespace IFC4X3
 		IfcTextPathEnum m_enum;
 	};
 }
-

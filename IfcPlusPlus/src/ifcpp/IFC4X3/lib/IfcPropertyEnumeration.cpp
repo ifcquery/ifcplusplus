@@ -55,12 +55,9 @@ void IFC4X3::IfcPropertyEnumeration::getAttributes( std::vector<std::pair<std::s
 {
 	IFC4X3::IfcPropertyAbstraction::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
-	if( !m_EnumerationValues.empty() )
-	{
-		shared_ptr<AttributeObjectVector> EnumerationValues_vec_object( new AttributeObjectVector() );
-		std::copy( m_EnumerationValues.begin(), m_EnumerationValues.end(), std::back_inserter( EnumerationValues_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "EnumerationValues", EnumerationValues_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> EnumerationValues_vec_object( new AttributeObjectVector() );
+	std::copy( m_EnumerationValues.begin(), m_EnumerationValues.end(), std::back_inserter( EnumerationValues_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "EnumerationValues", EnumerationValues_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "Unit", m_Unit ) );
 }
 void IFC4X3::IfcPropertyEnumeration::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

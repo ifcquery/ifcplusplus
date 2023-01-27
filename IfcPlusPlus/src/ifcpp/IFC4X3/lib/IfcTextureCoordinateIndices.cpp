@@ -49,12 +49,9 @@ void IFC4X3::IfcTextureCoordinateIndices::readStepArguments( const std::vector<s
 }
 void IFC4X3::IfcTextureCoordinateIndices::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( !m_TexCoordIndex.empty() )
-	{
-		shared_ptr<AttributeObjectVector> TexCoordIndex_vec_object( new AttributeObjectVector() );
-		std::copy( m_TexCoordIndex.begin(), m_TexCoordIndex.end(), std::back_inserter( TexCoordIndex_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "TexCoordIndex", TexCoordIndex_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> TexCoordIndex_vec_object( new AttributeObjectVector() );
+	std::copy( m_TexCoordIndex.begin(), m_TexCoordIndex.end(), std::back_inserter( TexCoordIndex_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "TexCoordIndex", TexCoordIndex_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "TexCoordsOf", m_TexCoordsOf ) );
 }
 void IFC4X3::IfcTextureCoordinateIndices::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

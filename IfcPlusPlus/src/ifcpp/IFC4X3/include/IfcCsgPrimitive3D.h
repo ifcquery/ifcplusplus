@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAxis2Placement3D;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCsgPrimitive3D : virtual public IfcBooleanOperand, virtual public IfcCsgSelect, public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcCsgPrimitive3D() = default;
 		IfcCsgPrimitive3D( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcAxis2Placement3D>							m_Position;
 	};
 }
-

@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelAssociates;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPropertyDefinition : virtual public IfcDefinitionSelect, public IfcRoot
-	{ 
+	{
 	public:
 		IfcPropertyDefinition() = default;
 		IfcPropertyDefinition( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelAssociates> >	m_HasAssociations_inverse;
 	};
 }
-

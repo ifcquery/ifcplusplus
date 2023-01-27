@@ -38,30 +38,24 @@ void IFC4X3::IfcRepresentationMap::getAttributes( std::vector<std::pair<std::str
 }
 void IFC4X3::IfcRepresentationMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( !m_HasShapeAspects_inverse.empty() )
+	shared_ptr<AttributeObjectVector> HasShapeAspects_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasShapeAspects_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasShapeAspects_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasShapeAspects_inverse.size(); ++i )
+		if( !m_HasShapeAspects_inverse[i].expired() )
 		{
-			if( !m_HasShapeAspects_inverse[i].expired() )
-			{
-				HasShapeAspects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcShapeAspect>( m_HasShapeAspects_inverse[i] ) );
-			}
+			HasShapeAspects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcShapeAspect>( m_HasShapeAspects_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasShapeAspects_inverse", HasShapeAspects_inverse_vec_obj ) );
 	}
-	if( !m_MapUsage_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasShapeAspects_inverse", HasShapeAspects_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> MapUsage_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_MapUsage_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> MapUsage_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_MapUsage_inverse.size(); ++i )
+		if( !m_MapUsage_inverse[i].expired() )
 		{
-			if( !m_MapUsage_inverse[i].expired() )
-			{
-				MapUsage_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcMappedItem>( m_MapUsage_inverse[i] ) );
-			}
+			MapUsage_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcMappedItem>( m_MapUsage_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "MapUsage_inverse", MapUsage_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "MapUsage_inverse", MapUsage_inverse_vec_obj ) );
 }
 void IFC4X3::IfcRepresentationMap::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

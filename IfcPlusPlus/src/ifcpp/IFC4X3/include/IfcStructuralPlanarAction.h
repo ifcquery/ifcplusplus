@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralPlanarAction : public IfcStructuralSurfaceAction
-	{ 
+	{
 	public:
 		IfcStructuralPlanarAction() = default;
 		IfcStructuralPlanarAction( int id );
@@ -80,4 +80,3 @@ namespace IFC4X3
 		// IfcStructuralPlanarAction -----------------------------------------------------------
 	};
 }
-

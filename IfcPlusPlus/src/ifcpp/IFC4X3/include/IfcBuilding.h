@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPostalAddress;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBuilding : public IfcFacility
-	{ 
+	{
 	public:
 		IfcBuilding() = default;
 		IfcBuilding( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcPostalAddress>								m_BuildingAddress;			//optional
 	};
 }
-

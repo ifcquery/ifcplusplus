@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelationship : public IfcRoot
-	{ 
+	{
 	public:
 		IfcRelationship() = default;
 		IfcRelationship( int id );
@@ -36,4 +36,3 @@ namespace IFC4X3
 		// IfcRelationship -----------------------------------------------------------
 	};
 }
-

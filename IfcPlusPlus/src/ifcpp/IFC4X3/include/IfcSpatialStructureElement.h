@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcElementCompositionEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSpatialStructureElement : public IfcSpatialElement
-	{ 
+	{
 	public:
 		IfcSpatialStructureElement() = default;
 		IfcSpatialStructureElement( int id );
@@ -77,4 +77,3 @@ namespace IFC4X3
 		shared_ptr<IfcElementCompositionEnum>						m_CompositionType;			//optional
 	};
 }
-

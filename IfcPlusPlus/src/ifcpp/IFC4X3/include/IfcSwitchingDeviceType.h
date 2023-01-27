@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSwitchingDeviceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSwitchingDeviceType : public IfcFlowControllerType
-	{ 
+	{
 	public:
 		IfcSwitchingDeviceType() = default;
 		IfcSwitchingDeviceType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcSwitchingDeviceTypeEnum>				m_PredefinedType;
 	};
 }
-

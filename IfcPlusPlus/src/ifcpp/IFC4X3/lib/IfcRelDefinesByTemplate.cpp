@@ -48,12 +48,9 @@ void IFC4X3::IfcRelDefinesByTemplate::readStepArguments( const std::vector<std::
 void IFC4X3::IfcRelDefinesByTemplate::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcRelDefines::getAttributes( vec_attributes );
-	if( !m_RelatedPropertySets.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RelatedPropertySets_vec_object( new AttributeObjectVector() );
-		std::copy( m_RelatedPropertySets.begin(), m_RelatedPropertySets.end(), std::back_inserter( RelatedPropertySets_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RelatedPropertySets", RelatedPropertySets_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RelatedPropertySets_vec_object( new AttributeObjectVector() );
+	std::copy( m_RelatedPropertySets.begin(), m_RelatedPropertySets.end(), std::back_inserter( RelatedPropertySets_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedPropertySets", RelatedPropertySets_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "RelatingTemplate", m_RelatingTemplate ) );
 }
 void IFC4X3::IfcRelDefinesByTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

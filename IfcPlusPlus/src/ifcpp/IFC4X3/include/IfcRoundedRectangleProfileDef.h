@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRoundedRectangleProfileDef : public IfcRectangleProfileDef
-	{ 
+	{
 	public:
 		IfcRoundedRectangleProfileDef() = default;
 		IfcRoundedRectangleProfileDef( int id );
@@ -49,4 +49,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveLengthMeasure>						m_RoundingRadius;
 	};
 }
-

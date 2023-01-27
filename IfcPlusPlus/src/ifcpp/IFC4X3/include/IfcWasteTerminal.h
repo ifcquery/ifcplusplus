@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcWasteTerminalTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcWasteTerminal : public IfcFlowTerminal
-	{ 
+	{
 	public:
 		IfcWasteTerminal() = default;
 		IfcWasteTerminal( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcWasteTerminalTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

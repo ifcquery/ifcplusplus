@@ -39,12 +39,9 @@ void IFC4X3::IfcSurfaceCurve::getAttributes( std::vector<std::pair<std::string, 
 {
 	IFC4X3::IfcCurve::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "Curve3D", m_Curve3D ) );
-	if( !m_AssociatedGeometry.empty() )
-	{
-		shared_ptr<AttributeObjectVector> AssociatedGeometry_vec_object( new AttributeObjectVector() );
-		std::copy( m_AssociatedGeometry.begin(), m_AssociatedGeometry.end(), std::back_inserter( AssociatedGeometry_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "AssociatedGeometry", AssociatedGeometry_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> AssociatedGeometry_vec_object( new AttributeObjectVector() );
+	std::copy( m_AssociatedGeometry.begin(), m_AssociatedGeometry.end(), std::back_inserter( AssociatedGeometry_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "AssociatedGeometry", AssociatedGeometry_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "MasterRepresentation", m_MasterRepresentation ) );
 }
 void IFC4X3::IfcSurfaceCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

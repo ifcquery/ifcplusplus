@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcConstructionMaterialResourceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcConstructionMaterialResourceType : public IfcConstructionResourceType
-	{ 
+	{
 	public:
 		IfcConstructionMaterialResourceType() = default;
 		IfcConstructionMaterialResourceType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcConstructionMaterialResourceTypeEnum>	m_PredefinedType;
 	};
 }
-

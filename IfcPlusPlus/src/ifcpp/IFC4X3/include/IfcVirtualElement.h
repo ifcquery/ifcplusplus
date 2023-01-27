@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcVirtualElementTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcVirtualElement : public IfcElement
-	{ 
+	{
 	public:
 		IfcVirtualElement() = default;
 		IfcVirtualElement( int id );
@@ -84,4 +84,3 @@ namespace IFC4X3
 		shared_ptr<IfcVirtualElementTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

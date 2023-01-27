@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcActorRole;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPersonAndOrganization : virtual public IfcActorSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcPersonAndOrganization() = default;
 		IfcPersonAndOrganization( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcActorRole> >	m_Roles;					//optional
 	};
 }
-

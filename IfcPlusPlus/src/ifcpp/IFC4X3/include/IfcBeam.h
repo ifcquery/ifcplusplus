@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBeamTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBeam : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcBeam() = default;
 		IfcBeam( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcBeamTypeEnum>									m_PredefinedType;			//optional
 	};
 }
-

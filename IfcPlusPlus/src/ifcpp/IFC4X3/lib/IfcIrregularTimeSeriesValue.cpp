@@ -49,12 +49,9 @@ void IFC4X3::IfcIrregularTimeSeriesValue::readStepArguments( const std::vector<s
 void IFC4X3::IfcIrregularTimeSeriesValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.emplace_back( std::make_pair( "TimeStamp", m_TimeStamp ) );
-	if( !m_ListValues.empty() )
-	{
-		shared_ptr<AttributeObjectVector> ListValues_vec_object( new AttributeObjectVector() );
-		std::copy( m_ListValues.begin(), m_ListValues.end(), std::back_inserter( ListValues_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "ListValues", ListValues_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> ListValues_vec_object( new AttributeObjectVector() );
+	std::copy( m_ListValues.begin(), m_ListValues.end(), std::back_inserter( ListValues_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "ListValues", ListValues_vec_object ) );
 }
 void IFC4X3::IfcIrregularTimeSeriesValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelAssociatesDocument;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDocumentReference : virtual public IfcDocumentSelect, public IfcExternalReference
-	{ 
+	{
 	public:
 		IfcDocumentReference() = default;
 		IfcDocumentReference( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelAssociatesDocument> >			m_DocumentRefForObjects_inverse;
 	};
 }
-

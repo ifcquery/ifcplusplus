@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelSpaceBoundary2ndLevel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelSpaceBoundary2ndLevel : public IfcRelSpaceBoundary1stLevel
-	{ 
+	{
 	public:
 		IfcRelSpaceBoundary2ndLevel() = default;
 		IfcRelSpaceBoundary2ndLevel( int id );
@@ -59,4 +59,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelSpaceBoundary2ndLevel> >	m_Corresponds_inverse;
 	};
 }
-

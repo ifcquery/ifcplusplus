@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRotationalStiffnessSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBoundaryNodeCondition : public IfcBoundaryCondition
-	{ 
+	{
 	public:
 		IfcBoundaryNodeCondition() = default;
 		IfcBoundaryNodeCondition( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		shared_ptr<IfcRotationalStiffnessSelect>	m_RotationalStiffnessZ;		//optional
 	};
 }
-

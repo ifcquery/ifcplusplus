@@ -30,12 +30,9 @@ void IFC4X3::IfcConnectedFaceSet::readStepArguments( const std::vector<std::stri
 void IFC4X3::IfcConnectedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
-	if( !m_CfsFaces.empty() )
-	{
-		shared_ptr<AttributeObjectVector> CfsFaces_vec_object( new AttributeObjectVector() );
-		std::copy( m_CfsFaces.begin(), m_CfsFaces.end(), std::back_inserter( CfsFaces_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "CfsFaces", CfsFaces_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> CfsFaces_vec_object( new AttributeObjectVector() );
+	std::copy( m_CfsFaces.begin(), m_CfsFaces.end(), std::back_inserter( CfsFaces_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "CfsFaces", CfsFaces_vec_object ) );
 }
 void IFC4X3::IfcConnectedFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

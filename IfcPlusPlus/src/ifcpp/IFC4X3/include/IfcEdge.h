@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcVertex;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcEdge : public IfcTopologicalRepresentationItem
-	{ 
+	{
 	public:
 		IfcEdge() = default;
 		IfcEdge( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		shared_ptr<IfcVertex>									m_EdgeEnd;
 	};
 }
-

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSurfaceStyleElementSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSurfaceStyle : public IfcPresentationStyle
-	{ 
+	{
 	public:
 		IfcSurfaceStyle() = default;
 		IfcSurfaceStyle( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcSurfaceStyleElementSelect> >	m_Styles;
 	};
 }
-

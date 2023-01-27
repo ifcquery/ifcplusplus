@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcEarthworksCutTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcEarthworksCut : public IfcFeatureElementSubtraction
-	{ 
+	{
 	public:
 		IfcEarthworksCut() = default;
 		IfcEarthworksCut( int id );
@@ -90,4 +90,3 @@ namespace IFC4X3
 		shared_ptr<IfcEarthworksCutTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

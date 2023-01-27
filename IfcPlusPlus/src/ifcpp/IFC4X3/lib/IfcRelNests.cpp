@@ -48,12 +48,9 @@ void IFC4X3::IfcRelNests::getAttributes( std::vector<std::pair<std::string, shar
 {
 	IFC4X3::IfcRelDecomposes::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "RelatingObject", m_RelatingObject ) );
-	if( !m_RelatedObjects.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RelatedObjects_vec_object( new AttributeObjectVector() );
-		std::copy( m_RelatedObjects.begin(), m_RelatedObjects.end(), std::back_inserter( RelatedObjects_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RelatedObjects_vec_object( new AttributeObjectVector() );
+	std::copy( m_RelatedObjects.begin(), m_RelatedObjects.end(), std::back_inserter( RelatedObjects_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedObjects", RelatedObjects_vec_object ) );
 }
 void IFC4X3::IfcRelNests::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCartesianTransformationOperator2D : public IfcCartesianTransformationOperator
-	{ 
+	{
 	public:
 		IfcCartesianTransformationOperator2D() = default;
 		IfcCartesianTransformationOperator2D( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		// IfcCartesianTransformationOperator2D -----------------------------------------------------------
 	};
 }
-

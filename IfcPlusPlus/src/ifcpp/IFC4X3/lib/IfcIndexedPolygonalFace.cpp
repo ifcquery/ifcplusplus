@@ -49,40 +49,31 @@ void IFC4X3::IfcIndexedPolygonalFace::readStepArguments( const std::vector<std::
 void IFC4X3::IfcIndexedPolygonalFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcTessellatedItem::getAttributes( vec_attributes );
-	if( !m_CoordIndex.empty() )
-	{
-		shared_ptr<AttributeObjectVector> CoordIndex_vec_object( new AttributeObjectVector() );
-		std::copy( m_CoordIndex.begin(), m_CoordIndex.end(), std::back_inserter( CoordIndex_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "CoordIndex", CoordIndex_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> CoordIndex_vec_object( new AttributeObjectVector() );
+	std::copy( m_CoordIndex.begin(), m_CoordIndex.end(), std::back_inserter( CoordIndex_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "CoordIndex", CoordIndex_vec_object ) );
 }
 void IFC4X3::IfcIndexedPolygonalFace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcTessellatedItem::getAttributesInverse( vec_attributes_inverse );
-	if( !m_ToFaceSet_inverse.empty() )
+	shared_ptr<AttributeObjectVector> ToFaceSet_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ToFaceSet_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ToFaceSet_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ToFaceSet_inverse.size(); ++i )
+		if( !m_ToFaceSet_inverse[i].expired() )
 		{
-			if( !m_ToFaceSet_inverse[i].expired() )
-			{
-				ToFaceSet_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPolygonalFaceSet>( m_ToFaceSet_inverse[i] ) );
-			}
+			ToFaceSet_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPolygonalFaceSet>( m_ToFaceSet_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ToFaceSet_inverse", ToFaceSet_inverse_vec_obj ) );
 	}
-	if( !m_HasTexCoords_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "ToFaceSet_inverse", ToFaceSet_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> HasTexCoords_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasTexCoords_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasTexCoords_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasTexCoords_inverse.size(); ++i )
+		if( !m_HasTexCoords_inverse[i].expired() )
 		{
-			if( !m_HasTexCoords_inverse[i].expired() )
-			{
-				HasTexCoords_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcTextureCoordinateIndices>( m_HasTexCoords_inverse[i] ) );
-			}
+			HasTexCoords_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcTextureCoordinateIndices>( m_HasTexCoords_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasTexCoords_inverse", HasTexCoords_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasTexCoords_inverse", HasTexCoords_inverse_vec_obj ) );
 }
 void IFC4X3::IfcIndexedPolygonalFace::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

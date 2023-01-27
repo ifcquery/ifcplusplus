@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcObjectTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelAssigns : public IfcRelationship
-	{ 
+	{
 	public:
 		IfcRelAssigns() = default;
 		IfcRelAssigns( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		shared_ptr<IfcObjectTypeEnum>					m_RelatedObjectsType;		//optional
 	};
 }
-

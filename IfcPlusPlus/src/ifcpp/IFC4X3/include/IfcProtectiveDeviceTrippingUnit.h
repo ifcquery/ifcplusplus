@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcProtectiveDeviceTrippingUnitTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcProtectiveDeviceTrippingUnit : public IfcDistributionControlElement
-	{ 
+	{
 	public:
 		IfcProtectiveDeviceTrippingUnit() = default;
 		IfcProtectiveDeviceTrippingUnit( int id );
@@ -92,4 +92,3 @@ namespace IFC4X3
 		shared_ptr<IfcProtectiveDeviceTrippingUnitTypeEnum>			m_PredefinedType;			//optional
 	};
 }
-

@@ -78,4 +78,3 @@ namespace IFC4X3
 		IfcDistributionSystemEnumEnum m_enum;
 	};
 }
-

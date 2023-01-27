@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRoadPartTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRoadPart : public IfcFacilityPart
-	{ 
+	{
 	public:
 		IfcRoadPart() = default;
 		IfcRoadPart( int id );
@@ -85,4 +85,3 @@ namespace IFC4X3
 		shared_ptr<IfcRoadPartTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

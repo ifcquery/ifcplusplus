@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMonetaryUnit : virtual public IfcUnit, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcMonetaryUnit() = default;
 		IfcMonetaryUnit( int id );
@@ -32,4 +32,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>	m_Currency;
 	};
 }
-

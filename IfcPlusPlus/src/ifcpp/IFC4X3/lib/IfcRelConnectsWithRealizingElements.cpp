@@ -57,12 +57,9 @@ void IFC4X3::IfcRelConnectsWithRealizingElements::readStepArguments( const std::
 void IFC4X3::IfcRelConnectsWithRealizingElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcRelConnectsElements::getAttributes( vec_attributes );
-	if( !m_RealizingElements.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RealizingElements_vec_object( new AttributeObjectVector() );
-		std::copy( m_RealizingElements.begin(), m_RealizingElements.end(), std::back_inserter( RealizingElements_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RealizingElements", RealizingElements_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RealizingElements_vec_object( new AttributeObjectVector() );
+	std::copy( m_RealizingElements.begin(), m_RealizingElements.end(), std::back_inserter( RealizingElements_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RealizingElements", RealizingElements_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "ConnectionType", m_ConnectionType ) );
 }
 void IFC4X3::IfcRelConnectsWithRealizingElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

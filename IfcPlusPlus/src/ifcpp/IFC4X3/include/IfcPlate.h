@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPlateTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPlate : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcPlate() = default;
 		IfcPlate( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcPlateTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

@@ -81,150 +81,114 @@ void IFC4X3::IfcElement::getAttributes( std::vector<std::pair<std::string, share
 void IFC4X3::IfcElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcProduct::getAttributesInverse( vec_attributes_inverse );
-	if( !m_FillsVoids_inverse.empty() )
+	shared_ptr<AttributeObjectVector> FillsVoids_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_FillsVoids_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> FillsVoids_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_FillsVoids_inverse.size(); ++i )
+		if( !m_FillsVoids_inverse[i].expired() )
 		{
-			if( !m_FillsVoids_inverse[i].expired() )
-			{
-				FillsVoids_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelFillsElement>( m_FillsVoids_inverse[i] ) );
-			}
+			FillsVoids_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelFillsElement>( m_FillsVoids_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "FillsVoids_inverse", FillsVoids_inverse_vec_obj ) );
 	}
-	if( !m_ConnectedTo_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "FillsVoids_inverse", FillsVoids_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> ConnectedTo_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ConnectedTo_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ConnectedTo_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ConnectedTo_inverse.size(); ++i )
+		if( !m_ConnectedTo_inverse[i].expired() )
 		{
-			if( !m_ConnectedTo_inverse[i].expired() )
-			{
-				ConnectedTo_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelConnectsElements>( m_ConnectedTo_inverse[i] ) );
-			}
+			ConnectedTo_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelConnectsElements>( m_ConnectedTo_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ConnectedTo_inverse", ConnectedTo_inverse_vec_obj ) );
 	}
-	if( !m_IsInterferedByElements_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "ConnectedTo_inverse", ConnectedTo_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> IsInterferedByElements_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_IsInterferedByElements_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> IsInterferedByElements_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_IsInterferedByElements_inverse.size(); ++i )
+		if( !m_IsInterferedByElements_inverse[i].expired() )
 		{
-			if( !m_IsInterferedByElements_inverse[i].expired() )
-			{
-				IsInterferedByElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelInterferesElements>( m_IsInterferedByElements_inverse[i] ) );
-			}
+			IsInterferedByElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelInterferesElements>( m_IsInterferedByElements_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "IsInterferedByElements_inverse", IsInterferedByElements_inverse_vec_obj ) );
 	}
-	if( !m_InterferesElements_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "IsInterferedByElements_inverse", IsInterferedByElements_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> InterferesElements_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_InterferesElements_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> InterferesElements_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_InterferesElements_inverse.size(); ++i )
+		if( !m_InterferesElements_inverse[i].expired() )
 		{
-			if( !m_InterferesElements_inverse[i].expired() )
-			{
-				InterferesElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelInterferesElements>( m_InterferesElements_inverse[i] ) );
-			}
+			InterferesElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelInterferesElements>( m_InterferesElements_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "InterferesElements_inverse", InterferesElements_inverse_vec_obj ) );
 	}
-	if( !m_HasProjections_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "InterferesElements_inverse", InterferesElements_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> HasProjections_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasProjections_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasProjections_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasProjections_inverse.size(); ++i )
+		if( !m_HasProjections_inverse[i].expired() )
 		{
-			if( !m_HasProjections_inverse[i].expired() )
-			{
-				HasProjections_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelProjectsElement>( m_HasProjections_inverse[i] ) );
-			}
+			HasProjections_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelProjectsElement>( m_HasProjections_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasProjections_inverse", HasProjections_inverse_vec_obj ) );
 	}
-	if( !m_HasOpenings_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasProjections_inverse", HasProjections_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> HasOpenings_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasOpenings_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasOpenings_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasOpenings_inverse.size(); ++i )
+		if( !m_HasOpenings_inverse[i].expired() )
 		{
-			if( !m_HasOpenings_inverse[i].expired() )
-			{
-				HasOpenings_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelVoidsElement>( m_HasOpenings_inverse[i] ) );
-			}
+			HasOpenings_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelVoidsElement>( m_HasOpenings_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasOpenings_inverse", HasOpenings_inverse_vec_obj ) );
 	}
-	if( !m_IsConnectionRealization_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasOpenings_inverse", HasOpenings_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> IsConnectionRealization_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_IsConnectionRealization_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> IsConnectionRealization_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_IsConnectionRealization_inverse.size(); ++i )
+		if( !m_IsConnectionRealization_inverse[i].expired() )
 		{
-			if( !m_IsConnectionRealization_inverse[i].expired() )
-			{
-				IsConnectionRealization_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelConnectsWithRealizingElements>( m_IsConnectionRealization_inverse[i] ) );
-			}
+			IsConnectionRealization_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelConnectsWithRealizingElements>( m_IsConnectionRealization_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "IsConnectionRealization_inverse", IsConnectionRealization_inverse_vec_obj ) );
 	}
-	if( !m_ProvidesBoundaries_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "IsConnectionRealization_inverse", IsConnectionRealization_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> ProvidesBoundaries_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ProvidesBoundaries_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ProvidesBoundaries_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ProvidesBoundaries_inverse.size(); ++i )
+		if( !m_ProvidesBoundaries_inverse[i].expired() )
 		{
-			if( !m_ProvidesBoundaries_inverse[i].expired() )
-			{
-				ProvidesBoundaries_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSpaceBoundary>( m_ProvidesBoundaries_inverse[i] ) );
-			}
+			ProvidesBoundaries_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSpaceBoundary>( m_ProvidesBoundaries_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ProvidesBoundaries_inverse", ProvidesBoundaries_inverse_vec_obj ) );
 	}
-	if( !m_ConnectedFrom_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "ProvidesBoundaries_inverse", ProvidesBoundaries_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> ConnectedFrom_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ConnectedFrom_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ConnectedFrom_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ConnectedFrom_inverse.size(); ++i )
+		if( !m_ConnectedFrom_inverse[i].expired() )
 		{
-			if( !m_ConnectedFrom_inverse[i].expired() )
-			{
-				ConnectedFrom_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelConnectsElements>( m_ConnectedFrom_inverse[i] ) );
-			}
+			ConnectedFrom_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelConnectsElements>( m_ConnectedFrom_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ConnectedFrom_inverse", ConnectedFrom_inverse_vec_obj ) );
 	}
-	if( !m_ContainedInStructure_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "ConnectedFrom_inverse", ConnectedFrom_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> ContainedInStructure_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ContainedInStructure_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ContainedInStructure_inverse.size(); ++i )
+		if( !m_ContainedInStructure_inverse[i].expired() )
 		{
-			if( !m_ContainedInStructure_inverse[i].expired() )
-			{
-				ContainedInStructure_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
-			}
+			ContainedInStructure_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainedInStructure_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
 	}
-	if( !m_HasCoverings_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "ContainedInStructure_inverse", ContainedInStructure_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> HasCoverings_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasCoverings_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasCoverings_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasCoverings_inverse.size(); ++i )
+		if( !m_HasCoverings_inverse[i].expired() )
 		{
-			if( !m_HasCoverings_inverse[i].expired() )
-			{
-				HasCoverings_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelCoversBldgElements>( m_HasCoverings_inverse[i] ) );
-			}
+			HasCoverings_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelCoversBldgElements>( m_HasCoverings_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasCoverings_inverse", HasCoverings_inverse_vec_obj ) );
 	}
-	if( !m_HasSurfaceFeatures_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasCoverings_inverse", HasCoverings_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> HasSurfaceFeatures_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasSurfaceFeatures_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasSurfaceFeatures_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasSurfaceFeatures_inverse.size(); ++i )
+		if( !m_HasSurfaceFeatures_inverse[i].expired() )
 		{
-			if( !m_HasSurfaceFeatures_inverse[i].expired() )
-			{
-				HasSurfaceFeatures_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAdheresToElement>( m_HasSurfaceFeatures_inverse[i] ) );
-			}
+			HasSurfaceFeatures_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAdheresToElement>( m_HasSurfaceFeatures_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasSurfaceFeatures_inverse", HasSurfaceFeatures_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasSurfaceFeatures_inverse", HasSurfaceFeatures_inverse_vec_obj ) );
 }
 void IFC4X3::IfcElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcControl;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelAssignsToControl : public IfcRelAssigns
-	{ 
+	{
 	public:
 		IfcRelAssignsToControl() = default;
 		IfcRelAssignsToControl( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcControl>							m_RelatingControl;
 	};
 }
-

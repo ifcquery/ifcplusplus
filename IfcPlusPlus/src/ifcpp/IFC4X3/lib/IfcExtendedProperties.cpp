@@ -39,12 +39,9 @@ void IFC4X3::IfcExtendedProperties::getAttributes( std::vector<std::pair<std::st
 	IFC4X3::IfcPropertyAbstraction::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
-	if( !m_Properties.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Properties_vec_object( new AttributeObjectVector() );
-		std::copy( m_Properties.begin(), m_Properties.end(), std::back_inserter( Properties_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Properties", Properties_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Properties_vec_object( new AttributeObjectVector() );
+	std::copy( m_Properties.begin(), m_Properties.end(), std::back_inserter( Properties_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Properties", Properties_vec_object ) );
 }
 void IFC4X3::IfcExtendedProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

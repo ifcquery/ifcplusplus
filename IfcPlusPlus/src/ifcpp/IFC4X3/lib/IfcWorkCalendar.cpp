@@ -67,18 +67,12 @@ void IFC4X3::IfcWorkCalendar::readStepArguments( const std::vector<std::string>&
 void IFC4X3::IfcWorkCalendar::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcControl::getAttributes( vec_attributes );
-	if( !m_WorkingTimes.empty() )
-	{
-		shared_ptr<AttributeObjectVector> WorkingTimes_vec_object( new AttributeObjectVector() );
-		std::copy( m_WorkingTimes.begin(), m_WorkingTimes.end(), std::back_inserter( WorkingTimes_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "WorkingTimes", WorkingTimes_vec_object ) );
-	}
-	if( !m_ExceptionTimes.empty() )
-	{
-		shared_ptr<AttributeObjectVector> ExceptionTimes_vec_object( new AttributeObjectVector() );
-		std::copy( m_ExceptionTimes.begin(), m_ExceptionTimes.end(), std::back_inserter( ExceptionTimes_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "ExceptionTimes", ExceptionTimes_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> WorkingTimes_vec_object( new AttributeObjectVector() );
+	std::copy( m_WorkingTimes.begin(), m_WorkingTimes.end(), std::back_inserter( WorkingTimes_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "WorkingTimes", WorkingTimes_vec_object ) );
+	shared_ptr<AttributeObjectVector> ExceptionTimes_vec_object( new AttributeObjectVector() );
+	std::copy( m_ExceptionTimes.begin(), m_ExceptionTimes.end(), std::back_inserter( ExceptionTimes_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "ExceptionTimes", ExceptionTimes_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IFC4X3::IfcWorkCalendar::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

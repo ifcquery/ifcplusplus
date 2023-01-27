@@ -42,30 +42,24 @@ void IFC4X3::IfcProductDefinitionShape::getAttributes( std::vector<std::pair<std
 void IFC4X3::IfcProductDefinitionShape::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcProductRepresentation::getAttributesInverse( vec_attributes_inverse );
-	if( !m_ShapeOfProduct_inverse.empty() )
+	shared_ptr<AttributeObjectVector> ShapeOfProduct_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ShapeOfProduct_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ShapeOfProduct_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ShapeOfProduct_inverse.size(); ++i )
+		if( !m_ShapeOfProduct_inverse[i].expired() )
 		{
-			if( !m_ShapeOfProduct_inverse[i].expired() )
-			{
-				ShapeOfProduct_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcProduct>( m_ShapeOfProduct_inverse[i] ) );
-			}
+			ShapeOfProduct_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcProduct>( m_ShapeOfProduct_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ShapeOfProduct_inverse", ShapeOfProduct_inverse_vec_obj ) );
 	}
-	if( !m_HasShapeAspects_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "ShapeOfProduct_inverse", ShapeOfProduct_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> HasShapeAspects_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasShapeAspects_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasShapeAspects_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasShapeAspects_inverse.size(); ++i )
+		if( !m_HasShapeAspects_inverse[i].expired() )
 		{
-			if( !m_HasShapeAspects_inverse[i].expired() )
-			{
-				HasShapeAspects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcShapeAspect>( m_HasShapeAspects_inverse[i] ) );
-			}
+			HasShapeAspects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcShapeAspect>( m_HasShapeAspects_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasShapeAspects_inverse", HasShapeAspects_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasShapeAspects_inverse", HasShapeAspects_inverse_vec_obj ) );
 }
 void IFC4X3::IfcProductDefinitionShape::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

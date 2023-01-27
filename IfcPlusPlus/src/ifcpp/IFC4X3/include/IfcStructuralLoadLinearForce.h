@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLinearMomentMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralLoadLinearForce : public IfcStructuralLoadStatic
-	{ 
+	{
 	public:
 		IfcStructuralLoadLinearForce() = default;
 		IfcStructuralLoadLinearForce( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcLinearMomentMeasure>	m_LinearMomentZ;			//optional
 	};
 }
-

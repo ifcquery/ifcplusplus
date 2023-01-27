@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDoorType : public IfcBuiltElementType
-	{ 
+	{
 	public:
 		IfcDoorType() = default;
 		IfcDoorType( int id );
@@ -75,4 +75,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>								m_UserDefinedOperationType;	//optional
 	};
 }
-

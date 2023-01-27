@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCurvatureMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralLoadSingleDisplacementDistortion : public IfcStructuralLoadSingleDisplacement
-	{ 
+	{
 	public:
 		IfcStructuralLoadSingleDisplacementDistortion() = default;
 		IfcStructuralLoadSingleDisplacementDistortion( int id );
@@ -49,4 +49,3 @@ namespace IFC4X3
 		shared_ptr<IfcCurvatureMeasure>		m_Distortion;				//optional
 	};
 }
-

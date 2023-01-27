@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcVector;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLine : public IfcCurve
-	{ 
+	{
 	public:
 		IfcLine() = default;
 		IfcLine( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		shared_ptr<IfcVector>									m_Dir;
 	};
 }
-

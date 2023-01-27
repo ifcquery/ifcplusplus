@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMechanicalFastenerType : public IfcElementComponentType
-	{ 
+	{
 	public:
 		IfcMechanicalFastenerType() = default;
 		IfcMechanicalFastenerType( int id );
@@ -72,4 +72,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveLengthMeasure>				m_NominalLength;			//optional
 	};
 }
-

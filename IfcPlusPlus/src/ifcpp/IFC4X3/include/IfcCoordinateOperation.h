@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCoordinateReferenceSystem;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCoordinateOperation : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcCoordinateOperation() = default;
 		IfcCoordinateOperation( int id );
@@ -33,4 +33,3 @@ namespace IFC4X3
 		shared_ptr<IfcCoordinateReferenceSystem>		m_TargetCRS;
 	};
 }
-

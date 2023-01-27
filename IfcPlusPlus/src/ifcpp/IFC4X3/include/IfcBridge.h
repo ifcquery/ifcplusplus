@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBridgeTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBridge : public IfcFacility
-	{ 
+	{
 	public:
 		IfcBridge() = default;
 		IfcBridge( int id );
@@ -83,4 +83,3 @@ namespace IFC4X3
 		shared_ptr<IfcBridgeTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

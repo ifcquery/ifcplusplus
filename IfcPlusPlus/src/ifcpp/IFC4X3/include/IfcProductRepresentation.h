@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRepresentation;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcProductRepresentation : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcProductRepresentation() = default;
 		IfcProductRepresentation( int id );
@@ -35,4 +35,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcRepresentation> >	m_Representations;
 	};
 }
-

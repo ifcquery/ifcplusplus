@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBooleanOperand;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBooleanResult : virtual public IfcBooleanOperand, virtual public IfcCsgSelect, public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcBooleanResult() = default;
 		IfcBooleanResult( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcBooleanOperand>							m_SecondOperand;
 	};
 }
-

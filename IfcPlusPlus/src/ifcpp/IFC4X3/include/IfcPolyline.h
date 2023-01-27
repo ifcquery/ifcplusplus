@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCartesianPoint;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPolyline : public IfcBoundedCurve
-	{ 
+	{
 	public:
 		IfcPolyline() = default;
 		IfcPolyline( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcCartesianPoint> >				m_Points;
 	};
 }
-

@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReference;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMetric : public IfcConstraint
-	{ 
+	{
 	public:
 		IfcMetric() = default;
 		IfcMetric( int id );
@@ -51,4 +51,3 @@ namespace IFC4X3
 		shared_ptr<IfcReference>									m_ReferencePath;			//optional
 	};
 }
-

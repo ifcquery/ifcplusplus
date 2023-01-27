@@ -56,54 +56,42 @@ void IFC4X3::IfcObject::getAttributes( std::vector<std::pair<std::string, shared
 void IFC4X3::IfcObject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcObjectDefinition::getAttributesInverse( vec_attributes_inverse );
-	if( !m_IsDeclaredBy_inverse.empty() )
+	shared_ptr<AttributeObjectVector> IsDeclaredBy_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_IsDeclaredBy_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> IsDeclaredBy_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_IsDeclaredBy_inverse.size(); ++i )
+		if( !m_IsDeclaredBy_inverse[i].expired() )
 		{
-			if( !m_IsDeclaredBy_inverse[i].expired() )
-			{
-				IsDeclaredBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByObject>( m_IsDeclaredBy_inverse[i] ) );
-			}
+			IsDeclaredBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByObject>( m_IsDeclaredBy_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "IsDeclaredBy_inverse", IsDeclaredBy_inverse_vec_obj ) );
 	}
-	if( !m_Declares_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "IsDeclaredBy_inverse", IsDeclaredBy_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> Declares_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_Declares_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> Declares_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_Declares_inverse.size(); ++i )
+		if( !m_Declares_inverse[i].expired() )
 		{
-			if( !m_Declares_inverse[i].expired() )
-			{
-				Declares_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByObject>( m_Declares_inverse[i] ) );
-			}
+			Declares_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByObject>( m_Declares_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "Declares_inverse", Declares_inverse_vec_obj ) );
 	}
-	if( !m_IsTypedBy_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "Declares_inverse", Declares_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> IsTypedBy_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_IsTypedBy_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> IsTypedBy_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_IsTypedBy_inverse.size(); ++i )
+		if( !m_IsTypedBy_inverse[i].expired() )
 		{
-			if( !m_IsTypedBy_inverse[i].expired() )
-			{
-				IsTypedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByType>( m_IsTypedBy_inverse[i] ) );
-			}
+			IsTypedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByType>( m_IsTypedBy_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "IsTypedBy_inverse", IsTypedBy_inverse_vec_obj ) );
 	}
-	if( !m_IsDefinedBy_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "IsTypedBy_inverse", IsTypedBy_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> IsDefinedBy_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_IsDefinedBy_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> IsDefinedBy_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_IsDefinedBy_inverse.size(); ++i )
+		if( !m_IsDefinedBy_inverse[i].expired() )
 		{
-			if( !m_IsDefinedBy_inverse[i].expired() )
-			{
-				IsDefinedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByProperties>( m_IsDefinedBy_inverse[i] ) );
-			}
+			IsDefinedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByProperties>( m_IsDefinedBy_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "IsDefinedBy_inverse", IsDefinedBy_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "IsDefinedBy_inverse", IsDefinedBy_inverse_vec_obj ) );
 }
 void IFC4X3::IfcObject::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

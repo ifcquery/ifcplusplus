@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTaskType : public IfcTypeProcess
-	{ 
+	{
 	public:
 		IfcTaskType() = default;
 		IfcTaskType( int id );
@@ -66,4 +66,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>								m_WorkMethod;				//optional
 	};
 }
-

@@ -72,12 +72,9 @@ void IFC4X3::IfcTriangulatedIrregularNetwork::readStepArguments( const std::vect
 void IFC4X3::IfcTriangulatedIrregularNetwork::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcTriangulatedFaceSet::getAttributes( vec_attributes );
-	if( !m_Flags.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Flags_vec_object( new AttributeObjectVector() );
-		std::copy( m_Flags.begin(), m_Flags.end(), std::back_inserter( Flags_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Flags", Flags_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Flags_vec_object( new AttributeObjectVector() );
+	std::copy( m_Flags.begin(), m_Flags.end(), std::back_inserter( Flags_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Flags", Flags_vec_object ) );
 }
 void IFC4X3::IfcTriangulatedIrregularNetwork::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

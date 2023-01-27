@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcProperty;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPropertySet : public IfcPropertySetDefinition
-	{ 
+	{
 	public:
 		IfcPropertySet() = default;
 		IfcPropertySet( int id );
@@ -50,4 +50,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcProperty> >				m_HasProperties;
 	};
 }
-

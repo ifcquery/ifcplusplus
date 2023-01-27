@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcWarpingMomentMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralLoadSingleForceWarping : public IfcStructuralLoadSingleForce
-	{ 
+	{
 	public:
 		IfcStructuralLoadSingleForceWarping() = default;
 		IfcStructuralLoadSingleForceWarping( int id );
@@ -49,4 +49,3 @@ namespace IFC4X3
 		shared_ptr<IfcWarpingMomentMeasure>	m_WarpingMoment;			//optional
 	};
 }
-

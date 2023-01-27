@@ -99,12 +99,9 @@ void IFC4X3::IfcPixelTexture::getAttributes( std::vector<std::pair<std::string, 
 	vec_attributes.emplace_back( std::make_pair( "Width", m_Width ) );
 	vec_attributes.emplace_back( std::make_pair( "Height", m_Height ) );
 	vec_attributes.emplace_back( std::make_pair( "ColourComponents", m_ColourComponents ) );
-	if( !m_Pixel.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Pixel_vec_object( new AttributeObjectVector() );
-		std::copy( m_Pixel.begin(), m_Pixel.end(), std::back_inserter( Pixel_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Pixel", Pixel_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Pixel_vec_object( new AttributeObjectVector() );
+	std::copy( m_Pixel.begin(), m_Pixel.end(), std::back_inserter( Pixel_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Pixel", Pixel_vec_object ) );
 }
 void IFC4X3::IfcPixelTexture::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

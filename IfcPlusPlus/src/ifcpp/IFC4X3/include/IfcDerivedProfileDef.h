@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDerivedProfileDef : public IfcProfileDef
-	{ 
+	{
 	public:
 		IfcDerivedProfileDef() = default;
 		IfcDerivedProfileDef( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>										m_Label;					//optional
 	};
 }
-

@@ -140,7 +140,8 @@ public:
 				std::vector<vec3> basis_curve_points;
 				m_curve_converter->convertIfcCurve( ifc_directrix_curve, basis_curve_points, segment_start_points, true );
 
-				m_sweeper->sweepArea( basis_curve_points, profile_paths, fixed_reference_swept_area_solid.get(), item_data_solid );
+				GeomProcessingParams params( m_geom_settings, fixed_reference_swept_area_solid.get(),  this );
+				m_sweeper->sweepArea( basis_curve_points, profile_paths, item_data_solid, params );
 				item_data->addItemData( item_data_solid );
 				item_data->applyTransformToItem( swept_area_pos );
 
@@ -185,7 +186,8 @@ public:
 					}
 				}
 
-				m_sweeper->sweepArea( directrix_curve_points, profile_paths, surface_curve_swept_area_solid.get(), item_data_solid );
+				GeomProcessingParams params( m_geom_settings, surface_curve_swept_area_solid.get(),  this );
+				m_sweeper->sweepArea( directrix_curve_points, profile_paths, item_data_solid, params );
 				item_data->addItemData( item_data_solid );
 				item_data->applyTransformToItem( swept_area_pos );
 
@@ -321,7 +323,8 @@ public:
 				}
 			}
 			
-			m_sweeper->sweepDisk( basis_curve_points, swept_disp_solid.get(), item_data_solid, nvc_disk, radius, radius_inner );
+			GeomProcessingParams params( m_geom_settings, swept_disp_solid.get(),  this );
+			m_sweeper->sweepDisk( basis_curve_points, item_data_solid, params, nvc_disk, radius, radius_inner );
 			item_data->addItemData( item_data_solid );
 
 			return;
@@ -376,8 +379,8 @@ public:
 		{
 			return;
 		}
-		m_sweeper->extrude( paths, extrusion_vector, extruded_area.get(), item_data );
-
+		GeomProcessingParams params( m_geom_settings, extruded_area.get(),  this );
+		m_sweeper->extrude( paths, extrusion_vector, item_data, params );
 	}
 
 	void convertRevolvedAreaSolid( const std::vector<std::vector<vec2> >& profile_coords_unchecked, const vec3& axis_location, const vec3& axis_direction, double revolution_angle, shared_ptr<ItemShapeData> item_data, BuildingEntity* entity_of_origin = nullptr )
@@ -1338,7 +1341,8 @@ public:
 			std::vector<std::vector<vec2> > paths;
 			paths.push_back( polygonal_boundary );
 			shared_ptr<ItemShapeData> polygonal_halfspace_item_data( new ItemShapeData );
-			m_sweeper->extrude( paths, vec3( carve::geom::VECTOR( 0, 0, extrusion_depth ) ), polygonal_half_space.get(), polygonal_halfspace_item_data );
+			GeomProcessingParams params( m_geom_settings, polygonal_half_space.get(),  this );
+			m_sweeper->extrude( paths, vec3( carve::geom::VECTOR( 0, 0, extrusion_depth ) ), polygonal_halfspace_item_data, params );
 
 			if( polygonal_halfspace_item_data->m_meshsets.size() != 1 )
 			{

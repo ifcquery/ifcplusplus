@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcElement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelFillsElement : public IfcRelConnects
-	{ 
+	{
 	public:
 		IfcRelFillsElement() = default;
 		IfcRelFillsElement( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcElement>			m_RelatedBuildingElement;
 	};
 }
-

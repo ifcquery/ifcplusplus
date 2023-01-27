@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcFlowMeterTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFlowMeterType : public IfcFlowControllerType
-	{ 
+	{
 	public:
 		IfcFlowMeterType() = default;
 		IfcFlowMeterType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcFlowMeterTypeEnum>					m_PredefinedType;
 	};
 }
-

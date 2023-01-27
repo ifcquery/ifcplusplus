@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcElectricGeneratorTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcElectricGeneratorType : public IfcEnergyConversionDeviceType
-	{ 
+	{
 	public:
 		IfcElectricGeneratorType() = default;
 		IfcElectricGeneratorType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcElectricGeneratorTypeEnum>			m_PredefinedType;
 	};
 }
-

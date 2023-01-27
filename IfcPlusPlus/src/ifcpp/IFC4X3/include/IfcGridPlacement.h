@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcGridPlacementDirectionSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcGridPlacement : public IfcObjectPlacement
-	{ 
+	{
 	public:
 		IfcGridPlacement() = default;
 		IfcGridPlacement( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcGridPlacementDirectionSelect>	m_PlacementRefDirection;	//optional
 	};
 }
-

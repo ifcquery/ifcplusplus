@@ -36,18 +36,12 @@ void IFC4X3::IfcTable::readStepArguments( const std::vector<std::string>& args, 
 void IFC4X3::IfcTable::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
-	if( !m_Rows.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Rows_vec_object( new AttributeObjectVector() );
-		std::copy( m_Rows.begin(), m_Rows.end(), std::back_inserter( Rows_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Rows", Rows_vec_object ) );
-	}
-	if( !m_Columns.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Columns_vec_object( new AttributeObjectVector() );
-		std::copy( m_Columns.begin(), m_Columns.end(), std::back_inserter( Columns_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Columns", Columns_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Rows_vec_object( new AttributeObjectVector() );
+	std::copy( m_Rows.begin(), m_Rows.end(), std::back_inserter( Rows_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Rows", Rows_vec_object ) );
+	shared_ptr<AttributeObjectVector> Columns_vec_object( new AttributeObjectVector() );
+	std::copy( m_Columns.begin(), m_Columns.end(), std::back_inserter( Columns_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Columns", Columns_vec_object ) );
 }
 void IFC4X3::IfcTable::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

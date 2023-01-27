@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcControllerTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcControllerType : public IfcDistributionControlElementType
-	{ 
+	{
 	public:
 		IfcControllerType() = default;
 		IfcControllerType( int id );
@@ -71,4 +71,3 @@ namespace IFC4X3
 		shared_ptr<IfcControllerTypeEnum>					m_PredefinedType;
 	};
 }
-

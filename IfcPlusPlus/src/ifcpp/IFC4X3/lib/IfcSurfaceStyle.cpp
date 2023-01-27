@@ -54,12 +54,9 @@ void IFC4X3::IfcSurfaceStyle::getAttributes( std::vector<std::pair<std::string, 
 {
 	IFC4X3::IfcPresentationStyle::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "Side", m_Side ) );
-	if( !m_Styles.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Styles_vec_object( new AttributeObjectVector() );
-		std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Styles", Styles_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Styles_vec_object( new AttributeObjectVector() );
+	std::copy( m_Styles.begin(), m_Styles.end(), std::back_inserter( Styles_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Styles", Styles_vec_object ) );
 }
 void IFC4X3::IfcSurfaceStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

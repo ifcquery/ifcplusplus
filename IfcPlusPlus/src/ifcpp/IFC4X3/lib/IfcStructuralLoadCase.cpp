@@ -77,12 +77,9 @@ void IFC4X3::IfcStructuralLoadCase::readStepArguments( const std::vector<std::st
 void IFC4X3::IfcStructuralLoadCase::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcStructuralLoadGroup::getAttributes( vec_attributes );
-	if( !m_SelfWeightCoefficients.empty() )
-	{
-		shared_ptr<AttributeObjectVector> SelfWeightCoefficients_vec_object( new AttributeObjectVector() );
-		std::copy( m_SelfWeightCoefficients.begin(), m_SelfWeightCoefficients.end(), std::back_inserter( SelfWeightCoefficients_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "SelfWeightCoefficients", SelfWeightCoefficients_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> SelfWeightCoefficients_vec_object( new AttributeObjectVector() );
+	std::copy( m_SelfWeightCoefficients.begin(), m_SelfWeightCoefficients.end(), std::back_inserter( SelfWeightCoefficients_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "SelfWeightCoefficients", SelfWeightCoefficients_vec_object ) );
 }
 void IFC4X3::IfcStructuralLoadCase::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

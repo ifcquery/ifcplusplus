@@ -40,12 +40,9 @@ void IFC4X3::IfcOrganizationRelationship::getAttributes( std::vector<std::pair<s
 {
 	IFC4X3::IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "RelatingOrganization", m_RelatingOrganization ) );
-	if( !m_RelatedOrganizations.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RelatedOrganizations_vec_object( new AttributeObjectVector() );
-		std::copy( m_RelatedOrganizations.begin(), m_RelatedOrganizations.end(), std::back_inserter( RelatedOrganizations_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RelatedOrganizations", RelatedOrganizations_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RelatedOrganizations_vec_object( new AttributeObjectVector() );
+	std::copy( m_RelatedOrganizations.begin(), m_RelatedOrganizations.end(), std::back_inserter( RelatedOrganizations_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedOrganizations", RelatedOrganizations_vec_object ) );
 }
 void IFC4X3::IfcOrganizationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

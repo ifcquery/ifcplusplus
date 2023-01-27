@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelConnectsStructuralActivity;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralActivity : public IfcProduct
-	{ 
+	{
 	public:
 		IfcStructuralActivity() = default;
 		IfcStructuralActivity( int id );
@@ -72,4 +72,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelConnectsStructuralActivity> >	m_AssignedToStructuralItem_inverse;
 	};
 }
-

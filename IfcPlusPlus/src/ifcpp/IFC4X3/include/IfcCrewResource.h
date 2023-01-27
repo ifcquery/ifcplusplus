@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCrewResourceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCrewResource : public IfcConstructionResource
-	{ 
+	{
 	public:
 		IfcCrewResource() = default;
 		IfcCrewResource( int id );
@@ -71,4 +71,3 @@ namespace IFC4X3
 		shared_ptr<IfcCrewResourceTypeEnum>					m_PredefinedType;			//optional
 	};
 }
-

@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTaskTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTask : public IfcProcess
-	{ 
+	{
 	public:
 		IfcTask() = default;
 		IfcTask( int id );
@@ -76,4 +76,3 @@ namespace IFC4X3
 		shared_ptr<IfcTaskTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

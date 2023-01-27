@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcIndexedTextureMap;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTessellatedFaceSet : virtual public IfcBooleanOperand, public IfcTessellatedItem
-	{ 
+	{
 	public:
 		IfcTessellatedFaceSet() = default;
 		IfcTessellatedFaceSet( int id );
@@ -49,4 +49,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcIndexedTextureMap> >			m_HasTextures_inverse;
 	};
 }
-

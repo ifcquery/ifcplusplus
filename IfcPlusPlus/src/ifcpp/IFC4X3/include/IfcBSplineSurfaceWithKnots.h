@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcKnotType;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBSplineSurfaceWithKnots : public IfcBSplineSurface
-	{ 
+	{
 	public:
 		IfcBSplineSurfaceWithKnots() = default;
 		IfcBSplineSurfaceWithKnots( int id );
@@ -59,4 +59,3 @@ namespace IFC4X3
 		shared_ptr<IfcKnotType>									m_KnotSpec;
 	};
 }
-

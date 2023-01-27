@@ -31,4 +31,3 @@ namespace IFC4X3
 		IfcJunctionBoxTypeEnumEnum m_enum;
 	};
 }
-

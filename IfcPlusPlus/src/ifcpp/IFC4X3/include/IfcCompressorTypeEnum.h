@@ -44,4 +44,3 @@ namespace IFC4X3
 		IfcCompressorTypeEnumEnum m_enum;
 	};
 }
-

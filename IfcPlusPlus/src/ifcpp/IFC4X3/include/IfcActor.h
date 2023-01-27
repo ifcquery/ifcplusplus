@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelAssignsToActor;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcActor : public IfcObject
-	{ 
+	{
 	public:
 		IfcActor() = default;
 		IfcActor( int id );
@@ -61,4 +61,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelAssignsToActor> >		m_IsActingUpon_inverse;
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcIrregularTimeSeriesValue;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcIrregularTimeSeries : public IfcTimeSeries
-	{ 
+	{
 	public:
 		IfcIrregularTimeSeries() = default;
 		IfcIrregularTimeSeries( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcIrregularTimeSeriesValue> >		m_Values;
 	};
 }
-

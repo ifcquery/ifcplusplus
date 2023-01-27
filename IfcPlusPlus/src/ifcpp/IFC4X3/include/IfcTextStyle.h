@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoolean;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTextStyle : public IfcPresentationStyle
-	{ 
+	{
 	public:
 		IfcTextStyle() = default;
 		IfcTextStyle( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		shared_ptr<IfcBoolean>					m_ModelOrDraughting;		//optional
 	};
 }
-

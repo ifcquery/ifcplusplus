@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBlock : public IfcCsgPrimitive3D
-	{ 
+	{
 	public:
 		IfcBlock() = default;
 		IfcBlock( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveLengthMeasure>					m_ZLength;
 	};
 }
-

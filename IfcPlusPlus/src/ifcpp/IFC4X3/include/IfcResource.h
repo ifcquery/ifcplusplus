@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelAssignsToResource;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcResource : virtual public IfcResourceSelect, public IfcObject
-	{ 
+	{
 	public:
 		IfcResource() = default;
 		IfcResource( int id );
@@ -64,4 +64,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelAssignsToResource> >		m_ResourceOf_inverse;
 	};
 }
-

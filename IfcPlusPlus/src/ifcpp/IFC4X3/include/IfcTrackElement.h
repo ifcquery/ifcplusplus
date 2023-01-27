@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTrackElementTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTrackElement : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcTrackElement() = default;
 		IfcTrackElement( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcTrackElementTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

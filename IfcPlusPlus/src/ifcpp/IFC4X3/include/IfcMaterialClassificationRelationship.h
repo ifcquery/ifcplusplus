@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcMaterial;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMaterialClassificationRelationship : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcMaterialClassificationRelationship() = default;
 		IfcMaterialClassificationRelationship( int id );
@@ -33,4 +33,3 @@ namespace IFC4X3
 		shared_ptr<IfcMaterial>								m_ClassifiedMaterial;
 	};
 }
-

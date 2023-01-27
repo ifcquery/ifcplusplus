@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcProjectionElementTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcProjectionElement : public IfcFeatureElementAddition
-	{ 
+	{
 	public:
 		IfcProjectionElement() = default;
 		IfcProjectionElement( int id );
@@ -90,4 +90,3 @@ namespace IFC4X3
 		shared_ptr<IfcProjectionElementTypeEnum>					m_PredefinedType;			//optional
 	};
 }
-

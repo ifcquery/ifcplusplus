@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcFanTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFan : public IfcFlowMovingDevice
-	{ 
+	{
 	public:
 		IfcFan() = default;
 		IfcFan( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcFanTypeEnum>									m_PredefinedType;			//optional
 	};
 }
-

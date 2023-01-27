@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcGeotechnicalStratumTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcGeotechnicalStratum : public IfcGeotechnicalElement
-	{ 
+	{
 	public:
 		IfcGeotechnicalStratum() = default;
 		IfcGeotechnicalStratum( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcGeotechnicalStratumTypeEnum>					m_PredefinedType;			//optional
 	};
 }
-

@@ -29,4 +29,3 @@ namespace IFC4X3
 		IfcReinforcingBarSurfaceEnumEnum m_enum;
 	};
 }
-

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelConnectsStructuralMember;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralConnection : public IfcStructuralItem
-	{ 
+	{
 	public:
 		IfcStructuralConnection() = default;
 		IfcStructuralConnection( int id );
@@ -74,4 +74,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelConnectsStructuralMember> >		m_ConnectsStructuralMembers_inverse;
 	};
 }
-

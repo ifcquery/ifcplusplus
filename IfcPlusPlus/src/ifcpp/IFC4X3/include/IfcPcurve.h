@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCurve;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPcurve : virtual public IfcCurveOnSurface, public IfcCurve
-	{ 
+	{
 	public:
 		IfcPcurve() = default;
 		IfcPcurve( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcCurve>									m_ReferenceCurve;
 	};
 }
-

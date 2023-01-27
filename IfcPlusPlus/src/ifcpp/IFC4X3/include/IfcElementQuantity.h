@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPhysicalQuantity;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcElementQuantity : public IfcQuantitySet
-	{ 
+	{
 	public:
 		IfcElementQuantity() = default;
 		IfcElementQuantity( int id );
@@ -54,4 +54,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcPhysicalQuantity> >		m_Quantities;
 	};
 }
-

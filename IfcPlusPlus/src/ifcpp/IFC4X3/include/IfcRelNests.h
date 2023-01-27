@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcObjectDefinition;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelNests : public IfcRelDecomposes
-	{ 
+	{
 	public:
 		IfcRelNests() = default;
 		IfcRelNests( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcObjectDefinition> >	m_RelatedObjects;
 	};
 }
-

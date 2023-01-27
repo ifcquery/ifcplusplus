@@ -47,12 +47,9 @@ void IFC4X3::IfcShellBasedSurfaceModel::readStepArguments( const std::vector<std
 void IFC4X3::IfcShellBasedSurfaceModel::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	if( !m_SbsmBoundary.empty() )
-	{
-		shared_ptr<AttributeObjectVector> SbsmBoundary_vec_object( new AttributeObjectVector() );
-		std::copy( m_SbsmBoundary.begin(), m_SbsmBoundary.end(), std::back_inserter( SbsmBoundary_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "SbsmBoundary", SbsmBoundary_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> SbsmBoundary_vec_object( new AttributeObjectVector() );
+	std::copy( m_SbsmBoundary.begin(), m_SbsmBoundary.end(), std::back_inserter( SbsmBoundary_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "SbsmBoundary", SbsmBoundary_vec_object ) );
 }
 void IFC4X3::IfcShellBasedSurfaceModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

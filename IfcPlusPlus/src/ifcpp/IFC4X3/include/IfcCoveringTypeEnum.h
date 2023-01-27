@@ -41,4 +41,3 @@ namespace IFC4X3
 		IfcCoveringTypeEnumEnum m_enum;
 	};
 }
-

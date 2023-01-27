@@ -19,7 +19,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelReferencedInSpatialStructure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcProduct : virtual public IfcProductSelect, virtual public IfcSpatialReferenceSelect, public IfcObject
-	{ 
+	{
 	public:
 		IfcProduct() = default;
 		IfcProduct( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >	m_ReferencedInStructures_inverse;
 	};
 }
-

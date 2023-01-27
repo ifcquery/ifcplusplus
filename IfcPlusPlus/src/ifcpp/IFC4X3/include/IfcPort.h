@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelConnectsPorts;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPort : public IfcProduct
-	{ 
+	{
 	public:
 		IfcPort() = default;
 		IfcPort( int id );
@@ -70,4 +70,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelConnectsPorts> >					m_ConnectedTo_inverse;
 	};
 }
-

@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcStructuralAnalysisModel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralResultGroup : public IfcGroup
-	{ 
+	{
 	public:
 		IfcStructuralResultGroup() = default;
 		IfcStructuralResultGroup( int id );
@@ -70,4 +70,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcStructuralAnalysisModel> >			m_ResultGroupFor_inverse;
 	};
 }
-

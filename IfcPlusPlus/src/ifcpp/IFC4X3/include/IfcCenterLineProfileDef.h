@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCenterLineProfileDef : public IfcArbitraryOpenProfileDef
-	{ 
+	{
 	public:
 		IfcCenterLineProfileDef() = default;
 		IfcCenterLineProfileDef( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveLengthMeasure>						m_Thickness;
 	};
 }
-

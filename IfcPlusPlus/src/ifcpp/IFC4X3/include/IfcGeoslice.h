@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcGeoslice : public IfcGeotechnicalAssembly
-	{ 
+	{
 	public:
 		IfcGeoslice() = default;
 		IfcGeoslice( int id );
@@ -85,4 +85,3 @@ namespace IFC4X3
 		// IfcGeoslice -----------------------------------------------------------
 	};
 }
-

@@ -49,42 +49,33 @@ void IFC4X3::IfcPropertySetDefinition::getAttributes( std::vector<std::pair<std:
 void IFC4X3::IfcPropertySetDefinition::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcPropertyDefinition::getAttributesInverse( vec_attributes_inverse );
-	if( !m_DefinesType_inverse.empty() )
+	shared_ptr<AttributeObjectVector> DefinesType_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_DefinesType_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> DefinesType_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_DefinesType_inverse.size(); ++i )
+		if( !m_DefinesType_inverse[i].expired() )
 		{
-			if( !m_DefinesType_inverse[i].expired() )
-			{
-				DefinesType_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcTypeObject>( m_DefinesType_inverse[i] ) );
-			}
+			DefinesType_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcTypeObject>( m_DefinesType_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "DefinesType_inverse", DefinesType_inverse_vec_obj ) );
 	}
-	if( !m_IsDefinedBy_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "DefinesType_inverse", DefinesType_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> IsDefinedBy_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_IsDefinedBy_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> IsDefinedBy_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_IsDefinedBy_inverse.size(); ++i )
+		if( !m_IsDefinedBy_inverse[i].expired() )
 		{
-			if( !m_IsDefinedBy_inverse[i].expired() )
-			{
-				IsDefinedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByTemplate>( m_IsDefinedBy_inverse[i] ) );
-			}
+			IsDefinedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByTemplate>( m_IsDefinedBy_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "IsDefinedBy_inverse", IsDefinedBy_inverse_vec_obj ) );
 	}
-	if( !m_DefinesOccurrence_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "IsDefinedBy_inverse", IsDefinedBy_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> DefinesOccurrence_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_DefinesOccurrence_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> DefinesOccurrence_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_DefinesOccurrence_inverse.size(); ++i )
+		if( !m_DefinesOccurrence_inverse[i].expired() )
 		{
-			if( !m_DefinesOccurrence_inverse[i].expired() )
-			{
-				DefinesOccurrence_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByProperties>( m_DefinesOccurrence_inverse[i] ) );
-			}
+			DefinesOccurrence_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByProperties>( m_DefinesOccurrence_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "DefinesOccurrence_inverse", DefinesOccurrence_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "DefinesOccurrence_inverse", DefinesOccurrence_inverse_vec_obj ) );
 }
 void IFC4X3::IfcPropertySetDefinition::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

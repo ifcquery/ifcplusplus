@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFlowStorageDevice : public IfcDistributionFlowElement
-	{ 
+	{
 	public:
 		IfcFlowStorageDevice() = default;
 		IfcFlowStorageDevice( int id );
@@ -89,4 +89,3 @@ namespace IFC4X3
 		// IfcFlowStorageDevice -----------------------------------------------------------
 	};
 }
-

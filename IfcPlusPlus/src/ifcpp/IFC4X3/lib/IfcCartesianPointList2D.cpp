@@ -55,24 +55,18 @@ void IFC4X3::IfcCartesianPointList2D::readStepArguments( const std::vector<std::
 void IFC4X3::IfcCartesianPointList2D::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcCartesianPointList::getAttributes( vec_attributes );
-	if( !m_CoordList.empty() )
+	shared_ptr<AttributeObjectVector> CoordList_vector( new AttributeObjectVector() );
+	vec_attributes.emplace_back( std::make_pair( "CoordList", CoordList_vector ) );
+	for( size_t ii=0; ii<m_CoordList.size(); ++ii )
 	{
-		shared_ptr<AttributeObjectVector> outer_vector( new AttributeObjectVector() );
-		vec_attributes.emplace_back( std::make_pair( "CoordList", outer_vector ) );
-		for( size_t ii=0; ii<m_CoordList.size(); ++ii )
-		{
-			const std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii = m_CoordList[ii];
-			shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
-			outer_vector->m_vec.push_back( inner_vector );
-			std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
-		}
+		const std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii = m_CoordList[ii];
+		shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
+		CoordList_vector->m_vec.push_back( inner_vector );
+		std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
 	}
-	if( !m_TagList.empty() )
-	{
-		shared_ptr<AttributeObjectVector> TagList_vec_object( new AttributeObjectVector() );
-		std::copy( m_TagList.begin(), m_TagList.end(), std::back_inserter( TagList_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "TagList", TagList_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> TagList_vec_object( new AttributeObjectVector() );
+	std::copy( m_TagList.begin(), m_TagList.end(), std::back_inserter( TagList_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "TagList", TagList_vec_object ) );
 }
 void IFC4X3::IfcCartesianPointList2D::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

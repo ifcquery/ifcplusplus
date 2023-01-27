@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReal;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPolynomialCurve : public IfcCurve
-	{ 
+	{
 	public:
 		IfcPolynomialCurve() = default;
 		IfcPolynomialCurve( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcReal> >						m_CoefficientsZ;			//optional
 	};
 }
-

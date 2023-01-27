@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAlignmentCantSegmentTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAlignmentCantSegment : public IfcAlignmentParameterSegment
-	{ 
+	{
 	public:
 		IfcAlignmentCantSegment() = default;
 		IfcAlignmentCantSegment( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcAlignmentCantSegmentTypeEnum>	m_PredefinedType;
 	};
 }
-

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoolean;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcOrientedEdge : public IfcEdge
-	{ 
+	{
 	public:
 		IfcOrientedEdge() = default;
 		IfcOrientedEdge( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcBoolean>									m_Orientation;
 	};
 }
-

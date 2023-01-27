@@ -43,12 +43,12 @@ public:
 	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
 	  \param[out] item_data Container to add result polyhedron or polyline
 	**/
-	void extrude(const std::vector<std::vector<vec2> >& faceLoopsInput, const vec3 extrusionVector, BuildingEntity* ifc_entity, shared_ptr<ItemShapeData>& itemData)
+	void extrude(const std::vector<std::vector<vec2> >& faceLoopsInput, const vec3 extrusionVector, shared_ptr<ItemShapeData>& itemData, GeomProcessingParams& params)
 	{
 		// TODO: complete and test
 		if( faceLoopsInput.size() == 0 )
 		{
-			messageCallback("faceLoopsInput.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity);
+			messageCallback("faceLoopsInput.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
 			return;
 		}
 
@@ -225,7 +225,7 @@ public:
 		{
 			std::stringstream err;
 			err << "std::abs( signed_area ) < 1.e-10";
-			messageCallback(err.str().c_str(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, ifc_entity);
+			messageCallback(err.str().c_str(), StatusCallback::MESSAGE_TYPE_MINOR_WARNING, __FUNC__, params.ifc_entity);
 		}
 
 		if( faceLoopsTriangulate.size() == 0 )
@@ -239,19 +239,21 @@ public:
 		std::vector<uint32_t> triangulated = mapbox::earcut<uint32_t>(faceLoopsTriangulate);
 
 #ifdef _DEBUG
-		//std::vector<std::array<double, 2> > polygons2dFlatVector;
-		//GeomUtils::polygons2flatVec(polygons2d, polygons2dFlatVector);
-
-		//glm::dvec4 color = carve::geom::VECTOR(0.3, 0.4, 0.5, 1.0);
-		//std::vector<vec2> vec2d = GeomUtils::vecArray2poly2(polygons2dFlatVector);
-		//GeomDebugDump::dumpPolyline(vec2d, color, true, true);
+		if( params.ifc_entity->m_tag == 258816 )
+		{
+			glm::dvec4 color(0.3, 0.4, 0.5, 1.0);
+			for( size_t ii = 0; ii < faceLoopsTriangulate.size(); ++ii )
+			{
+				std::vector<std::array<double, 2> >& loop2D = faceLoopsTriangulate[ii];
+				GeomDebugDump::dumpPolyline(loop2D, color, true);
+			}
+		}
 #endif
 
 		std::vector<array2d> polygons2dFlatVector;
 		GeomUtils::polygons2flatVec(faceLoopsTriangulate, polygons2dFlatVector);
 		size_t numPointsInAllLoops = polygons2dFlatVector.size();
 
-		//PolyInputCache3D meshOut;
 		shared_ptr<carve::input::PolyhedronData> meshOut( new carve::input::PolyhedronData() );
 
 		// add points bottom
@@ -387,7 +389,7 @@ public:
 			}
 		}
 #endif
-		itemData->addClosedPolyhedron(meshOut);
+		itemData->addClosedPolyhedron(meshOut, params);
 	}
 	
 	/*\brief Extrudes a circle cross section along a path. At turns, the points are placed in the bisecting plane
@@ -397,18 +399,18 @@ public:
 	  \param[in] nvc Number of vertices per circle
 	  \param[in] radius_inner If positive value is given, the swept disk becomes a pipe
 	**/
-	void sweepDisk( const std::vector<vec3>& curve_points, BuildingEntity* ifc_entity, shared_ptr<ItemShapeData>& item_data, const size_t nvc, const double radius, const double radius_inner = -1 )
+	void sweepDisk( const std::vector<vec3>& curve_points, shared_ptr<ItemShapeData>& item_data, GeomProcessingParams& params, const size_t nvc, const double radius, const double radius_inner = -1 )
 	{
 		const size_t num_curve_points = curve_points.size();
 		if( num_curve_points < 2 )
 		{
-			messageCallback( "num curve points < 2", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			messageCallback( "num curve points < 2", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity );
 			return;
 		}
 
 		if( !item_data )
 		{
-			messageCallback( "!item_data", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			messageCallback( "!item_data", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity );
 			return;
 		}
 
@@ -431,7 +433,7 @@ public:
 		double use_radius_inner = radius_inner;
 		if( radius_inner > radius )
 		{
-			messageCallback( "radius_inner > radius", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+			messageCallback( "radius_inner > radius", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity );
 			use_radius_inner = radius;
 		}
 
@@ -547,7 +549,7 @@ public:
 		}
 
 		shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData() );
-
+		
 		for( size_t ii = 0; ii<num_curve_points; ++ii )
 		{
 			const vec3& vertex_current = curve_points[ii];
@@ -620,7 +622,7 @@ public:
 				}
 				else
 				{
-					messageCallback( "no intersection found", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+					messageCallback( "no intersection found", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity );
 				}
 
 				poly_data->addVertex( vertex );
@@ -641,7 +643,7 @@ public:
 					}
 					else
 					{
-						messageCallback( "no intersection found", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+						messageCallback( "no intersection found", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity );
 					}
 
 					//inner_shape_points[jj] = vertex;
@@ -678,7 +680,7 @@ public:
 		{
 			if( inner_shape_points.size() != num_vertices_outer )
 			{
-				messageCallback( "inner_shape_points.size() != num_vertices_outer", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity );
+				messageCallback( "inner_shape_points.size() != num_vertices_outer", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity );
 			}
 
 			// add points for inner shape
@@ -750,11 +752,11 @@ public:
 
 		try
 		{
-			item_data->addClosedPolyhedron( poly_data );
+			item_data->addClosedPolyhedron( poly_data, params );
 		}
 		catch( BuildingException& exception )
 		{
-			messageCallback( exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity );  // calling function already in e.what()
+			messageCallback( exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", params.ifc_entity );  // calling function already in e.what()
 #ifdef _DEBUG
 			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts() ) );
 			glm::dvec4 color( 0.7, 0.7, 0.7, 1.0 );
@@ -764,7 +766,7 @@ public:
 
 	#ifdef _DEBUG
 		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh(carve::input::opts()) );
-		MeshSetInfo infoMesh( this, ifc_entity );
+		MeshSetInfo infoMesh( this, params.ifc_entity );
 		MeshUtils::checkMeshSetValidAndClosed( meshset, infoMesh );
 	#endif
 	}
@@ -1036,17 +1038,17 @@ public:
 	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
 	  \param[out] item_data Container to add result polyhedron or polyline
 	**/
-	void sweepArea(const std::vector<vec3>& curve_points, const std::vector<std::vector<vec2> >& profile_paths_input, BuildingEntity* ifc_entity, shared_ptr<ItemShapeData>& item_data)
+	void sweepArea(const std::vector<vec3>& curve_points, const std::vector<std::vector<vec2> >& profile_paths_input, shared_ptr<ItemShapeData>& item_data, GeomProcessingParams& params)
 	{
 		if (profile_paths_input.size() == 0)
 		{
-			messageCallback("profile_paths.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity);
+			messageCallback("profile_paths.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
 			return;
 		}
 		const size_t num_curve_points = profile_paths_input.size();
 		if (num_curve_points < 2)
 		{
-			messageCallback("num curve points < 2", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity);
+			messageCallback("num curve points < 2", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
 			return;
 		}
 
@@ -1072,7 +1074,7 @@ public:
 			{
 				std::vector<int> face_indexes;
 				std::vector<std::vector<vec2> > face_loops_used_for_triangulation;
-				triangulateLoops(profile_paths, face_loops_used_for_triangulation, face_indexes, ifc_entity);
+				triangulateLoops(profile_paths, face_loops_used_for_triangulation, face_indexes, params.ifc_entity);
 
 				size_t num_points_in_all_loops = 0;
 				for (size_t ii = 0; ii < face_loops_used_for_triangulation.size(); ++ii)
@@ -1172,7 +1174,7 @@ public:
 						}
 						else
 						{
-							messageCallback("no intersection found", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity);
+							messageCallback("no intersection found", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
 						}
 					}
 				}
@@ -1201,7 +1203,7 @@ public:
 
 							if (tri_idx_a >= num_poly_points || tri_idx_next >= num_poly_points || tri_idx_up >= num_poly_points || tri_idx_next_up >= num_poly_points)
 							{
-								messageCallback("invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity);
+								messageCallback("invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
 								continue;
 							}
 
@@ -1225,7 +1227,7 @@ public:
 						size_t tri_idx_c = face_indexes[ii + 3];
 						if (tri_idx_a >= num_poly_points || tri_idx_b >= num_poly_points || tri_idx_c >= num_poly_points)
 						{
-							messageCallback("invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity);
+							messageCallback("invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
 							ii += num_face_vertices;
 							continue;
 						}
@@ -1237,7 +1239,7 @@ public:
 						size_t tri_idx_c_back_cap = tri_idx_c + num_poly_points - num_points_in_all_loops;
 						if (tri_idx_a_back_cap >= num_poly_points || tri_idx_b_back_cap >= num_poly_points || tri_idx_c_back_cap >= num_poly_points)
 						{
-							messageCallback("invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity);
+							messageCallback("invalid triangle index", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
 							ii += num_face_vertices;
 							continue;
 						}
@@ -1256,18 +1258,18 @@ public:
 					}
 					else
 					{
-						messageCallback("num_face_vertices != 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity);
+						messageCallback("num_face_vertices != 3", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
 					}
 					ii += num_face_vertices;
 				}
 
 				try
 				{
-					item_data->addClosedPolyhedron(poly_data);
+					item_data->addClosedPolyhedron(poly_data, params);
 				}
 				catch (BuildingException & exception)
 				{
-					messageCallback(exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", ifc_entity);  // calling function already in e.what()
+					messageCallback(exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", params.ifc_entity);  // calling function already in e.what()
 #ifdef _DEBUG
 					glm::dvec4 color(0.7, 0.7, 0.7, 1.0);
 					shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts()));
@@ -1277,7 +1279,7 @@ public:
 
 #ifdef _DEBUG
 				shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts()));
-				MeshSetInfo infoMesh(this, ifc_entity);
+				MeshSetInfo infoMesh(this, params.ifc_entity);
 				MeshUtils::checkMeshSetValidAndClosed(meshset, infoMesh);
 #endif
 			}

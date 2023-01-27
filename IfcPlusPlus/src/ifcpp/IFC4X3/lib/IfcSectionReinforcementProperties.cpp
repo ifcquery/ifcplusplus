@@ -52,12 +52,9 @@ void IFC4X3::IfcSectionReinforcementProperties::getAttributes( std::vector<std::
 	vec_attributes.emplace_back( std::make_pair( "TransversePosition", m_TransversePosition ) );
 	vec_attributes.emplace_back( std::make_pair( "ReinforcementRole", m_ReinforcementRole ) );
 	vec_attributes.emplace_back( std::make_pair( "SectionDefinition", m_SectionDefinition ) );
-	if( !m_CrossSectionReinforcementDefinitions.empty() )
-	{
-		shared_ptr<AttributeObjectVector> CrossSectionReinforcementDefinitions_vec_object( new AttributeObjectVector() );
-		std::copy( m_CrossSectionReinforcementDefinitions.begin(), m_CrossSectionReinforcementDefinitions.end(), std::back_inserter( CrossSectionReinforcementDefinitions_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "CrossSectionReinforcementDefinitions", CrossSectionReinforcementDefinitions_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> CrossSectionReinforcementDefinitions_vec_object( new AttributeObjectVector() );
+	std::copy( m_CrossSectionReinforcementDefinitions.begin(), m_CrossSectionReinforcementDefinitions.end(), std::back_inserter( CrossSectionReinforcementDefinitions_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "CrossSectionReinforcementDefinitions", CrossSectionReinforcementDefinitions_vec_object ) );
 }
 void IFC4X3::IfcSectionReinforcementProperties::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

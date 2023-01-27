@@ -67,12 +67,9 @@ void IFC4X3::IfcPropertyEnumeratedValue::readStepArguments( const std::vector<st
 void IFC4X3::IfcPropertyEnumeratedValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcSimpleProperty::getAttributes( vec_attributes );
-	if( !m_EnumerationValues.empty() )
-	{
-		shared_ptr<AttributeObjectVector> EnumerationValues_vec_object( new AttributeObjectVector() );
-		std::copy( m_EnumerationValues.begin(), m_EnumerationValues.end(), std::back_inserter( EnumerationValues_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "EnumerationValues", EnumerationValues_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> EnumerationValues_vec_object( new AttributeObjectVector() );
+	std::copy( m_EnumerationValues.begin(), m_EnumerationValues.end(), std::back_inserter( EnumerationValues_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "EnumerationValues", EnumerationValues_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "EnumerationReference", m_EnumerationReference ) );
 }
 void IFC4X3::IfcPropertyEnumeratedValue::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

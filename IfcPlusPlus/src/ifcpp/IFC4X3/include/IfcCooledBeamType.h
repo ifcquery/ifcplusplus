@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCooledBeamTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCooledBeamType : public IfcEnergyConversionDeviceType
-	{ 
+	{
 	public:
 		IfcCooledBeamType() = default;
 		IfcCooledBeamType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcCooledBeamTypeEnum>					m_PredefinedType;
 	};
 }
-

@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcVirtualGridIntersection;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcGridAxis : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcGridAxis() = default;
 		IfcGridAxis( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcVirtualGridIntersection> >	m_HasIntersections_inverse;
 	};
 }
-

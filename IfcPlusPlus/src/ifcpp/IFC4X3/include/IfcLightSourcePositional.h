@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReal;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLightSourcePositional : public IfcLightSource
-	{ 
+	{
 	public:
 		IfcLightSourcePositional() = default;
 		IfcLightSourcePositional( int id );
@@ -52,4 +52,3 @@ namespace IFC4X3
 		shared_ptr<IfcReal>										m_QuadricAttenuation;
 	};
 }
-

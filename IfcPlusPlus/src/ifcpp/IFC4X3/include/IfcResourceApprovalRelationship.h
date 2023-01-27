@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcApproval;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcResourceApprovalRelationship : public IfcResourceLevelRelationship
-	{ 
+	{
 	public:
 		IfcResourceApprovalRelationship() = default;
 		IfcResourceApprovalRelationship( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		shared_ptr<IfcApproval>								m_RelatingApproval;
 	};
 }
-

@@ -30,12 +30,9 @@ void IFC4X3::IfcPolyLoop::readStepArguments( const std::vector<std::string>& arg
 void IFC4X3::IfcPolyLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcLoop::getAttributes( vec_attributes );
-	if( !m_Polygon.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Polygon_vec_object( new AttributeObjectVector() );
-		std::copy( m_Polygon.begin(), m_Polygon.end(), std::back_inserter( Polygon_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Polygon", Polygon_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Polygon_vec_object( new AttributeObjectVector() );
+	std::copy( m_Polygon.begin(), m_Polygon.end(), std::back_inserter( Polygon_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Polygon", Polygon_vec_object ) );
 }
 void IFC4X3::IfcPolyLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

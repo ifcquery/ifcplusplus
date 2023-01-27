@@ -31,28 +31,22 @@ void IFC4X3::IfcFace::readStepArguments( const std::vector<std::string>& args, c
 void IFC4X3::IfcFace::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcTopologicalRepresentationItem::getAttributes( vec_attributes );
-	if( !m_Bounds.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Bounds_vec_object( new AttributeObjectVector() );
-		std::copy( m_Bounds.begin(), m_Bounds.end(), std::back_inserter( Bounds_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Bounds", Bounds_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Bounds_vec_object( new AttributeObjectVector() );
+	std::copy( m_Bounds.begin(), m_Bounds.end(), std::back_inserter( Bounds_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Bounds", Bounds_vec_object ) );
 }
 void IFC4X3::IfcFace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcTopologicalRepresentationItem::getAttributesInverse( vec_attributes_inverse );
-	if( !m_HasTextureMaps_inverse.empty() )
+	shared_ptr<AttributeObjectVector> HasTextureMaps_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasTextureMaps_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasTextureMaps_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasTextureMaps_inverse.size(); ++i )
+		if( !m_HasTextureMaps_inverse[i].expired() )
 		{
-			if( !m_HasTextureMaps_inverse[i].expired() )
-			{
-				HasTextureMaps_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcTextureMap>( m_HasTextureMaps_inverse[i] ) );
-			}
+			HasTextureMaps_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcTextureMap>( m_HasTextureMaps_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasTextureMaps_inverse", HasTextureMaps_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasTextureMaps_inverse", HasTextureMaps_inverse_vec_obj ) );
 }
 void IFC4X3::IfcFace::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

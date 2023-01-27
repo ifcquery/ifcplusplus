@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSensorTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSensorType : public IfcDistributionControlElementType
-	{ 
+	{
 	public:
 		IfcSensorType() = default;
 		IfcSensorType( int id );
@@ -71,4 +71,3 @@ namespace IFC4X3
 		shared_ptr<IfcSensorTypeEnum>						m_PredefinedType;
 	};
 }
-

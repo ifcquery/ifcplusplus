@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAudioVisualApplianceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAudioVisualAppliance : public IfcFlowTerminal
-	{ 
+	{
 	public:
 		IfcAudioVisualAppliance() = default;
 		IfcAudioVisualAppliance( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcAudioVisualApplianceTypeEnum>					m_PredefinedType;			//optional
 	};
 }
-

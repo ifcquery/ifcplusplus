@@ -42,4 +42,3 @@ namespace IFC4X3
 		IfcMobileTelecommunicationsApplianceTypeEnumEnum m_enum;
 	};
 }
-

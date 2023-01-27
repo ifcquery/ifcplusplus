@@ -50,4 +50,3 @@ namespace IFC4X3
 		IfcDiscreteAccessoryTypeEnumEnum m_enum;
 	};
 }
-

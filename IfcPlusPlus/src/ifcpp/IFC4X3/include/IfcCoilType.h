@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCoilTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCoilType : public IfcEnergyConversionDeviceType
-	{ 
+	{
 	public:
 		IfcCoilType() = default;
 		IfcCoilType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcCoilTypeEnum>							m_PredefinedType;
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAlignmentCant : public IfcLinearElement
-	{ 
+	{
 	public:
 		IfcAlignmentCant() = default;
 		IfcAlignmentCant( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveLengthMeasure>						m_RailHeadDistance;
 	};
 }
-

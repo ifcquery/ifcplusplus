@@ -40,12 +40,9 @@ void IFC4X3::IfcIndexedPolygonalTextureMap::readStepArguments( const std::vector
 void IFC4X3::IfcIndexedPolygonalTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcIndexedTextureMap::getAttributes( vec_attributes );
-	if( !m_TexCoordIndices.empty() )
-	{
-		shared_ptr<AttributeObjectVector> TexCoordIndices_vec_object( new AttributeObjectVector() );
-		std::copy( m_TexCoordIndices.begin(), m_TexCoordIndices.end(), std::back_inserter( TexCoordIndices_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "TexCoordIndices", TexCoordIndices_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> TexCoordIndices_vec_object( new AttributeObjectVector() );
+	std::copy( m_TexCoordIndices.begin(), m_TexCoordIndices.end(), std::back_inserter( TexCoordIndices_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "TexCoordIndices", TexCoordIndices_vec_object ) );
 }
 void IFC4X3::IfcIndexedPolygonalTextureMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

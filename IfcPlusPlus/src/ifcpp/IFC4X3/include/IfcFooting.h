@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcFootingTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFooting : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcFooting() = default;
 		IfcFooting( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcFootingTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

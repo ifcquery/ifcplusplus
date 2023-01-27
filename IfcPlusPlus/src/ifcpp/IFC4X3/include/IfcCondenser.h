@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCondenserTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCondenser : public IfcEnergyConversionDevice
-	{ 
+	{
 	public:
 		IfcCondenser() = default;
 		IfcCondenser( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcCondenserTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPlaneAngleMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAsymmetricIShapeProfileDef : public IfcParameterizedProfileDef
-	{ 
+	{
 	public:
 		IfcAsymmetricIShapeProfileDef() = default;
 		IfcAsymmetricIShapeProfileDef( int id );
@@ -57,4 +57,3 @@ namespace IFC4X3
 		shared_ptr<IfcPlaneAngleMeasure>							m_TopFlangeSlope;			//optional
 	};
 }
-

@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBorehole : public IfcGeotechnicalAssembly
-	{ 
+	{
 	public:
 		IfcBorehole() = default;
 		IfcBorehole( int id );
@@ -85,4 +85,3 @@ namespace IFC4X3
 		// IfcBorehole -----------------------------------------------------------
 	};
 }
-

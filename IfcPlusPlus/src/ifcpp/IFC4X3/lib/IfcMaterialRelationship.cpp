@@ -43,12 +43,9 @@ void IFC4X3::IfcMaterialRelationship::getAttributes( std::vector<std::pair<std::
 {
 	IFC4X3::IfcResourceLevelRelationship::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "RelatingMaterial", m_RelatingMaterial ) );
-	if( !m_RelatedMaterials.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RelatedMaterials_vec_object( new AttributeObjectVector() );
-		std::copy( m_RelatedMaterials.begin(), m_RelatedMaterials.end(), std::back_inserter( RelatedMaterials_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RelatedMaterials", RelatedMaterials_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RelatedMaterials_vec_object( new AttributeObjectVector() );
+	std::copy( m_RelatedMaterials.begin(), m_RelatedMaterials.end(), std::back_inserter( RelatedMaterials_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedMaterials", RelatedMaterials_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "MaterialExpression", m_MaterialExpression ) );
 }
 void IFC4X3::IfcMaterialRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

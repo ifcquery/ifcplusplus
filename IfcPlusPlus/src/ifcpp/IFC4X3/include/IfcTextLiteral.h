@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTextPath;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTextLiteral : public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcTextLiteral() = default;
 		IfcTextLiteral( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		shared_ptr<IfcTextPath>									m_Path;
 	};
 }
-

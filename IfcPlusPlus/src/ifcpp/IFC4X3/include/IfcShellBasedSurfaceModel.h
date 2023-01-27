@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcShell;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcShellBasedSurfaceModel : public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcShellBasedSurfaceModel() = default;
 		IfcShellBasedSurfaceModel( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcShell> >						m_SbsmBoundary;
 	};
 }
-

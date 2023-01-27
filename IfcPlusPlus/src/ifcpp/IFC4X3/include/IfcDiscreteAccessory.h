@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDiscreteAccessoryTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDiscreteAccessory : public IfcElementComponent
-	{ 
+	{
 	public:
 		IfcDiscreteAccessory() = default;
 		IfcDiscreteAccessory( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcDiscreteAccessoryTypeEnum>					m_PredefinedType;			//optional
 	};
 }
-

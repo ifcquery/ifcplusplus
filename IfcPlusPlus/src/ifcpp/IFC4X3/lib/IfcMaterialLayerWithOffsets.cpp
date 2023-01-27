@@ -64,12 +64,9 @@ void IFC4X3::IfcMaterialLayerWithOffsets::getAttributes( std::vector<std::pair<s
 {
 	IFC4X3::IfcMaterialLayer::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "OffsetDirection", m_OffsetDirection ) );
-	if( !m_OffsetValues.empty() )
-	{
-		shared_ptr<AttributeObjectVector> OffsetValues_vec_object( new AttributeObjectVector() );
-		std::copy( m_OffsetValues.begin(), m_OffsetValues.end(), std::back_inserter( OffsetValues_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> OffsetValues_vec_object( new AttributeObjectVector() );
+	std::copy( m_OffsetValues.begin(), m_OffsetValues.end(), std::back_inserter( OffsetValues_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
 }
 void IFC4X3::IfcMaterialLayerWithOffsets::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcNamedUnit;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcProjectedCRS : public IfcCoordinateReferenceSystem
-	{ 
+	{
 	public:
 		IfcProjectedCRS() = default;
 		IfcProjectedCRS( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcNamedUnit>						m_MapUnit;					//optional
 	};
 }
-

@@ -36,23 +36,17 @@ void IFC4X3::IfcStructuralLoadConfiguration::readStepArguments( const std::vecto
 void IFC4X3::IfcStructuralLoadConfiguration::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcStructuralLoad::getAttributes( vec_attributes );
-	if( !m_Values.empty() )
+	shared_ptr<AttributeObjectVector> Values_vec_object( new AttributeObjectVector() );
+	std::copy( m_Values.begin(), m_Values.end(), std::back_inserter( Values_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Values", Values_vec_object ) );
+	shared_ptr<AttributeObjectVector> Locations_vector( new AttributeObjectVector() );
+	vec_attributes.emplace_back( std::make_pair( "Locations", Locations_vector ) );
+	for( size_t ii=0; ii<m_Locations.size(); ++ii )
 	{
-		shared_ptr<AttributeObjectVector> Values_vec_object( new AttributeObjectVector() );
-		std::copy( m_Values.begin(), m_Values.end(), std::back_inserter( Values_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Values", Values_vec_object ) );
-	}
-	if( !m_Locations.empty() )
-	{
-		shared_ptr<AttributeObjectVector> outer_vector( new AttributeObjectVector() );
-		vec_attributes.emplace_back( std::make_pair( "Locations", outer_vector ) );
-		for( size_t ii=0; ii<m_Locations.size(); ++ii )
-		{
-			const std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii = m_Locations[ii];
-			shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
-			outer_vector->m_vec.push_back( inner_vector );
-			std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
-		}
+		const std::vector<shared_ptr<IfcLengthMeasure> >& vec_ii = m_Locations[ii];
+		shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
+		Locations_vector->m_vec.push_back( inner_vector );
+		std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
 	}
 }
 void IFC4X3::IfcStructuralLoadConfiguration::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

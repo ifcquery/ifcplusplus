@@ -65,18 +65,12 @@ void IFC4X3::IfcRelConnectsPathElements::readStepArguments( const std::vector<st
 void IFC4X3::IfcRelConnectsPathElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcRelConnectsElements::getAttributes( vec_attributes );
-	if( !m_RelatingPriorities.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RelatingPriorities_vec_object( new AttributeObjectVector() );
-		std::copy( m_RelatingPriorities.begin(), m_RelatingPriorities.end(), std::back_inserter( RelatingPriorities_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RelatingPriorities", RelatingPriorities_vec_object ) );
-	}
-	if( !m_RelatedPriorities.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RelatedPriorities_vec_object( new AttributeObjectVector() );
-		std::copy( m_RelatedPriorities.begin(), m_RelatedPriorities.end(), std::back_inserter( RelatedPriorities_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RelatedPriorities", RelatedPriorities_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RelatingPriorities_vec_object( new AttributeObjectVector() );
+	std::copy( m_RelatingPriorities.begin(), m_RelatingPriorities.end(), std::back_inserter( RelatingPriorities_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatingPriorities", RelatingPriorities_vec_object ) );
+	shared_ptr<AttributeObjectVector> RelatedPriorities_vec_object( new AttributeObjectVector() );
+	std::copy( m_RelatedPriorities.begin(), m_RelatedPriorities.end(), std::back_inserter( RelatedPriorities_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedPriorities", RelatedPriorities_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "RelatedConnectionType", m_RelatedConnectionType ) );
 	vec_attributes.emplace_back( std::make_pair( "RelatingConnectionType", m_RelatingConnectionType ) );
 }

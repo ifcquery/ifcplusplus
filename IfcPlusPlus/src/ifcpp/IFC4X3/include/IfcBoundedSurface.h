@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBoundedSurface : public IfcSurface
-	{ 
+	{
 	public:
 		IfcBoundedSurface() = default;
 		IfcBoundedSurface( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		// IfcBoundedSurface -----------------------------------------------------------
 	};
 }
-

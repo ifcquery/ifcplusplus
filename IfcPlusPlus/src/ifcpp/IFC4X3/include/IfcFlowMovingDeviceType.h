@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFlowMovingDeviceType : public IfcDistributionFlowElementType
-	{ 
+	{
 	public:
 		IfcFlowMovingDeviceType() = default;
 		IfcFlowMovingDeviceType( int id );
@@ -68,4 +68,3 @@ namespace IFC4X3
 		// IfcFlowMovingDeviceType -----------------------------------------------------------
 	};
 }
-

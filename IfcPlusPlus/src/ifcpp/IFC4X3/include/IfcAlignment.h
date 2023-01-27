@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAlignmentTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAlignment : public IfcLinearPositioningElement
-	{ 
+	{
 	public:
 		IfcAlignment() = default;
 		IfcAlignment( int id );
@@ -74,4 +74,3 @@ namespace IFC4X3
 		shared_ptr<IfcAlignmentTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

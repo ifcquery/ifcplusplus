@@ -33,4 +33,3 @@ namespace IFC4X3
 		IfcEventTriggerTypeEnumEnum m_enum;
 	};
 }
-

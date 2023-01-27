@@ -53,4 +53,3 @@ namespace IFC4X3
 		IfcCommunicationsApplianceTypeEnumEnum m_enum;
 	};
 }
-

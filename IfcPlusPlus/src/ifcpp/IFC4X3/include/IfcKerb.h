@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoolean;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcKerb : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcKerb() = default;
 		IfcKerb( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcBoolean>										m_Mountable;
 	};
 }
-

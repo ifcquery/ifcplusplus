@@ -46,12 +46,9 @@ void IFC4X3::IfcShapeAspect::readStepArguments( const std::vector<std::string>& 
 }
 void IFC4X3::IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( !m_ShapeRepresentations.empty() )
-	{
-		shared_ptr<AttributeObjectVector> ShapeRepresentations_vec_object( new AttributeObjectVector() );
-		std::copy( m_ShapeRepresentations.begin(), m_ShapeRepresentations.end(), std::back_inserter( ShapeRepresentations_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "ShapeRepresentations", ShapeRepresentations_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> ShapeRepresentations_vec_object( new AttributeObjectVector() );
+	std::copy( m_ShapeRepresentations.begin(), m_ShapeRepresentations.end(), std::back_inserter( ShapeRepresentations_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "ShapeRepresentations", ShapeRepresentations_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
 	vec_attributes.emplace_back( std::make_pair( "ProductDefinitional", m_ProductDefinitional ) );
@@ -59,18 +56,15 @@ void IFC4X3::IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, s
 }
 void IFC4X3::IfcShapeAspect::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( !m_HasExternalReferences_inverse.empty() )
+	shared_ptr<AttributeObjectVector> HasExternalReferences_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasExternalReferences_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasExternalReferences_inverse.size(); ++i )
+		if( !m_HasExternalReferences_inverse[i].expired() )
 		{
-			if( !m_HasExternalReferences_inverse[i].expired() )
-			{
-				HasExternalReferences_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) );
-			}
+			HasExternalReferences_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReferences_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasExternalReferences_inverse", HasExternalReferences_inverse_vec_obj ) );
 }
 void IFC4X3::IfcShapeAspect::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

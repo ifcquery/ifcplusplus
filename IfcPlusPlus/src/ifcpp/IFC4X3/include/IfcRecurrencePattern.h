@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTimePeriod;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRecurrencePattern : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcRecurrencePattern() = default;
 		IfcRecurrencePattern( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcTimePeriod> >			m_TimePeriods;				//optional
 	};
 }
-

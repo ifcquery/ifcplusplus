@@ -53,17 +53,14 @@ void IFC4X3::IfcTextureCoordinateIndicesWithVoids::readStepArguments( const std:
 void IFC4X3::IfcTextureCoordinateIndicesWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcTextureCoordinateIndices::getAttributes( vec_attributes );
-	if( !m_InnerTexCoordIndices.empty() )
+	shared_ptr<AttributeObjectVector> InnerTexCoordIndices_vector( new AttributeObjectVector() );
+	vec_attributes.emplace_back( std::make_pair( "InnerTexCoordIndices", InnerTexCoordIndices_vector ) );
+	for( size_t ii=0; ii<m_InnerTexCoordIndices.size(); ++ii )
 	{
-		shared_ptr<AttributeObjectVector> outer_vector( new AttributeObjectVector() );
-		vec_attributes.emplace_back( std::make_pair( "InnerTexCoordIndices", outer_vector ) );
-		for( size_t ii=0; ii<m_InnerTexCoordIndices.size(); ++ii )
-		{
-			const std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_InnerTexCoordIndices[ii];
-			shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
-			outer_vector->m_vec.push_back( inner_vector );
-			std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
-		}
+		const std::vector<shared_ptr<IfcPositiveInteger> >& vec_ii = m_InnerTexCoordIndices[ii];
+		shared_ptr<AttributeObjectVector> inner_vector( new AttributeObjectVector() );
+		InnerTexCoordIndices_vector->m_vec.push_back( inner_vector );
+		std::copy(vec_ii.begin(), vec_ii.end(), std::back_inserter(inner_vector->m_vec));
 	}
 }
 void IFC4X3::IfcTextureCoordinateIndicesWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

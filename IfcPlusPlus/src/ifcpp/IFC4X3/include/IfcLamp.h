@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLampTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLamp : public IfcFlowTerminal
-	{ 
+	{
 	public:
 		IfcLamp() = default;
 		IfcLamp( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcLampTypeEnum>									m_PredefinedType;			//optional
 	};
 }
-

@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelAssociatesLibrary;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLibraryReference : virtual public IfcLibrarySelect, public IfcExternalReference
-	{ 
+	{
 	public:
 		IfcLibraryReference() = default;
 		IfcLibraryReference( int id );
@@ -48,4 +48,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelAssociatesLibrary> >				m_LibraryRefForObjects_inverse;
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRatioMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralLoadCase : public IfcStructuralLoadGroup
-	{ 
+	{
 	public:
 		IfcStructuralLoadCase() = default;
 		IfcStructuralLoadCase( int id );
@@ -74,4 +74,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcRatioMeasure> >					m_SelfWeightCoefficients;	//optional
 	};
 }
-

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPlaneAngleMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRevolvedAreaSolid : public IfcSweptAreaSolid
-	{ 
+	{
 	public:
 		IfcRevolvedAreaSolid() = default;
 		IfcRevolvedAreaSolid( int id );
@@ -48,4 +48,3 @@ namespace IFC4X3
 		shared_ptr<IfcPlaneAngleMeasure>						m_Angle;
 	};
 }
-

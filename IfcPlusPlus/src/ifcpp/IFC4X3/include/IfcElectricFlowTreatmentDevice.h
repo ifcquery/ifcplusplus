@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcElectricFlowTreatmentDeviceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcElectricFlowTreatmentDevice : public IfcFlowTreatmentDevice
-	{ 
+	{
 	public:
 		IfcElectricFlowTreatmentDevice() = default;
 		IfcElectricFlowTreatmentDevice( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcElectricFlowTreatmentDeviceTypeEnum>			m_PredefinedType;			//optional
 	};
 }
-

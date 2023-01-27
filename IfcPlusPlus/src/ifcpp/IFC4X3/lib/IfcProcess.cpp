@@ -66,42 +66,33 @@ void IFC4X3::IfcProcess::getAttributes( std::vector<std::pair<std::string, share
 void IFC4X3::IfcProcess::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcObject::getAttributesInverse( vec_attributes_inverse );
-	if( !m_IsPredecessorTo_inverse.empty() )
+	shared_ptr<AttributeObjectVector> IsPredecessorTo_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_IsPredecessorTo_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> IsPredecessorTo_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_IsPredecessorTo_inverse.size(); ++i )
+		if( !m_IsPredecessorTo_inverse[i].expired() )
 		{
-			if( !m_IsPredecessorTo_inverse[i].expired() )
-			{
-				IsPredecessorTo_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSequence>( m_IsPredecessorTo_inverse[i] ) );
-			}
+			IsPredecessorTo_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSequence>( m_IsPredecessorTo_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "IsPredecessorTo_inverse", IsPredecessorTo_inverse_vec_obj ) );
 	}
-	if( !m_IsSuccessorFrom_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "IsPredecessorTo_inverse", IsPredecessorTo_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> IsSuccessorFrom_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_IsSuccessorFrom_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> IsSuccessorFrom_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_IsSuccessorFrom_inverse.size(); ++i )
+		if( !m_IsSuccessorFrom_inverse[i].expired() )
 		{
-			if( !m_IsSuccessorFrom_inverse[i].expired() )
-			{
-				IsSuccessorFrom_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSequence>( m_IsSuccessorFrom_inverse[i] ) );
-			}
+			IsSuccessorFrom_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSequence>( m_IsSuccessorFrom_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "IsSuccessorFrom_inverse", IsSuccessorFrom_inverse_vec_obj ) );
 	}
-	if( !m_OperatesOn_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "IsSuccessorFrom_inverse", IsSuccessorFrom_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> OperatesOn_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_OperatesOn_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> OperatesOn_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_OperatesOn_inverse.size(); ++i )
+		if( !m_OperatesOn_inverse[i].expired() )
 		{
-			if( !m_OperatesOn_inverse[i].expired() )
-			{
-				OperatesOn_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssignsToProcess>( m_OperatesOn_inverse[i] ) );
-			}
+			OperatesOn_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssignsToProcess>( m_OperatesOn_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "OperatesOn_inverse", OperatesOn_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "OperatesOn_inverse", OperatesOn_inverse_vec_obj ) );
 }
 void IFC4X3::IfcProcess::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

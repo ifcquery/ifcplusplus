@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoundedCurve;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPolygonalBoundedHalfSpace : public IfcHalfSpaceSolid
-	{ 
+	{
 	public:
 		IfcPolygonalBoundedHalfSpace() = default;
 		IfcPolygonalBoundedHalfSpace( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcBoundedCurve>								m_PolygonalBoundary;
 	};
 }
-

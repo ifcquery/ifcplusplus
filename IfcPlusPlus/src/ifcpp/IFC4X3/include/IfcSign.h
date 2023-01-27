@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSignTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSign : public IfcElementComponent
-	{ 
+	{
 	public:
 		IfcSign() = default;
 		IfcSign( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcSignTypeEnum>									m_PredefinedType;			//optional
 	};
 }
-

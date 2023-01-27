@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSlabTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSlab : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcSlab() = default;
 		IfcSlab( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcSlabTypeEnum>									m_PredefinedType;			//optional
 	};
 }
-

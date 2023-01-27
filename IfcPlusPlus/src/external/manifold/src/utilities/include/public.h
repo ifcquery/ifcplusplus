@@ -32,7 +32,7 @@
 
 namespace manifold {
 
-constexpr float kTolerance = 1e-5;
+constexpr float kTolerance = 1e-5f;
 
 #ifdef __CUDACC__
 #define HOST_DEVICE __host__ __device__

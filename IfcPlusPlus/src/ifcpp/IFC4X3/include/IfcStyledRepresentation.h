@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStyledRepresentation : public IfcStyleModel
-	{ 
+	{
 	public:
 		IfcStyledRepresentation() = default;
 		IfcStyledRepresentation( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		// IfcStyledRepresentation -----------------------------------------------------------
 	};
 }
-

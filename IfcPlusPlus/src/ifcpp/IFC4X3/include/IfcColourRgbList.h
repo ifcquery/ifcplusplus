@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcNormalisedRatioMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcColourRgbList : public IfcPresentationItem
-	{ 
+	{
 	public:
 		IfcColourRgbList() = default;
 		IfcColourRgbList( int id );
@@ -34,4 +34,3 @@ namespace IFC4X3
 		std::vector<std::vector<shared_ptr<IfcNormalisedRatioMeasure> > >	m_ColourList;
 	};
 }
-

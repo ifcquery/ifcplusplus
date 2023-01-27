@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTableColumn;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTable : virtual public IfcMetricValueSelect, virtual public IfcObjectReferenceSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcTable() = default;
 		IfcTable( int id );
@@ -37,4 +37,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcTableColumn> >	m_Columns;					//optional
 	};
 }
-

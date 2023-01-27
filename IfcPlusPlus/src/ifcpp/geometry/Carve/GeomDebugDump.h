@@ -691,7 +691,7 @@ namespace GeomDebugDump
 		appendToOutput(strs_out);
 	}
 
-	static void dumpMeshset(carve::mesh::MeshSet<3>* meshset, const glm::vec4& color, bool move_offset = true)
+	static void dumpMeshset(carve::mesh::MeshSet<3>* meshset, const glm::vec4& color, bool move_offset )
 	{
 		vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
 		dumpMeshset(meshset, offset, color );

@@ -86,30 +86,24 @@ void IFC4X3::IfcCovering::getAttributes( std::vector<std::pair<std::string, shar
 void IFC4X3::IfcCovering::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcBuiltElement::getAttributesInverse( vec_attributes_inverse );
-	if( !m_CoversSpaces_inverse.empty() )
+	shared_ptr<AttributeObjectVector> CoversSpaces_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_CoversSpaces_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> CoversSpaces_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_CoversSpaces_inverse.size(); ++i )
+		if( !m_CoversSpaces_inverse[i].expired() )
 		{
-			if( !m_CoversSpaces_inverse[i].expired() )
-			{
-				CoversSpaces_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelCoversSpaces>( m_CoversSpaces_inverse[i] ) );
-			}
+			CoversSpaces_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelCoversSpaces>( m_CoversSpaces_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "CoversSpaces_inverse", CoversSpaces_inverse_vec_obj ) );
 	}
-	if( !m_CoversElements_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "CoversSpaces_inverse", CoversSpaces_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> CoversElements_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_CoversElements_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> CoversElements_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_CoversElements_inverse.size(); ++i )
+		if( !m_CoversElements_inverse[i].expired() )
 		{
-			if( !m_CoversElements_inverse[i].expired() )
-			{
-				CoversElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelCoversBldgElements>( m_CoversElements_inverse[i] ) );
-			}
+			CoversElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelCoversBldgElements>( m_CoversElements_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "CoversElements_inverse", CoversElements_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "CoversElements_inverse", CoversElements_inverse_vec_obj ) );
 }
 void IFC4X3::IfcCovering::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

@@ -13,7 +13,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcOpenShell : virtual public IfcShell, public IfcConnectedFaceSet
-	{ 
+	{
 	public:
 		IfcOpenShell() = default;
 		IfcOpenShell( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		// IfcOpenShell -----------------------------------------------------------
 	};
 }
-

@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoolean;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCurveBoundedSurface : public IfcBoundedSurface
-	{ 
+	{
 	public:
 		IfcCurveBoundedSurface() = default;
 		IfcCurveBoundedSurface( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		shared_ptr<IfcBoolean>									m_ImplicitOuter;
 	};
 }
-

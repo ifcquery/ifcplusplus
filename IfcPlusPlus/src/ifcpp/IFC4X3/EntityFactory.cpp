@@ -880,7 +880,7 @@
 #include "lib/IfcZone.cpp"
 #include "EntityFactory.h"
 
-	static std::map<std::string, std::function<BuildingEntity*( void )> > entity_factory_map = {
+static std::map<std::string, std::function<BuildingEntity*( void )> > entity_factory_map = {
 { "IFCACTIONREQUEST", []()->BuildingEntity* { return new IFC4X3::IfcActionRequest(); } },
 { "IFCACTOR", []()->BuildingEntity* { return new IFC4X3::IfcActor(); } },
 { "IFCACTORROLE", []()->BuildingEntity* { return new IFC4X3::IfcActorRole(); } },
@@ -1755,8 +1755,7 @@
 { "IFCWORKSCHEDULE", []()->BuildingEntity* { return new IFC4X3::IfcWorkSchedule(); } },
 { "IFCWORKTIME", []()->BuildingEntity* { return new IFC4X3::IfcWorkTime(); } },
 { "IFCZSHAPEPROFILEDEF", []()->BuildingEntity* { return new IFC4X3::IfcZShapeProfileDef(); } },
-	{ "IFCZONE", []()->BuildingEntity* { return new IFC4X3::IfcZone(); } }
-};
+{ "IFCZONE", []()->BuildingEntity* { return new IFC4X3::IfcZone(); } }};
 
 BuildingEntity* IFC4X3::EntityFactory::createEntityObject( const std::string& class_name_upper )
 {

@@ -40,4 +40,3 @@ namespace IFC4X3
 		IfcSimplePropertyTemplateTypeEnumEnum m_enum;
 	};
 }
-

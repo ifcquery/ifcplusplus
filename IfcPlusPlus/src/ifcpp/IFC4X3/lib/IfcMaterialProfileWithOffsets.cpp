@@ -55,12 +55,9 @@ void IFC4X3::IfcMaterialProfileWithOffsets::readStepArguments( const std::vector
 void IFC4X3::IfcMaterialProfileWithOffsets::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcMaterialProfile::getAttributes( vec_attributes );
-	if( !m_OffsetValues.empty() )
-	{
-		shared_ptr<AttributeObjectVector> OffsetValues_vec_object( new AttributeObjectVector() );
-		std::copy( m_OffsetValues.begin(), m_OffsetValues.end(), std::back_inserter( OffsetValues_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> OffsetValues_vec_object( new AttributeObjectVector() );
+	std::copy( m_OffsetValues.begin(), m_OffsetValues.end(), std::back_inserter( OffsetValues_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
 }
 void IFC4X3::IfcMaterialProfileWithOffsets::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

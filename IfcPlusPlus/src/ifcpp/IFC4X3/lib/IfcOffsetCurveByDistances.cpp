@@ -38,12 +38,9 @@ void IFC4X3::IfcOffsetCurveByDistances::readStepArguments( const std::vector<std
 void IFC4X3::IfcOffsetCurveByDistances::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcOffsetCurve::getAttributes( vec_attributes );
-	if( !m_OffsetValues.empty() )
-	{
-		shared_ptr<AttributeObjectVector> OffsetValues_vec_object( new AttributeObjectVector() );
-		std::copy( m_OffsetValues.begin(), m_OffsetValues.end(), std::back_inserter( OffsetValues_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> OffsetValues_vec_object( new AttributeObjectVector() );
+	std::copy( m_OffsetValues.begin(), m_OffsetValues.end(), std::back_inserter( OffsetValues_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "OffsetValues", OffsetValues_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "Tag", m_Tag ) );
 }
 void IFC4X3::IfcOffsetCurveByDistances::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

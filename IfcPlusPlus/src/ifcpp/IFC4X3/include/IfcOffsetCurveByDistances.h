@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcOffsetCurveByDistances : public IfcOffsetCurve
-	{ 
+	{
 	public:
 		IfcOffsetCurveByDistances() = default;
 		IfcOffsetCurveByDistances( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>									m_Tag;						//optional
 	};
 }
-

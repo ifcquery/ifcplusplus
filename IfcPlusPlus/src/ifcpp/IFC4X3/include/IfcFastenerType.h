@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcFastenerTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFastenerType : public IfcElementComponentType
-	{ 
+	{
 	public:
 		IfcFastenerType() = default;
 		IfcFastenerType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcFastenerTypeEnum>						m_PredefinedType;
 	};
 }
-

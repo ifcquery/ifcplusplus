@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelSequence : public IfcRelConnects
-	{ 
+	{
 	public:
 		IfcRelSequence() = default;
 		IfcRelSequence( int id );
@@ -50,4 +50,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>			m_UserDefinedSequenceType;	//optional
 	};
 }
-

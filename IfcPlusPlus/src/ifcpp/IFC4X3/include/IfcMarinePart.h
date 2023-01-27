@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcMarinePartTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMarinePart : public IfcFacilityPart
-	{ 
+	{
 	public:
 		IfcMarinePart() = default;
 		IfcMarinePart( int id );
@@ -85,4 +85,3 @@ namespace IFC4X3
 		shared_ptr<IfcMarinePartTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

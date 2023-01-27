@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTransportElementTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTransportElement : public IfcTransportationDevice
-	{ 
+	{
 	public:
 		IfcTransportElement() = default;
 		IfcTransportElement( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcTransportElementTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

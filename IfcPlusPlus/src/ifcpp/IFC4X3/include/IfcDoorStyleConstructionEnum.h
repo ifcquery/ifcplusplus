@@ -36,4 +36,3 @@ namespace IFC4X3
 		IfcDoorStyleConstructionEnumEnum m_enum;
 	};
 }
-

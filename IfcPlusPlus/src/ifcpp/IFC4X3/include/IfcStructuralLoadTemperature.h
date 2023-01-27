@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcThermodynamicTemperatureMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralLoadTemperature : public IfcStructuralLoadStatic
-	{ 
+	{
 	public:
 		IfcStructuralLoadTemperature() = default;
 		IfcStructuralLoadTemperature( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		shared_ptr<IfcThermodynamicTemperatureMeasure>	m_DeltaTZ;					//optional
 	};
 }
-

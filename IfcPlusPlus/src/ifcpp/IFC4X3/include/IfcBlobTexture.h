@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBinary;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBlobTexture : public IfcSurfaceTexture
-	{ 
+	{
 	public:
 		IfcBlobTexture() = default;
 		IfcBlobTexture( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		shared_ptr<IfcBinary>								m_RasterCode;
 	};
 }
-

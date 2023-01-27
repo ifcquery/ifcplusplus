@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcFeatureElementAddition;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelProjectsElement : public IfcRelDecomposes
-	{ 
+	{
 	public:
 		IfcRelProjectsElement() = default;
 		IfcRelProjectsElement( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcFeatureElementAddition>	m_RelatedFeatureElement;
 	};
 }
-

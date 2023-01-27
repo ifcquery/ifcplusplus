@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCoordinateOperation;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCoordinateReferenceSystem : virtual public IfcCoordinateReferenceSystemSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcCoordinateReferenceSystem() = default;
 		IfcCoordinateReferenceSystem( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcCoordinateOperation> >	m_HasCoordinateOperation_inverse;
 	};
 }
-

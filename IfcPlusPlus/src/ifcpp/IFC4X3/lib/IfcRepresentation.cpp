@@ -44,51 +44,39 @@ void IFC4X3::IfcRepresentation::getAttributes( std::vector<std::pair<std::string
 	vec_attributes.emplace_back( std::make_pair( "ContextOfItems", m_ContextOfItems ) );
 	vec_attributes.emplace_back( std::make_pair( "RepresentationIdentifier", m_RepresentationIdentifier ) );
 	vec_attributes.emplace_back( std::make_pair( "RepresentationType", m_RepresentationType ) );
-	if( !m_Items.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Items_vec_object( new AttributeObjectVector() );
-		std::copy( m_Items.begin(), m_Items.end(), std::back_inserter( Items_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Items", Items_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Items_vec_object( new AttributeObjectVector() );
+	std::copy( m_Items.begin(), m_Items.end(), std::back_inserter( Items_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Items", Items_vec_object ) );
 }
 void IFC4X3::IfcRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( !m_RepresentationMap_inverse.empty() )
+	shared_ptr<AttributeObjectVector> RepresentationMap_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_RepresentationMap_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> RepresentationMap_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_RepresentationMap_inverse.size(); ++i )
+		if( !m_RepresentationMap_inverse[i].expired() )
 		{
-			if( !m_RepresentationMap_inverse[i].expired() )
-			{
-				RepresentationMap_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRepresentationMap>( m_RepresentationMap_inverse[i] ) );
-			}
+			RepresentationMap_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRepresentationMap>( m_RepresentationMap_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "RepresentationMap_inverse", RepresentationMap_inverse_vec_obj ) );
 	}
-	if( !m_LayerAssignments_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "RepresentationMap_inverse", RepresentationMap_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> LayerAssignments_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_LayerAssignments_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> LayerAssignments_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_LayerAssignments_inverse.size(); ++i )
+		if( !m_LayerAssignments_inverse[i].expired() )
 		{
-			if( !m_LayerAssignments_inverse[i].expired() )
-			{
-				LayerAssignments_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPresentationLayerAssignment>( m_LayerAssignments_inverse[i] ) );
-			}
+			LayerAssignments_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPresentationLayerAssignment>( m_LayerAssignments_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "LayerAssignments_inverse", LayerAssignments_inverse_vec_obj ) );
 	}
-	if( !m_OfProductRepresentation_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "LayerAssignments_inverse", LayerAssignments_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> OfProductRepresentation_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_OfProductRepresentation_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> OfProductRepresentation_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_OfProductRepresentation_inverse.size(); ++i )
+		if( !m_OfProductRepresentation_inverse[i].expired() )
 		{
-			if( !m_OfProductRepresentation_inverse[i].expired() )
-			{
-				OfProductRepresentation_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcProductRepresentation>( m_OfProductRepresentation_inverse[i] ) );
-			}
+			OfProductRepresentation_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcProductRepresentation>( m_OfProductRepresentation_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "OfProductRepresentation_inverse", OfProductRepresentation_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "OfProductRepresentation_inverse", OfProductRepresentation_inverse_vec_obj ) );
 }
 void IFC4X3::IfcRepresentation::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

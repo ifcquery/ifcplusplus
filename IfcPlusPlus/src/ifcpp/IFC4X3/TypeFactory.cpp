@@ -444,7 +444,7 @@
 #include "lib/IfcWorkScheduleTypeEnum.cpp"
 #include "TypeFactory.h"
 
-	static std::map<std::string, std::function<shared_ptr<BuildingObject>( const std::string&, const std::map<int, shared_ptr<BuildingEntity> >&, std::stringstream& )> > type_factory_map = {
+static std::map<std::string, std::function<shared_ptr<BuildingObject>( const std::string&, const std::map<int, shared_ptr<BuildingEntity> >&, std::stringstream& )> > type_factory_map = {
 { "IFCABSORBEDDOSEMEASURE", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcAbsorbedDoseMeasure::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCACCELERATIONMEASURE", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcAccelerationMeasure::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCACTIONREQUESTTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcActionRequestTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },
@@ -883,8 +883,7 @@
 { "IFCWINDOWTYPEPARTITIONINGENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcWindowTypePartitioningEnum::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCWORKCALENDARTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcWorkCalendarTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCWORKPLANTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcWorkPlanTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },
-	{ "IFCWORKSCHEDULETYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcWorkScheduleTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } }
-};
+{ "IFCWORKSCHEDULETYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcWorkScheduleTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } }};
 
 shared_ptr<BuildingObject> IFC4X3::TypeFactory::createTypeObject( const std::string& class_name_upper, const std::string& type_arg, const std::map<int, shared_ptr<BuildingEntity> >& map_entities, std::stringstream& errorStream )
 {

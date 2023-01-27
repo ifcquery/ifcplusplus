@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcStructuralSurfaceActivityTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralSurfaceAction : public IfcStructuralAction
-	{ 
+	{
 	public:
 		IfcStructuralSurfaceAction() = default;
 		IfcStructuralSurfaceAction( int id );
@@ -80,4 +80,3 @@ namespace IFC4X3
 		shared_ptr<IfcStructuralSurfaceActivityTypeEnum>			m_PredefinedType;
 	};
 }
-

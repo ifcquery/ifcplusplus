@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTextureCoordinateIndices;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcIndexedPolygonalTextureMap : public IfcIndexedTextureMap
-	{ 
+	{
 	public:
 		IfcIndexedPolygonalTextureMap() = default;
 		IfcIndexedPolygonalTextureMap( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcTextureCoordinateIndices> >	m_TexCoordIndices;
 	};
 }
-

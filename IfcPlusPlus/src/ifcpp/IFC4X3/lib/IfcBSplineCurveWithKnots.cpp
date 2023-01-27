@@ -56,18 +56,12 @@ void IFC4X3::IfcBSplineCurveWithKnots::readStepArguments( const std::vector<std:
 void IFC4X3::IfcBSplineCurveWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcBSplineCurve::getAttributes( vec_attributes );
-	if( !m_KnotMultiplicities.empty() )
-	{
-		shared_ptr<AttributeObjectVector> KnotMultiplicities_vec_object( new AttributeObjectVector() );
-		std::copy( m_KnotMultiplicities.begin(), m_KnotMultiplicities.end(), std::back_inserter( KnotMultiplicities_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "KnotMultiplicities", KnotMultiplicities_vec_object ) );
-	}
-	if( !m_Knots.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Knots_vec_object( new AttributeObjectVector() );
-		std::copy( m_Knots.begin(), m_Knots.end(), std::back_inserter( Knots_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Knots", Knots_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> KnotMultiplicities_vec_object( new AttributeObjectVector() );
+	std::copy( m_KnotMultiplicities.begin(), m_KnotMultiplicities.end(), std::back_inserter( KnotMultiplicities_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "KnotMultiplicities", KnotMultiplicities_vec_object ) );
+	shared_ptr<AttributeObjectVector> Knots_vec_object( new AttributeObjectVector() );
+	std::copy( m_Knots.begin(), m_Knots.end(), std::back_inserter( Knots_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Knots", Knots_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "KnotSpec", m_KnotSpec ) );
 }
 void IFC4X3::IfcBSplineCurveWithKnots::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

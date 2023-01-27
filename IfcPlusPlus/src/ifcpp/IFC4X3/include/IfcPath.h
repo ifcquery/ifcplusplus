@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcOrientedEdge;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPath : public IfcTopologicalRepresentationItem
-	{ 
+	{
 	public:
 		IfcPath() = default;
 		IfcPath( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcOrientedEdge> >				m_EdgeList;
 	};
 }
-

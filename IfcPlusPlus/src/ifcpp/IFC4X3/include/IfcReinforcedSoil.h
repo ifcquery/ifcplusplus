@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReinforcedSoilTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcReinforcedSoil : public IfcEarthworksElement
-	{ 
+	{
 	public:
 		IfcReinforcedSoil() = default;
 		IfcReinforcedSoil( int id );
@@ -88,4 +88,3 @@ namespace IFC4X3
 		shared_ptr<IfcReinforcedSoilTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

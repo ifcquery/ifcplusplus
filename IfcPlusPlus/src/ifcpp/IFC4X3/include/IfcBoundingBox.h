@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBoundingBox : public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcBoundingBox() = default;
 		IfcBoundingBox( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveLengthMeasure>					m_ZDim;
 	};
 }
-

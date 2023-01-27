@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcExternalReferenceRelationship;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPropertyAbstraction : virtual public IfcResourceObjectSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcPropertyAbstraction() = default;
 		IfcPropertyAbstraction( int id );
@@ -32,4 +32,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_HasExternalReferences_inverse;
 	};
 }
-

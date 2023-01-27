@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcProductSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelAssignsToProduct : public IfcRelAssigns
-	{ 
+	{
 	public:
 		IfcRelAssignsToProduct() = default;
 		IfcRelAssignsToProduct( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcProductSelect>					m_RelatingProduct;
 	};
 }
-

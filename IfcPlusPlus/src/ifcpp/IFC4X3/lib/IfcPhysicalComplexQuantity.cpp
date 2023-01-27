@@ -46,12 +46,9 @@ void IFC4X3::IfcPhysicalComplexQuantity::readStepArguments( const std::vector<st
 void IFC4X3::IfcPhysicalComplexQuantity::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcPhysicalQuantity::getAttributes( vec_attributes );
-	if( !m_HasQuantities.empty() )
-	{
-		shared_ptr<AttributeObjectVector> HasQuantities_vec_object( new AttributeObjectVector() );
-		std::copy( m_HasQuantities.begin(), m_HasQuantities.end(), std::back_inserter( HasQuantities_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "HasQuantities", HasQuantities_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> HasQuantities_vec_object( new AttributeObjectVector() );
+	std::copy( m_HasQuantities.begin(), m_HasQuantities.end(), std::back_inserter( HasQuantities_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "HasQuantities", HasQuantities_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "Discrimination", m_Discrimination ) );
 	vec_attributes.emplace_back( std::make_pair( "Quality", m_Quality ) );
 	vec_attributes.emplace_back( std::make_pair( "Usage", m_Usage ) );

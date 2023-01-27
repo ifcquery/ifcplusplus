@@ -81,12 +81,9 @@ void IFC4X3::IfcPostalAddress::getAttributes( std::vector<std::pair<std::string,
 {
 	IFC4X3::IfcAddress::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "InternalLocation", m_InternalLocation ) );
-	if( !m_AddressLines.empty() )
-	{
-		shared_ptr<AttributeObjectVector> AddressLines_vec_object( new AttributeObjectVector() );
-		std::copy( m_AddressLines.begin(), m_AddressLines.end(), std::back_inserter( AddressLines_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "AddressLines", AddressLines_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> AddressLines_vec_object( new AttributeObjectVector() );
+	std::copy( m_AddressLines.begin(), m_AddressLines.end(), std::back_inserter( AddressLines_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "AddressLines", AddressLines_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "PostalBox", m_PostalBox ) );
 	vec_attributes.emplace_back( std::make_pair( "Town", m_Town ) );
 	vec_attributes.emplace_back( std::make_pair( "Region", m_Region ) );

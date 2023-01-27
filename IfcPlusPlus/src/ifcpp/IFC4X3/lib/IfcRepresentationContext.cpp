@@ -36,18 +36,15 @@ void IFC4X3::IfcRepresentationContext::getAttributes( std::vector<std::pair<std:
 }
 void IFC4X3::IfcRepresentationContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( !m_RepresentationsInContext_inverse.empty() )
+	shared_ptr<AttributeObjectVector> RepresentationsInContext_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_RepresentationsInContext_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> RepresentationsInContext_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_RepresentationsInContext_inverse.size(); ++i )
+		if( !m_RepresentationsInContext_inverse[i].expired() )
 		{
-			if( !m_RepresentationsInContext_inverse[i].expired() )
-			{
-				RepresentationsInContext_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRepresentation>( m_RepresentationsInContext_inverse[i] ) );
-			}
+			RepresentationsInContext_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRepresentation>( m_RepresentationsInContext_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "RepresentationsInContext_inverse", RepresentationsInContext_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "RepresentationsInContext_inverse", RepresentationsInContext_inverse_vec_obj ) );
 }
 void IFC4X3::IfcRepresentationContext::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {

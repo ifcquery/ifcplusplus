@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcFace;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTextureMap : public IfcTextureCoordinate
-	{ 
+	{
 	public:
 		IfcTextureMap() = default;
 		IfcTextureMap( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		shared_ptr<IfcFace>							m_MappedTo;
 	};
 }
-

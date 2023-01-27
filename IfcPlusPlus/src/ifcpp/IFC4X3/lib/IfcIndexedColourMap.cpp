@@ -60,12 +60,9 @@ void IFC4X3::IfcIndexedColourMap::getAttributes( std::vector<std::pair<std::stri
 	vec_attributes.emplace_back( std::make_pair( "MappedTo", m_MappedTo ) );
 	vec_attributes.emplace_back( std::make_pair( "Opacity", m_Opacity ) );
 	vec_attributes.emplace_back( std::make_pair( "Colours", m_Colours ) );
-	if( !m_ColourIndex.empty() )
-	{
-		shared_ptr<AttributeObjectVector> ColourIndex_vec_object( new AttributeObjectVector() );
-		std::copy( m_ColourIndex.begin(), m_ColourIndex.end(), std::back_inserter( ColourIndex_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "ColourIndex", ColourIndex_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> ColourIndex_vec_object( new AttributeObjectVector() );
+	std::copy( m_ColourIndex.begin(), m_ColourIndex.end(), std::back_inserter( ColourIndex_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "ColourIndex", ColourIndex_vec_object ) );
 }
 void IFC4X3::IfcIndexedColourMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

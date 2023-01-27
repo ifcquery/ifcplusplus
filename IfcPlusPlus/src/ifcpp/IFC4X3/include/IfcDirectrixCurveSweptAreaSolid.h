@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCurveMeasureSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDirectrixCurveSweptAreaSolid : public IfcSweptAreaSolid
-	{ 
+	{
 	public:
 		IfcDirectrixCurveSweptAreaSolid() = default;
 		IfcDirectrixCurveSweptAreaSolid( int id );
@@ -49,4 +49,3 @@ namespace IFC4X3
 		shared_ptr<IfcCurveMeasureSelect>						m_EndParam;					//optional
 	};
 }
-

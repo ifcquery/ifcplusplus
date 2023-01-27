@@ -58,30 +58,24 @@ void IFC4X3::IfcGeometricRepresentationContext::getAttributes( std::vector<std::
 void IFC4X3::IfcGeometricRepresentationContext::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcRepresentationContext::getAttributesInverse( vec_attributes_inverse );
-	if( !m_HasSubContexts_inverse.empty() )
+	shared_ptr<AttributeObjectVector> HasSubContexts_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasSubContexts_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasSubContexts_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasSubContexts_inverse.size(); ++i )
+		if( !m_HasSubContexts_inverse[i].expired() )
 		{
-			if( !m_HasSubContexts_inverse[i].expired() )
-			{
-				HasSubContexts_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcGeometricRepresentationSubContext>( m_HasSubContexts_inverse[i] ) );
-			}
+			HasSubContexts_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcGeometricRepresentationSubContext>( m_HasSubContexts_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasSubContexts_inverse", HasSubContexts_inverse_vec_obj ) );
 	}
-	if( !m_HasCoordinateOperation_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasSubContexts_inverse", HasSubContexts_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> HasCoordinateOperation_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasCoordinateOperation_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasCoordinateOperation_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasCoordinateOperation_inverse.size(); ++i )
+		if( !m_HasCoordinateOperation_inverse[i].expired() )
 		{
-			if( !m_HasCoordinateOperation_inverse[i].expired() )
-			{
-				HasCoordinateOperation_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcCoordinateOperation>( m_HasCoordinateOperation_inverse[i] ) );
-			}
+			HasCoordinateOperation_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcCoordinateOperation>( m_HasCoordinateOperation_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasCoordinateOperation_inverse", HasCoordinateOperation_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasCoordinateOperation_inverse", HasCoordinateOperation_inverse_vec_obj ) );
 }
 void IFC4X3::IfcGeometricRepresentationContext::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

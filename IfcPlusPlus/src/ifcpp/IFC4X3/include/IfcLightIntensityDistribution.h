@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLightDistributionData;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLightIntensityDistribution : virtual public IfcLightDistributionDataSourceSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcLightIntensityDistribution() = default;
 		IfcLightIntensityDistribution( int id );
@@ -34,4 +34,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcLightDistributionData> >	m_DistributionData;
 	};
 }
-

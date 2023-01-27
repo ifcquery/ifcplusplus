@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReal;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTextureCoordinateGenerator : public IfcTextureCoordinate
-	{ 
+	{
 	public:
 		IfcTextureCoordinateGenerator() = default;
 		IfcTextureCoordinateGenerator( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcReal> >			m_Parameter;				//optional
 	};
 }
-

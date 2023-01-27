@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTendonConduitTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTendonConduit : public IfcReinforcingElement
-	{ 
+	{
 	public:
 		IfcTendonConduit() = default;
 		IfcTendonConduit( int id );
@@ -90,4 +90,3 @@ namespace IFC4X3
 		shared_ptr<IfcTendonConduitTypeEnum>						m_PredefinedType;
 	};
 }
-

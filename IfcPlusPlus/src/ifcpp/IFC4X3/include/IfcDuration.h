@@ -25,4 +25,3 @@ namespace IFC4X3
 		std::string m_value;
 	};
 }
-

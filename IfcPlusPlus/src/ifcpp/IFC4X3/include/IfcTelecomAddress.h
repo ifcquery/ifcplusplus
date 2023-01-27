@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcURIReference;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTelecomAddress : public IfcAddress
-	{ 
+	{
 	public:
 		IfcTelecomAddress() = default;
 		IfcTelecomAddress( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcURIReference> >	m_MessagingIDs;				//optional
 	};
 }
-

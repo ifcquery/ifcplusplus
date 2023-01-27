@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTendonAnchorTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTendonAnchorType : public IfcReinforcingElementType
-	{ 
+	{
 	public:
 		IfcTendonAnchorType() = default;
 		IfcTendonAnchorType( int id );
@@ -71,4 +71,3 @@ namespace IFC4X3
 		shared_ptr<IfcTendonAnchorTypeEnum>					m_PredefinedType;
 	};
 }
-

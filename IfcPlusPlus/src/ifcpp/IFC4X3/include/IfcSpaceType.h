@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSpaceType : public IfcSpatialStructureElementType
-	{ 
+	{
 	public:
 		IfcSpaceType() = default;
 		IfcSpaceType( int id );
@@ -71,4 +71,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>								m_LongName;					//optional
 	};
 }
-

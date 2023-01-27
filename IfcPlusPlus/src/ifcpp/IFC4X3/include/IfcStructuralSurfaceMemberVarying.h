@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralSurfaceMemberVarying : public IfcStructuralSurfaceMember
-	{ 
+	{
 	public:
 		IfcStructuralSurfaceMemberVarying() = default;
 		IfcStructuralSurfaceMemberVarying( int id );
@@ -77,4 +77,3 @@ namespace IFC4X3
 		// IfcStructuralSurfaceMemberVarying -----------------------------------------------------------
 	};
 }
-

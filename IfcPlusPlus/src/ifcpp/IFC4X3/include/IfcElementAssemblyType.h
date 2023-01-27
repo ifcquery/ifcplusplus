@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcElementAssemblyTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcElementAssemblyType : public IfcElementType
-	{ 
+	{
 	public:
 		IfcElementAssemblyType() = default;
 		IfcElementAssemblyType( int id );
@@ -67,4 +67,3 @@ namespace IFC4X3
 		shared_ptr<IfcElementAssemblyTypeEnum>				m_PredefinedType;
 	};
 }
-

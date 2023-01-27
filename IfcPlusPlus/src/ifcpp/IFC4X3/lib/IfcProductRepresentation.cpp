@@ -37,12 +37,9 @@ void IFC4X3::IfcProductRepresentation::getAttributes( std::vector<std::pair<std:
 {
 	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
-	if( !m_Representations.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Representations_vec_object( new AttributeObjectVector() );
-		std::copy( m_Representations.begin(), m_Representations.end(), std::back_inserter( Representations_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Representations", Representations_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Representations_vec_object( new AttributeObjectVector() );
+	std::copy( m_Representations.begin(), m_Representations.end(), std::back_inserter( Representations_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Representations", Representations_vec_object ) );
 }
 void IFC4X3::IfcProductRepresentation::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

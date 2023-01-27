@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcMaterial;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMaterialList : virtual public IfcMaterialSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcMaterialList() = default;
 		IfcMaterialList( int id );
@@ -32,4 +32,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcMaterial> >	m_Materials;
 	};
 }
-

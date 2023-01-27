@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBurnerTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBurner : public IfcEnergyConversionDevice
-	{ 
+	{
 	public:
 		IfcBurner() = default;
 		IfcBurner( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcBurnerTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

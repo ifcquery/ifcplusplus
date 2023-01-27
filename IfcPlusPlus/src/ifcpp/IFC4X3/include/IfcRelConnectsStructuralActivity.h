@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcStructuralActivity;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelConnectsStructuralActivity : public IfcRelConnects
-	{ 
+	{
 	public:
 		IfcRelConnectsStructuralActivity() = default;
 		IfcRelConnectsStructuralActivity( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcStructuralActivity>					m_RelatedStructuralActivity;
 	};
 }
-

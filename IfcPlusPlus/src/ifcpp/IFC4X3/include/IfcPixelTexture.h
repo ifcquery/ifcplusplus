@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBinary;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPixelTexture : public IfcSurfaceTexture
-	{ 
+	{
 	public:
 		IfcPixelTexture() = default;
 		IfcPixelTexture( int id );
@@ -49,4 +49,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcBinary> >					m_Pixel;
 	};
 }
-

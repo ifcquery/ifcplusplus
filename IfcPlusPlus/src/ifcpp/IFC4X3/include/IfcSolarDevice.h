@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSolarDeviceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSolarDevice : public IfcEnergyConversionDevice
-	{ 
+	{
 	public:
 		IfcSolarDevice() = default;
 		IfcSolarDevice( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcSolarDeviceTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

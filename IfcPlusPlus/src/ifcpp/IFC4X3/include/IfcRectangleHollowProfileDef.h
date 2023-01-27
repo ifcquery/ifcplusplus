@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcNonNegativeLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRectangleHollowProfileDef : public IfcRectangleProfileDef
-	{ 
+	{
 	public:
 		IfcRectangleHollowProfileDef() = default;
 		IfcRectangleHollowProfileDef( int id );
@@ -52,4 +52,3 @@ namespace IFC4X3
 		shared_ptr<IfcNonNegativeLengthMeasure>						m_OuterFilletRadius;		//optional
 	};
 }
-

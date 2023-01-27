@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcMarineFacilityTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMarineFacility : public IfcFacility
-	{ 
+	{
 	public:
 		IfcMarineFacility() = default;
 		IfcMarineFacility( int id );
@@ -83,4 +83,3 @@ namespace IFC4X3
 		shared_ptr<IfcMarineFacilityTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

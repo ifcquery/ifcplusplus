@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReinforcingMeshTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcReinforcingMesh : public IfcReinforcingElement
-	{ 
+	{
 	public:
 		IfcReinforcingMesh() = default;
 		IfcReinforcingMesh( int id );
@@ -100,4 +100,3 @@ namespace IFC4X3
 		shared_ptr<IfcReinforcingMeshTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPostalAddress;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSite : public IfcSpatialStructureElement
-	{ 
+	{
 	public:
 		IfcSite() = default;
 		IfcSite( int id );
@@ -88,4 +88,3 @@ namespace IFC4X3
 		shared_ptr<IfcPostalAddress>								m_SiteAddress;				//optional
 	};
 }
-

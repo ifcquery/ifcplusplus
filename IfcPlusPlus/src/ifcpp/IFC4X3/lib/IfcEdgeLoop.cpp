@@ -30,12 +30,9 @@ void IFC4X3::IfcEdgeLoop::readStepArguments( const std::vector<std::string>& arg
 void IFC4X3::IfcEdgeLoop::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcLoop::getAttributes( vec_attributes );
-	if( !m_EdgeList.empty() )
-	{
-		shared_ptr<AttributeObjectVector> EdgeList_vec_object( new AttributeObjectVector() );
-		std::copy( m_EdgeList.begin(), m_EdgeList.end(), std::back_inserter( EdgeList_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "EdgeList", EdgeList_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> EdgeList_vec_object( new AttributeObjectVector() );
+	std::copy( m_EdgeList.begin(), m_EdgeList.end(), std::back_inserter( EdgeList_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "EdgeList", EdgeList_vec_object ) );
 }
 void IFC4X3::IfcEdgeLoop::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

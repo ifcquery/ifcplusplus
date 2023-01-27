@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDistributionFlowElementType : public IfcDistributionElementType
-	{ 
+	{
 	public:
 		IfcDistributionFlowElementType() = default;
 		IfcDistributionFlowElementType( int id );
@@ -66,4 +66,3 @@ namespace IFC4X3
 		// IfcDistributionFlowElementType -----------------------------------------------------------
 	};
 }
-

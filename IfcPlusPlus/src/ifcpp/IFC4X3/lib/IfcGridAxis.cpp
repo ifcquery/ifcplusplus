@@ -43,54 +43,42 @@ void IFC4X3::IfcGridAxis::getAttributes( std::vector<std::pair<std::string, shar
 }
 void IFC4X3::IfcGridAxis::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( !m_PartOfW_inverse.empty() )
+	shared_ptr<AttributeObjectVector> PartOfW_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_PartOfW_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> PartOfW_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_PartOfW_inverse.size(); ++i )
+		if( !m_PartOfW_inverse[i].expired() )
 		{
-			if( !m_PartOfW_inverse[i].expired() )
-			{
-				PartOfW_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcGrid>( m_PartOfW_inverse[i] ) );
-			}
+			PartOfW_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcGrid>( m_PartOfW_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "PartOfW_inverse", PartOfW_inverse_vec_obj ) );
 	}
-	if( !m_PartOfV_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "PartOfW_inverse", PartOfW_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> PartOfV_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_PartOfV_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> PartOfV_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_PartOfV_inverse.size(); ++i )
+		if( !m_PartOfV_inverse[i].expired() )
 		{
-			if( !m_PartOfV_inverse[i].expired() )
-			{
-				PartOfV_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcGrid>( m_PartOfV_inverse[i] ) );
-			}
+			PartOfV_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcGrid>( m_PartOfV_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "PartOfV_inverse", PartOfV_inverse_vec_obj ) );
 	}
-	if( !m_PartOfU_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "PartOfV_inverse", PartOfV_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> PartOfU_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_PartOfU_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> PartOfU_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_PartOfU_inverse.size(); ++i )
+		if( !m_PartOfU_inverse[i].expired() )
 		{
-			if( !m_PartOfU_inverse[i].expired() )
-			{
-				PartOfU_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcGrid>( m_PartOfU_inverse[i] ) );
-			}
+			PartOfU_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcGrid>( m_PartOfU_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "PartOfU_inverse", PartOfU_inverse_vec_obj ) );
 	}
-	if( !m_HasIntersections_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "PartOfU_inverse", PartOfU_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> HasIntersections_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasIntersections_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasIntersections_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasIntersections_inverse.size(); ++i )
+		if( !m_HasIntersections_inverse[i].expired() )
 		{
-			if( !m_HasIntersections_inverse[i].expired() )
-			{
-				HasIntersections_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcVirtualGridIntersection>( m_HasIntersections_inverse[i] ) );
-			}
+			HasIntersections_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcVirtualGridIntersection>( m_HasIntersections_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasIntersections_inverse", HasIntersections_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasIntersections_inverse", HasIntersections_inverse_vec_obj ) );
 }
 void IFC4X3::IfcGridAxis::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {

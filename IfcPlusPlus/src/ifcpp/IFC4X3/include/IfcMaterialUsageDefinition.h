@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelAssociatesMaterial;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMaterialUsageDefinition : virtual public IfcMaterialSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcMaterialUsageDefinition() = default;
 		IfcMaterialUsageDefinition( int id );
@@ -32,4 +32,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelAssociatesMaterial> >	m_AssociatedTo_inverse;
 	};
 }
-

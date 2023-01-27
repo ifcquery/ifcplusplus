@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBridgePartTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBridgePart : public IfcFacilityPart
-	{ 
+	{
 	public:
 		IfcBridgePart() = default;
 		IfcBridgePart( int id );
@@ -85,4 +85,3 @@ namespace IFC4X3
 		shared_ptr<IfcBridgePartTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcEdge;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSubedge : public IfcEdge
-	{ 
+	{
 	public:
 		IfcSubedge() = default;
 		IfcSubedge( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcEdge>										m_ParentEdge;
 	};
 }
-

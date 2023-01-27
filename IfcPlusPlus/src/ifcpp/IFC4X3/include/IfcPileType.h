@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPileTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPileType : public IfcDeepFoundationType
-	{ 
+	{
 	public:
 		IfcPileType() = default;
 		IfcPileType( int id );
@@ -71,4 +71,3 @@ namespace IFC4X3
 		shared_ptr<IfcPileTypeEnum>							m_PredefinedType;
 	};
 }
-

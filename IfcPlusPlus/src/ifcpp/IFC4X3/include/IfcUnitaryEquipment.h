@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcUnitaryEquipmentTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcUnitaryEquipment : public IfcEnergyConversionDevice
-	{ 
+	{
 	public:
 		IfcUnitaryEquipment() = default;
 		IfcUnitaryEquipment( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcUnitaryEquipmentTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

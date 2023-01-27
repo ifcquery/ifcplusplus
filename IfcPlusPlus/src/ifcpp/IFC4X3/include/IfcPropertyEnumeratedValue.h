@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPropertyEnumeration;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPropertyEnumeratedValue : public IfcSimpleProperty
-	{ 
+	{
 	public:
 		IfcPropertyEnumeratedValue() = default;
 		IfcPropertyEnumeratedValue( int id );
@@ -52,4 +52,3 @@ namespace IFC4X3
 		shared_ptr<IfcPropertyEnumeration>							m_EnumerationReference;		//optional
 	};
 }
-

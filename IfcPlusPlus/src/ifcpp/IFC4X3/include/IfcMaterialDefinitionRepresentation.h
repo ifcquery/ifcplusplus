@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcMaterial;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMaterialDefinitionRepresentation : public IfcProductRepresentation
-	{ 
+	{
 	public:
 		IfcMaterialDefinitionRepresentation() = default;
 		IfcMaterialDefinitionRepresentation( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		shared_ptr<IfcMaterial>						m_RepresentedMaterial;
 	};
 }
-

@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCurveStyleFontPattern;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCurveStyleFont : virtual public IfcCurveStyleFontSelect, public IfcPresentationItem
-	{ 
+	{
 	public:
 		IfcCurveStyleFont() = default;
 		IfcCurveStyleFont( int id );
@@ -37,4 +37,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcCurveStyleFontPattern> >	m_PatternList;
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPoint;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPlacement : public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcPlacement() = default;
 		IfcPlacement( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		shared_ptr<IfcPoint>									m_Location;
 	};
 }
-

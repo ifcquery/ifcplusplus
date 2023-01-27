@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSurfaceTexture;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTextureCoordinate : public IfcPresentationItem
-	{ 
+	{
 	public:
 		IfcTextureCoordinate() = default;
 		IfcTextureCoordinate( int id );
@@ -34,4 +34,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcSurfaceTexture> >	m_Maps;
 	};
 }
-

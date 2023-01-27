@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcProfileDef;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcProfileProperties : public IfcExtendedProperties
-	{ 
+	{
 	public:
 		IfcProfileProperties() = default;
 		IfcProfileProperties( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		shared_ptr<IfcProfileDef>									m_ProfileDefinition;
 	};
 }
-

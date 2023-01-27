@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoolean;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcHalfSpaceSolid : virtual public IfcBooleanOperand, public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcHalfSpaceSolid() = default;
 		IfcHalfSpaceSolid( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		shared_ptr<IfcBoolean>									m_AgreementFlag;
 	};
 }
-

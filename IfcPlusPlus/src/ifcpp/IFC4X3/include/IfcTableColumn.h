@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReference;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTableColumn : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcTableColumn() = default;
 		IfcTableColumn( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		shared_ptr<IfcReference>	m_ReferencePath;			//optional
 	};
 }
-

@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPhysicalQuantity;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCostItem : public IfcControl
-	{ 
+	{
 	public:
 		IfcCostItem() = default;
 		IfcCostItem( int id );
@@ -68,4 +68,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcPhysicalQuantity> >		m_CostQuantities;			//optional
 	};
 }
-

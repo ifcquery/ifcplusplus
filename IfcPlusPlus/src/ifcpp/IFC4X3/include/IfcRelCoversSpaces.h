@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCovering;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelCoversSpaces : public IfcRelConnects
-	{ 
+	{
 	public:
 		IfcRelCoversSpaces() = default;
 		IfcRelCoversSpaces( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcCovering> >	m_RelatedCoverings;
 	};
 }
-

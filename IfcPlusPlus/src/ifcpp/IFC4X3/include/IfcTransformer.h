@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTransformerTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTransformer : public IfcEnergyConversionDevice
-	{ 
+	{
 	public:
 		IfcTransformer() = default;
 		IfcTransformer( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcTransformerTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

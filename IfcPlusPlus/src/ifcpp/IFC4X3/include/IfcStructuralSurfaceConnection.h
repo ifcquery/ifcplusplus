@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralSurfaceConnection : public IfcStructuralConnection
-	{ 
+	{
 	public:
 		IfcStructuralSurfaceConnection() = default;
 		IfcStructuralSurfaceConnection( int id );
@@ -74,4 +74,3 @@ namespace IFC4X3
 		// IfcStructuralSurfaceConnection -----------------------------------------------------------
 	};
 }
-

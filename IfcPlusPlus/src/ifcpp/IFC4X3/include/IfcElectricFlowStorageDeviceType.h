@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcElectricFlowStorageDeviceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcElectricFlowStorageDeviceType : public IfcFlowStorageDeviceType
-	{ 
+	{
 	public:
 		IfcElectricFlowStorageDeviceType() = default;
 		IfcElectricFlowStorageDeviceType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcElectricFlowStorageDeviceTypeEnum>	m_PredefinedType;
 	};
 }
-

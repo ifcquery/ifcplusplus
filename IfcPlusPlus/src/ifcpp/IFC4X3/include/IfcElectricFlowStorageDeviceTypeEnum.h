@@ -38,4 +38,3 @@ namespace IFC4X3
 		IfcElectricFlowStorageDeviceTypeEnumEnum m_enum;
 	};
 }
-

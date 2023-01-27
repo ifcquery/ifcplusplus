@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAxis2Placement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLocalPlacement : public IfcObjectPlacement
-	{ 
+	{
 	public:
 		IfcLocalPlacement() = default;
 		IfcLocalPlacement( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		shared_ptr<IfcAxis2Placement>				m_RelativePlacement;
 	};
 }
-

@@ -31,4 +31,3 @@ namespace IFC4X3
 		IfcPavementTypeEnumEnum m_enum;
 	};
 }
-

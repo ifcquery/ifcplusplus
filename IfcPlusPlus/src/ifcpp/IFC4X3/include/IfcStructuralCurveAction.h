@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcStructuralCurveActivityTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralCurveAction : public IfcStructuralAction
-	{ 
+	{
 	public:
 		IfcStructuralCurveAction() = default;
 		IfcStructuralCurveAction( int id );
@@ -80,4 +80,3 @@ namespace IFC4X3
 		shared_ptr<IfcStructuralCurveActivityTypeEnum>				m_PredefinedType;
 	};
 }
-

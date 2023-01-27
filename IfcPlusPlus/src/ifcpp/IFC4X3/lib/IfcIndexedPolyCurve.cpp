@@ -60,12 +60,9 @@ void IFC4X3::IfcIndexedPolyCurve::getAttributes( std::vector<std::pair<std::stri
 {
 	IFC4X3::IfcBoundedCurve::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "Points", m_Points ) );
-	if( !m_Segments.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Segments_vec_object( new AttributeObjectVector() );
-		std::copy( m_Segments.begin(), m_Segments.end(), std::back_inserter( Segments_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Segments", Segments_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Segments_vec_object( new AttributeObjectVector() );
+	std::copy( m_Segments.begin(), m_Segments.end(), std::back_inserter( Segments_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Segments", Segments_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 }
 void IFC4X3::IfcIndexedPolyCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

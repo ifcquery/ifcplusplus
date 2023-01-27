@@ -34,12 +34,9 @@ void IFC4X3::IfcCompositeCurve::readStepArguments( const std::vector<std::string
 void IFC4X3::IfcCompositeCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcBoundedCurve::getAttributes( vec_attributes );
-	if( !m_Segments.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Segments_vec_object( new AttributeObjectVector() );
-		std::copy( m_Segments.begin(), m_Segments.end(), std::back_inserter( Segments_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Segments", Segments_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Segments_vec_object( new AttributeObjectVector() );
+	std::copy( m_Segments.begin(), m_Segments.end(), std::back_inserter( Segments_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Segments", Segments_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );
 }
 void IFC4X3::IfcCompositeCurve::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

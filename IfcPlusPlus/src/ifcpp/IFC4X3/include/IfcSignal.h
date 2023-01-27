@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSignalTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSignal : public IfcFlowTerminal
-	{ 
+	{
 	public:
 		IfcSignal() = default;
 		IfcSignal( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcSignalTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

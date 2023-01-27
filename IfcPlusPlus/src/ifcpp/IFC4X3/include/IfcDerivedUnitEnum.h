@@ -80,4 +80,3 @@ namespace IFC4X3
 		IfcDerivedUnitEnumEnum m_enum;
 	};
 }
-

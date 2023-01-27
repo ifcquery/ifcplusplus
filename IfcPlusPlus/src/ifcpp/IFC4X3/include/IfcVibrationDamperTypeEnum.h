@@ -35,4 +35,3 @@ namespace IFC4X3
 		IfcVibrationDamperTypeEnumEnum m_enum;
 	};
 }
-

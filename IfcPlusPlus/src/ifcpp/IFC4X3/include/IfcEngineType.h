@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcEngineTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcEngineType : public IfcEnergyConversionDeviceType
-	{ 
+	{
 	public:
 		IfcEngineType() = default;
 		IfcEngineType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcEngineTypeEnum>						m_PredefinedType;
 	};
 }
-

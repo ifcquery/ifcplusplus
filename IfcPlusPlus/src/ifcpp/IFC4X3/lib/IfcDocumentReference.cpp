@@ -52,18 +52,15 @@ void IFC4X3::IfcDocumentReference::getAttributes( std::vector<std::pair<std::str
 void IFC4X3::IfcDocumentReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcExternalReference::getAttributesInverse( vec_attributes_inverse );
-	if( !m_DocumentRefForObjects_inverse.empty() )
+	shared_ptr<AttributeObjectVector> DocumentRefForObjects_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_DocumentRefForObjects_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> DocumentRefForObjects_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_DocumentRefForObjects_inverse.size(); ++i )
+		if( !m_DocumentRefForObjects_inverse[i].expired() )
 		{
-			if( !m_DocumentRefForObjects_inverse[i].expired() )
-			{
-				DocumentRefForObjects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssociatesDocument>( m_DocumentRefForObjects_inverse[i] ) );
-			}
+			DocumentRefForObjects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssociatesDocument>( m_DocumentRefForObjects_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "DocumentRefForObjects_inverse", DocumentRefForObjects_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "DocumentRefForObjects_inverse", DocumentRefForObjects_inverse_vec_obj ) );
 }
 void IFC4X3::IfcDocumentReference::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReferentTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcReferent : public IfcPositioningElement
-	{ 
+	{
 	public:
 		IfcReferent() = default;
 		IfcReferent( int id );
@@ -72,4 +72,3 @@ namespace IFC4X3
 		shared_ptr<IfcReferentTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

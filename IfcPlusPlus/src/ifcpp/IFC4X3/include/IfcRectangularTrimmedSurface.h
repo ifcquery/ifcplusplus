@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoolean;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRectangularTrimmedSurface : public IfcBoundedSurface
-	{ 
+	{
 	public:
 		IfcRectangularTrimmedSurface() = default;
 		IfcRectangularTrimmedSurface( int id );
@@ -51,4 +51,3 @@ namespace IFC4X3
 		shared_ptr<IfcBoolean>									m_Vsense;
 	};
 }
-

@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTopologyRepresentation : public IfcShapeModel
-	{ 
+	{
 	public:
 		IfcTopologyRepresentation() = default;
 		IfcTopologyRepresentation( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		// IfcTopologyRepresentation -----------------------------------------------------------
 	};
 }
-

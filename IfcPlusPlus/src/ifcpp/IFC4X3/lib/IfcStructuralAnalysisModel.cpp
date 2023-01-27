@@ -76,18 +76,12 @@ void IFC4X3::IfcStructuralAnalysisModel::getAttributes( std::vector<std::pair<st
 	IFC4X3::IfcSystem::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 	vec_attributes.emplace_back( std::make_pair( "OrientationOf2DPlane", m_OrientationOf2DPlane ) );
-	if( !m_LoadedBy.empty() )
-	{
-		shared_ptr<AttributeObjectVector> LoadedBy_vec_object( new AttributeObjectVector() );
-		std::copy( m_LoadedBy.begin(), m_LoadedBy.end(), std::back_inserter( LoadedBy_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "LoadedBy", LoadedBy_vec_object ) );
-	}
-	if( !m_HasResults.empty() )
-	{
-		shared_ptr<AttributeObjectVector> HasResults_vec_object( new AttributeObjectVector() );
-		std::copy( m_HasResults.begin(), m_HasResults.end(), std::back_inserter( HasResults_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "HasResults", HasResults_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> LoadedBy_vec_object( new AttributeObjectVector() );
+	std::copy( m_LoadedBy.begin(), m_LoadedBy.end(), std::back_inserter( LoadedBy_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "LoadedBy", LoadedBy_vec_object ) );
+	shared_ptr<AttributeObjectVector> HasResults_vec_object( new AttributeObjectVector() );
+	std::copy( m_HasResults.begin(), m_HasResults.end(), std::back_inserter( HasResults_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "HasResults", HasResults_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "SharedPlacement", m_SharedPlacement ) );
 }
 void IFC4X3::IfcStructuralAnalysisModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

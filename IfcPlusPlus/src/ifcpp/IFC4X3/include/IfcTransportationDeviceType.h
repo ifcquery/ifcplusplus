@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTransportationDeviceType : public IfcElementType
-	{ 
+	{
 	public:
 		IfcTransportationDeviceType() = default;
 		IfcTransportationDeviceType( int id );
@@ -64,4 +64,3 @@ namespace IFC4X3
 		// IfcTransportationDeviceType -----------------------------------------------------------
 	};
 }
-

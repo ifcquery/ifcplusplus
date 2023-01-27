@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCosineSpiral : public IfcSpiral
-	{ 
+	{
 	public:
 		IfcCosineSpiral() = default;
 		IfcCosineSpiral( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcLengthMeasure>							m_ConstantTerm;				//optional
 	};
 }
-

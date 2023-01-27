@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcProject : public IfcContext
-	{ 
+	{
 	public:
 		IfcProject() = default;
 		IfcProject( int id );
@@ -57,4 +57,3 @@ namespace IFC4X3
 		// IfcProject -----------------------------------------------------------
 	};
 }
-

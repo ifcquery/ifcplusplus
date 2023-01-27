@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDamperTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDamperType : public IfcFlowControllerType
-	{ 
+	{
 	public:
 		IfcDamperType() = default;
 		IfcDamperType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcDamperTypeEnum>						m_PredefinedType;
 	};
 }
-

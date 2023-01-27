@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReal;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRationalBSplineSurfaceWithKnots : public IfcBSplineSurfaceWithKnots
-	{ 
+	{
 	public:
 		IfcRationalBSplineSurfaceWithKnots() = default;
 		IfcRationalBSplineSurfaceWithKnots( int id );
@@ -61,4 +61,3 @@ namespace IFC4X3
 		std::vector<std::vector<shared_ptr<IfcReal> > >			m_WeightsData;
 	};
 }
-

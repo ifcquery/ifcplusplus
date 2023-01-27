@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSIUnitName;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSIUnit : public IfcNamedUnit
-	{ 
+	{
 	public:
 		IfcSIUnit() = default;
 		IfcSIUnit( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		shared_ptr<IfcSIUnitName>			m_Name;
 	};
 }
-

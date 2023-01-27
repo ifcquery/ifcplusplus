@@ -14,7 +14,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSurface : virtual public IfcGeometricSetSelect, virtual public IfcSurfaceOrFaceSurface, public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcSurface() = default;
 		IfcSurface( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		// IfcSurface -----------------------------------------------------------
 	};
 }
-

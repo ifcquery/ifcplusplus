@@ -30,4 +30,3 @@ namespace IFC4X3
 		IfcSurfaceSideEnum m_enum;
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcWarpingStiffnessSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBoundaryNodeConditionWarping : public IfcBoundaryNodeCondition
-	{ 
+	{
 	public:
 		IfcBoundaryNodeConditionWarping() = default;
 		IfcBoundaryNodeConditionWarping( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcWarpingStiffnessSelect>		m_WarpingStiffness;			//optional
 	};
 }
-

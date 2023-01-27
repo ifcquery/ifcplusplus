@@ -14,7 +14,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSolidModel : virtual public IfcBooleanOperand, virtual public IfcSolidOrShell, public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcSolidModel() = default;
 		IfcSolidModel( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		// IfcSolidModel -----------------------------------------------------------
 	};
 }
-

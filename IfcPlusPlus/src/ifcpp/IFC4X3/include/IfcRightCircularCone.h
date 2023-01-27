@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRightCircularCone : public IfcCsgPrimitive3D
-	{ 
+	{
 	public:
 		IfcRightCircularCone() = default;
 		IfcRightCircularCone( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveLengthMeasure>					m_BottomRadius;
 	};
 }
-

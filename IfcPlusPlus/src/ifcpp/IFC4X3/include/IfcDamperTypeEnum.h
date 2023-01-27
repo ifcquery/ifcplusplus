@@ -40,4 +40,3 @@ namespace IFC4X3
 		IfcDamperTypeEnumEnum m_enum;
 	};
 }
-

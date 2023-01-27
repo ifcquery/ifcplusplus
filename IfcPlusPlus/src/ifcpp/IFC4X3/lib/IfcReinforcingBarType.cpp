@@ -118,12 +118,9 @@ void IFC4X3::IfcReinforcingBarType::getAttributes( std::vector<std::pair<std::st
 	vec_attributes.emplace_back( std::make_pair( "BarLength", m_BarLength ) );
 	vec_attributes.emplace_back( std::make_pair( "BarSurface", m_BarSurface ) );
 	vec_attributes.emplace_back( std::make_pair( "BendingShapeCode", m_BendingShapeCode ) );
-	if( !m_BendingParameters.empty() )
-	{
-		shared_ptr<AttributeObjectVector> BendingParameters_vec_object( new AttributeObjectVector() );
-		std::copy( m_BendingParameters.begin(), m_BendingParameters.end(), std::back_inserter( BendingParameters_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "BendingParameters", BendingParameters_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> BendingParameters_vec_object( new AttributeObjectVector() );
+	std::copy( m_BendingParameters.begin(), m_BendingParameters.end(), std::back_inserter( BendingParameters_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "BendingParameters", BendingParameters_vec_object ) );
 }
 void IFC4X3::IfcReinforcingBarType::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

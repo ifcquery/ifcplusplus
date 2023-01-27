@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCartesianPoint;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPolyLoop : public IfcLoop
-	{ 
+	{
 	public:
 		IfcPolyLoop() = default;
 		IfcPolyLoop( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcCartesianPoint> >				m_Polygon;
 	};
 }
-

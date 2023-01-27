@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCurve;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPointByDistanceExpression : public IfcPoint
-	{ 
+	{
 	public:
 		IfcPointByDistanceExpression() = default;
 		IfcPointByDistanceExpression( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		shared_ptr<IfcCurve>									m_BasisCurve;
 	};
 }
-

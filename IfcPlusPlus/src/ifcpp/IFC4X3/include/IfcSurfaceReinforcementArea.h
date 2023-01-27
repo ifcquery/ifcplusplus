@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRatioMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSurfaceReinforcementArea : public IfcStructuralLoadOrResult
-	{ 
+	{
 	public:
 		IfcSurfaceReinforcementArea() = default;
 		IfcSurfaceReinforcementArea( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcRatioMeasure>					m_ShearReinforcement;		//optional
 	};
 }
-

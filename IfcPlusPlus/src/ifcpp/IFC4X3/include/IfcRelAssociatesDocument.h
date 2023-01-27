@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDocumentSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelAssociatesDocument : public IfcRelAssociates
-	{ 
+	{
 	public:
 		IfcRelAssociatesDocument() = default;
 		IfcRelAssociatesDocument( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcDocumentSelect>					m_RelatingDocument;
 	};
 }
-

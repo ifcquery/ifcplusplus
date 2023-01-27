@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelDefinesByType;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTypeObject : public IfcObjectDefinition
-	{ 
+	{
 	public:
 		IfcTypeObject() = default;
 		IfcTypeObject( int id );
@@ -54,4 +54,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelDefinesByType> >			m_Types_inverse;
 	};
 }
-

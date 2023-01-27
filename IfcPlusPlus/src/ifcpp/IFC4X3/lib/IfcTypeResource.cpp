@@ -71,18 +71,15 @@ void IFC4X3::IfcTypeResource::getAttributes( std::vector<std::pair<std::string, 
 void IFC4X3::IfcTypeResource::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcTypeObject::getAttributesInverse( vec_attributes_inverse );
-	if( !m_ResourceOf_inverse.empty() )
+	shared_ptr<AttributeObjectVector> ResourceOf_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ResourceOf_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ResourceOf_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ResourceOf_inverse.size(); ++i )
+		if( !m_ResourceOf_inverse[i].expired() )
 		{
-			if( !m_ResourceOf_inverse[i].expired() )
-			{
-				ResourceOf_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssignsToResource>( m_ResourceOf_inverse[i] ) );
-			}
+			ResourceOf_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssignsToResource>( m_ResourceOf_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ResourceOf_inverse", ResourceOf_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "ResourceOf_inverse", ResourceOf_inverse_vec_obj ) );
 }
 void IFC4X3::IfcTypeResource::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

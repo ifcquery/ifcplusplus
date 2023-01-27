@@ -13,7 +13,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPreDefinedColour : virtual public IfcColour, public IfcPreDefinedItem
-	{ 
+	{
 	public:
 		IfcPreDefinedColour() = default;
 		IfcPreDefinedColour( int id );
@@ -36,4 +36,3 @@ namespace IFC4X3
 		// IfcPreDefinedColour -----------------------------------------------------------
 	};
 }
-

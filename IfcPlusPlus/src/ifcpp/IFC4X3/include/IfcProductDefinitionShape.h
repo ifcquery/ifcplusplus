@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcShapeAspect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcProductDefinitionShape : virtual public IfcProductRepresentationSelect, public IfcProductRepresentation
-	{ 
+	{
 	public:
 		IfcProductDefinitionShape() = default;
 		IfcProductDefinitionShape( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcShapeAspect> >		m_HasShapeAspects_inverse;
 	};
 }
-

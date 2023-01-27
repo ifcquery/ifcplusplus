@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCurve;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcArbitraryClosedProfileDef : public IfcProfileDef
-	{ 
+	{
 	public:
 		IfcArbitraryClosedProfileDef() = default;
 		IfcArbitraryClosedProfileDef( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		shared_ptr<IfcCurve>										m_OuterCurve;
 	};
 }
-

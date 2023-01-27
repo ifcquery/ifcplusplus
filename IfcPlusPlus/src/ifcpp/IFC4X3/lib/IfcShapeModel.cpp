@@ -47,18 +47,15 @@ void IFC4X3::IfcShapeModel::getAttributes( std::vector<std::pair<std::string, sh
 void IFC4X3::IfcShapeModel::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcRepresentation::getAttributesInverse( vec_attributes_inverse );
-	if( !m_OfShapeAspect_inverse.empty() )
+	shared_ptr<AttributeObjectVector> OfShapeAspect_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_OfShapeAspect_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> OfShapeAspect_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_OfShapeAspect_inverse.size(); ++i )
+		if( !m_OfShapeAspect_inverse[i].expired() )
 		{
-			if( !m_OfShapeAspect_inverse[i].expired() )
-			{
-				OfShapeAspect_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcShapeAspect>( m_OfShapeAspect_inverse[i] ) );
-			}
+			OfShapeAspect_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcShapeAspect>( m_OfShapeAspect_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "OfShapeAspect_inverse", OfShapeAspect_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "OfShapeAspect_inverse", OfShapeAspect_inverse_vec_obj ) );
 }
 void IFC4X3::IfcShapeModel::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

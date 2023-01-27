@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcProduct;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelPositions : public IfcRelConnects
-	{ 
+	{
 	public:
 		IfcRelPositions() = default;
 		IfcRelPositions( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcProduct> >	m_RelatedProducts;
 	};
 }
-

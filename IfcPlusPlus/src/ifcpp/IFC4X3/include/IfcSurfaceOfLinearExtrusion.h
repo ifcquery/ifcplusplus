@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSurfaceOfLinearExtrusion : public IfcSweptSurface
-	{ 
+	{
 	public:
 		IfcSurfaceOfLinearExtrusion() = default;
 		IfcSurfaceOfLinearExtrusion( int id );
@@ -48,4 +48,3 @@ namespace IFC4X3
 		shared_ptr<IfcLengthMeasure>							m_Depth;
 	};
 }
-

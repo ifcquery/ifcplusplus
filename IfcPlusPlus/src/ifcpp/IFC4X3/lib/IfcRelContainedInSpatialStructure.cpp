@@ -51,12 +51,9 @@ void IFC4X3::IfcRelContainedInSpatialStructure::readStepArguments( const std::ve
 void IFC4X3::IfcRelContainedInSpatialStructure::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcRelConnects::getAttributes( vec_attributes );
-	if( !m_RelatedElements.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RelatedElements_vec_object( new AttributeObjectVector() );
-		std::copy( m_RelatedElements.begin(), m_RelatedElements.end(), std::back_inserter( RelatedElements_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RelatedElements", RelatedElements_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RelatedElements_vec_object( new AttributeObjectVector() );
+	std::copy( m_RelatedElements.begin(), m_RelatedElements.end(), std::back_inserter( RelatedElements_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedElements", RelatedElements_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "RelatingStructure", m_RelatingStructure ) );
 }
 void IFC4X3::IfcRelContainedInSpatialStructure::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

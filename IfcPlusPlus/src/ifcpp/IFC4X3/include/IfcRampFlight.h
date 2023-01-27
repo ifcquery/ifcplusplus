@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRampFlightTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRampFlight : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcRampFlight() = default;
 		IfcRampFlight( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcRampFlightTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

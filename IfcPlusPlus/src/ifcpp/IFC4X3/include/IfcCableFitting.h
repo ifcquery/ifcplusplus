@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCableFittingTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCableFitting : public IfcFlowFitting
-	{ 
+	{
 	public:
 		IfcCableFitting() = default;
 		IfcCableFitting( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcCableFittingTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

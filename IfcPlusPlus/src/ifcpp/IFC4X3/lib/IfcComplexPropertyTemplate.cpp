@@ -56,12 +56,9 @@ void IFC4X3::IfcComplexPropertyTemplate::getAttributes( std::vector<std::pair<st
 	IFC4X3::IfcPropertyTemplate::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "UsageName", m_UsageName ) );
 	vec_attributes.emplace_back( std::make_pair( "TemplateType", m_TemplateType ) );
-	if( !m_HasPropertyTemplates.empty() )
-	{
-		shared_ptr<AttributeObjectVector> HasPropertyTemplates_vec_object( new AttributeObjectVector() );
-		std::copy( m_HasPropertyTemplates.begin(), m_HasPropertyTemplates.end(), std::back_inserter( HasPropertyTemplates_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "HasPropertyTemplates", HasPropertyTemplates_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> HasPropertyTemplates_vec_object( new AttributeObjectVector() );
+	std::copy( m_HasPropertyTemplates.begin(), m_HasPropertyTemplates.end(), std::back_inserter( HasPropertyTemplates_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "HasPropertyTemplates", HasPropertyTemplates_vec_object ) );
 }
 void IFC4X3::IfcComplexPropertyTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

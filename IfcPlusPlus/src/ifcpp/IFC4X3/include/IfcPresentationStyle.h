@@ -12,7 +12,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPresentationStyle : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcPresentationStyle() = default;
 		IfcPresentationStyle( int id );
@@ -31,4 +31,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>	m_Name;						//optional
 	};
 }
-

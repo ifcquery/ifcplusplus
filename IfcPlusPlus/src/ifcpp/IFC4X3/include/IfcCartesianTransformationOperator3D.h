@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDirection;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCartesianTransformationOperator3D : public IfcCartesianTransformationOperator
-	{ 
+	{
 	public:
 		IfcCartesianTransformationOperator3D() = default;
 		IfcCartesianTransformationOperator3D( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcDirection>								m_Axis3;					//optional
 	};
 }
-

@@ -34,12 +34,9 @@ void IFC4X3::IfcAnnotationFillArea::getAttributes( std::vector<std::pair<std::st
 {
 	IFC4X3::IfcGeometricRepresentationItem::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "OuterBoundary", m_OuterBoundary ) );
-	if( !m_InnerBoundaries.empty() )
-	{
-		shared_ptr<AttributeObjectVector> InnerBoundaries_vec_object( new AttributeObjectVector() );
-		std::copy( m_InnerBoundaries.begin(), m_InnerBoundaries.end(), std::back_inserter( InnerBoundaries_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "InnerBoundaries", InnerBoundaries_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> InnerBoundaries_vec_object( new AttributeObjectVector() );
+	std::copy( m_InnerBoundaries.begin(), m_InnerBoundaries.end(), std::back_inserter( InnerBoundaries_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "InnerBoundaries", InnerBoundaries_vec_object ) );
 }
 void IFC4X3::IfcAnnotationFillArea::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

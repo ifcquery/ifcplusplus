@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPoint;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcVertexPoint : virtual public IfcPointOrVertexPoint, public IfcVertex
-	{ 
+	{
 	public:
 		IfcVertexPoint() = default;
 		IfcVertexPoint( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		shared_ptr<IfcPoint>									m_VertexGeometry;
 	};
 }
-

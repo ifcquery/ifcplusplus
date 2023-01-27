@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPlanarForceMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralLoadPlanarForce : public IfcStructuralLoadStatic
-	{ 
+	{
 	public:
 		IfcStructuralLoadPlanarForce() = default;
 		IfcStructuralLoadPlanarForce( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		shared_ptr<IfcPlanarForceMeasure>	m_PlanarForceZ;				//optional
 	};
 }
-

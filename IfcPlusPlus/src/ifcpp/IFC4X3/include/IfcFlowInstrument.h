@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcFlowInstrumentTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFlowInstrument : public IfcDistributionControlElement
-	{ 
+	{
 	public:
 		IfcFlowInstrument() = default;
 		IfcFlowInstrument( int id );
@@ -92,4 +92,3 @@ namespace IFC4X3
 		shared_ptr<IfcFlowInstrumentTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

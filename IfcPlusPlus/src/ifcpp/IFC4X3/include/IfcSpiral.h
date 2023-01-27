@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAxis2Placement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSpiral : public IfcCurve
-	{ 
+	{
 	public:
 		IfcSpiral() = default;
 		IfcSpiral( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcAxis2Placement>							m_Position;					//optional
 	};
 }
-

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTextureMap;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFace : public IfcTopologicalRepresentationItem
-	{ 
+	{
 	public:
 		IfcFace() = default;
 		IfcFace( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcTextureMap> >					m_HasTextureMaps_inverse;
 	};
 }
-

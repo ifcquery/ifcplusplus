@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRepresentation;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRepresentationContext : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcRepresentationContext() = default;
 		IfcRepresentationContext( int id );
@@ -35,4 +35,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRepresentation> >	m_RepresentationsInContext_inverse;
 	};
 }
-

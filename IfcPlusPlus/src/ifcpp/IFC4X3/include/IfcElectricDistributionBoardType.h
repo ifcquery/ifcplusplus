@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcElectricDistributionBoardTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcElectricDistributionBoardType : public IfcFlowControllerType
-	{ 
+	{
 	public:
 		IfcElectricDistributionBoardType() = default;
 		IfcElectricDistributionBoardType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcElectricDistributionBoardTypeEnum>	m_PredefinedType;
 	};
 }
-

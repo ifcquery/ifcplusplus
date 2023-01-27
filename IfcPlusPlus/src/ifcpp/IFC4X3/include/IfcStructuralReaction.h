@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralReaction : public IfcStructuralActivity
-	{ 
+	{
 	public:
 		IfcStructuralReaction() = default;
 		IfcStructuralReaction( int id );
@@ -71,4 +71,3 @@ namespace IFC4X3
 		// IfcStructuralReaction -----------------------------------------------------------
 	};
 }
-

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPhysicalQuantity;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcConstructionResourceType : public IfcTypeResource
-	{ 
+	{
 	public:
 		IfcConstructionResourceType() = default;
 		IfcConstructionResourceType( int id );
@@ -66,4 +66,3 @@ namespace IFC4X3
 		shared_ptr<IfcPhysicalQuantity>						m_BaseQuantity;				//optional
 	};
 }
-

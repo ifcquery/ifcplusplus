@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSlippageConnectionCondition : public IfcStructuralConnectionCondition
-	{ 
+	{
 	public:
 		IfcSlippageConnectionCondition() = default;
 		IfcSlippageConnectionCondition( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		shared_ptr<IfcLengthMeasure>	m_SlippageZ;				//optional
 	};
 }
-

@@ -73,66 +73,51 @@ void IFC4X3::IfcSpatialElement::getAttributes( std::vector<std::pair<std::string
 void IFC4X3::IfcSpatialElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcProduct::getAttributesInverse( vec_attributes_inverse );
-	if( !m_ContainsElements_inverse.empty() )
+	shared_ptr<AttributeObjectVector> ContainsElements_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ContainsElements_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ContainsElements_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ContainsElements_inverse.size(); ++i )
+		if( !m_ContainsElements_inverse[i].expired() )
 		{
-			if( !m_ContainsElements_inverse[i].expired() )
-			{
-				ContainsElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainsElements_inverse[i] ) );
-			}
+			ContainsElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelContainedInSpatialStructure>( m_ContainsElements_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ContainsElements_inverse", ContainsElements_inverse_vec_obj ) );
 	}
-	if( !m_ServicedBySystems_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "ContainsElements_inverse", ContainsElements_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> ServicedBySystems_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ServicedBySystems_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ServicedBySystems_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ServicedBySystems_inverse.size(); ++i )
+		if( !m_ServicedBySystems_inverse[i].expired() )
 		{
-			if( !m_ServicedBySystems_inverse[i].expired() )
-			{
-				ServicedBySystems_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelServicesBuildings>( m_ServicedBySystems_inverse[i] ) );
-			}
+			ServicedBySystems_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelServicesBuildings>( m_ServicedBySystems_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ServicedBySystems_inverse", ServicedBySystems_inverse_vec_obj ) );
 	}
-	if( !m_ReferencesElements_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "ServicedBySystems_inverse", ServicedBySystems_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> ReferencesElements_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ReferencesElements_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ReferencesElements_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ReferencesElements_inverse.size(); ++i )
+		if( !m_ReferencesElements_inverse[i].expired() )
 		{
-			if( !m_ReferencesElements_inverse[i].expired() )
-			{
-				ReferencesElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelReferencedInSpatialStructure>( m_ReferencesElements_inverse[i] ) );
-			}
+			ReferencesElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelReferencedInSpatialStructure>( m_ReferencesElements_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ReferencesElements_inverse", ReferencesElements_inverse_vec_obj ) );
 	}
-	if( !m_IsInterferedByElements_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "ReferencesElements_inverse", ReferencesElements_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> IsInterferedByElements_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_IsInterferedByElements_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> IsInterferedByElements_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_IsInterferedByElements_inverse.size(); ++i )
+		if( !m_IsInterferedByElements_inverse[i].expired() )
 		{
-			if( !m_IsInterferedByElements_inverse[i].expired() )
-			{
-				IsInterferedByElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelInterferesElements>( m_IsInterferedByElements_inverse[i] ) );
-			}
+			IsInterferedByElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelInterferesElements>( m_IsInterferedByElements_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "IsInterferedByElements_inverse", IsInterferedByElements_inverse_vec_obj ) );
 	}
-	if( !m_InterferesElements_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "IsInterferedByElements_inverse", IsInterferedByElements_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> InterferesElements_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_InterferesElements_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> InterferesElements_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_InterferesElements_inverse.size(); ++i )
+		if( !m_InterferesElements_inverse[i].expired() )
 		{
-			if( !m_InterferesElements_inverse[i].expired() )
-			{
-				InterferesElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelInterferesElements>( m_InterferesElements_inverse[i] ) );
-			}
+			InterferesElements_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelInterferesElements>( m_InterferesElements_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "InterferesElements_inverse", InterferesElements_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "InterferesElements_inverse", InterferesElements_inverse_vec_obj ) );
 }
 void IFC4X3::IfcSpatialElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

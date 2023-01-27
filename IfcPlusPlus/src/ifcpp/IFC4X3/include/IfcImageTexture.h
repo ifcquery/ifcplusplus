@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcURIReference;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcImageTexture : public IfcSurfaceTexture
-	{ 
+	{
 	public:
 		IfcImageTexture() = default;
 		IfcImageTexture( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcURIReference>							m_URLReference;
 	};
 }
-

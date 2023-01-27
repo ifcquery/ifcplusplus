@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAlignmentVerticalSegmentTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAlignmentVerticalSegment : public IfcAlignmentParameterSegment
-	{ 
+	{
 	public:
 		IfcAlignmentVerticalSegment() = default;
 		IfcAlignmentVerticalSegment( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcAlignmentVerticalSegmentTypeEnum>	m_PredefinedType;
 	};
 }
-

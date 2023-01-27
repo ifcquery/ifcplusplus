@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcGeotechnicalElement : public IfcElement
-	{ 
+	{
 	public:
 		IfcGeotechnicalElement() = default;
 		IfcGeotechnicalElement( int id );
@@ -81,4 +81,3 @@ namespace IFC4X3
 		// IfcGeotechnicalElement -----------------------------------------------------------
 	};
 }
-

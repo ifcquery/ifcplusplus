@@ -57,4 +57,3 @@ namespace IFC4X3
 		IfcSIUnitNameEnum m_enum;
 	};
 }
-

@@ -12,7 +12,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAlignmentParameterSegment : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcAlignmentParameterSegment() = default;
 		IfcAlignmentParameterSegment( int id );
@@ -32,4 +32,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>	m_EndTag;					//optional
 	};
 }
-

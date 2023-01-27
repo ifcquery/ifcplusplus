@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcStairFlightTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStairFlightType : public IfcBuiltElementType
-	{ 
+	{
 	public:
 		IfcStairFlightType() = default;
 		IfcStairFlightType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcStairFlightTypeEnum>					m_PredefinedType;
 	};
 }
-

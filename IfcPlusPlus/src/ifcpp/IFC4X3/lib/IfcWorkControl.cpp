@@ -81,12 +81,9 @@ void IFC4X3::IfcWorkControl::getAttributes( std::vector<std::pair<std::string, s
 {
 	IFC4X3::IfcControl::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "CreationDate", m_CreationDate ) );
-	if( !m_Creators.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Creators_vec_object( new AttributeObjectVector() );
-		std::copy( m_Creators.begin(), m_Creators.end(), std::back_inserter( Creators_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Creators", Creators_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Creators_vec_object( new AttributeObjectVector() );
+	std::copy( m_Creators.begin(), m_Creators.end(), std::back_inserter( Creators_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Creators", Creators_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "Purpose", m_Purpose ) );
 	vec_attributes.emplace_back( std::make_pair( "Duration", m_Duration ) );
 	vec_attributes.emplace_back( std::make_pair( "TotalFloat", m_TotalFloat ) );

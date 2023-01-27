@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSpaceHeaterTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSpaceHeaterType : public IfcFlowTerminalType
-	{ 
+	{
 	public:
 		IfcSpaceHeaterType() = default;
 		IfcSpaceHeaterType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcSpaceHeaterTypeEnum>					m_PredefinedType;
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcClosedShell;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFacetedBrepWithVoids : public IfcFacetedBrep
-	{ 
+	{
 	public:
 		IfcFacetedBrepWithVoids() = default;
 		IfcFacetedBrepWithVoids( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcClosedShell> >				m_Voids;
 	};
 }
-

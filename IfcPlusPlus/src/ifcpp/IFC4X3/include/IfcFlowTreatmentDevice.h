@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFlowTreatmentDevice : public IfcDistributionFlowElement
-	{ 
+	{
 	public:
 		IfcFlowTreatmentDevice() = default;
 		IfcFlowTreatmentDevice( int id );
@@ -89,4 +89,3 @@ namespace IFC4X3
 		// IfcFlowTreatmentDevice -----------------------------------------------------------
 	};
 }
-

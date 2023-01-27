@@ -58,12 +58,9 @@ void IFC4X3::IfcResourceApprovalRelationship::readStepArguments( const std::vect
 void IFC4X3::IfcResourceApprovalRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcResourceLevelRelationship::getAttributes( vec_attributes );
-	if( !m_RelatedResourceObjects.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RelatedResourceObjects_vec_object( new AttributeObjectVector() );
-		std::copy( m_RelatedResourceObjects.begin(), m_RelatedResourceObjects.end(), std::back_inserter( RelatedResourceObjects_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RelatedResourceObjects", RelatedResourceObjects_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RelatedResourceObjects_vec_object( new AttributeObjectVector() );
+	std::copy( m_RelatedResourceObjects.begin(), m_RelatedResourceObjects.end(), std::back_inserter( RelatedResourceObjects_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedResourceObjects", RelatedResourceObjects_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "RelatingApproval", m_RelatingApproval ) );
 }
 void IFC4X3::IfcResourceApprovalRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

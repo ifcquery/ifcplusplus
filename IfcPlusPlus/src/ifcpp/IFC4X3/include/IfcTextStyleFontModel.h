@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSizeSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTextStyleFontModel : public IfcPreDefinedTextFont
-	{ 
+	{
 	public:
 		IfcTextStyleFontModel() = default;
 		IfcTextStyleFontModel( int id );
@@ -48,4 +48,3 @@ namespace IFC4X3
 		shared_ptr<IfcSizeSelect>					m_FontSize;
 	};
 }
-

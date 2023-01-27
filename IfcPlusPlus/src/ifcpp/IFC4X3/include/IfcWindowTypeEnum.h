@@ -32,4 +32,3 @@ namespace IFC4X3
 		IfcWindowTypeEnumEnum m_enum;
 	};
 }
-

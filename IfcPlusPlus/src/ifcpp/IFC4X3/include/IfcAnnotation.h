@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelContainedInSpatialStructure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAnnotation : public IfcProduct
-	{ 
+	{
 	public:
 		IfcAnnotation() = default;
 		IfcAnnotation( int id );
@@ -70,4 +70,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelContainedInSpatialStructure> >	m_ContainedInStructure_inverse;
 	};
 }
-

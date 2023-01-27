@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcNamedUnit;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPhysicalSimpleQuantity : public IfcPhysicalQuantity
-	{ 
+	{
 	public:
 		IfcPhysicalSimpleQuantity() = default;
 		IfcPhysicalSimpleQuantity( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		shared_ptr<IfcNamedUnit>									m_Unit;						//optional
 	};
 }
-

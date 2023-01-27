@@ -25,7 +25,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelAdheresToElement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcElement : virtual public IfcInterferenceSelect, virtual public IfcStructuralActivityAssignmentSelect, public IfcProduct
-	{ 
+	{
 	public:
 		IfcElement() = default;
 		IfcElement( int id );
@@ -92,4 +92,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelAdheresToElement> >				m_HasSurfaceFeatures_inverse;
 	};
 }
-

@@ -30,4 +30,3 @@ namespace IFC4X3
 		IfcTrimmingPreferenceEnum m_enum;
 	};
 }
-

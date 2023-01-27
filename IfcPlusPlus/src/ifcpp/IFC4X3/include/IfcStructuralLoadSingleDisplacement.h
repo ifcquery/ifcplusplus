@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPlaneAngleMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralLoadSingleDisplacement : public IfcStructuralLoadStatic
-	{ 
+	{
 	public:
 		IfcStructuralLoadSingleDisplacement() = default;
 		IfcStructuralLoadSingleDisplacement( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcPlaneAngleMeasure>	m_RotationalDisplacementRZ;	//optional
 	};
 }
-

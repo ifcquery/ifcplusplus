@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDate;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAsset : public IfcGroup
-	{ 
+	{
 	public:
 		IfcAsset() = default;
 		IfcAsset( int id );
@@ -75,4 +75,3 @@ namespace IFC4X3
 		shared_ptr<IfcCostValue>									m_DepreciatedValue;			//optional
 	};
 }
-

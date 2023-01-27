@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcStyledItem;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRepresentationItem : virtual public IfcLayeredItem, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcRepresentationItem() = default;
 		IfcRepresentationItem( int id );
@@ -34,4 +34,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcStyledItem> >					m_StyledByItem_inverse;
 	};
 }
-

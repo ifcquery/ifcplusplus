@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcIdentifier;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcApplication : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcApplication() = default;
 		IfcApplication( int id );
@@ -36,4 +36,3 @@ namespace IFC4X3
 		shared_ptr<IfcIdentifier>	m_ApplicationIdentifier;
 	};
 }
-

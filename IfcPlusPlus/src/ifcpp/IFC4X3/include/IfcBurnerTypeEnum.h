@@ -29,4 +29,3 @@ namespace IFC4X3
 		IfcBurnerTypeEnumEnum m_enum;
 	};
 }
-

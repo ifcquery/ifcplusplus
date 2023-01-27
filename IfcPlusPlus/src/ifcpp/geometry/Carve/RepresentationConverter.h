@@ -392,7 +392,8 @@ public:
 		}
 
 		bool mergeAlignedEdges = true;
-		MeshUtils::createTriangulated3DFace(face_loops, polygonalFace.get(), poly_cache, mergeAlignedEdges, false, this);
+		GeomProcessingParams params( m_geom_settings, polygonalFace.get(),  this );
+		MeshUtils::createTriangulated3DFace(face_loops, poly_cache, params);
 
 #ifdef _DEBUG
 		//glm::dvec4 color(0.3, 0.4, 0.5, 1.0);
@@ -562,7 +563,6 @@ public:
 				shared_ptr<IfcPolygonalFaceSet> polygonalFaceSet = dynamic_pointer_cast<IfcPolygonalFaceSet>(abstractFaceSet);
 				if( polygonalFaceSet )
 				{
-					
 					std::vector<shared_ptr<IfcIndexedPolygonalFace> >& vecFaces = polygonalFaceSet->m_Faces;
 					for( auto face : vecFaces )
 					{
@@ -574,7 +574,8 @@ public:
 					{
 						if( polygonalFaceSet->m_Closed->m_value == true )
 						{
-							item_data->addClosedPolyhedron(polyCache.m_poly_data);
+							GeomProcessingParams params( m_geom_settings, polygonalFaceSet.get(),  this );
+							item_data->addClosedPolyhedron(polyCache.m_poly_data, params);
 						}
 						else
 						{
@@ -650,15 +651,16 @@ public:
 							}
 						}
 
-						bool mergeAlignedEdges = true;
-						MeshUtils::createTriangulated3DFace(face_loops, polygonalFace.get(), polyCache, mergeAlignedEdges, false, this);
+						GeomProcessingParams params( m_geom_settings, polygonalFace.get(),  this );
+						MeshUtils::createTriangulated3DFace(face_loops, polyCache, params );
 					}
 				
 					if( triangulatedFaceSet->m_Closed )
 					{
 						if( triangulatedFaceSet->m_Closed->m_value == true )
 						{
-							item_data->addClosedPolyhedron(polyCache.m_poly_data);
+							GeomProcessingParams params( m_geom_settings, triangulatedFaceSet.get(),  this );
+							item_data->addClosedPolyhedron(polyCache.m_poly_data, params);
 						}
 						else
 						{
@@ -838,9 +840,9 @@ public:
 				m_curve_converter->convertIfcCurve( inner_boundary, inner_boundary_loop, segment_start_points_inner_curve, true );
 			}
 
-			PolyInputCache3D poly_cache(carve::CARVE_EPSILON);
-			bool mergeAlignedEdges = true;
-			MeshUtils::createTriangulated3DFace( face_loops, outer_boundary.get(), poly_cache, true, false, this );
+			GeomProcessingParams params( m_geom_settings, outer_boundary.get(),  this );
+			PolyInputCache3D poly_cache(params.epsMergePoints);
+			MeshUtils::createTriangulated3DFace( face_loops, poly_cache, params);
 			item_data->addOpenPolyhedron( poly_cache.m_poly_data );
 			return;
 		}
@@ -971,8 +973,8 @@ public:
 						std::reverse( loop_points.begin(), loop_points.end() );
 					}
 
-					bool mergeAlignedEdges = true;
-					MeshUtils::createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face, true, false, this );
+					GeomProcessingParams params( m_geom_settings, topo_face.get(),  this );
+					MeshUtils::createTriangulated3DFace( face_loops, poly_cache_top_face, params );
 				}
 			}
 			if( poly_cache_top_face.m_poly_data )
@@ -1005,9 +1007,9 @@ public:
 					std::reverse( loop_points.begin(), loop_points.end() );
 				}
 
-				PolyInputCache3D poly_cache_top_face( carve::CARVE_EPSILON);
-				bool mergeAlignedEdges = true;
-				MeshUtils::createTriangulated3DFace( face_loops, topo_face.get(), poly_cache_top_face, mergeAlignedEdges, false, this );
+				GeomProcessingParams params( m_geom_settings, topo_face.get(),  this );
+				PolyInputCache3D poly_cache_top_face( params.epsMergePoints);
+				MeshUtils::createTriangulated3DFace( face_loops, poly_cache_top_face, params );
 
 				if( poly_cache_top_face.m_poly_data )
 				{

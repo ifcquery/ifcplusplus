@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTextureVertexList;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcIndexedTextureMap : public IfcTextureCoordinate
-	{ 
+	{
 	public:
 		IfcIndexedTextureMap() = default;
 		IfcIndexedTextureMap( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		shared_ptr<IfcTextureVertexList>			m_TexCoords;
 	};
 }
-

@@ -568,6 +568,8 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, std::vecto
 			decodeArgumentStrings( arguments_raw, arguments_decoded );
 			arguments_raw.clear();
 
+			//std::vector<std::pair<std::string, shared_ptr<BuildingObject> > > vecEmptyAttributes;
+			//entity->getAttributes(vecEmptyAttributes);
 			const size_t num_expected_arguments = entity->getNumAttributes();
 			if( entity->classID() == IFCCOLOURRGB )
 			{

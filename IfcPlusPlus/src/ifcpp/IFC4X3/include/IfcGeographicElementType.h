@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcGeographicElementTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcGeographicElementType : public IfcElementType
-	{ 
+	{
 	public:
 		IfcGeographicElementType() = default;
 		IfcGeographicElementType( int id );
@@ -67,4 +67,3 @@ namespace IFC4X3
 		shared_ptr<IfcGeographicElementTypeEnum>			m_PredefinedType;
 	};
 }
-

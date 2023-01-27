@@ -49,12 +49,9 @@ void IFC4X3::IfcRelServicesBuildings::getAttributes( std::vector<std::pair<std::
 {
 	IFC4X3::IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "RelatingSystem", m_RelatingSystem ) );
-	if( !m_RelatedBuildings.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RelatedBuildings_vec_object( new AttributeObjectVector() );
-		std::copy( m_RelatedBuildings.begin(), m_RelatedBuildings.end(), std::back_inserter( RelatedBuildings_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RelatedBuildings", RelatedBuildings_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RelatedBuildings_vec_object( new AttributeObjectVector() );
+	std::copy( m_RelatedBuildings.begin(), m_RelatedBuildings.end(), std::back_inserter( RelatedBuildings_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedBuildings", RelatedBuildings_vec_object ) );
 }
 void IFC4X3::IfcRelServicesBuildings::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

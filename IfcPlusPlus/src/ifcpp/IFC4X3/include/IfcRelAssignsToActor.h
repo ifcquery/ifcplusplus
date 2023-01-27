@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcActorRole;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelAssignsToActor : public IfcRelAssigns
-	{ 
+	{
 	public:
 		IfcRelAssignsToActor() = default;
 		IfcRelAssignsToActor( int id );
@@ -48,4 +48,3 @@ namespace IFC4X3
 		shared_ptr<IfcActorRole>						m_ActingRole;				//optional
 	};
 }
-

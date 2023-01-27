@@ -37,12 +37,9 @@ void IFC4X3::IfcTextureCoordinateGenerator::getAttributes( std::vector<std::pair
 {
 	IFC4X3::IfcTextureCoordinate::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "Mode", m_Mode ) );
-	if( !m_Parameter.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Parameter_vec_object( new AttributeObjectVector() );
-		std::copy( m_Parameter.begin(), m_Parameter.end(), std::back_inserter( Parameter_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Parameter", Parameter_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Parameter_vec_object( new AttributeObjectVector() );
+	std::copy( m_Parameter.begin(), m_Parameter.end(), std::back_inserter( Parameter_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Parameter", Parameter_vec_object ) );
 }
 void IFC4X3::IfcTextureCoordinateGenerator::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -77,18 +77,15 @@ void IFC4X3::IfcStructuralActivity::getAttributes( std::vector<std::pair<std::st
 void IFC4X3::IfcStructuralActivity::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcProduct::getAttributesInverse( vec_attributes_inverse );
-	if( !m_AssignedToStructuralItem_inverse.empty() )
+	shared_ptr<AttributeObjectVector> AssignedToStructuralItem_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_AssignedToStructuralItem_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> AssignedToStructuralItem_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_AssignedToStructuralItem_inverse.size(); ++i )
+		if( !m_AssignedToStructuralItem_inverse[i].expired() )
 		{
-			if( !m_AssignedToStructuralItem_inverse[i].expired() )
-			{
-				AssignedToStructuralItem_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelConnectsStructuralActivity>( m_AssignedToStructuralItem_inverse[i] ) );
-			}
+			AssignedToStructuralItem_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelConnectsStructuralActivity>( m_AssignedToStructuralItem_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "AssignedToStructuralItem_inverse", AssignedToStructuralItem_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "AssignedToStructuralItem_inverse", AssignedToStructuralItem_inverse_vec_obj ) );
 }
 void IFC4X3::IfcStructuralActivity::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

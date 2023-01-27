@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelProjectsElement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFeatureElementAddition : public IfcFeatureElement
-	{ 
+	{
 	public:
 		IfcFeatureElementAddition() = default;
 		IfcFeatureElementAddition( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		weak_ptr<IfcRelProjectsElement>								m_ProjectsElements_inverse;
 	};
 }
-

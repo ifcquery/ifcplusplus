@@ -12,7 +12,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBoundaryCondition : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcBoundaryCondition() = default;
 		IfcBoundaryCondition( int id );
@@ -31,4 +31,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>	m_Name;						//optional
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSpatialZoneTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSpatialZone : public IfcSpatialElement
-	{ 
+	{
 	public:
 		IfcSpatialZone() = default;
 		IfcSpatialZone( int id );
@@ -77,4 +77,3 @@ namespace IFC4X3
 		shared_ptr<IfcSpatialZoneTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

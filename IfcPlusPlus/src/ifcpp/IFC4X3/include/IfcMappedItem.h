@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCartesianTransformationOperator;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMappedItem : public IfcRepresentationItem
-	{ 
+	{
 	public:
 		IfcMappedItem() = default;
 		IfcMappedItem( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		shared_ptr<IfcCartesianTransformationOperator>			m_MappingTarget;
 	};
 }
-

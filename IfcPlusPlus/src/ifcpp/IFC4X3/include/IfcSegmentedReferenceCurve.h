@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPlacement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSegmentedReferenceCurve : public IfcCompositeCurve
-	{ 
+	{
 	public:
 		IfcSegmentedReferenceCurve() = default;
 		IfcSegmentedReferenceCurve( int id );
@@ -50,4 +50,3 @@ namespace IFC4X3
 		shared_ptr<IfcPlacement>								m_EndPoint;					//optional
 	};
 }
-

@@ -29,4 +29,3 @@ namespace IFC4X3
 		IfcChimneyTypeEnumEnum m_enum;
 	};
 }
-

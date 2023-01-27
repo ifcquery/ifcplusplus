@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTaskDurationEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLagTime : public IfcSchedulingTime
-	{ 
+	{
 	public:
 		IfcLagTime() = default;
 		IfcLagTime( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		shared_ptr<IfcTaskDurationEnum>		m_DurationType;
 	};
 }
-

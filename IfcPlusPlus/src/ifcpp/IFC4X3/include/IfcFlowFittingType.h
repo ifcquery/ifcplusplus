@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFlowFittingType : public IfcDistributionFlowElementType
-	{ 
+	{
 	public:
 		IfcFlowFittingType() = default;
 		IfcFlowFittingType( int id );
@@ -68,4 +68,3 @@ namespace IFC4X3
 		// IfcFlowFittingType -----------------------------------------------------------
 	};
 }
-

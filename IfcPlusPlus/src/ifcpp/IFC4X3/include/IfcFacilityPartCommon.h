@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcFacilityPartCommonTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFacilityPartCommon : public IfcFacilityPart
-	{ 
+	{
 	public:
 		IfcFacilityPartCommon() = default;
 		IfcFacilityPartCommon( int id );
@@ -85,4 +85,3 @@ namespace IFC4X3
 		shared_ptr<IfcFacilityPartCommonTypeEnum>					m_PredefinedType;			//optional
 	};
 }
-

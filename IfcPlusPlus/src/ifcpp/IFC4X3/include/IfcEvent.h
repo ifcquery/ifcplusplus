@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcEventTime;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcEvent : public IfcProcess
-	{ 
+	{
 	public:
 		IfcEvent() = default;
 		IfcEvent( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcEventTime>							m_EventOccurenceTime;		//optional
 	};
 }
-

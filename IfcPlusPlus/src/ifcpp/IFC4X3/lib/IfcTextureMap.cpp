@@ -36,12 +36,9 @@ void IFC4X3::IfcTextureMap::readStepArguments( const std::vector<std::string>& a
 void IFC4X3::IfcTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcTextureCoordinate::getAttributes( vec_attributes );
-	if( !m_Vertices.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Vertices_vec_object( new AttributeObjectVector() );
-		std::copy( m_Vertices.begin(), m_Vertices.end(), std::back_inserter( Vertices_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Vertices", Vertices_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Vertices_vec_object( new AttributeObjectVector() );
+	std::copy( m_Vertices.begin(), m_Vertices.end(), std::back_inserter( Vertices_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Vertices", Vertices_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "MappedTo", m_MappedTo ) );
 }
 void IFC4X3::IfcTextureMap::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

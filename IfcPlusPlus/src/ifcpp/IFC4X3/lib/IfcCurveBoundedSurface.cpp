@@ -39,12 +39,9 @@ void IFC4X3::IfcCurveBoundedSurface::getAttributes( std::vector<std::pair<std::s
 {
 	IFC4X3::IfcBoundedSurface::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "BasisSurface", m_BasisSurface ) );
-	if( !m_Boundaries.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Boundaries_vec_object( new AttributeObjectVector() );
-		std::copy( m_Boundaries.begin(), m_Boundaries.end(), std::back_inserter( Boundaries_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Boundaries", Boundaries_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Boundaries_vec_object( new AttributeObjectVector() );
+	std::copy( m_Boundaries.begin(), m_Boundaries.end(), std::back_inserter( Boundaries_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Boundaries", Boundaries_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "ImplicitOuter", m_ImplicitOuter ) );
 }
 void IFC4X3::IfcCurveBoundedSurface::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

@@ -48,57 +48,42 @@ void IFC4X3::IfcOrganization::getAttributes( std::vector<std::pair<std::string, 
 	vec_attributes.emplace_back( std::make_pair( "Identification", m_Identification ) );
 	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
-	if( !m_Roles.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Roles_vec_object( new AttributeObjectVector() );
-		std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Roles", Roles_vec_object ) );
-	}
-	if( !m_Addresses.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Addresses_vec_object( new AttributeObjectVector() );
-		std::copy( m_Addresses.begin(), m_Addresses.end(), std::back_inserter( Addresses_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Addresses", Addresses_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Roles_vec_object( new AttributeObjectVector() );
+	std::copy( m_Roles.begin(), m_Roles.end(), std::back_inserter( Roles_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Roles", Roles_vec_object ) );
+	shared_ptr<AttributeObjectVector> Addresses_vec_object( new AttributeObjectVector() );
+	std::copy( m_Addresses.begin(), m_Addresses.end(), std::back_inserter( Addresses_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Addresses", Addresses_vec_object ) );
 }
 void IFC4X3::IfcOrganization::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( !m_IsRelatedBy_inverse.empty() )
+	shared_ptr<AttributeObjectVector> IsRelatedBy_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_IsRelatedBy_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> IsRelatedBy_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_IsRelatedBy_inverse.size(); ++i )
+		if( !m_IsRelatedBy_inverse[i].expired() )
 		{
-			if( !m_IsRelatedBy_inverse[i].expired() )
-			{
-				IsRelatedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcOrganizationRelationship>( m_IsRelatedBy_inverse[i] ) );
-			}
+			IsRelatedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcOrganizationRelationship>( m_IsRelatedBy_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "IsRelatedBy_inverse", IsRelatedBy_inverse_vec_obj ) );
 	}
-	if( !m_Relates_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "IsRelatedBy_inverse", IsRelatedBy_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> Relates_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_Relates_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> Relates_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_Relates_inverse.size(); ++i )
+		if( !m_Relates_inverse[i].expired() )
 		{
-			if( !m_Relates_inverse[i].expired() )
-			{
-				Relates_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcOrganizationRelationship>( m_Relates_inverse[i] ) );
-			}
+			Relates_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcOrganizationRelationship>( m_Relates_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "Relates_inverse", Relates_inverse_vec_obj ) );
 	}
-	if( !m_Engages_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "Relates_inverse", Relates_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> Engages_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_Engages_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> Engages_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_Engages_inverse.size(); ++i )
+		if( !m_Engages_inverse[i].expired() )
 		{
-			if( !m_Engages_inverse[i].expired() )
-			{
-				Engages_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPersonAndOrganization>( m_Engages_inverse[i] ) );
-			}
+			Engages_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPersonAndOrganization>( m_Engages_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "Engages_inverse", Engages_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "Engages_inverse", Engages_inverse_vec_obj ) );
 }
 void IFC4X3::IfcOrganization::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAxis2Placement2D;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcParameterizedProfileDef : public IfcProfileDef
-	{ 
+	{
 	public:
 		IfcParameterizedProfileDef() = default;
 		IfcParameterizedProfileDef( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		shared_ptr<IfcAxis2Placement2D>								m_Position;					//optional
 	};
 }
-

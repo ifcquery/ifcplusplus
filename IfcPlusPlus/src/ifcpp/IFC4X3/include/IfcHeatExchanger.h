@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcHeatExchangerTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcHeatExchanger : public IfcEnergyConversionDevice
-	{ 
+	{
 	public:
 		IfcHeatExchanger() = default;
 		IfcHeatExchanger( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcHeatExchangerTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

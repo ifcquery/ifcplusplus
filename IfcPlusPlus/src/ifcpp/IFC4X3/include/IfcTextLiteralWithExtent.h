@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoxAlignment;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTextLiteralWithExtent : public IfcTextLiteral
-	{ 
+	{
 	public:
 		IfcTextLiteralWithExtent() = default;
 		IfcTextLiteralWithExtent( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		shared_ptr<IfcBoxAlignment>								m_BoxAlignment;
 	};
 }
-

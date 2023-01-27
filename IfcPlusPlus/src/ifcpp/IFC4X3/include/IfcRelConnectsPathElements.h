@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcConnectionTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelConnectsPathElements : public IfcRelConnectsElements
-	{ 
+	{
 	public:
 		IfcRelConnectsPathElements() = default;
 		IfcRelConnectsPathElements( int id );
@@ -53,4 +53,3 @@ namespace IFC4X3
 		shared_ptr<IfcConnectionTypeEnum>		m_RelatingConnectionType;
 	};
 }
-

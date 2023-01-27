@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralSurfaceMember : public IfcStructuralMember
-	{ 
+	{
 	public:
 		IfcStructuralSurfaceMember() = default;
 		IfcStructuralSurfaceMember( int id );
@@ -77,4 +77,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveLengthMeasure>						m_Thickness;				//optional
 	};
 }
-

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReal;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSurfaceStyleRefraction : virtual public IfcSurfaceStyleElementSelect, public IfcPresentationItem
-	{ 
+	{
 	public:
 		IfcSurfaceStyleRefraction() = default;
 		IfcSurfaceStyleRefraction( int id );
@@ -36,4 +36,3 @@ namespace IFC4X3
 		shared_ptr<IfcReal>	m_DispersionFactor;			//optional
 	};
 }
-

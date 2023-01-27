@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcEvaporatorTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcEvaporatorType : public IfcEnergyConversionDeviceType
-	{ 
+	{
 	public:
 		IfcEvaporatorType() = default;
 		IfcEvaporatorType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcEvaporatorTypeEnum>					m_PredefinedType;
 	};
 }
-

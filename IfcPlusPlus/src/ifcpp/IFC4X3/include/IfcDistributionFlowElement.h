@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelFlowControlElements;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDistributionFlowElement : public IfcDistributionElement
-	{ 
+	{
 	public:
 		IfcDistributionFlowElement() = default;
 		IfcDistributionFlowElement( int id );
@@ -88,4 +88,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelFlowControlElements> >			m_HasControlElements_inverse;
 	};
 }
-

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcMeasureWithUnit;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelAssignsToProcess : public IfcRelAssigns
-	{ 
+	{
 	public:
 		IfcRelAssignsToProcess() = default;
 		IfcRelAssignsToProcess( int id );
@@ -48,4 +48,3 @@ namespace IFC4X3
 		shared_ptr<IfcMeasureWithUnit>					m_QuantityInProcess;		//optional
 	};
 }
-

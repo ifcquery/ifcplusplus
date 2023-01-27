@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTrimmingPreference;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTrimmedCurve : public IfcBoundedCurve
-	{ 
+	{
 	public:
 		IfcTrimmedCurve() = default;
 		IfcTrimmedCurve( int id );
@@ -50,4 +50,3 @@ namespace IFC4X3
 		shared_ptr<IfcTrimmingPreference>						m_MasterRepresentation;
 	};
 }
-

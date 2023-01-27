@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAlignmentHorizontal : public IfcLinearElement
-	{ 
+	{
 	public:
 		IfcAlignmentHorizontal() = default;
 		IfcAlignmentHorizontal( int id );
@@ -66,4 +66,3 @@ namespace IFC4X3
 		// IfcAlignmentHorizontal -----------------------------------------------------------
 	};
 }
-

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCardinalPointReference;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMaterialProfileSetUsageTapering : public IfcMaterialProfileSetUsage
-	{ 
+	{
 	public:
 		IfcMaterialProfileSetUsageTapering() = default;
 		IfcMaterialProfileSetUsageTapering( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcCardinalPointReference>				m_CardinalEndPoint;			//optional
 	};
 }
-

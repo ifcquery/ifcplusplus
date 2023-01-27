@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoilerTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBoiler : public IfcEnergyConversionDevice
-	{ 
+	{
 	public:
 		IfcBoiler() = default;
 		IfcBoiler( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcBoilerTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBearingTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBearingType : public IfcBuiltElementType
-	{ 
+	{
 	public:
 		IfcBearingType() = default;
 		IfcBearingType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcBearingTypeEnum>						m_PredefinedType;
 	};
 }
-

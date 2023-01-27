@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcConnectionPointEccentricity : public IfcConnectionPointGeometry
-	{ 
+	{
 	public:
 		IfcConnectionPointEccentricity() = default;
 		IfcConnectionPointEccentricity( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcLengthMeasure>		m_EccentricityInZ;			//optional
 	};
 }
-

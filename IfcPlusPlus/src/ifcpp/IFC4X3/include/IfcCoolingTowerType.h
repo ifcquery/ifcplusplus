@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCoolingTowerTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCoolingTowerType : public IfcEnergyConversionDeviceType
-	{ 
+	{
 	public:
 		IfcCoolingTowerType() = default;
 		IfcCoolingTowerType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcCoolingTowerTypeEnum>					m_PredefinedType;
 	};
 }
-

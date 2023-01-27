@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoolean;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFaceBound : public IfcTopologicalRepresentationItem
-	{ 
+	{
 	public:
 		IfcFaceBound() = default;
 		IfcFaceBound( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcBoolean>									m_Orientation;
 	};
 }
-

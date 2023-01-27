@@ -82,18 +82,15 @@ void IFC4X3::IfcDistributionControlElement::getAttributes( std::vector<std::pair
 void IFC4X3::IfcDistributionControlElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcDistributionElement::getAttributesInverse( vec_attributes_inverse );
-	if( !m_AssignedToFlowElement_inverse.empty() )
+	shared_ptr<AttributeObjectVector> AssignedToFlowElement_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_AssignedToFlowElement_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> AssignedToFlowElement_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_AssignedToFlowElement_inverse.size(); ++i )
+		if( !m_AssignedToFlowElement_inverse[i].expired() )
 		{
-			if( !m_AssignedToFlowElement_inverse[i].expired() )
-			{
-				AssignedToFlowElement_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelFlowControlElements>( m_AssignedToFlowElement_inverse[i] ) );
-			}
+			AssignedToFlowElement_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelFlowControlElements>( m_AssignedToFlowElement_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "AssignedToFlowElement_inverse", AssignedToFlowElement_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "AssignedToFlowElement_inverse", AssignedToFlowElement_inverse_vec_obj ) );
 }
 void IFC4X3::IfcDistributionControlElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

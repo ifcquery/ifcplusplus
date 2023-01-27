@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSeventhOrderPolynomialSpiral : public IfcSpiral
-	{ 
+	{
 	public:
 		IfcSeventhOrderPolynomialSpiral() = default;
 		IfcSeventhOrderPolynomialSpiral( int id );
@@ -52,4 +52,3 @@ namespace IFC4X3
 		shared_ptr<IfcLengthMeasure>							m_ConstantTerm;				//optional
 	};
 }
-

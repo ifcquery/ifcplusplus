@@ -33,12 +33,9 @@ void IFC4X3::IfcAdvancedBrepWithVoids::readStepArguments( const std::vector<std:
 void IFC4X3::IfcAdvancedBrepWithVoids::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcAdvancedBrep::getAttributes( vec_attributes );
-	if( !m_Voids.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Voids_vec_object( new AttributeObjectVector() );
-		std::copy( m_Voids.begin(), m_Voids.end(), std::back_inserter( Voids_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Voids", Voids_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Voids_vec_object( new AttributeObjectVector() );
+	std::copy( m_Voids.begin(), m_Voids.end(), std::back_inserter( Voids_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Voids", Voids_vec_object ) );
 }
 void IFC4X3::IfcAdvancedBrepWithVoids::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

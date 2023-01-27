@@ -46,12 +46,9 @@ void IFC4X3::IfcBSplineCurve::getAttributes( std::vector<std::pair<std::string, 
 {
 	IFC4X3::IfcBoundedCurve::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "Degree", m_Degree ) );
-	if( !m_ControlPointsList.empty() )
-	{
-		shared_ptr<AttributeObjectVector> ControlPointsList_vec_object( new AttributeObjectVector() );
-		std::copy( m_ControlPointsList.begin(), m_ControlPointsList.end(), std::back_inserter( ControlPointsList_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "ControlPointsList", ControlPointsList_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> ControlPointsList_vec_object( new AttributeObjectVector() );
+	std::copy( m_ControlPointsList.begin(), m_ControlPointsList.end(), std::back_inserter( ControlPointsList_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "ControlPointsList", ControlPointsList_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "CurveForm", m_CurveForm ) );
 	vec_attributes.emplace_back( std::make_pair( "ClosedCurve", m_ClosedCurve ) );
 	vec_attributes.emplace_back( std::make_pair( "SelfIntersect", m_SelfIntersect ) );

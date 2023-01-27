@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAxis2Placement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPlanarBox : public IfcPlanarExtent
-	{ 
+	{
 	public:
 		IfcPlanarBox() = default;
 		IfcPlanarBox( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcAxis2Placement>							m_Placement;
 	};
 }
-

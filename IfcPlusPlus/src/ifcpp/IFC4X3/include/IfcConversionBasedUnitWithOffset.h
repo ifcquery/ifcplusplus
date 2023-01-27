@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReal;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcConversionBasedUnitWithOffset : public IfcConversionBasedUnit
-	{ 
+	{
 	public:
 		IfcConversionBasedUnitWithOffset() = default;
 		IfcConversionBasedUnitWithOffset( int id );
@@ -44,4 +44,3 @@ namespace IFC4X3
 		shared_ptr<IfcReal>											m_ConversionOffset;
 	};
 }
-

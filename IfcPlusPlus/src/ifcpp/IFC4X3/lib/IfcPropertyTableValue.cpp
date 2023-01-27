@@ -101,18 +101,12 @@ void IFC4X3::IfcPropertyTableValue::readStepArguments( const std::vector<std::st
 void IFC4X3::IfcPropertyTableValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcSimpleProperty::getAttributes( vec_attributes );
-	if( !m_DefiningValues.empty() )
-	{
-		shared_ptr<AttributeObjectVector> DefiningValues_vec_object( new AttributeObjectVector() );
-		std::copy( m_DefiningValues.begin(), m_DefiningValues.end(), std::back_inserter( DefiningValues_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "DefiningValues", DefiningValues_vec_object ) );
-	}
-	if( !m_DefinedValues.empty() )
-	{
-		shared_ptr<AttributeObjectVector> DefinedValues_vec_object( new AttributeObjectVector() );
-		std::copy( m_DefinedValues.begin(), m_DefinedValues.end(), std::back_inserter( DefinedValues_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "DefinedValues", DefinedValues_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> DefiningValues_vec_object( new AttributeObjectVector() );
+	std::copy( m_DefiningValues.begin(), m_DefiningValues.end(), std::back_inserter( DefiningValues_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "DefiningValues", DefiningValues_vec_object ) );
+	shared_ptr<AttributeObjectVector> DefinedValues_vec_object( new AttributeObjectVector() );
+	std::copy( m_DefinedValues.begin(), m_DefinedValues.end(), std::back_inserter( DefinedValues_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "DefinedValues", DefinedValues_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "Expression", m_Expression ) );
 	vec_attributes.emplace_back( std::make_pair( "DefiningUnit", m_DefiningUnit ) );
 	vec_attributes.emplace_back( std::make_pair( "DefinedUnit", m_DefinedUnit ) );

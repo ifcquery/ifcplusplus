@@ -65,18 +65,15 @@ void IFC4X3::IfcTimeSeries::getAttributes( std::vector<std::pair<std::string, sh
 }
 void IFC4X3::IfcTimeSeries::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( !m_HasExternalReference_inverse.empty() )
+	shared_ptr<AttributeObjectVector> HasExternalReference_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasExternalReference_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasExternalReference_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasExternalReference_inverse.size(); ++i )
+		if( !m_HasExternalReference_inverse[i].expired() )
 		{
-			if( !m_HasExternalReference_inverse[i].expired() )
-			{
-				HasExternalReference_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
-			}
+			HasExternalReference_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcExternalReferenceRelationship>( m_HasExternalReference_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasExternalReference_inverse", HasExternalReference_inverse_vec_obj ) );
 }
 void IFC4X3::IfcTimeSeries::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {

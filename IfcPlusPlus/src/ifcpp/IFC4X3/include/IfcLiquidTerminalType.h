@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLiquidTerminalTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLiquidTerminalType : public IfcFlowTerminalType
-	{ 
+	{
 	public:
 		IfcLiquidTerminalType() = default;
 		IfcLiquidTerminalType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcLiquidTerminalTypeEnum>				m_PredefinedType;
 	};
 }
-

@@ -47,12 +47,9 @@ void IFC4X3::IfcGeometricSet::readStepArguments( const std::vector<std::string>&
 void IFC4X3::IfcGeometricSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcGeometricRepresentationItem::getAttributes( vec_attributes );
-	if( !m_Elements.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Elements_vec_object( new AttributeObjectVector() );
-		std::copy( m_Elements.begin(), m_Elements.end(), std::back_inserter( Elements_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Elements", Elements_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Elements_vec_object( new AttributeObjectVector() );
+	std::copy( m_Elements.begin(), m_Elements.end(), std::back_inserter( Elements_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Elements", Elements_vec_object ) );
 }
 void IFC4X3::IfcGeometricSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

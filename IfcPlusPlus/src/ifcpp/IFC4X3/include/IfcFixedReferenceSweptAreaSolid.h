@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDirection;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFixedReferenceSweptAreaSolid : public IfcDirectrixCurveSweptAreaSolid
-	{ 
+	{
 	public:
 		IfcFixedReferenceSweptAreaSolid() = default;
 		IfcFixedReferenceSweptAreaSolid( int id );
@@ -52,4 +52,3 @@ namespace IFC4X3
 		shared_ptr<IfcDirection>								m_FixedReference;
 	};
 }
-

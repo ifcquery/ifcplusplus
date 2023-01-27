@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcResourceSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelAssignsToResource : public IfcRelAssigns
-	{ 
+	{
 	public:
 		IfcRelAssignsToResource() = default;
 		IfcRelAssignsToResource( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcResourceSelect>					m_RelatingResource;
 	};
 }
-

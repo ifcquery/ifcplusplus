@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLaborResourceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLaborResource : public IfcConstructionResource
-	{ 
+	{
 	public:
 		IfcLaborResource() = default;
 		IfcLaborResource( int id );
@@ -71,4 +71,3 @@ namespace IFC4X3
 		shared_ptr<IfcLaborResourceTypeEnum>				m_PredefinedType;			//optional
 	};
 }
-

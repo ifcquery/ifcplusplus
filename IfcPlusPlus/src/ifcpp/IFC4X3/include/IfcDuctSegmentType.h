@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDuctSegmentTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDuctSegmentType : public IfcFlowSegmentType
-	{ 
+	{
 	public:
 		IfcDuctSegmentType() = default;
 		IfcDuctSegmentType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcDuctSegmentTypeEnum>					m_PredefinedType;
 	};
 }
-

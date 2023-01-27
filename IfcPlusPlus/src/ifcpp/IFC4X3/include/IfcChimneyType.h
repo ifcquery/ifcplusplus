@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcChimneyTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcChimneyType : public IfcBuiltElementType
-	{ 
+	{
 	public:
 		IfcChimneyType() = default;
 		IfcChimneyType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcChimneyTypeEnum>						m_PredefinedType;
 	};
 }
-

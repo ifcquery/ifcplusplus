@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcWindowLiningProperties : public IfcPreDefinedPropertySet
-	{ 
+	{
 	public:
 		IfcWindowLiningProperties() = default;
 		IfcWindowLiningProperties( int id );
@@ -67,4 +67,3 @@ namespace IFC4X3
 		shared_ptr<IfcLengthMeasure>						m_LiningToPanelOffsetY;		//optional
 	};
 }
-

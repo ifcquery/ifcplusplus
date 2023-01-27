@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcConstructionEquipmentResourceTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcConstructionEquipmentResource : public IfcConstructionResource
-	{ 
+	{
 	public:
 		IfcConstructionEquipmentResource() = default;
 		IfcConstructionEquipmentResource( int id );
@@ -71,4 +71,3 @@ namespace IFC4X3
 		shared_ptr<IfcConstructionEquipmentResourceTypeEnum>	m_PredefinedType;			//optional
 	};
 }
-

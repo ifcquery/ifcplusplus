@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSystemFurnitureElementTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSystemFurnitureElementType : public IfcFurnishingElementType
-	{ 
+	{
 	public:
 		IfcSystemFurnitureElementType() = default;
 		IfcSystemFurnitureElementType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcSystemFurnitureElementTypeEnum>		m_PredefinedType;			//optional
 	};
 }
-

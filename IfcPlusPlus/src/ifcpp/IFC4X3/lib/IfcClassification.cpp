@@ -79,40 +79,31 @@ void IFC4X3::IfcClassification::getAttributes( std::vector<std::pair<std::string
 	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
 	vec_attributes.emplace_back( std::make_pair( "Specification", m_Specification ) );
-	if( !m_ReferenceTokens.empty() )
-	{
-		shared_ptr<AttributeObjectVector> ReferenceTokens_vec_object( new AttributeObjectVector() );
-		std::copy( m_ReferenceTokens.begin(), m_ReferenceTokens.end(), std::back_inserter( ReferenceTokens_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "ReferenceTokens", ReferenceTokens_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> ReferenceTokens_vec_object( new AttributeObjectVector() );
+	std::copy( m_ReferenceTokens.begin(), m_ReferenceTokens.end(), std::back_inserter( ReferenceTokens_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "ReferenceTokens", ReferenceTokens_vec_object ) );
 }
 void IFC4X3::IfcClassification::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcExternalInformation::getAttributesInverse( vec_attributes_inverse );
-	if( !m_ClassificationForObjects_inverse.empty() )
+	shared_ptr<AttributeObjectVector> ClassificationForObjects_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ClassificationForObjects_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ClassificationForObjects_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ClassificationForObjects_inverse.size(); ++i )
+		if( !m_ClassificationForObjects_inverse[i].expired() )
 		{
-			if( !m_ClassificationForObjects_inverse[i].expired() )
-			{
-				ClassificationForObjects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssociatesClassification>( m_ClassificationForObjects_inverse[i] ) );
-			}
+			ClassificationForObjects_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelAssociatesClassification>( m_ClassificationForObjects_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ClassificationForObjects_inverse", ClassificationForObjects_inverse_vec_obj ) );
 	}
-	if( !m_HasReferences_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "ClassificationForObjects_inverse", ClassificationForObjects_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> HasReferences_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasReferences_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasReferences_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasReferences_inverse.size(); ++i )
+		if( !m_HasReferences_inverse[i].expired() )
 		{
-			if( !m_HasReferences_inverse[i].expired() )
-			{
-				HasReferences_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcClassificationReference>( m_HasReferences_inverse[i] ) );
-			}
+			HasReferences_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcClassificationReference>( m_HasReferences_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasReferences_inverse", HasReferences_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasReferences_inverse", HasReferences_inverse_vec_obj ) );
 }
 void IFC4X3::IfcClassification::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

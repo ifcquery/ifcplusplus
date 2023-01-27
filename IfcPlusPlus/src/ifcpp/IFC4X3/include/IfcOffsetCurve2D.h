@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLogical;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcOffsetCurve2D : public IfcOffsetCurve
-	{ 
+	{
 	public:
 		IfcOffsetCurve2D() = default;
 		IfcOffsetCurve2D( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		shared_ptr<IfcLogical>									m_SelfIntersect;
 	};
 }
-

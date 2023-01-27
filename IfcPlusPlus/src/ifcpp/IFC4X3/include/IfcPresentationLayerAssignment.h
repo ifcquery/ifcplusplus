@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcIdentifier;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPresentationLayerAssignment : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcPresentationLayerAssignment() = default;
 		IfcPresentationLayerAssignment( int id );
@@ -37,4 +37,3 @@ namespace IFC4X3
 		shared_ptr<IfcIdentifier>					m_Identifier;				//optional
 	};
 }
-

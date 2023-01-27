@@ -44,12 +44,9 @@ void IFC4X3::IfcReference::getAttributes( std::vector<std::pair<std::string, sha
 	vec_attributes.emplace_back( std::make_pair( "TypeIdentifier", m_TypeIdentifier ) );
 	vec_attributes.emplace_back( std::make_pair( "AttributeIdentifier", m_AttributeIdentifier ) );
 	vec_attributes.emplace_back( std::make_pair( "InstanceName", m_InstanceName ) );
-	if( !m_ListPositions.empty() )
-	{
-		shared_ptr<AttributeObjectVector> ListPositions_vec_object( new AttributeObjectVector() );
-		std::copy( m_ListPositions.begin(), m_ListPositions.end(), std::back_inserter( ListPositions_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "ListPositions", ListPositions_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> ListPositions_vec_object( new AttributeObjectVector() );
+	std::copy( m_ListPositions.begin(), m_ListPositions.end(), std::back_inserter( ListPositions_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "ListPositions", ListPositions_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "InnerReference", m_InnerReference ) );
 }
 void IFC4X3::IfcReference::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

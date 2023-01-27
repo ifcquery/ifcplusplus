@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFlowSegmentType : public IfcDistributionFlowElementType
-	{ 
+	{
 	public:
 		IfcFlowSegmentType() = default;
 		IfcFlowSegmentType( int id );
@@ -68,4 +68,3 @@ namespace IFC4X3
 		// IfcFlowSegmentType -----------------------------------------------------------
 	};
 }
-

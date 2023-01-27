@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcVertex;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcVertexLoop : public IfcLoop
-	{ 
+	{
 	public:
 		IfcVertexLoop() = default;
 		IfcVertexLoop( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcVertex>									m_LoopVertex;
 	};
 }
-

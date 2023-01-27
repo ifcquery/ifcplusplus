@@ -48,12 +48,9 @@ void IFC4X3::IfcMaterialClassificationRelationship::readStepArguments( const std
 }
 void IFC4X3::IfcMaterialClassificationRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( !m_MaterialClassifications.empty() )
-	{
-		shared_ptr<AttributeObjectVector> MaterialClassifications_vec_object( new AttributeObjectVector() );
-		std::copy( m_MaterialClassifications.begin(), m_MaterialClassifications.end(), std::back_inserter( MaterialClassifications_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "MaterialClassifications", MaterialClassifications_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> MaterialClassifications_vec_object( new AttributeObjectVector() );
+	std::copy( m_MaterialClassifications.begin(), m_MaterialClassifications.end(), std::back_inserter( MaterialClassifications_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "MaterialClassifications", MaterialClassifications_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "ClassifiedMaterial", m_ClassifiedMaterial ) );
 }
 void IFC4X3::IfcMaterialClassificationRelationship::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

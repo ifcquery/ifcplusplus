@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelVoidsElement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFeatureElementSubtraction : public IfcFeatureElement
-	{ 
+	{
 	public:
 		IfcFeatureElementSubtraction() = default;
 		IfcFeatureElementSubtraction( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		weak_ptr<IfcRelVoidsElement>								m_VoidsElements_inverse;
 	};
 }
-

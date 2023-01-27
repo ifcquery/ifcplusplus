@@ -49,12 +49,9 @@ void IFC4X3::IfcRelAdheresToElement::getAttributes( std::vector<std::pair<std::s
 {
 	IFC4X3::IfcRelDecomposes::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "RelatingElement", m_RelatingElement ) );
-	if( !m_RelatedSurfaceFeatures.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RelatedSurfaceFeatures_vec_object( new AttributeObjectVector() );
-		std::copy( m_RelatedSurfaceFeatures.begin(), m_RelatedSurfaceFeatures.end(), std::back_inserter( RelatedSurfaceFeatures_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RelatedSurfaceFeatures", RelatedSurfaceFeatures_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RelatedSurfaceFeatures_vec_object( new AttributeObjectVector() );
+	std::copy( m_RelatedSurfaceFeatures.begin(), m_RelatedSurfaceFeatures.end(), std::back_inserter( RelatedSurfaceFeatures_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedSurfaceFeatures", RelatedSurfaceFeatures_vec_object ) );
 }
 void IFC4X3::IfcRelAdheresToElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

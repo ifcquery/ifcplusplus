@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositivePlaneAngleMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLightSourceSpot : public IfcLightSourcePositional
-	{ 
+	{
 	public:
 		IfcLightSourceSpot() = default;
 		IfcLightSourceSpot( int id );
@@ -59,4 +59,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositivePlaneAngleMeasure>				m_BeamWidthAngle;
 	};
 }
-

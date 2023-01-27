@@ -77,24 +77,15 @@ void IFC4X3::IfcGrid::readStepArguments( const std::vector<std::string>& args, c
 void IFC4X3::IfcGrid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcPositioningElement::getAttributes( vec_attributes );
-	if( !m_UAxes.empty() )
-	{
-		shared_ptr<AttributeObjectVector> UAxes_vec_object( new AttributeObjectVector() );
-		std::copy( m_UAxes.begin(), m_UAxes.end(), std::back_inserter( UAxes_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "UAxes", UAxes_vec_object ) );
-	}
-	if( !m_VAxes.empty() )
-	{
-		shared_ptr<AttributeObjectVector> VAxes_vec_object( new AttributeObjectVector() );
-		std::copy( m_VAxes.begin(), m_VAxes.end(), std::back_inserter( VAxes_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "VAxes", VAxes_vec_object ) );
-	}
-	if( !m_WAxes.empty() )
-	{
-		shared_ptr<AttributeObjectVector> WAxes_vec_object( new AttributeObjectVector() );
-		std::copy( m_WAxes.begin(), m_WAxes.end(), std::back_inserter( WAxes_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "WAxes", WAxes_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> UAxes_vec_object( new AttributeObjectVector() );
+	std::copy( m_UAxes.begin(), m_UAxes.end(), std::back_inserter( UAxes_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "UAxes", UAxes_vec_object ) );
+	shared_ptr<AttributeObjectVector> VAxes_vec_object( new AttributeObjectVector() );
+	std::copy( m_VAxes.begin(), m_VAxes.end(), std::back_inserter( VAxes_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "VAxes", VAxes_vec_object ) );
+	shared_ptr<AttributeObjectVector> WAxes_vec_object( new AttributeObjectVector() );
+	std::copy( m_WAxes.begin(), m_WAxes.end(), std::back_inserter( WAxes_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "WAxes", WAxes_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "PredefinedType", m_PredefinedType ) );
 }
 void IFC4X3::IfcGrid::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

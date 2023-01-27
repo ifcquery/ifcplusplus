@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcModulusOfSubgradeReactionSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBoundaryFaceCondition : public IfcBoundaryCondition
-	{ 
+	{
 	public:
 		IfcBoundaryFaceCondition() = default;
 		IfcBoundaryFaceCondition( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		shared_ptr<IfcModulusOfSubgradeReactionSelect>	m_TranslationalStiffnessByAreaZ;	//optional
 	};
 }
-

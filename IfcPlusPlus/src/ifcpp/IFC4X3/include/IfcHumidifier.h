@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcHumidifierTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcHumidifier : public IfcEnergyConversionDevice
-	{ 
+	{
 	public:
 		IfcHumidifier() = default;
 		IfcHumidifier( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcHumidifierTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

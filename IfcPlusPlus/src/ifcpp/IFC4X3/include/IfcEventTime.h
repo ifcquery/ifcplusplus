@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDateTime;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcEventTime : public IfcSchedulingTime
-	{ 
+	{
 	public:
 		IfcEventTime() = default;
 		IfcEventTime( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcDateTime>			m_ScheduleDate;				//optional
 	};
 }
-

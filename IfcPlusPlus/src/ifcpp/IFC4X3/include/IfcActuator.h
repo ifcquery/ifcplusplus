@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcActuatorTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcActuator : public IfcDistributionControlElement
-	{ 
+	{
 	public:
 		IfcActuator() = default;
 		IfcActuator( int id );
@@ -92,4 +92,3 @@ namespace IFC4X3
 		shared_ptr<IfcActuatorTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

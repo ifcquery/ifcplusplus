@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRoofTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRoof : public IfcBuiltElement
-	{ 
+	{
 	public:
 		IfcRoof() = default;
 		IfcRoof( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcRoofTypeEnum>									m_PredefinedType;			//optional
 	};
 }
-

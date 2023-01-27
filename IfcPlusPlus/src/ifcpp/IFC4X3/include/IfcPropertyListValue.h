@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcUnit;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPropertyListValue : public IfcSimpleProperty
-	{ 
+	{
 	public:
 		IfcPropertyListValue() = default;
 		IfcPropertyListValue( int id );
@@ -52,4 +52,3 @@ namespace IFC4X3
 		shared_ptr<IfcUnit>											m_Unit;						//optional
 	};
 }
-

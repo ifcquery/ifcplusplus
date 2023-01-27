@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcOccupantTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcOccupant : public IfcActor
-	{ 
+	{
 	public:
 		IfcOccupant() = default;
 		IfcOccupant( int id );
@@ -64,4 +64,3 @@ namespace IFC4X3
 		shared_ptr<IfcOccupantTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

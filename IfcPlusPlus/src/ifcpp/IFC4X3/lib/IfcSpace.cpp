@@ -88,30 +88,24 @@ void IFC4X3::IfcSpace::getAttributes( std::vector<std::pair<std::string, shared_
 void IFC4X3::IfcSpace::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcSpatialStructureElement::getAttributesInverse( vec_attributes_inverse );
-	if( !m_HasCoverings_inverse.empty() )
+	shared_ptr<AttributeObjectVector> HasCoverings_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasCoverings_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasCoverings_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasCoverings_inverse.size(); ++i )
+		if( !m_HasCoverings_inverse[i].expired() )
 		{
-			if( !m_HasCoverings_inverse[i].expired() )
-			{
-				HasCoverings_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelCoversSpaces>( m_HasCoverings_inverse[i] ) );
-			}
+			HasCoverings_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelCoversSpaces>( m_HasCoverings_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasCoverings_inverse", HasCoverings_inverse_vec_obj ) );
 	}
-	if( !m_BoundedBy_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasCoverings_inverse", HasCoverings_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> BoundedBy_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_BoundedBy_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> BoundedBy_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_BoundedBy_inverse.size(); ++i )
+		if( !m_BoundedBy_inverse[i].expired() )
 		{
-			if( !m_BoundedBy_inverse[i].expired() )
-			{
-				BoundedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSpaceBoundary>( m_BoundedBy_inverse[i] ) );
-			}
+			BoundedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelSpaceBoundary>( m_BoundedBy_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "BoundedBy_inverse", BoundedBy_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "BoundedBy_inverse", BoundedBy_inverse_vec_obj ) );
 }
 void IFC4X3::IfcSpace::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

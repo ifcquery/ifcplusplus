@@ -18,7 +18,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcExternalReferenceRelationship;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcExternalReference : virtual public IfcLightDistributionDataSourceSelect, virtual public IfcObjectReferenceSelect, virtual public IfcResourceObjectSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcExternalReference() = default;
 		IfcExternalReference( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcExternalReferenceRelationship> >	m_ExternalReferenceForResources_inverse;
 	};
 }
-

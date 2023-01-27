@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcElectricMotorTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcElectricMotorType : public IfcEnergyConversionDeviceType
-	{ 
+	{
 	public:
 		IfcElectricMotorType() = default;
 		IfcElectricMotorType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcElectricMotorTypeEnum>				m_PredefinedType;
 	};
 }
-

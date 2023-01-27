@@ -38,4 +38,3 @@ namespace IFC4X3
 		IfcLightEmissionSourceEnumEnum m_enum;
 	};
 }
-

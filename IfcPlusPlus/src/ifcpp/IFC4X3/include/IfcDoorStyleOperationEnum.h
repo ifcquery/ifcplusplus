@@ -45,4 +45,3 @@ namespace IFC4X3
 		IfcDoorStyleOperationEnumEnum m_enum;
 	};
 }
-

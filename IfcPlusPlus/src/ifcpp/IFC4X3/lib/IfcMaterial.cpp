@@ -47,42 +47,33 @@ void IFC4X3::IfcMaterial::getAttributes( std::vector<std::pair<std::string, shar
 void IFC4X3::IfcMaterial::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcMaterialDefinition::getAttributesInverse( vec_attributes_inverse );
-	if( !m_HasRepresentation_inverse.empty() )
+	shared_ptr<AttributeObjectVector> HasRepresentation_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasRepresentation_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasRepresentation_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasRepresentation_inverse.size(); ++i )
+		if( !m_HasRepresentation_inverse[i].expired() )
 		{
-			if( !m_HasRepresentation_inverse[i].expired() )
-			{
-				HasRepresentation_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcMaterialDefinitionRepresentation>( m_HasRepresentation_inverse[i] ) );
-			}
+			HasRepresentation_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcMaterialDefinitionRepresentation>( m_HasRepresentation_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasRepresentation_inverse", HasRepresentation_inverse_vec_obj ) );
 	}
-	if( !m_IsRelatedWith_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasRepresentation_inverse", HasRepresentation_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> IsRelatedWith_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_IsRelatedWith_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> IsRelatedWith_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_IsRelatedWith_inverse.size(); ++i )
+		if( !m_IsRelatedWith_inverse[i].expired() )
 		{
-			if( !m_IsRelatedWith_inverse[i].expired() )
-			{
-				IsRelatedWith_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcMaterialRelationship>( m_IsRelatedWith_inverse[i] ) );
-			}
+			IsRelatedWith_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcMaterialRelationship>( m_IsRelatedWith_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "IsRelatedWith_inverse", IsRelatedWith_inverse_vec_obj ) );
 	}
-	if( !m_RelatesTo_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "IsRelatedWith_inverse", IsRelatedWith_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> RelatesTo_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_RelatesTo_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> RelatesTo_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_RelatesTo_inverse.size(); ++i )
+		if( !m_RelatesTo_inverse[i].expired() )
 		{
-			if( !m_RelatesTo_inverse[i].expired() )
-			{
-				RelatesTo_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcMaterialRelationship>( m_RelatesTo_inverse[i] ) );
-			}
+			RelatesTo_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcMaterialRelationship>( m_RelatesTo_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "RelatesTo_inverse", RelatesTo_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "RelatesTo_inverse", RelatesTo_inverse_vec_obj ) );
 }
 void IFC4X3::IfcMaterial::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

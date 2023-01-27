@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcStructuralSurfaceActivityTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralSurfaceReaction : public IfcStructuralReaction
-	{ 
+	{
 	public:
 		IfcStructuralSurfaceReaction() = default;
 		IfcStructuralSurfaceReaction( int id );
@@ -76,4 +76,3 @@ namespace IFC4X3
 		shared_ptr<IfcStructuralSurfaceActivityTypeEnum>			m_PredefinedType;
 	};
 }
-

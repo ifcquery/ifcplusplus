@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcUnitaryControlElementTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcUnitaryControlElementType : public IfcDistributionControlElementType
-	{ 
+	{
 	public:
 		IfcUnitaryControlElementType() = default;
 		IfcUnitaryControlElementType( int id );
@@ -71,4 +71,3 @@ namespace IFC4X3
 		shared_ptr<IfcUnitaryControlElementTypeEnum>		m_PredefinedType;
 	};
 }
-

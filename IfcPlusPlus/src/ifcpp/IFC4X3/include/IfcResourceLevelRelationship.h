@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcText;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcResourceLevelRelationship : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcResourceLevelRelationship() = default;
 		IfcResourceLevelRelationship( int id );
@@ -33,4 +33,3 @@ namespace IFC4X3
 		shared_ptr<IfcText>		m_Description;				//optional
 	};
 }
-

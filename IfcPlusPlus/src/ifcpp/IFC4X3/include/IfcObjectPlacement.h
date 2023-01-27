@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcProduct;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcObjectPlacement : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcObjectPlacement() = default;
 		IfcObjectPlacement( int id );
@@ -35,4 +35,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcObjectPlacement> >	m_ReferencedByPlacements_inverse;
 	};
 }
-

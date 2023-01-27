@@ -43,30 +43,24 @@ void IFC4X3::IfcAddress::getAttributes( std::vector<std::pair<std::string, share
 }
 void IFC4X3::IfcAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
-	if( !m_OfPerson_inverse.empty() )
+	shared_ptr<AttributeObjectVector> OfPerson_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_OfPerson_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> OfPerson_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_OfPerson_inverse.size(); ++i )
+		if( !m_OfPerson_inverse[i].expired() )
 		{
-			if( !m_OfPerson_inverse[i].expired() )
-			{
-				OfPerson_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPerson>( m_OfPerson_inverse[i] ) );
-			}
+			OfPerson_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPerson>( m_OfPerson_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "OfPerson_inverse", OfPerson_inverse_vec_obj ) );
 	}
-	if( !m_OfOrganization_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "OfPerson_inverse", OfPerson_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> OfOrganization_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_OfOrganization_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> OfOrganization_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_OfOrganization_inverse.size(); ++i )
+		if( !m_OfOrganization_inverse[i].expired() )
 		{
-			if( !m_OfOrganization_inverse[i].expired() )
-			{
-				OfOrganization_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcOrganization>( m_OfOrganization_inverse[i] ) );
-			}
+			OfOrganization_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcOrganization>( m_OfOrganization_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "OfOrganization_inverse", OfOrganization_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "OfOrganization_inverse", OfOrganization_inverse_vec_obj ) );
 }
 void IFC4X3::IfcAddress::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {

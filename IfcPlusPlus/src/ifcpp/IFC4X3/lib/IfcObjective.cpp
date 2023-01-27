@@ -67,12 +67,9 @@ void IFC4X3::IfcObjective::readStepArguments( const std::vector<std::string>& ar
 void IFC4X3::IfcObjective::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcConstraint::getAttributes( vec_attributes );
-	if( !m_BenchmarkValues.empty() )
-	{
-		shared_ptr<AttributeObjectVector> BenchmarkValues_vec_object( new AttributeObjectVector() );
-		std::copy( m_BenchmarkValues.begin(), m_BenchmarkValues.end(), std::back_inserter( BenchmarkValues_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "BenchmarkValues", BenchmarkValues_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> BenchmarkValues_vec_object( new AttributeObjectVector() );
+	std::copy( m_BenchmarkValues.begin(), m_BenchmarkValues.end(), std::back_inserter( BenchmarkValues_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "BenchmarkValues", BenchmarkValues_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "LogicalAggregator", m_LogicalAggregator ) );
 	vec_attributes.emplace_back( std::make_pair( "ObjectiveQualifier", m_ObjectiveQualifier ) );
 	vec_attributes.emplace_back( std::make_pair( "UserDefinedQualifier", m_UserDefinedQualifier ) );

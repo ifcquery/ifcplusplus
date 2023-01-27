@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCivilElementType : public IfcElementType
-	{ 
+	{
 	public:
 		IfcCivilElementType() = default;
 		IfcCivilElementType( int id );
@@ -64,4 +64,3 @@ namespace IFC4X3
 		// IfcCivilElementType -----------------------------------------------------------
 	};
 }
-

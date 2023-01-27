@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcApproval;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelAssociatesApproval : public IfcRelAssociates
-	{ 
+	{
 	public:
 		IfcRelAssociatesApproval() = default;
 		IfcRelAssociatesApproval( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcApproval>							m_RelatingApproval;
 	};
 }
-

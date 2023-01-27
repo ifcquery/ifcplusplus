@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcColourSpecification : virtual public IfcColour, public IfcPresentationItem
-	{ 
+	{
 	public:
 		IfcColourSpecification() = default;
 		IfcColourSpecification( int id );
@@ -35,4 +35,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>	m_Name;						//optional
 	};
 }
-

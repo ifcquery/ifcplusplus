@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelReferencedInSpatialStructure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcGroup : virtual public IfcSpatialReferenceSelect, public IfcObject
-	{ 
+	{
 	public:
 		IfcGroup() = default;
 		IfcGroup( int id );
@@ -61,4 +61,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelReferencedInSpatialStructure> >	m_ReferencedInStructures_inverse;
 	};
 }
-

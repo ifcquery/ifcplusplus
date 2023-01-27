@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcGeometricCurveSet : public IfcGeometricSet
-	{ 
+	{
 	public:
 		IfcGeometricCurveSet() = default;
 		IfcGeometricCurveSet( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		// IfcGeometricCurveSet -----------------------------------------------------------
 	};
 }
-

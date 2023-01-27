@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLuminousIntensityDistributionMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLightDistributionData : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcLightDistributionData() = default;
 		IfcLightDistributionData( int id );
@@ -34,4 +34,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcLuminousIntensityDistributionMeasure> >	m_LuminousIntensity;
 	};
 }
-

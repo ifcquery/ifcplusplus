@@ -45,12 +45,9 @@ void IFC4X3::IfcComplexProperty::getAttributes( std::vector<std::pair<std::strin
 {
 	IFC4X3::IfcProperty::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "UsageName", m_UsageName ) );
-	if( !m_HasProperties.empty() )
-	{
-		shared_ptr<AttributeObjectVector> HasProperties_vec_object( new AttributeObjectVector() );
-		std::copy( m_HasProperties.begin(), m_HasProperties.end(), std::back_inserter( HasProperties_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "HasProperties", HasProperties_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> HasProperties_vec_object( new AttributeObjectVector() );
+	std::copy( m_HasProperties.begin(), m_HasProperties.end(), std::back_inserter( HasProperties_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "HasProperties", HasProperties_vec_object ) );
 }
 void IFC4X3::IfcComplexProperty::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

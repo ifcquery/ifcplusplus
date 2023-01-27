@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcText;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPropertyDependencyRelationship : public IfcResourceLevelRelationship
-	{ 
+	{
 	public:
 		IfcPropertyDependencyRelationship() = default;
 		IfcPropertyDependencyRelationship( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		shared_ptr<IfcText>		m_Expression;				//optional
 	};
 }
-

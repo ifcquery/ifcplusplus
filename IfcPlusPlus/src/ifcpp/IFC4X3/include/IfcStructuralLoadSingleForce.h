@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcTorqueMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralLoadSingleForce : public IfcStructuralLoadStatic
-	{ 
+	{
 	public:
 		IfcStructuralLoadSingleForce() = default;
 		IfcStructuralLoadSingleForce( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcTorqueMeasure>	m_MomentZ;					//optional
 	};
 }
-

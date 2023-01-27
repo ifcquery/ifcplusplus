@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcConstraint;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelAssociatesConstraint : public IfcRelAssociates
-	{ 
+	{
 	public:
 		IfcRelAssociatesConstraint() = default;
 		IfcRelAssociatesConstraint( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		shared_ptr<IfcConstraint>						m_RelatingConstraint;
 	};
 }
-

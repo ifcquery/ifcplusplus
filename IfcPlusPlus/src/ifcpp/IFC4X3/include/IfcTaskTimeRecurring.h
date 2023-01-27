@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRecurrencePattern;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTaskTimeRecurring : public IfcTaskTime
-	{ 
+	{
 	public:
 		IfcTaskTimeRecurring() = default;
 		IfcTaskTimeRecurring( int id );
@@ -58,4 +58,3 @@ namespace IFC4X3
 		shared_ptr<IfcRecurrencePattern>	m_Recurrence;
 	};
 }
-

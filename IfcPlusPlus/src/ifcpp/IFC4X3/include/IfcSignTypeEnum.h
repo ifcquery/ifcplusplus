@@ -32,4 +32,3 @@ namespace IFC4X3
 		IfcSignTypeEnumEnum m_enum;
 	};
 }
-

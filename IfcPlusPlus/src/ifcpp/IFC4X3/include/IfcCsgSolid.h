@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCsgSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCsgSolid : public IfcSolidModel
-	{ 
+	{
 	public:
 		IfcCsgSolid() = default;
 		IfcCsgSolid( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcCsgSelect>								m_TreeRootExpression;
 	};
 }
-

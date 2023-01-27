@@ -19,9 +19,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #define _USE_MATH_DEFINES 
 #include <cmath>
-#include <ifcpp/model/OpenMPIncludes.h>
 #include <functional>
-#include <ifcpp/IFC4X3/include/IfcFeatureElementSubtraction.h>
+#include <set>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -34,19 +33,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #define GEOM_TOLERANCE  0.0000001
 #define HALF_SPACE_BOX_SIZE 100
 
-//#define ROUND_IFC_COORDINATES
-#ifdef ROUND_IFC_COORDINATES
-	#define ROUND_IFC_COORDINATES_UP 100000.0
-	#define ROUND_IFC_COORDINATES_DOWN 0.00001
-#endif
+class StatusCallback;
 
 //\brief Central class to hold settings that influence geometry processing.
-
 class GeometrySettings
 {
 public:
 	GeometrySettings()
 	{
+		m_render_object_filter.insert(1287392070);  // IfcFeatureElementSubtraction
 	}
 
 	// Number of discretization points per circle
@@ -104,11 +99,17 @@ public:
 
     /**\brief Render filter decides if a IfcObjectDefinition should be rendered. 
 	  The default filter will render all objects except objects based on IfcFeatureElementSubtraction.*/
-	std::function<bool(const shared_ptr<IFC4X3::IfcObjectDefinition>&)>getRenderObjectFilter() const { return m_render_object_filter; }
-	void setRenderObjectFilter(std::function<bool(const shared_ptr<IFC4X3::IfcObjectDefinition>&)> render_filter) { m_render_object_filter = std::move(render_filter); }
-
-	double m_epsCoplanarDistance = EPS_DEFAULT;
-	double m_epsCoplanarAngle = EPS_ANGLE_COPLANAR_FACES;
+	bool skipRenderObject( uint32_t classID )
+	{
+		if( m_render_object_filter.find(classID) != m_render_object_filter.end() )
+		{
+			return true;
+		}
+		return false;
+	}
+	std::set<uint32_t> m_render_object_filter;
+	double m_epsCoplanarDistance = 1.5e-8;
+	double m_epsCoplanarAngle = 1e-10;
 	size_t m_maxNumFaceEdges = 10000;
 
 protected:
@@ -126,16 +127,41 @@ protected:
 	double m_crease_edges_max_delta_angle = M_PI*0.05;
 	double m_crease_edges_line_width = 1.5;
 	double m_colinear_faces_max_delta_angle = M_PI*0.02;
-	double m_min_triangle_area = 0.005*0.005;
+	double m_min_triangle_area = 1e-9;
 
 	std::function<int(double)> m_num_vertices_per_circle_given_radius = [&](double radius)
 	{
 		if (radius > 0.5) return int(m_num_vertices_per_circle*1.5);
 		return m_num_vertices_per_circle;
 	};
-	std::function<bool(const shared_ptr<IFC4X3::IfcObjectDefinition>&)> m_render_object_filter =
-		[](const shared_ptr<IFC4X3::IfcObjectDefinition>& ifc_object)
+};
+
+struct GeomProcessingParams
+{
+	GeomProcessingParams(double epsMergePoints, double epsMergeAlignedEdgesAngle, double minFaceArea)
 	{
-		return dynamic_pointer_cast<IFC4X3::IfcFeatureElementSubtraction>(ifc_object) == nullptr;
-	};
+		this->epsMergePoints = epsMergePoints;
+		this->epsMergeAlignedEdgesAngle = epsMergeAlignedEdgesAngle;
+		this->minFaceArea = minFaceArea;
+	}
+	GeomProcessingParams( shared_ptr<GeometrySettings>& generalSettings )
+	{
+		epsMergePoints = generalSettings->m_epsCoplanarDistance;
+		epsMergeAlignedEdgesAngle = generalSettings->m_epsCoplanarAngle;
+		minFaceArea = generalSettings->m_epsCoplanarDistance*0.01;
+	}
+	GeomProcessingParams( shared_ptr<GeometrySettings>& generalSettings, BuildingEntity* ifc_entity, StatusCallback* callbackFunc)
+	{
+		epsMergePoints = generalSettings->m_epsCoplanarDistance;
+		epsMergeAlignedEdgesAngle = generalSettings->m_epsCoplanarAngle;
+		this->ifc_entity = ifc_entity;
+		this->callbackFunc = callbackFunc;
+		minFaceArea = generalSettings->m_epsCoplanarDistance*0.01;
+	}
+	bool debugDump = false;
+	double epsMergePoints = 1e-9;
+	double epsMergeAlignedEdgesAngle = 1e-10;
+	double minFaceArea = 1e-12;
+	BuildingEntity* ifc_entity = nullptr;
+	StatusCallback* callbackFunc = nullptr;
 };

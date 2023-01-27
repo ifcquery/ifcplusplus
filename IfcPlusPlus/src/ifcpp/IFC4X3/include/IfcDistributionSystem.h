@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDistributionSystemEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDistributionSystem : public IfcSystem
-	{ 
+	{
 	public:
 		IfcDistributionSystem() = default;
 		IfcDistributionSystem( int id );
@@ -70,4 +70,3 @@ namespace IFC4X3
 		shared_ptr<IfcDistributionSystemEnum>						m_PredefinedType;			//optional
 	};
 }
-

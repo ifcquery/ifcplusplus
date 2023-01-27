@@ -73,18 +73,15 @@ void IFC4X3::IfcStructuralResultGroup::getAttributes( std::vector<std::pair<std:
 void IFC4X3::IfcStructuralResultGroup::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcGroup::getAttributesInverse( vec_attributes_inverse );
-	if( !m_ResultGroupFor_inverse.empty() )
+	shared_ptr<AttributeObjectVector> ResultGroupFor_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ResultGroupFor_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ResultGroupFor_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ResultGroupFor_inverse.size(); ++i )
+		if( !m_ResultGroupFor_inverse[i].expired() )
 		{
-			if( !m_ResultGroupFor_inverse[i].expired() )
-			{
-				ResultGroupFor_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcStructuralAnalysisModel>( m_ResultGroupFor_inverse[i] ) );
-			}
+			ResultGroupFor_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcStructuralAnalysisModel>( m_ResultGroupFor_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ResultGroupFor_inverse", ResultGroupFor_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "ResultGroupFor_inverse", ResultGroupFor_inverse_vec_obj ) );
 }
 void IFC4X3::IfcStructuralResultGroup::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

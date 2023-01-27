@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReal;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDirection : virtual public IfcGridPlacementDirectionSelect, virtual public IfcVectorOrDirection, public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcDirection() = default;
 		IfcDirection( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcReal> >						m_DirectionRatios;
 	};
 }
-

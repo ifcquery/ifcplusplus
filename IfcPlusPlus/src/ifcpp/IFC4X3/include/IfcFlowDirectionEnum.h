@@ -31,4 +31,3 @@ namespace IFC4X3
 		IfcFlowDirectionEnumEnum m_enum;
 	};
 }
-

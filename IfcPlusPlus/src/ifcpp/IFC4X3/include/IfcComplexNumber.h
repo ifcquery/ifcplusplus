@@ -23,4 +23,3 @@ namespace IFC4X3
 		std::vector<double> m_vec;
 	};
 }
-

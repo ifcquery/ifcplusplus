@@ -33,12 +33,9 @@ void IFC4X3::IfcCurveStyleFont::getAttributes( std::vector<std::pair<std::string
 {
 	IFC4X3::IfcPresentationItem::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
-	if( !m_PatternList.empty() )
-	{
-		shared_ptr<AttributeObjectVector> PatternList_vec_object( new AttributeObjectVector() );
-		std::copy( m_PatternList.begin(), m_PatternList.end(), std::back_inserter( PatternList_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "PatternList", PatternList_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> PatternList_vec_object( new AttributeObjectVector() );
+	std::copy( m_PatternList.begin(), m_PatternList.end(), std::back_inserter( PatternList_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "PatternList", PatternList_vec_object ) );
 }
 void IFC4X3::IfcCurveStyleFont::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

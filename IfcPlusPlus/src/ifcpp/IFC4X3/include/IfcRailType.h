@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRailTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRailType : public IfcBuiltElementType
-	{ 
+	{
 	public:
 		IfcRailType() = default;
 		IfcRailType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcRailTypeEnum>							m_PredefinedType;
 	};
 }
-

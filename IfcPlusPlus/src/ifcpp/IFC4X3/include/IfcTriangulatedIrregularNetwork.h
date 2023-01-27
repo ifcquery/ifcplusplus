@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcInteger;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTriangulatedIrregularNetwork : public IfcTriangulatedFaceSet
-	{ 
+	{
 	public:
 		IfcTriangulatedIrregularNetwork() = default;
 		IfcTriangulatedIrregularNetwork( int id );
@@ -55,4 +55,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcInteger> >					m_Flags;
 	};
 }
-

@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcGeometricRepresentationItem : public IfcRepresentationItem
-	{ 
+	{
 	public:
 		IfcGeometricRepresentationItem() = default;
 		IfcGeometricRepresentationItem( int id );
@@ -34,4 +34,3 @@ namespace IFC4X3
 		// IfcGeometricRepresentationItem -----------------------------------------------------------
 	};
 }
-

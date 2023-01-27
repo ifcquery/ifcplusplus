@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDuctSilencerTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDuctSilencer : public IfcFlowTreatmentDevice
-	{ 
+	{
 	public:
 		IfcDuctSilencer() = default;
 		IfcDuctSilencer( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcDuctSilencerTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

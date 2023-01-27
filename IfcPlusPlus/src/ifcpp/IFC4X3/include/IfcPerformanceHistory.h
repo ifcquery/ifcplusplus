@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPerformanceHistoryTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPerformanceHistory : public IfcControl
-	{ 
+	{
 	public:
 		IfcPerformanceHistory() = default;
 		IfcPerformanceHistory( int id );
@@ -66,4 +66,3 @@ namespace IFC4X3
 		shared_ptr<IfcPerformanceHistoryTypeEnum>			m_PredefinedType;			//optional
 	};
 }
-

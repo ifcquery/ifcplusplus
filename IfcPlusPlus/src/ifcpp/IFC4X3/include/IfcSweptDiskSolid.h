@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcParameterValue;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSweptDiskSolid : public IfcSolidModel
-	{ 
+	{
 	public:
 		IfcSweptDiskSolid() = default;
 		IfcSweptDiskSolid( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		shared_ptr<IfcParameterValue>							m_EndParam;					//optional
 	};
 }
-

@@ -16,7 +16,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcReinforcingBarSurfaceEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcReinforcingBar : public IfcReinforcingElement
-	{ 
+	{
 	public:
 		IfcReinforcingBar() = default;
 		IfcReinforcingBar( int id );
@@ -97,4 +97,3 @@ namespace IFC4X3
 		shared_ptr<IfcReinforcingBarSurfaceEnum>					m_BarSurface;				//optional
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSpatialElementType : public IfcTypeProduct
-	{ 
+	{
 	public:
 		IfcSpatialElementType() = default;
 		IfcSpatialElementType( int id );
@@ -63,4 +63,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>								m_ElementType;				//optional
 	};
 }
-

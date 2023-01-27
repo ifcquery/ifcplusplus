@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcVehicleTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcVehicle : public IfcTransportationDevice
-	{ 
+	{
 	public:
 		IfcVehicle() = default;
 		IfcVehicle( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcVehicleTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

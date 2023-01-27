@@ -50,4 +50,3 @@ namespace IFC4X3
 		IfcTaskTypeEnumEnum m_enum;
 	};
 }
-

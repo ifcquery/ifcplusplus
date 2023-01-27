@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcUnit;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPropertyEnumeration : public IfcPropertyAbstraction
-	{ 
+	{
 	public:
 		IfcPropertyEnumeration() = default;
 		IfcPropertyEnumeration( int id );
@@ -40,4 +40,3 @@ namespace IFC4X3
 		shared_ptr<IfcUnit>											m_Unit;						//optional
 	};
 }
-

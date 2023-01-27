@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDataOriginEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSchedulingTime : public BuildingEntity
-	{ 
+	{
 	public:
 		IfcSchedulingTime() = default;
 		IfcSchedulingTime( int id );
@@ -34,4 +34,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>			m_UserDefinedDataOrigin;	//optional
 	};
 }
-

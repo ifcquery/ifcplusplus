@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSurfaceStyleWithTextures;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSurfaceTexture : public IfcPresentationItem
-	{ 
+	{
 	public:
 		IfcSurfaceTexture() = default;
 		IfcSurfaceTexture( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcSurfaceStyleWithTextures> >	m_UsedInStyles_inverse;
 	};
 }
-

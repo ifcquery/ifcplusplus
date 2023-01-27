@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPropertyTemplateDefinition : public IfcPropertyDefinition
-	{ 
+	{
 	public:
 		IfcPropertyTemplateDefinition() = default;
 		IfcPropertyTemplateDefinition( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		// IfcPropertyTemplateDefinition -----------------------------------------------------------
 	};
 }
-

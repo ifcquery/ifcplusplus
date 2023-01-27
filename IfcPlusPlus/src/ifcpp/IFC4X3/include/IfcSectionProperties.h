@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcProfileDef;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSectionProperties : public IfcPreDefinedProperties
-	{ 
+	{
 	public:
 		IfcSectionProperties() = default;
 		IfcSectionProperties( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcProfileDef>									m_EndProfile;				//optional
 	};
 }
-

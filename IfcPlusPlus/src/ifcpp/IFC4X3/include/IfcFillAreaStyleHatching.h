@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPlaneAngleMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcFillAreaStyleHatching : virtual public IfcFillStyleSelect, public IfcGeometricRepresentationItem
-	{ 
+	{
 	public:
 		IfcFillAreaStyleHatching() = default;
 		IfcFillAreaStyleHatching( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		shared_ptr<IfcPlaneAngleMeasure>						m_HatchLineAngle;
 	};
 }
-

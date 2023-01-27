@@ -38,12 +38,9 @@ void IFC4X3::IfcDerivedUnit::readStepArguments( const std::vector<std::string>& 
 }
 void IFC4X3::IfcDerivedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( !m_Elements.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Elements_vec_object( new AttributeObjectVector() );
-		std::copy( m_Elements.begin(), m_Elements.end(), std::back_inserter( Elements_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Elements", Elements_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Elements_vec_object( new AttributeObjectVector() );
+	std::copy( m_Elements.begin(), m_Elements.end(), std::back_inserter( Elements_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Elements", Elements_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "UnitType", m_UnitType ) );
 	vec_attributes.emplace_back( std::make_pair( "UserDefinedType", m_UserDefinedType ) );
 	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );

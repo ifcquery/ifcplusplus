@@ -55,28 +55,22 @@ void IFC4X3::IfcTypeObject::getAttributes( std::vector<std::pair<std::string, sh
 {
 	IFC4X3::IfcObjectDefinition::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "ApplicableOccurrence", m_ApplicableOccurrence ) );
-	if( !m_HasPropertySets.empty() )
-	{
-		shared_ptr<AttributeObjectVector> HasPropertySets_vec_object( new AttributeObjectVector() );
-		std::copy( m_HasPropertySets.begin(), m_HasPropertySets.end(), std::back_inserter( HasPropertySets_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "HasPropertySets", HasPropertySets_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> HasPropertySets_vec_object( new AttributeObjectVector() );
+	std::copy( m_HasPropertySets.begin(), m_HasPropertySets.end(), std::back_inserter( HasPropertySets_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "HasPropertySets", HasPropertySets_vec_object ) );
 }
 void IFC4X3::IfcTypeObject::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcObjectDefinition::getAttributesInverse( vec_attributes_inverse );
-	if( !m_Types_inverse.empty() )
+	shared_ptr<AttributeObjectVector> Types_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_Types_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> Types_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_Types_inverse.size(); ++i )
+		if( !m_Types_inverse[i].expired() )
 		{
-			if( !m_Types_inverse[i].expired() )
-			{
-				Types_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByType>( m_Types_inverse[i] ) );
-			}
+			Types_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelDefinesByType>( m_Types_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "Types_inverse", Types_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "Types_inverse", Types_inverse_vec_obj ) );
 }
 void IFC4X3::IfcTypeObject::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

@@ -48,12 +48,9 @@ void IFC4X3::IfcRelFlowControlElements::readStepArguments( const std::vector<std
 void IFC4X3::IfcRelFlowControlElements::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcRelConnects::getAttributes( vec_attributes );
-	if( !m_RelatedControlElements.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RelatedControlElements_vec_object( new AttributeObjectVector() );
-		std::copy( m_RelatedControlElements.begin(), m_RelatedControlElements.end(), std::back_inserter( RelatedControlElements_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RelatedControlElements", RelatedControlElements_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RelatedControlElements_vec_object( new AttributeObjectVector() );
+	std::copy( m_RelatedControlElements.begin(), m_RelatedControlElements.end(), std::back_inserter( RelatedControlElements_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedControlElements", RelatedControlElements_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "RelatingFlowElement", m_RelatingFlowElement ) );
 }
 void IFC4X3::IfcRelFlowControlElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

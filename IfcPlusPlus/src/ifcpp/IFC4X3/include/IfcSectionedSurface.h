@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcProfileDef;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSectionedSurface : public IfcSurface
-	{ 
+	{
 	public:
 		IfcSectionedSurface() = default;
 		IfcSectionedSurface( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcProfileDef> >					m_CrossSections;
 	};
 }
-

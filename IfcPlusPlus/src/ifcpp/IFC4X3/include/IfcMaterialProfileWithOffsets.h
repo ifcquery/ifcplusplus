@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMaterialProfileWithOffsets : public IfcMaterialProfile
-	{ 
+	{
 	public:
 		IfcMaterialProfileWithOffsets() = default;
 		IfcMaterialProfileWithOffsets( int id );
@@ -49,4 +49,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcLengthMeasure> >					m_OffsetValues;
 	};
 }
-

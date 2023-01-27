@@ -19,7 +19,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCoordinateOperation;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcGeometricRepresentationContext : virtual public IfcCoordinateReferenceSystemSelect, public IfcRepresentationContext
-	{ 
+	{
 	public:
 		IfcGeometricRepresentationContext() = default;
 		IfcGeometricRepresentationContext( int id );
@@ -51,4 +51,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcCoordinateOperation> >					m_HasCoordinateOperation_inverse;
 	};
 }
-

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDefinitionSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelDeclares : public IfcRelationship
-	{ 
+	{
 	public:
 		IfcRelDeclares() = default;
 		IfcRelDeclares( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcDefinitionSelect> >	m_RelatedDefinitions;
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcElectricTimeControlTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcElectricTimeControl : public IfcFlowController
-	{ 
+	{
 	public:
 		IfcElectricTimeControl() = default;
 		IfcElectricTimeControl( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcElectricTimeControlTypeEnum>					m_PredefinedType;			//optional
 	};
 }
-

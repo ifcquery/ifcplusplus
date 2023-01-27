@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralPointAction : public IfcStructuralAction
-	{ 
+	{
 	public:
 		IfcStructuralPointAction() = default;
 		IfcStructuralPointAction( int id );
@@ -75,4 +75,3 @@ namespace IFC4X3
 		// IfcStructuralPointAction -----------------------------------------------------------
 	};
 }
-

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcResourceObjectSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcResourceConstraintRelationship : public IfcResourceLevelRelationship
-	{ 
+	{
 	public:
 		IfcResourceConstraintRelationship() = default;
 		IfcResourceConstraintRelationship( int id );
@@ -39,4 +39,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcResourceObjectSelect> >	m_RelatedResourceObjects;
 	};
 }
-

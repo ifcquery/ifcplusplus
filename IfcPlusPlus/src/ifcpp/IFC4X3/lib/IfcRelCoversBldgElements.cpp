@@ -49,12 +49,9 @@ void IFC4X3::IfcRelCoversBldgElements::getAttributes( std::vector<std::pair<std:
 {
 	IFC4X3::IfcRelConnects::getAttributes( vec_attributes );
 	vec_attributes.emplace_back( std::make_pair( "RelatingBuildingElement", m_RelatingBuildingElement ) );
-	if( !m_RelatedCoverings.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RelatedCoverings_vec_object( new AttributeObjectVector() );
-		std::copy( m_RelatedCoverings.begin(), m_RelatedCoverings.end(), std::back_inserter( RelatedCoverings_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RelatedCoverings", RelatedCoverings_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RelatedCoverings_vec_object( new AttributeObjectVector() );
+	std::copy( m_RelatedCoverings.begin(), m_RelatedCoverings.end(), std::back_inserter( RelatedCoverings_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RelatedCoverings", RelatedCoverings_vec_object ) );
 }
 void IFC4X3::IfcRelCoversBldgElements::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

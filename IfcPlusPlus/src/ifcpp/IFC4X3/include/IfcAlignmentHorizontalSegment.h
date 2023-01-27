@@ -18,7 +18,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAlignmentHorizontalSegmentTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAlignmentHorizontalSegment : public IfcAlignmentParameterSegment
-	{ 
+	{
 	public:
 		IfcAlignmentHorizontalSegment() = default;
 		IfcAlignmentHorizontalSegment( int id );
@@ -48,4 +48,3 @@ namespace IFC4X3
 		shared_ptr<IfcAlignmentHorizontalSegmentTypeEnum>	m_PredefinedType;
 	};
 }
-

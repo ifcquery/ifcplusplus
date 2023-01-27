@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcQuantityVolume : public IfcPhysicalSimpleQuantity
-	{ 
+	{
 	public:
 		IfcQuantityVolume() = default;
 		IfcQuantityVolume( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>										m_Formula;					//optional
 	};
 }
-

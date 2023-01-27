@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPropertySetTemplate;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelDefinesByTemplate : public IfcRelDefines
-	{ 
+	{
 	public:
 		IfcRelDefinesByTemplate() = default;
 		IfcRelDefinesByTemplate( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcPropertySetTemplate>					m_RelatingTemplate;
 	};
 }
-

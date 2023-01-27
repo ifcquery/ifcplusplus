@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcConveyorSegmentTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcConveyorSegment : public IfcFlowSegment
-	{ 
+	{
 	public:
 		IfcConveyorSegment() = default;
 		IfcConveyorSegment( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcConveyorSegmentTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

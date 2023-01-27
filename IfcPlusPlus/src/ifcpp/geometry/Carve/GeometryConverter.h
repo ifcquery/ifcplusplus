@@ -47,7 +47,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "RepresentationConverter.h"
 #include "CSG_Adapter.h"
 
-//#undef _OPENMP   // temp
+#undef _OPENMP   // temp
 
 class GeometryConverter : public StatusCallback
 {
@@ -641,6 +641,8 @@ public:
 		{
 			double eps = m_csg_eps / length_in_meter;
 			carve::setEpsilon(eps);
+			m_geom_settings->m_epsCoplanarDistance = eps;
+			m_geom_settings->m_epsCoplanarAngle = eps*0.1;
 		}
 
 		const std::map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
@@ -705,7 +707,7 @@ public:
 
 				// TODO: check for equal product shapes: each representation and each item must be equal, also openings must be equal: m_HasOpenings_inverse
 				std::stringstream thread_err;
-				if( !m_geom_settings->getRenderObjectFilter()(object_def) )
+				if( m_geom_settings->skipRenderObject( object_def->classID() ) )
 				{
 					// geometry will be created in method subtractOpenings
 					continue;
@@ -843,8 +845,8 @@ public:
 					if( !product_shape->m_ifc_object_definition.expired() )
 					{
 						shared_ptr<IfcObjectDefinition> ifc_object_def( product_shape->m_ifc_object_definition );
-						shared_ptr<IfcFeatureElementSubtraction> opening = dynamic_pointer_cast<IfcFeatureElementSubtraction>(ifc_object_def);
-						if( !m_geom_settings->getRenderObjectFilter()(ifc_object_def) )
+						
+						if( !m_geom_settings->skipRenderObject(ifc_object_def->classID()) )
 						{
 							continue;
 						}

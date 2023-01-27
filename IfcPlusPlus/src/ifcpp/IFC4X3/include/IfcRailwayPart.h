@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRailwayPartTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRailwayPart : public IfcFacilityPart
-	{ 
+	{
 	public:
 		IfcRailwayPart() = default;
 		IfcRailwayPart( int id );
@@ -85,4 +85,3 @@ namespace IFC4X3
 		shared_ptr<IfcRailwayPartTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

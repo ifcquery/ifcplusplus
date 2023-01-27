@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAxis1Placement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSurfaceOfRevolution : public IfcSweptSurface
-	{ 
+	{
 	public:
 		IfcSurfaceOfRevolution() = default;
 		IfcSurfaceOfRevolution( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		shared_ptr<IfcAxis1Placement>							m_AxisPosition;
 	};
 }
-

@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcWallStandardCase : public IfcWall
-	{ 
+	{
 	public:
 		IfcWallStandardCase() = default;
 		IfcWallStandardCase( int id );
@@ -87,4 +87,3 @@ namespace IFC4X3
 		// IfcWallStandardCase -----------------------------------------------------------
 	};
 }
-

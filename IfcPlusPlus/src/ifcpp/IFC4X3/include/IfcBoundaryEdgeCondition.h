@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcModulusOfRotationalSubgradeReactionSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcBoundaryEdgeCondition : public IfcBoundaryCondition
-	{ 
+	{
 	public:
 		IfcBoundaryEdgeCondition() = default;
 		IfcBoundaryEdgeCondition( int id );
@@ -42,4 +42,3 @@ namespace IFC4X3
 		shared_ptr<IfcModulusOfRotationalSubgradeReactionSelect>	m_RotationalStiffnessByLengthZ;	//optional
 	};
 }
-

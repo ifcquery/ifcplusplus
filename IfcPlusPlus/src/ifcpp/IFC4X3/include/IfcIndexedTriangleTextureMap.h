@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveInteger;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcIndexedTriangleTextureMap : public IfcIndexedTextureMap
-	{ 
+	{
 	public:
 		IfcIndexedTriangleTextureMap() = default;
 		IfcIndexedTriangleTextureMap( int id );
@@ -43,4 +43,3 @@ namespace IFC4X3
 		std::vector<std::vector<shared_ptr<IfcPositiveInteger> > >	m_TexCoordIndex;			//optional
 	};
 }
-

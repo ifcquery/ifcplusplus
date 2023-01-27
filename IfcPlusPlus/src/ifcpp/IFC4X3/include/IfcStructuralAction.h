@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcBoolean;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralAction : public IfcStructuralActivity
-	{ 
+	{
 	public:
 		IfcStructuralAction() = default;
 		IfcStructuralAction( int id );
@@ -74,4 +74,3 @@ namespace IFC4X3
 		shared_ptr<IfcBoolean>										m_DestabilizingLoad;		//optional
 	};
 }
-

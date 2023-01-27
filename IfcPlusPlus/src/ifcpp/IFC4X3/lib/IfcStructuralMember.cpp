@@ -68,18 +68,15 @@ void IFC4X3::IfcStructuralMember::getAttributes( std::vector<std::pair<std::stri
 void IFC4X3::IfcStructuralMember::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcStructuralItem::getAttributesInverse( vec_attributes_inverse );
-	if( !m_ConnectedBy_inverse.empty() )
+	shared_ptr<AttributeObjectVector> ConnectedBy_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ConnectedBy_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ConnectedBy_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ConnectedBy_inverse.size(); ++i )
+		if( !m_ConnectedBy_inverse[i].expired() )
 		{
-			if( !m_ConnectedBy_inverse[i].expired() )
-			{
-				ConnectedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelConnectsStructuralMember>( m_ConnectedBy_inverse[i] ) );
-			}
+			ConnectedBy_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelConnectsStructuralMember>( m_ConnectedBy_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ConnectedBy_inverse", ConnectedBy_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "ConnectedBy_inverse", ConnectedBy_inverse_vec_obj ) );
 }
 void IFC4X3::IfcStructuralMember::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

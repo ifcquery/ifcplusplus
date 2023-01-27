@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStyledItem : public IfcRepresentationItem
-	{ 
+	{
 	public:
 		IfcStyledItem() = default;
 		IfcStyledItem( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>									m_Name;						//optional
 	};
 }
-

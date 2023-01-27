@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCurve;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCurveBoundedPlane : public IfcBoundedSurface
-	{ 
+	{
 	public:
 		IfcCurveBoundedPlane() = default;
 		IfcCurveBoundedPlane( int id );
@@ -46,4 +46,3 @@ namespace IFC4X3
 		std::vector<shared_ptr<IfcCurve> >						m_InnerBoundaries;
 	};
 }
-

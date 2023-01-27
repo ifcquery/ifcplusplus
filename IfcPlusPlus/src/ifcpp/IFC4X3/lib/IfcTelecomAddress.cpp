@@ -141,32 +141,20 @@ void IFC4X3::IfcTelecomAddress::readStepArguments( const std::vector<std::string
 void IFC4X3::IfcTelecomAddress::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcAddress::getAttributes( vec_attributes );
-	if( !m_TelephoneNumbers.empty() )
-	{
-		shared_ptr<AttributeObjectVector> TelephoneNumbers_vec_object( new AttributeObjectVector() );
-		std::copy( m_TelephoneNumbers.begin(), m_TelephoneNumbers.end(), std::back_inserter( TelephoneNumbers_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "TelephoneNumbers", TelephoneNumbers_vec_object ) );
-	}
-	if( !m_FacsimileNumbers.empty() )
-	{
-		shared_ptr<AttributeObjectVector> FacsimileNumbers_vec_object( new AttributeObjectVector() );
-		std::copy( m_FacsimileNumbers.begin(), m_FacsimileNumbers.end(), std::back_inserter( FacsimileNumbers_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "FacsimileNumbers", FacsimileNumbers_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> TelephoneNumbers_vec_object( new AttributeObjectVector() );
+	std::copy( m_TelephoneNumbers.begin(), m_TelephoneNumbers.end(), std::back_inserter( TelephoneNumbers_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "TelephoneNumbers", TelephoneNumbers_vec_object ) );
+	shared_ptr<AttributeObjectVector> FacsimileNumbers_vec_object( new AttributeObjectVector() );
+	std::copy( m_FacsimileNumbers.begin(), m_FacsimileNumbers.end(), std::back_inserter( FacsimileNumbers_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "FacsimileNumbers", FacsimileNumbers_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "PagerNumber", m_PagerNumber ) );
-	if( !m_ElectronicMailAddresses.empty() )
-	{
-		shared_ptr<AttributeObjectVector> ElectronicMailAddresses_vec_object( new AttributeObjectVector() );
-		std::copy( m_ElectronicMailAddresses.begin(), m_ElectronicMailAddresses.end(), std::back_inserter( ElectronicMailAddresses_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "ElectronicMailAddresses", ElectronicMailAddresses_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> ElectronicMailAddresses_vec_object( new AttributeObjectVector() );
+	std::copy( m_ElectronicMailAddresses.begin(), m_ElectronicMailAddresses.end(), std::back_inserter( ElectronicMailAddresses_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "ElectronicMailAddresses", ElectronicMailAddresses_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "WWWHomePageURL", m_WWWHomePageURL ) );
-	if( !m_MessagingIDs.empty() )
-	{
-		shared_ptr<AttributeObjectVector> MessagingIDs_vec_object( new AttributeObjectVector() );
-		std::copy( m_MessagingIDs.begin(), m_MessagingIDs.end(), std::back_inserter( MessagingIDs_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "MessagingIDs", MessagingIDs_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> MessagingIDs_vec_object( new AttributeObjectVector() );
+	std::copy( m_MessagingIDs.begin(), m_MessagingIDs.end(), std::back_inserter( MessagingIDs_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "MessagingIDs", MessagingIDs_vec_object ) );
 }
 void IFC4X3::IfcTelecomAddress::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

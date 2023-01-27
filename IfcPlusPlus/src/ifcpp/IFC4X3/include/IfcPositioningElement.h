@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcRelPositions;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPositioningElement : public IfcProduct
-	{ 
+	{
 	public:
 		IfcPositioningElement() = default;
 		IfcPositioningElement( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcRelPositions> >						m_Positions_inverse;
 	};
 }
-

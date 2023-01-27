@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDeepFoundationType : public IfcBuiltElementType
-	{ 
+	{
 	public:
 		IfcDeepFoundationType() = default;
 		IfcDeepFoundationType( int id );
@@ -66,4 +66,3 @@ namespace IFC4X3
 		// IfcDeepFoundationType -----------------------------------------------------------
 	};
 }
-

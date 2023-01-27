@@ -19,7 +19,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcMaterialLayerSet;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcMaterialLayer : public IfcMaterialDefinition
-	{ 
+	{
 	public:
 		IfcMaterialLayer() = default;
 		IfcMaterialLayer( int id );
@@ -52,4 +52,3 @@ namespace IFC4X3
 		weak_ptr<IfcMaterialLayerSet>								m_ToMaterialLayerSet_inverse;
 	};
 }
-

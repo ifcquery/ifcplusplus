@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcInterceptorTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcInterceptor : public IfcFlowTreatmentDevice
-	{ 
+	{
 	public:
 		IfcInterceptor() = default;
 		IfcInterceptor( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcInterceptorTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

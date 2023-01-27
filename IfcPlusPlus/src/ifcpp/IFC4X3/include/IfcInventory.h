@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCostValue;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcInventory : public IfcGroup
-	{ 
+	{
 	public:
 		IfcInventory() = default;
 		IfcInventory( int id );
@@ -72,4 +72,3 @@ namespace IFC4X3
 		shared_ptr<IfcCostValue>									m_OriginalValue;			//optional
 	};
 }
-

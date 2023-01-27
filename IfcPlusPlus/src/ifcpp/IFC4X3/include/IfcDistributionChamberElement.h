@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDistributionChamberElementTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcDistributionChamberElement : public IfcDistributionFlowElement
-	{ 
+	{
 	public:
 		IfcDistributionChamberElement() = default;
 		IfcDistributionChamberElement( int id );
@@ -92,4 +92,3 @@ namespace IFC4X3
 		shared_ptr<IfcDistributionChamberElementTypeEnum>			m_PredefinedType;			//optional
 	};
 }
-

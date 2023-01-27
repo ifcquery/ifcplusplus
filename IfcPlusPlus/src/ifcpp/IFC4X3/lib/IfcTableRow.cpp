@@ -52,12 +52,9 @@ void IFC4X3::IfcTableRow::readStepArguments( const std::vector<std::string>& arg
 }
 void IFC4X3::IfcTableRow::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
-	if( !m_RowCells.empty() )
-	{
-		shared_ptr<AttributeObjectVector> RowCells_vec_object( new AttributeObjectVector() );
-		std::copy( m_RowCells.begin(), m_RowCells.end(), std::back_inserter( RowCells_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "RowCells", RowCells_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> RowCells_vec_object( new AttributeObjectVector() );
+	std::copy( m_RowCells.begin(), m_RowCells.end(), std::back_inserter( RowCells_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "RowCells", RowCells_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "IsHeading", m_IsHeading ) );
 }
 void IFC4X3::IfcTableRow::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

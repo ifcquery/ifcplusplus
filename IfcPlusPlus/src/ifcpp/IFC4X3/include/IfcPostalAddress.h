@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcPostalAddress : public IfcAddress
-	{ 
+	{
 	public:
 		IfcPostalAddress() = default;
 		IfcPostalAddress( int id );
@@ -47,4 +47,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>					m_Country;					//optional
 	};
 }
-

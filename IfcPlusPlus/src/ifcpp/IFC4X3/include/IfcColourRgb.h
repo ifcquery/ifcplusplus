@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcNormalisedRatioMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcColourRgb : virtual public IfcColourOrFactor, public IfcColourSpecification
-	{ 
+	{
 	public:
 		IfcColourRgb() = default;
 		IfcColourRgb( int id );
@@ -41,4 +41,3 @@ namespace IFC4X3
 		shared_ptr<IfcNormalisedRatioMeasure>	m_Blue;
 	};
 }
-

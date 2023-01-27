@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcInternalOrExternalEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelSpaceBoundary : public IfcRelConnects
-	{ 
+	{
 	public:
 		IfcRelSpaceBoundary() = default;
 		IfcRelSpaceBoundary( int id );
@@ -51,4 +51,3 @@ namespace IFC4X3
 		shared_ptr<IfcInternalOrExternalEnum>	m_InternalOrExternalBoundary;
 	};
 }
-

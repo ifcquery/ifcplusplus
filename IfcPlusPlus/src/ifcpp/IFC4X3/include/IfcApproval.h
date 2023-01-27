@@ -21,7 +21,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcApprovalRelationship;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcApproval : virtual public IfcResourceObjectSelect, public BuildingEntity
-	{ 
+	{
 	public:
 		IfcApproval() = default;
 		IfcApproval( int id );
@@ -54,4 +54,3 @@ namespace IFC4X3
 		std::vector<weak_ptr<IfcApprovalRelationship> >				m_Relates_inverse;
 	};
 }
-

@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcDirection;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAxis2Placement3D : virtual public IfcAxis2Placement, public IfcPlacement
-	{ 
+	{
 	public:
 		IfcAxis2Placement3D() = default;
 		IfcAxis2Placement3D( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcDirection>								m_RefDirection;				//optional
 	};
 }
-

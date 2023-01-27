@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAxis2Placement3D;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralPointConnection : public IfcStructuralConnection
-	{ 
+	{
 	public:
 		IfcStructuralPointConnection() = default;
 		IfcStructuralPointConnection( int id );
@@ -77,4 +77,3 @@ namespace IFC4X3
 		shared_ptr<IfcAxis2Placement3D>								m_ConditionCoordinateSystem;	//optional
 	};
 }
-

@@ -24,4 +24,3 @@ namespace IFC4X3
 		double m_value;
 	};
 }
-

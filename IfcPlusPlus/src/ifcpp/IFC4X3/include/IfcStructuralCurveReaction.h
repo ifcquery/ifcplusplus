@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcStructuralCurveActivityTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralCurveReaction : public IfcStructuralReaction
-	{ 
+	{
 	public:
 		IfcStructuralCurveReaction() = default;
 		IfcStructuralCurveReaction( int id );
@@ -76,4 +76,3 @@ namespace IFC4X3
 		shared_ptr<IfcStructuralCurveActivityTypeEnum>				m_PredefinedType;
 	};
 }
-

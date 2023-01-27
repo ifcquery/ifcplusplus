@@ -24,4 +24,3 @@ namespace IFC4X3
 		LogicalEnum m_value;
 	};
 }
-

@@ -53,12 +53,9 @@ void IFC4X3::IfcFillAreaStyle::readStepArguments( const std::vector<std::string>
 void IFC4X3::IfcFillAreaStyle::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcPresentationStyle::getAttributes( vec_attributes );
-	if( !m_FillStyles.empty() )
-	{
-		shared_ptr<AttributeObjectVector> FillStyles_vec_object( new AttributeObjectVector() );
-		std::copy( m_FillStyles.begin(), m_FillStyles.end(), std::back_inserter( FillStyles_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "FillStyles", FillStyles_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> FillStyles_vec_object( new AttributeObjectVector() );
+	std::copy( m_FillStyles.begin(), m_FillStyles.end(), std::back_inserter( FillStyles_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "FillStyles", FillStyles_vec_object ) );
 	vec_attributes.emplace_back( std::make_pair( "ModelOrDraughting", m_ModelOrDraughting ) );
 }
 void IFC4X3::IfcFillAreaStyle::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const

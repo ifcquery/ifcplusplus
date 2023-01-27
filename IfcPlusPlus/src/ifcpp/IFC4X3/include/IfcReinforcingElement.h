@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLabel;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcReinforcingElement : public IfcElementComponent
-	{ 
+	{
 	public:
 		IfcReinforcingElement() = default;
 		IfcReinforcingElement( int id );
@@ -86,4 +86,3 @@ namespace IFC4X3
 		shared_ptr<IfcLabel>										m_SteelGrade;				//optional
 	};
 }
-

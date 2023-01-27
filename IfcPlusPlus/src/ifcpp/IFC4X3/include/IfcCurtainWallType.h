@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcCurtainWallTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCurtainWallType : public IfcBuiltElementType
-	{ 
+	{
 	public:
 		IfcCurtainWallType() = default;
 		IfcCurtainWallType( int id );
@@ -69,4 +69,3 @@ namespace IFC4X3
 		shared_ptr<IfcCurtainWallTypeEnum>					m_PredefinedType;
 	};
 }
-

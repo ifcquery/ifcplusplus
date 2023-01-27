@@ -65,18 +65,12 @@ void IFC4X3::IfcPolygonalFaceSet::readStepArguments( const std::vector<std::stri
 void IFC4X3::IfcPolygonalFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcTessellatedFaceSet::getAttributes( vec_attributes );
-	if( !m_Faces.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Faces_vec_object( new AttributeObjectVector() );
-		std::copy( m_Faces.begin(), m_Faces.end(), std::back_inserter( Faces_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Faces", Faces_vec_object ) );
-	}
-	if( !m_PnIndex.empty() )
-	{
-		shared_ptr<AttributeObjectVector> PnIndex_vec_object( new AttributeObjectVector() );
-		std::copy( m_PnIndex.begin(), m_PnIndex.end(), std::back_inserter( PnIndex_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "PnIndex", PnIndex_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Faces_vec_object( new AttributeObjectVector() );
+	std::copy( m_Faces.begin(), m_Faces.end(), std::back_inserter( Faces_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Faces", Faces_vec_object ) );
+	shared_ptr<AttributeObjectVector> PnIndex_vec_object( new AttributeObjectVector() );
+	std::copy( m_PnIndex.begin(), m_PnIndex.end(), std::back_inserter( PnIndex_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "PnIndex", PnIndex_vec_object ) );
 }
 void IFC4X3::IfcPolygonalFaceSet::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcVoidingFeatureTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcVoidingFeature : public IfcFeatureElementSubtraction
-	{ 
+	{
 	public:
 		IfcVoidingFeature() = default;
 		IfcVoidingFeature( int id );
@@ -90,4 +90,3 @@ namespace IFC4X3
 		shared_ptr<IfcVoidingFeatureTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

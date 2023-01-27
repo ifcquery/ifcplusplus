@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcStateEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSimplePropertyTemplate : public IfcPropertyTemplate
-	{ 
+	{
 	public:
 		IfcSimplePropertyTemplate() = default;
 		IfcSimplePropertyTemplate( int id );
@@ -62,4 +62,3 @@ namespace IFC4X3
 		shared_ptr<IfcStateEnum>							m_AccessState;				//optional
 	};
 }
-

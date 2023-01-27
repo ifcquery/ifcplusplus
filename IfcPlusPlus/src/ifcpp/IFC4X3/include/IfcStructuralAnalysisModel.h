@@ -17,7 +17,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcObjectPlacement;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcStructuralAnalysisModel : public IfcSystem
-	{ 
+	{
 	public:
 		IfcStructuralAnalysisModel() = default;
 		IfcStructuralAnalysisModel( int id );
@@ -76,4 +76,3 @@ namespace IFC4X3
 		shared_ptr<IfcObjectPlacement>								m_SharedPlacement;			//optional
 	};
 }
-

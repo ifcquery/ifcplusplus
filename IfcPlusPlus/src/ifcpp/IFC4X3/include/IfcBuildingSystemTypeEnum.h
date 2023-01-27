@@ -38,4 +38,3 @@ namespace IFC4X3
 		IfcBuildingSystemTypeEnumEnum m_enum;
 	};
 }
-

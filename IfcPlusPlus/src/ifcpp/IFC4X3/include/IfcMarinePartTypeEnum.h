@@ -53,4 +53,3 @@ namespace IFC4X3
 		IfcMarinePartTypeEnumEnum m_enum;
 	};
 }
-

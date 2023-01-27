@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAlarmTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAlarm : public IfcDistributionControlElement
-	{ 
+	{
 	public:
 		IfcAlarm() = default;
 		IfcAlarm( int id );
@@ -92,4 +92,3 @@ namespace IFC4X3
 		shared_ptr<IfcAlarmTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

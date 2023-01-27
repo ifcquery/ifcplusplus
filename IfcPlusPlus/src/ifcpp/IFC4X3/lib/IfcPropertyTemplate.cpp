@@ -48,30 +48,24 @@ void IFC4X3::IfcPropertyTemplate::getAttributes( std::vector<std::pair<std::stri
 void IFC4X3::IfcPropertyTemplate::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcPropertyTemplateDefinition::getAttributesInverse( vec_attributes_inverse );
-	if( !m_PartOfComplexTemplate_inverse.empty() )
+	shared_ptr<AttributeObjectVector> PartOfComplexTemplate_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_PartOfComplexTemplate_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> PartOfComplexTemplate_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_PartOfComplexTemplate_inverse.size(); ++i )
+		if( !m_PartOfComplexTemplate_inverse[i].expired() )
 		{
-			if( !m_PartOfComplexTemplate_inverse[i].expired() )
-			{
-				PartOfComplexTemplate_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcComplexPropertyTemplate>( m_PartOfComplexTemplate_inverse[i] ) );
-			}
+			PartOfComplexTemplate_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcComplexPropertyTemplate>( m_PartOfComplexTemplate_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "PartOfComplexTemplate_inverse", PartOfComplexTemplate_inverse_vec_obj ) );
 	}
-	if( !m_PartOfPsetTemplate_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "PartOfComplexTemplate_inverse", PartOfComplexTemplate_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> PartOfPsetTemplate_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_PartOfPsetTemplate_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> PartOfPsetTemplate_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_PartOfPsetTemplate_inverse.size(); ++i )
+		if( !m_PartOfPsetTemplate_inverse[i].expired() )
 		{
-			if( !m_PartOfPsetTemplate_inverse[i].expired() )
-			{
-				PartOfPsetTemplate_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPropertySetTemplate>( m_PartOfPsetTemplate_inverse[i] ) );
-			}
+			PartOfPsetTemplate_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcPropertySetTemplate>( m_PartOfPsetTemplate_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "PartOfPsetTemplate_inverse", PartOfPsetTemplate_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "PartOfPsetTemplate_inverse", PartOfPsetTemplate_inverse_vec_obj ) );
 }
 void IFC4X3::IfcPropertyTemplate::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

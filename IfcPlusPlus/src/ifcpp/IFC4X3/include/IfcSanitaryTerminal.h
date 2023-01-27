@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSanitaryTerminalTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSanitaryTerminal : public IfcFlowTerminal
-	{ 
+	{
 	public:
 		IfcSanitaryTerminal() = default;
 		IfcSanitaryTerminal( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcSanitaryTerminalTypeEnum>						m_PredefinedType;			//optional
 	};
 }
-

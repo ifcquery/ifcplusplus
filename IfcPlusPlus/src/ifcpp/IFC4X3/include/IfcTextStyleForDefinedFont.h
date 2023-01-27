@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcColour;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcTextStyleForDefinedFont : public IfcPresentationItem
-	{ 
+	{
 	public:
 		IfcTextStyleForDefinedFont() = default;
 		IfcTextStyleForDefinedFont( int id );
@@ -35,4 +35,3 @@ namespace IFC4X3
 		shared_ptr<IfcColour>	m_BackgroundColour;			//optional
 	};
 }
-

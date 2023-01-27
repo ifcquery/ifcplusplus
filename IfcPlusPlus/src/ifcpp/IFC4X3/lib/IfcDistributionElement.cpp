@@ -81,18 +81,15 @@ void IFC4X3::IfcDistributionElement::getAttributes( std::vector<std::pair<std::s
 void IFC4X3::IfcDistributionElement::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcElement::getAttributesInverse( vec_attributes_inverse );
-	if( !m_HasPorts_inverse.empty() )
+	shared_ptr<AttributeObjectVector> HasPorts_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_HasPorts_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> HasPorts_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_HasPorts_inverse.size(); ++i )
+		if( !m_HasPorts_inverse[i].expired() )
 		{
-			if( !m_HasPorts_inverse[i].expired() )
-			{
-				HasPorts_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelConnectsPortToElement>( m_HasPorts_inverse[i] ) );
-			}
+			HasPorts_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelConnectsPortToElement>( m_HasPorts_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "HasPorts_inverse", HasPorts_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "HasPorts_inverse", HasPorts_inverse_vec_obj ) );
 }
 void IFC4X3::IfcDistributionElement::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSurface;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSurfaceCurveSweptAreaSolid : public IfcDirectrixCurveSweptAreaSolid
-	{ 
+	{
 	public:
 		IfcSurfaceCurveSweptAreaSolid() = default;
 		IfcSurfaceCurveSweptAreaSolid( int id );
@@ -52,4 +52,3 @@ namespace IFC4X3
 		shared_ptr<IfcSurface>									m_ReferenceSurface;
 	};
 }
-

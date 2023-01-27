@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcChillerTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcChiller : public IfcEnergyConversionDevice
-	{ 
+	{
 	public:
 		IfcChiller() = default;
 		IfcChiller( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcChillerTypeEnum>								m_PredefinedType;			//optional
 	};
 }
-

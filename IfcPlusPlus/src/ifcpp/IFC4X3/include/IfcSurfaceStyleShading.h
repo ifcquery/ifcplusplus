@@ -15,7 +15,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcNormalisedRatioMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcSurfaceStyleShading : virtual public IfcSurfaceStyleElementSelect, public IfcPresentationItem
-	{ 
+	{
 	public:
 		IfcSurfaceStyleShading() = default;
 		IfcSurfaceStyleShading( int id );
@@ -37,4 +37,3 @@ namespace IFC4X3
 		shared_ptr<IfcNormalisedRatioMeasure>	m_Transparency;				//optional
 	};
 }
-

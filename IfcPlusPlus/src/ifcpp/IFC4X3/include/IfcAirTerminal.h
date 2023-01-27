@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcAirTerminalTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcAirTerminal : public IfcFlowTerminal
-	{ 
+	{
 	public:
 		IfcAirTerminal() = default;
 		IfcAirTerminal( int id );
@@ -94,4 +94,3 @@ namespace IFC4X3
 		shared_ptr<IfcAirTerminalTypeEnum>							m_PredefinedType;			//optional
 	};
 }
-

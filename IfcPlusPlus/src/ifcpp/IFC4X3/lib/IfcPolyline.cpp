@@ -30,12 +30,9 @@ void IFC4X3::IfcPolyline::readStepArguments( const std::vector<std::string>& arg
 void IFC4X3::IfcPolyline::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcBoundedCurve::getAttributes( vec_attributes );
-	if( !m_Points.empty() )
-	{
-		shared_ptr<AttributeObjectVector> Points_vec_object( new AttributeObjectVector() );
-		std::copy( m_Points.begin(), m_Points.end(), std::back_inserter( Points_vec_object->m_vec ) );
-		vec_attributes.emplace_back( std::make_pair( "Points", Points_vec_object ) );
-	}
+	shared_ptr<AttributeObjectVector> Points_vec_object( new AttributeObjectVector() );
+	std::copy( m_Points.begin(), m_Points.end(), std::back_inserter( Points_vec_object->m_vec ) );
+	vec_attributes.emplace_back( std::make_pair( "Points", Points_vec_object ) );
 }
 void IFC4X3::IfcPolyline::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

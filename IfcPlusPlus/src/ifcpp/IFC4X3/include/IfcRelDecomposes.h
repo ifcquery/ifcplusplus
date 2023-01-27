@@ -12,7 +12,7 @@ namespace IFC4X3
 {
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelDecomposes : public IfcRelationship
-	{ 
+	{
 	public:
 		IfcRelDecomposes() = default;
 		IfcRelDecomposes( int id );
@@ -38,4 +38,3 @@ namespace IFC4X3
 		// IfcRelDecomposes -----------------------------------------------------------
 	};
 }
-

@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcLightFixtureTypeEnum;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcLightFixtureType : public IfcFlowTerminalType
-	{ 
+	{
 	public:
 		IfcLightFixtureType() = default;
 		IfcLightFixtureType( int id );
@@ -73,4 +73,3 @@ namespace IFC4X3
 		shared_ptr<IfcLightFixtureTypeEnum>					m_PredefinedType;
 	};
 }
-

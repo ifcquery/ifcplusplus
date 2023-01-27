@@ -58,30 +58,24 @@ void IFC4X3::IfcSystem::getAttributes( std::vector<std::pair<std::string, shared
 void IFC4X3::IfcSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
 	IFC4X3::IfcGroup::getAttributesInverse( vec_attributes_inverse );
-	if( !m_ServicesBuildings_inverse.empty() )
+	shared_ptr<AttributeObjectVector> ServicesBuildings_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ServicesBuildings_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ServicesBuildings_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ServicesBuildings_inverse.size(); ++i )
+		if( !m_ServicesBuildings_inverse[i].expired() )
 		{
-			if( !m_ServicesBuildings_inverse[i].expired() )
-			{
-				ServicesBuildings_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelServicesBuildings>( m_ServicesBuildings_inverse[i] ) );
-			}
+			ServicesBuildings_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelServicesBuildings>( m_ServicesBuildings_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ServicesBuildings_inverse", ServicesBuildings_inverse_vec_obj ) );
 	}
-	if( !m_ServicesFacilities_inverse.empty() )
+	vec_attributes_inverse.emplace_back( std::make_pair( "ServicesBuildings_inverse", ServicesBuildings_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> ServicesFacilities_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_ServicesFacilities_inverse.size(); ++i )
 	{
-		shared_ptr<AttributeObjectVector> ServicesFacilities_inverse_vec_obj( new AttributeObjectVector() );
-		for( size_t i=0; i<m_ServicesFacilities_inverse.size(); ++i )
+		if( !m_ServicesFacilities_inverse[i].expired() )
 		{
-			if( !m_ServicesFacilities_inverse[i].expired() )
-			{
-				ServicesFacilities_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelReferencedInSpatialStructure>( m_ServicesFacilities_inverse[i] ) );
-			}
+			ServicesFacilities_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcRelReferencedInSpatialStructure>( m_ServicesFacilities_inverse[i] ) );
 		}
-		vec_attributes_inverse.emplace_back( std::make_pair( "ServicesFacilities_inverse", ServicesFacilities_inverse_vec_obj ) );
 	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "ServicesFacilities_inverse", ServicesFacilities_inverse_vec_obj ) );
 }
 void IFC4X3::IfcSystem::setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self_entity )
 {

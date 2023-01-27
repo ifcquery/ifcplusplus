@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPositiveLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCircleHollowProfileDef : public IfcCircleProfileDef
-	{ 
+	{
 	public:
 		IfcCircleHollowProfileDef() = default;
 		IfcCircleHollowProfileDef( int id );
@@ -48,4 +48,3 @@ namespace IFC4X3
 		shared_ptr<IfcPositiveLengthMeasure>						m_WallThickness;
 	};
 }
-

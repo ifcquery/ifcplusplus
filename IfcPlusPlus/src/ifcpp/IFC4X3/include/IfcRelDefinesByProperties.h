@@ -14,7 +14,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcPropertySetDefinitionSelect;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcRelDefinesByProperties : public IfcRelDefines
-	{ 
+	{
 	public:
 		IfcRelDefinesByProperties() = default;
 		IfcRelDefinesByProperties( int id );
@@ -45,4 +45,3 @@ namespace IFC4X3
 		shared_ptr<IfcPropertySetDefinitionSelect>		m_RelatingPropertyDefinition;
 	};
 }
-
