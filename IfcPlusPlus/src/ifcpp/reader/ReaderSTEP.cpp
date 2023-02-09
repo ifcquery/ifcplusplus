@@ -614,6 +614,10 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, std::vecto
 			{
 				int tag = entity->m_tag;
 			}
+			if( entity->m_tag == 69950 )
+			{
+				std::string className = EntityFactory::getStringForClassID(entity->classID());
+			}
 #endif
 
 			if( num_expected_arguments != arguments_decoded.size() )
@@ -846,7 +850,7 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 							std::string lineComment = line.substr(found_comment_start, lengthOfComment);
 							strIgnoredComment += lineComment + '\n';
 							vecStrIgnoredComment.push_back(strIgnoredComment);
-							std::cout << strIgnoredComment << std::endl;
+							//std::cout << strIgnoredComment << std::endl;
 							strIgnoredComment = "";
 #endif
 
@@ -861,7 +865,7 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 						std::string lineComment = line.substr(0, found_comment_end);
 						strIgnoredComment += lineComment + '\n';
 						vecStrIgnoredComment.push_back(strIgnoredComment);
-						std::cout << strIgnoredComment << std::endl;
+						//std::cout << strIgnoredComment << std::endl;
 						strIgnoredComment = "";
 #endif
 

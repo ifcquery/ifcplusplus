@@ -14,7 +14,7 @@
 void IFC4X3::IfcComplexNumber::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPLEXNUMBER("; }
-	writeRealList( stream, m_vec );
+	writeRealList( stream, m_vec, false );
 	if( is_select_type ) { stream << ")"; }
 }
 shared_ptr<IFC4X3::IfcComplexNumber> IFC4X3::IfcComplexNumber::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )

@@ -48,8 +48,8 @@ void eigSolveSymmetric(const Matrix3& m, double& l1, carve::geom::vector<3>& e1,
 
 void eigSolve(const Matrix3& m, double& l1, double& l2, double& l3);
 
-static inline bool ZERO(double x) {
-  return fabs(x) < carve::CARVE_EPSILON;
+static inline bool ZERO(double x, double CARVE_EPSILON) {
+  return fabs(x) < CARVE_EPSILON;
 }
 
 static inline double radians(double deg) {

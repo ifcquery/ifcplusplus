@@ -11,7 +11,6 @@
 #include "IfcPoint.h"
 namespace IFC4X3
 {
-	class IFCQUERY_EXPORT IfcLengthMeasure;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCartesianPoint : virtual public IfcTrimmingSelect, public IfcPoint
 	{
@@ -39,6 +38,7 @@ namespace IFC4X3
 
 		// IfcCartesianPoint -----------------------------------------------------------
 		// attributes:
-		std::vector<shared_ptr<IfcLengthMeasure> >				m_Coordinates;
+		double													m_Coordinates[3];
+		short int m_size = 0;
 	};
 }

@@ -189,6 +189,7 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 			shared_ptr<IfcMeasureWithUnit> conversion_factor = conversion_based_unit->m_ConversionFactor;
 			if( conversion_factor )
 			{
+				
 				shared_ptr<IfcUnit> unit_component = conversion_factor->m_UnitComponent;
 				if( unit_component )
 				{
@@ -206,6 +207,8 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 									shared_ptr<IfcRatioMeasure> ratio_measure = dynamic_pointer_cast<IfcRatioMeasure>( length_value_select );
 									if( ratio_measure )
 									{
+										//typedef double IfcRatioMeasure;
+
 										m_length_unit_factor = ratio_measure->m_value;
 										m_length_unit_found = true;
 									}

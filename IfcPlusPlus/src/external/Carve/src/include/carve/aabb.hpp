@@ -87,16 +87,15 @@ struct aabb {
   bool intersects(tri<ndim> tri) const;
   bool intersects(const linesegment<ndim>& ls) const;
 
-  std::pair<double, double> rangeInDirection(
-      const carve::geom::vector<ndim>& v) const;
+  std::pair<double, double> rangeInDirection( const carve::geom::vector<ndim>& v) const;
 
   vector_t min() const;
   vector_t mid() const;
   vector_t max() const;
 
-  double min(unsigned dim) const;
-  double mid(unsigned dim) const;
-  double max(unsigned dim) const;
+  double min(size_t dim) const;
+  double mid(size_t dim) const;
+  double max(size_t dim) const;
 
   double volume() const;
 
@@ -107,8 +106,7 @@ struct aabb {
 
   aabb getAABB() const;
 
-  aabb(const vector_t& _pos = vector_t::ZERO(),
-       const vector_t& _extent = vector_t::ZERO());
+  aabb(const vector_t& _pos = vector_t::ZERO(), const vector_t& _extent = vector_t::ZERO());
 
   template <typename iter_t, typename adapt_t>
   aabb(iter_t begin, iter_t end, adapt_t adapt);

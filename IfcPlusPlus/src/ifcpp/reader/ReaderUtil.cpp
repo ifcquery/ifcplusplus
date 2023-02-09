@@ -502,6 +502,51 @@ void readRealList( const std::string& str, std::vector<double>& vec )
 	}
 }
 
+void readRealArray( const std::string& str, double (&vec)[3], short int& size )
+{
+	const char* ch = str.c_str();
+	const size_t argsize = str.size();
+	if( argsize == 0 )
+	{
+		return;
+	}
+	size_t i=0;
+	size_t last_token = 0;
+	while( i<argsize )
+	{
+		if( ch[i] == '(' )
+		{
+			++i;
+			last_token = i;
+			break;
+		}
+		++i;
+	}
+	short idx = 0;
+	while( i<argsize )
+	{
+		if( ch[i] == ',' )
+		{
+			if( idx < 3 )
+			{
+				vec[idx] = std::stod(str.substr(last_token, i - last_token));
+			}
+			++idx;
+			last_token = i+1;
+		}
+		else if( ch[i] == ')' )
+		{
+			if( idx < 3 )
+			{
+				vec[idx] = std::stod(str.substr(last_token, i - last_token));
+			}
+			size = idx + 1;
+			return;
+		}
+		++i;
+	}
+}
+
 void readRealList2D( const std::string& str, std::vector<std::vector<double> >& vec )
 {
 	// ((1.6,2.0,4.9382),(3.78,23.34,039.938367),(938.034,3.0,-3.45,6.9182))
@@ -931,10 +976,6 @@ void addArgument(const char* stream_pos, const char*& last_token, std::vector<st
 	if( remaining_size > 0 )
 	{
 		const char* end_arg = stream_pos - 1;
-		//if( *stream_pos == ')' )
-		//{
-		//	++end_arg;
-		//}
 		entity_arguments.emplace_back(begin_arg, end_arg - begin_arg + 1);
 	}
 	last_token = stream_pos;
@@ -950,13 +991,6 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 	}
 	const char* stream_pos = argument_str.c_str();
 	int num_open_braces = 0;
-	//if( *stream_pos != '(' )
-	//{
-	//	return;
-	//}
-
-	//++stream_pos;
-	
 	const char* last_token = stream_pos;
 
 	while( *stream_pos != '\0' )
@@ -976,39 +1010,7 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 			if( num_open_braces == 0 )
 			{
 				const char* last_token_check = last_token;
-
 				addArgument(stream_pos, last_token, entity_arguments);
-
-#ifdef _DEBUG
-				if( argument_str.find("#242") != std::string::npos )
-				{
-					int wait = 0;
-				}
-				if( *last_token_check == ',' )
-				{
-					++last_token_check;
-				}
-
-				const char* begin_arg = last_token_check;
-
-				 // skip whitespace
-				while( isspace( *begin_arg ) ) 
-				{
-					++begin_arg; 
-				}
-				const char* end_arg = stream_pos-1;
-				std::string check (  begin_arg, end_arg-begin_arg+1 );
-				last_token_check = stream_pos;
-
-				std::string check1 = entity_arguments.back();
-				if( check.size() > 0 )
-				{
-					if( check.compare(check1) != 0 )
-					{
-						std::cout << "check: " << check1 << std::endl;
-					}
-				}
-#endif
 			}
 		}
 		else if( *stream_pos == ')' )
@@ -1026,26 +1028,6 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 				{
 					break;
 				}
-				//if( *last_token == ',' )
-				//{
-				//	++last_token;
-				//}
-
-				//const char* begin_arg = last_token;
-
-				//// skip whitespace
-				//while( isspace( *begin_arg ) ) 
-				//{
-				//	++begin_arg; 
-				//}
-
-				//int remaining_size = static_cast<int>(stream_pos - begin_arg);
-				//if( remaining_size > 0 )
-				//{
-				//	const char* end_arg = stream_pos-1;
-				//	entity_arguments.emplace_back( begin_arg, end_arg-begin_arg+1 );
-				//}
-				//break;
 			}
 		}
 		++stream_pos;
@@ -1053,7 +1035,7 @@ void tokenizeEntityArguments( const std::string& argument_str, std::vector<std::
 
 	if( *last_token != *stream_pos )
 	{
-		if( *last_token != '\0' )// *last_token == ',' )
+		if( *last_token != '\0' )
 		{
 			addArgument(stream_pos, last_token, entity_arguments);
 		}

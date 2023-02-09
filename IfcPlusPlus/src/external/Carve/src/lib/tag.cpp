@@ -28,4 +28,4 @@
 
 #include <carve/tag.hpp>
 
-int carve::tagable::s_count = 0;
+int carve::tagable::s_count[48] = { 0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0,  0,0,0,0,0, 0,0,0,0,0,  0,0,0,0,0,  0,0,0 };

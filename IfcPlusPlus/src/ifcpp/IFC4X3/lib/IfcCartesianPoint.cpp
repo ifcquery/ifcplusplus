@@ -8,16 +8,22 @@
 #include "ifcpp/reader/ReaderUtil.h"
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/IFC4X3/include/IfcCartesianPoint.h"
-#include "ifcpp/IFC4X3/include/IfcLengthMeasure.h"
 #include "ifcpp/IFC4X3/include/IfcPresentationLayerAssignment.h"
 #include "ifcpp/IFC4X3/include/IfcStyledItem.h"
 
 // ENTITY IfcCartesianPoint 
-IFC4X3::IfcCartesianPoint::IfcCartesianPoint( int tag ) { m_tag = tag; }
+IFC4X3::IfcCartesianPoint::IfcCartesianPoint( int tag )
+{
+	m_tag = tag;
+	m_Coordinates[0] = 0;
+	m_Coordinates[1] = 0;
+	m_Coordinates[2] = 0;
+	m_size = 0;
+}
 void IFC4X3::IfcCartesianPoint::getStepLine( std::stringstream& stream ) const
 {
 	stream << "#" << m_tag << "= IFCCARTESIANPOINT" << "(";
-	writeTypeOfRealList( stream, m_Coordinates, false );
+	writeRealArray3( stream, m_Coordinates, false, m_size );
 	stream << ");";
 }
 void IFC4X3::IfcCartesianPoint::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
@@ -25,14 +31,19 @@ void IFC4X3::IfcCartesianPoint::readStepArguments( const std::vector<std::string
 {
 	const size_t num_args = args.size();
 	if( num_args != 1 ){ std::stringstream err; err << "Wrong parameter count for entity IfcCartesianPoint, expecting 1, having " << num_args << ". Entity ID: " << m_tag << std::endl; throw BuildingException( err.str().c_str() ); }
-	readTypeOfRealList( args[0], m_Coordinates );
+	readRealArray( args[0], m_Coordinates, m_size );
 }
 void IFC4X3::IfcCartesianPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcPoint::getAttributes( vec_attributes );
-	shared_ptr<AttributeObjectVector> Coordinates_vec_object( new AttributeObjectVector() );
-	std::copy( m_Coordinates.begin(), m_Coordinates.end(), std::back_inserter( Coordinates_vec_object->m_vec ) );
-	vec_attributes.emplace_back( std::make_pair( "Coordinates", Coordinates_vec_object ) );
+	shared_ptr<AttributeObjectVector> Coordinates_vec_obj( new AttributeObjectVector() );
+	Coordinates_vec_obj->m_vec.emplace_back( shared_ptr<RealAttribute>( new RealAttribute(m_Coordinates[0] ) ) );
+	Coordinates_vec_obj->m_vec.emplace_back( shared_ptr<RealAttribute>( new RealAttribute(m_Coordinates[1] ) ) );
+	if( m_size > 2 )
+	{
+		Coordinates_vec_obj->m_vec.emplace_back( shared_ptr<RealAttribute>( new RealAttribute(m_Coordinates[2] ) ) );
+	}
+	vec_attributes.emplace_back( std::make_pair( "Coordinates", Coordinates_vec_obj ) );
 }
 void IFC4X3::IfcCartesianPoint::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

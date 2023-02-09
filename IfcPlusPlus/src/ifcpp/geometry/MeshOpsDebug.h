@@ -181,7 +181,7 @@ static void dumpWithLabel(std::string labelStr, shared_ptr<carve::mesh::MeshSet<
 	}
 
 	MeshSetInfo infoMeshset;
-	bool meshset_ok = MeshUtils::checkMeshSetValidAndClosed(meshset, infoMeshset);
+	bool meshset_ok = MeshUtils::checkMeshSetValidAndClosed(meshset, infoMeshset, EPS_DEFAULT);
 
 	glm::vec4 colorCurrentLabel = colorSettings.colorLabel;
 	if( infoMeshset.meshSetValid )

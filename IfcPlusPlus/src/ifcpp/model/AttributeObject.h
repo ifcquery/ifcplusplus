@@ -33,6 +33,17 @@ public:
 	std::vector<shared_ptr<BuildingObject> > m_vec;
 };
 
+//class AttributeRealVector : public BuildingObject
+//{
+//public:
+//	AttributeRealVector() = default;
+//	AttributeRealVector( std::vector<double>& vec ){ m_vec = vec; }
+//	virtual ~AttributeRealVector()= default;
+//	uint32_t classID() const override { return 3403209899; }
+//	void getStepParameter( std::stringstream& /*stream*/, bool /*is_select_type = false*/ ) const override {}
+//	std::vector<double> m_vec;
+//};
+
 class BoolAttribute : public BuildingObject
 {
 public:

@@ -36,8 +36,8 @@ namespace carve {
 
 namespace space {
 
-static inline bool intersection_test(const carve::geom::aabb<3>& aabb,
-                                     const carve::poly::Face<3>* face) {
+static inline bool intersection_test(const carve::geom::aabb<3>& aabb, const carve::poly::Face<3>* face)
+{
   if (face->nVertices() == 3) {
     return aabb.intersects(carve::geom::tri<3>(
         face->vertex(0)->v, face->vertex(1)->v, face->vertex(2)->v));
@@ -47,13 +47,13 @@ static inline bool intersection_test(const carve::geom::aabb<3>& aabb,
   }
 }
 
-static inline bool intersection_test(const carve::geom::aabb<3>& aabb,
-                                     const carve::poly::Edge<3>* edge) {
+static inline bool intersection_test(const carve::geom::aabb<3>& aabb, const carve::poly::Edge<3>* edge)
+{
   return aabb.intersectsLineSegment(edge->v1->v, edge->v2->v);
 }
 
-static inline bool intersection_test(const carve::geom::aabb<3>& aabb,
-                                     const carve::poly::Vertex<3>* vertex) {
+static inline bool intersection_test(const carve::geom::aabb<3>& aabb, const carve::poly::Vertex<3>* vertex)
+{
   return aabb.intersects(vertex->v);
 }
 

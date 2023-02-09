@@ -15,6 +15,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <cmath>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -108,12 +109,21 @@ void writeIntList3D(std::stringstream& stream, const std::vector<std::vector<std
 	stream << ")";
 }
 
-void writeRealList(std::stringstream& stream, const std::vector<double>& vec)
+void writeRealList(std::stringstream& stream, const std::vector<double>& vec, bool optionalAttribute)
 {
 	// example: (3,23,039)
 	if (vec.size() == 0)
 	{
-		stream << "$";
+		if (optionalAttribute)
+		{
+			stream << "$";
+		}
+		else
+		{
+			stream << "()";
+		}
+
+		
 		return;
 	}
 	stream << "(";
@@ -128,12 +138,51 @@ void writeRealList(std::stringstream& stream, const std::vector<double>& vec)
 	}
 	stream << ")";
 }
-void writeRealList2D(std::stringstream& stream, const std::vector<std::vector<double> >& vec)
+
+void writeRealArray3(std::stringstream& stream, const double (&vec)[3], bool optionalAttribute, short int size)
+{
+	// example: (3,23,039)
+	if (size == 0)
+	{
+		if (optionalAttribute)
+		{
+			stream << "$";
+		}
+		else
+		{
+			stream << "()";
+		}
+
+
+		return;
+	}
+	stream << "(";
+	for (size_t ii = 0; ii < size; ++ii)
+	{
+		if (ii > 0)
+		{
+			stream << ",";
+		}
+
+		appendRealWithoutTrailingZeros(stream, vec[ii]);
+	}
+	stream << ")";
+}
+
+void writeRealList2D(std::stringstream& stream, const std::vector<std::vector<double> >& vec, bool optionalAttribute)
 {
 	// example: ((1,2,4),(3,23,039),(938,3,-3,6))
 	if (vec.size() == 0)
 	{
-		stream << "$";
+		//stream << "$";
+		if (optionalAttribute)
+		{
+			stream << "$";
+		}
+		else
+		{
+			stream << "()";
+		}
 		return;
 	}
 
@@ -145,7 +194,7 @@ void writeRealList2D(std::stringstream& stream, const std::vector<std::vector<do
 		{
 			stream << ",";
 		}
-		writeRealList(stream, inner_vec);
+		writeRealList(stream, inner_vec, false);
 	}
 	stream << ")";
 }
@@ -167,11 +216,29 @@ void writeRealList3D(std::stringstream& stream, const std::vector<std::vector<st
 		{
 			stream << ",";
 		}
-		writeRealList2D(stream, inner_vec);
+		writeRealList2D(stream, inner_vec, false);
 	}
 	stream << ")";
 }
 
+void writeStepParameterDouble( double value, std::stringstream& stream, const std::string& classIDstr, bool is_select_type )
+{
+	if( std::isnan(value) )
+	{
+		stream << "$";
+		return;
+	}
+
+	if( is_select_type ) 
+	{
+		//std::string classIDstr = IFC4X3::EntityFactory::getStringForClassID(classID);
+		//std::transform(classIDstr.begin(), classIDstr.end(), classIDstr.begin(), [](char c) {return std::toupper(c); });
+		stream << classIDstr << "(";     // for example "IFCLABEL(";
+	}
+	//stream << "'" << encodeStepString( m_value ) << "'";
+	appendRealWithoutTrailingZeros( stream, value );
+	if( is_select_type ) { stream << ")"; }
+}
 
 std::string encodeStepString( const std::string& str )
 {

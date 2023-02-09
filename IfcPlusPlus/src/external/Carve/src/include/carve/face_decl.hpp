@@ -105,37 +105,32 @@ class Face : public tagable {
   project_t project;
   unproject_t unproject;
 
-  Face(const std::vector<const vertex_t*>& _vertices,
-       bool delay_recalc = false);
-  Face(const vertex_t* v1, const vertex_t* v2, const vertex_t* v3,
-       bool delay_recalc = false);
-  Face(const vertex_t* v1, const vertex_t* v2, const vertex_t* v3,
-       const vertex_t* v4, bool delay_recalc = false);
+  Face(const std::vector<const vertex_t*>& _vertices, double CARVE_EPSILON, bool delay_recalc = false);
+  Face(const vertex_t* v1, const vertex_t* v2, const vertex_t* v3, double CARVE_EPSILON, bool delay_recalc = false);
+  Face(const vertex_t* v1, const vertex_t* v2, const vertex_t* v3, const vertex_t* v4, double CARVE_EPSILON, bool delay_recalc = false);
 
   template <typename iter_t>
-  Face(const Face* base, iter_t vbegin, iter_t vend, bool flipped) {
+  Face(const Face* base, iter_t vbegin, iter_t vend, bool flipped)
+  {
     init(base, vbegin, vend, flipped);
   }
 
-  Face(const Face* base, const std::vector<const vertex_t*>& _vertices,
-       bool flipped) {
+  Face(const Face* base, const std::vector<const vertex_t*>& _vertices, bool flipped) {
     init(base, _vertices, flipped);
   }
 
   Face() {}
   ~Face() {}
 
-  bool recalc();
+  bool recalc(double CARVE_EPSILON);
 
   template <typename iter_t>
   Face* init(const Face* base, iter_t vbegin, iter_t vend, bool flipped);
-  Face* init(const Face* base, const std::vector<const vertex_t*>& _vertices,
-             bool flipped);
+  Face* init(const Face* base, const std::vector<const vertex_t*>& _vertices, bool flipped);
 
   template <typename iter_t>
   Face* create(iter_t vbegin, iter_t vend, bool flipped) const;
-  Face* create(const std::vector<const vertex_t*>& _vertices,
-               bool flipped) const;
+  Face* create(const std::vector<const vertex_t*>& _vertices, bool flipped) const;
 
   Face* clone(bool flipped = false) const;
   void invert();
@@ -162,12 +157,10 @@ class Face : public tagable {
   const_edge_iter_t ebegin() const { return edges.begin(); }
   const_edge_iter_t eend() const { return edges.end(); }
 
-  bool containsPoint(const vector_t& p) const;
-  bool containsPointInProjection(const vector_t& p) const;
-  bool simpleLineSegmentIntersection(const carve::geom::linesegment<ndim>& line,
-                                     vector_t& intersection) const;
-  IntersectionClass lineSegmentIntersection(
-      const carve::geom::linesegment<ndim>& line, vector_t& intersection) const;
+  bool containsPoint(const vector_t& p, double CARVE_EPSILON) const;
+  bool containsPointInProjection(const vector_t& p, double CARVE_EPSILON) const;
+  bool simpleLineSegmentIntersection(const carve::geom::linesegment<ndim>& line, vector_t& intersection, double CARVE_EPSILON) const;
+  IntersectionClass lineSegmentIntersection( const carve::geom::linesegment<ndim>& line, vector_t& intersection, double CARVE_EPSILON) const; 
   vector_t centroid() const;
 
   p2_adapt_project<ndim> projector() const {

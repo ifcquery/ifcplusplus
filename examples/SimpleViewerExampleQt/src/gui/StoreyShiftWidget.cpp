@@ -31,7 +31,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <IfcBuilding.h>
 #include <IfcBuildingStorey.h>
 #include <IfcLengthMeasure.h>
-#include <ifcpp/geometry/Carve/GeometryConverter.h>
+#include <ifcpp/geometry/GeometryConverter.h>
 
 #include "ScopedLockAndBlock.h"
 #include "StoreyShiftWidget.h"

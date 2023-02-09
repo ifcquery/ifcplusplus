@@ -131,9 +131,11 @@ void BuildingModel::initIfcModel()
 	insertEntity(app);
 
 	shared_ptr<IfcCartesianPoint> point( new IfcCartesianPoint() );
-	point->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>( 0.0 ) );
-	point->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>( 0.0 ) );
-	point->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>( 0.0 ) );
+	point->m_Coordinates[0] = 0.0;
+	point->m_Coordinates[1] = 0.0;
+	point->m_Coordinates[2] = 0.0;
+	//point->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>( 0.0 ) );
+	//point->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>( 0.0 ) );
 	insertEntity(point);
 
 	shared_ptr<IfcAxis2Placement3D> axis_placement( new IfcAxis2Placement3D() );
@@ -200,21 +202,23 @@ void BuildingModel::initIfcModel()
 	// set up world coordinate system
 	shared_ptr<IfcDirection> axis( new IfcDirection() );
 	insertEntity(axis);
-	axis->m_DirectionRatios.push_back( std::make_shared<IfcReal>( 0.0 ) );
+	axis->m_DirectionRatios.push_back( std::make_shared<IfcReal>( 1.0 ) );
 	axis->m_DirectionRatios.push_back( std::make_shared<IfcReal>( 0.0 ) );
 	axis->m_DirectionRatios.push_back( std::make_shared<IfcReal>( 0.0 ) );
 
 	shared_ptr<IfcDirection> ref_direction( new IfcDirection() );
 	insertEntity(ref_direction);
 	ref_direction->m_DirectionRatios.push_back( std::make_shared<IfcReal>( 0.0 ) );
-	ref_direction->m_DirectionRatios.push_back( std::make_shared<IfcReal>( 0.0 ) );
+	ref_direction->m_DirectionRatios.push_back( std::make_shared<IfcReal>( 1.0 ) );
 	ref_direction->m_DirectionRatios.push_back( std::make_shared<IfcReal>( 0.0 ) );
 
 	shared_ptr<IfcCartesianPoint> location( new IfcCartesianPoint() );
 	insertEntity(location);
-	location->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>(0.0 ) );
-	location->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>(0.0 ) );
-	location->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>(0.0 ) );
+	location->m_Coordinates[0] = 0.0;
+	location->m_Coordinates[1] = 0.0;
+	location->m_Coordinates[2] = 0.0;
+	//location->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>(0.0 ) );
+	//location->m_Coordinates.push_back( std::make_shared<IfcLengthMeasure>(0.0 ) );
 
 	shared_ptr<IfcAxis2Placement3D> world_coordinate_system( new IfcAxis2Placement3D() );
 	insertEntity(world_coordinate_system);

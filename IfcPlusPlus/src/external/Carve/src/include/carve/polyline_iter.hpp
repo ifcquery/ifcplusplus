@@ -69,7 +69,7 @@ struct polyline_vertex_iter
   }
 
   Vertex* operator*() const {
-    CARVE_ASSERT(idx >= 0 && idx < base->vertexCount());
+    CARVE_ASSERT(idx >= 0 && idx < (int)base->vertexCount());
     return base->vertex((size_t)idx);
   }
 };
@@ -139,7 +139,7 @@ struct polyline_vertex_const_iter
   }
 
   const Vertex* operator*() const {
-    CARVE_ASSERT(idx >= 0 && idx < base->vertexCount());
+    CARVE_ASSERT(idx >= 0 && idx < (int)base->vertexCount());
     return base->vertex((size_t)idx);
   }
 };
@@ -217,7 +217,7 @@ struct polyline_edge_iter
   }
 
   PolylineEdge* operator*() const {
-    CARVE_ASSERT(idx >= 0 && idx < base->edgeCount());
+    CARVE_ASSERT(idx >= 0 && idx < (int)base->edgeCount());
     return base->edge((size_t)idx);
   }
 };
@@ -287,7 +287,7 @@ struct polyline_edge_const_iter
   }
 
   const PolylineEdge* operator*() const {
-    CARVE_ASSERT(idx >= 0 && idx < base->edgeCount());
+    CARVE_ASSERT(idx >= 0 && idx < (int)base->edgeCount());
     return base->edge((size_t)idx);
   }
 };

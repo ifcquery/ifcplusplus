@@ -36,144 +36,127 @@
 #include <list>
 
 namespace carve {
-namespace mesh {
-template <unsigned ndim>
-class MeshSet;
-}
+	namespace mesh {
+		template <unsigned ndim>
+		class MeshSet;
+	}
 
-namespace poly {
-class Polyhedron;
-}
+	namespace poly {
+		class Polyhedron;
+	}
 
-poly::Polyhedron* polyhedronFromMesh(const mesh::MeshSet<3>*, int);
+	poly::Polyhedron* polyhedronFromMesh(const mesh::MeshSet<3>*, int, double);
 
-namespace poly {
+	namespace poly {
 
-class Polyhedron : public Geometry<3> {
- private:
-  friend Polyhedron* carve::polyhedronFromMesh(const mesh::MeshSet<3>*, int);
+		class Polyhedron : public Geometry<3> {
+		private:
+			friend Polyhedron* carve::polyhedronFromMesh(const mesh::MeshSet<3>*, int, double);
 
-  Polyhedron() {}
+			Polyhedron() {}
 
-  Polyhedron& operator=(const Polyhedron&);  // not implemented
+			Polyhedron& operator=(const Polyhedron&);  // not implemented
 
-  // *** initialization
+			// *** initialization
 
-  bool initSpatialIndex();
-  void initVertexConnectivity();
-  void setFaceAndVertexOwner();
+			bool initSpatialIndex();
+			void initVertexConnectivity();
+			void setFaceAndVertexOwner();
 
-  bool initConnectivity();
-  bool markManifolds();
-  bool calcManifoldEmbedding();
+			bool initConnectivity(double CARVE_EPSILON);
+			bool markManifolds();
+			bool calcManifoldEmbedding(double CARVE_EPSILON);
 
-  bool init();
-  void faceRecalc();
+			bool init(double CARVE_EPSILON);
+			void faceRecalc(double CARVE_EPSILON);
 
-  void commonFaceInit(bool _recalc);
+			void commonFaceInit(bool _recalc, double CARVE_EPSILON);
 
- public:
-  static void collectFaceVertices(
-      std::vector<face_t>& faces, std::vector<vertex_t>& vertices,
-      std::unordered_map<const vertex_t*, const vertex_t*>& vmap);
+		public:
+			static void collectFaceVertices( std::vector<face_t>& faces, std::vector<vertex_t>& vertices, std::unordered_map<const vertex_t*, const vertex_t*>& vmap);
 
-  static void collectFaceVertices(std::vector<face_t>& faces,
-                                  std::vector<vertex_t>& vertices);
+			static void collectFaceVertices(std::vector<face_t>& faces, std::vector<vertex_t>& vertices);
 
-  std::vector<bool> manifold_is_closed;
-  std::vector<bool> manifold_is_negative;
+			std::vector<bool> manifold_is_closed;
+			std::vector<bool> manifold_is_negative;
 
-  carve::geom3d::AABB aabb;
-  carve::csg::Octree octree;
+			carve::geom3d::AABB aabb;
+			carve::csg::Octree octree;
 
-  // *** construction of Polyhedron objects
+			// *** construction of Polyhedron objects
 
-  Polyhedron(const Polyhedron&);
+			Polyhedron(const Polyhedron&, double CARVE_EPSILON);
 
-  // copy a single manifold
-  Polyhedron(const Polyhedron&, int m_id);
+			// copy a single manifold
+			Polyhedron(const Polyhedron&, int m_id, double CARVE_EPSILON);
 
-  // copy a subset of manifolds
-  Polyhedron(const Polyhedron&, const std::vector<bool>& selected_manifolds);
+			// copy a subset of manifolds
+			Polyhedron(const Polyhedron&, const std::vector<bool>& selected_manifolds, double CARVE_EPSILON);
 
-  Polyhedron(std::vector<face_t>& _faces, std::vector<vertex_t>& _vertices,
-             bool _recalc = false);
+			Polyhedron(std::vector<face_t>& _faces, std::vector<vertex_t>& _vertices, double CARVE_EPSILON, bool _recalc = false);
 
-  Polyhedron(std::vector<face_t>& _faces, bool _recalc = false);
+			Polyhedron(std::vector<face_t>& _faces, double CARVE_EPSILON, bool _recalc = false);
 
-  Polyhedron(std::list<face_t>& _faces, bool _recalc = false);
+			Polyhedron(std::list<face_t>& _faces, double CARVE_EPSILON, bool _recalc = false);
 
-  Polyhedron(const std::vector<carve::geom3d::Vector>& vertices, int n_faces,
-             const std::vector<int>& face_indices);
+			Polyhedron(const std::vector<carve::geom3d::Vector>& vertices, int n_faces, const std::vector<int>& face_indices, double CARVE_EPSILON);
 
-  ~Polyhedron();
+			~Polyhedron();
 
-  // *** containment queries
+			// *** containment queries
 
-  void testVertexAgainstClosedManifolds(const carve::geom3d::Vector& v,
-                                        std::map<int, PointClass>& result,
-                                        bool ignore_orentation) const;
+			void testVertexAgainstClosedManifolds(const carve::geom3d::Vector& v, std::map<int, PointClass>& result, bool ignore_orentation, double CARVE_EPSILON) const;
 
-  PointClass containsVertex(const carve::geom3d::Vector& v,
-                            const face_t** hit_face = nullptr,
-                            bool even_odd = false, int manifold_id = -1) const;
+			PointClass containsVertex(const carve::geom3d::Vector& v, double CARVE_EPSILON, const face_t** hit_face = nullptr, bool even_odd = false, int manifold_id = -1) const;
 
-  // *** locality queries
+			// *** locality queries
 
-  void findEdgesNear(const carve::geom::aabb<3>& aabb,
-                     std::vector<const edge_t*>& edges) const;
-  void findEdgesNear(const carve::geom3d::LineSegment& l,
-                     std::vector<const edge_t*>& edges) const;
-  void findEdgesNear(const carve::geom3d::Vector& v,
-                     std::vector<const edge_t*>& edges) const;
-  void findEdgesNear(const face_t& face,
-                     std::vector<const edge_t*>& edges) const;
-  void findEdgesNear(const edge_t& edge,
-                     std::vector<const edge_t*>& edges) const;
+			void findEdgesNear(const carve::geom::aabb<3>& aabb, std::vector<const edge_t*>& edges) const;
+			void findEdgesNear(const carve::geom3d::LineSegment& l, std::vector<const edge_t*>& edges) const;
+			void findEdgesNear(const carve::geom3d::Vector& v, std::vector<const edge_t*>& edges) const;
+			void findEdgesNear(const face_t& face, std::vector<const edge_t*>& edges) const;
+			void findEdgesNear(const edge_t& edge, std::vector<const edge_t*>& edges) const;
 
-  void findFacesNear(const carve::geom::aabb<3>& aabb,
-                     std::vector<const face_t*>& faces) const;
-  void findFacesNear(const carve::geom3d::LineSegment& l,
-                     std::vector<const face_t*>& faces) const;
-  void findFacesNear(const edge_t& edge,
-                     std::vector<const face_t*>& faces) const;
+			void findFacesNear(const carve::geom::aabb<3>& aabb, std::vector<const face_t*>& faces) const;
+			void findFacesNear(const carve::geom3d::LineSegment& l, std::vector<const face_t*>& faces) const;
+			void findFacesNear(const edge_t& edge, std::vector<const face_t*>& faces) const;
 
-  // *** manifold queries
+			// *** manifold queries
 
-  inline bool vertexOnManifold(const vertex_t* v, int m_id) const;
-  inline bool edgeOnManifold(const edge_t* e, int m_id) const;
+			inline bool vertexOnManifold(const vertex_t* v, int m_id) const;
+			inline bool edgeOnManifold(const edge_t* e, int m_id) const;
 
-  template <typename T>
-  int vertexManifolds(const vertex_t* v, T result) const;
+			template <typename T>
+			int vertexManifolds(const vertex_t* v, T result) const;
 
-  template <typename T>
-  int edgeManifolds(const edge_t* e, T result) const;
+			template <typename T>
+			int edgeManifolds(const edge_t* e, T result) const;
 
-  size_t manifoldCount() const;
+			size_t manifoldCount() const;
 
-  bool hasOpenManifolds() const;
+			bool hasOpenManifolds() const;
 
-  // *** transformation
+			// *** transformation
 
-  // flip face directions
-  void invertAll();
-  void invert(const std::vector<bool>& selected_manifolds);
+			// flip face directions
+			void invertAll();
+			void invert(const std::vector<bool>& selected_manifolds);
 
-  void invert(int m_id);
-  void invert();
+			void invert(int m_id);
+			void invert();
 
-  // matrix transform of vertices
-  void transform(const carve::math::Matrix& xform);
+			// matrix transform of vertices
+			void transform(const carve::math::Matrix& xform, double CARVE_EPSILON);
 
-  // arbitrary function transform of vertices
-  template <typename T>
-  void transform(const T& xform);
+			// arbitrary function transform of vertices
+			template <typename T>
+			void transform(const T& xform, double CARVE_EPSILON);
 
-  void print(std::ostream&) const;
+			void print(std::ostream&) const;
 
-  void canonicalize();
-};
+			void canonicalize();
+		};
 
-std::ostream& operator<<(std::ostream&, const Polyhedron&);
-}  // namespace poly
+		std::ostream& operator<<(std::ostream&, const Polyhedron&);
+	}  // namespace poly
 }  // namespace carve

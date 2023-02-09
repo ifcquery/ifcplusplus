@@ -245,12 +245,13 @@
       <BrowseInformation>false</BrowseInformation>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <Optimization>MaxSpeed</Optimization>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
       <SmallerTypeCheck>false</SmallerTypeCheck>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableSpecificWarnings>4305</DisableSpecificWarnings>

@@ -51,7 +51,7 @@ namespace carve {
 		typedef carve::geom::vector<3> Vector;
 
 		template <typename iter_t, typename adapt_t>
-		bool fitPlane(iter_t begin, iter_t end, adapt_t adapt, Plane& plane) {
+		bool fitPlane(iter_t begin, iter_t end, adapt_t adapt, Plane& plane, double CARVE_EPSILON) {
 			std::vector<Vector> p;
 			for( ; begin != end; ++begin ) {
 				p.push_back(adapt(*begin));
@@ -188,18 +188,13 @@ namespace carve {
 			return true;
 		}
 
-		bool planeIntersection(const Plane& a, const Plane& b, Ray& r);
+		bool planeIntersection(const Plane& a, const Plane& b, Ray& r, double CARVE_EPSILON);
 
-		IntersectionClass rayPlaneIntersection(const Plane& p, const Vector& v1,
-			const Vector& v2, Vector& v, double& t);
+		IntersectionClass rayPlaneIntersection(const Plane& p, const Vector& v1, const Vector& v2, Vector& v, double& t, double CARVE_EPSILON);
 
-		IntersectionClass lineSegmentPlaneIntersection(const Plane& p,
-			const LineSegment& line,
-			Vector& v);
+		IntersectionClass lineSegmentPlaneIntersection(const Plane& p, const LineSegment& line, Vector& v, double CARVE_EPSILON);
 
-		RayIntersectionClass rayRayIntersection(const Ray& r1, const Ray& r2,
-			Vector& v1, Vector& v2, double& mu1,
-			double& mu2);
+		RayIntersectionClass rayRayIntersection(const Ray& r1, const Ray& r2, Vector& v1, Vector& v2, double& mu1, double& mu2, double CARVE_EPSILON);
 
 		// test whether point d is above, below or on the plane formed by the triangle
 		// a,b,c.
@@ -212,8 +207,8 @@ namespace carve {
 			return shewchuk::orient3d(a.v, b.v, c.v, d.v);
 		}
 #else
-		inline double orient3d(const Vector& a, const Vector& b, const Vector& c,
-			const Vector& d) {
+		inline double orient3d(const Vector& a, const Vector& b, const Vector& c, const Vector& d)
+		{
 			return dotcross((a - d), (b - d), (c - d));
 		}
 #endif
@@ -373,11 +368,10 @@ namespace carve {
 
 		// The anticlockwise angle from vector "from" to vector "to", oriented around
 		// the vector "orient".
-		static inline double antiClockwiseAngle(const Vector& from, const Vector& to,
-			const Vector& orient) {
+		static inline double antiClockwiseAngle(const Vector& from, const Vector& to, const Vector& orient, double CARVE_EPSILON) {
 			double dp = dot(from, to);
 			Vector cp = cross(from, to);
-			if( cp.isZero() ) {
+			if( cp.isZero(CARVE_EPSILON) ) {
 				if( dp < 0 ) {
 					return M_PI;
 				}
@@ -395,11 +389,10 @@ namespace carve {
 			}
 		}
 
-		static inline double antiClockwiseOrdering(const Vector& from, const Vector& to,
-			const Vector& orient) {
+		static inline double antiClockwiseOrdering(const Vector& from, const Vector& to, const Vector& orient, double CARVE_EPSILON) {
 			double dp = dot(from, to);
 			Vector cp = cross(from, to);
-			if( cp.isZero() ) {
+			if( cp.isZero(CARVE_EPSILON) ) {
 				if( dp < 0 ) {
 					return 2.0;
 				}

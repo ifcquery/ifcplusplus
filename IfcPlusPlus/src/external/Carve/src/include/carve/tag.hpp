@@ -25,33 +25,79 @@
 #pragma once
 
 #include <carve/carve.hpp>
+#ifdef _OPENMP
+#include <omp.h>
+#include <iostream>
+#endif
 
 namespace carve {
+	class tagable {
+	private:
+		static int s_count[48];
 
-class tagable {
- private:
-  static int s_count;
+	protected:
+		mutable int __tag;
 
- protected:
-  mutable int __tag;
+		static inline int getCurrentThreadNum()
+		{
+			int threadNr = 0;
+#ifdef _OPENMP
+			threadNr = omp_get_thread_num();
+#endif
+			return threadNr;
+		}
 
- public:
-  tagable(const tagable&) : __tag(s_count - 1) {}
-  tagable& operator=(const tagable&) { return *this; }
+	public:
+		tagable(const tagable&)
+		{
+			int threadNr = getCurrentThreadNum();
+			__tag = s_count[threadNr] - 1;
+		}
+		tagable& operator=(const tagable&)
+		{
+			return *this;
+		}
 
-  tagable() : __tag(s_count - 1) {}
+		tagable()
+		{
+			int threadNr = getCurrentThreadNum();
+			__tag = s_count[threadNr] - 1;
+		}
 
-  void tag() const { __tag = s_count; }
-  void untag() const { __tag = s_count - 1; }
-  bool is_tagged() const { return __tag == s_count; }
-  bool tag_once() const {
-    if (__tag == s_count) {
-      return false;
-    }
-    __tag = s_count;
-    return true;
-  }
+		void tag() const
+		{
+			int threadNr = getCurrentThreadNum();
+			__tag = s_count[threadNr];
+		}
 
-  static void tag_begin() { s_count++; }
-};
+		void untag() const
+		{
+			int threadNr = getCurrentThreadNum();
+			__tag = s_count[threadNr] - 1;
+		}
+
+		bool is_tagged() const
+		{
+			int threadNr = getCurrentThreadNum();
+			return __tag == s_count[threadNr];
+		}
+
+		bool tag_once() const
+		{
+			int threadNr = getCurrentThreadNum();
+
+			if( __tag == s_count[threadNr] )
+			{
+				return false;
+			}
+			__tag = s_count[threadNr];
+			return true;
+		}
+
+		static void tag_begin()
+		{
+			int threadNr = getCurrentThreadNum();
+			s_count[threadNr]++;
+		}
+	};
 }  // namespace carve

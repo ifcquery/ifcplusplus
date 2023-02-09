@@ -122,16 +122,16 @@ namespace MeshUtils
 		}
 	}
 
-	inline void recalcMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshset)
+	inline void recalcMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshset, double CARVE_EPSILON)
 	{
 		for( auto mesh : meshset->meshes )
 		{
 			mesh->cacheEdges();
-			mesh->recalc();
+			mesh->recalc(CARVE_EPSILON);
 		}
 	}
 
-	inline bool checkMeshSetVolume( const shared_ptr<carve::mesh::MeshSet<3> >& mesh_set, StatusCallback* report_callback, BuildingEntity* entity )
+	inline bool checkMeshSetVolume( const shared_ptr<carve::mesh::MeshSet<3> >& mesh_set, StatusCallback* report_callback, BuildingEntity* entity, double CARVE_EPSILON )
 	{
 		if( !mesh_set )
 		{
@@ -168,7 +168,7 @@ namespace MeshUtils
 				mesh->invert();
 				if( mesh->isNegative() )
 				{
-					mesh->recalc();
+					mesh->recalc(CARVE_EPSILON);
 					mesh->calcOrientation();
 					if( mesh->isNegative() )
 					{
@@ -398,7 +398,7 @@ namespace MeshUtils
 		return true;
 	}
 
-	inline bool checkMeshFins(const shared_ptr<carve::mesh::MeshSet<3> >& meshset)
+	inline bool checkMeshFins(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, double CARVE_EPSILON)
 	{
 		if( !meshset )
 		{
@@ -448,7 +448,7 @@ namespace MeshUtils
 									if( std::abs(dotProduct + 1.0) < EPS_DEFAULT * 10 )
 									{
 										double face_area = MeshUtils::computeFaceArea(face);
-										if( std::abs(face_area) > carve::CARVE_EPSILON * 10 )
+										if( std::abs(face_area) > CARVE_EPSILON * 10 )
 										{
 #ifdef _DEBUG
 											//std::cout << "opposite face is coplanar" << std::endl;
@@ -702,7 +702,6 @@ namespace MeshUtils
 			
 			if( degenerateEdge != nullptr )
 			{
-				
 				carve::mesh::Edge<3>* degenerateEdgeReverse = degenerateEdge->rev;
 				if( degenerateEdgeReverse != nullptr )
 				{
@@ -716,29 +715,6 @@ namespace MeshUtils
 				{
 					setEdgesToRemove.insert(degenerateEdge);
 				}
-
-#ifdef _DEBUG
-				double area = computeFaceArea(face);
-				glm::vec4 color(0.4, 0.2, 0.2, 1.);
-				std::vector<const carve::mesh::Face<3>* > vecFaces;
-				vecFaces.push_back(face);
-				GeomDebugDump::moveOffset(0.3);
-				GeomDebugDump::stopBuffering();
-				GeomDebugDump::dumpFaces(vecFaces, color);
-				GeomDebugDump::moveOffset(0.3);
-				GeomDebugDump::dumpFacePolygon(face, color, true);
-
-				GeomDebugDump::moveOffset(0.01);
-				std::vector<vec3> vecPolyline = { e->v1()->v, e->v2()->v };
-				GeomDebugDump::dumpPolyline(vecPolyline, color, true);
-
-				//for( auto edgeRef : setEdgesReferencing )
-				//{
-				//	GeomDebugDump::moveOffset(0.01);
-				//	std::vector<vec3> vecPolyline = { edgeRef->v1()->v, edgeRef->v2()->v };
-				//	GeomDebugDump::dumpPolyline(vecPolyline, color, true);
-				//}
-#endif
 			}
 			e = e->next;
 		}
@@ -761,7 +737,6 @@ namespace MeshUtils
 			}
 
 			carve::mesh::Edge<3>* edgeRemainingNext = edgeRemove->removeEdge();
-
 			for( auto faceReplaceEdgePointer : setFacesToReplaceEdgePointer )
 			{
 				if( faceReplaceEdgePointer->edge != edgeRemainingNext )
@@ -770,12 +745,11 @@ namespace MeshUtils
 				}
 			}
 			
-
 			++numChanges;
 		}
 	}
 	
-	inline void removeFinEdges(carve::mesh::Mesh<3>* mesh, double eps)
+	inline void removeFinEdges(carve::mesh::Mesh<3>* mesh, double CARVE_EPSILON)
 	{
 		if( !mesh )
 		{
@@ -808,8 +782,6 @@ namespace MeshUtils
 		}
 #endif
 
-		
-
 		for( size_t ii = 0; ii < numFaces; ++ii )
 		{
 			size_t numChangesAll = 0;
@@ -817,30 +789,11 @@ namespace MeshUtils
 			{
 				size_t numChangesCurrentFace = 0;
 				carve::mesh::Face<3>* face = vec_faces[jj];
-				removeFinEdges(face, numChangesCurrentFace, eps);
+				removeFinEdges(face, numChangesCurrentFace, CARVE_EPSILON);
 				numChangesAll += numChangesCurrentFace;
-
-//#ifdef _DEBUG
-//				if( numChangesCurrentFace > 0 )
-//				{
-//					glm::vec4 color(0.4, 0.2, 0.2, 1.);
-//					std::vector<const carve::mesh::Face<3>* > vecFaces;
-//					vecFaces.push_back(face);
-//					GeomDebugDump::moveOffset(0.3);
-//					GeomDebugDump::stopBuffering();
-//					GeomDebugDump::dumpFaces(vecFaces, color);
-//					GeomDebugDump::moveOffset(0.3);
-//					GeomDebugDump::dumpFacePolygon(face, color, true);
-//
-//					//GeomDebugDump::moveOffset(0.01);
-//					//std::vector<vec3> vecPolyline = { e->v1()->v, e->v2()->v };
-//					//GeomDebugDump::dumpPolyline(vecPolyline, color, true);
-//				}
-//#endif
 			}
 
 			// several fin-edges (where edge->next == edge->reverse) can be concatenated. Repeat until there are no changes
-
 			if( numChangesAll > 0 )
 			{
 				if( mesh->faces.size() < 2 )
@@ -858,7 +811,7 @@ namespace MeshUtils
 				}
 				
 				mesh->cacheEdges();
-				mesh->recalc();
+				mesh->recalc(CARVE_EPSILON);
 			}
 
 			if( numChangesAll == 0 )
@@ -868,8 +821,6 @@ namespace MeshUtils
 		}
 	}
 	
-	
-
 	inline double getFaceArea2D(const carve::mesh::Face<3>* face )
 	{
 		std::vector<carve::geom::vector<2> > facePoints;
@@ -904,7 +855,7 @@ namespace MeshUtils
 		meshOut.m_poly_data->addFace(idxA, idxB, idxC);
 	}
 
-	static void addTriangleCheckDegenerate(int idxA, int idxB, int idxC, PolyInputCache3D& meshOut)
+	static void addTriangleCheckDegenerate(int idxA, int idxB, int idxC, PolyInputCache3D& meshOut, double CARVE_EPSILON)
 	{
 		if( idxA == idxB || idxA == idxC || idxB == idxC )
 		{
@@ -918,7 +869,7 @@ namespace MeshUtils
 		const carve::geom::vector<3>& pointB = meshOut.m_poly_data->getVertex(idxB);
 		const carve::geom::vector<3>& pointC = meshOut.m_poly_data->getVertex(idxC);
 		double lengthAB = (pointB - pointA).length2();
-		if( lengthAB < carve::CARVE_EPSILON2 * 10 )
+		if( lengthAB < CARVE_EPSILON*CARVE_EPSILON * 10 )
 		{
 #ifdef _DEBUG
 			std::cout << "skipping degenerate triangle: " << idxA << "/" << idxB << "/" << idxC << std::endl;
@@ -927,7 +878,7 @@ namespace MeshUtils
 		}
 
 		double lengthAC = (pointC - pointA).length2();
-		if( lengthAC < carve::CARVE_EPSILON2 * 10 )
+		if( lengthAC < CARVE_EPSILON*CARVE_EPSILON * 10 )
 		{
 #ifdef _DEBUG
 			std::cout << "skipping degenerate triangle: " << idxA << "/" << idxB << "/" << idxC << std::endl;
@@ -936,7 +887,7 @@ namespace MeshUtils
 		}
 
 		double lengthBC = (pointC - pointB).length2();
-		if( lengthBC < carve::CARVE_EPSILON2 * 10 )
+		if( lengthBC < CARVE_EPSILON*CARVE_EPSILON * 10 )
 		{
 #ifdef _DEBUG
 			std::cout << "skipping degenerate triangle: " << idxA << "/" << idxB << "/" << idxC << std::endl;
@@ -947,7 +898,7 @@ namespace MeshUtils
 		meshOut.m_poly_data->addFace(idxA, idxB, idxC);
 	}
 
-	static void addFaceCheckIndexes(int idxA, int idxB, int idxC, int idxD, PolyInputCache3D& meshOut)
+	static void addFaceCheckIndexes(int idxA, int idxB, int idxC, int idxD, PolyInputCache3D& meshOut, double CARVE_EPSILON)
 	{
 		std::set<int> setIndices = { idxA, idxB, idxC, idxD };
 
@@ -963,27 +914,27 @@ namespace MeshUtils
 			return;
 		}
 
-		addTriangleCheckDegenerate(idxA, idxB, idxC, meshOut);
-		addTriangleCheckDegenerate(idxA, idxC, idxD, meshOut);
+		addTriangleCheckDegenerate(idxA, idxB, idxC, meshOut, CARVE_EPSILON);
+		addTriangleCheckDegenerate(idxA, idxC, idxD, meshOut, CARVE_EPSILON);
 	}
 
-	static void addFaceCheckIndexes(const vec3& v0, const vec3& v1, const vec3& v2, PolyInputCache3D& meshOut)
+	static void addFaceCheckIndexes(const vec3& v0, const vec3& v1, const vec3& v2, PolyInputCache3D& meshOut, double CARVE_EPSILON)
 	{
 		int idxA = meshOut.addPoint(v0);
 		int idxB = meshOut.addPoint(v1);
 		int idxC = meshOut.addPoint(v2);
-		addTriangleCheckDegenerate(idxA, idxB, idxC, meshOut);
+		addTriangleCheckDegenerate(idxA, idxB, idxC, meshOut, CARVE_EPSILON);
 	}
 
-	static void addFaceCheckIndexes(const vec3& v0, const vec3& v1, const vec3& v2, const vec3& v3, PolyInputCache3D& meshOut)
+	static void addFaceCheckIndexes(const vec3& v0, const vec3& v1, const vec3& v2, const vec3& v3, PolyInputCache3D& meshOut, double CARVE_EPSILON)
 	{
 		int idxA = meshOut.addPoint(v0);
 		int idxB = meshOut.addPoint(v1);
 		int idxC = meshOut.addPoint(v2);
 		int idxD = meshOut.addPoint(v3);
 
-		addTriangleCheckDegenerate(idxA, idxB, idxC, meshOut);
-		addTriangleCheckDegenerate(idxA, idxC, idxD, meshOut);
+		addTriangleCheckDegenerate(idxA, idxB, idxC, meshOut, CARVE_EPSILON);
+		addTriangleCheckDegenerate(idxA, idxC, idxD, meshOut, CARVE_EPSILON);
 	}
 
 	static void getMeshVertexPoints(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, std::vector<glm::dvec3>& vecAllPoints)
@@ -1022,7 +973,7 @@ namespace MeshUtils
 		}
 	}
 
-	static void removeZeroAreaFacesInMesh(carve::mesh::Mesh<3>* mesh, double epsMinFaceArea)
+	static void removeZeroAreaFacesInMesh(carve::mesh::Mesh<3>* mesh, double epsMinFaceArea, double CARVE_EPSILON)
 	{
 		size_t numFacesRemoved = 0;
 		for( auto it = mesh->faces.begin(); it != mesh->faces.end(); ++it )
@@ -1042,19 +993,19 @@ namespace MeshUtils
 		if( numFacesRemoved > 0 )
 		{
 			mesh->cacheEdges();
-			mesh->recalc();
+			mesh->recalc(CARVE_EPSILON);
 		}
 	}
 
-	static void removeZeroAreaFacesInMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput, double epsMinFaceArea)
+	static void removeZeroAreaFacesInMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput, double epsMinFaceArea, double CARVE_EPSILON)
 	{
 		for( carve::mesh::Mesh<3>*mesh : meshsetInput->meshes )
 		{
-			removeZeroAreaFacesInMesh(mesh, epsMinFaceArea);
+			removeZeroAreaFacesInMesh(mesh, epsMinFaceArea, CARVE_EPSILON);
 		}
 	}
 
-	static bool checkMeshNonNegativeAndClosed( carve::mesh::Mesh<3>* mesh_i)
+	static bool checkMeshNonNegativeAndClosed( carve::mesh::Mesh<3>* mesh_i, double CARVE_EPSILON)
 	{
 		if( !mesh_i )
 		{
@@ -1070,7 +1021,7 @@ namespace MeshUtils
 				mesh_i->invert();
 				if( mesh_i->isNegative() )
 				{
-					mesh_i->recalc();
+					mesh_i->recalc(CARVE_EPSILON);
 					mesh_i->calcOrientation();
 					if( mesh_i->isNegative() )
 					{
@@ -1093,7 +1044,7 @@ namespace MeshUtils
 		return meshes_closed;
 	}
 
-	static bool checkMeshSetNonNegativeAndClosed(const shared_ptr<carve::mesh::MeshSet<3>> mesh_set)
+	static bool checkMeshSetNonNegativeAndClosed(const shared_ptr<carve::mesh::MeshSet<3>> mesh_set, double CARVE_EPSILON)
 	{
 		bool meshes_closed = true;
 		if( !mesh_set->isClosed() )
@@ -1111,7 +1062,7 @@ namespace MeshUtils
 					mesh_i->invert();
 					if( mesh_i->isNegative() )
 					{
-						mesh_i->recalc();
+						mesh_i->recalc(CARVE_EPSILON);
 						mesh_i->calcOrientation();
 						if( mesh_i->isNegative() )
 						{
@@ -1207,7 +1158,7 @@ namespace MeshUtils
 		}
 	}
 
-	static bool checkMeshSetValidAndClosed(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, MeshSetInfo& info )
+	static bool checkMeshSetValidAndClosed(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, MeshSetInfo& info, double CARVE_EPSILON )
 	{
 		info.resetInfoResult();
 		if( !meshset )
@@ -1251,7 +1202,7 @@ namespace MeshUtils
 			{
 				const carve::mesh::Face<3>* inputFace = mesh->faces[jj];
 				double face_area = MeshUtils::computeFaceArea(inputFace);
-				if( std::abs(face_area) < carve::CARVE_EPSILON )
+				if( std::abs(face_area) < CARVE_EPSILON )
 				{
 					++info.numZeroAreaFaces;
 				}
@@ -1266,7 +1217,7 @@ namespace MeshUtils
 			return false;
 		}
 
-		if( !checkMeshFins(meshset) )
+		if( !checkMeshFins(meshset, CARVE_EPSILON) )
 		{
 			info.meshSetValid = false;
 			return false;
@@ -1279,7 +1230,7 @@ namespace MeshUtils
 		}
 
 		std::stringstream err;
-		bool meshes_closed = checkMeshSetNonNegativeAndClosed(meshset);
+		bool meshes_closed = checkMeshSetNonNegativeAndClosed(meshset, CARVE_EPSILON);
 		if( meshes_closed )
 		{
 			// check volume
@@ -1294,7 +1245,7 @@ namespace MeshUtils
 					mesh->invert();
 					if( mesh->isNegative() )
 					{
-						mesh->recalc();
+						mesh->recalc(CARVE_EPSILON);
 						mesh->calcOrientation();
 						if( mesh->isNegative() )
 						{
@@ -1333,11 +1284,11 @@ namespace MeshUtils
 		return true;
 	}
 
-	inline void fixMeshset(carve::mesh::MeshSet<3>* meshset, double eps, bool shouldBeClosedManifold, bool dumpMeshes)
+	inline void fixMeshset(carve::mesh::MeshSet<3>* meshset, double CARVE_EPSILON, bool shouldBeClosedManifold, bool dumpMeshes)
 	{
 		for( carve::mesh::Mesh<3>* mesh : meshset->meshes )
 		{
-			removeFinEdges(mesh, eps);
+			removeFinEdges(mesh, CARVE_EPSILON);
 		}
 
 		for( auto it = meshset->meshes.begin(); it != meshset->meshes.end(); ++it )
@@ -1370,7 +1321,7 @@ namespace MeshUtils
 			if( meshChanged )
 			{
 				mesh->cacheEdges();
-				mesh->recalc();
+				mesh->recalc(CARVE_EPSILON);
 			}
 
 			bool checkForDegenerateEdges = false;
@@ -1412,11 +1363,11 @@ namespace MeshUtils
 
 	static bool checkMeshSetValidAndClosed(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, MeshSetInfo& info, double eps, bool tryToFixIfNotValid, bool dumpMeshes)
 	{
-		bool mesh_ok = checkMeshSetValidAndClosed(meshset, info);
+		bool mesh_ok = checkMeshSetValidAndClosed(meshset, info, eps);
 		if( tryToFixIfNotValid )
 		{
 			MeshUtils::fixMeshset(meshset.get(), eps, true, dumpMeshes);
-			mesh_ok = checkMeshSetValidAndClosed(meshset, info);
+			mesh_ok = checkMeshSetValidAndClosed(meshset, info, eps);
 		}
 		return mesh_ok;
 	}
@@ -1559,6 +1510,7 @@ namespace MeshUtils
 	///\param[out] meshOut: Result mesh
 	static void createTriangulated3DFace(const std::vector<std::vector<vec3> >& inputBounds3D, PolyInputCache3D& meshOut, GeomProcessingParams& params )
 	{
+		double CARVE_EPSILON = params.epsMergePoints;
 		if( inputBounds3D.size() == 1 )
 		{
 			const std::vector<vec3>& outerLoop = inputBounds3D[0];
@@ -1571,18 +1523,18 @@ namespace MeshUtils
 				const vec3& v0 = outerLoop[0];
 				const vec3& v1 = outerLoop[1];
 				const vec3& v2 = outerLoop[2];
-				addFaceCheckIndexes(v0, v1, v2, meshOut);
+				addFaceCheckIndexes(v0, v1, v2, meshOut, CARVE_EPSILON);
 
 #ifdef _DEBUG
 				if( params.debugDump )
 				{
 					glm::vec4 color(0, 1, 1, 1);
-					PolyInputCache3D poly( carve::CARVE_EPSILON );
+					PolyInputCache3D poly( CARVE_EPSILON );
 					int idxA = poly.addPoint(v0);
 					int idxB = poly.addPoint(v1);
 					int idxC = poly.addPoint(v2);
 					poly.m_poly_data->addFace(idxA, idxB, idxC);
-					shared_ptr<carve::mesh::MeshSet<3> > meshset(poly.m_poly_data->createMesh(carve::input::opts()));
+					shared_ptr<carve::mesh::MeshSet<3> > meshset(poly.m_poly_data->createMesh(carve::input::opts(), CARVE_EPSILON));
 					GeomDebugDump::dumpMeshset(meshset, color, false);
 				}
 #endif
@@ -1596,7 +1548,7 @@ namespace MeshUtils
 				const vec3& v2 = outerLoop[2];
 				const vec3& v3 = outerLoop[3];
 
-				addFaceCheckIndexes(v0, v1, v2, v3, meshOut);
+				addFaceCheckIndexes(v0, v1, v2, v3, meshOut, CARVE_EPSILON);
 
 				
 
@@ -1604,13 +1556,13 @@ namespace MeshUtils
 				if( params.debugDump )
 				{
 					glm::vec4 color(0, 1, 1, 1);
-					PolyInputCache3D poly( carve::CARVE_EPSILON );
+					PolyInputCache3D poly( CARVE_EPSILON );
 					int idxA = poly.addPoint(v0);
 					int idxB = poly.addPoint(v1);
 					int idxC = poly.addPoint(v2);
 					int idxD = poly.addPoint(v3);
 					poly.m_poly_data->addFace(idxA, idxB, idxC, idxD);
-					shared_ptr<carve::mesh::MeshSet<3> > meshset(poly.m_poly_data->createMesh(carve::input::opts()));
+					shared_ptr<carve::mesh::MeshSet<3> > meshset(poly.m_poly_data->createMesh(carve::input::opts(), CARVE_EPSILON));
 					GeomDebugDump::dumpMeshset(meshset, color, false);
 				}
 #endif
@@ -1620,7 +1572,7 @@ namespace MeshUtils
 		}
 
 #ifdef _DEBUG
-		PolyInputCache3D poly(carve::CARVE_EPSILON);
+		PolyInputCache3D poly(CARVE_EPSILON);
 #endif
 
 		std::vector<std::vector<std::array<double, 2> > > polygons2d;
@@ -1928,7 +1880,7 @@ namespace MeshUtils
 		if( errorOccured || params.debugDump)
 		{
 			glm::vec4 color(0, 1, 1, 1);
-			shared_ptr<carve::mesh::MeshSet<3> > meshset(poly.m_poly_data->createMesh(carve::input::opts()));
+			shared_ptr<carve::mesh::MeshSet<3> > meshset(poly.m_poly_data->createMesh(carve::input::opts(), CARVE_EPSILON));
 			GeomDebugDump::dumpMeshset(meshset, color, false);
 		}
 #endif
@@ -1948,6 +1900,7 @@ namespace MeshUtils
 		size_t maxNumFaces = 600;
 		size_t maxNumEdges = 600;
 		size_t maxNumOpenEdges = 100;
+		double CARVE_EPSILON = params.epsMergePoints;
 
 #ifdef _DEBUG
 		glm::vec4 color(0.5, 0.6, 0.7, 1.0);
@@ -2114,7 +2067,7 @@ namespace MeshUtils
 					return;
 				}
 
-				shared_ptr<carve::mesh::MeshSet<3> > meshsetNew(polyInput.m_poly_data->createMesh(carve::input::opts()));
+				shared_ptr<carve::mesh::MeshSet<3> > meshsetNew(polyInput.m_poly_data->createMesh(carve::input::opts(), CARVE_EPSILON));
 				if( meshsetNew->isClosed() )
 				{
 					meshset = meshsetNew;
@@ -2158,18 +2111,18 @@ namespace MeshUtils
 		}
 	}
 
-	static std::shared_ptr<carve::mesh::MeshSet<3> > createPlaneMesh(vec3& p0, vec3& p1, vec3& p2)
+	static std::shared_ptr<carve::mesh::MeshSet<3> > createPlaneMesh(vec3& p0, vec3& p1, vec3& p2, double CARVE_EPSILON)
 	{
 		carve::input::PolyhedronData polyhedron_data;
 		polyhedron_data.addVertex(p0);
 		polyhedron_data.addVertex(p1);
 		polyhedron_data.addVertex(p2);
 		polyhedron_data.addFace(0, 1, 2);
-		std::shared_ptr<carve::mesh::MeshSet<3> > mesh(polyhedron_data.createMesh(carve::input::opts()));
+		std::shared_ptr<carve::mesh::MeshSet<3> > mesh(polyhedron_data.createMesh(carve::input::opts(), CARVE_EPSILON));
 		return mesh;
 	}
 
-	static std::shared_ptr<carve::mesh::MeshSet<3> > createPlaneMesh(vec3& p0, vec3& p1, vec3& p2, vec3& p3)
+	static std::shared_ptr<carve::mesh::MeshSet<3> > createPlaneMesh(vec3& p0, vec3& p1, vec3& p2, vec3& p3, double CARVE_EPSILON)
 	{
 		carve::input::PolyhedronData polyhedron_data;
 		polyhedron_data.addVertex(p0);
@@ -2179,11 +2132,11 @@ namespace MeshUtils
 
 		polyhedron_data.addFace(0, 1, 2, 3);
 		//polyhedron_data.addFace(2, 3, 0);
-		std::shared_ptr<carve::mesh::MeshSet<3> > mesh(polyhedron_data.createMesh(carve::input::opts()));
+		std::shared_ptr<carve::mesh::MeshSet<3> > mesh(polyhedron_data.createMesh(carve::input::opts(), CARVE_EPSILON));
 		return mesh;
 	}
 
-	static std::shared_ptr<carve::mesh::MeshSet<3> > createBoxMesh(vec3& pos, vec3& extent, carve::math::Matrix& transform)
+	static std::shared_ptr<carve::mesh::MeshSet<3> > createBoxMesh(vec3& pos, vec3& extent, carve::math::Matrix& transform, double CARVE_EPSILON)
 	{
 		carve::input::PolyhedronData polyhedron_data;
 		polyhedron_data.addVertex(transform * (pos + carve::geom::VECTOR(extent.x, extent.y, -extent.z)));
@@ -2209,11 +2162,11 @@ namespace MeshUtils
 		polyhedron_data.addFace(3, 7, 4);
 		polyhedron_data.addFace(4, 0, 3);
 
-		std::shared_ptr<carve::mesh::MeshSet<3> > mesh(polyhedron_data.createMesh(carve::input::opts()));
+		std::shared_ptr<carve::mesh::MeshSet<3> > mesh(polyhedron_data.createMesh(carve::input::opts(), CARVE_EPSILON));
 		return mesh;
 	}
 
-	inline void mesh2MeshSet(const carve::mesh::Mesh<3>* mesh, shared_ptr<carve::mesh::MeshSet<3> >& meshsetResult)
+	inline void mesh2MeshSet(const carve::mesh::Mesh<3>* mesh, shared_ptr<carve::mesh::MeshSet<3> >& meshsetResult, double CARVE_EPSILON)
 	{
 		if( !mesh )
 		{
@@ -2228,7 +2181,7 @@ namespace MeshUtils
 
 
 
-		PolyInputCache3D polyInput(carve::CARVE_EPSILON);
+		PolyInputCache3D polyInput(CARVE_EPSILON);
 
 		// intersect with closed edges
 		size_t numSplitEdges = 0;
@@ -2261,7 +2214,7 @@ namespace MeshUtils
 
 
 		}
-		shared_ptr<carve::mesh::MeshSet<3> > meshsetNew(polyInput.m_poly_data->createMesh(carve::input::opts()));
+		shared_ptr<carve::mesh::MeshSet<3> > meshsetNew(polyInput.m_poly_data->createMesh(carve::input::opts(), CARVE_EPSILON));
 		meshsetResult = meshsetNew;
 	}
 
@@ -2524,13 +2477,14 @@ namespace MeshUtils
 		return inputCorrect;
 	}
 
-	static void resolveOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, double eps, bool dumpPolygons)
+	static void resolveOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, double CARVE_EPSILON, bool dumpPolygons)
 	{
 		if( !meshset )
 		{
 			return;
 		}
 		size_t numMeshesInput = meshset->meshes.size();
+		size_t numFacesInput = 0;
 		size_t numOpenEdgesInput = 0;
 		size_t numClosedEdgesInput = 0;
 		std::set<carve::mesh::Edge<3>* > allOpenEdges;
@@ -2539,7 +2493,7 @@ namespace MeshUtils
 			carve::mesh::Mesh<3>* mesh = meshset->meshes[ii];
 			numOpenEdgesInput += mesh->open_edges.size();
 			numClosedEdgesInput += mesh->closed_edges.size();
-
+			numFacesInput += mesh->faces.size();
 			if( mesh->faces.size() >= 6 )
 			{
 				for( auto edge : mesh->open_edges )
@@ -2554,13 +2508,19 @@ namespace MeshUtils
 			return;
 		}
 
+		size_t maxNumFaces = 5000;
+		if( numFacesInput > maxNumFaces )
+		{
+			return;
+		}
+
 		size_t maxNumOpenEdges = 1000;
 		if( allOpenEdges.size() > maxNumOpenEdges )
 		{
 			return;
 		}
 
-		PolyInputCache3D polyInput( eps );
+		PolyInputCache3D polyInput( CARVE_EPSILON );
 		polyhedronFromMeshSet(meshset, polyInput);
 		bool meshsetChanged = false;
 
@@ -2582,7 +2542,7 @@ namespace MeshUtils
 
 			std::set<carve::mesh::Edge<3>* > usedEdges;
 			std::vector<carve::mesh::Vertex<3>* > vecResultVertexLoop;
-			bool closedLoop = findEdgeLoop(openEdge, allOpenEdges, usedEdges, vecResultVertexLoop, eps, dumpPolygons );
+			bool closedLoop = findEdgeLoop(openEdge, allOpenEdges, usedEdges, vecResultVertexLoop, CARVE_EPSILON, dumpPolygons );
 
 			if( !closedLoop )
 			{
@@ -2625,7 +2585,7 @@ namespace MeshUtils
 				vec3 first = vecResultVertexLoop.front()->v;
 				vec3 last = vecResultVertexLoop.back()->v;
 				vec3 delt = last - first;
-				if( delt.length2() < eps * eps * 10.0 )
+				if( delt.length2() < CARVE_EPSILON * CARVE_EPSILON * 10.0 )
 				{
 					vecResultVertexLoop.pop_back();
 				}
@@ -2638,7 +2598,7 @@ namespace MeshUtils
 
 				// distance point to plane
 				double dist = facePlane.distancePointPlane(glm::dvec3(edgeEndPoint.x, edgeEndPoint.y, edgeEndPoint.z));
-				if( dist < carve::CARVE_EPSILON * 10 )
+				if( dist < CARVE_EPSILON * 10 )
 				{
 					int idx = polyInput.addPoint(edgeEndPoint);
 					pointIndicesInPlane.push_back(idx);
@@ -2664,7 +2624,7 @@ namespace MeshUtils
 
 		if( meshsetChanged )
 		{
-			GeomProcessingParams params(carve::CARVE_EPSILON, carve::CARVE_EPSILON*0.1, carve::CARVE_EPSILON * 0.01);
+			GeomProcessingParams params(CARVE_EPSILON, CARVE_EPSILON*0.1, CARVE_EPSILON * 0.01);
 			bool polyInputCorrect = checkPolyhedronData(polyInput.m_poly_data, params.minFaceArea);
 			if( !polyInputCorrect )
 			{
@@ -2674,14 +2634,14 @@ namespace MeshUtils
 
 			if( polyInputCorrect )
 			{
-				shared_ptr<carve::mesh::MeshSet<3> > meshsetNew(polyInput.m_poly_data->createMesh(carve::input::opts()));
+				shared_ptr<carve::mesh::MeshSet<3> > meshsetNew(polyInput.m_poly_data->createMesh(carve::input::opts(), CARVE_EPSILON));
 
 				size_t numOpenEdges = 0;
 				size_t numClosedEdges = 0;
 				for( size_t ii = 0; ii < meshsetNew->meshes.size(); ++ii )
 				{
 					carve::mesh::Mesh<3>* mesh = meshsetNew->meshes[ii];
-					mesh->recalc();
+					mesh->recalc(CARVE_EPSILON);
 					numOpenEdges += mesh->open_edges.size();
 					numClosedEdges += mesh->closed_edges.size();
 				}
@@ -2711,7 +2671,7 @@ namespace MeshUtils
 		}
 	}
 
-	static void getLargestClosedMesh(const shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput, shared_ptr<carve::mesh::MeshSet<3> >& meshsetResult )
+	static void getLargestClosedMesh(const shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput, shared_ptr<carve::mesh::MeshSet<3> >& meshsetResult, double CARVE_EPSILON )
 	{
 		std::map<int, carve::mesh::Mesh<3>* > mapClosedMeshes;
 		if( meshsetInput )
@@ -2730,7 +2690,7 @@ namespace MeshUtils
 		{
 			carve::mesh::Mesh<3>* mesh = mapClosedMeshes.rbegin()->second;
 
-			MeshUtils::mesh2MeshSet(mesh, meshsetResult);
+			MeshUtils::mesh2MeshSet(mesh, meshsetResult, CARVE_EPSILON);
 		}
 	}
 
@@ -2783,7 +2743,7 @@ namespace MeshUtils
 						continue;
 					}
 
-					MeshUtils::addFaceCheckIndexes(v0, v1, v2, polyhedron);
+					MeshUtils::addFaceCheckIndexes(v0, v1, v2, polyhedron, eps);
 					continue;
 				}
 
@@ -2794,7 +2754,7 @@ namespace MeshUtils
 			}
 		}
 
-		double minFaceArea = carve::CARVE_EPSILON * 0.001;
+		double minFaceArea = eps * 0.001;
 		bool polyhedron_ok = checkPolyhedronData(polyhedron.m_poly_data, minFaceArea);
 		if( !polyhedron_ok )
 		{
@@ -2847,13 +2807,13 @@ namespace MeshUtils
 		}
 	}
 
-	static void manifold2carve( const shared_ptr<manifold::Manifold>& manifoldInput, shared_ptr<carve::mesh::MeshSet<3> >& result, double eps)
+	static void manifold2carve( const shared_ptr<manifold::Manifold>& manifoldInput, shared_ptr<carve::mesh::MeshSet<3> >& result, double CARVE_EPSILON)
 	{
 		if( !manifoldInput )
 		{
 			return;
 		}
-		PolyInputCache3D poly( eps );
+		PolyInputCache3D poly( CARVE_EPSILON );
 		manifold::Mesh resultMesh = manifoldInput->GetMesh();
 
 		for (int i = 0, n = resultMesh.triVerts.size(); i < n; i++)
@@ -2883,12 +2843,12 @@ namespace MeshUtils
 			carve::geom::vector<3> v1 = carve::geom::VECTOR(p1.x, p1.y, p1.z);
 			carve::geom::vector<3> v2 = carve::geom::VECTOR(p2.x, p2.y, p2.z);
 
-			MeshUtils::addFaceCheckIndexes(v0, v1, v2, poly);
+			MeshUtils::addFaceCheckIndexes(v0, v1, v2, poly, CARVE_EPSILON);
 		}
-		result = shared_ptr<carve::mesh::MeshSet<3> >(poly.m_poly_data->createMesh(carve::input::opts()));
+		result = shared_ptr<carve::mesh::MeshSet<3> >(poly.m_poly_data->createMesh(carve::input::opts(), CARVE_EPSILON));
 	}
 
-	static void boundingBox2Mesh(carve::geom::aabb<3>& bbox, shared_ptr<carve::mesh::MeshSet<3> >& meshset)
+	static void boundingBox2Mesh(carve::geom::aabb<3>& bbox, shared_ptr<carve::mesh::MeshSet<3> >& meshset, double CARVE_EPSILON)
 	{
 		double minX = bbox.pos.x - bbox.extent.x;
 		double maxX = bbox.pos.x + bbox.extent.x;
@@ -2923,6 +2883,6 @@ namespace MeshUtils
 		polyhedron_data->addFace( 3, 7, 4 );
 		polyhedron_data->addFace( 4, 0, 3 );
 
-		meshset = shared_ptr<carve::mesh::MeshSet<3> >(polyhedron_data->createMesh(carve::input::opts()));
+		meshset = shared_ptr<carve::mesh::MeshSet<3> >(polyhedron_data->createMesh(carve::input::opts(), CARVE_EPSILON));
 	}
 }

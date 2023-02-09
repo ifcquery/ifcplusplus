@@ -305,8 +305,8 @@ typename Face<ndim>::aabb_t Face<ndim>::getAABB() const {
 }
 
 template <unsigned ndim>
-bool Face<ndim>::recalc() {
-  if (!carve::geom3d::fitPlane(begin(), end(), vector_mapping(), plane)) {
+bool Face<ndim>::recalc(double CARVE_EPSILON) {
+  if (!carve::geom3d::fitPlane(begin(), end(), vector_mapping(), plane, CARVE_EPSILON)) {
     return false;
   }
 
@@ -798,10 +798,7 @@ void MeshSet<ndim>::_init_from_faces(iter_t begin, iter_t end,
 }
 
 template <unsigned ndim>
-MeshSet<ndim>::MeshSet(
-    const std::vector<typename MeshSet<ndim>::vertex_t::vector_t>& points,
-    size_t n_faces, const std::vector<int>& face_indices,
-    const MeshOptions& opts) {
+MeshSet<ndim>::MeshSet( const std::vector<typename MeshSet<ndim>::vertex_t::vector_t>& points, size_t n_faces, const std::vector<int>& face_indices, double CARVE_EPSILON, const MeshOptions& opts) {
   vertex_storage.reserve(points.size());
   std::vector<face_t*> faces;
   faces.reserve(n_faces);
@@ -820,7 +817,7 @@ MeshSet<ndim>::MeshSet(
     for (size_t j = 0; j < N; ++j) {
       v.push_back(&vertex_storage[face_indices[p++]]);
     }
-    faces.push_back(new face_t(v.begin(), v.end()));
+    faces.push_back(new face_t(v.begin(), v.end(), CARVE_EPSILON));
   }
   CARVE_ASSERT(p == face_indices.size());
   mesh_t::create(faces.begin(), faces.end(), meshes, opts);

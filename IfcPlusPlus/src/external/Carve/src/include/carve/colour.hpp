@@ -29,8 +29,8 @@
 
 namespace carve {
 namespace colour {
-static inline void HSV2RGB(float H, float S, float V, float& r, float& g,
-                           float& b) {
+static inline void HSV2RGB(float H, float S, float V, float& r, float& g, float& b)
+{
   H = 6.0f * H;
   if (S < 5.0e-6) {
     r = g = b = V;

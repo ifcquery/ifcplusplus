@@ -61,6 +61,11 @@
 typedef SSIZE_T ssize_t;
 #endif
 
+#ifdef _OPENMP
+#include <omp.h>
+#include <iostream>
+#endif
+
 #define STR(x) #x
 #define XSTR(x) STR(x)
 
@@ -167,14 +172,6 @@ enum IntersectionClass {
   INTERSECT_EDGE = 3,
   INTERSECT_PLANE = 4,
 };
-
-extern double CARVE_EPSILON;
-extern double CARVE_EPSILON2;
-
-static inline void setEpsilon(double ep) {
-  CARVE_EPSILON = ep;
-  CARVE_EPSILON2 = ep * ep;
-}
 
 template <typename T>
 struct identity_t {

@@ -45,6 +45,7 @@ void readIntegerList( const std::string& str, std::vector<int>& vec );
 void readIntegerList2D( const std::string& str, std::vector<std::vector<int> >& vec );
 void readIntegerList3D( const std::string& str, std::vector<std::vector<std::vector<int> > >& vec );
 void readRealList( const std::string& str, std::vector<double>& vec );
+void readRealArray( const std::string& str, double (&vec)[3], short int& size );
 void readRealList2D( const std::string& str, std::vector<std::vector<double> >& vec );
 void readRealList3D( const std::string& str, std::vector<std::vector<std::vector<double> > >& vec );
 void readBinary( const std::string& str, std::string& target );
@@ -83,6 +84,16 @@ void readInteger(const std::string& attribute_value, int& target);
 void readIntegerValue(const std::string& str, int& int_value);
 void readReal(const std::string& attribute_value, double& target);
 void readString(const std::string& attribute_value, std::string& target);
+
+////------------------------------------------------------------
+//void readDoubleValueFromSTEP( const std::string& arg, double& value, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+//{
+//	if( arg.compare("$") == 0 ) { value = std::numeric_limits<double>::quiet_NaN(); return; }
+//	if( arg.compare("*") == 0 ) { value = std::numeric_limits<double>::quiet_NaN(); return; }
+//
+//	readReal( arg, value );
+//}
+////------------------------------------------------------------
 
 template<typename T>
 void readTypeOfIntegerList( const std::string& str, std::vector<shared_ptr<T> >& target_vec )
@@ -544,9 +555,7 @@ void readSelectType( const std::string& item, shared_ptr<select_t>& result, cons
 		return;
 	}
 
-	std::stringstream strs;
-	strs << "unhandled select argument: " << item << " in function readSelectType" << std::endl;
-	throw BuildingException( strs.str() );
+	errorStream << "unhandled select argument: " << item << " in function readSelectType" << std::endl;
 }
 
 template<typename select_t>
@@ -572,7 +581,6 @@ void readSelectList( const std::string& arg_complete, std::vector<shared_ptr<sel
 	std::vector<std::string> list_items;
 	tokenizeList( arg, list_items );
 	
-	std::stringstream err;
 	for( size_t i=0; i<list_items.size(); ++i )
 	{
 		std::string& item = list_items[i];
@@ -584,18 +592,13 @@ void readSelectList( const std::string& arg_complete, std::vector<shared_ptr<sel
 		}
 		catch( BuildingException& e )
 		{
-			err << e.what();
+			errorStream << e.what();
 		}
 		if( select_object )
 		{
 			vec.push_back( select_object );
 		}
 	}
-	if( err.tellp() > 0 )
-	{
-		throw BuildingException( err.str().c_str(), __FUNC__ );
-	}
-	return;
 }
 
 template<typename T>

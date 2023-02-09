@@ -28,12 +28,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 IFCQUERY_EXPORT std::string encodeStepString(const std::string& str);
 
 IFCQUERY_EXPORT void appendRealWithoutTrailingZeros(std::stringstream& stream, const double number);
-void writeRealList(std::stringstream& stream, const std::vector<double>& vec);
-void writeRealList2D(std::stringstream& stream, const std::vector<std::vector<double> >& vec);
+void writeRealList(std::stringstream& stream, const std::vector<double>& vec, bool optionalAttribute);
+void writeRealArray3(std::stringstream& stream, const double (&vec)[3], bool optionalAttribute, short int size);
+void writeRealList2D(std::stringstream& stream, const std::vector<std::vector<double> >& vec, bool optionalAttribute);
 void writeRealList3D(std::stringstream& stream, const std::vector<std::vector<std::vector<double> > >& vec);
 void writeIntList(std::stringstream& stream, const std::vector<int>& vec);
 void writeIntList2D(std::stringstream& stream, const std::vector<std::vector<int> >& vec);
 void writeIntList3D(std::stringstream& stream, const std::vector<std::vector<std::vector<int> > >& vec);
+
+void writeStepParameterDouble(double value, std::stringstream& stream, const std::string& classIDstr, bool is_select_type);
+
 
 template<typename T>
 void writeTypeOfIntList( std::stringstream& stream, const std::vector<shared_ptr<T> >& vec, bool optionalAttribute )

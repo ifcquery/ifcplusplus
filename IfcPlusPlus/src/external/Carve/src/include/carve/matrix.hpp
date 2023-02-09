@@ -40,9 +40,9 @@ struct Quaternion {
   Quaternion(double _x, double _y, double _z, double _w)
       : x(_x), y(_y), z(_z), w(_w) {}
 
-  Quaternion(double angle, const carve::geom::vector<3>& axis) {
+  Quaternion(double angle, const carve::geom::vector<3>& axis, double CARVE_EPSILON) {
     double s = axis.length();
-    if (!carve::math::ZERO(s)) {
+    if (!carve::math::ZERO(s, CARVE_EPSILON)) {
       double c = 1.0 / s;
       double omega = -0.5 * angle;
       s = sin(omega);
@@ -187,11 +187,11 @@ struct Matrix {
                   2 * x * z - 2 * y * w, 2 * y * z + 2 * x * w,
                   1 - 2 * x * x - 2 * y * y, 0.0, 0.0, 0.0, 0.0, 1.0);
   }
-  static Matrix ROT(double angle, const carve::geom::vector<3>& axis) {
-    return ROT(Quaternion(angle, axis));
+  static Matrix ROT(double angle, const carve::geom::vector<3>& axis, double CARVE_EPSILON) {
+    return ROT(Quaternion(angle, axis, CARVE_EPSILON));
   }
-  static Matrix ROT(double angle, double x, double y, double z) {
-    return ROT(Quaternion(angle, carve::geom::VECTOR(x, y, z)));
+  static Matrix ROT(double angle, double x, double y, double z, double CARVE_EPSILON) {
+    return ROT(Quaternion(angle, carve::geom::VECTOR(x, y, z), CARVE_EPSILON));
   }
   static Matrix TRANS(double x, double y, double z) {
     return Matrix(1.0, 0.0, 0.0, x, 0.0, 1.0, 0.0, y, 0.0, 0.0, 1.0, z, 0.0,

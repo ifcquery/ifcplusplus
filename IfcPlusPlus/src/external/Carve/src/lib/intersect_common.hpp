@@ -24,12 +24,12 @@
 
 #pragma once
 
-static inline bool facesAreCoplanar(const carve::mesh::MeshSet<3>::face_t* a,
-                                    const carve::mesh::MeshSet<3>::face_t* b) {
+static inline bool facesAreCoplanar(const carve::mesh::MeshSet<3>::face_t* a, const carve::mesh::MeshSet<3>::face_t* b, double CARVE_EPSILON)
+{
   carve::geom3d::Ray temp;
   // XXX: Find a better definition. This may be a source of problems
   // if floating point inaccuracies cause an incorrect answer.
-  return !carve::geom3d::planeIntersection(a->plane, b->plane, temp);
+  return !carve::geom3d::planeIntersection(a->plane, b->plane, temp, CARVE_EPSILON);
 }
 
 #if defined(CARVE_DEBUG)
@@ -41,8 +41,8 @@ static inline bool facesAreCoplanar(const carve::mesh::MeshSet<3>::face_t* a,
 namespace carve {
 namespace csg {
 
-static inline carve::mesh::MeshSet<3>::vertex_t* map_vertex(
-    const VVMap& vmap, carve::mesh::MeshSet<3>::vertex_t* v) {
+static inline carve::mesh::MeshSet<3>::vertex_t* map_vertex( const VVMap& vmap, carve::mesh::MeshSet<3>::vertex_t* v)
+{
   VVMap::const_iterator i = vmap.find(v);
   if (i == vmap.end()) {
     return v;

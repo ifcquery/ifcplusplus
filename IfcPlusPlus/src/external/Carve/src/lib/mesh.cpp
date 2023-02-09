@@ -135,43 +135,43 @@ namespace carve {
 		}
 
 		template <unsigned ndim>
-		bool Face<ndim>::containsPoint(const vector_t& p) const {
-			if( !carve::math::ZERO(carve::geom::distance(plane, p)) ) {
+		bool Face<ndim>::containsPoint(const vector_t& p, double CARVE_EPSILON) const
+		{
+			if( !carve::math::ZERO(carve::geom::distance(plane, p), CARVE_EPSILON) )
+			{
 				return false;
 			}
 			// return pointInPolySimple(vertices, projector(), (this->*project)(p));
 			std::vector<carve::geom::vector<2> > verts;
 			getProjectedVertices(verts);
-			return carve::geom2d::pointInPoly(verts, project(p)).iclass !=
-				carve::POINT_OUT;
+			return carve::geom2d::pointInPoly(verts, project(p), CARVE_EPSILON).iclass != carve::POINT_OUT;
 		}
 
 		template <unsigned ndim>
-		bool Face<ndim>::containsPointInProjection(const vector_t& p) const {
+		bool Face<ndim>::containsPointInProjection(const vector_t& p, double CARVE_EPSILON) const
+		{
 			std::vector<carve::geom::vector<2> > verts;
 			getProjectedVertices(verts);
-			return carve::geom2d::pointInPoly(verts, project(p)).iclass !=
-				carve::POINT_OUT;
+			return carve::geom2d::pointInPoly(verts, project(p), CARVE_EPSILON).iclass != carve::POINT_OUT;
 		}
 
 		template <unsigned ndim>
-		bool Face<ndim>::simpleLineSegmentIntersection(
-			const carve::geom::linesegment<ndim>& line, vector_t& intersection) const {
-			if( !line.OK() ) {
+		bool Face<ndim>::simpleLineSegmentIntersection( const carve::geom::linesegment<ndim>& line, vector_t& intersection, double CARVE_EPSILON) const
+		{
+			if( !line.OK(CARVE_EPSILON) ) {
 				return false;
 			}
 
 			carve::mesh::MeshSet<3>::vertex_t::vector_t p;
-			carve::IntersectionClass intersects =
-				carve::geom3d::lineSegmentPlaneIntersection(plane, line, p);
-			if( intersects == carve::INTERSECT_NONE ||
-				intersects == carve::INTERSECT_BAD ) {
+			carve::IntersectionClass intersects = carve::geom3d::lineSegmentPlaneIntersection(plane, line, p, CARVE_EPSILON);
+			if( intersects == carve::INTERSECT_NONE || intersects == carve::INTERSECT_BAD )
+			{
 				return false;
 			}
 
 			std::vector<carve::geom::vector<2> > verts;
 			getProjectedVertices(verts);
-			if( carve::geom2d::pointInPolySimple(verts, project(p)) ) {
+			if( carve::geom2d::pointInPolySimple(verts, project(p), CARVE_EPSILON) ) {
 				intersection = p;
 				return true;
 			}
@@ -179,24 +179,25 @@ namespace carve {
 		}
 
 		template <unsigned ndim>
-		IntersectionClass Face<ndim>::lineSegmentIntersection(
-			const carve::geom::linesegment<ndim>& line, vector_t& intersection) const {
-			if( !line.OK() ) {
+		IntersectionClass Face<ndim>::lineSegmentIntersection( const carve::geom::linesegment<ndim>& line, vector_t& intersection, double CARVE_EPSILON) const
+		{
+			if( !line.OK(CARVE_EPSILON) )
+			{
 				return INTERSECT_NONE;
 			}
 
 			vector_t p;
-			IntersectionClass intersects =
-				carve::geom3d::lineSegmentPlaneIntersection(plane, line, p);
-			if( intersects == INTERSECT_NONE || intersects == INTERSECT_BAD ) {
+			IntersectionClass intersects = carve::geom3d::lineSegmentPlaneIntersection(plane, line, p, CARVE_EPSILON);
+			if( intersects == INTERSECT_NONE || intersects == INTERSECT_BAD )
+			{
 				return intersects;
 			}
 
 			std::vector<carve::geom::vector<2> > verts;
 			getProjectedVertices(verts);
-			carve::geom2d::PolyInclusionInfo pi =
-				carve::geom2d::pointInPoly(verts, project(p));
-			switch( pi.iclass ) {
+			carve::geom2d::PolyInclusionInfo pi = carve::geom2d::pointInPoly(verts, project(p), CARVE_EPSILON);
+			switch( pi.iclass )
+			{
 			case POINT_VERTEX:
 				intersection = p;
 				return INTERSECT_VERTEX;
@@ -219,7 +220,8 @@ namespace carve {
 		}
 
 		template <unsigned ndim>
-		Face<ndim>* Face<ndim>::closeLoop(typename Face<ndim>::edge_t* start) {
+		Face<ndim>* Face<ndim>::closeLoop(typename Face<ndim>::edge_t* start, double CARVE_EPSILON)
+		{
 			edge_t* e = start;
 			std::vector<edge_t*> loop_edges;
 			do {
@@ -240,7 +242,7 @@ namespace carve {
 				e2->next = e1;
 			}
 
-			Face* f = new Face(start->rev);
+			Face* f = new Face(start->rev, CARVE_EPSILON);
 
 			CARVE_ASSERT(f->n_edges == N);
 
@@ -707,7 +709,7 @@ namespace carve {
 						bool eraseSecond = true;
 						if( e2i == e2i )
 						{
-							eraseSecond == false;
+							//eraseSecond == false;
 							//eraseSecond = false;
 						}
 						complex_edges.erase(e1i);
@@ -716,7 +718,7 @@ namespace carve {
 							edge_map_t::iterator e2i_check = complex_edges.find(e2);
 							if( e2i_check != complex_edges.end() )
 
-							//if( e2i != complex_edges.end() )
+								//if( e2i != complex_edges.end() )
 							{
 								complex_edges.erase(e2i_check);
 							}
@@ -852,8 +854,8 @@ namespace carve {
 
 	// construct a MeshSet from a Polyhedron, maintaining on the
 	// connectivity information in the Polyhedron.
-	mesh::MeshSet<3>* meshFromPolyhedron(const poly::Polyhedron* poly,
-		int manifold_id) {
+	mesh::MeshSet<3>* meshFromPolyhedron(const poly::Polyhedron* poly, int manifold_id, double CARVE_EPSILON)
+	{
 		typedef mesh::Vertex<3> vertex_t;
 		typedef mesh::Vertex<3>::vector_t vector_t;
 		typedef mesh::Edge<3> edge_t;
@@ -886,7 +888,7 @@ namespace carve {
 				size_t vi = poly->vertexToIndex_fast(src.vertex(j));
 				vert_ptrs.push_back(&vertex_storage[vi]);
 			}
-			face_t* face = new face_t(vert_ptrs.begin(), vert_ptrs.end());
+			face_t* face = new face_t(vert_ptrs.begin(), vert_ptrs.end(), CARVE_EPSILON);
 			face->id = src.manifold_id;
 			faces[src.manifold_id].push_back(face);
 
@@ -900,7 +902,8 @@ namespace carve {
 		}
 
 		// copy connectivity from Polyhedron.
-		for( size_t i = 0; i < poly->edges.size(); ++i ) {
+		for( size_t i = 0; i < poly->edges.size(); ++i )
+		{
 			const poly::Polyhedron::edge_t& src = poly->edges[i];
 			size_t v1i = poly->vertexToIndex_fast(src.v1);
 			size_t v2i = poly->vertexToIndex_fast(src.v2);
@@ -951,12 +954,9 @@ namespace carve {
 		return new meshset_t(vertex_storage, meshes);
 	}
 
-	static void copyMeshFaces(
-		const mesh::Mesh<3>* mesh, size_t manifold_id, const mesh::Vertex<3>* Vbase,
-		poly::Polyhedron* poly,
-		std::unordered_map<std::pair<size_t, size_t>, std::list<mesh::Edge<3>*>,
-		carve::hash_pair>& edges,
-		std::unordered_map<const mesh::Face<3>*, size_t>& face_map) {
+	static void copyMeshFaces( const mesh::Mesh<3>* mesh, size_t manifold_id, const mesh::Vertex<3>* Vbase, poly::Polyhedron* poly,
+		std::unordered_map<std::pair<size_t, size_t>, std::list<mesh::Edge<3>*>, carve::hash_pair>& edges, std::unordered_map<const mesh::Face<3>*, size_t>& face_map, double CARVE_EPSILON)
+	{
 		std::vector<const poly::Polyhedron::vertex_t*> vert_ptr;
 		for( size_t f = 0; f < mesh->faces.size(); ++f ) {
 			mesh::Face<3>* src = mesh->faces[f];
@@ -972,15 +972,15 @@ namespace carve {
 			face_map[src] = poly->faces.size();
 			;
 
-			poly->faces.push_back(poly::Polyhedron::face_t(vert_ptr));
-			poly->faces.back().manifold_id = manifold_id;
+			poly->faces.push_back(poly::Polyhedron::face_t(vert_ptr, CARVE_EPSILON));
+			poly->faces.back().manifold_id = (int)manifold_id;
 			poly->faces.back().owner = poly;
 		}
 	}
 
 	// construct a Polyhedron from a MeshSet
-	poly::Polyhedron* polyhedronFromMesh(const mesh::MeshSet<3>* mesh,
-		int manifold_id) {
+	poly::Polyhedron* polyhedronFromMesh(const mesh::MeshSet<3>* mesh, int manifold_id, double CARVE_EPSILON)
+	{
 		typedef poly::Polyhedron poly_t;
 		typedef poly::Polyhedron::vertex_t vertex_t;
 		typedef poly::Polyhedron::edge_t edge_t;
@@ -1015,37 +1015,38 @@ namespace carve {
 				mesh->meshes[manifold_id]->isNegative();
 		}
 
-		std::unordered_map<std::pair<size_t, size_t>, std::list<mesh::Edge<3>*>,
-			carve::hash_pair>
-			edges;
+		std::unordered_map<std::pair<size_t, size_t>, std::list<mesh::Edge<3>*>, carve::hash_pair> edges;
 		std::unordered_map<const mesh::Face<3>*, size_t> face_map;
 		poly->faces.reserve(n_faces);
 
-		if( manifold_id == -1 ) {
-			for( size_t m = 0; m < mesh->meshes.size(); ++m ) {
-				copyMeshFaces(mesh->meshes[m], m, Vbase, poly, edges, face_map);
+		if( manifold_id == -1 )
+		{
+			for( size_t m = 0; m < mesh->meshes.size(); ++m )
+			{
+				copyMeshFaces(mesh->meshes[m], m, Vbase, poly, edges, face_map, CARVE_EPSILON);
 			}
 		}
-		else {
-			copyMeshFaces(mesh->meshes[manifold_id], 0, Vbase, poly, edges, face_map);
+		else
+		{
+			copyMeshFaces(mesh->meshes[manifold_id], 0, Vbase, poly, edges, face_map, CARVE_EPSILON);
 		}
 
 		size_t n_edges = 0;
-		for( auto& i : edges ) {
-			if( i.first.first < i.first.second ||
-				edges.find(std::make_pair(i.first.second, i.first.first)) ==
-				edges.end() ) {
+		for( auto& i : edges )
+		{
+			if( i.first.first < i.first.second || edges.find(std::make_pair(i.first.second, i.first.first)) == edges.end() )
+			{
 				n_edges++;
 			}
 		}
 
 		poly->edges.reserve(n_edges);
-		for( auto& i : edges ) {
-			if( i.first.first < i.first.second ||
-				edges.find(std::make_pair(i.first.second, i.first.first)) ==
-				edges.end() ) {
-				poly->edges.push_back(edge_t(&poly->vertices[i.first.first],
-					&poly->vertices[i.first.second], poly));
+		for( auto& i : edges )
+		{
+			if( i.first.first < i.first.second || edges.find(std::make_pair(i.first.second, i.first.first)) ==
+				edges.end() )
+			{
+				poly->edges.push_back(edge_t(&poly->vertices[i.first.first], &poly->vertices[i.first.second], poly));
 			}
 		}
 
@@ -1131,11 +1132,9 @@ template class carve::mesh::Face<3>;
 template class carve::mesh::Mesh<3>;
 template class carve::mesh::MeshSet<3>;
 
-carve::PointClass carve::mesh::classifyPoint(
-	const carve::mesh::MeshSet<3>* meshset,
-	const carve::geom::RTreeNode<3, carve::mesh::Face<3>*>* face_rtree,
-	const carve::geom::vector<3>& v, bool even_odd,
-	const carve::mesh::Mesh<3>* mesh, const carve::mesh::Face<3>** hit_face) {
+carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* meshset, const carve::geom::RTreeNode<3, carve::mesh::Face<3>*>* face_rtree,
+	const carve::geom::vector<3>& v, double CARVE_EPSILON, bool even_odd, const carve::mesh::Mesh<3>* mesh, const carve::mesh::Face<3>** hit_face)
+{
 	if( hit_face ) {
 		*hit_face = nullptr;
 	}
@@ -1152,9 +1151,9 @@ carve::PointClass carve::mesh::classifyPoint(
 		// for the moment, this only works for a single manifold.
 		if( meshset->meshes.size() == 1 && meshset->meshes[0]->isNegative() ) {
 			return POINT_IN;
-}
+		}
 		return POINT_OUT;
-  }
+	}
 
 	std::vector<carve::mesh::Face<3>*> near_faces;
 	face_rtree->search(v, std::back_inserter(near_faces));
@@ -1171,7 +1170,8 @@ carve::PointClass carve::mesh::classifyPoint(
 
 		// if (!near_faces[i]->mesh->isClosed()) continue;
 
-		if( near_faces[i]->containsPoint(v) ) {
+		if( near_faces[i]->containsPoint(v, CARVE_EPSILON) )
+		{
 #if defined(DEBUG_CONTAINS_VERTEX)
 			std::cerr << "{final:ON(hits face " << near_faces[i] << ")}" << std::endl;
 #endif
@@ -1179,8 +1179,8 @@ carve::PointClass carve::mesh::classifyPoint(
 				*hit_face = near_faces[i];
 			}
 			return POINT_ON;
-			}
 		}
+	}
 
 	double ray_len = face_rtree->bbox.extent.length() * 2;
 
@@ -1217,7 +1217,8 @@ carve::PointClass carve::mesh::classifyPoint(
 				continue;
 			}
 
-			switch( near_faces[i]->lineSegmentIntersection(line, intersection) ) {
+			switch( near_faces[i]->lineSegmentIntersection(line, intersection, CARVE_EPSILON) )
+			{
 			case INTERSECT_FACE: {
 #if defined(DEBUG_CONTAINS_VERTEX)
 				std::cerr << "{intersects face: " << near_faces[i]
@@ -1225,15 +1226,15 @@ carve::PointClass carve::mesh::classifyPoint(
 					<< std::endl;
 #endif
 
-				if( !even_odd &&
-					fabs(dot(ray_dir, near_faces[i]->plane.N)) < CARVE_EPSILON ) {
+				if( !even_odd && fabs(dot(ray_dir, near_faces[i]->plane.N)) < CARVE_EPSILON )
+				{
 #if defined(DEBUG_CONTAINS_VERTEX)
 					std::cerr << "{failing(small dot product)}" << std::endl;
 #endif
 
 					failed = true;
 					break;
-			}
+				}
 				manifold_intersections.push_back(
 					std::make_pair(near_faces[i], intersection));
 				break;
@@ -1322,5 +1323,5 @@ carve::PointClass carve::mesh::classifyPoint(
 
 			return POINT_OUT;
 		}
-		}
 	}
+}

@@ -58,7 +58,7 @@ void PolylineSet::sortVertices(const carve::geom3d::Vector& axis) {
 
   for (size_t i = 0; i < vertices.size(); ++i) {
     vnew.push_back(vertices[temp[i].second]);
-    revmap[temp[i].second] = i;
+    revmap[temp[i].second] = (int)i;
   }
 
   for (line_iter i = lines.begin(); i != lines.end(); ++i) {
