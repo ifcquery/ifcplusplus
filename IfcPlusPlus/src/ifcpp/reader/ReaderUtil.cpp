@@ -151,6 +151,91 @@ void checkOpeningClosingParenthesis( const char* ch_check )
 	}
 }
 
+std::istream& bufferedGetStepLine(std::istream& inputStream, std::string& lineOut)
+{
+	lineOut.clear();
+	std::istream::sentry se(inputStream, true);
+	std::streambuf* sb = inputStream.rdbuf();
+	bool inString = false;
+
+	// std::getline does not work with all line endings, reads complete file instead.
+	// Handle \n (unix), \r\n (windows), \r (mac) line endings here
+	while(true)
+	{
+		int c = sb->sbumpc();
+#ifdef _DEBUG
+		std::string charAsString;
+		charAsString += ((char)c);
+#endif
+		switch (c)
+		{
+		case ';':
+			sb->sbumpc();  // sbumpc: character at the current position and advances the current position to the next character
+			return inputStream;
+		case '\'':
+			if( sb->sgetc() != '/' )  // sgetc: character at the current position
+			{
+				inString = !inString;
+			}
+			lineOut += (char)c;
+			continue;
+		case '/':
+			if( !inString )
+			{
+				int currentChar = sb->sgetc();
+#ifdef _DEBUG
+				std::string charAsString2;
+				charAsString2 += ((char)currentChar);
+#endif
+				if( currentChar == '*' )
+				{
+					sb->sbumpc();
+
+					// continue till end of /*   */ comment
+					bool inMultiLineComment = true;
+					while( inMultiLineComment )
+					{
+						int c2 = sb->sbumpc();
+						switch( c2 )
+						{
+						case '*':
+							c2 = sb->sbumpc();
+							if( c2 == '/' )
+							{
+								inMultiLineComment = false;
+								break;
+							}
+						case std::streambuf::traits_type::eof():
+							// in case the last line has no line ending
+							if( lineOut.empty() )
+							{
+								inputStream.setstate(std::ios::eofbit);
+							}
+							return inputStream;
+						}
+					}
+					continue;
+				}
+			}
+			lineOut += (char)c;
+			continue;
+		case '\n':
+			continue;
+		case '\r':
+			continue;
+		case std::streambuf::traits_type::eof():
+			// in case the last line has no line ending
+			if( lineOut.empty() )
+			{
+				inputStream.setstate(std::ios::eofbit);
+			}
+			return inputStream;
+		default:
+			lineOut += (char)c;
+		}
+	}
+}
+
 void findLeadingTrailingParanthesis( char* ch, char*& pos_opening, char*& pos_closing )
 {
 	short num_opening = 0;

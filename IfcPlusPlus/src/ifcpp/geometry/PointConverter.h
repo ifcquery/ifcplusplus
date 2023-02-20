@@ -413,14 +413,14 @@ public:
 			x2=x3;
 		}
 
-		if( resultAngle < 0 )
+		if( resultAngle < -2.0*M_PI )
 		{
-			resultAngle += 2.0 * M_PI;
+			resultAngle = -2.0 * M_PI;
 		}
 		
 		if( resultAngle > 2.0*M_PI )
 		{
-			resultAngle -= 2.0 * M_PI;
+			resultAngle = 2.0 * M_PI;
 		}
 		return resultAngle;
 	}

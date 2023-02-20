@@ -28,6 +28,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/OpenMPIncludes.h>
 #include <ifcpp/model/StatusCallback.h>
+#include <ifcpp/IFC4X3/EntityFactory.h>
 #include <ifcpp/IFC4X3/include/IfcCurtainWall.h>
 #include <ifcpp/IFC4X3/include/IfcFeatureElementSubtraction.h>
 #include <ifcpp/IFC4X3/include/IfcGloballyUniqueId.h>
@@ -43,6 +44,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "GeometryInputData.h"
 #include "IncludeCarveHeaders.h"
 #include "CSG_Adapter.h"
+
+using namespace IFC4X3;
 
 class ConverterOSG : public StatusCallback
 {

@@ -407,19 +407,25 @@ namespace GeomDebugDump
 			if( meshset->meshes[0]->faces.size() > 0 )
 			{
 				carve::mesh::Face<3>* f = meshset->meshes[0]->faces[0];
-				const carve::mesh::Vertex<3>* v1 = f->edge->v1();
-				const carve::mesh::Vertex<3>* v2 = f->edge->v2();
-
-				int v1index = findVertexIndexInVector(vec_vertices, v1);
-				if( v1index < 0 )
+				if( f != nullptr )
 				{
-					std::cout << "vertex not found\n";
-				}
+					if( f->edge != nullptr )
+					{
+						const carve::mesh::Vertex<3>* v1 = f->edge->v1();
+						const carve::mesh::Vertex<3>* v2 = f->edge->v2();
 
-				int v2index = findVertexIndexInVector(vec_vertices, v2);
-				if( v2index < 0 )
-				{
-					std::cout << "vertex not found\n";
+						int v1index = findVertexIndexInVector(vec_vertices, v1);
+						if( v1index < 0 )
+						{
+							std::cout << "vertex not found\n";
+						}
+
+						int v2index = findVertexIndexInVector(vec_vertices, v2);
+						if( v2index < 0 )
+						{
+							std::cout << "vertex not found\n";
+						}
+					}
 				}
 			}
 		}
@@ -944,12 +950,37 @@ namespace GeomDebugDump
 		
 		for( auto mesh : meshset->meshes )
 		{
+			bool pointersOk = true;
+			for( auto f : mesh->faces )
+			{
+				if( f == nullptr )
+				{
+					pointersOk = false;
+					break;
+				}
+				if( f->edge == nullptr )
+				{
+					pointersOk = false;
+					break;
+				}
+			}
+
+			if( !pointersOk )
+			{
+				continue;
+			}
+			
 			mesh->cacheEdges();
+			
 			std::vector<carve::mesh::Edge<3>* > openEdges = mesh->open_edges;
 			numOpenEdges += openEdges.size();
 			for( size_t ii = 0; ii < openEdges.size(); ++ii )
 			{
 				auto e = openEdges[ii];
+				if( e->vert == nullptr )
+				{
+					continue;
+				}
 				auto p1 = e->v1()->v;
 				auto p2 = e->v2()->v;
 

@@ -62,6 +62,7 @@ void findLeadingTrailingParanthesis(char* ch, char*& pos_opening, char*& pos_clo
 void findEndOfString(const char*& stream_pos);
 bool findEndOfStepLine(char* ch, char*& pos_end);
 void checkOpeningClosingParenthesis(const char* ch_check);
+std::istream& bufferedGetStepLine(std::istream& inputStream, std::string& lineOut);
 
 IFCQUERY_EXPORT std::string wstring2string(const std::wstring& str);
 IFCQUERY_EXPORT std::wstring string2wstring(const std::string& inputString);
@@ -84,16 +85,6 @@ void readInteger(const std::string& attribute_value, int& target);
 void readIntegerValue(const std::string& str, int& int_value);
 void readReal(const std::string& attribute_value, double& target);
 void readString(const std::string& attribute_value, std::string& target);
-
-////------------------------------------------------------------
-//void readDoubleValueFromSTEP( const std::string& arg, double& value, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
-//{
-//	if( arg.compare("$") == 0 ) { value = std::numeric_limits<double>::quiet_NaN(); return; }
-//	if( arg.compare("*") == 0 ) { value = std::numeric_limits<double>::quiet_NaN(); return; }
-//
-//	readReal( arg, value );
-//}
-////------------------------------------------------------------
 
 template<typename T>
 void readTypeOfIntegerList( const std::string& str, std::vector<shared_ptr<T> >& target_vec )

@@ -111,7 +111,6 @@ bool unzipFile(const std::string& filePathIn, std::stringstream& bufferResult)
 	return bRet;
 }
 
-
 ReaderSTEP::ReaderSTEP()= default;
 ReaderSTEP::~ReaderSTEP()= default;
 
@@ -182,9 +181,7 @@ void ReaderSTEP::loadModelFromStream(std::istream& content, std::streampos file_
 
 	// currently generated IFC classes are IFC4X3, files with older versions are converted. So after loading, the schema is always IFC4X3
 	targetModel->m_ifc_schema_version_current = BuildingModel::IFC4X3;
-
 	readData(content, file_end_pos, targetModel);
-
 	targetModel->resolveInverseAttributes();
 	targetModel->updateCache();
 
@@ -211,7 +208,8 @@ void ReaderSTEP::readHeader( std::istream& content, shared_ptr<BuildingModel>& t
 	size_t line_header_end = std::string::npos;
 	size_t lineCount = 0;
 	bool inComment = false;
-	while (std::getline(content, line))
+	
+	while(!bufferedGetline(content, line).eof())
 	{
 		size_t found_comment_start = line.find("/*");
 		if( found_comment_start != std::string::npos )
@@ -364,33 +362,37 @@ void ReaderSTEP::readHeader( std::istream& content, shared_ptr<BuildingModel>& t
 
 			std::transform(file_schema_args.begin(), file_schema_args.end(), file_schema_args.begin(), ::toupper);
 
-			if( file_schema_args.substr(0,6).compare( "IFC2X2") == 0 )
+			if (file_schema_args.compare( "IFC4X3") == 0)
 			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X2;
-			}
-			else if( file_schema_args.substr(0,6).compare( "IFC2X3") == 0 )
-			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X3;
-			}
-			else if( file_schema_args.substr(0,6).compare( "IFC2X4") == 0 )
-			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X4;
-			}
-			else if( file_schema_args.substr( 0, 5 ).compare( "IFC2X" ) == 0 )
-			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X;
-			}
-			else if( file_schema_args.compare( "IFC4" ) == 0 )
-			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC4;
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC4X3;
 			}
 			else if (file_schema_args.compare( "IFC4X1") == 0)
 			{
 				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC4X1;
 			}
-			else if (file_schema_args.compare( "IFC4X3") == 0)
+			else if( file_schema_args.compare( "IFC4" ) == 0 )
 			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC4X3;
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC4;
+			}
+			else if( file_schema_args.substr(0,6).compare( "IFC2X4") == 0 )
+			{
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X4;
+			}
+			else if( file_schema_args.substr(0,6).compare( "IFC2X3") == 0 )
+			{
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X3;
+			}
+			else if( file_schema_args.substr(0,6).compare( "IFC2X2") == 0 )
+			{
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X2;
+			}
+			else if( file_schema_args.substr( 0, 5 ).compare( "IFC2X" ) == 0 )
+			{
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X;
+			}
+			else if( file_schema_args.substr( 0, 5 ).compare( "IFC20" ) == 0 )
+			{
+				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X;
 			}
 			else
 			{
@@ -499,7 +501,12 @@ void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::str
 		{
 			if( entity_arg[0] == '(' )
 			{
-				if( entity_arg[entity_arg.size() - 1] == ';' )
+				if( entity_arg[entity_arg.size() - 1] == ')' )
+				{
+					// semicolon already removed
+					entity_arg = entity_arg.substr(1, entity_arg.size() - 2);
+				}
+				else if( entity_arg[entity_arg.size() - 1] == ';' )
 				{
 					if( entity_arg[entity_arg.size() - 2] == ')' )
 					{
@@ -568,8 +575,6 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, std::vecto
 			decodeArgumentStrings( arguments_raw, arguments_decoded );
 			arguments_raw.clear();
 
-			//std::vector<std::pair<std::string, shared_ptr<BuildingObject> > > vecEmptyAttributes;
-			//entity->getAttributes(vecEmptyAttributes);
 			const size_t num_expected_arguments = entity->getNumAttributes();
 			if( entity->classID() == IFCCOLOURRGB )
 			{
@@ -614,7 +619,7 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, std::vecto
 			{
 				int tag = entity->m_tag;
 			}
-			if( entity->m_tag == 69950 )
+			if( entity->m_tag == 5 )
 			{
 				std::string className = EntityFactory::getStringForClassID(entity->classID());
 			}
@@ -770,7 +775,7 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, std::vecto
 	}
 }
 
-void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shared_ptr<BuildingModel>& model )//, const std::string& ifc_version, std::map<int, shared_ptr<BuildingEntity> >& target_map )
+void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shared_ptr<BuildingModel>& model )
 {
 	std::string current_numeric_locale(setlocale(LC_NUMERIC, nullptr));
 	setlocale(LC_NUMERIC,"C");
@@ -791,184 +796,18 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 	{
 		std::string line;
 		std::string linePreviousRemaining;
-
-#ifdef _DEBUG
-		std::string strIgnoredComment;
-		std::vector<std::string> vecStrIgnoredComment;
-#endif
-
-		size_t line_header_start = std::string::npos;
-		size_t line_header_end = std::string::npos;
 		size_t lineCount = 0;
 		double progress = 0;
 		double last_progress = 0;
-		bool inComment = false;
-		while (true)
+
+		bool hasMoreLines = true;
+		while( hasMoreLines )
 		{
-			if( linePreviousRemaining.size() > 0 )
+			if(bufferedGetStepLine(read_in, line).eof())
 			{
-				line = linePreviousRemaining;
-				linePreviousRemaining = "";
+				hasMoreLines = false;
 			}
-			else
-			{
-				if( !getline(read_in, line) )
-				{
-					break;
-				}
-			}
-
-			size_t found_comment_start = line.find("/*");
-			if( found_comment_start != std::string::npos )
-			{
-#ifdef _DEBUG
-				if( strIgnoredComment.size() > 0 ) vecStrIgnoredComment.push_back(strIgnoredComment);
-
-				std::string lineAfterCommentStart = line.substr(found_comment_start);
-				strIgnoredComment = lineAfterCommentStart;
-#endif
-
-				inComment = true;
-			}
-
-			if( inComment )
-			{
-				size_t found_comment_end = line.find("*/");
-				if( found_comment_end != std::string::npos )
-				{
-					found_comment_end += 2;  // add length of */
-
-					if( found_comment_start != std::string::npos )
-					{
-						// comment start and end in one line
-						if( found_comment_end > found_comment_start )
-						{
-							// comment start and end in same line
-							size_t lengthOfComment = found_comment_end - found_comment_start;
-
-#ifdef _DEBUG
-							std::string lineComment = line.substr(found_comment_start, lengthOfComment);
-							strIgnoredComment += lineComment + '\n';
-							vecStrIgnoredComment.push_back(strIgnoredComment);
-							//std::cout << strIgnoredComment << std::endl;
-							strIgnoredComment = "";
-#endif
-
-							std::string lineBeforeCommentStart = line.substr(0, found_comment_start);
-							std::string lineAfterCommentEnd = line.substr(found_comment_end);
-							line = lineBeforeCommentStart + lineAfterCommentEnd;
-						}
-					}
-					else
-					{
-#ifdef _DEBUG
-						std::string lineComment = line.substr(0, found_comment_end);
-						strIgnoredComment += lineComment + '\n';
-						vecStrIgnoredComment.push_back(strIgnoredComment);
-						//std::cout << strIgnoredComment << std::endl;
-						strIgnoredComment = "";
-#endif
-
-						// comment start was on previous line
-						std::string lineAfterCommentEnd = line.substr(found_comment_end);
-						line = lineAfterCommentEnd;
-					}
-
-
-					inComment = false;
-					//continue;
-					
-				}
-				else
-				{
-					if( found_comment_start == std::string::npos )
-					{
-						// we are in a multi-line comment, start and end of comment is not in current line, so ignore this line
-#ifdef _DEBUG
-						strIgnoredComment += line + '\n';
-#endif
-						line = "";
-					}
-					else
-					{
-						std::string lineBeforeCommentStart = line.substr(0, found_comment_start);
-						line = lineBeforeCommentStart;
-					}
-				}
-			}
-
-			if( line.size() == 0 )
-			{
-				continue;
-			}
-
-			bool currentLineIsValid = false;
-			while( true )
-			{
-				char* line_begin = const_cast<char*>(line.c_str());
-				char* line_end = line_begin;
-				bool foundCompleteStepLine = findEndOfStepLine(line_begin, line_end);
-
-				if( foundCompleteStepLine )
-				{
-					// a STEP line can have newlines in it: #1=Example('bla',...,\n,(...));
-
-					size_t stepLineLength = line_end - line_begin;
-					if( line_begin != line_end )
-					{
-						if( *line_end == ';' )
-						{
-							++stepLineLength;
-						}
-					}
-					if( stepLineLength == line.size() )
-					{
-						// complete line
-						currentLineIsValid = true;
-						break;
-					}
-					else if( stepLineLength < line.size() )
-					{
-						int remainingLength = line.length() - stepLineLength;
-						if( remainingLength > 0 )
-						{
-							linePreviousRemaining = line.substr(stepLineLength, remainingLength);
-							line = line.substr(0, stepLineLength);
-						}
-					}
-					else
-					{
-#ifdef _DEBUG
-						// check
-						char* line_begin2 = const_cast<char*>(line.c_str());
-						char* line_end2 = line_begin2;
-						findEndOfStepLine(line_begin2, line_end2);
-
-#endif
-					}
-				}
-				else
-				{
-					std::string lineNext;
-					if( !getline(read_in, lineNext) )
-					{
-						// end of file, without complete STEP line
-						break;
-					}
-					line.append(lineNext);
-					// continue in current loop with 
-					// bool foundCompleteStepLine = findEndOfStepLine(...)
-				}
-			}
-
-			if( linePreviousRemaining.size() > 0 )
-			{
-				if( !currentLineIsValid )
-				{
-					continue;
-				}
-			}
-
+			
 			read_size += line.size();
 			std::pair<std::string, shared_ptr<BuildingEntity> > entity_read_obj;
 			try
@@ -1029,7 +868,7 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 			}
 			catch( std::exception& e )
 			{
-
+				err << e.what();
 			}
 
 			if( lineCount%100 == 0)

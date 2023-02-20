@@ -1085,28 +1085,28 @@ namespace GeomUtils
 		return false;
 	}
 
-	inline bool isMatrixIdentity( const carve::math::Matrix& mat )
+	inline bool isMatrixIdentity( const carve::math::Matrix& mat, double eps = 0.00001 )
 	{
-		if( std::abs( mat._11 - 1.0 ) > 0.00001 )  return false;
-		if( std::abs( mat._22 - 1.0 ) > 0.00001 )  return false;
-		if( std::abs( mat._33 - 1.0 ) > 0.00001 )  return false;
-		if( std::abs( mat._44 - 1.0 ) > 0.00001 )  return false;
+		if( std::abs( mat._11 - 1.0 ) > eps )  return false;
+		if( std::abs( mat._22 - 1.0 ) > eps )  return false;
+		if( std::abs( mat._33 - 1.0 ) > eps )  return false;
+		if( std::abs( mat._44 - 1.0 ) > eps )  return false;
 
-		if( std::abs( mat._12 ) > 0.00001 )  return false;
-		if( std::abs( mat._13 ) > 0.00001 )  return false;
-		if( std::abs( mat._14 ) > 0.00001 )  return false;
+		if( std::abs( mat._12 ) > eps )  return false;
+		if( std::abs( mat._13 ) > eps )  return false;
+		if( std::abs( mat._14 ) > eps )  return false;
 
-		if( std::abs( mat._21 ) > 0.00001 )  return false;
-		if( std::abs( mat._23 ) > 0.00001 )  return false;
-		if( std::abs( mat._24 ) > 0.00001 )  return false;
+		if( std::abs( mat._21 ) > eps )  return false;
+		if( std::abs( mat._23 ) > eps )  return false;
+		if( std::abs( mat._24 ) > eps )  return false;
 
-		if( std::abs( mat._31 ) > 0.00001 )  return false;
-		if( std::abs( mat._32 ) > 0.00001 )  return false;
-		if( std::abs( mat._34 ) > 0.00001 )  return false;
+		if( std::abs( mat._31 ) > eps )  return false;
+		if( std::abs( mat._32 ) > eps )  return false;
+		if( std::abs( mat._34 ) > eps )  return false;
 
-		if( std::abs( mat._41 ) > 0.00001 )  return false;
-		if( std::abs( mat._42 ) > 0.00001 )  return false;
-		if( std::abs( mat._43 ) > 0.00001 )  return false;
+		if( std::abs( mat._41 ) > eps )  return false;
+		if( std::abs( mat._42 ) > eps )  return false;
+		if( std::abs( mat._43 ) > eps )  return false;
 		return true;
 	}
 	inline bool isMatrixEqual(const carve::math::Matrix& mat1, const carve::math::Matrix& mat2, double maxDelta = 0.00001)

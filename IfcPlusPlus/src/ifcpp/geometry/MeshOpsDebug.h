@@ -136,6 +136,15 @@ inline void dumpMeshset(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, con
 	{
 		return;
 	}
+
+	bool checkForDegenerateEdges = false;
+	MeshSetInfo info;
+	MeshUtils::checkMeshSetPointers(meshset, checkForDegenerateEdges, info);
+	if( !info.allPointersValid )
+	{
+		return;
+	}
+	
 	vec3 offset = carve::geom::VECTOR(0, GeomDebugDump::dump_y_pos_geom, 0);
 	shared_ptr<carve::mesh::MeshSet<3> > meshset_copy(meshset->clone());
 	double eps = EPS_M8;
