@@ -62,8 +62,10 @@ protected:
 	vec3 m_siteOffset;
 	double m_recent_progress = 0;
 	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
+
 #ifdef _OPENMP
 	Mutex m_writelock_messages;
+	Mutex m_writelock_item_cache;
 #endif
 
 public:
@@ -92,7 +94,11 @@ public:
 		m_ifc_model->setMessageTarget( this );
 		m_representation_converter->setMessageTarget( this );
 	}
-	virtual ~GeometryConverter() {}
+	virtual ~GeometryConverter()
+	{
+		m_callback_object_geometry_converted = nullptr;
+		m_callback_func_geometry_converted = nullptr;
+	}
 
 	void setGeometryCallbackFunction( void* obj_ptr, void (*func)(void*, shared_ptr<ProductShapeData> t) )
 	{
@@ -798,8 +804,7 @@ public:
 						if( m_callback_object_geometry_converted )
 						{
 #ifdef _OPENMP
-							// Note: this lock protects accesses only for this instance. If several StatusCallback (or derived) objects are bound to the same callback function, a lock is necessary there.
-							ScopedLock lock( m_writelock );
+							//ScopedLock lock( m_writelock_geom_callback );
 #endif
 							m_callback_func_geometry_converted( m_callback_object_geometry_converted, product_geom_input_data );
 						}
@@ -808,7 +813,7 @@ public:
 
 				// progress callback
 				double progress = (double)i / (double)num_object_definitions;
-				if( progress - m_recent_progress > 0.02 )
+				if( progress - m_recent_progress > 0.01 )
 				{
 
 #ifdef _OPENMP
@@ -1056,9 +1061,47 @@ public:
 				}
 			}
 		}
+
+		// check for existing meshes
+		// TODO: make sure that the meshes are not changed after here, for example with boolean operations
+		bool enableCaching = false;
+		if( enableCaching )
+		{
+			bool equalItemFound = false;
+			
+			for( auto it : m_product_shape_data )
+			{
+				const shared_ptr<ProductShapeData>& existingProductShape = it.second;
+				if( !existingProductShape )
+				{
+					continue;
+				}
+				for( auto rep : existingProductShape->m_vec_representations )
+				{
+					for( auto item : rep->m_vec_item_data )
+					{
+						//bool itemIsEqual = isEqual(item, geom_item_data);
+						//if( itemIsEqual )
+						{
+							//representation_data->m_vec_item_data.push_back(existingItem);
+							equalItemFound = true;
+						}
+					}
+				}
+			}
+			if( !equalItemFound )
+			{
+//				representation_data->m_vec_item_data.push_back(geom_item_data);
+//#ifdef _OPENMP
+//				ScopedLock lock( m_writelock_item_cache );
+//#endif
+//				m_map_item_data_cache.push_back(geom_item_data);
+			}
+		}
+		
 		if( m_clear_memory_immedeately )
 		{
-			vec_representations.clear();
+			ifc_product->m_Representation.reset();
 		}
 	}
 

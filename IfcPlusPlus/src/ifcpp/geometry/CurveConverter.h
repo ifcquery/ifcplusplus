@@ -220,9 +220,7 @@ public:
 			if( bspline_curve )
 			{
 				m_spline_converter->convertBSplineCurve(bspline_curve, target_vec, segment_start_points);
-
 				// TODO: handle trim points
-
 				return;
 			}
 
@@ -844,7 +842,7 @@ public:
 		bool p1_success = PointConverter::convertIfcVertex(edge_end, p1, length_factor);
 
 
-		//std::cout << "IfcEdgeLoop: IfcPointOnCurve, IfcPointOnSurface not implemented" << std::endl;
+		
 
 		bool simpleStraightEdge = false;
 		if( simpleStraightEdge )
@@ -854,14 +852,9 @@ public:
 			return;
 		}
 
-
-		// TODO: try use EdgeStart and EdgeEnd as trimming points
-
 		const shared_ptr<IfcOrientedEdge> orientedEdge = dynamic_pointer_cast<IfcOrientedEdge>(edge);
 		if( orientedEdge )
 		{
-			//#3517327= IFCORIENTEDEDGE(*,*,#3517018,.T.);
-
 			//shared_ptr<IfcEdge>										m_EdgeElement;
 			//shared_ptr<IfcBoolean>									m_Orientation;
 			bool orientedEdgeOrientation = orientedEdge->m_Orientation->m_value;
@@ -878,8 +871,6 @@ public:
 		const shared_ptr<IfcSubedge> subEdge = dynamic_pointer_cast<IfcSubedge>(edge);
 		if( subEdge )
 		{
-			//shared_ptr<IfcEdge>										m_ParentEdge;
-			
 			if( subEdge->m_ParentEdge )
 			{
 				std::vector<vec3> loopPointsParentEdge;
@@ -888,7 +879,6 @@ public:
 				return;
 			}
 		}
-
 
 		const shared_ptr<IfcEdgeCurve> edgeCurve = dynamic_pointer_cast<IfcEdgeCurve>(edge);
 		if( edgeCurve )
@@ -901,11 +891,6 @@ public:
 				edgeSameSense = edgeCurve->m_SameSense->m_value;
 			}
 
-			//#3517014= IFCBSPLINECURVEWITHKNOTS(3,(#3517000,#3517000,#3517006,#3517008,#3517010,#3517012,#3517003),.UNSPECIFIED.,.F.,.U.,(4,1,1,1,4),(0.,0.166666666666667,0.333333333333333,0.666666666666667,1.),.UNSPECIFIED.);
-			//#3517018= IFCEDGECURVE(#3517002,#3517005,#3517014,.T.);
-			//#3517327= IFCORIENTEDEDGE(*,*,#3517018,.T.);
-			//#3517329= IFCEDGELOOP((#3517326,#3517327,#3517328));
-			
 			if( !edgeSameSense )
 			{
 				vec3 temp = p0;
@@ -915,12 +900,12 @@ public:
 
 			std::vector<vec3> curvePoints;
 			std::vector<vec3> segmentStartPoints;
-			const shared_ptr<IfcCurve> edgeCurveCurve = edgeCurve->m_EdgeGeometry;
+			const shared_ptr<IfcCurve> edgeCurveGeometry = edgeCurve->m_EdgeGeometry;
 			bool senseAgreement = true;
 			
-			if( edgeCurveCurve )
+			if( edgeCurveGeometry )
 			{
-				shared_ptr<IfcTrimmedCurve> trimmedCurve = dynamic_pointer_cast<IfcTrimmedCurve>(edgeCurveCurve);
+				shared_ptr<IfcTrimmedCurve> trimmedCurve = dynamic_pointer_cast<IfcTrimmedCurve>(edgeCurveGeometry);
 				if( trimmedCurve )
 				{
 					const shared_ptr<IfcCurve> basisCurve = trimmedCurve->m_BasisCurve;
@@ -931,15 +916,15 @@ public:
 						std::vector<shared_ptr<IfcTrimmingSelect> > curve_trim2_vec;
 
 						shared_ptr<IfcCartesianPoint> trim1(new IfcCartesianPoint());
-						trim1->m_Coordinates[0] = p0.x;
-						trim1->m_Coordinates[1] = p0.y;
-						trim1->m_Coordinates[2] = p0.z;
+						trim1->m_Coordinates[0] = p0.x / length_factor;  // in convertIfcCurve, the trim point will be multiplied with length_factor
+						trim1->m_Coordinates[1] = p0.y / length_factor;
+						trim1->m_Coordinates[2] = p0.z / length_factor;
 						curve_trim1_vec.push_back(trim1);
 
 						shared_ptr<IfcCartesianPoint> trim2(new IfcCartesianPoint());
-						trim2->m_Coordinates[0] = p1.x;
-						trim2->m_Coordinates[1] = p1.y;
-						trim2->m_Coordinates[2] = p1.z;
+						trim2->m_Coordinates[0] = p1.x / length_factor;
+						trim2->m_Coordinates[1] = p1.y / length_factor;
+						trim2->m_Coordinates[2] = p1.z / length_factor;
 						curve_trim2_vec.push_back(trim2);
 						convertIfcCurve(basisCurve, curvePoints, segmentStartPoints, curve_trim1_vec, curve_trim2_vec, senseAgreement);
 					}
@@ -948,7 +933,7 @@ public:
 				{
 					std::vector<shared_ptr<IfcTrimmingSelect> > curve_trim1_vec;
 					std::vector<shared_ptr<IfcTrimmingSelect> > curve_trim2_vec;
-					convertIfcCurve(edgeCurveCurve, curvePoints, segmentStartPoints, curve_trim1_vec, curve_trim2_vec, senseAgreement);
+					convertIfcCurve(edgeCurveGeometry, curvePoints, segmentStartPoints, curve_trim1_vec, curve_trim2_vec, senseAgreement);
 				}
 			}
 			else
@@ -977,7 +962,7 @@ public:
 				glm::vec4 color(0.5, 0.5, 0.5, 1);
 				if( dist0 > EPS_M6 || dist1 > EPS_M6 )
 				{
-					GeomDebugDump::dumpPolyline(curvePoints, color, false);
+					//GeomDebugDump::dumpPolyline(curvePoints, color, false);
 				}
 				
 				if( dist0 > EPS_M6 )
@@ -986,7 +971,7 @@ public:
 					//std::cout << std::endl << "check EdgeStart IfcEdgeCurve, dist0 = " << dist0  << ", tag: " << tag << std::endl;
 
 					std::vector<vec3> segmentStartEndPoints = { p0, p1 };
-					GeomDebugDump::dumpPolyline(segmentStartEndPoints, color, true);
+					//GeomDebugDump::dumpPolyline(segmentStartEndPoints, color, true);
 				}
 
 				if( false )
@@ -1098,15 +1083,10 @@ public:
 
 			for( const shared_ptr<IfcOrientedEdge>& oriented_edge : edge_loop->m_EdgeList )
 			{
-				//  shared_ptr<IfcVertex>									m_EdgeStart;
-				//  shared_ptr<IfcVertex>									m_EdgeEnd;
-
 				// IfcOrientedEdge -----------------------------------------------------------
 				// attributes:
 				//shared_ptr<IfcEdge>										m_EdgeElement;
 				//shared_ptr<IfcBoolean>									m_Orientation;
-
-				shared_ptr<IfcEdge> edge = oriented_edge->m_EdgeElement;
 
 				bool orientation = true;
 				if( oriented_edge->m_Orientation )
@@ -1114,6 +1094,7 @@ public:
 					orientation = oriented_edge->m_Orientation->m_value;
 				}
 
+				shared_ptr<IfcEdge> edge = oriented_edge->m_EdgeElement;
 				std::vector<vec3> edge_points;
 				convertIfcEdge(edge, edge_points, length_factor);
 
@@ -1125,6 +1106,11 @@ public:
 				{
 					std::copy(edge_points.rbegin(), edge_points.rend(), std::back_inserter(loop_points));
 				}
+
+#ifdef _DEBUG
+				//glm::vec4 color(0.5, 0.5, 0.5, 1);
+				//GeomDebugDump::dumpPolyline(loop_points, color, false);
+#endif
 			}
 
 			GeomUtils::removeDuplicates(loop_points);

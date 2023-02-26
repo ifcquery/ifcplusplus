@@ -117,8 +117,8 @@ protected:
 	int	m_num_vertices_per_circle = 14;
 	int m_num_vertices_per_circle_default = 14;
 	int m_min_num_vertices_per_arc = 5;
-	int m_num_vertices_per_control_point = 4;
-	int m_num_vertices_per_control_point_default = 4;
+	int m_num_vertices_per_control_point = 1;
+	int m_num_vertices_per_control_point_default = 1;
 	bool m_show_text_literals = false;
 	bool m_ignore_profile_radius = false;
 	bool m_handle_styled_items = true;

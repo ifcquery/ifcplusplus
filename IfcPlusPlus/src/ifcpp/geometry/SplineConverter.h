@@ -150,6 +150,10 @@ public:
 	static void computeRationalBSpline( const size_t order, const size_t numCurvePoints, const std::vector<vec3>& controlPoints, std::vector<double>& weights,
 		std::vector<double>& knotVec, std::vector<double>& curvePoints )
 	{
+		if( knotVec.size() < 2)
+		{
+			return;
+		}
 		// order: order of the BSpline basis function
 		std::vector<double> basis_func;  // basis function for parameter value t
 		basis_func.resize( controlPoints.size() + 1, 0.0 );
@@ -162,8 +166,8 @@ public:
 			computeKnotVector( controlPoints.size(), order, knotVec );
 		}
 
-		double t = 0; // parameter value 0 <= t <= npts - k + 1
-		double step = knotVec[knotVec.size() - 1] / ( (double)( numCurvePoints - 1 ) );
+		double t = knotVec[0]; // parameter value 0 <= t <= npts - k + 1
+		double step = (knotVec[knotVec.size() - 1] - knotVec[0])/ ( (double)( numCurvePoints - 1 ) );
 
 		std::vector<double> control_points_coords;
 		for( size_t ii = 0; ii < controlPoints.size(); ++ii )
@@ -221,12 +225,8 @@ public:
 		{
 			return;
 		}
-		const int											degree = bspline_curve->m_Degree->m_value;
+		
 		const std::vector<shared_ptr<IfcCartesianPoint> >&	control_points_ifc = bspline_curve->m_ControlPointsList;
-		//const shared_ptr<IfcBSplineCurveForm>&				curve_form = bspline_curve->m_CurveForm;
-		//const LogicalEnum									closed_curve = bspline_curve->m_ClosedCurve;
-		//const LogicalEnum									self_intersect = bspline_curve->m_ClosedCurve;
-
 		std::vector<vec3> controlPoints;
 		m_point_converter->convertIfcCartesianPointVector( control_points_ifc, controlPoints );
 
@@ -235,15 +235,14 @@ public:
 			return;
 		}
 
-		std::vector<double> weights;
-		std::vector<double> curvePointsCoords;
-
 		const size_t numControlPoints = controlPoints.size();
+		const int	degree = bspline_curve->m_Degree->m_value;
 		const size_t order = degree + 1; // the order of the curve is the degree of the resulting polynomial + 1
 		const size_t numCurvePoints = numControlPoints * m_geom_settings->getNumVerticesPerControlPoint();
-		std::vector<double> knotVec;
+		std::vector<double> knotVector;
 
 		//	set weighting factors to 1.0 in case of homogeneous curve
+		std::vector<double> weights;
 		weights.resize( numControlPoints + 1, 1.0 );
 
 		shared_ptr<IfcBSplineCurveWithKnots> bspline_curve_with_knots = dynamic_pointer_cast<IfcBSplineCurveWithKnots>( bspline_curve );
@@ -266,19 +265,26 @@ public:
 				
 				for( int jj = 0; jj < num_multiply_knot_value; ++jj )
 				{
-					knotVec.push_back( knot_value );
+					knotVector.push_back( knot_value );
 				}
 			}
 
 #ifdef _DEBUG
+			std::stringstream controlPointsStringStream;
+			for( size_t i_weight = 0; i_weight < controlPoints.size(); ++i_weight )
+			{
+				controlPointsStringStream << controlPoints[i_weight].x << "  " << controlPoints[i_weight].y << "  " << controlPoints[i_weight].z << "\n";
+			}
+			std::string controlPointsString = controlPointsStringStream.str();
+
 			// check knot multiplicities and degree
 			const size_t n_plus_order = controlPoints.size() + order; // number of knot values
 			int n = numControlPoints - 1;
 			int k = order;
 			size_t numKnots = n + k + 1;
-			if( numKnots != knotVec.size() )
+			if( numKnots != knotVector.size() )
 			{
-				knotVec.clear();  // valid knot vector will be computed in computeRationalBSpline
+				knotVector.clear();  // valid knot vector will be computed in computeRationalBSpline
 				std::cout << "invalid knot vector/KnotMultiplicities" << std::endl;
 			}
 #endif
@@ -295,8 +301,9 @@ public:
 			}
 		}
 
+		std::vector<double> curvePointsCoords;
 		curvePointsCoords.resize( 3 * numCurvePoints, 0.0 );
-		computeRationalBSpline( order, numCurvePoints, controlPoints, weights, knotVec, curvePointsCoords );
+		computeRationalBSpline( order, numCurvePoints, controlPoints, weights, knotVector, curvePointsCoords );
 
 		if( target_vec.size() > 2 )
 		{
@@ -307,53 +314,6 @@ public:
 		{
 			target_vec.push_back( carve::geom::VECTOR( curvePointsCoords[ii], curvePointsCoords[ii + 1], curvePointsCoords[ii + 2] ) );
 		}
-
-#ifdef _DEBUG
-		glm::dvec4 color1(0.8, 0.85, 0.9, 0.8);
-		glm::dvec4 color2(0.5, 0.6, 0.7, 1.);
-
-		//GeomDebugDump::dumpPolyline(controlPoints, color1, false);
-		//GeomDebugDump::dumpPolyline(target_vec, color2, true);
-
-		bool testNurbs = false;
-		if( testNurbs )
-		{
-			std::vector<vec3> controlPoints = {
-				carve::geom::VECTOR(-4, -4, 0),
-				carve::geom::VECTOR(-2, 4, 0),
-				carve::geom::VECTOR(2, -4, 0),
-				carve::geom::VECTOR(4, 4, 0)
-			};
-
-			
-			std::vector<double> weights = {1,1,1,1};
-			std::vector<double> curvePointsCoords;
-
-			const size_t numVerticesPerControlPoint = m_geom_settings->getNumVerticesPerControlPoint();
-			const size_t degree = 3;
-			const size_t numControlPoints = controlPoints.size();
-			const size_t order = degree + 1; // the order of the curve is the degree of the resulting polynomial + 1
-			const size_t numCurvePoints = numControlPoints * numVerticesPerControlPoint;
-			std::vector<double> knot_vec = {0,0,0,0,1,1,1,1};
-
-			//	set weighting factors to 1.0 in case of homogeneous curve
-			weights.resize( numControlPoints + 1, 1.0 );
-
-
-			curvePointsCoords.resize( 3 * numCurvePoints, 0.0 );
-			computeRationalBSpline( order, numCurvePoints, controlPoints, weights, knot_vec, curvePointsCoords );
-
-			std::vector<vec3> curvePointsVector;
-
-			for( size_t ii = 0; ii < 3 * numCurvePoints; ii = ii + 3 )
-			{
-				curvePointsVector.push_back( carve::geom::VECTOR( curvePointsCoords[ii], curvePointsCoords[ii + 1], curvePointsCoords[ii + 2] ) );
-			}
-
-			GeomDebugDump::dumpPolyline(controlPoints, color1, false);
-			GeomDebugDump::dumpPolyline(curvePointsVector, color2, true);
-		}
-#endif
 	}
 
 

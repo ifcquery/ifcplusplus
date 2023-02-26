@@ -151,6 +151,40 @@ void checkOpeningClosingParenthesis( const char* ch_check )
 	}
 }
 
+std::istream& bufferedGetline(std::istream& inputStream, std::string& lineOut)
+{
+	lineOut.clear();
+	std::istream::sentry se(inputStream, true);
+	std::streambuf* sb = inputStream.rdbuf();
+
+	// std::getline does not work with all line endings, reads complete file instead.
+	// Handle \n (unix), \r\n (windows), \r (mac) line endings here
+	while(true)
+	{
+		int c = sb->sbumpc();
+		switch (c)
+		{
+		case '\n':
+			return inputStream;
+		case '\r':
+			if( sb->sgetc() == '\n' )
+			{
+				sb->sbumpc();
+			}
+			return inputStream;
+		case std::streambuf::traits_type::eof():
+			// in case the last line has no line ending
+			if( lineOut.empty() )
+			{
+				inputStream.setstate(std::ios::eofbit);
+			}
+			return inputStream;
+		default:
+			lineOut += (char)c;
+		}
+	}
+}
+
 std::istream& bufferedGetStepLine(std::istream& inputStream, std::string& lineOut)
 {
 	lineOut.clear();
@@ -219,10 +253,13 @@ std::istream& bufferedGetStepLine(std::istream& inputStream, std::string& lineOu
 			}
 			lineOut += (char)c;
 			continue;
+
 		case '\n':
 			continue;
+
 		case '\r':
 			continue;
+
 		case std::streambuf::traits_type::eof():
 			// in case the last line has no line ending
 			if( lineOut.empty() )

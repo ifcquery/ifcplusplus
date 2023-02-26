@@ -26,7 +26,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 class BuildingObject;
 class BuildingEntity;
 class UnitConverter;
-namespace IFC4X3{
+namespace IFC4X3
+{
 	class IfcProject;
 	class IfcGeometricRepresentationContext;
 }
@@ -62,6 +63,7 @@ public:
 	const std::string& getFileHeader() { return m_file_header; }
 	const std::string& getFileDescription() { return m_IFC_FILE_DESCRIPTION; }
 	const std::string& getFileName() { return m_IFC_FILE_NAME; }
+	size_t getNumGeometicItems() { return m_num_geometric_items; }
 
 	void setFileHeader( const std::string& header );
 	void setFileDescription( const std::string& description );
@@ -94,4 +96,5 @@ private:
 	std::string											m_IFC_FILE_NAME;
 	SchemaVersionEnum									m_ifc_schema_version_loaded_file = IFC4X3;
 	SchemaVersionEnum									m_ifc_schema_version_current = IFC4X3;
+	size_t												m_num_geometric_items = 0;
 };

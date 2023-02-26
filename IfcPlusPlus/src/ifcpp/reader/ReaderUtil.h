@@ -62,7 +62,9 @@ void findLeadingTrailingParanthesis(char* ch, char*& pos_opening, char*& pos_clo
 void findEndOfString(const char*& stream_pos);
 bool findEndOfStepLine(char* ch, char*& pos_end);
 void checkOpeningClosingParenthesis(const char* ch_check);
+IFCQUERY_EXPORT std::istream& bufferedGetline(std::istream& is, std::string& t);
 std::istream& bufferedGetStepLine(std::istream& inputStream, std::string& lineOut);
+
 
 IFCQUERY_EXPORT std::string wstring2string(const std::wstring& str);
 IFCQUERY_EXPORT std::wstring string2wstring(const std::string& inputString);

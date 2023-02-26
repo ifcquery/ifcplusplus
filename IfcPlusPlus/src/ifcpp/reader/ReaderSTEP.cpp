@@ -42,8 +42,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <IfcPresentationStyle.h>
 #include <IfcPresentationStyleAssignment.h>
 #include <IfcProject.h>
+#include <IfcProductRepresentation.h>
 #include <IfcRelAggregates.h>
 #include <IfcRelContainedInSpatialStructure.h>
+#include <IfcRepresentation.h>
 #include <IfcSite.h>
 #include <IfcStyledItem.h>
 #include <IfcSurfaceStyle.h>
@@ -523,13 +525,14 @@ void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::str
 	}
 }
 
-void ReaderSTEP::readEntityArguments( const std::string& ifc_version, std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities,  const std::map<int,shared_ptr<BuildingEntity> >& map_entities  )
+void ReaderSTEP::readEntityArguments( std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities,  const std::map<int,shared_ptr<BuildingEntity> >& map_entities, shared_ptr<BuildingModel>& model  )
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
 	const int num_objects = static_cast<int>(vec_entities.size());
 	std::stringstream err;
-
+	std::string ifc_version = model->getIfcSchemaVersionOfLoadedFile();
+	
 	// set progress
 	double progress = 0.3;
 	progressValueCallback( progress, "parse" );
@@ -708,6 +711,26 @@ void ReaderSTEP::readEntityArguments( const std::string& ifc_version, std::vecto
 						}
 
 						styledItem->m_Styles = vec_presentationStylesReplaced;
+					}
+				}
+
+				// prepare an estimation of mesh size
+				shared_ptr<IfcProduct> elementAsProduct = dynamic_pointer_cast<IfcProduct>(entity);
+				if( elementAsProduct )
+				{
+					shared_ptr<IfcProductRepresentation> productRepresentation = elementAsProduct->m_Representation;
+					if( productRepresentation )
+					{
+						for( const shared_ptr<IfcRepresentation>& representation : productRepresentation->m_Representations )
+						{
+							for( const shared_ptr<IfcRepresentationItem>& representation_item : representation->m_Items )
+							{
+								if( representation_item->classID() != IFC4X3::IFCBOUNDINGBOX )
+								{
+									++model->m_num_geometric_items;
+								}
+							}
+						}
 					}
 				}
 			}
@@ -917,8 +940,7 @@ void ReaderSTEP::readData(	std::istream& read_in, std::streampos file_size, shar
 
 	try
 	{
-		std::string ifc_version = model->getIfcSchemaVersionOfLoadedFile();
-		readEntityArguments( ifc_version, vec_entities, map_entities );
+		readEntityArguments( vec_entities, map_entities, model );
 	}
 	catch( BuildingException& e )
 	{

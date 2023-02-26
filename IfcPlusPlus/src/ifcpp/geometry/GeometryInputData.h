@@ -681,6 +681,7 @@ public:
 	weak_ptr<RepresentationData>							m_parent_representation;  // Pointer to representation object that this item belongs to
 	shared_ptr<IFC4X3::IfcRepresentationItem>				m_ifc_item;
 	std::vector<shared_ptr<carve::input::VertexData> >	m_vertex_points;
+	std::set<int> m_usedInRepresentations;
 
 public:
 	bool isEmpty()
@@ -1588,7 +1589,72 @@ public:
 	}
 };
 
+inline bool isEqual(const shared_ptr<carve::mesh::MeshSet<3> >& existingMesh, const shared_ptr<carve::mesh::MeshSet<3> >& checkMesh)
+{
+	if( existingMesh->meshes.size() != checkMesh->meshes.size() ) { return false; }
+	if( existingMesh->vertex_storage.size() != checkMesh->vertex_storage.size() ) { return false; }
 
+	for( size_t ii = 0; ii < existingMesh->meshes.size(); ++ii )
+	{
+		const carve::mesh::Mesh<3>* mesh1 = existingMesh->meshes[ii];
+		const carve::mesh::Mesh<3>* mesh2 = checkMesh->meshes[ii];
+		if( mesh1->closed_edges.size() != mesh2->closed_edges.size() ) { return false; }
+		if( mesh1->open_edges.size() != mesh2->open_edges.size() ) { return false; }
+		if( mesh1->faces.size() != mesh2->faces.size() ) { return false; }
+
+		for( size_t jj = 0; jj < mesh1->faces.size(); ++jj )
+		{
+			const carve::mesh::Face<3>* face1 = mesh1->faces[jj];
+			const carve::mesh::Face<3>* face2 = mesh2->faces[jj];
+			if( face1->n_edges != face2->n_edges ) { return false; }
+
+			const carve::mesh::Edge<3>* edge1 = face1->edge;
+			const carve::mesh::Edge<3>* edge2 = face2->edge;
+
+			for( size_t kk = 0; kk < face1->n_edges; ++kk )
+			{
+				const carve::mesh::Vertex<3>* vertex1 = edge1->vert;
+				const carve::mesh::Vertex<3>* vertex2 = edge2->vert;
+				vec3 delt = vertex1->v - vertex2->v;
+				if( delt.x > 0.0001 ) { return false; }
+				if( delt.x < -0.0001 ) { return false; }
+				if( delt.y > 0.0001 ) { return false; }
+				if( delt.y < -0.0001 ) { return false; }
+				if( delt.z > 0.0001 ) { return false; }
+				if( delt.z < -0.0001 ) { return false; }
+				edge1 = edge1->next;
+				edge2 = edge2->next;
+			}
+		}
+	}
+	return true;
+}
+
+inline bool isEqual(const shared_ptr<ItemShapeData>& existingItem, const shared_ptr<ItemShapeData>& checkItem)
+{
+	if( existingItem->m_meshsets.size() != checkItem->m_meshsets.size() ) { return false; }
+	if( existingItem->m_meshsets_open.size() != checkItem->m_meshsets_open.size() ) { return false; }
+
+	for( size_t ii = 0; ii < existingItem->m_meshsets.size(); ++ii )
+	{
+		shared_ptr<carve::mesh::MeshSet<3> >& meshset1 = existingItem->m_meshsets[ii];
+		shared_ptr<carve::mesh::MeshSet<3> >& meshset2 = checkItem->m_meshsets[ii];
+		if( !isEqual(meshset1, meshset2) )
+		{
+			return false;
+		}
+	}
+	for( size_t ii = 0; ii < existingItem->m_meshsets_open.size(); ++ii )
+	{
+		shared_ptr<carve::mesh::MeshSet<3> >& meshset1 = existingItem->m_meshsets_open[ii];
+		shared_ptr<carve::mesh::MeshSet<3> >& meshset2 = checkItem->m_meshsets_open[ii];
+		if( !isEqual(meshset1, meshset2) )
+		{
+			return false;
+		}
+	}
+	return true;
+}
 
 static carve::geom::aabb<3> computeBoundingBoxLocalCoords( const shared_ptr<ProductShapeData>& productData, bool includeChildren )
 {

@@ -348,7 +348,7 @@ public:
 			if( advancedFace )
 			{
 				int tag = advancedFace->m_tag;
-				if( tag == 3518020 )
+				if( tag == 1261069 )
 				{
 					std::cout << "IfcAdvancedFace, tag=" << tag << std::endl;
 				}
@@ -420,9 +420,9 @@ public:
 			MeshUtils::createTriangulated3DFace( face_loops, poly_cache, params );
 
 #ifdef _DEBUG
-			if( ifc_face->m_tag == 46832 )
+			if( ifc_face->m_tag == 1261069 )
 			{
-				params.debugDump = true;
+				//params.debugDump = true;
 			}
 
 			//if( ifc_face->m_tag == 2529 )
@@ -439,7 +439,7 @@ public:
 					GeomDebugDump::dumpPolyline(loop, color, false);
 				}
 
-				if( ii == 34 )
+				//if( ii == 34 )
 				{
 					PolyInputCache3D poly_cache_dump(CARVE_EPSILON);
 					MeshUtils::createTriangulated3DFace(face_loops, poly_cache_dump, params);

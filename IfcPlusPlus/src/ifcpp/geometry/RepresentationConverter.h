@@ -189,6 +189,7 @@ public:
 				{
 					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, representation_item.get() );
 				}
+
 				continue;
 			}
 
@@ -401,41 +402,8 @@ public:
 #endif
 	}
 
-	std::map<int, shared_ptr<ItemShapeData> > map_item_data_cache;
-	struct ScopedAddItemToMap
-	{
-		int m_tag = -1;
-		shared_ptr<ItemShapeData> m_item_data;
-		std::map<int, shared_ptr<ItemShapeData> >* m_map_item_data_cache;
-		ScopedAddItemToMap( int tag, shared_ptr<ItemShapeData> item_data, std::map<int, shared_ptr<ItemShapeData> >& map) : m_tag(tag), m_item_data(item_data), m_map_item_data_cache(&map)
-		{
-			
-		}
-
-		~ScopedAddItemToMap()
-		{
-			if(m_item_data )
-			{
-				m_map_item_data_cache->insert({ m_tag, m_item_data });
-			}
-		}
-	};
-
 	void convertIfcGeometricRepresentationItem( const shared_ptr<IfcGeometricRepresentationItem>& geom_item, shared_ptr<ItemShapeData>& item_data )
 	{
-		if( false )
-		{
-			int tag = geom_item->m_tag;
-			auto it = map_item_data_cache.find(tag);
-			if( it != map_item_data_cache.end() )
-			{
-				shared_ptr<ItemShapeData> item_data_existing = it->second;
-				shared_ptr<ItemShapeData> item_data_existing_copy = item_data_existing->getItemShapeDataDeepCopy();
-				item_data = item_data_existing_copy;
-				return;
-			}
-		}
-
 		//ENTITY IfcGeometricRepresentationItem
 		//ABSTRACT SUPERTYPE OF(ONEOF(IfcAnnotationFillArea, IfcBooleanResult, IfcBoundingBox, IfcCartesianPointList, IfcCartesianTransformationOperator, IfcCompositeCurveSegment, 
 		// IfcCsgPrimitive3D, IfcCurve, IfcDirection, IfcFaceBasedSurfaceModel, IfcFillAreaStyleHatching, IfcFillAreaStyleTiles, IfcGeometricSet, IfcHalfSpaceSolid, IfcLightSource, 

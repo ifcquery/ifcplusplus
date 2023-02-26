@@ -138,7 +138,7 @@ namespace MeshUtils
 #ifdef _DEBUG
 			if( entity )
 			{
-				std::cout << "MeshSet of entity #" << entity->m_tag << " not valid" << std::endl;
+				//std::cout << "MeshSet of entity #" << entity->m_tag << " not valid" << std::endl;
 			}
 #endif
 			return false;
@@ -148,7 +148,7 @@ namespace MeshUtils
 #ifdef _DEBUG
 			if( entity )
 			{
-				std::cout << "MeshSet of entity #" << entity->m_tag << " has no meshes" << std::endl;
+				//std::cout << "MeshSet of entity #" << entity->m_tag << " has no meshes" << std::endl;
 			}
 #endif
 			return false;
@@ -1178,7 +1178,7 @@ namespace MeshUtils
 #ifdef _DEBUG
 			if( info.entity )
 			{
-				std::cout << "MeshSet of entity #" << info.entity->m_tag << " has no meshes" << std::endl;
+				//std::cout << "MeshSet of entity #" << info.entity->m_tag << " has no meshes" << std::endl;
 			}
 #endif
 			return false;
