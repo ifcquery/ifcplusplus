@@ -77,10 +77,9 @@ inline void convertPlacement(double local_x[3], double local_z[3], double locati
 		axis2placement3d->m_Location = cartesianPoint;
 		vec_new_entities.push_back(axis2placement3d->m_Location);
 	}
-	cartesianPoint->m_Coordinates.clear();
-	cartesianPoint->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[0])));
-	cartesianPoint->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[1])));
-	cartesianPoint->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(location[2])));
+	cartesianPoint->m_Coordinates[0] = location[0];
+	cartesianPoint->m_Coordinates[1] = location[1];
+	cartesianPoint->m_Coordinates[2] = location[2];
 
 	if (!axis2placement3d->m_Axis)
 	{
@@ -118,8 +117,8 @@ shared_ptr<IfcDirection> createIfcDirection(double x, double y, double z, std::v
 shared_ptr<IfcCartesianPoint> createIfcCartesianPoint(double x, double y, std::vector<shared_ptr<BuildingEntity> >& vec_new_entities)
 {
 	shared_ptr<IfcCartesianPoint> pt(new IfcCartesianPoint());
-	pt->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(x)));
-	pt->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(y)));
+	pt->m_Coordinates[0] = x;
+	pt->m_Coordinates[1] = y;
 	vec_new_entities.push_back(pt);
 	return pt;
 }
@@ -127,18 +126,14 @@ shared_ptr<IfcCartesianPoint> createIfcCartesianPoint(double x, double y, std::v
 shared_ptr<IfcCartesianPoint> createIfcCartesianPoint(double x, double y, double z, std::vector<shared_ptr<BuildingEntity> >& vec_new_entities)
 {
 	shared_ptr<IfcCartesianPoint> pt(new IfcCartesianPoint());
-	pt->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(x)));
-	pt->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(y)));
-	pt->m_Coordinates.push_back(shared_ptr<IfcLengthMeasure>(new IfcLengthMeasure(z)));
+	pt->m_Coordinates[0] = x;
+	pt->m_Coordinates[1] = y;
+	pt->m_Coordinates[2] = z;
 	vec_new_entities.push_back(pt);
 	return pt;
 }
 
-shared_ptr<IfcFace> createIfcFace(
-	shared_ptr<IfcCartesianPoint> pt0,
-	shared_ptr<IfcCartesianPoint> pt1,
-	shared_ptr<IfcCartesianPoint> pt2,
-	shared_ptr<IfcCartesianPoint> pt3,
+shared_ptr<IfcFace> createIfcFace( shared_ptr<IfcCartesianPoint> pt0, shared_ptr<IfcCartesianPoint> pt1, shared_ptr<IfcCartesianPoint> pt2, shared_ptr<IfcCartesianPoint> pt3,
 	std::vector<shared_ptr<BuildingEntity> >& vec_new_entities)
 {
 	shared_ptr<IfcFace> face(new IfcFace());

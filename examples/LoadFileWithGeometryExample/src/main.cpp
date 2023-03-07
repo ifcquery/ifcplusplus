@@ -9,7 +9,7 @@
 #include <ifcpp/IFC4X3/include/IfcText.h>
 #include <ifcpp/model/BuildingModel.h>
 #include <ifcpp/reader/ReaderSTEP.h>
-#include <ifcpp/geometry/Carve/GeometryConverter.h>
+#include <ifcpp/geometry/GeometryConverter.h>
 
 using namespace IFC4X3;
 

@@ -270,7 +270,7 @@ QTreeWidgetItem* resolveTreeItems( shared_ptr<BuildingObject> obj, std::unordere
 			std::string name = obj_def->m_Name->m_value;
 			if( name.size() > 0 )
 			{
-				item->setText(0, QString::fromStdWString(string2wstring(name)));
+				item->setText(0, QString::fromStdString(name));
 			}
 		}
 
