@@ -304,8 +304,6 @@ void TabReadWrite::loadIfcFile( QString& path_in )
 		converter_osg->setMessageTarget(geometry_converter.get());
 		converter_osg->convertToOSG(geometry_converter->getShapeInputData(), model_switch);
 
-
-
 		if (model_switch)
 		{
 			bool optimize = true;

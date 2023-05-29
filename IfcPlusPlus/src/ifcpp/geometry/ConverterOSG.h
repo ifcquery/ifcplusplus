@@ -236,7 +236,7 @@ public:
 
 	//#define DEBUG_DRAW_NORMALS
 
-	static void drawMeshSet(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* geode, double crease_angle, double min_triangle_area, bool add_color_array = false)
+	void drawMeshSet(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* geode, double crease_angle, double min_triangle_area, bool add_color_array, bool disableBackFaceCulling)
 	{
 		if (!meshset)
 		{
@@ -467,6 +467,12 @@ public:
 			geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::TRIANGLES, 0, vertices_tri->size()));
 			geode->addDrawable(geometry);
 
+			// disable back face culling for open meshes
+			if (disableBackFaceCulling)
+			{
+				geometry->getOrCreateStateSet()->setAttributeAndModes(m_cull_back_off.get(), osg::StateAttribute::OFF);
+			}
+
 #ifdef DEBUG_DRAW_NORMALS
 			osg::ref_ptr<osg::Vec3Array> vertices_normals = new osg::Vec3Array();
 			for (size_t i = 0; i < vertices_tri->size(); ++i)
@@ -667,7 +673,7 @@ public:
 		}
 	}
 
-	void applyAppearancesToGroup(const std::vector<shared_ptr<AppearanceData> >& vec_product_appearances, osg::Group* grp)
+	void applyAppearancesToGroup(const std::vector<shared_ptr<AppearanceData> >& vec_product_appearances, osg::Group* grp, float transparencyOverride)
 	{
 		for (size_t ii = 0; ii < vec_product_appearances.size(); ++ii)
 		{
@@ -680,7 +686,7 @@ public:
 			if (appearance->m_apply_to_geometry_type == AppearanceData::GEOM_TYPE_SURFACE || appearance->m_apply_to_geometry_type == AppearanceData::GEOM_TYPE_ANY)
 			{
 				osg::ref_ptr<osg::StateSet> item_stateset;
-				convertToOSGStateSet(appearance, item_stateset);
+				convertToOSGStateSet(appearance, item_stateset, transparencyOverride);
 				if (item_stateset)
 				{
 					osg::StateSet* existing_item_stateset = grp->getStateSet();
@@ -712,7 +718,7 @@ public:
 			mat_in.m[3][0], mat_in.m[3][1], mat_in.m[3][2], mat_in.m[3][3]);
 	}
 
-	void convertMeshSets(std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vecMeshSets, osg::Geode* geode, size_t ii_item)
+	void convertMeshSets(std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vecMeshSets, osg::Geode* geode, size_t ii_item, bool disableBackfaceCulling)
 	{
 		double min_triangle_area = m_geom_settings->getMinTriangleArea();
 		double eps = m_geom_settings->getEpsilonCoplanarDistance();
@@ -721,15 +727,12 @@ public:
 		{
 			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = vecMeshSets[ii];
 
-			//static void retriangulateMeshSetSimple(shared_ptr<carve::mesh::MeshSet<3> >&meshset, bool ignoreResultOpenEdges, GeomProcessingParams & params, size_t retryCount);
-
 			double epsCoplanarFacesAngle = eps;
 			double minFaceArea = eps;
 			bool dumpMeshes = false;
 			GeomProcessingParams params(eps, epsCoplanarFacesAngle, minFaceArea, dumpMeshes);
 			MeshOps::retriangulateMeshSetSimple(item_meshset, true, params, 0);
-			//osg::ref_ptr<osg::Geode> geode = item_group;//new osg::Geode();
-			drawMeshSet(item_meshset, geode, crease_angle, min_triangle_area);
+			drawMeshSet(item_meshset, geode, crease_angle, min_triangle_area, false, disableBackfaceCulling);
 
 			if (m_render_crease_edges)
 			{
@@ -748,7 +751,6 @@ public:
 
 	void convertGeometricItem(const shared_ptr<ItemShapeData>& item_data, shared_ptr<IfcProduct>& ifc_product, size_t ii_representation, size_t ii_item, osg::Group* parentNode, float transparencyOverride)
 	{
-
 		bool includeChildren = false;
 		if (item_data->hasGeometricRepresentation(includeChildren))
 		{
@@ -760,29 +762,27 @@ public:
 				product_guid = ifc_product->m_GlobalId->m_value;
 			}
 
+			std::string ifc_entity_type = EntityFactory::getStringForClassID(ifc_product->classID());
 			std::stringstream strs_product_switch_name;
-			strs_product_switch_name << product_guid << ":" << EntityFactory::getStringForClassID(ifc_product->classID()) << " group";
+			strs_product_switch_name << product_guid << ":" << ifc_entity_type << " group";
 			std::string product_switch_name = strs_product_switch_name.str();
 
 #ifdef _DEBUG
 			int tag = ifc_product->m_tag;
-			if (product_guid.compare("3WMG3ehJnBiu4F_L5ltNmO") == 0)
+			if (product_guid.compare("3WMG3ehJnBiu4F_L5ltNmO") == 0 || ifc_product->classID() == IFC4X3::IFCWINDOW)
 			{
 				int wait = 0;
 			}
 #endif
 
-			// create shape for open shells
 			if (item_data->m_meshsets_open.size() > 0)
 			{
-				osg::ref_ptr<osg::Geode> geode_open_meshes = new osg::Geode();
-				convertMeshSets(item_data->m_meshsets_open, geode_open_meshes, ii_item);
 				// disable back face culling for open meshes
-				geode_open_meshes->getOrCreateStateSet()->setAttributeAndModes(m_cull_back_off.get(), osg::StateAttribute::OFF);
-				item_geode->addChild(geode_open_meshes);
+				convertMeshSets(item_data->m_meshsets_open, item_geode, ii_item, true);
 			}
 
-			convertMeshSets(item_data->m_meshsets, item_geode, ii_item);
+			// create shape for closed meshes
+			convertMeshSets(item_data->m_meshsets, item_geode, ii_item, false);
 
 			// create shape for points
 			const std::vector<shared_ptr<carve::input::VertexData> >& vertex_points = item_data->getVertexPoints();
@@ -862,16 +862,10 @@ public:
 					txt->setText(text_str.c_str());
 					txt->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 
-					osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-					geode->addDrawable(txt);
-					//representation_switch->addChild(geode);
+					osg::ref_ptr<osg::Geode> geodeText = new osg::Geode();
+					geodeText->addDrawable(txt);
+					item_geode->addChild(geodeText);
 				}
-			}
-
-			// apply statesets if there are any
-			if (item_data->m_vec_item_appearances.size() > 0)
-			{
-				applyAppearancesToGroup(item_data->m_vec_item_appearances, item_geode);
 			}
 
 			// If anything has been created, add it to the product group
@@ -884,9 +878,22 @@ public:
 				}
 #endif
 
+				// apply statesets if there are any
+				if (item_data->m_vec_item_appearances.size() > 0)
+				{
+					applyAppearancesToGroup(item_data->m_vec_item_appearances, item_geode, transparencyOverride);
+				}
+
 				if (transparencyOverride > 0)
 				{
-					SceneGraphUtils::setMaterialAlpha(item_geode, transparencyOverride, false);
+					bool hasTriangles = SceneGraphUtils::hasTrianglesWithMaterial(item_geode);
+					bool createMaterialIfNotExisting = false;
+
+					if (!hasTriangles)
+					{
+						createMaterialIfNotExisting = true;
+					}
+					SceneGraphUtils::setMaterialAlpha(item_geode, transparencyOverride, createMaterialIfNotExisting );
 				}
 
 				parentNode->addChild(item_geode);
@@ -898,8 +905,6 @@ public:
 			const shared_ptr<ItemShapeData>& child = item_data->m_child_items[i_item];
 			convertGeometricItem(child, ifc_product, ii_representation, i_item, parentNode, transparencyOverride);
 		}
-
-
 	}
 
 	//\brief method convertProductShapeToOSG: creates geometry objects from an IfcProduct object
@@ -923,8 +928,7 @@ public:
 
 			product_guid = product_shape->m_entity_guid;
 			auto it_find = m_map_entity_guid_to_switch.find(product_guid);
-
-			if (it_find != m_map_entity_guid_to_switch.end())
+			if (it_find == m_map_entity_guid_to_switch.end())
 			{
 				m_map_entity_guid_to_switch[product_guid] = product_switch;
 			}
@@ -937,10 +941,9 @@ public:
 			if (!product_shape->m_ifc_object_definition.expired())
 			{
 				shared_ptr<IfcObjectDefinition> ifc_object_def(product_shape->m_ifc_object_definition);
-				shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
-
 				entityType = EntityFactory::getStringForClassID(ifc_object_def->classID());
-
+				
+				shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
 				if (ifc_product)
 				{
 					// enable transparency for certain objects
@@ -976,7 +979,7 @@ public:
 					}
 
 #ifdef _DEBUG
-					if (product_guid.compare("3WMG3ehJnBiu4F_L5ltNmO") == 0)
+					if (product_guid.compare("0mmrfTIC96mu8Q5Pb3rKvn") == 0)
 					{
 						int wait = 0;
 					}
@@ -1005,7 +1008,7 @@ public:
 			// TODO: if no color or material is given, set color 231/219/169 for walls, 140/140/140 for slabs 
 			if (product_shape->m_vec_product_appearances.size() > 0)
 			{
-				applyAppearancesToGroup(product_shape->m_vec_product_appearances, product_transform);
+				applyAppearancesToGroup(product_shape->m_vec_product_appearances, product_transform, transparencyOverride);
 			}
 
 			++m_numConvertedProducts;
@@ -1162,15 +1165,15 @@ public:
 		progressValueCallback(0.9, "scenegraph");
 	}
 
-	void convertToOSGStateSet(const shared_ptr<AppearanceData>& appearence, osg::ref_ptr<osg::StateSet>& target_stateset)
+	void convertToOSGStateSet(const shared_ptr<AppearanceData>& appearence, osg::ref_ptr<osg::StateSet>& target_stateset, float transparencyOverride)
 	{
 		if (!appearence)
 		{
 			return;
 		}
-		const float shininess = appearence->m_shininess;
-		const float transparency = appearence->m_transparency;
-		const bool set_transparent = appearence->m_set_transparent;
+		float shininess = appearence->m_shininess;
+		float transparency = appearence->m_transparency;
+		bool set_transparent = appearence->m_set_transparent;
 
 		const float color_ambient_r = appearence->m_color_ambient.r();
 		const float color_ambient_g = appearence->m_color_ambient.g();
@@ -1187,6 +1190,12 @@ public:
 		const float color_specular_b = appearence->m_color_specular.b();
 		const float color_specular_a = appearence->m_color_specular.a();
 
+		if (transparencyOverride > 0)
+		{
+			set_transparent = true;
+			transparency = transparencyOverride;
+		}
+
 		osg::Vec4f ambientColor(color_ambient_r, color_ambient_g, color_ambient_b, transparency);
 		osg::Vec4f diffuseColor(color_diffuse_r, color_diffuse_g, color_diffuse_b, transparency);
 		osg::Vec4f specularColor(color_specular_r, color_specular_g, color_specular_b, transparency);
@@ -1202,7 +1211,7 @@ public:
 		target_stateset = new osg::StateSet();
 		target_stateset->setAttribute(mat, osg::StateAttribute::ON);
 
-		if (appearence->m_set_transparent)
+		if (set_transparent)
 		{
 			mat->setTransparency(osg::Material::FRONT, transparency);
 			target_stateset->setMode(GL_BLEND, osg::StateAttribute::ON);

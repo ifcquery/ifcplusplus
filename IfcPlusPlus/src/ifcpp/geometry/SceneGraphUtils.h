@@ -517,6 +517,48 @@ namespace SceneGraphUtils
 			}
 		}
 	}
+
+	inline bool hasTrianglesWithMaterial(osg::Node* node)
+	{
+		osg::ref_ptr<osg::Material> mat;
+		osg::StateSet* stateset = node->getStateSet();
+		if (stateset)
+		{
+			mat = dynamic_cast<osg::Material*>(stateset->getAttribute(osg::StateAttribute::MATERIAL));
+		}
+
+		osg::Geometry* geom = dynamic_cast<osg::Geometry*>(node);
+		if (geom)
+		{
+			for (unsigned int ii = 0; ii < geom->getNumPrimitiveSets(); ++ii)
+			{
+				osg::PrimitiveSet* prim = geom->getPrimitiveSet(ii);
+
+				if (prim->getMode() == osg::PrimitiveSet::TRIANGLES || prim->getMode() == osg::PrimitiveSet::QUADS)
+				{
+					if (mat)
+					{
+						return true;
+					}
+				}
+			}
+		}
+
+		osg::Group* group = dynamic_cast<osg::Group*>(node);
+		if (group)
+		{
+			for (unsigned int ii = 0; ii < group->getNumChildren(); ++ii)
+			{
+				osg::Node* child_node = group->getChild(ii);
+				if (hasTrianglesWithMaterial(child_node))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	inline void setMaterialAlpha( osg::Node* node, float alpha, bool create_material_if_not_existing )
 	{
 		osg::StateSet* stateset = node->getOrCreateStateSet();
@@ -541,6 +583,7 @@ namespace SceneGraphUtils
 				stateset->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
 			}
 		}
+
 		osg::Group* group = dynamic_cast<osg::Group*>( node );
 		if( group )
 		{
@@ -551,6 +594,7 @@ namespace SceneGraphUtils
 			}
 		}
 	}
+
 	inline void removeChildren( osg::Group* group )
 	{
 		if( group )
