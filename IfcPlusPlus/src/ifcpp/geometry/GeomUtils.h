@@ -1621,6 +1621,30 @@ namespace GeomUtils
 		}
 	}
 
+	inline void removeLastIfEqualToFirst(std::vector<int>& loop)
+	{
+		if (loop.size() > 1)
+		{
+			for (size_t iiPoint = 0; iiPoint < loop.size(); ++iiPoint)
+			{
+				size_t idxFirst = loop.front();
+				size_t idxLast = loop.back();
+				if (idxFirst == idxLast)
+				{
+					loop.pop_back();
+					if (loop.size() < 2)
+					{
+						break;
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+	}
+
 	inline void intersectLoopWithPoints(std::vector<vec3>& loop, std::vector<carve::mesh::Vertex<3> >&  vertices, double eps, size_t maxNumPoints )
 	{
 		for( size_t repeat = 0; repeat < loop.size(); ++repeat )

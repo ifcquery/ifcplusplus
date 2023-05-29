@@ -152,18 +152,8 @@ public:
 		}
 	}
 
-	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& ifc_representation, shared_ptr<RepresentationData>& representation_data )
+	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& ifc_representation, shared_ptr<ItemShapeData>& representation_data )
 	{
-		if( ifc_representation->m_RepresentationIdentifier )
-		{
-			representation_data->m_representation_identifier = ifc_representation->m_RepresentationIdentifier->m_value;
-		}
-
-		if( ifc_representation->m_RepresentationType )
-		{
-			representation_data->m_representation_type = ifc_representation->m_RepresentationType->m_value;
-		}
-
 		representation_data->m_ifc_representation = ifc_representation;
 
 		for( const shared_ptr<IfcRepresentationItem>& representation_item : ifc_representation->m_Items )
@@ -173,8 +163,7 @@ public:
 			if( geom_item )
 			{
 				shared_ptr<ItemShapeData> geom_item_data( new ItemShapeData() );
-				representation_data->m_vec_item_data.push_back( geom_item_data );
-				geom_item_data->m_parent_representation = representation_data;
+				representation_data->addChildItem( geom_item_data, representation_data );
 				geom_item_data->m_ifc_item = geom_item;
 
 				try
@@ -232,7 +221,8 @@ public:
 					}
 				}
 
-				shared_ptr<RepresentationData> mapped_input_data( new RepresentationData() );
+				shared_ptr<ItemShapeData> mapped_input_data( new ItemShapeData() );
+				mapped_input_data->m_ifc_representation = mapped_representation;
 
 				try
 				{
@@ -254,19 +244,12 @@ public:
 
 					if( vec_appearance_data.size() > 0 )
 					{
-						// overwrite item appearances with parent appearance
-						for( size_t i_mapped_item = 0; i_mapped_item < mapped_input_data->m_vec_item_data.size(); ++i_mapped_item )
+						for( size_t jj_appearance = 0; jj_appearance < vec_appearance_data.size(); ++jj_appearance )
 						{
-							shared_ptr<ItemShapeData>& mapped_item_data = mapped_input_data->m_vec_item_data[i_mapped_item];
-							mapped_item_data->m_vec_item_appearances.clear();
-
-							for( size_t jj_appearance = 0; jj_appearance < vec_appearance_data.size(); ++jj_appearance )
+							shared_ptr<AppearanceData>& data = vec_appearance_data[jj_appearance];
+							if( data )
 							{
-								shared_ptr<AppearanceData>& data = vec_appearance_data[jj_appearance];
-								if( data )
-								{
-									mapped_item_data->m_vec_item_appearances.push_back( data );
-								}
+								mapped_input_data->m_vec_item_appearances.push_back( data );
 							}
 						}
 					}
@@ -275,9 +258,10 @@ public:
 				if( map_matrix_origin && map_matrix_target )
 				{
 					carve::math::Matrix mapped_pos(map_matrix_target->m_matrix*map_matrix_origin->m_matrix);
-					mapped_input_data->applyTransformToRepresentation(mapped_pos);
+					double CARVE_EPSILON = m_geom_settings->getEpsilonCoplanarDistance();
+					mapped_input_data->applyTransformToItem(mapped_pos, CARVE_EPSILON);
 				}
-				representation_data->appendRepresentationData( mapped_input_data, representation_data );
+				representation_data->addChildItem( mapped_input_data, representation_data );
 				continue;
 			}
 
@@ -291,8 +275,7 @@ public:
 			if( topo_item )
 			{
 				shared_ptr<ItemShapeData> topological_item_data( new ItemShapeData() );
-				representation_data->m_vec_item_data.push_back( topological_item_data );
-				topological_item_data->m_parent_representation = representation_data;
+				representation_data->addChildItem( topological_item_data, representation_data );
 				topological_item_data->m_ifc_item = topo_item;
 				convertTopologicalRepresentationItem(topo_item, topological_item_data);
 				continue;
@@ -334,7 +317,7 @@ public:
 								m_styles_converter->convertIfcPresentationStyle( presentation_style, appearance_data );
 								if( appearance_data )
 								{
-									representation_data->addAppearance( appearance_data );
+									representation_data->m_vec_item_appearances.push_back( appearance_data );
 								}
 							}
 						}
@@ -394,10 +377,10 @@ public:
 
 		bool mergeAlignedEdges = true;
 		GeomProcessingParams params( m_geom_settings, polygonalFace.get(),  this );
-		MeshUtils::createTriangulated3DFace(face_loops, poly_cache, params);
+		FaceConverter::createTriangulated3DFace(face_loops, poly_cache, params);
 
 #ifdef _DEBUG
-		//glm::dvec4 color(0.3, 0.4, 0.5, 1.0);
+		//glm::vec4 color(0.3, 0.4, 0.5, 1.0);
 		//GeomDebugDump::dumpPolyline(face_loops, color, true);
 #endif
 	}
@@ -542,7 +525,7 @@ public:
 						if( polygonalFaceSet->m_Closed->m_value == true )
 						{
 							GeomProcessingParams params( m_geom_settings, polygonalFaceSet.get(),  this );
-							item_data->addClosedPolyhedron(polyCache.m_poly_data, params);
+							item_data->addClosedPolyhedron(polyCache.m_poly_data, params, m_geom_settings);
 						}
 						else
 						{
@@ -619,7 +602,7 @@ public:
 						}
 
 						GeomProcessingParams params( m_geom_settings, polygonalFace.get(),  this );
-						MeshUtils::createTriangulated3DFace(face_loops, polyCache, params );
+						FaceConverter::createTriangulated3DFace(face_loops, polyCache, params );
 					}
 				
 					if( triangulatedFaceSet->m_Closed )
@@ -627,7 +610,7 @@ public:
 						if( triangulatedFaceSet->m_Closed->m_value == true )
 						{
 							GeomProcessingParams params( m_geom_settings, triangulatedFaceSet.get(),  this );
-							item_data->addClosedPolyhedron(polyCache.m_poly_data, params);
+							item_data->addClosedPolyhedron(polyCache.m_poly_data, params, m_geom_settings);
 						}
 						else
 						{
@@ -809,7 +792,7 @@ public:
 
 			GeomProcessingParams params( m_geom_settings, outer_boundary.get(),  this );
 			PolyInputCache3D poly_cache(params.epsMergePoints);
-			MeshUtils::createTriangulated3DFace( face_loops, poly_cache, params);
+			FaceConverter::createTriangulated3DFace( face_loops, poly_cache, params);
 			item_data->addOpenPolyhedron( poly_cache.m_poly_data, CARVE_EPSILON );
 			return;
 		}
@@ -942,7 +925,7 @@ public:
 					}
 
 					GeomProcessingParams params( m_geom_settings, topo_face.get(),  this );
-					MeshUtils::createTriangulated3DFace( face_loops, poly_cache_top_face, params );
+					FaceConverter::createTriangulated3DFace( face_loops, poly_cache_top_face, params );
 				}
 			}
 			if( poly_cache_top_face.m_poly_data )
@@ -977,7 +960,7 @@ public:
 
 				GeomProcessingParams params( m_geom_settings, topo_face.get(),  this );
 				PolyInputCache3D poly_cache_top_face( params.epsMergePoints);
-				MeshUtils::createTriangulated3DFace( face_loops, poly_cache_top_face, params );
+				FaceConverter::createTriangulated3DFace( face_loops, poly_cache_top_face, params );
 
 				if( poly_cache_top_face.m_poly_data )
 				{
@@ -1028,154 +1011,171 @@ public:
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, topological_item.get() );
 	}
 
+	void collectMeshes(shared_ptr<ItemShapeData> geom_item, std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vec_meshes)
+	{
+		double eps = m_geom_settings->getEpsilonCoplanarDistance();
+		std::copy(geom_item->m_meshsets.begin(), geom_item->m_meshsets.end(), std::back_inserter(vec_meshes));
+		std::copy(geom_item->m_meshsets_open.begin(), geom_item->m_meshsets_open.end(), std::back_inserter(vec_meshes));
+
+		for (auto opening_item_data : geom_item->m_child_items)
+		{
+			collectMeshes(opening_item_data, vec_meshes);
+		}
+	}
+
+	void subtractOpeningFromProductShape(shared_ptr<ItemShapeData>& productShapeItem, std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vec_opening_meshes, const shared_ptr<IfcElement>& ifc_element)
+	{
+		for (size_t i_product_meshset = 0; i_product_meshset < productShapeItem->m_meshsets.size(); ++i_product_meshset)
+		{
+			// go through all meshsets of the item
+			shared_ptr<carve::mesh::MeshSet<3> >& product_meshset = productShapeItem->m_meshsets[i_product_meshset];
+
+			// do the subtraction
+			CSG_Adapter::computeCSG(product_meshset, vec_opening_meshes, carve::csg::CSG::A_MINUS_B, m_geom_settings, this, ifc_element);
+		}
+
+		for (shared_ptr<ItemShapeData>& product_item_data : productShapeItem->m_child_items)
+		{
+			if (!product_item_data)
+			{
+				continue;
+			}
+
+			subtractOpeningFromProductShape(product_item_data, vec_opening_meshes, ifc_element);
+		}
+	}
+
 	void subtractOpenings(const shared_ptr<IfcElement>& ifc_element, shared_ptr<ProductShapeData>& product_shape)
 	{
 		std::vector<weak_ptr<IfcRelVoidsElement> > vec_rel_voids(ifc_element->m_HasOpenings_inverse);
-		if( vec_rel_voids.size() == 0 )
+		if (vec_rel_voids.size() == 0)
 		{
 			return;
 		}
 
 		// convert opening representation
 		bool allOpeningsRelativeToProduct = true;
-		std::vector<shared_ptr<ProductShapeData> > vec_opening_shapes;
-		for( auto& rel_voids_weak : vec_rel_voids )
-		{
-			if( rel_voids_weak.expired() )
-			{
-				continue;
-			}
-			shared_ptr<IfcRelVoidsElement> rel_voids( rel_voids_weak );
-			shared_ptr<IfcFeatureElementSubtraction> opening = rel_voids->m_RelatedOpeningElement;
-			if( !opening )
-			{
-				continue;
-			}
-			if( !opening->m_Representation )
-			{
-				continue;
-			}
-
-			// opening can have its own relative placement
-			shared_ptr<IfcObjectPlacement>	opening_placement = opening->m_ObjectPlacement;
-			shared_ptr<ProductShapeData> product_shape_opening( new ProductShapeData() );
-			if (opening->m_GlobalId)
-			{
-				product_shape_opening->m_entity_guid = opening->m_GlobalId->m_value;
-			}
-			if( opening_placement )
-			{
-				std::unordered_set<IfcObjectPlacement*> opening_placements_applied;
-				m_placement_converter->convertIfcObjectPlacement( opening_placement, product_shape_opening, opening_placements_applied, false );
-			}
-
-			for( shared_ptr<IfcRepresentation> ifc_opening_representation : opening->m_Representation->m_Representations )
-			{
-				shared_ptr<RepresentationData> opening_representation_data(new RepresentationData());
-
-				try
-				{
-					convertIfcRepresentation(ifc_opening_representation, opening_representation_data);
-				}
-				catch( BuildingException& e )
-				{
-					messageCallback(e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get());
-				}
-				catch( std::exception& e )
-				{
-					messageCallback(e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get());
-				}
-
-				product_shape_opening->m_vec_representations.push_back(opening_representation_data);
-			}
-
-			// bring opening meshes to global position
-			carve::math::Matrix product_transform_relative = product_shape->getRelativeTransform(product_shape_opening);
-			if( !GeomUtils::isMatrixIdentity(product_transform_relative) )
-			{
-				allOpeningsRelativeToProduct = false;
-			}
-
-			vec_opening_shapes.push_back(product_shape_opening);
-		}
-
-		std::vector<shared_ptr<carve::mesh::MeshSet<3> > > vec_opening_meshes;
 		carve::math::Matrix product_transform = product_shape->getTransform();
-
-		if( !allOpeningsRelativeToProduct )
-		{
-			product_shape->applyTransformToProduct(product_transform, false, false);
-		}
-
-		for( auto& product_shape_opening : vec_opening_shapes )
-		{
-			if( allOpeningsRelativeToProduct )
-			{
-				carve::math::Matrix opening_transform_relative = product_shape_opening->getRelativeTransform(product_shape);
-				product_shape_opening->applyTransformToProduct(opening_transform_relative, false, false);
-			}
-			else
-			{
-				carve::math::Matrix opening_transform = product_shape_opening->getTransform();
-				product_shape_opening->applyTransformToProduct(opening_transform, false, false);
-			}
-
-			for( auto opening_representation_data : product_shape_opening->m_vec_representations )
-			{
-				for( auto opening_item_data : opening_representation_data->m_vec_item_data )
-				{
-					std::copy(opening_item_data->m_meshsets.begin(), opening_item_data->m_meshsets.end(), std::back_inserter(vec_opening_meshes));
-				}
-			}
-		}
+		int tag = ifc_element->m_tag;
 
 		// for all items of the product shape, subtract all items of all related openings
-		for( auto& product_representation : product_shape->m_vec_representations )
+		for (shared_ptr<ItemShapeData>& productShapeItem : product_shape->m_geometric_items)
 		{
-			if( !product_representation )
+			if (!productShapeItem)
 			{
 				continue;
 			}
 
-			std::vector<shared_ptr<ItemShapeData> >& vec_product_items = product_representation->m_vec_item_data;
-			for( auto& product_item_data : vec_product_items )
+			std::vector<shared_ptr<carve::mesh::MeshSet<3> > > productShapeMeshes;
+			collectMeshes(productShapeItem, productShapeMeshes);
+			if (productShapeMeshes.size() == 0)
 			{
-				if( !product_item_data )
+				continue;
+			}
+
+			std::vector<shared_ptr<ProductShapeData> > vec_opening_shapes;
+
+			for (auto& rel_voids_weak : vec_rel_voids)
+			{
+				if (rel_voids_weak.expired())
+				{
+					continue;
+				}
+				shared_ptr<IfcRelVoidsElement> rel_voids(rel_voids_weak);
+				shared_ptr<IfcFeatureElementSubtraction> opening = rel_voids->m_RelatedOpeningElement;
+				if (!opening)
+				{
+					continue;
+				}
+				if (!opening->m_Representation)
 				{
 					continue;
 				}
 
-				if( product_item_data->m_meshsets.size() == 0 )
+				// opening can have its own relative placement
+
+				shared_ptr<IfcObjectPlacement>	opening_placement = opening->m_ObjectPlacement;
+				shared_ptr<ProductShapeData> product_shape_opening(new ProductShapeData());
+				if (opening->m_GlobalId)
 				{
-					continue;
+					product_shape_opening->m_entity_guid = opening->m_GlobalId->m_value;
+				}
+				if (opening_placement)
+				{
+					std::unordered_set<IfcObjectPlacement*> opening_placements_applied;
+					m_placement_converter->convertIfcObjectPlacement(opening_placement, product_shape_opening, opening_placements_applied, false);
 				}
 
-				// now go through all meshsets of the item
-				for( size_t i_product_meshset = 0; i_product_meshset < product_item_data->m_meshsets.size(); ++i_product_meshset )
+				for (shared_ptr<IfcRepresentation> ifc_opening_representation : opening->m_Representation->m_Representations)
 				{
-					shared_ptr<carve::mesh::MeshSet<3> >& product_meshset = product_item_data->m_meshsets[i_product_meshset];
-					std::stringstream strs_meshset_err;
-				
-					// do the subtraction
-					shared_ptr<carve::mesh::MeshSet<3> > result;
-					CSG_Adapter::computeCSG( product_meshset, vec_opening_meshes, carve::csg::CSG::A_MINUS_B, result, m_geom_settings, this, ifc_element );
-					product_meshset = result;
+					shared_ptr<ItemShapeData> opening_item(new ItemShapeData());
+
+					try
+					{
+						convertIfcRepresentation(ifc_opening_representation, opening_item);
+					}
+					catch (BuildingException& e)
+					{
+						messageCallback(e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get());
+					}
+					catch (std::exception& e)
+					{
+						messageCallback(e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", ifc_element.get());
+					}
+
+					product_shape_opening->addGeometricItem(opening_item, product_shape_opening);
+				}
+
+				// bring opening meshes to global position
+				carve::math::Matrix product_transform_relative = product_shape->getRelativeTransform(product_shape_opening);
+				if (!GeomUtils::isMatrixIdentity(product_transform_relative))
+				{
+					allOpeningsRelativeToProduct = false;
+				}
+
+				vec_opening_shapes.push_back(product_shape_opening);
+			}
+
+			std::vector<shared_ptr<carve::mesh::MeshSet<3> > > vec_opening_meshes;
+			if (!allOpeningsRelativeToProduct)
+			{
+				product_shape->applyTransformToProduct(product_transform, false, false);
+			}
+
+			for (shared_ptr<ProductShapeData>& product_shape_opening : vec_opening_shapes)
+			{
+				if (allOpeningsRelativeToProduct)
+				{
+					carve::math::Matrix opening_transform_relative = product_shape_opening->getRelativeTransform(product_shape);
+					product_shape_opening->applyTransformToProduct(opening_transform_relative, false, false);
+				}
+				else
+				{
+					carve::math::Matrix opening_transform = product_shape_opening->getTransform();
+					product_shape_opening->applyTransformToProduct(opening_transform, false, false);
+				}
+
+				for (auto opening_item_data : product_shape_opening->m_geometric_items)
+				{
+					collectMeshes(opening_item_data, vec_opening_meshes);
 				}
 			}
-		}
 
-		if( !allOpeningsRelativeToProduct )
-		{
-			carve::math::Matrix product_matrix_inverse;
-			try
+			subtractOpeningFromProductShape(productShapeItem, vec_opening_meshes, ifc_element);
+
+			if (!allOpeningsRelativeToProduct)
 			{
-				GeomUtils::computeInverse(product_transform, product_matrix_inverse, 0.01 / m_unit_converter->getCustomLengthFactor());
+				carve::math::Matrix product_matrix_inverse;
+				try
+				{
+					GeomUtils::computeInverse(product_transform, product_matrix_inverse, 0.01 / m_unit_converter->getCustomLengthFactor());
+				}
+				catch (std::exception& e)
+				{
+					messageCallback(e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, ifc_element.get());
+				}
+				product_shape->applyTransformToProduct(product_matrix_inverse, false, false);
 			}
-			catch (std::exception& e)
-			{
-				messageCallback(e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, ifc_element.get());
-			}
-			product_shape->applyTransformToProduct(product_matrix_inverse, false, false);
 		}
 	}
 };

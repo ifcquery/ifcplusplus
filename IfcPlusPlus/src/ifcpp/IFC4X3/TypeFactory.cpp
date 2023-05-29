@@ -35,7 +35,6 @@
 #include "lib/IfcBSplineCurveForm.cpp"
 #include "lib/IfcBSplineSurfaceForm.cpp"
 #include "lib/IfcBeamTypeEnum.cpp"
-#include "lib/IfcBearingTypeDisplacementEnum.cpp"
 #include "lib/IfcBearingTypeEnum.cpp"
 #include "lib/IfcBenchmarkEnum.cpp"
 #include "lib/IfcBendingParameterSelect.cpp"
@@ -198,6 +197,7 @@
 #include "lib/IfcIonConcentrationMeasure.cpp"
 #include "lib/IfcIsothermalMoistureCapacityMeasure.cpp"
 #include "lib/IfcJunctionBoxTypeEnum.cpp"
+#include "lib/IfcKerbTypeEnum.cpp"
 #include "lib/IfcKinematicViscosityMeasure.cpp"
 #include "lib/IfcKnotType.cpp"
 #include "lib/IfcLabel.cpp"
@@ -258,7 +258,6 @@
 #include "lib/IfcNormalisedRatioMeasure.cpp"
 #include "lib/IfcNumericMeasure.cpp"
 #include "lib/IfcObjectReferenceSelect.cpp"
-#include "lib/IfcObjectTypeEnum.cpp"
 #include "lib/IfcObjectiveEnum.cpp"
 #include "lib/IfcOccupantTypeEnum.cpp"
 #include "lib/IfcOpeningElementTypeEnum.cpp"
@@ -365,6 +364,7 @@
 #include "lib/IfcStairFlightTypeEnum.cpp"
 #include "lib/IfcStairTypeEnum.cpp"
 #include "lib/IfcStateEnum.cpp"
+#include "lib/IfcStrippedOptional.cpp"
 #include "lib/IfcStructuralActivityAssignmentSelect.cpp"
 #include "lib/IfcStructuralCurveActivityTypeEnum.cpp"
 #include "lib/IfcStructuralCurveMemberTypeEnum.cpp"
@@ -477,7 +477,6 @@ static std::map<std::string, std::function<shared_ptr<BuildingObject>( const std
 { "IFCBSPLINECURVEFORM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcBSplineCurveForm::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCBSPLINESURFACEFORM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcBSplineSurfaceForm::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCBEAMTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcBeamTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },
-{ "IFCBEARINGTYPEDISPLACEMENTENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcBearingTypeDisplacementEnum::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCBEARINGTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcBearingTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCBENCHMARKENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcBenchmarkEnum::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCBENDINGPARAMETERSELECT", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcBendingParameterSelect::createObjectFromSTEP( arg, map, errorStream ); } },
@@ -640,6 +639,7 @@ static std::map<std::string, std::function<shared_ptr<BuildingObject>( const std
 { "IFCIONCONCENTRATIONMEASURE", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcIonConcentrationMeasure::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCISOTHERMALMOISTURECAPACITYMEASURE", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcIsothermalMoistureCapacityMeasure::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCJUNCTIONBOXTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcJunctionBoxTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },
+{ "IFCKERBTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcKerbTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCKINEMATICVISCOSITYMEASURE", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcKinematicViscosityMeasure::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCKNOTTYPE", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcKnotType::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCLABEL", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcLabel::createObjectFromSTEP( arg, map, errorStream ); } },
@@ -700,7 +700,6 @@ static std::map<std::string, std::function<shared_ptr<BuildingObject>( const std
 { "IFCNORMALISEDRATIOMEASURE", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcNormalisedRatioMeasure::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCNUMERICMEASURE", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcNumericMeasure::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCOBJECTREFERENCESELECT", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcObjectReferenceSelect::createObjectFromSTEP( arg, map, errorStream ); } },
-{ "IFCOBJECTTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcObjectTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCOBJECTIVEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcObjectiveEnum::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCOCCUPANTTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcOccupantTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCOPENINGELEMENTTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcOpeningElementTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },
@@ -807,6 +806,7 @@ static std::map<std::string, std::function<shared_ptr<BuildingObject>( const std
 { "IFCSTAIRFLIGHTTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcStairFlightTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCSTAIRTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcStairTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCSTATEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcStateEnum::createObjectFromSTEP( arg, map, errorStream ); } },
+{ "IFCSTRIPPEDOPTIONAL", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcStrippedOptional::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCSTRUCTURALACTIVITYASSIGNMENTSELECT", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcStructuralActivityAssignmentSelect::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCSTRUCTURALCURVEACTIVITYTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcStructuralCurveActivityTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCSTRUCTURALCURVEMEMBERTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcStructuralCurveMemberTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },

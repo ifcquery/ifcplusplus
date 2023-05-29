@@ -9,19 +9,19 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4X3/include/IfcDoorTypeOperationEnum.h"
 
-// TYPE IfcDoorTypeOperationEnum = ENUMERATION OF	(DOUBLE_PANEL_DOUBLE_SWING	,DOUBLE_PANEL_FOLDING	,DOUBLE_PANEL_LIFTING_VERTICAL	,DOUBLE_PANEL_SINGLE_SWING	,DOUBLE_PANEL_SINGLE_SWING_OPPOSITE_LEFT	,DOUBLE_PANEL_SINGLE_SWING_OPPOSITE_RIGHT	,DOUBLE_PANEL_SLIDING	,DOUBLE_SWING_LEFT	,DOUBLE_SWING_RIGHT	,FOLDING_TO_LEFT	,FOLDING_TO_RIGHT	,LIFTING_HORIZONTAL	,LIFTING_VERTICAL_LEFT	,LIFTING_VERTICAL_RIGHT	,REVOLVING_HORIZONTAL	,REVOLVING_VERTICAL	,ROLLINGUP	,SINGLE_SWING_LEFT	,SINGLE_SWING_RIGHT	,SLIDING_TO_LEFT	,SLIDING_TO_RIGHT	,SWING_FIXED_LEFT	,SWING_FIXED_RIGHT	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcDoorTypeOperationEnum = ENUMERATION OF	(DOUBLE_DOOR_DOUBLE_SWING	,DOUBLE_DOOR_FOLDING	,DOUBLE_DOOR_LIFTING_VERTICAL	,DOUBLE_DOOR_SINGLE_SWING	,DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT	,DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT	,DOUBLE_DOOR_SLIDING	,DOUBLE_SWING_LEFT	,DOUBLE_SWING_RIGHT	,FOLDING_TO_LEFT	,FOLDING_TO_RIGHT	,LIFTING_HORIZONTAL	,LIFTING_VERTICAL_LEFT	,LIFTING_VERTICAL_RIGHT	,REVOLVING	,REVOLVING_VERTICAL	,ROLLINGUP	,SINGLE_SWING_LEFT	,SINGLE_SWING_RIGHT	,SLIDING_TO_LEFT	,SLIDING_TO_RIGHT	,SWING_FIXED_LEFT	,SWING_FIXED_RIGHT	,USERDEFINED	,NOTDEFINED);
 void IFC4X3::IfcDoorTypeOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCDOORTYPEOPERATIONENUM("; }
 	switch( m_enum )
 	{
-		case ENUM_DOUBLE_PANEL_DOUBLE_SWING:	stream << ".DOUBLE_PANEL_DOUBLE_SWING."; break;
-		case ENUM_DOUBLE_PANEL_FOLDING:	stream << ".DOUBLE_PANEL_FOLDING."; break;
-		case ENUM_DOUBLE_PANEL_LIFTING_VERTICAL:	stream << ".DOUBLE_PANEL_LIFTING_VERTICAL."; break;
-		case ENUM_DOUBLE_PANEL_SINGLE_SWING:	stream << ".DOUBLE_PANEL_SINGLE_SWING."; break;
-		case ENUM_DOUBLE_PANEL_SINGLE_SWING_OPPOSITE_LEFT:	stream << ".DOUBLE_PANEL_SINGLE_SWING_OPPOSITE_LEFT."; break;
-		case ENUM_DOUBLE_PANEL_SINGLE_SWING_OPPOSITE_RIGHT:	stream << ".DOUBLE_PANEL_SINGLE_SWING_OPPOSITE_RIGHT."; break;
-		case ENUM_DOUBLE_PANEL_SLIDING:	stream << ".DOUBLE_PANEL_SLIDING."; break;
+		case ENUM_DOUBLE_DOOR_DOUBLE_SWING:	stream << ".DOUBLE_DOOR_DOUBLE_SWING."; break;
+		case ENUM_DOUBLE_DOOR_FOLDING:	stream << ".DOUBLE_DOOR_FOLDING."; break;
+		case ENUM_DOUBLE_DOOR_LIFTING_VERTICAL:	stream << ".DOUBLE_DOOR_LIFTING_VERTICAL."; break;
+		case ENUM_DOUBLE_DOOR_SINGLE_SWING:	stream << ".DOUBLE_DOOR_SINGLE_SWING."; break;
+		case ENUM_DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT:	stream << ".DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT."; break;
+		case ENUM_DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT:	stream << ".DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT."; break;
+		case ENUM_DOUBLE_DOOR_SLIDING:	stream << ".DOUBLE_DOOR_SLIDING."; break;
 		case ENUM_DOUBLE_SWING_LEFT:	stream << ".DOUBLE_SWING_LEFT."; break;
 		case ENUM_DOUBLE_SWING_RIGHT:	stream << ".DOUBLE_SWING_RIGHT."; break;
 		case ENUM_FOLDING_TO_LEFT:	stream << ".FOLDING_TO_LEFT."; break;
@@ -29,7 +29,7 @@ void IFC4X3::IfcDoorTypeOperationEnum::getStepParameter( std::stringstream& stre
 		case ENUM_LIFTING_HORIZONTAL:	stream << ".LIFTING_HORIZONTAL."; break;
 		case ENUM_LIFTING_VERTICAL_LEFT:	stream << ".LIFTING_VERTICAL_LEFT."; break;
 		case ENUM_LIFTING_VERTICAL_RIGHT:	stream << ".LIFTING_VERTICAL_RIGHT."; break;
-		case ENUM_REVOLVING_HORIZONTAL:	stream << ".REVOLVING_HORIZONTAL."; break;
+		case ENUM_REVOLVING:	stream << ".REVOLVING."; break;
 		case ENUM_REVOLVING_VERTICAL:	stream << ".REVOLVING_VERTICAL."; break;
 		case ENUM_ROLLINGUP:	stream << ".ROLLINGUP."; break;
 		case ENUM_SINGLE_SWING_LEFT:	stream << ".SINGLE_SWING_LEFT."; break;
@@ -48,33 +48,33 @@ shared_ptr<IFC4X3::IfcDoorTypeOperationEnum> IFC4X3::IfcDoorTypeOperationEnum::c
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDoorTypeOperationEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcDoorTypeOperationEnum>(); }
 	shared_ptr<IfcDoorTypeOperationEnum> type_object( new IfcDoorTypeOperationEnum() );
-	if( std_iequal( arg, ".DOUBLE_PANEL_DOUBLE_SWING." ) )
+	if( std_iequal( arg, ".DOUBLE_DOOR_DOUBLE_SWING." ) )
 	{
-		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_DOUBLE_PANEL_DOUBLE_SWING;
+		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_DOUBLE_DOOR_DOUBLE_SWING;
 	}
-	else if( std_iequal( arg, ".DOUBLE_PANEL_FOLDING." ) )
+	else if( std_iequal( arg, ".DOUBLE_DOOR_FOLDING." ) )
 	{
-		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_DOUBLE_PANEL_FOLDING;
+		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_DOUBLE_DOOR_FOLDING;
 	}
-	else if( std_iequal( arg, ".DOUBLE_PANEL_LIFTING_VERTICAL." ) )
+	else if( std_iequal( arg, ".DOUBLE_DOOR_LIFTING_VERTICAL." ) )
 	{
-		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_DOUBLE_PANEL_LIFTING_VERTICAL;
+		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_DOUBLE_DOOR_LIFTING_VERTICAL;
 	}
-	else if( std_iequal( arg, ".DOUBLE_PANEL_SINGLE_SWING." ) )
+	else if( std_iequal( arg, ".DOUBLE_DOOR_SINGLE_SWING." ) )
 	{
-		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_DOUBLE_PANEL_SINGLE_SWING;
+		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_DOUBLE_DOOR_SINGLE_SWING;
 	}
-	else if( std_iequal( arg, ".DOUBLE_PANEL_SINGLE_SWING_OPPOSITE_LEFT." ) )
+	else if( std_iequal( arg, ".DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT." ) )
 	{
-		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_DOUBLE_PANEL_SINGLE_SWING_OPPOSITE_LEFT;
+		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT;
 	}
-	else if( std_iequal( arg, ".DOUBLE_PANEL_SINGLE_SWING_OPPOSITE_RIGHT." ) )
+	else if( std_iequal( arg, ".DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT." ) )
 	{
-		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_DOUBLE_PANEL_SINGLE_SWING_OPPOSITE_RIGHT;
+		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT;
 	}
-	else if( std_iequal( arg, ".DOUBLE_PANEL_SLIDING." ) )
+	else if( std_iequal( arg, ".DOUBLE_DOOR_SLIDING." ) )
 	{
-		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_DOUBLE_PANEL_SLIDING;
+		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_DOUBLE_DOOR_SLIDING;
 	}
 	else if( std_iequal( arg, ".DOUBLE_SWING_LEFT." ) )
 	{
@@ -104,9 +104,9 @@ shared_ptr<IFC4X3::IfcDoorTypeOperationEnum> IFC4X3::IfcDoorTypeOperationEnum::c
 	{
 		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_LIFTING_VERTICAL_RIGHT;
 	}
-	else if( std_iequal( arg, ".REVOLVING_HORIZONTAL." ) )
+	else if( std_iequal( arg, ".REVOLVING." ) )
 	{
-		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_REVOLVING_HORIZONTAL;
+		type_object->m_enum = IfcDoorTypeOperationEnum::ENUM_REVOLVING;
 	}
 	else if( std_iequal( arg, ".REVOLVING_VERTICAL." ) )
 	{

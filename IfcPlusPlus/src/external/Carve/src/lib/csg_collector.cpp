@@ -335,8 +335,7 @@ namespace carve {
 
 			class BMinusACollector : public BaseCollector {
 			public:
-				BMinusACollector(const carve::mesh::MeshSet<3>* _src_a,
-					const carve::mesh::MeshSet<3>* _src_b)
+				BMinusACollector(const carve::mesh::MeshSet<3>* _src_a, const carve::mesh::MeshSet<3>* _src_b)
 					: BaseCollector(_src_a, _src_b) {}
 				~BMinusACollector() override {}
 				void collect(const carve::mesh::MeshSet<3>::face_t* orig_face,
@@ -354,8 +353,8 @@ namespace carve {
 			};
 		}  // namespace
 
-		CSG::Collector* makeCollector(CSG::OP op, const carve::mesh::MeshSet<3>* poly_a,
-			const carve::mesh::MeshSet<3>* poly_b) {
+		CSG::Collector* makeCollector(CSG::OP op, const carve::mesh::MeshSet<3>* poly_a, const carve::mesh::MeshSet<3>* poly_b)
+		{
 			switch( op ) {
 			case CSG::UNION:
 				return new UnionCollector(poly_a, poly_b);

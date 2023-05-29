@@ -306,22 +306,110 @@ typename Face<ndim>::aabb_t Face<ndim>::getAABB() const {
 
 template <unsigned ndim>
 bool Face<ndim>::recalc(double CARVE_EPSILON) {
-  if (!carve::geom3d::fitPlane(begin(), end(), vector_mapping(), plane, CARVE_EPSILON)) {
-    return false;
-  }
+    //if (!carve::geom3d::fitPlane(begin(), end(), vector_mapping(), plane, CARVE_EPSILON)) {
+     // return false;
+    //}
 
-  int da = carve::geom::largestAxis(plane.N);
-  double A = carve::geom2d::signedArea(
-      begin(), end(), projection_mapping(getProjector(false, da)));
 
-  if ((A < 0.0) ^ (plane.N.v[da] < 0.0)) {
-    plane.negate();
-  }
+    vector_t polygon_normal;// (carve::geom::VECTOR(0, 0, 0));
 
-  project = getProjector(plane.N.v[da] > 0, da);
-  unproject = getUnprojector(plane.N.v[da] > 0, da);
+    edge_t* edgePtr = edge;
 
-  return true;
+    if (n_edges < 2)
+    {
+        return false;
+    }
+    
+    if (n_edges == 3)
+    {
+        const vector_t& A = edgePtr->vert->v;
+        edgePtr = edgePtr->next;
+        const vector_t& B = edgePtr->vert->v;
+        edgePtr = edgePtr->next;
+        const vector_t& C = edgePtr->vert->v;
+        vector_t AB(B - A);
+        vector_t AC(C - A);
+        vector_t crossProduct = cross(AB, AC);
+        crossProduct.normalize();
+        polygon_normal = crossProduct;
+    }
+    else
+    {
+        // find triangle with largest area
+        edge_t* longestEdge = nullptr;
+        double longestEdgeLength = 0;
+
+        double largestArea = 0;
+        for (size_t i_edge = 0; i_edge < n_edges; ++i_edge)
+        {
+            if (!edgePtr)
+            {
+                continue;
+            }
+
+            double length2 = edgePtr->length2();
+            if (length2 > longestEdgeLength)
+            {
+                longestEdge = edgePtr;
+                longestEdgeLength = length2;
+            }
+            edgePtr = edgePtr->next;
+        }
+
+        edge_t* edge1 = longestEdge->next;
+        const vector_t& pA = longestEdge->v1()->v;  // vert
+        const vector_t& B = longestEdge->v2()->v;  // next->vert
+
+        for (size_t i_edge = 0; i_edge < n_edges - 1; ++i_edge)
+        {
+            const vector_t& C = edge1->v2()->v;
+
+
+            vector_t AB(B - pA);
+            vector_t AC(C - pA);
+            vector_t crossProduct = cross(AB, AC);
+            double area = crossProduct.length() * 0.5;
+
+            //double area = triangleArea(A, B, C);
+            if (std::abs(area) > largestArea)
+            {
+                largestArea = area;
+
+                //vector_t AB(B - A);
+                //vector_t AC(C - A);
+                //vector_t crossProduct = cross(AB, AC);
+                crossProduct.normalize();
+                polygon_normal = crossProduct;
+            }
+
+            edge1 = edge1->next;
+        }
+
+#ifdef _DEBUG
+        if (edgePtr != edge)
+        {
+            std::cout << "edge1 != face->edge" << std::endl;
+        }
+#endif
+    }
+
+    vector_t centro = centroid();
+    plane.N = polygon_normal;
+    plane.d = -dot(polygon_normal, centro);
+
+
+    int da = carve::geom::largestAxis(plane.N);
+    double A = carve::geom2d::signedArea(
+        begin(), end(), projection_mapping(getProjector(false, da)));
+
+    if ((A < 0.0) ^ (plane.N.v[da] < 0.0)) {
+        plane.negate();
+    }
+
+    project = getProjector(plane.N.v[da] > 0, da);
+    unproject = getUnprojector(plane.N.v[da] > 0, da);
+
+    return true;
 }
 
 template <unsigned ndim>
@@ -415,10 +503,18 @@ void Face<ndim>::getVertices(std::vector<vertex_t*>& verts) const {
   verts.clear();
   verts.reserve(n_edges);
   const edge_t* e = edge;
-  do {
-    verts.push_back(e->vert);
-    e = e->next;
-  } while (e != edge);
+
+  for (size_t ii = 0; ii < n_edges; ++ii)
+  {
+      verts.push_back(e->vert);
+      e = e->next;
+  }
+
+  // original version
+  //do {
+  //  verts.push_back(e->vert);
+  //  e = e->next;
+  //} while (e != edge);
 }
 
 template <unsigned ndim>
@@ -427,10 +523,17 @@ void Face<ndim>::getProjectedVertices(
   verts.clear();
   verts.reserve(n_edges);
   const edge_t* e = edge;
-  do {
-    verts.push_back(project(e->vert->v));
-    e = e->next;
-  } while (e != edge);
+
+  for (size_t ii = 0; ii < n_edges; ++ii)
+  {
+      verts.push_back(project(e->vert->v));
+      e = e->next;
+  }
+
+  //do {
+  //  verts.push_back(project(e->vert->v));
+  //  e = e->next;
+  //} while (e != edge);
 }
 
 template <unsigned ndim>
@@ -675,25 +778,52 @@ inline int Mesh<3>::orientationAtVertex(edge_t* e_base) {
 }
 
 template <unsigned ndim>
-void Mesh<ndim>::calcOrientation() {
-  if (open_edges.size() || !closed_edges.size()) {
+void Mesh<ndim>::calcOrientation()
+{
+  if (open_edges.size() || !closed_edges.size())
+  {
     is_negative = false;
     return;
   }
 
   edge_t* emin = closed_edges[0];
 
+  if (emin->rev == nullptr)
+  {
+      // emin is not a closed edge, something went wrong...
+      is_negative = false;
+      return;
+  }
+
   if (emin->rev->v1()->v < emin->v1()->v) {
     emin = emin->rev;
   }
 
-  for (size_t i = 1; i < closed_edges.size(); ++i) {
-    if (closed_edges[i]->v1()->v < emin->v1()->v) {
-      emin = closed_edges[i];
-    }
-    if (closed_edges[i]->rev->v1()->v < emin->v1()->v) {
-      emin = closed_edges[i]->rev;
-    }
+  for (size_t i = 1; i < closed_edges.size(); ++i)
+  {
+      edge_t* e = closed_edges[i];
+      if (e != nullptr)
+      {
+          continue;
+      }
+      if (e->v1() != nullptr )
+      {
+          if (e->v1()->v < emin->v1()->v)
+          {
+              emin = closed_edges[i];
+          }
+      }
+
+      if (e->rev != nullptr)
+      {
+          if (e->rev->v1() != nullptr)
+          {
+              if (e->rev->v1()->v < emin->v1()->v)
+              {
+                  emin = closed_edges[i]->rev;
+              }
+          }
+      }
   }
 
   int orientation = orientationAtVertex(emin);
@@ -709,29 +839,45 @@ void Mesh<ndim>::calcOrientation() {
 }
 
 template <unsigned ndim>
-Mesh<ndim>* Mesh<ndim>::clone(const vertex_t* old_base,
-                              vertex_t* new_base) const {
-  std::vector<face_t*> r_faces;
-  std::vector<edge_t*> r_open_edges;
-  std::vector<edge_t*> r_closed_edges;
-  std::unordered_map<const edge_t*, edge_t*> edge_map;
+Mesh<ndim>* Mesh<ndim>::clone(const vertex_t* old_base, vertex_t* new_base) const
+{
+    std::vector<face_t*> r_faces;
+    std::vector<edge_t*> r_open_edges;
+    std::vector<edge_t*> r_closed_edges;
+    std::unordered_map<const edge_t*, edge_t*> edge_map;
 
-  r_faces.reserve(faces.size());
-  r_open_edges.reserve(r_open_edges.size());
-  r_closed_edges.reserve(r_closed_edges.size());
+    r_faces.reserve(faces.size());
+    r_open_edges.reserve(r_open_edges.size());
+    r_closed_edges.reserve(r_closed_edges.size());
 
-  for (size_t i = 0; i < faces.size(); ++i) {
-    r_faces.push_back(faces[i]->clone(old_base, new_base, edge_map));
-  }
-  for (size_t i = 0; i < closed_edges.size(); ++i) {
-    r_closed_edges.push_back(edge_map[closed_edges[i]]);
-    r_closed_edges.back()->rev = edge_map[closed_edges[i]->rev];
-  }
-  for (size_t i = 0; i < open_edges.size(); ++i) {
-    r_open_edges.push_back(edge_map[open_edges[i]]);
-  }
+    for (size_t i = 0; i < faces.size(); ++i) {
+        r_faces.push_back(faces[i]->clone(old_base, new_base, edge_map));
+    }
+    
+    for (size_t i = 0; i < closed_edges.size(); ++i)
+    {
+        edge_t* closedEdge = closed_edges[i];
+        if (closedEdge == nullptr)
+        {
+            continue;
+        }
 
-  return new Mesh(r_faces, r_open_edges, r_closed_edges, is_negative);
+        r_closed_edges.push_back(edge_map[closedEdge]);
+
+        edge_t* r1 = r_closed_edges.back();
+        if (r1 == nullptr)
+        {
+            continue;
+        }
+        r1->rev = edge_map[closedEdge->rev];
+    }
+    
+    for (size_t i = 0; i < open_edges.size(); ++i)
+    {
+        r_open_edges.push_back(edge_map[open_edges[i]]);
+    }
+
+    return new Mesh(r_faces, r_open_edges, r_closed_edges, is_negative);
 }
 
 template <unsigned ndim>

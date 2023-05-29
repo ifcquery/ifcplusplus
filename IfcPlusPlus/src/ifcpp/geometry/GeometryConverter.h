@@ -973,10 +973,9 @@ public:
 
 			try
 			{
-				shared_ptr<RepresentationData> representation_data( new RepresentationData() );
+				shared_ptr<ItemShapeData> representation_data( new ItemShapeData() );
 				m_representation_converter->convertIfcRepresentation( representation, representation_data );
-				product_shape->m_vec_representations.push_back( representation_data );
-				representation_data->m_parent_product = product_shape;
+				product_shape->addGeometricItem( representation_data, product_shape );
 			}
 			catch( BuildingException& e )
 			{
@@ -1072,9 +1071,9 @@ public:
 				{
 					continue;
 				}
-				for( auto rep : existingProductShape->m_vec_representations )
+				for( auto item : existingProductShape->m_geometric_items)
 				{
-					for( auto item : rep->m_vec_item_data )
+					for( auto childItem : item->m_child_items )
 					{
 						//bool itemIsEqual = isEqual(item, geom_item_data);
 						//if( itemIsEqual )

@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <iterator>
 #include <sstream>
 #include <vector>
+#include <limits>
 #include <map>
 #include "ifcpp/model/BasicTypes.h"
 

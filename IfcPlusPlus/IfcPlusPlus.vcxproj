@@ -37,7 +37,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9700AD93-4F6B-484A-BA34-FC4C97E5C645}</ProjectGuid>
     <RootNamespace>IfcPlusPlus</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -341,7 +341,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\external\XUnzip.cpp" />
+    <ClCompile Include="src\external\zip-master\zip.c" />
+    <ClCompile Include="src\ifcpp\geometry\GeometryInputData.cpp" />
+    <ClCompile Include="src\ifcpp\geometry\MeshOps.cpp" />
     <ClCompile Include="src\ifcpp\IFC4X3\EntityFactory.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -402,7 +404,6 @@
     <ClCompile Include="src\external\Carve\src\lib\triangulator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\external\XUnzip.h" />
     <ClInclude Include="src\ifcpp\geometry\AppearanceData.h" />
     <ClInclude Include="src\ifcpp\geometry\ConverterOSG.h" />
     <ClInclude Include="src\ifcpp\geometry\CSG_Adapter.h" />

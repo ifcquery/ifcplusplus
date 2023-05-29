@@ -9,19 +9,16 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4X3/include/IfcBuildingSystemTypeEnum.h"
 
-// TYPE IfcBuildingSystemTypeEnum = ENUMERATION OF	(EROSIONPREVENTION	,FENESTRATION	,FOUNDATION	,LOADBEARING	,OUTERSHELL	,PRESTRESSING	,REINFORCING	,SHADING	,TRANSPORT	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcBuildingSystemTypeEnum = ENUMERATION OF	(FENESTRATION	,FOUNDATION	,LOADBEARING	,OUTERSHELL	,SHADING	,TRANSPORT	,USERDEFINED	,NOTDEFINED);
 void IFC4X3::IfcBuildingSystemTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
 {
 	if( is_select_type ) { stream << "IFCBUILDINGSYSTEMTYPEENUM("; }
 	switch( m_enum )
 	{
-		case ENUM_EROSIONPREVENTION:	stream << ".EROSIONPREVENTION."; break;
 		case ENUM_FENESTRATION:	stream << ".FENESTRATION."; break;
 		case ENUM_FOUNDATION:	stream << ".FOUNDATION."; break;
 		case ENUM_LOADBEARING:	stream << ".LOADBEARING."; break;
 		case ENUM_OUTERSHELL:	stream << ".OUTERSHELL."; break;
-		case ENUM_PRESTRESSING:	stream << ".PRESTRESSING."; break;
-		case ENUM_REINFORCING:	stream << ".REINFORCING."; break;
 		case ENUM_SHADING:	stream << ".SHADING."; break;
 		case ENUM_TRANSPORT:	stream << ".TRANSPORT."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
@@ -34,11 +31,7 @@ shared_ptr<IFC4X3::IfcBuildingSystemTypeEnum> IFC4X3::IfcBuildingSystemTypeEnum:
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBuildingSystemTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcBuildingSystemTypeEnum>(); }
 	shared_ptr<IfcBuildingSystemTypeEnum> type_object( new IfcBuildingSystemTypeEnum() );
-	if( std_iequal( arg, ".EROSIONPREVENTION." ) )
-	{
-		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_EROSIONPREVENTION;
-	}
-	else if( std_iequal( arg, ".FENESTRATION." ) )
+	if( std_iequal( arg, ".FENESTRATION." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_FENESTRATION;
 	}
@@ -53,14 +46,6 @@ shared_ptr<IFC4X3::IfcBuildingSystemTypeEnum> IFC4X3::IfcBuildingSystemTypeEnum:
 	else if( std_iequal( arg, ".OUTERSHELL." ) )
 	{
 		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_OUTERSHELL;
-	}
-	else if( std_iequal( arg, ".PRESTRESSING." ) )
-	{
-		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_PRESTRESSING;
-	}
-	else if( std_iequal( arg, ".REINFORCING." ) )
-	{
-		type_object->m_enum = IfcBuildingSystemTypeEnum::ENUM_REINFORCING;
 	}
 	else if( std_iequal( arg, ".SHADING." ) )
 	{

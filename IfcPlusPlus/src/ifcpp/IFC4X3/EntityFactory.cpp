@@ -1807,7 +1807,6 @@ const char* IFC4X3::EntityFactory::getStringForClassID(uint32_t ifcClassID)
 		case 3573632694: return "IfcBSplineCurveForm";
 		case 37940459: return "IfcBSplineSurfaceForm";
 		case 358033588: return "IfcBeamTypeEnum";
-		case 3397575177: return "IfcBearingTypeDisplacementEnum";
 		case 3124462625: return "IfcBearingTypeEnum";
 		case 207745069: return "IfcBenchmarkEnum";
 		case 2739565819: return "IfcBendingParameterSelect";
@@ -1970,6 +1969,7 @@ const char* IFC4X3::EntityFactory::getStringForClassID(uint32_t ifcClassID)
 		case 3686016028: return "IfcIonConcentrationMeasure";
 		case 3192672207: return "IfcIsothermalMoistureCapacityMeasure";
 		case 1844818999: return "IfcJunctionBoxTypeEnum";
+		case 2615076639: return "IfcKerbTypeEnum";
 		case 2054016361: return "IfcKinematicViscosityMeasure";
 		case 2053683727: return "IfcKnotType";
 		case 3258342251: return "IfcLabel";
@@ -2030,7 +2030,6 @@ const char* IFC4X3::EntityFactory::getStringForClassID(uint32_t ifcClassID)
 		case 2095195183: return "IfcNormalisedRatioMeasure";
 		case 2395907400: return "IfcNumericMeasure";
 		case 1430971844: return "IfcObjectReferenceSelect";
-		case 1545711075: return "IfcObjectTypeEnum";
 		case 1962769620: return "IfcObjectiveEnum";
 		case 3349296550: return "IfcOccupantTypeEnum";
 		case 2874063949: return "IfcOpeningElementTypeEnum";
@@ -2137,6 +2136,7 @@ const char* IFC4X3::EntityFactory::getStringForClassID(uint32_t ifcClassID)
 		case 3038022802: return "IfcStairFlightTypeEnum";
 		case 2319738306: return "IfcStairTypeEnum";
 		case 4223916898: return "IfcStateEnum";
+		case 1805707277: return "IfcStrippedOptional";
 		case 2688182192: return "IfcStructuralActivityAssignmentSelect";
 		case 3876018962: return "IfcStructuralCurveActivityTypeEnum";
 		case 2680421541: return "IfcStructuralCurveMemberTypeEnum";

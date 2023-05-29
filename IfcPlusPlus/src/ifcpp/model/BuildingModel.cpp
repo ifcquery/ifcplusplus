@@ -558,7 +558,6 @@ void BuildingModel::clearIfcModel()
 	m_IFC_FILE_DESCRIPTION = "";
 	m_file_header = "";
 	m_unit_converter->resetUnitFactors();
-	m_num_geometric_items = 0;
 }
 
 void BuildingModel::resetIfcModel()

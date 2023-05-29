@@ -243,7 +243,7 @@ public:
 		{
 			if( params.ifc_entity->m_tag == 258816 )
 			{
-				glm::dvec4 color(0.3, 0.4, 0.5, 1.0);
+				glm::vec4 color(0.3, 0.4, 0.5, 1.0);
 				for( size_t ii = 0; ii < faceLoopsTriangulate.size(); ++ii )
 				{
 					std::vector<std::array<double, 2> >& loop2D = faceLoopsTriangulate[ii];
@@ -392,7 +392,7 @@ public:
 			}
 		}
 #endif
-		itemData->addClosedPolyhedron(meshOut, params);
+		itemData->addClosedPolyhedron(meshOut, params, m_geom_settings);
 	}
 	
 	/*\brief Extrudes a circle cross section along a path. At turns, the points are placed in the bisecting plane
@@ -440,7 +440,7 @@ public:
 			use_radius_inner = radius;
 		}
 
-		double CARVE_EPSILON = params.epsMergePoints;
+		double eps = params.epsMergePoints;
 		vec3 local_z( carve::geom::VECTOR( 0, 0, 1 ) );
 		vec3 curve_point_first = curve_points[0];
 		vec3 curve_point_second = curve_points[1];
@@ -588,7 +588,7 @@ public:
 			}
 
 			vec3 bisecting_normal;
-			GeomUtils::bisectingPlane( vertex_before, vertex_current, vertex_next, bisecting_normal, CARVE_EPSILON );
+			GeomUtils::bisectingPlane( vertex_before, vertex_current, vertex_next, bisecting_normal, eps );
 
 			vec3 section1 = vertex_current - vertex_before;
 			vec3 section2 = vertex_next - vertex_current;
@@ -626,7 +626,7 @@ public:
 
 				vec3 v;
 				double t;
-				carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection( bisecting_plane, vertex, vertex + section1, v, t, CARVE_EPSILON);
+				carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection( bisecting_plane, vertex, vertex + section1, v, t, eps);
 				if( intersect > 0 )
 				{
 					vertex = v;
@@ -647,7 +647,7 @@ public:
 					
 					vec3 v;
 					double t;
-					carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection( bisecting_plane, vertex, vertex + section1, v, t, CARVE_EPSILON);
+					carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection( bisecting_plane, vertex, vertex + section1, v, t, eps);
 					if( intersect > 0 )
 					{
 						vertex = v;
@@ -763,26 +763,27 @@ public:
 
 		try
 		{
-			item_data->addClosedPolyhedron( poly_data, params );
+			item_data->addClosedPolyhedron( poly_data, params, m_geom_settings );
 		}
 		catch( BuildingException& exception )
 		{
 			messageCallback( exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", params.ifc_entity );  // calling function already in e.what()
 #ifdef _DEBUG
-			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts(), CARVE_EPSILON ) );
-			glm::dvec4 color( 0.7, 0.7, 0.7, 1.0 );
-			GeomDebugDump::dumpMeshset( meshset, color, true );
+			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts(), eps ) );
+			glm::vec4 color( 0.7, 0.7, 0.7, 1.0 );
+			bool drawNormals = true;
+			GeomDebugDump::dumpMeshset( meshset, color, drawNormals, true );
 #endif
 		}
 
 	#ifdef _DEBUG
-		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh(carve::input::opts(), CARVE_EPSILON) );
+		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh(carve::input::opts(), eps) );
 		MeshSetInfo infoMesh( this, params.ifc_entity );
-		MeshUtils::checkMeshSetValidAndClosed( meshset, infoMesh, CARVE_EPSILON );
+		MeshOps::checkMeshSetValidAndClosed( meshset, infoMesh, params);
 	#endif
 	}
 
-	void findEnclosedLoops(const std::vector<std::vector<vec2> >& face_loops_input, std::vector<std::vector<std::vector<vec2> > >& profile_paths_enclosed, double CARVE_EPSILON)
+	void findEnclosedLoops(const std::vector<std::vector<vec2> >& face_loops_input, std::vector<std::vector<std::vector<vec2> > >& profile_paths_enclosed, double eps)
 	{
 		if (face_loops_input.size() > 1)
 		{
@@ -794,7 +795,7 @@ public:
 			for (size_t ii = 1; ii < face_loops_input.size(); ++ii)
 			{
 				const std::vector<vec2>& loop = face_loops_input[ii];
-				bool loop_enclosed_in_loop1 = GeomUtils::isEnclosed(loop, loop1, CARVE_EPSILON);
+				bool loop_enclosed_in_loop1 = GeomUtils::isEnclosed(loop, loop1, eps);
 
 				if (loop_enclosed_in_loop1)
 				{
@@ -840,7 +841,7 @@ public:
 		vec3 normal_first_loop;
 		bool warning_small_loop_detected = false;
 		bool polyline_created = false;
-		double CARVE_EPSILON = m_geom_settings->getEpsilonCoplanarDistance();
+		double eps = m_geom_settings->getEpsilonCoplanarDistance();
 		
 		for( size_t i_face_loops = 0; i_face_loops < profile_paths_input.size(); ++i_face_loops )
 		{
@@ -976,7 +977,7 @@ public:
 			//  |  1  5<---------------4    |
 			//  | /  /                      |
 			//  0  6----------------------->7
-			carve::triangulate::triangulate( merged_path, triangulated, CARVE_EPSILON );
+			carve::triangulate::triangulate( merged_path, triangulated, eps );
 			carve::triangulate::improve( merged_path, triangulated );
 			// triangles: (3,8,9) (2,0,1) (4,6,7)  (4,5,6)  (9,0,2)  (9,2,3)  (7,8,3)  (3,4,7)
 		}
@@ -984,7 +985,7 @@ public:
 		{
 #ifdef _DEBUG
 			messageCallback("carve::triangulate failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity);
-			glm::dvec4 color(0.3, 0.4, 0.5, 1.0);
+			glm::vec4 color(0.3, 0.4, 0.5, 1.0);
 			GeomDebugDump::dumpPolyline(face_loops_used_for_triangulation, color, true );
 #endif
 			return;
@@ -1073,9 +1074,9 @@ public:
 		//  |                            |
 		//  0-------face_loops[0]--------1
 
-		double CARVE_EPSILON = m_geom_settings->getEpsilonCoplanarDistance();
+		double eps = m_geom_settings->getEpsilonCoplanarDistance();
 		std::vector<std::vector<std::vector<vec2> > > profile_paths_enclosed;
-		findEnclosedLoops(profile_paths_input, profile_paths_enclosed, CARVE_EPSILON);
+		findEnclosedLoops(profile_paths_input, profile_paths_enclosed, eps);
 
 		for (size_t ii_profile_paths = 0; ii_profile_paths < profile_paths_enclosed.size(); ++ii_profile_paths)
 		{
@@ -1159,7 +1160,7 @@ public:
 					}
 
 					vec3 bisecting_normal;
-					GeomUtils::bisectingPlane(curve_point_before, curve_point_current, curve_point_next, bisecting_normal, CARVE_EPSILON);
+					GeomUtils::bisectingPlane(curve_point_before, curve_point_current, curve_point_next, bisecting_normal, eps);
 
 					vec3 section1 = curve_point_current - curve_point_before;
 					section1.normalize();
@@ -1178,7 +1179,7 @@ public:
 
 						vec3 v;
 						double t;
-						carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection(bisecting_plane, previous_section_point_3d, previous_section_point_3d + section1, v, t, CARVE_EPSILON);
+						carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection(bisecting_plane, previous_section_point_3d, previous_section_point_3d + section1, v, t, eps);
 						if (intersect > 0)
 						{
 							section_point_3d = v;
@@ -1276,23 +1277,18 @@ public:
 
 				try
 				{
-					item_data->addClosedPolyhedron(poly_data, params);
+					item_data->addClosedPolyhedron(poly_data, params, m_geom_settings);
 				}
 				catch (BuildingException & exception)
 				{
 					messageCallback(exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", params.ifc_entity);  // calling function already in e.what()
 #ifdef _DEBUG
-					glm::dvec4 color(0.7, 0.7, 0.7, 1.0);
-					shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts(), CARVE_EPSILON));
-					GeomDebugDump::dumpMeshset(meshset, color, true);
+					glm::vec4 color(0.7, 0.7, 0.7, 1.0);
+					shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts(), eps));
+					bool drawNormals = true;
+					GeomDebugDump::dumpMeshset(meshset, color, drawNormals, true);
 #endif
 				}
-
-#ifdef _DEBUG
-				shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts(), CARVE_EPSILON));
-				MeshSetInfo infoMesh(this, params.ifc_entity);
-				MeshUtils::checkMeshSetValidAndClosed(meshset, infoMesh, CARVE_EPSILON);
-#endif
 			}
 		}
 	}

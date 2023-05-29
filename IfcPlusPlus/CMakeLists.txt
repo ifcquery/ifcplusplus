@@ -38,6 +38,8 @@ set(IFCPP_SOURCE_FILES
     src/ifcpp/reader/ReaderUtil.cpp
     src/ifcpp/writer/WriterSTEP.cpp
     src/ifcpp/writer/WriterUtil.cpp
+	src/ifcpp/geometry/MeshOps.cpp
+	src/ifcpp/geometry/GeometryInputData.cpp
 	src/external/manifold/src/boolean3.cpp
     src/external/manifold/src/boolean_result.cpp
     src/external/manifold/src/collider/src/collider.cpp
@@ -82,14 +84,11 @@ set(IFCPP_SOURCE_FILES
 	src/external/Carve/src/lib/timing.cpp
 	src/external/Carve/src/lib/triangle_intersection.cpp
 	src/external/Carve/src/lib/triangulator.cpp
-	src/external/Carve/src/common/geometry.cpp  
+	src/external/Carve/src/common/geometry.cpp
+	src/external/zip-master/zip.c
 )
     
 if (MSVC)
-	set(IFCPP_SOURCE_FILES 
-        src/external/XUnzip.cpp  # do not add src/external/XUnzip.cpp on unix platforms
-        ${IFCPP_SOURCE_FILES})
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj ")
 	set_source_files_properties(src/ifcpp/IFC4X3/EntityFactory.cpp PROPERTIES COMPILE_FLAGS /bigobj)
 	set_source_files_properties(src/ifcpp/IFC4X3/TypeFactory.cpp PROPERTIES COMPILE_FLAGS /bigobj)
 endif()

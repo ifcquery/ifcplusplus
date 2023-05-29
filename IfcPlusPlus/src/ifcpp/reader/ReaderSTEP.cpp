@@ -56,62 +56,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #ifdef _MSC_VER
 #include <windows.h>
 #include <tchar.h>
-#include <external/XUnzip.h>
 #endif
+#include <external/zip-master/zip.h>
 
 #include "ifcpp/model/OpenMPIncludes.h"
 #include "ReaderUtil.h"
 #include "ReaderSTEP.h"
 
 using namespace IFC4X3;
-
-bool unzipFile(const std::string& filePathIn, std::stringstream& bufferResult)
-{
-	bool bRet = false;
-#ifdef _MSC_VER
-	HZIP hZip = OpenZipW((void*)filePathIn.c_str(), 0, ZIP_FILENAME);
-
-	if( hZip )
-	{
-		ZIPENTRYW ze;
-		ZRESULT dRes = GetZipItemW(hZip, -1, &ze);
-
-		if( dRes == ZR_OK )
-		{
-			int numitems = ze.index;
-
-			for( int zi = 0; zi < numitems && !bRet; zi++ )
-			{
-				ZIPENTRYW ze;
-				dRes = GetZipItemW(hZip, zi, &ze); // fetch individual details
-
-				if( dRes == ZR_OK )
-				{
-					int nSize = ze.unc_size + 1;
-					std::vector<char> vecBuffer;
-					vecBuffer.resize(nSize);
-
-					dRes = UnzipItemW(hZip, zi, vecBuffer.data(), nSize, ZIP_MEMORY);
-
-					if( dRes != ZR_OK )
-					{
-						std::string strBuffer(vecBuffer.begin(), vecBuffer.end());
-						size_t file_header_start = strBuffer.find("HEADER;");
-						size_t file_header_end = strBuffer.find("ENDSEC;");
-						if( file_header_start != std::string::npos && file_header_end != std::string::npos )
-						{
-							bufferResult << strBuffer;
-							bRet = true;
-						}
-					}
-				}
-			}
-		}
-		CloseZip(hZip);
-	}
-#endif
-	return bRet;
-}
 
 ReaderSTEP::ReaderSTEP()= default;
 ReaderSTEP::~ReaderSTEP()= default;
@@ -120,6 +72,8 @@ void ReaderSTEP::loadModelFromFile( const std::string& filePath, shared_ptr<Buil
 {
 	// if file content needs to be loaded into a plain model, call resetModel() before loadModelFromFile
 	std::string ext = getFileExtension(filePath);
+	std::string uncompressedFileName = "";
+	std::string filePathRead = filePath;
 
 	if( std_iequal( ext, ".ifc" ) )
 	{
@@ -137,13 +91,32 @@ void ReaderSTEP::loadModelFromFile( const std::string& filePath, shared_ptr<Buil
 		buffer.seekp(0, std::ios::end);
 		std::stringstream::pos_type buffer_size = buffer.tellp();
 
-		unzipFile(filePath, buffer);
-		bool success = unzipFile(filePath, buffer);
-		if( success )
+		uncompressedFileName = filePath + "_uncompressed77334.ifc";
+
+		struct zip_t* zip = zip_open(filePath.c_str(), 0, 'r');
+		if( zip )
 		{
-			loadModelFromStream(buffer, buffer_size, targetModel);
+			zip_entry_openbyindex(zip, 0);
+			{
+				zip_entry_fread(zip, uncompressedFileName.c_str());
+			}
+			zip_entry_close(zip);
+			zip_close(zip);
 		}
-		return;
+		
+
+		std::ifstream infile;
+		infile.open(uncompressedFileName.c_str(), std::ifstream::in);
+
+		if (!infile.is_open())
+		{
+			std::stringstream strs;
+			strs << "Could not unzip file: " << filePath;
+			messageCallback(strs.str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
+			return;
+		}
+
+		filePathRead = uncompressedFileName;
 	}
 	else
 	{
@@ -156,12 +129,12 @@ void ReaderSTEP::loadModelFromFile( const std::string& filePath, shared_ptr<Buil
 	// open file
 	setlocale(LC_ALL, "");
 	std::ifstream infile;
-	infile.open(filePath.c_str(), std::ifstream::in);
+	infile.open(filePathRead.c_str(), std::ifstream::in);
 
 	if( !infile.is_open() )
 	{
 		std::stringstream strs;
-		strs << "Could not open file: " << filePath.c_str();
+		strs << "Could not open file: " << filePathRead.c_str();
 		messageCallback( strs.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
@@ -173,6 +146,19 @@ void ReaderSTEP::loadModelFromFile( const std::string& filePath, shared_ptr<Buil
 	infile.seekg( 0, std::ios::beg );
 
 	loadModelFromStream(infile, file_end_pos, targetModel);
+	infile.close();
+
+	if (uncompressedFileName.size() > 0)
+	{
+		try
+		{
+			std::filesystem::remove(uncompressedFileName);
+		}
+		catch (std::exception& e)
+		{
+			std::cout << __FUNCTION__ << ": " << __LINE__ << ": exception: " << e.what() << ", input file: " << uncompressedFileName << std::endl;
+		}
+	}
 }
 
 void ReaderSTEP::loadModelFromStream(std::istream& content, std::streampos file_end_pos, shared_ptr<BuildingModel>& targetModel)
@@ -525,19 +511,19 @@ void ReaderSTEP::readSingleStepLine( const std::string& line, std::pair<std::str
 	}
 }
 
-void ReaderSTEP::readEntityArguments( std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities,  const std::map<int,shared_ptr<BuildingEntity> >& map_entities, shared_ptr<BuildingModel>& model  )
+void ReaderSTEP::readEntityArguments(std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities, const std::map<int, shared_ptr<BuildingEntity> >& map_entities, shared_ptr<BuildingModel>& model)
 {
 	// second pass, now read arguments
 	// every object can be initialized independently in parallel
 	const int num_objects = static_cast<int>(vec_entities.size());
 	std::stringstream err;
 	std::string ifc_version = model->getIfcSchemaVersionOfLoadedFile();
-	
+
 	// set progress
 	double progress = 0.3;
-	progressValueCallback( progress, "parse" );
+	progressValueCallback(progress, "parse");
 	double last_progress = 0.3;
-	const std::map<int,shared_ptr<BuildingEntity> >* map_entities_ptr = &map_entities;
+	const std::map<int, shared_ptr<BuildingEntity> >* map_entities_ptr = &map_entities;
 	std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >* vec_entities_ptr = &vec_entities;
 	bool canceled = isCanceled();
 
@@ -549,51 +535,51 @@ void ReaderSTEP::readEntityArguments( std::vector<std::pair<std::string, shared_
 #pragma omp parallel firstprivate(num_objects) shared(map_entities_ptr,vec_entities_ptr)
 #endif
 	{
-		const std::map<int,shared_ptr<BuildingEntity> > &map_entities_ptr_local = *map_entities_ptr;
+		const std::map<int, shared_ptr<BuildingEntity> >& map_entities_ptr_local = *map_entities_ptr;
 
 #ifdef _OPENMP
 #pragma omp for schedule(dynamic, 100)
 #endif
-		for( int i=0; i<num_objects; ++i )
+		for (int i = 0; i < num_objects; ++i)
 		{
-			if ( canceled )
+			if (canceled)
 			{
 				continue;
 			}
 
 			std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_object = (*vec_entities_ptr)[i];
 			const shared_ptr<BuildingEntity>& entity = entity_read_object.second;
-			if( !entity )
+			if (!entity)
 			{
 				continue;
 			}
 			std::stringstream errorStream;
 			std::string& argument_str = entity_read_object.first;
 			std::vector<std::string> arguments_raw;
-			tokenizeEntityArguments( argument_str, arguments_raw );
+			tokenizeEntityArguments(argument_str, arguments_raw);
 			argument_str.clear();
 
 			// character decoding:
 			std::vector<std::string> arguments_decoded;
-			decodeArgumentStrings( arguments_raw, arguments_decoded );
+			decodeArgumentStrings(arguments_raw, arguments_decoded);
 			arguments_raw.clear();
 
 			const size_t num_expected_arguments = entity->getNumAttributes();
-			if( entity->classID() == IFCCOLOURRGB )
+			if (entity->classID() == IFCCOLOURRGB)
 			{
-				if( arguments_decoded.size() < num_expected_arguments )
+				if (arguments_decoded.size() < num_expected_arguments)
 				{
 					arguments_decoded.insert(arguments_decoded.begin(), "$");
 				}
 			}
-			else if( entity->classID() == IFCPRESENTATIONSTYLEASSIGNMENT )
+			else if (entity->classID() == IFCPRESENTATIONSTYLEASSIGNMENT)
 			{
-				if( num_expected_arguments > arguments_decoded.size() )
+				if (num_expected_arguments > arguments_decoded.size())
 				{
 					arguments_decoded.insert(arguments_decoded.begin(), "$");
 				}
 			}
-			else if( entity->classID() == IFCTRIANGULATEDFACESET )
+			else if (entity->classID() == IFCTRIANGULATEDFACESET)
 			{
 				// IFC4: second argument: Closed : OPTIONAL IfcBoolean;
 				// Coordinates : IfcCartesianPointList3D;
@@ -609,32 +595,32 @@ void ReaderSTEP::readEntityArguments( std::vector<std::pair<std::string, shared_
 				// CoordIndex : LIST [1:?] OF LIST [3:3] OF IfcPositiveInteger;
 				// PnIndex : OPTIONAL LIST [1:?] OF IfcPositiveInteger;
 
-				if( arguments_decoded.size() > 2 )
+				if (arguments_decoded.size() > 2)
 				{
-					if( arguments_decoded[2].compare(".T.") == 0 || arguments_decoded[2].compare(".F.") == 0 )
+					if (arguments_decoded[2].compare(".T.") == 0 || arguments_decoded[2].compare(".F.") == 0)
 					{
 						std::swap(arguments_decoded[2], arguments_decoded[1]);
 					}
 				}
 			}
 #ifdef _DEBUG
-			if( entity->classID() == IFCRELVOIDSELEMENT )
+			if (entity->classID() == IFCRELVOIDSELEMENT)
 			{
 				int tag = entity->m_tag;
 			}
-			if( entity->m_tag == 5 )
+			if (entity->m_tag == 5)
 			{
 				std::string className = EntityFactory::getStringForClassID(entity->classID());
 			}
 #endif
 
-			if( num_expected_arguments != arguments_decoded.size() )
+			if (num_expected_arguments != arguments_decoded.size())
 			{
-				while( arguments_decoded.size() > num_expected_arguments ) { arguments_decoded.pop_back(); }
-				while( arguments_decoded.size() < num_expected_arguments ) { arguments_decoded.emplace_back("$"); }
+				while (arguments_decoded.size() > num_expected_arguments) { arguments_decoded.pop_back(); }
+				while (arguments_decoded.size() < num_expected_arguments) { arguments_decoded.emplace_back("$"); }
 #ifdef _DEBUG
 				std::string className = EntityFactory::getStringForClassID(entity->classID());
-				if( setClassesWithAdjustedArguments.find(className) == setClassesWithAdjustedArguments.end() )
+				if (setClassesWithAdjustedArguments.find(className) == setClassesWithAdjustedArguments.end())
 				{
 					//std::cout << "adjusted number of arguments for entity #" << entity->m_tag << "=" << className << std::endl;
 					setClassesWithAdjustedArguments.insert(className);
@@ -645,118 +631,30 @@ void ReaderSTEP::readEntityArguments( std::vector<std::pair<std::string, shared_
 			try
 			{
 				entity->readStepArguments(arguments_decoded, map_entities_ptr_local, errorStream);
-
-				if( entity->classID() == IFCSTYLEDITEM )
-				{
-					int tag = entity->m_tag;
-					shared_ptr<IfcStyledItem> styledItem = dynamic_pointer_cast<IfcStyledItem>(entity);
-					if( styledItem )
-					{
-						std::vector<shared_ptr<IfcPresentationStyle> >			vec_presentationStylesReplaced;
-						for( shared_ptr<IfcPresentationStyle>& presentationStyle : styledItem->m_Styles )
-						{
-							if( !presentationStyle )
-							{
-								continue;
-							}
-
-							shared_ptr<IfcPresentationStyleAssignment> presentationStyleAssignment = dynamic_pointer_cast<IfcPresentationStyleAssignment>(presentationStyle);
-							if( presentationStyleAssignment )
-							{
-								// IFCPRESENTATIONSTYLEASSIGNMENT has been removed in IFC4X3
-								// old:    IfcRepresentationItem  <- IFCSTYLEDITEM ->  IFCPRESENTATIONSTYLEASSIGNMENT -> IFCSURFACESTYLE
-								// new      IfcRepresentationItem  <- IFCSTYLEDITEM ->     [x]   ->      IFCSURFACESTYLE
-
-								for( shared_ptr<IfcPresentationStyle>& presentationStyle : presentationStyleAssignment->m_Styles )
-								{
-									if( !presentationStyle )
-									{
-										continue;
-									}
-
-									//ENTITY IfcPresentationStyle ABSTRACT SUPERTYPE OF (ONEOF (IfcCurveStyle ,IfcFillAreaStyle ,IfcSurfaceStyle ,IfcTextStyle));
-
-									shared_ptr<IfcSurfaceStyle> surfaceStyle = dynamic_pointer_cast<IfcSurfaceStyle>(presentationStyle);
-									if( surfaceStyle )
-									{
-										vec_presentationStylesReplaced.push_back(surfaceStyle);
-										continue;
-									}
-
-									shared_ptr<IfcCurveStyle> curveStyle = dynamic_pointer_cast<IfcCurveStyle>(presentationStyle);
-									if( curveStyle )
-									{
-										vec_presentationStylesReplaced.push_back(curveStyle);
-										continue;
-									}
-
-									shared_ptr<IfcFillAreaStyle> fillAreaStyle = dynamic_pointer_cast<IfcFillAreaStyle>(presentationStyle);
-									if( fillAreaStyle )
-									{
-										vec_presentationStylesReplaced.push_back(fillAreaStyle);
-										continue;
-									}
-
-									shared_ptr<IfcTextStyle> textStyle = dynamic_pointer_cast<IfcTextStyle>(presentationStyle);
-									if( textStyle )
-									{
-										vec_presentationStylesReplaced.push_back(textStyle);
-										continue;
-									}
-								}
-								continue;
-							}
-
-							vec_presentationStylesReplaced.push_back(presentationStyle);
-						}
-
-						styledItem->m_Styles = vec_presentationStylesReplaced;
-					}
-				}
-
-				// prepare an estimation of mesh size
-				shared_ptr<IfcProduct> elementAsProduct = dynamic_pointer_cast<IfcProduct>(entity);
-				if( elementAsProduct )
-				{
-					shared_ptr<IfcProductRepresentation> productRepresentation = elementAsProduct->m_Representation;
-					if( productRepresentation )
-					{
-						for( const shared_ptr<IfcRepresentation>& representation : productRepresentation->m_Representations )
-						{
-							for( const shared_ptr<IfcRepresentationItem>& representation_item : representation->m_Items )
-							{
-								if( representation_item->classID() != IFC4X3::IFCBOUNDINGBOX )
-								{
-									++model->m_num_geometric_items;
-								}
-							}
-						}
-					}
-				}
 			}
-			catch( std::exception& e )
+			catch (std::exception& e)
 			{
 #ifdef _OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->m_tag << "=" << EntityFactory::getStringForClassID( entity->classID() ) << ": " << e.what();
+				err << "#" << entity->m_tag << "=" << EntityFactory::getStringForClassID(entity->classID()) << ": " << e.what();
 			}
-			catch( std::exception* e )
+			catch (std::exception* e)
 			{
 #ifdef _OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->m_tag << "=" << EntityFactory::getStringForClassID( entity->classID() ) << ": " << e->what();
+				err << "#" << entity->m_tag << "=" << EntityFactory::getStringForClassID(entity->classID()) << ": " << e->what();
 			}
-			catch(...)
+			catch (...)
 			{
 #ifdef _OPENMP
 #pragma omp critical
 #endif
-				err << "#" << entity->m_tag << "=" << EntityFactory::getStringForClassID( entity->classID() ) << " readStepData: error occurred" << std::endl;
+				err << "#" << entity->m_tag << "=" << EntityFactory::getStringForClassID(entity->classID()) << " readStepData: error occurred" << std::endl;
 			}
 
-			if( errorStream.tellp() > 0 )
+			if (errorStream.tellp() > 0)
 			{
 #ifdef _OPENMP
 #pragma omp critical
@@ -764,19 +662,19 @@ void ReaderSTEP::readEntityArguments( std::vector<std::pair<std::string, shared_
 				err << errorStream.str();
 			}
 
-			if( i%10 == 0 )
+			if (i % 10 == 0)
 			{
-				progress = 0.3 + 0.6*double(i)/double(num_objects);
-				if( progress - last_progress > 0.03 )
+				progress = 0.3 + 0.6 * double(i) / double(num_objects);
+				if (progress - last_progress > 0.03)
 				{
 #ifdef _OPENMP
-					if( omp_get_thread_num() == 0 )
+					if (omp_get_thread_num() == 0)
 #endif
 					{
-						progressValueCallback( progress, "parse" );
+						progressValueCallback(progress, "parse");
 						last_progress = progress;
 
-						if ( isCanceled() )
+						if (isCanceled())
 						{
 							canceledCallback();
 #ifdef _OPENMP
@@ -791,6 +689,86 @@ void ReaderSTEP::readEntityArguments( std::vector<std::pair<std::string, shared_
 			}
 		}
 	}   // implicic barrier
+
+
+	for (auto it = vec_entities.begin(); it != vec_entities.end(); ++it )
+	{
+		if (canceled)
+		{
+			continue;
+		}
+
+		std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_object = *it;
+		const shared_ptr<BuildingEntity>& entity = entity_read_object.second;
+
+		if (entity->classID() == IFCSTYLEDITEM)
+		{
+			int tag = entity->m_tag;
+			shared_ptr<IfcStyledItem> styledItem = dynamic_pointer_cast<IfcStyledItem>(entity);
+			if (styledItem)
+			{
+				std::vector<shared_ptr<IfcPresentationStyle> >			vec_presentationStylesReplaced;
+				for (shared_ptr<IfcPresentationStyle>& presentationStyle : styledItem->m_Styles)
+				{
+					if (!presentationStyle)
+					{
+						continue;
+					}
+
+					shared_ptr<IfcPresentationStyleAssignment> presentationStyleAssignment = dynamic_pointer_cast<IfcPresentationStyleAssignment>(presentationStyle);
+					if (presentationStyleAssignment)
+					{
+						// IFCPRESENTATIONSTYLEASSIGNMENT has been removed in IFC4X3
+						// old:    IfcRepresentationItem  <- IFCSTYLEDITEM ->  IFCPRESENTATIONSTYLEASSIGNMENT -> IFCSURFACESTYLE
+						// new      IfcRepresentationItem  <- IFCSTYLEDITEM ->     [x]   ->      IFCSURFACESTYLE
+
+						for (shared_ptr<IfcPresentationStyle>& presentationStyle : presentationStyleAssignment->m_Styles)
+						{
+							if (!presentationStyle)
+							{
+								continue;
+							}
+
+							//ENTITY IfcPresentationStyle ABSTRACT SUPERTYPE OF (ONEOF (IfcCurveStyle ,IfcFillAreaStyle ,IfcSurfaceStyle ,IfcTextStyle));
+
+							shared_ptr<IfcSurfaceStyle> surfaceStyle = dynamic_pointer_cast<IfcSurfaceStyle>(presentationStyle);
+							if (surfaceStyle)
+							{
+								vec_presentationStylesReplaced.push_back(surfaceStyle);
+								continue;
+							}
+
+							shared_ptr<IfcCurveStyle> curveStyle = dynamic_pointer_cast<IfcCurveStyle>(presentationStyle);
+							if (curveStyle)
+							{
+								vec_presentationStylesReplaced.push_back(curveStyle);
+								continue;
+							}
+
+							shared_ptr<IfcFillAreaStyle> fillAreaStyle = dynamic_pointer_cast<IfcFillAreaStyle>(presentationStyle);
+							if (fillAreaStyle)
+							{
+								vec_presentationStylesReplaced.push_back(fillAreaStyle);
+								continue;
+							}
+
+							shared_ptr<IfcTextStyle> textStyle = dynamic_pointer_cast<IfcTextStyle>(presentationStyle);
+							if (textStyle)
+							{
+								vec_presentationStylesReplaced.push_back(textStyle);
+								continue;
+							}
+						}
+						continue;
+					}
+
+					vec_presentationStylesReplaced.push_back(presentationStyle);
+				}
+
+				styledItem->m_Styles = vec_presentationStylesReplaced;
+			}
+		}
+	}
 
 	if( err.tellp() > 0 )
 	{

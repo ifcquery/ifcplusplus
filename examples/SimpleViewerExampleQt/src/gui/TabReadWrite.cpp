@@ -304,19 +304,7 @@ void TabReadWrite::loadIfcFile( QString& path_in )
 		converter_osg->setMessageTarget(geometry_converter.get());
 		converter_osg->convertToOSG(geometry_converter->getShapeInputData(), model_switch);
 
-		// in case there are IFC entities that are not in the spatial structure
-		const std::map<std::string, shared_ptr<BuildingObject> >& objects_outside_spatial_structure = geometry_converter->getObjectsOutsideSpatialStructure();
-		if (objects_outside_spatial_structure.size() > 0 && false)
-		{
-			osg::ref_ptr<osg::Switch> sw_objects_outside_spatial_structure = new osg::Switch();
-			sw_objects_outside_spatial_structure->setName("IfcProduct objects outside spatial structure");
 
-			converter_osg->addNodes(objects_outside_spatial_structure, sw_objects_outside_spatial_structure);
-			if (sw_objects_outside_spatial_structure->getNumChildren() > 0)
-			{
-				model_switch->addChild(sw_objects_outside_spatial_structure);
-			}
-		}
 
 		if (model_switch)
 		{

@@ -45,4 +45,7 @@ examples/CreateIfcWallAndWriteFile/x64/
 examples/LoadFileWithGeometryExampleConsole/dump_mesh_debug.txt
 IfcPlusPlus-*
 IfcPlusPlus/src/ifcpp/geometry/Carve - Copy/
+IfcPlusPlus/src/ifcpp-
 IfcPlusPlus/src/ifcpp--
+IfcPlusPlus/src/ifcpp---/
+IfcPlusPlus/src/ifcpp----/

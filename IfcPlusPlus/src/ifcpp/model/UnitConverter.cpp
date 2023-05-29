@@ -41,22 +41,6 @@ using namespace IFC4X3;
 UnitConverter::UnitConverter()
 {
 	resetComplete();
-	m_prefix_map[IfcSIPrefix::ENUM_EXA]		= 1E18;
-	m_prefix_map[IfcSIPrefix::ENUM_PETA]	= 1E15;
-	m_prefix_map[IfcSIPrefix::ENUM_TERA]	= 1E12;
-	m_prefix_map[IfcSIPrefix::ENUM_GIGA]	= 1E9;
-	m_prefix_map[IfcSIPrefix::ENUM_MEGA]	= 1E6;
-	m_prefix_map[IfcSIPrefix::ENUM_KILO]	= 1E3;
-	m_prefix_map[IfcSIPrefix::ENUM_HECTO]	= 1E2;
-	m_prefix_map[IfcSIPrefix::ENUM_DECA]	= 1E1;
-	m_prefix_map[IfcSIPrefix::ENUM_DECI]	= 1E-1;
-	m_prefix_map[IfcSIPrefix::ENUM_CENTI]	= 1E-2;
-	m_prefix_map[IfcSIPrefix::ENUM_MILLI]	= 1E-3;
-	m_prefix_map[IfcSIPrefix::ENUM_MICRO]	= 1E-6;
-	m_prefix_map[IfcSIPrefix::ENUM_NANO]	= 1E-9;
-	m_prefix_map[IfcSIPrefix::ENUM_PICO]	= 1E-12;
-	m_prefix_map[IfcSIPrefix::ENUM_FEMTO]	= 1E-15;
-	m_prefix_map[IfcSIPrefix::ENUM_ATTO]	= 1E-18;
 	m_plane_angle_factor = M_PI/180.0;
 }
 
@@ -82,6 +66,7 @@ void UnitConverter::resetComplete()
 {
 	m_angular_unit = UNDEFINED;
 	m_length_unit_found = false;
+	m_loaded_units.clear();
 	resetUnitFactors();
 }
 
@@ -106,6 +91,153 @@ void UnitConverter::setAngleUnit(AngularUnit unit)
 	}
 }
 
+std::string UnitConverter::getUnitLabel(IFC4X3::IfcUnitEnum::IfcUnitEnumEnum unitEnum)
+{
+	double unit_factor = 1.0;
+	std::string unit_label = "";
+
+	auto itFind = m_loaded_units.find(unitEnum);
+	if( itFind != m_loaded_units.end() )
+	{
+		shared_ptr<IfcSIUnit> si_unit = itFind->second;
+		if( si_unit )
+		{
+			if( si_unit->m_Prefix )
+			{
+				switch( si_unit->m_Prefix->m_enum )
+				{
+				case IfcSIPrefix::ENUM_EXA:
+				{
+					unit_factor = 1E18;
+					unit_label = "exa_";
+					break;
+				}
+				case IfcSIPrefix::ENUM_PETA:
+				{
+					unit_factor = 1E15;
+					unit_label = "peta_";
+					break;
+				}
+				case IfcSIPrefix::ENUM_TERA:
+				{
+					unit_factor = 1E12;
+					unit_label = "tera_";
+					break;
+				}
+				case IfcSIPrefix::ENUM_GIGA:
+				{
+					unit_factor = 1E9;
+					unit_label = "giga_";
+					break;
+				}
+				case IfcSIPrefix::ENUM_MEGA:
+				{
+					unit_factor = 1E6;
+					unit_label = "mega_";
+					break;
+				}
+				case IfcSIPrefix::ENUM_KILO:
+				{
+					unit_factor = 1E3;
+					unit_label = "kilo_";
+					break;
+				}
+				case IfcSIPrefix::ENUM_HECTO:
+				{
+					unit_factor = 1E2;
+					unit_label = "hecto_m";
+					break;
+				}
+				case IfcSIPrefix::ENUM_DECA:
+				{
+					unit_factor = 1E1;
+					unit_label = "";
+					break;
+				}
+				case IfcSIPrefix::ENUM_DECI:
+				{
+					unit_factor = 1E-1;
+					unit_label = "deci_";
+					break;
+				}
+				case IfcSIPrefix::ENUM_CENTI:
+				{
+					unit_factor = 1E-2;
+					unit_label = "centi_";
+					break;
+				}
+				case IfcSIPrefix::ENUM_MILLI:
+				{
+					unit_factor = 1E-3;
+					unit_label = "milli_";
+					break;
+				}
+				case IfcSIPrefix::ENUM_MICRO:
+				{
+					unit_factor = 1E-6;
+					unit_label = "micro_";
+					break;
+				}
+				case IfcSIPrefix::ENUM_NANO:
+				{
+					unit_factor = 1E-9;
+					unit_label = "nano_";
+					break;
+				}
+				case IfcSIPrefix::ENUM_PICO:
+				{
+					unit_factor = 1E-12;
+					unit_label = "pico_";
+					break;
+				}
+				case IfcSIPrefix::ENUM_FEMTO:
+				{
+					unit_factor = 1E-15;
+					unit_label = "femto_";
+					break;
+				}
+				case IfcSIPrefix::ENUM_ATTO:
+				{
+					unit_factor = 1E-18;
+					unit_label = "atto_";
+					break;
+				}
+				}
+			}
+
+			shared_ptr<IfcUnitEnum> unit_type = si_unit->m_UnitType;
+			if( unit_type )
+			{
+				if( unit_type->m_enum == IfcUnitEnum::ENUM_LENGTHUNIT )
+				{
+					unit_label += "m";
+
+					if( si_unit->m_Prefix )
+					{
+						if( si_unit->m_Prefix->m_enum == IfcSIPrefix::ENUM_MILLI )
+						{
+							unit_label = "mm";
+						}
+					}
+				}
+				else if( unit_type->m_enum == IfcUnitEnum::ENUM_AREAUNIT )
+				{
+					unit_label += "m2";
+				}
+				else if( unit_type->m_enum == IfcUnitEnum::ENUM_VOLUMEUNIT )
+				{
+					unit_label += "m3";
+				}
+				else if( unit_type->m_enum == IfcUnitEnum::ENUM_MASSUNIT )
+				{
+					unit_label += "gram";
+				}
+			}
+		}
+	}
+	return unit_label;
+}
+
 void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 {
 	resetComplete();
@@ -120,7 +252,7 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 	std::vector<shared_ptr<IfcUnit> >& vec_units = unit_assignment->m_Units;
 	for(auto unit : vec_units)
 	{
-			if( !unit )
+		if( !unit )
 		{
 			continue;
 		}
@@ -138,6 +270,7 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 
 			if( unit_type )
 			{
+				m_loaded_units[unit_type->m_enum] = si_unit;
 				if( unit_type->m_enum == IfcUnitEnum::ENUM_LENGTHUNIT )
 				{
 					if( unit_name )
@@ -146,17 +279,102 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 						{
 							m_length_unit_factor = 1.0;
 							m_length_unit_found = true;
+							//unit_label = "m";
 						}
 					}
 
 					if( si_unit->m_Prefix )
 					{
 						m_loaded_prefix = si_unit->m_Prefix;
-						if( m_prefix_map.find( si_unit->m_Prefix->m_enum ) != m_prefix_map.end() )
+						m_length_unit_found = true;
+
+						switch( m_loaded_prefix->m_enum )
 						{
-							m_length_unit_factor = m_prefix_map[si_unit->m_Prefix->m_enum];
-							m_length_unit_found = true;
+						case IfcSIPrefix::ENUM_EXA:
+						{
+							m_length_unit_factor = 1E18;
+							break;
 						}
+						case IfcSIPrefix::ENUM_PETA:
+						{
+							m_length_unit_factor = 1E15;
+							break;
+						}
+						case IfcSIPrefix::ENUM_TERA:
+						{
+							m_length_unit_factor = 1E12;
+							break;
+						}
+						case IfcSIPrefix::ENUM_GIGA:
+						{
+							m_length_unit_factor = 1E9;
+							break;
+						}
+						case IfcSIPrefix::ENUM_MEGA:
+						{
+							m_length_unit_factor = 1E6;
+							break;
+						}
+						case IfcSIPrefix::ENUM_KILO:
+						{
+							m_length_unit_factor = 1E3;
+							break;
+						}
+						case IfcSIPrefix::ENUM_HECTO:
+						{
+							m_length_unit_factor = 1E2;
+							break;
+						}
+						case IfcSIPrefix::ENUM_DECA:
+						{
+							m_length_unit_factor = 1E1;
+							break;
+						}
+						case IfcSIPrefix::ENUM_DECI:
+						{
+							m_length_unit_factor = 1E-1;
+							break;
+						}
+						case IfcSIPrefix::ENUM_CENTI:
+						{
+							m_length_unit_factor = 1E-2;
+							break;
+						}
+						case IfcSIPrefix::ENUM_MILLI:
+						{
+							m_length_unit_factor = 1E-3;
+							break;
+						}
+						case IfcSIPrefix::ENUM_MICRO:
+						{
+							m_length_unit_factor = 1E-6;
+							break;
+						}
+						case IfcSIPrefix::ENUM_NANO:
+						{
+							m_length_unit_factor = 1E-9;
+							break;
+						}
+						case IfcSIPrefix::ENUM_PICO:
+						{
+							m_length_unit_factor = 1E-12;
+							break;
+						}
+						case IfcSIPrefix::ENUM_FEMTO:
+						{
+							m_length_unit_factor = 1E-15;
+							break;
+						}
+						case IfcSIPrefix::ENUM_ATTO:
+						{
+							m_length_unit_factor = 1E-18;
+							break;
+						}
+						
+						default:
+							m_length_unit_found = false;
+						}
+
 					}
 				}
 				else if( unit_type->m_enum == IfcUnitEnum::ENUM_AREAUNIT )

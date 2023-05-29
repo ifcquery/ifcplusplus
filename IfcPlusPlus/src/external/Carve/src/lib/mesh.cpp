@@ -1132,6 +1132,11 @@ template class carve::mesh::Face<3>;
 template class carve::mesh::Mesh<3>;
 template class carve::mesh::MeshSet<3>;
 
+#ifdef _DEBUG
+static std::map<int, int> countSuccessWithoutRand = { {0,0}, {1,0}, {2,0}, {3,0}, {4,0}, {5,0}, {6,0}, {7,0}, {8,0}, {9,0} };
+static int countSuccessWithRand = 0;
+#endif
+
 carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* meshset, const carve::geom::RTreeNode<3, carve::mesh::Face<3>*>* face_rtree,
 	const carve::geom::vector<3>& v, double CARVE_EPSILON, bool even_odd, const carve::mesh::Mesh<3>* mesh, const carve::mesh::Face<3>** hit_face)
 {
@@ -1158,15 +1163,15 @@ carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* mesh
 	std::vector<carve::mesh::Face<3>*> near_faces;
 	face_rtree->search(v, std::back_inserter(near_faces));
 
-	for( size_t i = 0; i < near_faces.size(); i++ ) {
-		if( mesh != nullptr && mesh != near_faces[i]->mesh ) {
+	for( size_t i = 0; i < near_faces.size(); i++ )
+	{
+		if( mesh != nullptr && mesh != near_faces[i]->mesh )
+		{
 			continue;
 		}
 
-		// XXX: Do allow the tested vertex to be ON an open
-		// manifold. This was here originally because of the
-		// possibility of an open manifold contained within a closed
-		// manifold.
+		// XXX: Do allow the tested vertex to be ON an open manifold. This was here originally because of the
+		// possibility of an open manifold contained within a closed manifold.
 
 		// if (!near_faces[i]->mesh->isClosed()) continue;
 
@@ -1183,23 +1188,45 @@ carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* mesh
 	}
 
 	double ray_len = face_rtree->bbox.extent.length() * 2;
+	std::vector<std::pair<const carve::mesh::Face<3>*, carve::geom::vector<3> > > manifold_intersections;
+	
+#ifdef _DEBUG
+	countSuccessWithoutRand[0] += 1;
+#endif
 
-	std::vector<std::pair<const carve::mesh::Face<3>*, carve::geom::vector<3> > >
-		manifold_intersections;
+	double a1 = 0.1;
+	double a2 = 0.2;
+	for(size_t numIntersectionRuns = 1; numIntersectionRuns < 10000; ++numIntersectionRuns )
+	{
+#ifdef _DEBUG
+		if (numIntersectionRuns > 0)
+		{
+			countSuccessWithoutRand[0] -= 1;
+		}
+		if (numIntersectionRuns >= 10)
+		{
+			++countSuccessWithRand;
+		}
+#endif
+		if (numIntersectionRuns < 10)
+		{
+			// reduce randomness. In 99% of the cases, this already finds an intersection
+			a1 = numIntersectionRuns * 0.1 * M_TWOPI;
+			a2 = (10-numIntersectionRuns) * 0.1 * M_TWOPI;
+		}
+		else
+		{
+			a1 = random() / double(RAND_MAX) * M_TWOPI;
+			a2 = random() / double(RAND_MAX) * M_TWOPI;
+		}
 
-	for( ;;) {
-		double a1 = random() / double(RAND_MAX) * M_TWOPI;
-		double a2 = random() / double(RAND_MAX) * M_TWOPI;
-
-		carve::geom3d::Vector ray_dir =
-			carve::geom::VECTOR(sin(a1) * sin(a2), cos(a1) * sin(a2), cos(a2));
+		carve::geom3d::Vector ray_dir = carve::geom::VECTOR(sin(a1) * sin(a2), cos(a1) * sin(a2), cos(a2));
 
 #if defined(DEBUG_CONTAINS_VERTEX)
 		std::cerr << "{testing ray: " << ray_dir << "}" << std::endl;
 #endif
 
 		carve::geom::vector<3> v2 = v + ray_dir * ray_len;
-
 		bool failed = false;
 		carve::geom::linesegment<3> line(v, v2);
 		carve::geom::vector<3> intersection;
@@ -1208,8 +1235,23 @@ carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* mesh
 		manifold_intersections.clear();
 		face_rtree->search(line, std::back_inserter(near_faces));
 
-		for( unsigned i = 0; !failed && i < near_faces.size(); i++ ) {
-			if( mesh != nullptr && mesh != near_faces[i]->mesh ) {
+		if (numIntersectionRuns > 10000)
+		{
+			size_t edgeCount = 0;
+			for (unsigned i = 0; !failed && i < near_faces.size(); i++)
+			{
+				edgeCount += near_faces[i]->n_edges;
+			}
+#ifdef _DEBUG
+			std::cout << "classifyPoint failed, numIntersectionRuns(" << numIntersectionRuns << "), near_faces(" << near_faces.size() << "), edgeCount(" << edgeCount << ")" << std::endl;
+#endif
+			break;
+		}
+
+		for( unsigned i = 0; !failed && i < near_faces.size(); i++ )
+		{
+			if( mesh != nullptr && mesh != near_faces[i]->mesh )
+			{
 				continue;
 			}
 
@@ -1217,7 +1259,8 @@ carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* mesh
 				continue;
 			}
 
-			switch( near_faces[i]->lineSegmentIntersection(line, intersection, CARVE_EPSILON) )
+			auto intersectionResult = near_faces[i]->lineSegmentIntersection(line, intersection, CARVE_EPSILON);
+			switch( intersectionResult )
 			{
 			case INTERSECT_FACE: {
 #if defined(DEBUG_CONTAINS_VERTEX)
@@ -1324,4 +1367,5 @@ carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* mesh
 			return POINT_OUT;
 		}
 	}
+	return POINT_UNK;
 }

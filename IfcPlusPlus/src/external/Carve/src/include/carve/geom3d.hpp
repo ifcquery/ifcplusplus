@@ -130,8 +130,8 @@ namespace carve {
 				}
 			}
 
-			double lengthOfNormalVector = n.length();
-			if( lengthOfNormalVector < CARVE_EPSILON * 0.001 )
+			double length2OfNormalVector = n.length2();
+			if( length2OfNormalVector < CARVE_EPSILON * CARVE_EPSILON * 0.000001 )
 			{
 				n.x = 1.0;
 				n.y = 0.0;
@@ -160,7 +160,7 @@ namespace carve {
 				}
 
 #if defined(_DEBUG)
-				if( numPointsNotInPlane > 0 && lengthOfNormalVector > 0.2 )
+				if( numPointsNotInPlane > 0 && length2OfNormalVector > 0.2 * 0.2)
 				{
 					std::stringstream strs_out;
 					strs_out << "Polyline{\nvertices{" << std::endl;

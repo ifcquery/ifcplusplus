@@ -497,7 +497,7 @@ public:
 #ifdef _DEBUG
 			if( openingAngle > M_PI*1.01 )
 			{
-				glm::dvec4 color(0.2, 0.2, 0.2, 0.8);
+				glm::vec4 color(0.2, 0.2, 0.2, 0.8);
 				GeomDebugDump::dumpPolyline(target_vec, color, true);
 			}
 #endif

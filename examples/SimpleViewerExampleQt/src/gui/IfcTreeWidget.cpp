@@ -262,6 +262,11 @@ QTreeWidgetItem* resolveTreeItems( shared_ptr<BuildingObject> obj, std::unordere
 		}
 		set_visited.insert( obj_def->m_tag );
 
+		shared_ptr<IfcOpeningElement> opening = dynamic_pointer_cast<IfcOpeningElement>(obj);
+		if (opening)
+		{
+			return nullptr;
+		}
 
 		item = new QTreeWidgetItem();
 		
@@ -358,6 +363,12 @@ void IfcTreeWidget::slotModelLoadingDone()
 		{
 			shared_ptr<BuildingObject>& ifc_object = it->second;
 
+			shared_ptr<IfcOpeningElement> opening = dynamic_pointer_cast<IfcOpeningElement>(ifc_object);
+			if (opening)
+			{
+				continue;
+			}
+
 			if (hasParentInBuildingStructure(ifc_object))
 			{
 				continue;
@@ -372,12 +383,15 @@ void IfcTreeWidget::slotModelLoadingDone()
 			}
 		}
 
-		m_block_selection_signals = true;
-		blockSignals( true );
-		insertTopLevelItem( topLevelItemCount(), item_outside );
-		setCurrentItem( item_outside );
-		blockSignals( false );
-		m_block_selection_signals = false;
+		if (item_outside->childCount() > 0)
+		{
+			m_block_selection_signals = true;
+			blockSignals(true);
+			insertTopLevelItem(topLevelItemCount(), item_outside);
+			setCurrentItem(item_outside);
+			blockSignals(false);
+			m_block_selection_signals = false;
+		}
 	}
 	expandToDepth(2);
 }

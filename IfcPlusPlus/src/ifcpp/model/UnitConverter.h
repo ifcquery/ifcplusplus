@@ -23,7 +23,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "BuildingException.h"
 #include "ifcpp/IFC4X3/include/IfcProject.h"
 #include "ifcpp/IFC4X3/include/IfcSIPrefix.h"
+#include "ifcpp/IFC4X3/include/IfcSIUnit.h"
 #include "ifcpp/IFC4X3/include/IfcSIUnitName.h"
+#include "ifcpp/IFC4X3/include/IfcUnitEnum.h"
 
 //\brief class to convert values from different units into meter and radian
 class IFCQUERY_EXPORT UnitConverter : public StatusCallback
@@ -69,12 +71,15 @@ public:
 	AngularUnit getAngularUnit() { return m_angular_unit; }
 	shared_ptr<IFC4X3::IfcSIPrefix>& getLoadedPrefix() { return m_loaded_prefix; }
 
+	std::string getUnitLabel(IFC4X3::IfcUnitEnum::IfcUnitEnumEnum);
+	std::map<IFC4X3::IfcUnitEnum::IfcUnitEnumEnum, shared_ptr<IFC4X3::IfcSIUnit> >& getLoadedUnits() { return m_loaded_units; }
+
 	void resetUnitFactors();
 	void resetComplete();
 
 protected:
-	std::map<int, double> m_prefix_map;
 	shared_ptr<IFC4X3::IfcSIPrefix>	m_loaded_prefix;
+	std::map<IFC4X3::IfcUnitEnum::IfcUnitEnumEnum, shared_ptr<IFC4X3::IfcSIUnit> > m_loaded_units;
 	double m_length_unit_factor = 1.0;
 	double m_custom_length_factor = 1.0;
 	bool m_length_unit_found = false;
