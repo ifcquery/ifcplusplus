@@ -34,7 +34,12 @@ struct MeshSetInfo
 	MeshSetInfo()
 	{
 	}
-	MeshSetInfo(MeshSetInfo& other)
+	MeshSetInfo(const MeshSetInfo& other)
+	{
+		copyFromOther(other);
+	}
+
+	void copyFromOther(const MeshSetInfo& other)
 	{
 		numClosedEdges = other.numClosedEdges;
 		numOpenEdges = other.numOpenEdges;
@@ -42,10 +47,12 @@ struct MeshSetInfo
 		zeroAreaFaces = other.zeroAreaFaces;
 		degenerateEdges = other.degenerateEdges;
 		finEdges = other.finEdges;
+		finFaces = other.finFaces;
 		surfaceArea = other.surfaceArea;
 		allPointersValid = other.allPointersValid;
 		meshSetValid = other.meshSetValid;
 		maxNumEdgesExceeded = other.maxNumEdgesExceeded;
+		maxNumberOfEdgesPerFace = other.maxNumberOfEdgesPerFace;
 		details = other.details;
 		report_callback = other.report_callback;
 		entity = other.entity;
@@ -56,19 +63,50 @@ struct MeshSetInfo
 		entity = _entity;
 	}
 
+	bool isEqual(const MeshSetInfo& other, bool checkOnlyNumberOfEdgesAndFaces = true) const
+	{
+		if (numClosedEdges != other.numClosedEdges) return false;
+		if (numOpenEdges != other.numOpenEdges) return false;
+		if (numFaces != other.numFaces) return false;
+		if (checkOnlyNumberOfEdgesAndFaces)
+		{
+			if (zeroAreaFaces.size() != other.zeroAreaFaces.size() ) return false;
+			if (degenerateEdges.size() != other.degenerateEdges.size()) return false;
+			if (finEdges.size() != other.finEdges.size()) return false;
+			if (finFaces.size() != other.finFaces.size()) return false;
+		}
+		else
+		{
+			if (zeroAreaFaces != other.zeroAreaFaces) return false;
+			if (degenerateEdges != other.degenerateEdges) return false;
+			if (finEdges != other.finEdges) return false;
+			if (finFaces != other.finFaces) return false;
+		}
+		if (std::abs(surfaceArea - other.surfaceArea) > EPS_M12 ) return false;
+		if (allPointersValid != other.allPointersValid) return false;
+		if (meshSetValid != other.meshSetValid) return false;
+		if (maxNumEdgesExceeded != other.maxNumEdgesExceeded) return false;
+		if (maxNumberOfEdgesPerFace != other.maxNumberOfEdgesPerFace) return false;
+		//if (details != other.details) return false;
+		return true;
+	}
+
 	size_t numClosedEdges = 0;
 	size_t numOpenEdges = 0;
 	size_t numFaces = 0;
 	std::set<carve::mesh::Face<3>* > zeroAreaFaces;
-	std::vector<carve::mesh::Edge<3>* > degenerateEdges;
-	std::vector<carve::mesh::Edge<3>* > finEdges;
+	std::set<carve::mesh::Edge<3>* > degenerateEdges;
+	std::set<carve::mesh::Edge<3>* > finEdges;
+	std::set<carve::mesh::Face<3>* > finFaces;
 	double surfaceArea = 0;
 	bool allPointersValid = true;
 	bool meshSetValid = false;
 	bool maxNumEdgesExceeded = false;
+	size_t maxNumberOfEdgesPerFace = 0; // if it is 3, meshset is triangulated
 	std::string details;
 	StatusCallback* report_callback = nullptr;
 	BuildingEntity* entity = nullptr;
+	shared_ptr<carve::mesh::MeshSet<3> > meshset;
 
 	void resetInfoResult()
 	{
@@ -78,10 +116,12 @@ struct MeshSetInfo
 		zeroAreaFaces.clear();
 		degenerateEdges.clear();
 		finEdges.clear();
+		finFaces.clear();
 		surfaceArea = 0;
 		allPointersValid = true;
 		meshSetValid = false;
 		maxNumEdgesExceeded = false;
+		maxNumberOfEdgesPerFace = false;
 		details = "";
 	}
 };
@@ -140,8 +180,8 @@ public:
 	int							m_placement_tag = -1;
 };
 
-bool checkPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data, double minFaceArea, std::string& details);
-bool fixPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data, double epsMergePoints);
+bool checkPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data, const GeomProcessingParams& params, std::string& details);
+bool fixPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data, bool removeZeroAreaFaces, const GeomProcessingParams& params);
 bool reverseFacesInPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data);
 
 class PolyInputCache3D
@@ -401,10 +441,10 @@ public:
 	std::map<double, std::map<double, std::map<double, size_t> > > m_existing_vertices_coords;
 };
 
+void polyhedronFromMesh(const carve::mesh::Mesh<3>* mesh, PolyInputCache3D& polyInput);
 void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, PolyInputCache3D& polyInput);
 void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::set<carve::mesh::Face<3>* >& setSkipFaces, PolyInputCache3D& polyInput);
-void polyhedronFromMesh(const carve::mesh::Mesh<3>* mesh, PolyInputCache3D& polyInput);
-bool checkFaceIndices(PolyInputCache3D& inputData);
+void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::set<carve::mesh::Face<3>* >& setSkipFaces, const std::set<carve::mesh::Face<3>* >& setFlipFaces, PolyInputCache3D& polyInput);
 
 class ProductShapeData;
 
@@ -460,28 +500,23 @@ public:
 		item_data->m_parent_item = ptr_self;
 	}
 
-	void addOpenOrClosedPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data, double eps)
+	void addOpenOrClosedPolyhedron(const shared_ptr<carve::input::PolyhedronData>& poly_data, const GeomProcessingParams& params);
+	
+	void addOpenPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data, const GeomProcessingParams& params)
 	{
-		if( !poly_data )
-		{
-			return;
-		}
-
-		// check if it is open or closed
 		if( poly_data->getVertexCount() < 3 )
 		{
 			return;
 		}
 
-		double minFaceArea = eps * 0.001;
 		std::string details;
-		bool correct = checkPolyhedronData(poly_data, minFaceArea, details);
+		bool correct = checkPolyhedronData(poly_data, params, details);
 		if( !correct )
 		{
-			fixPolyhedronData(poly_data, eps);
+			fixPolyhedronData(poly_data, true, params);
 #ifdef _DEBUG
 			std::string details2;
-			bool correct2 = checkPolyhedronData(poly_data, minFaceArea, details2);
+			bool correct2 = checkPolyhedronData(poly_data, params, details2);
 			if( !correct2 )
 			{
 				std::cout << "fixPolyhedronData failed: " << details2 << std::endl;
@@ -489,45 +524,11 @@ public:
 #endif
 		}
 
-		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts(), eps) );
-		if( meshset->isClosed() )
-		{
-			m_meshsets.push_back( meshset );
-		}
-		else
-		{
-			m_meshsets_open.push_back( meshset );
-		}
-	}
-
-	void addOpenPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data, double eps)
-	{
-		if( poly_data->getVertexCount() < 3 )
-		{
-			return;
-		}
-
-		double minFaceArea = eps * 0.001;
-		std::string details;
-		bool correct = checkPolyhedronData(poly_data, minFaceArea, details);
-		if( !correct )
-		{
-			fixPolyhedronData(poly_data, eps);
-#ifdef _DEBUG
-			std::string details2;
-			bool correct2 = checkPolyhedronData(poly_data, minFaceArea, details2);
-			if( !correct2 )
-			{
-				std::cout << "fixPolyhedronData failed: " << details2 << std::endl;
-			}
-#endif
-		}
-
-		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts(), eps) );
+		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts(), params.epsMergePoints) );
 		m_meshsets_open.push_back( meshset );
 	}
 
-	bool addClosedPolyhedron(const shared_ptr<carve::input::PolyhedronData>& poly_data, GeomProcessingParams& params, shared_ptr<GeometrySettings>& geom_settings);
+	bool addClosedPolyhedron(const shared_ptr<carve::input::PolyhedronData>& poly_data, const GeomProcessingParams& params, shared_ptr<GeometrySettings>& geom_settings);
 
 	void addPoint( const vec3& point )
 	{

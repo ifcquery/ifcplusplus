@@ -266,12 +266,12 @@ public:
 			return;
 		}
 
-		//shared_ptr<IfcReferencedSectionedSpine> spine = dynamic_pointer_cast<IfcReferencedSectionedSpine>(solid_model);
-		//if( spine )
-		//{
-		//	convertIfcReferencedSectionedSpine( spine, pos, item_data );
-		//	return;
-		//}
+		shared_ptr<IfcSectionedSpine> spine = dynamic_pointer_cast<IfcSectionedSpine>(solid_model);
+		if( spine )
+		{
+			convertIfcSectionedSpine( spine, item_data );
+			return;
+		}
 
 		shared_ptr<IfcSweptDiskSolid> swept_disp_solid = dynamic_pointer_cast<IfcSweptDiskSolid>( solid_model );
 		if( swept_disp_solid )
@@ -716,7 +716,8 @@ public:
 			segment_offset += num_vertices_per_section;
 		}
 
-		item_data->addOpenOrClosedPolyhedron( polyhedron_data, eps );
+		GeomProcessingParams params(m_geom_settings, false);
+		item_data->addOpenOrClosedPolyhedron( polyhedron_data, params );
 	}
 
 	void convertIfcRevolvedAreaSolid( const shared_ptr<IfcRevolvedAreaSolid>& revolved_area, shared_ptr<ItemShapeData> item_data )
@@ -858,7 +859,7 @@ public:
 	{
 		shared_ptr<carve::input::PolyhedronData> polyhedron_data( new carve::input::PolyhedronData() );
 		const double length_factor = m_point_converter->getUnitConverter()->getLengthInMeterFactor();
-		double eps = m_geom_settings->getEpsilonCoplanarDistance();
+		GeomProcessingParams params(m_geom_settings, false);
 
 		// ENTITY IfcCsgPrimitive3D  ABSTRACT SUPERTYPE OF(ONEOF(IfcBlock, IfcRectangularPyramid, IfcRightCircularCone, IfcRightCircularCylinder, IfcSphere
 		shared_ptr<TransformData> primitive_placement_transform;
@@ -930,7 +931,7 @@ public:
 			polyhedron_data->addFace( 3, 7, 4 );
 			polyhedron_data->addFace( 4, 0, 3 );
 
-			item_data->addOpenOrClosedPolyhedron( polyhedron_data, eps );
+			item_data->addOpenOrClosedPolyhedron( polyhedron_data, params );
 			return;
 		}
 
@@ -970,7 +971,7 @@ public:
 			polyhedron_data->addFace( 0, 4, 3 );
 			polyhedron_data->addFace( 0, 3, 2 );
 
-			item_data->addOpenOrClosedPolyhedron( polyhedron_data, eps );
+			item_data->addOpenOrClosedPolyhedron( polyhedron_data, params );
 			return;
 		}
 
@@ -1016,7 +1017,7 @@ public:
 			}
 			polyhedron_data->addFace( 1, m_geom_settings->getNumVerticesPerCircleWithRadius(radius) + 1, 2 );
 
-			item_data->addOpenOrClosedPolyhedron( polyhedron_data, eps );
+			item_data->addOpenOrClosedPolyhedron( polyhedron_data, params );
 			return;
 		}
 
@@ -1065,7 +1066,7 @@ public:
 				polyhedron_data->addFace( 1, i*2 + 5, i*2 + 3 );	// bottom cap:	1-5-3	1-7-5		1-9-7
 			}
 
-			item_data->addOpenOrClosedPolyhedron( polyhedron_data, eps );
+			item_data->addOpenOrClosedPolyhedron( polyhedron_data, params );
 			return;
 		}
 
@@ -1140,7 +1141,7 @@ public:
 				polyhedron_data->addFace( last_index, last_index - ( i + 2 ), last_index - ( i + 1 ) );
 			}
 			polyhedron_data->addFace( last_index, last_index - 1, last_index - nvc );
-			item_data->addOpenOrClosedPolyhedron( polyhedron_data, eps );
+			item_data->addOpenOrClosedPolyhedron( polyhedron_data, params );
 			return;
 		}
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, csg_primitive.get() );
@@ -1175,7 +1176,7 @@ public:
 		//ENTITY IfcHalfSpaceSolid SUPERTYPE OF(ONEOF(IfcBoxedHalfSpace, IfcPolygonalBoundedHalfSpace))
 		double length_factor = m_point_converter->getUnitConverter()->getLengthInMeterFactor();
 		shared_ptr<IfcSurface> base_surface = half_space_solid->m_BaseSurface;
-		double eps = m_geom_settings->getEpsilonCoplanarDistance();
+		GeomProcessingParams params(m_geom_settings, false);
 
 		// base surface
 		shared_ptr<IfcElementarySurface> elem_base_surface = dynamic_pointer_cast<IfcElementarySurface>( base_surface );
@@ -1261,7 +1262,7 @@ public:
 				poly_point = box_position_matrix*poly_point;
 			}
 
-			item_data->addOpenOrClosedPolyhedron( polyhedron_data, eps );
+			item_data->addOpenOrClosedPolyhedron( polyhedron_data, params );
 			return;
 		}
 
@@ -1343,7 +1344,7 @@ public:
 			}
 
 			// apply position of PolygonalBoundary
-			polygonal_halfspace_item_data->applyTransformToItem( boundary_position_matrix, eps );
+			polygonal_halfspace_item_data->applyTransformToItem( boundary_position_matrix, params.epsMergePoints );
 
 			shared_ptr<carve::mesh::MeshSet<3> > polygonal_halfspace_meshset = polygonal_halfspace_item_data->m_meshsets[0];
 			if( !polygonal_halfspace_meshset )
@@ -1370,7 +1371,7 @@ public:
 				// points below the base surface are projected into plane
 				vec3 v;
 				double t;
-				carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection( base_surface_plane, poly_point, poly_point + boundary_plane_normal, v, t, eps );
+				carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection( base_surface_plane, poly_point, poly_point + boundary_plane_normal, v, t, params.epsMergePoints );
 				if( intersect > 0 )
 				{
 					if( agreement_check > 0 )
@@ -1404,7 +1405,7 @@ public:
 
 			for( size_t i_mesh = 0; i_mesh < polygonal_halfspace_meshset->meshes.size(); ++i_mesh )
 			{
-				polygonal_halfspace_meshset->meshes[i_mesh]->recalc(eps);
+				polygonal_halfspace_meshset->meshes[i_mesh]->recalc(params.epsMergePoints);
 			}
 
 			item_data->m_meshsets.push_back( polygonal_halfspace_meshset );
@@ -1426,7 +1427,7 @@ public:
 			if (!bbox_other_operand.isEmpty())
 			{
 				double max_extent = std::max(bbox_other_operand.extent.x, std::max(bbox_other_operand.extent.y, bbox_other_operand.extent.z));
-				if (std::abs(max_extent) > eps)
+				if (std::abs(max_extent) > params.epsMergePoints)
 				{
 					extrusion_depth = 2.1 * max_extent;
 				}
@@ -1461,7 +1462,7 @@ public:
 					vec3  half_space_extrusion_vector = half_space_extrusion_direction * extrusion_depth;
 					shared_ptr<carve::input::PolyhedronData> half_space_box_data(new carve::input::PolyhedronData());
 					extrudeBox(base_surface_points, half_space_extrusion_vector, half_space_box_data);
-					item_data->addOpenOrClosedPolyhedron(half_space_box_data, eps);
+					item_data->addOpenOrClosedPolyhedron(half_space_box_data, params);
 				}
 			}
 			else if (var == 1)
@@ -1484,7 +1485,7 @@ public:
 
 				shared_ptr<carve::input::PolyhedronData> half_space_box_data(new carve::input::PolyhedronData());
 				extrudeBox(box_base_points, half_space_extrusion_vector, half_space_box_data);
-				item_data->addOpenOrClosedPolyhedron(half_space_box_data, eps);
+				item_data->addOpenOrClosedPolyhedron(half_space_box_data, params);
 			}
 
 			return;

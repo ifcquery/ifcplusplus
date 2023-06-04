@@ -477,6 +477,7 @@ public:
 		}
 
 		double CARVE_EPSILON = m_geom_settings->getEpsilonCoplanarDistance();
+		GeomProcessingParams params(m_geom_settings, geom_item.get(), this);
 
 		shared_ptr<IfcTessellatedItem> tessellatedItem = dynamic_pointer_cast<IfcTessellatedItem>(geom_item);
 		if( tessellatedItem )
@@ -524,17 +525,17 @@ public:
 					{
 						if( polygonalFaceSet->m_Closed->m_value == true )
 						{
-							GeomProcessingParams params( m_geom_settings, polygonalFaceSet.get(),  this );
+							
 							item_data->addClosedPolyhedron(polyCache.m_poly_data, params, m_geom_settings);
 						}
 						else
 						{
-							item_data->addOpenPolyhedron(polyCache.m_poly_data, CARVE_EPSILON);
+							item_data->addOpenPolyhedron(polyCache.m_poly_data, params);
 						}
 					}
 					else
 					{
-						item_data->addOpenOrClosedPolyhedron(polyCache.m_poly_data, CARVE_EPSILON);
+						item_data->addOpenOrClosedPolyhedron(polyCache.m_poly_data, params);
 					}
 
 					return;
@@ -601,7 +602,6 @@ public:
 							}
 						}
 
-						GeomProcessingParams params( m_geom_settings, polygonalFace.get(),  this );
 						FaceConverter::createTriangulated3DFace(face_loops, polyCache, params );
 					}
 				
@@ -609,17 +609,16 @@ public:
 					{
 						if( triangulatedFaceSet->m_Closed->m_value == true )
 						{
-							GeomProcessingParams params( m_geom_settings, triangulatedFaceSet.get(),  this );
 							item_data->addClosedPolyhedron(polyCache.m_poly_data, params, m_geom_settings);
 						}
 						else
 						{
-							item_data->addOpenPolyhedron(polyCache.m_poly_data, CARVE_EPSILON);
+							item_data->addOpenPolyhedron(polyCache.m_poly_data, params);
 						}
 					}
 					else
 					{
-						item_data->addOpenOrClosedPolyhedron(polyCache.m_poly_data, CARVE_EPSILON);
+						item_data->addOpenOrClosedPolyhedron(polyCache.m_poly_data, params);
 					}
 					return;
 				}
@@ -790,10 +789,9 @@ public:
 				m_curve_converter->convertIfcCurve( inner_boundary, inner_boundary_loop, segment_start_points_inner_curve, true );
 			}
 
-			GeomProcessingParams params( m_geom_settings, outer_boundary.get(),  this );
 			PolyInputCache3D poly_cache(params.epsMergePoints);
 			FaceConverter::createTriangulated3DFace( face_loops, poly_cache, params);
-			item_data->addOpenPolyhedron( poly_cache.m_poly_data, CARVE_EPSILON );
+			item_data->addOpenPolyhedron( poly_cache.m_poly_data, params );
 			return;
 		}
 
@@ -828,6 +826,7 @@ public:
 			return;
 		}
 
+		GeomProcessingParams params(m_geom_settings, topological_item.get(), this);
 		double CARVE_EPSILON = m_geom_settings->getEpsilonCoplanarDistance();
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		const shared_ptr<IfcEdge> topo_edge = dynamic_pointer_cast<IfcEdge>( topological_item );
@@ -924,13 +923,12 @@ public:
 						std::reverse( loop_points.begin(), loop_points.end() );
 					}
 
-					GeomProcessingParams params( m_geom_settings, topo_face.get(),  this );
 					FaceConverter::createTriangulated3DFace( face_loops, poly_cache_top_face, params );
 				}
 			}
 			if( poly_cache_top_face.m_poly_data )
 			{
-				topo_item_data->addOpenOrClosedPolyhedron( poly_cache_top_face.m_poly_data, CARVE_EPSILON );
+				topo_item_data->addOpenOrClosedPolyhedron( poly_cache_top_face.m_poly_data, params );
 			}
 			return;
 		}
@@ -958,13 +956,12 @@ public:
 					std::reverse( loop_points.begin(), loop_points.end() );
 				}
 
-				GeomProcessingParams params( m_geom_settings, topo_face.get(),  this );
 				PolyInputCache3D poly_cache_top_face( params.epsMergePoints);
 				FaceConverter::createTriangulated3DFace( face_loops, poly_cache_top_face, params );
 
 				if( poly_cache_top_face.m_poly_data )
 				{
-					topo_item_data->addOpenOrClosedPolyhedron( poly_cache_top_face.m_poly_data, CARVE_EPSILON );
+					topo_item_data->addOpenOrClosedPolyhedron( poly_cache_top_face.m_poly_data, params );
 				}
 			}
 			return;
@@ -1013,12 +1010,12 @@ public:
 
 	void collectMeshes(shared_ptr<ItemShapeData> geom_item, std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vec_meshes)
 	{
-		double eps = m_geom_settings->getEpsilonCoplanarDistance();
 		std::copy(geom_item->m_meshsets.begin(), geom_item->m_meshsets.end(), std::back_inserter(vec_meshes));
 		std::copy(geom_item->m_meshsets_open.begin(), geom_item->m_meshsets_open.end(), std::back_inserter(vec_meshes));
 
 		for (auto opening_item_data : geom_item->m_child_items)
 		{
+			
 			collectMeshes(opening_item_data, vec_meshes);
 		}
 	}

@@ -35,7 +35,6 @@ struct DumpSettingsStruct
 	glm::vec4 colorOpenEdges = glm::vec4(0.99, 0.2, 0.2, 0.4);
 	glm::vec4 colorValidMesh = glm::vec4(0.3, 0.8, 0.3, 0.4);
 	bool triangulateBeforeDump = true;
-	CarveMeshNormalizer* normalizer = nullptr;
 	double eps = 1.0;
 };
 
@@ -135,48 +134,41 @@ inline void dumpMeshset(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, con
 
 	bool allowDegenerateEdges = true;
 	MeshSetInfo info;
-	double eps = EPS_M8;
-	double epsCoplanarAngle = eps * 0.1;
-	double epsMinFaceArea = eps;
-	GeomProcessingParams params(eps, epsCoplanarAngle, epsMinFaceArea, false);
+	shared_ptr<GeometrySettings> geomSettings(new GeometrySettings());
+	GeomProcessingParams params(geomSettings, false);
 	MeshOps::checkMeshSetPointers(meshset, allowDegenerateEdges, params, info);
 	if( !info.allPointersValid )
 	{
 		return;
 	}
 	
-	vec3 offset = carve::geom::VECTOR(0, GeomDebugDump::dump_y_pos_geom, 0);
+	vec3 offset = carve::geom::VECTOR(0, GeomDebugDump::DumpData::instance().dump_y_pos_geom, 0);
 	shared_ptr<carve::mesh::MeshSet<3> > meshset_copy(meshset->clone());
 	
-	MeshOps::retriangulateMeshSetSimple(meshset_copy, true, params, 0);
+	//MeshOps::retriangulateMeshSetForExport(meshset_copy, params );
 	GeomDebugDump::dumpMeshset(meshset_copy.get(), offset, color);
 
 	if( move_offset )
 	{
-		GeomDebugDump::dump_y_pos_geom += meshset->getAABB().extent.y * 2.2;
+		GeomDebugDump::DumpData::instance().dump_y_pos_geom += meshset->getAABB().extent.y * 2.2;
 	}
 }
 
-static void dumpWithLabel(std::string labelStr, shared_ptr<carve::mesh::MeshSet<3> >& meshset, const DumpSettingsStruct& colorSettings, GeomProcessingParams& params,
-	bool checkZeroAreaFaces, bool moveOffsetBefore, bool moveOffsetAfter)
+static void dumpWithLabel(std::string labelStr, shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput, const DumpSettingsStruct& colorSettings, const GeomProcessingParams& params, bool moveOffsetBefore, bool moveOffsetAfter)
 {
-	if( !meshset )
+	if( !meshsetInput )
 	{
 		return;
 	}
-	
-	shared_ptr<carve::mesh::MeshSet<3> > meshset_copy( meshset );
+
+	MeshSetInfo infoMeshsetInput;
+	bool meshset_input_ok = MeshOps::checkMeshSetValidAndClosed(meshsetInput, infoMeshsetInput, params);
+	auto aabbInput = meshsetInput->getAABB();
+	shared_ptr<carve::mesh::MeshSet<3> > meshset = meshsetInput;
+	if (params.normalizer != nullptr)
 	{
-		meshset_copy = shared_ptr<carve::mesh::MeshSet<3> > (meshset->clone());
-
-		if (colorSettings.normalizer != nullptr)
-		{
-			CarveMeshNormalizer normalizerCopy(colorSettings.normalizer);
-			normalizerCopy.m_normalizeCoordsInsteadOfEpsilon = true;
-			normalizerCopy.normalizeMesh(meshset_copy, "dump-mesh", colorSettings.eps);
-		}
-
-		MeshOps::retriangulateMeshSetSimple(meshset_copy, true, params, 0);
+		meshset = shared_ptr<carve::mesh::MeshSet<3> >(meshsetInput->clone());
+		params.normalizer->normalizeMesh(meshset, "", params.epsMergePoints);
 	}
 
 	auto aabb = meshset->getAABB();
@@ -184,11 +176,14 @@ static void dumpWithLabel(std::string labelStr, shared_ptr<carve::mesh::MeshSet<
 	{
 		double minX = aabb.pos.x - aabb.extent.x - 0.08;
 		double maxX = aabb.pos.x + aabb.extent.x;
-		double minZ = aabb.pos.z - aabb.extent.z;
-		if (minX < GeomDebugDump::labelPos.x)
+		double minZ = 0;// aabb.pos.z - aabb.extent.z;
+		if (minX < GeomDebugDump::DumpData::instance().labelPos.x)
 		{
-			GeomDebugDump::labelPos = carve::geom::VECTOR(minX, 0, minZ);
-			GeomDebugDump::countLabelPos = carve::geom::VECTOR(maxX + 0.3, 0, minZ);
+			vec3& labelPos = GeomDebugDump::DumpData::instance().labelPos;
+			labelPos = carve::geom::VECTOR(minX, labelPos.y, labelPos.z);
+
+			vec3& countLabelPos = GeomDebugDump::DumpData::instance().countLabelPos;
+			countLabelPos = carve::geom::VECTOR(maxX + 0.3, countLabelPos.y, countLabelPos.z);
 		}
 	}
 
@@ -197,34 +192,33 @@ static void dumpWithLabel(std::string labelStr, shared_ptr<carve::mesh::MeshSet<
 		GeomDebugDump::moveOffset(0.4);
 	}
 
-	MeshSetInfo infoMeshset;
-	//double epsMinFaceArea = EPS_DEFAULT * 0.01;
-	//double epsAngle = EPS_DEFAULT * 0.1;
-	//GeomProcessingParams params(EPS_DEFAULT, epsAngle, epsMinFaceArea, false);
-	bool meshset_ok = MeshOps::checkMeshSetValidAndClosed(meshset_copy, infoMeshset, params);
 
 	glm::vec4 colorCurrentLabel = colorSettings.colorLabel;
-	if( infoMeshset.meshSetValid )
+	if(infoMeshsetInput.meshSetValid )
 	{
 		colorCurrentLabel = colorSettings.colorValidMesh;
 		labelStr += ", valid: yes";
 	}
 	else
 	{
-		if (meshset_copy->meshes.size() > 0)
+		if (meshset->meshes.size() > 0)
 		{
 			colorCurrentLabel = colorSettings.colorOpenEdges;
 			labelStr += ", valid: no, ";
-			if (infoMeshset.numOpenEdges > 0)
+			if (infoMeshsetInput.numOpenEdges > 0)
 			{
-				labelStr += std::to_string(infoMeshset.numOpenEdges) + "_open_edges";
+				labelStr += std::to_string(infoMeshsetInput.numOpenEdges) + "_open_edges";
 			}
 
-			if (infoMeshset.degenerateEdges.size() > 0)
+			if (infoMeshsetInput.degenerateEdges.size() > 0)
 			{
-				labelStr += std::to_string(infoMeshset.degenerateEdges.size()) + "_degenerate_edges";
+				labelStr += std::to_string(infoMeshsetInput.degenerateEdges.size()) + "_degenerate_edges";
 			}
 
+			if (infoMeshsetInput.zeroAreaFaces.size() > 0)
+			{
+				labelStr += std::to_string(infoMeshsetInput.zeroAreaFaces.size()) + "_0area_faces";
+			}
 		}
 		else
 		{
@@ -232,63 +226,59 @@ static void dumpWithLabel(std::string labelStr, shared_ptr<carve::mesh::MeshSet<
 			labelStr += ", 0 meshes";
 		}
 
-		if( infoMeshset.numOpenEdges == 4 )
+		if(infoMeshsetInput.numOpenEdges == 4 )
 		{
 			int wait = 0;
 		}
 	}
-	if( GeomDebugDump::dumpCount >= 7 )
+
+	if( GeomDebugDump::DumpData::instance().dumpCount >= 7 )
 	{
 		int wait = 0;
 	}
-	if( GeomDebugDump::dumpCount % 10 == 0 )
-	{
-		//GeomDebugDump::clearMeshsetDump();
-	}
-	GeomDebugDump::dumpVertex(GeomDebugDump::labelPos, colorCurrentLabel, labelStr);
-	GeomDebugDump::dumpCountLabel(GeomDebugDump::countLabelPos);
-	bool drawNormals = !meshset_ok;
-	GeomDebugDump::dumpMeshset(meshset_copy, colorSettings.colorMesh, drawNormals, false);
+
+	GeomDebugDump::dumpVertex(GeomDebugDump::DumpData::instance().labelPos, colorCurrentLabel, labelStr);
+	GeomDebugDump::dumpCountLabel(GeomDebugDump::DumpData::instance().countLabelPos);
+	bool drawNormals = !meshset_input_ok;
+	GeomDebugDump::dumpMeshset(meshset, colorSettings.colorMesh, drawNormals, false);
 
 	bool moveOffset = false;
 	if( moveOffsetAfter )
 	{
-		double dy = meshset_copy->getAABB().extent.y;
+		double dy = meshset->getAABB().extent.y;
 		GeomDebugDump::moveOffset(dy*2 + 0.2);
 		moveOffset = true;
 	}
-	//GeomDebugDump::dumpMeshsetOpenEdges(meshset_copy, colorSettings.colorOpenEdges, checkZeroAreaFaces, moveOffset);
 
-	if (infoMeshset.degenerateEdges.size() > 0)
+	if (infoMeshsetInput.degenerateEdges.size() > 0)
 	{
-		for (auto e : infoMeshset.degenerateEdges)
+		for (auto e : infoMeshsetInput.degenerateEdges)
 		{
-			GeomDebugDump::dumpEdge(e, colorSettings.colorOpenEdges, checkZeroAreaFaces, moveOffset);
+			GeomDebugDump::dumpEdge(e, colorSettings.colorOpenEdges, params.checkZeroAreaFaces, moveOffset);
 		}
 	}
 }
 
-
-
 inline void dumpOperands(shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, shared_ptr<carve::mesh::MeshSet<3> >& result,
-	int tag, bool& op1_dumped, bool& op2_dumped, DumpSettingsStruct& dumpColorSettings, GeomProcessingParams& params)
+	int tag, bool& op1_dumped, bool& op2_dumped, DumpSettingsStruct& dumpColorSettings, GeomProcessingParams& paramsPrime)
 {
-	bool checkZeroAreaFaces = false;
+	GeomProcessingParams params(paramsPrime);
+	params.checkZeroAreaFaces = false;
 	GeomDebugDump::moveOffset(0.2);
 	GeomDebugDump::dumpLocalCoordinateSystem();
 
 	if (!op1_dumped)
 	{
 		op1_dumped = true;
-		dumpWithLabel("computeCSG::op1", op1, dumpColorSettings, params, checkZeroAreaFaces, true, false);
+		dumpWithLabel("computeCSG::op1", op1, dumpColorSettings, params, true, false);
 	}
 
 	if (!op2_dumped)
 	{
 		op2_dumped = true;
-		dumpWithLabel("computeCSG::op2", op2, dumpColorSettings, params, checkZeroAreaFaces, false, false);
+		dumpWithLabel("computeCSG::op2", op2, dumpColorSettings, params, false, false);
 	}
 
-	dumpWithLabel("computeCSG::result", result, dumpColorSettings, params, checkZeroAreaFaces, true, true);
+	dumpWithLabel("computeCSG::result", result, dumpColorSettings, params, true, true);
 }
 #endif

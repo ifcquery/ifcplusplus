@@ -67,13 +67,26 @@ using namespace IFC4X3;
 
 namespace GeomDebugDump
 {
-	static double eps_debug_dump = 1.5*EPS_M8;
-	static double dump_y_pos_geom;
-	static int dumpCount;
-	static carve::geom::vector<3> labelPos = carve::geom::VECTOR(-0.5,0,0);
-	static carve::geom::vector<3> countLabelPos = carve::geom::VECTOR(0.5,0,0);
-	static std::stringstream strs_buffer;
-	static int dump_buffering = 0;
+	class DumpData
+	{
+	private:
+		DumpData() {}
+
+	public:
+		static DumpData& instance()
+		{
+			static DumpData INSTANCE;
+			return INSTANCE;
+		}
+
+		double eps_debug_dump = 1.5 * EPS_M8;
+		double dump_y_pos_geom;
+		int dumpCount;
+		carve::geom::vector<3> labelPos = carve::geom::VECTOR(-0.5, 0, 0);
+		carve::geom::vector<3> countLabelPos = carve::geom::VECTOR(0.5, 0, 0);
+		std::stringstream strs_buffer;
+		int dump_buffering = 0;
+	};
 
 	static void convertPlacement(double local_x[3], double local_z[3], double location[3], shared_ptr<IfcAxis2Placement3D>& axis2placement3d, std::vector<shared_ptr<BuildingEntity> >& vec_new_entities)
 	{
@@ -123,33 +136,33 @@ namespace GeomDebugDump
 
 	static void startBuffering()
 	{
-		++dump_buffering;
-		if( strs_buffer.str().size() > 0 )
+		++DumpData::instance().dump_buffering;
+		if(DumpData::instance().strs_buffer.str().size() > 0 )
 		{
 			std::ofstream dump_ofstream("dump_mesh_debug.txt", std::ofstream::app);
-			dump_ofstream << strs_buffer.str().c_str();
+			dump_ofstream << DumpData::instance().strs_buffer.str().c_str();
 			dump_ofstream.close();
 		}
 	}
 
 	static void clearBuffer()
 	{
-		strs_buffer.str(std::string());
+		DumpData::instance().strs_buffer.str(std::string());
 	}
 
 	static void stopBuffering()
 	{
-		--dump_buffering;
-		if (dump_buffering < 0)
+		--DumpData::instance().dump_buffering;
+		if (DumpData::instance().dump_buffering < 0)
 		{
-			dump_buffering = 0;
+			DumpData::instance().dump_buffering = 0;
 		}
-		if( strs_buffer.str().size() > 0 )
+		if(DumpData::instance().strs_buffer.str().size() > 0 )
 		{
 			std::ofstream dump_ofstream("dump_mesh_debug.txt", std::ofstream::app);
-			dump_ofstream << strs_buffer.str().c_str();
+			dump_ofstream << DumpData::instance().strs_buffer.str().c_str();
 			dump_ofstream.close();
-			strs_buffer.clear();
+			DumpData::instance().strs_buffer.clear();
 		}
 	}
 	
@@ -157,7 +170,7 @@ namespace GeomDebugDump
 	{
 		std::ofstream dump_ofstream("dump_mesh_debug.txt", std::ofstream::trunc);
 		dump_ofstream.close();
-		dump_y_pos_geom = 0;
+		DumpData::instance().dump_y_pos_geom = 0;
 	}
 
 	class ScopedDumpBuffering
@@ -175,9 +188,9 @@ namespace GeomDebugDump
 
 	static void appendToOutput(const std::stringstream& strs_out)
 	{
-		if( dump_buffering > 0 )
+		if(DumpData::instance().dump_buffering > 0 )
 		{
-			strs_buffer << strs_out.str();
+			DumpData::instance().strs_buffer << strs_out.str();
 		}
 		else
 		{
@@ -217,17 +230,22 @@ namespace GeomDebugDump
 				min_y = vertex.y;
 				max_y = vertex.y;
 			}
-			strs_out << "{" << vertex.x << ", " << vertex.y + dump_y_pos_geom << ", " << vertex.z << "}";
+			strs_out << "{" << vertex.x << ", " << vertex.y + DumpData::instance().dump_y_pos_geom << ", " << vertex.z << "}";
 		}
 		strs_out << "}" << std::endl;  // vertices
 		if( move_dump_position )
 		{
-			dump_y_pos_geom += (max_y - min_y) * 1.5;
-			if( max_y > dump_y_pos_geom )
+			double deltaDump = (max_y - min_y) * 1.5;
+			if (deltaDump < 0)
 			{
-				dump_y_pos_geom = max_y * 1.1;
+				std::cout << "if (deltaDump < 0)" << std::endl;
 			}
-			++dumpCount;
+			DumpData::instance().dump_y_pos_geom += deltaDump;
+			if( max_y > DumpData::instance().dump_y_pos_geom )
+			{
+				DumpData::instance().dump_y_pos_geom = max_y * 1.1;
+			}
+			++DumpData::instance().dumpCount;
 		}
 
 		strs_out << std::endl << "}" << std::endl;  // Polyline
@@ -245,7 +263,7 @@ namespace GeomDebugDump
 		{
 			vec3 min, max;
 			GeomUtils::polygonBbox(loops_3d_input, min, max);
-			dump_y_pos_geom += (max.y - min.y) * 1.5;
+			DumpData::instance().dump_y_pos_geom += (max.y - min.y) * 1.5;
 		}
 	}
 
@@ -310,7 +328,7 @@ namespace GeomDebugDump
 					min_y = vertex.y;
 					max_y = vertex.y;
 				}
-				strs_out << "{" << vertex.x << ", " << vertex.y + dump_y_pos_geom << "}";
+				strs_out << "{" << vertex.x << ", " << vertex.y + DumpData::instance().dump_y_pos_geom << "}";
 			}
 			strs_out << "}" << std::endl;  // vertices
 			strs_out << std::endl << "}" << std::endl;  // Polyline
@@ -318,12 +336,12 @@ namespace GeomDebugDump
 
 		if( move_dump_position )
 		{
-			dump_y_pos_geom += (max_y - min_y) * 1.5;
-			if( max_y > dump_y_pos_geom )
+			DumpData::instance().dump_y_pos_geom += (max_y - min_y) * 1.5;
+			if( max_y > DumpData::instance().dump_y_pos_geom )
 			{
-				dump_y_pos_geom = max_y * 1.1;
+				DumpData::instance().dump_y_pos_geom = max_y * 1.1;
 			}
-			++dumpCount;
+			++DumpData::instance().dumpCount;
 		}
 
 		appendToOutput(strs_out);
@@ -377,7 +395,7 @@ namespace GeomDebugDump
 			return;
 		}
 
-		++dumpCount;
+		++DumpData::instance().dumpCount;
 
 		
 		// vertices of the meshset:
@@ -662,33 +680,29 @@ namespace GeomDebugDump
 		appendToOutput(strs_out);
 	}
 
-	static void dumpMeshsetsNormalVectors(const carve::mesh::MeshSet<3>* meshset, const vec3 & offset, const glm::vec4& color)
+	static void dumpMeshsetsNormalVectors(const carve::mesh::MeshSet<3>* meshset, const vec3& offset, const glm::vec4& color)
 	{
 		std::vector< std::vector <vec3> > vecLines;
-		//for (size_t i = 0; i < vec_meshsets.size(); ++i)
+		for (size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh)
 		{
-			//carve::mesh::MeshSet<3>* meshset = vec_meshsets[i];
-			for (size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh)
+			const carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
+
+			if (!mesh)
 			{
-				const carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
-
-				if (!mesh)
+				continue;
+			}
+			// faces:
+			const std::vector<carve::mesh::Face<3>* >& vec_faces = mesh->faces;
+			for (size_t i_face = 0; i_face < vec_faces.size(); ++i_face)
+			{
+				const carve::mesh::Face<3>* face = vec_faces[i_face];
+				if (face)
 				{
-					continue;
-				}
-				// faces:
-				const std::vector<carve::mesh::Face<3>* >& vec_faces = mesh->faces;
-				for (size_t i_face = 0; i_face < vec_faces.size(); ++i_face)
-				{
-					const carve::mesh::Face<3>* face = vec_faces[i_face];
-					if (face)
-					{
-						vec3 c = face->centroid();
-						vec3 normal = face->plane.N;
+					vec3 c = face->centroid();
+					vec3 normal = face->plane.N;
 
-						std::vector <vec3> line = { c + normal * 0.001, c + normal * 0.01 };
-						vecLines.push_back(line);
-					}
+					std::vector <vec3> line = { c + normal * 0.001, c + normal * 0.01 };
+					vecLines.push_back(line);
 				}
 			}
 		}
@@ -727,7 +741,7 @@ namespace GeomDebugDump
 	{
 		if (deltaY > 0.000001)
 		{
-			dump_y_pos_geom += deltaY;
+			DumpData::instance().dump_y_pos_geom += deltaY;
 		}
 	}
 
@@ -757,7 +771,7 @@ namespace GeomDebugDump
 
 	static void dumpMeshset(carve::mesh::MeshSet<3>* meshset, const glm::vec4& color, bool move_offset )
 	{
-		vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
+		vec3 offset = carve::geom::VECTOR( 0, DumpData::instance().dump_y_pos_geom, 0 );
 		dumpMeshset(meshset, offset, color );
 
 		if( move_offset )
@@ -776,7 +790,14 @@ namespace GeomDebugDump
 		{
 			return;
 		}
-		vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
+
+		carve::geom::aabb<3> bbox = meshset->getAABB();
+		if (bbox.extent.length() > 5.0)
+		{
+			std::cout << "extent.length: " << bbox.extent.length() << std::endl;
+		}
+
+		vec3 offset = carve::geom::VECTOR( 0, DumpData::instance().dump_y_pos_geom, 0 );
 		dumpMeshset(meshset.get(), offset, color );
 
 		if (drawNormals)
@@ -792,7 +813,7 @@ namespace GeomDebugDump
 	
 	static void dumpMeshsets(const std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vecMeshsets, const glm::vec4& color, bool move_offset = true)
 	{
-		vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
+		vec3 offset = carve::geom::VECTOR( 0, DumpData::instance().dump_y_pos_geom, 0 );
 		carve::geom::aabb<3> bbox;
 		for( auto meshset : vecMeshsets )
 		{
@@ -823,7 +844,7 @@ namespace GeomDebugDump
 			return;
 		}
 
-		vec3 offset = carve::geom::VECTOR( 0, dump_y_pos_geom, 0 );
+		vec3 offset = carve::geom::VECTOR( 0, DumpData::instance().dump_y_pos_geom, 0 );
 		std::stringstream strs_out;
 		Mesh2Stream(mesh, offset, color, strs_out, true);
 
@@ -843,7 +864,7 @@ namespace GeomDebugDump
 			const glm::dvec3& point = points[ii];
 			poly_cache.addPoint(carve::geom::VECTOR(point.x, point.y, point.z));
 		}
-		shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_cache.m_poly_data->createMesh(carve::input::opts(), eps_debug_dump));
+		shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_cache.m_poly_data->createMesh(carve::input::opts(), DumpData::instance().eps_debug_dump));
 
 		bool drawNormals = false;
 		dumpMeshset(meshset, color, drawNormals, move_offset);
@@ -914,7 +935,7 @@ namespace GeomDebugDump
 		{
 			return;
 		}
-		shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_cache.m_poly_data->createMesh(carve::input::opts(), eps_debug_dump));
+		shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_cache.m_poly_data->createMesh(carve::input::opts(), DumpData::instance().eps_debug_dump));
 		bool drawNormals = false;
 		dumpMeshset(meshset, color, drawNormals, move_offset);
 	}
@@ -955,7 +976,7 @@ namespace GeomDebugDump
 
 		if( moveDumpOffset )
 		{
-			dump_y_pos_geom += bbox.extent.y * 1.1;
+			DumpData::instance().dump_y_pos_geom += bbox.extent.y * 1.1;
 		}
 	}
 	static void dumpFacePolygons(const std::vector<carve::mesh::Face<3>* >& vecFacesIn, glm::vec4& color1, bool moveDumpOffset)
@@ -975,7 +996,7 @@ namespace GeomDebugDump
 
 		if( moveDumpOffset )
 		{
-			dump_y_pos_geom += bbox.extent.y * 1.1;
+			DumpData::instance().dump_y_pos_geom += bbox.extent.y * 1.1;
 		}
 	}
 
@@ -1085,19 +1106,19 @@ namespace GeomDebugDump
 		strs_out << "Polyline{" << std::endl;
 		strs_out << "color{1,0,0,1}," << std::endl;
 		strs_out << R"(pointLabels: "no",)" << std::endl;
-		strs_out << "vertices{ {0, " << dump_y_pos_geom << ", 0}, {5, " << dump_y_pos_geom << ", 0}}" << std::endl;
+		strs_out << "vertices{ {0, " << DumpData::instance().dump_y_pos_geom << ", 0}, {5, " << DumpData::instance().dump_y_pos_geom << ", 0}}" << std::endl;
 		strs_out << std::endl << "}" << std::endl;  // Polyline
 
 		strs_out << "Polyline{" << std::endl;
 		strs_out << "color{0,1,0,1}" << std::endl;
 		strs_out << R"(pointLabels: "no",)" << std::endl;
-		strs_out << "vertices{ {0, " << dump_y_pos_geom << ", 0}, {0, " << 5 + dump_y_pos_geom << ", 0}}" << std::endl;
+		strs_out << "vertices{ {0, " << DumpData::instance().dump_y_pos_geom << ", 0}, {0, " << 5 + DumpData::instance().dump_y_pos_geom << ", 0}}" << std::endl;
 		strs_out << std::endl << "}" << std::endl;  // Polyline
 
 		strs_out << "Polyline{" << std::endl;
 		strs_out << "color{0,0,1,1}" << std::endl;
 		strs_out << R"(pointLabels: "no",)" << std::endl;
-		strs_out << "vertices{ {0, " << dump_y_pos_geom << ", 0}, {0, " << dump_y_pos_geom << ", 5}}" << std::endl;
+		strs_out << "vertices{ {0, " << DumpData::instance().dump_y_pos_geom << ", 0}, {0, " << DumpData::instance().dump_y_pos_geom << ", 5}}" << std::endl;
 		strs_out << std::endl << "}" << std::endl;  // Polyline
 
 		appendToOutput(strs_out);
@@ -1105,24 +1126,26 @@ namespace GeomDebugDump
 
 	static void dumpVertex(const vec3& point, const glm::vec4& color, std::string& label)
 	{
+		double y_pos = DumpData::instance().dump_y_pos_geom + point.y;
+
 		std::stringstream strs_out;
 		strs_out << "Vertex{" << std::endl;
 		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
-		strs_out << "coords{" << point.x << ", " << point.y + dump_y_pos_geom << ", " << point.z << "}" << std::endl;
+		strs_out << "coords{" << point.x << ", " << y_pos << ", " << point.z << "}" << std::endl;
 		strs_out << "label{\"" << label << "\"}" << std::endl;
 		strs_out << "}" << std::endl << std::endl;
-
+		std::string strs_out_str = strs_out.str();
 		appendToOutput(strs_out);
 	}
 
 	static void dumpCountLabel(const vec3& point)
 	{
-		std::string label = std::to_string(dumpCount);
+		std::string label = std::to_string(DumpData::instance().dumpCount);
 		const glm::vec4 color(0.4, 0.4, 0.15, 0.9);
 		std::stringstream strs_out;
 		strs_out << "Vertex{" << std::endl;
 		strs_out << "color{" << color.x << ", " << color.y << ", " << color.z << ", " << color.w << "}" << std::endl;
-		strs_out << "coords{" << point.x << ", " << point.y + dump_y_pos_geom << ", " << point.z << "}" << std::endl;
+		strs_out << "coords{" << point.x << ", " << point.y + DumpData::instance().dump_y_pos_geom << ", " << point.z << "}" << std::endl;
 		strs_out << "label{\"" << label << "\"}" << std::endl;
 		strs_out << "}" << std::endl << std::endl;
 

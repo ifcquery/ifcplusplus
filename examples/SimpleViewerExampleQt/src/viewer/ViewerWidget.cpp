@@ -44,15 +44,18 @@ ViewerWidget::ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget(
 	m_parent = parent;
 	m_shinyness = 35.0;
 	m_material_default = new osg::Material();
-	m_material_default->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.2f, 0.25f, 0.3f, 1.0f ) );
-	m_material_default->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4( 0.8, 0.82, 0.84, 1.0f ) );
-	m_material_default->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.2f, 0.25f, 0.3f, 1.0f ) );
+	float r = 90.6f / 175.f;
+	float g = 91.1f / 175.f;
+	float b = 84.1f / 175.f;
+	m_material_default->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4f(r, g, b, 1.0f ) );
+	m_material_default->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4(r, g, b, 1.0f ) );
+	m_material_default->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f(r, g, b, 1.0f ) );
 	m_material_default->setShininess( osg::Material::FRONT_AND_BACK, m_shinyness );
 	m_material_default->setColorMode( osg::Material::SPECULAR );
 
 	osg::ref_ptr<osg::LightModel> light_model = new osg::LightModel();
 	light_model->setTwoSided( true );
-	light_model->setAmbientIntensity( osg::Vec4f( 0.2f, 0.25f, 0.3f, 0.3f ) );
+	light_model->setAmbientIntensity( osg::Vec4f( r, g, b, 0.6f ) );
 	sys->getRootNode()->getOrCreateStateSet()->setAttribute( light_model );
 
 	m_stateset_default = sys->getModelNode()->getOrCreateStateSet();

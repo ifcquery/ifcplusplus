@@ -400,7 +400,6 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 			continue;
 		}
 
-
 		shared_ptr<IfcConversionBasedUnit> conversion_based_unit = dynamic_pointer_cast<IfcConversionBasedUnit>( unit );
 		if( conversion_based_unit )
 		{

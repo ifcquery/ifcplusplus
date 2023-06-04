@@ -356,6 +356,11 @@ bool Face<ndim>::recalc(double CARVE_EPSILON) {
             edgePtr = edgePtr->next;
         }
 
+        if (longestEdge == nullptr)
+        {
+            return false;
+        }
+
         edge_t* edge1 = longestEdge->next;
         const vector_t& pA = longestEdge->v1()->v;  // vert
         const vector_t& B = longestEdge->v2()->v;  // next->vert

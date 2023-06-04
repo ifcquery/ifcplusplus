@@ -37,7 +37,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #ifdef _DEBUG
 static int csg_compute_count = 0;
 #endif
-#define _USE_CLASSIFY_NORMAL
 
 namespace CSG_Adapter
 {
@@ -80,24 +79,22 @@ namespace CSG_Adapter
 			return false;
 		}
 
-		if( op1Orig->vertex_storage.size() > 2000 )
+		if( op1Orig->vertex_storage.size() > 4000 )
 		{
 			assignResultOnFail(op1Orig, op2Orig, operation, result);
 			return false;
 		}
 		
-		if( op2Orig->vertex_storage.size() > 2000 )
+		if( op2Orig->vertex_storage.size() > 4000 )
 		{
 			assignResultOnFail(op1Orig, op2Orig, operation, result);
 			return false;
 		}
-		
 		
 		carve::geom::aabb<3> bbox1 = op1Orig->getAABB();
 		carve::geom::aabb<3> bbox2 = op2Orig->getAABB();
 		bool result_meshset_ok = false;
-		bool normalizeCoordsInsteadOfEpsilon = normalizeCoords;
-		CarveMeshNormalizer normMesh(bbox1, bbox2, normalizeCoordsInsteadOfEpsilon);
+		CarveMeshNormalizer normMesh(bbox1, bbox2, normalizeCoords);
 		normMesh.m_disableNormalizeAll = false;
 
 		GeomProcessingParams paramsUnscaled(geomSettingsDefault, false);
@@ -109,10 +106,9 @@ namespace CSG_Adapter
 		}
 		double epsDefault = geomSettings->getEpsilonCoplanarDistance();
 		double epsMinFaceAreaDefault = geomSettings->getMinTriangleArea();
-		double CARVE_EPSILON = 10.0 * epsDefault * scale;
+		double CARVE_EPSILON = epsDefault;// 10.0 * epsDefault * scale;
 		double epsMinFaceArea = epsMinFaceAreaDefault * ( scale * scale );
 		double epsCoplanarAngle = geomSettings->getEpsilonCoplanarAngle() * scale;
-		double CARVE_EPSILON_restore = epsDefault;
 		geomSettings->setEpsilonCoplanarDistance(CARVE_EPSILON);
 		geomSettings->setEpsilonCoplanarAngle(epsCoplanarAngle);
 		geomSettings->setMinTriangleArea(epsMinFaceArea);
@@ -121,18 +117,10 @@ namespace CSG_Adapter
 		paramsScaled.callbackFunc = report_callback;
 		paramsUnscaled.ifc_entity = entity.get();
 		paramsUnscaled.callbackFunc = report_callback;
-
+		
 		bool intersecting = checkBoundinbBoxIntersection(bbox1, bbox2, operation, CARVE_EPSILON);
 		if (!intersecting)
 		{
-#ifdef _DEBUG
-			shared_ptr<carve::mesh::MeshSet<3> > op1(op1Orig->clone());
-			shared_ptr<carve::mesh::MeshSet<3> > op2(op2Orig->clone());
-			int tag = 0;
-			bool op1_dumped = false, op2_dumped = false;
-			DumpSettingsStruct dumpColorSettings;
-			dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsUnscaled);
-#endif
 			assignResultOnFail(op1Orig, op2Orig, operation, result);
 			return true;
 		}
@@ -159,7 +147,6 @@ namespace CSG_Adapter
 
 		shared_ptr<carve::mesh::MeshSet<3> > op1(op1Orig->clone());
 		shared_ptr<carve::mesh::MeshSet<3> > op2(op2Orig->clone());
-
 	
 		std::stringstream strs_err;
 		try
@@ -177,25 +164,38 @@ namespace CSG_Adapter
 			++csg_compute_count;
 			DumpSettingsStruct dumpColorSettings;
 			dumpColorSettings.eps = CARVE_EPSILON;
+			CarveMeshNormalizer normMesh_scaleMeshDump(normMesh);
 			if (!normalizeCoords)
 			{
-				dumpColorSettings.normalizer = &normMesh;
+				normMesh_scaleMeshDump.m_normalizeCoordsInsteadOfEpsilon = true;
+				paramsScaled.normalizer = &normMesh_scaleMeshDump;
+				paramsUnscaled.normalizer = &normMesh_scaleMeshDump;
 			}
 
-			if (csg_compute_count == 24  || tag == 20896)
+			if (csg_compute_count == 24  || tag == 99427)
 			{
 				dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);
-				//dumpMeshes = true;
+			}
+
+			if (infoMesh1orig.zeroAreaFaces.size() > 0)
+			{
+				dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);
+			}
+
+			if (infoMesh1orig.finEdges.size() > 0)
+			{
+				dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);
+			}
+			if (infoMesh2orig.finEdges.size() > 0)
+			{
+				dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);
 			}
 #endif
 
 			bool triangulateOperands = true;
 			bool shouldBeClosedManifold = true;
-			MeshOps::simplifyMeshSet(op1, geomSettings, paramsScaled, triangulateOperands, shouldBeClosedManifold);
-			MeshOps::simplifyMeshSet(op2, geomSettings, paramsScaled, triangulateOperands, shouldBeClosedManifold);
-
-			MeshOps::retriangulateMeshSetSimple(op1, false, paramsScaled, 0);
-			MeshOps::retriangulateMeshSetSimple(op2, false, paramsScaled, 0);
+			MeshOps::simplifyMeshSet(op1, paramsScaled, triangulateOperands, shouldBeClosedManifold);
+			MeshOps::simplifyMeshSet(op2, paramsScaled, triangulateOperands, shouldBeClosedManifold);
 
 			MeshSetInfo infoMesh1(report_callback, entity.get());
 			MeshSetInfo infoMesh2(report_callback, entity.get());
@@ -213,15 +213,60 @@ namespace CSG_Adapter
 				paramsUnscaled.allowFinEdges = true;
 			}
 
+			if (infoMesh1orig.zeroAreaFaces.size() > 0)
+			{
+				paramsScaled.allowZeroAreaFaces = true;  // temp
+				paramsUnscaled.allowZeroAreaFaces = true;  // temp
+			}
+
 			if (!operand1valid && operand1origvalid)
 			{
+#ifdef _DEBUG
+				dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);
+				double vol1 = MeshOps::computeMeshsetVolume(op1.get());
+				{
+					shared_ptr<carve::mesh::MeshSet<3> > op1Clone(op1Orig->clone());
+					MeshSetInfo infoMesh1copy(report_callback, entity.get());
+					MeshOps::checkMeshSetValidAndClosed(op1Clone, infoMesh1copy, paramsScaled);
+					normMesh.normalizeMesh(op1Clone, "op1Clone", CARVE_EPSILON);
+
+					MeshOps::simplifyMeshSet(op1Clone, paramsScaled, triangulateOperands, shouldBeClosedManifold);
+
+					MeshSetInfo infoMesh1AfterSimplify(report_callback, entity.get());
+					bool operand1CloneValid = MeshOps::checkMeshSetValidAndClosed(op1Clone, infoMesh1AfterSimplify, paramsScaled);
+					if (operand1CloneValid)
+					{
+						int wait = 0;
+					}
+				}
+
+#endif
+
 				op1 = shared_ptr<carve::mesh::MeshSet<3> >(op1Orig->clone());
 				MeshSetInfo infoMesh1copy(report_callback, entity.get());
-				bool operand1copy_valid = MeshOps::checkMeshSetValidAndClosed(op1, infoMesh1copy, paramsUnscaled);
+				MeshOps::checkMeshSetValidAndClosed(op1, infoMesh1copy, paramsUnscaled);
 
 				normMesh.normalizeMesh(op1, "op1orig", CARVE_EPSILON);
 				operand1valid = MeshOps::checkMeshSetValidAndClosed(op1, infoMesh1, paramsScaled);
 				if (!operand1valid && operand1origvalid)
+				{
+					// normalizing changed the validity, should not happen
+#ifdef _DEBUG
+					dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);
+					double vol1 = MeshOps::computeMeshsetVolume(op1.get());
+#endif
+				}
+			}
+
+			if (!operand2valid && operand2origvalid)
+			{
+				op1 = shared_ptr<carve::mesh::MeshSet<3> >(op2Orig->clone());
+				MeshSetInfo infoMesh2copy(report_callback, entity.get());
+				bool operand2copy_valid = MeshOps::checkMeshSetValidAndClosed(op2, infoMesh2copy, paramsUnscaled);
+
+				normMesh.normalizeMesh(op2, "op2orig", CARVE_EPSILON);
+				operand2valid = MeshOps::checkMeshSetValidAndClosed(op2, infoMesh2, paramsScaled);
+				if (!operand2valid && operand2origvalid)
 				{
 					// normalizing changed the validity, should not happen
 #ifdef _DEBUG
@@ -234,6 +279,11 @@ namespace CSG_Adapter
 
 			if( !operand1valid || !operand2valid )
 			{
+#ifdef _DEBUG
+
+				dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);
+				double vol2 = MeshOps::computeMeshsetVolume(op2.get());
+#endif
 				assignResultOnFail(op1Orig, op2Orig, operation, result);
 				return false;
 			}
@@ -269,13 +319,22 @@ namespace CSG_Adapter
 				
 				dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);
 				double vol2 = MeshOps::computeMeshsetVolume(op2.get());
+				double volume_result = MeshOps::computeMeshsetVolume(result.get());
+
+				if (triangulateOperands)
+				{
+					if (infoMesh1.maxNumberOfEdgesPerFace != 3 || infoMesh2.maxNumberOfEdgesPerFace != 3)
+					{
+						std::cout << "not triangulated" << std::endl;
+					}
+				}
 #endif
-				MeshOps::fixMeshset(result, geomSettings, paramsScaled.debugDump);
+				MeshOps::simplifyMeshSet(result, paramsScaled, triangulateOperands, shouldBeClosedManifold);
 				result_meshset_ok = MeshOps::checkMeshSetValidAndClosed(result, infoResult, paramsScaled);
 			}
 
 #ifdef _DEBUG
-			if (csg_compute_count > 15)
+			if (!result_meshset_ok)
 			{
 				double vol2 = MeshOps::computeMeshsetVolume(op2.get());
 				dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);
@@ -283,8 +342,6 @@ namespace CSG_Adapter
 #endif
 
 			// TODO: check for fail with closed mesh, but not fully sliced through.
-
-#ifdef _USE_CLASSIFY_NORMAL
 			if (!result_meshset_ok)
 			{
 				carve::csg::CSG csg(CARVE_EPSILON);
@@ -296,11 +353,11 @@ namespace CSG_Adapter
 #ifdef _DEBUG
 					dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);
 #endif
-					MeshOps::fixMeshset(result, geomSettings, paramsScaled.debugDump);
+
+					MeshOps::simplifyMeshSet(result, paramsScaled, triangulateOperands, shouldBeClosedManifold);
 					result_meshset_ok = MeshOps::checkMeshSetValidAndClosed(result, infoResult, paramsScaled);
 				}
 			}
-#endif
 
 #ifdef _DEBUG
 			double vol = MeshOps::computeMeshsetVolume(result.get());
@@ -366,7 +423,6 @@ namespace CSG_Adapter
 
 		normMesh.deNormalizeMesh(result, "", CARVE_EPSILON);
 
-
 #ifdef _DEBUG
 		{
 			// de-normalized:
@@ -411,6 +467,7 @@ namespace CSG_Adapter
 			MeshSetInfo infoMesh1(report_callback, entity.get());
 			bool allowFinEdges = false;
 			GeomProcessingParams params(geomSettings, false);
+			params.allowZeroAreaFaces = true; // will be removed later
 			bool operand1valid = MeshOps::checkMeshSetValidAndClosed(op1, infoMesh1, params);
 
 			if (!operand1valid)
@@ -432,14 +489,16 @@ namespace CSG_Adapter
 
 #ifdef _DEBUG
 
-				MeshSetInfo infoMesh1(report_callback, entity.get());
+				MeshSetInfo infoMesh1_2(report_callback, entity.get());
 				bool allowFinEdges = false;
 				GeomProcessingParams params(geomSettings, false);
-				bool operand1valid_2 = MeshOps::checkMeshSetValidAndClosed(op1, infoMesh1, params);
+				bool operand1valid_2 = MeshOps::checkMeshSetValidAndClosed(op1, infoMesh1_2, params);
 
 				if (!operand1valid_2)
 				{
-					std::cout << "!operand1valid" << std::endl;
+					std::cout << "!operand1valid after computeCSG_Carve" << std::endl;
+					DumpSettingsStruct dumpSet;
+					dumpWithLabel("computeCSG_Carve:result:op1 ", op1, dumpSet, params, true, true);
 				}
 #endif
 				continue;
@@ -463,7 +522,7 @@ namespace CSG_Adapter
 
 				if (!operand1valid_3)
 				{
-					std::cout << "!operand1valid" << std::endl;
+					std::cout << "!operand1valid_3 computeCSG_Carve" << std::endl;
 				}
 			}
 #endif

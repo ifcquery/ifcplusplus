@@ -80,7 +80,6 @@ public:
 	void convertIfcSurface( const shared_ptr<IfcSurface>& surface, shared_ptr<ItemShapeData>& item_data, shared_ptr<SurfaceProxy>& surface_proxy, double plane_span_default = -1)
 	{
 		//ENTITY IfcSurface ABSTRACT SUPERTYPE OF(ONEOF(IfcBoundedSurface, IfcElementarySurface, IfcSweptSurface))
-
 		shared_ptr<IfcBoundedSurface> bounded_surface = dynamic_pointer_cast<IfcBoundedSurface>( surface );
 		if( bounded_surface )
 		{
@@ -144,7 +143,7 @@ public:
 				bool mergeAlignedEdges = true;
 				GeomProcessingParams params( m_geom_settings, outer_boundary.get(),  this );
 				createTriangulated3DFace( face_loops, poly_cache, params );
-				item_data->addOpenPolyhedron( poly_cache.m_poly_data, CARVE_EPSILON );
+				item_data->addOpenPolyhedron( poly_cache.m_poly_data, params );
 				item_data->applyTransformToItem( curve_bounded_plane_matrix );
 			}
 			else if( dynamic_pointer_cast<IfcCurveBoundedSurface>( bounded_surface ) )
@@ -155,10 +154,6 @@ public:
 				{
 					convertIfcSurface( basis_surface, item_data, surface_proxy );
 				}
-
-
-				//std::vector<shared_ptr<IfcBoundaryCurve> >& vec_boundaries = curve_bounded_surface->m_Boundaries;
-				//bool implicit_outer = curve_bounded_surface->m_ImplicitOuter;
 
 				// TODO: implement
 #ifdef _DEBUG
@@ -425,11 +420,6 @@ public:
 				//params.debugDump = true;
 			}
 
-			//if( ifc_face->m_tag == 2529 )
-			//{
-			//	params.debugDump = true;
-			//}
-
 			if( params.debugDump )
 			{
 				glm::vec4 color(0.5, 0.6, 0.7, 1.0);
@@ -456,11 +446,11 @@ public:
 		// IfcFaceList can be a closed or open shell
 		if( st == SHELL_TYPE_UNKONWN )
 		{
-			item_data->addOpenOrClosedPolyhedron( poly_cache.m_poly_data, CARVE_EPSILON );
+			item_data->addOpenOrClosedPolyhedron( poly_cache.m_poly_data, params );
 		}
 		else if( st == OPEN_SHELL )
 		{
-			item_data->addOpenPolyhedron( poly_cache.m_poly_data, CARVE_EPSILON );
+			item_data->addOpenPolyhedron( poly_cache.m_poly_data, params );
 		}
 		else if( st == CLOSED_SHELL )
 		{
@@ -554,7 +544,7 @@ public:
 	///\param[in] inputBounds3D: Curves as face boundaries. The first input curve is the outer boundary, succeeding curves are inner boundaries
 	///\param[in] ifc_entity: Ifc entity that the geometry belongs to, just for error messages. Pass a nullptr if no entity at hand.
 	///\param[out] meshOut: Result mesh
-	static void createTriangulated3DFace(const std::vector<std::vector<vec3> >& inputBounds3D, PolyInputCache3D& meshOut, GeomProcessingParams& params)
+	static void createTriangulated3DFace(const std::vector<std::vector<vec3> >& inputBounds3D, PolyInputCache3D& meshOut, const GeomProcessingParams& params)
 	{
 		double eps = params.epsMergePoints;
 		if (inputBounds3D.size() == 1)
@@ -594,10 +584,7 @@ public:
 				const vec3& v1 = outerLoop[1];
 				const vec3& v2 = outerLoop[2];
 				const vec3& v3 = outerLoop[3];
-
 				addFaceCheckIndexes(v0, v1, v2, v3, meshOut, eps);
-
-
 
 #ifdef _DEBUG
 				if (params.debugDump)
@@ -649,8 +636,10 @@ public:
 				}
 			}
 
-			//bool mergeAlignedEdges = true;
-			GeomUtils::simplifyPolygon(loopPoints3Dinput, params.epsMergePoints, params.epsMergeAlignedEdgesAngle);
+			if (params.mergeAlignedEdges)
+			{
+				//GeomUtils::simplifyPolygon(loopPoints3Dinput, params.epsMergePoints, params.epsMergeAlignedEdgesAngle);
+			}
 			GeomUtils::unClosePolygon(loopPoints3Dinput);
 			normal = GeomUtils::computePolygonNormal(loopPoints3Dinput);
 
@@ -715,7 +704,7 @@ public:
 			}
 
 			double loop_area = std::abs(GeomUtils::signedArea(path_loop_2d));
-			double min_loop_area = EPS_DEFAULT;
+			double min_loop_area = params.minFaceArea;
 			if (loop_area < min_loop_area)
 			{
 				warning_small_loop_detected = true;

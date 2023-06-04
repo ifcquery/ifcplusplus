@@ -411,7 +411,7 @@ public:
 	}
 
 	//\brief translates an IfcObjectPlacement (or subtype) to carve Matrix
-	inline void convertIfcObjectPlacement( const shared_ptr<IfcObjectPlacement>& ifc_object_placement, shared_ptr<ProductShapeData>& product_data, 
+	inline void convertIfcObjectPlacement( const shared_ptr<IfcObjectPlacement>& ifc_object_placement, shared_ptr<ProductShapeData>& product_data,  
 		std::unordered_set<IfcObjectPlacement*>& placement_already_applied, bool only_rotation )
 	{
 		if( !ifc_object_placement )

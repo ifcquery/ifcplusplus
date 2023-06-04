@@ -22,20 +22,29 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/StatusCallback.h>
 #include "GeometryInputData.h"
 
-struct CarveMeshNormalizer
+class CarveMeshNormalizer
 {
+private:
+	double m_scale = 1.0;
+	vec3 m_normalizeCenter;
+	std::map<std::string, carve::mesh::MeshSet<3>* > m_normalizedMeshes;
+
+public:
+	bool m_disableNormalizeAll = false;
+	bool m_normalizeCoordsInsteadOfEpsilon = false;
+
 	CarveMeshNormalizer(bool normalizeCoordsInsteadOfEpsilon)
 	{
 		m_normalizeCoordsInsteadOfEpsilon = normalizeCoordsInsteadOfEpsilon;
 	}
 
-	CarveMeshNormalizer(const CarveMeshNormalizer* other)
+	CarveMeshNormalizer(const CarveMeshNormalizer& other)
 	{
-		this->m_disableNormalizeAll = other->m_disableNormalizeAll;
-		this->m_scale = other->m_scale;
-		this->m_normalizeCenter = other->m_normalizeCenter;
-		this->m_normalizedMeshes = other->m_normalizedMeshes;
-		this->m_normalizeCoordsInsteadOfEpsilon = other->m_normalizeCoordsInsteadOfEpsilon;
+		this->m_disableNormalizeAll = other.m_disableNormalizeAll;
+		this->m_scale = other.m_scale;
+		this->m_normalizeCenter = other.m_normalizeCenter;
+		//this->m_normalizedMeshes = other->m_normalizedMeshes;
+		this->m_normalizeCoordsInsteadOfEpsilon = other.m_normalizeCoordsInsteadOfEpsilon;
 	}
 
 	CarveMeshNormalizer(const carve::geom::aabb<3>& bbox1, const carve::geom::aabb<3>& bbox2, bool normalizeCoordsInsteadOfEpsilon)
@@ -175,14 +184,6 @@ struct CarveMeshNormalizer
 			mesh->recalc(eps);
 		}
 	}
-
-	bool m_disableNormalizeAll = false;
-	bool m_normalizeCoordsInsteadOfEpsilon = false;
-
-private:
-	double m_scale = 1.0;
-	vec3 m_normalizeCenter;
-	std::map<std::string, carve::mesh::MeshSet<3>* > m_normalizedMeshes;
 };
 
 class MeshOps
@@ -191,46 +192,37 @@ public:
 	static double computeFaceArea(const carve::mesh::Face<3>* face);
 	static double computeFaceArea(const carve::mesh::Face<3>* face, double& longestEdge);
 	static size_t getNumFaces(const carve::mesh::MeshSet<3>* meshset);
-	static size_t getNumClosedEdges(const carve::mesh::MeshSet<3>* meshset);
 	static void recalcMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshset, double CARVE_EPSILON);
-	static bool checkMeshSetVolume(const shared_ptr<carve::mesh::MeshSet<3> >& mesh_set, StatusCallback* report_callback, BuildingEntity* entity, double CARVE_EPSILON);
 	static void checkFaceLoops(const carve::mesh::Face<3>* face);
 	static size_t countFaces(carve::mesh::MeshSet<3>* mesh);
 	static size_t countDegeneratedFaces(carve::mesh::MeshSet<3>* mesh);
-	static bool checkMeshsetTriangulated(const shared_ptr<carve::mesh::MeshSet<3>>& meshset);
 					
-	/// \brief simplifyMeshSet merge coplanar faces and re-triangulate each set of merged faces
-	/// \param meshset				Carve meshset
-	/// \param report_callback		callback function for errors, warnings, notifications, progress
-	/// \param entity				IFC entity that is currently being processed
-	/// \param ignoreOpenEdgesInResult	If true, the result is kept even with open edges (good for visualization). If false, the result will be the input mesh in case open edges occur after triangulation (good for further boolean operations)
-	static void simplifyMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshset, shared_ptr<GeometrySettings>& geomSettings, GeomProcessingParams& params, bool triangulateResult, bool shouldBeClosedManifold);
-	static void simplifyMeshSet(std::vector<shared_ptr<carve::mesh::MeshSet<3>> >& meshsets, shared_ptr<GeometrySettings>& geomSettings, GeomProcessingParams& params, bool triangulateResult, bool shouldBeClosedManifold);
-
+	static void retriangulateMeshSetForBoolOp(shared_ptr<carve::mesh::MeshSet<3> >& meshset, bool ignoreResultOpenEdges, const GeomProcessingParams& params, size_t retryCount);
+	static void retriangulateMeshSetForBoolOp_carve(shared_ptr<carve::mesh::MeshSet<3> >& meshset, bool ignoreResultOpenEdges, const GeomProcessingParams& params, size_t retryCount);
+	static void retriangulateMeshSetForBoolOp_earcut(shared_ptr<carve::mesh::MeshSet<3> >& meshset, bool ignoreResultOpenEdges, const GeomProcessingParams& params, size_t retryCount);
 	
-	static void retriangulateMeshSetSimple(shared_ptr<carve::mesh::MeshSet<3> >& meshset, bool ignoreResultOpenEdges, GeomProcessingParams& params, size_t retryCount);
+	/// \brief retriangulateMeshSetForExport: triangulate mesh, with priority of not skipping triangles, mesh does not need to be closed and valid for boolean operations
+	static void retriangulateMeshSetForExport(shared_ptr<carve::mesh::MeshSet<3> >& meshset, const GeomProcessingParams& params);
 
-	static void retriangulateMeshSetSimple(std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& meshsets, bool ignoreResultOpenEdges, GeomProcessingParams& params, size_t retryCount);
+	static void intersectOpenEdgesWithPoints(shared_ptr<carve::mesh::MeshSet<3> >& meshset, const GeomProcessingParams& params);
 
-	static void intersectOpenEdgesWithPoints(shared_ptr<carve::mesh::MeshSet<3> >& meshset, GeomProcessingParams& params);
+	static void intersectOpenEdgesWithEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, const GeomProcessingParams& params);
 
-	static void intersectOpenEdgesWithEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, GeomProcessingParams& params);
+	static bool isBetterForBoolOp(const MeshSetInfo& infoNew, const MeshSetInfo& infoBefore, bool considerTriangulation);
 
-	static bool checkMeshSetValidAndClosed(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, MeshSetInfo& info, GeomProcessingParams& params );
+	static bool checkMeshSetValidAndClosed(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, MeshSetInfo& info, const GeomProcessingParams& params );
 
-	static bool checkMeshSetNonNegativeAndClosed(const shared_ptr<carve::mesh::MeshSet<3>> mesh_set, GeomProcessingParams& params);
+	static bool checkMeshSetNonNegativeAndClosed(const shared_ptr<carve::mesh::MeshSet<3>> mesh_set, const GeomProcessingParams& params);
 
-	static void checkMeshPointers(const carve::mesh::Mesh<3>* mesh, bool checkForDegenerateEdges, GeomProcessingParams& params, MeshSetInfo& info);
+	static void checkMeshPointers(const carve::mesh::Mesh<3>* mesh, bool checkForDegenerateEdges, const GeomProcessingParams& params, MeshSetInfo& info);
 
-	static void checkMeshSetPointers(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, bool checkForDegenerateEdges, GeomProcessingParams& params, MeshSetInfo& info);
+	static void checkMeshSetPointers(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, bool checkForDegenerateEdges, const GeomProcessingParams& params, MeshSetInfo& info);
 
-	static void fixMeshset(shared_ptr<carve::mesh::MeshSet<3> >& meshset, shared_ptr<GeometrySettings>& geomSettings, bool dumpMeshes);
+	static void resolveOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, const GeomProcessingParams& params);
 
-	static void resolveOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, GeomProcessingParams& params);
+	static void flattenFacePlanes(shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, const GeomProcessingParams& params);
 
-	static void flattenFacePlanes(shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, GeomProcessingParams& params);
-
-	static void removeDegenerateFacesInMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput, GeomProcessingParams& params);
+	static void removeDegenerateFacesInMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput, const GeomProcessingParams& params, bool ensureValidMesh);
 
 	static vec3 computeFaceNormal(carve::mesh::Face<3>* face);
 
@@ -244,4 +236,12 @@ public:
 	static std::shared_ptr<carve::mesh::MeshSet<3> > createPlaneMesh(vec3& p0, vec3& p1, vec3& p2, vec3& p3, double CARVE_EPSILON);
 	static std::shared_ptr<carve::mesh::MeshSet<3> > createBoxMesh(vec3& pos, vec3& extent, carve::math::Matrix& transform, double CARVE_EPSILON);
 	static void boundingBox2Mesh(carve::geom::aabb<3>& bbox, shared_ptr<carve::mesh::MeshSet<3> >& meshset, double CARVE_EPSILON);
+
+/// \brief simplifyMeshSet merge coplanar faces and re-triangulate each set of merged faces
+/// \param meshset				Carve meshset
+/// \param report_callback		callback function for errors, warnings, notifications, progress
+/// \param entity				IFC entity that is currently being processed
+/// \param ignoreOpenEdgesInResult	If true, the result is kept even with open edges (good for visualization). If false, the result will be the input mesh in case open edges occur after triangulation (good for further boolean operations)
+	static void simplifyMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshset, const GeomProcessingParams& params, bool triangulateResult, bool shouldBeClosedManifold);
+
 };

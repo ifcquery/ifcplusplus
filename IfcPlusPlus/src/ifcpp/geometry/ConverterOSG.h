@@ -730,8 +730,8 @@ public:
 			double epsCoplanarFacesAngle = eps;
 			double minFaceArea = eps;
 			bool dumpMeshes = false;
-			GeomProcessingParams params(eps, epsCoplanarFacesAngle, minFaceArea, dumpMeshes);
-			MeshOps::retriangulateMeshSetSimple(item_meshset, true, params, 0);
+			GeomProcessingParams params( m_geom_settings, dumpMeshes);
+			MeshOps::retriangulateMeshSetForExport(item_meshset, params);
 			drawMeshSet(item_meshset, geode, crease_angle, min_triangle_area, false, disableBackfaceCulling);
 
 			if (m_render_crease_edges)

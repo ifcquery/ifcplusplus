@@ -354,10 +354,9 @@ public:
 			}
 		}
 
-
 		double angle = resultAngle;
 		size_t smallestDistanceAngle = resultAngle;
-		double angleStep = 0.1;// deltaAngle * 0.2;
+		double angleStep = 0.1;
 		double x0 = smallestDistanceAngle;
 		double x1 = smallestDistanceAngle + angleStep;
 		double x2 = x1;

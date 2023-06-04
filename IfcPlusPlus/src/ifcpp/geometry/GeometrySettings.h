@@ -132,6 +132,7 @@ public:
 
 	std::set<uint32_t> m_render_object_filter;
 	size_t m_maxNumFaceEdges = 10000;
+	bool m_mergeAlignedEdges = true;
 
 protected:
 	int	m_num_vertices_per_circle = 14;
@@ -155,52 +156,57 @@ protected:
 	};
 };
 
+class CarveMeshNormalizer;
 struct GeomProcessingParams
 {
-	GeomProcessingParams(double epsMergePoints, double epsMergeAlignedEdgesAngle, double minFaceArea, bool dumpMeshes)
-	{
-		this->epsMergePoints = epsMergePoints;
-		this->epsMergeAlignedEdgesAngle = epsMergeAlignedEdgesAngle;
-		this->minFaceArea = minFaceArea;
-		this->debugDump = dumpMeshes;
-	}
 	GeomProcessingParams( shared_ptr<GeometrySettings>& generalSettings )
 	{
 		epsMergePoints = generalSettings->getEpsilonCoplanarDistance();
 		epsMergeAlignedEdgesAngle = generalSettings->getEpsilonCoplanarAngle();
 		minFaceArea = generalSettings->getMinTriangleArea();
+		mergeAlignedEdges = generalSettings->m_mergeAlignedEdges;
+		this->generalSettings = generalSettings;
 	}
-	GeomProcessingParams(shared_ptr<GeometrySettings>& generalSettings, bool dumpMeshes)
+	GeomProcessingParams(shared_ptr<GeometrySettings>& generalSettings, bool dumpMeshes) : GeomProcessingParams(generalSettings)
 	{
-		epsMergePoints = generalSettings->getEpsilonCoplanarDistance();
-		epsMergeAlignedEdgesAngle = generalSettings->getEpsilonCoplanarAngle();
-		minFaceArea = generalSettings->getMinTriangleArea();
 		this->debugDump = dumpMeshes;
 	}
-	GeomProcessingParams( shared_ptr<GeometrySettings>& generalSettings, BuildingEntity* ifc_entity, StatusCallback* callbackFunc)
+	GeomProcessingParams( shared_ptr<GeometrySettings>& generalSettings, BuildingEntity* ifc_entity, StatusCallback* callbackFunc) : GeomProcessingParams(generalSettings)
 	{
-		epsMergePoints = generalSettings->getEpsilonCoplanarDistance();
-		epsMergeAlignedEdgesAngle = generalSettings->getEpsilonCoplanarAngle();
 		this->ifc_entity = ifc_entity;
 		this->callbackFunc = callbackFunc;
-		minFaceArea = generalSettings->getMinTriangleArea();
 	}
-	GeomProcessingParams(const GeomProcessingParams& other)
+	GeomProcessingParams(const GeomProcessingParams& other) //= default; // TODO check this default copy constructor on Win/Linux
 	{
-		this->debugDump = other.debugDump;
+		this->generalSettings = other.generalSettings;
+		this->ifc_entity = other.ifc_entity;
+		this->callbackFunc = other.callbackFunc;
 		this->epsMergePoints = other.epsMergePoints;
 		this->epsMergeAlignedEdgesAngle = other.epsMergeAlignedEdgesAngle;
 		this->minFaceArea = other.minFaceArea;
-		this->ifc_entity = other.ifc_entity;
-		this->callbackFunc = other.callbackFunc;
+		this->mergeAlignedEdges = other.mergeAlignedEdges;
+		this->allowFinEdges = other.allowFinEdges;
+		this->allowDegenerateEdges = other.allowDegenerateEdges;
+		this->checkZeroAreaFaces = other.checkZeroAreaFaces;
+		this->allowZeroAreaFaces = other.allowZeroAreaFaces;
+		this->debugDump = other.debugDump;
+		this->normalizer = other.normalizer;
 	}
+	shared_ptr<GeometrySettings> generalSettings;
+	BuildingEntity* ifc_entity = nullptr;
+	StatusCallback* callbackFunc = nullptr;
+
 	double epsMergePoints = 1e-9;
 	double epsMergeAlignedEdgesAngle = 1e-10;
 	double minFaceArea = 1e-12;
+	bool mergeAlignedEdges = true;
 	bool allowFinEdges = false;
 	bool allowDegenerateEdges = false;
+	bool checkZeroAreaFaces = true;
+	bool allowZeroAreaFaces = false;
 	bool debugDump = false;
-	
-	BuildingEntity* ifc_entity = nullptr;
-	StatusCallback* callbackFunc = nullptr;
+	CarveMeshNormalizer* normalizer = nullptr;
+
+	// config
+	bool treatLongThinFaceAsDegenerate = false;
 };
