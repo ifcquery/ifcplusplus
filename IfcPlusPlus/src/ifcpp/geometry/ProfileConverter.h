@@ -188,7 +188,7 @@ public:
 
 		shared_ptr<IfcCurve> ifc_curve = profile->m_Curve;
 		const shared_ptr<UnitConverter>& uc = m_curve_converter->getPointConverter()->getUnitConverter();
-		double CARVE_EPSILON = m_curve_converter->getGeomSettings()->getEpsilonCoplanarDistance();
+		double CARVE_EPSILON = m_curve_converter->getGeomSettings()->getEpsilonMergePoints();
 
 		// IfcCenterLineProfileDef
 		shared_ptr<IfcCenterLineProfileDef> center_line_profile_def = dynamic_pointer_cast<IfcCenterLineProfileDef>( profile );
@@ -1048,8 +1048,10 @@ public:
 		simplifyPaths( m_paths );
 	}
 
-	static void simplifyPaths( std::vector<std::vector<vec2> >& paths )
+	void simplifyPaths( std::vector<std::vector<vec2> >& paths )
 	{
+		double epsMergePoints = m_curve_converter->getGeomSettings()->getEpsilonMergePoints();
+		double epsAngleAlignedEdges = m_curve_converter->getGeomSettings()->getEpsilonCoplanarAngle();
 		for( std::vector<std::vector<vec2> >::iterator it_paths = paths.begin(); it_paths != paths.end(); ++it_paths )
 		{
 			std::vector<vec2>& path = ( *it_paths );
@@ -1057,11 +1059,11 @@ public:
 			{
 				continue;
 			}
-			simplifyPath( path );
+			simplifyPath( path, epsMergePoints, epsAngleAlignedEdges);
 		}
 	}
 
-	static void simplifyPath( std::vector<vec2>& path )
+	static void simplifyPath( std::vector<vec2>& path, double epsMergePoints, double epsAngleAlignedEdges )
 	{
 		if( path.size() < 3 )
 		{
@@ -1074,7 +1076,7 @@ public:
 			vec2& current = path[i];
 
 			vec2 segment1 = current - previous;
-			if( segment1.length2() < 0.000000001 )
+			if( segment1.length2() < epsMergePoints)
 			{
 				path.erase( path.begin() + i );
 				continue;
@@ -1093,7 +1095,7 @@ public:
 			vec2 segment2 = next - current;
 			segment2.normalize();
 			double angle = std::abs( segment1.x*segment2.x + segment1.y*segment2.y );
-			if( std::abs( angle - 1 ) < 0.00001 )
+			if( std::abs( angle - 1 ) < epsAngleAlignedEdges)
 			{
 				// points are colinear, current point can be removed
 				path.erase( path.begin() + i );
@@ -1111,14 +1113,14 @@ public:
 			vec2& first = path.front();
 			vec2& last = path.back();
 
-			if( ( last - first ).length2() < 0.000001 )
+			if( ( last - first ).length2() < epsMergePoints)
 			{
 				vec2 first_segment = path[1] - first;
 				first_segment.normalize();
 				vec2 last_segment = last - path[path.size() - 2];
 				last_segment.normalize();
 				double angle = std::abs( first_segment.x*last_segment.x + first_segment.y*last_segment.y );
-				if( std::abs( angle - 1 ) < 0.00001 )
+				if( std::abs( angle - 1 ) < epsAngleAlignedEdges)
 				{
 					// remove first and last point
 					path.erase( path.begin() );

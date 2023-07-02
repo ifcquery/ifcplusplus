@@ -19,6 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
+#include "ifcpp/model/BuildingModel.h"
 #include "ifcpp/model/StatusCallback.h"
 
 class IFCQUERY_EXPORT ReaderSTEP : public StatusCallback

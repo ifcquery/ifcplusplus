@@ -138,7 +138,7 @@ public:
 
 	void setCsgEps(double eps)
 	{
-		m_geom_settings->setEpsilonCoplanarDistance(eps);
+		m_geom_settings->setEpsilonMergePoints(eps);
 	}
 
 	void setModel( shared_ptr<BuildingModel> model )
@@ -658,9 +658,9 @@ public:
 		setCsgEps(1.5e-08 * length_in_meter);
 		if( std::abs(length_in_meter) > EPS_M14 )
 		{
-			double eps = m_geom_settings->getEpsilonCoplanarDistance();
+			double eps = m_geom_settings->getEpsilonMergePoints();
 			eps /= length_in_meter;
-			m_geom_settings->setEpsilonCoplanarDistance(eps);
+			m_geom_settings->setEpsilonMergePoints(eps);
 			m_geom_settings->setEpsilonCoplanarAngle(eps * 0.1);
 		}
 

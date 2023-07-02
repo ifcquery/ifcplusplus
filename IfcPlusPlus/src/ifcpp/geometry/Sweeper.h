@@ -241,7 +241,7 @@ public:
 #ifdef _DEBUG
 		if( params.ifc_entity )
 		{
-			if( params.ifc_entity->m_tag == 258816 )
+			if( params.ifc_entity->m_tag == 373882)
 			{
 				glm::vec4 color(0.3, 0.4, 0.5, 1.0);
 				for( size_t ii = 0; ii < faceLoopsTriangulate.size(); ++ii )
@@ -841,7 +841,7 @@ public:
 		vec3 normal_first_loop;
 		bool warning_small_loop_detected = false;
 		bool polyline_created = false;
-		double eps = m_geom_settings->getEpsilonCoplanarDistance();
+		double eps = m_geom_settings->getEpsilonMergePoints();
 		
 		for( size_t i_face_loops = 0; i_face_loops < profile_paths_input.size(); ++i_face_loops )
 		{
@@ -1074,7 +1074,7 @@ public:
 		//  |                            |
 		//  0-------face_loops[0]--------1
 
-		double eps = m_geom_settings->getEpsilonCoplanarDistance();
+		double eps = m_geom_settings->getEpsilonMergePoints();
 		std::vector<std::vector<std::vector<vec2> > > profile_paths_enclosed;
 		findEnclosedLoops(profile_paths_input, profile_paths_enclosed, eps);
 

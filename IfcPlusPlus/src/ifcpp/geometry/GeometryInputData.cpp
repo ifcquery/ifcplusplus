@@ -558,23 +558,28 @@ bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::Polyhedro
 		else
 		{
 			shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(mesh_input_options, eps));
-
-#ifdef _DEBUG
-			//std::cout << "failed to correct polyhedron data\n";
-			if (params.debugDump)
-			{
-				glm::vec4 color(0.3, 0.4, 0.5, 1.0);
-				GeomDebugDump::dumpMeshsetOpenEdges(meshset, color, false, false);
-				GeomDebugDump::dumpMeshset(meshset.get(), color, false);
-			}
-#endif
-
 			bool triangulateOperands = false;
 			bool shouldBeClosedManifold = true;
-			//MeshOps::fixMeshset(meshset, params);
 			MeshOps::simplifyMeshSet(meshset, params, triangulateOperands, shouldBeClosedManifold);
+
+			MeshSetInfo infoTriangulated;
+			bool validMesh = MeshOps::checkMeshSetValidAndClosed(meshset, infoTriangulated, params);
+			if (validMesh)
+			{
+				m_meshsets.push_back(meshset);
+				return true;
+			}
 		}
 	}
+
+#ifdef _DEBUG
+	//std::cout << "failed to correct polyhedron data\n";
+	if (params.debugDump)
+	{
+		GeomDebugDump::DumpSettingsStruct dumpColorSettings;
+		dumpWithLabel("addClosedPolyhedron::meshsetUnchanged", meshsetUnchanged, dumpColorSettings, params, true, false);
+	}
+#endif
 
 	if (meshsetUnchanged->isClosed())
 	{

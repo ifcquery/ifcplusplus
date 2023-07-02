@@ -57,7 +57,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <windows.h>
 #include <tchar.h>
 #endif
-#include <external/zip-master/zip.h>
+
+#include <external/zippy/zippy.hpp>
 
 #include "ifcpp/model/OpenMPIncludes.h"
 #include "ReaderUtil.h"
@@ -85,7 +86,7 @@ void ReaderSTEP::loadModelFromFile( const std::string& filePath, shared_ptr<Buil
 		messageCallback( "ifcXML not yet implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
-	else if( std_iequal( ext, ".ifcZIP" ) || std_iequal(ext, ".zip") )
+	else if( std_iequal(ext, ".ifcZIP") || std_iequal(ext, ".zip") )
 	{
 		std::stringstream buffer;
 		buffer.seekp(0, std::ios::end);
@@ -93,28 +94,31 @@ void ReaderSTEP::loadModelFromFile( const std::string& filePath, shared_ptr<Buil
 
 		uncompressedFileName = filePath + "_uncompressed77334.ifc";
 
-		struct zip_t* zip = zip_open(filePath.c_str(), 0, 'r');
-		if( zip )
+		std::shared_ptr<Zippy::ZipArchive> archive(new Zippy::ZipArchive());
+		archive->Open(filePath.c_str());
+
+		std::vector<std::string> entryNames = archive->GetEntryNames();
+		if( entryNames.size() == 0 )
 		{
-			zip_entry_openbyindex(zip, 0);
-			{
-				zip_entry_fread(zip, uncompressedFileName.c_str());
-			}
-			zip_entry_close(zip);
-			zip_close(zip);
+			return;
 		}
-		
+
+		std::string zipcontent = archive->GetEntry(entryNames[0]).GetDataAsString();
+		std::ofstream zipFileUncompressed(uncompressedFileName, std::ofstream::out);
+		zipFileUncompressed << zipcontent;
+		zipFileUncompressed.close();
 
 		std::ifstream infile;
 		infile.open(uncompressedFileName.c_str(), std::ifstream::in);
 
-		if (!infile.is_open())
+		if( !infile.is_open() )
 		{
 			std::stringstream strs;
 			strs << "Could not unzip file: " << filePath;
 			messageCallback(strs.str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
 			return;
 		}
+
 
 		filePathRead = uncompressedFileName;
 	}
@@ -599,7 +603,7 @@ void ReaderSTEP::readEntityArguments(std::vector<std::pair<std::string, shared_p
 				{
 					if (arguments_decoded[2].compare(".T.") == 0 || arguments_decoded[2].compare(".F.") == 0)
 					{
-						std::swap(arguments_decoded[2], arguments_decoded[1]);
+						//std::swap(arguments_decoded[2], arguments_decoded[1]);
 					}
 				}
 			}

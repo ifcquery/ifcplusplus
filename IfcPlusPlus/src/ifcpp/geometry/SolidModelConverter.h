@@ -442,7 +442,7 @@ public:
 		}
 
 		// triangulate
-		double eps = m_geom_settings->getEpsilonCoplanarDistance();
+		double eps = m_geom_settings->getEpsilonMergePoints();
 		std::vector<vec2> path_merged;
 		std::vector<std::pair<size_t, size_t> > path_incorporated_holes;
 		std::vector<carve::triangulate::tri_idx> triangulated;
@@ -1317,7 +1317,7 @@ public:
 			shared_ptr<IfcBoundedCurve> bounded_curve = polygonal_half_space->m_PolygonalBoundary;
 			m_curve_converter->convertIfcCurve2D( bounded_curve, polygonal_boundary, segment_start_points_2d, true );
 			ProfileConverter::deleteLastPointIfEqualToFirst( polygonal_boundary );
-			ProfileConverter::simplifyPath( polygonal_boundary );
+			ProfileConverter::simplifyPath( polygonal_boundary, m_geom_settings->getEpsilonMergePoints(), m_geom_settings->getEpsilonCoplanarAngle() );
 
 			vec3 solid_extrusion_direction = boundary_plane_normal;
 			double agreement_check = dot( base_surface_plane.N, boundary_plane_normal );

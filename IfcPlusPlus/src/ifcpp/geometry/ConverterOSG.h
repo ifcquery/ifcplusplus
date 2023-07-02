@@ -721,7 +721,7 @@ public:
 	void convertMeshSets(std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vecMeshSets, osg::Geode* geode, size_t ii_item, bool disableBackfaceCulling)
 	{
 		double min_triangle_area = m_geom_settings->getMinTriangleArea();
-		double eps = m_geom_settings->getEpsilonCoplanarDistance();
+		double eps = m_geom_settings->getEpsilonMergePoints();
 		double crease_angle = m_faces_crease_angle;
 		for (size_t ii = 0; ii < vecMeshSets.size(); ++ii)
 		{

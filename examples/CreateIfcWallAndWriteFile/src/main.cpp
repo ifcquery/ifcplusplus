@@ -80,6 +80,7 @@ inline void convertPlacement(double local_x[3], double local_z[3], double locati
 	cartesianPoint->m_Coordinates[0] = location[0];
 	cartesianPoint->m_Coordinates[1] = location[1];
 	cartesianPoint->m_Coordinates[2] = location[2];
+	cartesianPoint->m_size = 3;
 
 	if (!axis2placement3d->m_Axis)
 	{
@@ -119,6 +120,7 @@ shared_ptr<IfcCartesianPoint> createIfcCartesianPoint(double x, double y, std::v
 	shared_ptr<IfcCartesianPoint> pt(new IfcCartesianPoint());
 	pt->m_Coordinates[0] = x;
 	pt->m_Coordinates[1] = y;
+	pt->m_size = 2;
 	vec_new_entities.push_back(pt);
 	return pt;
 }
@@ -129,6 +131,7 @@ shared_ptr<IfcCartesianPoint> createIfcCartesianPoint(double x, double y, double
 	pt->m_Coordinates[0] = x;
 	pt->m_Coordinates[1] = y;
 	pt->m_Coordinates[2] = z;
+	pt->m_size = 3;
 	vec_new_entities.push_back(pt);
 	return pt;
 }
@@ -247,17 +250,10 @@ void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_property_set
 		// position of the solid
 		extruded_solid->m_Position = shared_ptr<IfcAxis2Placement3D>(new IfcAxis2Placement3D());
 		vec_new_entities.push_back(extruded_solid->m_Position);
-		extruded_solid->m_Position->m_Axis = createIfcDirection(0, 0, 1, vec_new_entities);  // z axis
-		vec_new_entities.push_back(extruded_solid->m_Position->m_Axis);
-
-		extruded_solid->m_Position->m_RefDirection = createIfcDirection(1, 0, 0, vec_new_entities);  // x axis
-		vec_new_entities.push_back(extruded_solid->m_Position->m_RefDirection);
-
-		extruded_solid->m_Position->m_Location = createIfcCartesianPoint(0, 0, lower_level, vec_new_entities);
-		vec_new_entities.push_back(extruded_solid->m_Position->m_Location);
-
-		extruded_solid->m_ExtrudedDirection = createIfcDirection(0, 0, 1, vec_new_entities);   // extrusion direction
-		vec_new_entities.push_back(extruded_solid->m_ExtrudedDirection);
+		extruded_solid->m_Position->m_Axis			= createIfcDirection(0, 0, 1, vec_new_entities);  // z axis
+		extruded_solid->m_Position->m_RefDirection	= createIfcDirection(1, 0, 0, vec_new_entities);  // x axis
+		extruded_solid->m_Position->m_Location		= createIfcCartesianPoint(0, 0, lower_level, vec_new_entities);
+		extruded_solid->m_ExtrudedDirection			= createIfcDirection(0, 0, 1, vec_new_entities);   // extrusion direction
 
 		// length of extrusion:
 		extruded_solid->m_Depth = shared_ptr<IfcPositiveLengthMeasure>(new IfcPositiveLengthMeasure());
@@ -275,19 +271,15 @@ void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_property_set
 
 		// these four points define the 2d polyline that is going to be extruded in z-direction:
 		shared_ptr<IfcCartesianPoint> ifc_point1 = createIfcCartesianPoint(0, 0, vec_new_entities);
-		vec_new_entities.push_back(ifc_point1);
 		poly_line->m_Points.push_back(ifc_point1);
 
 		shared_ptr<IfcCartesianPoint> ifc_point2 = createIfcCartesianPoint(wall_length, 0, vec_new_entities);
-		vec_new_entities.push_back(ifc_point2);
 		poly_line->m_Points.push_back(ifc_point2);
 
 		shared_ptr<IfcCartesianPoint> ifc_point3 = createIfcCartesianPoint(wall_length, wall_thickness, vec_new_entities);
-		vec_new_entities.push_back(ifc_point3);
 		poly_line->m_Points.push_back(ifc_point3);
 
 		shared_ptr<IfcCartesianPoint> ifc_point4 = createIfcCartesianPoint(0.0, wall_thickness, vec_new_entities);
-		vec_new_entities.push_back(ifc_point4);
 		poly_line->m_Points.push_back(ifc_point4);
 
 		shape_representation->m_Items.push_back(extruded_solid);

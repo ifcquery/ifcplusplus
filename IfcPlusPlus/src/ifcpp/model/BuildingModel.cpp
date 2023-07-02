@@ -72,7 +72,7 @@ BuildingModel::BuildingModel()
 {
 	m_unit_converter = std::make_shared<UnitConverter>( );
 	m_unit_converter->setMessageTarget( this );
-	initFileHeader( "IfcPlusPlus-export.ifc" );
+	initFileHeader( "IfcPlusPlus-export.ifc", "IfcPlusPlus" );
 }
 
 BuildingModel::~BuildingModel()= default;
@@ -504,10 +504,10 @@ void BuildingModel::removeUnreferencedEntities()
 	}
 }
 
-void BuildingModel::initFileHeader( std::string file_name )
+void BuildingModel::initFileHeader( const std::string& fileName, const std::string& generatingApplication )
 {
-	m_file_name = file_name;
-	std::string filename_escaped = encodeStepString( file_name );
+	m_file_name = fileName;
+	std::string filename_escaped = encodeStepString( fileName );
 	std::stringstream strs;
 	strs << "HEADER;" << std::endl;
 	strs << "FILE_DESCRIPTION(('ViewDefinition [CoordinationView]'),'2;1');" << std::endl;
@@ -525,7 +525,7 @@ void BuildingModel::initFileHeader( std::string file_name )
 	std::string str(buffer);
 
 	strs << buffer;
-	strs << "',(''),('',''),'','IfcPlusPlus','');" << std::endl;
+	strs << "',(''),('',''),'',' " << generatingApplication << "','');" << std::endl;
 	strs << "FILE_SCHEMA(('" << getIfcSchemaVersionCurrent() << "'));" << std::endl;
 	strs << "ENDSEC;" << std::endl;
 

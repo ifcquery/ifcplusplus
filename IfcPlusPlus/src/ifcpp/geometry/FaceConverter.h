@@ -138,7 +138,7 @@ public:
 					m_curve_converter->convertIfcCurve( inner_boundary, inner_boundary_loop, segment_start_points, true );
 				}
 
-				double CARVE_EPSILON = m_geom_settings->getEpsilonCoplanarDistance();
+				double CARVE_EPSILON = m_geom_settings->getEpsilonMergePoints();
 				PolyInputCache3D poly_cache(CARVE_EPSILON);
 				bool mergeAlignedEdges = true;
 				GeomProcessingParams params( m_geom_settings, outer_boundary.get(),  this );
@@ -328,7 +328,7 @@ public:
 		{
 			return;
 		}
-		double CARVE_EPSILON = m_geom_settings->getEpsilonCoplanarDistance();
+		double CARVE_EPSILON = m_geom_settings->getEpsilonMergePoints();
 		PolyInputCache3D poly_cache(CARVE_EPSILON);
 		GeomProcessingParams params( m_geom_settings, nullptr,  this );
 		

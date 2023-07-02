@@ -78,7 +78,7 @@ public:
 	void resetIfcModel();
 	void updateCache();
 	void clearCache();
-	void initFileHeader( std::string file_name );
+	void initFileHeader( const std::string& fileName, const std::string& generatingApplication );
 	static void collectDependentEntities( shared_ptr<BuildingObject> entity, std::map<BuildingObject*, shared_ptr<BuildingObject> >& target_map, bool resolveInverseAttributes = false );
 
 	friend class ReaderSTEP;

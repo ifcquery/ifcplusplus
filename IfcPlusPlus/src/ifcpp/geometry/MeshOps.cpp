@@ -802,16 +802,16 @@ void MeshOps::retriangulateMeshSetForExport( shared_ptr<carve::mesh::MeshSet<3> 
 		bool dumpMesh = true;
 		if (validInput && dumpMesh && meshset->vertex_storage.size() > 60)
 		{
-			DumpSettingsStruct dumpSet;
+			GeomDebugDump::DumpSettingsStruct dumpSet;
 			dumpSet.triangulateBeforeDump = false;
 			GeomProcessingParams paramCopy(params);
 			paramCopy.checkZeroAreaFaces = false;
 			
 			GeomDebugDump::dumpLocalCoordinateSystem();
 			GeomDebugDump::moveOffset(0.3);
-			dumpWithLabel("triangulate:input ", meshset, dumpSet, paramCopy, true, true);
+			GeomDebugDump::dumpWithLabel("triangulate:input ", meshset, dumpSet, paramCopy, true, true);
 			GeomDebugDump::moveOffset(0.3);
-			dumpWithLabel("triangulate:result", meshsetTriangulated, dumpSet, paramCopy, true, true);
+			GeomDebugDump::dumpWithLabel("triangulate:result", meshsetTriangulated, dumpSet, paramCopy, true, true);
 		}
 #endif
 		MeshOps::checkMeshSetValidAndClosed(meshsetTriangulated, infoTriangulated, params);
@@ -919,7 +919,7 @@ void MeshOps::retriangulateMeshSetForBoolOp_earcut(shared_ptr<carve::mesh::MeshS
 		bool dumpMesh = false;
 		if (validInput && dumpMesh)
 		{
-			DumpSettingsStruct dumpSet;
+			GeomDebugDump::DumpSettingsStruct dumpSet;
 			dumpSet.triangulateBeforeDump = false;
 			
 			GeomProcessingParams paramCopy(params);
@@ -927,9 +927,9 @@ void MeshOps::retriangulateMeshSetForBoolOp_earcut(shared_ptr<carve::mesh::MeshS
 
 			GeomDebugDump::dumpLocalCoordinateSystem();
 			GeomDebugDump::moveOffset(0.3);
-			dumpWithLabel("triangulate:input ", meshset, dumpSet, paramCopy, true, true);
+			GeomDebugDump::dumpWithLabel("triangulate:input ", meshset, dumpSet, paramCopy, true, true);
 			GeomDebugDump::moveOffset(0.3);
-			dumpWithLabel("triangulate:result", meshsetTrinangulated, dumpSet, paramCopy, true, true);
+			GeomDebugDump::dumpWithLabel("triangulate:result", meshsetTrinangulated, dumpSet, paramCopy, true, true);
 		}
 #endif
 
@@ -1146,7 +1146,7 @@ void MeshOps::retriangulateMeshSetForBoolOp_carve(shared_ptr<carve::mesh::MeshSe
 		bool dumpMesh = false;
 		if (validInput && dumpMesh)
 		{
-			DumpSettingsStruct dumpSet;
+			GeomDebugDump::DumpSettingsStruct dumpSet;
 			dumpSet.triangulateBeforeDump = false;
 
 			GeomProcessingParams paramCopy(params);
@@ -1154,9 +1154,9 @@ void MeshOps::retriangulateMeshSetForBoolOp_carve(shared_ptr<carve::mesh::MeshSe
 
 			GeomDebugDump::dumpLocalCoordinateSystem();
 			GeomDebugDump::moveOffset(0.3);
-			dumpWithLabel("triangulate:input ", meshset, dumpSet, paramCopy, true, true);
+			GeomDebugDump::dumpWithLabel("triangulate:input ", meshset, dumpSet, paramCopy, true, true);
 			GeomDebugDump::moveOffset(0.3);
-			dumpWithLabel("triangulate:result", meshsetTrinangulated, dumpSet, paramCopy, true, true);
+			GeomDebugDump::dumpWithLabel("triangulate:result", meshsetTrinangulated, dumpSet, paramCopy, true, true);
 		}
 #endif
 		bool validTriangulatedMesh1 = MeshOps::checkMeshSetValidAndClosed(meshsetTrinangulated1, infoTriangulated, params);
@@ -1851,10 +1851,7 @@ void MeshOps::removeDegenerateFacesInMeshSet(shared_ptr<carve::mesh::MeshSet<3> 
 
 			if (std::abs(area) > params.minFaceArea)
 			{
-				if (!onMainAxis)
-				{
-					std::cout << "dotProduct: " << dotProduct << std::endl;
-				}
+				onMainAxis;
 			}
 #endif
 
@@ -1895,9 +1892,9 @@ void MeshOps::removeDegenerateFacesInMeshSet(shared_ptr<carve::mesh::MeshSet<3> 
 #ifdef _DEBUG
 		if (meshInputOk && !mesh_ok)
 		{
-			DumpSettingsStruct dumpColorSettings;
-			dumpWithLabel("removeDegenerateFacesInMeshSet--input", meshsetInput, dumpColorSettings, params, true, true);
-			dumpWithLabel("removeDegenerateFacesInMeshSet--result", resultFromPolyhedron, dumpColorSettings, params, true, true);
+			GeomDebugDump::DumpSettingsStruct dumpColorSettings;
+			GeomDebugDump::dumpWithLabel("removeDegenerateFacesInMeshSet--input", meshsetInput, dumpColorSettings, params, true, true);
+			GeomDebugDump::dumpWithLabel("removeDegenerateFacesInMeshSet--result", resultFromPolyhedron, dumpColorSettings, params, true, true);
 		}
 #endif
 
@@ -2988,9 +2985,9 @@ size_t mergeAlignedEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, GeomProc
 									if (params.debugDump)
 									{
 										GeomDebugDump::moveOffset(0.3);
-										DumpSettingsStruct dumpColorSettings;
+										GeomDebugDump::DumpSettingsStruct dumpColorSettings;
 										params.checkZeroAreaFaces = true;
-										dumpWithLabel("mesh-merged-faces", meshset, dumpColorSettings, params, true, true);
+										GeomDebugDump::dumpWithLabel("mesh-merged-faces", meshset, dumpColorSettings, params, true, true);
 									}
 
 									double dx = edgeVector.x - edgeNextVector.x;
@@ -3097,13 +3094,13 @@ void MeshOps::simplifyMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput
 	shared_ptr<carve::mesh::MeshSet<3> > meshset(meshsetInput->clone());
 
 #ifdef _DEBUG
-	DumpSettingsStruct dumpColorSettings;
+	GeomDebugDump::DumpSettingsStruct dumpColorSettings;
 
 	if (dumpPolygon)
 	{
 		GeomProcessingParams par(params);
 		par.checkZeroAreaFaces = false;
-		dumpWithLabel("simplify--input", meshset, dumpColorSettings, par, true, true);
+		GeomDebugDump::dumpWithLabel("simplify--input", meshset, dumpColorSettings, par, true, true);
 	}
 
 	if (dumpPolygon)
@@ -3138,7 +3135,6 @@ void MeshOps::simplifyMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput
 	}
 
 	bool validMeshset = MeshOps::checkMeshSetValidAndClosed(meshset, info, params);
-
 	if (!validMeshset)
 	{
 		resolveOpenEdges(meshset, params);
@@ -3819,7 +3815,7 @@ bool intersectRayTriangle(const glm::dvec3& rayOrigin, const glm::dvec3& rayDire
 void MeshOps::flattenFacePlanes(shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, const GeomProcessingParams& params)
 {
 	// project face points into coplanar face
-	double epsAngle = params.epsMergeAlignedEdgesAngle;// eps * 5.0;
+	double epsAngle = params.epsMergeAlignedEdgesAngle * 100.0;
 	double epsDistanceSinglePoints = params.epsMergePoints * 10.0;
 	double epsDistanceFaceCentroids = params.epsMergePoints * 10.0;
 	double epsMinDistanceMovePoints2 = params.epsMergePoints * 0.01 * params.epsMergePoints * 0.01;
@@ -3961,7 +3957,12 @@ void MeshOps::flattenFacePlanes(shared_ptr<carve::mesh::MeshSet<3> >& op1, share
 									double dz = vert->v.z - v.z;
 
 									double distance2 = dx * dx + dy * dy + dz * dz;
-									if (distance2 > epsMinDistanceMovePoints2 && distance2 < epsDistanceSinglePoints * epsDistanceSinglePoints)
+									//if (distance2 > epsMinDistanceMovePoints2 && distance2 < epsDistanceSinglePoints * epsDistanceSinglePoints)
+									//{
+									//	vert->v = v;
+									//}
+
+									if (distance2 > 0.0 && distance2 < epsDistanceSinglePoints * epsDistanceSinglePoints)
 									{
 										vert->v = v;
 									}

@@ -258,7 +258,7 @@ public:
 				if( map_matrix_origin && map_matrix_target )
 				{
 					carve::math::Matrix mapped_pos(map_matrix_target->m_matrix*map_matrix_origin->m_matrix);
-					double CARVE_EPSILON = m_geom_settings->getEpsilonCoplanarDistance();
+					double CARVE_EPSILON = m_geom_settings->getEpsilonMergePoints();
 					mapped_input_data->applyTransformToItem(mapped_pos, CARVE_EPSILON);
 				}
 				representation_data->addChildItem( mapped_input_data, representation_data );
@@ -476,7 +476,7 @@ public:
 			return;
 		}
 
-		double CARVE_EPSILON = m_geom_settings->getEpsilonCoplanarDistance();
+		double CARVE_EPSILON = m_geom_settings->getEpsilonMergePoints();
 		GeomProcessingParams params(m_geom_settings, geom_item.get(), this);
 
 		shared_ptr<IfcTessellatedItem> tessellatedItem = dynamic_pointer_cast<IfcTessellatedItem>(geom_item);
@@ -827,7 +827,7 @@ public:
 		}
 
 		GeomProcessingParams params(m_geom_settings, topological_item.get(), this);
-		double CARVE_EPSILON = m_geom_settings->getEpsilonCoplanarDistance();
+		double CARVE_EPSILON = m_geom_settings->getEpsilonMergePoints();
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		const shared_ptr<IfcEdge> topo_edge = dynamic_pointer_cast<IfcEdge>( topological_item );
 		if( topo_edge )

@@ -60,7 +60,7 @@ public:
 		m_handle_layer_assignments = other->m_handle_layer_assignments;
 		m_render_bounding_box = other->m_render_bounding_box;
 		m_min_triangle_area = other->m_min_triangle_area;
-		m_epsCoplanarDistance = other->m_epsCoplanarDistance;
+		m_epsilonMergePoints = other->m_epsilonMergePoints;
 		m_epsCoplanarAngle = other->m_epsCoplanarAngle;
 	}
 
@@ -110,14 +110,14 @@ public:
 		return false;
 	}
 
-	void setEpsilonCoplanarDistance(double eps)
+	void setEpsilonMergePoints(double eps)
 	{
-		m_epsCoplanarDistance = eps;
+		m_epsilonMergePoints = eps;
 	}
 
-	double getEpsilonCoplanarDistance()
+	double getEpsilonMergePoints()
 	{
-		return m_epsCoplanarDistance;
+		return m_epsilonMergePoints;
 	}
 
 	void setEpsilonCoplanarAngle(double eps)
@@ -146,7 +146,7 @@ protected:
 	bool m_handle_layer_assignments = true;
 	bool m_render_bounding_box = false;
 	double m_min_triangle_area = 1e-9;
-	double m_epsCoplanarDistance = 1.5e-8;
+	double m_epsilonMergePoints = 1.5e-8;
 	double m_epsCoplanarAngle = 1e-10;
 
 	std::function<int(double)> m_num_vertices_per_circle_given_radius = [&](double radius)
@@ -161,7 +161,7 @@ struct GeomProcessingParams
 {
 	GeomProcessingParams( shared_ptr<GeometrySettings>& generalSettings )
 	{
-		epsMergePoints = generalSettings->getEpsilonCoplanarDistance();
+		epsMergePoints = generalSettings->getEpsilonMergePoints();
 		epsMergeAlignedEdgesAngle = generalSettings->getEpsilonCoplanarAngle();
 		minFaceArea = generalSettings->getMinTriangleArea();
 		mergeAlignedEdges = generalSettings->m_mergeAlignedEdges;
@@ -197,7 +197,7 @@ struct GeomProcessingParams
 	StatusCallback* callbackFunc = nullptr;
 
 	double epsMergePoints = 1e-9;
-	double epsMergeAlignedEdgesAngle = 1e-10;
+	double epsMergeAlignedEdgesAngle = 1e-6;
 	double minFaceArea = 1e-12;
 	bool mergeAlignedEdges = true;
 	bool allowFinEdges = false;

@@ -295,7 +295,7 @@ public:
 		{
 			cartesianPoint = shared_ptr<IfcCartesianPoint>(new IfcCartesianPoint());
 			axis2placement3d->m_Location = cartesianPoint;
-					
+
 			if( tag > 0 )
 			{
 				axis2placement3d->m_Location->m_tag = tag++;
@@ -305,6 +305,7 @@ public:
 		cartesianPoint->m_Coordinates[0] = translate.x / length_factor;
 		cartesianPoint->m_Coordinates[1] = translate.y / length_factor;
 		cartesianPoint->m_Coordinates[2] = translate.z / length_factor;
+		cartesianPoint->m_size = 3;
 
 		if( !axis2placement3d->m_Axis )
 		{

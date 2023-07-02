@@ -125,7 +125,7 @@ public:
 		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool senseAgreement) const
 	{
 		double lengthFactor = m_point_converter->getUnitConverter()->getLengthInMeterFactor();
-		double CARVE_EPSILON = m_geom_settings->getEpsilonCoplanarDistance();
+		double CARVE_EPSILON = m_geom_settings->getEpsilonMergePoints();
 
 		//	ENTITY IfcCurve ABSTRACT SUPERTYPE OF	(ONEOF(IfcBoundedCurve, IfcConic, IfcLine, IfcOffsetCurve2D, IfcOffsetCurve3D, IfcPCurve))
 		shared_ptr<IfcBoundedCurve> bounded_curve = dynamic_pointer_cast<IfcBoundedCurve>(ifc_curve);
