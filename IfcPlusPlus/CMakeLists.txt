@@ -40,21 +40,6 @@ set(IFCPP_SOURCE_FILES
     src/ifcpp/writer/WriterUtil.cpp
 	src/ifcpp/geometry/MeshOps.cpp
 	src/ifcpp/geometry/GeometryInputData.cpp
-	src/external/manifold/src/boolean3.cpp
-    src/external/manifold/src/boolean_result.cpp
-    src/external/manifold/src/collider/src/collider.cpp
-    src/external/manifold/src/constructors.cpp
-    src/external/manifold/src/csg_tree.cpp
-    src/external/manifold/src/edge_op.cpp
-    src/external/manifold/src/face_op.cpp
-    src/external/manifold/src/impl.cpp
-    src/external/manifold/src/manifold.cpp
-    src/external/manifold/src/polygon/src/polygon.cpp
-    src/external/manifold/src/properties.cpp
-    src/external/manifold/src/smoothing.cpp
-    src/external/manifold/src/sort.cpp
-    src/external/manifold/src/third_party/graphlite/src/connected_components.cpp
-    src/external/manifold/src/utilities/src/detect_cuda.cpp
 	src/external/Carve/src/lib/aabb.cpp
 	src/external/Carve/src/lib/carve.cpp
 	src/external/Carve/src/lib/convex_hull.cpp
@@ -116,15 +101,6 @@ TARGET_INCLUDE_DIRECTORIES(IfcPlusPlus
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/Carve/src/common
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/Carve/build/src
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/glm
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/utilities/include
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/utilities
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/polygon/include
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/manifold/include
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/collider/include
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/third_party
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/third_party/thrust
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/third_party/graphlite/include
 )
 
 

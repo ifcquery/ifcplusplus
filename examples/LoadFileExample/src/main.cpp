@@ -1,15 +1,17 @@
 #include <unordered_set>
-#include <IfcBuildingStorey.h>
-#include <IfcGloballyUniqueId.h>
-#include <IfcLabel.h>
-#include <IfcObjectDefinition.h>
-#include <IfcProject.h>
-#include <IfcRelAggregates.h>
-#include <IfcRelContainedInSpatialStructure.h>
-#include <IfcText.h>
-#include <ifcpp/IFC4X3/EntityFactory.h>
+#include <ifcpp/IFC4X3/include/IfcBuildingStorey.h>
+#include <ifcpp/IFC4X3/include/IfcGloballyUniqueId.h>
+#include <ifcpp/IFC4X3/include/IfcLabel.h>
+#include <ifcpp/IFC4X3/include/IfcObjectDefinition.h>
+#include <ifcpp/IFC4X3/include/IfcProject.h>
+#include <ifcpp/IFC4X3/include/IfcRelAggregates.h>
+#include <ifcpp/IFC4X3/include/IfcRelContainedInSpatialStructure.h>
+#include <ifcpp/IFC4X3/include/IfcText.h>
 #include <ifcpp/model/BuildingModel.h>
 #include <ifcpp/reader/ReaderSTEP.h>
+#include <ifcpp/geometry/GeometryConverter.h>
+
+using namespace IFC4X3;
 
 class MyIfcTreeItem
 {
@@ -22,7 +24,61 @@ public:
 	std::vector<shared_ptr<MyIfcTreeItem> > m_children;
 };
 
-using namespace IFC4X3;
+static std::map<std::string, int> mapProgressChars;
+class MessageHandler
+{
+public:
+	MessageHandler()
+	{
+
+	}
+
+	static void slotMessageWrapper(void* ptr, shared_ptr<StatusCallback::Message> m)
+	{
+		MessageHandler* myself = (MessageHandler*)ptr;
+		if( myself )
+		{
+			// log file etc can be implemented here
+#ifdef IFCPP_OPENMP
+			ScopedLock lock(myself->m_mutex_messages);
+#endif
+
+			StatusCallback::MessageType mType = m->m_message_type;
+			if( mType == StatusCallback::MESSAGE_TYPE_PROGRESS_VALUE )
+			{
+				std::string progressType = m->m_progress_type;
+
+#ifdef _MSC_VER
+				int progressChars = 0;
+				if( mapProgressChars.find(progressType) == mapProgressChars.end() )
+				{
+					mapProgressChars[progressType] = 0;
+				}
+				else
+				{
+					progressChars = mapProgressChars[progressType];
+				}
+
+				int progressPercent = int(m->m_progress_value * 100);
+				for( int ii = 0; ii < progressChars; ++ii )
+				{
+					std::cout << '\b';
+				}
+
+				std::stringstream strs;
+				strs << progressPercent << "%";
+
+				mapProgressChars[progressType] = strs.str().size();
+				std::cout << strs.str();
+#endif
+			}
+		}
+	}
+
+#ifdef IFCPP_OPENMP
+	Mutex m_mutex_messages;
+#endif
+};
 
 shared_ptr<MyIfcTreeItem> resolveTreeItems(shared_ptr<BuildingObject> obj, std::unordered_set<int>& set_visited)
 {
@@ -39,8 +95,6 @@ shared_ptr<MyIfcTreeItem> resolveTreeItems(shared_ptr<BuildingObject> obj, std::
 
 		item = std::shared_ptr<MyIfcTreeItem>(new MyIfcTreeItem());
 		item->m_ifc_class_name = EntityFactory::getStringForClassID(obj_def->classID());
-
-		std::cout << "#" << obj_def->m_tag << "=" << item->m_ifc_class_name << std::endl;
 
 		// access some attributes of IfcObjectDefinition
 		if (obj_def->m_GlobalId)
@@ -107,46 +161,128 @@ shared_ptr<MyIfcTreeItem> resolveTreeItems(shared_ptr<BuildingObject> obj, std::
 	return item;
 }
 
+void resolveShapeData(shared_ptr<ProductShapeData>& shapeData)
+{
+	carve::math::Matrix localTransform = shapeData->getTransform();
+
+	// traverse geometry
+	for (auto geometricItem : shapeData->m_geometric_items)
+	{
+		// closed meshes
+		for (auto meshset : geometricItem->m_meshsets)
+		{
+			std::vector<carve::mesh::Vertex<3> >& vertexData = meshset->vertex_storage;
+			for (auto mesh : meshset->meshes)
+			{
+				for (auto face : mesh->faces)
+				{
+					carve::mesh::Edge<3>* edge = face->edge;
+					for (size_t ii = 0; ii < face->n_edges; ++ii)
+					{
+						carve::mesh::Vertex<3>* vertex = edge->vert;
+						carve::geom::vector<3> pointLocal = vertex->v;
+						carve::geom::vector<3> pointGlobal = localTransform * pointLocal;
+						double x = pointGlobal.x;
+						double y = pointGlobal.y;
+						double z = pointGlobal.z;
+						std::cout << "point in mesh: (" << x << "/" << y << "/" << z << ")" << std::endl;
+					}
+				}
+			}
+		}
+
+		// open meshes
+		for (auto meshset : geometricItem->m_meshsets_open)
+		{
+			std::vector<carve::mesh::Vertex<3> >& vertexData = meshset->vertex_storage;
+			for (auto mesh : meshset->meshes)
+			{
+				for (auto face : mesh->faces)
+				{
+					carve::mesh::Edge<3>* edge = face->edge;
+					for (size_t ii = 0; ii < face->n_edges; ++ii)
+					{
+						carve::mesh::Vertex<3>* vertex = edge->vert;
+						carve::geom::vector<3> pointLocal = vertex->v;
+						carve::geom::vector<3> pointGlobal = localTransform * pointLocal;
+						double x = pointGlobal.x;
+						double y = pointGlobal.y;
+						double z = pointGlobal.z;
+						std::cout << "point in mesh: (" << x << "/" << y << "/" << z << ")" << std::endl;
+					}
+				}
+			}
+		}
+	}
+	
+	for (auto child_object : shapeData->m_vec_children)
+	{
+		resolveShapeData(child_object);
+	}
+}
+	
+
 int main()
 {
 	// 1: create an IFC model and a reader for IFC files in STEP format:
 	shared_ptr<BuildingModel> ifc_model(new BuildingModel());
+	MessageHandler mh;
+
 	shared_ptr<ReaderSTEP> step_reader(new ReaderSTEP());
+	step_reader->setMessageCallBack(&mh, &MessageHandler::slotMessageWrapper);
 
 	// 2: load the model:
-	std::cout << "loading file example.ifc" << std::endl;
+	std::cout << "Loading IFC model: ";
 	step_reader->loadModelFromFile( "example.ifc", ifc_model);
 
-	// 3: get a flat map of all loaded IFC entities:
-	const std::map<int, shared_ptr<BuildingEntity> >& map_entities = ifc_model->getMapIfcEntities();
-	std::cout << "loaded " << map_entities.size() << " entities" << std::endl;
+	shared_ptr<GeometryConverter> geometry_converter(new GeometryConverter(ifc_model));
+	geometry_converter->setMessageCallBack(&mh, &MessageHandler::slotMessageWrapper);
+	shared_ptr<GeometrySettings> geom_settings = geometry_converter->getGeomSettings();
+
+	// the number of vertices per circle can be changed here: (default is 14)
+	int numVerticesPerCircle = geom_settings->getNumVerticesPerCircle();
+	std::cout << std::endl << "numVerticesPerCircle: " << numVerticesPerCircle << std::endl;
+	geom_settings->setNumVerticesPerCircle(numVerticesPerCircle);
+
+	// adjust epsilon for boolean operations
+	geometry_converter->setCsgEps(1.5e-9);
+
+	// convert IFC geometry representations to Carve meshes
+#ifdef _DEBUG
+	GeomDebugDump::clearMeshsetDump();
+#endif
+	std::cout << "Converting IFC geometry: ";
+	geometry_converter->convertGeometry();
+
+	// 3: get a flat map of all loaded IFC entities with geometry:
+	const std::map<std::string, shared_ptr<ProductShapeData> >& map_entities = geometry_converter->getShapeInputData();
+	shared_ptr<ProductShapeData> shapeDataIfcProject;
 
 	for (auto it : map_entities)
 	{
-		shared_ptr<BuildingEntity> entity = it.second;
-		std::cout << "entity " << EntityFactory::getStringForClassID(entity->classID());
-		
-		shared_ptr<IfcRoot> ifc_root = dynamic_pointer_cast<IfcRoot>(entity);
-		if( ifc_root )
+		shared_ptr<ProductShapeData> shapeData = it.second;
+
+		if (shapeData->m_ifc_object_definition.expired())
 		{
-			if( ifc_root->m_GlobalId )
-			{
-				std::cout << ", guid " << ifc_root->m_GlobalId->m_value;
-			}
+			continue;
 		}
-		std::cout << std::endl;
-		
+
+		shared_ptr<IfcObjectDefinition> ifcObject = shared_ptr<IfcObjectDefinition>(shapeData->m_ifc_object_definition);
+
 		// check for certain type of the entity:
-		shared_ptr<IfcBuildingStorey> ifc_storey = dynamic_pointer_cast<IfcBuildingStorey>(entity);
-		if (ifc_storey)
+		shared_ptr<IfcProject> ifc_project = dynamic_pointer_cast<IfcProject>(ifcObject);
+		if (ifc_project)
 		{
-			// access attributes:
-			if (ifc_storey->m_GlobalId)
-			{
-				std::cout << "found IfcBuildingStorey entity with GUID: " << ifc_storey->m_GlobalId->m_value << std::endl;
-			}
+			shapeDataIfcProject = shapeData;
+			break;
 		}
 	}
+
+	if (shapeDataIfcProject)
+	{
+		resolveShapeData(shapeDataIfcProject);
+	}
+
 
 	// 4: traverse tree structure of model, starting at root object (IfcProject)
 	shared_ptr<IfcProject> ifc_project = ifc_model->getIfcProject();

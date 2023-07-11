@@ -667,7 +667,8 @@ int main()
 
 	// write IFC file in STEP format
 	std::string file_path = "example.ifc";
-	ifc_model->initFileHeader(file_path);
+	std::string applicationName = "IfcPlusPlus";
+	ifc_model->initFileHeader(file_path, applicationName);
 	std::stringstream stream;
 
 	shared_ptr<WriterSTEP> step_writer(new WriterSTEP());

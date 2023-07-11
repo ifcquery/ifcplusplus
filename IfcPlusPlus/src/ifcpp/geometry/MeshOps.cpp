@@ -1771,6 +1771,67 @@ void removeFinFaces(shared_ptr<carve::mesh::MeshSet<3> >& meshset, const GeomPro
 	}
 }
 
+void MeshOps::removeDegenerateMeshes(shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput, const GeomProcessingParams& paramsInput, bool ensureValidMesh)
+{
+	if (!meshsetInput)
+	{
+		return;
+	}
+
+	GeomProcessingParams params(paramsInput);
+	params.allowZeroAreaFaces = true;
+	MeshSetInfo infoInput;
+	bool meshInputOk = MeshOps::checkMeshSetValidAndClosed(meshsetInput, infoInput, params);
+	size_t numRemovedMeshes = 0;
+	
+	for (auto it = meshsetInput->meshes.begin(); it != meshsetInput->meshes.end(); ++it )
+	{
+		carve::mesh::Mesh<3>* mesh = *it;
+		double meshVolume = mesh->volume();
+		if (meshVolume < params.epsMergePoints)
+		{
+			it = meshsetInput->meshes.erase(it);
+			delete mesh;
+			++numRemovedMeshes;
+			it = meshsetInput->meshes.begin();
+			if( it == meshsetInput->meshes.end() )
+			{
+				break;
+			}
+		}
+	}
+
+	if( numRemovedMeshes > 0 )
+	{
+		for( auto it = meshsetInput->meshes.begin(); it != meshsetInput->meshes.end(); ++it )
+		{
+			carve::mesh::Mesh<3>* mesh = *it;
+			mesh->recalc(paramsInput.epsMergePoints);
+		}
+
+		
+		MeshSetInfo info;
+		bool meshOk = MeshOps::checkMeshSetValidAndClosed(meshsetInput, info, params);
+#ifdef _DEBUG
+		if (meshInputOk && !meshOk)
+		{
+			GeomDebugDump::DumpSettingsStruct dumpColorSettings;
+			GeomDebugDump::dumpWithLabel("removeDegenerateFacesInMeshSet--input", meshsetInput, dumpColorSettings, params, true, true);
+			
+		}
+#endif
+		if (ensureValidMesh)
+		{
+			if (isBetterForBoolOp(info, infoInput, true))
+			{
+				// TODO check if backup is necessary
+			}
+		}
+
+	}
+
+}
+
 void MeshOps::removeDegenerateFacesInMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput, const GeomProcessingParams& paramsInput, bool ensureValidMesh)
 {
 	if (!meshsetInput)

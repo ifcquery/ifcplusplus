@@ -222,6 +222,7 @@ public:
 
 	static void flattenFacePlanes(shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, const GeomProcessingParams& params);
 
+	static void removeDegenerateMeshes(shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput, const GeomProcessingParams& params, bool ensureValidMesh);
 	static void removeDegenerateFacesInMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput, const GeomProcessingParams& params, bool ensureValidMesh);
 
 	static vec3 computeFaceNormal(carve::mesh::Face<3>* face);

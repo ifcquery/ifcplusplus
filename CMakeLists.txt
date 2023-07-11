@@ -65,7 +65,6 @@ INSTALL(
 IF(BUILD_CONSOLE_APPLICATION)
   ADD_SUBDIRECTORY (examples/CreateIfcWallAndWriteFile)
   ADD_SUBDIRECTORY (examples/LoadFileExample)
-  ADD_SUBDIRECTORY (examples/LoadFileWithGeometryExample)
 ENDIF()
 IF(BUILD_VIEWER_APPLICATION)
   ADD_SUBDIRECTORY (examples/SimpleViewerExampleQt)

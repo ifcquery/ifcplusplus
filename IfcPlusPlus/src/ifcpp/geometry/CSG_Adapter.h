@@ -58,6 +58,12 @@ namespace CSG_Adapter
 			return true;
 		}
 
+		bool bbox_direct_intersects = bbox1.intersects(bbox2);
+		if( !bbox_direct_intersects )
+		{
+			return false;
+		}
+		
 		double deltBbox = bbox1.maxAxisSeparation(bbox2);
 		bool intersectsWithEpsilon = std::abs(deltBbox) > eps;
 		bool intersects = intersectsWithEpsilon;
@@ -132,6 +138,12 @@ namespace CSG_Adapter
 			return true;
 		}
 
+		if( op1Orig == op2Orig)
+		{
+			assignResultOnFail(op1Orig, op2Orig, operation, result);
+			return true;
+		}
+
 		MeshSetInfo infoMesh1orig(report_callback, entity.get());
 		MeshSetInfo infoMesh2orig(report_callback, entity.get());
 		paramsScaled.allowFinEdges = false;
@@ -145,6 +157,17 @@ namespace CSG_Adapter
 		std::stringstream strs_err;
 		try
 		{
+#ifdef _DEBUG
+			++csg_compute_count;
+			GeomDebugDump::DumpSettingsStruct dumpColorSettings;
+			bool op1_dumped = false;
+			bool op2_dumped = false;
+			if( 5061634 == tag )
+			{
+				dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);
+			}
+#endif
+
 			// normalize first, so that EPS values match the size of different meshes
 			normMesh.normalizeMesh(op1, "op1", epsDefault);
 			normMesh.normalizeMesh(op2, "op2", epsDefault);
@@ -154,13 +177,10 @@ namespace CSG_Adapter
 				paramsScaled.debugDump = true;
 			}
 
-			bool op1_dumped = false;
-			bool op2_dumped = false;
+			
 			MeshOps::flattenFacePlanes(op1, op2, paramsScaled);
 
 #ifdef _DEBUG
-			++csg_compute_count;
-			GeomDebugDump::DumpSettingsStruct dumpColorSettings;
 			dumpColorSettings.eps = epsDefault;
 			CarveMeshNormalizer normMesh_scaleMeshDump(normMesh);
 			if (!normalizeCoords)
@@ -170,9 +190,11 @@ namespace CSG_Adapter
 				paramsUnscaled.normalizer = &normMesh_scaleMeshDump;
 			}
 
-			if (csg_compute_count == 24  || tag == 5598)
+			bool dump_result_mesh = false;
+			//if (csg_compute_count == 24  || tag == 1311603)
 			{
-				GeomDebugDump::dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);
+				//GeomDebugDump::dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);
+				dump_result_mesh = true;
 			}
 
 			if (infoMesh1orig.zeroAreaFaces.size() > 0)
@@ -258,7 +280,7 @@ namespace CSG_Adapter
 
 			if (!operand2valid && operand2origvalid)
 			{
-				op1 = shared_ptr<carve::mesh::MeshSet<3> >(op2Orig->clone());
+				op2 = shared_ptr<carve::mesh::MeshSet<3> >(op2Orig->clone());
 				MeshSetInfo infoMesh2copy(report_callback, entity.get());
 				bool operand2copy_valid = MeshOps::checkMeshSetValidAndClosed(op2, infoMesh2copy, paramsUnscaled);
 
@@ -329,10 +351,13 @@ namespace CSG_Adapter
 #endif
 				MeshOps::simplifyMeshSet(result, paramsScaled, triangulateOperands, shouldBeClosedManifold);
 				result_meshset_ok = MeshOps::checkMeshSetValidAndClosed(result, infoResult, paramsScaled);
+
+				MeshOps::removeDegenerateMeshes(result, paramsScaled, true);
+				result_meshset_ok = MeshOps::checkMeshSetValidAndClosed(result, infoResult, paramsScaled);
 			}
 
 #ifdef _DEBUG
-			if (!result_meshset_ok)
+			if (!result_meshset_ok|| dump_result_mesh)
 			{
 				double vol2 = MeshOps::computeMeshsetVolume(op2.get());
 				dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);

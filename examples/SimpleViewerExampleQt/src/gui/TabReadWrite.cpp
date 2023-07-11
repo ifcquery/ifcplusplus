@@ -477,7 +477,8 @@ void TabReadWrite::slotWriteFileClicked()
 
 		shared_ptr<GeometryConverter> geom_converter = m_system->getGeometryConverter();
 		shared_ptr<BuildingModel>& model = geom_converter->getBuildingModel();
-		model->initFileHeader(path_std);
+		std::string applicationName = "IfcPlusPlus";
+		model->initFileHeader(path_std, applicationName);
 		std::stringstream stream;
 		shared_ptr<WriterSTEP> writer_step(new WriterSTEP());
 		writer_step->writeModelToStream(stream, model);

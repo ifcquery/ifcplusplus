@@ -185,51 +185,7 @@
     <ClCompile Include="src\ifcpp\IFC4X3\TypeFactory.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\external\manifold\src\boolean3.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\manifold\src\boolean_result.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\manifold\src\collider\src\collider.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\manifold\src\constructors.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\manifold\src\csg_tree.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\manifold\src\edge_op.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\manifold\src\face_op.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\manifold\src\impl.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\manifold\src\manifold.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\manifold\src\polygon\src\polygon.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\manifold\src\properties.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\manifold\src\smoothing.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\manifold\src\sort.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\manifold\src\third_party\graphlite\src\connected_components.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\manifold\src\utilities\src\detect_cuda.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
+    
     <ClCompile Include="src\external\Carve\src\common\geometry.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -315,9 +271,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\external\Carve\src\lib\triangulator.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="src\external\zip-master\zip.c">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="src\ifcpp\geometry\MeshOps.cpp">

@@ -1166,8 +1166,9 @@ namespace GeomDebugDump
 		bool moveOffset = false;
 		if (moveOffsetAfter)
 		{
-			double dy = meshset->getAABB().extent.y;
-			GeomDebugDump::moveOffset(dy * 2 + 0.2);
+			carve::geom::aabb<3> bbox = meshset->getAABB();
+			double dy = bbox.extent.y;
+			GeomDebugDump::moveOffset(dy * 2.0 + 0.2);
 			moveOffset = true;
 		}
 
@@ -1180,6 +1181,75 @@ namespace GeomDebugDump
 		}
 	}
 
+	static void dumpEdges( const std::vector<carve::mesh::Edge<3>* >& vec_edges )
+	{
+		glm::vec4 color(0.98, 0.2, 0.2, 1.0);
+
+		for( size_t i = 0; i < vec_edges.size(); ++i )
+		{
+			carve::mesh::Edge<3>* edge = vec_edges[i];
+			const carve::mesh::Vertex<3>* vertex1 = edge->v1();
+
+			std::vector<vec3> points = { edge->v1()->v, edge->v2()->v };
+			dumpPolyline(points, color, false);
+		}
+
+		return;
+
+		std::stringstream strs_out;
+		strs_out << "PolyLineSet{" << std::endl;
+		strs_out << "vertices{" << std::endl;
+
+		std::map<const carve::mesh::Vertex<3>*, int > map_vertex_idx;
+		size_t vertex_idx = 0;
+		for( size_t i = 0; i < vec_edges.size(); ++i )
+		{
+			carve::mesh::Edge<3>* edge = vec_edges[i];
+
+			const carve::mesh::Vertex<3>* vertex1 = edge->v1();
+			map_vertex_idx[vertex1] = vertex_idx;
+			if( vertex_idx > 0 )
+			{
+				strs_out << ",";
+			}
+			strs_out << "{" << vertex1->v.x << ", " << vertex1->v.y << ", " << vertex1->v.z << "}";
+			++vertex_idx;
+
+			const carve::mesh::Vertex<3>* vertex2 = edge->v2();
+			map_vertex_idx[vertex2] = vertex_idx;
+			if( vertex_idx > 0 )
+			{
+				strs_out << ",";
+			}
+			strs_out << "{" << vertex2->v.x << ", " << vertex2->v.y << ", " << vertex2->v.z << "}";
+			++vertex_idx;
+		}
+		strs_out << "}" << std::endl; // vertices
+
+		strs_out << "lines{" << std::endl;
+		for( size_t i = 0; i < vec_edges.size(); ++i )
+		{
+			carve::mesh::Edge<3>* edge = vec_edges[i];
+
+			const carve::mesh::Vertex<3>* vertex1 = edge->v1();
+			const carve::mesh::Vertex<3>* vertex2 = edge->v2();
+
+			if( i > 0 )
+			{
+				strs_out << ", ";
+			}
+
+			int idx1 = map_vertex_idx[vertex1];
+			int idx2 = map_vertex_idx[vertex2];
+			strs_out << "{" << idx1 << "," << idx2 << "}";
+		}
+		strs_out << std::endl << "}"; // lines
+		strs_out << std::endl << "}"; // PolyLineSet
+
+
+		appendToOutput(strs_out);
+	}
+
 	inline void dumpOperands(shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, shared_ptr<carve::mesh::MeshSet<3> >& result,
 		int tag, bool& op1_dumped, bool& op2_dumped, DumpSettingsStruct& dumpColorSettings, GeomProcessingParams& paramsPrime)
 	{
@@ -1188,17 +1258,42 @@ namespace GeomDebugDump
 		GeomDebugDump::moveOffset(0.2);
 		GeomDebugDump::dumpLocalCoordinateSystem();
 
+		carve::geom::aabb<3> bbox1 = op1->getAABB();
+		carve::geom::aabb<3> bbox2 = op2->getAABB();
+		double dy = std::max(bbox1.extent.y, bbox2.extent.y);
 		if (!op1_dumped)
 		{
 			op1_dumped = true;
 			dumpWithLabel("computeCSG::op1", op1, dumpColorSettings, params, true, false);
+			
+			shared_ptr<carve::mesh::MeshSet<3> > bbox1Mshset;
+			MeshOps::boundingBox2Mesh(bbox1, bbox1Mshset, params.epsMergePoints);
+			glm::vec4 color(1.0, 0.2, 0.2, 1.0);
+			std::vector<carve::mesh::Edge<3>* > vec_edges;
+			for( auto mesh : bbox1Mshset->meshes )
+			{
+				std::copy(mesh->closed_edges.begin(), mesh->closed_edges.end(), std::back_inserter(vec_edges));
+			}
+			GeomDebugDump::dumpEdges(vec_edges);
 		}
 
 		if (!op2_dumped)
 		{
 			op2_dumped = true;
 			dumpWithLabel("computeCSG::op2", op2, dumpColorSettings, params, false, false);
+
+			shared_ptr<carve::mesh::MeshSet<3> > bboxMshset;
+			MeshOps::boundingBox2Mesh(bbox2, bboxMshset, params.epsMergePoints);
+			glm::vec4 color(1.0, 0.2, 0.2, 1.0);
+			std::vector<carve::mesh::Edge<3>* > vec_edges;
+			for( auto mesh : bboxMshset->meshes )
+			{
+				std::copy(mesh->closed_edges.begin(), mesh->closed_edges.end(), std::back_inserter(vec_edges));
+			}
+			GeomDebugDump::dumpEdges( vec_edges);
 		}
+
+		GeomDebugDump::moveOffset( dy* 2.0 + 0.2);
 
 		dumpWithLabel("computeCSG::result", result, dumpColorSettings, params, true, true);
 	}
@@ -1326,62 +1421,6 @@ namespace GeomDebugDump
 				moveOffset(meshset);
 			}
 		}
-	}
-
-	static void dumpEdges( const shared_ptr<carve::mesh::MeshSet<3> > meshset, const std::vector<carve::mesh::Edge<3>* >& vec_edges )
-	{
-		std::stringstream strs_out;
-		strs_out << "PolyLineSet{" << std::endl;
-		strs_out << "vertices{" << std::endl;
-
-		std::map<const carve::mesh::Vertex<3>*, int > map_vertex_idx;
-		size_t vertex_idx = 0;
-		for( size_t i = 0; i < vec_edges.size(); ++i )
-		{
-			carve::mesh::Edge<3>* edge = vec_edges[i];
-
-			const carve::mesh::Vertex<3>* vertex1 = edge->v1();
-			map_vertex_idx[vertex1] = vertex_idx;
-			if( vertex_idx > 0 )
-			{
-				strs_out << ",";
-			}
-			strs_out << "{" << vertex1->v.x << ", " << vertex1->v.y << ", " << vertex1->v.z << "}";
-			++vertex_idx;
-
-			const carve::mesh::Vertex<3>* vertex2 = edge->v2();
-			map_vertex_idx[vertex2] = vertex_idx;
-			if( vertex_idx > 0 )
-			{
-				strs_out << ",";
-			}
-			strs_out << "{" << vertex2->v.x << ", " << vertex2->v.y << ", " << vertex2->v.z << "}";
-			++vertex_idx;
-		}
-		strs_out << "}" << std::endl; // vertices
-
-		strs_out << "lines{" << std::endl;
-		for( size_t i = 0; i < vec_edges.size(); ++i )
-		{
-			carve::mesh::Edge<3>* edge = vec_edges[i];
-			
-			const carve::mesh::Vertex<3>* vertex1 = edge->v1();
-			const carve::mesh::Vertex<3>* vertex2 = edge->v2();
-
-			if( i > 0 )
-			{
-				strs_out << ", ";
-			}
-
-			int idx1 = map_vertex_idx[vertex1];
-			int idx2 = map_vertex_idx[vertex2];
-			strs_out << "{" << idx1 << "," << idx2 << "}";
-		}
-		strs_out << std::endl << "}"; // lines
-		strs_out << std::endl << "}"; // PolyLineSet
-
-
-		appendToOutput(strs_out);
 	}
 
 	static void dumpItemShapeInputData(shared_ptr<ItemShapeData>& item_shape, const glm::vec4& color )

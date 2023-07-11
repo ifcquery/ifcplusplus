@@ -136,15 +136,6 @@ TARGET_INCLUDE_DIRECTORIES(SimpleViewerExampleQt
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/Carve/src/common
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/Carve/build/src
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/glm
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/utilities/include
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/utilities
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/polygon/include
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/manifold/include
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/collider/include
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/third_party
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/third_party/thrust
-	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/manifold/src/third_party/graphlite/include
 	
     ${OPENTHREADS_INCLUDE_DIR}
     ${OSG_INCLUDE_DIR}

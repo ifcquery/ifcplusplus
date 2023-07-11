@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 3.7.2)
 
 IF(NOT CMAKE_BUILD_TYPE)
-	SET(CMAKE_BUILD_TYPE "Release")
+   SET(CMAKE_BUILD_TYPE "Release")
 ENDIF()
 
 IF(NOT WIN32)
@@ -13,16 +13,13 @@ IF(NOT WIN32)
     SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE})
 ENDIF(NOT WIN32)
 
-
-ADD_DEFINITIONS(-DIFCQUERY_STATIC_LIB)
 ADD_DEFINITIONS(-DGLM_FORCE_CTOR_INIT)
 ADD_DEFINITIONS(-DGLM_FORCE_XYZW_ONLY)
-ADD_DEFINITIONS(-D_HAS_AUTO_PTR_ETC=1)
 ADD_DEFINITIONS(-DUNICODE)
 ADD_DEFINITIONS(-D_UNICODE)
+ADD_DEFINITIONS(-DIFCQUERY_STATIC_LIB)
 ADD_DEFINITIONS(-DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD C++17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(NOT DEFINED USE_OPENMP)
@@ -36,35 +33,38 @@ endif()
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/IfcPlusPlus/Debug)
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/IfcPlusPlus/${CMAKE_BUILD_TYPE})
 
-ADD_EXECUTABLE(LoadFileExample
+ADD_EXECUTABLE(LoadFileExample 
     ${IFCPP_SOURCE_DIR}/examples/LoadFileExample/src/main.cpp
 )
 
 set_target_properties(LoadFileExample PROPERTIES DEBUG_POSTFIX "d")
 set_target_properties(LoadFileExample PROPERTIES CXX_STANDARD 17)
-set_target_properties(LoadFileExample PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=../../IfcPlusPlus/Debug;../../IfcPlusPlus/Release;$(PATH)") # is there a way to set Debug/Release by one variable?
 
 if(OpenMP_CXX_FOUND)
-	TARGET_LINK_LIBRARIES(LoadFileExample optimized IfcPlusPlus OpenMP::OpenMP_CXX debug IfcPlusPlusd )
+    TARGET_LINK_LIBRARIES(LoadFileExample 
+		optimized OpenMP::OpenMP_CXX
+		optimized IfcPlusPlus debug IfcPlusPlusd)
+		
 else(OpenMP_CXX_FOUND)
-	TARGET_LINK_LIBRARIES(LoadFileExample optimized IfcPlusPlus debug IfcPlusPlusd)
+	TARGET_LINK_LIBRARIES(LoadFileExample 
+		optimized IfcPlusPlus debug IfcPlusPlusd)
 endif()
-
-IF(BUILD_STATIC_LIBRARY)
-	ADD_DEFINITIONS(-DIFCQUERY_STATIC_LIB)
-ENDIF()
 
 TARGET_INCLUDE_DIRECTORIES(LoadFileExample
     PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/external
-	${CMAKE_CURRENT_SOURCE_DIR}/src/external/RapidJSON
-	${CMAKE_CURRENT_SOURCE_DIR}/src
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/ifcpp/IFC4X3/include
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/glm
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/Carve/include
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/Carve/src
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/Carve/src/include
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/Carve/src/common
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/Carve/build/src
+	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/glm
 )
-
+		
 INSTALL(
     TARGETS LoadFileExample
     RUNTIME DESTINATION bin
