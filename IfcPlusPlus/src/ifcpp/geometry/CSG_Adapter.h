@@ -191,9 +191,12 @@ namespace CSG_Adapter
 			}
 
 			bool dump_result_mesh = false;
-			//if (csg_compute_count == 24  || tag == 1311603)
+			if ( tag == 1311603)
 			{
-				//GeomDebugDump::dumpOperands(op1, op2, result, tag, op1_dumped, op2_dumped, dumpColorSettings, paramsScaled);
+				dump_result_mesh = true;
+			}
+			if (csg_compute_count == 24 )
+			{
 				dump_result_mesh = true;
 			}
 

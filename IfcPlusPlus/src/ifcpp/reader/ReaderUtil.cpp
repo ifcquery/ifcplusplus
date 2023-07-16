@@ -174,14 +174,19 @@ std::istream& bufferedGetStepLine(std::istream& inputStream, std::string& lineOu
 	std::streambuf* sb = inputStream.rdbuf();
 	bool inString = false;
 
+#ifdef _DEBUG
+	std::string string40;
+#endif	
+
 	// std::getline does not work with all line endings, reads complete file instead.
 	// Handle \n (unix), \r\n (windows), \r (mac) line endings here
 	while(true)
 	{
-		int c = sb->sbumpc();
+		int c = sb->sbumpc();  // sbumpc: character at the current position and advances the current position to the next character
 #ifdef _DEBUG
 		std::string charAsString;
 		charAsString += ((char)c);
+		string40 += charAsString;
 #endif
 		switch (c)
 		{
@@ -200,12 +205,11 @@ std::istream& bufferedGetStepLine(std::istream& inputStream, std::string& lineOu
 			continue;
 		}
 		case '\'':
-			if( sb->sgetc() != '/' )  // sgetc: character at the current position
-			{
-				inString = !inString;
-			}
+		{
+			inString = !inString;
 			lineOut += (char)c;
 			continue;
+		}
 		case '/':
 			if( !inString )
 			{
