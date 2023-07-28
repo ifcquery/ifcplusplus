@@ -32,14 +32,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
-#ifndef GLM_FORCE_CTOR_INIT
-#warning "GLM_FORCE_CTOR_INIT has to be defined in project settings"
-#endif
-
-#ifndef GLM_FORCE_XYZW_ONLY
-#warning "GLM_FORCE_XYZW_ONLY has to be defined in project settings"
-#endif
-
 #include "IncludeCarveHeaders.h"
 
 #define EPS_M16 1e-16
@@ -101,17 +93,14 @@ namespace GeomUtils
 			origin = other.origin;
 			direction = other.direction;
 		}
-		glm::dvec3 origin;
-		glm::dvec3 direction;
+		glm::dvec3 origin{ 0.0, 0.0, 0.0 };
+		glm::dvec3 direction{ 0.0, 0.0, 0.0 };
 	};
 	
 	struct Plane
 	{
-		Plane()
-		{
-			m_position = glm::dvec3(0, 0, 0);
-			m_normal = glm::dvec3(0, 0, 1);
-		}
+		Plane() = default;
+		
 		Plane(const glm::dvec3& _position, const glm::dvec3& _normal)
 		{
 			m_position = _position;
@@ -209,8 +198,8 @@ namespace GeomUtils
 		}
 
 	protected:
-		glm::dvec3 m_position;
-		glm::dvec3 m_normal;
+		glm::dvec3 m_position{ 0.0, 0.0, 0.0 };
+		glm::dvec3 m_normal{ 0.0, 0.0, 1.0 };
 	};
 
 	static double distancePointPlane(const vec3& point, const vec3& planeNormal, const vec3& planePosition)
@@ -2141,14 +2130,10 @@ namespace GeomUtils
 
 	class aabb {
 	public:
-		glm::dvec3 pos;
-		glm::dvec3 extent;
+		glm::dvec3 pos{ 0.0, 0.0, 0.0 };
+		glm::dvec3 extent{ 0.0, 0.0, 0.0 };
 
-		aabb()
-		{
-			pos = glm::dvec3(0, 0, 0);
-			extent = glm::dvec3(0, 0, 0);
-		}
+		aabb() = default;
 
 		aabb(glm::dvec3 _pos, glm::dvec3 _extent)
 		{
