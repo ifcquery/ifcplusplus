@@ -159,7 +159,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCPP_AS_DYNAMIC_LIBRARY;IFCPP_LIB;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCPP_AS_DYNAMIC_LIBRARY;IFCPP_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MinimalRebuild>false</MinimalRebuild>
@@ -174,7 +174,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.;.\src;src\ifcpp;src\ifcpp\IFC4X3\include;.\src\external\;.\src\external\RapidJSON;.\src\external\glm;src/external/Carve;src/external/Carve/src;src/external/Carve/src/common;src/external/Carve/src/lib;src/external/Carve/src/include;src/external/Carve/src/include/carve;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;WIN64;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;IFCQUERY_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;WINDOWS;UNICODE;WIN32;WIN64;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCQUERY_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <EnableParallelCodeGeneration>
@@ -209,7 +209,7 @@
       <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;IFCQUERY_AS_DYNAMIC_LIBRARY;IFCQUERY_LIB;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;IFCQUERY_AS_DYNAMIC_LIBRARY;IFCQUERY_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
       <DebugInformationFormat />
@@ -254,7 +254,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <AdditionalIncludeDirectories>.;.\src;src\ifcpp;src\ifcpp\IFC4X3\include;.\src\external\;.\src\external\RapidJSON;.\src\external\glm;src/external/Carve;src/external/Carve/src;src/external/Carve/src/common;src/external/Carve/src/lib;src/external/Carve/src/include;src/external/Carve/src/include/carve;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;IFCQUERY_LIB;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;IFCQUERY_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;IFCQUERY_LIB;IFCQUERY_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -302,7 +302,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -325,7 +325,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>src;../Carve/src/;../Carve/src/include;../Carve/src/common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;NDEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>

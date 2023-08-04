@@ -108,7 +108,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;WIN64;_WINDOWS;WINDOWS;UNICODE;_UNICODE;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCQUERY_STATIC_LIB;_HAS_AUTO_PTR_ETC=1;GLM_FORCE_XYZW_ONLY;GLM_FORCE_CTOR_INIT;CARVE_SYSTEM_BOOST;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;WIN64;_WINDOWS;WINDOWS;UNICODE;_UNICODE;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCQUERY_STATIC_LIB;_HAS_AUTO_PTR_ETC=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
@@ -150,7 +150,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;IFCQUERY_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;IFCQUERY_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>

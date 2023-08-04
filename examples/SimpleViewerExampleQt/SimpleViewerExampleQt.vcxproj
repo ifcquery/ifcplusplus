@@ -150,7 +150,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;WIN64;_WINDOWS;WINDOWS;UNICODE;_UNICODE;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;IFCQUERY_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;WIN64;_WINDOWS;WINDOWS;UNICODE;_UNICODE;_DEBUG;_CRT_SECURE_NO_WARNINGS;_MBCS;IFCQUERY_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;../../IfcPlusPlus/src/external;../../IfcPlusPlus/src/external/Carve/include;../../IfcPlusPlus/src/external/Carve/src;../../IfcPlusPlus/src/external/Carve/src/include;../../IfcPlusPlus/src/external/Carve/src/common;../../IfcPlusPlus/src/external/Carve/build/src;.;.\src;..\..\IfcPlusPlus\src;..\..\IfcPlusPlus\src\ifcpp\IFC4X3\include;..\..\IfcPlusPlus\src\external;..\..\IfcPlusPlus\src\external\glm;$(OSG_DIR)\include;$(OSG_DIR)\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -231,7 +231,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>UNICODE;WIN32;WIN64;NDEBUG;QT_NO_DEBUG;GLM_FORCE_CTOR_INIT;GLM_FORCE_XYZW_ONLY;THRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CPP;IFCQUERY_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN32;WIN64;NDEBUG;QT_NO_DEBUG;IFCQUERY_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;../../IfcPlusPlus/src/external;../../IfcPlusPlus/src/external/Carve/include;../../IfcPlusPlus/src/external/Carve/src;../../IfcPlusPlus/src/external/Carve/src/include;../../IfcPlusPlus/src/external/Carve/src/common;../../IfcPlusPlus/src/external/Carve/build/src;.;.\src;..\..\IfcPlusPlus\src;..\..\IfcPlusPlus\src\ifcpp\IFC4X3\include;..\..\IfcPlusPlus\src\external;..\..\IfcPlusPlus\src\external\glm;$(OSG_DIR)\include;$(OSG_DIR)\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>

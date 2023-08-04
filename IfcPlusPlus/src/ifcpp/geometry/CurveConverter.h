@@ -387,18 +387,14 @@ public:
 		if( conic )
 		{
 			// ENTITY IfcConic ABSTRACT SUPERTYPE OF(ONEOF(IfcCircle, IfcEllipse))
-			shared_ptr<TransformData> conic_position_matrix;
+			shared_ptr<TransformData> conic_position_matrix( new TransformData() );
 			shared_ptr<IfcPlacement> conic_placement = dynamic_pointer_cast<IfcPlacement>(conic->m_Position);
 			if( conic_placement )
 			{
 				m_placement_converter->convertIfcPlacement(conic_placement, conic_position_matrix, false);
 			}
 
-			vec3 circle_center;
-			if( conic_position_matrix )
-			{
-				circle_center = conic_position_matrix->m_matrix * carve::geom::VECTOR(0, 0, 0);
-			}
+			vec3 circle_center = conic_position_matrix->m_matrix * carve::geom::VECTOR(0, 0, 0);
 
 			double circle_radius = -1;
 			double circle_radius2 = -1;
@@ -428,6 +424,7 @@ public:
 
 			carve::math::Matrix circlePositionInverse;
 			GeomUtils::computeInverse(conic_position_matrix->m_matrix, circlePositionInverse);
+
 			double maxRadius = std::max(circle_radius, circle_radius2);
 			double trimAngle1 = 0.0;
 			double trimAngle2 = M_PI * 2.0;
