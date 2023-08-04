@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcExternalSpatialElementTypeEnum.h"
 
 // TYPE IfcExternalSpatialElementTypeEnum = ENUMERATION OF	(EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_FIRE	,EXTERNAL_WATER	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcExternalSpatialElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcExternalSpatialElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCEXTERNALSPATIALELEMENTTYPEENUM("; }
 	switch( m_enum )

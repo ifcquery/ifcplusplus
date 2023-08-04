@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcFacilityUsageEnum.h"
 
 // TYPE IfcFacilityUsageEnum = ENUMERATION OF	(LATERAL	,LONGITUDINAL	,REGION	,VERTICAL	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcFacilityUsageEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcFacilityUsageEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCFACILITYUSAGEENUM("; }
 	switch( m_enum )

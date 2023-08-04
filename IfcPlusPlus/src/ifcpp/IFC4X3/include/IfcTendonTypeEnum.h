@@ -28,7 +28,7 @@ namespace IFC4X3
 		IfcTendonTypeEnum() = default;
 		IfcTendonTypeEnum( IfcTendonTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 3917635812; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcTendonTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcTendonTypeEnumEnum m_enum;
 	};

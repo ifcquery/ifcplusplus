@@ -12,17 +12,17 @@
 
 // ENTITY IfcContextDependentUnit 
 IFC4X3::IfcContextDependentUnit::IfcContextDependentUnit( int tag ) { m_tag = tag; }
-void IFC4X3::IfcContextDependentUnit::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcContextDependentUnit::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCCONTEXTDEPENDENTUNIT" << "(";
 	if( m_Dimensions ) { stream << "#" << m_Dimensions->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_UnitType ) { m_UnitType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UnitType ) { m_UnitType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcContextDependentUnit::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcContextDependentUnit::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcContextDependentUnit::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

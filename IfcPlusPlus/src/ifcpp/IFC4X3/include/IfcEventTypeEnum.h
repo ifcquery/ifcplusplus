@@ -27,7 +27,7 @@ namespace IFC4X3
 		IfcEventTypeEnum() = default;
 		IfcEventTypeEnum( IfcEventTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1401066283; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcEventTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcEventTypeEnumEnum m_enum;
 	};

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcMarinePartTypeEnum.h"
 
 // TYPE IfcMarinePartTypeEnum = ENUMERATION OF	(ABOVEWATERLINE	,ANCHORAGE	,APPROACHCHANNEL	,BELOWWATERLINE	,BERTHINGSTRUCTURE	,CHAMBER	,CILL_LEVEL	,COPELEVEL	,CORE	,CREST	,GATEHEAD	,GUDINGSTRUCTURE	,HIGHWATERLINE	,LANDFIELD	,LEEWARDSIDE	,LOWWATERLINE	,MANUFACTURING	,NAVIGATIONALAREA	,PROTECTION	,SHIPTRANSFER	,STORAGEAREA	,VEHICLESERVICING	,WATERFIELD	,WEATHERSIDE	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcMarinePartTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcMarinePartTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCMARINEPARTTYPEENUM("; }
 	switch( m_enum )

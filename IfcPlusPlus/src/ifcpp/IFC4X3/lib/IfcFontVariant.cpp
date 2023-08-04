@@ -11,7 +11,7 @@
 
 // TYPE IfcFontVariant = STRING;
 IFC4X3::IfcFontVariant::IfcFontVariant( std::string value ) { m_value = value; }
-void IFC4X3::IfcFontVariant::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcFontVariant::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCFONTVARIANT("; }
 	stream << "'" << encodeStepString( m_value ) << "'";

@@ -25,7 +25,7 @@ namespace IFC4X3
 		IfcLayerSetDirectionEnum() = default;
 		IfcLayerSetDirectionEnum( IfcLayerSetDirectionEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1469346588; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcLayerSetDirectionEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcLayerSetDirectionEnumEnum m_enum;
 	};

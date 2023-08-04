@@ -9,13 +9,13 @@
 
 // ENTITY IfcColourRgbList 
 IFC4X3::IfcColourRgbList::IfcColourRgbList( int tag ) { m_tag = tag; }
-void IFC4X3::IfcColourRgbList::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcColourRgbList::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCCOLOURRGBLIST" << "(";
-	writeTypeOfRealList2D( stream, m_ColourList, false );
+	writeTypeOfRealList2D( stream, m_ColourList, false, precision );
 	stream << ");";
 }
-void IFC4X3::IfcColourRgbList::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcColourRgbList::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcColourRgbList::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

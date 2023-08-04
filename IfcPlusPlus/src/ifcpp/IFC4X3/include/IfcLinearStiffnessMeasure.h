@@ -20,7 +20,7 @@ namespace IFC4X3
 		IfcLinearStiffnessMeasure() = default;
 		IfcLinearStiffnessMeasure( double value );
 		virtual uint32_t classID() const { return 1307019551; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcLinearStiffnessMeasure> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		double m_value;
 	};

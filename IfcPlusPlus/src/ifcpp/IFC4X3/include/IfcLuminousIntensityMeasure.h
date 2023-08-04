@@ -19,7 +19,7 @@ namespace IFC4X3
 		IfcLuminousIntensityMeasure() = default;
 		IfcLuminousIntensityMeasure( double value );
 		virtual uint32_t classID() const { return 151039812; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcLuminousIntensityMeasure> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		double m_value;
 	};

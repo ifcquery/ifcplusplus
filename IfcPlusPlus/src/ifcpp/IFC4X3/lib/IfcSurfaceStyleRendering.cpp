@@ -13,29 +13,29 @@
 
 // ENTITY IfcSurfaceStyleRendering 
 IFC4X3::IfcSurfaceStyleRendering::IfcSurfaceStyleRendering( int tag ) { m_tag = tag; }
-void IFC4X3::IfcSurfaceStyleRendering::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcSurfaceStyleRendering::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACESTYLERENDERING" << "(";
 	if( m_SurfaceColour ) { stream << "#" << m_SurfaceColour->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Transparency ) { m_Transparency->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Transparency ) { m_Transparency->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DiffuseColour ) { m_DiffuseColour->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_DiffuseColour ) { m_DiffuseColour->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_TransmissionColour ) { m_TransmissionColour->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_TransmissionColour ) { m_TransmissionColour->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_DiffuseTransmissionColour ) { m_DiffuseTransmissionColour->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_DiffuseTransmissionColour ) { m_DiffuseTransmissionColour->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_ReflectionColour ) { m_ReflectionColour->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_ReflectionColour ) { m_ReflectionColour->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_SpecularColour ) { m_SpecularColour->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_SpecularColour ) { m_SpecularColour->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_SpecularHighlight ) { m_SpecularHighlight->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_SpecularHighlight ) { m_SpecularHighlight->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_ReflectanceMethod ) { m_ReflectanceMethod->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ReflectanceMethod ) { m_ReflectanceMethod->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcSurfaceStyleRendering::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcSurfaceStyleRendering::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcSurfaceStyleRendering::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

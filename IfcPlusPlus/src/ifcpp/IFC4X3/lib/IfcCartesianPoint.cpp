@@ -17,13 +17,13 @@ IFC4X3::IfcCartesianPoint::IfcCartesianPoint( int tag )
 	m_Coordinates[2] = 0;
 	m_size = 0;
 }
-void IFC4X3::IfcCartesianPoint::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcCartesianPoint::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCCARTESIANPOINT" << "(";
-	writeRealArray3( stream, m_Coordinates, false, m_size );
+	writeRealArray3( stream, m_Coordinates, false, m_size, precision );
 	stream << ");";
 }
-void IFC4X3::IfcCartesianPoint::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcCartesianPoint::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcCartesianPoint::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

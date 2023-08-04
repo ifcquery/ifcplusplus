@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcPileConstructionEnum.h"
 
 // TYPE IfcPileConstructionEnum = ENUMERATION OF	(CAST_IN_PLACE	,COMPOSITE	,PRECAST_CONCRETE	,PREFAB_STEEL	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcPileConstructionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcPileConstructionEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCPILECONSTRUCTIONENUM("; }
 	switch( m_enum )

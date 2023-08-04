@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcProjectedOrTrueLengthEnum.h"
 
 // TYPE IfcProjectedOrTrueLengthEnum = ENUMERATION OF	(PROJECTED_LENGTH	,TRUE_LENGTH);
-void IFC4X3::IfcProjectedOrTrueLengthEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcProjectedOrTrueLengthEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCPROJECTEDORTRUELENGTHENUM("; }
 	switch( m_enum )

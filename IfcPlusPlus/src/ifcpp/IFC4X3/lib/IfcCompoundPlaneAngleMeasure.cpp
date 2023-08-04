@@ -11,7 +11,7 @@
 #include "ifcpp/IFC4X3/include/IfcCompoundPlaneAngleMeasure.h"
 
 // TYPE IfcCompoundPlaneAngleMeasure = LIST [3:4] OF INTEGER;
-void IFC4X3::IfcCompoundPlaneAngleMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcCompoundPlaneAngleMeasure::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCOMPOUNDPLANEANGLEMEASURE("; }
 	writeIntList( stream, m_vec );

@@ -11,7 +11,7 @@
 
 // ENTITY IfcGeometricCurveSet 
 IFC4X3::IfcGeometricCurveSet::IfcGeometricCurveSet( int tag ) { m_tag = tag; }
-void IFC4X3::IfcGeometricCurveSet::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcGeometricCurveSet::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCGEOMETRICCURVESET" << "(";
 	stream << "(";
@@ -24,7 +24,7 @@ void IFC4X3::IfcGeometricCurveSet::getStepLine( std::stringstream& stream ) cons
 		const shared_ptr<IfcGeometricSetSelect>& type_object = m_Elements[ii];
 		if( type_object )
 		{
-			type_object->getStepParameter( stream, true );
+			type_object->getStepParameter( stream, true, precision );
 		}
 		else
 		{
@@ -34,7 +34,7 @@ void IFC4X3::IfcGeometricCurveSet::getStepLine( std::stringstream& stream ) cons
 	stream << ")";
 	stream << ");";
 }
-void IFC4X3::IfcGeometricCurveSet::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcGeometricCurveSet::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcGeometricCurveSet::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

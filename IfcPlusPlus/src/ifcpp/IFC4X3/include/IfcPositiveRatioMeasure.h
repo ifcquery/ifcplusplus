@@ -19,7 +19,7 @@ namespace IFC4X3
 		IfcPositiveRatioMeasure() = default;
 		IfcPositiveRatioMeasure( double value ) { m_value = value; }
 		virtual uint32_t classID() const { return 1245737093; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcPositiveRatioMeasure> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 	};
 }

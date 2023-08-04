@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcReinforcingBarTypeEnum.h"
 
 // TYPE IfcReinforcingBarTypeEnum = ENUMERATION OF	(ANCHORING	,EDGE	,LIGATURE	,MAIN	,PUNCHING	,RING	,SHEAR	,SPACEBAR	,STUD	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcReinforcingBarTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcReinforcingBarTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCREINFORCINGBARTYPEENUM("; }
 	switch( m_enum )

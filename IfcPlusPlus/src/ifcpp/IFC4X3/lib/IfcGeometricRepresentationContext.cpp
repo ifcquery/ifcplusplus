@@ -16,23 +16,23 @@
 
 // ENTITY IfcGeometricRepresentationContext 
 IFC4X3::IfcGeometricRepresentationContext::IfcGeometricRepresentationContext( int tag ) { m_tag = tag; }
-void IFC4X3::IfcGeometricRepresentationContext::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcGeometricRepresentationContext::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCGEOMETRICREPRESENTATIONCONTEXT" << "(";
-	if( m_ContextIdentifier ) { m_ContextIdentifier->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ContextIdentifier ) { m_ContextIdentifier->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ContextType ) { m_ContextType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ContextType ) { m_ContextType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_CoordinateSpaceDimension ) { m_CoordinateSpaceDimension->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_CoordinateSpaceDimension ) { m_CoordinateSpaceDimension->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Precision ) { m_Precision->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Precision ) { m_Precision->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_WorldCoordinateSystem ) { m_WorldCoordinateSystem->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_WorldCoordinateSystem ) { m_WorldCoordinateSystem->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_TrueNorth ) { stream << "#" << m_TrueNorth->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcGeometricRepresentationContext::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcGeometricRepresentationContext::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcGeometricRepresentationContext::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

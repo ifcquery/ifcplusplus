@@ -27,7 +27,7 @@ namespace IFC4X3
 		IfcPermitTypeEnum() = default;
 		IfcPermitTypeEnum( IfcPermitTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 3061959087; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcPermitTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcPermitTypeEnumEnum m_enum;
 	};

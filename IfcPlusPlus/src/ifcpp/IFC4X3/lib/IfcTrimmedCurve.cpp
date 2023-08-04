@@ -14,7 +14,7 @@
 
 // ENTITY IfcTrimmedCurve 
 IFC4X3::IfcTrimmedCurve::IfcTrimmedCurve( int tag ) { m_tag = tag; }
-void IFC4X3::IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcTrimmedCurve::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCTRIMMEDCURVE" << "(";
 	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_tag; } else { stream << "$"; }
@@ -29,7 +29,7 @@ void IFC4X3::IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
 		const shared_ptr<IfcTrimmingSelect>& type_object = m_Trim1[ii];
 		if( type_object )
 		{
-			type_object->getStepParameter( stream, true );
+			type_object->getStepParameter( stream, true, precision );
 		}
 		else
 		{
@@ -48,7 +48,7 @@ void IFC4X3::IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
 		const shared_ptr<IfcTrimmingSelect>& type_object = m_Trim2[ii];
 		if( type_object )
 		{
-			type_object->getStepParameter( stream, true );
+			type_object->getStepParameter( stream, true, precision );
 		}
 		else
 		{
@@ -57,12 +57,12 @@ void IFC4X3::IfcTrimmedCurve::getStepLine( std::stringstream& stream ) const
 	}
 	stream << ")";
 	stream << ",";
-	if( m_SenseAgreement ) { m_SenseAgreement->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SenseAgreement ) { m_SenseAgreement->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcTrimmedCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcTrimmedCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcTrimmedCurve::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

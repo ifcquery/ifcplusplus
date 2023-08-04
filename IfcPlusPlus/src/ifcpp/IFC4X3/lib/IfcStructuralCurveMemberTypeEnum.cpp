@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcStructuralCurveMemberTypeEnum.h"
 
 // TYPE IfcStructuralCurveMemberTypeEnum = ENUMERATION OF	(CABLE	,COMPRESSION_MEMBER	,PIN_JOINED_MEMBER	,RIGID_JOINED_MEMBER	,TENSION_MEMBER	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcStructuralCurveMemberTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcStructuralCurveMemberTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSTRUCTURALCURVEMEMBERTYPEENUM("; }
 	switch( m_enum )

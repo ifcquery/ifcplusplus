@@ -11,7 +11,7 @@
 
 // TYPE IfcGloballyUniqueId = STRING(22) FIXED;
 IFC4X3::IfcGloballyUniqueId::IfcGloballyUniqueId( std::string value ) { m_value = value; }
-void IFC4X3::IfcGloballyUniqueId::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcGloballyUniqueId::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCGLOBALLYUNIQUEID("; }
 	stream << "'" << encodeStepString( m_value ) << "'";

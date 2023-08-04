@@ -20,35 +20,35 @@
 
 // ENTITY IfcSimplePropertyTemplate 
 IFC4X3::IfcSimplePropertyTemplate::IfcSimplePropertyTemplate( int tag ) { m_tag = tag; }
-void IFC4X3::IfcSimplePropertyTemplate::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcSimplePropertyTemplate::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSIMPLEPROPERTYTEMPLATE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_TemplateType ) { m_TemplateType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TemplateType ) { m_TemplateType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_PrimaryMeasureType ) { m_PrimaryMeasureType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_PrimaryMeasureType ) { m_PrimaryMeasureType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SecondaryMeasureType ) { m_SecondaryMeasureType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SecondaryMeasureType ) { m_SecondaryMeasureType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Enumerators ) { stream << "#" << m_Enumerators->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_PrimaryUnit ) { m_PrimaryUnit->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_PrimaryUnit ) { m_PrimaryUnit->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_SecondaryUnit ) { m_SecondaryUnit->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_SecondaryUnit ) { m_SecondaryUnit->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_Expression ) { m_Expression->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Expression ) { m_Expression->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_AccessState ) { m_AccessState->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_AccessState ) { m_AccessState->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcSimplePropertyTemplate::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcSimplePropertyTemplate::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcSimplePropertyTemplate::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

@@ -14,12 +14,12 @@
 
 // ENTITY IfcPresentationLayerWithStyle 
 IFC4X3::IfcPresentationLayerWithStyle::IfcPresentationLayerWithStyle( int tag ) { m_tag = tag; }
-void IFC4X3::IfcPresentationLayerWithStyle::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcPresentationLayerWithStyle::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCPRESENTATIONLAYERWITHSTYLE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_AssignedItems.size(); ++ii )
@@ -31,7 +31,7 @@ void IFC4X3::IfcPresentationLayerWithStyle::getStepLine( std::stringstream& stre
 		const shared_ptr<IfcLayeredItem>& type_object = m_AssignedItems[ii];
 		if( type_object )
 		{
-			type_object->getStepParameter( stream, true );
+			type_object->getStepParameter( stream, true, precision );
 		}
 		else
 		{
@@ -40,18 +40,18 @@ void IFC4X3::IfcPresentationLayerWithStyle::getStepLine( std::stringstream& stre
 	}
 	stream << ")";
 	stream << ",";
-	if( m_Identifier ) { m_Identifier->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identifier ) { m_Identifier->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LayerOn ) { m_LayerOn->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LayerOn ) { m_LayerOn->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LayerFrozen ) { m_LayerFrozen->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LayerFrozen ) { m_LayerFrozen->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LayerBlocked ) { m_LayerBlocked->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LayerBlocked ) { m_LayerBlocked->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_LayerStyles );
 	stream << ");";
 }
-void IFC4X3::IfcPresentationLayerWithStyle::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcPresentationLayerWithStyle::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcPresentationLayerWithStyle::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

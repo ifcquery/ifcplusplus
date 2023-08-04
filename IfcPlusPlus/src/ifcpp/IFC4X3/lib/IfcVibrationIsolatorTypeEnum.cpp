@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcVibrationIsolatorTypeEnum.h"
 
 // TYPE IfcVibrationIsolatorTypeEnum = ENUMERATION OF	(BASE	,COMPRESSION	,SPRING	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcVibrationIsolatorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcVibrationIsolatorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCVIBRATIONISOLATORTYPEENUM("; }
 	switch( m_enum )

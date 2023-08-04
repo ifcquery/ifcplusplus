@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcSectionTypeEnum.h"
 
 // TYPE IfcSectionTypeEnum = ENUMERATION OF	(TAPERED	,UNIFORM);
-void IFC4X3::IfcSectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcSectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSECTIONTYPEENUM("; }
 	switch( m_enum )

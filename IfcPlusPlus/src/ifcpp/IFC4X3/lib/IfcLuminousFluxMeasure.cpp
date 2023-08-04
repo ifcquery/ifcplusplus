@@ -12,10 +12,10 @@
 
 // TYPE IfcLuminousFluxMeasure = REAL;
 IFC4X3::IfcLuminousFluxMeasure::IfcLuminousFluxMeasure( double value ) { m_value = value; }
-void IFC4X3::IfcLuminousFluxMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcLuminousFluxMeasure::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCLUMINOUSFLUXMEASURE("; }
-	appendRealWithoutTrailingZeros( stream, m_value );
+	appendRealWithoutTrailingZeros( stream, m_value, precision );
 	if( is_select_type ) { stream << ")"; }
 }
 shared_ptr<IFC4X3::IfcLuminousFluxMeasure> IFC4X3::IfcLuminousFluxMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcStateEnum.h"
 
 // TYPE IfcStateEnum = ENUMERATION OF	(LOCKED	,READONLY	,READONLYLOCKED	,READWRITE	,READWRITELOCKED);
-void IFC4X3::IfcStateEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcStateEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSTATEENUM("; }
 	switch( m_enum )

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcPermitTypeEnum.h"
 
 // TYPE IfcPermitTypeEnum = ENUMERATION OF	(ACCESS	,BUILDING	,WORK	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcPermitTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcPermitTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCPERMITTYPEENUM("; }
 	switch( m_enum )

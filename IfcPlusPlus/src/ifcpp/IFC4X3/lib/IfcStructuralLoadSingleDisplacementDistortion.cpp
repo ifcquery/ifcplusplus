@@ -12,27 +12,27 @@
 
 // ENTITY IfcStructuralLoadSingleDisplacementDistortion 
 IFC4X3::IfcStructuralLoadSingleDisplacementDistortion::IfcStructuralLoadSingleDisplacementDistortion( int tag ) { m_tag = tag; }
-void IFC4X3::IfcStructuralLoadSingleDisplacementDistortion::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcStructuralLoadSingleDisplacementDistortion::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSTRUCTURALLOADSINGLEDISPLACEMENTDISTORTION" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DisplacementX ) { m_DisplacementX->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_DisplacementX ) { m_DisplacementX->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DisplacementY ) { m_DisplacementY->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_DisplacementY ) { m_DisplacementY->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DisplacementZ ) { m_DisplacementZ->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_DisplacementZ ) { m_DisplacementZ->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RotationalDisplacementRX ) { m_RotationalDisplacementRX->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RotationalDisplacementRX ) { m_RotationalDisplacementRX->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RotationalDisplacementRY ) { m_RotationalDisplacementRY->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RotationalDisplacementRY ) { m_RotationalDisplacementRY->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RotationalDisplacementRZ ) { m_RotationalDisplacementRZ->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RotationalDisplacementRZ ) { m_RotationalDisplacementRZ->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Distortion ) { m_Distortion->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Distortion ) { m_Distortion->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcStructuralLoadSingleDisplacementDistortion::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcStructuralLoadSingleDisplacementDistortion::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcStructuralLoadSingleDisplacementDistortion::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

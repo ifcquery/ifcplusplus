@@ -10,15 +10,15 @@
 
 // ENTITY IfcMeasureWithUnit 
 IFC4X3::IfcMeasureWithUnit::IfcMeasureWithUnit( int tag ) { m_tag = tag; }
-void IFC4X3::IfcMeasureWithUnit::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcMeasureWithUnit::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCMEASUREWITHUNIT" << "(";
-	if( m_ValueComponent ) { m_ValueComponent->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_ValueComponent ) { m_ValueComponent->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_UnitComponent ) { m_UnitComponent->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_UnitComponent ) { m_UnitComponent->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IFC4X3::IfcMeasureWithUnit::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcMeasureWithUnit::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcMeasureWithUnit::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

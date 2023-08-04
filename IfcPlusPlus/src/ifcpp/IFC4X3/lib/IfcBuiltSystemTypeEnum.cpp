@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcBuiltSystemTypeEnum.h"
 
 // TYPE IfcBuiltSystemTypeEnum = ENUMERATION OF	(EROSIONPREVENTION	,FENESTRATION	,FOUNDATION	,LOADBEARING	,MOORING	,OUTERSHELL	,PRESTRESSING	,RAILWAYLINE	,RAILWAYTRACK	,REINFORCING	,SHADING	,TRACKCIRCUIT	,TRANSPORT	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcBuiltSystemTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcBuiltSystemTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCBUILTSYSTEMTYPEENUM("; }
 	switch( m_enum )

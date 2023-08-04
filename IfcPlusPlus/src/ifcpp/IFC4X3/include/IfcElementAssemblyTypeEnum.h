@@ -52,7 +52,7 @@ namespace IFC4X3
 		IfcElementAssemblyTypeEnum() = default;
 		IfcElementAssemblyTypeEnum( IfcElementAssemblyTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 2841622424; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcElementAssemblyTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcElementAssemblyTypeEnumEnum m_enum;
 	};

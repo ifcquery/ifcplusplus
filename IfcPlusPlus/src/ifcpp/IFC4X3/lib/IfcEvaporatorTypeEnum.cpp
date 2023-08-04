@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcEvaporatorTypeEnum.h"
 
 // TYPE IfcEvaporatorTypeEnum = ENUMERATION OF	(DIRECTEXPANSION	,DIRECTEXPANSIONBRAZEDPLATE	,DIRECTEXPANSIONSHELLANDTUBE	,DIRECTEXPANSIONTUBEINTUBE	,FLOODEDSHELLANDTUBE	,SHELLANDCOIL	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcEvaporatorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcEvaporatorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCEVAPORATORTYPEENUM("; }
 	switch( m_enum )

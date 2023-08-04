@@ -25,35 +25,35 @@
 
 // ENTITY IfcWindowStyle 
 IFC4X3::IfcWindowStyle::IfcWindowStyle( int tag ) { m_tag = tag; }
-void IFC4X3::IfcWindowStyle::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcWindowStyle::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCWINDOWSTYLE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ApplicableOccurrence ) { m_ApplicableOccurrence->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ApplicableOccurrence ) { m_ApplicableOccurrence->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_HasPropertySets );
 	stream << ",";
 	writeEntityList( stream, m_RepresentationMaps );
 	stream << ",";
-	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Tag ) { m_Tag->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ConstructionType ) { m_ConstructionType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ConstructionType ) { m_ConstructionType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OperationType ) { m_OperationType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_OperationType ) { m_OperationType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ParameterTakesPrecedence ) { m_ParameterTakesPrecedence->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ParameterTakesPrecedence ) { m_ParameterTakesPrecedence->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Sizeable ) { m_Sizeable->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Sizeable ) { m_Sizeable->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcWindowStyle::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcWindowStyle::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcWindowStyle::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

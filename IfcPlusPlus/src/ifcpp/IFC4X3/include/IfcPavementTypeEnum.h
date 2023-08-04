@@ -26,7 +26,7 @@ namespace IFC4X3
 		IfcPavementTypeEnum() = default;
 		IfcPavementTypeEnum( IfcPavementTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1938929368; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcPavementTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcPavementTypeEnumEnum m_enum;
 	};

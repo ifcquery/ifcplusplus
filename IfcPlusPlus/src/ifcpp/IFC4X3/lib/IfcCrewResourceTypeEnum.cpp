@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcCrewResourceTypeEnum.h"
 
 // TYPE IfcCrewResourceTypeEnum = ENUMERATION OF	(OFFICE	,SITE	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcCrewResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcCrewResourceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCREWRESOURCETYPEENUM("; }
 	switch( m_enum )

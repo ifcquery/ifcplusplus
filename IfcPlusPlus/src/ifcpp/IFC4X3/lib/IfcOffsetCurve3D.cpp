@@ -14,19 +14,19 @@
 
 // ENTITY IfcOffsetCurve3D 
 IFC4X3::IfcOffsetCurve3D::IfcOffsetCurve3D( int tag ) { m_tag = tag; }
-void IFC4X3::IfcOffsetCurve3D::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcOffsetCurve3D::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCOFFSETCURVE3D" << "(";
 	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Distance ) { m_Distance->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Distance ) { m_Distance->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RefDirection ) { stream << "#" << m_RefDirection->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcOffsetCurve3D::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcOffsetCurve3D::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcOffsetCurve3D::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

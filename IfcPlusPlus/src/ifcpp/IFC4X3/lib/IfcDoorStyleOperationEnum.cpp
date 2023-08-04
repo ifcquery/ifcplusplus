@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcDoorStyleOperationEnum.h"
 
 // TYPE IfcDoorStyleOperationEnum = ENUMERATION OF	(DOUBLE_DOOR_DOUBLE_SWING	,DOUBLE_DOOR_FOLDING	,DOUBLE_DOOR_SINGLE_SWING	,DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_LEFT	,DOUBLE_DOOR_SINGLE_SWING_OPPOSITE_RIGHT	,DOUBLE_DOOR_SLIDING	,DOUBLE_SWING_LEFT	,DOUBLE_SWING_RIGHT	,FOLDING_TO_LEFT	,FOLDING_TO_RIGHT	,REVOLVING	,ROLLINGUP	,SINGLE_SWING_LEFT	,SINGLE_SWING_RIGHT	,SLIDING_TO_LEFT	,SLIDING_TO_RIGHT	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcDoorStyleOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcDoorStyleOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCDOORSTYLEOPERATIONENUM("; }
 	switch( m_enum )

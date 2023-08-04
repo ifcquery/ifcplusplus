@@ -12,10 +12,10 @@
 
 // TYPE IfcElectricResistanceMeasure = REAL;
 IFC4X3::IfcElectricResistanceMeasure::IfcElectricResistanceMeasure( double value ) { m_value = value; }
-void IFC4X3::IfcElectricResistanceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcElectricResistanceMeasure::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICRESISTANCEMEASURE("; }
-	appendRealWithoutTrailingZeros( stream, m_value );
+	appendRealWithoutTrailingZeros( stream, m_value, precision );
 	if( is_select_type ) { stream << ")"; }
 }
 shared_ptr<IFC4X3::IfcElectricResistanceMeasure> IFC4X3::IfcElectricResistanceMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )

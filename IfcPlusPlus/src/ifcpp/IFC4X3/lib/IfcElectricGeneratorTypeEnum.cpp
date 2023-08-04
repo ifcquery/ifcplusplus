@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcElectricGeneratorTypeEnum.h"
 
 // TYPE IfcElectricGeneratorTypeEnum = ENUMERATION OF	(CHP	,ENGINEGENERATOR	,STANDALONE	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcElectricGeneratorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcElectricGeneratorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICGENERATORTYPEENUM("; }
 	switch( m_enum )

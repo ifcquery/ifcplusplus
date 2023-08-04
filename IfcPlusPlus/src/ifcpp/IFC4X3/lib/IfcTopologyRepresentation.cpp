@@ -15,19 +15,19 @@
 
 // ENTITY IfcTopologyRepresentation 
 IFC4X3::IfcTopologyRepresentation::IfcTopologyRepresentation( int tag ) { m_tag = tag; }
-void IFC4X3::IfcTopologyRepresentation::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcTopologyRepresentation::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCTOPOLOGYREPRESENTATION" << "(";
 	if( m_ContextOfItems ) { stream << "#" << m_ContextOfItems->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_RepresentationIdentifier ) { m_RepresentationIdentifier->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RepresentationIdentifier ) { m_RepresentationIdentifier->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RepresentationType ) { m_RepresentationType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RepresentationType ) { m_RepresentationType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_Items );
 	stream << ");";
 }
-void IFC4X3::IfcTopologyRepresentation::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcTopologyRepresentation::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcTopologyRepresentation::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

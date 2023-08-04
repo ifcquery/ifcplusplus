@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcRailingTypeEnum.h"
 
 // TYPE IfcRailingTypeEnum = ENUMERATION OF	(BALUSTRADE	,FENCE	,GUARDRAIL	,HANDRAIL	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcRailingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcRailingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCRAILINGTYPEENUM("; }
 	switch( m_enum )

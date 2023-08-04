@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcSurfaceSide.h"
 
 // TYPE IfcSurfaceSide = ENUMERATION OF	(BOTH	,NEGATIVE	,POSITIVE);
-void IFC4X3::IfcSurfaceSide::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcSurfaceSide::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSURFACESIDE("; }
 	switch( m_enum )

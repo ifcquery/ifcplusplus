@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcFlowMeterTypeEnum.h"
 
 // TYPE IfcFlowMeterTypeEnum = ENUMERATION OF	(ENERGYMETER	,GASMETER	,OILMETER	,WATERMETER	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcFlowMeterTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcFlowMeterTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCFLOWMETERTYPEENUM("; }
 	switch( m_enum )

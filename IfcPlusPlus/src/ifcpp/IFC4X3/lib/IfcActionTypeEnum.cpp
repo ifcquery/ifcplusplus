@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcActionTypeEnum.h"
 
 // TYPE IfcActionTypeEnum = ENUMERATION OF	(EXTRAORDINARY_A	,PERMANENT_G	,VARIABLE_Q	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcActionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcActionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCACTIONTYPEENUM("; }
 	switch( m_enum )

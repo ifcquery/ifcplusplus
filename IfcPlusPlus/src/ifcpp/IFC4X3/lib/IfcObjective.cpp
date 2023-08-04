@@ -18,33 +18,33 @@
 
 // ENTITY IfcObjective 
 IFC4X3::IfcObjective::IfcObjective( int tag ) { m_tag = tag; }
-void IFC4X3::IfcObjective::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcObjective::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCOBJECTIVE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ConstraintGrade ) { m_ConstraintGrade->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ConstraintGrade ) { m_ConstraintGrade->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ConstraintSource ) { m_ConstraintSource->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ConstraintSource ) { m_ConstraintSource->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_CreatingActor ) { m_CreatingActor->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_CreatingActor ) { m_CreatingActor->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_CreationTime ) { m_CreationTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_CreationTime ) { m_CreationTime->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UserDefinedGrade ) { m_UserDefinedGrade->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UserDefinedGrade ) { m_UserDefinedGrade->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_BenchmarkValues );
 	stream << ",";
-	if( m_LogicalAggregator ) { m_LogicalAggregator->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LogicalAggregator ) { m_LogicalAggregator->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ObjectiveQualifier ) { m_ObjectiveQualifier->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectiveQualifier ) { m_ObjectiveQualifier->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UserDefinedQualifier ) { m_UserDefinedQualifier->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UserDefinedQualifier ) { m_UserDefinedQualifier->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcObjective::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcObjective::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcObjective::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

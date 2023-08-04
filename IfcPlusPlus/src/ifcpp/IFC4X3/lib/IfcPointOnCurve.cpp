@@ -12,15 +12,15 @@
 
 // ENTITY IfcPointOnCurve 
 IFC4X3::IfcPointOnCurve::IfcPointOnCurve( int tag ) { m_tag = tag; }
-void IFC4X3::IfcPointOnCurve::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcPointOnCurve::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCPOINTONCURVE" << "(";
 	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_PointParameter ) { m_PointParameter->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_PointParameter ) { m_PointParameter->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcPointOnCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcPointOnCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcPointOnCurve::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

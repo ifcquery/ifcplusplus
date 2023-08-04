@@ -18,7 +18,7 @@ namespace IFC4X3
 	public:
 		IfcCompoundPlaneAngleMeasure() = default;
 		virtual uint32_t classID() const { return 3812528620; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcCompoundPlaneAngleMeasure> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		std::vector<int> m_vec;
 	};

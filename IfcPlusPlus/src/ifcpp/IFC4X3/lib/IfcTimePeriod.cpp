@@ -9,15 +9,15 @@
 
 // ENTITY IfcTimePeriod 
 IFC4X3::IfcTimePeriod::IfcTimePeriod( int tag ) { m_tag = tag; }
-void IFC4X3::IfcTimePeriod::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcTimePeriod::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCTIMEPERIOD" << "(";
-	if( m_StartTime ) { m_StartTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StartTime ) { m_StartTime->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EndTime ) { m_EndTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EndTime ) { m_EndTime->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcTimePeriod::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcTimePeriod::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcTimePeriod::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

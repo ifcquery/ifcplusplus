@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcEventTriggerTypeEnum.h"
 
 // TYPE IfcEventTriggerTypeEnum = ENUMERATION OF	(EVENTCOMPLEX	,EVENTMESSAGE	,EVENTRULE	,EVENTTIME	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcEventTriggerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcEventTriggerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCEVENTTRIGGERTYPEENUM("; }
 	switch( m_enum )

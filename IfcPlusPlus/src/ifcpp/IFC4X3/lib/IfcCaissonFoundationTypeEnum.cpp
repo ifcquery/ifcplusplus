@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcCaissonFoundationTypeEnum.h"
 
 // TYPE IfcCaissonFoundationTypeEnum = ENUMERATION OF	(CAISSON	,WELL	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcCaissonFoundationTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcCaissonFoundationTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCAISSONFOUNDATIONTYPEENUM("; }
 	switch( m_enum )

@@ -12,17 +12,17 @@
 
 // ENTITY IfcGridPlacement 
 IFC4X3::IfcGridPlacement::IfcGridPlacement( int tag ) { m_tag = tag; }
-void IFC4X3::IfcGridPlacement::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcGridPlacement::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCGRIDPLACEMENT" << "(";
 	if( m_PlacementRelTo ) { stream << "#" << m_PlacementRelTo->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_PlacementLocation ) { stream << "#" << m_PlacementLocation->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_PlacementRefDirection ) { m_PlacementRefDirection->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_PlacementRefDirection ) { m_PlacementRefDirection->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IFC4X3::IfcGridPlacement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcGridPlacement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcGridPlacement::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

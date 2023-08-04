@@ -11,13 +11,13 @@
 
 // ENTITY IfcPath 
 IFC4X3::IfcPath::IfcPath( int tag ) { m_tag = tag; }
-void IFC4X3::IfcPath::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcPath::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCPATH" << "(";
 	writeEntityList( stream, m_EdgeList );
 	stream << ");";
 }
-void IFC4X3::IfcPath::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcPath::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcPath::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

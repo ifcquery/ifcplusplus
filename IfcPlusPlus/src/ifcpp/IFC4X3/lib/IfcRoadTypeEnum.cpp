@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcRoadTypeEnum.h"
 
 // TYPE IfcRoadTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcRoadTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcRoadTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCROADTYPEENUM("; }
 	switch( m_enum )

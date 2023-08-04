@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcSlabTypeEnum.h"
 
 // TYPE IfcSlabTypeEnum = ENUMERATION OF	(APPROACH_SLAB	,BASESLAB	,FLOOR	,LANDING	,PAVING	,ROOF	,SIDEWALK	,TRACKSLAB	,WEARING	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcSlabTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcSlabTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSLABTYPEENUM("; }
 	switch( m_enum )

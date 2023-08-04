@@ -28,7 +28,7 @@ namespace IFC4X3
 		IfcSequenceEnum() = default;
 		IfcSequenceEnum( IfcSequenceEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 628493158; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcSequenceEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcSequenceEnumEnum m_enum;
 	};

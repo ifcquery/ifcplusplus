@@ -12,10 +12,10 @@
 
 // TYPE IfcIonConcentrationMeasure = REAL;
 IFC4X3::IfcIonConcentrationMeasure::IfcIonConcentrationMeasure( double value ) { m_value = value; }
-void IFC4X3::IfcIonConcentrationMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcIonConcentrationMeasure::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCIONCONCENTRATIONMEASURE("; }
-	appendRealWithoutTrailingZeros( stream, m_value );
+	appendRealWithoutTrailingZeros( stream, m_value, precision );
 	if( is_select_type ) { stream << ")"; }
 }
 shared_ptr<IFC4X3::IfcIonConcentrationMeasure> IFC4X3::IfcIonConcentrationMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )

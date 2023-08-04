@@ -11,7 +11,7 @@
 
 // TYPE IfcStrippedOptional = BOOLEAN;
 IFC4X3::IfcStrippedOptional::IfcStrippedOptional( bool value ) { m_value = value; }
-void IFC4X3::IfcStrippedOptional::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcStrippedOptional::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSTRIPPEDOPTIONAL("; }
 	if( m_value == false )

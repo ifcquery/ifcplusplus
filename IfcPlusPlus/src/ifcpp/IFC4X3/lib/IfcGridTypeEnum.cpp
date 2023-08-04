@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcGridTypeEnum.h"
 
 // TYPE IfcGridTypeEnum = ENUMERATION OF	(IRREGULAR	,RADIAL	,RECTANGULAR	,TRIANGULAR	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcGridTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcGridTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCGRIDTYPEENUM("; }
 	switch( m_enum )

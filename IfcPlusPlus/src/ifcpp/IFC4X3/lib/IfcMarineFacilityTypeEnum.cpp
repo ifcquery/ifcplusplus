@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcMarineFacilityTypeEnum.h"
 
 // TYPE IfcMarineFacilityTypeEnum = ENUMERATION OF	(BARRIERBEACH	,BREAKWATER	,CANAL	,DRYDOCK	,FLOATINGDOCK	,HYDROLIFT	,JETTY	,LAUNCHRECOVERY	,MARINEDEFENCE	,NAVIGATIONALCHANNEL	,PORT	,QUAY	,REVETMENT	,SHIPLIFT	,SHIPLOCK	,SHIPYARD	,SLIPWAY	,WATERWAY	,WATERWAYSHIPLIFT	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcMarineFacilityTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcMarineFacilityTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCMARINEFACILITYTYPEENUM("; }
 	switch( m_enum )

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcEngineTypeEnum.h"
 
 // TYPE IfcEngineTypeEnum = ENUMERATION OF	(EXTERNALCOMBUSTION	,INTERNALCOMBUSTION	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcEngineTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcEngineTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCENGINETYPEENUM("; }
 	switch( m_enum )

@@ -11,13 +11,13 @@
 
 // ENTITY IfcFacetedBrep 
 IFC4X3::IfcFacetedBrep::IfcFacetedBrep( int tag ) { m_tag = tag; }
-void IFC4X3::IfcFacetedBrep::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcFacetedBrep::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCFACETEDBREP" << "(";
 	if( m_Outer ) { stream << "#" << m_Outer->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcFacetedBrep::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcFacetedBrep::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcFacetedBrep::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

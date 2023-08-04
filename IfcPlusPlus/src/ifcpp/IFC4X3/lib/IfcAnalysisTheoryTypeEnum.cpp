@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcAnalysisTheoryTypeEnum.h"
 
 // TYPE IfcAnalysisTheoryTypeEnum = ENUMERATION OF	(FIRST_ORDER_THEORY	,FULL_NONLINEAR_THEORY	,SECOND_ORDER_THEORY	,THIRD_ORDER_THEORY	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcAnalysisTheoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcAnalysisTheoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCANALYSISTHEORYTYPEENUM("; }
 	switch( m_enum )

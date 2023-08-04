@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcTaskDurationEnum.h"
 
 // TYPE IfcTaskDurationEnum = ENUMERATION OF	(ELAPSEDTIME	,WORKTIME	,NOTDEFINED);
-void IFC4X3::IfcTaskDurationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcTaskDurationEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCTASKDURATIONENUM("; }
 	switch( m_enum )

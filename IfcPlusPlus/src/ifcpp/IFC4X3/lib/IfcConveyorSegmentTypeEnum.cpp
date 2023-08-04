@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcConveyorSegmentTypeEnum.h"
 
 // TYPE IfcConveyorSegmentTypeEnum = ENUMERATION OF	(BELTCONVEYOR	,BUCKETCONVEYOR	,CHUTECONVEYOR	,SCREWCONVEYOR	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcConveyorSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcConveyorSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCONVEYORSEGMENTTYPEENUM("; }
 	switch( m_enum )

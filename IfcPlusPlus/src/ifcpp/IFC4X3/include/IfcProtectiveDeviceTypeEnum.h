@@ -34,7 +34,7 @@ namespace IFC4X3
 		IfcProtectiveDeviceTypeEnum() = default;
 		IfcProtectiveDeviceTypeEnum( IfcProtectiveDeviceTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 3739419792; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcProtectiveDeviceTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcProtectiveDeviceTypeEnumEnum m_enum;
 	};

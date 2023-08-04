@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcVehicleTypeEnum.h"
 
 // TYPE IfcVehicleTypeEnum = ENUMERATION OF	(CARGO	,ROLLINGSTOCK	,VEHICLE	,VEHICLEAIR	,VEHICLEMARINE	,VEHICLETRACKED	,VEHICLEWHEELED	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcVehicleTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcVehicleTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCVEHICLETYPEENUM("; }
 	switch( m_enum )

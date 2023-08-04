@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcWasteTerminalTypeEnum.h"
 
 // TYPE IfcWasteTerminalTypeEnum = ENUMERATION OF	(FLOORTRAP	,FLOORWASTE	,GULLYSUMP	,GULLYTRAP	,ROOFDRAIN	,WASTEDISPOSALUNIT	,WASTETRAP	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcWasteTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcWasteTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCWASTETERMINALTYPEENUM("; }
 	switch( m_enum )

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcActuatorTypeEnum.h"
 
 // TYPE IfcActuatorTypeEnum = ENUMERATION OF	(ELECTRICACTUATOR	,HANDOPERATEDACTUATOR	,HYDRAULICACTUATOR	,PNEUMATICACTUATOR	,THERMOSTATICACTUATOR	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcActuatorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcActuatorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCACTUATORTYPEENUM("; }
 	switch( m_enum )

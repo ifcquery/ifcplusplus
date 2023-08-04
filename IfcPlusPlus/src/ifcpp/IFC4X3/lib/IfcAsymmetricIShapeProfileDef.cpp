@@ -16,41 +16,41 @@
 
 // ENTITY IfcAsymmetricIShapeProfileDef 
 IFC4X3::IfcAsymmetricIShapeProfileDef::IfcAsymmetricIShapeProfileDef( int tag ) { m_tag = tag; }
-void IFC4X3::IfcAsymmetricIShapeProfileDef::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcAsymmetricIShapeProfileDef::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCASYMMETRICISHAPEPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Position ) { stream << "#" << m_Position->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_BottomFlangeWidth ) { m_BottomFlangeWidth->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_BottomFlangeWidth ) { m_BottomFlangeWidth->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OverallDepth ) { m_OverallDepth->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_OverallDepth ) { m_OverallDepth->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_WebThickness ) { m_WebThickness->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_WebThickness ) { m_WebThickness->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_BottomFlangeThickness ) { m_BottomFlangeThickness->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_BottomFlangeThickness ) { m_BottomFlangeThickness->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_BottomFlangeFilletRadius ) { m_BottomFlangeFilletRadius->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_BottomFlangeFilletRadius ) { m_BottomFlangeFilletRadius->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_TopFlangeWidth ) { m_TopFlangeWidth->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TopFlangeWidth ) { m_TopFlangeWidth->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_TopFlangeThickness ) { m_TopFlangeThickness->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TopFlangeThickness ) { m_TopFlangeThickness->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_TopFlangeFilletRadius ) { m_TopFlangeFilletRadius->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TopFlangeFilletRadius ) { m_TopFlangeFilletRadius->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_BottomFlangeEdgeRadius ) { m_BottomFlangeEdgeRadius->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_BottomFlangeEdgeRadius ) { m_BottomFlangeEdgeRadius->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_BottomFlangeSlope ) { m_BottomFlangeSlope->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_BottomFlangeSlope ) { m_BottomFlangeSlope->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_TopFlangeEdgeRadius ) { m_TopFlangeEdgeRadius->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TopFlangeEdgeRadius ) { m_TopFlangeEdgeRadius->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_TopFlangeSlope ) { m_TopFlangeSlope->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TopFlangeSlope ) { m_TopFlangeSlope->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcAsymmetricIShapeProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcAsymmetricIShapeProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcAsymmetricIShapeProfileDef::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

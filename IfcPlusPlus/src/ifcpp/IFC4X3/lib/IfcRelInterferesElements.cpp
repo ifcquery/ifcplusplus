@@ -19,31 +19,31 @@
 
 // ENTITY IfcRelInterferesElements 
 IFC4X3::IfcRelInterferesElements::IfcRelInterferesElements( int tag ) { m_tag = tag; }
-void IFC4X3::IfcRelInterferesElements::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcRelInterferesElements::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCRELINTERFERESELEMENTS" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RelatingElement ) { m_RelatingElement->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_RelatingElement ) { m_RelatingElement->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_RelatedElement ) { m_RelatedElement->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_RelatedElement ) { m_RelatedElement->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_InterferenceGeometry ) { stream << "#" << m_InterferenceGeometry->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_InterferenceType ) { m_InterferenceType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_InterferenceType ) { m_InterferenceType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ImpliedOrder ) { m_ImpliedOrder->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ImpliedOrder ) { m_ImpliedOrder->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_InterferenceSpace ) { stream << "#" << m_InterferenceSpace->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcRelInterferesElements::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcRelInterferesElements::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcRelInterferesElements::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

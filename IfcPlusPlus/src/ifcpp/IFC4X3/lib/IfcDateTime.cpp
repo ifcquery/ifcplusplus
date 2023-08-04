@@ -12,7 +12,7 @@
 
 // TYPE IfcDateTime = STRING;
 IFC4X3::IfcDateTime::IfcDateTime( std::string value ) { m_value = value; }
-void IFC4X3::IfcDateTime::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcDateTime::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCDATETIME("; }
 	stream << "'" << encodeStepString( m_value ) << "'";

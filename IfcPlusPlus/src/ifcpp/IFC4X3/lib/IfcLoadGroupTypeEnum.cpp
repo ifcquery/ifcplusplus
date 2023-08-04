@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcLoadGroupTypeEnum.h"
 
 // TYPE IfcLoadGroupTypeEnum = ENUMERATION OF	(LOAD_CASE	,LOAD_COMBINATION	,LOAD_GROUP	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcLoadGroupTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcLoadGroupTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCLOADGROUPTYPEENUM("; }
 	switch( m_enum )

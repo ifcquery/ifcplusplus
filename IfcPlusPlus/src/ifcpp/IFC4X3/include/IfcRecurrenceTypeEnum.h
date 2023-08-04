@@ -30,7 +30,7 @@ namespace IFC4X3
 		IfcRecurrenceTypeEnum() = default;
 		IfcRecurrenceTypeEnum( IfcRecurrenceTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1390679141; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcRecurrenceTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcRecurrenceTypeEnumEnum m_enum;
 	};

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcBooleanOperator.h"
 
 // TYPE IfcBooleanOperator = ENUMERATION OF	(DIFFERENCE	,INTERSECTION	,UNION);
-void IFC4X3::IfcBooleanOperator::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcBooleanOperator::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCBOOLEANOPERATOR("; }
 	switch( m_enum )

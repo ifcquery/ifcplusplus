@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcGlobalOrLocalEnum.h"
 
 // TYPE IfcGlobalOrLocalEnum = ENUMERATION OF	(GLOBAL_COORDS	,LOCAL_COORDS);
-void IFC4X3::IfcGlobalOrLocalEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcGlobalOrLocalEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCGLOBALORLOCALENUM("; }
 	switch( m_enum )

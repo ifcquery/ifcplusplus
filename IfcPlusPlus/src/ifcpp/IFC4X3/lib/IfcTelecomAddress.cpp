@@ -14,14 +14,14 @@
 
 // ENTITY IfcTelecomAddress 
 IFC4X3::IfcTelecomAddress::IfcTelecomAddress( int tag ) { m_tag = tag; }
-void IFC4X3::IfcTelecomAddress::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcTelecomAddress::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCTELECOMADDRESS" << "(";
-	if( m_Purpose ) { m_Purpose->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Purpose ) { m_Purpose->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UserDefinedPurpose ) { m_UserDefinedPurpose->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UserDefinedPurpose ) { m_UserDefinedPurpose->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_TelephoneNumbers.size() > 0 )
 	{
@@ -35,7 +35,7 @@ void IFC4X3::IfcTelecomAddress::getStepLine( std::stringstream& stream ) const
 			const shared_ptr<IfcLabel>& type_object = m_TelephoneNumbers[ii];
 			if( type_object )
 			{
-				type_object->getStepParameter( stream, false );
+				type_object->getStepParameter( stream, false, precision );
 			}
 			else
 			{
@@ -58,7 +58,7 @@ void IFC4X3::IfcTelecomAddress::getStepLine( std::stringstream& stream ) const
 			const shared_ptr<IfcLabel>& type_object = m_FacsimileNumbers[ii];
 			if( type_object )
 			{
-				type_object->getStepParameter( stream, false );
+				type_object->getStepParameter( stream, false, precision );
 			}
 			else
 			{
@@ -69,7 +69,7 @@ void IFC4X3::IfcTelecomAddress::getStepLine( std::stringstream& stream ) const
 	}
 	else { stream << "$"; }
 	stream << ",";
-	if( m_PagerNumber ) { m_PagerNumber->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_PagerNumber ) { m_PagerNumber->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ElectronicMailAddresses.size() > 0 )
 	{
@@ -83,7 +83,7 @@ void IFC4X3::IfcTelecomAddress::getStepLine( std::stringstream& stream ) const
 			const shared_ptr<IfcLabel>& type_object = m_ElectronicMailAddresses[ii];
 			if( type_object )
 			{
-				type_object->getStepParameter( stream, false );
+				type_object->getStepParameter( stream, false, precision );
 			}
 			else
 			{
@@ -94,7 +94,7 @@ void IFC4X3::IfcTelecomAddress::getStepLine( std::stringstream& stream ) const
 	}
 	else { stream << "$"; }
 	stream << ",";
-	if( m_WWWHomePageURL ) { m_WWWHomePageURL->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_WWWHomePageURL ) { m_WWWHomePageURL->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_MessagingIDs.size() > 0 )
 	{
@@ -108,7 +108,7 @@ void IFC4X3::IfcTelecomAddress::getStepLine( std::stringstream& stream ) const
 			const shared_ptr<IfcURIReference>& type_object = m_MessagingIDs[ii];
 			if( type_object )
 			{
-				type_object->getStepParameter( stream, false );
+				type_object->getStepParameter( stream, false, precision );
 			}
 			else
 			{
@@ -120,7 +120,7 @@ void IFC4X3::IfcTelecomAddress::getStepLine( std::stringstream& stream ) const
 	else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcTelecomAddress::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcTelecomAddress::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcTelecomAddress::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

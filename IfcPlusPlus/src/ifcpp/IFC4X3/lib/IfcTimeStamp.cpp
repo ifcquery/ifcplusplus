@@ -12,7 +12,7 @@
 
 // TYPE IfcTimeStamp = INTEGER;
 IFC4X3::IfcTimeStamp::IfcTimeStamp( int value ) { m_value = value; }
-void IFC4X3::IfcTimeStamp::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcTimeStamp::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCTIMESTAMP("; }
 	stream << m_value;

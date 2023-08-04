@@ -12,7 +12,7 @@
 
 // ENTITY IfcAxis2PlacementLinear 
 IFC4X3::IfcAxis2PlacementLinear::IfcAxis2PlacementLinear( int tag ) { m_tag = tag; }
-void IFC4X3::IfcAxis2PlacementLinear::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcAxis2PlacementLinear::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCAXIS2PLACEMENTLINEAR" << "(";
 	if( m_Location ) { stream << "#" << m_Location->m_tag; } else { stream << "$"; }
@@ -22,7 +22,7 @@ void IFC4X3::IfcAxis2PlacementLinear::getStepLine( std::stringstream& stream ) c
 	if( m_RefDirection ) { stream << "#" << m_RefDirection->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcAxis2PlacementLinear::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcAxis2PlacementLinear::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcAxis2PlacementLinear::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

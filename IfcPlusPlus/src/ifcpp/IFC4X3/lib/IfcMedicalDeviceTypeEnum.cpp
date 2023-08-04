@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcMedicalDeviceTypeEnum.h"
 
 // TYPE IfcMedicalDeviceTypeEnum = ENUMERATION OF	(AIRSTATION	,FEEDAIRUNIT	,OXYGENGENERATOR	,OXYGENPLANT	,VACUUMSTATION	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcMedicalDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcMedicalDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCMEDICALDEVICETYPEENUM("; }
 	switch( m_enum )

@@ -11,25 +11,25 @@
 
 // ENTITY IfcEventTime 
 IFC4X3::IfcEventTime::IfcEventTime( int tag ) { m_tag = tag; }
-void IFC4X3::IfcEventTime::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcEventTime::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCEVENTTIME" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ActualDate ) { m_ActualDate->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ActualDate ) { m_ActualDate->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EarlyDate ) { m_EarlyDate->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EarlyDate ) { m_EarlyDate->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LateDate ) { m_LateDate->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LateDate ) { m_LateDate->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ScheduleDate ) { m_ScheduleDate->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ScheduleDate ) { m_ScheduleDate->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcEventTime::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcEventTime::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcEventTime::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

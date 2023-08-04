@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcMemberTypeEnum.h"
 
 // TYPE IfcMemberTypeEnum = ENUMERATION OF	(ARCH_SEGMENT	,BRACE	,CHORD	,COLLAR	,MEMBER	,MULLION	,PLATE	,POST	,PURLIN	,RAFTER	,STAY_CABLE	,STIFFENING_RIB	,STRINGER	,STRUCTURALCABLE	,STRUT	,STUD	,SUSPENDER	,SUSPENSION_CABLE	,TIEBAR	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcMemberTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcMemberTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCMEMBERTYPEENUM("; }
 	switch( m_enum )

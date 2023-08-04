@@ -13,7 +13,7 @@
 
 // ENTITY IfcCartesianTransformationOperator2DnonUniform 
 IFC4X3::IfcCartesianTransformationOperator2DnonUniform::IfcCartesianTransformationOperator2DnonUniform( int tag ) { m_tag = tag; }
-void IFC4X3::IfcCartesianTransformationOperator2DnonUniform::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcCartesianTransformationOperator2DnonUniform::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCCARTESIANTRANSFORMATIONOPERATOR2DNONUNIFORM" << "(";
 	if( m_Axis1 ) { stream << "#" << m_Axis1->m_tag; } else { stream << "$"; }
@@ -22,12 +22,12 @@ void IFC4X3::IfcCartesianTransformationOperator2DnonUniform::getStepLine( std::s
 	stream << ",";
 	if( m_LocalOrigin ) { stream << "#" << m_LocalOrigin->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Scale ) { m_Scale->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Scale2 ) { m_Scale2->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Scale2 ) { m_Scale2->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcCartesianTransformationOperator2DnonUniform::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcCartesianTransformationOperator2DnonUniform::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcCartesianTransformationOperator2DnonUniform::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

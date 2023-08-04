@@ -13,23 +13,23 @@
 
 // ENTITY IfcSectionReinforcementProperties 
 IFC4X3::IfcSectionReinforcementProperties::IfcSectionReinforcementProperties( int tag ) { m_tag = tag; }
-void IFC4X3::IfcSectionReinforcementProperties::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcSectionReinforcementProperties::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSECTIONREINFORCEMENTPROPERTIES" << "(";
-	if( m_LongitudinalStartPosition ) { m_LongitudinalStartPosition->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LongitudinalStartPosition ) { m_LongitudinalStartPosition->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LongitudinalEndPosition ) { m_LongitudinalEndPosition->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LongitudinalEndPosition ) { m_LongitudinalEndPosition->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_TransversePosition ) { m_TransversePosition->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TransversePosition ) { m_TransversePosition->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ReinforcementRole ) { m_ReinforcementRole->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ReinforcementRole ) { m_ReinforcementRole->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_SectionDefinition ) { stream << "#" << m_SectionDefinition->m_tag; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_CrossSectionReinforcementDefinitions );
 	stream << ");";
 }
-void IFC4X3::IfcSectionReinforcementProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcSectionReinforcementProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcSectionReinforcementProperties::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

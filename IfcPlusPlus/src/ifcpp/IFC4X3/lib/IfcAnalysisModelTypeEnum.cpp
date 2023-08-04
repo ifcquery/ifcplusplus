@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcAnalysisModelTypeEnum.h"
 
 // TYPE IfcAnalysisModelTypeEnum = ENUMERATION OF	(IN_PLANE_LOADING_2D	,LOADING_3D	,OUT_PLANE_LOADING_2D	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcAnalysisModelTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcAnalysisModelTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCANALYSISMODELTYPEENUM("; }
 	switch( m_enum )

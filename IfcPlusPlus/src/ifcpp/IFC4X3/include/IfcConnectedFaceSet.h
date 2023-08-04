@@ -13,8 +13,8 @@ namespace IFC4X3
 	public:
 		IfcConnectedFaceSet() = default;
 		IfcConnectedFaceSet( int id );
-		virtual void getStepLine( std::stringstream& stream ) const;
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepLine( std::stringstream& stream, size_t precision ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		virtual void readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		virtual void setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self );
 		virtual uint8_t getNumAttributes() const { return 1; }

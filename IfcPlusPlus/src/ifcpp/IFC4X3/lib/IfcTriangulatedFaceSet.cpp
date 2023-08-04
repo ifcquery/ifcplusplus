@@ -16,16 +16,16 @@
 
 // ENTITY IfcTriangulatedFaceSet 
 IFC4X3::IfcTriangulatedFaceSet::IfcTriangulatedFaceSet( int tag ) { m_tag = tag; }
-void IFC4X3::IfcTriangulatedFaceSet::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcTriangulatedFaceSet::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCTRIANGULATEDFACESET" << "(";
 	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_tag; } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfRealList2D( stream, m_Normals, true );
+	writeTypeOfRealList2D( stream, m_Normals, true, precision );
 	stream << ",";
-	if( m_Closed ) { m_Closed->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Closed ) { m_Closed->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfIntList2D( stream, m_CoordIndex, false );
+	writeTypeOfIntList2D( stream, m_CoordIndex, false, precision );
 	stream << ",";
 	if( m_PnIndex.size() > 0 )
 	{
@@ -39,7 +39,7 @@ void IFC4X3::IfcTriangulatedFaceSet::getStepLine( std::stringstream& stream ) co
 			const shared_ptr<IfcPositiveInteger>& type_object = m_PnIndex[ii];
 			if( type_object )
 			{
-				type_object->getStepParameter( stream, false );
+				type_object->getStepParameter( stream, false, precision );
 			}
 			else
 			{
@@ -51,7 +51,7 @@ void IFC4X3::IfcTriangulatedFaceSet::getStepLine( std::stringstream& stream ) co
 	else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcTriangulatedFaceSet::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcTriangulatedFaceSet::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcTriangulatedFaceSet::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

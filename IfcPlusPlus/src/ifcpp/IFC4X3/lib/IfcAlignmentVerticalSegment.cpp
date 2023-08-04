@@ -13,29 +13,29 @@
 
 // ENTITY IfcAlignmentVerticalSegment 
 IFC4X3::IfcAlignmentVerticalSegment::IfcAlignmentVerticalSegment( int tag ) { m_tag = tag; }
-void IFC4X3::IfcAlignmentVerticalSegment::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcAlignmentVerticalSegment::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCALIGNMENTVERTICALSEGMENT" << "(";
-	if( m_StartTag ) { m_StartTag->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StartTag ) { m_StartTag->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EndTag ) { m_EndTag->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EndTag ) { m_EndTag->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartDistAlong ) { m_StartDistAlong->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StartDistAlong ) { m_StartDistAlong->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_HorizontalLength ) { m_HorizontalLength->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_HorizontalLength ) { m_HorizontalLength->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartHeight ) { m_StartHeight->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StartHeight ) { m_StartHeight->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartGradient ) { m_StartGradient->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StartGradient ) { m_StartGradient->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EndGradient ) { m_EndGradient->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EndGradient ) { m_EndGradient->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RadiusOfCurvature ) { m_RadiusOfCurvature->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RadiusOfCurvature ) { m_RadiusOfCurvature->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcAlignmentVerticalSegment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcAlignmentVerticalSegment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcAlignmentVerticalSegment::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

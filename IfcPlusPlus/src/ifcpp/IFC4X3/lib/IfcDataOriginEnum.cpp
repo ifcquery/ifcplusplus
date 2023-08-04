@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcDataOriginEnum.h"
 
 // TYPE IfcDataOriginEnum = ENUMERATION OF	(MEASURED	,PREDICTED	,SIMULATED	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcDataOriginEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcDataOriginEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCDATAORIGINENUM("; }
 	switch( m_enum )

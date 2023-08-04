@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcAirToAirHeatRecoveryTypeEnum.h"
 
 // TYPE IfcAirToAirHeatRecoveryTypeEnum = ENUMERATION OF	(FIXEDPLATECOUNTERFLOWEXCHANGER	,FIXEDPLATECROSSFLOWEXCHANGER	,FIXEDPLATEPARALLELFLOWEXCHANGER	,HEATPIPE	,ROTARYWHEEL	,RUNAROUNDCOILLOOP	,THERMOSIPHONCOILTYPEHEATEXCHANGERS	,THERMOSIPHONSEALEDTUBEHEATEXCHANGERS	,TWINTOWERENTHALPYRECOVERYLOOPS	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcAirToAirHeatRecoveryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcAirToAirHeatRecoveryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCAIRTOAIRHEATRECOVERYTYPEENUM("; }
 	switch( m_enum )

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcFlowInstrumentTypeEnum.h"
 
 // TYPE IfcFlowInstrumentTypeEnum = ENUMERATION OF	(AMMETER	,COMBINED	,FREQUENCYMETER	,PHASEANGLEMETER	,POWERFACTORMETER	,PRESSUREGAUGE	,THERMOMETER	,VOLTMETER	,VOLTMETER_PEAK	,VOLTMETER_RMS	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcFlowInstrumentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcFlowInstrumentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCFLOWINSTRUMENTTYPEENUM("; }
 	switch( m_enum )

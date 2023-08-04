@@ -11,7 +11,7 @@
 
 // TYPE IfcDayInWeekNumber = INTEGER;
 IFC4X3::IfcDayInWeekNumber::IfcDayInWeekNumber( int value ) { m_value = value; }
-void IFC4X3::IfcDayInWeekNumber::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcDayInWeekNumber::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCDAYINWEEKNUMBER("; }
 	stream << m_value;

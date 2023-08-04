@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcTrimmingPreference.h"
 
 // TYPE IfcTrimmingPreference = ENUMERATION OF	(CARTESIAN	,PARAMETER	,UNSPECIFIED);
-void IFC4X3::IfcTrimmingPreference::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcTrimmingPreference::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCTRIMMINGPREFERENCE("; }
 	switch( m_enum )

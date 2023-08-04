@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcGeometricProjectionEnum.h"
 
 // TYPE IfcGeometricProjectionEnum = ENUMERATION OF	(ELEVATION_VIEW	,GRAPH_VIEW	,MODEL_VIEW	,PLAN_VIEW	,REFLECTED_PLAN_VIEW	,SECTION_VIEW	,SKETCH_VIEW	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcGeometricProjectionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcGeometricProjectionEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCGEOMETRICPROJECTIONENUM("; }
 	switch( m_enum )

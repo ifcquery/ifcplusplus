@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcInventoryTypeEnum.h"
 
 // TYPE IfcInventoryTypeEnum = ENUMERATION OF	(ASSETINVENTORY	,FURNITUREINVENTORY	,SPACEINVENTORY	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcInventoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcInventoryTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCINVENTORYTYPEENUM("; }
 	switch( m_enum )

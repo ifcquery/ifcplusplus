@@ -13,17 +13,17 @@
 
 // ENTITY IfcSurfaceCurve 
 IFC4X3::IfcSurfaceCurve::IfcSurfaceCurve( int tag ) { m_tag = tag; }
-void IFC4X3::IfcSurfaceCurve::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcSurfaceCurve::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACECURVE" << "(";
 	if( m_Curve3D ) { stream << "#" << m_Curve3D->m_tag; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_AssociatedGeometry );
 	stream << ",";
-	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_MasterRepresentation ) { m_MasterRepresentation->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcSurfaceCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcSurfaceCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcSurfaceCurve::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

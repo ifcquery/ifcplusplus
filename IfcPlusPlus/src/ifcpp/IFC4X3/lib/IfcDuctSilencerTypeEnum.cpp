@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcDuctSilencerTypeEnum.h"
 
 // TYPE IfcDuctSilencerTypeEnum = ENUMERATION OF	(FLATOVAL	,RECTANGULAR	,ROUND	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcDuctSilencerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcDuctSilencerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCDUCTSILENCERTYPEENUM("; }
 	switch( m_enum )

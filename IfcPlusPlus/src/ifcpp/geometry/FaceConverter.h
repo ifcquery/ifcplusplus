@@ -340,18 +340,6 @@ public:
 				continue;
 			}
 
-#ifdef _DEBUG
-			shared_ptr<IfcAdvancedFace> advancedFace = dynamic_pointer_cast<IfcAdvancedFace>( ifc_face );
-			if( advancedFace )
-			{
-				int tag = advancedFace->m_tag;
-				if( tag == 1261069 )
-				{
-					std::cout << "IfcAdvancedFace, tag=" << tag << std::endl;
-				}
-			}
-#endif
-
 			const std::vector<shared_ptr<IfcFaceBound> >& vec_bounds = ifc_face->m_Bounds;
 			std::vector<std::vector<vec3> > face_loops;
 			params.ifc_entity = ifc_face.get();
@@ -412,6 +400,8 @@ public:
 				GeomUtils::unClosePolygon(loop);
 			}
 			
+			//TODO: check if face_loops are in a plane
+
 			createTriangulated3DFace( face_loops, poly_cache, params );
 
 #ifdef _DEBUG
@@ -420,7 +410,9 @@ public:
 				//params.debugDump = true;
 			}
 
-			if( params.debugDump )
+			shared_ptr<IfcAdvancedFace> advancedFace = dynamic_pointer_cast<IfcAdvancedFace>( ifc_face );
+
+			if( params.debugDump || advancedFace )
 			{
 				glm::vec4 color(0.5, 0.6, 0.7, 1.0);
 				for( size_t iiLoop = 0; iiLoop < face_loops.size(); ++iiLoop )
@@ -642,7 +634,10 @@ public:
 			}
 			GeomUtils::unClosePolygon(loopPoints3Dinput);
 			normal = GeomUtils::computePolygonNormal(loopPoints3Dinput);
-
+			vec3 centroid = GeomUtils::computePolygonCentroid(loopPoints3Dinput);
+			carve::geom::aabb<3> bbox;
+			GeomUtils::polygonBbox(loopPoints3Dinput, bbox );
+			
 			if (it_bounds == inputBounds3D.begin())
 			{
 				normalOuterBound = normal;
@@ -678,6 +673,7 @@ public:
 			// project face into 2d plane
 			std::vector<std::array<double, 2> > path_loop_2d;
 			std::vector<vec3> path_loop_3d;
+			bool flatSurface = true;
 
 			for (size_t i = 0; i < loopPoints3Dinput.size(); ++i)
 			{
@@ -695,6 +691,18 @@ public:
 				{
 					path_loop_2d.push_back({ point.x, point.z });
 				}
+
+				double distance = GeomUtils::distancePointPlane(point, normal, centroid);
+				if( distance > params.epsMergePoints )
+				{
+					flatSurface = false;
+				}
+			}
+
+			if( !flatSurface )
+			{
+				// TODO: find sections 
+				continue;
 			}
 
 			if (path_loop_2d.size() < 3)

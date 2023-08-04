@@ -27,7 +27,7 @@ namespace IFC4X3
 		IfcShadingDeviceTypeEnum() = default;
 		IfcShadingDeviceTypeEnum( IfcShadingDeviceTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1823282114; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcShadingDeviceTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcShadingDeviceTypeEnumEnum m_enum;
 	};

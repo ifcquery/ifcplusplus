@@ -36,7 +36,7 @@ namespace IFC4X3
 		IfcBeamTypeEnum() = default;
 		IfcBeamTypeEnum( IfcBeamTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 358033588; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcBeamTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcBeamTypeEnumEnum m_enum;
 	};

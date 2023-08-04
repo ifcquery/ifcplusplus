@@ -15,20 +15,20 @@
 
 // ENTITY IfcClassification 
 IFC4X3::IfcClassification::IfcClassification( int tag ) { m_tag = tag; }
-void IFC4X3::IfcClassification::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcClassification::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCCLASSIFICATION" << "(";
-	if( m_Source ) { m_Source->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Source ) { m_Source->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Edition ) { m_Edition->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Edition ) { m_Edition->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EditionDate ) { m_EditionDate->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EditionDate ) { m_EditionDate->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Specification ) { m_Specification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Specification ) { m_Specification->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ReferenceTokens.size() > 0 )
 	{
@@ -42,7 +42,7 @@ void IFC4X3::IfcClassification::getStepLine( std::stringstream& stream ) const
 			const shared_ptr<IfcIdentifier>& type_object = m_ReferenceTokens[ii];
 			if( type_object )
 			{
-				type_object->getStepParameter( stream, false );
+				type_object->getStepParameter( stream, false, precision );
 			}
 			else
 			{
@@ -54,7 +54,7 @@ void IFC4X3::IfcClassification::getStepLine( std::stringstream& stream ) const
 	else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcClassification::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcClassification::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcClassification::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

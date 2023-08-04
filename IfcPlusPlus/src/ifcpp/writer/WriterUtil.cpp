@@ -24,11 +24,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ifcpp/model/BuildingObject.h"
 #include "WriterUtil.h"
 
-void appendRealWithoutTrailingZeros(std::stringstream& stream, const double number)
+void appendRealWithoutTrailingZeros(std::stringstream& stream, const double number, size_t precision)
 {
 	std::ostringstream temp;
 	temp.imbue(std::locale("C"));
-	temp.precision(15);
+	temp.precision(precision);
 	temp << std::fixed << number;
 	std::string str = temp.str();
 	size_t pos_dot = str.find_last_of('.');
@@ -109,7 +109,7 @@ void writeIntList3D(std::stringstream& stream, const std::vector<std::vector<std
 	stream << ")";
 }
 
-void writeRealList(std::stringstream& stream, const std::vector<double>& vec, bool optionalAttribute)
+void writeRealList(std::stringstream& stream, const std::vector<double>& vec, bool optionalAttribute, size_t precision)
 {
 	// example: (3,23,039)
 	if (vec.size() == 0)
@@ -134,12 +134,12 @@ void writeRealList(std::stringstream& stream, const std::vector<double>& vec, bo
 			stream << ",";
 		}
 
-		appendRealWithoutTrailingZeros(stream, vec[ii]);
+		appendRealWithoutTrailingZeros(stream, vec[ii], precision);
 	}
 	stream << ")";
 }
 
-void writeRealArray3(std::stringstream& stream, const double (&vec)[3], bool optionalAttribute, short int size)
+void writeRealArray3(std::stringstream& stream, const double (&vec)[3], bool optionalAttribute, short int size, size_t precision)
 {
 	// example: (3,23,039)
 	if (size == 0)
@@ -164,12 +164,12 @@ void writeRealArray3(std::stringstream& stream, const double (&vec)[3], bool opt
 			stream << ",";
 		}
 
-		appendRealWithoutTrailingZeros(stream, vec[ii]);
+		appendRealWithoutTrailingZeros(stream, vec[ii], precision);
 	}
 	stream << ")";
 }
 
-void writeRealList2D(std::stringstream& stream, const std::vector<std::vector<double> >& vec, bool optionalAttribute)
+void writeRealList2D(std::stringstream& stream, const std::vector<std::vector<double> >& vec, bool optionalAttribute, size_t precision)
 {
 	// example: ((1,2,4),(3,23,039),(938,3,-3,6))
 	if (vec.size() == 0)
@@ -194,12 +194,12 @@ void writeRealList2D(std::stringstream& stream, const std::vector<std::vector<do
 		{
 			stream << ",";
 		}
-		writeRealList(stream, inner_vec, false);
+		writeRealList(stream, inner_vec, false, precision);
 	}
 	stream << ")";
 }
 
-void writeRealList3D(std::stringstream& stream, const std::vector<std::vector<std::vector<double> > >& vec)
+void writeRealList3D(std::stringstream& stream, const std::vector<std::vector<std::vector<double> > >& vec, size_t precision)
 {
 	// example: ((1,2,4),(3,23,39),(938,3,-35,6))
 	if (vec.size() == 0)
@@ -216,12 +216,12 @@ void writeRealList3D(std::stringstream& stream, const std::vector<std::vector<st
 		{
 			stream << ",";
 		}
-		writeRealList2D(stream, inner_vec, false);
+		writeRealList2D(stream, inner_vec, false, precision);
 	}
 	stream << ")";
 }
 
-void writeStepParameterDouble( double value, std::stringstream& stream, const std::string& classIDstr, bool is_select_type )
+void writeStepParameterDouble( double value, std::stringstream& stream, const std::string& classIDstr, bool is_select_type, size_t precision )
 {
 	if( std::isnan(value) )
 	{
@@ -236,7 +236,7 @@ void writeStepParameterDouble( double value, std::stringstream& stream, const st
 		stream << classIDstr << "(";     // for example "IFCLABEL(";
 	}
 	//stream << "'" << encodeStepString( m_value ) << "'";
-	appendRealWithoutTrailingZeros( stream, value );
+	appendRealWithoutTrailingZeros( stream, value, precision );
 	if( is_select_type ) { stream << ")"; }
 }
 

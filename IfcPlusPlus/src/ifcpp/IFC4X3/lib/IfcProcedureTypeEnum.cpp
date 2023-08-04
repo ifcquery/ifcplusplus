@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcProcedureTypeEnum.h"
 
 // TYPE IfcProcedureTypeEnum = ENUMERATION OF	(ADVICE_CAUTION	,ADVICE_NOTE	,ADVICE_WARNING	,CALIBRATION	,DIAGNOSTIC	,SHUTDOWN	,STARTUP	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcProcedureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcProcedureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCPROCEDURETYPEENUM("; }
 	switch( m_enum )

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcFurnitureTypeEnum.h"
 
 // TYPE IfcFurnitureTypeEnum = ENUMERATION OF	(BED	,CHAIR	,DESK	,FILECABINET	,SHELF	,SOFA	,TABLE	,TECHNICALCABINET	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcFurnitureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcFurnitureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCFURNITURETYPEENUM("; }
 	switch( m_enum )

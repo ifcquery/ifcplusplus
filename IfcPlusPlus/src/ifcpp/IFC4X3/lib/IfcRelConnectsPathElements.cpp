@@ -16,16 +16,16 @@
 
 // ENTITY IfcRelConnectsPathElements 
 IFC4X3::IfcRelConnectsPathElements::IfcRelConnectsPathElements( int tag ) { m_tag = tag; }
-void IFC4X3::IfcRelConnectsPathElements::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcRelConnectsPathElements::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCRELCONNECTSPATHELEMENTS" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ConnectionGeometry ) { stream << "#" << m_ConnectionGeometry->m_tag; } else { stream << "$"; }
 	stream << ",";
@@ -37,12 +37,12 @@ void IFC4X3::IfcRelConnectsPathElements::getStepLine( std::stringstream& stream 
 	stream << ",";
 	writeTypeOfIntList( stream, m_RelatedPriorities, false );
 	stream << ",";
-	if( m_RelatedConnectionType ) { m_RelatedConnectionType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RelatedConnectionType ) { m_RelatedConnectionType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RelatingConnectionType ) { m_RelatingConnectionType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RelatingConnectionType ) { m_RelatingConnectionType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcRelConnectsPathElements::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcRelConnectsPathElements::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcRelConnectsPathElements::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

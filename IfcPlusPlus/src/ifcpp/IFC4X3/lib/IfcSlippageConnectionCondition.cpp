@@ -10,19 +10,19 @@
 
 // ENTITY IfcSlippageConnectionCondition 
 IFC4X3::IfcSlippageConnectionCondition::IfcSlippageConnectionCondition( int tag ) { m_tag = tag; }
-void IFC4X3::IfcSlippageConnectionCondition::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcSlippageConnectionCondition::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSLIPPAGECONNECTIONCONDITION" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SlippageX ) { m_SlippageX->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SlippageX ) { m_SlippageX->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SlippageY ) { m_SlippageY->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SlippageY ) { m_SlippageY->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SlippageZ ) { m_SlippageZ->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SlippageZ ) { m_SlippageZ->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcSlippageConnectionCondition::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcSlippageConnectionCondition::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcSlippageConnectionCondition::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcPreferredSurfaceCurveRepresentation.h"
 
 // TYPE IfcPreferredSurfaceCurveRepresentation = ENUMERATION OF	(CURVE3D	,PCURVE_S1	,PCURVE_S2);
-void IFC4X3::IfcPreferredSurfaceCurveRepresentation::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcPreferredSurfaceCurveRepresentation::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCPREFERREDSURFACECURVEREPRESENTATION("; }
 	switch( m_enum )

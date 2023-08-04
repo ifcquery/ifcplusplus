@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcRecurrenceTypeEnum.h"
 
 // TYPE IfcRecurrenceTypeEnum = ENUMERATION OF	(BY_DAY_COUNT	,BY_WEEKDAY_COUNT	,DAILY	,MONTHLY_BY_DAY_OF_MONTH	,MONTHLY_BY_POSITION	,WEEKLY	,YEARLY_BY_DAY_OF_MONTH	,YEARLY_BY_POSITION);
-void IFC4X3::IfcRecurrenceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcRecurrenceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCRECURRENCETYPEENUM("; }
 	switch( m_enum )

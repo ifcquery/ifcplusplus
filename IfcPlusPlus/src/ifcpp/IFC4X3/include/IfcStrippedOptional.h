@@ -18,7 +18,7 @@ namespace IFC4X3
 		IfcStrippedOptional() = default;
 		IfcStrippedOptional( bool value );
 		virtual uint32_t classID() const { return 1805707277; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcStrippedOptional> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		bool m_value;
 	};

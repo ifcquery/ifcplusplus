@@ -12,19 +12,19 @@
 
 // ENTITY IfcBoundingBox 
 IFC4X3::IfcBoundingBox::IfcBoundingBox( int tag ) { m_tag = tag; }
-void IFC4X3::IfcBoundingBox::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcBoundingBox::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCBOUNDINGBOX" << "(";
 	if( m_Corner ) { stream << "#" << m_Corner->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_XDim ) { m_XDim->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_XDim ) { m_XDim->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_YDim ) { m_YDim->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_YDim ) { m_YDim->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ZDim ) { m_ZDim->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ZDim ) { m_ZDim->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcBoundingBox::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcBoundingBox::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcBoundingBox::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

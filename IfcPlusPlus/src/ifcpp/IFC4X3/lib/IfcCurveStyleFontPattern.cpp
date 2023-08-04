@@ -10,15 +10,15 @@
 
 // ENTITY IfcCurveStyleFontPattern 
 IFC4X3::IfcCurveStyleFontPattern::IfcCurveStyleFontPattern( int tag ) { m_tag = tag; }
-void IFC4X3::IfcCurveStyleFontPattern::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcCurveStyleFontPattern::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCCURVESTYLEFONTPATTERN" << "(";
-	if( m_VisibleSegmentLength ) { m_VisibleSegmentLength->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_VisibleSegmentLength ) { m_VisibleSegmentLength->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_InvisibleSegmentLength ) { m_InvisibleSegmentLength->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_InvisibleSegmentLength ) { m_InvisibleSegmentLength->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcCurveStyleFontPattern::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcCurveStyleFontPattern::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcCurveStyleFontPattern::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

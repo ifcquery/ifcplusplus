@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcStructuralCurveActivityTypeEnum.h"
 
 // TYPE IfcStructuralCurveActivityTypeEnum = ENUMERATION OF	(CONST	,DISCRETE	,EQUIDISTANT	,LINEAR	,PARABOLA	,POLYGONAL	,SINUS	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcStructuralCurveActivityTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcStructuralCurveActivityTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSTRUCTURALCURVEACTIVITYTYPEENUM("; }
 	switch( m_enum )

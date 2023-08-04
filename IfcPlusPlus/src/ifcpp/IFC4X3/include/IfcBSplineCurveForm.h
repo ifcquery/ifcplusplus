@@ -28,7 +28,7 @@ namespace IFC4X3
 		IfcBSplineCurveForm() = default;
 		IfcBSplineCurveForm( IfcBSplineCurveFormEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 3573632694; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcBSplineCurveForm> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcBSplineCurveFormEnum m_enum;
 	};

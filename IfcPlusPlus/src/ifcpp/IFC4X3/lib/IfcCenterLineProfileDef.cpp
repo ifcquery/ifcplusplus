@@ -14,19 +14,19 @@
 
 // ENTITY IfcCenterLineProfileDef 
 IFC4X3::IfcCenterLineProfileDef::IfcCenterLineProfileDef( int tag ) { m_tag = tag; }
-void IFC4X3::IfcCenterLineProfileDef::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcCenterLineProfileDef::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCCENTERLINEPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Curve ) { stream << "#" << m_Curve->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Thickness ) { m_Thickness->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Thickness ) { m_Thickness->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcCenterLineProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcCenterLineProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcCenterLineProfileDef::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

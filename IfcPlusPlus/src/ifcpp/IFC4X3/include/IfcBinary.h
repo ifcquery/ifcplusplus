@@ -19,7 +19,7 @@ namespace IFC4X3
 		IfcBinary() = default;
 		IfcBinary( std::string value );
 		virtual uint32_t classID() const { return 2314439260; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcBinary> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		std::string m_value;
 	};

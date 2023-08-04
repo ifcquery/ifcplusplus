@@ -11,7 +11,7 @@
 #include "ifcpp/IFC4X3/include/IfcArcIndex.h"
 
 // TYPE IfcArcIndex = LIST [3:3] OF IfcPositiveInteger;
-void IFC4X3::IfcArcIndex::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcArcIndex::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCARCINDEX("; }
 	writeTypeOfIntList( stream, m_vec, false );

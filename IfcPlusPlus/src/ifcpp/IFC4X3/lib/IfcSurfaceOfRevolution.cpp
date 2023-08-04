@@ -13,7 +13,7 @@
 
 // ENTITY IfcSurfaceOfRevolution 
 IFC4X3::IfcSurfaceOfRevolution::IfcSurfaceOfRevolution( int tag ) { m_tag = tag; }
-void IFC4X3::IfcSurfaceOfRevolution::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcSurfaceOfRevolution::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACEOFREVOLUTION" << "(";
 	if( m_SweptCurve ) { stream << "#" << m_SweptCurve->m_tag; } else { stream << "$"; }
@@ -23,7 +23,7 @@ void IFC4X3::IfcSurfaceOfRevolution::getStepLine( std::stringstream& stream ) co
 	if( m_AxisPosition ) { stream << "#" << m_AxisPosition->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcSurfaceOfRevolution::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcSurfaceOfRevolution::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcSurfaceOfRevolution::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

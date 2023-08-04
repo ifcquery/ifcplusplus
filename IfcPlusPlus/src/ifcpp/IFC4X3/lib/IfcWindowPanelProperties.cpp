@@ -21,29 +21,29 @@
 
 // ENTITY IfcWindowPanelProperties 
 IFC4X3::IfcWindowPanelProperties::IfcWindowPanelProperties( int tag ) { m_tag = tag; }
-void IFC4X3::IfcWindowPanelProperties::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcWindowPanelProperties::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCWINDOWPANELPROPERTIES" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OperationType ) { m_OperationType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_OperationType ) { m_OperationType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_PanelPosition ) { m_PanelPosition->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_PanelPosition ) { m_PanelPosition->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FrameDepth ) { m_FrameDepth->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_FrameDepth ) { m_FrameDepth->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FrameThickness ) { m_FrameThickness->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_FrameThickness ) { m_FrameThickness->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ShapeAspectStyle ) { stream << "#" << m_ShapeAspectStyle->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcWindowPanelProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcWindowPanelProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcWindowPanelProperties::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

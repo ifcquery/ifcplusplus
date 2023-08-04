@@ -11,7 +11,7 @@
 
 // TYPE IfcTextDecoration = STRING;
 IFC4X3::IfcTextDecoration::IfcTextDecoration( std::string value ) { m_value = value; }
-void IFC4X3::IfcTextDecoration::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcTextDecoration::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCTEXTDECORATION("; }
 	stream << "'" << encodeStepString( m_value ) << "'";

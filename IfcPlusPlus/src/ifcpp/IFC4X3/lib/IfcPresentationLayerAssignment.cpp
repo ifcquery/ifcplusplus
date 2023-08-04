@@ -14,12 +14,12 @@
 
 // ENTITY IfcPresentationLayerAssignment 
 IFC4X3::IfcPresentationLayerAssignment::IfcPresentationLayerAssignment( int tag ) { m_tag = tag; }
-void IFC4X3::IfcPresentationLayerAssignment::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcPresentationLayerAssignment::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCPRESENTATIONLAYERASSIGNMENT" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_AssignedItems.size(); ++ii )
@@ -31,7 +31,7 @@ void IFC4X3::IfcPresentationLayerAssignment::getStepLine( std::stringstream& str
 		const shared_ptr<IfcLayeredItem>& type_object = m_AssignedItems[ii];
 		if( type_object )
 		{
-			type_object->getStepParameter( stream, true );
+			type_object->getStepParameter( stream, true, precision );
 		}
 		else
 		{
@@ -40,10 +40,10 @@ void IFC4X3::IfcPresentationLayerAssignment::getStepLine( std::stringstream& str
 	}
 	stream << ")";
 	stream << ",";
-	if( m_Identifier ) { m_Identifier->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identifier ) { m_Identifier->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcPresentationLayerAssignment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcPresentationLayerAssignment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcPresentationLayerAssignment::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

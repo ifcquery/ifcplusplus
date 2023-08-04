@@ -13,7 +13,7 @@
 
 // ENTITY IfcSectionedSpine 
 IFC4X3::IfcSectionedSpine::IfcSectionedSpine( int tag ) { m_tag = tag; }
-void IFC4X3::IfcSectionedSpine::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcSectionedSpine::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSECTIONEDSPINE" << "(";
 	if( m_SpineCurve ) { stream << "#" << m_SpineCurve->m_tag; } else { stream << "$"; }
@@ -23,7 +23,7 @@ void IFC4X3::IfcSectionedSpine::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_CrossSectionPositions );
 	stream << ");";
 }
-void IFC4X3::IfcSectionedSpine::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcSectionedSpine::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcSectionedSpine::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

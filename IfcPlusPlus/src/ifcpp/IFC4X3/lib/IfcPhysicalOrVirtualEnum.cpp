@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcPhysicalOrVirtualEnum.h"
 
 // TYPE IfcPhysicalOrVirtualEnum = ENUMERATION OF	(PHYSICAL	,VIRTUAL	,NOTDEFINED);
-void IFC4X3::IfcPhysicalOrVirtualEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcPhysicalOrVirtualEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCPHYSICALORVIRTUALENUM("; }
 	switch( m_enum )

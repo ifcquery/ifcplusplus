@@ -13,21 +13,21 @@
 
 // ENTITY IfcSweptDiskSolid 
 IFC4X3::IfcSweptDiskSolid::IfcSweptDiskSolid( int tag ) { m_tag = tag; }
-void IFC4X3::IfcSweptDiskSolid::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcSweptDiskSolid::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSWEPTDISKSOLID" << "(";
 	if( m_Directrix ) { stream << "#" << m_Directrix->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Radius ) { m_Radius->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Radius ) { m_Radius->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_InnerRadius ) { m_InnerRadius->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_InnerRadius ) { m_InnerRadius->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartParam ) { m_StartParam->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StartParam ) { m_StartParam->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EndParam ) { m_EndParam->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EndParam ) { m_EndParam->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcSweptDiskSolid::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcSweptDiskSolid::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcSweptDiskSolid::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

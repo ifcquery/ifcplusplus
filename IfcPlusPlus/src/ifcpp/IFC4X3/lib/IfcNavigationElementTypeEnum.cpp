@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcNavigationElementTypeEnum.h"
 
 // TYPE IfcNavigationElementTypeEnum = ENUMERATION OF	(BEACON	,BUOY	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcNavigationElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcNavigationElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCNAVIGATIONELEMENTTYPEENUM("; }
 	switch( m_enum )

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcStairFlightTypeEnum.h"
 
 // TYPE IfcStairFlightTypeEnum = ENUMERATION OF	(CURVED	,FREEFORM	,SPIRAL	,STRAIGHT	,WINDER	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcStairFlightTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcStairFlightTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSTAIRFLIGHTTYPEENUM("; }
 	switch( m_enum )

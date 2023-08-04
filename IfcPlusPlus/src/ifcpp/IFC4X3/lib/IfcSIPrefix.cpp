@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcSIPrefix.h"
 
 // TYPE IfcSIPrefix = ENUMERATION OF	(ATTO	,CENTI	,DECA	,DECI	,EXA	,FEMTO	,GIGA	,HECTO	,KILO	,MEGA	,MICRO	,MILLI	,NANO	,PETA	,PICO	,TERA);
-void IFC4X3::IfcSIPrefix::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcSIPrefix::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSIPREFIX("; }
 	switch( m_enum )

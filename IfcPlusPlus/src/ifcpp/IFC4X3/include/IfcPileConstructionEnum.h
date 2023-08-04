@@ -28,7 +28,7 @@ namespace IFC4X3
 		IfcPileConstructionEnum() = default;
 		IfcPileConstructionEnum( IfcPileConstructionEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 2457772935; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcPileConstructionEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcPileConstructionEnumEnum m_enum;
 	};

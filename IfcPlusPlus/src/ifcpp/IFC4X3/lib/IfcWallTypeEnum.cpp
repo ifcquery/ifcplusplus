@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcWallTypeEnum.h"
 
 // TYPE IfcWallTypeEnum = ENUMERATION OF	(ELEMENTEDWALL	,MOVABLE	,PARAPET	,PARTITIONING	,PLUMBINGWALL	,POLYGONAL	,RETAININGWALL	,SHEAR	,SOLIDWALL	,STANDARD	,WAVEWALL	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcWallTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcWallTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCWALLTYPEENUM("; }
 	switch( m_enum )

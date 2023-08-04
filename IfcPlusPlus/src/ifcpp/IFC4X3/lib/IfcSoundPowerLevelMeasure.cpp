@@ -12,10 +12,10 @@
 
 // TYPE IfcSoundPowerLevelMeasure = REAL;
 IFC4X3::IfcSoundPowerLevelMeasure::IfcSoundPowerLevelMeasure( double value ) { m_value = value; }
-void IFC4X3::IfcSoundPowerLevelMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcSoundPowerLevelMeasure::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSOUNDPOWERLEVELMEASURE("; }
-	appendRealWithoutTrailingZeros( stream, m_value );
+	appendRealWithoutTrailingZeros( stream, m_value, precision );
 	if( is_select_type ) { stream << ")"; }
 }
 shared_ptr<IFC4X3::IfcSoundPowerLevelMeasure> IFC4X3::IfcSoundPowerLevelMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )

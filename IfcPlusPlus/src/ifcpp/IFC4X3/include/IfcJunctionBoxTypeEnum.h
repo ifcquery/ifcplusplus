@@ -26,7 +26,7 @@ namespace IFC4X3
 		IfcJunctionBoxTypeEnum() = default;
 		IfcJunctionBoxTypeEnum( IfcJunctionBoxTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1844818999; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcJunctionBoxTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcJunctionBoxTypeEnumEnum m_enum;
 	};

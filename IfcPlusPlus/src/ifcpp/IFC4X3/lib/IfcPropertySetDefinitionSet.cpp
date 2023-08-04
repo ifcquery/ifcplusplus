@@ -12,7 +12,7 @@
 #include "ifcpp/IFC4X3/include/IfcPropertySetDefinitionSet.h"
 
 // TYPE IfcPropertySetDefinitionSet = SET [1:?] OF IfcPropertySetDefinition;
-void IFC4X3::IfcPropertySetDefinitionSet::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcPropertySetDefinitionSet::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCPROPERTYSETDEFINITIONSET("; }
 	writeEntityList( stream, m_vec );

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcColumnTypeEnum.h"
 
 // TYPE IfcColumnTypeEnum = ENUMERATION OF	(COLUMN	,PIERSTEM	,PIERSTEM_SEGMENT	,PILASTER	,STANDCOLUMN	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcColumnTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcColumnTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCOLUMNTYPEENUM("; }
 	switch( m_enum )

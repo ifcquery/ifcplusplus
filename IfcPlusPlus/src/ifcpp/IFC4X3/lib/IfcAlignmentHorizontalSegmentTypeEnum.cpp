@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcAlignmentHorizontalSegmentTypeEnum.h"
 
 // TYPE IfcAlignmentHorizontalSegmentTypeEnum = ENUMERATION OF	(BLOSSCURVE	,CIRCULARARC	,CLOTHOID	,COSINECURVE	,CUBIC	,HELMERTCURVE	,LINE	,SINECURVE	,VIENNESEBEND);
-void IFC4X3::IfcAlignmentHorizontalSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcAlignmentHorizontalSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCALIGNMENTHORIZONTALSEGMENTTYPEENUM("; }
 	switch( m_enum )

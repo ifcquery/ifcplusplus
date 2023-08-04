@@ -12,27 +12,27 @@
 
 // ENTITY IfcStructuralLoadSingleForceWarping 
 IFC4X3::IfcStructuralLoadSingleForceWarping::IfcStructuralLoadSingleForceWarping( int tag ) { m_tag = tag; }
-void IFC4X3::IfcStructuralLoadSingleForceWarping::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcStructuralLoadSingleForceWarping::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSTRUCTURALLOADSINGLEFORCEWARPING" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ForceX ) { m_ForceX->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ForceX ) { m_ForceX->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ForceY ) { m_ForceY->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ForceY ) { m_ForceY->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ForceZ ) { m_ForceZ->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ForceZ ) { m_ForceZ->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_MomentX ) { m_MomentX->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_MomentX ) { m_MomentX->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_MomentY ) { m_MomentY->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_MomentY ) { m_MomentY->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_MomentZ ) { m_MomentZ->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_MomentZ ) { m_MomentZ->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_WarpingMoment ) { m_WarpingMoment->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_WarpingMoment ) { m_WarpingMoment->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcStructuralLoadSingleForceWarping::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcStructuralLoadSingleForceWarping::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcStructuralLoadSingleForceWarping::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

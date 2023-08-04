@@ -29,7 +29,7 @@ namespace IFC4X3
 		IfcFootingTypeEnum() = default;
 		IfcFootingTypeEnum( IfcFootingTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 4155216521; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcFootingTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcFootingTypeEnumEnum m_enum;
 	};

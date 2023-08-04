@@ -17,37 +17,37 @@
 
 // ENTITY IfcRationalBSplineSurfaceWithKnots 
 IFC4X3::IfcRationalBSplineSurfaceWithKnots::IfcRationalBSplineSurfaceWithKnots( int tag ) { m_tag = tag; }
-void IFC4X3::IfcRationalBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcRationalBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCRATIONALBSPLINESURFACEWITHKNOTS" << "(";
-	if( m_UDegree ) { m_UDegree->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UDegree ) { m_UDegree->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_VDegree ) { m_VDegree->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_VDegree ) { m_VDegree->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList2D( stream, m_ControlPointsList );
 	stream << ",";
-	if( m_SurfaceForm ) { m_SurfaceForm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SurfaceForm ) { m_SurfaceForm->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UClosed ) { m_UClosed->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UClosed ) { m_UClosed->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_VClosed ) { m_VClosed->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_VClosed ) { m_VClosed->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeTypeOfIntList( stream, m_UMultiplicities, false );
 	stream << ",";
 	writeTypeOfIntList( stream, m_VMultiplicities, false );
 	stream << ",";
-	writeTypeOfRealList( stream, m_UKnots, false );
+	writeTypeOfRealList( stream, m_UKnots, false, precision );
 	stream << ",";
-	writeTypeOfRealList( stream, m_VKnots, false );
+	writeTypeOfRealList( stream, m_VKnots, false, precision );
 	stream << ",";
-	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_KnotSpec ) { m_KnotSpec->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfRealList2D( stream, m_WeightsData, false );
+	writeTypeOfRealList2D( stream, m_WeightsData, false, precision );
 	stream << ");";
 }
-void IFC4X3::IfcRationalBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcRationalBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcRationalBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

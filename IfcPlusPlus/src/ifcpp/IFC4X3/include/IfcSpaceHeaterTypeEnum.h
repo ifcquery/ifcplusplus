@@ -26,7 +26,7 @@ namespace IFC4X3
 		IfcSpaceHeaterTypeEnum() = default;
 		IfcSpaceHeaterTypeEnum( IfcSpaceHeaterTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1855850635; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcSpaceHeaterTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcSpaceHeaterTypeEnumEnum m_enum;
 	};

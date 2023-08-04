@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcDoorPanelPositionEnum.h"
 
 // TYPE IfcDoorPanelPositionEnum = ENUMERATION OF	(LEFT	,MIDDLE	,RIGHT	,NOTDEFINED);
-void IFC4X3::IfcDoorPanelPositionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcDoorPanelPositionEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCDOORPANELPOSITIONENUM("; }
 	switch( m_enum )

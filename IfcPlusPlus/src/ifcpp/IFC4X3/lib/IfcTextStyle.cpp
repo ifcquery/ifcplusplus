@@ -13,21 +13,21 @@
 
 // ENTITY IfcTextStyle 
 IFC4X3::IfcTextStyle::IfcTextStyle( int tag ) { m_tag = tag; }
-void IFC4X3::IfcTextStyle::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcTextStyle::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTSTYLE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_TextCharacterAppearance ) { stream << "#" << m_TextCharacterAppearance->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_TextStyle ) { stream << "#" << m_TextStyle->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_TextFontStyle ) { m_TextFontStyle->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_TextFontStyle ) { m_TextFontStyle->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_ModelOrDraughting ) { m_ModelOrDraughting->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ModelOrDraughting ) { m_ModelOrDraughting->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcTextStyle::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcTextStyle::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcTextStyle::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

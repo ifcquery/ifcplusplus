@@ -11,25 +11,25 @@
 
 // ENTITY IfcBoundaryNodeCondition 
 IFC4X3::IfcBoundaryNodeCondition::IfcBoundaryNodeCondition( int tag ) { m_tag = tag; }
-void IFC4X3::IfcBoundaryNodeCondition::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcBoundaryNodeCondition::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCBOUNDARYNODECONDITION" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_TranslationalStiffnessX ) { m_TranslationalStiffnessX->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_TranslationalStiffnessX ) { m_TranslationalStiffnessX->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_TranslationalStiffnessY ) { m_TranslationalStiffnessY->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_TranslationalStiffnessY ) { m_TranslationalStiffnessY->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_TranslationalStiffnessZ ) { m_TranslationalStiffnessZ->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_TranslationalStiffnessZ ) { m_TranslationalStiffnessZ->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_RotationalStiffnessX ) { m_RotationalStiffnessX->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_RotationalStiffnessX ) { m_RotationalStiffnessX->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_RotationalStiffnessY ) { m_RotationalStiffnessY->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_RotationalStiffnessY ) { m_RotationalStiffnessY->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_RotationalStiffnessZ ) { m_RotationalStiffnessZ->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_RotationalStiffnessZ ) { m_RotationalStiffnessZ->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IFC4X3::IfcBoundaryNodeCondition::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcBoundaryNodeCondition::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcBoundaryNodeCondition::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

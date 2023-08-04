@@ -15,21 +15,21 @@
 
 // ENTITY IfcTextLiteralWithExtent 
 IFC4X3::IfcTextLiteralWithExtent::IfcTextLiteralWithExtent( int tag ) { m_tag = tag; }
-void IFC4X3::IfcTextLiteralWithExtent::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcTextLiteralWithExtent::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTLITERALWITHEXTENT" << "(";
-	if( m_Literal ) { m_Literal->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Literal ) { m_Literal->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Placement ) { m_Placement->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_Placement ) { m_Placement->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_Path ) { m_Path->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Path ) { m_Path->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Extent ) { stream << "#" << m_Extent->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_BoxAlignment ) { m_BoxAlignment->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_BoxAlignment ) { m_BoxAlignment->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcTextLiteralWithExtent::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcTextLiteralWithExtent::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcTextLiteralWithExtent::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

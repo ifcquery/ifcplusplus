@@ -12,7 +12,7 @@
 
 // TYPE IfcIdentifier = STRING(255);
 IFC4X3::IfcIdentifier::IfcIdentifier( std::string value ) { m_value = value; }
-void IFC4X3::IfcIdentifier::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcIdentifier::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCIDENTIFIER("; }
 	stream << "'" << encodeStepString( m_value ) << "'";

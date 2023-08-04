@@ -13,19 +13,19 @@
 
 // ENTITY IfcMaterialProperties 
 IFC4X3::IfcMaterialProperties::IfcMaterialProperties( int tag ) { m_tag = tag; }
-void IFC4X3::IfcMaterialProperties::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcMaterialProperties::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIALPROPERTIES" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_Properties );
 	stream << ",";
 	if( m_Material ) { stream << "#" << m_Material->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcMaterialProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcMaterialProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcMaterialProperties::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

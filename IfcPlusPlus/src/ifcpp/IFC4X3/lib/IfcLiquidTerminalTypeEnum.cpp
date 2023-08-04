@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcLiquidTerminalTypeEnum.h"
 
 // TYPE IfcLiquidTerminalTypeEnum = ENUMERATION OF	(HOSEREEL	,LOADINGARM	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcLiquidTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcLiquidTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCLIQUIDTERMINALTYPEENUM("; }
 	switch( m_enum )

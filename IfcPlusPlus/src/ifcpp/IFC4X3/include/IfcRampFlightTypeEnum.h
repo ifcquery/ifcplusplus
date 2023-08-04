@@ -26,7 +26,7 @@ namespace IFC4X3
 		IfcRampFlightTypeEnum() = default;
 		IfcRampFlightTypeEnum( IfcRampFlightTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1040890966; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcRampFlightTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcRampFlightTypeEnumEnum m_enum;
 	};

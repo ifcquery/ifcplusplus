@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcPipeFittingTypeEnum.h"
 
 // TYPE IfcPipeFittingTypeEnum = ENUMERATION OF	(BEND	,CONNECTOR	,ENTRY	,EXIT	,JUNCTION	,OBSTRUCTION	,TRANSITION	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcPipeFittingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcPipeFittingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCPIPEFITTINGTYPEENUM("; }
 	switch( m_enum )

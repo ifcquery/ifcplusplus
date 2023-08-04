@@ -9,15 +9,15 @@
 
 // ENTITY IfcAlignmentParameterSegment 
 IFC4X3::IfcAlignmentParameterSegment::IfcAlignmentParameterSegment( int tag ) { m_tag = tag; }
-void IFC4X3::IfcAlignmentParameterSegment::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcAlignmentParameterSegment::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCALIGNMENTPARAMETERSEGMENT" << "(";
-	if( m_StartTag ) { m_StartTag->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StartTag ) { m_StartTag->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EndTag ) { m_EndTag->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EndTag ) { m_EndTag->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcAlignmentParameterSegment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcAlignmentParameterSegment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcAlignmentParameterSegment::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

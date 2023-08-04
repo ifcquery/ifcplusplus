@@ -30,7 +30,7 @@ namespace IFC4X3
 		IfcReinforcedSoilTypeEnum() = default;
 		IfcReinforcedSoilTypeEnum( IfcReinforcedSoilTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 2875026444; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcReinforcedSoilTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcReinforcedSoilTypeEnumEnum m_enum;
 	};

@@ -32,39 +32,39 @@
 
 // ENTITY IfcSite 
 IFC4X3::IfcSite::IfcSite( int tag ) { m_tag = tag; }
-void IFC4X3::IfcSite::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcSite::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSITE" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ObjectPlacement ) { stream << "#" << m_ObjectPlacement->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_Representation ) { stream << "#" << m_Representation->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_LongName ) { m_LongName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LongName ) { m_LongName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_CompositionType ) { m_CompositionType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_CompositionType ) { m_CompositionType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RefLatitude ) { m_RefLatitude->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RefLatitude ) { m_RefLatitude->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RefLongitude ) { m_RefLongitude->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RefLongitude ) { m_RefLongitude->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RefElevation ) { m_RefElevation->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RefElevation ) { m_RefElevation->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LandTitleNumber ) { m_LandTitleNumber->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LandTitleNumber ) { m_LandTitleNumber->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_SiteAddress ) { stream << "#" << m_SiteAddress->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcSite::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcSite::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcSite::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

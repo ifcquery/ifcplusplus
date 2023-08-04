@@ -14,23 +14,23 @@
 
 // ENTITY IfcRoundedRectangleProfileDef 
 IFC4X3::IfcRoundedRectangleProfileDef::IfcRoundedRectangleProfileDef( int tag ) { m_tag = tag; }
-void IFC4X3::IfcRoundedRectangleProfileDef::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcRoundedRectangleProfileDef::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCROUNDEDRECTANGLEPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Position ) { stream << "#" << m_Position->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_XDim ) { m_XDim->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_XDim ) { m_XDim->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_YDim ) { m_YDim->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_YDim ) { m_YDim->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RoundingRadius ) { m_RoundingRadius->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RoundingRadius ) { m_RoundingRadius->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcRoundedRectangleProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcRoundedRectangleProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcRoundedRectangleProfileDef::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

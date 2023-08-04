@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcEventTypeEnum.h"
 
 // TYPE IfcEventTypeEnum = ENUMERATION OF	(ENDEVENT	,INTERMEDIATEEVENT	,STARTEVENT	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcEventTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcEventTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCEVENTTYPEENUM("; }
 	switch( m_enum )

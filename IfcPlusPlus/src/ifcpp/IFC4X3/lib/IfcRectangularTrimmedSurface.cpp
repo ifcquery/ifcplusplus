@@ -13,25 +13,25 @@
 
 // ENTITY IfcRectangularTrimmedSurface 
 IFC4X3::IfcRectangularTrimmedSurface::IfcRectangularTrimmedSurface( int tag ) { m_tag = tag; }
-void IFC4X3::IfcRectangularTrimmedSurface::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcRectangularTrimmedSurface::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCRECTANGULARTRIMMEDSURFACE" << "(";
 	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_U1 ) { m_U1->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_U1 ) { m_U1->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_V1 ) { m_V1->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_V1 ) { m_V1->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_U2 ) { m_U2->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_U2 ) { m_U2->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_V2 ) { m_V2->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_V2 ) { m_V2->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Usense ) { m_Usense->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Usense ) { m_Usense->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Vsense ) { m_Vsense->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Vsense ) { m_Vsense->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcRectangularTrimmedSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcRectangularTrimmedSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcRectangularTrimmedSurface::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

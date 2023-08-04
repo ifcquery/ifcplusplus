@@ -9,13 +9,13 @@
 
 // ENTITY IfcObjectPlacement 
 IFC4X3::IfcObjectPlacement::IfcObjectPlacement( int tag ) { m_tag = tag; }
-void IFC4X3::IfcObjectPlacement::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcObjectPlacement::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCOBJECTPLACEMENT" << "(";
 	if( m_PlacementRelTo ) { stream << "#" << m_PlacementRelTo->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcObjectPlacement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcObjectPlacement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcObjectPlacement::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

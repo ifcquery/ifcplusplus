@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcVibrationDamperTypeEnum.h"
 
 // TYPE IfcVibrationDamperTypeEnum = ENUMERATION OF	(AXIAL_YIELD	,BENDING_YIELD	,FRICTION	,RUBBER	,SHEAR_YIELD	,VISCOUS	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcVibrationDamperTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcVibrationDamperTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCVIBRATIONDAMPERTYPEENUM("; }
 	switch( m_enum )

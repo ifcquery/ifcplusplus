@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcChangeActionEnum.h"
 
 // TYPE IfcChangeActionEnum = ENUMERATION OF	(ADDED	,DELETED	,MODIFIED	,NOCHANGE	,NOTDEFINED);
-void IFC4X3::IfcChangeActionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcChangeActionEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCHANGEACTIONENUM("; }
 	switch( m_enum )

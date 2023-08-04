@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcRoadPartTypeEnum.h"
 
 // TYPE IfcRoadPartTypeEnum = ENUMERATION OF	(BICYCLECROSSING	,BUS_STOP	,CARRIAGEWAY	,CENTRALISLAND	,CENTRALRESERVE	,HARDSHOULDER	,INTERSECTION	,LAYBY	,PARKINGBAY	,PASSINGBAY	,PEDESTRIAN_CROSSING	,RAILWAYCROSSING	,REFUGEISLAND	,ROADSEGMENT	,ROADSIDE	,ROADSIDEPART	,ROADWAYPLATEAU	,ROUNDABOUT	,SHOULDER	,SIDEWALK	,SOFTSHOULDER	,TOLLPLAZA	,TRAFFICISLAND	,TRAFFICLANE	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcRoadPartTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcRoadPartTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCROADPARTTYPEENUM("; }
 	switch( m_enum )

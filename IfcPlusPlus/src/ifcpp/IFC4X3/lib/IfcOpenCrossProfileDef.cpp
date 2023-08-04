@@ -16,14 +16,14 @@
 
 // ENTITY IfcOpenCrossProfileDef 
 IFC4X3::IfcOpenCrossProfileDef::IfcOpenCrossProfileDef( int tag ) { m_tag = tag; }
-void IFC4X3::IfcOpenCrossProfileDef::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcOpenCrossProfileDef::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCOPENCROSSPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_HorizontalWidths ) { m_HorizontalWidths->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_HorizontalWidths ) { m_HorizontalWidths->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_Widths.size(); ++ii )
@@ -35,7 +35,7 @@ void IFC4X3::IfcOpenCrossProfileDef::getStepLine( std::stringstream& stream ) co
 		const shared_ptr<IfcNonNegativeLengthMeasure>& type_object = m_Widths[ii];
 		if( type_object )
 		{
-			type_object->getStepParameter( stream, false );
+			type_object->getStepParameter( stream, false, precision );
 		}
 		else
 		{
@@ -44,7 +44,7 @@ void IFC4X3::IfcOpenCrossProfileDef::getStepLine( std::stringstream& stream ) co
 	}
 	stream << ")";
 	stream << ",";
-	writeTypeOfRealList( stream, m_Slopes, false );
+	writeTypeOfRealList( stream, m_Slopes, false, precision );
 	stream << ",";
 	if( m_Tags.size() > 0 )
 	{
@@ -58,7 +58,7 @@ void IFC4X3::IfcOpenCrossProfileDef::getStepLine( std::stringstream& stream ) co
 			const shared_ptr<IfcLabel>& type_object = m_Tags[ii];
 			if( type_object )
 			{
-				type_object->getStepParameter( stream, false );
+				type_object->getStepParameter( stream, false, precision );
 			}
 			else
 			{
@@ -72,7 +72,7 @@ void IFC4X3::IfcOpenCrossProfileDef::getStepLine( std::stringstream& stream ) co
 	if( m_OffsetPoint ) { stream << "#" << m_OffsetPoint->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcOpenCrossProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcOpenCrossProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcOpenCrossProfileDef::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

@@ -73,7 +73,7 @@ namespace IFC4X3
 		IfcDistributionSystemEnum() = default;
 		IfcDistributionSystemEnum( IfcDistributionSystemEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 922449830; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcDistributionSystemEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcDistributionSystemEnumEnum m_enum;
 	};

@@ -20,7 +20,7 @@ namespace IFC4X3
 		IfcRotationalStiffnessMeasure() = default;
 		IfcRotationalStiffnessMeasure( double value );
 		virtual uint32_t classID() const { return 3211557302; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcRotationalStiffnessMeasure> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		double m_value;
 	};

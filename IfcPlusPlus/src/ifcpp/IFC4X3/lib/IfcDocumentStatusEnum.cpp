@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcDocumentStatusEnum.h"
 
 // TYPE IfcDocumentStatusEnum = ENUMERATION OF	(DRAFT	,FINAL	,FINALDRAFT	,REVISION	,NOTDEFINED);
-void IFC4X3::IfcDocumentStatusEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcDocumentStatusEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCDOCUMENTSTATUSENUM("; }
 	switch( m_enum )

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcRoleEnum.h"
 
 // TYPE IfcRoleEnum = ENUMERATION OF	(ARCHITECT	,BUILDINGOPERATOR	,BUILDINGOWNER	,CIVILENGINEER	,CLIENT	,COMMISSIONINGENGINEER	,CONSTRUCTIONMANAGER	,CONSULTANT	,CONTRACTOR	,COSTENGINEER	,ELECTRICALENGINEER	,ENGINEER	,FACILITIESMANAGER	,FIELDCONSTRUCTIONMANAGER	,MANUFACTURER	,MECHANICALENGINEER	,OWNER	,PROJECTMANAGER	,RESELLER	,STRUCTURALENGINEER	,SUBCONTRACTOR	,SUPPLIER	,USERDEFINED);
-void IFC4X3::IfcRoleEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcRoleEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCROLEENUM("; }
 	switch( m_enum )

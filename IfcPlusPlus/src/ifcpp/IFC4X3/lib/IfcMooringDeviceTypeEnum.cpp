@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcMooringDeviceTypeEnum.h"
 
 // TYPE IfcMooringDeviceTypeEnum = ENUMERATION OF	(BOLLARD	,LINETENSIONER	,MAGNETICDEVICE	,MOORINGHOOKS	,VACUUMDEVICE	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcMooringDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcMooringDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCMOORINGDEVICETYPEENUM("; }
 	switch( m_enum )

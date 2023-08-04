@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcEarthworksCutTypeEnum.h"
 
 // TYPE IfcEarthworksCutTypeEnum = ENUMERATION OF	(BASE_EXCAVATION	,CUT	,DREDGING	,EXCAVATION	,OVEREXCAVATION	,PAVEMENTMILLING	,STEPEXCAVATION	,TOPSOILREMOVAL	,TRENCH	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcEarthworksCutTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcEarthworksCutTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCEARTHWORKSCUTTYPEENUM("; }
 	switch( m_enum )

@@ -19,29 +19,29 @@
 
 // ENTITY IfcRelSpaceBoundary 
 IFC4X3::IfcRelSpaceBoundary::IfcRelSpaceBoundary( int tag ) { m_tag = tag; }
-void IFC4X3::IfcRelSpaceBoundary::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcRelSpaceBoundary::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCRELSPACEBOUNDARY" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RelatingSpace ) { m_RelatingSpace->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_RelatingSpace ) { m_RelatingSpace->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_RelatedBuildingElement ) { stream << "#" << m_RelatedBuildingElement->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_ConnectionGeometry ) { stream << "#" << m_ConnectionGeometry->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_PhysicalOrVirtualBoundary ) { m_PhysicalOrVirtualBoundary->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_PhysicalOrVirtualBoundary ) { m_PhysicalOrVirtualBoundary->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_InternalOrExternalBoundary ) { m_InternalOrExternalBoundary->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_InternalOrExternalBoundary ) { m_InternalOrExternalBoundary->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcRelSpaceBoundary::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcRelSpaceBoundary::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcRelSpaceBoundary::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

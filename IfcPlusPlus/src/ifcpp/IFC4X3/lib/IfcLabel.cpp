@@ -12,7 +12,7 @@
 
 // TYPE IfcLabel = STRING(255);
 IFC4X3::IfcLabel::IfcLabel( std::string value ) { m_value = value; }
-void IFC4X3::IfcLabel::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcLabel::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCLABEL("; }
 	stream << "'" << encodeStepString( m_value ) << "'";

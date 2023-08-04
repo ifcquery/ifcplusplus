@@ -15,23 +15,23 @@
 
 // ENTITY IfcReinforcementBarProperties 
 IFC4X3::IfcReinforcementBarProperties::IfcReinforcementBarProperties( int tag ) { m_tag = tag; }
-void IFC4X3::IfcReinforcementBarProperties::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcReinforcementBarProperties::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCREINFORCEMENTBARPROPERTIES" << "(";
-	if( m_TotalCrossSectionArea ) { m_TotalCrossSectionArea->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TotalCrossSectionArea ) { m_TotalCrossSectionArea->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SteelGrade ) { m_SteelGrade->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SteelGrade ) { m_SteelGrade->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_BarSurface ) { m_BarSurface->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_BarSurface ) { m_BarSurface->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EffectiveDepth ) { m_EffectiveDepth->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EffectiveDepth ) { m_EffectiveDepth->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_NominalBarDiameter ) { m_NominalBarDiameter->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_NominalBarDiameter ) { m_NominalBarDiameter->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_BarCount ) { m_BarCount->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_BarCount ) { m_BarCount->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcReinforcementBarProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcReinforcementBarProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcReinforcementBarProperties::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

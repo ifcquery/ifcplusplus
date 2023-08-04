@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcGeotechnicalStratumTypeEnum.h"
 
 // TYPE IfcGeotechnicalStratumTypeEnum = ENUMERATION OF	(SOLID	,VOID	,WATER	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcGeotechnicalStratumTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcGeotechnicalStratumTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCGEOTECHNICALSTRATUMTYPEENUM("; }
 	switch( m_enum )

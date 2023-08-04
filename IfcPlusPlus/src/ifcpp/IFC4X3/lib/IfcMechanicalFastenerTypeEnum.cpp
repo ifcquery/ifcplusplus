@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcMechanicalFastenerTypeEnum.h"
 
 // TYPE IfcMechanicalFastenerTypeEnum = ENUMERATION OF	(ANCHORBOLT	,BOLT	,CHAIN	,COUPLER	,DOWEL	,NAIL	,NAILPLATE	,RAILFASTENING	,RAILJOINT	,RIVET	,ROPE	,SCREW	,SHEARCONNECTOR	,STAPLE	,STUDSHEARCONNECTOR	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcMechanicalFastenerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcMechanicalFastenerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCMECHANICALFASTENERTYPEENUM("; }
 	switch( m_enum )

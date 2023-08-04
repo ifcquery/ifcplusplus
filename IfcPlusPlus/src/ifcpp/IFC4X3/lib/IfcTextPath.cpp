@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcTextPath.h"
 
 // TYPE IfcTextPath = ENUMERATION OF	(DOWN	,LEFT	,RIGHT	,UP);
-void IFC4X3::IfcTextPath::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcTextPath::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCTEXTPATH("; }
 	switch( m_enum )

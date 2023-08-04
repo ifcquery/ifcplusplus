@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcCurveInterpolationEnum.h"
 
 // TYPE IfcCurveInterpolationEnum = ENUMERATION OF	(LINEAR	,LOG_LINEAR	,LOG_LOG	,NOTDEFINED);
-void IFC4X3::IfcCurveInterpolationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcCurveInterpolationEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCURVEINTERPOLATIONENUM("; }
 	switch( m_enum )

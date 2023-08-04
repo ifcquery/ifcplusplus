@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcLanguageId.h"
 
 // TYPE IfcLanguageId = IfcIdentifier;
-void IFC4X3::IfcLanguageId::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcLanguageId::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCLANGUAGEID("; }
 	stream << "'" << encodeStepString( m_value ) << "'";

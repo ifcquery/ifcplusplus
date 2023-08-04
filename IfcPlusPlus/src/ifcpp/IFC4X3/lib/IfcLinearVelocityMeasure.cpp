@@ -12,10 +12,10 @@
 
 // TYPE IfcLinearVelocityMeasure = REAL;
 IFC4X3::IfcLinearVelocityMeasure::IfcLinearVelocityMeasure( double value ) { m_value = value; }
-void IFC4X3::IfcLinearVelocityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcLinearVelocityMeasure::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCLINEARVELOCITYMEASURE("; }
-	appendRealWithoutTrailingZeros( stream, m_value );
+	appendRealWithoutTrailingZeros( stream, m_value, precision );
 	if( is_select_type ) { stream << ")"; }
 }
 shared_ptr<IFC4X3::IfcLinearVelocityMeasure> IFC4X3::IfcLinearVelocityMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )

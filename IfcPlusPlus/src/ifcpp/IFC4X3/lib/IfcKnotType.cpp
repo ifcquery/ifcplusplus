@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcKnotType.h"
 
 // TYPE IfcKnotType = ENUMERATION OF	(PIECEWISE_BEZIER_KNOTS	,QUASI_UNIFORM_KNOTS	,UNIFORM_KNOTS	,UNSPECIFIED);
-void IFC4X3::IfcKnotType::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcKnotType::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCKNOTTYPE("; }
 	switch( m_enum )

@@ -11,7 +11,7 @@
 
 // TYPE IfcFontWeight = STRING;
 IFC4X3::IfcFontWeight::IfcFontWeight( std::string value ) { m_value = value; }
-void IFC4X3::IfcFontWeight::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcFontWeight::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCFONTWEIGHT("; }
 	stream << "'" << encodeStepString( m_value ) << "'";

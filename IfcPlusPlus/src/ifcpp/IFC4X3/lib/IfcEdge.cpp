@@ -11,7 +11,7 @@
 
 // ENTITY IfcEdge 
 IFC4X3::IfcEdge::IfcEdge( int tag ) { m_tag = tag; }
-void IFC4X3::IfcEdge::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcEdge::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCEDGE" << "(";
 	if( m_EdgeStart ) { stream << "#" << m_EdgeStart->m_tag; } else { stream << "$"; }
@@ -19,7 +19,7 @@ void IFC4X3::IfcEdge::getStepLine( std::stringstream& stream ) const
 	if( m_EdgeEnd ) { stream << "#" << m_EdgeEnd->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcEdge::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcEdge::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcEdge::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

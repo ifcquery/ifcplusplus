@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcFlowDirectionEnum.h"
 
 // TYPE IfcFlowDirectionEnum = ENUMERATION OF	(SINK	,SOURCE	,SOURCEANDSINK	,NOTDEFINED);
-void IFC4X3::IfcFlowDirectionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcFlowDirectionEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCFLOWDIRECTIONENUM("; }
 	switch( m_enum )

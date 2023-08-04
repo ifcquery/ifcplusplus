@@ -12,17 +12,17 @@
 
 // ENTITY IfcPointOnSurface 
 IFC4X3::IfcPointOnSurface::IfcPointOnSurface( int tag ) { m_tag = tag; }
-void IFC4X3::IfcPointOnSurface::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcPointOnSurface::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCPOINTONSURFACE" << "(";
 	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_PointParameterU ) { m_PointParameterU->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_PointParameterU ) { m_PointParameterU->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_PointParameterV ) { m_PointParameterV->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_PointParameterV ) { m_PointParameterV->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcPointOnSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcPointOnSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcPointOnSurface::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

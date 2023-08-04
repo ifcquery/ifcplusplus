@@ -10,10 +10,10 @@
 
 // ENTITY IfcIrregularTimeSeriesValue 
 IFC4X3::IfcIrregularTimeSeriesValue::IfcIrregularTimeSeriesValue( int tag ) { m_tag = tag; }
-void IFC4X3::IfcIrregularTimeSeriesValue::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcIrregularTimeSeriesValue::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCIRREGULARTIMESERIESVALUE" << "(";
-	if( m_TimeStamp ) { m_TimeStamp->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TimeStamp ) { m_TimeStamp->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_ListValues.size(); ++ii )
@@ -25,7 +25,7 @@ void IFC4X3::IfcIrregularTimeSeriesValue::getStepLine( std::stringstream& stream
 		const shared_ptr<IfcValue>& type_object = m_ListValues[ii];
 		if( type_object )
 		{
-			type_object->getStepParameter( stream, true );
+			type_object->getStepParameter( stream, true, precision );
 		}
 		else
 		{
@@ -35,7 +35,7 @@ void IFC4X3::IfcIrregularTimeSeriesValue::getStepLine( std::stringstream& stream
 	stream << ")";
 	stream << ");";
 }
-void IFC4X3::IfcIrregularTimeSeriesValue::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcIrregularTimeSeriesValue::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcIrregularTimeSeriesValue::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

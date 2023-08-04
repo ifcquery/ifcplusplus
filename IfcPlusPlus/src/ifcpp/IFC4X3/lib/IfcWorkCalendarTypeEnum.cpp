@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcWorkCalendarTypeEnum.h"
 
 // TYPE IfcWorkCalendarTypeEnum = ENUMERATION OF	(FIRSTSHIFT	,SECONDSHIFT	,THIRDSHIFT	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcWorkCalendarTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcWorkCalendarTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCWORKCALENDARTYPEENUM("; }
 	switch( m_enum )

@@ -10,17 +10,17 @@
 
 // ENTITY IfcLightDistributionData 
 IFC4X3::IfcLightDistributionData::IfcLightDistributionData( int tag ) { m_tag = tag; }
-void IFC4X3::IfcLightDistributionData::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcLightDistributionData::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCLIGHTDISTRIBUTIONDATA" << "(";
-	if( m_MainPlaneAngle ) { m_MainPlaneAngle->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_MainPlaneAngle ) { m_MainPlaneAngle->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfRealList( stream, m_SecondaryPlaneAngle, false );
+	writeTypeOfRealList( stream, m_SecondaryPlaneAngle, false, precision );
 	stream << ",";
-	writeTypeOfRealList( stream, m_LuminousIntensity, false );
+	writeTypeOfRealList( stream, m_LuminousIntensity, false, precision );
 	stream << ");";
 }
-void IFC4X3::IfcLightDistributionData::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcLightDistributionData::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcLightDistributionData::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

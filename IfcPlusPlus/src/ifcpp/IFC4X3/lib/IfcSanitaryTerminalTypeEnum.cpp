@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcSanitaryTerminalTypeEnum.h"
 
 // TYPE IfcSanitaryTerminalTypeEnum = ENUMERATION OF	(BATH	,BIDET	,CISTERN	,SANITARYFOUNTAIN	,SHOWER	,SINK	,TOILETPAN	,URINAL	,WASHHANDBASIN	,WCSEAT	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcSanitaryTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcSanitaryTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSANITARYTERMINALTYPEENUM("; }
 	switch( m_enum )

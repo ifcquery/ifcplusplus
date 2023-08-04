@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcWindowPanelOperationEnum.h"
 
 // TYPE IfcWindowPanelOperationEnum = ENUMERATION OF	(BOTTOMHUNG	,FIXEDCASEMENT	,OTHEROPERATION	,PIVOTHORIZONTAL	,PIVOTVERTICAL	,REMOVABLECASEMENT	,SIDEHUNGLEFTHAND	,SIDEHUNGRIGHTHAND	,SLIDINGHORIZONTAL	,SLIDINGVERTICAL	,TILTANDTURNLEFTHAND	,TILTANDTURNRIGHTHAND	,TOPHUNG	,NOTDEFINED);
-void IFC4X3::IfcWindowPanelOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcWindowPanelOperationEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCWINDOWPANELOPERATIONENUM("; }
 	switch( m_enum )

@@ -13,17 +13,17 @@
 
 // ENTITY IfcArbitraryClosedProfileDef 
 IFC4X3::IfcArbitraryClosedProfileDef::IfcArbitraryClosedProfileDef( int tag ) { m_tag = tag; }
-void IFC4X3::IfcArbitraryClosedProfileDef::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcArbitraryClosedProfileDef::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCARBITRARYCLOSEDPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_OuterCurve ) { stream << "#" << m_OuterCurve->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcArbitraryClosedProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcArbitraryClosedProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcArbitraryClosedProfileDef::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

@@ -11,7 +11,7 @@
 
 // ENTITY IfcPersonAndOrganization 
 IFC4X3::IfcPersonAndOrganization::IfcPersonAndOrganization( int tag ) { m_tag = tag; }
-void IFC4X3::IfcPersonAndOrganization::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcPersonAndOrganization::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCPERSONANDORGANIZATION" << "(";
 	if( m_ThePerson ) { stream << "#" << m_ThePerson->m_tag; } else { stream << "$"; }
@@ -21,7 +21,7 @@ void IFC4X3::IfcPersonAndOrganization::getStepLine( std::stringstream& stream ) 
 	writeEntityList( stream, m_Roles );
 	stream << ");";
 }
-void IFC4X3::IfcPersonAndOrganization::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcPersonAndOrganization::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcPersonAndOrganization::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

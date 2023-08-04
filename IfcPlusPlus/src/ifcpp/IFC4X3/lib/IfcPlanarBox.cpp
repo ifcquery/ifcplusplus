@@ -12,17 +12,17 @@
 
 // ENTITY IfcPlanarBox 
 IFC4X3::IfcPlanarBox::IfcPlanarBox( int tag ) { m_tag = tag; }
-void IFC4X3::IfcPlanarBox::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcPlanarBox::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCPLANARBOX" << "(";
-	if( m_SizeInX ) { m_SizeInX->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SizeInX ) { m_SizeInX->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SizeInY ) { m_SizeInY->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SizeInY ) { m_SizeInY->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Placement ) { m_Placement->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_Placement ) { m_Placement->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IFC4X3::IfcPlanarBox::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcPlanarBox::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcPlanarBox::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

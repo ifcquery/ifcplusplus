@@ -12,7 +12,7 @@
 
 // TYPE IfcInteger = INTEGER;
 IFC4X3::IfcInteger::IfcInteger( int value ) { m_value = value; }
-void IFC4X3::IfcInteger::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcInteger::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCINTEGER("; }
 	stream << m_value;

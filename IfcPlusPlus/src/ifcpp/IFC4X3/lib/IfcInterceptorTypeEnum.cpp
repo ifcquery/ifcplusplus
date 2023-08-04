@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcInterceptorTypeEnum.h"
 
 // TYPE IfcInterceptorTypeEnum = ENUMERATION OF	(CYCLONIC	,GREASE	,OIL	,PETROL	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcInterceptorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcInterceptorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCINTERCEPTORTYPEENUM("; }
 	switch( m_enum )

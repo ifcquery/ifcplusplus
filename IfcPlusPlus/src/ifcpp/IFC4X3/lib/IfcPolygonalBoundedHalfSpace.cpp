@@ -14,19 +14,19 @@
 
 // ENTITY IfcPolygonalBoundedHalfSpace 
 IFC4X3::IfcPolygonalBoundedHalfSpace::IfcPolygonalBoundedHalfSpace( int tag ) { m_tag = tag; }
-void IFC4X3::IfcPolygonalBoundedHalfSpace::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcPolygonalBoundedHalfSpace::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCPOLYGONALBOUNDEDHALFSPACE" << "(";
 	if( m_BaseSurface ) { stream << "#" << m_BaseSurface->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_AgreementFlag ) { m_AgreementFlag->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_AgreementFlag ) { m_AgreementFlag->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Position ) { stream << "#" << m_Position->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_PolygonalBoundary ) { stream << "#" << m_PolygonalBoundary->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcPolygonalBoundedHalfSpace::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcPolygonalBoundedHalfSpace::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcPolygonalBoundedHalfSpace::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

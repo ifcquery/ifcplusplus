@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcReinforcingMeshTypeEnum.h"
 
 // TYPE IfcReinforcingMeshTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcReinforcingMeshTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcReinforcingMeshTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCREINFORCINGMESHTYPEENUM("; }
 	switch( m_enum )

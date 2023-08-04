@@ -11,7 +11,7 @@
 
 // TYPE IfcDayInMonthNumber = INTEGER;
 IFC4X3::IfcDayInMonthNumber::IfcDayInMonthNumber( int value ) { m_value = value; }
-void IFC4X3::IfcDayInMonthNumber::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcDayInMonthNumber::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCDAYINMONTHNUMBER("; }
 	stream << m_value;

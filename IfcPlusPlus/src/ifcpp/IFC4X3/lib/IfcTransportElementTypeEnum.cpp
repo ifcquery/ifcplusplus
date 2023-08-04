@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcTransportElementTypeEnum.h"
 
 // TYPE IfcTransportElementTypeEnum = ENUMERATION OF	(CRANEWAY	,ELEVATOR	,ESCALATOR	,HAULINGGEAR	,LIFTINGGEAR	,MOVINGWALKWAY	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcTransportElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcTransportElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCTRANSPORTELEMENTTYPEENUM("; }
 	switch( m_enum )

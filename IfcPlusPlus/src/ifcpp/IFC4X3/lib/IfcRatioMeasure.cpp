@@ -14,10 +14,10 @@
 
 // TYPE IfcRatioMeasure = REAL;
 IFC4X3::IfcRatioMeasure::IfcRatioMeasure( double value ) { m_value = value; }
-void IFC4X3::IfcRatioMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcRatioMeasure::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCRATIOMEASURE("; }
-	appendRealWithoutTrailingZeros( stream, m_value );
+	appendRealWithoutTrailingZeros( stream, m_value, precision );
 	if( is_select_type ) { stream << ")"; }
 }
 shared_ptr<IFC4X3::IfcRatioMeasure> IFC4X3::IfcRatioMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )

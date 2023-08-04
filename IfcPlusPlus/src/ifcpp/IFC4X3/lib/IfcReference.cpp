@@ -11,21 +11,21 @@
 
 // ENTITY IfcReference 
 IFC4X3::IfcReference::IfcReference( int tag ) { m_tag = tag; }
-void IFC4X3::IfcReference::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcReference::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCREFERENCE" << "(";
-	if( m_TypeIdentifier ) { m_TypeIdentifier->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TypeIdentifier ) { m_TypeIdentifier->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_AttributeIdentifier ) { m_AttributeIdentifier->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_AttributeIdentifier ) { m_AttributeIdentifier->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_InstanceName ) { m_InstanceName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_InstanceName ) { m_InstanceName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeTypeOfIntList( stream, m_ListPositions, true );
 	stream << ",";
 	if( m_InnerReference ) { stream << "#" << m_InnerReference->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcReference::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcReference::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcReference::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

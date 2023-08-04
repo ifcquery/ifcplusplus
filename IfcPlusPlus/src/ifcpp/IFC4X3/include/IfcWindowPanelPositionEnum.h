@@ -28,7 +28,7 @@ namespace IFC4X3
 		IfcWindowPanelPositionEnum() = default;
 		IfcWindowPanelPositionEnum( IfcWindowPanelPositionEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 278839091; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcWindowPanelPositionEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcWindowPanelPositionEnumEnum m_enum;
 	};

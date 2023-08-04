@@ -12,10 +12,10 @@
 
 // ENTITY IfcCartesianPointList3D 
 IFC4X3::IfcCartesianPointList3D::IfcCartesianPointList3D( int tag ) { m_tag = tag; }
-void IFC4X3::IfcCartesianPointList3D::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcCartesianPointList3D::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCCARTESIANPOINTLIST3D" << "(";
-	writeTypeOfRealList2D( stream, m_CoordList, false );
+	writeTypeOfRealList2D( stream, m_CoordList, false, precision );
 	stream << ",";
 	if( m_TagList.size() > 0 )
 	{
@@ -29,7 +29,7 @@ void IFC4X3::IfcCartesianPointList3D::getStepLine( std::stringstream& stream ) c
 			const shared_ptr<IfcLabel>& type_object = m_TagList[ii];
 			if( type_object )
 			{
-				type_object->getStepParameter( stream, false );
+				type_object->getStepParameter( stream, false, precision );
 			}
 			else
 			{
@@ -41,7 +41,7 @@ void IFC4X3::IfcCartesianPointList3D::getStepLine( std::stringstream& stream ) c
 	else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcCartesianPointList3D::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcCartesianPointList3D::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcCartesianPointList3D::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

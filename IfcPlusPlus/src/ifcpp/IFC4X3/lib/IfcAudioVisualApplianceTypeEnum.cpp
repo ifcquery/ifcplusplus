@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcAudioVisualApplianceTypeEnum.h"
 
 // TYPE IfcAudioVisualApplianceTypeEnum = ENUMERATION OF	(AMPLIFIER	,CAMERA	,COMMUNICATIONTERMINAL	,DISPLAY	,MICROPHONE	,PLAYER	,PROJECTOR	,RECEIVER	,RECORDINGEQUIPMENT	,SPEAKER	,SWITCHER	,TELEPHONE	,TUNER	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcAudioVisualApplianceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcAudioVisualApplianceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCAUDIOVISUALAPPLIANCETYPEENUM("; }
 	switch( m_enum )

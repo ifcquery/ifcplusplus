@@ -12,7 +12,7 @@
 
 // TYPE IfcText = STRING;
 IFC4X3::IfcText::IfcText( std::string value ) { m_value = value; }
-void IFC4X3::IfcText::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcText::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCTEXT("; }
 	stream << "'" << encodeStepString( m_value ) << "'";

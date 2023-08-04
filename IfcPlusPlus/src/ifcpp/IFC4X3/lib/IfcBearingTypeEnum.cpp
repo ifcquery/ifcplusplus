@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcBearingTypeEnum.h"
 
 // TYPE IfcBearingTypeEnum = ENUMERATION OF	(CYLINDRICAL	,DISK	,ELASTOMERIC	,GUIDE	,POT	,ROCKER	,ROLLER	,SPHERICAL	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcBearingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcBearingTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCBEARINGTYPEENUM("; }
 	switch( m_enum )

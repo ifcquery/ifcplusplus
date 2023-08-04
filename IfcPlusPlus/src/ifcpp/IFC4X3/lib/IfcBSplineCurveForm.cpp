@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcBSplineCurveForm.h"
 
 // TYPE IfcBSplineCurveForm = ENUMERATION OF	(CIRCULAR_ARC	,ELLIPTIC_ARC	,HYPERBOLIC_ARC	,PARABOLIC_ARC	,POLYLINE_FORM	,UNSPECIFIED);
-void IFC4X3::IfcBSplineCurveForm::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcBSplineCurveForm::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCBSPLINECURVEFORM("; }
 	switch( m_enum )

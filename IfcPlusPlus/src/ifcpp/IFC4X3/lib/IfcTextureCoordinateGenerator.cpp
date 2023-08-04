@@ -11,17 +11,17 @@
 
 // ENTITY IfcTextureCoordinateGenerator 
 IFC4X3::IfcTextureCoordinateGenerator::IfcTextureCoordinateGenerator( int tag ) { m_tag = tag; }
-void IFC4X3::IfcTextureCoordinateGenerator::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcTextureCoordinateGenerator::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTURECOORDINATEGENERATOR" << "(";
 	writeEntityList( stream, m_Maps );
 	stream << ",";
-	if( m_Mode ) { m_Mode->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Mode ) { m_Mode->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfRealList( stream, m_Parameter, true );
+	writeTypeOfRealList( stream, m_Parameter, true, precision );
 	stream << ");";
 }
-void IFC4X3::IfcTextureCoordinateGenerator::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcTextureCoordinateGenerator::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcTextureCoordinateGenerator::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

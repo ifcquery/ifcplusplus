@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcElementCompositionEnum.h"
 
 // TYPE IfcElementCompositionEnum = ENUMERATION OF	(COMPLEX	,ELEMENT	,PARTIAL);
-void IFC4X3::IfcElementCompositionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcElementCompositionEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCELEMENTCOMPOSITIONENUM("; }
 	switch( m_enum )

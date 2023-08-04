@@ -34,7 +34,7 @@ namespace IFC4X3
 		IfcFlowInstrumentTypeEnum() = default;
 		IfcFlowInstrumentTypeEnum( IfcFlowInstrumentTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 897523405; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcFlowInstrumentTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcFlowInstrumentTypeEnumEnum m_enum;
 	};

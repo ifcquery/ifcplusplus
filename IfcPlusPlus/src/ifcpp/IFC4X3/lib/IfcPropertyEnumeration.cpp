@@ -12,10 +12,10 @@
 
 // ENTITY IfcPropertyEnumeration 
 IFC4X3::IfcPropertyEnumeration::IfcPropertyEnumeration( int tag ) { m_tag = tag; }
-void IFC4X3::IfcPropertyEnumeration::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcPropertyEnumeration::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCPROPERTYENUMERATION" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_EnumerationValues.size(); ++ii )
@@ -27,7 +27,7 @@ void IFC4X3::IfcPropertyEnumeration::getStepLine( std::stringstream& stream ) co
 		const shared_ptr<IfcValue>& type_object = m_EnumerationValues[ii];
 		if( type_object )
 		{
-			type_object->getStepParameter( stream, true );
+			type_object->getStepParameter( stream, true, precision );
 		}
 		else
 		{
@@ -36,10 +36,10 @@ void IFC4X3::IfcPropertyEnumeration::getStepLine( std::stringstream& stream ) co
 	}
 	stream << ")";
 	stream << ",";
-	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_Unit ) { m_Unit->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IFC4X3::IfcPropertyEnumeration::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcPropertyEnumeration::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcPropertyEnumeration::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

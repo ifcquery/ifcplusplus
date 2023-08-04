@@ -15,7 +15,7 @@
 
 // ENTITY IfcFixedReferenceSweptAreaSolid 
 IFC4X3::IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid( int tag ) { m_tag = tag; }
-void IFC4X3::IfcFixedReferenceSweptAreaSolid::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcFixedReferenceSweptAreaSolid::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCFIXEDREFERENCESWEPTAREASOLID" << "(";
 	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_tag; } else { stream << "$"; }
@@ -24,14 +24,14 @@ void IFC4X3::IfcFixedReferenceSweptAreaSolid::getStepLine( std::stringstream& st
 	stream << ",";
 	if( m_Directrix ) { stream << "#" << m_Directrix->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_StartParam ) { m_StartParam->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_StartParam ) { m_StartParam->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_EndParam ) { m_EndParam->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_EndParam ) { m_EndParam->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_FixedReference ) { stream << "#" << m_FixedReference->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcFixedReferenceSweptAreaSolid::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcFixedReferenceSweptAreaSolid::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcFixedReferenceSweptAreaSolid::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

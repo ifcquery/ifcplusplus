@@ -26,7 +26,7 @@ namespace IFC4X3
 		IfcOpeningElementTypeEnum() = default;
 		IfcOpeningElementTypeEnum( IfcOpeningElementTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 2874063949; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcOpeningElementTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcOpeningElementTypeEnumEnum m_enum;
 	};

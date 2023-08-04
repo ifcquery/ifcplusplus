@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcStairTypeEnum.h"
 
 // TYPE IfcStairTypeEnum = ENUMERATION OF	(CURVED_RUN_STAIR	,DOUBLE_RETURN_STAIR	,HALF_TURN_STAIR	,HALF_WINDING_STAIR	,LADDER	,QUARTER_TURN_STAIR	,QUARTER_WINDING_STAIR	,SPIRAL_STAIR	,STRAIGHT_RUN_STAIR	,THREE_QUARTER_TURN_STAIR	,THREE_QUARTER_WINDING_STAIR	,TWO_CURVED_RUN_STAIR	,TWO_QUARTER_TURN_STAIR	,TWO_QUARTER_WINDING_STAIR	,TWO_STRAIGHT_RUN_STAIR	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcStairTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcStairTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSTAIRTYPEENUM("; }
 	switch( m_enum )

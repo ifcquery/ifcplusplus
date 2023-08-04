@@ -29,7 +29,7 @@ namespace IFC4X3
 		IfcMooringDeviceTypeEnum() = default;
 		IfcMooringDeviceTypeEnum( IfcMooringDeviceTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 2707447046; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcMooringDeviceTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcMooringDeviceTypeEnumEnum m_enum;
 	};

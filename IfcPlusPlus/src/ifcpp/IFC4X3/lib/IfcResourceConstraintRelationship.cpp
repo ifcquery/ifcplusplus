@@ -13,12 +13,12 @@
 
 // ENTITY IfcResourceConstraintRelationship 
 IFC4X3::IfcResourceConstraintRelationship::IfcResourceConstraintRelationship( int tag ) { m_tag = tag; }
-void IFC4X3::IfcResourceConstraintRelationship::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcResourceConstraintRelationship::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCRESOURCECONSTRAINTRELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RelatingConstraint ) { stream << "#" << m_RelatingConstraint->m_tag; } else { stream << "$"; }
 	stream << ",";
@@ -32,7 +32,7 @@ void IFC4X3::IfcResourceConstraintRelationship::getStepLine( std::stringstream& 
 		const shared_ptr<IfcResourceObjectSelect>& type_object = m_RelatedResourceObjects[ii];
 		if( type_object )
 		{
-			type_object->getStepParameter( stream, true );
+			type_object->getStepParameter( stream, true, precision );
 		}
 		else
 		{
@@ -42,7 +42,7 @@ void IFC4X3::IfcResourceConstraintRelationship::getStepLine( std::stringstream& 
 	stream << ")";
 	stream << ");";
 }
-void IFC4X3::IfcResourceConstraintRelationship::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcResourceConstraintRelationship::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcResourceConstraintRelationship::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

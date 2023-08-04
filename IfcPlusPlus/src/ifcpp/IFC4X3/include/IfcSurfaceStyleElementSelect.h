@@ -13,7 +13,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcSurfaceStyleElementSelect : virtual public BuildingObject
 	{
 	public:
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const = 0;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const = 0;
 		static shared_ptr<IfcSurfaceStyleElementSelect> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 	};
 }

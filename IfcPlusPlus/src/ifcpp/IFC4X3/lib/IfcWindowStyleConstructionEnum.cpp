@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcWindowStyleConstructionEnum.h"
 
 // TYPE IfcWindowStyleConstructionEnum = ENUMERATION OF	(ALUMINIUM	,ALUMINIUM_WOOD	,HIGH_GRADE_STEEL	,OTHER_CONSTRUCTION	,PLASTIC	,STEEL	,WOOD	,NOTDEFINED);
-void IFC4X3::IfcWindowStyleConstructionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcWindowStyleConstructionEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCWINDOWSTYLECONSTRUCTIONENUM("; }
 	switch( m_enum )

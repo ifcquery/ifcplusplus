@@ -28,7 +28,7 @@ namespace IFC4X3
 		IfcRailingTypeEnum() = default;
 		IfcRailingTypeEnum( IfcRailingTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1491040762; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcRailingTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcRailingTypeEnumEnum m_enum;
 	};

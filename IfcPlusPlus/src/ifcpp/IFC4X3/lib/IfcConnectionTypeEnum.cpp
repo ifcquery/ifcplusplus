@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcConnectionTypeEnum.h"
 
 // TYPE IfcConnectionTypeEnum = ENUMERATION OF	(ATEND	,ATPATH	,ATSTART	,NOTDEFINED);
-void IFC4X3::IfcConnectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcConnectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCONNECTIONTYPEENUM("; }
 	switch( m_enum )

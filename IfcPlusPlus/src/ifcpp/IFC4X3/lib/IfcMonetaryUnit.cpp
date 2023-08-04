@@ -9,13 +9,13 @@
 
 // ENTITY IfcMonetaryUnit 
 IFC4X3::IfcMonetaryUnit::IfcMonetaryUnit( int tag ) { m_tag = tag; }
-void IFC4X3::IfcMonetaryUnit::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcMonetaryUnit::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCMONETARYUNIT" << "(";
-	if( m_Currency ) { m_Currency->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Currency ) { m_Currency->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcMonetaryUnit::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcMonetaryUnit::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcMonetaryUnit::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

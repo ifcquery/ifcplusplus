@@ -16,35 +16,35 @@
 
 // ENTITY IfcTShapeProfileDef 
 IFC4X3::IfcTShapeProfileDef::IfcTShapeProfileDef( int tag ) { m_tag = tag; }
-void IFC4X3::IfcTShapeProfileDef::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcTShapeProfileDef::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCTSHAPEPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Position ) { stream << "#" << m_Position->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Depth ) { m_Depth->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FlangeWidth ) { m_FlangeWidth->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_FlangeWidth ) { m_FlangeWidth->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_WebThickness ) { m_WebThickness->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_WebThickness ) { m_WebThickness->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FlangeThickness ) { m_FlangeThickness->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_FlangeThickness ) { m_FlangeThickness->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FilletRadius ) { m_FilletRadius->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_FilletRadius ) { m_FilletRadius->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FlangeEdgeRadius ) { m_FlangeEdgeRadius->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_FlangeEdgeRadius ) { m_FlangeEdgeRadius->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_WebEdgeRadius ) { m_WebEdgeRadius->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_WebEdgeRadius ) { m_WebEdgeRadius->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_WebSlope ) { m_WebSlope->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_WebSlope ) { m_WebSlope->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FlangeSlope ) { m_FlangeSlope->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_FlangeSlope ) { m_FlangeSlope->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcTShapeProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcTShapeProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcTShapeProfileDef::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

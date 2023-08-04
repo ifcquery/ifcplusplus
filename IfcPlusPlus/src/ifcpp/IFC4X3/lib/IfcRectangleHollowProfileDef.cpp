@@ -15,27 +15,27 @@
 
 // ENTITY IfcRectangleHollowProfileDef 
 IFC4X3::IfcRectangleHollowProfileDef::IfcRectangleHollowProfileDef( int tag ) { m_tag = tag; }
-void IFC4X3::IfcRectangleHollowProfileDef::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcRectangleHollowProfileDef::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCRECTANGLEHOLLOWPROFILEDEF" << "(";
-	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Position ) { stream << "#" << m_Position->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_XDim ) { m_XDim->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_XDim ) { m_XDim->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_YDim ) { m_YDim->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_YDim ) { m_YDim->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_WallThickness ) { m_WallThickness->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_WallThickness ) { m_WallThickness->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_InnerFilletRadius ) { m_InnerFilletRadius->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_InnerFilletRadius ) { m_InnerFilletRadius->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OuterFilletRadius ) { m_OuterFilletRadius->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_OuterFilletRadius ) { m_OuterFilletRadius->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcRectangleHollowProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcRectangleHollowProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcRectangleHollowProfileDef::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

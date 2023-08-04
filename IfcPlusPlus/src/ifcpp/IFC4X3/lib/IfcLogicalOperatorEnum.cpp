@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcLogicalOperatorEnum.h"
 
 // TYPE IfcLogicalOperatorEnum = ENUMERATION OF	(LOGICALAND	,LOGICALNOTAND	,LOGICALNOTOR	,LOGICALOR	,LOGICALXOR);
-void IFC4X3::IfcLogicalOperatorEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcLogicalOperatorEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCLOGICALOPERATORENUM("; }
 	switch( m_enum )

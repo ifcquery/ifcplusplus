@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcBuildingElementProxyTypeEnum.h"
 
 // TYPE IfcBuildingElementProxyTypeEnum = ENUMERATION OF	(COMPLEX	,ELEMENT	,PARTIAL	,PROVISIONFORSPACE	,PROVISIONFORVOID	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcBuildingElementProxyTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcBuildingElementProxyTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCBUILDINGELEMENTPROXYTYPEENUM("; }
 	switch( m_enum )

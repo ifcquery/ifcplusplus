@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcSignTypeEnum.h"
 
 // TYPE IfcSignTypeEnum = ENUMERATION OF	(MARKER	,MIRROR	,PICTORAL	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcSignTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcSignTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSIGNTYPEENUM("; }
 	switch( m_enum )

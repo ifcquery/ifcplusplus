@@ -13,14 +13,14 @@
 
 // ENTITY IfcPerson 
 IFC4X3::IfcPerson::IfcPerson( int tag ) { m_tag = tag; }
-void IFC4X3::IfcPerson::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcPerson::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCPERSON" << "(";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FamilyName ) { m_FamilyName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_FamilyName ) { m_FamilyName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_GivenName ) { m_GivenName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_GivenName ) { m_GivenName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_MiddleNames.size() > 0 )
 	{
@@ -34,7 +34,7 @@ void IFC4X3::IfcPerson::getStepLine( std::stringstream& stream ) const
 			const shared_ptr<IfcLabel>& type_object = m_MiddleNames[ii];
 			if( type_object )
 			{
-				type_object->getStepParameter( stream, false );
+				type_object->getStepParameter( stream, false, precision );
 			}
 			else
 			{
@@ -57,7 +57,7 @@ void IFC4X3::IfcPerson::getStepLine( std::stringstream& stream ) const
 			const shared_ptr<IfcLabel>& type_object = m_PrefixTitles[ii];
 			if( type_object )
 			{
-				type_object->getStepParameter( stream, false );
+				type_object->getStepParameter( stream, false, precision );
 			}
 			else
 			{
@@ -80,7 +80,7 @@ void IFC4X3::IfcPerson::getStepLine( std::stringstream& stream ) const
 			const shared_ptr<IfcLabel>& type_object = m_SuffixTitles[ii];
 			if( type_object )
 			{
-				type_object->getStepParameter( stream, false );
+				type_object->getStepParameter( stream, false, precision );
 			}
 			else
 			{
@@ -96,7 +96,7 @@ void IFC4X3::IfcPerson::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_Addresses );
 	stream << ");";
 }
-void IFC4X3::IfcPerson::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcPerson::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcPerson::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

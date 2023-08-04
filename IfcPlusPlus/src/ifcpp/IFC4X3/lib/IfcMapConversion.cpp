@@ -12,31 +12,31 @@
 
 // ENTITY IfcMapConversion 
 IFC4X3::IfcMapConversion::IfcMapConversion( int tag ) { m_tag = tag; }
-void IFC4X3::IfcMapConversion::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcMapConversion::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCMAPCONVERSION" << "(";
-	if( m_SourceCRS ) { m_SourceCRS->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_SourceCRS ) { m_SourceCRS->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_TargetCRS ) { stream << "#" << m_TargetCRS->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Eastings ) { m_Eastings->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Eastings ) { m_Eastings->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Northings ) { m_Northings->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Northings ) { m_Northings->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OrthogonalHeight ) { m_OrthogonalHeight->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_OrthogonalHeight ) { m_OrthogonalHeight->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_XAxisAbscissa ) { m_XAxisAbscissa->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_XAxisAbscissa ) { m_XAxisAbscissa->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_XAxisOrdinate ) { m_XAxisOrdinate->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_XAxisOrdinate ) { m_XAxisOrdinate->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Scale ) { m_Scale->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Scale ) { m_Scale->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ScaleY ) { m_ScaleY->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ScaleY ) { m_ScaleY->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ScaleZ ) { m_ScaleZ->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ScaleZ ) { m_ScaleZ->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcMapConversion::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcMapConversion::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcMapConversion::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

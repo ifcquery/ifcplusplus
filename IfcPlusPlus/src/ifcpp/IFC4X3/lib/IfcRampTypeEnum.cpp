@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcRampTypeEnum.h"
 
 // TYPE IfcRampTypeEnum = ENUMERATION OF	(HALF_TURN_RAMP	,QUARTER_TURN_RAMP	,SPIRAL_RAMP	,STRAIGHT_RUN_RAMP	,TWO_QUARTER_TURN_RAMP	,TWO_STRAIGHT_RUN_RAMP	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcRampTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcRampTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCRAMPTYPEENUM("; }
 	switch( m_enum )

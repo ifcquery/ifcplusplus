@@ -31,7 +31,7 @@ namespace IFC4X3
 		IfcCostScheduleTypeEnum() = default;
 		IfcCostScheduleTypeEnum( IfcCostScheduleTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 672692152; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcCostScheduleTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcCostScheduleTypeEnumEnum m_enum;
 	};

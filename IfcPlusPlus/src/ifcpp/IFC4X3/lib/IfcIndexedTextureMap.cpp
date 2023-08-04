@@ -11,7 +11,7 @@
 
 // ENTITY IfcIndexedTextureMap 
 IFC4X3::IfcIndexedTextureMap::IfcIndexedTextureMap( int tag ) { m_tag = tag; }
-void IFC4X3::IfcIndexedTextureMap::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcIndexedTextureMap::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCINDEXEDTEXTUREMAP" << "(";
 	writeEntityList( stream, m_Maps );
@@ -21,7 +21,7 @@ void IFC4X3::IfcIndexedTextureMap::getStepLine( std::stringstream& stream ) cons
 	if( m_TexCoords ) { stream << "#" << m_TexCoords->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcIndexedTextureMap::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcIndexedTextureMap::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcIndexedTextureMap::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

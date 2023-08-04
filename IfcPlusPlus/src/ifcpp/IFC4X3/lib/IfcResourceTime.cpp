@@ -14,47 +14,47 @@
 
 // ENTITY IfcResourceTime 
 IFC4X3::IfcResourceTime::IfcResourceTime( int tag ) { m_tag = tag; }
-void IFC4X3::IfcResourceTime::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcResourceTime::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCRESOURCETIME" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ScheduleWork ) { m_ScheduleWork->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ScheduleWork ) { m_ScheduleWork->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ScheduleUsage ) { m_ScheduleUsage->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ScheduleUsage ) { m_ScheduleUsage->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ScheduleStart ) { m_ScheduleStart->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ScheduleStart ) { m_ScheduleStart->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ScheduleFinish ) { m_ScheduleFinish->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ScheduleFinish ) { m_ScheduleFinish->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ScheduleContour ) { m_ScheduleContour->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ScheduleContour ) { m_ScheduleContour->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LevelingDelay ) { m_LevelingDelay->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LevelingDelay ) { m_LevelingDelay->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_IsOverAllocated ) { m_IsOverAllocated->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_IsOverAllocated ) { m_IsOverAllocated->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StatusTime ) { m_StatusTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StatusTime ) { m_StatusTime->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ActualWork ) { m_ActualWork->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ActualWork ) { m_ActualWork->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ActualUsage ) { m_ActualUsage->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ActualUsage ) { m_ActualUsage->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ActualStart ) { m_ActualStart->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ActualStart ) { m_ActualStart->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ActualFinish ) { m_ActualFinish->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ActualFinish ) { m_ActualFinish->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RemainingWork ) { m_RemainingWork->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RemainingWork ) { m_RemainingWork->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RemainingUsage ) { m_RemainingUsage->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RemainingUsage ) { m_RemainingUsage->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Completion ) { m_Completion->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Completion ) { m_Completion->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcResourceTime::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcResourceTime::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcResourceTime::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

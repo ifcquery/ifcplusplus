@@ -14,10 +14,10 @@
 
 // ENTITY IfcRecurrencePattern 
 IFC4X3::IfcRecurrencePattern::IfcRecurrencePattern( int tag ) { m_tag = tag; }
-void IFC4X3::IfcRecurrencePattern::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcRecurrencePattern::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCRECURRENCEPATTERN" << "(";
-	if( m_RecurrenceType ) { m_RecurrenceType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RecurrenceType ) { m_RecurrenceType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeTypeOfIntList( stream, m_DayComponent, true );
 	stream << ",";
@@ -25,16 +25,16 @@ void IFC4X3::IfcRecurrencePattern::getStepLine( std::stringstream& stream ) cons
 	stream << ",";
 	writeTypeOfIntList( stream, m_MonthComponent, true );
 	stream << ",";
-	if( m_Position ) { m_Position->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Position ) { m_Position->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Interval ) { m_Interval->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Interval ) { m_Interval->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Occurrences ) { m_Occurrences->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Occurrences ) { m_Occurrences->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_TimePeriods );
 	stream << ");";
 }
-void IFC4X3::IfcRecurrencePattern::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcRecurrencePattern::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcRecurrencePattern::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

@@ -28,7 +28,7 @@ namespace IFC4X3
 		IfcExternalSpatialElementTypeEnum() = default;
 		IfcExternalSpatialElementTypeEnum( IfcExternalSpatialElementTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 3344706444; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcExternalSpatialElementTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcExternalSpatialElementTypeEnumEnum m_enum;
 	};

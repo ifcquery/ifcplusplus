@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcAssemblyPlaceEnum.h"
 
 // TYPE IfcAssemblyPlaceEnum = ENUMERATION OF	(FACTORY	,SITE	,NOTDEFINED);
-void IFC4X3::IfcAssemblyPlaceEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcAssemblyPlaceEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCASSEMBLYPLACEENUM("; }
 	switch( m_enum )

@@ -15,21 +15,21 @@
 
 // ENTITY IfcCurveSegment 
 IFC4X3::IfcCurveSegment::IfcCurveSegment( int tag ) { m_tag = tag; }
-void IFC4X3::IfcCurveSegment::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcCurveSegment::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCCURVESEGMENT" << "(";
-	if( m_Transition ) { m_Transition->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Transition ) { m_Transition->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Placement ) { stream << "#" << m_Placement->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_SegmentStart ) { m_SegmentStart->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_SegmentStart ) { m_SegmentStart->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_SegmentLength ) { m_SegmentLength->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_SegmentLength ) { m_SegmentLength->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_ParentCurve ) { stream << "#" << m_ParentCurve->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcCurveSegment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcCurveSegment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcCurveSegment::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

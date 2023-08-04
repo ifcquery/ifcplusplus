@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcShadingDeviceTypeEnum.h"
 
 // TYPE IfcShadingDeviceTypeEnum = ENUMERATION OF	(AWNING	,JALOUSIE	,SHUTTER	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcShadingDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcShadingDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSHADINGDEVICETYPEENUM("; }
 	switch( m_enum )

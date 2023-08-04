@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcFastenerTypeEnum.h"
 
 // TYPE IfcFastenerTypeEnum = ENUMERATION OF	(GLUE	,MORTAR	,WELD	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcFastenerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcFastenerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCFASTENERTYPEENUM("; }
 	switch( m_enum )

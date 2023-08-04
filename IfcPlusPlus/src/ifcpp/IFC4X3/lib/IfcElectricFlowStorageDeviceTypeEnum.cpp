@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcElectricFlowStorageDeviceTypeEnum.h"
 
 // TYPE IfcElectricFlowStorageDeviceTypeEnum = ENUMERATION OF	(BATTERY	,CAPACITOR	,CAPACITORBANK	,COMPENSATOR	,HARMONICFILTER	,INDUCTOR	,INDUCTORBANK	,RECHARGER	,UPS	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcElectricFlowStorageDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcElectricFlowStorageDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICFLOWSTORAGEDEVICETYPEENUM("; }
 	switch( m_enum )

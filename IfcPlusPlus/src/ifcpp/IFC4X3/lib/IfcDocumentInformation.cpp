@@ -20,26 +20,26 @@
 
 // ENTITY IfcDocumentInformation 
 IFC4X3::IfcDocumentInformation::IfcDocumentInformation( int tag ) { m_tag = tag; }
-void IFC4X3::IfcDocumentInformation::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcDocumentInformation::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCDOCUMENTINFORMATION" << "(";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Location ) { m_Location->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Location ) { m_Location->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Purpose ) { m_Purpose->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Purpose ) { m_Purpose->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_IntendedUse ) { m_IntendedUse->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_IntendedUse ) { m_IntendedUse->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Scope ) { m_Scope->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Scope ) { m_Scope->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Revision ) { m_Revision->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Revision ) { m_Revision->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DocumentOwner ) { m_DocumentOwner->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_DocumentOwner ) { m_DocumentOwner->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_Editors.size() > 0 )
 	{
@@ -53,7 +53,7 @@ void IFC4X3::IfcDocumentInformation::getStepLine( std::stringstream& stream ) co
 			const shared_ptr<IfcActorSelect>& type_object = m_Editors[ii];
 			if( type_object )
 			{
-				type_object->getStepParameter( stream, true );
+				type_object->getStepParameter( stream, true, precision );
 			}
 			else
 			{
@@ -64,22 +64,22 @@ void IFC4X3::IfcDocumentInformation::getStepLine( std::stringstream& stream ) co
 	}
 	else { stream << "$"; }
 	stream << ",";
-	if( m_CreationTime ) { m_CreationTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_CreationTime ) { m_CreationTime->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LastRevisionTime ) { m_LastRevisionTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LastRevisionTime ) { m_LastRevisionTime->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ElectronicFormat ) { m_ElectronicFormat->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ElectronicFormat ) { m_ElectronicFormat->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ValidFrom ) { m_ValidFrom->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ValidFrom ) { m_ValidFrom->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ValidUntil ) { m_ValidUntil->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ValidUntil ) { m_ValidUntil->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Confidentiality ) { m_Confidentiality->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Confidentiality ) { m_Confidentiality->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Status ) { m_Status->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Status ) { m_Status->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcDocumentInformation::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcDocumentInformation::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcDocumentInformation::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

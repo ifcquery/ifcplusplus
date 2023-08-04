@@ -11,7 +11,7 @@
 
 // TYPE IfcCardinalPointReference = INTEGER;
 IFC4X3::IfcCardinalPointReference::IfcCardinalPointReference( int value ) { m_value = value; }
-void IFC4X3::IfcCardinalPointReference::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcCardinalPointReference::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCARDINALPOINTREFERENCE("; }
 	stream << m_value;

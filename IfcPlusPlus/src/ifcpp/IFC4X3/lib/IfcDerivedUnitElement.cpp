@@ -9,7 +9,7 @@
 
 // ENTITY IfcDerivedUnitElement 
 IFC4X3::IfcDerivedUnitElement::IfcDerivedUnitElement( int tag ) { m_tag = tag; }
-void IFC4X3::IfcDerivedUnitElement::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcDerivedUnitElement::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCDERIVEDUNITELEMENT" << "(";
 	if( m_Unit ) { stream << "#" << m_Unit->m_tag; } else { stream << "$"; }
@@ -17,7 +17,7 @@ void IFC4X3::IfcDerivedUnitElement::getStepLine( std::stringstream& stream ) con
 	stream << m_Exponent;
 	stream << ");";
 }
-void IFC4X3::IfcDerivedUnitElement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcDerivedUnitElement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcDerivedUnitElement::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

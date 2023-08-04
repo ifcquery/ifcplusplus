@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcProfileTypeEnum.h"
 
 // TYPE IfcProfileTypeEnum = ENUMERATION OF	(AREA	,CURVE);
-void IFC4X3::IfcProfileTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcProfileTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCPROFILETYPEENUM("; }
 	switch( m_enum )

@@ -9,13 +9,13 @@
 
 // ENTITY IfcTextureVertexList 
 IFC4X3::IfcTextureVertexList::IfcTextureVertexList( int tag ) { m_tag = tag; }
-void IFC4X3::IfcTextureVertexList::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcTextureVertexList::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTUREVERTEXLIST" << "(";
-	writeTypeOfRealList2D( stream, m_TexCoordsList, false );
+	writeTypeOfRealList2D( stream, m_TexCoordsList, false, precision );
 	stream << ");";
 }
-void IFC4X3::IfcTextureVertexList::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcTextureVertexList::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcTextureVertexList::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

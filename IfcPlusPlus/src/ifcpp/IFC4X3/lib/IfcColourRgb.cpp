@@ -10,19 +10,19 @@
 
 // ENTITY IfcColourRgb 
 IFC4X3::IfcColourRgb::IfcColourRgb( int tag ) { m_tag = tag; }
-void IFC4X3::IfcColourRgb::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcColourRgb::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCCOLOURRGB" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Red ) { m_Red->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Red ) { m_Red->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Green ) { m_Green->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Green ) { m_Green->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Blue ) { m_Blue->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Blue ) { m_Blue->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcColourRgb::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcColourRgb::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcColourRgb::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

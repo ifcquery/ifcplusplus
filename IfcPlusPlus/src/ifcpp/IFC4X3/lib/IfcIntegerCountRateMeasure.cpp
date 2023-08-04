@@ -12,7 +12,7 @@
 
 // TYPE IfcIntegerCountRateMeasure = INTEGER;
 IFC4X3::IfcIntegerCountRateMeasure::IfcIntegerCountRateMeasure( int value ) { m_value = value; }
-void IFC4X3::IfcIntegerCountRateMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcIntegerCountRateMeasure::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCINTEGERCOUNTRATEMEASURE("; }
 	stream << m_value;

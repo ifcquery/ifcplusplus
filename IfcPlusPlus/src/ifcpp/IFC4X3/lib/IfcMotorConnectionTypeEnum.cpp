@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcMotorConnectionTypeEnum.h"
 
 // TYPE IfcMotorConnectionTypeEnum = ENUMERATION OF	(BELTDRIVE	,COUPLING	,DIRECTDRIVE	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcMotorConnectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcMotorConnectionTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCMOTORCONNECTIONTYPEENUM("; }
 	switch( m_enum )

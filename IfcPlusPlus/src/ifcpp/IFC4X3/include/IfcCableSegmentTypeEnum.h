@@ -34,7 +34,7 @@ namespace IFC4X3
 		IfcCableSegmentTypeEnum() = default;
 		IfcCableSegmentTypeEnum( IfcCableSegmentTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 649472068; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcCableSegmentTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcCableSegmentTypeEnumEnum m_enum;
 	};

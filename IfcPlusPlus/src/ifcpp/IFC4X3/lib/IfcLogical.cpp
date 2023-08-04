@@ -12,7 +12,7 @@
 
 // TYPE IfcLogical = LOGICAL;
 IFC4X3::IfcLogical::IfcLogical( LogicalEnum value ) { m_value = value; }
-void IFC4X3::IfcLogical::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcLogical::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCLOGICAL("; }
 	if( m_value == LOGICAL_FALSE )

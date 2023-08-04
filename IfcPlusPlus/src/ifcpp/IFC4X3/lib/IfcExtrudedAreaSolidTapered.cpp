@@ -14,7 +14,7 @@
 
 // ENTITY IfcExtrudedAreaSolidTapered 
 IFC4X3::IfcExtrudedAreaSolidTapered::IfcExtrudedAreaSolidTapered( int tag ) { m_tag = tag; }
-void IFC4X3::IfcExtrudedAreaSolidTapered::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcExtrudedAreaSolidTapered::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCEXTRUDEDAREASOLIDTAPERED" << "(";
 	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_tag; } else { stream << "$"; }
@@ -23,12 +23,12 @@ void IFC4X3::IfcExtrudedAreaSolidTapered::getStepLine( std::stringstream& stream
 	stream << ",";
 	if( m_ExtrudedDirection ) { stream << "#" << m_ExtrudedDirection->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Depth ) { m_Depth->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Depth ) { m_Depth->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_EndSweptArea ) { stream << "#" << m_EndSweptArea->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcExtrudedAreaSolidTapered::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcExtrudedAreaSolidTapered::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcExtrudedAreaSolidTapered::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

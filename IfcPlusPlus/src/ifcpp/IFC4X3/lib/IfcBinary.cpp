@@ -12,7 +12,7 @@
 
 // TYPE IfcBinary = BINARY;
 IFC4X3::IfcBinary::IfcBinary( std::string value ) { m_value = value; }
-void IFC4X3::IfcBinary::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcBinary::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCBINARY("; }
 	stream << "\"" << encodeStepString( m_value ) << "\"";

@@ -48,7 +48,7 @@ namespace IFC4X3
 		IfcMarinePartTypeEnum() = default;
 		IfcMarinePartTypeEnum( IfcMarinePartTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1095732595; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcMarinePartTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcMarinePartTypeEnumEnum m_enum;
 	};

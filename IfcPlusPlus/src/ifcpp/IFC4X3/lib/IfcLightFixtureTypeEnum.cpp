@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcLightFixtureTypeEnum.h"
 
 // TYPE IfcLightFixtureTypeEnum = ENUMERATION OF	(DIRECTIONSOURCE	,POINTSOURCE	,SECURITYLIGHTING	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcLightFixtureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcLightFixtureTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCLIGHTFIXTURETYPEENUM("; }
 	switch( m_enum )

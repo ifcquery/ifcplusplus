@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcSequenceEnum.h"
 
 // TYPE IfcSequenceEnum = ENUMERATION OF	(FINISH_FINISH	,FINISH_START	,START_FINISH	,START_START	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcSequenceEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcSequenceEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSEQUENCEENUM("; }
 	switch( m_enum )

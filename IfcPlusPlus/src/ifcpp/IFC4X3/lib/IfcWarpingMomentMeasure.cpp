@@ -13,10 +13,10 @@
 
 // TYPE IfcWarpingMomentMeasure = REAL;
 IFC4X3::IfcWarpingMomentMeasure::IfcWarpingMomentMeasure( double value ) { m_value = value; }
-void IFC4X3::IfcWarpingMomentMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcWarpingMomentMeasure::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCWARPINGMOMENTMEASURE("; }
-	appendRealWithoutTrailingZeros( stream, m_value );
+	appendRealWithoutTrailingZeros( stream, m_value, precision );
 	if( is_select_type ) { stream << ")"; }
 }
 shared_ptr<IFC4X3::IfcWarpingMomentMeasure> IFC4X3::IfcWarpingMomentMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )

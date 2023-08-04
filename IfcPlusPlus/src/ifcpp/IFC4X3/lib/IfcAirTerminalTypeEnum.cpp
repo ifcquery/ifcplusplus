@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcAirTerminalTypeEnum.h"
 
 // TYPE IfcAirTerminalTypeEnum = ENUMERATION OF	(DIFFUSER	,GRILLE	,LOUVRE	,REGISTER	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcAirTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcAirTerminalTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCAIRTERMINALTYPEENUM("; }
 	switch( m_enum )

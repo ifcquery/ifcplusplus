@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcReferentTypeEnum.h"
 
 // TYPE IfcReferentTypeEnum = ENUMERATION OF	(BOUNDARY	,INTERSECTION	,KILOPOINT	,LANDMARK	,MILEPOINT	,POSITION	,REFERENCEMARKER	,STATION	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcReferentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcReferentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCREFERENTTYPEENUM("; }
 	switch( m_enum )

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcTendonTypeEnum.h"
 
 // TYPE IfcTendonTypeEnum = ENUMERATION OF	(BAR	,COATED	,STRAND	,WIRE	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcTendonTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcTendonTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCTENDONTYPEENUM("; }
 	switch( m_enum )

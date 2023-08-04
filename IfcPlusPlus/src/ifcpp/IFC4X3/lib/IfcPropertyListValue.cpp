@@ -18,12 +18,12 @@
 
 // ENTITY IfcPropertyListValue 
 IFC4X3::IfcPropertyListValue::IfcPropertyListValue( int tag ) { m_tag = tag; }
-void IFC4X3::IfcPropertyListValue::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcPropertyListValue::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCPROPERTYLISTVALUE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Specification ) { m_Specification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Specification ) { m_Specification->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ListValues.size() > 0 )
 	{
@@ -37,7 +37,7 @@ void IFC4X3::IfcPropertyListValue::getStepLine( std::stringstream& stream ) cons
 			const shared_ptr<IfcValue>& type_object = m_ListValues[ii];
 			if( type_object )
 			{
-				type_object->getStepParameter( stream, true );
+				type_object->getStepParameter( stream, true, precision );
 			}
 			else
 			{
@@ -48,10 +48,10 @@ void IFC4X3::IfcPropertyListValue::getStepLine( std::stringstream& stream ) cons
 	}
 	else { stream << "$"; }
 	stream << ",";
-	if( m_Unit ) { m_Unit->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_Unit ) { m_Unit->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IFC4X3::IfcPropertyListValue::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcPropertyListValue::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcPropertyListValue::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

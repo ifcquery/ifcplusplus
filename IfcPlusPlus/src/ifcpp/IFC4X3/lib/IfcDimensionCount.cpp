@@ -11,7 +11,7 @@
 
 // TYPE IfcDimensionCount = INTEGER;
 IFC4X3::IfcDimensionCount::IfcDimensionCount( int value ) { m_value = value; }
-void IFC4X3::IfcDimensionCount::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcDimensionCount::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCDIMENSIONCOUNT("; }
 	stream << m_value;

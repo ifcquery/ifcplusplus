@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcActionRequestTypeEnum.h"
 
 // TYPE IfcActionRequestTypeEnum = ENUMERATION OF	(EMAIL	,FAX	,PHONE	,POST	,VERBAL	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcActionRequestTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcActionRequestTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCACTIONREQUESTTYPEENUM("; }
 	switch( m_enum )

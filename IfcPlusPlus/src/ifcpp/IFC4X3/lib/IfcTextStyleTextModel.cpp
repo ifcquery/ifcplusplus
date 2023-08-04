@@ -12,25 +12,25 @@
 
 // ENTITY IfcTextStyleTextModel 
 IFC4X3::IfcTextStyleTextModel::IfcTextStyleTextModel( int tag ) { m_tag = tag; }
-void IFC4X3::IfcTextStyleTextModel::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcTextStyleTextModel::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTSTYLETEXTMODEL" << "(";
-	if( m_TextIndent ) { m_TextIndent->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_TextIndent ) { m_TextIndent->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_TextAlign ) { m_TextAlign->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TextAlign ) { m_TextAlign->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_TextDecoration ) { m_TextDecoration->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TextDecoration ) { m_TextDecoration->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LetterSpacing ) { m_LetterSpacing->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_LetterSpacing ) { m_LetterSpacing->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_WordSpacing ) { m_WordSpacing->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_WordSpacing ) { m_WordSpacing->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_TextTransform ) { m_TextTransform->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TextTransform ) { m_TextTransform->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LineHeight ) { m_LineHeight->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_LineHeight ) { m_LineHeight->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IFC4X3::IfcTextStyleTextModel::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcTextStyleTextModel::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcTextStyleTextModel::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

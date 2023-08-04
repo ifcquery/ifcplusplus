@@ -32,7 +32,7 @@ namespace IFC4X3
 		IfcFacilityPartCommonTypeEnum() = default;
 		IfcFacilityPartCommonTypeEnum( IfcFacilityPartCommonTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1019252178; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcFacilityPartCommonTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcFacilityPartCommonTypeEnumEnum m_enum;
 	};

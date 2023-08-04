@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcWorkPlanTypeEnum.h"
 
 // TYPE IfcWorkPlanTypeEnum = ENUMERATION OF	(ACTUAL	,BASELINE	,PLANNED	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcWorkPlanTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcWorkPlanTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCWORKPLANTYPEENUM("; }
 	switch( m_enum )

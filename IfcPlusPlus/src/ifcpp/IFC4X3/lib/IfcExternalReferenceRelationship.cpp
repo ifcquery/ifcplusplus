@@ -24,12 +24,12 @@
 
 // ENTITY IfcExternalReferenceRelationship 
 IFC4X3::IfcExternalReferenceRelationship::IfcExternalReferenceRelationship( int tag ) { m_tag = tag; }
-void IFC4X3::IfcExternalReferenceRelationship::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcExternalReferenceRelationship::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCEXTERNALREFERENCERELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RelatingReference ) { stream << "#" << m_RelatingReference->m_tag; } else { stream << "$"; }
 	stream << ",";
@@ -43,7 +43,7 @@ void IFC4X3::IfcExternalReferenceRelationship::getStepLine( std::stringstream& s
 		const shared_ptr<IfcResourceObjectSelect>& type_object = m_RelatedResourceObjects[ii];
 		if( type_object )
 		{
-			type_object->getStepParameter( stream, true );
+			type_object->getStepParameter( stream, true, precision );
 		}
 		else
 		{
@@ -53,7 +53,7 @@ void IFC4X3::IfcExternalReferenceRelationship::getStepLine( std::stringstream& s
 	stream << ")";
 	stream << ");";
 }
-void IFC4X3::IfcExternalReferenceRelationship::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcExternalReferenceRelationship::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcExternalReferenceRelationship::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

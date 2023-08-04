@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcDoorStyleConstructionEnum.h"
 
 // TYPE IfcDoorStyleConstructionEnum = ENUMERATION OF	(ALUMINIUM	,ALUMINIUM_PLASTIC	,ALUMINIUM_WOOD	,HIGH_GRADE_STEEL	,PLASTIC	,STEEL	,WOOD	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcDoorStyleConstructionEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcDoorStyleConstructionEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCDOORSTYLECONSTRUCTIONENUM("; }
 	switch( m_enum )

@@ -9,15 +9,15 @@
 
 // ENTITY IfcSurfaceStyleRefraction 
 IFC4X3::IfcSurfaceStyleRefraction::IfcSurfaceStyleRefraction( int tag ) { m_tag = tag; }
-void IFC4X3::IfcSurfaceStyleRefraction::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcSurfaceStyleRefraction::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACESTYLEREFRACTION" << "(";
-	if( m_RefractionIndex ) { m_RefractionIndex->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RefractionIndex ) { m_RefractionIndex->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DispersionFactor ) { m_DispersionFactor->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_DispersionFactor ) { m_DispersionFactor->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcSurfaceStyleRefraction::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcSurfaceStyleRefraction::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcSurfaceStyleRefraction::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

@@ -12,29 +12,29 @@
 
 // ENTITY IfcAlignmentCantSegment 
 IFC4X3::IfcAlignmentCantSegment::IfcAlignmentCantSegment( int tag ) { m_tag = tag; }
-void IFC4X3::IfcAlignmentCantSegment::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcAlignmentCantSegment::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCALIGNMENTCANTSEGMENT" << "(";
-	if( m_StartTag ) { m_StartTag->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StartTag ) { m_StartTag->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EndTag ) { m_EndTag->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EndTag ) { m_EndTag->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartDistAlong ) { m_StartDistAlong->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StartDistAlong ) { m_StartDistAlong->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_HorizontalLength ) { m_HorizontalLength->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_HorizontalLength ) { m_HorizontalLength->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartCantLeft ) { m_StartCantLeft->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StartCantLeft ) { m_StartCantLeft->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EndCantLeft ) { m_EndCantLeft->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EndCantLeft ) { m_EndCantLeft->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StartCantRight ) { m_StartCantRight->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StartCantRight ) { m_StartCantRight->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EndCantRight ) { m_EndCantRight->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EndCantRight ) { m_EndCantRight->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_PredefinedType ) { m_PredefinedType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcAlignmentCantSegment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcAlignmentCantSegment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcAlignmentCantSegment::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

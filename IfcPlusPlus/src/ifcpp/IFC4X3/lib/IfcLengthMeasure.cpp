@@ -14,10 +14,10 @@
 
 // TYPE IfcLengthMeasure = REAL;
 IFC4X3::IfcLengthMeasure::IfcLengthMeasure( double value ) { m_value = value; }
-void IFC4X3::IfcLengthMeasure::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcLengthMeasure::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCLENGTHMEASURE("; }
-	appendRealWithoutTrailingZeros( stream, m_value );
+	appendRealWithoutTrailingZeros( stream, m_value, precision );
 	if( is_select_type ) { stream << ")"; }
 }
 shared_ptr<IFC4X3::IfcLengthMeasure> IFC4X3::IfcLengthMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )

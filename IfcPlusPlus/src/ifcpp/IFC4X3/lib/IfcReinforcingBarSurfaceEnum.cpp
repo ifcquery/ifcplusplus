@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcReinforcingBarSurfaceEnum.h"
 
 // TYPE IfcReinforcingBarSurfaceEnum = ENUMERATION OF	(PLAIN	,TEXTURED);
-void IFC4X3::IfcReinforcingBarSurfaceEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcReinforcingBarSurfaceEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCREINFORCINGBARSURFACEENUM("; }
 	switch( m_enum )

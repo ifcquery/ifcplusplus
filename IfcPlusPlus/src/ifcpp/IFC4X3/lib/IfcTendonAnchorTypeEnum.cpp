@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcTendonAnchorTypeEnum.h"
 
 // TYPE IfcTendonAnchorTypeEnum = ENUMERATION OF	(COUPLER	,FIXED_END	,TENSIONING_END	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcTendonAnchorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcTendonAnchorTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCTENDONANCHORTYPEENUM("; }
 	switch( m_enum )

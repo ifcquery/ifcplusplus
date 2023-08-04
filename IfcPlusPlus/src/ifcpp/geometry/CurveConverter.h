@@ -532,7 +532,7 @@ public:
 				line_direction.normalize();
 
 				// line_vec->m_Magnitude;  can be ignored here, since it is a direction
-				
+
 
 				// check for trimming at beginning of line
 				double start_parameter = 0.0;
@@ -839,7 +839,7 @@ public:
 		bool p1_success = PointConverter::convertIfcVertex(edge_end, p1, length_factor);
 
 
-		
+
 
 		bool simpleStraightEdge = false;
 		if( simpleStraightEdge )
@@ -899,7 +899,7 @@ public:
 			std::vector<vec3> segmentStartPoints;
 			const shared_ptr<IfcCurve> edgeCurveGeometry = edgeCurve->m_EdgeGeometry;
 			bool senseAgreement = true;
-			
+
 			if( edgeCurveGeometry )
 			{
 				shared_ptr<IfcTrimmedCurve> trimmedCurve = dynamic_pointer_cast<IfcTrimmedCurve>(edgeCurveGeometry);
@@ -961,7 +961,7 @@ public:
 				{
 					//GeomDebugDump::dumpPolyline(curvePoints, color, false);
 				}
-				
+
 				if( dist0 > EPS_M6 )
 				{
 					int tag = edgeCurve->m_tag;
@@ -978,7 +978,7 @@ public:
 					shared_ptr<IfcCurve> edgeGeometry = edgeCurve->m_EdgeGeometry;
 					if( edgeGeometry )
 					{
-						
+
 
 						const shared_ptr<IfcTrimmedCurve> trimmedCurve = dynamic_pointer_cast<IfcTrimmedCurve>(edgeGeometry);
 						if( trimmedCurve )
@@ -1038,7 +1038,7 @@ public:
 			std::copy(curvePoints.begin(), curvePoints.end(), std::back_inserter(loopPoints));
 			return;
 		}
-		
+
 		std::cout << "IfcEdge: " << EntityFactory::getStringForClassID( edge->classID() ) << " not implemented" << std::endl;
 	}
 

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcArithmeticOperatorEnum.h"
 
 // TYPE IfcArithmeticOperatorEnum = ENUMERATION OF	(ADD	,DIVIDE	,MULTIPLY	,SUBTRACT);
-void IFC4X3::IfcArithmeticOperatorEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcArithmeticOperatorEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCARITHMETICOPERATORENUM("; }
 	switch( m_enum )

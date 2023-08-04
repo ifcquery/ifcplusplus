@@ -28,7 +28,7 @@ namespace IFC4X3
 		IfcDocumentConfidentialityEnum() = default;
 		IfcDocumentConfidentialityEnum( IfcDocumentConfidentialityEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 2885466731; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcDocumentConfidentialityEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcDocumentConfidentialityEnumEnum m_enum;
 	};

@@ -14,25 +14,25 @@
 
 // ENTITY IfcCurrencyRelationship 
 IFC4X3::IfcCurrencyRelationship::IfcCurrencyRelationship( int tag ) { m_tag = tag; }
-void IFC4X3::IfcCurrencyRelationship::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcCurrencyRelationship::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCCURRENCYRELATIONSHIP" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RelatingMonetaryUnit ) { stream << "#" << m_RelatingMonetaryUnit->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_RelatedMonetaryUnit ) { stream << "#" << m_RelatedMonetaryUnit->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_ExchangeRate ) { m_ExchangeRate->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ExchangeRate ) { m_ExchangeRate->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RateDateTime ) { m_RateDateTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RateDateTime ) { m_RateDateTime->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RateSource ) { stream << "#" << m_RateSource->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcCurrencyRelationship::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcCurrencyRelationship::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcCurrencyRelationship::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

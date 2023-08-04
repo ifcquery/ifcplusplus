@@ -29,7 +29,7 @@ namespace IFC4X3
 		IfcBuildingElementProxyTypeEnum() = default;
 		IfcBuildingElementProxyTypeEnum( IfcBuildingElementProxyTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1913101020; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcBuildingElementProxyTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcBuildingElementProxyTypeEnumEnum m_enum;
 	};

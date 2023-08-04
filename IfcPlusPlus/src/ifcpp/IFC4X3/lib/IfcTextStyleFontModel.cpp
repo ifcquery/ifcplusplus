@@ -14,10 +14,10 @@
 
 // ENTITY IfcTextStyleFontModel 
 IFC4X3::IfcTextStyleFontModel::IfcTextStyleFontModel( int tag ) { m_tag = tag; }
-void IFC4X3::IfcTextStyleFontModel::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcTextStyleFontModel::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCTEXTSTYLEFONTMODEL" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	stream << "(";
 	for( size_t ii = 0; ii < m_FontFamily.size(); ++ii )
@@ -29,7 +29,7 @@ void IFC4X3::IfcTextStyleFontModel::getStepLine( std::stringstream& stream ) con
 		const shared_ptr<IfcTextFontName>& type_object = m_FontFamily[ii];
 		if( type_object )
 		{
-			type_object->getStepParameter( stream, false );
+			type_object->getStepParameter( stream, false, precision );
 		}
 		else
 		{
@@ -38,16 +38,16 @@ void IFC4X3::IfcTextStyleFontModel::getStepLine( std::stringstream& stream ) con
 	}
 	stream << ")";
 	stream << ",";
-	if( m_FontStyle ) { m_FontStyle->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_FontStyle ) { m_FontStyle->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FontVariant ) { m_FontVariant->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_FontVariant ) { m_FontVariant->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FontWeight ) { m_FontWeight->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_FontWeight ) { m_FontWeight->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FontSize ) { m_FontSize->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_FontSize ) { m_FontSize->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IFC4X3::IfcTextStyleFontModel::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcTextStyleFontModel::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcTextStyleFontModel::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

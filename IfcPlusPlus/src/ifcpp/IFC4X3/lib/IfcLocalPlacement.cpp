@@ -11,15 +11,15 @@
 
 // ENTITY IfcLocalPlacement 
 IFC4X3::IfcLocalPlacement::IfcLocalPlacement( int tag ) { m_tag = tag; }
-void IFC4X3::IfcLocalPlacement::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcLocalPlacement::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCLOCALPLACEMENT" << "(";
 	if( m_PlacementRelTo ) { stream << "#" << m_PlacementRelTo->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_RelativePlacement ) { m_RelativePlacement->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_RelativePlacement ) { m_RelativePlacement->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IFC4X3::IfcLocalPlacement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcLocalPlacement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcLocalPlacement::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

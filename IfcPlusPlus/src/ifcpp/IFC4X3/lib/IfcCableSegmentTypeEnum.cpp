@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcCableSegmentTypeEnum.h"
 
 // TYPE IfcCableSegmentTypeEnum = ENUMERATION OF	(BUSBARSEGMENT	,CABLESEGMENT	,CONDUCTORSEGMENT	,CONTACTWIRESEGMENT	,CORESEGMENT	,FIBERSEGMENT	,FIBERTUBE	,OPTICALCABLESEGMENT	,STITCHWIRE	,WIREPAIRSEGMENT	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcCableSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcCableSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCABLESEGMENTTYPEENUM("; }
 	switch( m_enum )

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcUnitaryControlElementTypeEnum.h"
 
 // TYPE IfcUnitaryControlElementTypeEnum = ENUMERATION OF	(ALARMPANEL	,BASESTATIONCONTROLLER	,COMBINED	,CONTROLPANEL	,GASDETECTIONPANEL	,HUMIDISTAT	,INDICATORPANEL	,MIMICPANEL	,THERMOSTAT	,WEATHERSTATION	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcUnitaryControlElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcUnitaryControlElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCUNITARYCONTROLELEMENTTYPEENUM("; }
 	switch( m_enum )

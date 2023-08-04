@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcElectricFlowTreatmentDeviceTypeEnum.h"
 
 // TYPE IfcElectricFlowTreatmentDeviceTypeEnum = ENUMERATION OF	(ELECTRONICFILTER	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcElectricFlowTreatmentDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcElectricFlowTreatmentDeviceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCELECTRICFLOWTREATMENTDEVICETYPEENUM("; }
 	switch( m_enum )

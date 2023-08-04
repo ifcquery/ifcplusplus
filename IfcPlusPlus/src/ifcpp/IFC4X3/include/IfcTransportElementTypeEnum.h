@@ -30,7 +30,7 @@ namespace IFC4X3
 		IfcTransportElementTypeEnum() = default;
 		IfcTransportElementTypeEnum( IfcTransportElementTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 3740788744; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcTransportElementTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcTransportElementTypeEnumEnum m_enum;
 	};

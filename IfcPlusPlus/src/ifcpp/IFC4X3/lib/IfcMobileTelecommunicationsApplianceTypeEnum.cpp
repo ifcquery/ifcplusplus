@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcMobileTelecommunicationsApplianceTypeEnum.h"
 
 // TYPE IfcMobileTelecommunicationsApplianceTypeEnum = ENUMERATION OF	(ACCESSPOINT	,BASEBANDUNIT	,BASETRANSCEIVERSTATION	,E_UTRAN_NODE_B	,GATEWAY_GPRS_SUPPORT_NODE	,MASTERUNIT	,MOBILESWITCHINGCENTER	,MSCSERVER	,PACKETCONTROLUNIT	,REMOTERADIOUNIT	,REMOTEUNIT	,SERVICE_GPRS_SUPPORT_NODE	,SUBSCRIBERSERVER	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcMobileTelecommunicationsApplianceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcMobileTelecommunicationsApplianceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCMOBILETELECOMMUNICATIONSAPPLIANCETYPEENUM("; }
 	switch( m_enum )

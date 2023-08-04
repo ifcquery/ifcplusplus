@@ -32,7 +32,7 @@ class IFCQUERY_EXPORT BuildingObject
 {
 public:
 	virtual uint32_t classID() const = 0;
-	virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const = 0;
+	virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const = 0;
 };
 
 // ENTITY
@@ -53,7 +53,7 @@ public:
 	virtual uint32_t classID()  const override = 0;
 
 	/** \brief Appends a line in STEP format to stream, including all attributes. */
-	virtual void getStepLine(std::stringstream& stream) const = 0;
+	virtual void getStepLine(std::stringstream& stream, size_t precision) const = 0;
 
 	/** \brief Reads all attributes from args. References to other entities are taken from map_entities. */
 	virtual void readStepArguments(const std::vector<std::string>& args, const std::map<int, shared_ptr<BuildingEntity> >& map_entities, std::stringstream& errorStream) = 0;

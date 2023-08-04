@@ -27,7 +27,7 @@ namespace IFC4X3
 		IfcFastenerTypeEnum() = default;
 		IfcFastenerTypeEnum( IfcFastenerTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 2244117335; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcFastenerTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcFastenerTypeEnumEnum m_enum;
 	};

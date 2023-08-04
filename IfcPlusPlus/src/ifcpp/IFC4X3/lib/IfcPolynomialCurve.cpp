@@ -12,19 +12,19 @@
 
 // ENTITY IfcPolynomialCurve 
 IFC4X3::IfcPolynomialCurve::IfcPolynomialCurve( int tag ) { m_tag = tag; }
-void IFC4X3::IfcPolynomialCurve::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcPolynomialCurve::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCPOLYNOMIALCURVE" << "(";
 	if( m_Position ) { stream << "#" << m_Position->m_tag; } else { stream << "$"; }
 	stream << ",";
-	writeTypeOfRealList( stream, m_CoefficientsX, true );
+	writeTypeOfRealList( stream, m_CoefficientsX, true, precision );
 	stream << ",";
-	writeTypeOfRealList( stream, m_CoefficientsY, true );
+	writeTypeOfRealList( stream, m_CoefficientsY, true, precision );
 	stream << ",";
-	writeTypeOfRealList( stream, m_CoefficientsZ, true );
+	writeTypeOfRealList( stream, m_CoefficientsZ, true, precision );
 	stream << ");";
 }
-void IFC4X3::IfcPolynomialCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcPolynomialCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcPolynomialCurve::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

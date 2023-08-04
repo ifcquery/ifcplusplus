@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcProjectionElementTypeEnum.h"
 
 // TYPE IfcProjectionElementTypeEnum = ENUMERATION OF	(BLISTER	,DEVIATOR	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcProjectionElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcProjectionElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCPROJECTIONELEMENTTYPEENUM("; }
 	switch( m_enum )

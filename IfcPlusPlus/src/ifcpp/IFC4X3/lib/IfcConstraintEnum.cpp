@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcConstraintEnum.h"
 
 // TYPE IfcConstraintEnum = ENUMERATION OF	(ADVISORY	,HARD	,SOFT	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcConstraintEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcConstraintEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCONSTRAINTENUM("; }
 	switch( m_enum )

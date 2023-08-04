@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcBoxAlignment.h"
 
 // TYPE IfcBoxAlignment = IfcLabel;
-void IFC4X3::IfcBoxAlignment::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcBoxAlignment::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCBOXALIGNMENT("; }
 	stream << "'" << encodeStepString( m_value ) << "'";

@@ -24,7 +24,7 @@ namespace IFC4X3
 		IfcCostItemTypeEnum() = default;
 		IfcCostItemTypeEnum( IfcCostItemTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 683809370; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcCostItemTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcCostItemTypeEnumEnum m_enum;
 	};

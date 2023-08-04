@@ -10,12 +10,12 @@
 
 // ENTITY IfcSurface 
 IFC4X3::IfcSurface::IfcSurface( int tag ) { m_tag = tag; }
-void IFC4X3::IfcSurface::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcSurface::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSURFACE" << "(";
 	stream << ");";
 }
-void IFC4X3::IfcSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcSurface::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 }

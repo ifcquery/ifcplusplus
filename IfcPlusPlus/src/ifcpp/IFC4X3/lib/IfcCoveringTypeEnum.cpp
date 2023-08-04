@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcCoveringTypeEnum.h"
 
 // TYPE IfcCoveringTypeEnum = ENUMERATION OF	(CEILING	,CLADDING	,COPING	,FLOORING	,INSULATION	,MEMBRANE	,MOLDING	,ROOFING	,SKIRTINGBOARD	,SLEEVING	,TOPPING	,WRAPPING	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcCoveringTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcCoveringTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCOVERINGTYPEENUM("; }
 	switch( m_enum )

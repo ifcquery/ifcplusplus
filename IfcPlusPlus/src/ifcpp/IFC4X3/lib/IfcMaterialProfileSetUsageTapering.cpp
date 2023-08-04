@@ -12,21 +12,21 @@
 
 // ENTITY IfcMaterialProfileSetUsageTapering 
 IFC4X3::IfcMaterialProfileSetUsageTapering::IfcMaterialProfileSetUsageTapering( int tag ) { m_tag = tag; }
-void IFC4X3::IfcMaterialProfileSetUsageTapering::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcMaterialProfileSetUsageTapering::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIALPROFILESETUSAGETAPERING" << "(";
 	if( m_ForProfileSet ) { stream << "#" << m_ForProfileSet->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_CardinalPoint ) { m_CardinalPoint->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_CardinalPoint ) { m_CardinalPoint->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ReferenceExtent ) { m_ReferenceExtent->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ReferenceExtent ) { m_ReferenceExtent->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ForProfileEndSet ) { stream << "#" << m_ForProfileEndSet->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_CardinalEndPoint ) { m_CardinalEndPoint->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_CardinalEndPoint ) { m_CardinalEndPoint->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcMaterialProfileSetUsageTapering::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcMaterialProfileSetUsageTapering::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcMaterialProfileSetUsageTapering::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

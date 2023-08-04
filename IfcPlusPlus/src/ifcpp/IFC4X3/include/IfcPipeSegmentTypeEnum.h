@@ -29,7 +29,7 @@ namespace IFC4X3
 		IfcPipeSegmentTypeEnum() = default;
 		IfcPipeSegmentTypeEnum( IfcPipeSegmentTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 2293803863; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcPipeSegmentTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcPipeSegmentTypeEnumEnum m_enum;
 	};

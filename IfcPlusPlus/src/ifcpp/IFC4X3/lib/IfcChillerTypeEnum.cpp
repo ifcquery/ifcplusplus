@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcChillerTypeEnum.h"
 
 // TYPE IfcChillerTypeEnum = ENUMERATION OF	(AIRCOOLED	,HEATRECOVERY	,WATERCOOLED	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcChillerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcChillerTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCHILLERTYPEENUM("; }
 	switch( m_enum )

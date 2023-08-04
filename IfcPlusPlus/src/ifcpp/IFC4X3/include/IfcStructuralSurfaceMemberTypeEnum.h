@@ -27,7 +27,7 @@ namespace IFC4X3
 		IfcStructuralSurfaceMemberTypeEnum() = default;
 		IfcStructuralSurfaceMemberTypeEnum( IfcStructuralSurfaceMemberTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 316539858; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcStructuralSurfaceMemberTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcStructuralSurfaceMemberTypeEnumEnum m_enum;
 	};

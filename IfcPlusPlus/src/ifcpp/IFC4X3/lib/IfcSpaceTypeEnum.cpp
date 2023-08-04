@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcSpaceTypeEnum.h"
 
 // TYPE IfcSpaceTypeEnum = ENUMERATION OF	(BERTH	,EXTERNAL	,GFA	,INTERNAL	,PARKING	,SPACE	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcSpaceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcSpaceTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCSPACETYPEENUM("; }
 	switch( m_enum )

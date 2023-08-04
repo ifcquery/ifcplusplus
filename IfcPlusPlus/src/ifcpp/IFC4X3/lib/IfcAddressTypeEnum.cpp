@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcAddressTypeEnum.h"
 
 // TYPE IfcAddressTypeEnum = ENUMERATION OF	(DISTRIBUTIONPOINT	,HOME	,OFFICE	,SITE	,USERDEFINED);
-void IFC4X3::IfcAddressTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcAddressTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCADDRESSTYPEENUM("; }
 	switch( m_enum )

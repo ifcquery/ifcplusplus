@@ -26,7 +26,7 @@ namespace IFC4X3
 		IfcProjectionElementTypeEnum() = default;
 		IfcProjectionElementTypeEnum( IfcProjectionElementTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1897649832; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcProjectionElementTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcProjectionElementTypeEnumEnum m_enum;
 	};

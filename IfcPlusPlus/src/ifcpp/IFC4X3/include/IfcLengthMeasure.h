@@ -21,7 +21,7 @@ namespace IFC4X3
 		IfcLengthMeasure() = default;
 		IfcLengthMeasure( double value );
 		virtual uint32_t classID() const { return 1243674935; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcLengthMeasure> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		double m_value;
 	};

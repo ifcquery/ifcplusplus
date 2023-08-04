@@ -14,21 +14,21 @@
 
 // ENTITY IfcMaterialLayerSetUsage 
 IFC4X3::IfcMaterialLayerSetUsage::IfcMaterialLayerSetUsage( int tag ) { m_tag = tag; }
-void IFC4X3::IfcMaterialLayerSetUsage::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcMaterialLayerSetUsage::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCMATERIALLAYERSETUSAGE" << "(";
 	if( m_ForLayerSet ) { stream << "#" << m_ForLayerSet->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_LayerSetDirection ) { m_LayerSetDirection->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LayerSetDirection ) { m_LayerSetDirection->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DirectionSense ) { m_DirectionSense->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_DirectionSense ) { m_DirectionSense->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OffsetFromReferenceLine ) { m_OffsetFromReferenceLine->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_OffsetFromReferenceLine ) { m_OffsetFromReferenceLine->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ReferenceExtent ) { m_ReferenceExtent->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ReferenceExtent ) { m_ReferenceExtent->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcMaterialLayerSetUsage::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcMaterialLayerSetUsage::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcMaterialLayerSetUsage::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

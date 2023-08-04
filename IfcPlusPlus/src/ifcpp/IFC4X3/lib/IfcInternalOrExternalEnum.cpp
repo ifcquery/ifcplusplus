@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcInternalOrExternalEnum.h"
 
 // TYPE IfcInternalOrExternalEnum = ENUMERATION OF	(EXTERNAL	,EXTERNAL_EARTH	,EXTERNAL_FIRE	,EXTERNAL_WATER	,INTERNAL	,NOTDEFINED);
-void IFC4X3::IfcInternalOrExternalEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcInternalOrExternalEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCINTERNALOREXTERNALENUM("; }
 	switch( m_enum )

@@ -12,29 +12,29 @@
 
 // ENTITY IfcSeventhOrderPolynomialSpiral 
 IFC4X3::IfcSeventhOrderPolynomialSpiral::IfcSeventhOrderPolynomialSpiral( int tag ) { m_tag = tag; }
-void IFC4X3::IfcSeventhOrderPolynomialSpiral::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcSeventhOrderPolynomialSpiral::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSEVENTHORDERPOLYNOMIALSPIRAL" << "(";
-	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_Position ) { m_Position->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_SepticTerm ) { m_SepticTerm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SepticTerm ) { m_SepticTerm->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SexticTerm ) { m_SexticTerm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SexticTerm ) { m_SexticTerm->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_QuinticTerm ) { m_QuinticTerm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_QuinticTerm ) { m_QuinticTerm->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_QuarticTerm ) { m_QuarticTerm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_QuarticTerm ) { m_QuarticTerm->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_CubicTerm ) { m_CubicTerm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_CubicTerm ) { m_CubicTerm->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_QuadraticTerm ) { m_QuadraticTerm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_QuadraticTerm ) { m_QuadraticTerm->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LinearTerm ) { m_LinearTerm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LinearTerm ) { m_LinearTerm->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ConstantTerm ) { m_ConstantTerm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ConstantTerm ) { m_ConstantTerm->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcSeventhOrderPolynomialSpiral::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcSeventhOrderPolynomialSpiral::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcSeventhOrderPolynomialSpiral::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

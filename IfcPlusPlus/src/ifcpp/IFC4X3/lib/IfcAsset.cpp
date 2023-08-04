@@ -27,20 +27,20 @@
 
 // ENTITY IfcAsset 
 IFC4X3::IfcAsset::IfcAsset( int tag ) { m_tag = tag; }
-void IFC4X3::IfcAsset::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcAsset::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCASSET" << "(";
-	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ObjectType ) { m_ObjectType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Identification ) { m_Identification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Identification ) { m_Identification->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_OriginalValue ) { stream << "#" << m_OriginalValue->m_tag; } else { stream << "$"; }
 	stream << ",";
@@ -48,18 +48,18 @@ void IFC4X3::IfcAsset::getStepLine( std::stringstream& stream ) const
 	stream << ",";
 	if( m_TotalReplacementCost ) { stream << "#" << m_TotalReplacementCost->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_Owner ) { m_Owner->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_Owner ) { m_Owner->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_User ) { m_User->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_User ) { m_User->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_ResponsiblePerson ) { stream << "#" << m_ResponsiblePerson->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_IncorporationDate ) { m_IncorporationDate->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_IncorporationDate ) { m_IncorporationDate->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_DepreciatedValue ) { stream << "#" << m_DepreciatedValue->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcAsset::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcAsset::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcAsset::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

@@ -18,31 +18,31 @@
 
 // ENTITY IfcLightSourceGoniometric 
 IFC4X3::IfcLightSourceGoniometric::IfcLightSourceGoniometric( int tag ) { m_tag = tag; }
-void IFC4X3::IfcLightSourceGoniometric::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcLightSourceGoniometric::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCLIGHTSOURCEGONIOMETRIC" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_LightColour ) { stream << "#" << m_LightColour->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_AmbientIntensity ) { m_AmbientIntensity->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Intensity ) { m_Intensity->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Intensity ) { m_Intensity->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Position ) { stream << "#" << m_Position->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_ColourAppearance ) { stream << "#" << m_ColourAppearance->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_ColourTemperature ) { m_ColourTemperature->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ColourTemperature ) { m_ColourTemperature->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LuminousFlux ) { m_LuminousFlux->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LuminousFlux ) { m_LuminousFlux->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LightEmissionSource ) { m_LightEmissionSource->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LightEmissionSource ) { m_LightEmissionSource->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LightDistributionDataSource ) { m_LightDistributionDataSource->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_LightDistributionDataSource ) { m_LightDistributionDataSource->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ");";
 }
-void IFC4X3::IfcLightSourceGoniometric::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcLightSourceGoniometric::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcLightSourceGoniometric::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

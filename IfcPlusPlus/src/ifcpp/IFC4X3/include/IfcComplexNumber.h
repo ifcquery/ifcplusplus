@@ -18,7 +18,7 @@ namespace IFC4X3
 	public:
 		IfcComplexNumber() = default;
 		virtual uint32_t classID() const { return 2991860651; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcComplexNumber> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		std::vector<double> m_vec;
 	};

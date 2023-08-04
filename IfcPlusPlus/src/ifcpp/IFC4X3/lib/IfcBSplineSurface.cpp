@@ -14,25 +14,25 @@
 
 // ENTITY IfcBSplineSurface 
 IFC4X3::IfcBSplineSurface::IfcBSplineSurface( int tag ) { m_tag = tag; }
-void IFC4X3::IfcBSplineSurface::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcBSplineSurface::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCBSPLINESURFACE" << "(";
-	if( m_UDegree ) { m_UDegree->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UDegree ) { m_UDegree->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_VDegree ) { m_VDegree->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_VDegree ) { m_VDegree->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList2D( stream, m_ControlPointsList );
 	stream << ",";
-	if( m_SurfaceForm ) { m_SurfaceForm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SurfaceForm ) { m_SurfaceForm->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UClosed ) { m_UClosed->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UClosed ) { m_UClosed->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_VClosed ) { m_VClosed->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_VClosed ) { m_VClosed->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_SelfIntersect ) { m_SelfIntersect->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcBSplineSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcBSplineSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcBSplineSurface::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

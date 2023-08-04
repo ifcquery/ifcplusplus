@@ -30,7 +30,7 @@ namespace IFC4X3
 		IfcVoidingFeatureTypeEnum() = default;
 		IfcVoidingFeatureTypeEnum( IfcVoidingFeatureTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 3288126668; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcVoidingFeatureTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcVoidingFeatureTypeEnumEnum m_enum;
 	};

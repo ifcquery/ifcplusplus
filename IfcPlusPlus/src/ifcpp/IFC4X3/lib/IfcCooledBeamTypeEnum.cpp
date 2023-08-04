@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcCooledBeamTypeEnum.h"
 
 // TYPE IfcCooledBeamTypeEnum = ENUMERATION OF	(ACTIVE	,PASSIVE	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcCooledBeamTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcCooledBeamTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCOOLEDBEAMTYPEENUM("; }
 	switch( m_enum )

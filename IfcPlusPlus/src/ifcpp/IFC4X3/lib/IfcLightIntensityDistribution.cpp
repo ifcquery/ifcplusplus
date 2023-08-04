@@ -10,15 +10,15 @@
 
 // ENTITY IfcLightIntensityDistribution 
 IFC4X3::IfcLightIntensityDistribution::IfcLightIntensityDistribution( int tag ) { m_tag = tag; }
-void IFC4X3::IfcLightIntensityDistribution::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcLightIntensityDistribution::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCLIGHTINTENSITYDISTRIBUTION" << "(";
-	if( m_LightDistributionCurve ) { m_LightDistributionCurve->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LightDistributionCurve ) { m_LightDistributionCurve->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_DistributionData );
 	stream << ");";
 }
-void IFC4X3::IfcLightIntensityDistribution::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcLightIntensityDistribution::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcLightIntensityDistribution::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcDocumentConfidentialityEnum.h"
 
 // TYPE IfcDocumentConfidentialityEnum = ENUMERATION OF	(CONFIDENTIAL	,PERSONAL	,PUBLIC	,RESTRICTED	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcDocumentConfidentialityEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcDocumentConfidentialityEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCDOCUMENTCONFIDENTIALITYENUM("; }
 	switch( m_enum )

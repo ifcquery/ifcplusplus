@@ -13,21 +13,21 @@
 
 // ENTITY IfcPointByDistanceExpression 
 IFC4X3::IfcPointByDistanceExpression::IfcPointByDistanceExpression( int tag ) { m_tag = tag; }
-void IFC4X3::IfcPointByDistanceExpression::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcPointByDistanceExpression::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCPOINTBYDISTANCEEXPRESSION" << "(";
-	if( m_DistanceAlong ) { m_DistanceAlong->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_DistanceAlong ) { m_DistanceAlong->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_OffsetLateral ) { m_OffsetLateral->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_OffsetLateral ) { m_OffsetLateral->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OffsetVertical ) { m_OffsetVertical->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_OffsetVertical ) { m_OffsetVertical->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_OffsetLongitudinal ) { m_OffsetLongitudinal->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_OffsetLongitudinal ) { m_OffsetLongitudinal->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcPointByDistanceExpression::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcPointByDistanceExpression::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcPointByDistanceExpression::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

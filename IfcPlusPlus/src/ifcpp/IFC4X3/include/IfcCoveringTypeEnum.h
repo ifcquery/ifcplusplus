@@ -36,7 +36,7 @@ namespace IFC4X3
 		IfcCoveringTypeEnum() = default;
 		IfcCoveringTypeEnum( IfcCoveringTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 2966862399; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcCoveringTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcCoveringTypeEnumEnum m_enum;
 	};

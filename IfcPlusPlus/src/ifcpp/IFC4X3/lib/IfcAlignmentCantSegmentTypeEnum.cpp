@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcAlignmentCantSegmentTypeEnum.h"
 
 // TYPE IfcAlignmentCantSegmentTypeEnum = ENUMERATION OF	(BLOSSCURVE	,CONSTANTCANT	,COSINECURVE	,HELMERTCURVE	,LINEARTRANSITION	,SINECURVE	,VIENNESEBEND);
-void IFC4X3::IfcAlignmentCantSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcAlignmentCantSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCALIGNMENTCANTSEGMENTTYPEENUM("; }
 	switch( m_enum )

@@ -11,7 +11,7 @@
 #include "ifcpp/IFC4X3/include/IfcPositiveInteger.h"
 
 // TYPE IfcPositiveInteger = IfcInteger;
-void IFC4X3::IfcPositiveInteger::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcPositiveInteger::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCPOSITIVEINTEGER("; }
 	stream << m_value;

@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcPropertySetTemplateTypeEnum.h"
 
 // TYPE IfcPropertySetTemplateTypeEnum = ENUMERATION OF	(PSET_MATERIALDRIVEN	,PSET_OCCURRENCEDRIVEN	,PSET_PERFORMANCEDRIVEN	,PSET_PROFILEDRIVEN	,PSET_TYPEDRIVENONLY	,PSET_TYPEDRIVENOVERRIDE	,QTO_OCCURRENCEDRIVEN	,QTO_TYPEDRIVENONLY	,QTO_TYPEDRIVENOVERRIDE	,NOTDEFINED);
-void IFC4X3::IfcPropertySetTemplateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcPropertySetTemplateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCPROPERTYSETTEMPLATETYPEENUM("; }
 	switch( m_enum )

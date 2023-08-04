@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcLightDistributionCurveEnum.h"
 
 // TYPE IfcLightDistributionCurveEnum = ENUMERATION OF	(TYPE_A	,TYPE_B	,TYPE_C	,NOTDEFINED);
-void IFC4X3::IfcLightDistributionCurveEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcLightDistributionCurveEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCLIGHTDISTRIBUTIONCURVEENUM("; }
 	switch( m_enum )

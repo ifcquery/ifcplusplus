@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcRailTypeEnum.h"
 
 // TYPE IfcRailTypeEnum = ENUMERATION OF	(BLADE	,CHECKRAIL	,GUARDRAIL	,RACKRAIL	,RAIL	,STOCKRAIL	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcRailTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcRailTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCRAILTYPEENUM("; }
 	switch( m_enum )

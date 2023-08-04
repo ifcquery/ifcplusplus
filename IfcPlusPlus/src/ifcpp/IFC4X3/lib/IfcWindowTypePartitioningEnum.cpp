@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcWindowTypePartitioningEnum.h"
 
 // TYPE IfcWindowTypePartitioningEnum = ENUMERATION OF	(DOUBLE_PANEL_HORIZONTAL	,DOUBLE_PANEL_VERTICAL	,SINGLE_PANEL	,TRIPLE_PANEL_BOTTOM	,TRIPLE_PANEL_HORIZONTAL	,TRIPLE_PANEL_LEFT	,TRIPLE_PANEL_RIGHT	,TRIPLE_PANEL_TOP	,TRIPLE_PANEL_VERTICAL	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcWindowTypePartitioningEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcWindowTypePartitioningEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCWINDOWTYPEPARTITIONINGENUM("; }
 	switch( m_enum )

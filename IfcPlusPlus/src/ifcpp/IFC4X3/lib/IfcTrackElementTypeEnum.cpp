@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcTrackElementTypeEnum.h"
 
 // TYPE IfcTrackElementTypeEnum = ENUMERATION OF	(BLOCKINGDEVICE	,DERAILER	,FROG	,HALF_SET_OF_BLADES	,SLEEPER	,SPEEDREGULATOR	,TRACKENDOFALIGNMENT	,VEHICLESTOP	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcTrackElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcTrackElementTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCTRACKELEMENTTYPEENUM("; }
 	switch( m_enum )

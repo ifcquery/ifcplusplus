@@ -27,7 +27,7 @@ namespace IFC4X3
 		IfcElectricGeneratorTypeEnum() = default;
 		IfcElectricGeneratorTypeEnum( IfcElectricGeneratorTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 3185663589; }
-		virtual void getStepParameter( std::stringstream& stream, bool is_select_type = false ) const;
+		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		static shared_ptr<IfcElectricGeneratorTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		IfcElectricGeneratorTypeEnumEnum m_enum;
 	};

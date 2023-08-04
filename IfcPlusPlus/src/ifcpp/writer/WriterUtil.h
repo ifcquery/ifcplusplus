@@ -27,16 +27,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 IFCQUERY_EXPORT std::string encodeStepString(const std::string& str);
 
-IFCQUERY_EXPORT void appendRealWithoutTrailingZeros(std::stringstream& stream, const double number);
-void writeRealList(std::stringstream& stream, const std::vector<double>& vec, bool optionalAttribute);
-void writeRealArray3(std::stringstream& stream, const double (&vec)[3], bool optionalAttribute, short int size);
-void writeRealList2D(std::stringstream& stream, const std::vector<std::vector<double> >& vec, bool optionalAttribute);
-void writeRealList3D(std::stringstream& stream, const std::vector<std::vector<std::vector<double> > >& vec);
+IFCQUERY_EXPORT void appendRealWithoutTrailingZeros(std::stringstream& stream, const double number, size_t precision);
+void writeRealList(std::stringstream& stream, const std::vector<double>& vec, bool optionalAttribute, size_t precision);
+void writeRealArray3(std::stringstream& stream, const double (&vec)[3], bool optionalAttribute, short int size, size_t precision);
+void writeRealList2D(std::stringstream& stream, const std::vector<std::vector<double> >& vec, bool optionalAttribute, size_t precision);
+void writeRealList3D(std::stringstream& stream, const std::vector<std::vector<std::vector<double> > >& vec, size_t precision);
 void writeIntList(std::stringstream& stream, const std::vector<int>& vec);
 void writeIntList2D(std::stringstream& stream, const std::vector<std::vector<int> >& vec);
 void writeIntList3D(std::stringstream& stream, const std::vector<std::vector<std::vector<int> > >& vec);
-
-void writeStepParameterDouble(double value, std::stringstream& stream, const std::string& classIDstr, bool is_select_type);
+void writeStepParameterDouble(double value, std::stringstream& stream, const std::string& classIDstr, bool is_select_type, size_t precision);
 
 
 template<typename T>
@@ -68,7 +67,7 @@ void writeTypeOfIntList( std::stringstream& stream, const std::vector<shared_ptr
 	stream << ")";
 }
 template<typename T>
-void writeTypeOfRealList(std::stringstream& stream, const std::vector<shared_ptr<T> >& vec, bool optionalAttribute)
+void writeTypeOfRealList(std::stringstream& stream, const std::vector<shared_ptr<T> >& vec, bool optionalAttribute, size_t precision)
 {
 	// example: (38.5, -1.2, 4.0)
 	if (vec.size() == 0)
@@ -91,13 +90,13 @@ void writeTypeOfRealList(std::stringstream& stream, const std::vector<shared_ptr
 			stream << ",";
 		}
 
-		appendRealWithoutTrailingZeros(stream, vec[ii]->m_value);
+		appendRealWithoutTrailingZeros(stream, vec[ii]->m_value, precision);
 	}
 	stream << ")";
 }
 
 template<typename T>
-void writeTypeOfIntList2D( std::stringstream& stream, const std::vector<std::vector<shared_ptr<T> > >& vec, bool optionalAttribute)
+void writeTypeOfIntList2D( std::stringstream& stream, const std::vector<std::vector<shared_ptr<T> > >& vec, bool optionalAttribute, size_t precision)
 {
 	// example: ((38,12,4),(38,1,346),(1,1,0))
 	if( vec.size() == 0 )
@@ -120,7 +119,7 @@ void writeTypeOfIntList2D( std::stringstream& stream, const std::vector<std::vec
 }
 
 template<typename T>
-void writeTypeOfRealList2D(std::stringstream& stream, const std::vector<std::vector<shared_ptr<T> > >& vec, bool optionalAttribute)
+void writeTypeOfRealList2D(std::stringstream& stream, const std::vector<std::vector<shared_ptr<T> > >& vec, bool optionalAttribute, size_t precision)
 {
 	// example: ((.38,12.0,.04),(.38,1.0,346.0),(1.8,1.0,.04))
 	if (vec.size() == 0)
@@ -137,7 +136,7 @@ void writeTypeOfRealList2D(std::stringstream& stream, const std::vector<std::vec
 		{
 			stream << ",";
 		}
-		writeTypeOfRealList(stream, inner_vec, optionalAttribute);
+		writeTypeOfRealList(stream, inner_vec, optionalAttribute, precision);
 	}
 	stream << ")";
 }

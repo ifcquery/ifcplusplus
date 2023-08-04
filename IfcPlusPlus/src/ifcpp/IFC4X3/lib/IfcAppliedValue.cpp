@@ -15,31 +15,31 @@
 
 // ENTITY IfcAppliedValue 
 IFC4X3::IfcAppliedValue::IfcAppliedValue( int tag ) { m_tag = tag; }
-void IFC4X3::IfcAppliedValue::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcAppliedValue::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCAPPLIEDVALUE" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Description ) { m_Description->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_AppliedValue ) { m_AppliedValue->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_AppliedValue ) { m_AppliedValue->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_UnitBasis ) { stream << "#" << m_UnitBasis->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_ApplicableDate ) { m_ApplicableDate->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ApplicableDate ) { m_ApplicableDate->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FixedUntilDate ) { m_FixedUntilDate->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_FixedUntilDate ) { m_FixedUntilDate->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Category ) { m_Category->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Category ) { m_Category->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Condition ) { m_Condition->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Condition ) { m_Condition->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ArithmeticOperator ) { m_ArithmeticOperator->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ArithmeticOperator ) { m_ArithmeticOperator->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_Components );
 	stream << ");";
 }
-void IFC4X3::IfcAppliedValue::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcAppliedValue::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcAppliedValue::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

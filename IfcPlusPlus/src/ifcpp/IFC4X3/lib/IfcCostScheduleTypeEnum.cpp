@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcCostScheduleTypeEnum.h"
 
 // TYPE IfcCostScheduleTypeEnum = ENUMERATION OF	(BUDGET	,COSTPLAN	,ESTIMATE	,PRICEDBILLOFQUANTITIES	,SCHEDULEOFRATES	,TENDER	,UNPRICEDBILLOFQUANTITIES	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcCostScheduleTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcCostScheduleTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCOSTSCHEDULETYPEENUM("; }
 	switch( m_enum )

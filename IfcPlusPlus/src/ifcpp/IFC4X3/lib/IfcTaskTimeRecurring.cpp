@@ -16,53 +16,53 @@
 
 // ENTITY IfcTaskTimeRecurring 
 IFC4X3::IfcTaskTimeRecurring::IfcTaskTimeRecurring( int tag ) { m_tag = tag; }
-void IFC4X3::IfcTaskTimeRecurring::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcTaskTimeRecurring::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCTASKTIMERECURRING" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_DataOrigin ) { m_DataOrigin->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UserDefinedDataOrigin ) { m_UserDefinedDataOrigin->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_DurationType ) { m_DurationType->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_DurationType ) { m_DurationType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ScheduleDuration ) { m_ScheduleDuration->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ScheduleDuration ) { m_ScheduleDuration->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ScheduleStart ) { m_ScheduleStart->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ScheduleStart ) { m_ScheduleStart->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ScheduleFinish ) { m_ScheduleFinish->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ScheduleFinish ) { m_ScheduleFinish->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EarlyStart ) { m_EarlyStart->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EarlyStart ) { m_EarlyStart->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_EarlyFinish ) { m_EarlyFinish->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_EarlyFinish ) { m_EarlyFinish->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LateStart ) { m_LateStart->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LateStart ) { m_LateStart->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LateFinish ) { m_LateFinish->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LateFinish ) { m_LateFinish->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_FreeFloat ) { m_FreeFloat->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_FreeFloat ) { m_FreeFloat->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_TotalFloat ) { m_TotalFloat->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_TotalFloat ) { m_TotalFloat->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_IsCritical ) { m_IsCritical->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_IsCritical ) { m_IsCritical->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_StatusTime ) { m_StatusTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_StatusTime ) { m_StatusTime->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ActualDuration ) { m_ActualDuration->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ActualDuration ) { m_ActualDuration->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ActualStart ) { m_ActualStart->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ActualStart ) { m_ActualStart->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ActualFinish ) { m_ActualFinish->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ActualFinish ) { m_ActualFinish->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_RemainingTime ) { m_RemainingTime->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_RemainingTime ) { m_RemainingTime->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Completion ) { m_Completion->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Completion ) { m_Completion->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Recurrence ) { stream << "#" << m_Recurrence->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcTaskTimeRecurring::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcTaskTimeRecurring::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcTaskTimeRecurring::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

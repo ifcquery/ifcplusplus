@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcDuctSegmentTypeEnum.h"
 
 // TYPE IfcDuctSegmentTypeEnum = ENUMERATION OF	(FLEXIBLESEGMENT	,RIGIDSEGMENT	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcDuctSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcDuctSegmentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCDUCTSEGMENTTYPEENUM("; }
 	switch( m_enum )

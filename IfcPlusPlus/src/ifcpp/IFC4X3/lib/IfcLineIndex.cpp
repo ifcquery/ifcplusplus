@@ -11,7 +11,7 @@
 #include "ifcpp/IFC4X3/include/IfcLineIndex.h"
 
 // TYPE IfcLineIndex = LIST [2:?] OF IfcPositiveInteger;
-void IFC4X3::IfcLineIndex::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcLineIndex::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCLINEINDEX("; }
 	writeTypeOfIntList( stream, m_vec, false );

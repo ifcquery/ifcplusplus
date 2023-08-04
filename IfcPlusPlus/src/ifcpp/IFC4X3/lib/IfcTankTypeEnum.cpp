@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcTankTypeEnum.h"
 
 // TYPE IfcTankTypeEnum = ENUMERATION OF	(BASIN	,BREAKPRESSURE	,EXPANSION	,FEEDANDEXPANSION	,OILRETENTIONTRAY	,PRESSUREVESSEL	,STORAGE	,VESSEL	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcTankTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcTankTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCTANKTYPEENUM("; }
 	switch( m_enum )

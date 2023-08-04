@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcBridgePartTypeEnum.h"
 
 // TYPE IfcBridgePartTypeEnum = ENUMERATION OF	(ABUTMENT	,DECK	,DECK_SEGMENT	,FOUNDATION	,PIER	,PIER_SEGMENT	,PYLON	,SUBSTRUCTURE	,SUPERSTRUCTURE	,SURFACESTRUCTURE	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcBridgePartTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcBridgePartTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCBRIDGEPARTTYPEENUM("; }
 	switch( m_enum )

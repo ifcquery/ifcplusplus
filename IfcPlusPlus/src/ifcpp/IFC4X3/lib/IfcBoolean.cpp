@@ -18,7 +18,7 @@
 
 // TYPE IfcBoolean = BOOLEAN;
 IFC4X3::IfcBoolean::IfcBoolean( bool value ) { m_value = value; }
-void IFC4X3::IfcBoolean::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcBoolean::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCBOOLEAN("; }
 	if( m_value == false )

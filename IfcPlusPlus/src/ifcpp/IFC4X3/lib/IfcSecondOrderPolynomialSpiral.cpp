@@ -12,19 +12,19 @@
 
 // ENTITY IfcSecondOrderPolynomialSpiral 
 IFC4X3::IfcSecondOrderPolynomialSpiral::IfcSecondOrderPolynomialSpiral( int tag ) { m_tag = tag; }
-void IFC4X3::IfcSecondOrderPolynomialSpiral::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcSecondOrderPolynomialSpiral::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSECONDORDERPOLYNOMIALSPIRAL" << "(";
-	if( m_Position ) { m_Position->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_Position ) { m_Position->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
-	if( m_QuadraticTerm ) { m_QuadraticTerm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_QuadraticTerm ) { m_QuadraticTerm->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_LinearTerm ) { m_LinearTerm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_LinearTerm ) { m_LinearTerm->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_ConstantTerm ) { m_ConstantTerm->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_ConstantTerm ) { m_ConstantTerm->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcSecondOrderPolynomialSpiral::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcSecondOrderPolynomialSpiral::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcSecondOrderPolynomialSpiral::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

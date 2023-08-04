@@ -13,7 +13,7 @@
 
 // ENTITY IfcSectionedSurface 
 IFC4X3::IfcSectionedSurface::IfcSectionedSurface( int tag ) { m_tag = tag; }
-void IFC4X3::IfcSectionedSurface::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcSectionedSurface::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCSECTIONEDSURFACE" << "(";
 	if( m_Directrix ) { stream << "#" << m_Directrix->m_tag; } else { stream << "$"; }
@@ -23,7 +23,7 @@ void IFC4X3::IfcSectionedSurface::getStepLine( std::stringstream& stream ) const
 	writeEntityList( stream, m_CrossSections );
 	stream << ");";
 }
-void IFC4X3::IfcSectionedSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcSectionedSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcSectionedSurface::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

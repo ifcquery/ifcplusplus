@@ -13,17 +13,17 @@
 
 // ENTITY IfcOffsetCurveByDistances 
 IFC4X3::IfcOffsetCurveByDistances::IfcOffsetCurveByDistances( int tag ) { m_tag = tag; }
-void IFC4X3::IfcOffsetCurveByDistances::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcOffsetCurveByDistances::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCOFFSETCURVEBYDISTANCES" << "(";
 	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_tag; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_OffsetValues );
 	stream << ",";
-	if( m_Tag ) { m_Tag->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Tag ) { m_Tag->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcOffsetCurveByDistances::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcOffsetCurveByDistances::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcOffsetCurveByDistances::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

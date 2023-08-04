@@ -14,21 +14,21 @@
 
 // ENTITY IfcFillAreaStyleHatching 
 IFC4X3::IfcFillAreaStyleHatching::IfcFillAreaStyleHatching( int tag ) { m_tag = tag; }
-void IFC4X3::IfcFillAreaStyleHatching::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcFillAreaStyleHatching::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCFILLAREASTYLEHATCHING" << "(";
 	if( m_HatchLineAppearance ) { stream << "#" << m_HatchLineAppearance->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_StartOfNextHatchLine ) { m_StartOfNextHatchLine->getStepParameter( stream, true ); } else { stream << "$" ; }
+	if( m_StartOfNextHatchLine ) { m_StartOfNextHatchLine->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_PointOfReferenceHatchLine ) { stream << "#" << m_PointOfReferenceHatchLine->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_PatternStart ) { stream << "#" << m_PatternStart->m_tag; } else { stream << "$"; }
 	stream << ",";
-	if( m_HatchLineAngle ) { m_HatchLineAngle->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_HatchLineAngle ) { m_HatchLineAngle->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
-void IFC4X3::IfcFillAreaStyleHatching::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcFillAreaStyleHatching::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcFillAreaStyleHatching::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();

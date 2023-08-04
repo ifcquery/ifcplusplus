@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcCostItemTypeEnum.h"
 
 // TYPE IfcCostItemTypeEnum = ENUMERATION OF	(USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcCostItemTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcCostItemTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCCOSTITEMTYPEENUM("; }
 	switch( m_enum )

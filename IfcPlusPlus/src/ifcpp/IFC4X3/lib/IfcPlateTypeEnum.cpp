@@ -10,7 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcPlateTypeEnum.h"
 
 // TYPE IfcPlateTypeEnum = ENUMERATION OF	(BASE_PLATE	,COVER_PLATE	,CURTAIN_PANEL	,FLANGE_PLATE	,GUSSET_PLATE	,SHEET	,SPLICE_PLATE	,STIFFENER_PLATE	,WEB_PLATE	,USERDEFINED	,NOTDEFINED);
-void IFC4X3::IfcPlateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type ) const
+void IFC4X3::IfcPlateTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCPLATETYPEENUM("; }
 	switch( m_enum )

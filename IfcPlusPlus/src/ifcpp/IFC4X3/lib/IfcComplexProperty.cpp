@@ -16,19 +16,19 @@
 
 // ENTITY IfcComplexProperty 
 IFC4X3::IfcComplexProperty::IfcComplexProperty( int tag ) { m_tag = tag; }
-void IFC4X3::IfcComplexProperty::getStepLine( std::stringstream& stream ) const
+void IFC4X3::IfcComplexProperty::getStepLine( std::stringstream& stream, size_t precision ) const
 {
 	stream << "#" << m_tag << "= IFCCOMPLEXPROPERTY" << "(";
-	if( m_Name ) { m_Name->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_Specification ) { m_Specification->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_Specification ) { m_Specification->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
-	if( m_UsageName ) { m_UsageName->getStepParameter( stream ); } else { stream << "$"; }
+	if( m_UsageName ) { m_UsageName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_HasProperties );
 	stream << ");";
 }
-void IFC4X3::IfcComplexProperty::getStepParameter( std::stringstream& stream, bool /*is_select_type*/ ) const { stream << "#" << m_tag; }
+void IFC4X3::IfcComplexProperty::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
 void IFC4X3::IfcComplexProperty::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	const size_t num_args = args.size();
