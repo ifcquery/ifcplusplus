@@ -115,6 +115,7 @@
 #include "ifcpp/IFC4X3/include/IfcText.h"
 #include "ifcpp/IFC4X3/include/IfcTime.h"
 #include "ifcpp/IFC4X3/include/IfcTimeStamp.h"
+#include "ifcpp/IFC4X3/include/IfcURIReference.h"
 #include "ifcpp/IFC4X3/include/IfcMetricValueSelect.h"
 
 // TYPE IfcMetricValueSelect = SELECT	(IfcAppliedValue	,IfcMeasureWithUnit	,IfcReference	,IfcTable	,IfcTimeSeries	,IfcValue);

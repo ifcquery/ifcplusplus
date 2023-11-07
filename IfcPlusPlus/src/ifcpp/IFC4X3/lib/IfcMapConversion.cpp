@@ -30,10 +30,6 @@ void IFC4X3::IfcMapConversion::getStepLine( std::stringstream& stream, size_t pr
 	if( m_XAxisOrdinate ) { m_XAxisOrdinate->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Scale ) { m_Scale->getStepParameter( stream, false, precision ); } else { stream << "$"; }
-	stream << ",";
-	if( m_ScaleY ) { m_ScaleY->getStepParameter( stream, false, precision ); } else { stream << "$"; }
-	stream << ",";
-	if( m_ScaleZ ) { m_ScaleZ->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
 void IFC4X3::IfcMapConversion::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
@@ -48,9 +44,7 @@ void IFC4X3::IfcMapConversion::readStepArguments( const std::vector<std::string>
 	if( num_args > 5 ){m_XAxisAbscissa = IfcReal::createObjectFromSTEP( args[5], map, errorStream );}
 	if( num_args > 6 ){m_XAxisOrdinate = IfcReal::createObjectFromSTEP( args[6], map, errorStream );}
 	if( num_args > 7 ){m_Scale = IfcReal::createObjectFromSTEP( args[7], map, errorStream );}
-	if( num_args > 8 ){m_ScaleY = IfcReal::createObjectFromSTEP( args[8], map, errorStream );}
-	if( num_args > 9 ){m_ScaleZ = IfcReal::createObjectFromSTEP( args[9], map, errorStream );}
-	if( num_args != 10 ){ errorStream << "Wrong parameter count for entity IfcMapConversion, expecting 10, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
+	if( num_args != 8 ){ errorStream << "Wrong parameter count for entity IfcMapConversion, expecting 8, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcMapConversion::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
@@ -61,8 +55,6 @@ void IFC4X3::IfcMapConversion::getAttributes( std::vector<std::pair<std::string,
 	vec_attributes.emplace_back( std::make_pair( "XAxisAbscissa", m_XAxisAbscissa ) );
 	vec_attributes.emplace_back( std::make_pair( "XAxisOrdinate", m_XAxisOrdinate ) );
 	vec_attributes.emplace_back( std::make_pair( "Scale", m_Scale ) );
-	vec_attributes.emplace_back( std::make_pair( "ScaleY", m_ScaleY ) );
-	vec_attributes.emplace_back( std::make_pair( "ScaleZ", m_ScaleZ ) );
 }
 void IFC4X3::IfcMapConversion::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {

@@ -27,41 +27,41 @@
 namespace carve {
 namespace csg {
 template <typename filter_t>
-void Octree::doFindEdges(
-    const carve::poly::Geometry<3>::face_t& f, Node* node,
-    std::vector<const carve::poly::Geometry<3>::edge_t*>& out, unsigned depth,
-    filter_t filter) const {
-  if (node == nullptr) {
-    return;
-  }
-
-  if (node->aabb.intersects(f.aabb) && node->aabb.intersects(f.plane_eqn)) {
-    if (node->hasChildren()) {
-      for (int i = 0; i < 8; ++i) {
-        doFindEdges(f, node->children[i], out, depth + 1, filter);
-      }
-    } else {
-      if (depth < MAX_SPLIT_DEPTH &&
-          node->edges.size() > EDGE_SPLIT_THRESHOLD) {
-        if (!node->split()) {
-          for (int i = 0; i < 8; ++i) {
-            doFindEdges(f, node->children[i], out, depth + 1, filter);
-          }
-          return;
-        }
-      }
-      for (std::vector<const carve::poly::Geometry<3>::edge_t *>::const_iterator
-               it = node->edges.begin(),
-               e = node->edges.end();
-           it != e; ++it) {
-        if ((*it)->tag_once()) {
-          if (filter(*it)) {
-            out.push_back(*it);
-          }
-        }
-      }
+void Octree::doFindEdges(const carve::poly::Geometry<3>::face_t& f, Node* node, std::vector<const carve::poly::Geometry<3>::edge_t*>& out, unsigned int depth, filter_t filter) const
+{
+    if (node == nullptr) {
+        return;
     }
-  }
+
+    if (node->aabb.intersects(f.aabb, m_epsilon) && node->aabb.intersects(f.plane_eqn, m_epsilon))
+    {
+        if (node->hasChildren()) {
+            for (int i = 0; i < 8; ++i) {
+                doFindEdges(f, node->children[i], out, depth + 1, filter);
+            }
+        }
+        else {
+            if (depth < MAX_SPLIT_DEPTH &&
+                node->edges.size() > EDGE_SPLIT_THRESHOLD) {
+                if (!node->split(m_epsilon))
+                {
+                    for (int i = 0; i < 8; ++i) {
+                        doFindEdges(f, node->children[i], out, depth + 1, filter);
+                    }
+                    return;
+                }
+            }
+            for (std::vector<const carve::poly::Geometry<3>::edge_t*>::const_iterator it = node->edges.begin(), e = node->edges.end(); it != e; ++it)
+            {
+                if ((*it)->tag_once())
+                {
+                    if (filter(*it)) {
+                        out.push_back(*it);
+                    }
+                }
+            }
+        }
+    }
 }
 
 template <typename filter_t>

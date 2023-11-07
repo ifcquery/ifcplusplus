@@ -45,7 +45,7 @@ namespace carve {
 	namespace csg {
 
 		class VertexPool {
-			typedef carve::mesh::MeshSet<3>::vertex_t vertex_t;
+			typedef carve::mesh::Vertex<3> vertex_t;
 
 			const static unsigned blocksize = 1024;
 			typedef std::list<std::vector<vertex_t> > pool_t;
@@ -113,18 +113,13 @@ namespace carve {
 
 				bool hasHook(unsigned hook_num);
 
-				void intersectionVertex(const meshset_t::vertex_t* vertex,
-					const IObjPairSet& intersections);
+				void intersectionVertex(const meshset_t::vertex_t* vertex, const IObjPairSet& intersections);
 
-				void processOutputFace(std::vector<meshset_t::face_t*>& faces,
-					const meshset_t::face_t* orig_face, bool flipped);
+				void processOutputFace(std::vector<meshset_t::face_t*>& faces, const meshset_t::face_t* orig_face, bool flipped);
 
-				void resultFace(const meshset_t::face_t* new_face,
-					const meshset_t::face_t* orig_face, bool flipped);
+				void resultFace(const meshset_t::face_t* new_face, const meshset_t::face_t* orig_face, bool flipped);
 
-				void edgeDivision(const meshset_t::edge_t* orig_edge, size_t orig_edge_idx,
-					const meshset_t::vertex_t* v1,
-					const meshset_t::vertex_t* v2);
+				void edgeDivision(const meshset_t::edge_t* orig_edge, size_t orig_edge_idx, const meshset_t::vertex_t* v1, const meshset_t::vertex_t* v2);
 
 				void registerHook(Hook* hook, unsigned hook_bits);
 				void unregisterHook(Hook* hook);
@@ -156,19 +151,15 @@ namespace carve {
 
 		private:
 			typedef carve::geom::RTreeNode<3, carve::mesh::Face<3>*> face_rtree_t;
-			typedef std::unordered_map<carve::mesh::Face<3>*,
-				std::vector<carve::mesh::Face<3>*> >
-				face_pairs_t;
+			typedef std::unordered_map<carve::mesh::Face<3>*, std::vector<carve::mesh::Face<3>*> > face_pairs_t;
 
 			/// The computed intersection data.
 			Intersections intersections;
 
-			/// A map from intersection point to a set of intersections
-			/// represented by pairs of intersection objects.
+			/// A map from intersection point to a set of intersections represented by pairs of intersection objects.
 			VertexIntersections vertex_intersections;
 
-			/// A pool from which temporary vertices are allocated. Also
-			/// provides testing for pool membership.
+			/// A pool from which temporary vertices are allocated. Also provides testing for pool membership.
 			VertexPool vertex_pool;
 
 			void init();
@@ -254,9 +245,7 @@ namespace carve {
 			 * @param[in] no_cross A set of edges not to cross.
 			 * @param[out] out_loops A list of grouped face loops.
 			 */
-			void groupFaceLoops(meshset_t* src, FaceLoopList& face_loops,
-				const detail::LoopEdges& loop_edges,
-				const V2Set& no_cross, FLGroupList& out_loops);
+			void groupFaceLoops(meshset_t* src, FaceLoopList& face_loops, const detail::LoopEdges& loop_edges, const V2Set& no_cross, FLGroupList& out_loops);
 
 			/**
 			 * \brief Find the set of edges shared between two edge maps.
@@ -265,9 +254,7 @@ namespace carve {
 			 * @param[in] edge_map_b The second edge map.
 			 * @param[out] shared_edges The resulting set of common edges.
 			 */
-			void findSharedEdges(const detail::LoopEdges& edge_map_a,
-				const detail::LoopEdges& edge_map_b,
-				V2Set& shared_edges);
+			void findSharedEdges(const detail::LoopEdges& edge_map_a, const detail::LoopEdges& edge_map_b, V2Set& shared_edges);
 
 			// intersect_classify_edge.cpp
 
@@ -285,12 +272,8 @@ namespace carve {
 			 * @param collector
 			 */
 			void classifyFaceGroupsEdge(
-				const V2Set& shared_edges, VertexClassification& vclass,
-				meshset_t* poly_a, const face_rtree_t* poly_a_rtree,
-				FLGroupList& a_loops_grouped, const detail::LoopEdges& a_edge_map,
-				meshset_t* poly_b, const face_rtree_t* poly_b_rtree,
-				FLGroupList& b_loops_grouped, const detail::LoopEdges& b_edge_map,
-				CSG::Collector& collector);
+				const V2Set& shared_edges, VertexClassification& vclass, meshset_t* poly_a, const face_rtree_t* poly_a_rtree, FLGroupList& a_loops_grouped, const detail::LoopEdges& a_edge_map,
+				meshset_t* poly_b, const face_rtree_t* poly_b_rtree, FLGroupList& b_loops_grouped, const detail::LoopEdges& b_edge_map, CSG::Collector& collector);
 
 			// intersect_classify_group.cpp
 
@@ -307,15 +290,8 @@ namespace carve {
 			 * @param b_edge_map
 			 * @param collector
 			 */
-			void classifyFaceGroups(const V2Set& shared_edges,
-				VertexClassification& vclass, meshset_t* poly_a,
-				const face_rtree_t* poly_a_rtree,
-				FLGroupList& a_loops_grouped,
-				const detail::LoopEdges& a_edge_map,
-				meshset_t* poly_b, const face_rtree_t* poly_b_rtree,
-				FLGroupList& b_loops_grouped,
-				const detail::LoopEdges& b_edge_map,
-				CSG::Collector& collector);
+			void classifyFaceGroups(const V2Set& shared_edges, VertexClassification& vclass, meshset_t* poly_a, const face_rtree_t* poly_a_rtree, FLGroupList& a_loops_grouped,
+				const detail::LoopEdges& a_edge_map, meshset_t* poly_b, const face_rtree_t* poly_b_rtree, FLGroupList& b_loops_grouped, const detail::LoopEdges& b_edge_map, CSG::Collector& collector);
 
 			// intersect_half_classify_group.cpp
 
@@ -334,12 +310,8 @@ namespace carve {
 			 * @param b_out
 			 */
 			void halfClassifyFaceGroups(
-				const V2Set& shared_edges, VertexClassification& vclass,
-				meshset_t* poly_a, const face_rtree_t* poly_a_rtree,
-				FLGroupList& a_loops_grouped, const detail::LoopEdges& a_edge_map,
-				meshset_t* poly_b, const face_rtree_t* poly_b_rtree,
-				FLGroupList& b_loops_grouped, const detail::LoopEdges& b_edge_map,
-				std::list<std::pair<FaceClass, meshset_t*> >& b_out);
+				const V2Set& shared_edges, VertexClassification& vclass, meshset_t* poly_a, const face_rtree_t* poly_a_rtree, FLGroupList& a_loops_grouped, const detail::LoopEdges& a_edge_map,
+				meshset_t* poly_b, const face_rtree_t* poly_b_rtree, FLGroupList& b_loops_grouped, const detail::LoopEdges& b_edge_map, std::list<std::pair<FaceClass, meshset_t*> >& b_out);
 
 			// intersect.cpp
 
@@ -355,11 +327,8 @@ namespace carve {
 			 * @param[out] a_edge_count
 			 * @param[out] b_edge_count
 			 */
-			void calc(meshset_t* a, const face_rtree_t* a_rtree, meshset_t* b,
-				const face_rtree_t* b_rtree, VertexClassification& vclass,
-				EdgeClassification& eclass, FaceLoopList& a_face_loops,
-				FaceLoopList& b_face_loops, size_t& a_edge_count,
-				size_t& b_edge_count);
+			void calc(meshset_t* a, const face_rtree_t* a_rtree, meshset_t* b, const face_rtree_t* b_rtree, VertexClassification& vclass, EdgeClassification& eclass, FaceLoopList& a_face_loops,
+				FaceLoopList& b_face_loops, size_t& a_edge_count, size_t& b_edge_count);
 
 		public:
 			/**
@@ -385,7 +354,7 @@ namespace carve {
 			};
 
 			CSG::Hooks hooks; /**< The manager for calculation hooks. */
-			double CARVE_EPSILON;
+			double m_epsilon;
 
 			CSG(double _CARVE_EPSILON);
 			~CSG();
@@ -402,7 +371,7 @@ namespace carve {
 			 *
 			 * @return
 			 */
-			meshset_t* compute(meshset_t* a, meshset_t* b, CSG::Collector& collector, V2Set* shared_edges = nullptr, CLASSIFY_TYPE classify_type = CLASSIFY_NORMAL);
+			meshset_t* compute(meshset_t* a, meshset_t* b, CSG::Collector& collector, carve::csg::CSG::OP op, V2Set* shared_edges = nullptr, CLASSIFY_TYPE classify_type = CLASSIFY_NORMAL);
 
 			/**
 			 * \brief Compute a CSG operation between two closed polyhedra, \a a and \a b.
@@ -417,6 +386,8 @@ namespace carve {
 			 * @return
 			 */
 			meshset_t* compute(meshset_t* a, meshset_t* b, OP op, V2Set* shared_edges = nullptr, CLASSIFY_TYPE classify_type = CLASSIFY_NORMAL);
+
+			meshset_t* classifyInnerMeshes(meshset_t* a, V2Set* shared_edges = nullptr, CLASSIFY_TYPE classify_type = CLASSIFY_NORMAL);
 
 			void slice(meshset_t* a, meshset_t* b, std::list<meshset_t*>& a_sliced, std::list<meshset_t*>& b_sliced, V2Set* shared_edges = nullptr);
 

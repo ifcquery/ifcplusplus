@@ -62,7 +62,9 @@ public:
 		//  |                            |
 		//  0-------face_loops[0]--------1
 
-		if( extrusionVector.length2() < EPS_M6* EPS_M6 )
+		double eps = m_geom_settings->getEpsilonMergePoints();
+		double epsCoplanarAngle = m_geom_settings->getEpsilonCoplanarAngle();
+		if( extrusionVector.length2() < eps*eps*100 )
 		{
 #ifdef _DEBUG
 			std::cout << "extrusionVector.length2() == 0" << std::endl;
@@ -95,8 +97,8 @@ public:
 				}
 			}
 			bool mergeAlignedEdges = true;
-			GeomUtils::simplifyPolygon(loopPointsInput, mergeAlignedEdges);
-			GeomUtils::unClosePolygon(loopPointsInput);
+			GeomUtils::simplifyPolygon(loopPointsInput, mergeAlignedEdges, eps, epsCoplanarAngle);
+			GeomUtils::unClosePolygon(loopPointsInput, eps);
 			normal = GeomUtils::computePolygon2DNormal(loopPointsInput);
 
 			if( loopPointsInput.size() > 3 )
@@ -113,11 +115,11 @@ public:
 				const double dy2 = p2.y - p1.y;
 
 #ifdef _DEBUG
-				if( std::abs(dx1) < EPS_DEFAULT && std::abs(dy1) < EPS_DEFAULT )
+				if( std::abs(dx1) < eps && std::abs(dy1) < eps )
 				{
 					std::cout << "duplicate points should be handled in unClosePolygon" << std::endl;
 				}
-				if( std::abs(dx2) < EPS_DEFAULT && std::abs(dy2) < EPS_DEFAULT )
+				if( std::abs(dx2) < eps && std::abs(dy2) < eps )
 				{
 					std::cout << "duplicate points should be handled in unClosePolygon" << std::endl;
 				}
@@ -146,7 +148,7 @@ public:
 			}
 
 			double loop_area = std::abs(GeomUtils::signedArea(path_loop_2d));
-			double min_loop_area = EPS_DEFAULT;//m_geom_settings->m_min_face_area
+			double min_loop_area = m_geom_settings->getEpsilonMergePoints();
 			if( loop_area < min_loop_area )
 			{
 				warning_small_loop_detected = true;
@@ -202,7 +204,7 @@ public:
 			std::vector<array2d>& loop2D = faceLoopsTriangulate[ii];
 
 
-			glm::dvec3 normal_2d = GeomUtils::computePolygon2DNormal(loop2D);
+			glm::dvec3 normal_2d = GeomUtils::computePolygon2DNormal(loop2D, eps);
 			if( ii == 0 )
 			{
 				if( normal_2d.z < 0 )
@@ -247,7 +249,7 @@ public:
 				for( size_t ii = 0; ii < faceLoopsTriangulate.size(); ++ii )
 				{
 					std::vector<std::array<double, 2> >& loop2D = faceLoopsTriangulate[ii];
-					GeomDebugDump::dumpPolyline(loop2D, color, true);
+					GeomDebugDump::dumpPolyline(loop2D, color, 0, true);
 				}
 			}
 		}
@@ -284,7 +286,7 @@ public:
 			std::vector<array2d>& loop2D = faceLoopsTriangulate[ii];
 
 #ifdef _DEBUG
-			glm::dvec3 loopNormal_glm = GeomUtils::computePolygon2DNormal(loop2D);
+			glm::dvec3 loopNormal_glm = GeomUtils::computePolygon2DNormal(loop2D, eps);
 			vec3 loopNormal = carve::geom::VECTOR(loopNormal_glm.x, loopNormal_glm.y, loopNormal_glm.z);
 
 			if( ii == 0 )
@@ -463,7 +465,7 @@ public:
 				double dot_product_abs = std::abs(dot_product);
 
 				// if dot == 1 or -1, then points are colinear
-				if( dot_product_abs < (1.0-0.0001) || dot_product_abs > (1.0+0.0001) )
+				if( dot_product_abs < (1.0-eps) || dot_product_abs > (1.0+eps) )
 				{
 					// bend found, compute cross product
 					vec3 lateral_vec = cross( section1, section2 );
@@ -479,22 +481,22 @@ public:
 		{
 			// sweeping curve is linear. assume any local z vector
 			vec3 sweep_dir = curve_point_second - curve_point_first;
-			if( sweep_dir.length2() > 0.1 )
+			if( sweep_dir.length2() > eps )
 			{
 				sweep_dir.normalize();
 
 				vec3 perpendicularToSweep = carve::geom::VECTOR(0, 0, 1);
 				double dot_sweep_dir = dot(sweep_dir, perpendicularToSweep);
-				if( std::abs(dot_sweep_dir - 1.0) < 0.0001 )
+				if( std::abs(dot_sweep_dir - 1.0) < eps )
 				{
 					perpendicularToSweep = carve::geom::VECTOR(0, 1, 0);
 					dot_sweep_dir = dot(sweep_dir, perpendicularToSweep);
 				}
 
-				if( std::abs(dot_sweep_dir - 1.0) > 0.0001 )
+				if( std::abs(dot_sweep_dir - 1.0) > eps )
 				{
 					local_z = cross(perpendicularToSweep, sweep_dir);
-					if( local_z.length2() < 0.001 )
+					if( local_z.length2() < eps )
 					{
 						local_z = cross(carve::geom::VECTOR(0, 1, 0), sweep_dir);
 						local_z.normalize();
@@ -504,13 +506,13 @@ public:
 						local_z.normalize();
 					}
 					double dot_normal_local_z = dot(sweep_dir, local_z);
-					if( std::abs(dot_normal_local_z-1.0) < 0.0001 )
+					if( std::abs(dot_normal_local_z-1.0) < eps )
 					{
 						local_z = cross(carve::geom::VECTOR(0, 1, 0), sweep_dir);
 						local_z.normalize();
 
 						dot_normal_local_z = dot(sweep_dir, local_z);
-						if( std::abs(dot_normal_local_z-1.0) < 0.0001 )
+						if( std::abs(dot_normal_local_z-1.0) < eps )
 						{
 							local_z = cross(carve::geom::VECTOR(1, 0, 0), sweep_dir);
 							local_z.normalize();
@@ -592,20 +594,20 @@ public:
 
 			vec3 section1 = vertex_current - vertex_before;
 			vec3 section2 = vertex_next - vertex_current;
-			if (section1.length2() > 0.0001)
+			if (section1.length2() > eps)
 			{
 				section1.normalize();
-				if (section2.length2() > 0.0001)
+				if (section2.length2() > eps)
 				{
 					section2.normalize();
 					double dot_product = dot(section1, section2);
 					double dot_product_abs = std::abs(dot_product);
 
-					if (dot_product_abs < (1.0-0.0001) || dot_product_abs >(1.0+0.0001))
+					if (dot_product_abs < (1.0-eps) || dot_product_abs >(1.0+eps))
 					{
 						// bend found, compute next local z vector
 						vec3 lateral_vec = cross(section1, section2);
-						if (lateral_vec.length2() > 0.0001)
+						if (lateral_vec.length2() > eps)
 						{
 							local_z = cross(lateral_vec, section1);
 							local_z.normalize();
@@ -847,7 +849,7 @@ public:
 		{
 			const std::vector<vec2>& loop_input = profile_paths_input[i_face_loops];
 			std::vector<vec2> loop_2d;
-			GeomUtils::copyClosedLoopSkipDuplicates( loop_input, loop_2d );
+			GeomUtils::copyClosedLoopSkipDuplicates( loop_input, loop_2d, eps );
 			
 			if( loop_2d.size() < 3 )
 			{
@@ -1100,7 +1102,7 @@ public:
 
 				const vec3& curve_point_first = curve_points[0];
 				const vec3& curve_point_second = curve_points[1];
-				const vec3 curve_normal = GeomUtils::computePolygonNormal(curve_points);
+				const vec3 curve_normal = GeomUtils::computePolygonNormal(curve_points, eps);
 
 				// rotate face loops into first direction
 				vec3  section_local_y = curve_normal;

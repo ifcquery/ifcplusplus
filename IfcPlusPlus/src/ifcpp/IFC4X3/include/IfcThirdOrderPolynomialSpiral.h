@@ -34,7 +34,7 @@ namespace IFC4X3
 
 		// IfcSpiral -----------------------------------------------------------
 		// attributes:
-		//  shared_ptr<IfcAxis2Placement>							m_Position;					//optional
+		//  shared_ptr<IfcAxis2Placement>							m_Position;
 
 		// IfcThirdOrderPolynomialSpiral -----------------------------------------------------------
 		// attributes:

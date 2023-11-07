@@ -26,7 +26,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <osgUtil/Tessellator>
 
 #include <ifcpp/model/BasicTypes.h>
-#include <ifcpp/model/OpenMPIncludes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/IFC4X3/EntityFactory.h>
 #include <ifcpp/IFC4X3/include/IfcCurtainWall.h>
@@ -41,7 +40,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <ifcpp/geometry/GeometrySettings.h>
 #include <ifcpp/geometry/SceneGraphUtils.h>
-#include <ifcpp/geometry/AppearanceData.h>
 #include "GeometryInputData.h"
 #include "IncludeCarveHeaders.h"
 #include "CSG_Adapter.h"
@@ -673,20 +671,20 @@ public:
 		}
 	}
 
-	void applyAppearancesToGroup(const std::vector<shared_ptr<AppearanceData> >& vec_product_appearances, osg::Group* grp, float transparencyOverride)
+	void applyStylesToGroup(const std::vector<shared_ptr<StyleData> >& vec_product_styles, osg::Group* grp, float transparencyOverride)
 	{
-		for (size_t ii = 0; ii < vec_product_appearances.size(); ++ii)
+		for (size_t ii = 0; ii < vec_product_styles.size(); ++ii)
 		{
-			const shared_ptr<AppearanceData>& appearance = vec_product_appearances[ii];
-			if (!appearance)
+			const shared_ptr<StyleData>& style = vec_product_styles[ii];
+			if (!style)
 			{
 				continue;
 			}
 
-			if (appearance->m_apply_to_geometry_type == AppearanceData::GEOM_TYPE_SURFACE || appearance->m_apply_to_geometry_type == AppearanceData::GEOM_TYPE_ANY)
+			if (style->m_apply_to_geometry_type == StyleData::GEOM_TYPE_SURFACE || style->m_apply_to_geometry_type == StyleData::GEOM_TYPE_ANY)
 			{
 				osg::ref_ptr<osg::StateSet> item_stateset;
-				convertToOSGStateSet(appearance, item_stateset, transparencyOverride);
+				convertToOSGStateSet(style, item_stateset, transparencyOverride);
 				if (item_stateset)
 				{
 					osg::StateSet* existing_item_stateset = grp->getStateSet();
@@ -703,7 +701,7 @@ public:
 					}
 				}
 			}
-			else if (appearance->m_apply_to_geometry_type == AppearanceData::GEOM_TYPE_CURVE)
+			else if (style->m_apply_to_geometry_type == StyleData::GEOM_TYPE_CURVE)
 			{
 
 			}
@@ -730,7 +728,7 @@ public:
 			double epsCoplanarFacesAngle = eps;
 			double minFaceArea = eps;
 			bool dumpMeshes = false;
-			GeomProcessingParams params( m_geom_settings, dumpMeshes);
+			GeomProcessingParams params(m_geom_settings, dumpMeshes);
 			MeshOps::retriangulateMeshSetForExport(item_meshset, params);
 			drawMeshSet(item_meshset, geode, crease_angle, min_triangle_area, false, disableBackfaceCulling);
 
@@ -751,8 +749,9 @@ public:
 
 	void convertGeometricItem(const shared_ptr<ItemShapeData>& item_data, shared_ptr<IfcProduct>& ifc_product, size_t ii_representation, size_t ii_item, osg::Group* parentNode, float transparencyOverride)
 	{
-		bool includeChildren = false;
-		if (item_data->hasGeometricRepresentation(includeChildren))
+		bool includeChildProducts = false;
+		bool includeGeometricChildItems = false;
+		if (item_data->hasItemDataGeometricRepresentation( includeGeometricChildItems))
 		{
 			osg::ref_ptr<osg::Geode> item_geode = new osg::Geode();
 
@@ -869,7 +868,7 @@ public:
 			}
 
 			// If anything has been created, add it to the product group
-			if (item_geode->getNumChildren() > 0)
+			if (item_geode->getNumChildren() > 0 || item_geode->getNumDrawables() > 0)
 			{
 #ifdef _DEBUG
 				if (item_geode->getNumParents() > 0)
@@ -879,9 +878,9 @@ public:
 #endif
 
 				// apply statesets if there are any
-				if (item_data->m_vec_item_appearances.size() > 0)
+				if (item_data->getStyles().size() > 0)
 				{
-					applyAppearancesToGroup(item_data->m_vec_item_appearances, item_geode, transparencyOverride);
+					applyStylesToGroup(item_data->getStyles(), item_geode, transparencyOverride);
 				}
 
 				if (transparencyOverride > 0)
@@ -893,7 +892,7 @@ public:
 					{
 						createMaterialIfNotExisting = true;
 					}
-					SceneGraphUtils::setMaterialAlpha(item_geode, transparencyOverride, createMaterialIfNotExisting );
+					SceneGraphUtils::setMaterialAlpha(item_geode, transparencyOverride, createMaterialIfNotExisting);
 				}
 
 				parentNode->addChild(item_geode);
@@ -908,7 +907,7 @@ public:
 	}
 
 	//\brief method convertProductShapeToOSG: creates geometry objects from an IfcProduct object
-	void convertProductShapeToOSG(shared_ptr<ProductShapeData>& product_shape, osg::Group* parentNode, std::stringstream& errorStream, float transparencyOverride)
+	void convertProductShapeToOSG(const shared_ptr<ProductShapeData>& product_shape, osg::Group* parentNode, std::stringstream& errorStream, float transparencyOverride)
 	{
 		std::string product_guid = "";
 		try
@@ -942,7 +941,7 @@ public:
 			{
 				shared_ptr<IfcObjectDefinition> ifc_object_def(product_shape->m_ifc_object_definition);
 				entityType = EntityFactory::getStringForClassID(ifc_object_def->classID());
-				
+
 				shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
 				if (ifc_product)
 				{
@@ -985,9 +984,9 @@ public:
 					}
 #endif
 
-					for (size_t ii_representation = 0; ii_representation < product_shape->m_geometric_items.size(); ++ii_representation)
+					for (size_t ii_representation = 0; ii_representation < product_shape->getGeometricItems().size(); ++ii_representation)
 					{
-						const shared_ptr<ItemShapeData>& geom_item = product_shape->m_geometric_items[ii_representation];
+						const shared_ptr<ItemShapeData>& geom_item = product_shape->getGeometricItems()[ii_representation];
 						osg::Group* grp = product_transform.get();
 						convertGeometricItem(geom_item, ifc_product, ii_representation, 0, grp, transparencyOverride);
 					}
@@ -997,18 +996,18 @@ public:
 			std::stringstream strsName;
 			strsName << product_guid;
 			product_switch->setName(strsName.str());
-
-			for (size_t i_item = 0; i_item < product_shape->m_vec_children.size(); ++i_item)
+			float transparencyOverrideChildElements = 0.0;
+			for (size_t i_item = 0; i_item < product_shape->getChildElements().size(); ++i_item)
 			{
-				shared_ptr<ProductShapeData>& child = product_shape->m_vec_children[i_item];
+				const shared_ptr<ProductShapeData>& child = product_shape->getChildElements()[i_item];
 				osg::Group* grp = product_switch.get();
-				convertProductShapeToOSG(child, grp, errorStream, transparencyOverride);
+				convertProductShapeToOSG(child, grp, errorStream, transparencyOverrideChildElements);
 			}
 
 			// TODO: if no color or material is given, set color 231/219/169 for walls, 140/140/140 for slabs 
-			if (product_shape->m_vec_product_appearances.size() > 0)
+			if (product_shape->getStyles().size() > 0)
 			{
-				applyAppearancesToGroup(product_shape->m_vec_product_appearances, product_transform, transparencyOverride);
+				applyStylesToGroup(product_shape->getStyles(), product_transform, transparencyOverrideChildElements);
 			}
 
 			++m_numConvertedProducts;
@@ -1148,13 +1147,13 @@ public:
 
 			if (product_group->getNumChildren() > 0)
 			{
-				sw_objects_outside_spatial_structure->addChild(product_group);
+				//sw_objects_outside_spatial_structure->addChild(product_group);
 			}
 		}
 
 		if (sw_objects_outside_spatial_structure->getNumChildren() > 0)
 		{
-			parent_group->addChild(sw_objects_outside_spatial_structure);
+			//parent_group->addChild(sw_objects_outside_spatial_structure);
 		}
 
 		if (errorStream.tellp() > 0)
@@ -1165,7 +1164,7 @@ public:
 		progressValueCallback(0.9, "scenegraph");
 	}
 
-	void convertToOSGStateSet(const shared_ptr<AppearanceData>& appearence, osg::ref_ptr<osg::StateSet>& target_stateset, float transparencyOverride)
+	void convertToOSGStateSet(const shared_ptr<StyleData>& appearence, osg::ref_ptr<osg::StateSet>& target_stateset, float transparencyOverride)
 	{
 		if (!appearence)
 		{
@@ -1175,20 +1174,20 @@ public:
 		float transparency = appearence->m_transparency;
 		bool set_transparent = appearence->m_set_transparent;
 
-		const float color_ambient_r = appearence->m_color_ambient.r();
-		const float color_ambient_g = appearence->m_color_ambient.g();
-		const float color_ambient_b = appearence->m_color_ambient.b();
-		const float color_ambient_a = appearence->m_color_ambient.a();
+		const float color_ambient_r = appearence->m_color_ambient.r;
+		const float color_ambient_g = appearence->m_color_ambient.g;
+		const float color_ambient_b = appearence->m_color_ambient.b;
+		const float color_ambient_a = appearence->m_color_ambient.a;
 
-		const float color_diffuse_r = appearence->m_color_diffuse.r();
-		const float color_diffuse_g = appearence->m_color_diffuse.g();
-		const float color_diffuse_b = appearence->m_color_diffuse.b();
-		const float color_diffuse_a = appearence->m_color_diffuse.a();
+		const float color_diffuse_r = appearence->m_color_diffuse.r;
+		const float color_diffuse_g = appearence->m_color_diffuse.g;
+		const float color_diffuse_b = appearence->m_color_diffuse.b;
+		const float color_diffuse_a = appearence->m_color_diffuse.a;
 
-		const float color_specular_r = appearence->m_color_specular.r();
-		const float color_specular_g = appearence->m_color_specular.g();
-		const float color_specular_b = appearence->m_color_specular.b();
-		const float color_specular_a = appearence->m_color_specular.a();
+		const float color_specular_r = appearence->m_color_specular.r;
+		const float color_specular_g = appearence->m_color_specular.g;
+		const float color_specular_b = appearence->m_color_specular.b;
+		const float color_specular_a = appearence->m_color_specular.a;
 
 		if (transparencyOverride > 0)
 		{

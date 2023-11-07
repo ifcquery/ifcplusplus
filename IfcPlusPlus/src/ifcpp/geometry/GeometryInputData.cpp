@@ -16,7 +16,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 */
 
 #include <vector>
-#include <ifcpp/geometry/AppearanceData.h>
 #include <ifcpp/geometry/GeometrySettings.h>
 #include <ifcpp/geometry/GeomDebugDump.h>
 #include <ifcpp/model/BasicTypes.h>
@@ -110,7 +109,7 @@ bool checkPolyhedronData( const shared_ptr<carve::input::PolyhedronData>& poly_d
 
 				if (!allowZeroAreaFaces)
 				{
-					double area = GeomUtils::computePolygonArea(facePoints);
+					double area = GeomUtils::computePolygonArea(facePoints, params.epsMergePoints);
 					if (std::abs(area) < params.minFaceArea)
 					{
 						details = "face area < eps";
@@ -253,7 +252,7 @@ bool fixPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data
 					}
 					else
 					{
-						double area = GeomUtils::computePolygonArea(polygonPoints);
+						double area = GeomUtils::computePolygonArea(polygonPoints, epsMergePoints);
 						if (area > epsMinFaceArea)
 						{
 							// found correct face
@@ -555,24 +554,14 @@ bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::Polyhedro
 				return true;
 			}
 		}
-		else
-		{
-			shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(mesh_input_options, eps));
-			bool triangulateOperands = false;
-			bool shouldBeClosedManifold = true;
-			MeshOps::simplifyMeshSet(meshset, params, triangulateOperands, shouldBeClosedManifold);
-
-			MeshSetInfo infoTriangulated;
-			bool validMesh = MeshOps::checkMeshSetValidAndClosed(meshset, infoTriangulated, params);
-			if (validMesh)
-			{
-				m_meshsets.push_back(meshset);
-				return true;
-			}
-		}
 	}
 
 #ifdef _DEBUG
+
+	MeshSetInfo info;
+	bool validMesh = MeshOps::checkMeshSetValidAndClosed(meshsetUnchanged, info, params);
+	MeshOps::checkAndFixMeshsetInverted(meshsetUnchanged, info, params);
+
 	//std::cout << "failed to correct polyhedron data\n";
 	if (params.debugDump)
 	{
@@ -592,7 +581,7 @@ bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::Polyhedro
 	{
 		glm::vec4 color(0.3, 0.4, 0.5, 1.0);
 		GeomDebugDump::dumpMeshsetOpenEdges(meshsetUnchanged, color, false, false);
-		GeomDebugDump::dumpMeshset(meshsetUnchanged.get(), color, false);
+		GeomDebugDump::dumpMeshset(meshsetUnchanged.get(), color, true, false);
 	}
 #endif
 
@@ -698,25 +687,40 @@ void ItemShapeData::addOpenOrClosedPolyhedron(const shared_ptr<carve::input::Pol
 
 		if (MeshOps::isBetterForBoolOp(info2, info, false))
 		{
-			glm::vec4 color(0.5, 0.5, 0.5, 1);
-			GeomDebugDump::moveOffset(0.1);
-			bool drawNormals = false;
-			GeomDebugDump::dumpMeshset(meshsetCopy, color, drawNormals, true);
+			if (params.debugDump)
+			{
+				glm::vec4 color(0.5, 0.5, 0.5, 1);
+				GeomDebugDump::moveOffset(0.1);
+				bool drawNormals = false;
+				GeomDebugDump::dumpMeshset(meshsetCopy, color, drawNormals, true);
+			}
 		}
 
-		MeshOps::simplifyMeshSet(meshsetCopy, params, false, false);
+		GeomProcessingParams params2(params);
+		params2.triangulateResult = false;
+		params2.shouldBeClosedManifold = false;
+		if (params.generalSettings)
+		{
+			if (params.generalSettings->m_callback_simplify_mesh)
+			{
+				params.generalSettings->m_callback_simplify_mesh(meshsetCopy, params);
+			}
+		}
 
 		MeshSetInfo info3;
 		MeshOps::checkMeshSetValidAndClosed(meshsetCopy, info3, params);
 
 		if (MeshOps::isBetterForBoolOp(info3, info, false))
 		{
-			glm::vec4 color(0.5, 0.5, 0.5, 1);
-			GeomDebugDump::moveOffset(0.1);
-			bool drawNormals = false;
-			GeomDebugDump::dumpMeshset(meshsetCopy, color, drawNormals, true);
+			// simplified meshset is better
+			if (params.debugDump)
+			{
+				glm::vec4 color(0.5, 0.5, 0.5, 1);
+				GeomDebugDump::moveOffset(0.1);
+				bool drawNormals = false;
+				GeomDebugDump::dumpMeshset(meshsetCopy, color, drawNormals, true);
+			}
 		}
-
 #endif
 	}
 }

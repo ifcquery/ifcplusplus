@@ -83,6 +83,6 @@ namespace IFC4X3
 
 		// IfcTendonConduit -----------------------------------------------------------
 		// attributes:
-		shared_ptr<IfcTendonConduitTypeEnum>						m_PredefinedType;
+		shared_ptr<IfcTendonConduitTypeEnum>						m_PredefinedType;			//optional
 	};
 }

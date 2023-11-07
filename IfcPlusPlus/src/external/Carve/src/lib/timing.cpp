@@ -53,20 +53,20 @@
 namespace carve {
 static uint64_t memoryCurr = 0;
 static uint64_t memoryTotal = 0;
-unsigned blkCntCurr[32] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+unsigned int blkCntCurr[32] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-unsigned blkCntTotal[32] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+unsigned int blkCntTotal[32] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-void addBlk(unsigned size) {
-  unsigned i = 0;
+void addBlk(unsigned int size) {
+  unsigned int i = 0;
   while (i < 31 && (1U << i) < size)
     ++i;
   blkCntCurr[i]++;
   blkCntTotal[i]++;
 }
-void remBlk(unsigned size) {
-  unsigned i = 0;
+void remBlk(unsigned int size) {
+  unsigned int i = 0;
   while (i < 31 && (1 << i) < size)
     ++i;
   blkCntCurr[i]--;
@@ -87,7 +87,7 @@ void* carve_alloc(size_t size) {
   if (p == 0)
     throw std::bad_alloc();  // ANSI/ISO compliant behavior
 
-  unsigned sz = malloc_size(p);
+  unsigned int sz = malloc_size(p);
   carve::memoryCurr += sz;
   carve::memoryTotal += sz;
   carve::addBlk(sz);
@@ -95,7 +95,7 @@ void* carve_alloc(size_t size) {
 }
 
 void carve_free(void* p) {
-  unsigned sz = malloc_size(p);
+  unsigned int sz = malloc_size(p);
   carve::memoryCurr -= sz;
   carve::remBlk(sz);
   free(p);
@@ -220,8 +220,8 @@ struct Timer {
     precise_time_t time;
     uint64_t memory_curr;
     uint64_t memory_total;
-    unsigned blk_cnt_curr[32];
-    unsigned blk_cnt_total[32];
+    unsigned int blk_cnt_curr[32];
+    unsigned int blk_cnt_total[32];
   };
 
   static void getSnapshot(Snapshot& snapshot) {

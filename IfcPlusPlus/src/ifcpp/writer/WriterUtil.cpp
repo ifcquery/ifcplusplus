@@ -122,8 +122,6 @@ void writeRealList(std::stringstream& stream, const std::vector<double>& vec, bo
 		{
 			stream << "()";
 		}
-
-		
 		return;
 	}
 	stream << "(";
@@ -259,7 +257,7 @@ std::string encodeStepString( const std::string& str )
 
 	while( *stream_pos != '\0' )
 	{
-		wchar_t append_char = *stream_pos;
+		char append_char = *stream_pos;
 		if( append_char == 10 )
 		{
 			closeUnicodeBlockIfOpened();
@@ -287,12 +285,11 @@ std::string encodeStepString( const std::string& str )
 		else if( append_char > 0 && append_char < 128 )
 		{
 			closeUnicodeBlockIfOpened();
-
 			result_str.push_back( static_cast<char>(append_char) );
 		}
 		else
 		{
-			int value = static_cast<int>(append_char);
+			unsigned char value = static_cast<unsigned char>(append_char);
 			char temporary[8];
 			sprintf( temporary, "%04X", value );
 
@@ -311,6 +308,5 @@ std::string encodeStepString( const std::string& str )
 	}
 
 	closeUnicodeBlockIfOpened();
-
 	return result_str;
 }

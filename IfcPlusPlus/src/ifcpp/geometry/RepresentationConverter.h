@@ -70,7 +70,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 class RepresentationConverter : public StatusCallback
 {
-protected:
 	shared_ptr<GeometrySettings>		m_geom_settings;
 	shared_ptr<UnitConverter>			m_unit_converter;
 	shared_ptr<StylesConverter>			m_styles_converter;
@@ -97,7 +96,6 @@ public:
 		m_face_converter = shared_ptr<FaceConverter>( new FaceConverter( m_geom_settings, m_unit_converter, m_curve_converter, m_spline_converter, m_sweeper, m_profile_cache ) );
 		m_solid_converter = shared_ptr<SolidModelConverter>( new SolidModelConverter( m_geom_settings, m_point_converter, m_curve_converter, m_face_converter, m_profile_cache, m_sweeper ) );
 		
-
 		// this redirects the callback messages from all converters to RepresentationConverter's callback
 		m_styles_converter->setMessageTarget( this );
 		m_point_converter->setMessageTarget( this );
@@ -141,14 +139,14 @@ public:
 		m_face_converter->m_unit_converter = unit_converter;
 	}
 
-	void convertRepresentationStyle( const shared_ptr<IfcRepresentationItem>& representation_item, std::vector<shared_ptr<AppearanceData> >& vec_appearance_data )
+	void convertRepresentationStyle( const shared_ptr<IfcRepresentationItem>& representation_item, std::vector<shared_ptr<StyleData> >& vec_style_data )
 	{
 		std::vector<weak_ptr<IfcStyledItem> >&	vec_StyledByItem_inverse = representation_item->m_StyledByItem_inverse;
 		for( size_t i = 0; i < vec_StyledByItem_inverse.size(); ++i )
 		{
 			weak_ptr<IfcStyledItem> styled_item_weak = vec_StyledByItem_inverse[i];
 			shared_ptr<IfcStyledItem> styled_item = shared_ptr<IfcStyledItem>( styled_item_weak );
-			m_styles_converter->convertIfcStyledItem( styled_item, vec_appearance_data );
+			m_styles_converter->convertIfcStyledItem( styled_item, vec_style_data );
 		}
 	}
 
@@ -163,12 +161,11 @@ public:
 			if( geom_item )
 			{
 				shared_ptr<ItemShapeData> geom_item_data( new ItemShapeData() );
-				representation_data->addChildItem( geom_item_data, representation_data );
-				geom_item_data->m_ifc_item = geom_item;
 
 				try
 				{
 					convertIfcGeometricRepresentationItem( geom_item, geom_item_data );
+					representation_data->addGeometricChildItem(geom_item_data, representation_data);
 				}
 				catch( BuildingException& e )
 				{
@@ -239,17 +236,17 @@ public:
 
 				if( m_geom_settings->handleStyledItems() )
 				{
-					std::vector<shared_ptr<AppearanceData> > vec_appearance_data;
-					convertRepresentationStyle( representation_item, vec_appearance_data );
+					std::vector<shared_ptr<StyleData> > vec_style_data;
+					convertRepresentationStyle( representation_item, vec_style_data );
 
-					if( vec_appearance_data.size() > 0 )
+					if( vec_style_data.size() > 0 )
 					{
-						for( size_t jj_appearance = 0; jj_appearance < vec_appearance_data.size(); ++jj_appearance )
+						for( size_t jj_style = 0; jj_style < vec_style_data.size(); ++jj_style )
 						{
-							shared_ptr<AppearanceData>& data = vec_appearance_data[jj_appearance];
+							shared_ptr<StyleData>& data = vec_style_data[jj_style];
 							if( data )
 							{
-								mapped_input_data->m_vec_item_appearances.push_back( data );
+								mapped_input_data->addStyle( data );
 							}
 						}
 					}
@@ -259,9 +256,9 @@ public:
 				{
 					carve::math::Matrix mapped_pos(map_matrix_target->m_matrix*map_matrix_origin->m_matrix);
 					double CARVE_EPSILON = m_geom_settings->getEpsilonMergePoints();
-					mapped_input_data->applyTransformToItem(mapped_pos, CARVE_EPSILON);
+					mapped_input_data->applyTransformToItem(mapped_pos, CARVE_EPSILON, false);
 				}
-				representation_data->addChildItem( mapped_input_data, representation_data );
+				representation_data->addGeometricChildItem( mapped_input_data, representation_data );
 				continue;
 			}
 
@@ -275,8 +272,8 @@ public:
 			if( topo_item )
 			{
 				shared_ptr<ItemShapeData> topological_item_data( new ItemShapeData() );
-				representation_data->addChildItem( topological_item_data, representation_data );
-				topological_item_data->m_ifc_item = topo_item;
+				representation_data->addGeometricChildItem( topological_item_data, representation_data );
+				//topological_item_data->m_ifc_representation_item = topo_item;
 				convertTopologicalRepresentationItem(topo_item, topological_item_data);
 				continue;
 			}
@@ -313,11 +310,11 @@ public:
 							shared_ptr<IfcPresentationStyle>&  presentation_style = vec_presentation_styles[ii_style];
 							if( presentation_style )
 							{
-								shared_ptr<AppearanceData> appearance_data;
-								m_styles_converter->convertIfcPresentationStyle( presentation_style, appearance_data );
-								if( appearance_data )
+								shared_ptr<StyleData> style_data;
+								m_styles_converter->convertIfcPresentationStyle( presentation_style, style_data );
+								if( style_data )
 								{
-									representation_data->m_vec_item_appearances.push_back( appearance_data );
+									representation_data->addStyle( style_data );
 								}
 							}
 						}
@@ -331,76 +328,30 @@ public:
 		}
 	}
 
-	void copyIndexedFaceLoop(const std::vector<shared_ptr<IfcPositiveInteger> >& vecIdx, const std::vector<vec3>& vecPointsIn, std::vector<vec3>& vecOut)
-	{
-		for( size_t ii = 0; ii < vecIdx.size(); ++ii )
-		{
-			const shared_ptr<IfcPositiveInteger>& positiveInt = vecIdx[ii];
-			if( !positiveInt )
-			{
-				continue;
-			}
-			size_t idx = (size_t)positiveInt->m_value - 1;  // 1 based index in IfcIndexedPolygonalFace
-			if( idx >= vecPointsIn.size() )
-			{
-				std::cout << "copyIndexedFaceLoop: invalid index" << std::endl;
-				continue;
-			}
-			vecOut.push_back(vecPointsIn[idx]);
-		}
-	}
 
-	void convertIndexedPolygonalFace(shared_ptr<IfcIndexedPolygonalFace>& polygonalFace, std::vector<vec3>& pointStorage, PolyInputCache3D& poly_cache)
-	{
-		// IfcIndexedPolygonalFace -----------------------------------------------------------
-		// std::vector<shared_ptr<IfcPositiveInteger> >			m_CoordIndex;
 
-		std::vector<vec3> faceOuterBound;
-		copyIndexedFaceLoop(polygonalFace->m_CoordIndex, pointStorage, faceOuterBound);
 
-		std::vector<std::vector<vec3> > face_loops;
-		face_loops.push_back(faceOuterBound);
-
-		shared_ptr<IfcIndexedPolygonalFaceWithVoids> faceWithVoids = dynamic_pointer_cast<IfcIndexedPolygonalFaceWithVoids>(polygonalFace);
-		if( faceWithVoids )
-		{
-			for( auto innerLoop : faceWithVoids->m_InnerCoordIndices )
-			{
-				std::vector<vec3> faceInnerLoop;
-				copyIndexedFaceLoop(innerLoop, pointStorage, faceInnerLoop);
-				if( faceInnerLoop.size() > 2 )
-				{
-					face_loops.push_back(faceInnerLoop);
-				}
-			}
-		}
-
-		bool mergeAlignedEdges = true;
-		GeomProcessingParams params( m_geom_settings, polygonalFace.get(),  this );
-		FaceConverter::createTriangulated3DFace(face_loops, poly_cache, params);
-
-#ifdef _DEBUG
-		//glm::vec4 color(0.3, 0.4, 0.5, 1.0);
-		//GeomDebugDump::dumpPolyline(face_loops, color, true);
-#endif
-	}
 
 	void convertIfcGeometricRepresentationItem( const shared_ptr<IfcGeometricRepresentationItem>& geom_item, shared_ptr<ItemShapeData>& item_data )
 	{
 		//ENTITY IfcGeometricRepresentationItem
-		//ABSTRACT SUPERTYPE OF(ONEOF(IfcAnnotationFillArea, IfcBooleanResult, IfcBoundingBox, IfcCartesianPointList, IfcCartesianTransformationOperator, IfcCompositeCurveSegment, 
-		// IfcCsgPrimitive3D, IfcCurve, IfcDirection, IfcFaceBasedSurfaceModel, IfcFillAreaStyleHatching, IfcFillAreaStyleTiles, IfcGeometricSet, IfcHalfSpaceSolid, IfcLightSource, 
-		// IfcPlacement, IfcPlanarExtent, IfcPoint, IfcSectionedSpine, IfcShellBasedSurfaceModel, IfcSolidModel, IfcSurface, IfcTessellatedItem, IfcTextLiteral, IfcVector))
-		if( m_geom_settings->handleStyledItems() )
-		{
-			std::vector<shared_ptr<AppearanceData> > vec_appearance_data;
-			convertRepresentationStyle( geom_item, vec_appearance_data );
-			std::copy( vec_appearance_data.begin(), vec_appearance_data.end(), std::back_inserter( item_data->m_vec_item_appearances ) );
-		}
-		
-		if( geom_item->classID() == IFC4X3::IFCBOUNDINGBOX )
+		//ABSTRACT SUPERTYPE OF(ONEOF(IfcAnnotationFillArea, IfcBooleanResult, IfcBoundingBox, IfcCartesianPointList, IfcCartesianTransformationOperator, IfcCsgPrimitive3D, IfcCurve, 
+		// IfcDirection, IfcFaceBasedSurfaceModel, IfcFillAreaStyleHatching, IfcFillAreaStyleTiles, IfcGeometricSet, IfcHalfSpaceSolid, IfcLightSource, IfcPlacement, IfcPlanarExtent, 
+		//	IfcPoint, IfcSectionedSpine, IfcSegment, IfcShellBasedSurfaceModel, IfcSolidModel, IfcSurface, IfcTessellatedItem, IfcTextLiteral, IfcVector))
+
+		if (geom_item->classID() == IFC4X3::IFCBOUNDINGBOX)
 		{
 			return;
+		}
+
+		if( m_geom_settings->handleStyledItems() )
+		{
+			std::vector<shared_ptr<StyleData> > vec_style_data;
+			convertRepresentationStyle( geom_item, vec_style_data );
+			for (auto& style : vec_style_data)
+			{
+				item_data->addStyle(style);
+			}
 		}
 
 		shared_ptr<IfcFaceBasedSurfaceModel> surface_model = dynamic_pointer_cast<IfcFaceBasedSurfaceModel>( geom_item );
@@ -482,149 +433,8 @@ public:
 		shared_ptr<IfcTessellatedItem> tessellatedItem = dynamic_pointer_cast<IfcTessellatedItem>(geom_item);
 		if( tessellatedItem )
 		{
-			//ENTITY IfcTessellatedItem   ABSTRACT SUPERTYPE OF(ONEOF(IfcIndexedPolygonalFace, IfcTessellatedFaceSet))
-
-			PolyInputCache3D polyCache( CARVE_EPSILON);
-
-			shared_ptr<IfcIndexedPolygonalFace> polygonalFace = dynamic_pointer_cast<IfcIndexedPolygonalFace>(tessellatedItem);
-			if( polygonalFace )
-			{
-				//ENTITY IfcIndexedPolygonalFace SUPERTYPE OF(IfcIndexedPolygonalFaceWithVoids)
-
-				messageCallback("Single IfcIndexedPolygonalFace, no coordinates", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, geom_item.get());
-
-				return;
-			}
-
-			shared_ptr<IfcTessellatedFaceSet> abstractFaceSet = dynamic_pointer_cast<IfcTessellatedFaceSet>(tessellatedItem);
-			if( abstractFaceSet )
-			{
-				// ENTITY IfcTessellatedFaceSet ABSTRACT SUPERTYPE OF(ONEOF(IfcPolygonalFaceSet, IfcTriangulatedFaceSet))
-
-				shared_ptr<IfcCartesianPointList3D> pointList = abstractFaceSet->m_Coordinates;
-				if( !abstractFaceSet->m_Coordinates )
-				{
-					messageCallback("IfcTessellatedFaceSet item does not contain any vertices!", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, abstractFaceSet.get());
-					return;
-				}
-
-				std::vector<vec3> pointVec;
-				m_point_converter->convertPointList(pointList->m_CoordList, pointVec);
-
-				shared_ptr<IfcPolygonalFaceSet> polygonalFaceSet = dynamic_pointer_cast<IfcPolygonalFaceSet>(abstractFaceSet);
-				if( polygonalFaceSet )
-				{
-					std::vector<shared_ptr<IfcIndexedPolygonalFace> >& vecFaces = polygonalFaceSet->m_Faces;
-					for( auto face : vecFaces )
-					{
-						convertIndexedPolygonalFace(face, pointVec, polyCache);
-					}
-					std::vector<shared_ptr<IfcPositiveInteger> >& PnIndex = polygonalFaceSet->m_PnIndex;					//optional
-				
-					if( polygonalFaceSet->m_Closed )
-					{
-						if( polygonalFaceSet->m_Closed->m_value == true )
-						{
-							
-							item_data->addClosedPolyhedron(polyCache.m_poly_data, params, m_geom_settings);
-						}
-						else
-						{
-							item_data->addOpenPolyhedron(polyCache.m_poly_data, params);
-						}
-					}
-					else
-					{
-						item_data->addOpenOrClosedPolyhedron(polyCache.m_poly_data, params);
-					}
-
-					return;
-				}
-
-				shared_ptr<IfcTriangulatedFaceSet> triangulatedFaceSet = dynamic_pointer_cast<IfcTriangulatedFaceSet>(abstractFaceSet);
-				if( triangulatedFaceSet )
-				{
-					// IfcTriangulatedFaceSet -----------------------------------------------------------
-					//std::vector<std::vector<shared_ptr<IfcParameterValue> > >	m_Normals;					//optional
-					//shared_ptr<IfcBoolean>									m_Closed;					//optional
-					//std::vector<std::vector<shared_ptr<IfcPositiveInteger> > >	m_CoordIndex;
-					//std::vector<shared_ptr<IfcPositiveInteger> >			m_PnIndex;					//optional
-
-					std::vector<vec3> faceNormals;
-					for( const std::vector<shared_ptr<IfcParameterValue> >& vecNormalParam : triangulatedFaceSet->m_Normals )
-					{
-						if( vecNormalParam.size() == 3 )
-						{
-							const shared_ptr<IfcParameterValue>& normalParamX = vecNormalParam[0];
-							const shared_ptr<IfcParameterValue>& normalParamY = vecNormalParam[1];
-							const shared_ptr<IfcParameterValue>& normalParamZ = vecNormalParam[2];
-
-							if( normalParamX && normalParamY && normalParamZ )
-							{
-								vec3 normal = carve::geom::VECTOR(normalParamX->m_value, normalParamY->m_value, normalParamZ->m_value);
-								GeomUtils::safeNormalize(normal);
-								faceNormals.push_back(normal);
-								continue;
-							}
-						}
-						// insert default vector, to maintain the relation to faces
-						faceNormals.push_back(carve::geom::VECTOR(0,0,1));
-					}
-
-					for( size_t ii = 0; ii < triangulatedFaceSet->m_CoordIndex.size(); ++ii )
-					{
-						const std::vector<shared_ptr<IfcPositiveInteger> >& vecFaceLoop = triangulatedFaceSet->m_CoordIndex[ii];
-						std::vector<vec3> faceOuterBound;
-						for( const shared_ptr<IfcPositiveInteger>& positiveInt : vecFaceLoop )
-						{
-							if( !positiveInt )
-							{
-								continue;
-							}
-							size_t idx = (size_t)positiveInt->m_value - 1;  // 1 based index in IfcIndexedPolygonalFace
-							if( idx >= pointVec.size() )
-							{
-								std::cout << "copyIndexedFaceLoop: invalid index" << std::endl;
-								continue;
-							}
-							faceOuterBound.push_back(pointVec[idx]);
-						}
-						std::vector<std::vector<vec3> > face_loops;
-						face_loops.push_back(faceOuterBound);
-
-						if( ii < faceNormals.size() )
-						{
-							vec3 computedNormal = GeomUtils::computePolygonNormal(faceOuterBound);
-							vec3& normal = faceNormals[ii];
-							if( dot(normal, computedNormal) < 0 )
-							{
-								std::reverse(faceOuterBound.begin(), faceOuterBound.end());
-							}
-						}
-
-						FaceConverter::createTriangulated3DFace(face_loops, polyCache, params );
-					}
-				
-					if( triangulatedFaceSet->m_Closed )
-					{
-						if( triangulatedFaceSet->m_Closed->m_value == true )
-						{
-							item_data->addClosedPolyhedron(polyCache.m_poly_data, params, m_geom_settings);
-						}
-						else
-						{
-							item_data->addOpenPolyhedron(polyCache.m_poly_data, params);
-						}
-					}
-					else
-					{
-						item_data->addOpenOrClosedPolyhedron(polyCache.m_poly_data, params);
-					}
-					return;
-				}
-			}
-
-			messageCallback("IfcTessellatedItem not as expected", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, tessellatedItem.get());
+			m_solid_converter->convertTesselatedItem(tessellatedItem, item_data);
+			return;
 		}
 
 		shared_ptr<IfcSurface> ifc_surface = dynamic_pointer_cast<IfcSurface>( geom_item );
@@ -1013,14 +823,13 @@ public:
 		std::copy(geom_item->m_meshsets.begin(), geom_item->m_meshsets.end(), std::back_inserter(vec_meshes));
 		std::copy(geom_item->m_meshsets_open.begin(), geom_item->m_meshsets_open.end(), std::back_inserter(vec_meshes));
 
-		for (auto opening_item_data : geom_item->m_child_items)
+		for (auto opening_item_data : geom_item->m_child_items )
 		{
-			
 			collectMeshes(opening_item_data, vec_meshes);
 		}
 	}
 
-	void subtractOpeningFromProductShape(shared_ptr<ItemShapeData>& productShapeItem, std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vec_opening_meshes, const shared_ptr<IfcElement>& ifc_element)
+	void subtractOpeningFromProductShape(const shared_ptr<ItemShapeData>& productShapeItem, std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vec_opening_meshes, const shared_ptr<IfcElement>& ifc_element)
 	{
 		for (size_t i_product_meshset = 0; i_product_meshset < productShapeItem->m_meshsets.size(); ++i_product_meshset)
 		{
@@ -1028,10 +837,13 @@ public:
 			shared_ptr<carve::mesh::MeshSet<3> >& product_meshset = productShapeItem->m_meshsets[i_product_meshset];
 
 			// do the subtraction
-			CSG_Adapter::computeCSG(product_meshset, vec_opening_meshes, carve::csg::CSG::A_MINUS_B, m_geom_settings, this, ifc_element);
+			GeomProcessingParams params(m_geom_settings);
+			params.callbackFunc = this;
+			params.ifc_entity = ifc_element.get();
+			CSG_Adapter::computeCSG(product_meshset, vec_opening_meshes, carve::csg::CSG::A_MINUS_B, params);
 		}
 
-		for (shared_ptr<ItemShapeData>& product_item_data : productShapeItem->m_child_items)
+		for (const shared_ptr<ItemShapeData>& product_item_data : productShapeItem->m_child_items )
 		{
 			if (!product_item_data)
 			{
@@ -1054,9 +866,10 @@ public:
 		bool allOpeningsRelativeToProduct = true;
 		carve::math::Matrix product_transform = product_shape->getTransform();
 		int tag = ifc_element->m_tag;
+		double eps = m_geom_settings->getEpsilonMergePoints();
 
 		// for all items of the product shape, subtract all items of all related openings
-		for (shared_ptr<ItemShapeData>& productShapeItem : product_shape->m_geometric_items)
+		for (const shared_ptr<ItemShapeData>& productShapeItem : product_shape->getGeometricItems() )
 		{
 			if (!productShapeItem)
 			{
@@ -1136,7 +949,7 @@ public:
 			std::vector<shared_ptr<carve::mesh::MeshSet<3> > > vec_opening_meshes;
 			if (!allOpeningsRelativeToProduct)
 			{
-				product_shape->applyTransformToProduct(product_transform, false, false);
+				product_shape->applyTransformToProduct(product_transform, eps, false, false);
 			}
 
 			for (shared_ptr<ProductShapeData>& product_shape_opening : vec_opening_shapes)
@@ -1144,15 +957,15 @@ public:
 				if (allOpeningsRelativeToProduct)
 				{
 					carve::math::Matrix opening_transform_relative = product_shape_opening->getRelativeTransform(product_shape);
-					product_shape_opening->applyTransformToProduct(opening_transform_relative, false, false);
+					product_shape_opening->applyTransformToProduct(opening_transform_relative, eps, false, false);
 				}
 				else
 				{
 					carve::math::Matrix opening_transform = product_shape_opening->getTransform();
-					product_shape_opening->applyTransformToProduct(opening_transform, false, false);
+					product_shape_opening->applyTransformToProduct(opening_transform, eps, false, false);
 				}
 
-				for (auto opening_item_data : product_shape_opening->m_geometric_items)
+				for (auto opening_item_data : product_shape_opening->getGeometricItems())
 				{
 					collectMeshes(opening_item_data, vec_opening_meshes);
 				}
@@ -1171,7 +984,7 @@ public:
 				{
 					messageCallback(e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, ifc_element.get());
 				}
-				product_shape->applyTransformToProduct(product_matrix_inverse, false, false);
+				product_shape->applyTransformToProduct(product_matrix_inverse, eps, false, false);
 			}
 		}
 	}

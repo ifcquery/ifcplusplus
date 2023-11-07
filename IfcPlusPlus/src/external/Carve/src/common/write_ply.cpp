@@ -68,20 +68,20 @@ struct vertex_component : public gloop::stream::writer<double> {
 };
 
 struct mesh_face : public gloop::stream::null_writer {
-  std::vector<const carve::mesh::MeshSet<3>::face_t*> faces;
+  std::vector<const carve::mesh::Face<3>*> faces;
   int i;
   mesh_face(const carve::mesh::MeshSet<3>* poly) : faces(), i(-1) {
     std::copy(poly->faceBegin(), poly->faceEnd(), std::back_inserter(faces));
   }
   void next() override { ++i; }
   int length() override { return faces.size(); }
-  const carve::mesh::MeshSet<3>::face_t* curr() const { return faces[i]; }
+  const carve::mesh::Face<3>* curr() const { return faces[i]; }
 };
 
 struct mesh_face_idx : public gloop::stream::writer<size_t> {
   mesh_face& r;
-  const carve::mesh::MeshSet<3>::face_t* f;
-  carve::mesh::MeshSet<3>::face_t::const_edge_iter_t i;
+  const carve::mesh::Face<3>* f;
+  carve::mesh::Face<3>::const_edge_iter_t i;
   gloop::stream::Type data_type;
   int max_length;
 
@@ -98,7 +98,7 @@ struct mesh_face_idx : public gloop::stream::writer<size_t> {
   int maxLength() override { return max_length; }
 
   size_t value() override {
-    const carve::mesh::MeshSet<3>::vertex_t* v = (*i++).vert;
+    const carve::mesh::Vertex<3>* v = (*i++).vert;
     return v - &f->mesh->meshset->vertex_storage[0];
   }
 };

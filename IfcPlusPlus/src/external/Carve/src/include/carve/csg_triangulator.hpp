@@ -39,10 +39,10 @@ class CarveTriangulator : public csg::CSG::Hook {
 
   ~CarveTriangulator() override {}
 
-  void processOutputFace(std::vector<carve::mesh::MeshSet<3>::face_t*>& faces,
-                         const carve::mesh::MeshSet<3>::face_t* orig,
+  void processOutputFace(std::vector<carve::mesh::Face<3>*>& faces,
+                         const carve::mesh::Face<3>* orig,
                          bool flipped) override {
-    std::vector<carve::mesh::MeshSet<3>::face_t*> out_faces;
+    std::vector<carve::mesh::Face<3>*> out_faces;
 
     size_t n_tris = 0;
     for (size_t f = 0; f < faces.size(); ++f) {
@@ -53,7 +53,7 @@ class CarveTriangulator : public csg::CSG::Hook {
     out_faces.reserve(n_tris);
 
     for (size_t f = 0; f < faces.size(); ++f) {
-      carve::mesh::MeshSet<3>::face_t* face = faces[f];
+      carve::mesh::Face<3>* face = faces[f];
 
       if (face->nVertices() == 3) {
         out_faces.push_back(face);
@@ -62,20 +62,20 @@ class CarveTriangulator : public csg::CSG::Hook {
 
       std::vector<triangulate::tri_idx> result;
 
-      std::vector<carve::mesh::MeshSet<3>::vertex_t*> vloop;
+      std::vector<carve::mesh::Vertex<3>*> vloop;
       face->getVertices(vloop);
 
       triangulate::triangulate(
-          carve::mesh::MeshSet<3>::face_t::projection_mapping(face->project),
+          carve::mesh::Face<3>::projection_mapping(face->project),
           vloop, result);
 
       if (with_improvement) {
         triangulate::improve(
-            carve::mesh::MeshSet<3>::face_t::projection_mapping(face->project),
+            carve::mesh::Face<3>::projection_mapping(face->project),
             vloop, carve::mesh::vertex_distance(), result);
       }
 
-      std::vector<carve::mesh::MeshSet<3>::vertex_t*> fv;
+      std::vector<carve::mesh::Vertex<3>*> fv;
       fv.resize(3);
       for (size_t i = 0; i < result.size(); ++i) {
         fv[0] = vloop[result[i].a];
@@ -99,8 +99,8 @@ class CarveTriangulationImprover : public csg::CSG::Hook {
 
   ~CarveTriangulationImprover() override {}
 
-  void processOutputFace(std::vector<carve::mesh::MeshSet<3>::face_t*>& faces,
-                         const carve::mesh::MeshSet<3>::face_t* orig,
+  void processOutputFace(std::vector<carve::mesh::Face<3>*>& faces,
+                         const carve::mesh::Face<3>* orig,
                          bool flipped) override {
     if (faces.size() == 1) {
       return;
@@ -109,24 +109,24 @@ class CarveTriangulationImprover : public csg::CSG::Hook {
     // doing improvement as a separate hook is much messier than
     // just incorporating it into the triangulation hook.
 
-    typedef std::map<carve::mesh::MeshSet<3>::vertex_t*, size_t> vert_map_t;
-    std::vector<carve::mesh::MeshSet<3>::face_t*> out_faces;
+    typedef std::map<carve::mesh::Vertex<3>*, size_t> vert_map_t;
+    std::vector<carve::mesh::Face<3>*> out_faces;
     vert_map_t vert_map;
 
     out_faces.reserve(faces.size());
 
-    carve::mesh::MeshSet<3>::face_t::projection_mapping projector(
+    carve::mesh::Face<3>::projection_mapping projector(
         faces[0]->project);
 
     std::vector<triangulate::tri_idx> result;
 
     for (size_t f = 0; f < faces.size(); ++f) {
-      carve::mesh::MeshSet<3>::face_t* face = faces[f];
+      carve::mesh::Face<3>* face = faces[f];
       if (face->nVertices() != 3) {
         out_faces.push_back(face);
       } else {
         triangulate::tri_idx tri;
-        for (carve::mesh::MeshSet<3>::face_t::edge_iter_t i = face->begin();
+        for (carve::mesh::Face<3>::edge_iter_t i = face->begin();
              i != face->end(); ++i) {
           size_t v = 0;
           vert_map_t::iterator j = vert_map.find(i->vert);
@@ -143,7 +143,7 @@ class CarveTriangulationImprover : public csg::CSG::Hook {
       }
     }
 
-    std::vector<carve::mesh::MeshSet<3>::vertex_t*> verts;
+    std::vector<carve::mesh::Vertex<3>*> verts;
     verts.resize(vert_map.size());
     for (vert_map_t::iterator i = vert_map.begin(); i != vert_map.end(); ++i) {
       verts[(*i).second] = (*i).first;
@@ -152,7 +152,7 @@ class CarveTriangulationImprover : public csg::CSG::Hook {
     triangulate::improve(projector, verts, carve::mesh::vertex_distance(),
                          result);
 
-    std::vector<carve::mesh::MeshSet<3>::vertex_t*> fv;
+    std::vector<carve::mesh::Vertex<3>*> fv;
     fv.resize(3);
     for (size_t i = 0; i < result.size(); ++i) {
       fv[0] = verts[result[i].a];
@@ -181,14 +181,14 @@ class CarveTriangulationQuadMerger : public csg::CSG::Hook {
     return -1;
   }
 
-  carve::mesh::MeshSet<3>::face_t* mergeQuad(edge_map_t::iterator i,
+  carve::mesh::Face<3>* mergeQuad(edge_map_t::iterator i,
                                              edge_map_t& edge_map) {
     return nullptr;
   }
 
-  void recordEdge(carve::mesh::MeshSet<3>::vertex_t* v1,
-                  carve::mesh::MeshSet<3>::vertex_t* v2,
-                  carve::mesh::MeshSet<3>::face_t* f, edge_map_t& edge_map) {
+  void recordEdge(carve::mesh::Vertex<3>* v1,
+                  carve::mesh::Vertex<3>* v2,
+                  carve::mesh::Face<3>* f, edge_map_t& edge_map) {
     if (v1 < v2) {
       edge_map[V2(v1, v2)].first = f;
     } else {
@@ -196,14 +196,14 @@ class CarveTriangulationQuadMerger : public csg::CSG::Hook {
     }
   }
 
-  void processOutputFace(std::vector<carve::mesh::MeshSet<3>::face_t*>& faces,
-                         const carve::mesh::MeshSet<3>::face_t* orig,
+  void processOutputFace(std::vector<carve::mesh::Face<3>*>& faces,
+                         const carve::mesh::Face<3>* orig,
                          bool flipped) override {
     if (faces.size() == 1) {
       return;
     }
 
-    std::vector<carve::mesh::MeshSet<3>::face_t*> out_faces;
+    std::vector<carve::mesh::Face<3>*> out_faces;
     edge_map_t edge_map;
 
     out_faces.reserve(faces.size());
@@ -211,11 +211,11 @@ class CarveTriangulationQuadMerger : public csg::CSG::Hook {
     poly::p2_adapt_project<3> projector(faces[0]->project);
 
     for (size_t f = 0; f < faces.size(); ++f) {
-      carve::mesh::MeshSet<3>::face_t* face = faces[f];
+      carve::mesh::Face<3>* face = faces[f];
       if (face->nVertices() != 3) {
         out_faces.push_back(face);
       } else {
-        carve::mesh::MeshSet<3>::face_t::vertex_t *v1, *v2, *v3;
+        carve::mesh::Face<3>::vertex_t *v1, *v2, *v3;
         v1 = face->edge->vert;
         v2 = face->edge->next->vert;
         v3 = face->edge->next->next->vert;
@@ -253,10 +253,10 @@ class CarveTriangulationQuadMerger : public csg::CSG::Hook {
       tagable::tag_begin();
       for (edge_map_t::iterator i = edge_map.begin(); i != edge_map.end();
            ++i) {
-        carve::mesh::MeshSet<3>::face_t* a =
-            const_cast<carve::mesh::MeshSet<3>::face_t*>((*i).second.first);
-        carve::mesh::MeshSet<3>::face_t* b =
-            const_cast<carve::mesh::MeshSet<3>::face_t*>((*i).second.first);
+        carve::mesh::Face<3>* a =
+            const_cast<carve::mesh::Face<3>*>((*i).second.first);
+        carve::mesh::Face<3>* b =
+            const_cast<carve::mesh::Face<3>*>((*i).second.first);
         if (a && a->tag_once()) {
           out_faces.push_back(a);
         }
@@ -277,7 +277,7 @@ class CarveHoleResolver : public csg::CSG::Hook {
   ~CarveHoleResolver() override {}
 
   bool findRepeatedEdges(
-      const std::vector<carve::mesh::MeshSet<3>::vertex_t*>& vertices,
+      const std::vector<carve::mesh::Vertex<3>*>& vertices,
       std::list<std::pair<size_t, size_t> >& edge_pos) {
     std::map<V2, size_t> edges;
     for (size_t i = 0; i < vertices.size() - 1; ++i) {
@@ -335,8 +335,8 @@ class CarveHoleResolver : public csg::CSG::Hook {
 
   void findPerimeter(
       const std::vector<triangulate::tri_idx>& tris,
-      const std::vector<carve::mesh::MeshSet<3>::vertex_t*>& verts,
-      std::vector<carve::mesh::MeshSet<3>::vertex_t*>& out) {
+      const std::vector<carve::mesh::Vertex<3>*>& verts,
+      std::vector<carve::mesh::Vertex<3>*>& out) {
     std::map<std::pair<size_t, size_t>, size_t> edges;
     for (size_t i = 0; i < tris.size(); ++i) {
       edges[std::make_pair(tris[i].a, tris[i].b)] = i;
@@ -364,20 +364,20 @@ class CarveHoleResolver : public csg::CSG::Hook {
     } while (vert != start);
   }
 
-  void processOutputFace(std::vector<carve::mesh::MeshSet<3>::face_t*>& faces,
-                         const carve::mesh::MeshSet<3>::face_t* orig,
+  void processOutputFace(std::vector<carve::mesh::Face<3>*>& faces,
+                         const carve::mesh::Face<3>* orig,
                          bool flipped) override {
-    std::vector<carve::mesh::MeshSet<3>::face_t*> out_faces;
+    std::vector<carve::mesh::Face<3>*> out_faces;
 
     for (size_t f = 0; f < faces.size(); ++f) {
-      carve::mesh::MeshSet<3>::face_t* face = faces[f];
+      carve::mesh::Face<3>* face = faces[f];
 
       if (face->nVertices() == 3) {
         out_faces.push_back(face);
         continue;
       }
 
-      std::vector<carve::mesh::MeshSet<3>::vertex_t*> vloop;
+      std::vector<carve::mesh::Vertex<3>*> vloop;
       face->getVertices(vloop);
 
       std::list<std::pair<size_t, size_t> > rep_edges;
@@ -388,7 +388,7 @@ class CarveHoleResolver : public csg::CSG::Hook {
 
       std::vector<triangulate::tri_idx> result;
       triangulate::triangulate(
-          carve::mesh::MeshSet<3>::face_t::projection_mapping(face->project),
+          carve::mesh::Face<3>::projection_mapping(face->project),
           vloop, result);
 
       std::map<std::pair<size_t, size_t>, size_t> tri_edge;
@@ -444,7 +444,7 @@ class CarveHoleResolver : public csg::CSG::Hook {
             grp_tris.push_back(result[j]);
           }
         }
-        std::vector<carve::mesh::MeshSet<3>::vertex_t*> grp_perim;
+        std::vector<carve::mesh::Vertex<3>*> grp_perim;
         findPerimeter(grp_tris, vloop, grp_perim);
         out_faces.push_back(
             face->create(grp_perim.begin(), grp_perim.end(), false));

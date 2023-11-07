@@ -10,6 +10,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT IfcText;
 	class IFCQUERY_EXPORT IfcIdentifier;
 	class IFCQUERY_EXPORT IfcCoordinateOperation;
+	class IFCQUERY_EXPORT IfcWellKnownText;
 	//ENTITY
 	class IFCQUERY_EXPORT IfcCoordinateReferenceSystem : virtual public IfcCoordinateReferenceSystemSelect, public BuildingEntity
 	{
@@ -20,7 +21,7 @@ namespace IFC4X3
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		virtual void readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		virtual void setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self );
-		virtual uint8_t getNumAttributes() const { return 4; }
+		virtual uint8_t getNumAttributes() const { return 3; }
 		virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const;
 		virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const;
 		virtual void unlinkFromInverseCounterparts();
@@ -28,11 +29,11 @@ namespace IFC4X3
 
 		// IfcCoordinateReferenceSystem -----------------------------------------------------------
 		// attributes:
-		shared_ptr<IfcLabel>							m_Name;
+		shared_ptr<IfcLabel>							m_Name;						//optional
 		shared_ptr<IfcText>								m_Description;				//optional
 		shared_ptr<IfcIdentifier>						m_GeodeticDatum;			//optional
-		shared_ptr<IfcIdentifier>						m_VerticalDatum;			//optional
 		// inverse attributes:
 		std::vector<weak_ptr<IfcCoordinateOperation> >	m_HasCoordinateOperation_inverse;
+		std::vector<weak_ptr<IfcWellKnownText> >		m_WellKnownText_inverse;
 	};
 }

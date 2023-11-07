@@ -21,6 +21,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <sstream>
 #include <iomanip>
 #include <clocale>
+#include <algorithm>
+#include <execution>
+
 
 #include "ifcpp/model/AttributeObject.h"
 #include "ifcpp/model/BasicTypes.h"
@@ -35,8 +38,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 //#define EXTERNAL_WRITE_METHODS
 
-
-void WriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<BuildingModel> model )
+void WriterSTEP::writeModelToStream(std::stringstream& stream, shared_ptr<BuildingModel> model)
 {
 	//imbue C locale to always use dots as decimal separator
 	stream.imbue(std::locale("C"));
@@ -45,42 +47,60 @@ void WriterSTEP::writeModelToStream( std::stringstream& stream, shared_ptr<Build
 	stream << "ISO-10303-21;\n";
 	stream << file_header_str.c_str();
 	stream << "DATA;\n";
-	stream << std::setprecision( m_writeNumberPrecision );
-	stream << std::setiosflags( std::ios::showpoint );
+	stream << std::setprecision(m_writeNumberPrecision);
+	stream << std::setiosflags(std::ios::showpoint);
 	stream << std::fixed;
-	const std::map<int,shared_ptr<BuildingEntity> >& mapEntities = model->getMapIfcEntities();
-	size_t i = 0;
-	double last_progress = 0.0;
-	double num_objects = double(mapEntities.size());
-	for( auto it=mapEntities.begin(); it!=mapEntities.end(); ++it )
-	{
-		shared_ptr<BuildingEntity> obj = it->second;
 
-		if( obj.use_count() < 2 )
+	const std::map<int, shared_ptr<BuildingEntity> >& mapEntities = model->getMapIfcEntities();
+	std::vector<std::tuple<int, shared_ptr<BuildingEntity>, std::string>> entityDataStrings;
+	for (auto entity : mapEntities)
+	{
+		entityDataStrings.push_back(std::tuple<int, shared_ptr<BuildingEntity>, std::string>(entity.first, entity.second, ""));
+	}
+
+	std::mutex mutexProgress;
+	auto t_start = std::chrono::high_resolution_clock::now();
+	std::atomic<int> counter = 0;
+	size_t numEntities = entityDataStrings.size();
+	std::for_each(std::execution::par, entityDataStrings.begin(), entityDataStrings.end(), [&, this](std::tuple<int, shared_ptr<BuildingEntity>, std::string>& entityDataForOutput) {
+		shared_ptr<BuildingEntity> obj = std::get<1>(entityDataForOutput);
+		if (obj.use_count() < 2)
 		{
 			// entity is referenced only in model map, not by other entities
-			if( !dynamic_pointer_cast<IFC4X3::IfcProduct>(obj) && !dynamic_pointer_cast<IFC4X3::IfcProject>(obj) )
+			if (!dynamic_pointer_cast<IFC4X3::IfcProduct>(obj) && !dynamic_pointer_cast<IFC4X3::IfcProject>(obj))
 			{
-				continue;
+				return;
 			}
 		}
+		std::stringstream tmpStream;
 #ifdef EXTERNAL_WRITE_METHODS
-		getStepLine(obj, stream);
+		getStepLine(obj, tmpStream);
 #else
-		obj->getStepLine( stream, m_writeNumberPrecision );
+		obj->getStepLine(tmpStream, m_writeNumberPrecision);
 #endif
-		stream << std::endl;
+		tmpStream << std::endl;
+		std::get<2>(entityDataForOutput) = tmpStream.str();
 
-		if( i % 10 == 0 )
+		counter.fetch_add(1);
+		int currentCount = counter.load();
+		if (currentCount % 60 == 0)
 		{
-			double progress = double( i ) / num_objects;
-			if( progress - last_progress > 0.03 )
+			auto t_now = std::chrono::high_resolution_clock::now();
+			double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_now - t_start).count();
+
+			if (elapsed_time_ms > 1000)
 			{
-				progressValueCallback( progress, "write" );
-				last_progress = progress;
+				t_start = t_now;
+				const std::lock_guard<std::mutex> lock(mutexProgress);
+				double progress = 0.1 + 0.8 * (currentCount / double(numEntities));
+				progressValueCallback(progress, "parse");
 			}
 		}
-		++i;
+		});
+
+	for (auto line : entityDataStrings)
+	{
+		stream << std::get<2>(line);
 	}
 
 	stream << "ENDSEC;\n";

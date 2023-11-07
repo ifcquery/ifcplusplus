@@ -53,6 +53,7 @@ namespace carve {
 			typedef mesh_t::edge_t edge_t;
 			typedef mesh_t::face_t face_t;
 			typedef face_t::aabb_t aabb_t;
+			double m_epsilon;
 
 			typedef carve::geom::RTreeNode<3, carve::mesh::Face<3>*> face_rtree_t;
 
@@ -299,10 +300,9 @@ namespace carve {
 				}
 			}
 
-			void updateEdgeFlipHeap(std::vector<EdgeInfo*>& edge_heap, edge_t* edge,
-				const FlippableBase& flipper) {
-				std::unordered_map<edge_t*, EdgeInfo*>::const_iterator i =
-					edge_info.find(edge);
+			void updateEdgeFlipHeap(std::vector<EdgeInfo*>& edge_heap, edge_t* edge, const FlippableBase& flipper)
+			{
+				std::unordered_map<edge_t*, EdgeInfo*>::const_iterator i = edge_info.find(edge);
 				CARVE_ASSERT(i != edge_info.end());
 				EdgeInfo* e = (*i).second;
 
@@ -424,12 +424,11 @@ namespace carve {
 				return n_int;
 			}
 
-			int _findSelfIntersections(const face_rtree_t* a_node,
-				const face_rtree_t* b_node,
-				bool descend_a = true) {
+			int _findSelfIntersections(const face_rtree_t* a_node, const face_rtree_t* b_node, bool descend_a = true)
+			{
 				int r = 0;
 
-				if( !a_node->bbox.intersects(b_node->bbox) ) {
+				if( !a_node->bbox.intersects(b_node->bbox, m_epsilon) ) {
 					return 0;
 				}
 
@@ -457,7 +456,7 @@ namespace carve {
 						tri_a[1] = fa->edge->next->vert->v;
 						tri_a[2] = fa->edge->next->next->vert->v;
 
-						if( !aabb_a.intersects(b_node->bbox) ) {
+						if( !aabb_a.intersects(b_node->bbox, m_epsilon) ) {
 							continue;
 						}
 
@@ -501,7 +500,7 @@ namespace carve {
 					tri_a[2] = fa->edge->next->next->vert->v;
 
 					std::vector<face_t*> near_faces;
-					tree->search(fa->getAABB(), std::back_inserter(near_faces));
+					tree->search(fa->getAABB(), std::back_inserter(near_faces), m_epsilon);
 
 					for( size_t f2 = 0; f2 < near_faces.size(); ++f2 ) {
 						const face_t* fb = near_faces[f2];
@@ -530,7 +529,7 @@ namespace carve {
 				return n_ints;
 			}
 
-			size_t flipEdges(meshset_t* mesh, const FlippableBase& flipper, double CARVE_EPSILON)
+			size_t flipEdges(meshset_t* mesh, const FlippableBase& flipper, double eps)
 			{
 				face_rtree_t* tree = face_rtree_t::construct_STR(mesh->faceBegin(), mesh->faceEnd(), 4, 4);
 
@@ -576,7 +575,7 @@ namespace carve {
 					aabb.unionAABB(e->edge->rev->face->getAABB());
 
 					std::vector<face_t*> overlapping;
-					tree->search(aabb, std::back_inserter(overlapping));
+					tree->search(aabb, std::back_inserter(overlapping), eps);
 
 					// overlapping.erase(e->edge->face);
 					// overlapping.erase(e->edge->rev->face);
@@ -605,9 +604,9 @@ namespace carve {
 					edge_info[e->edge]->update();
 					edge_info[e->edge->rev]->update();
 
-					carve::mesh::flipTriEdge(e->edge, CARVE_EPSILON);
+					carve::mesh::flipTriEdge(e->edge, eps);
 
-					tree->updateExtents(aabb);
+					tree->updateExtents(aabb, eps);
 
 					updateEdgeFlipHeap(edge_heap, e->edge, flipper);
 					updateEdgeFlipHeap(edge_heap, e->edge->rev, flipper);
@@ -779,7 +778,7 @@ namespace carve {
 					aabb.fit(aabb_min, aabb_max);
 
 					std::vector<face_t*> near_faces;
-					tree->search(aabb, std::back_inserter(near_faces));
+					tree->search(aabb, std::back_inserter(near_faces), m_epsilon);
 
 					double frac =
 						0.5;  // compute this based upon v1_incident and v2_incident?
@@ -863,7 +862,7 @@ namespace carve {
 							edge_info.erase(e1);
 							edge_info.erase(e2);
 							f1->clearEdges();
-							tree->remove(f1, aabb);
+							tree->remove(f1, aabb, m_epsilon);
 
 							delete e1i;
 							delete e2i;
@@ -871,7 +870,7 @@ namespace carve {
 						delete e;
 					}
 
-					tree->updateExtents(aabb);
+					tree->updateExtents(aabb, m_epsilon);
 				}
 
 				delete tree;
@@ -1189,9 +1188,13 @@ namespace carve {
 			}
 
 		public:
-			// Merge adjacent coplanar faces (where coplanar is determined
-			// by dot-product >= cos(min_normal_angle)).
-			size_t mergeCoplanarFaces(meshset_t* meshset, double min_normal_angle) {
+			MeshSimplifier(double epsilon) : m_epsilon(epsilon)
+			{
+			}
+
+			// Merge adjacent coplanar faces (where coplanar is determined by dot-product >= cos(min_normal_angle)).
+			size_t mergeCoplanarFaces(meshset_t* meshset, double min_normal_angle)
+			{
 				size_t n_removed = 0;
 				for( size_t i = 0; i < meshset->meshes.size(); ++i ) {
 					n_removed += mergeCoplanarFaces(meshset->meshes[i], min_normal_angle);
@@ -1599,8 +1602,8 @@ namespace carve {
 						<< std::endl;
 #endif
 
-					for( vfsmap_t::iterator i = vertex_qinfo.begin(); i != vertex_qinfo.end();
-						++i ) {
+					for( vfsmap_t::iterator i = vertex_qinfo.begin(); i != vertex_qinfo.end(); ++i )
+					{
 						vertex_t* vert = (*i).first;
 						quantization_info_t& qi = (*i).second;
 						vector_t q_pt = qi.pt->next();
@@ -1608,19 +1611,19 @@ namespace carve {
 						aabb.unionAABB(aabb_t(q_pt));
 
 						std::vector<face_t*> overlapping;
-						tree->search(aabb, std::back_inserter(overlapping));
+						tree->search(aabb, std::back_inserter(overlapping), m_epsilon);
 
-						int n_intersections = countIntersectionPairs(
-							qi.faces.begin(), qi.faces.end(), overlapping.begin(),
-							overlapping.end(), vert, nullptr, q_pt);
+						int n_intersections = countIntersectionPairs( qi.faces.begin(), qi.faces.end(), overlapping.begin(), overlapping.end(), vert, nullptr, q_pt);
 
-						if( n_intersections == 0 ) {
+						if( n_intersections == 0 )
+						{
 							vert->v = q_pt;
 							quantized.push_back((*i).first);
-							tree->updateExtents(aabb);
+							tree->updateExtents(aabb, m_epsilon);
 						}
 					}
-					for( size_t i = 0; i < quantized.size(); ++i ) {
+					for( size_t i = 0; i < quantized.size(); ++i )
+					{
 						vertex_qinfo.erase(quantized[i]);
 					}
 

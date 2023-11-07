@@ -66,11 +66,8 @@ namespace carve {
 				EdgeSurface() : fwd(nullptr), fwd_ang(0.0), rev(nullptr), rev_ang(0.0) {}
 			};
 
-			typedef std::map<const carve::mesh::MeshSet<3>::mesh_t*, EdgeSurface>
-				GrpEdgeSurfMap;
-
-			typedef std::pair<FaceLoopGroup*, const carve::mesh::MeshSet<3>::mesh_t*>
-				ClassificationKey;
+			typedef std::map<const carve::mesh::MeshSet<3>::mesh_t*, EdgeSurface> GrpEdgeSurfMap;
+			typedef std::pair<FaceLoopGroup*, const carve::mesh::MeshSet<3>::mesh_t*> ClassificationKey;
 
 			struct ClassificationData {
 				uint32_t class_bits : 5;
@@ -91,15 +88,11 @@ namespace carve {
 				}
 			};
 
-			typedef std::unordered_map<ClassificationKey, ClassificationData,
-				hash_classification>
-				Classification;
-
 			struct hash_group_ptr {
 				size_t operator()(const FaceLoopGroup* const& f) const { return (size_t)f; }
 			};
 
-			typedef std::pair<size_t, const carve::mesh::MeshSet<3>::vertex_t*> PerimKey;
+			typedef std::pair<size_t, const carve::mesh::Vertex<3>*> PerimKey;
 
 			struct hash_perim_key {
 				size_t operator()(const PerimKey& v) const {
@@ -107,24 +100,17 @@ namespace carve {
 				}
 			};
 
-			typedef std::unordered_map<
-				std::pair<size_t, const carve::mesh::MeshSet<3>::vertex_t*>,
-				std::unordered_set<FaceLoopGroup*, hash_group_ptr>, hash_perim_key>
-				PerimMap;
-
 			struct hash_group_pair {
 				size_t operator()(const std::pair<int, const FaceLoopGroup*>& v) const {
 					return (size_t)v.first ^ (size_t)v.second;
 				}
 			};
 
-			typedef std::unordered_map<
-				const FaceLoopGroup*,
-				std::unordered_set<std::pair<int, const FaceLoopGroup*>, hash_group_pair>,
-				hash_group_ptr>
-				CandidateOnMap;
+			typedef std::unordered_map<ClassificationKey, ClassificationData, hash_classification> Classification;
+			typedef std::unordered_map< std::pair<size_t, const carve::mesh::Vertex<3>*>, std::unordered_set<FaceLoopGroup*, hash_group_ptr>, hash_perim_key> PerimMap;
+			typedef std::unordered_map<const FaceLoopGroup*, std::unordered_set<std::pair<int, const FaceLoopGroup*>, hash_group_pair>, hash_group_ptr> CandidateOnMap;
 
-			static inline void remove(carve::mesh::MeshSet<3>::vertex_t* a, carve::mesh::MeshSet<3>::vertex_t* b, carve::csg::detail::VVSMap& shared_edge_graph)
+			static inline void remove(carve::mesh::Vertex<3>* a, carve::mesh::Vertex<3>* b, carve::csg::detail::VVSMap& shared_edge_graph)
 			{
 				carve::csg::detail::VVSMap::iterator i = shared_edge_graph.find(a);
 				CARVE_ASSERT(i != shared_edge_graph.end());
@@ -449,10 +435,9 @@ namespace carve {
 				std::list<V2> out;
 				while( shared_edge_graph.size() ) {
 					carve::csg::detail::VVSMap::iterator i = shared_edge_graph.begin();
-					carve::mesh::MeshSet<3>::vertex_t* v1 = (*i).first;
-					carve::mesh::MeshSet<3>::vertex_t* v2 = *((*i).second.begin());
-					walkGraphSegment(shared_edge_graph, branch_points, V2(v1, v2), a_edge_map,
-						b_edge_map, out);
+					carve::mesh::Vertex<3>* v1 = (*i).first;
+					carve::mesh::Vertex<3>* v2 = *((*i).second.begin());
+					walkGraphSegment(shared_edge_graph, branch_points, V2(v1, v2), a_edge_map, b_edge_map, out);
 				}
 			}
 
@@ -464,7 +449,7 @@ namespace carve {
 					if( !perim_size ) {
 						continue;
 					}
-					const carve::mesh::MeshSet<3>::vertex_t* perim_min =
+					const carve::mesh::Vertex<3>* perim_min =
 						std::min_element((*i).perimeter.begin(), (*i).perimeter.end())->first;
 					perim_map[std::make_pair(perim_size, perim_min)].insert(&(*i));
 				}
@@ -504,48 +489,40 @@ namespace carve {
 				return 0;
 			}
 
-			void generateCandidateOnSets(FLGroupList& a_grp, FLGroupList& b_grp,
-				CandidateOnMap& candidate_on_map,
-				Classification& a_classification,
-				Classification& b_classification) {
+			void generateCandidateOnSets(FLGroupList& a_grp, FLGroupList& b_grp, CandidateOnMap& candidate_on_map, Classification& a_classification, Classification& b_classification)
+			{
 				PerimMap a_grp_by_perim, b_grp_by_perim;
-
 				hashByPerimeter(a_grp, a_grp_by_perim);
 				hashByPerimeter(b_grp, b_grp_by_perim);
 
-				for( PerimMap::iterator i = a_grp_by_perim.begin(), ie = a_grp_by_perim.end();
-					i != ie; ++i ) {
+				for( PerimMap::iterator i = a_grp_by_perim.begin(), ie = a_grp_by_perim.end(); i != ie; ++i )
+				{
 					PerimMap::iterator j = b_grp_by_perim.find((*i).first);
 					if( j == b_grp_by_perim.end() ) {
 						continue;
 					}
 
-					for( PerimMap::mapped_type::iterator a = (*i).second.begin(),
-						ae = (*i).second.end();
-						a != ae; ++a ) {
-						for( PerimMap::mapped_type::iterator b = (*j).second.begin(),
-							be = (*j).second.end();
-							b != be; ++b ) {
+					for( PerimMap::mapped_type::iterator a = (*i).second.begin(), ae = (*i).second.end(); a != ae; ++a )
+					{
+						for( PerimMap::mapped_type::iterator b = (*j).second.begin(), be = (*j).second.end(); b != be; ++b )
+						{
 							int x = same_edge_set((*a)->perimeter, (*b)->perimeter);
 							if( !x ) {
 								continue;
 							}
 							candidate_on_map[(*a)].insert(std::make_pair(x, (*b)));
 							if( (*a)->face_loops.count == 1 && (*b)->face_loops.count == 1 ) {
-								uint32_t fcb =
-									x == +1 ? FACE_ON_ORIENT_OUT_BIT : FACE_ON_ORIENT_IN_BIT;
+								uint32_t fcb = x == +1 ? FACE_ON_ORIENT_OUT_BIT : FACE_ON_ORIENT_IN_BIT;
 
 #if defined(CARVE_DEBUG)
 								std::cerr << "paired groups: " << (*a) << ", " << (*b) << std::endl;
 #endif
 
-								ClassificationData& a_data = a_classification[std::make_pair(
-									(*a), (*b)->face_loops.head->orig_face->mesh)];
+								ClassificationData& a_data = a_classification[std::make_pair( (*a), (*b)->face_loops.head->orig_face->mesh)];
 								a_data.class_bits = fcb;
 								a_data.class_decided = 1;
 
-								ClassificationData& b_data = b_classification[std::make_pair(
-									(*b), (*a)->face_loops.head->orig_face->mesh)];
+								ClassificationData& b_data = b_classification[std::make_pair( (*b), (*a)->face_loops.head->orig_face->mesh)];
 								b_data.class_bits = fcb;
 								b_data.class_decided = 1;
 							}
@@ -555,7 +532,8 @@ namespace carve {
 			}
 		}  // namespace
 
-		static inline std::string CODE(const FaceLoopGroup* grp) {
+		static inline std::string CODE(const FaceLoopGroup* grp)
+		{
 			const std::list<ClassificationInfo>& cinfo = (grp->classification);
 			if( cinfo.size() == 0 ) {
 				return "?";
@@ -563,10 +541,8 @@ namespace carve {
 
 			FaceClass fc = FACE_UNCLASSIFIED;
 
-			for( std::list<ClassificationInfo>::const_iterator
-				i = grp->classification.begin(),
-				e = grp->classification.end();
-				i != e; ++i ) {
+			for( std::list<ClassificationInfo>::const_iterator i = grp->classification.begin(), e = grp->classification.end(); i != e; ++i )
+			{
 				if( (*i).intersected_mesh == nullptr ) {
 					// classifier only returns global info
 					fc = (*i).classification;
@@ -695,16 +671,16 @@ namespace carve {
 
 			generateCandidateOnSets(a_loops_grouped, b_loops_grouped, candidate_on_map, a_classification, b_classification);
 
-			for( V2Set::const_iterator i = shared_edges.begin(); i != shared_edges.end();
-				++i ) {
+			for( V2Set::const_iterator i = shared_edges.begin(); i != shared_edges.end(); ++i )
+			{
 				const V2& edge = (*i);
-				processOneEdge(edge, a_edge_map, b_edge_map, a_classification, b_classification, CARVE_EPSILON);
+				processOneEdge(edge, a_edge_map, b_edge_map, a_classification, b_classification, m_epsilon);
 			}
 
-			for( Classification::iterator i = a_classification.begin(),
-				e = a_classification.end();
-				i != e; ++i ) {
-				if( !(*i).second.class_decided ) {
+			for( Classification::iterator i = a_classification.begin(), e = a_classification.end(); i != e; ++i )
+			{
+				if( !(*i).second.class_decided )
+				{
 					if( (*i).second.c[FACE_IN + 2] == 0 ) {
 						(*i).second.class_bits &= ~FACE_IN_BIT;
 					}
@@ -734,9 +710,8 @@ namespace carve {
 				}
 			}
 
-			for( Classification::iterator i = b_classification.begin(),
-				e = b_classification.end();
-				i != e; ++i ) {
+			for( Classification::iterator i = b_classification.begin(), e = b_classification.end(); i != e; ++i )
+			{
 				if( !(*i).second.class_decided ) {
 					if( (*i).second.c[FACE_IN + 2] == 0 ) {
 						(*i).second.class_bits &= ~FACE_IN_BIT;
@@ -769,9 +744,8 @@ namespace carve {
 
 #if defined(CARVE_DEBUG)
 			std::cerr << "poly a:" << std::endl;
-			for( Classification::iterator i = a_classification.begin(),
-				e = a_classification.end();
-				i != e; ++i ) {
+			for( Classification::iterator i = a_classification.begin(), e = a_classification.end(); i != e; ++i )
+			{
 				FaceLoopGroup* grp = ((*i).first.first);
 
 				std::cerr << "  group: " << grp << " gid: " << (*i).first.second << "  "
@@ -787,9 +761,8 @@ namespace carve {
 			}
 
 			std::cerr << "poly b:" << std::endl;
-			for( Classification::iterator i = b_classification.begin(),
-				e = b_classification.end();
-				i != e; ++i ) {
+			for( Classification::iterator i = b_classification.begin(), e = b_classification.end(); i != e; ++i )
+			{
 				FaceLoopGroup* grp = ((*i).first.first);
 
 				std::cerr << "  group: " << grp << " gid: " << (*i).first.second << "  "
@@ -805,9 +778,8 @@ namespace carve {
 			}
 #endif
 
-			for( Classification::iterator i = a_classification.begin(),
-				e = a_classification.end();
-				i != e; ++i ) {
+			for( Classification::iterator i = a_classification.begin(), e = a_classification.end(); i != e; ++i )
+			{
 				FaceLoopGroup* grp = ((*i).first.first);
 
 				grp->classification.push_back(ClassificationInfo());
@@ -823,9 +795,8 @@ namespace carve {
 				}
 			}
 
-			for( Classification::iterator i = b_classification.begin(),
-				e = b_classification.end();
-				i != e; ++i ) {
+			for( Classification::iterator i = b_classification.begin(), e = b_classification.end(); i != e; ++i )
+			{
 				FaceLoopGroup* grp = ((*i).first.first);
 
 				grp->classification.push_back(ClassificationInfo());
@@ -841,9 +812,10 @@ namespace carve {
 				}
 			}
 
-			for( FLGroupList::iterator i = a_loops_grouped.begin();
-				i != a_loops_grouped.end(); ++i ) {
-				if( (*i).classification.size() == 0 ) {
+			for( FLGroupList::iterator i = a_loops_grouped.begin(); i != a_loops_grouped.end(); ++i )
+			{
+				if( (*i).classification.size() == 0 )
+				{
 #if defined(CARVE_DEBUG)
 					std::cerr << " non intersecting group (poly a): " << &(*i) << std::endl;
 #endif
@@ -854,7 +826,7 @@ namespace carve {
 						{
 							if( vclass[fl->vertices[fli]].cls[1] == POINT_UNK )
 							{
-								vclass[fl->vertices[fli]].cls[1] = carve::mesh::classifyPoint( poly_b, poly_b_rtree, fl->vertices[fli]->v, CARVE_EPSILON);
+								vclass[fl->vertices[fli]].cls[1] = carve::mesh::classifyPoint( poly_b, poly_b_rtree, fl->vertices[fli]->v, m_epsilon);
 							}
 							switch( vclass[fl->vertices[fli]].cls[1] ) {
 							case POINT_IN:
@@ -879,32 +851,35 @@ namespace carve {
 				}
 			}
 
-			for( FLGroupList::iterator i = b_loops_grouped.begin(); i != b_loops_grouped.end(); ++i )
+			size_t numFacesIn = 0;
+			size_t numFacesOut = 0;
+			size_t numFacesUndefined = 0;
+			for( FLGroupList::iterator it = b_loops_grouped.begin(); it != b_loops_grouped.end(); ++it )
 			{
-				if( (*i).classification.size() == 0 )
+				if( (*it).classification.size() == 0 )
 				{
 #if defined(CARVE_DEBUG)
 					std::cerr << " non intersecting group (poly b): " << &(*i) << std::endl;
 #endif
 					bool classified = false;
-					for( FaceLoop* fl = (*i).face_loops.head; !classified && fl != nullptr; fl = fl->next )
+					for( FaceLoop* fl = (*it).face_loops.head; !classified && fl != nullptr; fl = fl->next )
 					{
 						for( size_t fli = 0; !classified && fli < fl->vertices.size(); ++fli )
 						{
 							if( vclass[fl->vertices[fli]].cls[0] == POINT_UNK )
 							{
-								vclass[fl->vertices[fli]].cls[0] = carve::mesh::classifyPoint( poly_a, poly_a_rtree, fl->vertices[fli]->v, CARVE_EPSILON);
+								vclass[fl->vertices[fli]].cls[0] = carve::mesh::classifyPoint( poly_a, poly_a_rtree, fl->vertices[fli]->v, m_epsilon);
 							}
 							switch( vclass[fl->vertices[fli]].cls[0] ) {
 							case POINT_IN:
-								(*i).classification.push_back(
-									ClassificationInfo(nullptr, FACE_IN));
+								(*it).classification.push_back( ClassificationInfo(nullptr, FACE_IN));
 								classified = true;
+								++numFacesIn;
 								break;
 							case POINT_OUT:
-								(*i).classification.push_back(
-									ClassificationInfo(nullptr, FACE_OUT));
+								(*it).classification.push_back( ClassificationInfo(nullptr, FACE_OUT));
 								classified = true;
+								++numFacesOut;
 								break;
 							default:
 								break;
@@ -916,6 +891,36 @@ namespace carve {
 						throw carve::exception( "non intersecting group is not IN or OUT! (poly_b)");
 					}
 				}
+				else
+				{
+					ClassificationInfo info = (*it).classification.front();
+					if (info.classification == FACE_IN || info.classification == FACE_ON_ORIENT_IN)
+					{
+						++numFacesIn;
+					}
+					else if (info.classification == FACE_OUT || info.classification == FACE_ON_ORIENT_OUT)
+					{
+						++numFacesOut;
+					}
+					else
+					{
+						++numFacesUndefined;
+					}
+				}
+			}
+
+			if (numFacesIn > 0 && numFacesOut == 0 && numFacesUndefined == 0)
+			{
+				FaceLoopGroup& group = *(b_loops_grouped.begin());
+				if (group.src)
+				{
+					// set mesh as inner mesh
+					const meshset_t* meshset = group.src;
+					for (auto mesh : meshset->meshes)
+					{
+						mesh->is_inner_mesh = true;
+					}
+				}
 			}
 
 #if defined(DISPLAY_GRP_GRAPH)
@@ -925,9 +930,8 @@ namespace carve {
                    : "[B:") +                                          \
    CODE(grp) + "]")
 
-			for( std::map<const FaceLoopGroup*, std::set<const FaceLoopGroup*> >::iterator
-				i = grp_graph_fwd.begin();
-				i != grp_graph_fwd.end(); ++i ) {
+			for( std::map<const FaceLoopGroup*, std::set<const FaceLoopGroup*> >::iterator i = grp_graph_fwd.begin(); i != grp_graph_fwd.end(); ++i )
+			{
 				const FaceLoopGroup* grp = (*i).first;
 
 				std::cerr << "GRP: " << grp << POLY(grp) << std::endl;
@@ -949,13 +953,13 @@ namespace carve {
 			}
 #endif
 
-			for( FLGroupList::iterator i = a_loops_grouped.begin();
-				i != a_loops_grouped.end(); ++i ) {
+			for( FLGroupList::iterator i = a_loops_grouped.begin(); i != a_loops_grouped.end(); ++i )
+			{
 				collector.collect(&*i, hooks);
 			}
 
-			for( FLGroupList::iterator i = b_loops_grouped.begin();
-				i != b_loops_grouped.end(); ++i ) {
+			for( FLGroupList::iterator i = b_loops_grouped.begin(); i != b_loops_grouped.end(); ++i )
+			{
 				collector.collect(&*i, hooks);
 			}
 

@@ -32,33 +32,33 @@ namespace carve {
 namespace csg {
 namespace detail {
 typedef std::map<
-    carve::mesh::MeshSet<3>::vertex_t*,
-    std::set<std::pair<carve::mesh::MeshSet<3>::face_t*, double> > >
+    carve::mesh::Vertex<3>*,
+    std::set<std::pair<carve::mesh::Face<3>*, double> > >
     EdgeIntInfo;
 
-typedef std::unordered_set<carve::mesh::MeshSet<3>::vertex_t*> VSet;
-typedef std::unordered_set<carve::mesh::MeshSet<3>::face_t*> FSet;
+typedef std::unordered_set<carve::mesh::Vertex<3>*> VSet;
+typedef std::unordered_set<carve::mesh::Face<3>*> FSet;
 
-typedef std::set<carve::mesh::MeshSet<3>::vertex_t*> VSetSmall;
+typedef std::set<carve::mesh::Vertex<3>*> VSetSmall;
 typedef std::set<csg::V2> V2SetSmall;
-typedef std::set<carve::mesh::MeshSet<3>::face_t*> FSetSmall;
+typedef std::set<carve::mesh::Face<3>*> FSetSmall;
 
-typedef std::unordered_map<carve::mesh::MeshSet<3>::vertex_t*, VSetSmall>
+typedef std::unordered_map<carve::mesh::Vertex<3>*, VSetSmall>
     VVSMap;
 typedef std::unordered_map<carve::mesh::MeshSet<3>::edge_t*, EdgeIntInfo>
     EIntMap;
-typedef std::unordered_map<carve::mesh::MeshSet<3>::face_t*, VSetSmall> FVSMap;
+typedef std::unordered_map<carve::mesh::Face<3>*, VSetSmall> FVSMap;
 
-typedef std::unordered_map<carve::mesh::MeshSet<3>::vertex_t*, FSetSmall>
+typedef std::unordered_map<carve::mesh::Vertex<3>*, FSetSmall>
     VFSMap;
-typedef std::unordered_map<carve::mesh::MeshSet<3>::face_t*, V2SetSmall>
+typedef std::unordered_map<carve::mesh::Face<3>*, V2SetSmall>
     FV2SMap;
 
 typedef std::unordered_map<carve::mesh::MeshSet<3>::edge_t*,
-                           std::vector<carve::mesh::MeshSet<3>::vertex_t*> >
+                           std::vector<carve::mesh::Vertex<3>*> >
     EVVMap;
 
-typedef std::unordered_map<carve::mesh::MeshSet<3>::vertex_t*,
+typedef std::unordered_map<carve::mesh::Vertex<3>*,
                            std::vector<carve::mesh::MeshSet<3>::edge_t*> >
     VEVecMap;
 

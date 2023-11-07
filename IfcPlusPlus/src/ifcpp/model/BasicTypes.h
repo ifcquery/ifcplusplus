@@ -89,38 +89,34 @@ using boost::make_shared;
 struct vec4
 {
 	vec4() {}
-	vec4( double r, double g, double b, double a ) : m_r(r), m_g( g ), m_b( b ), m_a( a ){}
-	vec4( const vec4& other ) : m_r( other.m_r ), m_g( other.m_g ), m_b( other.m_b ), m_a( other.m_a ) {}
+	vec4( double _r, double _g, double _b, double _a ) : r(_r), g(_g ), b(_b ), a(_a ){}
+	vec4( const vec4& other ) : r( other.r ), g( other.g ), b( other.b ), a( other.a ) {}
 	void setColor( const vec4& other )
 	{
-		m_r = other.m_r;
-		m_g = other.m_g;
-		m_b = other.m_b;
-		m_a = other.m_a;
+		r = other.r;
+		g = other.g;
+		b = other.b;
+		a = other.a;
 	}
-	void setColor( double r, double g, double b, double a )
+	void setColor( double _r, double _g, double _b, double _a )
 	{
-		m_r = r;
-		m_g = g;
-		m_b = b;
-		m_a = a;
+		r = _r;
+		g = _g;
+		b = _b;
+		a = _a;
 	}
-	double r() const { return m_r; }
-	double g() const { return m_g; }
-	double b() const { return m_b; }
-	double a() const { return m_a; }
 
 	vec4& operator =( const vec4& other )
 	{
-		m_r = other.m_r;
-		m_g = other.m_g;
-		m_b = other.m_b;
-		m_a = other.m_a;
+		r = other.r;
+		g = other.g;
+		b = other.b;
+		a = other.a;
 		return *this;
 	}
 
-	double m_r = 0;
-	double m_g = 0;
-	double m_b = 0;
-	double m_a = 0;
+	double r = 0;
+	double g = 0;
+	double b = 0;
+	double a = 0;
 };

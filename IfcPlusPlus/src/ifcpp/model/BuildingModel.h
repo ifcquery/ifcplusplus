@@ -37,15 +37,15 @@ class IFCQUERY_EXPORT BuildingModel : public StatusCallback
 public:
 	BuildingModel();
 	~BuildingModel() override;
-	
+
 	enum SchemaVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4, IFC4X1, IFC4X3 };
 	std::map<int, shared_ptr<BuildingEntity> >& getMapIfcEntities() { return m_map_entities; }
-	void setMapIfcEntities( const std::map<int, shared_ptr<BuildingEntity> >& map );
-	void insertEntity( shared_ptr<BuildingEntity> e, bool overwrite_existing = false, bool warn_on_existing_entities = true );
-	void removeEntity( shared_ptr<BuildingEntity> e );
-	void removeEntity( int tag );
+	void setMapIfcEntities(const std::map<int, shared_ptr<BuildingEntity> >& map);
+	void insertEntity(shared_ptr<BuildingEntity> e, bool overwrite_existing = false, bool warn_on_existing_entities = true);
+	void removeEntity(shared_ptr<BuildingEntity> e);
+	void removeEntity(int tag);
 	void removeUnreferencedEntities();
-	
+
 	/*! \brief Method getMaxUsedEntityId. Return the highest entity id in the model. */
 	int getMaxUsedEntityId();
 	shared_ptr<IFC4X3::IfcProject> getIfcProject();
@@ -53,33 +53,42 @@ public:
 	shared_ptr<UnitConverter>& getUnitConverter() { return m_unit_converter; }
 
 	/*! \brief Method getIfcSchemaVersion. Returns the IFC version of the loaded file */
-	SchemaVersionEnum& getIfcSchemaVersionEnumOfLoadedFile() {	return m_ifc_schema_version_loaded_file; }
+	SchemaVersionEnum& getIfcSchemaVersionEnumOfLoadedFile() { return m_ifc_schema_version_loaded_file; }
 	std::string getIfcSchemaVersionOfLoadedFile();
 
 	/*! \brief Method getIfcSchemaVersionCurrent. Returns the IFC version after loading. It is the newest implemented IFC version. IFC version of the loaded file may be older */
 	SchemaVersionEnum& getIfcSchemaVersionEnumCurrent() { return m_ifc_schema_version_current; }
 	std::string getIfcSchemaVersionCurrent();
-	
+
 	const std::string& getFileHeader() { return m_file_header; }
 	const std::string& getFileDescription() { return m_IFC_FILE_DESCRIPTION; }
 	const std::string& getFileName() { return m_IFC_FILE_NAME; }
-	
-	void setFileHeader( const std::string& header );
-	void setFileDescription( const std::string& description );
-	void setFileName( const std::string& name );
-	void setIfcProject( shared_ptr<IFC4X3::IfcProject> project );
-	void setUnitConverter( shared_ptr<UnitConverter>& uc );
-	void setIfcGeometricRepresentationContext3D( shared_ptr<IFC4X3::IfcGeometricRepresentationContext>& context );
+
+	void setFileHeader(const std::string& header);
+	void setFileDescription(const std::string& description);
+	void setFileName(const std::string& name);
+	void setIfcProject(shared_ptr<IFC4X3::IfcProject> project);
+	void setUnitConverter(shared_ptr<UnitConverter>& uc);
+	void setIfcGeometricRepresentationContext3D(shared_ptr<IFC4X3::IfcGeometricRepresentationContext>& context);
 	void resolveInverseAttributes();
 	void unsetInverseAttributes();
 	void clearIfcModel();
 	void initIfcModel();
-	void initCopyIfcModel( const shared_ptr<BuildingModel>& other );
+	void initCopyIfcModel(const shared_ptr<BuildingModel>& other);
 	void resetIfcModel();
 	void updateCache();
 	void clearCache();
-	void initFileHeader( const std::string& fileName, const std::string& generatingApplication );
-	static void collectDependentEntities( shared_ptr<BuildingObject> entity, std::map<BuildingObject*, shared_ptr<BuildingObject> >& target_map, bool resolveInverseAttributes = false );
+	void initFileHeader(const std::string& fileName, const std::string& generatingApplication);
+	static void collectDependentEntities(shared_ptr<BuildingObject> entity, std::map<BuildingObject*, shared_ptr<BuildingObject> >& target_map, bool resolveInverseAttributes);
+
+	void cancelLoading()
+	{
+		m_cancelLoading = true;
+	}
+	bool isLoadingCancelled()
+	{
+		return m_cancelLoading;
+	}
 
 	friend class ReaderSTEP;
 	friend class ReaderXML;
@@ -95,4 +104,5 @@ private:
 	std::string											m_IFC_FILE_NAME;
 	SchemaVersionEnum									m_ifc_schema_version_loaded_file = IFC4X3;
 	SchemaVersionEnum									m_ifc_schema_version_current = IFC4X3;
+	bool m_cancelLoading = false;
 };

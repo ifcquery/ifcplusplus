@@ -9,7 +9,7 @@
 
 namespace IFC4X3
 {
-	// TYPE IfcCurveMeasureSelect = SELECT	(IfcNonNegativeLengthMeasure	,IfcParameterValue);
+	// TYPE IfcCurveMeasureSelect = SELECT	(IfcLengthMeasure	,IfcParameterValue);
 	class IFCQUERY_EXPORT IfcCurveMeasureSelect : virtual public BuildingObject
 	{
 	public:

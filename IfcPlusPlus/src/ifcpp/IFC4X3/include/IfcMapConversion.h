@@ -18,7 +18,7 @@ namespace IFC4X3
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
 		virtual void readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
 		virtual void setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self );
-		virtual uint8_t getNumAttributes() const { return 10; }
+		virtual uint8_t getNumAttributes() const { return 8; }
 		virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const;
 		virtual void getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const;
 		virtual void unlinkFromInverseCounterparts();
@@ -37,7 +37,5 @@ namespace IFC4X3
 		shared_ptr<IfcReal>								m_XAxisAbscissa;			//optional
 		shared_ptr<IfcReal>								m_XAxisOrdinate;			//optional
 		shared_ptr<IfcReal>								m_Scale;					//optional
-		shared_ptr<IfcReal>								m_ScaleY;					//optional
-		shared_ptr<IfcReal>								m_ScaleZ;					//optional
 	};
 }

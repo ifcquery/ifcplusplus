@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4X3/include/IfcReferentTypeEnum.h"
 
-// TYPE IfcReferentTypeEnum = ENUMERATION OF	(BOUNDARY	,INTERSECTION	,KILOPOINT	,LANDMARK	,MILEPOINT	,POSITION	,REFERENCEMARKER	,STATION	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcReferentTypeEnum = ENUMERATION OF	(BOUNDARY	,INTERSECTION	,KILOPOINT	,LANDMARK	,MILEPOINT	,POSITION	,REFERENCEMARKER	,STATION	,SUPERELEVATIONEVENT	,WIDTHEVENT	,USERDEFINED	,NOTDEFINED);
 void IFC4X3::IfcReferentTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCREFERENTTYPEENUM("; }
@@ -23,6 +23,8 @@ void IFC4X3::IfcReferentTypeEnum::getStepParameter( std::stringstream& stream, b
 		case ENUM_POSITION:	stream << ".POSITION."; break;
 		case ENUM_REFERENCEMARKER:	stream << ".REFERENCEMARKER."; break;
 		case ENUM_STATION:	stream << ".STATION."; break;
+		case ENUM_SUPERELEVATIONEVENT:	stream << ".SUPERELEVATIONEVENT."; break;
+		case ENUM_WIDTHEVENT:	stream << ".WIDTHEVENT."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -64,6 +66,14 @@ shared_ptr<IFC4X3::IfcReferentTypeEnum> IFC4X3::IfcReferentTypeEnum::createObjec
 	else if( std_iequal( arg, ".STATION." ) )
 	{
 		type_object->m_enum = IfcReferentTypeEnum::ENUM_STATION;
+	}
+	else if( std_iequal( arg, ".SUPERELEVATIONEVENT." ) )
+	{
+		type_object->m_enum = IfcReferentTypeEnum::ENUM_SUPERELEVATIONEVENT;
+	}
+	else if( std_iequal( arg, ".WIDTHEVENT." ) )
+	{
+		type_object->m_enum = IfcReferentTypeEnum::ENUM_WIDTHEVENT;
 	}
 	else if( std_iequal( arg, ".USERDEFINED." ) )
 	{

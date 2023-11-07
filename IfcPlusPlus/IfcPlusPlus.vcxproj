@@ -258,7 +258,8 @@
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <OpenMPSupport>true</OpenMPSupport>
+      <OpenMPSupport>
+      </OpenMPSupport>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalOptions>
@@ -398,6 +399,9 @@
     <ClInclude Include="src\ifcpp\geometry\GeometryInputData.h" />
     <ClInclude Include="src\ifcpp\geometry\GeomUtils.h" />
     <ClInclude Include="src\ifcpp\geometry\IncludeCarveHeaders.h" />
+    <ClInclude Include="src\ifcpp\geometry\MeshNormalizer.h" />
+    <ClInclude Include="src\ifcpp\geometry\MeshOps.h" />
+    <ClInclude Include="src\ifcpp\geometry\MeshSimplifier.h" />
     <ClInclude Include="src\ifcpp\geometry\PlacementConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\PointConverter.h" />
     <ClInclude Include="src\ifcpp\geometry\ProfileCache.h" />
@@ -411,6 +415,8 @@
     <ClInclude Include="src\ifcpp\geometry\GeometrySettings.h" />
     <ClInclude Include="src\ifcpp\geometry\SceneGraphUtils.h" />
     <ClInclude Include="src\ifcpp\geometry\StylesConverter.h" />
+    <ClInclude Include="src\ifcpp\IFC4X3\EntityFactory.h" />
+    <ClInclude Include="src\ifcpp\IFC4X3\TypeFactory.h" />
     <ClInclude Include="src\ifcpp\IFC4\EntityFactory.h" />
     <ClInclude Include="src\ifcpp\IFC4\TypeFactory.h" />
     <ClInclude Include="src\ifcpp\model\AttributeObject.h" />

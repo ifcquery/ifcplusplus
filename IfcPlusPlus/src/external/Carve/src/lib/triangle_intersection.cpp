@@ -85,11 +85,11 @@ val_t max3(const val_t& a, const val_t& b, const val_t& c) {
   return std::max(std::max(a, b), c);
 }
 
-template <unsigned dim>
+template <unsigned int ndim>
 bool axis_test(const vec3 tri_a[3], const vec3 tri_b[3]) {
   double a_lo, a_hi, b_lo, b_hi;
-  extent(tri_a[0].v[dim], tri_a[1].v[dim], tri_a[2].v[dim], a_lo, a_hi);
-  extent(tri_b[0].v[dim], tri_b[1].v[dim], tri_b[2].v[dim], b_lo, b_hi);
+  extent(tri_a[0].v[ndim], tri_a[1].v[ndim], tri_a[2].v[ndim], a_lo, a_hi);
+  extent(tri_b[0].v[ndim], tri_b[1].v[ndim], tri_b[2].v[ndim], b_lo, b_hi);
   return a_hi < b_lo || b_hi < a_lo;
 }
 
@@ -126,49 +126,49 @@ sat_t sat_normal(const vec3 tri_a[3], const vec3 tri_b[3]) {
 // separating plane.
 // shared vertex case. only one vertex of b (k) to test - the third
 // (shared) vertex will have orientation equal to 0.
-bool sat_plane(const vec3 tri_a[3], const vec3 tri_b[3], unsigned i, unsigned j,
-               unsigned k) {
-  double a;
-  double b;
-  a = orient3d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[j],
-                     tri_a[(i + 2) % 3]);
-  b = orient3d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[j], tri_b[k]);
-  if (a * b < 0.0) {
-    return true;
-  }
-  return false;
+bool sat_plane(const vec3 tri_a[3], const vec3 tri_b[3], unsigned int i, unsigned int j, unsigned int k)
+{
+    double a;
+    double b;
+    a = orient3d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[j],
+        tri_a[(i + 2) % 3]);
+    b = orient3d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[j], tri_b[k]);
+    if (a * b < 0.0) {
+        return true;
+    }
+    return false;
 }
 
 // returns true if no intersection, based upon edge^a_i and vertex^b_j
 // separating plane.
-bool sat_plane(const vec3 tri_a[3], const vec3 tri_b[3], unsigned i,
-               unsigned j) {
-  double a;
-  double b_lo, b_hi;
-  a = orient3d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[j],
-                     tri_a[(i + 2) % 3]);
-  b_lo = orient3d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[j],
-                        tri_b[(j + 1) % 3]);
-  b_hi = orient3d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[j],
-                        tri_b[(j + 2) % 3]);
-  if (b_lo > b_hi) {
-    std::swap(b_lo, b_hi);
-  }
-  std::cerr << "b_lo: " << b_lo << " b_hi: " << b_hi << " a: " << a
-            << std::endl;
-  if (a > 0.0 && b_hi < 0.0) {
-    return true;
-  }
-  if (a < 0.0 && b_lo > 0.0) {
-    return true;
-  }
-  return false;
+bool sat_plane(const vec3 tri_a[3], const vec3 tri_b[3], unsigned int i, unsigned int j)
+{
+    double a;
+    double b_lo, b_hi;
+    a = orient3d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[j],
+        tri_a[(i + 2) % 3]);
+    b_lo = orient3d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[j],
+        tri_b[(j + 1) % 3]);
+    b_hi = orient3d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[j],
+        tri_b[(j + 2) % 3]);
+    if (b_lo > b_hi) {
+        std::swap(b_lo, b_hi);
+    }
+    std::cerr << "b_lo: " << b_lo << " b_hi: " << b_hi << " a: " << a
+        << std::endl;
+    if (a > 0.0 && b_hi < 0.0) {
+        return true;
+    }
+    if (a < 0.0 && b_lo > 0.0) {
+        return true;
+    }
+    return false;
 }
 
 // returns: -1 - no intersection
 //           0 - touching
 //          +1 - intersection
-int sat_edge(const vec2 tri_a[3], const vec2 tri_b[3], unsigned i) {
+int sat_edge(const vec2 tri_a[3], const vec2 tri_b[3], unsigned int i) {
   return max3(dbl_sign(orient2d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[0])),
               dbl_sign(orient2d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[1])),
               dbl_sign(orient2d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[2])));
@@ -177,12 +177,8 @@ int sat_edge(const vec2 tri_a[3], const vec2 tri_b[3], unsigned i) {
 // returns: -1 - no intersection
 //           0 - touching
 //          +1 - intersection
-bool sat_edge(const vec2 tri_a[3], const vec2 tri_b[3], unsigned i,
-              unsigned j) {
-  return std::max(dbl_sign(orient2d_exact(tri_a[i], tri_a[(i + 1) % 3],
-                                          tri_b[(j + 1) % 3])),
-                  dbl_sign(orient2d_exact(tri_a[i], tri_a[(i + 1) % 3],
-                                          tri_b[(j + 2) % 3])));
+bool sat_edge(const vec2 tri_a[3], const vec2 tri_b[3], unsigned int i, unsigned int j) {
+  return std::max(dbl_sign(orient2d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[(j + 1) % 3])), dbl_sign(orient2d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[(j + 2) % 3])));
 }
 
 // test for vertex sharing. between a triangle pair.
@@ -193,64 +189,63 @@ bool sat_edge(const vec2 tri_a[3], const vec2 tri_b[3], unsigned i,
 // -2 edge shared, opposite orientation
 // +1 vertex shared
 // 0 no sharing
-template <unsigned ndim>
-int test_sharing(const carve::geom::vector<ndim> tri_a[3],
-                 const carve::geom::vector<ndim> tri_b[3], size_t& ia,
-                 size_t& ib) {
-  size_t a, b;
+template <unsigned int ndim>
+int test_sharing(const carve::geom::vector<ndim> tri_a[3], const carve::geom::vector<ndim> tri_b[3], size_t& ia, size_t& ib)
+{
+    size_t a, b;
 
-  for (b = 0; b < 3; ++b) {
-    if (tri_a[0] == tri_b[b] && tri_a[1] == tri_b[(b + 1) % 3] &&
-        tri_a[2] == tri_b[(b + 2) % 3]) {
-      ia = 0;
-      ib = b;
-      return +3;
-    }
-    if (tri_a[0] == tri_b[b] && tri_a[1] == tri_b[(b + 2) % 3] &&
-        tri_a[2] == tri_b[(b + 1) % 3]) {
-      ia = 0;
-      ib = b;
-      return -3;
-    }
-  }
-
-  for (a = 0; a < 3; ++a) {
     for (b = 0; b < 3; ++b) {
-      if (tri_a[a] == tri_b[b] && tri_a[(a + 1) % 3] == tri_b[(b + 1) % 3]) {
-        ia = a;
-        ib = b;
-        return +2;
-      }
-      if (tri_a[a] == tri_b[b] && tri_a[(a + 1) % 3] == tri_b[(b + 2) % 3]) {
-        ia = a;
-        ib = b;
-        return -2;
-      }
+        if (tri_a[0] == tri_b[b] && tri_a[1] == tri_b[(b + 1) % 3] &&
+            tri_a[2] == tri_b[(b + 2) % 3]) {
+            ia = 0;
+            ib = b;
+            return +3;
+        }
+        if (tri_a[0] == tri_b[b] && tri_a[1] == tri_b[(b + 2) % 3] &&
+            tri_a[2] == tri_b[(b + 1) % 3]) {
+            ia = 0;
+            ib = b;
+            return -3;
+        }
     }
-  }
 
-  for (a = 0; a < 3; ++a) {
-    for (b = 0; b < 3; ++b) {
-      if (tri_a[a] == tri_b[b]) {
-        ia = a;
-        ib = b;
-        return +1;
-      }
+    for (a = 0; a < 3; ++a) {
+        for (b = 0; b < 3; ++b) {
+            if (tri_a[a] == tri_b[b] && tri_a[(a + 1) % 3] == tri_b[(b + 1) % 3]) {
+                ia = a;
+                ib = b;
+                return +2;
+            }
+            if (tri_a[a] == tri_b[b] && tri_a[(a + 1) % 3] == tri_b[(b + 2) % 3]) {
+                ia = a;
+                ib = b;
+                return -2;
+            }
+        }
     }
-  }
 
-  return 0;
+    for (a = 0; a < 3; ++a) {
+        for (b = 0; b < 3; ++b) {
+            if (tri_a[a] == tri_b[b]) {
+                ia = a;
+                ib = b;
+                return +1;
+            }
+        }
+    }
+
+    return 0;
 }
 
-void find_projection_axes(const vec3 tri[3], unsigned& a1, unsigned& a2) {
-  unsigned a0 = carve::geom::largestAxis(normal(tri));
+void find_projection_axes(const vec3 tri[3], unsigned int& a1, unsigned int& a2) {
+  unsigned int a0 = carve::geom::largestAxis(normal(tri));
   a1 = (a0 + 1) % 3;
   a2 = (a0 + 2) % 3;
 }
 
 void project_triangles(const vec3 tri_a[3], const vec3 tri_b[3], vec2 ptri_a[3],
                        vec2 ptri_b[3]) {
-  unsigned a1, a2;
+  unsigned int a1, a2;
   find_projection_axes(tri_a, a1, a2);
 
   ptri_a[0] = carve::geom::select(tri_a[0], a1, a2);
@@ -334,7 +329,7 @@ int line_segment_tri_test(const vec3 tri_a[3], const vec3& a, const vec3& b) {
 }
 
 bool touches_edge(const vec3 tri_a[3], const int nb[3], const vec3 tri_b[3]) {
-  unsigned i = 0;
+  unsigned int i = 0;
   if (nb[1] != 0) {
     i = 1;
   }
@@ -342,7 +337,7 @@ bool touches_edge(const vec3 tri_a[3], const int nb[3], const vec3 tri_b[3]) {
     i = 2;
   }
 
-  unsigned a1, a2;
+  unsigned int a1, a2;
   find_projection_axes(tri_a, a1, a2);
 
   vec2 ptri_a[3], pline_b[2];
@@ -362,7 +357,7 @@ bool touches_edge(const vec3 tri_a[3], const int nb[3], const vec3 tri_b[3]) {
 }
 
 bool touches_vert(const vec3 tri_a[3], const int nb[3], const vec3 tri_b[3]) {
-  unsigned i = 0;
+  unsigned int i = 0;
   if (nb[1] == 0) {
     i = 1;
   }
@@ -370,7 +365,7 @@ bool touches_vert(const vec3 tri_a[3], const int nb[3], const vec3 tri_b[3]) {
     i = 2;
   }
 
-  unsigned a1, a2;
+  unsigned int a1, a2;
   find_projection_axes(tri_a, a1, a2);
 
   vec2 ptri_a[3], ppt_b;
@@ -388,10 +383,10 @@ bool touches_vert(const vec3 tri_a[3], const int nb[3], const vec3 tri_b[3]) {
          carve::geom::TR_TYPE_NONE;
 }
 
-unsigned half_test(const vec3 tri_a[3], const int nb[3], const vec3 tri_b[3]) {
-  unsigned c = 0;
-  for (unsigned i = 0; i < 3; ++i) {
-    unsigned j = (i + 1) % 3;
+unsigned int half_test(const vec3 tri_a[3], const int nb[3], const vec3 tri_b[3]) {
+  unsigned int c = 0;
+  for (unsigned int i = 0; i < 3; ++i) {
+    unsigned int j = (i + 1) % 3;
     if (nb[i] == 0 || nb[i] == nb[j]) {
       continue;
     }
@@ -730,8 +725,8 @@ TriangleIntType triangle_intersection_exact(const vec3 tri_a[3],
     return touches_vert(tri_a, nb, tri_b) ? TR_TYPE_TOUCH : TR_TYPE_NONE;
   }
 
-  unsigned ia = half_test(tri_b, na, tri_a);
-  unsigned ib = half_test(tri_a, nb, tri_b);
+  unsigned int ia = half_test(tri_b, na, tri_a);
+  unsigned int ib = half_test(tri_a, nb, tri_b);
 
   if (ia == 2 || ib == 2) {
     return TR_TYPE_INT;

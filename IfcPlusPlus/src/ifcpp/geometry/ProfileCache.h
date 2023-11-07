@@ -17,8 +17,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
+#include <execution>
 #include <map>
-#include <ifcpp/model/OpenMPIncludes.h>
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include "ProfileConverter.h"
@@ -32,9 +32,7 @@ protected:
 	shared_ptr<SplineConverter>					m_spline_converter;
 	std::map<int,shared_ptr<ProfileConverter> >	m_profile_cache;
 
-#ifdef _OPENMP
-	Mutex m_writelock_profile_cache;
-#endif
+	std::mutex m_writelock_profile_cache;
 
 public:
 	ProfileCache( shared_ptr<CurveConverter>& cc, shared_ptr<SplineConverter>& sc )
@@ -74,9 +72,7 @@ public:
 		shared_ptr<ProfileConverter> profile_converter = shared_ptr<ProfileConverter>( new ProfileConverter( m_curve_converter, m_spline_converter ) );
 		profile_converter->computeProfile( ifc_profile );
 
-#ifdef _OPENMP
-		ScopedLock lock( m_writelock_profile_cache );
-#endif
+		std::lock_guard<std::mutex> lock(m_writelock_profile_cache);
 		m_profile_cache[profile_id] = profile_converter;
 
 		return profile_converter;

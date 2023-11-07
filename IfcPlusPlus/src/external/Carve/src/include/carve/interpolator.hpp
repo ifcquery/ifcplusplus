@@ -174,7 +174,7 @@ class Interpolator {
       interpolator->resultFace(csg, new_face, orig_face, flipped);
     }
     void processOutputFace(
-        std::vector<carve::mesh::MeshSet<3>::face_t*>& new_faces,
+        std::vector<carve::mesh::Face<3>*>& new_faces,
         const meshset_t::face_t* orig_face, bool flipped) override {
       interpolator->processOutputFace(csg, new_faces, orig_face, flipped);
     }
@@ -198,7 +198,7 @@ class Interpolator {
 
   virtual void processOutputFace(
       const carve::csg::CSG& csg,
-      std::vector<carve::mesh::MeshSet<3>::face_t*>& new_faces,
+      std::vector<carve::mesh::Face<3>*>& new_faces,
       const meshset_t::face_t* orig_face, bool flipped) {}
 
   virtual void edgeDivision(const carve::csg::CSG& csg,
@@ -328,7 +328,7 @@ class FaceEdgeAttr : public Interpolator {
 
   void processOutputFace(
       const carve::csg::CSG& csg,
-      std::vector<carve::mesh::MeshSet<3>::face_t*>& new_faces,
+      std::vector<carve::mesh::Face<3>*>& new_faces,
       const meshset_t::face_t* orig_face, bool flipped) override {
     edgedivmap_t undiv;
 
@@ -344,7 +344,7 @@ class FaceEdgeAttr : public Interpolator {
     }
 
     for (size_t fnum = 0; fnum < new_faces.size(); ++fnum) {
-      const carve::mesh::MeshSet<3>::face_t* new_face = new_faces[fnum];
+      const carve::mesh::Face<3>* new_face = new_faces[fnum];
       for (meshset_t::face_t::const_edge_iter_t e = new_face->begin();
            e != new_face->end(); ++e) {
         key_t k(new_face, e.idx());

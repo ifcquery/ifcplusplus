@@ -9,7 +9,7 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4X3/include/IfcArithmeticOperatorEnum.h"
 
-// TYPE IfcArithmeticOperatorEnum = ENUMERATION OF	(ADD	,DIVIDE	,MULTIPLY	,SUBTRACT);
+// TYPE IfcArithmeticOperatorEnum = ENUMERATION OF	(ADD	,DIVIDE	,MODULO	,MULTIPLY	,SUBTRACT);
 void IFC4X3::IfcArithmeticOperatorEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCARITHMETICOPERATORENUM("; }
@@ -17,6 +17,7 @@ void IFC4X3::IfcArithmeticOperatorEnum::getStepParameter( std::stringstream& str
 	{
 		case ENUM_ADD:	stream << ".ADD."; break;
 		case ENUM_DIVIDE:	stream << ".DIVIDE."; break;
+		case ENUM_MODULO:	stream << ".MODULO."; break;
 		case ENUM_MULTIPLY:	stream << ".MULTIPLY."; break;
 		case ENUM_SUBTRACT:	stream << ".SUBTRACT."; break;
 	}
@@ -34,6 +35,10 @@ shared_ptr<IFC4X3::IfcArithmeticOperatorEnum> IFC4X3::IfcArithmeticOperatorEnum:
 	else if( std_iequal( arg, ".DIVIDE." ) )
 	{
 		type_object->m_enum = IfcArithmeticOperatorEnum::ENUM_DIVIDE;
+	}
+	else if( std_iequal( arg, ".MODULO." ) )
+	{
+		type_object->m_enum = IfcArithmeticOperatorEnum::ENUM_MODULO;
 	}
 	else if( std_iequal( arg, ".MULTIPLY." ) )
 	{

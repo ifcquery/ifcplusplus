@@ -120,7 +120,7 @@ namespace carve {
 			bool altered = false;
 			for( size_t i = 0; i < faces.size(); ++i ) {
 				if( faces[i].manifold_id >= 0 &&
-					(unsigned)faces[i].manifold_id < selected_manifolds.size() &&
+					(unsigned int)faces[i].manifold_id < selected_manifolds.size() &&
 					selected_manifolds[faces[i].manifold_id] ) {
 					altered = true;
 					faces[i].invert();
@@ -138,7 +138,7 @@ namespace carve {
 						if( f[j + 1] ) {
 							m_id = f[j + 1]->manifold_id;
 						}
-						if( m_id >= 0 && (unsigned)m_id < selected_manifolds.size() &&
+						if( m_id >= 0 && (unsigned int)m_id < selected_manifolds.size() &&
 							selected_manifolds[m_id] ) {
 							std::swap(f[j], f[j + 1]);
 						}
@@ -168,9 +168,9 @@ namespace carve {
 
 			// work out how many faces/edges each vertex is connected to, in
 			// order to save on array reallocs.
-			for( unsigned i = 0; i < faces.size(); ++i ) {
+			for( unsigned int i = 0; i < faces.size(); ++i ) {
 				face_t& f = faces[i];
-				for( unsigned j = 0; j < f.nVertices(); j++ ) {
+				for( unsigned int j = 0; j < f.nVertices(); j++ ) {
 					vertex_face_count[vertexToIndex_fast(f.vertex(j))]++;
 				}
 			}
@@ -192,7 +192,7 @@ namespace carve {
 			// record connectivity from vertex to faces.
 			for( size_t i = 0; i < faces.size(); ++i ) {
 				face_t& f = faces[i];
-				for( unsigned j = 0; j < f.nVertices(); j++ ) {
+				for( unsigned int j = 0; j < f.nVertices(); j++ ) {
 					size_t vi = vertexToIndex_fast(f.vertex(j));
 					connectivity.vertex_to_face[vi].push_back(&f);
 				}
@@ -528,7 +528,7 @@ namespace carve {
 			}
 		}
 
-		Polyhedron::Polyhedron(const Polyhedron& poly, double CARVE_EPSILON)
+		Polyhedron::Polyhedron(const Polyhedron& poly, double eps) : octree(eps)
 		{
 			faces.reserve(poly.faces.size());
 
@@ -537,17 +537,17 @@ namespace carve {
 				const face_t& src = poly.faces[i];
 				faces.push_back(src);
 			}
-			commonFaceInit(false, CARVE_EPSILON);  // calls setFaceAndVertexOwner() and init()
+			commonFaceInit(false, eps);  // calls setFaceAndVertexOwner() and init()
 		}
 
-		Polyhedron::Polyhedron(const Polyhedron& poly, const std::vector<bool>& selected_manifolds, double CARVE_EPSILON)
+		Polyhedron::Polyhedron(const Polyhedron& poly, const std::vector<bool>& selected_manifolds, double eps) : octree(eps)
 		{
 			size_t n_faces = 0;
 
 			for( size_t i = 0; i < poly.faces.size(); ++i )
 			{
 				const face_t& src = poly.faces[i];
-				if( src.manifold_id >= 0 && (unsigned)src.manifold_id < selected_manifolds.size() && selected_manifolds[src.manifold_id] )
+				if( src.manifold_id >= 0 && (unsigned int)src.manifold_id < selected_manifolds.size() && selected_manifolds[src.manifold_id] )
 				{
 					n_faces++;
 				}
@@ -558,16 +558,16 @@ namespace carve {
 			for( size_t i = 0; i < poly.faces.size(); ++i )
 			{
 				const face_t& src = poly.faces[i];
-				if( src.manifold_id >= 0 && (unsigned)src.manifold_id < selected_manifolds.size() && selected_manifolds[src.manifold_id] )
+				if( src.manifold_id >= 0 && (unsigned int)src.manifold_id < selected_manifolds.size() && selected_manifolds[src.manifold_id] )
 				{
 					faces.push_back(src);
 				}
 			}
 
-			commonFaceInit(false, CARVE_EPSILON);  // calls setFaceAndVertexOwner() and init()
+			commonFaceInit(false, eps);  // calls setFaceAndVertexOwner() and init()
 		}
 
-		Polyhedron::Polyhedron(const Polyhedron& poly, int m_id, double CARVE_EPSILON)
+		Polyhedron::Polyhedron(const Polyhedron& poly, int m_id, double eps) : octree(eps)
 		{
 			size_t n_faces = 0;
 
@@ -591,10 +591,10 @@ namespace carve {
 				}
 			}
 
-			commonFaceInit(false, CARVE_EPSILON);  // calls setFaceAndVertexOwner() and init()
+			commonFaceInit(false, eps);  // calls setFaceAndVertexOwner() and init()
 		}
 
-		Polyhedron::Polyhedron(const std::vector<carve::geom3d::Vector>& _vertices, int n_faces, const std::vector<int>& face_indices, double CARVE_EPSILON)
+		Polyhedron::Polyhedron(const std::vector<carve::geom3d::Vector>& _vertices, int n_faces, const std::vector<int>& face_indices, double eps) : octree(eps)
 		{
 			// The polyhedron is defined by a vector of vertices, which we
 			// want to copy, and a face index list, from which we need to
@@ -619,21 +619,21 @@ namespace carve {
 
 				while( vertexCount-- ) {
 					CARVE_ASSERT(*iter >= 0);
-					CARVE_ASSERT((unsigned)*iter < vertices.size());
+					CARVE_ASSERT((unsigned int)*iter < vertices.size());
 					v.push_back(&vertices[*iter++]);
 				}
-				faces.push_back(face_t(v, CARVE_EPSILON));
+				faces.push_back(face_t(v, eps));
 			}
 
 			setFaceAndVertexOwner();
 
-			if( !init(CARVE_EPSILON) )
+			if( !init(eps) )
 			{
 				throw carve::exception("polyhedron creation failed");
 			}
 		}
 
-		Polyhedron::Polyhedron(std::vector<face_t>& _faces, std::vector<vertex_t>& _vertices, double CARVE_EPSILON, bool _recalc)
+		Polyhedron::Polyhedron(std::vector<face_t>& _faces, std::vector<vertex_t>& _vertices, double eps, bool _recalc) : octree(eps)
 		{
 			faces.swap(_faces);
 			vertices.swap(_vertices);
@@ -642,30 +642,30 @@ namespace carve {
 
 			if( _recalc )
 			{
-				faceRecalc(CARVE_EPSILON);
+				faceRecalc(eps);
 			}
 
-			if( !init(CARVE_EPSILON) )
+			if( !init(eps) )
 			{
 				throw carve::exception("polyhedron creation failed");
 			}
 		}
 
-		Polyhedron::Polyhedron(std::vector<face_t>& _faces, double CARVE_EPSILON, bool _recalc) {
+		Polyhedron::Polyhedron(std::vector<face_t>& _faces, double eps, bool _recalc) : octree(eps)
+		{
 			faces.swap(_faces);
-			commonFaceInit(_recalc, CARVE_EPSILON);  // calls setFaceAndVertexOwner() and init()
+			commonFaceInit(_recalc, eps);  // calls setFaceAndVertexOwner() and init()
 		}
 
-		Polyhedron::Polyhedron(std::list<face_t>& _faces, double CARVE_EPSILON, bool _recalc)
+		Polyhedron::Polyhedron(std::list<face_t>& _faces, double eps, bool _recalc) : octree(eps)
 		{
 			faces.reserve(_faces.size());
 			std::copy(_faces.begin(), _faces.end(), std::back_inserter(faces));
-			commonFaceInit(_recalc, CARVE_EPSILON);  // calls setFaceAndVertexOwner() and init()
+			commonFaceInit(_recalc, eps);  // calls setFaceAndVertexOwner() and init()
 		}
 
-		void Polyhedron::collectFaceVertices(
-			std::vector<face_t>& faces, std::vector<vertex_t>& vertices,
-			std::unordered_map<const vertex_t*, const vertex_t*>& vmap) {
+		void Polyhedron::collectFaceVertices( std::vector<face_t>& faces, std::vector<vertex_t>& vertices, std::unordered_map<const vertex_t*, const vertex_t*>& vmap)
+		{
 			// Given a set of faces, copy all referenced vertices into a
 			// single vertex array and update the faces to point into that
 			// array. On exit, vmap contains a mapping from old pointer to
@@ -770,7 +770,7 @@ namespace carve {
 				manifold_intersections.clear();
 				octree.findFacesNear(line, possible_faces);
 
-				for( unsigned i = 0; !failed && i < possible_faces.size(); i++ ) {
+				for( unsigned int i = 0; !failed && i < possible_faces.size(); i++ ) {
 					if( !manifold_is_closed[possible_faces[i]->manifold_id] ) {
 						continue;  // skip open manifolds
 					}
@@ -899,7 +899,7 @@ namespace carve {
 				manifold_intersections.clear();
 				octree.findFacesNear(line, possible_faces);
 
-				for( unsigned i = 0; !failed && i < possible_faces.size(); i++ ) {
+				for( unsigned int i = 0; !failed && i < possible_faces.size(); i++ ) {
 					if( manifold_id != -1 && manifold_id != faces[i].manifold_id ) {
 						continue;
 					}

@@ -20,7 +20,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <map>
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
-#include <ifcpp/model/OpenMPIncludes.h>
 
 #include <QtCore/qglobal.h>
 #include <QtWidgets/QVBoxLayout>
@@ -70,10 +69,7 @@ protected:
 
 	QLineEdit*		m_le_path_write;
 	QSplitter*		m_io_splitter;
-	
-#ifdef ENABLE_OPENMP
-	Mutex m_mutex_messages;
-#endif
+	std::mutex m_mutex_messages;
 
 signals:
 	void signalProgressValue(double progress_value, const std::string& progress_type);

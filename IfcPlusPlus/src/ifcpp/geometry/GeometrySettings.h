@@ -32,10 +32,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #define M_PI_2 1.57079632679489661923
 #endif
 
-#define GEOM_TOLERANCE  0.0000001
+#define EPS_M16 1e-16
+#define EPS_M14 1e-14
+#define EPS_M12 1e-12
+#define EPS_M9 1e-9
+#define EPS_M8 1e-8
+#define EPS_M7 1e-7
+#define EPS_M6 1e-6
+#define EPS_M5 1e-5
+#define EPS_M4 1e-4
+#define EPS_DEFAULT 1.5*EPS_M9
+#define EPS_ALIGNED_EDGES 1e-12
+#define EPS_ANGLE_COPLANAR_FACES 1e-13
 #define HALF_SPACE_BOX_SIZE 100
+#define MAX_NUM_EDGES 100000
 
 class StatusCallback;
+class CarveMeshNormalizer;
+struct GeomProcessingParams;
+namespace carve { namespace mesh { template <unsigned int ndim>	class MeshSet; } }
+using MeshSimplifyCallbackType = std::function<void(shared_ptr<carve::mesh::MeshSet<3> >& meshset, const GeomProcessingParams& params)>;
 
 //\brief Central class to hold settings that influence geometry processing.
 class GeometrySettings
@@ -62,6 +78,8 @@ public:
 		m_min_triangle_area = other->m_min_triangle_area;
 		m_epsilonMergePoints = other->m_epsilonMergePoints;
 		m_epsCoplanarAngle = other->m_epsCoplanarAngle;
+		m_mergeAlignedEdges = other->m_mergeAlignedEdges;
+		m_callback_simplify_mesh = other->m_callback_simplify_mesh;
 	}
 
 	// Number of discretization points per circle
@@ -133,7 +151,8 @@ public:
 	std::set<uint32_t> m_render_object_filter;
 	size_t m_maxNumFaceEdges = 10000;
 	bool m_mergeAlignedEdges = true;
-
+	MeshSimplifyCallbackType m_callback_simplify_mesh;
+	
 protected:
 	int	m_num_vertices_per_circle = 14;
 	int m_num_vertices_per_circle_default = 14;
@@ -156,7 +175,6 @@ protected:
 	};
 };
 
-class CarveMeshNormalizer;
 struct GeomProcessingParams
 {
 	GeomProcessingParams( shared_ptr<GeometrySettings>& generalSettings )
@@ -176,7 +194,7 @@ struct GeomProcessingParams
 		this->ifc_entity = ifc_entity;
 		this->callbackFunc = callbackFunc;
 	}
-	GeomProcessingParams(const GeomProcessingParams& other) //= default; // TODO check this default copy constructor on Win/Linux
+	GeomProcessingParams(const GeomProcessingParams& other)
 	{
 		this->generalSettings = other.generalSettings;
 		this->ifc_entity = other.ifc_entity;
@@ -189,13 +207,16 @@ struct GeomProcessingParams
 		this->allowDegenerateEdges = other.allowDegenerateEdges;
 		this->checkZeroAreaFaces = other.checkZeroAreaFaces;
 		this->allowZeroAreaFaces = other.allowZeroAreaFaces;
+		this->triangulateResult = other.triangulateResult;
+		this->shouldBeClosedManifold = other.shouldBeClosedManifold;
+		this->treatLongThinFaceAsDegenerate = other.treatLongThinFaceAsDegenerate;
 		this->debugDump = other.debugDump;
 		this->normalizer = other.normalizer;
 	}
 	shared_ptr<GeometrySettings> generalSettings;
 	BuildingEntity* ifc_entity = nullptr;
 	StatusCallback* callbackFunc = nullptr;
-
+	
 	double epsMergePoints = 1e-9;
 	double epsMergeAlignedEdgesAngle = 1e-6;
 	double minFaceArea = 1e-12;
@@ -204,9 +225,9 @@ struct GeomProcessingParams
 	bool allowDegenerateEdges = false;
 	bool checkZeroAreaFaces = true;
 	bool allowZeroAreaFaces = false;
+	bool triangulateResult = false;
+	bool shouldBeClosedManifold = true;
+	bool treatLongThinFaceAsDegenerate = false;
 	bool debugDump = false;
 	CarveMeshNormalizer* normalizer = nullptr;
-
-	// config
-	bool treatLongThinFaceAsDegenerate = false;
 };

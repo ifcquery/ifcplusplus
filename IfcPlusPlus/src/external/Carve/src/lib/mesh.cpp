@@ -34,84 +34,96 @@
 #include <functional>
 
 namespace {
-	inline double CALC_X(const carve::geom::plane<3>& p, double y, double z) {
+	inline double CALC_X(const carve::geom::plane<3>& p, double y, double z)
+	{
 		return -(p.d + p.N.y * y + p.N.z * z) / p.N.x;
 	}
-	inline double CALC_Y(const carve::geom::plane<3>& p, double x, double z) {
+	inline double CALC_Y(const carve::geom::plane<3>& p, double x, double z)
+	{
 		return -(p.d + p.N.x * x + p.N.z * z) / p.N.y;
 	}
-	inline double CALC_Z(const carve::geom::plane<3>& p, double x, double y) {
+	inline double CALC_Z(const carve::geom::plane<3>& p, double x, double y)
+	{
 		return -(p.d + p.N.x * x + p.N.y * y) / p.N.z;
 	}
 
-	carve::geom::vector<2> _project_1(const carve::geom::vector<3>& v) {
+	carve::geom::vector<2> _project_1(const carve::geom::vector<3>& v)
+	{
 		return carve::geom::VECTOR(v.z, v.y);
 	}
 
-	carve::geom::vector<2> _project_2(const carve::geom::vector<3>& v) {
+	carve::geom::vector<2> _project_2(const carve::geom::vector<3>& v)
+	{
 		return carve::geom::VECTOR(v.x, v.z);
 	}
 
-	carve::geom::vector<2> _project_3(const carve::geom::vector<3>& v) {
+	carve::geom::vector<2> _project_3(const carve::geom::vector<3>& v)
+	{
 		return carve::geom::VECTOR(v.y, v.x);
 	}
 
-	carve::geom::vector<2> _project_4(const carve::geom::vector<3>& v) {
+	carve::geom::vector<2> _project_4(const carve::geom::vector<3>& v)
+	{
 		return carve::geom::VECTOR(v.y, v.z);
 	}
 
-	carve::geom::vector<2> _project_5(const carve::geom::vector<3>& v) {
+	carve::geom::vector<2> _project_5(const carve::geom::vector<3>& v)
+	{
 		return carve::geom::VECTOR(v.z, v.x);
 	}
 
-	carve::geom::vector<2> _project_6(const carve::geom::vector<3>& v) {
+	carve::geom::vector<2> _project_6(const carve::geom::vector<3>& v)
+	{
 		return carve::geom::VECTOR(v.x, v.y);
 	}
 
-	carve::geom::vector<3> _unproject_1(const carve::geom::vector<2>& p,
-		const carve::geom3d::Plane& plane) {
+	carve::geom::vector<3> _unproject_1(const carve::geom::vector<2>& p, const carve::geom3d::Plane& plane)
+	{
 		return carve::geom::VECTOR(CALC_X(plane, p.y, p.x), p.y, p.x);
 	}
 
-	carve::geom::vector<3> _unproject_2(const carve::geom::vector<2>& p,
-		const carve::geom3d::Plane& plane) {
+	carve::geom::vector<3> _unproject_2(const carve::geom::vector<2>& p, const carve::geom3d::Plane& plane)
+	{
 		return carve::geom::VECTOR(p.x, CALC_Y(plane, p.x, p.y), p.y);
 	}
 
-	carve::geom::vector<3> _unproject_3(const carve::geom::vector<2>& p,
-		const carve::geom3d::Plane& plane) {
+	carve::geom::vector<3> _unproject_3(const carve::geom::vector<2>& p, const carve::geom3d::Plane& plane)
+	{
 		return carve::geom::VECTOR(p.y, p.x, CALC_Z(plane, p.y, p.x));
 	}
 
-	carve::geom::vector<3> _unproject_4(const carve::geom::vector<2>& p,
-		const carve::geom3d::Plane& plane) {
+	carve::geom::vector<3> _unproject_4(const carve::geom::vector<2>& p, const carve::geom3d::Plane& plane)
+	{
 		return carve::geom::VECTOR(CALC_X(plane, p.x, p.y), p.x, p.y);
 	}
 
-	carve::geom::vector<3> _unproject_5(const carve::geom::vector<2>& p,
-		const carve::geom3d::Plane& plane) {
+	carve::geom::vector<3> _unproject_5(const carve::geom::vector<2>& p, const carve::geom3d::Plane& plane)
+	{
 		return carve::geom::VECTOR(p.y, CALC_Y(plane, p.y, p.x), p.x);
 	}
 
-	carve::geom::vector<3> _unproject_6(const carve::geom::vector<2>& p,
-		const carve::geom3d::Plane& plane) {
+	carve::geom::vector<3> _unproject_6(const carve::geom::vector<2>& p, const carve::geom3d::Plane& plane)
+	{
 		return carve::geom::VECTOR(p.x, p.y, CALC_Z(plane, p.x, p.y));
 	}
 
-	static carve::geom::vector<2>(*project_tab[2][3])(
-		const carve::geom::vector<3>&) = { {&_project_1, &_project_2, &_project_3},
-										  {&_project_4, &_project_5, &_project_6} };
+	static carve::geom::vector<2>(*project_tab[2][3])( const carve::geom::vector<3>&) = 
+	{
+		{&_project_1, &_project_2, &_project_3},
+		{&_project_4, &_project_5, &_project_6}
+	};
 
-	static carve::geom::vector<3>(*unproject_tab[2][3])(
-		const carve::geom::vector<2>&, const carve::geom3d::Plane&) = {
+	static carve::geom::vector<3>(*unproject_tab[2][3])( const carve::geom::vector<2>&, const carve::geom3d::Plane&) = 
+	{
 		{&_unproject_1, &_unproject_2, &_unproject_3},
-		{&_unproject_4, &_unproject_5, &_unproject_6} };
+		{&_unproject_4, &_unproject_5, &_unproject_6} 
+	};
 }  // namespace
 
 namespace carve {
 	namespace mesh {
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		typename Face<ndim>::project_t Face<ndim>::getProjector(bool positive_facing,
 			int axis) const {
 			return NULL;
@@ -122,7 +134,7 @@ namespace carve {
 			return project_tab[positive_facing ? 1 : 0][axis];
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		typename Face<ndim>::unproject_t Face<ndim>::getUnprojector(
 			bool positive_facing, int axis) const {
 			return NULL;
@@ -134,7 +146,7 @@ namespace carve {
 			return unproject_tab[positive_facing ? 1 : 0][axis];
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool Face<ndim>::containsPoint(const vector_t& p, double CARVE_EPSILON) const
 		{
 			if( !carve::math::ZERO(carve::geom::distance(plane, p), CARVE_EPSILON) )
@@ -147,7 +159,7 @@ namespace carve {
 			return carve::geom2d::pointInPoly(verts, project(p), CARVE_EPSILON).iclass != carve::POINT_OUT;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool Face<ndim>::containsPointInProjection(const vector_t& p, double CARVE_EPSILON) const
 		{
 			std::vector<carve::geom::vector<2> > verts;
@@ -155,14 +167,14 @@ namespace carve {
 			return carve::geom2d::pointInPoly(verts, project(p), CARVE_EPSILON).iclass != carve::POINT_OUT;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool Face<ndim>::simpleLineSegmentIntersection( const carve::geom::linesegment<ndim>& line, vector_t& intersection, double CARVE_EPSILON) const
 		{
 			if( !line.OK(CARVE_EPSILON) ) {
 				return false;
 			}
 
-			carve::mesh::MeshSet<3>::vertex_t::vector_t p;
+			carve::mesh::Vertex<3>::vector_t p;
 			carve::IntersectionClass intersects = carve::geom3d::lineSegmentPlaneIntersection(plane, line, p, CARVE_EPSILON);
 			if( intersects == carve::INTERSECT_NONE || intersects == carve::INTERSECT_BAD )
 			{
@@ -178,7 +190,7 @@ namespace carve {
 			return false;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		IntersectionClass Face<ndim>::lineSegmentIntersection( const carve::geom::linesegment<ndim>& line, vector_t& intersection, double CARVE_EPSILON) const
 		{
 			if( !line.OK(CARVE_EPSILON) )
@@ -219,7 +231,7 @@ namespace carve {
 			return INTERSECT_NONE;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		Face<ndim>* Face<ndim>::closeLoop(typename Face<ndim>::edge_t* start, double CARVE_EPSILON)
 		{
 			edge_t* e = start;
@@ -290,7 +302,8 @@ namespace carve {
 				return false;
 			}
 
-			void FaceStitcher::matchSimpleEdges() {
+			void FaceStitcher::matchSimpleEdges()
+			{
 				// join faces that share an edge, where no other faces are incident.
 				for( edge_map_t::iterator i = edges.begin(); i != edges.end(); ++i ) {
 					const vpair_t& ev = (*i).first;
@@ -326,10 +339,8 @@ namespace carve {
 				return face_groups.find_set_head(edge->face->id);
 			}
 
-			void FaceStitcher::orderForwardAndReverseEdges(
-				std::vector<std::vector<Edge<3>*> >& efwd,
-				std::vector<std::vector<Edge<3>*> >& erev,
-				std::vector<std::vector<EdgeOrderData> >& result) {
+			void FaceStitcher::orderForwardAndReverseEdges( std::vector<std::vector<Edge<3>*> >& efwd, std::vector<std::vector<Edge<3>*> >& erev, std::vector<std::vector<EdgeOrderData> >& result)
+			{
 				const size_t Nfwd = efwd.size();
 				const size_t Nrev = erev.size();
 				const size_t N = efwd[0].size();
@@ -548,14 +559,10 @@ namespace carve {
 				fuseEdges(efwd[fwd_grp], erev[rev_grp]);
 			}
 
-			void FaceStitcher::matchOrderedEdges(
-				const std::vector<std::vector<EdgeOrderData> >::iterator begin,
-				const std::vector<std::vector<EdgeOrderData> >::iterator end,
-				std::vector<std::vector<Edge<3>*> >& efwd,
-				std::vector<std::vector<Edge<3>*> >& erev) {
-				typedef std::unordered_map<std::pair<size_t, size_t>, size_t,
-					carve::hash_pair>
-					pair_counts_t;
+			void FaceStitcher::matchOrderedEdges( const std::vector<std::vector<EdgeOrderData> >::iterator begin, const std::vector<std::vector<EdgeOrderData> >::iterator end,
+				std::vector<std::vector<Edge<3>*> >& efwd, std::vector<std::vector<Edge<3>*> >& erev)
+			{
+				typedef std::unordered_map<std::pair<size_t, size_t>, size_t, carve::hash_pair> pair_counts_t;
 				for( ;;) {
 					pair_counts_t pair_counts;
 
@@ -576,15 +583,16 @@ namespace carve {
 
 					std::vector<std::pair<size_t, std::pair<size_t, size_t> > > counts;
 					counts.reserve(pair_counts.size());
-					for( pair_counts_t::iterator iter = pair_counts.begin();
-						iter != pair_counts.end(); ++iter ) {
+					for( pair_counts_t::iterator iter = pair_counts.begin(); iter != pair_counts.end(); ++iter )
+					{
 						counts.push_back(std::make_pair((*iter).second, (*iter).first));
 					}
 					std::make_heap(counts.begin(), counts.end());
 
 					std::set<size_t> rem_fwd, rem_rev;
 
-					while( counts.size() ) {
+					while( counts.size() )
+					{
 						std::pair<size_t, size_t> join = counts.front().second;
 						std::pop_heap(counts.begin(), counts.end());
 						counts.pop_back();
@@ -600,11 +608,9 @@ namespace carve {
 
 						joinGroups(efwd, erev, g1, g2);
 
-						for( std::vector<std::vector<EdgeOrderData> >::iterator i = begin;
-							i != end; ++i ) {
-							(*i).erase(std::remove_if((*i).begin(), (*i).end(),
-								EdgeOrderData::TestGroups(g1, g2)),
-								(*i).end());
+						for( std::vector<std::vector<EdgeOrderData> >::iterator it = begin; it != end; ++it )
+						{
+							(*it).erase(std::remove_if((*it).begin(), (*it).end(), EdgeOrderData::TestGroups(g1, g2)), (*it).end());
 						}
 
 						rem_fwd.insert(g1);
@@ -613,11 +619,10 @@ namespace carve {
 				}
 			}
 
-			void FaceStitcher::resolveOpenEdges() {
-				// Remove open regions of mesh. Doing this may make additional
-				// edges simple (for example, removing a fin from the edge of
-				// a cube), and may also expose more open mesh regions. In the
-				// latter case, the process must be repeated to deal with the
+			void FaceStitcher::resolveOpenEdges()
+			{
+				// Remove open regions of mesh. Doing this may make additional edges simple (for example, removing a fin from the edge of
+				// a cube), and may also expose more open mesh regions. In the latter case, the process must be repeated to deal with the
 				// newly uncovered regions.
 				std::unordered_set<size_t> open_groups;
 
@@ -627,16 +632,18 @@ namespace carve {
 					}
 				}
 
-				while( !open_groups.empty() ) {
+				while( !open_groups.empty() )
+				{
 					std::list<vpair_t> edge_0, edge_1;
 
-					for( edge_map_t::iterator i = complex_edges.begin();
-						i != complex_edges.end(); ++i ) {
+					for( edge_map_t::iterator it = complex_edges.begin(); it != complex_edges.end(); ++it )
+					{
 						bool was_modified = false;
-						for( edgelist_t::iterator j = (*i).second.begin();
-							j != (*i).second.end();) {
-							if( open_groups.find(faceGroupID(*j)) != open_groups.end() ) {
-								j = (*i).second.erase(j);
+						for( edgelist_t::iterator j = (*it).second.begin(); j != (*it).second.end();)
+						{
+							if( open_groups.find(faceGroupID(*j)) != open_groups.end() )
+							{
+								j = (*it).second.erase(j);
 								was_modified = true;
 							}
 							else {
@@ -644,44 +651,69 @@ namespace carve {
 							}
 						}
 						if( was_modified ) {
-							if( (*i).second.empty() ) {
-								edge_0.push_back((*i).first);
+							if( (*it).second.empty() ) {
+								edge_0.push_back((*it).first);
 							}
-							else if( (*i).second.size() == 1 ) {
-								edge_1.push_back((*i).first);
+							else if( (*it).second.size() == 1 ) {
+								edge_1.push_back((*it).first);
 							}
 						}
 					}
 
-					for( std::list<vpair_t>::iterator i = edge_1.begin(); i != edge_1.end();
-						++i ) {
-						vpair_t e1 = *i;
+					for( std::list<vpair_t>::iterator it = edge_1.begin(); it != edge_1.end(); ++it )
+					{
+						vpair_t e1 = *it;
 						edge_map_t::iterator e1i = complex_edges.find(e1);
 						if( e1i == complex_edges.end() ) {
 							continue;
 						}
 						vpair_t e2 = vpair_t(e1.second, e1.first);
 						edge_map_t::iterator e2i = complex_edges.find(e2);
-						CARVE_ASSERT(
-							e2i != complex_edges.end());  // each complex edge should have a mate.
+						if (e2i == complex_edges.end())
+						{
+							// each complex edge should have a mate.
+							throw carve::exception("complex_edges reverse edge not found");
+						}
 
-						if( (*e2i).second.size() == 1 ) {
+						if( (*e2i).second.size() == 1 )
+						{
 							// merge newly simple edges, delete both from complex_edges.
 							edge_t* a = (*e1i).second.front();
 							edge_t* b = (*e2i).second.front();
+							if (!a)
+							{
+								throw carve::exception("complex_edges reverse edge not found");
+							}
+							if (!b)
+							{
+								throw carve::exception("complex_edges reverse edge not found");
+							}
 							a->rev = b;
 							b->rev = a;
 							face_groups.merge_sets(a->face->id, b->face->id);
 							complex_edges.erase(e1i);
-							complex_edges.erase(e2i);
+
+							if (complex_edges.size() > 0)
+							{
+								if (e2i == complex_edges.end())
+								{
+									throw carve::exception("complex_edges reverse edge not found");
+								}
+								if (complex_edges.find(e2) == complex_edges.end())
+								{
+									throw carve::exception("complex_edges reverse edge not found");
+								}
+
+								complex_edges.erase(e2i);
+							}
 						}
 					}
 
 					open_groups.clear();
 
-					for( std::list<vpair_t>::iterator i = edge_0.begin(); i != edge_0.end();
-						++i ) {
-						vpair_t e1 = *i;
+					for( std::list<vpair_t>::iterator it = edge_0.begin(); it != edge_0.end(); ++it )
+					{
+						vpair_t e1 = *it;
 						edge_map_t::iterator e1i = complex_edges.find(e1);
 						if( e1i == complex_edges.end() )
 						{
@@ -691,12 +723,9 @@ namespace carve {
 						vpair_t e2 = vpair_t(e1.second, e1.first);
 						edge_map_t::iterator e2i = complex_edges.find(e2);
 						if( e2i == complex_edges.end() ) {
-							// This could occur, for example, when two faces share
-							// an edge in the same direction, but are both not
-							// touching anything else. Both get removed by the open
-							// group removal code, leaving an edge map with zero
-							// edges. The edge in the opposite direction does not
-							// exist, because there's no face that adjoins either of
+							// This could occur, for example, when two faces share an edge in the same direction, but are both not 
+							//  touching anything else. Both get removed by the open group removal code, leaving an edge map with zero
+							// edges. The edge in the opposite direction does not exist, because there's no face that adjoins either of
 							// the two open faces.
 							continue;
 						}
@@ -727,11 +756,9 @@ namespace carve {
 				}
 			}
 
-			void FaceStitcher::extractConnectedEdges(
-				std::vector<const vertex_t*>::iterator begin,
-				std::vector<const vertex_t*>::iterator end,
-				std::vector<std::vector<Edge<3>*> >& efwd,
-				std::vector<std::vector<Edge<3>*> >& erev) {
+			void FaceStitcher::extractConnectedEdges( std::vector<const vertex_t*>::iterator begin, std::vector<const vertex_t*>::iterator end,
+				std::vector<std::vector<Edge<3>*> >& efwd, std::vector<std::vector<Edge<3>*> >& erev)
+			{
 				const size_t N = std::distance(begin, end) - 1;
 
 				std::vector<const vertex_t*>::iterator e1, e2;
@@ -979,14 +1006,14 @@ namespace carve {
 	}
 
 	// construct a Polyhedron from a MeshSet
-	poly::Polyhedron* polyhedronFromMesh(const mesh::MeshSet<3>* mesh, int manifold_id, double CARVE_EPSILON)
+	poly::Polyhedron* polyhedronFromMesh(const mesh::MeshSet<3>* mesh, int manifold_id, double eps)
 	{
 		typedef poly::Polyhedron poly_t;
 		typedef poly::Polyhedron::vertex_t vertex_t;
 		typedef poly::Polyhedron::edge_t edge_t;
 		typedef poly::Polyhedron::face_t face_t;
 
-		poly::Polyhedron* poly = new poly::Polyhedron();
+		poly::Polyhedron* poly = new poly::Polyhedron(eps);
 		const mesh::Vertex<3>* Vbase = &mesh->vertex_storage[0];
 
 		poly->vertices.reserve(mesh->vertex_storage.size());
@@ -1023,12 +1050,12 @@ namespace carve {
 		{
 			for( size_t m = 0; m < mesh->meshes.size(); ++m )
 			{
-				copyMeshFaces(mesh->meshes[m], m, Vbase, poly, edges, face_map, CARVE_EPSILON);
+				copyMeshFaces(mesh->meshes[m], m, Vbase, poly, edges, face_map, eps);
 			}
 		}
 		else
 		{
-			copyMeshFaces(mesh->meshes[manifold_id], 0, Vbase, poly, edges, face_map, CARVE_EPSILON);
+			copyMeshFaces(mesh->meshes[manifold_id], 0, Vbase, poly, edges, face_map, eps);
 		}
 
 		size_t n_edges = 0;
@@ -1138,7 +1165,7 @@ static int countSuccessWithRand = 0;
 #endif
 
 carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* meshset, const carve::geom::RTreeNode<3, carve::mesh::Face<3>*>* face_rtree,
-	const carve::geom::vector<3>& v, double CARVE_EPSILON, bool even_odd, const carve::mesh::Mesh<3>* mesh, const carve::mesh::Face<3>** hit_face)
+	const carve::geom::vector<3>& v, double eps, bool even_odd, const carve::mesh::Mesh<3>* mesh, const carve::mesh::Face<3>** hit_face)
 {
 	if( hit_face ) {
 		*hit_face = nullptr;
@@ -1161,7 +1188,7 @@ carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* mesh
 	}
 
 	std::vector<carve::mesh::Face<3>*> near_faces;
-	face_rtree->search(v, std::back_inserter(near_faces));
+	face_rtree->search(v, std::back_inserter(near_faces), eps);
 
 	for( size_t i = 0; i < near_faces.size(); i++ )
 	{
@@ -1175,7 +1202,7 @@ carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* mesh
 
 		// if (!near_faces[i]->mesh->isClosed()) continue;
 
-		if( near_faces[i]->containsPoint(v, CARVE_EPSILON) )
+		if( near_faces[i]->containsPoint(v, eps) )
 		{
 #if defined(DEBUG_CONTAINS_VERTEX)
 			std::cerr << "{final:ON(hits face " << near_faces[i] << ")}" << std::endl;
@@ -1233,12 +1260,12 @@ carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* mesh
 
 		near_faces.clear();
 		manifold_intersections.clear();
-		face_rtree->search(line, std::back_inserter(near_faces));
+		face_rtree->search(line, std::back_inserter(near_faces), eps);
 
 		if (numIntersectionRuns > 10000)
 		{
 			size_t edgeCount = 0;
-			for (unsigned i = 0; !failed && i < near_faces.size(); i++)
+			for (unsigned int i = 0; !failed && i < near_faces.size(); i++)
 			{
 				edgeCount += near_faces[i]->n_edges;
 			}
@@ -1248,7 +1275,7 @@ carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* mesh
 			break;
 		}
 
-		for( unsigned i = 0; !failed && i < near_faces.size(); i++ )
+		for( unsigned int i = 0; !failed && i < near_faces.size(); i++ )
 		{
 			if( mesh != nullptr && mesh != near_faces[i]->mesh )
 			{
@@ -1259,7 +1286,7 @@ carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* mesh
 				continue;
 			}
 
-			auto intersectionResult = near_faces[i]->lineSegmentIntersection(line, intersection, CARVE_EPSILON);
+			auto intersectionResult = near_faces[i]->lineSegmentIntersection(line, intersection, eps);
 			switch( intersectionResult )
 			{
 			case INTERSECT_FACE: {
@@ -1269,7 +1296,7 @@ carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* mesh
 					<< std::endl;
 #endif
 
-				if( !even_odd && fabs(dot(ray_dir, near_faces[i]->plane.N)) < CARVE_EPSILON )
+				if( !even_odd && fabs(dot(ray_dir, near_faces[i]->plane.N)) < eps)
 				{
 #if defined(DEBUG_CONTAINS_VERTEX)
 					std::cerr << "{failing(small dot product)}" << std::endl;

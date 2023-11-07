@@ -137,9 +137,7 @@ void TabReadWrite::messageTarget( void* ptr, shared_ptr<StatusCallback::Message>
 	TabReadWrite* myself = (TabReadWrite*)ptr;
 	if( myself )
 	{
-#ifdef ENABLE_OPENMP
-		ScopedLock lock( myself->m_mutex_messages );
-#endif
+		std::lock_guard<std::mutex> lock(myself->m_mutex_messages);
 		std::string reporting_function_str( m->m_reporting_function );
 		std::wstringstream strs_report;
 		if( reporting_function_str.size() > 0 )
@@ -150,7 +148,11 @@ void TabReadWrite::messageTarget( void* ptr, shared_ptr<StatusCallback::Message>
 
 		if( m->m_entity )
 		{
-			strs_report << ", IFC entity: #" << m->m_entity->m_tag << "=" << EntityFactory::getStringForClassID(m->m_entity->classID());
+			BuildingEntity* ent = dynamic_cast<BuildingEntity*>(m->m_entity);
+			if( ent )
+			{
+				strs_report << ", IFC entity: #" << ent->m_tag << "=" << EntityFactory::getStringForClassID(m->m_entity->classID());
+			}
 		}
 		std::wstring message_str = strs_report.str().c_str();
 
@@ -218,7 +220,7 @@ void TabReadWrite::slotRecentFilesIndexChanged(int idx)
 void TabReadWrite::loadIfcFile( QString& path_in )
 {
 	// redirect message callbacks
-	m_system->getGeometryConverter()->setMessageCallBack( this, &TabReadWrite::messageTarget );
+	m_system->getGeometryConverter()->setMessageCallBack(std::bind(&TabReadWrite::messageTarget, this, std::placeholders::_1));
 	
 
 	txtOut( QString( "loading file: " ) + path_in );
@@ -293,7 +295,7 @@ void TabReadWrite::loadIfcFile( QString& path_in )
 
 		// load file to IFC model
 		shared_ptr<ReaderSTEP> step_reader(new ReaderSTEP());
-		step_reader->setMessageCallBack(this, &TabReadWrite::messageTarget);
+		step_reader->setMessageCallBack(std::bind(&TabReadWrite::messageTarget, this, std::placeholders::_1));
 		step_reader->loadModelFromFile(path_str, geometry_converter->getBuildingModel());
 
 		// convert IFC geometric representations into Carve geometry

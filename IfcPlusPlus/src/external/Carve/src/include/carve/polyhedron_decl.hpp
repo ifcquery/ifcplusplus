@@ -53,7 +53,10 @@ namespace carve {
 		private:
 			friend Polyhedron* carve::polyhedronFromMesh(const mesh::MeshSet<3>*, int, double);
 
-			Polyhedron() {}
+			Polyhedron(double epsilon)
+				: octree(epsilon)
+			{
+			}
 
 			Polyhedron& operator=(const Polyhedron&);  // not implemented
 

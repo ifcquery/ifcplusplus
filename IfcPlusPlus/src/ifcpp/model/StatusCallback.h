@@ -17,14 +17,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <sstream>
+#include <execution>
+#include <functional>
 #include <iostream>
-#include <vector>
+#include <mutex>
+#include <sstream>
+
 #include "BasicTypes.h"
 #include "GlobalDefines.h"
-#include "OpenMPIncludes.h"
 
-class BuildingEntity;
+class BuildingObject;
 
 class IFCQUERY_EXPORT StatusCallback
 {
@@ -59,7 +61,7 @@ public:
 		std::string m_message_text;			// Message text.
 		MessageType m_message_type;			// Type of message (warning, error etc.).
 		const char* m_reporting_function;	// Function name where the message is sent from. You can use the __FUNC__ macro from BuildingException.h.
-		BuildingEntity* m_entity;			// IFC entity in case the message applies to a certain entity.
+		BuildingObject* m_entity;			// IFC entity in case the message applies to a certain entity.
 
 		double m_progress_value;			// Value of progress [0...1]. If negative value is given, the progress itself is ignored, for example when only the progress text is updated.
 		std::string m_progress_type;		// Type of progress, for example "parse", "geometry".
@@ -67,161 +69,140 @@ public:
 	};
 
 	StatusCallback() = default;
-	virtual ~StatusCallback()= default;
+	virtual ~StatusCallback() = default;
+
+	using MessageCallbackType = std::function<void(shared_ptr<Message>)>;
+	using CancelCallbackType = std::function<bool(void)>;
 
 	//\brief error callback mechanism to show messages in gui
-	virtual void setMessageCallBack( void* obj_ptr, void (*func)(void*, shared_ptr<Message> t) )
+	void setMessageCallBack(const MessageCallbackType& cb)
 	{
-		m_obj_call_on_message = obj_ptr;
-		m_func_call_on_message = func;
+		m_func_call_on_message = cb;
 	}
 
-	virtual void setMessageTarget( StatusCallback* other )
+	virtual void setMessageTarget(StatusCallback* other)
 	{
 		m_redirect_target = other;
 	}
 
 	virtual void unsetMessageCallBack()
 	{
-		m_obj_call_on_message = nullptr;
 		m_func_call_on_message = nullptr;
 	}
 
-	virtual void setCancelCheck( void* obj_ptr, bool (*func)(void*) )
+	virtual void setCancelCheck(const CancelCallbackType& cb)
 	{
-		m_obj_call_check_cancel = obj_ptr;
-		m_func_check_cancel = func;
+		m_func_check_cancel = cb;
 	}
 
 	virtual void unsetCancelCheck()
 	{
-		m_obj_call_check_cancel = nullptr;
 		m_func_check_cancel = nullptr;
 	}
 
 	//\brief trigger the callback to pass a message, warning, or error, for example to store in a logfile
-	virtual void messageCallback( shared_ptr<Message> m )
+	virtual void messageCallback(shared_ptr<Message> m)
 	{
-		if( m_redirect_target )
+		if (m_redirect_target)
 		{
-			m_redirect_target->messageCallback( m );
+			m_redirect_target->messageCallback(m);
 			return;
 		}
 
 #ifdef _DEBUG
-		if( !m_func_call_on_message || !m_obj_call_on_message )
+		if (!m_func_call_on_message )
 		{
-			if( m )
+			if (m)
 			{
 				switch (m->m_message_type)
 				{
-					case MESSAGE_TYPE_UNKNOWN:
-					case MESSAGE_TYPE_GENERAL_MESSAGE:
-					case MESSAGE_TYPE_MINOR_WARNING:
-					case MESSAGE_TYPE_WARNING:
-					case MESSAGE_TYPE_ERROR:
-						std::wcout << L"messageCallback not set. Lost message: " << m->m_message_text.c_str() << std::endl;
-						break;
+				case MESSAGE_TYPE_UNKNOWN:
+				case MESSAGE_TYPE_GENERAL_MESSAGE:
+				case MESSAGE_TYPE_MINOR_WARNING:
+				case MESSAGE_TYPE_WARNING:
+				case MESSAGE_TYPE_ERROR:
+					std::wcout << L"messageCallback not set. Lost message: " << m->m_message_text.c_str() << std::endl;
+					break;
 				}
 			}
 		}
 
-		if( m->m_message_type == MESSAGE_TYPE_ERROR )
+		if (m->m_message_type == MESSAGE_TYPE_ERROR)
 		{
 			std::wcout << L"error: " << m->m_message_text.c_str() << std::endl;
 		}
 #endif
 
-		if( m_func_call_on_message )
+		if (m_func_call_on_message)
 		{
-			if( m_obj_call_on_message )
-			{
-#ifdef _OPENMP
-				// Note: this lock protects accesses only for this instance. If several StatusCallback (or derived) objects are bound to the same callback function, a lock is necessary there.
-				ScopedLock lock( m_writelock );
-#endif
-				m_func_call_on_message( m_obj_call_on_message, m );
-			}
+			std::lock_guard<std::mutex> lock(m_writelock);
+			m_func_call_on_message(m);
 		}
 	}
 
 	//\brief check if cancellation has been requested.
 	virtual bool isCanceled()
 	{
-		if( m_redirect_target )
+		if (m_redirect_target)
 		{
 			return m_redirect_target->isCanceled();
 		}
 
-		if( m_func_check_cancel )
+		if (m_func_check_cancel)
 		{
-			if( m_obj_call_check_cancel )
-			{
-#ifdef _OPENMP
-				// Note: this lock protects accesses only for this instance. If several StatusCallback (or derived) objects are bound to the same callback function, a lock is necessary there.
-				ScopedLock lock( m_writelock );
-#endif
-				return m_func_check_cancel( m_obj_call_check_cancel );
-			}
+			std::lock_guard<std::mutex> lock(m_writelock);
+			return m_func_check_cancel();
 		}
 
 		return false;
 	}
 
-	virtual void messageCallback( const std::string& message_text, MessageType type, const char* reporting_function, BuildingEntity* entity = nullptr )
+	virtual void messageCallback(const std::string& message_text, MessageType type, const char* reporting_function, BuildingObject* entity = nullptr)
 	{
-		shared_ptr<Message> message( new Message() );
-		message->m_message_text.assign( message_text.begin(), message_text.end() );
+		shared_ptr<Message> message(new Message());
+		message->m_message_text.assign(message_text.begin(), message_text.end());
 		message->m_message_type = type;
 		message->m_reporting_function = reporting_function;
 		message->m_entity = entity;
-		messageCallback( message );
+		messageCallback(message);
 	}
-	virtual void progressValueCallback( double progress_value, const std::string& progress_type )
+	virtual void progressValueCallback(double progress_value, const std::string& progress_type)
 	{
-		shared_ptr<Message> progress_message( new Message() );
+		shared_ptr<Message> progress_message(new Message());
 		progress_message->m_message_type = MessageType::MESSAGE_TYPE_PROGRESS_VALUE;
 		progress_message->m_progress_value = progress_value;
-		progress_message->m_progress_type.assign( progress_type );
-		messageCallback( progress_message );
+		progress_message->m_progress_type.assign(progress_type);
+		messageCallback(progress_message);
 	}
-	virtual void progressTextCallback( const std::string& progress_text )
+	virtual void progressTextCallback(const std::string& progress_text)
 	{
-		shared_ptr<Message> progress_message( new Message() );
+		shared_ptr<Message> progress_message(new Message());
 		progress_message->m_message_type = MessageType::MESSAGE_TYPE_PROGRESS_TEXT;
 		progress_message->m_progress_value = -1;
-		progress_message->m_progress_text.assign( progress_text );
-		messageCallback( progress_message );
+		progress_message->m_progress_text.assign(progress_text);
+		messageCallback(progress_message);
 	}
 	virtual void clearMessagesCallback()
 	{
-		shared_ptr<Message> progress_message( new Message() );
+		shared_ptr<Message> progress_message(new Message());
 		progress_message->m_message_type = MessageType::MESSAGE_TYPE_CLEAR_MESSAGES;
-		messageCallback( progress_message );
+		messageCallback(progress_message);
 	}
 	virtual void canceledCallback()
 	{
-		shared_ptr<Message> canceled_message( new Message() );
+		shared_ptr<Message> canceled_message(new Message());
 		canceled_message->m_message_type = MessageType::MESSAGE_TYPE_CANCELED;
-		messageCallback( canceled_message );
+		messageCallback(canceled_message);
 	}
 
 protected:
-	//\brief Pointer to the object on which the message callback function is called.
-	void* m_obj_call_on_message = nullptr;
-
-	//\brief Pointer to the object on which the cancel check function is called.
-	void* m_obj_call_check_cancel = nullptr;
-
-	//\brief Pointer to the callback function for messages.
-	void (*m_func_call_on_message)(void*, shared_ptr<Message> t) = nullptr;
-
-	//\brief Pointer to the predicate that determines whether an operation should be canceled.
-	bool  (*m_func_check_cancel)(void*) = nullptr;
+	//\brief Message callback function
+	MessageCallbackType m_func_call_on_message;
+	
+	//\brief Cancel callback
+	CancelCallbackType m_func_check_cancel;
 
 	StatusCallback* m_redirect_target = nullptr;
 
-#ifdef _OPENMP
-	Mutex m_writelock;
-#endif
+	std::mutex m_writelock;
 };

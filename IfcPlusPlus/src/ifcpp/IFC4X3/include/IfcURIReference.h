@@ -8,11 +8,12 @@
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
+#include "IfcSimpleValue.h"
 
 namespace IFC4X3
 {
 	// TYPE IfcURIReference = STRING;
-	class IFCQUERY_EXPORT IfcURIReference : public BuildingObject
+	class IFCQUERY_EXPORT IfcURIReference : public IfcSimpleValue
 	{
 	public:
 		IfcURIReference() = default;

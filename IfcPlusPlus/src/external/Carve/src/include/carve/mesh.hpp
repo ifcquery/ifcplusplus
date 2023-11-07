@@ -42,13 +42,13 @@ namespace carve {
 
 	namespace mesh {
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		class Edge;
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		class Face;
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		class Mesh;
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		class MeshSet;
 
 		// A Vertex may participate in several meshes. If the Mesh belongs
@@ -74,7 +74,7 @@ namespace carve {
 		// via an edge or face in the mesh (implicit or explicit) of
 		// interest, so not storing this information will not hurt,
 		// overly.
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		class Vertex : public tagable {
 		public:
 			typedef carve::geom::vector<ndim> vector_t;
@@ -93,13 +93,13 @@ namespace carve {
 		};
 
 		struct hash_vertex_pair {
-			template <unsigned ndim>
+			template <unsigned int ndim>
 			size_t operator()(const std::pair<Vertex<ndim>*, Vertex<ndim>*>& pair) const {
 				size_t r = (size_t)pair.first;
 				size_t s = (size_t)pair.second;
 				return r ^ ((s >> 16) | (s << 16));
 			}
-			template <unsigned ndim>
+			template <unsigned int ndim>
 			size_t operator()(
 				const std::pair<const Vertex<ndim>*, const Vertex<ndim>*>& pair) const {
 				size_t r = (size_t)pair.first;
@@ -109,12 +109,12 @@ namespace carve {
 		};
 
 		struct vertex_distance {
-			template <unsigned ndim>
+			template <unsigned int ndim>
 			double operator()(const Vertex<ndim>& a, const Vertex<ndim>& b) const {
 				return carve::geom::distance(a.v, b.v);
 			}
 
-			template <unsigned ndim>
+			template <unsigned int ndim>
 			double operator()(const Vertex<ndim>* a, const Vertex<ndim>* b) const {
 				return carve::geom::distance(a->v, b->v);
 			}
@@ -131,7 +131,7 @@ namespace carve {
 		// instances. Together with Face instances, the half-edge
 		// structure defines a simple mesh (either one or two faces
 		// incident on each edge).
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		class Edge : public tagable {
 		public:
 			typedef Vertex<ndim> vertex_t;
@@ -240,7 +240,7 @@ namespace carve {
 
 		// A Face contains a pointer to the beginning of the half-edge
 		// circular list that defines its boundary.
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		class Face : public tagable {
 		public:
 			typedef Vertex<ndim> vertex_t;
@@ -339,6 +339,7 @@ namespace carve {
 			aabb_t getAABB() const;
 
 			bool recalc(double CARVE_EPSILON);
+			carve::geom::vector<ndim> computeNormal(double CARVE_EPSILON);
 
 			void clearEdges();
 
@@ -609,7 +610,7 @@ namespace carve {
 		// the mesh. Touching at a vertex is not sufficient. This means
 		// that the perimeter of an open mesh visits each vertex no more
 		// than once.
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		class Mesh {
 		public:
 			typedef Vertex<ndim> vertex_t;
@@ -631,13 +632,13 @@ namespace carve {
 			// closed_edges).
 			std::vector<edge_t*> closed_edges;
 
-			bool is_negative;
+			bool is_negative = false;
+			bool is_inner_mesh = false;  // completely inside other mesh
 
 			meshset_t* meshset = nullptr;
 
 		protected:
-			Mesh(std::vector<face_t*>& _faces, std::vector<edge_t*>& _open_edges,
-				std::vector<edge_t*>& _closed_edges, bool _is_negative);
+			Mesh(std::vector<face_t*>& _faces, std::vector<edge_t*>& _open_edges, std::vector<edge_t*>& _closed_edges, bool _is_negative, bool _is_inner_mesh);
 
 		public:
 			Mesh(std::vector<face_t*>& _faces);
@@ -645,8 +646,7 @@ namespace carve {
 			~Mesh();
 
 			template <typename iter_t>
-			static void create(iter_t begin, iter_t end, std::vector<Mesh<ndim>*>& meshes,
-				const MeshOptions& opts);
+			static void create(iter_t begin, iter_t end, std::vector<Mesh<ndim>*>& meshes, const MeshOptions& opts);
 
 			aabb_t getAABB() const { return aabb_t(faces.begin(), faces.end()); }
 
@@ -654,7 +654,8 @@ namespace carve {
 
 			bool isNegative() const { return is_negative; }
 
-			double volume() const {
+			double volume() const 
+			{
 				if( is_negative || !faces.size() ) {
 					return 0.0;
 				}
@@ -662,12 +663,13 @@ namespace carve {
 				double vol = 0.0;
 				typename vertex_t::vector_t origin = faces[0]->edge->vert->v;
 
-				for( size_t f = 0; f < faces.size(); ++f ) {
+				for( size_t f = 0; f < faces.size(); ++f )
+				{
 					face_t* face = faces[f];
 					edge_t* e1 = face->edge;
-					for( edge_t* e2 = e1->next; e2->next != e1; e2 = e2->next ) {
-						vol += carve::geom3d::tetrahedronVolume(e1->vert->v, e2->vert->v,
-							e2->next->vert->v, origin);
+					for( edge_t* e2 = e1->next; e2->next != e1; e2 = e2->next ) 
+					{
+						vol += carve::geom3d::tetrahedronVolume(e1->vert->v, e2->vert->v, e2->next->vert->v, origin);
 					}
 				}
 				return vol;
@@ -688,18 +690,23 @@ namespace carve {
 			int orientationAtVertex(edge_t*);
 			void calcOrientation();
 
-			void recalc(double CARVE_EPSILON) {
-				for( size_t i = 0; i < faces.size(); ++i ) {
+			void recalc(double CARVE_EPSILON)
+			{
+				for( size_t i = 0; i < faces.size(); ++i )
+				{
 					faces[i]->recalc(CARVE_EPSILON);
 				}
 				calcOrientation();
 			}
 
-			void invert() {
-				for( size_t i = 0; i < faces.size(); ++i ) {
+			void invert()
+			{
+				for( size_t i = 0; i < faces.size(); ++i )
+				{
 					faces[i]->invert();
 				}
-				if( isClosed() ) {
+				if( isClosed() )
+				{
 					is_negative = !is_negative;
 				}
 			}
@@ -710,7 +717,7 @@ namespace carve {
 		// A MeshSet manages vertex storage, and a collection of meshes.
 		// It should be easy to turn a vertex pointer into its index in
 		// its MeshSet vertex_storage.
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		class MeshSet {
 			MeshSet();
 			MeshSet(const MeshSet&);

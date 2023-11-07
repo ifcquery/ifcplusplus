@@ -80,12 +80,12 @@ struct aabb {
 
   double maxAxisSeparation(const aabb<ndim>& other) const;
 
-  bool intersects(const aabb<ndim>& other) const;
-  bool intersects(const sphere<ndim>& s) const;
-  bool intersects(const plane<ndim>& plane) const;
-  bool intersects(const ray<ndim>& ray) const;
-  bool intersects(tri<ndim> tri) const;
-  bool intersects(const linesegment<ndim>& ls) const;
+  bool intersects(const aabb<ndim>& other, double eps) const;
+  bool intersects(const sphere<ndim>& s, double eps) const;
+  bool intersects(const plane<ndim>& plane, double eps) const;
+  bool intersects(const ray<ndim>& ray, double eps) const;
+  bool intersects(tri<ndim> tri, double eps) const;
+  bool intersects(const linesegment<ndim>& ls, double eps) const;
 
   std::pair<double, double> rangeInDirection( const carve::geom::vector<ndim>& v) const;
 

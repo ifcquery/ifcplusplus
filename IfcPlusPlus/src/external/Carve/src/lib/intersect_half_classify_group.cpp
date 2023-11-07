@@ -69,7 +69,7 @@ namespace carve {
 					// XXX: check all the cinfo elements for consistency.
 					FaceClass fc = cinfo.front().classification;
 
-					std::vector<carve::mesh::MeshSet<3>::face_t*> faces;
+					std::vector<carve::mesh::Face<3>*> faces;
 					faces.reserve(grp->face_loops.size());
 					for( FaceLoop* loop = grp->face_loops.head; loop != nullptr;
 						loop = loop->next ) {
@@ -189,7 +189,7 @@ namespace carve {
 		{
 			HalfClassifyFaceGroups classifier(b_out, hooks);
 			GroupPoly group_poly(poly_b, b_out);
-			performClassifyFaceGroups(a_loops_grouped, b_loops_grouped, vclass, poly_a, poly_a_rtree, poly_b, poly_b_rtree, classifier, group_poly, hooks, CARVE_EPSILON);
+			performClassifyFaceGroups(a_loops_grouped, b_loops_grouped, vclass, poly_a, poly_a_rtree, poly_b, poly_b_rtree, classifier, group_poly, hooks, m_epsilon);
 		}
 	}  // namespace csg
 }  // namespace carve

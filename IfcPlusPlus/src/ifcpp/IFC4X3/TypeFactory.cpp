@@ -433,6 +433,7 @@
 #include "lib/IfcWarpingMomentMeasure.cpp"
 #include "lib/IfcWarpingStiffnessSelect.cpp"
 #include "lib/IfcWasteTerminalTypeEnum.cpp"
+#include "lib/IfcWellKnownTextLiteral.cpp"
 #include "lib/IfcWindowPanelOperationEnum.cpp"
 #include "lib/IfcWindowPanelPositionEnum.cpp"
 #include "lib/IfcWindowStyleConstructionEnum.cpp"
@@ -875,6 +876,7 @@ static std::map<std::string, std::function<shared_ptr<BuildingObject>( const std
 { "IFCWARPINGMOMENTMEASURE", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcWarpingMomentMeasure::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCWARPINGSTIFFNESSSELECT", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcWarpingStiffnessSelect::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCWASTETERMINALTYPEENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcWasteTerminalTypeEnum::createObjectFromSTEP( arg, map, errorStream ); } },
+{ "IFCWELLKNOWNTEXTLITERAL", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcWellKnownTextLiteral::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCWINDOWPANELOPERATIONENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcWindowPanelOperationEnum::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCWINDOWPANELPOSITIONENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcWindowPanelPositionEnum::createObjectFromSTEP( arg, map, errorStream ); } },
 { "IFCWINDOWSTYLECONSTRUCTIONENUM", []( const std::string& arg, const std::map<int, shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )->shared_ptr<BuildingObject> { return IFC4X3::IfcWindowStyleConstructionEnum::createObjectFromSTEP( arg, map, errorStream ); } },

@@ -90,7 +90,7 @@ void carve::csg::CSG::findSharedEdges(const detail::LoopEdges& edge_map_a,
   {
     carve::line::PolylineSet intersection_graph;
     intersection_graph.vertices.resize(edge_graph.size());
-    std::map<const carve::mesh::MeshSet<3>::vertex_t*, size_t> vmap;
+    std::map<const carve::mesh::Vertex<3>*, size_t> vmap;
 
     size_t j = 0;
     for (detail::VVSMap::const_iterator i = edge_graph.begin();
@@ -101,11 +101,11 @@ void carve::csg::CSG::findSharedEdges(const detail::LoopEdges& edge_map_a,
 
     while (edge_graph.size()) {
       detail::VVSMap::iterator prior_i = edge_graph.begin();
-      carve::mesh::MeshSet<3>::vertex_t* prior = (*prior_i).first;
+      carve::mesh::Vertex<3>* prior = (*prior_i).first;
       std::vector<size_t> connected;
       connected.push_back(vmap[prior]);
       while (prior_i != edge_graph.end() && (*prior_i).second.size()) {
-        carve::mesh::MeshSet<3>::vertex_t* next = *(*prior_i).second.begin();
+        carve::mesh::Vertex<3>* next = *(*prior_i).second.begin();
         detail::VVSMap::iterator next_i = edge_graph.find(next);
         CARVE_ASSERT(next_i != edge_graph.end());
         connected.push_back(vmap[next]);
@@ -145,7 +145,7 @@ void carve::csg::CSG::findSharedEdges(const detail::LoopEdges& edge_map_a,
 static carve::mesh::MeshSet<3>* groupToPolyhedron(
     const carve::csg::FaceLoopGroup& grp) {
   const carve::csg::FaceLoopList& fl = grp.face_loops;
-  std::vector<carve::mesh::MeshSet<3>::face_t*> faces;
+  std::vector<carve::mesh::Face<3>*> faces;
   faces.reserve(fl.size());
   for (carve::csg::FaceLoop* f = fl.head; f; f = f->next) {
     faces.push_back(
@@ -188,9 +188,9 @@ void carve::csg::CSG::groupFaceLoops(
     curr.append(expand);
 
     while (expand) {
-      std::vector<carve::mesh::MeshSet<3>::vertex_t*>& loop =
+      std::vector<carve::mesh::Vertex<3>*>& loop =
           (expand->vertices);
-      carve::mesh::MeshSet<3>::vertex_t *v1, *v2;
+      carve::mesh::Vertex<3> *v1, *v2;
 
       v1 = loop.back();
       for (size_t i = 0; i < loop.size(); ++i) {

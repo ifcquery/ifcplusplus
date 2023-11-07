@@ -9,21 +9,21 @@
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/IFC4X3/include/IfcAnnotationTypeEnum.h"
 
-// TYPE IfcAnnotationTypeEnum = ENUMERATION OF	(ASBUILTAREA	,ASBUILTLINE	,ASBUILTPOINT	,ASSUMEDAREA	,ASSUMEDLINE	,ASSUMEDPOINT	,NON_PHYSICAL_SIGNAL	,SUPERELEVATIONEVENT	,WIDTHEVENT	,USERDEFINED	,NOTDEFINED);
+// TYPE IfcAnnotationTypeEnum = ENUMERATION OF	(CONTOURLINE	,DIMENSION	,ISOBAR	,ISOLUX	,ISOTHERM	,LEADER	,SURVEY	,SYMBOL	,TEXT	,USERDEFINED	,NOTDEFINED);
 void IFC4X3::IfcAnnotationTypeEnum::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCANNOTATIONTYPEENUM("; }
 	switch( m_enum )
 	{
-		case ENUM_ASBUILTAREA:	stream << ".ASBUILTAREA."; break;
-		case ENUM_ASBUILTLINE:	stream << ".ASBUILTLINE."; break;
-		case ENUM_ASBUILTPOINT:	stream << ".ASBUILTPOINT."; break;
-		case ENUM_ASSUMEDAREA:	stream << ".ASSUMEDAREA."; break;
-		case ENUM_ASSUMEDLINE:	stream << ".ASSUMEDLINE."; break;
-		case ENUM_ASSUMEDPOINT:	stream << ".ASSUMEDPOINT."; break;
-		case ENUM_NON_PHYSICAL_SIGNAL:	stream << ".NON_PHYSICAL_SIGNAL."; break;
-		case ENUM_SUPERELEVATIONEVENT:	stream << ".SUPERELEVATIONEVENT."; break;
-		case ENUM_WIDTHEVENT:	stream << ".WIDTHEVENT."; break;
+		case ENUM_CONTOURLINE:	stream << ".CONTOURLINE."; break;
+		case ENUM_DIMENSION:	stream << ".DIMENSION."; break;
+		case ENUM_ISOBAR:	stream << ".ISOBAR."; break;
+		case ENUM_ISOLUX:	stream << ".ISOLUX."; break;
+		case ENUM_ISOTHERM:	stream << ".ISOTHERM."; break;
+		case ENUM_LEADER:	stream << ".LEADER."; break;
+		case ENUM_SURVEY:	stream << ".SURVEY."; break;
+		case ENUM_SYMBOL:	stream << ".SYMBOL."; break;
+		case ENUM_TEXT:	stream << ".TEXT."; break;
 		case ENUM_USERDEFINED:	stream << ".USERDEFINED."; break;
 		case ENUM_NOTDEFINED:	stream << ".NOTDEFINED."; break;
 	}
@@ -34,41 +34,41 @@ shared_ptr<IFC4X3::IfcAnnotationTypeEnum> IFC4X3::IfcAnnotationTypeEnum::createO
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAnnotationTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcAnnotationTypeEnum>(); }
 	shared_ptr<IfcAnnotationTypeEnum> type_object( new IfcAnnotationTypeEnum() );
-	if( std_iequal( arg, ".ASBUILTAREA." ) )
+	if( std_iequal( arg, ".CONTOURLINE." ) )
 	{
-		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_ASBUILTAREA;
+		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_CONTOURLINE;
 	}
-	else if( std_iequal( arg, ".ASBUILTLINE." ) )
+	else if( std_iequal( arg, ".DIMENSION." ) )
 	{
-		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_ASBUILTLINE;
+		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_DIMENSION;
 	}
-	else if( std_iequal( arg, ".ASBUILTPOINT." ) )
+	else if( std_iequal( arg, ".ISOBAR." ) )
 	{
-		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_ASBUILTPOINT;
+		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_ISOBAR;
 	}
-	else if( std_iequal( arg, ".ASSUMEDAREA." ) )
+	else if( std_iequal( arg, ".ISOLUX." ) )
 	{
-		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_ASSUMEDAREA;
+		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_ISOLUX;
 	}
-	else if( std_iequal( arg, ".ASSUMEDLINE." ) )
+	else if( std_iequal( arg, ".ISOTHERM." ) )
 	{
-		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_ASSUMEDLINE;
+		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_ISOTHERM;
 	}
-	else if( std_iequal( arg, ".ASSUMEDPOINT." ) )
+	else if( std_iequal( arg, ".LEADER." ) )
 	{
-		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_ASSUMEDPOINT;
+		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_LEADER;
 	}
-	else if( std_iequal( arg, ".NON_PHYSICAL_SIGNAL." ) )
+	else if( std_iequal( arg, ".SURVEY." ) )
 	{
-		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_NON_PHYSICAL_SIGNAL;
+		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_SURVEY;
 	}
-	else if( std_iequal( arg, ".SUPERELEVATIONEVENT." ) )
+	else if( std_iequal( arg, ".SYMBOL." ) )
 	{
-		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_SUPERELEVATIONEVENT;
+		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_SYMBOL;
 	}
-	else if( std_iequal( arg, ".WIDTHEVENT." ) )
+	else if( std_iequal( arg, ".TEXT." ) )
 	{
-		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_WIDTHEVENT;
+		type_object->m_enum = IfcAnnotationTypeEnum::ENUM_TEXT;
 	}
 	else if( std_iequal( arg, ".USERDEFINED." ) )
 	{

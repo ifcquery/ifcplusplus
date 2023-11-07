@@ -9,6 +9,7 @@
 #include "ifcpp/IFC4X3/include/IfcIdentifier.h"
 #include "ifcpp/IFC4X3/include/IfcLabel.h"
 #include "ifcpp/IFC4X3/include/IfcText.h"
+#include "ifcpp/IFC4X3/include/IfcWellKnownText.h"
 
 // ENTITY IfcCoordinateReferenceSystem 
 IFC4X3::IfcCoordinateReferenceSystem::IfcCoordinateReferenceSystem( int tag ) { m_tag = tag; }
@@ -20,8 +21,6 @@ void IFC4X3::IfcCoordinateReferenceSystem::getStepLine( std::stringstream& strea
 	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_GeodeticDatum ) { m_GeodeticDatum->getStepParameter( stream, false, precision ); } else { stream << "$"; }
-	stream << ",";
-	if( m_VerticalDatum ) { m_VerticalDatum->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
 void IFC4X3::IfcCoordinateReferenceSystem::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
@@ -31,15 +30,13 @@ void IFC4X3::IfcCoordinateReferenceSystem::readStepArguments( const std::vector<
 	if( num_args > 0 ){m_Name = IfcLabel::createObjectFromSTEP( args[0], map, errorStream );}
 	if( num_args > 1 ){m_Description = IfcText::createObjectFromSTEP( args[1], map, errorStream );}
 	if( num_args > 2 ){m_GeodeticDatum = IfcIdentifier::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){m_VerticalDatum = IfcIdentifier::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args != 4 ){ errorStream << "Wrong parameter count for entity IfcCoordinateReferenceSystem, expecting 4, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
+	if( num_args != 3 ){ errorStream << "Wrong parameter count for entity IfcCoordinateReferenceSystem, expecting 3, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcCoordinateReferenceSystem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	vec_attributes.emplace_back( std::make_pair( "Name", m_Name ) );
 	vec_attributes.emplace_back( std::make_pair( "Description", m_Description ) );
 	vec_attributes.emplace_back( std::make_pair( "GeodeticDatum", m_GeodeticDatum ) );
-	vec_attributes.emplace_back( std::make_pair( "VerticalDatum", m_VerticalDatum ) );
 }
 void IFC4X3::IfcCoordinateReferenceSystem::getAttributesInverse( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes_inverse ) const
 {
@@ -52,6 +49,15 @@ void IFC4X3::IfcCoordinateReferenceSystem::getAttributesInverse( std::vector<std
 		}
 	}
 	vec_attributes_inverse.emplace_back( std::make_pair( "HasCoordinateOperation_inverse", HasCoordinateOperation_inverse_vec_obj ) );
+	shared_ptr<AttributeObjectVector> WellKnownText_inverse_vec_obj( new AttributeObjectVector() );
+	for( size_t i=0; i<m_WellKnownText_inverse.size(); ++i )
+	{
+		if( !m_WellKnownText_inverse[i].expired() )
+		{
+			WellKnownText_inverse_vec_obj->m_vec.emplace_back( shared_ptr<IfcWellKnownText>( m_WellKnownText_inverse[i] ) );
+		}
+	}
+	vec_attributes_inverse.emplace_back( std::make_pair( "WellKnownText_inverse", WellKnownText_inverse_vec_obj ) );
 }
 void IFC4X3::IfcCoordinateReferenceSystem::setInverseCounterparts( shared_ptr<BuildingEntity> )
 {

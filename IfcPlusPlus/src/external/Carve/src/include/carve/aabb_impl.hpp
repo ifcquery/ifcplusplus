@@ -208,12 +208,18 @@ namespace carve {
 		}
 
 		template <unsigned ndim>
-		bool aabb<ndim>::intersects(const aabb<ndim>& other) const {
-			return maxAxisSeparation(other) <= 0.0;
+		bool aabb<ndim>::intersects(const aabb<ndim>& other, double epsilon) const
+		{
+			double distance = maxAxisSeparation(other);
+			if (distance <= epsilon)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		template <unsigned ndim>
-		bool aabb<ndim>::intersects(const sphere<ndim>& s) const {
+		bool aabb<ndim>::intersects(const sphere<ndim>& s, double eps) const {
 			double r = 0.0;
 			for( unsigned i = 0; i < ndim; ++i ) {
 				double t = fabs(s.C[i] - pos[i]) - extent[i];
@@ -225,14 +231,14 @@ namespace carve {
 		}
 
 		template <unsigned ndim>
-		bool aabb<ndim>::intersects(const plane<ndim>& plane) const {
+		bool aabb<ndim>::intersects(const plane<ndim>& plane, double eps) const {
 			double d1 = fabs(distance(plane, pos));
 			double d2 = dot(abs(plane.N), extent);
 			return d1 <= d2;
 		}
 
 		template <unsigned ndim>
-		bool aabb<ndim>::intersects(const linesegment<ndim>& ls) const {
+		bool aabb<ndim>::intersects(const linesegment<ndim>& ls, double eps) const {
 			return intersectsLineSegment(ls.v1, ls.v2);
 		}
 
@@ -377,7 +383,7 @@ namespace carve {
 		}
 
 		template <>
-		inline bool aabb<3>::intersects(const ray<3>& ray) const {
+		inline bool aabb<3>::intersects(const ray<3>& ray, double eps) const {
 			vector<3> t = pos - ray.v;
 			double r;
 
@@ -475,7 +481,8 @@ namespace carve {
 		}
 
 		template <>
-		inline bool aabb<3>::intersects(tri<3> tri) const {
+		inline bool aabb<3>::intersects(tri<3> tri, double eps) const
+		{
 			tri.v[0] -= pos;
 			tri.v[1] -= pos;
 			tri.v[2] -= pos;

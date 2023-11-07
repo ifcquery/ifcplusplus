@@ -24,7 +24,7 @@
 
 #pragma once
 
-static inline bool facesAreCoplanar(const carve::mesh::MeshSet<3>::face_t* a, const carve::mesh::MeshSet<3>::face_t* b, double CARVE_EPSILON)
+static inline bool facesAreCoplanar(const carve::mesh::Face<3>* a, const carve::mesh::Face<3>* b, double CARVE_EPSILON)
 {
   carve::geom3d::Ray temp;
   // XXX: Find a better definition. This may be a source of problems
@@ -41,7 +41,7 @@ static inline bool facesAreCoplanar(const carve::mesh::MeshSet<3>::face_t* a, co
 namespace carve {
 namespace csg {
 
-static inline carve::mesh::MeshSet<3>::vertex_t* map_vertex( const VVMap& vmap, carve::mesh::MeshSet<3>::vertex_t* v)
+static inline carve::mesh::Vertex<3>* map_vertex( const VVMap& vmap, carve::mesh::Vertex<3>* v)
 {
   VVMap::const_iterator i = vmap.find(v);
   if (i == vmap.end()) {
@@ -66,8 +66,8 @@ static inline void drawFaceLoopList(const FaceLoopList& ll, float rF, float gF,
                                     float bF, float aF, float rB, float gB,
                                     float bB, float aB, bool lit) {
   for (FaceLoop* flb = ll.head; flb; flb = flb->next) {
-    const carve::mesh::MeshSet<3>::face_t* f = (flb->orig_face);
-    std::vector<carve::mesh::MeshSet<3>::vertex_t*>& loop = flb->vertices;
+    const carve::mesh::Face<3>* f = (flb->orig_face);
+    std::vector<carve::mesh::Vertex<3>*>& loop = flb->vertices;
     HOOK(drawFaceLoop2(loop, f->plane.N, rF, gF, bF, aF, rB, gB, bB, aB, true,
                        lit););
     HOOK(drawFaceLoopWireframe(loop, f->plane.N, 1, 1, 1, 0.1f););
@@ -76,8 +76,8 @@ static inline void drawFaceLoopList(const FaceLoopList& ll, float rF, float gF,
 
 static inline void drawFaceLoopListWireframe(const FaceLoopList& ll) {
   for (FaceLoop* flb = ll.head; flb; flb = flb->next) {
-    const carve::mesh::MeshSet<3>::face_t* f = (flb->orig_face);
-    std::vector<carve::mesh::MeshSet<3>::vertex_t*>& loop = flb->vertices;
+    const carve::mesh::Face<3>* f = (flb->orig_face);
+    std::vector<carve::mesh::Vertex<3>*>& loop = flb->vertices;
     HOOK(drawFaceLoopWireframe(loop, f->plane.N, 1, 1, 1, 0.1f););
   }
 }

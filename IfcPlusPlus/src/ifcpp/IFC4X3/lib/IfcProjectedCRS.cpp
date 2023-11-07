@@ -10,6 +10,7 @@
 #include "ifcpp/IFC4X3/include/IfcNamedUnit.h"
 #include "ifcpp/IFC4X3/include/IfcProjectedCRS.h"
 #include "ifcpp/IFC4X3/include/IfcText.h"
+#include "ifcpp/IFC4X3/include/IfcWellKnownText.h"
 
 // ENTITY IfcProjectedCRS 
 IFC4X3::IfcProjectedCRS::IfcProjectedCRS( int tag ) { m_tag = tag; }
@@ -47,6 +48,7 @@ void IFC4X3::IfcProjectedCRS::readStepArguments( const std::vector<std::string>&
 void IFC4X3::IfcProjectedCRS::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const
 {
 	IFC4X3::IfcCoordinateReferenceSystem::getAttributes( vec_attributes );
+	vec_attributes.emplace_back( std::make_pair( "VerticalDatum", m_VerticalDatum ) );
 	vec_attributes.emplace_back( std::make_pair( "MapProjection", m_MapProjection ) );
 	vec_attributes.emplace_back( std::make_pair( "MapZone", m_MapZone ) );
 	vec_attributes.emplace_back( std::make_pair( "MapUnit", m_MapUnit ) );

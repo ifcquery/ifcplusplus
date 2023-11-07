@@ -34,9 +34,9 @@
 #include <carve/timing.hpp>
 
 void carve::csg::Intersections::collect(
-    const IObj& obj, std::vector<carve::mesh::MeshSet<3>::vertex_t*>* collect_v,
+    const IObj& obj, std::vector<carve::mesh::Vertex<3>*>* collect_v,
     std::vector<carve::mesh::MeshSet<3>::edge_t*>* collect_e,
-    std::vector<carve::mesh::MeshSet<3>::face_t*>* collect_f) const {
+    std::vector<carve::mesh::Face<3>*>* collect_f) const {
   carve::csg::Intersections::const_iterator i = find(obj);
   if (i != end()) {
     Intersections::mapped_type::const_iterator a, b;
@@ -66,8 +66,8 @@ void carve::csg::Intersections::collect(
 }
 
 bool carve::csg::Intersections::intersectsFace(
-    carve::mesh::MeshSet<3>::vertex_t* v,
-    carve::mesh::MeshSet<3>::face_t* f) const {
+    carve::mesh::Vertex<3>* v,
+    carve::mesh::Face<3>* f) const {
   const_iterator i = find(v);
   if (i != end()) {
     mapped_type::const_iterator a, b;

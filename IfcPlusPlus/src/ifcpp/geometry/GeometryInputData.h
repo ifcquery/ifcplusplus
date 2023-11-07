@@ -18,7 +18,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include <vector>
-#include <ifcpp/geometry/AppearanceData.h>
 #include <ifcpp/geometry/GeometrySettings.h>
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/BuildingException.h>
@@ -137,6 +136,37 @@ inline void premultMatrix( const carve::math::Matrix& matrix_to_append, carve::m
 {
 	target_matrix = matrix_to_append*target_matrix;
 }
+struct ScopedBoolFalse
+{
+	bool previousValue = false;
+	bool* boolToFlip = nullptr;
+	ScopedBoolFalse(bool* var)
+	{
+		boolToFlip = var;
+		previousValue = *var;
+		(*boolToFlip) = false;
+	}
+	~ScopedBoolFalse()
+	{
+		(*boolToFlip) = previousValue;
+	}
+};
+
+struct ScopedBoolTrue
+{
+	bool previousValue = false;
+	bool* boolToTrue = nullptr;
+	ScopedBoolTrue(bool* var)
+	{
+		boolToTrue = var;
+		previousValue = *var;
+		(*boolToTrue) = true;
+	}
+	~ScopedBoolTrue()
+	{
+		(*boolToTrue) = previousValue;
+	}
+};
 class PolyInputCache3D;
 
 /**
@@ -178,6 +208,27 @@ public:
 	carve::math::Matrix			m_matrix;
 	weak_ptr<BuildingEntity>	m_placement_entity;
 	int							m_placement_tag = -1;
+};
+
+class StyleData
+{
+public:
+	enum GeometryTypeEnum { GEOM_TYPE_UNDEFINED, GEOM_TYPE_TEXT, GEOM_TYPE_CURVE, GEOM_TYPE_SURFACE, GEOM_TYPE_VOLUME, GEOM_TYPE_ANY };
+	StyleData(int step_style_id) : m_step_style_id(step_style_id)
+	{
+	}
+	vec4 m_color_ambient;
+	vec4 m_color_diffuse;
+	vec4 m_color_specular;
+	int m_step_style_id;
+	double m_shininess = 10.0;
+	double m_transparency = 1.0;
+	double m_specular_exponent = 0.0;
+	double m_specular_roughness = 0.0;
+	bool m_set_transparent = false;
+	bool m_complete = false;
+	shared_ptr<IFC4X3::IfcTextStyle> m_text_style;
+	GeometryTypeEnum m_apply_to_geometry_type = GEOM_TYPE_UNDEFINED;
 };
 
 bool checkPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data, const GeomProcessingParams& params, std::string& details);
@@ -448,163 +499,165 @@ void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, c
 
 class ProductShapeData;
 
-/**
-*\brief Class ItemShapeData: holds input data of one IFC geometric representation item.
-* Parent-child relationship of ItemShapeData, RepresentationData, ProductShapeData:
-*        ...
-*          |-> ProductShapeData [1...n]
-*                   |-> ProductShapeData [1...n]
-*                           |-> RepresentationData [1...n]
-*                                     |-> ItemShapeData [1...n]
-*/
 class ItemShapeData
 {
 public:
-	ItemShapeData(){}
-	~ItemShapeData(){}
+	weak_ptr<ProductShapeData>					m_parentProduct;
+	weak_ptr<ItemShapeData>						m_parentItem;
+	std::vector<shared_ptr<ItemShapeData> >		m_child_items;
+	weak_ptr<IFC4X3::IfcRepresentation>			m_ifc_representation;
 
 	std::vector<shared_ptr<carve::input::PolylineSetData> > m_polylines;
 	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >		m_meshsets;
 	std::vector<shared_ptr<carve::mesh::MeshSet<3> > >		m_meshsets_open;
-	std::vector<shared_ptr<AppearanceData> >				m_vec_item_appearances;
 	std::vector<shared_ptr<TextItemData> >					m_vec_text_literals;
-	shared_ptr<IFC4X3::IfcRepresentationItem>				m_ifc_item;
-	std::vector<shared_ptr<carve::input::VertexData> >	m_vertex_points;
-	std::set<int> m_usedInRepresentations;
-
-	weak_ptr<ProductShapeData>								m_parent_product;
-	weak_ptr<ItemShapeData>									m_parent_item;  // Pointer to representation object that this item belongs to
-	std::vector<shared_ptr<ItemShapeData> >					m_child_items;
-	weak_ptr<IFC4X3::IfcRepresentation>						m_ifc_representation;
-
-public:
-	bool isEmpty()
+	std::vector<shared_ptr<carve::input::VertexData> >		m_vertex_points;
+	std::vector<shared_ptr<StyleData> >						m_vec_styles;
+	
+	const std::vector<shared_ptr<StyleData> >& getStyles() { return m_vec_styles; }
+	bool isItemShapeEmpty()
 	{
-		if( m_vertex_points.size() > 0 )			{ return false; }
-		if( m_polylines.size() > 0 )				{ return false; }
-		if( m_meshsets.size() > 0 )					{ return false; }
-		if( m_meshsets_open.size() > 0 )			{ return false; }
-		if( m_vec_item_appearances.size() > 0 )		{ return false; }
-		if( m_vec_text_literals.size() > 0 )		{ return false; }
+		if (m_vertex_points.size() > 0) { return false; }
+		if (m_polylines.size() > 0) { return false; }
+		if (m_meshsets.size() > 0) { return false; }
+		if (m_meshsets_open.size() > 0) { return false; }
+		if (m_vec_text_literals.size() > 0) { return false; }
 
 		return true;
 	}
 
-	void addChildItem(shared_ptr<ItemShapeData>& item_data, shared_ptr<ItemShapeData>& ptr_self)
-	{
-		if( ptr_self.get() != this )
-		{
-			std::cout << __FUNCTION__ << "ptr_self != this" << std::endl;
-		}
-		m_child_items.push_back( item_data );
-		item_data->m_parent_item = ptr_self;
-	}
-
 	void addOpenOrClosedPolyhedron(const shared_ptr<carve::input::PolyhedronData>& poly_data, const GeomProcessingParams& params);
-	
-	void addOpenPolyhedron( const shared_ptr<carve::input::PolyhedronData>& poly_data, const GeomProcessingParams& params)
+
+	void addOpenPolyhedron(const shared_ptr<carve::input::PolyhedronData>& poly_data, const GeomProcessingParams& params)
 	{
-		if( poly_data->getVertexCount() < 3 )
+		if (poly_data->getVertexCount() < 3)
 		{
 			return;
 		}
 
 		std::string details;
 		bool correct = checkPolyhedronData(poly_data, params, details);
-		if( !correct )
+		if (!correct)
 		{
 			fixPolyhedronData(poly_data, true, params);
 #ifdef _DEBUG
 			std::string details2;
 			bool correct2 = checkPolyhedronData(poly_data, params, details2);
-			if( !correct2 )
+			if (!correct2)
 			{
 				std::cout << "fixPolyhedronData failed: " << details2 << std::endl;
 			}
 #endif
 		}
 
-		shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts(), params.epsMergePoints) );
-		m_meshsets_open.push_back( meshset );
+		shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts(), params.epsMergePoints));
+		m_meshsets_open.push_back(meshset);
 	}
 
 	bool addClosedPolyhedron(const shared_ptr<carve::input::PolyhedronData>& poly_data, const GeomProcessingParams& params, shared_ptr<GeometrySettings>& geom_settings);
 
-	void addPoint( const vec3& point )
+	void addPoint(const vec3& point)
 	{
 		shared_ptr<carve::input::VertexData> vertex_data;
-		if( m_vertex_points.size() > 0 )
+		if (m_vertex_points.size() > 0)
 		{
-			if( !m_vertex_points[0] )
+			if (!m_vertex_points[0])
 			{
-				m_vertex_points[0] = shared_ptr<carve::input::VertexData>( new carve::input::VertexData() );
+				m_vertex_points[0] = shared_ptr<carve::input::VertexData>(new carve::input::VertexData());
 			}
 			vertex_data = m_vertex_points[0];
 		}
 		else
 		{
-			vertex_data = shared_ptr<carve::input::VertexData>( new carve::input::VertexData() );
-			m_vertex_points.push_back( vertex_data );
+			vertex_data = shared_ptr<carve::input::VertexData>(new carve::input::VertexData());
+			m_vertex_points.push_back(vertex_data);
 		}
 
-		vertex_data->points.push_back( point );
+		vertex_data->points.push_back(point);
 	}
 
-	void applyTransformToItem( const shared_ptr<TransformData>& transform, bool matrix_identity_checked = false )
+	void addStyle(shared_ptr<StyleData>& newStyle)
 	{
-		if( !transform )
+		if (!newStyle)
 		{
 			return;
 		}
-		if( !matrix_identity_checked )
+		int append_id = newStyle->m_step_style_id;
+		for (size_t ii = 0; ii < m_vec_styles.size(); ++ii)
 		{
-			if( GeomUtils::isMatrixIdentity( transform->m_matrix ) )
+			shared_ptr<StyleData>& style = m_vec_styles[ii];
+			if (style->m_step_style_id == append_id)
 			{
 				return;
 			}
 		}
-		applyTransformToItem( transform->m_matrix, true );
+		m_vec_styles.push_back(newStyle);
 	}
 
-	void applyTransformToItem( const carve::math::Matrix& mat, double CARVE_EPSILON, bool matrix_identity_checked = false )
+	/** copies the content of other instance and adds it to own content */
+	void addItemData(const shared_ptr<ItemShapeData>& other)
 	{
-		if( !matrix_identity_checked )
+		std::copy(other->m_vertex_points.begin(), other->m_vertex_points.end(), std::back_inserter(m_vertex_points));
+		std::copy(other->m_polylines.begin(), other->m_polylines.end(), std::back_inserter(m_polylines));
+		std::copy(other->m_meshsets.begin(), other->m_meshsets.end(), std::back_inserter(m_meshsets));
+		std::copy(other->m_meshsets_open.begin(), other->m_meshsets_open.end(), std::back_inserter(m_meshsets_open));
+		std::copy(other->m_vec_styles.begin(), other->m_vec_styles.end(), std::back_inserter(m_vec_styles));
+		std::copy(other->m_vec_text_literals.begin(), other->m_vec_text_literals.end(), std::back_inserter(m_vec_text_literals));
+	}
+	
+	void clearItemMeshGeometry()
+	{
+		m_meshsets.clear();
+		m_meshsets_open.clear();
+		m_vec_text_literals.clear();
+		m_vec_styles.clear();
+		m_vertex_points.clear();
+		m_polylines.clear();
+
+		for (auto child : m_child_items)
 		{
-			if( GeomUtils::isMatrixIdentity( mat ) )
+			child->clearItemMeshGeometry();
+		}
+	}
+
+	void applyTransformToItem(const carve::math::Matrix& mat, double CARVE_EPSILON, bool matrix_identity_checked)
+	{
+		if (!matrix_identity_checked)
+		{
+			if (GeomUtils::isMatrixIdentity(mat))
 			{
 				return;
 			}
 		}
 
-		for( size_t ii = 0; ii < m_vertex_points.size(); ++ii )
+		for (size_t ii = 0; ii < m_vertex_points.size(); ++ii)
 		{
 			shared_ptr<carve::input::VertexData>& vertex_data = m_vertex_points[ii];
-			for( size_t j = 0; j<vertex_data->points.size(); ++j )
+			for (size_t j = 0; j < vertex_data->points.size(); ++j)
 			{
 				vec3& point = vertex_data->points[j];
-				point = mat*point;
+				point = mat * point;
 			}
 		}
 
-		for( size_t polyline_i = 0; polyline_i < m_polylines.size(); ++polyline_i )
+		for (size_t polyline_i = 0; polyline_i < m_polylines.size(); ++polyline_i)
 		{
 			shared_ptr<carve::input::PolylineSetData>& polyline_data = m_polylines[polyline_i];
-			for( size_t j = 0; j<polyline_data->points.size(); ++j )
+			for (size_t j = 0; j < polyline_data->points.size(); ++j)
 			{
 				vec3& point = polyline_data->points[j];
-				point = mat*point;
+				point = mat * point;
 			}
 		}
 
 		//is negative if coordinate system changes handedness (for example as result of mirroring)
-		//in this case invert the meshes to not make them look inside out (only noticeable if using
-		//back face culling)
+		//in this case invert the meshes to not make them look inside out (only noticeable if using back face culling)
 		bool const invert_meshes = 0 > carve::geom::dotcross(
 			carve::geom::VECTOR(mat.m[0][0], mat.m[1][0], mat.m[2][0]),
 			carve::geom::VECTOR(mat.m[0][1], mat.m[1][1], mat.m[2][1]),
 			carve::geom::VECTOR(mat.m[0][2], mat.m[1][2], mat.m[2][2]));
 
-		for( size_t i_meshsets = 0; i_meshsets < m_meshsets_open.size(); ++i_meshsets )
+		for (size_t i_meshsets = 0; i_meshsets < m_meshsets_open.size(); ++i_meshsets)
 		{
 			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = m_meshsets_open[i_meshsets];
 			if (!item_meshset)
@@ -612,22 +665,22 @@ public:
 				continue;
 			}
 
-			for( size_t i = 0; i < item_meshset->vertex_storage.size(); ++i )
+			for (size_t i = 0; i < item_meshset->vertex_storage.size(); ++i)
 			{
 				vec3& point = item_meshset->vertex_storage[i].v;
-				point = mat*point;
+				point = mat * point;
 			}
-			for( size_t i = 0; i < item_meshset->meshes.size(); ++i )
+			for (size_t i = 0; i < item_meshset->meshes.size(); ++i)
 			{
 				item_meshset->meshes[i]->recalc(CARVE_EPSILON);
-				if(invert_meshes)
+				if (invert_meshes)
 				{
 					item_meshset->meshes[i]->invert();
 				}
 			}
 		}
 
-		for( size_t i_meshsets = 0; i_meshsets < m_meshsets.size(); ++i_meshsets )
+		for (size_t i_meshsets = 0; i_meshsets < m_meshsets.size(); ++i_meshsets)
 		{
 			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = m_meshsets[i_meshsets];
 			if (!item_meshset)
@@ -635,15 +688,15 @@ public:
 				continue;
 			}
 
-			for( size_t i = 0; i < item_meshset->vertex_storage.size(); ++i )
+			for (size_t i = 0; i < item_meshset->vertex_storage.size(); ++i)
 			{
 				vec3& point = item_meshset->vertex_storage[i].v;
-				point = mat*point;
+				point = mat * point;
 			}
-			for( size_t i = 0; i < item_meshset->meshes.size(); ++i )
+			for (size_t i = 0; i < item_meshset->meshes.size(); ++i)
 			{
 				item_meshset->meshes[i]->recalc(CARVE_EPSILON);
-				if(invert_meshes)
+				if (invert_meshes)
 				{
 					item_meshset->meshes[i]->invert();
 					//calcOrientation resets isNegative flag (usually)
@@ -652,10 +705,10 @@ public:
 			}
 		}
 
-		for( size_t text_i = 0; text_i < m_vec_text_literals.size(); ++text_i )
+		for (size_t text_i = 0; text_i < m_vec_text_literals.size(); ++text_i)
 		{
 			shared_ptr<TextItemData>& text_literals = m_vec_text_literals[text_i];
-			text_literals->m_text_position = mat*text_literals->m_text_position;
+			text_literals->m_text_position = mat * text_literals->m_text_position;
 		}
 
 		for (auto child : m_child_items)
@@ -664,99 +717,43 @@ public:
 		}
 	}
 
-	shared_ptr<ItemShapeData> getItemShapeDataDeepCopy()
+	void computeItemBoundingBox(carve::geom::aabb<3>& bbox, std::set<ItemShapeData*>& setVisited) const
 	{
-		shared_ptr<ItemShapeData> copy_item( new ItemShapeData() );
-
-		for( size_t ii = 0; ii < m_vertex_points.size(); ++ii )
-		{
-			shared_ptr<carve::input::VertexData>& data = m_vertex_points[ii];
-			copy_item->m_vertex_points.push_back( shared_ptr<carve::input::VertexData>( new carve::input::VertexData( *( data.get() ) ) ) );
-		}
-
-		for( size_t ii = 0; ii < m_polylines.size(); ++ii )
-		{
-			shared_ptr<carve::input::PolylineSetData>& polyline_data = m_polylines[ii];
-			copy_item->m_polylines.push_back( shared_ptr<carve::input::PolylineSetData>( new carve::input::PolylineSetData( *( polyline_data.get() ) ) ) );
-		}
-
-		for( auto it_meshsets = m_meshsets_open.begin(); it_meshsets != m_meshsets_open.end(); ++it_meshsets )
-		{
-			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = ( *it_meshsets );
-			copy_item->m_meshsets.push_back( shared_ptr<carve::mesh::MeshSet<3> >( item_meshset->clone() ) );
-		}
-
-		for( auto it_meshsets = m_meshsets.begin(); it_meshsets != m_meshsets.end(); ++it_meshsets )
-		{
-			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = ( *it_meshsets );
-			copy_item->m_meshsets.push_back( shared_ptr<carve::mesh::MeshSet<3> >( item_meshset->clone() ) );
-		}
-
-		for( size_t ii = 0; ii < m_vec_text_literals.size(); ++ii )
-		{
-			shared_ptr<TextItemData>& text_data = m_vec_text_literals[ii];
-
-			shared_ptr<TextItemData> text_data_copy( new TextItemData() );
-			text_data_copy->m_text = text_data->m_text.c_str();
-			text_data_copy->m_text_position = text_data->m_text_position;
-			copy_item->m_vec_text_literals.push_back( text_data_copy );
-		}
-
-		std::copy( m_vec_item_appearances.begin(), m_vec_item_appearances.end(), std::back_inserter( copy_item->m_vec_item_appearances ) );
-
-		return copy_item;
-	}
-	
-	/** copies the content of other instance and adds it to own content */
-	void addItemData( const shared_ptr<ItemShapeData>& other )
-	{
-		std::copy( other->m_vertex_points.begin(), other->m_vertex_points.end(), std::back_inserter( m_vertex_points ) );
-		std::copy( other->m_polylines.begin(), other->m_polylines.end(), std::back_inserter( m_polylines ) );
-		std::copy( other->m_meshsets.begin(), other->m_meshsets.end(), std::back_inserter( m_meshsets ) );
-		std::copy( other->m_meshsets_open.begin(), other->m_meshsets_open.end(), std::back_inserter( m_meshsets_open ) );
-		std::copy( other->m_vec_item_appearances.begin(), other->m_vec_item_appearances.end(), std::back_inserter( m_vec_item_appearances ) );
-		std::copy( other->m_vec_text_literals.begin(), other->m_vec_text_literals.end(), std::back_inserter( m_vec_text_literals ) );
-	}
-
-	const std::vector<shared_ptr<carve::input::VertexData> >& getVertexPoints() { return m_vertex_points; }
-
-	void computeBoundingBox( carve::geom::aabb<3>& bbox, std::set<ItemShapeData*>& setVisited ) const
-	{
-		for( size_t ii = 0; ii < m_vertex_points.size(); ++ii )
+		for (size_t ii = 0; ii < m_vertex_points.size(); ++ii)
 		{
 			const shared_ptr<carve::input::VertexData>& vertex_data = m_vertex_points[ii];
-			for( size_t j = 0; j<vertex_data->points.size(); ++j )
+			for (size_t j = 0; j < vertex_data->points.size(); ++j)
 			{
 				const vec3& point = vertex_data->points[j];
-				if( bbox.isEmpty() )
+				if (bbox.isEmpty())
 				{
-					bbox = carve::geom::aabb<3>( point, carve::geom::VECTOR( 0, 0, 0 ) );
+					bbox = carve::geom::aabb<3>(point, carve::geom::VECTOR(0, 0, 0));
 				}
 				else
 				{
-					bbox.unionAABB( carve::geom::aabb<3>( point, carve::geom::VECTOR( 0, 0, 0 ) ) );
+					bbox.unionAABB(carve::geom::aabb<3>(point, carve::geom::VECTOR(0, 0, 0)));
 				}
 			}
 		}
 
-		for( size_t polyline_i = 0; polyline_i < m_polylines.size(); ++polyline_i )
+		for (size_t polyline_i = 0; polyline_i < m_polylines.size(); ++polyline_i)
 		{
 			const shared_ptr<carve::input::PolylineSetData>& polyline_data = m_polylines[polyline_i];
-			for( size_t j = 0; j<polyline_data->points.size(); ++j )
+			for (size_t j = 0; j < polyline_data->points.size(); ++j)
 			{
 				const vec3& point = polyline_data->points[j];
-				if( bbox.isEmpty() )
+				if (bbox.isEmpty())
 				{
-					bbox = carve::geom::aabb<3>( point, carve::geom::VECTOR( 0, 0, 0 ) );
+					bbox = carve::geom::aabb<3>(point, carve::geom::VECTOR(0, 0, 0));
 				}
 				else
 				{
-					bbox.unionAABB( carve::geom::aabb<3>( point, carve::geom::VECTOR( 0, 0, 0 ) ) );
+					bbox.unionAABB(carve::geom::aabb<3>(point, carve::geom::VECTOR(0, 0, 0)));
 				}
 			}
 		}
 
-		for( size_t i_meshsets = 0; i_meshsets < m_meshsets_open.size(); ++i_meshsets )
+		for (size_t i_meshsets = 0; i_meshsets < m_meshsets_open.size(); ++i_meshsets)
 		{
 			const shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = m_meshsets_open[i_meshsets];
 			if (!item_meshset)
@@ -764,20 +761,20 @@ public:
 				continue;
 			}
 			carve::geom::aabb<3> meshBBox = item_meshset->getAABB();
-			if( bbox.isEmpty() )
+			if (bbox.isEmpty())
 			{
 				bbox = meshBBox;
 			}
 			else
 			{
-				if( !meshBBox.isEmpty() )
+				if (!meshBBox.isEmpty())
 				{
 					bbox.unionAABB(meshBBox);
 				}
 			}
 		}
 
-		for( size_t i_meshsets = 0; i_meshsets < m_meshsets.size(); ++i_meshsets )
+		for (size_t i_meshsets = 0; i_meshsets < m_meshsets.size(); ++i_meshsets)
 		{
 			const shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = m_meshsets[i_meshsets];
 			if (!item_meshset)
@@ -785,31 +782,31 @@ public:
 				continue;
 			}
 			carve::geom::aabb<3> meshBBox = item_meshset->getAABB();
-			if( bbox.isEmpty() )
+			if (bbox.isEmpty())
 			{
 				bbox = meshBBox;
 			}
 			else
 			{
-				if( !meshBBox.isEmpty() )
+				if (!meshBBox.isEmpty())
 				{
 					bbox.unionAABB(meshBBox);
 				}
 			}
 		}
 
-		for( size_t text_i = 0; text_i < m_vec_text_literals.size(); ++text_i )
+		for (size_t text_i = 0; text_i < m_vec_text_literals.size(); ++text_i)
 		{
 			const shared_ptr<TextItemData>& text_literals = m_vec_text_literals[text_i];
 			const carve::math::Matrix& mat = text_literals->m_text_position;
-			vec3 text_pos = carve::geom::VECTOR( mat._41, mat._42, mat._43 );
-			if( bbox.isEmpty() )
+			vec3 text_pos = carve::geom::VECTOR(mat._41, mat._42, mat._43);
+			if (bbox.isEmpty())
 			{
-				bbox = carve::geom::aabb<3>( text_pos, carve::geom::VECTOR( 0, 0, 0 ) );
+				bbox = carve::geom::aabb<3>(text_pos, carve::geom::VECTOR(0, 0, 0));
 			}
 			else
 			{
-				bbox.unionAABB( carve::geom::aabb<3>( text_pos, carve::geom::VECTOR( 0, 0, 0 ) ) );
+				bbox.unionAABB(carve::geom::aabb<3>(text_pos, carve::geom::VECTOR(0, 0, 0)));
 			}
 		}
 
@@ -822,7 +819,7 @@ public:
 			setVisited.insert(child.get());
 
 			carve::geom::aabb<3> meshBBox;
-			child->computeBoundingBox(meshBBox, setVisited);
+			child->computeItemBoundingBox(meshBBox, setVisited);
 			if (bbox.isEmpty())
 			{
 				bbox = meshBBox;
@@ -837,7 +834,9 @@ public:
 		}
 	}
 
-	bool hasGeometricRepresentation(bool includeChildren)
+	const std::vector<shared_ptr<carve::input::VertexData> >& getVertexPoints() { return m_vertex_points; }
+
+	bool hasItemDataGeometricRepresentation(bool includeChildren) const
 	{
 		if (m_meshsets.size() > 0) return true;
 		if (m_meshsets_open.size() > 0) return true;
@@ -849,7 +848,7 @@ public:
 		{
 			for (auto child : m_child_items)
 			{
-				if (child->hasGeometricRepresentation(includeChildren))
+				if (child->hasItemDataGeometricRepresentation(includeChildren))
 				{
 					return true;
 				}
@@ -858,113 +857,94 @@ public:
 		return false;
 	}
 
-	void clearMeshGeometry()
-	{
-		m_meshsets.clear();
-		m_meshsets_open.clear();
-		m_vec_text_literals.clear();
-		m_vec_item_appearances.clear();
-		m_vertex_points.clear();
-		m_polylines.clear();
 
-		for (auto child : m_child_items)
+	void addGeometricChildItem(shared_ptr<ItemShapeData>& item_data, const shared_ptr<ItemShapeData>& ptr_self)
+	{
+		if (ptr_self.get() != this)
 		{
-			child->clearMeshGeometry();
+			std::cout << __FUNCTION__ << "ptr_self != this" << std::endl;
 		}
+		m_child_items.push_back(item_data);
+		item_data->m_parentItem = ptr_self;
 	}
 };
 
+/**
+*\brief Class ProductShapeData: holds input data of one IFC element, its representations, and the gometric items of that representation.
+* Typical hierarchy of IFC geometric shapes, stored by ProductShapeData:
+*        ...
+*          |-> ProductShapeData [1...n]                 logical element like IfcBuildingStorey
+*                   |-> ProductShapeData [1...n]              physical element like IfcWall
+*                           |-> ProductShapeData [1...n]            representation
+*                                     |-> ProductShapeData [1...n]       geometric item
+*/
 class ProductShapeData 
 {
+protected:
+	std::vector<shared_ptr<ItemShapeData> >		m_geometric_items;		// Items of geometric representations
+	std::vector<shared_ptr<ProductShapeData> >	m_vec_child_products;	// IfcElementAssembly for example can have child products
+	std::vector<shared_ptr<StyleData> >			m_vec_styles;			// styles can be attached to Products, as well as to geometric items
+
 public:
-	std::string m_entity_guid;
+	std::string										m_entity_guid;
+	bool											m_added_to_spatial_structure = false;
 	weak_ptr<IFC4X3::IfcObjectDefinition>			m_ifc_object_definition;
 	weak_ptr<IFC4X3::IfcObjectPlacement>			m_object_placement;
-	bool											m_added_to_spatial_structure = false;
+	
 	weak_ptr<ProductShapeData>						m_parent;
 	std::vector<shared_ptr<TransformData> >			m_vec_transforms;
-	std::vector<shared_ptr<ProductShapeData> >		m_vec_children;
-	std::vector<shared_ptr<AppearanceData> >		m_vec_product_appearances;
-
-	std::vector<shared_ptr<ItemShapeData> >			m_geometric_items;
-	weak_ptr<IFC4X3::IfcRepresentation>				m_ifc_representation;
 
 	ProductShapeData() {}
 	ProductShapeData( std::string entity_guid ) : m_entity_guid(entity_guid) { }
 
-	const std::vector<shared_ptr<ProductShapeData> >& getChildren() { return m_vec_children; }
-	shared_ptr<ProductShapeData> getDeepCopy()
-	{
-		shared_ptr<ProductShapeData> copy_data( new ProductShapeData(m_entity_guid) );
-		for( size_t item_i = 0; item_i < m_geometric_items.size(); ++item_i )
-		{
-			shared_ptr<ItemShapeData>& representation_data = m_geometric_items[item_i];
-			shared_ptr<ItemShapeData> representation_data_copy = representation_data->getItemShapeDataDeepCopy();
-			copy_data->addGeometricItem(representation_data_copy, copy_data);
-		}
+	const std::vector<shared_ptr<ProductShapeData> >& getChildElements() { return m_vec_child_products; }
+	const std::vector<shared_ptr<ItemShapeData> >& getGeometricItems() { return m_geometric_items; }
+	const std::vector<shared_ptr<StyleData> >& getStyles() { return m_vec_styles; }
+	void clearGeometricChildItems() { m_geometric_items.clear(); }
 
-		std::copy( m_vec_product_appearances.begin(), m_vec_product_appearances.end(), std::back_inserter( copy_data->m_vec_product_appearances ) );
-		for( auto child_product_data : m_vec_children )
-		{
-			shared_ptr<ProductShapeData> child_copy = child_product_data->getDeepCopy();
-			copy_data->addChildProduct(child_copy, copy_data);
-		}
-		copy_data->m_parent = m_parent;
-
-		for( auto transform : m_vec_transforms )
-		{
-			if( transform )
-			{
-				shared_ptr<TransformData> transform_deep_copy( new TransformData( transform->m_matrix, transform->m_placement_entity, transform->m_placement_tag ) );
-				copy_data->m_vec_transforms.push_back( transform_deep_copy );
-			}
-		}
-
-		return copy_data;
-	}
-
-	void addGeometricItem(shared_ptr<ItemShapeData>& item, shared_ptr<ProductShapeData>& ptr_self)
+	void addGeometricItem(shared_ptr<ItemShapeData>& item, const shared_ptr<ProductShapeData>& ptr_self)
 	{
 		if (ptr_self.get() != this)
 		{
 			std::cout << __FUNCTION__ << ": ptr_self.get() != this" << std::endl;
 		}
 		m_geometric_items.push_back(item);
-		item->m_parent_product = ptr_self;
+		item->m_parentProduct = ptr_self;
 	}
 
-	void addAppearance( shared_ptr<AppearanceData>& appearance )
+
+	void addStyle(shared_ptr<StyleData>& newStyle)
 	{
-		if( !appearance )
+		if (!newStyle)
 		{
 			return;
 		}
-		int append_id = appearance->m_step_style_id;
-		for( size_t ii = 0; ii < m_vec_product_appearances.size(); ++ii )
+		int append_id = newStyle->m_step_style_id;
+		for (size_t ii = 0; ii < m_vec_styles.size(); ++ii)
 		{
-			shared_ptr<AppearanceData>& appearance = m_vec_product_appearances[ii];
-			if( appearance->m_step_style_id == append_id )
+			shared_ptr<StyleData>& style = m_vec_styles[ii];
+			if (style->m_step_style_id == append_id)
 			{
 				return;
 			}
 		}
-		m_vec_product_appearances.push_back( appearance );
+		m_vec_styles.push_back(newStyle);
 	}
 
-	void clearAppearanceData()
+	void clearStyleData()
 	{
-		m_vec_product_appearances.clear();
+		m_vec_styles.clear();
 	}
 
 	void clearMeshGeometry()
 	{
-		m_vec_product_appearances.clear();
+		m_vec_styles.clear();
 		m_object_placement.reset();
 		
 		for( size_t item_i = 0; item_i < m_geometric_items.size(); ++item_i )
 		{
 			shared_ptr<ItemShapeData>& item_data = m_geometric_items[item_i];
-			item_data->clearMeshGeometry();
+			item_data->clearItemMeshGeometry();
 		}
 		
 		m_added_to_spatial_structure = false;
@@ -972,12 +952,14 @@ public:
 
 	void clearAll()
 	{
-		m_vec_product_appearances.clear();
+		m_vec_styles.clear();
 		m_ifc_object_definition.reset();
 		m_object_placement.reset();
-		m_vec_children.clear();
+		m_vec_child_products.clear();
 		m_geometric_items.clear();
 		m_added_to_spatial_structure = false;
+
+		clearMeshGeometry();
 	}
 	
 	bool isContainedInParentsList( shared_ptr<ProductShapeData>& product_data_check )
@@ -1006,9 +988,9 @@ public:
 			return;
 		}
 
-		for( size_t ii = 0; ii < m_vec_children.size(); ++ii )
+		for( size_t ii = 0; ii < m_vec_child_products.size(); ++ii )
 		{
-			const shared_ptr<ProductShapeData>& existing_child = m_vec_children[ii];
+			const shared_ptr<ProductShapeData>& existing_child = m_vec_child_products[ii];
 			if( existing_child == add_child )
 			{
 #ifdef _DEBUG
@@ -1025,7 +1007,7 @@ public:
 			}
 		}
 
-		m_vec_children.push_back( add_child );
+		m_vec_child_products.push_back( add_child );
 		add_child->m_parent = ptr_self;
 	}
 
@@ -1119,7 +1101,7 @@ public:
 		m_vec_transforms.insert( m_vec_transforms.begin(), transform_data );
 	}
 
-	void applyTransformToProduct( const carve::math::Matrix& matrix, bool matrix_identity_checked, bool applyToChildren )
+	void applyTransformToProduct( const carve::math::Matrix& matrix, double eps, bool matrix_identity_checked, bool applyToChildren )
 	{
 		if( !matrix_identity_checked )
 		{
@@ -1130,37 +1112,38 @@ public:
 		}
 		for( size_t i_item = 0; i_item < m_geometric_items.size(); ++i_item )
 		{
-			m_geometric_items[i_item]->applyTransformToItem( matrix, true );
+			m_geometric_items[i_item]->applyTransformToItem( matrix, eps, true );
 		}
 
 		if( applyToChildren )
 		{
-			for( auto child_product_data : m_vec_children )
+			for( auto child_product_data : m_vec_child_products)
 			{
-				child_product_data->applyTransformToProduct(matrix, true, applyToChildren );
+				child_product_data->applyTransformToProduct(matrix, eps, true, applyToChildren );
 			}
 		}
 	}
-	const std::vector<shared_ptr<AppearanceData> >& getAppearances() { return m_vec_product_appearances; }
 
-	bool isEmpty( bool check_also_children ) const
+	bool isShapeDataEmpty( bool check_also_children ) const
 	{
 		if(m_geometric_items.size() > 0 )
 		{
 			return false;
 		}
-		if( m_vec_product_appearances.size() > 0 )
-		{
-			return false;
-		}
+
+		//if( m_vec_styles.size() > 0 )
+		//{
+		//	return false;
+		//}
+
 		if( check_also_children )
 		{
-			if( m_vec_product_appearances.size() > 0 )
+			//if(m_vec_styles.size() > 0 )
 			{
-				for( size_t ii = 0; ii < m_vec_children.size(); ++ii )
+				for( size_t ii = 0; ii < m_vec_child_products.size(); ++ii )
 				{
-					const shared_ptr<ProductShapeData>& child = m_vec_children[ii];
-					bool child_empty = child->isEmpty( check_also_children );
+					const shared_ptr<ProductShapeData>& child = m_vec_child_products[ii];
+					bool child_empty = child->isShapeDataEmpty( check_also_children );
 					if( !child_empty )
 					{
 						return false;
@@ -1171,14 +1154,14 @@ public:
 		return true;
 	}
 
-	bool hasGeometricRepresentation( bool includeChildren = true ) const
+	bool hasGeometricRepresentation( bool includeChildProducts, bool includeGeometricChildItems ) const
 	{
-		if( includeChildren )
+		if(includeChildProducts)
 		{
-			for( size_t ii = 0; ii < m_vec_children.size(); ++ii )
+			for( size_t ii = 0; ii < m_vec_child_products.size(); ++ii )
 			{
-				const shared_ptr<ProductShapeData>& child = m_vec_children[ii];
-				bool childHasGeom = child->hasGeometricRepresentation(includeChildren);
+				const shared_ptr<ProductShapeData>& child = m_vec_child_products[ii];
+				bool childHasGeom = child->hasGeometricRepresentation(includeChildProducts, includeGeometricChildItems);
 				if( childHasGeom )
 				{
 					return true;
@@ -1188,15 +1171,48 @@ public:
 
 		for (size_t ii = 0; ii < m_geometric_items.size(); ++ii)
 		{
-			const shared_ptr<ItemShapeData>& child = m_geometric_items[ii];
-			bool childHasGeom = child->hasGeometricRepresentation(includeChildren);
-			if (childHasGeom)
+			const shared_ptr<ItemShapeData>& geomItem = m_geometric_items[ii];
+			if (geomItem->hasItemDataGeometricRepresentation(includeGeometricChildItems))
 			{
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+
+
+	void addGeometricChildItem(shared_ptr<ItemShapeData>& item_data, const shared_ptr<ProductShapeData>& ptr_self)
+	{
+		if (ptr_self.get() != this)
+		{
+			std::cout << __FUNCTION__ << "ptr_self != this" << std::endl;
+		}
+		m_geometric_items.push_back(item_data);
+		item_data->m_parentProduct = ptr_self;
+	}
+
+
+
+	void applyTransformToItem(const shared_ptr<TransformData>& transform, double eps, bool matrix_identity_checked )
+	{
+		if (!transform)
+		{
+			return;
+		}
+		if (!matrix_identity_checked)
+		{
+			if (GeomUtils::isMatrixIdentity(transform->m_matrix))
+			{
+				return;
+			}
+		}
+
+		for (auto itemData : m_geometric_items)
+		{
+			itemData->applyTransformToItem(transform->m_matrix, eps, true);
+		}
 	}
 };
 
@@ -1272,10 +1288,10 @@ static carve::geom::aabb<3> computeBoundingBoxLocalCoords( const shared_ptr<Prod
 {
 	carve::geom::aabb<3> bbox;
 	std::set<ItemShapeData*> setVisited;
-	for( auto item : productData->m_geometric_items)
+	for( auto item : productData->getGeometricItems() )
 	{
 		carve::geom::aabb<3> repBBox;
-		item->computeBoundingBox(repBBox, setVisited);
+		item->computeItemBoundingBox(repBBox, setVisited);
 		if( bbox.isEmpty() )
 		{
 			bbox = repBBox;
@@ -1291,7 +1307,7 @@ static carve::geom::aabb<3> computeBoundingBoxLocalCoords( const shared_ptr<Prod
 
 	if( includeChildren )
 	{
-		for( auto child : productData->m_vec_children )
+		for( auto child : productData->getChildElements())
 		{
 			carve::geom::aabb<3> childBBox = computeBoundingBoxLocalCoords(child, true);
 			if( bbox.isEmpty() )
@@ -1310,7 +1326,7 @@ static carve::geom::aabb<3> computeBoundingBoxLocalCoords( const shared_ptr<Prod
 	return bbox;
 }
 
-static carve::geom::aabb<3> computeBoundingBox(shared_ptr<ProductShapeData>& productData, bool includeChildren, bool applyTransformToGlobalCoordinates)
+static carve::geom::aabb<3> computeBoundingBox(const shared_ptr<ProductShapeData>& productData, bool includeChildren, bool applyTransformToGlobalCoordinates)
 {
 	carve::geom::aabb<3> bbox;
 	if( !productData )
@@ -1325,10 +1341,10 @@ static carve::geom::aabb<3> computeBoundingBox(shared_ptr<ProductShapeData>& pro
 	}
 
 	std::set<ItemShapeData*> setVisited;
-	for( auto item : productData->m_geometric_items)
+	for( auto item : productData->getGeometricItems() )
 	{
 		carve::geom::aabb<3> repBBox;
-		item->computeBoundingBox(repBBox, setVisited);
+		item->computeItemBoundingBox(repBBox, setVisited);
 
 		if( repBBox.isEmpty() )
 		{
@@ -1351,7 +1367,7 @@ static carve::geom::aabb<3> computeBoundingBox(shared_ptr<ProductShapeData>& pro
 
 	if( includeChildren )
 	{
-		for( shared_ptr<ProductShapeData>& child : productData->m_vec_children )
+		for( const shared_ptr<ProductShapeData>& child : productData->getChildElements())
 		{
 			carve::geom::aabb<3> childBBox = computeBoundingBox(child, true, applyTransformToGlobalCoordinates);
 

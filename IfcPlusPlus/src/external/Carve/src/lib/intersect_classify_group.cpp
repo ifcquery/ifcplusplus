@@ -218,7 +218,7 @@ namespace carve {
 			std::cerr << "initial groups: " << b_loops_grouped.size() << " b groups"
 				<< std::endl;
 #endif
-			performClassifyFaceGroups(a_loops_grouped, b_loops_grouped, vclass, poly_a, poly_a_rtree, poly_b, poly_b_rtree, classifier, collector, hooks, CARVE_EPSILON);
+			performClassifyFaceGroups(a_loops_grouped, b_loops_grouped, vclass, poly_a, poly_a_rtree, poly_b, poly_b_rtree, classifier, collector, hooks, m_epsilon);
 		}
 	}  // namespace csg
 }  // namespace carve

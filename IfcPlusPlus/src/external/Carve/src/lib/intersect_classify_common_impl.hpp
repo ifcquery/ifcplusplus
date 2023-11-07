@@ -26,7 +26,7 @@
 
 namespace carve {
 	namespace csg {
-		typedef std::unordered_map<carve::mesh::MeshSet<3>::vertex_t*,
+		typedef std::unordered_map<carve::mesh::Vertex<3>*,
 			std::list<FLGroupList::iterator> >
 			GroupLookup;
 
@@ -74,7 +74,7 @@ namespace carve {
 					continue;
 				}
 				FaceLoop* f = (*i).face_loops.head;
-				carve::mesh::MeshSet<3>::vertex_t* v =
+				carve::mesh::Vertex<3>* v =
 					*std::min_element(f->vertices.begin(), f->vertices.end());
 				a_map[v].push_back(i);
 			}
@@ -84,7 +84,7 @@ namespace carve {
 					continue;
 				}
 				FaceLoop* f = (*i).face_loops.head;
-				carve::mesh::MeshSet<3>::vertex_t* v =
+				carve::mesh::Vertex<3>* v =
 					*std::min_element(f->vertices.begin(), f->vertices.end());
 				if( a_map.find(v) != a_map.end() ) {
 					b_map[v].push_back(i);
@@ -95,7 +95,7 @@ namespace carve {
 			// find candidate matches in the second map.
 			for( GroupLookup::iterator j = b_map.begin(), je = b_map.end(); j != je;
 				++j ) {
-				carve::mesh::MeshSet<3>::vertex_t* v = (*j).first;
+				carve::mesh::Vertex<3>* v = (*j).first;
 				GroupLookup::iterator i = a_map.find(v);
 
 				for( std::list<FLGroupList::iterator>::iterator bi = (*j).second.begin(),
@@ -193,7 +193,7 @@ namespace carve {
 				FaceClass fc = FACE_UNCLASSIFIED;
 
 				for( FaceLoop* f = curr.head; f; f = f->next ) {
-					carve::mesh::MeshSet<3>::vertex_t* v1, * v2;
+					carve::mesh::Vertex<3>* v1, * v2;
 					v1 = f->vertices.back();
 					for( size_t j = 0; j < f->vertices.size(); ++j ) {
 						v2 = f->vertices[j];
@@ -262,8 +262,8 @@ namespace carve {
 
 				FaceLoop* fla = (*i).face_loops.head;
 
-				const carve::mesh::MeshSet<3>::face_t* f = (fla->orig_face);
-				std::vector<carve::mesh::MeshSet<3>::vertex_t*>& loop = (fla->vertices);
+				const carve::mesh::Face<3>* f = (fla->orig_face);
+				std::vector<carve::mesh::Vertex<3>*>& loop = (fla->vertices);
 				std::vector<carve::geom2d::P2> proj;
 				proj.reserve(loop.size());
 				for( unsigned j = 0; j < loop.size(); ++j ) {
@@ -276,7 +276,7 @@ namespace carve {
 				}
 				carve::geom3d::Vector v = f->unproject(pv, f->plane);
 
-				const carve::mesh::MeshSet<3>::face_t* hit_face;
+				const carve::mesh::Face<3>* hit_face;
 				PointClass pc = carve::mesh::classifyPoint(poly_a, poly_a_rtree, v, CARVE_EPSILON, false, nullptr, &hit_face);
 
 				switch( pc )

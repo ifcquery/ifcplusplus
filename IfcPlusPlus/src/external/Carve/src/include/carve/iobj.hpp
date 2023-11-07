@@ -37,17 +37,17 @@ struct IObj {
   } obtype;
 
   union {
-    carve::mesh::MeshSet<3>::vertex_t* vertex;
+    carve::mesh::Vertex<3>* vertex;
     carve::mesh::MeshSet<3>::edge_t* edge;
-    carve::mesh::MeshSet<3>::face_t* face;
+    carve::mesh::Face<3>* face;
     intptr_t val;
   };
 
   IObj() : obtype(OBTYPE_NONE), val(0) {}
-  IObj(carve::mesh::MeshSet<3>::vertex_t* v)
+  IObj(carve::mesh::Vertex<3>* v)
       : obtype(OBTYPE_VERTEX), vertex(v) {}
   IObj(carve::mesh::MeshSet<3>::edge_t* e) : obtype(OBTYPE_EDGE), edge(e) {}
-  IObj(carve::mesh::MeshSet<3>::face_t* f) : obtype(OBTYPE_FACE), face(f) {}
+  IObj(carve::mesh::Face<3>* f) : obtype(OBTYPE_FACE), face(f) {}
   char typeChar() const { return "NVExF"[obtype]; }
 };
 
@@ -61,12 +61,12 @@ struct IObj_hash {
 typedef std::unordered_set<std::pair<const IObj, const IObj>, IObj_hash>
     IObjPairSet;
 
-typedef std::unordered_map<IObj, carve::mesh::MeshSet<3>::vertex_t*, IObj_hash>
+typedef std::unordered_map<IObj, carve::mesh::Vertex<3>*, IObj_hash>
     IObjVMap;
-typedef std::map<IObj, carve::mesh::MeshSet<3>::vertex_t*> IObjVMapSmall;
+typedef std::map<IObj, carve::mesh::Vertex<3>*> IObjVMapSmall;
 
 class VertexIntersections
-    : public std::unordered_map<carve::mesh::MeshSet<3>::vertex_t*,
+    : public std::unordered_map<carve::mesh::Vertex<3>*,
                                 IObjPairSet> {};
 
 static inline bool operator==(const carve::csg::IObj& a,

@@ -338,6 +338,7 @@
 #include "lib/IfcFurnishingElementType.cpp"
 #include "lib/IfcFurniture.cpp"
 #include "lib/IfcFurnitureType.cpp"
+#include "lib/IfcGeographicCRS.cpp"
 #include "lib/IfcGeographicElement.cpp"
 #include "lib/IfcGeographicElementType.cpp"
 #include "lib/IfcGeometricCurveSet.cpp"
@@ -409,6 +410,7 @@
 #include "lib/IfcLoop.cpp"
 #include "lib/IfcManifoldSolidBrep.cpp"
 #include "lib/IfcMapConversion.cpp"
+#include "lib/IfcMapConversionScaled.cpp"
 #include "lib/IfcMappedItem.cpp"
 #include "lib/IfcMarineFacility.cpp"
 #include "lib/IfcMarinePart.cpp"
@@ -655,6 +657,7 @@
 #include "lib/IfcRevolvedAreaSolidTapered.cpp"
 #include "lib/IfcRightCircularCone.cpp"
 #include "lib/IfcRightCircularCylinder.cpp"
+#include "lib/IfcRigidOperation.cpp"
 #include "lib/IfcRoad.cpp"
 #include "lib/IfcRoadPart.cpp"
 #include "lib/IfcRoof.cpp"
@@ -866,6 +869,7 @@
 #include "lib/IfcWallType.cpp"
 #include "lib/IfcWasteTerminal.cpp"
 #include "lib/IfcWasteTerminalType.cpp"
+#include "lib/IfcWellKnownText.cpp"
 #include "lib/IfcWindow.cpp"
 #include "lib/IfcWindowLiningProperties.cpp"
 #include "lib/IfcWindowPanelProperties.cpp"
@@ -1216,6 +1220,7 @@ static std::map<std::string, std::function<BuildingEntity*( void )> > entity_fac
 { "IFCFURNISHINGELEMENTTYPE", []()->BuildingEntity* { return new IFC4X3::IfcFurnishingElementType(); } },
 { "IFCFURNITURE", []()->BuildingEntity* { return new IFC4X3::IfcFurniture(); } },
 { "IFCFURNITURETYPE", []()->BuildingEntity* { return new IFC4X3::IfcFurnitureType(); } },
+{ "IFCGEOGRAPHICCRS", []()->BuildingEntity* { return new IFC4X3::IfcGeographicCRS(); } },
 { "IFCGEOGRAPHICELEMENT", []()->BuildingEntity* { return new IFC4X3::IfcGeographicElement(); } },
 { "IFCGEOGRAPHICELEMENTTYPE", []()->BuildingEntity* { return new IFC4X3::IfcGeographicElementType(); } },
 { "IFCGEOMETRICCURVESET", []()->BuildingEntity* { return new IFC4X3::IfcGeometricCurveSet(); } },
@@ -1287,6 +1292,7 @@ static std::map<std::string, std::function<BuildingEntity*( void )> > entity_fac
 { "IFCLOOP", []()->BuildingEntity* { return new IFC4X3::IfcLoop(); } },
 { "IFCMANIFOLDSOLIDBREP", []()->BuildingEntity* { return new IFC4X3::IfcManifoldSolidBrep(); } },
 { "IFCMAPCONVERSION", []()->BuildingEntity* { return new IFC4X3::IfcMapConversion(); } },
+{ "IFCMAPCONVERSIONSCALED", []()->BuildingEntity* { return new IFC4X3::IfcMapConversionScaled(); } },
 { "IFCMAPPEDITEM", []()->BuildingEntity* { return new IFC4X3::IfcMappedItem(); } },
 { "IFCMARINEFACILITY", []()->BuildingEntity* { return new IFC4X3::IfcMarineFacility(); } },
 { "IFCMARINEPART", []()->BuildingEntity* { return new IFC4X3::IfcMarinePart(); } },
@@ -1533,6 +1539,7 @@ static std::map<std::string, std::function<BuildingEntity*( void )> > entity_fac
 { "IFCREVOLVEDAREASOLIDTAPERED", []()->BuildingEntity* { return new IFC4X3::IfcRevolvedAreaSolidTapered(); } },
 { "IFCRIGHTCIRCULARCONE", []()->BuildingEntity* { return new IFC4X3::IfcRightCircularCone(); } },
 { "IFCRIGHTCIRCULARCYLINDER", []()->BuildingEntity* { return new IFC4X3::IfcRightCircularCylinder(); } },
+{ "IFCRIGIDOPERATION", []()->BuildingEntity* { return new IFC4X3::IfcRigidOperation(); } },
 { "IFCROAD", []()->BuildingEntity* { return new IFC4X3::IfcRoad(); } },
 { "IFCROADPART", []()->BuildingEntity* { return new IFC4X3::IfcRoadPart(); } },
 { "IFCROOF", []()->BuildingEntity* { return new IFC4X3::IfcRoof(); } },
@@ -1744,6 +1751,7 @@ static std::map<std::string, std::function<BuildingEntity*( void )> > entity_fac
 { "IFCWALLTYPE", []()->BuildingEntity* { return new IFC4X3::IfcWallType(); } },
 { "IFCWASTETERMINAL", []()->BuildingEntity* { return new IFC4X3::IfcWasteTerminal(); } },
 { "IFCWASTETERMINALTYPE", []()->BuildingEntity* { return new IFC4X3::IfcWasteTerminalType(); } },
+{ "IFCWELLKNOWNTEXT", []()->BuildingEntity* { return new IFC4X3::IfcWellKnownText(); } },
 { "IFCWINDOW", []()->BuildingEntity* { return new IFC4X3::IfcWindow(); } },
 { "IFCWINDOWLININGPROPERTIES", []()->BuildingEntity* { return new IFC4X3::IfcWindowLiningProperties(); } },
 { "IFCWINDOWPANELPROPERTIES", []()->BuildingEntity* { return new IFC4X3::IfcWindowPanelProperties(); } },
@@ -2205,6 +2213,7 @@ const char* IFC4X3::EntityFactory::getStringForClassID(uint32_t ifcClassID)
 		case 1718600412: return "IfcWarpingMomentMeasure";
 		case 854899952: return "IfcWarpingStiffnessSelect";
 		case 3676660675: return "IfcWasteTerminalTypeEnum";
+		case 2149462589: return "IfcWellKnownTextLiteral";
 		case 2324037503: return "IfcWindowPanelOperationEnum";
 		case 278839091: return "IfcWindowPanelPositionEnum";
 		case 3672713367: return "IfcWindowStyleConstructionEnum";
@@ -2549,6 +2558,7 @@ const char* IFC4X3::EntityFactory::getStringForClassID(uint32_t ifcClassID)
 		case 4238390223: return "IfcFurnishingElementType";
 		case 1509553395: return "IfcFurniture";
 		case 1268542332: return "IfcFurnitureType";
+		case 917726184: return "IfcGeographicCRS";
 		case 3493046030: return "IfcGeographicElement";
 		case 4095422895: return "IfcGeographicElementType";
 		case 987898635: return "IfcGeometricCurveSet";
@@ -2620,6 +2630,7 @@ const char* IFC4X3::EntityFactory::getStringForClassID(uint32_t ifcClassID)
 		case 1008929658: return "IfcLoop";
 		case 1425443689: return "IfcManifoldSolidBrep";
 		case 3057273783: return "IfcMapConversion";
+		case 4105526436: return "IfcMapConversionScaled";
 		case 2347385850: return "IfcMappedItem";
 		case 525669439: return "IfcMarineFacility";
 		case 976884017: return "IfcMarinePart";
@@ -2866,6 +2877,7 @@ const char* IFC4X3::EntityFactory::getStringForClassID(uint32_t ifcClassID)
 		case 3243963512: return "IfcRevolvedAreaSolidTapered";
 		case 4158566097: return "IfcRightCircularCone";
 		case 3626867408: return "IfcRightCircularCylinder";
+		case 1794013214: return "IfcRigidOperation";
 		case 146592293: return "IfcRoad";
 		case 550521510: return "IfcRoadPart";
 		case 2016517767: return "IfcRoof";
@@ -3077,6 +3089,7 @@ const char* IFC4X3::EntityFactory::getStringForClassID(uint32_t ifcClassID)
 		case 1898987631: return "IfcWallType";
 		case 4237592921: return "IfcWasteTerminal";
 		case 1133259667: return "IfcWasteTerminalType";
+		case 1175146630: return "IfcWellKnownText";
 		case 3304561284: return "IfcWindow";
 		case 336235671: return "IfcWindowLiningProperties";
 		case 512836454: return "IfcWindowPanelProperties";

@@ -105,7 +105,7 @@ namespace carve {
 			{&_unproject_4, &_unproject_5, &_unproject_6} };
 
 		// only implemented for 3d.
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		typename Face<ndim>::project_t Face<ndim>::getProjector(bool positive_facing,
 			int axis) {
 			return NULL;
@@ -116,7 +116,7 @@ namespace carve {
 			return project_tab[positive_facing ? 1 : 0][axis];
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		typename Face<ndim>::unproject_t Face<ndim>::getUnprojector(
 			bool positive_facing, int axis) {
 			return NULL;
@@ -127,7 +127,7 @@ namespace carve {
 			return unproject_tab[positive_facing ? 1 : 0][axis];
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		Face<ndim>::Face(const std::vector<const vertex_t*>& _vertices, double CARVE_EPSILON, bool delay_recalc)
 			: tagable() {
 			vertices = _vertices;
@@ -136,7 +136,7 @@ namespace carve {
 			}
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		Face<ndim>::Face(const vertex_t* a, const vertex_t* b, const vertex_t* c, double CARVE_EPSILON, bool delay_recalc) : tagable()
 		{
 			vertices.reserve(3);
@@ -148,7 +148,7 @@ namespace carve {
 			}
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		Face<ndim>::Face(const vertex_t* a, const vertex_t* b, const vertex_t* c, const vertex_t* d, double CARVE_EPSILON, bool delay_recalc) : tagable()
 		{
 			vertices.reserve(4);
@@ -161,7 +161,7 @@ namespace carve {
 			}
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		void Face<ndim>::invert() {
 			size_t n_verts = vertices.size();
 			std::reverse(vertices.begin(), vertices.end());
@@ -184,7 +184,7 @@ namespace carve {
 			}
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool Face<ndim>::recalc(double CARVE_EPSILON) {
 			aabb.fit(vertices.begin(), vertices.end(), vec_adapt_vertex_ptr());
 
@@ -206,14 +206,14 @@ namespace carve {
 			return true;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		Face<ndim>* Face<ndim>::init(const Face* base,
 			const std::vector<const vertex_t*>& _vertices,
 			bool flipped) {
 			return init(base, _vertices.begin(), _vertices.end(), flipped);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool Face<ndim>::containsPoint(const vector_t& p, double CARVE_EPSILON) const
 		{
 			if( !carve::math::ZERO(carve::geom::distance(plane_eqn, p), CARVE_EPSILON) )
@@ -224,13 +224,13 @@ namespace carve {
 			return carve::geom2d::pointInPoly(vertices, projector(), face::project(this, p), CARVE_EPSILON).iclass != POINT_OUT;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool Face<ndim>::containsPointInProjection(const vector_t& p, double CARVE_EPSILON) const
 		{
 			return carve::geom2d::pointInPoly(vertices, projector(), face::project(this, p), CARVE_EPSILON) .iclass != POINT_OUT;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool Face<ndim>::simpleLineSegmentIntersection( const carve::geom::linesegment<ndim>& line, vector_t& intersection, double CARVE_EPSILON) const
 		{
 			if( !line.OK(CARVE_EPSILON) )
@@ -257,7 +257,7 @@ namespace carve {
 		// XXX: should try to return a pre-existing vertex in the case of a
 		// line-vertex intersection.  as it stands, this code isn't used,
 		// so... meh.
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		IntersectionClass Face<ndim>::lineSegmentIntersection( const carve::geom::linesegment<ndim>& line, vector_t& intersection, double CARVE_EPSILON) const
 		{
 			if( !line.OK(CARVE_EPSILON) ) {

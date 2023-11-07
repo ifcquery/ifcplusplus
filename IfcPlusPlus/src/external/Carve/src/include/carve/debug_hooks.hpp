@@ -58,30 +58,30 @@ class IntersectDebugHooks {
  public:
   virtual void drawIntersections(const VertexIntersections& /* vint */) {}
 
-  virtual void drawPoint(const carve::mesh::MeshSet<3>::vertex_t* /* v */,
+  virtual void drawPoint(const carve::mesh::Vertex<3>* /* v */,
                          float /* r */, float /* g */, float /* b */,
                          float /* a */, float /* rad */) {}
-  virtual void drawEdge(const carve::mesh::MeshSet<3>::vertex_t* /* v1 */,
-                        const carve::mesh::MeshSet<3>::vertex_t* /* v2 */,
+  virtual void drawEdge(const carve::mesh::Vertex<3>* /* v1 */,
+                        const carve::mesh::Vertex<3>* /* v2 */,
                         float /* rA */, float /* gA */, float /* bA */,
                         float /* aA */, float /* rB */, float /* gB */,
                         float /* bB */, float /* aB */,
                         float /* thickness */ = 1.0) {}
 
   virtual void drawFaceLoopWireframe(
-      const std::vector<carve::mesh::MeshSet<3>::vertex_t*>& /* face_loop */,
-      const carve::mesh::MeshSet<3>::vertex_t& /* normal */, float /* r */,
+      const std::vector<carve::mesh::Vertex<3>*>& /* face_loop */,
+      const carve::mesh::Vertex<3>& /* normal */, float /* r */,
       float /* g */, float /* b */, float /* a */, bool /* inset */ = true) {}
 
   virtual void drawFaceLoop(
-      const std::vector<carve::mesh::MeshSet<3>::vertex_t*>& /* face_loop */,
-      const carve::mesh::MeshSet<3>::vertex_t& /* normal */, float /* r */,
+      const std::vector<carve::mesh::Vertex<3>*>& /* face_loop */,
+      const carve::mesh::Vertex<3>& /* normal */, float /* r */,
       float /* g */, float /* b */, float /* a */, bool /* offset */ = true,
       bool /* lit */ = true) {}
 
   virtual void drawFaceLoop2(
-      const std::vector<carve::mesh::MeshSet<3>::vertex_t*>& /* face_loop */,
-      const carve::mesh::MeshSet<3>::vertex_t& /* normal */, float /* rF */,
+      const std::vector<carve::mesh::Vertex<3>*>& /* face_loop */,
+      const carve::mesh::Vertex<3>& /* normal */, float /* rF */,
       float /* gF */, float /* bF */, float /* aF */, float /* rB */,
       float /* gB */, float /* bB */, float /* aB */, bool /* offset */ = true,
       bool /* lit */ = true) {}

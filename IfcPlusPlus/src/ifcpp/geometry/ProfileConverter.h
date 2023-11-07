@@ -79,11 +79,12 @@ public:
 	void computeProfile( shared_ptr<IfcProfileDef> profile_def )
 	{
 		// ENTITY IfcProfileDef SUPERTYPE OF(ONEOF(IfcArbitraryClosedProfileDef, IfcArbitraryOpenProfileDef, IfcCompositeProfileDef, IfcDerivedProfileDef, IfcParameterizedProfileDef));
+		double eps = m_curve_converter->getGeomSettings()->getEpsilonMergePoints();
 		shared_ptr<IfcParameterizedProfileDef> parameterized = dynamic_pointer_cast<IfcParameterizedProfileDef>( profile_def );
 		if( parameterized )
 		{
 			convertIfcParameterizedProfileDefWithPosition( parameterized, m_paths );
-			GeomUtils::removeDuplicates( m_paths );
+			GeomUtils::removeDuplicates( m_paths, eps );
 			return;
 		}
 
@@ -91,7 +92,7 @@ public:
 		if( arbitrary_closed )
 		{
 			convertIfcArbitraryClosedProfileDef( arbitrary_closed, m_paths );
-			GeomUtils::removeDuplicates( m_paths );
+			GeomUtils::removeDuplicates( m_paths, eps);
 			return;
 		}
 
@@ -99,7 +100,7 @@ public:
 		if( arbitrary_open )
 		{
 			convertIfcArbitraryOpenProfileDef( arbitrary_open, m_paths );
-			GeomUtils::removeDuplicates( m_paths );
+			GeomUtils::removeDuplicates( m_paths, eps);
 			return;
 		}
 
@@ -107,7 +108,7 @@ public:
 		if( composite )
 		{
 			convertIfcCompositeProfileDef( composite, m_paths );
-			GeomUtils::removeDuplicates( m_paths );
+			GeomUtils::removeDuplicates( m_paths, eps);
 			return;
 		}
 
@@ -115,7 +116,7 @@ public:
 		if( derived )
 		{
 			convertIfcDerivedProfileDef( derived, m_paths );
-			GeomUtils::removeDuplicates( m_paths );
+			GeomUtils::removeDuplicates( m_paths, eps);
 			return;
 		}
 

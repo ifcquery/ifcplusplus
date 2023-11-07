@@ -70,9 +70,9 @@ namespace carve {
 
 		std::vector<int> convexHull(const std::vector<carve::geom2d::P2>& points) {
 			double max_x = points[0].x;
-			unsigned max_v = 0;
+			unsigned int max_v = 0;
 
-			for( unsigned i = 1; i < points.size(); ++i ) {
+			for( unsigned int i = 1; i < points.size(); ++i ) {
 				if( points[i].x > max_x ) {
 					max_x = points[i].x;
 					max_v = i;
@@ -83,7 +83,7 @@ namespace carve {
 			std::vector<int> ordered;
 			angle_dist.reserve(points.size());
 			ordered.reserve(points.size() - 1);
-			for( unsigned i = 0; i < points.size(); ++i ) {
+			for( unsigned int i = 0; i < points.size(); ++i ) {
 				if( i == max_v ) {
 					continue;
 				}

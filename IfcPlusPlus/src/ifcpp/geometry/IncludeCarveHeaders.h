@@ -27,7 +27,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <vector>
 #include <algorithm>
-#include <ifcpp/model/OpenMPIncludes.h>
 #include <carve/carve.hpp>
 #include <carve/matrix.hpp>
 #include <carve/geom2d.hpp>

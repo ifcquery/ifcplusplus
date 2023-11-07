@@ -11,7 +11,7 @@
 
 namespace IFC4X3
 {
-	// TYPE IfcArithmeticOperatorEnum = ENUMERATION OF	(ADD	,DIVIDE	,MULTIPLY	,SUBTRACT);
+	// TYPE IfcArithmeticOperatorEnum = ENUMERATION OF	(ADD	,DIVIDE	,MODULO	,MULTIPLY	,SUBTRACT);
 	class IFCQUERY_EXPORT IfcArithmeticOperatorEnum : virtual public BuildingObject
 	{
 	public:
@@ -19,6 +19,7 @@ namespace IFC4X3
 		{
 			ENUM_ADD,
 			ENUM_DIVIDE,
+			ENUM_MODULO,
 			ENUM_MULTIPLY,
 			ENUM_SUBTRACT
 		};

@@ -35,12 +35,12 @@ struct FaceLoopGroup;
 
 struct FaceLoop {
   FaceLoop *next, *prev;
-  const carve::mesh::MeshSet<3>::face_t* orig_face;
-  std::vector<carve::mesh::MeshSet<3>::vertex_t*> vertices;
+  const carve::mesh::Face<3>* orig_face;
+  std::vector<carve::mesh::Vertex<3>*> vertices;
   FaceLoopGroup* group;
 
-  FaceLoop(const carve::mesh::MeshSet<3>::face_t* f,
-           const std::vector<carve::mesh::MeshSet<3>::vertex_t*>& v)
+  FaceLoop(const carve::mesh::Face<3>* f,
+           const std::vector<carve::mesh::Vertex<3>*>& v)
       : next(nullptr),
         prev(nullptr),
         orig_face(f),

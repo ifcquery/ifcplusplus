@@ -68,9 +68,9 @@ const char* carve::csg::ENUM(carve::PointClass p) {
 }
 
 void carve::csg::detail::LoopEdges::addFaceLoop(FaceLoop* fl) {
-  carve::mesh::MeshSet<3>::vertex_t *v1, *v2;
+  carve::mesh::Vertex<3> *v1, *v2;
   v1 = fl->vertices[fl->vertices.size() - 1];
-  for (unsigned j = 0; j < fl->vertices.size(); ++j) {
+  for (unsigned int j = 0; j < fl->vertices.size(); ++j) {
     v2 = fl->vertices[j];
     (*this)[std::make_pair(v1, v2)].push_back(fl);
     v1 = v2;
@@ -84,9 +84,9 @@ void carve::csg::detail::LoopEdges::sortFaceLoopLists() {
 }
 
 void carve::csg::detail::LoopEdges::removeFaceLoop(FaceLoop* fl) {
-  carve::mesh::MeshSet<3>::vertex_t *v1, *v2;
+  carve::mesh::Vertex<3> *v1, *v2;
   v1 = fl->vertices[fl->vertices.size() - 1];
-  for (unsigned j = 0; j < fl->vertices.size(); ++j) {
+  for (unsigned int j = 0; j < fl->vertices.size(); ++j) {
     v2 = fl->vertices[j];
     iterator l(find(std::make_pair(v1, v2)));
     if (l != end()) {

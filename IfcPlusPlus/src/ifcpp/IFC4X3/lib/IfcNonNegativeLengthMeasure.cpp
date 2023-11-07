@@ -7,7 +7,6 @@
 #include "ifcpp/writer/WriterUtil.h"
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingException.h"
-#include "ifcpp/IFC4X3/include/IfcCurveMeasureSelect.h"
 #include "ifcpp/IFC4X3/include/IfcMeasureValue.h"
 #include "ifcpp/IFC4X3/include/IfcNonNegativeLengthMeasure.h"
 

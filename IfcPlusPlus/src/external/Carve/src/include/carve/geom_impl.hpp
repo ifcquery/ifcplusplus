@@ -29,17 +29,17 @@
 namespace carve {
 	namespace geom {
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		double vector<ndim>::length2() const {
 			return dot(*this, *this);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		double vector<ndim>::length() const {
 			return sqrt(dot(*this, *this));
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim>& vector<ndim>::normalize() {
 #if defined(CARVE_DEBUG)
 			CARVE_ASSERT(length() > 0.0);
@@ -52,7 +52,7 @@ namespace carve {
 			return *this;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> vector<ndim>::normalized() const {
 #if defined(CARVE_DEBUG)
 			CARVE_ASSERT(length() > 0.0);
@@ -64,94 +64,94 @@ namespace carve {
 			return *this / length();
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool vector<ndim>::exactlyZero() const {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				if( this->v[i] ) {
 					return false;
 				}
 			}
 			return true;
 		}
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool vector<ndim>::isZero(double epsilon) const {
 			return length2() < epsilon * epsilon;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		void vector<ndim>::setZero() {
 			for( size_t i = 0; i < ndim; ++i ) {
 				this->v[i] = 0.0;
 			}
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		void vector<ndim>::fill(double val) {
 			for( size_t i = 0; i < ndim; ++i ) {
 				this->v[i] = val;
 			}
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim>& vector<ndim>::scaleBy(double d) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				this->v[i] *= d;
 			}
 			return *this;
 		}
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim>& vector<ndim>::invscaleBy(double d) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				this->v[i] /= d;
 			}
 			return *this;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> vector<ndim>::scaled(double d) const {
 			return *this * d;
 		}
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> vector<ndim>::invscaled(double d) const {
 			return *this / d;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim>& vector<ndim>::negate() {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				this->v[i] = -this->v[i];
 			}
 			return *this;
 		}
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> vector<ndim>::negated() const {
 			return -*this;
 		}
 
-		template <unsigned ndim>
-		double& vector<ndim>::operator[](unsigned i) {
+		template <unsigned int ndim>
+		double& vector<ndim>::operator[](unsigned int i) {
 			return this->v[i];
 		}
-		template <unsigned ndim>
-		const double& vector<ndim>::operator[](unsigned i) const {
+		template <unsigned int ndim>
+		const double& vector<ndim>::operator[](unsigned int i) const {
 			return this->v[i];
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		template <typename assign_t>
 		vector<ndim>& vector<ndim>::operator=(const assign_t& t) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				this->v[i] = t[i];
 			}
 			return *this;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		std::string vector<ndim>::asStr() const {
 			std::ostringstream out;
 			out << '<';
 			out << std::setprecision(24);
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				if( i ) {
 					out << ',';
 				}
@@ -161,19 +161,19 @@ namespace carve {
 			return out.str();
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> operator+(const vector<ndim>& a, const vector<ndim>& b) {
 			vector<ndim> c(NOINIT);
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				c[i] = a[i] + b[i];
 			}
 			return c;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> operator+(const vector<ndim>& a, double b) {
 			vector<ndim> c(NOINIT);
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				c[i] = a[i] + b;
 			}
 			return c;
@@ -182,7 +182,7 @@ namespace carve {
 		template <unsigned ndim, typename val_t>
 		vector<ndim> operator+(const vector<ndim>& a, const val_t& b) {
 			vector<ndim> c(NOINIT);
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				c[i] = a[i] + b[i];
 			}
 			return c;
@@ -191,23 +191,23 @@ namespace carve {
 		template <unsigned ndim, typename val_t>
 		vector<ndim> operator+(const val_t& a, const vector<ndim>& b) {
 			vector<ndim> c(NOINIT);
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				c[i] = a[i] + b[i];
 			}
 			return c;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim>& operator+=(vector<ndim>& a, const vector<ndim>& b) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				a[i] += b[i];
 			}
 			return a;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim>& operator+=(vector<ndim>& a, double b) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				a[i] += b;
 			}
 			return a;
@@ -215,34 +215,34 @@ namespace carve {
 
 		template <unsigned ndim, typename val_t>
 		vector<ndim>& operator+=(vector<ndim>& a, const val_t& b) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				a[i] += b[i];
 			}
 			return a;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> operator-(const vector<ndim>& a) {
 			vector<ndim> c(NOINIT);
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				c[i] = -a[i];
 			}
 			return c;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> operator-(const vector<ndim>& a, double b) {
 			vector<ndim> c(NOINIT);
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				c[i] = a[i] - b;
 			}
 			return c;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> operator-(const vector<ndim>& a, const vector<ndim>& b) {
 			vector<ndim> c(NOINIT);
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				c[i] = a[i] - b[i];
 			}
 			return c;
@@ -251,7 +251,7 @@ namespace carve {
 		template <unsigned ndim, typename val_t>
 		vector<ndim> operator-(const vector<ndim>& a, const val_t& b) {
 			vector<ndim> c(NOINIT);
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				c[i] = a[i] - b[i];
 			}
 			return c;
@@ -260,23 +260,23 @@ namespace carve {
 		template <unsigned ndim, typename val_t>
 		vector<ndim> operator-(const val_t& a, const vector<ndim>& b) {
 			vector<ndim> c(NOINIT);
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				c[i] = a[i] - b[i];
 			}
 			return c;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim>& operator-=(vector<ndim>& a, const vector<ndim>& b) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				a[i] -= b[i];
 			}
 			return a;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim>& operator-=(vector<ndim>& a, double b) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				a[i] -= b;
 			}
 			return a;
@@ -284,58 +284,58 @@ namespace carve {
 
 		template <unsigned ndim, typename val_t>
 		vector<ndim>& operator-=(vector<ndim>& a, const val_t& b) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				a[i] -= b[i];
 			}
 			return a;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> operator*(const vector<ndim>& a, double s) {
 			vector<ndim> c(NOINIT);
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				c[i] = a[i] * s;
 			}
 			return c;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> operator*(double s, const vector<ndim>& a) {
 			vector<ndim> c(NOINIT);
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				c[i] = a[i] * s;
 			}
 			return c;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim>& operator*=(vector<ndim>& a, double s) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				a[i] *= s;
 			}
 			return a;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> operator/(const vector<ndim>& a, double s) {
 			vector<ndim> c(NOINIT);
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				c[i] = a[i] / s;
 			}
 			return c;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim>& operator/=(vector<ndim>& a, double s) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				a[i] /= s;
 			}
 			return a;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator==(const vector<ndim>& a, const vector<ndim>& b) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				if( a[i] != b[i] ) {
 					return false;
 				}
@@ -343,14 +343,14 @@ namespace carve {
 			return true;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator!=(const vector<ndim>& a, const vector<ndim>& b) {
 			return !(a == b);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator<(const vector<ndim>& a, const vector<ndim>& b) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				if( a[i] < b[i] ) {
 					return true;
 				}
@@ -361,50 +361,50 @@ namespace carve {
 			return false;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator<=(const vector<ndim>& a, const vector<ndim>& b) {
 			return !(b < a);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator>(const vector<ndim>& a, const vector<ndim>& b) {
 			return b < a;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator>=(const vector<ndim>& a, const vector<ndim>& b) {
 			return !(a < b);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> abs(const vector<ndim>& a) {
 			vector<ndim> c(NOINIT);
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				c[i] = fabs(a[i]);
 			}
 			return c;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		double distance2(const vector<ndim>& a, const vector<ndim>& b) {
 			return (b - a).length2();
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		double distance(const vector<ndim>& a, const vector<ndim>& b) {
 			return (b - a).length();
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool equal(const vector<ndim>& a, const vector<ndim>& b, double CARVE_EPSILON) {
 			return (b - a).isZero(CARVE_EPSILON);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		int smallestAxis(const vector<ndim>& a) {
 			int idx = 0;
 			double lo = fabs(a[0]);
-			for( unsigned i = 1; i < ndim; ++i ) {
+			for( unsigned int i = 1; i < ndim; ++i ) {
 				double val = fabs(a[i]);
 				if( val <= lo ) {
 					lo = val;
@@ -414,11 +414,11 @@ namespace carve {
 			return idx;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		int largestAxis(const vector<ndim>& a) {
 			int idx = 0;
 			double hi = fabs(a[0]);
-			for( unsigned i = 1; i < ndim; ++i ) {
+			for( unsigned int i = 1; i < ndim; ++i ) {
 				double val = fabs(a[i]);
 				if( val > hi ) {
 					hi = val;
@@ -428,7 +428,7 @@ namespace carve {
 			return idx;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<2> select(const vector<ndim>& a, int a1, int a2) {
 			vector<2> r(NOINIT);
 			r.v[0] = a.v[a1];
@@ -436,7 +436,7 @@ namespace carve {
 			return r;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<3> select(const vector<ndim>& a, int a1, int a2, int a3) {
 			vector<3> r(NOINIT);
 			r.v[0] = a.v[a1];
@@ -447,7 +447,7 @@ namespace carve {
 
 		template <unsigned ndim, typename assign_t, typename oper_t>
 		vector<ndim>& assign_op(vector<ndim>& a, const assign_t& t, oper_t op) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				a[i] = op(t[i]);
 			}
 			return a;
@@ -457,7 +457,7 @@ namespace carve {
 			typename oper_t>
 		vector<ndim>& assign_op(vector<ndim>& a, const assign1_t& t1,
 			const assign2_t& t2, oper_t op) {
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				a[i] = op(t1[i], t2[i]);
 			}
 			return a;
@@ -519,7 +519,7 @@ namespace carve {
 		template <unsigned ndim, typename val_t>
 		double dot(const vector<ndim>& a, const val_t& b) {
 			double r = 0.0;
-			for( unsigned i = 0; i < ndim; ++i ) {
+			for( unsigned int i = 0; i < ndim; ++i ) {
 				r += a[i] * b[i];
 			}
 			return r;
@@ -543,78 +543,78 @@ namespace carve {
 				(a.x * c.y * b.z + a.y * c.z * b.x + a.z * c.x * b.y);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		double distance(const axis_pos& a, const vector<ndim>& b) {
 			return fabs(b[a.axis] - a.pos);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		double distance2(const axis_pos& a, const vector<ndim>& b) {
 			double r = fabs(b[a.axis] - a.pos);
 			return r * r;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator<(const axis_pos& a, const vector<ndim>& b) {
 			return a.pos < b[a.axis];
 		}
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator<(const vector<ndim>& a, const axis_pos& b) {
 			return a[b.axis] < b.pos;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator<=(const axis_pos& a, const vector<ndim>& b) {
 			return a.pos <= b[a.axis];
 		}
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator<=(const vector<ndim>& a, const axis_pos& b) {
 			return a[b.axis] <= b.pos;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator>(const axis_pos& a, const vector<ndim>& b) {
 			return a.pos > b[a.axis];
 		}
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator>(const vector<ndim>& a, const axis_pos& b) {
 			return a[b.axis] > b.pos;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator>=(const axis_pos& a, const vector<ndim>& b) {
 			return a.pos >= b[a.axis];
 		}
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator>=(const vector<ndim>& a, const axis_pos& b) {
 			return a[b.axis] >= b.pos;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator==(const axis_pos& a, const vector<ndim>& b) {
 			return a.pos == b[a.axis];
 		}
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator==(const vector<ndim>& a, const axis_pos& b) {
 			return a[b.axis] == b.pos;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator!=(const axis_pos& a, const vector<ndim>& b) {
 			return a.pos != b[a.axis];
 		}
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool operator!=(const vector<ndim>& a, const axis_pos& b) {
 			return a[b.axis] != b.pos;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool ray<ndim>::OK(double CARVE_EPSILON) const
 		{
 			return !D.isZero(CARVE_EPSILON);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		ray<ndim> rayThrough(const vector<ndim>& a, const vector<ndim>& b) {
 			return ray<ndim>(b - a, a);
 		}
@@ -636,37 +636,37 @@ namespace carve {
 			return sqrt(distance2(r, v));
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		void linesegment<ndim>::update() {
 			midpoint = (v2 + v1) / 2.0;
 			half_length = (v2 - v1) / 2.0;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		bool linesegment<ndim>::OK(double CARVE_EPSILON) const {
 			return !half_length.isZero(CARVE_EPSILON);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		void linesegment<ndim>::flip() {
 			std::swap(v1, v2);
 			half_length = (v2 - v1) / 2.0;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		aabb<ndim> linesegment<ndim>::getAABB() const {
 			aabb<ndim> r;
 			r.fit(v1, v2);
 			return r;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		linesegment<ndim>::linesegment(const vector_t& _v1, const vector_t& _v2)
 			: v1(_v1), v2(_v2) {
 			update();
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		double distance2(const linesegment<ndim>& l, const vector<ndim>& v) {
 			vector<ndim> D = l.v2 - l.v1;
 			double t = dot(v - l.v1, D) / dot(D, D);
@@ -680,31 +680,31 @@ namespace carve {
 			return (v - vc).length2();
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		double distance(const linesegment<ndim>& l, const vector<ndim>& v) {
 			return sqrt(distance2(l, v));
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		void plane<ndim>::negate() {
 			N.negate();
 			d = -d;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		plane<ndim>::plane() {
 			N.setZero();
 			N[0] = 1.0;
 			d = 0.0;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		plane<ndim>::plane(const vector_t& _N, vector_t _p) : N(_N), d(-dot(_p, _N)) {}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		plane<ndim>::plane(const vector_t& _N, double _d) : N(_N), d(_d) {}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		plane<ndim> operator-(const plane<ndim>& p) {
 			return plane<ndim>(-p.N, -p.d);
 		}
@@ -720,24 +720,24 @@ namespace carve {
 			return d * d;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> closestPoint(const plane<ndim>& p, const vector<ndim>& v) {
 			return v - p.N * (p.d + dot(p.N, v)) / dot(p.N, p.N);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		aabb<ndim> sphere<ndim>::getAABB() const {
 			aabb<ndim> r;
 			r.fit(C - r, C + r);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		sphere<ndim>::sphere() {
 			C.setZero();
 			r = 1.0;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		sphere<ndim>::sphere(const vector_t& _C, double _r) : C(_C), r(_r) {}
 
 		template <unsigned ndim, typename val_t>
@@ -750,62 +750,62 @@ namespace carve {
 			return std::max(0.0, distance2(sphere.C, point) - sphere.r * sphere.r);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		vector<ndim> closestPoint(const sphere<ndim>& sphere,
 			const vector<ndim>& point) {
 			return (point - sphere.C).normalized() * sphere.r;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		aabb<ndim> tri<ndim>::getAABB() const {
 			aabb<ndim> aabb;
 			aabb.fit(v[0], v[1], v[2]);
 			return aabb;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		tri<ndim>::tri(vector_t _v[3]) {
 			std::copy(v, v + 3, _v);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		tri<ndim>::tri(const vector_t& a, const vector_t& b, const vector_t& c) {
 			v[0] = a;
 			v[1] = b;
 			v[2] = c;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		std::ostream& operator<<(std::ostream& o, const vector<ndim>& v) {
 			o << v.asStr();
 			return o;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		std::ostream& operator<<(std::ostream& o, const carve::geom::plane<ndim>& p) {
 			o << p.N << ";" << p.d;
 			return o;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		std::ostream& operator<<(std::ostream& o,
 			const carve::geom::sphere<ndim>& sphere) {
 			o << "{sphere " << sphere.C << ";" << sphere.r << "}";
 			return o;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		std::ostream& operator<<(std::ostream& o, const carve::geom::tri<ndim>& tri) {
 			o << "{tri " << tri.v[0] << ";" << tri.v[1] << ";" << tri.v[2] << "}";
 			return o;
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		double distance(const tri<ndim>& tri, const vector<ndim>& pt) {
 			return distance(closestPoint(tri, pt), pt);
 		}
 
-		template <unsigned ndim>
+		template <unsigned int ndim>
 		double distance2(const tri<ndim>& tri, const vector<ndim>& pt) {
 			return distance2(closestPoint(tri, pt), pt);
 		}

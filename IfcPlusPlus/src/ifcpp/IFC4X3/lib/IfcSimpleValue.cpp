@@ -17,10 +17,11 @@
 #include "ifcpp/IFC4X3/include/IfcText.h"
 #include "ifcpp/IFC4X3/include/IfcTime.h"
 #include "ifcpp/IFC4X3/include/IfcTimeStamp.h"
+#include "ifcpp/IFC4X3/include/IfcURIReference.h"
 #include "ifcpp/IFC4X3/include/IfcValue.h"
 #include "ifcpp/IFC4X3/include/IfcSimpleValue.h"
 
-// TYPE IfcSimpleValue = SELECT	(IfcBinary	,IfcBoolean	,IfcDate	,IfcDateTime	,IfcDuration	,IfcIdentifier	,IfcInteger	,IfcLabel	,IfcLogical	,IfcPositiveInteger	,IfcReal	,IfcText	,IfcTime	,IfcTimeStamp);
+// TYPE IfcSimpleValue = SELECT	(IfcBinary	,IfcBoolean	,IfcDate	,IfcDateTime	,IfcDuration	,IfcIdentifier	,IfcInteger	,IfcLabel	,IfcLogical	,IfcPositiveInteger	,IfcReal	,IfcText	,IfcTime	,IfcTimeStamp	,IfcURIReference);
 shared_ptr<IFC4X3::IfcSimpleValue> IFC4X3::IfcSimpleValue::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
 	if( arg.empty() ){ return shared_ptr<IfcSimpleValue>(); }

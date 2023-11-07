@@ -378,14 +378,14 @@ namespace carve {
 		template <typename T, typename adapt_t>
 		PolyInclusionInfo pointInPoly(const std::vector<T>& points, adapt_t adapt, const P2& p, double CARVE_EPSILON) {
 			P2Vector::size_type l = points.size();
-			for( unsigned i = 0; i < l; i++ ) {
+			for( unsigned int i = 0; i < l; i++ ) {
 				if( equal(adapt(points[i]), p, CARVE_EPSILON) ) {
 					return PolyInclusionInfo(POINT_VERTEX, (int)i);
 				}
 			}
 
-			for( unsigned i = 0; i < l; i++ ) {
-				unsigned j = (i + 1) % l;
+			for( unsigned int i = 0; i < l; i++ ) {
+				unsigned int j = (i + 1) % l;
 
 				if( std::min(adapt(points[i]).x, adapt(points[j]).x) - CARVE_EPSILON < p.x &&
 					std::max(adapt(points[i]).x, adapt(points[j]).x) + CARVE_EPSILON > p.x &&
@@ -411,14 +411,14 @@ namespace carve {
 		{
 #if defined(CARVE_DEBUG)
 			std::cerr << "pickContainedPoint ";
-			for( unsigned i = 0; i < poly.size(); ++i )
+			for( unsigned int i = 0; i < poly.size(); ++i )
 				std::cerr << " " << adapt(poly[i]);
 			std::cerr << std::endl;
 #endif
 
 			const size_t S = poly.size();
 			P2 a, b, c;
-			for( unsigned i = 0; i < S; ++i ) {
+			for( unsigned int i = 0; i < S; ++i ) {
 				a = adapt(poly[i]);
 				b = adapt(poly[(i + 1) % S]);
 				c = adapt(poly[(i + 2) % S]);

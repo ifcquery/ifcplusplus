@@ -886,7 +886,7 @@ void carve::triangulate::incorporateHolesIntoPolygon(
 
 	// now, for each hole, find a vertex in the current polygon loop that it can
 	// be joined to.
-	for( unsigned i = 0; i < h_loop_min_vertex.size(); ++i ) {
+	for( unsigned int i = 0; i < h_loop_min_vertex.size(); ++i ) {
 		// the index of the vertex in the hole to connect.
 		size_t hole_i = h_loop_min_vertex[i].first;
 		size_t hole_i_connect = h_loop_min_vertex[i].second;
@@ -1039,7 +1039,7 @@ carve::triangulate::incorporateHolesIntoPolygon(
 
 	// now, for each hole, find a vertex in the current polygon loop that it can
 	// be joined to.
-	for( unsigned i = 0; i < h_loop_min_vertex.size(); ++i ) {
+	for( unsigned int i = 0; i < h_loop_min_vertex.size(); ++i ) {
 		// the index of the vertex in the hole to connect.
 		size_t hole_i = h_loop_min_vertex[i].first;
 		size_t hole_i_connect = h_loop_min_vertex[i].second;
@@ -1198,8 +1198,8 @@ void carve::triangulate::triangulate( const std::vector<carve::geom2d::P2>& poly
 
 void carve::triangulate::detail::tri_pair_t::flip(vert_edge_t& old_edge, vert_edge_t& new_edge, vert_edge_t perim[4])
 {
-	unsigned ai, bi;
-	unsigned cross_ai, cross_bi;
+	unsigned int ai, bi;
+	unsigned int cross_ai, cross_bi;
 
 	findSharedEdge(ai, bi);
 	old_edge = ordered_vert_edge_t(a->v[ai], b->v[bi]);
@@ -1223,7 +1223,7 @@ void carve::triangulate::detail::tri_pair_t::flip(vert_edge_t& old_edge, vert_ed
 }
 
 void carve::triangulate::detail::tri_pairs_t::insert(
-	unsigned a, unsigned b, carve::triangulate::tri_idx* t) {
+	unsigned int a, unsigned int b, carve::triangulate::tri_idx* t) {
 	tri_pair_t* tp;
 	if( a < b ) {
 		tp = storage[vert_edge_t(a, b)];

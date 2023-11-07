@@ -32,7 +32,7 @@
 
 namespace carve {
 namespace geom {
-template <unsigned ndim>
+template <unsigned int ndim>
 struct vector;
 }
 }

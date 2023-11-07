@@ -32,10 +32,10 @@
 namespace carve {
 namespace csg {
 
-typedef std::pair<carve::mesh::MeshSet<3>::vertex_t*, carve::mesh::MeshSet<3>::vertex_t*> V2;
-typedef std::pair<carve::mesh::MeshSet<3>::face_t*, carve::mesh::MeshSet<3>::face_t*> F2;
+typedef std::pair<carve::mesh::Vertex<3>*, carve::mesh::Vertex<3>*> V2;
+typedef std::pair<carve::mesh::Face<3>*, carve::mesh::Face<3>*> F2;
 
-static inline V2 ordered_edge(carve::mesh::MeshSet<3>::vertex_t* a, carve::mesh::MeshSet<3>::vertex_t* b)
+static inline V2 ordered_edge(carve::mesh::Vertex<3>* a, carve::mesh::Vertex<3>* b)
 {
   return V2(std::min(a, b), std::max(a, b));
 }
@@ -58,6 +58,6 @@ typedef std::unordered_set<V2, hash_pair> V2Set;
 // lib/csg_collector.cpp lib/intersect.cpp
 // lib/intersect_common.hpp lib/intersect_face_division.cpp
 // lib/polyhedron.cpp
-typedef std::unordered_map<carve::mesh::MeshSet<3>::vertex_t*, carve::mesh::MeshSet<3>::vertex_t*> VVMap;
+typedef std::unordered_map<carve::mesh::Vertex<3>*, carve::mesh::Vertex<3>*> VVMap;
 }  // namespace csg
 }  // namespace carve

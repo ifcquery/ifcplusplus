@@ -9,12 +9,11 @@
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingObject.h"
 #include "IfcLengthMeasure.h"
-#include "IfcCurveMeasureSelect.h"
 
 namespace IFC4X3
 {
 	// TYPE IfcNonNegativeLengthMeasure = IfcLengthMeasure;
-	class IFCQUERY_EXPORT IfcNonNegativeLengthMeasure : public IfcLengthMeasure, public IfcCurveMeasureSelect
+	class IFCQUERY_EXPORT IfcNonNegativeLengthMeasure : public IfcLengthMeasure
 	{
 	public:
 		IfcNonNegativeLengthMeasure() = default;
