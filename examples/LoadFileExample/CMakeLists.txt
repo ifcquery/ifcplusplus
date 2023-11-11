@@ -19,14 +19,6 @@ ADD_DEFINITIONS(-DIFCQUERY_STATIC_LIB)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if(NOT DEFINED USE_OPENMP)
-  set(USE_OPENMP True)
-endif()
-
-if(USE_OPENMP)
-  find_package(OpenMP)
-endif()
-
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/IfcPlusPlus/Debug)
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR}/IfcPlusPlus/${CMAKE_BUILD_TYPE})
 
@@ -37,15 +29,7 @@ ADD_EXECUTABLE(LoadFileExample
 set_target_properties(LoadFileExample PROPERTIES DEBUG_POSTFIX "d")
 set_target_properties(LoadFileExample PROPERTIES CXX_STANDARD 17)
 
-if(OpenMP_CXX_FOUND)
-    TARGET_LINK_LIBRARIES(LoadFileExample 
-		optimized OpenMP::OpenMP_CXX
-		optimized IfcPlusPlus debug IfcPlusPlusd)
-		
-else(OpenMP_CXX_FOUND)
-	TARGET_LINK_LIBRARIES(LoadFileExample 
-		optimized IfcPlusPlus debug IfcPlusPlusd)
-endif()
+TARGET_LINK_LIBRARIES(LoadFileExample optimized IfcPlusPlus debug IfcPlusPlusd)
 
 TARGET_INCLUDE_DIRECTORIES(LoadFileExample
     PRIVATE

@@ -911,8 +911,18 @@ namespace carve {
 						edge_t* e = removed;
 						do {
 							edge_t* n = e->next;
-							coplanar_face_edges.erase(std::min(e, e->rev));
-							delete e->rev;
+							edge_t* erasePtr = std::min(e, e->rev);
+							auto itFind = coplanar_face_edges.find(erasePtr);
+							if (itFind != coplanar_face_edges.end())
+							{
+								coplanar_face_edges.erase(itFind);
+								//coplanar_face_edges.erase(erasePtr);
+							}
+
+							if (e->rev != nullptr)
+							{
+								delete e->rev;
+							}
 							delete e;
 							e = n;
 						} while( e != removed );

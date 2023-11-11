@@ -459,14 +459,14 @@ public:
 				glm::vec4 color(0.4, 0.6, 0.6, 1.0);
 				vec3 circleCenter = conic_position_matrix->m_matrix * carve::geom::VECTOR(0, 0, 0);
 				std::vector<vec3> polyline = { trimPoint1.value() , circleCenter};
-				GeomDebugDump::dumpPolyline(polyline, color, 3.0, false);
+				GeomDebugDump::dumpPolyline(polyline, color, 3.0, false, false);
 				GeomDebugDump::dumpCoordinateSystem(conic_position_matrix->m_matrix, circle_radius, false);
 
 				vec3 circlePoint0 = conic_position_matrix->m_matrix * carve::geom::VECTOR(circle_radius * cos(startAngle), circle_radius * sin(startAngle), 0);
 				vec3 circlePoint1 = conic_position_matrix->m_matrix * carve::geom::VECTOR(circle_radius * cos(startAngle + openingAngle*0.1), circle_radius * sin(startAngle + openingAngle*0.1), 0);
 				glm::vec4 color3(0.3, 0.4, 0.94, 0.6);
 				polyline = { circlePoint0 , circlePoint1 };
-				GeomDebugDump::dumpPolyline(polyline, color3, 2.0, false);
+				GeomDebugDump::dumpPolyline(polyline, color3, 2.0, false, false);
 			}
 
 			if (trimPoint1.has_value())

@@ -33,16 +33,11 @@ public:
 
 	}
 
-	//using MessageCallbackType = std::function<void(shared_ptr<Message>)>;
 	void slotMessageWrapper(shared_ptr<StatusCallback::Message> m)
 	{
-		//MessageHandler* myself = (MessageHandler*)ptr;
-		//if( myself )
 		{
 			// log file etc can be implemented here
-#ifdef IFCPP_OPENMP
-			ScopedLock lock(myself->m_mutex_messages);
-#endif
+			std::lock_guard<std::mutex> lock(m_mutex_messages);
 
 			StatusCallback::MessageType mType = m->m_message_type;
 			if( mType == StatusCallback::MESSAGE_TYPE_PROGRESS_VALUE )
@@ -76,9 +71,7 @@ public:
 		}
 	}
 
-#ifdef IFCPP_OPENMP
-	Mutex m_mutex_messages;
-#endif
+	std::mutex m_mutex_messages;
 };
 
 shared_ptr<MyIfcTreeItem> resolveTreeItems(shared_ptr<BuildingObject> obj, std::unordered_set<int>& set_visited)

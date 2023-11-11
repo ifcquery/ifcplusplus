@@ -77,14 +77,6 @@ endif()
 
 add_library(IfcPlusPlus STATIC ${IFCPP_SOURCE_FILES})
 
-if(OpenMP_CXX_FOUND)
-	ADD_DEFINITIONS(-DENABLE_OPENMP)
-    TARGET_LINK_LIBRARIES(IfcPlusPlus 
-		optimized OpenMP::OpenMP_CXX
-		${VC_LIBS})
-endif()
-
-
 TARGET_INCLUDE_DIRECTORIES(IfcPlusPlus
     PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/src

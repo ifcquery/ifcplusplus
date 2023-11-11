@@ -35,16 +35,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <ClCompile Include="src\cmd\CmdRemoveSelectedObjects.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
@@ -78,15 +68,13 @@
     <ClCompile Include="src\gui\TabView.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    
-    
     <ClCompile Include="src\gui\TabReadWrite.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    
-    
-    
     <ClCompile Include="src\gui\StoreyShiftWidget.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\EntityAttributeWidget.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -162,5 +150,10 @@
     <ClInclude Include="src\gui\ScopedLockAndBlock.h">
       <Filter>Header Dateien</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="src\gui\EntityAttributeWidget.h">
+      <Filter>Header Dateien</Filter>
+    </QtMoc>
   </ItemGroup>
 </Project>

@@ -242,7 +242,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object
 				selected_entity->m_material_selected = m_material_selected;
 			}
 
-			std::map<std::string, shared_ptr<BuildingEntity> > map_objects;
+			std::unordered_map<std::string, shared_ptr<BuildingEntity> > map_objects;
 			map_objects[guid] = ifc_object;
 			emit( signalObjectsSelected( map_objects ) );
 		}
@@ -273,7 +273,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object
 				m_map_selected.erase( it_selected );
 			}
 		}
-		std::map<std::string, shared_ptr<BuildingEntity> > map_objects;
+		std::unordered_map<std::string, shared_ptr<BuildingEntity> > map_objects;
 		map_objects[guid] = ifc_object;
 		emit( signalObjectsUnselected( map_objects ) );
 	}

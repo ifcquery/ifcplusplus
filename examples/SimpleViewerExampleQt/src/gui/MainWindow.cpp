@@ -25,6 +25,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <QtWidgets/QToolButton>
 
 #include "IncludeGeometryHeaders.h"
+#include "EntityAttributeWidget.h"
 #include "IfcPlusPlusSystem.h"
 #include "viewer/ViewerWidget.h"
 #include "viewer/OrbitCameraManipulator.h"
@@ -77,13 +78,22 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, QWidget *parent) : m_system(sys)
 
 	
 	// building structure widget
-	QDockWidget *dock = new QDockWidget(tr("Project structure"), this);
-	dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-	dock->setObjectName("dockWidgetProjectStructure");
-	addDockWidget(Qt::RightDockWidgetArea, dock);
+	QDockWidget *dock1 = new QDockWidget(tr("Project structure"), this);
+	dock1->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	dock1->setObjectName("dockWidgetProjectStructure");
+	addDockWidget(Qt::RightDockWidgetArea, dock1);
 	
 	IfcTreeWidget* ifc_tree_widget = new IfcTreeWidget( m_system );
-	dock->setWidget( ifc_tree_widget );
+	dock1->setWidget( ifc_tree_widget );
+
+
+	QDockWidget* dock2 = new QDockWidget(tr("Attributes"), this);
+	dock2->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	dock2->setObjectName("dockWidgetAttributes");
+	addDockWidget(Qt::RightDockWidgetArea, dock2);
+
+	EntityAttributeWidget* attribute_widget = new EntityAttributeWidget(m_system, this);
+	dock2->setWidget(attribute_widget);
 
 	m_splitter = new QSplitter( Qt::Vertical );
 	m_splitter->setContentsMargins( 0, 0, 0, 0 );

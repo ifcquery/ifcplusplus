@@ -126,9 +126,6 @@
     <ClInclude Include="src\ifcpp\model\BuildingObject.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\ifcpp\model\OpenMPIncludes.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\ifcpp\model\BasicTypes.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>

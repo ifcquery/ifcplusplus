@@ -1357,7 +1357,7 @@ public:
 			{
 #ifdef _DEBUG
 				glm::vec4 color(0.5, 0.5, 0.5, 1);
-				GeomDebugDump::dumpPolyline(paths, color, true);
+				GeomDebugDump::dumpPolyline(paths, color, true, false);
 #endif
 				messageCallback( "polygonal_halfspace_item_data->meshsets.size() != 1", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, polygonal_half_space.get() );
 				return;

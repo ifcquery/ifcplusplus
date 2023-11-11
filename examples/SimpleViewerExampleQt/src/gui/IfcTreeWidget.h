@@ -35,7 +35,7 @@ public:
 	QTreeWidgetItem* itemFromIndex( const QModelIndex & index ) const { return QTreeWidget::itemFromIndex( index ); }
 
 public slots:
-	void slotObjectsSelected( std::map<std::string, shared_ptr<BuildingEntity> >& map );
+	void slotObjectsSelected( std::unordered_map<std::string, shared_ptr<BuildingEntity> >& map );
 	void slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QTreeWidgetItem* previous );
 	void slotTreewidgetSelectionChanged();
 	void slotTreeWidgetItemDoubleClick( QTreeWidgetItem* item, int column );

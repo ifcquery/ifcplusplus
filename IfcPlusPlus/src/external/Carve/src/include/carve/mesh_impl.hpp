@@ -341,6 +341,16 @@ carve::geom::vector<ndim> Face<ndim>::computeNormal(double CARVE_EPSILON) {
                 continue;
             }
 
+            if (!edgePtr->v1())
+            {
+                continue;
+            }
+
+            if (!edgePtr->v2())
+            {
+                continue;
+            }
+
             double length2 = edgePtr->length2();
             if (length2 > longestEdgeLength)
             {

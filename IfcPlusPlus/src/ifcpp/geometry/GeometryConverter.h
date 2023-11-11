@@ -696,16 +696,6 @@ public:
 
 		shared_ptr<ProductShapeData> ifc_project_data;
 		std::vector<shared_ptr<IfcObjectDefinition> > vec_object_definitions;
-		const double length_in_meter = m_representation_converter->getUnitConverter()->getLengthInMeterFactor();
-		setCsgEps(1.5e-08 * length_in_meter);
-		if (std::abs(length_in_meter) > EPS_M14)
-		{
-			double eps = m_geom_settings->getEpsilonMergePoints();
-			eps /= length_in_meter;
-			m_geom_settings->setEpsilonMergePoints(eps);
-			m_geom_settings->setEpsilonCoplanarAngle(eps * 0.1);
-		}
-
 		const std::map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
 		if (map_entities.size() > 0)
 		{

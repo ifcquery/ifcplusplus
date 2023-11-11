@@ -22,13 +22,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set_target_properties(CreateIfcWallAndWriteFile PROPERTIES CXX_STANDARD 17)
 set_target_properties(CreateIfcWallAndWriteFile PROPERTIES DEBUG_POSTFIX "d")
 
-find_package(OpenMP)
-if(OpenMP_CXX_FOUND)
-	# openmp should not appear in debug mode. Does it anyway...
-	TARGET_LINK_LIBRARIES(CreateIfcWallAndWriteFile optimized IfcPlusPlus OpenMP::OpenMP_CXX debug IfcPlusPlusd )
-else(OpenMP_CXX_FOUND)
-	TARGET_LINK_LIBRARIES(CreateIfcWallAndWriteFile optimized IfcPlusPlus debug IfcPlusPlusd)
-endif()
+TARGET_LINK_LIBRARIES(CreateIfcWallAndWriteFile optimized IfcPlusPlus debug IfcPlusPlusd)
 
 TARGET_INCLUDE_DIRECTORIES(CreateIfcWallAndWriteFile
     PRIVATE

@@ -84,7 +84,7 @@ IfcTreeWidget::IfcTreeWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QTreeW
 
 IfcTreeWidget::~IfcTreeWidget(){}
 
-void IfcTreeWidget::slotObjectsSelected( std::map<std::string, shared_ptr<BuildingEntity> >& map )
+void IfcTreeWidget::slotObjectsSelected( std::unordered_map<std::string, shared_ptr<BuildingEntity> >& map )
 {
 	if( m_block_selection_signals )
 	{

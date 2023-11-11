@@ -533,6 +533,11 @@ public:
 	static void triangulateCurvedPolygon(std::vector<vec3>& loopPoints3D, PolyInputCache3D& meshOut, const GeomProcessingParams& params, double maxAllowedDistanceFromPlane)
 	{
 		// find corner with smallest angle
+		if (loopPoints3D.size() > params.generalSettings->m_maxNumFaceEdges)
+		{
+			return;
+		}
+
 		size_t numPoints = loopPoints3D.size();
 		double eps = params.epsMergePoints;
 		double smallestAngle = DBL_MAX;
@@ -671,7 +676,7 @@ public:
 			if (params.debugDump)
 			{
 				glm::vec4 color(0.5, 0.5, 0.3, 0.5);
-				GeomDebugDump::dumpPolyline(loopPoints3D, color, 2.0, false);
+				GeomDebugDump::dumpPolyline(loopPoints3D, color, 2.0, false, false);
 			}
 #endif
 
@@ -863,7 +868,7 @@ public:
 				for (auto it_bounds = inputBounds3D.begin(); it_bounds != inputBounds3D.end(); ++it_bounds)
 				{
 					std::vector<vec3> currentPointLoop = *it_bounds;
-					GeomDebugDump::dumpPolyline(currentPointLoop, color2, 3.0, false);
+					GeomDebugDump::dumpPolyline(currentPointLoop, color2, 3.0, false, false);
 					color2.g += 0.4f;
 					color2.b -= 0.4f;
 				}
@@ -1118,7 +1123,7 @@ public:
 			if (errorOccured /*|| ifc_entity->m_tag == 64*/)
 			{
 				glm::vec4 color(0, 1, 1, 1);
-				GeomDebugDump::dumpPolyline(polygons2d, color, true);
+				GeomDebugDump::dumpPolyline(polygons2d, color, true, false);
 				//shared_ptr<carve::mesh::MeshSet<3> > meshset(meshOut.m_poly_data->createMesh(carve::input::opts()));
 				//GeomDebugDump::dumpMeshset(meshset, color, true, true);
 			}

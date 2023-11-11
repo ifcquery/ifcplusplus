@@ -249,7 +249,7 @@ public:
 				for( size_t ii = 0; ii < faceLoopsTriangulate.size(); ++ii )
 				{
 					std::vector<std::array<double, 2> >& loop2D = faceLoopsTriangulate[ii];
-					GeomDebugDump::dumpPolyline(loop2D, color, 0, true);
+					GeomDebugDump::dumpPolyline(loop2D, color, 0, true, false);
 				}
 			}
 		}
@@ -988,7 +988,7 @@ public:
 #ifdef _DEBUG
 			messageCallback("carve::triangulate failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity);
 			glm::vec4 color(0.3, 0.4, 0.5, 1.0);
-			GeomDebugDump::dumpPolyline(face_loops_used_for_triangulation, color, true );
+			GeomDebugDump::dumpPolyline(face_loops_used_for_triangulation, color, true, false );
 #endif
 			return;
 		}

@@ -751,7 +751,7 @@ public:
 	{
 		bool includeChildProducts = false;
 		bool includeGeometricChildItems = false;
-		if (item_data->hasItemDataGeometricRepresentation( includeGeometricChildItems))
+		if (item_data->hasItemDataGeometricRepresentation(includeGeometricChildItems))
 		{
 			osg::ref_ptr<osg::Geode> item_geode = new osg::Geode();
 

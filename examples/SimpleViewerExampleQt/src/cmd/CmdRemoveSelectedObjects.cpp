@@ -33,7 +33,7 @@ CmdRemoveSelectedObjects::~CmdRemoveSelectedObjects(){}
 
 bool CmdRemoveSelectedObjects::doCmd()
 {
-	const std::map<std::string, shared_ptr<SelectedEntity> >& selected_objects = m_system->getSelectedObjects();
+	const std::unordered_map<std::string, shared_ptr<SelectedEntity> >& selected_objects = m_system->getSelectedObjects();
 	for( auto it_selected : selected_objects )
 	{
 		const shared_ptr<SelectedEntity>& selected_entity = it_selected.second;

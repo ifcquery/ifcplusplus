@@ -41,10 +41,11 @@ struct MeshSetInfo
 	void copyFromOther(const MeshSetInfo& other)
 	{
 		numClosedEdges = other.numClosedEdges;
-		numOpenEdges = other.numOpenEdges;
+		openEdges = other.openEdges;
 		numFaces = other.numFaces;
 		zeroAreaFaces = other.zeroAreaFaces;
 		degenerateEdges = other.degenerateEdges;
+		degenerateFaces = other.degenerateFaces;
 		finEdges = other.finEdges;
 		finFaces = other.finFaces;
 		surfaceArea = other.surfaceArea;
@@ -65,12 +66,13 @@ struct MeshSetInfo
 	bool isEqual(const MeshSetInfo& other, bool checkOnlyNumberOfEdgesAndFaces = true) const
 	{
 		if (numClosedEdges != other.numClosedEdges) return false;
-		if (numOpenEdges != other.numOpenEdges) return false;
+		if (openEdges.size() != other.openEdges.size() ) return false;
 		if (numFaces != other.numFaces) return false;
 		if (checkOnlyNumberOfEdgesAndFaces)
 		{
 			if (zeroAreaFaces.size() != other.zeroAreaFaces.size() ) return false;
 			if (degenerateEdges.size() != other.degenerateEdges.size()) return false;
+			if (degenerateFaces.size() != other.degenerateFaces.size()) return false;
 			if (finEdges.size() != other.finEdges.size()) return false;
 			if (finFaces.size() != other.finFaces.size()) return false;
 		}
@@ -78,6 +80,7 @@ struct MeshSetInfo
 		{
 			if (zeroAreaFaces != other.zeroAreaFaces) return false;
 			if (degenerateEdges != other.degenerateEdges) return false;
+			if (degenerateFaces != other.degenerateFaces) return false;
 			if (finEdges != other.finEdges) return false;
 			if (finFaces != other.finFaces) return false;
 		}
@@ -91,10 +94,12 @@ struct MeshSetInfo
 	}
 
 	size_t numClosedEdges = 0;
-	size_t numOpenEdges = 0;
+	size_t numOpenEdges() const { return openEdges.size(); }
 	size_t numFaces = 0;
+	std::set<carve::mesh::Edge<3>* > openEdges;
 	std::set<carve::mesh::Face<3>* > zeroAreaFaces;
 	std::set<carve::mesh::Edge<3>* > degenerateEdges;
+	std::set<const carve::mesh::Face<3>* > degenerateFaces;
 	std::set<carve::mesh::Edge<3>* > finEdges;
 	std::set<carve::mesh::Face<3>* > finFaces;
 	double surfaceArea = 0;
@@ -110,10 +115,11 @@ struct MeshSetInfo
 	void resetInfoResult()
 	{
 		numClosedEdges = 0;
-		numOpenEdges = 0;
+		openEdges.clear();
 		numFaces = 0;
 		zeroAreaFaces.clear();
 		degenerateEdges.clear();
+		degenerateFaces.clear();
 		finEdges.clear();
 		finFaces.clear();
 		surfaceArea = 0;
@@ -232,7 +238,7 @@ public:
 };
 
 bool checkPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data, const GeomProcessingParams& params, std::string& details);
-bool fixPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data, bool removeZeroAreaFaces, const GeomProcessingParams& params);
+bool fixPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data, const GeomProcessingParams& params);
 bool reverseFacesInPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data);
 
 class PolyInputCache3D
@@ -494,8 +500,8 @@ public:
 
 void polyhedronFromMesh(const carve::mesh::Mesh<3>* mesh, PolyInputCache3D& polyInput);
 void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, PolyInputCache3D& polyInput);
-void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::set<carve::mesh::Face<3>* >& setSkipFaces, PolyInputCache3D& polyInput);
-void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::set<carve::mesh::Face<3>* >& setSkipFaces, const std::set<carve::mesh::Face<3>* >& setFlipFaces, PolyInputCache3D& polyInput);
+void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::set<const carve::mesh::Face<3>* >& setSkipFaces, PolyInputCache3D& polyInput);
+void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::set<const carve::mesh::Face<3>* >& setSkipFaces, const std::set<const carve::mesh::Face<3>* >& setFlipFaces, PolyInputCache3D& polyInput);
 
 class ProductShapeData;
 
@@ -539,7 +545,7 @@ public:
 		bool correct = checkPolyhedronData(poly_data, params, details);
 		if (!correct)
 		{
-			fixPolyhedronData(poly_data, true, params);
+			fixPolyhedronData(poly_data, params);
 #ifdef _DEBUG
 			std::string details2;
 			bool correct2 = checkPolyhedronData(poly_data, params, details2);

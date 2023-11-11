@@ -721,7 +721,18 @@ void carve::csg::CSG::_generateEdgeEdgeIntersections(meshset_t::edge_t* ea, mesh
 	carve::geom::aabb<3> ea_aabb, eb_aabb;
 	ea_aabb.fit(v1->v, v2->v);
 	eb_aabb.fit(v3->v, v4->v);
-	if( ea_aabb.maxAxisSeparation(eb_aabb) > m_epsilon ) {
+	double extentLength2 = eb_aabb.extent.length2();
+	double eps2 = m_epsilon * m_epsilon*0.9;
+	if (extentLength2 < eps2)
+	{
+		return;
+	}
+	if (ea_aabb.extent.length2() < eps2)
+	{
+		return;
+	}
+	if( ea_aabb.maxAxisSeparation(eb_aabb) > m_epsilon )
+	{
 		return;
 	}
 
