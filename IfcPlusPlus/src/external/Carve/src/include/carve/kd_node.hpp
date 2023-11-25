@@ -181,8 +181,8 @@ class kd_node {
     }
 
     if (splitpos.pos == std::numeric_limits<double>::max()) {
-      carve::geom::vector<ndim> min = aabb.min();
-      carve::geom::vector<ndim> max = aabb.max();
+      carve::geom::vector<ndim> min = aabb.minPoint();
+      carve::geom::vector<ndim> max = aabb.maxPoint();
       splitpos.pos = aabb.pos.v[splitpos.axis];
     }
 

@@ -41,9 +41,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #define EPS_M6 1e-6
 #define EPS_M5 1e-5
 #define EPS_M4 1e-4
-#define EPS_DEFAULT 1.5*EPS_M9
-#define EPS_ALIGNED_EDGES 1e-12
-#define EPS_ANGLE_COPLANAR_FACES 1e-13
+#define EPS_DEFAULT 1.5*EPS_M8
+#define EPS_ALIGNED_EDGES 1e-8
+#define EPS_ANGLE_COPLANAR_FACES 1e-9
+#define EPS_MIN_FACE_AREA 1e-10
 #define HALF_SPACE_BOX_SIZE 100
 #define MAX_NUM_EDGES 100000
 
@@ -149,7 +150,7 @@ public:
 	}
 
 	std::set<uint32_t> m_render_object_filter;
-	size_t m_maxNumFaceEdges = 10000;
+	size_t m_maxNumFaceEdges = MAX_NUM_EDGES;
 	bool m_mergeAlignedEdges = true;
 	MeshSimplifyCallbackType m_callback_simplify_mesh;
 	
@@ -164,9 +165,9 @@ protected:
 	bool m_handle_styled_items = true;
 	bool m_handle_layer_assignments = true;
 	bool m_render_bounding_box = false;
-	double m_min_triangle_area = 1e-9;
-	double m_epsilonMergePoints = 1.5e-8;
-	double m_epsCoplanarAngle = 1e-10;
+	double m_min_triangle_area = EPS_MIN_FACE_AREA;
+	double m_epsilonMergePoints = EPS_DEFAULT;
+	double m_epsCoplanarAngle = EPS_ANGLE_COPLANAR_FACES;
 
 	std::function<int(double)> m_num_vertices_per_circle_given_radius = [&](double radius)
 	{
@@ -217,9 +218,9 @@ struct GeomProcessingParams
 	BuildingEntity* ifc_entity = nullptr;
 	StatusCallback* callbackFunc = nullptr;
 	
-	double epsMergePoints = 1e-9;
-	double epsMergeAlignedEdgesAngle = 1e-6;
-	double minFaceArea = 1e-12;
+	double epsMergePoints = EPS_DEFAULT;
+	double epsMergeAlignedEdgesAngle = EPS_ALIGNED_EDGES;
+	double minFaceArea = EPS_MIN_FACE_AREA;
 	bool mergeAlignedEdges = true;
 	bool allowFinEdges = false;
 	bool allowDegenerateEdges = false;

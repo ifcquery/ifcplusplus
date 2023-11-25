@@ -132,7 +132,7 @@ public:
 			}
 		}
 	}
-	void convertIfcCartesianPointVectorSkipDuplicates(const std::vector<shared_ptr<IfcCartesianPoint> >& vec_ifc_points, std::vector<vec3>& loop) const
+	void convertIfcCartesianPointVectorSkipDuplicates(const std::vector<shared_ptr<IfcCartesianPoint> >& vec_ifc_points, std::vector<vec3>& loop, double eps) const
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		vec3  vertex_previous;
@@ -158,11 +158,11 @@ public:
 			// skip duplicate vertices
 			if (ii > 0)
 			{
-				if (std::abs(x - vertex_previous.x) < 0.00000001)
+				if (std::abs(x - vertex_previous.x) < eps)
 				{
-					if (std::abs(y - vertex_previous.y) < 0.00000001)
+					if (std::abs(y - vertex_previous.y) < eps)
 					{
-						if (std::abs(z - vertex_previous.z) < 0.00000001)
+						if (std::abs(z - vertex_previous.z) < eps)
 						{
 							continue;
 						}

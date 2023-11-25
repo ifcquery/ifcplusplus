@@ -790,11 +790,21 @@ namespace GeomUtils
 			carve::geom::vector<3> side2 = v3 - v2;
 			carve::geom::vector<3> c = cross(side1, side2);
 			double len_square = c.length2();
-			if (len_square > eps * eps)
+			if (len_square > 1.e-50)  // #define DBL_MIN          2.2250738585072014e-308 // min positive value
 			{
 				double area = sqrt(len_square) * 0.5;
-				return std::abs(area);
+				return area;
 			}
+#if defined(_DEBUG) || defined(_DEBUG_RELEASE)
+			else
+			{
+				if (len_square > 1.e-150)
+				{
+					double area = sqrt(len_square) * 0.5;
+					std::cout << "computePolygonArea: check division by " << len_square << std::endl;
+				}
+			}
+#endif
 		}
 		else
 		{
@@ -819,21 +829,20 @@ namespace GeomUtils
 				s += c;
 			}
 
-			double length = normal.length();// glm::length(normal);
-			if (std::abs(length) < eps)
+			double len_square = normal.length2();// glm::length(normal);
+			if (len_square < 1.e-50)
 			{
-				return false;
+				return 0.0;
 			}
 
-			normal /= length;
-			double area = 0.5 * length;
+			double area = sqrt(len_square) * 0.5;
 			return std::abs(area);
 		}
 
 		return 0.0;
 	}
 
-	inline bool checkOpenPolygonConvexity(const std::vector<vec2>& polygon)
+	inline bool checkOpenPolygonConvexity(const std::vector<vec2>& polygon, double eps)
 	{
 		if (polygon.size() < 3)
 		{
@@ -857,9 +866,9 @@ namespace GeomUtils
 
 			if (k > 0)
 			{
-				if (std::abs(zcrossproduct) > 0.0001)
+				if (std::abs(zcrossproduct) > eps)
 				{
-					if (std::abs(zcrossproduct_previous) > 0.0001)
+					if (std::abs(zcrossproduct_previous) > eps)
 					{
 						if (zcrossproduct * zcrossproduct_previous < 0)
 						{
@@ -874,16 +883,16 @@ namespace GeomUtils
 		return true;
 	}
 
-	inline void appendPointsToCurve(const std::vector<vec2>& points_vec, std::vector<vec3>& target_vec)
+	inline void appendPointsToCurve(const std::vector<vec2>& points_vec, std::vector<vec3>& target_vec, double eps)
 	{
 		bool omit_first = false;
 		if (target_vec.size() > 0)
 		{
 			const vec3& last_point = target_vec.back();
 			const vec2& first_point_current_segment = points_vec.front();
-			if (std::abs(last_point.x - first_point_current_segment.x) < 0.000001)
+			if (std::abs(last_point.x - first_point_current_segment.x) < eps)
 			{
-				if (std::abs(last_point.y - first_point_current_segment.y) < 0.000001)
+				if (std::abs(last_point.y - first_point_current_segment.y) < eps)
 				{
 					omit_first = true;
 				}
@@ -1266,7 +1275,7 @@ namespace GeomUtils
 			xaxis.z, yaxis.z, zaxis.z, 0,
 			0, 0, 0, 1);
 	}
-	inline bool bisectingPlane(const vec3& v1, const vec3& v2, const vec3& v3, vec3& normal, double CARVE_EPSILON)
+	inline bool bisectingPlane(const vec3& v1, const vec3& v2, const vec3& v3, vec3& normal, double eps)
 	{
 		bool valid = false;
 		vec3 v21 = v2 - v1;
@@ -1274,7 +1283,7 @@ namespace GeomUtils
 		double len21_square = v21.length2();
 		double len32_square = v32.length2();
 
-		if (len21_square <= CARVE_EPSILON * len32_square)
+		if (len21_square <= eps * len32_square)
 		{
 			if (len32_square == 0.0)
 			{
@@ -1295,7 +1304,7 @@ namespace GeomUtils
 		else
 		{
 			valid = true;
-			if (len32_square <= CARVE_EPSILON * len21_square)
+			if (len32_square <= eps * len21_square)
 			{
 				// return v21 as bisector
 				v21.normalize();
@@ -1309,7 +1318,7 @@ namespace GeomUtils
 				double dot_product = dot(v32, v21);
 				double dot_product_abs = std::abs(dot_product);
 
-				if (dot_product_abs > (1.0 + CARVE_EPSILON) || dot_product_abs < (1.0 - CARVE_EPSILON))
+				if (dot_product_abs > (1.0 + eps) || dot_product_abs < (1.0 - eps))
 				{
 					normal = (v32 + v21) * dot_product - v32 - v21;
 					normal.normalize();
@@ -1353,7 +1362,7 @@ namespace GeomUtils
 			point = matrix * point;
 		}
 	}
-	inline void applyTranslate(shared_ptr<carve::mesh::MeshSet<3> >& meshset, const vec3& pos, double CARVE_EPSILON)
+	inline void applyTranslate(shared_ptr<carve::mesh::MeshSet<3> >& meshset, const vec3& pos, double eps)
 	{
 		for (size_t i = 0; i < meshset->vertex_storage.size(); ++i)
 		{
@@ -1362,10 +1371,10 @@ namespace GeomUtils
 		}
 		for (size_t i = 0; i < meshset->meshes.size(); ++i)
 		{
-			meshset->meshes[i]->recalc(CARVE_EPSILON);
+			meshset->meshes[i]->recalc(eps);
 		}
 	}
-	inline void applyTransform(shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::math::Matrix& matrix, double CARVE_EPSILON)
+	inline void applyTransform(shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::math::Matrix& matrix, double eps)
 	{
 		for (size_t i = 0; i < meshset->vertex_storage.size(); ++i)
 		{
@@ -1374,7 +1383,7 @@ namespace GeomUtils
 		}
 		for (size_t i = 0; i < meshset->meshes.size(); ++i)
 		{
-			meshset->meshes[i]->recalc(CARVE_EPSILON);
+			meshset->meshes[i]->recalc(eps);
 		}
 	}
 	inline void applyTransform(carve::geom::aabb<3>& aabb, const carve::math::Matrix& matrix)
@@ -1838,7 +1847,7 @@ namespace GeomUtils
 		}
 	}
 
-	inline std::pair<vec3, vec3> shortestConnectionSegmentToSegment(const vec3 A, const vec3 B, const vec3 C, const vec3 D, double CARVE_EPSILON)
+	inline std::pair<vec3, vec3> shortestConnectionSegmentToSegment(const vec3 A, const vec3 B, const vec3 C, const vec3 D, double eps)
 	{
 		vec3 u = B - A;
 		vec3 v = D - C;
@@ -1851,7 +1860,7 @@ namespace GeomUtils
 		double    e = dot(v, w);
 		double    sc, sN, sD = a * c - b * b;  // sc = sN / sD, sD >= 0
 		double    tc, tN, tD = a * c - b * b;  // tc = tN / tD, tD >= 0
-		double    tol = CARVE_EPSILON;
+		double    tol = eps;
 
 		// compute the line parameters of the two closest points
 		if (sD < tol)
@@ -1930,7 +1939,7 @@ namespace GeomUtils
 	}
 
 
-	inline bool pointInPolySimple(const std::vector<vec2>& points, const vec2& p, double CARVE_EPSILON)
+	inline bool pointInPolySimple(const std::vector<vec2>& points, const vec2& p, double eps)
 	{
 		if (points.size() < 1)
 		{
@@ -1969,17 +1978,17 @@ namespace GeomUtils
 		}
 		s = s + d;
 
-		bool is_zero = fabs(s) < CARVE_EPSILON;
+		bool is_zero = fabs(s) < eps;
 		return !is_zero;
 	}
 
-	inline bool isEnclosed(const std::vector<vec2>& loop1, const std::vector<vec2>& loop2, double CARVE_EPSILON)
+	inline bool isEnclosed(const std::vector<vec2>& loop1, const std::vector<vec2>& loop2, double eps)
 	{
 		bool all_points_inside = true;
 		for (size_t ii = 0; ii < loop1.size(); ++ii)
 		{
 			const vec2& p1 = loop1[ii];
-			if (!pointInPolySimple(loop2, p1, CARVE_EPSILON))
+			if (!pointInPolySimple(loop2, p1, eps))
 			{
 				all_points_inside = false;
 				break;
@@ -2020,7 +2029,7 @@ namespace GeomUtils
 	}
 
 	//\brief: collect connected edges and create face
-	static carve::mesh::Face<3>* createFaceFromEdgeLoop(carve::mesh::Edge<3>* start, double CARVE_EPSILON)
+	static carve::mesh::Face<3>* createFaceFromEdgeLoop(carve::mesh::Edge<3>* start, double eps)
 	{
 		carve::mesh::Edge<3>* e = start;
 		std::vector<carve::mesh::Edge<3>*> loop_edges;
@@ -2052,7 +2061,7 @@ namespace GeomUtils
 			e2->rev = openEdgeNext;
 		}
 
-		carve::mesh::Face<3>* f = new carve::mesh::Face<3>(start->rev, CARVE_EPSILON);
+		carve::mesh::Face<3>* f = new carve::mesh::Face<3>(start->rev, eps);
 
 		if (f->n_edges != N)
 		{
@@ -2064,7 +2073,7 @@ namespace GeomUtils
 	}
 
 	//\brief: 
-	static void closeMeshSet(carve::mesh::MeshSet<3>* meshset, double CARVE_EPSILON)
+	static void closeMeshSet(carve::mesh::MeshSet<3>* meshset, double eps)
 	{
 		// try to fix open mesh
 		for (size_t i = 0; i < meshset->meshes.size(); ++i)
@@ -2123,7 +2132,7 @@ namespace GeomUtils
 					if (openEdge1 != nullptr)
 					{
 						// close with triangle
-						carve::mesh::Face<3>* closingTriangle = createFaceFromEdgeLoop(openEdge1, CARVE_EPSILON);
+						carve::mesh::Face<3>* closingTriangle = createFaceFromEdgeLoop(openEdge1, eps);
 						if (closingTriangle != nullptr)
 						{
 							closingTriangle->mesh = mesh;
@@ -2136,7 +2145,7 @@ namespace GeomUtils
 					if (openEdge1 != nullptr && openEdge2 != nullptr)
 					{
 						// add triangle with 2 open edges and a new edge
-						carve::mesh::Face<3>* triangle = new carve::mesh::Face<3>(openEdge1->v2(), openEdge1->v1(), openEdge2->v2(), CARVE_EPSILON);
+						carve::mesh::Face<3>* triangle = new carve::mesh::Face<3>(openEdge1->v2(), openEdge1->v1(), openEdge2->v2(), eps);
 						triangle->mesh = mesh;
 						openEdge1->rev = triangle->edge;
 						triangle->edge->rev = openEdge1;

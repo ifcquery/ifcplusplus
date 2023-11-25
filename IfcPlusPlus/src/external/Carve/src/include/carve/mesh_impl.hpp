@@ -527,19 +527,19 @@ void Face<ndim>::loopFwd(iter_t begin, iter_t end) {
 template <unsigned int ndim>
 template <typename iter_t>
 void Face<ndim>::loopRev(iter_t begin, iter_t end) {
-  clearEdges();
-  if (begin == end) {
-    return;
-  }
-  edge = new edge_t(*begin, this);
-  ++n_edges;
-  ++begin;
-  while (begin != end) {
-    edge_t* e = new edge_t(*begin, this);
-    e->insertBefore(edge->next);
+    clearEdges();
+    if (begin == end) {
+        return;
+    }
+    edge = new edge_t(*begin, this);
     ++n_edges;
     ++begin;
-  }
+    while (begin != end) {
+        edge_t* e = new edge_t(*begin, this);
+        e->insertBefore(edge->next);
+        ++n_edges;
+        ++begin;
+    }
 }
 
 template <unsigned int ndim>
@@ -550,32 +550,34 @@ void Face<ndim>::init(iter_t begin, iter_t end) {
 
 template <unsigned int ndim>
 void Face<ndim>::init(vertex_t* a, vertex_t* b, vertex_t* c) {
-  clearEdges();
-  edge_t* ea = new edge_t(a, this);
-  edge_t* eb = new edge_t(b, this);
-  edge_t* ec = new edge_t(c, this);
-  eb->insertAfter(ea);
-  ec->insertAfter(eb);
-  edge = ea;
-  n_edges = 3;
+    clearEdges();
+    edge_t* ea = new edge_t(a, this);
+    edge_t* eb = new edge_t(b, this);
+    edge_t* ec = new edge_t(c, this);
+    eb->insertAfter(ea);
+    ec->insertAfter(eb);
+    edge = ea;
+    n_edges = 3;
 }
 
 template <unsigned int ndim>
-void Face<ndim>::init(vertex_t* a, vertex_t* b, vertex_t* c, vertex_t* d) {
-  clearEdges();
-  edge_t* ea = new edge_t(a, this);
-  edge_t* eb = new edge_t(b, this);
-  edge_t* ec = new edge_t(c, this);
-  edge_t* ed = new edge_t(d, this);
-  eb->insertAfter(ea);
-  ec->insertAfter(eb);
-  ed->insertAfter(ec);
-  edge = ea;
-  n_edges = 4;
+void Face<ndim>::init(vertex_t* a, vertex_t* b, vertex_t* c, vertex_t* d)
+{
+    clearEdges();
+    edge_t* ea = new edge_t(a, this);
+    edge_t* eb = new edge_t(b, this);
+    edge_t* ec = new edge_t(c, this);
+    edge_t* ed = new edge_t(d, this);
+    eb->insertAfter(ea);
+    ec->insertAfter(eb);
+    ed->insertAfter(ec);
+    edge = ea;
+    n_edges = 4;
 }
 
 template <unsigned int ndim>
-void Face<ndim>::getVertices(std::vector<vertex_t*>& verts) const {
+void Face<ndim>::getVertices(std::vector<vertex_t*>& verts) const
+{
   verts.clear();
   verts.reserve(n_edges);
   const edge_t* e = edge;
@@ -594,8 +596,8 @@ void Face<ndim>::getVertices(std::vector<vertex_t*>& verts) const {
 }
 
 template <unsigned int ndim>
-void Face<ndim>::getProjectedVertices(
-    std::vector<carve::geom::vector<2> >& verts) const {
+void Face<ndim>::getProjectedVertices( std::vector<carve::geom::vector<2> >& verts) const
+{
   verts.clear();
   verts.reserve(n_edges);
   const edge_t* e = edge;
@@ -613,87 +615,92 @@ void Face<ndim>::getProjectedVertices(
 }
 
 template <unsigned int ndim>
-typename Face<ndim>::vector_t Face<ndim>::centroid() const {
-  vector_t v;
-  edge_t* e = edge;
-  do {
-    v += e->vert->v;
-    e = e->next;
-  } while (e != edge);
-  v /= n_edges;
-  return v;
+typename Face<ndim>::vector_t Face<ndim>::centroid() const
+{
+    vector_t v;
+    edge_t* e = edge;
+    do {
+        v += e->vert->v;
+        e = e->next;
+    } while (e != edge);
+    v /= n_edges;
+    return v;
 }
 
 template <unsigned int ndim>
-void Face<ndim>::canonicalize() {
-  edge_t* min = edge;
-  edge_t* e = edge;
+void Face<ndim>::canonicalize()
+{
+    edge_t* min = edge;
+    edge_t* e = edge;
 
-  do {
-    if (e->vert < min->vert) {
-      min = e;
-    }
-    e = e->next;
-  } while (e != edge);
+    do {
+        if (e->vert < min->vert)
+        {
+            min = e;
+        }
+        e = e->next;
+    } while (e != edge);
 
-  edge = min;
+    edge = min;
 }
 
 template <unsigned int ndim>
 template <typename iter_t>
-Face<ndim>* Face<ndim>::create(iter_t beg, iter_t end, bool reversed) const {
-  Face* r = new Face();
+Face<ndim>* Face<ndim>::create(iter_t beg, iter_t end, bool reversed) const
+{
+    Face* r = new Face();
 
-  if (reversed) {
-    r->loopRev(beg, end);
-    r->plane = -plane;
-  } else {
-    r->loopFwd(beg, end);
-    r->plane = plane;
-  }
+    if (reversed) {
+        r->loopRev(beg, end);
+        r->plane = -plane;
+    }
+    else {
+        r->loopFwd(beg, end);
+        r->plane = plane;
+    }
 
-  int da = carve::geom::largestAxis(r->plane.N);
+    int da = carve::geom::largestAxis(r->plane.N);
 
-  r->project = r->getProjector(r->plane.N.v[da] > 0, da);
-  r->unproject = r->getUnprojector(r->plane.N.v[da] > 0, da);
+    r->project = r->getProjector(r->plane.N.v[da] > 0, da);
+    r->unproject = r->getUnprojector(r->plane.N.v[da] > 0, da);
 
-  return r;
+    return r;
 }
 
 template <unsigned int ndim>
-Face<ndim>* Face<ndim>::clone(
-    const vertex_t* old_base, vertex_t* new_base,
-    std::unordered_map<const edge_t*, edge_t*>& edge_map) const {
-  Face* r = new Face(*this);
+Face<ndim>* Face<ndim>::clone(const vertex_t* old_base, vertex_t* new_base, std::unordered_map<const edge_t*, edge_t*>& edge_map) const
+{
+    Face* r = new Face(*this);
 
-  edge_t* e = edge;
-  edge_t* r_p = nullptr;
-  edge_t* r_e;
-  do {
-    r_e = new edge_t(e->vert - old_base + new_base, r);
-    edge_map[e] = r_e;
-    if (r_p) {
-      r_p->next = r_e;
-      r_e->prev = r_p;
-    } else {
-      r->edge = r_e;
-    }
-    r_p = r_e;
+    edge_t* e = edge;
+    edge_t* r_p = nullptr;
+    edge_t* r_e;
+    do {
+        r_e = new edge_t(e->vert - old_base + new_base, r);
+        edge_map[e] = r_e;
+        if (r_p) {
+            r_p->next = r_e;
+            r_e->prev = r_p;
+        }
+        else {
+            r->edge = r_e;
+        }
+        r_p = r_e;
 
-    if (e->rev) {
-      typename std::unordered_map<const edge_t*, edge_t*>::iterator rev_i =
-          edge_map.find(e->rev);
-      if (rev_i != edge_map.end()) {
-        r_e->rev = (*rev_i).second;
-        (*rev_i).second->rev = r_e;
-      }
-    }
+        if (e->rev) {
+            typename std::unordered_map<const edge_t*, edge_t*>::iterator rev_i =
+                edge_map.find(e->rev);
+            if (rev_i != edge_map.end()) {
+                r_e->rev = (*rev_i).second;
+                (*rev_i).second->rev = r_e;
+            }
+        }
 
-    e = e->next;
-  } while (e != edge);
-  r_e->next = r->edge;
-  r->edge->prev = r_e;
-  return r;
+        e = e->next;
+    } while (e != edge);
+    r_e->next = r->edge;
+    r->edge->prev = r_e;
+    return r;
 }
 
 template <unsigned int ndim>
@@ -717,11 +724,10 @@ namespace detail {
     void FaceStitcher::initEdges(iter_t begin, iter_t end)
     {
         size_t c = 0;
-        for (iter_t i = begin; i != end; ++i) {
-            face_t* face = *i;
-            CARVE_ASSERT(
-                face->mesh ==
-                nullptr);  // for the moment, can only insert a face into a mesh once.
+        for (iter_t it = begin; it != end; ++it)
+        {
+            face_t* face = *it;
+            CARVE_ASSERT( face->mesh == nullptr);  // for the moment, can only insert a face into a mesh once.
 
             face->id = c++;
             edge_t* e = face->edge;
@@ -750,11 +756,13 @@ namespace detail {
 
         std::vector<std::vector<face_t*> > mesh_faces;
         mesh_faces.resize(set_size.size());
-        for (size_t i = 0; i < set_size.size(); ++i) {
+        for (size_t i = 0; i < set_size.size(); ++i)
+        {
             mesh_faces[i].reserve(set_size[i]);
         }
 
-        for (iter_t i = begin; i != end; ++i) {
+        for (iter_t i = begin; i != end; ++i)
+        {
             face_t* face = *i;
             mesh_faces[index_set[face->id]].push_back(face);
         }
@@ -776,18 +784,22 @@ namespace detail {
 }  // namespace detail
 
 template <unsigned int ndim>
-void Mesh<ndim>::cacheEdges() {
+void Mesh<ndim>::cacheEdges()
+{
     closed_edges.clear();
     open_edges.clear();
 
-    for (size_t i = 0; i < faces.size(); ++i) {
+    for (size_t i = 0; i < faces.size(); ++i)
+    {
         face_t* face = faces[i];
         edge_t* e = face->edge;
         do {
-            if (e->rev == nullptr) {
+            if (e->rev == nullptr)
+            {
                 open_edges.push_back(e);
             }
-            else if (e < e->rev) {
+            else if (e < e->rev)
+            {
                 closed_edges.push_back(e);
             }
             e = e->next;
@@ -797,7 +809,8 @@ void Mesh<ndim>::cacheEdges() {
 
 template <unsigned int ndim>
 Mesh<ndim>::Mesh(std::vector<face_t*>& _faces)
-    : faces(), open_edges(), closed_edges(), meshset(nullptr) {
+    : faces(), open_edges(), closed_edges(), meshset(nullptr)
+{
     faces.swap(_faces);
     for (size_t i = 0; i < faces.size(); ++i) {
         faces[i]->mesh = this;
@@ -807,7 +820,8 @@ Mesh<ndim>::Mesh(std::vector<face_t*>& _faces)
 }
 
 template <unsigned int ndim>
-int Mesh<ndim>::orientationAtVertex(edge_t* e_base) {
+int Mesh<ndim>::orientationAtVertex(edge_t* e_base)
+{
 #if defined(CARVE_DEBUG)
   std::cerr << "warning: vertex orientation not defined for ndim=" << ndim
             << std::endl;
@@ -816,7 +830,8 @@ int Mesh<ndim>::orientationAtVertex(edge_t* e_base) {
 }
 
 template <>
-inline int Mesh<3>::orientationAtVertex(edge_t* e_base) {
+inline int Mesh<3>::orientationAtVertex(edge_t* e_base)
+{
     edge_t* e = e_base;
     vertex_t::vector_t v_base = e->v1()->v;
     std::vector<vertex_t::vector_t> v_edge;
@@ -873,7 +888,8 @@ void Mesh<ndim>::calcOrientation()
       return;
   }
 
-  if (emin->rev->v1()->v < emin->v1()->v) {
+  if (emin->rev->v1()->v < emin->v1()->v)
+  {
     emin = emin->rev;
   }
 
@@ -928,7 +944,8 @@ Mesh<ndim>* Mesh<ndim>::clone(const vertex_t* old_base, vertex_t* new_base) cons
     r_open_edges.reserve(r_open_edges.size());
     r_closed_edges.reserve(r_closed_edges.size());
 
-    for (size_t i = 0; i < faces.size(); ++i) {
+    for (size_t i = 0; i < faces.size(); ++i)
+    {
         r_faces.push_back(faces[i]->clone(old_base, new_base, edge_map));
     }
     
@@ -960,96 +977,106 @@ Mesh<ndim>* Mesh<ndim>::clone(const vertex_t* old_base, vertex_t* new_base) cons
 }
 
 template <unsigned int ndim>
-Mesh<ndim>::~Mesh() {
-  for (size_t i = 0; i < faces.size(); ++i) {
-    delete faces[i];
-  }
+Mesh<ndim>::~Mesh()
+{
+    for (size_t i = 0; i < faces.size(); ++i)
+    {
+        delete faces[i];
+    }
 }
 
 template <unsigned int ndim>
 template <typename iter_t>
-void Mesh<ndim>::create(iter_t begin, iter_t end,
-                        std::vector<Mesh<ndim>*>& meshes,
-                        const MeshOptions& opts) {
+void Mesh<ndim>::create(iter_t begin, iter_t end, std::vector<Mesh<ndim>*>& meshes, const MeshOptions& opts)
+{
   meshes.clear();
 }
 
 template <>
 template <typename iter_t>
-void Mesh<3>::create(iter_t begin, iter_t end, std::vector<Mesh<3>*>& meshes,
-                     const MeshOptions& opts) {
+void Mesh<3>::create(iter_t begin, iter_t end, std::vector<Mesh<3>*>& meshes, const MeshOptions& opts)
+{
   detail::FaceStitcher(opts).create(begin, end, meshes);
 }
 
 template <unsigned int ndim>
 template <typename iter_t>
-void MeshSet<ndim>::_init_from_faces(iter_t begin, iter_t end,
-                                     const MeshOptions& opts) {
-  typedef std::unordered_map<const vertex_t*, size_t> map_t;
-  map_t vmap;
+void MeshSet<ndim>::_init_from_faces(iter_t begin, iter_t end, const MeshOptions& opts)
+{
+    typedef std::unordered_map<const vertex_t*, size_t> map_t;
+    map_t vmap;
 
-  for (iter_t i = begin; i != end; ++i) {
-    face_t* f = *i;
-    edge_t* e = f->edge;
-    do {
-      typename map_t::const_iterator j = vmap.find(e->vert);
-      if (j == vmap.end()) {
-        size_t idx = vmap.size();
-        vmap[e->vert] = idx;
-      }
-      e = e->next;
-    } while (e != f->edge);
-  }
+    for (iter_t i = begin; i != end; ++i)
+    {
+        face_t* f = *i;
+        edge_t* e = f->edge;
+        do {
+            typename map_t::const_iterator j = vmap.find(e->vert);
+            if (j == vmap.end())
+            {
+                size_t idx = vmap.size();
+                vmap[e->vert] = idx;
+            }
+            e = e->next;
+        } while (e != f->edge);
+    }
 
-  vertex_storage.resize(vmap.size());
-  for (typename map_t::const_iterator i = vmap.begin(); i != vmap.end(); ++i) {
-    vertex_storage[(*i).second].v = (*i).first->v;
-  }
+    vertex_storage.resize(vmap.size());
+    for (typename map_t::const_iterator i = vmap.begin(); i != vmap.end(); ++i)
+    {
+        vertex_storage[(*i).second].v = (*i).first->v;
+    }
 
-  for (iter_t i = begin; i != end; ++i) {
-    face_t* f = *i;
-    edge_t* e = f->edge;
-    do {
-      e->vert = &vertex_storage[vmap[e->vert]];
-      e = e->next;
-    } while (e != f->edge);
-  }
+    for (iter_t i = begin; i != end; ++i) {
+        face_t* f = *i;
+        edge_t* e = f->edge;
+        do {
+            e->vert = &vertex_storage[vmap[e->vert]];
+            e = e->next;
+        } while (e != f->edge);
+    }
 
-  mesh_t::create(begin, end, meshes, opts);
+    mesh_t::create(begin, end, meshes, opts);
 
-  for (size_t i = 0; i < meshes.size(); ++i) {
-    meshes[i]->meshset = this;
-  }
+    for (size_t i = 0; i < meshes.size(); ++i)
+    {
+        meshes[i]->meshset = this;
+    }
 }
 
 template <unsigned int ndim>
-MeshSet<ndim>::MeshSet( const std::vector<typename MeshSet<ndim>::vertex_t::vector_t>& points, size_t n_faces, const std::vector<int>& face_indices, double CARVE_EPSILON, const MeshOptions& opts) {
-  vertex_storage.reserve(points.size());
-  std::vector<face_t*> faces;
-  faces.reserve(n_faces);
-  for (size_t i = 0; i < points.size(); ++i) {
-    vertex_storage.push_back(vertex_t(points[i]));
-  }
-
-  std::vector<vertex_t*> v;
-  size_t p = 0;
-  for (size_t i = 0; i < n_faces; ++i) {
-    CARVE_ASSERT(face_indices[p] > 1);
-
-    const size_t N = (size_t)face_indices[p++];
-    v.clear();
-    v.reserve(N);
-    for (size_t j = 0; j < N; ++j) {
-      v.push_back(&vertex_storage[face_indices[p++]]);
+MeshSet<ndim>::MeshSet(const std::vector<typename MeshSet<ndim>::vertex_t::vector_t>& points, size_t n_faces, const std::vector<int>& face_indices, double CARVE_EPSILON, const MeshOptions& opts)
+{
+    vertex_storage.reserve(points.size());
+    std::vector<face_t*> faces;
+    faces.reserve(n_faces);
+    for (size_t i = 0; i < points.size(); ++i)
+    {
+        vertex_storage.push_back(vertex_t(points[i]));
     }
-    faces.push_back(new face_t(v.begin(), v.end(), CARVE_EPSILON));
-  }
-  CARVE_ASSERT(p == face_indices.size());
-  mesh_t::create(faces.begin(), faces.end(), meshes, opts);
 
-  for (size_t i = 0; i < meshes.size(); ++i) {
-    meshes[i]->meshset = this;
-  }
+    std::vector<vertex_t*> v;
+    size_t p = 0;
+    for (size_t i = 0; i < n_faces; ++i)
+    {
+        CARVE_ASSERT(face_indices[p] > 1);
+
+        const size_t N = (size_t)face_indices[p++];
+        v.clear();
+        v.reserve(N);
+        for (size_t j = 0; j < N; ++j)
+        {
+            v.push_back(&vertex_storage[face_indices[p++]]);
+        }
+        faces.push_back(new face_t(v.begin(), v.end(), CARVE_EPSILON));
+    }
+    CARVE_ASSERT(p == face_indices.size());
+    mesh_t::create(faces.begin(), faces.end(), meshes, opts);
+
+    for (size_t i = 0; i < meshes.size(); ++i)
+    {
+        meshes[i]->meshset = this;
+    }
 }
 
 template <unsigned int ndim>

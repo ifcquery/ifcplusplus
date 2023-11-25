@@ -52,15 +52,18 @@ protected:
 	shared_ptr<GeometrySettings>						m_geom_settings;
 	std::map<std::string, osg::ref_ptr<osg::Switch> >	m_map_entity_guid_to_switch;
 	std::map<int, osg::ref_ptr<osg::Switch> >			m_map_representation_id_to_switch;
+	std::vector<osg::ref_ptr<osg::Vec3Array> >			m_cache_vertices;
 	double												m_recent_progress;
 	osg::ref_ptr<osg::CullFace>							m_cull_back_off;
 	double												m_faces_crease_angle = M_PI * 0.02;
 	double												m_crease_edges_max_delta_angle = M_PI * 0.05;
 	double												m_crease_edges_line_width = 1.5;
-	bool												m_render_crease_edges = true;
+	float												m_epsilon = 1.5e-8f;
+	bool												m_render_crease_edges = false;
 	bool												m_draw_bounding_box = false;
 	size_t m_numConvertedProducts = 0;
 	size_t m_numProductsInModel = 0;
+	size_t m_numBuffersReused = 0;
 
 public:
 	ConverterOSG(shared_ptr<GeometrySettings>& geom_settings) : m_geom_settings(geom_settings)
@@ -87,6 +90,50 @@ public:
 		m_numConvertedProducts = 0;
 		m_numProductsInModel = 0;
 
+	}
+
+	osg::Vec3Array* findExistingVertexArray(const osg::ref_ptr<osg::Vec3Array>& vertices)
+	{
+		for (const osg::ref_ptr<osg::Vec3Array>& existingVertices : m_cache_vertices)
+		{
+			if (existingVertices->size() == vertices->size())
+			{
+				bool matchingArrayFound = true;
+				auto itNewPoint = vertices->begin();
+				for (auto itExistingPoint = existingVertices->begin(); itExistingPoint != existingVertices->end(); ++itExistingPoint, ++itNewPoint)
+				{
+					float dx = itNewPoint->x() - itExistingPoint->x();
+					if (fabs(dx) > m_epsilon)
+					{
+						matchingArrayFound = false;
+						break;
+					}
+
+					float dy = itNewPoint->y() - itExistingPoint->y();
+					if (fabs(dy) > m_epsilon)
+					{
+						matchingArrayFound = false;
+						break;
+					}
+
+					float dz = itNewPoint->z() - itExistingPoint->z();
+					if (fabs(dz) > m_epsilon)
+					{
+						matchingArrayFound = false;
+						break;
+					}
+				}
+
+				if (matchingArrayFound)
+				{
+					++m_numBuffersReused;
+					return existingVertices.get();
+				}
+			}
+		}
+
+		m_cache_vertices.push_back(vertices);
+		return vertices.get();
 	}
 
 	static void drawBoundingBox(const carve::geom::aabb<3>& aabb, osg::Geometry* geom)
@@ -146,7 +193,7 @@ public:
 		stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 	}
 
-	static void drawFace(const carve::mesh::Face<3>* face, osg::Geode* geode, bool add_color_array = false)
+	void drawFace(const carve::mesh::Face<3>* face, osg::Geode* geode, bool add_color_array = false)
 	{
 #ifdef _DEBUG
 		std::cout << "not triangulated" << std::endl;
@@ -182,8 +229,10 @@ public:
 		normals->resize(num_vertices, poly_normal);
 
 
+		osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
+
 		osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-		geometry->setVertexArray(vertices);
+		geometry->setVertexArray(cachedVertexArray);
 		geometry->setNormalArray(normals);
 		normals->setBinding(osg::Array::BIND_PER_VERTEX);
 		geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POLYGON, 0, vertices->size()));
@@ -389,16 +438,16 @@ public:
 							if (std::abs(area) > min_triangle_area)   // skip degenerated triangle
 							{
 
-								vertices_tri->push_back(osg::Vec3(vertex_v.x, vertex_v.y, vertex_v.z));
-								normals_tri->push_back(osg::Vec3(intermediate_normal.x, intermediate_normal.y, intermediate_normal.z));
+								vertices_tri->push_back(osg::Vec3f(vertex_v.x, vertex_v.y, vertex_v.z));
+								normals_tri->push_back(osg::Vec3f(intermediate_normal.x, intermediate_normal.y, intermediate_normal.z));
 							}
 						}
 						else if (face->n_edges == 4)
 						{
 							if (!vertices_quad) vertices_quad = new osg::Vec3Array();
-							vertices_quad->push_back(osg::Vec3(vertex_v.x, vertex_v.y, vertex_v.z));
+							vertices_quad->push_back(osg::Vec3f(vertex_v.x, vertex_v.y, vertex_v.z));
 							if (!normals_quad) normals_quad = new osg::Vec3Array();
-							normals_quad->push_back(osg::Vec3(intermediate_normal.x, intermediate_normal.y, intermediate_normal.z));
+							normals_quad->push_back(osg::Vec3f(intermediate_normal.x, intermediate_normal.y, intermediate_normal.z));
 						}
 						e = e->next;
 					}
@@ -429,16 +478,16 @@ public:
 							double area = (carve::geom::cross(v0v1, v0v2).length()) * 0.5;
 							if (std::abs(area) > min_triangle_area)   // skip degenerated triangle
 							{
-								vertices_tri->push_back(osg::Vec3(vertex_v.x, vertex_v.y, vertex_v.z));
-								normals_tri->push_back(osg::Vec3(face_normal.x, face_normal.y, face_normal.z));
+								vertices_tri->push_back(osg::Vec3f(vertex_v.x, vertex_v.y, vertex_v.z));
+								normals_tri->push_back(osg::Vec3f(face_normal.x, face_normal.y, face_normal.z));
 							}
 						}
 						else if (face->n_edges == 4)
 						{
 							if (!vertices_quad) vertices_quad = new osg::Vec3Array();
-							vertices_quad->push_back(osg::Vec3(vertex_v.x, vertex_v.y, vertex_v.z));
+							vertices_quad->push_back(osg::Vec3f(vertex_v.x, vertex_v.y, vertex_v.z));
 							if (!normals_quad) normals_quad = new osg::Vec3Array();
-							normals_quad->push_back(osg::Vec3(face_normal.x, face_normal.y, face_normal.z));
+							normals_quad->push_back(osg::Vec3f(face_normal.x, face_normal.y, face_normal.z));
 						}
 						e = e->next;
 					}
@@ -448,8 +497,10 @@ public:
 
 		if (vertices_tri->size() > 0)
 		{
+			osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices_tri);
+
 			osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-			geometry->setVertexArray(vertices_tri);
+			geometry->setVertexArray(cachedVertexArray);
 
 			geometry->setNormalArray(normals_tri);
 			normals_tri->setBinding(osg::Array::BIND_PER_VERTEX);
@@ -500,8 +551,10 @@ public:
 		{
 			if (vertices_quad->size() > 0)
 			{
+				osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices_quad);
+
 				osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-				geometry->setVertexArray(vertices_quad);
+				geometry->setVertexArray(cachedVertexArray);
 				if (normals_quad)
 				{
 					normals_quad->setBinding(osg::Array::BIND_PER_VERTEX);
@@ -522,7 +575,7 @@ public:
 		}
 	}
 
-	static void drawPolyline(const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array = false)
+	void drawPolyline(const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array = false)
 	{
 		if (!polyline_data)
 		{
@@ -565,12 +618,14 @@ public:
 					continue;
 				}
 				const carve::line::Vertex* v = pline->vertex(vertex_i);
-				vertices->push_back(osg::Vec3d(v->v[0], v->v[1], v->v[2]));
+				vertices->push_back(osg::Vec3f(v->v[0], v->v[1], v->v[2]));
 			}
 		}
 
+		osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
+
 		osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-		geometry->setVertexArray(vertices);
+		geometry->setVertexArray(cachedVertexArray);
 		geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINE_STRIP, 0, vertices->size()));
 
 		if (add_color_array)
@@ -629,7 +684,7 @@ public:
 		}
 	}
 
-	static void renderMeshsetCreaseEdges(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* target_geode, const double crease_angle, const float line_width)
+	void renderMeshsetCreaseEdges(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* target_geode, const double crease_angle, const float line_width)
 	{
 		if (!meshset)
 		{
@@ -650,13 +705,15 @@ public:
 				const carve::mesh::Edge<3>* edge = vec_crease_edges[i_edge];
 				const carve::geom::vector<3>& vertex1 = edge->v1()->v;
 				const carve::geom::vector<3>& vertex2 = edge->v2()->v;
-				vertices->push_back(osg::Vec3d(vertex1.x, vertex1.y, vertex1.z));
-				vertices->push_back(osg::Vec3d(vertex2.x, vertex2.y, vertex2.z));
+				vertices->push_back(osg::Vec3f(vertex1.x, vertex1.y, vertex1.z));
+				vertices->push_back(osg::Vec3f(vertex2.x, vertex2.y, vertex2.z));
 			}
+
+			osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
 
 			osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 			geometry->setName("creaseEdges");
-			geometry->setVertexArray(vertices);
+			geometry->setVertexArray(cachedVertexArray);
 			geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, vertices->size()));
 			geometry->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 			geometry->getOrCreateStateSet()->setMode(GL_BLEND, osg::StateAttribute::ON);
@@ -798,7 +855,7 @@ public:
 						for (size_t i_pointset_point = 0; i_pointset_point < pointset_data->points.size(); ++i_pointset_point)
 						{
 							vec3& carve_point = pointset_data->points[i_pointset_point];
-							vertices->push_back(osg::Vec3d(carve_point.x, carve_point.y, carve_point.z));
+							vertices->push_back(osg::Vec3f(carve_point.x, carve_point.y, carve_point.z));
 						}
 
 						osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
@@ -850,7 +907,7 @@ public:
 					std::string text_str;
 					text_str.assign(text_data->m_text.begin(), text_data->m_text.end());
 
-					osg::Vec3 pos2(text_pos._41, text_pos._42, text_pos._43);
+					osg::Vec3f pos2(text_pos._41, text_pos._42, text_pos._43);
 
 					osg::ref_ptr<osgText::Text> txt = new osgText::Text();
 					txt->setFont("fonts/arial.ttf");
@@ -1155,6 +1212,8 @@ public:
 		{
 			//parent_group->addChild(sw_objects_outside_spatial_structure);
 		}
+
+		std::cout << "num buffers: " << m_cache_vertices.size() << ", reused: " << m_numBuffersReused << std::endl;
 
 		if (errorStream.tellp() > 0)
 		{

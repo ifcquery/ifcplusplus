@@ -59,13 +59,13 @@ namespace carve {
 			vector_t min, max;
 			aabb<ndim> a = get_aabb<ndim, value_type>()(*begin);
 			++begin;
-			min = a.min();
-			max = a.max();
+			min = a.minPoint();
+			max = a.maxPoint();
 			while( begin != end ) {
 				a = get_aabb<ndim, value_type>()(*begin);
 				++begin;
-				assign_op(min, min, a.min(), carve::util::min_functor());
-				assign_op(max, max, a.max(), carve::util::max_functor());
+				assign_op(min, min, a.minPoint(), carve::util::min_functor());
+				assign_op(max, max, a.maxPoint(), carve::util::max_functor());
 			}
 
 			pos = (min + max) / 2.0;
@@ -96,13 +96,13 @@ namespace carve {
 
 			vector_t min, max;
 			aabb<ndim> a = *begin++;
-			min = a.min();
-			max = a.max();
+			min = a.minPoint();
+			max = a.maxPoint();
 			while( begin != end ) {
 				aabb<ndim> a = *begin;
 				++begin;
-				assign_op(min, min, a.min(), carve::util::min_functor());
-				assign_op(max, max, a.max(), carve::util::max_functor());
+				assign_op(min, min, a.minPoint(), carve::util::min_functor());
+				assign_op(max, max, a.maxPoint(), carve::util::max_functor());
 			}
 
 			pos = (min + max) / 2.0;
@@ -165,8 +165,8 @@ namespace carve {
 		void aabb<ndim>::unionAABB(const aabb<ndim>& a) {
 			vector_t vmin, vmax;
 
-			assign_op(vmin, min(), a.min(), carve::util::min_functor());
-			assign_op(vmax, max(), a.max(), carve::util::max_functor());
+			assign_op(vmin, minPoint(), a.minPoint(), carve::util::min_functor());
+			assign_op(vmax, maxPoint(), a.maxPoint(), carve::util::max_functor());
 			pos = (vmin + vmax) / 2.0;
 			assign_op(extent, vmax - pos, pos - vmin, carve::util::max_functor());
 		}
@@ -252,34 +252,34 @@ namespace carve {
 		}
 
 		template <unsigned ndim>
-		typename aabb<ndim>::vector_t aabb<ndim>::min() const {
+		typename aabb<ndim>::vector_t aabb<ndim>::minPoint() const {
 			return pos - extent;
 		}
 
 		template <unsigned ndim>
-		typename aabb<ndim>::vector_t aabb<ndim>::mid() const {
+		typename aabb<ndim>::vector_t aabb<ndim>::midPoint() const {
 			return pos;
 		}
 
 		template <unsigned ndim>
-		typename aabb<ndim>::vector_t aabb<ndim>::max() const {
+		typename aabb<ndim>::vector_t aabb<ndim>::maxPoint() const {
 			return pos + extent;
 		}
 
 		template <unsigned ndim>
-		double aabb<ndim>::min(size_t dim) const
+		double aabb<ndim>::minCoordinateInDimension(size_t dim) const
 		{
 			return pos.v[dim] - extent.v[dim];
 		}
 
 		template <unsigned ndim>
-		double aabb<ndim>::mid(size_t dim) const
+		double aabb<ndim>::midCoordinateInDimension(size_t dim) const
 		{
 			return pos.v[dim];
 		}
 
 		template <unsigned ndim>
-		double aabb<ndim>::max(size_t dim) const
+		double aabb<ndim>::maxDimension(size_t dim) const
 		{
 			return pos.v[dim] + extent.v[dim];
 		}

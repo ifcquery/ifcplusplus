@@ -31,12 +31,12 @@ size_t MeshOps::getNumFaces(const carve::mesh::MeshSet<3>* meshset)
 	return num_faces;
 }
 
-void MeshOps::recalcMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshset, double CARVE_EPSILON)
+void MeshOps::recalcMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshset, double eps)
 {
 	for (auto mesh : meshset->meshes)
 	{
 		mesh->cacheEdges();
-		mesh->recalc(CARVE_EPSILON);
+		mesh->recalc(eps);
 	}
 }
 
@@ -407,73 +407,179 @@ bool isBetterForExport(MeshSetInfo infoTriangulated, MeshSetInfo infoBefore)
 	return false;
 }
 
-void MeshOps::checkAndFixMeshsetInverted(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, MeshSetInfo& info, const GeomProcessingParams& params)
+void MeshOps::checkAndFixMeshsetInverted( shared_ptr<carve::mesh::MeshSet<3>>& meshset, MeshSetInfo& info, const GeomProcessingParams& params)
 {
-	for (size_t kk = 0; kk < meshset->meshes.size(); ++kk)
+	// this approach is maybe too simple: get highest and lowest face in x/y/z, then check if normal vector points in the same direction
+	// we can definitely not rely on meshset->is_negative
+	carve::mesh::Face<3>* minXFace = nullptr;
+	carve::mesh::Face<3>* maxXFace = nullptr;
+	carve::mesh::Face<3>* minYFace = nullptr;
+	carve::mesh::Face<3>* maxYFace = nullptr;
+	carve::mesh::Face<3>* minZFace = nullptr;
+	carve::mesh::Face<3>* maxZFace = nullptr;
+	double minX = DBL_MAX;
+	double maxX = -DBL_MAX;
+	double minY = DBL_MAX;
+	double maxY = -DBL_MAX;
+	double minZ = DBL_MAX;
+	double maxZ = -DBL_MAX;
+	for (size_t ii = 0; ii < meshset->meshes.size(); ++ii)
 	{
-		carve::mesh::Mesh<3>* mesh = meshset->meshes[kk];
+		carve::mesh::Mesh<3>* mesh = meshset->meshes[ii];
+		size_t numOutwardNormals = 0;
+		size_t numInwardNormals = 0;
+		size_t numFaces = mesh->faces.size();
 
-		for (size_t jj = 0; jj < mesh->faces.size(); ++jj)
+		for (size_t jj = 0; jj < numFaces; ++jj)
 		{
-			carve::mesh::Face<3>* inputFace = mesh->faces[jj];
-			if (inputFace == nullptr)
+			carve::mesh::Face<3>* face = mesh->faces[jj];
+			if (face == nullptr)
 			{
 				continue;
 			}
-			vec3 faceCentroid = inputFace->centroid();
-			vec3 faceNormal = inputFace->computeNormal(params.epsMergePoints);
-			
-			// intersect other triangles
-			carve::geom3d::Vector v2 = faceCentroid + faceNormal * 10000.0;
-			carve::geom3d::LineSegment line(faceCentroid, v2);
-			carve::geom3d::Vector intersection;
-			size_t numIntersections = 0;
-			for (size_t ii = 1; ii < mesh->faces.size(); ++ii)
+			vec3 faceCentroid = face->centroid();
+			if (faceCentroid.x < minX)
 			{
-				carve::mesh::Face<3>* intersectFace = mesh->faces[ii];
-				if (intersectFace == nullptr)
-				{
-					continue;
-				}
-
-				carve::IntersectionClass intersectionType = intersectFace->lineSegmentIntersection(line, intersection, params.epsMergePoints);
-				switch (intersectionType)
-				{
-				case carve::IntersectionClass::INTERSECT_FACE:
-				case carve::IntersectionClass::INTERSECT_VERTEX:
-				case carve::IntersectionClass::INTERSECT_EDGE: {
-					++numIntersections;
-					break;
-				}
-				case carve::IntersectionClass::INTERSECT_NONE: {
-					break;
-				}
-				default: {
-					break;
-				}
-				}
+				minX = faceCentroid.x;
+				minXFace = face;
 			}
 
-			if (numIntersections % 2 == 0)
+			if (faceCentroid.z > maxX)
 			{
-				// ok
+				maxX = faceCentroid.x;
+				maxXFace = face;
+			}
+
+			if (faceCentroid.y < minY)
+			{
+				minY = faceCentroid.y;
+				minYFace = face;
+			}
+
+			if (faceCentroid.y > maxY)
+			{
+				maxY = faceCentroid.y;
+				maxYFace = face;
+			}
+
+			if (faceCentroid.z < minZ)
+			{
+				minZ = faceCentroid.z;
+				minZFace = face;
+			}
+
+			if (faceCentroid.z > maxZ)
+			{
+				maxZ = faceCentroid.z;
+				maxZFace = face;
+			}
+		}
+	}
+
+	size_t countWindingProbablyCorrect = 0;
+	size_t countWindingProbablyInCorrect = 0;
+	if (minXFace)
+	{
+		vec3 faceNormal = minXFace->computeNormal(params.epsMergePoints);
+		if (faceNormal.x < 0) ++countWindingProbablyCorrect;
+		else ++countWindingProbablyInCorrect;
+	}
+
+	if (maxXFace)
+	{
+		vec3 faceNormal = maxXFace->computeNormal(params.epsMergePoints);
+		if (faceNormal.x > 0) ++countWindingProbablyCorrect;
+		else ++countWindingProbablyInCorrect;
+	}
+
+	if (minYFace)
+	{
+		vec3 faceNormal = minYFace->computeNormal(params.epsMergePoints);
+		if (faceNormal.y < 0) ++countWindingProbablyCorrect;
+		else ++countWindingProbablyInCorrect;
+	}
+
+	if (maxYFace)
+	{
+		vec3 faceNormal = maxYFace->computeNormal(params.epsMergePoints);
+		if (faceNormal.y > 0) ++countWindingProbablyCorrect;
+		else ++countWindingProbablyInCorrect;
+	}
+
+	if (minZFace)
+	{
+		vec3 faceNormal = minZFace->computeNormal(params.epsMergePoints);
+		if (faceNormal.z < 0) ++countWindingProbablyCorrect;
+		else ++countWindingProbablyInCorrect;
+	}
+
+	if (maxZFace)
+	{
+		vec3 faceNormal = maxZFace->computeNormal(params.epsMergePoints);
+		if (faceNormal.z > 0) ++countWindingProbablyCorrect;
+		else ++countWindingProbablyInCorrect;
+	}
+
+	if (countWindingProbablyCorrect > countWindingProbablyInCorrect)
+	{
+		return;
+	}
+
+			
+	{
+		std::set<const carve::mesh::Face<3>* > setSkipFaces;
+		std::set<const carve::mesh::Face<3>* > setFlipFaces;
+		PolyInputCache3D polyInput(params.epsMergePoints);
+		polyhedronFromMeshSet(meshset, setSkipFaces, setFlipFaces, polyInput);
+
+		std::map<std::string, std::string> mesh_input_options;
+		std::string details;
+		bool correct = checkPolyhedronData(polyInput.m_poly_data, params, details);
+		if (!correct)
+		{
+			fixPolyhedronData(polyInput.m_poly_data, params);
+			std::string details2;
+			correct = checkPolyhedronData(polyInput.m_poly_data, params, details2);
+		}
+
+		bool invertDone = false;
+		if (correct)
+		{
+			reverseFacesInPolyhedronData(polyInput.m_poly_data);
+			bool correct = checkPolyhedronData(polyInput.m_poly_data, params, details);
+			if (!correct)
+			{
+				fixPolyhedronData(polyInput.m_poly_data, params);
+				std::string details2;
+				correct = checkPolyhedronData(polyInput.m_poly_data, params, details2);
+			}
+
+			MeshSetInfo infoInput;
+			MeshOps::checkMeshSetValidAndClosed(meshset, infoInput, params);
+
+			shared_ptr<carve::mesh::MeshSet<3> > meshsetFromPolyhedron(polyInput.m_poly_data->createMesh(mesh_input_options, params.epsMergePoints));
+			MeshSetInfo infoFlippedFaces;
+			MeshOps::checkMeshSetValidAndClosed(meshsetFromPolyhedron, infoFlippedFaces, params);
+
+			if (MeshOps::isBetterForBoolOp(infoFlippedFaces, infoInput, true))
+			{
+				meshset = meshsetFromPolyhedron;
+				invertDone = true;
 			}
 			else
 			{
-#ifdef _DEBUG
-				if (numIntersections > 0)
+				// could be same and valid, so ok
+				if (infoFlippedFaces.meshSetValid)
 				{
-					glm::vec4 color(0.5, 0.5, 0.5, 1);
-					GeomDebugDump::stopBuffering();
-					GeomDebugDump::moveOffset(0.15);
-					bool drawNormals = true;
-					GeomDebugDump::dumpMeshset(meshset, color, drawNormals, true);
+					meshset = meshsetFromPolyhedron;
+					invertDone = true;
 				}
-#endif
-
-				mesh->invert();
 			}
-			break;
+		}
+
+		if (!invertDone)
+		{
+			meshset->invert();
 		}
 	}
 }
@@ -1535,7 +1641,7 @@ void flipFacesOnOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, const Ge
 
 	std::set<const carve::mesh::Face<3>* > setSkipFaces;
 	PolyInputCache3D polyInput(params.epsMergePoints);
-	polyhedronFromMeshSet(meshset, setSkipFaces, setFlipFaces, polyInput);
+	MeshOps::polyhedronFromMeshSet(meshset, setSkipFaces, setFlipFaces, polyInput);
 
 	std::map<std::string, std::string> mesh_input_options;
 	std::string details;
@@ -1587,6 +1693,11 @@ public:
 		for (carve::mesh::Edge<3>* checkEdge : setEdgesFromStartVertex)
 		{
 			if (!checkEdge)
+			{
+				continue;
+			}
+			
+			if (!checkEdge->vert)
 			{
 				continue;
 			}
@@ -1703,6 +1814,8 @@ public:
 
 	void findLoops()
 	{
+		return;
+
 		for (size_t ii = 0; ii < m_mapVertexOpenEdges.size(); ++ii)
 		{
 			// try to find closed loop of open edges
@@ -2745,7 +2858,7 @@ void MeshOps::flattenFacePlanes(shared_ptr<carve::mesh::MeshSet<3> >& op1, share
 								const carve::geom3d::Plane& plane = biggerFace->plane;
 								const vec3& rayPoint1 = vert->v;
 								vec3 rayPoint2 = rayPoint1 + plane.N;
-								//                                        const Plane& p, const Vector& v1, const Vector& v2, Vector& v, double& t, double CARVE_EPSILON)
+								//                                        const Plane& p, const Vector& v1, const Vector& v2, Vector& v, double& t, double eps)
 								carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection(plane, rayPoint1, rayPoint2, v, t, params.epsMergePoints);
 								if (intersect > 0)
 								{
@@ -3072,7 +3185,7 @@ void MeshOps::intersectOpenEdgesWithEdges(shared_ptr<carve::mesh::MeshSet<3> >& 
 	size_t maxNumFaces = 600;
 	size_t maxNumEdges = 600;
 	size_t maxNumOpenEdges = 100;
-	double CARVE_EPSILON = params.epsMergePoints;
+	double eps = params.epsMergePoints;
 
 #ifdef _DEBUG
 	glm::vec4 color(0.5, 0.6, 0.7, 1.0);
@@ -3243,7 +3356,7 @@ void MeshOps::intersectOpenEdgesWithEdges(shared_ptr<carve::mesh::MeshSet<3> >& 
 				return;
 			}
 
-			shared_ptr<carve::mesh::MeshSet<3> > meshsetNew(polyInput.m_poly_data->createMesh(carve::input::opts(), CARVE_EPSILON));
+			shared_ptr<carve::mesh::MeshSet<3> > meshsetNew(polyInput.m_poly_data->createMesh(carve::input::opts(), eps));
 			if (meshsetNew->isClosed())
 			{
 				meshset = meshsetNew;
@@ -3288,7 +3401,7 @@ void MeshOps::intersectOpenEdgesWithEdges(shared_ptr<carve::mesh::MeshSet<3> >& 
 	}
 }
 
-void MeshOps::boundingBox2Mesh(const carve::geom::aabb<3>& bbox, shared_ptr<carve::mesh::MeshSet<3> >& meshset, double CARVE_EPSILON)
+void MeshOps::boundingBox2Mesh(const carve::geom::aabb<3>& bbox, shared_ptr<carve::mesh::MeshSet<3> >& meshset, double eps)
 {
 	double minX = bbox.pos.x - bbox.extent.x;
 	double maxX = bbox.pos.x + bbox.extent.x;
@@ -3323,21 +3436,21 @@ void MeshOps::boundingBox2Mesh(const carve::geom::aabb<3>& bbox, shared_ptr<carv
 	polyhedron_data->addFace(3, 7, 4);
 	polyhedron_data->addFace(4, 0, 3);
 
-	meshset = shared_ptr<carve::mesh::MeshSet<3> >(polyhedron_data->createMesh(carve::input::opts(), CARVE_EPSILON));
+	meshset = shared_ptr<carve::mesh::MeshSet<3> >(polyhedron_data->createMesh(carve::input::opts(), eps));
 }
 
-std::shared_ptr<carve::mesh::MeshSet<3> > MeshOps::createPlaneMesh(vec3& p0, vec3& p1, vec3& p2, double CARVE_EPSILON)
+std::shared_ptr<carve::mesh::MeshSet<3> > MeshOps::createPlaneMesh(vec3& p0, vec3& p1, vec3& p2, double eps)
 {
 	carve::input::PolyhedronData polyhedron_data;
 	polyhedron_data.addVertex(p0);
 	polyhedron_data.addVertex(p1);
 	polyhedron_data.addVertex(p2);
 	polyhedron_data.addFace(0, 1, 2);
-	std::shared_ptr<carve::mesh::MeshSet<3> > mesh(polyhedron_data.createMesh(carve::input::opts(), CARVE_EPSILON));
+	std::shared_ptr<carve::mesh::MeshSet<3> > mesh(polyhedron_data.createMesh(carve::input::opts(), eps));
 	return mesh;
 }
 
-std::shared_ptr<carve::mesh::MeshSet<3> > MeshOps::createPlaneMesh(vec3& p0, vec3& p1, vec3& p2, vec3& p3, double CARVE_EPSILON)
+std::shared_ptr<carve::mesh::MeshSet<3> > MeshOps::createPlaneMesh(vec3& p0, vec3& p1, vec3& p2, vec3& p3, double eps)
 {
 	carve::input::PolyhedronData polyhedron_data;
 	polyhedron_data.addVertex(p0);
@@ -3347,11 +3460,11 @@ std::shared_ptr<carve::mesh::MeshSet<3> > MeshOps::createPlaneMesh(vec3& p0, vec
 
 	polyhedron_data.addFace(0, 1, 2, 3);
 	//polyhedron_data.addFace(2, 3, 0);
-	std::shared_ptr<carve::mesh::MeshSet<3> > mesh(polyhedron_data.createMesh(carve::input::opts(), CARVE_EPSILON));
+	std::shared_ptr<carve::mesh::MeshSet<3> > mesh(polyhedron_data.createMesh(carve::input::opts(), eps));
 	return mesh;
 }
 
-std::shared_ptr<carve::mesh::MeshSet<3> > MeshOps::createBoxMesh(vec3& pos, vec3& extent, carve::math::Matrix& transform, double CARVE_EPSILON)
+std::shared_ptr<carve::mesh::MeshSet<3> > MeshOps::createBoxMesh(vec3& pos, vec3& extent, carve::math::Matrix& transform, double eps)
 {
 	carve::input::PolyhedronData polyhedron_data;
 	polyhedron_data.addVertex(transform * (pos + carve::geom::VECTOR(extent.x, extent.y, -extent.z)));
@@ -3377,7 +3490,7 @@ std::shared_ptr<carve::mesh::MeshSet<3> > MeshOps::createBoxMesh(vec3& pos, vec3
 	polyhedron_data.addFace(3, 7, 4);
 	polyhedron_data.addFace(4, 0, 3);
 
-	std::shared_ptr<carve::mesh::MeshSet<3> > mesh(polyhedron_data.createMesh(carve::input::opts(), CARVE_EPSILON));
+	std::shared_ptr<carve::mesh::MeshSet<3> > mesh(polyhedron_data.createMesh(carve::input::opts(), eps));
 	return mesh;
 }
 
@@ -3733,6 +3846,146 @@ void MeshOps::polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& m
 				}
 				polyInput.m_poly_data->addFace(vecPointIndexes.begin(), vecPointIndexes.end());
 			}
+		}
+	}
+}
+
+void MeshOps::polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::set<const carve::mesh::Face<3>* >& setSkipFaces, const std::set<const carve::mesh::Face<3>* >& setFlipFaces, PolyInputCache3D& polyInput)
+{
+	for (size_t ii = 0; ii < meshset->meshes.size(); ++ii)
+	{
+		carve::mesh::Mesh<3>* mesh = meshset->meshes[ii];
+
+		for (size_t jj = 0; jj < mesh->faces.size(); ++jj)
+		{
+			carve::mesh::Face<3>* face = mesh->faces[jj];
+
+			if (setSkipFaces.find(face) != setSkipFaces.end())
+			{
+				continue;
+			}
+
+			carve::mesh::Edge<3>* edge = face->edge;
+			if (edge)
+			{
+				std::vector<int> vecPointIndexes;
+				size_t maxNumEdges = 1000;
+				for (size_t kk = 0; kk < face->n_edges; ++kk)
+				{
+					vec3& edgeEndPoint = edge->v2()->v;
+					int idx = polyInput.addPoint(edgeEndPoint);
+					vecPointIndexes.push_back(idx);
+
+					edge = edge->next;
+					if (edge == face->edge)
+					{
+						break;
+					}
+				}
+				if (vecPointIndexes.size() < 3)
+				{
+#ifdef _DEBUG
+					std::cout << "face with < 3 edges" << std::endl;
+#endif
+					continue;
+				}
+
+				// TODO: fix polyline, detect overlapping edges
+				if (setFlipFaces.find(face) != setFlipFaces.end())
+				{
+					polyInput.m_poly_data->addFace(vecPointIndexes.rbegin(), vecPointIndexes.rend());
+				}
+				else
+				{
+					polyInput.m_poly_data->addFace(vecPointIndexes.begin(), vecPointIndexes.end());
+				}
+			}
+		}
+	}
+}
+
+void MeshOps::polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::set<const carve::mesh::Face<3>* >& setSkipFaces, PolyInputCache3D& polyInput)
+{
+	for (size_t ii = 0; ii < meshset->meshes.size(); ++ii)
+	{
+		carve::mesh::Mesh<3>* mesh = meshset->meshes[ii];
+
+		for (size_t jj = 0; jj < mesh->faces.size(); ++jj)
+		{
+			carve::mesh::Face<3>* face = mesh->faces[jj];
+
+			if (setSkipFaces.find(face) != setSkipFaces.end())
+			{
+				continue;
+			}
+
+			carve::mesh::Edge<3>* edge = face->edge;
+			if (edge)
+			{
+				std::vector<int> vecPointIndexes;
+				size_t maxNumEdges = 1000;
+				for (size_t kk = 0; kk < face->n_edges; ++kk)
+				{
+					vec3& edgeEndPoint = edge->v2()->v;
+					int idx = polyInput.addPoint(edgeEndPoint);
+					vecPointIndexes.push_back(idx);
+
+					edge = edge->next;
+					if (edge == face->edge)
+					{
+						if (kk != face->n_edges - 1)
+						{
+							std::cout << "kk != face->n_edges - 1" << std::endl;
+						}
+						break;
+					}
+				}
+				if (vecPointIndexes.size() < 3)
+				{
+#ifdef _DEBUG
+					std::cout << "face with < 3 edges" << std::endl;
+#endif
+					continue;
+				}
+
+				// TODO: fix polyline, detect overlapping edges
+
+				polyInput.m_poly_data->addFace(vecPointIndexes.begin(), vecPointIndexes.end());
+			}
+		}
+	}
+}
+
+void MeshOps::polyhedronFromMesh(const carve::mesh::Mesh<3>* mesh, PolyInputCache3D& polyInput)
+{
+	for (size_t jj = 0; jj < mesh->faces.size(); ++jj)
+	{
+		carve::mesh::Face<3>* face = mesh->faces[jj];
+		carve::mesh::Edge<3>* edge = face->edge;
+		if (edge)
+		{
+			std::vector<int> vecPointIndexes;
+			size_t maxNumEdges = 1000;
+			for (size_t kk = 0; kk < face->n_edges; ++kk)
+			{
+				vec3& edgeEndPoint = edge->v2()->v;
+				int idx = polyInput.addPoint(edgeEndPoint);
+				vecPointIndexes.push_back(idx);
+
+				edge = edge->next;
+				if (edge == face->edge)
+				{
+					break;
+				}
+			}
+			if (vecPointIndexes.size() < 3)
+			{
+#ifdef _DEBUG
+				std::cout << "face with < 3 edges" << std::endl;
+#endif
+				continue;
+			}
+			polyInput.m_poly_data->addFace(vecPointIndexes.begin(), vecPointIndexes.end());
 		}
 	}
 }

@@ -812,6 +812,18 @@ public:
 						}
 						++guid_append;
 					}
+
+					// save "fixed" (at least unique) GUID
+					product_geom_input_data->m_entity_guid = guid;
+					if (!product_geom_input_data->m_ifc_object_definition.expired())
+					{
+						shared_ptr<IfcObjectDefinition> ifc_object_def(product_geom_input_data->m_ifc_object_definition);
+
+						if (ifc_object_def->m_GlobalId)
+						{
+							ifc_object_def->m_GlobalId->m_value = guid;
+						}
+					}
 				}
 
 				if (m_convertDirectlyToBuffer)

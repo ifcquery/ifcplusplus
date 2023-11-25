@@ -498,11 +498,6 @@ public:
 	std::map<double, std::map<double, std::map<double, size_t> > > m_existing_vertices_coords;
 };
 
-void polyhedronFromMesh(const carve::mesh::Mesh<3>* mesh, PolyInputCache3D& polyInput);
-void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, PolyInputCache3D& polyInput);
-void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::set<const carve::mesh::Face<3>* >& setSkipFaces, PolyInputCache3D& polyInput);
-void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::set<const carve::mesh::Face<3>* >& setSkipFaces, const std::set<const carve::mesh::Face<3>* >& setFlipFaces, PolyInputCache3D& polyInput);
-
 class ProductShapeData;
 
 class ItemShapeData
@@ -626,7 +621,7 @@ public:
 		}
 	}
 
-	void applyTransformToItem(const carve::math::Matrix& mat, double CARVE_EPSILON, bool matrix_identity_checked)
+	void applyTransformToItem(const carve::math::Matrix& mat, double eps, bool matrix_identity_checked)
 	{
 		if (!matrix_identity_checked)
 		{
@@ -678,7 +673,7 @@ public:
 			}
 			for (size_t i = 0; i < item_meshset->meshes.size(); ++i)
 			{
-				item_meshset->meshes[i]->recalc(CARVE_EPSILON);
+				item_meshset->meshes[i]->recalc(eps);
 				if (invert_meshes)
 				{
 					item_meshset->meshes[i]->invert();
@@ -701,7 +696,7 @@ public:
 			}
 			for (size_t i = 0; i < item_meshset->meshes.size(); ++i)
 			{
-				item_meshset->meshes[i]->recalc(CARVE_EPSILON);
+				item_meshset->meshes[i]->recalc(eps);
 				if (invert_meshes)
 				{
 					item_meshset->meshes[i]->invert();
@@ -719,7 +714,7 @@ public:
 
 		for (auto child : m_child_items)
 		{
-			child->applyTransformToItem(mat, CARVE_EPSILON, matrix_identity_checked);
+			child->applyTransformToItem(mat, eps, matrix_identity_checked);
 		}
 	}
 

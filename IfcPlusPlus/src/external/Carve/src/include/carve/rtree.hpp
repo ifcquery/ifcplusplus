@@ -200,10 +200,10 @@ namespace carve {
 				aabb_cmp_mid(size_t _dim) : dim(_dim) {}
 
 				bool operator()(const node_t* a, const node_t* b) {
-					return a->bbox.mid(dim) < b->bbox.mid(dim);
+					return a->bbox.midCoordinateInDimension(dim) < b->bbox.midCoordinateInDimension(dim);
 				}
 				bool operator()(const data_aabb_t& a, const data_aabb_t& b) {
-					return a.bbox.mid(dim) < b.bbox.mid(dim);
+					return a.bbox.midCoordinateInDimension(dim) < b.bbox.midCoordinateInDimension(dim);
 				}
 			};
 
@@ -238,17 +238,17 @@ namespace carve {
 				size_t dim;
 				aabb_extent(size_t _dim) : dim(_dim) {}
 
-				double min(const node_t* a) {
+				double minCoordinate(const node_t* a) {
 					return a->bbox.pos.v[dim] - a->bbox.extent.v[dim];
 				}
-				double max(const node_t* a) {
+				double maxCoordinate(const node_t* a) {
 					return a->bbox.pos.v[dim] + a->bbox.extent.v[dim];
 				}
 				double len(const node_t* a) { return 2.0 * a->bbox.extent.v[dim]; }
-				double min(const data_aabb_t& a) {
+				double minCoordinate(const data_aabb_t& a) {
 					return a.bbox.pos.v[dim] - a.bbox.extent.v[dim];
 				}
-				double max(const data_aabb_t& a) {
+				double maxCoordinate(const data_aabb_t& a) {
 					return a.bbox.pos.v[dim] + a.bbox.extent.v[dim];
 				}
 				double len(const data_aabb_t& a) { return 2.0 * a.bbox.extent.v[dim]; }
@@ -272,12 +272,12 @@ namespace carve {
 					aabb_extent extent(i);
 					double dmin, dmax, dsum;
 
-					dmin = extent.min(*begin);
-					dmax = extent.max(*begin);
+					dmin = extent.minCoordinate(*begin);
+					dmax = extent.maxCoordinate(*begin);
 					dsum = 0.0;
 					for (iter_t j = begin; j != end; ++j) {
-						dmin = std::min(dmin, extent.min(*j));
-						dmax = std::max(dmax, extent.max(*j));
+						dmin = std::min(dmin, extent.minCoordinate(*j));
+						dmax = std::max(dmax, extent.maxCoordinate(*j));
 						dsum += extent.len(*j);
 					}
 					double r = dsum ? dsum / (dmax - dmin) : 0.0;

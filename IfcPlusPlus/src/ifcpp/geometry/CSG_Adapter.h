@@ -48,7 +48,7 @@ public:
 			}
 
 			PolyInputCache3D polyInput1(params.epsMergePoints);
-			polyhedronFromMesh(meshToMerge, polyInput1);
+			MeshOps::polyhedronFromMesh(meshToMerge, polyInput1);
 
 			std::map<std::string, std::string> mesh_input_options;
 			shared_ptr<carve::mesh::MeshSet<3> > currentMeshAsMeshset(polyInput1.m_poly_data->createMesh(mesh_input_options, params.epsMergePoints));
@@ -196,7 +196,7 @@ public:
 		{
 			epsDefault = 1.5 * EPS_M8;
 			geomSettingsLocal->setEpsilonMergePoints(epsDefault);
-			geomSettingsLocal->setMinTriangleArea(epsDefault*0.0001);
+			geomSettingsLocal->setMinTriangleArea(epsDefault*0.00001);
 		}
 		GeomProcessingParams paramsScaled(geomSettingsLocal, false);
 		
@@ -286,7 +286,7 @@ public:
 
 			if (csg_compute_count > 0 )
 			{
-				//if (804826 == tag || !infoInputA.meshSetValid)
+				if (804826 == tag || !infoInputA.meshSetValid)
 				{
 					paramsScaled.debugDump = true;
 					MeshSetInfo infoMeshOp1;
@@ -480,7 +480,7 @@ public:
 
 #ifdef CSG_DEBUG
 				bool dumpMergedMeshes = false;
-				if (csg_compute_count == 12)
+				if (csg_compute_count == 12 && false)
 				{
 					paramsScaled.debugDump = true;
 					GeomDebugDump::moveOffset(0.2);
@@ -503,7 +503,7 @@ public:
 					operandB_dumped = false;
 					//dumpOperands(op1OuterMeshset, op2Meshset, result, tag, operandA_dumped, operandB_dumped, dumpColorSettings, paramsScaled);
 				}
-				if (csg_compute_count == 12)
+				if (csg_compute_count == 12 && false)
 				{
 					GeomDebugDump::moveOffset(0.2);
 					dumpWithLabel("computeCSG::op1", op1OuterMeshset, dumpColorSettings, params, true, false);

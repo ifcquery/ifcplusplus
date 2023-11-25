@@ -245,6 +245,11 @@ public:
 
 			MeshOps::assignIfBetterForBoolOp(meshset, meshsetInput, infoMergedFaces, infoInput, true, params, deepCopyMesh);
 
+			MeshOps::checkMeshSetValidAndClosed(meshset, infoMergedFaces, params);
+			MeshOps::checkAndFixMeshsetInverted(meshset, infoMergedFaces, params);
+
+			MeshOps::assignIfBetterForBoolOp(meshset, meshsetInput, infoMergedFaces, infoInput, true, params, deepCopyMesh);
+
 #ifdef _DEBUG
 			MeshSetInfo infoResult(report_callback, entity);
 			bool validResult = MeshOps::checkMeshSetValidAndClosed(meshsetInput, infoResult, params);
@@ -897,7 +902,9 @@ public:
 		}
 		catch (carve::exception& e)
 		{
+#ifdef _DEBUG
 			std::cout << "validateLoop failed: " << e.str();
+#endif
 		}
 
 		mesh->cacheEdges();
@@ -1195,7 +1202,7 @@ public:
 		if (setFacesRemove.size() > 0 || setEdgesRemove.size() > 0)
 		{
 			PolyInputCache3D polyInput(params.epsMergePoints);
-			polyhedronFromMeshSet(meshsetInput, setFacesRemove,  polyInput);
+			MeshOps::polyhedronFromMeshSet(meshsetInput, setFacesRemove,  polyInput);
 
 			int numFacesInput = infoInput.numFaces;
 			std::string details;
@@ -1212,7 +1219,7 @@ public:
 			MeshOps::checkMeshSetValidAndClosed(resultFromPolyhedron, info, params);
 			int numFacesPoly = info.numFaces;
 #ifdef _DEBUG
-			if (meshInputOk && !info.meshSetValid)
+			if (meshInputOk && !info.meshSetValid && false)
 			{
 				GeomDebugDump::DumpSettingsStruct dumpColorSettings;
 				GeomDebugDump::dumpWithLabel("removeDegenerateFacesInMeshSet--input", meshsetInput, dumpColorSettings, params, true, true);
@@ -1290,7 +1297,7 @@ public:
 		if (setFacesRemove.size() > 0)
 		{
 			PolyInputCache3D polyInput(params.epsMergePoints);
-			polyhedronFromMeshSet(meshset, setFacesRemove, polyInput);
+			MeshOps::polyhedronFromMeshSet(meshset, setFacesRemove, polyInput);
 
 			std::string details;
 			bool polyCorrect = checkPolyhedronData(polyInput.m_poly_data, params, details);

@@ -138,13 +138,13 @@ public:
 					m_curve_converter->convertIfcCurve( inner_boundary, inner_boundary_loop, segment_start_points, true );
 				}
 
-				double CARVE_EPSILON = m_geom_settings->getEpsilonMergePoints();
-				PolyInputCache3D poly_cache(CARVE_EPSILON);
+				double eps = m_geom_settings->getEpsilonMergePoints();
+				PolyInputCache3D poly_cache(eps);
 				bool mergeAlignedEdges = true;
 				GeomProcessingParams params( m_geom_settings, outer_boundary.get(),  this );
 				createTriangulated3DFace( face_loops, poly_cache, params );
 				item_data->addOpenPolyhedron( poly_cache.m_poly_data, params );
-				item_data->applyTransformToItem(curve_bounded_plane_transform->m_matrix, CARVE_EPSILON, false );
+				item_data->applyTransformToItem(curve_bounded_plane_transform->m_matrix, eps, false );
 			}
 			else if( dynamic_pointer_cast<IfcCurveBoundedSurface>( bounded_surface ) )
 			{
@@ -328,8 +328,8 @@ public:
 		{
 			return;
 		}
-		double CARVE_EPSILON = m_geom_settings->getEpsilonMergePoints();
-		PolyInputCache3D poly_cache(CARVE_EPSILON);
+		double eps = m_geom_settings->getEpsilonMergePoints();
+		PolyInputCache3D poly_cache(eps);
 		GeomProcessingParams params( m_geom_settings, nullptr,  this );
 		
 		for( size_t ii = 0; ii < vec_faces.size(); ++ii )
@@ -421,10 +421,10 @@ public:
 
 				//if( ii == 34 )
 				{
-					//PolyInputCache3D poly_cache_dump(CARVE_EPSILON);
+					//PolyInputCache3D poly_cache_dump(eps);
 					//createTriangulated3DFace(face_loops, poly_cache_dump, params);
 					//std::map<std::string, std::string> mesh_input_options;
-					//shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_cache_dump.m_poly_data->createMesh(mesh_input_options, CARVE_EPSILON));
+					//shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_cache_dump.m_poly_data->createMesh(mesh_input_options, eps));
 					//bool drawNormals = false;
 					//GeomDebugDump::dumpMeshset(meshset, color, drawNormals, false, false);
 				}
@@ -448,7 +448,7 @@ public:
 		}
 	}
 
-	static void addTriangleCheckDegenerate(int idxA, int idxB, int idxC, PolyInputCache3D& meshOut, double CARVE_EPSILON)
+	static void addTriangleCheckDegenerate(int idxA, int idxB, int idxC, PolyInputCache3D& meshOut, double eps)
 	{
 		if (idxA == idxB || idxA == idxC || idxB == idxC)
 		{
@@ -462,7 +462,7 @@ public:
 		const carve::geom::vector<3>& pointB = meshOut.m_poly_data->getVertex(idxB);
 		const carve::geom::vector<3>& pointC = meshOut.m_poly_data->getVertex(idxC);
 		double lengthAB = (pointB - pointA).length2();
-		if (lengthAB < CARVE_EPSILON * CARVE_EPSILON * 10)
+		if (lengthAB < eps * eps * 10)
 		{
 #ifdef _DEBUG
 			std::cout << "skipping degenerate triangle: " << idxA << "/" << idxB << "/" << idxC << std::endl;
@@ -471,7 +471,7 @@ public:
 		}
 
 		double lengthAC = (pointC - pointA).length2();
-		if (lengthAC < CARVE_EPSILON * CARVE_EPSILON * 10)
+		if (lengthAC < eps * eps * 10)
 		{
 #ifdef _DEBUG
 			std::cout << "skipping degenerate triangle: " << idxA << "/" << idxB << "/" << idxC << std::endl;
@@ -480,7 +480,7 @@ public:
 		}
 
 		double lengthBC = (pointC - pointB).length2();
-		if (lengthBC < CARVE_EPSILON * CARVE_EPSILON * 10)
+		if (lengthBC < eps * eps * 10)
 		{
 #ifdef _DEBUG
 			std::cout << "skipping degenerate triangle: " << idxA << "/" << idxB << "/" << idxC << std::endl;
@@ -491,7 +491,7 @@ public:
 		meshOut.m_poly_data->addFace(idxA, idxB, idxC);
 	}
 
-	static void addFaceCheckIndexes(int idxA, int idxB, int idxC, int idxD, PolyInputCache3D& meshOut, double CARVE_EPSILON)
+	static void addFaceCheckIndexes(int idxA, int idxB, int idxC, int idxD, PolyInputCache3D& meshOut, double eps)
 	{
 		std::set<int> setIndices = { idxA, idxB, idxC, idxD };
 
@@ -507,27 +507,27 @@ public:
 			return;
 		}
 
-		addTriangleCheckDegenerate(idxA, idxB, idxC, meshOut, CARVE_EPSILON);
-		addTriangleCheckDegenerate(idxA, idxC, idxD, meshOut, CARVE_EPSILON);
+		addTriangleCheckDegenerate(idxA, idxB, idxC, meshOut, eps);
+		addTriangleCheckDegenerate(idxA, idxC, idxD, meshOut, eps);
 	}
 
-	static void addFaceCheckIndexes(const vec3& v0, const vec3& v1, const vec3& v2, PolyInputCache3D& meshOut, double CARVE_EPSILON)
+	static void addFaceCheckIndexes(const vec3& v0, const vec3& v1, const vec3& v2, PolyInputCache3D& meshOut, double eps)
 	{
 		int idxA = meshOut.addPoint(v0);
 		int idxB = meshOut.addPoint(v1);
 		int idxC = meshOut.addPoint(v2);
-		addTriangleCheckDegenerate(idxA, idxB, idxC, meshOut, CARVE_EPSILON);
+		addTriangleCheckDegenerate(idxA, idxB, idxC, meshOut, eps);
 	}
 
-	static void addFaceCheckIndexes(const vec3& v0, const vec3& v1, const vec3& v2, const vec3& v3, PolyInputCache3D& meshOut, double CARVE_EPSILON)
+	static void addFaceCheckIndexes(const vec3& v0, const vec3& v1, const vec3& v2, const vec3& v3, PolyInputCache3D& meshOut, double eps)
 	{
 		int idxA = meshOut.addPoint(v0);
 		int idxB = meshOut.addPoint(v1);
 		int idxC = meshOut.addPoint(v2);
 		int idxD = meshOut.addPoint(v3);
 
-		addTriangleCheckDegenerate(idxA, idxB, idxC, meshOut, CARVE_EPSILON);
-		addTriangleCheckDegenerate(idxA, idxC, idxD, meshOut, CARVE_EPSILON);
+		addTriangleCheckDegenerate(idxA, idxB, idxC, meshOut, eps);
+		addTriangleCheckDegenerate(idxA, idxC, idxD, meshOut, eps);
 	}
 
 	static void triangulateCurvedPolygon(std::vector<vec3>& loopPoints3D, PolyInputCache3D& meshOut, const GeomProcessingParams& params, double maxAllowedDistanceFromPlane)

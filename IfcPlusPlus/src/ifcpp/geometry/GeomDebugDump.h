@@ -680,7 +680,7 @@ namespace GeomDebugDump
 		}
 	}
 
-	static void Mesh2Stream(const carve::mesh::Mesh<3>* mesh, const vec3& offset, const glm::vec4& color, std::stringstream& strs_out, double CARVE_EPSILON, bool trianglesAndQuadsOnly = false)
+	static void Mesh2Stream(const carve::mesh::Mesh<3>* mesh, const vec3& offset, const glm::vec4& color, std::stringstream& strs_out, double eps, bool trianglesAndQuadsOnly = false)
 	{
 		if (!mesh)
 		{
@@ -694,7 +694,7 @@ namespace GeomDebugDump
 				return;
 			}
 		}
-		PolyInputCache3D poly_data(CARVE_EPSILON);
+		PolyInputCache3D poly_data(eps);
 
 		const std::vector<carve::mesh::Face<3>* >& vec_faces = mesh->faces;
 		for (size_t i_face = 0; i_face < vec_faces.size(); ++i_face)
@@ -764,7 +764,7 @@ namespace GeomDebugDump
 			}
 		}
 
-		shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data.m_poly_data->createMesh(carve::input::opts(), CARVE_EPSILON));
+		shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data.m_poly_data->createMesh(carve::input::opts(), eps));
 		MeshSet2Stream(meshset.get(), offset, color, strs_out, trianglesAndQuadsOnly);
 	}
 
@@ -1151,9 +1151,9 @@ namespace GeomDebugDump
 			if (checkZeroAreaFaces)
 			{
 				double faceArea = MeshOps::computeFaceArea(e->face);
-				if (std::abs(faceArea) < EPS_M6)
+				if (std::abs(faceArea) < EPS_M9)
 				{
-					std::cout << "faceArea) < EPS_M6 )" << std::endl;
+					std::cout << "faceArea) < EPS_M9 )" << std::endl;
 				}
 			}
 			std::vector<const carve::mesh::Face<3>* > vecFaces = { e->face };

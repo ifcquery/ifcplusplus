@@ -44,6 +44,7 @@ SET(IFCPPVIEWER_SOURCE_FILES
     src/cmd/CmdRemoveSelectedObjects.cpp
     src/cmd/Command.cpp
     src/cmd/CommandManager.cpp
+	src/gui/EntityAttributeWidget.cpp
     src/gui/IfcTreeWidget.cpp
     src/gui/MainWindow.cpp
     src/gui/TabReadWrite.cpp
@@ -57,6 +58,7 @@ SET(IFCPPVIEWER_SOURCE_FILES
 
 SET(IFCPPVIEWER_MOC_FILES
     src/IfcPlusPlusSystem.h
+	src/gui/EntityAttributeWidget.h
     src/gui/IfcTreeWidget.h
     src/gui/MainWindow.h
     src/gui/TabReadWrite.h

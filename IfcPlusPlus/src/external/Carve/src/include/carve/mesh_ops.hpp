@@ -831,15 +831,15 @@ namespace carve {
 <?xml version=\"1.0\"?>\n\
 <!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n\
 <svg\n\
-  x=\"" << A.min().x
-						<< "px\" y=\"" << A.min().y << "\"\n\
+  x=\"" << A.minPoint().x
+						<< "px\" y=\"" << A.minPoint().y << "\"\n\
   width=\""
 						<< A.extent.x * 2 << "\" height=\"" << A.extent.y * 2 << "\"\n\
   viewBox=\""
-						<< A.min().x << " " << A.min().y << " " << A.max().x << " " << A.max().y
+						<< A.minPoint().x << " " << A.minPoint().y << " " << A.maxPoint().x << " " << A.maxPoint().y
 						<< "\"\n\
   enable-background=\"new "
-						<< A.min().x << " " << A.min().y << " " << A.max().x << " " << A.max().y
+						<< A.minPoint().x << " " << A.minPoint().y << " " << A.maxPoint().x << " " << A.maxPoint().y
 						<< "\"\n\
   xml:space=\"preserve\">\n";
 

@@ -189,7 +189,7 @@ public:
 
 		shared_ptr<IfcCurve> ifc_curve = profile->m_Curve;
 		const shared_ptr<UnitConverter>& uc = m_curve_converter->getPointConverter()->getUnitConverter();
-		double CARVE_EPSILON = m_curve_converter->getGeomSettings()->getEpsilonMergePoints();
+		double eps = m_curve_converter->getGeomSettings()->getEpsilonMergePoints();
 
 		// IfcCenterLineProfileDef
 		shared_ptr<IfcCenterLineProfileDef> center_line_profile_def = dynamic_pointer_cast<IfcCenterLineProfileDef>( profile );
@@ -245,7 +245,7 @@ public:
 					}
 
 					vec3 bisecting_normal;
-					GeomUtils::bisectingPlane( vertex_before, vertex_current, vertex_next, bisecting_normal, CARVE_EPSILON );
+					GeomUtils::bisectingPlane( vertex_before, vertex_current, vertex_next, bisecting_normal, eps );
 
 					if( ii == num_base_points - 1 )
 					{

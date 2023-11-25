@@ -255,8 +255,8 @@ public:
 				if( map_matrix_origin && map_matrix_target )
 				{
 					carve::math::Matrix mapped_pos(map_matrix_target->m_matrix*map_matrix_origin->m_matrix);
-					double CARVE_EPSILON = m_geom_settings->getEpsilonMergePoints();
-					mapped_input_data->applyTransformToItem(mapped_pos, CARVE_EPSILON, false);
+					double eps = m_geom_settings->getEpsilonMergePoints();
+					mapped_input_data->applyTransformToItem(mapped_pos, eps, false);
 				}
 				representation_data->addGeometricChildItem( mapped_input_data, representation_data );
 				continue;
@@ -427,7 +427,7 @@ public:
 			return;
 		}
 
-		double CARVE_EPSILON = m_geom_settings->getEpsilonMergePoints();
+		double eps = m_geom_settings->getEpsilonMergePoints();
 		GeomProcessingParams params(m_geom_settings, geom_item.get(), this);
 
 		shared_ptr<IfcTessellatedItem> tessellatedItem = dynamic_pointer_cast<IfcTessellatedItem>(geom_item);
@@ -637,7 +637,7 @@ public:
 		}
 
 		GeomProcessingParams params(m_geom_settings, topological_item.get(), this);
-		double CARVE_EPSILON = m_geom_settings->getEpsilonMergePoints();
+		double eps = m_geom_settings->getEpsilonMergePoints();
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		const shared_ptr<IfcEdge> topo_edge = dynamic_pointer_cast<IfcEdge>( topological_item );
 		if( topo_edge )
@@ -668,7 +668,7 @@ public:
 		{
 			// ENTITY IfcFace SUPERTYPE OF( IfcFaceSurface )
 
-			PolyInputCache3D poly_cache_top_face(CARVE_EPSILON);
+			PolyInputCache3D poly_cache_top_face(eps);
 			//shared_ptr<IfcFaceSurface> topo_face_surface = dynamic_pointer_cast<IfcFaceSurface>( topo_face );
 			//if( topo_face_surface )
 			//{

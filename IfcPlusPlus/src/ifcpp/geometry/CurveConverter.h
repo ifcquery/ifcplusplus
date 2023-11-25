@@ -587,7 +587,7 @@ public:
 						vec3 closest_point_on_line;
 						GeomUtils::closestPointOnLine(trim_point, line_origin, line_direction, closest_point_on_line);
 
-						if ((closest_point_on_line - trim_point).length() < 0.0001)
+						if ((closest_point_on_line - trim_point).length() < epsilonMergePoints *10.0)
 						{
 							// trimming point is on the line
 							line_origin = trim_point;
@@ -1023,7 +1023,7 @@ public:
 		if (poly_loop)
 		{
 			const std::vector<shared_ptr<IfcCartesianPoint> >& ifc_points = poly_loop->m_Polygon;
-			m_point_converter->convertIfcCartesianPointVectorSkipDuplicates(ifc_points, loop_points);
+			m_point_converter->convertIfcCartesianPointVectorSkipDuplicates(ifc_points, loop_points, eps);
 
 			GeomUtils::unClosePolygon(loop_points, eps );
 			return;

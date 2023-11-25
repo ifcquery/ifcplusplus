@@ -305,16 +305,19 @@ namespace carve {
 			void FaceStitcher::matchSimpleEdges()
 			{
 				// join faces that share an edge, where no other faces are incident.
-				for( edge_map_t::iterator i = edges.begin(); i != edges.end(); ++i ) {
+				for( edge_map_t::iterator i = edges.begin(); i != edges.end(); ++i )
+				{
 					const vpair_t& ev = (*i).first;
 					edge_map_t::iterator j = edges.find(vpair_t(ev.second, ev.first));
-					if( j == edges.end() ) {
-						for( edgelist_t::iterator k = (*i).second.begin(); k != (*i).second.end();
-							++k ) {
+					if( j == edges.end() )
+					{
+						for( edgelist_t::iterator k = (*i).second.begin(); k != (*i).second.end(); ++k )
+						{
 							is_open[(*k)->face->id] = true;
 						}
 					}
-					else if( (*i).second.size() != 1 || (*j).second.size() != 1 ) {
+					else if( (*i).second.size() != 1 || (*j).second.size() != 1 )
+					{
 						std::swap(complex_edges[(*i).first], (*i).second);
 					}
 					else {
@@ -347,16 +350,19 @@ namespace carve {
 
 				result.resize(N);
 
-				for( size_t i = 0; i < N; ++i ) {
+				for( size_t i = 0; i < N; ++i )
+				{
 					Edge<3>* base = efwd[0][i];
 
 					result[i].reserve(Nfwd + Nrev);
-					for( size_t j = 0; j < Nfwd; ++j ) {
+					for( size_t j = 0; j < Nfwd; ++j )
+					{
 						result[i].push_back(EdgeOrderData(efwd[j][i], j, false));
 						CARVE_ASSERT(efwd[0][i]->v1() == efwd[j][i]->v1());
 						CARVE_ASSERT(efwd[0][i]->v2() == efwd[j][i]->v2());
 					}
-					for( size_t j = 0; j < Nrev; ++j ) {
+					for( size_t j = 0; j < Nrev; ++j )
+					{
 						result[i].push_back(EdgeOrderData(erev[j][i], j, true));
 						CARVE_ASSERT(erev[0][i]->v1() == erev[j][i]->v1());
 						CARVE_ASSERT(erev[0][i]->v2() == erev[j][i]->v2());
@@ -370,39 +376,47 @@ namespace carve {
 						sort_dir = base->v2()->v - base->v1()->v;
 					}
 
-					std::sort(result[i].begin(), result[i].end(),
-						EdgeOrderData::Cmp(sort_dir, result[i][0].face_dir));
+					if (result[i].size() == 0)
+					{
+#ifdef _DEBUG
+						std::cout << "result[i].size() == 0" << std::endl;
+#endif
+						continue;
+					}
+
+					std::sort(result[i].begin(), result[i].end(), EdgeOrderData::Cmp(sort_dir, result[i][0].face_dir));
 				}
 			}
 
-			void FaceStitcher::edgeIncidentGroups(
-				const vpair_t& e, const edge_map_t& all_edges,
-				std::pair<std::set<size_t>, std::set<size_t> >& groups) {
+			void FaceStitcher::edgeIncidentGroups( const vpair_t& e, const edge_map_t& all_edges, std::pair<std::set<size_t>, std::set<size_t> >& groups)
+			{
 				groups.first.clear();
 				groups.second.clear();
 				edge_map_t::const_iterator i;
 
 				i = all_edges.find(e);
-				if( i != all_edges.end() ) {
-					for( edgelist_t::const_iterator j = (*i).second.begin();
-						j != (*i).second.end(); ++j ) {
+				if( i != all_edges.end() )
+				{
+					for( edgelist_t::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j )
+					{
 						groups.first.insert(faceGroupID(*j));
 					}
 				}
 
 				i = all_edges.find(vpair_t(e.second, e.first));
-				if( i != all_edges.end() ) {
-					for( edgelist_t::const_iterator j = (*i).second.begin();
-						j != (*i).second.end(); ++j ) {
+				if( i != all_edges.end() )
+				{
+					for( edgelist_t::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j )
+					{
 						groups.second.insert(faceGroupID(*j));
 					}
 				}
 			}
 
 			void FaceStitcher::buildEdgeGraph(const edge_map_t& all_edges) {
-				for( edge_map_t::const_iterator i = all_edges.begin(); i != all_edges.end();
-					++i ) {
-					edge_graph[(*i).first.first].insert((*i).first.second);
+				for( edge_map_t::const_iterator it = all_edges.begin(); it != all_edges.end(); ++it )
+				{
+					edge_graph[(*it).first.first].insert((*it).first.second);
 				}
 			}
 

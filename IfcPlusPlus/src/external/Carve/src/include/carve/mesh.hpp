@@ -433,11 +433,8 @@ namespace carve {
 			}
 
 			void invert() {
-				// We invert the direction of the edges of the face in this
-				// way so that the edge rev pointers (if any) are still
-				// correct. It is expected that invert() will be called on
-				// every other face in the mesh, too, otherwise everything
-				// will get messed up.
+				// We invert the direction of the edges of the face in this way so that the edge rev pointers (if any) are still
+				// correct. It is expected that invert() will be called on every other face in the mesh, too, otherwise everything will get messed up.
 
 				{
 					// advance vertices.
@@ -496,10 +493,8 @@ namespace carve {
 
 				typedef std::pair<const vertex_t*, const vertex_t*> vpair_t;
 				typedef std::list<edge_t*> edgelist_t;
-				typedef std::unordered_map<vpair_t, edgelist_t, carve::mesh::hash_vertex_pair>
-					edge_map_t;
-				typedef std::unordered_map<const vertex_t*, std::set<const vertex_t*> >
-					edge_graph_t;
+				typedef std::unordered_map<vpair_t, edgelist_t, carve::mesh::hash_vertex_pair> edge_map_t;
+				typedef std::unordered_map<const vertex_t*, std::set<const vertex_t*> > edge_graph_t;
 
 				MeshOptions opts;
 
@@ -542,8 +537,7 @@ namespace carve {
 						carve::geom::vector<3> edge_dir;
 						carve::geom::vector<3> base_dir;
 
-						Cmp(const carve::geom::vector<3>& _edge_dir,
-							const carve::geom::vector<3>& _base_dir)
+						Cmp(const carve::geom::vector<3>& _edge_dir, const carve::geom::vector<3>& _base_dir)
 							: edge_dir(_edge_dir), base_dir(_base_dir) {}
 						bool operator()(const EdgeOrderData& a, const EdgeOrderData& b) const;
 					};
@@ -715,8 +709,7 @@ namespace carve {
 		};
 
 		// A MeshSet manages vertex storage, and a collection of meshes.
-		// It should be easy to turn a vertex pointer into its index in
-		// its MeshSet vertex_storage.
+		// It should be easy to turn a vertex pointer into its index in its MeshSet vertex_storage.
 		template <unsigned int ndim>
 		class MeshSet {
 			MeshSet();

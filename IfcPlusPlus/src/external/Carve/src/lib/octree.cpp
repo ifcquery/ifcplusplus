@@ -162,7 +162,7 @@ void Octree::setBounds(carve::geom3d::AABB aabb) {
         delete root;
     }
     aabb.extent = 1.1 * aabb.extent;
-    root = new Node(aabb.min(), aabb.max());
+    root = new Node(aabb.minPoint(), aabb.maxPoint());
 }
 
 void Octree::addEdges(const std::vector<carve::poly::Edge<3> >& e) {

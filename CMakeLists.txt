@@ -42,18 +42,32 @@ set(IFCPP_CONFIG_DIR "share/IFCPP/cmake")
 ADD_SUBDIRECTORY (IfcPlusPlus)
 
 # Install configuration file
-INCLUDE(CMakePackageConfigHelpers)
-set(config_file_input  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/IFCPPConfig.cmake.in")
-set(config_file_output "${CMAKE_CURRENT_BINARY_DIR}/cmake/IFCPPConfig.cmake")
+#INCLUDE(CMakePackageConfigHelpers)
+#set(config_file_input  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/IFCPPConfig.cmake.in")
+#set(config_file_output "${CMAKE_CURRENT_BINARY_DIR}/cmake/IFCPPConfig.cmake")
 
-CONFIGURE_PACKAGE_CONFIG_FILE(
-  ${config_file_input}
-  ${config_file_output}
-  INSTALL_DESTINATION ${IFCPP_CONFIG_DIR})
+#CONFIGURE_PACKAGE_CONFIG_FILE(
+#  ${config_file_input}
+#  ${config_file_output}
+# INSTALL_DESTINATION ${IFCPP_CONFIG_DIR})
 
-INSTALL(
-  FILES ${config_file_output}
-  DESTINATION ${IFCPP_CONFIG_DIR})
+#INSTALL(
+#  FILES ${config_file_output}
+# DESTINATION ${IFCPP_CONFIG_DIR})
+
+#install(
+#    DIRECTORY   src/ifcpp
+#    DESTINATION include
+#    FILES_MATCHING PATTERN "*.h"
+#)
+
+#install(
+#    TARGETS IfcPlusPlus
+    #EXPORT  IfcPlusPlus
+#    RUNTIME DESTINATION bin
+#    LIBRARY DESTINATION bin
+#    ARCHIVE DESTINATION bin
+#)
   
 IF(BUILD_CONSOLE_APPLICATION)
   ADD_SUBDIRECTORY (examples/CreateIfcWallAndWriteFile)
