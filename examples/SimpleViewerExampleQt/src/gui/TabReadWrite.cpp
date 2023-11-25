@@ -299,6 +299,7 @@ void TabReadWrite::loadIfcFile( QString& path_in )
 		step_reader->loadModelFromFile(path_str, geometry_converter->getBuildingModel());
 
 		// convert IFC geometric representations into Carve geometry
+		geometry_converter->setCsgEps(1.5e-08 * geometry_converter->getBuildingModel()->getUnitConverter()->getLengthInMeterFactor());
 		geometry_converter->convertGeometry();
 
 		// convert Carve geometry to OSG
