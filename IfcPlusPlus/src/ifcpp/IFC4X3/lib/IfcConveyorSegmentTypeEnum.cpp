@@ -26,6 +26,7 @@ void IFC4X3::IfcConveyorSegmentTypeEnum::getStepParameter( std::stringstream& st
 }
 shared_ptr<IFC4X3::IfcConveyorSegmentTypeEnum> IFC4X3::IfcConveyorSegmentTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcConveyorSegmentTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcConveyorSegmentTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcConveyorSegmentTypeEnum>(); }
 	shared_ptr<IfcConveyorSegmentTypeEnum> type_object( new IfcConveyorSegmentTypeEnum() );

@@ -27,6 +27,7 @@ void IFC4X3::IfcElectricMotorTypeEnum::getStepParameter( std::stringstream& stre
 }
 shared_ptr<IFC4X3::IfcElectricMotorTypeEnum> IFC4X3::IfcElectricMotorTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcElectricMotorTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricMotorTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcElectricMotorTypeEnum>(); }
 	shared_ptr<IfcElectricMotorTypeEnum> type_object( new IfcElectricMotorTypeEnum() );

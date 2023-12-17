@@ -31,6 +31,7 @@ void IFC4X3::IfcSlabTypeEnum::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcSlabTypeEnum> IFC4X3::IfcSlabTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSlabTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSlabTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSlabTypeEnum>(); }
 	shared_ptr<IfcSlabTypeEnum> type_object( new IfcSlabTypeEnum() );

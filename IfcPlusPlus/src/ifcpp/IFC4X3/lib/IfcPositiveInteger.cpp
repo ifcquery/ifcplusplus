@@ -19,6 +19,7 @@ void IFC4X3::IfcPositiveInteger::getStepParameter( std::stringstream& stream, bo
 }
 shared_ptr<IFC4X3::IfcPositiveInteger> IFC4X3::IfcPositiveInteger::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPositiveInteger>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPositiveInteger>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPositiveInteger>(); }
 	shared_ptr<IfcPositiveInteger> type_object( new IfcPositiveInteger() );

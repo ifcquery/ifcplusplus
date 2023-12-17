@@ -31,6 +31,7 @@ void IFC4X3::IfcElectricFlowStorageDeviceTypeEnum::getStepParameter( std::string
 }
 shared_ptr<IFC4X3::IfcElectricFlowStorageDeviceTypeEnum> IFC4X3::IfcElectricFlowStorageDeviceTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcElectricFlowStorageDeviceTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricFlowStorageDeviceTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcElectricFlowStorageDeviceTypeEnum>(); }
 	shared_ptr<IfcElectricFlowStorageDeviceTypeEnum> type_object( new IfcElectricFlowStorageDeviceTypeEnum() );

@@ -28,6 +28,7 @@ void IFC4X3::IfcFireSuppressionTerminalTypeEnum::getStepParameter( std::stringst
 }
 shared_ptr<IFC4X3::IfcFireSuppressionTerminalTypeEnum> IFC4X3::IfcFireSuppressionTerminalTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcFireSuppressionTerminalTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFireSuppressionTerminalTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcFireSuppressionTerminalTypeEnum>(); }
 	shared_ptr<IfcFireSuppressionTerminalTypeEnum> type_object( new IfcFireSuppressionTerminalTypeEnum() );

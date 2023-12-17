@@ -23,6 +23,7 @@ void IFC4X3::IfcSurfaceSide::getStepParameter( std::stringstream& stream, bool i
 }
 shared_ptr<IFC4X3::IfcSurfaceSide> IFC4X3::IfcSurfaceSide::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSurfaceSide>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSurfaceSide>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSurfaceSide>(); }
 	shared_ptr<IfcSurfaceSide> type_object( new IfcSurfaceSide() );

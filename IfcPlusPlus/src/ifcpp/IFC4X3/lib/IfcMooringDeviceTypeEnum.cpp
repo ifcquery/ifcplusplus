@@ -27,6 +27,7 @@ void IFC4X3::IfcMooringDeviceTypeEnum::getStepParameter( std::stringstream& stre
 }
 shared_ptr<IFC4X3::IfcMooringDeviceTypeEnum> IFC4X3::IfcMooringDeviceTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcMooringDeviceTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMooringDeviceTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcMooringDeviceTypeEnum>(); }
 	shared_ptr<IfcMooringDeviceTypeEnum> type_object( new IfcMooringDeviceTypeEnum() );

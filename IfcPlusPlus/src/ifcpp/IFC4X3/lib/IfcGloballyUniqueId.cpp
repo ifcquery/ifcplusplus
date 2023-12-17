@@ -19,6 +19,7 @@ void IFC4X3::IfcGloballyUniqueId::getStepParameter( std::stringstream& stream, b
 }
 shared_ptr<IFC4X3::IfcGloballyUniqueId> IFC4X3::IfcGloballyUniqueId::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcGloballyUniqueId>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcGloballyUniqueId>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcGloballyUniqueId>(); }
 	shared_ptr<IfcGloballyUniqueId> type_object( new IfcGloballyUniqueId() );

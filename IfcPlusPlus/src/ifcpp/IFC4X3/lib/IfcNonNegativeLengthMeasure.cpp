@@ -19,6 +19,7 @@ void IFC4X3::IfcNonNegativeLengthMeasure::getStepParameter( std::stringstream& s
 }
 shared_ptr<IFC4X3::IfcNonNegativeLengthMeasure> IFC4X3::IfcNonNegativeLengthMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcNonNegativeLengthMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcNonNegativeLengthMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcNonNegativeLengthMeasure>(); }
 	shared_ptr<IfcNonNegativeLengthMeasure> type_object( new IfcNonNegativeLengthMeasure() );

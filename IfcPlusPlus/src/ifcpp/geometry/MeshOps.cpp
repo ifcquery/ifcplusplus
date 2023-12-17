@@ -3153,7 +3153,7 @@ bool MeshOps::assignIfBetterForBoolOp(shared_ptr<carve::mesh::MeshSet<3> >& mesh
 		}
 		if (numChanges > 0)
 		{
-			std::cout << "changes: " << numChanges << std::endl;
+			//std::cout << "assignIfBetterForBoolOp: changes: " << numChanges << std::endl;
 		}
 #endif
 		if (deepCopyMesh)

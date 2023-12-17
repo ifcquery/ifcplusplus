@@ -19,6 +19,7 @@ void IFC4X3::IfcCardinalPointReference::getStepParameter( std::stringstream& str
 }
 shared_ptr<IFC4X3::IfcCardinalPointReference> IFC4X3::IfcCardinalPointReference::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcCardinalPointReference>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCardinalPointReference>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcCardinalPointReference>(); }
 	shared_ptr<IfcCardinalPointReference> type_object( new IfcCardinalPointReference() );

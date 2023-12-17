@@ -19,6 +19,7 @@ void IFC4X3::IfcFontWeight::getStepParameter( std::stringstream& stream, bool is
 }
 shared_ptr<IFC4X3::IfcFontWeight> IFC4X3::IfcFontWeight::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcFontWeight>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFontWeight>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcFontWeight>(); }
 	shared_ptr<IfcFontWeight> type_object( new IfcFontWeight() );

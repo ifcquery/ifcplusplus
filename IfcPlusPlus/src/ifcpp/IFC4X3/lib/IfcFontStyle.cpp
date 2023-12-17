@@ -19,6 +19,7 @@ void IFC4X3::IfcFontStyle::getStepParameter( std::stringstream& stream, bool is_
 }
 shared_ptr<IFC4X3::IfcFontStyle> IFC4X3::IfcFontStyle::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcFontStyle>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFontStyle>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcFontStyle>(); }
 	shared_ptr<IfcFontStyle> type_object( new IfcFontStyle() );

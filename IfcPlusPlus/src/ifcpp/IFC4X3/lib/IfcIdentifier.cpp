@@ -20,6 +20,7 @@ void IFC4X3::IfcIdentifier::getStepParameter( std::stringstream& stream, bool is
 }
 shared_ptr<IFC4X3::IfcIdentifier> IFC4X3::IfcIdentifier::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcIdentifier>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcIdentifier>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcIdentifier>(); }
 	shared_ptr<IfcIdentifier> type_object( new IfcIdentifier() );

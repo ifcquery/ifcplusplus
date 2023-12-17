@@ -24,6 +24,7 @@ void IFC4X3::IfcSubContractResourceTypeEnum::getStepParameter( std::stringstream
 }
 shared_ptr<IFC4X3::IfcSubContractResourceTypeEnum> IFC4X3::IfcSubContractResourceTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSubContractResourceTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSubContractResourceTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSubContractResourceTypeEnum>(); }
 	shared_ptr<IfcSubContractResourceTypeEnum> type_object( new IfcSubContractResourceTypeEnum() );

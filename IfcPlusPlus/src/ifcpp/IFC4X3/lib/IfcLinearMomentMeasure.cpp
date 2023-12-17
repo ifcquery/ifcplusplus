@@ -20,6 +20,7 @@ void IFC4X3::IfcLinearMomentMeasure::getStepParameter( std::stringstream& stream
 }
 shared_ptr<IFC4X3::IfcLinearMomentMeasure> IFC4X3::IfcLinearMomentMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLinearMomentMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLinearMomentMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLinearMomentMeasure>(); }
 	shared_ptr<IfcLinearMomentMeasure> type_object( new IfcLinearMomentMeasure() );

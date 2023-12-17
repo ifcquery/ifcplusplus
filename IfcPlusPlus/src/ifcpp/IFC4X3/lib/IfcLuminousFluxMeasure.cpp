@@ -20,6 +20,7 @@ void IFC4X3::IfcLuminousFluxMeasure::getStepParameter( std::stringstream& stream
 }
 shared_ptr<IFC4X3::IfcLuminousFluxMeasure> IFC4X3::IfcLuminousFluxMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLuminousFluxMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLuminousFluxMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLuminousFluxMeasure>(); }
 	shared_ptr<IfcLuminousFluxMeasure> type_object( new IfcLuminousFluxMeasure() );

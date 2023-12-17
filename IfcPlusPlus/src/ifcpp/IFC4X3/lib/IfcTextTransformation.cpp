@@ -19,6 +19,7 @@ void IFC4X3::IfcTextTransformation::getStepParameter( std::stringstream& stream,
 }
 shared_ptr<IFC4X3::IfcTextTransformation> IFC4X3::IfcTextTransformation::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcTextTransformation>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTextTransformation>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcTextTransformation>(); }
 	shared_ptr<IfcTextTransformation> type_object( new IfcTextTransformation() );

@@ -35,6 +35,7 @@ void IFC4X3::IfcAudioVisualApplianceTypeEnum::getStepParameter( std::stringstrea
 }
 shared_ptr<IFC4X3::IfcAudioVisualApplianceTypeEnum> IFC4X3::IfcAudioVisualApplianceTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcAudioVisualApplianceTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAudioVisualApplianceTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcAudioVisualApplianceTypeEnum>(); }
 	shared_ptr<IfcAudioVisualApplianceTypeEnum> type_object( new IfcAudioVisualApplianceTypeEnum() );

@@ -18,6 +18,7 @@ void IFC4X3::IfcLanguageId::getStepParameter( std::stringstream& stream, bool is
 }
 shared_ptr<IFC4X3::IfcLanguageId> IFC4X3::IfcLanguageId::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLanguageId>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLanguageId>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLanguageId>(); }
 	shared_ptr<IfcLanguageId> type_object( new IfcLanguageId() );

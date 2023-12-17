@@ -22,6 +22,7 @@ void IFC4X3::IfcKerbTypeEnum::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcKerbTypeEnum> IFC4X3::IfcKerbTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcKerbTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcKerbTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcKerbTypeEnum>(); }
 	shared_ptr<IfcKerbTypeEnum> type_object( new IfcKerbTypeEnum() );

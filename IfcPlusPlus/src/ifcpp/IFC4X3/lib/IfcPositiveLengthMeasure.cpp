@@ -21,6 +21,7 @@ void IFC4X3::IfcPositiveLengthMeasure::getStepParameter( std::stringstream& stre
 }
 shared_ptr<IFC4X3::IfcPositiveLengthMeasure> IFC4X3::IfcPositiveLengthMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPositiveLengthMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPositiveLengthMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPositiveLengthMeasure>(); }
 	shared_ptr<IfcPositiveLengthMeasure> type_object( new IfcPositiveLengthMeasure() );

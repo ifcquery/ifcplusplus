@@ -19,6 +19,7 @@ void IFC4X3::IfcDayInWeekNumber::getStepParameter( std::stringstream& stream, bo
 }
 shared_ptr<IFC4X3::IfcDayInWeekNumber> IFC4X3::IfcDayInWeekNumber::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcDayInWeekNumber>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDayInWeekNumber>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcDayInWeekNumber>(); }
 	shared_ptr<IfcDayInWeekNumber> type_object( new IfcDayInWeekNumber() );

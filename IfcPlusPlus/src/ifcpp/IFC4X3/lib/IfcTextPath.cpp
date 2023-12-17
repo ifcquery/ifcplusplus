@@ -24,6 +24,7 @@ void IFC4X3::IfcTextPath::getStepParameter( std::stringstream& stream, bool is_s
 }
 shared_ptr<IFC4X3::IfcTextPath> IFC4X3::IfcTextPath::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcTextPath>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTextPath>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcTextPath>(); }
 	shared_ptr<IfcTextPath> type_object( new IfcTextPath() );

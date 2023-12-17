@@ -23,6 +23,7 @@ void IFC4X3::IfcBooleanOperator::getStepParameter( std::stringstream& stream, bo
 }
 shared_ptr<IFC4X3::IfcBooleanOperator> IFC4X3::IfcBooleanOperator::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcBooleanOperator>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBooleanOperator>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcBooleanOperator>(); }
 	shared_ptr<IfcBooleanOperator> type_object( new IfcBooleanOperator() );

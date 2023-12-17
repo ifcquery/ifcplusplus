@@ -20,6 +20,7 @@ void IFC4X3::IfcIntegerCountRateMeasure::getStepParameter( std::stringstream& st
 }
 shared_ptr<IFC4X3::IfcIntegerCountRateMeasure> IFC4X3::IfcIntegerCountRateMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcIntegerCountRateMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcIntegerCountRateMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcIntegerCountRateMeasure>(); }
 	shared_ptr<IfcIntegerCountRateMeasure> type_object( new IfcIntegerCountRateMeasure() );

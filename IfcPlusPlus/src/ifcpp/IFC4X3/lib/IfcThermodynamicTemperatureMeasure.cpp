@@ -20,6 +20,7 @@ void IFC4X3::IfcThermodynamicTemperatureMeasure::getStepParameter( std::stringst
 }
 shared_ptr<IFC4X3::IfcThermodynamicTemperatureMeasure> IFC4X3::IfcThermodynamicTemperatureMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcThermodynamicTemperatureMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcThermodynamicTemperatureMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcThermodynamicTemperatureMeasure>(); }
 	shared_ptr<IfcThermodynamicTemperatureMeasure> type_object( new IfcThermodynamicTemperatureMeasure() );

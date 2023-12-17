@@ -28,6 +28,7 @@ void IFC4X3::IfcReinforcedSoilTypeEnum::getStepParameter( std::stringstream& str
 }
 shared_ptr<IFC4X3::IfcReinforcedSoilTypeEnum> IFC4X3::IfcReinforcedSoilTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcReinforcedSoilTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcReinforcedSoilTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcReinforcedSoilTypeEnum>(); }
 	shared_ptr<IfcReinforcedSoilTypeEnum> type_object( new IfcReinforcedSoilTypeEnum() );

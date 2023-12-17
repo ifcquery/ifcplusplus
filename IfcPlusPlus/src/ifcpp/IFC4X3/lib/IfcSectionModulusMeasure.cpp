@@ -20,6 +20,7 @@ void IFC4X3::IfcSectionModulusMeasure::getStepParameter( std::stringstream& stre
 }
 shared_ptr<IFC4X3::IfcSectionModulusMeasure> IFC4X3::IfcSectionModulusMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSectionModulusMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSectionModulusMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSectionModulusMeasure>(); }
 	shared_ptr<IfcSectionModulusMeasure> type_object( new IfcSectionModulusMeasure() );

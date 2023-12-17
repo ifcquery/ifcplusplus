@@ -33,6 +33,7 @@ void IFC4X3::IfcSimplePropertyTemplateTypeEnum::getStepParameter( std::stringstr
 }
 shared_ptr<IFC4X3::IfcSimplePropertyTemplateTypeEnum> IFC4X3::IfcSimplePropertyTemplateTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSimplePropertyTemplateTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSimplePropertyTemplateTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSimplePropertyTemplateTypeEnum>(); }
 	shared_ptr<IfcSimplePropertyTemplateTypeEnum> type_object( new IfcSimplePropertyTemplateTypeEnum() );

@@ -23,6 +23,7 @@ void IFC4X3::IfcAssemblyPlaceEnum::getStepParameter( std::stringstream& stream, 
 }
 shared_ptr<IFC4X3::IfcAssemblyPlaceEnum> IFC4X3::IfcAssemblyPlaceEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcAssemblyPlaceEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAssemblyPlaceEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcAssemblyPlaceEnum>(); }
 	shared_ptr<IfcAssemblyPlaceEnum> type_object( new IfcAssemblyPlaceEnum() );

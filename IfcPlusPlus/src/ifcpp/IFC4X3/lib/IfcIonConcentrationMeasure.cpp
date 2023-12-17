@@ -20,6 +20,7 @@ void IFC4X3::IfcIonConcentrationMeasure::getStepParameter( std::stringstream& st
 }
 shared_ptr<IFC4X3::IfcIonConcentrationMeasure> IFC4X3::IfcIonConcentrationMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcIonConcentrationMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcIonConcentrationMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcIonConcentrationMeasure>(); }
 	shared_ptr<IfcIonConcentrationMeasure> type_object( new IfcIonConcentrationMeasure() );

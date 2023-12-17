@@ -29,6 +29,7 @@ void IFC4X3::IfcDoorPanelOperationEnum::getStepParameter( std::stringstream& str
 }
 shared_ptr<IFC4X3::IfcDoorPanelOperationEnum> IFC4X3::IfcDoorPanelOperationEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcDoorPanelOperationEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDoorPanelOperationEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcDoorPanelOperationEnum>(); }
 	shared_ptr<IfcDoorPanelOperationEnum> type_object( new IfcDoorPanelOperationEnum() );

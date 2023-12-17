@@ -22,6 +22,7 @@ void IFC4X3::IfcReinforcingBarSurfaceEnum::getStepParameter( std::stringstream& 
 }
 shared_ptr<IFC4X3::IfcReinforcingBarSurfaceEnum> IFC4X3::IfcReinforcingBarSurfaceEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcReinforcingBarSurfaceEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcReinforcingBarSurfaceEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcReinforcingBarSurfaceEnum>(); }
 	shared_ptr<IfcReinforcingBarSurfaceEnum> type_object( new IfcReinforcingBarSurfaceEnum() );

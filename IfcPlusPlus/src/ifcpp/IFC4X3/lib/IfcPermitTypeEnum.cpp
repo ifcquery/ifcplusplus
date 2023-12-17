@@ -25,6 +25,7 @@ void IFC4X3::IfcPermitTypeEnum::getStepParameter( std::stringstream& stream, boo
 }
 shared_ptr<IFC4X3::IfcPermitTypeEnum> IFC4X3::IfcPermitTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPermitTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPermitTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPermitTypeEnum>(); }
 	shared_ptr<IfcPermitTypeEnum> type_object( new IfcPermitTypeEnum() );

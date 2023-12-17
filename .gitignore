@@ -51,3 +51,4 @@ IfcPlusPlus/src/ifcpp---/
 IfcPlusPlus/src/ifcpp----/
 examples/LoadFileExample/dump_mesh_debug.txt
 examples/CreateIfcWallAndWriteFile/example.ifc
+examples/SimpleViewerExampleQt/SimpleViewerExampleQt.vcxproj.user

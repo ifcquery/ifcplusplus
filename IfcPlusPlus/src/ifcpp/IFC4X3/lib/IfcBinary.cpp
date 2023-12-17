@@ -20,6 +20,7 @@ void IFC4X3::IfcBinary::getStepParameter( std::stringstream& stream, bool is_sel
 }
 shared_ptr<IFC4X3::IfcBinary> IFC4X3::IfcBinary::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcBinary>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBinary>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcBinary>(); }
 	shared_ptr<IfcBinary> type_object( new IfcBinary() );

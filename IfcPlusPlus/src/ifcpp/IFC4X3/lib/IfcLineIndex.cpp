@@ -19,6 +19,7 @@ void IFC4X3::IfcLineIndex::getStepParameter( std::stringstream& stream, bool is_
 }
 shared_ptr<IFC4X3::IfcLineIndex> IFC4X3::IfcLineIndex::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLineIndex>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLineIndex>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLineIndex>(); }
 	shared_ptr<IfcLineIndex> type_object( new IfcLineIndex() );

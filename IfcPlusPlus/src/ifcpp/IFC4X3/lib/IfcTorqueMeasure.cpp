@@ -20,6 +20,7 @@ void IFC4X3::IfcTorqueMeasure::getStepParameter( std::stringstream& stream, bool
 }
 shared_ptr<IFC4X3::IfcTorqueMeasure> IFC4X3::IfcTorqueMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcTorqueMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTorqueMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcTorqueMeasure>(); }
 	shared_ptr<IfcTorqueMeasure> type_object( new IfcTorqueMeasure() );

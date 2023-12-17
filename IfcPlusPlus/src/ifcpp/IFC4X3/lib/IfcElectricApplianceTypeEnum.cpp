@@ -38,6 +38,7 @@ void IFC4X3::IfcElectricApplianceTypeEnum::getStepParameter( std::stringstream& 
 }
 shared_ptr<IFC4X3::IfcElectricApplianceTypeEnum> IFC4X3::IfcElectricApplianceTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcElectricApplianceTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricApplianceTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcElectricApplianceTypeEnum>(); }
 	shared_ptr<IfcElectricApplianceTypeEnum> type_object( new IfcElectricApplianceTypeEnum() );

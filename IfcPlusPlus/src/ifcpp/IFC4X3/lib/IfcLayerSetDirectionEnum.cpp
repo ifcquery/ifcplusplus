@@ -23,6 +23,7 @@ void IFC4X3::IfcLayerSetDirectionEnum::getStepParameter( std::stringstream& stre
 }
 shared_ptr<IFC4X3::IfcLayerSetDirectionEnum> IFC4X3::IfcLayerSetDirectionEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLayerSetDirectionEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLayerSetDirectionEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLayerSetDirectionEnum>(); }
 	shared_ptr<IfcLayerSetDirectionEnum> type_object( new IfcLayerSetDirectionEnum() );

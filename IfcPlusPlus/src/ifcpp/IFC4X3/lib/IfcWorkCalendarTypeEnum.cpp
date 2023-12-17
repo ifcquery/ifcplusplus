@@ -25,6 +25,7 @@ void IFC4X3::IfcWorkCalendarTypeEnum::getStepParameter( std::stringstream& strea
 }
 shared_ptr<IFC4X3::IfcWorkCalendarTypeEnum> IFC4X3::IfcWorkCalendarTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcWorkCalendarTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWorkCalendarTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcWorkCalendarTypeEnum>(); }
 	shared_ptr<IfcWorkCalendarTypeEnum> type_object( new IfcWorkCalendarTypeEnum() );

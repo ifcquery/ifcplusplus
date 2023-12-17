@@ -24,6 +24,7 @@ void IFC4X3::IfcRampFlightTypeEnum::getStepParameter( std::stringstream& stream,
 }
 shared_ptr<IFC4X3::IfcRampFlightTypeEnum> IFC4X3::IfcRampFlightTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcRampFlightTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcRampFlightTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcRampFlightTypeEnum>(); }
 	shared_ptr<IfcRampFlightTypeEnum> type_object( new IfcRampFlightTypeEnum() );

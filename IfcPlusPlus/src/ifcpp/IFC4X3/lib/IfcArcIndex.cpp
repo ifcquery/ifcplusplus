@@ -19,6 +19,7 @@ void IFC4X3::IfcArcIndex::getStepParameter( std::stringstream& stream, bool is_s
 }
 shared_ptr<IFC4X3::IfcArcIndex> IFC4X3::IfcArcIndex::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcArcIndex>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcArcIndex>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcArcIndex>(); }
 	shared_ptr<IfcArcIndex> type_object( new IfcArcIndex() );

@@ -29,6 +29,7 @@ void IFC4X3::IfcCoilTypeEnum::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcCoilTypeEnum> IFC4X3::IfcCoilTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcCoilTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCoilTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcCoilTypeEnum>(); }
 	shared_ptr<IfcCoilTypeEnum> type_object( new IfcCoilTypeEnum() );

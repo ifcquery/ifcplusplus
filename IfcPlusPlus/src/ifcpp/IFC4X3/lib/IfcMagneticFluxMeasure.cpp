@@ -20,6 +20,7 @@ void IFC4X3::IfcMagneticFluxMeasure::getStepParameter( std::stringstream& stream
 }
 shared_ptr<IFC4X3::IfcMagneticFluxMeasure> IFC4X3::IfcMagneticFluxMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcMagneticFluxMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMagneticFluxMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcMagneticFluxMeasure>(); }
 	shared_ptr<IfcMagneticFluxMeasure> type_object( new IfcMagneticFluxMeasure() );

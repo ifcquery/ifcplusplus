@@ -19,6 +19,7 @@ void IFC4X3::IfcTextAlignment::getStepParameter( std::stringstream& stream, bool
 }
 shared_ptr<IFC4X3::IfcTextAlignment> IFC4X3::IfcTextAlignment::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcTextAlignment>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTextAlignment>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcTextAlignment>(); }
 	shared_ptr<IfcTextAlignment> type_object( new IfcTextAlignment() );

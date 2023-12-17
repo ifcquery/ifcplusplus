@@ -20,6 +20,7 @@ void IFC4X3::IfcMassDensityMeasure::getStepParameter( std::stringstream& stream,
 }
 shared_ptr<IFC4X3::IfcMassDensityMeasure> IFC4X3::IfcMassDensityMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcMassDensityMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMassDensityMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcMassDensityMeasure>(); }
 	shared_ptr<IfcMassDensityMeasure> type_object( new IfcMassDensityMeasure() );

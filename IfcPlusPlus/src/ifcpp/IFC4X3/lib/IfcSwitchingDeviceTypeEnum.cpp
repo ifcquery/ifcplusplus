@@ -33,6 +33,7 @@ void IFC4X3::IfcSwitchingDeviceTypeEnum::getStepParameter( std::stringstream& st
 }
 shared_ptr<IFC4X3::IfcSwitchingDeviceTypeEnum> IFC4X3::IfcSwitchingDeviceTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSwitchingDeviceTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSwitchingDeviceTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSwitchingDeviceTypeEnum>(); }
 	shared_ptr<IfcSwitchingDeviceTypeEnum> type_object( new IfcSwitchingDeviceTypeEnum() );

@@ -24,6 +24,7 @@ void IFC4X3::IfcDuctSegmentTypeEnum::getStepParameter( std::stringstream& stream
 }
 shared_ptr<IFC4X3::IfcDuctSegmentTypeEnum> IFC4X3::IfcDuctSegmentTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcDuctSegmentTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDuctSegmentTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcDuctSegmentTypeEnum>(); }
 	shared_ptr<IfcDuctSegmentTypeEnum> type_object( new IfcDuctSegmentTypeEnum() );

@@ -32,6 +32,7 @@ void IFC4X3::IfcProtectiveDeviceTypeEnum::getStepParameter( std::stringstream& s
 }
 shared_ptr<IFC4X3::IfcProtectiveDeviceTypeEnum> IFC4X3::IfcProtectiveDeviceTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcProtectiveDeviceTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcProtectiveDeviceTypeEnum>(); }
 	shared_ptr<IfcProtectiveDeviceTypeEnum> type_object( new IfcProtectiveDeviceTypeEnum() );

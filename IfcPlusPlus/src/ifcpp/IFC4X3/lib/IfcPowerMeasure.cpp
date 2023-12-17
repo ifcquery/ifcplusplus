@@ -20,6 +20,7 @@ void IFC4X3::IfcPowerMeasure::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcPowerMeasure> IFC4X3::IfcPowerMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPowerMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPowerMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPowerMeasure>(); }
 	shared_ptr<IfcPowerMeasure> type_object( new IfcPowerMeasure() );

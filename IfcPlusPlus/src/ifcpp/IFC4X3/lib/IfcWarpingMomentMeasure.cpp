@@ -21,6 +21,7 @@ void IFC4X3::IfcWarpingMomentMeasure::getStepParameter( std::stringstream& strea
 }
 shared_ptr<IFC4X3::IfcWarpingMomentMeasure> IFC4X3::IfcWarpingMomentMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcWarpingMomentMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWarpingMomentMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcWarpingMomentMeasure>(); }
 	shared_ptr<IfcWarpingMomentMeasure> type_object( new IfcWarpingMomentMeasure() );

@@ -30,6 +30,7 @@ void IFC4X3::IfcTankTypeEnum::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcTankTypeEnum> IFC4X3::IfcTankTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcTankTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTankTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcTankTypeEnum>(); }
 	shared_ptr<IfcTankTypeEnum> type_object( new IfcTankTypeEnum() );

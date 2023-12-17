@@ -20,6 +20,7 @@ void IFC4X3::IfcSoundPressureMeasure::getStepParameter( std::stringstream& strea
 }
 shared_ptr<IFC4X3::IfcSoundPressureMeasure> IFC4X3::IfcSoundPressureMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSoundPressureMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSoundPressureMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSoundPressureMeasure>(); }
 	shared_ptr<IfcSoundPressureMeasure> type_object( new IfcSoundPressureMeasure() );

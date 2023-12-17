@@ -468,13 +468,22 @@ public:
 				polyline = { circlePoint0 , circlePoint1 };
 				GeomDebugDump::dumpPolyline(polyline, color3, 2.0, false, false);
 			}
+#endif
 
 			if (trimPoint1.has_value())
 			{
 				double distanceTrim1 = PointConverter::trimPointCircleDistance(startAngle, circle_radius, conic_position_matrix->m_matrix, trimPoint1.value());
 				if (distanceTrim1 > EPS_M6 )
 				{
-					std::cout << "distanceTrim1: " << distanceTrim1 << std::endl;
+					startAngle = m_point_converter->getAngleOnCircle(circle_center, circle_radius, trimPoint1.value(), conic_position_matrix->m_matrix, circlePositionInverse, epsilonMergePoints);
+
+#ifdef _DEBUG
+					double distanceTrim12 = PointConverter::trimPointCircleDistance(startAngle, circle_radius, conic_position_matrix->m_matrix, trimPoint2.value());
+					if (distanceTrim12 > EPS_M6)
+					{
+						std::cout << "distanceTrim1: " << distanceTrim12 << std::endl;
+					}
+#endif
 				}
 			}
 			
@@ -482,12 +491,29 @@ public:
 			{
 				double endAngle = startAngle + openingAngle;
 				double distanceTrim2 = PointConverter::trimPointCircleDistance(endAngle, circle_radius, conic_position_matrix->m_matrix, trimPoint2.value());
-				if (distanceTrim2 > EPS_M6 )
+				if (distanceTrim2 > EPS_M6)
 				{
-					std::cout << "distanceTrim2: " << distanceTrim2 << std::endl;
+					endAngle = m_point_converter->getAngleOnCircle(circle_center, circle_radius, trimPoint2.value(), conic_position_matrix->m_matrix, circlePositionInverse, epsilonMergePoints);
+
+					computeOpeningAngle(startAngle, endAngle, epsilonMergePoints, senseAgreement, openingAngle);
+
+
+#ifdef _DEBUG
+					if (!senseAgreement)
+					{
+						openingAngle = -openingAngle;
+					}
+					double endAngle2 = startAngle + openingAngle;
+					double distanceTrim22 = PointConverter::trimPointCircleDistance(endAngle2, circle_radius, conic_position_matrix->m_matrix, trimPoint2.value());
+					if (distanceTrim22 > EPS_M5)
+					{
+						std::cout << "distanceTrim2: " << distanceTrim22 << std::endl;
+					}
+
+#endif
 				}
 			}
-#endif
+
 
 			int num_segments = m_geom_settings->getNumVerticesPerCircleWithRadius(circle_radius) * (std::abs(openingAngle) / (2.0 * M_PI));
 			if (num_segments < m_geom_settings->getMinNumVerticesPerArc()) num_segments = m_geom_settings->getMinNumVerticesPerArc();
@@ -693,7 +719,7 @@ public:
 					}
 				}
 
-				trimAngle1 = trim_par1->m_value * planeAngleFactor;
+				trimAngle1 = trim_par1->m_value*planeAngleFactor;
 			}
 			else
 			{
@@ -725,7 +751,7 @@ public:
 						planeAngleFactor = M_PI / 180.0;
 					}
 				}
-				trimAngle2 = trim_par2->m_value * planeAngleFactor;
+				trimAngle2 = trim_par2->m_value*planeAngleFactor;
 			}
 			else
 			{
@@ -739,49 +765,7 @@ public:
 			}
 		}
 
-		startAngle = trimAngle1;
-		if (senseAgreement)
-		{
-			openingAngle = trimAngle2 - trimAngle1;
-			if (trimAngle1 > trimAngle2)
-			{
-				// circle passes 0 angle
-				if (trimAngle1 > 0 && trimAngle2 > 0 || trimAngle1 < 0 && trimAngle2 < 0)
-				{
-					openingAngle = trimAngle2 - trimAngle1 + 2.0 * M_PI;
-				}
-			}
-		}
-		else
-		{
-			openingAngle = trimAngle2 - trimAngle1;
-			if (trimAngle1 < trimAngle2)
-			{
-				if (trimAngle1 > 0 && trimAngle2 > 0 || trimAngle1 < 0 && trimAngle2 < 0)
-				{
-					// circle passes 0 angle
-					openingAngle = trimAngle2 - trimAngle1 - 2.0 * M_PI;
-				}
-			}
-		}
-
-		if (std::abs(openingAngle) - M_PI < eps)
-		{
-			// in case of exact half circle, opening angle could be positive or negative without violating the trim points. Prefer positive openingAngle
-			if (openingAngle < 0)
-			{
-				openingAngle = -openingAngle;
-			}
-		}
-
-		while (openingAngle > 2.0 * M_PI)
-		{
-			openingAngle -= 2.0 * M_PI;
-		}
-		while (openingAngle < -2.0 * M_PI)
-		{
-			openingAngle += 2.0 * M_PI;
-		}
+		computeOpeningAngle(trimAngle1, trimAngle2, eps, senseAgreement, openingAngle);
 	}
 
 	void getTrimPoints(const std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, const std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, const carve::math::Matrix& circlePosition,
@@ -1066,5 +1050,54 @@ public:
 		}
 
 		std::cout << "IfcLoop: " << EntityFactory::getStringForClassID(loop->classID()) << " not implemented" << std::endl;
+	}
+
+	static void computeOpeningAngle(double startAngle, double endAngle, double eps, bool senseAgreement, double& openingAngle)
+	{
+		openingAngle = endAngle - startAngle;
+
+		if (senseAgreement)
+		{
+			
+			if (startAngle > endAngle)
+			{
+				// circle passes 0 angle
+				if (std::abs(startAngle) > eps && endAngle >= 0 || std::abs(startAngle) < eps && endAngle <= 0)
+				{
+					openingAngle = endAngle - startAngle + 2.0 * M_PI;
+				}
+			}
+		}
+		else
+		{
+			//openingAngle = startAngle - endAngle;
+			if (endAngle < startAngle)
+			{
+				if (std::abs(endAngle) > eps && startAngle >= 0 || std::abs(endAngle) < eps && startAngle <= 0)
+				{
+					// circle passes 0 angle
+					openingAngle = startAngle - endAngle - 2.0 * M_PI;
+				}
+			}
+		}
+
+		double diffToHalfCircle = openingAngle - M_PI;
+		if (std::abs(diffToHalfCircle) < eps)
+		{
+			// in case of exact half circle, opening angle could be positive or negative without violating the trim points. Prefer positive openingAngle
+			if (openingAngle < 0)
+			{
+				openingAngle = -openingAngle;
+			}
+		}
+
+		while (openingAngle > 2.0 * M_PI)
+		{
+			openingAngle -= 2.0 * M_PI;
+		}
+		while (openingAngle < -2.0 * M_PI)
+		{
+			openingAngle += 2.0 * M_PI;
+		}
 	}
 };

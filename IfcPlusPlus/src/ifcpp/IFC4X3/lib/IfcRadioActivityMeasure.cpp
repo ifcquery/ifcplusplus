@@ -20,6 +20,7 @@ void IFC4X3::IfcRadioActivityMeasure::getStepParameter( std::stringstream& strea
 }
 shared_ptr<IFC4X3::IfcRadioActivityMeasure> IFC4X3::IfcRadioActivityMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcRadioActivityMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcRadioActivityMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcRadioActivityMeasure>(); }
 	shared_ptr<IfcRadioActivityMeasure> type_object( new IfcRadioActivityMeasure() );

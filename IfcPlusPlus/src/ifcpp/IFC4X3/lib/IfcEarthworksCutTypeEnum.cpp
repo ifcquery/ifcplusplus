@@ -31,6 +31,7 @@ void IFC4X3::IfcEarthworksCutTypeEnum::getStepParameter( std::stringstream& stre
 }
 shared_ptr<IFC4X3::IfcEarthworksCutTypeEnum> IFC4X3::IfcEarthworksCutTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcEarthworksCutTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcEarthworksCutTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcEarthworksCutTypeEnum>(); }
 	shared_ptr<IfcEarthworksCutTypeEnum> type_object( new IfcEarthworksCutTypeEnum() );

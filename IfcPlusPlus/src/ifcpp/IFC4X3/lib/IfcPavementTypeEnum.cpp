@@ -24,6 +24,7 @@ void IFC4X3::IfcPavementTypeEnum::getStepParameter( std::stringstream& stream, b
 }
 shared_ptr<IFC4X3::IfcPavementTypeEnum> IFC4X3::IfcPavementTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPavementTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPavementTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPavementTypeEnum>(); }
 	shared_ptr<IfcPavementTypeEnum> type_object( new IfcPavementTypeEnum() );

@@ -20,6 +20,7 @@ void IFC4X3::IfcTimeMeasure::getStepParameter( std::stringstream& stream, bool i
 }
 shared_ptr<IFC4X3::IfcTimeMeasure> IFC4X3::IfcTimeMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcTimeMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTimeMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcTimeMeasure>(); }
 	shared_ptr<IfcTimeMeasure> type_object( new IfcTimeMeasure() );

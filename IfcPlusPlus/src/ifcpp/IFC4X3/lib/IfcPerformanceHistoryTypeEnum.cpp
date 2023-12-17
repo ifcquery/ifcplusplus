@@ -22,6 +22,7 @@ void IFC4X3::IfcPerformanceHistoryTypeEnum::getStepParameter( std::stringstream&
 }
 shared_ptr<IFC4X3::IfcPerformanceHistoryTypeEnum> IFC4X3::IfcPerformanceHistoryTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPerformanceHistoryTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPerformanceHistoryTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPerformanceHistoryTypeEnum>(); }
 	shared_ptr<IfcPerformanceHistoryTypeEnum> type_object( new IfcPerformanceHistoryTypeEnum() );

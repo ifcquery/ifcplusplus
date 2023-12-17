@@ -30,6 +30,7 @@ void IFC4X3::IfcBridgeTypeEnum::getStepParameter( std::stringstream& stream, boo
 }
 shared_ptr<IFC4X3::IfcBridgeTypeEnum> IFC4X3::IfcBridgeTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcBridgeTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBridgeTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcBridgeTypeEnum>(); }
 	shared_ptr<IfcBridgeTypeEnum> type_object( new IfcBridgeTypeEnum() );

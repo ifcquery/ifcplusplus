@@ -286,7 +286,7 @@ public:
 
 			if (csg_compute_count > 0 )
 			{
-				if (804826 == tag || !infoInputA.meshSetValid)
+				if (14700322 == tag || !infoInputA.meshSetValid)
 				{
 					paramsScaled.debugDump = true;
 					MeshSetInfo infoMeshOp1;
@@ -420,121 +420,20 @@ public:
 				return false;
 			}
 
-			paramsScaled.allowDegenerateEdges = true;
-			//if (infoOp1.degenerateEdges.size() > 0) { paramsScaled.allowDegenerateEdges = true; }
-			//if (infoOp2.degenerateEdges.size() > 0) { paramsScaled.allowDegenerateEdges = true; }
+			//paramsScaled.allowDegenerateEdges = true;
+			if (infoOp1.degenerateEdges.size() > 0) { paramsScaled.allowDegenerateEdges = true; }
+			if (infoOp2.degenerateEdges.size() > 0) { paramsScaled.allowDegenerateEdges = true; }
 
 			////////////////////// compute carve csg operation   /////////////////////////////////////////////
 			bool boolOpDone = false;
-			carve::csg::CSG csg(epsDefault);
 			if (op1->meshes.size() > 1 && operation == carve::csg::CSG::A_MINUS_B )
 			{
-				// if op1 consists of > 1 meshes, and one is completely inside the other, then all inner meshes need to be merged with op2, then op2 subtracted from the op1 outer mesh
-				// if op1 consists of > 1 meshes, and they are apart from each other, then regular csg.compute works fine
-
-				std::vector<carve::mesh::Mesh<3>*> innerMeshes;
-				std::vector<carve::mesh::Mesh<3>*> outerMeshes;
-
-				for (size_t iiMesh = 0; iiMesh < op1->meshes.size(); ++iiMesh)
-				{
-					carve::mesh::Mesh<3>* mesh1 = op1->meshes[iiMesh];
-
-					if (mesh1->is_inner_mesh && iiMesh > 0)
-					{
-						innerMeshes.push_back(mesh1);
-					}
-					else
-					{
-						outerMeshes.push_back(mesh1);
-					}
-				}
-
-				shared_ptr<carve::mesh::MeshSet<3> > resultClassified;
-				if (outerMeshes.size() > 1)
-				{
-					// check if some outer meshes are in fact inner meshes
-					if (innerMeshes.size() == 0)
-					{
-						MeshOps::classifyMeshesInside(outerMeshes, resultClassified, paramsScaled);
-						
-						innerMeshes.clear();
-						outerMeshes.clear();
-						if (resultClassified)
-						{
-							for (size_t iiMesh = 0; iiMesh < resultClassified->meshes.size(); ++iiMesh)
-							{
-								carve::mesh::Mesh<3>* mesh1 = resultClassified->meshes[iiMesh];
-
-								if (mesh1->is_inner_mesh && iiMesh > 0)
-								{
-									innerMeshes.push_back(mesh1);
-								}
-								else
-								{
-									outerMeshes.push_back(mesh1);
-								}
-							}
-						}
-					}
-				}
-
-#ifdef CSG_DEBUG
-				bool dumpMergedMeshes = false;
-				if (csg_compute_count == 12 && false)
-				{
-					paramsScaled.debugDump = true;
-					GeomDebugDump::moveOffset(0.2);
-					dumpWithLabel("computeCSG::op1", op1, dumpColorSettings, params, true, false);
-					dumpWithLabel("computeCSG::op2", op2, dumpColorSettings, params, false, false);
-				}
-#endif
-
-				shared_ptr<carve::mesh::MeshSet<3> > op1OuterMeshset;
-				mergeMeshesToMeshset(outerMeshes, op1OuterMeshset, paramsScaled);
-
-				shared_ptr<carve::mesh::MeshSet<3> > op2Meshset( op2->clone() );
-				mergeMeshesToMeshset(innerMeshes, op2Meshset, paramsScaled);
-
-#ifdef CSG_DEBUG
-				if (csg_compute_count >= 9)
-				{
-					GeomDebugDump::moveOffset(0.4);
-					operandA_dumped = false;
-					operandB_dumped = false;
-					//dumpOperands(op1OuterMeshset, op2Meshset, result, tag, operandA_dumped, operandB_dumped, dumpColorSettings, paramsScaled);
-				}
-				if (csg_compute_count == 12 && false)
-				{
-					GeomDebugDump::moveOffset(0.2);
-					dumpWithLabel("computeCSG::op1", op1OuterMeshset, dumpColorSettings, params, true, false);
-					dumpWithLabel("computeCSG::op2", op2, dumpColorSettings, params, false, false);
-				}
-#endif
-
-				MeshSetInfo infoOuterMesh(params.callbackFunc, params.ifc_entity);
-				MeshSetInfo infoInnerMesh(params.callbackFunc, params.ifc_entity);
-				bool outerMesh_valid = MeshOps::checkMeshSetValidAndClosed(op1OuterMeshset, infoOuterMesh, paramsScaled);
-				bool innerMesh_valid = MeshOps::checkMeshSetValidAndClosed(op2Meshset, infoInnerMesh, paramsScaled);
-
-				if (outerMesh_valid && innerMesh_valid)
-				{
-					shared_ptr<carve::mesh::MeshSet<3> > resultMerge(csg.compute(op1OuterMeshset.get(), op2Meshset.get(), carve::csg::CSG::A_MINUS_B, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
-					if (resultMerge)
-					{
-						result = resultMerge;
-						MeshSetInfo infoResult(params.callbackFunc, params.ifc_entity);
-						paramsScaled.allowDegenerateEdges = true;
-						bool resultValid = MeshOps::checkMeshSetValidAndClosed(result, infoResult, paramsScaled);
-						if (resultValid)
-						{
-							boolOpDone = true;
-						}
-					}
-				}
+				handleInnerOuterMeshesInOperands(op1, op2, result, paramsScaled, boolOpDone, epsDefault);
 			}
 			
 			if( !boolOpDone )
 			{
+				carve::csg::CSG csg(epsDefault);
 				result = shared_ptr<carve::mesh::MeshSet<3> >(csg.compute(op1.get(), op2.get(), operation, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
 			}
 
@@ -544,7 +443,7 @@ public:
 			if (!infoResult.meshSetValid || (infoResult.meshSetValid && infoResult.degenerateEdges.size() > 0 ))
 			{
 #ifdef CSG_DEBUG
-				if ( paramsScaled.debugDump || csg_compute_count > 14)
+				//if ( paramsScaled.debugDump || csg_compute_count > 14)
 				{
 					dumpOperands(op1, op2, result, tag, operandA_dumped, operandB_dumped, dumpColorSettings, paramsScaled);
 					double volume_result = MeshOps::computeMeshsetVolume(result.get());
@@ -689,6 +588,15 @@ public:
 		std::multimap<double, shared_ptr<carve::mesh::MeshSet<3> > > mapVolumeMeshes;
 		for (const shared_ptr<carve::mesh::MeshSet<3> >&meshset2 : operands2)
 		{
+#ifdef _ORDER_CSG_BY_VOLUME
+			double volume = MeshOps::computeMeshsetVolume(meshset2.get());
+			mapVolumeMeshes.insert({ volume, meshset2 });
+		}
+
+		for (auto it : mapVolumeMeshes)
+		{
+			const shared_ptr<carve::mesh::MeshSet<3> >& meshset2 = it.second;
+#endif
 			bool normalizeCoords = true;
 			bool allowDegenerateEdges = false;
 			shared_ptr<carve::mesh::MeshSet<3> > result;
@@ -744,6 +652,104 @@ public:
 				continue;
 			}
 
+		}
+	}
+
+	static void handleInnerOuterMeshesInOperands(shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, shared_ptr<carve::mesh::MeshSet<3> >& result, 
+		GeomProcessingParams& params, bool& boolOpDone, double eps)
+	{
+		// if op1 consists of > 1 meshes, and one is completely inside the other, then all inner meshes need to be merged with op2, then op2 subtracted from the op1 outer mesh
+		// if op1 consists of > 1 meshes, and they are apart from each other, then regular csg.compute works fine
+
+		std::vector<carve::mesh::Mesh<3>*> innerMeshes;
+		std::vector<carve::mesh::Mesh<3>*> outerMeshes;
+
+		for (size_t iiMesh = 0; iiMesh < op1->meshes.size(); ++iiMesh)
+		{
+			carve::mesh::Mesh<3>* mesh1 = op1->meshes[iiMesh];
+
+			if (mesh1->is_inner_mesh && iiMesh > 0)
+			{
+				innerMeshes.push_back(mesh1);
+			}
+			else
+			{
+				outerMeshes.push_back(mesh1);
+			}
+		}
+
+		shared_ptr<carve::mesh::MeshSet<3> > resultClassified;
+		if (outerMeshes.size() > 1)
+		{
+			// check if some outer meshes are in fact inner meshes
+			if (innerMeshes.size() == 0)
+			{
+				MeshOps::classifyMeshesInside(outerMeshes, resultClassified, params);
+
+				innerMeshes.clear();
+				outerMeshes.clear();
+				if (resultClassified)
+				{
+					for (size_t iiMesh = 0; iiMesh < resultClassified->meshes.size(); ++iiMesh)
+					{
+						carve::mesh::Mesh<3>* mesh1 = resultClassified->meshes[iiMesh];
+
+						if (mesh1->is_inner_mesh && iiMesh > 0)
+						{
+							innerMeshes.push_back(mesh1);
+						}
+						else
+						{
+							outerMeshes.push_back(mesh1);
+						}
+					}
+				}
+			}
+		}
+
+		shared_ptr<carve::mesh::MeshSet<3> > op1OuterMeshset;
+		mergeMeshesToMeshset(outerMeshes, op1OuterMeshset, params);
+
+		shared_ptr<carve::mesh::MeshSet<3> > op2Meshset(op2->clone());
+		mergeMeshesToMeshset(innerMeshes, op2Meshset, params);
+
+#ifdef CSG_DEBUG
+		if (csg_compute_count >= 9)
+		{
+			GeomDebugDump::moveOffset(0.4);
+			//operandA_dumped = false;
+			//operandB_dumped = false;
+			//dumpOperands(op1OuterMeshset, op2Meshset, result, tag, operandA_dumped, operandB_dumped, dumpColorSettings, paramsScaled);
+		}
+		GeomDebugDump::DumpSettingsStruct dumpColorSettings;
+		if (csg_compute_count == 12 && false)
+		{
+			GeomDebugDump::moveOffset(0.2);
+			dumpWithLabel("computeCSG::op1", op1OuterMeshset, dumpColorSettings, params, true, false);
+			dumpWithLabel("computeCSG::op2", op2, dumpColorSettings, params, false, false);
+		}
+#endif
+
+		MeshSetInfo infoOuterMesh(params.callbackFunc, params.ifc_entity);
+		MeshSetInfo infoInnerMesh(params.callbackFunc, params.ifc_entity);
+		bool outerMesh_valid = MeshOps::checkMeshSetValidAndClosed(op1OuterMeshset, infoOuterMesh, params);
+		bool innerMesh_valid = MeshOps::checkMeshSetValidAndClosed(op2Meshset, infoInnerMesh, params);
+
+		if (outerMesh_valid && innerMesh_valid)
+		{
+			carve::csg::CSG csg(eps);
+			shared_ptr<carve::mesh::MeshSet<3> > resultMerge(csg.compute(op1OuterMeshset.get(), op2Meshset.get(), carve::csg::CSG::A_MINUS_B, nullptr, carve::csg::CSG::CLASSIFY_EDGE));
+			if (resultMerge)
+			{
+				result = resultMerge;
+				MeshSetInfo infoResult(params.callbackFunc, params.ifc_entity);
+				params.allowDegenerateEdges = true;
+				bool resultValid = MeshOps::checkMeshSetValidAndClosed(result, infoResult, params);
+				if (resultValid)
+				{
+					boolOpDone = true;
+				}
+			}
 		}
 	}
 };

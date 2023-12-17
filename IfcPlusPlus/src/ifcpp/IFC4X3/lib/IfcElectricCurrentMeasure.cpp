@@ -20,6 +20,7 @@ void IFC4X3::IfcElectricCurrentMeasure::getStepParameter( std::stringstream& str
 }
 shared_ptr<IFC4X3::IfcElectricCurrentMeasure> IFC4X3::IfcElectricCurrentMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcElectricCurrentMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricCurrentMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcElectricCurrentMeasure>(); }
 	shared_ptr<IfcElectricCurrentMeasure> type_object( new IfcElectricCurrentMeasure() );

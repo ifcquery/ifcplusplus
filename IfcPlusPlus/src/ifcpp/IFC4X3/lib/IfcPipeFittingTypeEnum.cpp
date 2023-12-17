@@ -29,6 +29,7 @@ void IFC4X3::IfcPipeFittingTypeEnum::getStepParameter( std::stringstream& stream
 }
 shared_ptr<IFC4X3::IfcPipeFittingTypeEnum> IFC4X3::IfcPipeFittingTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPipeFittingTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPipeFittingTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPipeFittingTypeEnum>(); }
 	shared_ptr<IfcPipeFittingTypeEnum> type_object( new IfcPipeFittingTypeEnum() );

@@ -20,6 +20,7 @@ void IFC4X3::IfcMoistureDiffusivityMeasure::getStepParameter( std::stringstream&
 }
 shared_ptr<IFC4X3::IfcMoistureDiffusivityMeasure> IFC4X3::IfcMoistureDiffusivityMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcMoistureDiffusivityMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMoistureDiffusivityMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcMoistureDiffusivityMeasure>(); }
 	shared_ptr<IfcMoistureDiffusivityMeasure> type_object( new IfcMoistureDiffusivityMeasure() );

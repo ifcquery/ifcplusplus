@@ -75,7 +75,8 @@ inline std::string getFileExtension(std::string path)
 #endif
 }
 
-IFCQUERY_EXPORT void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::string>& args_out );
+IFCQUERY_EXPORT void decodeArgumentString(const std::string& argument_str, std::string& arg_out);
+IFCQUERY_EXPORT void decodeArgumentStrings( const std::vector<std::string>& entity_arguments, std::vector<std::string>& args_out );
 
 void readBool(const std::string& attribute_value, bool& target);
 void readLogical(const std::string& attribute_value, LogicalEnum& target);

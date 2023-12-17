@@ -20,6 +20,7 @@ void IFC4X3::IfcContextDependentMeasure::getStepParameter( std::stringstream& st
 }
 shared_ptr<IFC4X3::IfcContextDependentMeasure> IFC4X3::IfcContextDependentMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcContextDependentMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcContextDependentMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcContextDependentMeasure>(); }
 	shared_ptr<IfcContextDependentMeasure> type_object( new IfcContextDependentMeasure() );

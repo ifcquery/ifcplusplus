@@ -26,6 +26,7 @@ void IFC4X3::IfcFacilityUsageEnum::getStepParameter( std::stringstream& stream, 
 }
 shared_ptr<IFC4X3::IfcFacilityUsageEnum> IFC4X3::IfcFacilityUsageEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcFacilityUsageEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFacilityUsageEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcFacilityUsageEnum>(); }
 	shared_ptr<IfcFacilityUsageEnum> type_object( new IfcFacilityUsageEnum() );

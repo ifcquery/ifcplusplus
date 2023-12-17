@@ -20,6 +20,7 @@ void IFC4X3::IfcPositiveRatioMeasure::getStepParameter( std::stringstream& strea
 }
 shared_ptr<IFC4X3::IfcPositiveRatioMeasure> IFC4X3::IfcPositiveRatioMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPositiveRatioMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPositiveRatioMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPositiveRatioMeasure>(); }
 	shared_ptr<IfcPositiveRatioMeasure> type_object( new IfcPositiveRatioMeasure() );

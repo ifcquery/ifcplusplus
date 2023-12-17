@@ -22,6 +22,7 @@ void IFC4X3::IfcReinforcingMeshTypeEnum::getStepParameter( std::stringstream& st
 }
 shared_ptr<IFC4X3::IfcReinforcingMeshTypeEnum> IFC4X3::IfcReinforcingMeshTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcReinforcingMeshTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcReinforcingMeshTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcReinforcingMeshTypeEnum>(); }
 	shared_ptr<IfcReinforcingMeshTypeEnum> type_object( new IfcReinforcingMeshTypeEnum() );

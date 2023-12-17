@@ -33,6 +33,7 @@ void IFC4X3::IfcWallTypeEnum::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcWallTypeEnum> IFC4X3::IfcWallTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcWallTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWallTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcWallTypeEnum>(); }
 	shared_ptr<IfcWallTypeEnum> type_object( new IfcWallTypeEnum() );

@@ -37,6 +37,7 @@ void IFC4X3::IfcMechanicalFastenerTypeEnum::getStepParameter( std::stringstream&
 }
 shared_ptr<IFC4X3::IfcMechanicalFastenerTypeEnum> IFC4X3::IfcMechanicalFastenerTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcMechanicalFastenerTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMechanicalFastenerTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcMechanicalFastenerTypeEnum>(); }
 	shared_ptr<IfcMechanicalFastenerTypeEnum> type_object( new IfcMechanicalFastenerTypeEnum() );

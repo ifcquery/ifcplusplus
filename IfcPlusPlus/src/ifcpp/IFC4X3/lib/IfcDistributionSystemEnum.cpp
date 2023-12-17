@@ -71,6 +71,7 @@ void IFC4X3::IfcDistributionSystemEnum::getStepParameter( std::stringstream& str
 }
 shared_ptr<IFC4X3::IfcDistributionSystemEnum> IFC4X3::IfcDistributionSystemEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcDistributionSystemEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDistributionSystemEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcDistributionSystemEnum>(); }
 	shared_ptr<IfcDistributionSystemEnum> type_object( new IfcDistributionSystemEnum() );

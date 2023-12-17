@@ -20,6 +20,7 @@ void IFC4X3::IfcModulusOfElasticityMeasure::getStepParameter( std::stringstream&
 }
 shared_ptr<IFC4X3::IfcModulusOfElasticityMeasure> IFC4X3::IfcModulusOfElasticityMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcModulusOfElasticityMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcModulusOfElasticityMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcModulusOfElasticityMeasure>(); }
 	shared_ptr<IfcModulusOfElasticityMeasure> type_object( new IfcModulusOfElasticityMeasure() );

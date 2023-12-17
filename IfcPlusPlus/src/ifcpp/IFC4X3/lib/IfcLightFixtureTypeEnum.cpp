@@ -25,6 +25,7 @@ void IFC4X3::IfcLightFixtureTypeEnum::getStepParameter( std::stringstream& strea
 }
 shared_ptr<IFC4X3::IfcLightFixtureTypeEnum> IFC4X3::IfcLightFixtureTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLightFixtureTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLightFixtureTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLightFixtureTypeEnum>(); }
 	shared_ptr<IfcLightFixtureTypeEnum> type_object( new IfcLightFixtureTypeEnum() );

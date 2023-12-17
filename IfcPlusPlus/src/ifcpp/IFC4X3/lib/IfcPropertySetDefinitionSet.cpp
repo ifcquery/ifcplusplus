@@ -20,6 +20,7 @@ void IFC4X3::IfcPropertySetDefinitionSet::getStepParameter( std::stringstream& s
 }
 shared_ptr<IFC4X3::IfcPropertySetDefinitionSet> IFC4X3::IfcPropertySetDefinitionSet::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPropertySetDefinitionSet>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPropertySetDefinitionSet>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPropertySetDefinitionSet>(); }
 	shared_ptr<IfcPropertySetDefinitionSet> type_object( new IfcPropertySetDefinitionSet() );

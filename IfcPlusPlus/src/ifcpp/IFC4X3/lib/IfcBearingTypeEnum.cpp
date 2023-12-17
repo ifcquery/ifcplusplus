@@ -30,6 +30,7 @@ void IFC4X3::IfcBearingTypeEnum::getStepParameter( std::stringstream& stream, bo
 }
 shared_ptr<IFC4X3::IfcBearingTypeEnum> IFC4X3::IfcBearingTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcBearingTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBearingTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcBearingTypeEnum>(); }
 	shared_ptr<IfcBearingTypeEnum> type_object( new IfcBearingTypeEnum() );

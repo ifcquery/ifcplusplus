@@ -105,6 +105,7 @@ namespace GeomUtils
 		const glm::dvec3& getPosition() const { return m_position; }
 		const glm::dvec3& getNormal() const { return m_normal; }
 		const void setNormal(glm::dvec3& norm) { m_normal = norm; }
+		const void setPosition(glm::dvec3& pos) { m_position = pos; }
 
 		void setPlane(const glm::dvec3& _position, const glm::dvec3& _normal)
 		{
@@ -1505,11 +1506,11 @@ namespace GeomUtils
 			for (size_t iiRound = 0; iiRound < polygon.size(); ++iiRound)
 			{
 				bool removedPoint = false;
-				for (size_t ii = 2; ii < polygon.size(); ++ii)
+				for (size_t ii = 0; ii < polygon.size(); ++ii)
 				{
-					const vec2& p0 = polygon[ii - 2];
-					const vec2& p1 = polygon[ii - 1];
-					const vec2& p2 = polygon[ii - 0];
+					const vec2& p0 = polygon[ii];
+					const vec2& p1 = polygon[(ii + 1) % polygon.size()];
+					const vec2& p2 = polygon[(ii + 2) % polygon.size()];
 					vec2 p10 = p1 - p0;
 					vec2 p12 = p1 - p2;
 
@@ -1938,48 +1939,79 @@ namespace GeomUtils
 		return { P1, P2 };   // return the closest distance
 	}
 
-
-	inline bool pointInPolySimple(const std::vector<vec2>& points, const vec2& p, double eps)
+	inline bool pointInPolySimple(const std::vector<vec2>& polygon, const vec2& testPoint, double eps)
 	{
-		if (points.size() < 1)
+		if (polygon.size() < 3)
 		{
 			return false;
 		}
-		size_t l = points.size();
-		double s = 0.0;
-		double rp, r0, d;
 
-		rp = r0 = ::atan2(points[0].y - p.y, points[0].x - p.x);
+		int numIntersections = 0;
+		int numVertices = polygon.size();
 
-		for (size_t i = 1; i < l; i++)
+		for (int i = 0; i < numVertices; ++i)
 		{
-			double r = atan2(points[i].y - p.y, points[i].x - p.x);
-			d = r - rp;
-			if (d > M_PI)
+			int nextIndex = (i + 1) % numVertices;
+
+			// Check if the ray from the test point intersects with the edge
+			if ((polygon[i].y > testPoint.y) != (polygon[nextIndex].y > testPoint.y) &&
+				(testPoint.x < (polygon[nextIndex].x - polygon[i].x) * (testPoint.y - polygon[i].y) / (polygon[nextIndex].y - polygon[i].y) + polygon[i].x))
 			{
-				d -= M_TWOPI;
+				++numIntersections;
 			}
-			if (d < -M_PI)
-			{
-				d += M_TWOPI;
-			}
-			s = s + d;
-			rp = r;
 		}
 
-		d = r0 - rp;
-		if (d > M_PI)
-		{
-			d -= M_TWOPI;
-		}
-		if (d < -M_PI)
-		{
-			d += M_TWOPI;
-		}
-		s = s + d;
+		return numIntersections % 2 == 1;
+	}
 
-		bool is_zero = fabs(s) < eps;
-		return !is_zero;
+	enum PointPosition {
+		INSIDE,
+		ON_EDGE,
+		OUTSIDE
+	};
+
+	inline PointPosition pointInPolySimple(const array2d& p, const std::vector<array2d>& vertices, double epsilon)
+	{
+		int numVertices = static_cast<int>(vertices.size());
+
+		for (int i = 0, j = numVertices - 1; i < numVertices; j = i++) {
+			// Check if the point is close enough to the current edge
+			if (fabs((p[0] - vertices[i][0]) * (vertices[j][1] - vertices[i][1]) -
+				(vertices[j][0] - vertices[i][0]) * (p[1] - vertices[i][1])) < epsilon) {
+				return ON_EDGE; // Point is considered on the edge
+			}
+
+			// Check for intersection between the ray and the edge
+			if ((vertices[i][1] > p[1]) != (vertices[j][1] > p[1]) &&
+				p[0] < (vertices[j][0] - vertices[i][0]) * (p[1] - vertices[i][1]) / (vertices[j][1] - vertices[i][1]) + vertices[i][0]) {
+				return INSIDE; // Point is inside the polygon
+			}
+		}
+
+		return OUTSIDE; // Point is outside the polygon
+		
+
+		//int numIntersections = 0;
+		//int numVertices = polygon.size();
+		//if (numVertices < 3)
+		//{
+		//	return false;
+		//}
+
+		//for (int i = 0; i < numVertices; ++i)
+		//{
+		//	int nextIndex = (i + 1) % numVertices;
+		//	const array2d& polygonPoint = polygon[i];
+		//	const array2d& polygonPointNext = polygon[nextIndex];
+
+		//	// Check if the ray from the test point intersects with the edge
+		//	if ((polygonPoint[1] > testPoint[1]) != (polygonPointNext[1] > testPoint[1]) &&
+		//		(testPoint[0] < (polygonPointNext[0] - polygonPoint[0]) * (testPoint[1] - polygonPoint[1]) / (polygonPointNext[1] - polygonPoint[1]) + polygon[i][0])) {
+		//		++numIntersections;
+		//	}
+		//}
+
+		//return numIntersections % 2 == 1;
 	}
 
 	inline bool isEnclosed(const std::vector<vec2>& loop1, const std::vector<vec2>& loop2, double eps)

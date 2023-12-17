@@ -24,6 +24,7 @@ void IFC4X3::IfcLiquidTerminalTypeEnum::getStepParameter( std::stringstream& str
 }
 shared_ptr<IFC4X3::IfcLiquidTerminalTypeEnum> IFC4X3::IfcLiquidTerminalTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLiquidTerminalTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLiquidTerminalTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLiquidTerminalTypeEnum>(); }
 	shared_ptr<IfcLiquidTerminalTypeEnum> type_object( new IfcLiquidTerminalTypeEnum() );

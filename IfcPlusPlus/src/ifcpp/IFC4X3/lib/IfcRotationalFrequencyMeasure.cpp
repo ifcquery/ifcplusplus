@@ -20,6 +20,7 @@ void IFC4X3::IfcRotationalFrequencyMeasure::getStepParameter( std::stringstream&
 }
 shared_ptr<IFC4X3::IfcRotationalFrequencyMeasure> IFC4X3::IfcRotationalFrequencyMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcRotationalFrequencyMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcRotationalFrequencyMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcRotationalFrequencyMeasure>(); }
 	shared_ptr<IfcRotationalFrequencyMeasure> type_object( new IfcRotationalFrequencyMeasure() );

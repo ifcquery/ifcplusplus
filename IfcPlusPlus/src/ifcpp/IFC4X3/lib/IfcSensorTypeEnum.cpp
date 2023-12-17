@@ -54,6 +54,7 @@ void IFC4X3::IfcSensorTypeEnum::getStepParameter( std::stringstream& stream, boo
 }
 shared_ptr<IFC4X3::IfcSensorTypeEnum> IFC4X3::IfcSensorTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSensorTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSensorTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSensorTypeEnum>(); }
 	shared_ptr<IfcSensorTypeEnum> type_object( new IfcSensorTypeEnum() );

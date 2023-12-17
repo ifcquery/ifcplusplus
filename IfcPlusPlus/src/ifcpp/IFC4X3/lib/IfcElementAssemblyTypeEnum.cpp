@@ -50,6 +50,7 @@ void IFC4X3::IfcElementAssemblyTypeEnum::getStepParameter( std::stringstream& st
 }
 shared_ptr<IFC4X3::IfcElementAssemblyTypeEnum> IFC4X3::IfcElementAssemblyTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcElementAssemblyTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElementAssemblyTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcElementAssemblyTypeEnum>(); }
 	shared_ptr<IfcElementAssemblyTypeEnum> type_object( new IfcElementAssemblyTypeEnum() );

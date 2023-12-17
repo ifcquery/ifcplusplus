@@ -45,6 +45,7 @@ void IFC4X3::IfcDoorTypeOperationEnum::getStepParameter( std::stringstream& stre
 }
 shared_ptr<IFC4X3::IfcDoorTypeOperationEnum> IFC4X3::IfcDoorTypeOperationEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcDoorTypeOperationEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDoorTypeOperationEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcDoorTypeOperationEnum>(); }
 	shared_ptr<IfcDoorTypeOperationEnum> type_object( new IfcDoorTypeOperationEnum() );

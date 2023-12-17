@@ -25,6 +25,7 @@ void IFC4X3::IfcChillerTypeEnum::getStepParameter( std::stringstream& stream, bo
 }
 shared_ptr<IFC4X3::IfcChillerTypeEnum> IFC4X3::IfcChillerTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcChillerTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcChillerTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcChillerTypeEnum>(); }
 	shared_ptr<IfcChillerTypeEnum> type_object( new IfcChillerTypeEnum() );

@@ -24,6 +24,7 @@ void IFC4X3::IfcSpaceHeaterTypeEnum::getStepParameter( std::stringstream& stream
 }
 shared_ptr<IFC4X3::IfcSpaceHeaterTypeEnum> IFC4X3::IfcSpaceHeaterTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSpaceHeaterTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSpaceHeaterTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSpaceHeaterTypeEnum>(); }
 	shared_ptr<IfcSpaceHeaterTypeEnum> type_object( new IfcSpaceHeaterTypeEnum() );

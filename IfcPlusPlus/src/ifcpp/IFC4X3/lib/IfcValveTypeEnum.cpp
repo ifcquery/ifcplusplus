@@ -43,6 +43,7 @@ void IFC4X3::IfcValveTypeEnum::getStepParameter( std::stringstream& stream, bool
 }
 shared_ptr<IFC4X3::IfcValveTypeEnum> IFC4X3::IfcValveTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcValveTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcValveTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcValveTypeEnum>(); }
 	shared_ptr<IfcValveTypeEnum> type_object( new IfcValveTypeEnum() );

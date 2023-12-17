@@ -29,6 +29,7 @@ void IFC4X3::IfcVehicleTypeEnum::getStepParameter( std::stringstream& stream, bo
 }
 shared_ptr<IFC4X3::IfcVehicleTypeEnum> IFC4X3::IfcVehicleTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcVehicleTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcVehicleTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcVehicleTypeEnum>(); }
 	shared_ptr<IfcVehicleTypeEnum> type_object( new IfcVehicleTypeEnum() );

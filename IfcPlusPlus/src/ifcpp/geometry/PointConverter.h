@@ -33,6 +33,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <IfcVertex.h>
 #include <IfcVertexPoint.h>
 #include "GeomUtils.h"
+#include "GeomDebugDump.h"
 #include "IncludeCarveHeaders.h"
 
 using namespace IFC4X3;
@@ -291,7 +292,50 @@ public:
 	//\brief: returns the corresponding angle in radian. angle 0 is on the positive x-axis.
 	static double getAngleOnCircle(const vec3& circleCenter, double radius, vec3& trimPoint, const carve::math::Matrix& circlePosition, const carve::math::Matrix& circlePositionInverse, double eps)
 	{
-		double resultAngle1 = -1.0;
+#ifdef _DEBUG
+		if (false)
+		{
+			std::vector<vec3> circlePoints;
+			for (size_t ii = 0; ii < 10; ++ii)
+			{
+				double angle = M_PI * 0.5 * ii * 0.1;
+				vec3 circlePoint = carve::geom::VECTOR(radius * cos(angle), radius * sin(angle), 0);
+				circlePoint = circlePosition * circlePoint;
+				circlePoints.push_back(circlePoint);
+			}
+			glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+			GeomDebugDump::dumpPolyline(circlePoints, color, 1.0, false, false);
+			std::string label = "p";
+			GeomDebugDump::dumpVertex(trimPoint, color, label);
+
+			vec3 trimPoint2 = circlePosition * trimPoint;
+			std::string label2 = "p2";
+			GeomDebugDump::dumpVertex(trimPoint2, color, label2);
+		}
+#endif
+
+		vec3 circleCenter3D = circlePosition * carve::geom::VECTOR(0, 0, 0);
+		double trimPointDistance2 = (circleCenter3D - trimPoint).length() - radius;
+		if (std::abs(trimPointDistance2) > eps * eps * 10)
+		{
+			// trim point could be given in local coordinates
+			vec3 trimPointGlobal = circlePosition * trimPoint;
+
+			double trimPointDistance3 = (circleCenter3D - trimPointGlobal).length() - radius;
+
+			// trim points might be given not super accurate, so don't check against epsilon. Check only if significant closer
+			if (std::abs(trimPointDistance3)*100 < std::abs(trimPointDistance2) )
+			{
+				trimPoint = trimPointGlobal;
+			}
+		}
+
+		vec3 translation = circlePosition * carve::geom::VECTOR(0, 0, 0);
+		if ((translation - circleCenter).length() > eps * 10)
+		{
+			std::cout << __FUNCTION__ << ": circle center not at (0,0,0)" << std::endl;
+		}
+
 		vec3 center2trimPoint = trimPoint - circleCenter;
 		vec3 center2trimPointDirection = center2trimPoint;
 		center2trimPointDirection.normalize();
@@ -310,23 +354,41 @@ public:
 		vec3 trimPoint2D = circlePositionInverse * trimPoint;
 		vec3 trimPointRelative2D = trimPoint2D - circleCenter2D;
 		trimPointRelative2D.normalize();
-		resultAngle1 = atan2(trimPointRelative2D.y, trimPointRelative2D.x);
+		double resultAngle1 = atan2(trimPointRelative2D.y, trimPointRelative2D.x);
 		if (resultAngle1 < 0)
 		{
 			resultAngle1 += 2.0 * M_PI;
 		}
 
-		vec3 circleCenter3DCheck = circlePosition * carve::geom::VECTOR(0, 0, 0);
-		vec3 circlePoint2D = carve::geom::VECTOR(radius * cos(resultAngle1), radius * sin(resultAngle1), 0);
-
-		vec3 check = circlePoint2D - trimPoint2D;
-		distance1FromTrimPoint = check.length();
-
 #ifdef _DEBUG
-		double maxAllowedTolerance = EPS_M4 * 5.0;
-		if (distance1FromTrimPoint > maxAllowedTolerance)
 		{
-			std::cout << "getAngleOnCircle: point not on cicle. distance: " << distance1FromTrimPoint << std::endl;
+			vec3 circleCenter3DCheck = circlePosition * carve::geom::VECTOR(0, 0, 0);
+			vec3 circlePoint2D = carve::geom::VECTOR(radius * cos(resultAngle1), radius * sin(resultAngle1), 0);
+			circlePoint2D = circlePosition * circlePoint2D;
+			vec3 check = circlePoint2D - trimPoint;
+			double distance1FromTrimPoint = check.length();
+
+			double maxAllowedTolerance = 0.005;
+			if (distance1FromTrimPoint > maxAllowedTolerance)
+			{
+				std::cout << "getAngleOnCircle: point not on cicle. distance: " << distance1FromTrimPoint << std::endl;
+			}
+
+			std::vector<vec3> circlePoints;
+			for (size_t ii = 0; ii < 10; ++ii)
+			{
+				double angle2 = resultAngle1 + M_PI * 0.5 * ii * 0.1;
+				vec3 circlePoint = carve::geom::VECTOR(radius * cos(angle2), radius * sin(angle2), 0);
+				circlePoint = circlePosition * circlePoint;
+				circlePoints.push_back(circlePoint);
+			}
+			glm::vec4 color(0.3, 0.4, 0.5, 0.3);
+			GeomDebugDump::dumpPolyline(circlePoints, color, 3.0, false, false);
+
+			vec3 circlePointResult = carve::geom::VECTOR(radius * cos(resultAngle1), radius * sin(resultAngle1), 0);
+			circlePointResult = circlePosition * circlePointResult;
+			std::string label2 = "x";
+			GeomDebugDump::dumpVertex(circlePointResult, color, label2);
 		}
 #endif
 		return resultAngle1;

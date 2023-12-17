@@ -20,6 +20,7 @@ void IFC4X3::IfcElectricVoltageMeasure::getStepParameter( std::stringstream& str
 }
 shared_ptr<IFC4X3::IfcElectricVoltageMeasure> IFC4X3::IfcElectricVoltageMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcElectricVoltageMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricVoltageMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcElectricVoltageMeasure>(); }
 	shared_ptr<IfcElectricVoltageMeasure> type_object( new IfcElectricVoltageMeasure() );

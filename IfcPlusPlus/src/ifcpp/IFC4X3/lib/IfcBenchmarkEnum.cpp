@@ -30,6 +30,7 @@ void IFC4X3::IfcBenchmarkEnum::getStepParameter( std::stringstream& stream, bool
 }
 shared_ptr<IFC4X3::IfcBenchmarkEnum> IFC4X3::IfcBenchmarkEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcBenchmarkEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBenchmarkEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcBenchmarkEnum>(); }
 	shared_ptr<IfcBenchmarkEnum> type_object( new IfcBenchmarkEnum() );

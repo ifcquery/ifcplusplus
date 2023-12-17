@@ -25,6 +25,7 @@ void IFC4X3::IfcLoadGroupTypeEnum::getStepParameter( std::stringstream& stream, 
 }
 shared_ptr<IFC4X3::IfcLoadGroupTypeEnum> IFC4X3::IfcLoadGroupTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLoadGroupTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLoadGroupTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLoadGroupTypeEnum>(); }
 	shared_ptr<IfcLoadGroupTypeEnum> type_object( new IfcLoadGroupTypeEnum() );

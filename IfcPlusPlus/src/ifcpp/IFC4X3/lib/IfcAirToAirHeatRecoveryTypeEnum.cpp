@@ -31,6 +31,7 @@ void IFC4X3::IfcAirToAirHeatRecoveryTypeEnum::getStepParameter( std::stringstrea
 }
 shared_ptr<IFC4X3::IfcAirToAirHeatRecoveryTypeEnum> IFC4X3::IfcAirToAirHeatRecoveryTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcAirToAirHeatRecoveryTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAirToAirHeatRecoveryTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcAirToAirHeatRecoveryTypeEnum>(); }
 	shared_ptr<IfcAirToAirHeatRecoveryTypeEnum> type_object( new IfcAirToAirHeatRecoveryTypeEnum() );

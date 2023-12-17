@@ -27,6 +27,7 @@ void IFC4X3::IfcStructuralCurveMemberTypeEnum::getStepParameter( std::stringstre
 }
 shared_ptr<IFC4X3::IfcStructuralCurveMemberTypeEnum> IFC4X3::IfcStructuralCurveMemberTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcStructuralCurveMemberTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcStructuralCurveMemberTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcStructuralCurveMemberTypeEnum>(); }
 	shared_ptr<IfcStructuralCurveMemberTypeEnum> type_object( new IfcStructuralCurveMemberTypeEnum() );

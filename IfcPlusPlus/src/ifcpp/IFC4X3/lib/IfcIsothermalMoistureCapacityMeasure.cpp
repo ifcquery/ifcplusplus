@@ -20,6 +20,7 @@ void IFC4X3::IfcIsothermalMoistureCapacityMeasure::getStepParameter( std::string
 }
 shared_ptr<IFC4X3::IfcIsothermalMoistureCapacityMeasure> IFC4X3::IfcIsothermalMoistureCapacityMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcIsothermalMoistureCapacityMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcIsothermalMoistureCapacityMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcIsothermalMoistureCapacityMeasure>(); }
 	shared_ptr<IfcIsothermalMoistureCapacityMeasure> type_object( new IfcIsothermalMoistureCapacityMeasure() );

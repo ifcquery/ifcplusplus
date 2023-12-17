@@ -31,6 +31,7 @@ void IFC4X3::IfcWindowTypePartitioningEnum::getStepParameter( std::stringstream&
 }
 shared_ptr<IFC4X3::IfcWindowTypePartitioningEnum> IFC4X3::IfcWindowTypePartitioningEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcWindowTypePartitioningEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWindowTypePartitioningEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcWindowTypePartitioningEnum>(); }
 	shared_ptr<IfcWindowTypePartitioningEnum> type_object( new IfcWindowTypePartitioningEnum() );

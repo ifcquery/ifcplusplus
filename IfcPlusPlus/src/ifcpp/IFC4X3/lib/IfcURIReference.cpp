@@ -20,6 +20,7 @@ void IFC4X3::IfcURIReference::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcURIReference> IFC4X3::IfcURIReference::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcURIReference>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcURIReference>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcURIReference>(); }
 	shared_ptr<IfcURIReference> type_object( new IfcURIReference() );

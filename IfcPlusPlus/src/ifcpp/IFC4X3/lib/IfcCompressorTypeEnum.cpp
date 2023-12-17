@@ -37,6 +37,7 @@ void IFC4X3::IfcCompressorTypeEnum::getStepParameter( std::stringstream& stream,
 }
 shared_ptr<IFC4X3::IfcCompressorTypeEnum> IFC4X3::IfcCompressorTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcCompressorTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCompressorTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcCompressorTypeEnum>(); }
 	shared_ptr<IfcCompressorTypeEnum> type_object( new IfcCompressorTypeEnum() );

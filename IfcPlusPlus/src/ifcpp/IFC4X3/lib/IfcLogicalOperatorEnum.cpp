@@ -25,6 +25,7 @@ void IFC4X3::IfcLogicalOperatorEnum::getStepParameter( std::stringstream& stream
 }
 shared_ptr<IFC4X3::IfcLogicalOperatorEnum> IFC4X3::IfcLogicalOperatorEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLogicalOperatorEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLogicalOperatorEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLogicalOperatorEnum>(); }
 	shared_ptr<IfcLogicalOperatorEnum> type_object( new IfcLogicalOperatorEnum() );

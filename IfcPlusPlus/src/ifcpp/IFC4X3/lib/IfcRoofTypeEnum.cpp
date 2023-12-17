@@ -35,6 +35,7 @@ void IFC4X3::IfcRoofTypeEnum::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcRoofTypeEnum> IFC4X3::IfcRoofTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcRoofTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcRoofTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcRoofTypeEnum>(); }
 	shared_ptr<IfcRoofTypeEnum> type_object( new IfcRoofTypeEnum() );

@@ -28,6 +28,7 @@ void IFC4X3::IfcFilterTypeEnum::getStepParameter( std::stringstream& stream, boo
 }
 shared_ptr<IFC4X3::IfcFilterTypeEnum> IFC4X3::IfcFilterTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcFilterTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFilterTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcFilterTypeEnum>(); }
 	shared_ptr<IfcFilterTypeEnum> type_object( new IfcFilterTypeEnum() );

@@ -32,6 +32,7 @@ void IFC4X3::IfcSanitaryTerminalTypeEnum::getStepParameter( std::stringstream& s
 }
 shared_ptr<IFC4X3::IfcSanitaryTerminalTypeEnum> IFC4X3::IfcSanitaryTerminalTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSanitaryTerminalTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSanitaryTerminalTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSanitaryTerminalTypeEnum>(); }
 	shared_ptr<IfcSanitaryTerminalTypeEnum> type_object( new IfcSanitaryTerminalTypeEnum() );

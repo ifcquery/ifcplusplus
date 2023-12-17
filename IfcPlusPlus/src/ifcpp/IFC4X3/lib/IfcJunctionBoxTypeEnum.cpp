@@ -24,6 +24,7 @@ void IFC4X3::IfcJunctionBoxTypeEnum::getStepParameter( std::stringstream& stream
 }
 shared_ptr<IFC4X3::IfcJunctionBoxTypeEnum> IFC4X3::IfcJunctionBoxTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcJunctionBoxTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcJunctionBoxTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcJunctionBoxTypeEnum>(); }
 	shared_ptr<IfcJunctionBoxTypeEnum> type_object( new IfcJunctionBoxTypeEnum() );

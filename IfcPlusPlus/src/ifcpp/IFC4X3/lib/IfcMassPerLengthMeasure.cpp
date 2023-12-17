@@ -20,6 +20,7 @@ void IFC4X3::IfcMassPerLengthMeasure::getStepParameter( std::stringstream& strea
 }
 shared_ptr<IFC4X3::IfcMassPerLengthMeasure> IFC4X3::IfcMassPerLengthMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcMassPerLengthMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMassPerLengthMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcMassPerLengthMeasure>(); }
 	shared_ptr<IfcMassPerLengthMeasure> type_object( new IfcMassPerLengthMeasure() );

@@ -20,6 +20,7 @@ void IFC4X3::IfcText::getStepParameter( std::stringstream& stream, bool is_selec
 }
 shared_ptr<IFC4X3::IfcText> IFC4X3::IfcText::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcText>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcText>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcText>(); }
 	shared_ptr<IfcText> type_object( new IfcText() );

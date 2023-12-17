@@ -24,6 +24,7 @@ void IFC4X3::IfcCaissonFoundationTypeEnum::getStepParameter( std::stringstream& 
 }
 shared_ptr<IFC4X3::IfcCaissonFoundationTypeEnum> IFC4X3::IfcCaissonFoundationTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcCaissonFoundationTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCaissonFoundationTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcCaissonFoundationTypeEnum>(); }
 	shared_ptr<IfcCaissonFoundationTypeEnum> type_object( new IfcCaissonFoundationTypeEnum() );

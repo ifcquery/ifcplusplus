@@ -20,6 +20,7 @@ void IFC4X3::IfcLinearVelocityMeasure::getStepParameter( std::stringstream& stre
 }
 shared_ptr<IFC4X3::IfcLinearVelocityMeasure> IFC4X3::IfcLinearVelocityMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLinearVelocityMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLinearVelocityMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLinearVelocityMeasure>(); }
 	shared_ptr<IfcLinearVelocityMeasure> type_object( new IfcLinearVelocityMeasure() );

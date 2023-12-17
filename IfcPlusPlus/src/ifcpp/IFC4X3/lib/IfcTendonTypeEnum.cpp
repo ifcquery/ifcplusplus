@@ -26,6 +26,7 @@ void IFC4X3::IfcTendonTypeEnum::getStepParameter( std::stringstream& stream, boo
 }
 shared_ptr<IFC4X3::IfcTendonTypeEnum> IFC4X3::IfcTendonTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcTendonTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTendonTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcTendonTypeEnum>(); }
 	shared_ptr<IfcTendonTypeEnum> type_object( new IfcTendonTypeEnum() );

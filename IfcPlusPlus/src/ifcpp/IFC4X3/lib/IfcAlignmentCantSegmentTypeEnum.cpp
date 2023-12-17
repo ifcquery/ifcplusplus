@@ -27,6 +27,7 @@ void IFC4X3::IfcAlignmentCantSegmentTypeEnum::getStepParameter( std::stringstrea
 }
 shared_ptr<IFC4X3::IfcAlignmentCantSegmentTypeEnum> IFC4X3::IfcAlignmentCantSegmentTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcAlignmentCantSegmentTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAlignmentCantSegmentTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcAlignmentCantSegmentTypeEnum>(); }
 	shared_ptr<IfcAlignmentCantSegmentTypeEnum> type_object( new IfcAlignmentCantSegmentTypeEnum() );

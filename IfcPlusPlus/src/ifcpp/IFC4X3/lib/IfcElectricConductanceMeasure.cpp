@@ -20,6 +20,7 @@ void IFC4X3::IfcElectricConductanceMeasure::getStepParameter( std::stringstream&
 }
 shared_ptr<IFC4X3::IfcElectricConductanceMeasure> IFC4X3::IfcElectricConductanceMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcElectricConductanceMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricConductanceMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcElectricConductanceMeasure>(); }
 	shared_ptr<IfcElectricConductanceMeasure> type_object( new IfcElectricConductanceMeasure() );

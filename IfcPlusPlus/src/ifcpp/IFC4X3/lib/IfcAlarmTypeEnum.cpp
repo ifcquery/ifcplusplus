@@ -30,6 +30,7 @@ void IFC4X3::IfcAlarmTypeEnum::getStepParameter( std::stringstream& stream, bool
 }
 shared_ptr<IFC4X3::IfcAlarmTypeEnum> IFC4X3::IfcAlarmTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcAlarmTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAlarmTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcAlarmTypeEnum>(); }
 	shared_ptr<IfcAlarmTypeEnum> type_object( new IfcAlarmTypeEnum() );

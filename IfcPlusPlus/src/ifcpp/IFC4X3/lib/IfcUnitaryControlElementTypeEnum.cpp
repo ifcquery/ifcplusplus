@@ -32,6 +32,7 @@ void IFC4X3::IfcUnitaryControlElementTypeEnum::getStepParameter( std::stringstre
 }
 shared_ptr<IFC4X3::IfcUnitaryControlElementTypeEnum> IFC4X3::IfcUnitaryControlElementTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcUnitaryControlElementTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcUnitaryControlElementTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcUnitaryControlElementTypeEnum>(); }
 	shared_ptr<IfcUnitaryControlElementTypeEnum> type_object( new IfcUnitaryControlElementTypeEnum() );

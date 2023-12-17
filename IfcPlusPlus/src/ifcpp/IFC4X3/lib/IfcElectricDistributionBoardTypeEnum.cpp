@@ -26,6 +26,7 @@ void IFC4X3::IfcElectricDistributionBoardTypeEnum::getStepParameter( std::string
 }
 shared_ptr<IFC4X3::IfcElectricDistributionBoardTypeEnum> IFC4X3::IfcElectricDistributionBoardTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcElectricDistributionBoardTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricDistributionBoardTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcElectricDistributionBoardTypeEnum>(); }
 	shared_ptr<IfcElectricDistributionBoardTypeEnum> type_object( new IfcElectricDistributionBoardTypeEnum() );

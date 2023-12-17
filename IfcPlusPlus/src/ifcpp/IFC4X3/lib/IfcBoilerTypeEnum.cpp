@@ -24,6 +24,7 @@ void IFC4X3::IfcBoilerTypeEnum::getStepParameter( std::stringstream& stream, boo
 }
 shared_ptr<IFC4X3::IfcBoilerTypeEnum> IFC4X3::IfcBoilerTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcBoilerTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBoilerTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcBoilerTypeEnum>(); }
 	shared_ptr<IfcBoilerTypeEnum> type_object( new IfcBoilerTypeEnum() );

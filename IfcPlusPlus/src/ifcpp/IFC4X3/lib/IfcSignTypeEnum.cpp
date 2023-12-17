@@ -25,6 +25,7 @@ void IFC4X3::IfcSignTypeEnum::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcSignTypeEnum> IFC4X3::IfcSignTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSignTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSignTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSignTypeEnum>(); }
 	shared_ptr<IfcSignTypeEnum> type_object( new IfcSignTypeEnum() );

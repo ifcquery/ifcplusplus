@@ -28,6 +28,7 @@ void IFC4X3::IfcCableFittingTypeEnum::getStepParameter( std::stringstream& strea
 }
 shared_ptr<IFC4X3::IfcCableFittingTypeEnum> IFC4X3::IfcCableFittingTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcCableFittingTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCableFittingTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcCableFittingTypeEnum>(); }
 	shared_ptr<IfcCableFittingTypeEnum> type_object( new IfcCableFittingTypeEnum() );

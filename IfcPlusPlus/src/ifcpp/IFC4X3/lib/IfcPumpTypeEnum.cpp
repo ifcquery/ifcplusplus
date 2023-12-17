@@ -29,6 +29,7 @@ void IFC4X3::IfcPumpTypeEnum::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcPumpTypeEnum> IFC4X3::IfcPumpTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPumpTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPumpTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPumpTypeEnum>(); }
 	shared_ptr<IfcPumpTypeEnum> type_object( new IfcPumpTypeEnum() );

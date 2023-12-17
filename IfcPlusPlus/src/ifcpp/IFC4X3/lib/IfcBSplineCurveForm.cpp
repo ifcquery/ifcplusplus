@@ -26,6 +26,7 @@ void IFC4X3::IfcBSplineCurveForm::getStepParameter( std::stringstream& stream, b
 }
 shared_ptr<IFC4X3::IfcBSplineCurveForm> IFC4X3::IfcBSplineCurveForm::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcBSplineCurveForm>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBSplineCurveForm>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcBSplineCurveForm>(); }
 	shared_ptr<IfcBSplineCurveForm> type_object( new IfcBSplineCurveForm() );

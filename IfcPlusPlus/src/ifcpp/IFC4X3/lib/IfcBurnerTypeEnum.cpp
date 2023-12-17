@@ -22,6 +22,7 @@ void IFC4X3::IfcBurnerTypeEnum::getStepParameter( std::stringstream& stream, boo
 }
 shared_ptr<IFC4X3::IfcBurnerTypeEnum> IFC4X3::IfcBurnerTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcBurnerTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBurnerTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcBurnerTypeEnum>(); }
 	shared_ptr<IfcBurnerTypeEnum> type_object( new IfcBurnerTypeEnum() );

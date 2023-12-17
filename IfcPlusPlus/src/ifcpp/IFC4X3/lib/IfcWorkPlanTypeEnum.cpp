@@ -25,6 +25,7 @@ void IFC4X3::IfcWorkPlanTypeEnum::getStepParameter( std::stringstream& stream, b
 }
 shared_ptr<IFC4X3::IfcWorkPlanTypeEnum> IFC4X3::IfcWorkPlanTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcWorkPlanTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWorkPlanTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcWorkPlanTypeEnum>(); }
 	shared_ptr<IfcWorkPlanTypeEnum> type_object( new IfcWorkPlanTypeEnum() );

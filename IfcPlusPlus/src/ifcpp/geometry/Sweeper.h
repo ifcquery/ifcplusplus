@@ -73,7 +73,126 @@ public:
 			return;
 		}
 
-		std::vector<std::vector<array2d> > faceLoopsTriangulate;
+		struct FaceLoop
+		{
+			std::vector<array2d> m_loop;
+			double area = 0;
+		};
+
+		struct FaceLoopSet
+		{
+			std::vector<shared_ptr<FaceLoop> > m_faceLoops;
+
+			void insertFaceLoopOrCreateNewFaceLoopSet(shared_ptr<FaceLoop>& newFaceLoop, shared_ptr<FaceLoopSet>& newFaceLoopSet, double eps)
+			{
+				if (m_faceLoops.size() == 0)
+				{
+					m_faceLoops.push_back(newFaceLoop);
+					return;
+				}
+
+				// the first loop is the one with the biggest area. So the new loop has to be checked if it is inside or outside
+				// of the first loop
+				shared_ptr<FaceLoop>& firstFaceLoop = m_faceLoops.front();
+				double existingLoopArea = firstFaceLoop->area;
+
+				std::vector<array2d> newLoopArray = newFaceLoop->m_loop;
+				std::vector<array2d> existingLoopArray = firstFaceLoop->m_loop;
+				size_t numPointsInExistingPolygon = 0;
+				size_t numPointsOnExistingPolygon = 0;
+				size_t numPointsOutsideExistingPolygon = 0;
+				for (auto it = newLoopArray.begin(); it != newLoopArray.end(); ++it)
+				{
+					const array2d& point = *it;
+					GeomUtils::PointPosition pointIsInseExistingPolygon = GeomUtils::pointInPolySimple(point, existingLoopArray, eps);
+					if (pointIsInseExistingPolygon == GeomUtils::INSIDE)
+					{
+#ifdef _DEBUG
+						std::vector<vec2> carveLoop;
+						for (auto polygonPoint : existingLoopArray)
+						{
+							carveLoop.push_back(carve::geom::VECTOR(polygonPoint[0], polygonPoint[1]));
+						}
+						carve::geom::aabb<2> bboxPolygon;
+						bboxPolygon.fit(carveLoop.begin(), carveLoop.end());
+						bool pointInBBox = bboxPolygon.containsPoint(carve::geom::VECTOR(point[0], point[1]));
+						if (!pointInBBox)
+						{
+							glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+							GeomDebugDump::dumpPolyline(existingLoopArray, color, 0, false, false);
+							std::string label = "x";
+							vec3 point3 = carve::geom::VECTOR(point[0], point[1], 0);
+							GeomDebugDump::dumpVertex(point3, color, label);
+							GeomDebugDump::moveOffset(bboxPolygon.extent.y * 2);
+						}
+#endif
+						++numPointsInExistingPolygon;
+					}
+					else if (pointIsInseExistingPolygon == GeomUtils::ON_EDGE)
+					{
+#ifdef _DEBUG
+						if (false)
+						{
+							glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+							GeomDebugDump::dumpPolyline(existingLoopArray, color, 0, true, false);
+							std::string label = "x";
+							vec3 point3 = carve::geom::VECTOR(point[0], point[1], 0);
+							GeomDebugDump::dumpVertex(point3, color, label);
+						}
+#endif
+						++numPointsOnExistingPolygon;
+					}
+					else
+					{
+						++numPointsOutsideExistingPolygon;
+					}
+				}
+
+				// triangulation with several polygons works only when one is completely inside the other
+				bool validForCombiningPolygons = numPointsInExistingPolygon > 0;
+				if (numPointsOutsideExistingPolygon > 0)
+				{
+					// if at least one point of new polygon is outside, it can't be combined
+					validForCombiningPolygons = false;
+				}
+				if (numPointsOnExistingPolygon > 0)
+				{
+					// ok if all other points are inside
+					// could be fully inside, but all points on edges of outer polygon:
+					//  -------------------------
+					//  |                       |
+					//  |                       |
+					//  |      poly1            |  poly2 fully overlaps poly1
+					//  |-----------------------|
+					//  |      poly2            |
+					//  -------------------------
+
+					validForCombiningPolygons = false;
+				}
+				if (validForCombiningPolygons)
+				{
+					// insert into existing face loop set
+					if (newFaceLoop->area > existingLoopArea)
+					{
+						// new loop is biggest loop
+						m_faceLoops.insert(m_faceLoops.begin(), newFaceLoop);
+
+					}
+					else
+					{
+						m_faceLoops.push_back(newFaceLoop);
+					}
+				}
+				else
+				{
+					// new polygon is not inside, at least intersecting other polygon, so can't be combined
+					newFaceLoopSet = make_shared<FaceLoopSet>();
+					newFaceLoopSet->m_faceLoops.push_back(newFaceLoop);
+				}
+			}
+		};
+		std::vector<shared_ptr<FaceLoopSet> > faceLoopsTriangulate;
+		shared_ptr<FaceLoopSet> currentFaceLoopSet;
 		std::vector<double> polygon3DArea;
 		bool face_loop_reversed = false;
 		bool warning_small_loop_detected = false;
@@ -96,45 +215,20 @@ public:
 					continue;
 				}
 			}
+
 			bool mergeAlignedEdges = true;
 			GeomUtils::simplifyPolygon(loopPointsInput, mergeAlignedEdges, eps, epsCoplanarAngle);
 			GeomUtils::unClosePolygon(loopPointsInput, eps);
+
 			normal = GeomUtils::computePolygon2DNormal(loopPointsInput);
-
-			if( loopPointsInput.size() > 3 )
+			if (normal.z < 0)
 			{
-				// rare case: edges between points n -> 0 -> 1 could be in a straight line
-				// this leads to an open mesh after triangulation
-
-				const vec2& p0 = loopPointsInput.back();
-				const vec2& p1 = loopPointsInput[0];
-				const vec2& p2 = loopPointsInput[1];
-				const double dx1 = p1.x - p0.x;
-				const double dx2 = p2.x - p1.x;
-				const double dy1 = p1.y - p0.y;
-				const double dy2 = p2.y - p1.y;
-
-#ifdef _DEBUG
-				if( std::abs(dx1) < eps && std::abs(dy1) < eps )
-				{
-					std::cout << "duplicate points should be handled in unClosePolygon" << std::endl;
-				}
-				if( std::abs(dx2) < eps && std::abs(dy2) < eps )
-				{
-					std::cout << "duplicate points should be handled in unClosePolygon" << std::endl;
-				}
-#endif
-
-				double scalar = dx1 * dx2 + dy1 * dy2;
-				double check = scalar * scalar - (dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2);
-
-				if( std::abs(check) < EPS_M14 )
-				{
-					loopPointsInput.erase(loopPointsInput.begin());
-				}
+				std::reverse(loopPointsInput.begin(), loopPointsInput.end());
+				normal = -normal;
 			}
 
-			std::vector<array2d > path_loop_2d;
+			shared_ptr<FaceLoop> fl = make_shared<FaceLoop>();
+			std::vector<array2d >& path_loop_2d = fl->m_loop;
 			for( size_t i = 0; i < loopPointsInput.size(); ++i )
 			{
 				const vec2& point = loopPointsInput[i];
@@ -154,73 +248,50 @@ public:
 				warning_small_loop_detected = true;
 				continue;
 			}
+			fl->area = loop_area;
 
-			// outer loop (biggest area) needs to come first
-			bool insertPositionFound = false;
-			for( size_t iiArea = 0; iiArea < polygon3DArea.size(); ++iiArea )
+			if (!currentFaceLoopSet)
 			{
-				double existingLoopArea = polygon3DArea[iiArea];
-
-				// existingArea[i]  < loop_area < existingArea[i+1]
-
-				if( loop_area > existingLoopArea )
-				{
-					faceLoopsTriangulate.insert(faceLoopsTriangulate.begin() + iiArea, path_loop_2d);
-					polygon3DArea.insert(polygon3DArea.begin() + iiArea, loop_area);
-					insertPositionFound = true;
-					break;
-				}
+				currentFaceLoopSet = make_shared<FaceLoopSet>();
+				faceLoopsTriangulate.push_back(currentFaceLoopSet);
 			}
-
-			if( !insertPositionFound )
+			if (faceLoopsTriangulate.size() > 1)
 			{
-				faceLoopsTriangulate.push_back(path_loop_2d);
-				polygon3DArea.push_back(loop_area);
-			}
-		}
-
-#ifdef _DEBUG
-		// check descending order
-		if( polygon3DArea.size() > 0 )
-		{
-			double previousLoopArea = polygon3DArea[0];
-			if( polygon3DArea.size() > 1 )
-			{
-				for( size_t iiArea = 1; iiArea < polygon3DArea.size(); ++iiArea )
+				// try if new face loop is connected or inside one of the existing loop sets
+				shared_ptr<FaceLoopSet> detachedLoop;
+				bool attachmentToExistingLoopFound = false;
+				for (shared_ptr<FaceLoopSet>& existingLoopSet : faceLoopsTriangulate)
 				{
-					double loopArea = polygon3DArea[iiArea];
-					if( loopArea > previousLoopArea )
+					
+					existingLoopSet->insertFaceLoopOrCreateNewFaceLoopSet(fl, detachedLoop, eps);
+
+					if (!detachedLoop)
 					{
-						std::cout << "polygon3DArea not descending" << std::endl;
+						attachmentToExistingLoopFound = true;
 					}
 				}
-			}
-		}
-#endif
-
-		// check winding order in 2D
-		for( size_t ii = 0; ii < faceLoopsTriangulate.size(); ++ii )
-		{
-			std::vector<array2d>& loop2D = faceLoopsTriangulate[ii];
-
-
-			glm::dvec3 normal_2d = GeomUtils::computePolygon2DNormal(loop2D, eps);
-			if( ii == 0 )
-			{
-				if( normal_2d.z < 0 )
+				if (!attachmentToExistingLoopFound)
 				{
-					std::reverse(loop2D.begin(), loop2D.end());
-					face_loop_reversed = true;
+					if (detachedLoop)
+					{
+						faceLoopsTriangulate.push_back(detachedLoop);
+					}
+					else
+					{
+						std::cout << "unexpected detachedLoop missing";
+					}
 				}
 			}
 			else
 			{
-				if( normal_2d.z > 0 )
+				shared_ptr<FaceLoopSet> detachedLoop;
+				currentFaceLoopSet->insertFaceLoopOrCreateNewFaceLoopSet(fl, detachedLoop, eps);
+
+				if (detachedLoop)
 				{
-					std::reverse(loop2D.begin(), loop2D.end());
+					faceLoopsTriangulate.push_back(detachedLoop);
 				}
 			}
-
 		}
 
 		if( warning_small_loop_detected )
@@ -238,163 +309,186 @@ public:
 			return;
 		}
 
-		std::vector<uint32_t> triangulated = mapbox::earcut<uint32_t>(faceLoopsTriangulate);
+		for (shared_ptr<FaceLoopSet>& existingLoopSet : faceLoopsTriangulate)
+		{
+			std::vector<std::vector<array2d>> loopsForEarcut;
+			for (size_t iiLoop = 0; iiLoop < existingLoopSet->m_faceLoops.size(); ++iiLoop)
+			{
+				shared_ptr<FaceLoop>& existingLoop = existingLoopSet->m_faceLoops[iiLoop];
+				std::vector<array2d>& loop = existingLoop->m_loop;
+				glm::dvec3 normal = GeomUtils::computePolygon2DNormal(loop, eps);
+				if (normal.z <= 0 && iiLoop == 0)
+				{
+					std::reverse(loop.begin(), loop.end());
+					//normal = -normal;
+				}
+				else if (normal.z >= 0 && iiLoop > 0)
+				{
+					std::reverse(loop.begin(), loop.end());
+					//normal = -normal;
+				}
+
+				loopsForEarcut.push_back(loop);
+			}
+
+			std::vector<uint32_t> triangulated = mapbox::earcut<uint32_t>(loopsForEarcut);
 
 #ifdef _DEBUG
-		if( params.ifc_entity )
-		{
-			if( params.ifc_entity->m_tag == 373882)
+			if (params.ifc_entity)
 			{
-				glm::vec4 color(0.3, 0.4, 0.5, 1.0);
-				for( size_t ii = 0; ii < faceLoopsTriangulate.size(); ++ii )
+				if (params.ifc_entity->m_tag == 14379)
 				{
-					std::vector<std::array<double, 2> >& loop2D = faceLoopsTriangulate[ii];
-					GeomDebugDump::dumpPolyline(loop2D, color, 0, true, false);
-				}
-			}
-		}
-#endif
-
-		std::vector<array2d> polygons2dFlatVector;
-		GeomUtils::polygons2flatVec(faceLoopsTriangulate, polygons2dFlatVector);
-		size_t numPointsInAllLoops = polygons2dFlatVector.size();
-
-		shared_ptr<carve::input::PolyhedronData> meshOut( new carve::input::PolyhedronData() );
-
-		// add points bottom
-		for( size_t ii = 0; ii < polygons2dFlatVector.size(); ++ii )
-		{
-			array2d& point2D = polygons2dFlatVector[ii];
-			vec3 point3D = carve::geom::VECTOR(point2D[0], point2D[1], 0);
-			meshOut->addVertex(point3D);
-		}
-
-		// add points top
-		for( size_t ii = 0; ii < polygons2dFlatVector.size(); ++ii )
-		{
-			array2d& point2D = polygons2dFlatVector[ii];
-			vec3 point3D = carve::geom::VECTOR(point2D[0], point2D[1], 0);
-			vec3 point3D_top = point3D + extrusionVector;
-			meshOut->addVertex(point3D_top);
-		}
-
-
-		// triangles along the extruded loops
-		size_t idxLoopOffset = 0;
-		for( size_t ii = 0; ii < faceLoopsTriangulate.size(); ++ii )
-		{
-			std::vector<array2d>& loop2D = faceLoopsTriangulate[ii];
-
-#ifdef _DEBUG
-			glm::dvec3 loopNormal_glm = GeomUtils::computePolygon2DNormal(loop2D, eps);
-			vec3 loopNormal = carve::geom::VECTOR(loopNormal_glm.x, loopNormal_glm.y, loopNormal_glm.z);
-
-			if( ii == 0 )
-			{
-				// normal should point up
-				if( loopNormal_glm.z <= 0 )
-				{
-					std::cout << "normal should point up" << std::endl;
-				}
-			}
-			else
-			{
-				if( loopNormal_glm.z > 0 )
-				{
-					std::cout << "normal should point down" << std::endl;
-				}
-			}
-#endif
-
-			bool createQuadsIfPossible = false;
-			bool flipFaces = false;
-
-			if( extrusionVector.z < 0 )
-			{
-				flipFaces = !flipFaces;
-			}
-
-			const size_t numLoopPoints = loop2D.size();
-			for( size_t jj = 0; jj < numLoopPoints; ++jj )
-			{
-				array2d& point2D = loop2D[jj];
-				array2d& point2D_next = loop2D[(jj + 1) % numLoopPoints];
-
-				vec3 point3D = carve::geom::VECTOR(point2D[0], point2D[1], 0);
-				vec3 point3D_next = carve::geom::VECTOR(point2D_next[0], point2D_next[1], 0);
-
-				vec3 point3D_top = point3D + extrusionVector;
-				vec3 point3D_top_next = point3D_next + extrusionVector;
-
-				size_t idx = jj + idxLoopOffset;
-				size_t idx_next = (jj + 1) % numLoopPoints + idxLoopOffset;
-				size_t idx_top = idx + numPointsInAllLoops;
-				size_t idx_top_next = idx_next + numPointsInAllLoops;
-
-				if( createQuadsIfPossible )
-				{
-					if( flipFaces )
+					glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+					for (size_t ii = 0; ii < loopsForEarcut.size(); ++ii)
 					{
-						meshOut->addFace(idx, idx_top, idx_top_next, idx_next);
+						std::vector<std::array<double, 2> >& loop2D = loopsForEarcut[ii];
+						GeomDebugDump::dumpPolyline(loop2D, color, 0, true, false);
 					}
-					else
+				}
+			}
+#endif
+
+			std::vector<array2d> polygons2dFlatVector;
+			GeomUtils::polygons2flatVec(loopsForEarcut, polygons2dFlatVector);
+			size_t numPointsInAllLoops = polygons2dFlatVector.size();
+
+			shared_ptr<carve::input::PolyhedronData> meshOut(new carve::input::PolyhedronData());
+
+			// add points bottom
+			for (size_t ii = 0; ii < polygons2dFlatVector.size(); ++ii)
+			{
+				array2d& point2D = polygons2dFlatVector[ii];
+				vec3 point3D = carve::geom::VECTOR(point2D[0], point2D[1], 0);
+				meshOut->addVertex(point3D);
+			}
+
+			// add points top
+			for (size_t ii = 0; ii < polygons2dFlatVector.size(); ++ii)
+			{
+				array2d& point2D = polygons2dFlatVector[ii];
+				vec3 point3D = carve::geom::VECTOR(point2D[0], point2D[1], 0);
+				vec3 point3D_top = point3D + extrusionVector;
+				meshOut->addVertex(point3D_top);
+			}
+
+
+			// triangles along the extruded loops
+			size_t idxLoopOffset = 0;
+			for (size_t ii = 0; ii < loopsForEarcut.size(); ++ii)
+			{
+				std::vector<array2d>& loop2D = loopsForEarcut[ii];
+
+#ifdef _DEBUG
+				glm::dvec3 loopNormal_glm = GeomUtils::computePolygon2DNormal(loop2D, eps);
+				vec3 loopNormal = carve::geom::VECTOR(loopNormal_glm.x, loopNormal_glm.y, loopNormal_glm.z);
+
+				if (ii == 0)
+				{
+					// normal should point up
+					if (loopNormal_glm.z <= 0)
 					{
-						meshOut->addFace(idx, idx_next, idx_top_next, idx_top);
+						std::cout << "normal should point up" << std::endl;
 					}
 				}
 				else
 				{
-					if( flipFaces )
+					if (loopNormal_glm.z > 0)
 					{
-						meshOut->addFace(idx, idx_top_next, idx_next);
-						meshOut->addFace(idx_top_next, idx, idx_top);
+						std::cout << "normal should point down" << std::endl;
+					}
+				}
+#endif
+
+				bool createQuadsIfPossible = false;
+				bool flipFaces = false;
+
+				if (extrusionVector.z < 0)
+				{
+					flipFaces = !flipFaces;
+				}
+
+				const size_t numLoopPoints = loop2D.size();
+				for (size_t jj = 0; jj < numLoopPoints; ++jj)
+				{
+					array2d& point2D = loop2D[jj];
+					array2d& point2D_next = loop2D[(jj + 1) % numLoopPoints];
+
+					vec3 point3D = carve::geom::VECTOR(point2D[0], point2D[1], 0);
+					vec3 point3D_next = carve::geom::VECTOR(point2D_next[0], point2D_next[1], 0);
+
+					vec3 point3D_top = point3D + extrusionVector;
+					vec3 point3D_top_next = point3D_next + extrusionVector;
+
+					size_t idx = jj + idxLoopOffset;
+					size_t idx_next = (jj + 1) % numLoopPoints + idxLoopOffset;
+					size_t idx_top = idx + numPointsInAllLoops;
+					size_t idx_top_next = idx_next + numPointsInAllLoops;
+
+					if (createQuadsIfPossible)
+					{
+						if (flipFaces)
+						{
+							meshOut->addFace(idx, idx_top, idx_top_next, idx_next);
+						}
+						else
+						{
+							meshOut->addFace(idx, idx_next, idx_top_next, idx_top);
+						}
 					}
 					else
 					{
-						meshOut->addFace(idx, idx_next, idx_top_next);
-						meshOut->addFace(idx_top_next, idx_top, idx);
+						if (flipFaces)
+						{
+							meshOut->addFace(idx, idx_top_next, idx_next);
+							meshOut->addFace(idx_top_next, idx, idx_top);
+						}
+						else
+						{
+							meshOut->addFace(idx, idx_next, idx_top_next);
+							meshOut->addFace(idx_top_next, idx_top, idx);
+						}
 					}
+				}
+
+				idxLoopOffset += numLoopPoints;
+			}
+
+			// front and back cap
+			for (int ii = 0; ii < triangulated.size(); ii += 3)
+			{
+				size_t idxA = triangulated[ii + 0];
+				size_t idxB = triangulated[ii + 1];
+				size_t idxC = triangulated[ii + 2];
+
+				size_t idxAtop = idxA + numPointsInAllLoops;
+				size_t idxBtop = idxB + numPointsInAllLoops;
+				size_t idxCtop = idxC + numPointsInAllLoops;
+
+				if (extrusionVector.z < 0)
+				{
+					meshOut->addFace(idxA, idxB, idxC);
+					meshOut->addFace(idxAtop, idxCtop, idxBtop);
+				}
+				else
+				{
+					meshOut->addFace(idxA, idxC, idxB);
+					meshOut->addFace(idxAtop, idxBtop, idxCtop);
 				}
 			}
 
-			idxLoopOffset += numLoopPoints;
-		}
-
-		// front and back cap
-		for( int ii = 0; ii < triangulated.size(); ii += 3 )
-		{
-			size_t idxA = triangulated[ii + 0];
-			size_t idxB = triangulated[ii + 1];
-			size_t idxC = triangulated[ii + 2];
-
-			size_t idxAtop = idxA + numPointsInAllLoops;
-			size_t idxBtop = idxB + numPointsInAllLoops;
-			size_t idxCtop = idxC + numPointsInAllLoops;
-
-			if( extrusionVector.z < 0 )
-			{
-				meshOut->addFace(idxA, idxB, idxC);
-				meshOut->addFace(idxAtop, idxCtop, idxBtop);
-			}
-			else
-			{
-				meshOut->addFace(idxA, idxC, idxB);
-				meshOut->addFace(idxAtop, idxBtop, idxCtop);
-			}
-		}
-		
 #ifdef _DEBUG
-		std::vector<int>& faceIndices = meshOut->faceIndices;
-		for( int idx : faceIndices )
-		{
-			if( idx >= meshOut->points.size() )
+			std::vector<int>& faceIndices = meshOut->faceIndices;
+			for (int idx : faceIndices)
 			{
-				std::cout << "incorrect idx";
+				if (idx >= meshOut->points.size())
+				{
+					std::cout << "incorrect idx";
 
+				}
 			}
-		}
 #endif
-		itemData->addClosedPolyhedron(meshOut, params, m_geom_settings);
+			itemData->addClosedPolyhedron(meshOut, params, m_geom_settings);
+		}
 	}
 	
 	/*\brief Extrudes a circle cross section along a path. At turns, the points are placed in the bisecting plane

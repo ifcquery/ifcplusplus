@@ -26,6 +26,7 @@ void IFC4X3::IfcGridTypeEnum::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcGridTypeEnum> IFC4X3::IfcGridTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcGridTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcGridTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcGridTypeEnum>(); }
 	shared_ptr<IfcGridTypeEnum> type_object( new IfcGridTypeEnum() );

@@ -20,6 +20,7 @@ void IFC4X3::IfcAmountOfSubstanceMeasure::getStepParameter( std::stringstream& s
 }
 shared_ptr<IFC4X3::IfcAmountOfSubstanceMeasure> IFC4X3::IfcAmountOfSubstanceMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcAmountOfSubstanceMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAmountOfSubstanceMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcAmountOfSubstanceMeasure>(); }
 	shared_ptr<IfcAmountOfSubstanceMeasure> type_object( new IfcAmountOfSubstanceMeasure() );

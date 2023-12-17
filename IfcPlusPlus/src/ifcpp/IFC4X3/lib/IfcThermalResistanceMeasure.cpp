@@ -20,6 +20,7 @@ void IFC4X3::IfcThermalResistanceMeasure::getStepParameter( std::stringstream& s
 }
 shared_ptr<IFC4X3::IfcThermalResistanceMeasure> IFC4X3::IfcThermalResistanceMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcThermalResistanceMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcThermalResistanceMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcThermalResistanceMeasure>(); }
 	shared_ptr<IfcThermalResistanceMeasure> type_object( new IfcThermalResistanceMeasure() );

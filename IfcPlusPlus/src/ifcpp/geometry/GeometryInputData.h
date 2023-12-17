@@ -223,9 +223,9 @@ public:
 	StyleData(int step_style_id) : m_step_style_id(step_style_id)
 	{
 	}
-	vec4 m_color_ambient;
-	vec4 m_color_diffuse;
-	vec4 m_color_specular;
+	glm::vec4 m_color_ambient;
+	glm::vec4 m_color_diffuse;
+	glm::vec4 m_color_specular;
 	int m_step_style_id;
 	double m_shininess = 10.0;
 	double m_transparency = 1.0;

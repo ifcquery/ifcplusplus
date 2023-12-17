@@ -26,6 +26,7 @@ void IFC4X3::IfcExternalSpatialElementTypeEnum::getStepParameter( std::stringstr
 }
 shared_ptr<IFC4X3::IfcExternalSpatialElementTypeEnum> IFC4X3::IfcExternalSpatialElementTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcExternalSpatialElementTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcExternalSpatialElementTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcExternalSpatialElementTypeEnum>(); }
 	shared_ptr<IfcExternalSpatialElementTypeEnum> type_object( new IfcExternalSpatialElementTypeEnum() );

@@ -25,6 +25,7 @@ void IFC4X3::IfcGeotechnicalStratumTypeEnum::getStepParameter( std::stringstream
 }
 shared_ptr<IFC4X3::IfcGeotechnicalStratumTypeEnum> IFC4X3::IfcGeotechnicalStratumTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcGeotechnicalStratumTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcGeotechnicalStratumTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcGeotechnicalStratumTypeEnum>(); }
 	shared_ptr<IfcGeotechnicalStratumTypeEnum> type_object( new IfcGeotechnicalStratumTypeEnum() );

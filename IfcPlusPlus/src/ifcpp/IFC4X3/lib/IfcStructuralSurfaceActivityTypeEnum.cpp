@@ -26,6 +26,7 @@ void IFC4X3::IfcStructuralSurfaceActivityTypeEnum::getStepParameter( std::string
 }
 shared_ptr<IFC4X3::IfcStructuralSurfaceActivityTypeEnum> IFC4X3::IfcStructuralSurfaceActivityTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcStructuralSurfaceActivityTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcStructuralSurfaceActivityTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcStructuralSurfaceActivityTypeEnum>(); }
 	shared_ptr<IfcStructuralSurfaceActivityTypeEnum> type_object( new IfcStructuralSurfaceActivityTypeEnum() );

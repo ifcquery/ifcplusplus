@@ -101,23 +101,23 @@ public:
 		}
 	}
 
-	static void convertIfcColourRgb(shared_ptr<IfcColourRgb> color_rgb, vec4& color)
+	static void convertIfcColourRgb(shared_ptr<IfcColourRgb> color_rgb, glm::vec4& color)
 	{
 		if (color_rgb->m_Red)
 		{
-			color.r = (float)color_rgb->m_Red->m_value;
+			color.x = (float)color_rgb->m_Red->m_value;
 		}
 		if (color_rgb->m_Green)
 		{
-			color.g = (float)color_rgb->m_Green->m_value;
+			color.y = (float)color_rgb->m_Green->m_value;
 		}
 		if (color_rgb->m_Blue)
 		{
-			color.b = (float)color_rgb->m_Blue->m_value;
+			color.z = (float)color_rgb->m_Blue->m_value;
 		}
 	}
 
-	static void convertIfcColourOrFactor(shared_ptr<IfcColourOrFactor> color_or_factor, vec4& src_color, vec4& target_color)
+	static void convertIfcColourOrFactor(shared_ptr<IfcColourOrFactor> color_or_factor, glm::vec4& src_color, glm::vec4& target_color)
 	{
 		// TYPE IfcColourOrFactor = SELECT ( IfcNormalisedRatioMeasure, IfcColourRgb);
 		shared_ptr<IfcColourRgb> color_rgb = dynamic_pointer_cast<IfcColourRgb>(color_or_factor);
@@ -131,12 +131,12 @@ public:
 		if (ratio_measure)
 		{
 			float factor = (float)ratio_measure->m_value;
-			target_color.setColor(src_color.r * factor, src_color.g * factor, src_color.b * factor, src_color.a);
+			target_color = glm::vec4(src_color.x * factor, src_color.y * factor, src_color.z * factor, src_color.w);
 			return;
 		}
 	}
 
-	static void convertIfcColour(shared_ptr<IfcColour> ifc_color_select, vec4& color)
+	static void convertIfcColour(shared_ptr<IfcColour> ifc_color_select, glm::vec4& color)
 	{
 		// IfcColour = SELECT ( IfcColourSpecification, IfcPreDefinedColour );
 		shared_ptr<IfcColourSpecification> color_spec = dynamic_pointer_cast<IfcColourSpecification>(ifc_color_select);
@@ -161,14 +161,14 @@ public:
 				if (draughting_predefined_color->m_Name)
 				{
 					std::string predefined_name = draughting_predefined_color->m_Name->m_value;
-					if (std_iequal(predefined_name, "black"))		color.setColor(0.0, 0.0, 0.0, 1.0);
-					else if (std_iequal(predefined_name, "red"))		color.setColor(1.0, 0.0, 0.0, 1.0);
-					else if (std_iequal(predefined_name, "green"))	color.setColor(0.0, 1.0, 0.0, 1.0);
-					else if (std_iequal(predefined_name, "blue"))	color.setColor(0.0, 0.0, 1.0, 1.0);
-					else if (std_iequal(predefined_name, "yellow"))	color.setColor(1.0, 1.0, 0.0, 1.0);
-					else if (std_iequal(predefined_name, "magenta"))	color.setColor(1.0, 0.0, 1.0, 1.0);
-					else if (std_iequal(predefined_name, "cyan"))	color.setColor(0.0, 1.0, 1.0, 1.0);
-					else if (std_iequal(predefined_name, "white"))	color.setColor(1.0, 1.0, 1.0, 1.0);
+					if (std_iequal(predefined_name, "black"))			color = glm::vec4(0.0, 0.0, 0.0, 1.0);
+					else if (std_iequal(predefined_name, "red"))		color = glm::vec4(1.0, 0.0, 0.0, 1.0);
+					else if (std_iequal(predefined_name, "green"))		color = glm::vec4(0.0, 1.0, 0.0, 1.0);
+					else if (std_iequal(predefined_name, "blue"))		color = glm::vec4(0.0, 0.0, 1.0, 1.0);
+					else if (std_iequal(predefined_name, "yellow"))		color = glm::vec4(1.0, 1.0, 0.0, 1.0);
+					else if (std_iequal(predefined_name, "magenta"))	color = glm::vec4(1.0, 0.0, 1.0, 1.0);
+					else if (std_iequal(predefined_name, "cyan"))		color = glm::vec4(0.0, 1.0, 1.0, 1.0);
+					else if (std_iequal(predefined_name, "white"))		color = glm::vec4(1.0, 1.0, 1.0, 1.0);
 				}
 			}
 			return;
@@ -179,23 +179,23 @@ public:
 	{
 		if (surface_style_shading)
 		{
-			vec4 surface_color(0.8, 0.82, 0.84, 1.0);
+			glm::vec4 surface_color(0.8, 0.82, 0.84, 1.0);
 			if (surface_style_shading->m_SurfaceColour)
 			{
 				shared_ptr<IfcColourRgb> surf_color = surface_style_shading->m_SurfaceColour;
 				convertIfcColourRgb(surf_color, surface_color);
 			}
 
-			if (surface_color.r < 0.05 && surface_color.g < 0.05 && surface_color.b < 0.05)
+			if (surface_color.x < 0.05 && surface_color.y < 0.05 && surface_color.z < 0.05)
 			{
-				surface_color.setColor(0.11, 0.12, 0.13, surface_color.a);
+				surface_color = glm::vec4(0.11, 0.12, 0.13, surface_color.w);
 			}
 
-			vec4 ambient_color(surface_color);
-			vec4 diffuse_color(surface_color);
-			vec4 specular_color(surface_color);
+			glm::vec4 ambient_color(surface_color);
+			glm::vec4 diffuse_color(surface_color);
+			glm::vec4 specular_color(surface_color);
 			double shininess = 35.f;
-			double alpha = surface_color.a;  // 1=opaque, 0=transparent
+			double alpha = surface_color.w;  // 1=opaque, 0=transparent
 			bool set_transparent = false;
 
 			shared_ptr<IfcSurfaceStyleRendering> surf_style_rendering = dynamic_pointer_cast<IfcSurfaceStyleRendering>(surface_style_shading);
@@ -251,9 +251,9 @@ public:
 				alpha = 0.1f;
 			}
 
-			style_data->m_color_ambient.setColor(ambient_color.r * 0.8, ambient_color.g * 0.8, ambient_color.b * 0.8, alpha);
-			style_data->m_color_diffuse.setColor(diffuse_color.r, diffuse_color.g, diffuse_color.b, alpha);
-			style_data->m_color_specular.setColor(specular_color.r * 0.1, specular_color.g * 0.1, specular_color.b * 0.1, alpha);
+			style_data->m_color_ambient = glm::vec4(ambient_color.x * 0.8, ambient_color.y * 0.8, ambient_color.z * 0.8, alpha);
+			style_data->m_color_diffuse = glm::vec4(diffuse_color.x, diffuse_color.y, diffuse_color.z, alpha);
+			style_data->m_color_specular = glm::vec4(specular_color.x * 0.1, specular_color.y * 0.1, specular_color.z * 0.1, alpha);
 
 			style_data->m_shininess = shininess;
 			style_data->m_set_transparent = set_transparent;
@@ -349,18 +349,18 @@ public:
 				shared_ptr<IfcColour> AreaColour = dynamic_pointer_cast<IfcColour>(fillStyle);
 				if (AreaColour)
 				{
-					vec4 color(0.2, 0.25, 0.3, 1.0);
+					glm::vec4 color(0.2, 0.25, 0.3, 1.0);
 					convertIfcColour(AreaColour, color);
 
-					if (color.r < 0.05 && color.g < 0.05 && color.b < 0.05)
+					if (color.x < 0.05 && color.y < 0.05 && color.z < 0.05)
 					{
-						color.setColor(0.1, 0.125, 0.15, color.a);
+						color = glm::vec4(0.1, 0.125, 0.15, color.w);
 					}
 
 					double shininess = 35.0;
-					style_data->m_color_ambient.setColor(color.r * 0.8, color.g * 0.8, color.b * 0.8, color.a);
-					style_data->m_color_diffuse.setColor(color.r, color.g, color.b, color.a);
-					style_data->m_color_specular.setColor(color.r * 0.1, color.g * 0.1, color.b * 0.1, color.a);
+					style_data->m_color_ambient = glm::vec4(color.x * 0.8, color.y * 0.8, color.z * 0.8, color.w);
+					style_data->m_color_diffuse = glm::vec4(color.x, color.y, color.z, color.w);
+					style_data->m_color_specular = glm::vec4(color.x * 0.1, color.y * 0.1, color.z * 0.1, color.w);
 					style_data->m_shininess = shininess;
 					style_data->m_set_transparent = false;
 					style_data->m_complete = true;
@@ -429,18 +429,18 @@ public:
 		shared_ptr<IfcColour> curve_color = curve_style->m_CurveColour;
 		if (curve_color)
 		{
-			vec4 color(0.2, 0.25, 0.3, 1.0);
+			glm::vec4 color(0.2, 0.25, 0.3, 1.0);
 			convertIfcColour(curve_color, color);
 
-			if (color.r < 0.05 && color.g < 0.05 && color.b < 0.05)
+			if (color.x < 0.05 && color.y < 0.05 && color.z < 0.05)
 			{
-				color.setColor(0.1, 0.125, 0.15, color.a);
+				color = glm::vec4(0.1, 0.125, 0.15, color.w);
 			}
 
 			double shininess = 35.0;
-			style_data->m_color_ambient.setColor(color.r, color.g, color.b, color.a);
-			style_data->m_color_diffuse.setColor(color.r, color.g, color.b, color.a);
-			style_data->m_color_specular.setColor(color.r * 0.1, color.g * 0.1, color.b * 0.1, color.a);
+			style_data->m_color_ambient = glm::vec4(color.x, color.y, color.z, color.w);
+			style_data->m_color_diffuse = glm::vec4(color.x, color.y, color.z, color.w);
+			style_data->m_color_specular = glm::vec4(color.x * 0.1, color.y * 0.1, color.z * 0.1, color.w);
 			style_data->m_shininess = shininess;
 			style_data->m_set_transparent = false;
 			style_data->m_complete = true;
@@ -778,7 +778,7 @@ public:
 		}
 	}
 
-	void convertIfcComplexPropertyColor(shared_ptr<IfcComplexProperty> complex_property, vec4& vec_color)
+	void convertIfcComplexPropertyColor(shared_ptr<IfcComplexProperty> complex_property, glm::vec4& vec_color)
 	{
 		std::vector<shared_ptr<IfcProperty> >& vec_HasProperties = complex_property->m_HasProperties;
 		if (!complex_property->m_UsageName) return;
@@ -815,10 +815,10 @@ public:
 							g = 0.12;
 							b = 0.15;
 						}
-						vec_color.r = r;
-						vec_color.g = g;
-						vec_color.b = b;
-						vec_color.a = 1.0;
+						vec_color.x = r;
+						vec_color.y = g;
+						vec_color.z = b;
+						vec_color.w = 1.0;
 
 						//ScopedLock lock( m_writelock_styles_converter );
 						//style_data->color_ambient.setColor( r, g, b, 1.f );

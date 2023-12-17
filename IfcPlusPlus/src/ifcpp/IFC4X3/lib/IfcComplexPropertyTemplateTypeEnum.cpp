@@ -22,6 +22,7 @@ void IFC4X3::IfcComplexPropertyTemplateTypeEnum::getStepParameter( std::stringst
 }
 shared_ptr<IFC4X3::IfcComplexPropertyTemplateTypeEnum> IFC4X3::IfcComplexPropertyTemplateTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcComplexPropertyTemplateTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcComplexPropertyTemplateTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcComplexPropertyTemplateTypeEnum>(); }
 	shared_ptr<IfcComplexPropertyTemplateTypeEnum> type_object( new IfcComplexPropertyTemplateTypeEnum() );

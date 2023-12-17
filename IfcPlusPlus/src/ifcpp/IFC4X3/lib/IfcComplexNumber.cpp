@@ -19,6 +19,7 @@ void IFC4X3::IfcComplexNumber::getStepParameter( std::stringstream& stream, bool
 }
 shared_ptr<IFC4X3::IfcComplexNumber> IFC4X3::IfcComplexNumber::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcComplexNumber>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcComplexNumber>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcComplexNumber>(); }
 	shared_ptr<IfcComplexNumber> type_object( new IfcComplexNumber() );

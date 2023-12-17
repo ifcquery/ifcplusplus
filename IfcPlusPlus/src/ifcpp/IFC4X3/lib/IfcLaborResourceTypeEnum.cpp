@@ -41,6 +41,7 @@ void IFC4X3::IfcLaborResourceTypeEnum::getStepParameter( std::stringstream& stre
 }
 shared_ptr<IFC4X3::IfcLaborResourceTypeEnum> IFC4X3::IfcLaborResourceTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLaborResourceTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLaborResourceTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLaborResourceTypeEnum>(); }
 	shared_ptr<IfcLaborResourceTypeEnum> type_object( new IfcLaborResourceTypeEnum() );

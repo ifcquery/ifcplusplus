@@ -20,6 +20,7 @@ void IFC4X3::IfcSoundPowerLevelMeasure::getStepParameter( std::stringstream& str
 }
 shared_ptr<IFC4X3::IfcSoundPowerLevelMeasure> IFC4X3::IfcSoundPowerLevelMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSoundPowerLevelMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSoundPowerLevelMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSoundPowerLevelMeasure>(); }
 	shared_ptr<IfcSoundPowerLevelMeasure> type_object( new IfcSoundPowerLevelMeasure() );

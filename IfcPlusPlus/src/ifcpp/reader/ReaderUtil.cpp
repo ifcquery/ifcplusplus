@@ -34,35 +34,34 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <cctype>
 #include <codecvt>
 #endif
+#include "utf8.h"
+//#pragma execution_character_set("utf-8")
 
-static short convertToHex(unsigned char mc)
+template <typename T>
+static T convertToHex(unsigned char mc)
 {
-	short returnValue;
-
 	if (mc >= '0' && mc <= '9')
 	{
-		returnValue = static_cast<short>(mc) - static_cast<short>('0');
+		return static_cast<T>(mc) - static_cast<T>('0');
 	}
 	else if (mc >= 'A' && mc <= 'F')
 	{
-		returnValue = 10 + static_cast<short>(mc) - static_cast<short>('A');
+		return 10 + static_cast<T>(mc) - static_cast<T>('A');
 	}
 	else if (mc >= 'a' && mc <= 'f')
 	{
-		returnValue = 10 + static_cast<short>(mc) - static_cast<short>('a');
+		return 10 + static_cast<T>(mc) - static_cast<T>('a');
 	}
-	else
-	{
-		returnValue = 0;
-	}
-	return (returnValue);
+
+	return 0;
 }
 
-static char Hex2Char(unsigned char h1, unsigned char h2)
-{
-	char returnValue = (convertToHex(h1) << 4) + convertToHex(h2);
-	return (returnValue);
-}
+//static char Hex2Char(unsigned char h1, unsigned char h2)
+//{
+//	// Combine the Unicode values into a single wchar_t
+//	char returnValue = (convertToHex(h1) << 4) + convertToHex(h2);
+//	return (returnValue);
+//}
 
 std::string wstring2string(const std::wstring& wstr)
 {
@@ -93,15 +92,22 @@ std::wstring string2wstring(const std::string& inputString)
 {
 	if (inputString.empty()) return std::wstring();
 
+	try
+	{
 #ifdef _MSC_VER
-	std::wstringstream ws;
-	ws << inputString.c_str();
-	std::wstring result = ws.str();
-	return result;
+		std::wstringstream ws;
+		ws << inputString.c_str();
+		std::wstring result = ws.str();
+		return result;
 #else
-	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> conv;
-	return conv.from_bytes(inputString);
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> conv;
+		return conv.from_bytes(inputString);
 #endif
+	}
+	catch (...)
+	{
+		return std::filesystem::path(inputString).wstring();
+	}
 }
 
 void checkOpeningClosingParenthesis(const char* ch_check)
@@ -904,7 +910,335 @@ void findEndOfString(const char*& stream_pos)
 	}
 }
 
-void decodeArgumentStrings(std::vector<std::string>& entity_arguments, std::vector<std::string>& args_out)
+static char16_t checkAndConvertAppleEncoding(char16_t input)
+{
+	if (input >= 0x80 && input <= 0xFF)
+	{
+		switch (input)
+		{
+		case 0x80: return 196;
+		case 0x81: return 197;
+		case 0x82: return 199;
+		case 0x83: return 201;
+		case 0x84: return 209;
+		case 0x85: return 214;
+		case 0x86: return 220;
+		case 0x87: return 225;
+		case 0x88: return 224;
+		case 0x89: return 226;
+		case 0x8A: return 228;
+		case 0x8B: return 227;
+		case 0x8C: return 229;
+		case 0x8D: return 231;
+		case 0x8E: return 233;
+		case 0x8F: return 232;
+		case 0x90: return 234;
+		case 0x91: return 235;
+		case 0x92: return 237;
+		case 0x93: return 236;
+		case 0x94: return 238;
+		case 0x95: return 239;
+		case 0x96: return 241;
+		case 0x97: return 243;
+		case 0x98: return 242;
+		case 0x99: return 244;
+		case 0x9A: return 246;
+		case 0x9B: return 245;
+		case 0x9C: return 250;
+		case 0x9D: return 249;
+		case 0x9E: return 251;
+		case 0x9F: return 252;
+		case 0xA0: return 8224;
+		case 0xA1: return 176;
+		case 0xA2: return 162;
+		case 0xA3: return 163;
+		case 0xA4: return 167;
+		case 0xA5: return 8226;
+		case 0xA6: return 182;
+		case 0xA7: return 223;
+		case 0xA8: return 174;
+		case 0xA9: return 169;
+		case 0xAA: return 8482;
+		case 0xAB: return 180;
+		case 0xAC: return 168;
+		case 0xAD: return 8800;
+		case 0xAE: return 198;
+		case 0xAF: return 216;
+		case 0xB0: return 8734;
+		case 0xB1: return 177;
+		case 0xB2: return 8804;
+		case 0xB3: return 8805;
+		case 0xB4: return 165;
+		case 0xB5: return 181;
+		case 0xB6: return 8706;
+		case 0xB7: return 8721;
+		case 0xB8: return 8719;
+		case 0xB9: return 960;
+		case 0xBA: return 8747;
+		case 0xBB: return 170;
+		case 0xBC: return 186;
+		case 0xBD: return 937;
+		case 0xBE: return 230;
+		case 0xBF: return 248;
+		case 0xC0: return 191;
+		case 0xC1: return 161;
+		case 0xC2: return 172;
+		case 0xC3: return 8730;
+		case 0xC4: return 402;
+		case 0xC5: return 8776;
+		case 0xC6: return 8710;
+		case 0xC7: return 171;
+		case 0xC8: return 187;
+		case 0xC9: return 8230;
+		case 0xCA: return 160;
+		case 0xCB: return 192;
+		case 0xCC: return 195;
+		case 0xCD: return 213;
+		case 0xCE: return 338;
+		case 0xCF: return 339;
+		case 0xD0: return 8211;
+		case 0xD1: return 8212;
+		case 0xD2: return 8220;
+		case 0xD3: return 8221;
+		case 0xD4: return 8216;
+		case 0xD5: return 8217;
+		case 0xD6: return 247;
+		case 0xD7: return 9674;
+		case 0xD8: return 255;
+		case 0xD9: return 376;
+		case 0xDA: return 8260;
+		case 0xDB: return 8364;
+		case 0xDC: return 8249;
+		case 0xDD: return 8250;
+		case 0xDE: return 64257;
+		case 0xDF: return 64258;
+		case 0xE0: return 8225;
+		case 0xE1: return 183;
+		case 0xE2: return 8218;
+		case 0xE3: return 8222;
+		case 0xE4: return 8240;
+		case 0xE5: return 194;
+		case 0xE6: return 202;
+		case 0xE7: return 193;
+		case 0xE8: return 203;
+		case 0xE9: return 200;
+		case 0xEA: return 205;
+		case 0xEB: return 206;
+		case 0xEC: return 207;
+		case 0xED: return 204;
+		case 0xEE: return 211;
+		case 0xEF: return 212;
+		case 0xF0: return 63743;
+		case 0xF1: return 210;
+		case 0xF2: return 218;
+		case 0xF3: return 219;
+		case 0xF4: return 217;
+		case 0xF5: return 305;
+		case 0xF6: return 710;
+		case 0xF7: return 732;
+		case 0xF8: return 175;
+		case 0xF9: return 728;
+		case 0xFA: return 729;
+		case 0xFB: return 730;
+		case 0xFC: return 184;
+		case 0xFD: return 733;
+		case 0xFE: return 731;
+		case 0xFF: return 711;
+		}
+	}
+	return input;
+}
+
+void decodeArgumentString(const std::string& argument_str, std::string& arg_out)
+{
+	const size_t arg_length = argument_str.length();
+	if (arg_length == 0)
+	{
+		return;
+	}
+
+	std::string arg_str_new;
+
+	char* stream_pos = const_cast<char*>(argument_str.c_str());		// ascii characters from STEP file
+	while (*stream_pos != '\0')
+	{
+		if (*stream_pos == '\\')
+		{
+			char c1 = *(stream_pos + 1);
+			if (c1 == 'S')
+			{
+				// we have \S
+				char c2 = *(stream_pos + 2);
+				if (c2 == '\\')
+				{
+					// we have '\S\', for example 'Heizk\S\vrper'
+					char c3 = *(stream_pos + 3);
+					if (c3 != '\0')
+					{
+						char c4 = *(stream_pos + 4);
+						if (c4 == '\\')
+						{
+							// we have '\S\ . \'
+							char c5 = *(stream_pos + 5);
+							if (c5 == 'S')
+							{
+								if (*(stream_pos + 6) == '\\')
+								{
+									if (*(stream_pos + 7) != '\0')
+									{
+										char first = c3;
+										char second = *(stream_pos + 7);
+										char append_char = char(125 + first + second);
+										arg_str_new += append_char;
+										stream_pos += 8;
+										continue;
+									}
+								}
+							}
+							else if (c5 == 'Q')
+							{
+								if (*(stream_pos + 6) == '\\')
+								{
+									if (*(stream_pos + 7) != '\0')
+									{
+										char first = c3;
+										char second = *(stream_pos + 7);
+										char append_char = char(125 + first + second);
+										arg_str_new += append_char;
+										stream_pos += 8;
+										continue;
+									}
+								}
+							}
+						}
+						else
+						{
+							// next characters code value v shall be interpreted as v + 128
+							char first = c3;
+							char append_char = char(128 + first);
+							uint8_t charAsUint = append_char;
+							arg_str_new.push_back(0xc0 | charAsUint >> 6);
+							arg_str_new.push_back(0x80 | (charAsUint & 0x3f));
+
+							stream_pos += 4;
+							continue;
+						}
+					}
+				}
+			}
+			else if (c1 == 'X')
+			{
+				char c2 = *(stream_pos + 2);
+				if (c2 == '\\')
+				{
+					// we have \\X\\Unicode code points
+
+					char codePoint1 = *(stream_pos + 3);
+					char codePoint2 = *(stream_pos + 4);
+					codePoint1 = convertToHex<char>(codePoint1);
+					codePoint2 = convertToHex<char>(codePoint2);
+
+					// Combine the Unicode values into a single char
+					char combined[2];
+					combined[0] = (codePoint1 << 4) | codePoint2;
+					combined[1] = 0;
+					char16_t* combined16 = reinterpret_cast<char16_t*>(combined);
+					if (combined16[0] >= 0x80 && combined16[0] <= 0x9F)
+					{
+						combined16[0] = checkAndConvertAppleEncoding(combined16[0]);
+					}
+					std::u16string u16str(combined16, 1);
+					std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
+					std::string utf8 = convert.to_bytes(u16str);
+
+					arg_str_new += utf8;
+					stream_pos += 5;
+					continue;
+				}
+				else if (c2 == '0')
+				{
+					if (*(stream_pos + 3) == '\\')
+					{
+						stream_pos += 4;
+						continue;
+					}
+				}
+				else if (c2 == '2')
+				{
+					if (*(stream_pos + 3) == '\\')
+					{
+						// we have \X2\Unicode code points
+						// for example  pot\X2\00EA\X0\ncia
+
+						// the following sequence of multiples of four hexadecimal characters shall be interpreted as encoding the 
+						// two-octet representation of characters from the BMP in ISO 10646
+						
+						stream_pos += 4;
+						std::vector<char> utf16Characters;
+						do
+						{
+							char codePoint1 = *(stream_pos + 0);
+
+							if (codePoint1 == '\\')
+							{
+								char c1 = *(stream_pos + 1);
+								char c2 = *(stream_pos + 2);
+								char c3 = *(stream_pos + 3);
+								if (c1 == 'X' && c2 == '0' && c3 == '\\')
+								{
+									stream_pos += 4;
+									break;
+								}
+								else
+								{
+									// unexpected sequence
+									arg_out = argument_str;
+									return;
+								}
+							}
+
+							char codePoint2 = *(stream_pos + 1);
+							char codePoint3 = *(stream_pos + 2);
+							char codePoint4 = *(stream_pos + 3);
+
+							char c1 = (convertToHex<char>(codePoint1) << 4) | convertToHex<char>(codePoint2);
+							char c2 = (convertToHex<char>(codePoint3) << 4) | convertToHex<char>(codePoint4);
+
+							utf16Characters.push_back(c2);
+							utf16Characters.push_back(c1);
+
+							stream_pos += 4;
+
+						} while ((*stream_pos != '\0'));
+
+						std::u16string u16str(reinterpret_cast<char16_t*>(&utf16Characters[0]), utf16Characters.size() / 2);
+						std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
+						std::string utf8 = convert.to_bytes(u16str);
+						arg_str_new += utf8;
+					}
+					continue;
+				}
+			}
+			else if (c1 == 'N')
+			{
+				if (*(stream_pos + 2) == '\\')
+				{
+					arg_str_new.append("\n");
+					stream_pos += 3;
+					continue;
+				}
+			}
+		}
+
+		char current_char = *stream_pos;
+		arg_str_new += current_char;
+		++stream_pos;
+	}
+
+	arg_out = arg_str_new;
+}
+
+void decodeArgumentStrings( const std::vector<std::string>& entity_arguments, std::vector<std::string>& args_out)
 {
 	for (auto& argument_str : entity_arguments)
 	{
@@ -914,151 +1248,9 @@ void decodeArgumentStrings(std::vector<std::string>& entity_arguments, std::vect
 			continue;
 		}
 
-		std::string arg_str_new;
-
-		char* stream_pos = const_cast<char*>(argument_str.c_str());		// ascii characters from STEP file
-		while (*stream_pos != '\0')
-		{
-			if (*stream_pos == '\\')
-			{
-				if (*(stream_pos + 1) == 'S')
-				{
-					if (*(stream_pos + 2) == '\\')
-					{
-						if (*(stream_pos + 3) != '\0')
-						{
-							if (*(stream_pos + 4) == '\\')
-							{
-								if (*(stream_pos + 5) == 'S')
-								{
-									if (*(stream_pos + 6) == '\\')
-									{
-										if (*(stream_pos + 7) != '\0')
-										{
-											char first = *(stream_pos + 3);
-											char second = *(stream_pos + 7);
-											char append_char = char(125 + first + second);
-											arg_str_new += append_char;
-											stream_pos += 8;
-											continue;
-										}
-									}
-								}
-								else if (*(stream_pos + 5) == 'Q')
-								{
-									if (*(stream_pos + 6) == '\\')
-									{
-										if (*(stream_pos + 7) != '\0')
-										{
-											char first = *(stream_pos + 3);
-											char second = *(stream_pos + 7);
-											char append_char = char(125 + first + second);
-											arg_str_new += append_char;
-											stream_pos += 8;
-											continue;
-										}
-									}
-								}
-							}
-							else
-							{
-								// next characters code value v shall be interpreted as v + 128
-								char first = *(stream_pos + 3);
-								char append_char = char(128 + first);
-								arg_str_new += append_char;
-								stream_pos += 4;
-								continue;
-							}
-						}
-					}
-				}
-				else if (*(stream_pos + 1) == 'X')
-				{
-					if (*(stream_pos + 2) == '\\')
-					{
-						char wc = Hex2Char(*(stream_pos + 3), *(stream_pos + 4));
-
-						//unsigned char char_ascii = wctob(wc);
-						arg_str_new += wc;
-
-						stream_pos += 5;
-						continue;
-					}
-					else if (*(stream_pos + 2) == '0')
-					{
-						if (*(stream_pos + 3) == '\\')
-						{
-							stream_pos += 4;
-							continue;
-						}
-					}
-					else if (*(stream_pos + 2) == '2')
-					{
-						if (*(stream_pos + 3) == '\\')
-						{
-							// the following sequence of multiples of four hexadecimal characters shall be interpreted as encoding the 
-							// two-octet representation of characters from the BMP in ISO 10646
-
-							bool finished = false;
-							stream_pos += 4;
-
-							std::vector<char> utf16Characters;
-							do
-							{
-								char h1 = *(stream_pos);
-								char h2 = *(stream_pos + 1);
-								char h3 = *(stream_pos + 2);
-								char h4 = *(stream_pos + 3);
-
-								char c1 = Hex2Char(h1, h2);
-								char c2 = Hex2Char(h3, h4);
-								utf16Characters.push_back(c1);
-								utf16Characters.push_back(c2);
-
-								stream_pos += 4;
-
-							} while ((*stream_pos != '\0') && (*stream_pos != '\\'));
-
-							for (int i = 0; i < utf16Characters.size(); i += 2)
-							{
-								std::swap(utf16Characters[i], utf16Characters[i + 1]);
-							}
-
-#ifdef _MSC_VER
-							std::wstring w_str(reinterpret_cast<wchar_t*>(&utf16Characters[0]), utf16Characters.size() / 2);
-							std::string convertedStr = wstring2string(w_str);
-							arg_str_new += convertedStr;
-#else
-							std::u16string u16str(reinterpret_cast<char16_t*>(&utf16Characters[0]), utf16Characters.size() / 2);
-							std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
-							std::string utf8 = convert.to_bytes(u16str);
-							arg_str_new += utf8;
-#endif
-
-
-
-							continue;
-						}
-					}
-				}
-				else if (*(stream_pos + 1) == 'N')
-				{
-					if (*(stream_pos + 2) == '\\')
-					{
-						arg_str_new.append("\n");
-						stream_pos += 3;
-						continue;
-					}
-				}
-			}
-
-			char current_char = *stream_pos;
-			arg_str_new += current_char;
-			++stream_pos;
-		}
-
-		args_out.push_back(arg_str_new);
-
+		std::string decoded;
+		decodeArgumentString(argument_str, decoded);
+		args_out.push_back(decoded);
 	}
 }
 

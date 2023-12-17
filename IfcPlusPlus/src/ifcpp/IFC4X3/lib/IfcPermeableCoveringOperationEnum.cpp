@@ -25,6 +25,7 @@ void IFC4X3::IfcPermeableCoveringOperationEnum::getStepParameter( std::stringstr
 }
 shared_ptr<IFC4X3::IfcPermeableCoveringOperationEnum> IFC4X3::IfcPermeableCoveringOperationEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPermeableCoveringOperationEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPermeableCoveringOperationEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPermeableCoveringOperationEnum>(); }
 	shared_ptr<IfcPermeableCoveringOperationEnum> type_object( new IfcPermeableCoveringOperationEnum() );

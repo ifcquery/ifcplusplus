@@ -22,6 +22,7 @@ void IFC4X3::IfcSectionTypeEnum::getStepParameter( std::stringstream& stream, bo
 }
 shared_ptr<IFC4X3::IfcSectionTypeEnum> IFC4X3::IfcSectionTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSectionTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSectionTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSectionTypeEnum>(); }
 	shared_ptr<IfcSectionTypeEnum> type_object( new IfcSectionTypeEnum() );

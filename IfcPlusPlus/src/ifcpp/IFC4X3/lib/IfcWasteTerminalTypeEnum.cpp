@@ -29,6 +29,7 @@ void IFC4X3::IfcWasteTerminalTypeEnum::getStepParameter( std::stringstream& stre
 }
 shared_ptr<IFC4X3::IfcWasteTerminalTypeEnum> IFC4X3::IfcWasteTerminalTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcWasteTerminalTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWasteTerminalTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcWasteTerminalTypeEnum>(); }
 	shared_ptr<IfcWasteTerminalTypeEnum> type_object( new IfcWasteTerminalTypeEnum() );

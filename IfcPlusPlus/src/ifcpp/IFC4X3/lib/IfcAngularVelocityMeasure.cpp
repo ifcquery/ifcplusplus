@@ -20,6 +20,7 @@ void IFC4X3::IfcAngularVelocityMeasure::getStepParameter( std::stringstream& str
 }
 shared_ptr<IFC4X3::IfcAngularVelocityMeasure> IFC4X3::IfcAngularVelocityMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcAngularVelocityMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAngularVelocityMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcAngularVelocityMeasure>(); }
 	shared_ptr<IfcAngularVelocityMeasure> type_object( new IfcAngularVelocityMeasure() );

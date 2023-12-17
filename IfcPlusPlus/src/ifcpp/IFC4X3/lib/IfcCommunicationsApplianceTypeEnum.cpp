@@ -46,6 +46,7 @@ void IFC4X3::IfcCommunicationsApplianceTypeEnum::getStepParameter( std::stringst
 }
 shared_ptr<IFC4X3::IfcCommunicationsApplianceTypeEnum> IFC4X3::IfcCommunicationsApplianceTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcCommunicationsApplianceTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCommunicationsApplianceTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcCommunicationsApplianceTypeEnum>(); }
 	shared_ptr<IfcCommunicationsApplianceTypeEnum> type_object( new IfcCommunicationsApplianceTypeEnum() );

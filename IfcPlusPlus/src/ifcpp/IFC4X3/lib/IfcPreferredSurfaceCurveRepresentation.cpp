@@ -23,6 +23,7 @@ void IFC4X3::IfcPreferredSurfaceCurveRepresentation::getStepParameter( std::stri
 }
 shared_ptr<IFC4X3::IfcPreferredSurfaceCurveRepresentation> IFC4X3::IfcPreferredSurfaceCurveRepresentation::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPreferredSurfaceCurveRepresentation>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPreferredSurfaceCurveRepresentation>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPreferredSurfaceCurveRepresentation>(); }
 	shared_ptr<IfcPreferredSurfaceCurveRepresentation> type_object( new IfcPreferredSurfaceCurveRepresentation() );

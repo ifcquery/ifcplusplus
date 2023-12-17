@@ -26,6 +26,7 @@ void IFC4X3::IfcEventTriggerTypeEnum::getStepParameter( std::stringstream& strea
 }
 shared_ptr<IFC4X3::IfcEventTriggerTypeEnum> IFC4X3::IfcEventTriggerTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcEventTriggerTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcEventTriggerTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcEventTriggerTypeEnum>(); }
 	shared_ptr<IfcEventTriggerTypeEnum> type_object( new IfcEventTriggerTypeEnum() );

@@ -20,6 +20,7 @@ void IFC4X3::IfcMassFlowRateMeasure::getStepParameter( std::stringstream& stream
 }
 shared_ptr<IFC4X3::IfcMassFlowRateMeasure> IFC4X3::IfcMassFlowRateMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcMassFlowRateMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcMassFlowRateMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcMassFlowRateMeasure>(); }
 	shared_ptr<IfcMassFlowRateMeasure> type_object( new IfcMassFlowRateMeasure() );

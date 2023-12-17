@@ -25,6 +25,7 @@ void IFC4X3::IfcWorkScheduleTypeEnum::getStepParameter( std::stringstream& strea
 }
 shared_ptr<IFC4X3::IfcWorkScheduleTypeEnum> IFC4X3::IfcWorkScheduleTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcWorkScheduleTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWorkScheduleTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcWorkScheduleTypeEnum>(); }
 	shared_ptr<IfcWorkScheduleTypeEnum> type_object( new IfcWorkScheduleTypeEnum() );

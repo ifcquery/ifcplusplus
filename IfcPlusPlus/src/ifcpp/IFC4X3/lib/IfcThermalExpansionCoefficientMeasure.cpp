@@ -20,6 +20,7 @@ void IFC4X3::IfcThermalExpansionCoefficientMeasure::getStepParameter( std::strin
 }
 shared_ptr<IFC4X3::IfcThermalExpansionCoefficientMeasure> IFC4X3::IfcThermalExpansionCoefficientMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcThermalExpansionCoefficientMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcThermalExpansionCoefficientMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcThermalExpansionCoefficientMeasure>(); }
 	shared_ptr<IfcThermalExpansionCoefficientMeasure> type_object( new IfcThermalExpansionCoefficientMeasure() );

@@ -26,6 +26,7 @@ void IFC4X3::IfcDocumentConfidentialityEnum::getStepParameter( std::stringstream
 }
 shared_ptr<IFC4X3::IfcDocumentConfidentialityEnum> IFC4X3::IfcDocumentConfidentialityEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcDocumentConfidentialityEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDocumentConfidentialityEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcDocumentConfidentialityEnum>(); }
 	shared_ptr<IfcDocumentConfidentialityEnum> type_object( new IfcDocumentConfidentialityEnum() );

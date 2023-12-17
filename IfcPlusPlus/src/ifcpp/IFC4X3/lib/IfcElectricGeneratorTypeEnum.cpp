@@ -25,6 +25,7 @@ void IFC4X3::IfcElectricGeneratorTypeEnum::getStepParameter( std::stringstream& 
 }
 shared_ptr<IFC4X3::IfcElectricGeneratorTypeEnum> IFC4X3::IfcElectricGeneratorTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcElectricGeneratorTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricGeneratorTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcElectricGeneratorTypeEnum>(); }
 	shared_ptr<IfcElectricGeneratorTypeEnum> type_object( new IfcElectricGeneratorTypeEnum() );

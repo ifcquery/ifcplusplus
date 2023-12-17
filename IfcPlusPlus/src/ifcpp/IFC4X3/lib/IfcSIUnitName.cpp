@@ -50,6 +50,7 @@ void IFC4X3::IfcSIUnitName::getStepParameter( std::stringstream& stream, bool is
 }
 shared_ptr<IFC4X3::IfcSIUnitName> IFC4X3::IfcSIUnitName::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSIUnitName>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSIUnitName>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSIUnitName>(); }
 	shared_ptr<IfcSIUnitName> type_object( new IfcSIUnitName() );

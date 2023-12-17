@@ -25,6 +25,7 @@ void IFC4X3::IfcInventoryTypeEnum::getStepParameter( std::stringstream& stream, 
 }
 shared_ptr<IFC4X3::IfcInventoryTypeEnum> IFC4X3::IfcInventoryTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcInventoryTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcInventoryTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcInventoryTypeEnum>(); }
 	shared_ptr<IfcInventoryTypeEnum> type_object( new IfcInventoryTypeEnum() );

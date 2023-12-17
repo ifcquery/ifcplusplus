@@ -31,6 +31,7 @@ void IFC4X3::IfcLightEmissionSourceEnum::getStepParameter( std::stringstream& st
 }
 shared_ptr<IFC4X3::IfcLightEmissionSourceEnum> IFC4X3::IfcLightEmissionSourceEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLightEmissionSourceEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLightEmissionSourceEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLightEmissionSourceEnum>(); }
 	shared_ptr<IfcLightEmissionSourceEnum> type_object( new IfcLightEmissionSourceEnum() );

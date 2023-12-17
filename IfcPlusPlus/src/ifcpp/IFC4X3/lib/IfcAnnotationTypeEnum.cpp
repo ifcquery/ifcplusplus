@@ -31,6 +31,7 @@ void IFC4X3::IfcAnnotationTypeEnum::getStepParameter( std::stringstream& stream,
 }
 shared_ptr<IFC4X3::IfcAnnotationTypeEnum> IFC4X3::IfcAnnotationTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcAnnotationTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAnnotationTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcAnnotationTypeEnum>(); }
 	shared_ptr<IfcAnnotationTypeEnum> type_object( new IfcAnnotationTypeEnum() );

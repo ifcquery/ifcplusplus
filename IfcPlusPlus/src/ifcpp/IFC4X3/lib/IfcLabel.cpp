@@ -20,6 +20,7 @@ void IFC4X3::IfcLabel::getStepParameter( std::stringstream& stream, bool is_sele
 }
 shared_ptr<IFC4X3::IfcLabel> IFC4X3::IfcLabel::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLabel>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLabel>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLabel>(); }
 	shared_ptr<IfcLabel> type_object( new IfcLabel() );

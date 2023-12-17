@@ -26,6 +26,7 @@ void IFC4X3::IfcSequenceEnum::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcSequenceEnum> IFC4X3::IfcSequenceEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSequenceEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSequenceEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSequenceEnum>(); }
 	shared_ptr<IfcSequenceEnum> type_object( new IfcSequenceEnum() );

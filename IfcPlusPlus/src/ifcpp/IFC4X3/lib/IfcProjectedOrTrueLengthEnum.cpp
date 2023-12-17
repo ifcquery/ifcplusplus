@@ -22,6 +22,7 @@ void IFC4X3::IfcProjectedOrTrueLengthEnum::getStepParameter( std::stringstream& 
 }
 shared_ptr<IFC4X3::IfcProjectedOrTrueLengthEnum> IFC4X3::IfcProjectedOrTrueLengthEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcProjectedOrTrueLengthEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcProjectedOrTrueLengthEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcProjectedOrTrueLengthEnum>(); }
 	shared_ptr<IfcProjectedOrTrueLengthEnum> type_object( new IfcProjectedOrTrueLengthEnum() );

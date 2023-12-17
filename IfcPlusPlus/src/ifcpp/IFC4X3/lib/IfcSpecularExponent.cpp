@@ -20,6 +20,7 @@ void IFC4X3::IfcSpecularExponent::getStepParameter( std::stringstream& stream, b
 }
 shared_ptr<IFC4X3::IfcSpecularExponent> IFC4X3::IfcSpecularExponent::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSpecularExponent>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSpecularExponent>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSpecularExponent>(); }
 	shared_ptr<IfcSpecularExponent> type_object( new IfcSpecularExponent() );

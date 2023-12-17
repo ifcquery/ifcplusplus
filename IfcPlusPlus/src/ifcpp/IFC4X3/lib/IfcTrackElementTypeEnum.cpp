@@ -30,6 +30,7 @@ void IFC4X3::IfcTrackElementTypeEnum::getStepParameter( std::stringstream& strea
 }
 shared_ptr<IFC4X3::IfcTrackElementTypeEnum> IFC4X3::IfcTrackElementTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcTrackElementTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTrackElementTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcTrackElementTypeEnum>(); }
 	shared_ptr<IfcTrackElementTypeEnum> type_object( new IfcTrackElementTypeEnum() );

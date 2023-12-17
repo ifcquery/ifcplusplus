@@ -20,6 +20,7 @@ void IFC4X3::IfcElectricCapacitanceMeasure::getStepParameter( std::stringstream&
 }
 shared_ptr<IFC4X3::IfcElectricCapacitanceMeasure> IFC4X3::IfcElectricCapacitanceMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcElectricCapacitanceMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricCapacitanceMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcElectricCapacitanceMeasure>(); }
 	shared_ptr<IfcElectricCapacitanceMeasure> type_object( new IfcElectricCapacitanceMeasure() );

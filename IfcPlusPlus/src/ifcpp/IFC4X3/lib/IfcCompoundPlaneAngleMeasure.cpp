@@ -19,6 +19,7 @@ void IFC4X3::IfcCompoundPlaneAngleMeasure::getStepParameter( std::stringstream& 
 }
 shared_ptr<IFC4X3::IfcCompoundPlaneAngleMeasure> IFC4X3::IfcCompoundPlaneAngleMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcCompoundPlaneAngleMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCompoundPlaneAngleMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcCompoundPlaneAngleMeasure>(); }
 	shared_ptr<IfcCompoundPlaneAngleMeasure> type_object( new IfcCompoundPlaneAngleMeasure() );

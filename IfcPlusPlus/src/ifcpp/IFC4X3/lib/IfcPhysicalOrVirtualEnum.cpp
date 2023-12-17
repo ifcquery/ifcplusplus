@@ -23,6 +23,7 @@ void IFC4X3::IfcPhysicalOrVirtualEnum::getStepParameter( std::stringstream& stre
 }
 shared_ptr<IFC4X3::IfcPhysicalOrVirtualEnum> IFC4X3::IfcPhysicalOrVirtualEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPhysicalOrVirtualEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPhysicalOrVirtualEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPhysicalOrVirtualEnum>(); }
 	shared_ptr<IfcPhysicalOrVirtualEnum> type_object( new IfcPhysicalOrVirtualEnum() );

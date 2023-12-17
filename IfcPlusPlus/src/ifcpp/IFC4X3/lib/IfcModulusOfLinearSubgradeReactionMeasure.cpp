@@ -21,6 +21,7 @@ void IFC4X3::IfcModulusOfLinearSubgradeReactionMeasure::getStepParameter( std::s
 }
 shared_ptr<IFC4X3::IfcModulusOfLinearSubgradeReactionMeasure> IFC4X3::IfcModulusOfLinearSubgradeReactionMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure>(); }
 	shared_ptr<IfcModulusOfLinearSubgradeReactionMeasure> type_object( new IfcModulusOfLinearSubgradeReactionMeasure() );

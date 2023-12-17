@@ -26,6 +26,7 @@ void IFC4X3::IfcStrippedOptional::getStepParameter( std::stringstream& stream, b
 }
 shared_ptr<IFC4X3::IfcStrippedOptional> IFC4X3::IfcStrippedOptional::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcStrippedOptional>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcStrippedOptional>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcStrippedOptional>(); }
 	shared_ptr<IfcStrippedOptional> type_object( new IfcStrippedOptional() );

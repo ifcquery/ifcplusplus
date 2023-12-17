@@ -22,6 +22,7 @@ void IFC4X3::IfcRoadTypeEnum::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcRoadTypeEnum> IFC4X3::IfcRoadTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcRoadTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcRoadTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcRoadTypeEnum>(); }
 	shared_ptr<IfcRoadTypeEnum> type_object( new IfcRoadTypeEnum() );

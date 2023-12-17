@@ -20,6 +20,7 @@ void IFC4X3::IfcElectricChargeMeasure::getStepParameter( std::stringstream& stre
 }
 shared_ptr<IFC4X3::IfcElectricChargeMeasure> IFC4X3::IfcElectricChargeMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcElectricChargeMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricChargeMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcElectricChargeMeasure>(); }
 	shared_ptr<IfcElectricChargeMeasure> type_object( new IfcElectricChargeMeasure() );

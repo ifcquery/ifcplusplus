@@ -35,6 +35,7 @@ void IFC4X3::IfcBuiltSystemTypeEnum::getStepParameter( std::stringstream& stream
 }
 shared_ptr<IFC4X3::IfcBuiltSystemTypeEnum> IFC4X3::IfcBuiltSystemTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcBuiltSystemTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBuiltSystemTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcBuiltSystemTypeEnum>(); }
 	shared_ptr<IfcBuiltSystemTypeEnum> type_object( new IfcBuiltSystemTypeEnum() );

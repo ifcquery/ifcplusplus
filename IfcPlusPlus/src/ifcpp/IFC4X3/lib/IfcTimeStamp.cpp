@@ -20,6 +20,7 @@ void IFC4X3::IfcTimeStamp::getStepParameter( std::stringstream& stream, bool is_
 }
 shared_ptr<IFC4X3::IfcTimeStamp> IFC4X3::IfcTimeStamp::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcTimeStamp>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTimeStamp>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcTimeStamp>(); }
 	shared_ptr<IfcTimeStamp> type_object( new IfcTimeStamp() );

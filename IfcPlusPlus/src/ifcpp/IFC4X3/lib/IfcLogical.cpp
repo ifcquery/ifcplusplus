@@ -31,6 +31,7 @@ void IFC4X3::IfcLogical::getStepParameter( std::stringstream& stream, bool is_se
 }
 shared_ptr<IFC4X3::IfcLogical> IFC4X3::IfcLogical::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLogical>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLogical>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLogical>(); }
 	shared_ptr<IfcLogical> type_object( new IfcLogical() );

@@ -43,6 +43,7 @@ void IFC4X3::IfcTaskTypeEnum::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcTaskTypeEnum> IFC4X3::IfcTaskTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcTaskTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTaskTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcTaskTypeEnum>(); }
 	shared_ptr<IfcTaskTypeEnum> type_object( new IfcTaskTypeEnum() );

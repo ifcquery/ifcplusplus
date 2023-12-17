@@ -25,6 +25,7 @@ void IFC4X3::IfcFastenerTypeEnum::getStepParameter( std::stringstream& stream, b
 }
 shared_ptr<IFC4X3::IfcFastenerTypeEnum> IFC4X3::IfcFastenerTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcFastenerTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFastenerTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcFastenerTypeEnum>(); }
 	shared_ptr<IfcFastenerTypeEnum> type_object( new IfcFastenerTypeEnum() );

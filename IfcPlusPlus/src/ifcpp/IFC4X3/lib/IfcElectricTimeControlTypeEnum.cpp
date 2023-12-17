@@ -25,6 +25,7 @@ void IFC4X3::IfcElectricTimeControlTypeEnum::getStepParameter( std::stringstream
 }
 shared_ptr<IFC4X3::IfcElectricTimeControlTypeEnum> IFC4X3::IfcElectricTimeControlTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcElectricTimeControlTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricTimeControlTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcElectricTimeControlTypeEnum>(); }
 	shared_ptr<IfcElectricTimeControlTypeEnum> type_object( new IfcElectricTimeControlTypeEnum() );

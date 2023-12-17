@@ -34,6 +34,7 @@ void IFC4X3::IfcBeamTypeEnum::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcBeamTypeEnum> IFC4X3::IfcBeamTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcBeamTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBeamTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcBeamTypeEnum>(); }
 	shared_ptr<IfcBeamTypeEnum> type_object( new IfcBeamTypeEnum() );

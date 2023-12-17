@@ -26,6 +26,7 @@ void IFC4X3::IfcWindowPanelPositionEnum::getStepParameter( std::stringstream& st
 }
 shared_ptr<IFC4X3::IfcWindowPanelPositionEnum> IFC4X3::IfcWindowPanelPositionEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcWindowPanelPositionEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcWindowPanelPositionEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcWindowPanelPositionEnum>(); }
 	shared_ptr<IfcWindowPanelPositionEnum> type_object( new IfcWindowPanelPositionEnum() );

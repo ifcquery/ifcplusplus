@@ -35,6 +35,7 @@ void IFC4X3::IfcHumidifierTypeEnum::getStepParameter( std::stringstream& stream,
 }
 shared_ptr<IFC4X3::IfcHumidifierTypeEnum> IFC4X3::IfcHumidifierTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcHumidifierTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcHumidifierTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcHumidifierTypeEnum>(); }
 	shared_ptr<IfcHumidifierTypeEnum> type_object( new IfcHumidifierTypeEnum() );

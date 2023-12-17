@@ -73,6 +73,7 @@ void IFC4X3::IfcDerivedUnitEnum::getStepParameter( std::stringstream& stream, bo
 }
 shared_ptr<IFC4X3::IfcDerivedUnitEnum> IFC4X3::IfcDerivedUnitEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcDerivedUnitEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDerivedUnitEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcDerivedUnitEnum>(); }
 	shared_ptr<IfcDerivedUnitEnum> type_object( new IfcDerivedUnitEnum() );

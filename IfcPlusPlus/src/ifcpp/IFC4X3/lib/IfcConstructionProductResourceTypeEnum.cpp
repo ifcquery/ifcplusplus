@@ -24,6 +24,7 @@ void IFC4X3::IfcConstructionProductResourceTypeEnum::getStepParameter( std::stri
 }
 shared_ptr<IFC4X3::IfcConstructionProductResourceTypeEnum> IFC4X3::IfcConstructionProductResourceTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcConstructionProductResourceTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcConstructionProductResourceTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcConstructionProductResourceTypeEnum>(); }
 	shared_ptr<IfcConstructionProductResourceTypeEnum> type_object( new IfcConstructionProductResourceTypeEnum() );

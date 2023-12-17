@@ -20,6 +20,7 @@ void IFC4X3::IfcTime::getStepParameter( std::stringstream& stream, bool is_selec
 }
 shared_ptr<IFC4X3::IfcTime> IFC4X3::IfcTime::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcTime>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTime>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcTime>(); }
 	shared_ptr<IfcTime> type_object( new IfcTime() );

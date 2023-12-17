@@ -85,38 +85,3 @@ using boost::dynamic_pointer_cast;
 using boost::make_shared;
 
 #endif
-
-struct vec4
-{
-	vec4() {}
-	vec4( double _r, double _g, double _b, double _a ) : r(_r), g(_g ), b(_b ), a(_a ){}
-	vec4( const vec4& other ) : r( other.r ), g( other.g ), b( other.b ), a( other.a ) {}
-	void setColor( const vec4& other )
-	{
-		r = other.r;
-		g = other.g;
-		b = other.b;
-		a = other.a;
-	}
-	void setColor( double _r, double _g, double _b, double _a )
-	{
-		r = _r;
-		g = _g;
-		b = _b;
-		a = _a;
-	}
-
-	vec4& operator =( const vec4& other )
-	{
-		r = other.r;
-		g = other.g;
-		b = other.b;
-		a = other.a;
-		return *this;
-	}
-
-	double r = 0;
-	double g = 0;
-	double b = 0;
-	double a = 0;
-};

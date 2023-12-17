@@ -29,6 +29,7 @@ void IFC4X3::IfcTransformerTypeEnum::getStepParameter( std::stringstream& stream
 }
 shared_ptr<IFC4X3::IfcTransformerTypeEnum> IFC4X3::IfcTransformerTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcTransformerTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcTransformerTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcTransformerTypeEnum>(); }
 	shared_ptr<IfcTransformerTypeEnum> type_object( new IfcTransformerTypeEnum() );

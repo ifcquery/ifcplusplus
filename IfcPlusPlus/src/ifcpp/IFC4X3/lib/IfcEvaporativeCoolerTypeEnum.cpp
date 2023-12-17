@@ -31,6 +31,7 @@ void IFC4X3::IfcEvaporativeCoolerTypeEnum::getStepParameter( std::stringstream& 
 }
 shared_ptr<IFC4X3::IfcEvaporativeCoolerTypeEnum> IFC4X3::IfcEvaporativeCoolerTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcEvaporativeCoolerTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcEvaporativeCoolerTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcEvaporativeCoolerTypeEnum>(); }
 	shared_ptr<IfcEvaporativeCoolerTypeEnum> type_object( new IfcEvaporativeCoolerTypeEnum() );

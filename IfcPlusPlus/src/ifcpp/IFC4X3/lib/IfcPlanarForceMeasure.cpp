@@ -20,6 +20,7 @@ void IFC4X3::IfcPlanarForceMeasure::getStepParameter( std::stringstream& stream,
 }
 shared_ptr<IFC4X3::IfcPlanarForceMeasure> IFC4X3::IfcPlanarForceMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPlanarForceMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPlanarForceMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPlanarForceMeasure>(); }
 	shared_ptr<IfcPlanarForceMeasure> type_object( new IfcPlanarForceMeasure() );

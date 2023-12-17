@@ -61,20 +61,6 @@ bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::Polyhedro
 		}
 	}
 
-#ifdef _DEBUG
-
-	MeshSetInfo info;
-	bool validMesh = MeshOps::checkMeshSetValidAndClosed(meshsetUnchanged, info, params);
-	MeshOps::checkAndFixMeshsetInverted(meshsetUnchanged, info, params);
-
-	//std::cout << "failed to correct polyhedron data\n";
-	if (params.debugDump)
-	{
-		GeomDebugDump::DumpSettingsStruct dumpColorSettings;
-		dumpWithLabel("addClosedPolyhedron::meshsetUnchanged", meshsetUnchanged, dumpColorSettings, params, true, false);
-	}
-#endif
-
 	if (meshsetUnchanged->isClosed())
 	{
 		m_meshsets.push_back(meshsetUnchanged);
@@ -90,6 +76,10 @@ bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::Polyhedro
 	}
 #endif
 
+	MeshSetInfo info;
+	bool validMesh = MeshOps::checkMeshSetValidAndClosed(meshsetUnchanged, info, params);
+	MeshOps::checkAndFixMeshsetInverted(meshsetUnchanged, info, params);
+
 	if (poly_data->faceCount > 10000)
 	{
 		// TODO: buld spatial partition tree, and intersect all edges within a box with vertices and edges of that box
@@ -100,44 +90,71 @@ bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::Polyhedro
 	// try to fix winding order
 	reverseFacesInPolyhedronData(poly_data);
 
-	meshsetUnchanged = shared_ptr<carve::mesh::MeshSet<3> >(poly_data->createMesh(mesh_input_options, eps));
-	if (meshsetUnchanged->isClosed())
+	shared_ptr<carve::mesh::MeshSet<3> > meshsetChanged(poly_data->createMesh(mesh_input_options, eps));
+	if (meshsetChanged->isClosed())
 	{
-		m_meshsets.push_back(meshsetUnchanged);
+		m_meshsets.push_back(meshsetChanged);
 		return true;
 	}
 
-	MeshOps::intersectOpenEdgesWithPoints(meshsetUnchanged, params);
+	MeshOps::intersectOpenEdgesWithPoints(meshsetChanged, params);
 
-	for (size_t i = 0; i < meshsetUnchanged->meshes.size(); ++i)
+	for (size_t i = 0; i < meshsetChanged->meshes.size(); ++i)
 	{
-		meshsetUnchanged->meshes[i]->recalc(eps);
+		meshsetChanged->meshes[i]->recalc(eps);
 	}
-	if (meshsetUnchanged->isClosed())
+	if (meshsetChanged->isClosed())
 	{
-		m_meshsets.push_back(meshsetUnchanged);
+		m_meshsets.push_back(meshsetChanged);
 		return true;
 	}
 
-	MeshOps::intersectOpenEdgesWithEdges(meshsetUnchanged, params);
+	MeshOps::intersectOpenEdgesWithEdges(meshsetChanged, params);
 
-	if (meshsetUnchanged->isClosed())
+	if (meshsetChanged->isClosed())
 	{
-		m_meshsets.push_back(meshsetUnchanged);
+		m_meshsets.push_back(meshsetChanged);
 		return true;
 	}
 
-	{
-		MeshOps::resolveOpenEdges(meshsetUnchanged, params);
+	MeshOps::resolveOpenEdges(meshsetChanged, params);
 
-		if (meshsetUnchanged->isClosed())
+	if (meshsetChanged->isClosed())
+	{
+		m_meshsets.push_back(meshsetChanged);
+		return true;
+	}
+
+	MeshSetInfo infoChanged;
+	bool validMeshChanged = MeshOps::checkMeshSetValidAndClosed(meshsetChanged, infoChanged, params);
+	if (MeshOps::isBetterForBoolOp(infoChanged, info, false))
+	{
+		m_meshsets_open.push_back(meshsetChanged);
+
+#ifdef _DEBUG
+		if (params.debugDump)
 		{
-			m_meshsets.push_back(meshsetUnchanged);
-			return true;
+			glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+			GeomDebugDump::dumpMeshsetOpenEdges(meshsetChanged, color, false, false);
+			GeomDebugDump::dumpMeshset(meshsetChanged.get(), color, true, false);
 		}
-
-		m_meshsets_open.push_back(meshsetUnchanged); // still may be useful as open mesh
+#endif
 	}
+	else
+	{
+		// still may be useful as open mesh
+		m_meshsets_open.push_back(meshsetUnchanged);
+
+#ifdef _DEBUG
+		if (params.debugDump)
+		{
+			glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+			GeomDebugDump::dumpMeshsetOpenEdges(meshsetUnchanged, color, false, false);
+			GeomDebugDump::dumpMeshset(meshsetUnchanged.get(), color, true, false);
+		}
+#endif
+	}
+
 	// Meshset is not closed
 	return false;
 }

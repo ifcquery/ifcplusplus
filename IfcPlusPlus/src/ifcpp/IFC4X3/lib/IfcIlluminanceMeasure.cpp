@@ -20,6 +20,7 @@ void IFC4X3::IfcIlluminanceMeasure::getStepParameter( std::stringstream& stream,
 }
 shared_ptr<IFC4X3::IfcIlluminanceMeasure> IFC4X3::IfcIlluminanceMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcIlluminanceMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcIlluminanceMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcIlluminanceMeasure>(); }
 	shared_ptr<IfcIlluminanceMeasure> type_object( new IfcIlluminanceMeasure() );

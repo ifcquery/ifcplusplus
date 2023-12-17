@@ -22,6 +22,7 @@ void IFC4X3::IfcAlignmentTypeEnum::getStepParameter( std::stringstream& stream, 
 }
 shared_ptr<IFC4X3::IfcAlignmentTypeEnum> IFC4X3::IfcAlignmentTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcAlignmentTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAlignmentTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcAlignmentTypeEnum>(); }
 	shared_ptr<IfcAlignmentTypeEnum> type_object( new IfcAlignmentTypeEnum() );

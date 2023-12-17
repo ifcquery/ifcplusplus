@@ -24,6 +24,7 @@ void IFC4X3::IfcLightDistributionCurveEnum::getStepParameter( std::stringstream&
 }
 shared_ptr<IFC4X3::IfcLightDistributionCurveEnum> IFC4X3::IfcLightDistributionCurveEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcLightDistributionCurveEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcLightDistributionCurveEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcLightDistributionCurveEnum>(); }
 	shared_ptr<IfcLightDistributionCurveEnum> type_object( new IfcLightDistributionCurveEnum() );

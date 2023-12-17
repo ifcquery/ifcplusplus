@@ -28,6 +28,7 @@ void IFC4X3::IfcVibrationDamperTypeEnum::getStepParameter( std::stringstream& st
 }
 shared_ptr<IFC4X3::IfcVibrationDamperTypeEnum> IFC4X3::IfcVibrationDamperTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcVibrationDamperTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcVibrationDamperTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcVibrationDamperTypeEnum>(); }
 	shared_ptr<IfcVibrationDamperTypeEnum> type_object( new IfcVibrationDamperTypeEnum() );

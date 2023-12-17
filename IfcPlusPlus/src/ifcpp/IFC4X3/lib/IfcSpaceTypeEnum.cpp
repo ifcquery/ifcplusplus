@@ -28,6 +28,7 @@ void IFC4X3::IfcSpaceTypeEnum::getStepParameter( std::stringstream& stream, bool
 }
 shared_ptr<IFC4X3::IfcSpaceTypeEnum> IFC4X3::IfcSpaceTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSpaceTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSpaceTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSpaceTypeEnum>(); }
 	shared_ptr<IfcSpaceTypeEnum> type_object( new IfcSpaceTypeEnum() );

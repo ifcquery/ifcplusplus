@@ -29,6 +29,7 @@ void IFC4X3::IfcFanTypeEnum::getStepParameter( std::stringstream& stream, bool i
 }
 shared_ptr<IFC4X3::IfcFanTypeEnum> IFC4X3::IfcFanTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcFanTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcFanTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcFanTypeEnum>(); }
 	shared_ptr<IfcFanTypeEnum> type_object( new IfcFanTypeEnum() );

@@ -27,6 +27,7 @@ void IFC4X3::IfcUnitaryEquipmentTypeEnum::getStepParameter( std::stringstream& s
 }
 shared_ptr<IFC4X3::IfcUnitaryEquipmentTypeEnum> IFC4X3::IfcUnitaryEquipmentTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcUnitaryEquipmentTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcUnitaryEquipmentTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcUnitaryEquipmentTypeEnum>(); }
 	shared_ptr<IfcUnitaryEquipmentTypeEnum> type_object( new IfcUnitaryEquipmentTypeEnum() );

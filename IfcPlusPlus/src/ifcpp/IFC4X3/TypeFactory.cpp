@@ -889,10 +889,19 @@ static std::map<std::string, std::function<shared_ptr<BuildingObject>( const std
 
 shared_ptr<BuildingObject> IFC4X3::TypeFactory::createTypeObject( const std::string& class_name_upper, const std::string& type_arg, const std::map<int, shared_ptr<BuildingEntity> >& map_entities, std::stringstream& errorStream )
 {
-	auto it_find = type_factory_map.find( class_name_upper );
-	if( it_find != type_factory_map.end() )
+	if (class_name_upper.size() > 0)
 	{
-		return it_find->second( type_arg, map_entities, errorStream );
+		if (class_name_upper.compare("$") != 0)
+		{
+			if (class_name_upper.compare("*") != 0)
+			{
+				auto it_find = type_factory_map.find( class_name_upper );
+				if( it_find != type_factory_map.end() )
+				{
+					return it_find->second( type_arg, map_entities, errorStream );
+				}
+			}
+		}
 	}
 	// class_name not registered
 	return shared_ptr<BuildingObject>();

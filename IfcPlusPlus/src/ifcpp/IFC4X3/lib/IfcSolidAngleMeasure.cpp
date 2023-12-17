@@ -20,6 +20,7 @@ void IFC4X3::IfcSolidAngleMeasure::getStepParameter( std::stringstream& stream, 
 }
 shared_ptr<IFC4X3::IfcSolidAngleMeasure> IFC4X3::IfcSolidAngleMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcSolidAngleMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSolidAngleMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcSolidAngleMeasure>(); }
 	shared_ptr<IfcSolidAngleMeasure> type_object( new IfcSolidAngleMeasure() );

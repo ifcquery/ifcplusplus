@@ -26,6 +26,7 @@ void IFC4X3::IfcInternalOrExternalEnum::getStepParameter( std::stringstream& str
 }
 shared_ptr<IFC4X3::IfcInternalOrExternalEnum> IFC4X3::IfcInternalOrExternalEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcInternalOrExternalEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcInternalOrExternalEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcInternalOrExternalEnum>(); }
 	shared_ptr<IfcInternalOrExternalEnum> type_object( new IfcInternalOrExternalEnum() );

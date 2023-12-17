@@ -20,6 +20,7 @@ void IFC4X3::IfcDoseEquivalentMeasure::getStepParameter( std::stringstream& stre
 }
 shared_ptr<IFC4X3::IfcDoseEquivalentMeasure> IFC4X3::IfcDoseEquivalentMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcDoseEquivalentMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDoseEquivalentMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcDoseEquivalentMeasure>(); }
 	shared_ptr<IfcDoseEquivalentMeasure> type_object( new IfcDoseEquivalentMeasure() );

@@ -25,6 +25,7 @@ void IFC4X3::IfcGeographicElementTypeEnum::getStepParameter( std::stringstream& 
 }
 shared_ptr<IFC4X3::IfcGeographicElementTypeEnum> IFC4X3::IfcGeographicElementTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcGeographicElementTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcGeographicElementTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcGeographicElementTypeEnum>(); }
 	shared_ptr<IfcGeographicElementTypeEnum> type_object( new IfcGeographicElementTypeEnum() );

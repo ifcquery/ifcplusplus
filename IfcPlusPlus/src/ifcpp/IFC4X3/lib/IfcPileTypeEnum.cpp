@@ -28,6 +28,7 @@ void IFC4X3::IfcPileTypeEnum::getStepParameter( std::stringstream& stream, bool 
 }
 shared_ptr<IFC4X3::IfcPileTypeEnum> IFC4X3::IfcPileTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcPileTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPileTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPileTypeEnum>(); }
 	shared_ptr<IfcPileTypeEnum> type_object( new IfcPileTypeEnum() );

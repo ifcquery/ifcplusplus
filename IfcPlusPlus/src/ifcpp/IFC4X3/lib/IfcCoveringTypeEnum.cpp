@@ -34,6 +34,7 @@ void IFC4X3::IfcCoveringTypeEnum::getStepParameter( std::stringstream& stream, b
 }
 shared_ptr<IFC4X3::IfcCoveringTypeEnum> IFC4X3::IfcCoveringTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcCoveringTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCoveringTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcCoveringTypeEnum>(); }
 	shared_ptr<IfcCoveringTypeEnum> type_object( new IfcCoveringTypeEnum() );

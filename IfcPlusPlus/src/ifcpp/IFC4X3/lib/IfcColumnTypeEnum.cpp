@@ -27,6 +27,7 @@ void IFC4X3::IfcColumnTypeEnum::getStepParameter( std::stringstream& stream, boo
 }
 shared_ptr<IFC4X3::IfcColumnTypeEnum> IFC4X3::IfcColumnTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
 {
+	if( arg.size() == 0 ) { return shared_ptr<IfcColumnTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcColumnTypeEnum>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcColumnTypeEnum>(); }
 	shared_ptr<IfcColumnTypeEnum> type_object( new IfcColumnTypeEnum() );
