@@ -1,12 +1,11 @@
 cmake_minimum_required (VERSION 3.6...3.9)
-project(IfcPlusPlus)
+project(IfcPlusPlus LANGUAGES CXX)
 
-ADD_DEFINITIONS(-DIFCQUERY_STATIC_LIB)
+ADD_DEFINITIONS(-DIFCQUERY_LIB)
 ADD_DEFINITIONS(-D_HAS_AUTO_PTR_ETC=1)
 ADD_DEFINITIONS(-DUNICODE)
 ADD_DEFINITIONS(-D_UNICODE)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD C++17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(WIN32)
@@ -75,9 +74,14 @@ if (MSVC)
 	set_source_files_properties(src/ifcpp/IFC4X3/TypeFactory.cpp PROPERTIES COMPILE_FLAGS /bigobj)
 endif()
 
-add_library(IfcPlusPlus STATIC ${IFCPP_SOURCE_FILES})
+add_library(IfcPlusPlus ${IFCPP_SOURCE_FILES})
+
+if(NOT BUILD_SHARED_LIBS)
+    target_compile_definitions(IfcPlusPlus PUBLIC IFCQUERY_STATIC_LIB)
+endif()
 
 TARGET_INCLUDE_DIRECTORIES(IfcPlusPlus
+    PUBLIC "$<INSTALL_INTERFACE:include;include/ifcpp/IFC4X3/include;include/ifcpp/external>"
     PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/src
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src
@@ -107,24 +111,32 @@ install(
     DESTINATION include
     FILES_MATCHING PATTERN "*.h"
 )
+
+# Install cmake config
+
+set(IFCPP_CONFIG_DIR "share/IFCPP")
+
 install(
     TARGETS IfcPlusPlus
-    EXPORT  IfcPlusPlus
+    EXPORT  IFCPPTargets
     RUNTIME DESTINATION bin
-    LIBRARY DESTINATION bin
-    ARCHIVE DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
 )
 
-set(target_output_filename IfcPlusPlus-targets.cmake)
-set(target_output "${CMAKE_BINARY_DIR}/cmake/${target_output_filename}")
-
-export(
-  EXPORT IfcPlusPlus
-  FILE ${target_output}
-  NAMESPACE IFCPP::)
-
 install(
-  EXPORT IfcPlusPlus
-  DESTINATION ${IFCPP_CONFIG_DIR}
-  FILE ${target_output_filename}
-  NAMESPACE IFCPP::)
+    EXPORT IFCPPTargets
+    DESTINATION "${IFCPP_CONFIG_DIR}"
+    NAMESPACE IFCPP::
+)
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/IFCPPConfig.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/IFCPPConfig.cmake"
+    INSTALL_DESTINATION "${IFCPP_CONFIG_DIR}"
+)
+install(
+    FILES "${CMAKE_CURRENT_BINARY_DIR}/IFCPPConfig.cmake"
+    DESTINATION "${IFCPP_CONFIG_DIR}"
+)
