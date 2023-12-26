@@ -177,7 +177,7 @@ int sat_edge(const vec2 tri_a[3], const vec2 tri_b[3], unsigned int i) {
 // returns: -1 - no intersection
 //           0 - touching
 //          +1 - intersection
-bool sat_edge(const vec2 tri_a[3], const vec2 tri_b[3], unsigned int i, unsigned int j) {
+int sat_edge(const vec2 tri_a[3], const vec2 tri_b[3], unsigned int i, unsigned int j) {
   return std::max(dbl_sign(orient2d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[(j + 1) % 3])), dbl_sign(orient2d_exact(tri_a[i], tri_a[(i + 1) % 3], tri_b[(j + 2) % 3])));
 }
 
