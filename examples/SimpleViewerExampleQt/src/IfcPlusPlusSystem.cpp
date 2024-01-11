@@ -244,7 +244,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object
 
 			std::unordered_map<std::string, shared_ptr<BuildingEntity> > map_objects;
 			map_objects[guid] = ifc_object;
-			emit( signalObjectsSelected( map_objects ) );
+			Q_EMIT( signalObjectsSelected( map_objects ) );
 		}
 	}
 	else
@@ -275,7 +275,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object
 		}
 		std::unordered_map<std::string, shared_ptr<BuildingEntity> > map_objects;
 		map_objects[guid] = ifc_object;
-		emit( signalObjectsUnselected( map_objects ) );
+		Q_EMIT( signalObjectsUnselected( map_objects ) );
 	}
 }
 
@@ -334,17 +334,17 @@ void IfcPlusPlusSystem::clearSelection()
 
 void IfcPlusPlusSystem::notifyModelCleared()
 {
-	emit( signalModelCleared() );
+	Q_EMIT( signalModelCleared() );
 }
 
 void IfcPlusPlusSystem::notifyModelLoadingStart()
 {
-	emit( signalModelLoadingStart() );
+	Q_EMIT( signalModelLoadingStart() );
 }
 
 void IfcPlusPlusSystem::notifyModelLoadingDone()
 {
-	emit( signalModelLoadingDone() );
+	Q_EMIT( signalModelLoadingDone() );
 }
 
 void IfcPlusPlusSystem::toggleSceneLight()

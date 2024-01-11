@@ -34,7 +34,7 @@ public:
 	QModelIndex	indexFromItem( QTreeWidgetItem * item, int column = 0 ) const { return QTreeWidget::indexFromItem( item, column ); }
 	QTreeWidgetItem* itemFromIndex( const QModelIndex & index ) const { return QTreeWidget::itemFromIndex( index ); }
 
-public slots:
+public Q_SLOTS:
 	void slotObjectsSelected( std::unordered_map<std::string, shared_ptr<BuildingEntity> >& map );
 	void slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QTreeWidgetItem* previous );
 	void slotTreewidgetSelectionChanged();

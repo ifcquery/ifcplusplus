@@ -79,7 +79,7 @@ public:
 	bool										m_light_on;
 	bool										m_show_curve_representation;
 
-signals:
+Q_SIGNALS:
 	void signalObjectsSelected( std::unordered_map<std::string, shared_ptr<BuildingEntity> >& map_objects );
 	void signalObjectsUnselected( std::unordered_map<std::string, shared_ptr<BuildingEntity> >& map_objects );
 	void signalModelCleared();

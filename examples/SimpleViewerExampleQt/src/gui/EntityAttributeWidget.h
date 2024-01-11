@@ -24,7 +24,7 @@ public:
 	void clearAttributeTree();
 	void expandToLevel( QTreeWidgetItem* item, int& current_level, int max_level );
 
-public slots:
+public Q_SLOTS:
 	void slotObjectsSelected( std::unordered_map<std::string, shared_ptr<BuildingEntity> >& map );
 	void slotObjectsUnselected( std::unordered_map<std::string, shared_ptr<BuildingEntity> >& map );
 	void slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QTreeWidgetItem* previous );

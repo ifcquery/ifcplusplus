@@ -53,7 +53,7 @@ public:
 	virtual void paintEvent( QPaintEvent* event );
 	virtual void resizeEvent( QResizeEvent * );
 	
-public slots:
+public Q_SLOTS:
 	void slotAnimationFrame();
 
 protected:

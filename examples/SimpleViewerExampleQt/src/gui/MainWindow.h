@@ -55,10 +55,10 @@ private:
 
 	void createTabWidget();
 
-signals:
+Q_SIGNALS:
 	void signalMainWindowClosed();
 
-private slots:
+private Q_SLOTS:
 	void slotBtnZoomBoundingsClicked();
 	void slotBtnRemoveSelectedObjectsClicked();
 	void slotProgressValue(double progress_value, const std::string& progress_type);
