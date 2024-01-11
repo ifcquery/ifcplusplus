@@ -37,7 +37,7 @@ public:
 	QSlider* m_slide_z;
 	ScopedBlockCount	m_block_counter;
 
-public slots:
+public Q_SLOTS:
 	void slotModelLoadingDone();
 	void slotResetSliders();
 	void slotSlideX(int);

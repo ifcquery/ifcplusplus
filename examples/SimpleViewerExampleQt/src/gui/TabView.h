@@ -37,7 +37,7 @@ private:
 	bool			m_cull_front;
 	bool			m_cull_back;
 	
-private slots:
+private Q_SLOTS:
 	void slotCullFrontFaces( int state );
 	void slotCullBackFaces( int state );
 	void slotSetNumVertices(int);

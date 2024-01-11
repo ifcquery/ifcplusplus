@@ -71,10 +71,10 @@ protected:
 	QSplitter*		m_io_splitter;
 	std::mutex m_mutex_messages;
 
-signals:
+Q_SIGNALS:
 	void signalProgressValue(double progress_value, const std::string& progress_type);
 
-private slots:
+private Q_SLOTS:
 	void slotAddOtherIfcFileClicked();
 	void slotLoadRecentIfcFileClicked();
 	void slotSetWritePathClicked();

@@ -3,6 +3,7 @@
 #include <QToolButton>
 #include <QHeaderView>
 #include <QLabel>
+#include <QLatin1String>
 
 #include <ifcpp/model/BuildingObject.h>
 #include <ifcpp/model/BuildingModel.h>
@@ -889,7 +890,7 @@ void EntityAttributeWidget::slotObjectsSelected( std::unordered_map<std::string,
 		QTreeWidgetItem* item = new QTreeWidgetItem();
 		item->setText( 0, "Surface area" );
 		item->setText( 1, QString::number( surface_area ) );
-		item->setText( 2, QStringLiteral("m²") );
+		item->setText( 2, QLatin1Literal("m²") );
 		ScopedBlockSignals block( m_computed_property_tree, m_block_counter );
 		m_computed_property_tree->addTopLevelItem( item );
 	}
@@ -898,7 +899,7 @@ void EntityAttributeWidget::slotObjectsSelected( std::unordered_map<std::string,
 		QTreeWidgetItem* item = new QTreeWidgetItem();
 		item->setText( 0, "Volume" );
 		item->setText( 1, QString::number( volume ) );
-		item->setText( 2, QStringLiteral("m³") );
+		item->setText( 2, QLatin1Literal("m³") );
 		ScopedBlockSignals block( m_computed_property_tree, m_block_counter );
 		m_computed_property_tree->addTopLevelItem( item );
 	}

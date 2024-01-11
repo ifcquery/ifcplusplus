@@ -92,6 +92,8 @@ TARGET_INCLUDE_DIRECTORIES(IfcPlusPlus
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/glm
 )
 
+find_package(TBB REQUIRED)
+target_link_libraries(IfcPlusPlus PUBLIC TBB::tbb)
 
 set_target_properties(IfcPlusPlus PROPERTIES DEBUG_POSTFIX "d")
 set_target_properties(IfcPlusPlus PROPERTIES CXX_STANDARD 17)

@@ -393,7 +393,7 @@ void TabReadWrite::txtOutError( QString txt )
 
 void TabReadWrite::progressValue(double progress_value_in, const std::string& progress_type)
 {
-	emit(signalProgressValue(progress_value_in, progress_type));
+	Q_EMIT(signalProgressValue(progress_value_in, progress_type));
 }
 
 void TabReadWrite::clearTxtOut()

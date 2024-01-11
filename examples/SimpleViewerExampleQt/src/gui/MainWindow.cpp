@@ -158,7 +158,7 @@ void MainWindow::closeEvent( QCloseEvent *event )
 	m_tab_read_write->closeEvent( event );
 	QMainWindow::closeEvent( event );
 
-	emit( signalMainWindowClosed() );
+	Q_EMIT( signalMainWindowClosed() );
 }
 
 void MainWindow::createTabWidget()
