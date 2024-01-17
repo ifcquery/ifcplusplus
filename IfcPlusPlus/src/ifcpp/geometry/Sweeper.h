@@ -332,34 +332,58 @@ public:
 			}
 
 			std::vector<uint32_t> triangulated = mapbox::earcut<uint32_t>(loopsForEarcut);
-
-#ifdef _DEBUG
-			if (params.ifc_entity)
-			{
-				if (params.ifc_entity->m_tag == 14379)
-				{
-					glm::vec4 color(0.3, 0.4, 0.5, 1.0);
-					for (size_t ii = 0; ii < loopsForEarcut.size(); ++ii)
-					{
-						std::vector<std::array<double, 2> >& loop2D = loopsForEarcut[ii];
-						GeomDebugDump::dumpPolyline(loop2D, color, 0, true, false);
-					}
-				}
-			}
-#endif
-
 			std::vector<array2d> polygons2dFlatVector;
 			GeomUtils::polygons2flatVec(loopsForEarcut, polygons2dFlatVector);
 			size_t numPointsInAllLoops = polygons2dFlatVector.size();
 
-			shared_ptr<carve::input::PolyhedronData> meshOut(new carve::input::PolyhedronData());
+#ifdef _DEBUG
+			if (params.ifc_entity)
+			{
+				if (params.ifc_entity->m_tag == 9817817 && false )
+				{
+					glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+					shared_ptr<carve::input::PolyhedronData> poly_data(new carve::input::PolyhedronData());
+
+					// add points bottom
+					for (size_t ii = 0; ii < polygons2dFlatVector.size(); ++ii)
+					{
+						array2d& point2D = polygons2dFlatVector[ii];
+						vec3 point3D = carve::geom::VECTOR(point2D[0], point2D[1], 0);
+						poly_data->addVertex(point3D);
+					}
+
+					// front and back cap
+					for (int ii = 0; ii < triangulated.size(); ii += 3)
+					{
+						size_t idxA = triangulated[ii + 0];
+						size_t idxB = triangulated[ii + 1];
+						size_t idxC = triangulated[ii + 2];
+
+						if (extrusionVector.z < 0)
+						{
+							poly_data->addFace(idxA, idxB, idxC);
+						}
+						else
+						{
+							poly_data->addFace(idxA, idxC, idxB);
+						}
+					}
+
+					GeomDebugDump::moveOffset(0.5);
+					shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts(), eps));
+					GeomDebugDump::dumpMeshset(meshset, color, 0, true, false);
+				}
+			}
+#endif
+
+			shared_ptr<carve::input::PolyhedronData> polyhedronResult(new carve::input::PolyhedronData());
 
 			// add points bottom
 			for (size_t ii = 0; ii < polygons2dFlatVector.size(); ++ii)
 			{
 				array2d& point2D = polygons2dFlatVector[ii];
 				vec3 point3D = carve::geom::VECTOR(point2D[0], point2D[1], 0);
-				meshOut->addVertex(point3D);
+				polyhedronResult->addVertex(point3D);
 			}
 
 			// add points top
@@ -368,7 +392,7 @@ public:
 				array2d& point2D = polygons2dFlatVector[ii];
 				vec3 point3D = carve::geom::VECTOR(point2D[0], point2D[1], 0);
 				vec3 point3D_top = point3D + extrusionVector;
-				meshOut->addVertex(point3D_top);
+				polyhedronResult->addVertex(point3D_top);
 			}
 
 
@@ -428,24 +452,24 @@ public:
 					{
 						if (flipFaces)
 						{
-							meshOut->addFace(idx, idx_top, idx_top_next, idx_next);
+							polyhedronResult->addFace(idx, idx_top, idx_top_next, idx_next);
 						}
 						else
 						{
-							meshOut->addFace(idx, idx_next, idx_top_next, idx_top);
+							polyhedronResult->addFace(idx, idx_next, idx_top_next, idx_top);
 						}
 					}
 					else
 					{
 						if (flipFaces)
 						{
-							meshOut->addFace(idx, idx_top_next, idx_next);
-							meshOut->addFace(idx_top_next, idx, idx_top);
+							polyhedronResult->addFace(idx, idx_top_next, idx_next);
+							polyhedronResult->addFace(idx_top_next, idx, idx_top);
 						}
 						else
 						{
-							meshOut->addFace(idx, idx_next, idx_top_next);
-							meshOut->addFace(idx_top_next, idx_top, idx);
+							polyhedronResult->addFace(idx, idx_next, idx_top_next);
+							polyhedronResult->addFace(idx_top_next, idx_top, idx);
 						}
 					}
 				}
@@ -466,28 +490,28 @@ public:
 
 				if (extrusionVector.z < 0)
 				{
-					meshOut->addFace(idxA, idxB, idxC);
-					meshOut->addFace(idxAtop, idxCtop, idxBtop);
+					polyhedronResult->addFace(idxA, idxB, idxC);
+					polyhedronResult->addFace(idxAtop, idxCtop, idxBtop);
 				}
 				else
 				{
-					meshOut->addFace(idxA, idxC, idxB);
-					meshOut->addFace(idxAtop, idxBtop, idxCtop);
+					polyhedronResult->addFace(idxA, idxC, idxB);
+					polyhedronResult->addFace(idxAtop, idxBtop, idxCtop);
 				}
 			}
 
 #ifdef _DEBUG
-			std::vector<int>& faceIndices = meshOut->faceIndices;
+			std::vector<int>& faceIndices = polyhedronResult->faceIndices;
 			for (int idx : faceIndices)
 			{
-				if (idx >= meshOut->points.size())
+				if (idx >= polyhedronResult->points.size())
 				{
 					std::cout << "incorrect idx";
 
 				}
 			}
 #endif
-			itemData->addClosedPolyhedron(meshOut, params, m_geom_settings);
+			itemData->addClosedPolyhedron(polyhedronResult, params, m_geom_settings);
 		}
 	}
 	

@@ -145,7 +145,7 @@ namespace carve {
 
 		RayIntersectionClass rayRayIntersection(const Ray& r1, const Ray& r2, Vector& v1, Vector& v2, double& mu1, double& mu2, double CARVE_EPSILON)
 		{
-			if( !r1.OK(CARVE_EPSILON) || !r2.OK(CARVE_EPSILON) )
+			if( !r1.RayOK(CARVE_EPSILON) || !r2.RayOK(CARVE_EPSILON) )
 			{
 				return RR_DEGENERATE;
 			}

@@ -17,14 +17,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QProgressBar>
-#include <QtWidgets/QSplitter>
-#include <QtWidgets/QToolBar>
+#include <ifcpp/model/BuildingObject.h>
+#include <QLabel>
+#include <QMainWindow>
+#include <QProgressBar>
+#include <QPushButton>
+#include <QSplitter>
+#include <QToolBar>
+#include <osg/Group>
 
 class IfcPlusPlusSystem;
-class TabReadWrite;
+class SettingsWidget;
+class OpenFileWidget;
 class ViewerWidget;
 
 class MainWindow : public QMainWindow
@@ -35,31 +39,37 @@ public:
 	MainWindow( IfcPlusPlusSystem* sys, QWidget *parent = 0 );
 	~MainWindow();
 
-	TabReadWrite* getTabReadWrite() { return m_tab_read_write; }
+	OpenFileWidget* getOpenFileWidget() { return m_openFileWidget; }
+	void updateOpenFileWidget();
 
 protected:
 	void closeEvent( QCloseEvent *event );
+	void resizeEvent(QResizeEvent* event);
+	void showEvent(QShowEvent* e);
 
 private:
 	IfcPlusPlusSystem* m_system;
-	ViewerWidget*	m_viewer_widget;
-	QTabWidget*		m_tabwidget;
-	QLabel*			m_label_status_cursor;
-	TabReadWrite*	m_tab_read_write;
-	QSplitter*		m_splitter;
-
-	QToolBar*		m_file_toolbar;
-	QToolBar*		m_edit_toolbar;
-	QProgressBar*	m_progress_bar;
-	double			m_current_progress_value = 0;
-
-	void createTabWidget();
+	ViewerWidget*	m_viewerWidget;
+	SettingsWidget*	m_settingsWidget;
+	OpenFileWidget* m_openFileWidget;
+	QPushButton*	m_buttonToggleOpenFileWidget;
+	QLabel*			m_labelAbout;
+	QLabel*			m_labelStatusCursor;
+	QToolBar*		m_editToolbar;
+	QProgressBar*	m_progressBar;
+	double			m_currentProgressValue = 0;
+	bool			m_autoHideFileWidget = true;
 
 signals:
 	void signalMainWindowClosed();
 
 private slots:
 	void slotBtnZoomBoundingsClicked();
+	void slotSettingsClicked();
 	void slotBtnRemoveSelectedObjectsClicked();
 	void slotProgressValue(double progress_value, const std::string& progress_type);
+	void slotClearSignalQueue();
+	void slotZoomToObject(shared_ptr<BuildingEntity> object, osg::Group* node = 0);
+	void slotToggleOpenFileWidget();
+	void slotFileLoadingDone();
 };

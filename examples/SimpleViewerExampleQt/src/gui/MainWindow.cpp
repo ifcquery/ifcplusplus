@@ -2,7 +2,7 @@
 *
 MIT License
 
-Copyright (c) 2017 Fabian Gerold
+Copyright (c) 2024 Fabian Gerold
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -16,13 +16,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 */
 
 
-#include <QtWidgets/QAction>
-#include <QtWidgets/QDesktopWidget>
-#include <QtWidgets/QDockWidget>
-#include <QtCore/QFile>
-#include <QtWidgets/QStatusBar>
-#include <QtCore/QSettings>
-#include <QtWidgets/QToolButton>
+#include <QAction>
+#include <QDockWidget>
+#include <QFile>
+#include <QStatusBar>
+#include <QSettings>
+#include <QToolButton>
 
 #include "IncludeGeometryHeaders.h"
 #include "EntityAttributeWidget.h"
@@ -31,118 +30,173 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "viewer/OrbitCameraManipulator.h"
 #include "cmd/CmdRemoveSelectedObjects.h"
 #include "cmd/CommandManager.h"
-#include "TabReadWrite.h"
-#include "TabView.h"
+#include "OpenFileWidget.h"
+#include "SettingsWidget.h"
 #include "IfcTreeWidget.h"
 #include "MainWindow.h"
 
 MainWindow::MainWindow( IfcPlusPlusSystem* sys, QWidget *parent) : m_system(sys), QMainWindow(parent)
 {
 	setWindowTitle("IFC++ example application");
-	setWindowIcon(QIcon(":img/IfcPlusPlusViewerWindowIcon.svg"));
+	setWindowIcon(QIcon(":img/IfcPlusPlusViewerWindowIcon.png"));
 	
 	// global style sheet definitions
 	QFile file( ":styles.css" );
 	file.open( QFile::ReadOnly );
 	QString styleSheet = QLatin1String( file.readAll() );
 	setStyleSheet( styleSheet );
-	
-	m_viewer_widget = new ViewerWidget(sys);
-	OrbitCameraManipulator* camera_manip = new OrbitCameraManipulator(sys);
-	m_viewer_widget->getMainView()->setCameraManipulator(camera_manip);
-	m_viewer_widget->setRootNode(sys->getRootNode());
-	createTabWidget();
 
-	QToolButton* zoom_bounds_btn = new QToolButton(this );
-	zoom_bounds_btn->setIcon(QIcon(":img/zoomToBounds.svg"));
+	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
+	QStringList keys = settings.allKeys();
+	if (keys.contains("AutoHideFileWidget"))
+	{
+		m_autoHideFileWidget= settings.value("AutoHideFileWidget").toBool();
+	}
+
+	
+	m_viewerWidget = new ViewerWidget(sys);
+	OrbitCameraManipulator* camera_manip = new OrbitCameraManipulator(sys);
+	m_viewerWidget->getMainView()->setCameraManipulator(camera_manip);
+	m_viewerWidget->setRootNode(sys->getRootNode());
+	
+	// create OpenFileWidget
+	m_openFileWidget = new OpenFileWidget(m_system, this);
+	m_openFileWidget->setAutoFillBackground(true);
+	m_openFileWidget->setObjectName("OpenFileWidget");
+	m_openFileWidget->setParent(m_viewerWidget);
+	connect(m_openFileWidget, &OpenFileWidget::signalProgressValue, this, &MainWindow::slotProgressValue);
+	connect(m_openFileWidget, &OpenFileWidget::signalClearSignalQueue, this, &MainWindow::slotClearSignalQueue);
+	connect(m_openFileWidget, &OpenFileWidget::signalFileLoadingDone, this, &MainWindow::slotFileLoadingDone);
+
+
+	m_buttonToggleOpenFileWidget = new QPushButton("<<");
+	m_buttonToggleOpenFileWidget->setMinimumHeight(80);
+	m_buttonToggleOpenFileWidget->setFixedWidth(30);
+	m_buttonToggleOpenFileWidget->setMaximumWidth(30);
+	m_buttonToggleOpenFileWidget->setContentsMargins(0,0,0,0);
+	connect(m_buttonToggleOpenFileWidget, &QPushButton::clicked, this, [this]() {
+		slotToggleOpenFileWidget();
+	});
+	m_buttonToggleOpenFileWidget->setParent(m_viewerWidget);
+
+	QToolButton* zoom_bounds_btn = new QToolButton(m_viewerWidget);
+	zoom_bounds_btn->setObjectName("ZoomToBounds");
+	zoom_bounds_btn->setIcon(QIcon(":img/bounds32.png"));
+	zoom_bounds_btn->setIconSize(QSize(24, 24));
 	zoom_bounds_btn->setShortcut(tr("Ctrl+Z"));
 	zoom_bounds_btn->setStatusTip("Zoom to boundings");
-	zoom_bounds_btn->setFixedSize(35, 35);
-	zoom_bounds_btn->setIconSize(QSize(35, 35));
-	zoom_bounds_btn->setStyleSheet("QToolButton{border:0px;background:none;}");
+	zoom_bounds_btn->setFixedSize(24, 24);
+	zoom_bounds_btn->setGeometry(3, 6, 24, 24);
 	connect(zoom_bounds_btn, &QToolButton::clicked, this, &MainWindow::slotBtnZoomBoundingsClicked);
 
-	QToolButton* remove_selected_objects = new QToolButton( this );
-	remove_selected_objects->setIcon(QIcon(":img/RemoveSelectedObjects.svg"));
-	remove_selected_objects->setStatusTip("Remove selected objects [del]");
-	remove_selected_objects->setFixedSize(35, 35);
-	remove_selected_objects->setIconSize(QSize(35, 35));
-	remove_selected_objects->setStyleSheet("QToolButton{border:0px;background:none;}");
-	connect(remove_selected_objects, &QToolButton::clicked, this, &MainWindow::slotBtnRemoveSelectedObjectsClicked);
-
-	m_file_toolbar = new QToolBar();
-	m_file_toolbar->setObjectName("FileToolbar");
-	m_file_toolbar->addWidget(zoom_bounds_btn);
-	m_file_toolbar->addWidget(remove_selected_objects);
-	addToolBar( Qt::LeftToolBarArea, m_file_toolbar );
 
 	
+	m_settingsWidget = new SettingsWidget(m_system, m_viewerWidget, m_autoHideFileWidget);
+	connect(m_settingsWidget, &SettingsWidget::signalAutoHideFileWidget, this, [this](bool autoHide) {
+		QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
+		settings.setValue("AutoHideFileWidget", autoHide);
+		m_autoHideFileWidget = autoHide;
+	});
+	
+
+	QToolButton* settings_btn = new QToolButton(m_viewerWidget);
+	settings_btn->setObjectName("SettingsButton");
+	settings_btn->setIcon(QIcon(":img/settings32.png"));
+	settings_btn->setIconSize(QSize(24, 24));
+	settings_btn->setStatusTip("Settings");
+	settings_btn->setFixedSize(24, 24);
+	settings_btn->setGeometry(3, 42, 24, 24);
+	connect(settings_btn, &QToolButton::clicked, this, &MainWindow::slotSettingsClicked);
+
+	QString about = "SimpleViewerExample based on IFC++, OpenSceneGraph (OSG) and Qt.<br>\
+Source code is available on <a href=\"http://www.github.com/ifcquery/ifcplusplus\">http://www.github.com/ifcquery/ifcplusplus</a><br>\
+For customized features like import, export to other file formats, please refer to <a href=\"http://www.ifcquery.com\">www.ifcquery.com</a><br>\
+IFC++ can also be used in server applications without dependencies like Qt and OSG";
+
+	m_labelAbout = new QLabel(about);
+	m_labelAbout->setTextFormat(Qt::RichText);
+	m_labelAbout->setTextInteractionFlags(Qt::TextBrowserInteraction);
+	m_labelAbout->setOpenExternalLinks(true);
+
+	QToolButton* buttonAbout = new QToolButton(m_viewerWidget);
+	buttonAbout->setObjectName("buttonAbout");
+	buttonAbout->setIcon(QIcon(":img/IfcPlusPlus.png"));
+	buttonAbout->setIconSize(QSize(24, 24));
+	buttonAbout->setStatusTip("Settings");
+	buttonAbout->setFixedSize(24, 24);
+	buttonAbout->setGeometry(3, 75, 24, 24);
+	connect(buttonAbout, &QToolButton::clicked, this, [this]() {
+		if (m_labelAbout->isVisible()) { m_labelAbout->hide(); return; }
+		if (m_settingsWidget->isVisible()) { m_settingsWidget->hide(); }
+		m_labelAbout->setParent(m_viewerWidget);
+		int w = m_viewerWidget->width() - 40;
+		m_labelAbout->setGeometry(40, 10, w, 50);
+		m_labelAbout->setVisible(true);
+	 });
+
 	// building structure widget
-	QDockWidget *dock1 = new QDockWidget(tr("Project structure"), this);
-	dock1->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-	dock1->setObjectName("dockWidgetProjectStructure");
-	addDockWidget(Qt::RightDockWidgetArea, dock1);
-	
 	IfcTreeWidget* ifc_tree_widget = new IfcTreeWidget( m_system );
-	dock1->setWidget( ifc_tree_widget );
-
-
-	QDockWidget* dock2 = new QDockWidget(tr("Attributes"), this);
-	dock2->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-	dock2->setObjectName("dockWidgetAttributes");
-	addDockWidget(Qt::RightDockWidgetArea, dock2);
+	connect(ifc_tree_widget, &IfcTreeWidget::signalZoomToObject, this, &MainWindow::slotZoomToObject);
 
 	EntityAttributeWidget* attribute_widget = new EntityAttributeWidget(m_system, this);
-	dock2->setWidget(attribute_widget);
 
-	m_splitter = new QSplitter( Qt::Vertical );
-	m_splitter->setContentsMargins( 0, 0, 0, 0 );
-	m_splitter->addWidget( m_viewer_widget );
-	m_splitter->addWidget( m_tabwidget );
-	m_splitter->setStretchFactor( 0, 2 );
-	m_splitter->setStretchFactor( 1, 0 );
+	QList<int> sizesTreeViews;
+	sizesTreeViews.append(300);
+	sizesTreeViews.append(100);
 
-	QList<int> splitter_sizes;
-	splitter_sizes << 400 << 100;
-	m_splitter->setSizes( splitter_sizes );
+	QSplitter* attributesSplitter = new QSplitter(Qt::Vertical);
+	attributesSplitter->addWidget(ifc_tree_widget);
+	attributesSplitter->addWidget(attribute_widget);
+	attributesSplitter->setSizes(sizesTreeViews);
+
+
+	QSplitter* mainSplitter = new QSplitter(Qt::Horizontal);
+	mainSplitter->addWidget(m_viewerWidget);
+	mainSplitter->addWidget(attributesSplitter);
+	mainSplitter->setStretchFactor(0, 4);
+	mainSplitter->setStretchFactor(1, 1);
+	QList<int> sizesMainSplitter;
+	sizesMainSplitter.append(400);
+	sizesMainSplitter.append(100);
+	mainSplitter->setSizes(sizesMainSplitter);
+
 
 	// progress bar
-	m_progress_bar = new QProgressBar();
-	m_progress_bar->setRange(0, 1000);
+	m_progressBar = new QProgressBar();
+	m_progressBar->setRange(0, 1000);
 
 	// status bar
 	QStatusBar* status_bar = new QStatusBar();
-	m_label_status_cursor = new QLabel( "0.000, 0.000, 0.000" );
+	m_labelStatusCursor = new QLabel( "0.000, 0.000, 0.000" );
 	status_bar->setStyleSheet("QStatusBar{ background-color: #83a7b7; }");
-	status_bar->addWidget( m_label_status_cursor, 0 );
-	status_bar->addWidget(m_progress_bar, 1);
+	status_bar->addWidget( m_labelStatusCursor, 0 );
+	status_bar->addWidget(m_progressBar, 1);
 	status_bar->addWidget(new QLabel(" "), 1);
 	status_bar->setSizeGripEnabled( true );
 	setStatusBar(status_bar);
 
 	// central widget
-	setCentralWidget( m_splitter );
+	setCentralWidget(mainSplitter);
 
 	// restore geometry
-	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
-	QStringList keys = settings.allKeys();
 	if( keys.contains( "MainWindowGeometry" ) )
 	{
 		restoreGeometry(settings.value("MainWindowGeometry").toByteArray());
 	}
 	else
 	{
-		QRect rec = QApplication::desktop()->screenGeometry();
-		setGeometry(rec.width()*0.2, rec.height()*0.2, rec.width()*0.6, rec.height()*0.7);
+		showMaximized();
 	}
+
 	if( keys.contains( "mainWindowState" ) )
 	{
 		restoreState(settings.value("mainWindowState").toByteArray());
 	}
 
-	m_viewer_widget->setFocus();
-	m_viewer_widget->startTimer();
-	m_viewer_widget->getMainView()->addEventHandler(sys);
+	m_viewerWidget->setFocus();
+	m_viewerWidget->startTimer();
+	m_viewerWidget->getMainView()->addEventHandler(sys);
+	updateOpenFileWidget();
 }
 
 MainWindow::~MainWindow(){}
@@ -153,49 +207,90 @@ void MainWindow::closeEvent( QCloseEvent *event )
 	settings.setValue("MainWindowGeometry", saveGeometry());
 	settings.setValue("mainWindowState", saveState());
 	
-	m_viewer_widget->getCompositeViewer()->setDone(true);
-	m_viewer_widget->stopTimer();
-	m_tab_read_write->closeEvent( event );
+	m_viewerWidget->getCompositeViewer()->setDone(true);
+	m_viewerWidget->stopTimer();
+	m_openFileWidget->closeEvent( event );
 	QMainWindow::closeEvent( event );
 
 	emit( signalMainWindowClosed() );
 }
 
-void MainWindow::createTabWidget()
+void MainWindow::resizeEvent(QResizeEvent* event)
 {
-	m_tabwidget = new QTabWidget();
-	m_tabwidget->setIconSize( QSize( 19, 19 ) );
+	updateOpenFileWidget();
+}
 
-	m_tab_read_write	= new TabReadWrite( m_system, m_viewer_widget, this );
-	connect(m_tab_read_write, &TabReadWrite::signalProgressValue, this, &MainWindow::slotProgressValue);
-	QWidget* tab_view	= new TabView( m_system, m_viewer_widget );
+void MainWindow::showEvent(QShowEvent* e)
+{
+	m_openFileWidget->setParent(m_viewerWidget);
+	m_openFileWidget->setVisible(true);
+	int openFileWidgetHeight = m_openFileWidget->height();
+	if (openFileWidgetHeight < 120)
+	{
+		openFileWidgetHeight = 120;
+	}
+	m_openFileWidget->setGeometry(0, m_viewerWidget->height() - openFileWidgetHeight, m_viewerWidget->width(), openFileWidgetHeight);
+}
 
-	
-	QString about = "SimpleViewerExample based on IFC++, OpenSceneGraph (OSG) and Qt.<br>\
-For customized features like import, export to other file formats, please refer to <a href=\"http://www.ifcquery.com\">www.ifcquery.com</a><br>\
-IFC++ can also be used in server applications without dependencies like Qt and OSG";
-	
-	QLabel* label_about = new QLabel(about);
-	label_about->setTextFormat(Qt::RichText);
-	label_about->setTextInteractionFlags(Qt::TextBrowserInteraction);
-	label_about->setOpenExternalLinks(true);
+void MainWindow::slotFileLoadingDone()
+{
+	m_viewerWidget->update();
 
-	QVBoxLayout* vbox = new QVBoxLayout();
-	vbox->addWidget(label_about);
-	QWidget* tab_about = new QWidget();
-	tab_about->setContentsMargins(8, 8, 8, 8);
-	tab_about->setLayout(vbox);
+	osgViewer::View* main_view = m_viewerWidget->getMainView();
+	if (main_view)
+	{
+		osgGA::CameraManipulator* camera_manip = main_view->getCameraManipulator();
+		OrbitCameraManipulator* orbit_manip = dynamic_cast<OrbitCameraManipulator*>(camera_manip);
+		if (orbit_manip)
+		{
+			osg::BoundingSphere bs = m_system->getModelNode()->computeBound();
+			orbit_manip->zoomToBoundingSphere(bs);
+		}
+	}
 
-	m_tabwidget->addTab( m_tab_read_write,	"Read/Write IFC" );
-	m_tabwidget->addTab( tab_view,			"View" );
-	m_tabwidget->addTab( tab_about,			"About");
+	if (m_autoHideFileWidget)
+	{
+		slotToggleOpenFileWidget();
+	}
+}
+
+void MainWindow::updateOpenFileWidget()
+{
+	int w = m_viewerWidget->width();
+	int h = m_viewerWidget->height();
+	int buttonToggleWidth = m_buttonToggleOpenFileWidget->width();
+
+	if (m_openFileWidget->isVisible())
+	{
+		int openFileWidgetHeight = m_openFileWidget->height();
+		m_openFileWidget->setParent(m_viewerWidget);
+		m_openFileWidget->setGeometry(buttonToggleWidth, h - openFileWidgetHeight, w- buttonToggleWidth, openFileWidgetHeight);
+	}
+
+	int openFileWidgetHeight = m_openFileWidget->height();
+	m_buttonToggleOpenFileWidget->setParent(m_viewerWidget);
+	m_buttonToggleOpenFileWidget->setGeometry(0, h - openFileWidgetHeight, 30, openFileWidgetHeight);
+}
+
+void MainWindow::slotToggleOpenFileWidget()
+{
+	if (m_openFileWidget->isVisible())
+	{
+		m_openFileWidget->hide();
+		m_buttonToggleOpenFileWidget->setText(">>");
+	}
+	else
+	{
+		m_openFileWidget->show();
+		m_buttonToggleOpenFileWidget->setText("<<");
+	}
 }
 
 void MainWindow::slotBtnZoomBoundingsClicked()
 {
 	osg::BoundingSphere bs = m_system->getModelNode()->computeBound();
 	
-	osgViewer::View* main_view = m_viewer_widget->getMainView();
+	osgViewer::View* main_view = m_viewerWidget->getMainView();
 	if( main_view )
 	{
 		osgGA::CameraManipulator* camera_manip = main_view->getCameraManipulator();
@@ -207,14 +302,45 @@ void MainWindow::slotBtnZoomBoundingsClicked()
 	}
 }
 
+void MainWindow::slotSettingsClicked()
+{
+	if (m_settingsWidget->isVisible())
+	{
+		m_settingsWidget->hide();
+		return;
+	}
+	if (m_labelAbout->isVisible()) { m_labelAbout->hide(); }
+
+	int w = m_viewerWidget->width() - 40;
+	int h = m_settingsWidget->height();
+	if (h < 60)
+	{
+		h = 60;
+	}
+
+	m_settingsWidget->setParent(m_viewerWidget);
+	m_settingsWidget->setGeometry(40, 0, w, h);
+	m_settingsWidget->setVisible(true);
+}
+
 void MainWindow::slotBtnRemoveSelectedObjectsClicked()
 {
 	shared_ptr<CmdRemoveSelectedObjects> cmd_remove( new CmdRemoveSelectedObjects( m_system ) );
 	m_system->getCommandManager()->executeCommand( cmd_remove );
 }
 
+void MainWindow::slotClearSignalQueue()
+{
+	QCoreApplication::removePostedEvents(this);
+}
+
 void MainWindow::slotProgressValue(double progress_value_in, const std::string& progress_type)
 {
+	if (!sender())
+	{
+		return;
+	}
+
 	double progress_value = progress_value_in;
 	if (progress_value >= 0.0)
 	{
@@ -231,11 +357,44 @@ void MainWindow::slotProgressValue(double progress_value_in, const std::string& 
 			progress_value = 0.9 + progress_value*0.1;
 		}
 
-		if (abs(m_current_progress_value - progress_value) > 0.015 || progress_value == 0.0 || progress_value == 1.0)
+		if (abs(m_currentProgressValue - progress_value) > 0.015 || progress_value == 0.0 || progress_value == 1.0)
 		{
-			m_progress_bar->setValue((int)(progress_value * 1000));
-			QApplication::processEvents();
-			m_current_progress_value = progress_value;
+			m_progressBar->setValue((int)(progress_value * 1000));
+			m_currentProgressValue = progress_value;
 		}
 	}
+}
+
+osg::Group* findNodeByIfcId(osg::Group* group, std::string ifc_guid);
+
+void MainWindow::slotZoomToObject(shared_ptr<BuildingEntity> ifc_object, osg::Group* grp)
+{
+	if (!m_viewerWidget)
+	{
+		return;
+	}
+
+	const std::string guid = getGUID(ifc_object);
+	if (!grp)
+	{
+		grp = findNodeByIfcId( m_system->getModelNode(), guid);
+		if (!grp)
+		{
+			return;
+		}
+	}
+
+	osgViewer::View* main_view = m_viewerWidget->getMainView();
+	if (!main_view)
+	{
+		return;
+	}
+
+	OrbitCameraManipulator* orbit_manip = dynamic_cast<OrbitCameraManipulator*>(main_view->getCameraManipulator());
+	if (!orbit_manip)
+	{
+		return;
+	}
+
+	orbit_manip->zoomToBoundingSphere(grp->getBound());
 }

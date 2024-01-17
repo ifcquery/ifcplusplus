@@ -28,7 +28,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #include <ifcpp/model/BuildingException.h>
 
-#include "gui/TabReadWrite.h"
+#include "gui/OpenFileWidget.h"
 #include "gui/MainWindow.h"
 #include "viewer/ViewerWidget.h"
 #include "viewer/OrbitCameraManipulator.h"
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 			if( file_type.compare( "IFC" ) == 0 || file_type.compare( "STP" ) == 0  )
 			{
 				QString path(arg1.c_str());
-				window->getTabReadWrite()->loadIfcFile( path );
+				window->getOpenFileWidget()->loadIfcFile( path );
 			}
 		}
 	}

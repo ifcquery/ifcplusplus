@@ -18,15 +18,15 @@
     <LocalDebuggerEnvironment>PATH=$(QTDIR)\bin%3b"$(QTDIR)\bin%3b$(PATH)</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <QtLastBackgroundBuild>2023-12-27T08:43:03.7303049Z</QtLastBackgroundBuild>
+    <QtLastBackgroundBuild>2024-01-17T08:47:27.8852167Z</QtLastBackgroundBuild>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <QtLastBackgroundBuild>2023-12-27T08:43:03.7959271Z</QtLastBackgroundBuild>
+    <QtLastBackgroundBuild>2024-01-17T08:47:27.9653823Z</QtLastBackgroundBuild>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <QtLastBackgroundBuild>2023-12-27T08:43:04.3729773Z</QtLastBackgroundBuild>
+    <QtLastBackgroundBuild>2024-01-17T08:47:28.2838514Z</QtLastBackgroundBuild>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <QtLastBackgroundBuild>2023-12-27T08:43:04.5996832Z</QtLastBackgroundBuild>
+    <QtLastBackgroundBuild>2024-01-17T08:47:28.7635906Z</QtLastBackgroundBuild>
   </PropertyGroup>
 </Project>

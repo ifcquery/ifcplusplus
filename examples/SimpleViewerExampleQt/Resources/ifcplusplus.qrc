@@ -3,12 +3,10 @@
         <file>appicon.rc</file>
         <file>styles.css</file>
         <file>img/appicon.ico</file>
-        <file>img/Bulb.svg</file>
         <file>img/dropDownArrow.png</file>
-        <file>img/DropDownArrow.svg</file>
-        <file>img/RemoveSelectedObjects.svg</file>
         <file>img/IfcPlusPlusViewerWindowIcon.png</file>
-        <file>img/IfcPlusPlusViewerWindowIcon.svg</file>
-        <file>img/zoomToBounds.svg</file>
+        <file>img/bounds32.png</file>
+        <file>img/settings32.png</file>
+        <file>img/IfcPlusPlus.png</file>
     </qresource>
 </RCC>

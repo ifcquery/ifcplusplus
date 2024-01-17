@@ -1603,6 +1603,11 @@ carve::mesh::MeshSet<3>* carve::csg::CSG::compute( meshset_t* a, meshset_t* b, c
  */
 carve::mesh::MeshSet<3>* carve::csg::CSG::compute( meshset_t* a, meshset_t* b, carve::csg::CSG::OP op, carve::csg::V2Set* shared_edges, CLASSIFY_TYPE classify_type) 
 {
+	if (a->vertex_storage.size() == 0 || b->vertex_storage.size() ==0)
+	{
+		return nullptr;
+	}
+
 	Collector* coll = makeCollector(op, a, b);
 	if( !coll ) {
 		return nullptr;

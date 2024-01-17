@@ -153,13 +153,14 @@ public:
 	}
 	void convertIfcArbitraryClosedProfileDef( const shared_ptr<IfcArbitraryClosedProfileDef>& profile, std::vector<std::vector<vec2> >& paths )
 	{
+		double eps = m_curve_converter->getGeomSettings()->getEpsilonMergePoints();
 		shared_ptr<IfcCurve> outer_curve = profile->m_OuterCurve;
 		if( outer_curve )
 		{
 			std::vector<vec2> curve_polygon;
 			std::vector<vec2> segment_start_points;
 			m_curve_converter->convertIfcCurve2D( outer_curve, curve_polygon, segment_start_points, true );
-			deleteLastPointIfEqualToFirst( curve_polygon );
+			GeomUtils::unClosePolygon( curve_polygon, eps );
 			addAvoidingDuplicates( curve_polygon, paths );
 		}
 
@@ -175,7 +176,7 @@ public:
 				std::vector<vec2> segment_start_points;
 
 				m_curve_converter->convertIfcCurve2D( inner_ifc_curve, inner_curve_polygon, segment_start_points, true );
-				deleteLastPointIfEqualToFirst( inner_curve_polygon );
+				GeomUtils::unClosePolygon( inner_curve_polygon, eps);
 				addAvoidingDuplicates( inner_curve_polygon, paths );
 			}
 		}
@@ -284,6 +285,7 @@ public:
 			addAvoidingDuplicates( polygon, paths );
 		}
 	}
+
 	void convertIfcCompositeProfileDef( const shared_ptr<IfcCompositeProfileDef>& composite_profile, std::vector<std::vector<vec2> >& paths )
 	{
 		std::vector<int> temploop_counts;
@@ -332,6 +334,7 @@ public:
 			messageCallback( "Profile not supported", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, profile_def.get() );
 		}
 	}
+
 	void convertIfcDerivedProfileDef( const shared_ptr<IfcDerivedProfileDef>& derived_profile, std::vector<std::vector<vec2> >& paths )
 	{
 		ProfileConverter temp_profiler( m_curve_converter, m_spline_converter );
@@ -360,6 +363,7 @@ public:
 			paths.push_back( loop );
 		}
 	}
+
 	void convertIfcParameterizedProfileDefWithPosition( const shared_ptr<IfcParameterizedProfileDef>& parameterized, std::vector<std::vector<vec2> >& paths )
 	{
 		std::vector<std::vector<vec2> > temp_paths;
@@ -398,6 +402,7 @@ public:
 			}
 		}
 	}
+
 	void convertIfcParameterizedProfileDef( const shared_ptr<IfcParameterizedProfileDef>& profile, std::vector<std::vector<vec2> >& paths )
 	{
 		//IfcParameterizedProfileDef ABSTRACT SUPERTYPE OF (ONEOF
@@ -1023,25 +1028,6 @@ public:
 		}
 
 		messageCallback( "Profile not supported", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, profile.get() );
-	}
-
-	static void deleteLastPointIfEqualToFirst( std::vector<vec2>& coords )
-	{
-		while( coords.size() > 2 )
-		{
-			vec2 & first = coords.front();
-			vec2 & last = coords.back();
-
-			if( std::abs( first.x - last.x ) < 0.00000001 )
-			{
-				if( std::abs( first.y - last.y ) < 0.00000001 )
-				{
-					coords.pop_back();
-					continue;
-				}
-			}
-			break;
-		}
 	}
 
 	void simplifyPaths()

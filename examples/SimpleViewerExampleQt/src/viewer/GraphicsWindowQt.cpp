@@ -15,6 +15,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <iostream>
 #include <osg/Version>
 #include <osgViewer/ViewerBase>
 #include <QtGui/QInputEvent>
@@ -279,7 +280,7 @@ void QtOSGWidget::mousePressEvent( QMouseEvent* event )
 	switch( event->button() )
 	{
 	case Qt::LeftButton: button = 1; break;
-	case Qt::MidButton: button = 2; break;
+	case Qt::MiddleButton: button = 2; break;
 	case Qt::RightButton: button = 3; break;
 	case Qt::NoButton: button = 0; break;
 	default: button = 0; break;
@@ -294,7 +295,7 @@ void QtOSGWidget::mouseReleaseEvent( QMouseEvent* event )
 	switch( event->button() )
 	{
 	case Qt::LeftButton: button = 1; break;
-	case Qt::MidButton: button = 2; break;
+	case Qt::MiddleButton: button = 2; break;
 	case Qt::RightButton: button = 3; break;
 	case Qt::NoButton: button = 0; break;
 	default: button = 0; break;
@@ -303,13 +304,15 @@ void QtOSGWidget::mouseReleaseEvent( QMouseEvent* event )
 	m_graphics_window->getEventQueue()->mouseButtonRelease( event->x()*m_device_pixel_ratio, event->y()*m_device_pixel_ratio, button );
 }
 
+
+
 void QtOSGWidget::mouseDoubleClickEvent( QMouseEvent* event )
 {
 	int button = 0;
 	switch( event->button() )
 	{
 	case Qt::LeftButton: button = 1; break;
-	case Qt::MidButton: button = 2; break;
+	case Qt::MiddleButton: button = 2; break;
 	case Qt::RightButton: button = 3; break;
 	case Qt::NoButton: button = 0; break;
 	default: button = 0; break;
@@ -321,16 +324,17 @@ void QtOSGWidget::mouseDoubleClickEvent( QMouseEvent* event )
 void QtOSGWidget::mouseMoveEvent( QMouseEvent* event )
 {
 	setKeyboardModifiers( event );
-	m_graphics_window->getEventQueue()->mouseMotion( event->x()*m_device_pixel_ratio, event->y()*m_device_pixel_ratio );
+	double x = event->x() * m_device_pixel_ratio;
+	double y = event->y() * m_device_pixel_ratio;
+	osgGA::EventQueue* eventQueue = m_graphics_window->getEventQueue();
+	eventQueue->mouseMotion( x, y );
 }
 
 void QtOSGWidget::wheelEvent( QWheelEvent* event )
 {
 	setKeyboardModifiers( event );
 	m_graphics_window->getEventQueue()->mouseScroll(
-		event->orientation() == Qt::Vertical ?
-		(event->delta()>0 ? osgGA::GUIEventAdapter::SCROLL_UP : osgGA::GUIEventAdapter::SCROLL_DOWN) :
-		(event->delta()>0 ? osgGA::GUIEventAdapter::SCROLL_LEFT : osgGA::GUIEventAdapter::SCROLL_RIGHT) );
+		(event->angleDelta().y() > 0 ? osgGA::GUIEventAdapter::SCROLL_UP : osgGA::GUIEventAdapter::SCROLL_DOWN));
 }
 
 #ifdef USE_GESTURES

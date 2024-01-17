@@ -271,7 +271,8 @@ bool OrbitCameraManipulator::handleMousePush( const osgGA::GUIEventAdapter& ea, 
 	intersectSceneRotateCenter( ea, view );
 
 	int buttonMask = ea.getButtonMask();
-	if( buttonMask == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON || buttonMask == (osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON | osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON) )
+	//if( buttonMask == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON || buttonMask == (osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON | osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON) )
+	if (buttonMask == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON || buttonMask == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON)
 	{
 		m_pan_point.set( m_pointer_intersection );
 	}
@@ -628,7 +629,7 @@ bool OrbitCameraManipulator::performMovement( const osgGA::GUIEventAdapter& ea, 
 		rotateCamera( dx, dy );
 		return true;
 	}
-	else if( buttonMask == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON || buttonMask == (osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON | osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON) )
+	else if( buttonMask == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON || buttonMask == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON )
 	{
 		// pan model
 		//float scale = getThrowScale( eventTimeDelta );

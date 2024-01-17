@@ -47,5 +47,4 @@ protected:
 	std::unordered_set<BuildingObject*> m_expanded_entities;
 	shared_ptr<BuildingObject> m_current_root;
 	std::map<QTreeWidgetItem*, shared_ptr<BuildingObject> > m_map_item_objects;
-	QTreeWidget*		m_computed_property_tree;
 };

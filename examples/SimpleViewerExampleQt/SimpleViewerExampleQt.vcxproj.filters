@@ -65,10 +65,10 @@
     <ClCompile Include="src\gui\MainWindow.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\TabView.cpp">
+    <ClCompile Include="src\gui\SettingsWidget.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\TabReadWrite.cpp">
+    <ClCompile Include="src\gui\OpenFileWidget.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\StoreyShiftWidget.cpp">
@@ -88,7 +88,7 @@
     <QtMoc Include="src\viewer\ViewerWidget.h">
       <Filter>Header Dateien</Filter>
     </QtMoc>
-    <QtMoc Include="src\gui\TabView.h">
+    <QtMoc Include="src\gui\SettingsWidget.h">
       <Filter>Header Dateien</Filter>
     </QtMoc>
     <QtMoc Include="src\gui\IfcTreeWidget.h">
@@ -97,7 +97,7 @@
     <QtMoc Include="src\gui\MainWindow.h">
       <Filter>Header Dateien</Filter>
     </QtMoc>
-    <QtMoc Include="src\gui\TabReadWrite.h">
+    <QtMoc Include="src\gui\OpenFileWidget.h">
       <Filter>Header Dateien</Filter>
     </QtMoc>
     <QtMoc Include="src\gui\StoreyShiftWidget.h">

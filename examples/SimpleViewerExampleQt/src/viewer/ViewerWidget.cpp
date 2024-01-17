@@ -40,7 +40,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 ViewerWidget::ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget( parent )
 {
 	m_system = sys;
-	m_system->setViewerWidget(this);
 	m_parent = parent;
 	m_shinyness = 35.0;
 	m_material_default = new osg::Material();
@@ -181,7 +180,9 @@ void ViewerWidget::initGLWidgetAndViewer()
 {
 	osgViewer::ViewerBase::ThreadingModel threadingModel = osgViewer::ViewerBase::SingleThreaded;
 	m_system->getRootNode()->setCullingActive( false );
-	m_graphics_window = new GraphicsWindowQt( this );
+
+	Qt::WindowFlags f;
+	m_graphics_window = new GraphicsWindowQt( this, f );
 	QtOSGWidget* opengl_widget = m_graphics_window->getOpenGLWidget();
 	opengl_widget->setMinimumSize( QSize( 150, 150 ) );
 	m_main_view = opengl_widget->getView();

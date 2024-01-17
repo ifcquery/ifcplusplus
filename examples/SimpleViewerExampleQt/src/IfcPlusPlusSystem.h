@@ -26,7 +26,6 @@ class BuildingModel;
 class BuildingEntity;
 class GeometryConverter;
 class CommandManager;
-class ViewerWidget;
 
 struct SelectedEntity 
 {
@@ -54,19 +53,16 @@ public:
 	osg::Switch*					getModelNode() { return m_sw_model; }
 	osg::Switch*					getCoordinateAxesNode() { return m_sw_coord_axes; }
 	void setRootNode( osg::Group* root );
-	void setViewerWidget( ViewerWidget* widget );
 	void toggleSceneLight();
 	void switchCurveRepresentation( osg::Group* grp, bool on_off );
 	
 	void setObjectSelected( shared_ptr<BuildingEntity> object, bool selected, osg::Group* node = 0 );
-	void zoomToObject( shared_ptr<BuildingEntity> object, osg::Group* node = 0 );
 	const std::unordered_map<std::string, shared_ptr<SelectedEntity> >& getSelectedObjects() { return m_map_selected; }
 	void clearSelection();
 	void notifyModelCleared();
 	void notifyModelLoadingStart();
 	void notifyModelLoadingDone();
 
-	ViewerWidget*								m_viewer_widget;
 	shared_ptr<GeometryConverter>				m_geometry_converter;
 	shared_ptr<CommandManager>					m_command_manager;
 	std::unordered_map<std::string, shared_ptr<SelectedEntity> >	m_map_selected;

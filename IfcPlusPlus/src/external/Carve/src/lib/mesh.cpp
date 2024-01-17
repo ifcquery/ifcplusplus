@@ -170,7 +170,7 @@ namespace carve {
 		template <unsigned int ndim>
 		bool Face<ndim>::simpleLineSegmentIntersection( const carve::geom::linesegment<ndim>& line, vector_t& intersection, double CARVE_EPSILON) const
 		{
-			if( !line.OK(CARVE_EPSILON) ) {
+			if( !line.LineSegmentOK(CARVE_EPSILON) ) {
 				return false;
 			}
 
@@ -193,7 +193,7 @@ namespace carve {
 		template <unsigned int ndim>
 		IntersectionClass Face<ndim>::lineSegmentIntersection( const carve::geom::linesegment<ndim>& line, vector_t& intersection, double CARVE_EPSILON) const
 		{
-			if( !line.OK(CARVE_EPSILON) )
+			if( !line.LineSegmentOK(CARVE_EPSILON) )
 			{
 				return INTERSECT_NONE;
 			}

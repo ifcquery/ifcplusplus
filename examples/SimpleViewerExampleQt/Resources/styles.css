@@ -3,6 +3,9 @@ QFrame {
 	padding: 0px;
 }
 
+QWidget#OpenFileWidget { background-color: rgba(240,240,240,0.5); border: 1px solid #cecece; margin: 10px;}
+QWidget#SettingsWidget { background-color: rgba(240,240,240,0.5); border: 1px solid #cecece; margin: 10px;}
+
 QTextEdit
 {
 	border: 1px solid #cecece;
@@ -39,7 +42,7 @@ QPushButton {
 	border: 1px solid #afafb1;
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #eeeeee, stop: 1 #d6d7da); /*cacbce*/
 	padding: 2px 4px 2px 4px;
-	min-width: 50px;
+	min-width: 30px;
 }
 
 QPushButton::disabled {	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #d6d7da, stop: 1 #cacbce); }
@@ -63,8 +66,22 @@ QToolButton:checked { background-color: #eceae7; }
 QToolButton:pressed { background-color: #eceae7; }
 QToolButton:flat { border: none; }
 
+QToolButton#ZoomToBounds{border:none;background: rgba(220,220,220,0.2);}
+QToolButton#ZoomToBounds:hover {border: none;background: rgba(220,220,220,0.7);}
+
+QToolButton#SettingsButton{border:none;background:none;}
+QToolButton#SettingsButton:hover {border: none;background: rgba(220,220,220,0.7);}
+
+QToolButton#buttonAbout{border:none;background:none;}
+QToolButton#buttonAbout:hover {border: none;background: rgba(220,220,220,0.7);}
+
 /* QTabWidget **************************************/
-QTabWidget { border-style: inset; border-width: 1px; border-color: #ffb0b0; background: #f5f5f5;}
+QTabWidget {
+	border-style: inset;
+	border-width: 1px;
+	border-color: #ffb0b0;
+	background: #f5f5f5;
+}
 QTabWidget::pane { border:0px;background: #f5f5f5; }
 
 
@@ -164,7 +181,7 @@ QComboBox::drop-down {
 }
 
 QComboBox::down-arrow {
-	image: url(:img/DropDownArrow.svg);
+	image: url(:img/DropDownArrow.png);
 	width: 16px;
 }
 

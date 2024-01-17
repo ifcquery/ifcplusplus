@@ -283,6 +283,8 @@ public:
 
 	static double trimPointCircleDistance(double angle, double radius, const carve::math::Matrix& circlePosition, const vec3& trimPoint)
 	{
+		while (angle > 2.0 * M_PI) { angle -= 2.0 * M_PI; }
+		while (angle < -2.0 * M_PI) { angle += 2.0 * M_PI; }
 		vec3 circlePoint = carve::geom::VECTOR(radius * cos(angle), radius * sin(angle), 0);
 		circlePoint = circlePosition * circlePoint;
 		double distance2 = (trimPoint - circlePoint).length2();
@@ -296,13 +298,9 @@ public:
 		if (false)
 		{
 			std::vector<vec3> circlePoints;
-			for (size_t ii = 0; ii < 10; ++ii)
-			{
-				double angle = M_PI * 0.5 * ii * 0.1;
-				vec3 circlePoint = carve::geom::VECTOR(radius * cos(angle), radius * sin(angle), 0);
-				circlePoint = circlePosition * circlePoint;
-				circlePoints.push_back(circlePoint);
-			}
+			carve::math::Matrix m;
+			GeomUtils::getCirclePoints(radius, radius, 0, M_PI * 0.5, 10, m, circlePoints);
+
 			glm::vec4 color(0.3, 0.4, 0.5, 1.0);
 			GeomDebugDump::dumpPolyline(circlePoints, color, 1.0, false, false);
 			std::string label = "p";
@@ -375,13 +373,10 @@ public:
 			}
 
 			std::vector<vec3> circlePoints;
-			for (size_t ii = 0; ii < 10; ++ii)
-			{
-				double angle2 = resultAngle1 + M_PI * 0.5 * ii * 0.1;
-				vec3 circlePoint = carve::geom::VECTOR(radius * cos(angle2), radius * sin(angle2), 0);
-				circlePoint = circlePosition * circlePoint;
-				circlePoints.push_back(circlePoint);
-			}
+			carve::math::Matrix m;
+			double openingAngle = M_PI * 0.5;
+			GeomUtils::getCirclePoints(radius, radius, resultAngle1, openingAngle, 10, m, circlePoints);
+
 			glm::vec4 color(0.3, 0.4, 0.5, 0.3);
 			GeomDebugDump::dumpPolyline(circlePoints, color, 3.0, false, false);
 

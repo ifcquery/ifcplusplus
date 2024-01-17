@@ -179,7 +179,7 @@ void IfcTreeWidget::slotTreeWidgetItemDoubleClick( QTreeWidgetItem* item, int co
 	}
 
 	m_block_selection_signals = true;
-	m_system->zoomToObject(it_find->second);
+	emit( signalZoomToObject(it_find->second) );
 	m_block_selection_signals = false;
 }
 

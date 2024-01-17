@@ -75,7 +75,7 @@ carve::mesh::MeshSet<3>* makeSubdividedCube(
 			}
 		}
 	}
-#define OK(x, y, z)                                                  \
+#define VectorOK(x, y, z)                                                  \
   ((x) >= 0 && (x) < sub_x && (y) >= 0 && (y) < sub_y && (z) >= 0 && \
    (z) < sub_z)
 #define I(x, y, z) ((x) + (y) * (sub_x + 1) + (z) * ((sub_x + 1) * (sub_y + 1)))
@@ -94,22 +94,22 @@ carve::mesh::MeshSet<3>* makeSubdividedCube(
 				if( !inc(_x, _y, _z) ) {
 					continue;
 				}
-				if( !OK(_x - 1, _y, _z) || !inc(_x - 1, _y, _z) ) {
+				if( !VectorOK(_x - 1, _y, _z) || !inc(_x - 1, _y, _z) ) {
 					FACE(3, 7, 4, 0);
 				}
-				if( !OK(_x + 1, _y, _z) || !inc(_x + 1, _y, _z) ) {
+				if( !VectorOK(_x + 1, _y, _z) || !inc(_x + 1, _y, _z) ) {
 					FACE(1, 5, 6, 2);
 				}
-				if( !OK(_x, _y - 1, _z) || !inc(_x, _y - 1, _z) ) {
+				if( !VectorOK(_x, _y - 1, _z) || !inc(_x, _y - 1, _z) ) {
 					FACE(0, 4, 5, 1);
 				}
-				if( !OK(_x, _y + 1, _z) || !inc(_x, _y + 1, _z) ) {
+				if( !VectorOK(_x, _y + 1, _z) || !inc(_x, _y + 1, _z) ) {
 					FACE(2, 6, 7, 3);
 				}
-				if( !OK(_x, _y, _z - 1) || !inc(_x, _y, _z - 1) ) {
+				if( !VectorOK(_x, _y, _z - 1) || !inc(_x, _y, _z - 1) ) {
 					FACE(0, 1, 2, 3);
 				}
-				if( !OK(_x, _y, _z + 1) || !inc(_x, _y, _z + 1) ) {
+				if( !VectorOK(_x, _y, _z + 1) || !inc(_x, _y, _z + 1) ) {
 					FACE(7, 6, 5, 4);
 				}
 			}

@@ -1233,20 +1233,20 @@ public:
 		float transparency = appearence->m_transparency;
 		bool set_transparent = appearence->m_set_transparent;
 
-		const float color_ambient_r = appearence->m_color_ambient.r;
-		const float color_ambient_g = appearence->m_color_ambient.g;
-		const float color_ambient_b = appearence->m_color_ambient.b;
-		const float color_ambient_a = appearence->m_color_ambient.a;
+		const float color_ambient_r = appearence->m_color_ambient.x;
+		const float color_ambient_g = appearence->m_color_ambient.y;
+		const float color_ambient_b = appearence->m_color_ambient.z;
+		const float color_ambient_a = appearence->m_color_ambient.w;
 
-		const float color_diffuse_r = appearence->m_color_diffuse.r;
-		const float color_diffuse_g = appearence->m_color_diffuse.g;
-		const float color_diffuse_b = appearence->m_color_diffuse.b;
-		const float color_diffuse_a = appearence->m_color_diffuse.a;
+		const float color_diffuse_r = appearence->m_color_diffuse.x;
+		const float color_diffuse_g = appearence->m_color_diffuse.y;
+		const float color_diffuse_b = appearence->m_color_diffuse.z;
+		const float color_diffuse_a = appearence->m_color_diffuse.w;
 
-		const float color_specular_r = appearence->m_color_specular.r;
-		const float color_specular_g = appearence->m_color_specular.g;
-		const float color_specular_b = appearence->m_color_specular.b;
-		const float color_specular_a = appearence->m_color_specular.a;
+		const float color_specular_r = appearence->m_color_specular.x;
+		const float color_specular_g = appearence->m_color_specular.y;
+		const float color_specular_b = appearence->m_color_specular.z;
+		const float color_specular_a = appearence->m_color_specular.w;
 
 		if (transparencyOverride > 0)
 		{

@@ -609,7 +609,7 @@ namespace carve {
 		}
 
 		template <unsigned int ndim>
-		bool ray<ndim>::OK(double CARVE_EPSILON) const
+		bool ray<ndim>::RayOK(double CARVE_EPSILON) const
 		{
 			return !D.isZero(CARVE_EPSILON);
 		}
@@ -643,7 +643,7 @@ namespace carve {
 		}
 
 		template <unsigned int ndim>
-		bool linesegment<ndim>::OK(double CARVE_EPSILON) const {
+		bool linesegment<ndim>::LineSegmentOK(double CARVE_EPSILON) const {
 			return !half_length.isZero(CARVE_EPSILON);
 		}
 

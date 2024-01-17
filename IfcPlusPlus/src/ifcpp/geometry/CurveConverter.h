@@ -177,6 +177,15 @@ public:
 						continue;
 					}
 				}
+
+#ifdef _DEBUG
+				if (target_vec.size() == 316)
+				{
+					glm::vec4 color(0.4, 0.6, 0.6, 1.0);
+					GeomDebugDump::dumpLocalCoordinateSystem();
+					GeomDebugDump::dumpPolyline(target_vec, color, 1.0, true, false);
+				}
+#endif
 				return;
 			}
 
@@ -445,9 +454,11 @@ public:
 			GeomUtils::computeInverse(conic_position_matrix->m_matrix, circlePositionInverse);
 
 			double maxRadius = std::max(circle_radius, circle_radius2);
-			double startAngle = 0;
+			double startAngle = 0, endAngle = 0;
 			double openingAngle = M_PI * 2.0;
-			getTrimAngles(trim1_vec, trim2_vec, circle_center, maxRadius, senseAgreement, startAngle, openingAngle, conic_position_matrix->m_matrix, circlePositionInverse);
+			getTrimAngle(trim1_vec, circle_center, maxRadius, startAngle, conic_position_matrix->m_matrix, circlePositionInverse);
+			getTrimAngle(trim2_vec, circle_center, maxRadius, endAngle, conic_position_matrix->m_matrix, circlePositionInverse);
+			computeOpeningAngle(startAngle, endAngle, epsilonMergePoints, senseAgreement, openingAngle);
 
 			std::optional<vec3> trimPoint1;
 			std::optional<vec3> trimPoint2;
@@ -470,7 +481,7 @@ public:
 			}
 #endif
 
-			if (trimPoint1.has_value())
+			if (trimPoint1.has_value() && false)
 			{
 				double distanceTrim1 = PointConverter::trimPointCircleDistance(startAngle, circle_radius, conic_position_matrix->m_matrix, trimPoint1.value());
 				if (distanceTrim1 > EPS_M6 )
@@ -487,7 +498,7 @@ public:
 				}
 			}
 			
-			if (trimPoint2.has_value())
+			if (trimPoint2.has_value() && false )
 			{
 				double endAngle = startAngle + openingAngle;
 				double distanceTrim2 = PointConverter::trimPointCircleDistance(endAngle, circle_radius, conic_position_matrix->m_matrix, trimPoint2.value());
@@ -501,57 +512,61 @@ public:
 #ifdef _DEBUG
 					if (!senseAgreement)
 					{
-						openingAngle = -openingAngle;
+						//openingAngle = -openingAngle;
 					}
 					double endAngle2 = startAngle + openingAngle;
 					double distanceTrim22 = PointConverter::trimPointCircleDistance(endAngle2, circle_radius, conic_position_matrix->m_matrix, trimPoint2.value());
 					if (distanceTrim22 > EPS_M5)
 					{
 						std::cout << "distanceTrim2: " << distanceTrim22 << std::endl;
-					}
 
+						carve::math::Matrix matrix1;
+						double distanceTrim22NoPosition = PointConverter::trimPointCircleDistance(endAngle2, circle_radius, matrix1, trimPoint2.value());
+						if (distanceTrim22NoPosition < EPS_M5)
+						{
+							std::cout << "trim point given in global coords instead of local " << std::endl;
+						}
+
+						if ( true )
+						{
+							glm::vec4 color(0.4, 0.6, 0.6, 1.0);
+							vec3 circleCenter = conic_position_matrix->m_matrix * carve::geom::VECTOR(0, 0, 0);
+							std::vector<vec3> polyline = { trimPoint2.value() , circleCenter };
+							GeomDebugDump::dumpPolyline(polyline, color, 3.0, false, false);
+							GeomDebugDump::dumpCoordinateSystem(conic_position_matrix->m_matrix, circle_radius, false);
+
+							polyline = {};
+							int num_segments = 30;
+							GeomUtils::getCirclePoints(circle_radius, circle_radius, startAngle, openingAngle, num_segments, conic_position_matrix->m_matrix, polyline);
+							//vec3 circlePoint0 = conic_position_matrix->m_matrix * carve::geom::VECTOR(circle_radius * cos(startAngle), circle_radius * sin(startAngle), 0);
+							//vec3 circlePoint1 = conic_position_matrix->m_matrix * carve::geom::VECTOR(circle_radius * cos(startAngle + openingAngle * 0.1), circle_radius * sin(startAngle + openingAngle * 0.1), 0);
+							glm::vec4 color3(0.3, 0.4, 0.94, 0.6);
+							//polyline = { circlePoint0 , circlePoint1 };
+							GeomDebugDump::dumpPolyline(polyline, color3, 2.0, false, false);
+						}
+					}
 #endif
 				}
 			}
 
-
-			int num_segments = m_geom_settings->getNumVerticesPerCircleWithRadius(circle_radius) * (std::abs(openingAngle) / (2.0 * M_PI));
-			if (num_segments < m_geom_settings->getMinNumVerticesPerArc()) num_segments = m_geom_settings->getMinNumVerticesPerArc();
-			const double circle_center_x = 0.0;
-			const double circle_center_y = 0.0;
 			std::vector<vec3> circle_segment_points3D;
-
 			if (circle_radius > EPS_M8)
 			{
-				double angle = startAngle;
-				double angle_delta = openingAngle / (double)(num_segments - 1);
-
-				for (int i = 0; i < num_segments; ++i)
-				{
-					vec3 circlePoint = carve::geom::VECTOR(circle_radius * cos(angle), circle_radius * sin(angle), 0);
-					if (circle_radius2 > 0)
-					{
-						circlePoint = carve::geom::VECTOR(circle_radius * cos(angle), circle_radius2 * sin(angle), 0);
-					}
-
-					// apply position
-					circlePoint = conic_position_matrix->m_matrix * circlePoint;
-
-					circle_segment_points3D.push_back(circlePoint);
-					angle += angle_delta;
-				}
+				int num_segments = m_geom_settings->getNumVerticesPerCircleWithRadius(circle_radius) * (std::abs(openingAngle) / (2.0 * M_PI));
+				if (num_segments < m_geom_settings->getMinNumVerticesPerArc()) num_segments = m_geom_settings->getMinNumVerticesPerArc();
+				GeomUtils::getCirclePoints(circle_radius, circle_radius2, startAngle, openingAngle, num_segments, conic_position_matrix->m_matrix, circle_segment_points3D);
 			}
 			else
 			{
-				circle_segment_points3D.push_back(carve::geom::VECTOR(circle_center_x, circle_center_y, 0));
+				circle_segment_points3D.push_back(conic_position_matrix->m_matrix*carve::geom::VECTOR(0, 0, 0));
 			}
 
 			GeomUtils::appendPointsToCurve(circle_segment_points3D, target_vec, epsilonMergePoints);
 			segment_start_points.push_back(circle_segment_points3D[0]);
 
 #ifdef _DEBUG
-			//glm::vec4 color(0.2, 0.2, 0.2, 0.8);
-			//GeomDebugDump::dumpPolyline(circle_segment_points3D, color, 0, true);
+			glm::vec4 color(0.2, 0.2, 0.2, 0.8);
+			//GeomDebugDump::dumpPolyline(circle_segment_points3D, color, 0, true, false);
 #endif
 			return;
 		}
@@ -689,14 +704,10 @@ public:
 		throw UnhandledRepresentationException(ifc_curve);
 	}
 
-	void getTrimAngles( const std::vector<shared_ptr<IfcTrimmingSelect> >& trimSelect1,  const std::vector<shared_ptr<IfcTrimmingSelect> >& trimSelect2, 
-		const vec3& circle_center, double radius,  bool senseAgreement, double& startAngle, double& openingAngle, 
-		const carve::math::Matrix& circlePlacement, const carve::math::Matrix& circlePlacementInverse) const
+	void getTrimAngle(const std::vector<shared_ptr<IfcTrimmingSelect> >& trimSelect1, const vec3& circle_center, double radius,
+		double& trimAngle1, const carve::math::Matrix& circlePlacement, const carve::math::Matrix& circlePlacementInverse) const
 	{
-		double trimAngle1 = 0.0;
-		double trimAngle2 = M_PI * 2.0;
-		startAngle = 0;
-		openingAngle = 0;
+		trimAngle1 = 0;
 		double lengthFactor = m_point_converter->getUnitConverter()->getLengthInMeterFactor();
 		double eps = m_geom_settings->getEpsilonMergePoints();
 
@@ -719,7 +730,7 @@ public:
 					}
 				}
 
-				trimAngle1 = trim_par1->m_value*planeAngleFactor;
+				trimAngle1 = trim_par1->m_value * planeAngleFactor;
 			}
 			else
 			{
@@ -732,44 +743,11 @@ public:
 				}
 			}
 		}
-
-		if (trimSelect2.size() > 0)
-		{
-			// check for trimming end
-			shared_ptr<IfcParameterValue> trim_par2;
-			if (GeomUtils::findFirstInVector(trimSelect2, trim_par2))
-			{
-				double planeAngleFactor = m_point_converter->getUnitConverter()->getAngleInRadiantFactor();
-				if (m_point_converter->getUnitConverter()->getAngularUnit() == UnitConverter::UNDEFINED)
-				{
-					// angular unit definition not found in model, default to radian
-					planeAngleFactor = 1.0;
-
-					if (trim_par2->m_value > M_PI)
-					{
-						// assume degree
-						planeAngleFactor = M_PI / 180.0;
-					}
-				}
-				trimAngle2 = trim_par2->m_value*planeAngleFactor;
-			}
-			else
-			{
-				shared_ptr<IfcCartesianPoint> ifc_trim_point;
-				if (GeomUtils::findFirstInVector(trimSelect2, ifc_trim_point))
-				{
-					vec3 trim_point;
-					PointConverter::convertIfcCartesianPoint(ifc_trim_point, trim_point, lengthFactor);
-					trimAngle2 = m_point_converter->getAngleOnCircle(circle_center, radius, trim_point, circlePlacement, circlePlacementInverse, eps);
-				}
-			}
-		}
-
-		computeOpeningAngle(trimAngle1, trimAngle2, eps, senseAgreement, openingAngle);
 	}
 
-	void getTrimPoints(const std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, const std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, const carve::math::Matrix& circlePosition,
-		double circleRadius, double circleRadius2, bool senseAgreement, std::optional<vec3>& trimPoint1, std::optional<vec3>& trimPoint2) const
+	void getTrimPoints(const std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, const std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, 
+		const carve::math::Matrix& circlePosition, double circleRadius, double circleRadius2, bool senseAgreement, std::optional<vec3>& trimPoint1, 
+		std::optional<vec3>& trimPoint2) const
 	{
 		double lengthFactor = m_point_converter->getUnitConverter()->getLengthInMeterFactor();
 
@@ -779,6 +757,7 @@ public:
 		{
 			vec3 trimPoint;
 			PointConverter::convertIfcCartesianPoint(ifc_trim_point1, trimPoint, lengthFactor);
+			trimPoint = circlePosition * trimPoint;
 			trimPoint1 = std::make_optional<vec3>(trimPoint);
 		}
 		else
@@ -816,6 +795,7 @@ public:
 		{
 			vec3 trimPoint;
 			PointConverter::convertIfcCartesianPoint(ifc_trim_point2, trimPoint, lengthFactor);
+			trimPoint = circlePosition * trimPoint;
 			trimPoint2 = std::make_optional<vec3>(trimPoint);
 		}
 		else
@@ -1058,13 +1038,17 @@ public:
 
 		if (senseAgreement)
 		{
-			
 			if (startAngle > endAngle)
 			{
-				// circle passes 0 angle
-				if (std::abs(startAngle) > eps && endAngle >= 0 || std::abs(startAngle) < eps && endAngle <= 0)
+				if (openingAngle < 0)
 				{
-					openingAngle = endAngle - startAngle + 2.0 * M_PI;
+					openingAngle += 2.0 * M_PI;
+				}
+				// circle passes 0 angle
+				//if (std::abs(startAngle) > eps && endAngle >= 0 || std::abs(startAngle) < eps && endAngle <= 0)
+				if (startAngle > eps && endAngle >= 0 || std::abs(startAngle) < eps && endAngle <= 0)
+				{
+					//openingAngle = endAngle - startAngle + 2.0 * M_PI;
 				}
 			}
 		}
@@ -1073,10 +1057,15 @@ public:
 			//openingAngle = startAngle - endAngle;
 			if (endAngle < startAngle)
 			{
+				if (openingAngle > 0)
+				{
+					openingAngle -= 2.0 * M_PI;
+				}
+
 				if (std::abs(endAngle) > eps && startAngle >= 0 || std::abs(endAngle) < eps && startAngle <= 0)
 				{
 					// circle passes 0 angle
-					openingAngle = startAngle - endAngle - 2.0 * M_PI;
+					//openingAngle = startAngle - endAngle - 2.0 * M_PI;
 				}
 			}
 		}

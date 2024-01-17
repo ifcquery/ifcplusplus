@@ -24,8 +24,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <QEvent>
 #include <QQueue>
 #include <QSet>
-#include <QtWidgets/QOpenGLWidget>
-#include <QtGui/QOpenGLFunctions>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions>
 
 class QInputEvent;
 class QGestureEvent;
@@ -33,7 +33,7 @@ class QGestureEvent;
 class QtOSGWidget : public QOpenGLWidget, protected QOpenGLFunctions
 {
 public:
-	QtOSGWidget( QWidget* parent, Qt::WindowFlags f = 0 );
+	QtOSGWidget( QWidget* parent, Qt::WindowFlags f );
 	virtual ~QtOSGWidget();
 
 	void setGraphicsWindow( osgViewer::GraphicsWindow* gw ) { m_graphics_window = gw; }
@@ -99,7 +99,7 @@ protected:
 class GraphicsWindowQt : public osgViewer::GraphicsWindowEmbedded
 {
 public:
-	GraphicsWindowQt( QWidget* parent, Qt::WindowFlags f = 0 );
+	GraphicsWindowQt( QWidget* parent, Qt::WindowFlags f );
 	virtual ~GraphicsWindowQt();
 
 	QtOSGWidget* getOpenGLWidget() { return m_opengl_widget; }

@@ -14,11 +14,11 @@ IF(NOT WIN32)
 ENDIF(NOT WIN32)
 
 # Qt library
-message(STATUS "Qt5 is used")
+message(STATUS "Qt6 is used")
 
 IF(DEFINED ENV{QT_DIR})
-	set(Qt5Core_DIR "$ENV{QT_DIR}/lib/cmake/Qt5Core")
-	set(Qt5_DIR "$ENV{QT_DIR}/lib/cmake/Qt5")
+	set(Qt5Core_DIR "$ENV{QT_DIR}/lib/cmake/Qt6Core")
+	set(Qt5_DIR "$ENV{QT_DIR}/lib/cmake/Qt6")
 	set(QT_QMAKE_EXECUTABLE "$ENV{QT_DIR}/bin/qmake.exe")
 ENDIF()
 
@@ -47,8 +47,8 @@ SET(IFCPPVIEWER_SOURCE_FILES
 	src/gui/EntityAttributeWidget.cpp
     src/gui/IfcTreeWidget.cpp
     src/gui/MainWindow.cpp
-    src/gui/TabReadWrite.cpp
-    src/gui/TabView.cpp
+    src/gui/OpenFileWidget.cpp
+    src/gui/SettingsWidget.cpp
 	src/gui/StoreyShiftWidget.cpp
     src/viewer/GraphicsWindowQt.cpp
     src/viewer/OrbitCameraManipulator.cpp
@@ -61,8 +61,8 @@ SET(IFCPPVIEWER_MOC_FILES
 	src/gui/EntityAttributeWidget.h
     src/gui/IfcTreeWidget.h
     src/gui/MainWindow.h
-    src/gui/TabReadWrite.h
-    src/gui/TabView.h
+    src/gui/OpenFileWidget.h
+    src/gui/SettingsWidget.h
 	src/gui/StoreyShiftWidget.h
     src/viewer/ViewerWidget.h
 )

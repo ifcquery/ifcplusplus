@@ -69,8 +69,56 @@ public:
 			return it_profile_cache->second;
 		}
 
-		shared_ptr<ProfileConverter> profile_converter = shared_ptr<ProfileConverter>( new ProfileConverter( m_curve_converter, m_spline_converter ) );
-		profile_converter->computeProfile( ifc_profile );
+		double eps = m_curve_converter->getGeomSettings()->getEpsilonMergePoints();
+		int numVerticesPerCircleDefault = m_curve_converter->getGeomSettings()->getNumVerticesPerCircle();
+		int numVerticesPerCircle = numVerticesPerCircleDefault;
+		shared_ptr<ProfileConverter> profile_converter = shared_ptr<ProfileConverter>(new ProfileConverter(m_curve_converter, m_spline_converter));
+		profile_converter->computeProfile(ifc_profile);
+
+		for (size_t retryCount = 0; retryCount < 5; ++retryCount)
+		{
+			bool selfintersectionFound = false;
+			const std::vector<std::vector<vec2> >& coords = profile_converter->getCoordinates();
+
+			if (coords.size() > 5000)
+			{
+				// too slow
+				continue;
+			}
+
+			for (size_t ii = 0; ii < coords.size(); ++ii)
+			{
+				const std::vector<vec2>& loop = coords[ii];
+				if (GeomUtils::isPolygonSelfIntersecting(loop, eps))
+				{
+#ifdef _DEBUG
+					glm::vec4 color(0.4, 0.6, 0.6, 1.0);
+					GeomDebugDump::dumpLocalCoordinateSystem();
+					GeomDebugDump::dumpPolyline(loop, color, 1.0, true, false);
+#endif
+
+					selfintersectionFound = true;
+					break;
+				}
+			}
+
+			// TODO: check if discretization changed number of points in polygon. If not, break
+			// TODO: performance improvement: throw exception in earcut upon self intersection detection. catch and restart higher up
+
+			if (selfintersectionFound)
+			{
+				numVerticesPerCircle += 10;
+				m_curve_converter->getGeomSettings()->setNumVerticesPerCircle(numVerticesPerCircle);
+				// retry with higher accuracy
+				profile_converter = shared_ptr<ProfileConverter>(new ProfileConverter(m_curve_converter, m_spline_converter));
+				profile_converter->computeProfile(ifc_profile);
+			}
+			else
+			{
+				break;
+			}
+		}
+		m_curve_converter->getGeomSettings()->setNumVerticesPerCircle(numVerticesPerCircleDefault);
 
 		std::lock_guard<std::mutex> lock(m_writelock_profile_cache);
 		m_profile_cache[profile_id] = profile_converter;

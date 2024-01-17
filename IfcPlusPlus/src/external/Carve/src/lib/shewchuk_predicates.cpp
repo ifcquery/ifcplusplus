@@ -116,11 +116,11 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-//#include <sys/time.h>
+#include <random>
 
-#if defined(_MSC_VER)
-int random() { return rand(); }
-#endif
+//#if defined(_MSC_VER)
+//long random() { return rand(); }
+//#endif
 
 
 /* On some machines, the exact arithmetic routines might be defeated by the  */
@@ -518,23 +518,23 @@ double *e;
 /*                                                                           */
 /*****************************************************************************/
 
-double doublerand() {
-  double result;
-  double expo;
-  long a, b, c;
-  long i;
-
-  a = random();
-  b = random();
-  c = random();
-  result = (double)(a - 1073741824) * 8388608.0 + (double)(b >> 8);
-  for (i = 512, expo = 2; i <= 131072; i *= 2, expo = expo * expo) {
-    if (c & i) {
-      result *= expo;
-    }
-  }
-  return result;
-}
+//double doublerand() {
+//  double result;
+//  double expo;
+//  long a, b, c;
+//  long i;
+//
+//  a = random();
+//  b = random();
+//  c = random();
+//  result = (double)(a - 1073741824) * 8388608.0 + (double)(b >> 8);
+//  for (i = 512, expo = 2; i <= 131072; i *= 2, expo = expo * expo) {
+//    if (c & i) {
+//      result *= expo;
+//    }
+//  }
+//  return result;
+//}
 
 /*****************************************************************************/
 /*                                                                           */
@@ -543,39 +543,39 @@ double doublerand() {
 /*                                                                           */
 /*****************************************************************************/
 
-double narrowdoublerand() {
-  double result;
-  double expo;
-  long a, b, c;
-  long i;
-
-  a = random();
-  b = random();
-  c = random();
-  result = (double)(a - 1073741824) * 8388608.0 + (double)(b >> 8);
-  for (i = 512, expo = 2; i <= 2048; i *= 2, expo = expo * expo) {
-    if (c & i) {
-      result *= expo;
-    }
-  }
-  return result;
-}
+//double narrowdoublerand() {
+//  double result;
+//  double expo;
+//  long a, b, c;
+//  long i;
+//
+//  a = random();
+//  b = random();
+//  c = random();
+//  result = (double)(a - 1073741824) * 8388608.0 + (double)(b >> 8);
+//  for (i = 512, expo = 2; i <= 2048; i *= 2, expo = expo * expo) {
+//    if (c & i) {
+//      result *= expo;
+//    }
+//  }
+//  return result;
+//}
 
 /*****************************************************************************/
 /*                                                                           */
 /*  uniformdoublerand()   Generate a double with random 53-bit significand.  */
 /*                                                                           */
 /*****************************************************************************/
-
-double uniformdoublerand() {
-  double result;
-  long a, b;
-
-  a = random();
-  b = random();
-  result = (double)(a - 1073741824) * 8388608.0 + (double)(b >> 8);
-  return result;
-}
+//
+//double uniformdoublerand() {
+//  double result;
+//  long a, b;
+//
+//  a = random();
+//  b = random();
+//  result = (double)(a - 1073741824) * 8388608.0 + (double)(b >> 8);
+//  return result;
+//}
 
 /*****************************************************************************/
 /*                                                                           */
@@ -590,24 +590,23 @@ double uniformdoublerand() {
 /*                                                                           */
 /*****************************************************************************/
 
-int grow_expansion(int elen, double* e, double b,
-                   double* h) /* e and h can be the same. */
+int grow_expansion(int elen, double* e, double b, double* h) /* e and h can be the same. */
 {
-  double Q;
-  INEXACT double Qnew;
-  int eindex;
-  double enow;
-  INEXACT double bvirt;
-  double avirt, bround, around;
+    double Q;
+    INEXACT double Qnew;
+    int eindex;
+    double enow;
+    INEXACT double bvirt;
+    double avirt, bround, around;
 
-  Q = b;
-  for (eindex = 0; eindex < elen; eindex++) {
-    enow = e[eindex];
-    Two_Sum(Q, enow, Qnew, h[eindex]);
-    Q = Qnew;
-  }
-  h[eindex] = Q;
-  return eindex + 1;
+    Q = b;
+    for (eindex = 0; eindex < elen; eindex++) {
+        enow = e[eindex];
+        Two_Sum(Q, enow, Qnew, h[eindex]);
+        Q = Qnew;
+    }
+    h[eindex] = Q;
+    return eindex + 1;
 }
 
 /*****************************************************************************/

@@ -31,7 +31,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #if defined(_DEBUG) || defined(_DEBUG_RELEASE)
 static int csg_compute_count = 0;
-#define CSG_DEBUG
+//#define CSG_DEBUG
 #endif
 
 class CSG_Adapter

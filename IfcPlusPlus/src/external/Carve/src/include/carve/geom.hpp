@@ -296,7 +296,7 @@ namespace carve {
 
 			vector_t D, v;
 
-			bool OK(double CARVE_EPSILON) const;
+			bool RayOK(double CARVE_EPSILON) const;
 
 			ray() {}
 			ray(vector_t _D, vector_t _v) : D(_D), v(_v) {}
@@ -324,7 +324,7 @@ namespace carve {
 			vector_t half_length;
 
 			void update();
-			bool OK(double CARVE_EPSILON) const;
+			bool LineSegmentOK(double CARVE_EPSILON) const;
 			void flip();
 
 			aabb<ndim> getAABB() const;

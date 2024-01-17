@@ -95,7 +95,7 @@
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <QtInstall>$(DefaultQtVersion)</QtInstall>
-    <QtModules>core;xml;opengl;network;gui;widgets;printsupport</QtModules>
+    <QtModules>core;opengl;openglwidgets;gui;widgets</QtModules>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <QtInstall>5.7.1</QtInstall>
@@ -103,7 +103,7 @@
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <QtInstall>$(DefaultQtVersion)</QtInstall>
-    <QtModules>core;xml;opengl;network;gui;widgets;printsupport</QtModules>
+    <QtModules>core;opengl;gui;widgets;openglwidgets</QtModules>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <QtInstall>5.7.1</QtInstall>
@@ -161,7 +161,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
-      <DisableSpecificWarnings>4189;4505</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4189;4505;4005</DisableSpecificWarnings>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -252,7 +252,7 @@
       <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DisableSpecificWarnings>4305</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4305;4005</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -294,8 +294,8 @@
     <ClCompile Include="src\gui\IfcTreeWidget.cpp" />
     <ClCompile Include="src\gui\MainWindow.cpp" />
     <ClCompile Include="src\gui\StoreyShiftWidget.cpp" />
-    <ClCompile Include="src\gui\TabReadWrite.cpp" />
-    <ClCompile Include="src\gui\TabView.cpp" />
+    <ClCompile Include="src\gui\OpenFileWidget.cpp" />
+    <ClCompile Include="src\gui\SettingsWidget.cpp" />
     <ClCompile Include="src\IfcPlusPlusSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\viewer\GraphicsWindowQt.cpp" />
@@ -360,13 +360,13 @@
     </QtMoc>
     <QtMoc Include="src\IfcPlusPlusSystem.h">
     </QtMoc>
-    <QtMoc Include="src\gui\TabView.h">
+    <QtMoc Include="src\gui\SettingsWidget.h">
     </QtMoc>
     <QtMoc Include="src\gui\IfcTreeWidget.h">
     </QtMoc>
     <QtMoc Include="src\gui\MainWindow.h">
     </QtMoc>
-    <QtMoc Include="src\gui\TabReadWrite.h">
+    <QtMoc Include="src\gui\OpenFileWidget.h">
     </QtMoc>
     <QtMoc Include="src\gui\StoreyShiftWidget.h">
     </QtMoc>

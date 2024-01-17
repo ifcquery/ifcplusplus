@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include <QtWidgets/QTreeWidget>
+#include <osg/Group>
 #include "ifcpp/model/BasicTypes.h"
 
 class BuildingEntity;
@@ -43,6 +44,9 @@ public slots:
 	void slotModelCleared();
 	void slotModelLoadingStart();
 	void slotModelLoadingDone();
+
+signals:
+	void signalZoomToObject(shared_ptr<BuildingEntity> object, osg::Group* node = 0);
 
 protected:
 	IfcPlusPlusSystem*	m_system;

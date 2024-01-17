@@ -1336,7 +1336,7 @@ public:
 			std::vector<vec2> segment_start_points_2d;
 			shared_ptr<IfcBoundedCurve> bounded_curve = polygonal_half_space->m_PolygonalBoundary;
 			m_curve_converter->convertIfcCurve2D( bounded_curve, polygonal_boundary, segment_start_points_2d, true );
-			ProfileConverter::deleteLastPointIfEqualToFirst( polygonal_boundary );
+			GeomUtils::unClosePolygon( polygonal_boundary, m_geom_settings->getEpsilonMergePoints());
 			ProfileConverter::simplifyPath( polygonal_boundary, m_geom_settings->getEpsilonMergePoints(), m_geom_settings->getEpsilonCoplanarAngle() );
 
 			vec3 solid_extrusion_direction = boundary_plane_normal;
