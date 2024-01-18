@@ -34,6 +34,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/geometry/GeometryConverter.h>
 
 #include "ScopedLockAndBlock.h"
+#include "viewer/ViewController.h"
 #include "StoreyShiftWidget.h"
 #include "IfcPlusPlusSystem.h"
 
@@ -163,7 +164,7 @@ void StoreyShiftWidget::shiftStoreys()
 
 	std::vector<std::pair<int, osg::MatrixTransform*> > vec_transform;
 	std::vector<std::pair<int, osg::MatrixTransform*> > vec_transform_no_elevation;
-	osg::Switch* grp = m_system->getModelNode();
+	osg::Switch* grp = m_system->getViewController()->getModelNode();
 	collectBuildingStoreys( grp, vec_transform );
 
 	std::map<double, std::pair<int, osg::MatrixTransform*> > map_transform;

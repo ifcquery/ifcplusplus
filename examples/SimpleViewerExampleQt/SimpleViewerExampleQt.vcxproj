@@ -255,7 +255,7 @@
       <DisableSpecificWarnings>4305;4005</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>..\..\IfcPlusPlus\bin;$(OSG_DIR)\lib;$(OSG_DIR)\build\lib;$(FREETYPE_DIR)\objs\vc2010\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -299,7 +299,10 @@
     <ClCompile Include="src\IfcPlusPlusSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\viewer\GraphicsWindowQt.cpp" />
-    <ClCompile Include="src\viewer\OrbitCameraManipulator.cpp" />
+    <ClCompile Include="src\viewer\IntersectionHandler.cpp" />
+    <ClCompile Include="src\viewer\Orbit3DManipulator.cpp" />
+    <ClCompile Include="src\viewer\ViewController.cpp" />
+    <ClCompile Include="src\viewer\ViewerUtil.cpp" />
     <ClCompile Include="src\viewer\ViewerWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -356,6 +359,8 @@
     <ClInclude Include="src\cmd\CmdRemoveSelectedObjects.h" />
     <ClInclude Include="src\cmd\Command.h" />
     <ClInclude Include="src\cmd\CommandManager.h" />
+    <ClInclude Include="src\viewer\ViewController.h" />
+    <ClInclude Include="src\viewer\ViewerUtil.h" />
     <QtMoc Include="src\viewer\ViewerWidget.h">
     </QtMoc>
     <QtMoc Include="src\IfcPlusPlusSystem.h">
@@ -374,7 +379,8 @@
     <ClInclude Include="src\gui\ScopedLockAndBlock.h" />
     <ClInclude Include="src\IncludeGeometryHeaders.h" />
     <ClInclude Include="src\viewer\GraphicsWindowQt.h" />
-    <ClInclude Include="src\viewer\OrbitCameraManipulator.h" />
+    <ClInclude Include="src\viewer\IntersectionHandler.h" />
+    <QtMoc Include="src\viewer\Orbit3DManipulator.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources\appicon.rc" />

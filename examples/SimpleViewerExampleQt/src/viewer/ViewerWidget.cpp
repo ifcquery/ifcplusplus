@@ -33,11 +33,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <QtGui/QKeyEvent>
 
 #include "IfcPlusPlusSystem.h"
-#include "OrbitCameraManipulator.h"
+#include "IntersectionHandler.h"
+#include "Orbit3DManipulator.h"
 #include "GraphicsWindowQt.h"
+#include "ViewController.h"
 #include "ViewerWidget.h"
 
-ViewerWidget::ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget( parent )
+ViewerWidget::ViewerWidget(IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget( parent )
 {
 	m_system = sys;
 	m_parent = parent;
@@ -55,9 +57,9 @@ ViewerWidget::ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget(
 	osg::ref_ptr<osg::LightModel> light_model = new osg::LightModel();
 	light_model->setTwoSided( true );
 	light_model->setAmbientIntensity( osg::Vec4f( r, g, b, 0.6f ) );
-	sys->getRootNode()->getOrCreateStateSet()->setAttribute( light_model );
+	sys->getViewController()->getRootNode()->getOrCreateStateSet()->setAttribute( light_model );
 
-	m_stateset_default = sys->getModelNode()->getOrCreateStateSet();
+	m_stateset_default = sys->getViewController()->getModelNode()->getOrCreateStateSet();
 	m_stateset_default->setAttribute( m_material_default, osg::StateAttribute::ON );
 
 	m_stateset_transparent = new osg::StateSet();
@@ -74,7 +76,7 @@ ViewerWidget::ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget(
 	m_stateset_selected = new osg::StateSet();
 	m_stateset_selected->setAttribute( material_selected, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
 
-	sys->toggleSceneLight();
+	sys->getViewController()->toggleSunLight();
 
 	{
 		osg::ref_ptr<osg::Geode> geode = new osg::Geode();
@@ -82,7 +84,7 @@ ViewerWidget::ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget(
 		osg::ref_ptr<osg::StateSet> stateset = geode->getOrCreateStateSet();
 		stateset->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
 		float alpha = 0.5f;
-		m_system->getCoordinateAxesNode()->addChild( geode );
+		m_system->getViewController()->getCoordinateAxesNode()->addChild( geode );
 
 		// positive axes
 		{
@@ -164,7 +166,7 @@ ViewerWidget::ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget(
 		}
 	}
 
-	m_camera_manipulator = new OrbitCameraManipulator( sys );
+	m_camera_manipulator = sys->getViewController()->getOrbitManipulator3D();
 
 	QtOSGWidget* opengl_widget = getOpenGLWidget();
 	QVBoxLayout* vbox = new QVBoxLayout();
@@ -173,20 +175,21 @@ ViewerWidget::ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget(
 	setLayout( vbox );
 
 	connect( &m_timer, SIGNAL( timeout() ), this, SLOT( slotAnimationFrame() ) );
+	sys->getViewController()->setGLWidget(opengl_widget);
 }
 ViewerWidget::~ViewerWidget() {}
 
 void ViewerWidget::initGLWidgetAndViewer()
 {
 	osgViewer::ViewerBase::ThreadingModel threadingModel = osgViewer::ViewerBase::SingleThreaded;
-	m_system->getRootNode()->setCullingActive( false );
+	m_system->getViewController()->getRootNode()->setCullingActive( false );
 
 	Qt::WindowFlags f;
 	m_graphics_window = new GraphicsWindowQt( this, f );
 	QtOSGWidget* opengl_widget = m_graphics_window->getOpenGLWidget();
 	opengl_widget->setMinimumSize( QSize( 150, 150 ) );
 	m_main_view = opengl_widget->getView();
-	m_main_view->setSceneData( m_system->getRootNode() );
+	m_main_view->setSceneData( m_system->getViewController()->getRootNode() );
 	m_composite_viewer = opengl_widget->getViewer();
 	m_composite_viewer->setThreadingModel( threadingModel );
 	m_composite_viewer->setKeyEventSetsDone( 0 );		// disable the default setting of viewer.done() by pressing Escape.
@@ -200,7 +203,7 @@ void ViewerWidget::initGLWidgetAndViewer()
 	if( m_main_view )
 	{
 		m_main_view->setCameraManipulator( m_camera_manipulator );
-		m_main_view->setSceneData( m_system->getRootNode() );
+		m_main_view->setSceneData( m_system->getViewController()->getRootNode() );
 	}
 }
 
@@ -277,15 +280,15 @@ void ViewerWidget::updateCamera()
 	}
 }
 
-void ViewerWidget::setRootNode( osg::Group* root )
-{
-	m_main_view->setSceneData( root );
-	if( m_hud_camera )
-	{
-		root->addChild( m_hud_camera );
-	}
-	m_system->setRootNode( root );
-}
+//void ViewerWidget::setRootNode( osg::Group* root )
+//{
+//	m_main_view->setSceneData( root );
+//	if( m_hud_camera )
+//	{
+//		root->addChild( m_hud_camera );
+//	}
+//	m_system->getViewController()->setRootNode( root );
+//}
 
 void ViewerWidget::stopTimer()
 {

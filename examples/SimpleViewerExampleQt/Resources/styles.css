@@ -6,6 +6,8 @@ QFrame {
 QWidget#OpenFileWidget { background-color: rgba(240,240,240,0.5); border: 1px solid #cecece; margin: 10px;}
 QWidget#SettingsWidget { background-color: rgba(240,240,240,0.5); border: 1px solid #cecece; margin: 10px;}
 
+QStatusBar { height:20px;max-height: 24px;}
+
 QTextEdit
 {
 	border: 1px solid #cecece;

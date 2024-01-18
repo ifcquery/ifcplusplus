@@ -17,8 +17,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 
 #include <QAction>
-#include <QDockWidget>
 #include <QFile>
+#include <QKeyEvent>
 #include <QStatusBar>
 #include <QSettings>
 #include <QToolButton>
@@ -26,8 +26,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "IncludeGeometryHeaders.h"
 #include "EntityAttributeWidget.h"
 #include "IfcPlusPlusSystem.h"
+#include "viewer/ViewController.h"
+#include "viewer/ViewerUtil.h"
 #include "viewer/ViewerWidget.h"
-#include "viewer/OrbitCameraManipulator.h"
+#include "viewer/Orbit3DManipulator.h"
 #include "cmd/CmdRemoveSelectedObjects.h"
 #include "cmd/CommandManager.h"
 #include "OpenFileWidget.h"
@@ -52,12 +54,9 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, QWidget *parent) : m_system(sys)
 	{
 		m_autoHideFileWidget= settings.value("AutoHideFileWidget").toBool();
 	}
-
-	
+		
 	m_viewerWidget = new ViewerWidget(sys);
-	OrbitCameraManipulator* camera_manip = new OrbitCameraManipulator(sys);
-	m_viewerWidget->getMainView()->setCameraManipulator(camera_manip);
-	m_viewerWidget->setRootNode(sys->getRootNode());
+	sys->getViewController()->setGLWidget(m_viewerWidget->getOpenGLWidget());
 	
 	// create OpenFileWidget
 	m_openFileWidget = new OpenFileWidget(m_system, this);
@@ -66,8 +65,6 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, QWidget *parent) : m_system(sys)
 	m_openFileWidget->setParent(m_viewerWidget);
 	connect(m_openFileWidget, &OpenFileWidget::signalProgressValue, this, &MainWindow::slotProgressValue);
 	connect(m_openFileWidget, &OpenFileWidget::signalClearSignalQueue, this, &MainWindow::slotClearSignalQueue);
-	connect(m_openFileWidget, &OpenFileWidget::signalFileLoadingDone, this, &MainWindow::slotFileLoadingDone);
-
 
 	m_buttonToggleOpenFileWidget = new QPushButton("<<");
 	m_buttonToggleOpenFileWidget->setMinimumHeight(80);
@@ -89,8 +86,7 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, QWidget *parent) : m_system(sys)
 	zoom_bounds_btn->setGeometry(3, 6, 24, 24);
 	connect(zoom_bounds_btn, &QToolButton::clicked, this, &MainWindow::slotBtnZoomBoundingsClicked);
 
-
-	
+		
 	m_settingsWidget = new SettingsWidget(m_system, m_viewerWidget, m_autoHideFileWidget);
 	connect(m_settingsWidget, &SettingsWidget::signalAutoHideFileWidget, this, [this](bool autoHide) {
 		QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
@@ -160,7 +156,6 @@ IFC++ can also be used in server applications without dependencies like Qt and O
 	sizesMainSplitter.append(100);
 	mainSplitter->setSizes(sizesMainSplitter);
 
-
 	// progress bar
 	m_progressBar = new QProgressBar();
 	m_progressBar->setRange(0, 1000);
@@ -197,6 +192,9 @@ IFC++ can also be used in server applications without dependencies like Qt and O
 	m_viewerWidget->startTimer();
 	m_viewerWidget->getMainView()->addEventHandler(sys);
 	updateOpenFileWidget();
+
+	connect(m_system, &IfcPlusPlusSystem::signalModelLoadingDone, this, &MainWindow::slotFileLoadingDone);
+	connect(m_system, &IfcPlusPlusSystem::signalCursorCoordinates, this, &MainWindow::slotCursorCoordinates);
 }
 
 MainWindow::~MainWindow(){}
@@ -240,10 +238,10 @@ void MainWindow::slotFileLoadingDone()
 	if (main_view)
 	{
 		osgGA::CameraManipulator* camera_manip = main_view->getCameraManipulator();
-		OrbitCameraManipulator* orbit_manip = dynamic_cast<OrbitCameraManipulator*>(camera_manip);
+		Orbit3DManipulator* orbit_manip = dynamic_cast<Orbit3DManipulator*>(camera_manip);
 		if (orbit_manip)
 		{
-			osg::BoundingSphere bs = m_system->getModelNode()->computeBound();
+			osg::BoundingSphere bs = m_system->getViewController()->getModelNode()->computeBound();
 			orbit_manip->zoomToBoundingSphere(bs);
 		}
 	}
@@ -251,6 +249,22 @@ void MainWindow::slotFileLoadingDone()
 	if (m_autoHideFileWidget)
 	{
 		slotToggleOpenFileWidget();
+	}
+}
+
+void MainWindow::keyPressEvent(QKeyEvent* e)
+{
+	if (e->key() == Qt::Key_Control)
+	{
+		m_system->setCtrlKeyDown(true);
+	}
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent* e)
+{
+	if (e->key() == Qt::Key_Control)
+	{
+		m_system->setCtrlKeyDown(false);
 	}
 }
 
@@ -288,13 +302,13 @@ void MainWindow::slotToggleOpenFileWidget()
 
 void MainWindow::slotBtnZoomBoundingsClicked()
 {
-	osg::BoundingSphere bs = m_system->getModelNode()->computeBound();
+	osg::BoundingSphere bs = m_system->getViewController()->getModelNode()->computeBound();
 	
 	osgViewer::View* main_view = m_viewerWidget->getMainView();
 	if( main_view )
 	{
 		osgGA::CameraManipulator* camera_manip = main_view->getCameraManipulator();
-		OrbitCameraManipulator* orbit_manip = dynamic_cast<OrbitCameraManipulator*>( camera_manip );
+		Orbit3DManipulator* orbit_manip = dynamic_cast<Orbit3DManipulator*>( camera_manip );
 		if( orbit_manip )
 		{
 			orbit_manip->zoomToBoundingSphere( bs );
@@ -377,7 +391,7 @@ void MainWindow::slotZoomToObject(shared_ptr<BuildingEntity> ifc_object, osg::Gr
 	const std::string guid = getGUID(ifc_object);
 	if (!grp)
 	{
-		grp = findNodeByIfcId( m_system->getModelNode(), guid);
+		grp = findNodeByIfcId( m_system->getViewController()->getModelNode(), guid);
 		if (!grp)
 		{
 			return;
@@ -390,11 +404,16 @@ void MainWindow::slotZoomToObject(shared_ptr<BuildingEntity> ifc_object, osg::Gr
 		return;
 	}
 
-	OrbitCameraManipulator* orbit_manip = dynamic_cast<OrbitCameraManipulator*>(main_view->getCameraManipulator());
+	Orbit3DManipulator* orbit_manip = dynamic_cast<Orbit3DManipulator*>(main_view->getCameraManipulator());
 	if (!orbit_manip)
 	{
 		return;
 	}
 
 	orbit_manip->zoomToBoundingSphere(grp->getBound());
+}
+
+void MainWindow::slotCursorCoordinates(double x, double y, double z)
+{
+	m_labelStatusCursor->setText(QString::number(x, 'f', 4) + ", " + QString::number(y, 'f', 4) + "," + QString::number(z, 'f', 4));
 }

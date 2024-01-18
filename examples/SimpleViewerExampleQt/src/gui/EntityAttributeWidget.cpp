@@ -574,6 +574,7 @@ PropertyValueContainer::PropertyValueContainer(const shared_ptr<IfcPropertySet>&
 		}
 	}
 }
+
 PropertyValueContainer::PropertyValueContainer(const shared_ptr<IfcPropertySet>& pSet, std::string& prop_name, std::string& prop_description, std::string& prop_value, std::string& prop_unit, std::string& prop_type)
 {
 	if( pSet )
@@ -639,7 +640,6 @@ void readIfcProperty(const shared_ptr<IfcPropertySet>& pset, const shared_ptr<If
 	shared_ptr<IfcComplexProperty> complex_property = dynamic_pointer_cast<IfcComplexProperty>(ifc_prop);
 	if( complex_property )
 	{
-
 		//UsageName	 :	IfcIdentifier;
 		//HasProperties	 :	SET [1:?] OF IfcProperty;
 	}
@@ -648,7 +648,6 @@ void readIfcProperty(const shared_ptr<IfcPropertySet>& pset, const shared_ptr<If
 		shared_ptr<IfcSimpleProperty> simple_property = dynamic_pointer_cast<IfcSimpleProperty>(ifc_prop);
 		if( simple_property )
 		{
-
 			//ENTITY IfcSimpleProperty ABSTRACT SUPERTYPE OF(ONEOF(IfcPropertyBoundedValue, IfcPropertyEnumeratedValue, IfcPropertyListValue, IfcPropertyReferenceValue, IfcPropertySingleValue, IfcPropertyTableValue))
 
 			shared_ptr<IfcPropertySingleValue> ifc_prop_single_value = dynamic_pointer_cast<IfcPropertySingleValue>(simple_property);
@@ -677,7 +676,6 @@ void readIfcProperty(const shared_ptr<IfcPropertySet>& pset, const shared_ptr<If
 			}
 			else
 			{
-
 				shared_ptr<IfcPropertyListValue> ifc_prop_list_value = dynamic_pointer_cast<IfcPropertyListValue>(simple_property);
 				if( ifc_prop_list_value )
 				{

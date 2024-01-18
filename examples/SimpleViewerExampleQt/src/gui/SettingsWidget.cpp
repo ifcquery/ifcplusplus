@@ -20,8 +20,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <QToolButton>
 #include <QBoxLayout>
 #include <QCheckBox>
-#include <QRadioButton>
-#include <QButtonGroup>
 #include <QLabel>
 #include <QSpinBox>
 
@@ -32,7 +30,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"
 #include "viewer/ViewerWidget.h"
-#include "viewer/OrbitCameraManipulator.h"
+#include "viewer/ViewController.h"
+#include "viewer/Orbit3DManipulator.h"
 
 #include "MainWindow.h"
 #include "SettingsWidget.h"
@@ -55,7 +54,7 @@ SettingsWidget::SettingsWidget( IfcPlusPlusSystem* sys, ViewerWidget* vw, bool a
 	{
 		m_cullBack = settings.value("cullBackFaces").toBool();
 	}
-	SceneGraphUtils::cullFrontBack(m_cullFront, m_cullBack, m_system->getRootNode()->getOrCreateStateSet() );
+	SceneGraphUtils::cullFrontBack(m_cullFront, m_cullBack, m_system->getViewController()->getRootNode()->getOrCreateStateSet() );
 
 	// cull face buttons
 	QCheckBox* cull_front_faces = new QCheckBox( "Cull front faces" );
@@ -77,7 +76,7 @@ SettingsWidget::SettingsWidget( IfcPlusPlusSystem* sys, ViewerWidget* vw, bool a
 	QCheckBox* btn_toggle_light = new QCheckBox("Light on/off");
 	btn_toggle_light->setToolTip("Light on/off");
 	btn_toggle_light->setChecked(true);
-	connect(btn_toggle_light, &QCheckBox::clicked, this, [this]() { m_system->toggleSceneLight(); });
+	connect(btn_toggle_light, &QCheckBox::clicked, this, [this]() { m_system->getViewController()->toggleSunLight(); });
 
 
 	// number of vertices per cycle
@@ -192,7 +191,7 @@ void SettingsWidget::slotCullFrontFaces( int state )
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
 	settings.setValue("cullFrontFaces", m_cullFront );
 
-	SceneGraphUtils::cullFrontBack(m_cullFront, m_cullBack, m_system->getRootNode()->getOrCreateStateSet() );
+	SceneGraphUtils::cullFrontBack(m_cullFront, m_cullBack, m_system->getViewController()->getRootNode()->getOrCreateStateSet() );
 }
 
 void SettingsWidget::slotCullBackFaces( int state )
@@ -208,7 +207,7 @@ void SettingsWidget::slotCullBackFaces( int state )
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
 	settings.setValue("cullBackFaces", m_cullBack );
 
-	SceneGraphUtils::cullFrontBack( m_cullFront, m_cullBack, m_system->getRootNode()->getOrCreateStateSet() );
+	SceneGraphUtils::cullFrontBack( m_cullFront, m_cullBack, m_system->getViewController()->getRootNode()->getOrCreateStateSet() );
 }
 
 void SettingsWidget::slotSetNumVertices( int num_vertices )
@@ -221,7 +220,7 @@ void SettingsWidget::slotSetNumVertices( int num_vertices )
 void SettingsWidget::slotShowCurves( int state )
 {
 	bool curves_on = state == Qt::Checked;
-	m_system->switchCurveRepresentation( m_system->getModelNode(), curves_on );
+	m_system->getViewController()->switchCurveRepresentation( m_system->getViewController()->getModelNode(), curves_on );
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
 	settings.setValue( "ShowCurveRepresentations", curves_on );
 }

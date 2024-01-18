@@ -16,22 +16,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 */
 
 #include <iostream>
-#include <algorithm>
-#include <cctype>
-#include <iostream>
 #include <string>
 
 #include <QtCore/qglobal.h>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QSplashScreen>
+#include <QApplication>
 #include <osgViewer/CompositeViewer>
 
 #include <ifcpp/model/BuildingException.h>
-
-#include "gui/OpenFileWidget.h"
 #include "gui/MainWindow.h"
-#include "viewer/ViewerWidget.h"
-#include "viewer/OrbitCameraManipulator.h"
+#include "gui/OpenFileWidget.h"
 #include "IfcPlusPlusSystem.h"
 #include "IncludeGeometryHeaders.h"
 
@@ -74,7 +67,7 @@ int main(int argc, char *argv[])
 	MainWindow* window = new MainWindow( sys );
 	app.connect( window,	SIGNAL(signalMainWindowClosed()),	&app,	SLOT(quit()) );
 	window->show();
-	
+
 #ifdef _DEBUG
 	GeomDebugDump::clearMeshsetDump();
 #endif

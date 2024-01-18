@@ -46,6 +46,8 @@ protected:
 	void closeEvent( QCloseEvent *event );
 	void resizeEvent(QResizeEvent* event);
 	void showEvent(QShowEvent* e);
+	void keyPressEvent(QKeyEvent* e);
+	void keyReleaseEvent(QKeyEvent* e);
 
 private:
 	IfcPlusPlusSystem* m_system;
@@ -72,4 +74,5 @@ private slots:
 	void slotZoomToObject(shared_ptr<BuildingEntity> object, osg::Group* node = 0);
 	void slotToggleOpenFileWidget();
 	void slotFileLoadingDone();
+	void slotCursorCoordinates(double x, double y, double z);
 };

@@ -34,7 +34,7 @@ class ViewerWidget : public QWidget
 	Q_OBJECT
 
 public:
-    ViewerWidget( IfcPlusPlusSystem* sys, QWidget* parent = nullptr );
+    ViewerWidget(IfcPlusPlusSystem* sys, QWidget* parent = nullptr );
 	~ViewerWidget();
 
 	QtOSGWidget*				getOpenGLWidget();
@@ -44,7 +44,6 @@ public:
 	osg::Camera*				getHeadUpCamera() { return m_hud_camera.get(); }
 	osgGA::StandardManipulator*	getCameraManipulator() { return m_camera_manipulator.get(); }
 	void updateCamera();
-	void setRootNode( osg::Group* node );
 	void stopTimer();
 	void startTimer();
 		

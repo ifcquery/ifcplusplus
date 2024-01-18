@@ -37,7 +37,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"
 #include "viewer/ViewerWidget.h"
-#include "viewer/OrbitCameraManipulator.h"
+#include "viewer/ViewController.h"
+#include "viewer/Orbit3DManipulator.h"
 #include "cmd/CommandManager.h"
 #include "StoreyShiftWidget.h"
 #include "OpenFileWidget.h"
@@ -282,7 +283,7 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 		}
 
 		// first remove previously loaded geometry from scenegraph
-		osg::ref_ptr<osg::Switch> model_switch = m_system->getModelNode();
+		osg::ref_ptr<osg::Switch> model_switch = m_system->getViewController()->getModelNode();
 		SceneGraphUtils::clearAllChildNodes(model_switch);
 		m_system->clearSelection();
 
@@ -321,13 +322,10 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 			const osg::BoundingSphere& bsphere = model_switch->getBound();
 			if (bsphere.center().length() > 10000)
 			{
-				if (bsphere.center().length()/bsphere.radius() > 100)
+				if (bsphere.center().length() / bsphere.radius() > 100)
 				{
-					//std::unordered_set<osg::Node*> set_applied;
-					//SceneGraphUtils::translateGroup(model_switch, , set_applied, length_in_meter*0.001);
-
 					osg::MatrixTransform* mt = new osg::MatrixTransform();
-					mt->setMatrix(osg::Matrix::translate(-bsphere.center()*0.98));
+					mt->setMatrix(osg::Matrix::translate(-bsphere.center() * 0.98));
 
 					int num_children = model_switch->getNumChildren();
 					for (int i = 0; i < num_children; ++i)
@@ -353,8 +351,6 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 	{
 		txtOutError( e.what() );
 	}
-
-	emit(signalFileLoadingDone());
 
 	int time_diff = (clock() - millisecs)/(double)CLOCKS_PER_SEC;
 	int num_entities = m_system->getIfcModel()->getMapIfcEntities().size();
@@ -440,7 +436,8 @@ void OpenFileWidget::slotAddOtherIfcFileClicked()
 	{
 		default_dir = settings.value( "defaultDir" ).toString();
 	}
-	QString selected_file = QFileDialog::getOpenFileName(this, "Choose IFC file", default_dir, QString(), Q_NULLPTR, QFileDialog::DontUseNativeDialog);
+	QString selectedFilter = "IFC files (*.ifc *.ifczip)";
+	QString selected_file = QFileDialog::getOpenFileName(this, "Choose IFC file", default_dir, selectedFilter);
 	
 	if( !selected_file.isEmpty() )
 	{
@@ -453,7 +450,7 @@ void OpenFileWidget::slotAddOtherIfcFileClicked()
 void OpenFileWidget::slotSetWritePathClicked()
 {
 	QString selectedFilter;
-	QString fileName = QFileDialog::getSaveFileName(this, "IfcPlusPlus - choose path to write ifc file", m_le_path_write->text(), "All Files (*);;Text Files (*.ifc)", &selectedFilter, QFileDialog::DontUseNativeDialog);
+	QString fileName = QFileDialog::getSaveFileName(this, "IfcPlusPlus - choose path to write ifc file", m_le_path_write->text(), "All Files (*);;IFC file (*.ifc)", &selectedFilter, QFileDialog::DontUseNativeDialog);
 	if( !fileName.isEmpty() )
 	{
 		m_le_path_write->setText(fileName);

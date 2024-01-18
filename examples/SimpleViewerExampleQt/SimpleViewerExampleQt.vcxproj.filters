@@ -47,9 +47,6 @@
     <ClCompile Include="src\viewer\GraphicsWindowQt.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\viewer\OrbitCameraManipulator.cpp">
-      <Filter>Source Dateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\IfcPlusPlusSystem.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
@@ -75,6 +72,18 @@
       <Filter>Source Dateien</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\EntityAttributeWidget.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\viewer\IntersectionHandler.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\viewer\Orbit3DManipulator.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\viewer\ViewerUtil.cpp">
+      <Filter>Source Dateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\viewer\ViewController.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -141,18 +150,27 @@
     <ClInclude Include="src\viewer\GraphicsWindowQt.h">
       <Filter>Header Dateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\viewer\OrbitCameraManipulator.h">
-      <Filter>Header Dateien</Filter>
-    </ClInclude>
     <ClInclude Include="src\IncludeGeometryHeaders.h">
       <Filter>Header Dateien</Filter>
     </ClInclude>
     <ClInclude Include="src\gui\ScopedLockAndBlock.h">
       <Filter>Header Dateien</Filter>
     </ClInclude>
+    <ClInclude Include="src\viewer\ViewerUtil.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\viewer\ViewController.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\viewer\IntersectionHandler.h">
+      <Filter>Header Dateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\gui\EntityAttributeWidget.h">
+      <Filter>Header Dateien</Filter>
+    </QtMoc>
+    <QtMoc Include="src\viewer\Orbit3DManipulator.h">
       <Filter>Header Dateien</Filter>
     </QtMoc>
   </ItemGroup>

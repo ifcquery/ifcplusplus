@@ -2,7 +2,7 @@
 *
 MIT License
 
-Copyright (c) 2017 Fabian Gerold
+Copyright (c) 2024 Fabian Gerold
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -36,48 +36,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "cmd/CommandManager.h"
 #include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"
+#include "viewer/IntersectionHandler.h"
 #include "viewer/ViewerWidget.h"
-#include "viewer/OrbitCameraManipulator.h"
-
-std::string getGUID(const shared_ptr<BuildingEntity>& ent)
-{
-	std::string guid;
-	shared_ptr<IfcRoot> ifc_root = dynamic_pointer_cast<IfcRoot>(ent);
-	if (ifc_root)
-	{
-		if (ifc_root->m_GlobalId)
-		{
-			guid = ifc_root->m_GlobalId->m_value;
-		}
-	}
-	return guid;
-}
+#include "viewer/ViewController.h"
+#include "viewer/Orbit3DManipulator.h"
+#include "viewer/ViewerUtil.h"
 
 IfcPlusPlusSystem::IfcPlusPlusSystem()
 {
 	m_command_manager = shared_ptr<CommandManager>( new CommandManager() );
 	m_ifc_model = shared_ptr<BuildingModel>( new BuildingModel() );
 	m_geometry_converter = shared_ptr<GeometryConverter>( new GeometryConverter( m_ifc_model ) );
-	
-	m_rootnode = new osg::Group();
-	m_rootnode->setName( "m_rootnode" );
-	
-	m_sw_model = new osg::Switch();
-	m_sw_model->setName( "m_sw_model" );
-	m_rootnode->addChild( m_sw_model.get() );
-
-	m_sw_coord_axes = new osg::Switch();
-	m_sw_coord_axes->setName( "m_sw_coord_axes" );
-	m_rootnode->addChild( m_sw_coord_axes.get() );
-
-	m_show_curve_representation = true;
-	m_light_on = false;
-
-	m_material_selected = new osg::Material();
-	m_material_selected->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.2f, 0.98f, 0.2f, 0.5f ) );
-	m_material_selected->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.2f, 0.85f, 0.2f, 1.0f ) );
-	m_material_selected->setShininess( osg::Material::FRONT_AND_BACK, 35.0 );
-	m_material_selected->setColorMode( osg::Material::SPECULAR );
+	IntersectionHandler* ih = new IntersectionHandler(this);
+	Orbit3DManipulator* camera_manip = new Orbit3DManipulator(this, ih);
+	m_view_controller = shared_ptr<ViewController>(new ViewController(camera_manip));
+	m_view_controller->getRootNode()->addChild(ih->m_group_selected);
 }
 
 IfcPlusPlusSystem::~IfcPlusPlusSystem(){}
@@ -85,11 +58,6 @@ IfcPlusPlusSystem::~IfcPlusPlusSystem(){}
 void IfcPlusPlusSystem::setIfcModel( shared_ptr<BuildingModel>& model )
 {
 	m_ifc_model = model;
-}
-
-void IfcPlusPlusSystem::setRootNode( osg::Group* root )
-{
-	m_rootnode = root;
 }
 
 bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& /*aa*/)
@@ -143,6 +111,11 @@ bool IfcPlusPlusSystem::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActio
 	return handled;
 }
 
+void IfcPlusPlusSystem::setCtrlKeyDown(bool ctrl_key_down)
+{
+	m_control_key_down = ctrl_key_down;
+}
+
 #ifdef _DEBUG
 #define _DEBUG_GEOMETRY
 #endif
@@ -191,7 +164,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object
 	const std::string guid = getGUID(ifc_object);
 	if( !grp )
 	{
-		grp = findNodeByIfcId( m_sw_model, guid );
+		grp = findNodeByIfcId( m_view_controller->getModelNode(), guid);
 	}
 
 	if( selected )
@@ -221,19 +194,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object
 
 			if( select_child )
 			{
-				osg::ref_ptr<osg::StateSet> stateset = grp->getOrCreateStateSet();
-				osg::Material* material_previous = (osg::Material*)stateset->getAttribute( osg::StateAttribute::MATERIAL );
-				if( material_previous )
-				{
-					selected_entity->m_material_previous = material_previous;
-				}
-
-				//stateset->setAttribute( m_material_selected, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
-
-				osg::ref_ptr<osg::StateSet> statesetSelected = new osg::StateSet();
-				statesetSelected->setAttribute(m_material_selected, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
-				grp->setStateSet(statesetSelected);
-				selected_entity->m_material_selected = m_material_selected;
+				selected_entity->setSelected(m_view_controller->getMaterialSelected());
 			}
 
 			std::unordered_map<std::string, shared_ptr<BuildingEntity> > map_objects;
@@ -250,20 +211,7 @@ void IfcPlusPlusSystem::setObjectSelected( shared_ptr<BuildingEntity> ifc_object
 			if( it_selected != m_map_selected.end() )
 			{
 				shared_ptr<SelectedEntity> selected_entity = it_selected->second;
-
-				if( selected_entity->m_osg_group )
-				{
-					osg::ref_ptr<osg::StateSet> stateset_selected_node = selected_entity->m_osg_group->getOrCreateStateSet();
-					if( selected_entity->m_material_previous )
-					{
-						stateset_selected_node->setAttribute( selected_entity->m_material_previous, osg::StateAttribute::ON );
-					}
-					else if( selected_entity->m_material_selected )
-					{
-						stateset_selected_node->removeAttribute( selected_entity->m_material_selected );
-					}
-				}
-
+				selected_entity->setUnselected();
 				m_map_selected.erase( it_selected );
 			}
 		}
@@ -279,19 +227,7 @@ void IfcPlusPlusSystem::clearSelection()
 	{
 		shared_ptr<SelectedEntity>& selected_entity = (*it).second;
 		shared_ptr<BuildingEntity> entity = selected_entity->m_entity;
-
-		if( selected_entity->m_osg_group )
-		{
-			osg::ref_ptr<osg::StateSet> stateset_selected_node = selected_entity->m_osg_group->getOrCreateStateSet();
-			if( selected_entity->m_material_previous )
-			{
-				stateset_selected_node->setAttribute( selected_entity->m_material_previous, osg::StateAttribute::ON );
-			}
-			else if( selected_entity->m_material_selected )
-			{
-				stateset_selected_node->removeAttribute( selected_entity->m_material_selected );
-			}
-		}
+		selected_entity->setUnselected();
 	}
 	m_map_selected.clear();
 }
@@ -311,76 +247,7 @@ void IfcPlusPlusSystem::notifyModelLoadingDone()
 	emit( signalModelLoadingDone() );
 }
 
-void IfcPlusPlusSystem::toggleSceneLight()
+void IfcPlusPlusSystem::notifyCursorCoordinates(double x, double y, double z)
 {
-	osg::StateSet* stateset_root = m_rootnode->getOrCreateStateSet();
-
-	if( !m_transform_light.valid() )
-	{
-		osg::ref_ptr<osg::Group> light_group = new osg::Group();
-		light_group->setName( "light_group" );
-		double model_size = 100; // TODO: adjust when model is loaded
-
-		osg::ref_ptr<osg::Light> light6 = new osg::Light();
-		light6->setLightNum( 6 );
-		light6->setPosition( osg::Vec4( 0.0, 0.0, 0.0, 1.0f ) );
-		light6->setAmbient( osg::Vec4( 0.5f, 0.53f, 0.57f, 0.4f ) );
-		light6->setDiffuse( osg::Vec4( 0.5f, 0.53f, 0.57f, 0.4f ) );
-		light6->setConstantAttenuation( 1.0f );
-		light6->setLinearAttenuation( 2.0f/model_size );
-		light6->setQuadraticAttenuation( 2.0f/(model_size*model_size) );
-
-		osg::ref_ptr<osg::LightSource> light_source6 = new osg::LightSource();
-		light_source6->setLight( light6 );
-		light_source6->setLocalStateSetModes( osg::StateAttribute::ON );
-		light_source6->setStateSetModes( *stateset_root, osg::StateAttribute::ON );
-		m_transform_light = new osg::MatrixTransform( osg::Matrix::translate( 5, 5, 50 ) );
-		m_transform_light->addChild( light_source6 );
-
-		light_group->addChild( m_transform_light );
-		m_rootnode->addChild( light_group );
-
-		m_light_on = false;
-	}
-
-	m_light_on = !m_light_on;
-	if( m_light_on )
-	{
-		stateset_root->setMode( GL_LIGHT6, osg::StateAttribute::ON );
-	}
-	else
-	{
-		stateset_root->setMode( GL_LIGHT6, osg::StateAttribute::OFF );
-	}
-}
-
-void IfcPlusPlusSystem::switchCurveRepresentation( osg::Group* grp, bool on_off )
-{
-	m_show_curve_representation = on_off;
-	osg::Switch* grp_switch = dynamic_cast<osg::Switch*>( grp );
-	if( grp_switch )
-	{
-		if( grp_switch->getName().compare( "CurveRepresentation" ) == 0 )
-		{
-			if( on_off )
-			{
-				grp_switch->setAllChildrenOn();
-			}
-			else
-			{
-				grp_switch->setAllChildrenOff();
-			}
-		}
-	}
-
-	unsigned int num_children = grp->getNumChildren();
-	for( unsigned int i=0; i<num_children; ++i)
-	{
-		osg::Node* child_node = grp->getChild(i);
-		osg::Group* child_grp = dynamic_cast<osg::Group*>( child_node );
-		if( child_grp )
-		{
-			switchCurveRepresentation( child_grp, on_off );
-		}
-	}
+	emit(signalCursorCoordinates(x, y, z));
 }

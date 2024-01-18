@@ -33,32 +33,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "IncludeGeometryHeaders.h"
 #include "IfcPlusPlusSystem.h"
 #include "IfcTreeWidget.h"
+#include "viewer/ViewerUtil.h"
 
 #include <QtWidgets/QHeaderView>
 
-QTreeWidgetItem* findItemByIfcId( QTreeWidgetItem* item, int ifc_id )
-{
-	int num_children = item->childCount();
-	for( int i = 0; i<num_children; ++i )
-	{
-		QTreeWidgetItem* child = item->child( i );
-		int id = child->text( 1 ).toUInt();
-		if( id == ifc_id )
-		{
-			return child;
-		}
-		QTreeWidgetItem* child_of_child = findItemByIfcId( child, ifc_id );
-		if( child_of_child != 0 )
-		{
-			return child_of_child;
-		}
-	}
-	return 0;
-}
-
 IfcTreeWidget::IfcTreeWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QTreeWidget(parent), m_system(sys)
 {
-	m_block_selection_signals = false;
 	setColumnCount( 2 );
 	QStringList tree_headers;
 	tree_headers << "Label" << "Object id" << "Class name";
@@ -66,20 +46,16 @@ IfcTreeWidget::IfcTreeWidget( IfcPlusPlusSystem* sys, QWidget* parent ) : QTreeW
 	setColumnWidth( 0, 100 );
 	setColumnWidth( 1, 60 );
 	setColumnWidth( 2, 60 );
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 	header()->setSectionResizeMode(0, QHeaderView::Stretch);
-#else
-	header()->setResizeMode(0, QHeaderView::Stretch);
-#endif
 	setSelectionBehavior( QAbstractItemView::SelectRows );
 	setIndentation( 12 );
 
-	connect( this, SIGNAL( currentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* ) ), this, SLOT( slotTreewidgetSelectionChanged(QTreeWidgetItem*, QTreeWidgetItem*) ) );
-	connect( this, SIGNAL( itemDoubleClicked( QTreeWidgetItem*, int )), this, SLOT(slotTreeWidgetItemDoubleClick(QTreeWidgetItem*, int)));
-	connect( m_system, &IfcPlusPlusSystem::signalObjectsSelected,	this, &IfcTreeWidget::slotObjectsSelected );
-	connect( m_system, SIGNAL( signalModelCleared() ),		this, SLOT( slotModelCleared() ) );
-	connect( m_system, SIGNAL( signalModelLoadingStart() ),	this, SLOT( slotModelLoadingStart() ) );
-	connect( m_system, SIGNAL( signalModelLoadingDone() ),	this, SLOT( slotModelLoadingDone() ) );
+	connect( this,		&QTreeWidget::currentItemChanged,			this, &IfcTreeWidget::slotTreewidgetSelectionChanged );
+	connect( this,		&QTreeWidget::itemDoubleClicked,			this, &IfcTreeWidget::slotTreeWidgetItemDoubleClick);
+	connect( m_system,	&IfcPlusPlusSystem::signalObjectsSelected,	this, &IfcTreeWidget::slotObjectsSelected );
+	connect( m_system,	&IfcPlusPlusSystem::signalModelCleared,		this, &IfcTreeWidget::slotModelCleared );
+	connect( m_system,	&IfcPlusPlusSystem::signalModelLoadingStart,this, &IfcTreeWidget::slotModelLoadingStart );
+	connect( m_system,	&IfcPlusPlusSystem::signalModelLoadingDone,	this, &IfcTreeWidget::slotModelLoadingDone );
 }
 
 IfcTreeWidget::~IfcTreeWidget(){}
@@ -123,25 +99,31 @@ void IfcTreeWidget::slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QT
 		return;
 	}
 	const std::map<int,shared_ptr<BuildingEntity> >& map_ifc_objects = m_system->getIfcModel()->getMapIfcEntities();
-	std::map<int,shared_ptr<BuildingEntity> >::const_iterator it_find;
-	if( previous )
+
+	if (!m_system->isCtrlKeyDown())
 	{
-		int id = previous->text(1).toUInt();
-		it_find = map_ifc_objects.find(id);
-		if( it_find != map_ifc_objects.end() )
+		m_system->clearSelection();
+	}
+	else
+	{
+		if (previous)
 		{
-			shared_ptr<BuildingEntity> ifc_object = it_find->second;
-			//const shared_ptr<BuildingEntity> ifc_object = map_ifc_objects[id];
-			m_block_selection_signals = true;
-			m_system->setObjectSelected( ifc_object, false );
-			m_block_selection_signals = false;
+			int id = previous->text(1).toUInt();
+			auto it_find = map_ifc_objects.find(id);
+			if (it_find != map_ifc_objects.end())
+			{
+				shared_ptr<BuildingEntity> ifc_object = it_find->second;
+				m_block_selection_signals = true;
+				m_system->setObjectSelected(ifc_object, false);
+				m_block_selection_signals = false;
+			}
 		}
 	}
 
 	if( current )
 	{
 		int id = current->text(1).toUInt();
-		it_find = map_ifc_objects.find(id);
+		auto it_find = map_ifc_objects.find(id);
 		if( it_find != map_ifc_objects.end() )
 		{
 			shared_ptr<BuildingEntity> ifc_object = it_find->second;
@@ -150,11 +132,6 @@ void IfcTreeWidget::slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QT
 			m_block_selection_signals = false;
 		}
 	}
-}
-
-void IfcTreeWidget::slotTreewidgetSelectionChanged()
-{
-
 }
 
 void IfcTreeWidget::slotTreeWidgetItemDoubleClick( QTreeWidgetItem* item, int column )
@@ -393,5 +370,5 @@ void IfcTreeWidget::slotModelLoadingDone()
 			m_block_selection_signals = false;
 		}
 	}
-	expandToDepth(2);
+	expandToDepth(3);
 }

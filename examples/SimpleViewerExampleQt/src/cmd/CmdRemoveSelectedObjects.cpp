@@ -24,6 +24,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "IncludeGeometryHeaders.h"
 #include "Command.h"
 #include "IfcPlusPlusSystem.h"
+#include "viewer/ViewerUtil.h"
 #include "CmdRemoveSelectedObjects.h"
 
 CmdRemoveSelectedObjects::CmdRemoveSelectedObjects( IfcPlusPlusSystem* system ): Command(system)

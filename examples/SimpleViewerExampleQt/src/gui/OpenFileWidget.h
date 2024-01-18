@@ -74,7 +74,6 @@ protected:
 signals:
 	void signalProgressValue(double progress_value, const std::string& progress_type);
 	void signalClearSignalQueue();
-	void signalFileLoadingDone();
 
 private slots:
 	void slotAddOtherIfcFileClicked();
