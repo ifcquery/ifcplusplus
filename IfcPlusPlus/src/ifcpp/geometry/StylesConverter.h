@@ -740,6 +740,17 @@ public:
 		}
 	}
 
+	void convertRepresentationStyle(const shared_ptr<IfcRepresentationItem>& representation_item, std::vector<shared_ptr<StyleData> >& vec_style_data)
+	{
+		std::vector<weak_ptr<IfcStyledItem> >& vec_StyledByItem_inverse = representation_item->m_StyledByItem_inverse;
+		for (size_t i = 0; i < vec_StyledByItem_inverse.size(); ++i)
+		{
+			weak_ptr<IfcStyledItem> styled_item_weak = vec_StyledByItem_inverse[i];
+			shared_ptr<IfcStyledItem> styled_item = shared_ptr<IfcStyledItem>(styled_item_weak);
+			convertIfcStyledItem(styled_item, vec_style_data);
+		}
+	}
+
 	void convertIfcStyledItem(weak_ptr<IfcStyledItem> styled_item_weak, std::vector<shared_ptr<StyleData> >& vec_style_data)
 	{
 		if (styled_item_weak.expired())
@@ -750,7 +761,7 @@ public:
 		const int style_id = styled_item->m_tag;
 
 		{
-			std::lock_guard<std::mutex> lock(m_writelock_styles_converter);
+			//std::lock_guard<std::mutex> lock(m_writelock_styles_converter);
 			auto it_find_existing_style = m_map_ifc_styles.find(style_id);
 			if (it_find_existing_style != m_map_ifc_styles.end())
 			{

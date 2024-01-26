@@ -92,7 +92,6 @@ TARGET_INCLUDE_DIRECTORIES(IfcPlusPlus
 	${IFCPP_SOURCE_DIR}/IfcPlusPlus/src/external/glm
 )
 
-
 set_target_properties(IfcPlusPlus PROPERTIES DEBUG_POSTFIX "d")
 set_target_properties(IfcPlusPlus PROPERTIES CXX_STANDARD 17)
 

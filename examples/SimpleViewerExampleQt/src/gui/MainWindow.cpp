@@ -220,14 +220,7 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 
 void MainWindow::showEvent(QShowEvent* e)
 {
-	m_openFileWidget->setParent(m_viewerWidget);
-	m_openFileWidget->setVisible(true);
-	int openFileWidgetHeight = m_openFileWidget->height();
-	if (openFileWidgetHeight < 120)
-	{
-		openFileWidgetHeight = 120;
-	}
-	m_openFileWidget->setGeometry(0, m_viewerWidget->height() - openFileWidgetHeight, m_viewerWidget->width(), openFileWidgetHeight);
+	updateOpenFileWidget();
 }
 
 void MainWindow::slotFileLoadingDone()
@@ -250,6 +243,9 @@ void MainWindow::slotFileLoadingDone()
 	{
 		slotToggleOpenFileWidget();
 	}
+
+	m_progressBar->setValue(1000);
+	QCoreApplication::removePostedEvents(this);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* e)
@@ -277,6 +273,10 @@ void MainWindow::updateOpenFileWidget()
 	if (m_openFileWidget->isVisible())
 	{
 		int openFileWidgetHeight = m_openFileWidget->height();
+		if (openFileWidgetHeight < 120)
+		{
+			openFileWidgetHeight = 120;
+		}
 		m_openFileWidget->setParent(m_viewerWidget);
 		m_openFileWidget->setGeometry(buttonToggleWidth, h - openFileWidgetHeight, w- buttonToggleWidth, openFileWidgetHeight);
 	}
@@ -326,12 +326,7 @@ void MainWindow::slotSettingsClicked()
 	if (m_labelAbout->isVisible()) { m_labelAbout->hide(); }
 
 	int w = m_viewerWidget->width() - 40;
-	int h = m_settingsWidget->height();
-	if (h < 60)
-	{
-		h = 60;
-	}
-
+	int h = 180;
 	m_settingsWidget->setParent(m_viewerWidget);
 	m_settingsWidget->setGeometry(40, 0, w, h);
 	m_settingsWidget->setVisible(true);

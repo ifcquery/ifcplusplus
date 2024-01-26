@@ -16,6 +16,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 */
 
 #include <QtCore/qglobal.h>
+#include <QPainter>
 #include <QSettings>
 #include <QToolButton>
 #include <QBoxLayout>
@@ -38,7 +39,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 SettingsWidget::SettingsWidget( IfcPlusPlusSystem* sys, ViewerWidget* vw, bool autoHideFileWidget) : m_system(sys), m_vw(vw)
 {
-	setContentsMargins(4, 4, 4, 4);
 	setObjectName("SettingsWidget");
 
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
@@ -88,11 +88,11 @@ SettingsWidget::SettingsWidget( IfcPlusPlusSystem* sys, ViewerWidget* vw, bool a
 	{
 		int num_vertices = settings.value("NumVerticesPerCircle").toInt();
 		m_spinboxCircleVertices->setValue(num_vertices);
-		m_system->getGeometryConverter()->getGeomSettings()->setNumVerticesPerCircle( num_vertices );
+		m_system->getGeometrySettings()->setNumVerticesPerCircle( num_vertices );
 	}
 	else
 	{
-		int num_vertices = m_system->getGeometryConverter()->getGeomSettings()->getNumVerticesPerCircle();
+		int num_vertices = m_system->getGeometrySettings()->getNumVerticesPerCircle();
 		m_spinboxCircleVertices->setValue(num_vertices);
 	}
 
@@ -103,7 +103,7 @@ SettingsWidget::SettingsWidget( IfcPlusPlusSystem* sys, ViewerWidget* vw, bool a
 
 	// ignore profile radius
 	QCheckBox* ignore_profile_radius_checkbox = new QCheckBox("Ignore profile radius");
-	if (m_system->getGeometryConverter()->getGeomSettings()->isIgnoreProfileRadius())
+	if (m_system->getGeometrySettings()->isIgnoreProfileRadius())
 	{
 		ignore_profile_radius_checkbox->setChecked(true);
 	}
@@ -113,7 +113,7 @@ SettingsWidget::SettingsWidget( IfcPlusPlusSystem* sys, ViewerWidget* vw, bool a
 		if (ignore_profile_radius)
 		{
 			ignore_profile_radius_checkbox->setChecked(true);
-			m_system->getGeometryConverter()->getGeomSettings()->setIgnoreProfileRadius(true);
+			m_system->getGeometrySettings()->setIgnoreProfileRadius(true);
 		}
 	}
 	connect(ignore_profile_radius_checkbox, &QCheckBox::stateChanged, this, &SettingsWidget::slotIgnoreProfileRadius);
@@ -141,6 +141,7 @@ SettingsWidget::SettingsWidget( IfcPlusPlusSystem* sys, ViewerWidget* vw, bool a
 	}
 
 	// layout
+	setContentsMargins(0, 0, 0, 0);
 	QHBoxLayout* hbox1 = new QHBoxLayout();
 	hbox1->addWidget(checkAutoHideFileWidget, 0);
 	hbox1->addStretch(1);
@@ -158,16 +159,29 @@ SettingsWidget::SettingsWidget( IfcPlusPlusSystem* sys, ViewerWidget* vw, bool a
 	hbox3->addStretch(1);
 
 	QVBoxLayout* vbox = new QVBoxLayout();
-	vbox->addWidget(new QLabel("<b>Application settings:</b>"));
-	vbox->addLayout(hbox1);
+	vbox->setContentsMargins(4, 4, 4, 4);
+	vbox->addWidget(new QLabel("<b>Application settings:</b>"), 0);
+	vbox->addLayout(hbox1, 0);
 	vbox->addSpacing(15);
-	vbox->addWidget(new QLabel("<b>Visualization settings:</b>"));
-	vbox->addLayout(hbox2);
+	vbox->addWidget(new QLabel("<b>Visualization settings:</b>"), 0);
+	vbox->addLayout(hbox2, 0);
 	vbox->addSpacing(15);
-	vbox->addWidget(new QLabel("<b>Model settings that require a re-load:</b>"));
-	vbox->addLayout(hbox3);
-	vbox->addStretch(1);
+	vbox->addWidget(new QLabel("<b>Model settings that require a re-load:</b>"), 0);
+	vbox->addLayout(hbox3, 0);
+
+	vbox->setSizeConstraint(QLayout::SetMinimumSize);
+	
 	setLayout( vbox );
+	setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+}
+
+void SettingsWidget::paintEvent(QPaintEvent* event)
+{
+	QColor backgroundColor = palette().light().color();
+	backgroundColor.setAlpha(100);
+	QPainter customPainter(this);
+	customPainter.fillRect(rect(), backgroundColor);
+	QWidget::paintEvent(event);
 }
 
 void SettingsWidget::slotAutoHideFileWidget(int state)
@@ -214,7 +228,7 @@ void SettingsWidget::slotSetNumVertices( int num_vertices )
 {
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
 	settings.setValue( "NumVerticesPerCircle", num_vertices );
-	m_system->getGeometryConverter()->getGeomSettings()->setNumVerticesPerCircle( num_vertices );
+	m_system->getGeometrySettings()->setNumVerticesPerCircle( num_vertices );
 }
 
 void SettingsWidget::slotShowCurves( int state )
@@ -229,12 +243,12 @@ void SettingsWidget::slotIgnoreProfileRadius(int state)
 {
 	if (state == Qt::Checked)
 	{
-		m_system->getGeometryConverter()->getGeomSettings()->setIgnoreProfileRadius(true);
+		m_system->getGeometrySettings()->setIgnoreProfileRadius(true);
 	}
 	else
 	{
-		m_system->getGeometryConverter()->getGeomSettings()->setIgnoreProfileRadius(false);
+		m_system->getGeometrySettings()->setIgnoreProfileRadius(false);
 	}
 	QSettings settings(QSettings::UserScope, QLatin1String("IfcPlusPlus"));
-	settings.setValue("IgnoreProfileRadius", m_system->getGeometryConverter()->getGeomSettings()->isIgnoreProfileRadius());
+	settings.setValue("IgnoreProfileRadius", m_system->getGeometrySettings()->isIgnoreProfileRadius());
 }

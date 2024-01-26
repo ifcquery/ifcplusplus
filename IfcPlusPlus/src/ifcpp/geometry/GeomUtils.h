@@ -1165,6 +1165,10 @@ namespace GeomUtils
 	inline bool isPolygonSelfIntersecting(const std::vector<vec2>& polygon, double eps)
 	{
 		size_t numPoints = polygon.size();
+		if (numPoints < 4)
+		{
+			return false;
+		}
 		for (int ii = 0; ii < numPoints; ++ii)
 		{
 			const vec2& p1 = polygon[ii];
@@ -1456,10 +1460,10 @@ namespace GeomUtils
 			vec3& point = meshset->vertex_storage[i].v;
 			point = point + pos;
 		}
-		for (size_t i = 0; i < meshset->meshes.size(); ++i)
-		{
-			meshset->meshes[i]->recalc(eps);
-		}
+		//for (size_t i = 0; i < meshset->meshes.size(); ++i)
+		//{
+		//	meshset->meshes[i]->recalc(eps);
+		//}
 	}
 	inline void applyTransform(shared_ptr<carve::mesh::MeshSet<3> >& meshset, const carve::math::Matrix& matrix, double eps)
 	{

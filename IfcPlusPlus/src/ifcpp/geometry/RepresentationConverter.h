@@ -94,7 +94,7 @@ public:
 		m_curve_converter = shared_ptr<CurveConverter>( new CurveConverter( m_geom_settings, m_placement_converter, m_point_converter, m_spline_converter ) );
 		m_profile_cache = shared_ptr<ProfileCache>( new ProfileCache( m_curve_converter, m_spline_converter ) );
 		m_face_converter = shared_ptr<FaceConverter>( new FaceConverter( m_geom_settings, m_unit_converter, m_curve_converter, m_spline_converter, m_sweeper, m_profile_cache ) );
-		m_solid_converter = shared_ptr<SolidModelConverter>( new SolidModelConverter( m_geom_settings, m_point_converter, m_curve_converter, m_face_converter, m_profile_cache, m_sweeper ) );
+		m_solid_converter = shared_ptr<SolidModelConverter>( new SolidModelConverter( m_geom_settings, m_point_converter, m_curve_converter, m_face_converter, m_profile_cache, m_sweeper, m_styles_converter ) );
 		
 		// this redirects the callback messages from all converters to RepresentationConverter's callback
 		m_styles_converter->setMessageTarget( this );
@@ -139,59 +139,59 @@ public:
 		m_face_converter->m_unit_converter = unit_converter;
 	}
 
-	void convertRepresentationStyle( const shared_ptr<IfcRepresentationItem>& representation_item, std::vector<shared_ptr<StyleData> >& vec_style_data )
-	{
-		std::vector<weak_ptr<IfcStyledItem> >&	vec_StyledByItem_inverse = representation_item->m_StyledByItem_inverse;
-		for( size_t i = 0; i < vec_StyledByItem_inverse.size(); ++i )
-		{
-			weak_ptr<IfcStyledItem> styled_item_weak = vec_StyledByItem_inverse[i];
-			shared_ptr<IfcStyledItem> styled_item = shared_ptr<IfcStyledItem>( styled_item_weak );
-			m_styles_converter->convertIfcStyledItem( styled_item, vec_style_data );
-		}
-	}
+	//void convertRepresentationStyle( const shared_ptr<IfcRepresentationItem>& representation_item, std::vector<shared_ptr<StyleData> >& vec_style_data )
+	//{
+	//	std::vector<weak_ptr<IfcStyledItem> >&	vec_StyledByItem_inverse = representation_item->m_StyledByItem_inverse;
+	//	for( size_t i = 0; i < vec_StyledByItem_inverse.size(); ++i )
+	//	{
+	//		weak_ptr<IfcStyledItem> styled_item_weak = vec_StyledByItem_inverse[i];
+	//		shared_ptr<IfcStyledItem> styled_item = shared_ptr<IfcStyledItem>( styled_item_weak );
+	//		m_styles_converter->convertIfcStyledItem( styled_item, vec_style_data );
+	//	}
+	//}
 
-	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& ifc_representation, shared_ptr<ItemShapeData>& representation_data )
+	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& ifcRepresentation, shared_ptr<ItemShapeData>& representationData )
 	{
-		representation_data->m_ifc_representation = ifc_representation;
+		representationData->m_ifc_representation = ifcRepresentation;
 
-		for( const shared_ptr<IfcRepresentationItem>& representation_item : ifc_representation->m_Items )
+		for( const shared_ptr<IfcRepresentationItem>& representationItem : ifcRepresentation->m_Items )
 		{
 			//ENTITY IfcRepresentationItem  ABSTRACT SUPERTYPE OF(ONEOF(IfcGeometricRepresentationItem, IfcMappedItem, IfcStyledItem, IfcTopologicalRepresentationItem));
-			shared_ptr<IfcGeometricRepresentationItem> geom_item = dynamic_pointer_cast<IfcGeometricRepresentationItem>( representation_item );
-			if( geom_item )
+			shared_ptr<IfcGeometricRepresentationItem> geomItem = dynamic_pointer_cast<IfcGeometricRepresentationItem>( representationItem );
+			if( geomItem )
 			{
-				shared_ptr<ItemShapeData> geom_item_data( new ItemShapeData() );
+				shared_ptr<ItemShapeData> geomItemData( new ItemShapeData() );
 
 				try
 				{
-					convertIfcGeometricRepresentationItem( geom_item, geom_item_data );
-					representation_data->addGeometricChildItem(geom_item_data, representation_data);
+					convertIfcGeometricRepresentationItem( geomItem, geomItemData );
+					representationData->addGeometricChildItem(geomItemData, representationData);
 				}
 				catch( BuildingException& e )
 				{
-					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", representation_item.get() );
+					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, "", representationItem.get() );
 				}
 				catch( std::exception& e )
 				{
-					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, representation_item.get() );
+					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, representationItem.get() );
 				}
 
 				continue;
 			}
 
-			shared_ptr<IfcMappedItem> mapped_item = dynamic_pointer_cast<IfcMappedItem>( representation_item );
+			shared_ptr<IfcMappedItem> mapped_item = dynamic_pointer_cast<IfcMappedItem>( representationItem );
 			if( mapped_item )
 			{
 				shared_ptr<IfcRepresentationMap> map_source = mapped_item->m_MappingSource;
 				if( !map_source )
 				{
-					messageCallback( "MappingSource not valid", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, representation_item.get() );
+					messageCallback( "MappingSource not valid", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, representationItem.get() );
 					continue;
 				}
 				shared_ptr<IfcRepresentation> mapped_representation = map_source->m_MappedRepresentation;
 				if( !mapped_representation )
 				{
-					messageCallback( "MappingSource.MappedRepresentation not valid", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, representation_item.get() );
+					messageCallback( "MappingSource.MappedRepresentation not valid", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, representationItem.get() );
 					continue;
 				}
 
@@ -237,7 +237,7 @@ public:
 				if( m_geom_settings->handleStyledItems() )
 				{
 					std::vector<shared_ptr<StyleData> > vec_style_data;
-					convertRepresentationStyle( representation_item, vec_style_data );
+					m_styles_converter->convertRepresentationStyle( representationItem, vec_style_data );
 
 					if( vec_style_data.size() > 0 )
 					{
@@ -258,32 +258,32 @@ public:
 					double eps = m_geom_settings->getEpsilonMergePoints();
 					mapped_input_data->applyTransformToItem(mapped_pos, eps, false);
 				}
-				representation_data->addGeometricChildItem( mapped_input_data, representation_data );
+				representationData->addGeometricChildItem( mapped_input_data, representationData );
 				continue;
 			}
 
-			shared_ptr<IfcStyledItem> styled_item = dynamic_pointer_cast<IfcStyledItem>( representation_item );
+			shared_ptr<IfcStyledItem> styled_item = dynamic_pointer_cast<IfcStyledItem>( representationItem );
 			if( styled_item )
 			{
 				continue;
 			}
 
-			shared_ptr<IfcTopologicalRepresentationItem> topo_item = dynamic_pointer_cast<IfcTopologicalRepresentationItem>( representation_item );
+			shared_ptr<IfcTopologicalRepresentationItem> topo_item = dynamic_pointer_cast<IfcTopologicalRepresentationItem>( representationItem );
 			if( topo_item )
 			{
 				shared_ptr<ItemShapeData> topological_item_data( new ItemShapeData() );
-				representation_data->addGeometricChildItem( topological_item_data, representation_data );
+				representationData->addGeometricChildItem( topological_item_data, representationData );
 				//topological_item_data->m_ifc_representation_item = topo_item;
 				convertTopologicalRepresentationItem(topo_item, topological_item_data);
 				continue;
 			}
 
-			messageCallback( "unhandled representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, representation_item.get() );
+			messageCallback( "unhandled representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, representationItem.get() );
 		}
 
 		if( m_geom_settings->handleLayerAssignments() )
 		{
-			std::vector<weak_ptr<IfcPresentationLayerAssignment> >& vec_layer_assignments_inverse = ifc_representation->m_LayerAssignments_inverse;
+			std::vector<weak_ptr<IfcPresentationLayerAssignment> >& vec_layer_assignments_inverse = ifcRepresentation->m_LayerAssignments_inverse;
 			for( size_t ii = 0; ii < vec_layer_assignments_inverse.size(); ++ii )
 			{
 				weak_ptr<IfcPresentationLayerAssignment>& layer_assignment_weak = vec_layer_assignments_inverse[ii];
@@ -314,7 +314,7 @@ public:
 								m_styles_converter->convertIfcPresentationStyle( presentation_style, style_data );
 								if( style_data )
 								{
-									representation_data->addStyle( style_data );
+									representationData->addStyle( style_data );
 								}
 							}
 						}
@@ -347,7 +347,7 @@ public:
 		if( m_geom_settings->handleStyledItems() )
 		{
 			std::vector<shared_ptr<StyleData> > vec_style_data;
-			convertRepresentationStyle( geom_item, vec_style_data );
+			m_styles_converter->convertRepresentationStyle( geom_item, vec_style_data );
 			for (auto& style : vec_style_data)
 			{
 				item_data->addStyle(style);
@@ -373,7 +373,7 @@ public:
 			m_solid_converter->convertIfcBooleanResult( boolean_result, item_data );
 			return;
 		}
-
+		
 		shared_ptr<IfcSolidModel> solid_model = dynamic_pointer_cast<IfcSolidModel>( geom_item );
 		if( solid_model )
 		{

@@ -222,11 +222,13 @@ void OpenFileWidget::slotRecentFilesIndexChanged(int idx)
 void OpenFileWidget::loadIfcFile( QString& path_in )
 {
 	// redirect message callbacks
-	m_system->getGeometryConverter()->setMessageCallBack(std::bind(&OpenFileWidget::messageTarget, this, std::placeholders::_1));
-	
+	m_system->m_ifc_model = shared_ptr<BuildingModel>(new BuildingModel());
+	m_system->m_geometry_converter = make_shared<GeometryConverter>(m_system->m_ifc_model);
+	m_system->m_geometry_converter->setMessageCallBack(std::bind(&OpenFileWidget::messageTarget, this, std::placeholders::_1));
 
+	m_stopSignals = false;
 	txtOut( QString( "loading file: " ) + path_in );
-	QApplication::processEvents();
+
 	clock_t millisecs = clock();
 	m_system->notifyModelCleared();
 	m_txt_out->clear();
@@ -251,6 +253,7 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 		}
 		settings.setValue("recentFiles",m_recent_files );
 		updateRecentFilesCombo();
+		m_stopSignals = true;
 		return;
 	}
 	else
@@ -279,6 +282,7 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 		std::string path_str = path_in.toStdString();
 		if (path_str.length() == 0)
 		{
+			m_stopSignals = true;
 			return;
 		}
 
@@ -288,7 +292,7 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 		m_system->clearSelection();
 
 		// reset the IFC model
-		shared_ptr<GeometryConverter> geometry_converter = m_system->getGeometryConverter();
+		shared_ptr<GeometryConverter> geometry_converter = m_system->m_geometry_converter;
 		geometry_converter->clearMessagesCallback();
 		geometry_converter->resetModel();
 		geometry_converter->getGeomSettings()->setNumVerticesPerCircle(16);
@@ -415,7 +419,7 @@ void OpenFileWidget::slotLoadRecentIfcFileClicked()
 	progressValue(1.0, "");
 	m_stopSignals = true;
 	emit(signalClearSignalQueue());
-	QCoreApplication::processEvents();
+
 	m_io_widget->setDisabled(false);
 }
 
@@ -475,6 +479,7 @@ void OpenFileWidget::slotWriteFileClicked()
 		}
 
 		shared_ptr<GeometryConverter> geom_converter = m_system->getGeometryConverter();
+		geom_converter->setGeomSettings(m_system->getGeometrySettings());
 		shared_ptr<BuildingModel>& model = geom_converter->getBuildingModel();
 		std::string applicationName = "IfcPlusPlus";
 		model->initFileHeader(path_std, applicationName);

@@ -44,9 +44,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 IfcPlusPlusSystem::IfcPlusPlusSystem()
 {
+	m_geom_settings = make_shared<GeometrySettings>();
 	m_command_manager = shared_ptr<CommandManager>( new CommandManager() );
-	m_ifc_model = shared_ptr<BuildingModel>( new BuildingModel() );
-	m_geometry_converter = shared_ptr<GeometryConverter>( new GeometryConverter( m_ifc_model ) );
 	IntersectionHandler* ih = new IntersectionHandler(this);
 	Orbit3DManipulator* camera_manip = new Orbit3DManipulator(this, ih);
 	m_view_controller = shared_ptr<ViewController>(new ViewController(camera_manip));

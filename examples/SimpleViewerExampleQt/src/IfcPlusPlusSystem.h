@@ -25,6 +25,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 class BuildingModel;
 class BuildingEntity;
 class GeometryConverter;
+class GeometrySettings;
 class CommandManager;
 class ViewController;
 struct SelectedEntity;
@@ -38,10 +39,11 @@ public:
 	~IfcPlusPlusSystem();
 
 	bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);
-	shared_ptr<GeometryConverter>	getGeometryConverter()	{ return m_geometry_converter; }
 	shared_ptr<BuildingModel>&		getIfcModel()			{ return m_ifc_model; }
 	void setIfcModel( shared_ptr<BuildingModel>& model );
-	shared_ptr<CommandManager>		getCommandManager()		{ return m_command_manager; }
+	shared_ptr<GeometrySettings>&	getGeometrySettings() { return m_geom_settings; }
+	shared_ptr<GeometryConverter>&	getGeometryConverter() { return m_geometry_converter; }
+	shared_ptr<CommandManager>&		getCommandManager()		{ return m_command_manager; }
 	shared_ptr<ViewController>& getViewController() { return m_view_controller; }
 	void setCtrlKeyDown(bool ctrl_key_down);
 	bool isCtrlKeyDown() { return m_control_key_down; }
@@ -54,6 +56,7 @@ public:
 	void notifyModelLoadingDone();
 	void notifyCursorCoordinates(double, double, double);
 
+	shared_ptr<GeometrySettings>				m_geom_settings;
 	shared_ptr<GeometryConverter>				m_geometry_converter;
 	shared_ptr<CommandManager>					m_command_manager;
 	shared_ptr<ViewController>					m_view_controller;

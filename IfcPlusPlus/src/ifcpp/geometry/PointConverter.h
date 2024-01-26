@@ -287,8 +287,8 @@ public:
 		while (angle < -2.0 * M_PI) { angle += 2.0 * M_PI; }
 		vec3 circlePoint = carve::geom::VECTOR(radius * cos(angle), radius * sin(angle), 0);
 		circlePoint = circlePosition * circlePoint;
-		double distance2 = (trimPoint - circlePoint).length2();
-		return distance2;
+		double distance = (trimPoint - circlePoint).length();
+		return distance;
 	}
 
 	//\brief: returns the corresponding angle in radian. angle 0 is on the positive x-axis.
@@ -328,8 +328,7 @@ public:
 			}
 		}
 
-		vec3 translation = circlePosition * carve::geom::VECTOR(0, 0, 0);
-		if ((translation - circleCenter).length() > eps * 10)
+		if ((circleCenter3D - circleCenter).length() > eps * 10)
 		{
 			std::cout << __FUNCTION__ << ": circle center not at (0,0,0)" << std::endl;
 		}

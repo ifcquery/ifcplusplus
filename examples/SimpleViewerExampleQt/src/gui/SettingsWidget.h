@@ -37,6 +37,9 @@ private:
 	QCheckBox*		m_checkAutoHideFileWidget;
 	bool			m_cullFront;
 	bool			m_cullBack;
+
+	void paintEvent(QPaintEvent* /*event*/);
+	virtual QSize	sizeHint() const { return QSize(200, 120); }
 	
 signals:
 	void signalAutoHideFileWidget(bool);

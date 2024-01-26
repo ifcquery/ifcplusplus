@@ -115,6 +115,7 @@ public:
 	shared_ptr<BuildingModel>& getBuildingModel() { return m_ifc_model; }
 	shared_ptr<RepresentationConverter>& getRepresentationConverter() { return m_representation_converter; }
 	shared_ptr<GeometrySettings>& getGeomSettings() { return m_geom_settings; }
+	void setGeomSettings(shared_ptr<GeometrySettings>& settings) { m_geom_settings = settings; }
 	std::map<std::string, shared_ptr<ProductShapeData> >& getShapeInputData() { return m_product_shape_data; }
 	std::map<std::string, shared_ptr<BuildingObject> >& getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
 	bool m_clear_memory_immedeately = true;
