@@ -241,10 +241,9 @@ int main()
 	// 2: load the model:
 	std::cout << "Loading IFC model: ";
 	step_reader->loadModelFromFile( "example.ifc", ifc_model);
-
-	shared_ptr<GeometryConverter> geometry_converter(new GeometryConverter(ifc_model));
+	shared_ptr<GeometrySettings> geom_settings(new GeometrySettings());
+	shared_ptr<GeometryConverter> geometry_converter(new GeometryConverter(ifc_model, geom_settings));
 	geometry_converter->setMessageCallBack(std::bind(&MessageHandler::slotMessageWrapper, &mh, std::placeholders::_1));
-	shared_ptr<GeometrySettings> geom_settings = geometry_converter->getGeomSettings();
 
 	// the number of vertices per circle can be changed here: (default is 14)
 	int numVerticesPerCircle = geom_settings->getNumVerticesPerCircle();
