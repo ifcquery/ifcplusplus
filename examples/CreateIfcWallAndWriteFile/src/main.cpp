@@ -195,7 +195,7 @@ void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_property_set
 			vec_new_entities.push_back(prop1);
 			vec_properties.push_back(prop1);
 			prop1->m_Name = shared_ptr<IfcIdentifier>(new IfcIdentifier());  // name of property 1
-			prop1->m_Name->m_value = "WallIentifier";
+			prop1->m_Name->m_value = "WallIdentifier";
 
 			shared_ptr<IfcIdentifier> prop1_value(new IfcIdentifier());  // value property
 			prop1_value->m_value = "W1";
