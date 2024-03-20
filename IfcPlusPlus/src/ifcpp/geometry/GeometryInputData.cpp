@@ -26,11 +26,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4X3/include/IfcTextStyle.h>
 #include "IncludeCarveHeaders.h"
 #include "MeshOps.h"
+#include "MeshFlattener.h"
 #include "GeometryInputData.h"
 
 using namespace IFC4X3;
 
-bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::PolyhedronData>& poly_data, const GeomProcessingParams& params, shared_ptr<GeometrySettings>& geom_settings)
+bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::PolyhedronData>& poly_data, GeomProcessingParams& params, shared_ptr<GeometrySettings>& geom_settings)
 {
 	if (poly_data->getVertexCount() < 3)
 	{
@@ -78,6 +79,35 @@ bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::Polyhedro
 
 	MeshSetInfo info;
 	bool validMesh = MeshOps::checkMeshSetValidAndClosed(meshsetUnchanged, info, params);
+
+	{
+		MeshFlattener flat;
+		flat.addMeshToPlaneCache(meshsetUnchanged, params );
+		flat.compute(params);
+		if (flat.m_numCorrectedVertices > 0)
+		{
+			size_t minNumFacesPerMesh = 4;
+			shared_ptr<carve::mesh::MeshSet<3> > meshsetChanged3;
+			MeshOps::MeshSet2Polyhedron2MeshSet(meshsetUnchanged, meshsetChanged3, params, minNumFacesPerMesh);
+
+			MeshSetInfo info3;
+			MeshOps::checkMeshSetValidAndClosed(meshsetChanged3, info3, params);
+
+			if (MeshOps::isBetterForBoolOp(info3, info, false))
+			{
+				meshsetUnchanged = meshsetChanged3;
+				info.copyFromOther(info3);
+			}
+
+			if (info3.meshSetValid)
+			{
+				m_meshsets.push_back(meshsetUnchanged);
+				return true;
+			}
+		}
+	}
+	 
+	
 	MeshOps::checkAndFixMeshsetInverted(meshsetUnchanged, info, params);
 
 	if (poly_data->faceCount > 10000)
@@ -119,17 +149,26 @@ bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::Polyhedro
 
 	MeshOps::resolveOpenEdges(meshsetChanged, params);
 
-	if (meshsetChanged->isClosed())
-	{
-		m_meshsets.push_back(meshsetChanged);
-		return true;
-	}
+	//if (meshsetChanged->isClosed())
+	//{
+	//	m_meshsets.push_back(meshsetChanged);
+	//	return true;
+	//}
 
 	MeshSetInfo infoChanged;
 	bool validMeshChanged = MeshOps::checkMeshSetValidAndClosed(meshsetChanged, infoChanged, params);
 	if (MeshOps::isBetterForBoolOp(infoChanged, info, false))
 	{
-		m_meshsets_open.push_back(meshsetChanged);
+		if (meshsetChanged->isClosed())
+		{
+			m_meshsets.push_back(meshsetChanged);
+			return true;
+		}
+		else
+		{
+			m_meshsets_open.push_back(meshsetChanged);
+			return false;
+		}
 
 #ifdef _DEBUG
 		if (params.debugDump)

@@ -181,6 +181,42 @@ namespace carve {
 			return true;
 		}
 
+		/*
+		* This function checks if the other aabb is completely contained in this aabb
+		* @param other the other aabb
+		* @param eps the epsilon value. If positive, it allows the other aabb to be slightly bigger than this aabb
+		*								If negative, the other aabb must be strictly smaller than this aabb
+		*/
+		template <unsigned ndim>
+		bool aabb<ndim>::completelyContains(const aabb<ndim>& other, double eps) const
+		{
+			//            pos   ext      eps
+			//   ----------|------------|---|
+			//                            
+			//   ----------|-----------------|  other is bigger than this+eps -> false
+
+			//   ----------|--------------|  other is smaller in all dimensions -> true
+
+			for (unsigned i = 0; i < ndim; ++i)
+			{
+				// if max point of other is greater than max point of this, return false
+				double max = pos.v[i] + extent[i];
+				double maxOther = other.pos.v[i] + other.extent[i];
+				if (maxOther > max  + eps)
+				{
+					return false;
+				}
+
+				double min = pos.v[i] - extent[i];
+				double minOther = other.pos.v[i] - other.extent[i];
+				if (minOther < min - eps)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
 		template <unsigned ndim>
 		bool aabb<ndim>::containsPoint(const vector_t& v) const {
 			for( unsigned i = 0; i < ndim; ++i ) {

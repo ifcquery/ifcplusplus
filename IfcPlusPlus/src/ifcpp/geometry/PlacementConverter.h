@@ -157,6 +157,13 @@ public:
 			}
 		}
 
+#ifdef _DEBUG_RELEASE
+		if (translate.x > 500)
+		{
+			std::cout << "500" << std::endl;
+		}
+#endif
+
 		if( axis2placement3d->m_Axis )
 		{
 			// local z-axis
@@ -190,6 +197,18 @@ public:
 		{
 			resulting_matrix = shared_ptr<TransformData>( new TransformData() );
 		}
+
+#ifdef _DEBUG_RELEASE
+		if( resulting_matrix->m_matrix._41 > 500 )
+		{
+			std::cout << "500" << std::endl;
+		}
+		if (resulting_matrix->m_matrix.v[12] > 500)
+		{
+			std::cout << "500" << std::endl;
+		}
+#endif
+
 		resulting_matrix->m_matrix = carve::math::Matrix(
 			local_x.x, local_y.x, local_z.x, translate.x,
 			local_x.y, local_y.y, local_z.y, translate.y,

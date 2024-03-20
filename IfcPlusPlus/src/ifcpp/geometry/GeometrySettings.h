@@ -41,7 +41,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #define EPS_M6 1e-6
 #define EPS_M5 1e-5
 #define EPS_M4 1e-4
-#define EPS_DEFAULT 1.5*EPS_M8
+#define EPS_RANDOM_FACTOR 1.51634527
+#define EPS_DEFAULT EPS_RANDOM_FACTOR*EPS_M8
 #define EPS_ALIGNED_EDGES 1e-8
 #define EPS_ANGLE_COPLANAR_FACES 1e-9
 #define EPS_MIN_FACE_AREA 1e-10
@@ -153,6 +154,7 @@ public:
 	size_t m_maxNumFaceEdges = MAX_NUM_EDGES;
 	bool m_mergeAlignedEdges = true;
 	MeshSimplifyCallbackType m_callback_simplify_mesh;
+	std::map<int, std::vector<int>, std::greater<int> > m_mapCsgTimeTag;
 	
 protected:
 	int	m_num_vertices_per_circle = 14;

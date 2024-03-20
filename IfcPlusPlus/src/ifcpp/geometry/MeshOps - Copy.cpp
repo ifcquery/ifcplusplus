@@ -424,20 +424,6 @@ bool isBetterForExport(MeshSetInfo infoTriangulated, MeshSetInfo infoBefore)
 
 void MeshOps::checkAndFixMeshsetInverted( shared_ptr<carve::mesh::MeshSet<3>>& meshset, MeshSetInfo& info, const GeomProcessingParams& params)
 {
-	if( !meshset )
-	{
-		return;
-	}
-
-	if (meshset->meshes.size() > 100)
-	{
-		return;
-	}
-	if (meshset->vertex_storage.size() > 5000)
-	{
-		return;
-	}
-
 	// this approach is maybe too simple: get highest and lowest face in x/y/z, then check if normal vector points in the same direction
 	// we can definitely not rely on meshset->is_negative
 	carve::mesh::Face<3>* minXFace = nullptr;
@@ -554,17 +540,8 @@ void MeshOps::checkAndFixMeshsetInverted( shared_ptr<carve::mesh::MeshSet<3>>& m
 		return;
 	}
 
-#ifdef _DEBUG
-	glm::vec4 color(0.2, 0.2, 0.2, 1.);
-	if (params.debugDump)
+			
 	{
-		GeomDebugDump::dumpMeshset(meshset.get(), color, false, true);
-	}
-#endif
-
-	if (countWindingProbablyCorrect*3 < countWindingProbablyInCorrect*2)
-	{
-		// majority of faces have inward normals, so invert mesh
 		std::set<const carve::mesh::Face<3>* > setSkipFaces;
 		std::set<const carve::mesh::Face<3>* > setFlipFaces;
 		PolyInputCache3D polyInput(params.epsMergePoints);
@@ -794,7 +771,7 @@ void MeshOps::retriangulateMeshSetForExport( shared_ptr<carve::mesh::MeshSet<3> 
 				continue;
 			}
 			
-			if (faceBound.size() == 3 )
+			if (faceBound.size() == 3 && false)
 			{
 				int vertex_index_a = poly_cache.addPoint(faceBound[0]);
 				int vertex_index_b = poly_cache.addPoint(faceBound[1]);
@@ -814,23 +791,19 @@ void MeshOps::retriangulateMeshSetForExport( shared_ptr<carve::mesh::MeshSet<3> 
 		}
 	}
 
-	bool checkPolyData = false; // probably not necessary for openGL or other renderers
-	if (checkPolyData)
+	std::string details = "";
+	bool correct = checkPolyhedronData(poly_cache.m_poly_data, params, details);
+	if (!correct)
 	{
-		std::string details = "";
-		bool correct = checkPolyhedronData(poly_cache.m_poly_data, params, details);
-		if (!correct)
-		{
-			fixPolyhedronData(poly_cache.m_poly_data, params);
-			correct = checkPolyhedronData(poly_cache.m_poly_data, params, details);
+		fixPolyhedronData(poly_cache.m_poly_data, params);
+		correct = checkPolyhedronData(poly_cache.m_poly_data, params, details);
 
 #ifdef _DEBUG
-			if (!correct)
-			{
-				std::cout << "fixPolyhedronData  failed" << std::endl;
-			}
-#endif
+		if (!correct)
+		{
+			std::cout << "fixPolyhedronData  failed" << std::endl;
 		}
+#endif
 	}
 
 	shared_ptr<carve::mesh::MeshSet<3>> meshsetTriangulated = shared_ptr<carve::mesh::MeshSet<3> >(poly_cache.m_poly_data->createMesh(carve::input::opts(), params.epsMergePoints));
@@ -843,6 +816,8 @@ void MeshOps::retriangulateMeshSetForExport( shared_ptr<carve::mesh::MeshSet<3> 
 		meshset = meshsetTriangulated;
 	}
 
+	//if (!validTriangulatedMesh)
+	{
 #ifdef _DEBUG
 		bool dumpMesh = true;
 		if (validInput && dumpMesh && meshset->vertex_storage.size() > 60)
@@ -859,6 +834,14 @@ void MeshOps::retriangulateMeshSetForExport( shared_ptr<carve::mesh::MeshSet<3> 
 			GeomDebugDump::dumpWithLabel("triangulate:result", meshsetTriangulated, dumpSet, paramCopy, true, true);
 		}
 #endif
+		MeshOps::checkMeshSetValidAndClosed(meshsetTriangulated, infoTriangulated, params);
+		
+		if (isBetterForExport(infoTriangulated, infoInput))
+		{
+			meshset.reset();
+			meshset = meshsetTriangulated;
+		}
+	}
 
 	checkAndFixMeshsetInverted(meshset, infoTriangulated, params);
 }
@@ -1793,7 +1776,7 @@ void MeshOps::resolveOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, Mes
 	}
 
 	size_t maxNumRepeats = meshset->meshes.size();
-	if (maxNumRepeats > 1) maxNumRepeats = 1;
+	if( maxNumRepeats > 1 ) maxNumRepeats = 1;
 	for (size_t repeat = 0; repeat < maxNumRepeats; ++repeat)
 	{
 		size_t numChanges = 0;
@@ -1866,7 +1849,8 @@ void MeshOps::resolveOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, Mes
 				}
 			}
 		}
-		if (numChanges == 0)
+
+		if(numChanges == 0 )
 		{
 			break;
 		}
@@ -2839,7 +2823,7 @@ bool MeshOps::assignIfBetterForBoolOp(shared_ptr<carve::mesh::MeshSet<3> >& mesh
 ///\param[in/out] meshset: MeshSet with open edges. If fix is found, a new MeshSet is assigned to the smart pointer
 ///\param[in] eps: tolerance to find edge-edge intersections
 ///\param[in] dumpMeshes: write meshes to dump file for debugging
-void MeshOps::intersectOpenEdgesWithEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, const GeomProcessingParams& params)
+void MeshOps::intersectOpenEdgesWithEdges(shared_ptr<carve::mesh::MeshSet<3> >& meshset, GeomProcessingParams& params)
 {
 	if (!meshset)
 	{

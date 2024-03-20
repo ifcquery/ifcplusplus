@@ -264,3 +264,8 @@ namespace carve {
   MACRO_BEGIN throw carve::exception() << __FILE__ << ":" << __LINE__ << "  " \
                                        << #x;                                 \
   MACRO_END
+
+void printToDebugLogOn(bool on);
+bool IsPrintToDebugLogOn();
+void printToDebugLog(const char* funcName, std::string details);
+void clearDebugLogLinux();

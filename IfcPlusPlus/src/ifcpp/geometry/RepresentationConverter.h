@@ -68,6 +68,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "FaceConverter.h"
 #include "ProfileCache.h"
 
+struct ItemCacheContainer
+{
+	ItemCacheContainer(shared_ptr<ItemShapeData>& _geometricItem, std::vector<weak_ptr<IfcRelVoidsElement> >& _vec_rel_voids)
+	{
+		geometricItem = _geometricItem;
+		vec_rel_voids = _vec_rel_voids;
+	}
+	shared_ptr<ItemShapeData> geometricItem;
+	std::vector<weak_ptr<IfcRelVoidsElement> > vec_rel_voids;
+};
+
 class RepresentationConverter : public StatusCallback
 {
 	shared_ptr<GeometrySettings>		m_geom_settings;
@@ -81,6 +92,8 @@ class RepresentationConverter : public StatusCallback
 	shared_ptr<ProfileCache>			m_profile_cache;
 	shared_ptr<FaceConverter>			m_face_converter;
 	shared_ptr<SolidModelConverter>		m_solid_converter;
+	std::map<int, shared_ptr<ItemCacheContainer> > m_itemCache;
+	bool m_geometricItemCaching = false;
 	
 public:
 	RepresentationConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter )
@@ -150,9 +163,11 @@ public:
 	//	}
 	//}
 
-	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& ifcRepresentation, shared_ptr<ItemShapeData>& representationData )
+	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& ifcRepresentation, shared_ptr<ItemShapeData>& representationData, 
+		std::vector<weak_ptr<IfcRelVoidsElement> >& vec_rel_voids)
 	{
 		representationData->m_ifc_representation = ifcRepresentation;
+		printToDebugLog(__FUNC__, "");
 
 		for( const shared_ptr<IfcRepresentationItem>& representationItem : ifcRepresentation->m_Items )
 		{
@@ -161,10 +176,11 @@ public:
 			if( geomItem )
 			{
 				shared_ptr<ItemShapeData> geomItemData( new ItemShapeData() );
+				geomItemData->m_product = representationData->m_product;
 
 				try
 				{
-					convertIfcGeometricRepresentationItem( geomItem, geomItemData );
+					convertIfcGeometricRepresentationItem( geomItem, geomItemData, vec_rel_voids);
 					representationData->addGeometricChildItem(geomItemData, representationData);
 				}
 				catch( BuildingException& e )
@@ -223,7 +239,7 @@ public:
 
 				try
 				{
-					convertIfcRepresentation( mapped_representation, mapped_input_data );
+					convertIfcRepresentation( mapped_representation, mapped_input_data, vec_rel_voids );
 				}
 				catch( BuildingException& e )
 				{
@@ -332,7 +348,8 @@ public:
 
 
 
-	void convertIfcGeometricRepresentationItem( const shared_ptr<IfcGeometricRepresentationItem>& geom_item, shared_ptr<ItemShapeData>& item_data )
+	void convertIfcGeometricRepresentationItem( const shared_ptr<IfcGeometricRepresentationItem>& geom_item, shared_ptr<ItemShapeData>& item_data, 
+		std::vector<weak_ptr<IfcRelVoidsElement> >& vec_rel_voids)
 	{
 		//ENTITY IfcGeometricRepresentationItem
 		//ABSTRACT SUPERTYPE OF(ONEOF(IfcAnnotationFillArea, IfcBooleanResult, IfcBoundingBox, IfcCartesianPointList, IfcCartesianTransformationOperator, IfcCsgPrimitive3D, IfcCurve, 
@@ -352,6 +369,61 @@ public:
 			{
 				item_data->addStyle(style);
 			}
+		}
+
+
+		if (m_geometricItemCaching)
+		{
+			int itemTag = geom_item->m_tag;
+			auto findItemCacheIt = m_itemCache.find(itemTag);
+			if (findItemCacheIt != m_itemCache.end())
+			{
+				const shared_ptr<ItemCacheContainer>& currentItemCache = findItemCacheIt->second;
+				bool sameOpenings = true;
+				if (currentItemCache->vec_rel_voids.size() == vec_rel_voids.size())
+				{
+					for (size_t ii = 0; ii < currentItemCache->vec_rel_voids.size(); ++ii)
+					{
+						shared_ptr<IfcRelVoidsElement> relVoids(vec_rel_voids[ii]);
+						shared_ptr<IfcRelVoidsElement> relVoidsCache(currentItemCache->vec_rel_voids[ii]);
+						if (!relVoids && !relVoidsCache)
+						{
+							continue;
+						}
+						if (!relVoids)
+						{
+							sameOpenings = false;
+							continue;
+						}
+						if (!relVoidsCache)
+						{
+							sameOpenings = false;
+							continue;
+						}
+						if (relVoids->m_tag != relVoidsCache->m_tag)
+						{
+							// TODO: more sophisticated comparison. This captures only same objects in same order.
+							sameOpenings = false;
+						}
+					}
+				}
+				else
+				{
+					sameOpenings = false;
+				}
+
+				if (sameOpenings)
+				{
+					if (!item_data)
+					{
+						item_data = make_shared<ItemShapeData>();
+					}
+					item_data->copyFrom(currentItemCache->geometricItem);
+					//item_data = currentItemCache->geometricItem;
+					return;
+				}
+			}
+			m_itemCache.insert({ itemTag, make_shared<ItemCacheContainer>(item_data, vec_rel_voids) });
 		}
 
 		shared_ptr<IfcFaceBasedSurfaceModel> surface_model = dynamic_pointer_cast<IfcFaceBasedSurfaceModel>( geom_item );
@@ -922,7 +994,7 @@ public:
 
 					try
 					{
-						convertIfcRepresentation(ifc_opening_representation, opening_item);
+						convertIfcRepresentation(ifc_opening_representation, opening_item, vec_rel_voids);
 					}
 					catch (BuildingException& e)
 					{

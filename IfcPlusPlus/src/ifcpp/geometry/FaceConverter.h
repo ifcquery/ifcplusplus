@@ -331,6 +331,24 @@ public:
 		double eps = m_geom_settings->getEpsilonMergePoints();
 		PolyInputCache3D poly_cache(eps);
 		GeomProcessingParams params( m_geom_settings, nullptr,  this );
+
+		if (item_data)
+		{
+			// some linux debugging
+			std::string tagString = "";
+			if(!item_data->m_ifc_representation.expired() )
+			{
+				shared_ptr<IfcRepresentation> representation( item_data->m_ifc_representation );
+				tagString = ", representation tag: " + std::to_string(representation->m_tag);
+			}
+			if (!item_data->m_product.expired())
+			{
+				shared_ptr<ProductShapeData> shapeData(item_data->m_product);
+				tagString = ", product guid: " + shapeData->m_entity_guid;
+			}
+			
+			printToDebugLog(__FUNC__, "num faces: " + std::to_string(vec_faces.size()) + tagString);
+		}
 		
 		for( size_t ii = 0; ii < vec_faces.size(); ++ii )
 		{
@@ -369,6 +387,14 @@ public:
 
 				face_loops.push_back( std::vector<vec3>() );
 				std::vector<vec3>& loop_points = face_loops.back();
+
+				if (ii > 23)
+				{
+					if (IsPrintToDebugLogOn())
+					{
+						printToDebugLog(__FUNC__, "convertIfcLoop for face " + std::to_string(ii) + " of " + std::to_string(vec_faces.size()));
+					}
+				}
 				m_curve_converter->convertIfcLoop( loop, loop_points );
 
 				if( loop_points.size() < 3 )
@@ -403,20 +429,20 @@ public:
 			createTriangulated3DFace( face_loops, poly_cache, params );
 
 #ifdef _DEBUG
-			if( ifc_face->m_tag == 1067431)
+			if( ifc_face->m_tag == 279929)
 			{
 				params.debugDump = true;
 			}
 
 			shared_ptr<IfcAdvancedFace> advancedFace = dynamic_pointer_cast<IfcAdvancedFace>( ifc_face );
 
-			if( params.debugDump || advancedFace )
+			if( params.debugDump )//|| advancedFace )
 			{
 				glm::vec4 color(0.5, 0.6, 0.7, 1.0);
 				for( size_t iiLoop = 0; iiLoop < face_loops.size(); ++iiLoop )
 				{
 					std::vector<vec3>& loop = face_loops[iiLoop];
-					//GeomDebugDump::dumpPolyline(loop, color, 0, false);
+					GeomDebugDump::dumpPolyline(loop, color, 0, false, false);
 				}
 
 				//if( ii == 34 )
@@ -530,7 +556,8 @@ public:
 		addTriangleCheckDegenerate(idxA, idxC, idxD, meshOut, eps);
 	}
 
-	static void triangulateCurvedPolygon(std::vector<vec3>& loopPoints3D, PolyInputCache3D& meshOut, const GeomProcessingParams& params, double maxAllowedDistanceFromPlane)
+	static void triangulateCurvedPolygon(std::vector<vec3>& loopPoints3D, PolyInputCache3D& meshOut, GeomProcessingParams& params, 
+		double maxAllowedDistanceFromPlane)
 	{
 		// find corner with smallest angle
 		if (loopPoints3D.size() > params.generalSettings->m_maxNumFaceEdges)
@@ -551,8 +578,15 @@ public:
 			const vec3 BA = (pointA - pointB).normalized();
 			const vec3 BC = (pointC - pointB).normalized();
 			double dotProduct = dot(BA, BC);
+			if (isnan(dotProduct))
+			{
+#if defined(_DEBUG) || defined(_DEBUG_RELEASE)
+				std::cout << __FUNC__ << ": dotProduct is nan" << std::endl;
+#endif
+				continue;
+			}
 			double openingAngle = std::acos(dotProduct);
-
+			
 			if (openingAngle < smallestAngle)
 			{
 				smallestAngle = openingAngle;
@@ -595,7 +629,7 @@ public:
 			vec3 normal = GeomUtils::computeNormal(pointA, pointB, pointC, eps);
 			vec3 centroid = GeomUtils::computePolygonCentroid({ pointA, pointB, pointC });
 
-			if (normal.length() > 0.5)
+			if (normal.length2() > 0.5*0.5)
 			{
 				// go forward in loop until the point is not in the plane any more
 				for (size_t i = 0; i < numPoints; ++i)
@@ -650,7 +684,10 @@ public:
 			else
 			{
 				// degenerated triangle
-				int wait = 0;
+				if (IsPrintToDebugLogOn())
+				{
+					printToDebugLog(__FUNC__, "degenerated triangle");
+				}
 			}
 
 			std::vector<vec3> currentFlatPolygonPoints;
@@ -761,7 +798,7 @@ public:
 #ifdef _DEBUG
 		PolyInputCache3D polyDebug(eps);
 #endif
-
+				
 		std::vector<std::vector<std::array<double, 2> > > polygons2d;
 		std::vector<std::vector<vec3> > polygons3d;
 		std::vector<double> polygon3DArea;
@@ -825,7 +862,11 @@ public:
 					err << "unable to project to plane: nx" << nx << " ny " << ny << " nz " << nz << std::endl;
 					if (params.callbackFunc)
 					{
-						params.callbackFunc->messageCallback(err.str().c_str(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
+						if (IsPrintToDebugLogOn())
+						{
+							printToDebugLog(__FUNC__, err.str());
+						}
+						//params.callbackFunc->messageCallback(err.str().c_str(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
 					}
 					continue;
 				}
@@ -856,7 +897,10 @@ public:
 				}
 
 				double distance = GeomUtils::distancePointPlane(point, normal, centroid);
-				curvature += std::abs(distance) / maxExtent*0.001;
+				if (std::abs(maxExtent) > eps)
+				{
+					curvature += std::abs(distance) / maxExtent * 0.001;
+				}
 			}
 
 			if( curvature > eps*1000 )
@@ -880,6 +924,13 @@ public:
 				size_t numPoints = currentPointLoop.size();
 				for (size_t jj = 0; jj < numPoints; ++jj)
 				{
+					if (jj == 9)
+					{
+						if (IsPrintToDebugLogOn())
+						{
+							printToDebugLog(__FUNC__, "triangulateCurvedPolygon: " + std::to_string(jj));
+						}
+					}
 					triangulateCurvedPolygon(loopPoints3DinputCopy, meshOut, paramsDebug, maxAllowedDistanceFromPlane);
 					if (loopPoints3DinputCopy.size() < 3)
 					{

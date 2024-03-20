@@ -118,7 +118,10 @@ public:
 			{
 				convertIfcExtrudedAreaSolid( extruded_area, item_data_solid );
 				item_data->addItemData( item_data_solid );
-				item_data->applyTransformToItem( swept_area_pos->m_matrix, eps, false);
+				if (swept_area_pos)
+				{
+					item_data->applyTransformToItem(swept_area_pos->m_matrix, eps, false);
+				}
 				return;
 			}
 
@@ -830,6 +833,12 @@ public:
 		shared_ptr<ItemShapeData> second_operand_data( new ItemShapeData() );
 		convertIfcBooleanOperand( ifc_second_operand, second_operand_data, first_operand_data );
 
+		//glm::vec4 color(0.5, 0.5, 0.5, 1.);
+		//GeomDebugDump::dumpItemShapeInputData(first_operand_data, color);
+		//GeomDebugDump::dumpItemShapeInputData(second_operand_data, color);
+		//GeomDebugDump::moveOffset(1);
+
+#if defined(_DEBUG) || defined(_DEBUG_RELEASE)
 		int tag = -1;
 		std::string className = IFC4X3::EntityFactory::getStringForClassID(ifc_second_operand->classID());
 		if (dynamic_pointer_cast<IfcBooleanResult>(ifc_second_operand))
@@ -844,6 +853,7 @@ public:
 		{
 			tag = dynamic_pointer_cast<IfcExtrudedAreaSolid>(ifc_second_operand)->m_tag;
 		}
+#endif
 
 		// for every first operand polyhedrons, apply all second operand polyhedrons
 		std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vec_first_operand_meshsets = first_operand_data->m_meshsets;
@@ -867,6 +877,8 @@ public:
 
 		// copy also styles from operands, if any
 		std::copy(first_operand_data->m_vec_styles.begin(), first_operand_data->m_vec_styles.end(), std::back_inserter(item_data->m_vec_styles));
+
+		//GeomDebugDump::dumpItemShapeInputData(first_operand_data, color);
 
 		shared_ptr<IfcBooleanClippingResult> boolean_clipping_result = dynamic_pointer_cast<IfcBooleanClippingResult>( bool_result );
 		if( boolean_clipping_result )
@@ -1214,15 +1226,22 @@ public:
 		carve::geom::plane<3> base_surface_plane;
 		vec3 base_surface_position;
 		shared_ptr<TransformData> base_position_transform;
+		shared_ptr<TransformData> base_position_rotate;
 		if( base_surface_pos )
 		{
 			m_curve_converter->getPlacementConverter()->getPlane( base_surface_pos, base_surface_plane, base_surface_position );
 			m_curve_converter->getPlacementConverter()->convertIfcAxis2Placement3D( base_surface_pos, base_position_transform );
+			m_curve_converter->getPlacementConverter()->convertIfcAxis2Placement3D(base_surface_pos, base_position_rotate, true);
 		}
 		carve::math::Matrix base_position_matrix = carve::math::Matrix::IDENT();
 		if( base_position_transform )
 		{
 			base_position_matrix = base_position_transform->m_matrix;
+		}
+		carve::math::Matrix base_rotate_matrix = carve::math::Matrix::IDENT();
+		if (base_position_rotate)
+		{
+			base_rotate_matrix = base_position_rotate->m_matrix;
 		}
 
 		// If the agreement flag is TRUE, then the subset is the one the normal points away from
@@ -1298,14 +1317,9 @@ public:
 		if( other_operand )
 		{
 			std::set<ItemShapeData*> setVisited;
-			other_operand->computeItemBoundingBox(bbox_other_operand, setVisited);
+			carve::math::Matrix matrixIdentity;
+			other_operand->computeItemBoundingBox(bbox_other_operand, /*matrixIdentity,*/ setVisited);
 			extrusion_extent = bbox_other_operand.extent;
-
-			//double max_extent = std::max( aabb_extent.x, std::max( aabb_extent.y, aabb_extent.z ) );
-			//if (std::abs(max_extent) > eps)
-			//{
-			//	extrusion_depth = 2.1 * max_extent;
-			//}
 
 			extrusion_depth = 2.1 * extrusion_extent.z;
 		}
@@ -1458,31 +1472,29 @@ public:
 				}
 			}
 
-
-			int var = 0;
-			if (var == 0)
 			{
-				shared_ptr<ItemShapeData> surface_item_data(new ItemShapeData());
-				shared_ptr<SurfaceProxy> surface_proxy;
-				m_face_converter->convertIfcSurface(base_surface, surface_item_data, surface_proxy, extrusion_depth);
-				if (surface_item_data->m_polylines.size() > 0)
+				// project center of other operand onto plane, create box there
+				vec3 v;
+				vec3 poly_point = bbox_other_operand.pos;
+				const vec3& base_surface_normal = base_surface_plane.N;
+				double t;
+				carve::IntersectionClass intersect = carve::geom3d::rayPlaneIntersection(base_surface_plane, poly_point, poly_point + base_surface_normal, v, t, eps);
+				if (intersect > 0)
 				{
-					shared_ptr<carve::input::PolylineSetData>& surface_data = surface_item_data->m_polylines[0];
-					std::vector<vec3> base_surface_points = surface_data->points;
+					vec3 localZ = carve::geom::VECTOR(0, 0, 1);
+					localZ = base_rotate_matrix * localZ;
+					double dotProduct = dot(localZ, base_surface_normal);
+										
+					vec3 posX = carve::geom::VECTOR(extrusion_depth, 0, 0);
+					posX = base_rotate_matrix * posX;
+					vec3 posY = carve::geom::VECTOR(0, extrusion_depth, 0);
+					posY = base_rotate_matrix * posY;
 
-					if (base_surface_points.size() != 4)
-					{
-						messageCallback("invalid IfcHalfSpaceSolid.BaseSurface", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__, polygonal_half_space.get());
-						return;
-					}
-
-					// If the agreement flag is TRUE, then the subset is the one the normal points away from
-					bool agreement = half_space_solid->m_AgreementFlag->m_value;
-					if (!agreement)
+					std::vector<vec3> base_surface_points = { v + posX + posY, v - posX + posY, v - posX - posY, v + posX - posY };
+					if (dotProduct < 0)
 					{
 						std::reverse(base_surface_points.begin(), base_surface_points.end());
 					}
-					vec3  base_surface_normal = GeomUtils::computePolygonNormal(base_surface_points, eps);
 					vec3  half_space_extrusion_direction = -base_surface_normal;
 					vec3  half_space_extrusion_vector = half_space_extrusion_direction * extrusion_depth;
 					shared_ptr<carve::input::PolyhedronData> half_space_box_data(new carve::input::PolyhedronData());
@@ -1490,29 +1502,7 @@ public:
 					item_data->addOpenOrClosedPolyhedron(half_space_box_data, params);
 				}
 			}
-			else if (var == 1)
-			{
-				std::vector<vec3> box_base_points;
-				box_base_points.push_back(base_position_matrix * carve::geom::VECTOR(extrusion_depth, extrusion_depth, 0.0));
-				box_base_points.push_back(base_position_matrix * carve::geom::VECTOR(-extrusion_depth, extrusion_depth, 0.0));
-				box_base_points.push_back(base_position_matrix * carve::geom::VECTOR(-extrusion_depth, -extrusion_depth, 0.0));
-				box_base_points.push_back(base_position_matrix * carve::geom::VECTOR(extrusion_depth, -extrusion_depth, 0.0));
-
-				vec3  half_space_extrusion_direction = -base_surface_plane.N;
-				vec3  half_space_extrusion_vector = half_space_extrusion_direction * extrusion_depth;
-
-				vec3  box_base_normal = GeomUtils::computePolygonNormal(box_base_points, eps);
-				double dot_normal = dot(box_base_normal, base_surface_plane.N);
-				if (dot_normal > 0)
-				{
-					std::reverse(box_base_points.begin(), box_base_points.end());
-				}
-
-				shared_ptr<carve::input::PolyhedronData> half_space_box_data(new carve::input::PolyhedronData());
-				extrudeBox(box_base_points, half_space_extrusion_vector, half_space_box_data);
-				item_data->addOpenOrClosedPolyhedron(half_space_box_data, params);
-			}
-
+			
 			return;
 		}
 	}

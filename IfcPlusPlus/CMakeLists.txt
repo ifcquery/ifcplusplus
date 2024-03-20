@@ -37,6 +37,7 @@ set(IFCPP_SOURCE_FILES
     src/ifcpp/writer/WriterUtil.cpp
 	src/ifcpp/geometry/MeshOps.cpp
 	src/ifcpp/geometry/GeometryInputData.cpp
+	src/ifcpp/geometry/MeshSimplifier.cpp
 	src/external/Carve/src/lib/aabb.cpp
 	src/external/Carve/src/lib/carve.cpp
 	src/external/Carve/src/lib/convex_hull.cpp

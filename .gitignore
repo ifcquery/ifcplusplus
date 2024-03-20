@@ -53,3 +53,5 @@ examples/LoadFileExample/dump_mesh_debug.txt
 examples/CreateIfcWallAndWriteFile/example.ifc
 examples/SimpleViewerExampleQt/SimpleViewerExampleQt.vcxproj.user
 examples/SimpleViewerExampleQt/SimpleViewerExampleQt.vcxproj.user
+.vs/IfcPlusPlus/v17/DocumentLayout.json
+examples/SimpleViewerExampleQt/.vs/SimpleViewerExampleQt/v17/DocumentLayout.json

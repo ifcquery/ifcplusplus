@@ -18,11 +18,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma warning( disable: 4996 )
 #include <random>
 #include <sstream>
-#include <QtGui/QKeyEvent>
-#include <QtWidgets/QFileDialog>
-#include <QtCore/QFile>
-#include <QtCore/QSettings>
-#include <QtCore/QTextStream>
+#include <QKeyEvent>
+#include <QFileDialog>
+#include <QFile>
+#include <QPainter>
+#include <QSettings>
+#include <QTextStream>
 #include <osgUtil/Optimizer>
 
 #include <ifcpp/model/BasicTypes.h>
@@ -134,6 +135,15 @@ void OpenFileWidget::closeEvent( QCloseEvent* )
 	settings.setValue("IOsplitterSizes", m_io_splitter->saveState());
 }
 
+void OpenFileWidget::paintEvent(QPaintEvent* event)
+{
+	QColor backgroundColor = palette().light().color();
+	backgroundColor.setAlpha(100);
+	QPainter customPainter(this);
+	customPainter.fillRect(rect(), backgroundColor);
+	QWidget::paintEvent(event);
+}
+
 void OpenFileWidget::messageTarget( void* ptr, shared_ptr<StatusCallback::Message> m )
 {
 	OpenFileWidget* myself = (OpenFileWidget*)ptr;
@@ -223,7 +233,7 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 {
 	// redirect message callbacks
 	m_system->m_ifc_model = shared_ptr<BuildingModel>(new BuildingModel());
-	m_system->m_geometry_converter = make_shared<GeometryConverter>(m_system->m_ifc_model);
+	m_system->m_geometry_converter = make_shared<GeometryConverter>(m_system->m_ifc_model, m_system->m_geom_settings);
 	m_system->m_geometry_converter->setMessageCallBack(std::bind(&OpenFileWidget::messageTarget, this, std::placeholders::_1));
 
 	m_stopSignals = false;
@@ -285,6 +295,7 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 			m_stopSignals = true;
 			return;
 		}
+		setEnabled(false);
 
 		// first remove previously loaded geometry from scenegraph
 		osg::ref_ptr<osg::Switch> model_switch = m_system->getViewController()->getModelNode();
@@ -305,7 +316,7 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 		step_reader->loadModelFromFile(path_str, geometry_converter->getBuildingModel());
 
 		// convert IFC geometric representations into Carve geometry
-		geometry_converter->setCsgEps(1.5e-08 * geometry_converter->getBuildingModel()->getUnitConverter()->getLengthInMeterFactor());
+		geometry_converter->setCsgEps(1.5e-08);
 		geometry_converter->convertGeometry();
 
 		// convert Carve geometry to OSG
@@ -346,6 +357,9 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 				}
 			}
 		}
+
+		geometry_converter->clearIfcRepresentationsInModel( true, true, false );
+		geometry_converter->clearInputCache();
 	}
 	catch( BuildingException& e )
 	{
@@ -362,6 +376,7 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 
 	m_system->notifyModelLoadingDone();
 	progressValue( 1.0, "" );
+	setEnabled(true);
 }
 
 void OpenFileWidget::txtOut( QString txt )
@@ -479,7 +494,7 @@ void OpenFileWidget::slotWriteFileClicked()
 		}
 
 		shared_ptr<GeometryConverter> geom_converter = m_system->getGeometryConverter();
-		geom_converter->setGeomSettings(m_system->getGeometrySettings());
+		geom_converter->setGeomSettings( m_system->getGeometrySettings() );
 		shared_ptr<BuildingModel>& model = geom_converter->getBuildingModel();
 		std::string applicationName = "IfcPlusPlus";
 		model->initFileHeader(path_std, applicationName);

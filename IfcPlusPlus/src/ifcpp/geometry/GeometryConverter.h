@@ -26,6 +26,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/reader/ReaderUtil.h>
 #include <ifcpp/IFC4X3/include/IfcBuilding.h>
+#include <ifcpp/IFC4X3/include/IfcConnectionGeometry.h>
 #include <ifcpp/IFC4X3/include/IfcCurtainWall.h>
 #include <ifcpp/IFC4X3/include/IfcDistributionElement.h>
 #include <ifcpp/IFC4X3/include/IfcGloballyUniqueId.h>
@@ -38,9 +39,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4X3/include/IfcRelContainedInSpatialStructure.h>
 #include <ifcpp/IFC4X3/include/IfcRelDefinesByProperties.h>
 #include <ifcpp/IFC4X3/include/IfcRelServicesBuildings.h>
+#include <ifcpp/IFC4X3/include/IfcRelSpaceBoundary.h>
+#include <ifcpp/IFC4X3/include/IfcShapeRepresentation.h>
 #include <ifcpp/IFC4X3/include/IfcSite.h>
 #include <ifcpp/IFC4X3/include/IfcSpace.h>
 #include <ifcpp/IFC4X3/include/IfcSystem.h>
+#include <ifcpp/IFC4X3/include/IfcTypeObject.h>
 #include <ifcpp/IFC4X3/include/IfcWindow.h>
 #include <ifcpp/IFC4X3/EntityFactory.h>
 
@@ -129,10 +133,10 @@ public:
 		elementConvertedCallbackHandler = cb;
 	}
 
-	GeometryConverter(shared_ptr<BuildingModel>& ifc_model)
+	GeometryConverter(shared_ptr<BuildingModel>& ifc_model, shared_ptr<GeometrySettings>& geom_settings)
 	{
 		m_ifc_model = ifc_model;
-		m_geom_settings = shared_ptr<GeometrySettings>(new GeometrySettings());
+		m_geom_settings = geom_settings;
 		resetNumVerticesPerCircle();
 		shared_ptr<UnitConverter>& unit_converter = m_ifc_model->getUnitConverter();
 		m_representation_converter = shared_ptr<RepresentationConverter>(new RepresentationConverter(m_geom_settings, unit_converter));
@@ -166,6 +170,160 @@ public:
 		m_setResolvedProjectStructure.clear();
 		m_representation_converter->clearCache();
 		m_messages.clear();
+	}
+
+	void clearIfcRepresentationsInModel(bool resetRepresentationInProducts, bool clearStyles, bool clearIfcElements )
+	{
+		std::map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
+		for (auto it = map_entities.begin(); it != map_entities.end(); )
+		{
+			shared_ptr<BuildingEntity>& entity = it->second;
+			if(entity)
+			{
+				shared_ptr<IfcElement> ele = dynamic_pointer_cast<IfcElement>(entity);
+				if (ele)
+				{
+					if (clearIfcElements)
+					{
+						it = map_entities.erase(it);
+						continue;
+					}
+					else
+					{
+						++it;
+						continue;
+					}
+				}
+
+				if (resetRepresentationInProducts)
+				{
+					shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>(entity);
+					if (product)
+					{
+						product->m_Representation.reset();
+						product->m_ObjectPlacement.reset();
+						++it;
+						continue;
+					}
+				}
+
+				shared_ptr<IfcObjectPlacement> plc = dynamic_pointer_cast<IfcObjectPlacement>(entity);
+				if (plc)
+				{
+					it = map_entities.erase(it);
+					continue;
+				}
+
+				shared_ptr<IfcProductRepresentation> rep = dynamic_pointer_cast<IfcProductRepresentation>(entity);
+				if (rep)
+				{
+					it = map_entities.erase(it);
+					continue;
+				}
+				
+				shared_ptr<IfcRepresentationItem> representationItem = dynamic_pointer_cast<IfcRepresentationItem>(entity);
+				if (representationItem)
+				{
+					shared_ptr<IfcStyledItem> style = dynamic_pointer_cast<IfcStyledItem>(entity);
+					if (style)
+					{
+						if (!clearStyles)
+						{
+							++it;
+							continue;
+						}
+					}
+
+
+#if defined _DEBUG || defined _DEBUG_RELEASE
+					shared_ptr<BuildingEntity> entityKeepAlive = entity;
+					size_t useCount = entityKeepAlive.use_count();
+#endif
+					// this includes IfcCartesianPoint
+					it = map_entities.erase(it);
+
+#if defined _DEBUG || defined _DEBUG_RELEASE
+					size_t useCount2 = entityKeepAlive.use_count();
+					entityKeepAlive.reset();
+					if (useCount2 > 1)
+					{
+						int notDeletedYet = 1;
+					}
+
+					if (useCount2 < 2)
+					{
+						int deletedHere = 1;
+					}
+
+#endif
+					continue;
+				}
+
+				shared_ptr<IfcProfileDef> prof = dynamic_pointer_cast<IfcProfileDef>(entity);
+				if (prof)
+				{
+					it = map_entities.erase(it);
+					continue;
+				}
+
+				shared_ptr<IfcPresentationStyle> style = dynamic_pointer_cast<IfcPresentationStyle>(entity);
+				if (style)
+				{
+					it = map_entities.erase(it);
+					continue;
+				}
+
+				shared_ptr<IfcColourSpecification> colour = dynamic_pointer_cast<IfcColourSpecification>(entity);
+				if (colour)
+				{
+					it = map_entities.erase(it);
+					continue;
+				}
+
+				shared_ptr<IfcMaterialUsageDefinition> materialUsage = dynamic_pointer_cast<IfcMaterialUsageDefinition>(entity);
+				if (materialUsage)
+				{
+					it = map_entities.erase(it);
+					continue;
+				}
+
+				shared_ptr<IfcShapeRepresentation> shapeRep = dynamic_pointer_cast<IfcShapeRepresentation>(entity);
+				if (shapeRep)
+				{
+					it = map_entities.erase(it);
+					continue;
+				}
+
+				shared_ptr<IfcRelSpaceBoundary> spaceBoundary = dynamic_pointer_cast<IfcRelSpaceBoundary>(entity);
+				if (spaceBoundary)
+				{
+					it = map_entities.erase(it);
+					continue;
+				}
+
+				shared_ptr<IfcRepresentationMap> map = dynamic_pointer_cast<IfcRepresentationMap>(entity);
+				if (map)
+				{
+					it = map_entities.erase(it);
+					continue;
+				}
+
+				shared_ptr<IfcConnectionGeometry> conn = dynamic_pointer_cast<IfcConnectionGeometry>(entity);
+				if (conn)
+				{
+					it = map_entities.erase(it);
+					continue;
+				}
+
+				shared_ptr<IfcGeometricRepresentationContext> context = dynamic_pointer_cast<IfcGeometricRepresentationContext>(entity);
+				if (context)
+				{
+					it = map_entities.erase(it);
+					continue;
+				}
+			}
+			++it;
+		}
 	}
 
 	void resetNumVerticesPerCircle()
@@ -683,6 +841,7 @@ public:
 	{
 		progressTextCallback("Creating geometry...");
 		progressValueCallback(0, "geometry");
+		printToDebugLog(__FUNC__, "start converting");
 		m_product_shape_data.clear();
 		m_map_outside_spatial_structure.clear();
 		m_setResolvedProjectStructure.clear();
@@ -697,15 +856,15 @@ public:
 
 		shared_ptr<ProductShapeData> ifc_project_data;
 		std::vector<shared_ptr<IfcObjectDefinition> > vec_object_definitions;
-		const std::map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
+		std::map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
 		if (map_entities.size() > 0)
 		{
-			for (auto it = map_entities.begin(); it != map_entities.end(); ++it)
+			for (auto it = map_entities.begin(); it != map_entities.end(); )
 			{
-				shared_ptr<BuildingEntity> obj = it->second;
-				if (obj)
+				shared_ptr<BuildingEntity> entity = it->second;
+				if (entity)
 				{
-					shared_ptr<IfcObjectDefinition> object_def = dynamic_pointer_cast<IfcObjectDefinition>(obj);
+					shared_ptr<IfcObjectDefinition> object_def = dynamic_pointer_cast<IfcObjectDefinition>(entity);
 					if (object_def)
 					{
 						vec_object_definitions.push_back(object_def);
@@ -722,13 +881,30 @@ public:
 							}
 						}
 					}
+
+					if (entity->classID() == IFC4X3::IFCCARTESIANPOINT)
+					{
+						// IfcCartesianPoint are referenced by IfcFace etc, so we don't need to keep them in the model
+						it = map_entities.erase(it);
+						continue;
+					}
+
+					if (entity->classID() == IFC4X3::IFCPRODUCTREPRESENTATION)
+					{
+						// IfcCartesianPoint are referenced by IfcFace etc, so we don't need to keep them in the model
+						it = map_entities.erase(it);
+						continue;
+					}
+
+					shared_ptr<IfcGeometricRepresentationItem> geomItem = dynamic_pointer_cast<IfcGeometricRepresentationItem>(entity);
+					if (geomItem)
+					{
+						// enable early free up of memory during geometry processing
+						//it = map_entities.erase(it);
+					}
+					++it;
 				}
 			}
-		}
-
-		if (m_clear_memory_immedeately)
-		{
-			//m_ifc_model->getMapIfcEntities().clear();
 		}
 
 		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
@@ -736,7 +912,7 @@ public:
 
 		std::mutex writelock_map, writelock_ifc_project, writelock_progress;
 		int i = 0;
-#if defined(_DEBUG) || defined(_DEBUG_RELEASE)
+#if defined(_DEBUG) || defined(_DEBUG_RELEASE) //|| defined(__GNUC__)  // disable threading for Linux due to unknown issues with std::thread
 		std::for_each(std::execution::seq,
 #else
 		std::for_each(std::execution::par,
@@ -835,7 +1011,7 @@ public:
 
 				{
 					std::lock_guard<std::mutex> lock(writelock_map);
-					m_product_shape_data.insert(std::make_pair(guid, product_geom_input_data));
+					m_product_shape_data[guid] = product_geom_input_data;
 				}
 
 				if (thread_err.tellp() > 0)
@@ -859,10 +1035,16 @@ public:
 					m_recent_progress = progress;
 				}
 				++i;
-		});
+			});
 
 		// subtract openings in assemblies etc, in case the opening is attached at the top level
-		std::for_each(std::execution::par, vec_object_definitions.begin(), vec_object_definitions.end(), [&](shared_ptr<IfcObjectDefinition>& object_def) {
+#if defined(_DEBUG) || defined(_DEBUG_RELEASE) //|| defined(__GNUC__)  // disable threading for Linux due to unknown issues with std::thread
+		std::for_each(std::execution::seq,
+#else
+		std::for_each(std::execution::par,
+#endif
+			
+			vec_object_definitions.begin(), vec_object_definitions.end(), [&](shared_ptr<IfcObjectDefinition>& object_def) {
 			std::string guid;
 			if (object_def->m_GlobalId)
 			{
@@ -874,7 +1056,7 @@ public:
 				shared_ptr<ProductShapeData> product_geom_input_data = it_find->second;
 				subtractOpeningsInRelatedObjects(product_geom_input_data);
 			}
-		});
+			});
 
 		if (m_ifc_model->isLoadingCancelled())
 		{
@@ -945,6 +1127,12 @@ public:
 							guid = ifc_object_def->m_GlobalId->m_value;
 						}
 
+						shared_ptr<IfcTypeObject> typeObject = dynamic_pointer_cast<IfcTypeObject>(ifc_object_def);
+						if (typeObject)
+						{
+							continue;
+						}
+
 						if (guid.size() > 18)
 						{
 							shared_ptr<IfcRoot> ifc_object_def_as_root = ifc_object_def;
@@ -971,7 +1159,7 @@ public:
 			messageCallback("undefined error", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
 		}
 
-		m_representation_converter->getProfileCache()->clearProfileCache();
+		m_representation_converter->clearCache();
 		progressTextCallback("Loading file done");
 		progressValueCallback(1.0, "geometry");
 	}
@@ -1005,6 +1193,17 @@ public:
 			return;
 		}
 
+		// some linux debugging:
+		int productTag = ifc_product->m_tag;
+		printToDebugLog(__FUNC__, "converting element " + std::to_string(productTag));
+
+		std::vector<weak_ptr<IfcRelVoidsElement> > vec_rel_voids;
+		shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>(ifc_product);
+		if (ifc_element)
+		{
+			vec_rel_voids = ifc_element->m_HasOpenings_inverse;
+		}
+
 		// convert IFC geometry
 		std::vector<shared_ptr<IfcRepresentation> >& vec_representations = product_representation->m_Representations;
 		for (size_t i_representations = 0; i_representations < vec_representations.size(); ++i_representations)
@@ -1018,7 +1217,8 @@ public:
 			try
 			{
 				shared_ptr<ItemShapeData> representation_data(new ItemShapeData());
-				m_representation_converter->convertIfcRepresentation(representation, representation_data);
+				representation_data->m_product = product_shape;
+				m_representation_converter->convertIfcRepresentation(representation, representation_data, vec_rel_voids);
 				product_shape->addGeometricItem(representation_data, product_shape);
 			}
 			catch (BuildingException& e)
@@ -1040,8 +1240,6 @@ public:
 			m_representation_converter->getPlacementConverter()->convertIfcObjectPlacement(ifc_product->m_ObjectPlacement, product_shape, placement_already_applied, false);
 		}
 
-		std::vector<shared_ptr<ProductShapeData> > vec_opening_data;
-		const shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>(ifc_product);
 		if (ifc_element)
 		{
 			// handle openings
@@ -1138,7 +1336,11 @@ public:
 
 		if (m_clear_memory_immedeately)
 		{
-			ifc_product->m_Representation.reset();
+			int productReferenceCount = ifc_product.use_count();
+			if (productReferenceCount < 2)
+			{
+				ifc_product->m_Representation.reset();
+			}
 		}
 	}
 

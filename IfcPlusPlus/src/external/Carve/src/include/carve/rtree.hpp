@@ -259,6 +259,12 @@ namespace carve {
 			{
 				const size_t N = std::distance(begin, end);
 
+				if (N == 0)
+				{
+					printToDebugLog(__FUNCTION__, "N == 0");
+					return;
+				}
+
 				size_t dim = ndim;
 				double r_best = N + 1;
 

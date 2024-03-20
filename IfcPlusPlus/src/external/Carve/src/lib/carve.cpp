@@ -28,9 +28,41 @@
 
 #include <carve/carve.hpp>
 
-#define DEF_EPSILON 1.4901161193847656e-08
-
-namespace carve {
+//#define DEF_EPSILON 1.4901161193847656e-08
+//namespace carve {
 	//double CARVE_EPSILON_INTERNAL[24] = { DEF_EPSILON,	DEF_EPSILON, DEF_EPSILON, DEF_EPSILON, DEF_EPSILON, DEF_EPSILON, DEF_EPSILON, DEF_EPSILON, DEF_EPSILON, DEF_EPSILON, DEF_EPSILON, DEF_EPSILON };
 	//double CARVE_EPSILON2_INTERNAL[24] = { DEF_EPSILON*DEF_EPSILON, DEF_EPSILON * DEF_EPSILON, DEF_EPSILON * DEF_EPSILON, DEF_EPSILON * DEF_EPSILON, DEF_EPSILON * DEF_EPSILON, DEF_EPSILON * DEF_EPSILON, DEF_EPSILON * DEF_EPSILON, DEF_EPSILON * DEF_EPSILON, DEF_EPSILON * DEF_EPSILON, DEF_EPSILON * DEF_EPSILON, DEF_EPSILON * DEF_EPSILON, DEF_EPSILON * DEF_EPSILON };
+//}
+
+#include <fstream>
+#include <iostream>
+#include  <mutex>
+static std::mutex mutex_debug_log;
+static std::string fileNameLinuxDebugLog = "debugLogLinux.txt";
+static bool LinuxDebugOn = false;
+bool IsPrintToDebugLogOn() { return LinuxDebugOn; }
+void printToDebugLogOn(bool on) { LinuxDebugOn = on; }
+void printToDebugLog(const char* funcName, std::string details)
+{
+	return;
+	if (LinuxDebugOn)
+	{
+		std::cout << funcName << " " << details << std::endl;
+	}
+	return;
+
+
+	std::lock_guard<std::mutex> lock(mutex_debug_log);
+	std::ofstream debugLog;
+	debugLog.open(fileNameLinuxDebugLog, std::ios::app);
+	debugLog << funcName << " " << details << std::endl;
+	debugLog.close();
+}
+
+void clearDebugLogLinux()
+{
+	return;
+	std::ofstream debugLog;
+	debugLog.open(fileNameLinuxDebugLog, std::ios::trunc);
+	debugLog.close();
 }

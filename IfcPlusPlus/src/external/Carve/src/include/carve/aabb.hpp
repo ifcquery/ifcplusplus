@@ -71,6 +71,7 @@ struct aabb {
   void expand(double pad);
 
   bool completelyContains(const aabb<ndim>& other) const;
+  bool completelyContains(const aabb<ndim>& other, double eps) const;
 
   bool containsPoint(const vector_t& v) const;
 

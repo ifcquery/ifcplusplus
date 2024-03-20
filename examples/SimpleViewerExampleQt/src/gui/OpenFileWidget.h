@@ -46,6 +46,7 @@ public:
 
 	static void messageTarget( void* obj_ptr, shared_ptr<StatusCallback::Message> t );
 	void closeEvent( QCloseEvent *event );
+	void paintEvent(QPaintEvent *event);
 
 	void txtOut( QString txt );
 	void txtOutWarning( QString txt );

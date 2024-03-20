@@ -30,9 +30,9 @@
 #include <carve/geom2d.hpp>
 #include <carve/geom3d.hpp>
 
+#include <algorithm>
 #include <deque>
 #include <iostream>
-#include <algorithm>
 
 namespace carve {
 namespace mesh {
@@ -304,9 +304,11 @@ typename Face<ndim>::aabb_t Face<ndim>::getAABB() const {
   return aabb;
 }
 
+bool getAdjacentFaceNormal(Face<3>* face, carve::geom::vector<3>& result, double CARVE_EPSILON, bool calledRecursive);
+
 template <unsigned int ndim>
-carve::geom::vector<ndim> Face<ndim>::computeNormal(double CARVE_EPSILON) {
-    vector_t polygon_normal = carve::geom::VECTOR(0, 0, 0);
+carve::geom::vector<ndim> Face<ndim>::computeNormal(double CARVE_EPSILON, bool calledRecursive) {
+    vector_t polygon_normal = carve::geom::VECTOR(0, 0, 1);
     edge_t* edgePtr = edge;
 
     if (n_edges < 2)
@@ -324,18 +326,28 @@ carve::geom::vector<ndim> Face<ndim>::computeNormal(double CARVE_EPSILON) {
         vector_t AB(B - A);
         vector_t AC(C - A);
         vector_t crossProduct = cross(AB, AC);
+
+		if (crossProduct.length2() < 1e-16)
+        {
+            // degenerate face. Try adjacent faces
+            bool foundAdjacentNormal = getAdjacentFaceNormal(this, polygon_normal, CARVE_EPSILON, calledRecursive);
+            if( foundAdjacentNormal )
+            {
+                return polygon_normal;
+			}
+        }
         crossProduct.normalize();
         polygon_normal = crossProduct;
     }
     else
-    {
+	{
         // find triangle with largest area
         edge_t* longestEdge = nullptr;
         double longestEdgeLength = 0;
 
         double largestArea = 0;
         for (size_t i_edge = 0; i_edge < n_edges; ++i_edge)
-        {
+		{
             if (!edgePtr)
             {
                 continue;
@@ -368,6 +380,7 @@ carve::geom::vector<ndim> Face<ndim>::computeNormal(double CARVE_EPSILON) {
         edge_t* edge1 = longestEdge->next;
         const vector_t& pA = longestEdge->v1()->v;  // vert
         const vector_t& B = longestEdge->v2()->v;  // next->vert
+		bool normalFound = false;
 
         for (size_t i_edge = 0; i_edge < n_edges - 1; ++i_edge)
         {
@@ -376,16 +389,30 @@ carve::geom::vector<ndim> Face<ndim>::computeNormal(double CARVE_EPSILON) {
             vector_t AB(B - pA);
             vector_t AC(C - pA);
             vector_t crossProduct = cross(AB, AC);
-            double area = crossProduct.length() * 0.5;
-            if (std::abs(area) > largestArea)
-            {
-                largestArea = area;
-                crossProduct.normalize();
-                polygon_normal = crossProduct;
-            }
+			if (crossProduct.length2() > 1e-16)
+			{
+				double area = crossProduct.length() * 0.5;
+				if (std::abs(area) > largestArea)
+				{
+					largestArea = area;
+					crossProduct.normalize();
+					polygon_normal = crossProduct;
+					normalFound = true;
+				}
+			}
 
             edge1 = edge1->next;
-        }
+		}
+
+		if (!normalFound)
+		{
+			// degenerate face. Try adjacent faces
+			bool foundAdjacentNormal = getAdjacentFaceNormal(this, polygon_normal, CARVE_EPSILON, calledRecursive);
+			if (foundAdjacentNormal)
+			{
+				return polygon_normal;
+			}
+		}
 
 #ifdef _DEBUG
         if (edgePtr != edge)
@@ -457,6 +484,8 @@ carve::geom::vector<ndim> Face<ndim>::computeNormal(double CARVE_EPSILON) {
         }
     }
 #endif
+
+
 
     return polygon_normal;
 }
@@ -1045,7 +1074,16 @@ void MeshSet<ndim>::_init_from_faces(iter_t begin, iter_t end, const MeshOptions
 }
 
 template <unsigned int ndim>
-MeshSet<ndim>::MeshSet(const std::vector<typename MeshSet<ndim>::vertex_t::vector_t>& points, size_t n_faces, const std::vector<int>& face_indices, double CARVE_EPSILON, const MeshOptions& opts)
+MeshSet<ndim>::MeshSet() {
+#if defined _DEBUG || defined _DEBUG_RELEASE
+    ++globalNumMeshSets;
+#endif
+}
+
+template <unsigned int ndim>
+MeshSet<ndim>::MeshSet(const std::vector<typename MeshSet<ndim>::vertex_t::vector_t>& points, size_t n_faces, 
+    const std::vector<int>& face_indices, double CARVE_EPSILON, const MeshOptions& opts)
+    : MeshSet()
 {
     vertex_storage.reserve(points.size());
     std::vector<face_t*> faces;
@@ -1079,19 +1117,26 @@ MeshSet<ndim>::MeshSet(const std::vector<typename MeshSet<ndim>::vertex_t::vecto
     }
 }
 
+
+
 template <unsigned int ndim>
-MeshSet<ndim>::MeshSet(std::vector<face_t*>& faces, const MeshOptions& opts) {
+MeshSet<ndim>::MeshSet(std::vector<face_t*>& faces, const MeshOptions& opts)
+    : MeshSet() 
+{
   _init_from_faces(faces.begin(), faces.end(), opts);
 }
 
 template <unsigned int ndim>
-MeshSet<ndim>::MeshSet(std::list<face_t*>& faces, const MeshOptions& opts) {
+MeshSet<ndim>::MeshSet(std::list<face_t*>& faces, const MeshOptions& opts)
+    : MeshSet() 
+{
   _init_from_faces(faces.begin(), faces.end(), opts);
 }
 
 template <unsigned int ndim>
-MeshSet<ndim>::MeshSet(std::vector<vertex_t>& _vertex_storage,
-                       std::vector<mesh_t*>& _meshes) {
+MeshSet<ndim>::MeshSet(std::vector<vertex_t>& _vertex_storage, std::vector<mesh_t*>& _meshes)
+    : MeshSet() 
+{
   vertex_storage.swap(_vertex_storage);
   meshes.swap(_meshes);
 
@@ -1101,44 +1146,46 @@ MeshSet<ndim>::MeshSet(std::vector<vertex_t>& _vertex_storage,
 }
 
 template <unsigned int ndim>
-MeshSet<ndim>::MeshSet(std::vector<typename MeshSet<ndim>::mesh_t*>& _meshes) {
-  meshes.swap(_meshes);
-  std::unordered_map<vertex_t*, size_t> vert_idx;
+MeshSet<ndim>::MeshSet(std::vector<typename MeshSet<ndim>::mesh_t*>& _meshes)
+    : MeshSet()
+{
+    meshes.swap(_meshes);
+    std::unordered_map<vertex_t*, size_t> vert_idx;
 
-  for (size_t m = 0; m < meshes.size(); ++m) {
-    mesh_t* mesh = meshes[m];
-    CARVE_ASSERT(mesh->meshset == nullptr);
-    mesh->meshset = this;
-    for (size_t f = 0; f < mesh->faces.size(); ++f) {
-      face_t* face = mesh->faces[f];
-      edge_t* edge = face->edge;
-      do {
-        vert_idx[edge->vert] = 0;
-        edge = edge->next;
-      } while (edge != face->edge);
+    for (size_t m = 0; m < meshes.size(); ++m) {
+        mesh_t* mesh = meshes[m];
+        CARVE_ASSERT(mesh->meshset == nullptr);
+        mesh->meshset = this;
+        for (size_t f = 0; f < mesh->faces.size(); ++f) {
+            face_t* face = mesh->faces[f];
+            edge_t* edge = face->edge;
+            do {
+                vert_idx[edge->vert] = 0;
+                edge = edge->next;
+            } while (edge != face->edge);
+        }
     }
-  }
 
-  vertex_storage.reserve(vert_idx.size());
-  for (typename std::unordered_map<vertex_t*, size_t>::iterator i =
-           vert_idx.begin();
-       i != vert_idx.end(); ++i) {
-    (*i).second = vertex_storage.size();
-    vertex_storage.push_back(*(*i).first);
-  }
-
-  for (size_t m = 0; m < meshes.size(); ++m) {
-    mesh_t* mesh = meshes[m];
-    for (size_t f = 0; f < mesh->faces.size(); ++f) {
-      face_t* face = mesh->faces[f];
-      edge_t* edge = face->edge;
-      do {
-        size_t i = vert_idx[edge->vert];
-        edge->vert = &vertex_storage[i];
-        edge = edge->next;
-      } while (edge != face->edge);
+    vertex_storage.reserve(vert_idx.size());
+    for (typename std::unordered_map<vertex_t*, size_t>::iterator i =
+        vert_idx.begin();
+        i != vert_idx.end(); ++i) {
+        (*i).second = vertex_storage.size();
+        vertex_storage.push_back(*(*i).first);
     }
-  }
+
+    for (size_t m = 0; m < meshes.size(); ++m) {
+        mesh_t* mesh = meshes[m];
+        for (size_t f = 0; f < mesh->faces.size(); ++f) {
+            face_t* face = mesh->faces[f];
+            edge_t* edge = face->edge;
+            do {
+                size_t i = vert_idx[edge->vert];
+                edge->vert = &vertex_storage[i];
+                edge = edge->next;
+            } while (edge != face->edge);
+        }
+    }
 }
 
 template <unsigned int ndim>
@@ -1159,6 +1206,10 @@ MeshSet<ndim>::~MeshSet() {
   for (size_t i = 0; i < meshes.size(); ++i) {
     delete meshes[i];
   }
+
+#if defined _DEBUG || defined _DEBUG_RELEASE
+  --globalNumMeshSets;
+#endif
 }
 
 template <unsigned int ndim>

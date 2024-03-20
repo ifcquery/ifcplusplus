@@ -44,7 +44,7 @@ namespace carve {
 #if defined(CARVE_DEBUG)
 			CARVE_ASSERT(length() > 0.0);
 #endif
-			if( length2() == 0.0 )
+			if( length2() < 1e-16 )
 			{
 				return *this;
 			}

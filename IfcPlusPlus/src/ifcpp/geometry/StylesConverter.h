@@ -745,9 +745,12 @@ public:
 		std::vector<weak_ptr<IfcStyledItem> >& vec_StyledByItem_inverse = representation_item->m_StyledByItem_inverse;
 		for (size_t i = 0; i < vec_StyledByItem_inverse.size(); ++i)
 		{
-			weak_ptr<IfcStyledItem> styled_item_weak = vec_StyledByItem_inverse[i];
-			shared_ptr<IfcStyledItem> styled_item = shared_ptr<IfcStyledItem>(styled_item_weak);
-			convertIfcStyledItem(styled_item, vec_style_data);
+			weak_ptr<IfcStyledItem>& styled_item_weak = vec_StyledByItem_inverse[i];
+			if (!styled_item_weak.expired())
+			{
+				shared_ptr<IfcStyledItem> styled_item = shared_ptr<IfcStyledItem>(styled_item_weak);
+				convertIfcStyledItem(styled_item, vec_style_data);
+			}
 		}
 	}
 

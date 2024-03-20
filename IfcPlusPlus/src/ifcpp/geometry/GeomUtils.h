@@ -828,7 +828,7 @@ namespace GeomUtils
 				if (len_square > 1.e-150)
 				{
 					double area = sqrt(len_square) * 0.5;
-					std::cout << "computePolygonArea: check division by " << len_square << std::endl;
+					std::cout << "computePolygonArea: len_square < 1.e-50, area = " << area << std::endl;
 				}
 			}
 #endif
@@ -1201,9 +1201,12 @@ namespace GeomUtils
 	{
 		const double denom = point.x * line_direction.x + point.y * line_direction.y + point.z * line_direction.z - line_direction.x * line_origin.x - line_direction.y * line_origin.y - line_direction.z * line_origin.z;
 		const double numer = line_direction.x * line_direction.x + line_direction.y * line_direction.y + line_direction.z * line_direction.z;
-		if (numer == 0.0)
+		if (std::abs(numer) < EPS_M16)
 		{
-			throw BuildingException("Line is degenerated: the line's direction vector is a null vector!", __FUNC__);
+#if defined(_DEBUG) || defined(_DEBUG_RELEASE)
+			std::cout << "Line is degenerated : the line's direction vector is a null vector!" << std::endl;
+#endif
+			return;
 		}
 		const double lambda = denom / numer;
 		closest = carve::geom::VECTOR(line_origin.x + lambda * line_direction.x, line_origin.y + lambda * line_direction.y, line_origin.z + lambda * line_direction.z);
@@ -1213,9 +1216,12 @@ namespace GeomUtils
 	{
 		const double denom = point.x * line_direction.x + point.y * line_direction.y + -line_direction.x * line_origin.x - line_direction.y * line_origin.y;
 		const double numer = line_direction.x * line_direction.x + line_direction.y * line_direction.y;
-		if (numer == 0.0)
+		if (std::abs(numer) < EPS_M16)
 		{
-			throw BuildingException("Line is degenerated: the line's direction vector is a null vector!", __FUNC__);
+#if defined(_DEBUG) || defined(_DEBUG_RELEASE)
+			std::cout << "Line is degenerated : the line's direction vector is a null vector!" << std::endl;
+#endif
+			return;
 		}
 		const double lambda = denom / numer;
 		closest = carve::geom::VECTOR(line_origin.x + lambda * line_direction.x, line_origin.y + lambda * line_direction.y);
@@ -1486,8 +1492,88 @@ namespace GeomUtils
 		extent = matrix * extent;
 	}
 
+	inline void getBBoxCornerPoints(const carve::geom::aabb<3>& bbox, std::vector<vec3>& points)
+	{
+		if (bbox.isEmpty())
+		{
+			return;
+		}
+		
+		points.push_back(bbox.pos + carve::geom::VECTOR(bbox.extent.x, bbox.extent.y, bbox.extent.z));
+		points.push_back(bbox.pos + carve::geom::VECTOR(bbox.extent.x, -bbox.extent.y, bbox.extent.z));
+		points.push_back(bbox.pos + carve::geom::VECTOR(-bbox.extent.x, -bbox.extent.y, bbox.extent.z));
+		points.push_back(bbox.pos + carve::geom::VECTOR(-bbox.extent.x, bbox.extent.y, bbox.extent.z));
+
+		points.push_back(points[0]);
+		points.push_back(points[1]);
+		points.push_back(points[2]);
+		points.push_back(points[3]);
+		points[4].z = bbox.pos.z - bbox.extent.z;
+		points[5].z = bbox.pos.z - bbox.extent.z;
+		points[6].z = bbox.pos.z - bbox.extent.z;
+		points[7].z = bbox.pos.z - bbox.extent.z;
+	}
+
+	/**
+	* \brief unify bboxB with bboxA, but first apply a transformation to bboxB
+	*/
+	inline void unionBBox(carve::geom::aabb<3>& bboxA, const carve::geom::aabb<3>& bboxB)//, const carve::math::Matrix& transformApplyToB)
+	{
+		if (bboxB.isEmpty())
+		{
+			return;
+		}
+		bool simpleCase = true;
+		if (simpleCase)
+		{
+			if (bboxA.isEmpty())
+			{
+				bboxA = bboxB;
+				return;
+			}
+			bboxA.unionAABB(bboxB);
+			return;
+		}
+
+		std::vector<vec3> points;
+		getBBoxCornerPoints(bboxB, points);
+
+		for (vec3& point : points)
+		{
+			//point = transformApplyToB * point;
+		}
+
+		carve::geom::aabb<3> bboxB_transformed;
+		bboxB_transformed.fit(points.begin(), points.end());
+
+		bboxA.unionAABB(bboxB_transformed);
+	}
+
+	/**
+	* \brief unify bboxB with bboxA, but first apply a transformation to bboxB
+	*/
+	inline void applyTransformToBBox(carve::geom::aabb<3>& bboxA, const carve::math::Matrix& transform)
+	{
+		if (bboxA.isEmpty())
+		{
+			return;
+		}
+		std::vector<vec3> points;
+		getBBoxCornerPoints(bboxA, points);
+
+		for (vec3& point : points)
+		{
+			point = transform * point;
+		}
+
+		carve::geom::aabb<3> bboxB_transformed;
+		bboxB_transformed.fit(points.begin(), points.end());
+
+		bboxA.unionAABB(bboxB_transformed);
+	}
+
 	/** matrix operations */
-	inline bool computeInverse(const carve::math::Matrix& matrix_a, carve::math::Matrix& matrix_inv, const double eps = 0.01)
+	inline bool computeInverse(const carve::math::Matrix& matrix_a, carve::math::Matrix& matrix_inv, const double eps = EPS_M16)
 	{
 		double inv[16], det;
 		double m[16] = {
@@ -2154,144 +2240,6 @@ namespace GeomUtils
 			}
 		}
 		return true;
-	}
-
-	//\brief: collect connected edges and create face
-	static carve::mesh::Face<3>* createFaceFromEdgeLoop(carve::mesh::Edge<3>* start, double eps)
-	{
-		carve::mesh::Edge<3>* e = start;
-		std::vector<carve::mesh::Edge<3>*> loop_edges;
-		do {
-			if (e->rev != nullptr)
-			{
-				return nullptr;
-			}
-			loop_edges.push_back(e);
-			e = e->perimNext();
-		} while (e != start);
-
-		const size_t N = loop_edges.size();
-		for (size_t i = 0; i < N; ++i)
-		{
-			loop_edges[i]->rev = new carve::mesh::Edge<3>(loop_edges[i]->v2(), nullptr);
-		}
-
-		for (size_t i = 0; i < N; ++i)
-		{
-			carve::mesh::Edge<3>* openEdge = loop_edges[i];
-			carve::mesh::Edge<3>* openEdgeNext = loop_edges[(i + 1) % N];
-			carve::mesh::Edge<3>* e1 = openEdge->rev;
-			carve::mesh::Edge<3>* e2 = openEdgeNext->rev;
-			e1->prev = e2;
-			e2->next = e1;
-
-			e1->rev = openEdge;
-			e2->rev = openEdgeNext;
-		}
-
-		carve::mesh::Face<3>* f = new carve::mesh::Face<3>(start->rev, eps);
-
-		if (f->n_edges != N)
-		{
-			delete f;
-			return nullptr;
-		}
-
-		return f;
-	}
-
-	//\brief: 
-	static void closeMeshSet(carve::mesh::MeshSet<3>* meshset, double eps)
-	{
-		// try to fix open mesh
-		for (size_t i = 0; i < meshset->meshes.size(); ++i)
-		{
-			carve::mesh::MeshSet<3>::mesh_t* mesh = meshset->meshes[i];
-			const size_t numOpenEdgesInitial = mesh->open_edges.size();
-			if (numOpenEdgesInitial == 0)
-			{
-				continue;
-			}
-			for (size_t kk = 0; kk < numOpenEdgesInitial; ++kk)
-			{
-				const size_t numOpenEdges = mesh->open_edges.size();
-				if (numOpenEdges == 0)
-				{
-					break;
-				}
-
-				mesh->faces.reserve(numOpenEdges + 1);
-
-				carve::mesh::Edge<3>* start = mesh->open_edges[0];
-
-				carve::mesh::Edge<3>* openEdge1 = nullptr;
-				carve::mesh::Edge<3>* openEdge2 = nullptr;
-				std::vector<carve::mesh::Edge<3>*> edges_to_close;
-				edges_to_close.resize(numOpenEdges);
-				carve::mesh::Edge<3>* edge = start;
-				size_t j = 0;
-				size_t numOpenEdgesCurrentLoop = 0;
-				do {
-					edges_to_close[j++] = edge;
-
-					carve::mesh::Edge<3>* currentEdge = edge;
-					carve::mesh::Edge<3>* nextEdge = currentEdge->perimNext();
-					++numOpenEdgesCurrentLoop;
-
-					if (openEdge1 == nullptr)
-					{
-						// check if nextEdge is also an open edge
-						for (size_t mm = 0; mm < mesh->open_edges.size(); ++mm)
-						{
-							carve::mesh::Edge<3>* e = mesh->open_edges[mm];
-							if (e == nextEdge)
-							{
-								openEdge1 = currentEdge;
-								openEdge2 = nextEdge;
-								break;
-							}
-						}
-					}
-					edge = nextEdge;
-				} while (edge != start);
-
-				if (numOpenEdgesCurrentLoop == 3)
-				{
-					if (openEdge1 != nullptr)
-					{
-						// close with triangle
-						carve::mesh::Face<3>* closingTriangle = createFaceFromEdgeLoop(openEdge1, eps);
-						if (closingTriangle != nullptr)
-						{
-							closingTriangle->mesh = mesh;
-							mesh->faces.push_back(closingTriangle);
-						}
-					}
-				}
-				else if (numOpenEdgesCurrentLoop > 3)
-				{
-					if (openEdge1 != nullptr && openEdge2 != nullptr)
-					{
-						// add triangle with 2 open edges and a new edge
-						carve::mesh::Face<3>* triangle = new carve::mesh::Face<3>(openEdge1->v2(), openEdge1->v1(), openEdge2->v2(), eps);
-						triangle->mesh = mesh;
-						openEdge1->rev = triangle->edge;
-						triangle->edge->rev = openEdge1;
-						mesh->faces.push_back(triangle);
-
-						carve::mesh::Edge<3>* e1 = openEdge1->rev;
-						carve::mesh::Edge<3>* e2 = e1->prev;
-						openEdge2->rev = e2;
-						e2->rev = openEdge2;
-						//e1->validateLoop();
-					}
-				}
-
-				meshset->collectVertices();
-				mesh->cacheEdges();
-				mesh->calcOrientation();
-			}
-		}
 	}
 
 	static double triangleArea(const glm::dvec3& A, const glm::dvec3& B, const glm::dvec3& C)

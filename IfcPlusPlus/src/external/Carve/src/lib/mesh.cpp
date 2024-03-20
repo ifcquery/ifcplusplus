@@ -25,7 +25,8 @@
 #if defined(HAVE_CONFIG_H)
 #include <carve_config.h>
 #endif
-
+#include <cstdio>
+#include <iostream>
 #include <carve/mesh.hpp>
 #include <carve/mesh_impl.hpp>
 #include <carve/rtree.hpp>
@@ -265,15 +266,12 @@ namespace carve {
 
 			bool FaceStitcher::EdgeOrderData::Cmp::operator()(
 				const EdgeOrderData& a, const EdgeOrderData& b) const {
-				int v =
-					carve::geom3d::compareAngles(edge_dir, base_dir, a.face_dir, b.face_dir);
+				int v = carve::geom3d::compareAngles(edge_dir, base_dir, a.face_dir, b.face_dir);
 
 #if defined(CARVE_DEBUG)
 				{
-					double da =
-						carve::geom3d::antiClockwiseAngle(base_dir, a.face_dir, edge_dir);
-					double db =
-						carve::geom3d::antiClockwiseAngle(base_dir, b.face_dir, edge_dir);
+					double da = carve::geom3d::antiClockwiseAngle(base_dir, a.face_dir, edge_dir);
+					double db = carve::geom3d::antiClockwiseAngle(base_dir, b.face_dir, edge_dir);
 					int v_cmp = 0;
 					if( da < db )
 						v_cmp = -1;
@@ -287,6 +285,19 @@ namespace carve {
 					}
 				}
 #endif
+
+				// strict weak ordering
+				// a is equivalent to b:       a < b     false
+				// a is equivalent to b        b < a     false
+
+				if( a.edge == b.edge ) {
+					if (a.group_id != b.group_id) {
+#if defined(_DEBUG) || defined(_DEBUG_RELEASE) ||defined(CARVE_DEBUG)
+						std::cout << "a.group_id != b.group_id" << std::endl;
+#endif
+					}
+					return false;
+				}
 
 				if( v < 0 ) {
 					return true;
@@ -384,7 +395,36 @@ namespace carve {
 						continue;
 					}
 
-					std::sort(result[i].begin(), result[i].end(), EdgeOrderData::Cmp(sort_dir, result[i][0].face_dir));
+					try
+					{
+#if defined(_DEBUG) || defined(_DEBUG_RELEASE)
+						std::vector<EdgeOrderData> resultI = result[i];
+						carve::geom::vector<3> firstDir = resultI[0].face_dir;
+						
+						EdgeOrderData::Cmp testComparator(sort_dir, firstDir);
+
+						for (size_t ii = 0; ii < resultI.size(); ++ii)
+						{
+							EdgeOrderData edgeOrder = resultI[ii];
+
+							for (size_t jj = 0; jj < resultI.size(); ++jj)
+							{
+								EdgeOrderData edgeOrderJ = resultI[jj];
+								bool compareResult = testComparator.operator()(edgeOrder, edgeOrderJ);
+								//testComparator.operator()(edgeOrderJ, edgeOrder);
+							}
+
+						}
+#endif
+						std::sort(result[i].begin(), result[i].end(), EdgeOrderData::Cmp(sort_dir, result[i][0].face_dir));
+					}
+					catch (...)
+					{
+						if (IsPrintToDebugLogOn())
+						{
+							printToDebugLog(__FUNCTION__, "EdgeOrderData::Cmp failed " );
+						}
+					}
 				}
 			}
 
@@ -1237,7 +1277,7 @@ carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* mesh
 
 	double a1 = 0.1;
 	double a2 = 0.2;
-	for(size_t numIntersectionRuns = 1; numIntersectionRuns < 10000; ++numIntersectionRuns )
+	for(size_t numIntersectionRuns = 1; numIntersectionRuns < 40; ++numIntersectionRuns )
 	{
 #ifdef _DEBUG
 		if (numIntersectionRuns > 0)
@@ -1276,7 +1316,7 @@ carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* mesh
 		manifold_intersections.clear();
 		face_rtree->search(line, std::back_inserter(near_faces), eps);
 
-		if (numIntersectionRuns > 10000)
+		if (numIntersectionRuns > 20)
 		{
 			size_t edgeCount = 0;
 			for (unsigned int i = 0; !failed && i < near_faces.size(); i++)
@@ -1410,3 +1450,212 @@ carve::PointClass carve::mesh::classifyPoint(const carve::mesh::MeshSet<3>* mesh
 	}
 	return POINT_UNK;
 }
+
+bool carve::mesh::getAdjacentFaceNormal(carve::mesh::Face<3>* face, carve::geom::vector<3>& result, double CARVE_EPSILON, bool calledRecursive)
+{
+	if (face->edge)
+	{
+		// TODO: make this more general:
+		// for( size_t ii = 0; ii < face->n_edges; ++ii )
+
+		carve::mesh::Edge<3>* edgeRevPtr = face->edge->rev;
+		if (edgeRevPtr)
+		{
+			if (edgeRevPtr->face)
+			{
+				carve::geom::vector<3> face1normal = edgeRevPtr->face->plane.N;
+				if (!calledRecursive)
+				{
+					face1normal = edgeRevPtr->face->computeNormal(CARVE_EPSILON, true);
+				}
+
+				if (face->edge->next)
+				{
+					carve::geom::vector<3> face2normal;
+					bool face2normalFound = false;
+					carve::mesh::Edge<3>* edgeNextRevPtr = face->edge->next->rev;
+					if (edgeNextRevPtr)
+					{
+						if (edgeNextRevPtr->face)
+						{
+							face2normal = edgeNextRevPtr->face->plane.N;
+							if (!calledRecursive)
+							{
+								face2normal = edgeNextRevPtr->face->computeNormal(CARVE_EPSILON, true);
+							}
+							face2normalFound = true;
+							double dotProduct = dot(face1normal, face2normal);
+							if (std::abs(dotProduct - 1.0) < CARVE_EPSILON * 100)
+							{
+								result = face2normal;
+								face->plane.N = result;
+								return true;
+							}
+						}
+					}
+
+					if (face->edge->next->next)
+					{
+						carve::mesh::Edge<3>* edgeNextNextRevPtr = face->edge->next->next->rev;
+						if (edgeNextNextRevPtr)
+						{
+							if (edgeNextNextRevPtr->face)
+							{
+								carve::geom::vector<3> face3normal = edgeNextNextRevPtr->face->plane.N;
+								if (!calledRecursive)
+								{
+									face3normal = edgeNextNextRevPtr->face->computeNormal(CARVE_EPSILON, true);
+								}
+								// try face 1 and face 3
+								double dotProduct = dot(face1normal, face3normal);
+								if (std::abs(dotProduct - 1.0) < CARVE_EPSILON * 100)
+								{
+									result = face3normal;
+									face->plane.N = result;
+									return true;
+								}
+
+								if (face2normalFound)
+								{
+									// try face 2 and face 3
+									double dotProduct = dot(face2normal, face3normal);
+									if (std::abs(dotProduct - 1.0) < CARVE_EPSILON * 100)
+									{
+										result = face2normal;
+										face->plane.N = result;
+										return true;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
+//template <unsigned int ndim>
+/*
+void carve::mesh::MeshSet<3>::classifyInnerOuterMeshes(double eps)
+{
+	if (m_inner_outer_meshes_classified)
+	{
+		return;
+	}
+	m_inner_outer_meshes_classified = true;
+	size_t iiOuterMesh = 0;
+	double maxVolume = 0;
+	for (size_t ii = 0; ii < meshes.size(); ++ii)
+	{
+		carve::mesh::Mesh<3>* mesh0 = meshes[ii];
+		if (mesh0->is_negative)
+		{
+			mesh0->invert();
+		}
+		double vol = mesh0->volume();
+		if (vol > maxVolume)
+		{
+			maxVolume = vol;
+			iiOuterMesh = ii;
+		}
+	}
+
+	if (meshes.size() > iiOuterMesh)
+	{
+		carve::mesh::Mesh<3>* outerMesh = meshes[iiOuterMesh];
+
+		//int manifold_id = iiOuterMesh;
+		//carve::poly::Polyhedron* polyPointer = carve::poly::polyhedronFromMesh(outerMesh, manifold_id, eps);
+
+		carve::input::PolyInputCache3D outerMeshAsPolyInput(eps);
+		carve::poly::polyhedronFromMesh(outerMesh, outerMeshAsPolyInput);
+		shared_ptr<carve::input::PolyhedronData>& polyData = outerMeshAsPolyInput.m_poly_data;
+
+		std::map<std::string, std::string> mesh_input_options;
+		shared_ptr<carve::poly::Polyhedron> polyPointer(polyData->create(mesh_input_options, eps));
+
+		for (size_t ii = 0; ii < meshes.size(); ++ii)
+		{
+			carve::mesh::Mesh<3>* mesh = meshes[ii];
+
+			if (ii == iiOuterMesh)
+			{
+				continue;
+			}
+			carve::mesh::Mesh<3>* meshToCheckInside = meshes[ii];
+			size_t numPointsInside = 0;
+			size_t numPointsOutside = 0;
+			size_t numPointsOn = 0;
+
+			for (size_t jj = 0; jj < meshToCheckInside->faces.size(); ++jj)
+			{
+				carve::mesh::Face<3>* face = meshToCheckInside->faces[jj];
+				carve::mesh::Edge<3>* edge = face->edge;
+
+				for (size_t kk = 0; kk < face->n_edges; ++kk)
+				{
+					carve::mesh::Vertex<3>* vert = edge->vert;
+
+					int m_id = 0;
+					std::map<int, carve::PointClass> result;
+					polyPointer->testVertexAgainstClosedManifolds(vert->v, result, true, eps);
+					std::set<int> inside;
+					for (std::map<int, carve::PointClass>::iterator j = result.begin(); j != result.end(); ++j)
+					{
+						//if ((*j).first == m_id)
+						//{
+						//	continue;
+						//}
+
+						carve::PointClass pointInOrOut = (*j).second;
+
+						if (pointInOrOut == carve::POINT_IN)
+						{
+							inside.insert((*j).first);
+							++numPointsInside;
+						}
+						else if (pointInOrOut == carve::POINT_ON)
+						{
+							++numPointsOn;
+						}
+						else if (pointInOrOut == carve::POINT_OUT)
+						{
+							++numPointsOutside;
+							// not inside, nothing to check further
+							break;
+						}
+						else
+						{
+#ifdef _DEBUG
+							std::cout << "Point not in or out: " << pointInOrOut << std::endl;
+#endif
+						}
+					}
+
+					if (numPointsOutside > 0)
+					{
+						break;
+					}
+				}
+
+				if (numPointsOutside > 0)
+				{
+					break;
+				}
+			}
+
+			if (numPointsOutside == 0 && numPointsInside > 0)
+			{
+				meshToCheckInside->is_inner_mesh = true;
+				//innerMeshes.push_back(meshToCheckInside);
+			}
+			else
+			{
+				meshToCheckInside->is_inner_mesh = false;
+			}
+		}
+	}
+}
+*/

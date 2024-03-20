@@ -26,7 +26,7 @@
 
 #include <carve/carve.hpp>
 #include <carve/geom.hpp>
-
+#include <iostream>
 #include <math.h>
 #include <carve/math_constants.hpp>
 
@@ -299,6 +299,13 @@ namespace carve {
 			double d3 = carve::geom::dotcross(direction, b, base);
 #endif
 
+			if (isnan(d1) || isnan(d2) || isnan(d3))
+			{
+				printToDebugLog( __FUNCTION__, " d1=" +std::to_string( d1) + ", d2=" + std::to_string(d2) +
+					", d3=" + std::to_string(d3 ) );
+			}
+
+
 			// CASE: a and b are coplanar wrt. direction.
 			if( d1 == 0.0 ) {
 				// a and b point in the same direction.
@@ -325,7 +332,7 @@ namespace carve {
 					return -1;
 				}
 				if( d2 > 0.0 && d3 < 0.0 ) {
-					return +1;
+					return 1;
 				}
 
 				// both a and b are to one side of plane(direction, base) -
@@ -342,7 +349,7 @@ namespace carve {
 					return dot(a, base) > 0.0 ? +1 : -1;
 				}
 				else {
-					return dot(a, base) > 0.0 ? -1 : +1;
+					return dot(a, base) > 0.0 ? -1 : 1;
 				}
 			}
 

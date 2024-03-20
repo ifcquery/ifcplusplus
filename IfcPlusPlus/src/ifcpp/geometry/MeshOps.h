@@ -59,8 +59,7 @@ public:
 	static void checkMeshSetIntegrity(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, bool checkForDegenerateEdges, const GeomProcessingParams& params, MeshSetInfo& info);
 
 	static void resolveOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, const GeomProcessingParams& params);
-
-	static void flattenFacePlanes(shared_ptr<carve::mesh::MeshSet<3> >& op1, shared_ptr<carve::mesh::MeshSet<3> >& op2, const GeomProcessingParams& params);
+	static void resolveOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, MeshSetInfo& info, const GeomProcessingParams& params);
 
 	static void removeDegenerateMeshes(shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput, const GeomProcessingParams& params, bool ensureValidMesh);
 
@@ -68,7 +67,6 @@ public:
 
 	static void checkAndFixMeshsetInverted( shared_ptr<carve::mesh::MeshSet<3>>& meshset, MeshSetInfo& info, const GeomProcessingParams& params);
 
-	static void mergeMeshesToMeshset(std::vector<carve::mesh::Mesh<3>*>& meshes, shared_ptr<carve::mesh::MeshSet<3> >& result, GeomProcessingParams& params);
 	static void classifyMeshesInside(std::vector<carve::mesh::Mesh<3>*>& meshes, shared_ptr<carve::mesh::MeshSet<3> >& result, GeomProcessingParams& params);
 
 	static std::shared_ptr<carve::mesh::MeshSet<3> > createPlaneMesh(vec3& p0, vec3& p1, vec3& p2, double eps);
@@ -78,7 +76,8 @@ public:
 
 	
 	static void polyhedronFromMesh(const carve::mesh::Mesh<3>* mesh, PolyInputCache3D& polyInput);
-	static void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, PolyInputCache3D& polyInput);
+	static void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, PolyInputCache3D& polyInput, int minNumFacesPerMesh = -1);
 	static void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::set<const carve::mesh::Face<3>* >& setSkipFaces, PolyInputCache3D& polyInput);
 	static void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::set<const carve::mesh::Face<3>* >& setSkipFaces, const std::set<const carve::mesh::Face<3>* >& setFlipFaces, PolyInputCache3D& polyInput);
+	static void MeshSet2Polyhedron2MeshSet(const shared_ptr<carve::mesh::MeshSet<3> >& meshsetIn, shared_ptr<carve::mesh::MeshSet<3> >& meshsetOut, const GeomProcessingParams& params, int minNumFacesPerMesh);
 };

@@ -80,7 +80,7 @@ namespace GeomDebugDump
 			return INSTANCE;
 		}
 
-		double eps_debug_dump = 1.5 * EPS_M8;
+		double eps_debug_dump = EPS_RANDOM_FACTOR * EPS_M8;
 		double dump_y_pos_geom;
 		int dumpCount = 0;
 		int maxDumpCount = 1000;
@@ -842,6 +842,37 @@ namespace GeomDebugDump
 		appendToOutput(strs_out);
 	}
 
+	static void dumpBBox(carve::geom::aabb<3>& bbox, glm::vec4& color1, bool moveOffset)
+	{
+		std::vector<carve::geom::vector<3> > vertice_points;
+
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x + bbox.extent.x, bbox.pos.y + bbox.extent.y, bbox.pos.z + bbox.extent.z));
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x - bbox.extent.x, bbox.pos.y + bbox.extent.y, bbox.pos.z + bbox.extent.z));
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x - bbox.extent.x, bbox.pos.y - bbox.extent.y, bbox.pos.z + bbox.extent.z));
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x + bbox.extent.x, bbox.pos.y - bbox.extent.y, bbox.pos.z + bbox.extent.z));
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x + bbox.extent.x, bbox.pos.y + bbox.extent.y, bbox.pos.z + bbox.extent.z));
+
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x + bbox.extent.x, bbox.pos.y + bbox.extent.y, bbox.pos.z - bbox.extent.z));
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x - bbox.extent.x, bbox.pos.y + bbox.extent.y, bbox.pos.z - bbox.extent.z));
+
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x - bbox.extent.x, bbox.pos.y + bbox.extent.y, bbox.pos.z + bbox.extent.z));
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x - bbox.extent.x, bbox.pos.y + bbox.extent.y, bbox.pos.z - bbox.extent.z));
+
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x - bbox.extent.x, bbox.pos.y - bbox.extent.y, bbox.pos.z - bbox.extent.z));
+
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x - bbox.extent.x, bbox.pos.y - bbox.extent.y, bbox.pos.z + bbox.extent.z));
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x - bbox.extent.x, bbox.pos.y - bbox.extent.y, bbox.pos.z - bbox.extent.z));
+
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x + bbox.extent.x, bbox.pos.y - bbox.extent.y, bbox.pos.z - bbox.extent.z));
+
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x + bbox.extent.x, bbox.pos.y - bbox.extent.y, bbox.pos.z + bbox.extent.z));
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x + bbox.extent.x, bbox.pos.y - bbox.extent.y, bbox.pos.z - bbox.extent.z));
+
+		vertice_points.push_back(carve::geom::VECTOR(bbox.pos.x + bbox.extent.x, bbox.pos.y + bbox.extent.y, bbox.pos.z - bbox.extent.z));
+
+		dumpPolyline(vertice_points, color1, 0, moveOffset, false);
+	}
+
 	static void moveOffset(double deltaY)
 	{
 		if (disableAllDebugDump)
@@ -1327,7 +1358,7 @@ namespace GeomDebugDump
 			moveOffsetNow = true;
 		}
 
-		if (infoMeshsetInput.degenerateEdges.size() > 0)
+		if (infoMeshsetInput.degenerateEdges.size() > 0 && false )
 		{
 			double lineThickness = 4.0;
 			bool depthTestOff = true;

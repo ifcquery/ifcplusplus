@@ -899,7 +899,7 @@ void ReaderSTEP::readData(std::istream& read_in, std::streampos file_size, share
 
 		if (entity) // skip aborted entities
 		{
-			map_entities.insert(std::make_pair(entity->m_tag, entity));
+			map_entities[entity->m_tag] = entity;
 		}
 	}
 

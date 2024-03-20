@@ -460,32 +460,32 @@ public:
 			getTrimAngle(trim2_vec, circleCenter, maxRadius, endAngle, conicPositionMatrix->m_matrix, circlePositionInverse);
 			computeOpeningAngle(startAngle, endAngle, epsilonMergePoints, senseAgreement, openingAngle);
 
+#if defined( _DEBUG) || defined(_DEBUG_RELEASE)
 			std::optional<vec3> trimPoint1;
 			std::optional<vec3> trimPoint2;
 			getTrimPoints(trim1_vec, trim2_vec, conicPositionMatrix->m_matrix, circleRadius, circleRadius2, senseAgreement, trimPoint1, trimPoint2);
 
-#ifdef _DEBUG
-			if (m_debugDumpGeometry && trimPoint1.has_value())
-			{
-				glm::vec4 color(0.4, 0.6, 0.6, 1.0);
-				vec3 circleCenter = conicPositionMatrix->m_matrix * carve::geom::VECTOR(0, 0, 0);
-				std::vector<vec3> polyline = { trimPoint1.value() , circleCenter};
-				GeomDebugDump::dumpPolyline(polyline, color, 3.0, false, false);
-				GeomDebugDump::dumpCoordinateSystem(conicPositionMatrix->m_matrix, circleRadius, false);
-
-				vec3 circlePoint0 = conicPositionMatrix->m_matrix * carve::geom::VECTOR(circleRadius * cos(startAngle), circleRadius * sin(startAngle), 0);
-				vec3 circlePoint1 = conicPositionMatrix->m_matrix * carve::geom::VECTOR(circleRadius * cos(startAngle + openingAngle*0.1), circleRadius * sin(startAngle + openingAngle*0.1), 0);
-				glm::vec4 color3(0.3, 0.4, 0.94, 0.6);
-				polyline = { circlePoint0 , circlePoint1 };
-				GeomDebugDump::dumpPolyline(polyline, color3, 2.0, false, false);
-			}
-
-
+			vec3 trimPoint1RelativeToCircle = circlePositionInverse * trimPoint1.value();
 			if (trimPoint1.has_value() )
 			{
 				double distanceTrim1 = PointConverter::trimPointCircleDistance(startAngle, circleRadius, conicPositionMatrix->m_matrix, trimPoint1.value());
 				if (distanceTrim1 > epsilonMergePoints * 10000 )
 				{
+					
+					{
+						glm::vec4 color(0.4, 0.6, 0.6, 1.0);
+						vec3 circleCenter = conicPositionMatrix->m_matrix * carve::geom::VECTOR(0, 0, 0);
+						std::vector<vec3> polyline = { trimPoint1.value() , circleCenter };
+						GeomDebugDump::dumpPolyline(polyline, color, 3.0, false, false);
+						GeomDebugDump::dumpCoordinateSystem(conicPositionMatrix->m_matrix, circleRadius, false);
+
+						vec3 circlePoint0 = conicPositionMatrix->m_matrix * carve::geom::VECTOR(circleRadius * cos(startAngle), circleRadius * sin(startAngle), 0);
+						vec3 circlePoint1 = conicPositionMatrix->m_matrix * carve::geom::VECTOR(circleRadius * cos(startAngle + openingAngle * 0.1), circleRadius * sin(startAngle + openingAngle * 0.1), 0);
+						glm::vec4 color3(0.3, 0.4, 0.94, 0.6);
+						polyline = { circlePoint0 , circlePoint1 };
+						GeomDebugDump::dumpPolyline(polyline, color3, 2.0, false, false);
+					}
+
 					double startAngle = m_point_converter->getAngleOnCircle(circleCenter, circleRadius, trimPoint1.value(), conicPositionMatrix->m_matrix, circlePositionInverse, epsilonMergePoints);
 
 					double distanceTrim12 = PointConverter::trimPointCircleDistance(startAngle, circleRadius, conicPositionMatrix->m_matrix, trimPoint2.value());
@@ -582,21 +582,24 @@ public:
 					return;
 				}
 				shared_ptr<IfcDirection> ifc_line_direction = line_vec->m_Orientation;
-
-				std::vector<shared_ptr<IfcReal> >& direction_ratios = ifc_line_direction->m_DirectionRatios;
-				vec3 line_direction;
-				if (direction_ratios.size() > 1)
+				vec3 line_direction = carve::geom::VECTOR(1,0,0);
+				if (ifc_line_direction)
 				{
-					if (direction_ratios.size() > 2)
+					std::vector<shared_ptr<IfcReal> >& direction_ratios = ifc_line_direction->m_DirectionRatios;
+
+					if (direction_ratios.size() > 1)
 					{
-						line_direction = carve::geom::VECTOR(direction_ratios[0]->m_value, direction_ratios[1]->m_value, direction_ratios[2]->m_value);
+						if (direction_ratios.size() > 2)
+						{
+							line_direction = carve::geom::VECTOR(direction_ratios[0]->m_value, direction_ratios[1]->m_value, direction_ratios[2]->m_value);
+						}
+						else
+						{
+							line_direction = carve::geom::VECTOR(direction_ratios[0]->m_value, direction_ratios[1]->m_value, 0);
+						}
 					}
-					else
-					{
-						line_direction = carve::geom::VECTOR(direction_ratios[0]->m_value, direction_ratios[1]->m_value, 0);
-					}
+					line_direction.normalize();
 				}
-				line_direction.normalize();
 
 				line_end = line_origin + line_direction;  // will be overwritten by trimming points in most cases
 				if (line_vec->m_Magnitude)
@@ -624,7 +627,7 @@ public:
 						vec3 closest_point_on_line;
 						GeomUtils::closestPointOnLine(trimPoint, line_origin, line_direction, closest_point_on_line);
 
-						if ((closest_point_on_line - trimPoint).length() < epsilonMergePoints *10.0)
+						if ((closest_point_on_line - trimPoint).length() < epsilonMergePoints * 10.0)
 						{
 							// trimming point is on the line
 							line_origin = trimPoint;
@@ -924,20 +927,42 @@ public:
 					const shared_ptr<IfcCurve> basisCurve = trimmedCurve->m_BasisCurve;
 					if (basisCurve)
 					{
+						carve::math::Matrix matrix;
+						shared_ptr<IfcConic> conic = dynamic_pointer_cast<IfcConic>(basisCurve);
+						if (conic)
+						{
+							// ENTITY IfcConic ABSTRACT SUPERTYPE OF(ONEOF(IfcCircle, IfcEllipse))
+							shared_ptr<TransformData> conicPositionMatrix(new TransformData());
+							shared_ptr<IfcPlacement> conic_placement = dynamic_pointer_cast<IfcPlacement>(conic->m_Position);
+							if (conic_placement)
+							{
+								m_placement_converter->convertIfcPlacement(conic_placement, conicPositionMatrix, false);
+
+								carve::math::Matrix circlePositionInverse;
+								GeomUtils::computeInverse(conicPositionMatrix->m_matrix, circlePositionInverse);
+
+								matrix = circlePositionInverse;
+							}
+						}
+						vec3 p0inCirclePlacement = matrix * p0;
+						vec3 p1inCirclePlacement = matrix * p1;
+
 						// use IfcEdge.EdgeStart and IfcEdge.EdgeEnd as trimming points
 						std::vector<shared_ptr<IfcTrimmingSelect> > curveTrim1vec;
 						std::vector<shared_ptr<IfcTrimmingSelect> > curveTrim2vec;
 
 						shared_ptr<IfcCartesianPoint> trim1(new IfcCartesianPoint());
-						trim1->m_Coordinates[0] = p0.x / lengthFactor;  // in convertIfcCurve, the trim point will be multiplied with lengthFactor
-						trim1->m_Coordinates[1] = p0.y / lengthFactor;
-						trim1->m_Coordinates[2] = p0.z / lengthFactor;
+						trim1->m_Coordinates[0] = p0inCirclePlacement.x;  // in convertIfcCurve, the trim point will be multiplied with lengthFactor
+						trim1->m_Coordinates[1] = p0inCirclePlacement.y;
+						trim1->m_Coordinates[2] = p0inCirclePlacement.z;
+						trim1->m_size = 3;
 						curveTrim1vec.push_back(trim1);
 
 						shared_ptr<IfcCartesianPoint> trim2(new IfcCartesianPoint());
-						trim2->m_Coordinates[0] = p1.x / lengthFactor;
-						trim2->m_Coordinates[1] = p1.y / lengthFactor;
-						trim2->m_Coordinates[2] = p1.z / lengthFactor;
+						trim2->m_Coordinates[0] = p1inCirclePlacement.x;
+						trim2->m_Coordinates[1] = p1inCirclePlacement.y;
+						trim2->m_Coordinates[2] = p1inCirclePlacement.z;
+						trim2->m_size = 3;
 						curveTrim2vec.push_back(trim2);
 						convertIfcCurve(basisCurve, curvePoints, segmentStartPoints, curveTrim1vec, curveTrim2vec, senseAgreement);
 					}

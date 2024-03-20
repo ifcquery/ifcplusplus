@@ -35,6 +35,10 @@
 
 #include <iostream>
 
+#if defined _DEBUG || defined _DEBUG_RELEASE
+static long globalNumMeshSets = 0;
+#endif
+
 namespace carve {
 	namespace poly {
 		class Polyhedron;
@@ -339,7 +343,7 @@ namespace carve {
 			aabb_t getAABB() const;
 
 			bool recalc(double CARVE_EPSILON);
-			carve::geom::vector<ndim> computeNormal(double CARVE_EPSILON);
+			carve::geom::vector<ndim> computeNormal(double CARVE_EPSILON, bool calledRecursive = false);
 
 			void clearEdges();
 
@@ -630,6 +634,8 @@ namespace carve {
 			bool is_inner_mesh = false;  // completely inside other mesh
 
 			meshset_t* meshset = nullptr;
+			double m_volume = std::numeric_limits<double>::quiet_NaN();
+			void resetVolume() { m_volume = std::numeric_limits<double>::quiet_NaN(); }
 
 		protected:
 			Mesh(std::vector<face_t*>& _faces, std::vector<edge_t*>& _open_edges, std::vector<edge_t*>& _closed_edges, bool _is_negative, bool _is_inner_mesh);
@@ -648,24 +654,30 @@ namespace carve {
 
 			bool isNegative() const { return is_negative; }
 
-			double volume() const 
+			double volume()
 			{
-				if( is_negative || !faces.size() ) {
+				if (is_negative || !faces.size()) {
 					return 0.0;
+				}
+
+				if (!std::isnan(m_volume))
+				{
+					return m_volume;
 				}
 
 				double vol = 0.0;
 				typename vertex_t::vector_t origin = faces[0]->edge->vert->v;
 
-				for( size_t f = 0; f < faces.size(); ++f )
+				for (size_t f = 0; f < faces.size(); ++f)
 				{
 					face_t* face = faces[f];
 					edge_t* e1 = face->edge;
-					for( edge_t* e2 = e1->next; e2->next != e1; e2 = e2->next ) 
+					for (edge_t* e2 = e1->next; e2->next != e1; e2 = e2->next)
 					{
 						vol += carve::geom3d::tetrahedronVolume(e1->vert->v, e2->vert->v, e2->next->vert->v, origin);
 					}
 				}
+				m_volume = vol;
 				return vol;
 			}
 
@@ -728,6 +740,7 @@ namespace carve {
 
 			std::vector<vertex_t> vertex_storage;
 			std::vector<mesh_t*> meshes;
+			//bool m_inner_outer_meshes_classified = false;
 
 		public:
 			template <typename face_type>
@@ -827,17 +840,14 @@ namespace carve {
 
 			MeshSet(const std::vector<typename vertex_t::vector_t>& points, size_t n_faces, const std::vector<int>& face_indices, double CARVE_EPSILON, const MeshOptions& opts = MeshOptions());
 
-			// Construct a mesh set from a set of disconnected faces. Takes
-			// possession of the face pointers.
+			// Construct a mesh set from a set of disconnected faces. Takes possession of the face pointers.
 			MeshSet(std::vector<face_t*>& faces, const MeshOptions& opts = MeshOptions());
 
 			MeshSet(std::list<face_t*>& faces, const MeshOptions& opts = MeshOptions());
 
-			MeshSet(std::vector<vertex_t>& _vertex_storage,
-				std::vector<mesh_t*>& _meshes);
+			MeshSet(std::vector<vertex_t>& _vertex_storage, std::vector<mesh_t*>& _meshes);
 
-			// This constructor consolidates and rewrites vertex pointers in
-			// each mesh, repointing them to local storage.
+			// This constructor consolidates and rewrites vertex pointers in each mesh, repointing them to local storage.
 			MeshSet(std::vector<mesh_t*>& _meshes);
 
 			MeshSet* clone() const;
@@ -864,6 +874,38 @@ namespace carve {
 			void canonicalize();
 
 			void separateMeshes();
+
+			//void classifyInnerOuterMeshes(double eps);
+
+			//double volume(double eps)
+			//{
+			//	if (!m_inner_outer_meshes_classified)
+			//	{
+			//		classifyInnerOuterMeshes(eps);
+			//	}
+
+			//	double vol = 0;
+			//	for (size_t ii = 0; ii < meshes.size(); ++ii)
+			//	{
+			//		carve::mesh::Mesh<ndim>* mesh = meshes[ii];
+			//		double meshVolume = mesh->volume();
+			//		if (meshVolume < 0.0)
+			//		{
+			//			mesh->invert();
+			//			meshVolume = -meshVolume;
+			//		}
+
+			//		if (mesh->is_inner_mesh)
+			//		{
+			//			vol -= meshVolume;
+			//		}
+			//		else
+			//		{
+			//			vol += meshVolume;
+			//		}
+			//	}
+			//	return vol;
+			//}
 		};
 
 		carve::PointClass classifyPoint( const carve::mesh::MeshSet<3>* meshset, const carve::geom::RTreeNode<3, carve::mesh::Face<3>*>* face_rtree,
