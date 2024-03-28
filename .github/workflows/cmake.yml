@@ -1,0 +1,59 @@
+name: "CMake build"
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    name: ${{ matrix.toolchain }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        toolchain:
+          - linux-gcc
+          - macos-clang
+          - windows-msvc
+          - windows-mingw
+        configuration:
+          - Release
+        include:
+          - toolchain: linux-gcc
+            os: ubuntu-latest
+            compiler: gcc
+          - toolchain: macos-clang
+            os: macos-latest
+            compiler: clang
+          - toolchain: windows-msvc
+            os: windows-latest
+            compiler: msvc
+          - toolchain: windows-mingw
+            os: windows-latest
+            compiler: mingw
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 5
+      - name: Configure (${{ matrix.configuration }})
+        run: |
+          if [ "${{ matrix.compiler }}" == "msvc" ]; then
+            cmake -S . -B build -DBUILD_VIEWER_APPLICATION=OFF
+          elif [ "${{ matrix.compiler }}" == "mingw" ]; then
+            cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DBUILD_VIEWER_APPLICATION=OFF -G "MinGW Makefiles"
+          else
+            cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} -DBUILD_VIEWER_APPLICATION=OFF
+          fi
+      - name: Build with ${{ matrix.compiler }}
+        run: |
+          if [ "${{ matrix.compiler }}" == "msvc" ]; then
+            cmake --build build --config ${{ matrix.configuration }}
+          else
+            cmake --build build -- -j8
+          fi
