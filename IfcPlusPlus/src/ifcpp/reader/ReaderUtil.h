@@ -32,6 +32,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "ifcpp/IFC4X3/TypeFactory.h"
 
 #ifdef _MSC_VER
+#include <cctype>
 #include <cstdio>
 #include <cstring>
 #pragma warning(disable : 4996)
