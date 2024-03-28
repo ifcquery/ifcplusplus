@@ -63,6 +63,18 @@ static T convertToHex(unsigned char mc)
 //	return (returnValue);
 //}
 
+static std::string utf16_to_utf8(const std::u16string& u16str)
+{
+#if _MSC_VER >= 1900
+	std::wstring_convert<std::codecvt_utf8_utf16<int16_t>, int16_t> convert;
+	auto p = reinterpret_cast<const int16_t *>(u16str.data());
+	return convert.to_bytes(p, p + u16str.size());
+#else
+	std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
+	return convert.to_bytes(u16str);
+#endif
+}
+
 std::string wstring2string(const std::wstring& wstr)
 {
 	if (wstr.empty()) return std::string();
@@ -1147,9 +1159,7 @@ void decodeArgumentString(const std::string& argument_str, std::string& arg_out)
 					{
 						combined16[0] = checkAndConvertAppleEncoding(combined16[0]);
 					}
-					std::u16string u16str(combined16, 1);
-					std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
-					std::string utf8 = convert.to_bytes(u16str);
+					std::string utf8 = utf16_to_utf8(std::u16string(combined16, 1));
 
 					arg_str_new += utf8;
 					stream_pos += 5;
@@ -1211,9 +1221,7 @@ void decodeArgumentString(const std::string& argument_str, std::string& arg_out)
 
 						} while ((*stream_pos != '\0'));
 
-						std::u16string u16str(reinterpret_cast<char16_t*>(&utf16Characters[0]), utf16Characters.size() / 2);
-						std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
-						std::string utf8 = convert.to_bytes(u16str);
+						std::string utf8 = utf16_to_utf8(std::u16string(reinterpret_cast<char16_t*>(&utf16Characters[0]), utf16Characters.size() / 2));
 						arg_str_new += utf8;
 					}
 					continue;
