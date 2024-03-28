@@ -120,7 +120,6 @@ void ReaderSTEP::loadModelFromFile(const std::string& filePath, shared_ptr<Build
 			return;
 		}
 
-
 		filePathRead = uncompressedFileName;
 	}
 	else
@@ -313,7 +312,7 @@ void ReaderSTEP::readHeader(std::istream& content, shared_ptr<BuildingModel>& ta
 		++stream_pos;
 	}
 
-	for (auto header_line : vec_header_lines)
+	for (const auto& header_line : vec_header_lines)
 	{
 		if (header_line.find("FILE_DESCRIPTION") != std::string::npos)
 		{
@@ -812,11 +811,8 @@ void ReaderSTEP::readData(std::istream& read_in, std::streampos file_size, share
 				mapFindReplaceTypes["IFCELECTRICDISTRIBUTIONPOINT"] = "IFCFLOWCONTROLLER";
 				// IfcElectricDistributionPoint	DELETED   ->  IfcFlowController
 
-				for (auto it : mapFindReplaceTypes)
+				for (const auto& [find1, replace1] : mapFindReplaceTypes)
 				{
-					const std::string& find1 = it.first;
-					const std::string& replace1 = it.second;
-
 					size_t pos1 = step_line_fix.find(find1);
 					if (pos1 != std::string::npos)
 					{
@@ -893,7 +889,7 @@ void ReaderSTEP::readData(std::istream& read_in, std::streampos file_size, share
 
 	// copy entities into map so that they can be found during entity attribute initialization
 	std::map<int, shared_ptr<BuildingEntity> >& map_entities = model->m_map_entities;
-	for (auto& entity_read_object : vec_entities)
+	for (const auto& entity_read_object : vec_entities)
 	{
 		shared_ptr<BuildingEntity> entity = entity_read_object.second;
 
