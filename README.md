@@ -59,6 +59,7 @@ https://github.com/ifcquery/ifcplusplus/wiki/Build-instructions
 
 ## Advanced IFC viewer with integrated file browser, model split & export to IFC/glTF/html
 [https://github.com/BIMViewPlus/BIMViewPlus](https://github.com/BIMViewPlus/BIMViewPlus)
+
 The IFC viewer BIMViewPlus is based on IFC++, but is not open source itself.
 ![Screenshot 2024-03-29 234851](https://github.com/ifcquery/ifcplusplus/assets/150842425/368ef26f-77f0-4b8b-ae38-ae8bfd9a73b4)
 
