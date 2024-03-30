@@ -57,7 +57,7 @@ Open source example application for Qt here available: https://github.com/ifcque
 https://github.com/ifcquery/ifcplusplus/wiki/Build-instructions
 
 
-## Advanced IFC viewer with integrated file browser, model split & export to IFC/glTF/html
+## BIMViewPlus: Advanced IFC viewer with integrated file browser, model split & export to IFC/glTF/html
 [https://github.com/BIMViewPlus/BIMViewPlus](https://github.com/BIMViewPlus/BIMViewPlus)
 
 The IFC viewer BIMViewPlus is based on IFC++, but is not open source itself.
