@@ -232,12 +232,12 @@ public:
 		normals->resize(num_vertices, poly_normal);
 
 		osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-		
+
 		if (m_caching_enabled) {
 			osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
 			geometry->setVertexArray(cachedVertexArray);
 		}
-		else{
+		else {
 			geometry->setVertexArray(vertices);
 		}
 		geometry->setNormalArray(normals);
@@ -563,14 +563,14 @@ public:
 			if (vertices_quad->size() > 0)
 			{
 				osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-				if( m_caching_enabled){
+				if (m_caching_enabled) {
 					osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices_quad);
 					geometry->setVertexArray(cachedVertexArray);
 				}
-				else{
+				else {
 					geometry->setVertexArray(vertices_quad);
 				}
-				
+
 				if (normals_quad)
 				{
 					normals_quad->setBinding(osg::Array::BIND_PER_VERTEX);
@@ -639,11 +639,11 @@ public:
 		}
 
 		osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-		if( m_caching_enabled){
+		if (m_caching_enabled) {
 			osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
 			geometry->setVertexArray(cachedVertexArray);
 		}
-		else{
+		else {
 			geometry->setVertexArray(vertices);
 		}
 		geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINE_STRIP, 0, vertices->size()));
@@ -730,11 +730,11 @@ public:
 			}
 
 			osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-			if( m_caching_enabled){
+			if (m_caching_enabled) {
 				osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
 				geometry->setVertexArray(cachedVertexArray);
 			}
-			else{
+			else {
 				geometry->setVertexArray(vertices);
 			}
 			geometry->setName("creaseEdges");

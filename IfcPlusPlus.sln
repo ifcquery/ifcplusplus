@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31025.194
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IfcPlusPlus", "IfcPlusPlus\IfcPlusPlus.vcxproj", "{9700AD93-4F6B-484A-BA34-FC4C97E5C645}"
 EndProject
@@ -28,8 +28,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EE8FBA93-1179-406C-B2C6-2445EBDB28A8}
-		QtVersion = 5.7.1
 		Qt5Version = 5.7.1
+		QtVersion = 5.7.1
+		SolutionGuid = {EE8FBA93-1179-406C-B2C6-2445EBDB28A8}
 	EndGlobalSection
 EndGlobal

@@ -339,7 +339,7 @@ public:
 #ifdef _DEBUG
 			if (params.ifc_entity)
 			{
-				if (params.ifc_entity->m_tag == 1271765)
+				if (params.ifc_entity->m_tag == 9817817 && false )
 				{
 					vec4 color(0.3, 0.4, 0.5, 1.0);
 					shared_ptr<carve::input::PolyhedronData> poly_data(new carve::input::PolyhedronData());
@@ -503,15 +503,11 @@ public:
 #ifdef _DEBUG
 			std::string details = "";
 			bool correct = checkPolyhedronData(polyhedronResult, params, details);
-			std::vector<int>& faceIndices = polyhedronResult->faceIndices;
-			if (!correct)
-			{
-				std::cout << "incorrect extrusion result";
+			if (!correct) {
+				shared_ptr<carve::mesh::MeshSet<3> > meshset(polyhedronResult->createMesh(carve::input::opts(), eps));
+				vec4 color(0.3, 0.4, 0.5, 1.0);
+				GeomDebugDump::dumpMeshset(meshset, color, 0, true, false);
 			}
-
-			shared_ptr<carve::mesh::MeshSet<3> > meshset(polyhedronResult->createMesh(carve::input::opts(), eps));
-			vec4 color(0.3, 0.4, 0.5, 1.0);
-			GeomDebugDump::dumpMeshset(meshset, color, 0, true, false);
 #endif
 			itemData->addClosedPolyhedron(polyhedronResult, params);
 		}

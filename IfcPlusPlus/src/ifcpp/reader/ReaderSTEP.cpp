@@ -184,6 +184,30 @@ void ReaderSTEP::loadModelFromStream(std::istream& content, std::streampos file_
 	progressValueCallback(progress, "parse");
 }
 
+void removeComments(std::string& line)
+{
+	for (size_t ii = 0; ii < line.size(); ++ii)
+	{
+		size_t found_comment_start = line.find("/*");
+		if (found_comment_start == std::string::npos)
+		{
+			break;
+		}
+		size_t found_comment_end = line.find("*/");
+		if (found_comment_end != std::string::npos)
+		{
+			if (found_comment_end > found_comment_start)
+			{
+				line.erase(found_comment_start, found_comment_end - found_comment_start + 2);
+			}
+		}
+		else
+		{
+			line.erase(found_comment_start);
+		}
+	}
+}
+
 void ReaderSTEP::readHeader(std::istream& content, shared_ptr<BuildingModel>& target_model)
 {
 	if (!target_model)
@@ -221,7 +245,8 @@ void ReaderSTEP::readHeader(std::istream& content, shared_ptr<BuildingModel>& ta
 					if (found_comment_end > found_comment_start)
 					{
 						inComment = false;
-						continue;
+						line.erase(found_comment_start, found_comment_end - found_comment_start + 2);
+						//continue;
 					}
 					// TODO: remove comment from line, and check rest of line
 				}
@@ -267,6 +292,7 @@ void ReaderSTEP::readHeader(std::istream& content, shared_ptr<BuildingModel>& ta
 		++lineCount;
 	}
 
+	removeComments(strHeader);
 	target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC_VERSION_UNDEFINED;
 	std::vector<std::string> vec_header;
 	std::vector<std::string> vec_header_str;
