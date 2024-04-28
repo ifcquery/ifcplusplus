@@ -29,7 +29,7 @@ IFCQUERY_EXPORT std::string encodeStepString(const std::string& str);
 
 IFCQUERY_EXPORT void appendRealWithoutTrailingZeros(std::stringstream& stream, const double number, size_t precision);
 void writeRealList(std::stringstream& stream, const std::vector<double>& vec, bool optionalAttribute, size_t precision);
-void writeRealArray3(std::stringstream& stream, const double (&vec)[3], bool optionalAttribute, short int size, size_t precision);
+void writeRealArray3(std::stringstream& stream, const double(&vec)[3], bool optionalAttribute, size_t precision);
 void writeRealList2D(std::stringstream& stream, const std::vector<std::vector<double> >& vec, bool optionalAttribute, size_t precision);
 void writeRealList3D(std::stringstream& stream, const std::vector<std::vector<std::vector<double> > >& vec, size_t precision);
 void writeIntList(std::stringstream& stream, const std::vector<int>& vec);

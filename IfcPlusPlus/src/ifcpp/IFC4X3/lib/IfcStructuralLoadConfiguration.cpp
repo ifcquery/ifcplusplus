@@ -13,7 +13,7 @@
 IFC4X3::IfcStructuralLoadConfiguration::IfcStructuralLoadConfiguration( int tag ) { m_tag = tag; }
 void IFC4X3::IfcStructuralLoadConfiguration::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCSTRUCTURALLOADCONFIGURATION" << "(";
+	stream << "#" << m_tag << "=IFCSTRUCTURALLOADCONFIGURATION" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_Values );
@@ -22,11 +22,11 @@ void IFC4X3::IfcStructuralLoadConfiguration::getStepLine( std::stringstream& str
 	stream << ");";
 }
 void IFC4X3::IfcStructuralLoadConfiguration::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcStructuralLoadConfiguration::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcStructuralLoadConfiguration::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_Name = IfcLabel::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){readEntityReferenceList( args[1], m_Values, map, errorStream );}
+	if( num_args > 0 ){m_Name = IfcLabel::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReferenceList( args[1], m_Values, map, errorStream, entityIdNotFound );}
 	if( num_args > 2 ){readTypeOfRealList2D( args[2], m_Locations );}
 	if( num_args != 3 ){ errorStream << "Wrong parameter count for entity IfcStructuralLoadConfiguration, expecting 3, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }

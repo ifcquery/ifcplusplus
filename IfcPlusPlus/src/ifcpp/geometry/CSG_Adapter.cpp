@@ -69,7 +69,7 @@ void CSG_Adapter::mergeMeshesToMeshset(std::vector<carve::mesh::Mesh<3>*>& meshe
 		MeshOps::checkMeshSetNonNegativeAndClosed(result, params);
 
 #ifdef CSG_DEBUG
-		glm::vec4 color(0.2, 0.2, 0.2, 1.);
+		vec4 color(0.2, 0.2, 0.2, 1.);
 		if (params.debugDump)
 		{
 			GeomDebugDump::moveOffset(0.5);
@@ -157,7 +157,7 @@ bool checkResultByBBoxAndVolume(const shared_ptr<carve::mesh::MeshSet<3> >& op1,
 #ifdef CSG_DEBUG
 	if ((paramsScaled.debugDump || csg_compute_count > 14) && false)
 	{
-		glm::vec4 color(0.5, 0.5, 0.7, 1.0);
+		vec4 color(0.5, 0.5, 0.7, 1.0);
 		GeomDebugDump::moveOffset(0.3);
 		GeomDebugDump::dumpBBox(bboxOperandA, color, false);
 		GeomDebugDump::dumpBBox(bboxResult, color, false);
@@ -220,7 +220,7 @@ bool checkResultByBBoxAndVolume(const shared_ptr<carve::mesh::MeshSet<3> >& op1,
 			
 			if (paramsScaled.debugDump)
 			{
-				glm::vec4 color(0.2, 0.2, 0.2, 1.);
+				vec4 color(0.2, 0.2, 0.2, 1.);
 				GeomDebugDump::dumpMeshset(result, color, true, true);
 			}
 		}
@@ -383,7 +383,7 @@ bool CSG_Adapter::computeCSG_Carve(const shared_ptr<carve::mesh::MeshSet<3> >& i
 		bool dump_result_mesh = false;
 
 		{
-			if (232535 == tag || !infoInputA.meshSetValid)
+			if (5598 == tag || !infoInputA.meshSetValid)
 			{
 				//epsDefault *= 10;
 				paramsScaled.debugDump = true;
@@ -666,7 +666,7 @@ bool CSG_Adapter::computeCSG_Carve(const shared_ptr<carve::mesh::MeshSet<3> >& i
 
 
 
-				glm::vec4 color(0.5, 0.5, 0.5, 1);
+				vec4 color(0.5, 0.5, 0.5, 1);
 				GeomDebugDump::dumpMeshset(opAback, color, false, false);
 				GeomDebugDump::dumpMeshset(opBback, color, false, true);
 

@@ -27,7 +27,7 @@ void IFC4X3::IfcOccupantTypeEnum::getStepParameter( std::stringstream& stream, b
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IFC4X3::IfcOccupantTypeEnum> IFC4X3::IfcOccupantTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcOccupantTypeEnum> IFC4X3::IfcOccupantTypeEnum::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.size() == 0 ) { return shared_ptr<IfcOccupantTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcOccupantTypeEnum>(); }

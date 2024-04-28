@@ -13,7 +13,7 @@
 IFC4X3::IfcTextureCoordinateGenerator::IfcTextureCoordinateGenerator( int tag ) { m_tag = tag; }
 void IFC4X3::IfcTextureCoordinateGenerator::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCTEXTURECOORDINATEGENERATOR" << "(";
+	stream << "#" << m_tag << "=IFCTEXTURECOORDINATEGENERATOR" << "(";
 	writeEntityList( stream, m_Maps );
 	stream << ",";
 	if( m_Mode ) { m_Mode->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -22,11 +22,11 @@ void IFC4X3::IfcTextureCoordinateGenerator::getStepLine( std::stringstream& stre
 	stream << ");";
 }
 void IFC4X3::IfcTextureCoordinateGenerator::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcTextureCoordinateGenerator::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcTextureCoordinateGenerator::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReferenceList( args[0], m_Maps, map, errorStream );}
-	if( num_args > 1 ){m_Mode = IfcLabel::createObjectFromSTEP( args[1], map, errorStream );}
+	if( num_args > 0 ){readEntityReferenceList( args[0], m_Maps, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_Mode = IfcLabel::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
 	if( num_args > 2 ){readTypeOfRealList( args[2], m_Parameter );}
 	if( num_args != 3 ){ errorStream << "Wrong parameter count for entity IfcTextureCoordinateGenerator, expecting 3, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }

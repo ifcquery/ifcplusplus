@@ -15,6 +15,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#pragma warning (disable: 4702)
 #include <ifcpp/geometry/GeomDebugDump.h>
 #include <ifcpp/geometry/MeshOps.h>
 #include "MeshSimplifier.h"
@@ -106,7 +107,7 @@ void MeshSimplifier::simplifyMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshs
 	{
 		GeomDebugDump::moveOffset(0.2);
 
-		glm::vec4 color1(0.7, 0.7, 0.7, 0.88);
+		vec4 color1(0.7, 0.7, 0.7, 0.88);
 		std::string labelStr = "simplify--merged-faces";
 		GeomDebugDump::dumpVertex(GeomDebugDump::DumpData::instance().labelPos, color1, labelStr);
 		GeomDebugDump::dumpCountLabel(GeomDebugDump::DumpData::instance().countLabelPos);
@@ -182,7 +183,7 @@ void MeshSimplifier::simplifyMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshs
 			dumpColorSettings.triangulateBeforeDump = true;
 
 			GeomDebugDump::moveOffset(0.3);
-			glm::vec4 color1(0.7, 0.7, 0.7, 0.88);
+			vec4 color1(0.7, 0.7, 0.7, 0.88);
 			for (carve::mesh::Mesh<3>*mesh : meshset_dump->meshes)
 			{
 				GeomDebugDump::dumpFacePolygons(mesh->faces, color1, false);
@@ -224,7 +225,7 @@ void MeshSimplifier::simplifyMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshs
 				dumpWithLabel("mesh-merged-aligned-edges", meshset, dumpColorSettings, paramCopy, true, true);
 
 				GeomDebugDump::moveOffset(0.1);
-				glm::vec4 color1(0.7, 0.7, 0.7, 0.88);
+				vec4 color1(0.7, 0.7, 0.7, 0.88);
 				for (carve::mesh::Mesh<3>*mesh : meshset->meshes)
 				{
 					GeomDebugDump::dumpFacePolygons(mesh->faces, color1, false);
@@ -461,7 +462,7 @@ size_t MeshSimplifier::mergeAlignedEdges(shared_ptr<carve::mesh::MeshSet<3> >& m
 								carve::mesh::Vertex<3>* vertex2 = edge->v2();
 								carve::mesh::Vertex<3>* vertex3 = edge->next->v2();
 
-								std::set<carve::mesh::Edge<3>* > setEdges;
+								std::unordered_set<carve::mesh::Edge<3>* > setEdges;
 								getEdgesOnVertex(mesh, vertex2, setEdges);
 								size_t numEdgesOnVertex = setEdges.size();
 
@@ -475,7 +476,7 @@ size_t MeshSimplifier::mergeAlignedEdges(shared_ptr<carve::mesh::MeshSet<3> >& m
 								edgeNextVector.normalize();
 
 #ifdef _DEBUG
-								glm::vec4 color1(0.4, 0.45, 0.45, 1.);
+								vec4 color1(0.4, 0.45, 0.45, 1.);
 								if (params.debugDump)
 								{
 									for (auto edgeOnVertex : setEdges)
@@ -511,8 +512,8 @@ size_t MeshSimplifier::mergeAlignedEdges(shared_ptr<carve::mesh::MeshSet<3> >& m
 									}
 #endif
 
-									std::set<carve::mesh::Edge<3>* > setEdgePointersToRemovedEdge;
-									std::set<carve::mesh::Face<3>* > setFacePointersToRemovedEdge;
+									std::unordered_set<carve::mesh::Edge<3>* > setEdgePointersToRemovedEdge;
+									std::unordered_set<carve::mesh::Face<3>* > setFacePointersToRemovedEdge;
 									getPointerToEdge(mesh, edgeRemove, setEdgePointersToRemovedEdge, setFacePointersToRemovedEdge);
 									size_t numVertexChanges = removePointerToVertex(mesh, vertex2, vertex1);
 									edge = edgeRemove->removeEdge();  // returns ->next
@@ -534,15 +535,15 @@ size_t MeshSimplifier::mergeAlignedEdges(shared_ptr<carve::mesh::MeshSet<3> >& m
 #ifdef _DEBUG
 									if (params.debugDump)
 									{
-										glm::vec4 color(0.4, 0.45, 0.45, 1.);
+										vec4 color(0.4, 0.45, 0.45, 1.);
 
-										std::set<carve::mesh::Edge<3>* > setEdges1;
+										std::unordered_set<carve::mesh::Edge<3>* > setEdges1;
 										getEdgesOnVertex(mesh, vertex1, setEdges1);
 
-										std::set<carve::mesh::Edge<3>* > setEdges2;
+										std::unordered_set<carve::mesh::Edge<3>* > setEdges2;
 										getEdgesOnVertex(mesh, vertex2, setEdges2);
 
-										std::set<carve::mesh::Edge<3>* > setEdges3;
+										std::unordered_set<carve::mesh::Edge<3>* > setEdges3;
 										getEdgesOnVertex(mesh, vertex3, setEdges3);
 
 
@@ -623,7 +624,7 @@ size_t MeshSimplifier::mergeAlignedEdges(shared_ptr<carve::mesh::MeshSet<3> >& m
 			if (params.debugDump)
 			{
 				GeomDebugDump::moveOffset(0.002);
-				glm::vec4 color(0.4, 0.45, 0.45, 1.);
+				vec4 color(0.4, 0.45, 0.45, 1.);
 				GeomDebugDump::dumpFacePolygon(face, color, false);
 			}
 #endif
@@ -650,7 +651,7 @@ size_t MeshSimplifier::mergeAlignedEdges(shared_ptr<carve::mesh::MeshSet<3> >& m
 			{
 				for (carve::mesh::Face<3>*face : mesh->faces)
 				{
-					glm::vec4 color(0.4, 0.45, 0.45, 1.);
+					vec4 color(0.4, 0.45, 0.45, 1.);
 					GeomDebugDump::dumpFacePolygon(face, color, false);
 				}
 			}
@@ -679,7 +680,7 @@ size_t MeshSimplifier::removeEdgeAndMergeFaces(carve::mesh::Edge<3>* edgeIn, con
 	if (params.debugDump)
 	{
 		GeomDebugDump::moveOffset(0.4);
-		glm::vec4 color2(0.3, 0.2, 0.2, 0.8);
+		vec4 color2(0.3, 0.2, 0.2, 0.8);
 		//dumpAdjacentFaces(par.setAdjacentCoplanarFaces, color2);
 	}
 #endif
@@ -722,7 +723,7 @@ size_t MeshSimplifier::removeEdgeAndMergeFaces(carve::mesh::Edge<3>* edgeIn, con
 	if (params.debugDump)
 	{
 		GeomDebugDump::moveOffset(0.05);
-		glm::vec4 color2(0.3, 0.2, 0.2, 0.8);
+		vec4 color2(0.3, 0.2, 0.2, 0.8);
 		std::vector<carve::geom::vector<3> > vecEdgePoints = { edgeErase->v1()->v, edgeErase->v2()->v };
 		GeomDebugDump::dumpPolyline(vecEdgePoints, color2, 0, false, false);
 	}
@@ -795,7 +796,7 @@ size_t MeshSimplifier::removeEdgeAndMergeFaces(carve::mesh::Edge<3>* edgeIn, con
 	if (params.debugDump)
 	{
 		GeomDebugDump::moveOffset(0.05);
-		glm::vec4 color2(0.3, 0.2, 0.2, 0.8);
+		vec4 color2(0.3, 0.2, 0.2, 0.8);
 		GeomDebugDump::dumpFacePolygon({ faceRemain }, color2, false);
 	}
 #endif
@@ -894,7 +895,7 @@ size_t MeshSimplifier::removeEdgeAndMergeFaces(carve::mesh::Edge<3>* edgeIn, con
 	MeshOps::checkMeshIntegrity(mesh, checkForDegenerateEdges, params, info6);
 	if (!info6.allPointersValid || !allVerticesInPlane)
 	{
-		glm::vec4 color(0.2, 0.2, 0.2, 1.);
+		vec4 color(0.2, 0.2, 0.2, 1.);
 		GeomDebugDump::stopBuffering();
 		GeomDebugDump::moveOffset(0.3);
 		GeomDebugDump::dumpMesh(mesh, color, true);
@@ -919,8 +920,8 @@ void MeshSimplifier::removeDegenerateFacesInMeshSet(shared_ptr<carve::mesh::Mesh
 	MeshSetInfo infoInput;
 	bool meshInputOk = MeshOps::checkMeshSetValidAndClosed(meshsetInput, infoInput, params);
 
-	std::set<const carve::mesh::Face<3>* > setFacesRemove = infoInput.degenerateFaces;
-	std::set<carve::mesh::Edge<3>* > setEdgesRemove = infoInput.degenerateEdges;
+	std::unordered_set<const carve::mesh::Face<3>* > setFacesRemove = infoInput.degenerateFaces;
+	std::unordered_set<carve::mesh::Edge<3>* > setEdgesRemove = infoInput.degenerateEdges;
 
 	for (carve::mesh::Mesh<3>*mesh : meshsetInput->meshes)
 	{
@@ -992,7 +993,7 @@ void MeshSimplifier::removeFinFaces(shared_ptr<carve::mesh::MeshSet<3> >& meshse
 	MeshSetInfo infoInput;
 	MeshOps::checkMeshSetValidAndClosed(meshset, infoInput, params);
 
-	std::set<const carve::mesh::Face<3>* > setFacesRemove;
+	std::unordered_set<const carve::mesh::Face<3>* > setFacesRemove;
 	for (carve::mesh::Mesh<3>*mesh : meshset->meshes)
 	{
 		for (carve::mesh::Edge<3>*edge : mesh->closed_edges)
@@ -1058,7 +1059,7 @@ void MeshSimplifier::removeFinFaces(shared_ptr<carve::mesh::MeshSet<3> >& meshse
 #ifdef _DEBUG
 			if (params.debugDump)
 			{
-				glm::vec4 color(0.5, 0.5, 0.5, 1);
+				vec4 color(0.5, 0.5, 0.5, 1);
 				GeomDebugDump::stopBuffering();
 				GeomDebugDump::moveOffset(0.15);
 				bool drawNormals = true;
@@ -1086,7 +1087,7 @@ void MeshSimplifier::removeFinEdges(carve::mesh::Mesh<3>* mesh, const GeomProces
 #ifdef _DEBUG
 	if (numFaces == 1 && false)
 	{
-		glm::vec4 color(0.4, 0.2, 0.2, 1.);
+		vec4 color(0.4, 0.2, 0.2, 1.);
 		std::vector<const carve::mesh::Face<3>* > vecFaces;
 		vecFaces.push_back(vec_faces[0]);
 		GeomDebugDump::moveOffset(0.3);
@@ -1167,7 +1168,7 @@ carve::mesh::Edge<3>* MeshSimplifier::checkMergeFaces(carve::mesh::Edge<3>* e, c
 	GeomDebugDump::ScopedDumpBuffering scoped_buffer;
 	if (params.debugDump)
 	{
-		glm::vec4 color(0.3, 0.3, 0.3, 1.);
+		vec4 color(0.3, 0.3, 0.3, 1.);
 		std::vector<const carve::mesh::Face<3>* > vecFaces = { fwdface };
 		GeomDebugDump::dumpFaces(vecFaces, color, false);
 		GeomDebugDump::dumpFacePolygon(revface, color, false);

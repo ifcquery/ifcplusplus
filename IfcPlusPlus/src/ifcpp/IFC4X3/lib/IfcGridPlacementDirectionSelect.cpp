@@ -6,7 +6,7 @@
 #include "ifcpp/IFC4X3/include/IfcGridPlacementDirectionSelect.h"
 
 // TYPE IfcGridPlacementDirectionSelect = SELECT	(IfcDirection	,IfcVirtualGridIntersection);
-shared_ptr<IFC4X3::IfcGridPlacementDirectionSelect> IFC4X3::IfcGridPlacementDirectionSelect::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcGridPlacementDirectionSelect> IFC4X3::IfcGridPlacementDirectionSelect::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcGridPlacementDirectionSelect>(); }
 	if( arg.compare("$")==0 )
@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcGridPlacementDirectionSelect> IFC4X3::IfcGridPlacementDire
 		return shared_ptr<IfcGridPlacementDirectionSelect>();
 	}
 	shared_ptr<IfcGridPlacementDirectionSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

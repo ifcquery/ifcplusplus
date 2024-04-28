@@ -6,7 +6,7 @@
 #include "ifcpp/IFC4X3/include/IfcInterferenceSelect.h"
 
 // TYPE IfcInterferenceSelect = SELECT	(IfcElement	,IfcSpatialElement);
-shared_ptr<IFC4X3::IfcInterferenceSelect> IFC4X3::IfcInterferenceSelect::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcInterferenceSelect> IFC4X3::IfcInterferenceSelect::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcInterferenceSelect>(); }
 	if( arg.compare("$")==0 )
@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcInterferenceSelect> IFC4X3::IfcInterferenceSelect::createO
 		return shared_ptr<IfcInterferenceSelect>();
 	}
 	shared_ptr<IfcInterferenceSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

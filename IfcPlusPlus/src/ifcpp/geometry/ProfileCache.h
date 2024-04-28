@@ -49,7 +49,7 @@ public:
 		m_profile_cache.clear();
 	}
 
-	shared_ptr<ProfileConverter> getProfileConverter( shared_ptr<IfcProfileDef>& ifc_profile )
+	shared_ptr<ProfileConverter> getProfileConverter( const shared_ptr<IfcProfileDef>& ifc_profile, bool simplifyPaths)
 	{
 		if( !ifc_profile )
 		{
@@ -66,13 +66,17 @@ public:
 		auto it_profile_cache = m_profile_cache.find( profile_id );
 		if( it_profile_cache != m_profile_cache.end() )
 		{
-			return it_profile_cache->second;
+			if( it_profile_cache->second->m_simplifyPathsByDefault == simplifyPaths )
+			{
+				return it_profile_cache->second;
+			}
 		}
 
 		double eps = m_curve_converter->getGeomSettings()->getEpsilonMergePoints();
 		int numVerticesPerCircleDefault = m_curve_converter->getGeomSettings()->getNumVerticesPerCircle();
 		int numVerticesPerCircle = numVerticesPerCircleDefault;
 		shared_ptr<ProfileConverter> profile_converter = shared_ptr<ProfileConverter>(new ProfileConverter(m_curve_converter, m_spline_converter));
+		profile_converter->m_simplifyPathsByDefault = simplifyPaths;
 		profile_converter->computeProfile(ifc_profile);
 
 		for (size_t retryCount = 0; retryCount < 5; ++retryCount)
@@ -92,7 +96,7 @@ public:
 				if (GeomUtils::isPolygonSelfIntersecting(loop, eps))
 				{
 #ifdef _DEBUG
-					glm::vec4 color(0.4, 0.6, 0.6, 1.0);
+					vec4 color(0.4, 0.6, 0.6, 1.0);
 					GeomDebugDump::dumpLocalCoordinateSystem();
 					GeomDebugDump::dumpPolyline(loop, color, 1.0, true, false);
 #endif

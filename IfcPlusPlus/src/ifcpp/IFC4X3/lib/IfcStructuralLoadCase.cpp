@@ -30,7 +30,7 @@
 IFC4X3::IfcStructuralLoadCase::IfcStructuralLoadCase( int tag ) { m_tag = tag; }
 void IFC4X3::IfcStructuralLoadCase::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCSTRUCTURALLOADCASE" << "(";
+	stream << "#" << m_tag << "=IFCSTRUCTURALLOADCASE" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_tag; } else { stream << "$"; }
@@ -55,19 +55,19 @@ void IFC4X3::IfcStructuralLoadCase::getStepLine( std::stringstream& stream, size
 	stream << ");";
 }
 void IFC4X3::IfcStructuralLoadCase::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcStructuralLoadCase::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcStructuralLoadCase::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){readEntityReference( args[1], m_OwnerHistory, map, errorStream );}
-	if( num_args > 2 ){m_Name = IfcLabel::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){m_Description = IfcText::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){m_ObjectType = IfcLabel::createObjectFromSTEP( args[4], map, errorStream );}
-	if( num_args > 5 ){m_PredefinedType = IfcLoadGroupTypeEnum::createObjectFromSTEP( args[5], map, errorStream );}
-	if( num_args > 6 ){m_ActionType = IfcActionTypeEnum::createObjectFromSTEP( args[6], map, errorStream );}
-	if( num_args > 7 ){m_ActionSource = IfcActionSourceTypeEnum::createObjectFromSTEP( args[7], map, errorStream );}
-	if( num_args > 8 ){m_Coefficient = IfcRatioMeasure::createObjectFromSTEP( args[8], map, errorStream );}
-	if( num_args > 9 ){m_Purpose = IfcLabel::createObjectFromSTEP( args[9], map, errorStream );}
+	if( num_args > 0 ){m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReference( args[1], m_OwnerHistory, map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_Name = IfcLabel::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_Description = IfcText::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_ObjectType = IfcLabel::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
+	if( num_args > 5 ){m_PredefinedType = IfcLoadGroupTypeEnum::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
+	if( num_args > 6 ){m_ActionType = IfcActionTypeEnum::createObjectFromSTEP( args[6], map, errorStream, entityIdNotFound );}
+	if( num_args > 7 ){m_ActionSource = IfcActionSourceTypeEnum::createObjectFromSTEP( args[7], map, errorStream, entityIdNotFound );}
+	if( num_args > 8 ){m_Coefficient = IfcRatioMeasure::createObjectFromSTEP( args[8], map, errorStream, entityIdNotFound );}
+	if( num_args > 9 ){m_Purpose = IfcLabel::createObjectFromSTEP( args[9], map, errorStream, entityIdNotFound );}
 	if( num_args > 10 ){readTypeOfRealList( args[10], m_SelfWeightCoefficients );}
 	if( num_args != 11 ){ errorStream << "Wrong parameter count for entity IfcStructuralLoadCase, expecting 11, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }

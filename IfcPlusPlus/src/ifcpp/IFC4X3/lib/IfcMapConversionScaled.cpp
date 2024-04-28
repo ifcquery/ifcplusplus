@@ -14,7 +14,7 @@
 IFC4X3::IfcMapConversionScaled::IfcMapConversionScaled( int tag ) { m_tag = tag; }
 void IFC4X3::IfcMapConversionScaled::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCMAPCONVERSIONSCALED" << "(";
+	stream << "#" << m_tag << "=IFCMAPCONVERSIONSCALED" << "(";
 	if( m_SourceCRS ) { m_SourceCRS->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_TargetCRS ) { stream << "#" << m_TargetCRS->m_tag; } else { stream << "$"; }
@@ -39,20 +39,20 @@ void IFC4X3::IfcMapConversionScaled::getStepLine( std::stringstream& stream, siz
 	stream << ");";
 }
 void IFC4X3::IfcMapConversionScaled::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcMapConversionScaled::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcMapConversionScaled::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_SourceCRS = IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){readEntityReference( args[1], m_TargetCRS, map, errorStream );}
-	if( num_args > 2 ){m_Eastings = IfcLengthMeasure::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){m_Northings = IfcLengthMeasure::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){m_OrthogonalHeight = IfcLengthMeasure::createObjectFromSTEP( args[4], map, errorStream );}
-	if( num_args > 5 ){m_XAxisAbscissa = IfcReal::createObjectFromSTEP( args[5], map, errorStream );}
-	if( num_args > 6 ){m_XAxisOrdinate = IfcReal::createObjectFromSTEP( args[6], map, errorStream );}
-	if( num_args > 7 ){m_Scale = IfcReal::createObjectFromSTEP( args[7], map, errorStream );}
-	if( num_args > 8 ){m_FactorX = IfcReal::createObjectFromSTEP( args[8], map, errorStream );}
-	if( num_args > 9 ){m_FactorY = IfcReal::createObjectFromSTEP( args[9], map, errorStream );}
-	if( num_args > 10 ){m_FactorZ = IfcReal::createObjectFromSTEP( args[10], map, errorStream );}
+	if( num_args > 0 ){m_SourceCRS = IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReference( args[1], m_TargetCRS, map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_Eastings = IfcLengthMeasure::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_Northings = IfcLengthMeasure::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_OrthogonalHeight = IfcLengthMeasure::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
+	if( num_args > 5 ){m_XAxisAbscissa = IfcReal::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
+	if( num_args > 6 ){m_XAxisOrdinate = IfcReal::createObjectFromSTEP( args[6], map, errorStream, entityIdNotFound );}
+	if( num_args > 7 ){m_Scale = IfcReal::createObjectFromSTEP( args[7], map, errorStream, entityIdNotFound );}
+	if( num_args > 8 ){m_FactorX = IfcReal::createObjectFromSTEP( args[8], map, errorStream, entityIdNotFound );}
+	if( num_args > 9 ){m_FactorY = IfcReal::createObjectFromSTEP( args[9], map, errorStream, entityIdNotFound );}
+	if( num_args > 10 ){m_FactorZ = IfcReal::createObjectFromSTEP( args[10], map, errorStream, entityIdNotFound );}
 	if( num_args != 11 ){ errorStream << "Wrong parameter count for entity IfcMapConversionScaled, expecting 11, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcMapConversionScaled::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

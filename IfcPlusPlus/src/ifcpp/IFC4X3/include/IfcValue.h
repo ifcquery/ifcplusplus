@@ -16,7 +16,7 @@ namespace IFC4X3
 	{
 	public:
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const = 0;
-		static shared_ptr<IfcValue> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
+		static shared_ptr<IfcValue> createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound );
 	};
 }
 

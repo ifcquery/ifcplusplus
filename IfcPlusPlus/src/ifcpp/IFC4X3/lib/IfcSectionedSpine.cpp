@@ -15,7 +15,7 @@
 IFC4X3::IfcSectionedSpine::IfcSectionedSpine( int tag ) { m_tag = tag; }
 void IFC4X3::IfcSectionedSpine::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCSECTIONEDSPINE" << "(";
+	stream << "#" << m_tag << "=IFCSECTIONEDSPINE" << "(";
 	if( m_SpineCurve ) { stream << "#" << m_SpineCurve->m_tag; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_CrossSections );
@@ -24,12 +24,12 @@ void IFC4X3::IfcSectionedSpine::getStepLine( std::stringstream& stream, size_t p
 	stream << ");";
 }
 void IFC4X3::IfcSectionedSpine::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcSectionedSpine::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcSectionedSpine::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReference( args[0], m_SpineCurve, map, errorStream );}
-	if( num_args > 1 ){readEntityReferenceList( args[1], m_CrossSections, map, errorStream );}
-	if( num_args > 2 ){readEntityReferenceList( args[2], m_CrossSectionPositions, map, errorStream );}
+	if( num_args > 0 ){readEntityReference( args[0], m_SpineCurve, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReferenceList( args[1], m_CrossSections, map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readEntityReferenceList( args[2], m_CrossSectionPositions, map, errorStream, entityIdNotFound );}
 	if( num_args != 3 ){ errorStream << "Wrong parameter count for entity IfcSectionedSpine, expecting 3, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcSectionedSpine::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

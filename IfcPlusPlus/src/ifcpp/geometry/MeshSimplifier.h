@@ -67,7 +67,7 @@ public:
 		return numChanges;
 	}
 
-	static void getPointerToEdge(carve::mesh::Mesh<3>* mesh, carve::mesh::Edge<3>* edgeFind, std::set<carve::mesh::Edge<3>* >& setEdges, std::set<carve::mesh::Face<3>* >& setFaces)
+	static void getPointerToEdge(carve::mesh::Mesh<3>* mesh, carve::mesh::Edge<3>* edgeFind, std::unordered_set<carve::mesh::Edge<3>* >& setEdges, std::unordered_set<carve::mesh::Face<3>* >& setFaces)
 	{
 		size_t numEdges = 0;
 		for (carve::mesh::Face<3>*face : mesh->faces)
@@ -107,7 +107,7 @@ public:
 		}
 	}
 
-	static void getEdgesOnVertex(carve::mesh::Mesh<3>* mesh, carve::mesh::Vertex<3>* vertex, std::set<carve::mesh::Edge<3>* >& setEdges)
+	static void getEdgesOnVertex(carve::mesh::Mesh<3>* mesh, carve::mesh::Vertex<3>* vertex, std::unordered_set<carve::mesh::Edge<3>* >& setEdges)
 	{
 		size_t numEdges = 0;
 		for (carve::mesh::Face<3>*face : mesh->faces)

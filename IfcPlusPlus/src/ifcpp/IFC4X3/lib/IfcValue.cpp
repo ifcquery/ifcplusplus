@@ -120,7 +120,7 @@
 #include "ifcpp/IFC4X3/include/IfcValue.h"
 
 // TYPE IfcValue = SELECT	(IfcDerivedMeasureValue	,IfcMeasureValue	,IfcSimpleValue);
-shared_ptr<IFC4X3::IfcValue> IFC4X3::IfcValue::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcValue> IFC4X3::IfcValue::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcValue>(); }
 	if( arg.compare("$")==0 )
@@ -132,6 +132,6 @@ shared_ptr<IFC4X3::IfcValue> IFC4X3::IfcValue::createObjectFromSTEP( const std::
 		return shared_ptr<IfcValue>();
 	}
 	shared_ptr<IfcValue> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

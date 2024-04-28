@@ -291,7 +291,7 @@ bool IntersectionHandler::intersectSceneSelect( const osgGA::GUIEventAdapter& ea
 						{
 							// select
 							shared_ptr<BuildingModel> ifc_model = m_system->getGeometryConverter()->getBuildingModel();
-							const std::map<int, shared_ptr<BuildingEntity> >& map_ifc_objects = ifc_model->getMapIfcEntities();
+							const std::unordered_map<int, shared_ptr<BuildingEntity> >& map_ifc_objects = ifc_model->getMapIfcEntities();
 							for (auto it_find : map_ifc_objects)
 							{
 								shared_ptr<BuildingEntity> entity = it_find.second;

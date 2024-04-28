@@ -54,6 +54,7 @@ protected:
 	std::map<std::string, osg::ref_ptr<osg::Switch> >	m_map_entity_guid_to_switch;
 	std::map<int, osg::ref_ptr<osg::Switch> >			m_map_representation_id_to_switch;
 	std::vector<osg::ref_ptr<osg::Vec3Array> >			m_cache_vertices;
+	bool												m_caching_enabled = false;
 	double												m_recent_progress;
 	osg::ref_ptr<osg::CullFace>							m_cull_back_off;
 	double												m_faces_crease_angle = M_PI * 0.02;
@@ -90,7 +91,6 @@ public:
 
 		m_numConvertedProducts = 0;
 		m_numProductsInModel = 0;
-
 	}
 
 	osg::Vec3Array* findExistingVertexArray(const osg::ref_ptr<osg::Vec3Array>& vertices)
@@ -133,7 +133,9 @@ public:
 			}
 		}
 
-		m_cache_vertices.push_back(vertices);
+		if (m_caching_enabled) {
+			m_cache_vertices.push_back(vertices);
+		}
 		return vertices.get();
 	}
 
@@ -229,11 +231,15 @@ public:
 		osg::ref_ptr<osg::Vec3Array> normals = new osg::Vec3Array();
 		normals->resize(num_vertices, poly_normal);
 
-
-		osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
-
 		osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-		geometry->setVertexArray(cachedVertexArray);
+		
+		if (m_caching_enabled) {
+			osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
+			geometry->setVertexArray(cachedVertexArray);
+		}
+		else{
+			geometry->setVertexArray(vertices);
+		}
 		geometry->setNormalArray(normals);
 		normals->setBinding(osg::Array::BIND_PER_VERTEX);
 		geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POLYGON, 0, vertices->size()));
@@ -498,10 +504,14 @@ public:
 
 		if (vertices_tri->size() > 0)
 		{
-			osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices_tri);
-
 			osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-			geometry->setVertexArray(cachedVertexArray);
+			if (m_caching_enabled) {
+				osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices_tri);
+				geometry->setVertexArray(cachedVertexArray);
+			}
+			else {
+				geometry->setVertexArray(vertices_tri);
+			}
 
 			geometry->setNormalArray(normals_tri);
 			normals_tri->setBinding(osg::Array::BIND_PER_VERTEX);
@@ -552,10 +562,15 @@ public:
 		{
 			if (vertices_quad->size() > 0)
 			{
-				osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices_quad);
-
 				osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-				geometry->setVertexArray(cachedVertexArray);
+				if( m_caching_enabled){
+					osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices_quad);
+					geometry->setVertexArray(cachedVertexArray);
+				}
+				else{
+					geometry->setVertexArray(vertices_quad);
+				}
+				
 				if (normals_quad)
 				{
 					normals_quad->setBinding(osg::Array::BIND_PER_VERTEX);
@@ -623,10 +638,14 @@ public:
 			}
 		}
 
-		osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
-
 		osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-		geometry->setVertexArray(cachedVertexArray);
+		if( m_caching_enabled){
+			osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
+			geometry->setVertexArray(cachedVertexArray);
+		}
+		else{
+			geometry->setVertexArray(vertices);
+		}
 		geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINE_STRIP, 0, vertices->size()));
 
 		if (add_color_array)
@@ -710,11 +729,15 @@ public:
 				vertices->push_back(osg::Vec3f(vertex2.x, vertex2.y, vertex2.z));
 			}
 
-			osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
-
 			osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
+			if( m_caching_enabled){
+				osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
+				geometry->setVertexArray(cachedVertexArray);
+			}
+			else{
+				geometry->setVertexArray(vertices);
+			}
 			geometry->setName("creaseEdges");
-			geometry->setVertexArray(cachedVertexArray);
 			geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, vertices->size()));
 			geometry->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 			geometry->getOrCreateStateSet()->setMode(GL_BLEND, osg::StateAttribute::ON);
@@ -802,6 +825,12 @@ public:
 				drawBoundingBox(bbox, bbox_geom);
 				geode->addDrawable(bbox_geom);
 			}
+
+#ifdef _DEBUG
+			//vec4 color(0.6f, 0.6f, 0.6f, 0.1f);
+			//GeomDebugDump::moveOffset(1);
+			//GeomDebugDump::dumpMeshset(item_meshset, color, false, true, true);
+#endif
 		}
 	}
 
@@ -809,7 +838,7 @@ public:
 	{
 		bool includeChildProducts = false;
 		bool includeGeometricChildItems = false;
-		if (item_data->hasItemDataGeometricRepresentation(includeGeometricChildItems))
+		if (item_data->hasItemDataGeometricRepresentation(includeGeometricChildItems, true))
 		{
 			osg::ref_ptr<osg::Geode> item_geode = new osg::Geode();
 
@@ -895,9 +924,9 @@ public:
 
 			if (m_geom_settings->isShowTextLiterals())
 			{
-				for (size_t ii = 0; ii < item_data->m_vec_text_literals.size(); ++ii)
+				for (size_t ii = 0; ii < item_data->m_text_literals.size(); ++ii)
 				{
-					shared_ptr<TextItemData>& text_data = item_data->m_vec_text_literals[ii];
+					shared_ptr<TextItemData>& text_data = item_data->m_text_literals[ii];
 					if (!text_data)
 					{
 						continue;
@@ -1100,7 +1129,7 @@ public:
 	/*\brief method convertToOSG: Creates geometry for OpenSceneGraph from given ProductShapeData.
 	\param[out] parent_group Group to append the geometry.
 	**/
-	void convertToOSG(const std::map<std::string, shared_ptr<ProductShapeData> >& map_shape_data, osg::ref_ptr<osg::Switch> parent_group)
+	void convertToOSG(const std::unordered_map<std::string, shared_ptr<ProductShapeData> >& map_shape_data, osg::ref_ptr<osg::Switch> parent_group)
 	{
 		progressTextCallback("Converting geometry to OpenGL format ...");
 		progressValueCallback(0, "scenegraph");
@@ -1232,22 +1261,22 @@ public:
 		}
 		float shininess = appearence->m_shininess;
 		float transparency = appearence->m_transparency;
-		bool set_transparent = appearence->m_set_transparent;
+		bool set_transparent = false;
 
-		const float color_ambient_r = appearence->m_color_ambient.x;
-		const float color_ambient_g = appearence->m_color_ambient.y;
-		const float color_ambient_b = appearence->m_color_ambient.z;
-		const float color_ambient_a = appearence->m_color_ambient.w;
+		const float color_ambient_r = appearence->m_color_ambient.r;
+		const float color_ambient_g = appearence->m_color_ambient.g;
+		const float color_ambient_b = appearence->m_color_ambient.b;
+		const float color_ambient_a = appearence->m_color_ambient.a;
 
-		const float color_diffuse_r = appearence->m_color_diffuse.x;
-		const float color_diffuse_g = appearence->m_color_diffuse.y;
-		const float color_diffuse_b = appearence->m_color_diffuse.z;
-		const float color_diffuse_a = appearence->m_color_diffuse.w;
+		const float color_diffuse_r = appearence->m_color_diffuse.r;
+		const float color_diffuse_g = appearence->m_color_diffuse.g;
+		const float color_diffuse_b = appearence->m_color_diffuse.b;
+		const float color_diffuse_a = appearence->m_color_diffuse.a;
 
-		const float color_specular_r = appearence->m_color_specular.x;
-		const float color_specular_g = appearence->m_color_specular.y;
-		const float color_specular_b = appearence->m_color_specular.z;
-		const float color_specular_a = appearence->m_color_specular.w;
+		const float color_specular_r = appearence->m_color_specular.r;
+		const float color_specular_g = appearence->m_color_specular.g;
+		const float color_specular_b = appearence->m_color_specular.b;
+		const float color_specular_a = appearence->m_color_specular.a;
 
 		if (transparencyOverride > 0)
 		{
@@ -1255,9 +1284,16 @@ public:
 			transparency = transparencyOverride;
 		}
 
-		osg::Vec4f ambientColor(color_ambient_r, color_ambient_g, color_ambient_b, transparency);
-		osg::Vec4f diffuseColor(color_diffuse_r, color_diffuse_g, color_diffuse_b, transparency);
-		osg::Vec4f specularColor(color_specular_r, color_specular_g, color_specular_b, transparency);
+		float alpha = 1.f;
+		if (transparency > 0.01)	// transparency: 0 = opaque, 1 = fully transparent
+		{
+			set_transparent = true;
+			alpha = 1.0f - transparency;
+		}
+
+		osg::Vec4f ambientColor(color_ambient_r, color_ambient_g, color_ambient_b, alpha);
+		osg::Vec4f diffuseColor(color_diffuse_r, color_diffuse_g, color_diffuse_b, alpha);
+		osg::Vec4f specularColor(color_specular_r, color_specular_g, color_specular_b, alpha);
 
 		// TODO: material caching and re-use
 		osg::ref_ptr<osg::Material> mat = new osg::Material();

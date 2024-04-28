@@ -344,10 +344,6 @@ public:
 		}
 	}
 
-
-
-
-
 	void convertIfcGeometricRepresentationItem( const shared_ptr<IfcGeometricRepresentationItem>& geom_item, shared_ptr<ItemShapeData>& item_data, 
 		std::vector<weak_ptr<IfcRelVoidsElement> >& vec_rel_voids)
 	{
@@ -370,7 +366,6 @@ public:
 				item_data->addStyle(style);
 			}
 		}
-
 
 		if (m_geometricItemCaching)
 		{
@@ -457,8 +452,12 @@ public:
 		if( ifc_curve )
 		{
 			std::vector<vec3> loops;
-			std::vector<vec3> segment_start_points;
-			m_curve_converter->convertIfcCurve( ifc_curve, loops, segment_start_points, true );
+			std::vector<CurveConverter::CurveSegment> segments;
+			m_curve_converter->convertIfcCurve( ifc_curve, segments, true );
+			for (auto& seg : segments)
+			{
+				std::copy(seg.m_points.begin(), seg.m_points.end(), std::back_inserter(loops));
+			}
 
 			shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 			polyline_data->beginPolyline();
@@ -561,8 +560,12 @@ public:
 				if( select_curve )
 				{
 					std::vector<vec3> loops;
-					std::vector<vec3> segment_start_points;
-					m_curve_converter->convertIfcCurve( select_curve, loops, segment_start_points, true );
+					std::vector<CurveConverter::CurveSegment> segments;
+					m_curve_converter->convertIfcCurve( select_curve, segments, true );
+					for (auto& seg : segments)
+					{
+						std::copy(seg.m_points.begin(), seg.m_points.end(), std::back_inserter(loops));
+					}
 
 					shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 					polyline_data->beginPolyline();
@@ -641,7 +644,7 @@ public:
 				}
 				text_item_data->m_text = literal_text;
 
-				item_data->m_vec_text_literals.push_back( text_item_data );
+				item_data->m_text_literals.push_back( text_item_data );
 			}
 			return;
 		}
@@ -654,8 +657,12 @@ public:
 			std::vector<std::vector<vec3> > face_loops;
 			face_loops.push_back( std::vector<vec3>() );
 			std::vector<vec3>& outer_boundary_loop = face_loops.back();
-			std::vector<vec3> segment_start_points;
-			m_curve_converter->convertIfcCurve( outer_boundary, outer_boundary_loop, segment_start_points, true );
+			std::vector<CurveConverter::CurveSegment> segments;
+			m_curve_converter->convertIfcCurve( outer_boundary, segments, true );
+			for (auto& seg : segments)
+			{
+				std::copy(seg.m_points.begin(), seg.m_points.end(), std::back_inserter(outer_boundary_loop));
+			}
 
 			// convert inner boundaries
 			std::vector<shared_ptr<IfcCurve> >& vec_inner_boundaries = annotation_fill_area->m_InnerBoundaries;			//optional
@@ -667,12 +674,16 @@ public:
 				}
 				face_loops.push_back( std::vector<vec3>() );
 				std::vector<vec3>& inner_boundary_loop = face_loops.back();
-				std::vector<vec3> segment_start_points_inner_curve;
-				m_curve_converter->convertIfcCurve( inner_boundary, inner_boundary_loop, segment_start_points_inner_curve, true );
+				std::vector<CurveConverter::CurveSegment> segments;
+				m_curve_converter->convertIfcCurve( inner_boundary, segments, true );
+				for (auto& seg : segments)
+				{
+					std::copy(seg.m_points.begin(), seg.m_points.end(), std::back_inserter(inner_boundary_loop));
+				}
 			}
 
 			PolyInputCache3D poly_cache(params.epsMergePoints);
-			FaceConverter::createTriangulated3DFace( face_loops, poly_cache, params);
+			FaceConverter::createTriangulated3DFace( face_loops, poly_cache, params, false);
 			item_data->addOpenPolyhedron( poly_cache.m_poly_data, params );
 			return;
 		}
@@ -805,7 +816,7 @@ public:
 						std::reverse( loop_points.begin(), loop_points.end() );
 					}
 
-					FaceConverter::createTriangulated3DFace( face_loops, poly_cache_top_face, params );
+					FaceConverter::createTriangulated3DFace( face_loops, poly_cache_top_face, params, false );
 				}
 			}
 			if( poly_cache_top_face.m_poly_data )
@@ -839,7 +850,7 @@ public:
 				}
 
 				PolyInputCache3D poly_cache_top_face( params.epsMergePoints);
-				FaceConverter::createTriangulated3DFace( face_loops, poly_cache_top_face, params );
+				FaceConverter::createTriangulated3DFace( face_loops, poly_cache_top_face, params, false );
 
 				if( poly_cache_top_face.m_poly_data )
 				{

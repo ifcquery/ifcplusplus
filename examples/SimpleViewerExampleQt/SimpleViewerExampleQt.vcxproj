@@ -435,7 +435,6 @@
     <ClCompile Include="src\gui\EntityAttributeWidget.cpp" />
     <ClCompile Include="src\gui\IfcTreeWidget.cpp" />
     <ClCompile Include="src\gui\MainWindow.cpp" />
-    <ClCompile Include="src\gui\StoreyShiftWidget.cpp" />
     <ClCompile Include="src\gui\OpenFileWidget.cpp" />
     <ClCompile Include="src\gui\SettingsWidget.cpp" />
     <ClCompile Include="src\IfcPlusPlusSystem.cpp" />
@@ -528,8 +527,6 @@
     <QtMoc Include="src\gui\MainWindow.h">
     </QtMoc>
     <QtMoc Include="src\gui\OpenFileWidget.h">
-    </QtMoc>
-    <QtMoc Include="src\gui\StoreyShiftWidget.h">
     </QtMoc>
     <QtMoc Include="src\gui\EntityAttributeWidget.h" />
     <ClInclude Include="src\gui\ScopedLockAndBlock.h" />

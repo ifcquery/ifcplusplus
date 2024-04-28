@@ -11,18 +11,18 @@
 IFC4X3::IfcAlignmentParameterSegment::IfcAlignmentParameterSegment( int tag ) { m_tag = tag; }
 void IFC4X3::IfcAlignmentParameterSegment::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCALIGNMENTPARAMETERSEGMENT" << "(";
+	stream << "#" << m_tag << "=IFCALIGNMENTPARAMETERSEGMENT" << "(";
 	if( m_StartTag ) { m_StartTag->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_EndTag ) { m_EndTag->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
 void IFC4X3::IfcAlignmentParameterSegment::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcAlignmentParameterSegment::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcAlignmentParameterSegment::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_StartTag = IfcLabel::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_EndTag = IfcLabel::createObjectFromSTEP( args[1], map, errorStream );}
+	if( num_args > 0 ){m_StartTag = IfcLabel::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_EndTag = IfcLabel::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
 	if( num_args != 2 ){ errorStream << "Wrong parameter count for entity IfcAlignmentParameterSegment, expecting 2, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcAlignmentParameterSegment::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

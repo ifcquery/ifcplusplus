@@ -6,7 +6,7 @@
 #include "ifcpp/IFC4X3/include/IfcAxis2Placement.h"
 
 // TYPE IfcAxis2Placement = SELECT	(IfcAxis2Placement2D	,IfcAxis2Placement3D);
-shared_ptr<IFC4X3::IfcAxis2Placement> IFC4X3::IfcAxis2Placement::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcAxis2Placement> IFC4X3::IfcAxis2Placement::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcAxis2Placement>(); }
 	if( arg.compare("$")==0 )
@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcAxis2Placement> IFC4X3::IfcAxis2Placement::createObjectFro
 		return shared_ptr<IfcAxis2Placement>();
 	}
 	shared_ptr<IfcAxis2Placement> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

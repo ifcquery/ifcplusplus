@@ -16,7 +16,7 @@
 IFC4X3::IfcBlobTexture::IfcBlobTexture( int tag ) { m_tag = tag; }
 void IFC4X3::IfcBlobTexture::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCBLOBTEXTURE" << "(";
+	stream << "#" << m_tag << "=IFCBLOBTEXTURE" << "(";
 	if( m_RepeatS ) { m_RepeatS->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_RepeatT ) { m_RepeatT->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -54,16 +54,16 @@ void IFC4X3::IfcBlobTexture::getStepLine( std::stringstream& stream, size_t prec
 	stream << ");";
 }
 void IFC4X3::IfcBlobTexture::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcBlobTexture::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcBlobTexture::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_RepeatS = IfcBoolean::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_RepeatT = IfcBoolean::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){m_Mode = IfcIdentifier::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){readEntityReference( args[3], m_TextureTransform, map, errorStream );}
+	if( num_args > 0 ){m_RepeatS = IfcBoolean::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_RepeatT = IfcBoolean::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_Mode = IfcIdentifier::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){readEntityReference( args[3], m_TextureTransform, map, errorStream, entityIdNotFound );}
 	if( num_args > 4 ){readTypeOfStringList( args[4], m_Parameter );}
-	if( num_args > 5 ){m_RasterFormat = IfcIdentifier::createObjectFromSTEP( args[5], map, errorStream );}
-	if( num_args > 6 ){m_RasterCode = IfcBinary::createObjectFromSTEP( args[6], map, errorStream );}
+	if( num_args > 5 ){m_RasterFormat = IfcIdentifier::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
+	if( num_args > 6 ){m_RasterCode = IfcBinary::createObjectFromSTEP( args[6], map, errorStream, entityIdNotFound );}
 	if( num_args != 7 ){ errorStream << "Wrong parameter count for entity IfcBlobTexture, expecting 7, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcBlobTexture::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

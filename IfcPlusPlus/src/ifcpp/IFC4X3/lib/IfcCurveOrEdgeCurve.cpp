@@ -6,7 +6,7 @@
 #include "ifcpp/IFC4X3/include/IfcCurveOrEdgeCurve.h"
 
 // TYPE IfcCurveOrEdgeCurve = SELECT	(IfcBoundedCurve	,IfcEdgeCurve);
-shared_ptr<IFC4X3::IfcCurveOrEdgeCurve> IFC4X3::IfcCurveOrEdgeCurve::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcCurveOrEdgeCurve> IFC4X3::IfcCurveOrEdgeCurve::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcCurveOrEdgeCurve>(); }
 	if( arg.compare("$")==0 )
@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcCurveOrEdgeCurve> IFC4X3::IfcCurveOrEdgeCurve::createObjec
 		return shared_ptr<IfcCurveOrEdgeCurve>();
 	}
 	shared_ptr<IfcCurveOrEdgeCurve> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

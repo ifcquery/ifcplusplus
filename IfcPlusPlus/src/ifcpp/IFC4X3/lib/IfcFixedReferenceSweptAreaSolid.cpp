@@ -17,7 +17,7 @@
 IFC4X3::IfcFixedReferenceSweptAreaSolid::IfcFixedReferenceSweptAreaSolid( int tag ) { m_tag = tag; }
 void IFC4X3::IfcFixedReferenceSweptAreaSolid::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCFIXEDREFERENCESWEPTAREASOLID" << "(";
+	stream << "#" << m_tag << "=IFCFIXEDREFERENCESWEPTAREASOLID" << "(";
 	if( m_SweptArea ) { stream << "#" << m_SweptArea->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_Position ) { stream << "#" << m_Position->m_tag; } else { stream << "$"; }
@@ -32,15 +32,15 @@ void IFC4X3::IfcFixedReferenceSweptAreaSolid::getStepLine( std::stringstream& st
 	stream << ");";
 }
 void IFC4X3::IfcFixedReferenceSweptAreaSolid::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcFixedReferenceSweptAreaSolid::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcFixedReferenceSweptAreaSolid::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReference( args[0], m_SweptArea, map, errorStream );}
-	if( num_args > 1 ){readEntityReference( args[1], m_Position, map, errorStream );}
-	if( num_args > 2 ){readEntityReference( args[2], m_Directrix, map, errorStream );}
-	if( num_args > 3 ){m_StartParam = IfcCurveMeasureSelect::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){m_EndParam = IfcCurveMeasureSelect::createObjectFromSTEP( args[4], map, errorStream );}
-	if( num_args > 5 ){readEntityReference( args[5], m_FixedReference, map, errorStream );}
+	if( num_args > 0 ){readEntityReference( args[0], m_SweptArea, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReference( args[1], m_Position, map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readEntityReference( args[2], m_Directrix, map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_StartParam = IfcCurveMeasureSelect::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_EndParam = IfcCurveMeasureSelect::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
+	if( num_args > 5 ){readEntityReference( args[5], m_FixedReference, map, errorStream, entityIdNotFound );}
 	if( num_args != 6 ){ errorStream << "Wrong parameter count for entity IfcFixedReferenceSweptAreaSolid, expecting 6, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcFixedReferenceSweptAreaSolid::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

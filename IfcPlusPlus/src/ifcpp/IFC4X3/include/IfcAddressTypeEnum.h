@@ -28,7 +28,7 @@ namespace IFC4X3
 		IfcAddressTypeEnum( IfcAddressTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 33568735; }
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
-		static shared_ptr<IfcAddressTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
+		static shared_ptr<IfcAddressTypeEnum> createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound );
 		IfcAddressTypeEnumEnum m_enum;
 	};
 }

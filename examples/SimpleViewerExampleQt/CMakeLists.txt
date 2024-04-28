@@ -28,7 +28,7 @@ FIND_PACKAGE(Qt6OpenGL REQUIRED)
 ADD_DEFINITIONS(-DUNICODE)
 ADD_DEFINITIONS(-D_UNICODE)
 ADD_DEFINITIONS(-DIFCQUERY_STATIC_LIB)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
@@ -49,10 +49,9 @@ SET(IFCPPVIEWER_SOURCE_FILES
     src/gui/MainWindow.cpp
     src/gui/OpenFileWidget.cpp
     src/gui/SettingsWidget.cpp
-	src/gui/StoreyShiftWidget.cpp
     src/viewer/GraphicsWindowQt.cpp
-    src/viewer/OrbitCameraManipulator.cpp
-    src/viewer/OrbitCameraManipulator.cpp
+    src/viewer/IntersectionHandler.cpp
+	src/viewer/Orbit3DManipulator.cpp
     src/viewer/ViewerWidget.cpp
 )
 
@@ -63,7 +62,6 @@ SET(IFCPPVIEWER_MOC_FILES
     src/gui/MainWindow.h
     src/gui/OpenFileWidget.h
     src/gui/SettingsWidget.h
-	src/gui/StoreyShiftWidget.h
     src/viewer/ViewerWidget.h
 )
 
@@ -79,7 +77,7 @@ ADD_EXECUTABLE(SimpleViewerExampleQt
 )
 
 set_target_properties(SimpleViewerExampleQt PROPERTIES DEBUG_POSTFIX "d")
-set_target_properties(SimpleViewerExampleQt PROPERTIES CXX_STANDARD 17)
+set_target_properties(SimpleViewerExampleQt PROPERTIES CXX_STANDARD 20)
 set_target_properties(SimpleViewerExampleQt PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=../../IfcPlusPlus/Debug;../../IfcPlusPlus/Release;${OSG_INCLUDE_DIR}/../bin;$(PATH)") # is there a way to set Debug/Release by one variable?
 
 target_link_libraries(SimpleViewerExampleQt

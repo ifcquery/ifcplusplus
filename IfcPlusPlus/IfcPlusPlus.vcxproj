@@ -342,6 +342,7 @@
     <ClCompile Include="src\ifcpp\geometry\GeometryInputData.cpp" />
     <ClCompile Include="src\ifcpp\geometry\MeshOps.cpp" />
     <ClCompile Include="src\ifcpp\geometry\MeshSimplifier.cpp" />
+    <ClCompile Include="src\ifcpp\geometry\SolidModelConverter.cpp" />
     <ClCompile Include="src\ifcpp\IFC4X3\EntityFactory.cpp">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/bigobj %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>

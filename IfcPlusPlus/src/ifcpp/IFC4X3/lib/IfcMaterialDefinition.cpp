@@ -13,11 +13,11 @@
 IFC4X3::IfcMaterialDefinition::IfcMaterialDefinition( int tag ) { m_tag = tag; }
 void IFC4X3::IfcMaterialDefinition::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCMATERIALDEFINITION" << "(";
+	stream << "#" << m_tag << "=IFCMATERIALDEFINITION" << "(";
 	stream << ");";
 }
 void IFC4X3::IfcMaterialDefinition::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcMaterialDefinition::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcMaterialDefinition::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 }
 void IFC4X3::IfcMaterialDefinition::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

@@ -8,7 +8,7 @@
 #include "ifcpp/IFC4X3/include/IfcBendingParameterSelect.h"
 
 // TYPE IfcBendingParameterSelect = SELECT	(IfcLengthMeasure	,IfcPlaneAngleMeasure);
-shared_ptr<IFC4X3::IfcBendingParameterSelect> IFC4X3::IfcBendingParameterSelect::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcBendingParameterSelect> IFC4X3::IfcBendingParameterSelect::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcBendingParameterSelect>(); }
 	if( arg.compare("$")==0 )
@@ -20,6 +20,6 @@ shared_ptr<IFC4X3::IfcBendingParameterSelect> IFC4X3::IfcBendingParameterSelect:
 		return shared_ptr<IfcBendingParameterSelect>();
 	}
 	shared_ptr<IfcBendingParameterSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

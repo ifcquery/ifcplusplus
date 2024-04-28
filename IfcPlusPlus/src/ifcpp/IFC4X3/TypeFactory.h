@@ -450,7 +450,7 @@ namespace IFC4X3
 	class IFCQUERY_EXPORT TypeFactory
 	{
 	public:
-		static shared_ptr<BuildingObject> createTypeObject( const std::string& class_name_upper, const std::string& type_arg, const std::map<int, shared_ptr<BuildingEntity> >& map_entities, std::stringstream& errorStream );
+		static shared_ptr<BuildingObject> createTypeObject( const std::string& class_name_upper, const std::string& type_arg, const BuildingModelMapType<int, shared_ptr<BuildingEntity> >& mapEntities, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound );
 		static void emptyMapOfTypes();
 	};
 } //namespace

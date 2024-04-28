@@ -41,7 +41,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "viewer/ViewController.h"
 #include "viewer/Orbit3DManipulator.h"
 #include "cmd/CommandManager.h"
-#include "StoreyShiftWidget.h"
 #include "OpenFileWidget.h"
 
 OpenFileWidget::OpenFileWidget( IfcPlusPlusSystem* sys, QWidget* parent ) 
@@ -97,8 +96,6 @@ OpenFileWidget::OpenFileWidget( IfcPlusPlusSystem* sys, QWidget* parent )
 	m_txt_out->setText( uuid_strs.str().c_str() );
 #endif
 	
-	StoreyShiftWidget* storey_shift = new StoreyShiftWidget(m_system);
-
 	// layout
 	QHBoxLayout* combo_hbox = new QHBoxLayout();
 	combo_hbox->addWidget( m_combo_recent_files, 1 );

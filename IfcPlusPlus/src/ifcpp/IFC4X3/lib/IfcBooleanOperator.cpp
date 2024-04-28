@@ -21,7 +21,7 @@ void IFC4X3::IfcBooleanOperator::getStepParameter( std::stringstream& stream, bo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IFC4X3::IfcBooleanOperator> IFC4X3::IfcBooleanOperator::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcBooleanOperator> IFC4X3::IfcBooleanOperator::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.size() == 0 ) { return shared_ptr<IfcBooleanOperator>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcBooleanOperator>(); }

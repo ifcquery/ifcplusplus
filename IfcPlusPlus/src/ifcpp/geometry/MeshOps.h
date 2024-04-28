@@ -73,11 +73,10 @@ public:
 	static std::shared_ptr<carve::mesh::MeshSet<3> > createPlaneMesh(vec3& p0, vec3& p1, vec3& p2, vec3& p3, double eps);
 	static std::shared_ptr<carve::mesh::MeshSet<3> > createBoxMesh(vec3& pos, vec3& extent, carve::math::Matrix& transform, double eps);
 	static void boundingBox2Mesh(const carve::geom::aabb<3>& bbox, shared_ptr<carve::mesh::MeshSet<3> >& meshset, double eps);
-
 	
 	static void polyhedronFromMesh(const carve::mesh::Mesh<3>* mesh, PolyInputCache3D& polyInput);
 	static void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, PolyInputCache3D& polyInput, int minNumFacesPerMesh = -1);
-	static void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::set<const carve::mesh::Face<3>* >& setSkipFaces, PolyInputCache3D& polyInput);
-	static void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::set<const carve::mesh::Face<3>* >& setSkipFaces, const std::set<const carve::mesh::Face<3>* >& setFlipFaces, PolyInputCache3D& polyInput);
+	static void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::unordered_set<const carve::mesh::Face<3>* >& setSkipFaces, PolyInputCache3D& polyInput);
+	static void polyhedronFromMeshSet(const shared_ptr<carve::mesh::MeshSet<3>>& meshset, const std::unordered_set<const carve::mesh::Face<3>* >& setSkipFaces, const std::unordered_set<const carve::mesh::Face<3>* >& setFlipFaces, PolyInputCache3D& polyInput);
 	static void MeshSet2Polyhedron2MeshSet(const shared_ptr<carve::mesh::MeshSet<3> >& meshsetIn, shared_ptr<carve::mesh::MeshSet<3> >& meshsetOut, const GeomProcessingParams& params, int minNumFacesPerMesh);
 };

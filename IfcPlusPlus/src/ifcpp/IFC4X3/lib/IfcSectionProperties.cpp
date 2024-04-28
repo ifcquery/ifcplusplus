@@ -13,7 +13,7 @@
 IFC4X3::IfcSectionProperties::IfcSectionProperties( int tag ) { m_tag = tag; }
 void IFC4X3::IfcSectionProperties::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCSECTIONPROPERTIES" << "(";
+	stream << "#" << m_tag << "=IFCSECTIONPROPERTIES" << "(";
 	if( m_SectionType ) { m_SectionType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_StartProfile ) { stream << "#" << m_StartProfile->m_tag; } else { stream << "$"; }
@@ -22,12 +22,12 @@ void IFC4X3::IfcSectionProperties::getStepLine( std::stringstream& stream, size_
 	stream << ");";
 }
 void IFC4X3::IfcSectionProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcSectionProperties::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcSectionProperties::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_SectionType = IfcSectionTypeEnum::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){readEntityReference( args[1], m_StartProfile, map, errorStream );}
-	if( num_args > 2 ){readEntityReference( args[2], m_EndProfile, map, errorStream );}
+	if( num_args > 0 ){m_SectionType = IfcSectionTypeEnum::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReference( args[1], m_StartProfile, map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readEntityReference( args[2], m_EndProfile, map, errorStream, entityIdNotFound );}
 	if( num_args != 3 ){ errorStream << "Wrong parameter count for entity IfcSectionProperties, expecting 3, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcSectionProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

@@ -14,7 +14,7 @@
 IFC4X3::IfcSineSpiral::IfcSineSpiral( int tag ) { m_tag = tag; }
 void IFC4X3::IfcSineSpiral::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCSINESPIRAL" << "(";
+	stream << "#" << m_tag << "=IFCSINESPIRAL" << "(";
 	if( m_Position ) { m_Position->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_SineTerm ) { m_SineTerm->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -25,13 +25,13 @@ void IFC4X3::IfcSineSpiral::getStepLine( std::stringstream& stream, size_t preci
 	stream << ");";
 }
 void IFC4X3::IfcSineSpiral::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcSineSpiral::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcSineSpiral::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_Position = IfcAxis2Placement::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_SineTerm = IfcLengthMeasure::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){m_LinearTerm = IfcLengthMeasure::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){m_ConstantTerm = IfcLengthMeasure::createObjectFromSTEP( args[3], map, errorStream );}
+	if( num_args > 0 ){m_Position = IfcAxis2Placement::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_SineTerm = IfcLengthMeasure::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_LinearTerm = IfcLengthMeasure::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_ConstantTerm = IfcLengthMeasure::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
 	if( num_args != 4 ){ errorStream << "Wrong parameter count for entity IfcSineSpiral, expecting 4, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcSineSpiral::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

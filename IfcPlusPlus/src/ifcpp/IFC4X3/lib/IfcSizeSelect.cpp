@@ -12,7 +12,7 @@
 #include "ifcpp/IFC4X3/include/IfcSizeSelect.h"
 
 // TYPE IfcSizeSelect = SELECT	(IfcDescriptiveMeasure	,IfcLengthMeasure	,IfcNormalisedRatioMeasure	,IfcPositiveLengthMeasure	,IfcPositiveRatioMeasure	,IfcRatioMeasure);
-shared_ptr<IFC4X3::IfcSizeSelect> IFC4X3::IfcSizeSelect::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcSizeSelect> IFC4X3::IfcSizeSelect::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcSizeSelect>(); }
 	if( arg.compare("$")==0 )
@@ -24,6 +24,6 @@ shared_ptr<IFC4X3::IfcSizeSelect> IFC4X3::IfcSizeSelect::createObjectFromSTEP( c
 		return shared_ptr<IfcSizeSelect>();
 	}
 	shared_ptr<IfcSizeSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

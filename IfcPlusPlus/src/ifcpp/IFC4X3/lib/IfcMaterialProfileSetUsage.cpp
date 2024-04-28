@@ -14,7 +14,7 @@
 IFC4X3::IfcMaterialProfileSetUsage::IfcMaterialProfileSetUsage( int tag ) { m_tag = tag; }
 void IFC4X3::IfcMaterialProfileSetUsage::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCMATERIALPROFILESETUSAGE" << "(";
+	stream << "#" << m_tag << "=IFCMATERIALPROFILESETUSAGE" << "(";
 	if( m_ForProfileSet ) { stream << "#" << m_ForProfileSet->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_CardinalPoint ) { m_CardinalPoint->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -23,12 +23,12 @@ void IFC4X3::IfcMaterialProfileSetUsage::getStepLine( std::stringstream& stream,
 	stream << ");";
 }
 void IFC4X3::IfcMaterialProfileSetUsage::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcMaterialProfileSetUsage::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcMaterialProfileSetUsage::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReference( args[0], m_ForProfileSet, map, errorStream );}
-	if( num_args > 1 ){m_CardinalPoint = IfcCardinalPointReference::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){m_ReferenceExtent = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map, errorStream );}
+	if( num_args > 0 ){readEntityReference( args[0], m_ForProfileSet, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_CardinalPoint = IfcCardinalPointReference::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_ReferenceExtent = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
 	if( num_args != 3 ){ errorStream << "Wrong parameter count for entity IfcMaterialProfileSetUsage, expecting 3, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcMaterialProfileSetUsage::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

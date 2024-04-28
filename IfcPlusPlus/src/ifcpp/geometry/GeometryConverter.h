@@ -103,13 +103,13 @@ protected:
 	shared_ptr<GeometrySettings>			m_geom_settings;
 	shared_ptr<RepresentationConverter>		m_representation_converter;
 
-	std::map<std::string, shared_ptr<ProductShapeData> >	m_product_shape_data;
-	std::map<std::string, shared_ptr<BuildingObject> >		m_map_outside_spatial_structure;
-	std::set<int> m_setResolvedProjectStructure;
+	std::unordered_map<std::string, shared_ptr<ProductShapeData> >	m_product_shape_data;
+	std::unordered_map<std::string, shared_ptr<BuildingObject> >	m_map_outside_spatial_structure;
+	std::unordered_set<int> m_setResolvedProjectStructure;
 	vec3 m_siteOffset;
 	double m_recent_progress = 0;
 	bool m_convertDirectlyToBuffer = true;
-	std::map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
+	std::unordered_map<int, std::vector<shared_ptr<StatusCallback::Message> > > m_messages;
 
 	std::mutex m_writelock_messages;
 	std::mutex m_writelock_item_cache;
@@ -120,18 +120,18 @@ public:
 	shared_ptr<RepresentationConverter>& getRepresentationConverter() { return m_representation_converter; }
 	shared_ptr<GeometrySettings>& getGeomSettings() { return m_geom_settings; }
 	void setGeomSettings(shared_ptr<GeometrySettings>& settings) { m_geom_settings = settings; }
-	std::map<std::string, shared_ptr<ProductShapeData> >& getShapeInputData() { return m_product_shape_data; }
-	std::map<std::string, shared_ptr<BuildingObject> >& getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
+	std::unordered_map<std::string, shared_ptr<ProductShapeData> >& getShapeInputData() { return m_product_shape_data; }
+	std::unordered_map<std::string, shared_ptr<BuildingObject> >& getObjectsOutsideSpatialStructure() { return m_map_outside_spatial_structure; }
 	bool m_clear_memory_immedeately = true;
 	bool m_set_model_to_origin = false;
 
 	//\ brief: ElementConvertedCallback will be called after each IfcProduct geometry is converted, in case you want to directly stream the meshes somewhere
-	using ElementConvertedCallbackType = std::function<void(shared_ptr<ProductShapeData>)>;
-	ElementConvertedCallbackType elementConvertedCallbackHandler;
-	void setElementConvertedCallback(const ElementConvertedCallbackType& cb)
-	{
-		elementConvertedCallbackHandler = cb;
-	}
+	//using ElementConvertedCallbackType = std::function<void(shared_ptr<ProductShapeData>)>;
+	//ElementConvertedCallbackType elementConvertedCallbackHandler;
+	//void setElementConvertedCallback(const ElementConvertedCallbackType& cb)
+	//{
+	//	elementConvertedCallbackHandler = cb;
+	//}
 
 	GeometryConverter(shared_ptr<BuildingModel>& ifc_model, shared_ptr<GeometrySettings>& geom_settings)
 	{
@@ -174,7 +174,7 @@ public:
 
 	void clearIfcRepresentationsInModel(bool resetRepresentationInProducts, bool clearStyles, bool clearIfcElements )
 	{
-		std::map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
+		std::unordered_map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
 		for (auto it = map_entities.begin(); it != map_entities.end(); )
 		{
 			shared_ptr<BuildingEntity>& entity = it->second;
@@ -658,7 +658,7 @@ public:
 	void fixModelHierarchy()
 	{
 		// sometimes there are IfcBuilding, not attached to IfcSite and IfcProject
-		std::map<std::string, shared_ptr<ProductShapeData> >& map_shapeInputData = getShapeInputData();
+		std::unordered_map<std::string, shared_ptr<ProductShapeData> >& map_shapeInputData = getShapeInputData();
 		shared_ptr<BuildingModel> ifc_model = getBuildingModel();
 		shared_ptr<IfcProject> ifc_project = ifc_model->getIfcProject();
 		std::vector<shared_ptr<IfcSite> > vec_ifc_sites;
@@ -809,13 +809,13 @@ public:
 				if (!complex_property->m_UsageName) continue;
 				if (complex_property->m_UsageName->m_value.compare("Color") == 0)
 				{
-					glm::vec4 vec_color;
+					vec4 vec_color;
 					m_representation_converter->getStylesConverter()->convertIfcComplexPropertyColor(complex_property, vec_color);
 					shared_ptr<StyleData> style_data(new StyleData(-1));
 					style_data->m_apply_to_geometry_type = StyleData::GEOM_TYPE_ANY;
-					style_data->m_color_ambient = glm::vec4(vec_color);
-					style_data->m_color_diffuse = glm::vec4(vec_color);
-					style_data->m_color_specular = glm::vec4(vec_color);
+					style_data->m_color_ambient = vec4(vec_color);
+					style_data->m_color_diffuse = vec4(vec_color);
+					style_data->m_color_specular = vec4(vec_color);
 					style_data->m_shininess = 35.f;
 					product_shape->addStyle(style_data);
 				}
@@ -856,7 +856,8 @@ public:
 
 		shared_ptr<ProductShapeData> ifc_project_data;
 		std::vector<shared_ptr<IfcObjectDefinition> > vec_object_definitions;
-		std::map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
+		std::unordered_map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
+		std::unordered_set<std::string> setGuids;
 		if (map_entities.size() > 0)
 		{
 			for (auto it = map_entities.begin(); it != map_entities.end(); )
@@ -864,19 +865,54 @@ public:
 				shared_ptr<BuildingEntity> entity = it->second;
 				if (entity)
 				{
-					shared_ptr<IfcObjectDefinition> object_def = dynamic_pointer_cast<IfcObjectDefinition>(entity);
-					if (object_def)
+					shared_ptr<IfcRoot> root = dynamic_pointer_cast<IfcRoot>(entity);
+					if (root)
 					{
-						vec_object_definitions.push_back(object_def);
-
-						if (m_set_model_to_origin)
+						std::string guid;
+						if (root->m_GlobalId)
 						{
-							if (object_def->classID() == IFC4X3::IFCSITE)
+							guid = root->m_GlobalId->m_value;
+
+							auto it_find = setGuids.find(guid);
+							if (it_find != setGuids.end())
 							{
-								shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>(object_def);
-								if (ifc_site)
+								std::string guid_duplicate = guid;
+								size_t guid_append = 1;
+								for (auto it = setGuids.begin(); it != setGuids.end(); ++it)
 								{
-									setIfcSiteToOrigin(ifc_site);
+									std::string guid_unique = guid + "_" + std::to_string(guid_append);
+									auto it_find2 = setGuids.find(guid_unique);
+									if (it_find2 == setGuids.end())
+									{
+										guid = guid_unique;
+										break;
+									}
+									++guid_append;
+								}
+
+								std::string error = "duplicate GUID in model: " + guid_duplicate;
+								messageCallback(error, StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
+								
+								root->m_GlobalId->m_value = guid;
+							}
+
+							setGuids.insert( it_find, guid);
+						}
+
+						shared_ptr<IfcObjectDefinition> object_def = dynamic_pointer_cast<IfcObjectDefinition>(root);
+						if (object_def)
+						{
+							vec_object_definitions.push_back(object_def);
+
+							if (m_set_model_to_origin)
+							{
+								if (object_def->classID() == IFC4X3::IFCSITE)
+								{
+									shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>(object_def);
+									if (ifc_site)
+									{
+										setIfcSiteToOrigin(ifc_site);
+									}
 								}
 							}
 						}
@@ -910,9 +946,9 @@ public:
 		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
 		const int num_object_definitions = (int)vec_object_definitions.size();
 
-		std::mutex writelock_map, writelock_ifc_project, writelock_progress;
+		std::mutex writelock_map, writelock_ifc_project, writelock_progress, writelock_err;
 		int i = 0;
-#if defined(_DEBUG) || defined(_DEBUG_RELEASE) //|| defined(__GNUC__)  // disable threading for Linux due to unknown issues with std::thread
+#if defined(_DEBUG) //|| defined(_DEBUG_RELEASE) //|| defined(__GNUC__)  // disable threading for Linux due to unknown issues with std::thread
 		std::for_each(std::execution::seq,
 #else
 		std::for_each(std::execution::par,
@@ -924,9 +960,9 @@ public:
 					return;
 				}
 				std::thread::id id = std::this_thread::get_id();
-				thread_local shared_ptr<ThreadData> buffer1 = createThreadData(id, buffer1, mapThreadData, mapMutex);
+				//thread_local shared_ptr<ThreadData> buffer1 = createThreadData(id, buffer1, mapThreadData, mapMutex);
+				//int refCount = buffer1.use_count();
 
-				int refCount = buffer1.use_count();
 				const int tag = object_def->m_tag;
 				std::string guid;
 				if (object_def->m_GlobalId)
@@ -938,13 +974,18 @@ public:
 				product_geom_input_data->m_ifc_object_definition = object_def;
 
 				// TODO: check for equal product shapes: each representation and each item must be equal, also openings must be equal: m_HasOpenings_inverse
+				uint32_t classID = object_def->classID();
 				std::stringstream thread_err;
-				if (m_geom_settings->skipRenderObject(object_def->classID()))
+#ifdef _DEBUG
+				std::string className = IFC4X3::EntityFactory::getStringForClassID(classID);
+#endif
+				if (m_geom_settings->skipRenderObject(classID))
 				{
-					// geometry will be created in method subtractOpenings
+					// IFC type is defined to be filtered out
 					return;
 				}
-				else if (object_def->classID() == IFC4X3::IFCPROJECT)
+				
+				if (classID == IFC4X3::IFCPROJECT)
 				{
 					std::lock_guard<std::mutex> lock(writelock_ifc_project);
 					ifc_project_data = product_geom_input_data;
@@ -971,38 +1012,6 @@ public:
 					thread_err << "undefined error, product id " << tag;
 				}
 
-				auto it_find = m_product_shape_data.find(guid);
-				if (it_find != m_product_shape_data.end())
-				{
-					thread_err << "duplicate GUID in model: " << guid;
-
-					size_t guid_append = 1;
-					for (auto it = m_product_shape_data.begin(); it != m_product_shape_data.end(); ++it)
-					{
-						std::string guid_unique = guid + "_" + std::to_string(guid_append);
-						auto it_find2 = m_product_shape_data.find(guid_unique);
-						if (it_find2 == m_product_shape_data.end())
-						{
-							object_def->m_GlobalId->m_value = guid_unique;
-							guid = guid_unique;
-							break;
-						}
-						++guid_append;
-					}
-
-					// save "fixed" (at least unique) GUID
-					product_geom_input_data->m_entity_guid = guid;
-					if (!product_geom_input_data->m_ifc_object_definition.expired())
-					{
-						shared_ptr<IfcObjectDefinition> ifc_object_def(product_geom_input_data->m_ifc_object_definition);
-
-						if (ifc_object_def->m_GlobalId)
-						{
-							ifc_object_def->m_GlobalId->m_value = guid;
-						}
-					}
-				}
-
 				if (m_convertDirectlyToBuffer)
 				{
 					// serialize ProductShapeData and write to buffer file
@@ -1019,10 +1028,10 @@ public:
 					messageCallback(thread_err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
 				}
 
-				if (elementConvertedCallbackHandler)
-				{
-					elementConvertedCallbackHandler(product_geom_input_data);
-				}
+				//if (elementConvertedCallbackHandler)
+				//{
+				//	elementConvertedCallbackHandler(product_geom_input_data);
+				//}
 
 				// progress callback
 				double progress = (double)i / (double)num_object_definitions;
@@ -1133,7 +1142,7 @@ public:
 							continue;
 						}
 
-						if (guid.size() > 18)
+						if (guid.size() >= 18)
 						{
 							shared_ptr<IfcRoot> ifc_object_def_as_root = ifc_object_def;
 							m_map_outside_spatial_structure[guid] = ifc_object_def_as_root;

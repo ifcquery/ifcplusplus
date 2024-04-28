@@ -831,7 +831,7 @@ void EntityAttributeWidget::slotTreewidgetSelectionChanged( QTreeWidgetItem* cur
 
 	return;
 	ScopedBoolToTrue block( m_block_selection_signals, m_block_counter );
-	const std::map<int,shared_ptr<BuildingEntity> >& map_ifc_objects = m_system->getGeometryConverter()->getBuildingModel()->getMapIfcEntities();
+	const std::unordered_map<int,shared_ptr<BuildingEntity> >& map_ifc_objects = m_system->getGeometryConverter()->getBuildingModel()->getMapIfcEntities();
 	
 	if( previous )
 	{

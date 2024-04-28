@@ -74,35 +74,35 @@ namespace SceneGraphUtils
 		}
 		return false;
 	}
-	inline bool inParentList( const int entity_id, const osg::Group* group )
+	inline bool inParentList(const int entity_id, const osg::Group* group)
 	{
-		if( !group )
+		if (!group)
 		{
 			return false;
 		}
 
 		const osg::Group::ParentList& vec_parents = group->getParents();
-		for( size_t ii = 0; ii < vec_parents.size(); ++ii )
+		for (size_t ii = 0; ii < vec_parents.size(); ++ii)
 		{
 			const osg::Group* parent = vec_parents[ii];
-			if( parent )
+			if (parent)
 			{
 				const std::string parent_name = parent->getName();
-				if( parent_name.length() > 0 )
+				if (parent_name.length() > 0)
 				{
-					if( parent_name.at( 0 ) == '#' )
+					if (parent_name.at(0) == '#')
 					{
 						// extract entity id
-						std::string parent_name_id = parent_name.substr( 1 );
-						size_t last_index = parent_name_id.find_first_not_of( "0123456789" );
-						std::string id_str = parent_name_id.substr( 0, last_index );
-						const int id = std::stoi( id_str.c_str() );
-						if( id == entity_id )
+						std::string parent_name_id = parent_name.substr(1);
+						size_t last_index = parent_name_id.find_first_not_of("0123456789");
+						std::string id_str = parent_name_id.substr(0, last_index);
+						const int id = std::stoi(id_str.c_str());
+						if (id == entity_id)
 						{
 							return true;
 						}
-						bool in_parent_list = inParentList( entity_id, parent );
-						if( in_parent_list )
+						bool in_parent_list = inParentList(entity_id, parent);
+						if (in_parent_list)
 						{
 							return true;
 						}
@@ -112,128 +112,128 @@ namespace SceneGraphUtils
 		}
 		return false;
 	}
-	inline osg::Vec3d computePolygonNormal( const osg::Vec3dArray* polygon )
+	inline osg::Vec3d computePolygonNormal(const osg::Vec3dArray* polygon)
 	{
 		const int num_points = polygon->size();
-		osg::Vec3d polygon_normal( 0, 0, 0 );
-		for( int k = 0; k < num_points; ++k )
+		osg::Vec3d polygon_normal(0, 0, 0);
+		for (int k = 0; k < num_points; ++k)
 		{
-			const osg::Vec3d& vertex_current = polygon->at( k );
-			const osg::Vec3d& vertex_next = polygon->at( (k + 1) % num_points );
-			polygon_normal._v[0] += (vertex_current.y() - vertex_next.y())*(vertex_current.z() + vertex_next.z());
-			polygon_normal._v[1] += (vertex_current.z() - vertex_next.z())*(vertex_current.x() + vertex_next.x());
-			polygon_normal._v[2] += (vertex_current.x() - vertex_next.x())*(vertex_current.y() + vertex_next.y());
+			const osg::Vec3d& vertex_current = polygon->at(k);
+			const osg::Vec3d& vertex_next = polygon->at((k + 1) % num_points);
+			polygon_normal._v[0] += (vertex_current.y() - vertex_next.y()) * (vertex_current.z() + vertex_next.z());
+			polygon_normal._v[1] += (vertex_current.z() - vertex_next.z()) * (vertex_current.x() + vertex_next.x());
+			polygon_normal._v[2] += (vertex_current.x() - vertex_next.x()) * (vertex_current.y() + vertex_next.y());
 		}
 		polygon_normal.normalize();
 		return polygon_normal;
 	}
-	inline osg::Vec3f computePolygonNormal( const osg::Vec3Array* polygon )
+	inline osg::Vec3f computePolygonNormal(const osg::Vec3Array* polygon)
 	{
 		const int num_points = polygon->size();
-		osg::Vec3f polygon_normal( 0, 0, 0 );
-		for( int k = 0; k < num_points; ++k )
+		osg::Vec3f polygon_normal(0, 0, 0);
+		for (int k = 0; k < num_points; ++k)
 		{
-			const osg::Vec3f& vertex_current = polygon->at( k );
-			const osg::Vec3f& vertex_next = polygon->at( (k + 1) % num_points );
-			polygon_normal._v[0] += (vertex_current.y() - vertex_next.y())*(vertex_current.z() + vertex_next.z());
-			polygon_normal._v[1] += (vertex_current.z() - vertex_next.z())*(vertex_current.x() + vertex_next.x());
-			polygon_normal._v[2] += (vertex_current.x() - vertex_next.x())*(vertex_current.y() + vertex_next.y());
+			const osg::Vec3f& vertex_current = polygon->at(k);
+			const osg::Vec3f& vertex_next = polygon->at((k + 1) % num_points);
+			polygon_normal._v[0] += (vertex_current.y() - vertex_next.y()) * (vertex_current.z() + vertex_next.z());
+			polygon_normal._v[1] += (vertex_current.z() - vertex_next.z()) * (vertex_current.x() + vertex_next.x());
+			polygon_normal._v[2] += (vertex_current.x() - vertex_next.x()) * (vertex_current.y() + vertex_next.y());
 		}
 		polygon_normal.normalize();
 		return polygon_normal;
 	}
-	inline osg::ref_ptr<osg::Geode> createCoordinateAxes( double length )
+	inline osg::ref_ptr<osg::Geode> createCoordinateAxes(double length)
 	{
 		osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 		osg::ref_ptr<osg::StateSet> stateset = geode->getOrCreateStateSet();
-		stateset->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
+		stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 		float alpha = 0.5f;
 
 		// positive axes
 		{
 			osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
-			geode->addDrawable( geom );
+			geode->addDrawable(geom);
 
 			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
-			vertices->push_back( osg::Vec3f( 0.0, 0.0, 0.0 ) );
-			vertices->push_back( osg::Vec3f( length, 0.0, 0.0 ) );
+			vertices->push_back(osg::Vec3f(0.0, 0.0, 0.0));
+			vertices->push_back(osg::Vec3f(length, 0.0, 0.0));
 
-			vertices->push_back( osg::Vec3f( 0.0, 0.0, 0.0 ) );
-			vertices->push_back( osg::Vec3f( 0.0, length, 0.0 ) );
+			vertices->push_back(osg::Vec3f(0.0, 0.0, 0.0));
+			vertices->push_back(osg::Vec3f(0.0, length, 0.0));
 
-			vertices->push_back( osg::Vec3f( 0.0, 0.0, 0.0 ) );
-			vertices->push_back( osg::Vec3f( 0.0, 0.0, length ) );
+			vertices->push_back(osg::Vec3f(0.0, 0.0, 0.0));
+			vertices->push_back(osg::Vec3f(0.0, 0.0, length));
 
 #ifndef COORDINATE_AXES_NO_COLORS
 			osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-			colors->push_back( osg::Vec4f( 1.f, 0.f, 0.f, alpha ) );
-			colors->push_back( osg::Vec4f( 1.f, 0.f, 0.f, alpha ) );
-			colors->push_back( osg::Vec4f( 0.f, 0.8f, 0.f, alpha ) );
-			colors->push_back( osg::Vec4f( 0.f, 0.8f, 0.f, alpha ) );
-			colors->push_back( osg::Vec4f( 0.f, 0.f, 1.f, alpha ) );
-			colors->push_back( osg::Vec4f( 0.f, 0.f, 1.f, alpha ) );
-			colors->setBinding( osg::Array::BIND_PER_VERTEX );
+			colors->push_back(osg::Vec4f(1.f, 0.f, 0.f, alpha));
+			colors->push_back(osg::Vec4f(1.f, 0.f, 0.f, alpha));
+			colors->push_back(osg::Vec4f(0.f, 0.8f, 0.f, alpha));
+			colors->push_back(osg::Vec4f(0.f, 0.8f, 0.f, alpha));
+			colors->push_back(osg::Vec4f(0.f, 0.f, 1.f, alpha));
+			colors->push_back(osg::Vec4f(0.f, 0.f, 1.f, alpha));
+			colors->setBinding(osg::Array::BIND_PER_VERTEX);
 
-			geom->setColorArray( colors );
+			geom->setColorArray(colors);
 			//geom->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 #endif
-			geom->setVertexArray( vertices );
-			geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, 6 ) );
+			geom->setVertexArray(vertices);
+			geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, 6));
 		}
 
 		// positive axes
 		{
 			osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
-			geode->addDrawable( geom );
+			geode->addDrawable(geom);
 
 			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
-			vertices->push_back( osg::Vec3f( 0.0, 0.0, 0.0 ) );
-			vertices->push_back( osg::Vec3f( -length, 0.0, 0.0 ) );
+			vertices->push_back(osg::Vec3f(0.0, 0.0, 0.0));
+			vertices->push_back(osg::Vec3f(-length, 0.0, 0.0));
 
-			vertices->push_back( osg::Vec3f( 0.0, 0.0, 0.0 ) );
-			vertices->push_back( osg::Vec3f( 0.0, -length, 0.0 ) );
+			vertices->push_back(osg::Vec3f(0.0, 0.0, 0.0));
+			vertices->push_back(osg::Vec3f(0.0, -length, 0.0));
 
-			vertices->push_back( osg::Vec3f( 0.0, 0.0, 0.0 ) );
-			vertices->push_back( osg::Vec3f( 0.0, 0.0, -length ) );
+			vertices->push_back(osg::Vec3f(0.0, 0.0, 0.0));
+			vertices->push_back(osg::Vec3f(0.0, 0.0, -length));
 
 #ifndef COORDINATE_AXES_NO_COLORS
 			osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-			colors->push_back( osg::Vec4f( 1.f, 0.f, 0.f, alpha ) );
-			colors->push_back( osg::Vec4f( 1.f, 0.f, 0.f, alpha ) );
-			colors->push_back( osg::Vec4f( 0.f, 1.f, 0.f, alpha ) );
-			colors->push_back( osg::Vec4f( 0.f, 1.f, 0.f, alpha ) );
-			colors->push_back( osg::Vec4f( 0.f, 0.f, 1.f, alpha ) );
-			colors->push_back( osg::Vec4f( 0.f, 0.f, 1.f, alpha ) );
-			colors->setBinding( osg::Array::BIND_PER_VERTEX );
+			colors->push_back(osg::Vec4f(1.f, 0.f, 0.f, alpha));
+			colors->push_back(osg::Vec4f(1.f, 0.f, 0.f, alpha));
+			colors->push_back(osg::Vec4f(0.f, 1.f, 0.f, alpha));
+			colors->push_back(osg::Vec4f(0.f, 1.f, 0.f, alpha));
+			colors->push_back(osg::Vec4f(0.f, 0.f, 1.f, alpha));
+			colors->push_back(osg::Vec4f(0.f, 0.f, 1.f, alpha));
+			colors->setBinding(osg::Array::BIND_PER_VERTEX);
 
-			geom->setColorArray( colors );
+			geom->setColorArray(colors);
 			//geom->setColorBinding( osg::Geometry::BIND_PER_VERTEX );
 #endif
-			geom->setVertexArray( vertices );
-			geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, 6 ) );
+			geom->setVertexArray(vertices);
+			geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINE_STRIP, 0, 6));
 
 			// make negative axed dotted
 			osg::ref_ptr<osg::StateSet> stateset_negative = geom->getOrCreateStateSet();
 			osg::ref_ptr<osg::LineStipple> linestipple = new osg::LineStipple();
-			linestipple->setFactor( 2 );
-			linestipple->setPattern( 0xAAAA );
-			stateset_negative->setAttributeAndModes( linestipple, osg::StateAttribute::ON );
+			linestipple->setFactor(2);
+			linestipple->setPattern(0xAAAA);
+			stateset_negative->setAttributeAndModes(linestipple, osg::StateAttribute::ON);
 		}
 
 		// x axis label
 		bool add_x_label = false;
-		if( add_x_label )
+		if (add_x_label)
 		{
 			osg::ref_ptr<osgText::Text> label_x = new  osgText::Text();
-			label_x->setFont( "ARIAL.TTF" );
-			label_x->setAlignment( osgText::Text::RIGHT_TOP );
-			label_x->setAxisAlignment( osgText::Text::SCREEN );
-			label_x->setColor( osg::Vec4( 0.8f, 0.0f, 0.0f, 1.0f ) );
-			label_x->setCharacterSize( 0.5f );
-			label_x->setText( "x" );
-			label_x->setPosition( osg::Vec3( 1, 0, 0 ) );
-			label_x->setEnableDepthWrites( false );
-			geode->addDrawable( label_x );
+			label_x->setFont("ARIAL.TTF");
+			label_x->setAlignment(osgText::Text::RIGHT_TOP);
+			label_x->setAxisAlignment(osgText::Text::SCREEN);
+			label_x->setColor(osg::Vec4(0.8f, 0.0f, 0.0f, 1.0f));
+			label_x->setCharacterSize(0.5f);
+			label_x->setText("x");
+			label_x->setPosition(osg::Vec3(1, 0, 0));
+			label_x->setEnableDepthWrites(false);
+			geode->addDrawable(label_x);
 		}
 
 		return geode;
@@ -248,92 +248,92 @@ namespace SceneGraphUtils
 
 		{
 			// x
-			osg::ref_ptr<osg::ShapeDrawable> cone_drawable = new osg::ShapeDrawable( new osg::Cone( osg::Vec3f( 0.f, 0.f, 0.f ), cone_radius, cone_height ) );
-			osg::ref_ptr<osg::ShapeDrawable> cyl_drawable = new osg::ShapeDrawable( new osg::Cylinder( osg::Vec3f( 0.f, 0.f, -cone_base*0.5 ), cone_radius*0.2, cone_base ) );
-			cone_drawable->setColor( osg::Vec4f( 0.8f, 0.0f, 0.0f, 0.7f ) );
-			cyl_drawable->setColor( osg::Vec4f( 0.8f, 0.0f, 0.0f, 0.7f ) );
-			osg::ref_ptr<osg::MatrixTransform> mt1 = new osg::MatrixTransform( osg::Matrix::rotate( M_PI_2, osg::Vec3d( 0, 1, 0 ) )*osg::Matrix::translate( 1, 0, 0 ) );
+			osg::ref_ptr<osg::ShapeDrawable> cone_drawable = new osg::ShapeDrawable(new osg::Cone(osg::Vec3f(0.f, 0.f, 0.f), cone_radius, cone_height));
+			osg::ref_ptr<osg::ShapeDrawable> cyl_drawable = new osg::ShapeDrawable(new osg::Cylinder(osg::Vec3f(0.f, 0.f, -cone_base * 0.5), cone_radius * 0.2, cone_base));
+			cone_drawable->setColor(osg::Vec4f(0.8f, 0.0f, 0.0f, 0.7f));
+			cyl_drawable->setColor(osg::Vec4f(0.8f, 0.0f, 0.0f, 0.7f));
+			osg::ref_ptr<osg::MatrixTransform> mt1 = new osg::MatrixTransform(osg::Matrix::rotate(M_PI_2, osg::Vec3d(0, 1, 0)) * osg::Matrix::translate(1, 0, 0));
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-			geode->addDrawable( cone_drawable );
-			geode->addDrawable( cyl_drawable );
-			mt1->addChild( geode );
-			group->addChild( mt1 );
+			geode->addDrawable(cone_drawable);
+			geode->addDrawable(cyl_drawable);
+			mt1->addChild(geode);
+			group->addChild(mt1);
 
 			osg::ref_ptr<osg::Material> material = new osg::Material();
-			material->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.7f, 0.f, 0.f, 0.7f ) );
-			material->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.7f, 0.f, 0.f, 0.7f ) );
-			material->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f( 1.f, 0.4f, 0.4f, 0.7f ) );
-			material->setShininess( osg::Material::FRONT_AND_BACK, 30.0 );
-			cone_drawable->getOrCreateStateSet()->setAttribute( material, osg::StateAttribute::ON );
-			cyl_drawable->getOrCreateStateSet()->setAttribute( material, osg::StateAttribute::ON );
+			material->setAmbient(osg::Material::FRONT_AND_BACK, osg::Vec4f(0.7f, 0.f, 0.f, 0.7f));
+			material->setDiffuse(osg::Material::FRONT_AND_BACK, osg::Vec4f(0.7f, 0.f, 0.f, 0.7f));
+			material->setSpecular(osg::Material::FRONT_AND_BACK, osg::Vec4f(1.f, 0.4f, 0.4f, 0.7f));
+			material->setShininess(osg::Material::FRONT_AND_BACK, 30.0);
+			cone_drawable->getOrCreateStateSet()->setAttribute(material, osg::StateAttribute::ON);
+			cyl_drawable->getOrCreateStateSet()->setAttribute(material, osg::StateAttribute::ON);
 
 		}
 
 		{
 			// y
-			osg::ref_ptr<osg::Cone> cone = new osg::Cone( osg::Vec3f( 0.f, 0.f, 0.f ), cone_radius, cone_height );
+			osg::ref_ptr<osg::Cone> cone = new osg::Cone(osg::Vec3f(0.f, 0.f, 0.f), cone_radius, cone_height);
 
-			osg::ref_ptr<osg::ShapeDrawable> cone_drawable = new osg::ShapeDrawable( new osg::Cone( osg::Vec3f( 0.f, 0.f, 0.f ), cone_radius, cone_height ) );
-			osg::ref_ptr<osg::ShapeDrawable> cyl_drawable = new osg::ShapeDrawable( new osg::Cylinder( osg::Vec3f( 0.f, 0.f, cone_base*0.5 ), cone_radius*0.2, cone_base ) );
-			cone_drawable->setColor( osg::Vec4f( 0.f, 0.7f, 0.f, 0.7f ) );
-			cyl_drawable->setColor( osg::Vec4f( 0.f, 0.7f, 0.f, 0.7f ) );
+			osg::ref_ptr<osg::ShapeDrawable> cone_drawable = new osg::ShapeDrawable(new osg::Cone(osg::Vec3f(0.f, 0.f, 0.f), cone_radius, cone_height));
+			osg::ref_ptr<osg::ShapeDrawable> cyl_drawable = new osg::ShapeDrawable(new osg::Cylinder(osg::Vec3f(0.f, 0.f, cone_base * 0.5), cone_radius * 0.2, cone_base));
+			cone_drawable->setColor(osg::Vec4f(0.f, 0.7f, 0.f, 0.7f));
+			cyl_drawable->setColor(osg::Vec4f(0.f, 0.7f, 0.f, 0.7f));
 
 
-			osg::ref_ptr<osg::MatrixTransform> mt1 = new osg::MatrixTransform( osg::Matrix::rotate( -M_PI_2, osg::Vec3d( 1, 0, 0 ) )*osg::Matrix::translate( 0, 1, 0 ) );
-			osg::ref_ptr<osg::MatrixTransform> mt2 = new osg::MatrixTransform( osg::Matrix::rotate( -M_PI_2, osg::Vec3d( 1, 0, 0 ) )*osg::Matrix::translate( 0, 1 + cone_height, 0 ) );
-			osg::ref_ptr<osg::MatrixTransform> mt_cyl = new osg::MatrixTransform( osg::Matrix::rotate( -M_PI_2, osg::Vec3d( 1, 0, 0 ) ) );
+			osg::ref_ptr<osg::MatrixTransform> mt1 = new osg::MatrixTransform(osg::Matrix::rotate(-M_PI_2, osg::Vec3d(1, 0, 0)) * osg::Matrix::translate(0, 1, 0));
+			osg::ref_ptr<osg::MatrixTransform> mt2 = new osg::MatrixTransform(osg::Matrix::rotate(-M_PI_2, osg::Vec3d(1, 0, 0)) * osg::Matrix::translate(0, 1 + cone_height, 0));
+			osg::ref_ptr<osg::MatrixTransform> mt_cyl = new osg::MatrixTransform(osg::Matrix::rotate(-M_PI_2, osg::Vec3d(1, 0, 0)));
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-			geode->addDrawable( cone_drawable );
+			geode->addDrawable(cone_drawable);
 
 			osg::ref_ptr<osg::Geode> geode_cyl = new osg::Geode();
-			geode_cyl->addDrawable( cyl_drawable );
+			geode_cyl->addDrawable(cyl_drawable);
 
-			mt1->addChild( geode );
-			mt2->addChild( geode );
-			mt_cyl->addChild( geode_cyl );
-			group->addChild( mt1 );
-			group->addChild( mt2 );
-			group->addChild( mt_cyl );
+			mt1->addChild(geode);
+			mt2->addChild(geode);
+			mt_cyl->addChild(geode_cyl);
+			group->addChild(mt1);
+			group->addChild(mt2);
+			group->addChild(mt_cyl);
 
 			osg::ref_ptr<osg::Material> material = new osg::Material();
-			material->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.0f, 0.7f, 0.f, 0.7f ) );
-			material->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.0f, 0.7f, 0.f, 0.7f ) );
-			material->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.4f, 1.f, 0.4f, 0.7f ) );
-			material->setShininess( osg::Material::FRONT_AND_BACK, 30.0 );
-			cone_drawable->getOrCreateStateSet()->setAttribute( material, osg::StateAttribute::ON );
-			cyl_drawable->getOrCreateStateSet()->setAttribute( material, osg::StateAttribute::ON );
+			material->setAmbient(osg::Material::FRONT_AND_BACK, osg::Vec4f(0.0f, 0.7f, 0.f, 0.7f));
+			material->setDiffuse(osg::Material::FRONT_AND_BACK, osg::Vec4f(0.0f, 0.7f, 0.f, 0.7f));
+			material->setSpecular(osg::Material::FRONT_AND_BACK, osg::Vec4f(0.4f, 1.f, 0.4f, 0.7f));
+			material->setShininess(osg::Material::FRONT_AND_BACK, 30.0);
+			cone_drawable->getOrCreateStateSet()->setAttribute(material, osg::StateAttribute::ON);
+			cyl_drawable->getOrCreateStateSet()->setAttribute(material, osg::StateAttribute::ON);
 		}
 
 		{
 			// z
-			osg::ref_ptr<osg::ShapeDrawable> cone_drawable = new osg::ShapeDrawable( new osg::Cone( osg::Vec3f( 0.f, 0.f, 0.f ), cone_radius, cone_height ) );
-			osg::ref_ptr<osg::ShapeDrawable> cyl_drawable = new osg::ShapeDrawable( new osg::Cylinder( osg::Vec3f( 0.f, 0.f, cone_base*0.5 ), cone_radius*0.2, cone_base ) );
-			cone_drawable->setColor( osg::Vec4f( 0.0f, 0.0f, 0.8f, 0.7f ) );
-			cyl_drawable->setColor( osg::Vec4f( 0.0f, 0.0f, 0.8f, 0.7f ) );
+			osg::ref_ptr<osg::ShapeDrawable> cone_drawable = new osg::ShapeDrawable(new osg::Cone(osg::Vec3f(0.f, 0.f, 0.f), cone_radius, cone_height));
+			osg::ref_ptr<osg::ShapeDrawable> cyl_drawable = new osg::ShapeDrawable(new osg::Cylinder(osg::Vec3f(0.f, 0.f, cone_base * 0.5), cone_radius * 0.2, cone_base));
+			cone_drawable->setColor(osg::Vec4f(0.0f, 0.0f, 0.8f, 0.7f));
+			cyl_drawable->setColor(osg::Vec4f(0.0f, 0.0f, 0.8f, 0.7f));
 
-			osg::ref_ptr<osg::MatrixTransform> mt1 = new osg::MatrixTransform( osg::Matrix::translate( 0, 0, 1 ) );
-			osg::ref_ptr<osg::MatrixTransform> mt2 = new osg::MatrixTransform( osg::Matrix::translate( 0, 0, 1 + cone_height ) );
-			osg::ref_ptr<osg::MatrixTransform> mt3 = new osg::MatrixTransform( osg::Matrix::translate( 0, 0, 1 + cone_height * 2 ) );
+			osg::ref_ptr<osg::MatrixTransform> mt1 = new osg::MatrixTransform(osg::Matrix::translate(0, 0, 1));
+			osg::ref_ptr<osg::MatrixTransform> mt2 = new osg::MatrixTransform(osg::Matrix::translate(0, 0, 1 + cone_height));
+			osg::ref_ptr<osg::MatrixTransform> mt3 = new osg::MatrixTransform(osg::Matrix::translate(0, 0, 1 + cone_height * 2));
 
 			osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-			geode->addDrawable( cone_drawable );
+			geode->addDrawable(cone_drawable);
 			osg::ref_ptr<osg::Geode> geode_cyl = new osg::Geode();
-			geode_cyl->addDrawable( cyl_drawable );
-			mt1->addChild( geode );
-			mt2->addChild( geode );
-			mt3->addChild( geode );
-			group->addChild( mt1 );
-			group->addChild( mt2 );
-			group->addChild( mt3 );
-			group->addChild( geode_cyl );
+			geode_cyl->addDrawable(cyl_drawable);
+			mt1->addChild(geode);
+			mt2->addChild(geode);
+			mt3->addChild(geode);
+			group->addChild(mt1);
+			group->addChild(mt2);
+			group->addChild(mt3);
+			group->addChild(geode_cyl);
 
 			osg::Material* material = new osg::Material();
-			material->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.f, 0.f, 0.8f, 0.7f ) );
-			material->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.f, 0.f, 0.8f, 0.7f ) );
-			material->setSpecular( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.4f, 0.4f, 1.f, 0.7f ) );
-			material->setShininess( osg::Material::FRONT_AND_BACK, 30.0 );
-			cone_drawable->getOrCreateStateSet()->setAttribute( material, osg::StateAttribute::ON );
-			cyl_drawable->getOrCreateStateSet()->setAttribute( material, osg::StateAttribute::ON );
+			material->setAmbient(osg::Material::FRONT_AND_BACK, osg::Vec4f(0.f, 0.f, 0.8f, 0.7f));
+			material->setDiffuse(osg::Material::FRONT_AND_BACK, osg::Vec4f(0.f, 0.f, 0.8f, 0.7f));
+			material->setSpecular(osg::Material::FRONT_AND_BACK, osg::Vec4f(0.4f, 0.4f, 1.f, 0.7f));
+			material->setShininess(osg::Material::FRONT_AND_BACK, 30.0);
+			cone_drawable->getOrCreateStateSet()->setAttribute(material, osg::StateAttribute::ON);
+			cyl_drawable->getOrCreateStateSet()->setAttribute(material, osg::StateAttribute::ON);
 		}
 		return group;
 	}
@@ -341,179 +341,179 @@ namespace SceneGraphUtils
 	{
 		osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 		osg::ref_ptr<osg::StateSet> stateset = geode->getOrCreateStateSet();
-		stateset->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
+		stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 
 		{
 			osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
-			geode->addDrawable( geom );
+			geode->addDrawable(geom);
 
 			osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
 
-			for( int i = 0; i <= 20; ++i )
+			for (int i = 0; i <= 20; ++i)
 			{
-				vertices->push_back( osg::Vec3f( -10, -10 + i, 0.0 ) );
-				vertices->push_back( osg::Vec3f( 10, -10 + i, 0.0 ) );
+				vertices->push_back(osg::Vec3f(-10, -10 + i, 0.0));
+				vertices->push_back(osg::Vec3f(10, -10 + i, 0.0));
 
-				vertices->push_back( osg::Vec3f( -10 + i, -10, 0.0 ) );
-				vertices->push_back( osg::Vec3f( -10 + i, 10, 0.0 ) );
+				vertices->push_back(osg::Vec3f(-10 + i, -10, 0.0));
+				vertices->push_back(osg::Vec3f(-10 + i, 10, 0.0));
 			}
 
 			osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-			colors->push_back( osg::Vec4f( 0.7f, 0.7f, 0.7f, 0.5f ) );
-			geom->setColorArray( colors );
-			colors->setBinding( osg::Array::BIND_OVERALL );
+			colors->push_back(osg::Vec4f(0.7f, 0.7f, 0.7f, 0.5f));
+			geom->setColorArray(colors);
+			colors->setBinding(osg::Array::BIND_OVERALL);
 			//geom->setColorBinding( osg::Geometry::BIND_OVERALL );
 
-			geom->setVertexArray( vertices );
-			geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, vertices->size() ) );
+			geom->setVertexArray(vertices);
+			geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, vertices->size()));
 		}
 
 		return geode;
 	}
-	inline void WireFrameModeOn( osg::StateSet* state )
+	inline void WireFrameModeOn(osg::StateSet* state)
 	{
-		osg::ref_ptr<osg::PolygonMode> polygon_mode = dynamic_cast<osg::PolygonMode*>( state->getAttribute( osg::StateAttribute::POLYGONMODE ) );
-		if( !polygon_mode )
+		osg::ref_ptr<osg::PolygonMode> polygon_mode = dynamic_cast<osg::PolygonMode*>(state->getAttribute(osg::StateAttribute::POLYGONMODE));
+		if (!polygon_mode)
 		{
 			polygon_mode = new osg::PolygonMode();
-			state->setAttribute( polygon_mode );
+			state->setAttribute(polygon_mode);
 		}
-		polygon_mode->setMode( osg::PolygonMode::FRONT_AND_BACK, osg::PolygonMode::LINE );
+		polygon_mode->setMode(osg::PolygonMode::FRONT_AND_BACK, osg::PolygonMode::LINE);
 	}
-	inline void disableWireFrameOnText( osg::Node* node )
+	inline void disableWireFrameOnText(osg::Node* node)
 	{
-		if( node == nullptr )
+		if (node == nullptr)
 		{
 			return;
 		}
 
-		osg::Group* grp = dynamic_cast<osg::Group*>( node );
-		if( grp )
+		osg::Group* grp = dynamic_cast<osg::Group*>(node);
+		if (grp)
 		{
-			for( size_t i = 0; i < grp->getNumChildren(); ++i )
+			for (size_t i = 0; i < grp->getNumChildren(); ++i)
 			{
-				osg::Node* child = grp->getChild( i );
-				disableWireFrameOnText( child );
+				osg::Node* child = grp->getChild(i);
+				disableWireFrameOnText(child);
 			}
 		}
 		else
 		{
-			osg::Geode* geode = dynamic_cast<osg::Geode*>( node );
-			if( geode )
+			osg::Geode* geode = dynamic_cast<osg::Geode*>(node);
+			if (geode)
 			{
-				for( size_t i = 0; i < geode->getNumDrawables(); ++i )
+				for (size_t i = 0; i < geode->getNumDrawables(); ++i)
 				{
-					osg::Drawable* child = geode->getDrawable( i );
+					osg::Drawable* child = geode->getDrawable(i);
 
-					osgText::Text* txt = dynamic_cast<osgText::Text*>( child );
-					if( txt )
+					osgText::Text* txt = dynamic_cast<osgText::Text*>(child);
+					if (txt)
 					{
 						osg::StateSet* state = txt->getOrCreateStateSet();
 
-						osg::PolygonMode* polygon_mode = dynamic_cast<osg::PolygonMode*>( state->getAttribute( osg::StateAttribute::POLYGONMODE ) );
+						osg::PolygonMode* polygon_mode = dynamic_cast<osg::PolygonMode*>(state->getAttribute(osg::StateAttribute::POLYGONMODE));
 
-						if( !polygon_mode )
+						if (!polygon_mode)
 						{
 							polygon_mode = new osg::PolygonMode();
-							state->setAttribute( polygon_mode );
+							state->setAttribute(polygon_mode);
 						}
-						polygon_mode->setMode( osg::PolygonMode::FRONT_AND_BACK, osg::PolygonMode::FILL );
+						polygon_mode->setMode(osg::PolygonMode::FRONT_AND_BACK, osg::PolygonMode::FILL);
 					}
 				}
 			}
 		}
 	}
-	inline void WireFrameModeOn( osg::Node* node )
+	inline void WireFrameModeOn(osg::Node* node)
 	{
-		if( node == nullptr )
+		if (node == nullptr)
 		{
 			return;
 		}
 
 		osg::StateSet* state = node->getOrCreateStateSet();
-		WireFrameModeOn( state );
-		disableWireFrameOnText( node );
+		WireFrameModeOn(state);
+		disableWireFrameOnText(node);
 	}
-	inline void WireFrameModeOff( osg::StateSet* state )
+	inline void WireFrameModeOff(osg::StateSet* state)
 	{
-		osg::ref_ptr<osg::PolygonMode> polygon_mode = dynamic_cast<osg::PolygonMode*>( state->getAttribute( osg::StateAttribute::POLYGONMODE ) );
+		osg::ref_ptr<osg::PolygonMode> polygon_mode = dynamic_cast<osg::PolygonMode*>(state->getAttribute(osg::StateAttribute::POLYGONMODE));
 
-		if( !polygon_mode )
+		if (!polygon_mode)
 		{
 			polygon_mode = new osg::PolygonMode();
-			state->setAttribute( polygon_mode );
+			state->setAttribute(polygon_mode);
 		}
-		polygon_mode->setMode( osg::PolygonMode::FRONT_AND_BACK, osg::PolygonMode::FILL );
+		polygon_mode->setMode(osg::PolygonMode::FRONT_AND_BACK, osg::PolygonMode::FILL);
 	}
-	inline void WireFrameModeOff( osg::Node *node )
+	inline void WireFrameModeOff(osg::Node* node)
 	{
-		if( node == nullptr )
+		if (node == nullptr)
 		{
 			return;
 		}
 
-		osg::StateSet *state = node->getOrCreateStateSet();
-		WireFrameModeOff( state );
+		osg::StateSet* state = node->getOrCreateStateSet();
+		WireFrameModeOff(state);
 	}
-	inline void HiddenLineModeOn( osg::Group* node )
+	inline void HiddenLineModeOn(osg::Group* node)
 	{
 		return;
 		osg::ref_ptr<osg::StateSet> ss = node->getOrCreateStateSet();
-		ss->setAttributeAndModes( new osg::ColorMask( false, false, false, false ), osg::StateAttribute::ON );
-		ss->setBinName( "RenderBin" );
-		ss->setBinNumber( 1 );
-		ss->setRenderBinDetails( 1, "RenderBin" );
+		ss->setAttributeAndModes(new osg::ColorMask(false, false, false, false), osg::StateAttribute::ON);
+		ss->setBinName("RenderBin");
+		ss->setBinNumber(1);
+		ss->setRenderBinDetails(1, "RenderBin");
 
 		osg::ref_ptr<osg::Group> node_lines = new osg::Group();
 		// TODO: create lines
 
 		ss = node_lines->getOrCreateStateSet();
-		ss->setBinName( "RenderBin" );
-		ss->setBinNumber( 2 );
-		ss->setRenderBinDetails( 2, "RenderBin" );
-		ss->setMode( GL_POLYGON_OFFSET_FILL, osg::StateAttribute::ON );
-		osg::ref_ptr<osg::PolygonOffset> po = new osg::PolygonOffset( 10.0f, 10.0f );
-		ss->setAttributeAndModes( po, osg::StateAttribute::ON );
+		ss->setBinName("RenderBin");
+		ss->setBinNumber(2);
+		ss->setRenderBinDetails(2, "RenderBin");
+		ss->setMode(GL_POLYGON_OFFSET_FILL, osg::StateAttribute::ON);
+		osg::ref_ptr<osg::PolygonOffset> po = new osg::PolygonOffset(10.0f, 10.0f);
+		ss->setAttributeAndModes(po, osg::StateAttribute::ON);
 	}
-	inline void cullFrontBack( bool front, bool back, osg::StateSet* stateset )
+	inline void cullFrontBack(bool front, bool back, osg::StateSet* stateset)
 	{
-		if( front )
+		if (front)
 		{
-			if( back )
+			if (back)
 			{
 				// cull back and front
-				osg::ref_ptr<osg::CullFace> cull = new osg::CullFace( osg::CullFace::FRONT_AND_BACK );
-				stateset->setAttributeAndModes( cull.get(), osg::StateAttribute::ON );
+				osg::ref_ptr<osg::CullFace> cull = new osg::CullFace(osg::CullFace::FRONT_AND_BACK);
+				stateset->setAttributeAndModes(cull.get(), osg::StateAttribute::ON);
 			}
 			else
 			{
 				// cull back face off
-				osg::ref_ptr<osg::CullFace> cull_back_off = new osg::CullFace( osg::CullFace::BACK );
-				stateset->setAttributeAndModes( cull_back_off.get(), osg::StateAttribute::OFF );
+				osg::ref_ptr<osg::CullFace> cull_back_off = new osg::CullFace(osg::CullFace::BACK);
+				stateset->setAttributeAndModes(cull_back_off.get(), osg::StateAttribute::OFF);
 
 				// cull front face on
-				osg::ref_ptr<osg::CullFace> cull_front_on = new osg::CullFace( osg::CullFace::FRONT );
-				stateset->setAttributeAndModes( cull_front_on.get(), osg::StateAttribute::ON );
+				osg::ref_ptr<osg::CullFace> cull_front_on = new osg::CullFace(osg::CullFace::FRONT);
+				stateset->setAttributeAndModes(cull_front_on.get(), osg::StateAttribute::ON);
 			}
 		}
 		else
 		{
-			if( back )
+			if (back)
 			{
 				// cull front face off
-				osg::ref_ptr<osg::CullFace> cull_front_off = new osg::CullFace( osg::CullFace::FRONT );
-				stateset->setAttributeAndModes( cull_front_off.get(), osg::StateAttribute::OFF );
+				osg::ref_ptr<osg::CullFace> cull_front_off = new osg::CullFace(osg::CullFace::FRONT);
+				stateset->setAttributeAndModes(cull_front_off.get(), osg::StateAttribute::OFF);
 
 				// cull back face on
-				osg::ref_ptr<osg::CullFace> cull_back_on = new osg::CullFace( osg::CullFace::BACK );
-				stateset->setAttributeAndModes( cull_back_on.get(), osg::StateAttribute::ON );
+				osg::ref_ptr<osg::CullFace> cull_back_on = new osg::CullFace(osg::CullFace::BACK);
+				stateset->setAttributeAndModes(cull_back_on.get(), osg::StateAttribute::ON);
 
 			}
 			else
 			{
 				// cull back and front off
-				osg::ref_ptr<osg::CullFace> cull = new osg::CullFace( osg::CullFace::FRONT_AND_BACK );
-				stateset->setAttributeAndModes( cull.get(), osg::StateAttribute::OFF );
+				osg::ref_ptr<osg::CullFace> cull = new osg::CullFace(osg::CullFace::FRONT_AND_BACK);
+				stateset->setAttributeAndModes(cull.get(), osg::StateAttribute::OFF);
 			}
 		}
 	}
@@ -559,13 +559,13 @@ namespace SceneGraphUtils
 		return false;
 	}
 
-	inline void setMaterialAlpha( osg::Node* node, float alpha, bool create_material_if_not_existing )
+	inline void setMaterialAlpha(osg::Node* node, float alpha, bool create_material_if_not_existing)
 	{
 		osg::StateSet* stateset = node->getOrCreateStateSet();
-		if( stateset )
+		if (stateset)
 		{
-			osg::ref_ptr<osg::Material> mat = dynamic_cast<osg::Material*>( stateset->getAttribute( osg::StateAttribute::MATERIAL ) );
-			if( mat )
+			osg::ref_ptr<osg::Material> mat = dynamic_cast<osg::Material*>(stateset->getAttribute(osg::StateAttribute::MATERIAL));
+			if (mat)
 			{
 				osg::Vec4f ambient = mat->getAmbient(osg::Material::FRONT_AND_BACK);
 				if (ambient.a() > alpha)
@@ -573,7 +573,7 @@ namespace SceneGraphUtils
 					mat->setAlpha(osg::Material::FRONT_AND_BACK, alpha);
 				}
 			}
-			else if( create_material_if_not_existing )
+			else if (create_material_if_not_existing)
 			{
 				osg::ref_ptr<osg::Material> mat = new osg::Material();
 				mat->setAmbient(osg::Material::FRONT_AND_BACK, osg::Vec4f(0.8f, 0.83f, 0.84f, alpha));
@@ -584,61 +584,61 @@ namespace SceneGraphUtils
 			}
 		}
 
-		osg::Group* group = dynamic_cast<osg::Group*>( node );
-		if( group )
+		osg::Group* group = dynamic_cast<osg::Group*>(node);
+		if (group)
 		{
-			for( unsigned int ii = 0; ii < group->getNumChildren(); ++ii )
+			for (unsigned int ii = 0; ii < group->getNumChildren(); ++ii)
 			{
-				osg::Node* child_node = group->getChild( ii );
-				setMaterialAlpha( child_node, alpha, false );
+				osg::Node* child_node = group->getChild(ii);
+				setMaterialAlpha(child_node, alpha, false);
 			}
 		}
 	}
 
-	inline void removeChildren( osg::Group* group )
+	inline void removeChildren(osg::Group* group)
 	{
-		if( group )
+		if (group)
 		{
-			group->removeChildren( 0, group->getNumChildren() );
+			group->removeChildren(0, group->getNumChildren());
 		}
 	}
 
-	inline void clearAllChildNodes( osg::Group* group )
+	inline void clearAllChildNodes(osg::Group* group)
 	{
 		int num_children = group->getNumChildren();
-		for( int i = 0; i < num_children; ++i )
+		for (int i = 0; i < num_children; ++i)
 		{
-			osg::Node* node = group->getChild( i );
-			osg::Group* child_group = dynamic_cast<osg::Group*>( node );
-			if( child_group )
+			osg::Node* node = group->getChild(i);
+			osg::Group* child_group = dynamic_cast<osg::Group*>(node);
+			if (child_group)
 			{
-				osg::Geode* geode = dynamic_cast<osg::Geode*>( child_group );
-				if( geode )
+				osg::Geode* geode = dynamic_cast<osg::Geode*>(child_group);
+				if (geode)
 				{
-					geode->removeDrawables( 0, geode->getNumDrawables() );
-					
+					geode->removeDrawables(0, geode->getNumDrawables());
+
 				}
-				clearAllChildNodes( child_group );
+				clearAllChildNodes(child_group);
 			}
 			node->releaseGLObjects();
-			if( node->getStateSet() )
+			if (node->getStateSet())
 			{
-				node->setStateSet( nullptr );
+				node->setStateSet(nullptr);
 			}
 		}
-		group->removeChildren( 0, group->getNumChildren() );
+		group->removeChildren(0, group->getNumChildren());
 	}
-	inline void removeDrawables( osg::Geode* geode )
+	inline void removeDrawables(osg::Geode* geode)
 	{
-		if( geode )
+		if (geode)
 		{
-			geode->removeDrawables( 0, geode->getNumDrawables() );
+			geode->removeDrawables(0, geode->getNumDrawables());
 		}
 	}
 
-	inline void translateGroup( osg::Group* grp, const osg::Vec3d& trans, std::unordered_set<osg::Geode*>& set_applied, double minTranslateLength )
+	inline void translateGroup(osg::Group* grp, const osg::Vec3d& trans, std::unordered_set<osg::Geode*>& set_applied, double minTranslateLength)
 	{
-		if (trans.length2() < minTranslateLength*minTranslateLength )
+		if (trans.length2() < minTranslateLength * minTranslateLength)
 		{
 			return;
 		}
@@ -661,7 +661,7 @@ namespace SceneGraphUtils
 
 				matrix.preMult(osg::Matrix::translate(trans));
 				child_transform->setMatrix(matrix);
-				
+
 				osg::Vec3d matrix_translate2 = child_transform->getMatrix().getTrans();
 				currentTranslate = osg::Vec3d();
 			}

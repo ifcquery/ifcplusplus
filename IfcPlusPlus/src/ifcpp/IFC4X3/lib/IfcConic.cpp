@@ -13,15 +13,15 @@
 IFC4X3::IfcConic::IfcConic( int tag ) { m_tag = tag; }
 void IFC4X3::IfcConic::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCCONIC" << "(";
+	stream << "#" << m_tag << "=IFCCONIC" << "(";
 	if( m_Position ) { m_Position->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IFC4X3::IfcConic::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcConic::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcConic::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_Position = IfcAxis2Placement::createObjectFromSTEP( args[0], map, errorStream );}
+	if( num_args > 0 ){m_Position = IfcAxis2Placement::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
 	if( num_args != 1 ){ errorStream << "Wrong parameter count for entity IfcConic, expecting 1, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcConic::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

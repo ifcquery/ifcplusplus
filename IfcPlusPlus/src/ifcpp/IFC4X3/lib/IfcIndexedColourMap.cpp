@@ -14,7 +14,7 @@
 IFC4X3::IfcIndexedColourMap::IfcIndexedColourMap( int tag ) { m_tag = tag; }
 void IFC4X3::IfcIndexedColourMap::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCINDEXEDCOLOURMAP" << "(";
+	stream << "#" << m_tag << "=IFCINDEXEDCOLOURMAP" << "(";
 	if( m_MappedTo ) { stream << "#" << m_MappedTo->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_Opacity ) { m_Opacity->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -42,12 +42,12 @@ void IFC4X3::IfcIndexedColourMap::getStepLine( std::stringstream& stream, size_t
 	stream << ");";
 }
 void IFC4X3::IfcIndexedColourMap::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcIndexedColourMap::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcIndexedColourMap::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReference( args[0], m_MappedTo, map, errorStream );}
-	if( num_args > 1 ){m_Opacity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){readEntityReference( args[2], m_Colours, map, errorStream );}
+	if( num_args > 0 ){readEntityReference( args[0], m_MappedTo, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_Opacity = IfcNormalisedRatioMeasure::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readEntityReference( args[2], m_Colours, map, errorStream, entityIdNotFound );}
 	if( num_args > 3 ){readTypeOfIntegerList( args[3], m_ColourIndex );}
 	if( num_args != 4 ){ errorStream << "Wrong parameter count for entity IfcIndexedColourMap, expecting 4, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }

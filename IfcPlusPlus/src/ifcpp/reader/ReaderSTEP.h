@@ -36,5 +36,5 @@ public:
 	void loadModelFromFile( const std::string& filePath, shared_ptr<BuildingModel>& targetModel );
 	void loadModelFromStream( std::istream& content, std::streampos file_end_pos, shared_ptr<BuildingModel>& targetModel );
 	void readSingleStepLine(	const std::string& line, std::pair<std::string, shared_ptr<BuildingEntity> >& target_read_object );
-	void readEntityArguments(	std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities, const std::map<int, shared_ptr<BuildingEntity> >& map, shared_ptr<BuildingModel>& targetModel );
+	void readEntityArguments(	std::vector<std::pair<std::string, shared_ptr<BuildingEntity> > >& vec_entities, const std::unordered_map<int, shared_ptr<BuildingEntity> >& map, shared_ptr<BuildingModel>& targetModel );
 };

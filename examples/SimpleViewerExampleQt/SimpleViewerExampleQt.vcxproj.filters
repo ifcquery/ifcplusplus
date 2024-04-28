@@ -68,9 +68,6 @@
     <ClCompile Include="src\gui\OpenFileWidget.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
-    <ClCompile Include="src\gui\StoreyShiftWidget.cpp">
-      <Filter>Source Dateien</Filter>
-    </ClCompile>
     <ClCompile Include="src\gui\EntityAttributeWidget.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
@@ -107,9 +104,6 @@
       <Filter>Header Dateien</Filter>
     </QtMoc>
     <QtMoc Include="src\gui\OpenFileWidget.h">
-      <Filter>Header Dateien</Filter>
-    </QtMoc>
-    <QtMoc Include="src\gui\StoreyShiftWidget.h">
       <Filter>Header Dateien</Filter>
     </QtMoc>
   </ItemGroup>

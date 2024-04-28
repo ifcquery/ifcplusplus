@@ -18,12 +18,12 @@ void IFC4X3::IfcPropertySetDefinitionSet::getStepParameter( std::stringstream& s
 	writeEntityList( stream, m_vec );
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IFC4X3::IfcPropertySetDefinitionSet> IFC4X3::IfcPropertySetDefinitionSet::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcPropertySetDefinitionSet> IFC4X3::IfcPropertySetDefinitionSet::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.size() == 0 ) { return shared_ptr<IfcPropertySetDefinitionSet>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcPropertySetDefinitionSet>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcPropertySetDefinitionSet>(); }
 	shared_ptr<IfcPropertySetDefinitionSet> type_object( new IfcPropertySetDefinitionSet() );
-	readEntityReferenceList(  arg, type_object->m_vec, map, errorStream );
+	readEntityReferenceList(  arg, type_object->m_vec, map, errorStream, entityIdNotFound );
 	return type_object;
 }

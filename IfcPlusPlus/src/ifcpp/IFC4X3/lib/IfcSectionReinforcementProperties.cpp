@@ -15,7 +15,7 @@
 IFC4X3::IfcSectionReinforcementProperties::IfcSectionReinforcementProperties( int tag ) { m_tag = tag; }
 void IFC4X3::IfcSectionReinforcementProperties::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCSECTIONREINFORCEMENTPROPERTIES" << "(";
+	stream << "#" << m_tag << "=IFCSECTIONREINFORCEMENTPROPERTIES" << "(";
 	if( m_LongitudinalStartPosition ) { m_LongitudinalStartPosition->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_LongitudinalEndPosition ) { m_LongitudinalEndPosition->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -30,15 +30,15 @@ void IFC4X3::IfcSectionReinforcementProperties::getStepLine( std::stringstream& 
 	stream << ");";
 }
 void IFC4X3::IfcSectionReinforcementProperties::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcSectionReinforcementProperties::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcSectionReinforcementProperties::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_LongitudinalStartPosition = IfcLengthMeasure::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_LongitudinalEndPosition = IfcLengthMeasure::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){m_TransversePosition = IfcLengthMeasure::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){m_ReinforcementRole = IfcReinforcingBarRoleEnum::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){readEntityReference( args[4], m_SectionDefinition, map, errorStream );}
-	if( num_args > 5 ){readEntityReferenceList( args[5], m_CrossSectionReinforcementDefinitions, map, errorStream );}
+	if( num_args > 0 ){m_LongitudinalStartPosition = IfcLengthMeasure::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_LongitudinalEndPosition = IfcLengthMeasure::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_TransversePosition = IfcLengthMeasure::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_ReinforcementRole = IfcReinforcingBarRoleEnum::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){readEntityReference( args[4], m_SectionDefinition, map, errorStream, entityIdNotFound );}
+	if( num_args > 5 ){readEntityReferenceList( args[5], m_CrossSectionReinforcementDefinitions, map, errorStream, entityIdNotFound );}
 	if( num_args != 6 ){ errorStream << "Wrong parameter count for entity IfcSectionReinforcementProperties, expecting 6, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcSectionReinforcementProperties::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

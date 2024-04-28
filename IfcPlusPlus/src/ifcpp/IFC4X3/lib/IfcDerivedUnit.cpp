@@ -13,7 +13,7 @@
 IFC4X3::IfcDerivedUnit::IfcDerivedUnit( int tag ) { m_tag = tag; }
 void IFC4X3::IfcDerivedUnit::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCDERIVEDUNIT" << "(";
+	stream << "#" << m_tag << "=IFCDERIVEDUNIT" << "(";
 	writeEntityList( stream, m_Elements );
 	stream << ",";
 	if( m_UnitType ) { m_UnitType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -24,13 +24,13 @@ void IFC4X3::IfcDerivedUnit::getStepLine( std::stringstream& stream, size_t prec
 	stream << ");";
 }
 void IFC4X3::IfcDerivedUnit::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcDerivedUnit::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcDerivedUnit::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReferenceList( args[0], m_Elements, map, errorStream );}
-	if( num_args > 1 ){m_UnitType = IfcDerivedUnitEnum::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){m_UserDefinedType = IfcLabel::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){m_Name = IfcLabel::createObjectFromSTEP( args[3], map, errorStream );}
+	if( num_args > 0 ){readEntityReferenceList( args[0], m_Elements, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_UnitType = IfcDerivedUnitEnum::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_UserDefinedType = IfcLabel::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_Name = IfcLabel::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
 	if( num_args != 4 ){ errorStream << "Wrong parameter count for entity IfcDerivedUnit, expecting 4, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcDerivedUnit::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

@@ -19,7 +19,7 @@ void IFC4X3::IfcDescriptiveMeasure::getStepParameter( std::stringstream& stream,
 	stream << "'" << encodeStepString( m_value ) << "'";
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IFC4X3::IfcDescriptiveMeasure> IFC4X3::IfcDescriptiveMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcDescriptiveMeasure> IFC4X3::IfcDescriptiveMeasure::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.size() == 0 ) { return shared_ptr<IfcDescriptiveMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcDescriptiveMeasure>(); }
