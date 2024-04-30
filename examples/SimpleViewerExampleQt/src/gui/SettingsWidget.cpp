@@ -71,19 +71,19 @@ SettingsWidget::SettingsWidget( IfcPlusPlusSystem* sys, ViewerWidget* vw, bool a
 	}
 	connect( cull_back_faces, SIGNAL( stateChanged( int ) ), this, SLOT( slotCullBackFaces( int ) ) );
 
-
 	// light button
 	QCheckBox* btn_toggle_light = new QCheckBox("Light on/off");
 	btn_toggle_light->setToolTip("Light on/off");
-	btn_toggle_light->setChecked(true);
+	btn_toggle_light->setChecked(m_system->getViewController()->isSunLightOn());
 	connect(btn_toggle_light, &QCheckBox::clicked, this, [this]() { m_system->getViewController()->toggleSunLight(); });
-
 
 	// number of vertices per cycle
 	m_spinboxCircleVertices = new QSpinBox( this );
 	m_spinboxCircleVertices->setRange(6, 48);
 	m_spinboxCircleVertices->setSingleStep(1);
 	m_spinboxCircleVertices->setValue(10);
+	m_spinboxCircleVertices->setMinimumWidth(70);
+	m_spinboxCircleVertices->setMinimumHeight(28);
 	if( keys.contains( "NumVerticesPerCircle" ) )
 	{
 		int num_vertices = settings.value("NumVerticesPerCircle").toInt();
@@ -130,7 +130,6 @@ SettingsWidget::SettingsWidget( IfcPlusPlusSystem* sys, ViewerWidget* vw, bool a
 		}
 	}
 	connect( m_checkShowCurveRepresentations, SIGNAL( stateChanged(int) ), this, SLOT( slotShowCurves(int) ) );
-
 
 	QCheckBox* checkAutoHideFileWidget = new QCheckBox("Auto hide file open widget after file is loaded");
 	connect(checkAutoHideFileWidget, &QCheckBox::stateChanged, this, &SettingsWidget::slotAutoHideFileWidget);

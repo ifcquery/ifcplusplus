@@ -295,8 +295,8 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 		setEnabled(false);
 
 		// first remove previously loaded geometry from scenegraph
-		osg::ref_ptr<osg::Switch> model_switch = m_system->getViewController()->getModelNode();
-		SceneGraphUtils::clearAllChildNodes(model_switch);
+		osg::ref_ptr<osg::Group> modelNode = m_system->getViewController()->getModelNode();
+		SceneGraphUtils::clearAllChildNodes(modelNode);
 		m_system->clearSelection();
 
 		// reset the IFC model
@@ -319,19 +319,19 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 		// convert Carve geometry to OSG
 		shared_ptr<ConverterOSG> converter_osg(new ConverterOSG(geometry_converter->getGeomSettings()));
 		converter_osg->setMessageTarget(geometry_converter.get());
-		converter_osg->convertToOSG(geometry_converter->getShapeInputData(), model_switch);
+		converter_osg->convertToOSG(geometry_converter->getShapeInputData(), modelNode);
 
-		if (model_switch)
+		if (modelNode)
 		{
 			bool optimize = true;
 			if (optimize)
 			{
 				osgUtil::Optimizer opt;
-				opt.optimize(model_switch);
+				opt.optimize(modelNode);
 			}
 
 			// if model bounding sphere is far from origin, move to origin
-			const osg::BoundingSphere& bsphere = model_switch->getBound();
+			const osg::BoundingSphere& bsphere = modelNode->getBound();
 			if (bsphere.center().length() > 10000)
 			{
 				if (bsphere.center().length() / bsphere.radius() > 100)
@@ -339,18 +339,18 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 					osg::MatrixTransform* mt = new osg::MatrixTransform();
 					mt->setMatrix(osg::Matrix::translate(-bsphere.center() * 0.98));
 
-					int num_children = model_switch->getNumChildren();
+					int num_children = modelNode->getNumChildren();
 					for (int i = 0; i < num_children; ++i)
 					{
-						osg::Node* node = model_switch->getChild(i);
+						osg::Node* node = modelNode->getChild(i);
 						if (!node)
 						{
 							continue;
 						}
 						mt->addChild(node);
 					}
-					SceneGraphUtils::removeChildren(model_switch);
-					model_switch->addChild(mt);
+					SceneGraphUtils::removeChildren(modelNode);
+					modelNode->addChild(mt);
 				}
 			}
 		}

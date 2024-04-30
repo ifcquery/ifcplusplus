@@ -46,7 +46,7 @@ public:
 	~ViewController();
 
 	osg::Group*		getRootNode()				{ return m_rootnode.get(); }
-	osg::Switch*	getModelNode()				{ return m_model_switch.get(); }
+	osg::Group*		getModelNode()				{ return m_model_node.get(); }
 	osg::Group*		getTempNode()				{ return m_temp_node.get(); }
 	osg::Group*		getSnapNode()				{ return m_snap_node.get(); }
 	osg::Switch*	getCoordinateAxesNode()		{ return m_coordinate_axes_switch.get(); }
@@ -63,6 +63,7 @@ public:
 	double getShininess() { return m_shinyness; }
 	void toggleSunLight();
 	void setSunLightOn( bool on );
+	bool isSunLightOn() { return m_light_on; }
 	void toggleModelTransparency();
 	void setModelTransparent( bool transparent );
 	void setViewerMode( ViewerMode mode );
@@ -89,7 +90,7 @@ private:
 	osg::ref_ptr<osg::Group>			m_temp_node;
 	osg::ref_ptr<osg::Group>			m_snap_node;
 	osg::ref_ptr<osg::Switch>			m_coordinate_axes_switch;
-	osg::ref_ptr<osg::Switch>			m_model_switch;
+	osg::ref_ptr<osg::Group>			m_model_node;
 	osg::ref_ptr<osg::MatrixTransform>	m_transform_light;
 	osg::ref_ptr<osgViewer::View>		m_main_view;
 	QtOSGWidget*						m_gl_widget = nullptr;

@@ -76,8 +76,6 @@ ViewerWidget::ViewerWidget(IfcPlusPlusSystem* sys, QWidget* parent ) : QWidget( 
 	m_stateset_selected = new osg::StateSet();
 	m_stateset_selected->setAttribute( material_selected, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
 
-	sys->getViewController()->toggleSunLight();
-
 	{
 		osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 		geode->setName( "createCoordinateAxes::geode" );

@@ -326,7 +326,7 @@ void MainWindow::slotSettingsClicked()
 	if (m_labelAbout->isVisible()) { m_labelAbout->hide(); }
 
 	int w = m_viewerWidget->width() - 40;
-	int h = 180;
+	int h = 250;
 	m_settingsWidget->setParent(m_viewerWidget);
 	m_settingsWidget->setGeometry(40, 0, w, h);
 	m_settingsWidget->setVisible(true);
