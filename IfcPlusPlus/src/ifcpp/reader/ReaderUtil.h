@@ -42,7 +42,7 @@ void readIntegerList( const std::string& str, std::vector<int>& vec );
 void readIntegerList2D( const std::string& str, std::vector<std::vector<int> >& vec );
 void readIntegerList3D( const std::string& str, std::vector<std::vector<std::vector<int> > >& vec );
 void readRealList( const std::string& str, std::vector<double>& vec );
-void readRealArray( const std::string& str, double (&vec)[3], short int& size );
+void readRealArray( const std::string& str, double(&vec)[3] );
 void readRealList2D( const std::string& str, std::vector<std::vector<double> >& vec );
 void readRealList3D( const std::string& str, std::vector<std::vector<std::vector<double> > >& vec );
 void readBinary( const std::string& str, std::string& target );
@@ -65,6 +65,11 @@ std::istream& bufferedGetStepLine(std::istream& inputStream, std::string& lineOu
 IFCQUERY_EXPORT std::string wstring2string(const std::wstring& str);
 IFCQUERY_EXPORT std::wstring string2wstring(const std::string& inputString);
 IFCQUERY_EXPORT bool std_iequal(const std::string& a, const std::string& b);
+
+inline void convertStringToUpperCase( std::string& a)
+{
+	std::transform(a.begin(), a.end(), a.begin(), [](char c) {return static_cast<char>(std::toupper(c)); });
+}
 
 inline std::string getFileExtension(std::string path)
 {
@@ -441,7 +446,8 @@ void readTypeOfStringList( const std::string& str, std::vector<shared_ptr<T> >& 
 }
 
 template<typename T>
-void readEntityReference( const std::string& str, shared_ptr<T>& target, const std::map<int,shared_ptr<BuildingEntity> >& mapEntities, std::stringstream& errorStream )
+void readEntityReference( const std::string& str, shared_ptr<T>& target, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& mapEntities,
+	std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound)
 {
 	if( str.length() == 0)
 	{
@@ -450,7 +456,7 @@ void readEntityReference( const std::string& str, shared_ptr<T>& target, const s
 	if( str.at(0) == '#' )
 	{
 		int tag = std::stoi( str.substr( 1 ) );
-		std::map<int,shared_ptr<BuildingEntity> >::const_iterator it_entity = mapEntities.find( tag );
+		BuildingModelMapType<int,shared_ptr<BuildingEntity> >::const_iterator it_entity = mapEntities.find( tag );
 		if( it_entity != mapEntities.end() )
 		{
 			shared_ptr<BuildingEntity> found_obj = it_entity->second;
@@ -458,7 +464,7 @@ void readEntityReference( const std::string& str, shared_ptr<T>& target, const s
 		}
 		else
 		{
-			errorStream << "object with id " << tag << " not found" << std::endl;
+			entityIdNotFound.insert(tag);
 		}
 	}
 	else if( str.compare("$")==0 )
@@ -476,7 +482,8 @@ void readEntityReference( const std::string& str, shared_ptr<T>& target, const s
 }
 
 template<typename T>
-void readTypeList( const std::string arg_complete, std::vector<shared_ptr<T> >& vec, const std::map<int,shared_ptr<BuildingEntity> >& mapEntities )
+void readTypeList( const std::string arg_complete, std::vector<shared_ptr<T> >& vec, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& mapEntities,
+	std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound)
 {
 	// example: (IFCPARAMETERVALUE(0.5),*,IFCPARAMETERVALUE(2.0))
 	char* pos_opening = nullptr;
@@ -501,7 +508,7 @@ void readTypeList( const std::string arg_complete, std::vector<shared_ptr<T> >& 
 	for( size_t i=0; i<list_items.size(); ++i )
 	{
 		std::string& item = list_items[i];
-		shared_ptr<T> type_obj = T::createObjectFromSTEP( item, mapEntities );
+		shared_ptr<T> type_obj = T::createObjectFromSTEP( item, mapEntities, errorStream, entityIdNotFound );
 		if( type_obj )
 		{
 			vec.push_back( type_obj );
@@ -510,7 +517,8 @@ void readTypeList( const std::string arg_complete, std::vector<shared_ptr<T> >& 
 }
 
 template<typename select_t>
-void readSelectType( const std::string& item, shared_ptr<select_t>& result, const std::map<int, shared_ptr<BuildingEntity> >& mapEntities, std::stringstream& errorStream )
+void readSelectType( const std::string& item, shared_ptr<select_t>& result, const std::unordered_map<int, shared_ptr<BuildingEntity> >& mapEntities, 
+	std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound)
 {
 	char* ch = (char*)item.c_str();
 	if( *ch == '#' )
@@ -522,6 +530,10 @@ void readSelectType( const std::string& item, shared_ptr<select_t>& result, cons
 		{
 			shared_ptr<BuildingEntity> found_obj = it_entity->second;
 			result = dynamic_pointer_cast<select_t>(found_obj);
+		}
+		else
+		{
+			entityIdNotFound.insert(id);
 		}
 		return;
 	}
@@ -536,9 +548,9 @@ void readSelectType( const std::string& item, shared_ptr<select_t>& result, cons
 		return;
 	}
 
-	std::transform(type_name.begin(), type_name.end(), type_name.begin(), [](char c) {return std::toupper(c); });
+	convertStringToUpperCase(type_name);
 	
-	shared_ptr<BuildingObject> type_instance = IFC4X3::TypeFactory::createTypeObject(type_name.c_str(), inline_arg, mapEntities, errorStream );
+	shared_ptr<BuildingObject> type_instance = IFC4X3::TypeFactory::createTypeObject(type_name.c_str(), inline_arg, mapEntities, errorStream, entityIdNotFound );
 	if( type_instance )
 	{
 		result = dynamic_pointer_cast<select_t>(type_instance);
@@ -549,7 +561,8 @@ void readSelectType( const std::string& item, shared_ptr<select_t>& result, cons
 }
 
 template<typename select_t>
-void readSelectList( const std::string& arg_complete, std::vector<shared_ptr<select_t> >& vec, const std::map<int,shared_ptr<BuildingEntity> >& mapEntities, std::stringstream& errorStream )
+void readSelectList( const std::string& arg_complete, std::vector<shared_ptr<select_t> >& vec, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& mapEntities,
+	std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound)
 {
 	// example: (#287,#291,#295,#299) or (IfcLabel('label'),'',IfcLengthMeasure(2.0),#299)
 	char* pos_opening = nullptr;
@@ -578,7 +591,7 @@ void readSelectList( const std::string& arg_complete, std::vector<shared_ptr<sel
 		shared_ptr<select_t> select_object;
 		try
 		{
-			readSelectType( item, select_object, mapEntities, errorStream );
+			readSelectType( item, select_object, mapEntities, errorStream, entityIdNotFound );
 		}
 		catch( BuildingException& e )
 		{
@@ -592,7 +605,8 @@ void readSelectList( const std::string& arg_complete, std::vector<shared_ptr<sel
 }
 
 template<typename T>
-void readEntityReferenceList( const char* arg_complete, std::vector<shared_ptr<T> >& vec, const std::map<int,shared_ptr<BuildingEntity> >& mapEntities, std::stringstream& errorStream )
+void readEntityReferenceList( const char* arg_complete, std::vector<shared_ptr<T> >& vec, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& mapEntities,
+	std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound)
 {
 	// example: (#287,#291,#295,#299)
 	char* pos_opening = nullptr;
@@ -615,8 +629,8 @@ void readEntityReferenceList( const char* arg_complete, std::vector<shared_ptr<T
 	std::string arg( pos_opening+1, pos_closing-pos_opening-1 );
 	std::vector<int> list_items;
 	tokenizeEntityList( arg, list_items );
-	std::vector<int> vec_not_found;
-	std::map<int,shared_ptr<BuildingEntity> >::const_iterator it_entity;
+	
+	BuildingModelMapType<int,shared_ptr<BuildingEntity> >::const_iterator it_entity;
 	for( size_t i=0; i<list_items.size(); ++i )
 	{
 		const int id = list_items[i];
@@ -628,38 +642,23 @@ void readEntityReferenceList( const char* arg_complete, std::vector<shared_ptr<T
 		}
 		else
 		{
-			vec_not_found.push_back( id );
+			entityIdNotFound.insert( id );
 		}
-	}
-
-	// in case there are unresolved references
-	if( vec_not_found.size() > 0 )
-	{
-		errorStream << "object with id ";
-		
-		for( size_t i=0; i<vec_not_found.size(); ++i )
-		{
-			errorStream	<< vec_not_found[i];
-			if( i <vec_not_found.size()-1 )
-			{
-				errorStream << ", ";
-			}
-		}
-
-		errorStream << "  not found" << std::endl;
 	}
 }
 
 template<typename T>
-void readEntityReferenceList( const std::string& str, std::vector<shared_ptr<T> >& vec, const std::map<int,shared_ptr<BuildingEntity> >& mapEntities, std::stringstream& errorStream )
+void readEntityReferenceList( const std::string& str, std::vector<shared_ptr<T> >& vec, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& mapEntities,
+	std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound)
 {
 	// example: (#287,#291,#295,#299)
 	char* ch = (char*)str.c_str();
-	readEntityReferenceList( ch, vec, mapEntities, errorStream );
+	readEntityReferenceList( ch, vec, mapEntities, errorStream, entityIdNotFound);
 }
 
 template<typename T>
-void readEntityReferenceList2D( const std::string& str, std::vector<std::vector<shared_ptr<T> > >& vec, const std::map<int,shared_ptr<BuildingEntity> >& mapEntities, std::stringstream& errorStream)
+void readEntityReferenceList2D( const std::string& str, std::vector<std::vector<shared_ptr<T> > >& vec, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& mapEntities,
+	std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound)
 {
 	// example: ((#287,#291,#295,#299),(#287,#291,#295,#299))
 	char* ch = (char*)str.c_str();
@@ -681,7 +680,7 @@ void readEntityReferenceList2D( const std::string& str, std::vector<std::vector<
 			{
 				// last list
 				vec.resize(vec.size()+1);
-				readEntityReferenceList( std::string( last_token, ch-last_token ), vec.back(), mapEntities, errorStream );
+				readEntityReferenceList( std::string( last_token, ch-last_token ), vec.back(), mapEntities, errorStream, entityIdNotFound );
 				return;
 			}
 		}
@@ -698,7 +697,7 @@ void readEntityReferenceList2D( const std::string& str, std::vector<std::vector<
 			if( num_par_open == 1 )
 			{
 				vec.resize(vec.size()+1);
-				readEntityReferenceList( std::string( last_token, ch-last_token ), vec.back(), mapEntities, errorStream );
+				readEntityReferenceList( std::string( last_token, ch-last_token ), vec.back(), mapEntities, errorStream, entityIdNotFound );
 				last_token = ch+1;
 			}
 		}
@@ -711,7 +710,8 @@ void readEntityReferenceList2D( const std::string& str, std::vector<std::vector<
 }
 
 template<typename T>
-void readEntityReferenceList3D( const std::string& str, std::vector<std::vector<std::vector<shared_ptr<T> > > >& vec, const std::map<int,shared_ptr<BuildingEntity> >& mapEntities, std::stringstream& errorStream )
+void readEntityReferenceList3D( const std::string& str, std::vector<std::vector<std::vector<shared_ptr<T> > > >& vec, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& mapEntities,
+	std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound)
 {
 	// example: (((#287,#291,#295,#299),(#287,#291,#295,#299)),((#287,#291,#295,#299),(#287,#291,#295,#299)))
 	const size_t argsize = str.size();
@@ -734,7 +734,7 @@ void readEntityReferenceList3D( const std::string& str, std::vector<std::vector<
 				// last list
 				vec.resize(vec.size()+1);
 				std::string inner_argument( last_token, ch-last_token );
-				readEntityReferenceList2D( inner_argument, vec.back(), mapEntities, errorStream );
+				readEntityReferenceList2D( inner_argument, vec.back(), mapEntities, errorStream, entityIdNotFound );
 				return;
 			}
 		}
@@ -752,7 +752,7 @@ void readEntityReferenceList3D( const std::string& str, std::vector<std::vector<
 			{
 				vec.resize(vec.size()+1);
 				std::string inner_argument( last_token, ch-last_token );
-				readEntityReferenceList2D( inner_argument, vec.back(), mapEntities, errorStream );
+				readEntityReferenceList2D( inner_argument, vec.back(), mapEntities, errorStream, entityIdNotFound );
 				last_token = ch+1;
 			}
 		}

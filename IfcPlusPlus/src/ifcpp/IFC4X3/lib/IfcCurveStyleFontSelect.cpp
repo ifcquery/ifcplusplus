@@ -7,7 +7,7 @@
 #include "ifcpp/IFC4X3/include/IfcCurveStyleFontSelect.h"
 
 // TYPE IfcCurveStyleFontSelect = SELECT	(IfcCurveStyleFont	,IfcPreDefinedCurveFont);
-shared_ptr<IFC4X3::IfcCurveStyleFontSelect> IFC4X3::IfcCurveStyleFontSelect::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcCurveStyleFontSelect> IFC4X3::IfcCurveStyleFontSelect::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcCurveStyleFontSelect>(); }
 	if( arg.compare("$")==0 )
@@ -19,6 +19,6 @@ shared_ptr<IFC4X3::IfcCurveStyleFontSelect> IFC4X3::IfcCurveStyleFontSelect::cre
 		return shared_ptr<IfcCurveStyleFontSelect>();
 	}
 	shared_ptr<IfcCurveStyleFontSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

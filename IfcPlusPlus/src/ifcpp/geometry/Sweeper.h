@@ -41,7 +41,7 @@ public:
 	  \param[in] paths Set of cross sections to extrude
 	  \param[in] dir Extrusion vector
 	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
-	  \param[out] item_data Container to add result polyhedron or polyline
+	  \param[out] itemData Container to add result polyhedron or polyline
 	**/
 	void extrude(const std::vector<std::vector<vec2> >& faceLoopsInput, const vec3 extrusionVector, shared_ptr<ItemShapeData>& itemData, GeomProcessingParams& params)
 	{
@@ -118,7 +118,7 @@ public:
 						bool pointInBBox = bboxPolygon.containsPoint(carve::geom::VECTOR(point[0], point[1]));
 						if (!pointInBBox)
 						{
-							glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+							vec4 color(0.3, 0.4, 0.5, 1.0);
 							GeomDebugDump::dumpPolyline(existingLoopArray, color, 0, false, false);
 							std::string label = "x";
 							vec3 point3 = carve::geom::VECTOR(point[0], point[1], 0);
@@ -133,7 +133,7 @@ public:
 #ifdef _DEBUG
 						if (false)
 						{
-							glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+							vec4 color(0.3, 0.4, 0.5, 1.0);
 							GeomDebugDump::dumpPolyline(existingLoopArray, color, 0, true, false);
 							std::string label = "x";
 							vec3 point3 = carve::geom::VECTOR(point[0], point[1], 0);
@@ -341,7 +341,7 @@ public:
 			{
 				if (params.ifc_entity->m_tag == 9817817 && false )
 				{
-					glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+					vec4 color(0.3, 0.4, 0.5, 1.0);
 					shared_ptr<carve::input::PolyhedronData> poly_data(new carve::input::PolyhedronData());
 
 					// add points bottom
@@ -501,39 +501,37 @@ public:
 			}
 
 #ifdef _DEBUG
-			std::vector<int>& faceIndices = polyhedronResult->faceIndices;
-			for (int idx : faceIndices)
-			{
-				if (idx >= polyhedronResult->points.size())
-				{
-					std::cout << "incorrect idx";
-
-				}
+			std::string details = "";
+			bool correct = checkPolyhedronData(polyhedronResult, params, details);
+			if (!correct) {
+				shared_ptr<carve::mesh::MeshSet<3> > meshset(polyhedronResult->createMesh(carve::input::opts(), eps));
+				vec4 color(0.3, 0.4, 0.5, 1.0);
+				GeomDebugDump::dumpMeshset(meshset, color, 0, true, false);
 			}
 #endif
-			itemData->addClosedPolyhedron(polyhedronResult, params, m_geom_settings);
+			itemData->addClosedPolyhedron(polyhedronResult, params);
 		}
 	}
 	
 	/*\brief Extrudes a circle cross section along a path. At turns, the points are placed in the bisecting plane
-	  \param[in] curve_points Path along which the circle is swept
+	  \param[in] curvePoints Path along which the circle is swept
 	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
-	  \param[out] item_data Container to add result polyhedron or polyline
+	  \param[out] itemData Container to add result polyhedron or polyline
 	  \param[in] nvc Number of vertices per circle
 	  \param[in] radius_inner If positive value is given, the swept disk becomes a pipe
 	**/
-	void sweepDisk( const std::vector<vec3>& curve_points, shared_ptr<ItemShapeData>& item_data, GeomProcessingParams& params, const size_t nvc, const double radius, const double radius_inner = -1 )
+	void sweepDisk( const std::vector<vec3>& curvePoints, shared_ptr<ItemShapeData>& itemData, GeomProcessingParams& params, const size_t nvc, const double radius, const double radius_inner = -1 )
 	{
-		const size_t num_curve_points = curve_points.size();
-		if( num_curve_points < 2 )
+		const size_t num_curvePoints = curvePoints.size();
+		if( num_curvePoints < 2 )
 		{
 			messageCallback( "num curve points < 2", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity );
 			return;
 		}
 
-		if( !item_data )
+		if( !itemData )
 		{
-			messageCallback( "!item_data", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity );
+			messageCallback( "!itemData", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity );
 			return;
 		}
 
@@ -542,14 +540,14 @@ public:
 			// Cross section is just a point. Create a polyline
 			shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
 			polyline_data->beginPolyline();
-			for( size_t i_polyline = 0; i_polyline < curve_points.size(); ++i_polyline )
+			for( size_t i_polyline = 0; i_polyline < curvePoints.size(); ++i_polyline )
 			{
-				const vec3& curve_pt = curve_points[i_polyline];
+				const vec3& curve_pt = curvePoints[i_polyline];
 				polyline_data->addVertex( curve_pt );
 				polyline_data->addPolylineIndex( 0 );
 				polyline_data->addPolylineIndex( i_polyline );
 			}
-			item_data->m_polylines.push_back( polyline_data );
+			itemData->m_polylines.push_back( polyline_data );
 			return;
 		}
 
@@ -562,18 +560,18 @@ public:
 
 		double eps = params.epsMergePoints;
 		vec3 local_z( carve::geom::VECTOR( 0, 0, 1 ) );
-		vec3 curve_point_first = curve_points[0];
-		vec3 curve_point_second = curve_points[1];
+		vec3 curve_point_first = curvePoints[0];
+		vec3 curve_point_second = curvePoints[1];
 
 		bool bend_found = false;
-		if( num_curve_points > 3 )
+		if( num_curvePoints > 3 )
 		{
 			// compute local z vector by dot product of the first bend of the reference line
 			vec3 vertex_back2 = curve_point_first;
 			vec3 vertex_back1 = curve_point_second;
-			for( size_t i = 2; i<num_curve_points; ++i )
+			for( size_t i = 2; i<num_curvePoints; ++i )
 			{
-				const vec3& vertex_current = curve_points[i];
+				const vec3& vertex_current = curvePoints[i];
 				vec3 section1 = vertex_back1 - vertex_back2;
 				vec3 section2 = vertex_current - vertex_back1;
 				section1.normalize();
@@ -681,30 +679,30 @@ public:
 
 		shared_ptr<carve::input::PolyhedronData> poly_data( new carve::input::PolyhedronData() );
 		
-		for( size_t ii = 0; ii<num_curve_points; ++ii )
+		for( size_t ii = 0; ii<num_curvePoints; ++ii )
 		{
-			const vec3& vertex_current = curve_points[ii];
+			const vec3& vertex_current = curvePoints[ii];
 			vec3 vertex_next;
 			vec3 vertex_before;
 			if( ii == 0 )
 			{
 				// first point
-				vertex_next	= curve_points[ii+1];
+				vertex_next	= curvePoints[ii+1];
 				vec3 delta_element = vertex_next - vertex_current;
 				vertex_before = vertex_current - (delta_element);
 			}
-			else if( ii == num_curve_points-1 )
+			else if( ii == num_curvePoints-1 )
 			{
 				// last point
-				vertex_before	= curve_points[ii-1];
+				vertex_before	= curvePoints[ii-1];
 				vec3 delta_element = vertex_current - vertex_before;
 				vertex_next = vertex_before + (delta_element);
 			}
 			else
 			{
 				// inner point
-				vertex_next		= curve_points[ii+1];
-				vertex_before	= curve_points[ii-1];
+				vertex_next		= curvePoints[ii+1];
+				vertex_before	= curvePoints[ii-1];
 			}
 
 			vec3 bisecting_normal;
@@ -734,7 +732,7 @@ public:
 				}
 			}
 
-			if( ii == num_curve_points -1 )
+			if( ii == num_curvePoints -1 )
 			{
 				bisecting_normal *= -1.0;
 			}
@@ -785,7 +783,7 @@ public:
 
 		// outer shape
 		size_t num_vertices_outer = poly_data->getVertexCount();
-		for( size_t i=0; i<num_curve_points- 1; ++i )
+		for( size_t i=0; i<num_curvePoints- 1; ++i )
 		{
 			size_t i_offset = i*nvc;
 			size_t i_offset_next = ( i + 1 )*nvc;
@@ -821,7 +819,7 @@ public:
 			}
 
 			// faces of inner shape
-			for( size_t i=0; i<num_curve_points- 1; ++i )
+			for( size_t i=0; i<num_curvePoints- 1; ++i )
 			{
 				size_t i_offset = i*nvc + num_vertices_outer;
 				size_t i_offset_next = ( i + 1 )*nvc + num_vertices_outer;
@@ -849,7 +847,7 @@ public:
 			}
 
 			// back cap
-			size_t back_offset = ( num_curve_points - 1 )*nvc;
+			size_t back_offset = ( num_curvePoints - 1 )*nvc;
 			for( size_t jj = 0; jj < nvc; ++jj )
 			{
 				size_t outer_rim_next = ( jj + 1 ) % nvc + back_offset;
@@ -874,7 +872,7 @@ public:
 			}
 
 			// back cap
-			size_t back_offset = ( num_curve_points - 1 )*nvc;
+			size_t back_offset = ( num_curvePoints - 1 )*nvc;
 			for( size_t jj = 0; jj < nvc - 2; ++jj )
 			{
 				poly_data->addFace( back_offset, back_offset+jj+2, back_offset+jj+1 );
@@ -883,14 +881,14 @@ public:
 
 		try
 		{
-			item_data->addClosedPolyhedron( poly_data, params, m_geom_settings );
+			itemData->addClosedPolyhedron( poly_data, params );
 		}
 		catch( BuildingException& exception )
 		{
 			messageCallback( exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", params.ifc_entity );  // calling function already in e.what()
 #ifdef _DEBUG
 			shared_ptr<carve::mesh::MeshSet<3> > meshset( poly_data->createMesh( carve::input::opts(), eps ) );
-			glm::vec4 color( 0.7, 0.7, 0.7, 1.0 );
+			vec4 color( 0.7, 0.7, 0.7, 1.0 );
 			bool drawNormals = true;
 			GeomDebugDump::dumpMeshset( meshset, color, drawNormals, true );
 #endif
@@ -903,18 +901,18 @@ public:
 	#endif
 	}
 
-	void findEnclosedLoops(const std::vector<std::vector<vec2> >& face_loops_input, std::vector<std::vector<std::vector<vec2> > >& profile_paths_enclosed, double eps)
+	void findEnclosedLoops(const std::vector<std::vector<vec2> >& faceLoopsInput, std::vector<std::vector<std::vector<vec2> > >& profile_paths_enclosed, double eps)
 	{
-		if (face_loops_input.size() > 1)
+		if (faceLoopsInput.size() > 1)
 		{
-			const std::vector<vec2>& loop1 = face_loops_input[0];
+			const std::vector<vec2>& loop1 = faceLoopsInput[0];
 			std::vector<std::vector<vec2> > enclosed_in_loop1;
 			std::vector<std::vector<vec2> > separate_loops;
 			enclosed_in_loop1.push_back(loop1);
 
-			for (size_t ii = 1; ii < face_loops_input.size(); ++ii)
+			for (size_t ii = 1; ii < faceLoopsInput.size(); ++ii)
 			{
-				const std::vector<vec2>& loop = face_loops_input[ii];
+				const std::vector<vec2>& loop = faceLoopsInput[ii];
 				bool loop_enclosed_in_loop1 = GeomUtils::isEnclosed(loop, loop1, eps);
 
 				if (loop_enclosed_in_loop1)
@@ -935,7 +933,7 @@ public:
 		}
 		else
 		{
-			profile_paths_enclosed.push_back(face_loops_input);
+			profile_paths_enclosed.push_back(faceLoopsInput);
 		}
 	}
 
@@ -1105,7 +1103,7 @@ public:
 		{
 #ifdef _DEBUG
 			messageCallback("carve::triangulate failed", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, ifc_entity);
-			glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+			vec4 color(0.3, 0.4, 0.5, 1.0);
 			GeomDebugDump::dumpPolyline(face_loops_used_for_triangulation, color, true, false );
 #endif
 			return;
@@ -1165,20 +1163,20 @@ public:
 	}
 
 	/*\brief Extrudes a cross section along a path. At turns, the points are placed in the bisecting plane
-	  \param[in] curve_points Path along which the cross section is swept
+	  \param[in] curvePoints Path along which the cross section is swept
 	  \param[in] profile_paths Set of cross sections to sweep
 	  \param[in] e Ifc entity that the geometry belongs to (just for error messages). Pass a nullptr if no entity at hand.
-	  \param[out] item_data Container to add result polyhedron or polyline
+	  \param[out] itemData Container to add result polyhedron or polyline
 	**/
-	void sweepArea(const std::vector<vec3>& curve_points, const std::vector<std::vector<vec2> >& profile_paths_input, shared_ptr<ItemShapeData>& item_data, GeomProcessingParams& params)
+	void sweepArea(const std::vector<vec3>& curvePoints, const std::vector<std::vector<vec2> >& profile_paths_input, shared_ptr<ItemShapeData>& itemData, GeomProcessingParams& params)
 	{
 		if (profile_paths_input.size() == 0)
 		{
 			messageCallback("profile_paths.size() == 0", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
 			return;
 		}
-		const size_t num_curve_points = profile_paths_input.size();
-		if (num_curve_points < 2)
+		const size_t num_curvePoints = curvePoints.size();
+		if (num_curvePoints < 2)
 		{
 			messageCallback("num curve points < 2", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
 			return;
@@ -1216,11 +1214,11 @@ public:
 				}
 
 				shared_ptr<carve::input::PolyhedronData> poly_data(new carve::input::PolyhedronData());
-				poly_data->points.resize(num_points_in_all_loops * curve_points.size());
+				poly_data->points.resize(num_points_in_all_loops * curvePoints.size());
 
-				const vec3& curve_point_first = curve_points[0];
-				const vec3& curve_point_second = curve_points[1];
-				const vec3 curve_normal = GeomUtils::computePolygonNormal(curve_points, eps);
+				const vec3& curve_point_first = curvePoints[0];
+				const vec3& curve_point_second = curvePoints[1];
+				const vec3 curve_normal = GeomUtils::computePolygonNormal(curvePoints, eps);
 
 				// rotate face loops into first direction
 				vec3  section_local_y = curve_normal;
@@ -1253,30 +1251,30 @@ public:
 					}
 				}
 
-				for (size_t ii = 1; ii < num_curve_points; ++ii)
+				for (size_t ii = 1; ii < num_curvePoints; ++ii)
 				{
-					vec3 curve_point_current = curve_points[ii];
+					vec3 curve_point_current = curvePoints[ii];
 					vec3 curve_point_next;
 					vec3 curve_point_before;
 					if (ii == 0)
 					{
 						// first point
-						curve_point_next = curve_points[ii + 1];
+						curve_point_next = curvePoints[ii + 1];
 						vec3 delta_element = curve_point_next - curve_point_current;
 						curve_point_before = curve_point_current - (delta_element);
 					}
-					else if (ii == num_curve_points - 1)
+					else if (ii == num_curvePoints - 1)
 					{
 						// last point
-						curve_point_before = curve_points[ii - 1];
+						curve_point_before = curvePoints[ii - 1];
 						vec3 delta_element = curve_point_current - curve_point_before;
 						curve_point_next = curve_point_before + (delta_element);
 					}
 					else
 					{
 						// inner point
-						curve_point_next = curve_points[ii + 1];
-						curve_point_before = curve_points[ii - 1];
+						curve_point_next = curvePoints[ii + 1];
+						curve_point_before = curvePoints[ii - 1];
 					}
 
 					vec3 bisecting_normal;
@@ -1284,7 +1282,7 @@ public:
 
 					vec3 section1 = curve_point_current - curve_point_before;
 					section1.normalize();
-					if (ii == num_curve_points - 1)
+					if (ii == num_curvePoints - 1)
 					{
 						bisecting_normal *= -1.0;
 					}
@@ -1320,7 +1318,7 @@ public:
 
 					for (size_t jj = 0; jj < loop.size(); ++jj)
 					{
-						for (size_t kk = 0; kk < num_curve_points - 1; ++kk)
+						for (size_t kk = 0; kk < num_curvePoints - 1; ++kk)
 						{
 							size_t tri_idx_a = num_points_in_all_loops * kk + jj + loop_offset;
 
@@ -1397,13 +1395,13 @@ public:
 
 				try
 				{
-					item_data->addClosedPolyhedron(poly_data, params, m_geom_settings);
+					itemData->addClosedPolyhedron(poly_data, params);
 				}
 				catch (BuildingException & exception)
 				{
 					messageCallback(exception.what(), StatusCallback::MESSAGE_TYPE_WARNING, "", params.ifc_entity);  // calling function already in e.what()
 #ifdef _DEBUG
-					glm::vec4 color(0.7, 0.7, 0.7, 1.0);
+					vec4 color(0.7, 0.7, 0.7, 1.0);
 					shared_ptr<carve::mesh::MeshSet<3> > meshset(poly_data->createMesh(carve::input::opts(), eps));
 					bool drawNormals = true;
 					GeomDebugDump::dumpMeshset(meshset, color, drawNormals, true);

@@ -40,7 +40,7 @@ typedef std::array<double, 2> array2d;
 
 namespace GeomDebugDump
 {
-	void dumpPolyline(const std::vector<vec2>& vec_polyline, const glm::vec4& color, double lineThickness, bool move_dump_position, bool depthTestOff);
+	void dumpPolyline(const std::vector<vec2>& vec_polyline, const vec4& color, double lineThickness, bool move_dump_position, bool depthTestOff);
 }
 
 namespace GeomUtils
@@ -75,20 +75,32 @@ namespace GeomUtils
 	
 	inline void safeNormalize(carve::geom::vector<3>& vec, double eps)
 	{
-		double len = vec.length2();
-		if (len > eps*eps)
+		if (std::abs(vec.x) < eps)
 		{
-			vec.normalize();
+			if (std::abs(vec.y) < eps)
+			{
+				if (std::abs(vec.z) < eps)
+				{
+					return;
+				}
+			}
 		}
+		vec.normalize();
 	}
 
 	inline void safeNormalize(glm::dvec3& vec, double eps)
 	{
-		double len = glm::length2(vec);
-		if (len > eps*eps)
+		if (std::abs(vec.x) < eps)
 		{
-			vec = glm::normalize(vec);
+			if (std::abs(vec.y) < eps)
+			{
+				if (std::abs(vec.z) < eps)
+				{
+					return;
+				}
+			}
 		}
+		vec = glm::normalize(vec);
 	}
 
 	enum ProjectionPlane { UNDEFINED, XY_PLANE, YZ_PLANE, XZ_PLANE };
@@ -420,7 +432,7 @@ namespace GeomUtils
 #ifdef _DEBUG
 		if (polygon_normal.length2() < 0.1)
 		{
-			//glm::vec4 color(0.1, 0.3, 0.3, 1.0);
+			//vec4 color(0.1, 0.3, 0.3, 1.0);
 			//GeomDebugDump::dumpPolyline(polygon, color, 1.0, true);
 		}
 #endif
@@ -1162,6 +1174,134 @@ namespace GeomUtils
 		return false;
 	}
 
+	inline void shortestConnectionLineSegmentToLineSegment(const vec3& point1OnLine1, const vec3& point2OnLine1,
+		const vec3& point1OnLine2, const vec3& point2OnLine2, vec3& closestPointOnLine1, vec3& closestPointOnLine2)
+	{
+		vec3 Line1Direction = point2OnLine1 - point1OnLine1;
+		vec3 Line2Direction = point2OnLine2 - point1OnLine2;
+		vec3 w = point1OnLine1 - point1OnLine2;
+
+		double    a = dot(Line1Direction, Line1Direction);         // always >= 0
+		double    b = dot(Line1Direction, Line2Direction);
+		double    c = dot(Line2Direction, Line2Direction);         // always >= 0
+		double    d = dot(Line1Direction, w);
+		double    e = dot(Line2Direction, w);
+		double    sN, sD = a * c - b * b;  // sc = sN / sD, sD >= 0
+		double    tN, tD = a * c - b * b;  // tc = tN / tD, tD >= 0
+		double    eps = 1e-15;
+		// compute the line parameters of the two closest points
+		if (sD < eps)
+		{
+			// the lines are almost parallel
+			sN = 0.0;              // force using point A on segment AB
+			sD = 1.0;              // to prevent possible division by 0.0 later
+			tN = e;
+			tD = c;
+		}
+		else
+		{
+			// get the closest points on the infinite lines
+			sN = (b * e - c * d);
+			tN = (a * e - b * d);
+			if (sN < 0.0)
+			{
+				// sc < 0 => the s=0 edge is visible
+				sN = 0.0;          // compute shortest connection of A to segment CD
+				tN = e;
+				tD = c;
+			}
+			else if (sN > sD)
+			{
+				// sc > 1  => the s=1 edge is visible
+				sN = sD;           // compute shortest connection of B to segment CD
+				tN = e + b;
+				tD = c;
+			}
+		}
+
+		if (tN < 0.0)
+		{
+			// tc < 0 => the t=0 edge is visible
+			tN = 0.0;
+			// recompute sc for this edge
+			if (-d < 0.0)          // compute shortest connection of C to segment AB
+			{
+				sN = 0.0;
+			}
+			else if (-d > a)
+			{
+				sN = sD;
+			}
+			else {
+				sN = -d;
+				sD = a;
+			}
+		}
+		else if (tN > tD)
+		{
+			// tc > 1  => the t=1 edge is visible
+			tN = tD;
+			// recompute sc for this edge
+			if ((-d + b) < 0.0)  // compute shortest connection of D to segment AB
+			{
+				sN = 0;
+			}
+			else if ((-d + b) > a)
+			{
+				sN = sD;
+			}
+			else
+			{
+				sN = (-d + b);
+				sD = a;
+			}
+		}
+		// finally do the division to get sc and tc
+		double Line1Factor = (std::abs(sN) < eps ? 0.0 : sN / sD);
+		double Line2Factor = (std::abs(tN) < eps ? 0.0 : tN / tD);
+
+		closestPointOnLine1 = point1OnLine1 + (Line1Factor * Line1Direction);
+		closestPointOnLine2 = point1OnLine2 + (Line2Factor * Line2Direction);
+	}
+
+	inline void LineToLineIntersection(const vec3& point1OnLine1, const vec3& point2OnLine1,
+		const vec3& point1OnLine2, const vec3& point2OnLine2, vec3& closestPointOnLine1, vec3& closestPointOnLine2 )
+	{
+		vec3 Line1Direction = point2OnLine1 - point1OnLine1;
+		vec3 Line2Direction = point2OnLine2 - point1OnLine2;
+		vec3 Line2Line = point1OnLine1 - point1OnLine2;
+
+		double a = dot(Line1Direction, Line1Direction);         // always >= 0
+		double b = dot(Line1Direction, Line2Direction);
+		double c = dot(Line2Direction, Line2Direction);         // always >= 0
+		double d = dot(Line1Direction, Line2Line);
+		double e = dot(Line2Direction, Line2Line);
+		double sN, sD = a * c - b * b;  // sc = sN / sD, sD >= 0
+		double tN, tD = a * c - b * b;  // tc = tN / tD, tD >= 0
+		double eps = 1e-15;
+		// compute the line parameters of the two closest points
+		if (sD < eps)
+		{
+			// the lines are almost parallel
+			sN = 0.0;              // force using point A on segment AB
+			sD = 1.0;              // to prevent possible division by 0.0 later
+			tN = e;
+			tD = c;
+		}
+		else
+		{
+			// get the closest points on the infinite lines
+			sN = (b * e - c * d);
+			tN = (a * e - b * d);
+		}
+
+		double Line1Factor = (std::abs(sN) < eps ? 0.0 : sN / sD);
+		double Line2Factor = (std::abs(tN) < eps ? 0.0 : tN / tD);
+
+		closestPointOnLine1 = point1OnLine1 + (Line1Factor * Line1Direction);
+		closestPointOnLine2 = point1OnLine2 + (Line2Factor * Line2Direction);
+	}
+
 	inline bool isPolygonSelfIntersecting(const std::vector<vec2>& polygon, double eps)
 	{
 		size_t numPoints = polygon.size();
@@ -1184,7 +1324,7 @@ namespace GeomUtils
 				if (intersects)
 				{
 #ifdef _DEBUG
-					glm::vec4 color(0.4, 0.6, 0.9, 1.0);
+					vec4 color(0.4, 0.6, 0.9, 1.0);
 					std::vector<vec2> segment1 = { p1, p2 };
 					GeomDebugDump::dumpPolyline(segment1, color, 2.0, false, false);
 					std::vector<vec2> segment2 = { p1a, p2a };
@@ -1197,7 +1337,8 @@ namespace GeomUtils
 		return false;
 	}
 
-	inline void closestPointOnLine(const vec3& point, const vec3& line_origin, const vec3& line_direction, vec3& closest)
+	template <typename T>
+	void closestPointOnLine(const T& point, const T& line_origin, const T& line_direction, T& closest)
 	{
 		const double denom = point.x * line_direction.x + point.y * line_direction.y + point.z * line_direction.z - line_direction.x * line_origin.x - line_direction.y * line_origin.y - line_direction.z * line_origin.z;
 		const double numer = line_direction.x * line_direction.x + line_direction.y * line_direction.y + line_direction.z * line_direction.z;
@@ -1209,10 +1350,12 @@ namespace GeomUtils
 			return;
 		}
 		const double lambda = denom / numer;
-		closest = carve::geom::VECTOR(line_origin.x + lambda * line_direction.x, line_origin.y + lambda * line_direction.y, line_origin.z + lambda * line_direction.z);
+		closest.x = line_origin.x + lambda * line_direction.x;
+		closest.y = line_origin.y + lambda * line_direction.y;
+		closest.z = line_origin.z + lambda * line_direction.z;
 	}
 
-	inline void closestPointOnLine(const vec2& point, const vec2& line_origin, const vec2& line_direction, vec2& closest)
+	inline void closestPointOnLine2D(const vec2& point, const vec2& line_origin, const vec2& line_direction, vec2& closest)
 	{
 		const double denom = point.x * line_direction.x + point.y * line_direction.y + -line_direction.x * line_origin.x - line_direction.y * line_origin.y;
 		const double numer = line_direction.x * line_direction.x + line_direction.y * line_direction.y;
@@ -1224,7 +1367,8 @@ namespace GeomUtils
 			return;
 		}
 		const double lambda = denom / numer;
-		closest = carve::geom::VECTOR(line_origin.x + lambda * line_direction.x, line_origin.y + lambda * line_direction.y);
+		closest.x = line_origin.x + lambda * line_direction.x;
+		closest.y = line_origin.y + lambda * line_direction.y;
 	}
 
 	inline double distancePoint2Line(const vec3& point, const vec3& line_p0, const vec3& line_p1)

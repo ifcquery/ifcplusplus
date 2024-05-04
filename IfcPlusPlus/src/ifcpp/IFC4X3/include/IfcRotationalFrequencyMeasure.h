@@ -20,7 +20,7 @@ namespace IFC4X3
 		IfcRotationalFrequencyMeasure( double value );
 		virtual uint32_t classID() const { return 2133746277; }
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
-		static shared_ptr<IfcRotationalFrequencyMeasure> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
+		static shared_ptr<IfcRotationalFrequencyMeasure> createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound );
 		double m_value;
 	};
 }

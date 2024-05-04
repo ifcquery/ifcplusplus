@@ -22,7 +22,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <sstream>
 #include <vector>
 #include <limits>
-#include <map>
+#include <unordered_map>
+#include <unordered_set>
 #include "ifcpp/model/BasicTypes.h"
 
 enum LogicalEnum { LOGICAL_TRUE, LOGICAL_FALSE, LOGICAL_UNKNOWN };
@@ -55,7 +56,7 @@ public:
 	virtual void getStepLine(std::stringstream& stream, size_t precision) const = 0;
 
 	/** \brief Reads all attributes from args. References to other entities are taken from map_entities. */
-	virtual void readStepArguments(const std::vector<std::string>& args, const std::map<int, shared_ptr<BuildingEntity> >& map_entities, std::stringstream& errorStream) = 0;
+	virtual void readStepArguments(const std::vector<std::string>& args, const std::unordered_map<int, shared_ptr<BuildingEntity> >& mapEntities, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound) = 0;
 
 	/** \brief Number of attributes, including inherited attributes, without inverse attributes */
 	virtual uint8_t getNumAttributes() const = 0;

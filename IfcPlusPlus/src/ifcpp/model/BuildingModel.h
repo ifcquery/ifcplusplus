@@ -18,7 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <string>
 #include "BasicTypes.h"
 #include "StatusCallback.h"
@@ -39,15 +39,18 @@ public:
 	~BuildingModel() override;
 
 	enum SchemaVersionEnum { IFC_VERSION_UNDEFINED, IFC_VERSION_UNKNOWN, IFC2X, IFC2X2, IFC2X3, IFC2X4, IFC4, IFC4X1, IFC4X3 };
-	std::map<int, shared_ptr<BuildingEntity> >& getMapIfcEntities() { return m_map_entities; }
-	void setMapIfcEntities(const std::map<int, shared_ptr<BuildingEntity> >& map);
+	BuildingModelMapType<int, shared_ptr<BuildingEntity> >& getMapIfcEntities() { return m_map_entities; }
+	void setMapIfcEntities(const std::unordered_map<int, shared_ptr<BuildingEntity> >& map);
 	void insertEntity(shared_ptr<BuildingEntity> e, bool overwrite_existing = false, bool warn_on_existing_entities = true);
 	void removeEntity(shared_ptr<BuildingEntity> e);
 	void removeEntity(int tag);
 	void removeUnreferencedEntities();
 
-	/*! \brief Method getMaxUsedEntityId. Return the highest entity id in the model. */
-	int getMaxUsedEntityId();
+	/*! \brief Method getNextUnusedEntityTag. Return the next tag that is not in the model. Look for gaps in existing map */
+	int getLowestUnusedEntityTagSlow();
+
+	/*! \brief Method getNextUnusedEntityTagFast. Return a tag that is not in the model. Do not look for gaps in existing map. */
+	int getNextUnusedEntityTagFast();
 	shared_ptr<IFC4X3::IfcProject> getIfcProject();
 	shared_ptr<IFC4X3::IfcGeometricRepresentationContext> getIfcGeometricRepresentationContext3D();
 	shared_ptr<UnitConverter>& getUnitConverter() { return m_unit_converter; }
@@ -79,7 +82,7 @@ public:
 	void updateCache();
 	void clearCache();
 	void initFileHeader(const std::string& fileName, const std::string& generatingApplication);
-	static void collectDependentEntities(shared_ptr<BuildingObject> entity, std::map<BuildingObject*, shared_ptr<BuildingObject> >& target_map, bool resolveInverseAttributes);
+	static void collectDependentEntities(shared_ptr<BuildingObject> entity, std::unordered_map<BuildingObject*, shared_ptr<BuildingObject> >& target_map, bool resolveInverseAttributes);
 
 	void cancelLoading()
 	{
@@ -94,8 +97,9 @@ public:
 	friend class ReaderXML;
 
 private:
-	std::map<int, shared_ptr<BuildingEntity> >			m_map_entities;
-	shared_ptr<IFC4X3::IfcProject>						m_ifc_project;
+	BuildingModelMapType<int, shared_ptr<BuildingEntity> >	m_map_entities;
+	int														m_max_entity_id = -1;
+	shared_ptr<IFC4X3::IfcProject>							m_ifc_project;
 	shared_ptr<IFC4X3::IfcGeometricRepresentationContext>	m_geom_context_3d;
 	shared_ptr<UnitConverter>							m_unit_converter;
 	std::string											m_file_name;

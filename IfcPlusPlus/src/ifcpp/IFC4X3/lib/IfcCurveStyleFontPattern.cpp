@@ -12,18 +12,18 @@
 IFC4X3::IfcCurveStyleFontPattern::IfcCurveStyleFontPattern( int tag ) { m_tag = tag; }
 void IFC4X3::IfcCurveStyleFontPattern::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCCURVESTYLEFONTPATTERN" << "(";
+	stream << "#" << m_tag << "=IFCCURVESTYLEFONTPATTERN" << "(";
 	if( m_VisibleSegmentLength ) { m_VisibleSegmentLength->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_InvisibleSegmentLength ) { m_InvisibleSegmentLength->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ");";
 }
 void IFC4X3::IfcCurveStyleFontPattern::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcCurveStyleFontPattern::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcCurveStyleFontPattern::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_VisibleSegmentLength = IfcLengthMeasure::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_InvisibleSegmentLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map, errorStream );}
+	if( num_args > 0 ){m_VisibleSegmentLength = IfcLengthMeasure::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_InvisibleSegmentLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
 	if( num_args != 2 ){ errorStream << "Wrong parameter count for entity IfcCurveStyleFontPattern, expecting 2, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcCurveStyleFontPattern::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

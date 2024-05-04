@@ -14,7 +14,7 @@
 IFC4X3::IfcRigidOperation::IfcRigidOperation( int tag ) { m_tag = tag; }
 void IFC4X3::IfcRigidOperation::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCRIGIDOPERATION" << "(";
+	stream << "#" << m_tag << "=IFCRIGIDOPERATION" << "(";
 	if( m_SourceCRS ) { m_SourceCRS->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_TargetCRS ) { stream << "#" << m_TargetCRS->m_tag; } else { stream << "$"; }
@@ -27,14 +27,14 @@ void IFC4X3::IfcRigidOperation::getStepLine( std::stringstream& stream, size_t p
 	stream << ");";
 }
 void IFC4X3::IfcRigidOperation::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcRigidOperation::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcRigidOperation::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_SourceCRS = IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){readEntityReference( args[1], m_TargetCRS, map, errorStream );}
-	if( num_args > 2 ){m_FirstCoordinate = IfcMeasureValue::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){m_SecondCoordinate = IfcMeasureValue::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){m_Height = IfcLengthMeasure::createObjectFromSTEP( args[4], map, errorStream );}
+	if( num_args > 0 ){m_SourceCRS = IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReference( args[1], m_TargetCRS, map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_FirstCoordinate = IfcMeasureValue::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_SecondCoordinate = IfcMeasureValue::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_Height = IfcLengthMeasure::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
 	if( num_args != 5 ){ errorStream << "Wrong parameter count for entity IfcRigidOperation, expecting 5, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcRigidOperation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

@@ -18,7 +18,7 @@
 IFC4X3::IfcOpenCrossProfileDef::IfcOpenCrossProfileDef( int tag ) { m_tag = tag; }
 void IFC4X3::IfcOpenCrossProfileDef::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCOPENCROSSPROFILEDEF" << "(";
+	stream << "#" << m_tag << "=IFCOPENCROSSPROFILEDEF" << "(";
 	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -73,16 +73,16 @@ void IFC4X3::IfcOpenCrossProfileDef::getStepLine( std::stringstream& stream, siz
 	stream << ");";
 }
 void IFC4X3::IfcOpenCrossProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcOpenCrossProfileDef::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcOpenCrossProfileDef::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){m_HorizontalWidths = IfcBoolean::createObjectFromSTEP( args[2], map, errorStream );}
+	if( num_args > 0 ){m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_HorizontalWidths = IfcBoolean::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
 	if( num_args > 3 ){readTypeOfRealList( args[3], m_Widths );}
 	if( num_args > 4 ){readTypeOfRealList( args[4], m_Slopes );}
 	if( num_args > 5 ){readTypeOfStringList( args[5], m_Tags );}
-	if( num_args > 6 ){readEntityReference( args[6], m_OffsetPoint, map, errorStream );}
+	if( num_args > 6 ){readEntityReference( args[6], m_OffsetPoint, map, errorStream, entityIdNotFound );}
 	if( num_args != 7 ){ errorStream << "Wrong parameter count for entity IfcOpenCrossProfileDef, expecting 7, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcOpenCrossProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

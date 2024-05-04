@@ -8,7 +8,7 @@
 #include "ifcpp/IFC4X3/include/IfcModulusOfTranslationalSubgradeReactionSelect.h"
 
 // TYPE IfcModulusOfTranslationalSubgradeReactionSelect = SELECT	(IfcBoolean	,IfcModulusOfLinearSubgradeReactionMeasure);
-shared_ptr<IFC4X3::IfcModulusOfTranslationalSubgradeReactionSelect> IFC4X3::IfcModulusOfTranslationalSubgradeReactionSelect::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcModulusOfTranslationalSubgradeReactionSelect> IFC4X3::IfcModulusOfTranslationalSubgradeReactionSelect::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcModulusOfTranslationalSubgradeReactionSelect>(); }
 	if( arg.compare("$")==0 )
@@ -20,6 +20,6 @@ shared_ptr<IFC4X3::IfcModulusOfTranslationalSubgradeReactionSelect> IFC4X3::IfcM
 		return shared_ptr<IfcModulusOfTranslationalSubgradeReactionSelect>();
 	}
 	shared_ptr<IfcModulusOfTranslationalSubgradeReactionSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

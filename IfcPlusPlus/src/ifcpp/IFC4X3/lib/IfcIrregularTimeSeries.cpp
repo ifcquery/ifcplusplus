@@ -18,7 +18,7 @@
 IFC4X3::IfcIrregularTimeSeries::IfcIrregularTimeSeries( int tag ) { m_tag = tag; }
 void IFC4X3::IfcIrregularTimeSeries::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCIRREGULARTIMESERIES" << "(";
+	stream << "#" << m_tag << "=IFCIRREGULARTIMESERIES" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -39,18 +39,18 @@ void IFC4X3::IfcIrregularTimeSeries::getStepLine( std::stringstream& stream, siz
 	stream << ");";
 }
 void IFC4X3::IfcIrregularTimeSeries::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcIrregularTimeSeries::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcIrregularTimeSeries::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_Name = IfcLabel::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_Description = IfcText::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){m_StartTime = IfcDateTime::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){m_EndTime = IfcDateTime::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){m_TimeSeriesDataType = IfcTimeSeriesDataTypeEnum::createObjectFromSTEP( args[4], map, errorStream );}
-	if( num_args > 5 ){m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[5], map, errorStream );}
-	if( num_args > 6 ){m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[6], map, errorStream );}
-	if( num_args > 7 ){m_Unit = IfcUnit::createObjectFromSTEP( args[7], map, errorStream );}
-	if( num_args > 8 ){readEntityReferenceList( args[8], m_Values, map, errorStream );}
+	if( num_args > 0 ){m_Name = IfcLabel::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_Description = IfcText::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_StartTime = IfcDateTime::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_EndTime = IfcDateTime::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_TimeSeriesDataType = IfcTimeSeriesDataTypeEnum::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
+	if( num_args > 5 ){m_DataOrigin = IfcDataOriginEnum::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
+	if( num_args > 6 ){m_UserDefinedDataOrigin = IfcLabel::createObjectFromSTEP( args[6], map, errorStream, entityIdNotFound );}
+	if( num_args > 7 ){m_Unit = IfcUnit::createObjectFromSTEP( args[7], map, errorStream, entityIdNotFound );}
+	if( num_args > 8 ){readEntityReferenceList( args[8], m_Values, map, errorStream, entityIdNotFound );}
 	if( num_args != 9 ){ errorStream << "Wrong parameter count for entity IfcIrregularTimeSeries, expecting 9, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcIrregularTimeSeries::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

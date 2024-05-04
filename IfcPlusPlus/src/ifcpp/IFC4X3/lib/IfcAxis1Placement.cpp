@@ -14,18 +14,18 @@
 IFC4X3::IfcAxis1Placement::IfcAxis1Placement( int tag ) { m_tag = tag; }
 void IFC4X3::IfcAxis1Placement::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCAXIS1PLACEMENT" << "(";
+	stream << "#" << m_tag << "=IFCAXIS1PLACEMENT" << "(";
 	if( m_Location ) { stream << "#" << m_Location->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_Axis ) { stream << "#" << m_Axis->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
 void IFC4X3::IfcAxis1Placement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcAxis1Placement::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcAxis1Placement::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReference( args[0], m_Location, map, errorStream );}
-	if( num_args > 1 ){readEntityReference( args[1], m_Axis, map, errorStream );}
+	if( num_args > 0 ){readEntityReference( args[0], m_Location, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReference( args[1], m_Axis, map, errorStream, entityIdNotFound );}
 	if( num_args != 2 ){ errorStream << "Wrong parameter count for entity IfcAxis1Placement, expecting 2, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcAxis1Placement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

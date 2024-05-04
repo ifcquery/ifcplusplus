@@ -18,7 +18,7 @@
 IFC4X3::IfcIShapeProfileDef::IfcIShapeProfileDef( int tag ) { m_tag = tag; }
 void IFC4X3::IfcIShapeProfileDef::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCISHAPEPROFILEDEF" << "(";
+	stream << "#" << m_tag << "=IFCISHAPEPROFILEDEF" << "(";
 	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -41,19 +41,19 @@ void IFC4X3::IfcIShapeProfileDef::getStepLine( std::stringstream& stream, size_t
 	stream << ");";
 }
 void IFC4X3::IfcIShapeProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcIShapeProfileDef::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcIShapeProfileDef::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){readEntityReference( args[2], m_Position, map, errorStream );}
-	if( num_args > 3 ){m_OverallWidth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){m_OverallDepth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4], map, errorStream );}
-	if( num_args > 5 ){m_WebThickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[5], map, errorStream );}
-	if( num_args > 6 ){m_FlangeThickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[6], map, errorStream );}
-	if( num_args > 7 ){m_FilletRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[7], map, errorStream );}
-	if( num_args > 8 ){m_FlangeEdgeRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[8], map, errorStream );}
-	if( num_args > 9 ){m_FlangeSlope = IfcPlaneAngleMeasure::createObjectFromSTEP( args[9], map, errorStream );}
+	if( num_args > 0 ){m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readEntityReference( args[2], m_Position, map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_OverallWidth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_OverallDepth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
+	if( num_args > 5 ){m_WebThickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
+	if( num_args > 6 ){m_FlangeThickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[6], map, errorStream, entityIdNotFound );}
+	if( num_args > 7 ){m_FilletRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[7], map, errorStream, entityIdNotFound );}
+	if( num_args > 8 ){m_FlangeEdgeRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[8], map, errorStream, entityIdNotFound );}
+	if( num_args > 9 ){m_FlangeSlope = IfcPlaneAngleMeasure::createObjectFromSTEP( args[9], map, errorStream, entityIdNotFound );}
 	if( num_args != 10 ){ errorStream << "Wrong parameter count for entity IfcIShapeProfileDef, expecting 10, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcIShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

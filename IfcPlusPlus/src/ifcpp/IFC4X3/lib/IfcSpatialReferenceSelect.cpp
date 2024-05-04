@@ -6,7 +6,7 @@
 #include "ifcpp/IFC4X3/include/IfcSpatialReferenceSelect.h"
 
 // TYPE IfcSpatialReferenceSelect = SELECT	(IfcGroup	,IfcProduct);
-shared_ptr<IFC4X3::IfcSpatialReferenceSelect> IFC4X3::IfcSpatialReferenceSelect::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcSpatialReferenceSelect> IFC4X3::IfcSpatialReferenceSelect::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcSpatialReferenceSelect>(); }
 	if( arg.compare("$")==0 )
@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcSpatialReferenceSelect> IFC4X3::IfcSpatialReferenceSelect:
 		return shared_ptr<IfcSpatialReferenceSelect>();
 	}
 	shared_ptr<IfcSpatialReferenceSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

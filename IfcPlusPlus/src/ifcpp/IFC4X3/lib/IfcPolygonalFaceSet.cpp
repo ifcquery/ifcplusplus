@@ -18,7 +18,7 @@
 IFC4X3::IfcPolygonalFaceSet::IfcPolygonalFaceSet( int tag ) { m_tag = tag; }
 void IFC4X3::IfcPolygonalFaceSet::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCPOLYGONALFACESET" << "(";
+	stream << "#" << m_tag << "=IFCPOLYGONALFACESET" << "(";
 	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_Closed ) { m_Closed->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -50,12 +50,12 @@ void IFC4X3::IfcPolygonalFaceSet::getStepLine( std::stringstream& stream, size_t
 	stream << ");";
 }
 void IFC4X3::IfcPolygonalFaceSet::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcPolygonalFaceSet::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcPolygonalFaceSet::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReference( args[0], m_Coordinates, map, errorStream );}
-	if( num_args > 1 ){m_Closed = IfcBoolean::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){readEntityReferenceList( args[2], m_Faces, map, errorStream );}
+	if( num_args > 0 ){readEntityReference( args[0], m_Coordinates, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_Closed = IfcBoolean::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readEntityReferenceList( args[2], m_Faces, map, errorStream, entityIdNotFound );}
 	if( num_args > 3 ){readTypeOfIntegerList( args[3], m_PnIndex );}
 	if( num_args != 4 ){ errorStream << "Wrong parameter count for entity IfcPolygonalFaceSet, expecting 4, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }

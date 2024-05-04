@@ -1,5 +1,5 @@
 #pragma once
-
+#pragma warning(disable: 4702)
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/geometry/GeomUtils.h>
@@ -368,7 +368,7 @@ public:
 		GeomDebugDump::clearMeshsetDump();
 		carve::geom::aabb<3> bbox;
 		std::vector<vec3> points;
-		glm::vec4 color(1, 0.5, 1, 1);
+		vec4 color(1, 0.5, 1, 1);
 		GeomDebugDump::dumpMeshset(m_meshset, color, true, true);
 		for (auto openEdge : m_mesh->open_edges)
 		{
@@ -416,7 +416,7 @@ public:
 				}
 
 #ifdef _DEBUG
-				glm::vec4 color(1, 0.5, 1, 1);
+				vec4 color(1, 0.5, 1, 1);
 				
 				GeomDebugDump::dumpPolyline({ openEdge1->v1()->v, openEdge1->v2()->v }, color, 1, true, false);
 				GeomDebugDump::moveOffset(0.01);
@@ -742,7 +742,7 @@ public:
 #ifdef _DEBUG
 				GeomDebugDump::clearMeshsetDump();
 
-				glm::vec4 color(1, 0.5, 1, 1);
+				vec4 color(1, 0.5, 1, 1);
 				std::vector<vec3 > openEdgePoints;
 				std::vector<double> lengthOfEdges;
 				int edgeCount = 0;
@@ -755,7 +755,7 @@ public:
 					vec3 delta = p1Scaled - p2Scaled;
 					double lengthDelta = delta.length();
 					lengthOfEdges.push_back(lengthDelta);
-					glm::vec4 color(1, 0.5 + 0.1*edgeCount, 1, 1);
+					vec4 color(1, 0.5 + 0.1*edgeCount, 1, 1);
 					GeomDebugDump::dumpPolyline({ p1Scaled, p2Scaled }, color, 1, false, false);
 					++edgeCount;
 					GeomDebugDump::moveOffset(0.001);
@@ -886,7 +886,7 @@ public:
 #ifdef _DEBUG
 			vec3 deltV1_to_EndVertex = edge->v1()->v - endVertex->v.v;
 
-			glm::vec4 color(1, 0.5, 1, 1);
+			vec4 color(1, 0.5, 1, 1);
 
 			GeomDebugDump::dumpPolyline({ edge->v1()->v, edge->v2()->v }, color, 1, true, false);
 			GeomDebugDump::moveOffset(0.01);

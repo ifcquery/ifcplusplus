@@ -12,17 +12,17 @@
 IFC4X3::IfcVirtualGridIntersection::IfcVirtualGridIntersection( int tag ) { m_tag = tag; }
 void IFC4X3::IfcVirtualGridIntersection::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCVIRTUALGRIDINTERSECTION" << "(";
+	stream << "#" << m_tag << "=IFCVIRTUALGRIDINTERSECTION" << "(";
 	writeEntityList( stream, m_IntersectingAxes );
 	stream << ",";
 	writeTypeOfRealList( stream, m_OffsetDistances, false, precision );
 	stream << ");";
 }
 void IFC4X3::IfcVirtualGridIntersection::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcVirtualGridIntersection::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcVirtualGridIntersection::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReferenceList( args[0], m_IntersectingAxes, map, errorStream );}
+	if( num_args > 0 ){readEntityReferenceList( args[0], m_IntersectingAxes, map, errorStream, entityIdNotFound );}
 	if( num_args > 1 ){readTypeOfRealList( args[1], m_OffsetDistances );}
 	if( num_args != 2 ){ errorStream << "Wrong parameter count for entity IfcVirtualGridIntersection, expecting 2, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }

@@ -14,7 +14,7 @@
 IFC4X3::IfcCurveBoundedPlane::IfcCurveBoundedPlane( int tag ) { m_tag = tag; }
 void IFC4X3::IfcCurveBoundedPlane::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCCURVEBOUNDEDPLANE" << "(";
+	stream << "#" << m_tag << "=IFCCURVEBOUNDEDPLANE" << "(";
 	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_OuterBoundary ) { stream << "#" << m_OuterBoundary->m_tag; } else { stream << "$"; }
@@ -23,12 +23,12 @@ void IFC4X3::IfcCurveBoundedPlane::getStepLine( std::stringstream& stream, size_
 	stream << ");";
 }
 void IFC4X3::IfcCurveBoundedPlane::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcCurveBoundedPlane::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcCurveBoundedPlane::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReference( args[0], m_BasisSurface, map, errorStream );}
-	if( num_args > 1 ){readEntityReference( args[1], m_OuterBoundary, map, errorStream );}
-	if( num_args > 2 ){readEntityReferenceList( args[2], m_InnerBoundaries, map, errorStream );}
+	if( num_args > 0 ){readEntityReference( args[0], m_BasisSurface, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReference( args[1], m_OuterBoundary, map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readEntityReferenceList( args[2], m_InnerBoundaries, map, errorStream, entityIdNotFound );}
 	if( num_args != 3 ){ errorStream << "Wrong parameter count for entity IfcCurveBoundedPlane, expecting 3, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcCurveBoundedPlane::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

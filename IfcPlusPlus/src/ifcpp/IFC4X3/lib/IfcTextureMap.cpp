@@ -13,7 +13,7 @@
 IFC4X3::IfcTextureMap::IfcTextureMap( int tag ) { m_tag = tag; }
 void IFC4X3::IfcTextureMap::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCTEXTUREMAP" << "(";
+	stream << "#" << m_tag << "=IFCTEXTUREMAP" << "(";
 	writeEntityList( stream, m_Maps );
 	stream << ",";
 	writeEntityList( stream, m_Vertices );
@@ -22,12 +22,12 @@ void IFC4X3::IfcTextureMap::getStepLine( std::stringstream& stream, size_t preci
 	stream << ");";
 }
 void IFC4X3::IfcTextureMap::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcTextureMap::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcTextureMap::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReferenceList( args[0], m_Maps, map, errorStream );}
-	if( num_args > 1 ){readEntityReferenceList( args[1], m_Vertices, map, errorStream );}
-	if( num_args > 2 ){readEntityReference( args[2], m_MappedTo, map, errorStream );}
+	if( num_args > 0 ){readEntityReferenceList( args[0], m_Maps, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReferenceList( args[1], m_Vertices, map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readEntityReference( args[2], m_MappedTo, map, errorStream, entityIdNotFound );}
 	if( num_args != 3 ){ errorStream << "Wrong parameter count for entity IfcTextureMap, expecting 3, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcTextureMap::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

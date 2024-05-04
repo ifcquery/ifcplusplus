@@ -6,7 +6,7 @@
 #include "ifcpp/IFC4X3/include/IfcGeometricSetSelect.h"
 
 // TYPE IfcGeometricSetSelect = SELECT	(IfcCurve	,IfcPoint	,IfcSurface);
-shared_ptr<IFC4X3::IfcGeometricSetSelect> IFC4X3::IfcGeometricSetSelect::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcGeometricSetSelect> IFC4X3::IfcGeometricSetSelect::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcGeometricSetSelect>(); }
 	if( arg.compare("$")==0 )
@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcGeometricSetSelect> IFC4X3::IfcGeometricSetSelect::createO
 		return shared_ptr<IfcGeometricSetSelect>();
 	}
 	shared_ptr<IfcGeometricSetSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

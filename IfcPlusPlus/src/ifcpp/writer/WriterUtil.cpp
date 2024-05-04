@@ -137,11 +137,12 @@ void writeRealList(std::stringstream& stream, const std::vector<double>& vec, bo
 	stream << ")";
 }
 
-void writeRealArray3(std::stringstream& stream, const double (&vec)[3], bool optionalAttribute, short int size, size_t precision)
+void writeRealArray3(std::stringstream& stream, const double(&vec)[3], bool optionalAttribute, size_t precision)
 {
 	// example: (3,23,039)
-	if (size == 0)
+	if (std::isnan(vec[0]) || std::isnan(vec[1]))
 	{
+		// less than 2 values are not allowed
 		if (optionalAttribute)
 		{
 			stream << "$";
@@ -151,19 +152,19 @@ void writeRealArray3(std::stringstream& stream, const double (&vec)[3], bool opt
 			stream << "()";
 		}
 
-
 		return;
 	}
 	stream << "(";
-	for (size_t ii = 0; ii < size; ++ii)
-	{
-		if (ii > 0)
-		{
-			stream << ",";
-		}
+	appendRealWithoutTrailingZeros(stream, vec[0], precision);
+	stream << ",";
+	appendRealWithoutTrailingZeros(stream, vec[1], precision);
 
-		appendRealWithoutTrailingZeros(stream, vec[ii], precision);
+	if (!std::isnan(vec[2]))
+	{
+		stream << ",";
+		appendRealWithoutTrailingZeros(stream, vec[2], precision);
 	}
+
 	stream << ")";
 }
 

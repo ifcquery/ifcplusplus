@@ -57,7 +57,7 @@ public:
 
 	}
 
-	void convertIfcAxis2Placement2D( const shared_ptr<IfcAxis2Placement2D>& axis2placement2d, shared_ptr<TransformData>& resulting_matrix, bool only_rotation = false )
+	void convertIfcAxis2Placement2D( const shared_ptr<IfcAxis2Placement2D>& axis2placement2d, shared_ptr<TransformData>& resultingTransform, bool only_rotation = false )
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		vec3  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
@@ -100,30 +100,31 @@ public:
 			}
 		}
 
+		// The attribute RefDirection defines the x axis
 		local_x = ref_direction;
 		vec3  z_axis( carve::geom::VECTOR( 0.0, 0.0, 1.0 ) );
 		local_y = carve::geom::cross( z_axis, local_x );
 		// ref_direction can be just in the x-z-plane, not perpendicular to y and z. so re-compute local x
 		local_x = carve::geom::cross( local_y, local_z );
 
-		local_x.normalize();
-		local_y.normalize();
-		local_z.normalize();
+		GeomUtils::safeNormalize( local_x, 1e-15 );
+		GeomUtils::safeNormalize( local_y, 1e-15 );
+		GeomUtils::safeNormalize( local_z, 1e-15 );
 
-		if( !resulting_matrix )
+		if( !resultingTransform)
 		{
-			resulting_matrix = shared_ptr<TransformData>( new TransformData() );
+			resultingTransform = shared_ptr<TransformData>( new TransformData() );
 		}
-		resulting_matrix->m_matrix = carve::math::Matrix(
+		resultingTransform->m_matrix = carve::math::Matrix(
 			local_x.x, local_y.x, local_z.x, translate.x,
 			local_x.y, local_y.y, local_z.y, translate.y,
 			local_x.z, local_y.z, local_z.z, translate.z,
 			0, 0, 0, 1 );
-		resulting_matrix->m_placement_entity = axis2placement2d;
-		resulting_matrix->m_placement_tag = axis2placement2d->m_tag;
+		resultingTransform->m_placement_entity = axis2placement2d;
+		resultingTransform->m_placement_tag = axis2placement2d->m_tag;
 	}
 
-	void convertIfcAxis2Placement3D( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, shared_ptr<TransformData>& resulting_matrix, bool only_rotation = false )
+	void convertIfcAxis2Placement3D( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, shared_ptr<TransformData>& resultingTransform, bool only_rotation = false )
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		vec3  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
@@ -157,13 +158,6 @@ public:
 			}
 		}
 
-#ifdef _DEBUG_RELEASE
-		if (translate.x > 500)
-		{
-			std::cout << "500" << std::endl;
-		}
-#endif
-
 		if( axis2placement3d->m_Axis )
 		{
 			// local z-axis
@@ -186,36 +180,43 @@ public:
 
 		local_x = ref_direction;
 		local_y = carve::geom::cross( local_z, local_x );
+		if (std::abs(local_y.x) < 1e-6 && std::abs(local_y.y) < 1e-6 && std::abs(local_y.z) < 1e-6 )
+		{
+			// ref_direction is incorrect
+			messageCallback("#" + std::to_string(axis2placement3d->m_tag) + "=IfcAxis2Placement3D has incorrect Axis and RefDirection", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, axis2placement3d.get());
+
+			local_x = carve::geom::VECTOR( 0.0, 1.0, 0.0 );
+			local_y = carve::geom::cross(local_z, local_x);
+			if (local_y.length2() < 0.5)
+			{
+				local_x = carve::geom::VECTOR( 0.0, 0.0, 1.0 );
+				local_y = carve::geom::cross(local_z, local_x);
+			}
+		}
+		else
+		{
+			GeomUtils::safeNormalize(local_y, 1e-15);
+		}
+		
 		// ref_direction can be just in the x-z-plane, not perpendicular to y and z. so re-compute local x
 		local_x = carve::geom::cross( local_y, local_z );
 
-		local_x.normalize();
-		local_y.normalize();
-		local_z.normalize();
+		GeomUtils::safeNormalize( local_x, 1e-15 );
+		GeomUtils::safeNormalize( local_y, 1e-15 );
+		GeomUtils::safeNormalize( local_z, 1e-15 );
 
-		if( !resulting_matrix )
+		if( !resultingTransform )
 		{
-			resulting_matrix = shared_ptr<TransformData>( new TransformData() );
+			resultingTransform = shared_ptr<TransformData>( new TransformData() );
 		}
 
-#ifdef _DEBUG_RELEASE
-		if( resulting_matrix->m_matrix._41 > 500 )
-		{
-			std::cout << "500" << std::endl;
-		}
-		if (resulting_matrix->m_matrix.v[12] > 500)
-		{
-			std::cout << "500" << std::endl;
-		}
-#endif
-
-		resulting_matrix->m_matrix = carve::math::Matrix(
+		resultingTransform->m_matrix = carve::math::Matrix(
 			local_x.x, local_y.x, local_z.x, translate.x,
 			local_x.y, local_y.y, local_z.y, translate.y,
 			local_x.z, local_y.z, local_z.z, translate.z,
 			0, 0, 0, 1 );
-		resulting_matrix->m_placement_entity = axis2placement3d;
-		resulting_matrix->m_placement_tag = axis2placement3d->m_tag;
+		resultingTransform->m_placement_entity = axis2placement3d;
+		resultingTransform->m_placement_tag = axis2placement3d->m_tag;
 	}
 
 	inline void getPlane( const shared_ptr<IfcAxis2Placement3D>& axis2placement3d, carve::geom::plane<3>& plane, vec3& translate )
@@ -258,7 +259,8 @@ public:
 				local_z = carve::geom::VECTOR( axis[0]->m_value, axis[1]->m_value, axis[2]->m_value );
 			}
 		}
-		local_z.normalize();
+		GeomUtils::safeNormalize( local_z, 1e-15 );
+
 
 		carve::geom::plane<3> p( local_z, location );
 		plane.d = p.d;
@@ -300,9 +302,9 @@ public:
 		translate.y = matrix._42;//(3,1);
 		translate.z = matrix._43;//(3,2);
 
-		local_x.normalize();
-		local_y.normalize();
-		local_z.normalize();
+		GeomUtils::safeNormalize( local_x, 1e-15 );
+		GeomUtils::safeNormalize( local_y, 1e-15 );
+		GeomUtils::safeNormalize( local_z, 1e-15 );
 
 		shared_ptr<IfcCartesianPoint> cartesianPoint;
 		if( axis2placement3d->m_Location )
@@ -324,7 +326,6 @@ public:
 		cartesianPoint->m_Coordinates[0] = translate.x / length_factor;
 		cartesianPoint->m_Coordinates[1] = translate.y / length_factor;
 		cartesianPoint->m_Coordinates[2] = translate.z / length_factor;
-		cartesianPoint->m_size = 3;
 
 		if( !axis2placement3d->m_Axis )
 		{
@@ -356,7 +357,7 @@ public:
 		axis2placement3d->m_RefDirection->m_DirectionRatios.push_back( shared_ptr<IfcReal>( new IfcReal( local_x.z ) ) );
 	}
 
-	inline void convertIfcPlacement( const shared_ptr<IfcPlacement>& placement, shared_ptr<TransformData>& resulting_matrix, bool only_rotation = false )
+	inline void convertIfcPlacement( const shared_ptr<IfcPlacement>& placement, shared_ptr<TransformData>& resultingTransform, bool only_rotation = false )
 	{
 		const double length_factor = m_unit_converter->getLengthInMeterFactor();
 		if( dynamic_pointer_cast<IfcAxis1Placement>( placement ) )
@@ -367,12 +368,12 @@ public:
 		else if( dynamic_pointer_cast<IfcAxis2Placement2D>( placement ) )
 		{
 			shared_ptr<IfcAxis2Placement2D> axis2placement2d = dynamic_pointer_cast<IfcAxis2Placement2D>( placement );
-			convertIfcAxis2Placement2D( axis2placement2d, resulting_matrix, only_rotation );
+			convertIfcAxis2Placement2D( axis2placement2d, resultingTransform, only_rotation );
 		}
 		else if( dynamic_pointer_cast<IfcAxis2Placement3D>( placement ) )
 		{
 			shared_ptr<IfcAxis2Placement3D> axis2placement3d = dynamic_pointer_cast<IfcAxis2Placement3D>( placement );
-			convertIfcAxis2Placement3D( axis2placement3d, resulting_matrix, only_rotation );
+			convertIfcAxis2Placement3D( axis2placement3d, resultingTransform, only_rotation );
 		}
 		else
 		{
@@ -380,7 +381,7 @@ public:
 		}
 	}
 
-	void getWorldCoordinateSystem( const shared_ptr<IfcRepresentationContext>& context, shared_ptr<TransformData>& resulting_matrix, std::unordered_set<IfcRepresentationContext*>& already_applied )
+	void getWorldCoordinateSystem( const shared_ptr<IfcRepresentationContext>& context, shared_ptr<TransformData>& resultingTransform, std::unordered_set<IfcRepresentationContext*>& already_applied )
 	{
 		if( !context )
 		{
@@ -409,11 +410,11 @@ public:
 			convertIfcAxis2Placement3D( world_coords_3d, world_coords_matrix );
 		}
 
-		if( !resulting_matrix )
+		if( !resultingTransform )
 		{
-			resulting_matrix = shared_ptr<TransformData>( new TransformData() );
+			resultingTransform = shared_ptr<TransformData>( new TransformData() );
 		}
-		resulting_matrix->m_matrix = resulting_matrix->m_matrix*world_coords_matrix->m_matrix;
+		resultingTransform->m_matrix = resultingTransform->m_matrix*world_coords_matrix->m_matrix;
 
 		shared_ptr<IfcGeometricRepresentationSubContext> geom_sub_context = dynamic_pointer_cast<IfcGeometricRepresentationSubContext>( geom_context );
 		if( geom_sub_context )
@@ -425,7 +426,7 @@ public:
 
 			if( parent_context )
 			{
-				getWorldCoordinateSystem( parent_context, resulting_matrix, already_applied );
+				getWorldCoordinateSystem( parent_context, resultingTransform, already_applied );
 			}
 		}
 	}
@@ -495,7 +496,7 @@ public:
 		}
 	}
 
-	void convertTransformationOperator( const shared_ptr<IfcCartesianTransformationOperator>& transform_operator, shared_ptr<TransformData>& resulting_matrix )
+	void convertTransformationOperator( const shared_ptr<IfcCartesianTransformationOperator>& transform_operator, shared_ptr<TransformData>& resultingTransform )
 	{
 		// ENTITY IfcCartesianTransformationOperator  ABSTRACT SUPERTYPE OF(ONEOF(IfcCartesianTransformationOperator2D, IfcCartesianTransformationOperator3D))
 		vec3  translate( carve::geom::VECTOR( 0.0, 0.0, 0.0 ) );
@@ -639,21 +640,21 @@ public:
 				}
 			}
 		}
-		local_x.normalize();
-		local_y.normalize();
-		local_z.normalize();
+		GeomUtils::safeNormalize( local_x, 1e-15 );
+		GeomUtils::safeNormalize( local_y, 1e-15 );
+		GeomUtils::safeNormalize( local_z, 1e-15 );
 
-		if( !resulting_matrix )
+		if( !resultingTransform )
 		{
-			resulting_matrix = shared_ptr<TransformData>( new TransformData() );
+			resultingTransform = shared_ptr<TransformData>( new TransformData() );
 		}
 		carve::math::Matrix rotate_translate(
 			local_x.x, local_y.x, local_z.x, translate.x,
 			local_x.y, local_y.y, local_z.y, translate.y,
 			local_x.z, local_y.z, local_z.z, translate.z,
 			0, 0, 0, 1 );
-		resulting_matrix->m_matrix = rotate_translate*carve::math::Matrix::SCALE( scale, scale_y, scale_z ); // scale is applied first, rotate second
-		resulting_matrix->m_placement_entity = transform_operator;
-		resulting_matrix->m_placement_tag = transform_operator->m_tag;
+		resultingTransform->m_matrix = rotate_translate*carve::math::Matrix::SCALE( scale, scale_y, scale_z ); // scale is applied first, rotate second
+		resultingTransform->m_placement_entity = transform_operator;
+		resultingTransform->m_placement_tag = transform_operator->m_tag;
 	}
 };

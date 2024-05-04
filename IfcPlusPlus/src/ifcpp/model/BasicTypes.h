@@ -16,6 +16,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 */
 
 #pragma once
+#pragma warning( disable: 4305 )
+
+// don't use glm::vec4, because it's x,y,z,w members depend on some defines, which can lead to lost colors
+struct vec4
+{
+	vec4() : r(0), g(0), b(0), a(0) {}
+	vec4(float _r, float _g, float _b, float _a) : r(_r), g(_g), b(_b), a(_a) {}
+	float r, g, b, a;
+};
+
+#define BuildingModelMapType std::unordered_map
 
 #if _MSC_VER >= 1600
 

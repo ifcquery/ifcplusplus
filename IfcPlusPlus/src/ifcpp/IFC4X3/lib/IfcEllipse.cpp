@@ -14,7 +14,7 @@
 IFC4X3::IfcEllipse::IfcEllipse( int tag ) { m_tag = tag; }
 void IFC4X3::IfcEllipse::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCELLIPSE" << "(";
+	stream << "#" << m_tag << "=IFCELLIPSE" << "(";
 	if( m_Position ) { m_Position->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ",";
 	if( m_SemiAxis1 ) { m_SemiAxis1->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -23,12 +23,12 @@ void IFC4X3::IfcEllipse::getStepLine( std::stringstream& stream, size_t precisio
 	stream << ");";
 }
 void IFC4X3::IfcEllipse::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcEllipse::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcEllipse::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_Position = IfcAxis2Placement::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_SemiAxis1 = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){m_SemiAxis2 = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map, errorStream );}
+	if( num_args > 0 ){m_Position = IfcAxis2Placement::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_SemiAxis1 = IfcPositiveLengthMeasure::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_SemiAxis2 = IfcPositiveLengthMeasure::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
 	if( num_args != 3 ){ errorStream << "Wrong parameter count for entity IfcEllipse, expecting 3, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcEllipse::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

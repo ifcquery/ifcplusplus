@@ -6,7 +6,7 @@
 #include "ifcpp/IFC4X3/include/IfcCurveOnSurface.h"
 
 // TYPE IfcCurveOnSurface = SELECT	(IfcCompositeCurveOnSurface	,IfcPcurve	,IfcSurfaceCurve);
-shared_ptr<IFC4X3::IfcCurveOnSurface> IFC4X3::IfcCurveOnSurface::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcCurveOnSurface> IFC4X3::IfcCurveOnSurface::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcCurveOnSurface>(); }
 	if( arg.compare("$")==0 )
@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcCurveOnSurface> IFC4X3::IfcCurveOnSurface::createObjectFro
 		return shared_ptr<IfcCurveOnSurface>();
 	}
 	shared_ptr<IfcCurveOnSurface> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

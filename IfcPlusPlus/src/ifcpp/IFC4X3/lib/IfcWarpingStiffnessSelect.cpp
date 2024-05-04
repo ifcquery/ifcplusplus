@@ -8,7 +8,7 @@
 #include "ifcpp/IFC4X3/include/IfcWarpingStiffnessSelect.h"
 
 // TYPE IfcWarpingStiffnessSelect = SELECT	(IfcBoolean	,IfcWarpingMomentMeasure);
-shared_ptr<IFC4X3::IfcWarpingStiffnessSelect> IFC4X3::IfcWarpingStiffnessSelect::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcWarpingStiffnessSelect> IFC4X3::IfcWarpingStiffnessSelect::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcWarpingStiffnessSelect>(); }
 	if( arg.compare("$")==0 )
@@ -20,6 +20,6 @@ shared_ptr<IFC4X3::IfcWarpingStiffnessSelect> IFC4X3::IfcWarpingStiffnessSelect:
 		return shared_ptr<IfcWarpingStiffnessSelect>();
 	}
 	shared_ptr<IfcWarpingStiffnessSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

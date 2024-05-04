@@ -17,7 +17,7 @@
 IFC4X3::IfcRelAssignsToGroup::IfcRelAssignsToGroup( int tag ) { m_tag = tag; }
 void IFC4X3::IfcRelAssignsToGroup::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCRELASSIGNSTOGROUP" << "(";
+	stream << "#" << m_tag << "=IFCRELASSIGNSTOGROUP" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_tag; } else { stream << "$"; }
@@ -34,16 +34,16 @@ void IFC4X3::IfcRelAssignsToGroup::getStepLine( std::stringstream& stream, size_
 	stream << ");";
 }
 void IFC4X3::IfcRelAssignsToGroup::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcRelAssignsToGroup::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcRelAssignsToGroup::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){readEntityReference( args[1], m_OwnerHistory, map, errorStream );}
-	if( num_args > 2 ){m_Name = IfcLabel::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){m_Description = IfcText::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){readEntityReferenceList( args[4], m_RelatedObjects, map, errorStream );}
-	if( num_args > 5 ){m_RelatedObjectsType = IfcStrippedOptional::createObjectFromSTEP( args[5], map, errorStream );}
-	if( num_args > 6 ){readEntityReference( args[6], m_RelatingGroup, map, errorStream );}
+	if( num_args > 0 ){m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReference( args[1], m_OwnerHistory, map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_Name = IfcLabel::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_Description = IfcText::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){readEntityReferenceList( args[4], m_RelatedObjects, map, errorStream, entityIdNotFound );}
+	if( num_args > 5 ){m_RelatedObjectsType = IfcStrippedOptional::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
+	if( num_args > 6 ){readEntityReference( args[6], m_RelatingGroup, map, errorStream, entityIdNotFound );}
 	if( num_args != 7 ){ errorStream << "Wrong parameter count for entity IfcRelAssignsToGroup, expecting 7, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcRelAssignsToGroup::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

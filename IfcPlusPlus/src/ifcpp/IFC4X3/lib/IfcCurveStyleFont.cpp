@@ -12,18 +12,18 @@
 IFC4X3::IfcCurveStyleFont::IfcCurveStyleFont( int tag ) { m_tag = tag; }
 void IFC4X3::IfcCurveStyleFont::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCCURVESTYLEFONT" << "(";
+	stream << "#" << m_tag << "=IFCCURVESTYLEFONT" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_PatternList );
 	stream << ");";
 }
 void IFC4X3::IfcCurveStyleFont::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcCurveStyleFont::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcCurveStyleFont::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_Name = IfcLabel::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){readEntityReferenceList( args[1], m_PatternList, map, errorStream );}
+	if( num_args > 0 ){m_Name = IfcLabel::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReferenceList( args[1], m_PatternList, map, errorStream, entityIdNotFound );}
 	if( num_args != 2 ){ errorStream << "Wrong parameter count for entity IfcCurveStyleFont, expecting 2, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcCurveStyleFont::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

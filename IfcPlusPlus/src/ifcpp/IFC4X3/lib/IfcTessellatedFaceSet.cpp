@@ -15,15 +15,15 @@
 IFC4X3::IfcTessellatedFaceSet::IfcTessellatedFaceSet( int tag ) { m_tag = tag; }
 void IFC4X3::IfcTessellatedFaceSet::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCTESSELLATEDFACESET" << "(";
+	stream << "#" << m_tag << "=IFCTESSELLATEDFACESET" << "(";
 	if( m_Coordinates ) { stream << "#" << m_Coordinates->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
 void IFC4X3::IfcTessellatedFaceSet::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcTessellatedFaceSet::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcTessellatedFaceSet::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReference( args[0], m_Coordinates, map, errorStream );}
+	if( num_args > 0 ){readEntityReference( args[0], m_Coordinates, map, errorStream, entityIdNotFound );}
 	if( num_args != 1 ){ errorStream << "Wrong parameter count for entity IfcTessellatedFaceSet, expecting 1, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcTessellatedFaceSet::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

@@ -58,12 +58,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 class ProfileConverter : public StatusCallback
 {
 public:
-	
 	const std::vector<std::vector<vec2> >& getCoordinates() { return m_paths; }
 	void clearProfileConverter() { m_paths.clear(); }
 
 	shared_ptr<CurveConverter>				m_curve_converter;
 	shared_ptr<SplineConverter>				m_spline_converter;
+	bool m_simplifyPathsByDefault = true;
 
 protected:
 	std::vector<std::vector<vec2> >	m_paths;
@@ -76,82 +76,108 @@ public:
 	virtual ~ProfileConverter()
 	{
 	}
-	void computeProfile( shared_ptr<IfcProfileDef> profile_def )
+
+	void computeProfile( shared_ptr<IfcProfileDef> profileDef )
 	{
 		// ENTITY IfcProfileDef SUPERTYPE OF(ONEOF(IfcArbitraryClosedProfileDef, IfcArbitraryOpenProfileDef, IfcCompositeProfileDef, IfcDerivedProfileDef, IfcParameterizedProfileDef));
 		double eps = m_curve_converter->getGeomSettings()->getEpsilonMergePoints();
-		shared_ptr<IfcParameterizedProfileDef> parameterized = dynamic_pointer_cast<IfcParameterizedProfileDef>( profile_def );
+		shared_ptr<IfcParameterizedProfileDef> parameterized = dynamic_pointer_cast<IfcParameterizedProfileDef>(profileDef);
 		if( parameterized )
 		{
 			convertIfcParameterizedProfileDefWithPosition( parameterized, m_paths );
-			GeomUtils::removeDuplicates( m_paths, eps );
+			if (m_simplifyPathsByDefault)
+			{
+				GeomUtils::removeDuplicates(m_paths, eps);
+			}
 			return;
 		}
 
-		shared_ptr<IfcArbitraryClosedProfileDef> arbitrary_closed = dynamic_pointer_cast<IfcArbitraryClosedProfileDef>( profile_def );
+		shared_ptr<IfcArbitraryClosedProfileDef> arbitrary_closed = dynamic_pointer_cast<IfcArbitraryClosedProfileDef>(profileDef);
 		if( arbitrary_closed )
 		{
-			convertIfcArbitraryClosedProfileDef( arbitrary_closed, m_paths );
-			GeomUtils::removeDuplicates( m_paths, eps);
+			convertIfcArbitraryClosedProfileDef( arbitrary_closed, m_paths);
+			if (m_simplifyPathsByDefault)
+			{
+				GeomUtils::removeDuplicates(m_paths, eps);
+			}
 			return;
 		}
 
-		shared_ptr<IfcArbitraryOpenProfileDef> arbitrary_open = dynamic_pointer_cast<IfcArbitraryOpenProfileDef>( profile_def );
+		shared_ptr<IfcArbitraryOpenProfileDef> arbitrary_open = dynamic_pointer_cast<IfcArbitraryOpenProfileDef>(profileDef);
 		if( arbitrary_open )
 		{
-			convertIfcArbitraryOpenProfileDef( arbitrary_open, m_paths );
-			GeomUtils::removeDuplicates( m_paths, eps);
+			convertIfcArbitraryOpenProfileDef( arbitrary_open, m_paths);
+			if (m_simplifyPathsByDefault)
+			{
+				GeomUtils::removeDuplicates(m_paths, eps);
+			}
 			return;
 		}
 
-		shared_ptr<IfcCompositeProfileDef> composite = dynamic_pointer_cast<IfcCompositeProfileDef>( profile_def );
+		shared_ptr<IfcCompositeProfileDef> composite = dynamic_pointer_cast<IfcCompositeProfileDef>(profileDef);
 		if( composite )
 		{
-			convertIfcCompositeProfileDef( composite, m_paths );
-			GeomUtils::removeDuplicates( m_paths, eps);
+			convertIfcCompositeProfileDef( composite, m_paths);
+			if (m_simplifyPathsByDefault)
+			{
+				GeomUtils::removeDuplicates(m_paths, eps);
+			}
 			return;
 		}
 
-		shared_ptr<IfcDerivedProfileDef> derived = dynamic_pointer_cast<IfcDerivedProfileDef>( profile_def );
+		shared_ptr<IfcDerivedProfileDef> derived = dynamic_pointer_cast<IfcDerivedProfileDef>(profileDef);
 		if( derived )
 		{
-			convertIfcDerivedProfileDef( derived, m_paths );
-			GeomUtils::removeDuplicates( m_paths, eps);
+			convertIfcDerivedProfileDef( derived, m_paths);
+			if (m_simplifyPathsByDefault)
+			{
+				GeomUtils::removeDuplicates(m_paths, eps);
+			}
 			return;
 		}
 
-		messageCallback( "Profile not supported", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, profile_def.get() );
+		messageCallback( "Profile not supported", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, profileDef.get() );
 	}
-	void addAvoidingDuplicates( const std::vector<vec2>& polygon, std::vector<std::vector<vec2> >& paths )
+
+	void addAvoidingDuplicates( const std::vector<vec2>& polygon, std::vector<std::vector<vec2> >& paths)
 	{
 		if( polygon.size() < 1 )
 		{
 			return;
 		}
 
-		std::vector<vec2> polygon_add;
-		polygon_add.push_back( polygon[0] );
-		for( size_t i = 1; i < polygon.size(); ++i )
+		if (m_simplifyPathsByDefault)
 		{
-			const vec2 & point = polygon[i];
-			const vec2 & point_previous = polygon[i - 1];
-
-			// omit duplicate points
-			if( std::abs( point.x - point_previous.x ) > 0.00001 )
+			double eps = m_curve_converter->getGeomSettings()->getEpsilonMergePoints();
+			std::vector<vec2> polygon_add;
+			polygon_add.push_back(polygon[0]);
+			for (size_t i = 1; i < polygon.size(); ++i)
 			{
-				polygon_add.push_back( point );
-				continue;
-			}
+				const vec2& point = polygon[i];
+				const vec2& point_previous = polygon[i - 1];
 
-			if( std::abs( point.y - point_previous.y ) > 0.00001 )
-			{
-				polygon_add.push_back( point );
-				continue;
+				// omit duplicate points
+				if (std::abs(point.x - point_previous.x) > eps)
+				{
+					polygon_add.push_back(point);
+					continue;
+				}
+
+				if (std::abs(point.y - point_previous.y) > eps)
+				{
+					polygon_add.push_back(point);
+					continue;
+				}
 			}
+			paths.push_back(polygon_add);
 		}
-		paths.push_back( polygon_add );
+		else
+		{
+			paths.push_back(polygon);
+		}
 	}
-	void convertIfcArbitraryClosedProfileDef( const shared_ptr<IfcArbitraryClosedProfileDef>& profile, std::vector<std::vector<vec2> >& paths )
+
+	void convertIfcArbitraryClosedProfileDef( const shared_ptr<IfcArbitraryClosedProfileDef>& profile, std::vector<std::vector<vec2> >& paths)
 	{
 		double eps = m_curve_converter->getGeomSettings()->getEpsilonMergePoints();
 		shared_ptr<IfcCurve> outer_curve = profile->m_OuterCurve;
@@ -161,7 +187,7 @@ public:
 			std::vector<vec2> segment_start_points;
 			m_curve_converter->convertIfcCurve2D( outer_curve, curve_polygon, segment_start_points, true );
 			GeomUtils::unClosePolygon( curve_polygon, eps );
-			addAvoidingDuplicates( curve_polygon, paths );
+			addAvoidingDuplicates( curve_polygon, paths);
 		}
 
 		// IfcArbitraryProfileDefWithVoids
@@ -177,11 +203,11 @@ public:
 
 				m_curve_converter->convertIfcCurve2D( inner_ifc_curve, inner_curve_polygon, segment_start_points, true );
 				GeomUtils::unClosePolygon( inner_curve_polygon, eps);
-				addAvoidingDuplicates( inner_curve_polygon, paths );
+				addAvoidingDuplicates( inner_curve_polygon, paths);
 			}
 		}
 	}
-	void convertIfcArbitraryOpenProfileDef( const shared_ptr<IfcArbitraryOpenProfileDef>& profile, std::vector<std::vector<vec2> >& paths )
+	void convertIfcArbitraryOpenProfileDef( const shared_ptr<IfcArbitraryOpenProfileDef>& profile, std::vector<std::vector<vec2> >& paths)
 	{
 		// ENTITY IfcArbitraryOpenProfileDef
 		//	SUPERTYPE OF(IfcCenterLineProfileDef)
@@ -199,12 +225,12 @@ public:
 			if( center_line_profile_def->m_Thickness )
 			{
 				const double thickness = center_line_profile_def->m_Thickness->m_value * uc->getLengthInMeterFactor();
-				std::vector<vec3> segment_start_points;
-				std::vector<vec3> basis_curve_points;
-				m_curve_converter->convertIfcCurve( ifc_curve, basis_curve_points, segment_start_points, true );
+				std::vector<CurveConverter::CurveSegment> segments;
+				m_curve_converter->convertIfcCurve( ifc_curve, segments, true );
 
-				size_t num_base_points = basis_curve_points.size();
-				if( num_base_points < 2 )
+				size_t numPointsAllSegments = 0;
+				for (auto& seg : segments) { numPointsAllSegments += seg.m_points.size(); }
+				if(numPointsAllSegments < 2 )
 				{
 #ifdef _DEBUG
 					std::cout << "IfcCenterLineProfileDef: num curve points < 2";
@@ -219,47 +245,51 @@ public:
 				vec3 point_left( carve::geom::VECTOR( 0.0, -thickness*0.5, 0.0 ) );
 				vec3 point_right( carve::geom::VECTOR( 0.0, thickness*0.5, 0.0 ) );
 
-				for( size_t ii = 0; ii < num_base_points; ++ii )
+				for (auto& seg : segments)
 				{
-					vec3 vertex_current = basis_curve_points[ii];
-					vec3 vertex_next;
-					vec3 vertex_before;
-					if( ii == 0 )
+					size_t numPointsInSegment = seg.m_points.size();
+					for (size_t ii = 0; ii < numPointsInSegment; ++ii)
 					{
-						// first point
-						vertex_next = basis_curve_points[ii + 1];
-						vec3 delta_element = vertex_next - vertex_current;
-						vertex_before = vertex_current - ( delta_element );
-					}
-					else if( ii == num_base_points - 1 )
-					{
-						// last point
-						vertex_before = basis_curve_points[ii - 1];
-						vec3 delta_element = vertex_current - vertex_before;
-						vertex_next = vertex_before + ( delta_element );
-					}
-					else
-					{
-						// inner point
-						vertex_next = basis_curve_points[ii + 1];
-						vertex_before = basis_curve_points[ii - 1];
-					}
+						vec3 vertex_current = seg.m_points[ii];
+						vec3 vertex_next;
+						vec3 vertex_before;
+						if (ii == 0)
+						{
+							// first point
+							vertex_next = seg.m_points[ii + 1];
+							vec3 delta_element = vertex_next - vertex_current;
+							vertex_before = vertex_current - (delta_element);
+						}
+						else if (ii == numPointsInSegment - 1)
+						{
+							// last point
+							vertex_before = seg.m_points[ii - 1];
+							vec3 delta_element = vertex_current - vertex_before;
+							vertex_next = vertex_before + (delta_element);
+						}
+						else
+						{
+							// inner point
+							vertex_next = seg.m_points[ii + 1];
+							vertex_before = seg.m_points[ii - 1];
+						}
 
-					vec3 bisecting_normal;
-					GeomUtils::bisectingPlane( vertex_before, vertex_current, vertex_next, bisecting_normal, eps );
+						vec3 bisecting_normal;
+						GeomUtils::bisectingPlane(vertex_before, vertex_current, vertex_next, bisecting_normal, eps);
 
-					if( ii == num_base_points - 1 )
-					{
-						bisecting_normal *= -1.0;
+						if (ii == numPointsInSegment - 1)
+						{
+							bisecting_normal *= -1.0;
+						}
+
+						local_z.x = 0;
+						local_z.y = 0;
+						local_z.z = -1;
+						GeomUtils::convertPlane2Matrix(bisecting_normal, vertex_current, local_z, matrix_sweep);
+
+						left_points.push_back(matrix_sweep * point_left);
+						right_points.push_back(matrix_sweep * point_right);
 					}
-
-					local_z.x = 0;
-					local_z.y = 0;
-					local_z.z = -1;
-					GeomUtils::convertPlane2Matrix( bisecting_normal, vertex_current, local_z, matrix_sweep );
-
-					left_points.push_back( matrix_sweep*point_left );
-					right_points.push_back( matrix_sweep*point_right );
 				}
 
 				std::reverse( right_points.begin(), right_points.end() );
@@ -274,7 +304,7 @@ public:
 					vec3& point3d = right_points[i2];
 					polygon.push_back( carve::geom::VECTOR( point3d.x, point3d.y ) );
 				}
-				addAvoidingDuplicates( polygon, paths );
+				addAvoidingDuplicates( polygon, paths);
 			}
 		}
 		else
@@ -282,11 +312,11 @@ public:
 			std::vector<vec2> polygon;
 			std::vector<vec2> segment_start_points;
 			m_curve_converter->convertIfcCurve2D( ifc_curve, polygon, segment_start_points, true );
-			addAvoidingDuplicates( polygon, paths );
+			addAvoidingDuplicates( polygon, paths);
 		}
 	}
 
-	void convertIfcCompositeProfileDef( const shared_ptr<IfcCompositeProfileDef>& composite_profile, std::vector<std::vector<vec2> >& paths )
+	void convertIfcCompositeProfileDef( const shared_ptr<IfcCompositeProfileDef>& composite_profile, std::vector<std::vector<vec2> >& paths)
 	{
 		std::vector<int> temploop_counts;
 		std::vector<int> tempcontour_counts;
@@ -306,28 +336,28 @@ public:
 			shared_ptr<IfcArbitraryOpenProfileDef> open = dynamic_pointer_cast<IfcArbitraryOpenProfileDef>( profile_def );
 			if( open )
 			{
-				convertIfcArbitraryOpenProfileDef( open, paths );
+				convertIfcArbitraryOpenProfileDef( open, paths);
 				continue;
 			}
 
 			shared_ptr<IfcArbitraryClosedProfileDef> closed = dynamic_pointer_cast<IfcArbitraryClosedProfileDef>( profile_def );
 			if( closed )
 			{
-				convertIfcArbitraryClosedProfileDef( closed, paths );
+				convertIfcArbitraryClosedProfileDef( closed, paths);
 				continue;
 			}
 
 			shared_ptr<IfcCompositeProfileDef> composite = dynamic_pointer_cast<IfcCompositeProfileDef>( profile_def );
 			if( composite )
 			{
-				convertIfcCompositeProfileDef( composite, paths );
+				convertIfcCompositeProfileDef( composite, paths);
 				continue;
 			}
 
 			shared_ptr<IfcDerivedProfileDef> derived = dynamic_pointer_cast<IfcDerivedProfileDef>( profile_def );
 			if( derived )
 			{
-				convertIfcDerivedProfileDef( derived, paths );
+				convertIfcDerivedProfileDef( derived, paths);
 				continue;
 			}
 
@@ -338,7 +368,7 @@ public:
 	void convertIfcDerivedProfileDef( const shared_ptr<IfcDerivedProfileDef>& derived_profile, std::vector<std::vector<vec2> >& paths )
 	{
 		ProfileConverter temp_profiler( m_curve_converter, m_spline_converter );
-		temp_profiler.computeProfile( derived_profile->m_ParentProfile );
+		temp_profiler.computeProfile( derived_profile->m_ParentProfile);
 		const std::vector<std::vector<vec2> >& parent_paths = temp_profiler.getCoordinates();
 
 		shared_ptr<IfcCartesianTransformationOperator2D> transf_op_2D = derived_profile->m_Operator;
@@ -364,42 +394,43 @@ public:
 		}
 	}
 
-	void convertIfcParameterizedProfileDefWithPosition( const shared_ptr<IfcParameterizedProfileDef>& parameterized, std::vector<std::vector<vec2> >& paths )
+	void convertIfcParameterizedProfileDefWithPosition( const shared_ptr<IfcParameterizedProfileDef>& parameterized,
+		std::vector<std::vector<vec2> >& paths )
 	{
 		std::vector<std::vector<vec2> > temp_paths;
 		convertIfcParameterizedProfileDef( parameterized, temp_paths );
 
 		// local coordinate system
-		if( parameterized->m_Position )
+		carve::math::Matrix transform_matrix( carve::math::Matrix::IDENT() );
+		if (parameterized->m_Position)
 		{
 			shared_ptr<IfcAxis2Placement2D> axis2Placement2D = parameterized->m_Position;
 			shared_ptr<TransformData> transform;
-			m_curve_converter->getPlacementConverter()->convertIfcPlacement( axis2Placement2D, transform );
+			m_curve_converter->getPlacementConverter()->convertIfcPlacement(axis2Placement2D, transform);
+			transform_matrix = transform->m_matrix;
+		}
 
-			for( size_t i = 0; i < temp_paths.size(); ++i )
+		if (!GeomUtils::isMatrixIdentity(transform_matrix))
+		{
+			for (size_t i = 0; i < temp_paths.size(); ++i)
 			{
 				std::vector<vec2>& path_loop = temp_paths[i];
-				for( size_t j = 0; j < path_loop.size(); ++j )
+				for (size_t j = 0; j < path_loop.size(); ++j)
 				{
 					vec2& pt = path_loop[j];
-					vec3 pt_3d( carve::geom::VECTOR( pt.x, pt.y, 0 ) );
-					if( transform )
-					{
-						pt_3d = transform->m_matrix*pt_3d;
-					}
+					vec3 pt_3d(carve::geom::VECTOR(pt.x, pt.y, 0));
+					pt_3d = transform_matrix * pt_3d;
+
 					pt.x = pt_3d.x;
 					pt.y = pt_3d.y;
+					// TODO: check if matrix has any rotation or translation out of the 2D plane
 				}
-				paths.push_back( path_loop );
+				paths.push_back(path_loop);
 			}
 		}
 		else
 		{
-			for( size_t i = 0; i < temp_paths.size(); ++i )
-			{
-				std::vector<vec2>& path_loop = temp_paths[i];
-				paths.push_back( path_loop );
-			}
+			std::copy(temp_paths.begin(), temp_paths.end(), std::back_inserter(paths));
 		}
 	}
 

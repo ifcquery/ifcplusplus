@@ -19,7 +19,7 @@
 IFC4X3::IfcMaterialProfile::IfcMaterialProfile( int tag ) { m_tag = tag; }
 void IFC4X3::IfcMaterialProfile::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCMATERIALPROFILE" << "(";
+	stream << "#" << m_tag << "=IFCMATERIALPROFILE" << "(";
 	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -34,15 +34,15 @@ void IFC4X3::IfcMaterialProfile::getStepLine( std::stringstream& stream, size_t 
 	stream << ");";
 }
 void IFC4X3::IfcMaterialProfile::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcMaterialProfile::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcMaterialProfile::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_Name = IfcLabel::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_Description = IfcText::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){readEntityReference( args[2], m_Material, map, errorStream );}
-	if( num_args > 3 ){readEntityReference( args[3], m_Profile, map, errorStream );}
-	if( num_args > 4 ){m_Priority = IfcInteger::createObjectFromSTEP( args[4], map, errorStream );}
-	if( num_args > 5 ){m_Category = IfcLabel::createObjectFromSTEP( args[5], map, errorStream );}
+	if( num_args > 0 ){m_Name = IfcLabel::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_Description = IfcText::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readEntityReference( args[2], m_Material, map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){readEntityReference( args[3], m_Profile, map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_Priority = IfcInteger::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
+	if( num_args > 5 ){m_Category = IfcLabel::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
 	if( num_args != 6 ){ errorStream << "Wrong parameter count for entity IfcMaterialProfile, expecting 6, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcMaterialProfile::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

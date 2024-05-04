@@ -6,7 +6,7 @@
 #include "ifcpp/IFC4X3/include/IfcVectorOrDirection.h"
 
 // TYPE IfcVectorOrDirection = SELECT	(IfcDirection	,IfcVector);
-shared_ptr<IFC4X3::IfcVectorOrDirection> IFC4X3::IfcVectorOrDirection::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcVectorOrDirection> IFC4X3::IfcVectorOrDirection::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcVectorOrDirection>(); }
 	if( arg.compare("$")==0 )
@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcVectorOrDirection> IFC4X3::IfcVectorOrDirection::createObj
 		return shared_ptr<IfcVectorOrDirection>();
 	}
 	shared_ptr<IfcVectorOrDirection> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

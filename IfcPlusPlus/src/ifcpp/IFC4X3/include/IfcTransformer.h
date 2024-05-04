@@ -15,7 +15,7 @@ namespace IFC4X3
 		IfcTransformer( int id );
 		virtual void getStepLine( std::stringstream& stream, size_t precision ) const;
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
-		virtual void readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
+		virtual void readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound );
 		virtual void setInverseCounterparts( shared_ptr<BuildingEntity> ptr_self );
 		virtual uint8_t getNumAttributes() const { return 9; }
 		virtual void getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const;

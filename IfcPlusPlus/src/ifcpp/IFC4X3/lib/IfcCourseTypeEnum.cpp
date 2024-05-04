@@ -26,7 +26,7 @@ void IFC4X3::IfcCourseTypeEnum::getStepParameter( std::stringstream& stream, boo
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IFC4X3::IfcCourseTypeEnum> IFC4X3::IfcCourseTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcCourseTypeEnum> IFC4X3::IfcCourseTypeEnum::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.size() == 0 ) { return shared_ptr<IfcCourseTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcCourseTypeEnum>(); }

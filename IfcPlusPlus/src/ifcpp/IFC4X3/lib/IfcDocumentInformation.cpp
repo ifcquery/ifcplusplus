@@ -22,7 +22,7 @@
 IFC4X3::IfcDocumentInformation::IfcDocumentInformation( int tag ) { m_tag = tag; }
 void IFC4X3::IfcDocumentInformation::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCDOCUMENTINFORMATION" << "(";
+	stream << "#" << m_tag << "=IFCDOCUMENTINFORMATION" << "(";
 	if( m_Identification ) { m_Identification->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -80,26 +80,26 @@ void IFC4X3::IfcDocumentInformation::getStepLine( std::stringstream& stream, siz
 	stream << ");";
 }
 void IFC4X3::IfcDocumentInformation::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcDocumentInformation::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcDocumentInformation::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_Identification = IfcIdentifier::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_Name = IfcLabel::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){m_Description = IfcText::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){m_Location = IfcURIReference::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){m_Purpose = IfcText::createObjectFromSTEP( args[4], map, errorStream );}
-	if( num_args > 5 ){m_IntendedUse = IfcText::createObjectFromSTEP( args[5], map, errorStream );}
-	if( num_args > 6 ){m_Scope = IfcText::createObjectFromSTEP( args[6], map, errorStream );}
-	if( num_args > 7 ){m_Revision = IfcLabel::createObjectFromSTEP( args[7], map, errorStream );}
-	if( num_args > 8 ){m_DocumentOwner = IfcActorSelect::createObjectFromSTEP( args[8], map, errorStream );}
-	if( num_args > 9 ){readSelectList( args[9], m_Editors, map, errorStream );}
-	if( num_args > 10 ){m_CreationTime = IfcDateTime::createObjectFromSTEP( args[10], map, errorStream );}
-	if( num_args > 11 ){m_LastRevisionTime = IfcDateTime::createObjectFromSTEP( args[11], map, errorStream );}
-	if( num_args > 12 ){m_ElectronicFormat = IfcIdentifier::createObjectFromSTEP( args[12], map, errorStream );}
-	if( num_args > 13 ){m_ValidFrom = IfcDate::createObjectFromSTEP( args[13], map, errorStream );}
-	if( num_args > 14 ){m_ValidUntil = IfcDate::createObjectFromSTEP( args[14], map, errorStream );}
-	if( num_args > 15 ){m_Confidentiality = IfcDocumentConfidentialityEnum::createObjectFromSTEP( args[15], map, errorStream );}
-	if( num_args > 16 ){m_Status = IfcDocumentStatusEnum::createObjectFromSTEP( args[16], map, errorStream );}
+	if( num_args > 0 ){m_Identification = IfcIdentifier::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_Name = IfcLabel::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_Description = IfcText::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_Location = IfcURIReference::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_Purpose = IfcText::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
+	if( num_args > 5 ){m_IntendedUse = IfcText::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
+	if( num_args > 6 ){m_Scope = IfcText::createObjectFromSTEP( args[6], map, errorStream, entityIdNotFound );}
+	if( num_args > 7 ){m_Revision = IfcLabel::createObjectFromSTEP( args[7], map, errorStream, entityIdNotFound );}
+	if( num_args > 8 ){m_DocumentOwner = IfcActorSelect::createObjectFromSTEP( args[8], map, errorStream, entityIdNotFound );}
+	if( num_args > 9 ){readSelectList( args[9], m_Editors, map, errorStream, entityIdNotFound );}
+	if( num_args > 10 ){m_CreationTime = IfcDateTime::createObjectFromSTEP( args[10], map, errorStream, entityIdNotFound );}
+	if( num_args > 11 ){m_LastRevisionTime = IfcDateTime::createObjectFromSTEP( args[11], map, errorStream, entityIdNotFound );}
+	if( num_args > 12 ){m_ElectronicFormat = IfcIdentifier::createObjectFromSTEP( args[12], map, errorStream, entityIdNotFound );}
+	if( num_args > 13 ){m_ValidFrom = IfcDate::createObjectFromSTEP( args[13], map, errorStream, entityIdNotFound );}
+	if( num_args > 14 ){m_ValidUntil = IfcDate::createObjectFromSTEP( args[14], map, errorStream, entityIdNotFound );}
+	if( num_args > 15 ){m_Confidentiality = IfcDocumentConfidentialityEnum::createObjectFromSTEP( args[15], map, errorStream, entityIdNotFound );}
+	if( num_args > 16 ){m_Status = IfcDocumentStatusEnum::createObjectFromSTEP( args[16], map, errorStream, entityIdNotFound );}
 	if( num_args != 17 ){ errorStream << "Wrong parameter count for entity IfcDocumentInformation, expecting 17, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcDocumentInformation::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

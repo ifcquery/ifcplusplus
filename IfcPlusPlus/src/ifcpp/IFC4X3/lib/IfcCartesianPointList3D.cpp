@@ -14,7 +14,7 @@
 IFC4X3::IfcCartesianPointList3D::IfcCartesianPointList3D( int tag ) { m_tag = tag; }
 void IFC4X3::IfcCartesianPointList3D::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCCARTESIANPOINTLIST3D" << "(";
+	stream << "#" << m_tag << "=IFCCARTESIANPOINTLIST3D" << "(";
 	writeTypeOfRealList2D( stream, m_CoordList, false, precision );
 	stream << ",";
 	if( m_TagList.size() > 0 )
@@ -42,7 +42,7 @@ void IFC4X3::IfcCartesianPointList3D::getStepLine( std::stringstream& stream, si
 	stream << ");";
 }
 void IFC4X3::IfcCartesianPointList3D::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcCartesianPointList3D::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcCartesianPointList3D::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
 	if( num_args > 0 ){readTypeOfRealList2D( args[0], m_CoordList );}

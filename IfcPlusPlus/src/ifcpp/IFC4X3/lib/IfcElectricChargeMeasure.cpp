@@ -18,7 +18,7 @@ void IFC4X3::IfcElectricChargeMeasure::getStepParameter( std::stringstream& stre
 	appendRealWithoutTrailingZeros( stream, m_value, precision );
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IFC4X3::IfcElectricChargeMeasure> IFC4X3::IfcElectricChargeMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcElectricChargeMeasure> IFC4X3::IfcElectricChargeMeasure::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.size() == 0 ) { return shared_ptr<IfcElectricChargeMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcElectricChargeMeasure>(); }

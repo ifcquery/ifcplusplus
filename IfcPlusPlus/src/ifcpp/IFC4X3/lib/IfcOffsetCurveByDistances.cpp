@@ -15,7 +15,7 @@
 IFC4X3::IfcOffsetCurveByDistances::IfcOffsetCurveByDistances( int tag ) { m_tag = tag; }
 void IFC4X3::IfcOffsetCurveByDistances::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCOFFSETCURVEBYDISTANCES" << "(";
+	stream << "#" << m_tag << "=IFCOFFSETCURVEBYDISTANCES" << "(";
 	if( m_BasisCurve ) { stream << "#" << m_BasisCurve->m_tag; } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_OffsetValues );
@@ -24,12 +24,12 @@ void IFC4X3::IfcOffsetCurveByDistances::getStepLine( std::stringstream& stream, 
 	stream << ");";
 }
 void IFC4X3::IfcOffsetCurveByDistances::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcOffsetCurveByDistances::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcOffsetCurveByDistances::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReference( args[0], m_BasisCurve, map, errorStream );}
-	if( num_args > 1 ){readEntityReferenceList( args[1], m_OffsetValues, map, errorStream );}
-	if( num_args > 2 ){m_Tag = IfcLabel::createObjectFromSTEP( args[2], map, errorStream );}
+	if( num_args > 0 ){readEntityReference( args[0], m_BasisCurve, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReferenceList( args[1], m_OffsetValues, map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_Tag = IfcLabel::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
 	if( num_args != 3 ){ errorStream << "Wrong parameter count for entity IfcOffsetCurveByDistances, expecting 3, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcOffsetCurveByDistances::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

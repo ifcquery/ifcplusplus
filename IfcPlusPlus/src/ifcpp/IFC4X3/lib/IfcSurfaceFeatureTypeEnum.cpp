@@ -31,7 +31,7 @@ void IFC4X3::IfcSurfaceFeatureTypeEnum::getStepParameter( std::stringstream& str
 	}
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IFC4X3::IfcSurfaceFeatureTypeEnum> IFC4X3::IfcSurfaceFeatureTypeEnum::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcSurfaceFeatureTypeEnum> IFC4X3::IfcSurfaceFeatureTypeEnum::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.size() == 0 ) { return shared_ptr<IfcSurfaceFeatureTypeEnum>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcSurfaceFeatureTypeEnum>(); }

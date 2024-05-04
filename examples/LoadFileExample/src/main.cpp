@@ -261,7 +261,7 @@ int main()
 	geometry_converter->convertGeometry();
 
 	// 3: get a flat map of all loaded IFC entities with geometry:
-	const std::map<std::string, shared_ptr<ProductShapeData> >& map_entities = geometry_converter->getShapeInputData();
+	const std::unordered_map<std::string, shared_ptr<ProductShapeData> >& map_entities = geometry_converter->getShapeInputData();
 	shared_ptr<ProductShapeData> shapeDataIfcProject;
 
 	for (auto it : map_entities)

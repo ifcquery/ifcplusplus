@@ -16,7 +16,7 @@
 IFC4X3::IfcBSplineCurve::IfcBSplineCurve( int tag ) { m_tag = tag; }
 void IFC4X3::IfcBSplineCurve::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCBSPLINECURVE" << "(";
+	stream << "#" << m_tag << "=IFCBSPLINECURVE" << "(";
 	if( m_Degree ) { m_Degree->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	writeEntityList( stream, m_ControlPointsList );
@@ -29,14 +29,14 @@ void IFC4X3::IfcBSplineCurve::getStepLine( std::stringstream& stream, size_t pre
 	stream << ");";
 }
 void IFC4X3::IfcBSplineCurve::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcBSplineCurve::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcBSplineCurve::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_Degree = IfcInteger::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){readEntityReferenceList( args[1], m_ControlPointsList, map, errorStream );}
-	if( num_args > 2 ){m_CurveForm = IfcBSplineCurveForm::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){m_ClosedCurve = IfcLogical::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[4], map, errorStream );}
+	if( num_args > 0 ){m_Degree = IfcInteger::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReferenceList( args[1], m_ControlPointsList, map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_CurveForm = IfcBSplineCurveForm::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_ClosedCurve = IfcLogical::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
 	if( num_args != 5 ){ errorStream << "Wrong parameter count for entity IfcBSplineCurve, expecting 5, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcBSplineCurve::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

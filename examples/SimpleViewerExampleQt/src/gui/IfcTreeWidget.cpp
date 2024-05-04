@@ -98,7 +98,7 @@ void IfcTreeWidget::slotTreewidgetSelectionChanged( QTreeWidgetItem* current, QT
 	{
 		return;
 	}
-	const std::map<int,shared_ptr<BuildingEntity> >& map_ifc_objects = m_system->getIfcModel()->getMapIfcEntities();
+	const std::unordered_map<int,shared_ptr<BuildingEntity> >& map_ifc_objects = m_system->getIfcModel()->getMapIfcEntities();
 
 	if (!m_system->isCtrlKeyDown())
 	{
@@ -146,9 +146,9 @@ void IfcTreeWidget::slotTreeWidgetItemDoubleClick( QTreeWidgetItem* item, int co
 		return;
 	}
 
-	const std::map<int,shared_ptr<BuildingEntity>>& map_ifc_objects = m_system->getIfcModel()->getMapIfcEntities();
+	const std::unordered_map<int,shared_ptr<BuildingEntity>>& map_ifc_objects = m_system->getIfcModel()->getMapIfcEntities();
 	const int id = item->text(1).toUInt();
-	const std::map<int,shared_ptr<BuildingEntity>>::const_iterator it_find = map_ifc_objects.find(id);
+	auto it_find = map_ifc_objects.find(id);
 
 	if( it_find == map_ifc_objects.end() )
 	{
@@ -329,7 +329,7 @@ void IfcTreeWidget::slotModelLoadingDone()
 		}
 	}
 
-	std::map<std::string, shared_ptr<BuildingObject> >&	map_outside = m_system->getGeometryConverter()->getObjectsOutsideSpatialStructure();
+	std::unordered_map<std::string, shared_ptr<BuildingObject> >&	map_outside = m_system->getGeometryConverter()->getObjectsOutsideSpatialStructure();
 	
 	if( map_outside.size() > 0 )
 	{

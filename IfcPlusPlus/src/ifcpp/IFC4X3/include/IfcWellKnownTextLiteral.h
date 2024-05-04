@@ -19,7 +19,7 @@ namespace IFC4X3
 		IfcWellKnownTextLiteral( std::string value );
 		virtual uint32_t classID() const { return 2149462589; }
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
-		static shared_ptr<IfcWellKnownTextLiteral> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
+		static shared_ptr<IfcWellKnownTextLiteral> createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound );
 		std::string m_value;
 	};
 }

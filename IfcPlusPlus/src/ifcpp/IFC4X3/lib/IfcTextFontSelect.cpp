@@ -6,7 +6,7 @@
 #include "ifcpp/IFC4X3/include/IfcTextFontSelect.h"
 
 // TYPE IfcTextFontSelect = SELECT	(IfcExternallyDefinedTextFont	,IfcPreDefinedTextFont);
-shared_ptr<IFC4X3::IfcTextFontSelect> IFC4X3::IfcTextFontSelect::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcTextFontSelect> IFC4X3::IfcTextFontSelect::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcTextFontSelect>(); }
 	if( arg.compare("$")==0 )
@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcTextFontSelect> IFC4X3::IfcTextFontSelect::createObjectFro
 		return shared_ptr<IfcTextFontSelect>();
 	}
 	shared_ptr<IfcTextFontSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

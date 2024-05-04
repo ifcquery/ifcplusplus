@@ -11,19 +11,19 @@
 #include "ifcpp/IFC4X3/include/IfcNumericMeasure.h"
 
 // TYPE IfcNumericMeasure = NUMBER;
-IFC4X3::IfcNumericMeasure::IfcNumericMeasure( int value ) { m_value = value; }
+IFC4X3::IfcNumericMeasure::IfcNumericMeasure( double value ) { m_value = value; }
 void IFC4X3::IfcNumericMeasure::getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const
 {
 	if( is_select_type ) { stream << "IFCNUMERICMEASURE("; }
-	stream << m_value;
+	appendRealWithoutTrailingZeros( stream, m_value, precision );
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IFC4X3::IfcNumericMeasure> IFC4X3::IfcNumericMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcNumericMeasure> IFC4X3::IfcNumericMeasure::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.size() == 0 ) { return shared_ptr<IfcNumericMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcNumericMeasure>(); }
 	if( arg.compare( "*" ) == 0 ) { return shared_ptr<IfcNumericMeasure>(); }
 	shared_ptr<IfcNumericMeasure> type_object( new IfcNumericMeasure() );
-	readInteger( arg, type_object->m_value );
+	readReal( arg, type_object->m_value );
 	return type_object;
 }

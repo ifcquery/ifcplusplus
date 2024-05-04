@@ -17,7 +17,7 @@
 IFC4X3::IfcClassification::IfcClassification( int tag ) { m_tag = tag; }
 void IFC4X3::IfcClassification::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCCLASSIFICATION" << "(";
+	stream << "#" << m_tag << "=IFCCLASSIFICATION" << "(";
 	if( m_Source ) { m_Source->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Edition ) { m_Edition->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -55,15 +55,15 @@ void IFC4X3::IfcClassification::getStepLine( std::stringstream& stream, size_t p
 	stream << ");";
 }
 void IFC4X3::IfcClassification::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcClassification::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcClassification::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_Source = IfcLabel::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_Edition = IfcLabel::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){m_EditionDate = IfcDate::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){m_Name = IfcLabel::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){m_Description = IfcText::createObjectFromSTEP( args[4], map, errorStream );}
-	if( num_args > 5 ){m_Specification = IfcURIReference::createObjectFromSTEP( args[5], map, errorStream );}
+	if( num_args > 0 ){m_Source = IfcLabel::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_Edition = IfcLabel::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_EditionDate = IfcDate::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_Name = IfcLabel::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_Description = IfcText::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
+	if( num_args > 5 ){m_Specification = IfcURIReference::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
 	if( num_args > 6 ){readTypeOfStringList( args[6], m_ReferenceTokens );}
 	if( num_args != 7 ){ errorStream << "Wrong parameter count for entity IfcClassification, expecting 7, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }

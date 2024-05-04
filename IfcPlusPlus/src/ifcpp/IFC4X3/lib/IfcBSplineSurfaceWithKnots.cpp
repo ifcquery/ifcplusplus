@@ -18,7 +18,7 @@
 IFC4X3::IfcBSplineSurfaceWithKnots::IfcBSplineSurfaceWithKnots( int tag ) { m_tag = tag; }
 void IFC4X3::IfcBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCBSPLINESURFACEWITHKNOTS" << "(";
+	stream << "#" << m_tag << "=IFCBSPLINESURFACEWITHKNOTS" << "(";
 	if( m_UDegree ) { m_UDegree->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_VDegree ) { m_VDegree->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -45,21 +45,21 @@ void IFC4X3::IfcBSplineSurfaceWithKnots::getStepLine( std::stringstream& stream,
 	stream << ");";
 }
 void IFC4X3::IfcBSplineSurfaceWithKnots::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcBSplineSurfaceWithKnots::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_UDegree = IfcInteger::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_VDegree = IfcInteger::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){readEntityReferenceList2D( args[2], m_ControlPointsList, map, errorStream );}
-	if( num_args > 3 ){m_SurfaceForm = IfcBSplineSurfaceForm::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){m_UClosed = IfcLogical::createObjectFromSTEP( args[4], map, errorStream );}
-	if( num_args > 5 ){m_VClosed = IfcLogical::createObjectFromSTEP( args[5], map, errorStream );}
-	if( num_args > 6 ){m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[6], map, errorStream );}
+	if( num_args > 0 ){m_UDegree = IfcInteger::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_VDegree = IfcInteger::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readEntityReferenceList2D( args[2], m_ControlPointsList, map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_SurfaceForm = IfcBSplineSurfaceForm::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_UClosed = IfcLogical::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
+	if( num_args > 5 ){m_VClosed = IfcLogical::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
+	if( num_args > 6 ){m_SelfIntersect = IfcLogical::createObjectFromSTEP( args[6], map, errorStream, entityIdNotFound );}
 	if( num_args > 7 ){readTypeOfIntegerList( args[7], m_UMultiplicities );}
 	if( num_args > 8 ){readTypeOfIntegerList( args[8], m_VMultiplicities );}
 	if( num_args > 9 ){readTypeOfRealList( args[9], m_UKnots );}
 	if( num_args > 10 ){readTypeOfRealList( args[10], m_VKnots );}
-	if( num_args > 11 ){m_KnotSpec = IfcKnotType::createObjectFromSTEP( args[11], map, errorStream );}
+	if( num_args > 11 ){m_KnotSpec = IfcKnotType::createObjectFromSTEP( args[11], map, errorStream, entityIdNotFound );}
 	if( num_args != 12 ){ errorStream << "Wrong parameter count for entity IfcBSplineSurfaceWithKnots, expecting 12, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcBSplineSurfaceWithKnots::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

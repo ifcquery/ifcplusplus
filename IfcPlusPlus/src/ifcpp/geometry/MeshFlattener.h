@@ -384,12 +384,12 @@ public:
 							{
 								if (!face1dumped)
 								{
-									glm::vec4 color(0, 0.4, 0.3, 1);
+									vec4 color(0, 0.4, 0.3, 1);
 									GeomDebugDump::dumpFacePolygon(face1, color, false);
 									face1dumped = true;
 								}
 
-								glm::vec4 color(0, 1, 1, 1);
+								vec4 color(0, 1, 1, 1);
 								GeomDebugDump::dumpFacePolygon(face2, color, false);
 							}
 
@@ -846,12 +846,12 @@ public:
 							{
 								if (!face1dumped)
 								{
-									glm::vec4 color(0, 0.4, 0.3, 1);
+									vec4 color(0, 0.4, 0.3, 1);
 									GeomDebugDump::dumpFacePolygon(face1, color, false);
 									face1dumped = true;
 								}
 
-								glm::vec4 color(0, 1, 1, 1);
+								vec4 color(0, 1, 1, 1);
 								GeomDebugDump::dumpFacePolygon(face2, color, false);
 							}
 

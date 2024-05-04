@@ -39,8 +39,8 @@ ViewController::ViewController( Orbit3DManipulator* camera_manip )
 	m_camera_manip = camera_manip;
 	m_rootnode	= new osg::Group();
 	m_rootnode->setName("m_rootnode");
-	m_model_switch = new osg::Switch();
-	m_rootnode->addChild( m_model_switch.get() );
+	m_model_node = new osg::Group();
+	m_rootnode->addChild(m_model_node.get() );
 
 	m_temp_node = new osg::Group();
 	m_temp_node->setName( "m_temp_node" );
@@ -49,33 +49,6 @@ ViewController::ViewController( Orbit3DManipulator* camera_manip )
 	m_snap_node = new osg::Group();
 	m_snap_node->setName( "m_snap_node" );
 	m_rootnode->addChild( m_snap_node );
-
-	{
-		m_transform_light = new osg::MatrixTransform();// osg::Matrix::translate( 5, 5, 50 ) );
-		osg::Group* light_group = new osg::Group();
-		light_group->setName("light_group");
-		light_group->addChild(m_transform_light);
-		m_rootnode->addChild( light_group );
-
-		m_sun_light = new osg::Light();
-		m_sun_light->setLightNum(6);
-		m_sun_light->setPosition(osg::Vec4(0.0,0.0,0.0,1.0f));
-		m_sun_light->setAmbient(osg::Vec4(0.5f,0.53f,0.57f,0.1f));
-		m_sun_light->setDiffuse(osg::Vec4(0.5f,0.53f,0.57f,0.1f));
-		m_sun_light->setSpecular( osg::Vec4( 0.5f, 0.53f, 0.57f, 0.4f ) );
-		double model_size = 100;
-		m_sun_light->setConstantAttenuation(1.0f);
-		m_sun_light->setLinearAttenuation(2.0f/model_size);
-		m_sun_light->setQuadraticAttenuation(1.0f/(model_size*model_size));
-
-		osg::LightSource* light_source6 = new osg::LightSource();
-		//light_source6->setLightingMode( HEAD_LIGHT );
-		light_source6->setReferenceFrame( osg::LightSource::ABSOLUTE_RF );
-		light_source6->setLight(m_sun_light);
-		light_source6->setLocalStateSetModes(osg::StateAttribute::ON);
-		light_source6->setStateSetModes(*(m_rootnode->getOrCreateStateSet()),osg::StateAttribute::ON);
-		m_transform_light->addChild(light_source6);
-	}
 	
 	m_material_default = new osg::Material();
 	m_material_default->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.2f, 0.25f, 0.3f, 1.f ) );
@@ -90,7 +63,7 @@ ViewController::ViewController( Orbit3DManipulator* camera_manip )
 	light_model->setTwoSided(true); 
 	m_rootnode->getOrCreateStateSet()->setAttribute( light_model );
 
-	m_stateset_default = m_model_switch->getOrCreateStateSet();
+	m_stateset_default = m_model_node->getOrCreateStateSet();
 	m_stateset_default->setAttribute( m_material_default, osg::StateAttribute::ON );
 
 	m_stateset_transparent = new osg::StateSet();
@@ -160,11 +133,11 @@ void ViewController::setModelTransparent( bool transparent )
 	m_transparent_model = transparent;
 	if( transparent )
 	{
-		m_model_switch->setStateSet( m_stateset_transparent );
+		m_model_node->setStateSet( m_stateset_transparent );
 	}
 	else
 	{
-		m_model_switch->setStateSet( m_stateset_default );
+		m_model_node->setStateSet( m_stateset_default );
 	}
 }
 
@@ -180,7 +153,7 @@ void ViewController::setViewerMode( ViewerMode mode )
 		// first disable previous mode
 		if( m_viewer_mode == VIEWER_MODE_WIREFRAME )
 		{
-			SceneGraphUtils::WireFrameModeOff( m_model_switch.get() );
+			SceneGraphUtils::WireFrameModeOff(m_model_node.get() );
 		}
 		else if( m_viewer_mode == VIEWER_MODE_HIDDEN_LINE )
 		{
@@ -190,7 +163,7 @@ void ViewController::setViewerMode( ViewerMode mode )
 		m_viewer_mode = mode;
 		if( m_viewer_mode == VIEWER_MODE_WIREFRAME )
 		{
-			SceneGraphUtils::WireFrameModeOn( m_model_switch.get() );
+			SceneGraphUtils::WireFrameModeOn(m_model_node.get() );
 		}
 		else if( m_viewer_mode == VIEWER_MODE_HIDDEN_LINE )
 		{
@@ -232,6 +205,34 @@ void ViewController::setSunLightOn( bool light_on )
 	osg::StateSet* stateset_root = m_rootnode->getOrCreateStateSet();
 	if( light_on )
 	{
+		if( !m_transform_light )
+		{
+			m_transform_light = new osg::MatrixTransform();// osg::Matrix::translate( 5, 5, 50 ) );
+			osg::Group* light_group = new osg::Group();
+			light_group->setName("light_group");
+			light_group->addChild(m_transform_light);
+			m_rootnode->addChild(light_group);
+
+			m_sun_light = new osg::Light();
+			m_sun_light->setLightNum(6);
+			m_sun_light->setPosition(osg::Vec4(0.0, 0.0, 0.0, 1.0f));
+			m_sun_light->setAmbient(osg::Vec4(0.5f, 0.53f, 0.57f, 0.1f));
+			m_sun_light->setDiffuse(osg::Vec4(0.5f, 0.53f, 0.57f, 0.1f));
+			m_sun_light->setSpecular(osg::Vec4(0.5f, 0.53f, 0.57f, 0.4f));
+			double model_size = 100;
+			m_sun_light->setConstantAttenuation(1.0f);
+			m_sun_light->setLinearAttenuation(2.0f / model_size);
+			m_sun_light->setQuadraticAttenuation(1.0f / (model_size * model_size));
+
+			osg::LightSource* light_source6 = new osg::LightSource();
+			//light_source6->setLightingMode( HEAD_LIGHT );
+			light_source6->setReferenceFrame(osg::LightSource::ABSOLUTE_RF);
+			light_source6->setLight(m_sun_light);
+			light_source6->setLocalStateSetModes(osg::StateAttribute::ON);
+			light_source6->setStateSetModes(*(m_rootnode->getOrCreateStateSet()), osg::StateAttribute::ON);
+			m_transform_light->addChild(light_source6);
+		}
+
 		stateset_root->setMode( GL_LIGHT6, osg::StateAttribute::ON );
 	}
 	else

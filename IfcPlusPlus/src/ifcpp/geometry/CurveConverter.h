@@ -85,6 +85,91 @@ public:
 
 	virtual ~CurveConverter() {}
 
+	struct CurveSegment
+	{
+		void reverseOrientation()
+		{
+			std::reverse(m_points.begin(), m_points.end());
+			if (m_type == CURVE_TYPE_ARC)
+			{
+				arcStartAngle += arcOpeningAngle;
+				arcOpeningAngle = -arcOpeningAngle;
+			}
+		}
+		enum CurveType
+		{
+			CURVE_TYPE_LINE, CURVE_TYPE_POLYLINE, CURVE_TYPE_ARC, CURVE_TYPE_CIRCLE, CURVE_TYPE_NURBS
+		};
+		CurveSegment(CurveType t) { m_type = t; }
+		CurveType m_type;
+		std::vector<vec3> m_points;
+		vec3 arcOrCircleCenter, arcOrCircleAxis;  // only in case of arc and circle
+		double arcStartAngle = 0, arcOpeningAngle = 0;
+	};
+
+	static void appendSegments(const std::vector<CurveSegment>& segmentsToAppend, std::vector<CurveSegment>& target_vec, double epsilonMergePoints)
+	{
+		if (segmentsToAppend.size() == 0)
+		{
+			return;
+		}
+
+		if (target_vec.size() == 0)
+		{
+			std::copy(segmentsToAppend.begin(), segmentsToAppend.end(), std::back_inserter(target_vec));
+			return;
+		}
+
+		for (CurveSegment newSegment : segmentsToAppend)
+		{
+			// check if last point of target_vec is equal to first point of segments
+			const vec3& lastPointExistingSegments = target_vec.back().m_points.back();
+			const vec3& firstPointOfNewSegment = newSegment.m_points.front();
+			if ((lastPointExistingSegments - firstPointOfNewSegment).length() < epsilonMergePoints)
+			{
+				// normal case, last point of target_vec is equal to first point of segments
+				target_vec.push_back(newSegment);
+				continue;
+			}
+
+			const vec3& lastPointOfNewSegment = newSegment.m_points.back();
+			if ((lastPointExistingSegments - lastPointOfNewSegment).length() < epsilonMergePoints)
+			{
+#ifdef _DEBUG
+				vec4 color1(0.2, 0.8, 0.2, 1.0);
+				for (auto existing : target_vec) {
+					GeomDebugDump::dumpPolyline(existing.m_points, color1, 1., false, false);
+				}
+				vec4 color2(0.2, 0.8, 0.9, 1.0);
+				GeomDebugDump::dumpPolyline(newSegment.m_points, color2, 1., false, false);
+#endif
+				// new segment matches if reversed
+				newSegment.reverseOrientation();
+				target_vec.push_back(newSegment);
+				continue;
+			}
+
+			const vec3& firstPointExistingSegments = target_vec.front().m_points.front();
+			if ((firstPointExistingSegments - lastPointOfNewSegment).length() < epsilonMergePoints)
+			{
+				// new segment matches beginning of existing segments
+				target_vec.insert(target_vec.begin(), newSegment);
+				continue;
+			}
+
+			if ((firstPointExistingSegments - firstPointOfNewSegment).length() < epsilonMergePoints)
+			{
+				// new segment reversed matches beginning of existing segments
+				newSegment.reverseOrientation();
+				target_vec.insert(target_vec.begin(), newSegment);
+				continue;
+			}
+
+			// assume that new segment matches end of existing segments
+			target_vec.push_back(newSegment);
+		}
+	}
+
 	const shared_ptr<GeometrySettings>& getGeomSettings() { return m_geom_settings; }
 	const shared_ptr<PlacementConverter>& getPlacementConverter() { return m_placement_converter; }
 	const shared_ptr<PointConverter>& getPointConverter() { return m_point_converter; }
@@ -100,30 +185,30 @@ public:
 	void convertIfcCurve2D(const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec2>& target_vec, std::vector<vec2>& segment_start_points,
 		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool senseAgreement) const
 	{
-		std::vector<vec3> target_vec_3d;
-		std::vector<vec3> segment_start_points_3d;
-		convertIfcCurve(ifc_curve, target_vec_3d, segment_start_points_3d, senseAgreement);
+		std::vector<CurveSegment> segments;
+		convertIfcCurve(ifc_curve, segments, senseAgreement);
 
-		for (size_t i = 0; i < target_vec_3d.size(); ++i)
+		for (size_t ii = 0; ii < segments.size(); ++ii)
 		{
-			vec3& point_3d = target_vec_3d[i];
-			target_vec.push_back(carve::geom::VECTOR(point_3d.x, point_3d.y));
-		}
-		for (size_t i = 0; i < segment_start_points_3d.size(); ++i)
-		{
-			vec3& point_3d = segment_start_points_3d[i];
-			segment_start_points.push_back(carve::geom::VECTOR(point_3d.x, point_3d.y));
+			CurveSegment& seg = segments[ii];
+			for (size_t jj = 0; jj < seg.m_points.size(); ++jj)
+			{
+				vec3& point_3d = seg.m_points[jj];
+				target_vec.push_back(carve::geom::VECTOR(point_3d.x, point_3d.y));
+			}
 		}
 	}
 
-	void convertIfcCurve(const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec3>& loops, std::vector<vec3>& segment_start_points, bool senseAgreement) const
+	void convertIfcCurve(const shared_ptr<IfcCurve>& ifc_curve, std::vector<CurveSegment>& segments, 
+		bool senseAgreement) const
 	{
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim1_vec;
 		std::vector<shared_ptr<IfcTrimmingSelect> > trim2_vec;
-		convertIfcCurve(ifc_curve, loops, segment_start_points, trim1_vec, trim2_vec, senseAgreement);
+		convertIfcCurve(ifc_curve, segments, trim1_vec, trim2_vec, senseAgreement);
 	}
 
-	void convertIfcCurve(const shared_ptr<IfcCurve>& ifc_curve, std::vector<vec3>& target_vec, std::vector<vec3>& segment_start_points,
+	
+	void convertIfcCurve(const shared_ptr<IfcCurve>& ifc_curve, std::vector<CurveSegment>& resultSegments,
 		std::vector<shared_ptr<IfcTrimmingSelect> >& trim1_vec, std::vector<shared_ptr<IfcTrimmingSelect> >& trim2_vec, bool senseAgreement) const
 	{
 		double lengthFactor = m_point_converter->getUnitConverter()->getLengthInMeterFactor();
@@ -137,28 +222,24 @@ public:
 			if (composite_curve)
 			{
 				// ENTITY IfcBoundedCurve ABSTRACT SUPERTYPE OF	(ONEOF(IfcCompositeCurve, IfcPolyline, IfcTrimmedCurve, IfcBSplineCurve))
-				//std::vector<shared_ptr<IfcSegment> >					m_Segments;
-				std::vector<shared_ptr<IfcSegment> >& vec_segements = composite_curve->m_Segments;
-				for (size_t i_segments = 0; i_segments < vec_segements.size(); ++i_segments)
+				for (const shared_ptr<IfcSegment>& ifcSegment : composite_curve->m_Segments)
 				{
-					shared_ptr<IfcSegment> segement = vec_segements[i_segments];
-
 					// ENTITY IfcSegment ABSTRACT SUPERTYPE OF (ONEOF (IfcCompositeCurveSegment ,IfcCurveSegment))
-					shared_ptr<IfcCompositeCurveSegment> compositeCurveSegment = dynamic_pointer_cast<IfcCompositeCurveSegment>(segement);
+					shared_ptr<IfcCompositeCurveSegment> compositeCurveSegment = dynamic_pointer_cast<IfcCompositeCurveSegment>(ifcSegment);
 					if (compositeCurveSegment)
 					{
-						shared_ptr<IfcCurve> segement_curve = compositeCurveSegment->m_ParentCurve;
+						shared_ptr<IfcCurve> segment_curve = compositeCurveSegment->m_ParentCurve;
 
-						std::vector<vec3> segment_vec;
-						convertIfcCurve(segement_curve, segment_vec, segment_start_points, senseAgreement);
+						std::vector<CurveSegment> segment_vec;
+						convertIfcCurve(segment_curve, segment_vec, senseAgreement);
 						if (segment_vec.size() > 0)
 						{
-							GeomUtils::appendPointsToCurve(segment_vec, target_vec, epsilonMergePoints);
+							appendSegments(segment_vec, resultSegments, epsilonMergePoints);
 						}
 						continue;
 					}
 
-					shared_ptr<IfcCurveSegment> curveSegment = dynamic_pointer_cast<IfcCurveSegment>(segement);
+					shared_ptr<IfcCurveSegment> curveSegment = dynamic_pointer_cast<IfcCurveSegment>(ifcSegment);
 					if (curveSegment)
 					{
 						//shared_ptr<IfcPlacement>								m_Placement;
@@ -166,24 +247,24 @@ public:
 						//shared_ptr<IfcCurveMeasureSelect>						m_SegmentLength;
 						//shared_ptr<IfcCurve>									m_ParentCurve;
 
-						shared_ptr<IfcCurve> segement_curve = curveSegment->m_ParentCurve;
+						shared_ptr<IfcCurve> segment_curve = curveSegment->m_ParentCurve;
 
-						std::vector<vec3> segment_vec;
-						convertIfcCurve(segement_curve, segment_vec, segment_start_points, senseAgreement);
+						std::vector<CurveSegment> segment_vec;
+						convertIfcCurve(segment_curve, segment_vec, senseAgreement);
 						if (segment_vec.size() > 0)
 						{
-							GeomUtils::appendPointsToCurve(segment_vec, target_vec, epsilonMergePoints);
+							appendSegments(segment_vec, resultSegments, epsilonMergePoints);
 						}
 						continue;
 					}
 				}
 
 #ifdef _DEBUG
-				if (target_vec.size() == 316)
+				if (resultSegments.size() == 6)
 				{
-					glm::vec4 color(0.4, 0.6, 0.6, 1.0);
+					vec4 color(0.4, 0.6, 0.6, 1.0);
 					GeomDebugDump::dumpLocalCoordinateSystem();
-					GeomDebugDump::dumpPolyline(target_vec, color, 1.0, true, false);
+					GeomDebugDump::dumpPolyline(resultSegments.front().m_points, color, 1.0, true, false);
 				}
 #endif
 				return;
@@ -195,9 +276,13 @@ public:
 				std::vector<shared_ptr<IfcCartesianPoint> >& points = polyLine->m_Points;
 				if (points.size() > 0)
 				{
-					m_point_converter->convertIfcCartesianPointVector(points, target_vec);
-					shared_ptr<IfcCartesianPoint>& first_point = points[0];
-					segment_start_points.push_back(carve::geom::VECTOR(first_point->m_Coordinates[0] * lengthFactor, first_point->m_Coordinates[1] * lengthFactor, 0));
+					resultSegments.push_back(CurveSegment(CurveSegment::CURVE_TYPE_POLYLINE));
+					CurveSegment& currentSegment = resultSegments.back();
+					m_point_converter->convertIfcCartesianPointVector(points, currentSegment.m_points);
+					if (!senseAgreement)
+					{
+						currentSegment.reverseOrientation();
+					}
 				}
 				return;
 			}
@@ -208,8 +293,7 @@ public:
 				shared_ptr<IfcCurve> basis_curve = trimmed_curve->m_BasisCurve;
 				if (basis_curve)
 				{
-					std::vector<vec3> basis_curve_points;
-					std::vector<vec3> basis_curve_start_points;
+					std::vector<CurveSegment> basisCurveSegment;
 					std::vector<shared_ptr<IfcTrimmingSelect> >& curveTrim1vec = trimmed_curve->m_Trim1;
 					std::vector<shared_ptr<IfcTrimmingSelect> >& curveTrim2vec = trimmed_curve->m_Trim2;
 					bool trimmed_senseAgreement = true;
@@ -219,10 +303,8 @@ public:
 						trimmed_senseAgreement = !trimmed_senseAgreement;
 					}
 
-					convertIfcCurve(basis_curve, basis_curve_points, basis_curve_start_points, curveTrim1vec, curveTrim2vec, trimmed_senseAgreement);
-
-					GeomUtils::appendPointsToCurve(basis_curve_points, target_vec, epsilonMergePoints);
-					GeomUtils::appendPointsToCurve(basis_curve_start_points, segment_start_points, epsilonMergePoints);
+					convertIfcCurve(basis_curve, basisCurveSegment, curveTrim1vec, curveTrim2vec, trimmed_senseAgreement);
+					appendSegments(basisCurveSegment, resultSegments, epsilonMergePoints);
 				}
 				return;
 			}
@@ -230,15 +312,18 @@ public:
 			shared_ptr<IfcBSplineCurve> bspline_curve = dynamic_pointer_cast<IfcBSplineCurve>(bounded_curve);
 			if (bspline_curve)
 			{
-				m_spline_converter->convertBSplineCurve(bspline_curve, target_vec, segment_start_points);
+				CurveSegment seg(CurveSegment::CURVE_TYPE_NURBS);
+				std::vector<vec3> segmentStartPoints;
+				m_spline_converter->convertBSplineCurve(bspline_curve, seg.m_points, segmentStartPoints);
 
 				std::optional<vec3> trimPoint1;
 				std::optional<vec3> trimPoint2;
 				getTrimPoints(trim1_vec, trim2_vec, trimPoint1, trimPoint2);
 
+				resultSegments.push_back(seg);
 #ifdef _DEBUG
 				//GeomDebugDump::clearMeshsetDump();
-				//glm::vec4 color(0.2, 0.2, 0.2, 0.8);
+				//vec4 color(0.2, 0.2, 0.2, 0.8);
 				//GeomDebugDump::dumpPolyline(target_vec, color, 1.0, false);
 
 				//if (trimPoint1.has_value() && trimPoint2.has_value())
@@ -306,8 +391,9 @@ public:
 
 								if (line_points_3d.size() > 1)
 								{
-									GeomUtils::appendPointsToCurve(line_points_3d, target_vec, epsilonMergePoints);
-									segment_start_points.push_back(line_points_3d[0]);
+									CurveSegment seg(CurveSegment::CURVE_TYPE_LINE);
+									GeomUtils::appendPointsToCurve(line_points_3d, seg.m_points, epsilonMergePoints);
+									resultSegments.push_back(seg);
 								}
 							}
 							continue;
@@ -375,19 +461,23 @@ public:
 
 											const double deltaAngle = openingAngle / (double)(n - 1);
 											double angle = 0;
-											std::vector<vec3> circle_points_3d;
+
+											CurveSegment seg(CurveSegment::CURVE_TYPE_ARC);
+											seg.arcOrCircleCenter = circ_center;
+											seg.arcOrCircleAxis = circAxis;
+											seg.arcStartAngle = 0;
+											seg.arcOpeningAngle = openingAngle;
+											resultSegments.push_back(seg);
 											for (size_t kk = 0; kk < n; ++kk)
 											{
-												carve::math::Matrix m = carve::math::Matrix::ROT(-angle, circAxis, epsilonMergePoints);
+												carve::math::Matrix m = carve::math::Matrix::ROT(angle, circAxis, epsilonMergePoints);
 
 												vec3 p_rotated = center_p0;
 												p_rotated = m * p_rotated + circ_center;
 
-												circle_points_3d.push_back(p_rotated);
+												seg.m_points.push_back(p_rotated);
 												angle += deltaAngle;
 											}
-											GeomUtils::appendPointsToCurve(circle_points_3d, target_vec, epsilonMergePoints);
-											segment_start_points.push_back(circle_points_3d[0]);
 										}
 									}
 								}
@@ -400,9 +490,9 @@ public:
 					// no segments, take all points from CoordList
 					if (pointVec.size() > 0)
 					{
-						const vec3& pt0 = pointVec[0];
-						GeomUtils::appendPointsToCurve(pointVec, target_vec, epsilonMergePoints);
-						segment_start_points.push_back(pt0);
+						CurveSegment seg(CurveSegment::CURVE_TYPE_POLYLINE);
+						std::copy(pointVec.begin(), pointVec.end(), std::back_inserter(seg.m_points));
+						resultSegments.push_back(seg);
 					}
 				}
 
@@ -453,115 +543,77 @@ public:
 			carve::math::Matrix circlePositionInverse;
 			GeomUtils::computeInverse(conicPositionMatrix->m_matrix, circlePositionInverse);
 
-			double maxRadius = std::max(circleRadius, circleRadius2);
 			double startAngle = 0, endAngle = 0;
 			double openingAngle = M_PI * 2.0;
-			getTrimAngle(trim1_vec, circleCenter, maxRadius, startAngle, conicPositionMatrix->m_matrix, circlePositionInverse);
-			getTrimAngle(trim2_vec, circleCenter, maxRadius, endAngle, conicPositionMatrix->m_matrix, circlePositionInverse);
+			getTrimAngle(trim1_vec, circleCenter, circleRadius, circleRadius2, startAngle, conicPositionMatrix->m_matrix, circlePositionInverse);
+			getTrimAngle(trim2_vec, circleCenter, circleRadius, circleRadius2, endAngle, conicPositionMatrix->m_matrix, circlePositionInverse);
 			computeOpeningAngle(startAngle, endAngle, epsilonMergePoints, senseAgreement, openingAngle);
 
 #if defined( _DEBUG) || defined(_DEBUG_RELEASE)
-			std::optional<vec3> trimPoint1;
-			std::optional<vec3> trimPoint2;
-			getTrimPoints(trim1_vec, trim2_vec, conicPositionMatrix->m_matrix, circleRadius, circleRadius2, senseAgreement, trimPoint1, trimPoint2);
-
-			vec3 trimPoint1RelativeToCircle = circlePositionInverse * trimPoint1.value();
-			if (trimPoint1.has_value() )
 			{
-				double distanceTrim1 = PointConverter::trimPointCircleDistance(startAngle, circleRadius, conicPositionMatrix->m_matrix, trimPoint1.value());
-				if (distanceTrim1 > epsilonMergePoints * 10000 )
-				{
-					
-					{
-						glm::vec4 color(0.4, 0.6, 0.6, 1.0);
-						vec3 circleCenter = conicPositionMatrix->m_matrix * carve::geom::VECTOR(0, 0, 0);
-						std::vector<vec3> polyline = { trimPoint1.value() , circleCenter };
-						GeomDebugDump::dumpPolyline(polyline, color, 3.0, false, false);
-						GeomDebugDump::dumpCoordinateSystem(conicPositionMatrix->m_matrix, circleRadius, false);
+				// compute trim points from startAngle, endAngle, then re-compute startAngle, endAngle from these trim points (round trip)
+				vec3 trimPoint1 = conicPositionMatrix->m_matrix * carve::geom::VECTOR(circleRadius * cos(startAngle), circleRadius2 * sin(startAngle), 0);
+				vec3 trimPoint2 = conicPositionMatrix->m_matrix * carve::geom::VECTOR(circleRadius * cos(endAngle), circleRadius2 * sin(endAngle), 0);
 
-						vec3 circlePoint0 = conicPositionMatrix->m_matrix * carve::geom::VECTOR(circleRadius * cos(startAngle), circleRadius * sin(startAngle), 0);
-						vec3 circlePoint1 = conicPositionMatrix->m_matrix * carve::geom::VECTOR(circleRadius * cos(startAngle + openingAngle * 0.1), circleRadius * sin(startAngle + openingAngle * 0.1), 0);
-						glm::vec4 color3(0.3, 0.4, 0.94, 0.6);
-						polyline = { circlePoint0 , circlePoint1 };
-						GeomDebugDump::dumpPolyline(polyline, color3, 2.0, false, false);
-					}
+				std::vector<shared_ptr<IfcTrimmingSelect> > trim1_vec_check, trim2_vec_check;
+				shared_ptr<IfcCartesianPoint> t1(new IfcCartesianPoint());
+				double lengthFactor = m_point_converter->getUnitConverter()->getLengthInMeterFactor();
+				t1->m_Coordinates[0] = trimPoint1.x / lengthFactor;
+				t1->m_Coordinates[1] = trimPoint1.y / lengthFactor;
+				t1->m_Coordinates[2] = trimPoint1.z / lengthFactor;
+				trim1_vec_check.push_back(t1);
 
-					double startAngle = m_point_converter->getAngleOnCircle(circleCenter, circleRadius, trimPoint1.value(), conicPositionMatrix->m_matrix, circlePositionInverse, epsilonMergePoints);
+				shared_ptr<IfcCartesianPoint> t2(new IfcCartesianPoint());
+				t2->m_Coordinates[0] = trimPoint2.x / lengthFactor;
+				t2->m_Coordinates[1] = trimPoint2.y / lengthFactor;
+				t2->m_Coordinates[2] = trimPoint2.z / lengthFactor;
+				trim2_vec_check.push_back(t2);
 
-					double distanceTrim12 = PointConverter::trimPointCircleDistance(startAngle, circleRadius, conicPositionMatrix->m_matrix, trimPoint2.value());
-					if (distanceTrim12 > epsilonMergePoints * 10000)
-					{
-						std::cout << "distanceTrim1: " << distanceTrim12 << std::endl;
-					}
+				double startAngleCheck = 0, endAngleCheck = 0;
+				double openingAngleCheck = M_PI * 2.0;
+				getTrimAngle(trim1_vec_check, circleCenter, circleRadius, circleRadius2, startAngleCheck, conicPositionMatrix->m_matrix, circlePositionInverse);
+				getTrimAngle(trim2_vec_check, circleCenter, circleRadius, circleRadius2, endAngleCheck, conicPositionMatrix->m_matrix, circlePositionInverse);
+				double deltaStartAngle = startAngle - startAngleCheck;
+				if (std::abs(deltaStartAngle) > epsilonMergePoints * 10000) {
+					std::cout << "trim point 1 round trip check failed" << std::endl;
+
+					size_t num_segments = 10;
+					std::vector<vec3> points;
+					GeomUtils::getCirclePoints(circleRadius, circleRadius2, startAngle, openingAngle, num_segments, conicPositionMatrix->m_matrix, points);
+					vec4 color3(0.4, 0.6, 0.6, 1.0);
+					GeomDebugDump::dumpPolyline(points, color3, 2.0, false, false);
+
+					GeomDebugDump::dumpPolyline({ trimPoint1, circleCenter , trimPoint2 }, color3, 2.0, false, false);
 
 				}
-			}
-			
-			if (trimPoint2.has_value() )
-			{
-				double distanceTrim2 = PointConverter::trimPointCircleDistance(endAngle, circleRadius, conicPositionMatrix->m_matrix, trimPoint2.value());
-				if (distanceTrim2 > EPS_M6)
-				{
-					endAngle = m_point_converter->getAngleOnCircle(circleCenter, circleRadius, trimPoint2.value(), conicPositionMatrix->m_matrix, circlePositionInverse, epsilonMergePoints);
-
-					computeOpeningAngle(startAngle, endAngle, epsilonMergePoints, senseAgreement, openingAngle);
-
-					if (!senseAgreement)
-					{
-						//openingAngle = -openingAngle;
-					}
-					double endAngle2 = startAngle + openingAngle;
-					double distanceTrim22 = PointConverter::trimPointCircleDistance(endAngle2, circleRadius, conicPositionMatrix->m_matrix, trimPoint2.value());
-					if (distanceTrim22 > EPS_M5)
-					{
-						std::cout << "distanceTrim2: " << distanceTrim22 << std::endl;
-
-						carve::math::Matrix matrix1;
-						double distanceTrim22NoPosition = PointConverter::trimPointCircleDistance(endAngle2, circleRadius, matrix1, trimPoint2.value());
-						if (distanceTrim22NoPosition < EPS_M5)
-						{
-							std::cout << "trim point given in global coords instead of local " << std::endl;
-						}
-
-						if ( true )
-						{
-							glm::vec4 color(0.4, 0.6, 0.6, 1.0);
-							vec3 circleCenter = conicPositionMatrix->m_matrix * carve::geom::VECTOR(0, 0, 0);
-							std::vector<vec3> polyline = { trimPoint2.value() , circleCenter };
-							GeomDebugDump::dumpPolyline(polyline, color, 3.0, false, false);
-							GeomDebugDump::dumpCoordinateSystem(conicPositionMatrix->m_matrix, circleRadius, false);
-
-							polyline = {};
-							int num_segments = 30;
-							GeomUtils::getCirclePoints(circleRadius, circleRadius, startAngle, openingAngle, num_segments, conicPositionMatrix->m_matrix, polyline);
-							//vec3 circlePoint0 = conicPositionMatrix->m_matrix * carve::geom::VECTOR(circleRadius * cos(startAngle), circleRadius * sin(startAngle), 0);
-							//vec3 circlePoint1 = conicPositionMatrix->m_matrix * carve::geom::VECTOR(circleRadius * cos(startAngle + openingAngle * 0.1), circleRadius * sin(startAngle + openingAngle * 0.1), 0);
-							glm::vec4 color3(0.3, 0.4, 0.94, 0.6);
-							//polyline = { circlePoint0 , circlePoint1 };
-							GeomDebugDump::dumpPolyline(polyline, color3, 2.0, false, false);
-						}
-					}
+				double deltaEndAngle = endAngle - endAngleCheck;
+				if (std::abs(deltaEndAngle) > epsilonMergePoints * 10000) {
+					std::cout << "trim point 2 round trip check failed" << std::endl;
 				}
 			}
 #endif
-
-			std::vector<vec3> circle_segment_points3D;
+			CurveSegment seg(CurveSegment::CURVE_TYPE_CIRCLE);
+			
 			if (circleRadius > epsilonMergePoints*1000)
 			{
 				int num_segments = m_geom_settings->getNumVerticesPerCircleWithRadius(circleRadius) * (std::abs(openingAngle) / (2.0 * M_PI));
 				if (num_segments < m_geom_settings->getMinNumVerticesPerArc()) num_segments = m_geom_settings->getMinNumVerticesPerArc();
-				GeomUtils::getCirclePoints(circleRadius, circleRadius2, startAngle, openingAngle, num_segments, conicPositionMatrix->m_matrix, circle_segment_points3D);
+				GeomUtils::getCirclePoints(circleRadius, circleRadius2, startAngle, openingAngle, num_segments,
+					conicPositionMatrix->m_matrix, seg.m_points);
+				seg.arcStartAngle = startAngle;
+				seg.arcOpeningAngle = openingAngle;
+				seg.arcOrCircleCenter = circleCenter;
+				seg.arcOrCircleAxis = conicPositionMatrix->m_matrix * carve::geom::VECTOR(0, 0, 1);  // TODO: check if this is correct
 			}
 			else
 			{
-				circle_segment_points3D.push_back(conicPositionMatrix->m_matrix*carve::geom::VECTOR(0, 0, 0));
+				seg.arcOrCircleCenter = circleCenter;
+				seg.m_points.push_back(seg.arcOrCircleCenter);
 			}
-
-			GeomUtils::appendPointsToCurve(circle_segment_points3D, target_vec, epsilonMergePoints);
-			segment_start_points.push_back(circle_segment_points3D[0]);
+			resultSegments.push_back(seg);
 
 #ifdef _DEBUG
-			glm::vec4 color(0.2, 0.2, 0.2, 0.8);
+			vec4 color(0.2, 0.2, 0.2, 0.8);
 			//GeomDebugDump::dumpPolyline(circle_segment_points3D, color, 0, true, false);
 #endif
 			return;
@@ -669,12 +721,10 @@ public:
 					}
 				}
 
-				std::vector<vec3> points_vec;
-				points_vec.push_back(line_origin);
-				points_vec.push_back(line_end);
-
-				GeomUtils::appendPointsToCurve(points_vec, target_vec, epsilonMergePoints);
-				segment_start_points.push_back(line_origin);
+				CurveSegment seg(CurveSegment::CURVE_TYPE_LINE);
+				seg.m_points.push_back(line_origin);
+				seg.m_points.push_back(line_end);
+				resultSegments.push_back(seg);
 			}
 			return;
 		}
@@ -703,7 +753,7 @@ public:
 		throw UnhandledRepresentationException(ifc_curve);
 	}
 
-	void getTrimAngle(const std::vector<shared_ptr<IfcTrimmingSelect> >& trimSelect1, const vec3& circleCenter, double radius,
+	void getTrimAngle(const std::vector<shared_ptr<IfcTrimmingSelect> >& trimSelect1, const vec3& circleCenter, double radius1, double radius2,
 		double& trimAngle1, const carve::math::Matrix& circlePlacement, const carve::math::Matrix& circlePlacementInverse) const
 	{
 		trimAngle1 = 0;
@@ -722,7 +772,7 @@ public:
 					// angular unit definition not found in model, default to radian
 					planeAngleFactor = 1.0;
 
-					if (trim_par1->m_value > M_PI)
+					if (trim_par1->m_value > 2.0 * M_PI)
 					{
 						// assume degree
 						planeAngleFactor = M_PI / 180.0;
@@ -738,7 +788,7 @@ public:
 				{
 					vec3 trimPoint;
 					PointConverter::convertIfcCartesianPoint(trimPoint1, trimPoint, lengthFactor);
-					trimAngle1 = m_point_converter->getAngleOnCircle(circleCenter, radius, trimPoint, circlePlacement, circlePlacementInverse, eps);
+					trimAngle1 = m_point_converter->getAngleOnConic(circleCenter, radius1, radius2, trimPoint, circlePlacement, circlePlacementInverse, eps);
 				}
 			}
 		}
@@ -770,7 +820,7 @@ public:
 					// angular unit definition not found in model, default to radian
 					planeAngleFactor = 1.0;
 
-					if (trim_par1->m_value > M_PI)
+					if (trim_par1->m_value > 2.0 * M_PI)
 					{
 						// assume degree
 						planeAngleFactor = M_PI / 180.0;
@@ -808,7 +858,7 @@ public:
 					// angular unit definition not found in model, default to radian
 					planeAngleFactor = 1.0;
 
-					if (trim_par->m_value > M_PI)
+					if (trim_par->m_value > 2.0 * M_PI)
 					{
 						// assume degree
 						planeAngleFactor = M_PI / 180.0;
@@ -854,7 +904,7 @@ public:
 		m_point_converter->convertIfcCartesianPointVector(polyLine->m_Points, loop);
 	}
 
-	void convertIfcEdge(const shared_ptr<IfcEdge>& edge, std::vector<vec3>& loopPoints, double lengthFactor) const
+	void convertIfcEdge(const shared_ptr<IfcEdge>& edge, std::vector<vec3>& resultPoints, double lengthFactor) const
 	{
 		if (!edge)
 		{
@@ -882,7 +932,7 @@ public:
 			{
 				std::reverse(loopPointsEdgeElement.begin(), loopPointsEdgeElement.end());
 			}
-			loopPoints = loopPointsEdgeElement;
+			resultPoints = loopPointsEdgeElement;
 			return;
 		}
 
@@ -893,11 +943,12 @@ public:
 			{
 				std::vector<vec3> loopPointsParentEdge;
 				convertIfcEdge(subEdge->m_ParentEdge, loopPointsParentEdge, lengthFactor);
-				loopPoints = loopPointsParentEdge;
+				resultPoints = loopPointsParentEdge;
 				return;
 			}
 		}
 
+		std::vector<vec3> curvePoints;
 		const shared_ptr<IfcEdgeCurve> edgeCurve = dynamic_pointer_cast<IfcEdgeCurve>(edge);
 		if (edgeCurve)
 		{
@@ -914,8 +965,7 @@ public:
 				std::swap(p0, p1);
 			}
 
-			std::vector<vec3> curvePoints;
-			std::vector<vec3> segmentStartPoints;
+			std::vector<CurveSegment> curveSegments;
 			const shared_ptr<IfcCurve> edgeCurveGeometry = edgeCurve->m_EdgeGeometry;
 			bool senseAgreement = true;
 
@@ -955,16 +1005,16 @@ public:
 						trim1->m_Coordinates[0] = p0inCirclePlacement.x;  // in convertIfcCurve, the trim point will be multiplied with lengthFactor
 						trim1->m_Coordinates[1] = p0inCirclePlacement.y;
 						trim1->m_Coordinates[2] = p0inCirclePlacement.z;
-						trim1->m_size = 3;
+						//trim1->m_size = 3;
 						curveTrim1vec.push_back(trim1);
 
 						shared_ptr<IfcCartesianPoint> trim2(new IfcCartesianPoint());
 						trim2->m_Coordinates[0] = p1inCirclePlacement.x;
 						trim2->m_Coordinates[1] = p1inCirclePlacement.y;
 						trim2->m_Coordinates[2] = p1inCirclePlacement.z;
-						trim2->m_size = 3;
+						//trim2->m_size = 3;
 						curveTrim2vec.push_back(trim2);
-						convertIfcCurve(basisCurve, curvePoints, segmentStartPoints, curveTrim1vec, curveTrim2vec, senseAgreement);
+						convertIfcCurve(basisCurve, curveSegments, curveTrim1vec, curveTrim2vec, senseAgreement);
 					}
 				}
 				else
@@ -975,7 +1025,12 @@ public:
 					std::vector<shared_ptr<IfcTrimmingSelect> > curveTrim2vec;
 					PointConverter::convertPointToTrimmingSelect(edgeEnd, lengthFactor, curveTrim2vec);
 
-					convertIfcCurve(edgeCurveGeometry, curvePoints, segmentStartPoints, curveTrim1vec, curveTrim2vec, senseAgreement);
+					convertIfcCurve(edgeCurveGeometry, curveSegments, curveTrim1vec, curveTrim2vec, senseAgreement);
+				}
+
+				for (CurveSegment& seg : curveSegments)
+				{
+					std::copy(seg.m_points.begin(), seg.m_points.end(), std::back_inserter(curvePoints));
 				}
 			}
 			else
@@ -986,12 +1041,12 @@ public:
 
 			if (edgeSameSense)
 			{
-				std::copy(curvePoints.begin(), curvePoints.end(), std::back_inserter(loopPoints));
+				std::copy(curvePoints.begin(), curvePoints.end(), std::back_inserter(resultPoints));
 			}
 			else
 			{
 				// edge is oriented reverse
-				std::copy(curvePoints.rbegin(), curvePoints.rend(), std::back_inserter(loopPoints));
+				std::copy(curvePoints.rbegin(), curvePoints.rend(), std::back_inserter(resultPoints));
 			}
 			return;
 		}

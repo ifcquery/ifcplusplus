@@ -12,11 +12,11 @@
 IFC4X3::IfcGeometricRepresentationItem::IfcGeometricRepresentationItem( int tag ) { m_tag = tag; }
 void IFC4X3::IfcGeometricRepresentationItem::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCGEOMETRICREPRESENTATIONITEM" << "(";
+	stream << "#" << m_tag << "=IFCGEOMETRICREPRESENTATIONITEM" << "(";
 	stream << ");";
 }
 void IFC4X3::IfcGeometricRepresentationItem::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcGeometricRepresentationItem::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcGeometricRepresentationItem::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 }
 void IFC4X3::IfcGeometricRepresentationItem::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

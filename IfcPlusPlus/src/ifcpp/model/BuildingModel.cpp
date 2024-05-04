@@ -242,7 +242,7 @@ void BuildingModel::initCopyIfcModel( const shared_ptr<BuildingModel>& other )
 	shared_ptr<IfcProject> project = other->getIfcProject();
 	shared_ptr<IfcRoot> projectAsRoot(project);
 
-	std::map<BuildingObject*, shared_ptr<BuildingObject> > map_entities_copy;
+	std::unordered_map<BuildingObject*, shared_ptr<BuildingObject> > map_entities_copy;
 	map_entities_copy[projectAsRoot.get()] = projectAsRoot;
 	
 	collectDependentEntities( projectAsRoot, map_entities_copy, false);
@@ -284,10 +284,11 @@ void BuildingModel::setUnitConverter( shared_ptr<UnitConverter>& uc )
 	m_unit_converter = uc;
 }
 
-void BuildingModel::setMapIfcEntities( const std::map<int, shared_ptr<BuildingEntity> >& map )
+void BuildingModel::setMapIfcEntities( const std::unordered_map<int, shared_ptr<BuildingEntity> >& map )
 {
 	clearIfcModel();
 	m_map_entities.clear();
+	m_max_entity_id = -1;
 	m_map_entities = map;
 	updateCache();
 	// todo: check model consistency
@@ -302,9 +303,14 @@ void BuildingModel::insertEntity( shared_ptr<BuildingEntity> e, bool overwrite_e
 	int tag = e->m_tag;
 	if( tag < 0 )
 	{
-		int next_unused_id = getMaxUsedEntityId() + 1;
+		int next_unused_id = getNextUnusedEntityTagFast();
 		e->m_tag = next_unused_id;
 		tag = next_unused_id;
+	}
+
+	if (tag > m_max_entity_id)
+	{
+		m_max_entity_id = tag;
 	}
 
 	auto it_find = m_map_entities.find( tag );
@@ -393,6 +399,12 @@ void BuildingModel::removeEntity( shared_ptr<BuildingEntity> e )
 				}
 			}
 		}
+
+		if (entity_found->m_tag == m_max_entity_id) {
+			if (m_max_entity_id > 0) {
+				--m_max_entity_id;
+			}
+		}
 	}
 	m_map_entities.erase( it_find );
 }
@@ -407,15 +419,61 @@ void BuildingModel::removeEntity( int tag )
 	}
 }
 
-int BuildingModel::getMaxUsedEntityId()
+int BuildingModel::getNextUnusedEntityTagFast()
 {
 	if( m_map_entities.empty() )
 	{
+		m_max_entity_id = 0;
 		return 0;
 	}
-	// since it is an ordered map, we can just take the key of the last entry
-	int max_id = m_map_entities.rbegin()->first;
-	return max_id;
+
+	int next_unused_id = m_max_entity_id + 1;
+#if defined(_DEBUG) || defined(_DEBUG_RELEASE)
+	if (m_map_entities.find(next_unused_id) != m_map_entities.end())
+	{
+		// find next unused id
+		messageCallback("m_max_entity_id not set correctly", StatusCallback::MESSAGE_TYPE_ERROR, __FUNCTION__, nullptr);
+		++next_unused_id;
+		m_max_entity_id = -1;
+		for (auto it = m_map_entities.begin(); it != m_map_entities.end(); ++it)
+		{
+			int tag = it->first;
+			if (tag > m_max_entity_id)
+			{
+				m_max_entity_id = tag;
+			}
+		}
+
+		next_unused_id = m_max_entity_id + 1;
+		if (m_map_entities.find(next_unused_id) != m_map_entities.end())
+		{
+			messageCallback("next_unused_id not unique", StatusCallback::MESSAGE_TYPE_ERROR, __FUNCTION__, nullptr);
+		}
+	}
+#endif
+
+	return next_unused_id;
+}
+
+int BuildingModel::getLowestUnusedEntityTagSlow()
+{
+	if (m_map_entities.empty())
+	{
+		return 0;
+	}
+
+	m_max_entity_id = 0;
+	for (auto it = m_map_entities.begin(); it != m_map_entities.end(); ++it)
+	{
+		int tag = it->first;
+		if (tag > m_max_entity_id)
+		{
+			m_max_entity_id = tag;
+		}
+	}
+
+	++m_max_entity_id;
+	return m_max_entity_id;
 }
 
 void BuildingModel::removeUnreferencedEntities()
@@ -549,6 +607,7 @@ void BuildingModel::setFileName( const std::string& name )
 void BuildingModel::clearIfcModel()
 {
 	m_map_entities.clear();
+	m_max_entity_id = -1;
 	m_ifc_project.reset();
 	m_geom_context_3d.reset();
 	m_ifc_schema_version_current = IFC4X1;
@@ -570,6 +629,7 @@ void BuildingModel::updateCache()
 {
 	bool found_project = false;
 	bool found_geom_context = false;
+	m_max_entity_id = -1;
 
 	shared_ptr<IfcProject> keep_project = m_ifc_project;
 	m_ifc_project.reset();
@@ -577,6 +637,11 @@ void BuildingModel::updateCache()
 	// try to find IfcProject and IfcGeometricRepresentationContext
 	for( auto it=m_map_entities.begin(); it!=m_map_entities.end(); ++it )
 	{
+		int tag = it->first;
+		if (tag > m_max_entity_id)
+		{
+			m_max_entity_id = tag;
+		}
 		shared_ptr<BuildingEntity> obj = it->second;
 		if( obj->classID() == IFC4X3::IFCPROJECT )
 		{
@@ -663,7 +728,7 @@ void BuildingModel::unsetInverseAttributes()
 	}
 }
 
-void BuildingModel::collectDependentEntities( shared_ptr<BuildingObject> obj, std::map<BuildingObject*, shared_ptr<BuildingObject> >& target_map, bool resolveInverseAttributes)
+void BuildingModel::collectDependentEntities( shared_ptr<BuildingObject> obj, std::unordered_map<BuildingObject*, shared_ptr<BuildingObject> >& target_map, bool resolveInverseAttributes)
 {
 	if( !obj )
 	{

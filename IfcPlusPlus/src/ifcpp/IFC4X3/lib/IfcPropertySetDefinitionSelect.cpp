@@ -7,7 +7,7 @@
 #include "ifcpp/IFC4X3/include/IfcPropertySetDefinitionSelect.h"
 
 // TYPE IfcPropertySetDefinitionSelect = SELECT	(IfcPropertySetDefinition	,IfcPropertySetDefinitionSet);
-shared_ptr<IFC4X3::IfcPropertySetDefinitionSelect> IFC4X3::IfcPropertySetDefinitionSelect::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcPropertySetDefinitionSelect> IFC4X3::IfcPropertySetDefinitionSelect::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcPropertySetDefinitionSelect>(); }
 	if( arg.compare("$")==0 )
@@ -19,6 +19,6 @@ shared_ptr<IFC4X3::IfcPropertySetDefinitionSelect> IFC4X3::IfcPropertySetDefinit
 		return shared_ptr<IfcPropertySetDefinitionSelect>();
 	}
 	shared_ptr<IfcPropertySetDefinitionSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

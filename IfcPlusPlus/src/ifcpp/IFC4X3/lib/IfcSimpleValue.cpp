@@ -22,7 +22,7 @@
 #include "ifcpp/IFC4X3/include/IfcSimpleValue.h"
 
 // TYPE IfcSimpleValue = SELECT	(IfcBinary	,IfcBoolean	,IfcDate	,IfcDateTime	,IfcDuration	,IfcIdentifier	,IfcInteger	,IfcLabel	,IfcLogical	,IfcPositiveInteger	,IfcReal	,IfcText	,IfcTime	,IfcTimeStamp	,IfcURIReference);
-shared_ptr<IFC4X3::IfcSimpleValue> IFC4X3::IfcSimpleValue::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcSimpleValue> IFC4X3::IfcSimpleValue::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcSimpleValue>(); }
 	if( arg.compare("$")==0 )
@@ -34,6 +34,6 @@ shared_ptr<IFC4X3::IfcSimpleValue> IFC4X3::IfcSimpleValue::createObjectFromSTEP(
 		return shared_ptr<IfcSimpleValue>();
 	}
 	shared_ptr<IfcSimpleValue> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

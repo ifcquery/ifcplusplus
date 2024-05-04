@@ -8,7 +8,7 @@
 #include "ifcpp/IFC4X3/include/IfcRotationalStiffnessSelect.h"
 
 // TYPE IfcRotationalStiffnessSelect = SELECT	(IfcBoolean	,IfcRotationalStiffnessMeasure);
-shared_ptr<IFC4X3::IfcRotationalStiffnessSelect> IFC4X3::IfcRotationalStiffnessSelect::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcRotationalStiffnessSelect> IFC4X3::IfcRotationalStiffnessSelect::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcRotationalStiffnessSelect>(); }
 	if( arg.compare("$")==0 )
@@ -20,6 +20,6 @@ shared_ptr<IFC4X3::IfcRotationalStiffnessSelect> IFC4X3::IfcRotationalStiffnessS
 		return shared_ptr<IfcRotationalStiffnessSelect>();
 	}
 	shared_ptr<IfcRotationalStiffnessSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

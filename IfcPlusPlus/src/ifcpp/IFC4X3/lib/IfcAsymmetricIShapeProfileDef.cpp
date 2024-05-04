@@ -18,7 +18,7 @@
 IFC4X3::IfcAsymmetricIShapeProfileDef::IfcAsymmetricIShapeProfileDef( int tag ) { m_tag = tag; }
 void IFC4X3::IfcAsymmetricIShapeProfileDef::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCASYMMETRICISHAPEPROFILEDEF" << "(";
+	stream << "#" << m_tag << "=IFCASYMMETRICISHAPEPROFILEDEF" << "(";
 	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -51,24 +51,24 @@ void IFC4X3::IfcAsymmetricIShapeProfileDef::getStepLine( std::stringstream& stre
 	stream << ");";
 }
 void IFC4X3::IfcAsymmetricIShapeProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcAsymmetricIShapeProfileDef::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcAsymmetricIShapeProfileDef::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){readEntityReference( args[2], m_Position, map, errorStream );}
-	if( num_args > 3 ){m_BottomFlangeWidth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){m_OverallDepth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4], map, errorStream );}
-	if( num_args > 5 ){m_WebThickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[5], map, errorStream );}
-	if( num_args > 6 ){m_BottomFlangeThickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[6], map, errorStream );}
-	if( num_args > 7 ){m_BottomFlangeFilletRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[7], map, errorStream );}
-	if( num_args > 8 ){m_TopFlangeWidth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[8], map, errorStream );}
-	if( num_args > 9 ){m_TopFlangeThickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[9], map, errorStream );}
-	if( num_args > 10 ){m_TopFlangeFilletRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[10], map, errorStream );}
-	if( num_args > 11 ){m_BottomFlangeEdgeRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[11], map, errorStream );}
-	if( num_args > 12 ){m_BottomFlangeSlope = IfcPlaneAngleMeasure::createObjectFromSTEP( args[12], map, errorStream );}
-	if( num_args > 13 ){m_TopFlangeEdgeRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[13], map, errorStream );}
-	if( num_args > 14 ){m_TopFlangeSlope = IfcPlaneAngleMeasure::createObjectFromSTEP( args[14], map, errorStream );}
+	if( num_args > 0 ){m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readEntityReference( args[2], m_Position, map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_BottomFlangeWidth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_OverallDepth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
+	if( num_args > 5 ){m_WebThickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
+	if( num_args > 6 ){m_BottomFlangeThickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[6], map, errorStream, entityIdNotFound );}
+	if( num_args > 7 ){m_BottomFlangeFilletRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[7], map, errorStream, entityIdNotFound );}
+	if( num_args > 8 ){m_TopFlangeWidth = IfcPositiveLengthMeasure::createObjectFromSTEP( args[8], map, errorStream, entityIdNotFound );}
+	if( num_args > 9 ){m_TopFlangeThickness = IfcPositiveLengthMeasure::createObjectFromSTEP( args[9], map, errorStream, entityIdNotFound );}
+	if( num_args > 10 ){m_TopFlangeFilletRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[10], map, errorStream, entityIdNotFound );}
+	if( num_args > 11 ){m_BottomFlangeEdgeRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[11], map, errorStream, entityIdNotFound );}
+	if( num_args > 12 ){m_BottomFlangeSlope = IfcPlaneAngleMeasure::createObjectFromSTEP( args[12], map, errorStream, entityIdNotFound );}
+	if( num_args > 13 ){m_TopFlangeEdgeRadius = IfcNonNegativeLengthMeasure::createObjectFromSTEP( args[13], map, errorStream, entityIdNotFound );}
+	if( num_args > 14 ){m_TopFlangeSlope = IfcPlaneAngleMeasure::createObjectFromSTEP( args[14], map, errorStream, entityIdNotFound );}
 	if( num_args != 15 ){ errorStream << "Wrong parameter count for entity IfcAsymmetricIShapeProfileDef, expecting 15, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcAsymmetricIShapeProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

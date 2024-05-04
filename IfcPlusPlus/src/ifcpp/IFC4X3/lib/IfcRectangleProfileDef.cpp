@@ -16,7 +16,7 @@
 IFC4X3::IfcRectangleProfileDef::IfcRectangleProfileDef( int tag ) { m_tag = tag; }
 void IFC4X3::IfcRectangleProfileDef::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCRECTANGLEPROFILEDEF" << "(";
+	stream << "#" << m_tag << "=IFCRECTANGLEPROFILEDEF" << "(";
 	if( m_ProfileType ) { m_ProfileType->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_ProfileName ) { m_ProfileName->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -29,14 +29,14 @@ void IFC4X3::IfcRectangleProfileDef::getStepLine( std::stringstream& stream, siz
 	stream << ");";
 }
 void IFC4X3::IfcRectangleProfileDef::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcRectangleProfileDef::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcRectangleProfileDef::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){readEntityReference( args[2], m_Position, map, errorStream );}
-	if( num_args > 3 ){m_XDim = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){m_YDim = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4], map, errorStream );}
+	if( num_args > 0 ){m_ProfileType = IfcProfileTypeEnum::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_ProfileName = IfcLabel::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readEntityReference( args[2], m_Position, map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_XDim = IfcPositiveLengthMeasure::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_YDim = IfcPositiveLengthMeasure::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
 	if( num_args != 5 ){ errorStream << "Wrong parameter count for entity IfcRectangleProfileDef, expecting 5, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcRectangleProfileDef::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

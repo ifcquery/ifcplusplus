@@ -13,15 +13,15 @@
 IFC4X3::IfcVertexPoint::IfcVertexPoint( int tag ) { m_tag = tag; }
 void IFC4X3::IfcVertexPoint::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCVERTEXPOINT" << "(";
+	stream << "#" << m_tag << "=IFCVERTEXPOINT" << "(";
 	if( m_VertexGeometry ) { stream << "#" << m_VertexGeometry->m_tag; } else { stream << "$"; }
 	stream << ");";
 }
 void IFC4X3::IfcVertexPoint::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcVertexPoint::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcVertexPoint::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReference( args[0], m_VertexGeometry, map, errorStream );}
+	if( num_args > 0 ){readEntityReference( args[0], m_VertexGeometry, map, errorStream, entityIdNotFound );}
 	if( num_args != 1 ){ errorStream << "Wrong parameter count for entity IfcVertexPoint, expecting 1, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcVertexPoint::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

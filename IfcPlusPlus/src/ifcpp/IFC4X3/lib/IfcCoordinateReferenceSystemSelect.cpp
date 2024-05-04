@@ -6,7 +6,7 @@
 #include "ifcpp/IFC4X3/include/IfcCoordinateReferenceSystemSelect.h"
 
 // TYPE IfcCoordinateReferenceSystemSelect = SELECT	(IfcCoordinateReferenceSystem	,IfcGeometricRepresentationContext);
-shared_ptr<IFC4X3::IfcCoordinateReferenceSystemSelect> IFC4X3::IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcCoordinateReferenceSystemSelect> IFC4X3::IfcCoordinateReferenceSystemSelect::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.empty() ){ return shared_ptr<IfcCoordinateReferenceSystemSelect>(); }
 	if( arg.compare("$")==0 )
@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcCoordinateReferenceSystemSelect> IFC4X3::IfcCoordinateRefe
 		return shared_ptr<IfcCoordinateReferenceSystemSelect>();
 	}
 	shared_ptr<IfcCoordinateReferenceSystemSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream );
+	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
 	return result_object;
 }

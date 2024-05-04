@@ -31,13 +31,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 using namespace IFC4X3;
 
-bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::PolyhedronData>& poly_data, GeomProcessingParams& params, shared_ptr<GeometrySettings>& geom_settings)
+bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::PolyhedronData>& poly_data, GeomProcessingParams& params)
 {
 	if (poly_data->getVertexCount() < 3)
 	{
 		return false;
 	}
 
+	shared_ptr<GeometrySettings>& geom_settings = params.generalSettings;
 	double eps = params.epsMergePoints;
 	std::map<std::string, std::string> mesh_input_options;
 	shared_ptr<carve::mesh::MeshSet<3> > meshsetUnchanged(poly_data->createMesh(mesh_input_options, eps));
@@ -71,7 +72,7 @@ bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::Polyhedro
 #ifdef _DEBUG
 	if (params.debugDump)
 	{
-		glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+		vec4 color(0.3, 0.4, 0.5, 1.0);
 		GeomDebugDump::dumpMeshsetOpenEdges(meshsetUnchanged, color, false, false);
 		GeomDebugDump::dumpMeshset(meshsetUnchanged.get(), color, true, false);
 	}
@@ -173,7 +174,7 @@ bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::Polyhedro
 #ifdef _DEBUG
 		if (params.debugDump)
 		{
-			glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+			vec4 color(0.3, 0.4, 0.5, 1.0);
 			GeomDebugDump::dumpMeshsetOpenEdges(meshsetChanged, color, false, false);
 			GeomDebugDump::dumpMeshset(meshsetChanged.get(), color, true, false);
 		}
@@ -187,7 +188,7 @@ bool ItemShapeData::addClosedPolyhedron(const shared_ptr<carve::input::Polyhedro
 #ifdef _DEBUG
 		if (params.debugDump)
 		{
-			glm::vec4 color(0.3, 0.4, 0.5, 1.0);
+			vec4 color(0.3, 0.4, 0.5, 1.0);
 			GeomDebugDump::dumpMeshsetOpenEdges(meshsetUnchanged, color, false, false);
 			GeomDebugDump::dumpMeshset(meshsetUnchanged.get(), color, true, false);
 		}
@@ -250,7 +251,7 @@ void ItemShapeData::addOpenOrClosedPolyhedron(const shared_ptr<carve::input::Pol
 		{
 			if (params.debugDump)
 			{
-				glm::vec4 color(0.5, 0.5, 0.5, 1);
+				vec4 color(0.5, 0.5, 0.5, 1);
 				GeomDebugDump::moveOffset(0.1);
 				bool drawNormals = false;
 				GeomDebugDump::dumpMeshset(meshsetCopy, color, drawNormals, true);
@@ -276,7 +277,7 @@ void ItemShapeData::addOpenOrClosedPolyhedron(const shared_ptr<carve::input::Pol
 			// simplified meshset is better
 			if (params.debugDump)
 			{
-				glm::vec4 color(0.5, 0.5, 0.5, 1);
+				vec4 color(0.5, 0.5, 0.5, 1);
 				GeomDebugDump::moveOffset(0.1);
 				bool drawNormals = false;
 				GeomDebugDump::dumpMeshset(meshsetCopy, color, drawNormals, true);

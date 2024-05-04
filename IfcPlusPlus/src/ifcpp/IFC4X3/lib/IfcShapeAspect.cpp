@@ -18,7 +18,7 @@
 IFC4X3::IfcShapeAspect::IfcShapeAspect( int tag ) { m_tag = tag; }
 void IFC4X3::IfcShapeAspect::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCSHAPEASPECT" << "(";
+	stream << "#" << m_tag << "=IFCSHAPEASPECT" << "(";
 	writeEntityList( stream, m_ShapeRepresentations );
 	stream << ",";
 	if( m_Name ) { m_Name->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -31,14 +31,14 @@ void IFC4X3::IfcShapeAspect::getStepLine( std::stringstream& stream, size_t prec
 	stream << ");";
 }
 void IFC4X3::IfcShapeAspect::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcShapeAspect::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcShapeAspect::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReferenceList( args[0], m_ShapeRepresentations, map, errorStream );}
-	if( num_args > 1 ){m_Name = IfcLabel::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){m_Description = IfcText::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){m_ProductDefinitional = IfcLogical::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){m_PartOfProductDefinitionShape = IfcProductRepresentationSelect::createObjectFromSTEP( args[4], map, errorStream );}
+	if( num_args > 0 ){readEntityReferenceList( args[0], m_ShapeRepresentations, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_Name = IfcLabel::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_Description = IfcText::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_ProductDefinitional = IfcLogical::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_PartOfProductDefinitionShape = IfcProductRepresentationSelect::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
 	if( num_args != 5 ){ errorStream << "Wrong parameter count for entity IfcShapeAspect, expecting 5, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcShapeAspect::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

@@ -18,7 +18,7 @@ void IFC4X3::IfcAreaMeasure::getStepParameter( std::stringstream& stream, bool i
 	appendRealWithoutTrailingZeros( stream, m_value, precision );
 	if( is_select_type ) { stream << ")"; }
 }
-shared_ptr<IFC4X3::IfcAreaMeasure> IFC4X3::IfcAreaMeasure::createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+shared_ptr<IFC4X3::IfcAreaMeasure> IFC4X3::IfcAreaMeasure::createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	if( arg.size() == 0 ) { return shared_ptr<IfcAreaMeasure>(); }
 	if( arg.compare( "$" ) == 0 ) { return shared_ptr<IfcAreaMeasure>(); }

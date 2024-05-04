@@ -28,7 +28,7 @@ namespace IFC4X3
 		IfcAirTerminalBoxTypeEnum( IfcAirTerminalBoxTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 1269596434; }
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
-		static shared_ptr<IfcAirTerminalBoxTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
+		static shared_ptr<IfcAirTerminalBoxTypeEnum> createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound );
 		IfcAirTerminalBoxTypeEnumEnum m_enum;
 	};
 }

@@ -20,9 +20,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #define _USE_MATH_DEFINES 
 #include <cmath>
 #include <functional>
-#include <set>
+#include <map>
+#include <unordered_set>
 #include <ifcpp/model/BasicTypes.h>
 #include <ifcpp/model/BuildingObject.h>
+#include <ifcpp/IFC4X3/EntityFactory.h>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -61,11 +63,12 @@ class GeometrySettings
 public:
 	GeometrySettings()
 	{
-		m_render_object_filter.insert(1287392070);  // IfcFeatureElementSubtraction
+		m_excludeIfcTypes.insert(IFC4X3::IFCFEATUREELEMENTSUBTRACTION);// 1287392070);  // IfcFeatureElementSubtraction
 	}
 	GeometrySettings(const shared_ptr<GeometrySettings>& other)
 	{
-		m_render_object_filter = other->m_render_object_filter;
+		m_excludeIfcTypes = other->m_excludeIfcTypes;
+		m_renderOnlyIfcTypes = other->m_excludeIfcTypes;
 		m_maxNumFaceEdges = other->m_maxNumFaceEdges;
 		m_num_vertices_per_circle = other->m_num_vertices_per_circle;
 		m_num_vertices_per_circle_default = other->m_num_vertices_per_circle_default;
@@ -119,17 +122,6 @@ public:
 	bool getRenderBoundingBoxes() { return m_render_bounding_box; }
 	void setRenderBoundingBoxes(bool render_bbox) { m_render_bounding_box = render_bbox; }
 
-	/**\brief Render filter decides if a IfcObjectDefinition should be rendered.
-	  The default filter will render all objects except objects based on IfcFeatureElementSubtraction.*/
-	bool skipRenderObject(uint32_t classID)
-	{
-		if( m_render_object_filter.find(classID) != m_render_object_filter.end() )
-		{
-			return true;
-		}
-		return false;
-	}
-
 	void setEpsilonMergePoints(double eps)
 	{
 		m_epsilonMergePoints = eps;
@@ -150,7 +142,26 @@ public:
 		return m_epsCoplanarAngle;
 	}
 
-	std::set<uint32_t> m_render_object_filter;
+	bool skipRenderObject(uint32_t classID)
+	{
+		if (m_excludeIfcTypes.find(classID) != m_excludeIfcTypes.end())
+		{
+			return true;
+		}
+
+		if (m_renderOnlyIfcTypes.size() > 0)
+		{
+			if (m_renderOnlyIfcTypes.find(classID) == m_renderOnlyIfcTypes.end())
+			{
+				// classID not in list of types to convert
+				return true;
+			}
+		}
+		return false;
+	}
+
+	std::unordered_set<uint32_t> m_excludeIfcTypes;		// if set, these types will not be converted
+	std::unordered_set<uint32_t> m_renderOnlyIfcTypes;	// if set, only these types will be converted
 	size_t m_maxNumFaceEdges = MAX_NUM_EDGES;
 	bool m_mergeAlignedEdges = true;
 	MeshSimplifyCallbackType m_callback_simplify_mesh;

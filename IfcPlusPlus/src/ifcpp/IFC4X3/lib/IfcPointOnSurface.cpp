@@ -14,7 +14,7 @@
 IFC4X3::IfcPointOnSurface::IfcPointOnSurface( int tag ) { m_tag = tag; }
 void IFC4X3::IfcPointOnSurface::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCPOINTONSURFACE" << "(";
+	stream << "#" << m_tag << "=IFCPOINTONSURFACE" << "(";
 	if( m_BasisSurface ) { stream << "#" << m_BasisSurface->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_PointParameterU ) { m_PointParameterU->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -23,12 +23,12 @@ void IFC4X3::IfcPointOnSurface::getStepLine( std::stringstream& stream, size_t p
 	stream << ");";
 }
 void IFC4X3::IfcPointOnSurface::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcPointOnSurface::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcPointOnSurface::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReference( args[0], m_BasisSurface, map, errorStream );}
-	if( num_args > 1 ){m_PointParameterU = IfcParameterValue::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){m_PointParameterV = IfcParameterValue::createObjectFromSTEP( args[2], map, errorStream );}
+	if( num_args > 0 ){readEntityReference( args[0], m_BasisSurface, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_PointParameterU = IfcParameterValue::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_PointParameterV = IfcParameterValue::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
 	if( num_args != 3 ){ errorStream << "Wrong parameter count for entity IfcPointOnSurface, expecting 3, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcPointOnSurface::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

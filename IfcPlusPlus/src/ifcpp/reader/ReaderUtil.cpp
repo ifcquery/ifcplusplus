@@ -658,7 +658,7 @@ void readRealList(const std::string& str, std::vector<double>& vec)
 	}
 }
 
-void readRealArray(const std::string& str, double(&vec)[3], short int& size)
+void readRealArray( const std::string& str, double(&vec)[3] )
 {
 	const char* ch = str.c_str();
 	const size_t argsize = str.size();
@@ -696,12 +696,12 @@ void readRealArray(const std::string& str, double(&vec)[3], short int& size)
 			{
 				vec[idx] = std::stod(str.substr(last_token, i - last_token));
 			}
-			size = idx + 1;
 			return;
 		}
 		++i;
 	}
 }
+
 
 void readRealList2D(const std::string& str, std::vector<std::vector<double> >& vec)
 {
@@ -1532,7 +1532,7 @@ void tokenizeInlineArgument(std::string arg, std::string& keyword, std::string& 
 		++stream_pos;
 	}
 
-	std::transform(key.begin(), key.end(), key.begin(), [](char c) {return static_cast<char>(std::toupper(c)); });
+	convertStringToUpperCase(key);
 	keyword = key;
 	inline_arg = inline_argument;
 }

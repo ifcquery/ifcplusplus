@@ -10,7 +10,7 @@
 IFC4X3::IfcDimensionalExponents::IfcDimensionalExponents( int tag ) { m_tag = tag; }
 void IFC4X3::IfcDimensionalExponents::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCDIMENSIONALEXPONENTS" << "(";
+	stream << "#" << m_tag << "=IFCDIMENSIONALEXPONENTS" << "(";
 	stream << m_LengthExponent;
 	stream << ",";
 	stream << m_MassExponent;
@@ -27,7 +27,7 @@ void IFC4X3::IfcDimensionalExponents::getStepLine( std::stringstream& stream, si
 	stream << ");";
 }
 void IFC4X3::IfcDimensionalExponents::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcDimensionalExponents::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcDimensionalExponents::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
 	if( num_args > 0 ){readIntegerValue( args[0], m_LengthExponent );}

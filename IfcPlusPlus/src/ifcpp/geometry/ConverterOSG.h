@@ -46,14 +46,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "CSG_Adapter.h"
 
 using namespace IFC4X3;
+#define ProductNodeType osg::Group
 
 class ConverterOSG : public StatusCallback
 {
 protected:
 	shared_ptr<GeometrySettings>						m_geom_settings;
-	std::map<std::string, osg::ref_ptr<osg::Switch> >	m_map_entity_guid_to_switch;
-	std::map<int, osg::ref_ptr<osg::Switch> >			m_map_representation_id_to_switch;
+	std::map<std::string, osg::ref_ptr<ProductNodeType> >	m_map_entity_guid_to_switch;
+	std::map<int, osg::ref_ptr<ProductNodeType> >			m_map_representation_id_to_switch;
 	std::vector<osg::ref_ptr<osg::Vec3Array> >			m_cache_vertices;
+	bool												m_caching_enabled = false;
 	double												m_recent_progress;
 	osg::ref_ptr<osg::CullFace>							m_cull_back_off;
 	double												m_faces_crease_angle = M_PI * 0.02;
@@ -79,9 +81,9 @@ public:
 
 
 	// Map: IfcProduct ID -> scenegraph switch
-	std::map<std::string, osg::ref_ptr<osg::Switch> >& getMapEntityGUIDToSwitch() { return m_map_entity_guid_to_switch; }
+	std::map<std::string, osg::ref_ptr<ProductNodeType> >& getMapEntityGUIDToSwitch() { return m_map_entity_guid_to_switch; }
 	// Map: Representation Identifier -> scenegraph switch
-	std::map<int, osg::ref_ptr<osg::Switch> >& getMapRepresentationToSwitch() { return m_map_representation_id_to_switch; }
+	std::map<int, osg::ref_ptr<ProductNodeType> >& getMapRepresentationToSwitch() { return m_map_representation_id_to_switch; }
 
 	void clearInputCache()
 	{
@@ -90,10 +92,9 @@ public:
 
 		m_numConvertedProducts = 0;
 		m_numProductsInModel = 0;
-
 	}
 
-	osg::Vec3Array* findExistingVertexArray(const osg::ref_ptr<osg::Vec3Array>& vertices)
+	void findExistingVertexArray(const osg::ref_ptr<osg::Vec3Array>& vertices, osg::ref_ptr<osg::Vec3Array>& existingArray)
 	{
 		for (const osg::ref_ptr<osg::Vec3Array>& existingVertices : m_cache_vertices)
 		{
@@ -128,16 +129,19 @@ public:
 				if (matchingArrayFound)
 				{
 					++m_numBuffersReused;
-					return existingVertices.get();
+					existingArray = existingVertices;
+					return;
 				}
 			}
 		}
 
-		m_cache_vertices.push_back(vertices);
-		return vertices.get();
+		if (m_caching_enabled) {
+			m_cache_vertices.push_back(vertices);
+		}
+		existingArray = vertices;
 	}
 
-	static void drawBoundingBox(const carve::geom::aabb<3>& aabb, osg::Geometry* geom)
+	static void drawBoundingBox(const carve::geom::aabb<3>& aabb, osg::ref_ptr<osg::Geometry>& geom)
 	{
 		osg::ref_ptr<osg::Vec3Array> vertices = dynamic_cast<osg::Vec3Array*>(geom->getVertexArray());
 		if (!vertices)
@@ -181,6 +185,39 @@ public:
 		box_lines->push_back(vert_id_offset + 4);
 		geom->addPrimitiveSet(box_lines);
 
+		osg::ref_ptr<osg::DrawElementsUInt> faces = new osg::DrawElementsUInt(GL_QUADS, 0);
+		faces->push_back(vert_id_offset + 0);
+		faces->push_back(vert_id_offset + 1);
+		faces->push_back(vert_id_offset + 2);
+		faces->push_back(vert_id_offset + 3);
+
+		faces->push_back(vert_id_offset + 7);
+		faces->push_back(vert_id_offset + 6);
+		faces->push_back(vert_id_offset + 5);
+		faces->push_back(vert_id_offset + 4);
+
+		faces->push_back(vert_id_offset + 4);
+		faces->push_back(vert_id_offset + 5);
+		faces->push_back(vert_id_offset + 1);
+		faces->push_back(vert_id_offset + 0);
+
+		faces->push_back(vert_id_offset + 5);
+		faces->push_back(vert_id_offset + 6);
+		faces->push_back(vert_id_offset + 2);
+		faces->push_back(vert_id_offset + 1);
+
+		faces->push_back(vert_id_offset + 6);
+		faces->push_back(vert_id_offset + 7);
+		faces->push_back(vert_id_offset + 3);
+		faces->push_back(vert_id_offset + 2);
+
+		faces->push_back(vert_id_offset + 7);
+		faces->push_back(vert_id_offset + 4);
+		faces->push_back(vert_id_offset + 0);
+		faces->push_back(vert_id_offset + 3);
+
+		geom->addPrimitiveSet(faces);
+
 		osg::ref_ptr<osg::Material> mat = new osg::Material();
 		osg::Vec4f ambientColor(1.f, 0.2f, 0.1f, 1.f);
 		mat->setAmbient(osg::Material::FRONT, ambientColor);
@@ -189,12 +226,12 @@ public:
 		//mat->setShininess( osg::Material::FRONT, shininess );
 		//mat->setColorMode( osg::Material::SPECULAR );
 
-		osg::StateSet* stateset = geom->getOrCreateStateSet();
+		osg::ref_ptr < osg::StateSet> stateset = geom->getOrCreateStateSet();
 		stateset->setAttribute(mat, osg::StateAttribute::ON);
-		stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+		//stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 	}
 
-	void drawFace(const carve::mesh::Face<3>* face, osg::Geode* geode, bool add_color_array = false)
+	void drawFace(const carve::mesh::Face<3>* face, osg::ref_ptr<osg::Geode>& geode, bool add_color_array = false)
 	{
 #ifdef _DEBUG
 		std::cout << "not triangulated" << std::endl;
@@ -229,11 +266,16 @@ public:
 		osg::ref_ptr<osg::Vec3Array> normals = new osg::Vec3Array();
 		normals->resize(num_vertices, poly_normal);
 
-
-		osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
-
 		osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-		geometry->setVertexArray(cachedVertexArray);
+
+		if (m_caching_enabled) {
+			osg::ref_ptr<osg::Vec3Array> cachedVertexArray;
+			findExistingVertexArray(vertices, cachedVertexArray);
+			geometry->setVertexArray(cachedVertexArray);
+		}
+		else {
+			geometry->setVertexArray(vertices);
+		}
 		geometry->setNormalArray(normals);
 		normals->setBinding(osg::Array::BIND_PER_VERTEX);
 		geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POLYGON, 0, vertices->size()));
@@ -284,7 +326,7 @@ public:
 
 	//#define DEBUG_DRAW_NORMALS
 
-	void drawMeshSet(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* geode, double crease_angle, double min_triangle_area, bool add_color_array, bool disableBackFaceCulling)
+	void drawMeshSet(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::ref_ptr<osg::Geode>& geode, double crease_angle, double min_triangle_area, bool add_color_array, bool disableBackFaceCulling)
 	{
 		if (!meshset)
 		{
@@ -498,10 +540,15 @@ public:
 
 		if (vertices_tri->size() > 0)
 		{
-			osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices_tri);
-
 			osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-			geometry->setVertexArray(cachedVertexArray);
+			if (m_caching_enabled) {
+				osg::ref_ptr<osg::Vec3Array> cachedVertexArray;
+				findExistingVertexArray(vertices_tri, cachedVertexArray);
+				geometry->setVertexArray(cachedVertexArray);
+			}
+			else {
+				geometry->setVertexArray(vertices_tri);
+			}
 
 			geometry->setNormalArray(normals_tri);
 			normals_tri->setBinding(osg::Array::BIND_PER_VERTEX);
@@ -552,10 +599,16 @@ public:
 		{
 			if (vertices_quad->size() > 0)
 			{
-				osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices_quad);
-
 				osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-				geometry->setVertexArray(cachedVertexArray);
+				if (m_caching_enabled) {
+					osg::ref_ptr<osg::Vec3Array> cachedVertexArray;
+					findExistingVertexArray(vertices_quad, cachedVertexArray);
+					geometry->setVertexArray(cachedVertexArray);
+				}
+				else {
+					geometry->setVertexArray(vertices_quad);
+				}
+
 				if (normals_quad)
 				{
 					normals_quad->setBinding(osg::Array::BIND_PER_VERTEX);
@@ -576,7 +629,7 @@ public:
 		}
 	}
 
-	void drawPolyline(const carve::input::PolylineSetData* polyline_data, osg::Geode* geode, bool add_color_array = false)
+	void drawPolyline(const carve::input::PolylineSetData* polyline_data, osg::ref_ptr<osg::Geode>& geode, bool add_color_array = false)
 	{
 		if (!polyline_data)
 		{
@@ -594,7 +647,7 @@ public:
 		}
 
 		osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
-		carve::line::PolylineSet* polyline_set = polyline_data->create(carve::input::opts());
+		shared_ptr<carve::line::PolylineSet> polyline_set( polyline_data->create(carve::input::opts()) );
 
 		if (polyline_set->vertices.size() < 2)
 		{
@@ -623,10 +676,15 @@ public:
 			}
 		}
 
-		osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
-
 		osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-		geometry->setVertexArray(cachedVertexArray);
+		if (m_caching_enabled) {
+			osg::ref_ptr<osg::Vec3Array> cachedVertexArray;
+			findExistingVertexArray(vertices, cachedVertexArray);
+			geometry->setVertexArray(cachedVertexArray);
+		}
+		else {
+			geometry->setVertexArray(vertices);
+		}
 		geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINE_STRIP, 0, vertices->size()));
 
 		if (add_color_array)
@@ -685,7 +743,7 @@ public:
 		}
 	}
 
-	void renderMeshsetCreaseEdges(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::Geode* target_geode, const double crease_angle, const float line_width)
+	void renderMeshsetCreaseEdges(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::ref_ptr<osg::Geode>& target_geode, const double crease_angle, const float line_width)
 	{
 		if (!meshset)
 		{
@@ -710,16 +768,21 @@ public:
 				vertices->push_back(osg::Vec3f(vertex2.x, vertex2.y, vertex2.z));
 			}
 
-			osg::Vec3Array* cachedVertexArray = findExistingVertexArray(vertices);
-
 			osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
+			if (m_caching_enabled) {
+				osg::ref_ptr<osg::Vec3Array> cachedVertexArray;
+				findExistingVertexArray(vertices, cachedVertexArray);
+				geometry->setVertexArray(cachedVertexArray);
+			}
+			else {
+				geometry->setVertexArray(vertices);
+			}
 			geometry->setName("creaseEdges");
-			geometry->setVertexArray(cachedVertexArray);
 			geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, vertices->size()));
 			geometry->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 			geometry->getOrCreateStateSet()->setMode(GL_BLEND, osg::StateAttribute::ON);
 			geometry->getOrCreateStateSet()->setAttributeAndModes(new osg::LineWidth(line_width), osg::StateAttribute::ON);
-			osg::Material* mat = new osg::Material();
+			osg::ref_ptr<osg::Material> mat = new osg::Material();
 			mat->setDiffuse(osg::Material::FRONT, osg::Vec4f(0.3f, 0.3f, 0.35f, 0.8f));
 			geometry->getOrCreateStateSet()->setAttributeAndModes(mat, osg::StateAttribute::ON);
 			geometry->getOrCreateStateSet()->setMode(GL_LINE_SMOOTH, osg::StateAttribute::ON);
@@ -729,7 +792,7 @@ public:
 		}
 	}
 
-	void applyStylesToGroup(const std::vector<shared_ptr<StyleData> >& vec_product_styles, osg::Group* grp, float transparencyOverride)
+	void applyStylesToGroup(const std::vector<shared_ptr<StyleData> >& vec_product_styles, osg::ref_ptr<osg::Group>& grp, float transparencyOverride)
 	{
 		for (size_t ii = 0; ii < vec_product_styles.size(); ++ii)
 		{
@@ -741,22 +804,12 @@ public:
 
 			if (style->m_apply_to_geometry_type == StyleData::GEOM_TYPE_SURFACE || style->m_apply_to_geometry_type == StyleData::GEOM_TYPE_ANY)
 			{
-				osg::ref_ptr<osg::StateSet> item_stateset;
+				osg::ref_ptr<osg::StateSet> item_stateset = grp->getStateSet();
+				bool stateSetAlreadySet = item_stateset.valid();
 				convertToOSGStateSet(style, item_stateset, transparencyOverride);
-				if (item_stateset)
+				if (!stateSetAlreadySet)
 				{
-					osg::StateSet* existing_item_stateset = grp->getStateSet();
-					if (existing_item_stateset)
-					{
-						if (existing_item_stateset != item_stateset)
-						{
-							existing_item_stateset->merge(*item_stateset);
-						}
-					}
-					else
-					{
-						grp->setStateSet(item_stateset);
-					}
+					grp->setStateSet(item_stateset);
 				}
 			}
 			else if (style->m_apply_to_geometry_type == StyleData::GEOM_TYPE_CURVE)
@@ -774,7 +827,7 @@ public:
 			mat_in.m[3][0], mat_in.m[3][1], mat_in.m[3][2], mat_in.m[3][3]);
 	}
 
-	void convertMeshSets(std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vecMeshSets, osg::Geode* geode, size_t ii_item, bool disableBackfaceCulling)
+	void convertMeshSets(std::vector<shared_ptr<carve::mesh::MeshSet<3> > >& vecMeshSets, osg::ref_ptr<osg::Geode>& geode, size_t ii_item, bool disableBackfaceCulling)
 	{
 		double min_triangle_area = m_geom_settings->getMinTriangleArea();
 		double eps = m_geom_settings->getEpsilonMergePoints();
@@ -802,14 +855,21 @@ public:
 				drawBoundingBox(bbox, bbox_geom);
 				geode->addDrawable(bbox_geom);
 			}
+
+#ifdef _DEBUG
+			//vec4 color(0.6f, 0.6f, 0.6f, 0.1f);
+			//GeomDebugDump::moveOffset(1);
+			//GeomDebugDump::dumpMeshset(item_meshset, color, false, true, true);
+#endif
 		}
 	}
 
-	void convertGeometricItem(const shared_ptr<ItemShapeData>& item_data, shared_ptr<IfcProduct>& ifc_product, size_t ii_representation, size_t ii_item, osg::Group* parentNode, float transparencyOverride)
+	void convertGeometricItem(const shared_ptr<ItemShapeData>& item_data, shared_ptr<IfcProduct>& ifc_product, size_t ii_representation, size_t ii_item, 
+		osg::ref_ptr<osg::Group>& parentNode, float transparencyOverride)
 	{
 		bool includeChildProducts = false;
 		bool includeGeometricChildItems = false;
-		if (item_data->hasItemDataGeometricRepresentation(includeGeometricChildItems))
+		if (item_data->hasItemDataGeometricRepresentation(includeGeometricChildItems, true))
 		{
 			osg::ref_ptr<osg::Geode> item_geode = new osg::Geode();
 
@@ -895,9 +955,9 @@ public:
 
 			if (m_geom_settings->isShowTextLiterals())
 			{
-				for (size_t ii = 0; ii < item_data->m_vec_text_literals.size(); ++ii)
+				for (size_t ii = 0; ii < item_data->m_text_literals.size(); ++ii)
 				{
-					shared_ptr<TextItemData>& text_data = item_data->m_vec_text_literals[ii];
+					shared_ptr<TextItemData>& text_data = item_data->m_text_literals[ii];
 					if (!text_data)
 					{
 						continue;
@@ -938,7 +998,8 @@ public:
 				// apply statesets if there are any
 				if (item_data->getStyles().size() > 0)
 				{
-					applyStylesToGroup(item_data->getStyles(), item_geode, transparencyOverride);
+					osg::ref_ptr<osg::Group> geodeAsGroup = item_geode;
+					applyStylesToGroup(item_data->getStyles(), geodeAsGroup, transparencyOverride);
 				}
 
 				if (transparencyOverride > 0)
@@ -965,7 +1026,7 @@ public:
 	}
 
 	//\brief method convertProductShapeToOSG: creates geometry objects from an IfcProduct object
-	void convertProductShapeToOSG(const shared_ptr<ProductShapeData>& product_shape, osg::Group* parentNode, std::stringstream& errorStream, float transparencyOverride)
+	void convertProductShapeToOSG(const shared_ptr<ProductShapeData>& product_shape, osg::ref_ptr<osg::Group>& parentNode, std::stringstream& errorStream, float transparencyOverride)
 	{
 		std::string product_guid = "";
 		try
@@ -979,7 +1040,7 @@ public:
 			osg::ref_ptr<osg::MatrixTransform> product_transform = new osg::MatrixTransform();
 			product_transform->setMatrix(convertMatrixToOSG(product_shape->getTransform()));
 
-			osg::ref_ptr<osg::Switch> product_switch = new osg::Switch();
+			osg::ref_ptr<ProductNodeType> product_switch = new ProductNodeType();
 			product_switch->addChild(product_transform);
 			parentNode->addChild(product_switch);
 
@@ -1045,7 +1106,7 @@ public:
 					for (size_t ii_representation = 0; ii_representation < product_shape->getGeometricItems().size(); ++ii_representation)
 					{
 						const shared_ptr<ItemShapeData>& geom_item = product_shape->getGeometricItems()[ii_representation];
-						osg::Group* grp = product_transform.get();
+						osg::ref_ptr<osg::Group> grp = product_transform.get();
 						convertGeometricItem(geom_item, ifc_product, ii_representation, 0, grp, transparencyOverride);
 					}
 				}
@@ -1058,14 +1119,15 @@ public:
 			for (size_t i_item = 0; i_item < product_shape->getChildElements().size(); ++i_item)
 			{
 				const shared_ptr<ProductShapeData>& child = product_shape->getChildElements()[i_item];
-				osg::Group* grp = product_switch.get();
+				osg::ref_ptr<osg::Group> grp = product_switch.get();
 				convertProductShapeToOSG(child, grp, errorStream, transparencyOverrideChildElements);
 			}
 
 			// TODO: if no color or material is given, set color 231/219/169 for walls, 140/140/140 for slabs 
 			if (product_shape->getStyles().size() > 0)
 			{
-				applyStylesToGroup(product_shape->getStyles(), product_transform, transparencyOverrideChildElements);
+				osg::ref_ptr<osg::Group> transformAsGroup = product_transform;
+				applyStylesToGroup(product_shape->getStyles(), transformAsGroup, transparencyOverrideChildElements);
 			}
 
 			++m_numConvertedProducts;
@@ -1100,7 +1162,7 @@ public:
 	/*\brief method convertToOSG: Creates geometry for OpenSceneGraph from given ProductShapeData.
 	\param[out] parent_group Group to append the geometry.
 	**/
-	void convertToOSG(const std::map<std::string, shared_ptr<ProductShapeData> >& map_shape_data, osg::ref_ptr<osg::Switch> parent_group)
+	void convertToOSG(const std::unordered_map<std::string, shared_ptr<ProductShapeData> >& map_shape_data, osg::ref_ptr<ProductNodeType>& parent_group)
 	{
 		progressTextCallback("Converting geometry to OpenGL format ...");
 		progressValueCallback(0, "scenegraph");
@@ -1137,22 +1199,13 @@ public:
 		std::stringstream errorStream;
 		if (ifc_project_data)
 		{
-			osg::Group* grp = parent_group.get();
+			osg::ref_ptr<osg::Group> grp = parent_group.get();
 			float transparencyOverride = -1.f;
 			convertProductShapeToOSG(ifc_project_data, grp, errorStream, transparencyOverride);
 		}
 
-		osg::ref_ptr<osg::Switch> sw_objects_outside_spatial_structure = new osg::Switch();
+		osg::ref_ptr<ProductNodeType> sw_objects_outside_spatial_structure = new ProductNodeType();
 		sw_objects_outside_spatial_structure->setName("IfcProduct objects outside spatial structure");
-
-#ifdef _DEBUG
-		auto bs = parent_group->getBound();
-		double r = bs.radius();
-		if (r > 0)
-		{
-			std::cout << "r: " << r << std::endl;
-		}
-#endif
 
 		// in case there are IFC entities that are not in the spatial structure
 		for (auto it = map_shape_data.begin(); it != map_shape_data.end(); ++it)
@@ -1199,19 +1252,19 @@ public:
 				continue;
 			}
 
-			osg::ref_ptr<osg::Geode> product_group = new osg::Geode();
+			osg::ref_ptr<osg::Group> product_group = new osg::Group();
 			float transparencyOverride = -1.f;
 			convertProductShapeToOSG(shape_data, product_group, errorStream, transparencyOverride);
 
 			if (product_group->getNumChildren() > 0)
 			{
-				//sw_objects_outside_spatial_structure->addChild(product_group);
+				sw_objects_outside_spatial_structure->addChild(product_group);
 			}
 		}
 
 		if (sw_objects_outside_spatial_structure->getNumChildren() > 0)
 		{
-			//parent_group->addChild(sw_objects_outside_spatial_structure);
+			parent_group->addChild(sw_objects_outside_spatial_structure);
 		}
 
 		std::cout << "num buffers: " << m_cache_vertices.size() << ", reused: " << m_numBuffersReused << std::endl;
@@ -1232,22 +1285,22 @@ public:
 		}
 		float shininess = appearence->m_shininess;
 		float transparency = appearence->m_transparency;
-		bool set_transparent = appearence->m_set_transparent;
+		bool set_transparent = false;
 
-		const float color_ambient_r = appearence->m_color_ambient.x;
-		const float color_ambient_g = appearence->m_color_ambient.y;
-		const float color_ambient_b = appearence->m_color_ambient.z;
-		const float color_ambient_a = appearence->m_color_ambient.w;
+		const float color_ambient_r = appearence->m_color_ambient.r;
+		const float color_ambient_g = appearence->m_color_ambient.g;
+		const float color_ambient_b = appearence->m_color_ambient.b;
+		const float color_ambient_a = appearence->m_color_ambient.a;
 
-		const float color_diffuse_r = appearence->m_color_diffuse.x;
-		const float color_diffuse_g = appearence->m_color_diffuse.y;
-		const float color_diffuse_b = appearence->m_color_diffuse.z;
-		const float color_diffuse_a = appearence->m_color_diffuse.w;
+		const float color_diffuse_r = appearence->m_color_diffuse.r;
+		const float color_diffuse_g = appearence->m_color_diffuse.g;
+		const float color_diffuse_b = appearence->m_color_diffuse.b;
+		const float color_diffuse_a = appearence->m_color_diffuse.a;
 
-		const float color_specular_r = appearence->m_color_specular.x;
-		const float color_specular_g = appearence->m_color_specular.y;
-		const float color_specular_b = appearence->m_color_specular.z;
-		const float color_specular_a = appearence->m_color_specular.w;
+		const float color_specular_r = appearence->m_color_specular.r;
+		const float color_specular_g = appearence->m_color_specular.g;
+		const float color_specular_b = appearence->m_color_specular.b;
+		const float color_specular_a = appearence->m_color_specular.a;
 
 		if (transparencyOverride > 0)
 		{
@@ -1255,9 +1308,16 @@ public:
 			transparency = transparencyOverride;
 		}
 
-		osg::Vec4f ambientColor(color_ambient_r, color_ambient_g, color_ambient_b, transparency);
-		osg::Vec4f diffuseColor(color_diffuse_r, color_diffuse_g, color_diffuse_b, transparency);
-		osg::Vec4f specularColor(color_specular_r, color_specular_g, color_specular_b, transparency);
+		float alpha = 1.f;
+		if (transparency > 0.01)	// transparency: 0 = opaque, 1 = fully transparent
+		{
+			set_transparent = true;
+			alpha = 1.0f - transparency;
+		}
+
+		osg::Vec4f ambientColor(color_ambient_r, color_ambient_g, color_ambient_b, alpha);
+		osg::Vec4f diffuseColor(color_diffuse_r, color_diffuse_g, color_diffuse_b, alpha);
+		osg::Vec4f specularColor(color_specular_r, color_specular_g, color_specular_b, alpha);
 
 		// TODO: material caching and re-use
 		osg::ref_ptr<osg::Material> mat = new osg::Material();
@@ -1267,7 +1327,9 @@ public:
 		mat->setShininess(osg::Material::FRONT, shininess);
 		mat->setColorMode(osg::Material::SPECULAR);
 
-		target_stateset = new osg::StateSet();
+		if (!target_stateset.valid()) {
+			target_stateset = new osg::StateSet();
+		}
 		target_stateset->setAttribute(mat, osg::StateAttribute::ON);
 
 		if (set_transparent)

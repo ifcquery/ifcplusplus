@@ -13,18 +13,18 @@
 IFC4X3::IfcLocalPlacement::IfcLocalPlacement( int tag ) { m_tag = tag; }
 void IFC4X3::IfcLocalPlacement::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCLOCALPLACEMENT" << "(";
+	stream << "#" << m_tag << "=IFCLOCALPLACEMENT" << "(";
 	if( m_PlacementRelTo ) { stream << "#" << m_PlacementRelTo->m_tag; } else { stream << "$"; }
 	stream << ",";
 	if( m_RelativePlacement ) { m_RelativePlacement->getStepParameter( stream, true, precision ); } else { stream << "$" ; }
 	stream << ");";
 }
 void IFC4X3::IfcLocalPlacement::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcLocalPlacement::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcLocalPlacement::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readEntityReference( args[0], m_PlacementRelTo, map, errorStream );}
-	if( num_args > 1 ){m_RelativePlacement = IfcAxis2Placement::createObjectFromSTEP( args[1], map, errorStream );}
+	if( num_args > 0 ){readEntityReference( args[0], m_PlacementRelTo, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_RelativePlacement = IfcAxis2Placement::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
 	if( num_args != 2 ){ errorStream << "Wrong parameter count for entity IfcLocalPlacement, expecting 2, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcLocalPlacement::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

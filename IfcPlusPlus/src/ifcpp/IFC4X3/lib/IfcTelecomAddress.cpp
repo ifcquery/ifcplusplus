@@ -16,7 +16,7 @@
 IFC4X3::IfcTelecomAddress::IfcTelecomAddress( int tag ) { m_tag = tag; }
 void IFC4X3::IfcTelecomAddress::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCTELECOMADDRESS" << "(";
+	stream << "#" << m_tag << "=IFCTELECOMADDRESS" << "(";
 	if( m_Purpose ) { m_Purpose->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_Description ) { m_Description->getStepParameter( stream, false, precision ); } else { stream << "$"; }
@@ -121,17 +121,17 @@ void IFC4X3::IfcTelecomAddress::getStepLine( std::stringstream& stream, size_t p
 	stream << ");";
 }
 void IFC4X3::IfcTelecomAddress::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcTelecomAddress::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcTelecomAddress::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_Purpose = IfcAddressTypeEnum::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){m_Description = IfcText::createObjectFromSTEP( args[1], map, errorStream );}
-	if( num_args > 2 ){m_UserDefinedPurpose = IfcLabel::createObjectFromSTEP( args[2], map, errorStream );}
+	if( num_args > 0 ){m_Purpose = IfcAddressTypeEnum::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){m_Description = IfcText::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_UserDefinedPurpose = IfcLabel::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
 	if( num_args > 3 ){readTypeOfStringList( args[3], m_TelephoneNumbers );}
 	if( num_args > 4 ){readTypeOfStringList( args[4], m_FacsimileNumbers );}
-	if( num_args > 5 ){m_PagerNumber = IfcLabel::createObjectFromSTEP( args[5], map, errorStream );}
+	if( num_args > 5 ){m_PagerNumber = IfcLabel::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
 	if( num_args > 6 ){readTypeOfStringList( args[6], m_ElectronicMailAddresses );}
-	if( num_args > 7 ){m_WWWHomePageURL = IfcURIReference::createObjectFromSTEP( args[7], map, errorStream );}
+	if( num_args > 7 ){m_WWWHomePageURL = IfcURIReference::createObjectFromSTEP( args[7], map, errorStream, entityIdNotFound );}
 	if( num_args > 8 ){readTypeOfStringList( args[8], m_MessagingIDs );}
 	if( num_args != 9 ){ errorStream << "Wrong parameter count for entity IfcTelecomAddress, expecting 9, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }

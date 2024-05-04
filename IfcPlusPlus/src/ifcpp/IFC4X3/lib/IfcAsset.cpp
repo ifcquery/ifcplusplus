@@ -29,7 +29,7 @@
 IFC4X3::IfcAsset::IfcAsset( int tag ) { m_tag = tag; }
 void IFC4X3::IfcAsset::getStepLine( std::stringstream& stream, size_t precision ) const
 {
-	stream << "#" << m_tag << "= IFCASSET" << "(";
+	stream << "#" << m_tag << "=IFCASSET" << "(";
 	if( m_GlobalId ) { m_GlobalId->getStepParameter( stream, false, precision ); } else { stream << "$"; }
 	stream << ",";
 	if( m_OwnerHistory ) { stream << "#" << m_OwnerHistory->m_tag; } else { stream << "$"; }
@@ -60,23 +60,23 @@ void IFC4X3::IfcAsset::getStepLine( std::stringstream& stream, size_t precision 
 	stream << ");";
 }
 void IFC4X3::IfcAsset::getStepParameter( std::stringstream& stream, bool /*is_select_type*/, size_t /*precision*/ ) const { stream << "#" << m_tag; }
-void IFC4X3::IfcAsset::readStepArguments( const std::vector<std::string>& args, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream )
+void IFC4X3::IfcAsset::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map, errorStream );}
-	if( num_args > 1 ){readEntityReference( args[1], m_OwnerHistory, map, errorStream );}
-	if( num_args > 2 ){m_Name = IfcLabel::createObjectFromSTEP( args[2], map, errorStream );}
-	if( num_args > 3 ){m_Description = IfcText::createObjectFromSTEP( args[3], map, errorStream );}
-	if( num_args > 4 ){m_ObjectType = IfcLabel::createObjectFromSTEP( args[4], map, errorStream );}
-	if( num_args > 5 ){m_Identification = IfcIdentifier::createObjectFromSTEP( args[5], map, errorStream );}
-	if( num_args > 6 ){readEntityReference( args[6], m_OriginalValue, map, errorStream );}
-	if( num_args > 7 ){readEntityReference( args[7], m_CurrentValue, map, errorStream );}
-	if( num_args > 8 ){readEntityReference( args[8], m_TotalReplacementCost, map, errorStream );}
-	if( num_args > 9 ){m_Owner = IfcActorSelect::createObjectFromSTEP( args[9], map, errorStream );}
-	if( num_args > 10 ){m_User = IfcActorSelect::createObjectFromSTEP( args[10], map, errorStream );}
-	if( num_args > 11 ){readEntityReference( args[11], m_ResponsiblePerson, map, errorStream );}
-	if( num_args > 12 ){m_IncorporationDate = IfcDate::createObjectFromSTEP( args[12], map, errorStream );}
-	if( num_args > 13 ){readEntityReference( args[13], m_DepreciatedValue, map, errorStream );}
+	if( num_args > 0 ){m_GlobalId = IfcGloballyUniqueId::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readEntityReference( args[1], m_OwnerHistory, map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){m_Name = IfcLabel::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){m_Description = IfcText::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){m_ObjectType = IfcLabel::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
+	if( num_args > 5 ){m_Identification = IfcIdentifier::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
+	if( num_args > 6 ){readEntityReference( args[6], m_OriginalValue, map, errorStream, entityIdNotFound );}
+	if( num_args > 7 ){readEntityReference( args[7], m_CurrentValue, map, errorStream, entityIdNotFound );}
+	if( num_args > 8 ){readEntityReference( args[8], m_TotalReplacementCost, map, errorStream, entityIdNotFound );}
+	if( num_args > 9 ){m_Owner = IfcActorSelect::createObjectFromSTEP( args[9], map, errorStream, entityIdNotFound );}
+	if( num_args > 10 ){m_User = IfcActorSelect::createObjectFromSTEP( args[10], map, errorStream, entityIdNotFound );}
+	if( num_args > 11 ){readEntityReference( args[11], m_ResponsiblePerson, map, errorStream, entityIdNotFound );}
+	if( num_args > 12 ){m_IncorporationDate = IfcDate::createObjectFromSTEP( args[12], map, errorStream, entityIdNotFound );}
+	if( num_args > 13 ){readEntityReference( args[13], m_DepreciatedValue, map, errorStream, entityIdNotFound );}
 	if( num_args != 14 ){ errorStream << "Wrong parameter count for entity IfcAsset, expecting 14, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcAsset::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

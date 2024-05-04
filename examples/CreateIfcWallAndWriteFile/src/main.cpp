@@ -80,7 +80,6 @@ inline void convertPlacement(double local_x[3], double local_z[3], double locati
 	cartesianPoint->m_Coordinates[0] = location[0];
 	cartesianPoint->m_Coordinates[1] = location[1];
 	cartesianPoint->m_Coordinates[2] = location[2];
-	cartesianPoint->m_size = 3;
 
 	if (!axis2placement3d->m_Axis)
 	{
@@ -120,7 +119,6 @@ shared_ptr<IfcCartesianPoint> createIfcCartesianPoint(double x, double y, std::v
 	shared_ptr<IfcCartesianPoint> pt(new IfcCartesianPoint());
 	pt->m_Coordinates[0] = x;
 	pt->m_Coordinates[1] = y;
-	pt->m_size = 2;
 	vec_new_entities.push_back(pt);
 	return pt;
 }
@@ -131,7 +129,6 @@ shared_ptr<IfcCartesianPoint> createIfcCartesianPoint(double x, double y, double
 	pt->m_Coordinates[0] = x;
 	pt->m_Coordinates[1] = y;
 	pt->m_Coordinates[2] = z;
-	pt->m_size = 3;
 	vec_new_entities.push_back(pt);
 	return pt;
 }

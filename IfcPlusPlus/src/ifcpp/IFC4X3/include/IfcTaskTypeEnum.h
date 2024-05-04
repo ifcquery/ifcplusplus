@@ -46,7 +46,7 @@ namespace IFC4X3
 		IfcTaskTypeEnum( IfcTaskTypeEnumEnum e ) { m_enum = e; }
 		virtual uint32_t classID() const { return 384449397; }
 		virtual void getStepParameter( std::stringstream& stream, bool is_select_type, size_t precision ) const;
-		static shared_ptr<IfcTaskTypeEnum> createObjectFromSTEP( const std::string& arg, const std::map<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream );
+		static shared_ptr<IfcTaskTypeEnum> createObjectFromSTEP( const std::string& arg, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound );
 		IfcTaskTypeEnumEnum m_enum;
 	};
 }
