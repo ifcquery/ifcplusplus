@@ -566,7 +566,9 @@ void ReaderSTEP::readEntityArguments(std::vector<std::pair<std::string, shared_p
 	std::unordered_set<std::string> setClassesWithAdjustedArguments;
 #endif
 
-#ifdef _DEBUG_READ_SEQENTIAL
+#if defined(__APPLE__) || defined(__OSX__)
+	std::for_each(
+#elif defied(_DEBUG_READ_SEQENTIAL)
 	std::for_each(std::execution::seq,
 #else
 	std::for_each(std::execution::par,

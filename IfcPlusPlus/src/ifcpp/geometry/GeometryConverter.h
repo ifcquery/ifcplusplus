@@ -948,7 +948,9 @@ public:
 
 		std::mutex writelock_map, writelock_ifc_project, writelock_progress, writelock_err;
 		int i = 0;
-#if defined(_DEBUG) //|| defined(_DEBUG_RELEASE) //|| defined(__GNUC__)  // disable threading for Linux due to unknown issues with std::thread
+#if defined(__APPLE__) || defined(__OSX__)
+	std::for_each(
+#elif defined(_DEBUG) //|| defined(_DEBUG_RELEASE) //|| defined(__GNUC__)  // disable threading for Linux due to unknown issues with std::thread
 		std::for_each(std::execution::seq,
 #else
 		std::for_each(std::execution::par,
@@ -1047,7 +1049,9 @@ public:
 			});
 
 		// subtract openings in assemblies etc, in case the opening is attached at the top level
-#if defined(_DEBUG) || defined(_DEBUG_RELEASE) //|| defined(__GNUC__)  // disable threading for Linux due to unknown issues with std::thread
+#if defined(__APPLE__) || defined(__OSX__)
+	std::for_each(
+#elif defined(_DEBUG) || defined(_DEBUG_RELEASE) //|| defined(__GNUC__)  // disable threading for Linux due to unknown issues with std::thread
 		std::for_each(std::execution::seq,
 #else
 		std::for_each(std::execution::par,

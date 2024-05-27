@@ -72,7 +72,13 @@ void WriterSTEP::writeModelToStream(std::stringstream& stream, shared_ptr<Buildi
 	auto t_start = std::chrono::high_resolution_clock::now();
 	std::atomic<int> counter = 0;
 	size_t numEntities = entityDataStrings.size();
-	std::for_each(std::execution::par, entityDataStrings.begin(), entityDataStrings.end(), [&, this](std::tuple<int, shared_ptr<BuildingEntity>, std::string>& entityDataForOutput) {
+
+#if defined(__APPLE__) || defined(__OSX__)
+	std::for_each(
+#else
+	std::for_each(std::execution::par, 
+#endif
+      entityDataStrings.begin(), entityDataStrings.end(), [&, this](std::tuple<int, shared_ptr<BuildingEntity>, std::string>& entityDataForOutput) {
 		shared_ptr<BuildingEntity> obj = std::get<1>(entityDataForOutput);
 		if (obj.use_count() < 2)
 		{
