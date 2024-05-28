@@ -840,17 +840,22 @@ public:
 			double minFaceArea = eps;
 			bool dumpMeshes = false;
 			GeomProcessingParams params(m_geom_settings, dumpMeshes);
-			MeshOps::retriangulateMeshSetForExport(item_meshset, params);
-			drawMeshSet(item_meshset, geode, crease_angle, min_triangle_area, false, disableBackfaceCulling);
+			PolyInputCache3D poly(0.001);
+			MeshOps::retriangulateMeshSetForExport(item_meshset, poly, params);
+
+			std::map<std::string, std::string> mesh_input_options;
+			shared_ptr<carve::mesh::MeshSet<3> > meshsetTriangulated(poly.m_poly_data->createMesh(mesh_input_options, eps));
+
+			drawMeshSet(meshsetTriangulated, geode, crease_angle, min_triangle_area, false, disableBackfaceCulling);
 
 			if (m_render_crease_edges)
 			{
-				renderMeshsetCreaseEdges(item_meshset, geode, m_crease_edges_max_delta_angle, m_crease_edges_line_width);
+				renderMeshsetCreaseEdges(meshsetTriangulated, geode, m_crease_edges_max_delta_angle, m_crease_edges_line_width);
 			}
 
 			if (m_draw_bounding_box)
 			{
-				carve::geom::aabb<3> bbox = item_meshset->getAABB();
+				carve::geom::aabb<3> bbox = meshsetTriangulated->getAABB();
 				osg::ref_ptr<osg::Geometry> bbox_geom = new osg::Geometry();
 				drawBoundingBox(bbox, bbox_geom);
 				geode->addDrawable(bbox_geom);
@@ -859,7 +864,7 @@ public:
 #ifdef _DEBUG
 			//vec4 color(0.6f, 0.6f, 0.6f, 0.1f);
 			//GeomDebugDump::moveOffset(1);
-			//GeomDebugDump::dumpMeshset(item_meshset, color, false, true, true);
+			//GeomDebugDump::dumpMeshset(meshsetTriangulated, color, false, true, true);
 #endif
 		}
 	}
