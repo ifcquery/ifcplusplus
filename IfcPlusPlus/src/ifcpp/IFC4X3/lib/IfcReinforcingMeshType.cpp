@@ -114,7 +114,7 @@ void IFC4X3::IfcReinforcingMeshType::readStepArguments( const std::vector<std::s
 	if( num_args > 16 ){m_LongitudinalBarSpacing = IfcPositiveLengthMeasure::createObjectFromSTEP( args[16], map, errorStream, entityIdNotFound );}
 	if( num_args > 17 ){m_TransverseBarSpacing = IfcPositiveLengthMeasure::createObjectFromSTEP( args[17], map, errorStream, entityIdNotFound );}
 	if( num_args > 18 ){m_BendingShapeCode = IfcLabel::createObjectFromSTEP( args[18], map, errorStream, entityIdNotFound );}
-	if( num_args > 19 ){readSelectList( args[19], m_BendingParameters, map, errorStream, entityIdNotFound );}
+	if( num_args > 19 ){readSelectList( args[19], m_BendingParameters, "IFCBENDINGPARAMETERSELECT", map, errorStream, entityIdNotFound );}
 	if( num_args != 20 ){ errorStream << "Wrong parameter count for entity IfcReinforcingMeshType, expecting 20, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcReinforcingMeshType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

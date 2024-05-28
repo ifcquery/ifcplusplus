@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcBooleanOperand> IFC4X3::IfcBooleanOperand::createObjectFro
 		return shared_ptr<IfcBooleanOperand>();
 	}
 	shared_ptr<IfcBooleanOperand> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

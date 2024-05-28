@@ -43,7 +43,7 @@ void IFC4X3::IfcTableRow::getStepParameter( std::stringstream& stream, bool /*is
 void IFC4X3::IfcTableRow::readStepArguments( const std::vector<std::string>& args, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& map, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound )
 {
 	const size_t num_args = args.size();
-	if( num_args > 0 ){readSelectList( args[0], m_RowCells, map, errorStream, entityIdNotFound );}
+	if( num_args > 0 ){readSelectList( args[0], m_RowCells, "IFCVALUE", map, errorStream, entityIdNotFound );}
 	if( num_args > 1 ){m_IsHeading = IfcBoolean::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
 	if( num_args != 2 ){ errorStream << "Wrong parameter count for entity IfcTableRow, expecting 2, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }

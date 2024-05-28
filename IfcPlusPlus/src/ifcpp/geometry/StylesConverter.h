@@ -47,8 +47,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4X3/include/IfcNormalisedRatioMeasure.h>
 #include <ifcpp/IFC4X3/include/IfcPresentationStyle.h>
 #include <ifcpp/IFC4X3/include/IfcProperty.h>
+#include <ifcpp/IFC4X3/include/IfcPropertySet.h>
+#include <ifcpp/IFC4X3/include/IfcPropertySetDefinitionSet.h>
 #include <ifcpp/IFC4X3/include/IfcPropertySingleValue.h>
 #include <ifcpp/IFC4X3/include/IfcRelAssociatesMaterial.h>
+#include <ifcpp/IFC4X3/include/IfcRelDefinesByProperties.h>
 #include <ifcpp/IFC4X3/include/IfcSpecularHighlightSelect.h>
 #include <ifcpp/IFC4X3/include/IfcSpecularExponent.h>
 #include <ifcpp/IFC4X3/include/IfcSpecularRoughness.h>
@@ -217,6 +220,12 @@ public:
 				{
 					// in IFC 1 is transparent, 0 is opaque. if not given, the value 0 (opaque) is assumed
 					transparency = surf_style_rendering->m_Transparency->m_value;
+
+					if (transparency > 5.0)
+					{
+						// assume range of [0,255]
+						transparency = transparency/255.0;
+					}
 
 					if (transparency > 1.0)
 					{
@@ -784,7 +793,66 @@ public:
 		}
 	}
 
-	void convertIfcComplexPropertyColor(shared_ptr<IfcComplexProperty> complex_property, vec4& vec_color)
+	void readStyleFromPropertySet(const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ProductShapeData>& product_shape)
+	{
+		if (!prop_set)
+		{
+			return;
+		}
+		for (auto& ifc_property : prop_set->m_HasProperties)
+		{
+			if (!ifc_property)
+			{
+				continue;
+			}
+
+			shared_ptr<IfcSimpleProperty> simple_property = dynamic_pointer_cast<IfcSimpleProperty>(ifc_property);
+			if (simple_property)
+			{
+				// ENTITY IfcSimpleProperty ABSTRACT SUPERTYPE OF(ONEOF( IfcPropertyBoundedValue, IfcPropertyEnumeratedValue, IfcPropertyListValue,
+				// IfcPropertyReferenceValue, IfcPropertySingleValue, IfcPropertyTableValue))
+
+				shared_ptr<IfcIdentifier> property_name = simple_property->m_Name;
+				std::string name_str = property_name->m_value;
+				if (name_str.compare("LayerName") == 0)
+				{
+					// TODO: implement layers
+				}
+				shared_ptr<IfcText> description = simple_property->m_Specification;
+
+
+				shared_ptr<IfcPropertySingleValue> property_single_value = dynamic_pointer_cast<IfcPropertySingleValue>(simple_property);
+				if (property_single_value)
+				{
+					//shared_ptr<IfcValue>& nominal_value = property_single_value->m_NominalValue;				//optional
+					//shared_ptr<IfcUnit>& unit = property_single_value->m_Unit;						//optional
+
+				}
+
+				continue;
+			}
+
+			shared_ptr<IfcComplexProperty> complex_property = dynamic_pointer_cast<IfcComplexProperty>(ifc_property);
+			if (complex_property)
+			{
+				if (!complex_property->m_UsageName) continue;
+				if (complex_property->m_UsageName->m_value.compare("Color") == 0)
+				{
+					vec4 vec_color;
+					convertIfcComplexPropertyColor(complex_property, vec_color);
+					shared_ptr<StyleData> style_data(new StyleData(-1));
+					style_data->m_apply_to_geometry_type = StyleData::GEOM_TYPE_ANY;
+					style_data->m_color_ambient = vec4(vec_color);
+					style_data->m_color_diffuse = vec4(vec_color);
+					style_data->m_color_specular = vec4(vec_color);
+					style_data->m_shininess = 35.f;
+					product_shape->addStyle(style_data);
+				}
+			}
+		}
+	}
+
+	void convertIfcComplexPropertyColor(const shared_ptr<IfcComplexProperty> complex_property, vec4& vec_color)
 	{
 		std::vector<shared_ptr<IfcProperty> >& vec_HasProperties = complex_property->m_HasProperties;
 		if (!complex_property->m_UsageName) return;
@@ -835,6 +903,54 @@ public:
 						//m_map_ifc_styles[complex_property_id] = style_data;
 
 						return;
+					}
+				}
+			}
+		}
+	}
+
+	// Fetch the IFCProduct relationships
+	void readStylesFromRelatedObjects(const shared_ptr<IfcProduct>& ifc_product, shared_ptr<ProductShapeData>& product_shape)
+	{
+		if (ifc_product->m_IsDefinedBy_inverse.size() > 0)
+		{
+			std::vector<weak_ptr<IfcRelDefinesByProperties> >& vec_IsDefinedBy_inverse = ifc_product->m_IsDefinedBy_inverse;
+			for (size_t i = 0; i < vec_IsDefinedBy_inverse.size(); ++i)
+			{
+				shared_ptr<IfcRelDefinesByProperties> rel_def(vec_IsDefinedBy_inverse[i]);
+				shared_ptr<IfcPropertySetDefinitionSelect> relating_property_definition_select = rel_def->m_RelatingPropertyDefinition;
+				if (relating_property_definition_select)
+				{
+					// TYPE IfcPropertySetDefinitionSelect = SELECT	(IfcPropertySetDefinition	,IfcPropertySetDefinitionSet);
+					shared_ptr<IfcPropertySetDefinition> property_set_def = dynamic_pointer_cast<IfcPropertySetDefinition>(relating_property_definition_select);
+					if (property_set_def)
+					{
+						shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>(property_set_def);
+						if (property_set)
+						{
+							readStyleFromPropertySet(property_set, product_shape);
+						}
+						continue;
+					}
+
+					shared_ptr<IfcPropertySetDefinitionSet> property_set_def_set = dynamic_pointer_cast<IfcPropertySetDefinitionSet>(relating_property_definition_select);
+					if (property_set_def_set)
+					{
+						std::vector<shared_ptr<IfcPropertySetDefinition> >& vec_propterty_set_def = property_set_def_set->m_vec;
+						std::vector<shared_ptr<IfcPropertySetDefinition> >::iterator it_property_set_def;
+						for (it_property_set_def = vec_propterty_set_def.begin(); it_property_set_def != vec_propterty_set_def.end(); ++it_property_set_def)
+						{
+							shared_ptr<IfcPropertySetDefinition> property_set_def2 = (*it_property_set_def);
+							if (property_set_def2)
+							{
+								shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>(property_set_def2);
+								if (property_set)
+								{
+									readStyleFromPropertySet(property_set, product_shape);
+								}
+							}
+						}
+						continue;
 					}
 				}
 			}

@@ -18,6 +18,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 #pragma warning( disable: 4305 )
 
+#if __has_include(<version>)
+#include <version>
+#endif
+
+#ifdef __cpp_lib_execution
+	#include <execution>
+	#ifdef _DEBUG_LOOP_SEQENTIAL
+		#define FOR_EACH_LOOP std::for_each( std::execution::seq,
+	#else
+		#define FOR_EACH_LOOP std::for_each( std::execution::par,
+	#endif
+	#else
+		#define FOR_EACH_LOOP std::for_each(
+#endif
+
 // don't use glm::vec4, because it's x,y,z,w members depend on some defines, which can lead to lost colors
 struct vec4
 {

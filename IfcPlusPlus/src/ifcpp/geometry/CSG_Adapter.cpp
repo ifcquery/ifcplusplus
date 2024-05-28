@@ -25,7 +25,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 //#define CSG_OCC   // define CSG_OCC to enable OCC fall back if Carve fails
 #include "Carve2OpenCascade.h"
-
+#include "PolyInputCache3D.h"
 #include "CSG_Adapter.h"
 #include "MeshNormalizer.h"
 #include "MeshOps.h"

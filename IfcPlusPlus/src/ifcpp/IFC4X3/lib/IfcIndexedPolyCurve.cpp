@@ -49,7 +49,7 @@ void IFC4X3::IfcIndexedPolyCurve::readStepArguments( const std::vector<std::stri
 {
 	const size_t num_args = args.size();
 	if( num_args > 0 ){readEntityReference( args[0], m_Points, map, errorStream, entityIdNotFound );}
-	if( num_args > 1 ){readSelectList( args[1], m_Segments, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readSelectList( args[1], m_Segments, "IFCSEGMENTINDEXSELECT", map, errorStream, entityIdNotFound );}
 	if( num_args > 2 ){m_SelfIntersect = IfcBoolean::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
 	if( num_args != 3 ){ errorStream << "Wrong parameter count for entity IfcIndexedPolyCurve, expecting 3, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }

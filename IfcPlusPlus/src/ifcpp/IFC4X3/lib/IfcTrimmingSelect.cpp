@@ -19,6 +19,6 @@ shared_ptr<IFC4X3::IfcTrimmingSelect> IFC4X3::IfcTrimmingSelect::createObjectFro
 		return shared_ptr<IfcTrimmingSelect>();
 	}
 	shared_ptr<IfcTrimmingSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

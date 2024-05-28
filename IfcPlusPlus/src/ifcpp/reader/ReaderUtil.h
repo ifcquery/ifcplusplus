@@ -517,8 +517,8 @@ void readTypeList( const std::string arg_complete, std::vector<shared_ptr<T> >& 
 }
 
 template<typename select_t>
-void readSelectType( const std::string& item, shared_ptr<select_t>& result, const std::unordered_map<int, shared_ptr<BuildingEntity> >& mapEntities, 
-	std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound)
+void readSelectType( const std::string& item, shared_ptr<select_t>& result, const std::string& defaultType,
+	const std::unordered_map<int, shared_ptr<BuildingEntity> >& mapEntities, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound)
 {
 	char* ch = (char*)item.c_str();
 	if( *ch == '#' )
@@ -556,13 +556,26 @@ void readSelectType( const std::string& item, shared_ptr<select_t>& result, cons
 		result = dynamic_pointer_cast<select_t>(type_instance);
 		return;
 	}
+	else if (defaultType.size() > 0)
+	{
+		if (inline_arg.size() == 0 && type_name.size() > 0)
+		{
+			inline_arg = type_name;
+		}
+		shared_ptr<BuildingObject> type_instance = IFC4X3::TypeFactory::createTypeObject(defaultType.c_str(), inline_arg, mapEntities, errorStream, entityIdNotFound);
+		if (type_instance)
+		{
+			result = dynamic_pointer_cast<select_t>(type_instance);
+			return;
+		}
+	}
 
 	errorStream << "unhandled select argument: " << item << " in function readSelectType" << std::endl;
 }
 
 template<typename select_t>
-void readSelectList( const std::string& arg_complete, std::vector<shared_ptr<select_t> >& vec, const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& mapEntities,
-	std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound)
+void readSelectList( const std::string& arg_complete, std::vector<shared_ptr<select_t> >& vec, const std::string& defaultType,
+	const BuildingModelMapType<int,shared_ptr<BuildingEntity> >& mapEntities, std::stringstream& errorStream, std::unordered_set<int>& entityIdNotFound)
 {
 	// example: (#287,#291,#295,#299) or (IfcLabel('label'),'',IfcLengthMeasure(2.0),#299)
 	char* pos_opening = nullptr;
@@ -591,7 +604,7 @@ void readSelectList( const std::string& arg_complete, std::vector<shared_ptr<sel
 		shared_ptr<select_t> select_object;
 		try
 		{
-			readSelectType( item, select_object, mapEntities, errorStream, entityIdNotFound );
+			readSelectType( item, select_object, defaultType, mapEntities, errorStream, entityIdNotFound );
 		}
 		catch( BuildingException& e )
 		{

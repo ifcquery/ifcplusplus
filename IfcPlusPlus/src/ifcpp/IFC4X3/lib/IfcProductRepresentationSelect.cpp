@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcProductRepresentationSelect> IFC4X3::IfcProductRepresentat
 		return shared_ptr<IfcProductRepresentationSelect>();
 	}
 	shared_ptr<IfcProductRepresentationSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

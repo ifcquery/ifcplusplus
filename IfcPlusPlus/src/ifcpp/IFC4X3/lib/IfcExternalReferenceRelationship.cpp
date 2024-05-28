@@ -60,7 +60,7 @@ void IFC4X3::IfcExternalReferenceRelationship::readStepArguments( const std::vec
 	if( num_args > 0 ){m_Name = IfcLabel::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
 	if( num_args > 1 ){m_Description = IfcText::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
 	if( num_args > 2 ){readEntityReference( args[2], m_RelatingReference, map, errorStream, entityIdNotFound );}
-	if( num_args > 3 ){readSelectList( args[3], m_RelatedResourceObjects, map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){readSelectList( args[3], m_RelatedResourceObjects, "IFCRESOURCEOBJECTSELECT", map, errorStream, entityIdNotFound );}
 	if( num_args != 4 ){ errorStream << "Wrong parameter count for entity IfcExternalReferenceRelationship, expecting 4, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcExternalReferenceRelationship::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

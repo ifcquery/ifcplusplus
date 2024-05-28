@@ -20,6 +20,6 @@ shared_ptr<IFC4X3::IfcWarpingStiffnessSelect> IFC4X3::IfcWarpingStiffnessSelect:
 		return shared_ptr<IfcWarpingStiffnessSelect>();
 	}
 	shared_ptr<IfcWarpingStiffnessSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

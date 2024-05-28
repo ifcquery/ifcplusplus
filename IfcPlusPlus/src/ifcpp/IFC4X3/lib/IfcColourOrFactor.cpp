@@ -19,6 +19,6 @@ shared_ptr<IFC4X3::IfcColourOrFactor> IFC4X3::IfcColourOrFactor::createObjectFro
 		return shared_ptr<IfcColourOrFactor>();
 	}
 	shared_ptr<IfcColourOrFactor> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

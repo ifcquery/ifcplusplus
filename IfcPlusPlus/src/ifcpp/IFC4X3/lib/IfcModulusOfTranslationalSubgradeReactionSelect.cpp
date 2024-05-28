@@ -20,6 +20,6 @@ shared_ptr<IFC4X3::IfcModulusOfTranslationalSubgradeReactionSelect> IFC4X3::IfcM
 		return shared_ptr<IfcModulusOfTranslationalSubgradeReactionSelect>();
 	}
 	shared_ptr<IfcModulusOfTranslationalSubgradeReactionSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

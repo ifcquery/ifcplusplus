@@ -44,7 +44,7 @@ void IFC4X3::IfcPropertyEnumeration::readStepArguments( const std::vector<std::s
 {
 	const size_t num_args = args.size();
 	if( num_args > 0 ){m_Name = IfcLabel::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
-	if( num_args > 1 ){readSelectList( args[1], m_EnumerationValues, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readSelectList( args[1], m_EnumerationValues, "IFCVALUE", map, errorStream, entityIdNotFound );}
 	if( num_args > 2 ){m_Unit = IfcUnit::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
 	if( num_args != 3 ){ errorStream << "Wrong parameter count for entity IfcPropertyEnumeration, expecting 3, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }

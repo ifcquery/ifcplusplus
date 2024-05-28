@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcActorSelect> IFC4X3::IfcActorSelect::createObjectFromSTEP(
 		return shared_ptr<IfcActorSelect>();
 	}
 	shared_ptr<IfcActorSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

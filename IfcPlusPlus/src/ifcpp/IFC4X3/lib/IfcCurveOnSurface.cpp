@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcCurveOnSurface> IFC4X3::IfcCurveOnSurface::createObjectFro
 		return shared_ptr<IfcCurveOnSurface>();
 	}
 	shared_ptr<IfcCurveOnSurface> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

@@ -57,7 +57,7 @@ void IFC4X3::IfcPresentationLayerWithStyle::readStepArguments( const std::vector
 	const size_t num_args = args.size();
 	if( num_args > 0 ){m_Name = IfcLabel::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
 	if( num_args > 1 ){m_Description = IfcText::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
-	if( num_args > 2 ){readSelectList( args[2], m_AssignedItems, map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readSelectList( args[2], m_AssignedItems, "IFCLAYEREDITEM", map, errorStream, entityIdNotFound );}
 	if( num_args > 3 ){m_Identifier = IfcIdentifier::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
 	if( num_args > 4 ){m_LayerOn = IfcLogical::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
 	if( num_args > 5 ){m_LayerFrozen = IfcLogical::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}

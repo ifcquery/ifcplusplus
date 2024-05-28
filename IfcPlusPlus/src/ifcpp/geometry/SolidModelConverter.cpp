@@ -37,6 +37,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <IfcFacetedBrep.h>
 #include <IfcFixedReferenceSweptAreaSolid.h>
 #include <IfcHalfSpaceSolid.h>
+#include <IfcIndexedColourMap.h>
 #include <IfcIndexedPolygonalFaceWithVoids.h>
 #include <IfcManifoldSolidBrep.h>
 #include <IfcPolygonalBoundedHalfSpace.h>
@@ -79,7 +80,7 @@ SolidModelConverter::~SolidModelConverter()
 }
 
 // ENTITY IfcSolidModel ABSTRACT SUPERTYPE OF(ONEOF(IfcCsgSolid, IfcManifoldSolidBrep, IfcSweptAreaSolid, IfcSweptDiskSolid))
-void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>& solid_model, shared_ptr<ItemShapeData> item_data )
+void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>& solid_model, shared_ptr<ItemShapeData> item_data)
 {
 	double eps = m_geom_settings->getEpsilonMergePoints();
 	shared_ptr<IfcSweptAreaSolid> swept_area_solid = dynamic_pointer_cast<IfcSweptAreaSolid>( solid_model );
@@ -266,7 +267,7 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 		shared_ptr<IfcBooleanResult> csg_select_boolean_result = dynamic_pointer_cast<IfcBooleanResult>( csg_select );
 		if( csg_select_boolean_result )
 		{
-			convertIfcBooleanResult( csg_select_boolean_result, item_data );
+			convertIfcBooleanResult( csg_select_boolean_result, item_data);
 		}
 		else
 		{
@@ -1573,7 +1574,7 @@ void SolidModelConverter::convertIndexedPolygonalFace(shared_ptr<IfcIndexedPolyg
 #endif
 }
 
-void SolidModelConverter::convertTesselatedItem( const shared_ptr<IfcTessellatedItem>& tessellatedItem, shared_ptr<ItemShapeData>& item_data )
+void SolidModelConverter::convertTesselatedItem( const shared_ptr<IfcTessellatedItem>& tessellatedItem, shared_ptr<ItemShapeData>& item_data)
 {
 	if( !tessellatedItem )
 	{
@@ -1589,9 +1590,7 @@ void SolidModelConverter::convertTesselatedItem( const shared_ptr<IfcTessellated
 	if( polygonalFace )
 	{
 		//ENTITY IfcIndexedPolygonalFace SUPERTYPE OF(IfcIndexedPolygonalFaceWithVoids)
-
 		messageCallback("Single IfcIndexedPolygonalFace, no coordinates", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, tessellatedItem.get());
-
 		return;
 	}
 
@@ -1603,7 +1602,7 @@ void SolidModelConverter::convertTesselatedItem( const shared_ptr<IfcTessellated
 		shared_ptr<IfcCartesianPointList3D> pointList = abstractFaceSet->m_Coordinates;
 		if( !abstractFaceSet->m_Coordinates )
 		{
-			messageCallback("IfcTessellatedFaceSet item does not contain any vertices!", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, abstractFaceSet.get());
+			messageCallback("IfcTessellatedFaceSet without coordinates", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, abstractFaceSet.get());
 			return;
 		}
 
@@ -1646,7 +1645,6 @@ void SolidModelConverter::convertTesselatedItem( const shared_ptr<IfcTessellated
 						shared_ptr<carve::mesh::MeshSet<3> > meshset(polyCacheCurrentFace.m_poly_data->createMesh(carve::input::opts(), eps));
 						GeomDebugDump::dumpMeshset(meshset.get(), color, false, false);
 					}
-						
 				}
 #endif
 			}
@@ -1655,6 +1653,34 @@ void SolidModelConverter::convertTesselatedItem( const shared_ptr<IfcTessellated
 				item_data->addOpenOrClosedPolyhedron(polyCache.m_poly_data, params);
 			}
 
+			// IfcTessellatedFaceSet --  attributes:
+			//  shared_ptr<IfcCartesianPointList3D>						m_Coordinates;
+			// inverse attributes:
+			//  std::vector<weak_ptr<IfcIndexedColourMap> >				m_HasColours_inverse;
+			//  std::vector<weak_ptr<IfcIndexedTextureMap> >			m_HasTextures_inverse;
+			// IfcPolygonalFaceSet -- attributes:
+			//shared_ptr<IfcBoolean>									m_Closed;					//optional
+			//std::vector<shared_ptr<IfcIndexedPolygonalFace> >		m_Faces;
+			//std::vector<shared_ptr<IfcPositiveInteger> >			m_PnIndex;					//optional
+			int refCount1 = polygonalFaceSet.use_count();
+			for (auto colorMapWeak : polygonalFaceSet->m_HasColours_inverse) {
+				if (colorMapWeak.expired()) {
+					continue;
+				}
+				std::lock_guard<std::mutex> lock(m_mutex1);
+				shared_ptr<IfcIndexedColourMap> colorMap(colorMapWeak);
+				colorMap->m_MappedTo.reset();  // temporary, to release memory
+			}
+			
+#ifdef _DEBUG
+			int refCount2 = polygonalFaceSet.use_count();
+			int tag = polygonalFaceSet->m_tag;
+#endif
+			
+			//std::lock_guard<std::mutex> lock(m_mutex2);
+			//polygonalFaceSet->m_PnIndex.clear(); // clear memory, temporary solution
+			//polygonalFaceSet->m_Faces.clear(); // clear memory, temporary solution
+			//polygonalFaceSet->m_Coordinates.reset(); // clear memory, temporary solution
 			return;
 		}
 

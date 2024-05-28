@@ -103,7 +103,7 @@ void IFC4X3::IfcReinforcingBarType::readStepArguments( const std::vector<std::st
 	if( num_args > 12 ){m_BarLength = IfcPositiveLengthMeasure::createObjectFromSTEP( args[12], map, errorStream, entityIdNotFound );}
 	if( num_args > 13 ){m_BarSurface = IfcReinforcingBarSurfaceEnum::createObjectFromSTEP( args[13], map, errorStream, entityIdNotFound );}
 	if( num_args > 14 ){m_BendingShapeCode = IfcLabel::createObjectFromSTEP( args[14], map, errorStream, entityIdNotFound );}
-	if( num_args > 15 ){readSelectList( args[15], m_BendingParameters, map, errorStream, entityIdNotFound );}
+	if( num_args > 15 ){readSelectList( args[15], m_BendingParameters, "IFCBENDINGPARAMETERSELECT", map, errorStream, entityIdNotFound );}
 	if( num_args != 16 ){ errorStream << "Wrong parameter count for entity IfcReinforcingBarType, expecting 16, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcReinforcingBarType::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

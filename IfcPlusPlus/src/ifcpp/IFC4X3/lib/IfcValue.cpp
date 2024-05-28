@@ -132,6 +132,6 @@ shared_ptr<IFC4X3::IfcValue> IFC4X3::IfcValue::createObjectFromSTEP( const std::
 		return shared_ptr<IfcValue>();
 	}
 	shared_ptr<IfcValue> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

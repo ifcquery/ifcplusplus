@@ -20,6 +20,6 @@ shared_ptr<IFC4X3::IfcRotationalStiffnessSelect> IFC4X3::IfcRotationalStiffnessS
 		return shared_ptr<IfcRotationalStiffnessSelect>();
 	}
 	shared_ptr<IfcRotationalStiffnessSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

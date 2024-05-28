@@ -19,6 +19,6 @@ shared_ptr<IFC4X3::IfcHatchLineDistanceSelect> IFC4X3::IfcHatchLineDistanceSelec
 		return shared_ptr<IfcHatchLineDistanceSelect>();
 	}
 	shared_ptr<IfcHatchLineDistanceSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

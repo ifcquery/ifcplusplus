@@ -61,6 +61,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <IfcUnitEnum.h>
 #include <IfcWall.h>
 #include "IncludeCarveHeaders.h"
+#include "PolyInputCache3D.h"
 #include "MeshOps.h"
 #include "MeshNormalizer.h"
 

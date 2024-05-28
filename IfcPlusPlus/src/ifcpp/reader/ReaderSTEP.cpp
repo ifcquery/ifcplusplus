@@ -16,7 +16,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 */
 
 #include <cstring>
-#include <execution>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -173,7 +172,7 @@ void ReaderSTEP::loadModelFromStream(std::istream& content, std::streampos file_
 	readHeader(content, targetModel);
 
 	// currently generated IFC classes are IFC4X3, files with older versions are converted. So after loading, the schema is always IFC4X3
-	targetModel->m_ifc_schema_version_current = BuildingModel::IFC4X3;
+	targetModel->setIfcSchemaVersionEnumCurrent( BuildingModel::IFC4X3 );
 	readData(content, file_end_pos, targetModel);
 	targetModel->resolveInverseAttributes();
 	targetModel->updateCache();
@@ -215,9 +214,9 @@ void ReaderSTEP::readHeader(std::istream& content, shared_ptr<BuildingModel>& ta
 		throw BuildingException("Model not set.", __FUNC__);
 	}
 
-	target_model->m_file_header = "";
-	target_model->m_IFC_FILE_DESCRIPTION = "";
-	target_model->m_IFC_FILE_NAME = "";
+	target_model->setFileHeader("");
+	target_model->setFileDescription("");
+	target_model->setFileName("");
 
 	std::string line;
 	std::string strHeader;
@@ -293,7 +292,7 @@ void ReaderSTEP::readHeader(std::istream& content, shared_ptr<BuildingModel>& ta
 	}
 
 	removeComments(strHeader);
-	target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC_VERSION_UNDEFINED;
+	target_model->setIfcSchemaVersionEnumCurrent(BuildingModel::IFC_VERSION_UNDEFINED);
 	std::vector<std::string> vec_header;
 	std::vector<std::string> vec_header_str;
 	vec_header.emplace_back(strHeader);
@@ -383,39 +382,39 @@ void ReaderSTEP::readHeader(std::istream& content, shared_ptr<BuildingModel>& ta
 
 			if (file_schema_args.compare("IFC4X3") == 0)
 			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC4X3;
+				target_model->setIfcSchemaVersionEnumCurrent(BuildingModel::IFC4X3);
 			}
 			else if (file_schema_args.compare("IFC4X1") == 0)
 			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC4X1;
+				target_model->setIfcSchemaVersionEnumCurrent(BuildingModel::IFC4X1);
 			}
 			else if (file_schema_args.compare("IFC4") == 0)
 			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC4;
+				target_model->setIfcSchemaVersionEnumCurrent(BuildingModel::IFC4);
 			}
 			else if (file_schema_args.substr(0, 6).compare("IFC2X4") == 0)
 			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X4;
+				target_model->setIfcSchemaVersionEnumCurrent(BuildingModel::IFC2X4);
 			}
 			else if (file_schema_args.substr(0, 6).compare("IFC2X3") == 0)
 			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X3;
+				target_model->setIfcSchemaVersionEnumCurrent(BuildingModel::IFC2X3);
 			}
 			else if (file_schema_args.substr(0, 6).compare("IFC2X2") == 0)
 			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X2;
+				target_model->setIfcSchemaVersionEnumCurrent(BuildingModel::IFC2X2);
 			}
 			else if (file_schema_args.substr(0, 5).compare("IFC2X") == 0)
 			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X;
+				target_model->setIfcSchemaVersionEnumCurrent(BuildingModel::IFC2X);
 			}
 			else if (file_schema_args.substr(0, 5).compare("IFC20") == 0)
 			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC2X;
+				target_model->setIfcSchemaVersionEnumCurrent(BuildingModel::IFC2X);
 			}
 			else
 			{
-				target_model->m_ifc_schema_version_loaded_file = BuildingModel::IFC_VERSION_UNKNOWN;
+				target_model->setIfcSchemaVersionEnumCurrent(BuildingModel::IFC_VERSION_UNKNOWN);
 			}
 		}
 	}
@@ -565,13 +564,8 @@ void ReaderSTEP::readEntityArguments(std::vector<std::pair<std::string, shared_p
 #ifdef _DEBUG
 	std::unordered_set<std::string> setClassesWithAdjustedArguments;
 #endif
-
-#ifdef _DEBUG_READ_SEQENTIAL
-	std::for_each(std::execution::seq,
-#else
-	std::for_each(std::execution::par,
-#endif
-		vec_entities.begin(), vec_entities.end(), [&](std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_object) {
+	
+	FOR_EACH_LOOP vec_entities.begin(), vec_entities.end(), [&](std::pair<std::string, shared_ptr<BuildingEntity> >& entity_read_object) {
 			if (model->isLoadingCancelled())
 			{
 				return;
@@ -943,14 +937,14 @@ void ReaderSTEP::readData(std::istream& read_in, std::streampos file_size, share
 	}
 
 	// copy entities into map so that they can be found during entity attribute initialization
-	std::unordered_map<int, shared_ptr<BuildingEntity> >& map_entities = model->m_map_entities;
+	std::unordered_map<int, shared_ptr<BuildingEntity> >& map_entities = model->getMapIfcEntities();
 	for (auto& entity_read_object : vec_entities)
 	{
 		shared_ptr<BuildingEntity> entity = entity_read_object.second;
 
 		if (entity) // skip aborted entities
 		{
-			map_entities[entity->m_tag] = entity;
+			model->insertEntity(entity);
 		}
 	}
 

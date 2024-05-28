@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcClassificationSelect> IFC4X3::IfcClassificationSelect::cre
 		return shared_ptr<IfcClassificationSelect>();
 	}
 	shared_ptr<IfcClassificationSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

@@ -20,6 +20,6 @@ shared_ptr<IFC4X3::IfcBendingParameterSelect> IFC4X3::IfcBendingParameterSelect:
 		return shared_ptr<IfcBendingParameterSelect>();
 	}
 	shared_ptr<IfcBendingParameterSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

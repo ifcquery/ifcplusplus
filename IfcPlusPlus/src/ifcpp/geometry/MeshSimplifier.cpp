@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma warning (disable: 4702)
 #include <ifcpp/geometry/GeomDebugDump.h>
 #include <ifcpp/geometry/MeshOps.h>
+#include "PolyInputCache3D.h"
 #include "MeshSimplifier.h"
 
 void MeshSimplifier::simplifyMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshsetInput, const GeomProcessingParams& paramsInput)

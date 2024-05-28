@@ -67,8 +67,8 @@ void IFC4X3::IfcTrimmedCurve::readStepArguments( const std::vector<std::string>&
 {
 	const size_t num_args = args.size();
 	if( num_args > 0 ){readEntityReference( args[0], m_BasisCurve, map, errorStream, entityIdNotFound );}
-	if( num_args > 1 ){readSelectList( args[1], m_Trim1, map, errorStream, entityIdNotFound );}
-	if( num_args > 2 ){readSelectList( args[2], m_Trim2, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readSelectList( args[1], m_Trim1, "IFCTRIMMINGSELECT", map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readSelectList( args[2], m_Trim2, "IFCTRIMMINGSELECT", map, errorStream, entityIdNotFound );}
 	if( num_args > 3 ){m_SenseAgreement = IfcBoolean::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
 	if( num_args > 4 ){m_MasterRepresentation = IfcTrimmingPreference::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
 	if( num_args != 5 ){ errorStream << "Wrong parameter count for entity IfcTrimmedCurve, expecting 5, having " << num_args << ". Entity ID: " << m_tag << std::endl; }

@@ -92,7 +92,7 @@ void IFC4X3::IfcDocumentInformation::readStepArguments( const std::vector<std::s
 	if( num_args > 6 ){m_Scope = IfcText::createObjectFromSTEP( args[6], map, errorStream, entityIdNotFound );}
 	if( num_args > 7 ){m_Revision = IfcLabel::createObjectFromSTEP( args[7], map, errorStream, entityIdNotFound );}
 	if( num_args > 8 ){m_DocumentOwner = IfcActorSelect::createObjectFromSTEP( args[8], map, errorStream, entityIdNotFound );}
-	if( num_args > 9 ){readSelectList( args[9], m_Editors, map, errorStream, entityIdNotFound );}
+	if( num_args > 9 ){readSelectList( args[9], m_Editors, "IFCACTORSELECT", map, errorStream, entityIdNotFound );}
 	if( num_args > 10 ){m_CreationTime = IfcDateTime::createObjectFromSTEP( args[10], map, errorStream, entityIdNotFound );}
 	if( num_args > 11 ){m_LastRevisionTime = IfcDateTime::createObjectFromSTEP( args[11], map, errorStream, entityIdNotFound );}
 	if( num_args > 12 ){m_ElectronicFormat = IfcIdentifier::createObjectFromSTEP( args[12], map, errorStream, entityIdNotFound );}

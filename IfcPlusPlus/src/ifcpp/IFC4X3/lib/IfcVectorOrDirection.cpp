@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcVectorOrDirection> IFC4X3::IfcVectorOrDirection::createObj
 		return shared_ptr<IfcVectorOrDirection>();
 	}
 	shared_ptr<IfcVectorOrDirection> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

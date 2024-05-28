@@ -43,6 +43,8 @@ public:
 	shared_ptr<ProfileCache>			m_profile_cache;
 	shared_ptr<StylesConverter>			m_styles_converter;
 	shared_ptr<Sweeper>					m_sweeper;
+	std::mutex m_mutex1;
+	std::mutex m_mutex2;
 
 	SolidModelConverter(shared_ptr<GeometrySettings>& gs, shared_ptr<PointConverter>& pc, shared_ptr<CurveConverter>& cc,
 		shared_ptr<FaceConverter>& fc, shared_ptr<ProfileCache>& pcache, shared_ptr<Sweeper>& sw, shared_ptr<StylesConverter>& styles_converter);
@@ -70,9 +72,10 @@ public:
 
 	void convertIndexedPolygonalFace(shared_ptr<IfcIndexedPolygonalFace>& polygonalFace, std::vector<vec3>& pointStorage, PolyInputCache3D& poly_cache);
 
-	void convertTesselatedItem(const shared_ptr<IfcTessellatedItem>& tessellatedItem, shared_ptr<ItemShapeData>& item_data);
+	void convertTesselatedItem(const shared_ptr<IfcTessellatedItem>& tessellatedItem, shared_ptr<ItemShapeData>& itemData);
 
-	void convertIfcBooleanOperand(const shared_ptr<IfcBooleanOperand>& operand_select, shared_ptr<ItemShapeData>& item_data, const shared_ptr<ItemShapeData>& other_operand);
+	void convertIfcBooleanOperand(const shared_ptr<IfcBooleanOperand>& operand_select, shared_ptr<ItemShapeData>& item_data, 
+		const shared_ptr<ItemShapeData>& other_operand);
 
 	void convertIfcSectionedSpine(const shared_ptr<IfcSectionedSpine>& spine, shared_ptr<ItemShapeData> item_data);
 

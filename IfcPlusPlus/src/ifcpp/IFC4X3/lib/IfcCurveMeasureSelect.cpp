@@ -20,6 +20,6 @@ shared_ptr<IFC4X3::IfcCurveMeasureSelect> IFC4X3::IfcCurveMeasureSelect::createO
 		return shared_ptr<IfcCurveMeasureSelect>();
 	}
 	shared_ptr<IfcCurveMeasureSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

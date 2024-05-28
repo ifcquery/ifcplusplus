@@ -61,6 +61,7 @@ public:
 
 	/*! \brief Method getIfcSchemaVersionCurrent. Returns the IFC version after loading. It is the newest implemented IFC version. IFC version of the loaded file may be older */
 	SchemaVersionEnum& getIfcSchemaVersionEnumCurrent() { return m_ifc_schema_version_current; }
+	void setIfcSchemaVersionEnumCurrent(SchemaVersionEnum schema) { m_ifc_schema_version_current = schema; }
 	std::string getIfcSchemaVersionCurrent();
 
 	const std::string& getFileHeader() { return m_file_header; }
@@ -92,9 +93,6 @@ public:
 	{
 		return m_cancelLoading;
 	}
-
-	friend class ReaderSTEP;
-	friend class ReaderXML;
 
 private:
 	BuildingModelMapType<int, shared_ptr<BuildingEntity> >	m_map_entities;

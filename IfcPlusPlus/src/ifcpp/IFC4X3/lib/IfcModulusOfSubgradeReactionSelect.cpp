@@ -20,6 +20,6 @@ shared_ptr<IFC4X3::IfcModulusOfSubgradeReactionSelect> IFC4X3::IfcModulusOfSubgr
 		return shared_ptr<IfcModulusOfSubgradeReactionSelect>();
 	}
 	shared_ptr<IfcModulusOfSubgradeReactionSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcSurfaceOrFaceSurface> IFC4X3::IfcSurfaceOrFaceSurface::cre
 		return shared_ptr<IfcSurfaceOrFaceSurface>();
 	}
 	shared_ptr<IfcSurfaceOrFaceSurface> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

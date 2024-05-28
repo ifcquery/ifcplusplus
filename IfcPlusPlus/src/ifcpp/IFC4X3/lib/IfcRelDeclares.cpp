@@ -58,7 +58,7 @@ void IFC4X3::IfcRelDeclares::readStepArguments( const std::vector<std::string>& 
 	if( num_args > 2 ){m_Name = IfcLabel::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
 	if( num_args > 3 ){m_Description = IfcText::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
 	if( num_args > 4 ){readEntityReference( args[4], m_RelatingContext, map, errorStream, entityIdNotFound );}
-	if( num_args > 5 ){readSelectList( args[5], m_RelatedDefinitions, map, errorStream, entityIdNotFound );}
+	if( num_args > 5 ){readSelectList( args[5], m_RelatedDefinitions, "IFCDEFINITIONSELECT", map, errorStream, entityIdNotFound );}
 	if( num_args != 6 ){ errorStream << "Wrong parameter count for entity IfcRelDeclares, expecting 6, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcRelDeclares::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

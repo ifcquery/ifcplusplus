@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcStructuralActivityAssignmentSelect> IFC4X3::IfcStructuralA
 		return shared_ptr<IfcStructuralActivityAssignmentSelect>();
 	}
 	shared_ptr<IfcStructuralActivityAssignmentSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

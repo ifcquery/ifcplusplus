@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcSpaceBoundarySelect> IFC4X3::IfcSpaceBoundarySelect::creat
 		return shared_ptr<IfcSpaceBoundarySelect>();
 	}
 	shared_ptr<IfcSpaceBoundarySelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

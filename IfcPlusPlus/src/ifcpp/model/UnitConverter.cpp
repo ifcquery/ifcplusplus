@@ -406,6 +406,7 @@ void UnitConverter::setIfcProject( shared_ptr<IfcProject> project )
 			shared_ptr<IfcMeasureWithUnit> conversion_factor = conversion_based_unit->m_ConversionFactor;
 			if( conversion_factor )
 			{
+				
 				shared_ptr<IfcUnit> unit_component = conversion_factor->m_UnitComponent;
 				if( unit_component )
 				{

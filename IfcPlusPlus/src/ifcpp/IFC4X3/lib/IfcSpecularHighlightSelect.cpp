@@ -20,6 +20,6 @@ shared_ptr<IFC4X3::IfcSpecularHighlightSelect> IFC4X3::IfcSpecularHighlightSelec
 		return shared_ptr<IfcSpecularHighlightSelect>();
 	}
 	shared_ptr<IfcSpecularHighlightSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

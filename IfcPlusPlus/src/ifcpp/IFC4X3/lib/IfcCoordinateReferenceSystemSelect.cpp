@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcCoordinateReferenceSystemSelect> IFC4X3::IfcCoordinateRefe
 		return shared_ptr<IfcCoordinateReferenceSystemSelect>();
 	}
 	shared_ptr<IfcCoordinateReferenceSystemSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

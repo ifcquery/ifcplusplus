@@ -35,7 +35,7 @@ void IFC4X3::IfcQuantityWeight::readStepArguments( const std::vector<std::string
 	if( num_args > 0 ){m_Name = IfcLabel::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
 	if( num_args > 1 ){m_Description = IfcText::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
 	if( num_args > 2 ){readEntityReference( args[2], m_Unit, map, errorStream, entityIdNotFound );}
-	if( num_args > 3 ){m_WeightValue = IfcMassMeasure::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){readSelectType( args[3], m_WeightValue, "IFCMASSMEASURE", map, errorStream, entityIdNotFound );}
 	if( num_args > 4 ){m_Formula = IfcLabel::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
 	if( num_args != 5 ){ errorStream << "Wrong parameter count for entity IfcQuantityWeight, expecting 5, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }

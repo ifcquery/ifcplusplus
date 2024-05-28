@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcLibrarySelect> IFC4X3::IfcLibrarySelect::createObjectFromS
 		return shared_ptr<IfcLibrarySelect>();
 	}
 	shared_ptr<IfcLibrarySelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

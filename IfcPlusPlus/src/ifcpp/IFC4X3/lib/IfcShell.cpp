@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcShell> IFC4X3::IfcShell::createObjectFromSTEP( const std::
 		return shared_ptr<IfcShell>();
 	}
 	shared_ptr<IfcShell> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

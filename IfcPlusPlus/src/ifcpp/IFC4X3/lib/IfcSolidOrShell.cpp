@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcSolidOrShell> IFC4X3::IfcSolidOrShell::createObjectFromSTE
 		return shared_ptr<IfcSolidOrShell>();
 	}
 	shared_ptr<IfcSolidOrShell> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

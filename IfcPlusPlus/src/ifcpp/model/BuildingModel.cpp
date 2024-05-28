@@ -334,23 +334,6 @@ void BuildingModel::insertEntity( shared_ptr<BuildingEntity> e, bool overwrite_e
 		// the key does not exist in the map
 		m_map_entities.insert( it_find, std::map<int, shared_ptr<BuildingEntity> >::value_type( tag, e ) );
 	}
-#ifdef _DEBUG
-	shared_ptr<IfcProduct> product = dynamic_pointer_cast<IfcProduct>( e );
-	if( product )
-	{
-		if( !product->m_GlobalId )
-		{
-			messageCallback( "IfcProduct->m_GlobalId not set", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, product.get() );
-			return;
-		}
-		if( product->m_GlobalId->m_value.length() < 22 )
-		{
-			messageCallback( "IfcProduct->m_GlobalId.length() < 22", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, product.get() );
-		}
-	}
-#endif
-
-	// TODO: if type is IfcRoot (or subtype), and GlobalID not set, create one
 }
 
 void BuildingModel::removeEntity( shared_ptr<BuildingEntity> e )
@@ -629,7 +612,6 @@ void BuildingModel::updateCache()
 {
 	bool found_project = false;
 	bool found_geom_context = false;
-	m_max_entity_id = -1;
 
 	shared_ptr<IfcProject> keep_project = m_ifc_project;
 	m_ifc_project.reset();
@@ -638,10 +620,6 @@ void BuildingModel::updateCache()
 	for( auto it=m_map_entities.begin(); it!=m_map_entities.end(); ++it )
 	{
 		int tag = it->first;
-		if (tag > m_max_entity_id)
-		{
-			m_max_entity_id = tag;
-		}
 		shared_ptr<BuildingEntity> obj = it->second;
 		if( obj->classID() == IFC4X3::IFCPROJECT )
 		{

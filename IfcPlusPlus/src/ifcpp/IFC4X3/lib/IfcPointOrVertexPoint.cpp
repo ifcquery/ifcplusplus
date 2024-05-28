@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcPointOrVertexPoint> IFC4X3::IfcPointOrVertexPoint::createO
 		return shared_ptr<IfcPointOrVertexPoint>();
 	}
 	shared_ptr<IfcPointOrVertexPoint> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

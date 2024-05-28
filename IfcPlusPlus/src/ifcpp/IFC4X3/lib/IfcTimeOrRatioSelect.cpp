@@ -20,6 +20,6 @@ shared_ptr<IFC4X3::IfcTimeOrRatioSelect> IFC4X3::IfcTimeOrRatioSelect::createObj
 		return shared_ptr<IfcTimeOrRatioSelect>();
 	}
 	shared_ptr<IfcTimeOrRatioSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

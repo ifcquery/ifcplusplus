@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcResourceObjectSelect> IFC4X3::IfcResourceObjectSelect::cre
 		return shared_ptr<IfcResourceObjectSelect>();
 	}
 	shared_ptr<IfcResourceObjectSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

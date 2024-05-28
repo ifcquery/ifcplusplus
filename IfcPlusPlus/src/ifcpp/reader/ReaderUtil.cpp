@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <limits>
 #include <locale>
 #include <string>
+#include <codecvt>
 
 #include "ifcpp/model/BuildingException.h"
 #include "ReaderUtil.h"
@@ -28,14 +29,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #ifndef CP_UTF8
 #define CP_UTF8 65001
 #endif
+
 #ifdef _MSC_VER
 #include <windows.h>
 #else
 #include <cctype>
 #include <codecvt>
 #endif
-#include "utf8.h"
-//#pragma execution_character_set("utf-8")
 
 template <typename T>
 static T convertToHex(unsigned char mc)
@@ -196,6 +196,16 @@ std::istream& bufferedGetStepLine(std::istream& inputStream, std::string& lineOu
 #endif
 		switch (c)
 		{
+		case ' ':
+		case '\t':
+		{
+			// ingnore spaces between arguments and parantheses
+			if (inString)
+			{
+				lineOut += (char)c;
+			}
+			continue;
+		}
 		case ';':
 		{
 			if (!inString)

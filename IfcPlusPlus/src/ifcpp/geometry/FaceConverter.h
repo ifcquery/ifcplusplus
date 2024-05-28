@@ -39,6 +39,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "GeometryInputData.h"
 #include "CurveConverter.h"
 #include "SplineConverter.h"
+#include "PolyInputCache3D.h"
 #include "ProfileCache.h"
 #include "Sweeper.h"
 
@@ -397,13 +398,6 @@ public:
 				face_loops.push_back( std::vector<vec3>() );
 				std::vector<vec3>& loop_points = face_loops.back();
 
-				if (ii > 23)
-				{
-					if (IsPrintToDebugLogOn())
-					{
-						printToDebugLog(__FUNC__, "convertIfcLoop for face " + std::to_string(ii) + " of " + std::to_string(vec_faces.size()));
-					}
-				}
 				m_curve_converter->convertIfcLoop( loop, loop_points );
 
 				if( loop_points.size() < 3 )
@@ -610,11 +604,7 @@ public:
 			}
 			else
 			{
-				// degenerated triangle
-				if (IsPrintToDebugLogOn())
-				{
-					printToDebugLog(__FUNC__, "degenerated triangle");
-				}
+				params.callbackFunc->messageCallback("degenerated triangle", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
 			}
 
 			std::vector<vec3> currentFlatPolygonPoints;
@@ -709,10 +699,10 @@ public:
 				const vec3& v1 = outerLoop[1];
 				const vec3& v2 = outerLoop[2];
 				if (flipFace) {
-					addFaceCheckIndexes(v0, v2, v1, meshOut, eps);
+					meshOut.addFaceCheckIndexes(v0, v2, v1, eps);
 				}
 				else {
-					addFaceCheckIndexes(v0, v1, v2, meshOut, eps);
+					meshOut.addFaceCheckIndexes(v0, v1, v2, eps);
 				}
 				return;
 			}
@@ -724,10 +714,10 @@ public:
 				const vec3& v2 = outerLoop[2];
 				const vec3& v3 = outerLoop[3];
 				if (flipFace) {
-					addFaceCheckIndexes(v0, v3, v2, v1, meshOut, eps);
+					meshOut.addFaceCheckIndexes(v0, v3, v2, v1, eps);
 				}
 				else {
-					addFaceCheckIndexes(v0, v1, v2, v3, meshOut, eps);
+					meshOut.addFaceCheckIndexes(v0, v1, v2, v3, eps);
 				}
 				return;
 			}
@@ -800,11 +790,7 @@ public:
 					err << "unable to project to plane: nx" << nx << " ny " << ny << " nz " << nz << std::endl;
 					if (params.callbackFunc)
 					{
-						if (IsPrintToDebugLogOn())
-						{
-							printToDebugLog(__FUNC__, err.str());
-						}
-						//params.callbackFunc->messageCallback(err.str().c_str(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
+						params.callbackFunc->messageCallback(err.str().c_str(), StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
 					}
 					continue;
 				}
@@ -862,13 +848,6 @@ public:
 				size_t numPoints = currentPointLoop.size();
 				for (size_t jj = 0; jj < numPoints; ++jj)
 				{
-					if (jj == 9)
-					{
-						if (IsPrintToDebugLogOn())
-						{
-							printToDebugLog(__FUNC__, "triangulateCurvedPolygon: " + std::to_string(jj));
-						}
-					}
 					triangulateCurvedPolygon(loopPoints3DinputCopy, meshOut, paramsDebug, maxAllowedDistanceFromPlane);
 					if (loopPoints3DinputCopy.size() < 3)
 					{

@@ -17,7 +17,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#include <execution>
+// #define _DEBUG_LOOP_SEQENTIAL  // define for debugging geometry conversion
+
 #include <map>
 #include <thread>
 #include <unordered_set>
@@ -30,6 +31,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4X3/include/IfcCurtainWall.h>
 #include <ifcpp/IFC4X3/include/IfcDistributionElement.h>
 #include <ifcpp/IFC4X3/include/IfcGloballyUniqueId.h>
+#include <ifcpp/IFC4X3/include/IfcIndexedColourMap.h>
 #include <ifcpp/IFC4X3/include/IfcDistributionPort.h>
 #include <ifcpp/IFC4X3/include/IfcPropertySetDefinitionSet.h>
 #include <ifcpp/IFC4X3/include/IfcRelAggregates.h>
@@ -54,48 +56,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "CSG_Adapter.h"
 #include "MeshSimplifier.h"
 
-struct ThreadData
-{
-	ThreadData(std::thread::id tid)
-	{
-		std::stringstream ss;
-		ss << tid;
-		threadIdString = ss.str();
-
-		fileName = ".bufferfile_" + threadIdString + ".binary";
-		std::vector<uint8_t> data;
-		std::vector<double> doubleData = { 3.3, 4.4, 5.2, 6.9 };
-		size_t num_coord_bytes_to_copy = sizeof(double) * doubleData.size();
-		size_t check_size = sizeof(uint8_t);
-		data.resize(num_coord_bytes_to_copy);
-		std::memcpy(data.data(), doubleData.data(), num_coord_bytes_to_copy);
-
-		bool openFile = false;
-		if (openFile)
-		{
-			bufferFile = std::fstream(fileName, std::ios::out | std::ios::binary);
-			bufferFile.write((char*)&data[0], num_coord_bytes_to_copy);
-
-		}
-
-	}
-	void closeBufferFile()
-	{
-		if (bufferFile.is_open())
-		{
-			bufferFile.close();
-		}
-	}
-	std::string threadIdString;
-	std::string fileName;
-	std::fstream bufferFile;
-	std::vector<std::string> vecExportedEntities;
-	// each thread has one gltf model, with buffers, accessors etc. Merging them could be done simply by copying all into one.
-	// But while copying, each accessor should be checked with existing ones
-	// to avoid double checking of existing accessors, check only when merging into one model.
-	// make convertProductMeshes static, gltfModel as parameter, per thread
-};
-
 class GeometryConverter : public StatusCallback
 {
 protected:
@@ -113,6 +73,7 @@ protected:
 
 	std::mutex m_writelock_messages;
 	std::mutex m_writelock_item_cache;
+	std::mutex m_writelock_progress;
 
 public:
 	// getters and setters
@@ -764,76 +725,7 @@ public:
 		}
 	}
 
-	void readStyleFromPropertySet(const shared_ptr<IfcPropertySet>& prop_set, shared_ptr<ProductShapeData>& product_shape)
-	{
-		if (!prop_set)
-		{
-			return;
-		}
-		for (auto& ifc_property : prop_set->m_HasProperties)
-		{
-			if (!ifc_property)
-			{
-				continue;
-			}
 
-			shared_ptr<IfcSimpleProperty> simple_property = dynamic_pointer_cast<IfcSimpleProperty>(ifc_property);
-			if (simple_property)
-			{
-				// ENTITY IfcSimpleProperty ABSTRACT SUPERTYPE OF(ONEOF( IfcPropertyBoundedValue, IfcPropertyEnumeratedValue, IfcPropertyListValue,
-				// IfcPropertyReferenceValue, IfcPropertySingleValue, IfcPropertyTableValue))
-
-				shared_ptr<IfcIdentifier> property_name = simple_property->m_Name;
-				std::string name_str = property_name->m_value;
-				if (name_str.compare("LayerName") == 0)
-				{
-					// TODO: implement layers
-				}
-				shared_ptr<IfcText> description = simple_property->m_Specification;
-
-
-				shared_ptr<IfcPropertySingleValue> property_single_value = dynamic_pointer_cast<IfcPropertySingleValue>(simple_property);
-				if (property_single_value)
-				{
-					//shared_ptr<IfcValue>& nominal_value = property_single_value->m_NominalValue;				//optional
-					//shared_ptr<IfcUnit>& unit = property_single_value->m_Unit;						//optional
-
-				}
-
-				continue;
-			}
-
-			shared_ptr<IfcComplexProperty> complex_property = dynamic_pointer_cast<IfcComplexProperty>(ifc_property);
-			if (complex_property)
-			{
-				if (!complex_property->m_UsageName) continue;
-				if (complex_property->m_UsageName->m_value.compare("Color") == 0)
-				{
-					vec4 vec_color;
-					m_representation_converter->getStylesConverter()->convertIfcComplexPropertyColor(complex_property, vec_color);
-					shared_ptr<StyleData> style_data(new StyleData(-1));
-					style_data->m_apply_to_geometry_type = StyleData::GEOM_TYPE_ANY;
-					style_data->m_color_ambient = vec4(vec_color);
-					style_data->m_color_diffuse = vec4(vec_color);
-					style_data->m_color_specular = vec4(vec_color);
-					style_data->m_shininess = 35.f;
-					product_shape->addStyle(style_data);
-				}
-			}
-		}
-	}
-
-
-	std::unordered_map<std::thread::id, shared_ptr<ThreadData> > mapThreadData;
-	std::mutex mapMutex;
-	shared_ptr<ThreadData> createThreadData(std::thread::id tid, shared_ptr<ThreadData>& threadData,
-		std::unordered_map<std::thread::id, shared_ptr<ThreadData> >& _map, std::mutex& mapMutex)
-	{
-		shared_ptr<ThreadData> tdata = make_shared<ThreadData>(tid);
-		std::lock_guard<std::mutex> lock(mapMutex);
-		_map[tid] = threadData;
-		return tdata;
-	}
 
 	/*\brief method convertGeometry: Creates geometry for Carve from previously loaded BuildingModel model.
 	**/
@@ -847,121 +739,27 @@ public:
 		m_setResolvedProjectStructure.clear();
 		m_representation_converter->clearCache();
 		m_clear_memory_immedeately = false;
-		mapThreadData.clear();
 
 		if (!m_ifc_model)
 		{
 			return;
 		}
 
-		shared_ptr<ProductShapeData> ifc_project_data;
-		std::vector<shared_ptr<IfcObjectDefinition> > vec_object_definitions;
-		std::unordered_map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
-		std::unordered_set<std::string> setGuids;
-		if (map_entities.size() > 0)
-		{
-			for (auto it = map_entities.begin(); it != map_entities.end(); )
-			{
-				shared_ptr<BuildingEntity> entity = it->second;
-				if (entity)
-				{
-					shared_ptr<IfcRoot> root = dynamic_pointer_cast<IfcRoot>(entity);
-					if (root)
-					{
-						std::string guid;
-						if (root->m_GlobalId)
-						{
-							guid = root->m_GlobalId->m_value;
-
-							auto it_find = setGuids.find(guid);
-							if (it_find != setGuids.end())
-							{
-								std::string guid_duplicate = guid;
-								size_t guid_append = 1;
-								for (auto it = setGuids.begin(); it != setGuids.end(); ++it)
-								{
-									std::string guid_unique = guid + "_" + std::to_string(guid_append);
-									auto it_find2 = setGuids.find(guid_unique);
-									if (it_find2 == setGuids.end())
-									{
-										guid = guid_unique;
-										break;
-									}
-									++guid_append;
-								}
-
-								std::string error = "duplicate GUID in model: " + guid_duplicate;
-								messageCallback(error, StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
-								
-								root->m_GlobalId->m_value = guid;
-							}
-
-							setGuids.insert( it_find, guid);
-						}
-
-						shared_ptr<IfcObjectDefinition> object_def = dynamic_pointer_cast<IfcObjectDefinition>(root);
-						if (object_def)
-						{
-							vec_object_definitions.push_back(object_def);
-
-							if (m_set_model_to_origin)
-							{
-								if (object_def->classID() == IFC4X3::IFCSITE)
-								{
-									shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>(object_def);
-									if (ifc_site)
-									{
-										setIfcSiteToOrigin(ifc_site);
-									}
-								}
-							}
-						}
-					}
-
-					if (entity->classID() == IFC4X3::IFCCARTESIANPOINT)
-					{
-						// IfcCartesianPoint are referenced by IfcFace etc, so we don't need to keep them in the model
-						it = map_entities.erase(it);
-						continue;
-					}
-
-					if (entity->classID() == IFC4X3::IFCPRODUCTREPRESENTATION)
-					{
-						// IfcCartesianPoint are referenced by IfcFace etc, so we don't need to keep them in the model
-						it = map_entities.erase(it);
-						continue;
-					}
-
-					shared_ptr<IfcGeometricRepresentationItem> geomItem = dynamic_pointer_cast<IfcGeometricRepresentationItem>(entity);
-					if (geomItem)
-					{
-						// enable early free up of memory during geometry processing
-						//it = map_entities.erase(it);
-					}
-					++it;
-				}
-			}
-		}
+		shared_ptr<ProductShapeData> ifcProjectData;
+		std::vector<shared_ptr<IfcObjectDefinition> > vecObjectDefinitions;
+		getAllObjectDefinitions(vecObjectDefinitions, ifcProjectData);
 
 		// create geometry for for each IfcProduct independently, spatial structure will be resolved later
-		const int num_object_definitions = (int)vec_object_definitions.size();
+		const int num_object_definitions = (int)vecObjectDefinitions.size();
 
-		std::mutex writelock_map, writelock_ifc_project, writelock_progress, writelock_err;
-		int i = 0;
-#if defined(_DEBUG) //|| defined(_DEBUG_RELEASE) //|| defined(__GNUC__)  // disable threading for Linux due to unknown issues with std::thread
-		std::for_each(std::execution::seq,
-#else
-		std::for_each(std::execution::par,
-#endif
-			vec_object_definitions.begin(), vec_object_definitions.end(), [&](shared_ptr<IfcObjectDefinition>& object_def) {
+		std::mutex writelock_map, writelock_ifc_project, writelock_err;
+		int ii = 0;
+		FOR_EACH_LOOP vecObjectDefinitions.begin(), vecObjectDefinitions.end(), [&](shared_ptr<IfcObjectDefinition>& object_def) {
 
 				if (m_ifc_model->isLoadingCancelled())
 				{
 					return;
 				}
-				std::thread::id id = std::this_thread::get_id();
-				//thread_local shared_ptr<ThreadData> buffer1 = createThreadData(id, buffer1, mapThreadData, mapMutex);
-				//int refCount = buffer1.use_count();
 
 				const int tag = object_def->m_tag;
 				std::string guid;
@@ -984,11 +782,11 @@ public:
 					// IFC type is defined to be filtered out
 					return;
 				}
-				
+
 				if (classID == IFC4X3::IFCPROJECT)
 				{
 					std::lock_guard<std::mutex> lock(writelock_ifc_project);
-					ifc_project_data = product_geom_input_data;
+					ifcProjectData = product_geom_input_data;
 				}
 
 				try
@@ -1012,12 +810,6 @@ public:
 					thread_err << "undefined error, product id " << tag;
 				}
 
-				if (m_convertDirectlyToBuffer)
-				{
-					// serialize ProductShapeData and write to buffer file
-					// compute global bounding box
-				}
-
 				{
 					std::lock_guard<std::mutex> lock(writelock_map);
 					m_product_shape_data[guid] = product_geom_input_data;
@@ -1028,32 +820,15 @@ public:
 					messageCallback(thread_err.str().c_str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
 				}
 
-				//if (elementConvertedCallbackHandler)
-				//{
-				//	elementConvertedCallbackHandler(product_geom_input_data);
-				//}
-
 				// progress callback
-				double progress = (double)i / (double)num_object_definitions;
-				if (progress - m_recent_progress > 0.01)
-				{
-					std::lock_guard<std::mutex> lock(writelock_progress);
-
-					// leave 10% of progress to openscenegraph internals
-					progressValueCallback(progress * 0.9, "geometry");
-					m_recent_progress = progress;
-				}
-				++i;
+				double progress = (double)ii / (double)num_object_definitions;
+				sendProgress(progress);
+				++ii;
 			});
 
 		// subtract openings in assemblies etc, in case the opening is attached at the top level
-#if defined(_DEBUG) || defined(_DEBUG_RELEASE) //|| defined(__GNUC__)  // disable threading for Linux due to unknown issues with std::thread
-		std::for_each(std::execution::seq,
-#else
-		std::for_each(std::execution::par,
-#endif
-			
-			vec_object_definitions.begin(), vec_object_definitions.end(), [&](shared_ptr<IfcObjectDefinition>& object_def) {
+		ii = 0;
+		FOR_EACH_LOOP vecObjectDefinitions.begin(), vecObjectDefinitions.end(), [&](shared_ptr<IfcObjectDefinition>& object_def) {
 			std::string guid;
 			if (object_def->m_GlobalId)
 			{
@@ -1065,49 +840,29 @@ public:
 				shared_ptr<ProductShapeData> product_geom_input_data = it_find->second;
 				subtractOpeningsInRelatedObjects(product_geom_input_data);
 			}
-			});
+
+			double progress = 0.8 + 0.1* (double)ii / (double)num_object_definitions;
+			sendProgress(progress);
+			++ii;
+		});
 
 		if (m_ifc_model->isLoadingCancelled())
 		{
 			m_product_shape_data.clear();
 			return;
 		}
-
-		//if (mapThreadData.size() > 0)
-		//{
-		//	shared_ptr<ThreadData> buffer = (mapThreadData.begin()->second);
-		//	std::cout << "buffer.use_count(): " << buffer.use_count() << std::endl;
-		//}
-
-		for (auto it : mapThreadData)
-		{
-			shared_ptr<ThreadData> buffer = it.second;
-			if (!buffer)
-			{
-				std::cout << "buffer.use_count(): " << buffer.use_count() << std::endl;
-				continue;
-			}
-			buffer->closeBufferFile();
-			std::string bufferFileName = buffer->fileName;
-			if (std::filesystem::exists(bufferFileName))
-			{
-				std::filesystem::remove(bufferFileName);
-			}
-			//std::cout << "thread id: " << it.second->threadIdString << std::endl;
-		}
-		mapThreadData.clear();
-
+				
 		try
 		{
 			// now resolve spatial structure
-			if (ifc_project_data)
+			if (ifcProjectData)
 			{
 				fixModelHierarchy();
 
 				// resove spatial structure first (IfcBuilding->IfcBuildingStorey->IfcBuildingElement)
-				resolveProjectStructure(ifc_project_data, false);
+				resolveProjectStructure(ifcProjectData, false);
 				// resove secondary structure (IfcRelConnectsPortToElement etc)
-				resolveProjectStructure(ifc_project_data, true);
+				resolveProjectStructure(ifcProjectData, true);
 			}
 
 			// check if there are entities that are not in spatial structure
@@ -1173,11 +928,124 @@ public:
 		progressValueCallback(1.0, "geometry");
 	}
 
-	void addVector3D(const vec3& point, std::vector<float>& target_array)
+	void getAllObjectDefinitions(std::vector<shared_ptr<IfcObjectDefinition> >& vecObjectDefinitions, shared_ptr<ProductShapeData>& ifcProjectData)
 	{
-		target_array.push_back(point.x);
-		target_array.push_back(point.y);
-		target_array.push_back(point.z);
+		std::unordered_map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
+		std::unordered_set<std::string> setGuids;
+		if (map_entities.size() > 0)
+		{
+			for (auto it = map_entities.begin(); it != map_entities.end(); )
+			{
+				shared_ptr<BuildingEntity> entity = it->second;
+				if (entity)
+				{
+					shared_ptr<IfcRoot> root = dynamic_pointer_cast<IfcRoot>(entity);
+					if (root)
+					{
+						std::string guid;
+						if (root->m_GlobalId)
+						{
+							guid = root->m_GlobalId->m_value;
+
+							auto it_find = setGuids.find(guid);
+							if (it_find != setGuids.end())
+							{
+								std::string guid_duplicate = guid;
+								size_t guid_append = 1;
+								for (auto it = setGuids.begin(); it != setGuids.end(); ++it)
+								{
+									std::string guid_unique = guid + "_" + std::to_string(guid_append);
+									auto it_find2 = setGuids.find(guid_unique);
+									if (it_find2 == setGuids.end())
+									{
+										guid = guid_unique;
+										break;
+									}
+									++guid_append;
+								}
+
+								std::string error = "duplicate GUID in model: " + guid_duplicate;
+								messageCallback(error, StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
+
+								root->m_GlobalId->m_value = guid;
+							}
+
+							setGuids.insert(it_find, guid);
+						}
+
+						shared_ptr<IfcObjectDefinition> object_def = dynamic_pointer_cast<IfcObjectDefinition>(root);
+						if (object_def)
+						{
+							vecObjectDefinitions.push_back(object_def);
+
+							if (m_set_model_to_origin)
+							{
+								if (object_def->classID() == IFC4X3::IFCSITE)
+								{
+									shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>(object_def);
+									if (ifc_site)
+									{
+										setIfcSiteToOrigin(ifc_site);
+									}
+								}
+							}
+						}
+					}
+
+					if (entity->classID() == IFC4X3::IFCCARTESIANPOINT)
+					{
+						// IfcCartesianPoint are referenced by IfcFace etc, so we don't need to keep them in the model
+						it = map_entities.erase(it);
+						continue;
+					}
+
+					if (entity->classID() == IFC4X3::IFCPRODUCTREPRESENTATION)
+					{
+						// IfcCartesianPoint are referenced by IfcFace etc, so we don't need to keep them in the model
+						it = map_entities.erase(it);
+						continue;
+					}
+
+					shared_ptr<IfcPropertyAbstraction> prop = dynamic_pointer_cast<IfcPropertyAbstraction>(entity);
+					if (prop)
+					{
+						// IfcPropertySingleValue etc are referenced in PropertySet, don't need them in mapEntities
+						it = map_entities.erase(it);
+						continue;
+					}
+
+					//////////////  <TEMP>
+					shared_ptr<IfcIndexedColourMap> indexedColorMap = dynamic_pointer_cast<IfcIndexedColourMap>(entity);
+					if (indexedColorMap)
+					{
+						it = map_entities.erase(it);
+						continue;
+					}
+					//////////////  </TEMP>
+
+					shared_ptr<IfcRepresentationItem> reItem = dynamic_pointer_cast<IfcRepresentationItem>(entity);
+					if (reItem)
+					{
+						// exclude IFCINDEXEDCOLOURMAP and IFCSTYLEDITEM, which are not referenced by anyone
+						shared_ptr<IfcIndexedColourMap> colorMap = dynamic_pointer_cast<IfcIndexedColourMap>(entity);
+						if (!colorMap)
+						{
+							shared_ptr<IfcStyledItem> styledItem = dynamic_pointer_cast<IfcStyledItem>(entity);
+							if (!styledItem)
+							{
+								// IfcRelVoidsElement is not derived from IfcRepresentationItem
+								// shared_ptr<IfcRelVoidsElement> relVoids = dynamic_pointer_cast<IfcRelVoidsElement>(entity);
+
+								// enable early free up of memory during geometry processing
+								it = map_entities.erase(it);
+								continue;
+							}
+						}
+					}
+					++it;
+				}
+			}
+		}
 	}
 
 	//\brief method convertIfcProduct: Creates geometry objects (meshset with connected vertex-edge-face graph) from an IfcProduct object
@@ -1213,6 +1081,12 @@ public:
 			vec_rel_voids = ifc_element->m_HasOpenings_inverse;
 		}
 
+		bool hasBoolOps = RepresentationConverter::hasBooleanOperations(product_representation);
+		if (!hasBoolOps)
+		{
+			// TODO: cache items
+		}
+
 		// convert IFC geometry
 		std::vector<shared_ptr<IfcRepresentation> >& vec_representations = product_representation->m_Representations;
 		for (size_t i_representations = 0; i_representations < vec_representations.size(); ++i_representations)
@@ -1227,7 +1101,8 @@ public:
 			{
 				shared_ptr<ItemShapeData> representation_data(new ItemShapeData());
 				representation_data->m_product = product_shape;
-				m_representation_converter->convertIfcRepresentation(representation, representation_data, vec_rel_voids);
+				bool clearIfcItems = false;
+				m_representation_converter->convertIfcRepresentation(representation, representation_data, clearIfcItems);
 				product_shape->addGeometricItem(representation_data, product_shape);
 			}
 			catch (BuildingException& e)
@@ -1263,50 +1138,10 @@ public:
 			}
 		}
 
-		// Fetch the IFCProduct relationships
-		if (ifc_product->m_IsDefinedBy_inverse.size() > 0)
-		{
-			std::vector<weak_ptr<IfcRelDefinesByProperties> >& vec_IsDefinedBy_inverse = ifc_product->m_IsDefinedBy_inverse;
-			for (size_t i = 0; i < vec_IsDefinedBy_inverse.size(); ++i)
-			{
-				shared_ptr<IfcRelDefinesByProperties> rel_def(vec_IsDefinedBy_inverse[i]);
-				shared_ptr<IfcPropertySetDefinitionSelect> relating_property_definition_select = rel_def->m_RelatingPropertyDefinition;
-				if (relating_property_definition_select)
-				{
-					// TYPE IfcPropertySetDefinitionSelect = SELECT	(IfcPropertySetDefinition	,IfcPropertySetDefinitionSet);
-					shared_ptr<IfcPropertySetDefinition> property_set_def = dynamic_pointer_cast<IfcPropertySetDefinition>(relating_property_definition_select);
-					if (property_set_def)
-					{
-						shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>(property_set_def);
-						if (property_set)
-						{
-							readStyleFromPropertySet(property_set, product_shape);
-						}
-						continue;
-					}
+		m_representation_converter->getStylesConverter()->readStylesFromRelatedObjects(ifc_product, product_shape);
 
-					shared_ptr<IfcPropertySetDefinitionSet> property_set_def_set = dynamic_pointer_cast<IfcPropertySetDefinitionSet>(relating_property_definition_select);
-					if (property_set_def_set)
-					{
-						std::vector<shared_ptr<IfcPropertySetDefinition> >& vec_propterty_set_def = property_set_def_set->m_vec;
-						std::vector<shared_ptr<IfcPropertySetDefinition> >::iterator it_property_set_def;
-						for (it_property_set_def = vec_propterty_set_def.begin(); it_property_set_def != vec_propterty_set_def.end(); ++it_property_set_def)
-						{
-							shared_ptr<IfcPropertySetDefinition> property_set_def2 = (*it_property_set_def);
-							if (property_set_def2)
-							{
-								shared_ptr<IfcPropertySet> property_set = dynamic_pointer_cast<IfcPropertySet>(property_set_def2);
-								if (property_set)
-								{
-									readStyleFromPropertySet(property_set, product_shape);
-								}
-							}
-						}
-						continue;
-					}
-				}
-			}
-		}
+		
+		
 
 		// check for existing meshes
 		// TODO: make sure that the meshes are not changed after here, for example with boolean operations
@@ -1351,46 +1186,6 @@ public:
 				ifc_product->m_Representation.reset();
 			}
 		}
-	}
-
-	bool hasRelatedOpenings(shared_ptr<ProductShapeData>& product_shape)
-	{
-		if (product_shape->m_ifc_object_definition.expired())
-		{
-			return false;
-		}
-
-		shared_ptr<IfcObjectDefinition> ifc_object_def(product_shape->m_ifc_object_definition);
-		shared_ptr<IfcProduct> ifc_product = dynamic_pointer_cast<IfcProduct>(ifc_object_def);
-		if (!ifc_product)
-		{
-			return false;
-		}
-
-		shared_ptr<IfcElement> ifc_element = dynamic_pointer_cast<IfcElement>(ifc_product);
-		if (!ifc_element)
-		{
-			return false;
-		}
-
-		if (ifc_element->m_HasOpenings_inverse.size() == 0)
-		{
-			return false;
-		}
-
-		// collect aggregated objects
-		const std::vector<weak_ptr<IfcRelAggregates> >& vec_decomposed_by = ifc_object_def->m_IsDecomposedBy_inverse;
-		if (vec_decomposed_by.size() > 0)
-		{
-			return true;
-		}
-
-		const std::vector<weak_ptr<IfcRelAggregates> >& vec_decomposes = ifc_object_def->m_Decomposes_inverse;
-		if (vec_decomposes.size() > 0)
-		{
-			return true;
-		}
-		return false;
 	}
 
 	void subtractOpeningsInRelatedObjects(shared_ptr<ProductShapeData>& product_shape)
@@ -1443,6 +1238,18 @@ public:
 					}
 				}
 			}
+		}
+	}
+
+	void sendProgress(double progress)
+	{
+		if (progress - m_recent_progress > 0.01)
+		{
+			std::lock_guard<std::mutex> lock(m_writelock_progress);
+
+			// leave 20% of progress to openings, rendering, file export etc
+			progressValueCallback(progress * 0.8, "geometry");
+			m_recent_progress = progress;
 		}
 	}
 

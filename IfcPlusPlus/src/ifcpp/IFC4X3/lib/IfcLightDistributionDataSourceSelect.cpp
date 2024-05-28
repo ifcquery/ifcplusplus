@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcLightDistributionDataSourceSelect> IFC4X3::IfcLightDistrib
 		return shared_ptr<IfcLightDistributionDataSourceSelect>();
 	}
 	shared_ptr<IfcLightDistributionDataSourceSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

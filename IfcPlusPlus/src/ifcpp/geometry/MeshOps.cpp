@@ -748,7 +748,7 @@ void MeshOps::classifyMeshesInside(std::vector<carve::mesh::Mesh<3>*>& meshes, s
 }
 
 
-void MeshOps::retriangulateMeshSetForExport( shared_ptr<carve::mesh::MeshSet<3> >& meshset, const GeomProcessingParams& paramsInput)
+void MeshOps::retriangulateMeshSetForExport( const shared_ptr<carve::mesh::MeshSet<3> >& meshset, PolyInputCache3D& polyOut, const GeomProcessingParams& paramsInput)
 {
 	if (!meshset)
 	{
@@ -759,23 +759,23 @@ void MeshOps::retriangulateMeshSetForExport( shared_ptr<carve::mesh::MeshSet<3> 
 	bool validInput = MeshOps::checkMeshSetValidAndClosed(meshset, infoInput, paramsInput);
 	MeshOps::checkMeshSetNonNegativeAndClosed(meshset, paramsInput);
 
-	if( infoInput.meshSetValid && infoInput.maxNumberOfEdgesPerFace == 3 )
-	{
-		return;
-	}
-	
-	if ( infoInput.maxNumberOfEdgesPerFace == 3 )
-	{
-		// TODO: check if this is sufficient
-		return;
-	}
+	//if( infoInput.meshSetValid && infoInput.maxNumberOfEdgesPerFace == 3 )
+	//{
+	//	return;
+	//}
+	//
+	//if ( infoInput.maxNumberOfEdgesPerFace == 3 )
+	//{
+	//	// TODO: check if this is sufficient
+	//	return;
+	//}
 
 	GeomProcessingParams params(paramsInput);
 	params.checkZeroAreaFaces = false;
 	params.allowDegenerateEdges = true;
 	params.allowFinEdges = true;
 	params.mergeAlignedEdges = true;
-	PolyInputCache3D poly_cache(params.epsMergePoints);
+	//PolyInputCache3D poly_cache(params.epsMergePoints);
 		
 	for (size_t ii = 0; ii < meshset->meshes.size(); ++ii)
 	{
@@ -797,16 +797,16 @@ void MeshOps::retriangulateMeshSetForExport( shared_ptr<carve::mesh::MeshSet<3> 
 			
 			if (faceBound.size() == 3 )
 			{
-				int vertex_index_a = poly_cache.addPoint(faceBound[0]);
-				int vertex_index_b = poly_cache.addPoint(faceBound[1]);
-				int vertex_index_c = poly_cache.addPoint(faceBound[2]);
+				int vertex_index_a = polyOut.addPoint(faceBound[0]);
+				int vertex_index_b = polyOut.addPoint(faceBound[1]);
+				int vertex_index_c = polyOut.addPoint(faceBound[2]);
 
 				if (vertex_index_a == vertex_index_b || vertex_index_a == vertex_index_c || vertex_index_b == vertex_index_c)
 				{
 					continue;
 				}
 
-				poly_cache.m_poly_data->addFace(vertex_index_a, vertex_index_b, vertex_index_c);
+				polyOut.m_poly_data->addFace(vertex_index_a, vertex_index_b, vertex_index_c);
 				continue;
 			}
 			else if (faceBound.size() == 4)
@@ -815,13 +815,13 @@ void MeshOps::retriangulateMeshSetForExport( shared_ptr<carve::mesh::MeshSet<3> 
 				vec3& pointB = faceBound[1];
 				vec3& pointC = faceBound[2];
 				vec3& pointD = faceBound[3];
-				addFaceCheckIndexes(pointA, pointB, pointC, pointD, poly_cache, params.epsMergePoints);
+				polyOut.addFaceCheckIndexes(pointA, pointB, pointC, pointD, params.epsMergePoints);
 
 				continue;
 			}
 
 			std::vector<std::vector<vec3> > inputBounds3D = { faceBound };
-			FaceConverter::createTriangulated3DFace(inputBounds3D, poly_cache, params, false);
+			FaceConverter::createTriangulated3DFace(inputBounds3D, polyOut, params, false);
 		}
 	}
 
@@ -829,11 +829,11 @@ void MeshOps::retriangulateMeshSetForExport( shared_ptr<carve::mesh::MeshSet<3> 
 	if (checkPolyData)
 	{
 		std::string details = "";
-		bool correct = checkPolyhedronData(poly_cache.m_poly_data, params, details);
+		bool correct = checkPolyhedronData(polyOut.m_poly_data, params, details);
 		if (!correct)
 		{
-			fixPolyhedronData(poly_cache.m_poly_data, params);
-			correct = checkPolyhedronData(poly_cache.m_poly_data, params, details);
+			fixPolyhedronData(polyOut.m_poly_data, params);
+			correct = checkPolyhedronData(polyOut.m_poly_data, params, details);
 
 #ifdef _DEBUG
 			if (!correct)
@@ -844,34 +844,53 @@ void MeshOps::retriangulateMeshSetForExport( shared_ptr<carve::mesh::MeshSet<3> 
 		}
 	}
 
-	shared_ptr<carve::mesh::MeshSet<3>> meshsetTriangulated = shared_ptr<carve::mesh::MeshSet<3> >(poly_cache.m_poly_data->createMesh(carve::input::opts(), params.epsMergePoints));
-	MeshSetInfo infoTriangulated;
-	MeshOps::checkMeshSetValidAndClosed(meshsetTriangulated, infoTriangulated, params);
-
-	if( isBetterForExport( infoTriangulated, infoInput ))
-	{
-		meshset.reset();
-		meshset = meshsetTriangulated;
-	}
-
 #ifdef _DEBUG
-		bool dumpMesh = true;
-		if (validInput && dumpMesh && meshset->vertex_storage.size() > 60)
-		{
-			GeomDebugDump::DumpSettingsStruct dumpSet;
-			dumpSet.triangulateBeforeDump = false;
-			GeomProcessingParams paramCopy(params);
-			paramCopy.checkZeroAreaFaces = false;
-			
-			GeomDebugDump::dumpLocalCoordinateSystem();
-			GeomDebugDump::moveOffset(0.3);
-			GeomDebugDump::dumpWithLabel("triangulate:input ", meshset, dumpSet, paramCopy, true, true);
-			GeomDebugDump::moveOffset(0.3);
-			GeomDebugDump::dumpWithLabel("triangulate:result", meshsetTriangulated, dumpSet, paramCopy, true, true);
-		}
+
+	{
+		GeomDebugDump::DumpSettingsStruct dumpSet;
+		dumpSet.triangulateBeforeDump = false;
+		GeomProcessingParams paramCopy(params);
+		paramCopy.checkZeroAreaFaces = false;
+
+		GeomDebugDump::dumpLocalCoordinateSystem();
+		GeomDebugDump::moveOffset(0.3);
+		shared_ptr<carve::mesh::MeshSet<3>> meshsetTriangulated = shared_ptr<carve::mesh::MeshSet<3> >(polyOut.m_poly_data->createMesh(carve::input::opts(), params.epsMergePoints));
+		MeshSetInfo infoTriangulated;
+		MeshOps::checkMeshSetValidAndClosed(meshsetTriangulated, infoTriangulated, params);
+		GeomDebugDump::dumpWithLabel("triangulate:output ", meshsetTriangulated, dumpSet, paramCopy, true, true);
+	}
 #endif
 
-	checkAndFixMeshsetInverted(meshset, infoTriangulated, params);
+	return;
+
+//	shared_ptr<carve::mesh::MeshSet<3>> meshsetTriangulated = shared_ptr<carve::mesh::MeshSet<3> >(polyOut.m_poly_data->createMesh(carve::input::opts(), params.epsMergePoints));
+//	MeshSetInfo infoTriangulated;
+//	MeshOps::checkMeshSetValidAndClosed(meshsetTriangulated, infoTriangulated, params);
+//
+//	if( isBetterForExport( infoTriangulated, infoInput ))
+//	{
+//		meshset.reset();
+//		meshset = meshsetTriangulated;
+//	}
+//
+//#ifdef _DEBUG
+//	bool dumpMesh = true;
+//	if (validInput && dumpMesh && meshset->vertex_storage.size() > 60)
+//	{
+//		GeomDebugDump::DumpSettingsStruct dumpSet;
+//		dumpSet.triangulateBeforeDump = false;
+//		GeomProcessingParams paramCopy(params);
+//		paramCopy.checkZeroAreaFaces = false;
+//			
+//		GeomDebugDump::dumpLocalCoordinateSystem();
+//		GeomDebugDump::moveOffset(0.3);
+//		GeomDebugDump::dumpWithLabel("triangulate:input ", meshset, dumpSet, paramCopy, true, true);
+//		GeomDebugDump::moveOffset(0.3);
+//		GeomDebugDump::dumpWithLabel("triangulate:result", meshsetTriangulated, dumpSet, paramCopy, true, true);
+//	}
+//#endif
+//
+//	checkAndFixMeshsetInverted(meshset, infoTriangulated, params);
 }
 
 void MeshOps::simplifyMeshSet(shared_ptr<carve::mesh::MeshSet<3> >& meshset, MeshSetInfo& infoMeshOut, const GeomProcessingParams& params)
@@ -3171,7 +3190,7 @@ std::shared_ptr<carve::mesh::MeshSet<3> > MeshOps::createBoxMesh(vec3& pos, vec3
 
 bool checkPolyhedronData(const shared_ptr<carve::input::PolyhedronData>& poly_data, const GeomProcessingParams& params, std::string& details)
 {
-	bool allowZeroAreaFaces = false;
+	bool allowZeroAreaFaces = params.allowZeroAreaFaces;
 
 	if (poly_data)
 	{

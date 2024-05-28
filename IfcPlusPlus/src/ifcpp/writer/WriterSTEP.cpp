@@ -22,8 +22,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <iomanip>
 #include <clocale>
 #include <algorithm>
-#include <execution>
-
 
 #include "ifcpp/model/AttributeObject.h"
 #include "ifcpp/model/BasicTypes.h"
@@ -72,7 +70,7 @@ void WriterSTEP::writeModelToStream(std::stringstream& stream, shared_ptr<Buildi
 	auto t_start = std::chrono::high_resolution_clock::now();
 	std::atomic<int> counter = 0;
 	size_t numEntities = entityDataStrings.size();
-	std::for_each(std::execution::par, entityDataStrings.begin(), entityDataStrings.end(), [&, this](std::tuple<int, shared_ptr<BuildingEntity>, std::string>& entityDataForOutput) {
+	FOR_EACH_LOOP entityDataStrings.begin(), entityDataStrings.end(), [&, this](std::tuple<int, shared_ptr<BuildingEntity>, std::string>& entityDataForOutput) {
 		shared_ptr<BuildingEntity> obj = std::get<1>(entityDataForOutput);
 		if (obj.use_count() < 2)
 		{

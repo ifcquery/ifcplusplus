@@ -18,6 +18,6 @@ shared_ptr<IFC4X3::IfcAxis2Placement> IFC4X3::IfcAxis2Placement::createObjectFro
 		return shared_ptr<IfcAxis2Placement>();
 	}
 	shared_ptr<IfcAxis2Placement> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

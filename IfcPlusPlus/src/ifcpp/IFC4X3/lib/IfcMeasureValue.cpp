@@ -42,6 +42,6 @@ shared_ptr<IFC4X3::IfcMeasureValue> IFC4X3::IfcMeasureValue::createObjectFromSTE
 		return shared_ptr<IfcMeasureValue>();
 	}
 	shared_ptr<IfcMeasureValue> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

@@ -696,7 +696,7 @@ public:
 				// last point
 				vertex_before	= curvePoints[ii-1];
 				vec3 delta_element = vertex_current - vertex_before;
-				vertex_next = vertex_before + (delta_element);
+				vertex_next = vertex_current + (delta_element);
 			}
 			else
 			{

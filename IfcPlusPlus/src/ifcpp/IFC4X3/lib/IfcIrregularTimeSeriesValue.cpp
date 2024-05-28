@@ -40,7 +40,7 @@ void IFC4X3::IfcIrregularTimeSeriesValue::readStepArguments( const std::vector<s
 {
 	const size_t num_args = args.size();
 	if( num_args > 0 ){m_TimeStamp = IfcDateTime::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
-	if( num_args > 1 ){readSelectList( args[1], m_ListValues, map, errorStream, entityIdNotFound );}
+	if( num_args > 1 ){readSelectList( args[1], m_ListValues, "IFCVALUE", map, errorStream, entityIdNotFound );}
 	if( num_args != 2 ){ errorStream << "Wrong parameter count for entity IfcIrregularTimeSeriesValue, expecting 2, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }
 void IFC4X3::IfcIrregularTimeSeriesValue::getAttributes( std::vector<std::pair<std::string, shared_ptr<BuildingObject> > >& vec_attributes ) const

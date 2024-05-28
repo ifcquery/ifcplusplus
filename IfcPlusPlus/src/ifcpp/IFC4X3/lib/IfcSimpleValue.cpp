@@ -34,6 +34,6 @@ shared_ptr<IFC4X3::IfcSimpleValue> IFC4X3::IfcSimpleValue::createObjectFromSTEP(
 		return shared_ptr<IfcSimpleValue>();
 	}
 	shared_ptr<IfcSimpleValue> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }

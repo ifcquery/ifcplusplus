@@ -57,7 +57,7 @@ void IFC4X3::IfcRelAssociatesMaterial::readStepArguments( const std::vector<std:
 	if( num_args > 1 ){readEntityReference( args[1], m_OwnerHistory, map, errorStream, entityIdNotFound );}
 	if( num_args > 2 ){m_Name = IfcLabel::createObjectFromSTEP( args[2], map, errorStream, entityIdNotFound );}
 	if( num_args > 3 ){m_Description = IfcText::createObjectFromSTEP( args[3], map, errorStream, entityIdNotFound );}
-	if( num_args > 4 ){readSelectList( args[4], m_RelatedObjects, map, errorStream, entityIdNotFound );}
+	if( num_args > 4 ){readSelectList( args[4], m_RelatedObjects, "IFCDEFINITIONSELECT", map, errorStream, entityIdNotFound );}
 	if( num_args > 5 ){m_RelatingMaterial = IfcMaterialSelect::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
 	if( num_args != 6 ){ errorStream << "Wrong parameter count for entity IfcRelAssociatesMaterial, expecting 6, having " << num_args << ". Entity ID: " << m_tag << std::endl; }
 }

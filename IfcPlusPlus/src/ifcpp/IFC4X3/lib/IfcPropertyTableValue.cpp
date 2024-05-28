@@ -87,8 +87,8 @@ void IFC4X3::IfcPropertyTableValue::readStepArguments( const std::vector<std::st
 	const size_t num_args = args.size();
 	if( num_args > 0 ){m_Name = IfcIdentifier::createObjectFromSTEP( args[0], map, errorStream, entityIdNotFound );}
 	if( num_args > 1 ){m_Specification = IfcText::createObjectFromSTEP( args[1], map, errorStream, entityIdNotFound );}
-	if( num_args > 2 ){readSelectList( args[2], m_DefiningValues, map, errorStream, entityIdNotFound );}
-	if( num_args > 3 ){readSelectList( args[3], m_DefinedValues, map, errorStream, entityIdNotFound );}
+	if( num_args > 2 ){readSelectList( args[2], m_DefiningValues, "IFCVALUE", map, errorStream, entityIdNotFound );}
+	if( num_args > 3 ){readSelectList( args[3], m_DefinedValues, "IFCVALUE", map, errorStream, entityIdNotFound );}
 	if( num_args > 4 ){m_Expression = IfcText::createObjectFromSTEP( args[4], map, errorStream, entityIdNotFound );}
 	if( num_args > 5 ){m_DefiningUnit = IfcUnit::createObjectFromSTEP( args[5], map, errorStream, entityIdNotFound );}
 	if( num_args > 6 ){m_DefinedUnit = IfcUnit::createObjectFromSTEP( args[6], map, errorStream, entityIdNotFound );}

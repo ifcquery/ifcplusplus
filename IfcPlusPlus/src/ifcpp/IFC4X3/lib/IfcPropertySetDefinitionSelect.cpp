@@ -19,6 +19,6 @@ shared_ptr<IFC4X3::IfcPropertySetDefinitionSelect> IFC4X3::IfcPropertySetDefinit
 		return shared_ptr<IfcPropertySetDefinitionSelect>();
 	}
 	shared_ptr<IfcPropertySetDefinitionSelect> result_object;
-	readSelectType( arg, result_object, map, errorStream, entityIdNotFound );
+	readSelectType( arg, result_object, "", map, errorStream, entityIdNotFound );
 	return result_object;
 }
