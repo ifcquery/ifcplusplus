@@ -604,7 +604,10 @@ public:
 			}
 			else
 			{
-				params.callbackFunc->messageCallback("degenerated triangle", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
+				if (params.callbackFunc)
+				{
+					params.callbackFunc->messageCallback("degenerated triangle", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
+				}
 			}
 
 			std::vector<vec3> currentFlatPolygonPoints;
