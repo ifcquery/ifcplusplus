@@ -571,7 +571,7 @@ void readIntegerList(const std::string& str, std::vector<int>& vec)
 			size_t str_length = i - last_token;
 			if (str_length > 0)
 			{
-				vec.push_back(std::stoi(str.substr(last_token, i - last_token)));
+				vec.push_back(readInteger(str.substr(last_token, i - last_token)));
 			}
 			last_token = i + 1;
 		}
@@ -580,7 +580,7 @@ void readIntegerList(const std::string& str, std::vector<int>& vec)
 			size_t str_length = i - last_token;
 			if (str_length > 0)
 			{
-				vec.push_back(std::stoi(str.substr(last_token, i - last_token)));
+				vec.push_back(readInteger(str.substr(last_token, i - last_token)));
 			}
 			return;
 		}
@@ -600,20 +600,33 @@ void readIntegerList2D(const std::string& str, std::vector<std::vector<int> >& v
 	size_t i = 0;
 	size_t num_par_open = 0;
 	size_t last_token = 0;
+
+	if (argsize > 1)
+	{
+		if (ch[0] == '(' && ch[1] == '(')
+		{
+			i = 1;
+			last_token = 1;
+			++num_par_open;
+		}
+	}
+
 	while (i < argsize)
 	{
 		if (ch[i] == ',')
 		{
 			if (num_par_open == 1)
 			{
-				std::vector<int> inner_vec;
-				vec.push_back(inner_vec);
+				vec.resize(vec.size() + 1);
+				std::vector<int>& inner_vec = vec.back();
+
 				readIntegerList(str.substr(last_token, i - last_token), inner_vec);
 				last_token = i + 1;
 			}
 		}
 		else if (ch[i] == '(')
 		{
+			last_token = i;
 			++num_par_open;
 		}
 		else if (ch[i] == ')')
@@ -621,8 +634,10 @@ void readIntegerList2D(const std::string& str, std::vector<std::vector<int> >& v
 			--num_par_open;
 			if (num_par_open == 0)
 			{
-				std::vector<int> inner_vec;
-				vec.push_back(inner_vec);
+				vec.resize(vec.size() + 1);
+				std::vector<int>& inner_vec = vec.back();
+				std::string temp = str.substr(last_token, i - last_token);
+
 				readIntegerList(str.substr(last_token, i - last_token), inner_vec);
 				return;
 			}
@@ -1290,11 +1305,6 @@ void readLogical(const std::string& attribute_value, LogicalEnum& target)
 	{
 		target = LOGICAL_UNKNOWN;
 	}
-}
-
-void readInteger(const std::string& attribute_value, int& target)
-{
-	target = std::stoi(attribute_value);
 }
 
 void readIntegerValue(const std::string& str, int& int_value)

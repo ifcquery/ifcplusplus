@@ -85,7 +85,30 @@ IFCQUERY_EXPORT void decodeArgumentStrings( const std::vector<std::string>& enti
 
 void readBool(const std::string& attribute_value, bool& target);
 void readLogical(const std::string& attribute_value, LogicalEnum& target);
-void readInteger(const std::string& attribute_value, int& target);
+inline int readInteger(const std::string& str)
+{
+#ifdef _DEBUG
+	for (auto c : str)
+	{
+		if (!isdigit(c) && c != '-' && c != '.') { // 1. is not an integer, but sometimes appears in IFC files as integer
+			std::cout << "can't convert to int: " << str << std::endl;
+		}
+	}
+#endif
+	return std::stoi(str);
+}
+inline void readInteger(const std::string& str, int& result)
+{
+#ifdef _DEBUG
+	for (auto c : str)
+	{
+		if (!isdigit(c) && c != '-') {
+			std::cout << "can't convert to int" << std::endl;
+		}
+	}
+#endif
+	result = std::stoi(str);
+}
 void readIntegerValue(const std::string& str, int& int_value);
 void readReal(const std::string& attribute_value, double& target);
 void readString(const std::string& attribute_value, std::string& target);

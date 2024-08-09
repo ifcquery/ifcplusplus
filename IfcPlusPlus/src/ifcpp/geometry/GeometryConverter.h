@@ -641,7 +641,7 @@ public:
 				continue;
 			}
 
-			if (ifc_object_definition->classID() == IFC4X3::IFCBUILDING)
+			if (ifc_object_definition->classID() == IFCBUILDING)
 			{
 				shared_ptr<IfcBuilding> ifc_building = dynamic_pointer_cast<IfcBuilding>(ifc_object_definition);
 				if (ifc_building)
@@ -651,7 +651,7 @@ public:
 				}
 			}
 
-			if (ifc_object_definition->classID() == IFC4X3::IFCSITE)
+			if (ifc_object_definition->classID() == IFCSITE)
 			{
 				shared_ptr<IfcSite> site = dynamic_pointer_cast<IfcSite>(ifc_object_definition);
 				if (site)
@@ -661,7 +661,7 @@ public:
 				}
 			}
 
-			if (ifc_object_definition->classID() == IFC4X3::IFCPROJECT)
+			if (ifc_object_definition->classID() == IFCPROJECT)
 			{
 				shared_ptr<IfcProject> project = dynamic_pointer_cast<IfcProject>(ifc_object_definition);
 				if (project)
@@ -783,7 +783,7 @@ public:
 					return;
 				}
 
-				if (classID == IFC4X3::IFCPROJECT)
+				if (classID == IFCPROJECT)
 				{
 					std::lock_guard<std::mutex> lock(writelock_ifc_project);
 					ifcProjectData = product_geom_input_data;
@@ -980,7 +980,7 @@ public:
 
 							if (m_set_model_to_origin)
 							{
-								if (object_def->classID() == IFC4X3::IFCSITE)
+								if (object_def->classID() == IFCSITE)
 								{
 									shared_ptr<IfcSite> ifc_site = dynamic_pointer_cast<IfcSite>(object_def);
 									if (ifc_site)
@@ -992,14 +992,14 @@ public:
 						}
 					}
 
-					if (entity->classID() == IFC4X3::IFCCARTESIANPOINT)
+					if (entity->classID() == IFCCARTESIANPOINT)
 					{
 						// IfcCartesianPoint are referenced by IfcFace etc, so we don't need to keep them in the model
 						it = map_entities.erase(it);
 						continue;
 					}
 
-					if (entity->classID() == IFC4X3::IFCPRODUCTREPRESENTATION)
+					if (entity->classID() == IFCPRODUCTREPRESENTATION)
 					{
 						// IfcCartesianPoint are referenced by IfcFace etc, so we don't need to keep them in the model
 						it = map_entities.erase(it);

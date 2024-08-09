@@ -265,81 +265,8 @@ class kd_node {
   // distance_t must provide:
   // double operator()(data_t, vector<ndim>);
   // double operator()(axis_pos, vector<ndim>);
-  template <typename distance_t>
-  struct near_point_query {
-    // q_t - the priority queue value type.
-    // q_t.first:  distance from object to query point.
-    // q_t.second: pointer to object
-    typedef std::pair<double, const data_t*> q_t;
+ 
 
-    // the queue priority should sort from smallest distance to largest, and on
-    // equal distance, by object pointer.
-    struct pcmp {
-      bool operator()(const q_t& a, const q_t& b) {
-        return (a.first > b.first) ||
-               ((a.first == b.first) && (a.second < b.second));
-      }
-    };
-
-    vector<ndim> point;
-    const kd_node* node;
-    std::priority_queue<q_t, std::vector<q_t>, pcmp> pq;
-
-    distance_t dist;
-    double dist_to_parent_split;
-
-    void addToPQ(kd_node* node) {
-      if (node->c_neg) {
-        addToPQ(node->c_neg);
-        addToPQ(node->c_pos);
-      } else {
-        for (typename kd_node::container_t::const_iterator i =
-                 node->data.begin();
-             i != node->data.end(); ++i) {
-          double d = dist((*i), point);
-          pq.push(std::make_pair(d, &(*i)));
-        }
-      }
-    }
-
-    const data_t* next() {
-      while (1) {
-        if (pq.size()) {
-          q_t t = pq.top();
-          if (!node->parent || t.first < dist_to_parent_split) {
-            pq.pop();
-            return t.second;
-          }
-        }
-
-        if (!node->parent) {
-          return NULL;
-        }
-
-        if (node->parent->c_neg == node) {
-          addToPQ(node->parent->c_pos);
-        } else {
-          addToPQ(node->parent->c_neg);
-        }
-
-        node = node->parent;
-        dist_to_parent_split = dist(node->splitpos, point);
-      }
-    }
-
-    near_point_query(const vector<ndim> _point, const kd_node* _node)
-        : point(_point), node(_node), pq(), dist() {
-      while (node->c_neg) {
-        node = (point[node->axis] < node->pos) ? node->c_neg : node->c_pos;
-      }
-      if (node->parent) {
-        dist_to_parent_split = dist(node->parent->splitpos, point);
-      } else {
-        dist_to_parent_split = HUGE_VAL;
-      }
-      addToPQ(node);
-    }
-  };
 };
 }  // namespace geom
 }  // namespace carve

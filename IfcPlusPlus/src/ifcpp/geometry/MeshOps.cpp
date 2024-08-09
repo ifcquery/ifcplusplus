@@ -1760,8 +1760,12 @@ void MeshOps::resolveOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, Mes
 		return;
 	}
 
-	if (meshset->vertex_storage.size() > 5000)
+	if (meshset->vertex_storage.size() > 2000)
 	{
+		return;
+	}
+
+	if (meshset->meshes.size() > 100) {
 		return;
 	}
 
@@ -1826,6 +1830,11 @@ void MeshOps::resolveOpenEdges(shared_ptr<carve::mesh::MeshSet<3>>& meshset, Mes
 	if (maxNumRepeats > 1) maxNumRepeats = 1;
 	for (size_t repeat = 0; repeat < maxNumRepeats; ++repeat)
 	{
+		if (meshset->meshes.size() > 20)
+		{
+			continue;
+		}
+
 		size_t numChanges = 0;
 		for (carve::mesh::Mesh<3>*mesh : meshset->meshes)
 		{

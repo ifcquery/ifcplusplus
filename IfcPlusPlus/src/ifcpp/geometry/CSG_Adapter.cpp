@@ -381,7 +381,7 @@ bool CSG_Adapter::computeCSG_Carve(const shared_ptr<carve::mesh::MeshSet<3> >& i
 		bool operandA_dumped = false;
 		bool operandB_dumped = false;
 		bool dump_result_mesh = false;
-
+		if(false)
 		{
 			if (5598 == tag || !infoInputA.meshSetValid)
 			{
@@ -763,7 +763,7 @@ bool CSG_Adapter::computeCSG_Carve(const shared_ptr<carve::mesh::MeshSet<3> >& i
 
 		if (!result_valid_2)
 		{
-			std::cout << "!result" << std::endl;
+			std::cout << __FUNCTION__ << ": !result_valid_2" << std::endl;
 		}
 	}
 #endif

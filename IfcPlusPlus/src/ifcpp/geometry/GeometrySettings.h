@@ -63,7 +63,7 @@ class GeometrySettings
 public:
 	GeometrySettings()
 	{
-		m_excludeIfcTypes.insert(IFC4X3::IFCFEATUREELEMENTSUBTRACTION);// 1287392070);  // IfcFeatureElementSubtraction
+		m_excludeIfcTypes.insert(IFCFEATUREELEMENTSUBTRACTION);// 1287392070);  // IfcFeatureElementSubtraction
 	}
 	GeometrySettings(const shared_ptr<GeometrySettings>& other)
 	{

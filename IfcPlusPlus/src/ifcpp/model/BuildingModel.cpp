@@ -621,7 +621,7 @@ void BuildingModel::updateCache()
 	{
 		int tag = it->first;
 		shared_ptr<BuildingEntity> obj = it->second;
-		if( obj->classID() == IFC4X3::IFCPROJECT )
+		if( obj->classID() == IFCPROJECT )
 		{
 			if( m_ifc_project )
 			{
@@ -642,7 +642,7 @@ void BuildingModel::updateCache()
 				std::cout << "BuildingModel::updateCache: IfcProject found but dynamic_cast failed. Is RTTI enabled?" << std::endl;
 			}
 		}
-		else if( obj->classID() == IFC4X3::IFCGEOMETRICREPRESENTATIONCONTEXT )
+		else if( obj->classID() == IFCGEOMETRICREPRESENTATIONCONTEXT )
 		{
 			shared_ptr<IfcGeometricRepresentationContext> context = dynamic_pointer_cast<IfcGeometricRepresentationContext>(obj);
 			if( context )

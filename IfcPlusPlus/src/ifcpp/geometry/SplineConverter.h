@@ -314,6 +314,10 @@ public:
 		{
 			target_vec.push_back( carve::geom::VECTOR( curvePointsCoords[ii], curvePointsCoords[ii + 1], curvePointsCoords[ii + 2] ) );
 		}
+#ifdef _DEBUG
+		vec4 color(0.5, 0.6, 0.7, 1.0);
+		GeomDebugDump::dumpPolyline(target_vec, color, 0, false, false);
+#endif
 	}
 
 

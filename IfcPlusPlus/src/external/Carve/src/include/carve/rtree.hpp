@@ -30,7 +30,7 @@
 #include <carve/geom.hpp>
 
 #include <iostream>
-
+#include <cstdint>
 #include <cmath>
 #include <limits>
 

@@ -839,13 +839,12 @@ public:
 			double epsCoplanarFacesAngle = eps;
 			double minFaceArea = eps;
 			bool dumpMeshes = false;
+			PolyInputCache3D polyTriangulated;
 			GeomProcessingParams params(m_geom_settings, dumpMeshes);
-			PolyInputCache3D poly(0.001);
-			MeshOps::retriangulateMeshSetForExport(item_meshset, poly, params);
+			MeshOps::retriangulateMeshSetForExport(item_meshset, polyTriangulated, params);
 
 			std::map<std::string, std::string> mesh_input_options;
-			shared_ptr<carve::mesh::MeshSet<3> > meshsetTriangulated(poly.m_poly_data->createMesh(mesh_input_options, eps));
-
+			shared_ptr<carve::mesh::MeshSet<3> > meshsetTriangulated(polyTriangulated.m_poly_data->createMesh(mesh_input_options, EPS_M7));
 			drawMeshSet(meshsetTriangulated, geode, crease_angle, min_triangle_area, false, disableBackfaceCulling);
 
 			if (m_render_crease_edges)
@@ -864,7 +863,7 @@ public:
 #ifdef _DEBUG
 			//vec4 color(0.6f, 0.6f, 0.6f, 0.1f);
 			//GeomDebugDump::moveOffset(1);
-			//GeomDebugDump::dumpMeshset(meshsetTriangulated, color, false, true, true);
+			//GeomDebugDump::dumpMeshset(item_meshset, color, false, true, true);
 #endif
 		}
 	}
@@ -891,7 +890,7 @@ public:
 
 #ifdef _DEBUG
 			int tag = ifc_product->m_tag;
-			if (product_guid.compare("3WMG3ehJnBiu4F_L5ltNmO") == 0 || ifc_product->classID() == IFC4X3::IFCWINDOW)
+			if (product_guid.compare("3WMG3ehJnBiu4F_L5ltNmO") == 0 || ifc_product->classID() == IFCWINDOW)
 			{
 				int wait = 0;
 			}

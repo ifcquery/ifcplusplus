@@ -291,6 +291,28 @@ public:
 		return distance;
 	}
 
+	static void adjustTrimpointPositionOnConic(const vec3& circleCenter, double radius1, double radius2, vec3& trimPoint,
+		const carve::math::Matrix& circlePosition, double eps)
+	{
+		if (std::abs(radius1 - radius2) < eps * 10)
+		{
+			double trimPointDistance2 = (circleCenter - trimPoint).length() - radius1;
+			if (std::abs(trimPointDistance2) > eps * eps * 10)
+			{
+				// trim point could be given in local coordinates
+				vec3 trimPointGlobal = circlePosition * trimPoint;
+
+				double trimPointDistance3 = (circleCenter - trimPointGlobal).length() - radius1;
+
+				// trim points might be given not super accurate, so don't check against epsilon. Check only if significant closer
+				if (std::abs(trimPointDistance3) * 100 < std::abs(trimPointDistance2))
+				{
+					trimPoint = trimPointGlobal;
+				}
+			}
+		}
+	}
+
 	//\brief: returns the corresponding angle in radian. angle 0 is on the positive x-axis.
 	static double getAngleOnConic(const vec3& circleCenter, double radius1, double radius2, vec3& trimPoint, const carve::math::Matrix& circlePosition, const carve::math::Matrix& circlePositionInverse, double eps)
 	{
@@ -312,25 +334,8 @@ public:
 		}
 #endif
 
-		//vec3 circleCenter3D = circlePosition * carve::geom::VECTOR(0, 0, 0);
-		if (std::abs(radius1 - radius2) < eps * 10)
-		{
-			double trimPointDistance2 = (circleCenter - trimPoint).length() - radius1;
-			if (std::abs(trimPointDistance2) > eps * eps * 10)
-			{
-				// trim point could be given in local coordinates
-				vec3 trimPointGlobal = circlePosition * trimPoint;
-
-				double trimPointDistance3 = (circleCenter - trimPointGlobal).length() - radius1;
-
-				// trim points might be given not super accurate, so don't check against epsilon. Check only if significant closer
-				if (std::abs(trimPointDistance3) * 100 < std::abs(trimPointDistance2))
-				{
-					trimPoint = trimPointGlobal;
-				}
-			}
-		}
-
+		adjustTrimpointPositionOnConic(circleCenter, radius1, radius2, trimPoint, circlePosition, eps);
+		
 		vec3 center2trimPoint = trimPoint - circleCenter;
 		vec3 center2trimPointDirection = center2trimPoint;
 		center2trimPointDirection.normalize();

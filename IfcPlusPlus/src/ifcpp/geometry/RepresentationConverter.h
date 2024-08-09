@@ -308,6 +308,7 @@ public:
 					double eps = m_geom_settings->getEpsilonMergePoints();
 					mapped_input_data->applyTransformToItem(mapped_pos, eps, false);
 				}
+
 				representationData->addGeometricChildItem( mapped_input_data, representationData );
 				continue;
 			}
@@ -391,7 +392,7 @@ public:
 		// IfcDirection, IfcFaceBasedSurfaceModel, IfcFillAreaStyleHatching, IfcFillAreaStyleTiles, IfcGeometricSet, IfcHalfSpaceSolid, IfcLightSource, IfcPlacement, IfcPlanarExtent, 
 		//	IfcPoint, IfcSectionedSpine, IfcSegment, IfcShellBasedSurfaceModel, IfcSolidModel, IfcSurface, IfcTessellatedItem, IfcTextLiteral, IfcVector))
 
-		if (geom_item->classID() == IFC4X3::IFCBOUNDINGBOX)
+		if (geom_item->classID() == IFCBOUNDINGBOX)
 		{
 			return;
 		}
@@ -430,29 +431,6 @@ public:
 		if( solid_model )
 		{
 			m_solid_converter->convertIfcSolidModel( solid_model, item_data );
-			return;
-		}
-
-		shared_ptr<IfcCurve> ifc_curve = dynamic_pointer_cast<IfcCurve>( geom_item );
-		if( ifc_curve )
-		{
-			std::vector<vec3> loops;
-			std::vector<CurveConverter::CurveSegment> segments;
-			m_curve_converter->convertIfcCurve( ifc_curve, segments, true );
-			for (auto& seg : segments)
-			{
-				std::copy(seg.m_points.begin(), seg.m_points.end(), std::back_inserter(loops));
-			}
-
-			shared_ptr<carve::input::PolylineSetData> polyline_data( new carve::input::PolylineSetData() );
-			polyline_data->beginPolyline();
-			for( size_t i = 0; i < loops.size(); ++i )
-			{
-				const vec3& point = loops[i];
-				polyline_data->addVertex( point );
-				polyline_data->addPolylineIndex( i );
-			}
-			item_data->m_polylines.push_back( polyline_data );
 			return;
 		}
 
@@ -519,6 +497,29 @@ public:
 				polyline_data->addPolylineIndex( i );
 			}
 			item_data->m_polylines.push_back( polyline_data );
+			return;
+		}
+
+		shared_ptr<IfcCurve> ifc_curve = dynamic_pointer_cast<IfcCurve>(geom_item);
+		if (ifc_curve)
+		{
+			std::vector<vec3> loops;
+			std::vector<CurveConverter::CurveSegment> segments;
+			m_curve_converter->convertIfcCurve(ifc_curve, segments, true);
+			for (auto& seg : segments)
+			{
+				std::copy(seg.m_points.begin(), seg.m_points.end(), std::back_inserter(loops));
+			}
+
+			shared_ptr<carve::input::PolylineSetData> polyline_data(new carve::input::PolylineSetData());
+			polyline_data->beginPolyline();
+			for (size_t i = 0; i < loops.size(); ++i)
+			{
+				const vec3& point = loops[i];
+				polyline_data->addVertex(point);
+				polyline_data->addPolylineIndex(i);
+			}
+			item_data->m_polylines.push_back(polyline_data);
 			return;
 		}
 
