@@ -81,6 +81,7 @@ void WriterSTEP::writeModelToStream(std::stringstream& stream, shared_ptr<Buildi
 			}
 		}
 		std::stringstream tmpStream;
+		tmpStream.imbue(std::locale("C"));
 #ifdef EXTERNAL_WRITE_METHODS
 		getStepLine(obj, tmpStream);
 #else
