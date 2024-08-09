@@ -32,13 +32,14 @@ class IFCQUERY_EXPORT StatusCallback
 public:
 	enum MessageType
 	{
-		MESSAGE_TYPE_UNKNOWN,
+		MESSAGE_TYPE_UNDEFINED,
 		MESSAGE_TYPE_GENERAL_MESSAGE,
 		MESSAGE_TYPE_PROGRESS_VALUE,	//\brief Progress mechanism to update progress bar or similar.
 		MESSAGE_TYPE_PROGRESS_TEXT,		//\brief Progress mechanism to update text in progress bar or similar.
 		MESSAGE_TYPE_MINOR_WARNING,
 		MESSAGE_TYPE_WARNING,
 		MESSAGE_TYPE_ERROR,
+		MESSAGE_TYPE_UNKNOWN_ENTITY,
 		MESSAGE_TYPE_CLEAR_MESSAGES,
 		MESSAGE_TYPE_CANCELED
 	};
@@ -51,7 +52,7 @@ public:
 		//\brief Default constructor.
 		Message()
 		{
-			m_message_type = MessageType::MESSAGE_TYPE_UNKNOWN;
+			m_message_type = MessageType::MESSAGE_TYPE_UNDEFINED;
 			m_reporting_function = "";
 			m_entity = nullptr;
 			m_progress_value = -1;
@@ -115,7 +116,7 @@ public:
 			{
 				switch (m->m_message_type)
 				{
-				case MESSAGE_TYPE_UNKNOWN:
+				case MESSAGE_TYPE_UNDEFINED:
 				case MESSAGE_TYPE_GENERAL_MESSAGE:
 				case MESSAGE_TYPE_MINOR_WARNING:
 				case MESSAGE_TYPE_WARNING:

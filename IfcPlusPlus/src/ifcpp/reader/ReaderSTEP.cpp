@@ -812,7 +812,7 @@ void ReaderSTEP::readData(std::istream& read_in, std::streampos file_size, share
 		return;
 	}
 	std::string file_schema_version = model->getIfcSchemaVersionOfLoadedFile();
-	messageCallback(std::string("Detected IFC version: ") + file_schema_version, StatusCallback::MESSAGE_TYPE_GENERAL_MESSAGE, "");
+	messageCallback(std::string("Detected IFC version: ") + file_schema_version, StatusCallback::MESSAGE_TYPE_GENERAL_MESSAGE, __FUNC__);
 
 	size_t read_size = model->getFileHeader().size();
 	std::stringstream err;
@@ -918,11 +918,6 @@ void ReaderSTEP::readData(std::istream& read_in, std::streampos file_size, share
 			++lineCount;
 		}
 	}
-	catch (UnknownEntityException& e)
-	{
-		std::string unknown_keyword = e.m_keyword;
-		err << __FUNC__ << ": unknown entity: " << unknown_keyword.c_str() << std::endl;
-	}
 	catch (BuildingException& e)
 	{
 		err << e.what();
@@ -934,6 +929,11 @@ void ReaderSTEP::readData(std::istream& read_in, std::streampos file_size, share
 	catch (...)
 	{
 		err << __FUNC__ << ": error occurred" << std::endl;
+	}
+
+	if (err_unknown_entity.tellp() > 0)
+	{
+		messageCallback(err_unknown_entity.str(), StatusCallback::MESSAGE_TYPE_UNKNOWN_ENTITY, __FUNC__);
 	}
 
 	// copy entities into map so that they can be found during entity attribute initialization
