@@ -39,7 +39,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 void WriterSTEP::writeModelToStream(std::stringstream& stream, shared_ptr<BuildingModel> model)
 {
 	//imbue C locale to always use dots as decimal separator
-	stream.imbue(std::locale("C"));
+	stream.imbue(std::locale::classic());
 
 	const std::string& file_header_str = model->getFileHeader();
 	if(file_header_str.size() == 0)
@@ -70,6 +70,8 @@ void WriterSTEP::writeModelToStream(std::stringstream& stream, shared_ptr<Buildi
 	auto t_start = std::chrono::high_resolution_clock::now();
 	std::atomic<int> counter = 0;
 	size_t numEntities = entityDataStrings.size();
+	std::stringstream tmpStream;
+	tmpStream.imbue(std::locale::classic());
 	FOR_EACH_LOOP entityDataStrings.begin(), entityDataStrings.end(), [&, this](std::tuple<int, shared_ptr<BuildingEntity>, std::string>& entityDataForOutput) {
 		shared_ptr<BuildingEntity> obj = std::get<1>(entityDataForOutput);
 		if (obj.use_count() < 2)
@@ -80,8 +82,6 @@ void WriterSTEP::writeModelToStream(std::stringstream& stream, shared_ptr<Buildi
 				return;
 			}
 		}
-		std::stringstream tmpStream;
-		tmpStream.imbue(std::locale("C"));
 #ifdef EXTERNAL_WRITE_METHODS
 		getStepLine(obj, tmpStream);
 #else
@@ -89,6 +89,7 @@ void WriterSTEP::writeModelToStream(std::stringstream& stream, shared_ptr<Buildi
 #endif
 		tmpStream << std::endl;
 		std::get<2>(entityDataForOutput) = tmpStream.str();
+		tmpStream.str(std::string());
 
 		counter.fetch_add(1);
 		int currentCount = counter.load();
