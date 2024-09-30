@@ -11,6 +11,10 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerEnvironment>PATH=$(QTDIR)\bin%3b$(IFCPP_DIR)\IfcPlusPlus\bin%3b$(QTDIR)\bin%3b$(OSG_DIR)\build\bin%3b$(PATH)</LocalDebuggerEnvironment>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|x64'">
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerEnvironment>PATH=$(QTDIR)\bin%3b$(IFCPP_DIR)\IfcPlusPlus\bin%3b$(QTDIR)\bin%3b$(OSG_DIR)\build\bin%3b$(PATH)</LocalDebuggerEnvironment>
+  </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <QtLastBackgroundBuild>2024-04-30T05:42:20.7568924Z</QtLastBackgroundBuild>
     <QtTouchProperty>
@@ -20,5 +24,9 @@
     <QtLastBackgroundBuild>2024-04-30T05:42:20.8565894Z</QtLastBackgroundBuild>
     <QtTouchProperty>
     </QtTouchProperty>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|x64'" Label="QtSettings">
+    <QtLastBackgroundBuild>2024-04-30T05:42:20.8565894Z</QtLastBackgroundBuild>
+    <QtTouchProperty />
   </PropertyGroup>
 </Project>

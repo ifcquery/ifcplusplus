@@ -326,309 +326,6 @@ public:
 
 	//#define DEBUG_DRAW_NORMALS
 
-	void drawMeshSet(const shared_ptr<carve::mesh::MeshSet<3> >& meshset, osg::ref_ptr<osg::Geode>& geode, double crease_angle, double min_triangle_area, bool add_color_array, bool disableBackFaceCulling)
-	{
-		if (!meshset)
-		{
-			return;
-		}
-
-		osg::ref_ptr<osg::Vec3Array> vertices_tri = new osg::Vec3Array();
-		osg::ref_ptr<osg::Vec3Array> normals_tri = new osg::Vec3Array();
-		osg::ref_ptr<osg::Vec3Array> vertices_quad;
-		osg::ref_ptr<osg::Vec3Array> normals_quad;
-
-		const size_t max_num_faces_per_vertex = 10000;
-		std::map<carve::mesh::Face<3>*, double> map_face_area;
-		std::map<carve::mesh::Face<3>*, double>::iterator it_face_area;
-
-		if (crease_angle > 0)
-		{
-			for (size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh)
-			{
-				const carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
-				const size_t num_faces = mesh->faces.size();
-				for (size_t i_face = 0; i_face != num_faces; ++i_face)
-				{
-					carve::mesh::Face<3>* face = mesh->faces[i_face];
-					double face_area = MeshOps::computeFaceArea(face);
-					map_face_area[face] = std::abs(face_area);
-				}
-			}
-		}
-
-		for (size_t i_mesh = 0; i_mesh < meshset->meshes.size(); ++i_mesh)
-		{
-			const carve::mesh::Mesh<3>* mesh = meshset->meshes[i_mesh];
-
-			const size_t num_faces = mesh->faces.size();
-			for (size_t i_face = 0; i_face != num_faces; ++i_face)
-			{
-				carve::mesh::Face<3>* face = mesh->faces[i_face];
-				const size_t n_vertices = face->nVertices();
-				if (n_vertices > 4)
-				{
-					drawFace(face, geode);
-					continue;
-				}
-				const vec3 face_normal = face->plane.N;
-
-				if (crease_angle > 0)
-				{
-					carve::mesh::Edge<3>* e = face->edge;
-					for (size_t jj = 0; jj < n_vertices; ++jj)
-					{
-						carve::mesh::Vertex<3>* vertex = e->vert;
-						vec3 intermediate_normal;
-
-						// collect all faces at vertex
-						//              | ^
-						//              | |
-						//  f1   e->rev | | e    face
-						//              v |
-						// <---e1-------   <---------------
-						//------------->   --------------->
-						//              |  ^
-						//              |  |
-						//              v  |
-						carve::mesh::Edge<3>* e1 = e;// ->rev->next;
-						carve::mesh::Face<3>* f1 = e1->face;
-#ifdef _DEBUG
-						if (f1 != face)
-						{
-							std::cout << "f1 != face" << std::endl;
-						}
-#endif
-						for (size_t i3 = 0; i3 < max_num_faces_per_vertex; ++i3)
-						{
-							if (!e1->rev)
-							{
-								break;
-							}
-							if (!e1->rev->next)
-							{
-								break;
-							}
-
-							vec3 f1_normal = f1->plane.N;
-							const double cos_angle = dot(f1_normal, face_normal);
-							if (cos_angle > 0)
-							{
-								const double deviation = std::abs(cos_angle - 1.0);
-								if (deviation < crease_angle)
-								{
-									double weight = 0.0;
-									it_face_area = map_face_area.find(f1);
-									if (it_face_area != map_face_area.end())
-									{
-										weight = it_face_area->second;
-									}
-									intermediate_normal += weight * f1_normal;
-								}
-							}
-
-							if (!e1->rev)
-							{
-								// it's an open mesh
-								break;
-							}
-
-							e1 = e1->rev->next;
-							if (!e1)
-							{
-								break;
-							}
-							f1 = e1->face;
-#ifdef _DEBUG
-							if (e1->vert != vertex)
-							{
-								std::cout << "e1->vert != vertex" << std::endl;
-							}
-#endif
-							if (f1 == face)
-							{
-								break;
-							}
-						}
-						const double intermediate_normal_length = intermediate_normal.length();
-						if (intermediate_normal_length < 0.0000000001)
-						{
-							intermediate_normal = face_normal;
-						}
-						else
-						{
-							// normalize:
-							intermediate_normal *= 1.0 / intermediate_normal_length;
-						}
-
-						const vec3& vertex_v = vertex->v;
-						if (face->n_edges == 3)
-						{
-							const carve::mesh::Edge<3>* edge0 = face->edge;
-							const carve::mesh::Edge<3>* edge1 = edge0->next;
-							const carve::mesh::Edge<3>* edge2 = edge1->next;
-							const carve::mesh::Vertex<3>* v0 = edge0->vert;
-							const carve::mesh::Vertex<3>* v1 = edge1->vert;
-							const carve::mesh::Vertex<3>* v2 = edge2->vert;
-
-							vec3 vert0 = v0->v;
-							vec3 vert1 = v1->v;
-							vec3 vert2 = v2->v;
-
-							vec3 v0v1 = vert1 - vert0;
-							vec3 v0v2 = vert2 - vert0;
-							double area = (carve::geom::cross(v0v1, v0v2).length()) * 0.5;
-							if (std::abs(area) > min_triangle_area)   // skip degenerated triangle
-							{
-
-								vertices_tri->push_back(osg::Vec3f(vertex_v.x, vertex_v.y, vertex_v.z));
-								normals_tri->push_back(osg::Vec3f(intermediate_normal.x, intermediate_normal.y, intermediate_normal.z));
-							}
-						}
-						else if (face->n_edges == 4)
-						{
-							if (!vertices_quad) vertices_quad = new osg::Vec3Array();
-							vertices_quad->push_back(osg::Vec3f(vertex_v.x, vertex_v.y, vertex_v.z));
-							if (!normals_quad) normals_quad = new osg::Vec3Array();
-							normals_quad->push_back(osg::Vec3f(intermediate_normal.x, intermediate_normal.y, intermediate_normal.z));
-						}
-						e = e->next;
-					}
-				}
-				else
-				{
-					carve::mesh::Edge<3>* e = face->edge;
-					for (size_t jj = 0; jj < n_vertices; ++jj)
-					{
-						carve::mesh::Vertex<3>* vertex = e->vert;
-						const vec3& vertex_v = vertex->v;
-
-						if (face->n_edges == 3)
-						{
-							const carve::mesh::Edge<3>* edge0 = face->edge;
-							const carve::mesh::Edge<3>* edge1 = edge0->next;
-							const carve::mesh::Edge<3>* edge2 = edge1->next;
-							const carve::mesh::Vertex<3>* v0 = edge0->vert;
-							const carve::mesh::Vertex<3>* v1 = edge1->vert;
-							const carve::mesh::Vertex<3>* v2 = edge2->vert;
-
-							vec3 vert0 = v0->v;
-							vec3 vert1 = v1->v;
-							vec3 vert2 = v2->v;
-
-							vec3 v0v1 = vert1 - vert0;
-							vec3 v0v2 = vert2 - vert0;
-							double area = (carve::geom::cross(v0v1, v0v2).length()) * 0.5;
-							if (std::abs(area) > min_triangle_area)   // skip degenerated triangle
-							{
-								vertices_tri->push_back(osg::Vec3f(vertex_v.x, vertex_v.y, vertex_v.z));
-								normals_tri->push_back(osg::Vec3f(face_normal.x, face_normal.y, face_normal.z));
-							}
-						}
-						else if (face->n_edges == 4)
-						{
-							if (!vertices_quad) vertices_quad = new osg::Vec3Array();
-							vertices_quad->push_back(osg::Vec3f(vertex_v.x, vertex_v.y, vertex_v.z));
-							if (!normals_quad) normals_quad = new osg::Vec3Array();
-							normals_quad->push_back(osg::Vec3f(face_normal.x, face_normal.y, face_normal.z));
-						}
-						e = e->next;
-					}
-				}
-			}
-		}
-
-		if (vertices_tri->size() > 0)
-		{
-			osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-			if (m_caching_enabled) {
-				osg::ref_ptr<osg::Vec3Array> cachedVertexArray;
-				findExistingVertexArray(vertices_tri, cachedVertexArray);
-				geometry->setVertexArray(cachedVertexArray);
-			}
-			else {
-				geometry->setVertexArray(vertices_tri);
-			}
-
-			geometry->setNormalArray(normals_tri);
-			normals_tri->setBinding(osg::Array::BIND_PER_VERTEX);
-
-			if (add_color_array)
-			{
-				osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-				colors->resize(vertices_tri->size(), osg::Vec4f(0.6f, 0.6f, 0.6f, 0.1f));
-				colors->setBinding(osg::Array::BIND_PER_VERTEX);
-				geometry->setColorArray(colors);
-			}
-
-			geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::TRIANGLES, 0, vertices_tri->size()));
-			geode->addDrawable(geometry);
-
-			// disable back face culling for open meshes
-			if (disableBackFaceCulling)
-			{
-				geometry->getOrCreateStateSet()->setAttributeAndModes(m_cull_back_off.get(), osg::StateAttribute::OFF);
-			}
-
-#ifdef DEBUG_DRAW_NORMALS
-			osg::ref_ptr<osg::Vec3Array> vertices_normals = new osg::Vec3Array();
-			for (size_t i = 0; i < vertices_tri->size(); ++i)
-			{
-				osg::Vec3f& vertex_vec = vertices_tri->at(i);// [i];
-				osg::Vec3f& normal_vec = normals_tri->at(i);
-				vertices_normals->push_back(osg::Vec3f(vertex_vec.x(), vertex_vec.y(), vertex_vec.z()));
-				vertices_normals->push_back(osg::Vec3f(vertex_vec.x(), vertex_vec.y(), vertex_vec.z()) + normal_vec);
-			}
-
-			osg::ref_ptr<osg::Vec4Array> colors_normals = new osg::Vec4Array();
-			colors_normals->resize(vertices_normals->size(), osg::Vec4f(0.4f, 0.7f, 0.4f, 1.f));
-
-			osg::ref_ptr<osg::Geometry> geometry_normals = new osg::Geometry();
-			geometry_normals->setVertexArray(vertices_normals);
-			geometry_normals->setColorArray(colors_normals);
-			geometry_normals->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
-			geometry_normals->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-
-			geometry_normals->setNormalBinding(osg::Geometry::BIND_OFF);
-			geometry_normals->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, vertices_normals->size()));
-			geode->addDrawable(geometry_normals);
-#endif
-		}
-
-		if (vertices_quad)
-		{
-			if (vertices_quad->size() > 0)
-			{
-				osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-				if (m_caching_enabled) {
-					osg::ref_ptr<osg::Vec3Array> cachedVertexArray;
-					findExistingVertexArray(vertices_quad, cachedVertexArray);
-					geometry->setVertexArray(cachedVertexArray);
-				}
-				else {
-					geometry->setVertexArray(vertices_quad);
-				}
-
-				if (normals_quad)
-				{
-					normals_quad->setBinding(osg::Array::BIND_PER_VERTEX);
-					geometry->setNormalArray(normals_quad);
-				}
-
-				if (add_color_array)
-				{
-					osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-					colors->resize(vertices_quad->size(), osg::Vec4f(0.6f, 0.6f, 0.6f, 0.1f));
-					colors->setBinding(osg::Array::BIND_PER_VERTEX);
-					geometry->setColorArray(colors);
-				}
-
-				geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::QUADS, 0, vertices_quad->size()));
-				geode->addDrawable(geometry);
-			}
-		}
-	}
-
 	void drawPolyline(const carve::input::PolylineSetData* polyline_data, osg::ref_ptr<osg::Geode>& geode, bool add_color_array = false)
 	{
 		if (!polyline_data)
@@ -835,26 +532,131 @@ public:
 		for (size_t ii = 0; ii < vecMeshSets.size(); ++ii)
 		{
 			shared_ptr<carve::mesh::MeshSet<3> >& item_meshset = vecMeshSets[ii];
-
+			
 			double epsCoplanarFacesAngle = eps;
 			double minFaceArea = eps;
 			bool dumpMeshes = false;
 			PolyInputCache3D polyTriangulated;
 			GeomProcessingParams params(m_geom_settings, dumpMeshes);
+			params.epsMergePoints = 0.001;
 			MeshOps::retriangulateMeshSetForExport(item_meshset, polyTriangulated, params);
 
-			std::map<std::string, std::string> mesh_input_options;
-			shared_ptr<carve::mesh::MeshSet<3> > meshsetTriangulated(polyTriangulated.m_poly_data->createMesh(mesh_input_options, EPS_M7));
-			drawMeshSet(meshsetTriangulated, geode, crease_angle, min_triangle_area, false, disableBackfaceCulling);
-
-			if (m_render_crease_edges)
+			//convertPolyhedronToGeode(polyTriangulated, geode, min_triangle_area, false, disableBackfaceCulling);
 			{
-				renderMeshsetCreaseEdges(meshsetTriangulated, geode, m_crease_edges_max_delta_angle, m_crease_edges_line_width);
+				if (!polyTriangulated.m_poly_data)
+				{
+					return;
+				}
+				osg::ref_ptr<osg::Geometry> geom = new osg::Geometry;
+				osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
+				for (const vec3& point : polyTriangulated.m_poly_data->points) {
+					vertices->push_back(osg::Vec3f(point.x, point.y, point.z));
+				}
+				geom->setVertexArray(vertices);
+				geode->addChild(geom);
+
+				size_t numFaces = polyTriangulated.m_poly_data->faceIndices.size() / 4;
+				std::cout << "converting item with " << vertices->size() << " vertices and " << numFaces << " faces" << std::endl;
+
+				size_t numIndices = polyTriangulated.m_poly_data->faceIndices.size();
+				
+				
+				if (numIndices < UCHAR_MAX) { // 256
+					osg::ref_ptr<osg::DrawElementsUByte> drawElementsUByte = new osg::DrawElementsUByte(osg::PrimitiveSet::TRIANGLES);
+
+					for (auto it = polyTriangulated.m_poly_data->faceIndices.begin(); it != polyTriangulated.m_poly_data->faceIndices.end(); ++it) {
+						int numPoints = *it;
+						if (numPoints != 3) {
+							std::cout << "not triangularized" << std::endl;
+							continue;
+						}
+						++it;
+
+						int idx = *it;
+						++it;
+						drawElementsUByte->push_back(static_cast<GLubyte>(idx));
+						idx = *it;
+						++it;
+						drawElementsUByte->push_back(static_cast<GLubyte>(idx));
+						idx = *it;
+						drawElementsUByte->push_back(static_cast<GLubyte>(idx));
+					}
+					geom->addPrimitiveSet(drawElementsUByte);
+
+				}
+				else if (numIndices < USHRT_MAX) {
+					size_t num1 = USHRT_MAX;
+					std::cout << num1;
+					osg::ref_ptr<osg::DrawElementsUShort> drawElementsUShort = new osg::DrawElementsUShort(osg::PrimitiveSet::TRIANGLES);
+
+					for (auto it = polyTriangulated.m_poly_data->faceIndices.begin(); it != polyTriangulated.m_poly_data->faceIndices.end(); ++it) {
+						int numPoints = *it;
+						if (numPoints != 3) {
+							std::cout << "not triangularized" << std::endl;
+							continue;
+						}
+						++it;
+
+						int idx = *it;
+						++it;
+						drawElementsUShort->push_back(static_cast<GLushort>(idx));
+						idx = *it;
+						++it;
+						drawElementsUShort->push_back(static_cast<GLushort>(idx));
+						idx = *it;
+						drawElementsUShort->push_back(static_cast<GLushort>(idx));
+					}
+
+					
+					geom->addPrimitiveSet(drawElementsUShort);
+
+					const osg::BoundingBox& bbox = geom->getBoundingBox();
+					auto bboxMesh = item_meshset->getAABB();
+					double dx1 = bbox.center().x() - bboxMesh.pos.x;
+					if (fabs(dx1) > 0.001) {
+						std::cout << dx1;
+					}
+					double min1 = bbox.xMin();
+					double min2 = bboxMesh.pos.x - bboxMesh.extent.x;
+					double dxMin = min1 - min2;
+					if (fabs(dxMin) > 0.001) {
+						std::cout << dxMin;
+					}
+				}
+				else if (numIndices < UINT_MAX) {
+					osg::DrawElementsUInt* drawElementsUInt = new osg::DrawElementsUInt(osg::PrimitiveSet::TRIANGLES);
+
+					for (auto it = polyTriangulated.m_poly_data->faceIndices.begin(); it != polyTriangulated.m_poly_data->faceIndices.end(); ++it) {
+						int numPoints = *it;
+						if (numPoints != 3) {
+							std::cout << "not triangularized" << std::endl;
+							continue;
+						}
+						++it;
+
+						int idx = *it;
+						++it;
+						drawElementsUInt->push_back(static_cast<GLuint>(idx));
+						idx = *it;
+						++it;
+						drawElementsUInt->push_back(static_cast<GLuint>(idx));
+						idx = *it;
+						drawElementsUInt->push_back(static_cast<GLuint>(idx));
+					}
+
+					geom->addPrimitiveSet(drawElementsUInt);
+
+				}
+				else {
+					std::cout << __FUNCTION__ "UINT_MAX exceeded";
+				}
+
+				
 			}
 
 			if (m_draw_bounding_box)
 			{
-				carve::geom::aabb<3> bbox = meshsetTriangulated->getAABB();
+				carve::geom::aabb<3> bbox = item_meshset->getAABB();
 				osg::ref_ptr<osg::Geometry> bbox_geom = new osg::Geometry();
 				drawBoundingBox(bbox, bbox_geom);
 				geode->addDrawable(bbox_geom);
@@ -903,7 +705,15 @@ public:
 			}
 
 			// create shape for closed meshes
-			convertMeshSets(item_data->m_meshsets, item_geode, ii_item, false);
+			if (item_data->m_meshsets.size() > 0)
+			{
+				int tag = ifc_product->m_tag;
+				if (tag == 18914)
+				{
+					std::cout << "18914";
+				}
+				convertMeshSets(item_data->m_meshsets, item_geode, ii_item, false);
+			}
 
 			// create shape for points
 			const std::vector<shared_ptr<carve::input::VertexData> >& vertex_points = item_data->getVertexPoints();
@@ -990,7 +800,8 @@ public:
 			}
 
 			// If anything has been created, add it to the product group
-			if (item_geode->getNumChildren() > 0 || item_geode->getNumDrawables() > 0)
+			size_t numDrawables = item_geode->getNumDrawables();
+			if (item_geode->getNumChildren() > 0 || numDrawables > 0)
 			{
 #ifdef _DEBUG
 				if (item_geode->getNumParents() > 0)
@@ -1057,6 +868,7 @@ public:
 
 			product_shape->m_added_to_spatial_structure = true;
 
+			
 			std::string entityType = "";
 
 			// create OSG objects

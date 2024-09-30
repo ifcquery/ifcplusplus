@@ -226,6 +226,78 @@ void OpenFileWidget::slotRecentFilesIndexChanged(int idx)
 	m_btn_load->setFocus();
 }
 
+// Function to create a shader from source
+osg::ref_ptr<osg::Shader> createShader(osg::Shader::Type type, const std::string& source) {
+	osg::ref_ptr<osg::Shader> shader = new osg::Shader(type);
+	shader->setShaderSource(source);
+	return shader;
+}
+
+// Function to create a program and attach shaders
+osg::ref_ptr<osg::Program> createShaderProgram() {
+	osg::ref_ptr<osg::Program> program = new osg::Program;
+
+	// Example vertex shader source
+	std::string vertexShaderSource = R"(
+        #version 330 core
+        layout(location = 0) in vec3 inPosition;
+        out vec3 fragPosition;
+
+        uniform mat4 modelMatrix;
+        uniform mat4 viewMatrix;
+        uniform mat4 projectionMatrix;
+
+        void main() {
+            fragPosition = vec3(modelMatrix * vec4(inPosition, 1.0));
+            gl_Position = projectionMatrix * viewMatrix * vec4(fragPosition, 1.0);
+        }
+    )";
+
+	// Example geometry shader source
+	std::string geometryShaderSource = R"(
+        #version 330 core
+        layout(triangles) in;
+        layout(triangle_strip, max_vertices = 3) out;
+
+        in vec3 fragPosition[];
+        out vec3 normal;
+
+        void main() {
+            vec3 edge1 = fragPosition[1] - fragPosition[0];
+            vec3 edge2 = fragPosition[2] - fragPosition[0];
+            normal = normalize(cross(edge1, edge2));
+
+            for (int i = 0; i < 3; ++i) {
+                gl_Position = gl_in[i].gl_Position;
+                EmitVertex();
+            }
+            EndPrimitive();
+        }
+    )";
+
+	// Example fragment shader source
+	std::string fragmentShaderSource = R"(
+        #version 330 core
+        in vec3 normal;
+        out vec4 fragColor;
+
+        uniform vec3 lightDirection;
+
+        void main() {
+            float brightness = max(dot(normalize(normal), normalize(lightDirection)), 0.0);
+            fragColor = vec4(vec3(brightness), 1.0);
+        }
+    )";
+
+	// Attach shaders
+	program->addShader(createShader(osg::Shader::VERTEX, vertexShaderSource));
+	program->addShader(createShader(osg::Shader::GEOMETRY, geometryShaderSource));
+	program->addShader(createShader(osg::Shader::FRAGMENT, fragmentShaderSource));
+
+	return program;
+}
+
+
 void OpenFileWidget::loadIfcFile( QString& path_in )
 {
 	// redirect message callbacks
@@ -323,6 +395,20 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 
 		if (modelNode)
 		{
+
+			// Create the shader program
+			osg::ref_ptr<osg::Program> program = createShaderProgram();
+
+			// Create a StateSet for the geode
+			osg::ref_ptr<osg::StateSet> stateSet = modelNode->getOrCreateStateSet();
+
+			// Attach the shader program to the StateSet
+			stateSet->setAttributeAndModes(program, osg::StateAttribute::ON);
+
+			// Set a uniform for light direction in the fragment shader
+			osg::Vec3 lightDirection(0.0f, 0.0f, 1.0f);  // Example light direction
+			stateSet->addUniform(new osg::Uniform("lightDirection", lightDirection));
+
 			bool optimize = true;
 			if (optimize)
 			{

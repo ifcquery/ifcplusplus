@@ -8,18 +8,21 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Release|x64 = Release|x64
+		ReleaseWithDebugInfo|x64 = ReleaseWithDebugInfo|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9700AD93-4F6B-484A-BA34-FC4C97E5C645}.Debug|x64.ActiveCfg = Debug|x64
 		{9700AD93-4F6B-484A-BA34-FC4C97E5C645}.Debug|x64.Build.0 = Debug|x64
 		{9700AD93-4F6B-484A-BA34-FC4C97E5C645}.Release|x64.ActiveCfg = Release|x64
 		{9700AD93-4F6B-484A-BA34-FC4C97E5C645}.Release|x64.Build.0 = Release|x64
+		{9700AD93-4F6B-484A-BA34-FC4C97E5C645}.ReleaseWithDebugInfo|x64.ActiveCfg = ReleaseWithDebugInfo|x64
+		{9700AD93-4F6B-484A-BA34-FC4C97E5C645}.ReleaseWithDebugInfo|x64.Build.0 = ReleaseWithDebugInfo|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EE8FBA93-1179-406C-B2C6-2445EBDB28A8}
 		QtVersion = 6.7.0
+		SolutionGuid = {EE8FBA93-1179-406C-B2C6-2445EBDB28A8}
 	EndGlobalSection
 EndGlobal

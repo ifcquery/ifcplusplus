@@ -27,6 +27,7 @@ bin
 bin32
 /build/
 .hg/
+.vs/*
 examples/SimpleViewerExampleQt/dumpEntity.ifc
 examples/SimpleViewerExampleQt/SimpleWall.ifc
 examples/SimpleViewerExampleQt/GeneratedFiles/
@@ -35,17 +36,15 @@ external/Carve/build/
 examples/CreateIfcWallAndWriteFile/x64/
 examples/CreateIfcWallAndWriteFile/SimpleWall.ifc
 examples/LoadFileWithGeometryExampleConsole/dump_mesh_debug.txt
-IfcPlusPlus-*
-IfcPlusPlus/src/ifcpp/geometry/Carve - Copy/
-IfcPlusPlus/src/ifcpp-
-IfcPlusPlus/src/ifcpp--
+IfcPlusPlus/src/ifcpp-/
+IfcPlusPlus/src/ifcpp--/
 IfcPlusPlus/src/ifcpp---/
 IfcPlusPlus/src/ifcpp----/
 examples/LoadFileExample/dump_mesh_debug.txt
 examples/CreateIfcWallAndWriteFile/example.ifc
 examples/SimpleViewerExampleQt/SimpleViewerExampleQt.vcxproj.user
 examples/SimpleViewerExampleQt/SimpleViewerExampleQt.vcxproj.user
-.vs/IfcPlusPlus/v17/DocumentLayout.json
 examples/SimpleViewerExampleQt/.vs/SimpleViewerExampleQt/v17/DocumentLayout.json
 examples/LoadFileExample/.vs/LoadFileExample/v17/DocumentLayout.json
 examples/SimpleViewerExampleQt2/
+examples/SimpleViewerExampleQt/.vs/

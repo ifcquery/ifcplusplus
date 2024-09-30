@@ -21,262 +21,66 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <unordered_set>
 #include "IncludeCarveHeaders.h"
 
-class PolyInputCache3D
-{
+// hash function for vec3
+static uint32_t Vec3Hash(const vec3& v, double epsilon) {
+	//  uint32_t is enough for hash. 
+	uint32_t hx = (uint32_t)std::hash<double>{}(v.x / epsilon);
+	uint32_t hy = (uint32_t)std::hash<double>{}(v.y / epsilon);
+	uint32_t hz = (uint32_t)std::hash<double>{}(v.z / epsilon);
+	return (uint32_t)hx ^ (hy << 1) ^ (hz << 2);
+}
+
+
+// equality function for vec3
+static bool Vec3Equal(const vec3& lhs, const vec3& rhs, double epsilon) {
+	return std::fabs(lhs.x - rhs.x) < epsilon &&
+		std::fabs(lhs.y - rhs.y) < epsilon &&
+		std::fabs(lhs.z - rhs.z) < epsilon;
+}
+
+class PolyInputCache3D {
 public:
-	double m_eps = 0;
+
+	// uint32 max value is 14757395217560929096, this should be enough for indexing points
+	std::unordered_map<uint32_t, uint32_t> m_hashToIndexMap;
 	shared_ptr<carve::input::PolyhedronData> m_poly_data;
-	std::map<double, std::map<double, std::map<double, size_t> > > m_existing_vertices_coords;
+	double epsilon;
 
-	// TODO: replace this with std::unordered_map<std::tuple<double, double, double>, size_t, hashFunc, HashEqual> m_existing_vertices_coords;
-	// and a hash function. So far, the hash function is not working reliably, so the simple map is used.
-
-	PolyInputCache3D(double epsMergePoints = -1)
-	{
-		m_eps = epsMergePoints;
+	PolyInputCache3D(double eps = 1e-6) : epsilon(eps) {
 		m_poly_data = shared_ptr<carve::input::PolyhedronData>(new carve::input::PolyhedronData());
 	}
 
-	size_t addPointZ(const vec3& pt, std::map<double, size_t>& map_z)
-	{
-		double vertex_z = pt.z;
+	// Adds a point to the cache. Returns the index of the existing or newly inserted point.
+	uint32_t addPoint(const vec3& pt) {
+		uint32_t hash = Vec3Hash(pt, epsilon);
+		std::vector<vec3>& pointList = m_poly_data->points;
 
-		auto low = map_z.lower_bound(vertex_z);
-		if (low == map_z.end())
-		{
-			if (map_z.size() > 0)
-			{
-				double lastElement = map_z.rbegin()->first;
-				double dz = lastElement - vertex_z;
-				if (std::abs(dz) <= m_eps)
-				{
-					size_t existingIndex = map_z.rbegin()->second;
-					return existingIndex;
-				}
+		auto it = m_hashToIndexMap.find(hash);
+		if (it != m_hashToIndexMap.end()) {
+			// If the hash exists, check if the point matches (in case of hash collision)
+			uint32_t index = it->second;
+			if (Vec3Equal(pointList[index], pt, epsilon)) {
+				return index;
 			}
+		}
 
-			size_t vertex_index = m_poly_data->addVertex(pt);
-			map_z.insert({ { vertex_z, vertex_index } });
-			return vertex_index;
-		}
-		else if (low == map_z.begin())
-		{
-			double existingZ = low->first;
-			double dz = existingZ - vertex_z;
-			if (std::abs(dz) <= m_eps)
-			{
-				size_t& existingIndex = low->second;
-				return existingIndex;
-			}
-			else
-			{
-				size_t vertex_index = m_poly_data->addVertex(pt);
-				map_z.insert({ { vertex_z, vertex_index } });
-				return vertex_index;
-			}
-		}
-		else
-		{
-			auto prev = std::prev(low);
-			double dzPrev = vertex_z - prev->first;
-			double dzLow = low->first - vertex_z;
-			if (std::abs(dzPrev) < std::abs(dzLow))
-			{
-				if (std::abs(dzPrev) <= m_eps)
-				{
-					size_t& existingIndex = prev->second;
-					return existingIndex;
-				}
-				else
-				{
-					size_t vertex_index = m_poly_data->addVertex(pt);
-					map_z.insert({ { vertex_z, vertex_index } });
-					return vertex_index;
-				}
-			}
-			else
-			{
-				if (std::abs(dzLow) <= m_eps)
-				{
-					size_t& existingIndex = low->second;
-					return existingIndex;
-				}
-				else
-				{
-					size_t vertex_index = m_poly_data->addVertex(pt);
-					map_z.insert({ { vertex_z, vertex_index } });
-					return vertex_index;
-				}
-			}
-		}
+		// Otherwise, add the new point
+		uint32_t newIndex = static_cast<uint32_t>(pointList.size());
+		pointList.push_back(pt);
+		m_hashToIndexMap[hash] = newIndex;
+
+		return newIndex;
 	}
 
-	size_t addPointYZ(const vec3& pt, std::map<double, std::map<double, size_t> >& map_yz)
+	void clearPointCache()
 	{
-		double vertex_y = pt.y;
-		double vertex_z = pt.z;
-
-		auto low = map_yz.lower_bound(vertex_y);
-		if (low == map_yz.end())
-		{
-			if (map_yz.size() > 0)
-			{
-				double lastElement = map_yz.rbegin()->first;
-				double dy = lastElement - vertex_y;
-				if (std::abs(dy) < m_eps)
-				{
-					auto& map_z = map_yz.rbegin()->second;
-					return addPointZ(pt, map_z);
-				}
-			}
-
-			size_t vertex_index = m_poly_data->addVertex(pt);
-			map_yz.insert({ { vertex_y, {{ vertex_z, vertex_index }} } });
-			return vertex_index;
-		}
-		else if (low == map_yz.begin())
-		{
-			double existingY = low->first;
-			double dy = existingY - vertex_y;
-			if (std::abs(dy) <= m_eps)
-			{
-				std::map<double, size_t>& map_z = low->second;
-				return addPointZ(pt, map_z);
-			}
-			else
-			{
-				size_t vertex_index = m_poly_data->addVertex(pt);
-				map_yz.insert({ {  vertex_y, {{ vertex_z, vertex_index }} } });
-				return vertex_index;
-			}
-		}
-		else
-		{
-			auto prev = std::prev(low);
-			double dyPrev = vertex_y - prev->first;
-			double dyLow = low->first - vertex_y;
-			if (std::abs(dyPrev) <= std::abs(dyLow))
-			{
-				if (std::abs(dyPrev) <= m_eps)
-				{
-					std::map<double, size_t>& map_z = prev->second;
-					return addPointZ(pt, map_z);
-				}
-				else
-				{
-					size_t vertex_index = m_poly_data->addVertex(pt);
-					map_yz.insert({ { vertex_y, {{ vertex_z, vertex_index }} } });
-					return vertex_index;
-				}
-			}
-			else
-			{
-				if (std::abs(dyLow) <= m_eps)
-				{
-					std::map<double, size_t>& map_z = low->second;
-					return addPointZ(pt, map_z);
-				}
-				else
-				{
-					size_t vertex_index = m_poly_data->addVertex(pt);
-					map_yz.insert({ { vertex_y, {{ vertex_z, vertex_index }} } });
-					return vertex_index;
-				}
-			}
-		}
-	}
-
-	size_t addPoint(const vec3& pt)
-	{
-		double vertex_x = pt.x;
-		double vertex_y = pt.y;
-		double vertex_z = pt.z;
-
-		if (m_eps > EPS_M16)
-		{
-			if (m_existing_vertices_coords.size() > 0)
-			{
-				// std::map::lower_bound returns an iterator pointing to the first element that is equal or greater than key
-				auto low = m_existing_vertices_coords.lower_bound(vertex_x);
-				if (low == m_existing_vertices_coords.end())
-				{
-					if (m_existing_vertices_coords.size() > 0)
-					{
-						double lastElement = m_existing_vertices_coords.rbegin()->first;
-						double dx = lastElement - vertex_x;
-						if (std::abs(dx) <= m_eps)
-						{
-							auto& map_yz = m_existing_vertices_coords.rbegin()->second;
-							return addPointYZ(pt, map_yz);
-						}
-					}
-
-					size_t vertex_index = m_poly_data->addVertex(pt);
-					m_existing_vertices_coords.insert({ vertex_x, {{ vertex_y, {{ vertex_z, vertex_index }} } } });
-					return vertex_index;
-				}
-				else if (low == m_existing_vertices_coords.begin())
-				{
-					double existingX = low->first;
-					double dx = existingX - vertex_x;
-					if (std::abs(dx) <= m_eps)
-					{
-						std::map<double, std::map<double, size_t> >& map_yz = low->second;
-						return addPointYZ(pt, map_yz);
-					}
-					else
-					{
-						size_t vertex_index = m_poly_data->addVertex(pt);
-						m_existing_vertices_coords.insert({ vertex_x, {{ vertex_y, {{ vertex_z, vertex_index }} } } });
-						return vertex_index;
-					}
-				}
-				else
-				{
-					auto prev = std::prev(low);
-					double dxPrev = vertex_x - prev->first;
-					double dxLow = low->first - vertex_x;
-					if (std::abs(dxPrev) < std::abs(dxLow))
-					{
-						if (std::abs(dxPrev) <= m_eps)
-						{
-							std::map<double, std::map<double, size_t> >& map_yz = prev->second;
-							return addPointYZ(pt, map_yz);
-						}
-						else
-						{
-							size_t vertex_index = m_poly_data->addVertex(pt);
-							m_existing_vertices_coords.insert({ vertex_x, {{ vertex_y, {{ vertex_z, vertex_index }} } } });
-							return vertex_index;
-						}
-					}
-					else
-					{
-						if (std::abs(dxLow) <= m_eps)
-						{
-							std::map<double, std::map<double, size_t> >& map_yz = low->second;
-							return addPointYZ(pt, map_yz);
-						}
-						else
-						{
-							size_t vertex_index = m_poly_data->addVertex(pt);
-							m_existing_vertices_coords.insert({ vertex_x, {{ vertex_y, {{ vertex_z, vertex_index }} } } });
-							return vertex_index;
-						}
-					}
-				}
-			}
-		}
-
-		// add point to polyhedron
-		size_t vertex_index = m_poly_data->addVertex(pt);
-		m_existing_vertices_coords.insert({ vertex_x, {{ vertex_y, {{ vertex_z, vertex_index }} } } });
-		return vertex_index;
+		m_hashToIndexMap.clear();
+		m_poly_data->points.clear();
 	}
 
 	void copyOtherPolyData(shared_ptr<carve::input::PolyhedronData>& other)
 	{
-		shared_ptr<carve::mesh::MeshSet<3> > meshset(other->createMesh(carve::input::opts(), m_eps));
+		shared_ptr<carve::mesh::MeshSet<3> > meshset(other->createMesh(carve::input::opts(), epsilon));
 
 		for (size_t i = 0; i < meshset->meshes.size(); ++i)
 		{
@@ -299,16 +103,10 @@ public:
 		}
 	}
 
-	void clearAllData()
-	{
-		m_poly_data->clearFaces();
-		m_existing_vertices_coords.clear();
-	}
-
-	void addFaceCheckIndexes(int idxA, int idxB, int idxC, int idxD,
+	void addFaceCheckIndexes(uint32_t idxA, uint32_t idxB, uint32_t idxC, uint32_t idxD,
 		const vec3& v0, const vec3& v1, const vec3& v2, const vec3& v3, double eps)
 	{
-		std::unordered_set<int> setIndices = { idxA, idxB, idxC, idxD };
+		std::unordered_set<uint32_t> setIndices = { idxA, idxB, idxC, idxD };
 
 		if (setIndices.size() == 3)
 		{
@@ -328,24 +126,24 @@ public:
 
 	void addFaceCheckIndexes(const vec3& v0, const vec3& v1, const vec3& v2, double eps)
 	{
-		int idxA = addPoint(v0);
-		int idxB = addPoint(v1);
-		int idxC = addPoint(v2);
+		uint32_t idxA = addPoint(v0);
+		uint32_t idxB = addPoint(v1);
+		uint32_t idxC = addPoint(v2);
 		addTriangleCheckDegenerate(idxA, idxB, idxC, v0, v1, v2, eps);
 	}
 
 	void addFaceCheckIndexes(const vec3& v0, const vec3& v1, const vec3& v2, const vec3& v3, double eps)
 	{
-		int idxA = addPoint(v0);
-		int idxB = addPoint(v1);
-		int idxC = addPoint(v2);
-		int idxD = addPoint(v3);
+		uint32_t idxA = addPoint(v0);
+		uint32_t idxB = addPoint(v1);
+		uint32_t idxC = addPoint(v2);
+		uint32_t idxD = addPoint(v3);
 
 		addTriangleCheckDegenerate(idxA, idxB, idxC, v0, v1, v2, eps);
 		addTriangleCheckDegenerate(idxA, idxC, idxD, v0, v2, v3, eps);
 	}
 
-	void addTriangleCheckDegenerate(int idxA, int idxB, int idxC,
+	void addTriangleCheckDegenerate(uint32_t idxA, uint32_t idxB, uint32_t idxC,
 		const vec3& pointA, const vec3& pointB, const vec3& pointC, double eps)
 	{
 		if (idxA == idxB || idxA == idxC || idxB == idxC)
@@ -383,7 +181,41 @@ public:
 			return;
 		}
 
-		m_poly_data->addFace(idxA, idxB, idxC);
-	}
+#ifdef _CHECK_INDICES
+		bool confirmDone = false;
+		size_t numFaceIndices = m_poly_data->faceIndices.size();
+		if (m_poly_data->points.size() >= 71805) {
+			if (m_poly_data->faceIndices.size() > 574200) {
 
+				std::cout << ": m_poly_data->points.size() == 71805 " << std::endl;
+				std::cout << ": m_poly_data->faceIndices.size() = " << m_poly_data->faceIndices.size() << std::endl;
+				if (m_poly_data->faceIndices.size() == 574252) {
+					std::cout << "adding face indices: " << " A " << idxA << ": B " << idxB << ": C ... " << idxC;
+					confirmDone = true;
+				}
+			}
+		}
+#endif
+
+		m_poly_data->addFace(idxA, idxB, idxC);
+
+#ifdef _CHECK_INDICES
+		if (numFaceIndices + 4 != m_poly_data->faceIndices.size()) {
+			std::cout << " addFace failed, incorrect faceIndices count" << std::endl;
+		}
+
+		if (m_poly_data->points.size() >= 71805) {
+
+			if (confirmDone) {
+				std::cout << " done" << std::endl;
+
+
+			}
+
+			if (m_poly_data->faceIndices.size() >= 574252) {
+				std::cout << ": m_poly_data->faceIndices.size() = " << m_poly_data->faceIndices.size() << std::endl;
+			}
+		}
+#endif
+	}
 };

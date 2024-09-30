@@ -759,23 +759,11 @@ void MeshOps::retriangulateMeshSetForExport( const shared_ptr<carve::mesh::MeshS
 	bool validInput = MeshOps::checkMeshSetValidAndClosed(meshset, infoInput, paramsInput);
 	MeshOps::checkMeshSetNonNegativeAndClosed(meshset, paramsInput);
 
-	//if( infoInput.meshSetValid && infoInput.maxNumberOfEdgesPerFace == 3 )
-	//{
-	//	return;
-	//}
-	//
-	//if ( infoInput.maxNumberOfEdgesPerFace == 3 )
-	//{
-	//	// TODO: check if this is sufficient
-	//	return;
-	//}
-
 	GeomProcessingParams params(paramsInput);
 	params.checkZeroAreaFaces = false;
 	params.allowDegenerateEdges = true;
 	params.allowFinEdges = true;
 	params.mergeAlignedEdges = true;
-	//PolyInputCache3D poly_cache(params.epsMergePoints);
 		
 	for (size_t ii = 0; ii < meshset->meshes.size(); ++ii)
 	{
@@ -786,8 +774,8 @@ void MeshOps::retriangulateMeshSetForExport( const shared_ptr<carve::mesh::MeshS
 		{
 			const carve::mesh::Face<3>* face = vec_faces[i2];
 
-			std::vector<vec3> faceBound;
-			getFacePoints(face, faceBound);
+			std::vector<carve::mesh::Vertex<3>* > faceBound;
+			face->getVertices(faceBound);
 
 			if (faceBound.size() < 3)
 			{
@@ -797,9 +785,9 @@ void MeshOps::retriangulateMeshSetForExport( const shared_ptr<carve::mesh::MeshS
 			
 			if (faceBound.size() == 3 )
 			{
-				int vertex_index_a = polyOut.addPoint(faceBound[0]);
-				int vertex_index_b = polyOut.addPoint(faceBound[1]);
-				int vertex_index_c = polyOut.addPoint(faceBound[2]);
+				int vertex_index_a = polyOut.addPoint(faceBound[0]->v);
+				int vertex_index_b = polyOut.addPoint(faceBound[1]->v);
+				int vertex_index_c = polyOut.addPoint(faceBound[2]->v);
 
 				if (vertex_index_a == vertex_index_b || vertex_index_a == vertex_index_c || vertex_index_b == vertex_index_c)
 				{
@@ -811,16 +799,22 @@ void MeshOps::retriangulateMeshSetForExport( const shared_ptr<carve::mesh::MeshS
 			}
 			else if (faceBound.size() == 4)
 			{
-				vec3& pointA = faceBound[0];
-				vec3& pointB = faceBound[1];
-				vec3& pointC = faceBound[2];
-				vec3& pointD = faceBound[3];
+				vec3& pointA = faceBound[0]->v;
+				vec3& pointB = faceBound[1]->v;
+				vec3& pointC = faceBound[2]->v;
+				vec3& pointD = faceBound[3]->v;
 				polyOut.addFaceCheckIndexes(pointA, pointB, pointC, pointD, params.epsMergePoints);
 
 				continue;
 			}
 
-			std::vector<std::vector<vec3> > inputBounds3D = { faceBound };
+			std::vector<std::vector<vec3> > inputBounds3D;
+			inputBounds3D.resize(1);
+			std::vector<vec3>& firstBound = inputBounds3D[0];
+			for (size_t i3 = 0; i3 < faceBound.size(); ++i3)
+			{
+				firstBound.push_back( faceBound[i3]->v );
+			}
 			FaceConverter::createTriangulated3DFace(inputBounds3D, polyOut, params, false);
 		}
 	}
@@ -845,7 +839,7 @@ void MeshOps::retriangulateMeshSetForExport( const shared_ptr<carve::mesh::MeshS
 	}
 
 #ifdef _DEBUG
-
+	//if(false)
 	{
 		GeomDebugDump::DumpSettingsStruct dumpSet;
 		dumpSet.triangulateBeforeDump = false;
