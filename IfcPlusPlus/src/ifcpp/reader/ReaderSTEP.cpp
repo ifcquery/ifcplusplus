@@ -526,9 +526,12 @@ void ReaderSTEP::readSingleStepLine(const std::string& line, std::pair<std::stri
 				}
 				else if (entity_arg[entity_arg.size() - 1] == ';')
 				{
-					if (entity_arg[entity_arg.size() - 2] == ')')
+					std::string whitespaces (" \t\f\v\n\r");
+					size_t closing_parent_pos = entity_arg.find_last_not_of(whitespaces, entity_arg.size() - 2);
+
+					if (closing_parent_pos != std::string::npos && entity_arg[closing_parent_pos] == ')')
 					{
-						entity_arg = entity_arg.substr(1, entity_arg.size() - 3);
+						entity_arg = entity_arg.substr(1, closing_parent_pos - 1);
 					}
 				}
 			}
