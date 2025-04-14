@@ -1,4 +1,4 @@
-/* -*-c++-*- IfcQuery www.ifcquery.com
+﻿/* -*-c++-*- IfcQuery www.ifcquery.com
 *
 MIT License
 
@@ -400,19 +400,22 @@ void CurveConverter::convertIfcCurve(const shared_ptr<IfcCurve>& ifc_curve, std:
 										const double uu = carve::geom::dot(u, u);
 
 										vec3 circ_center = p0 + (u * tt * (carve::geom::dot(u, v)) - t * uu * (carve::geom::dot(t, v))) * iwsl2;
-										vec3 circAxis = w / sqrt(wsl);
 										vec3 center_p0 = p0 - circ_center;
 										vec3 center_p1 = p1 - circ_center;
 										vec3 center_p2 = p2 - circ_center;
 										vec3 center_p0_normalized = center_p0.normalized();
+										vec3 center_p1_normalized = center_p1.normalized();
 										vec3 center_p2_normalized = center_p2.normalized();
+										vec3 circAxis = carve::geom::cross(center_p0, center_p1).normalized();
+										
+										double dotProduct1 = carve::geom::dot(center_p0_normalized, center_p1_normalized);
+										if (dotProduct1 < -1.0) { dotProduct1 = -1.0; }
+										double dotProduct2 = carve::geom::dot(center_p1_normalized, center_p2_normalized);
+										if (dotProduct2 > 1.0) { dotProduct2 = 1.0; }
+										double angle1 = std::acos(dotProduct1);
+										double angle2 = std::acos(dotProduct2);
+										double openingAngle =  angle1 + angle2;
 
-										double dotProduct = carve::geom::dot(center_p0_normalized, center_p2_normalized);
-										if (dotProduct < -1.0) { dotProduct = -1.0; }
-										if (dotProduct > 1.0) { dotProduct = 1.0; }
-										double openingAngle = std::acos(dotProduct);
-										if (openingAngle < -M_PI * 2.0) { openingAngle = -M_PI * 2.0; }
-										if (openingAngle > M_PI * 2.0) { openingAngle = M_PI * 2.0; }
 										size_t n = m_geom_settings->getNumVerticesPerCircle() * openingAngle / (M_PI * 2.0);
 										if (n < m_geom_settings->getMinNumVerticesPerArc())
 										{
@@ -427,14 +430,13 @@ void CurveConverter::convertIfcCurve(const shared_ptr<IfcCurve>& ifc_curve, std:
 										seg.arcOrCircleAxis = circAxis;
 										seg.arcStartAngle = 0;
 										seg.arcOpeningAngle = openingAngle;
-
+										
 										for (size_t kk = 0; kk < n; ++kk)
 										{
-											carve::math::Matrix m = carve::math::Matrix::ROT(angle, circAxis, epsilonMergePoints);
+											carve::math::Matrix m = carve::math::Matrix::ROT(angle, -1*circAxis, epsilonMergePoints);
 
 											vec3 p_rotated = center_p0;
 											p_rotated = m * p_rotated + circ_center;
-
 											seg.m_points.push_back(p_rotated);
 											angle += deltaAngle;
 										}
