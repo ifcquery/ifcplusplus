@@ -42,6 +42,16 @@ for (auto it : currentBuildingStorey->m_IsDecomposedBy_inverse)
 - Professional support is available for bug fixing or custom implementations on www.ifcquery.com.
 
 
+
+## Web-ifc as alternative to IFC++
+
+IFC++ has an object oriented approach, which is convenient for navigating the model, accessing attributes, casting for certain types etc. But it comes with considerable memory overhead.
+
+As an alternative, there is a great new project called web-ifc (https://github.com/ThatOpen/engine_web-ifc). It does not have an object oriented approach for IFC entities, instead it has a tape reader, so the STEP file content is kept as-is, just with tokens inserted before each attribute, which allows positioning the read cursor to read all entities and attributes.
+Web-ifc is so light weight, it can be directly compiled into a C++ console or GUI application, or linked as a library on Windows or Linux. It even compiles and runs efficiently as WebAssembly.
+
+If you want to benefit from my experience how to implement web-ifc in various applications, please contact fabian.gerold at gmail.com
+
  
 
   
