@@ -242,7 +242,8 @@ int main()
 	std::cout << "Loading IFC model: ";
 	step_reader->loadModelFromFile( "example.ifc", ifc_model);
 	shared_ptr<GeometrySettings> geom_settings(new GeometrySettings());
-	shared_ptr<GeometryConverter> geometry_converter(new GeometryConverter(ifc_model, geom_settings));
+	shared_ptr<GeometryConverter> geometry_converter(new GeometryConverter(ifc_model));
+    geometry_converter->getGeomSettings() = geom_settings;
 	geometry_converter->setMessageCallBack(std::bind(&MessageHandler::slotMessageWrapper, &mh, std::placeholders::_1));
 	
 	// the number of vertices per circle can be changed here: (default is 14)
@@ -261,7 +262,7 @@ int main()
 	geometry_converter->convertGeometry();
 
 	// 3: get a flat map of all loaded IFC entities with geometry:
-	const std::unordered_map<std::string, shared_ptr<ProductShapeData> >& map_entities = geometry_converter->getShapeInputData();
+	const std::map<std::string, shared_ptr<ProductShapeData> >& map_entities = geometry_converter->getShapeInputData();
 	shared_ptr<ProductShapeData> shapeDataIfcProject;
 
 	for (auto it : map_entities)
