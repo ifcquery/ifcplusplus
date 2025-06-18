@@ -52,7 +52,7 @@ Web-ifc is so light weight, it can be directly compiled into a C++ console or GU
 
 If you want to benefit from my experience how to implement web-ifc in various applications, please contact fabian.gerold at gmail.com
 
-
+One example of a light weight application based on web-ifc is https://github.com/ifcquery/IfcSplitAndMerge
 
 
 
