@@ -32,6 +32,7 @@
 #include <iostream>
 #include <cstdint>
 #include <cmath>
+#include <cstdint>
 #include <limits>
 
 namespace carve {
