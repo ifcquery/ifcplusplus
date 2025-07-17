@@ -41,6 +41,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/geometry/GeometrySettings.h>
 #include <ifcpp/geometry/MeshOps.h>
 #include <ifcpp/geometry/SceneGraphUtils.h>
+#include <ifcpp/geometry/PolyInputCache3D.h>
 #include "GeometryInputData.h"
 #include "IncludeCarveHeaders.h"
 #include "CSG_Adapter.h"
@@ -707,11 +708,6 @@ public:
 			// create shape for closed meshes
 			if (item_data->m_meshsets.size() > 0)
 			{
-				int tag = ifc_product->m_tag;
-				if (tag == 18914)
-				{
-					std::cout << "18914";
-				}
 				convertMeshSets(item_data->m_meshsets, item_geode, ii_item, false);
 			}
 

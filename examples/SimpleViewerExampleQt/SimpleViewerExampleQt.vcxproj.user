@@ -27,6 +27,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithDebugInfo|x64'" Label="QtSettings">
     <QtLastBackgroundBuild>2024-04-30T05:42:20.8565894Z</QtLastBackgroundBuild>
-    <QtTouchProperty />
+    <QtTouchProperty>
+    </QtTouchProperty>
   </PropertyGroup>
 </Project>

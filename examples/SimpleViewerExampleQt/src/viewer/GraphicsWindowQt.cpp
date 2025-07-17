@@ -156,23 +156,23 @@ void QtOSGWidget::initializeGL()
 
 void QtOSGWidget::resizeGL( int w, int h )
 {
-	double x = this->geometry().x();
-	double y = this->geometry().y();
-	m_graphics_window->getEventQueue()->windowResize( x, y, w, h );
+	double x = this->geometry().x() * m_device_pixel_ratio;
+	double y = this->geometry().y() * m_device_pixel_ratio;
+	m_graphics_window->getEventQueue()->windowResize( x, y, w * m_device_pixel_ratio, h * m_device_pixel_ratio);
 
 	// graphics window resize
-	double xx = this->x();
-	double yy = this->y();
+	double xx = this->x() * m_device_pixel_ratio;
+	double yy = this->y() * m_device_pixel_ratio;
 	m_graphics_window->resized( xx, yy, w, h );
 
 	// camera viewport
 	std::list<osg::Camera*>& cameras = m_graphics_window->getCameras();
 	for( auto cam : cameras )
 	{
-		cam->setViewport( 0, 0, w, h );
+		cam->setViewport( 0, 0, w * m_device_pixel_ratio, h * m_device_pixel_ratio);
 	}
 
-	QOpenGLWidget::resizeGL( w, h );
+	QOpenGLWidget::resizeGL( w * m_device_pixel_ratio, h * m_device_pixel_ratio);
 }
 
 bool QtOSGWidget::event( QEvent* event )
@@ -249,8 +249,8 @@ void QtOSGWidget::moveEvent( QMoveEvent* event )
 	const QPoint& pos = event->pos();
 	int scaled_width = static_cast<int>(width()*m_device_pixel_ratio);
 	int scaled_height = static_cast<int>(height()*m_device_pixel_ratio);
-	m_graphics_window->resized( pos.x(), pos.y(), scaled_width, scaled_height );
-	m_graphics_window->getEventQueue()->windowResize( pos.x(), pos.y(), scaled_width, scaled_height );
+	m_graphics_window->resized( pos.x() * m_device_pixel_ratio, pos.y() * m_device_pixel_ratio, scaled_width, scaled_height );
+	m_graphics_window->getEventQueue()->windowResize( pos.x() * m_device_pixel_ratio, pos.y() * m_device_pixel_ratio, scaled_width, scaled_height );
 }
 
 void QtOSGWidget::keyPressEvent( QKeyEvent* event )

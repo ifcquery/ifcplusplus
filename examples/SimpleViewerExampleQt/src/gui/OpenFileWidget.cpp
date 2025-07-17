@@ -403,7 +403,7 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 			osg::ref_ptr<osg::StateSet> stateSet = modelNode->getOrCreateStateSet();
 
 			// Attach the shader program to the StateSet
-			stateSet->setAttributeAndModes(program, osg::StateAttribute::ON);
+			//stateSet->setAttributeAndModes(program, osg::StateAttribute::ON);
 
 			// Set a uniform for light direction in the fragment shader
 			osg::Vec3 lightDirection(0.0f, 0.0f, 1.0f);  // Example light direction
