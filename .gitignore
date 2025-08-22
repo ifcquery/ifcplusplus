@@ -48,3 +48,7 @@ examples/SimpleViewerExampleQt/.vs/SimpleViewerExampleQt/v17/DocumentLayout.json
 examples/LoadFileExample/.vs/LoadFileExample/v17/DocumentLayout.json
 examples/SimpleViewerExampleQt2/
 examples/SimpleViewerExampleQt/.vs/
+*DocumentLayout.backup.json
+*DocumentLayout.json
+*.recipe
+*.FileListAbsolute.txt

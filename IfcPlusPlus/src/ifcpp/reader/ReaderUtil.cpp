@@ -683,8 +683,11 @@ void readRealList(const std::string& str, std::vector<double>& vec)
 	}
 }
 
-void readRealArray( const std::string& str, double(&vec)[3] )
+void readRealArray(const std::string& str, double(&vec)[3])
 {
+	// initialize the z coordinate with quiet_NaN, to default to a 2D vector
+	vec[2] = std::numeric_limits<double>::quiet_NaN();
+
 	const char* ch = str.c_str();
 	const size_t argsize = str.size();
 	if (argsize == 0)
@@ -726,7 +729,6 @@ void readRealArray( const std::string& str, double(&vec)[3] )
 		++i;
 	}
 }
-
 
 void readRealList2D(const std::string& str, std::vector<std::vector<double> >& vec)
 {

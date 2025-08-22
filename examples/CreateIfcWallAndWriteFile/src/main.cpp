@@ -40,6 +40,7 @@
 #include <IfcPolyLoop.h>
 #include <IfcPositiveLengthMeasure.h>
 #include <IfcProductDefinitionShape.h>
+#include <IfcProfileTypeEnum.h>
 #include <IfcPropertySet.h>
 #include <IfcPropertySingleValue.h>
 #include <IfcReal.h>
@@ -119,6 +120,7 @@ shared_ptr<IfcCartesianPoint> createIfcCartesianPoint(double x, double y, std::v
 	shared_ptr<IfcCartesianPoint> pt(new IfcCartesianPoint());
 	pt->m_Coordinates[0] = x;
 	pt->m_Coordinates[1] = y;
+	pt->m_Coordinates[2] = std::numeric_limits<double>::quiet_NaN(); // The z coordinate must be set to null so that IFCCARTESIANPOINT is written with 2 coordinates instead of 3
 	vec_new_entities.push_back(pt);
 	return pt;
 }
@@ -261,6 +263,10 @@ void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_property_set
 		vec_new_entities.push_back(swept_area);
 		extruded_solid->m_SweptArea = swept_area;
 
+		// The IfcProfileTypeEnum of type AREA is assigned, since it is mandatory to always define an IfcProfileTypeEnum for an IfcArbitraryClosedProfileDef
+		swept_area->m_ProfileType = shared_ptr<IfcProfileTypeEnum>(new IfcProfileTypeEnum());
+		swept_area->m_ProfileType->m_enum = IfcProfileTypeEnum::IfcProfileTypeEnumEnum::ENUM_AREA;
+
 		// outer curve of closed profile is a polyline:
 		shared_ptr<IfcPolyline> poly_line(new IfcPolyline());
 		vec_new_entities.push_back(poly_line);
@@ -278,6 +284,8 @@ void LoadWallExample(shared_ptr<BuildingModel>& ifc_model, bool add_property_set
 
 		shared_ptr<IfcCartesianPoint> ifc_point4 = createIfcCartesianPoint(0.0, wall_thickness, vec_new_entities);
 		poly_line->m_Points.push_back(ifc_point4);
+
+		poly_line->m_Points.push_back(ifc_point1);
 
 		shape_representation->m_Items.push_back(extruded_solid);
 	}
