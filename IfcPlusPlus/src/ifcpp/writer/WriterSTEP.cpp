@@ -39,7 +39,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 void WriterSTEP::writeModelToStream(std::stringstream& stream, shared_ptr<BuildingModel> model)
 {
 	//imbue C locale to always use dots as decimal separator
-	stream.imbue(std::locale("C"));
+	stream.imbue(std::locale::classic());
 
 	const std::string& file_header_str = model->getFileHeader();
 	if(file_header_str.size() == 0)
@@ -81,7 +81,7 @@ void WriterSTEP::writeModelToStream(std::stringstream& stream, shared_ptr<Buildi
 			}
 		}
 		std::stringstream tmpStream;
-		tmpStream.imbue(std::locale("C"));
+		tmpStream.imbue(std::locale::classic());
 #ifdef EXTERNAL_WRITE_METHODS
 		getStepLine(obj, tmpStream);
 #else
