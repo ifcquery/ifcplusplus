@@ -332,7 +332,7 @@ public:
 		return true;
 	}
 
-	void copyFrom(shared_ptr<ItemShapeData>& other)
+	void copyFrom(const shared_ptr<ItemShapeData>& other)
 	{
 		m_product = other->m_product;
 		m_parentItem = other->m_parentItem;

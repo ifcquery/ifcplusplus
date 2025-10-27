@@ -47,7 +47,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "CSG_Adapter.h"
 
 using namespace IFC4X3;
-#define ProductNodeType osg::Group
+#define ProductNodeType osg::Switch
 
 class ConverterOSG : public StatusCallback
 {

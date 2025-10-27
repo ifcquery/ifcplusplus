@@ -17,7 +17,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 
 #pragma once
 
-#define _USE_MATH_DEFINES
 #include <cmath>
 #include <iostream>
 #include <unordered_set>
