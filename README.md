@@ -3,7 +3,7 @@ ABOUT IFC++
 
 This repository is more or less archived.<br>
 If you need support or customization for existing projects, it is still available (please contact info at ifcquery.com)<br>
-For new projects, I recommend Web-ifc, since it fulfills the same purpose, plus the ability to run in WASM, see below.<br>
+For new projects, I recommend Web-ifc (see link below), since it fulfills the same purpose, CSG operations are more stable, and it can run also in WASM<br>
 
 
 
