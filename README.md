@@ -13,8 +13,7 @@ IfcSplitAndMerge is a light weight but high performance application based on web
 
 
 
-## Alternative to IFC++
-
 The IFC library used in IfcSplitAndMerge is called web-ifc https://github.com/ThatOpen/engine_web-ifc. It does not have an object oriented approach for all IFC entities like IFC++. Instead it has a tape reader, so the STEP file content is kept as-is, just with tokens inserted before each attribute, which allows positioning the read cursor to read all entities and attributes with a very low memory footprint and high performance.<br>
 
 Web-ifc is so light weight, it can be directly compiled into a C++ console or GUI application, or linked as a library on Windows or Linux. It even compiles and runs efficiently as WebAssembly.
+
