@@ -39,7 +39,7 @@ ViewController::ViewController( Orbit3DManipulator* camera_manip )
 	m_camera_manip = camera_manip;
 	m_rootnode	= new osg::Group();
 	m_rootnode->setName("m_rootnode");
-	m_model_node = new osg::Group();
+	m_model_node = new osg::Switch();
 	m_rootnode->addChild(m_model_node.get() );
 
 	m_temp_node = new osg::Group();

@@ -367,7 +367,7 @@ void OpenFileWidget::loadIfcFile( QString& path_in )
 		setEnabled(false);
 
 		// first remove previously loaded geometry from scenegraph
-		osg::ref_ptr<osg::Group> modelNode = m_system->getViewController()->getModelNode();
+		osg::ref_ptr<osg::Switch> modelNode = m_system->getViewController()->getModelNode();
 		SceneGraphUtils::clearAllChildNodes(modelNode);
 		m_system->clearSelection();
 

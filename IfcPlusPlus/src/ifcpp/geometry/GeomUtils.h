@@ -1092,38 +1092,31 @@ namespace GeomUtils
 		// check if lines are parallel
 		const vec2 vertex1to2 = v2 - v1;
 		const vec2 vertex3to4 = v4 - v3;
-		if (vertex1to2.y / vertex1to2.x != vertex3to4.y / vertex3to4.x)
+		const double d = vertex1to2.x * vertex3to4.y - vertex1to2.y * vertex3to4.x;
+		if (std::abs(d) > eps)
 		{
-			const double d = vertex1to2.x * vertex3to4.y - vertex1to2.y * vertex3to4.x;
-			if (std::abs(d) > eps )
-			{
-				const vec2 vertex3to1 = v1 - v3;
-				r = (vertex3to1.y * vertex3to4.x - vertex3to1.x * vertex3to4.y) / d;
-				s = (vertex3to1.y * vertex1to2.x - vertex3to1.x * vertex1to2.y) / d;
-				return true;
-			}
+			const vec2 vertex3to1 = v1 - v3;
+			r = (vertex3to1.y * vertex3to4.x - vertex3to1.x * vertex3to4.y) / d;
+			s = (vertex3to1.y * vertex1to2.x - vertex3to1.x * vertex1to2.y) / d;
+			return true;
 		}
 		return false;
-
 	}
+
 	inline bool LineToLineIntersectionHelper(vec3& v1, vec3& v2, vec3& v3, vec3& v4, double& r, double& s)
 	{
 		// check if lines are parallel
 		const vec3 vertex1to2 = v2 - v1;
 		const vec3 vertex3to4 = v4 - v3;
-		if (vertex1to2.y / vertex1to2.x != vertex3to4.y / vertex3to4.x)
+		const double d = vertex1to2.x * vertex3to4.y - vertex1to2.y * vertex3to4.x;
+		if (d != 0)
 		{
-			const double d = vertex1to2.x * vertex3to4.y - vertex1to2.y * vertex3to4.x;
-			if (d != 0)
-			{
-				const vec3 vertex3to1 = v1 - v3;
-				r = (vertex3to1.y * vertex3to4.x - vertex3to1.x * vertex3to4.y) / d;
-				s = (vertex3to1.y * vertex1to2.x - vertex3to1.x * vertex1to2.y) / d;
-				return true;
-			}
+			const vec3 vertex3to1 = v1 - v3;
+			r = (vertex3to1.y * vertex3to4.x - vertex3to1.x * vertex3to4.y) / d;
+			s = (vertex3to1.y * vertex1to2.x - vertex3to1.x * vertex1to2.y) / d;
+			return true;
 		}
 		return false;
-
 	}
 
 	inline bool LineSegmentToLineIntersection(const vec2& v1, const vec2& v2, const vec2& v3, const vec2& v4, double eps, std::vector<vec2>& result)
