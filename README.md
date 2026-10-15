@@ -8,14 +8,19 @@ If you need support or customization for existing projects, it is still availabl
 
 For new projects, [xeoIFC](https://github.com/xeofoundry/xeoIFC) is recommended.
 
+xeoIFC is newer, using the latest WebAssembly and WebGPU technology. The geometry quality and robustness is better than IfcSplitAndMerge (this repo). 
+
+**Extremely high performance in the browser, desktop and server.** In the [Garabit viaduct showcase](https://xeofoundry.github.io/xeoIFC/showcase/garabit/),
+8 IFC files with 15 million triangles and 678,768 rivets render at 60 fps in the browser on a laptop.
+The command-line converter processed more than 2,200 real-world IFC files (95 GB) in under 20 minutes on one workstation.<br>
+[https://xeofoundry.github.io/xeoIFC/](https://xeofoundry.github.io/xeoIFC/)
+
 <p align="center">
-  <a href="https://github.com/xeofoundry/xeoIFC"><img
+  <a href="https://xeofoundry.github.io/xeoIFC/"><img
     src="https://xeofoundry.github.io/xeoIFC/showcase/readme/Garabit-viaduct-bearing-xeoIFC.webp"
     width="100%" alt="xeoIFC viewer with the Garabit viaduct: a bearing of the arch, cut by a section plane"></a>
 </p>
 <p align="center"><sub>The Garabit viaduct in the xeoIFC viewer: 9 IFC files in one scene, 678,768 rivets.
-<a href="https://xeofoundry.github.io/xeoIFC/">Try the live demo</a> in your browser.</sub></p>
+Source and downloads: <a href="https://github.com/xeofoundry/xeoIFC">github.com/xeofoundry/xeoIFC</a>.</sub></p>
 
-It is much more recent, the geometry quality and robustness is much better, CSG operations are more stable, and it can run also in WASM.<br>
 
-XeoIFC has a very high performance and geometry quality. With all my test files (several thousand), xeoIFC has better quality and performance than any other IFC tool, web based or desktop.<br>
