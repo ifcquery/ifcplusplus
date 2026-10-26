@@ -43,7 +43,6 @@ public:
 	shared_ptr<ProfileCache>			m_profile_cache;
 	shared_ptr<StylesConverter>			m_styles_converter;
 	shared_ptr<Sweeper>					m_sweeper;
-	std::mutex m_mutex1;
 	std::mutex m_mutex2;
 
 	SolidModelConverter(shared_ptr<GeometrySettings>& gs, shared_ptr<PointConverter>& pc, shared_ptr<CurveConverter>& cc,

@@ -272,7 +272,7 @@ public:
 	{
 		int style_id = presentation_style->m_tag;
 		{
-
+			std::lock_guard<std::mutex> lock(m_writelock_styles_converter);
 			auto it_find_existing_style = m_map_ifc_styles.find(style_id);
 			if (it_find_existing_style != m_map_ifc_styles.end())
 			{
@@ -290,7 +290,6 @@ public:
 					style_data = shared_ptr<StyleData>(new StyleData(style_id));
 				}
 
-				std::lock_guard<std::mutex> lock(m_writelock_styles_converter);
 				m_map_ifc_styles[style_id] = style_data;
 			}
 		}
@@ -766,7 +765,7 @@ public:
 		const int style_id = styled_item->m_tag;
 
 		{
-			//std::lock_guard<std::mutex> lock(m_writelock_styles_converter);
+			std::lock_guard<std::mutex> lock(m_writelock_styles_converter);
 			auto it_find_existing_style = m_map_ifc_styles.find(style_id);
 			if (it_find_existing_style != m_map_ifc_styles.end())
 			{

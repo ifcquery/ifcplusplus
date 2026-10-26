@@ -35,7 +35,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <IfcFacetedBrep.h>
 #include <IfcFixedReferenceSweptAreaSolid.h>
 #include <IfcHalfSpaceSolid.h>
-#include <IfcIndexedColourMap.h>
 #include <IfcIndexedPolygonalFaceWithVoids.h>
 #include <IfcManifoldSolidBrep.h>
 #include <IfcPolygonalBoundedHalfSpace.h>
@@ -153,7 +152,10 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 				GeomProcessingParams params(m_geom_settings, fixed_reference_swept_area_solid.get(), this);
 				m_sweeper->sweepArea(basis_curve_points, profile_paths, item_data_solid, params);
 				item_data->addItemData(item_data_solid);
-				item_data->applyTransformToItem(swept_area_pos->m_matrix, eps, false);
+				if (swept_area_pos)
+				{
+					item_data->applyTransformToItem(swept_area_pos->m_matrix, eps, false);
+				}
 
 				return;
 			}
@@ -163,7 +165,10 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 			{
 				convertIfcRevolvedAreaSolid(revolved_area_solid, item_data_solid);
 				item_data->addItemData(item_data_solid);
-				item_data->applyTransformToItem(swept_area_pos->m_matrix, eps, false );
+				if (swept_area_pos)
+				{
+					item_data->applyTransformToItem(swept_area_pos->m_matrix, eps, false);
+				}
 				return;
 			}
 
@@ -203,7 +208,10 @@ void SolidModelConverter::convertIfcSolidModel( const shared_ptr<IfcSolidModel>&
 				GeomProcessingParams params(m_geom_settings, surface_curve_swept_area_solid.get(), this);
 				m_sweeper->sweepArea(directrix_curve_points, profile_paths, item_data_solid, params);
 				item_data->addItemData(item_data_solid);
-				item_data->applyTransformToItem(swept_area_pos->m_matrix, eps, false);
+				if (swept_area_pos)
+				{
+					item_data->applyTransformToItem(swept_area_pos->m_matrix, eps, false);
+				}
 
 				return;
 			}
@@ -883,8 +891,14 @@ void SolidModelConverter::convertIfcBooleanResult( const shared_ptr<IfcBooleanRe
 		CSG_Adapter::computeCSG(first_operand_meshset, vec_second_operand_meshsets, csg_operation, params);
 	}
 
-	// now copy processed first operands to result input data
-	std::copy( first_operand_data->m_meshsets.begin(), first_operand_data->m_meshsets.end(), std::back_inserter( item_data->m_meshsets ) );
+	// now copy processed first operands to result input data. An INTERSECTION of operands that don't touch leaves the first operand null
+	for (const shared_ptr<carve::mesh::MeshSet<3> >& first_operand_meshset : first_operand_data->m_meshsets)
+	{
+		if (first_operand_meshset)
+		{
+			item_data->m_meshsets.push_back(first_operand_meshset);
+		}
+	}
 
 	// copy also styles from operands, if any
 	std::copy(first_operand_data->m_styles.begin(), first_operand_data->m_styles.end(), std::back_inserter(item_data->m_styles));
@@ -1661,15 +1675,7 @@ void SolidModelConverter::convertTesselatedItem( const shared_ptr<IfcTessellated
 			//std::vector<shared_ptr<IfcIndexedPolygonalFace> >		m_Faces;
 			//std::vector<shared_ptr<IfcPositiveInteger> >			m_PnIndex;					//optional
 			int refCount1 = polygonalFaceSet.use_count();
-			for (auto colorMapWeak : polygonalFaceSet->m_HasColours_inverse) {
-				if (colorMapWeak.expired()) {
-					continue;
-				}
-				std::lock_guard<std::mutex> lock(m_mutex1);
-				shared_ptr<IfcIndexedColourMap> colorMap(colorMapWeak);
-				colorMap->m_MappedTo.reset();  // temporary, to release memory
-			}
-			
+
 #ifdef _DEBUG
 			int refCount2 = polygonalFaceSet.use_count();
 			int tag = polygonalFaceSet->m_tag;

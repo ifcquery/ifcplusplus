@@ -527,9 +527,9 @@ void CurveConverter::convertIfcCurve(const shared_ptr<IfcCurve>& ifc_curve, std:
 		getTrimAngle(trim2_vec, circleCenter, circleRadius, circleRadius2, endAngle, circlePosition, circlePositionInverse);
 		computeOpeningAngle(startAngle, endAngle, epsilonMergePoints, senseAgreement, openingAngle);
 
-		if (trim1_vec.size() == 0 && trim2_vec.size() == 0)
+		if (trim2_vec.size() == 0)
 		{
-			// no trimming, add full circle
+			// no trimming (or closed edge, trimmed at its vertex only), add full circle from startAngle
 			openingAngle = M_PI * 2.0;
 			endAngle = startAngle + openingAngle;
 		}
@@ -1040,11 +1040,17 @@ void CurveConverter::convertIfcEdge(const shared_ptr<IfcEdge>& edge, std::vector
 			}
 			else
 			{
+				// in curve sense, the edge runs from EdgeStart to EdgeEnd if SameSense, else from EdgeEnd to EdgeStart (reversed below)
 				std::vector<shared_ptr<IfcTrimmingSelect> > curveTrim1vec;
-				PointConverter::convertPointToTrimmingSelect(edgeStart, lengthFactor, curveTrim1vec);
-					
+				PointConverter::convertPointToTrimmingSelect(edgeSameSense ? edgeStart : edgeEnd, lengthFactor, curveTrim1vec);
+
+				// closed edge on a conic: no end trim, so the full conic is used, starting at the vertex
 				std::vector<shared_ptr<IfcTrimmingSelect> > curveTrim2vec;
-				PointConverter::convertPointToTrimmingSelect(edgeEnd, lengthFactor, curveTrim2vec);
+				bool closedEdge = hasEdgeStart && hasEdgeEnd && (p1 - p0).length() < m_geom_settings->getEpsilonMergePoints();
+				if (!closedEdge || !dynamic_pointer_cast<IfcConic>(edgeCurveGeometry))
+				{
+					PointConverter::convertPointToTrimmingSelect(edgeSameSense ? edgeEnd : edgeStart, lengthFactor, curveTrim2vec);
+				}
 
 				convertIfcCurve(edgeCurveGeometry, curveSegments, curveTrim1vec, curveTrim2vec, senseAgreement);
 			}

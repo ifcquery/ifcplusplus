@@ -116,6 +116,10 @@ void CSG_Adapter::assignResultOnFail(const shared_ptr<carve::mesh::MeshSet<3> >&
 	{
 		result = op1;
 	}
+	else if (operation == carve::csg::CSG::INTERSECTION)
+	{
+		result = op1;
+	}
 }
 
 
@@ -242,14 +246,10 @@ bool CSG_Adapter::computeCSG_Carve(const shared_ptr<carve::mesh::MeshSet<3> >& i
 		return false;
 	}
 
-	if (inputA->vertex_storage.size() > 4000)
+	const size_t maxNumVertices = 4000;
+	if (inputA->vertex_storage.size() > maxNumVertices || inputB->vertex_storage.size() > maxNumVertices)
 	{
-		assignResultOnFail(inputA, inputB, operation, result);
-		return false;
-	}
-
-	if (inputB->vertex_storage.size() > 4000)
-	{
+		csgParams.errorMessage = "csg operation skipped, operands have " + std::to_string(inputA->vertex_storage.size()) + " and " + std::to_string(inputB->vertex_storage.size()) + " vertices, limit is " + std::to_string(maxNumVertices);
 		assignResultOnFail(inputA, inputB, operation, result);
 		return false;
 	}
@@ -296,21 +296,23 @@ bool CSG_Adapter::computeCSG_Carve(const shared_ptr<carve::mesh::MeshSet<3> >& i
 	bool intersecting = checkBoundingBoxIntersection(bboxInputA, bboxInputB, operation, epsDefault);
 	if (!intersecting)
 	{
+		if (operation == carve::csg::CSG::INTERSECTION)
+		{
+			// operands are apart from each other, so the intersection is empty
+			result = shared_ptr<carve::mesh::MeshSet<3> >();
+			return true;
+		}
 		assignResultOnFail(inputA, inputB, operation, result);
 		return true;
 	}
 
 	size_t numDegenerateFacesA = MeshOps::countDegeneratedFaces(inputA.get());
 	size_t numDegenerateFacesB = MeshOps::countDegeneratedFaces(inputB.get());
-	if (numDegenerateFacesA > 0)
+	if (numDegenerateFacesA > 0 || numDegenerateFacesB > 0)
 	{
+		csgParams.errorMessage = "csg operation skipped, operand has degenerate faces";
 		assignResultOnFail(inputA, inputB, operation, result);
-		return true;
-	}
-	if (numDegenerateFacesB > 0)
-	{
-		assignResultOnFail(inputA, inputB, operation, result);
-		return true;
+		return false;
 	}
 
 	if (inputA == inputB)
@@ -494,6 +496,7 @@ bool CSG_Adapter::computeCSG_Carve(const shared_ptr<carve::mesh::MeshSet<3> >& i
 
 		if (!infoOp1.meshSetValid || !infoOp2.meshSetValid)
 		{
+			csgParams.errorMessage = "csg operation skipped, operand mesh is not valid and closed";
 			assignResultOnFail(inputA, inputB, operation, result);
 			return false;
 		}
@@ -552,7 +555,7 @@ bool CSG_Adapter::computeCSG_Carve(const shared_ptr<carve::mesh::MeshSet<3> >& i
 				checkBBoxIntersection = true;
 			}
 
-			if (checkBBoxIntersection)
+			if (checkBBoxIntersection && operation == carve::csg::CSG::A_MINUS_B)
 			{
 				carve::geom::aabb<3> bboxOperand1 = op1->getAABB();
 				carve::geom::aabb<3> bboxOperand2 = op2->getAABB();
@@ -709,7 +712,7 @@ bool CSG_Adapter::computeCSG_Carve(const shared_ptr<carve::mesh::MeshSet<3> >& i
 
 		if (!infoResult.meshSetValid)
 		{
-			strs_err << "csg operation failed" << std::endl;
+			strs_err << "csg operation failed";
 
 			// TODO: keep invalid shape as ItemShapeData::m_meshset_invalid_after_csg
 			// if no further boolean operation is performed, it could still be used for visualization
@@ -724,25 +727,26 @@ bool CSG_Adapter::computeCSG_Carve(const shared_ptr<carve::mesh::MeshSet<3> >& i
 	}
 	catch (carve::exception& ce)
 	{
-		strs_err << "csg operation failed" << ce.str().c_str();
+		strs_err << "csg operation failed: " << ce.str().c_str();
 	}
 	catch (const std::out_of_range& oor)
 	{
-		strs_err << "csg operation failed" << oor.what();
+		strs_err << "csg operation failed: " << oor.what();
 	}
 	catch (std::exception& e)
 	{
-		strs_err << "csg operation failed" << e.what();
+		strs_err << "csg operation failed: " << e.what();
 	}
 	catch (...)
 	{
-		strs_err << "csg operation failed" << std::endl;
+		strs_err << "csg operation failed";
 	}
 
 	if (strs_err.tellp() > 0)
 	{
 		if (!infoResult.meshSetValid)
 		{
+			csgParams.errorMessage = strs_err.str();
 			assignResultOnFail(inputA, inputB, operation, result);
 			return false;
 		}
@@ -792,6 +796,12 @@ void CSG_Adapter::computeCSG(shared_ptr<carve::mesh::MeshSet<3> >& op1, const st
 	{
 		const shared_ptr<carve::mesh::MeshSet<3> >& meshset2 = it->second;
 #endif
+		if (!op1 || !meshset2)
+		{
+			// op1 is empty after a previous operation, or the operand could not be converted
+			continue;
+		}
+
 		std::vector<CsgOperationParams> vecCsgParams =
 		{
 			// epsFactor, normalizeCoords, allowDegenEdges, allowFinFacesInResult, allowFinEdgesInResult, flattenFacePlanes
@@ -812,12 +822,39 @@ void CSG_Adapter::computeCSG(shared_ptr<carve::mesh::MeshSet<3> >& op1, const st
 
 			if (success)
 			{
-				if (operation == carve::csg::CSG::A_MINUS_B || operation == carve::csg::CSG::UNION)
+				op1 = result;
+				break;
+			}
+
+			if (ii + 1 == vecCsgParams.size())
+			{
+				// all variants failed, op1 stays unchanged
+				std::string fallback = "first operand kept unchanged";
+				if (operation == carve::csg::CSG::A_MINUS_B)
 				{
-					op1 = result;
+					fallback = "second operand not subtracted";
+				}
+				else if (operation == carve::csg::CSG::UNION)
+				{
+					// keep op2 too, as separate meshes in op1
+					std::vector<carve::mesh::Mesh<3>*> meshes;
+					for (carve::mesh::Mesh<3>* mesh : op1->meshes)
+					{
+						meshes.push_back(mesh->clone(op1->vertex_storage.data(), op1->vertex_storage.data()));
+					}
+					for (carve::mesh::Mesh<3>* mesh : meshset2->meshes)
+					{
+						meshes.push_back(mesh->clone(meshset2->vertex_storage.data(), meshset2->vertex_storage.data()));
+					}
+					op1 = shared_ptr<carve::mesh::MeshSet<3> >(new carve::mesh::MeshSet<3>(meshes));
+					fallback = "operands kept as separate meshes";
 				}
 
-				break;
+				if (params.callbackFunc)
+				{
+					std::string reason = csgParams.errorMessage.size() > 0 ? csgParams.errorMessage : "csg operation failed";
+					params.callbackFunc->messageCallback(reason + " (" + fallback + ")", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, params.ifc_entity);
+				}
 			}
 		}
 	}

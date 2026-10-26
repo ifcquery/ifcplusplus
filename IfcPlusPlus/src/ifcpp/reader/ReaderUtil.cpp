@@ -671,12 +671,12 @@ void readRealList(const std::string& str, std::vector<double>& vec)
 	{
 		if (ch[i] == ',')
 		{
-			vec.push_back(std::stod(str.substr(last_token, i - last_token)));
+			vec.push_back(stringToDouble(str.substr(last_token, i - last_token)));
 			last_token = i + 1;
 		}
 		else if (ch[i] == ')')
 		{
-			vec.push_back(std::stod(str.substr(last_token, i - last_token)));
+			vec.push_back(stringToDouble(str.substr(last_token, i - last_token)));
 			return;
 		}
 		++i;
@@ -713,7 +713,7 @@ void readRealArray(const std::string& str, double(&vec)[3])
 		{
 			if (idx < 3)
 			{
-				vec[idx] = std::stod(str.substr(last_token, i - last_token));
+				vec[idx] = stringToDouble(str.substr(last_token, i - last_token));
 			}
 			++idx;
 			last_token = i + 1;
@@ -722,7 +722,7 @@ void readRealArray(const std::string& str, double(&vec)[3])
 		{
 			if (idx < 3)
 			{
-				vec[idx] = std::stod(str.substr(last_token, i - last_token));
+				vec[idx] = stringToDouble(str.substr(last_token, i - last_token));
 			}
 			return;
 		}
@@ -907,13 +907,7 @@ void findEndOfString(const char*& stream_pos)
 				++stream_pos;
 				continue;
 			}
-			if (*(stream_pos + 1) == '\'')
-			{
-				// quote is escaped
-				++stream_pos;
-				++stream_pos;
-				continue;
-			}
+			// a backslash does not escape a quote in STEP (a quote is escaped as ''), so 'C:\Temp\' ends at its last quote
 		}
 
 		if (*stream_pos == '\'')
@@ -1076,11 +1070,13 @@ static char16_t checkAndConvertAppleEncoding(char16_t input)
 	return input;
 }
 
-void decodeArgumentString(const std::string& argument_str, std::string& arg_out)
+// unescape: also collapse the escapes '' and \\ of a single string value. Whole arguments that are tokenized further keep them, so that a decoded quote or backslash can't end a string early
+static void decodeStepString(const std::string& argument_str, std::string& arg_out, bool unescape)
 {
 	const size_t arg_length = argument_str.length();
 	if (arg_length == 0)
 	{
+		arg_out.clear();
 		return;
 	}
 
@@ -1092,71 +1088,42 @@ void decodeArgumentString(const std::string& argument_str, std::string& arg_out)
 		if (*stream_pos == '\\')
 		{
 			char c1 = *(stream_pos + 1);
-			if (c1 == 'S')
+			if (c1 == '\\')
+			{
+				// escaped backslash, consumed as a pair so that the second backslash is not read as the start of a directive
+				arg_str_new += unescape ? "\\" : "\\\\";
+				stream_pos += 2;
+				continue;
+			}
+			else if (c1 == 'S')
 			{
 				// we have \S
 				char c2 = *(stream_pos + 2);
 				if (c2 == '\\')
 				{
-					// we have '\S\', for example 'Heizk\S\vrper'
+					// we have '\S\', for example 'Heizk\S\vrper': the next character's code value v shall be interpreted as v + 128
 					char c3 = *(stream_pos + 3);
 					if (c3 != '\0')
 					{
-						char c4 = *(stream_pos + 4);
-						if (c4 == '\\')
+						size_t num_consumed = 4;
+						if (c3 == '\\' && *(stream_pos + 4) == '\\')
 						{
-							// we have '\S\ . \'
-							char c5 = *(stream_pos + 5);
-							if (c5 == 'S')
-							{
-								if (*(stream_pos + 6) == '\\')
-								{
-									if (*(stream_pos + 7) != '\0')
-									{
-										char first = c3;
-										char second = *(stream_pos + 7);
-										char append_char = char(125 + first + second);
-										arg_str_new += append_char;
-										stream_pos += 8;
-										continue;
-									}
-								}
-							}
-							else if (c5 == 'Q')
-							{
-								if (*(stream_pos + 6) == '\\')
-								{
-									if (*(stream_pos + 7) != '\0')
-									{
-										char first = c3;
-										char second = *(stream_pos + 7);
-										char append_char = char(125 + first + second);
-										arg_str_new += append_char;
-										stream_pos += 8;
-										continue;
-									}
-								}
-							}
+							// the character is an escaped backslash
+							num_consumed = 5;
 						}
-						else
-						{
-							// next characters code value v shall be interpreted as v + 128
-							char first = c3;
-							char append_char = char(128 + first);
-							uint8_t charAsUint = append_char;
-							arg_str_new.push_back(0xc0 | charAsUint >> 6);
-							arg_str_new.push_back(0x80 | (charAsUint & 0x3f));
+						uint8_t charAsUint = static_cast<uint8_t>(c3) + 128;
+						arg_str_new.push_back(0xc0 | charAsUint >> 6);
+						arg_str_new.push_back(0x80 | (charAsUint & 0x3f));
 
-							stream_pos += 4;
-							continue;
-						}
+						stream_pos += num_consumed;
+						continue;
 					}
 				}
 			}
 			else if (c1 == 'X')
 			{
 				char c2 = *(stream_pos + 2);
-				if (c2 == '\\')
+				if (c2 == '\\' && *(stream_pos + 3) != '\0' && *(stream_pos + 4) != '\0')
 				{
 					// we have \\X\\Unicode code points
 
@@ -1175,7 +1142,7 @@ void decodeArgumentString(const std::string& argument_str, std::string& arg_out)
 						combined16[0] = checkAndConvertAppleEncoding(combined16[0]);
 					}
 					std::u16string u16str(combined16, 1);
-					std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
+					std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert("\xEF\xBF\xBD"); // invalid UTF-16 becomes U+FFFD instead of throwing std::range_error
 					std::string utf8 = convert.to_bytes(u16str);
 
 					arg_str_new += utf8;
@@ -1224,6 +1191,12 @@ void decodeArgumentString(const std::string& argument_str, std::string& arg_out)
 								}
 							}
 
+							if (codePoint1 == '\0' || *(stream_pos + 1) == '\0' || *(stream_pos + 2) == '\0' || *(stream_pos + 3) == '\0')
+							{
+								// truncated sequence
+								arg_out = argument_str;
+								return;
+							}
 							char codePoint2 = *(stream_pos + 1);
 							char codePoint3 = *(stream_pos + 2);
 							char codePoint4 = *(stream_pos + 3);
@@ -1238,12 +1211,53 @@ void decodeArgumentString(const std::string& argument_str, std::string& arg_out)
 
 						} while ((*stream_pos != '\0'));
 
-						std::u16string u16str(reinterpret_cast<char16_t*>(&utf16Characters[0]), utf16Characters.size() / 2);
-						std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
+						std::u16string u16str(reinterpret_cast<char16_t*>(utf16Characters.data()), utf16Characters.size() / 2);
+						std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert("\xEF\xBF\xBD"); // invalid UTF-16 becomes U+FFFD instead of throwing std::range_error
 						std::string utf8 = convert.to_bytes(u16str);
 						arg_str_new += utf8;
 					}
 					continue;
+				}
+				else if (c2 == '4')
+				{
+					if (*(stream_pos + 3) == '\\')
+					{
+						// we have \X4\, each following group of eight hexadecimal characters encodes the four-octet representation of a character in ISO 10646
+						stream_pos += 4;
+						std::u32string u32str;
+						while (*stream_pos != '\0')
+						{
+							if (*stream_pos == '\\')
+							{
+								if (*(stream_pos + 1) == 'X' && *(stream_pos + 2) == '0' && *(stream_pos + 3) == '\\')
+								{
+									stream_pos += 4;
+									break;
+								}
+								// unexpected sequence
+								arg_out = argument_str;
+								return;
+							}
+
+							char32_t codePoint = 0;
+							for (size_t ii = 0; ii < 8; ++ii)
+							{
+								if (stream_pos[ii] == '\0')
+								{
+									// truncated sequence
+									arg_out = argument_str;
+									return;
+								}
+								codePoint = (codePoint << 4) | convertToHex<char32_t>(stream_pos[ii]);
+							}
+							u32str.push_back(codePoint);
+							stream_pos += 8;
+						}
+
+						std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> convert("\xEF\xBF\xBD"); // invalid code points become U+FFFD instead of throwing std::range_error
+						arg_str_new += convert.to_bytes(u32str);
+						continue;
+					}
 				}
 			}
 			else if (c1 == 'N')
@@ -1257,12 +1271,25 @@ void decodeArgumentString(const std::string& argument_str, std::string& arg_out)
 			}
 		}
 
+		if (unescape && *stream_pos == '\'' && *(stream_pos + 1) == '\'')
+		{
+			// two apostrophes encode one apostrophe
+			arg_str_new += '\'';
+			stream_pos += 2;
+			continue;
+		}
+
 		char current_char = *stream_pos;
 		arg_str_new += current_char;
 		++stream_pos;
 	}
 
 	arg_out = arg_str_new;
+}
+
+void decodeArgumentString(const std::string& argument_str, std::string& arg_out)
+{
+	decodeStepString(argument_str, arg_out, false);
 }
 
 void decodeArgumentStrings( const std::vector<std::string>& entity_arguments, std::vector<std::string>& args_out)
@@ -1327,7 +1354,7 @@ void readIntegerValue(const std::string& str, int& int_value)
 
 void readReal(const std::string& attribute_value, double& target)
 {
-	target = std::stod(attribute_value);
+	target = stringToDouble(attribute_value);
 }
 
 void readString(const std::string& attribute_value, std::string& target)
@@ -1339,7 +1366,8 @@ void readString(const std::string& attribute_value, std::string& target)
 	}
 	if (attribute_value[0] == '\'' && attribute_value[attribute_value.size() - 1] == '\'')
 	{
-		target = attribute_value.substr(1, attribute_value.size() - 2);
+		// string escapes are decoded here, per string value, and not before the arguments are tokenized
+		decodeStepString(attribute_value.substr(1, attribute_value.size() - 2), target, true);
 	}
 	else
 	{
@@ -1498,35 +1526,11 @@ void tokenizeInlineArgument(std::string arg, std::string& keyword, std::string& 
 	{
 		if (*stream_pos == '\'')
 		{
-			++stream_pos;
-			// inside string
-			while (*stream_pos != '\0')
-			{
-				if (*stream_pos == '\'')
-				{
-					// check if tick is escaped
-					char* tick_pos = stream_pos;
-					bool tick_escaped = false;
-					while (tick_pos != begin_keyword)
-					{
-						--tick_pos;
-						if (*tick_pos == '\\')
-						{
-							tick_escaped = !tick_escaped;
-							continue;
-						}
-						break;
-					}
-					if (tick_escaped)
-					{
-						++stream_pos;
-						continue;
-					}
-					// else tick marks the end of argument
-					break;
-				}
-				++stream_pos;
-			}
+			// skip the string with the same rules as tokenizeEntityArguments, so that encoded characters like the backslash of \X0\ before the closing tick don't escape it
+			const char* string_pos = stream_pos;
+			findEndOfString(string_pos);
+			stream_pos = const_cast<char*>(string_pos);
+			continue;
 		}
 
 		if (*stream_pos == '(')

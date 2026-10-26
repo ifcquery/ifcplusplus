@@ -197,8 +197,15 @@ public:
 		return false;
 	}
 
-	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& ifcRepresentation, shared_ptr<ItemShapeData>& representationData, 
+	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& ifcRepresentation, shared_ptr<ItemShapeData>& representationData,
 		bool cacheIfcItems)
+	{
+		std::unordered_set<IfcRepresentation*> ancestorRepresentations = { ifcRepresentation.get() };
+		convertIfcRepresentation( ifcRepresentation, representationData, cacheIfcItems, ancestorRepresentations );
+	}
+
+	void convertIfcRepresentation( const shared_ptr<IfcRepresentation>& ifcRepresentation, shared_ptr<ItemShapeData>& representationData,
+		bool cacheIfcItems, std::unordered_set<IfcRepresentation*>& ancestorRepresentations )
 	{
 		representationData->m_ifc_representation = ifcRepresentation;
 		printToDebugLog(__FUNC__, "");
@@ -268,12 +275,19 @@ public:
 					}
 				}
 
+				// guard against cyclic IfcRepresentationMap references
+				if( !ancestorRepresentations.insert( mapped_representation.get() ).second )
+				{
+					messageCallback( "Cyclic IfcRepresentationMap reference", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, representationItem.get() );
+					continue;
+				}
+
 				shared_ptr<ItemShapeData> mapped_input_data( new ItemShapeData() );
 				mapped_input_data->m_ifc_representation = mapped_representation;
 
 				try
 				{
-					convertIfcRepresentation( mapped_representation, mapped_input_data, cacheIfcItems);
+					convertIfcRepresentation( mapped_representation, mapped_input_data, cacheIfcItems, ancestorRepresentations );
 				}
 				catch( BuildingException& e )
 				{
@@ -283,6 +297,7 @@ public:
 				{
 					messageCallback( e.what(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 				}
+				ancestorRepresentations.erase( mapped_representation.get() );
 
 				if( m_geom_settings->handleStyledItems() )
 				{
@@ -1059,8 +1074,19 @@ public:
 		}
 	}
 
-	static bool hasBooleanOperations(const shared_ptr<IfcRepresentation>& ifcRepresentation)
+	static bool hasBooleanOperations(const shared_ptr<IfcRepresentation>& ifcRepresentation, std::unordered_set<IfcRepresentation*>& visitedRepresentations)
 	{
+		if (!ifcRepresentation)
+		{
+			return false;
+		}
+
+		// guard against cyclic IfcRepresentationMap references
+		if (!visitedRepresentations.insert(ifcRepresentation.get()).second)
+		{
+			return false;
+		}
+
 		for (const shared_ptr<IfcRepresentationItem>& representationItem : ifcRepresentation->m_Items)
 		{
 			shared_ptr<IfcMappedItem> mapped = dynamic_pointer_cast<IfcMappedItem>(representationItem);
@@ -1070,7 +1096,7 @@ public:
 				{
 					shared_ptr<IfcRepresentation> mapped_representation = mapped->m_MappingSource->m_MappedRepresentation;
 
-					bool found = hasBooleanOperations(mapped_representation);
+					bool found = hasBooleanOperations(mapped_representation, visitedRepresentations);
 					if (found)
 					{
 						return true;
@@ -1091,9 +1117,10 @@ public:
 	{
 		// TODO: if there are no bool ops, cache the entire representation
 
+		std::unordered_set<IfcRepresentation*> visitedRepresentations;
 		for (const shared_ptr<IfcRepresentation>& representation : productRepresentation->m_Representations)
 		{
-			bool found = hasBooleanOperations(representation);
+			bool found = hasBooleanOperations(representation, visitedRepresentations);
 			if (found)
 			{
 				return true;

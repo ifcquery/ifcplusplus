@@ -23,6 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <thread>
 #include <unordered_set>
 #include <ifcpp/model/BasicTypes.h>
+#include <ifcpp/model/BuildingGuid.h>
 #include <ifcpp/model/BuildingModel.h>
 #include <ifcpp/model/StatusCallback.h>
 #include <ifcpp/reader/ReaderUtil.h>
@@ -31,7 +32,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4X3/include/IfcCurtainWall.h>
 #include <ifcpp/IFC4X3/include/IfcDistributionElement.h>
 #include <ifcpp/IFC4X3/include/IfcGloballyUniqueId.h>
-#include <ifcpp/IFC4X3/include/IfcIndexedColourMap.h>
 #include <ifcpp/IFC4X3/include/IfcDistributionPort.h>
 #include <ifcpp/IFC4X3/include/IfcPropertySetDefinitionSet.h>
 #include <ifcpp/IFC4X3/include/IfcRelAggregates.h>
@@ -930,13 +930,14 @@ public:
 
 	void getAllObjectDefinitions(std::vector<shared_ptr<IfcObjectDefinition> >& vecObjectDefinitions, shared_ptr<ProductShapeData>& ifcProjectData)
 	{
-		std::unordered_map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
+		// the model's entities are not removed here: the model must stay complete, so that it can be written after the geometry conversion
+		const std::unordered_map<int, shared_ptr<BuildingEntity> >& map_entities = m_ifc_model->getMapIfcEntities();
 		std::unordered_set<std::string> setGuids;
 		if (map_entities.size() > 0)
 		{
-			for (auto it = map_entities.begin(); it != map_entities.end(); )
+			for (auto it = map_entities.begin(); it != map_entities.end(); ++it)
 			{
-				shared_ptr<BuildingEntity> entity = it->second;
+				const shared_ptr<BuildingEntity>& entity = it->second;
 				if (entity)
 				{
 					shared_ptr<IfcRoot> root = dynamic_pointer_cast<IfcRoot>(entity);
@@ -947,30 +948,22 @@ public:
 						{
 							guid = root->m_GlobalId->m_value;
 
-							auto it_find = setGuids.find(guid);
-							if (it_find != setGuids.end())
+							if (setGuids.find(guid) != setGuids.end())
 							{
+								// product shapes are mapped by GUID, so the duplicate gets a new valid GUID
 								std::string guid_duplicate = guid;
-								size_t guid_append = 1;
-								for (auto it = setGuids.begin(); it != setGuids.end(); ++it)
+								do
 								{
-									std::string guid_unique = guid + "_" + std::to_string(guid_append);
-									auto it_find2 = setGuids.find(guid_unique);
-									if (it_find2 == setGuids.end())
-									{
-										guid = guid_unique;
-										break;
-									}
-									++guid_append;
-								}
+									guid = createBase64Uuid();
+								} while (setGuids.find(guid) != setGuids.end());
 
-								std::string error = "duplicate GUID in model: " + guid_duplicate;
+								std::string error = "duplicate GUID in model: " + guid_duplicate + ", replaced by " + guid + " in #" + std::to_string(root->m_tag);
 								messageCallback(error, StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);
 
 								root->m_GlobalId->m_value = guid;
 							}
 
-							setGuids.insert(it_find, guid);
+							setGuids.insert(guid);
 						}
 
 						shared_ptr<IfcObjectDefinition> object_def = dynamic_pointer_cast<IfcObjectDefinition>(root);
@@ -991,58 +984,6 @@ public:
 							}
 						}
 					}
-
-					if (entity->classID() == IFCCARTESIANPOINT)
-					{
-						// IfcCartesianPoint are referenced by IfcFace etc, so we don't need to keep them in the model
-						it = map_entities.erase(it);
-						continue;
-					}
-
-					if (entity->classID() == IFCPRODUCTREPRESENTATION)
-					{
-						// IfcCartesianPoint are referenced by IfcFace etc, so we don't need to keep them in the model
-						it = map_entities.erase(it);
-						continue;
-					}
-
-					shared_ptr<IfcPropertyAbstraction> prop = dynamic_pointer_cast<IfcPropertyAbstraction>(entity);
-					if (prop)
-					{
-						// IfcPropertySingleValue etc are referenced in PropertySet, don't need them in mapEntities
-						it = map_entities.erase(it);
-						continue;
-					}
-
-					//////////////  <TEMP>
-					shared_ptr<IfcIndexedColourMap> indexedColorMap = dynamic_pointer_cast<IfcIndexedColourMap>(entity);
-					if (indexedColorMap)
-					{
-						it = map_entities.erase(it);
-						continue;
-					}
-					//////////////  </TEMP>
-
-					shared_ptr<IfcRepresentationItem> reItem = dynamic_pointer_cast<IfcRepresentationItem>(entity);
-					if (reItem)
-					{
-						// exclude IFCINDEXEDCOLOURMAP and IFCSTYLEDITEM, which are not referenced by anyone
-						shared_ptr<IfcIndexedColourMap> colorMap = dynamic_pointer_cast<IfcIndexedColourMap>(entity);
-						if (!colorMap)
-						{
-							shared_ptr<IfcStyledItem> styledItem = dynamic_pointer_cast<IfcStyledItem>(entity);
-							if (!styledItem)
-							{
-								// IfcRelVoidsElement is not derived from IfcRepresentationItem
-								// shared_ptr<IfcRelVoidsElement> relVoids = dynamic_pointer_cast<IfcRelVoidsElement>(entity);
-
-								// enable early free up of memory during geometry processing
-								it = map_entities.erase(it);
-								continue;
-							}
-						}
-					}
-					++it;
 				}
 			}
 		}

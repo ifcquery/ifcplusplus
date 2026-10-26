@@ -131,7 +131,6 @@ void ReaderSTEP::loadModelFromFile(const std::string& filePath, shared_ptr<Build
 	}
 
 	// open file
-	setlocale(LC_ALL, "");
 	std::ifstream infile;
 	infile.open(filePathRead.c_str(), std::ifstream::in);
 
@@ -144,7 +143,6 @@ void ReaderSTEP::loadModelFromFile(const std::string& filePath, shared_ptr<Build
 	}
 
 	// get length of file content
-	infile.imbue(std::locale(""));
 	infile.seekg(0, std::ios::end);
 	std::streampos file_end_pos = infile.tellg();
 	infile.seekg(0, std::ios::beg);
@@ -586,10 +584,8 @@ void ReaderSTEP::readEntityArguments(std::vector<std::pair<std::string, shared_p
 			tokenizeEntityArguments(argument_str, arguments_raw);
 			argument_str.clear();
 
-			// character decoding:
-			std::vector<std::string> arguments_decoded;
-			decodeArgumentStrings(arguments_raw, arguments_decoded);
-			arguments_raw.clear();
+			// character decoding happens per string value in readString, after nested lists and select values have been tokenized
+			std::vector<std::string> arguments_decoded = std::move(arguments_raw);
 
 			const size_t num_expected_arguments = entity->getNumAttributes();
 			if (entity->classID() == IFCCOLOURRGB)
@@ -807,9 +803,6 @@ void ReaderSTEP::readEntityArguments(std::vector<std::pair<std::string, shared_p
 
 void ReaderSTEP::readData(std::istream& read_in, std::streampos file_size, shared_ptr<BuildingModel>& model)
 {
-	std::string current_numeric_locale(setlocale(LC_NUMERIC, nullptr));
-	setlocale(LC_NUMERIC, "C");
-
 	if (read_in.peek() == EOF)
 	{
 		return;
@@ -860,15 +853,25 @@ void ReaderSTEP::readData(std::istream& read_in, std::streampos file_size, share
 				mapFindReplaceTypes["IFCELECTRICDISTRIBUTIONPOINT"] = "IFCFLOWCONTROLLER";
 				// IfcElectricDistributionPoint	DELETED   ->  IfcFlowController
 
-				for (auto it : mapFindReplaceTypes)
-				{
-					const std::string& find1 = it.first;
-					const std::string& replace1 = it.second;
+				// IFC4 subtypes removed in IFC4X3, with the same attributes as their supertype
+				mapFindReplaceTypes["IFCCOLUMNSTANDARDCASE"] = "IFCCOLUMN";
+				mapFindReplaceTypes["IFCDOORSTANDARDCASE"] = "IFCDOOR";
+				mapFindReplaceTypes["IFCMEMBERSTANDARDCASE"] = "IFCMEMBER";
+				mapFindReplaceTypes["IFCOPENINGSTANDARDCASE"] = "IFCOPENINGELEMENT";
+				mapFindReplaceTypes["IFCPLATESTANDARDCASE"] = "IFCPLATE";
+				mapFindReplaceTypes["IFCSLABELEMENTEDCASE"] = "IFCSLAB";
+				mapFindReplaceTypes["IFCSLABSTANDARDCASE"] = "IFCSLAB";
+				mapFindReplaceTypes["IFCWALLELEMENTEDCASE"] = "IFCWALL";
+				mapFindReplaceTypes["IFCWINDOWSTANDARDCASE"] = "IFCWINDOW";
 
-					size_t pos1 = step_line_fix.find(find1);
+				// replace only the entity keyword, not text inside its arguments
+				auto it_replace = mapFindReplaceTypes.find(unknown_keyword);
+				if (it_replace != mapFindReplaceTypes.end())
+				{
+					size_t pos1 = step_line_fix.find(it_replace->first);
 					if (pos1 != std::string::npos)
 					{
-						step_line_fix.replace(pos1, find1.size(), replace1);
+						step_line_fix.replace(pos1, it_replace->first.size(), it_replace->second);
 					}
 				}
 
@@ -968,7 +971,6 @@ void ReaderSTEP::readData(std::istream& read_in, std::streampos file_size, share
 		err << __FUNC__ << ": error occurred" << std::endl;
 	}
 
-	setlocale(LC_NUMERIC, current_numeric_locale.c_str());
 	if (err.tellp() > 0)
 	{
 		messageCallback(err.str(), StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__);

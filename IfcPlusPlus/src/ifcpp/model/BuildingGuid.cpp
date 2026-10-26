@@ -9,8 +9,13 @@
 ///@brief Creates a GUID string with 36 characters including dashes, for example: "F103000C-9865-44EE-BE6E-CCC780B81423"
 std::string createGUID32()
 {
-	std::random_device              rd;
-	std::mt19937                    gen(rd());
+	// one generator per thread, seeded once with 256 bits. A generator seeded from a single 32-bit value per call allows only 2^32 different GUIDs
+	thread_local std::mt19937 gen = []()
+	{
+		std::random_device rd;
+		std::seed_seq seed{ rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd() };
+		return std::mt19937(seed);
+	}();
 	std::uniform_int_distribution<> dis(0, 15);
 	std::uniform_int_distribution<> dis2(8, 11);
 	std::basic_stringstream<char> uuid_strs;
@@ -32,7 +37,7 @@ std::string createGUID32()
 	return str;
 }
 
-static const char base16mask[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
+static const signed char base16mask[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
 				- 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
 				- 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
 				0,  1,  2,  3,  4,  5,  6,  7,  8,  9, -1, -1, -1, -1, -1, -1, \
@@ -40,7 +45,7 @@ static const char base16mask[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -
 				- 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
 				- 1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
 				- 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-static const char base64mask[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
+static const signed char base64mask[] = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
 				- 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
 				- 1, -1, -1, -1, 63, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, \
 				0,  1,  2,  3,  4,  5,  6,  7,  8,  9, -1, -1, -1, -1, -1, -1, \
@@ -78,8 +83,11 @@ std::string compressGUID(const std::string& in) {
 	binary_data.reserve(16);
 	for (size_t i = 0; i < 32; i += 2) {
 		// Read 2 hex characters (8 bits = 1 byte)
-		int h1 = base16mask[static_cast<unsigned char>(hex_data[i])];
-		int h2 = base16mask[static_cast<unsigned char>(hex_data[i + 1])];
+		const unsigned char c1 = static_cast<unsigned char>(hex_data[i]);
+		const unsigned char c2 = static_cast<unsigned char>(hex_data[i + 1]);
+		if (c1 >= sizeof(base16mask) || c2 >= sizeof(base16mask)) return ""; // not ASCII
+		int h1 = base16mask[c1];
+		int h2 = base16mask[c2];
 		if (h1 == -1 || h2 == -1) return ""; // Invalid hex char
 
 		binary_data.push_back(static_cast<uint8_t>((h1 << 4) | h2));

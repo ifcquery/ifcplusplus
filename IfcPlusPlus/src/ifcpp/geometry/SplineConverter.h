@@ -130,7 +130,7 @@ public:
 		double sum = 0.0;
 		for( size_t ii = 0; ii < numControlPoints; ++ii )
 		{
-			sum = sum + temp[ii] * weights[ii + 1];
+			sum = sum + temp[ii] * weights[ii];
 		}
 
 		// compute the rational basis function
@@ -138,7 +138,7 @@ public:
 		{
 			if( sum != 0.0 )
 			{
-				basisFunc[ii] = temp[ii] * weights[ii + 1] / sum;
+				basisFunc[ii] = temp[ii] * weights[ii] / sum;
 			}
 			else
 			{

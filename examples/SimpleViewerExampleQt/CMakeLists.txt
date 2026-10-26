@@ -52,6 +52,8 @@ SET(IFCPPVIEWER_SOURCE_FILES
     src/viewer/GraphicsWindowQt.cpp
     src/viewer/IntersectionHandler.cpp
 	src/viewer/Orbit3DManipulator.cpp
+    src/viewer/ViewController.cpp
+    src/viewer/ViewerUtil.cpp
     src/viewer/ViewerWidget.cpp
 )
 
@@ -62,6 +64,7 @@ SET(IFCPPVIEWER_MOC_FILES
     src/gui/MainWindow.h
     src/gui/OpenFileWidget.h
     src/gui/SettingsWidget.h
+    src/viewer/Orbit3DManipulator.h
     src/viewer/ViewerWidget.h
 )
 

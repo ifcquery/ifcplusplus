@@ -18,12 +18,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma once
 
 #include <algorithm>
+#include <charconv>
 #include <iostream>
 #include <filesystem>
 #include <limits>
 #include <map>
 #include <string>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 #include "ifcpp/model/BasicTypes.h"
@@ -109,6 +111,37 @@ inline void readInteger(const std::string& str, int& result)
 #endif
 	result = std::stoi(str);
 }
+
+// locale independent replacement of std::stod: STEP reals always use '.' as decimal separator, whatever the process C locale is
+inline double stringToDouble(const std::string& str)
+{
+	const char* first = str.data();
+	const char* last = first + str.size();
+	while (first != last && isspace(static_cast<unsigned char>(*first))) { ++first; }
+	if (first != last && *first == '+') { ++first; }
+	double result = 0;
+#ifdef __cpp_lib_to_chars
+	std::from_chars_result conversion = std::from_chars(first, last, result);
+	if (conversion.ec == std::errc::invalid_argument)
+	{
+		throw std::invalid_argument("stringToDouble: no conversion: " + str);
+	}
+	if (conversion.ec == std::errc::result_out_of_range)
+	{
+		throw std::out_of_range("stringToDouble: out of range: " + str);
+	}
+#else
+	std::istringstream stream(std::string(first, last));
+	stream.imbue(std::locale::classic());
+	stream >> result;
+	if (stream.fail())
+	{
+		throw std::invalid_argument("stringToDouble: no conversion: " + str);
+	}
+#endif
+	return result;
+}
+
 void readIntegerValue(const std::string& str, int& int_value);
 void readReal(const std::string& attribute_value, double& target);
 void readString(const std::string& attribute_value, std::string& target);
@@ -292,7 +325,7 @@ void readTypeOfRealList( const std::string& str, std::vector<shared_ptr<T> >& ta
 				double real_value = 0;
 				try
 				{
-					real_value = std::stod(double_str);
+					real_value = stringToDouble(double_str);
 				}
 				catch( std::exception&  )
 				{

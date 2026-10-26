@@ -539,7 +539,7 @@ public:
 			bool dumpMeshes = false;
 			PolyInputCache3D polyTriangulated;
 			GeomProcessingParams params(m_geom_settings, dumpMeshes);
-			params.epsMergePoints = 0.001;
+			// keep the model's epsMergePoints: triangles with an edge shorter than ~3 * eps are dropped, so a display-sized eps removes real mm-scale faces
 			MeshOps::retriangulateMeshSetForExport(item_meshset, polyTriangulated, params);
 
 			//convertPolyhedronToGeode(polyTriangulated, geode, min_triangle_area, false, disableBackfaceCulling);
@@ -548,111 +548,108 @@ public:
 				{
 					return;
 				}
+				const std::vector<vec3>& points = polyTriangulated.m_poly_data->points;
+				const std::vector<int>& faceIndices = polyTriangulated.m_poly_data->faceIndices;
+
+				// area weighted normal of each triangle, and the triangles at each point
+				std::vector<int> triangleCorners;
+				std::vector<vec3> triangleNormals;
+				std::vector<std::vector<size_t> > pointTriangles(points.size());
+				for (size_t i = 0; i < faceIndices.size(); i += faceIndices[i] + 1)
+				{
+					if (faceIndices[i] != 3)
+					{
+						std::cout << "not triangularized" << std::endl;
+						continue;
+					}
+					for (size_t k = 1; k <= 3; ++k)
+					{
+						triangleCorners.push_back(faceIndices[i + k]);
+						pointTriangles[faceIndices[i + k]].push_back(triangleNormals.size());
+					}
+					const vec3& pointA = points[faceIndices[i + 1]];
+					triangleNormals.push_back(carve::geom::cross(points[faceIndices[i + 2]] - pointA, points[faceIndices[i + 3]] - pointA));
+				}
+
+				// normal per triangle corner, smoothed over the triangles at that point within the crease angle. Points with differing normals get one vertex per normal
 				osg::ref_ptr<osg::Geometry> geom = new osg::Geometry;
 				osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
-				for (const vec3& point : polyTriangulated.m_poly_data->points) {
-					vertices->push_back(osg::Vec3f(point.x, point.y, point.z));
+				osg::ref_ptr<osg::Vec3Array> normals = new osg::Vec3Array();
+				std::vector<std::vector<unsigned int> > pointVertices(points.size());
+				std::vector<unsigned int> vertexIndices;
+				for (size_t i = 0; i < triangleCorners.size(); ++i)
+				{
+					const int idxPoint = triangleCorners[i];
+					const vec3& faceNormal = triangleNormals[i / 3];
+					const double faceNormalLength = faceNormal.length();
+					vec3 normal = carve::geom::VECTOR(0, 0, 0);
+					for (size_t idxTriangle : pointTriangles[idxPoint])
+					{
+						const vec3& otherNormal = triangleNormals[idxTriangle];
+						const double lengths = faceNormalLength * otherNormal.length();
+						if (lengths > 0 && 1.0 - dot(faceNormal, otherNormal) / lengths < crease_angle)
+						{
+							normal += otherNormal;
+						}
+					}
+					if (normal.length2() > 0)
+					{
+						normal.normalize();
+					}
+					const osg::Vec3f normalf(normal.x, normal.y, normal.z);
+
+					unsigned int idxVertex = UINT_MAX;
+					for (unsigned int idxExisting : pointVertices[idxPoint])
+					{
+						if ((*normals)[idxExisting] == normalf)
+						{
+							idxVertex = idxExisting;
+							break;
+						}
+					}
+					if (idxVertex == UINT_MAX)
+					{
+						idxVertex = static_cast<unsigned int>(vertices->size());
+						const vec3& point = points[idxPoint];
+						vertices->push_back(osg::Vec3f(point.x, point.y, point.z));
+						normals->push_back(normalf);
+						pointVertices[idxPoint].push_back(idxVertex);
+					}
+					vertexIndices.push_back(idxVertex);
 				}
 				geom->setVertexArray(vertices);
+				geom->setNormalArray(normals);
+				normals->setBinding(osg::Array::BIND_PER_VERTEX);
 				geode->addChild(geom);
 
-				size_t numFaces = polyTriangulated.m_poly_data->faceIndices.size() / 4;
-				std::cout << "converting item with " << vertices->size() << " vertices and " << numFaces << " faces" << std::endl;
+				std::cout << "converting item with " << vertices->size() << " vertices and " << triangleNormals.size() << " faces" << std::endl;
 
-				size_t numIndices = polyTriangulated.m_poly_data->faceIndices.size();
-				
-				
-				if (numIndices < UCHAR_MAX) { // 256
-					osg::ref_ptr<osg::DrawElementsUByte> drawElementsUByte = new osg::DrawElementsUByte(osg::PrimitiveSet::TRIANGLES);
-
-					for (auto it = polyTriangulated.m_poly_data->faceIndices.begin(); it != polyTriangulated.m_poly_data->faceIndices.end(); ++it) {
-						int numPoints = *it;
-						if (numPoints != 3) {
-							std::cout << "not triangularized" << std::endl;
-							continue;
-						}
-						++it;
-
-						int idx = *it;
-						++it;
-						drawElementsUByte->push_back(static_cast<GLubyte>(idx));
-						idx = *it;
-						++it;
-						drawElementsUByte->push_back(static_cast<GLubyte>(idx));
-						idx = *it;
-						drawElementsUByte->push_back(static_cast<GLubyte>(idx));
-					}
-					geom->addPrimitiveSet(drawElementsUByte);
-
+				// the index type has to hold the largest vertex index
+				osg::ref_ptr<osg::DrawElements> drawElements;
+				if (vertices->size() <= UCHAR_MAX + 1)
+				{
+					drawElements = new osg::DrawElementsUByte(osg::PrimitiveSet::TRIANGLES);
 				}
-				else if (numIndices < USHRT_MAX) {
-					size_t num1 = USHRT_MAX;
-					std::cout << num1;
-					osg::ref_ptr<osg::DrawElementsUShort> drawElementsUShort = new osg::DrawElementsUShort(osg::PrimitiveSet::TRIANGLES);
-
-					for (auto it = polyTriangulated.m_poly_data->faceIndices.begin(); it != polyTriangulated.m_poly_data->faceIndices.end(); ++it) {
-						int numPoints = *it;
-						if (numPoints != 3) {
-							std::cout << "not triangularized" << std::endl;
-							continue;
-						}
-						++it;
-
-						int idx = *it;
-						++it;
-						drawElementsUShort->push_back(static_cast<GLushort>(idx));
-						idx = *it;
-						++it;
-						drawElementsUShort->push_back(static_cast<GLushort>(idx));
-						idx = *it;
-						drawElementsUShort->push_back(static_cast<GLushort>(idx));
-					}
-
-					
-					geom->addPrimitiveSet(drawElementsUShort);
-
-					const osg::BoundingBox& bbox = geom->getBoundingBox();
-					auto bboxMesh = item_meshset->getAABB();
-					double dx1 = bbox.center().x() - bboxMesh.pos.x;
-					if (fabs(dx1) > 0.001) {
-						std::cout << dx1;
-					}
-					double min1 = bbox.xMin();
-					double min2 = bboxMesh.pos.x - bboxMesh.extent.x;
-					double dxMin = min1 - min2;
-					if (fabs(dxMin) > 0.001) {
-						std::cout << dxMin;
-					}
+				else if (vertices->size() <= USHRT_MAX + 1)
+				{
+					drawElements = new osg::DrawElementsUShort(osg::PrimitiveSet::TRIANGLES);
 				}
-				else if (numIndices < UINT_MAX) {
-					osg::DrawElementsUInt* drawElementsUInt = new osg::DrawElementsUInt(osg::PrimitiveSet::TRIANGLES);
-
-					for (auto it = polyTriangulated.m_poly_data->faceIndices.begin(); it != polyTriangulated.m_poly_data->faceIndices.end(); ++it) {
-						int numPoints = *it;
-						if (numPoints != 3) {
-							std::cout << "not triangularized" << std::endl;
-							continue;
-						}
-						++it;
-
-						int idx = *it;
-						++it;
-						drawElementsUInt->push_back(static_cast<GLuint>(idx));
-						idx = *it;
-						++it;
-						drawElementsUInt->push_back(static_cast<GLuint>(idx));
-						idx = *it;
-						drawElementsUInt->push_back(static_cast<GLuint>(idx));
-					}
-
-					geom->addPrimitiveSet(drawElementsUInt);
-
+				else
+				{
+					drawElements = new osg::DrawElementsUInt(osg::PrimitiveSet::TRIANGLES);
 				}
-				else {
-					std::cout << __FUNCTION__ "UINT_MAX exceeded";
+				drawElements->reserveElements(static_cast<unsigned int>(vertexIndices.size()));
+				for (unsigned int idx : vertexIndices)
+				{
+					drawElements->addElement(idx);
 				}
+				geom->addPrimitiveSet(drawElements);
 
-				
+				// disable back face culling for open meshes
+				if (disableBackfaceCulling)
+				{
+					geom->getOrCreateStateSet()->setAttributeAndModes(m_cull_back_off.get(), osg::StateAttribute::OFF);
+				}
 			}
 
 			if (m_draw_bounding_box)

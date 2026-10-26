@@ -62,18 +62,20 @@ public:
 			throw BuildingException( strs.str().c_str(), __FUNC__ );
 		}
 
-		auto it_profile_cache = m_profile_cache.find( profile_id );
-		if( it_profile_cache != m_profile_cache.end() )
 		{
-			if( it_profile_cache->second->m_simplifyPathsByDefault == simplifyPaths )
+			std::lock_guard<std::mutex> lock(m_writelock_profile_cache);
+			auto it_profile_cache = m_profile_cache.find( profile_id );
+			if( it_profile_cache != m_profile_cache.end() )
 			{
-				return it_profile_cache->second;
+				if( it_profile_cache->second->m_simplifyPathsByDefault == simplifyPaths )
+				{
+					return it_profile_cache->second;
+				}
 			}
 		}
 
 		double eps = m_curve_converter->getGeomSettings()->getEpsilonMergePoints();
-		int numVerticesPerCircleDefault = m_curve_converter->getGeomSettings()->getNumVerticesPerCircle();
-		int numVerticesPerCircle = numVerticesPerCircleDefault;
+		int numVerticesPerCircle = m_curve_converter->getGeomSettings()->getNumVerticesPerCircle();
 		shared_ptr<ProfileConverter> profile_converter = shared_ptr<ProfileConverter>(new ProfileConverter(m_curve_converter, m_spline_converter));
 		profile_converter->m_simplifyPathsByDefault = simplifyPaths;
 		profile_converter->computeProfile(ifc_profile);
@@ -111,9 +113,13 @@ public:
 			if (selfintersectionFound)
 			{
 				numVerticesPerCircle += 10;
-				m_curve_converter->getGeomSettings()->setNumVerticesPerCircle(numVerticesPerCircle);
-				// retry with higher accuracy
-				profile_converter = shared_ptr<ProfileConverter>(new ProfileConverter(m_curve_converter, m_spline_converter));
+				// retry with higher accuracy, on a private copy of the settings: the shared GeometrySettings is read concurrently by other worker threads
+				shared_ptr<GeometrySettings> retry_settings(new GeometrySettings(m_curve_converter->getGeomSettings()));
+				retry_settings->setNumVerticesPerCircle(numVerticesPerCircle);
+				shared_ptr<PlacementConverter> placement_converter = m_curve_converter->getPlacementConverter();
+				shared_ptr<PointConverter> point_converter = m_curve_converter->getPointConverter();
+				shared_ptr<CurveConverter> retry_curve_converter(new CurveConverter(retry_settings, placement_converter, point_converter, m_spline_converter));
+				profile_converter = shared_ptr<ProfileConverter>(new ProfileConverter(retry_curve_converter, m_spline_converter));
 				profile_converter->computeProfile(ifc_profile);
 			}
 			else
@@ -121,7 +127,6 @@ public:
 				break;
 			}
 		}
-		m_curve_converter->getGeomSettings()->setNumVerticesPerCircle(numVerticesPerCircleDefault);
 
 		std::lock_guard<std::mutex> lock(m_writelock_profile_cache);
 		m_profile_cache[profile_id] = profile_converter;

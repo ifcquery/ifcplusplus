@@ -283,27 +283,66 @@ std::string encodeStepString( const std::string& str )
 			// encode backslash
 			result_str.append( "\\\\" );
 		}
-		else if( append_char > 0 && append_char < 128 )
+		else if( append_char >= 32 && append_char < 127 )
 		{
 			closeUnicodeBlockIfOpened();
 			result_str.push_back( static_cast<char>(append_char) );
 		}
+		else if( append_char > 0 && append_char < 128 )
+		{
+			// other control characters, for example TAB, are not allowed unencoded in a STEP string
+			closeUnicodeBlockIfOpened();
+			char temporary[8];
+			sprintf( temporary, "\\X\\%02X", static_cast<unsigned int>(append_char) );
+			result_str += temporary;
+		}
 		else
 		{
-			unsigned char value = static_cast<unsigned char>(append_char);
-			char temporary[8];
-			sprintf( temporary, "%04X", value );
+			// strings are UTF-8: decode the sequence to one code point. Bytes that are not valid UTF-8 are kept as ISO 8859-1 characters
+			const unsigned char lead = static_cast<unsigned char>(append_char);
+			size_t num_bytes = 1;
+			uint32_t code_point = lead;
+			if( lead >= 0xC2 && lead <= 0xDF ) { num_bytes = 2; code_point = lead & 0x1F; }
+			else if( lead >= 0xE0 && lead <= 0xEF ) { num_bytes = 3; code_point = lead & 0x0F; }
+			else if( lead >= 0xF0 && lead <= 0xF4 ) { num_bytes = 4; code_point = lead & 0x07; }
 
-			if( !hasOpenedUnicodeTag )
+			for( size_t ii = 1; ii < num_bytes; ++ii )
 			{
-				result_str += beginUnicodeTag;
-				hasOpenedUnicodeTag = true;
+				const unsigned char continuation = static_cast<unsigned char>(stream_pos[ii]);
+				if( (continuation & 0xC0) != 0x80 )
+				{
+					num_bytes = 1;
+					break;
+				}
+				code_point = (code_point << 6) | (continuation & 0x3F);
 			}
 
-			result_str.push_back( temporary[0] );
-			result_str.push_back( temporary[1] );
-			result_str.push_back( temporary[2] );
-			result_str.push_back( temporary[3] );
+			const uint32_t min_code_point[5] = { 0, 0, 0x80, 0x800, 0x10000 };
+			if( num_bytes == 1 || code_point < min_code_point[num_bytes] || (code_point >= 0xD800 && code_point <= 0xDFFF) || code_point > 0x10FFFF )
+			{
+				num_bytes = 1;
+				code_point = lead;
+			}
+
+			char temporary[20];
+			if( code_point <= 0xFFFF )
+			{
+				if( !hasOpenedUnicodeTag )
+				{
+					result_str += beginUnicodeTag;
+					hasOpenedUnicodeTag = true;
+				}
+				sprintf( temporary, "%04X", static_cast<unsigned int>(code_point) );
+				result_str += temporary;
+			}
+			else
+			{
+				// characters outside the BMP have no two-octet representation
+				closeUnicodeBlockIfOpened();
+				sprintf( temporary, "\\X4\\%08X\\X0\\", static_cast<unsigned int>(code_point) );
+				result_str += temporary;
+			}
+			stream_pos += num_bytes - 1;
 		}
 		++stream_pos;
 	}

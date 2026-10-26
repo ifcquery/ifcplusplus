@@ -44,6 +44,7 @@ public:
 		bool allowFinFacesInResult = false;
 		bool allowFinEdgesInResult = false;
 		bool flattenFacePlanes = false;
+		std::string errorMessage;	// set by computeCSG_Carve when the operation fails or is skipped
 	};
 	static bool computeCSG_Carve(const shared_ptr<carve::mesh::MeshSet<3> >& inputA, const shared_ptr<carve::mesh::MeshSet<3> >& inputB, const carve::csg::CSG::OP operation, shared_ptr<carve::mesh::MeshSet<3> >& result,
 		GeomProcessingParams& params, CsgOperationParams& csgParams);
