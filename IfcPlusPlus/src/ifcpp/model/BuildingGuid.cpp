@@ -86,8 +86,9 @@ std::string compressGUID(const std::string& in) {
 	}
 
 	// --- Pack 16 Bytes (128 bits) into 22 Base64 characters (132 bits) ---
+	// The 4 padding bits are leading zeros, so the first character is always 0, 1, 2 or 3
 	uint32_t buffer = 0;
-	int bits_buffered = 0;
+	int bits_buffered = 4;
 
 	for (size_t i = 0; i < 16; ++i) {
 		buffer = (buffer << 8) | binary_data[i];
@@ -100,13 +101,6 @@ std::string compressGUID(const std::string& in) {
 			result.push_back(base64Chars[val]);
 			bits_buffered -= 6;
 		}
-	}
-
-	// If there are any remaining bits (should be 4 bits for a 16-byte input):
-	if (bits_buffered > 0) {
-		// Pad with zeros to get 6 bits, then encode the last character
-		int val = (buffer << (6 - bits_buffered)) & 0x3F;
-		result.push_back(base64Chars[val]);
 	}
 
 	// The result must be 22 characters long
@@ -135,11 +129,16 @@ std::string decompressGUID(const std::string& in)
 	std::vector<uint8_t> binary_data;
 	binary_data.reserve(16);
 
-	uint32_t buffer = 0;
-	int bits_buffered = 0;
+	// The first character holds the 4 leading padding bits and the top 2 data bits, so it must be 0, 1, 2 or 3
+	int first_val = base64mask[static_cast<unsigned char>(in[0])];
+	if (first_val < 0 || first_val > 3) {
+		return "";
+	}
+	uint32_t buffer = first_val;
+	int bits_buffered = 2;
 
 	// --- 2. Decode Base64 into Binary Bytes (16 bytes total) ---
-	for (size_t ii = 0; ii < in.length(); ++ii) {
+	for (size_t ii = 1; ii < in.length(); ++ii) {
 
 		// Safety Check for base64mask index and value (assuming base64mask is accessible)
 		// Static cast ensures correct indexing for char/uint8_t
